@@ -1,0 +1,36 @@
+✔ success and typed pre-inference rejection collect separate output/error files exactly once (177.4255ms)
+✔ a failed response with token usage charges that usage instead of zero (161.802ms)
+✔ unknown server failure keeps its full proven hold and permits only bounded continuation (157.1672ms)
+✔ explicit unexecuted batch expiry settles separately; duplicate identities never release a hold (235.3699ms)
+✔ native Gemini service failures retain exact receipts, full holds and quarantine-only publication across restart (151.8546ms)
+✔ Gemini failed records with usage charge candidate and reasoning tokens instead of guessing zero (127.2119ms)
+✔ missing or duplicate Gemini record identities retain their maximum and block publication (265.9661ms)
+✔ restart immediately recovers a dead local worker without stealing a living process lease (153.2195ms)
+✔ a dead dispatch owner recovers as unresolved and never returns to the upload queue (129.7767ms)
+✔ bounded missing usage stays unresolved and committed; unbounded and overrun holds still block (113.1483ms)
+✔ late usage shrinks only its own hold and cannot double settle (104.4491ms)
+✔ independent workers serialize reservations under the lifetime cap while retaining a bounded hold (260.1322ms)
+✔ a lost real-time receipt with a persisted key cannot resubmit after restart (139.6348ms)
+✔ native cohort uploads once, preserves per-item reservations and reconciles accepted IDs idempotently (155.6739ms)
+✔ lost grouped acceptance recovers every matching ID from the saved file and metadata without reposting (181.1418ms)
+✔ Gemini grouped responses are mapped by opaque per-item IDs rather than response order (95.9381ms)
+✔ a long-running worker refreshes pending batch status without reposting accepted IDs (69.0849ms)
+✔ a known pre-inference rejection is terminal and cannot repost or block unrelated work as uncertain usage (59.0852ms)
+✔ a terminal failed quarantined item retains its hold while unaffected approved items can publish (1.9275ms)
+✔ publication readiness reads actual SQLite reservations and terminal receipts, preserving failed holds (202.9573ms)
+✔ accepted pending requests, unknown acceptance and invalid identities never permit publication (0.4088ms)
+✔ an uncertain failed request on an approved item cannot be hidden behind another passing check (0.2594ms)
+✔ Gemini native errors require terminal batch state, exact metadata identity and quarantine (0.5013ms)
+✔ bounded receipt-only failures do not deadlock unrelated provider work or masquerade as finished (1.0896ms)
+✔ four active cohorts, a reached content ceiling or an unbounded hold prevent expansion (0.5451ms)
+✔ the usable target prevents more candidate registration but accepted work must still finish (0.1566ms)
+✔ unused concurrency does not buy another cohort while accepted candidates can fill the gap (0.7199ms)
+✔ terminal conservative receipt holds never supply fictitious delivery capacity (0.1432ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1609.7112
