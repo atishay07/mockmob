@@ -1,3 +1,15 @@
+## 4 Nov 2026, about 12:20 am IST: Physics formula cards (owner LK34): Physics 1,090 to 1,403 cards, about 5.5 to 7.2 hours
+
+**What shipped:**
+- **Physics: 1,090 to 1,403 cards** (312 with typeset formulas), all 14 NCERT chapters (leph101-108, leph201-206). Each new or reworked card passed an Opus formula reviewer against the page image and a Sonnet content reviewer (handoff-1102/ptex-wave-1103.js, 42 agents; fix round ptex-fix-wave-1103.js, 15 agents; merged with merge-ptex-reviews-1103.mjs). Hours (handoff-1102/deck-hours-1103.mjs): 7.23 h.
+- **The tex check** reads Greek as the Symbol-font letter the PDF prints (958f2b8c3), so inline Physics formulas such as 1/4pe0 match their typeset line.
+- **One layout fix:** the superposition-of-forces card (Electric Charges and Fields, p. 12) set its long display formula as two aligned rows (v3), because at 60% fit it still scrolled on a phone. Same symbols, same line count; its review verdict carried over.
+- **Safety:** no published card removed or changed (deck comparison with HEAD: 0 removed, 0 changed); check-drafts-ptex-1103.mjs OK for both rounds.
+
+**Verified:**
+- Suites: keycards 125, keycards-ui 40, learn 417 pass. `eslint .` clean; `next build` and `next build --webpack` both exit 0 (before the one-card layout fix, a data-only change; keycards suites re-run after it).
+- Width: every one of the 312 typeset lines measured inside a real card back at 360 and 390 px phone widths with the card's own fit rule: none scrolls, none spills. Looked at a turned formula card at 390 Night.
+
 ## 3 Nov 2026, about 2:35 pm IST: Mathematics 349 to 548 formula cards (owner LK34); every Google font self-hosted (production builds no longer fail on the font fetch)
 
 **What shipped:**

@@ -50,9 +50,9 @@
     "cards": 548
   },
   "physics": {
-    "version": 3,
-    "sha256": "a69c65db248194ceed0a34b87810b0cf1c889c9e63a6ae7f1fc9b4960b02faf0",
-    "cards": 1090
+    "version": 8,
+    "sha256": "d6a92d19e592846f9abd59181baa1cc563b16fa9c0010dd4f53761c8f58b92cf",
+    "cards": 1403
   },
   "political_science": {
     "version": 6,
