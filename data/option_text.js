@@ -4,8 +4,10 @@
 // weakest marker, so it counts only when no option then reads as a reference to other options ("A and B",
 // "B or C"). Scoring and keys use the option index and never this text.
 const LETTERS = 'ABCDE';
-// After a single-space marker, text that continues a label reference rather than starting an answer.
-const CONTINUES_REFERENCE = /^(?:and|or|nor|&|,|only|both|is|are|was|were|has|have|\(?[A-E]\)?(?:\s|,|$))/i;
+// After a single-space marker, text that continues a label reference rather than starting an answer. "Both" counts
+// only when an option letter follows ("A Both A and B"), not an answer that starts with the word ("A Both Assertion
+// and Reason are true", the stored Assertion-Reason sets, whose letters showed after the stable order moved them).
+const CONTINUES_REFERENCE = /^(?:and|or|nor|&|,|only|both\s+\(?[A-E]\)?(?:\s|,|$)|is|are|was|were|has|have|\(?[A-E]\)?(?:\s|,|$))/i;
 
 function rawText(option) {
   return typeof option === 'string' ? option : option?.text ?? option?.label ?? option?.value ?? String(option ?? '');

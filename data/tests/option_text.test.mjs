@@ -25,3 +25,10 @@ test('a single space after every option letter is a stored prefix too, unless th
   const labels = ['A B', 'B C', 'C D', 'D A'];
   assert.deepEqual(plainOptionTexts(labels), labels);
 });
+
+test('an Assertion-Reason set whose first option starts with "Both" still loses its stored letters (LK44 follow-up, 3 Nov)', () => {
+  const ar = ['A Both Assertion and Reason are true and Reason explains Assertion', 'B Both Assertion and Reason are true but Reason does not explain Assertion', 'C Assertion true Reason false', 'D Assertion false Reason true'];
+  assert.deepEqual(plainOptionTexts(ar.map((text, i) => ({ key: 'ABCD'[i], text }))), ['Both Assertion and Reason are true and Reason explains Assertion', 'Both Assertion and Reason are true but Reason does not explain Assertion', 'Assertion true Reason false', 'Assertion false Reason true']);
+  const both = ['A Both B and C', 'B Neither', 'C Only C', 'D None'];
+  assert.deepEqual(plainOptionTexts(both), both, '"Both B and C" is a reference, so nothing is stripped');
+});
