@@ -2,19 +2,22 @@
   "subject": "mathematics",
   "chapters": {
     "mathematics.application-of-derivatives": {
-      "published": 18,
-      "quarantined": 22,
+      "published": 37,
+      "quarantined": 14,
       "byKind": {
-        "fact": 7,
-        "definition": 10,
-        "key_line": 1
+        "formula": 2,
+        "fact": 14,
+        "definition": 16,
+        "list": 3,
+        "key_line": 1,
+        "steps": 1
       },
       "byImportance": {
-        "must": 1,
-        "good": 17
+        "must": 13,
+        "good": 24
       },
       "coverage_note": null,
-      "mustShare": 0.06,
+      "mustShare": 0.35,
       "belowMinimum": false
     },
     "mathematics.application-of-integrals": {
@@ -34,75 +37,81 @@
       "belowMinimum": false
     },
     "mathematics.continuity-and-differentiability": {
-      "published": 33,
-      "quarantined": 14,
+      "published": 57,
+      "quarantined": 19,
       "byKind": {
-        "definition": 10,
-        "fact": 16,
+        "definition": 11,
+        "formula": 18,
+        "fact": 19,
+        "list": 2,
         "term": 3,
         "key_line": 4
       },
       "byImportance": {
-        "must": 8,
-        "good": 25
+        "must": 20,
+        "good": 37
       },
       "coverage_note": null,
-      "mustShare": 0.24,
+      "mustShare": 0.35,
       "belowMinimum": false
     },
     "mathematics.determinants": {
-      "published": 28,
-      "quarantined": 8,
+      "published": 47,
+      "quarantined": 9,
       "byKind": {
-        "fact": 15,
+        "definition": 11,
+        "fact": 19,
+        "formula": 9,
         "key_line": 3,
-        "definition": 6,
-        "term": 4
+        "term": 4,
+        "steps": 1
       },
       "byImportance": {
-        "must": 6,
-        "good": 22
+        "must": 16,
+        "good": 31
       },
       "coverage_note": null,
-      "mustShare": 0.21,
+      "mustShare": 0.34,
       "belowMinimum": false
     },
     "mathematics.differential-equations": {
-      "published": 18,
-      "quarantined": 17,
+      "published": 30,
+      "quarantined": 24,
       "byKind": {
-        "definition": 8,
+        "definition": 9,
         "key_line": 6,
-        "fact": 4
+        "fact": 4,
+        "formula": 11
       },
       "byImportance": {
-        "must": 7,
-        "good": 11
+        "must": 12,
+        "good": 18
       },
       "coverage_note": null,
-      "mustShare": 0.39,
+      "mustShare": 0.4,
       "belowMinimum": false
     },
     "mathematics.integrals": {
-      "published": 44,
-      "quarantined": 16,
+      "published": 82,
+      "quarantined": 19,
       "byKind": {
         "definition": 9,
         "types": 2,
         "list": 2,
         "key_line": 12,
         "fact": 14,
+        "formula": 38,
         "term": 2,
         "example": 1,
         "steps": 1,
         "difference": 1
       },
       "byImportance": {
-        "must": 12,
-        "good": 32
+        "must": 30,
+        "good": 52
       },
       "coverage_note": null,
-      "mustShare": 0.27,
+      "mustShare": 0.37,
       "belowMinimum": false
     },
     "mathematics.inverse-trigonometric-functions": {
@@ -123,36 +132,38 @@
       "belowMinimum": false
     },
     "mathematics.linear-programming": {
-      "published": 20,
-      "quarantined": 16,
+      "published": 26,
+      "quarantined": 14,
       "byKind": {
         "key_line": 4,
-        "definition": 11,
-        "fact": 5
+        "definition": 13,
+        "fact": 8,
+        "steps": 1
       },
       "byImportance": {
-        "must": 7,
+        "must": 13,
         "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.35,
+      "mustShare": 0.5,
       "belowMinimum": false
     },
     "mathematics.matrices": {
-      "published": 40,
-      "quarantined": 9,
+      "published": 58,
+      "quarantined": 16,
       "byKind": {
-        "definition": 15,
-        "fact": 18,
-        "list": 4,
+        "definition": 16,
+        "fact": 21,
+        "formula": 13,
+        "list": 5,
         "key_line": 3
       },
       "byImportance": {
-        "must": 15,
-        "good": 25
+        "must": 24,
+        "good": 34
       },
       "coverage_note": null,
-      "mustShare": 0.38,
+      "mustShare": 0.41,
       "belowMinimum": false
     },
     "mathematics.probability": {
@@ -189,29 +200,32 @@
       "belowMinimum": false
     },
     "mathematics.relations-and-functions": {
-      "published": 25,
-      "quarantined": 10,
+      "published": 35,
+      "quarantined": 16,
       "byKind": {
+        "definition": 11,
         "key_line": 2,
-        "definition": 7,
         "term": 6,
+        "formula": 5,
         "types": 1,
         "fact": 8,
+        "list": 1,
         "example": 1
       },
       "byImportance": {
-        "must": 8,
+        "must": 18,
         "good": 17
       },
       "coverage_note": null,
-      "mustShare": 0.32,
+      "mustShare": 0.51,
       "belowMinimum": false
     },
     "mathematics.three-dimensional-geometry": {
-      "published": 25,
-      "quarantined": 4,
+      "published": 41,
+      "quarantined": 6,
       "byKind": {
         "definition": 6,
+        "formula": 16,
         "key_line": 4,
         "fact": 12,
         "steps": 1,
@@ -219,28 +233,29 @@
         "term": 1
       },
       "byImportance": {
-        "must": 7,
-        "good": 18
+        "must": 14,
+        "good": 27
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.34,
       "belowMinimum": false
     },
     "mathematics.vector-algebra": {
-      "published": 36,
-      "quarantined": 12,
+      "published": 56,
+      "quarantined": 16,
       "byKind": {
         "definition": 13,
         "list": 2,
-        "fact": 15,
+        "fact": 16,
+        "formula": 19,
         "key_line": 6
       },
       "byImportance": {
-        "must": 10,
-        "good": 26
+        "must": 23,
+        "good": 33
       },
       "coverage_note": null,
-      "mustShare": 0.28,
+      "mustShare": 0.41,
       "belowMinimum": false
     }
   }

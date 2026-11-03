@@ -1,7 +1,7 @@
 {
  "version": 1,
  "rule": "Per chapter, the top 25% of cards (at least 6, at most 40) by score = 3 x min(linked questions, 3) + kind weight + 1 for a Summary or Recap section; ties in book order",
- "built": "2026-11-02T05:25:02.909Z",
+ "built": "2026-11-03T08:35:27.861Z",
  "must": {
   "accountancy.accounting-ratios": [
    "kc.accountancy.accounting-ratios.def-a-ratio",
@@ -2866,12 +2866,16 @@
    "kc.history.through-the-eyes-of-travellers.list-urban-professional-classes"
   ],
   "mathematics.application-of-derivatives": [
+   "kc.mathematics.application-of-derivatives.formula-rate-of-change",
+   "kc.mathematics.application-of-derivatives.formula-chain-rule-parametric",
    "kc.mathematics.application-of-derivatives.def-marginal-cost",
    "kc.mathematics.application-of-derivatives.def-marginal-revenue",
+   "kc.mathematics.application-of-derivatives.def-increasing-at-point",
+   "kc.mathematics.application-of-derivatives.def-maximum-value-condition",
    "kc.mathematics.application-of-derivatives.def-maximum-value",
+   "kc.mathematics.application-of-derivatives.def-minimum-value-condition",
    "kc.mathematics.application-of-derivatives.def-minimum-value",
-   "kc.mathematics.application-of-derivatives.def-extreme-value",
-   "kc.mathematics.application-of-derivatives.def-monotonic"
+   "kc.mathematics.application-of-derivatives.def-extreme-value"
   ],
   "mathematics.application-of-integrals": [
    "kc.mathematics.application-of-integrals.fact-calculus-for-curves",
@@ -2884,22 +2888,33 @@
   "mathematics.continuity-and-differentiability": [
    "kc.mathematics.continuity-and-differentiability.def-continuity-naive",
    "kc.mathematics.continuity-and-differentiability.def-continuity-at-c",
+   "kc.mathematics.continuity-and-differentiability.formula-continuity-definition-1",
    "kc.mathematics.continuity-and-differentiability.def-continuity-elaborate",
    "kc.mathematics.continuity-and-differentiability.def-limit-common-value",
    "kc.mathematics.continuity-and-differentiability.def-discontinuity-point",
    "kc.mathematics.continuity-and-differentiability.def-continuous-function",
-   "kc.mathematics.continuity-and-differentiability.def-diff-closed-interval",
-   "kc.mathematics.continuity-and-differentiability.def-explicit-function",
-   "kc.mathematics.continuity-and-differentiability.def-parametric-link"
+   "kc.mathematics.continuity-and-differentiability.formula-continuity-endpoints",
+   "kc.mathematics.continuity-and-differentiability.formula-gif-limits-at-integer",
+   "kc.mathematics.continuity-and-differentiability.formula-rational-function",
+   "kc.mathematics.continuity-and-differentiability.formula-composite-function",
+   "kc.mathematics.continuity-and-differentiability.formula-derivative-function-notation",
+   "kc.mathematics.continuity-and-differentiability.formula-standard-derivatives-table",
+   "kc.mathematics.continuity-and-differentiability.formula-differentiable-at-point",
+   "kc.mathematics.continuity-and-differentiability.def-diff-closed-interval"
   ],
   "mathematics.determinants": [
+   "kc.mathematics.determinants.def-determinant",
+   "kc.mathematics.determinants.formula-determinant-notation",
+   "kc.mathematics.determinants.definition-determinant-order-one",
+   "kc.mathematics.determinants.formula-determinant-order-two",
    "kc.mathematics.determinants.def-expansion-along-row",
-   "kc.mathematics.determinants.def-singular",
-   "kc.mathematics.determinants.def-non-singular",
+   "kc.mathematics.determinants.formula-expansion-first-row",
+   "kc.mathematics.determinants.formula-scalar-multiple-determinant",
+   "kc.mathematics.determinants.def-minor",
+   "kc.mathematics.determinants.definition-cofactor",
+   "kc.mathematics.determinants.definition-adjoint",
    "kc.mathematics.determinants.def-inverse",
-   "kc.mathematics.determinants.def-consistent",
-   "kc.mathematics.determinants.def-inconsistent",
-   "kc.mathematics.determinants.fact-summary-unique-solution"
+   "kc.mathematics.determinants.formula-inverse-of-inverse"
   ],
   "mathematics.differential-equations": [
    "kc.mathematics.differential-equations.def-differential-equation",
@@ -2907,19 +2922,31 @@
    "kc.mathematics.differential-equations.def-partial-differential-equation",
    "kc.mathematics.differential-equations.def-order",
    "kc.mathematics.differential-equations.def-degree",
-   "kc.mathematics.differential-equations.def-solution"
+   "kc.mathematics.differential-equations.def-solution",
+   "kc.mathematics.differential-equations.def-general-solution",
+   "kc.mathematics.differential-equations.def-particular-solution"
   ],
   "mathematics.integrals": [
    "kc.mathematics.integrals.def-antiderivative",
-   "kc.mathematics.integrals.list-two-problems",
    "kc.mathematics.integrals.def-integration",
-   "kc.mathematics.integrals.def-integration-antidiff",
-   "kc.mathematics.integrals.def-arbitrary-constant",
-   "kc.mathematics.integrals.def-indefinite-integral-symbol",
-   "kc.mathematics.integrals.def-proper-rational",
-   "kc.mathematics.integrals.def-partial-fraction-decomposition",
-   "kc.mathematics.integrals.def-limits-of-integration",
-   "kc.mathematics.integrals.diff-differential-vs-integral-calculus",
+   "kc.mathematics.integrals.formula-power-rule",
+   "kc.mathematics.integrals.formula-integral-inverse-sin-cos",
+   "kc.mathematics.integrals.formula-integral-inverse-tan-cot",
+   "kc.mathematics.integrals.formula-integral-exponential",
+   "kc.mathematics.integrals.formula-integral-reciprocal",
+   "kc.mathematics.integrals.formula-integral-tan-cot",
+   "kc.mathematics.integrals.formula-integral-sec-cosec",
+   "kc.mathematics.integrals.formula-integral-dx-over-x2-minus-a2",
+   "kc.mathematics.integrals.formula-integral-dx-over-a2-minus-x2",
+   "kc.mathematics.integrals.formula-integral-dx-over-x2-plus-a2",
+   "kc.mathematics.integrals.formula-integral-dx-over-root-x2-minus-a2",
+   "kc.mathematics.integrals.formula-integral-dx-over-root-a2-minus-x2",
+   "kc.mathematics.integrals.formula-integral-dx-over-root-x2-plus-a2",
+   "kc.mathematics.integrals.formula-complete-square-form",
+   "kc.mathematics.integrals.formula-linear-over-quadratic-form",
+   "kc.mathematics.integrals.formula-integral-root-x2-minus-a2",
+   "kc.mathematics.integrals.formula-integral-root-x2-plus-a2",
+   "kc.mathematics.integrals.formula-integral-root-a2-minus-x2",
    "kc.mathematics.integrals.def-general-integrals-name"
   ],
   "mathematics.inverse-trigonometric-functions": [
@@ -2933,10 +2960,11 @@
   "mathematics.linear-programming": [
    "kc.mathematics.linear-programming.def-linear-programming-problem",
    "kc.mathematics.linear-programming.def-meaning-linear-programming",
+   "kc.mathematics.linear-programming.def-objective-function",
    "kc.mathematics.linear-programming.def-constraints",
    "kc.mathematics.linear-programming.def-optimisation-problem",
-   "kc.mathematics.linear-programming.def-infeasible-region",
-   "kc.mathematics.linear-programming.def-feasible-solutions"
+   "kc.mathematics.linear-programming.def-feasible-region",
+   "kc.mathematics.linear-programming.def-infeasible-region"
   ],
   "mathematics.matrices": [
    "kc.mathematics.matrices.def-matrix",
@@ -2945,10 +2973,15 @@
    "kc.mathematics.matrices.def-column",
    "kc.mathematics.matrices.def-row",
    "kc.mathematics.matrices.def-square",
+   "kc.mathematics.matrices.def-diagonal",
    "kc.mathematics.matrices.def-scalar",
+   "kc.mathematics.matrices.formula-scalar-matrix",
    "kc.mathematics.matrices.def-identity",
+   "kc.mathematics.matrices.formula-identity-matrix",
    "kc.mathematics.matrices.def-zero",
-   "kc.mathematics.matrices.def-sum"
+   "kc.mathematics.matrices.def-sum",
+   "kc.mathematics.matrices.def-scalar-mult",
+   "kc.mathematics.matrices.formula-negative-matrix"
   ],
   "mathematics.probability": [
    "kc.mathematics.probability.formula-conditional-probability-counts",
@@ -2964,22 +2997,28 @@
    "kc.mathematics.probability-distributions.def-random-variable"
   ],
   "mathematics.relations-and-functions": [
-   "kc.mathematics.relations-and-functions.def-empty-relation",
-   "kc.mathematics.relations-and-functions.def-universal-relation",
-   "kc.mathematics.relations-and-functions.def-equivalence-relation",
+   "kc.mathematics.relations-and-functions.def-relation-a-to-b",
+   "kc.mathematics.relations-and-functions.formula-empty-relation",
+   "kc.mathematics.relations-and-functions.formula-universal-relation",
+   "kc.mathematics.relations-and-functions.def-reflexive",
+   "kc.mathematics.relations-and-functions.def-symmetric",
+   "kc.mathematics.relations-and-functions.def-transitive",
    "kc.mathematics.relations-and-functions.def-equivalence-class",
-   "kc.mathematics.relations-and-functions.def-one-one",
-   "kc.mathematics.relations-and-functions.def-onto",
-   "kc.mathematics.relations-and-functions.def-bijective"
+   "kc.mathematics.relations-and-functions.formula-one-one-condition",
+   "kc.mathematics.relations-and-functions.formula-onto-condition"
   ],
   "mathematics.three-dimensional-geometry": [
    "kc.mathematics.three-dimensional-geometry.def-direction-cosines",
-   "kc.mathematics.three-dimensional-geometry.steps-dc-line-not-through-origin",
-   "kc.mathematics.three-dimensional-geometry.def-direction-ratios",
+   "kc.mathematics.three-dimensional-geometry.formula-dc-sum-of-squares",
+   "kc.mathematics.three-dimensional-geometry.formula-dc-two-points",
+   "kc.mathematics.three-dimensional-geometry.formula-vector-equation-point-direction",
+   "kc.mathematics.three-dimensional-geometry.formula-cartesian-equation-dc",
+   "kc.mathematics.three-dimensional-geometry.formula-vector-equation-two-points",
+   "kc.mathematics.three-dimensional-geometry.formula-angle-between-lines-dr",
+   "kc.mathematics.three-dimensional-geometry.formula-angle-between-lines-dc",
+   "kc.mathematics.three-dimensional-geometry.formula-angle-between-lines-vector",
    "kc.mathematics.three-dimensional-geometry.def-skew-lines",
-   "kc.mathematics.three-dimensional-geometry.def-angle-between-skew-lines",
-   "kc.mathematics.three-dimensional-geometry.def-shortest-distance-two-lines",
-   "kc.mathematics.three-dimensional-geometry.def-sd-skew-lines-summary"
+   "kc.mathematics.three-dimensional-geometry.def-angle-between-skew-lines"
   ],
   "mathematics.vector-algebra": [
    "kc.mathematics.vector-algebra.def-scalar",
@@ -2988,9 +3027,14 @@
    "kc.mathematics.vector-algebra.def-initial-terminal-point",
    "kc.mathematics.vector-algebra.def-magnitude",
    "kc.mathematics.vector-algebra.def-position-vector",
+   "kc.mathematics.vector-algebra.formula-direction-cosines-squares",
    "kc.mathematics.vector-algebra.def-zero-vector",
    "kc.mathematics.vector-algebra.def-unit-vector",
-   "kc.mathematics.vector-algebra.def-coinitial"
+   "kc.mathematics.vector-algebra.def-coinitial",
+   "kc.mathematics.vector-algebra.def-collinear",
+   "kc.mathematics.vector-algebra.def-equal-vectors",
+   "kc.mathematics.vector-algebra.formula-position-vector-magnitude",
+   "kc.mathematics.vector-algebra.formula-direction-cosines-from-ratios"
   ],
   "physics.alternating-current": [
    "kc.physics.alternating-current.def-ac-voltage-current",

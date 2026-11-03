@@ -34,6 +34,79 @@
       ]
     },
     {
+      "id": "kc.mathematics.relations-and-functions.fact-a-related-to-b-notation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "In symbols, how is 'a is related to b under the relation R' written?",
+      "back": "If (a, b) ∈ R, we say that a is related to b under the relation R and we write as a R b.",
+      "quote": "If (a, b) ∈ R, we say that a is related to b under the relation R and we write as a R b.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 1,
+        "section": "1.1 Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "relation",
+        "notation"
+      ],
+      "order": 15,
+      "tex": {
+        "back": "If $(a, b) \\in R$, we say that $a$ is related to $b$ under the relation $R$ and we write as $a \\, R \\, b$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Notation trivia (a R b); answer is a one-symbol convention, not something CUET tests."
+      ]
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.fact-extreme-relations",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "Which two relations are the two extreme relations in a set A?",
+      "back": "We know that a relation in a set A is a subset of A × A. Thus, the empty set φ and A × A are two extreme relations.",
+      "quote": "We know that a relation in a set A is a subset of A × A. Thus, the empty set φ and A × A are two extreme relations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 2,
+        "section": "1.2 Types of Relations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "relation",
+        "empty",
+        "universal"
+      ],
+      "order": 25,
+      "tex": {
+        "back": "We know that a relation in a set $A$ is a subset of $A \\times A$. Thus, the empty set $\\phi$ and $A \\times A$ are two extreme relations."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: empty set and A x A are already stated by formula-empty-relation and formula-universal-relation, and published term-trivial-relations names both."
+      ]
+    },
+    {
       "id": "kc.mathematics.relations-and-functions.ex-boys-school-sister",
       "v": 1,
       "subject": "mathematics",
@@ -191,6 +264,151 @@
       "reasons": [
         "review:not_important",
         "review:Only the reflexive step of Example 2; the result (congruence is an equivalence relation) is not captured; case-story filler."
+      ]
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.list-even-odd-conditions",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "list",
+      "front": "Name the three conditions the set E of even and O of odd integers satisfy under 'a − b is divisible by 2' on Z.",
+      "back": "(i) All elements of E are related to each other and all elements of O are related to each other.\n(ii) No element of E is related to any element of O and vice-versa.\n(iii) E and O are disjoint and Z = E ∪ O.",
+      "quote": "(i) All elements of E are related to each other and all elements of O are related to each other. (ii) No element of E is related to any element of O and vice-versa. (iii) E and O are disjoint and Z = E ∪ O.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Equivalence classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "equivalence-class",
+        "partition"
+      ],
+      "order": 185,
+      "tex": {
+        "back": "(i) All elements of $E$ are related to each other and all elements of $O$ are related to each other.\n(ii) No element of $E$ is related to any element of $O$ and vice-versa.\n(iii) $E$ and $O$ are disjoint and $\\mathbf{Z} = E \\cup O$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: worked mod-2 instance of the general conditions in list-partition-conditions; condition (ii) is also published as fact-even-odd-unrelated."
+      ]
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.fact-equivalence-classes-named",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "fact",
+      "front": "What are the subsets Aᵢ, into which an equivalence relation R divides a set X, called?",
+      "back": "The subsets Ai are called equivalence classes.",
+      "quote": "The subsets Ai are called equivalence classes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Equivalence classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "equivalence-class"
+      ],
+      "order": 207,
+      "tex": {
+        "back": "The subsets $A_i$ are called equivalence classes."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate of published def-equivalence-class / fact-equivalence-class-zero; and ambiguous: the preceding NCERT sentence also calls the Ai partitions or subdivisions of X, so two answers fit."
+      ]
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.list-mod3-subsets",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "list",
+      "front": "Give three mutually disjoint subsets A₁, A₂, A₃ of Z, with union Z, built on multiples of 3.",
+      "back": "A1 = {x ∈ Z : x is a multiple of 3} = {..., – 6, – 3, 0, 3, 6, ...}\nA2 = {x ∈ Z : x – 1 is a multiple of 3} = {..., – 5, – 2, 1, 4, 7, ...}\nA3 = {x ∈ Z : x – 2 is a multiple of 3} = {..., – 4, – 1, 2, 5, 8, ...}",
+      "quote": "A1 = {x ∈ Z : x is a multiple of 3} = {..., – 6, – 3, 0, 3, 6, ...} A2 = {x ∈ Z : x – 1 is a multiple of 3} = {..., – 5, – 2, 1, 4, 7, ...} A3 = {x ∈ Z : x – 2 is a multiple of 3} = {..., – 4, – 1, 2, 5, 8, ...}",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Equivalence classes"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "equivalence-class",
+        "partition"
+      ],
+      "order": 208,
+      "tex": {
+        "back": "$$A_1 = \\{x \\in \\mathbf{Z} : x \\text{ is a multiple of } 3\\} = \\{\\ldots, -6, -3, 0, 3, 6, \\ldots\\}$$\n$$A_2 = \\{x \\in \\mathbf{Z} : x - 1 \\text{ is a multiple of } 3\\} = \\{\\ldots, -5, -2, 1, 4, 7, \\ldots\\}$$\n$$A_3 = \\{x \\in \\mathbf{Z} : x - 2 \\text{ is a multiple of } 3\\} = \\{\\ldots, -4, -1, 2, 5, 8, \\ldots\\}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Worked illustration, not a memorise item (derivable from formula-mod3-classes); front is open-ended, many partitions of Z built on 3 exist, labels A1-A3 are not fixed by the front."
+      ]
+    },
+    {
+      "id": "kc.mathematics.relations-and-functions.formula-mod3-classes",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.relations-and-functions",
+      "chapter": "Relations & Functions",
+      "unit": "Relations and Functions",
+      "kind": "formula",
+      "front": "Formula: for R = {(a, b) : 3 divides a − b} on Z, write A₁, A₂, A₃ as equivalence classes [ ]",
+      "back": "Thus, A1 = [0], A2 = [1] and A3 = [2].\nIn fact, A1 = [3r], A2 = [3r + 1] and A3 = [3r + 2], for all r ∈ Z.",
+      "quote": "Thus, A1 = [0], A2 = [1] and A3 = [2]. In fact, A1 = [3r], A2 = [3r + 1] and A3 = [3r + 2], for all r ∈ Z.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Equivalence classes"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "equivalence-class",
+        "notation"
+      ],
+      "order": 209,
+      "tex": {
+        "back": "Thus, $A_1 = [0]$, $A_2 = [1]$ and $A_3 = [2]$.\nIn fact, $A_1 = [3r]$, $A_2 = [3r + 1]$ and $A_3 = [3r + 2]$, for all $r \\in \\mathbf{Z}$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front uses A1, A2, A3 which are defined only in the other card (dangling reference), so it cannot stand alone; also an example-specific result, should be good not must."
       ]
     },
     {
@@ -1241,6 +1459,78 @@
       ]
     },
     {
+      "id": "kc.mathematics.matrices.formula-matrix-notation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "formula",
+      "front": "Formula: how is a general m × n matrix A written with entries aij, and what are the ranges of i and j?",
+      "back": "A = [aij] m × n , 1≤ i ≤ m, 1≤ j ≤ n i, j ∈ N",
+      "quote": "or A = [aij] m × n , 1≤ i ≤ m, 1≤ j ≤ n i, j ∈ N",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 36,
+        "section": "Order of a matrix"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "notation"
+      ],
+      "order": 42,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "$$A = [a_{ij}]_{m \\times n}, \\quad 1 \\le i \\le m, \\; 1 \\le j \\le n, \\; i, j \\in \\mathbf{N}$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: the set symbol differs. The book (p36) prints a plain upright N in \"i, j ∈ N\", but the tex has mathbf{N}, which renders bold. The tex also adds a comma after \"1 ≤ j ≤ n\" that the book does not have (the book has only a space before \"i, j ∈ N\"). Use mathrm{N} or plain N, and drop the added c"
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.list-row-column-elements",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "list",
+      "front": "In A = [aij], which elements make up the ith row and the jth column, and what is aij called?",
+      "back": "Thus the i th row consists of the elements ai1 , ai2 , ai3 ,..., ain\nwhile the j th column consists of the elements a1j , a2j , a3j ,..., amj\nIn general aij, is an element lying in the i th row and j th column. We can also call it as the (i, j) th element of A.",
+      "quote": "Thus the i th row consists of the elements ai1 , ai2 , ai3 ,..., ain, while the j th column consists of the elements a1j , a2j , a3j ,..., amj , In general aij, is an element lying in the i th row and j th column. We can also call it as the (i, j) th element of A.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 36,
+        "section": "Order of a matrix"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "notation"
+      ],
+      "order": 44,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "Thus the $i$th row consists of the elements $a_{i1}, a_{i2}, a_{i3}, \\ldots, a_{in}$\nwhile the $j$th column consists of the elements $a_{1j}, a_{2j}, a_{3j}, \\ldots, a_{mj}$\nIn general $a_{ij}$ is an element lying in the $i$th row and $j$th column. We can also call it as the $(i, j)$th element of $A$."
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: one prose punctuation mark differs (minor). The book (p36) reads \"In general a_{ij}, is an element\" with a comma after a_{ij}. The tex drops that comma. The plain back keeps it."
+      ]
+    },
+    {
       "id": "kc.mathematics.matrices.kl-real-entries",
       "v": 1,
       "subject": "mathematics",
@@ -1306,24 +1596,24 @@
       ]
     },
     {
-      "id": "kc.mathematics.matrices.def-diagonal",
+      "id": "kc.mathematics.matrices.types-general-forms",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
       "unit": "Matrices",
-      "kind": "definition",
-      "front": "When is a square matrix said to be a diagonal matrix?",
-      "back": "is said to be a diagonal matrix if all its non-diagonal elements are zero",
-      "quote": "is said to be a diagonal matrix if all its non-diagonal elements are zero",
+      "kind": "types",
+      "front": "Types: what are the general forms of a column matrix, a row matrix and a square matrix, with their orders?",
+      "back": "In general, A = [aij] m × 1 is a column matrix of order m × 1.\nIn general, B = [bij] 1 × n is a row matrix of order 1 × n.\nIn general, A = [aij] m × m is a square matrix of order m.",
+      "quote": "In general, A = [aij] m × 1 is a column matrix of order m × 1. (ii) Row matrix A matrix is said to be a row matrix if it has only one row. For example, 1 4 1 B 5 2 3 2 × = − is a row matrix. In general, B = [bij] 1 × n is a row matrix of order 1 × n. (iii) Square matrix A matrix in which the number of rows are equal to the number of columns, is said to be a square matrix. Thus an m × n matrix is said to be a square matrix if m = n and is known as a square matrix of order ‘n’. For example 3 1 0 3 A 3 2 1 2 4 3 1 − = − is a square matrix of order 3. In general, A = [aij] m × m is a square matrix of order m.",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
         "code": "lemh103",
         "chapterNo": 3,
-        "page": 40,
-        "section": "Diagonal matrix"
+        "page": 39,
+        "section": "Types of Matrices"
       },
       "importance": "good",
       "asked": 0,
@@ -1331,10 +1621,14 @@
         "matrices",
         "types"
       ],
-      "order": 130,
+      "order": 125,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "In general, $A = [a_{ij}]_{m \\times 1}$ is a column matrix of order $m \\times 1$.\nIn general, $B = [b_{ij}]_{1 \\times n}$ is a row matrix of order $1 \\times n$.\nIn general, $A = [a_{ij}]_{m \\times m}$ is a square matrix of order $m$."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Extraction garbled the printed definition (non-diagonal text stacked); back is a fragment starting mid-sentence ('is said to be...') without its subject 'A square matrix B', so not NCERT's full sentence. Also a definition marked good (should be must)."
+        "review:not_important",
+        "review:Only restates published def-column, def-row, def-square (and fact-square-order) as general subscript notation; three facts in one card, low memory value."
       ]
     },
     {
@@ -1371,16 +1665,125 @@
       ]
     },
     {
-      "id": "kc.mathematics.matrices.fact-additive-identity",
+      "id": "kc.mathematics.matrices.formula-matrix-sum",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
       "unit": "Matrices",
-      "kind": "fact",
-      "front": "Which matrix is the additive identity for matrix addition?",
-      "back": "The zero matrix O (of the same order as A)\nIn other words, O is the additive identity for matrix addition.",
-      "quote": "In other words, O is the additive identity for matrix addition.",
+      "kind": "formula",
+      "front": "Formula: how is the sum C of two m × n matrices A = [aij] and B = [bij] defined?",
+      "back": "In general, if A = [aij] and B = [bij] are two matrices of the same order, say m × n. Then, the sum of the two matrices A and B is defined as a matrix C = [cij] m × n , where\ncij = aij + bij, for all possible values of i and j.",
+      "quote": "In general, if A = [aij] and B = [bij] are two matrices of the same order, say m × n. Then, the sum of the two matrices A and B is defined as a matrix C = [cij] m × n , where cij = aij + bij, for all possible values of i and j.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 44,
+        "section": "Addition of matrices"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "addition"
+      ],
+      "order": 215,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "In general, if $A = [a_{ij}]$ and $B = [b_{ij}]$ are two matrices of the same order, say $m \\times n$. Then, the sum of the two matrices $A$ and $B$ is defined as a matrix $C = [c_{ij}]_{m \\times n}$, where\n$$c_{ij} = a_{ij} + b_{ij}, \\quad \\text{for all possible values of } i \\text{ and } j$$"
+      },
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as published def-sum (add corresponding elements, same order); cij = aij + bij is that rule in symbols."
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.formula-scalar-multiple",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "formula",
+      "front": "Formula: if A = [aij]m×n and k is a scalar, what is kA and what is its (i, j)th element?",
+      "back": "In general, we may define multiplication of a matrix by a scalar as follows: if A = [aij] m × n is a matrix and k is a scalar, then kA is another matrix which is obtained by multiplying each element of A by the scalar k.\nkA = k [aij] m × n = [k (aij)] m × n\nthat is, (i, j) th element of kA is kaij for all possible values of i and j.",
+      "quote": "In general, we may define multiplication of a matrix by a scalar as follows: if A = [aij] m × n is a matrix and k is a scalar, then kA is another matrix which is obtained by multiplying each element of A by the scalar k. In other words, kA = k [aij] m × n = [k (aij)] m × n , that is, (i, j) th element of kA is kaij for all possible values of i and j.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 45,
+        "section": "Multiplication of a matrix by a scalar"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "scalar"
+      ],
+      "order": 245,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "In general, we may define multiplication of a matrix by a scalar as follows: if $A = [a_{ij}]_{m \\times n}$ is a matrix and $k$ is a scalar, then $kA$ is another matrix which is obtained by multiplying each element of $A$ by the scalar $k$.\n$$kA = k\\,[a_{ij}]_{m \\times n} = [k\\,(a_{ij})]_{m \\times n}$$\nthat is, $(i, j)$th element of $kA$ is $ka_{ij}$ for all possible values of $i$ and $j$."
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:not_important",
+        "review:duplicate: same point as published def-scalar-mult (multiply each element of A by k). | FORMULA: a mid-quote elision (prose, minor). The book (p45) reads \"In other words, kA = k[a_{ij}]_{m×n} = [k(a_{ij})]_{m×n}, that is, ...\". The tex drops \"In other words,\" before the kA display. All the symbols m"
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.formula-matrix-difference",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "formula",
+      "front": "Formula: how is the difference A – B of two matrices of the same order defined?",
+      "back": "If A = [aij], B = [bij] are two matrices of the same order, say m × n, then difference A – B is defined as a matrix D = [dij], where\ndij = aij – bij, for all value of i and j.\nD = A – B = A + (–1) B",
+      "quote": "If A = [aij], B = [bij] are two matrices of the same order, say m × n, then difference A – B is defined as a matrix D = [dij], where dij = aij – bij, for all value of i and j. In other words, D = A – B = A + (–1) B",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 46,
+        "section": "Multiplication of a matrix by a scalar"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "subtraction"
+      ],
+      "order": 248,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "If $A = [a_{ij}]$, $B = [b_{ij}]$ are two matrices of the same order, say $m \\times n$, then difference $A - B$ is defined as a matrix $D = [d_{ij}]$, where\n$$d_{ij} = a_{ij} - b_{ij}, \\quad \\text{for all value of } i \\text{ and } j$$\n$$D = A - B = A + (-1)B$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: a mid-quote elision (prose, minor). The book (p46) reads \"In other words, D = A – B = A + (–1) B\". The tex drops \"In other words,\" before the D display. All the symbols match the book."
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.formula-additive-inverse",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "formula",
+      "front": "Formula: for A = [aij]m×n, what is the additive inverse –A and what does it satisfy?",
+      "back": "Let A = [aij] m × n be any matrix, then we have another matrix as – A = [– aij] m × n such that\nA + (– A) = (– A) + A= O",
+      "quote": "Let A = [aij] m × n be any matrix, then we have another matrix as – A = [– aij] m × n such that A + (– A) = (– A) + A= O.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1393,17 +1796,22 @@
       "importance": "good",
       "asked": 0,
       "tags": [
-        "matrices"
+        "matrices",
+        "addition"
       ],
-      "order": 260,
+      "order": 265,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "Let $A = [a_{ij}]_{m \\times n}$ be any matrix, then we have another matrix as $-A = [-a_{ij}]_{m \\times n}$ such that\n$$A + (-A) = (-A) + A = O$$"
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Quote 'In other words, O is the additive identity...' never says zero matrix; the headline answer 'The zero matrix O (of the same order as A)' is not from the quote and 'O' is undefined in it. Quote should include the preceding sentence defining O. Core fact, should be must."
+        "review:not_important",
+        "review:duplicate: A + (-A) = O is the point of published fact-additive-inverse, and -A = (-1)A is carded in formula-negative-matrix."
       ]
     },
     {
       "id": "kc.mathematics.matrices.fact-product-element",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
@@ -1428,41 +1836,84 @@
         "multiplication"
       ],
       "order": 310,
+      "tex": {
+        "back": "To get the $(i, k)$th element $c_{ik}$ of the matrix $C$, we take the $i$th row of $A$ and $k$th column of $B$, multiply them elementwise and take the sum of all these products."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Subscript flattened: 'cik' stands for c with subscript ik, so the notation is garbled in plain text."
+        "review:not_important",
+        "review:duplicate: verbal form of the same rule as formula-product-element (cik as the sum of products), and extends published kl-product-rows-cols."
       ]
     },
     {
-      "id": "kc.mathematics.matrices.fact-transpose-notation",
+      "id": "kc.mathematics.matrices.formula-symmetric-condition",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.matrices",
       "chapter": "Matrices",
       "unit": "Matrices",
-      "kind": "fact",
-      "front": "How is the transpose of a matrix A denoted?",
-      "back": "Transpose of the matrix A is denoted by A′ or (AT).",
-      "quote": "Transpose of the matrix A is denoted by A′ or (AT).",
+      "kind": "formula",
+      "front": "Formula: what must hold for a square matrix A = [aij] to be symmetric, in terms of A′ and entries?",
+      "back": "A square matrix A = [aij] is said to be symmetric if A′ = A, that is, [aij] = [aji] for all possible values of i and j.",
+      "quote": "A square matrix A = [aij] is said to be symmetric if A′ = A, that is, [aij] = [aji] for all possible values of i and j.",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
         "code": "lemh103",
         "chapterNo": 3,
-        "page": 61,
-        "section": "Transpose of a Matrix"
+        "page": 63,
+        "section": "Symmetric and Skew Symmetric Matrices"
       },
-      "importance": "good",
+      "importance": "must",
       "asked": 0,
       "tags": [
         "matrices",
-        "transpose"
+        "symmetric"
       ],
-      "order": 410,
+      "order": 425,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "A square matrix $A = [a_{ij}]$ is said to be symmetric if $A' = A$, that is, $[a_{ij}] = [a_{ji}]$ for all possible values of $i$ and $j$."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Superscript flattened: transpose written as 'AT' in the back (the T is a superscript), so the notation is garbled in plain text."
+        "review:not_important",
+        "review:duplicate: same point as published def-symmetric (A′ = A); aij = aji only restates it."
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.formula-skew-condition",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "formula",
+      "front": "Formula: what must hold for a square matrix A = [aij] to be skew symmetric, in terms of A′ and entries?",
+      "back": "A square matrix A = [aij] is said to be skew symmetric matrix if A′ = – A, that is aji = – aij for all possible values of i and j.",
+      "quote": "A square matrix A = [aij] is said to be skew symmetric matrix if A′ = – A, that is aji = – aij for all possible values of i and j.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 63,
+        "section": "Symmetric and Skew Symmetric Matrices"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "skew-symmetric"
+      ],
+      "order": 435,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "A square matrix $A = [a_{ij}]$ is said to be skew symmetric matrix if $A' = -A$, that is $a_{ji} = -a_{ij}$ for all possible values of $i$ and $j$."
+      },
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same point as published def-skew (A′ = -A); aji = -aij only restates it."
       ]
     },
     {
@@ -1495,6 +1946,42 @@
       "reasons": [
         "review:not_important",
         "review:Text is the problem statement of Example 24 ('show that...'), a worked-example item not a stated NCERT result."
+      ]
+    },
+    {
+      "id": "kc.mathematics.matrices.fact-inverse-notation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.matrices",
+      "chapter": "Matrices",
+      "unit": "Matrices",
+      "kind": "fact",
+      "front": "How is the inverse of a square matrix A denoted, and what is A called when its inverse exists?",
+      "back": "then B is called the inverse matrix of A and it is denoted by A– 1. In that case A is said to be invertible.",
+      "quote": "then B is called the inverse matrix of A and it is denoted by A– 1. In that case A is said to be invertible.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh103",
+        "chapterNo": 3,
+        "page": 68,
+        "section": "Invertible Matrices"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "matrices",
+        "inverse"
+      ],
+      "order": 485,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "then $B$ is called the inverse matrix of $A$ and it is denoted by $A^{-1}$. In that case $A$ is said to be invertible."
+      },
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back opens \"then B is called the inverse matrix of A\" with B never defined on the card; the defining clause (AB = BA = I) is cut off, so the back points at unseen text."
       ]
     },
     {
@@ -1563,16 +2050,16 @@
       ]
     },
     {
-      "id": "kc.mathematics.determinants.def-determinant",
+      "id": "kc.mathematics.determinants.fact-unique-solution-condition",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.determinants",
       "chapter": "Determinants",
       "unit": "Determinants",
-      "kind": "definition",
-      "front": "What is the determinant of a square matrix?",
-      "back": "we can associate a number (real or complex) called determinant of the square matrix A",
-      "quote": "we can associate a number (real or complex) called determinant of the square matrix A",
+      "kind": "fact",
+      "front": "When does a₁x + b₁y = c₁, a₂x + b₂y = c₂ have a unique solution (condition on a₁b₂ − a₂b₁)?",
+      "back": "if a1 ≠ b1 a2 b2 or, a1 b2 – a2 b1 ≠ 0, then the system of linear equations has a unique solution",
+      "quote": "(Recall that if a1 ≠ b1 a2 b2 or, a1 b2 – a2 b1 ≠ 0, then the system of linear equations has a unique solution)",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1580,34 +2067,36 @@
         "code": "lemh104",
         "chapterNo": 4,
         "page": 76,
-        "section": "Determinant"
+        "section": "Introduction"
       },
-      "importance": "must",
+      "importance": "good",
       "asked": 0,
       "tags": [
-        "determinant"
+        "determinant",
+        "unique-solution"
       ],
-      "order": 30,
+      "order": 25,
+      "tex": {
+        "back": "if $\\frac{a_1}{a_2} \\neq \\frac{b_1}{b_2}$ or, $a_1 b_2 - a_2 b_1 \\neq 0$, then the system of linear equations has a unique solution"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back is a mid-sentence fragment (\"we can associate a number...\") that omits the subject (square matrix A = [aij] of order n) and does not say what the determinant is; aij notation flattened."
+        "review:not_important",
+        "review:duplicate: same point as published fact-summary-unique-solution (|A| != 0 gives a unique solution; a1b2-a2b1 is |A| for the 2x2 case); also an introduction recall, not a stand-alone CUET fact"
       ]
     },
     {
-      "id": "kc.mathematics.determinants.kl-area-absolute-value",
+      "id": "kc.mathematics.determinants.formula-area-triangle",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.determinants",
       "chapter": "Determinants",
       "unit": "Determinants",
-      "kind": "key_line",
-      "front": "Since area is a positive quantity, we always take the ____ of the determinant in (1).",
-      "back": "Since area is a positive quantity, we always take the absolute value of the determinant in (1).",
-      "quote": "Since area is a positive quantity, we always take the absolute value of the determinant in (1).",
-      "blanks": [
-        "absolute value"
-      ],
+      "kind": "formula",
+      "front": "Formula: area of the triangle with vertices (x₁, y₁), (x₂, y₂), (x₃, y₃) as a determinant",
+      "back": "the area of a triangle whose vertices are (x1 , y1 ), (x2 , y2 ) and (x3 , y3 ), is given by the expression\n1 2 [x1 (y2 –y3 ) + x2 (y3 –y1 ) + x3 (y1 –y2 )].\n∆ = 1 1 2 2 3 3 1 1 1 2 1 x y x y x y\nSince area is a positive quantity, we always take the absolute value of the determinant in (1).",
+      "quote": "the area of a triangle whose vertices are (x1 , y1 ), (x2 , y2 ) and (x3 , y3 ), is given by the expression 1 2 [x1 (y2 –y3 ) + x2 (y3 –y1 ) + x3 (y1 –y2 )]. Now this expression can be written in the form of a determinant as ∆ = 1 1 2 2 3 3 1 1 1 2 1 x y x y x y ... (1) Remarks (i) Since area is a positive quantity, we always take the absolute value of the determinant in (1).",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
@@ -1616,91 +2105,104 @@
         "page": 82,
         "section": "Area of a Triangle"
       },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "area"
-      ],
-      "order": 100,
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Refers to \"the determinant in (1)\", an equation not on the card, so front and back are meaningless in plain text; blank could also be modulus."
-      ]
-    },
-    {
-      "id": "kc.mathematics.determinants.def-minor",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.determinants",
-      "chapter": "Determinants",
-      "unit": "Determinants",
-      "kind": "definition",
-      "front": "Define the minor of an element of a determinant.",
-      "back": "Minor of an element aij of a determinant is the determinant obtained by deleting its ith row and jth column in which element aij lies.",
-      "quote": "Minor of an element aij of a determinant is the determinant obtained by deleting its ith row and jth column in which element aij lies.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part 1",
-        "code": "lemh104",
-        "chapterNo": 4,
-        "page": 84,
-        "section": "Minors and Cofactors"
-      },
       "importance": "must",
       "asked": 0,
       "tags": [
-        "minor"
+        "area",
+        "determinant"
       ],
-      "order": 130,
+      "order": 98,
+      "tex": {
+        "back": "the area of a triangle whose vertices are $(x_1, y_1)$, $(x_2, y_2)$ and $(x_3, y_3)$, is given by the expression\n$$\\frac{1}{2}[x_1(y_2 - y_3) + x_2(y_3 - y_1) + x_3(y_1 - y_2)]$$\n$$\\Delta = \\frac{1}{2}\\begin{vmatrix} x_1 & y_1 & 1 \\\\ x_2 & y_2 & 1 \\\\ x_3 & y_3 & 1 \\end{vmatrix}$$\nSince area is a positive quantity, we always take the absolute value of the determinant in $(1)$."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
         "review:not_exact",
-        "review:Subscript and ordinal notation flattened: aij, ith row, jth column read as plain letters in plain text."
+        "review:FORMULA: on p82 the determinant display carries the equation tag \"... (1)\" and the remark then says \"absolute value of the determinant in (1)\"; the card drops the (1) tag from the Delta line but keeps \"in (1)\", so the reference points at nothing on the card. Also the plain line \"1/2[x1(y2 - y3) + .."
       ]
     },
     {
-      "id": "kc.mathematics.determinants.fact-denote-minor",
+      "id": "kc.mathematics.determinants.formula-cofactor-expansion-first-row",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.determinants",
       "chapter": "Determinants",
       "unit": "Determinants",
-      "kind": "fact",
-      "front": "How is the minor of an element aij denoted?",
-      "back": "Minor of an element aij is denoted by Mij.",
-      "quote": "Minor of an element aij is denoted by Mij.",
+      "kind": "formula",
+      "front": "Formula: |A| of a 3 × 3 determinant as the sum of the first-row elements times their cofactors",
+      "back": "Value of determinant of a matrix A is obtained by sum of product of elements of a row (or a column) with corresponding cofactors.\nFor example, A = a11 A11 + a12 A12 + a13 A13.",
+      "quote": "Value of determinant of a matrix A is obtained by sum of product of elements of a row (or a column) with corresponding cofactors. For example, A = a11 A11 + a12 A12 + a13 A13.",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
         "code": "lemh104",
         "chapterNo": 4,
-        "page": 84,
-        "section": "Minors and Cofactors"
+        "page": 101,
+        "section": "Summary"
       },
       "importance": "good",
       "asked": 0,
       "tags": [
-        "minor"
+        "cofactor",
+        "expansion"
       ],
-      "order": 140,
+      "order": 152,
+      "tex": {
+        "back": "Value of determinant of a matrix $A$ is obtained by sum of product of elements of a row (or a column) with corresponding cofactors.\nFor example, $|A| = a_{11} A_{11} + a_{12} A_{12} + a_{13} A_{13}$."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Relies on subscripted symbols aij and Mij flattened to plain text by the extraction."
+        "review:not_important",
+        "review:duplicate: back's first sentence is the quote of published fact-determinant-cofactor-sum; the first-row example only adds the instance (if kept, retire the published card instead)"
       ]
     },
     {
-      "id": "kc.mathematics.determinants.fact-adjoint-order-two",
+      "id": "kc.mathematics.determinants.formula-other-row-cofactors-sum",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.determinants",
       "chapter": "Determinants",
       "unit": "Determinants",
-      "kind": "fact",
-      "front": "For a square matrix of order 2, how can adj A be obtained directly?",
-      "back": "The adj A can also be obtained by interchanging a11 and a22 and by changing signs of a12 and a21",
-      "quote": "The adj A can also be obtained by interchanging a11 and a22 and by changing signs of a12 and a21",
+      "kind": "formula",
+      "front": "Formula: what is a₁₁A₂₁ + a₁₂A₂₂ + a₁₃A₂₃ equal to?",
+      "back": "If elements of one row (or column) are multiplied with cofactors of elements of any other row (or column), then their sum is zero.\nFor example, a11 A21 + a12 A22 + a13 A23 = 0",
+      "quote": "If elements of one row (or column) are multiplied with cofactors of elements of any other row (or column), then their sum is zero. For example, a11 A21 + a12 A22 + a13 A23 = 0",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh104",
+        "chapterNo": 4,
+        "page": 101,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cofactor"
+      ],
+      "order": 162,
+      "tex": {
+        "back": "If elements of one row (or column) are multiplied with cofactors of elements of any other row (or column), then their sum is zero.\nFor example, $a_{11} A_{21} + a_{12} A_{22} + a_{13} A_{23} = 0$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same NCERT sentence and point as published fact-other-row-cofactors-zero (the example is just an instance)"
+      ]
+    },
+    {
+      "id": "kc.mathematics.determinants.formula-adjoint-three-by-three",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.determinants",
+      "chapter": "Determinants",
+      "unit": "Determinants",
+      "kind": "formula",
+      "front": "Formula: adj A of a 3 × 3 matrix A in terms of the cofactors Aᵢⱼ",
+      "back": "11 12 13 21 22 23 31 32 33 A A A A =Transposeof A A A A A A adj\n11 21 31 12 22 32 13 23 33 A A A = A A A A A A",
+      "quote": "Then 11 12 13 21 22 23 31 32 33 A A A A =Transposeof A A A A A A adj 11 21 31 12 22 32 13 23 33 A A A = A A A A A A",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1710,46 +2212,91 @@
         "page": 88,
         "section": "Adjoint of a Matrix"
       },
-      "importance": "must",
+      "importance": "good",
       "asked": 0,
       "tags": [
         "adjoint"
       ],
-      "order": 180,
+      "order": 175,
+      "tex": {
+        "back": "$$\\operatorname{adj} A = \\text{Transpose of} \\begin{bmatrix} A_{11} & A_{12} & A_{13} \\\\ A_{21} & A_{22} & A_{23} \\\\ A_{31} & A_{32} & A_{33} \\end{bmatrix}$$\n$$= \\begin{bmatrix} A_{11} & A_{21} & A_{31} \\\\ A_{12} & A_{22} & A_{32} \\\\ A_{13} & A_{23} & A_{33} \\end{bmatrix}$$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Relies on subscripted entries a11, a22, a12, a21 (flattened) and NCERT follows it with a printed matrix that the card drops; the instruction is hard to read as plain text."
+        "review:not_important",
+        "review:duplicate: same fact as definition-adjoint in this draft (adj A = transpose of the cofactor matrix); the 3x3 layout is an instance of it"
       ]
     },
     {
-      "id": "kc.mathematics.determinants.fact-inverse-unique-solution",
+      "id": "kc.mathematics.determinants.formula-determinant-of-product",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.determinants",
       "chapter": "Determinants",
       "unit": "Determinants",
-      "kind": "fact",
-      "front": "Why does AX = B give a unique solution when A is nonsingular?",
-      "back": "This matrix equation provides unique solution for the given system of equations as inverse of a matrix is unique.",
-      "quote": "This matrix equation provides unique solution for the given system of equations as inverse of a matrix is unique.",
+      "kind": "formula",
+      "front": "Formula: |AB| for square matrices A and B of the same order",
+      "back": "that is, AB = A B , where A and B are square matrices of the same order",
+      "quote": "Theorem 3 The determinant of the product of matrices is equal to product of their respective determinants, that is, AB = A B , where A and B are square matrices of the same order",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part 1",
         "code": "lemh104",
         "chapterNo": 4,
-        "page": 94,
-        "section": "Solution of system of linear equations using inverse of a matrix"
+        "page": 89,
+        "section": "Adjoint of a Matrix"
       },
-      "importance": "good",
+      "importance": "must",
       "asked": 0,
       "tags": [
+        "determinant",
+        "product"
+      ],
+      "order": 232,
+      "tex": {
+        "back": "that is, $|AB| = |A| |B|$, where $A$ and $B$ are square matrices of the same order"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: published fact-determinant-of-product states the same theorem (|AB| = |A||B|) from the same NCERT sentence"
+      ]
+    },
+    {
+      "id": "kc.mathematics.determinants.fact-adjoint-times-b-zero",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.determinants",
+      "chapter": "Determinants",
+      "unit": "Determinants",
+      "kind": "fact",
+      "front": "For AX = B with |A| = 0 and (adj A)B = O, when is the system consistent and when inconsistent?",
+      "back": "If (adj A) B = O, then system may be either consistent or inconsistent according as the system have either infinitely many solutions or no solution.",
+      "quote": "If (adj A) B = O, then system may be either consistent or inconsistent according as the system have either infinitely many solutions or no solution.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part 1",
+        "code": "lemh104",
+        "chapterNo": 4,
+        "page": 95,
+        "section": "Solution of system of linear equations using inverse of a matrix"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "consistency",
         "matrix method"
       ],
-      "order": 310,
+      "order": 335,
+      "tex": {
+        "back": "If $(\\operatorname{adj} A) B = O$, then system may be either consistent or inconsistent according as the system have either infinitely many solutions or no solution."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Back starts \"This matrix equation provides...\" and refers to X = A-1 B, an equation not on the card (flattened/omitted), so it does not stand alone."
+        "review:not_important",
+        "review:duplicate: same case as published fact-summary-may-or-may-not (|A|=0, (adj A)B=O); also 'must' is wrong, it is not a core formula"
       ]
     },
     {
@@ -1851,17 +2398,19 @@
       ]
     },
     {
-      "id": "kc.mathematics.continuity-and-differentiability.fact-rational-domain",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "fact",
-      "front": "What is the domain of a rational function p(x) / q(x), p and q polynomial functions?",
-      "back": "The domain of f is all real numbers except points at which q is zero.",
-      "quote": "The domain of f is all real numbers except points at which q is zero.",
       "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-continuity-constant-multiple",
+      "kind": "formula",
+      "front": "Constant multiple: if g is continuous and λ is a constant, is λ·g continuous? What does λ = −1 give?",
+      "back": "As a special case of (3) above, if f is a constant function, i.e., f (x) = λ for some real number λ, then the function (λ . g) defined by\n(λ . g) (x) = λ . g(x)\nis also continuous. In particular if λ = – 1, the continuity of f implies continuity of – f.",
+      "quote": "As a special case of (3) above, if f is a constant function, i.e., f (x) = λ for some real number λ, then the function (λ . g) defined by (λ . g) (x) = λ . g(x) is also continuous. In particular if λ = – 1, the continuity of f implies continuity of – f.",
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
@@ -1871,47 +2420,91 @@
         "section": "Algebra of continuous functions"
       },
       "importance": "good",
-      "asked": 0,
       "tags": [
         "continuity",
-        "rational"
+        "algebra"
       ],
-      "order": 140,
+      "order": 135,
+      "tex": {
+        "back": "As a special case of (3) above, if $f$ is a constant function, i.e., $f(x) = \\lambda$ for some real number $\\lambda$, then the function $(\\lambda \\cdot g)$ defined by\n$$(\\lambda \\cdot g)(x) = \\lambda \\cdot g(x)$$\nis also continuous. In particular if $\\lambda = -1$, the continuity of $f$ implies continuity of $-f$."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Front carries the expression p(x) / q(x), rebuilt from a stacked fraction the extraction flattened; per notation rule reword in words (a ratio of two polynomial functions)."
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Special-case remark of Theorem 1(3), derivable and already covered by the published algebra-of-continuous-functions card, so not memorise-worthy. Front asks two questions, uses g in the front but the back's lambda=-1 case talks about f and -f."
       ]
     },
     {
-      "id": "kc.mathematics.continuity-and-differentiability.fact-composite-continuous",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "fact",
-      "front": "State Theorem 2: continuity of a composite function.",
-      "back": "Suppose f and g are real valued functions such that (f o g) is defined at c. If g is continuous at c and if f is continuous at g (c), then (f o g) is continuous at c.",
-      "quote": "Suppose f and g are real valued functions such that (f o g) is defined at c. If g is continuous at c and if f is continuous at g (c), then (f o g) is continuous at c.",
       "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-continuity-reciprocal",
+      "kind": "formula",
+      "front": "If g is continuous, where is λ/g continuous, and what does that give for 1/g? (Remark (ii) of Theorem 1)",
+      "back": "As a special case of (4) above, if f is the constant function f (x) = λ, then the function\nλ g defined by λ g (x) = λ g(x)\nis also continuous wherever g (x) ≠ 0. In particular, the continuity of g implies continuity of 1 g .",
+      "quote": "As a special case of (4) above, if f is the constant function f (x) = λ, then the function λ g defined by λ g (x) = λ g(x) is also continuous wherever g (x) ≠ 0. In particular, the continuity of g implies continuity of 1 g .",
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
         "code": "lemh105",
         "chapterNo": 5,
-        "page": 115,
+        "page": 114,
         "section": "Algebra of continuous functions"
       },
-      "importance": "must",
-      "asked": 0,
+      "importance": "good",
       "tags": [
         "continuity",
-        "composite"
+        "algebra"
       ],
-      "order": 170,
+      "order": 136,
+      "tex": {
+        "back": "As a special case of (4) above, if $f$ is the constant function $f(x) = \\lambda$, then the function\n$\\frac{\\lambda}{g}$ defined by $\\frac{\\lambda}{g}(x) = \\frac{\\lambda}{g(x)}$\nis also continuous wherever $g(x) \\neq 0$. In particular, the continuity of $g$ implies continuity of $\\frac{1}{g}$."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Quote and back carry '(f o g)': the printed composition symbol was flattened to the letter o by extraction; spacing 'g (c)' also extraction-style. Notation rule: skip or rewrite in words."
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Special-case remark of Theorem 1(4), derivable. Front never says lambda is a constant, asks two questions, and points at unseen text ('Remark (ii) of Theorem 1')."
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Continuity and Differentiability",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-derivative-at-point",
+      "kind": "formula",
+      "front": "Formula: the derivative of f at c, defined as a limit",
+      "back": "Suppose f is a real function and c is a point in its domain. The derivative of f at c is defined by\nlim f (c + h) − f (c) h→0 h",
+      "quote": "Suppose f is a real function and c is a point in its domain. The derivative of f at c is defined by lim f (c + h) − f (c) h→0 h",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 118,
+        "section": "Differentiability"
+      },
+      "importance": "good",
+      "tags": [
+        "derivative",
+        "limit"
+      ],
+      "order": 172,
+      "tex": {
+        "back": "Suppose $f$ is a real function and $c$ is a point in its domain. The derivative of $f$ at $c$ is defined by\n$$\\lim_{h \\to 0} \\frac{f(c+h) - f(c)}{h}$$"
+      },
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: the limit definition of the derivative at c is the same formula as f'(x)=lim f(x+h)-f(x) over h in the fuller card formula-derivative-function-notation, which also carries the f'(c) notation."
       ]
     },
     {
@@ -1946,15 +2539,15 @@
     },
     {
       "id": "kc.mathematics.continuity-and-differentiability.fact-converse-not-true",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "fact",
-      "front": "Is the converse of 'every differentiable function is continuous' true? Give NCERT's example.",
-      "back": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function.",
-      "quote": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function.",
+      "kind": "formula",
+      "front": "Is every continuous function differentiable? Give NCERT's example f(x) = |x| at 0, with its one-sided limits.",
+      "back": "the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function.\nlim f (0 + h) − f (0) = −h = −1 h→0– h h\nlim f (0 + h) − f (0) = h = 1 h→0+ h h\nf (0 + h) − f (0) Since the above left and right hand limits at 0 are not equal, lim h→0 h does not exist and hence f is not differentiable at 0.",
+      "quote": "We remark that the converse of the above statement is not true. Indeed we have seen that the function defined by f (x) = | x | is a continuous function. Consider the left hand limit lim f (0 + h) − f (0) = −h = −1 h→0– h h The right hand limit lim f (0 + h) − f (0) = h = 1 h→0+ h h f (0 + h) − f (0) Since the above left and right hand limits at 0 are not equal, lim h→0 h does not exist and hence f is not differentiable at 0.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1973,10 +2566,13 @@
       ],
       "order": 220,
       "note": "The modulus function is continuous at 0 but not differentiable there.",
+      "tex": {
+        "back": "the converse of the above statement is not true. Indeed we have seen that the function defined by $f(x) = |x|$ is a continuous function.\n$$\\lim_{h \\to 0^-} \\frac{f(0+h) - f(0)}{h} = \\frac{-h}{h} = -1$$\n$$\\lim_{h \\to 0^+} \\frac{f(0+h) - f(0)}{h} = \\frac{h}{h} = 1$$\nSince the above left and right hand limits at $0$ are not equal, $\\lim_{h \\to 0} \\frac{f(0+h) - f(0)}{h}$ does not exist and hence $f$ is not differentiable at $0$."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
         "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back carries the formula f (x) = | x | and 'the above statement' dangles; quote stops before the key finding (not differentiable at 0), so the example is incomplete as an answer."
+        "review:FORMULA: mid-quote elisions (prose). On p120 the book introduces the first display with \"Consider the left hand limit\" and the second with \"The right hand limit\"; the tex drops both labels (and the opening \"We remark that\"), while the next sentence still says \"the above left and right hand limits\". "
       ]
     },
     {
@@ -2008,6 +2604,43 @@
       "reasons": [
         "review:not_important",
         "review:Presentation convention (write the answer in x) is not a mark-carrying fact; answer is obvious from the front, not worth a CUET student's memory."
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Continuity and Differentiability",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.list-inverse-trig-derivatives",
+      "kind": "list",
+      "front": "Derivatives of sin⁻¹x, cos⁻¹x and tan⁻¹x, each followed by its domain (NCERT's table)",
+      "back": "sin–1 x 1 1− x2 (-1, 1)\ncos-1 x −1 1− x2 (-1, 1)\ntan-1x 1 1+ x2 R",
+      "quote": "f (x) f 1(x) Domain off sin–1 x 1 1− x2 (-1, 1) cos-1 x −1 1− x2 (-1, 1) tan-1x 1 1+ x2 R",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 124,
+        "section": "Derivatives of inverse trigonometric functions"
+      },
+      "importance": "must",
+      "tags": [
+        "inverse-trig",
+        "derivative"
+      ],
+      "order": 262,
+      "tex": {
+        "back": "$$\\sin^{-1} x, \\quad \\frac{1}{\\sqrt{1-x^2}}, \\quad (-1, 1)$$\n$$\\cos^{-1} x, \\quad \\frac{-1}{\\sqrt{1-x^2}}, \\quad (-1, 1)$$\n$$\\tan^{-1} x, \\quad \\frac{1}{1+x^2}, \\quad \\mathbf{R}$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:not_unambiguous",
+        "review:Front says 'each followed by its domain' but NCERT's third column is the domain of the derivative, (-1, 1); the domain of sin^-1 x and cos^-1 x themselves is [-1, 1], so a student has two plausible answers. Front must say 'domain of the derivative'. | FORMULA: the set symbol differs. In the p124 tab"
       ]
     },
     {
@@ -2046,45 +2679,51 @@
       ]
     },
     {
-      "id": "kc.mathematics.continuity-and-differentiability.def-logarithmic-function",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "definition",
-      "front": "How is the logarithmic function described, for a fixed base b > 1?",
-      "back": "we may look at logarithm as a function from positive real numbers to all real numbers. This function, called the logarithmic function",
-      "quote": "we may look at logarithm as a function from positive real numbers to all real numbers. This function, called the logarithmic function",
       "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.fact-faster-than-polynomial",
+      "kind": "fact",
+      "front": "Name the function NCERT gives as an example of one that grows faster than any polynomial function.",
+      "back": "an example of such a function is y = f (x) = 10x.",
+      "quote": "Is there a function which grows faster than any polynomial function. The answer is in affirmative and an example of such a function is y = f (x) = 10x.",
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
         "code": "lemh105",
         "chapterNo": 5,
-        "page": 127,
+        "page": 126,
         "section": "Exponential and Logarithmic Functions"
       },
       "importance": "good",
-      "asked": 0,
       "tags": [
-        "logarithm"
+        "exponential",
+        "growth"
       ],
-      "order": 390,
+      "order": 282,
+      "tex": {
+        "back": "an example of such a function is $y = f(x) = 10^x$."
+      },
       "reasons": [
-        "review:not_exact",
-        "review:Quote is a clause cut mid-sentence ('This function, called the logarithmic function'); the predicate (the R+ to R mapping) was lost to notation, so the back is an incomplete fragment."
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Illustrative example (10^x) inside a discussion, not a fact to memorise; the card never states the point that exponentials outgrow polynomials. Front is only answerable via 'NCERT gives': e^x, 2^x or any b^x with b>1 is equally right."
       ]
     },
     {
       "id": "kc.mathematics.continuity-and-differentiability.list-log-observations",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
       "kind": "list",
-      "front": "Observations (1) to (5) about the logarithm function to any base b > 1.",
+      "front": "State five important observations about the logarithm function to any base b > 1.",
       "back": "We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is R+.\nThe range of log function is the set of all real numbers.\nThe point (1, 0) is always on the graph of the log function.\nThe log function is ever increasing, i.e., as we move from left to right the graph rises above.\nFor x very near to zero, the value of log x can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches y-axis (but never meets it).",
       "quote": "(1) We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is R+. (2) The range of log function is the set of all real numbers. (3) The point (1, 0) is always on the graph of the log function. (4) The log function is ever increasing, i.e., as we move from left to right the graph rises above. (5) For x very near to zero, the value of log x can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches y-axis (but never meets it).",
       "blanks": [],
@@ -2102,9 +2741,13 @@
         "logarithm"
       ],
       "order": 400,
+      "tex": {
+        "back": "We cannot make a meaningful definition of logarithm of non-positive numbers and hence the domain of log function is $\\mathbf{R}^+$.\nThe range of log function is the set of all real numbers.\nThe point $(1, 0)$ is always on the graph of the log function.\nThe log function is ever increasing, i.e., as we move from left to right the graph rises above.\nFor $x$ very near to zero, the value of $\\log x$ can be made lesser than any given real number. In other words in the fourth quadrant the graph approaches $y$-axis (but never meets it)."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Items (1) and (3) carry 'R+' where NCERT prints R with a superscript plus; extraction flattened it. Reword as 'positive real numbers'. Front also does not say what to recall."
+        "review:not_unambiguous",
+        "review:NCERT lists six observations; front asks for 'five' without saying which, and the sixth (mirror image of e^x and ln x) sits on a published card. A student cannot tell which five are wanted."
       ]
     },
     {
@@ -2141,34 +2784,147 @@
       ]
     },
     {
-      "id": "kc.mathematics.continuity-and-differentiability.fact-logdiff-positive",
-      "v": 2,
+      "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.continuity-and-differentiability",
       "chapter": "Continuity & Differentiability",
       "unit": "Continuity and Differentiability",
-      "kind": "fact",
-      "front": "Logarithmic differentiation: why must the functions involved always be positive?",
-      "back": "The main point to be noted in this method is that f (x) and u(x) must always be positive as otherwise their logarithms are not defined.",
-      "quote": "The main point to be noted in this method is that f (x) and u(x) must always be positive as otherwise their logarithms are not defined.",
       "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-log-change-of-base",
+      "kind": "formula",
+      "front": "Formula: the change of base rule, log_a p in terms of log_b p",
+      "back": "There is a standard change of base rule to obtain loga p in terms of logb p.\nloga p = log log b b p a",
+      "quote": "There is a standard change of base rule to obtain loga p in terms of logb p. Let loga p = α, logb p = β and logb a = γ. This means a α = p, b β = p and b γ = a. Substituting the third equation in the first one, we have (b γ ) α = b γα = p Using this in the second equation, we get b β = p = b γα which implies β = αγ or α = β γ . But then loga p = log log b b p a",
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
         "code": "lemh105",
         "chapterNo": 5,
-        "page": 130,
+        "page": 128,
+        "section": "Exponential and Logarithmic Functions"
+      },
+      "importance": "good",
+      "tags": [
+        "logarithm",
+        "properties"
+      ],
+      "order": 422,
+      "tex": {
+        "back": "There is a standard change of base rule to obtain $\\log_a p$ in terms of $\\log_b p$.\n$$\\log_a p = \\frac{\\log_b p}{\\log_b a}$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: a mid-quote elision (prose). On p128 the book goes from \"There is a standard change of base rule to obtain log_a p in terms of log_b p.\" through the derivation \"Let log_a p = α, log_b p = β and log_b a = γ ... which implies β = αγ or α = β/γ. But then\" before the display log_a p = log_b p /"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Continuity and Differentiability",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-derivative-of-a-to-x",
+      "kind": "formula",
+      "front": "Formula: the derivative of aˣ with respect to x, where a is a positive constant",
+      "back": "Differentiate ax w.r.t. x, where a is a positive constant.\nd (ax ) = ax log a dx",
+      "quote": "Example 28 Differentiate ax w.r.t. x, where a is a positive constant. Solution Let y = ax. Then log y = x log a Differentiating both sides w.r.t. x, we have 1 dy y dx = log a or Thus Alternatively dy dx = y log a d (ax ) = ax log a dx",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 131,
         "section": "Logarithmic Differentiation"
       },
-      "importance": "must",
-      "asked": 0,
+      "importance": "good",
       "tags": [
-        "logarithmic-differentiation"
+        "derivative",
+        "exponential"
       ],
-      "order": 440,
+      "order": 442,
+      "tex": {
+        "back": "Differentiate $a^x$ w.r.t. $x$, where $a$ is a positive constant.\n$$\\frac{d}{dx}(a^x) = a^x \\log a$$"
+      },
       "reasons": [
-        "review:not_unambiguous",
-        "review:Back uses f (x) and u(x) which the card never defines (f(x) = [u(x)]^v(x) in the base-and-exponent form), and the front says only 'the functions involved'; the student cannot tell which functions are meant."
+        "review:not_exact",
+        "review:Should be 'must': d/dx(a^x)=a^x log a is a core formula CUET questions use directly, not a 'good'-level extra. | FORMULA: a mid-quote elision (prose). On p131 the book has the Example 28 question \"Differentiate a^x w.r.t. x, where a is a positive constant.\", then the Solution (Let y = a^x. Then log "
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Continuity and Differentiability",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-parametric-derivative",
+      "kind": "formula",
+      "front": "Formula: dy/dx when x = f(t) and y = g(t) are given in parametric form with parameter t",
+      "back": "In order to find derivative of function in such form, we have by chain rule.\ndy dt = dy dx dx dt ⋅\ndy dx = whenever 0 dy dt dx dx dt dt ≠\ndy dx = ( ) as ( ) and ( ) ( ) g t dy dx g t f t f t dt dt ′ = ′ = ′ ′ [provided f ′(t) ≠ 0]",
+      "quote": "In order to find derivative of function in such form, we have by chain rule. dy dt = dy dx dx dt ⋅ or dy dx = whenever 0 dy dt dx dx dt dt ≠ Thus dy dx = ( ) as ( ) and ( ) ( ) g t dy dx g t f t f t dt dt ′ = ′ = ′ ′ [provided f ′(t) ≠ 0]",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 135,
+        "section": "Derivatives of Functions in Parametric Forms"
+      },
+      "importance": "must",
+      "tags": [
+        "parametric",
+        "derivative"
+      ],
+      "order": 475,
+      "tex": {
+        "back": "In order to find derivative of function in such form, we have by chain rule.\n$$\\frac{dy}{dt} = \\frac{dy}{dx} \\cdot \\frac{dx}{dt}$$\n$$\\frac{dy}{dx} = \\frac{\\dfrac{dy}{dt}}{\\dfrac{dx}{dt}} \\quad \\left(\\text{whenever } \\frac{dx}{dt} \\neq 0\\right)$$\n$$\\frac{dy}{dx} = \\frac{g'(t)}{f'(t)} \\quad \\left(\\text{as } \\frac{dy}{dt} = g'(t) \\text{ and } \\frac{dx}{dt} = f'(t)\\right) \\quad [\\text{provided } f'(t) \\neq 0]$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: mid-quote elisions (prose, minor). On p135 the second display is introduced by \"or\" and the third by \"Thus\"; the tex drops both words, so the three displays read as unconnected statements. All symbols match the book (dy/dt = dy/dx · dx/dt; dy/dx = (dy/dt)/(dx/dt) (whenever dx/dt ≠ 0); dy/dx"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.continuity-and-differentiability",
+      "chapter": "Continuity & Differentiability",
+      "unit": "Continuity and Differentiability",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.continuity-and-differentiability.formula-second-order-derivative",
+      "kind": "formula",
+      "front": "Formula: the second order derivative d²y/dx² of y = f(x), and its other notations",
+      "back": "Let y = f(x). Then\ndy dx = f ′(x) ... (1)\nIf f ′(x) is differentiable, we may differentiate (1) again w.r.t. x. Then, the left hand side becomes d dy dx dx which is called the second order derivative of y w.r.t. x and is denoted by 2 2 d y dx .\nThe second order derivative of f(x) is denoted by f ″(x). It is also denoted by D2 y or y″ or y 2 if y = f(x).",
+      "quote": "Let y = f(x). Then dy dx = f ′(x) ... (1) If f ′(x) is differentiable, we may differentiate (1) again w.r.t. x. Then, the left hand side becomes d dy dx dx which is called the second order derivative of y w.r.t. x and is denoted by 2 2 d y dx . The second order derivative of f(x) is denoted by f ″(x). It is also denoted by D2 y or y″ or y 2 if y = f(x).",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh105",
+        "chapterNo": 5,
+        "page": 137,
+        "section": "Second Order Derivative"
+      },
+      "importance": "must",
+      "tags": [
+        "second-derivative",
+        "notation"
+      ],
+      "order": 477,
+      "tex": {
+        "back": "Let $y = f(x)$. Then\n$$\\frac{dy}{dx} = f'(x) \\quad \\ldots (1)$$\nIf $f'(x)$ is differentiable, we may differentiate (1) again w.r.t. $x$. Then, the left hand side becomes $\\frac{d}{dx}\\left(\\frac{dy}{dx}\\right)$ which is called the second order derivative of $y$ w.r.t. $x$ and is denoted by $\\frac{d^2 y}{dx^2}$.\nThe second order derivative of $f(x)$ is denoted by $f''(x)$. It is also denoted by $D^2 y$ or $y''$ or $y_2$ if $y = f(x)$."
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: a letter style differs. On p137 the book prints the operator as an upright roman D in \"D² y\", but the tex writes $D^2 y$, which renders an italic D (a variable). Use \\mathrm{D}^2 y. Everything else (dy/dx = f′(x) ... (1), d/dx(dy/dx), d²y/dx², f″(x), y″, y_2) matches the book."
       ]
     },
     {
@@ -2269,38 +3025,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.def-increasing-at-point",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "definition",
-      "front": "When is a function f said to be increasing (or decreasing) at a point x0 of its domain?",
-      "back": "f is said to be increasing, decreasing at x0 if there exists an open interval I containing x0 such that f is increasing, decreasing, respectively, in I.",
-      "quote": "f is said to be increasing, decreasing at x0 if there exists an open interval I containing x0 such that f is increasing, decreasing, respectively, in I.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 153,
-        "section": "Increasing and Decreasing Functions"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "increasing",
-        "decreasing"
-      ],
-      "order": 60,
-      "reasons": [
-        "review:not_exact",
-        "review:Subscript flattened (x0 printed for x sub 0) and dual 'increasing, decreasing' wording is confusing as plain text; Definition 2 is must-level."
-      ]
-    },
-    {
       "id": "kc.mathematics.application-of-derivatives.fact-mvt-proof",
       "v": 1,
       "subject": "mathematics",
@@ -2332,99 +3056,39 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.fact-theorem1-a",
+      "id": "kc.mathematics.application-of-derivatives.fact-generalised-theorem1",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
       "kind": "fact",
-      "front": "Theorem 1: f is continuous on [a, b] and differentiable on (a, b). When is f increasing in [a, b]?",
-      "back": "f is increasing in [a,b] if f ′(x) > 0 for each x ∈ (a, b)",
-      "quote": "f is increasing in [a,b] if f ′(x) > 0 for each x ∈ (a, b)",
+      "front": "What does the generalised theorem say if f′(x) > 0 (or < 0) in an interval excluding its end points and f is continuous?",
+      "back": "There is a more generalised theorem, which states that if f¢(x) > 0 for x in an interval excluding the end points and f is continuous in the interval, then f is increasing. Similarly, if f¢(x) < 0 for x in an interval excluding the end points and f is continuous in the interval, then f is decreasing.",
+      "quote": "There is a more generalised theorem, which states that if f¢(x) > 0 for x in an interval excluding the end points and f is continuous in the interval, then f is increasing. Similarly, if f¢(x) < 0 for x in an interval excluding the end points and f is continuous in the interval, then f is decreasing.",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics Part I",
         "code": "lemh106",
         "chapterNo": 6,
-        "page": 153,
-        "section": "Increasing and Decreasing Functions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "increasing",
-        "decreasing",
-        "first-derivative"
-      ],
-      "order": 80,
-      "reasons": [
-        "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.fact-theorem1-b",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Theorem 1: f is continuous on [a, b] and differentiable on (a, b). When is f decreasing in [a, b]?",
-      "back": "f is decreasing in [a,b] if f ′(x) < 0 for each x ∈ (a, b)",
-      "quote": "f is decreasing in [a,b] if f ′(x) < 0 for each x ∈ (a, b)",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 153,
-        "section": "Increasing and Decreasing Functions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "increasing",
-        "decreasing",
-        "first-derivative"
-      ],
-      "order": 90,
-      "reasons": [
-        "quote:not_in_pdf"
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.fact-theorem1-c",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Theorem 1: f is continuous on [a, b] and differentiable on (a, b). When is f a constant function in [a, b]?",
-      "back": "f is a constant function in [a,b] if f ′(x) = 0 for each x ∈ (a, b)",
-      "quote": "f is a constant function in [a,b] if f ′(x) = 0 for each x ∈ (a, b)",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 153,
+        "page": 154,
         "section": "Increasing and Decreasing Functions"
       },
       "importance": "good",
       "asked": 0,
       "tags": [
-        "increasing",
-        "decreasing",
-        "first-derivative"
+        "first-derivative",
+        "increasing"
       ],
-      "order": 100,
+      "order": 105,
+      "tex": {
+        "back": "There is a more generalised theorem, which states that if $f'(x) > 0$ for $x$ in an interval excluding the end points and $f$ is continuous in the interval, then $f$ is increasing. Similarly, if $f'(x) < 0$ for $x$ in an interval excluding the end points and $f$ is continuous in the interval, then $f$ is decreasing."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "quote:not_in_pdf"
+        "review:not_unambiguous",
+        "review:front says 'the generalised theorem' with no referent (generalised version of Theorem 1 is never named)"
       ]
     },
     {
@@ -2492,16 +3156,53 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.fact-theorem2-local-extrema",
+      "id": "kc.mathematics.application-of-derivatives.fact-local-maxima-slopes",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
       "kind": "fact",
-      "front": "Theorem 2: if f has a local maxima or a local minima at x = c, what must hold at c?",
-      "back": "If f has a local maxima or a local minima at x = c, then either f ′(c) = 0 or f is not differentiable at c.",
-      "quote": "If f has a local maxima or a local minima at x = c, then either f ′(c) = 0 or f is not differentiable at c.",
+      "front": "Around a point of local maxima c, where is f increasing and where decreasing, and what must f′(c) be?",
+      "back": "Note that the function f is increasing (i.e., f ′(x) > 0) in the interval (c – h, c) and decreasing (i.e., f ′(x) < 0) in the interval (c, c + h). This suggests that f ′(c) must be zero.",
+      "quote": "Note that the function f is increasing (i.e., f ′(x) > 0) in the interval (c – h, c) and decreasing (i.e., f ′(x) < 0) in the interval (c, c + h). This suggests that f ′(c) must be zero.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part I",
+        "code": "lemh106",
+        "chapterNo": 6,
+        "page": 163,
+        "section": "Maxima and Minima"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "local-maxima",
+        "first-derivative"
+      ],
+      "order": 212,
+      "tex": {
+        "back": "Note that the function $f$ is increasing (i.e., $f'(x) > 0$) in the interval $(c - h, c)$ and decreasing (i.e., $f'(x) < 0$) in the interval $(c, c + h)$. This suggests that $f'(c)$ must be zero."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: same point as first-derivative-test max card and Theorem 2; ambiguous: 'f'(c) must be zero' ignores non-differentiable corner (Theorem 2), figure-dependent discussion"
+      ]
+    },
+    {
+      "id": "kc.mathematics.application-of-derivatives.fact-local-minima-slopes",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.application-of-derivatives",
+      "chapter": "Application of Derivatives",
+      "unit": "Application of Derivatives",
+      "kind": "fact",
+      "front": "Around a point of local minima c, where is f decreasing and where increasing, and what must f′(c) be?",
+      "back": "Here f is decreasing (i.e., f ′(x) < 0) in the interval (c – h, c) and increasing (i.e., f ′(x) > 0) in the interval (c, c + h). This again suggest that f ′(c) must be zero.",
+      "quote": "Here f is decreasing (i.e., f ′(x) < 0) in the interval (c – h, c) and increasing (i.e., f ′(x) > 0) in the interval (c, c + h). This again suggest that f ′(c) must be zero.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -2514,56 +3215,31 @@
       "importance": "good",
       "asked": 0,
       "tags": [
-        "critical-point"
+        "local-minima",
+        "first-derivative"
       ],
-      "order": 220,
-      "reasons": [
-        "review:not_exact",
-        "review:Back states the condition as an equation with derivative prime: notation rule bars it."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.def-critical-point",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "definition",
-      "front": "Define a critical point of a function f.",
-      "back": "A point c in the domain of a function f at which either f ′(c) = 0 or f is not differentiable is called a critical point of f.",
-      "quote": "A point c in the domain of a function f at which either f ′(c) = 0 or f is not differentiable is called a critical point of f.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 164,
-        "section": "Maxima and Minima"
+      "order": 215,
+      "tex": {
+        "back": "Here $f$ is decreasing (i.e., $f'(x) < 0$) in the interval $(c - h, c)$ and increasing (i.e., $f'(x) > 0$) in the interval $(c, c + h)$. This again suggest that $f'(c)$ must be zero."
       },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "critical-point"
-      ],
-      "order": 240,
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Critical point definition carries an equation with derivative prime: notation rule bars it (core must card, consider rewording by hand)."
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: same point as first-derivative-test min card and Theorem 2; ambiguous: 'f'(c) must be zero' ignores non-differentiable corner; back opens with dangling 'Here' (Fig 6.14(b))"
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.fact-first-derivative-test-max",
+      "id": "kc.mathematics.application-of-derivatives.fact-cubic-derivative-zero-no-extremum",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
       "kind": "fact",
-      "front": "First Derivative Test: at a critical point c, when is c a point of local maxima?",
-      "back": "If f ′(x) changes sign from positive to negative as x increases through c, i.e., if f ′(x) > 0 at every point sufficiently close to and to the left of c, and f ′(x) < 0 at every point sufficiently close to and to the right of c, then c is a point of local maxima.",
-      "quote": "If f ′(x) changes sign from positive to negative as x increases through c, i.e., if f ′(x) > 0 at every point sufficiently close to and to the left of c, and f ′(x) < 0 at every point sufficiently close to and to the right of c, then c is a point of local maxima.",
+      "front": "NCERT's example: for f(x) = x³, what is f′(0), and is 0 a point of local maxima or minima?",
+      "back": "For example, if f (x) = x3, then f ′(x) = 3x2 and so f ′(0) = 0. But 0 is neither a point of local maxima nor a point of local minima",
+      "quote": "For example, if f (x) = x3, then f ′(x) = 3x2 and so f ′(0) = 0. But 0 is neither a point of local maxima nor a point of local minima (Fig 6.13).",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -2573,46 +3249,20 @@
         "page": 164,
         "section": "Maxima and Minima"
       },
-      "importance": "must",
+      "importance": "good",
       "asked": 0,
       "tags": [
-        "first-derivative-test"
+        "critical-point",
+        "example"
       ],
-      "order": 250,
-      "reasons": [
-        "review:not_exact",
-        "review:Back has several inequalities with derivative primes: notation rule bars it."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.fact-first-derivative-test-min",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "First Derivative Test: at a critical point c, when is c a point of local minima?",
-      "back": "If f ′(x) changes sign from negative to positive as x increases through c, i.e., if f ′(x) < 0 at every point sufficiently close to and to the left of c, and f ′(x) > 0 at every point sufficiently close to and to the right of c, then c is a point of local minima.",
-      "quote": "If f ′(x) changes sign from negative to positive as x increases through c, i.e., if f ′(x) < 0 at every point sufficiently close to and to the left of c, and f ′(x) > 0 at every point sufficiently close to and to the right of c, then c is a point of local minima.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 164,
-        "section": "Maxima and Minima"
+      "order": 235,
+      "tex": {
+        "back": "For example, if $f(x) = x^3$, then $f'(x) = 3x^2$ and so $f'(0) = 0$. But $0$ is neither a point of local maxima nor a point of local minima"
       },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "first-derivative-test"
-      ],
-      "order": 260,
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Back has several inequalities with derivative primes: notation rule bars it."
+        "review:not_important",
+        "review:duplicate: illustrates the same point as published fact-converse-theorem2 (derivative zero need not give extremum)"
       ]
     },
     {
@@ -2681,99 +3331,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.fact-second-derivative-test-max",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Second Derivative Test: when is x = c a point of local maxima?",
-      "back": "x = c is a point of local maxima if f ′(c) = 0 and f ″(c) < 0",
-      "quote": "x = c is a point of local maxima if f ′(c) = 0 and f ″(c) < 0",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 166,
-        "section": "Maxima and Minima"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "second-derivative-test"
-      ],
-      "order": 300,
-      "reasons": [
-        "review:not_exact",
-        "review:Back is an equation and inequality with derivative primes: notation rule bars it."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.fact-second-derivative-test-min",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Second Derivative Test: when is x = c a point of local minima?",
-      "back": "x = c is a point of local minima if f ′(c) = 0 and f ″(c) > 0",
-      "quote": "x = c is a point of local minima if f ′(c) = 0 and f ″(c) > 0",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 166,
-        "section": "Maxima and Minima"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "second-derivative-test"
-      ],
-      "order": 310,
-      "reasons": [
-        "review:not_exact",
-        "review:Back is an equation and inequality with derivative primes: notation rule bars it."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.fact-second-derivative-test-fails",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Second Derivative Test: when does the test fail, and what is done then?",
-      "back": "The test fails if f ′(c) = 0 and f ″(c) = 0. In this case, we go back to the first derivative test and find whether c is a point of local maxima, local minima or a point of inflexion.",
-      "quote": "The test fails if f ′(c) = 0 and f ″(c) = 0. In this case, we go back to the first derivative test and find whether c is a point of local maxima, local minima or a point of inflexion.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 166,
-        "section": "Maxima and Minima"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "second-derivative-test"
-      ],
-      "order": 320,
-      "reasons": [
-        "review:not_exact",
-        "review:Back has equations with first and second derivative primes: notation rule bars it."
-      ]
-    },
-    {
       "id": "kc.mathematics.application-of-derivatives.fact-absolute-vs-local",
       "v": 1,
       "subject": "mathematics",
@@ -2807,16 +3364,16 @@
       ]
     },
     {
-      "id": "kc.mathematics.application-of-derivatives.fact-theorem6-absolute-derivative",
+      "id": "kc.mathematics.application-of-derivatives.list-theorem6-absolute-derivative",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.application-of-derivatives",
       "chapter": "Application of Derivatives",
       "unit": "Application of Derivatives",
-      "kind": "fact",
-      "front": "Theorem 6: f is differentiable on a closed interval I and c is an interior point. What if f attains its absolute maximum or minimum at c?",
-      "back": "f ′(c) = 0 if f attains its absolute maximum value at c. (ii) f ′(c) = 0 if f attains its absolute minimum value at c.",
-      "quote": "f ′(c) = 0 if f attains its absolute maximum value at c. (ii) f ′(c) = 0 if f attains its absolute minimum value at c.",
+      "kind": "list",
+      "front": "Theorem 6: f is differentiable on a closed interval I and c is an interior point. When is f′(c) = 0?",
+      "back": "Let f be a differentiable function on a closed interval I and let c be any interior point of I. Then\n(i) f ′(c) = 0 if f attains its absolute maximum value at c.\n(ii) f ′(c) = 0 if f attains its absolute minimum value at c.",
+      "quote": "Theorem 6 Let f be a differentiable function on a closed interval I and let c be any interior point of I. Then (i) f ′(c) = 0 if f attains its absolute maximum value at c. (ii) f ′(c) = 0 if f attains its absolute minimum value at c.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -2829,45 +3386,18 @@
       "importance": "good",
       "asked": 0,
       "tags": [
-        "absolute"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back carries equations with primes and a stray '(ii)' left from the NCERT numbering; front does not say which case is asked."
-      ]
-    },
-    {
-      "id": "kc.mathematics.application-of-derivatives.steps-absolute-max-min-closed-interval",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.application-of-derivatives",
-      "chapter": "Application of Derivatives",
-      "unit": "Application of Derivatives",
-      "kind": "steps",
-      "front": "Working rule for the absolute maximum and minimum values of f in a closed interval [a, b], in order",
-      "back": "Step 1: Find all critical points of f in the interval, i.e., find points x where either f ′(x) = 0 or f is not differentiable.\nStep 2: Take the end points of the interval.\nStep 3: At all these points (listed in Step 1 and 2), calculate the values of f.\nStep 4: Identify the maximum and minimum values of f out of the values calculated in Step 3. This maximum value will be the absolute maximum (greatest) value of f and the minimum value will be the absolute minimum (least) value of f.",
-      "quote": "Step 1: Find all critical points of f in the interval, i.e., find points x where either f ′(x) = 0 or f is not differentiable. Step 2: Take the end points of the interval. Step 3: At all these points (listed in Step 1 and 2), calculate the values of f. Step 4: Identify the maximum and minimum values of f out of the values calculated in Step 3. This maximum value will be the absolute maximum (greatest) value of f and the minimum value will be the absolute minimum (least) value of f.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part I",
-        "code": "lemh106",
-        "chapterNo": 6,
-        "page": 172,
-        "section": "Maximum and Minimum Values of a Function in a Closed Interval"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
         "absolute",
-        "working-rule"
+        "theorem"
       ],
-      "order": 390,
+      "order": 385,
+      "tex": {
+        "back": "Let $f$ be a differentiable function on a closed interval $I$ and let $c$ be any interior point of $I$. Then\n(i) $f'(c) = 0$ if $f$ attains its absolute maximum value at $c$.\n(ii) $f'(c) = 0$ if $f$ attains its absolute minimum value at $c$."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Step 1 contains an equation with derivative prime: notation rule bars it (must card, consider hand rewording)."
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:duplicate: differentiable-case restatement of Theorem 2 (interior absolute extremum is a local extremum), rarely tested; front 'When is f'(c)=0?' has no single answer (sufficient condition only, f'(c)=0 also at other points)"
       ]
     },
     {
@@ -3224,7 +3754,7 @@
     },
     {
       "id": "kc.mathematics.integrals.fact-parts-rule",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.integrals",
       "chapter": "Integrals",
@@ -3248,9 +3778,13 @@
         "integration by parts"
       ],
       "order": 380,
+      "tex": {
+        "back": "The integral of the product of two functions = (first function) $\\times$ (integral of the second function) – Integral of [(differential coefficient of the first function) $\\times$ (integral of the second function)]"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:Back carries replacement-character glyphs where multiplication and minus signs were flattened by extraction."
+        "review:not_important",
+        "review:duplicate: verbal statement of exactly the rule on formula-parts-fg (same sentence NCERT gives right after the formula)."
       ]
     },
     {
@@ -3313,72 +3847,6 @@
       ]
     },
     {
-      "id": "kc.mathematics.integrals.def-even-function",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "definition",
-      "front": "Define an even function, as used in property P7.",
-      "back": "if f is an even function, i.e., if f (– x) = f (x).",
-      "quote": "if f is an even function, i.e., if f (– x) = f (x).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 274,
-        "section": "7.10 Some Properties of Definite Integrals"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "properties of definite integrals"
-      ],
-      "order": 580,
-      "note": "P7: over [-a, a] the integral is twice the integral over [0, a] for an even function, and zero for an odd function.",
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back carries replacement-character glyphs for minus signs and needs a formula; front relies on property P7 not shown."
-      ]
-    },
-    {
-      "id": "kc.mathematics.integrals.def-odd-function",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.integrals",
-      "chapter": "Integrals",
-      "unit": "Integrals",
-      "kind": "definition",
-      "front": "Define an odd function, as used in property P7.",
-      "back": "if f is an odd function, i.e., if f (– x) = – f (x).",
-      "quote": "if f is an odd function, i.e., if f (– x) = – f (x).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh201",
-        "chapterNo": 7,
-        "page": 274,
-        "section": "7.10 Some Properties of Definite Integrals"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "properties of definite integrals"
-      ],
-      "order": 590,
-      "note": "P7: over [-a, a] the integral is twice the integral over [0, a] for an even function, and zero for an odd function.",
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back carries replacement-character glyphs for minus signs and needs a formula; front relies on property P7 not shown."
-      ]
-    },
-    {
       "id": "kc.mathematics.integrals.kl-integrals-differ-constant",
       "v": 1,
       "subject": "mathematics",
@@ -3408,6 +3876,185 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:These integrals has no antecedent; duplicates the same-derivative-differ card."
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Integrals",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-two-linear-factors",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px + q)/((x − a)(x − b)) and of (px + q)/(x − a)²",
+      "back": "( – ) ( – ) px q x a x b + , a ≠ b A B x – a x – b +\n2 ( – ) px q x a + ( )2 A B x – a x – a +",
+      "quote": "( – ) ( – ) px q x a x b + , a ≠ b A B x – a x – b + 2. 2 ( – ) px q x a + ( )2 A B x – a x – a +",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 253,
+        "section": "7.5 Integration by Partial Fractions"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.1,
+      "tex": {
+        "back": "$$\\dfrac{px + q}{(x - a)(x - b)} = \\dfrac{A}{x - a} + \\dfrac{B}{x - b}, \\; a \\neq b$$\n$$\\dfrac{px + q}{(x - a)^2} = \\dfrac{A}{x - a} + \\dfrac{B}{(x - a)^2}$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: does not match the cited page. On p253 (Table 7.2, rows 1-2) there is no equals sign between the rational function and its partial-fraction form (they are two table columns), and \"a ≠ b\" is printed after the left side (px + q)/((x-a)(x-b)), not after A/(x-a) + B/(x-b). The tex adds \"=\" on b"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Integrals",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-three-factors",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px² + qx + r)/((x − a)(x − b)(x − c)) and of (px² + qx + r)/((x − a)²(x − b))",
+      "back": "2 ( – ) ( ) ( ) px qx r x a x – b x – c + + A B C x – a x – b x – c + +\n2 2 ( – ) ( ) px qx r x a x – b + + 2 A B C x – a ( ) x – a x – b + +",
+      "quote": "2 ( – ) ( ) ( ) px qx r x a x – b x – c + + A B C x – a x – b x – c + + 4. 2 2 ( – ) ( ) px qx r x a x – b + + 2 A B C x – a ( ) x – a x – b + +",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 253,
+        "section": "7.5 Integration by Partial Fractions"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.2,
+      "tex": {
+        "back": "$$\\dfrac{px^2 + qx + r}{(x - a)(x - b)(x - c)} = \\dfrac{A}{x - a} + \\dfrac{B}{x - b} + \\dfrac{C}{x - c}$$\n$$\\dfrac{px^2 + qx + r}{(x - a)^2 (x - b)} = \\dfrac{A}{x - a} + \\dfrac{B}{(x - a)^2} + \\dfrac{C}{x - b}$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: does not match the cited page. On p253 (Table 7.2, rows 3-4) there is no equals sign between the rational function and its partial-fraction form (they are two table columns), but the tex adds \"=\" on both lines. The \"=\" form is printed in the Summary on p289 (items 3-4), which matches this t"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Integrals",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-pf-quadratic-factor",
+      "kind": "formula",
+      "front": "Formula: partial fractions of (px² + qx + r)/((x − a)(x² + bx + c)) when x² + bx + c cannot be factorised",
+      "back": "2 2 ( – ) ( ) px qx r x a x bx c + + + + 2 A B + C x x – a x bx c + + + ,\nwhere x 2 + bx + c cannot be factorised further",
+      "quote": "2 2 ( – ) ( ) px qx r x a x bx c + + + + 2 A B + C x x – a x bx c + + + , where x 2 + bx + c cannot be factorised further",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 253,
+        "section": "7.5 Integration by Partial Fractions"
+      },
+      "importance": "good",
+      "tags": [
+        "partial-fractions",
+        "table-7-2"
+      ],
+      "order": 345.3,
+      "tex": {
+        "back": "$$\\dfrac{px^2 + qx + r}{(x - a)(x^2 + bx + c)} = \\dfrac{A}{x - a} + \\dfrac{Bx + C}{x^2 + bx + c},$$\nwhere $x^2 + bx + c$ cannot be factorised further"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: does not match the cited page. On p253 (Table 7.2, row 5) there is no equals sign between (px^2+qx+r)/((x-a)(x^2+bx+c)) and A/(x-a) + (Bx+C)/(x^2+bx+c) (they are two table columns), but the tex adds \"=\". The \"=\" form is printed in the Summary on p289 (item 5), but there the prose reads \"whe"
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Integrals",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-parts-uv",
+      "kind": "formula",
+      "front": "Formula: integration by parts for ∫ u (dv/dx) dx",
+      "back": "∫u dv dx dx = uv – ∫v du dx dx",
+      "quote": "∫u dv dx dx = uv – ∫v du dx dx",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 259,
+        "section": "7.6 Integration by Parts"
+      },
+      "importance": "good",
+      "tags": [
+        "integration-by-parts"
+      ],
+      "order": 375,
+      "tex": {
+        "back": "$$\\int u\\,\\dfrac{dv}{dx}\\,dx = uv - \\int v\\,\\dfrac{du}{dx}\\,dx$$"
+      },
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same integration-by-parts rule as formula-parts-fg (u,v notation vs f,g notation); keep the f,g card that NCERT's statement of the rule uses."
+      ]
+    },
+    {
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.integrals",
+      "chapter": "Integrals",
+      "unit": "Integrals",
+      "blanks": [],
+      "asked": 0,
+      "addedIn": "tex-1102",
+      "id": "kc.mathematics.integrals.formula-prop-p6-double-interval-cases",
+      "kind": "formula",
+      "front": "Formula: ∫ from 0 to 2a of f(x) dx when f(2a − x) = f(x) and when f(2a − x) = −f(x)",
+      "back": "2 0 0 ( ) 2 ( ) , if (2 ) ( ) a a f x dx f x dx f a x f x = − = ∫ ∫\n0 if f (2a – x) = – f (x)",
+      "quote": "2 0 0 ( ) 2 ( ) , if (2 ) ( ) a a f x dx f x dx f a x f x = − = ∫ ∫ and 0 if f (2a – x) = – f (x)",
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh201",
+        "chapterNo": 7,
+        "page": 274,
+        "section": "7.10 Some Properties of Definite Integrals"
+      },
+      "importance": "good",
+      "tags": [
+        "definite-integral",
+        "properties"
+      ],
+      "order": 575.5,
+      "tex": {
+        "back": "$$\\int_0^{2a} f(x)\\,dx = 2\\int_0^a f(x)\\,dx, \\text{ if } f(2a - x) = f(x)$$\n$$0 \\text{ if } f(2a - x) = -f(x)$$"
+      },
+      "reasons": [
+        "review:not_exact",
+        "review:FORMULA: a word linking the two cases is missing. On p274 P6 reads \"... = 2∫_0^a f(x)dx, if f(2a − x) = f(x)  and\" with \"0 if f(2a – x) = – f(x)\" on the next line. The tex drops the \"and\", so line 2 (\"0 if f(2a − x) = −f(x)\") reads as a loose fragment and does not say that it is the second value of "
       ]
     },
     {
@@ -3783,6 +4430,76 @@
       ]
     },
     {
+      "id": "kc.mathematics.differential-equations.formula-derivative-short-notation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: the short notations for the first, second and third derivatives of y with respect to x",
+      "back": "We shall prefer to use the following notations for derivatives:\ndy dx = y′ , d2y dx2 = y′′, d3y dx3 = y′′′",
+      "quote": "We shall prefer to use the following notations for derivatives: dy dx = y′ , d2y dx2 = y′′, d3y dx3 = y′′′",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 301,
+        "section": "Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "notation"
+      ],
+      "order": 52,
+      "tex": {
+        "back": "We shall prefer to use the following notations for derivatives:\n$$\\frac{dy}{dx} = y', \\quad \\frac{d^2y}{dx^2} = y'', \\quad \\frac{d^3y}{dx^3} = y'''$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Notation convention (y', y'', y''') students already know; not a fact a CUET student must memorise."
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-nth-derivative-notation",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: the short notation NCERT uses for the nth order derivative of y",
+      "back": "For derivatives of higher order, it will be inconvenient to use so many dashes as supersuffix therefore,\nwe use the notation y for nth order derivative d n y . n dxn",
+      "quote": "For derivatives of higher order, it will be inconvenient to use so many dashes as supersuffix therefore, we use the notation y for nth order derivative d n y . n dxn",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 301,
+        "section": "Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "notation"
+      ],
+      "order": 54,
+      "tex": {
+        "back": "For derivatives of higher order, it will be inconvenient to use so many dashes as supersuffix therefore,\nwe use the notation $y_n$ for $n$th order derivative $\\dfrac{d^n y}{dx^n}$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Notation convention for y_n plus filler about dashes; not memorisation-worthy."
+      ]
+    },
+    {
       "id": "kc.mathematics.differential-equations.list-fields-of-application",
       "v": 1,
       "subject": "mathematics",
@@ -3880,48 +4597,193 @@
       ]
     },
     {
-      "id": "kc.mathematics.differential-equations.fact-linear-first-form",
+      "id": "kc.mathematics.differential-equations.formula-separable-integrate-both-sides",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.differential-equations",
       "chapter": "Differential Equations",
       "unit": "Differential Equations",
-      "kind": "fact",
-      "front": "Name the first order differential equation in which P and Q are constants or functions of x only (first standard form).",
-      "back": "first order linear differential equation",
-      "quote": "where, P and Q are constants or functions of x only, is known as a first order linear differential equation",
+      "kind": "formula",
+      "front": "Formula: integrating both sides of the separated equation (1/h(y)) dy = g(x) dx",
+      "back": "Integrating both sides of (3), we get\n∫ 1 dy = ∫ g(x) dx h( y)",
+      "quote": "Integrating both sides of (3), we get ∫ 1 dy = ∫ g(x) dx h( y) ... (4)",
       "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Mathematics",
         "code": "lemh203",
         "chapterNo": 9,
-        "page": 322,
-        "section": "Linear differential equations"
+        "page": 307,
+        "section": "Differential equations with variables separable"
       },
-      "importance": "must",
+      "importance": "good",
       "asked": 0,
       "tags": [
-        "linear"
+        "variable separable"
       ],
-      "order": 240,
+      "order": 204,
+      "tex": {
+        "back": "Integrating both sides of (3), we get\n$$\\int \\frac{1}{h(y)}\\,dy = \\int g(x)\\,dx$$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Front depends on the omitted equation (dy/dx + Py = Q); without it 'P and Q' are undefined and the front is ambiguous; formula cannot be shown in plain text, so skip card"
+        "review:not_important",
+        "review:Intermediate step (integrate both sides); adds nothing beyond the separating card and the H(y)=G(x)+C solution card."
       ]
     },
     {
-      "id": "kc.mathematics.differential-equations.fact-linear-other-form",
+      "id": "kc.mathematics.differential-equations.def-homogeneous-differential-equation",
       "v": 1,
       "subject": "mathematics",
       "chapterKey": "mathematics.differential-equations",
       "chapter": "Differential Equations",
       "unit": "Differential Equations",
-      "kind": "fact",
-      "front": "In the other form of the first order linear differential equation, P1 and Q1 are constants or functions of which variable?",
-      "back": "P1 and Q1 are constants or functions of y only",
-      "quote": "where, P1 and Q1 are constants or functions of y only",
+      "kind": "definition",
+      "front": "When is a differential equation dy/dx = F(x, y) said to be homogeneous?",
+      "back": "A differential equation of the form dy dx = F (x, y) is said to be homogenous if F(x, y) is a homogenous function of degree zero.",
+      "quote": "A differential equation of the form dy dx = F (x, y) is said to be homogenous if F(x, y) is a homogenous function of degree zero.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 313,
+        "section": "Homogeneous differential equations"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "homogeneous"
+      ],
+      "order": 223,
+      "tex": {
+        "back": "A differential equation of the form $\\dfrac{dy}{dx} = F(x, y)$ is said to be homogenous if $F(x, y)$ is a homogenous function of degree zero."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: published fact-homogeneous-degree-zero states the same point (homogeneous equation = F is homogeneous of degree zero)."
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-homogeneous-after-substitution",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: x dv/dx in terms of g(v) and v, after substituting y = vx in dy/dx = g(y/x)",
+      "back": "v + x dv = g (v) dx\ndv or x dx = g (v) – v",
+      "quote": "v + x dv = g (v) dx dv or x dx = g (v) – v",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 314,
+        "section": "Homogeneous differential equations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "homogeneous",
+        "substitution"
+      ],
+      "order": 226,
+      "tex": {
+        "back": "$$v + x\\,\\frac{dv}{dx} = g(v)$$\n$$\\text{or} \\quad x\\,\\frac{dv}{dx} = g(v) - v$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Intermediate algebra step of the method (v + x dv/dx = g(v)); derivable, not worth memorising separately."
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-homogeneous-integrated-form",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: integrating dv/(g(v) − v) = dx/x to solve a homogeneous equation",
+      "back": "Integrating both sides of equation (5), we get\n∫ g dv (v) − v = ∫ 1 dx + C x",
+      "quote": "Integrating both sides of equation (5), we get ... (5) ∫ g dv (v) − v = ∫ 1 dx + C x ... (6)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 314,
+        "section": "Homogeneous differential equations"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "homogeneous"
+      ],
+      "order": 228,
+      "tex": {
+        "back": "Integrating both sides of equation (5), we get\n$$\\int \\frac{dv}{g(v) - v} = \\int \\frac{1}{x}\\,dx + C$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:Intermediate step: integrating both sides of the separated form; trivial once the separated-form card is known."
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-homogeneous-dx-dy-substitution",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: the substitution for a homogeneous equation in the form dx/dy = F(x, y)",
+      "back": "If the homogeneous differential equation is in the form\ndx = F(x, y) dy\nwhere, F (x, y) is homogenous function of degree zero, then we make substitution x = v i.e., x = vy and we proceed further to find the general solution as discussed y",
+      "quote": "If the homogeneous differential equation is in the form dx = F(x, y) dy where, F (x, y) is homogenous function of degree zero, then we make substitution x = v i.e., x = vy and we proceed further to find the general solution as discussed y",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 314,
+        "section": "Homogeneous differential equations"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "homogeneous",
+        "substitution"
+      ],
+      "order": 229,
+      "tex": {
+        "back": "If the homogeneous differential equation is in the form\n$$\\frac{dx}{dy} = F(x, y)$$\nwhere, $F(x, y)$ is homogenous function of degree zero, then we make substitution $\\frac{x}{y} = v$ i.e., $x = vy$ and we proceed further to find the general solution as discussed"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:importance should be good, not must: variant case from a Note (the y = vx substitution card is the core one). | FORMULA: the quote stops mid-sentence at \"as discussed\"; on p.314 the Note continues \"above by writing dx/dy = F(x, y) = h(x/y).\", so the card drops that closing formula and leaves the sen"
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-linear-other-form-in-y",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: the other form of a first order linear differential equation (P1 and Q1 functions of y only)",
+      "back": "Another form of first order linear differential equation is\ndx dy + P1x = Q1\nwhere, P1 and Q1 are constants or functions of y only.",
+      "quote": "Another form of first order linear differential equation is dx dy + P1x = Q1 where, P1 and Q1 are constants or functions of y only.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -3936,11 +4798,50 @@
       "tags": [
         "linear"
       ],
-      "order": 250,
+      "order": 251,
+      "tex": {
+        "back": "Another form of first order linear differential equation is\n$$\\frac{dx}{dy} + P_1 x = Q_1$$\nwhere, $P_1$ and $Q_1$ are constants or functions of $y$ only."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front says 'the other form', pointing to an unseen first form; name the form (dx/dy + P1 x = Q1 type) without a linking word."
+      ]
+    },
+    {
+      "id": "kc.mathematics.differential-equations.formula-linear-other-form-solution",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.differential-equations",
+      "chapter": "Differential Equations",
+      "unit": "Differential Equations",
+      "kind": "formula",
+      "front": "Formula: the integrating factor and the solution when the linear equation is dx/dy + P1 x = Q1",
+      "back": "where, P1 and Q1 are constants or functions of y only. Then\nI.F = e P1 dy\nand the solution of the differential equation is given by\nx . (I.F) = ∫ (Q1 × I.F) dy + C",
+      "quote": "where, P1 and Q1 are constants or functions of y only. Then I.F = e P1 dy and the solution of the differential equation is given by x . (I.F) = ∫ (Q1 × I.F) dy + C",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics",
+        "code": "lemh203",
+        "chapterNo": 9,
+        "page": 324,
+        "section": "Linear differential equations"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "linear",
+        "integrating factor"
+      ],
+      "order": 263,
+      "tex": {
+        "back": "where, $P_1$ and $Q_1$ are constants or functions of $y$ only. Then\n$$\\text{I.F} = e^{\\int P_1\\,dy}$$\nand the solution of the differential equation is given by\n$$x \\cdot (\\text{I.F}) = \\int (Q_1 \\times \\text{I.F})\\,dy + C$$"
+      },
+      "addedIn": "tex-1102",
       "reasons": [
         "review:not_exact",
-        "review:not_unambiguous",
-        "review:P1 and Q1 are flattened subscripts (P sub 1, Q sub 1) and the front omits the dx/dy equation, so it is garbled and ambiguous; skip card"
+        "review:FORMULA: on p.324 the page image prints the integrating factor as I.F = e^{P_1 dy} with no integral sign in the exponent; the draft has e^{int P_1,dy} (plain: e^(∫P₁dy)). Mathematically the integral is right, but it is not what the image shows (likely a book misprint), so it needs an editor decision"
       ]
     },
     {
@@ -4327,7 +5228,7 @@
     },
     {
       "id": "kc.mathematics.vector-algebra.fact-direction-ratios",
-      "v": 1,
+      "v": 2,
       "subject": "mathematics",
       "chapterKey": "mathematics.vector-algebra",
       "chapter": "Vector Algebra",
@@ -4351,9 +5252,49 @@
         "direction-ratios"
       ],
       "order": 120,
+      "tex": {
+        "back": "The numbers $lr$, $mr$ and $nr$, proportional to the direction cosines are called as direction ratios of vector, and denoted as $a$, $b$ and $c$, respectively."
+      },
+      "addedIn": "tex-1102",
       "reasons": [
         "review:not_exact",
-        "review:Quote carries lr, mr, nr (l, m, n times magnitude r) flattened to plain text; reads as garbled letters and cannot be checked as printed."
+        "review:FORMULA: p340 reads \"called as direction ratios of vector r-arrow (\\vec{r}), and denoted as a, b and c\"; tex.back and its plain line drop the vector symbol and read \"direction ratios of vector, and denoted as\". Add $\\vec{r}$ after \"of vector\"."
+      ]
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.fact-coordinates-with-direction-cosines",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vector Algebra",
+      "kind": "fact",
+      "front": "In terms of the direction cosines l, m, n and r = |r|, how may the coordinates of the point P(x, y, z) also be expressed?",
+      "back": "Thus, the coordinates of the point P may also be expressed as (lr, mr,nr).",
+      "quote": "Thus, the coordinates of the point P may also be expressed as (lr, mr,nr).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 340,
+        "section": "10.2 Some Basic Concepts"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "direction cosines",
+        "coordinates"
+      ],
+      "order": 122,
+      "tex": {
+        "back": "Thus, the coordinates of the point $P$ may also be expressed as $(lr, mr, nr)$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same relation as formula-direction-cosines-from-ratios (x = lr, i.e. l = x/r) and the lr, mr, nr statement in fact-direction-ratios. Back also opens with a dangling 'Thus'."
       ]
     },
     {
@@ -4483,6 +5424,43 @@
       ]
     },
     {
+      "id": "kc.mathematics.vector-algebra.formula-external-division-ratio",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vector Algebra",
+      "kind": "formula",
+      "front": "Formula: the ratio condition when the point R divides the line segment PQ externally in the ratio m : n",
+      "back": "m : n PR i.e. QR = m n",
+      "quote": "externally in the ratio m : n PR i.e. QR = m n is given by",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 353,
+        "section": "10.5.3 Section formula"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "section formula"
+      ],
+      "order": 355,
+      "tex": {
+        "back": "$m : n$ i.e. $\\frac{PR}{QR} = \\frac{m}{n}$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Quote is garbled (printed text reads 'm : n i.e. PR/QR = m/n is given by', quote puts PR before 'i.e.'). The card only restates what external division in ratio m:n means; the memorable item is the section formula OR = (m b - n a)/(m - n), which this card does not carry. Front gives nothing to recall"
+      ]
+    },
+    {
       "id": "kc.mathematics.vector-algebra.types-section-ways",
       "v": 1,
       "subject": "mathematics",
@@ -4575,6 +5553,41 @@
       ]
     },
     {
+      "id": "kc.mathematics.vector-algebra.formula-projection-on-line",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vector Algebra",
+      "kind": "formula",
+      "front": "Formula: projection of a vector a on a line l along which p̂ is the unit vector",
+      "back": "a ⋅ pˆ",
+      "quote": "1. If pˆ is the unit vector along a line l, then the projection of a vector on the line l is given by a ⋅ pˆ .",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 358,
+        "section": "10.6.2 Projection of a vector on a line"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "projection"
+      ],
+      "order": 426,
+      "tex": {
+        "back": "$$\\vec{a} \\cdot \\hat{p}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: same rule as formula-projection-on-vector (projection = a . unit vector); the line case adds nothing a student must remember separately."
+      ]
+    },
+    {
       "id": "kc.mathematics.vector-algebra.fact-cauchy-schwartz",
       "v": 1,
       "subject": "mathematics",
@@ -4634,6 +5647,42 @@
       "reasons": [
         "review:not_exact",
         "review:Quote is only the parenthetical title in Example 20; the front paraphrases an unprinted formula, so front is not derived from NCERT text. Worked-example label."
+      ]
+    },
+    {
+      "id": "kc.mathematics.vector-algebra.formula-cross-product-unit-vectors-cyclic",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.vector-algebra",
+      "chapter": "Vector Algebra",
+      "unit": "Vector Algebra",
+      "kind": "formula",
+      "front": "Formula: the vector products i × j, j × k and k × i of the unit vectors i, j, k",
+      "back": "iˆ × ˆj = kˆ, ˆj × kˆ = iˆ, kˆ × iˆ = ˆj",
+      "quote": "iˆ × iˆ = iˆ × ˆj = kˆ, ˆj × kˆ = iˆ, kˆ × iˆ = ˆj",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh204",
+        "chapterNo": 10,
+        "page": 364,
+        "section": "10.6.3 Vector (or cross) product of two vectors"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "vector product",
+        "unit vectors"
+      ],
+      "order": 455,
+      "tex": {
+        "back": "$$\\hat{i} \\times \\hat{j} = \\hat{k}, \\quad \\hat{j} \\times \\hat{k} = \\hat{i}, \\quad \\hat{k} \\times \\hat{i} = \\hat{j}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_exact",
+        "review:Quote is not NCERT's wording: it merges the two printed lines of Observation 4 into 'i x i = i x j = k, ...' (printed: i x i = j x j = k x k = 0 on one line, i x j = k, j x k = i, k x i = j on the next). Back and tex are right; fix the quote."
       ]
     },
     {
@@ -4795,6 +5844,77 @@
       "reasons": [
         "review:not_important",
         "review:Portrait caption trivia (Euler's lifespan); no CUET relevance and the question is not answerable from knowledge of the chapter. Drop."
+      ]
+    },
+    {
+      "id": "kc.mathematics.three-dimensional-geometry.formula-dr-from-dc",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Three Dimensional Geometry",
+      "kind": "formula",
+      "front": "Formula: direction ratios a, b, c in terms of the direction cosines l, m, n of a line",
+      "back": "If l, m, n are direction cosines and a, b, c are direction ratios of a line, then\na = λl, b=λm and c = λn, for any nonzero λ ∈ R.",
+      "quote": "If l, m, n are direction cosines and a, b, c are direction ratios of a line, then a = λl, b=λm and c = λn, for any nonzero λ ∈ R.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 378,
+        "section": "Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "direction ratios"
+      ],
+      "order": 105,
+      "tex": {
+        "back": "If $l, m, n$ are direction cosines and $a, b, c$ are direction ratios of a line, then\n$$a = \\lambda l, \\quad b = \\lambda m \\text{ and } c = \\lambda n, \\quad \\text{for any nonzero } \\lambda \\in \\mathbf{R}$$"
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: a = lambda*l etc. restates the published def-direction-ratios / fact-dr-sets-proportional point (d.r. are numbers proportional to the d.c.)"
+      ]
+    },
+    {
+      "id": "kc.mathematics.three-dimensional-geometry.formula-dc-from-dr",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.three-dimensional-geometry",
+      "chapter": "Three Dimensional Geometry",
+      "unit": "Three Dimensional Geometry",
+      "kind": "formula",
+      "front": "Formula: direction cosines l, m, n of a line whose direction ratios are a, b, c",
+      "back": "Hence, from (1), the d.c.’s of the line are\nl=± a ,m= ± b ,n= ± c a2 +b2 + c2 a2 +b2 + c2 a2 +b2 + c2\nwhere, depending on the desired sign of k, either a positive or a negative sign is to be taken for l, m and n.",
+      "quote": "Hence, from (1), the d.c.’s of the line are l=± a ,m= ± b ,n= ± c a2 +b2 + c2 a2 +b2 + c2 a2 +b2 + c2 where, depending on the desired sign of k, either a positive or a negative sign is to be taken for l, m and n.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh205",
+        "chapterNo": 11,
+        "page": 379,
+        "section": "Direction Cosines and Direction Ratios of a Line"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "direction cosines",
+        "direction ratios"
+      ],
+      "order": 108,
+      "tex": {
+        "back": "Hence, from (1), the d.c.’s of the line are\n$$l = \\pm\\frac{a}{\\sqrt{a^2 + b^2 + c^2}}, \\quad m = \\pm\\frac{b}{\\sqrt{a^2 + b^2 + c^2}}, \\quad n = \\pm\\frac{c}{\\sqrt{a^2 + b^2 + c^2}}$$\nwhere, depending on the desired sign of $k$, either a positive or a negative sign is to be taken for $l$, $m$ and $n$."
+      },
+      "addedIn": "tex-1102",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:back opens 'Hence, from (1)' and ends on 'sign of k': both point to the unseen derivation (k never defined); trim back to the formula line"
       ]
     },
     {
@@ -4962,103 +6082,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Duplicates idx 2 (LPP is a special class of optimisation problems); blank 'special type' is two words and 'special case'/'subset' also fit."
-      ]
-    },
-    {
-      "id": "kc.mathematics.linear-programming.def-feasible-region",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.linear-programming",
-      "chapter": "Linear Programming",
-      "unit": "Linear Programming",
-      "kind": "definition",
-      "front": "What is the feasible region (solution region) of a linear programming problem?",
-      "back": "The common region determined by all the constraints including non-negative constraints x, y ≥ 0 of a linear programming problem is called the feasible region (or solution region) for the problem.",
-      "quote": "The common region determined by all the constraints including non-negative constraints x, y ≥ 0 of a linear programming problem is called the feasible region (or solution region) for the problem.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh206",
-        "chapterNo": 12,
-        "page": 397,
-        "section": "Graphical method of solving linear programming problems"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "feasible region"
-      ],
-      "order": 140,
-      "reasons": [
-        "review:not_exact",
-        "review:Back carries the inequality 'x, y >= 0'; pdftotext drops the symbol so the quote cannot be verified, and notation is not allowed in plain-text cards."
-      ]
-    },
-    {
-      "id": "kc.mathematics.linear-programming.fact-theorem-1",
-      "v": 1,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.linear-programming",
-      "chapter": "Linear Programming",
-      "unit": "Linear Programming",
-      "kind": "fact",
-      "front": "Theorem 1: where must the optimal value (maximum or minimum) of the objective function occur?",
-      "back": "this optimal value must occur at a corner point* (vertex) of the feasible region.",
-      "quote": "this optimal value must occur at a corner point* (vertex) of the feasible region.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh206",
-        "chapterNo": 12,
-        "page": 398,
-        "section": "Graphical method of solving linear programming problems"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "theorem",
-        "corner point"
-      ],
-      "order": 190,
-      "note": "If an optimal value exists, it sits at a vertex of the feasible region.",
-      "reasons": [
-        "review:not_exact",
-        "review:Back is a fragment starting 'this optimal value' with a stray footnote asterisk after 'corner point'; drops the condition 'when Z has an optimal value'; not self-standing plain text."
-      ]
-    },
-    {
-      "id": "kc.mathematics.linear-programming.steps-corner-point-method",
-      "v": 2,
-      "subject": "mathematics",
-      "chapterKey": "mathematics.linear-programming",
-      "chapter": "Linear Programming",
-      "unit": "Linear Programming",
-      "kind": "steps",
-      "front": "Steps of the Corner Point Method (first steps), in order",
-      "back": "Find the feasible region of the linear programming problem and determine its corner points (vertices) either by inspection or by solving the two equations of the lines intersecting at that point.\nLet M and m, respectively denote the largest and smallest values of these points.\nWhen the feasible region is bounded, M and m are the maximum and minimum values of Z.",
-      "quote": "Find the feasible region of the linear programming problem and determine its corner points (vertices) either by inspection or by solving the two equations of the lines intersecting at that point. 2. Evaluate the objective function Z = ax + by at each corner point. Let M and m, respectively denote the largest and smallest values of these points. 3. (i) When the feasible region is bounded, M and m are the maximum and minimum values of Z.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Mathematics Part II",
-        "code": "lemh206",
-        "chapterNo": 12,
-        "page": 399,
-        "section": "Graphical method of solving linear programming problems"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "corner point method"
-      ],
-      "order": 260,
-      "note": "Find the region, evaluate the objective function at each corner, then compare the largest and smallest values.",
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Back skips NCERT step 2 'Evaluate the objective function ... at each corner point' (formula dropped) and keeps only its trailing sentence, so 'these points' dangles and the list is not the ordered steps; front 'first steps' does not say how many. Numbered steps of the chapter's method are a headed l"
       ]
     },
     {
@@ -5315,6 +6338,42 @@
       "reasons": [
         "review:not_important",
         "review:Historical Note trivia, not examined; back repeats NCERT's misspelling 'Katorovich', inconsistent with 'Kantorovich' on idx 33."
+      ]
+    },
+    {
+      "id": "kc.mathematics.linear-programming.def-non-negative-restrictions",
+      "v": 1,
+      "subject": "mathematics",
+      "chapterKey": "mathematics.linear-programming",
+      "chapter": "Linear Programming",
+      "unit": "Linear Programming",
+      "kind": "definition",
+      "front": "What does NCERT call the conditions x ≥ 0, y ≥ 0 in a linear programming problem?",
+      "back": "The conditions x ≥ 0, y ≥ 0 are called non-negative restrictions.",
+      "quote": "The conditions x ≥ 0, y ≥ 0 are called non-negative restrictions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Mathematics Part II",
+        "code": "lemh206",
+        "chapterNo": 12,
+        "page": 396,
+        "section": "Linear Programming Problem and its Mathematical Formulation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "constraints"
+      ],
+      "order": 115,
+      "addedIn": "tex-1102",
+      "tex": {
+        "back": "The conditions $x \\ge 0$, $y \\ge 0$ are called non-negative restrictions."
+      },
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Front says what NCERT calls x>=0, y>=0, but NCERT itself also calls them non-negative constraints (eqs 1-2, feasible-region definition), so two valid fills; also only a synonym label for constraints (low memorisation value)."
       ]
     },
     {
