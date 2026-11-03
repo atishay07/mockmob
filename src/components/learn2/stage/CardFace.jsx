@@ -16,12 +16,14 @@
 //   - stamp: null | { text, bad } for the line under the card ("In Revise" with a check, once the server has it).
 //   - html: a typeset front (card.texHtml.front, mathematics and physics), drawn in the same element; the size and the spoken
 //     label still come from the plain front.
+//   - R6 Web D: the kind is a tab in its family's colour hanging from the card's top edge (kinds.js kindFamily, keycards.css),
+//     the card's top hairline takes a trace of that colour, and the source is a quiet footer under a hairline.
 //   - sci: a chemistry card draws its front and back with real subscripts and superscripts (Sci.jsx; display only, R4).
 import { useEffect, useId, useRef, useState } from 'react';
 import { BookOpen, Check } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
 import { TexHtml } from '@/components/keycards/TexHtml';
-import { blankRuns, gapClass, cardFace, sourceLine } from '@/components/keycards/kinds';
+import { blankRuns, gapClass, cardFace, kindFamily, sourceLine } from '@/components/keycards/kinds';
 import { backSize, frontSize, speakable } from './stageText.mjs';
 import { SciFront, SciNcert } from './Sci';
 
@@ -59,12 +61,12 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
   const id = useId();
   const kind = (
     <p className="st-kind">
-      <span>{label}</span>
-      {extraKind ? <span>{extraKind}</span> : null}
+      <span className="kc-famtab">{label}</span>
+      {extraKind ? <span className="st-kind__extra">{extraKind}</span> : null}
     </p>
   );
   return (
-    <div className="st-cardbox">
+    <div className="st-cardbox" data-family={kindFamily(card?.kind)}>
       <div className="st-card" data-turned={turned || undefined} ref={refEl}>
         <div className="st-face st-face--front" ref={frontRef} aria-hidden={turned || undefined} inert={turned || undefined} data-more={frontMore || undefined}>
           {kind}

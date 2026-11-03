@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 import { BookOpen, Bookmark, Check, ChevronUp, X } from 'lucide-react';
 import { WORDS, chapterPlace } from '@/../data/learn/words.js';
 import MobiReact from '@/components/brand/MobiReact';
-import { cardFace } from '@/components/keycards/kinds';
+import { cardFace, kindFamily } from '@/components/keycards/kinds';
 import { refreshHome } from '@/components/keycards/api';
 import { feedSlots } from '@/../data/learn/feed.js';
 import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, keepItem, runEnd, saveQuestion, startRun } from '../api';
@@ -679,7 +679,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
         const next = i === trackAt + 1 && mode === 'items';
         const common = { style: { '--p': i }, 'data-far': far || undefined, 'data-next': next || undefined, inert: !here || undefined, 'aria-hidden': !here || undefined };
         const capLabel = slot.type === 'checkpoint' ? 'So far' : slot.item.type === 'card' ? cardFace(slot.item.card).label : slot.item.origin === 'mistake' ? (slot.item.mistake?.label || 'Question') : 'Question';
-        const cap = Math.abs(i - trackAt) <= 2 ? <div className="st-cap" aria-hidden="true"><span className="st-cap__label">{capLabel}</span></div> : null;
+        const cap = Math.abs(i - trackAt) <= 2 ? <div className="st-cap" aria-hidden="true" data-family={slot.type !== 'checkpoint' && slot.item.type === 'card' ? kindFamily(slot.item.card?.kind) : undefined}><span className="st-cap__label">{capLabel}</span></div> : null;
         if (slot.type === 'checkpoint') {
           const cp = checkpointText(numbers, { done: base + slot.after, of, seconds: secondsFrom(items, slot.after) });
           const keptCards = items.filter((x) => x.type === 'card' && states[x.id]?.kept).map((x) => x.card).filter(Boolean);
