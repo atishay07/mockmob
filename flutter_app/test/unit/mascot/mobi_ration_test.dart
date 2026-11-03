@@ -271,8 +271,10 @@ void main() {
       }
     });
 
-    testWidgets('the lit bulb glows at Night and carries an olive edge, not a glow, in Daylight', (tester) async {
-      expect(MobiPalette.nightPalette.lit, isNull);
+    // 16 Oct look pass: no glow at Night either (the lamp-lit subject objects never glow). The lit
+    // bulb carries a crisp pale ring on the dark ground and the olive edge on cream.
+    testWidgets('the lit bulb carries a crisp ring, never a halo: pale volt at Night, olive in Daylight', (tester) async {
+      expect(MobiPalette.nightPalette.lit, MobiPalette.limeHi);
       expect(MobiPalette.dayPalette.lit, const Color(0xFF526700));
       Future<int> spread(MobiPalette p, double glow) async {
         final ground = p.night ? _nightGround : _dayGround;
@@ -287,9 +289,11 @@ void main() {
 
       final nightGlow = await spread(MobiPalette.nightPalette, 1) - await spread(MobiPalette.nightPalette, 0);
       final dayGlow = await spread(MobiPalette.dayPalette, 1) - await spread(MobiPalette.dayPalette, 0);
-      expect(nightGlow, greaterThan(400), reason: 'a halo at Night');
+      expect(nightGlow, greaterThan(20), reason: 'the ring shows at Night');
       expect(dayGlow, greaterThan(20), reason: 'the edge shows in Daylight');
-      expect(dayGlow, lessThan(nightGlow / 3), reason: 'no halo on paper');
+      // A halo spread over 400 px here; a ring stays within a few times the edge's own pixels.
+      expect(nightGlow, lessThan(dayGlow * 2.5), reason: 'no halo at Night');
+      expect(nightGlow, lessThan(300), reason: 'no halo at Night');
 
       final day = await _render(tester, (c) => MobiDetails.antenna(c, 0, MobiPalette.dayPalette, glow: 1), _dayGround);
       var olive = 0;
