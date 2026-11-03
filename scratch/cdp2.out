@@ -1,0 +1,6 @@
+Warning: Detected unsettled top-level await at file:///C:/Users/atish/Desktop/mockmob%20copy/wt-w3-plan/scratch/cdpshots.mjs:26
+        for (let i = 0; i < 20; i++) { await sleep(1000); if (await ev(`!!document.querySelector('.sw-plan')`)) { ok = true; break; } }
+                                                              ^
+
+
+

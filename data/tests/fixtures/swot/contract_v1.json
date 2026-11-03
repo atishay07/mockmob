@@ -550,9 +550,12 @@
           "subject": "accountancy",
           "mode": "quick",
           "count": 10,
-          "chapter": "Accounting Ratios"
+          "chapter": "Accounting Ratios",
+          "chapters": [
+            "Accounting Ratios"
+          ]
         },
-        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios",
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios&planAttemptId=mock-3&planItemId=p1",
         "later": {
           "at": 1792125000000,
           "right": 7,
@@ -568,9 +571,12 @@
           "subject": "accountancy",
           "mode": "quick",
           "count": 10,
-          "chapter": "Debentures"
+          "chapter": "Debentures",
+          "chapters": [
+            "Debentures"
+          ]
         },
-        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Debentures",
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Debentures&planAttemptId=mock-3&planItemId=p2",
         "later": null
       },
       {
@@ -581,9 +587,12 @@
           "subject": "accountancy",
           "mode": "quick",
           "count": 10,
-          "chapter": "Share Capital"
+          "chapter": "Share Capital",
+          "chapters": [
+            "Share Capital"
+          ]
         },
-        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Share%20Capital",
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Share%20Capital&planAttemptId=mock-3&planItemId=p3",
         "later": null
       }
     ]

@@ -20,6 +20,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
+import { linkedChapters, planItemToForward } from '@/../data/plan_link';
 import StartRule, { useStartRule } from './StartRule';
 import './practice.css';
 
@@ -170,8 +171,8 @@ export default function DashboardPageClient() {
           : (data?.chapters || []);
         setChapters(list);
         setChapterSearch('');
-        const linkedChapter=searchParams.get('subject')===selSubj ? searchParams.get('chapter') : null;
-        setSelectedChapters(linkedChapter && list.some(c=>c.name===linkedChapter) ? [linkedChapter] : []);
+        // A plan row names one chapter (?chapter=) or several (?chapters=A,B); a set that takes several starts as one.
+        setSelectedChapters(searchParams.get('subject')===selSubj ? linkedChapters(searchParams, list.map(c=>c.name)) : []);
       })
       .catch(() => { if (alive) setChapters([]); });
     return () => { alive = false; };
@@ -358,9 +359,12 @@ export default function DashboardPageClient() {
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
     setLaunchSuccess(`Launching ${mode.label}…`);
     toast.success('Entering the arena…');
-    const tonight = new URLSearchParams();
-    for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
-    router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
+    const forward = new URLSearchParams();
+    for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) forward.set(name,searchParams.get(name));
+    // The plan row this set came from rides along only while the set is still what the row asked for.
+    const planRow = planItemToForward({ params: searchParams, subject: selSubj, chapterNames: chapters.map(c=>c.name), selectedChapters, count: quoteCount, modeId: effectiveModeId });
+    if (planRow) { forward.set('planAttemptId', planRow.attemptId); forward.set('planItemId', planRow.itemId); }
+    router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${forward.size ? `&${forward}` : ''}`);
   }
 
   // A session that cannot start says why in the card, so the dock takes the student there.

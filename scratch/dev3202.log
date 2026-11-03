@@ -1,0 +1,33 @@
+▲ Next.js 16.2.4 (webpack)
+- Local:         http://localhost:3202
+- Network:       http://192.168.1.8:3202
+- Environments: .env.local
+✓ Ready in 2.8s
+
+○ Compiling /manifest.webmanifest ...
+ GET /manifest.webmanifest 200 in 95ms (next.js: 11ms, application-code: 84ms)
+○ Compiling proxy ...
+○ Compiling /preview/arena ...
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 63s (next.js: 58s, proxy.ts: 517ms, application-code: 4.1s)
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 900ms (next.js: 39ms, proxy.ts: 430ms, application-code: 431ms)
+ GET /manifest.webmanifest 200 in 118ms (next.js: 61ms, application-code: 57ms)
+ GET /manifest.webmanifest 200 in 14ms (next.js: 7ms, application-code: 7ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 1743ms (next.js: 23ms, proxy.ts: 196ms, application-code: 1524ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 1479ms (next.js: 13ms, proxy.ts: 30ms, application-code: 1437ms)
+ GET /manifest.webmanifest 200 in 37ms (next.js: 25ms, application-code: 12ms)
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 1511ms (next.js: 8ms, proxy.ts: 24ms, application-code: 1479ms)
+ GET /manifest.webmanifest 200 in 24ms (next.js: 12ms, application-code: 11ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 943ms (next.js: 33ms, proxy.ts: 49ms, application-code: 861ms)
+ GET /manifest.webmanifest 200 in 16ms (next.js: 4ms, application-code: 12ms)
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 804ms (next.js: 26ms, proxy.ts: 23ms, application-code: 755ms)
+ GET /manifest.webmanifest 200 in 13ms (next.js: 1865µs, application-code: 11ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 839ms (next.js: 7ms, proxy.ts: 11ms, application-code: 821ms)
+ GET /manifest.webmanifest 200 in 56ms (next.js: 5ms, application-code: 51ms)
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 6.5s (next.js: 298ms, proxy.ts: 15ms, application-code: 6.1s)
+ GET /manifest.webmanifest 200 in 13ms (next.js: 4ms, application-code: 9ms)
+ GET /preview/arena?view=result&mock=nta&plan=free&data=ready 200 in 457ms (next.js: 21ms, proxy.ts: 38ms, application-code: 398ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 363ms (next.js: 161ms, proxy.ts: 10ms, application-code: 192ms)
+ GET /manifest.webmanifest 200 in 12ms (next.js: 2ms, application-code: 10ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 1559ms (next.js: 10ms, proxy.ts: 12ms, application-code: 1537ms)
+ GET /preview/arena?view=result&mock=nta&bank=thin&plan=free&data=ready 200 in 504ms (next.js: 40ms, proxy.ts: 43ms, application-code: 421ms)
+[?25h
