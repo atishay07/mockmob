@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/brand/brand_icon.dart';
 import '../../insights/widgets/entry_points.dart' show EntryRow;
 import '../../keycards/data/keycards_providers.dart' show keyCardsDueProvider;
 import '../../keycards/data/keycards_rules.dart' show KeyCardRules;
@@ -28,11 +29,15 @@ final reviewAgainCountProvider = Provider<int>((ref) {
 /// that says nothing is due. It is shown only when there is
 /// something to ask, so it never points at nothing, and it opens into place (the tab does not jump).
 class ReviewAgainRow extends ConsumerWidget {
-  const ReviewAgainRow({super.key, this.divider = true});
+  const ReviewAgainRow({super.key, this.divider = true, this.brand = false});
 
   /// A hairline under the row when it shows (the tab's rows are ruled), so the row going away
   /// leaves no stray line.
   final bool divider;
+
+  /// Leads with the bound cards of Revise (LK60) instead of the line icon: Practice's More ways in, whose rows are all
+  /// desk objects. Review's own ruled list keeps its line icons.
+  final bool brand;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,6 +66,7 @@ class ReviewAgainRow extends ConsumerWidget {
               children: [
                 EntryRow(
                   icon: LucideIcons.rotateCcw,
+                  brand: brand ? BrandIconName.revise : null,
                   title: opensRevise ? ReviewAgainCopy.reviseTitle : ReviewAgainCopy.title,
                   note: opensRevise ? reviseNote() : ReviewAgainCopy.rowNote(repaired),
                   onTap: () => context.push(opensRevise ? AppRoutes.reviewRevise : AppRoutes.reviewAgain),

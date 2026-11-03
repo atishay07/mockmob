@@ -74,6 +74,9 @@ class AccountAvatarButton extends ConsumerWidget {
   /// What TalkBack reads.
   static const String semanticsLabel = 'Account and settings';
 
+  /// What TalkBack reads on Pro: the plan in words, never only the disc's volt ring (LK42, the web capsule's ", Pro").
+  static const String proSemanticsLabel = '$semanticsLabel, Pro';
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final name = ref.watch(authSnapshotProvider.select((a) => a.name));
@@ -83,7 +86,7 @@ class AccountAvatarButton extends ConsumerWidget {
     return MmHitSlop(
       slop: const EdgeInsets.all((48 - visual) / 2),
       child: MmPressable(
-        semanticsLabel: semanticsLabel,
+        semanticsLabel: pro ? proSemanticsLabel : semanticsLabel,
         haptic: MmPressHaptic.selection,
         pressedScale: 0.92,
         focusRadius: BorderRadius.circular(visual / 2),

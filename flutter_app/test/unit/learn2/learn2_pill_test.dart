@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/brand/brand_icon.dart';
 import 'package:mockmob/features/learn2/chapter/chapter_model.dart';
 import 'package:mockmob/features/learn2/chapter/chapter_shelf.dart';
 import 'package:mockmob/features/learn2/learn2_pill.dart';
@@ -39,7 +40,9 @@ void main() {
 
   testWidgets('a shelf row draws its kind icon and keeps its words', (tester) async {
     await tester.pumpWidget(_wrap(SizedBox(width: 360, child: ShelfRow(row: const ShelfRowModel(id: 'lesson', title: 'Lesson', line: 'Lesson · 7 min, not read yet'), onTap: () {}))));
-    expect(find.byIcon(LucideIcons.bookOpen), findsOneWidget);
+    // Its desk object (LK60: the open hardback with the lime ribbon), not a line icon.
+    expect(tester.widget<BrandIcon>(find.byType(BrandIcon)).name, BrandIconName.lesson);
+    expect(find.byIcon(LucideIcons.bookOpen), findsNothing);
     expect(find.text('Lesson · 7 min, not read yet'), findsOneWidget);
   });
 }

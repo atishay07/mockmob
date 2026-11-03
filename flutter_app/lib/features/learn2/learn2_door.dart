@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../core/widgets/brand/brand_icon.dart';
 import '../insights/insights_routes.dart' show EntryRow;
 import '../learn/screens/learn_screen.dart';
 import 'data/learn_api.dart' show OffLearnApi;
@@ -67,6 +68,7 @@ class ChapterFeedsRow extends ConsumerWidget {
     if (!ref.watch(learnOnProvider)) return const SizedBox.shrink();
     return EntryRow(
       icon: LucideIcons.galleryVerticalEnd,
+      brand: BrandIconName.feeds,
       title: title,
       note: note,
       onTap: () => context.go(Learn2Links.explore(subject: subject)),

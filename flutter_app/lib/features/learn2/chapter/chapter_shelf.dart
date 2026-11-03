@@ -3,12 +3,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/brand/brand_icon.dart';
 import '../../../core/widgets/pressable.dart';
 import 'chapter_model.dart';
 
 /// "Everything in this chapter": only rows that lead somewhere, each with a plain line; what is missing is one quiet line
-/// under them (A4 3.2.6). Rows are 64 dp or more; each says what it opens with a 40 dp tile and one icon (C-LEARN-CALM 2.11), and
-/// spacing groups them instead of hairlines; the whole row is the target.
+/// under them (A4 3.2.6). Rows are 64 dp or more; each says what it opens with its 40 dp desk object (LK60, was a tile and a
+/// line icon, C-LEARN-CALM 2.11), and spacing groups them instead of hairlines; the whole row is the target.
 class ChapterShelf extends StatelessWidget {
   const ChapterShelf({super.key, required this.rows, this.missing, required this.onOpen});
 
@@ -58,13 +59,17 @@ class ShelfRow extends StatelessWidget {
   /// The row's least height.
   static const double minHeight = 64;
 
-  /// One icon per kind of place the row opens.
-  static IconData iconFor(String id) => switch (id) {
-        'cards' => LucideIcons.layers,
-        'questions' => LucideIcons.circleHelp,
-        'mistakes' => LucideIcons.rotateCcw,
-        'lesson' => LucideIcons.bookOpen,
-        _ => LucideIcons.listChecks,
+  /// The side of the row's desk object.
+  static const double iconSize = 40;
+
+  /// One desk object per kind of place the row opens (LK60, the web's chapter shelf): the print sheet leads with its
+  /// clipped page and ends with the same chevron as its neighbours.
+  static BrandIconName iconFor(String id) => switch (id) {
+        'cards' => BrandIconName.keycards,
+        'questions' => BrandIconName.questions,
+        'mistakes' => BrandIconName.mistakes,
+        'lesson' => BrandIconName.lesson,
+        _ => BrandIconName.print,
       };
 
   @override
@@ -83,16 +88,7 @@ class ShelfRow extends StatelessWidget {
                 scale: pressed ? 0.92 : 1,
                 duration: Motion.of(context, const Duration(milliseconds: 100)),
                 curve: Motion.out,
-                child: SizedBox.square(
-                  dimension: 40,
-                  child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                      color: colors.ink.withValues(alpha: colors.isNight ? 0.07 : 0.055),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: Icon(iconFor(row.id), size: 19, color: still ? colors.ink3 : colors.ink2),
-                  ),
-                ),
+                child: BrandIcon(iconFor(row.id), size: iconSize, dim: still),
               ),
             ),
             const SizedBox(width: 14),

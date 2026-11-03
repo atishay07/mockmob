@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/widgets/entry_points.dart' show EntryRow;
 import '../../you/widgets/you_page.dart' show PillKey;
 import '../copy.dart';
 import '../data/mob_models.dart';
@@ -22,9 +23,13 @@ import 'mob_pro_entry.dart';
 /// or the line has nothing true to say. Rows of the page's own kind (icon, title, one note, a hairline
 /// below), so they sit among Revise and Rules without a card.
 class MobEntryRow extends ConsumerStatefulWidget {
-  const MobEntryRow({super.key, required this.place, this.divider = true});
+  const MobEntryRow({super.key, required this.place, this.divider = true, this.brand = false});
 
   final MobEntryPlace place;
+
+  /// Leads with the three felt pawns (LK60) instead of the line icon: Practice's More ways in, whose rows are all desk
+  /// objects. Review's ruled list keeps its line icons.
+  final bool brand;
 
   /// A hairline under the row when it shows (the page's rows are ruled), so a row that is not drawn
   /// leaves no stray line.
@@ -70,8 +75,13 @@ class _MobEntryRowState extends ConsumerState<MobEntryRow> {
       padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
       child: Row(
         children: [
-          Icon(LucideIcons.usersRound, size: 22, color: colors.ink2),
-          const SizedBox(width: MmSpace.s16),
+          if (widget.brand) ...[
+            const BrandIcon(BrandIconName.mob, size: EntryRow.brandSize),
+            const SizedBox(width: EntryRow.brandGap),
+          ] else ...[
+            Icon(LucideIcons.usersRound, size: 22, color: colors.ink2),
+            const SizedBox(width: MmSpace.s16),
+          ],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
