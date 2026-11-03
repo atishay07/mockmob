@@ -674,3 +674,16 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | IN PROGRESS | **LK53** The whole app: keep what is right, make it stronger and more premium, in the direction of Duolingo. |
 | STANDING | **LK54** Keep a running list of what needs his feedback; he answers when back. Continue yesterday's work (Maths formula cards, the remaining chapters). |
 
+## LAN preview look, 3 Nov about 3:15 pm (LK55-LK62; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "3 Nov 2026, about 3:15 pm"). He said: stop everything, record only; continue after his PC restart.
+
+| Status | Item |
+|---|---|
+| OPEN | **LK55** The preview looks exactly the same as before. Top bar with credits and Pro is good if that is what it shows. |
+| OPEN | **LK56** The bar shows Practice, Papers and Explore, but there is no way to reach Learn in that version. |
+| OPEN | **LK57** "Chapter feeds did not load." shows on the preview. |
+| OPEN | **LK58** The card look is exactly the same as before (LK39 not visible). |
+| OPEN | **LK59** The intelligent recommendations that were added make the UI feel cluttered: the implementation in the UI is not good. |
+| OPEN | **LK60** No vague icons: use proper branded icons, a generated image, or something better. |
+| OPEN | **LK61** The English everywhere must be improved (repeat). |
+| OPEN | **LK62** The mobile website is now nearly a copy of the app, but the website has more features and must be a full-fledged experience; plan how, especially Learn. |
+

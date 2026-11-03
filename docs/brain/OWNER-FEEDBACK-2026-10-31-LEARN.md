@@ -177,3 +177,13 @@ Found at once: the verified bank's keys are skewed to A (Accountancy 1,206 of 1,
 
 "Sending your answer is computer science mock" is the app's live strip ("Sending your answers · Computer Science mock"; flutter_app/lib/core/widgets/bar/bar_live.dart BarSending). It shows whenever the latest local session draft has pendingSubmission and the phone is online (app_overrides.dart barSendingInputProvider), even after the submit window (endsAt + 120 s) has passed or after the token refresher gave up, so a stale draft keeps it up on every screen. "Flow feed" is the Explore feed (the web's fourth tab), which the app does not have yet.
 
+## 3 Nov 2026, about 3:15 pm IST: his live look at the LAN preview (top bar, cards) on his phone (verbatim)
+
+> It's opening on the phone now. It looks exactly the same as before. If the top bar mentions the barware graded and pro, then that's good, but the barware practice paper and explore are shown. There is no way to access the learn section exactly, and it's showing "Chapter feeds did not load." Guard look is the exact same as before. These are the areas of question for how this is going to work, but for now, stop everything. Just recall what I have said, and also you have added some intelligent recommendation. But it's making the overall UI very much more cluttered. Not exactly cluttered, I would say, but the implementation in the UI is just not good. Don't use these vague icons and stuff like this either. Make them into a proper branded icon, a generated image, or something else.
+>
+> Overall, the English that you write for everything, for sure, as I said, we want it to be improved. These are just small things which will overall need to be done. The mobile UI of the website is now somewhat an exact copy of the app, but the website has more features and needs to be a full-fledged experience. Just see how you will do it, especially the Learn thing, which I said is not visible in this specific version that you have sent me.
+>
+> Don't start doing anything right now. Just record everything that I said. I have to restart the PC once, then I'll be back, and then you can continue.
+
+Reading (dictation): "barware" is likely "the bar where" (the top bar showing credits and Pro); "Guard look" is likely "Card look" (the card preview link looked the same as before). He opened http://192.168.1.8:3463 (the LAN preview from the app port session, r6-cards).
+

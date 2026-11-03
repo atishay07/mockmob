@@ -1,5 +1,10 @@
 # NOW: MockMob current state
 
+## 3 Nov 2026, about 3:15 pm IST: STOPPED by the owner; feedback LK55-LK62 recorded; he restarts the PC, then we continue
+- His words verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md ("3 Nov 2026, about 3:15 pm"); ledger LK55-LK62. "Don't start doing anything right now. Just record everything that I said."
+- Live: main f0186302f (Mathematics 548, fonts self-hosted, LK37 run choices). Nothing of the Key cards session is running.
+- After the restart: dev servers and agents are gone; LAN preview address is the Wi-Fi one, 192.168.1.8 (not .15, the Ethernet address the firewall blocks).
+
 ## 3 Nov 2026, about 2:45 pm IST: Mathematics 548 live (all 13 NCERT chapters typeset); fonts self-hosted, so the Vercel font failure is gone
 - **Live:** main 4006a7c04 (app port session's LK37 run choices, on top of 29b001d8e). 29b001d8e = Mathematics 349 to 548 (221 typeset cards; the other 10 chapters plus a fix round, each card through an Opus formula reviewer against the page image and a Sonnet content reviewer) and Bricolage, Gabarito, Hanken and Literata served from src/app/fonts. Both builds READY on the first try; no runtime errors; no Google Fonts requests.
 - **Mathematics: about 2.9 hours** (data/learn/seconds.js), just under his 3-hour bar. NCERT's 2026-27 text supports about this much: Application of Integrals and Probability Distributions were cut by NCERT (coverage notes), and the four Applied Maths chapters have no NCERT book.
