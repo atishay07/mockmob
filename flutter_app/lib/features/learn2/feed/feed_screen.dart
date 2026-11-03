@@ -39,7 +39,7 @@ import '../../../core/repositories/local_scope.dart' show userIdProvider;
 import '../../../core/router/action_router.dart';
 import '../../../core/theme/theme.dart';
 import '../../insights/data/saved_repository.dart' show savedRepositoryProvider;
-import '../../keycards/data/keycards_lines.dart' show cardFace;
+import '../../keycards/data/keycards_lines.dart' show cardFace, kindFamily;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
@@ -581,6 +581,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
         return StagePage.card(
           id: card.id,
           cap: _capOf(slot),
+          capFamily: kindFamily(card.card.kind),
           label: FeedCopy.cardLabel(pos, of),
           announce: c.announceOf(i),
           child: CardFace.of(

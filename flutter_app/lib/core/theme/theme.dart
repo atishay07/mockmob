@@ -7,6 +7,7 @@ import 'mm_colors.dart';
 import 'mm_type.dart';
 import 'tokens.dart';
 
+export 'card_paper.dart';
 export 'fonts.dart';
 export 'glass_quality.dart';
 export 'light_fields.dart';

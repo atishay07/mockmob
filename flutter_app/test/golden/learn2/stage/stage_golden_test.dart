@@ -8,6 +8,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/keycards/data/keycards_lines.dart' show KcFamily;
 import 'package:mockmob/features/learn2/stage/card_face.dart';
 import 'package:mockmob/features/learn2/stage/end_form.dart';
 import 'package:mockmob/features/learn2/stage/question_view.dart';
@@ -39,7 +40,7 @@ Widget _card(String name, {int position = 1, bool turned = false, StageStamp? st
   position: position,
   left: reviseKey(added: added),
   keyFor: [StageStepKey(label: turned ? 'Next' : 'Turn over', haptic: false, onTap: () {})],
-  next: peekOf('Key line'),
+  next: peekOf('Key line', family: KcFamily.fact),
   chip: chip,
   page: StagePage.card(label: 'Card $position of 16', child: CardFace.of(stageCard(name), turned: turned, stamp: stamp, onTurn: () {})),
 );

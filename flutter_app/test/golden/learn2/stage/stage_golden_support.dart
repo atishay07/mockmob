@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:mockmob/features/keycards/data/keycards_lines.dart' show KcFamily;
 import 'package:mockmob/features/learn2/stage/question_view.dart';
 import 'package:mockmob/features/learn2/stage/stage_frame.dart';
 import 'package:mockmob/features/learn2/stage/stage_keys.dart';
@@ -28,8 +29,9 @@ void stageGolden(String name, Widget Function() build, {Future<void> Function(Wi
   }
 }
 
-/// The page under the one in view: only its card edge (its label) shows, in the 40 dp peek above the action bar.
-StagePage peekOf(String cap) => StagePage.card(label: 'Next', cap: cap, child: const SizedBox.shrink());
+/// The page under the one in view: only its card edge (its label) shows, in the 40 dp peek above the action bar; a Key card's
+/// edge is its header band in its [family]'s colours (R8).
+StagePage peekOf(String cap, {KcFamily? family}) => StagePage.card(label: 'Next', cap: cap, capFamily: family, child: const SizedBox.shrink());
 
 /// One item of a feed on the phone stage, the way the feed composes it: the top bar (Close, the ticks, "n of N" with its
 /// chevron) over the chapter's name, the item on a pager page with the next one peeking, and the action bar for that item.

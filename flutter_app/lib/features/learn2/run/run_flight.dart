@@ -7,7 +7,7 @@
 ///   reduced motion nothing flies (the screen fades the card in place in 120 ms)
 ///
 /// The curves are the stage's: `Motion.out` for the lift and `Motion.drawer` for the arc; the ghost is a card-sized copy
-/// (its kind and the book's words) in the card's surface. Transform and opacity only.
+/// (its kind on the card's header band and the book's words) on the card's paper (R8). Transform and opacity only.
 library;
 
 import 'dart:math' as math;
@@ -16,7 +16,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/materials/shape.dart';
+import '../../keycards/data/keycards_lines.dart' show KcFamily;
+import '../stage/stage_paper.dart';
 
 /// Where the ghost is at one moment of its flight.
 class RunGhostPose {
@@ -74,9 +75,17 @@ abstract final class RunFlight {
   }
 
   /// Flies a ghost of the card at [from] into the pile at [to]. A drop (`missed`, or no pile on screen) falls away where the
-  /// card stood. The card's size, its [label] (the kind) and its [words] come from the screen. The future completes when the
-  /// ghost is gone. Nothing happens under reduced motion, or when the card is not on screen.
-  static Future<void> fly(BuildContext context, {required GlobalKey from, GlobalKey? to, required String kind, String label = '', String words = ''}) async {
+  /// card stood. The card's size, its [label] (the kind, on its [family]'s band) and its [words] come from the screen. The
+  /// future completes when the ghost is gone. Nothing happens under reduced motion, or when the card is not on screen.
+  static Future<void> fly(
+    BuildContext context, {
+    required GlobalKey from,
+    GlobalKey? to,
+    required String kind,
+    String label = '',
+    KcFamily? family,
+    String words = '',
+  }) async {
     if (Motion.reduced(context)) return;
     final overlay = Overlay.maybeOf(context, rootOverlay: true);
     if (overlay == null) return;
@@ -109,7 +118,7 @@ abstract final class RunFlight {
                     transform: Matrix4.translationValues(pose.dx, pose.dy, 0)
                       ..rotateZ(pose.angle)
                       ..scaleByDouble(pose.scale, pose.scale, 1, 1),
-                    child: _Ghost(key: ghostKey, label: label, words: words, colors: colors, type: type),
+                    child: _Ghost(key: ghostKey, label: label, family: family, words: words, colors: colors, type: type),
                   ),
                 ),
               ),
@@ -137,11 +146,13 @@ abstract final class RunFlight {
   }
 }
 
-/// A card-sized copy: the card's surface, its kind and the first of its words.
+/// A card-sized copy on the card's paper: its kind on the header band and the first of its words. The overlay has no theme of
+/// the screen's own, so the screen's [colors] and [type] are passed in.
 class _Ghost extends StatelessWidget {
-  const _Ghost({super.key, required this.label, required this.words, required this.colors, required this.type});
+  const _Ghost({super.key, required this.label, required this.words, required this.colors, required this.type, this.family});
 
   final String label;
+  final KcFamily? family;
   final String words;
   final MmColors colors;
   final MmType type;
@@ -149,38 +160,44 @@ class _Ghost extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final r = BorderRadius.circular(24);
+    final paper = colors.paper;
+    final ink = StagePaper.ink(paper, family);
     return Material(
       type: MaterialType.transparency,
       child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: mmShapeBorder(r, side: BorderSide(color: colors.lineStrong)),
-          shadows: colors.cardShadow,
-        ),
+        decoration: StagePaper.surface(paper, r),
         child: ClipRRect(
           borderRadius: r,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (label.isNotEmpty)
-                  Text(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (label.isNotEmpty)
+                Container(
+                  constraints: const BoxConstraints(minHeight: StagePaper.bandHeight),
+                  padding: const EdgeInsets.symmetric(horizontal: StagePaper.side, vertical: 6),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: ink.band,
+                    border: Border(bottom: BorderSide(color: ink.line)),
+                  ),
+                  child: Text(
                     label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3),
+                    style: type.label.copyWith(fontSize: 15, height: 1.25, fontWeight: FontWeight.w600, letterSpacing: 0, color: ink.text),
                   ),
-                const SizedBox(height: 14),
-                Expanded(
+                ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(StagePaper.side, StagePaper.gap, StagePaper.side, 18),
                   child: Text(
                     words,
                     overflow: TextOverflow.fade,
                     style: type.body.copyWith(fontSize: 17, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

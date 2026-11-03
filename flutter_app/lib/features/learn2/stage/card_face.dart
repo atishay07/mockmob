@@ -4,13 +4,18 @@
 ///            taller than that scrolls inside, top-aligned, with a 44 dp fade at its foot while more is below (the pager's
 ///            edge rule applies to that scroll too). Given no height (outside a pager) it takes the taller face's height,
 ///            at least clamp(300, 0.46 x screen height, 380) dp
-///   front    the kind line top-left (13 semibold ink-3, and an extra kind such as "Back from earlier"), the source foot
-///            pinned to the bottom (a book glyph and "Accountancy Part 1, Ch 2, p. 64"), the prompt centred between them in
-///            Bricolage by its length (34 / 28 / 22 up to 60 / 140 / longer characters; 32 / 26 / 21 under 380 dp wide; line
-///            height 1.15), blanks drawn as gaps with the punctuation that touches them on the gap's own line
-///            (`blankRuns`). The whole front is a tap target ("Turn over: " and the front); its words stay readable
-///   back     the kind line, then, centred, the prompt small (two lines), NCERT's line at the web's back size and its
-///            source, and "Turn back" at the foot; a tap on the back turns it back
+///   paper    an index card from a deck (R8, the web's commit 20762eb34, `stage_paper.dart`): Day cream stock, Night neutral
+///            charcoal, the film grain, one quiet hairline and a soft shadow, no light rim. The kind is a header band across
+///            the card's top (48 dp) in its family's wash (`kindFamily`), the kind word on the left (15 semibold, AA on the
+///            wash), an extra kind ("Back from earlier", the run's "Due today") on its right in ink-2
+///   front    the band, the source foot pinned to the bottom under a hairline (a book glyph and "Accountancy Part 1, Ch 2,
+///            p. 64"), the prompt between them a little above the middle in Bricolage by its length (34 / 28 / 22 up to 60 /
+///            140 / longer characters; 32 / 26 / 21 under 380 dp wide; line height 1.15), blanks drawn as gaps with the
+///            punctuation that touches them on the gap's own line (`blankRuns`). The whole front is a tap target ("Turn
+///            over: " and the front); its words stay readable
+///   back     the band, then from the top on faint ruled lines at the back's line height: the prompt small (two lines),
+///            NCERT's line at the web's back size and its source; "Turn back" at the foot; a tap on the back turns it back.
+///            A journal entry keeps plain paper
 ///   turn     rotateY 0 to 180 in 340 ms on `Motion.drawer` with perspective (1200), the faces swapping at 90 degrees,
 ///            a light haptic; under reduced motion a 120 ms cross-fade
 ///   stamp    the line under the card (20 dp, 8 dp below): a check and "In Revise" (once the server has it), or the bad
@@ -28,9 +33,9 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/materials/edge_light.dart';
+import '../../../core/widgets/materials/grain.dart';
 import '../../../core/widgets/materials/shape.dart';
-import '../../keycards/data/keycards_lines.dart' show blankRuns, cardFace, sourceLine;
+import '../../keycards/data/keycards_lines.dart' show KcEntryBack, KcFamily, backShape, blankRuns, cardFace, kindFamily, sourceLine;
 import '../../keycards/data/keycards_models.dart';
 import '../../keycards/data/keycards_rules.dart' show BlankedLine;
 import 'stage_balance.dart';
@@ -38,6 +43,7 @@ import 'stage_keys.dart';
 import 'stage_motion.dart';
 import 'stage_ncert.dart';
 import 'stage_pager.dart';
+import 'stage_paper.dart';
 import 'stage_sci.dart';
 import 'stage_sizes.dart';
 import 'stage_text.dart';
@@ -64,6 +70,7 @@ class CardFace extends StatefulWidget {
     required this.kindLabel,
     required this.front,
     required this.back,
+    this.family,
     this.extraKind,
     this.tagRight = false,
     this.source,
@@ -97,6 +104,7 @@ class CardFace extends StatefulWidget {
       kindLabel: face.label,
       front: face.front,
       back: card,
+      family: kindFamily(card.kind),
       extraKind: extraKind,
       tagRight: tagRight,
       source: sourceLine(card.source),
@@ -113,11 +121,13 @@ class CardFace extends StatefulWidget {
   /// "Definition", "Key line", "Journal entry".
   final String kindLabel;
 
-  /// Beside the kind: "Back from earlier", "The line you needed".
+  /// The kind's colour family, the header band's wash (`kindFamily`); null is the plain band.
+  final KcFamily? family;
+
+  /// On the band's right: "Back from earlier", "The line you needed".
   final String? extraKind;
 
-  /// The extra kind sits at the card's right edge on the kind line (the run's stage tag, "Due today"), not beside the kind (the
-  /// feed's).
+  /// The extra kind is the run's stage tag ("Due today", 12.5), not the feed's line (13). Either sits on the band's right.
   final bool tagRight;
 
   /// The prompt, with `____` for a blank.
@@ -198,13 +208,13 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
     final reduced = Motion.reduced(context);
     final front = _Face(
       key: const ValueKey('front'),
-      child: _FrontBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, source: widget.source, width: media.width, sci: widget.sci),
+      child: _FrontBody(kindLabel: widget.kindLabel, family: widget.family, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, source: widget.source, width: media.width, sci: widget.sci),
     );
     final back = _Face(
       key: const ValueKey('back'),
       scrollable: true,
       onTap: widget.onTurn,
-      child: _BackBody(kindLabel: widget.kindLabel, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, card: widget.back, onTurn: widget.onTurn, sci: widget.sci),
+      child: _BackBody(kindLabel: widget.kindLabel, family: widget.family, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, card: widget.back, onTurn: widget.onTurn, sci: widget.sci),
     );
     final speak = 'Turn over: ${StageText.speakable(widget.front)}';
     Widget pair(double minH, double maxH) => AnimatedBuilder(
@@ -296,8 +306,8 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
   static const double _stampLine = 28;
 }
 
-/// The card's surface (the Key cards' lit card: raised, a 1 dp strong line, the edge light along the top, the card
-/// shadow), its content clipped to the card's shape.
+/// The card's surface, the paper (`stage_paper.dart`): the stock with the film grain under the words, one quiet hairline and the
+/// soft shadow, no light rim; its content clipped to the card's shape. The bodies set their own padding (the band is full bleed).
 class _Face extends StatefulWidget {
   const _Face({super.key, required this.child, this.scrollable = false, this.onTap});
 
@@ -324,7 +334,7 @@ class _FaceState extends State<_Face> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
+    final paper = context.mmColors.paper;
     final r = BorderRadius.circular(CardFace.radius);
     final physics = StagePager.physicsOf(context);
     Widget content = LayoutBuilder(
@@ -334,7 +344,7 @@ class _FaceState extends State<_Face> {
           physics: physics,
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: c.minHeight),
-            child: Padding(padding: const EdgeInsets.fromLTRB(20, 20, 20, 18), child: widget.child),
+            child: widget.child,
           ),
         ),
       ),
@@ -347,100 +357,55 @@ class _FaceState extends State<_Face> {
       content = GestureDetector(behavior: HitTestBehavior.translucent, onTap: widget.onTap, child: content);
     }
     return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: mmShapeBorder(r, side: BorderSide(color: colors.lineStrong)),
-        shadows: colors.cardShadow,
-      ),
-      child: CustomPaint(
-        foregroundPainter: EdgeLightPainter(borderRadius: r, top: colors.edgeTop, bottom: colors.edgeBottom.withValues(alpha: 0), sheen: false),
-        child: MmClip(
-          borderRadius: r,
-          child: Stack(
-            // The face's own height reaches its content, so the prompt centres and the foot sits at the foot.
-            fit: StackFit.passthrough,
-            children: [
-              content,
-              // The foot fades while more of the face waits below.
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: 44,
-                child: IgnorePointer(
-                  child: AnimatedOpacity(
-                    opacity: _more ? 1 : 0,
-                    duration: Motion.of(context, const Duration(milliseconds: 150)),
-                    curve: Motion.out,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [colors.raised.withValues(alpha: 0), colors.raised],
-                        ),
+      decoration: StagePaper.surface(paper, r),
+      child: MmClip(
+        borderRadius: r,
+        child: Stack(
+          // The face's own height reaches its content, so the prompt centres and the foot sits at the foot.
+          fit: StackFit.passthrough,
+          children: [
+            // The paper's grain, under the words (the band covers it with its wash).
+            const Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: Grain()))),
+            content,
+            // The foot fades while more of the face waits below (a scrim in the paper's own colour, so the words stay
+            // readable where they meet the foot).
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 44,
+              child: IgnorePointer(
+                child: AnimatedOpacity(
+                  opacity: _more ? 1 : 0,
+                  duration: Motion.of(context, const Duration(milliseconds: 150)),
+                  curve: Motion.out,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [paper.paper.withValues(alpha: 0), paper.paper],
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// The kind line: 13 semibold ink-3, the extra kind 12 dp after it (wrapping under it when it does not fit); the run's stage tag
-/// (12.5, [tagRight]) sits at the right edge instead.
-class _KindLine extends StatelessWidget {
-  const _KindLine({required this.kindLabel, this.extraKind, this.tagRight = false});
-
-  final String kindLabel;
-  final String? extraKind;
-  final bool tagRight;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final style = context.mmType.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3);
-    final extra = extraKind;
-    if (tagRight && extra != null && extra.isNotEmpty) {
-      return ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 18),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(kindLabel, style: style),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Text(extra, textAlign: TextAlign.end, style: style.copyWith(fontSize: 12.5, height: 1.2)),
             ),
           ],
         ),
-      );
-    }
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 18),
-      child: Wrap(
-        spacing: MmSpace.s12,
-        runSpacing: MmSpace.s2,
-        children: [
-          Text(kindLabel, style: style),
-          if (extraKind != null && extraKind!.isNotEmpty) Text(extraKind!, style: style),
-        ],
       ),
     );
   }
 }
 
-//// The front: the kind line top-left, the source pinned to the foot, the prompt centred between them (a face that does not fit
-/// is top-aligned and scrolls inside the card). Blanks are gaps with the punctuation that touches them on the gap's own run.
+/// The front: the band at the top, the source pinned to the foot under a hairline, the prompt between them a little above the
+/// middle (a face that does not fit is top-aligned and scrolls inside the card). Blanks are gaps with the punctuation that
+/// touches them on the gap's own run.
 class _FrontBody extends StatelessWidget {
-  const _FrontBody({required this.kindLabel, required this.front, required this.width, this.extraKind, this.tagRight = false, this.source, this.sci = false});
+  const _FrontBody({required this.kindLabel, required this.front, required this.width, this.family, this.extraKind, this.tagRight = false, this.source, this.sci = false});
 
   final String kindLabel;
+  final KcFamily? family;
   final String? extraKind;
   final bool tagRight;
   final String front;
@@ -455,30 +420,43 @@ class _FrontBody extends StatelessWidget {
     final p = CardFace.promptStyle(StageText.frontSize(front), width);
     final style = type.title.copyWith(fontSize: p.size, height: p.height, letterSpacing: p.size * p.tracking, wordSpacing: 0, color: colors.ink);
     final span = TextSpan(style: style, children: stageFrontSpans(front, style, colors, sci: sci));
+    const side = StagePaper.side;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _KindLine(kindLabel: kindLabel, extraKind: extraKind, tagRight: tagRight),
+        StageKindBand(kind: kindLabel, family: family, extra: extraKind, extraSize: tagRight ? 12.5 : 13),
+        // 20 dp more room under the prompt than over it: it sits a little above the middle, where the eye expects it.
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.fromLTRB(side, StagePaper.gap, side, StagePaper.gap + 20),
           child: Semantics(header: true, child: StageBalancedText(span, semanticsLabel: sci ? StageText.speakable(front) : null)),
         ),
-        if (source != null)
-          ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 18),
-            child: Row(
-              children: [
-                Icon(LucideIcons.bookOpen, size: 14, color: colors.ink3),
-                const SizedBox(width: MmSpace.s6),
-                Flexible(
-                  child: Text(source!, style: type.caption.copyWith(fontSize: 12.5, height: 1.4, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
-                ),
-              ],
-            ),
-          )
-        else
-          const SizedBox(height: 18),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(side, 0, side, 18),
+          child: source != null
+              ? DecoratedBox(
+                  decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.paper.line))),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: MmSpace.s12),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 18),
+                      child: Row(
+                        children: [
+                          Icon(LucideIcons.bookOpen, size: 14, color: colors.ink3),
+                          const SizedBox(width: MmSpace.s6),
+                          Flexible(
+                            child: Text(
+                              source!,
+                              style: type.caption.copyWith(fontSize: 12.5, height: 1.4, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()]),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox(height: 18),
+        ),
       ],
     );
   }
@@ -504,11 +482,14 @@ List<InlineSpan> stageFrontSpans(String front, TextStyle style, MmColors colors,
   ];
 }
 
-/// The back: the kind line, then (centred) the prompt small, NCERT's line and its source, and "Turn back" at the foot.
+/// The back: the band, then from the top on the ruled lines the prompt small (two lines), NCERT's line and its source, and
+/// "Turn back" at the foot. Each line of words is the ruling's pitch tall, with no space between them, so each sits on a line.
+/// A journal entry keeps plain paper and its own rhythm.
 class _BackBody extends StatelessWidget {
-  const _BackBody({required this.kindLabel, required this.front, required this.card, this.extraKind, this.tagRight = false, this.onTurn, this.sci = false});
+  const _BackBody({required this.kindLabel, required this.front, required this.card, this.family, this.extraKind, this.tagRight = false, this.onTurn, this.sci = false});
 
   final String kindLabel;
+  final KcFamily? family;
   final String? extraKind;
   final bool tagRight;
   final String front;
@@ -520,8 +501,13 @@ class _BackBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final size = stageBackSize(StageText.backSize(card.back));
-    final asked = type.label.copyWith(fontSize: 13, height: 1.4, color: colors.ink3);
+    final scaler = MediaQuery.textScalerOf(context);
+    final step = StageText.backSize(card.back);
+    final size = stageBackSize(step);
+    final ruled = sci || backShape(card) is! KcEntryBack;
+    final pitch = ruled ? StagePaper.pitchOf(step, size.size, scaler) : null;
+    var asked = type.label.copyWith(fontSize: 13, height: 1.4, color: colors.ink3);
+    if (pitch != null) asked = StagePaper.onPitch(asked, pitch, scaler);
     final askedLine = StageText.speakable(front).isEmpty
         ? null
         : sci
@@ -532,31 +518,33 @@ class _BackBody extends StatelessWidget {
             semanticsLabel: StageText.speakable(front),
           )
         : StageMarkedText(line: BlankedLine.front(front), style: asked, maxLines: 2);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _KindLine(kindLabel: kindLabel, extraKind: extraKind, tagRight: tagRight),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (askedLine != null) ...[askedLine, const SizedBox(height: 14)],
-              StageNcert(card: card, size: size.size, height: size.height, sci: sci),
-            ],
-          ),
+    const side = StagePaper.side;
+    return StageRuledBack(
+      pitch: pitch,
+      rule: colors.paper.ruling,
+      band: StageKindBand(kind: kindLabel, family: family, extra: extraKind, extraSize: tagRight ? 12.5 : 13),
+      block: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: side),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (askedLine != null) ...[askedLine, if (pitch == null) const SizedBox(height: 14)],
+            StageNcert(card: card, size: size.size, height: size.height, sci: sci, pitch: pitch),
+          ],
         ),
-        // "Turn back" sits 6 dp up into the gap above it, as the web's `margin-top: -6px`.
-        Transform.translate(
+      ),
+      // "Turn back" sits 6 dp up into the gap above it, as the web's `margin-top: -6px`.
+      foot: Padding(
+        padding: const EdgeInsets.fromLTRB(side, 0, side, 18),
+        child: Transform.translate(
           offset: const Offset(0, -6),
           child: Align(
             alignment: Alignment.centerRight,
             child: StageTextKey(label: 'Turn back', size: 13.5, quiet: true, onTap: onTurn),
           ),
         ),
-      ],
+      ),
     );
   }
 }

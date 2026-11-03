@@ -2,14 +2,21 @@
 // line and the source, a long back scrolls inside with a fade at its foot, the front is one tap target that a screen reader names,
 // the turn takes 340 ms with the faces swapping at 90 degrees and one light haptic (a cross-fade under reduced motion), the stamp
 // line says In Revise (a check) or the bad line, blanks keep the punctuation that touches them, a chemistry card draws its
-// notation, and there is no Must-know tag.
+// notation, and there is no Must-know tag. R8 (the web's 20762eb34): the card is paper with the kind on a header band in its
+// family's colours, the back's words sit on ruled lines at its line height (a journal entry keeps plain paper), and the next
+// card peeks as its own band.
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/keycards/data/keycards_lines.dart' show KcFamily;
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/learn2/stage/card_face.dart';
 import 'package:mockmob/features/learn2/stage/stage_pager.dart';
+import 'package:mockmob/features/learn2/stage/stage_paper.dart';
 import 'package:mockmob/features/learn2/stage/stage_sci.dart';
 
 import '../../../helpers/fonts.dart';
@@ -116,23 +123,128 @@ void main() {
     expect(above, greaterThan(100), reason: 'a flashcard, not a card with its words at the top');
   });
 
-  testWidgets('the extra kind sits beside the kind on a feed card and at the right edge on a run card (the stage tag, like the web)', (tester) async {
+  testWidgets('the band: the kind word on the left in its family colour on its wash, 48 dp; an extra kind at its right edge', (tester) async {
     await pumpStage(tester, _onStage(const _CardHost(name: 'premium', extraKind: 'Back from earlier')));
     await tester.pumpAndSettle();
     final card = tester.getRect(find.byType(CardFace));
-    final kind = tester.getRect(find.text('Definition').first);
-    final beside = tester.getRect(find.text('Back from earlier').first);
-    expect(beside.left - kind.right, closeTo(12, 1), reason: 'the feed: 12 dp after the kind');
+    final band = find.byType(StageKindBand).first;
+    expect(tester.getSize(band).height, greaterThanOrEqualTo(48));
+    expect(tester.getRect(band).top, closeTo(card.top, 1), reason: 'across the card top');
+    expect(tester.getSize(band).width, closeTo(card.width, 1), reason: 'full bleed');
+    final word = tester.widget<Text>(find.text('Definition').first);
+    expect(word.style?.color, MmPaper.night.meaning.text, reason: 'a definition is the meaning family');
+    expect(word.style?.fontSize, 15);
+    final wash = tester.widget<Container>(find.descendant(of: band, matching: find.byType(Container)).first).decoration! as BoxDecoration;
+    expect(wash.color, MmPaper.night.meaning.band);
+    expect(wash.border!.bottom.color, MmPaper.night.meaning.line);
+    Rect glyphsOf(String text) {
+      final paragraph = tester.renderObject<RenderParagraph>(find.text(text).first);
+      final boxes = paragraph.getBoxesForSelection(TextSelection(baseOffset: 0, extentOffset: text.length));
+      final left = paragraph.localToGlobal(Offset(boxes.first.left, boxes.first.top));
+      final right = paragraph.localToGlobal(Offset(boxes.last.right, boxes.last.bottom));
+      return Rect.fromPoints(left, right);
+    }
+
+    expect(glyphsOf('Back from earlier').right, closeTo(card.right - 20, 3), reason: "the feed's line: at the band's right edge");
+    expect(tester.getRect(find.text('Definition').first).left, closeTo(card.left + 20, 3), reason: 'the kind stays on the left');
     await tester.pumpWidget(const SizedBox());
     await pumpStage(tester, _onStage(const _CardHost(name: 'premium', extraKind: 'Due today', tagRight: true)));
     await tester.pumpAndSettle();
-    final tag = tester.getRect(find.text('Due today').first);
-    expect(tag.right, closeTo(card.right - 20, 3), reason: 'the run: at the right edge of the card, inside its padding');
-    final paragraph = tester.renderObject<RenderParagraph>(find.text('Due today').first);
-    final glyphs = paragraph.getBoxesForSelection(const TextSelection(baseOffset: 0, extentOffset: 9));
-    final glyphsLeft = paragraph.localToGlobal(Offset(glyphs.first.left, 0)).dx;
-    expect(glyphsLeft, greaterThan(tester.getRect(find.text('Definition').first).right + 60), reason: 'the words are at the right, far from the kind');
-    expect(tester.getRect(find.text('Definition').first).left, closeTo(card.left + 20, 3), reason: 'the kind stays top-left');
+    final tag = glyphsOf('Due today');
+    expect(tag.right, closeTo(card.right - 20, 3), reason: "the run's stage tag: at the right edge of the card, inside its padding");
+    expect(tag.left, greaterThan(tester.getRect(find.text('Definition').first).right + 60), reason: 'the words are at the right, far from the kind');
+    expect(tester.widget<Text>(find.text('Due today').first).style?.color, MmColors.dark.ink2);
+  });
+
+  testWidgets("each kind's family colours its band; every kind word is AA on its wash in both themes", (tester) async {
+    double contrast(Color a, Color b) {
+      final la = a.computeLuminance(), lb = b.computeLuminance();
+      return (math.max(la, lb) + 0.05) / (math.min(la, lb) + 0.05);
+    }
+
+    for (final paper in [MmPaper.night, MmPaper.day]) {
+      for (final ink in paper.inks) {
+        expect(contrast(ink.text, ink.band), greaterThanOrEqualTo(4.5), reason: 'the kind word on its band');
+      }
+    }
+    expect(StagePaper.ink(MmPaper.day, KcFamily.parts).text, const Color(0xFF845400));
+    for (final (name, family) in [('sacrificing', KcFamily.meaning), ('paidPrivately', KcFamily.fact), ('economic', KcFamily.parts), ('capitalAlt', KcFamily.rule)]) {
+      await tester.pumpWidget(const SizedBox());
+      await pumpStage(tester, _onStage(_CardHost(name: name)), brightness: Brightness.light);
+      await tester.pumpAndSettle();
+      expect(tester.widget<StageKindBand>(find.byType(StageKindBand).first).family, family, reason: name);
+    }
+  });
+
+  testWidgets("the back's words sit on ruled lines at its line height: the asked line first, NCERT's words, the source", (tester) async {
+    await pumpStage(tester, _onStage(const _CardHost(name: 'premium', turned: true)));
+    await tester.pumpAndSettle();
+    final back = find.byType(StageRuledBack);
+    final ruled = tester.renderObject<RenderStageRuledBack>(back);
+    final pitch = ruled.pitch!;
+    expect(pitch, 26, reason: "a long back's ('l') own line height at text scale 1");
+    final origin = ruled.localToGlobal(Offset.zero).dy;
+    final band = tester.getRect(find.descendant(of: back, matching: find.byType(StageKindBand)));
+    final top = band.bottom + 14;
+    final lines = ruled.rules;
+    expect(lines.length, greaterThan(8), reason: 'the ruling runs down the card, edge to edge');
+    expect(lines.first, closeTo(top - origin + pitch, 0.5));
+    double onLines(Rect r) => (r.bottom - top) / pitch;
+    final asked = tester.getRect(find.descendant(of: back, matching: find.textContaining("What is the new partner's share")).first);
+    final words = tester.getRect(find.descendant(of: back, matching: find.textContaining('As stated earlier')).first);
+    final source = tester.getRect(find.descendant(of: back, matching: find.text('Accountancy Part 1, Ch 2, p. 64')).first);
+    expect(asked.top, closeTo(top, 0.5), reason: 'the asked line starts on the first line');
+    for (final (name, r) in [('asked', asked), ('words', words), ('source', source)]) {
+      expect(onLines(r), closeTo(onLines(r).roundToDouble(), 0.02), reason: '$name ends on a line');
+      expect(r.height / pitch, closeTo((r.height / pitch).roundToDouble(), 0.02), reason: '$name is whole lines');
+    }
+    expect(words.top, closeTo(asked.bottom, 0.5), reason: "NCERT's words on the next line");
+    expect(source.top, closeTo(words.bottom, 0.5), reason: 'the source on the line after them');
+    expect(lines.map((y) => y + origin), anyElement(closeTo(source.bottom, 0.5)), reason: 'a rule under the source');
+  });
+
+  testWidgets('a long back and text scale 1.3 keep the words on the lines; a journal entry keeps plain paper', (tester) async {
+    await pumpStage(tester, _onStage(const _CardHost(name: 'economic', turned: true)), textScale: 1.3);
+    await tester.pumpAndSettle();
+    final ruled = tester.renderObject<RenderStageRuledBack>(find.byType(StageRuledBack));
+    final pitch = ruled.pitch!;
+    expect(pitch, (25 * 1.3).roundToDouble(), reason: "a very long back's ('xl') pitch, scaled, in whole dp");
+    final first = tester.getRect(find.textContaining('Existing structure of the economy').first);
+    final second = tester.getRect(find.textContaining('The rates of growth of GNP').first);
+    expect(second.top, closeTo(first.bottom, 0.5), reason: 'list lines follow with no space between them');
+    expect(first.height / pitch, closeTo((first.height / pitch).roundToDouble(), 0.02));
+    final origin = ruled.localToGlobal(Offset.zero).dy;
+    final asked = tester.getRect(find.descendant(of: find.byType(StageRuledBack), matching: find.textContaining('Name the components')).first);
+    expect(first.top, closeTo(asked.bottom, 0.5), reason: 'the list starts on the line after the asked line');
+    final source = tester.getRect(find.text('Business Studies Part 1, Ch 3, p. 75').last);
+    expect(ruled.rules.map((y) => y + origin), anyElement(closeTo(source.bottom, 0.5)), reason: 'the source sits on a rule at 1.3 too');
+
+    await tester.pumpWidget(const SizedBox());
+    await pumpStage(tester, _onStage(const _CardHost(name: 'capitalAlt', turned: true)));
+    await tester.pumpAndSettle();
+    final entry = tester.renderObject<RenderStageRuledBack>(find.byType(StageRuledBack));
+    expect(entry.pitch, isNull);
+    expect(entry.rules, isEmpty, reason: 'a journal entry keeps its own rhythm on plain paper');
+  });
+
+  testWidgets("the next card peeks as its own band: the wash, the kind word in the family's colour", (tester) async {
+    await pumpStage(
+      tester,
+      _onStage(
+        StagePager(
+          count: 2,
+          index: 0,
+          onGo: (_) {},
+          pageBuilder: (context, i) => i == 0
+              ? StagePage.card(label: 'Card 1 of 2', child: CardFace.of(stageCard('premium')))
+              : StagePage.card(label: 'Card 2 of 2', cap: 'Key line', capFamily: KcFamily.fact, child: CardFace.of(stageCard('writtenOff'))),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final label = tester.widget<Text>(find.text('Key line').last);
+    expect(label.style?.color, MmPaper.night.fact.text);
+    expect(label.style?.fontSize, 15);
   });
 
   testWidgets('the front: kind, prompt, source; no Must-know tag; one named tap target', (tester) async {

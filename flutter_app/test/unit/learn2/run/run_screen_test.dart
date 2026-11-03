@@ -158,6 +158,28 @@ void main() {
   });
 
   group('a card', () {
+    testWidgets('R8: the card sits on a deck, two card edges 7 and 14 dp down and 10 and 20 dp in, that stay put while it turns', (tester) async {
+      await pumpRun(tester, FixtureLearnApi());
+      final deck = find.byType(RunDeck);
+      expect(deck, findsOneWidget);
+      final card = tester.getRect(find.descendant(of: deck, matching: find.byType(CardFace)));
+      final edges = find.descendant(of: deck, matching: find.byType(Positioned));
+      Rect edge(int i) => tester.getRect(edges.at(i));
+      final far = edge(0), near = edge(1);
+      expect(far.bottom - card.bottom, closeTo(14, 0.5));
+      expect(far.left - card.left, closeTo(20, 0.5));
+      expect(card.right - far.right, closeTo(20, 0.5));
+      expect(near.bottom - card.bottom, closeTo(7, 0.5));
+      expect(near.left - card.left, closeTo(10, 0.5));
+      expect(find.ancestor(of: edges.at(0), matching: find.byType(CardFace)), findsNothing, reason: 'the edges are not part of the turning card');
+      await turnNow(tester);
+      // The rating keys are taller than Turn over, so the item area (and the card) is shorter; the deck stays under the card.
+      final turned = tester.getRect(find.descendant(of: deck, matching: find.byType(CardFace)));
+      expect(edge(0).bottom - turned.bottom, closeTo(14, 0.5));
+      expect(edge(1).bottom - turned.bottom, closeTo(7, 0.5));
+      await finish(tester);
+    });
+
     testWidgets('the first card: one top bar, Turn over (the one volt key), the turn cue, "1 of 18" and no pile or time left', (tester) async {
       await pumpRun(tester, FixtureLearnApi());
       expect(find.text('Accounting for Partnership: Basic Concepts'), findsOneWidget, reason: 'the chapter as the quiet line under the bar');
@@ -411,6 +433,7 @@ void main() {
       final api = FixtureLearnApi(startFixtures: {'mix': 'run_start_mix_aop_20_new_pro'});
       final router = await pumpRun(tester, api, launch: const RunLaunch(chapterKey: l2Aop, minutes: 20));
       expect(find.text('Lesson, 7 min'), findsOneWidget);
+      expect(find.byType(RunDeck), findsNothing, reason: 'a lesson has no deck under it');
       expect(find.text('Revaluation of assets and liabilities'), findsOneWidget);
       expect(find.text('Read this first. Its cards come next in this run.'), findsOneWidget);
       expect(find.text('Skip it'), findsOneWidget);

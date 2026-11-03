@@ -14,6 +14,7 @@ import '../../../core/theme/theme.dart';
 import '../../keycards/data/keycards_lines.dart';
 import '../../keycards/data/keycards_models.dart';
 import '../../keycards/data/keycards_rules.dart' show BlankedLine;
+import 'stage_paper.dart';
 import 'stage_sci.dart';
 
 /// The reading size of a card's back by `StageText.backSize` (the web's `.st-back[data-size]`): 17.5/1.62, and
@@ -25,9 +26,10 @@ import 'stage_sci.dart';
 };
 
 /// A card's back as the book prints it, at [size] / [height], with the rule at its left and, when [showSource],
-/// the reference (13/1.45 ink-3) set in 17 dp under it.
+/// the reference (13/1.45 ink-3) set in 17 dp under it. On a ruled back ([pitch], R8) every line is [pitch] dp tall with no
+/// space between paragraphs, list lines or the reference, so each sits on the card's lines.
 class StageNcert extends StatelessWidget {
-  const StageNcert({super.key, required this.card, required this.size, required this.height, this.showSource = true, this.ruleGap = 16, this.sci = false});
+  const StageNcert({super.key, required this.card, required this.size, required this.height, this.showSource = true, this.ruleGap = 16, this.sci = false, this.pitch});
 
   final KeyCard card;
   final double size;
@@ -41,11 +43,23 @@ class StageNcert extends StatelessWidget {
   /// kinds, else paragraphs, with the blanks a term card marks).
   final bool sci;
 
+  /// The ruled back's line height (already scaled, `StagePaper.pitchOf`); null sets the words at [height] with their own gaps.
+  final double? pitch;
+
+  bool get _ruled => pitch != null;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final reading = type.body.copyWith(fontSize: size, height: height, fontWeight: FontWeight.w400, color: colors.ink);
+    final scaler = MediaQuery.textScalerOf(context);
+    var reading = type.body.copyWith(fontSize: size, height: height, fontWeight: FontWeight.w400, color: colors.ink);
+    var cite = type.caption.copyWith(fontSize: 13, height: 1.45, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()]);
+    final p = pitch;
+    if (p != null) {
+      reading = StagePaper.onPitch(reading, p, scaler);
+      cite = StagePaper.onPitch(cite, p, scaler);
+    }
     final source = card.source.reference;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -56,13 +70,10 @@ class StageNcert extends StatelessWidget {
           child: Padding(padding: EdgeInsets.only(left: ruleGap), child: _words(reading)),
         ),
         if (showSource && source != null) ...[
-          const SizedBox(height: MmSpace.s12),
+          if (!_ruled) const SizedBox(height: MmSpace.s12),
           Padding(
             padding: EdgeInsets.only(left: ruleGap + 1),
-            child: Text(
-              source,
-              style: type.caption.copyWith(fontSize: 13, height: 1.45, color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()]),
-            ),
+            child: Text(source, style: cite),
           ),
         ],
       ],
@@ -80,6 +91,7 @@ class StageNcert extends StatelessWidget {
         paragraphs: [for (final (i, l) in lines.indexed) (text: steps ? '${i + 1}. $l' : l, bullet: !steps)],
         style: reading,
         sci: true,
+        spaced: !_ruled,
       );
     }
     final marked = blankKinds.contains(card.kind) ? markBlanks(card.back, card.blanks) : <KcPart>[(text: card.back, mark: false)];
@@ -103,7 +115,7 @@ class StageNcert extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final (i, p) in kept.indexed) ...[
-          if (i > 0) const SizedBox(height: MmSpace.s6),
+          if (i > 0 && !_ruled) const SizedBox(height: MmSpace.s6),
           _sciPara(p, reading),
         ],
       ],
@@ -134,8 +146,8 @@ class StageNcert extends StatelessWidget {
   );
 
   Widget _plainWords(TextStyle reading) => switch (backShape(card)) {
-    KcListBack(:final paragraphs) => _Paragraphs(paragraphs: paragraphs, style: reading),
-    final KcFormulaBack f => _Paragraphs(paragraphs: [for (final t in f.texts) (text: t, bullet: false)], style: reading, tight: true),
+    KcListBack(:final paragraphs) => _Paragraphs(paragraphs: paragraphs, style: reading, spaced: !_ruled),
+    final KcFormulaBack f => _Paragraphs(paragraphs: [for (final t in f.texts) (text: t, bullet: false)], style: reading, tight: true, spaced: !_ruled),
     KcEntryBack(:final rows) => _Entry(rows: joinedNarrations(rows), style: reading),
     KcParasBack(:final paras) => paras.length == 1
         ? _para(paras.first, reading)
@@ -143,7 +155,7 @@ class StageNcert extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               for (final (i, p) in paras.indexed) ...[
-                if (i > 0) const SizedBox(height: MmSpace.s6),
+                if (i > 0 && !_ruled) const SizedBox(height: MmSpace.s6),
                 _para(p, reading),
               ],
             ],
@@ -205,13 +217,15 @@ class StageMarkedText extends StatelessWidget {
 }
 
 /// A back the book breaks into lines (the Key cards' `KcParagraphs` rule): a paragraph a line, a list item with a
-/// small bullet hung in the margin; a formula's second line stays close to its first.
+/// small bullet hung in the margin; a formula's second line stays close to its first. Not [spaced] (a ruled back): no space
+/// between them, each on the next line.
 class _Paragraphs extends StatelessWidget {
-  const _Paragraphs({required this.paragraphs, required this.style, this.tight = false, this.sci = false});
+  const _Paragraphs({required this.paragraphs, required this.style, this.tight = false, this.sci = false, this.spaced = true});
 
   final List<KcParagraph> paragraphs;
   final TextStyle style;
   final bool tight;
+  final bool spaced;
 
   /// A chemistry card: each line draws its subscripts and superscripts.
   final bool sci;
@@ -224,7 +238,7 @@ class _Paragraphs extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final (i, p) in paragraphs.indexed) ...[
-          if (i > 0) SizedBox(height: tight ? MmSpace.s2 : MmSpace.s6),
+          if (i > 0 && spaced) SizedBox(height: tight ? MmSpace.s2 : MmSpace.s6),
           if (p.bullet)
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

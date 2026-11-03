@@ -8,7 +8,8 @@
 ///   RunActionBar    the item's keys, 6 dp, then the one status line (20 dp, always reserved)
 ///   RunStatusView   an error, a note, the stamp, a coach line or Free's look line
 ///   RunRateKeys     Missed it, Got it (the volt key), Easy, 8 dp apart, each with when the card comes back under its name (round 5)
-///   RunLessonCard   a lesson as a card: its kind, its title at the card's size, "Read this first."
+///   RunLessonCard   a lesson as a card: its kind on the plain band, its title at the card's size, "Read this first."
+///   RunDeck         the two card edges under a run's Key card (R8: a run has no peek, so this is its deck)
 ///   RunSwipe        a recap card follows the finger sideways; past 72 dp (or a quick flick) it goes on
 ///   RunRound        a cards run's pause after every 20
 ///   RunCentreArea   a centred state in the item area
@@ -21,7 +22,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/materials/edge_light.dart';
+import '../../../core/widgets/materials/grain.dart';
 import '../../../core/widgets/materials/shape.dart';
 import '../../../core/widgets/mm_spinner.dart';
 import '../../../core/widgets/skeleton.dart';
@@ -31,6 +32,7 @@ import '../stage/card_face.dart';
 import '../stage/stage_balance.dart';
 import '../stage/stage_keys.dart';
 import '../stage/stage_motion.dart';
+import '../stage/stage_paper.dart';
 import '../stage/stage_text.dart';
 import '../stage/stage_ticks.dart';
 import 'run_controller.dart';
@@ -475,8 +477,9 @@ class RunNextRow extends StatelessWidget {
 
 // ---------------------------------------------------------------- a lesson as a card
 
-/// A lesson item (run.css `.lr-card--lesson`): the card's surface with its kind ("Lesson, 7 min"), the lesson's title at the
-/// card's size for its length, and "Read this first. Its cards come next in this run." It does not turn.
+/// A lesson item (run.css `.lr-card--lesson`): the card's paper with its kind on the plain band ("Lesson, 7 min" in ink-2, R8), the
+/// lesson's title at the card's size for its length, and "Read this first. Its cards come next in this run." It does not turn and
+/// has no deck under it.
 class RunLessonCard extends StatelessWidget {
   const RunLessonCard({super.key, required this.kindLabel, required this.title, required this.line, this.cardKey});
 
@@ -493,32 +496,26 @@ class RunLessonCard extends StatelessWidget {
     final r = BorderRadius.circular(CardFace.radius);
     final p = CardFace.promptStyle(StageText.frontSize(title), media.width);
     final style = type.title.copyWith(fontSize: p.size, height: p.height, letterSpacing: p.size * p.tracking, wordSpacing: 0, color: colors.ink);
+    const side = StagePaper.side;
     return KeyedSubtree(
       key: cardKey,
       child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: colors.raised,
-          shape: mmShapeBorder(r, side: BorderSide(color: colors.lineStrong)),
-          shadows: colors.cardShadow,
-        ),
-        child: CustomPaint(
-          foregroundPainter: EdgeLightPainter(borderRadius: r, top: colors.edgeTop, bottom: colors.edgeBottom.withValues(alpha: 0), sheen: false),
-          child: MmClip(
-            borderRadius: r,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: CardFace.minHeightFor(media.height)),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
+        decoration: StagePaper.surface(colors.paper, r),
+        child: MmClip(
+          borderRadius: r,
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              const Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: Grain()))),
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: CardFace.minHeightFor(media.height)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(minHeight: 18),
-                      child: Text(kindLabel, style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3)),
-                    ),
+                    StageKindBand(kind: kindLabel),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      padding: const EdgeInsets.fromLTRB(side, StagePaper.gap, side, StagePaper.gap),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisSize: MainAxisSize.min,
@@ -542,9 +539,50 @@ class RunLessonCard extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
+            ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// ---------------------------------------------------------------- the deck under a run's card
+
+/// The deck under a run's Key card (run.css R8): a run has no peek, so two card edges of the same paper show under the card,
+/// the nearer 7 dp down and 10 dp in at each side, the farther 14 dp down and 20 dp in, each a shade deeper (the light falls on
+/// the top card), with the paper's hairline and shadow. They stay put while the card turns, leaves after a rating and the next
+/// one rises; the card gives up the 14 dp they take. Nothing here moves or takes a touch.
+class RunDeck extends StatelessWidget {
+  const RunDeck({super.key, required this.child});
+
+  final Widget child;
+
+  /// How far the deck shows under the card.
+  static const double depth = 14;
+
+  @override
+  Widget build(BuildContext context) {
+    final paper = context.mmColors.paper;
+    Widget edge(Color fill) => IgnorePointer(
+      child: DecoratedBox(
+        decoration: ShapeDecoration(
+          color: fill,
+          shape: mmShapeBorder(const BorderRadius.vertical(bottom: Radius.circular(22)), side: BorderSide(color: paper.line)),
+          shadows: paper.shadow,
+        ),
+      ),
+    );
+    return Padding(
+      padding: const EdgeInsets.only(bottom: depth),
+      child: Stack(
+        clipBehavior: Clip.none,
+        fit: StackFit.passthrough,
+        children: [
+          Positioned(left: 20, right: 20, bottom: -depth, height: 48, child: edge(paper.edgeFar)),
+          Positioned(left: 10, right: 10, bottom: -depth / 2, height: 48, child: edge(paper.edgeNear)),
+          child,
+        ],
       ),
     );
   }

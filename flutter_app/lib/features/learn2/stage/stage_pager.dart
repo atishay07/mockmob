@@ -5,7 +5,8 @@
 ///              vertical scroll view (clamping, so the content never bounces) with its options at the foot in the thumb
 ///              zone and fades at its edges, a state is centred. Pages more than 2 away are not built.
 ///   peek       the page after the one in view shows its top 40 dp above the action bar as a real card edge with its
-///              type label (the cap); it fades out over 200 ms when its page comes into view. [StagePager.chip] is the
+///              type label (the cap; a Key card's cap is its header band, R8: the next card in the deck); it fades out over
+///              200 ms when its page comes into view. [StagePager.chip] is the
 ///              first visit's cue, centred in that strip (the label hides while it shows)
 ///   touch      the track follows the finger 1:1 only when the drag's first movement could not scroll the content in
 ///              its direction (the edge rule, the web's `scrollerThatCanMove`): a drag that starts at the content's
@@ -30,10 +31,12 @@ import 'package:flutter/rendering.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/shape.dart';
+import '../../keycards/data/keycards_lines.dart' show KcFamily;
 import 'pager_model.dart';
 import 'stage_frame.dart';
 import 'stage_keys.dart' show StageBelowChip;
 import 'stage_motion.dart';
+import 'stage_paper.dart';
 
 /// How a page sits in the item area.
 enum StagePageKind {
@@ -49,11 +52,12 @@ enum StagePageKind {
 
 /// One page of the pager, as the screen describes it.
 class StagePage {
-  const StagePage({required this.kind, required this.child, required this.label, this.announce, this.id, this.cap});
+  const StagePage({required this.kind, required this.child, required this.label, this.announce, this.id, this.cap, this.capFamily});
 
-  const StagePage.card({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.card;
-  const StagePage.question({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.question;
-  const StagePage.centre({required this.child, required this.label, this.announce, this.id, this.cap}) : kind = StagePageKind.centre;
+  const StagePage.card({required this.child, required this.label, this.announce, this.id, this.cap, this.capFamily}) : kind = StagePageKind.card;
+  const StagePage.question({required this.child, required this.label, this.announce, this.id, this.cap, this.capFamily})
+    : kind = StagePageKind.question;
+  const StagePage.centre({required this.child, required this.label, this.announce, this.id, this.cap, this.capFamily}) : kind = StagePageKind.centre;
 
   final StagePageKind kind;
   final Widget child;
@@ -61,6 +65,10 @@ class StagePage {
   /// The label on the card edge this page shows in the peek while it is the next one: a card's kind ("Definition"), a
   /// mistake's own line else "Question", "So far" for a checkpoint. Null draws no edge.
   final String? cap;
+
+  /// A Key card's kind family (`kindFamily`): its edge in the peek is its header band on the paper, the kind word in the
+  /// family's colour (R8: the feed's deck is its peek). Null: the plain card edge (a question, a checkpoint).
+  final KcFamily? capFamily;
 
   /// The page's name for a screen reader: "Card 3 of 21", "Question 4 of 21", "Checkpoint after 8 of 21".
   final String label;
@@ -421,7 +429,8 @@ class StagePagerState extends State<StagePager> with TickerProviderStateMixin {
                         ),
                       ),
                       // The page under the one in view shows its top as a real card edge with its type label.
-                      if (cap != null && widget.peek > 0) _PageCap(label: cap, show: next, hideLabel: widget.chip != null, height: widget.peek + 24),
+                      if (cap != null && widget.peek > 0)
+                        _PageCap(label: cap, family: page.capFamily, show: next, hideLabel: widget.chip != null, height: widget.peek + 24),
                     ],
                   ),
                 ),
@@ -719,13 +728,15 @@ class _QuestionScrollState extends State<_QuestionScroll> {
 }
 
 /// The card edge of the page under the one in view (the web's `.st-cap`): the card's width and top radius, its 1 dp line, the
-/// card surface and shadow, the next item's type label at the left (13 semibold ink-3, one line). It sits on a page-coloured
-/// box so the page's own top never shows through the corners, and fades in or out over 200 ms; the label hides (160 ms) while the
-/// first visit's chip covers the strip.
+/// card surface and shadow, the next item's type label at the left (13 semibold ink-3, one line). A Key card's edge is its
+/// header band ([family], R8): the band's wash on the paper with its 1 dp line, the kind word in the family's colour (15
+/// semibold, AA on the wash), no shadow in Night. It sits on a page-coloured box so the page's own top never shows through the
+/// corners, and fades in or out over 200 ms; the label hides (160 ms) while the first visit's chip covers the strip.
 class _PageCap extends StatelessWidget {
-  const _PageCap({required this.label, required this.show, required this.hideLabel, required this.height});
+  const _PageCap({required this.label, required this.show, required this.hideLabel, required this.height, this.family});
 
   final String label;
+  final KcFamily? family;
   final bool show;
   final bool hideLabel;
   final double height;
@@ -734,6 +745,23 @@ class _PageCap extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final fam = family;
+    final paper = colors.paper;
+    final ink = fam == null ? null : StagePaper.ink(paper, fam);
+    final edge = ink == null
+        ? ShapeDecoration(
+            color: colors.raised,
+            shape: mmShapeBorder(BorderRadius.circular(24), side: BorderSide(color: colors.lineStrong)),
+            shadows: colors.cardShadow,
+          )
+        : ShapeDecoration(
+            color: ink.band,
+            shape: mmShapeBorder(BorderRadius.circular(24), side: BorderSide(color: ink.line)),
+            shadows: colors.isNight ? null : paper.shadow,
+          );
+    final style = ink == null
+        ? type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3)
+        : type.label.copyWith(fontSize: 15, height: 1.3, fontWeight: FontWeight.w600, letterSpacing: 0, color: ink.text);
     return Positioned(
       left: 16,
       right: 16,
@@ -748,34 +776,16 @@ class _PageCap extends StatelessWidget {
             child: Stack(
               children: [
                 Positioned.fill(child: ColoredBox(color: colors.ground)),
+                Positioned(left: 0, right: 0, top: 4, bottom: 0, child: DecoratedBox(decoration: edge)),
                 Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 4,
-                  bottom: 0,
-                  child: DecoratedBox(
-                    decoration: ShapeDecoration(
-                      color: colors.raised,
-                      shape: mmShapeBorder(BorderRadius.circular(24), side: BorderSide(color: colors.lineStrong)),
-                      shadows: colors.cardShadow,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 21,
-                  right: 21,
-                  top: 16,
+                  left: ink == null ? 21 : StagePaper.side,
+                  right: ink == null ? 21 : StagePaper.side,
+                  top: ink == null ? 16 : 15,
                   child: AnimatedOpacity(
                     opacity: hideLabel ? 0 : 1,
                     duration: Motion.of(context, const Duration(milliseconds: 160)),
                     curve: Motion.out,
-                    child: Text(
-                      label,
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style: type.label.copyWith(fontSize: 13, height: 1.3, color: colors.ink3),
-                    ),
+                    child: Text(label, maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis, style: style),
                   ),
                 ),
               ],
