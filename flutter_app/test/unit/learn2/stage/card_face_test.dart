@@ -227,6 +227,36 @@ void main() {
     expect(entry.rules, isEmpty, reason: 'a journal entry keeps its own rhythm on plain paper');
   });
 
+  testWidgets('words that fit keep the height the back is given: it never scrolls for an empty line alone', (tester) async {
+    // The run's first card at text 1.3 on a 360 x 800 phone: the band, the 14 dp gaps, nine lines at a 36 dp pitch and the foot
+    // make 462 dp in a 477 dp card. A forced empty line (498) scrolled the back 21 dp and its foot fade sat over Turn back.
+    Future<RenderStageRuledBack> backIn(double given) async {
+      await tester.pumpWidget(
+        OverflowBox(
+          alignment: Alignment.topCenter,
+          minWidth: 328,
+          maxWidth: 328,
+          minHeight: given,
+          maxHeight: double.infinity,
+          child: StageRuledBack(
+            pitch: 36,
+            rule: const Color(0x0BFFFFFF),
+            band: const SizedBox(height: 48),
+            block: const SizedBox(height: 324),
+            foot: const SizedBox(height: 62),
+          ),
+        ),
+      );
+      return tester.renderObject<RenderStageRuledBack>(find.byType(StageRuledBack));
+    }
+
+    final fits = await backIn(477);
+    expect(fits.size.height, 477, reason: 'less than a line is left under the words: the back keeps its height');
+    expect(fits.rules.last, 48 + 14 + 324, reason: 'the last rule is under the last line of words');
+    expect((await backIn(600)).size.height, 600, reason: 'room to spare: the back fills its page');
+    expect((await backIn(450)).size.height, 462 + 36, reason: 'words that do not fit grow the back, one empty line under them');
+  });
+
   testWidgets("the next card peeks as its own band: the wash, the kind word in the family's colour", (tester) async {
     await pumpStage(
       tester,

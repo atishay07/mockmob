@@ -30,6 +30,7 @@ import '../data/learn_models.dart' show LearnReturns;
 import '../data/learn_words.dart';
 import '../stage/card_face.dart';
 import '../stage/stage_balance.dart';
+import '../stage/stage_frame.dart' show StageTopBar;
 import '../stage/stage_keys.dart';
 import '../stage/stage_motion.dart';
 import '../stage/stage_paper.dart';
@@ -112,7 +113,8 @@ class RunTopBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
               child: SizedBox(
-                height: 20,
+                // The chapter's line grows with the text (26 dp at 1.3), so its words are never clipped.
+                height: StageTopBar.titleLineOf(context),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
