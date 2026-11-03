@@ -1,15 +1,16 @@
 import { readFileSync, statSync } from 'node:fs';
-import { URL } from 'node:url';
+import { join as RIG_JOIN } from 'node:path';
+const RIG_DATA = f => RIG_JOIN(process.cwd(), 'data', f); // rig-only: webpack dev cannot read new URL(..., import.meta.url)
 import { evaluateEvidence } from './content_evidence.js';
 import { FACTORY_POLICY,factoryCalibrationReady,routeCalibrationReleased } from './question_factory_policy.mjs';
-export function currentRegistry() { return JSON.parse(readFileSync(new URL('./source_registry.json', import.meta.url), 'utf8')); }
+export function currentRegistry() { return JSON.parse(readFileSync(RIG_DATA('source_registry.json'), 'utf8')); }
 /**
  * Registry and calibration read once, for a caller checking many questions in one pass. If either
  * file cannot be read, returns undefined so each check reads (and fails closed) on its own as before.
  */
 export function eligibilitySnapshot() {
   try {
-    return { manifest: JSON.parse(readFileSync(new URL('./calibration_manifest.json', import.meta.url), 'utf8')), registry: currentRegistry() };
+    return { manifest: JSON.parse(readFileSync(RIG_DATA('calibration_manifest.json'), 'utf8')), registry: currentRegistry() };
   } catch {
     return undefined;
   }
@@ -46,8 +47,8 @@ export function createEligibilitySnapshotCache({ manifest, registry }) {
   };
 }
 export const sharedEligibilitySnapshot = createEligibilitySnapshotCache({
-  manifest: new URL('./calibration_manifest.json', import.meta.url),
-  registry: new URL('./source_registry.json', import.meta.url),
+  manifest: RIG_DATA('calibration_manifest.json'),
+  registry: RIG_DATA('source_registry.json'),
 });
 // A caller checking a whole inventory may bind the registry/calibration it read
 // for that request. This shares inputs only: no item verdict is cached, and
@@ -55,7 +56,7 @@ export const sharedEligibilitySnapshot = createEligibilitySnapshotCache({
 export function publicationEligibility(question, snapshot) {
   if (process.env.MOCK_AI === 'true' || question.is_deleted || ['quarantined','pending','invalid','rejected'].includes(question.status) || question.verification_state === 'disputed') return { eligible: false, reasons: ['publication_disabled'] };
   try {
-    const manifest=snapshot?.manifest ?? JSON.parse(readFileSync(new URL('./calibration_manifest.json',import.meta.url),'utf8'));
+    const manifest=snapshot?.manifest ?? JSON.parse(readFileSync(RIG_DATA('calibration_manifest.json'),'utf8'));
     const record=question.evidence?.record,report=manifest.routes?.[record?.route],registry=snapshot?.registry ?? currentRegistry();
     // Factory records need the full release predicate used by generation; legacy records keep their route gate.
     if(record?.policy_version===FACTORY_POLICY){
