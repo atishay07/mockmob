@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart';
+import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -66,6 +68,15 @@ List<Override> learnOverrides({
       rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
       learnPrefsStoreProvider.overrideWithValue(MemoryPrefs({if (!firstVisit) 'learn_how_concepts_seen': true})),
       studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
+      // Lesson help (the line under a step) reads the AI credit wallet; no network here.
+      creditsRepositoryProvider.overrideWithBuild(
+        (ref, n) => RemoteState(
+          value: AiCredits.fromJson({
+            'state': 'available',
+            'wallet': {'state': 'available', 'known': true, 'spendable': true, 'total': 9, 'resetAt': '2026-10-31T18:30:00.000Z'},
+          }),
+        ),
+      ),
       networkStatusProvider.overrideWith(() => FakeNetwork(network)),
       if (catalog != null || catalogState != null)
         learnCatalogProvider.overrideWithBuild(
