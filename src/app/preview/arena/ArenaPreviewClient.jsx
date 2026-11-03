@@ -38,6 +38,7 @@ import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixture
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
+import { worstOf, rechapter, worstAttemptList, fixtureExtremeAttempt, WORST_COLLEGES } from './previewWorst';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
@@ -118,9 +119,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
   let lostReply = false;
   // Resolve on a separate task, like an HTTP response. Immediate in-memory
   // replies can race initial effect cleanup/reset during development hydration.
+  // ?net=slow makes every account answer take 6 seconds (worst case, previewWorst.js).
   const json = (body, status = 200) => new Promise(resolve => setTimeout(() => resolve(
-    new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } }),
-  ), 25));
+    new Response(JSON.stringify(rechapter(body, worstOf(new URLSearchParams(window.location.search)).chapter)), { status, headers: { 'Content-Type': 'application/json' } }),
+  ), new URLSearchParams(window.location.search).get('net') === 'slow' ? 6000 : 25));
   window.fetch = (input, init = {}) => {
     const url = new URL(typeof input === 'string' ? input : input.url, window.location.origin);
     const method = (init.method || 'GET').toUpperCase();
@@ -134,9 +136,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return real(input, init);
     }
     const state = fixture.get('data');
+    const W = worstOf(fixture);
     const accountRead = method === 'GET' && !['/api/subjects', '/api/chapters'].includes(url.pathname) && !url.pathname.startsWith('/api/auth/');
     if (accountRead && state === 'loading') return new Promise((resolve, reject) => { init.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }); });
-    if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
+    if (accountRead && (state === 'error' || W.net === 'fail')) return json({ error: 'Illustrative connection failure' }, 503);
     if (fixture.get('recovery') === 'candidate' && window.__previewPathway) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;
@@ -157,12 +160,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     ]);
     // Recent papers (Today trend). Newest first; ?trend=few has too few to draw.
     if (url.pathname === '/api/attempts/summary') {
-      const marks = fixture.get('trend') === 'few' || state === 'empty' ? [92, 88] : [76, 84, 80, 96, 104, 118];
+      const marks = W.papers !== null ? Array.from({ length: W.papers }, (_, i) => (i * 37) % 251) : fixture.get('trend') === 'few' || state === 'empty' ? [92, 88] : [76, 84, 80, 96, 104, 118];
       const items = marks.map((m, i) => ({ id: `fxp${i}`, subject: 'accountancy', mode: 'full', correct: Math.round((m + 4) / 5.2), wrong: 4, unattempted: 0, total: 50, marks: m, maxMarks: 250, completedAt: Date.now() - (marks.length - i) * 3 * 86400000, formatId: 'full:accountancy:q50:server_snapshot_v1' })).reverse();
       return json({ items, nextCursor: null });
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      if (W.score) return json({ ...fixtureExtremeAttempt(W.score), missedBefore: {}, answerReviewState: 'ready' });
       // ?mock=full|nta serves a scored mock with the real SWOT, record lines and Mistake Lab (previewMock.js); ?checks=unavailable
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.
@@ -202,7 +206,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/questions/upload') return json({ error: 'Preview only: no question was submitted. Your draft is still here.' }, 418);
     if (url.pathname === '/api/ai/usage') return json({ ok: true, isPaid: fixture.get('plan') === 'pro', freeRivalUsedToday: false, aiWallet: unreadableWallet('paid_ai_paused') });
     if (url.pathname.startsWith('/api/ai/rival/')) return json({ error: 'Preview only: benchmarks cannot start or submit here.' }, 418);
-    if (url.pathname === '/api/attempts' && method === 'GET') return json(state === 'empty' ? [] : PREVIEW_ATTEMPTS);
+    if (url.pathname === '/api/attempts' && method === 'GET') return json(W.papers !== null ? worstAttemptList(W.papers) : state === 'empty' ? [] : PREVIEW_ATTEMPTS);
     if (url.pathname === '/api/attempts' && method === 'POST') {
       window.__previewSubmissions.push(JSON.parse(init.body || '{}'));
       if (window.__previewOfflineSubmission) return Promise.reject(new TypeError('Illustrative network interruption'));
@@ -227,7 +231,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         purchasable: monthlyOffer ? 'monthly' : 'one_time',
       };
       return json({ ...buildPracticeQuote({
-        user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
+        user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: W.credits ?? (pro ? 0 : 40) },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
         inventory, allowance: { enabled: page.get('allowance') === 'on', used: false }, token: `preview-${Date.now()}`,
       }), offer });
@@ -240,7 +244,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const profile = MONTHLY_PROFILES[page.get('plan')] || null;
       const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
       const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
-      return json({ ...creditsContract, plan: { name: paid ? 'Pro' : 'Free', until } });
+      const W = worstOf(page);
+      const set = (pool) => (W.credits === null ? pool : { ...pool, balance: W.credits });
+      const history = W.credits === null ? creditsContract.history : creditsContract.history.map((h) => ({ ...h, balanceAfter: W.credits }));
+      return json({ ...creditsContract, practice: set(creditsContract.practice), ai: set(creditsContract.ai), history, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
       const page = new URLSearchParams(window.location.search);
@@ -299,6 +306,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         ['Ramjas College', 'B.Com (Hons)'], ['Daulat Ram College (W)', 'B.Com (Hons)'],
       ];
       if (!window.__previewColleges) {
+        if (worstOf(fixture).colleges && kind !== 'empty') seed.splice(0, seed.length, ...WORST_COLLEGES);
         const n = kind === 'empty' || state === 'empty' ? 0 : kind === 'full' ? 8 : 5;
         window.__previewColleges = seed.slice(0, n).map(([college, programme]) => ({ college, programme, programmeId: 'b-com-hons' }));
       }
@@ -341,8 +349,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/recovery' && method === 'GET') {
       const page = new URLSearchParams(window.location.search);
       if (page.get('record') === 'down') return json({ error: 'unavailable' }, 503);
-      const empty = page.get('record') === 'empty' || state === 'empty';
-      const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct }));
+      const empty = page.get('record') === 'empty' || state === 'empty' || worstOf(page).papers === 0;
+      const ordinaryReview = empty ? [] : (worstOf(page).papers ? worstAttemptList(worstOf(page).papers) : PREVIEW_ATTEMPTS).map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct }));
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
     }
@@ -350,7 +358,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/learning/plan') {
       // ?record=down fails the plan read; ?record=empty or ?data=empty has no saved session.
       if (new URLSearchParams(window.location.search).get('record') === 'down') return json({ error: 'unavailable' }, 503);
-      const noRecord = state === 'empty' || new URLSearchParams(window.location.search).get('record') === 'empty';
+      const noRecord = state === 'empty' || new URLSearchParams(window.location.search).get('record') === 'empty' || worstOf(new URLSearchParams(window.location.search)).papers === 0;
       const attempts = fixture.get('tonight') === 'done' ? [{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1', ...tonightMetadata({ tonightKey: 'preview-tonight-key', tonightMinutes: 30, mode: 'quick', count: 20 }) } }] : [];
       return json({ ...learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10, attempts: noRecord ? [] : PREVIEW_ATTEMPTS }), tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: noRecord ? 0 : 3 });
     }
@@ -359,8 +367,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?wallet=down simulates a missing schema; otherwise a paused wallet with stored balances.
       const page = new URLSearchParams(window.location.search);
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
-        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
-      return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
+        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: worstOf(page).credits ?? 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
+      return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: worstOf(page).credits ?? 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
     if (url.pathname === '/api/ai/mentor/history') return json({ ok: true, session: null, messages: [] });
     if (url.pathname === '/api/ai/mentor/local') return json({ ok: true, sessionId: 'preview-session' });
@@ -478,6 +486,7 @@ function PreviewInner({ candidatePathway }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
+  const worst = useMemo(() => worstOf(params), [params]);
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
   const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
@@ -486,13 +495,13 @@ function PreviewInner({ candidatePathway }) {
   const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
   const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
   const auth = useMemo(() => ({
-    user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
+    user: { id: 'preview-user', name: worst.name || (params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student'), email: worst.email || 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi', 'teaching_aptitude'] : [])],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40, ...(MONTHLY || {}) },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: worst.credits ?? (pro ? 0 : 40), ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
-  }), [pro, params, MONTHLY]);
+  }), [pro, params, MONTHLY, worst]);
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>
