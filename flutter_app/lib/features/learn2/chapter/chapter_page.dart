@@ -30,8 +30,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../keycards/data/keycards_models.dart' show KcChapterState;
-import '../../keycards/widgets/key_card_parts.dart' show KcLinkAction, KcStateLine;
+import '../../keycards/widgets/key_card_parts.dart' show KcLinkAction;
 import '../../practice/data/practice_catalog.dart' show subjectNameFor;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/learn_api.dart' show LearnError;
@@ -41,6 +40,7 @@ import '../data/learn_providers.dart' show learnChapterMinutesProvider;
 import '../data/learn_words.dart';
 import '../learn2_balance.dart';
 import '../learn2_links.dart';
+import '../learn2_pill.dart';
 import 'chapter_copy.dart';
 import 'chapter_first_up.dart';
 import 'chapter_length.dart';
@@ -435,7 +435,8 @@ class _ChapterPageState extends ConsumerState<ChapterPage> {
             alignment: Alignment.topCenter,
             child: picker ? lined : const SizedBox(width: double.infinity),
           ),
-          const SizedBox(height: MmSpace.group),
+          // Beside a closed picker the shelf follows "Start fresh instead" without a dead band (C-LEARN-CALM 2.10).
+          SizedBox(height: picker ? MmSpace.group : MmSpace.s20),
           if (shelf != null)
             ChapterShelf(rows: shelf.rows, missing: shelf.missing, onOpen: (row) => _openShelf(row, data))
           else if (failed)
@@ -546,18 +547,15 @@ class _Head extends StatelessWidget {
           ),
         ),
         if (chapter != null && (refLine != null || verdict != null)) ...[
-          const SizedBox(height: 8),
+          const SizedBox(height: 12),
+          // The place and the one verdict are pills of Learn's one family (C-LEARN-CALM 2.8), on one line under the title.
           Wrap(
-            spacing: 14,
+            spacing: MmSpace.s8,
             runSpacing: MmSpace.s6,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              if (refLine != null) Text(refLine!, key: const ValueKey('chapter-place'), style: type.small.copyWith(fontWeight: FontWeight.w500, height: 1.4, color: colors.ink2)),
-              if (verdict != null)
-                KcStateLine(
-                  state: KcChapterState(state: 'weak', label: verdict!),
-                  style: type.label.copyWith(fontSize: 14, height: 1.3, color: colors.warnText),
-                ),
+              if (refLine != null) LearnPill(key: const ValueKey('chapter-place'), label: refLine!),
+              if (verdict != null) LearnPill(label: verdict!, tone: LearnPillTone.warn),
             ],
           ),
         ],
@@ -588,12 +586,50 @@ class _ResumeRow extends StatelessWidget {
               header: true,
               child: Text(ChapterCopy.resumeHead(resume.done, resume.of), style: type.labelLarge.copyWith(height: 1.4, color: colors.ink)),
             ),
-            const SizedBox(height: MmSpace.s12),
+            // The same "6 of 16" as a track (the words above say it to a screen reader): where the run stands at a glance.
+            if (resume.of > 0) ...[
+              const SizedBox(height: 10),
+              ExcludeSemantics(child: _RunTrack(share: (resume.done / resume.of).clamp(0.0, 1.0))),
+            ],
+            const SizedBox(height: MmSpace.s16),
             KeyButton(
               label: ChapterModel.continueLabel(resume),
               minHeight: 52,
               semanticsLabel: ChapterCopy.resumeLabel(ChapterModel.continueLabel(resume), resume.done, resume.of),
               onPressed: onTap,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The unfinished run's thin track: 6 dp, round, the volt share of what is done, filled once in 420 ms (at rest under reduced motion).
+class _RunTrack extends StatelessWidget {
+  const _RunTrack({required this.share});
+
+  final double share;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return SizedBox(
+      height: 6,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            ColoredBox(color: colors.line),
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: share),
+              duration: Motion.of(context, const Duration(milliseconds: 420)),
+              curve: Motion.out,
+              builder: (context, v, _) => Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(widthFactor: v, heightFactor: 1, child: ColoredBox(color: colors.accentText)),
+              ),
             ),
           ],
         ),

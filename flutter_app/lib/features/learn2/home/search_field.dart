@@ -84,9 +84,10 @@ class HomeSearchField extends StatelessWidget {
                         prefixIconConstraints: const BoxConstraints(minWidth: 48, minHeight: height),
                         suffixIcon: hasText ? _ClearKey(onTap: () => _clear()) : null,
                         suffixIconConstraints: const BoxConstraints(minWidth: MmTarget.min, minHeight: height),
-                        enabledBorder: outline(colors.lineStrong, 1),
+                        // Filled and quiet until it has focus (C-LEARN-CALM 2.3): it is a way in, not a second hero.
+                        enabledBorder: outline(colors.line.withValues(alpha: 0), 1),
                         focusedBorder: outline(colors.ink3, 1.5),
-                        border: outline(colors.lineStrong, 1),
+                        border: outline(colors.line.withValues(alpha: 0), 1),
                       ),
                     ),
                   ),

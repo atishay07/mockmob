@@ -11,8 +11,8 @@ import 'home_entrance.dart';
 import 'home_model.dart';
 import 'shelf_keys.dart';
 
-/// Learn home's one start offer (the web's RoadmapHero.jsx, R2 ruling 1, LK27): type on the page, not a card. The headline, one
-/// line, the pick-up's track, one sub line, the page's one volt key and at most two quiet "Or" rows. Every word is the server's
+/// Learn home's one start offer (the web's RoadmapHero.jsx, R2 ruling 1, LK27), on the app's one hero surface with Mobi
+/// (C-LEARN-CALM 2.2, 3 Nov: the web's phone band keeps it as type on the page). The headline, one line, the pick-up's track, one sub line, the page's one volt key and at most two quiet "Or" rows. Every word is the server's
 /// `roadmap` (data/learn/roadmap.js); nothing is made up here and no zero is ever drawn. [onOpen] gets the key or the row that was
 /// tapped; the caller goes to its run, its feed, Explore or its href. Free's "See Pro" is drawn only where Pro nudges are on
 /// ([nudges]); with them off the block is the headline, the line and the rows that still work.
@@ -42,84 +42,109 @@ class RoadmapOffer extends StatelessWidget {
     final sub = r.sub;
     final progress = r.progress;
 
+    final hasTrack = line != null || progress != null || sub != null;
     return HomeRise(
       index: firstIndex,
-      child: Semantics(
-        container: true,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 6, bottom: 22),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(
-                header: true,
-                // The web's `text-wrap: balance`: two lines are two even lines, never a long one and a word.
-                child: BalancedText(
-                  HomeModel.displayTitle(r.headline),
-                  key: const ValueKey('lh-offer-title'),
-                  style: type.title.copyWith(fontSize: 28, height: 1.14, letterSpacing: -0.03 * 28, color: colors.ink),
-                ),
-              ),
-              if (line != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    HomeModel.displayTitle(line),
-                    key: const ValueKey('lh-offer-line'),
-                    style: type.body.copyWith(fontSize: 16, height: 1.4, fontWeight: FontWeight.w600, color: colors.ink),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 2, bottom: 20),
+        // The one hero of Learn (C-LEARN-CALM 2.2): the app's focal surface, as Today's "Up next". Mobi stands beside the
+        // progress, in his own box; the headline has the full width.
+        child: MmSurface.hero(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+          child: Semantics(
+            container: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Semantics(
+                  header: true,
+                  // The web's `text-wrap: balance`: two lines are two even lines, never a long one and a word.
+                  child: BalancedText(
+                    HomeModel.displayTitle(r.headline),
+                    key: const ValueKey('lh-offer-title'),
+                    style: type.title.copyWith(fontSize: 30, height: 1.12, letterSpacing: -0.03 * 30, color: colors.ink),
                   ),
                 ),
-              if (progress != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 12),
-                  child: _Track(
-                    done: progress.done,
-                    of: progress.of,
-                    // The line above already says "6 of 16 done": the track then reads nothing more.
-                    speak: line == null || HomeModel.displayTitle(line) != HomeCopy.progressDone(progress.done, progress.of),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (line != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                HomeModel.displayTitle(line),
+                                key: const ValueKey('lh-offer-line'),
+                                style: type.body.copyWith(fontSize: 16, height: 1.4, fontWeight: FontWeight.w600, color: colors.ink),
+                              ),
+                            ),
+                          if (progress != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: _Track(
+                                done: progress.done,
+                                of: progress.of,
+                                // The line above already says "6 of 16 done": the track then reads nothing more.
+                                speak: line == null || HomeModel.displayTitle(line) != HomeCopy.progressDone(progress.done, progress.of),
+                              ),
+                            ),
+                          if (sub != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8),
+                              child: Text(sub, key: const ValueKey('lh-offer-sub'), style: type.body.copyWith(fontSize: 14.5, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink2)),
+                            ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: MmSpace.s12),
+                    Padding(
+                      padding: EdgeInsets.only(top: hasTrack ? 4 : 10),
+                      child: const ExcludeSemantics(
+                        child: SizedBox(height: 60, child: MobiCharacter(size: 60, shadow: false, seed: 31, watchTaps: false)),
+                      ),
+                    ),
+                  ],
                 ),
-              if (sub != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(sub, key: const ValueKey('lh-offer-sub'), style: type.body.copyWith(fontSize: 15, height: 1.4, fontWeight: FontWeight.w500, color: colors.ink2)),
-                ),
-              if (showKey || showQuiet)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      if (showKey) KeyButton(key: const ValueKey('lh-offer-key'), label: key.label, minHeight: 56, onPressed: () => onOpen(key)),
-                      if (showQuiet) ...[
-                        if (showKey) const SizedBox(height: 4),
-                        Center(child: HomeTextKey(key: const ValueKey('lh-offer-quiet'), label: quiet.label, onTap: () => onOpen(quiet))),
+                if (showKey || showQuiet)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (showKey) KeyButton(key: const ValueKey('lh-offer-key'), label: key.label, minHeight: 56, onPressed: () => onOpen(key)),
+                        if (showQuiet) ...[
+                          if (showKey) const SizedBox(height: 4),
+                          Center(child: HomeTextKey(key: const ValueKey('lh-offer-quiet'), label: quiet.label, onTap: () => onOpen(quiet))),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-              if (or.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(top: 14),
-                  child: Semantics(
-                    container: true,
-                    label: HomeCopy.orGroup,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
+                if (or.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(top: showKey || showQuiet ? 14 : 10),
+                    child: Semantics(
+                      container: true,
+                      label: HomeCopy.orGroup,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           for (var i = 0; i < or.length; i++)
                             DecoratedBox(
-                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: colors.line))),
+                              // One hairline between the key and the rows, one between the rows; none under the last (the hero's edge closes it).
+                              decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
                               child: _OrRow(key: ValueKey('lh-or-${or[i].kind ?? i}'), option: or[i], onTap: () => onOpen(or[i])),
                             ),
                         ],
                       ),
                     ),
-                  ),
-                ),
-            ],
+                  )
+                else
+                  const SizedBox(height: 12),
+              ],
+            ),
           ),
         ),
       ),
@@ -142,14 +167,14 @@ class _OrRow extends StatelessWidget {
     return MmPressable(
       semanticsLabel: [option.label, ?line].join('. '),
       focusRadius: MmRadius.smallAll,
-      pressedScale: 0.99,
+      pressedScale: 0.985,
       highlight: true,
       haptic: MmPressHaptic.selection,
       onTap: onTap,
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s2, vertical: MmSpace.s8),
           child: Row(
             children: [
               Expanded(
@@ -157,14 +182,14 @@ class _OrRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(option.label, style: type.body.copyWith(fontSize: 15, height: 1.3, fontWeight: FontWeight.w700, color: colors.ink)),
+                    Text(option.label, style: type.body.copyWith(fontSize: 15, height: 1.3, fontWeight: FontWeight.w600, color: colors.ink)),
                     if (line != null) ...[
                       const SizedBox(height: 2),
                       Text(
                         HomeModel.displayTitle(line),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: type.body.copyWith(fontSize: 13.5, height: 1.35, fontWeight: FontWeight.w500, color: colors.ink2),
+                        style: type.body.copyWith(fontSize: 13, height: 1.35, fontWeight: FontWeight.w500, color: colors.ink3),
                       ),
                     ],
                   ],
@@ -201,11 +226,11 @@ class _Track extends StatelessWidget {
         child: Align(
           alignment: Alignment.centerLeft,
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 280),
+            constraints: const BoxConstraints(maxWidth: 320),
             child: SizedBox(
-              height: 4,
+              height: 6,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(2),
+                borderRadius: BorderRadius.circular(3),
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
@@ -237,16 +262,19 @@ class RoadmapOfferSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.only(top: 6, bottom: 22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: 0.78, child: Skeleton(height: 32, radius: 8)),
-          SizedBox(height: 8),
-          FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: 0.9, child: Skeleton(height: 18, radius: 8)),
-          SizedBox(height: 20),
-          Skeleton(height: 56, radius: 16),
-        ],
+      padding: EdgeInsets.only(top: 2, bottom: 20),
+      child: MmSurface.hero(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: 0.78, child: Skeleton(height: 34, radius: 8)),
+            SizedBox(height: 12),
+            FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: 0.6, child: Skeleton(height: 18, radius: 8)),
+            SizedBox(height: 32),
+            Skeleton(height: 56, radius: 16),
+          ],
+        ),
       ),
     );
   }
