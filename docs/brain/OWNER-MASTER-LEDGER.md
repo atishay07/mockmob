@@ -692,7 +692,7 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | Status | Item |
 | --- | --- |
 | IN PROGRESS (4 Nov ~3 am stop): web lanes done and live; app merged, review done, fixes/walk/build left | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
-| PARTLY: AAB 1.0.20+18 built 4 Nov ~8:15 pm (Desktop/MockMob-build-18, OWNER-STEPS.md); home page ships after its gate | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
+| DONE 5 Nov ~12:35 am: AAB 1.0.20+18 (Desktop/MockMob-build-18, his upload pending) and the web live at main 09a5bbe39 | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
 | DONE 4 Nov ~3 am except the 610 MB snapshot push (his command in the handoff) | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
 | ANSWERED 4 Nov ~12:10 am: "Push branches to GitHub" (his button answer) | **LK66** His message ends "Everything then should be sent to": where? Push every branch to GitHub, after the production web deploy so preview builds do not queue ahead of it. Vercel is on Hobby (100 deployments a day, one build at a time): 438 branch pushes would block production for up to a day, so the ~15 current branches go up as branches and the older ones as archive/<branch> tags (tags start no Vercel build; checked on one first). |
 
@@ -700,18 +700,18 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 
 | Status | Item |
 | --- | --- |
-| OPEN | **LK67** Hero parity: the phone hero's Mobi tap animation and changing bubble feel weird on a phone, and the desktop hero has none of it. One hero idea on both. |
-| OPEN | **LK68** Night hero looks like AI slop: too much neon highlighting and neon edges. Research what AI slop looks like and remove it. |
-| OPEN | **LK69** Phone scroll on the home page is inconsistent and laggy: one gesture = one step, never speed-dependent (a fast flick must not skip several, a slow drag must not stop half way). |
-| OPEN | **LK70** Phone hero: over half the screen is Mobi and decoration, with no word of CUET, exams or what MockMob is. Keep Mobi, but the hero must say what we are. |
-| OPEN | **LK71** AI-slop traits and text walls on the home page; shorten. |
-| OPEN | **LK72** The exam screen on the home page is too tall, and must show the real MockMob exam screen (better and unique), not a copy of the NTA interface. |
-| OPEN | **LK73** A stronger brand identity of our own: illustrations, typography hierarchy, consistent use of Mobi. Keep the fonts and the logo (not the common AI fonts). |
-| OPEN | **LK74** Reference ug.preparoo.app: a refined loading animation on entry and a refined typing animation on the home page; that level of refinement. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK67** Hero parity: the phone hero's Mobi tap animation and changing bubble feel weird on a phone, and the desktop hero has none of it. One hero idea on both. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK68** Night hero looks like AI slop: too much neon highlighting and neon edges. Research what AI slop looks like and remove it. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK69** Phone scroll on the home page is inconsistent and laggy: one gesture = one step, never speed-dependent (a fast flick must not skip several, a slow drag must not stop half way). |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK70** Phone hero: over half the screen is Mobi and decoration, with no word of CUET, exams or what MockMob is. Keep Mobi, but the hero must say what we are. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK71** AI-slop traits and text walls on the home page; shorten. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK72** The exam screen on the home page is too tall, and must show the real MockMob exam screen (better and unique), not a copy of the NTA interface. |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK73** A stronger brand identity of our own: illustrations, typography hierarchy, consistent use of Mobi. Keep the fonts and the logo (not the common AI fonts). |
+| LIVE 5 Nov ~12:35 am (main 09a5bbe39, Desk Light home page; spec home-spec/SPEC-HOME-1104.md) | **LK74** Reference ug.preparoo.app: a refined loading animation on entry and a refined typing animation on the home page; that level of refinement. |
 | STANDING | **LK75** Refine these small things automatically, ourselves; think it through. |
 | DONE 4 Nov ~2:10 am | **LK76** The push command failed: it ran in the parent folder, which is not a git repository. Gave him a one-line command that names the repository. |
 | ANSWERED 4 Nov ~6:35 pm: status, ETA (AAB about 9 pm, website about 11 pm IST), nothing blocking needed from him | **LK77** Continue where you left off; tell me what is done, what is left, by when it all completes, and whether anything is needed from me. |
 | DONE (by him, 3-4 Nov night; verified 4 Nov ~6:45 pm: origin refs/archive/uncommitted-1104-main = 117408243) | **LK78** The 610 MB backup push is up to date; he did it yesterday. Do not ask again. |
 | ANSWERED 4 Nov ~6:55 pm: live = main ced6f747f (Learn fixes only); the home page shown in screenshots is not deployed yet, ships after the gate | **LK79** Has anything been deployed? The live site looks unchanged and different from the screenshots in the chat. |
-| IN PROGRESS 4 Nov ~7 pm | **LK80** Speed up: fix everything, deploy everything, then tell me; as perfect as it can be when I see it. |
+| DONE 5 Nov ~12:35 am: AAB 1.0.20+18 in Desktop/MockMob-build-18; home page live (main 09a5bbe39); reported to him | **LK80** Speed up: fix everything, deploy everything, then tell me; as perfect as it can be when I see it. |
 
