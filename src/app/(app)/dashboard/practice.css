@@ -693,3 +693,14 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 }
 :root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__lesson, :root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__chev { transition: none; }
 :root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__lesson:active { transform: none; }
+
+/* Small laptops and tablets in landscape, 1024-1279 px (5 Nov 2026): the sidebar (about 260 px) and the 352 px card left the setup
+   column about 360 px wide, so the four subject names ran into each other ("AccountancyEconomics") and the mode tiles' prices
+   sat on their titles. In this band the card is narrower, the subject objects smaller, and the mode tiles one to a row. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .app-shell .pr .pr-layout--1017 { grid-template-columns: minmax(0, 1fr) 300px; column-gap: 24px; }
+  .app-shell .pr .pr-subjects { gap: 8px; }
+  .app-shell .pr .pr-subject { --pr-obj: 80px; }
+  .app-shell .pr .pr-subject__name { font-size: 14px; }
+  .app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr); }
+}
