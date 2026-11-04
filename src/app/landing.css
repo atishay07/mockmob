@@ -47,9 +47,9 @@
   --font-stem: var(--font-literata, Georgia), Georgia, 'Times New Roman', serif;
   --fs-display: clamp(2.75rem, 1rem + 5.2vw, 5.25rem);
   --fs-statement: clamp(1.875rem, 0.8rem + 3.6vw, 3.25rem);
-  --fs-h2: clamp(1.875rem, 0.8rem + 3.6vw, 3.25rem);
+  --fs-h2: clamp(1.75rem, 0.8rem + 3.6vw, 3.25rem);
   --fs-h3: clamp(1.25rem, 1rem + 0.7vw, 1.625rem);
-  --fs-close: clamp(2.5rem, 1rem + 5vw, 4.5rem);
+  --fs-close: clamp(2.25rem, 1rem + 4.2vw, 4rem);
   --fs-stem: clamp(1.25rem, 1rem + 0.6vw, 1.4375rem);
   --fs-body: clamp(1rem, 0.9rem + 0.25vw, 1.125rem);
   --fs-small: 0.875rem;

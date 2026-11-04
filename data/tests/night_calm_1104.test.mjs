@@ -61,7 +61,8 @@ test('volt is never a text colour (C1): only the logo dot and a tick carried on 
     for (const d of r.decls) {
       if (!/^(color|-webkit-text-fill-color|text-decoration-color|caret-color|stroke|fill)$/.test(d.prop)) continue;
       if (!voltIn(d.value)) continue;
-      if (/\.logo \.dot|\.du-chip\[aria-pressed="true"\] \.du-chip__tick/.test(r.selector)) continue;
+      // .lp-room__dot: the painted answer sheet fills one bubble per sample answer (decision 13): a state fill, not text.
+      if (/\.logo \.dot|\.lp-room__dot|\.du-chip\[aria-pressed="true"\] \.du-chip__tick/.test(r.selector)) continue;
       offenders.push(describe(r, d));
     }
   }
@@ -172,8 +173,18 @@ test('Night has no coloured token for the edges, the wash or the text of links a
 test('shelf objects: only the lit one floats forever; the others float twice and rest (M2, decision 19)', () => {
   const home = strip(read('src/app/home.css'));
   assert.match(home, /subj-obj-float 7\.2s 2 both, lp-shelf-in backwards, lp-shelf-out forwards/);
-  assert.match(home, /\.subj-obj--alive\[data-lit\] \.subj-obj__float \{ animation-iteration-count: infinite, 1, 1; \}/);
+  assert.match(home, /\.subj-obj--alive\.subj-obj--lit \.subj-obj__float \{ animation-iteration-count: infinite, 1, 1; \}/);
   assert.doesNotMatch(home, /subj-obj-float 7\.2s infinite/);
+  // The phone story (hero-depth.css) obeys the same rule, and the lit object is the one Statement passes `lit`.
+  const depth = strip(read('src/app/hero-depth.css'));
+  assert.doesNotMatch(depth, /subj-obj-float 7\.2s infinite/);
+  assert.match(depth, /\.subj-obj--alive\.subj-obj--lit \.subj-obj__float \{ animation-iteration-count: infinite; \}/);
+  assert.match(read('src/components/landing/Statement.jsx'), /lit=\{i === 1\}/);
+});
+
+test('nothing else loops on the home page: the exam clock icon has no pulse, the guide reads twice and rests', () => {
+  assert.doesNotMatch(strip(read('src/app/exam-screen.css')), /infinite/);
+  assert.doesNotMatch(strip(read('src/app/brand-pip.css')), /pip-read [^;]*infinite/);
 });
 
 test('no overshoot easing on chrome (M3): the du unlock chip uses the app ease-out on the home and public pages', () => {

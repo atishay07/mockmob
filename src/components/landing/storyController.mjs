@@ -36,6 +36,7 @@ let wb = null;               // the wheel burst in progress
 let keepY = null;            // where a clamp holds the page (until the reader touches, wheels or presses a key)
 let keepStory = null;
 let busyUntil = 0;           // the lock after a step
+let lastRelease = -Infinity; // when the last finger left the glass (a fling's momentum runs on after it)
 let lastY = 0;
 let settleTimer = 0;
 let unsubBus = null;
@@ -184,6 +185,7 @@ function onTouchMove(e) {
 
 function onTouchEnd(e) {
   touches = e.touches ? e.touches.length : 0;
+  lastRelease = now();
   const done = g;
   g = null;
   if (!done) { afterNativeTouch(); return; }
@@ -201,6 +203,7 @@ function onTouchEnd(e) {
 }
 
 function onTouchCancel() {
+  lastRelease = now();
   if (g?.story) release(g.story);
   g = null;
   touches = 0;
@@ -266,8 +269,15 @@ function onKeyDown(e) {
 
 // ---------------------------------------------------------------- entry clamp and settle (from the shared scroll read)
 
+// Only a fling is clamped: the momentum of a touch that just ended, or a wheel burst still running. A scroll with no
+// such gesture behind it (the scrollbar dragged, End, find-in-page, a script's instant jump) is the reader's or the
+// page's own choice of place, so it is never pulled back to a story's edge; if it ends inside a hold, settle() takes it
+// to the nearest rest.
+const FLING_MS = 3000;
+const flinging = () => now() - lastRelease < FLING_MS || (wb !== null && now() - wb.last < WHEEL_QUIET_MS * 2);
+
 function onFrame({ y }) {
-  if (touches === 0 && keepY === null && !bus.jumping()) {
+  if (touches === 0 && keepY === null && !bus.jumping() && flinging()) {
     for (const s of nearSet) {
       if (!s.ok) continue;
       const end = s.top + s.hold;

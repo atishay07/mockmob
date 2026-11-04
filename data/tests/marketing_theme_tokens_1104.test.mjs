@@ -147,12 +147,15 @@ test('the type ladder tokens (decision 16): Bricolage display, Hanken words, Lit
   assert.equal(Math.round(px('fs-display', 1440)), 84);
   assert.equal(Math.round(px('fs-statement', 390)), 30);
   assert.equal(Math.round(px('fs-statement', 1440)), 52);
-  assert.equal(Math.round(px('fs-h2', 390)), 30);
+  // Integration (4 Nov): the section h2 is 28 px on phones and the close 36/64 px, so the typed hero h1 (39.5 px at
+  // 390, 36 at 360, 74 at 1440, sized so every phrase fits its line) stays the biggest type, at least 1.25x the h2.
+  assert.equal(Math.round(px('fs-h2', 390)), 28);
+  assert.equal(Math.round(px('fs-h2', 360)), 28);
   assert.equal(Math.round(px('fs-h2', 1440)), 52);
   assert.equal(Math.round(px('fs-h3', 390)), 20);
   assert.equal(Math.round(px('fs-h3', 1440)), 26);
-  assert.equal(Math.round(px('fs-close', 390)), 40);
-  assert.equal(Math.round(px('fs-close', 1440)), 72);
+  assert.equal(Math.round(px('fs-close', 390)), 36);
+  assert.equal(Math.round(px('fs-close', 1440)), 64);
   assert.equal(Math.round(px('fs-stem', 390)), 20);
   assert.equal(Math.round(px('fs-stem', 1440)), 23);
   assert.equal(Math.round(px('fs-body', 390)), 16);

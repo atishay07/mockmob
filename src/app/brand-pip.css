@@ -81,10 +81,6 @@
 /* Compass: Pip stands on the leading side so the pointing hand faces the headline. */
 .lp-guide-head--lead { flex-direction: row-reverse; justify-content: flex-end; }
 /* Exam preview perch beside the reassurance line. */
-.lp-exam-bottom .pip-seat--demo { flex: 0 0 auto; width: auto; grid-template-columns: 64px auto; gap: 10px; }
-.lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 64px; height: 74px; }
-.lp-exam-bottom > p { flex: 1 1 auto; }
-@media (max-width: 760px) { .lp-exam-bottom .pip-seat--demo { order: -1; } }
 /* One Pip in view: while the guide rests on the hero perch on screen, the drill's own static
    Pips step aside and the guide reacts instead. They return wherever the guide is not. */
 [data-pip-perch='hero'][data-pip-perch-visible='true'] .mm-drill .pip-drill-reaction > .pip-image,
@@ -118,8 +114,6 @@
 .lp-hero__greeting .pip-seat { grid-template-columns: 120px minmax(0,1fr); width: 265px; }
 .lp-hero__greeting .pip-seat__art { width: 120px; height: 160px; }
 .lp-guide-head .pip-seat__art { width: 140px; height: 170px; }
-.lp-exam-bottom .pip-seat--demo { grid-template-columns: 120px minmax(0,1fr); }
-.lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 120px; height: 150px; }
 .lp-close .pip-seat { grid-template-columns: 140px minmax(0,1fr); width: 330px; }
 .lp-close .pip-seat__art { width: 140px; height: 180px; }
 /* Mobi's desktop lane: the right 174px of the window (PipGuide seats him at innerWidth - 174), plus 40px of air.
@@ -157,8 +151,6 @@
   .lp-hero__greeting .pip-seat figcaption span { display: none; }
   .lp-guide-head > .pip-seat { flex-basis: 100px; }
   .lp-guide-head .pip-seat__art { width: 96px; height: 116px; }
-  .lp-exam-bottom .pip-seat--demo { grid-template-columns: 96px minmax(0,1fr); }
-  .lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 96px; height: 116px; }
   .lp-close .pip-seat { grid-template-columns: 110px minmax(0,1fr); width: min(100%,290px); }
   .lp-close .pip-seat__art { width: 110px; height: 136px; }
 }
@@ -280,7 +272,7 @@
 /* Reading at the Mistake Lab: the eyes scan the replay, a line, then the next, until a mouse or the scroll
    catches them. */
 [data-pip-guide] :is(.pip-seat[data-pip-station^='lab'], .pip-actor[data-station^='lab']) .pip-eye__ball {
-  animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite, pip-read 3.6s var(--mm-ease-in-out, ease-in-out) infinite;
+  animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite, pip-read 3.6s var(--mm-ease-in-out, ease-in-out) 2;
 }
 [data-pip-guide] [data-pip-looking] .pip-eye__ball { animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite; }
 @keyframes pip-read {

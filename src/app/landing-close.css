@@ -36,7 +36,7 @@
   color: var(--ink);
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: var(--volt-edge, #9db400);
+  text-decoration-color: var(--ink-3);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
   border-radius: 4px;
@@ -49,18 +49,18 @@
 @media (max-width: 359px) { .lp-dockmobi__line .lp-dockfree { display: none; } }
 @media (max-width: 329px) { .lp-dockmobi__line .lp-docklink { display: none; } }
 
-/* ---------- Arrival: a volt ring settles onto the question card, then fades ---------- */
+/* ---------- Arrival: an ink ring settles onto the question card, then fades (no volt edges, LK68) ---------- */
 #try-practice[data-arrive='true'] .mm-drill {
   animation: lp-arrive 1100ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both;
 }
 @keyframes lp-arrive {
   0% { outline: 2px solid transparent; outline-offset: 14px; }
-  28% { outline: 2px solid var(--volt); outline-offset: 5px; }
-  72% { outline: 2px solid var(--volt); outline-offset: 5px; }
+  28% { outline: 2px solid var(--ink); outline-offset: 5px; }
+  72% { outline: 2px solid var(--ink); outline-offset: 5px; }
   100% { outline: 2px solid transparent; outline-offset: 5px; }
 }
 @keyframes lp-arrive-calm {
-  0%, 72% { outline: 2px solid var(--volt); outline-offset: 5px; }
+  0%, 72% { outline: 2px solid var(--ink); outline-offset: 5px; }
   100% { outline: 2px solid transparent; outline-offset: 5px; }
 }
 @media (prefers-reduced-motion: reduce) {

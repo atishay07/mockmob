@@ -108,7 +108,7 @@ button.xs-chip:active { transform: scale(.95); }
 .xs-mobile { display: grid; grid-template-columns: 1fr 1.3fr 1.5fr; gap: .5rem; padding: .5rem .75rem calc(.5rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--xs-line); background: var(--xs-bg); }
 .xs-mobile button { display: grid; place-items: center; min-height: 48px; padding: 0 .5rem; border: 1px solid var(--xs-line-strong); border-radius: 14px; background: var(--xs-option); color: var(--xs-ink); font-size: .9375rem; font-weight: 650; line-height: 1.15; text-align: center; cursor: pointer; }
 .xs-mobile button:disabled { opacity: .45; cursor: default; }
-.xs-mobile .xs-m-next { border-color: #9db400; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; } /* the volt key: the primary of the console */
+.xs-mobile .xs-m-next { border-color: transparent; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; } /* the volt key: the primary of the console */
 .xs-mobile .xs-m-next:disabled { opacity: .55; }
 .xs-sheet { position: absolute; inset: auto 0 0 0; z-index: 3; max-height: calc(100% - 3rem); overflow: auto; padding: .75rem 1rem 1rem; border-top: 1px solid var(--xs-line-strong); border-radius: 20px 20px 0 0; background: var(--xs-bg); box-shadow: 0 -18px 40px color-mix(in srgb, var(--xs-ink) 12%, transparent); animation: xs-sheet 220ms cubic-bezier(.23, 1, .32, 1) both; }
 .xs-sheet__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: .6rem; font: 700 1rem/1.2 var(--font-display); font-variant-numeric: tabular-nums; }
@@ -137,7 +137,7 @@ button.xs-chip:active { transform: scale(.95); }
   .xs-btn { min-height: 48px; padding: 0 1.1rem; border: 1px solid var(--xs-line-strong); border-radius: 14px; background: transparent; color: var(--xs-ink); font-size: .9375rem; font-weight: 650; cursor: pointer; }
   .xs-btn:disabled { opacity: .45; cursor: default; }
   .xs-review { display: block; padding: 1rem 1.1rem 1.1rem; border-left: 1px solid var(--xs-line); background: var(--xs-surface); }
-  .xs-review .xs-submit { border-color: #9db400; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
+  .xs-review .xs-submit { border-color: transparent; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
   .xs-mobile, .xs-sheet { display: none; }
   :root:not([data-nothing]) .mm.lp .xs .xs-seat[data-pip-station] .pip-seat__art { width: 96px; height: 116px; }
 }
@@ -199,11 +199,7 @@ button.xs-chip:active { transform: scale(.95); }
   .xs-frame[data-interface='nta'] .xs-text { padding-inline: .4rem; font-size: .75rem; }
 }
 
-/* The demo clock is a quiet readout: a slow pulse on the icon only while it runs. */
-@media (prefers-reduced-motion: no-preference) {
-  .xs-timer[data-running='true'] svg { animation: xs-tick 1s steps(1, end) infinite; }
-}
-@keyframes xs-tick { 50% { opacity: .45; } }
+/* The demo clock is a quiet readout: its digits are the only thing that changes (no loop on the icon). */
 @media (prefers-reduced-motion: reduce) {
   .xs-sheet { animation: none; }
   .xs-switch button, .xs-progress b, .xs-option, .xs-text, button.xs-chip { transition: none; }

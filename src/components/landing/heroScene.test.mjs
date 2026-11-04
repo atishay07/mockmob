@@ -88,13 +88,16 @@ test('the band files exist within budget and the scene model knows them', () => 
 
 test('the painting\'s place: Night keeps its answer sheet in view at any room height; Day is overscanned to 118 %', () => {
   const css = strip(CSS);
-  // The sheet's top row (y 0.4214) sits under the top: the painting's y 0.405 at 4 px, its box 1.25 W tall.
+  // The sheet's top row (y 0.4214) sits under the top: the painting's y 0.403 at the room's top, its box 1.25 W tall.
+  // The painted row above it ends at about 0.395, so it stays out of frame (no half-cut bubbles at the edge).
   const top = Math.min(...anchors.welcome.sheetBubbles.centers.map(([, y]) => y)) - anchors.welcome.sheetBubbles.r;
-  assert.ok(top > 0.405, 'the top bubble is below the line held 4 px under the room\'s top');
-  assert.equal(+(0.405 * 125).toFixed(3), 50.625);
-  assert.match(css, /\.lp-room__paint--night \{ display: none; left: 0; width: 100cqw; height: 125cqw; top: calc\(4px - 50\.625cqw\); \}/);
+  assert.ok(top > 0.403, 'the top bubble is below the room\'s top edge');
+  assert.equal(+(0.403 * 125).toFixed(3), 50.375);
+  assert.match(css, /\.lp-room__paint--night \{ display: none; left: 0; width: 100cqw; height: 125cqw; top: -50\.375cqw; \}/);
   assert.match(css, /\.lp-room__file--night \{ top: 20%; height: 75%; \}/);
-  assert.match(css, /\.lp-room__paint--day \{ left: -9cqw; width: 118cqw; height: 78\.667cqw; bottom: -12%; \}/);
+  // Top-anchored in cqw (4 Nov integration): the pinned sheet shows whole at every room height, and the painting still
+  // runs at least 40 px past the room's foot at 360, 390 and 1440, so its feathered edge never shows.
+  assert.match(css, /\.lp-room__paint--day \{ left: -9cqw; width: 118cqw; height: 78\.667cqw; top: -8cqw; \}/);
   assert.equal(+(118 / 1.5).toFixed(3), 78.667, 'the Day file is 3:2');
 });
 

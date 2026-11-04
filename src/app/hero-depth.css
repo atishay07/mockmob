@@ -85,7 +85,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   /* The shelf: low and dim until the last step, then each object lifts onto its mark 90 ms after the one before
      (and drops back in the opposite order when the reader steps back). */
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf .subj-obj--alive .subj-obj__float {
-    animation: subj-obj-float 7.2s infinite both;
+    animation: subj-obj-float 7.2s 2 both;
     animation-delay: calc(var(--obj-phase) * -7.2s);
     animation-timeline: auto;
     animation-range: normal;
@@ -94,6 +94,8 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
     opacity: 0.35;
     transition: translate 260ms var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)) calc((3 - var(--k, 0)) * 40ms), scale 260ms var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)) calc((3 - var(--k, 0)) * 40ms), opacity 220ms ease calc((3 - var(--k, 0)) * 40ms);
   }
+  /* Only the lit object keeps floating; the others float twice and rest (decision 19). */
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf .subj-obj--alive.subj-obj--lit .subj-obj__float { animation-iteration-count: infinite; }
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
     animation: none;
     scale: 0.86;

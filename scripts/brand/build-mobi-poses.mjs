@@ -72,7 +72,7 @@ const POSES = [
   ['listen', 'calm', {}], // attentive, for the pricing seat
   ['think', 'calm', {}], // the Mistake Lab seat
   ['point', 'calm', { pointSide: 1 }], // the Compass and DU seats
-  ['cheer', 'happy', {}], // the close band
+  ['cheer', 'happy', { eyes: { happy: 0, smile: 0.6 } }], // the close band: arms up, eyes open and smiling (no ^^ squint)
   ['encourage', 'calm', {}], // Score Recovery, and a wrong sample answer
   ['read', 'calm', {}], // holds the answer sheet: the exam section and the tour
   ['idle', 'calm', {}], // standing at ease
@@ -100,7 +100,10 @@ function stripHidden(svg) {
 const out = {};
 let total = 0;
 for (const [act, mood, opts] of POSES) {
-  const initial = poseRig(moves, book, act, mood, { live: false, ...opts });
+  const { eyes, ...rigOpts } = opts;
+  const initial = poseRig(moves, book, act, mood, { live: false, ...rigOpts });
+  // A seat's eyes may be pinned open (decision 2: closed eyes only for a blink): the act's arms and body, open eyes.
+  if (eyes) for (const key of ['eyeL', 'eyeR']) initial[key] = { ...initial[key], ...eyes };
   let svg = renderToStaticMarkup(createElement(MobiFigure, { initial, px: 1 }));
   const used = svg.match(/id="(mb[^"-]*-)/)?.[1];
   if (!used) throw new Error(`no gradient prefix found in the ${act} figure`);

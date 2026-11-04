@@ -188,3 +188,14 @@ test('a declared jump that lands above a story\'s first rest leaves that story o
   assert.match(code, /if \(!bus\.jumping\(\) && held\.size > 0 && !held\.has\(stepRef\.current\)\) applyStep\(Math\.min\(\.\.\.held\)\);/);
   assert.match(code, /window\.cancelAnimationFrame\(landing\);/);
 });
+
+test('the edge clamp holds only a fling: a scrollbar drag, End or a script jump across a story is never pulled back (4 Nov integration)', () => {
+  // Found in the integration look: window.scrollTo from the hero to #exam-experience stopped on the statement's first
+  // step (1,499 px at 390, the Lab's at 1440). The clamp now needs a touch released within 3 s or a running wheel burst.
+  const code = strip(CONTROLLER);
+  assert.match(code, /const FLING_MS = 3000;/);
+  assert.match(code, /const flinging = \(\) => now\(\) - lastRelease < FLING_MS \|\| \(wb !== null && now\(\) - wb\.last < WHEEL_QUIET_MS \* 2\);/);
+  assert.match(body(code, 'onFrame'), /if \(touches === 0 && keepY === null && !bus\.jumping\(\) && flinging\(\)\) \{/);
+  assert.match(body(code, 'onTouchEnd'), /lastRelease = now\(\);/);
+  assert.match(body(code, 'onTouchCancel'), /lastRelease = now\(\);/);
+});

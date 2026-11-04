@@ -75,7 +75,7 @@
   transform: none;
   transition: opacity 200ms ease-out 50ms, transform 260ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 50ms;
 }
-.mm.lp .lp-pos__name em { font-style: normal; color: var(--accent-text); }
+.mm.lp .lp-pos__name em { font-style: normal; color: var(--brand-word, var(--accent-text)); }
 
 /* The rule is the hold's progress, written from the scroll position (SectionPosition.jsx): it follows the page 1:1,
    so it never animates on its own. */

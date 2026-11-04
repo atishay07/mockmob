@@ -69,15 +69,24 @@ test('LK70: the h1 comes first and the lead says what MockMob is, in the server 
   assert.deepEqual([...HERO_LINES], ['CUET 2027.', 'One mock.', 'Know what to fix.']);
 });
 
-test('LK70 geometry: phone sizes put the words first (h1 44 px at 390, the room clamp, the key 56 px)', () => {
+test('LK70 geometry: phone sizes put the words first (h1 39.5 px at 390, the room clamp, the key 56 px)', () => {
   assert.match(CSS, /\.mm\.lp \.lp-hero \{ padding-block: 22px 40px; \}/);
-  assert.match(CSS, /font-size: min\(2\.75rem, 12\.55cqi\);/, 'the h1 is 44 px at 390 and still fits the widest phrase on one line');
+  assert.match(CSS, /font-size: min\(2\.75rem, 11\.3cqi\);/, 'the h1 is 39.5 px at 390 and fits the widest phrase on one line');
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__line \{ display: block; white-space: nowrap; \}/);
   assert.match(CSS, /grid-template-areas: 'copy' 'desk' 'links';/, 'phones: the words, then the desk, then the two links under the card');
   assert.match(CSS, /grid-template-areas: 'copy desk' 'links desk';/, 'desktop: the links under the facts in the left column');
   assert.match(CSS, /min-height: 56px;\n\s+border-radius: 16px;/);
-  // The widest phrase fits: 7.95 em at 12.55 cqi is under 100 % of the column.
-  assert.ok(7.95 * 12.55 < 100);
+  // The widest phrase fits (integration, 4 Nov, measured in Chrome): "Every mark traced." is 8.77 em at the phone's
+  // -0.035 em tracking and 8.69 em at the desktop's -0.04 em, so 11.3 cqi (phones, tablet) and 11.4 cqi (desktop) keep it
+  // under 100 % of the copy column at 360, 390, 768, 1280 and 1440: every typed phrase types and fits its line.
+  assert.ok(8.77 * 11.3 < 99.5);
+  assert.ok(8.69 * 11.4 < 99.5);
+  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title \{ font-size: min\(3\.5rem, 11\.3cqi\); \}/);
+  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title \{ font-size: min\(84px, 11\.4cqi\); line-height: 0\.95; letter-spacing: -0\.04em; \}/);
+  // The hero takes the guide Mobi's desktop lane (the guide waits while the desk Mobi is in view), so the copy column
+  // is 629 px at 1280 and 652 px at 1440: the h1 is 71.7 and 74.3 px there, over 1.25x the 52 px section h2.
+  assert.match(CSS, /\.mm\.lp main \.lp-hero > \.mm-wrap:not\(\.mm-wrap \.mm-wrap\) \{ padding-right: var\(--gutter\); \}/);
+  assert.ok(0.114 * 629 / 52 > 1.25 && 0.113 * 320 / 28 > 1.25, 'the h1 is at least 1.25x the section h2 at 1280 and at 360');
 });
 
 test('decision 3: the two hero links stay, as ink underlined text links', () => {
@@ -123,7 +132,7 @@ test('decision 5: when a typed phrase completes he glances 2 px at the h1 (140 m
   assert.match(MOBI, /window\.addEventListener\(HERO_TYPED_EVENT, onTyped\)/);
   assert.match(MOBI, /export const HERO_TYPED_EVENT = 'mm:hero-typed';/);
   assert.match(MOBI, /if \(event\.detail\?\.final\) setAct\(\(current\) => \(current === 'nod' \? current : 'nod'\)\);/);
-  assert.match(read('./HeroTyped.jsx'), /new CustomEvent\('mm:hero-typed', \{ detail: \{ index: s\.phrase, final: s\.final \} \}\)/, 'P3 sends the event Mobi listens for');
+  assert.match(read('./HeroTyped.jsx'), /new CustomEvent\('mm:hero-typed', \{ detail: \{ index: HERO_SLOT_PHRASES\.indexOf\(phrases\[s\.phrase\]\), final: s\.final \} \}\)/, 'P3 sends the event Mobi listens for');
 });
 
 test('perf: between acts the rig runs no frame loop; he breathes and blinks in CSS', () => {

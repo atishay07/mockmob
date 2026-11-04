@@ -1,4 +1,5 @@
-/* The footer's way in (FooterStart.jsx): an outlined key, a log-in link and the free line, under the blurb. */
+/* The footer's way in (FooterStart.jsx): an outlined key, a log-in link and the free line, under the blurb. The key's
+   outline is a neutral chalk hairline (no volt edges, LK68); it fills volt on hover, a state. */
 .mm-foot__start {
   display: flex;
   flex-wrap: wrap;
@@ -11,7 +12,7 @@
   align-items: center;
   min-height: 44px;
   padding: 0.5rem 1.125rem;
-  border: 1px solid var(--volt);
+  border: 1px solid rgba(244, 240, 230, 0.32);
   border-radius: 999px;
   color: var(--chalk);
   font-family: var(--font-display);
@@ -44,8 +45,8 @@
   outline-offset: 3px;
 }
 @media (hover: hover) {
-  .mm-foot__key:hover { background: var(--volt); color: var(--volt-ink); }
-  .mm-foot__login:hover { color: var(--volt); text-decoration-color: currentColor; }
+  .mm-foot__key:hover { border-color: var(--volt); background: var(--volt); color: var(--volt-ink); }
+  .mm-foot__login:hover { color: var(--chalk); text-decoration-color: currentColor; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mm-foot__key { transition: none; }
