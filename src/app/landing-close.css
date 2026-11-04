@@ -45,9 +45,13 @@
   outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
-/* Under 360px the dock's button leaves room for one short line: the link alone; under 330px, Mobi and the button. */
-@media (max-width: 359px) { .lp-dockmobi__line .lp-dockfree { display: none; } }
-@media (max-width: 329px) { .lp-dockmobi__line .lp-docklink { display: none; } }
+/* L-011: the dock is one centred column. The one short line sits over the key in small, quiet ink and the key sits on the
+   bar's centre line (it used to sit right of centre beside the line). Both stay at every phone width. */
+.mm-dock__note .lp-dockmobi__line { display: block; text-align: center; }
+.mm-dock__note .lp-dockfree { font-weight: 600; color: var(--ink-3); }
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock { flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.45rem 0.7rem 0.5rem; }
+}
 
 /* ---------- Arrival: an ink ring settles onto the question card, then fades (no volt edges, LK68) ---------- */
 #try-practice[data-arrive='true'] .mm-drill {
@@ -77,4 +81,9 @@ html[data-motion='reduced'] #try-practice[data-arrive='true'] .mm-drill { animat
     transition-duration: var(--mm-dur-leave, 180ms);
     transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0));
   }
+}
+
+/* The dock also leaves (fades with its slide) when the footer comes up to it (MobileDock hideAtFooter), so no link sits under it. */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-hidden='true'] { opacity: 0; pointer-events: none; }
 }

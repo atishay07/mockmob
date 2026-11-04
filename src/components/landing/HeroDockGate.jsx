@@ -71,6 +71,22 @@ export function HeroDockGate({ children }) {
     return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); delete node.dataset.yield; };
   }, []);
 
+  // One loop at a time (ship gate, 4 Nov 2026): a lit shelf object (the statement's shelf, the lab's prop) floats for as
+  // long as it is on screen, so while one is in view the page says so on <html> and the guide Mobi holds his breath
+  // (brand-pip.css). Without IntersectionObserver nothing is marked and both keep their loops.
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return undefined;
+    const lit = [...document.querySelectorAll('.lp .subj-obj--lit')];
+    if (!lit.length) return undefined;
+    const seen = new Set();
+    const io = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) seen.add(entry.target); else seen.delete(entry.target); }
+      if (seen.size) document.documentElement.dataset.litInView = 'true'; else delete document.documentElement.dataset.litInView;
+    }, { threshold: 0 });
+    lit.forEach((el) => io.observe(el));
+    return () => { io.disconnect(); delete document.documentElement.dataset.litInView; };
+  }, []);
+
   return <div ref={gate} className="lp-dockgate" data-shown="false">{children}</div>;
 }
 

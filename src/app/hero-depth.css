@@ -223,8 +223,7 @@ html[data-motion='reduced'] .mm.lp .lp-dockgate .mm-dock { transition: opacity v
 /* Narrow phones (360): the bar tightens its air and the button its padding, so his two short lines stay two
    lines beside him instead of breaking word by word. Below 350px only the bold line stays. */
 @media (max-width: 380px) {
-  html[data-theme] .mm.lp .lp-dockgate .mm-dock { gap: 0.5rem; padding-left: 0.7rem; }
-  html[data-theme] .mm.lp .lp-dockgate .mm-dock .mm-btn { padding-inline: 0.85rem; gap: 0.4rem; font-size: 0.875rem; }
+    html[data-theme] .mm.lp .lp-dockgate .mm-dock .mm-btn { padding-inline: 0.85rem; gap: 0.4rem; font-size: 0.875rem; }
   .lp-dockmobi { gap: 0.4rem; }
   .lp-dockmobi__line { font-size: 0.71875rem; }
 }
@@ -239,9 +238,9 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
    smear. In Day the bar is near-solid paper (92%) with a saturated blur, so whatever passes under it shows only
    as a faint, clean tint, plus a hairline and a soft lift so the glass still reads as a surface. */
 :root[data-theme='light'] .mm.lp .mm-nav {
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  -webkit-backdrop-filter: saturate(1.4) blur(14px);
-  backdrop-filter: saturate(1.4) blur(14px);
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  -webkit-backdrop-filter: saturate(1) blur(14px);
+  backdrop-filter: saturate(1) blur(14px);
   box-shadow: 0 1px 0 rgba(23, 32, 22, 0.07), 0 10px 24px -20px rgba(20, 32, 14, 0.35);
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {

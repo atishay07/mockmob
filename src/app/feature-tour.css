@@ -99,7 +99,8 @@
 
 /* Retain the existing phone header/dock finish. The dock steps aside while any held story is on screen (scroll-story.css). */
 @media (max-width: 899px) {
-  html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 62%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); }
+  /* Ship gate, 4 Nov 2026: the bar is near-opaque paper with no saturation boost (it was 62% with saturate 1.5, so a lime key scrolling under it smeared the bar lime). */
+  html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 96%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1); backdrop-filter: blur(14px) saturate(1); }
   .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
   html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(20,32,14,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
   .lp .rv { filter: blur(6px); transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms), filter .8s var(--ease) var(--d, 0ms); }

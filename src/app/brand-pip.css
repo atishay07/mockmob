@@ -237,6 +237,9 @@
   transition: translate 300ms var(--mm-ease-out, ease-out);
 }
 @keyframes pip-breathe { 0%, 100% { scale: 1 1; } 50% { scale: 0.992 1.016; } }
+/* Ship gate, 4 Nov 2026: one loop at a time. While a lit shelf object floats in view (HeroDockGate sets data-lit-in-view on
+   <html>), the guide Mobi holds his breath; it runs again the moment the object has left the screen. */
+html[data-pip-guide][data-lit-in-view] :is(.pip-rig__breath, .pip-actor[data-alive] .pip-art-direction) { animation-play-state: paused; }
 [data-pip-guide] .pip-rig { rotate: calc(var(--pip-follow, 0) * 2.6deg); transition: rotate 420ms var(--mm-ease-out, ease-out); }
 
 /* Arrival on phones: the seat keeps its space, empty, until he hops in. */
