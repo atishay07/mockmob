@@ -299,7 +299,6 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 <span>Today</span><span>Your papers</span><span>Ask Mobi</span><span>Results</span>
               </div>
             </div>
-            <p className="ml__note">Each mock you finish makes the next move sharper.</p>
             <SessionStrip kind="move" />
           </section>
 

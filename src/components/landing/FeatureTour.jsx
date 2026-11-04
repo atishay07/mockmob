@@ -216,7 +216,8 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                     <h3 className="ft__title">{slide.title}</h3>
                     <p className="ft__body">{slide.body}</p>
                     <p className="ft__lede">{slide.lede || slide.line}</p>
-                    <p className="ft__summary">{slide.chip || slide.line}</p>
+                    {/* The slide's one true line (its chip) is for screen readers now: phones read the title and the lede, never a third sentence (LK71). */}
+                    <p className="lp-sr">{slide.chip}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                     <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>
                   </div>

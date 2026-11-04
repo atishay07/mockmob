@@ -174,16 +174,16 @@ const S = labStory();
 /** The four Lab scenes (title, body, take). Numbers come from the sample session (labStory.mjs), never typed here. */
 export const LAB_SCENES = Object.freeze([
   { key: 'time', tab: 'Time', title: 'Find the minutes that cost you.',
-    body: `Every question runs against CUET’s pace of ${S.pace}. The overruns light up, and so does what they bought you.`,
+    body: `Every question against CUET’s pace of ${S.pace}. Overruns light up, and so does what they bought you.`,
     take: S.time.wrongAllOver && S.time.underAllRight ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.` : `${S.time.overCount} questions ran over pace.` },
   { key: 'changes', tab: 'Changes', title: 'Every second thought, on the clock.',
-    body: 'Your first pick, what you switched to and when, and the marks every switch won or cost.',
+    body: 'Your first pick, what you switched to and when, and what each switch won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', title: 'Fix the reason you missed it.',
     body: 'Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all.',
     take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
-    body: 'A SWOT after every mock, built from your answers, times and earlier mocks, with the exact sets to do next. Free. No credits.',
+    body: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
 ]);
 

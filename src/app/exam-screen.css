@@ -6,7 +6,7 @@
    primary), a selected option as dark ink on a quiet fill. Everything animates on opacity and transform only. The old .lp-exam*
    rules this replaces (home-refinements.css) are deleted by the integration. Heights, at most: 930 px of section at 390,
    760 px at 1440 (examScreen.test.mjs states the budget, the build-p5 measure checks it). */
-.lp .xs.lp-sec { padding-block: clamp(2rem, 4vw, 2.75rem); border-block: 1px solid var(--line); }
+.lp .xs.lp-sec { padding-block: clamp(1.5rem, 4vw, 2.75rem); border-block: 1px solid var(--line); }
 /* Phones and tablets: the head and Mobi share a row over the frame; from 1024 the head, Mobi and the line under the frame
    stand in a left column beside it, so the whole section is the frame's height plus its padding. */
 .xs-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'head seat' 'sub sub' 'frame frame' 'gate gate'; align-items: center; gap: .5rem 1rem; }
@@ -18,7 +18,7 @@
 .xs-layout > .xs-seat { grid-area: seat; width: auto; grid-template-columns: 1fr; justify-items: center; text-align: center; }
 .xs-layout > .xs-gate { grid-area: gate; }
 :root:not([data-nothing]) .mm.lp .xs .xs-seat[data-pip-station] { width: auto; flex-basis: auto; }
-:root:not([data-nothing]) .mm.lp .xs .xs-seat[data-pip-station] .pip-seat__art { width: 84px; height: 102px; }
+:root:not([data-nothing]) .mm.lp .xs .xs-seat[data-pip-station] .pip-seat__art { width: 72px; height: 88px; }
 .xs .xs-seat figcaption { font-size: .75rem; max-width: 9rem; }
 
 /* ---------------------------------------------------------------- the frame */
@@ -37,7 +37,7 @@
 .xs-switch small { padding: .05rem .3rem; border-radius: 4px; background: color-mix(in srgb, currentColor 14%, transparent); font-size: .6875rem; font-weight: 650; }
 
 /* ---------------------------------------------------------------- header: title, timer, progress */
-.xs-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .15rem 1rem; padding: .45rem 1rem .6rem; border-bottom: 1px solid var(--xs-line); }
+.xs-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .15rem 1rem; padding: .4rem 1rem .5rem; border-bottom: 1px solid var(--xs-line); }
 .xs-title { display: flex; align-items: center; gap: .6rem; min-width: 0; }
 .xs-title > div { display: grid; line-height: 1.2; min-width: 0; }
 .xs-title span { color: var(--xs-ink-3); font-size: .75rem; font-weight: 600; }
@@ -51,7 +51,7 @@
 
 /* ---------------------------------------------------------------- the paper */
 .xs-body { display: grid; grid-template-columns: minmax(0, 1fr); }
-.xs-paper { display: flex; flex-direction: column; min-width: 0; padding: .7rem 1rem .85rem; }
+.xs-paper { display: flex; flex-direction: column; min-width: 0; padding: .65rem 1rem .7rem; }
 .xs-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
 .xs-tags span { padding: .2rem .65rem; border: 1px solid var(--xs-line-strong); border-radius: 999px; color: var(--xs-ink-2); font-size: .75rem; font-weight: 600; }
 .xs-qhead { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .35rem; }
