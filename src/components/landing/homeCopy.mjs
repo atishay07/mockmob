@@ -197,7 +197,8 @@ export const RECOVERY_STEPS = Object.freeze([
 
 // ------------------------------------------------------------------ the exam screen (ExamScreen.jsx, from the real runner)
 // Every string the MockMob interface shows is a string of src/app/(app)/test/TestPageClient.jsx (examPreviewParity.test.mjs
-// holds that). NTA's own words live ONLY in EXAM.nta and are drawn only after the visitor picks "NTA style".
+// holds that). NTA's own words live ONLY in EXAM.nta and are drawn only after the visitor picks "NTA style"; they are the
+// words of NTA's CBT guidelines (CUET (UG) 2025 Information Bulletin, Appendix V), in NTA's own capitals (D6, 5 Nov 2026).
 export const EXAM = Object.freeze({
   attempt: 'Quick practice',
   subject: 'Accountancy',
@@ -223,25 +224,36 @@ export const EXAM = Object.freeze({
     strikeNote: 'Press and hold an option to cross it out.',
     previous: 'Previous',
     next: 'Next',
-    prevShort: 'Prev',
-    palette: 'Palette',
     review: 'Review',
     counters: Object.freeze([['answered', 'Answered'], ['marked', 'Marked'], ['pending', 'Pending'], ['notvisited', 'Not visited']]),
     legend: Object.freeze([['answered', 'Answered'], ['marked', 'Marked'], ['visited', 'Not answered'], ['notvisited', 'Not visited'], ['marked-answered', 'Answered and marked']]),
     submit: 'Submit test',
-    closePalette: 'Close palette',
     paletteTitle: 'Review palette',
   }),
+  // NTA style: the CBT screen the guidelines describe. The timer and the candidate's profile image sit top right with the
+  // Question Paper icon, the section is on the top bar, the Question Palette is on the right with the section summary
+  // (a count in each symbol) above it and a > arrow at its left that folds it away, and the three keys are NTA's.
   nta: Object.freeze({
     interface: 'NTA style',
-    save: 'Save & next',
-    markNext: 'Mark for review & next',
-    clearResponse: 'Clear response',
-    back: 'Back',
-    palette: (answered, total) => `Palette ${answered}/${total}`,
-    legend: Object.freeze([['notvisited', 'Not visited'], ['visited', 'Not answered'], ['answered', 'Answered'], ['marked', 'Marked for review'], ['marked-answered', 'Answered & marked for review']]),
+    exam: 'CUET (UG)',
+    candidate: 'Candidate Name',
+    you: 'Your Name',
+    subjectName: 'Subject Name',
+    remaining: 'Remaining Time',
+    questionPaper: 'Question Paper',
+    question: (n) => `Question ${n}:`,
+    save: 'Save & Next',
+    markNext: 'Mark for Review & Next',
+    clearResponse: 'Clear Response',
+    submit: 'Submit',
+    legend: Object.freeze([['notvisited', 'Not Visited'], ['visited', 'Not Answered'], ['answered', 'Answered'], ['marked', 'Marked for Review'], ['marked-answered', 'Answered & Marked for Review (will be considered for evaluation)']]),
     paletteTitle: 'Question Palette',
+    hidePalette: 'Hide the Question Palette',
+    showPalette: 'Show the Question Palette',
   }),
+  // The browser's address bar on the monitor: where this screen really lives. The runner reads `interface=nta` from the
+  // address, so the NTA-style address is the one a Pro student opens.
+  address: Object.freeze({ host: 'mockmob.in', mockmob: '/test?subject=accountancy&mode=quick', nta: '/test?subject=accountancy&mode=nta&interface=nta' }),
   gate: 'NTA mode uses the entire screen.',
   gateTitle: 'Enter your exam space',
   warnings: 'Warnings 0/3',

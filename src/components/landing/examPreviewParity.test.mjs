@@ -1,8 +1,9 @@
 // node --test src/components/landing/examPreviewParity.test.mjs
 // LK72 / decision 17: every runner-facing string the home page's MockMob interface shows exists in the real runner
 // (src/app/(app)/test/TestPageClient.jsx), so the preview can never promise a screen the student does not get. The NTA-style
-// interface's own words are checked against the NTA classic runner's vocabulary the same way. Strings the runner fills from data
-// (the attempt label and the subject) are checked against that data. Our own five questions are content, not runner chrome.
+// interface's three keys are the NTA classic runner's words, in NTA's own capitals (D6, 5 Nov 2026: NTA style follows NTA's CBT
+// guidelines, so "Save & next" is drawn "Save & Next"; the word is the same, the casing is NTA's). Strings the runner fills from
+// data (the attempt label and the subject) are checked against that data. Our own five questions are content, not runner chrome.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -52,18 +53,21 @@ test('the strike-out note, the timer and the palette names are word for word', (
   assert.ok(has('>MockMob</button>') && has('NTA style</button>'));
 });
 
-test('the NTA-style words are the runner\'s classic interface words', () => {
+test('the NTA-style keys are the runner\'s classic interface words, in NTA\'s capitals, and its address is one the runner reads', () => {
   const nta = EXAM.nta;
-  assert.ok(has('Save & next'), nta.save);
-  assert.equal(nta.save, 'Save & next');
-  assert.ok(has('Mark for review & next'));
-  assert.equal(nta.markNext, 'Mark for review & next');
-  assert.ok(has('Clear response'));
-  assert.equal(nta.clearResponse, 'Clear response');
-  assert.ok(has("classicInterface ? 'Back' : 'Prev'"));
-  assert.equal(nta.back, 'Back');
-  assert.equal(nta.palette(6, 15), 'Palette 6/15');
-  assert.ok(has('`Palette ${answered}/${questions.length}`'));
+  const hasAnyCase = (text) => RUNNER.toLowerCase().includes(text.toLowerCase());
+  for (const key of ['save', 'markNext', 'clearResponse']) assert.ok(hasAnyCase(nta[key]), `"${nta[key]}" is a key of the runner's NTA style`);
+  assert.equal(nta.save, 'Save & Next');
+  assert.equal(nta.markNext, 'Mark for Review & Next');
+  assert.equal(nta.clearResponse, 'Clear Response');
+  // The browser bar's address: the runner's own route and the parameters it reads (subject, mode, interface).
+  const url = new URL(EXAM.address.nta, 'https://mockmob.in');
+  assert.equal(url.pathname, '/test');
+  for (const name of ['subject', 'mode', 'interface']) assert.ok(has(`searchParams.get('${name}')`), `the runner reads ${name}`);
+  assert.equal(url.searchParams.get('interface'), 'nta');
+  assert.equal(url.searchParams.get('mode'), 'nta');
+  assert.match(MODES, /id: 'nta'/, 'NTA mode is a real test mode');
+  assert.equal(new URL(EXAM.address.mockmob, 'https://mockmob.in').searchParams.get('mode'), 'quick');
 });
 
 test('the gate line is the integrity guard\'s own words', () => {
