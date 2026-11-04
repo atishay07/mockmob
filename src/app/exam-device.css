@@ -1,0 +1,69 @@
+/* The monitor around the home page's exam screen (ExamDevice.jsx; D6, LK92, 5 Nov 2026), drawn, not photographed.
+   Desk Light palette: a warm charcoal bezel and a warm aluminium stand, Night and Day by the site's own switch (data-theme),
+   never the device's. Every length is a share of the device's width (cqw of .xs-device), so it is one monitor at every
+   size, scaled as a whole and vector-crisp. Depth is one soft shadow under the bezel and one under the foot; no gradient,
+   no glare, no glow. */
+.xs-device {
+  container: xs-device / inline-size;
+  width: 100%;
+  min-width: 0;
+  /* Night (the landing's default): the bezel sits one step above the page so its edge reads on #12110e. */
+  --xs-bezel: #2b2924;
+  --xs-bezel-edge: rgba(244, 240, 230, 0.1);
+  --xs-camera: #47433b;
+  --xs-glass-edge: #0b0a08;
+  --xs-stand: #34312b;
+  --xs-stand-edge: rgba(244, 240, 230, 0.1);
+  --xs-shade: rgba(0, 0, 0, 0.45);
+  --xs-shadow: rgba(0, 0, 0, 0.55);
+}
+html[data-theme='light'] .xs-device {
+  /* Day: a dark monitor on warm paper, its stand the colour of the lamp-lit desk. */
+  --xs-bezel: #1f1d19;
+  --xs-bezel-edge: rgba(255, 255, 255, 0.07);
+  --xs-camera: #3a3731;
+  --xs-glass-edge: #000;
+  --xs-stand: #d7d0c2;
+  --xs-stand-edge: rgba(255, 255, 255, 0.75);
+  --xs-shade: rgba(27, 25, 20, 0.22);
+  --xs-shadow: rgba(27, 25, 20, 0.3);
+}
+.xs-monitor { display: grid; justify-items: center; }
+.xs-bezel {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.3cqw 1.3cqw 3cqw;
+  border-radius: 2cqw;
+  background: var(--xs-bezel);
+  box-shadow: inset 0 0 0 1px var(--xs-bezel-edge), 0 2.6cqw 5cqw -3cqw var(--xs-shadow);
+}
+/* The camera, centred in the top bezel. */
+.xs-bezel::before { content: ''; position: absolute; top: 0.4cqw; left: 50%; width: 0.5cqw; height: 0.5cqw; margin-left: -0.25cqw; border-radius: 50%; background: var(--xs-camera); }
+/* The glass: a 16:10 size container for the screen (exam-screen.css lays it out in --u, 1/880 of this width). */
+.xs-glass {
+  container: xs-glass / inline-size;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 0.4cqw;
+  background: var(--paper-raised);
+  box-shadow: 0 0 0 1px var(--xs-glass-edge);
+}
+/* The neck tucks under the bezel, a little narrower at the top; the bezel's shade falls on it. */
+.xs-neck {
+  width: 11cqw;
+  height: 6.6cqw;
+  margin-top: -1px;
+  background: var(--xs-stand);
+  clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%);
+  box-shadow: inset 0 1.4cqw 1.2cqw -1cqw var(--xs-shade);
+}
+.xs-foot {
+  width: 30cqw;
+  height: 1.4cqw;
+  border-radius: 0.9cqw 0.9cqw 0.35cqw 0.35cqw;
+  background: var(--xs-stand);
+  box-shadow: inset 0 1px 0 var(--xs-stand-edge), 0 1.4cqw 2.2cqw -1.1cqw var(--xs-shadow);
+}
