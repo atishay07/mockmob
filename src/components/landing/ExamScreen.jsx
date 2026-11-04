@@ -99,6 +99,8 @@ export function ExamScreen() {
   const next = () => { if (index < LIVE - 1) go(index + 1); };
   const prev = () => { if (index > 0) go(index - 1); };
   const markAndNext = () => { touch(); setMarked((m) => ({ ...m, [index]: true })); next(); };
+  // NTA style: the key pressed decides the status, so the save key leaves the question unmarked (as the runner's NTA style does).
+  const saveAndNext = () => { touch(); setMarked((m) => ({ ...m, [index]: false })); next(); };
 
   const startPress = (event, option) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -151,7 +153,7 @@ export function ExamScreen() {
             {nta ? (
               <NtaScreen key="nta" index={index} question={question} answers={answers} states={states} clock={clock} started={started} onScreen={onScreen}
                 paletteOpen={paletteOpen} setPaletteOpen={setPaletteOpen} readBack={readBack} setReadBack={setReadBack}
-                choose={choose} clearAnswer={clearAnswer} markAndNext={markAndNext} next={next} touch={touch} chipGrid={chipGrid} />
+                choose={choose} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} chipGrid={chipGrid} />
             ) : (
               <div key="mockmob" className="xs-app">
                 <p className="xs-saved" role="status">{EXAM.saved}</p>
@@ -226,7 +228,7 @@ export function ExamScreen() {
 }
 
 // NTA style: drawn only while the visitor has picked it (the one place EXAM.nta's screen words are read).
-function NtaScreen({ index, question, answers, states, clock, started, onScreen, paletteOpen, setPaletteOpen, readBack, setReadBack, choose, clearAnswer, markAndNext, next, touch, chipGrid }) {
+function NtaScreen({ index, question, answers, states, clock, started, onScreen, paletteOpen, setPaletteOpen, readBack, setReadBack, choose, clearAnswer, markAndNext, saveAndNext, chipGrid }) {
   const t = EXAM.nta;
   const name = Object.fromEntries(t.legend);
   const tally = Object.fromEntries(t.legend.map(([state]) => [state, states.filter((s) => s === state).length]));
@@ -269,7 +271,7 @@ function NtaScreen({ index, question, answers, states, clock, started, onScreen,
           <div className="xs-n-keys">
             <button type="button" className="xs-n-key" onClick={markAndNext}>{t.markNext}</button>
             <button type="button" className="xs-n-key" onClick={clearAnswer}>{t.clearResponse}</button>
-            <button type="button" className="xs-n-key xs-n-key--save" onClick={() => { touch(); next(); }}>{t.save}</button>
+            <button type="button" className="xs-n-key xs-n-key--save" onClick={saveAndNext}>{t.save}</button>
           </div>
         </div>
 

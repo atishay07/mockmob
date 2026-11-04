@@ -57,18 +57,28 @@
     out.interface = runner.dataset.interface;
     const dialog = $('dialog.ei-dialog[open]');
     out.overlay = dialog ? { title: $('#ei-title')?.innerText, body: $('#ei-body')?.innerText, button: $('.ei-btn')?.innerText, error: $('.ei-error')?.innerText || '' } : null;
-    out.title = `${$('.nta-title-stack span')?.innerText} / ${$('.nta-title-stack strong')?.innerText}`;
+    // NTA style (web-1105-runner) is NTA's screen: the exam's name and the candidate block for a header, the Remaining Time as
+    // hh:mm:ss, and the section summary (a count in each of NTA's five symbols) instead of the four counters.
+    const classic = runner.dataset.interface === 'nta';
+    out.title = classic ? `${$('.nta-n-exam')?.innerText} / ${$('.nta-n-tab')?.innerText}` : `${$('.nta-title-stack span')?.innerText} / ${$('.nta-title-stack strong')?.innerText}`;
     out.timer = $('.nta-timer span')?.innerText; out.timerAria = $('.nta-timer')?.getAttribute('aria-label');
     out.progress = $$('.nta-progress-row span').map((s) => s.innerText);
-    const summary = $$('.nta-review-panel .nta-summary-grid > div').map((d) => Number($('strong', d).innerText));
-    out.summary = { answered: summary[0], marked: summary[1], pending: summary[2], notVisited: summary[3] };
+    if (classic) {
+      const n = (state) => Number($(`.nta-n-palette .nta-n-sym--${state}, .nta-sheet-panel .nta-n-sym--${state}`)?.innerText || 0);
+      const answered = n('answered') + n('marked-answered');
+      out.summary = { answered, marked: n('marked') + n('marked-answered'), pending: n('notvisited') + n('visited') + n('marked'), notVisited: n('notvisited') };
+      out.ntaSummary = Object.fromEntries(['notvisited', 'visited', 'answered', 'marked', 'marked-answered'].map((state) => [state, n(state)]));
+    } else {
+      const summary = $$('.nta-review-panel .nta-summary-grid > div').map((d) => Number($('strong', d).innerText));
+      out.summary = { answered: summary[0], marked: summary[1], pending: summary[2], notVisited: summary[3] };
+    }
     const chips = $$('.nta-review-panel .nta-palette-chip');
     out.chips = chips.map(stateOf); out.total = chips.length;
     out.current = chips.findIndex((c) => c.classList.contains('is-current'));
     out.warnings = $('.ei-pill')?.innerText;
     out.sync = $('.runner-sync-state')?.innerText;
     out.notice = $('.nta-paper-notice') ? { open: $('.nta-paper-notice').open, summary: $('.nta-paper-notice summary')?.innerText, items: $$('.nta-paper-notice li').map((li) => li.innerText) } : null;
-    out.head = $('.nta-paper-head h1')?.innerText;
+    out.head = $('.nta-paper-head h1, .nta-n-qhead h1')?.innerText;
     out.tags = $$('.nta-paper-tags span').map((s) => s.innerText);
     out.passage = $('.nta-passage') ? { title: $('.nta-passage-head strong')?.innerText, length: ($('.nta-passage p')?.innerText || '').length, contrast: contrast($('.nta-passage p')), visible: visible($('.nta-passage p')) } : null;
     out.blocks = $$('.nta-question-block').map((b) => ({
@@ -92,6 +102,9 @@
       timer: '.nta-timer span', title: '.nta-title-stack strong', progress: '.nta-progress-row span', warnings: '.ei-pill', notice: '.nta-paper-notice summary span', noticeItem: '.nta-paper-notice li',
       summaryNumber: '.nta-summary-grid strong', summaryLabel: '.nta-summary-grid span', legend: '.nta-legend span', submit: '.nta-submit-button', paletteChip: '.nta-review-panel .nta-palette-chip',
       mobileButton: '.nta-mobile-actions button', syncNote: '.runner-sync-state', toolbar: '.nta-interface-toolbar span',
+      // NTA style's own parts (web-1105-runner).
+      ntaExam: '.nta-n-exam', ntaCandidate: '.nta-n-cand dt, .nta-n-cand dd', ntaSection: '.nta-n-tab', ntaQuestion: '.nta-n-qhead h1', ntaNumber: '.nta-n-num',
+      ntaLegend: '.nta-n-legend li > span:last-child', ntaSymbol: '.nta-n-sym', ntaPaper: '.nta-n-paper span',
     };
     const out = {};
     for (const [name, selector] of Object.entries(parts)) {
@@ -189,7 +202,10 @@
   async function pick(optionIndex, block = 0) {
     const b = $$('.nta-question-block')[block]; const o = b && $$('.nta-option', b)[optionIndex];
     if (!o) return false;
+    // NTA style: clicking the chosen option again clears it (web-1105-runner).
+    const clears = $('.nta-runner')?.dataset.interface === 'nta' && o.classList.contains('is-selected');
     o.click(); await sleep(120);
+    if (clears) { window.__clicks.push({ qid: qidOf(b), index: null, cleared: true }); return true; }
     window.__clicks.push({ qid: qidOf(b), index: optionIndex, text: $('.nta-option-text', o).innerText, shown: $$('.nta-option', b).findIndex((x) => x.classList.contains('is-selected')) });
     return true;
   }
@@ -216,6 +232,9 @@
     const button = [$('.nta-review-panel .nta-submit-button'), $('.nta-sheet-panel .nta-submit-button')].find(visible);
     if (!button) return { error: 'no visible submit button' };
     button.click();
+    // NTA style (web-1105-runner) asks with NTA's section summary instead of the browser's dialog: its own Submit sends.
+    const confirmNta = await until(() => $('.nta-n-summary .nta-n-dialog__submit'), 1500);
+    if (confirmNta) confirmNta.click();
     await until(() => log.some((e) => e.path === '/api/attempts' && e.method === 'POST' && e.status), 15000);
     const started = log.find((e) => e.path === '/api/sessions' && e.method === 'POST' && e.status === 200);
     const sent = log.find((e) => e.path === '/api/attempts' && e.method === 'POST');
@@ -255,7 +274,8 @@
     if (s.state !== 'runner') return { checks, snap: s };
     const N = s.total;
     check('palette has one chip per question', N >= 45 && N <= 50, N);
-    check('timer starts just under 60:00', /^(59:[3-5]\d|60:00)$/.test(s.timer || ''), s.timer);
+    // NTA style shows NTA's Remaining Time as hh:mm:ss (web-1105-runner).
+    check('timer starts just under 60:00', /^(00:)?(59:[3-5]\d|60:00)$|^01:00:00$/.test(s.timer || ''), s.timer);
     check('exam-space overlay gates answering at first', !!s.overlay && /Enter your exam space/.test(s.overlay.title), JSON.stringify(s.overlay));
     // answering is blocked until fullscreen: the option click must not register
     await pick(1); s = snap();
@@ -270,27 +290,38 @@
     const picked = await pick(2, s.blocks.findIndex((b) => b.active)); s = snap();
     const activeBlock = s.blocks.findIndex((b) => b.active);
     check('choosing an option marks the question answered in the palette and the summary', picked && s.chips[firstEntry] === 'answered' && s.summary.answered === 1 && s.blocks[activeBlock].selected === 2, `${s.chips[firstEntry]} ${JSON.stringify(s.summary)}`);
-    check('progress row shows 1 answered', /1 answered/i.test(s.progress.join(' ')), s.progress.join('|'));
     const classic = s.interface === 'nta';
-    const next = classic ? 'Save & next' : 'Next';
+    // NTA style has no progress row: its section summary counts the answer instead.
+    if (classic) check('the section summary shows 1 answered', s.ntaSummary?.answered === 1, JSON.stringify(s.ntaSummary));
+    else check('progress row shows 1 answered', /1 answered/i.test(s.progress.join(' ')), s.progress.join('|'));
+    const next = classic ? 'Save & Next' : 'Next';
     const before = s.current; const moved = await nav(next); s = snap();
     check(`${next} moves to the next question and keeps the answer`, moved && s.current > before && s.chips[firstEntry] === 'answered', `${before}->${s.current}`);
     check('the new question is visited and not answered', s.chips[s.current] === 'visited', s.chips[s.current]);
     // Mark for review (and next when the NTA style offers it)
     const q2 = s.current;
-    if (classic) { const m = await nav('Mark for review & next'); s = snap(); check('Mark for review & next marks the question and moves on', m && s.chips[q2] === 'marked' && s.current > q2 && s.summary.marked === 1, `${s.chips[q2]} cur ${s.current} ${JSON.stringify(s.summary)}`); }
+    if (classic) { const m = await nav('Mark for Review & Next'); s = snap(); check('Mark for Review & Next marks the question and moves on', m && s.chips[q2] === 'marked' && s.current > q2 && s.summary.marked === 1, `${s.chips[q2]} cur ${s.current} ${JSON.stringify(s.summary)}`); }
     else { const m = await textButton('Mark'); s = snap(); check('Mark flags the question', m && s.chips[q2] === 'marked' && s.summary.marked === 1, `${s.chips[q2]} ${JSON.stringify(s.summary)}`); await nav(next); s = snap(); }
     // answered and marked
     const q3 = s.current; const blk = s.blocks.findIndex((b) => b.active);
-    await pick(0, blk); await textButton('Mark', blk); s = snap();
-    check('answered and marked shows the combined state', s.chips[q3] === 'marked-answered' && s.summary.marked === 2 && s.summary.answered === 2, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
-    check('the mark button now offers Unmark', s.blocks[blk].mark.some((t) => /unmark/i.test(t)), s.blocks[blk].mark.join('|'));
-    await textButton('Unmark', blk); s = snap();
-    check('Unmark returns the question to answered', s.chips[q3] === 'answered' && s.summary.marked === 1, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
+    if (classic) {
+      // NTA style: the key decides the status. Mark for Review & Next with an answer is Answered & Marked for Review; Save & Next
+      // on it again leaves it Answered (web-1105-runner).
+      await pick(0, blk); await nav('Mark for Review & Next'); s = snap();
+      check('answered and marked shows the combined state', s.chips[q3] === 'marked-answered' && s.summary.marked === 2 && s.summary.answered === 2, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
+      await gotoQ(q3 + 1); await nav('Save & Next'); s = snap();
+      check('Save & Next on it takes the mark off and keeps the answer', s.chips[q3] === 'answered' && s.summary.marked === 1, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
+    } else {
+      await pick(0, blk); await textButton('Mark', blk); s = snap();
+      check('answered and marked shows the combined state', s.chips[q3] === 'marked-answered' && s.summary.marked === 2 && s.summary.answered === 2, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
+      check('the mark button now offers Unmark', s.blocks[blk].mark.some((t) => /unmark/i.test(t)), s.blocks[blk].mark.join('|'));
+      await textButton('Unmark', blk); s = snap();
+      check('Unmark returns the question to answered', s.chips[q3] === 'answered' && s.summary.marked === 1, `${s.chips[q3]} ${JSON.stringify(s.summary)}`);
+    }
     // Clear response
     await gotoQ(firstEntry + 1); s = snap();
     check('palette jump lands on the chosen question and keeps its answer', s.current === firstEntry && s.chips[firstEntry] === 'answered', `${s.current} ${s.chips[firstEntry]}`);
-    if (classic) await nav('Clear response'); else await textButton('Clear', s.blocks.findIndex((b) => b.active));
+    if (classic) await nav('Clear Response'); else await textButton('Clear', s.blocks.findIndex((b) => b.active));
     s = snap();
     check('Clear response removes the answer; the question stays visited', s.chips[firstEntry] === 'visited' && s.summary.answered === 1 && s.blocks.every((b) => b.selected === -1 || b.active === false || firstEntry !== s.current), `${s.chips[firstEntry]} ${JSON.stringify(s.summary)}`);
     check('Clear response keeps the same question open', s.current === firstEntry, s.current);

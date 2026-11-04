@@ -448,7 +448,7 @@ async function refresh() { return null; }
 // Each step waits, acts, then the page is read. `snap(label)` is called after every step.
 export const NTA_PATHS = {
   // Answer, Next, the palette, a mark, Previous, the arrow keys, a tab switch (warning 1), the NTA style
-  // buttons, then Submit test.
+  // keys (in NTA's capitals), then Submit and the NTA style's submit summary.
   async submit(s, snap) {
     snap('loaded');
     await click(one('button', 'Continue in this window')); snap('entered');
@@ -463,9 +463,10 @@ export const NTA_PATHS = {
     await advance(70000); await visibility(false); snap('back');
     await click(one('button', 'Continue in this window')); snap('continued');
     await advance(3000); await click(one('button', 'NTA style')); snap('classic');
-    await advance(4000); await click(one('.nta-nav-button', 'Mark for review & next')); snap('mark and next');
-    await advance(8000); await click(one('.nta-nav-button', 'Save & next')); snap('save and next');
-    await advance(2000); await click(one('.nta-submit-button', 'Submit test')); snap('submitted');
+    await advance(4000); await click(one('.nta-nav-button', 'Mark for Review & Next')); snap('mark and next');
+    await advance(8000); await click(one('.nta-nav-button', 'Save & Next')); snap('save and next');
+    await advance(2000); await click(one('.nta-submit-button', 'Submit')); snap('summary');
+    await click(one('.nta-n-summary button', 'Submit')); snap('submitted');
   },
   // One answer, then the hour runs out on question 2.
   async timeUp(s, snap) {

@@ -1,9 +1,10 @@
 // node --test src/components/landing/examPreviewParity.test.mjs
 // LK72 / decision 17: every runner-facing string the home page's MockMob interface shows exists in the real runner
 // (src/app/(app)/test/TestPageClient.jsx), so the preview can never promise a screen the student does not get. The NTA-style
-// interface's three keys are the NTA classic runner's words, in NTA's own capitals (D6, 5 Nov 2026: NTA style follows NTA's CBT
-// guidelines, so "Save & next" is drawn "Save & Next"; the word is the same, the casing is NTA's). Strings the runner fills from
-// data (the attempt label and the subject) are checked against that data. Our own five questions are content, not runner chrome.
+// interface follows NTA's CBT guidelines in both places (D6, 5 Nov 2026), and since web-1105-runner the runner's NTA style draws
+// the preview's NTA screen word for word, in NTA's own capitals (the runner read "Save & next" before, so this rule was
+// case-insensitive; it is exact now). Strings the runner fills from data (the attempt label and the subject) are checked against
+// that data. Our own five questions are content, not runner chrome.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -55,8 +56,9 @@ test('the strike-out note, the timer and the palette names are word for word', (
 
 test('the NTA-style keys are the runner\'s classic interface words, in NTA\'s capitals, and its address is one the runner reads', () => {
   const nta = EXAM.nta;
-  const hasAnyCase = (text) => RUNNER.toLowerCase().includes(text.toLowerCase());
-  for (const key of ['save', 'markNext', 'clearResponse']) assert.ok(hasAnyCase(nta[key]), `"${nta[key]}" is a key of the runner's NTA style`);
+  // Word for word and case for case (web-1105-runner): the runner's NTA object holds each of the preview's three keys.
+  for (const key of ['save', 'markNext', 'clearResponse']) assert.ok(has(`${key}: '${nta[key]}'`), `"${nta[key]}" is a key of the runner's NTA style, in NTA's capitals`);
+  for (const old of ['Save & next', 'Mark for review & next', 'Clear response']) assert.ok(!has(old), `the runner no longer draws "${old}"`);
   assert.equal(nta.save, 'Save & Next');
   assert.equal(nta.markNext, 'Mark for Review & Next');
   assert.equal(nta.clearResponse, 'Clear Response');
@@ -68,6 +70,28 @@ test('the NTA-style keys are the runner\'s classic interface words, in NTA\'s ca
   assert.equal(url.searchParams.get('mode'), 'nta');
   assert.match(MODES, /id: 'nta'/, 'NTA mode is a real test mode');
   assert.equal(new URL(EXAM.address.mockmob, 'https://mockmob.in').searchParams.get('mode'), 'quick');
+});
+
+test('the runner\'s NTA style is the preview\'s NTA screen: the same header, section summary, palette and question words (web-1105-runner)', () => {
+  const nta = EXAM.nta;
+  for (const key of ['exam', 'candidate', 'subjectName', 'remaining', 'questionPaper', 'submit', 'paletteTitle', 'hidePalette', 'showPalette']) {
+    assert.ok(has(`${key}: '${nta[key]}'`), `the runner's NTA style says "${nta[key]}" (${key})`);
+  }
+  // The section summary: NTA's five symbols in NTA's order and words, the same list in both.
+  const start = RUNNER.indexOf('const NTA_LEGEND = [');
+  const runnerLegend = [...RUNNER.slice(start, RUNNER.indexOf('];', start)).matchAll(/\['([a-z-]+)', '([^']+)'\]/g)].map((m) => [m[1], m[2]]);
+  assert.deepEqual(runnerLegend, nta.legend.map(([state, label]) => [state, label]));
+  // The question heading reads "Question 3:" in both.
+  assert.equal(nta.question(3), 'Question 3:');
+  assert.ok(has('question: (n) => `Question ${n}:`'));
+  // The anatomy the preview shows, by the runner's own parts: the header with the Question Paper icon, the candidate block with
+  // the Remaining Time and the profile image, the section bar, the grey circle arrows, the radios, the > fold and the palette's
+  // section summary in NTA's symbols.
+  for (const part of ['nta-n-head', 'nta-n-exam', 'nta-n-paper', 'nta-n-cand', 'nta-n-photo', 'nta-n-sections', 'nta-n-tab', 'nta-n-qhead', 'nta-n-arrow', 'nta-n-radio', 'nta-n-fold', 'nta-n-palette', 'nta-n-legend', 'nta-n-sym', 'nta-n-section']) {
+    assert.ok(new RegExp(`className=(?:"|\\{\`)[^"\`]*\\b${part}\\b`).test(RUNNER), `the runner draws ${part}`);
+  }
+  assert.ok(has('aria-expanded={ntaPaletteOpen}'), 'the fold is a real disclosure in the runner too');
+  assert.ok(has('if (selected) clearAnswer(question.id); else chooseAnswer(question.id, optionIndex);'), 'clicking the chosen option again clears it, as the preview promises');
 });
 
 test('the gate line is the integrity guard\'s own words', () => {

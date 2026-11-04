@@ -22,8 +22,66 @@ import './practice-run.css';
 import MobiReact from '@/components/brand/MobiReact';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
 import { nextEvent, onScreenQid, endReason, captureMeta, usePresenceCapture } from '@/lib/runnerCapture';
+import { shownName } from '@/lib/displayName.mjs';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, FileText, X } from 'lucide-react';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
+
+// NTA style (5 Nov 2026, web-1105-runner): NTA's CBT screen as its own guidelines describe it (CUET (UG) 2025 Information
+// Bulletin, Appendix V), in NTA's words and capitals. The home page draws the same screen (src/components/landing/ExamScreen.jsx,
+// EXAM.nta in homeCopy.mjs); examPreviewParity.test.mjs holds the two word for word.
+const NTA = {
+  exam: 'CUET (UG)',
+  questionPaper: 'Question Paper',
+  candidate: 'Candidate Name',
+  subjectName: 'Subject Name',
+  remaining: 'Remaining Time',
+  question: (n) => `Question ${n}:`,
+  save: 'Save & Next',
+  markNext: 'Mark for Review & Next',
+  clearResponse: 'Clear Response',
+  submit: 'Submit',
+  paletteTitle: 'Question Palette',
+  hidePalette: 'Hide the Question Palette',
+  showPalette: 'Show the Question Palette',
+};
+// The section summary above the palette: NTA's five symbols, in NTA's order and words.
+const NTA_LEGEND = [
+  ['notvisited', 'Not Visited'],
+  ['visited', 'Not Answered'],
+  ['answered', 'Answered'],
+  ['marked', 'Marked for Review'],
+  ['marked-answered', 'Answered & Marked for Review (will be considered for evaluation)'],
+];
+const ntaStateName = (state) => (NTA_LEGEND.find(([key]) => key === state)?.[1] || state).replace(/ \(.*\)$/, '');
+const two = (n) => String(n).padStart(2, '0');
+
+// A small modal (NTA style's Question Paper and its submit summary): focus moves in, Tab stays inside, Escape closes, and
+// focus goes back to what opened it.
+function useModalFocus(open, ref, onClose) {
+  const close = useRef(onClose);
+  useEffect(() => { close.current = onClose; });
+  useEffect(() => {
+    if (!open) return undefined;
+    const dialog = ref.current;
+    const opener = document.activeElement;
+    (dialog?.querySelector('[data-autofocus]') || dialog?.querySelector('button'))?.focus();
+    const onKey = (event) => {
+      if (event.key === 'Escape') { event.preventDefault(); close.current?.(); return; }
+      if (event.key !== 'Tab' || !dialog) return;
+      const controls = [...dialog.querySelectorAll('button:not(:disabled)')].filter((control) => control.tabIndex !== -1);
+      if (!controls.length) return;
+      const first = controls[0]; const last = controls[controls.length - 1];
+      if (event.shiftKey && (document.activeElement === first || !dialog.contains(document.activeElement))) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && (document.activeElement === last || !dialog.contains(document.activeElement))) { event.preventDefault(); first.focus(); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      if (opener?.isConnected && !opener.disabled) opener.focus?.();
+    };
+  }, [open, ref]);
+}
 const subscribeConnection = callback => {
   window.addEventListener('online', callback);
   window.addEventListener('offline', callback);
@@ -257,6 +315,15 @@ function TestRunner() {
   const reviewReturnRef = useRef(null);
   const [ackSeq, setAckSeq] = useState(0);
   const [lastAnswerSeq, setLastAnswerSeq] = useState(0);
+  // NTA style only: the palette's > fold (wide screens), the submit summary and the Question Paper view.
+  const [ntaPaletteOpen, setNtaPaletteOpen] = useState(true);
+  const [ntaSummaryOpen, setNtaSummaryOpen] = useState(false);
+  const [paperViewOpen, setPaperViewOpen] = useState(false);
+  const ntaPaneRef = useRef(null);
+  const ntaTopRef = useRef(null);
+  const ntaEndRef = useRef(null);
+  const ntaSummaryRef = useRef(null);
+  const paperViewRef = useRef(null);
 
   // The start receipt is added to the address after the server answers; it must not look like a new launch.
   const launchKey = useMemo(() => { const p = new URLSearchParams(searchParams.toString()); p.delete('startReceipt'); return p.toString(); }, [searchParams]);
@@ -605,6 +672,7 @@ function TestRunner() {
     submittedRef.current = true;
     setSubmitting(true);
     setMobilePaletteOpen(false);
+    setNtaSummaryOpen(false); // NTA style: a time-up or third-warning submit closes its summary too
     // How the paper ended is its last event. A retry adds no second end unless something happened after the first.
     // Capture is data only and runs before the submit's own error handling, so it may never throw here: a throw would
     // leave the paper marked as submitting with nothing sent.
@@ -719,6 +787,14 @@ function TestRunner() {
     setReviewOpen(false);
     recordSheet(false);
   }, [recordSheet]);
+  // NTA style's submit summary is the NTA submit check: opening it is the same 'sheet' visit, closing it the plain one.
+  const closeNtaSummary = useCallback(() => {
+    setNtaSummaryOpen(false);
+    recordSheet(false);
+  }, [recordSheet]);
+  const closePaperView = useCallback(() => setPaperViewOpen(false), []);
+  useModalFocus(ntaSummaryOpen && classicInterface, ntaSummaryRef, closeNtaSummary);
+  useModalFocus(paperViewOpen && classicInterface, paperViewRef, closePaperView);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -732,7 +808,7 @@ function TestRunner() {
     const onKeyDown = (event) => {
       if (!canAnswer()) return;
       const tag = event.target?.tagName;
-      if (mobilePaletteOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+      if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
       if (practiceRun && reviewOpen) return;
       // Shift + 1 to 4 crosses an option out (practice only; shown from memory, recorded as a strike event).
@@ -756,7 +832,7 @@ function TestRunner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, canAnswer, practiceRun, reviewOpen, toggleStrike]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, canAnswer, practiceRun, reviewOpen, toggleStrike]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -806,6 +882,8 @@ function TestRunner() {
     if (shownBlockRef.current != null && shownBlockRef.current !== currentBlockStart) {
       const paper = paperRef.current;
       if (paper && paper.getBoundingClientRect().top < 120) paper.scrollIntoView({ block: 'start' });
+      // NTA style on a wide screen: the question area scrolls on its own, and a new question starts at its top.
+      if (ntaPaneRef.current) ntaPaneRef.current.scrollTop = 0;
     }
     shownBlockRef.current = currentBlockStart;
   }, [currentBlockStart]);
@@ -1018,8 +1096,16 @@ function TestRunner() {
     setReviewOpen(true);
   };
 
+  // NTA style: the submit check is NTA's section summary (the five counts in NTA's symbols) over the paper, then Submit.
+  const openNtaSummary = () => {
+    setMobilePaletteOpen(false);
+    if (!ntaSummaryOpen) recordSheet(true);
+    setNtaSummaryOpen(true);
+  };
+
   const confirmAndSubmit = () => {
     if (practiceRun) { openReview(); return; }
+    if (classicInterface) { openNtaSummary(); return; }
     if (pendingCount > 0 || markedCount > 0) {
       const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
       recordSheet(true);
@@ -1031,6 +1117,19 @@ function TestRunner() {
   const goNext = () => {
     if (isLastBlock) confirmAndSubmit();
     else gotoQuestion(block.endIdx + 1, { via: 'next' });
+  };
+  // NTA style: the key pressed decides the question's status (NTA's guidelines: Save & Next saves the answer, Mark for Review
+  // & Next marks it for review), so Save & Next leaves the question unmarked; it is the one way to take a mark off here. The
+  // answer itself is saved the moment it is chosen, as in every MockMob paper. On the last question the key submits, as Next does.
+  const saveAndNext = () => {
+    if (isLastBlock) { confirmAndSubmit(); return; }
+    setMark(q.id, false);
+    gotoQuestion(block.endIdx + 1, { via: 'next' });
+  };
+  // NTA's grey circle arrows: down to the end of the question area, up to its top.
+  const scrollQuestion = (toEnd) => {
+    const target = toEnd ? ntaEndRef.current : ntaTopRef.current;
+    target?.scrollIntoView?.({ block: toEnd ? 'end' : 'start', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   };
 
   // Swipe between questions on touch: the question follows the finger, commits past 72 px or on a
@@ -1152,8 +1251,8 @@ function TestRunner() {
               {...pressProps}
               onClick={() => {
                 chooseAnswer(question.id, optionIndex);
-                // Inside a passage set, the answered question becomes current, so Clear response
-                // and Mark for review & next act on it.
+                // Inside a passage set, the answered question becomes current, so Clear Response
+                // and Mark for Review & Next act on it (NTA style).
                 if (questionIndex !== idx) gotoQuestion(questionIndex);
               }}
               aria-pressed={selected}
@@ -1225,8 +1324,8 @@ function TestRunner() {
         : <p className="pr-note" role="status">No questions in this state.</p>)}
     </div>
   );
-  const nextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit test') : classicInterface ? 'Save & next' : 'Next';
-  const mobileNextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : classicInterface ? 'Save & next' : 'Next';
+  const nextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit test') : 'Next';
+  const mobileNextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : 'Next';
   const morph = (label) => (practiceRun ? <span className="pr-label" key={label}>{label}</span> : label);
 
   const renderPalette = (compact = false) => (
@@ -1242,7 +1341,8 @@ function TestRunner() {
               gotoQuestion(questionIndex, { via: 'palette' });
               setMobilePaletteOpen(false);
             }}
-            aria-label={`Question ${questionIndex + 1}, ${state.replace('-', ' and ')}`}
+            aria-label={`Question ${questionIndex + 1}, ${classicInterface ? ntaStateName(state) : state.replace('-', ' and ')}`}
+            aria-current={classicInterface && questionIndex === idx ? 'step' : undefined}
           >
             {questionIndex + 1}
           </button>
@@ -1250,6 +1350,211 @@ function TestRunner() {
       })}
     </div>
   );
+
+  // The paper's notices (a short bank, and how this NTA paper differs from the real one): above the paper in both interfaces.
+  const notices = <>
+    {selectionMeta?.insufficientHighQualityPool && (
+      <div className="nta-alert" role="status">
+        <Icon name="alert" />
+        <span>{selectionMeta.message || `Only ${questions.length} verified questions passed the NTA quality gate for this selection.`}</span>
+      </div>
+    )}
+
+    {isNtaMode && selectionMeta?.ntaPaper?.status === 'closest' && selectionMeta.ntaPaper.items?.length > 0 && (
+      <details className="nta-alert nta-paper-notice" open={noticeOpen} onToggle={(event) => setNoticeOpen(event.currentTarget.open)}>
+        <summary>
+          <Icon name="alert" />
+          <span>How this paper differs from the real CUET paper ({selectionMeta.ntaPaper.items.length})</span>
+        </summary>
+        <ul>{selectionMeta.ntaPaper.items.map((item) => <li key={item}>{item}</li>)}</ul>
+      </details>
+    )}
+  </>;
+  const hasNotices = !!selectionMeta?.insufficientHighQualityPool || (isNtaMode && selectionMeta?.ntaPaper?.status === 'closest' && selectionMeta.ntaPaper.items?.length > 0);
+
+  // ---- NTA style: NTA's CBT screen (CUET (UG) 2025 Information Bulletin, Appendix V) ----------------------------------
+  // The exam's name, then the Question Paper icon, the candidate block with the Remaining Time and the profile image top
+  // right; the section on the top bar; the question area with NTA's grey circle arrows and its three keys; the Question
+  // Palette on the right with the section summary above it and the > fold at its left. Phones keep the palette as a sheet.
+  const ntaName = shownName(user?.name, user?.email);
+  const ntaTime = `${two(Math.floor(timeLeft / 3600))}:${two(Math.floor(timeLeft / 60) % 60)}:${two(timeLeft % 60)}`;
+  const ntaKeyLabel = isLastBlock ? (submitting ? 'Submitting...' : NTA.submit) : NTA.save;
+  const renderNtaLegend = () => (
+    <ul className="nta-n-legend" aria-label="Section summary">
+      {NTA_LEGEND.map(([state, label]) => (
+        <li key={state}><span className={`nta-n-sym nta-n-sym--${state}`}>{legendCounts[state]}</span><span>{label}</span></li>
+      ))}
+    </ul>
+  );
+  const renderNtaQuestion = (question, questionIndex) => {
+    const texts = plainOptionTexts(question.options);
+    return (
+      <section key={question.id} className={`nta-question-block ${question.id === q.id ? 'is-active' : ''}`} aria-labelledby={`question-title-${question.id}`}>
+        {block.isPassage && <span className="nta-question-number">{NTA.question(questionIndex + 1)}</span>}
+        <h2 id={`question-title-${question.id}`} className="nta-question-text">{question.question}</h2>
+        <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
+          {question.options.map((opt, optionIndex) => {
+            const selected = answers[question.id] === optionIndex;
+            return (
+              <button
+                key={`${question.id}-${optionIndex}`}
+                type="button"
+                className={`nta-option ${selected ? 'is-selected' : ''}`}
+                onClick={() => {
+                  // NTA: clicking the chosen option again clears it.
+                  if (selected) clearAnswer(question.id); else chooseAnswer(question.id, optionIndex);
+                  if (questionIndex !== idx) gotoQuestion(questionIndex);
+                }}
+                aria-pressed={selected}
+                disabled={pendingSubmission || timeLeft <= 0 || submitting}
+              >
+                <span className="nta-n-radio" aria-hidden="true" />
+                <span className="nta-n-num">{optionIndex + 1}.</span>
+                <span className="nta-option-text">{texts[optionIndex] ?? optionLabel(opt)}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+  const renderClassic = () => <>
+    <header className="nta-n-head">
+      <strong className="nta-n-exam">{NTA.exam}</strong>
+      <div className="nta-n-tools">
+        <button type="button" className="nta-n-paper" onClick={() => setPaperViewOpen(true)} aria-haspopup="dialog">
+          <FileText aria-hidden="true" /><span>{NTA.questionPaper}</span>
+        </button>
+        <dl className="nta-n-cand">
+          {ntaName ? <div className="nta-n-cand__name"><dt>{NTA.candidate}</dt><dd>{ntaName}</dd></div> : null}
+          <div className="nta-n-cand__subject"><dt>{NTA.subjectName}</dt><dd>{subjectLabel}</dd></div>
+          <div className="nta-n-cand__time">
+            <dt>{NTA.remaining}</dt>
+            <dd><span className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`${NTA.remaining}: ${mins} minutes ${secs} seconds`}><span>{ntaTime}</span></span></dd>
+          </div>
+        </dl>
+        <i className="nta-n-photo" aria-hidden="true" />
+      </div>
+    </header>
+    <div className="nta-n-sections">
+      <span className="nta-n-tab" aria-current="true">{subjectLabel}</span>
+      <span className="nta-integrity-status"><IntegrityPill strikes={integrity.strikes} /></span>
+    </div>
+    {hasNotices ? <div className="nta-n-notices">{notices}</div> : null}
+
+    <div className="nta-n-body" data-palette={ntaPaletteOpen ? 'open' : 'closed'}>
+      <div className="nta-paper nta-n-main" ref={paperRef}>
+        <div className="nta-n-qhead">
+          <h1>{block.isPassage ? `Questions ${block.startIdx + 1} to ${block.endIdx + 1}:` : NTA.question(idx + 1)}</h1>
+          <button type="button" className="nta-n-arrow" onClick={() => scrollQuestion(true)} aria-label="Go to the end of the question"><ArrowDown aria-hidden="true" /></button>
+        </div>
+        <div className="nta-n-pane" ref={ntaPaneRef} data-passage={block.isPassage ? 'true' : undefined}>
+          <span ref={ntaTopRef} className="nta-n-edge" aria-hidden="true" />
+          {block.isPassage && (
+            <article className="nta-passage" aria-label="Passage">
+              <div className="nta-passage-head"><span>Passage</span><strong>{block.passageTitle}</strong></div>
+              <p>{block.passageText}</p>
+            </article>
+          )}
+          <div className="nta-question-list">
+            {block.entries.map((entry) => renderNtaQuestion(entry.question, entry.index))}
+          </div>
+          <div className="nta-n-paneend">
+            <button type="button" className="nta-n-arrow" onClick={() => scrollQuestion(false)} aria-label="Go to the top of the question"><ArrowUp aria-hidden="true" /></button>
+          </div>
+          <span ref={ntaEndRef} className="nta-n-edge" aria-hidden="true" />
+        </div>
+        <div className="nta-navigation">
+          <button type="button" className="nta-nav-button nta-classic-review" onClick={markAndNext}>{NTA.markNext}</button>
+          <button type="button" className="nta-nav-button" onClick={() => clearAnswer(q.id)}>{NTA.clearResponse}</button>
+          <button type="button" className="nta-nav-button nta-n-prev" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>Previous</button>
+          <button type="button" className="nta-nav-button nta-n-save" onClick={saveAndNext} disabled={submitting}>{ntaKeyLabel}</button>
+        </div>
+      </div>
+
+      <button type="button" className="nta-n-fold" aria-expanded={ntaPaletteOpen} aria-controls="nta-n-palette" aria-label={ntaPaletteOpen ? NTA.hidePalette : NTA.showPalette} onClick={() => setNtaPaletteOpen((open) => !open)}>
+        {ntaPaletteOpen ? <ChevronRight aria-hidden="true" /> : <ChevronLeft aria-hidden="true" />}
+      </button>
+      <aside id="nta-n-palette" className="nta-review-panel nta-n-palette" aria-label={NTA.paletteTitle} hidden={!ntaPaletteOpen}>
+        {renderNtaLegend()}
+        <p className="nta-n-section">{subjectLabel}</p>
+        <p className="nta-n-title">{NTA.paletteTitle}</p>
+        {renderPalette()}
+        <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>{submitting ? 'Submitting...' : NTA.submit}</button>
+      </aside>
+    </div>
+
+    <div className="nta-mobile-actions">
+      <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>Previous</button>
+      <button type="button" onClick={() => clearAnswer(q.id)} disabled={answers[q.id] === undefined}>{NTA.clearResponse}</button>
+      <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)} aria-label={`Question palette, ${answered} of ${questions.length} answered`}>{NTA.paletteTitle}</button>
+      <button type="button" className="nta-m-review" onClick={markAndNext}>{NTA.markNext}</button>
+      <button type="button" className="is-primary nta-m-save" onClick={saveAndNext} disabled={submitting}>{ntaKeyLabel}</button>
+    </div>
+
+    {mobilePaletteOpen && (
+      <div ref={mobilePaletteDialogRef} className="nta-mobile-sheet" role="dialog" aria-modal="true" aria-label={NTA.paletteTitle}>
+        <button className="nta-sheet-backdrop" type="button" tabIndex={-1} aria-label="Close palette" onClick={() => setMobilePaletteOpen(false)} />
+        <div className="nta-sheet-panel">
+          <div className="nta-sheet-head">
+            <strong>{NTA.paletteTitle}</strong>
+            <button ref={mobilePaletteCloseRef} type="button" className="nta-icon-button" onClick={() => setMobilePaletteOpen(false)} aria-label="Close palette">
+              <Icon name="x" />
+            </button>
+          </div>
+          {renderNtaLegend()}
+          <p className="nta-n-section">{subjectLabel}</p>
+          {renderPalette(true)}
+          <button type="button" className="nta-submit-button" onClick={confirmAndSubmit} disabled={submitting}>{submitting ? 'Submitting...' : NTA.submit}</button>
+        </div>
+      </div>
+    )}
+
+    {ntaSummaryOpen && !submitting && (
+      <div ref={ntaSummaryRef} className="nta-n-dialog nta-n-summary" role="dialog" aria-modal="true" aria-labelledby="nta-n-summary-title" aria-describedby="nta-n-summary-note">
+        <div className="nta-n-dialog__backdrop" aria-hidden="true" />
+        <div className="nta-n-dialog__panel">
+          <h2 id="nta-n-summary-title" className="nta-n-dialog__title">Submit the test?</h2>
+          <p className="nta-n-section">{subjectLabel}, {questions.length} questions</p>
+          {renderNtaLegend()}
+          <p id="nta-n-summary-note" className="nta-n-dialog__note">After you submit, your answers cannot be changed.</p>
+          <div className="nta-n-dialog__keys">
+            <button type="button" className="nta-n-dialog__back" data-autofocus onClick={closeNtaSummary}>Keep answering</button>
+            <button type="button" className="nta-n-dialog__submit" onClick={() => { setNtaSummaryOpen(false); submitTest('submit'); }}>{NTA.submit}</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {paperViewOpen && (
+      <div ref={paperViewRef} className="nta-n-dialog nta-n-paperview" role="dialog" aria-modal="true" aria-labelledby="nta-n-paperview-title">
+        <div className="nta-n-dialog__backdrop" aria-hidden="true" onClick={closePaperView} />
+        <div className="nta-n-dialog__panel">
+          <div className="nta-n-dialog__head">
+            <h2 id="nta-n-paperview-title" className="nta-n-dialog__title">{NTA.questionPaper}</h2>
+            <button type="button" className="nta-n-dialog__close" data-autofocus onClick={closePaperView} aria-label={`Close the ${NTA.questionPaper}`}><X aria-hidden="true" /></button>
+          </div>
+          <p className="nta-n-section">{subjectLabel}</p>
+          <ol className="nta-n-paperview__list">
+            {questions.map((question, questionIndex) => {
+              const groupKey = passageKeyFor(question);
+              const opensPassage = groupKey && passageTextFor(question) && questions.findIndex((other) => passageKeyFor(other) === groupKey) === questionIndex;
+              const texts = plainOptionTexts(question.options);
+              return (
+                <li key={question.id}>
+                  {opensPassage ? <div className="nta-passage"><div className="nta-passage-head"><span>Passage</span><strong>{passageTitleFor(question)}</strong></div><p>{passageTextFor(question)}</p></div> : null}
+                  <p className="nta-n-paperview__q"><b>{NTA.question(questionIndex + 1)}</b> {question.question}</p>
+                  <ol className="nta-n-paperview__options">
+                    {question.options.map((opt, optionIndex) => <li key={optionIndex}><span>{optionIndex + 1}.</span> {texts[optionIndex] ?? optionLabel(opt)}</li>)}
+                  </ol>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </div>
+    )}
+  </>;
 
   return (
     <div ref={fullscreenTarget} className={practiceRun ? 'nta-runner pr-run' : 'nta-runner'} data-interface={classicInterface ? 'nta' : 'mockmob'}>
@@ -1286,6 +1591,7 @@ function TestRunner() {
         </div>
         <small>Switch anytime. Your answers and timer stay.</small>
       </div>}
+      {classicInterface ? renderClassic() : <>
       <header className="nta-test-header">
         <div className="nta-header-left">
           {!isNtaMode && <button
@@ -1322,22 +1628,7 @@ function TestRunner() {
       {isNtaMode ? <div className="nta-integrity-status"><IntegrityPill strikes={integrity.strikes} /></div> : null}
 
       <div className="nta-shell">
-        {selectionMeta?.insufficientHighQualityPool && (
-          <div className="nta-alert" role="status">
-            <Icon name="alert" />
-            <span>{selectionMeta.message || `Only ${questions.length} verified questions passed the NTA quality gate for this selection.`}</span>
-          </div>
-        )}
-
-        {isNtaMode && selectionMeta?.ntaPaper?.status === 'closest' && selectionMeta.ntaPaper.items?.length > 0 && (
-          <details className="nta-alert nta-paper-notice" open={noticeOpen} onToggle={(event) => setNoticeOpen(event.currentTarget.open)}>
-            <summary>
-              <Icon name="alert" />
-              <span>How this paper differs from the real CUET paper ({selectionMeta.ntaPaper.items.length})</span>
-            </summary>
-            <ul>{selectionMeta.ntaPaper.items.map((item) => <li key={item}>{item}</li>)}</ul>
-          </details>
-        )}
+        {notices}
 
         <div className="nta-grid">
           <div className="nta-paper" ref={paperRef}>
@@ -1387,10 +1678,6 @@ function TestRunner() {
             })()}
 
             <div className="nta-navigation">
-              {classicInterface && <>
-                <button type="button" className="nta-nav-button nta-classic-review" onClick={markAndNext}>Mark for review & next</button>
-                <button type="button" className="nta-nav-button" onClick={() => clearAnswer(q.id)}>Clear response</button>
-              </>}
               <button
                 type="button"
                 className="nta-nav-button"
@@ -1438,23 +1725,13 @@ function TestRunner() {
 
       <div className="nta-mobile-actions">
         <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>
-          <Icon name="chevL" /> {classicInterface ? 'Back' : 'Prev'}
+          <Icon name="chevL" /> Prev
         </button>
-        {classicInterface && (
-          <button type="button" onClick={() => clearAnswer(q.id)} disabled={answers[q.id] === undefined}>
-            Clear response
-          </button>
-        )}
         <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)} aria-label={`Question palette, ${answered} of ${questions.length} answered`}>
-          {classicInterface ? `Palette ${answered}/${questions.length}` : morph(allReady ? 'All answered' : 'Palette')}
+          {morph(allReady ? 'All answered' : 'Palette')}
         </button>
-        {classicInterface && (
-          <button type="button" className="nta-m-review" onClick={markAndNext}>
-            Mark for review & next
-          </button>
-        )}
-        <button type="button" className={`${classicInterface ? 'is-primary nta-m-save' : 'is-primary'} ${allReady && isLastBlock ? 'is-ready' : ''}`} onClick={goNext} disabled={submitting}>
-          {morph(mobileNextLabel)} {!isLastBlock && !classicInterface && <Icon name="chevR" />}
+        <button type="button" className={`is-primary ${allReady && isLastBlock ? 'is-ready' : ''}`} onClick={goNext} disabled={submitting}>
+          {morph(mobileNextLabel)} {!isLastBlock && <Icon name="chevR" />}
         </button>
       </div>
 
@@ -1485,6 +1762,7 @@ function TestRunner() {
           </div>
         </div>
       )}
+      </>}
 
       {practiceRun && <span className="pr-sr" role="status">{allReady ? `All ${questions.length} answered${serverSaves ? ' and saved' : ''}. Ready to submit.` : ''}</span>}
 
