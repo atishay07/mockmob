@@ -1,221 +1,148 @@
 /* ==========================================================================
-   HERO DEPTH, PROOF DOCK AND STATEMENT (landing only)
-   Scroll Craft principles adapted to the existing guided-practice grammar:
-   - planes move at different rates (far grid < dots < page < near drill card),
-     travel stays under 200px, copy rides at 1x and nothing pins;
-   - all motion is CSS scroll-driven (compositor work, no JS on scroll) and is a
-     progressive enhancement: unsupported browsers and reduced motion get the
-     complete static composition.
+   STATEMENT, HERO FINISH AND THE PHONE DOCK (landing only)
+   (This file once also held the hero's scroll-depth planes and the glass proof dock. The planes went with the
+   grid, the dots and the spotlight (decision 12, 4 Nov 2026) and the second beat is a hairline row now
+   (.lp-beat, hero-scene.css, decision 14), so both are gone.)
+   - The statement is a 4-step held story on phones (Statement.jsx, ScrollStory) and a scrub on wide windows.
    ========================================================================== */
 
-/* ---------- 1. Scroll depth on the existing hero planes ---------- */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .lp-hero .lp-bg__grid,
-    .lp-hero .lp-bg__dots,
-    .lp-hero .lp-stage__card {
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: scroll(root block);
-      animation-range: 0 100svh;
-    }
-    .lp-hero .lp-bg__grid { animation-name: lp-depth-grid; }
-    .lp-hero .lp-bg__dots { animation-name: lp-depth-mid; }
-    /* Near: the playable card rises a little faster than the page, so it reads in front.
-       Desktop only: on phones the card sits below the fold and would slide into its own label. */
-    .lp-hero .lp-stage__card { animation-name: none; }
-    @media (min-width: 960px) { .lp-hero .lp-stage__card { animation-name: lp-depth-near; } }
-  }
-}
-@keyframes lp-depth-grid { to { transform: translate3d(0, 110px, 0); } }
-@keyframes lp-depth-mid { to { transform: translate3d(0, 60px, 0); } }
-@keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }
-
-/* ---------- 2. Proof dock: Apple-style glass over the hero light ---------- */
-.lp-proof {
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2.25rem, 5vw, 3.75rem);
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid var(--glass-edge, rgba(244, 245, 240, 0.16));
-  background: var(--glass-fill, rgba(18, 24, 19, 0.5));
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 30px 70px -40px rgba(0, 0, 0, 0.7);
-}
-/* No lime light under the glass (W-076: no glow). */
-.lp-proof a {
-  display: grid;
-  align-content: start;
-  gap: 0.15rem;
-  min-height: 44px;
-  padding: 1rem 1.1rem;
-  color: var(--ink);
-  text-decoration: none;
-  box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)), inset 0 -1px 0 var(--glass-divider, rgba(244, 245, 240, 0.09));
-  transition: background-color 0.2s ease;
-}
-.lp-proof b {
-  font: 800 clamp(1.35rem, 3.6vw, 1.75rem) / 1.05 var(--font-display);
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.lp-proof span { color: var(--ink-2); font-size: 0.8125rem; line-height: 1.4; }
-.lp-proof a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: -3px; border-radius: 20px; }
-.lp-proof a:active { background: rgb(var(--tint) / 0.06); }
-@media (hover: hover) and (pointer: fine) {
-  .lp-proof a:hover { background: rgb(var(--tint) / 0.05); }
-}
-@media (min-width: 900px) {
-  .lp-proof { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .lp-proof a { box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)); }
-  .lp-proof a:last-child { box-shadow: none; }
-}
-html[data-theme='light'] .lp-proof {
-  --glass-fill: rgba(255, 255, 255, 0.55);
-  --glass-edge: rgba(23, 32, 22, 0.1);
-  --glass-divider: rgba(23, 32, 22, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px -44px rgba(20, 32, 14, 0.4);
-}
-@media (prefers-reduced-transparency: reduce) {
-  .lp-proof { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); }
-}
-
-/* ---------- 3. Statement: words light up as the reader scrolls through ---------- */
+/* ---------- 1. Statement: words light as the reader scrolls through (wide windows) ----------
+   Wide windows scrub the words with the section's pass through the window. The pass is read so every word is lit
+   by the time the section is half way up the window (its middle on the window's middle): wherever the reader
+   rests to read it, the sentence is whole, and a stop in the lower half only ever shows a line still arriving. */
 .lp-statement { padding-block: clamp(2.5rem, 7vw, 5.5rem); view-timeline-name: --lp-statement; }
 .lp-statement__text {
   margin: 0;
   max-width: 22ch;
-  font: 800 clamp(1.85rem, 5.6vw, 4.25rem) / 1.08 var(--font-display);
+  font: var(--fw-statement, 650) clamp(1.85rem, 5.6vw, 4.25rem) / 1.08 var(--font-display);
   letter-spacing: -0.035em;
   color: var(--ink);
   text-wrap: balance;
 }
-.lp-statement__w[data-accent] { color: var(--accent-text); }
+/* The accent is weight, not colour: the words that carry it sit heavier in ink (no highlighter). */
+.lp-statement__w[data-accent] { color: var(--ink); font-weight: var(--fw-display, 800); }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .lp-statement__w {
       animation: lp-word linear both;
       animation-timeline: --lp-statement;
-      /* Each word lights in its own slice of the section's pass through the viewport. */
-      animation-range-start: cover calc(18% + var(--p) * 34%);
-      animation-range-end: cover calc(24% + var(--p) * 34%);
+      /* Each word lights in its own slice of the section's pass: from 12% to 44% of the cover range. */
+      animation-range-start: cover calc(12% + var(--p) * 26%);
+      animation-range-end: cover calc(18% + var(--p) * 26%);
     }
   }
 }
 @keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
 
-/* ---------- 4. Phones: the statement holds the screen while it plays ----------
-   The landing is phone-first, so on a phone the statement is a short scroll story, like the desktop's pinned
-   cinema: the section becomes a 160svh track and its scene (words and shelf) stays between the nav and the
-   dock. The scene is whole from the first frame: the four objects already stand on the table, low, small and
-   dim (scale 0.92, opacity 0.35), their names and lamps barely on. As the words light, each object in turn
-   lifts onto its mark and its lamp comes up, English with the first words, Economics with the last, so the
-   words and the shelf finish together and the hold ends there: no void before, no dead stretch after. Only
-   where the scene fits (780px tall and up) and scroll timelines exist; elsewhere, and under reduced motion, it
-   scrolls as one finished composition. */
-@supports (animation-timeline: view()) {
-  @media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference), (min-width: 761px) and (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
-    :root:not([data-motion='reduced']) .lp-statement {
-      --pin-top: 61px;
-      --pin-bottom: 84px;
-      --shelf-obj: min(42vw, 18.5svh, 11rem);
-      --shelf-stagger: 1.75rem;
-      height: 160svh;
-      padding-block: 0;
-    }
-    :root:not([data-motion='reduced']) .lp-statement__grid {
-      position: sticky;
-      top: var(--pin-top);
-      height: calc(100svh - var(--pin-top) - var(--pin-bottom));
-      align-content: center;
-      gap: clamp(1rem, 3svh, 1.75rem);
-    }
-    :root:not([data-motion='reduced']) .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
-    /* 21 words over 0 to 88% of the hold. */
-    :root:not([data-motion='reduced']) .lp-statement__w {
-      animation-range-start: contain calc(var(--p) * 80%);
-      animation-range-end: contain calc(8% + var(--p) * 80%);
-    }
-    /* Object k lifts while its quarter of the words lights: 4% + 21% k to 24% + 21% k (the last ends at 87%). */
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation-name: subj-obj-float, lp-shelf-rise, lp-shelf-out;
-      animation-range: normal, contain calc(4% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%), exit 0% exit 100%;
-    }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
-      animation-name: lp-shelf-ground-rise, lp-shelf-ground-out;
-      animation-range: contain calc(4% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%), exit 0% exit 100%;
-    }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf__name { animation-name: lp-shelf-name-rise; }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj__light { animation-name: lp-shelf-lamp-rise; }
-    :root:not([data-motion='reduced']) .lp-statement :is(.lp-shelf__name, .lp-shelf .subj-obj__light) {
-      animation-range: contain calc(8% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%);
-    }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf::before { animation-name: lp-shelf-lamp-rise; animation-range: contain 0% contain 88%; }
+/* The statement's own story shell: the held story's track and stage are plain blocks wherever the story is not
+   held (whatever data-pinned says before the page hydrates), so a wide window never reserves a story's height. */
+@media (min-width: 960px), (max-width: 760px) and (max-height: 699.98px), (min-width: 761px) and (max-width: 959px) and (max-height: 779.98px), (prefers-reduced-motion: reduce) {
+  .lp-statement .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
+  .lp-statement .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
+  .lp-statement .ss[data-pinned] .ss__beat { display: none; }
+}
+html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
+html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
+html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: none; }
+
+/* ---------- 2. Phones: the statement is a 4-step held story (LK69) ----------
+   One swipe, one clause (Statement.jsx, ScrollStory, storyController.mjs): step 0 opens with the first clause lit
+   ("Your marks slipped somewhere."), each step lights the next, and on step 3 the four objects arrive onto their
+   shadows, one after another. Everything is driven by the story's step (--ss-step, data-step), never by the scroll
+   position, so no stop leaves a half-lit sentence or a half-landed object. The scene is whole from the first frame:
+   the objects already stand on the table, low, small and dim (scale 0.92, opacity 0.35), their names and lamps
+   barely on. Only where the scene fits (phones from 700 px tall, small tablets from 780 px) and motion is allowed;
+   elsewhere, and under reduced motion, it scrolls as one finished composition (the scrub above on a wide window).
+   The two media ranges are STATEMENT_HOLD in statementSteps.mjs: keep them the same. The phone dock stays up
+   (the story is `quiet`), so the held scene leaves it 84 px at the bottom. */
+@media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference), (min-width: 761px) and (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .lp-statement { padding-block: 0; }
+  :root:not([data-motion='reduced']) .lp-statement .ss {
+    --ss-beat: 22svh;
+    --ss-bottom: 84px;
+    --shelf-obj: min(42vw, 18.5svh, 11rem);
+    --shelf-stagger: 1.75rem;
   }
-  /* Phones (W5, 20 Oct): the held scene fills the screen between the nav and the dock, from 700px tall so the
-     common phones qualify (a 390x844 phone shows about 700 to 760px under the browser bar). The words take
-     about 45% of the hold at 9vw, the four objects stand at a size you can read their names beside, and the
-     track is 180svh so each phrase of the line gets its own beat: the object under it lifts as its words
-     light (phrase starts at words 0, 4, 8 and 13 of 20, set by --at below). */
-  @media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
-    :root:not([data-motion='reduced']) .lp-statement {
-      height: 180svh;
-      --shelf-obj: min(44vw, 12rem, calc(30svh - 90px));
-      --shelf-stagger: 1rem;
-    }
-    :root:not([data-motion='reduced']) .lp-statement__grid {
-      align-content: space-between;
-      gap: clamp(0.5rem, 1.6svh, 1rem);
-      padding-block: clamp(0.5rem, 1.8svh, 1.1rem);
-    }
-    :root:not([data-motion='reduced']) .lp-statement__text {
-      max-width: none;
-      font-size: clamp(2rem, min(9vw, 4.4svh), 2.6rem);
-      line-height: 1.04;
-    }
-    :root:not([data-motion='reduced']) .lp-shelf { gap: clamp(0.35rem, 1svh, 0.6rem); }
-    :root:not([data-motion='reduced']) .lp-shelf__row { gap: clamp(0.6rem, 2svh, 1.1rem) 0.5rem; }
-    :root:not([data-motion='reduced']) .lp-shelf__link { padding-inline: 0.25rem; }
-    :root:not([data-motion='reduced']) .lp-shelf__name { font-size: 1rem; letter-spacing: -0.01em; }
-    :root:not([data-motion='reduced']) .lp-shelf__note { font-size: 0.8125rem; line-height: 1.35; text-wrap: balance; }
-    /* One beat per phrase: object k belongs to phrase k. */
-    :root:not([data-motion='reduced']) .lp-shelf__item:nth-child(1) { --at: 4%; }
-    :root:not([data-motion='reduced']) .lp-shelf__item:nth-child(2) { --at: 21%; }
-    :root:not([data-motion='reduced']) .lp-shelf__item:nth-child(3) { --at: 38%; }
-    :root:not([data-motion='reduced']) .lp-shelf__item:nth-child(4) { --at: 58%; }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation-range: normal, contain var(--at) contain calc(var(--at) + 22%), exit 0% exit 100%;
-    }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
-      animation-range: contain var(--at) contain calc(var(--at) + 22%), exit 0% exit 100%;
-    }
-    :root:not([data-motion='reduced']) .lp-statement :is(.lp-shelf__name, .lp-shelf .subj-obj__light) {
-      animation-range: contain calc(var(--at) + 4%) contain calc(var(--at) + 22%);
-    }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__grid {
+    height: 100%;
+    align-content: center;
+    gap: clamp(1rem, 3svh, 1.75rem);
   }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
+
+  /* The words: clause k is lit from step k on (one fade, a short stagger inside the clause). */
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w {
+    animation: none;
+    opacity: clamp(0.18, calc(var(--ss-step, 0) - var(--ph, 0) + 1), 1);
+    transition: opacity 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms);
+  }
+
+  /* The shelf: low and dim until the last step, then each object lifts onto its mark 90 ms after the one before
+     (and drops back in the opposite order when the reader steps back). */
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf .subj-obj--alive .subj-obj__float {
+    animation: subj-obj-float 7.2s infinite both;
+    animation-delay: calc(var(--obj-phase) * -7.2s);
+    animation-timeline: auto;
+    animation-range: normal;
+    translate: 0 0.6rem;
+    scale: 0.92;
+    opacity: 0.35;
+    transition: translate 260ms var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)) calc((3 - var(--k, 0)) * 40ms), scale 260ms var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)) calc((3 - var(--k, 0)) * 40ms), opacity 220ms ease calc((3 - var(--k, 0)) * 40ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
+    animation: none;
+    scale: 0.86;
+    opacity: 0.4;
+    transition: scale 260ms var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)) calc((3 - var(--k, 0)) * 40ms), opacity 220ms ease calc((3 - var(--k, 0)) * 40ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf__name,
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf .subj-obj__light,
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf::before {
+    animation: none;
+    opacity: 0.25;
+    transition: opacity 320ms ease calc((3 - var(--k, 0)) * 40ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf::before { transition-delay: 0s; }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-shelf .subj-obj--alive .subj-obj__float {
+    translate: 0 0;
+    scale: 1;
+    opacity: 1;
+    transition: translate 560ms cubic-bezier(0.34, 1.3, 0.64, 1) calc(var(--k, 0) * 90ms), scale 560ms cubic-bezier(0.34, 1.3, 0.64, 1) calc(var(--k, 0) * 90ms), opacity 300ms ease calc(var(--k, 0) * 90ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
+    scale: 1;
+    opacity: 1;
+    transition: scale 560ms cubic-bezier(0.34, 1.3, 0.64, 1) calc(var(--k, 0) * 90ms), opacity 300ms ease calc(var(--k, 0) * 90ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] :is(.lp-shelf__name, .lp-shelf .subj-obj__light) {
+    opacity: 1;
+    transition: opacity 420ms ease calc(var(--k, 0) * 90ms + 120ms);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-shelf::before { opacity: 1; transition: opacity 420ms ease; }
 }
-/* The lift: up on the app's emphasized curve with a small squash as it settles on its mark. */
-@keyframes lp-shelf-rise {
-  0% { translate: 0 0.6rem; rotate: calc(var(--tilt, 0deg) * -1); scale: 0.92; opacity: 0.35; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
-  70% { opacity: 1; }
-  86% { translate: 0 -0.15rem; rotate: 0deg; scale: 1.02 0.985; animation-timing-function: cubic-bezier(0.34, 1.3, 0.64, 1); }
-  100% { translate: 0 0; rotate: 0deg; scale: 1; opacity: 1; }
-}
-@keyframes lp-shelf-ground-rise {
-  from { scale: 0.86; opacity: 0.4; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
-  to { scale: 1; opacity: 1; }
-}
-@keyframes lp-shelf-name-rise {
-  from { opacity: 0.35; animation-timing-function: var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
-  to { opacity: 1; }
-}
-@keyframes lp-shelf-lamp-rise {
-  from { opacity: 0.2; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
-  to { opacity: 1; }
+/* Phones (W5, 20 Oct): the held scene fills the screen between the nav and the dock, from 700px tall so the
+   common phones qualify (a 390x844 phone shows about 700 to 760px under the browser bar). The words take
+   about 45% of the hold at 9vw and the four objects stand at a size you can read their names beside. */
+@media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .lp-statement .ss {
+    --shelf-obj: min(44vw, 12rem, calc(30svh - 90px));
+    --shelf-stagger: 1rem;
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__grid {
+    align-content: space-between;
+    gap: clamp(0.5rem, 1.6svh, 1rem);
+    padding-block: clamp(0.5rem, 1.8svh, 1.1rem);
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__text {
+    max-width: none;
+    font-size: clamp(2rem, min(9vw, 4.4svh), 2.6rem);
+    line-height: 1.04;
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf { gap: clamp(0.35rem, 1svh, 0.6rem); }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf__row { gap: clamp(0.6rem, 2svh, 1.1rem) 0.5rem; }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf__link { padding-inline: 0.25rem; }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf__name { font-size: 1rem; letter-spacing: -0.01em; }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-shelf__note { font-size: 0.8125rem; line-height: 1.35; text-wrap: balance; }
 }
 
 /* ---------- 5. Hero finish ----------

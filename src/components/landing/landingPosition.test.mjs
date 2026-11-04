@@ -86,7 +86,9 @@ test('the band reads geometry only for sections on screen, and writes state only
   assert.match(BAND, /near\.has\(i\)/);
   assert.match(BAND, /current\.on === on && current\.label === label \? current/);
   assert.match(BAND, /rule\.style\.transform = `scaleX\(/);
-  assert.match(BAND, /addEventListener\('scroll', onScroll, \{ passive: true \}\)/);
+  // LK69 (4 Nov 2026): the page has one scroll reader (scrollBus.mjs); the band takes its frame from it instead of a listener of its own.
+  assert.match(BAND, /bus\.subscribe\(onFrame\)/);
+  assert.doesNotMatch(BAND, /addEventListener\('scroll'/);
 });
 
 test('the Night/Day switch is in the landing\'s site bar: a labelled switch with a 44 px target', () => {

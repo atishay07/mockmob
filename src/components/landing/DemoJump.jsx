@@ -2,22 +2,19 @@
 
 import { useEffect } from 'react';
 import '@/app/landing-close.css';
+import { instantTo } from './scrollBus.mjs';
 
 // Every "Try a CUET question" link on the landing (the phone dock, the close band, the hero's pill and proof
 // tile) points at the sample question, #try-practice. Left to the router, a second tap did nothing: the URL
 // already ended in #try-practice, so the navigation was a no-op and the page stayed at the footer. This takes
 // over any same-page link to the demo: it always brings the question card on screen just under the sticky
 // nav, puts focus on its first answer (so the dock, which stays up while focus is inside it, steps aside),
-// and settles a volt ring on the card so the eye lands on it. From far down the page it cuts most of the way
-// at once and glides the last screen, rather than whirling through every section. Reduce motion jumps.
+// and settles a volt ring on the card so the eye lands on it. The move is one instant jump, declared to the
+// page's scroll bus first (scrollBus.instantTo), so the held stories between the close band and the card neither
+// race past under a smooth glide nor clamp the arrival (LK69: no programmatic glide anywhere on the landing).
 // Without JavaScript the links still work as plain anchors (scroll-margin-top keeps the card clear of the nav).
 const TARGET = 'try-practice';
 const GAP = 12;
-
-const reducedNow = () => {
-  if (document.documentElement.dataset.motion === 'reduced') return true;
-  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
-};
 
 function navBottom() {
   const nav = document.querySelector('.mm-nav');
@@ -47,10 +44,8 @@ function firstControl(stage) {
 
 export function DemoJump() {
   useEffect(() => {
-    let settleTimer = 0;
     let arriveTimer = 0;
     let frame = 0;
-    let stopSettle = () => {};
 
     const arrive = (stage) => {
       window.clearTimeout(arriveTimer);
@@ -61,43 +56,21 @@ export function DemoJump() {
     };
 
     const go = (stage) => {
-      stopSettle();
       cancelAnimationFrame(frame);
-      const calm = reducedNow();
       // Focus first, without scrolling: keyboard and screen-reader users land on the question, and the dock
       // (shown while focus is inside it) can leave as the card comes on.
       firstControl(stage)?.focus({ preventScroll: true });
-
-      const settle = () => {
-        stopSettle();
-        const top = topFor(stage);
-        if (Math.abs(window.scrollY - top) > 6) window.scrollTo({ top, behavior: 'instant' });
-        arrive(stage);
-      };
-      const watchEnd = () => {
-        const onEnd = () => settle();
-        window.addEventListener('scrollend', onEnd, { once: true });
-        settleTimer = window.setTimeout(settle, 1200);
-        stopSettle = () => { window.removeEventListener('scrollend', onEnd); window.clearTimeout(settleTimer); stopSettle = () => {}; };
-      };
-
+      // One instant, declared jump (never a glide): the held stories on the way are passed, not walked.
       const top = topFor(stage);
-      if (calm || Math.abs(window.scrollY - top) < 2) { window.scrollTo({ top, behavior: 'instant' }); arrive(stage); return; }
-      const far = Math.abs(window.scrollY - top) > window.innerHeight * 2;
-      if (far) {
-        const lead = Math.round(window.innerHeight * 0.85);
-        window.scrollTo({ top: window.scrollY > top ? top + lead : Math.max(0, top - lead), behavior: 'instant' });
-        // A frame for the sections around the card to draw, then the glide to its final place.
+      if (Math.abs(window.scrollY - top) >= 2) instantTo(top);
+      arrive(stage);
+      // Two frames on, once the page has laid itself out around the jump, a last correction if the card drifted.
+      frame = requestAnimationFrame(() => {
         frame = requestAnimationFrame(() => {
-          frame = requestAnimationFrame(() => {
-            watchEnd();
-            window.scrollTo({ top: topFor(stage), behavior: 'smooth' });
-          });
+          const settled = topFor(stage);
+          if (Math.abs(window.scrollY - settled) > 6) instantTo(settled);
         });
-        return;
-      }
-      watchEnd();
-      window.scrollTo({ top, behavior: 'smooth' });
+      });
     };
 
     const onClick = (event) => {
@@ -115,7 +88,6 @@ export function DemoJump() {
     document.addEventListener('click', onClick, true);
     return () => {
       document.removeEventListener('click', onClick, true);
-      stopSettle();
       cancelAnimationFrame(frame);
       window.clearTimeout(arriveTimer);
     };

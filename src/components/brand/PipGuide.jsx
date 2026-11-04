@@ -7,6 +7,7 @@ import { stationIndex, clamp } from './pipJourney';
 import { guideFacing, guidePose } from './pipIntent';
 import { getMobiPrefs, initMobiPrefs } from '@/lib/mobiPrefs';
 import { FOLLOW } from '@/lib/mobiMoments';
+import * as scrollBus from '@/components/landing/scrollBus.mjs';
 // The same acts as the app's table (lib/mobiMoments.js), with the app's lengths: a right answer is
 // `correct` (a small hop), a wrong one is `encourage` (the warm pose and a head tilt, D38), a finished
 // drill is `cheer` or `celebrate` by how it went. Reduced motion turns the guide off entirely.
@@ -28,7 +29,9 @@ function calmMood(kind) {
 // --pip-follow) and lets go after 1.2 s, the app's FOLLOW (lib/mobiMoments.js); on a phone the scroll does, his
 // eyes running ahead in the direction the page moves and settling 260 ms after it stops. The values (-1 to 1)
 // are written only on the Mobis in view (the flyer, or the seats on screen), so the rest of the page never
-// restyles. Off under Reduce motion, where the guide does not run at all.
+// restyles. Off under Reduce motion, where the guide does not run at all. The scroll comes from the page's one
+// shared scroll read (scrollBus.mjs), not a listener and a frame request of its own, and the gaze sleeps while a held
+// story is on screen, where the page moves a whole resting place at once and "scroll speed" means nothing (LK69).
 const LOOK_VARS = ['--pip-look-x', '--pip-look-y', '--pip-follow'];
 function setLook(nodes, x, y, follow = 0) {
   for (const node of nodes) {
@@ -83,25 +86,24 @@ function useLook(targets, enabled) {
       });
     };
     const fine = matchMedia('(hover: hover) and (pointer: fine)');
-    const onScroll = () => {
-      if (raf || fine.matches) return;
-      raf = requestAnimationFrame((now) => {
-        raf = 0;
-        const dt = lastT ? Math.max(16, now - lastT) : 16;
-        const v = clamp((scrollY - lastY) / dt / 1.4, -1, 1);
-        lastY = scrollY;
-        lastT = now;
-        const nodes = inViewNow();
-        setLook(nodes, 0, v * 0.9, 0);
-        nodes.forEach((n) => { n.dataset.pipLooking = 'true'; });
-        settle(260);
-      });
+    // Once per frame while the page moves, from the shared read; nothing runs for a fine pointer or a held story.
+    const onFrame = ({ y, t: now }) => {
+      if (fine.matches || scrollBus.held()) { lastY = y; lastT = 0; return; }
+      const nodes = inViewNow();
+      const dt = lastT ? Math.max(16, now - lastT) : 16;
+      const v = clamp((y - lastY) / dt / 1.4, -1, 1);
+      lastY = y;
+      lastT = now;
+      if (!nodes.length) return;
+      setLook(nodes, 0, v * 0.9, 0);
+      nodes.forEach((n) => { n.dataset.pipLooking = 'true'; });
+      settle(260);
     };
     window.addEventListener('pointermove', onMove, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const offScroll = scrollBus.subscribe(onFrame);
     return () => {
       window.removeEventListener('pointermove', onMove);
-      window.removeEventListener('scroll', onScroll);
+      offScroll();
       cancelAnimationFrame(raf);
       clearTimeout(release);
       clearLook(inViewNow());
@@ -119,17 +121,36 @@ function oneMobi(seats, { entered }) {
   const root = document.documentElement;
   let primary = null;
   let frame = 0;
-  const drillFigures = () => [...document.querySelectorAll('.pip-drill-reaction, .pip-drill-result')].map((node) => ({ node, box: node.matches('.pip-drill-result') ? node : node.querySelector('.pip-image') }));
-  const choose = () => {
-    frame = 0;
-    const all = [...seats.filter((seat) => !entered || seat.dataset.pipEnter).map((node) => ({ node, box: node.querySelector('.pip-seat__art') })), ...drillFigures()];
-    // From the top of the window, not the site bar's foot: the bar is see-through, so a Mobi under it still shows.
-    const shown = [];
+  // Nothing is looked up or measured per scroll frame (LK69): the drill's figures are listed once and again when its
+  // markup changes, each figure's box is measured once (in document coordinates) and again when the page's size,
+  // the drill or a seat's visibility changes, and a scroll frame only compares those boxes with the window.
+  let figures = null;
+  let boxes = new Map();
+  let dirty = true;
+  const arts = new Map(seats.map((node) => [node, node.querySelector('.pip-seat__art')]));
+  const drillFigures = () => figures || (figures = [...document.querySelectorAll('.pip-drill-reaction, .pip-drill-result')].map((node) => ({ node, box: node.matches('.pip-drill-result') ? node : node.querySelector('.pip-image') })));
+  const measure = (all) => {
+    boxes = new Map();
+    const y = window.scrollY;
     for (const f of all) {
       const r = f.box?.getBoundingClientRect();
-      if (!r?.width) continue;
-      const h = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0);
-      const w = Math.min(r.right, innerWidth) - Math.max(r.left, 0);
+      if (r?.width) boxes.set(f.node, { top: r.top + y, left: r.left, width: r.width, height: r.height });
+    }
+    dirty = false;
+  };
+  const choose = () => {
+    frame = 0;
+    const all = [...seats.filter((seat) => !entered || seat.dataset.pipEnter).map((node) => ({ node, box: arts.get(node) })), ...drillFigures()];
+    if (dirty) measure(all);
+    // From the top of the window, not the site bar's foot: the bar is see-through, so a Mobi under it still shows.
+    const y = window.scrollY;
+    const shown = [];
+    for (const f of all) {
+      const r = boxes.get(f.node);
+      if (!r) continue;
+      const top = r.top - y;
+      const h = Math.min(top + r.height, innerHeight) - Math.max(top, 0);
+      const w = Math.min(r.left + r.width, innerWidth) - Math.max(r.left, 0);
       if (h > 0 && w > 0) shown.push({ ...f, area: h * w });
     }
     shown.sort((a, b) => b.area - a.area);
@@ -140,21 +161,25 @@ function oneMobi(seats, { entered }) {
       else delete f.node.dataset.pipYield;
     }
   };
-  const recheck = () => { if (!frame) frame = requestAnimationFrame(choose); };
+  // A change (a seat arriving, the drill answered, the page resized): measure again on the next frame.
+  const recheck = () => { dirty = true; if (!frame) frame = requestAnimationFrame(choose); };
   const drill = document.getElementById('try-practice');
-  const changes = drill ? new MutationObserver(recheck) : null;
+  const changes = drill ? new MutationObserver(() => { figures = null; recheck(); }) : null;
   changes?.observe(drill, { childList: true, subtree: true });
+  // The page's size changing (content-visibility drawing a section, fonts) moves the seats: measure again then.
+  const sizes = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(recheck) : null;
+  sizes?.observe(document.documentElement);
   root.dataset.pipOne = 'true';
-  window.addEventListener('scroll', recheck, { passive: true });
-  window.addEventListener('resize', recheck);
+  // Scrolling only compares the cached boxes with the window, once per frame, from the shared read.
+  const offScroll = scrollBus.subscribe(({ resized }) => { if (resized) dirty = true; cancelAnimationFrame(frame); choose(); });
   recheck();
   return {
     recheck,
     dispose() {
       cancelAnimationFrame(frame);
       changes?.disconnect();
-      window.removeEventListener('scroll', recheck);
-      window.removeEventListener('resize', recheck);
+      sizes?.disconnect();
+      offScroll();
       seats.forEach((seat) => delete seat.dataset.pipYield);
       drillFigures().forEach((f) => delete f.node.dataset.pipYield);
       delete root.dataset.pipOne;
@@ -357,9 +382,12 @@ export default function PipGuide() {
       const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
       root.dataset.pipGuide='on';setRunning(true);
-      window.addEventListener('scroll',wake,{passive:true});window.addEventListener('resize',resize);window.addEventListener('pip:react',react);document.addEventListener('visibilitychange',wake);
+      // The flyer's frame runs from the page's one shared scroll read (scrollBus.mjs) instead of a listener and a frame
+      // request of its own: a scroll frame calls it straight away (it re-arms itself while he is still travelling).
+      const offScroll=scrollBus.subscribe(({t})=>{if(disposed||document.hidden)return;if(raf){cancelAnimationFrame(raf);raf=0;}frame(t);});
+      window.addEventListener('resize',resize);window.addEventListener('pip:react',react);document.addEventListener('visibilitychange',wake);
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
-      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);heroWatch.disconnect();document.removeEventListener('visibilitychange',wake);stations.forEach(s=>{s.seat.style.removeProperty('transform');s.seat.removeAttribute('data-pip-away');});delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
+      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();offScroll();window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);heroWatch.disconnect();document.removeEventListener('visibilitychange',wake);stations.forEach(s=>{s.seat.style.removeProperty('transform');s.seat.removeAttribute('data-pip-away');});delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
     initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
   },[]);

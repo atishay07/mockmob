@@ -1,27 +1,42 @@
 "use client";
 
-// ScrollStory: a landing section that holds still while the reader's scroll walks it through its steps.
+// ScrollStory: a landing section that holds still while the reader's gesture walks it through its steps.
 //
 //   <ScrollStory steps={4} className="lc" beat="78svh" label="Mistake Lab, step by step" Content={Stage} {...stageProps} />
 //   function Stage({ step, pinned, reduced, live, goTo, steps, ...stageProps }) { ... }
 //
 // The stage is position: sticky inside a taller track, so the browser does the holding. Each step has a
 // resting place in the held scroll (the first at the start of the hold, the last at its end, the rest
-// evenly between) and owns the band around it (one invisible "beat" per step); an IntersectionObserver
-// on the beats picks the step whose beat crosses the middle of the window, so nothing runs per frame.
-// The page scrolls through the hold at the reader's own speed: wheel, trackpad, touch and keys are the
-// browser's, never caught (owner, 2 Nov 2026, LK47: one notch had carried the page a whole step, about a
-// screen, which read as the scroll running too fast). The steps still change on their own as the page
-// passes them. The track is also a named view timeline (--ss-track), which consumers use for
-// compositor-only progress fills (see scroll-story.css). Elements marked data-ss-fit are scaled once
-// per resize to fit their parent, so short phones and landscape keep the hold instead of clipping the
-// screen, and the band left under elements marked data-ss-end is measured as --ss-slack (centring,
-// exit gap).
-// Every step's content stays in the DOM in reading order; focusing into a step brings it on stage, and
-// the scrollbar, find-in-page and screen readers still move through the story by position.
-// Reduced motion keeps the hold with calm, instant swaps. Without IntersectionObserver the steps stack.
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+// evenly between) and owns the band around it (one invisible "beat" per step).
+//
+// ONE GESTURE, ONE STEP (LK69, L-027/L-028, 4 Nov 2026). Inside a hold a swipe, a wheel burst or a key press moves
+// exactly one step, chosen from the gesture's net travel and never its speed; flings are stopped at a story's edges
+// (entering) and left free (leaving); a native scroll that ends inside a hold settles on the nearest rest. All of
+// that is storyController.mjs, one controller for every story on the page. It never glides the page: a step commits
+// instantly (the stage is sticky, so moving the page to the rest is invisible) and the stage's content moves with
+// a 180-240 ms CSS transform (scroll-story.css). The reader's scrolling is the browser's everywhere else: the
+// controller's non-passive listeners exist only while a story is within one screen of the viewport (LK47, "no glide").
+//
+// Step-driven visuals. A step change writes data-step and --ss-step on the root straight away, so progress fills and
+// any CSS keyed to the step change at once and cannot be left half done; React catches up in a transition, so the
+// stage's own render never lands inside the gesture's frame. The IntersectionObserver on the beats still picks the
+// step for a scroll the controller does not own (scrollbar, Home/End, find-in-page): the beat crossing the middle of
+// the window wins, and a story entered from above opens on step one, from below on its last.
+//
+// Elements marked data-ss-fit are scaled once per resize to fit their parent (all measured first, then all written),
+// and the band left under elements marked data-ss-end is measured as --ss-slack (centring, exit gap).
+// Every step's content stays in the DOM in reading order; focusing into a step brings it on stage, and the
+// scrollbar, find-in-page and screen readers still move through the story by position.
+// Reduced motion keeps the hold with calm, instant swaps (lock 120 ms, no lean). Without IntersectionObserver the
+// steps stack.
+//
+// Props beyond the stage's: `hold` is a media query; the story is held only while it matches (the statement is a
+// phone story and a plain scrub on desktop). `holdCalm` skips the hold under reduced motion. `quiet` keeps the
+// phone dock up while the story is on (the dock is told by data-live).
+import { startTransition, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import '@/app/scroll-story.css';
+import * as bus from './scrollBus.mjs';
+import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
 
 const reducedNow = () => {
@@ -30,22 +45,17 @@ const reducedNow = () => {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
 };
 
-// The page reaches a step's resting place by itself when the reader picks a step (a tab, a dot): a short
-// glide, instant under reduced motion or from the keyboard.
-const STEP_MS = 440;
-const easeOut = (t) => 1 - (1 - t) ** 3;
-const now = () => performance.now();
-// A section held back by content-visibility is far off screen; reading geometry inside it would lay it out.
-const skipped = (node) => {
-  if (typeof node.checkVisibility !== 'function') return false;
-  try { return !node.checkVisibility({ contentVisibilityAuto: true }); } catch { return false; }
-};
-
+// Scale marked screens to their room. Every measurement is read first, then every write is made, pass by pass:
+// a story with four fitted scenes costs three layouts, not twelve (LK69 lag: the old per-node loop forced one
+// layout per read, 118 to 158 ms at 4x CPU).
 function fitAll(stage) {
-  for (const node of stage.querySelectorAll('[data-ss-fit]')) {
+  const nodes = [...stage.querySelectorAll('[data-ss-fit]')];
+  if (!nodes.length) return;
+  for (const node of nodes) node.style.removeProperty('--ss-fit');
+  const live = [];
+  for (const node of nodes) {
     const room = node.parentElement;
     if (!room) continue;
-    node.style.removeProperty('--ss-fit');
     // Room: from the node's own top to the parent's content bottom (the node scales from its top
     // left and is laid out 1/fit wider, so it keeps the full width and rewraps a little shorter).
     const box = room.getBoundingClientRect();
@@ -53,15 +63,21 @@ function fitAll(stage) {
     const space = box.top + room.clientTop + room.clientHeight - padBottom - node.getBoundingClientRect().top;
     // The smallest scale: --ss-fit-min from CSS (per layout) wins over data-ss-fit, then 0.6.
     const min = parseFloat(getComputedStyle(node).getPropertyValue('--ss-fit-min')) || Number(node.dataset.ssFit) || 0.6;
-    if (!(space > 0) || node.offsetHeight <= space + 1) continue;
-    let fit = Math.max(min, space / node.offsetHeight);
-    for (let pass = 0; pass < 3; pass += 1) {
-      node.style.setProperty('--ss-fit', fit.toFixed(3));
-      const drawn = node.offsetHeight * fit;
-      if (Math.abs(drawn - space) < 4 || fit === min) break;
-      fit = Math.max(min, Math.min(1, (fit * space) / drawn));
-    }
-    if (node.offsetHeight * fit > space + 1 && fit > min) node.style.setProperty('--ss-fit', Math.max(min, space / node.offsetHeight).toFixed(3));
+    const height = node.offsetHeight;
+    if (!(space > 0) || height <= space + 1) continue;
+    live.push({ node, space, min, fit: Math.max(min, space / height), done: false });
+  }
+  for (let pass = 0; pass < 3 && live.some((item) => !item.done); pass += 1) {
+    for (const item of live) if (!item.done) item.node.style.setProperty('--ss-fit', item.fit.toFixed(3));
+    const drawn = live.map((item) => (item.done ? 0 : item.node.offsetHeight * item.fit));
+    live.forEach((item, i) => {
+      if (item.done) return;
+      if (Math.abs(drawn[i] - item.space) < 4 || item.fit === item.min) { item.done = true; return; }
+      item.fit = Math.max(item.min, Math.min(1, (item.fit * item.space) / drawn[i]));
+    });
+  }
+  for (const item of live) {
+    if (item.node.offsetHeight * item.fit > item.space + 1 && item.fit > item.min) item.node.style.setProperty('--ss-fit', Math.max(item.min, item.space / item.node.offsetHeight).toFixed(3));
   }
 }
 
@@ -84,7 +100,8 @@ function measureSlack(root, stage) {
   if (slack > 0) root.style.setProperty('--ss-slack', `${slack}px`);
 }
 
-export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, ...rest }) {
+export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, ...rest }) {
+  const id = useId();
   const rootRef = useRef(null);
   const stageRef = useRef(null);
   const trackRef = useRef(null);
@@ -94,87 +111,134 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   const [reduced, setReduced] = useState(false);
   const [step, setStep] = useState(0);
   const [live, setLive] = useState(false);
+  // The step as the controller sees it, written the moment a step is decided (React's own state catches up in a
+  // transition, so it is never the one to ask inside a gesture).
   const stepRef = useRef(0);
-  // True while the page glides to a step this story chose: the beats it passes on the way do not show.
-  const steering = useRef(false);
-  const story = useRef(null);
+  const handleRef = useRef(null);
   const onStepRef = useRef(onStep);
   useEffect(() => { onStepRef.current = onStep; }, [onStep]);
 
+  const applyStep = useCallback((n) => {
+    const next = Math.max(0, Math.min(steps - 1, n));
+    if (stepRef.current === next) return;
+    stepRef.current = next;
+    const root = rootRef.current;
+    if (root) { root.dataset.step = String(next); root.style.setProperty('--ss-step', String(next)); }
+    startTransition(() => setStep(next));
+  }, [steps]);
+
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const heldQuery = hold ? window.matchMedia(hold) : null;
     const sync = () => {
-      setReduced(reducedNow());
-      setPinned(typeof IntersectionObserver !== 'undefined');
+      const calmNow = reducedNow();
+      setReduced(calmNow);
+      setPinned(typeof IntersectionObserver !== 'undefined' && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
     };
     sync();
     calm.addEventListener?.('change', sync);
+    heldQuery?.addEventListener?.('change', sync);
     const watch = typeof MutationObserver !== 'undefined' ? new MutationObserver(sync) : null;
     watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    return () => { calm.removeEventListener?.('change', sync); watch?.disconnect(); };
-  }, []);
+    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
+  }, [hold, holdCalm]);
 
-  // The beat crossing the middle of the window owns the step. With no beat crossing, the side the
-  // reader comes from does: the beats cover the whole track, so the track then lies wholly on one
-  // side of the middle. Still below it, the story waits on its first step; already above it, on its
-  // last. So a story entered from above always opens on step one and one entered from below on its
-  // last, even after a jump (a nav link, a fling, the top button) that no beat saw. A second observer,
-  // a window three screens tall, settles this before the stage shows and, only while the story is that
-  // near, a passive scroll listener re-checks once a frame when no beat is crossing (one rect read).
+  // The controller's handle for this story: the gesture, clamp and settle rules live in storyController.mjs.
+  useEffect(() => {
+    const root = rootRef.current;
+    const track = trackRef.current;
+    const stage = stageRef.current;
+    if (!pinned || !root || !track || !stage || steps < 2) return undefined;
+    const handle = { id, root, track, stage, steps, step: () => stepRef.current, show: applyStep, reduced: reducedNow };
+    handleRef.current = handle;
+    const off = controller.register(handle);
+    return () => { off(); handleRef.current = null; bus.hold(id, false); };
+  }, [pinned, steps, applyStep, id]);
+
+  // The beat crossing the middle of the window owns the step for any scroll the controller does not own. With no
+  // beat crossing, the side the reader comes from does: the beats cover the whole track, so the track then lies wholly
+  // on one side of the middle. Still below it, the story waits on its first step; already above it, on its last. So a
+  // story entered from above always opens on step one and one entered from below on its last, even after a jump (a
+  // nav link, a fling, the top button) that no beat saw. A second observer, a window three screens tall, settles this
+  // before the stage shows and tells the controller the story is near (gestures are owned only then); while it is
+  // near, the shared scroll read re-checks once a frame when no beat is crossing (arithmetic on cached geometry).
   useEffect(() => {
     if (!pinned) return undefined;
     const held = crossing.current;
     const track = trackRef.current;
-    let frame = 0;
-    let listening = false;
-    const fromSide = () => {
-      frame = 0;
-      if (held.size > 0 || !track || steering.current) return;
+    let unsubscribe = null;
+    const sideOf = (y, vh) => {
+      const handle = handleRef.current;
+      if (handle?.ok) return handle.top + handle.height / 2 > y + vh / 2 ? 0 : steps - 1;
       // A section not drawn yet is far off screen: its reserved box gives the side without laying it out.
       const box = drawnAncestor(track).getBoundingClientRect();
-      setStep(box.top + box.bottom > window.innerHeight ? 0 : steps - 1);
+      return box.top + box.bottom > vh ? 0 : steps - 1;
     };
-    const onScroll = () => { if (!frame && held.size === 0) frame = requestAnimationFrame(fromSide); };
+    const fromSide = (y = window.scrollY, vh = window.innerHeight) => {
+      if (held.size > 0 || !track) return;
+      applyStep(sideOf(y, vh));
+    };
     const listen = (on) => {
-      if (on === listening) return;
-      listening = on;
-      if (on) window.addEventListener('scroll', onScroll, { passive: true });
-      else window.removeEventListener('scroll', onScroll);
+      if (on && !unsubscribe) unsubscribe = bus.subscribe(({ y, vh }) => fromSide(y, vh));
+      else if (!on && unsubscribe) { unsubscribe(); unsubscribe = null; }
     };
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         const i = Number(entry.target.dataset.beat);
-        if (entry.isIntersecting) { held.add(i); if (!steering.current) setStep(i); } else held.delete(i);
+        if (entry.isIntersecting) { held.add(i); applyStep(i); } else held.delete(i);
       }
       setLive(held.size > 0);
+      bus.hold(id, held.size > 0);
       fromSide();
     }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
     beatsRef.current.slice(0, steps).forEach((node) => node && io.observe(node));
     const near = track ? new IntersectionObserver((entries) => {
-      listen(entries[entries.length - 1].isIntersecting);
+      const on = entries[entries.length - 1].isIntersecting;
+      listen(on);
+      if (handleRef.current) controller.near(handleRef.current, on);
       fromSide();
     }, { rootMargin: '100% 0px 100% 0px', threshold: 0 }) : null;
     if (track) near.observe(track);
-    return () => { io.disconnect(); near?.disconnect(); listen(false); cancelAnimationFrame(frame); held.clear(); };
-  }, [pinned, steps]);
+    return () => {
+      io.disconnect();
+      near?.disconnect();
+      listen(false);
+      if (handleRef.current) controller.near(handleRef.current, false);
+      held.clear();
+      bus.hold(id, false);
+    };
+  }, [pinned, steps, applyStep, id]);
 
-  useEffect(() => { stepRef.current = step; onStepRef.current?.(step); }, [step]);
+  useEffect(() => { onStepRef.current?.(step); }, [step]);
 
-  // Scale marked screens to their room once per resize (never per scroll frame).
+  // Scale marked screens to their room, once per size change (never per scroll frame): a width change, or a height
+  // change big enough to matter (a rotated phone, a resized window), not the few px a browser bar moves.
   useEffect(() => {
     const stage = stageRef.current;
     const root = rootRef.current;
     if (!pinned || !stage || !root || typeof ResizeObserver === 'undefined') return undefined;
     let frame = 0;
+    let last = { w: -1, h: -1 };
     // Not while the section is undrawn (content-visibility): the observer below runs it once it is drawn.
-    const run = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(() => { if (undrawn(stage)) return; fitAll(stage); measureSlack(root, stage); }); };
-    const observer = new ResizeObserver(run);
+    const run = (force = false) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (undrawn(stage)) return;
+        const w = stage.clientWidth;
+        const h = stage.clientHeight;
+        if (!force && Math.abs(w - last.w) < 1 && Math.abs(h - last.h) < 16) return;
+        last = { w, h };
+        fitAll(stage);
+        measureSlack(root, stage);
+      });
+    };
+    const observer = new ResizeObserver(() => run());
     observer.observe(stage);
     stage.querySelectorAll('[data-ss-fit]').forEach((node) => node.parentElement && observer.observe(node.parentElement));
     // A fitted node changes its own width when it is scaled, so only unscaled end markers are watched.
     stage.querySelectorAll('[data-ss-end]:not([data-ss-fit])').forEach((node) => observer.observe(node));
-    document.fonts?.ready.then(run).catch(() => {});
-    run();
+    document.fonts?.ready.then(() => run(true)).catch(() => {});
+    run(true);
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -183,69 +247,21 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     };
   }, [pinned]);
 
-  // A picked step (goTo): the page glides to that step's resting place, so the scroll position and the
-  // stage agree; the beats it passes on the way do not show. The reader's own scrolling is never caught.
-  useEffect(() => {
-    const track = trackRef.current;
-    const stage = stageRef.current;
-    if (!pinned || !track || !stage || steps < 2) return undefined;
-    let glide = 0;
-    const locate = () => {
-      if (skipped(track)) return null;
-      const box = track.getBoundingClientRect();
-      return { hold: Math.max(0, track.offsetHeight - stage.offsetHeight), top: window.scrollY + box.top };
-    };
-    const put = (y) => window.scrollTo({ top: y, behavior: 'instant' });
-    // A wheel, a touch or a key while the page glides hands the page straight back to the reader.
-    const stop = () => { if (glide) { cancelAnimationFrame(glide); glide = 0; steering.current = false; } };
-    const go = (n, { instant = false } = {}) => {
-      const next = Math.max(0, Math.min(steps - 1, n));
-      stepRef.current = next;
-      setStep(next);
-      const at = locate();
-      if (!at) return;
-      const target = Math.round(at.top + (at.hold * next) / (steps - 1));
-      stop();
-      const from = window.scrollY;
-      if (instant || reducedNow() || Math.abs(target - from) < 2) { put(target); return; }
-      steering.current = true;
-      const t0 = now();
-      const frame = () => {
-        const t = Math.min(1, (now() - t0) / STEP_MS);
-        put(from + (target - from) * easeOut(t));
-        if (t < 1) glide = requestAnimationFrame(frame);
-        else { glide = 0; steering.current = false; }
-      };
-      glide = requestAnimationFrame(frame);
-    };
-    const opts = { passive: true };
-    window.addEventListener('wheel', stop, opts);
-    window.addEventListener('touchstart', stop, opts);
-    window.addEventListener('keydown', stop);
-    story.current = { go };
-    return () => {
-      window.removeEventListener('wheel', stop, opts);
-      window.removeEventListener('touchstart', stop, opts);
-      window.removeEventListener('keydown', stop);
-      stop();
-      story.current = null;
-    };
-  }, [pinned, steps]);
-
-  // Brings step i on stage: the page glides to the step's resting place (keyboard and reduced motion jump).
-  const goTo = useCallback((i, { instant = false } = {}) => {
+  // Brings step i on stage: instant, never a glide (the stage is sticky, so the page's move to the step's
+  // resting place is invisible and the content settles over 240 ms). `instant` is accepted and ignored.
+  const goTo = useCallback((i) => {
     const n = Math.max(0, Math.min(steps - 1, i));
-    if (pinned && story.current) { story.current.go(n, { instant }); return; }
-    setStep(n);
-  }, [pinned, steps]);
+    if (pinned && handleRef.current) { controller.goTo(handleRef.current, n); return; }
+    applyStep(n);
+  }, [pinned, steps, applyStep]);
 
   // Focus moving into a step that is off stage brings that step on (keyboard reading order).
   const onFocus = useCallback((event) => {
     const host = event.target.closest?.('[data-ss-step]');
     if (!host) return;
     const i = Number(host.dataset.ssStep);
-    if (Number.isFinite(i) && i !== step) goTo(i, { instant: true });
-  }, [goTo, step]);
+    if (Number.isFinite(i) && i !== stepRef.current) goTo(i);
+  }, [goTo]);
 
   const api = useMemo(() => ({ step, pinned, reduced, live, goTo, steps }), [step, pinned, reduced, live, goTo, steps]);
 
@@ -255,7 +271,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       className={`ss ${className}`.trim()}
       data-pinned={pinned ? 'true' : 'false'}
       data-reduced={reduced ? 'true' : 'false'}
-      data-live={live ? 'true' : 'false'}
+      data-live={live && !quiet ? 'true' : 'false'}
       data-step={step}
       style={{ '--ss-steps': steps, '--ss-step': step, ...(beat ? { '--ss-beat': beat } : null) }}
     >

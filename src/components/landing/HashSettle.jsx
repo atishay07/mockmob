@@ -1,11 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
+import { instantTo } from './scrollBus.mjs';
 
 // Arriving on the landing at /#faq from another page (the footer's Help for guests), the router scrolls before the
 // held stories and reveals above have taken their full height, so the questions slid out of view. This brings the
 // target back under the nav as the page settles: at once, then again after the sections above have grown.
-// Instant jumps only (no smooth scroll to fight), so reduced motion needs nothing extra.
+// Instant jumps only (no smooth scroll to fight), so reduced motion needs nothing extra. Each one is declared to the
+// page's scroll bus first (instantTo), so a held story's edge clamp does not mistake the arrival for a fling and hold
+// the page at the story's first resting place (LK69).
 // The student's own scroll, tap or key wins: it stops any settle still waiting.
 const SETTLE_MS = [0, 350, 900, 1600];
 const DEFAULT_IDS = ['faq'];
@@ -25,7 +28,7 @@ export function HashSettle({ ids = DEFAULT_IDS }) {
         timers.push(window.setTimeout(() => {
           const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
           const top = Math.round(window.scrollY + target.getBoundingClientRect().top - margin);
-          if (Math.abs(window.scrollY - top) > 4) window.scrollTo({ top, behavior: 'instant' });
+          if (Math.abs(window.scrollY - top) > 4) instantTo(top);
         }, ms));
       }
     };

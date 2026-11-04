@@ -15,12 +15,15 @@
 // a labelled group with the name as plain text while it is on, and nothing at all to assistive technology while it
 // is off.
 //
-// One rect read per frame, only while a named section is on screen, and only the sections on screen. State is
-// written only when the band turns on or off or changes section; the rule is one transform write. Motion is opacity
+// One rect read per frame, only while a named section is on screen, and only the sections on screen. The frame comes
+// from the page's one shared scroll read (scrollBus.mjs), not a listener of its own. State is written only when the
+// band turns on or off or changes section; the rule is one transform write, eased over 220 ms so a held story's
+// instant step (the page moves to the next resting place at once) reads as a slide, not a jump. Motion is opacity
 // and transform (section-position.css); reduced motion swaps instantly. Without JavaScript or IntersectionObserver
 // the band never shows and the page reads as it did.
 import { useEffect, useRef, useState } from 'react';
 import { positionAt } from './sectionPositionPhase.mjs';
+import * as bus from './scrollBus.mjs';
 import '@/app/section-position.css';
 
 export function SectionPosition({ sections }) {
@@ -40,10 +43,13 @@ export function SectionPosition({ sections }) {
     const near = new Set(); // sections on screen
     let frame = 0;
     let listening = false;
+    let unsubscribe = null;
     let line = 0; // the band's bottom edge, from the window's top (px)
     let lastIndex = -1;
     let lastProgress = -1;
 
+    const calm = () => document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    rule.style.transition = calm() ? 'none' : 'transform 220ms cubic-bezier(0.23, 1, 0.32, 1)';
     const measure = () => { line = (parseFloat(getComputedStyle(dock).top) || 0) + dock.offsetHeight; };
     const show = (index) => {
       setView((current) => {
@@ -70,13 +76,13 @@ export function SectionPosition({ sections }) {
       }
       show(index);
     };
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
-    const onResize = () => { measure(); onScroll(); };
+    // The shared read calls this once per frame while the page moves or resizes; it is already inside a frame.
+    const onFrame = ({ resized }) => { if (resized) measure(); read(); };
     const listen = (on) => {
       if (on === listening) return;
       listening = on;
-      if (on) { window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onResize); onResize(); }
-      else { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onResize); }
+      if (on) { unsubscribe = bus.subscribe(onFrame); measure(); if (!frame) frame = requestAnimationFrame(read); }
+      else { unsubscribe?.(); unsubscribe = null; }
     };
     // Geometry is read only while a named section is on screen: until then it may be undrawn (content-visibility),
     // and reading it would lay out the whole held story. Leaving the last one, the band settles off once.

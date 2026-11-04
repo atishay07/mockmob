@@ -4,7 +4,9 @@
 // SubjectObject renders the picture on the server; this island (an empty, hidden span inside the object)
 // attaches the life to it after hydration, so a page that shows objects stays server rendered.
 //
-//   lean    toward the mouse or a finger resting on it (the touched side presses away), and with the scroll
+//   lean    toward the mouse or a finger resting on it (the touched side presses away), and with the scroll (the
+//           page's window scroll comes from the shared scroll read, scrollBus.mjs; the lean sleeps while a held
+//           story is on screen, where the page moves a whole step at once)
 //   light   one band of the lamp's light across the object's own pixels while it leans, never on its shadow
 //   tap     a 420 ms give, overshoot and twist about the foot, one haptic tick, and a 560 ms sparkle
 //   flight  with `flight`, a tap or click on the way to another page marks the flight, and the object that
@@ -17,6 +19,7 @@
 import { useEffect, useRef } from 'react';
 import { SUBJECT_RENDERS } from '@/../data/subject_art.mjs';
 import { tick } from '@/lib/haptics';
+import * as scrollBus from '@/components/landing/scrollBus.mjs';
 import {
   LIFE,
   SPRINGS,
@@ -66,6 +69,7 @@ const loop = {
   scrollers: new WeakMap(),
   listening: false,
   observer: null,
+  unsubscribe: null,
 };
 
 function kick() {
@@ -100,13 +104,22 @@ function frame(now) {
   else loop.last = 0;
 }
 
+// The page's own scroll arrives once per frame from the shared reader (no listener and no loop of its own); a held
+// story on screen puts the lean to sleep, because there the page moves a whole resting place at once (LK69).
+function onPageScroll({ dy, t }) {
+  if (!dy || scrollBus.held() || reducedMotion()) return;
+  loop.scrollDelta += dy;
+  loop.scrolled = true;
+  if (!loop.raf) frame(t);
+}
+
+// An inner scroller (a panel in the app) still leans the objects, from its own scroll events; the window's are the bus's.
 function onScroll(event) {
   const target = event.target;
-  const el = !target || target === document || target === document.documentElement || target === document.body ? null : target;
-  const key = el || document;
-  const pos = el ? el.scrollTop : window.scrollY;
-  const last = loop.scrollers.has(key) ? loop.scrollers.get(key) : pos;
-  loop.scrollers.set(key, pos);
+  if (!target || target === document || target === document.documentElement || target === document.body) return;
+  const pos = target.scrollTop;
+  const last = loop.scrollers.has(target) ? loop.scrollers.get(target) : pos;
+  loop.scrollers.set(target, pos);
   if (pos === last) return;
   loop.scrollDelta += pos - last;
   loop.scrolled = true;
@@ -131,6 +144,7 @@ function register(life) {
   loop.lives.add(life);
   if (!loop.listening) {
     loop.listening = true;
+    loop.unsubscribe = scrollBus.subscribe(onPageScroll);
     document.addEventListener('scroll', onScroll, { capture: true, passive: true });
     window.addEventListener('popstate', onPopState);
   }
@@ -156,6 +170,8 @@ function unregister(life) {
   loop.observer?.unobserve(life.root);
   if (!loop.lives.size && loop.listening) {
     loop.listening = false;
+    loop.unsubscribe?.();
+    loop.unsubscribe = null;
     document.removeEventListener('scroll', onScroll, { capture: true });
     window.removeEventListener('popstate', onPopState);
   }
