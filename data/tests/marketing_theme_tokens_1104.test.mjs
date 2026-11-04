@@ -1,6 +1,6 @@
 // Home spec 4 Nov 2026, packet P1 (decisions 8, 9 and 16): the Night and Day tokens of the marketing system, pinned.
 // Night is the app's warm charcoal (mm_colors.dart, logo B #12110E) raised by surface, not by edges; Day is the app's cream.
-// "CUET 2027." is a lamp-lit volt in Night (#CDDD5A, under 80% saturation) and olive in Day (#526700); #D2F000 stays a fill.
+// The brand words ("CUET 2027.", the tour's "MockMob") are the brand volt #D2F000 in Night and olive #3F5200 in Day (5 Nov, LK82/LK86).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -72,13 +72,11 @@ test('the Night raised surfaces are told apart by surface: raised-2 is at least 
   assert.ok(contrast(night['ink-3'], night['paper-raised-2']) >= 5, 'ink-3 on raised-2 holds 5:1');
 });
 
-test('"CUET 2027." is a lamp-lit volt in Night (#CDDD5A, under 80% saturation) and olive in Day (#526700); #D2F000 stays for fills', () => {
-  assert.equal(night['brand-word'], '#cddd5a');
-  assert.ok(saturation(night['brand-word']) < 0.8, `Night brand-word saturation ${saturation(night['brand-word']).toFixed(2)}`);
-  assert.ok(saturation('#d2f000') > 0.9, 'the key stays a pure volt fill');
+test('The brand words are the brand volt in Night (#D2F000) and olive in Day (#3F5200): one green on the page (owner LK82/LK86, 5 Nov)', () => {
+  assert.equal(night['brand-word'], '#d2f000');
   assert.ok(contrast(night['brand-word'], night.paper) >= 7, 'brand word on the Night paper');
-  assert.equal(day['brand-word'], '#526700');
-  assert.ok(contrast(day['brand-word'], day.paper) >= 4.5, 'brand word on the Day paper');
+  assert.equal(day['brand-word'], '#3f5200');
+  assert.ok(contrast(day['brand-word'], day.paper) >= 7, 'brand word on the Day paper');
   assert.equal(day['accent-text'], '#526700');
 });
 

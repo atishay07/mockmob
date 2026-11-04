@@ -166,7 +166,9 @@ test('Night has no coloured token for the edges, the wash or the text of links a
     assert.match(block, /--accent-wash: transparent/);
   }
   assert.match(dark, /--accent-text: var\(--ink\)/);
-  assert.doesNotMatch(dark.replace('--focus-ring: #d2f000', ''), /d2f000|210, ?240, ?0/i);
+  // Two named exceptions: the focus ring, and the brand words ("CUET 2027.", the tour's "MockMob"), which the owner asked to be
+  // the brand green on 5 Nov (LK82, LK86). Edges, washes, links and labels stay ink.
+  assert.doesNotMatch(dark.replace('--focus-ring: #d2f000', '').replace('--brand-word: #d2f000', ''), /d2f000|210, ?240, ?0/i);
   // the green-black is gone from every home stylesheet: no #0b100e, #070908 or the old Night greens as a ground
   for (const file of MINE) {
     assert.doesNotMatch(strip(read(file)), /#0b100e|#070908|#0c100b|#131a16|#18211b/i, `${file} still carries the old green-black`);

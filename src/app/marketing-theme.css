@@ -11,7 +11,7 @@ html[data-theme='dark'] .mm {
   --focus-ring: #d2f000; color-scheme: dark;
   /* Links and labels are ink (with an underline where they are links); "CUET 2027." and the tour's "MockMob" are the only
      volt-family words, in a lamp-lit tone that reads as one family with the key without shouting (L-017, L-030). */
-  --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #cddd5a;
+  --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #d2f000;
   --tint: 244 240 230; --surface-hover: #211f1a; --edge-light: rgba(244, 240, 230, 0.28);
   --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
 }
@@ -23,7 +23,7 @@ html[data-theme='light'] .mm {
   --sh-1: 0 2px 5px #1b19140a; --sh-2: 0 10px 28px #1b19140d; --sh-3: 0 22px 54px #1b191414;
   --focus-ring: #4f6400; color-scheme: light;
   /* Lime-family text that holds 4.5:1 on paper; volt itself stays a fill. */
-  --accent-text: #526700; --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #526700;
+  --accent-text: #526700; --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #3f5200;
   --tint: 27 25 20; --surface-hover: #f9f5ec; --edge-light: rgba(255, 255, 255, 0.9);
   --warn-text: #845400; --bad-text: #b0291f; --good-text: #3d6600;
 }
@@ -109,7 +109,8 @@ body:has(.du-sum) .mm-theme-hint, body:has(.cp-sum) .mm-theme-hint { display: no
 body:has(#mm-nav-sheet) .mm-dock { opacity: 0; pointer-events: none; }
 
 /* The two words the owner asked to be brand-coloured keep it while links and labels went to ink (L-017 "CUET 2027." in the hero,
-   L-030 "MockMob" in the tour's name). They read --brand-word: a lamp-lit volt in Night, olive in Day. The selectors carry the
+   L-030 "MockMob" in the tour's name). They read --brand-word: the brand volt #D2F000 in Night, olive #3F5200 in Day (owner, 5 Nov, LK82/LK86: one green on the page; the
+   lamp-lit #CDDD5A read as "weird"). The selectors carry the
    html[data-theme] prefix so they win over the older --accent-text rules in hero-scene.css and section-position.css. */
 html[data-theme] .mm.lp .lp-title__brand { color: var(--brand-word); }
 html[data-theme] .mm.lp .lp-pos__name em { color: var(--brand-word); }
