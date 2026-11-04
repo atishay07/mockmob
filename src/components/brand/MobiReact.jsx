@@ -256,10 +256,11 @@ export default function MobiReact({
     const el = rootRef.current;
     if (!el) return undefined;
     let off = 0;
-    const blink = () => {
-      el.dataset.blink = 'true';
-      off = window.setTimeout(() => { delete el.dataset.blink; }, 180);
-    };
+    // Three held frames (half, shut, half: 40, 70 and 40 ms), not an eased 170 ms animation: an SVG group's scale cannot
+    // run on the compositor, so the animated blink restyled and laid out his eyes on every frame it ran (about 28 at the
+    // gate's frame rate, 10 on a phone), most of the hero's idle restyles. Three still frames cost three.
+    const step = (state, ms, next) => { el.dataset.blink = state; off = window.setTimeout(next, ms); };
+    const blink = () => step('half', 40, () => step('shut', 70, () => step('half', 40, () => { delete el.dataset.blink; })));
     const every = window.setInterval(blink, BLINK_EVERY_MS);
     return () => { window.clearInterval(every); window.clearTimeout(off); delete el.dataset.blink; };
   }, [cssIdle, live, acting]);

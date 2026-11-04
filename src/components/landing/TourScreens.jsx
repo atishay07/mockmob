@@ -58,7 +58,7 @@ function useCountdown(play, from) {
 
 function Frame({ title, right, step, className = '', children }) {
   return (
-    <figure className={`ts ${className}`} data-step={step}>
+    <figure className={`ts ${className}`} data-ts-step={step}>
       <div className="ts__bar">
         <span className="ts__live" aria-hidden="true" />
         <span className="ts__title">{title}</span>

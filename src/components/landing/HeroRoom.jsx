@@ -11,8 +11,12 @@
 //          edges never show inside the frame.
 //
 // Both pictures are in the markup with loading="lazy": the other theme's is display: none, which a browser never
-// fetches, so a page loads one file. Width, height and the box's own size are set, so nothing shifts; each fades in
-// over 200 ms once decoded. Decoration only (alt="", aria-hidden): Mobi, his line and the card carry the meaning.
+// fetches, so a page loads one file (an eager one would fetch both; the theme is the reader's, decided in the browser).
+// The shown one is in the first screen at every width and is the page's largest paint, so it asks for high priority.
+// It is visible from the server's HTML: a painting that arrives before the page's script has run shows at once (the
+// largest paint at 1440 waited for hydration before, 3.4 to 3.8 s at 4x CPU, ship gate 4 Nov); one still loading
+// when the script runs is hidden and fades in over 200 ms once decoded. Width, height and the box's own size are set,
+// so nothing shifts. Decoration only (alt="", aria-hidden): Mobi, his line and the card carry the meaning.
 //
 // Night's pinned answer sheet answers the sample, not taps: each answer fills the next of its six empty bubbles in
 // volt (data/scene-anchors.json welcome.sheetBubbles, measured from the master), 120 ms after the answer, so the
@@ -35,12 +39,13 @@ export const SHEET_FILL_DELAY_MS = 120;
 
 function Picture({ art, sizes, className }) {
   const ref = useRef(null);
-  const [ready, setReady] = useState(false);
+  // null: as the server drew it (shown); false: still loading when the script ran (hidden); true: fading in.
+  const [ready, setReady] = useState(null);
   useEffect(() => {
     const img = ref.current;
-    if (!img) return undefined;
+    if (!img || (img.complete && img.naturalWidth)) return undefined;
+    setReady(false);
     const done = () => setReady(true);
-    if (img.complete && img.naturalWidth) { done(); return undefined; }
     img.addEventListener('load', done, { once: true });
     return () => img.removeEventListener('load', done);
   }, []);
@@ -48,7 +53,7 @@ function Picture({ art, sizes, className }) {
     <picture>
       <source type="image/avif" srcSet={sceneSrcSet(art, 'avif')} sizes={sizes} />
       <source type="image/webp" srcSet={sceneSrcSet(art, 'webp')} sizes={sizes} />
-      <img ref={ref} className={`lp-room__file ${className}`} src={sceneSrc(art, art.widths[0], 'webp')} width={art.width} height={art.height} alt="" loading="lazy" decoding="async" draggable={false} data-ready={ready ? 'true' : 'false'} />
+      <img ref={ref} className={`lp-room__file ${className}`} src={sceneSrc(art, art.widths[0], 'webp')} width={art.width} height={art.height} alt="" loading="lazy" fetchPriority="high" decoding="async" draggable={false} data-ready={ready === null ? undefined : String(ready)} />
     </picture>
   );
 }

@@ -76,9 +76,9 @@ html[data-theme='light'] .mobi-react:not([data-mb-theme='night']),
 
 /* ---- The home hero's Mobi (MobiReact idle="css", gaze; 1104 P2) ---------------------------------------------------
    His rest without a frame loop: a breathe on the drawing's box (compositor: transform only, 3.6 s, scale 1 to
-   1.012, from his feet), paused while an act plays or while he is off screen, and a blink every 4.2 s (MobiReact sets
-   data-blink for 180 ms: the eyes close and open in 170 ms). The eyes' group takes two offsets on one translate:
-   the gaze (--gx, --gy, fine pointers only) and a glance (--glx, --gly, set by the page). Both are in the drawing's
+   1.012, from his feet), paused while an act plays or while he is off screen, and a blink every 4.2 s (MobiReact steps
+   data-blink through half, shut and half over 150 ms: three still frames, as an SVG group's scale never composites).
+   The eyes' group takes two offsets on one translate: the gaze (--gx, --gy, fine pointers only) and a glance (--glx, --gly, set by the page). Both are in the drawing's
    own units (168 to his height). Reduce motion (the device or the site's own switch): none of it. */
 .mobi-react .mb-svg g[clip-path$='eyes)'] > g {
   translate: calc(var(--gx, 0px) + var(--glx, 0px)) calc(var(--gy, 0px) + var(--gly, 0px));
@@ -95,9 +95,7 @@ html[data-theme='light'] .mobi-react:not([data-mb-theme='night']),
     transform-origin: 50% 96%;
     animation: mb-breathe 3.6s ease-in-out infinite;
   }
-  :root:not([data-motion='reduced']) .mobi-react[data-idle='css'][data-blink] .mb-svg g[clip-path$='eyes)'] > g {
-    animation: mb-blink 170ms ease-in-out;
-  }
+  :root:not([data-motion='reduced']) .mobi-react[data-idle='css'][data-blink] .mb-svg g[clip-path$='eyes)'] > g { scale: 1 0.55; }
+  :root:not([data-motion='reduced']) .mobi-react[data-idle='css'][data-blink='shut'] .mb-svg g[clip-path$='eyes)'] > g { scale: 1 0.12; }
 }
 @keyframes mb-breathe { 50% { transform: scale(1.004, 1.012); } }
-@keyframes mb-blink { 45%, 55% { scale: 1 0.12; } }

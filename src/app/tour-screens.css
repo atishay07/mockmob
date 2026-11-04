@@ -14,7 +14,10 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(255,255,255,.10), 0 32px 64px -28px rgba(0,0,0,.85), 0 24px 48px -28px rgba(0,0,0,.5); }
 /* Day: the same device on paper, with a paper-side shadow. */
 html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(31,28,23,.14), 0 28px 50px -30px rgba(20,32,14,.5); }
-.ts[data-step='0'] *, .ts[data-step='0'] *::before, .ts[data-step='0'] *::after { transition: none !important; animation: none !important; }
+/* data-ts-step, not data-step: an attribute named in a rule that ends in * restyles the whole subtree of every element
+   whose attribute of that name changes, and data-step is also every scroll story's step (ScrollStory, 850 elements a step
+   at 4x CPU, ship gate 4 Nov). */
+.ts[data-ts-step='0'] *, .ts[data-ts-step='0'] *::before, .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
 .ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */

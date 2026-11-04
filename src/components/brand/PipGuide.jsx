@@ -8,6 +8,7 @@ import { guideFacing, guidePose } from './pipIntent';
 import { getMobiPrefs, initMobiPrefs } from '@/lib/mobiPrefs';
 import { FOLLOW } from '@/lib/mobiMoments';
 import * as scrollBus from '@/components/landing/scrollBus.mjs';
+import { undrawn } from '@/components/landing/undrawn';
 // The same acts as the app's table (lib/mobiMoments.js), with the app's lengths: a right answer is
 // `correct` (a small hop), a wrong one is `encourage` (the warm pose and a head tilt, D38), a finished
 // drill is `cheer` or `celebrate` by how it went. Reduced motion turns the guide off entirely.
@@ -280,10 +281,15 @@ export default function PipGuide() {
         return;
       }
       const lab = document.querySelector('.ml');
+      // The guide's rules (brand-pip.css [data-pip-guide]) apply before a seat is first styled. A seat's rig styled
+      // without them and again with them starts rotate and translate transitions; one started inside a section that is
+      // not drawn yet (content-visibility) never runs out, so every frame was restyled from then on, the hero Mobi's
+      // breathe with it (165 restyles a second at 1440, 4 Nov ship gate). settleUndrawn below ends any that still start.
+      root.dataset.pipGuide='on';
       const stations = [...document.querySelectorAll('[data-pip-station]')].map(seat => ({
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
       })).filter(s=>s.art && s.art.getBoundingClientRect().height > 0);
-      if (!stations.length) return;
+      if (!stations.length) { delete root.dataset.pipGuide; return; }
       let raf=0,index=0,current=null,lastTime=0,disposed=false,arrivedAt=0;const greeted=new Set();
       let mood=null,reactionUntil=0,n=0;
       const pending=new Map();
@@ -292,18 +298,21 @@ export default function PipGuide() {
       // Reveal (the close band's) is painted 1.5rem low until the band has risen in, and a transform ending fires
       // no resize, so the painted box left him standing that much low, his feet on his own line.
       const layoutTop=(el)=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
+      // A transition on a seat in a section that is not drawn (content-visibility) cannot advance until the section is
+      // drawn, and while it waits the page restyles every frame: measuring reads those seats, so it ends theirs at once.
+      const settleUndrawn=()=>{for(const s of stations){if(!undrawn(s.seat)||typeof s.seat.getAnimations!=='function')continue;for(const a of s.seat.getAnimations({subtree:true}))if(a.transitionProperty)a.finish();}};
       function measure() {
         const wide=innerWidth>=1100;
-        for (const s of stations) {
-          s.seat.style.transform='none';
-          if (wide) {
-            const r=s.seat.getBoundingClientRect();
-            s.seat.style.transform=`translateX(${innerWidth-174-r.left}px)`;
-          }
+        // Every write, then every read, then every write: one layout for all the seats, not one per seat.
+        for (const s of stations) s.seat.style.transform='none';
+        if (wide) {
+          const lefts=stations.map(s=>s.seat.getBoundingClientRect().left);
+          stations.forEach((s,i)=>{s.seat.style.transform=`translateX(${innerWidth-174-lefts[i]}px)`;});
         }
         geometry=stations.map(s=>{const r=s.art.getBoundingClientRect();return {x:r.left,y:layoutTop(s.art),w:r.width,h:r.height};});
         mainEnd=(document.querySelector('main')?.getBoundingClientRect().bottom || innerHeight)+scrollY;
         dirty=false;
+        settleUndrawn();
       }
       const wake=()=>{if(!disposed && !raf && !document.hidden) raf=requestAnimationFrame(frame);};
       const resize=()=>{dirty=true;wake();};

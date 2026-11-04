@@ -41,6 +41,19 @@ import * as bus from './scrollBus.mjs';
 import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
 
+// --ss-fit and --ss-slack are registered as non-inherited (ship gate, 4 Nov 2026). A plain custom property inherits, so
+// writing one restyles every element under the node it is written on: --ss-fit on the Lab's four scenes cost 650
+// restyled elements per pass (55 ms at 4x CPU, three passes on the first flick past the hero), --ss-slack on a story's
+// root the whole story. Registered, a write restyles the node alone. Only the node reads --ss-fit
+// (scroll-story.css); --ss-slack is read by the root and by the stage's children, so it is written on both.
+function registerOwn() {
+  if (typeof window === 'undefined' || typeof CSS === 'undefined' || typeof CSS.registerProperty !== 'function') return;
+  for (const [name, syntax, initialValue] of [['--ss-fit', '<number>', '1'], ['--ss-slack', '<length>', '0px']]) {
+    try { CSS.registerProperty({ name, syntax, inherits: false, initialValue }); } catch { /* registered already (hot reload) */ }
+  }
+}
+registerOwn();
+
 // The elements that read --ss-step (it is written on each of them, never on the root).
 const STEP_NODES = '.ss-fill, .lcd__tab-ink, [data-ss-var]';
 const writeStep = (root, n) => { for (const node of root.querySelectorAll(STEP_NODES)) if (node.style.getPropertyValue('--ss-step') !== String(n)) node.style.setProperty('--ss-step', String(n)); };
@@ -90,10 +103,16 @@ function fitAll(stage) {
 // Slack: the empty band between the held content's bottom (elements marked data-ss-end) and the stage's
 // bottom. Written once per resize as --ss-slack, so consumers can centre short content in the held window
 // (scroll-story.css) and the page after the story follows at the normal section gap, not a stage height.
+function writeSlack(root, stage, value) {
+  for (const node of [root, ...stage.children]) {
+    if (value) node.style.setProperty('--ss-slack', value); else node.style.removeProperty('--ss-slack');
+  }
+}
+
 function measureSlack(root, stage) {
-  root.style.removeProperty('--ss-slack');
   const ends = stage.querySelectorAll('[data-ss-end]');
   if (!ends.length) return;
+  writeSlack(root, stage, '');
   let bottom = -Infinity;
   for (const node of ends) {
     const rect = node.getBoundingClientRect();
@@ -103,7 +122,7 @@ function measureSlack(root, stage) {
   const box = stage.getBoundingClientRect();
   const padBottom = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
   const slack = Math.max(0, Math.floor(box.bottom - padBottom - bottom));
-  if (slack > 0) root.style.setProperty('--ss-slack', `${slack}px`);
+  if (slack > 0) writeSlack(root, stage, `${slack}px`);
 }
 
 export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, ...rest }) {
@@ -267,7 +286,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       cancelAnimationFrame(frame);
       observer.disconnect();
       stage.querySelectorAll('[data-ss-fit]').forEach((node) => node.style.removeProperty('--ss-fit'));
-      root.style.removeProperty('--ss-slack');
+      writeSlack(root, stage, '');
     };
   }, [pinned]);
 

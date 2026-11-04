@@ -135,11 +135,12 @@
 .lp-room picture { display: contents; }
 .lp-room__file {
   position: absolute; left: 0; width: 100%; display: block; user-select: none; -webkit-user-drag: none;
-  opacity: 0; transition: opacity 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .lp-room__file--night { top: 20%; height: 75%; }
 .lp-room__file--day { top: 0; height: 100%; }
-.lp-room__file[data-ready='true'] { opacity: 1; }
+/* Shown as the server drew it; hidden only while one still loading when the script ran (HeroRoom), then faded in. */
+.lp-room__file[data-ready='false'] { opacity: 0; }
 /* Until the lazy painting arrives, its 24 px copy (220 bytes, inline) holds the same place in the same colours, so
    the desk never shows an empty box; the painting fades in over it. */
 .lp-room__paint::before { content: ''; position: absolute; left: 0; width: 100%; background-size: 100% 100%; background-repeat: no-repeat; }
