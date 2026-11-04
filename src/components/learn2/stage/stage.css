@@ -196,6 +196,14 @@ span.st-counter { cursor: default; }
 
 /* ---------- The card ---------- */
 .st-cardbox { position: relative; width: 100%; perspective: 1200px; }
+/* The turn lifts a little (LK95): --lift runs 0 to 1 over the same 340 ms and curve as the rotation, so --bump (0 at the ends,
+   1 at 90 degrees) peaks exactly when the card is edge-on. The card scales to 1.03 there and a deeper shadow sits under it. */
+@property --lift { syntax: '<number>'; inherits: true; initial-value: 0; }
+.st-cardbox { --lift: 0; --bump: calc(1 - abs(2 * var(--lift) - 1)); transition: --lift 340ms var(--st-ease); }
+.st-cardbox:has(.st-card[data-turned]) { --lift: 1; }
+.st-card { scale: calc(1 + 0.03 * var(--bump)); }
+.st-cardbox::before { content: ''; position: absolute; inset: 0; border-radius: 24px; pointer-events: none; opacity: 0; scale: calc(1 + 0.03 * var(--bump)); box-shadow: 0 30px 56px -22px rgb(0 0 0 / 0.5); }
+@supports (width: abs(1px)) { .st-cardbox::before { opacity: var(--bump); } }
 .st-card { position: relative; display: grid; width: 100%; transform-style: preserve-3d; transition: transform 340ms var(--st-ease); border-radius: 24px; }
 .st-card[data-turned] { transform: rotateY(180deg); }
 .st-face { grid-area: 1 / 1; position: relative; display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: var(--st-card-min); max-height: max(var(--st-card-min), calc(var(--area, 640px) - 28px - 4dvh)); padding: 20px 20px 18px; border-radius: 24px; border: 1px solid var(--a-line-strong); background: var(--kc-surface); box-shadow: var(--a-shadow-1); backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; }
@@ -568,7 +576,9 @@ html[data-theme='light'] .st-scrim { background: color-mix(in srgb, var(--a-bg) 
 
 /* Reduced motion: no turn (a 120 ms cross-fade), no shake (the colour only), no flight, no fan, no rise */
 @media (prefers-reduced-motion: reduce) {
-  .st-card, .st-card[data-turned] { transform: none; transition: none; }
+  .st-card, .st-card[data-turned] { transform: none; transition: none; scale: none; }
+  .st-cardbox { transition: none; }
+  .st-cardbox::before { display: none; }
   .st-face { transition: opacity 120ms linear; backface-visibility: visible; -webkit-backface-visibility: visible; }
   .st-face--back { transform: none; opacity: 0; pointer-events: none; }
   .st-card[data-turned] .st-face--back { opacity: 1; pointer-events: auto; }
@@ -584,7 +594,9 @@ html[data-theme='light'] .st-scrim { background: color-mix(in srgb, var(--a-bg) 
   .st-grid, .st-top__title { transition: none; }
 }
 /* The app's own reduced-motion setting (html[data-motion='reduced']) gets the same rules (R4 client-code#12). */
-html[data-motion='reduced'] .st-card, html[data-motion='reduced'] .st-card[data-turned] { transform: none; transition: none; }
+html[data-motion='reduced'] .st-card, html[data-motion='reduced'] .st-card[data-turned] { transform: none; transition: none; scale: none; }
+html[data-motion='reduced'] .st-cardbox { transition: none; }
+html[data-motion='reduced'] .st-cardbox::before { display: none; }
 html[data-motion='reduced'] .st-face { transition: opacity 120ms linear; backface-visibility: visible; -webkit-backface-visibility: visible; }
 html[data-motion='reduced'] .st-face--back { transform: none; opacity: 0; pointer-events: none; }
 html[data-motion='reduced'] .st-card[data-turned] .st-face--back { opacity: 1; pointer-events: auto; }

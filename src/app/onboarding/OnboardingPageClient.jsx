@@ -28,6 +28,9 @@ import { loadIndex } from '@/lib/du/client';
 import { neededByEvery, toDuSubjectId } from '@/lib/du/courseRule.mjs';
 import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import CourseFinder from './CourseFinder';
+import OptionPicker from './OptionPicker';
+import { OPTIONS_LATER, optionAsk, optionsToSave, shownChoice, subjectsAsking } from './optionChoices.mjs';
+import { readChapters, saveOption } from '@/components/keycards/api';
 import { PRESET_BASE, PRESET_KEY, PRESET_LEAD, PRESET_OWN, PRESET_TITLE, SETS_LABEL, applySet, presetAddLabel, presetAdds, presetAvailable, setMatches, setsFor } from './commonSets.mjs';
 import {
   LANGUAGE_PAPERS, NOT_YET_NOTE, NOT_YET_TITLE, OTHER_PAPERS, SEARCH_HINT, capCopy, noSubjectMatch, notYetSubjects, pickableSubjects, shortSubjectName, subjectCountLine, swapLast,
@@ -120,6 +123,10 @@ export default function OnboardingPageClient({ preview = false }) {
   const [courseId, setCourseId] = useState(null);
   const [shaking, setShaking] = useState(false);
   const [finishing, setFinishing] = useState(false);
+  // The section or part a school teaches, for the picked subjects that have one: what the student tapped, and what Learn already holds.
+  const [optTouched, setOptTouched] = useState({});
+  const [optSaved, setOptSaved] = useState({});
+  const optAsked = useRef(new Set());
   // ?step=days or ?step=colleges reopens that step after a reload (the subjects are saved by then).
   const [arrivedForDays] = useState(() => stepFromQuery(query?.get('step')) !== null);
   const [wanted, setWanted] = useState(() => stepFromQuery(query?.get('step')) || 'subjects');
@@ -222,6 +229,20 @@ export default function OnboardingPageClient({ preview = false }) {
 
   // Mobi answers the student's own picks: a nod on the first, a look at the list on the third, and
   // at the cap a plain line instead of a silent ignore. Removing a subject answers nothing.
+  // Editing subjects shows the choice Learn already holds. A read that fails shows the default and writes nothing for that subject.
+  const askedKey = edit ? subjectsAsking(selected).join(',') : '';
+  useEffect(() => {
+    if (!edit || preview || !askedKey) return;
+    for (const id of askedKey.split(',')) {
+      if (optAsked.current.has(id)) continue;
+      optAsked.current.add(id);
+      Promise.resolve(readChapters(id)).then((body) => {
+        const chosen = body?.option?.chosen ?? body?.option;
+        if (typeof chosen === 'string' && chosen) setOptSaved((m) => ({ ...m, [id]: chosen }));
+      }).catch(() => {});
+    }
+  }, [edit, preview, askedKey]);
+
   const toggleSubject = (id) => {
     if (saveLock.current) return;
     setNotice(null);
@@ -296,6 +317,23 @@ export default function OnboardingPageClient({ preview = false }) {
     window.setTimeout(() => { if (!preview) router.push(back || DONE_PATH); }, reducedMotion() ? 0 : 700);
   }, [preview, router, back, edit, user?.id]);
 
+  // Each picked subject's section or part goes to Learn once the subjects are saved. It never holds the first run up: a write that
+  // fails leaves Learn's own picker to ask (it still shows both until one is chosen), and the wait is capped.
+  const saveChosenOptions = async (picks) => {
+    if (preview) return;
+    const writes = optionsToSave(picks, { edit, touched: optTouched, saved: optSaved });
+    if (!writes.length) return;
+    await Promise.race([
+      Promise.allSettled(writes.map((w) => saveOption(w))),
+      new Promise((resolve) => { window.setTimeout(resolve, 4000); }),
+    ]);
+  };
+
+  const chooseOption = (subject, option) => {
+    if (saveLock.current) return;
+    setOptTouched((t) => ({ ...t, [subject]: option }));
+  };
+
   const saveSubjects = async (list) => {
     const picks = Array.isArray(list) ? list : selected;
     if (picks.length === 0 || !user?.id || saveLock.current) return;
@@ -311,6 +349,7 @@ export default function OnboardingPageClient({ preview = false }) {
         body: JSON.stringify({ subjects: picks }),
       });
       if (!response.ok) throw new Error(SUBJECTS_FAILED);
+      await saveChosenOptions(picks);
       if (edit) {
         await refreshSession();
         if (preview) { setNotice('Preview only: choices checked locally. No account was changed.'); mobiAct(SCOPE, 'nod'); }
@@ -442,6 +481,13 @@ export default function OnboardingPageClient({ preview = false }) {
   // The Commerce four show from the first frame; the seed above puts them in `selected` a moment later.
   const presetPicks = selected.length ? selected : [...PRESET_BASE];
   const rhythm = dayRhythm(days);
+  // The picker for one subject; each card ends with the line that it can change later (inside the card, so it never floats between tiles).
+  const asking = subjectsAsking(presetMode ? presetPicks : selected);
+  const optionBlock = (id) => (
+    <React.Fragment key={id}>
+      <OptionPicker subjectId={id} value={shownChoice(id, { touched: optTouched, saved: optSaved })} onChange={chooseOption} disabled={busy} later={OPTIONS_LATER} />
+    </React.Fragment>
+  );
 
   return (
     <div className="app-shell onboarding-shell ob" data-step={step} data-cap={capShown || undefined} data-preset={presetMode || undefined}>
@@ -510,6 +556,7 @@ export default function OnboardingPageClient({ preview = false }) {
                       <li key={id} className="ob-preset__chip"><Tick on />{shortSubjectName(find(id))}</li>
                     ))}
                   </ul>
+                  {subjectsAsking(presetPicks).length > 0 ? <div className="ob-opts">{subjectsAsking(presetPicks).map((id) => optionBlock(id))}</div> : null}
                   {presetAdds(available).length > 0 ? (
                     <div className="ob-preset__adds" role="group" aria-label="Add a paper">
                       {presetAdds(available).map((id) => (
@@ -571,9 +618,9 @@ export default function OnboardingPageClient({ preview = false }) {
                   const isSelected = selected.includes(s.id);
                   const atCap = !isSelected && selected.length >= SUBJECT_CAP;
                   return (
+                    <React.Fragment key={s.id}>
                     <button
                       type="button"
-                      key={s.id}
                       className="ob-tile mk-press"
                       data-selected={isSelected || undefined}
                       style={{ '--i': Math.min(index, 11) }}
@@ -593,6 +640,8 @@ export default function OnboardingPageClient({ preview = false }) {
                       </span>
                       <Tick on={isSelected} />
                     </button>
+                    {isSelected && optionAsk(s.id) ? <div className="ob-opts">{optionBlock(s.id)}</div> : null}
+                    </React.Fragment>
                   );
                 })}
               </div>
