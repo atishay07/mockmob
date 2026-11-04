@@ -393,6 +393,54 @@ void main() {
     expect(haptics.calls, ['light', 'light']);
   });
 
+  // LK95 (owner, 5 Nov): the turn is refined, not replaced: the card lifts a little as it turns (scale peaking about 1.03 at
+  // 90 degrees, its shadow deepening, then settling) and one soft band of light crosses the incoming face; same 340 ms.
+  testWidgets('the card lifts as it turns: the scale peaks near 1.03 at 90 degrees, the shadow deepens, both settle', (tester) async {
+    await pumpStage(tester, _onStage(const _CardHost(name: 'premium')));
+    await tester.pumpAndSettle();
+    double scale() => tester
+        .widgetList<Transform>(find.descendant(of: _cardBox, matching: find.byType(Transform)))
+        .map((t) => t.transform.entry(1, 1))
+        .reduce(math.max);
+    double blur() => tester
+        .widgetList<DecoratedBox>(find.descendant(of: _cardBox, matching: find.byType(DecoratedBox)))
+        .map((b) => b.decoration)
+        .whereType<ShapeDecoration>()
+        .expand((d) => d.shadows ?? const <BoxShadow>[])
+        .map((sh) => sh.blurRadius)
+        .fold(0.0, math.max);
+    final restBlur = blur();
+    expect(scale(), 1.0, reason: 'at rest the card is its own size');
+    await tester.tap(_cardBox);
+    await tester.pump();
+    var peak = 1.0;
+    var peakBlur = 0.0;
+    for (var t = 0; t < 34; t++) {
+      await tester.pump(const Duration(milliseconds: 10));
+      peak = math.max(peak, scale());
+      peakBlur = math.max(peakBlur, blur());
+    }
+    expect(peak, inInclusiveRange(1.025, 1.0301), reason: 'about 1.03 at 90 degrees, never more');
+    expect(peakBlur, greaterThan(restBlur), reason: 'the shadow falls deeper while the card is lifted');
+    await tester.pumpAndSettle();
+    expect(scale(), 1.0, reason: 'settled');
+    expect(blur(), restBlur, reason: "the paper's own shadow again");
+    expect(CardFace.liftAt(0), 0);
+    expect(CardFace.liftAt(0.5), 1);
+    expect(CardFace.liftAt(1), moreOrLessEquals(0, epsilon: 1e-9));
+  });
+
+  testWidgets('one band of light is laid on each face for the turn; reduced motion has none', (tester) async {
+    bool isLight(Widget w) => w is CustomPaint && w.painter.runtimeType.toString() == '_TurnLight';
+    await pumpStage(tester, _onStage(const _CardHost(name: 'premium')));
+    await tester.pumpAndSettle();
+    expect(find.descendant(of: _cardBox, matching: find.byWidgetPredicate(isLight)), findsNWidgets(2));
+    await tester.pumpWidget(const SizedBox());
+    await pumpStage(tester, _onStage(const _CardHost(name: 'premium')), reduced: true);
+    await tester.pumpAndSettle();
+    expect(find.descendant(of: _cardBox, matching: find.byWidgetPredicate(isLight)), findsNothing);
+  });
+
   testWidgets('under reduced motion the turn is a short cross-fade, with no rotation', (tester) async {
     await pumpStage(tester, _onStage(const _CardHost(name: 'premium')), reduced: true);
     await tester.tap(_cardBox);

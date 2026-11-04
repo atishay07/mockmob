@@ -56,12 +56,29 @@ abstract final class StagePaper {
     KcFamily.fact => paper.fact,
   };
 
-  /// The paper's surface for a card of [radius]: the stock, the hairline and the soft shadow.
-  static ShapeDecoration surface(MmPaper paper, BorderRadius radius, {bool shadow = true}) => ShapeDecoration(
+  /// The paper's surface for a card of [radius]: the stock, the hairline and the soft shadow ([shadows] in its place while
+  /// the card is lifted, the Key card's turn).
+  static ShapeDecoration surface(MmPaper paper, BorderRadius radius, {bool shadow = true, List<BoxShadow>? shadows}) => ShapeDecoration(
     color: paper.paper,
     shape: mmShapeBorder(radius, side: BorderSide(color: paper.line)),
-    shadows: shadow ? paper.shadow : null,
+    shadows: shadow ? (shadows ?? paper.shadow) : null,
   );
+
+  /// The shadow of a card lifted off the table (the Key card's turn at 90 degrees, LK95): the soft ambient shadow falls
+  /// further, wider and a little darker, and the tight contact shadow fades (a raised card no longer touches the table), so
+  /// the card reads as raised, never as glowing.
+  static List<BoxShadow> liftedShadow(List<BoxShadow> rest) => [
+    for (final s in rest)
+      if (s.blurRadius <= 4)
+        BoxShadow(color: s.color.withValues(alpha: s.color.a * 0.4), offset: s.offset, blurRadius: s.blurRadius, spreadRadius: s.spreadRadius)
+      else
+        BoxShadow(
+          color: s.color.withValues(alpha: math.min(1.0, s.color.a * 1.3)),
+          offset: s.offset * 1.7,
+          blurRadius: s.blurRadius * 1.5,
+          spreadRadius: s.spreadRadius,
+        ),
+  ];
 }
 
 /// The header band: the kind word on the left in its family's colour, [extra] on the right in ink-2 (12.5 for the run's stage

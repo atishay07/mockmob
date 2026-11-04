@@ -17,7 +17,10 @@
 ///            NCERT's line at the web's back size and its source; "Turn back" at the foot; a tap on the back turns it back.
 ///            A journal entry keeps plain paper
 ///   turn     rotateY 0 to 180 in 340 ms on `Motion.drawer` with perspective (1200), the faces swapping at 90 degrees,
-///            a light haptic; under reduced motion a 120 ms cross-fade
+///            a light haptic. The card lifts as it turns (LK95): its scale rises to 1.03 at 90 degrees and settles
+///            (1 + 0.03 sin(pi t)), its soft shadow falling deeper with it (`StagePaper.liftedShadow`); from 90 degrees one
+///            soft band of light (`MmLight.sweepColor`) crosses the incoming face, once. Under reduced motion a 120 ms
+///            cross-fade: no lift, no light
 ///   stamp    the line under the card (20 dp, 8 dp below): a check and "In Revise" (once the server has it), or the bad
 ///            colour for "Not added. Try again."; it fades in over 200 ms
 ///   sci      a chemistry card draws its front, back and quote with real subscripts and superscripts (`stage_sci.dart`)
@@ -31,6 +34,7 @@ import 'package:flutter/rendering.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/materials/grain.dart';
@@ -157,6 +161,12 @@ class CardFace extends StatefulWidget {
 
   static const double radius = StageSizes.cardRadius;
 
+  /// How far the card lifts at 90 degrees: its scale peaks at 1 + [lift] (LK95).
+  static const double lift = 0.03;
+
+  /// The lift at turn [t] (0 to 1): nothing at rest, all of it at 90 degrees.
+  static double liftAt(double t) => math.sin(math.pi * t.clamp(0.0, 1.0));
+
   /// The card's least height on a screen [screenHeight] tall: clamp(300, 46%, 380).
   static double minHeightFor(double screenHeight) => StageSizes.cardMin(screenHeight);
 
@@ -206,12 +216,17 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     final media = MediaQuery.sizeOf(context);
     final reduced = Motion.reduced(context);
+    // The turn drives the lift and the light on each face; under reduced motion neither plays.
+    final turn = reduced ? null : _turn;
     final front = _Face(
       key: const ValueKey('front'),
+      turn: turn,
       child: _FrontBody(kindLabel: widget.kindLabel, family: widget.family, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, source: widget.source, width: media.width, sci: widget.sci),
     );
     final back = _Face(
       key: const ValueKey('back'),
+      turn: turn,
+      isBack: true,
       scrollable: true,
       onTap: widget.onTurn,
       child: _BackBody(kindLabel: widget.kindLabel, family: widget.family, extraKind: widget.extraKind, tagRight: widget.tagRight, front: widget.front, card: widget.back, onTurn: widget.onTurn, sci: widget.sci),
@@ -229,6 +244,8 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
             out = Opacity(opacity: isBack ? v : 1 - v, child: face);
           } else {
             final angle = math.pi * v - (isBack ? math.pi : 0);
+            // The card lifts a little as it turns: most at 90 degrees, settled at rest (LK95).
+            final scale = 1 + CardFace.lift * CardFace.liftAt(v);
             out = Visibility(
               visible: active,
               maintainSize: true,
@@ -238,7 +255,8 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
                   ..setEntry(3, 2, 1 / 1200)
-                  ..rotateY(angle),
+                  ..rotateY(angle)
+                  ..scaleByDouble(scale, scale, 1, 1),
                 child: face,
               ),
             );
@@ -309,12 +327,19 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
 
 /// The card's surface, the paper (`stage_paper.dart`): the stock with the film grain under the words, one quiet hairline and the
 /// soft shadow, no light rim; its content clipped to the card's shape. The bodies set their own padding (the band is full bleed).
+/// While [turn] runs, the shadow deepens with the lift and, on the incoming face, one band of light crosses it from 90 degrees.
 class _Face extends StatefulWidget {
-  const _Face({super.key, required this.child, this.scrollable = false, this.onTap});
+  const _Face({super.key, required this.child, this.scrollable = false, this.onTap, this.turn, this.isBack = false});
 
   final Widget child;
   final bool scrollable;
   final VoidCallback? onTap;
+
+  /// The card's turn (0 front, 1 back); null under reduced motion (no lift, no light).
+  final AnimationController? turn;
+
+  /// This is the back face: it comes in as the turn runs forward.
+  final bool isBack;
 
   @override
   State<_Face> createState() => _FaceState();
@@ -357,46 +382,113 @@ class _FaceState extends State<_Face> {
     if (widget.onTap != null) {
       content = GestureDetector(behavior: HitTestBehavior.translucent, onTap: widget.onTap, child: content);
     }
-    return DecoratedBox(
-      decoration: StagePaper.surface(paper, r),
-      child: MmClip(
-        borderRadius: r,
-        child: Stack(
-          // The face's own height reaches its content, so the prompt centres and the foot sits at the foot.
-          fit: StackFit.passthrough,
-          children: [
-            // The paper's grain, under the words (the band covers it with its wash).
-            const Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: Grain()))),
-            content,
-            // The foot fades while more of the face waits below (a scrim in the paper's own colour, so the words stay
-            // readable where they meet the foot).
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 44,
-              child: IgnorePointer(
-                child: AnimatedOpacity(
-                  opacity: _more ? 1 : 0,
-                  duration: Motion.of(context, const Duration(milliseconds: 150)),
-                  curve: Motion.out,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [paper.paper.withValues(alpha: 0), paper.paper],
-                      ),
+    final turn = widget.turn;
+    final card = MmClip(
+      borderRadius: r,
+      child: Stack(
+        // The face's own height reaches its content, so the prompt centres and the foot sits at the foot.
+        fit: StackFit.passthrough,
+        children: [
+          // The paper's grain, under the words (the band covers it with its wash).
+          const Positioned.fill(child: IgnorePointer(child: RepaintBoundary(child: Grain()))),
+          content,
+          // The foot fades while more of the face waits below (a scrim in the paper's own colour, so the words stay
+          // readable where they meet the foot).
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 44,
+            child: IgnorePointer(
+              child: AnimatedOpacity(
+                opacity: _more ? 1 : 0,
+                duration: Motion.of(context, const Duration(milliseconds: 150)),
+                curve: Motion.out,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [paper.paper.withValues(alpha: 0), paper.paper],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          // The light on the incoming face, from 90 degrees to rest (nothing drawn otherwise).
+          if (turn != null)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: CustomPaint(painter: _TurnLight(turn, isBack: widget.isBack, color: MmLight.sweepColor(context))),
+              ),
+            ),
+        ],
       ),
     );
+    if (turn == null) return DecoratedBox(decoration: StagePaper.surface(paper, r), child: card);
+    final lifted = StagePaper.liftedShadow(paper.shadow);
+    return AnimatedBuilder(
+      animation: turn,
+      builder: (context, child) {
+        final lift = CardFace.liftAt(turn.value);
+        // At rest the shadow is the paper's own, exactly.
+        final shadows = lift <= 0.001 ? null : BoxShadow.lerpList(paper.shadow, lifted, lift);
+        return DecoratedBox(decoration: StagePaper.surface(paper, r, shadows: shadows), child: child);
+      },
+      child: card,
+    );
   }
+}
+
+/// One soft band of light across the incoming face as the card turns (LK95): from 90 degrees to rest, the band travels from
+/// beyond the upper left to beyond the lower right on the sweep curve, brightest mid-way, in [MmLight.sweepColor] (lamp-white
+/// on Night, a faint volt on Day's paper). The back is lit as the card turns forward, the front as it turns back; nothing at
+/// rest. Clipped to the card by the face's own clip.
+class _TurnLight extends CustomPainter {
+  _TurnLight(this.turn, {required this.isBack, required this.color}) : super(repaint: turn);
+
+  final AnimationController turn;
+  final bool isBack;
+  final Color color;
+
+  /// How far across the incoming face the band is (0 to 1), or null when this face is not coming in.
+  double? get _progress {
+    final v = turn.value;
+    if (isBack && turn.status == AnimationStatus.forward && v > 0.5) return (v - 0.5) * 2;
+    if (!isBack && turn.status == AnimationStatus.reverse && v < 0.5) return (0.5 - v) * 2;
+    return null;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = _progress;
+    if (p == null) return;
+    final t = Motion.sweepCurve.transform(p.clamp(0.0, 1.0));
+    if (t <= 0 || t >= 1) return;
+    // The band crosses the face along the turn (left to right, whatever the card's height), leaning 20 degrees, about a fifth
+    // of the card wide, brightest as it passes the middle.
+    final w = size.width;
+    final half = w * 0.2;
+    final cx = -w * 0.4 + w * 1.8 * t;
+    final cy = size.height / 2;
+    // Softer than a sheet's sweep (three quarters of the light's own strength): a card catches the light, it does not flash.
+    final peak = color.a * 0.75 * (1 - (2 * t - 1).abs());
+    Color at(double share) => color.withValues(alpha: peak * share);
+    final band = Rect.fromLTRB(cx - half, cy - size.height, cx + half, cy + size.height);
+    canvas.save();
+    canvas.translate(cx, cy);
+    canvas.rotate(0.35);
+    canvas.translate(-cx, -cy);
+    canvas.drawRect(
+      band,
+      Paint()..shader = LinearGradient(colors: [at(0), at(0.6), at(1), at(0.6), at(0)], stops: const [0, 0.3, 0.5, 0.7, 1]).createShader(band),
+    );
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(_TurnLight old) => old.turn != turn || old.isBack != isBack || old.color != color;
 }
 
 /// The front: the band at the top, the source pinned to the foot under a hairline, the prompt between them a little above the
