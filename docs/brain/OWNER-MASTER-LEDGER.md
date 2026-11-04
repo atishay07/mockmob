@@ -710,4 +710,5 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | OPEN | **LK74** Reference ug.preparoo.app: a refined loading animation on entry and a refined typing animation on the home page; that level of refinement. |
 | STANDING | **LK75** Refine these small things automatically, ourselves; think it through. |
 | DONE 4 Nov ~2:10 am | **LK76** The push command failed: it ran in the parent folder, which is not a git repository. Gave him a one-line command that names the repository. |
+| ANSWERED 4 Nov ~6:35 pm: status, ETA (AAB about 9 pm, website about 11 pm IST), nothing blocking needed from him | **LK77** Continue where you left off; tell me what is done, what is left, by when it all completes, and whether anything is needed from me. |
 
