@@ -259,3 +259,36 @@ Reading (dictation): "mockmob.ai" is www.mockmob.in; "charts" is chats. Answer: 
 > Right now, just speed up things. Fix everything that you need to do, deploy everything, and then let me know. Make sure the things, when I see them, are as perfect as they can be.
 
 What this changes: no messages until it is all done and deployed (the Play build in its folder, the home page live and checked); work in parallel wherever it is safe; the quality bar stays (ledger LK80).
+
+## 5 Nov 2026, about 2:25 am IST: yes, fix the slow-phone stutter on the Lab and tour (verbatim)
+
+> Yes, fix it
+
+(His answer to "Shall I fix the slow-phone stutter on the Lab and tour sections next?" Ledger LK81.)
+
+## 5 Nov 2026, about 2:40 am IST: his look at the live mobile website; refine everything until morning (verbatim)
+
+> Just some feedback I had while I was seeing the mobile website that you have deployed right now. It will not be much but I hope it will give you some direction to automatically keep improving everything continuously until tomorrow morning.
+>
+> * The CV2027 font and even the colors are a bit weird in the first place.
+> * The main CTA is just "Try 5 questions".
+> * Overall, the text within the line is uneven below, like "Pick yours free". All that is weird. Can we have better UI choices in that?
+> * Overall, the hero section and other things can be improved a bit.
+> * The scroll animation: previously, we had a mixture of white and green text in the scroll, which was very well branded, and that is gone now. That's one place where we need betterment.
+> * You have mostly fixed the scroll thing, and even the nice UI things like some blur and motion when scrolling, and the icons that you have generated for what's inside Mockma. It's good, but some more thought can be given, especially to the part that you have added, like the preparo side.
+> * The only issue is that when scrolling up, there are many times another CTA after CTA versions. That CTA implementation is not an issue, but CTA should be like sign up, log in, or something else, not just these five questions only.
+> * Overall, whenever and wherever I click "Try a CUTE question," it sometimes gets stuck in a scroll loop. Or, when it's even not stuck, the implementation is just not clean. It is just a white box, and then it highlights and that thing. These are the small things which you can work upon.
+> * The scroll is still a bit inconsistent. Sometimes it glitches out, and if I am scrolling really fast, it can then glitch out.
+> * Moba NTS style: I think I like the previous one only better, because at least the valid URL was shown, which is now not accurate according to NTA mode.
+> * We can attach some desktop photos or a mockup, something like that, on the website in this NTA section. Think of things, stuff like this.
+> * Another small thing in the Energy section of the site: loading is a bit slow, not much, but still a bit.
+> * When going to the Learn section, like in Computer Science, there is an option of B1 Computer Science or B2 Informative Practices. In Accountancy, students have to select between Analysis of Financial Statements or Comprehensive Accounting. Give these options and make them editable in Learn sections, okay? Wherever we have subjects like this where they have multiple options or they have to select only one, while onboarding, they should be asked just right there and all this should be clarified.
+> * The cards look really nice, but some refinement, like turn over, is okay. I think it is good, not exactly an absolute 10 out of 10, but really good now. Even the Explore feed is working way better. My choices overall have improved a lot, but still, small improvements remain, which you can carry forward from the app, like the Pro plan descriptions, how to build UI exactly like the app, animations, and many other things.
+> * With all these fixes also, you can then send me the final app and deploy everything to the website also.
+> * Right now, I wasn't able to give you very detailed feedback. These are very small things only, I know, but hopefully you can make the most out of it.
+> * I think clicking on the top profile previously used to show a small pop-up rather than taking you to the entire user section only. Maybe if you can do something like that with quick toggles, like changing the dark/light mode and stuff like that. Not very important, but it will be a nice touch.
+> * Overall, I think you have focused a lot on branding and many things and stuff like that. Keep doubling down on it and think more about the feedback that I have given. What else can you improve even further
+>
+> keep going until morning, until you are satisfied with the result of the app and website both. Treat this as a proper refinement task, not just for the feature, but as an overall overhaul of the app and website and other aspects also related to what we have been discussing: UI/UX, branding, font, typography, all those kinds of stuff. If all that is done and I am not available to respond or give any feedback, then you can continue with adding things like populating the database with more questions, learn/practice modes, key Cards, and other things.
+
+Reading (dictation): "CV2027" is the hero's "CUET 2027." brand line; "Mockma" is MockMob; "the preparo side" is the PrepOS / Ask Mobi part of the tour; "CUTE question" is "Try a CUET question"; "Moba NTS style" is the home page exam screen's MockMob / NTA switch; "Energy section" is most likely the DU Eligibility section (to confirm by measuring every section's load); "B2 Informative Practices" is Informatics Practices (CUET Computer Science, Section B1 or B2); "Comprehensive Accounting" is Computerised Accounting (CUET Accountancy Part B: Analysis of Financial Statements or Computerised Accounting); "My choices" is probably the multiple-choice questions. Ledger rows LK82-LK98. What this changes: refine (never rebuild or cut) the website and the app through the night, ship each verified piece live, build a new Play build with the fixes, and only when all of it is done and he is away, add content (questions, Learn, Key cards) under the budget guard.
