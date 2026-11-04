@@ -352,7 +352,15 @@
 /* Off screen, nothing ticks. */
 [data-pip-guide] .pip-seat[data-pip-off] :is(.pip-rig, .pip-rig__breath, .pip-eye__ball),
 [data-pip-guide] .pip-seat[data-pip-off] .pip-seat__art::after,
-.pip-guide-flyer[data-pip-shown='false'] :is(.pip-actor, .pip-actor__float, .pip-art-direction, .pip-eye__ball) { animation-play-state: paused; }
+.pip-guide-flyer[data-pip-shown='false'] :is(.pip-actor, .pip-actor__float, .pip-art-direction, .pip-eye__ball),
+[data-pip-guide] .pip-guide-flyer[data-pip-shown='false'] :is(.pip-actor, .pip-actor__float, .pip-art-direction, .pip-eye__ball) { animation-play-state: paused; }
+/* Ship gate, 4 Nov 2026: the breath rule above sets the `animation` shorthand at (0,4,0), which reset the hidden
+   flyer's play state to running, so the second selector matches it at (0,4,0) and comes later. And on desktop the
+   flyer stands in for every seat, so a seat's own rig is hidden (below) and must not tick either. Together they kept
+   an idle hero at 1440 restyling about 165 times a second (Chrome restyles a hidden element's animation on the main
+   thread every frame). */
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > .pip-rig :is(.pip-rig__breath, .pip-eye__ball),
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > .pip-rig { animation-play-state: paused; }
 /* Desktop lane: a seat's line steps out while he is not standing on that seat (PipGuide data-pip-away). */
 @media (min-width: 1100px) {
   [data-pip-guide='on'] .pip-seat[data-pip-station] figcaption { transition: opacity 180ms var(--mm-ease-out, ease-out); }

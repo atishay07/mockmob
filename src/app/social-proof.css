@@ -23,6 +23,8 @@
 .rl__reach > span { color: #d2cec5; font: 600 0.74rem/1.4 var(--font-body); }
 .rl__reach i { font-style: normal; color: #f4f0e6; }
 .rl__about { color: #e4e0d9; font: 500 0.82rem/1.5 var(--font-body); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+/* The card is dark in both themes, so its collaboration line keeps the Night ink-2 (in Day var(--ink-2) is dark on dark: ship gate, 4 Nov 2026). */
+.rl__card .rl__attribution { color: #cfc8b9; }
 .rl__engage { display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem; color: #d2cec5; font: 600 0.74rem var(--font-body); }
 .rl__engage span { display: inline-flex; align-items: center; gap: 0.3rem; }
 .rl__engage svg { color: #cfc8b9; }

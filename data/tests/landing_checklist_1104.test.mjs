@@ -498,6 +498,14 @@ test('L-040 animation cost is bounded: off-screen sections are skipped by the br
   const layoutAnim = [...cssAll.matchAll(/@keyframes\s+([\w-]+)\s*\{((?:[^{}]|\{[^{}]*\})*)\}/g)].filter(([, , b]) => /\b(width|height|top|left|margin[\w-]*|padding[\w-]*)\s*:/.test(b)).map((m) => m[1]);
   assert.deepEqual(layoutAnim.filter((n) => !/^(lp-unclip|mo-)/.test(n)), [], 'keyframes that animate layout properties');
 });
+test('L-040 a Mobi nobody can see does not tick: the hidden desktop flyer and the hidden seat rigs pause their breath (ship gate: 165 restyles a second on an idle hero at 1440 before)', () => {
+  const css = stripComments(read('src/app/brand-pip.css'));
+  // The breath rule sets the animation shorthand at (0,4,0); the flyer's pause must match it at (0,4,0) or more and come later.
+  const breath = css.indexOf("[data-pip-guide] :is(.pip-rig__breath, .pip-actor[data-alive] .pip-art-direction)");
+  const flyer = css.indexOf("[data-pip-guide] .pip-guide-flyer[data-pip-shown='false'] :is(.pip-actor, .pip-actor__float, .pip-art-direction, .pip-eye__ball)");
+  assert.ok(breath > 0 && flyer > breath, 'the hidden flyer pause comes after the breath rule, at its specificity');
+  assert.match(css, /\[data-pip-guide='on'\] \.pip-seat\[data-pip-station\] \.pip-seat__art > \.pip-rig :is\(\.pip-rig__breath, \.pip-eye__ball\),\s*\[data-pip-guide='on'\] \.pip-seat\[data-pip-station\] \.pip-seat__art > \.pip-rig \{ animation-play-state: paused; \}/, 'desktop seat rigs (hidden behind the flyer) are paused');
+});
 test.todo('L-040 a fast flick-scroll top to bottom shows no glitch, flicker or missed reveal, and a Lighthouse/perf trace shows the cost down (needs real Chrome and a trace)');
 
 // ================================================================================================ L-041 the one central bank
