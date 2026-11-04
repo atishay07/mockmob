@@ -43,7 +43,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2>Exam affiliation</h2>
-            <p>MockMob is not affiliated with NTA, DU, CUET, or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.</p>
+            <p>MockMob is an independent service. It is not run or endorsed by NTA, DU, CUET or any government exam body. Scores, bands, recommendations, and analysis are practice guidance, not official admission decisions.</p>
           </section>
           {mobEnabledForLegal() ? <MobTermsSection /> : null}
           <section>

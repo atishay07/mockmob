@@ -149,11 +149,10 @@ test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor 
 test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a static page that cannot read the plan, so a paid account needs a live walk');
 
 test('L-008 the bottom bar is ONE real button whose label and target follow the visitor state; no small linked text beside it', () => {
-  const dock = code(sources(['src/components/MobileDock.jsx', 'src/components/landing/CloseActions.jsx']) + '\n' + PAGE);
+  const dock = code(sources(['src/components/MobileDock.jsx', 'src/components/landing/LandingDock.jsx', 'src/components/landing/demoSignal.mjs']) + '\n' + PAGE);
   // The button label is state-aware: signed in says Go to practice/arena, a guest who finished the sample says Sign up.
-  const dockMount = PAGE_CODE.match(/<MobileDock[\s\S]*?\/>(?=\s*<\/HeroDockGate>)/)?.[0] || '';
-  assert.ok(dockMount, 'the landing mounts the dock');
-  assert.doesNotMatch(dockMount, /label="Try a CUET question"/, 'the dock button label must not be one constant string for every state');
+  assert.match(PAGE_CODE, /<HeroDockGate>\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
+  assert.doesNotMatch(code(read('src/components/landing/LandingDock.jsx')), /label="Try a CUET question"|<Link/, 'the dock label is never one constant string, and nothing beside it is a link');
   assert.match(dock, /Welcome back/, 'signed in: Welcome back');
   assert.match(dock, /Go to (Practice|the Arena)/, 'signed in: the button goes to practice or the Arena');
   assert.match(dock, /Try a CUET question/, 'guest: Try a CUET question');
@@ -164,14 +163,15 @@ test('L-008 the bottom bar is ONE real button whose label and target follow the 
 test('L-009 after a guest finishes the five sample questions, the dock and later CTAs say Sign up, not Try a CUET question again', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   assert.ok(demo.DEMO_ANSWERED_EVENT && typeof demo.subscribeDemoAnswered === 'function', 'the sample publishes a signal');
-  const subscribers = SURFACE.filter((f) => /subscribeDemoAnswered|demoAnswered|DEMO_STATE_EVENT|mm:demo-state|mm:demo-answered/.test(read(f)) && !/demoSignal\.mjs|DemoDrill/.test(f));
-  const dockOrClose = subscribers.filter((f) => /LandingActions|MobileDock|CloseActions|HeroDockGate|FooterStart/.test(f));
-  assert.ok(dockOrClose.some((f) => /MobileDock|CloseActions|HeroDockGate/.test(f)), `the dock or the close band must listen for the finished sample (only ${dockOrClose.join(', ') || 'nothing'} does)`);
-  assert.match(sources(['src/components/MobileDock.jsx', 'src/components/landing/CloseActions.jsx', 'src/components/landing/HeroDockGate.jsx']), /Sign up/, 'and say Sign up');
+  const subscribers = SURFACE.filter((f) => /subscribeDemoAnswered|demoAnswered|subscribeDemoState|demoFinished|DEMO_STATE_EVENT|mm:demo-state|mm:demo-answered/.test(read(f)) && !/demoSignal\.mjs|DemoDrill/.test(f));
+  const dockOrClose = subscribers.filter((f) => /LandingActions|LandingDock|CloseActions|HeroDockGate|FooterStart/.test(f));
+  assert.ok(dockOrClose.some((f) => /LandingDock/.test(f)) && dockOrClose.some((f) => /CloseActions/.test(f)), `the dock and the close band must listen for the finished sample (only ${dockOrClose.join(', ') || 'nothing'} does)`);
+  assert.match(read('src/components/landing/LandingDock.jsx'), /subscribeDemoState[\s\S]*demoFinished/, 'the dock listens for all five answered');
+  assert.match(sources(['src/components/landing/demoSignal.mjs', 'src/components/landing/CloseActions.jsx']), /Sign up/, 'and says Sign up');
 });
 
 test('L-010 the bottom Try a CUET question works (it opens the sample) and a sign-up route is reachable from the bottom of the page', () => {
-  assert.match(PAGE_CODE, /href="\/#try-practice"/, 'the dock points at the sample');
+  assert.match(read('src/components/landing/demoSignal.mjs'), /href: '\/#try-practice', label: 'Try a CUET question'/, 'the guest dock points at the sample');
   assert.match(PAGE_CODE, /<DemoJump\s*\/>/, 'DemoJump makes every same-page sample link land on the card');
   assert.match(PAGE_CODE, /id="try-practice"/, 'the sample has its anchor');
   assert.match(code(read('src/components/landing/CloseActions.jsx')), /href="#try-practice"/);
@@ -197,7 +197,7 @@ test('L-013 conversion paths: sign-up and the sample are linked from the hero, t
   const hero = PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<Statement'));
   assert.match(hero + code(read('src/components/LandingActions.jsx')), /\/signup/, 'hero: sign-up');
   assert.match(hero + code(read('src/components/LandingActions.jsx')), /#try-practice/, 'hero: the sample');
-  assert.match(PAGE_CODE, /<HeroDockGate>[\s\S]*<MobileDock/, 'the phone dock');
+  assert.match(PAGE_CODE, /<HeroDockGate>[\s\S]*<LandingDock/, 'the phone dock');
   assert.match(PAGE_CODE, /<CloseActions\s*\/>/, 'the close band');
   assert.match(PAGE_CODE, /<MarketingFooter/, 'the footer');
   // No dead anchors: every in-page #id link points at an id that exists in the landing's own markup.

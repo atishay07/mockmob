@@ -8,11 +8,11 @@ import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
-import { CloseActions, DockLine } from '@/components/landing/CloseActions';
+import { CloseActions } from '@/components/landing/CloseActions';
+import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroRoom } from '@/components/landing/HeroRoom';
@@ -382,7 +382,7 @@ export default function LandingPage() {
       {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={<span className="lp-dockmobi__line"><DockLine /></span>} label="Try a CUET question" href="/#try-practice" />
+        <LandingDock />
       </HeroDockGate>
     </div>
   );

@@ -18,7 +18,8 @@ export function LandingActions({ mode = 'hero' }) {
   const { isAuthenticated } = useAuth();
   const heroKey = useHeroKeyClass();
   const primaryHref = isAuthenticated ? recoveryReleased() ? '/recovery' : '/dashboard' : recoveryReleased() ? '/signup?next=%2Frecovery' : '/signup';
-  const primaryText = recoveryReleased() ? 'Find my first gap' : 'Start free practice';
+  // A signed-in student is never offered "Start free practice": the key says where it goes back in (L-006).
+  const primaryText = recoveryReleased() ? 'Find my first gap' : isAuthenticated ? 'Go to Practice' : 'Start free practice';
 
   if (mode === 'primary') {
     return (

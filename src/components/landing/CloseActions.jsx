@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { recoveryReleased } from '@/../data/capabilities';
+import { demoFinished, subscribeDemoState } from '@/components/landing/demoSignal.mjs';
 import '@/app/landing-close.css';
 
 // Where sign-up leads, and the signed-in way back in: the same routes as the hero's buttons (LandingActions).
@@ -27,6 +28,7 @@ function useWayIn() {
  */
 export function CloseActions() {
   const { isAuthenticated, signupHref, homeHref, homeText } = useWayIn();
+  const finished = useSyncExternalStore(subscribeDemoState, demoFinished, () => false);
   const ref = useRef(null);
 
   useEffect(() => {
@@ -48,20 +50,11 @@ export function CloseActions() {
         <Link href={isAuthenticated ? homeHref : signupHref} className="mm-btn mm-btn--primary">
           {isAuthenticated ? homeText : 'Sign up free'}
         </Link>
-        <a href="#try-practice" className="mm-btn mm-btn--secondary">Try a CUET question</a>
+        {/* A guest who has answered all five is asked to sign up, not sent back to the sample (L-009). */}
+        {!isAuthenticated && finished ? null : <a href="#try-practice" className="mm-btn mm-btn--secondary">Try a CUET question</a>}
       </div>
       <p className="lp-close__free"><Check size={16} aria-hidden="true" />Free to start. No card needed.</p>
     </div>
-  );
-}
-
-/** The phone dock's two lines beside Mobi: the free line over a sign-up link (the dock's button tries a question). */
-export function DockLine() {
-  const { isAuthenticated, signupHref, homeHref, homeText } = useWayIn();
-  return isAuthenticated ? (
-    <><b className="lp-dockfree">Welcome back.</b><Link href={homeHref} className="lp-docklink">{homeText}</Link></>
-  ) : (
-    <><b className="lp-dockfree">Free to start.</b><Link href={signupHref} className="lp-docklink">Sign up</Link></>
   );
 }
 
