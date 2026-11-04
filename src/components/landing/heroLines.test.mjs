@@ -1,107 +1,142 @@
 // node --test src/components/landing/heroLines.test.mjs
-// The home hero's static headline and its trust line (R3 rulings H1, H2, H3, H4; 1 Nov 2026). Source-level, no server.
-// H1: "CUET 2027. One mock. Know what to fix." does not move: no typing, no caret, no cycling line, no highlight.
-// H2: the trust line never breaks inside a segment. H3: the desktop host Mobi stays out of the card's frame.
+// The home hero's headline (LK74, SPEC-HOME-1104 decisions 5, 7 and 18; L-016 "typed line, one pass").
+// Replaces R3 ruling H1 of 1 Nov (a static headline): on 4 Nov the owner asked for a refined typing animation in
+// Preparoo's direction, so the third line now types once and rests on the approved "Know what to fix." The sentence in
+// the DOM never changes. This file was deliberately rewritten for that (risk 2 of the proposal), not a regression.
+// The old H2/H3/H4 checks (the dotted trust line, the desktop host Mobi in the gutter, the Day room poster) lived here
+// beside the headline; the 1104 hero changed what they lock (decisions 3, 13, 14), so they moved to the hero's own
+// tests (homeHero.test.mjs, heroTaps.test.mjs, heroScene.test.mjs).
+// Source-level and pure; the fit at 360 px and the real typing are measured in a browser (tmp/home-1104/build-p3/).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { HERO_LINES, HERO_SENTENCE } from './heroLines.mjs';
-import { heroTrustLine, heroTrustSegments } from './heroTaps.mjs';
+import { HERO_LINES, HERO_SENTENCE, HERO_SLOT_PHRASES, HERO_TYPED, TYPING, caretTail, letterTimes, typingPlan } from './heroLines.mjs';
 import { marksLedger, labStory } from './labStory.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const PAGE = read('../../app/page.js');
-const SCENE = read('../../app/hero-scene.css');
+const TYPED = read('./HeroTyped.jsx');
+const CSS = read('../../app/opening.css');
 const rules = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
+const COPY = existsSync(new URL('./homeCopy.mjs', import.meta.url)) ? read('./homeCopy.mjs') : '';
 
-test('H1: the headline is one static sentence, word for word', () => {
+test('the words: the sentence is unchanged, two typed phrases, and it rests on "Know what to fix."', () => {
   assert.deepEqual([...HERO_LINES], ['CUET 2027.', 'One mock.', 'Know what to fix.']);
   assert.equal(HERO_SENTENCE, 'CUET 2027. One mock. Know what to fix.');
-  for (const line of HERO_LINES) {
+  assert.deepEqual([...HERO_TYPED], ['Fresh every time.', 'Every mark traced.']);
+  assert.deepEqual([...HERO_SLOT_PHRASES], [...HERO_TYPED, HERO_LINES[2]], 'the last phrase typed is the resting line');
+  for (const line of [...HERO_LINES, ...HERO_TYPED]) {
     assert.match(line, /^[A-Z0-9][A-Za-z0-9 ]+\.$/, `${line} is one plain sentence`);
-    assert.doesNotMatch(line, /!|guarantee|unlimited|best|#1/i, line);
+    assert.doesNotMatch(line, /!|guarantee|unlimited|best|#1|·|not just/i, line);
   }
+  for (const p of HERO_SLOT_PHRASES) assert.ok(p.length <= 18, `${p} is at most 18 characters`);
 });
 
-test('H1: page.js renders the three lines inline with breaks; "CUET 2027." keeps the accent class', () => {
-  // The spaces before the breaks keep the sentence for a screen reader and a search engine; the three runs share the
-  // h1's own box (one paint for LCP; landing.css .lp-title__line--run).
-  assert.match(PAGE, /<span className="lp-title__line lp-title__line--run lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}<br \/>\s*<span className="lp-title__line lp-title__line--run">\{HERO_LINES\[1\]\}<\/span>\{' '\}<br \/>\s*<span className="lp-title__line lp-title__line--run">\{HERO_LINES\[2\]\}<\/span>\s*<\/>\}/);
-  assert.match(rules(SCENE), /\.mm\.lp \.lp-title__brand \{ color: var\(--accent-text\); \}/, 'CUET 2027 in the accent colour, plain text');
-  assert.doesNotMatch(PAGE, /<(a|button|Link)[^>]*>\s*\{?HERO_LINES\[0\]/, 'CUET 2027 is not a button');
-});
-
-test('H1: nothing types, cycles or highlights the headline any more', () => {
-  const landing = readdirSync(new URL('.', import.meta.url));
-  for (const gone of ['HeroMorph.jsx', 'HeroType.jsx', 'HeroLine.jsx', 'HeroMelt.jsx', 'heroPhrases.mjs']) assert.ok(!landing.includes(gone), `${gone} is deleted`);
-  assert.ok(!existsSync(new URL('../../app/hero-motion.css', import.meta.url)), 'the headline motion stylesheet is deleted');
-  assert.doesNotMatch(PAGE, /HeroMorph|HeroLine|HeroType|HeroMelt|heroMotion|hero-motion|heroPhrases/);
-  const title = PAGE.slice(PAGE.indexOf('<h1 className="lp-title">'), PAGE.indexOf('</h1>'));
-  assert.doesNotMatch(title, /caret|lp-morph|aria-live|use client/);
-  // No stylesheet that the page loads styles a caret, a selection or a morph on the title.
-  for (const file of readdirSync(new URL('../../app/', import.meta.url)).filter((f) => f.endsWith('.css'))) {
-    assert.doesNotMatch(read(`../../app/${file}`), /lp-morph|lp-type-letter|lp-morph__caret/, file);
-  }
-});
-
-test('H1: the title\'s only motion is the one entrance rise, never a loop', () => {
-  assert.match(SCENE, /\.lp-hero \.lp-title \{ animation: lp-scene-rise 420ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 240ms backwards; \}/);
-  assert.doesNotMatch(rules(SCENE), /\.lp-title[^{]*\{[^}]*infinite/);
-});
-
-test('"Know what to fix." is true: chapter review names the chapter and the free SWOT gives the sets to do next', () => {
-  assert.match(PAGE, /title: 'Know the chapter to fix first\.'/);
+test('decision 18: every typed phrase traces to a claim the page already makes', () => {
+  // "Fresh every time.": the FAQ's approved claim.
+  assert.match(COPY + PAGE, /every mock is built fresh from one live question bank/);
+  // "Every mark traced.": the Mistake Lab's head and its first step.
+  assert.match(COPY + PAGE, /Every mark, traced back to a moment\.|Every mark you missed, sorted by how it went/);
+  // "Know what to fix.": chapter review names the chapter to fix first, and the free SWOT gives the sets to do next.
+  assert.match(COPY + PAGE, /title: 'Know the chapter to fix first\.'/);
   assert.match(read('../../../data/mock_swot.js'), /free: no model and no credit/);
-  assert.match(PAGE, /Take a timed mock\. See exactly where every mark went\. Fix the right chapter tonight\./);
   const ledger = marksLedger();
   const story = labStory();
   assert.equal(ledger.gap, story.facts.outOf - story.facts.marks, 'the Lab sorts every missed mark into a group');
 });
 
-test('H2: the trust line keeps every segment whole and may wrap only between segments', () => {
-  assert.deepEqual(heroTrustSegments('Pro ₹99 once, through 31 July 2027', { monthly: false }), ['Free to start', 'Pro ₹99 once, through 31 July 2027', 'No auto-renewal']);
-  assert.deepEqual(heroTrustSegments('Pro ₹99 a month'), ['Free to start', 'Pro ₹99 a month', 'Cancel anytime']);
-  assert.deepEqual(heroTrustSegments('', { monthly: false }), ['Free to start', 'No auto-renewal'], 'an empty price leaves no empty segment');
-  // The string form is the segments joined with middle dots (and nothing else).
-  assert.equal(heroTrustLine('Pro ₹499 once', { monthly: false }), heroTrustSegments('Pro ₹499 once', { monthly: false }).join(' · '));
-  // page.js renders each segment in its own nowrap span; the dot rides on the segment before it, so no line starts with one.
-  assert.match(PAGE, /heroTrustSegments\(priceLine\(OFFER\), \{ monthly: OFFER\.purchasable === 'monthly' \}\)\.map\(\(part, i, all\) => <Fragment key=\{part\}>\{i > 0 \? ' ' : null\}<span className="lp-trust-line__seg">\{part\}\{i < all\.length - 1 \? ' ·' : ''\}<\/span><\/Fragment>\)/);
-  assert.match(rules(SCENE), /\.lp-trust-line__seg \{ white-space: nowrap; \}/);
-  // The price words still come from OFFER: nothing is typed into the hero.
-  assert.match(PAGE, /priceLine\(OFFER\)/);
-  assert.doesNotMatch(PAGE.slice(PAGE.indexOf('lp-trust-line'), PAGE.indexOf('lp-trust-line') + 400), /₹\d|31 July|auto-renewal|Cancel anytime/);
+test('the timing: 34 ms a letter, +24 after a space, +70 before the full stop; one pass of about 9 s', () => {
+  assert.deepEqual(letterTimes('Ab c.'), [0, 34, 68, 34 * 3 + 24, 34 * 4 + 24 + 70]);
+  const plan = typingPlan();
+  assert.equal(plan[0].kind, 'caret');
+  const kinds = plan.map((s) => s.kind);
+  assert.equal(kinds.filter((k) => k === 'wash').length, 3, 'select-back before each phrase, the server text first');
+  assert.equal(kinds.filter((k) => k === 'clear').length, 3);
+  assert.deepEqual(plan.filter((s) => s.kind === 'typed').map((s) => [s.phrase, s.final]), [[0, false], [1, false], [2, true]]);
+  assert.equal(kinds.at(-1), 'end', 'it ends: no loop');
+  for (let i = 1; i < plan.length; i += 1) assert.ok(plan[i].at >= plan[i - 1].at, 'steps are in time order');
+  // The final letters spell the resting line.
+  const last = plan.filter((s) => s.kind === 'letter' && s.phrase === 2).at(-1);
+  assert.equal(HERO_SLOT_PHRASES[last.phrase].slice(0, last.count), HERO_LINES[2]);
+  // Holds of 2,200 ms between the phrases; the wash is 220 ms then a 100 ms beat.
+  const typed0 = plan.find((s) => s.kind === 'typed' && s.phrase === 0).at;
+  const wash1 = plan.filter((s) => s.kind === 'wash')[1].at;
+  assert.equal(wash1 - typed0, TYPING.hold);
+  const clear1 = plan.filter((s) => s.kind === 'clear')[1].at;
+  assert.equal(clear1 - wash1, TYPING.wash + TYPING.beat);
+  const total = plan.at(-1).at + caretTail();
+  assert.ok(total > 8000 && total < 10500, `about 9 s in all (${total} ms)`);
+  assert.equal(caretTail(), 530 + 530 + 530 + 160, 'two blinks, then it leaves in 160 ms');
 });
 
-test('H3: the desktop host Mobi sits in the gutter, clear of the stage\'s frame, in every desktop range', () => {
-  const css = rules(SCENE);
-  // His right edge is --gap before the bay's border (the stage's inset frame): no overlap by construction.
-  assert.match(css, /left: calc\(-1 \* var\(--bay\) - var\(--gap\) - var\(--mobi-w\)\);/);
-  assert.doesNotMatch(css, /left: calc\(36px - var\(--bay\) - var\(--mobi-w\)\)/, 'the old 36 px overlap is gone');
-  assert.match(css, /--gap: 12px;/);
-  assert.ok(css.includes('--bay: 1.1rem;'), 'the stage frame is 1.1 rem outside it from 761 px (home-refinements.css), so is the host offset');
-  assert.ok(read('../../app/home-refinements.css').includes('inset: -1.1rem;'), 'the stage frame inset the host clears');
-  // One column (761 to 959 px): smaller, so he still fits the margin beside the frame.
-  assert.match(css, /@media \(min-width: 761px\) and \(max-width: 959px\) \{\s*\.lp-mobi--host \{ --mobi-h: 88px; --gap: 6px; \}/);
-  // Night's bubble: the app's welcome bubble, near-white ink on the dark card (at least 4.5:1, measured 14.9:1).
-  const m = css.match(/:root\[data-theme='dark'\] \.lp-mobi__bubble \{\s*--bub-bg: (#[0-9a-f]{6}); --bub-ink: (#[0-9a-f]{6});/);
-  assert.ok(m, 'the Night bubble colours are the two tokens');
-  const lum = (hex) => { const v = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)); return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
-  const [a, b] = [lum(m[1]) + 0.05, lum(m[2]) + 0.05];
-  assert.ok(Math.max(a, b) / Math.min(a, b) >= 4.5, 'Night bubble text contrast is at least 4.5:1');
-  // The bubble line fades in from opacity 0 over 210 ms only; it is never left translucent.
-  assert.doesNotMatch(css, /\.lp-mobi__bubble[^{]*\{[^}]*opacity: 0\.[0-9]/);
+test('HeroTyped: server text is the resting line, the slot is aria-hidden with a sizer, a screen reader reads the sentence', () => {
+  assert.match(TYPED, /^'use client';/);
+  assert.match(TYPED, /export default function HeroTyped\(\) \{/, 'no props');
+  assert.match(TYPED, /const REST = HERO_LINES\[2\];/);
+  assert.match(TYPED, /<span className="sr-only">\{REST\}<\/span>/);
+  assert.match(TYPED, /<span className="lp-typed__slot" aria-hidden="true" ref=\{slotRef\}>/);
+  assert.match(TYPED, /HERO_SLOT_PHRASES\.map\(\(p\) => <span key=\{p\} className="lp-typed__sizer" data-t=\{p\} \/>\)/);
+  // Before the effect runs (server HTML, no JS) the live text is the plain resting line, no caret.
+  assert.match(TYPED, /\{view\?\.typing \? \[\.\.\.text\]\.map[^\n]+ : text\}/);
+  assert.match(TYPED, /const text = view \? view\.text : REST;/);
+  assert.match(TYPED, /view && view\.caret !== 'off' \? <span className=\{`lp-typed__caret/);
+  // The sizer is generated text, never DOM text: the h1's text stays the sentence.
+  assert.match(rules(CSS), /\.lp-typed__sizer::before \{ content: attr\(data-t\); \}/);
+  assert.match(rules(CSS), /\.lp-typed__sizer,\s*\.lp-typed__live \{\s*grid-area: 1 \/ 1;/);
+  assert.match(rules(CSS), /\.lp-typed__slot \{\s*display: inline-grid;/);
+  assert.doesNotMatch(TYPED, /aria-live/);
 });
 
-test('H4: the Day room poster is a painted image with no overlay of marks; Night\'s empty bubbles are the only drawn ones', () => {
-  const room = read('HeroRoom.jsx');
-  // Night draws six empty bubbles over its painting; Day draws none: its sheet is painted into the image.
-  assert.match(room, /lp-room__paint--night">[\s\S]*<svg className="lp-room__sheet"/);
-  assert.doesNotMatch(room.slice(room.indexOf('lp-room__paint--day')), /<svg|<circle/);
+test('HeroTyped: no timer under reduced motion or for a signed-in student; pauses off screen and in a hidden tab', () => {
+  const effect = TYPED.slice(TYPED.indexOf('useEffect(() => {'));
+  const guard = effect.indexOf('if (stillOnly()) return undefined;');
+  assert.ok(guard > 0 && guard < effect.indexOf('setTimeout'), 'the reduced-motion and signed-in guard comes before any timer');
+  assert.match(TYPED, /html\.getAttribute\('data-motion'\) === 'reduced' \|\| html\.hasAttribute\('data-signed-in'\)/);
+  assert.match(TYPED, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
+  assert.match(TYPED, /new IntersectionObserver/);
+  assert.match(TYPED, /visibilitychange/);
+  assert.doesNotMatch(TYPED, /setInterval|requestAnimationFrame/, 'one timer at a time, nothing per frame');
+  // It starts at the opening's hand-off, or 600 ms after paint when there was none.
+  assert.match(TYPED, /window\.addEventListener\('mm:opening', onOpening\)/);
+  assert.match(TYPED, /start\(TYPING\.startAfterPaint - performance\.now\(\)\)/);
+  assert.equal(TYPING.startAfterPaint, 600);
 });
 
-test('the rules that lived beside the old headline motion survived its deletion (bank line, the sample\'s other-subjects line)', () => {
-  const css = rules(SCENE);
-  assert.match(css, /\.lp \.lp-bank \{ color: var\(--ink-3\); \}/);
-  assert.match(css, /\.lp-stage__other \{ margin: -0\.35rem 0 0; justify-self: center; text-align: center; font-size: 0\.75rem;/);
-  assert.match(css, /\.lp-stage__other a \{\s*color: var\(--accent-text\);/);
+test('decision 5: a completed phrase tells Mobi (window mm:hero-typed { index, final })', () => {
+  assert.match(TYPED, /window\.dispatchEvent\(new CustomEvent\('mm:hero-typed', \{ detail: \{ index: s\.phrase, final: s\.final \} \}\)\)/);
+});
+
+test('the caret: a solid ink bar, never volt, never blinking while the text is static, never looping', () => {
+  const css = rules(CSS);
+  assert.match(css, /\.lp-typed__caret \{[^}]*width: 0\.075em;[^}]*height: 0\.78em;[^}]*background: currentColor;/);
+  assert.doesNotMatch(css.slice(css.indexOf('.lp-typed')), /D2F000|--volt|--accent|--brand-word/i, 'ink, never volt');
+  assert.doesNotMatch(css, /infinite/);
+  assert.match(css, /\.lp-typed__caret--end \{ animation: lp-caret-end 1750ms linear forwards; \}/, 'two blinks after the last letter, then gone');
+  // Only opacity and transform animate in the typed line.
+  for (const name of ['lp-typed-in', 'lp-typed-wash', 'lp-caret-in', 'lp-caret-end']) {
+    const body = css.slice(css.indexOf(`@keyframes ${name}`), css.indexOf('}', css.indexOf(`@keyframes ${name}`) + 20) + 1);
+    for (const [, p] of body.matchAll(/([a-z-]+):/g)) assert.ok(['opacity', 'transform'].includes(p), `${name} animates ${p}`);
+  }
+});
+
+test('the old headline motion stays deleted; only HeroTyped types the h1', () => {
+  const landing = readdirSync(new URL('.', import.meta.url));
+  for (const gone of ['HeroMorph.jsx', 'HeroType.jsx', 'HeroLine.jsx', 'HeroMelt.jsx', 'heroPhrases.mjs']) assert.ok(!landing.includes(gone), `${gone} stays deleted`);
+  assert.ok(!existsSync(new URL('../../app/hero-motion.css', import.meta.url)), 'the old headline motion stylesheet stays deleted');
+  for (const file of readdirSync(new URL('../../app/', import.meta.url)).filter((f) => f.endsWith('.css'))) {
+    assert.doesNotMatch(read(`../../app/${file}`), /lp-morph|lp-type-letter/, file);
+  }
+});
+
+test('page.js places HeroTyped as the h1\'s third line (P2 wires it)', (t) => {
+  if (!/import HeroTyped from '@\/components\/landing\/HeroTyped'/.test(PAGE)) {
+    t.skip('page.js does not import HeroTyped yet (packet P2 wires it)');
+    return;
+  }
+  const title = PAGE.slice(PAGE.indexOf('<h1 className="lp-title">'), PAGE.indexOf('</h1>'));
+  assert.match(title, /\{HERO_LINES\[0\]\}/);
+  assert.match(title, /\{HERO_LINES\[1\]\}/);
+  assert.match(title, /<HeroTyped \/>/);
+  assert.doesNotMatch(title, /\{HERO_LINES\[2\]\}/, 'the third line is HeroTyped\'s');
+  assert.doesNotMatch(title, /aria-live|<(a|button|Link)\b/);
 });

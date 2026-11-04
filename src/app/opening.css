@@ -1,0 +1,258 @@
+/* The home page's opening: the app's "mo" opening (OpeningMo.jsx; brand_opening.dart OpeningTimeline). LK74, SPEC-HOME-1104 decision 6.
+   CSS only, transform and opacity only, so it runs before React and without it. The gate (openingGate.mjs, inline
+   before the layer) writes <html data-opening>: the layer exists only for 'first' and 'short'; 'skip' and 'done' never
+   draw it. Every timeline ends by itself: the layer turns visibility:hidden with fill-mode forwards at --mo-end even if
+   no script ever runs again, and takes no pointer input from the hand-off on (slop list item 17: no invisible layer
+   that swallows taps). Ground #12110E and warm-white letters in both themes, as in the app. */
+
+.mo-open { display: none; }
+
+html[data-opening='first'] .mo-open,
+html[data-opening='short'] .mo-open {
+  /* The hand-off starts at --mo-hand and the layer is gone at --mo-end (OPENING_SHORT_MS / OPENING_FIRST_MS). */
+  --mo-hand: 1000ms;
+  --mo-end: 1280ms;
+  /* The composed word: the mock-up's size (78vw, at most 330 px), the bar logo's shape. */
+  --mo-w: min(78vw, 330px);
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  overflow: hidden;
+  contain: strict;
+  pointer-events: auto;
+  animation: mo-gone 1ms linear var(--mo-end) forwards;
+}
+html[data-opening='first'] .mo-open { --mo-hand: 1320ms; --mo-end: 1600ms; }
+html[data-opening-phase='out'] .mo-open,
+html[data-opening-cut] .mo-open { pointer-events: none; }
+
+@keyframes mo-gone { to { visibility: hidden; pointer-events: none; } }
+@keyframes mo-gone-cut { to { visibility: hidden; pointer-events: none; } }
+
+/* ---- the ground: fades with a 4vh lift, from 80 ms into the hand-off (200 ms) ---- */
+.mo-open__ground {
+  position: absolute;
+  inset: 0;
+  background: #12110e;
+  animation: mo-ground-out 200ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--mo-hand) + 80ms) forwards;
+}
+@keyframes mo-ground-out { to { opacity: 0; transform: translateY(-4vh); } }
+@keyframes mo-ground-cut { to { opacity: 0; transform: translateY(-4vh); } }
+
+/* ---- the word: centred; its box is never transformed by the opening itself, so the gate can measure it ---- */
+.mo-word {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--mo-w);
+  height: calc(var(--mo-w) * var(--mo-ratio));
+  margin-left: calc(var(--mo-w) / -2);
+  margin-top: calc(var(--mo-w) * var(--mo-ratio) / -2);
+  /* Without a measured bar logo (no script) the word simply fades out, as the app's does (120 ms). */
+  animation: mo-word-out 120ms linear var(--mo-hand) forwards;
+}
+/* With the bar logo measured (the gate's --mo-fx/--mo-fy/--mo-fs on <html>), the word flies onto it and fades with the
+   ground (from 80 ms, 160 ms), so on Day its warm white never sits over the dark bar logo as a ghost. */
+html[data-opening-flip] .mo-word {
+  animation:
+    mo-word-flip 280ms cubic-bezier(0.23, 1, 0.32, 1) var(--mo-flip-delay, 0ms) forwards,
+    mo-word-out 160ms linear calc(var(--mo-flip-delay, 0ms) + 80ms) forwards;
+}
+@keyframes mo-word-out { to { opacity: 0; } }
+@keyframes mo-word-fade-cut { to { opacity: 0; } }
+@keyframes mo-word-flip { to { transform: translate(var(--mo-fx, 0px), var(--mo-fy, 0px)) scale(var(--mo-fs, 1)); } }
+@keyframes mo-word-flip-cut { to { transform: translate(var(--mo-fx, 0px), var(--mo-fy, 0px)) scale(var(--mo-fs, 1)); } }
+
+.mo-breath,
+.mo-cam,
+.mo-slide,
+.mo-mobi,
+.mo-eyes,
+.mo-eyes__lid,
+.mo-part {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mo-part { display: block; overflow: visible; }
+
+/* ---- the camera: the "mo" at 2.2x pulls back to the word, 500 to 1000 ms. The zoom is interpolated on a log scale
+   (scale = 2.2^(1 - c)) and the focus moves from the "mo" to the word linearly in c, c = cubic-bezier(.5,0,.15,1)(t),
+   sampled every 25 ms (opening.test.mjs recomputes these numbers). --mo-dx/--mo-dy: the "mo" centre's offset. ---- */
+.mo-cam {
+  transform-origin: 50% 50%;
+  animation: mo-camera 500ms linear 500ms both;
+}
+@keyframes mo-camera {
+  0% { transform: scale(2.2000) translate(calc(var(--mo-dx) * 1.0000), calc(var(--mo-dy) * 1.0000)); }
+  5% { transform: scale(2.1936) translate(calc(var(--mo-dx) * 0.9963), calc(var(--mo-dy) * 0.9963)); }
+  10% { transform: scale(2.1718) translate(calc(var(--mo-dx) * 0.9836), calc(var(--mo-dy) * 0.9836)); }
+  15% { transform: scale(2.1286) translate(calc(var(--mo-dx) * 0.9582), calc(var(--mo-dy) * 0.9582)); }
+  20% { transform: scale(2.0553) translate(calc(var(--mo-dx) * 0.9137), calc(var(--mo-dy) * 0.9137)); }
+  25% { transform: scale(1.9383) translate(calc(var(--mo-dx) * 0.8394), calc(var(--mo-dy) * 0.8394)); }
+  30% { transform: scale(1.7639) translate(calc(var(--mo-dx) * 0.7198), calc(var(--mo-dy) * 0.7198)); }
+  35% { transform: scale(1.5548) translate(calc(var(--mo-dx) * 0.5597), calc(var(--mo-dy) * 0.5597)); }
+  40% { transform: scale(1.3830) translate(calc(var(--mo-dx) * 0.4113), calc(var(--mo-dy) * 0.4113)); }
+  45% { transform: scale(1.2677) translate(calc(var(--mo-dx) * 0.3009), calc(var(--mo-dy) * 0.3009)); }
+  50% { transform: scale(1.1903) translate(calc(var(--mo-dx) * 0.2209), calc(var(--mo-dy) * 0.2209)); }
+  55% { transform: scale(1.1360) translate(calc(var(--mo-dx) * 0.1618), calc(var(--mo-dy) * 0.1618)); }
+  60% { transform: scale(1.0967) translate(calc(var(--mo-dx) * 0.1171), calc(var(--mo-dy) * 0.1171)); }
+  65% { transform: scale(1.0676) translate(calc(var(--mo-dx) * 0.0829), calc(var(--mo-dy) * 0.0829)); }
+  70% { transform: scale(1.0458) translate(calc(var(--mo-dx) * 0.0568), calc(var(--mo-dy) * 0.0568)); }
+  75% { transform: scale(1.0296) translate(calc(var(--mo-dx) * 0.0371), calc(var(--mo-dy) * 0.0371)); }
+  80% { transform: scale(1.0178) translate(calc(var(--mo-dx) * 0.0224), calc(var(--mo-dy) * 0.0224)); }
+  85% { transform: scale(1.0095) translate(calc(var(--mo-dx) * 0.0119), calc(var(--mo-dy) * 0.0119)); }
+  90% { transform: scale(1.0040) translate(calc(var(--mo-dx) * 0.0050), calc(var(--mo-dy) * 0.0050)); }
+  95% { transform: scale(1.0010) translate(calc(var(--mo-dx) * 0.0012), calc(var(--mo-dy) * 0.0012)); }
+  100% { transform: scale(1.0000) translate(calc(var(--mo-dx) * 0.0000), calc(var(--mo-dy) * 0.0000)); }
+}
+
+/* ---- the unfold: from 520 ms, nearest the "mo" first, 40 ms apart, each 300 ms on the logo's own spring (an
+   overshoot that belongs to the paper character, not to chrome). A letter opens about its hinge (scaleX 0 to 1) and
+   rides on the slides of the slots between it and the "mo"; it stays invisible until 12 % open (9 ms into its 300)
+   and is whole at 45 % (40 ms), as in the app. ---- */
+.mo-l {
+  transform-origin: var(--hinge) 50%;
+  animation:
+    mo-unfold 300ms cubic-bezier(0.34, 1.36, 0.64, 1) calc(520ms + var(--k) * 40ms) both,
+    mo-show 300ms linear calc(520ms + var(--k) * 40ms) both;
+}
+.mo-slide { animation: mo-slide 300ms cubic-bezier(0.34, 1.36, 0.64, 1) calc(520ms + var(--k) * 40ms) both; }
+@keyframes mo-unfold { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes mo-slide { from { transform: translateX(var(--slot)); } to { transform: translateX(0); } }
+@keyframes mo-show { 0%, 3% { opacity: 0; } 13%, 100% { opacity: 1; } }
+
+/* ---- Mobi: a blink at 150 ms, the empty bubble eye inks 320 to 520 ms, and he glances toward the word at 860 ms.
+   The full master (flap cut, ring eye) shows while he is drawn large; it gives way to the small master (the bar
+   logo's) as the camera passes about 96 physical px, ~710 ms (detailSwapMs 60). ---- */
+.mo-mobi__body--full,
+.mo-eyes__full,
+.mo-eyes__ink { animation: mo-fade-out 60ms linear 690ms forwards; }
+.mo-eyes__small { opacity: 0; animation: mo-fade-in 60ms linear 690ms forwards; }
+@keyframes mo-fade-out { to { opacity: 0; } }
+@keyframes mo-fade-in { to { opacity: 1; } }
+
+.mo-eyes__ink {
+  transform-origin: var(--ink);
+  animation:
+    mo-ink 200ms cubic-bezier(0.23, 1, 0.32, 1) 320ms both,
+    mo-fade-out 60ms linear 690ms forwards;
+}
+@keyframes mo-ink { from { transform: scale(0); } to { transform: scale(1); } }
+
+.mo-eyes__lid {
+  transform-origin: var(--eyes);
+  animation: mo-blink 160ms cubic-bezier(0.45, 0, 0.55, 1) 150ms;
+}
+@keyframes mo-blink { 0% { transform: scaleY(1); } 37.5% { transform: scaleY(0.1); } 100% { transform: scaleY(1); } }
+
+.mo-eyes { animation: mo-glance 120ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both; }
+@keyframes mo-glance { from { transform: translateX(0); } to { transform: translateX(-0.32%); } }
+
+/* ---- the dot: the unfold's last beat, scale .6 to 1 with its opacity, 160 ms from 860 ms (decision 1) ---- */
+.mo-dot {
+  transform-origin: var(--dot);
+  animation: mo-dot 160ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both;
+}
+@keyframes mo-dot { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+
+/* ---- a first-ever visit: the word holds 320 ms more with a 3 % breath, Mobi glances back and blinks ---- */
+html[data-opening='first'] .mo-breath { animation: mo-breath 320ms cubic-bezier(0.37, 0, 0.63, 1) 1000ms; }
+@keyframes mo-breath { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+html[data-opening='first'] .mo-eyes { animation: mo-glance-first 420ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both; }
+@keyframes mo-glance-first {
+  0% { transform: translateX(0); }
+  29% { transform: translateX(-0.32%); }
+  72% { transform: translateX(-0.32%); }
+  100% { transform: translateX(0); }
+}
+html[data-opening='first'] .mo-eyes__lid {
+  animation:
+    mo-blink 160ms cubic-bezier(0.45, 0, 0.55, 1) 150ms,
+    mo-blink-2 160ms cubic-bezier(0.45, 0, 0.55, 1) 1140ms;
+}
+@keyframes mo-blink-2 { 0% { transform: scaleY(1); } 37.5% { transform: scaleY(0.1); } 100% { transform: scaleY(1); } }
+
+/* ---- a skip (any pointerdown, touchstart, wheel or keydown while it runs): every part jumps to the composed word
+   and the hand-off starts now. New animation names, so each starts from the moment of the skip. ---- */
+html[data-opening-cut] .mo-open { animation: mo-gone-cut 1ms linear 280ms forwards; }
+html[data-opening-cut] .mo-open .mo-open__ground { animation: mo-ground-cut 200ms cubic-bezier(0.23, 1, 0.32, 1) 80ms forwards; }
+html[data-opening-cut] .mo-open .mo-word {
+  animation:
+    mo-word-flip-cut 280ms cubic-bezier(0.23, 1, 0.32, 1) forwards,
+    mo-word-fade-cut 160ms linear 80ms forwards;
+}
+html[data-opening-cut] .mo-open .mo-breath,
+html[data-opening-cut] .mo-open .mo-cam,
+html[data-opening-cut] .mo-open .mo-slide,
+html[data-opening-cut] .mo-open .mo-l,
+html[data-opening-cut] .mo-open .mo-eyes,
+html[data-opening-cut] .mo-open .mo-eyes__lid,
+html[data-opening-cut] .mo-open .mo-dot { animation: none; opacity: 1; transform: none; }
+html[data-opening-cut] .mo-open .mo-mobi__body--full,
+html[data-opening-cut] .mo-open .mo-eyes__full,
+html[data-opening-cut] .mo-open .mo-eyes__ink { animation: none; opacity: 0; }
+html[data-opening-cut] .mo-open .mo-eyes__small { animation: none; opacity: 1; }
+
+/* Reduced motion never draws it (the gate already skips; this holds even if the setting changes mid-load). */
+@media (prefers-reduced-motion: reduce) {
+  .mo-open { display: none !important; }
+}
+html[data-motion='reduced'] .mo-open { display: none !important; }
+
+/* ==== The typed headline line (HeroTyped.jsx; LK74, decision 7) ====
+   The slot is an inline grid: the three phrases are stacked in it as invisible sizers (generated text, never DOM
+   text), so its box is the widest phrase from the server's first paint on and typing moves nothing (CLS 0). The live
+   text sits over them. Only opacity and transform animate: letters fade in (60 ms), the select-back wash scales from
+   the line's end, and the caret is a solid ink bar (never volt) that never blinks while the text is static: it blinks
+   twice after the final letter and leaves, once per page view. */
+.lp-typed__slot {
+  display: inline-grid;
+  vertical-align: baseline;
+  white-space: pre;
+}
+.lp-typed__sizer,
+.lp-typed__live {
+  grid-area: 1 / 1;
+  justify-self: start;
+}
+.lp-typed__sizer { visibility: hidden; pointer-events: none; }
+.lp-typed__sizer::before { content: attr(data-t); }
+.lp-typed__live { position: relative; isolation: isolate; }
+.lp-typed__ch { animation: lp-typed-in 60ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes lp-typed-in { from { opacity: 0; } }
+
+/* Select-back: a wash of ink at 14 % grows from the line's end to its start (220 ms), behind the letters. */
+.lp-typed__live[data-wash]::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0.12em -0.03em 0.04em;
+  border-radius: 0.06em;
+  background: color-mix(in srgb, var(--ink) 14%, transparent);
+  transform-origin: 100% 50%;
+  animation: lp-typed-wash 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes lp-typed-wash { from { transform: scaleX(0); } }
+
+.lp-typed__caret {
+  display: inline-block;
+  width: 0.075em;
+  height: 0.78em;
+  margin-left: 0.04em;
+  vertical-align: -0.02em;
+  border-radius: 1px;
+  background: currentColor;
+  animation: lp-caret-in 100ms linear both;
+}
+@keyframes lp-caret-in { from { opacity: 0; } }
+/* After the final letter: 530 on, 530 off, 530 on, then out in 160 ms (1,750 ms; iteration count 1). */
+.lp-typed__caret--end { animation: lp-caret-end 1750ms linear forwards; }
+@keyframes lp-caret-end {
+  0%, 30.28% { opacity: 1; }
+  30.29%, 60.57% { opacity: 0; }
+  60.58%, 90.85% { opacity: 1; }
+  100% { opacity: 0; }
+}
