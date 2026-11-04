@@ -247,3 +247,9 @@ Context: the session's agents stopped at 6:38 am when the 5-hour usage window ra
 > Everything is up to date related to the backup push. I was denied yesterday only.
 
 Reading (dictation): "denied" is likely "done": he ran the 610 MB snapshot push himself yesterday. Verified: origin has refs/archive/uncommitted-1104-main at 117408243, the same commit as the local branch archive/uncommitted-1104-main. The item is closed; never ask him for it again (ledger LK78).
+
+## 4 Nov 2026, about 6:50 pm IST: has anything been deployed? (verbatim)
+
+> have you deployed anything anywhere? It is already live on mockmob.ai, but nothing seems changed to me. I don't think it's deployed, or can you confirm this and what you have exactly done? I was seeing some of the screenshots that you were seeing in between the charts. That website is looking different from what we have here right now
+
+Reading (dictation): "mockmob.ai" is www.mockmob.in; "charts" is chats. Answer: only the small Learn fix (main ced6f747f, about 3:30 am) is live; the new home page in the screenshots is the mock-ups and the local build in progress, not deployed; it ships only after the full gate (ledger LK79).
