@@ -1,3 +1,28 @@
+## 5 Nov 2026, about 12:30 am IST: the new home page "Desk Light" to production (owner LK67-LK75; his 4 Nov ~7 pm "speed up... deploy everything... as perfect as they can be"), plus tonight's Learn fixes
+
+**What shipped (branch web/1104-polish, spec docs/brain/handoff-1104/home-spec/SPEC-HOME-1104.md on feat/app-and-web):**
+- **Hero (LK67, LK70):** words first: "CUET 2027." (brand colour), "One mock.", a typed third line (Fresh every time. / Every mark traced. / rests on Know what to fix.), then "MockMob is CUET UG mock tests with a review that finds the chapter behind every mark you lose." One key. Below (phone) or beside (desktop): Mobi standing in his lamp-lit room handing over the real first question; the same idea at every width. Bubble lines follow the sample (load, right, miss, five), never taps.
+- **Opening (LK74, L-043):** the app's "mo" opening on the site: about 1.3 s per new session, 1.6 s on a first visit, skipped by any tap, reduced motion, signed in or coming back from inside the site; ends hidden even without JS.
+- **Night without neon (LK68):** the app's warm charcoal and cream tokens; volt only for the key, Mobi, the logo dot and selected fills; no glows, washes, glass or volt edges on containers (slop capture: glows 0, washes 0, glass 0; lime-tint pixels at 390 Night 3.70% to 0.71%). The frosted bar is now a calm near-opaque bar.
+- **One gesture, one step (LK69, L-027..L-029):** the held stories (Lab, tour, Score Recovery, and the statement as a 4-step phone story) take one step per touch gesture or wheel burst at any speed; native scrolling elsewhere; jumps land on their target.
+- **The exam screen (LK72):** the real MockMob runner's anatomy, theme-aware, with an "NTA style" switch that keeps answers and timer; 920 px at 390 (was 1,644).
+- **Copy and brand (LK71, LK73):** about 2,300-2,470 visible words at 390 (was about 3,050), no kickers or middle dots, one Mobi finish (the rig's poses in every seat), desk-object icons in the tour, Literata for question stems.
+- **Way in (L-006, L-008, L-009, L-011):** one centred dock button whose label follows the visitor (Try a CUET question / Sign up free after all five / Go to Practice signed in); the hero key never offers a signed-in student "Start free practice".
+- **Learn (web half of the app's 1.0.20+18 fixes):** the Revise line says "the first back ..." when returns differ; a feed counts a turned card as done (checkpoint, stop sheet and end agree); the stopped end's Continue minutes match the checkpoint; the Options below cue is a band, never over words.
+
+**Verified (production builds, real Chrome):**
+- Every web test file: about 4,892 tests, 4,798 pass; the 28 failures are all pre-existing (authored_w2 13, mob_v3* 7, inventory_fingerprint, round5_completion, study_content, 5 scripts/pipeline, next_move_parity known gaps).
+- eslint clean; `next build --webpack` and Turbopack `next build` (in wt-1101-content) exit 0 at the ship commit.
+- Owner checklist L-001..L-045: 40 pass, 2 not met (L-011 fixed after the gate and checked; L-040 below), 3 need the live site.
+- One-gesture matrix on the production build: every touch, wheel and key cell passes; page height fresh = warm.
+- At 4x CPU, cache off: LCP 0.9-1.2 s at 390 (was 2.9 s) and 1.2 s at 1440 (was 3.7 s); CLS 0.0005; idle hero 4-5 restyles a second (was 73-165).
+- Looked at: first screen at 390, 360 and 1440, Night and Day; all 14 anchors at 390 Night; the nav with the key under it; the dock mid-page and at the footer.
+
+**Not met / left:**
+- At 4x CPU, the first draw of #inside-the-lab and #your-prep still takes about 358 ms each (10-11 frames over 100 ms in 22 swipes, p95 24 ms); at 1x there is no lag. Follow-up: smaller first draws (content-visibility per scene). TBT at 4x is 0.9-2.7 s.
+- Not checked on a real iPhone or Android phone; the Android emulator's Chrome stopped on its first-run terms screen (not accepted without the owner).
+- The Instagram row's "MockMob post" cards have no captions in the data.
+
 ## 4 Nov 2026, about 1 am IST: Learn and Explore refinements to production (owner LK39, LK41-LK43, LK48, LK56-LK62; his 3 Nov ~11:55 pm "deploy the final changes to the website")
 
 **What shipped (branch web/1104-english = web/1103-proto + cards + icons + webfull + R8 cards + the English pass):**
