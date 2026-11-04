@@ -28,6 +28,8 @@ import 'support/feed_harness.dart';
 
 FeedController ctl(WidgetTester tester) => feedState(tester).controller;
 
+LearnCardItem cardAt(FeedController c, int slot) => (c.slots[slot] as FeedItemSlot).item as LearnCardItem;
+
 /// The volt keys on screen: the step keys of the action bar, the end's main key, See Pro and Try again are all `StageStepKey`.
 int voltKeys(WidgetTester tester) => tester.widgetList<StageStepKey>(find.byType(StageStepKey)).where((k) => k.tone == StageTone.volt).length;
 
@@ -227,6 +229,43 @@ void main() {
       await finish(tester);
     });
 
+    testWidgets('walk I4 and I12: turned cards count; the checkpoint, the Close stop sheet and the stopped end say 7 of 16, and Continue says the checkpoint minutes', (tester) async {
+      final api = _StoppedFeedApi();
+      await pumpFeed(tester, api);
+      final c = ctl(tester);
+      // Items 1 to 4 are cards (the first kept, all turned over), 5 a question answered, 6 and 7 cards turned over, 8 a question
+      // only skipped: the place of the last held item is 7.
+      for (final i in [0, 1, 2, 3]) {
+        c.go(i);
+        c.turn(cardAt(c, i));
+      }
+      await c.keep(cardAt(c, 0));
+      c.go(4);
+      final q = (c.slots[4] as FeedItemSlot).item as LearnQuestionItem;
+      await c.choose(q, rightKey(q));
+      for (final i in [5, 6]) {
+        c.go(i);
+        c.turn(cardAt(c, i));
+      }
+      await goTo(tester, 7);
+      await tap(tester, find.text('Skip'));
+      expect(c.itemsDone, 7, reason: 'the skipped question is not done');
+      await goTo(tester, 8);
+      expect(find.byType(StageCheckpoint), findsOneWidget);
+      expect(find.textContaining('7 of 16 done, '), findsOneWidget);
+      // 285 s left from the checkpoint: 5 min by the one minutes rule.
+      expect(find.textContaining('about 5 min left'), findsOneWidget);
+      await tap(tester, find.bySemanticsLabel('Close the feed'));
+      expect(find.text('Stop for now?'), findsOneWidget);
+      expect(find.text('7 of 16 done. It\u2019s all saved.'), findsOneWidget);
+      await tap(tester, find.text('Stop here').last);
+      expect(c.mode, FeedMode.end);
+      expect(find.text('7 of 16 done'), findsOneWidget, reason: 'the stopped end counts what the checkpoint and the sheet counted');
+      expect(find.text('Continue · 5 min'), findsOneWidget, reason: 'the checkpoint said about 5 min left; the end key says the same figure');
+      expect(find.text('Continue · 6 min'), findsNothing);
+      await finish(tester);
+    });
+
     testWidgets('the checkpoint and the end after its Stop here say the same count of done (one card kept)', (tester) async {
       await pumpFeed(tester, FixtureLearnApi());
       await tap(tester, find.text('Revise later'));
@@ -347,7 +386,7 @@ void main() {
       await tap(tester, find.text('Stop here'));
       expect(ctl(tester).mode, FeedMode.end);
       expect(api.stops, [true], reason: 'end?stop=1: the feed stays open to pick up today');
-      expect(find.text('1 of 16 done'), findsOneWidget, reason: 'the place of the last item the server holds an event for (the card kept); the card only turned over holds none');
+      expect(find.text('1 of 16 done'), findsOneWidget, reason: 'the place of the last item held: the card kept and turned; the next card was only looked at');
       await finish(tester);
     });
 
@@ -468,11 +507,13 @@ void main() {
       await tap(tester, find.text('Stop here'));
       expect(api.stops, [true]);
       expect(find.text('1 of 16 done'), findsOneWidget);
-      expect(find.text('Continue · 6 min'), findsOneWidget);
+      // Walk I12: the server says 6 min; the feed's own seconds from where it was left (items 2 to 16) say 10, as its checkpoint would.
+      expect(find.text('Continue · 6 min'), findsNothing);
+      expect(find.text('Continue · 10 min'), findsOneWidget);
       expect(find.text('Fix 2 open mistakes · 2 min'), findsOneWidget);
       expect(voltKeys(tester), 1);
       final starts = api.starts.length;
-      await tap(tester, find.text('Continue · 6 min'));
+      await tap(tester, find.text('Continue · 10 min'));
       expect(api.starts, hasLength(starts), reason: 'it reads the run again, it never starts another');
       expect(ctl(tester).mode, FeedMode.items);
       expect(ctl(tester).stoppedHere, isFalse);

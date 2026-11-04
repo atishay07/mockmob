@@ -132,6 +132,10 @@ class FeedController extends ChangeNotifier {
   /// The student stopped part way ("Stop here"): the end reads with `?stop=1` and says "5 of 20 done".
   bool stoppedHere = false;
 
+  /// Walk I12: the seconds the feed had left where it was left (the checkpoint's own figure), for the stopped end's
+  /// "Continue · N min". Null until the end is reached from the items.
+  int? stopSeconds;
+
   /// The first visit's cue shows (until the first move) and is leaving (the 160 ms fade).
   bool cueDue = false;
   bool cueLeaving = false;
@@ -373,6 +377,7 @@ class FeedController extends ChangeNotifier {
     _sent.clear();
     _stopping = false;
     stoppedHere = false;
+    stopSeconds = null;
     for (final t in _backTimers.values) {
       t.cancel();
     }
@@ -478,6 +483,17 @@ class FeedController extends ChangeNotifier {
   void go(int i) {
     final n = i.clamp(0, endAt);
     final moved = n != active;
+    if (n >= endAt && active < endAt) {
+      final was = _slots[active];
+      stopSeconds = FeedModel.secondsFrom(
+        _items,
+        switch (was) {
+          FeedItemSlot(:final n) => n - 1,
+          FeedCheckpointSlot(:final after) => after,
+          _ => _items.length,
+        },
+      );
+    }
     active = n;
     if (note != null && note!.startsWith('Carrying on')) note = null;
     final s = n < endAt ? _slots[n] : null;

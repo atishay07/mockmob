@@ -1,5 +1,5 @@
 {
-"web": "wt-1102-web ced6f747f",
+"web": "wt-1102-web c9f483fc5",
 "note": "Written by tool/learn2_parity/stage_text.mjs from the web's own stageText.mjs and runMath.js stemParts. Do not edit by hand.",
 "counts": {
 "questions": 53,
@@ -973,6 +973,28 @@
 {"seconds":600,"out":"About 11 min left"},
 {"seconds":2400,"out":"About 44 min left"},
 {"seconds":12.5,"out":"Under a minute left"}
+],
+"leftMinutes": [
+{"seconds":0,"out":null},
+{"seconds":-5,"out":null},
+{"seconds":1,"out":1},
+{"seconds":30,"out":1},
+{"seconds":54,"out":1},
+{"seconds":54.5,"out":1},
+{"seconds":55,"out":1},
+{"seconds":60,"out":1},
+{"seconds":89,"out":2},
+{"seconds":90,"out":2},
+{"seconds":300,"out":6},
+{"seconds":330,"out":6},
+{"seconds":600,"out":11},
+{"seconds":2400,"out":44},
+{"seconds":12.5,"out":1},
+{"seconds":40,"out":1},
+{"seconds":59,"out":1},
+{"seconds":60,"out":1},
+{"seconds":400,"out":7},
+{"seconds":null,"out":null}
 ],
 "chapterRefs": [
 {"input":{"ref":"Ch 4","partTitle":"Accountancy Part 1"},"out":"Ch 4, Accountancy Part 1"},
@@ -2422,11 +2444,18 @@
 {"groups":[{"label":"back on Wed","count":14}],"out":"in Revise, back Wed"},
 {"groups":[{"label":"back on Wed","count":0},{"label":"back on Fri","count":2}],"out":"in Revise, back Fri"},
 {"groups":[{"label":"back tomorrow","count":3}],"out":"in Revise, back tomorrow"},
-{"groups":[{"label":"back on Wed","count":1},{"label":"back in 20 days","count":1}],"out":"in Revise, back Wed"},
+{"groups":[{"label":"back on Wed","count":1},{"label":"back in 20 days","count":1}],"out":"in Revise, the first back Wed"},
 {"groups":[{"label":"","count":4}],"out":"in Revise"},
 {"groups":[{"count":4}],"out":"in Revise"},
 {"groups":[{"label":"back on  Sat ","count":"3"}],"out":"in Revise, back  Sat"},
-{"groups":[null,{"label":"back on Mon","count":2}],"out":"in Revise, back Mon"}
+{"groups":[null,{"label":"back on Mon","count":2}],"out":"in Revise, back Mon"},
+{"groups":[{"label":"later today","count":2}],"out":"in Revise, later today"},
+{"groups":[{"label":"due now","count":1}],"out":"in Revise, due now"},
+{"groups":[{"label":"later today","count":2},{"label":"back tomorrow","count":1}],"out":"in Revise, the first back later today"},
+{"groups":[{"label":"due now","count":1},{"label":"back on Wed","count":2}],"out":"in Revise, the first due now"},
+{"groups":[{"label":"back tomorrow","count":2},{"label":"back in 12 days","count":1}],"out":"in Revise, the first back tomorrow"},
+{"groups":[{"label":"back tomorrow","count":0},{"label":"back on Fri","count":3}],"out":"in Revise, back Fri"},
+{"groups":[{"label":"","count":1},{"label":"back on Fri","count":3}],"out":"in Revise"}
 ],
 "numbers": [
 {"revise":0,"reviseText":"in Revise","answered":0,"right":0,"mistakes":null,"fixed":0,"out":[]},

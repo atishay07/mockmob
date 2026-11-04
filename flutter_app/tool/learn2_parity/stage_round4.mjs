@@ -58,6 +58,10 @@ export async function round4({ load, web, app, cards }) {
     undefined, [], [{ label: 'back on Wed', count: 14 }], [{ label: 'back on Wed', count: 0 }, { label: 'back on Fri', count: 2 }], [{ label: 'back tomorrow', count: 3 }],
     [{ label: 'back on Wed', count: 1 }, { label: 'back in 20 days', count: 1 }], [{ label: '', count: 4 }], [{ count: 4 }], [{ label: 'back on  Sat ', count: '3' }],
     [null, { label: 'back on Mon', count: 2 }],
+    // Walk I2: the groups differ (the first back ...), or one group says "later today" / "due now".
+    [{ label: 'later today', count: 2 }], [{ label: 'due now', count: 1 }], [{ label: 'later today', count: 2 }, { label: 'back tomorrow', count: 1 }],
+    [{ label: 'due now', count: 1 }, { label: 'back on Wed', count: 2 }], [{ label: 'back tomorrow', count: 2 }, { label: 'back in 12 days', count: 1 }],
+    [{ label: 'back tomorrow', count: 0 }, { label: 'back on Fri', count: 3 }], [{ label: '', count: 1 }, { label: 'back on Fri', count: 3 }],
   ];
   const reviseLabels = groupSets.map((groups) => ({ groups: groups ?? null, out: endModel.reviseLabel(groups) }));
   const numbers = grid([0, 3, 14], ['in Revise', 'in Revise, back Wed'], [0, 1, 2], [0, 1, 2], [null, 0, 2], [0, 1, 2]).map(([revise, reviseText, answered, right, mistakes, fixed]) => ({

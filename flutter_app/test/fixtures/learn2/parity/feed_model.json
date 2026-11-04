@@ -1,6 +1,6 @@
 {
  "about": "Learn v2 feed rules: the website's feedModel.mjs and data/learn/feed.js over the recorded feeds and edge lists. Written by tool/learn2_parity/feed_model.mjs.",
- "web": "ced6f747f",
+ "web": "c9f483fc5",
  "checkpointLine": "Keep going, or stop here. The cards you kept are already in Revise.",
  "every": 8,
  "minAfter": 4,
@@ -8884,6 +8884,544 @@
     "status": "16 of 40 done, under a minute left.",
     "line": null
    }
+  }
+ ],
+ "itemsDone": [
+  {
+   "list": "aop_pro",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "aop_pro",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "aop_pro",
+   "states": "some",
+   "base": 0,
+   "out": 16
+  },
+  {
+   "list": "aop_pro",
+   "states": "some",
+   "base": 5,
+   "out": 21
+  },
+  {
+   "list": "aop_pro",
+   "states": "all",
+   "base": 0,
+   "out": 16
+  },
+  {
+   "list": "aop_pro",
+   "states": "all",
+   "base": 5,
+   "out": 21
+  },
+  {
+   "list": "aop_free",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "aop_free",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "aop_free",
+   "states": "some",
+   "base": 0,
+   "out": 12
+  },
+  {
+   "list": "aop_free",
+   "states": "some",
+   "base": 5,
+   "out": 17
+  },
+  {
+   "list": "aop_free",
+   "states": "all",
+   "base": 0,
+   "out": 12
+  },
+  {
+   "list": "aop_free",
+   "states": "all",
+   "base": 5,
+   "out": 17
+  },
+  {
+   "list": "pf_new",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "pf_new",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "pf_new",
+   "states": "some",
+   "base": 0,
+   "out": 16
+  },
+  {
+   "list": "pf_new",
+   "states": "some",
+   "base": 5,
+   "out": 21
+  },
+  {
+   "list": "pf_new",
+   "states": "all",
+   "base": 0,
+   "out": 16
+  },
+  {
+   "list": "pf_new",
+   "states": "all",
+   "base": 5,
+   "out": 21
+  },
+  {
+   "list": "aop_resumed",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "aop_resumed",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "aop_resumed",
+   "states": "some",
+   "base": 0,
+   "out": 8
+  },
+  {
+   "list": "aop_resumed",
+   "states": "some",
+   "base": 5,
+   "out": 13
+  },
+  {
+   "list": "aop_resumed",
+   "states": "all",
+   "base": 0,
+   "out": 14
+  },
+  {
+   "list": "aop_resumed",
+   "states": "all",
+   "base": 5,
+   "out": 19
+  },
+  {
+   "list": "shape",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "shape",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "shape",
+   "states": "some",
+   "base": 0,
+   "out": 4
+  },
+  {
+   "list": "shape",
+   "states": "some",
+   "base": 5,
+   "out": 9
+  },
+  {
+   "list": "shape",
+   "states": "all",
+   "base": 0,
+   "out": 5
+  },
+  {
+   "list": "shape",
+   "states": "all",
+   "base": 5,
+   "out": 10
+  },
+  {
+   "list": "mistakes",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "mistakes",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "mistakes",
+   "states": "some",
+   "base": 0,
+   "out": 8
+  },
+  {
+   "list": "mistakes",
+   "states": "some",
+   "base": 5,
+   "out": 13
+  },
+  {
+   "list": "mistakes",
+   "states": "all",
+   "base": 0,
+   "out": 8
+  },
+  {
+   "list": "mistakes",
+   "states": "all",
+   "base": 5,
+   "out": 13
+  },
+  {
+   "list": "words",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "words",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "words",
+   "states": "some",
+   "base": 0,
+   "out": 4
+  },
+  {
+   "list": "words",
+   "states": "some",
+   "base": 5,
+   "out": 9
+  },
+  {
+   "list": "words",
+   "states": "all",
+   "base": 0,
+   "out": 4
+  },
+  {
+   "list": "words",
+   "states": "all",
+   "base": 5,
+   "out": 9
+  },
+  {
+   "list": "seconds",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "seconds",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "seconds",
+   "states": "some",
+   "base": 0,
+   "out": 5
+  },
+  {
+   "list": "seconds",
+   "states": "some",
+   "base": 5,
+   "out": 10
+  },
+  {
+   "list": "seconds",
+   "states": "all",
+   "base": 0,
+   "out": 6
+  },
+  {
+   "list": "seconds",
+   "states": "all",
+   "base": 5,
+   "out": 11
+  },
+  {
+   "list": "long",
+   "states": "none",
+   "base": 0,
+   "out": 0
+  },
+  {
+   "list": "long",
+   "states": "none",
+   "base": 5,
+   "out": 5
+  },
+  {
+   "list": "long",
+   "states": "some",
+   "base": 0,
+   "out": 30
+  },
+  {
+   "list": "long",
+   "states": "some",
+   "base": 5,
+   "out": 35
+  },
+  {
+   "list": "long",
+   "states": "all",
+   "base": 0,
+   "out": 30
+  },
+  {
+   "list": "long",
+   "states": "all",
+   "base": 5,
+   "out": 35
+  }
+ ],
+ "continueKey": [
+  {
+   "label": "Continue · 9 min",
+   "seconds": null,
+   "out": "Continue · 9 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 0,
+   "out": "Continue · 9 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 20,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 54,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 55,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 330,
+   "out": "Continue · 6 min"
+  },
+  {
+   "label": "Continue · 9 min",
+   "seconds": 3600,
+   "out": "Continue · 66 min"
+  },
+  {
+   "label": "Continue",
+   "seconds": null,
+   "out": "Continue"
+  },
+  {
+   "label": "Continue",
+   "seconds": 0,
+   "out": "Continue"
+  },
+  {
+   "label": "Continue",
+   "seconds": 20,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue",
+   "seconds": 54,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue",
+   "seconds": 55,
+   "out": "Continue · 1 min"
+  },
+  {
+   "label": "Continue",
+   "seconds": 330,
+   "out": "Continue · 6 min"
+  },
+  {
+   "label": "Continue",
+   "seconds": 3600,
+   "out": "Continue · 66 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": null,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 0,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 20,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 54,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 55,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 330,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Next chapter · 10 min",
+   "seconds": 3600,
+   "out": "Next chapter · 10 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": null,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 0,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 20,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 54,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 55,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 330,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Revise 3 due cards · 2 min",
+   "seconds": 3600,
+   "out": "Revise 3 due cards · 2 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": null,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 0,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 20,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 54,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 55,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 330,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "Continued · 4 min",
+   "seconds": 3600,
+   "out": "Continued · 4 min"
+  },
+  {
+   "label": "",
+   "seconds": null,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 0,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 20,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 54,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 55,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 330,
+   "out": ""
+  },
+  {
+   "label": "",
+   "seconds": 3600,
+   "out": ""
   }
  ],
  "upNext": [

@@ -132,6 +132,22 @@ void main() {
     }
   });
 
+  test('itemsDone (walk I4): a kept or turned card and an answered question are done, a skipped question is not', () {
+    final cases = asJsonList(data['itemsDone']);
+    expect(cases, isNotEmpty);
+    for (final c in cases) {
+      expect(FeedModel.itemsDone(lists[c['list']]!, states[c['list']]![c['states']]!, base: asInt(c['base'])!), c['out'], reason: '${c['list']} ${c['states']} ${c['base']}');
+    }
+  });
+
+  test('continueKey (walk I12): the stopped end says the checkpoint minutes', () {
+    final cases = asJsonList(data['continueKey']);
+    expect(cases, isNotEmpty);
+    for (final c in cases) {
+      expect(FeedModel.continueKey(c['label'] as String, c['seconds'] as num?), c['out'], reason: '${c['label']} ${c['seconds']}');
+    }
+  });
+
   test('upNextText', () {
     for (final c in asJsonList(data['upNext'])) {
       final at = c['slot'];

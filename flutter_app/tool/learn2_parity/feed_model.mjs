@@ -162,6 +162,19 @@ for (const [name, l] of Object.entries(lists)) {
   }
 }
 
+// Walk I4: the one done count (a card kept or turned over, a question answered; skipped is not), after a resumed feed's prefix.
+const itemsDone = [];
+for (const [name, l] of Object.entries(lists)) {
+  for (const s of ['none', 'some', 'all']) {
+    for (const base of [0, 5]) itemsDone.push({ list: name, states: s, base, out: model.itemsDone(l.items, states[name][s], base) });
+  }
+}
+// Walk I12: the stopped end's Continue key says the checkpoint's own minutes.
+const continueKey = [];
+for (const label of ['Continue · 9 min', 'Continue', 'Next chapter · 10 min', 'Revise 3 due cards · 2 min', 'Continued · 4 min', '']) {
+  for (const seconds of [null, 0, 20, 54, 55, 330, 3600]) continueKey.push({ label, seconds, out: model.continueKey(label, seconds) });
+}
+
 const upNext = [];
 for (const [name, l] of Object.entries(lists)) {
   const s = rules.feedSlots(l.items);
@@ -237,6 +250,8 @@ const out = {
   questionPlaces,
   numbers,
   checkpointText,
+  itemsDone,
+  continueKey,
   upNext,
   splice,
   sheetRows,
@@ -245,5 +260,5 @@ const out = {
 const file = resolve(app, 'test/fixtures/learn2/parity/feed_model.json');
 mkdirSync(dirname(file), { recursive: true });
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
-const count = slots.length + checkpointNumber.length + keptLine.length + secondsFrom.length + questionPlaces.length + numbers.length + checkpointText.length + upNext.length + splice.length + sheetRows.length;
+const count = slots.length + checkpointNumber.length + keptLine.length + secondsFrom.length + questionPlaces.length + numbers.length + checkpointText.length + itemsDone.length + continueKey.length + upNext.length + splice.length + sheetRows.length;
 console.log(`feed_model.json: ${count} cases from web ${commit}`);

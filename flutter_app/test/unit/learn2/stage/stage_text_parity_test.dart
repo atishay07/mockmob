@@ -93,6 +93,12 @@ void main() {
     }
   });
 
+  test('minutes left (walk I12)', () {
+    for (final t in rows('leftMinutes')) {
+      expect(StageText.leftMinutes(t['seconds'] as num?), t['out'], reason: 'leftMinutes ${t['seconds']}');
+    }
+  });
+
   test('the chapter book line', () {
     for (final r in rows('chapterRefs')) {
       final input = r['input'] as Map<String, dynamic>;

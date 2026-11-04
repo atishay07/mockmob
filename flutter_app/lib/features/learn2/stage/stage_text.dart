@@ -154,14 +154,21 @@ abstract final class StageText {
     return 'You stopped at ${reached < 0 ? 0 : reached} of $of.';
   }
 
-  /// `timeLeft`: "About 6 min left" / "Under a minute left" from seconds (Learn's one minutes rule: the 10
-  /// percent, rounded, at least 1); null for nothing left.
+  /// `leftMinutes`: the whole minutes left from seconds (Learn's one minutes rule: the 10 percent, rounded, at least 1); null
+  /// with nothing left.
+  static int? leftMinutes(num? seconds) {
+    final s = seconds == null || !seconds.isFinite ? 0 : seconds;
+    if (s <= 0) return null;
+    final m = (s * 1.1 / 60).round();
+    return m < 1 ? 1 : m;
+  }
+
+  /// `timeLeft`: "About 6 min left" / "Under a minute left" from seconds; null for nothing left.
   static String? timeLeft(num? seconds) {
     final s = seconds == null || !seconds.isFinite ? 0 : seconds;
     if (s <= 0) return null;
     if (s * 1.1 < 60) return 'Under a minute left';
-    final m = (s * 1.1 / 60).round();
-    return 'About ${m < 1 ? 1 : m} min left';
+    return 'About ${leftMinutes(s)} min left';
   }
 
   /// `chapterRef`: the book line of a chapter, "Ch 4, Accountancy Part 1" (either part may be missing); null

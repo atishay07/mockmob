@@ -175,7 +175,7 @@ void main() {
   });
 
   group('cards', () {
-    test('a turn then Next: a card only turned over holds no event, so it is not done (round 5, LK45 fix 2); the next card is seen', () async {
+    test('a turn then Next: a card turned over is done (walk I4: it was looked at); the next card is seen', () async {
       final events = FeedEvents();
       final c = feedController(FixtureLearnApi(), events: events);
       await c.start();
@@ -185,8 +185,8 @@ void main() {
       expect(c.stateOf(c.items[0].id).turned, isTrue);
       expect(c.stateOf(c.items[0].id).seenBack, isTrue);
       expect(events.said.last, startsWith("NCERT's line. "));
-      expect(c.itemsDone, 0, reason: 'a card only turned over writes nothing: the server does not count it, so neither does the stop sheet');
-      expect(c.asksToStop, isFalse);
+      expect(c.itemsDone, 1, reason: 'a feed counts a turned Key card as done (a run keeps the server rule)');
+      expect(c.asksToStop, isTrue);
       c.go(1);
       expect(c.active, 1);
       expect(c.stateOf(c.items[1].id).seen, isTrue);

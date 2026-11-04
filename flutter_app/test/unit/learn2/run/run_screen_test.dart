@@ -623,7 +623,7 @@ void main() {
       expect(find.text('6 of 19 done'), findsOneWidget, reason: 'the server\'s done line, never invented');
       expect(find.byType(StageKeptFan), findsOneWidget);
       expect(find.text('3'), findsOneWidget);
-      expect(find.text('in Revise, back tomorrow'), findsOneWidget);
+      expect(find.text('in Revise, the first back tomorrow'), findsOneWidget, reason: 'the recorded end returns its cards on three different days (walk I2)');
       expect(find.text('open mistake fixed'), findsOneWidget);
       expect(find.text('14 of 45 cards seen'), findsOneWidget);
       expect(find.text('Keep going · 10 min'), findsOneWidget);
@@ -633,6 +633,21 @@ void main() {
       expect(find.text('Old mistakes'), findsNothing);
       expect(voltKeys(tester), 1);
       expect(find.text('See Pro'), findsNothing);
+      await finish(tester);
+    });
+
+    testWidgets('walk I2: the Revise line says when only if every card comes back together, else the first back', (tester) async {
+      await toEnd(tester, _ReviseGroupsEnd([{'label': 'back tomorrow', 'count': 3}]));
+      expect(find.text('in Revise, back tomorrow'), findsOneWidget);
+      expect(find.textContaining('the first'), findsNothing);
+      await finish(tester);
+
+      await toEnd(tester, _ReviseGroupsEnd([{'label': 'later today', 'count': 1}, {'label': 'back tomorrow', 'count': 2}]));
+      expect(find.text('in Revise, the first back later today'), findsOneWidget);
+      await finish(tester);
+
+      await toEnd(tester, _ReviseGroupsEnd([{'label': 'back on Wed', 'count': 2}, {'label': 'back in 12 days', 'count': 1}]));
+      expect(find.text('in Revise, the first back Wed'), findsOneWidget);
       await finish(tester);
     });
 
@@ -1061,6 +1076,16 @@ class _Many extends FixtureLearnApi {
     'stamp': 'Back in 3 days',
     'revisePile': {'count': ++_piled},
   });
+}
+
+/// A run's end whose Revise cards come back in the given groups (walk I2).
+class _ReviseGroupsEnd extends FixtureLearnApi {
+  _ReviseGroupsEnd(this.groups);
+
+  final List<Map<String, Object?>> groups;
+
+  @override
+  Future<LearnEnd> end(String runId, {bool stop = false}) async => LearnEnd.parse({...LearnFixtures.json('run_end_mix_pf_pro'), 'revisePile': groups});
 }
 
 /// A level run's end: its lowest chapter and no cards sent to Revise; the key's second line names the score.

@@ -59,20 +59,22 @@ abstract final class StageEndModel {
     return '${math.min(r, o)} of $o done';
   }
 
-  /// "in Revise, back Wed" from the server's return groups (`[{ label: 'back on Wed', count }]`): the soonest one.
+  /// The Revise line's words from the server's return groups (`[{ label: 'back on Wed', count }]`, in date order). One rule on web
+  /// and app (walk I2): when every card in Revise comes back in the same group the line says when ("in Revise, back Wed"); when the
+  /// groups differ it says only that the soonest is that early ("in Revise, the first back Wed"), never "back tomorrow" for cards
+  /// that come back at different times. A group that is not a "back" one reads "due now" / "back later today".
   static String reviseLabel(Object? groups) {
-    Map<Object?, Object?>? first;
+    final list = <Map<Object?, Object?>>[];
     if (groups is Iterable) {
       for (final g in groups) {
-        if (g is Map && whole(g['count']) > 0) {
-          first = g;
-          break;
-        }
+        if (g is Map && whole(g['count']) > 0) list.add(g);
       }
     }
-    final label = first == null ? '' : (first['label'] ?? '').toString();
-    final when = first == null ? '' : label.replaceFirst(RegExp(r'^back on '), 'back ').trim();
-    return when.isNotEmpty ? 'in Revise, $when' : 'in Revise';
+    final label = list.isEmpty ? '' : (list.first['label'] ?? '').toString();
+    final when = list.isEmpty ? '' : label.replaceFirst(RegExp(r'^back on '), 'back ').trim();
+    if (when.isEmpty) return 'in Revise';
+    if (list.length == 1) return 'in Revise, $when';
+    return 'in Revise, the first ${when.startsWith('back ') || when == 'due now' ? when : 'back $when'}';
   }
 
   /// The numbers row (R3 L5): up to 3, in this order, each only when it is more than 0, with the same labels on run and feed

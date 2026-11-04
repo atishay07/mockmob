@@ -18,6 +18,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import '../../../core/models/json_helpers.dart';
 import '../data/learn_models.dart';
 import '../stage/stage_end_model.dart';
+import '../stage/stage_text.dart';
 import 'feed_copy.dart';
 
 // ---------------------------------------------------------------- the feed's screens
@@ -278,7 +279,7 @@ abstract final class FeedModel {
   /// done, about 6 min left." Never a zero lead ("0 kept" is dropped); the third line is gone. [done] is the one count of done (the
   /// stop sheet's and the stopped end's): when it is 0 the line is only the time left.
   static FeedCheckpointText checkpointText(FeedNumbers n, {required int done, required int of, required num seconds}) {
-    final left = seconds > 0 ? (seconds * 1.1 < 60 ? 'Under a minute left' : 'About ${math.max(1, ((seconds * 1.1) / 60).round())} min left') : null;
+    final left = StageText.timeLeft(seconds);
     final t = StageEndModel.checkpointLines(answered: n.answered, right: n.right, seen: n.seen, kept: n.kept, done: done, of: of, left: left);
     // With nothing done yet checkpointLines leaves the count out ("About 6 min left."), never "0 of 16 done".
     return (big: t.big, status: t.line, line: null);
@@ -391,15 +392,24 @@ abstract final class FeedModel {
     return said.isNotEmpty ? said : FeedCopy.endTitleFallback;
   }
 
-  /// Items done, for the stop rule, the stop sheet and a stopped end: the server's own count (round 5, LK45 fix 2), the place of the
-  /// last item it holds an event for, a card kept or a question answered. A card only turned over writes nothing, so it is not
-  /// counted here and not at the end.
+  /// Whether the feed holds this item as done (walk I4): a card kept OR turned over (it was looked at), a question answered. A
+  /// question only skipped is not done. Runs keep the server's own rule; this one drives the checkpoint's line, the Close stop
+  /// sheet and the stopped end of a feed.
+  static bool feedHeld(LearnItem item, FeedItemState st) => item is LearnCardItem ? (st.kept || st.turned || st.seenBack) : st.res != null;
+
+  /// Items done, for the stop rule, the stop sheet and a stopped end: the place of the last item [feedHeld], after [base] items
+  /// done before this list (a resumed feed's prefix).
   static int itemsDone(List<LearnItem> items, Map<String, FeedItemState> states, {int base = 0}) => StageEndModel.reachedPlace<LearnItem>(
     items,
-    (item, _) {
-      final st = states[item.id] ?? const FeedItemState();
-      return item is LearnCardItem ? st.kept : st.res != null;
-    },
+    (item, _) => feedHeld(item, states[item.id] ?? const FeedItemState()),
     base,
   );
+
+  /// The stopped end's "Continue · N min" (walk I12): the same figure the checkpoint's "About N min left" gives for the rest of this
+  /// feed (its seconds, the 10 percent rule), not the server's own count. Only a "Continue" key is touched; no seconds left keeps
+  /// the server's label.
+  static String continueKey(String label, num? seconds) {
+    final m = StageText.leftMinutes(seconds);
+    return m != null && RegExp(r'^Continue\b').hasMatch(label) ? 'Continue · $m min' : label;
+  }
 }

@@ -622,8 +622,10 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
   /// feed, by its id), or a [location] to open.
   _EndKey? _specOf(LearnOption? o, {required bool main}) {
     if (o == null) return null;
-    final label = o.label;
     final r = o.run;
+    var label = o.label;
+    // Walk I12: a stopped feed's Continue key says the same minutes as its checkpoint (this feed's own seconds).
+    if (r != null && r.kind == LearnKinds.feed && r.resume != null && !_c.onlyEnd) label = FeedModel.continueKey(label, _c.stopSeconds);
     final sub = main && o.kind == 'next' ? asString(o.raw['chapterTitle']) : null;
     if (o.go == 'pro') return _EndKey(label, act: _EndAct.pro);
     final href = o.href;

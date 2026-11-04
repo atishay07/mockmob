@@ -112,6 +112,8 @@ const doneLines = doneInputs.map((input) => ({ input, out: text.doneLine(input) 
 
 const seconds = [0, -5, 1, 30, 54, 54.5, 55, 60, 89, 90, 300, 330, 600, 2400, 12.5];
 const timeLeft = seconds.map((s) => ({ seconds: s, out: text.timeLeft(s) }));
+// Walk I12: the whole minutes the checkpoint and the stopped end's Continue key both use.
+const leftMinutes = [...seconds, 40, 59, 60, 400, null].map((s) => ({ seconds: s, out: text.leftMinutes(s) ?? null }));
 
 const refInputs = [
   { ref: 'Ch 4', partTitle: 'Accountancy Part 1' }, {}, { ref: 'Ch 2' }, { partTitle: 'Part 2' },
@@ -133,6 +135,7 @@ const out = {
   backs,
   doneLines,
   timeLeft,
+  leftMinutes,
   chapterRefs,
   plurals,
   ...extra,
