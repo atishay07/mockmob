@@ -74,6 +74,14 @@
     --lh-body: 1.55;
   }
 }
+
+/* ---------- Even lines everywhere on the home page (D3, owner LK84, 5 Nov 2026) ----------
+   Every paragraph and list line breaks "pretty" (no single-word last line); headings, subs, card notes and captions
+   break "balanced" (lines of even length). The longhand text-wrap-style never touches text-wrap-mode, so a line that is
+   meant to stay on one line (white-space: nowrap: the h1's lines, the shelf names, the keys) still does. Zero
+   specificity on purpose (:where): a section's own text-wrap rule always wins. Checked at 360, 375, 390, 412 and 1440. */
+:where(.mm.lp) :where(p, li, dd, blockquote, .mm-faq__body) { text-wrap-style: pretty; }
+:where(.mm.lp) :where(h1, h2, h3, h4, summary, figcaption, .lp-sub, .lp-card__note, .lp-shelf__note, .lp-cpro__fine, .xs-saved, .lcp-block > p) { text-wrap-style: balance; }
 html:has(.lp) {
   font-size: 16px;
   color-scheme: dark;
@@ -211,7 +219,8 @@ body:has(.mm.lp) {
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   line-height: 1.6;
   color: var(--ink-2);
-  text-wrap: pretty;
+  /* A section's one sub breaks into even lines (D3, LK84): balanced, never one word trailing on its own line. */
+  text-wrap: balance;
 }
 .lp-head {
   display: grid;

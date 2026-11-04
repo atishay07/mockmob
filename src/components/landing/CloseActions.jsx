@@ -1,34 +1,24 @@
 'use client';
 
-import { useEffect, useRef, useSyncExternalStore } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { recoveryReleased } from '@/../data/capabilities';
-import { demoFinished, subscribeDemoState } from '@/components/landing/demoSignal.mjs';
+import { wayIn } from '@/components/landing/demoSignal.mjs';
 import '@/app/landing-close.css';
 
-// Where sign-up leads, and the signed-in way back in: the same routes as the hero's buttons (LandingActions).
-function useWayIn() {
-  const { isAuthenticated } = useAuth();
-  const released = recoveryReleased();
-  return {
-    isAuthenticated,
-    signupHref: released ? '/signup?next=%2Frecovery' : '/signup',
-    homeHref: released ? '/recovery' : '/dashboard',
-    homeText: released ? 'Find my first gap' : 'Go to Practice',
-  };
-}
-
 /**
- * The close band's actions: sign up (the way to keep a record), the sample question one tap away (DemoJump
- * brings it on screen), and the free line under them. A signed-in visitor gets the way back in instead.
- * While they are on screen the phone dock steps down (data-close-in on the page, landing-close.css), so the
- * screen shows one set of these actions, not two.
+ * The close band's actions (owner decision LK83/LK88, 5 Nov 2026): a guest gets "Sign up free" and "Log in" (the same
+ * routes as the hero and the phone dock, wayIn), and the free line under them; a signed-in student gets one key back
+ * in. The sample is not offered here: it is the hero's. While the actions are on screen the phone dock steps down
+ * (data-close-in on the page, landing-close.css), so the screen shows one set of these actions, not two.
  */
 export function CloseActions() {
-  const { isAuthenticated, signupHref, homeHref, homeText } = useWayIn();
-  const finished = useSyncExternalStore(subscribeDemoState, demoFinished, () => false);
+  const { isAuthenticated } = useAuth();
+  const way = wayIn({ signedIn: isAuthenticated, released: recoveryReleased() });
+  const homeHref = way.home.href;
+  const signupHref = way.signup.href;
   const ref = useRef(null);
 
   useEffect(() => {
@@ -48,10 +38,9 @@ export function CloseActions() {
     <div className="lp-close__go" ref={ref}>
       <div className="mm-actions lp-close__actions">
         <Link href={isAuthenticated ? homeHref : signupHref} className="mm-btn mm-btn--primary">
-          {isAuthenticated ? homeText : 'Sign up free'}
+          {isAuthenticated ? way.home.label : way.signup.label}
         </Link>
-        {/* A guest who has answered all five is asked to sign up, not sent back to the sample (L-009). */}
-        {!isAuthenticated && finished ? null : <a href="#try-practice" className="mm-btn mm-btn--secondary">Try a CUET question</a>}
+        {isAuthenticated ? null : <Link href={way.login.href} className="mm-btn mm-btn--secondary">{way.login.label}</Link>}
       </div>
       <p className="lp-close__free"><Check size={16} aria-hidden="true" />Free to start. No card needed.</p>
     </div>

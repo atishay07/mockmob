@@ -33,7 +33,7 @@ const mediaBlocks = (css) => {
 };
 
 test('LK67: one desk at every width, the room and Mobi inside it, the card attached to its foot', () => {
-  assert.match(HERO, /<div className="lp-desk" id="try-practice">\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=\{/);
+  assert.match(HERO, /<div className="lp-desk" id="try-practice">\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=/);
   assert.equal((HERO.match(/<HeroMobi /g) || []).length, 1, 'one Mobi in the hero');
   assert.doesNotMatch(PAGE, /variant="(room|host)"|lp-hero__greeting|lp-stage__heading|lp-stage__note/);
   assert.doesNotMatch(MOBI, /variant\s*=|\{ variant/, 'HeroMobi has one variant');
@@ -137,7 +137,8 @@ test('the sample: a theme-aware card with the subject and "1 of 5" as two spans,
   assert.match(DRILL, /<span className="lp-card__sub"><b>\{question\.subject\}<\/b><span>\{index \+ 1\} of \{DRILL\.length\}<\/span><\/span>/);
   assert.doesNotMatch(DRILL, /mm-screen|·|Mascot/, 'no forced night screen, no middle dot, no second Mobi');
   assert.match(DRILL, /<div className="mm-drill__reveal" data-open=\{answered \? 'true' : 'false'\}>/);
-  assert.match(HERO, /No signup for these five\. Other subjects\? <Link href="\/signup">Pick yours free<\/Link>/);
+  // D1 (owner LK83/LK88, 5 Nov 2026): the note is one even line with no link; sign-up is the hero's volt key.
+  assert.match(HERO, /<DemoDrill note="No sign-up for these five\." \/>/);
   const css = strip(CSS);
   assert.match(css, /\.mm\.lp \.lp-desk \.mm-drill__q \{[^}]*font-family: var\(--font-stem, Georgia, 'Times New Roman', serif\);/);
   assert.match(css, /grid-template-rows: 0fr; transition: grid-template-rows 240ms/);

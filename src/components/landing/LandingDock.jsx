@@ -1,24 +1,25 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
 import { MobileDock } from '@/components/MobileDock';
 import { useAuth } from '@/components/AuthProvider';
 import { recoveryReleased } from '@/../data/capabilities';
-import { demoFinished, subscribeDemoState, wayIn } from '@/components/landing/demoSignal.mjs';
+import { wayIn } from '@/components/landing/demoSignal.mjs';
 
-// The landing's phone bar is one real button whose label follows the visitor (L-008, L-009): a guest tries a CUET
-// question, a guest who has answered all five signs up, a signed-in student goes back to Practice. The line beside it
-// is words only, never a second link. hideAtFooter: the bar leaves as the footer's top comes up to its own height
-// above the screen's edge, so it never sits over the footer's links (ship gate, 4 Nov 2026).
+// The landing's phone bar (owner decision LK83/LK88, 5 Nov 2026): a guest gets two keys side by side, a ghost "Log in"
+// and the volt "Sign up free", the same from the hero to the footer; a signed-in student gets one key back in. It
+// reads only who the visitor is, never the sample's state, so a reader who answers the five never sees it change its
+// label. No note line. hideAtFooter: the bar leaves as the footer's top comes up to its own height above the screen's
+// edge, so it never sits over the footer's links (ship gate, 4 Nov 2026); HeroDockGate keeps it down while the hero's
+// own keys are on screen.
 export function LandingDock() {
   const { isAuthenticated } = useAuth();
-  const finished = useSyncExternalStore(subscribeDemoState, demoFinished, () => false);
-  const way = wayIn({ signedIn: isAuthenticated, finished, released: recoveryReleased() });
+  const { dock } = wayIn({ signedIn: isAuthenticated, released: recoveryReleased() });
   return (
     <MobileDock
-      note={<span className="lp-dockmobi__line"><b className="lp-dockfree">{way.note}</b></span>}
-      label={way.dock.label}
-      href={way.dock.href}
+      note={null}
+      label={dock.primary.label}
+      href={dock.primary.href}
+      secondary={dock.secondary}
       hideAtFooter
     />
   );
