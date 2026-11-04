@@ -12,6 +12,10 @@
 // demo card, then DemoJump's instant declared jump and its two-frame correction, across a near story, from just below
 // it, from far below it and from inside its hold. The page must land on the card and stay there. The same journey in
 // real Chrome is runJump() in oneGestureBench.mjs.
+//
+// LK90 (5 Nov 2026), found with the fast-scroll hunt (runFast): a finger that drags the page into a story from outside
+// is held on the rest it came in by (it used to end on the rest nearest to how far the finger went: steps skipped), a
+// finger that turns back out is free, and a drag that stops short of a story is never touched.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
@@ -193,4 +197,60 @@ test('a fling from outside is still held on the story\'s edge (the clamp is unch
   for (const y of [END + 200, END + 60, END - 120, END - 400]) { win.scrollTo({ top: y }); frame(); }
   frames(30);
   assert.equal(win.scrollY, END, 'held on the last rest');
+});
+
+// ---------------------------------------------------------------- a finger dragging into a story (LK90, 5 Nov 2026)
+// The browser scrolls the page under a native drag on the compositor; the simulation applies each frame's finger travel
+// to wherever the page is (after any hold put it back), as Chrome does.
+function drag(perFrame, frameCount, { lift = true, fling = [] } = {}) {
+  const at = { clientX: 195, clientY: 600 };
+  win.dispatch('touchstart', { touches: [at], target: new FakeElement() });
+  for (let i = 0; i < frameCount; i += 1) {
+    at.clientY -= perFrame;
+    win.dispatch('touchmove', { touches: [at], target: new FakeElement(), cancelable: false });
+    win.scrollTo({ top: win.scrollY + perFrame });
+    frame();
+  }
+  if (!lift) return;
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  for (const step of fling) { win.scrollTo({ top: win.scrollY + step }); frame(); }
+  frames(30);
+}
+
+test('a fast drag from above into a story is held on its first rest while the finger is down, and after it lifts', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  // 600 px of finger travel at about 2400 px/s, then the fling the browser would run on after it.
+  drag(40, 15, { fling: [60, 50, 40, 30, 20, 10] });
+  assert.equal(win.scrollY, rests[0], `held on the first rest (${rests[0]}), not the nearest one to how far the finger went`);
+  assert.equal(shown, 0, 'and the story shows its first step');
+});
+
+test('a fast drag from below into a story is held on its last rest', () => {
+  placeAt(END + 360);
+  shown = 3;
+  drag(-40, 15, { fling: [-60, -50, -40, -30, -20, -10] });
+  assert.equal(win.scrollY, END);
+  assert.equal(shown, 3);
+});
+
+test('a finger held still inside the hold keeps it; a finger that turns back out is free', () => {
+  placeAt(STORY_TOP - 200);
+  drag(40, 10, { lift: false });
+  assert.equal(win.scrollY, rests[0], `held while the finger is down; moves ${moves.join(" ")}`);
+  frames(20); // the finger rests 320 ms: the settle timer must not drop the hold
+  const at = { clientX: 195, clientY: 200 };
+  for (let i = 0; i < 6; i += 1) { win.dispatch('touchmove', { touches: [at], target: new FakeElement(), cancelable: false }); win.scrollTo({ top: win.scrollY + 40 }); frame(); }
+  assert.equal(win.scrollY, rests[0], 'still held when it moves on');
+  for (let i = 0; i < 10; i += 1) { win.dispatch('touchmove', { touches: [at], target: new FakeElement(), cancelable: false }); win.scrollTo({ top: win.scrollY - 40 }); frame(); }
+  assert.ok(win.scrollY < STORY_TOP - 300, `turned back out freely (y ${win.scrollY})`);
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(30);
+  assert.ok(win.scrollY < STORY_TOP - 300, 'and stays out');
+});
+
+test('a slow drag that stops short of a story is never touched', () => {
+  placeAt(STORY_TOP - 500);
+  drag(10, 30);
+  assert.equal(win.scrollY, STORY_TOP - 200);
 });

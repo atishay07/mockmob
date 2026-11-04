@@ -7,8 +7,8 @@
 //   wheel   one burst (notches, or a trackpad swipe and its inertia tail) moves one step.
 //   keys    arrows, PageUp/Down and Space move one step per press.
 //   lock    a gesture that starts within 420 ms (120 ms under reduced motion) of a step is swallowed whole.
-//   clamp   a fling that carries the page across a story's first or last resting place from OUTSIDE is held there, so
-//           a flick never runs through a story. Exits stay free.
+//   clamp   a fling, or a finger's drag, that carries the page across a story's first or last resting place from
+//           OUTSIDE is held there, so a flick or a long swipe never runs through a story. Exits stay free.
 //   settle  a native scroll that ends inside a hold (scrollbar, Home/End, find-in-page) goes to the nearest rest.
 //   no glide: steps commit instantly. The stage's content moves with a 180-240 ms CSS transform (scroll-story.css).
 //
@@ -35,6 +35,7 @@ let g = null;                // the touch gesture in progress
 let wb = null;               // the wheel burst in progress
 let keepY = null;            // where a clamp holds the page (until the reader touches, wheels or presses a key)
 let keepStory = null;
+let keepDir = 0;             // how the clamped page came in: +1 from above, -1 from below (a finger may turn back out)
 let busyUntil = 0;           // the lock after a step
 let lastRelease = -Infinity; // when the last finger left the glass (a fling's momentum runs on after it)
 let lastY = 0;
@@ -270,23 +271,32 @@ function onKeyDown(e) {
 
 // ---------------------------------------------------------------- entry clamp and settle (from the shared scroll read)
 
-// Only a fling is clamped: the momentum of a touch that just ended, or a wheel burst still running. A scroll with no
-// such gesture behind it (the scrollbar dragged, End, find-in-page, a script's instant jump) is the reader's or the
+// A finger that is scrolling the page natively (it began outside every hold, or is leaving one). When such a drag carries
+// the page into another story's hold, that story holds it on the rest it came in by, finger down or not (5 Nov 2026,
+// LK90: a fast 600 px swipe from above the statement dragged the page 240 px into its hold before the finger lifted,
+// and the release then held the nearest rest, step 1 or 2: steps were skipped). The page is held only against going
+// further in; a finger that turns back out is free. Inside a hold the stage is sticky, so the hold itself never shows.
+const dragging = () => touches === 1 && g !== null && g.claim === 'native';
+
+// Only a gesture is clamped: a finger's drag (above), the momentum of a touch that just ended, or a wheel burst still
+// running. A scroll with no such gesture behind it (the scrollbar dragged, End, find-in-page, a script's instant jump) is the reader's or the
 // page's own choice of place, so it is never pulled back to a story's edge; if it ends inside a hold, settle() takes it
 // to the nearest rest.
 const FLING_MS = 3000;
 const flinging = () => now() - lastRelease < FLING_MS || (wb !== null && now() - wb.last < WHEEL_QUIET_MS * 2);
 
 function onFrame({ y }) {
-  if (touches === 0 && keepY === null && !bus.jumping() && flinging()) {
+  const drag = dragging();
+  if (keepY === null && !bus.jumping() && (drag || (touches === 0 && flinging()))) {
     for (const s of nearSet) {
-      if (!s.ok) continue;
+      if (!s.ok || (drag && s === g.story)) continue;
       const end = s.top + s.hold;
-      if (lastY < s.top - 1 && y >= s.top) { keepStory = s; keepY = restOf(s, 0); }
-      else if (lastY > end + 1 && y <= end) { keepStory = s; keepY = restOf(s, s.steps - 1); }
+      if (lastY < s.top - 1 && y >= s.top) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
+      else if (lastY > end + 1 && y <= end) { keepStory = s; keepY = restOf(s, s.steps - 1); keepDir = -1; }
     }
   }
-  if (keepY !== null && touches === 0 && Math.abs(y - keepY) > 1) {
+  if (keepY !== null && drag && (keepDir > 0 ? y < keepY - 1 : y > keepY + 1)) { keepY = null; keepStory = null; }
+  if (keepY !== null && (touches === 0 || drag) && Math.abs(y - keepY) > 1) {
     put(keepY);
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
@@ -296,6 +306,7 @@ function onFrame({ y }) {
 }
 
 function settle() {
+  if (dragging() && keepY !== null) return; // a finger still down keeps its hold (it may move again)
   keepY = null;
   keepStory = null;
   if (touches > 0 || (wb && now() - wb.last < WHEEL_QUIET_MS)) return;
@@ -362,6 +373,11 @@ function passiveListeners(on) {
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(measureNear);
       resizeObserver.observe(document.documentElement);
+      // The body too: on the landing <html> is one window tall, so its box never changes when the page's content
+      // does. A story's --ss-slack (written a frame after its section is first drawn) moved the tracks below by up to
+      // 200 px with nothing re-measuring, and the clamp then held the page 43 to 200 px off the first rest (5 Nov 2026,
+      // LK90, measured at 1440 on the tour and the Recovery Lab).
+      if (document.body) resizeObserver.observe(document.body);
     }
   } else {
     unsubJump?.();

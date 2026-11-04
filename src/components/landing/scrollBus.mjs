@@ -41,6 +41,10 @@ function run(t) {
   // fling across a near story and held the page on that story's edge. Now the landing frame still reads jumping(), and
   // the frame after it carries `landed`.
   if (state.dy || state.resized || landed) for (const fn of [...subs]) fn(state);
+  // A subscriber may have moved the page (the story controller holding it on a rest). The next frame's dy is measured
+  // from where the page was left, not from where it was read (LK90: a drag held on a rest moved back to the same y on
+  // the next frame read as no move at all, so that frame skipped the subscribers and the page got past the hold).
+  state.y = window.scrollY;
   jumpFrame(y);
 }
 

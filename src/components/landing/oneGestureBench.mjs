@@ -1,6 +1,6 @@
 // The one-gesture bench: real Chrome, real touch and wheel input (CDP Input.dispatch*), against the home page's held
 // stories. Used by oneGesture.test.mjs (skipped when no Chrome or no server is reachable) and by hand:
-//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|jump|fast|perf] [width=390] [stories] [warm]
+//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|wheel|jump|fast|perf] [width=390] [stories] [warm]
 //
 // Real Chrome, not chrome-headless-shell: the shell never scrolls on synthetic input (LK69 forensics). One headless
 // browser on this PC at a time: the shared lock (tmp-devslots/browser.lock) is taken before launch and dropped after.
@@ -254,8 +254,9 @@ export async function runMatrix(bench, name, { log = () => {}, reduced = false }
   // 150 ms apart: inside the 420 ms lock the second flick is swallowed (1 step); under reduced motion the lock is 120 ms, so it counts (2).
   await check('two-flicks-150ms', 1, async () => { await bench.flick(300, 3000); await sleep(150); await bench.flick(300, 3000); }, reduced ? (r) => r.delta === 2 && Math.abs(r.off) <= 2 : one);
   await check('two-flicks-700ms', 1, async () => { await bench.flick(300, 3000); await sleep(700); await bench.flick(300, 3000); }, (r) => r.delta === 2 && Math.abs(r.off) <= 2);
-  // The edges: a fling arriving from outside stops on step 0 / the last step; a fling leaving is free; a finger that
-  // is still down when it arrives is never clamped.
+  // The edges: a fling arriving from outside stops on step 0 / the last step; a fling leaving is free; a drag that ends
+  // short of a story is free. A finger that drags the page into a story is held on the rest it came in by (5 Nov 2026,
+  // LK90: a 600 px swipe from 360 px above the statement used to end on its step 1 or 2).
   const edge = async (id, from, gesture, rule) => {
     let last = null;
     const row = await steady(bench, log, id, async () => {
@@ -279,6 +280,7 @@ export async function runMatrix(bench, name, { log = () => {}, reduced = false }
   };
   const innerH = bench.height;
   await edge('enter-flick-600-6000-from-500-above', (s) => s.top - 500, () => bench.flick(600, 6000), (r, s) => r.step === 0 && Math.abs(r.y - s.rests[0]) <= 2);
+  await edge('enter-drag-600-2500-from-360-above', (s) => s.top - 360, () => bench.flick(600, 2500), (r, s) => r.step === 0 && Math.abs(r.y - s.rests[0]) <= 2);
   await edge('enter-flick-300-1200-from-200-above', (s) => s.top - 200, () => bench.flick(300, 1200), (r, s) => r.step === 0 && Math.abs(r.y - s.rests[0]) <= 2);
   await edge('enter-flick-600-6000-from-below', (s) => s.top + s.hold + 500, () => bench.flick(-600, 6000, { fromY: 120 }), (r, s) => r.step === s.steps - 1 && Math.abs(r.y - s.rests[s.steps - 1]) <= 2);
   await edge('exit-flick-300-3000-down', (s) => s.rests[s.steps - 1], () => bench.flick(300, 3000), (r, s) => r.y > s.top + s.hold + 2);
@@ -410,18 +412,22 @@ export async function record(bench, ms, gesture) {
 /**
  * Read a trace against one story's rule. kind: 'enter-down' | 'enter-up' (a fling from outside must stop on the first or
  * the last rest), 'leave-down' | 'leave-up' (a fling from the edge rest leaves freely), 'step' (one step forward).
- * Faults, each a count of frames: reversals (the page moved against the gesture by more than 3 px, other than a clamp
- * putting it back inside the hold), outside (once inside the hold, the page was seen outside it again: the stage
+ * Faults, each a count of frames: reversals (the page moved against the gesture by more than 3 px to a place outside
+ * every hold: a clamp putting the page back inside a hold, this story's or the next one's, is a put and never shows,
+ * because the stage is sticky there), outside (once inside the hold, the page was seen outside it again: the stage
  * unpinned and jumped), flashes (once inside the hold, the story showed a step other than the one it ends on), reentry
  * (a leaving fling came back into the hold), skips (a step change of more than one, or more than one change).
  */
-export function readTrace(trace, story, idx, kind, start) {
+export function readTrace(trace, story, idx, kind, start, all = [story], settled = null) {
   const top = story.top;
   const end = story.top + story.hold;
   const inside = (y) => y >= top - 2 && y <= end + 2;
+  const held = (y) => all.some((s) => y >= s.top - 2 && y <= s.top + s.hold + 2);
   const dir = kind === 'enter-down' || kind === 'leave-down' || kind === 'step' ? 1 : -1;
+  // Where the gesture ended: read after the page has been still for 400 ms (a fling held on a rest can run on past the
+  // recorded window), else the last recorded frame.
   const last = trace[trace.length - 1];
-  const final = { y: last.y, step: last.s[idx] };
+  const final = settled || { y: last.y, step: last.s[idx] };
   let reversals = 0;
   let outside = 0;
   let flashes = 0;
@@ -436,7 +442,7 @@ export function readTrace(trace, story, idx, kind, start) {
     const a = trace[i - 1];
     const b = trace[i];
     const dy = b.y - a.y;
-    if (dy * dir < -3) { if (inside(b.y) && kind !== 'leave-down' && kind !== 'leave-up') puts += 1; else reversals += 1; }
+    if (dy * dir < -3) { if (held(b.y)) puts += 1; else reversals += 1; }
     if (b.s[idx] !== a.s[idx]) { changes += 1; maxJump = Math.max(maxJump, Math.abs(b.s[idx] - a.s[idx])); }
     if (inside(b.y)) wasInside = true;
     if (kind.startsWith('enter') && wasInside && !inside(b.y)) outside += 1;
@@ -487,8 +493,9 @@ export async function runFast(bench, name, { log = () => {}, dists = [600, 1000,
       s = await bench.story(name);
       const down = kind === 'enter-down' || kind === 'leave-down' || kind === 'step';
       const trace = await record(bench, 1600, () => bench.flick(down ? d : -d, v, down ? {} : { fromY: 120 }));
-      await bench.settle(400);
-      return { id, start: y0, ...readTrace(trace, await bench.story(name), idx, kind, startStep ?? 0) };
+      const end = { y: await bench.settle(400), step: await bench.step(name) };
+      const all = await bench.stories();
+      return { id, start: y0, ...readTrace(trace, all[idx], idx, kind, startStep ?? 0, all, end), rests: all[idx].rests, trace: trace.map((f) => [f.t, f.y, f.s[idx]]) };
     });
     rows.push(row);
     log(fastLine(name, row));
@@ -513,8 +520,9 @@ export async function runWheelFast(bench, name, { log = () => {}, bursts = [[10,
       s = await bench.story(name);
       const down = kind === 'enter-down' || kind === 'leave-down' || kind === 'step';
       const trace = await record(bench, 1400, () => bench.wheel(notches, { deltaY: down ? 100 : -100, gapMs }));
-      await bench.settle(400);
-      return { id, start: y0, ...readTrace(trace, await bench.story(name), idx, kind, startStep ?? 0) };
+      const end = { y: await bench.settle(400), step: await bench.step(name) };
+      const all = await bench.stories();
+      return { id, start: y0, ...readTrace(trace, all[idx], idx, kind, startStep ?? 0, all, end), rests: all[idx].rests, trace: trace.map((f) => [f.t, f.y, f.s[idx]]) };
     });
     rows.push(row);
     log(fastLine(name, row));
@@ -571,6 +579,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
     const tally = (name, rows) => console.log(`${name}: ${rows.filter((r) => r.ok).length}/${rows.length} ok`);
     const names = () => (process.argv[5] || 'ft-story,lc').split(',');
     if (mode === 'matrix') for (const name of names()) tally(name, await runMatrix(bench, name, { log: console.log }));
+    if (mode === 'wheel') for (const name of names()) tally(name, await runWheel(bench, name, { log: console.log }));
     if (mode === 'jump') tally('jump', await runJump(bench, { log: console.log }));
     if (mode === 'fast') for (const name of names()) tally(name, await (touch ? runFast : runWheelFast)(bench, name, { log: console.log }));
     if (mode === 'perf') console.log(JSON.stringify(await runPerf(bench, { warm: process.argv[6] === 'warm' })));

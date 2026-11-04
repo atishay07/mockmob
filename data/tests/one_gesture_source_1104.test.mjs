@@ -152,6 +152,8 @@ test('the story\'s resize work is read-then-write and runs once per size change,
   const ctl = strip(CONTROLLER);
   assert.match(ctl, /contentvisibilityautostatechange/);
   assert.match(ctl, /new ResizeObserver\(measureNear\)/);
+  // (5 Nov 2026, LK90: <html> is one window tall on the landing, so the body is what grows and shrinks with the content.)
+  assert.match(ctl, /resizeObserver\.observe\(document\.body\)/);
   assert.doesNotMatch(body(ctl, 'onTouchMove'), /getBoundingClientRect|offsetHeight/);
   assert.doesNotMatch(body(ctl, 'onFrame'), /getBoundingClientRect|offsetHeight/);
 });
@@ -196,7 +198,9 @@ test('the edge clamp holds only a fling: a scrollbar drag, End or a script jump 
   const code = strip(CONTROLLER);
   assert.match(code, /const FLING_MS = 3000;/);
   assert.match(code, /const flinging = \(\) => now\(\) - lastRelease < FLING_MS \|\| \(wb !== null && now\(\) - wb\.last < WHEEL_QUIET_MS \* 2\);/);
-  assert.match(body(code, 'onFrame'), /if \(touches === 0 && keepY === null && !bus\.jumping\(\) && flinging\(\)\) \{/);
+  // (5 Nov 2026, LK90: a finger dragging the page natively into another story's hold is held too; see the next test.)
+  assert.match(body(code, 'onFrame'), /if \(keepY === null && !bus\.jumping\(\) && \(drag \|\| \(touches === 0 && flinging\(\)\)\)\) \{/);
+  assert.match(code, /const dragging = \(\) => touches === 1 && g !== null && g\.claim === 'native';/, 'a drag is a finger scrolling natively, never a script or the scrollbar');
   assert.match(body(code, 'onTouchEnd'), /lastRelease = now\(\);/);
   assert.match(body(code, 'onTouchCancel'), /lastRelease = now\(\);/);
 });
@@ -231,4 +235,17 @@ test('a tap on a jump link is not a fling, and a jump\'s landing frame still rea
   assert.doesNotMatch(css, /@keyframes lp-arrive[^@]*outline/, 'no ring in the arrival');
   assert.doesNotMatch(css, /data-arrive='true'\] \.mm-drill/, 'the near-white ring on .mm-drill is gone');
   assert.match(css, /@keyframes lp-arrive \{\s*30% \{ border-color: var\(--line-strong\); box-shadow: var\(--lp-arrive-lift\); \}\s*\}/);
+});
+
+test('a finger that drags the page into a story is held on the rest it came in by, and may turn back out (5 Nov 2026, LK90)', () => {
+  // Found with the hunt (tmp/night-1105/p4): a 600 px swipe from above the statement dragged the page 240 px into its
+  // hold before the finger lifted, and the release held the nearest rest (step 1; step 2 or 3 for longer swipes).
+  const code = strip(CONTROLLER);
+  const frame = body(code, 'onFrame');
+  assert.match(frame, /if \(!s\.ok \|\| \(drag && s === g\.story\)\) continue;/, 'never the story the finger started in (its exits stay free)');
+  assert.match(frame, /keepDir = 1;/);
+  assert.match(frame, /keepDir = -1;/);
+  assert.match(frame, /if \(keepY !== null && drag && \(keepDir > 0 \? y < keepY - 1 : y > keepY \+ 1\)\) \{ keepY = null; keepStory = null; \}/, 'a finger turning back out is free');
+  assert.match(frame, /if \(keepY !== null && \(touches === 0 \|\| drag\) && Math\.abs\(y - keepY\) > 1\) \{/);
+  assert.match(body(code, 'settle'), /if \(dragging\(\) && keepY !== null\) return;/, 'a finger still down keeps its hold');
 });
