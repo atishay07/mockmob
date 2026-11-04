@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { LOGO_B_LETTERS, LOGO_B_MOBI, LOGO_B_VIEWBOX } from '../brand/logoB.js';
 import { LOGO_DOT, LOGO_LETTER_PARTS, LOGO_LETTER_X, LOGO_MO, LOGO_MOBI_INDEX, LOGO_MOBI_PARTS, LOGO_OPEN_BOX, LOGO_OPEN_VIEWBOX, LOGO_UNFOLD, LOGO_WORD } from '../brand/logoLetters.mjs';
-import { OPENING_FIRST_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, openingGate, openingGateScript } from './openingGate.mjs';
+import { OPENING_FIRST_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, OPENING_LATE_MS, OPENING_SNAPS, OPENING_WAIT_MS, openingGate, openingGateScript } from './openingGate.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const CSS = read('../../app/opening.css');
@@ -95,8 +95,11 @@ test('the beats keep the app\'s timeline (brand_opening.dart OpeningTimeline)', 
   assert.match(css, /mo-slide 300ms cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(520ms \+ var\(--k\) \* 40ms\) both/);
   assert.match(css, /@keyframes mo-show \{ 0%, 3% \{ opacity: 0; \} 13%, 100% \{ opacity: 1; \} \}/, 'hidden until 12 % open, whole at 45 %');
   assert.match(css, /mo-glance 120ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 860ms both/, 'Mobi glances toward the word at 860');
-  assert.match(css, /mo-word-flip 280ms cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-flip-delay, 0ms\) forwards/, 'the FLIP is 280 ms');
-  assert.match(css, /mo-ground-out 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) calc\(var\(--mo-hand\) \+ 80ms\) forwards/);
+  // LK87 (5 Nov 2026, D5): the FLIP keeps its 280 ms on a gentler start and a long soft landing, and the ground clears once
+  // the word is all but home (from 120 ms, 150 ms), so the word never crosses the headline on a half-clear ground.
+  assert.match(css, /mo-word-flip 280ms cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards/, 'the FLIP is 280 ms');
+  assert.match(css, /mo-ground-out 150ms cubic-bezier\(0\.23, 1, 0\.32, 1\) calc\(var\(--mo-hand\) \+ 120ms\) forwards/);
+  assert.ok(120 + 150 <= OPENING_HAND_MS, 'the ground is clear by the landing');
   assert.match(css, /@keyframes mo-ground-out \{ to \{ opacity: 0; transform: translateY\(-4vh\); \} \}/);
   assert.match(css, /html\[data-opening='first'\] \.mo-breath \{ animation: mo-breath 320ms [^;]* 1000ms; \}/, 'first visit: the 320 ms hold breathes');
   assert.match(css, /50% \{ transform: scale\(1\.03\); \}/, 'a 3 % breath');
@@ -139,7 +142,7 @@ test('only transform, opacity and the end state animate; nothing loops', () => {
 
 // ---------- the gate (openingGate.mjs) ----------
 
-function fakeEnv({ session = null, local = null, cookie = '', referrer = '', hash = '', scrollY = 0, motion = null, reduce = false, webdriver = false, ua = 'Mozilla/5.0 Chrome/150', appView = false, storageThrows = false, navType = 'navigate' } = {}) {
+function fakeEnv({ session = null, local = null, cookie = '', referrer = '', hash = '', scrollY = 0, motion = null, reduce = false, webdriver = false, ua = 'Mozilla/5.0 Chrome/150', appView = false, storageThrows = false, navType = 'navigate', paintTiming = false, anims = null } = {}) {
   const attrs = {};
   if (motion) attrs['data-motion'] = motion;
   if (appView) attrs['data-app-view'] = '1';
@@ -147,8 +150,12 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
     style: { setProperty() {} },
     getAttribute: (k) => (k in attrs ? attrs[k] : null),
     setAttribute: (k, v) => { attrs[k] = String(v); },
+    removeAttribute: (k) => { delete attrs[k]; },
     hasAttribute: (k) => k in attrs,
   };
+  // A controllable clock and, with paintTiming, a PerformanceObserver whose paint report the test delivers by hand.
+  const clock = { now: 0 };
+  const observers = [];
   const store = (init) => {
     const m = new Map(Object.entries(init || {}));
     return { getItem: (k) => { if (storageThrows) throw new Error('blocked'); return m.has(k) ? m.get(k) : null; }, setItem: (k, v) => { if (storageThrows) throw new Error('blocked'); m.set(k, v); }, m };
@@ -156,13 +163,13 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
   const listeners = {};
   const timers = [];
   const layerAttrs = {};
-  const layer = { setAttribute: (k, v) => { layerAttrs[k] = v; }, style: { setProperty() {} }, querySelector: () => null };
+  const layer = { setAttribute: (k, v) => { layerAttrs[k] = v; }, style: { setProperty() {} }, querySelector: () => null, ...(anims ? { getAnimations: () => anims } : {}) };
   const w = {
     navigator: { webdriver, userAgent: ua },
     matchMedia: () => ({ matches: reduce }),
     location: { hash, host: 'www.mockmob.in' },
     scrollY,
-    performance: { now: () => 0, getEntriesByType: () => [{ type: navType }] },
+    performance: { now: () => clock.now, getEntriesByType: () => [{ type: navType }] },
     sessionStorage: store(session),
     localStorage: store(local),
     setTimeout: (fn, delay) => { timers.push({ fn, delay }); return timers.length; },
@@ -174,9 +181,19 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
     CustomEvent: class { constructor(type, init) { this.type = type; this.detail = init.detail; } },
   };
   const d = { documentElement: html, cookie, referrer, querySelector: (sel) => (sel === '.mo-open' ? layer : null) };
-  return { w, d, attrs, listeners, timers, layerAttrs };
+  if (paintTiming) {
+    w.PerformanceObserver = class {
+      constructor(cb) { this.cb = cb; this.on = false; observers.push(this); }
+      observe(opts) { this.opts = opts; this.on = true; }
+      disconnect() { this.on = false; }
+    };
+    w.PerformanceObserver.supportedEntryTypes = ['paint', 'largest-contentful-paint'];
+  }
+  // The browser reports the first contentful paint at `at` (ms), and this callback runs at clock.now.
+  const paint = (at) => observers.filter((o) => o.on).forEach((o) => o.cb({ getEntriesByName: (n) => (n === 'first-contentful-paint' ? [{ name: n, startTime: at }] : []) }));
+  return { w, d, attrs, listeners, timers, layerAttrs, clock, observers, paint };
 }
-const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS] };
+const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((x) => [...x]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
 const run = (opts) => { const env = fakeEnv(opts); const mode = openingGate(env.w, env.d, cfg); return { mode, ...env }; };
 
 test('the gate: first ever, then short once per session, then skip; never twice in a session', () => {
@@ -236,4 +253,103 @@ test('the inline script is self-contained and placed before the layer', () => {
   assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'), 'the gate runs before the layer is parsed');
   // A server component: no client hooks, no 'use client'.
   assert.doesNotMatch(OPENING, /'use client'|useEffect|useState/);
+});
+
+// ---------- LK87 (5 Nov 2026, D5): the clock starts on the first painted frame ----------
+// The live site first painted about 600 ms after the gate ran (a 50 ms film of www.mockmob.in at 390x844), so the blink,
+// the inked eye and the start of the pull-back played behind a blank screen. The layer now holds its first pose until the
+// browser reports the first contentful paint and starts from a rest pose picked by how long that took.
+const SESSION = { [OPENING_KEYS.ever]: '1' };
+const liveDelays = (r) => r.timers.filter((t) => !t.cleared).map((t) => t.delay);
+
+test('LK87 the layer holds its first pose until the first paint is reported, then starts its clock there', () => {
+  const r = run({ local: SESSION, paintTiming: true });
+  assert.equal(r.mode, 'short');
+  assert.ok('data-opening-hold' in r.attrs, 'held on the first pose');
+  assert.equal(r.observers.length, 1);
+  assert.deepEqual(r.observers[0].opts, { type: 'paint', buffered: true }, 'a paint that came before the observer still counts');
+  assert.deepEqual(liveDelays(r), [OPENING_WAIT_MS], 'nothing but the fallback start waits before the paint');
+  r.clock.now = 120;
+  r.paint(110);
+  assert.ok(!('data-opening-hold' in r.attrs), 'released on the paint');
+  assert.equal(r.w.__mmOpening.from, 0, 'a prompt paint plays every beat');
+  assert.equal(r.w.__mmOpening.base, 120, 'the timeline starts when it can first move');
+  assert.equal(r.w.__mmOpening.paint, 110);
+  assert.ok(liveDelays(r).includes(1000) && liveDelays(r).includes(1320), `hand-off 1000 ms and done just after 1280 ms from there (${liveDelays(r)})`);
+  const before = r.timers.length;
+  r.paint(400);
+  assert.equal(r.timers.length, before, 'it starts once');
+});
+
+test('LK87 a late paint starts from a rest pose (0, 310 or 500 ms in) and never adds the skipped beats to the wait; past the last snap the held splash dissolves', () => {
+  assert.deepEqual(OPENING_SNAPS.map((x) => [...x]), [[200, 0], [450, 310], [1100, 500]]);
+  // The rest poses: 0 before the blink (150 ms), 310 once the 160 ms blink is over and before the eye inks (320 ms), 500 the
+  // eye inked (it ends at 520) and the camera about to pull back (500 ms).
+  const css = rules(CSS);
+  assert.match(css, /animation: mo-blink 160ms [^;]* 150ms;/);
+  assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 320ms both/);
+  assert.match(css, /animation: mo-camera 500ms linear 500ms both;/);
+  for (const [late, from] of [[0, 0], [200, 0], [201, 310], [450, 310], [451, 500], [800, 500], [1100, 500]]) {
+    const anims = [{ currentTime: 0 }, { currentTime: 0 }, { currentTime: 0 }];
+    const r = run({ local: SESSION, paintTiming: true, anims });
+    r.clock.now = late;
+    r.paint(Math.max(0, late - 30));
+    const st = r.w.__mmOpening;
+    assert.equal(st.from, from, `${late} ms late starts at ${from}`);
+    assert.ok(anims.every((a) => a.currentTime === from), `${late}: every part of the layer jumps to ${from}`);
+    assert.equal(st.base, late - from);
+    assert.ok(liveDelays(r).includes(1000 - from), `${late}: the hand-off comes ${1000 - from} ms after the start (${liveDelays(r)})`);
+    assert.ok(!('data-opening-cut' in r.attrs) && !('data-opening-hold' in r.attrs));
+  }
+  const r = run({ local: SESSION, paintTiming: true });
+  r.clock.now = 1101;
+  r.paint(1000);
+  // Before, a page that painted after the opening's end showed no opening at all; now the splash it paints dissolves in
+  // 160 ms where it stands (no flight from a pose the student never saw arrive, no jump).
+  assert.ok('data-opening-late' in r.attrs && !('data-opening-cut' in r.attrs), 'past the last snap: the splash dissolves');
+  assert.ok(!('data-opening-hold' in r.attrs));
+  assert.equal(r.w.__mmOpening.phase, 'handoff');
+  assert.equal(OPENING_LATE_MS, 160);
+  assert.deepEqual(liveDelays(r), [OPENING_LATE_MS + 40]);
+  const css2 = rules(CSS);
+  assert.match(css2, /html\[data-opening-late\] \.mo-open \{ pointer-events: none; animation: mo-late-out 160ms cubic-bezier\(0\.23, 1, 0\.32, 1\) forwards; \}/);
+  assert.match(css2, /html\[data-opening-late\] \.mo-open \* \{ animation-play-state: paused !important; \}/, 'every part stays still while it dissolves');
+  assert.match(css2, /\[data-opening-late\] \.mm-nav \.logo-b \{ animation: none; \}/, 'the bar logo is simply there under it');
+});
+
+test('LK87 a tap while the layer holds skips to the hand-off; without paint timing it starts at once, as before', () => {
+  const r = run({ local: SESSION, paintTiming: true });
+  r.listeners.pointerdown();
+  assert.ok('data-opening-cut' in r.attrs && !('data-opening-hold' in r.attrs));
+  assert.equal(r.w.__mmOpening.phase, 'handoff');
+  r.paint(100);
+  assert.equal(r.w.__mmOpening.phase, 'handoff', 'a paint after the skip changes nothing');
+  const plain = run({ local: SESSION });
+  assert.ok(!('data-opening-hold' in plain.attrs), 'no paint timing: no hold');
+  assert.ok(liveDelays(plain).includes(1000) && liveDelays(plain).includes(1320));
+  // No paint report within OPENING_WAIT_MS: it starts from the top anyway.
+  const quiet = run({ local: SESSION, paintTiming: true });
+  quiet.clock.now = OPENING_WAIT_MS;
+  quiet.timers.find((t) => t.delay === OPENING_WAIT_MS).fn();
+  assert.ok(!('data-opening-hold' in quiet.attrs));
+  assert.equal(quiet.w.__mmOpening.from, 0);
+});
+
+test('LK87 CSS: the hold pauses every part; the word lands whole in Night and the bar logo appears on its landing, on the word\'s own clock', () => {
+  const css = rules(CSS);
+  assert.match(css, /html\[data-opening-hold\] \.mo-open,\s*html\[data-opening-hold\] \.mo-open \* \{ animation-play-state: paused !important; \}/);
+  assert.match(css, /html\[data-opening-flip\] \.mo-word \{\s*animation: mo-word-flip 280ms cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards;\s*\}/, 'Night: no fade, it lands');
+  assert.match(css, /html\[data-theme='light'\]\[data-opening-flip\] \.mo-word \{[^}]*mo-word-fade 120ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 100ms\) forwards/, 'Day: the warm-white word dissolves on the dark ground before the cream shows');
+  assert.match(css, /html\[data-theme='light'\] \.mo-open__ground \{ animation-duration: 130ms; animation-delay: calc\(var\(--mo-hand\) \+ 150ms\); \}/, 'Day: the cream comes after the word has gone');
+  const bar = String.raw`html:is\(\[data-opening='first'\], \[data-opening='short'\]\)`;
+  assert.match(css, new RegExp(String.raw`${bar} \.mm-nav \.logo-b \{ animation: mo-bar-wait 1ms linear 6000ms both; \}`), 'hidden under the layer, shown by 6 s whatever happens');
+  // Every rule that times the landing has its own animation name, so its delay counts from when it applies (the flip or
+  // the skip), never from the gate: the 5 Nov replay of an 800 ms hold showed the bar logo early when the names were shared.
+  for (const name of ['mo-bar-wait', 'mo-bar-in', 'mo-bar-in-cut', 'mo-word-fade', 'mo-word-flip', 'mo-word-flip-cut', 'mo-word-fade-cut']) assert.ok(css.includes(`@keyframes ${name} {`), name);
+  assert.doesNotMatch(css.slice(css.indexOf("html[data-theme='light'][data-opening-flip] .mo-word")).split('}')[0], /mo-word-out/, 'the Day flip fade is not the no-script fade');
+  assert.match(css, new RegExp(String.raw`${bar}\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 1ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 280ms\) both; \}`), 'Night: on the landing');
+  assert.match(css, new RegExp(String.raw`${bar}\[data-theme='light'\]\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 130ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 150ms\) both; \}`), 'Day: the ink logo comes up with the cream, ending on the landing');
+  assert.match(css, new RegExp(String.raw`${bar}\[data-opening-cut\] \.mm-nav \.logo-b \{ animation: mo-bar-in-cut 1ms linear 280ms both; \}`));
+  assert.match(css, /@keyframes mo-bar-in \{ from \{ opacity: 0; \} to \{ opacity: 1; \} \}/);
+  assert.match(openingGateScript(), /"snaps":\[\[200,0\],\[450,310\],\[1100,500\]\],"wait":3000/);
 });

@@ -19,8 +19,17 @@
   color: var(--ink);
   text-wrap: balance;
 }
-/* The accent is weight, not colour: the words that carry it sit heavier in ink (no highlighter). */
-.lp-statement__w[data-accent] { color: var(--ink); font-weight: var(--fw-display, 800); }
+/* The accent is the brand green again (owner decision LK86, 5 Nov 2026; it reverses the 4 Nov "accent is weight, not
+   colour" rule for the statement only): the words marked * in homeCopy STATEMENT ("where", "tonight", "shortlist") are
+   true volt #D2F000 in Night and a deep olive in Day that holds 7.5:1 on the paper; every other word is ink. Colour on
+   the letters, never a highlighter, a glow or a wash. The accent keeps the statement's own weight: colour carries it
+   now, and a heavier green word would shout. The token lives here, on the statement, so no other text can pick it up. */
+.mm.lp .lp-statement { --statement-accent: #d2f000; }
+html[data-theme='light'] .mm.lp .lp-statement { --statement-accent: #3f5200; }
+.lp-statement__w[data-accent] { color: var(--statement-accent, var(--ink)); }
+.lp-statement__mark { color: var(--ink); }
+/* On the scrub, an accent word arrives dim in ink like the rest, and turns green once it is lit (the last third of its
+   slice), so the colour lands as each clause completes, never ahead of it. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .lp-statement__w {
@@ -30,9 +39,18 @@
       animation-range-start: cover calc(12% + var(--p) * 26%);
       animation-range-end: cover calc(18% + var(--p) * 26%);
     }
+    .lp-statement__w[data-accent] {
+      animation-name: lp-word-accent;
+      animation-range-end: cover calc(21% + var(--p) * 26%);
+    }
   }
 }
 @keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
+@keyframes lp-word-accent {
+  from { opacity: 0.18; color: var(--ink); }
+  66% { opacity: 1; color: var(--ink); }
+  to { opacity: 1; color: var(--statement-accent, var(--ink)); }
+}
 
 /* The statement's own story shell: the held story's track and stage are plain blocks wherever the story is not
    held (whatever data-pinned says before the page hydrates), so a wide window never reserves a story's height. */
@@ -81,6 +99,19 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='1'], [data-step='2'], [data-step='3']) .lp-statement__w[data-ph='1'],
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='2'], [data-step='3']) .lp-statement__w[data-ph='2'],
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-statement__w[data-ph='3'] { opacity: 1; }
+  /* The green words (LK86): dim and in ink until their clause is lit, then they light up and warm to green just after
+     (the colour follows the word's own fade by 200 ms). Stepping back, the colour leaves with the light, at once. */
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w[data-accent] {
+    color: var(--ink);
+    transition: opacity 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms), color 200ms ease;
+  }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w[data-accent][data-ph='0'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='1'], [data-step='2'], [data-step='3']) .lp-statement__w[data-accent][data-ph='1'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='2'], [data-step='3']) .lp-statement__w[data-accent][data-ph='2'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-statement__w[data-accent][data-ph='3'] {
+    color: var(--statement-accent, var(--ink));
+    transition: opacity 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms), color 420ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms + 200ms);
+  }
 
   /* The shelf: low and dim until the last step, then each object lifts onto its mark 90 ms after the one before
      (and drops back in the opposite order when the reader steps back). */

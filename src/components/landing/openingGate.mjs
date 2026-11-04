@@ -18,6 +18,17 @@
 // it is a pure translate plus scale) while the ground fades and lifts. Every visual step is CSS (opening.css) and ends
 // on visibility:hidden by itself; this script only measures the FLIP, handles a skip and says when it is done:
 // window event 'mm:opening' with detail { phase: 'handoff' | 'done', mode }, and window.__mmOpening for late readers.
+//
+// The clock starts on the layer's first painted frame (LK87, 5 Nov 2026), not when this script runs. The live site
+// first painted about 600 ms after the script on a fast desktop (the page's scripts hold the first frame), so the
+// blink, the inked eye and the start of the pull-back used to play unseen and a phone joined the opening half way.
+// Now the layer waits on its first pose ("mo" at 2.2x, html[data-opening-hold] pauses every part) until the browser
+// reports the first contentful paint, then starts from a rest pose chosen by how long the paint took (OPENING_SNAPS):
+// at once from 0, from 310 ms (after the first blink, before the eye inks) or from 500 ms (the camera's start), so a
+// slow first paint never adds the skipped beats to the wait. A paint later than the last snap dissolves the held
+// splash in OPENING_LATE_MS: a student who has already waited is not held for a brand moment (before, a page that painted
+// after the opening's end showed no opening at all). Without paint timing (or if no paint is reported within
+// OPENING_WAIT_MS) it starts at once, as before.
 
 /** The whole opening on a first-ever visit, ms from first paint (L-043: logo B, about 1.3 to 1.6 s, skippable). */
 export const OPENING_FIRST_MS = 1600;
@@ -29,6 +40,17 @@ export const OPENING_HAND_MS = 280;
 export const OPENING_KEYS = Object.freeze({ ever: 'mm:opened:v1', session: 'mm:opening:v1' });
 /** The inputs that skip to the hand-off. */
 export const OPENING_SKIP_EVENTS = Object.freeze(['pointerdown', 'touchstart', 'wheel', 'keydown']);
+/**
+ * Where the clock starts when the first paint came late: [paint later than this many ms after the script, start the
+ * timeline at this ms]. Each start is a rest pose (nothing is mid-motion there): 0 the "mo" before the blink, 310 the
+ * blink done and the eye still empty, 500 the eye inked and the camera about to pull back. Past the last row the
+ * held splash dissolves (OPENING_LATE_MS).
+ */
+export const OPENING_SNAPS = Object.freeze([[200, 0], [450, 310], [1100, 500]]);
+/** The longest the layer waits on its first pose for a paint report before it starts anyway. */
+export const OPENING_WAIT_MS = 3000;
+/** A first paint past the last snap: the held splash dissolves this fast (opening.css html[data-opening-late]). */
+export const OPENING_LATE_MS = 160;
 
 // Written in plain ES2017 with no outside references: OpeningMo.jsx inlines it as `(${openingGate})(window, document, cfg)`.
 export function openingGate(w, d, cfg) {
@@ -64,9 +86,13 @@ export function openingGate(w, d, cfg) {
   st.t0 = t0;
   st.hand = total - cfg.hand;
   st.end = total;
+  // `base` is the performance.now() of the timeline's 0 ms: t0 until the clock starts on the first paint (start below).
+  var base = t0;
+  st.base = base;
+  st.from = 0;
   var timers = [];
   var later = function (fn, ms) { timers.push(w.setTimeout(fn, Math.max(0, ms))); };
-  var now = function () { return w.performance.now() - t0; };
+  var now = function () { return w.performance.now() - base; };
   var layer = function () { return d.querySelector('.mo-open'); };
   var emit = function (phase) {
     st.phase = phase;
@@ -90,7 +116,11 @@ export function openingGate(w, d, cfg) {
     html.setAttribute('data-opening-flip', '');
     return true;
   };
-  var off = function () { for (var i = 0; i < cfg.events.length; i++) w.removeEventListener(cfg.events[i], cut, true); };
+  var po = null;
+  var off = function () {
+    for (var i = 0; i < cfg.events.length; i++) w.removeEventListener(cfg.events[i], cut, true);
+    if (po) { try { po.disconnect(); } catch (e) { /* gone */ } po = null; }
+  };
   var done = function () {
     off();
     for (var i = 0; i < timers.length; i++) w.clearTimeout(timers[i]);
@@ -107,11 +137,22 @@ export function openingGate(w, d, cfg) {
     st.cutAt = now();
     for (var i = 0; i < timers.length; i++) w.clearTimeout(timers[i]);
     timers = [];
+    html.removeAttribute('data-opening-hold');
     html.setAttribute('data-opening-cut', '');
     flip(0);
     handoff();
     later(done, cfg.hand + 40);
   }
+  // A first paint later than the last snap: the held splash dissolves where it stands (opening.css
+  // html[data-opening-late], cfg.late ms) and the page is there, with no flight and no jump to another pose.
+  var dissolve = function () {
+    for (var i = 0; i < timers.length; i++) w.clearTimeout(timers[i]);
+    timers = [];
+    html.setAttribute('data-opening-late', '');
+    html.removeAttribute('data-opening-hold');
+    handoff();
+    later(done, cfg.late + 40);
+  };
   for (var i = 0; i < cfg.events.length; i++) w.addEventListener(cfg.events[i], cut, { capture: true, passive: true });
   // The bar logo is parsed just after the layer: measure it on the first frames, before the hand-off starts.
   var tries = 0;
@@ -121,14 +162,58 @@ export function openingGate(w, d, cfg) {
     tries += 1;
     if (tries < 90 && now() < st.hand - 16) w.requestAnimationFrame(seek);
   };
-  w.requestAnimationFrame(seek);
-  later(handoff, st.hand);
-  later(done, st.end + 40);
+  // The clock starts once the first frame has been painted (`paintAt`, the paint's performance.now() time; null: no
+  // paint report, start from the top). How late is measured to now, not to the paint: the layer can only move once this
+  // callback runs, and a student who looked at the still "mo" while the page's scripts ran has waited that long too.
+  var started = false;
+  var start = function (paintAt) {
+    if (started || st.phase !== 'run') return;
+    started = true;
+    if (paintAt != null) st.paint = Math.round(paintAt - t0);
+    var late = paintAt == null ? 0 : Math.max(0, w.performance.now() - t0);
+    var from = 0;
+    if (late > 0) {
+      var snaps = cfg.snaps || [[Infinity, 0]];
+      from = -1;
+      for (var k = 0; k < snaps.length; k++) if (late <= snaps[k][0]) { from = snaps[k][1]; break; }
+    }
+    st.late = Math.round(late);
+    if (from < 0) { dissolve(); return; }
+    if (from > 0) {
+      // Every part of the layer jumps to the same rest pose while it is still held, so nothing is seen to skip.
+      try {
+        var anims = layer().getAnimations({ subtree: true });
+        for (var a = 0; a < anims.length; a++) anims[a].currentTime = from;
+      } catch (e) { from = 0; }
+    }
+    st.from = from;
+    base = w.performance.now() - from;
+    st.base = base;
+    html.removeAttribute('data-opening-hold');
+    w.requestAnimationFrame(seek);
+    later(handoff, st.hand - now());
+    later(done, st.end + 40 - now());
+  };
+  html.setAttribute('data-opening-hold', '');
+  try {
+    var types = (w.PerformanceObserver && w.PerformanceObserver.supportedEntryTypes) || [];
+    if (types.indexOf('paint') >= 0) {
+      po = new w.PerformanceObserver(function (list) {
+        var fcp = list.getEntriesByName('first-contentful-paint')[0];
+        if (fcp) start(fcp.startTime);
+      });
+      po.observe({ type: 'paint', buffered: true });
+    }
+  } catch (e) { po = null; }
+  if (po) later(function () { start(null); }, cfg.wait);
+  else start(null);
   return mode;
 }
 
 /** The inline script OpeningMo.jsx renders (before its layer). */
 export function openingGateScript() {
-  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS] };
-  return `(${openingGate.toString()})(window,document,${JSON.stringify(cfg)})`;
+  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((s) => [...s]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
+  // Every visitor downloads it in the HTML: whole-line comments and indentation stay in this file, not in the page.
+  const source = openingGate.toString().replace(/^[ \t]*\/\/.*\r?\n/gm, '').replace(/^[ \t]+/gm, '');
+  return `(${source})(window,document,${JSON.stringify(cfg)})`;
 }

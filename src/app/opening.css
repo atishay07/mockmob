@@ -30,13 +30,24 @@ html[data-opening-cut] .mo-open { pointer-events: none; }
 @keyframes mo-gone { to { visibility: hidden; pointer-events: none; } }
 @keyframes mo-gone-cut { to { visibility: hidden; pointer-events: none; } }
 
-/* ---- the ground: fades with a 4vh lift, from 80 ms into the hand-off (200 ms) ---- */
+/* ---- the hold (LK87, 5 Nov): until the browser reports the layer's first painted frame, every part waits on its first
+   pose, so no beat plays unseen behind a page that has not painted yet. openingGate.mjs then starts the clock (from a
+   rest pose when the paint came late) by removing data-opening-hold; it never holds longer than OPENING_WAIT_MS. ---- */
+html[data-opening-hold] .mo-open,
+html[data-opening-hold] .mo-open * { animation-play-state: paused !important; }
+
+/* ---- the ground: fades with a 4vh lift once the word is all but home (from 120 ms into the hand-off, 150 ms, done 10 ms
+   before the landing), so the page opens under a word that has already cleared the headline: the word never crosses
+   the h1 on a half-clear ground (LK87, the 5 Nov film showed it over "One mock." at 50 ms into the old fade). ---- */
 .mo-open__ground {
   position: absolute;
   inset: 0;
   background: #12110e;
-  animation: mo-ground-out 200ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--mo-hand) + 80ms) forwards;
+  animation: mo-ground-out 150ms cubic-bezier(0.23, 1, 0.32, 1) calc(var(--mo-hand) + 120ms) forwards;
 }
+/* Day: the warm-white word has to be gone before the cream shows, or it sits over the ink logo as a ghost; the ground
+   holds 30 ms longer and clears faster (from 150 ms, 130 ms) while the word dissolves on the dark (100 to 220 ms). */
+html[data-theme='light'] .mo-open__ground { animation-duration: 130ms; animation-delay: calc(var(--mo-hand) + 150ms); }
 @keyframes mo-ground-out { to { opacity: 0; transform: translateY(-4vh); } }
 @keyframes mo-ground-cut { to { opacity: 0; transform: translateY(-4vh); } }
 
@@ -52,14 +63,22 @@ html[data-opening-cut] .mo-open { pointer-events: none; }
   /* Without a measured bar logo (no script) the word simply fades out, as the app's does (120 ms). */
   animation: mo-word-out 120ms linear var(--mo-hand) forwards;
 }
-/* With the bar logo measured (the gate's --mo-fx/--mo-fy/--mo-fs on <html>), the word flies onto it and fades with the
-   ground (from 80 ms, 160 ms), so on Day its warm white never sits over the dark bar logo as a ghost. */
+/* With the bar logo measured (the gate's --mo-fx/--mo-fy/--mo-fs on <html>), the word flies onto it and lands (LK87):
+   a gentle start and a long soft arrival (the sheet curve), whole all the way in Night, where the word and the bar logo are
+   the same drawing in the same colours, so the swap at the landing cannot be seen. The bar logo waits hidden until then
+   (the bar logo rules below): there is never a second logo on screen while the word is in the air. In Day the bar's
+   letters are ink, so the warm-white word dissolves on the dark ground as it nears the bar (100 to 220 ms) and the ink
+   logo comes up with the cream page (150 to 280 ms). */
 html[data-opening-flip] .mo-word {
+  animation: mo-word-flip 280ms cubic-bezier(0.32, 0.72, 0, 1) var(--mo-flip-delay, 0ms) forwards;
+}
+html[data-theme='light'][data-opening-flip] .mo-word {
   animation:
-    mo-word-flip 280ms cubic-bezier(0.23, 1, 0.32, 1) var(--mo-flip-delay, 0ms) forwards,
-    mo-word-out 160ms linear calc(var(--mo-flip-delay, 0ms) + 80ms) forwards;
+    mo-word-flip 280ms cubic-bezier(0.32, 0.72, 0, 1) var(--mo-flip-delay, 0ms) forwards,
+    mo-word-fade 120ms linear calc(var(--mo-flip-delay, 0ms) + 100ms) forwards;
 }
 @keyframes mo-word-out { to { opacity: 0; } }
+@keyframes mo-word-fade { to { opacity: 0; } }
 @keyframes mo-word-fade-cut { to { opacity: 0; } }
 @keyframes mo-word-flip { to { transform: translate(var(--mo-fx, 0px), var(--mo-fy, 0px)) scale(var(--mo-fs, 1)); } }
 @keyframes mo-word-flip-cut { to { transform: translate(var(--mo-fx, 0px), var(--mo-fy, 0px)) scale(var(--mo-fs, 1)); } }
@@ -178,11 +197,13 @@ html[data-opening='first'] .mo-eyes__lid {
 /* ---- a skip (any pointerdown, touchstart, wheel or keydown while it runs): every part jumps to the composed word
    and the hand-off starts now. New animation names, so each starts from the moment of the skip. ---- */
 html[data-opening-cut] .mo-open { animation: mo-gone-cut 1ms linear 280ms forwards; }
-html[data-opening-cut] .mo-open .mo-open__ground { animation: mo-ground-cut 200ms cubic-bezier(0.23, 1, 0.32, 1) 80ms forwards; }
-html[data-opening-cut] .mo-open .mo-word {
+html[data-opening-cut] .mo-open .mo-open__ground { animation: mo-ground-cut 150ms cubic-bezier(0.23, 1, 0.32, 1) 120ms forwards; }
+html[data-theme='light'][data-opening-cut] .mo-open .mo-open__ground { animation: mo-ground-cut 130ms cubic-bezier(0.23, 1, 0.32, 1) 150ms forwards; }
+html[data-opening-cut] .mo-open .mo-word { animation: mo-word-flip-cut 280ms cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+html[data-theme='light'][data-opening-cut] .mo-open .mo-word {
   animation:
-    mo-word-flip-cut 280ms cubic-bezier(0.23, 1, 0.32, 1) forwards,
-    mo-word-fade-cut 160ms linear 80ms forwards;
+    mo-word-flip-cut 280ms cubic-bezier(0.32, 0.72, 0, 1) forwards,
+    mo-word-fade-cut 120ms linear 100ms forwards;
 }
 html[data-opening-cut] .mo-open .mo-breath,
 html[data-opening-cut] .mo-open .mo-cam,
@@ -196,18 +217,40 @@ html[data-opening-cut] .mo-open .mo-eyes__full,
 html[data-opening-cut] .mo-open .mo-eyes__ink { animation: none; opacity: 0; }
 html[data-opening-cut] .mo-open .mo-eyes__small { animation: none; opacity: 1; }
 
+/* ---- a first paint past the last snap (LK87): the held splash dissolves where it stands in 160 ms (OPENING_LATE_MS),
+   every part still, and the bar logo is simply there under it. No flight, no jump to another pose. ---- */
+html[data-opening-late] .mo-open { pointer-events: none; animation: mo-late-out 160ms cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+html[data-opening-late] .mo-open * { animation-play-state: paused !important; }
+@keyframes mo-late-out { to { opacity: 0; visibility: hidden; } }
+
+/* ---- the bar logo (LK87): hidden under the layer while the opening runs and shown the moment the word lands on it, on
+   the word's own clock (the FLIP's --mo-flip-delay, or the skip). Night swaps in one frame (the same drawing); Day
+   brings the ink logo up with the cream (150 to 280 ms), after the white word has gone. A 6 s fallback shows it whatever happens; from
+   data-opening='done' on none of this applies. Each rule has its own animation name, so each starts its own clock when
+   it applies (a delay changed on a running animation of the same name would count from the gate, not from the flip). ---- */
+html:is([data-opening='first'], [data-opening='short']) .mm-nav .logo-b { animation: mo-bar-wait 1ms linear 6000ms both; }
+html:is([data-opening='first'], [data-opening='short'])[data-opening-flip] .mm-nav .logo-b { animation: mo-bar-in 1ms linear calc(var(--mo-flip-delay, 0ms) + 280ms) both; }
+html:is([data-opening='first'], [data-opening='short'])[data-theme='light'][data-opening-flip] .mm-nav .logo-b { animation: mo-bar-in 130ms linear calc(var(--mo-flip-delay, 0ms) + 150ms) both; }
+html:is([data-opening='first'], [data-opening='short'])[data-opening-cut] .mm-nav .logo-b { animation: mo-bar-in-cut 1ms linear 280ms both; }
+html:is([data-opening='first'], [data-opening='short'])[data-theme='light'][data-opening-cut] .mm-nav .logo-b { animation: mo-bar-in-cut 130ms linear 150ms both; }
+html:is([data-opening='first'], [data-opening='short'])[data-opening-late] .mm-nav .logo-b { animation: none; }
+@keyframes mo-bar-wait { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mo-bar-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mo-bar-in-cut { from { opacity: 0; } to { opacity: 1; } }
+
 /* Reduced motion never draws it (the gate already skips; this holds even if the setting changes mid-load). */
 @media (prefers-reduced-motion: reduce) {
   .mo-open { display: none !important; }
 }
 html[data-motion='reduced'] .mo-open { display: none !important; }
 
-/* ==== The typed headline line (HeroTyped.jsx; LK74, decision 7) ====
+/* ==== The typed headline line (HeroTyped.jsx; LK74, decision 7; refined 5 Nov for LK87) ====
    The slot is an inline grid: the three phrases are stacked in it as invisible sizers (generated text, never DOM
    text), so its box is the widest phrase from the server's first paint on and typing moves nothing (CLS 0). The live
-   text sits over them. Only opacity and transform animate: letters fade in (60 ms), the select-back wash scales from
-   the line's end, and the caret is a solid ink bar (never volt) that never blinks while the text is static: it blinks
-   twice after the final letter and leaves, once per page view. */
+   text sits over them as one run. Letters land whole, as a caret types them; only opacity and transform animate: the
+   select-back wash scales from the line's end, and the caret is an ink bar (never volt) that is solid while it types,
+   gives way to the selection, blinks like a text field's while a phrase holds (three finite cycles) and, after the
+   final letter, blinks twice and leaves, once per page view. Its blinks fade over 50 ms rather than cut. */
 .lp-typed__slot {
   display: inline-grid;
   vertical-align: baseline;
@@ -221,10 +264,9 @@ html[data-motion='reduced'] .mo-open { display: none !important; }
 .lp-typed__sizer { visibility: hidden; pointer-events: none; }
 .lp-typed__sizer::before { content: attr(data-t); }
 .lp-typed__live { position: relative; isolation: isolate; }
-.lp-typed__ch { animation: lp-typed-in 60ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-@keyframes lp-typed-in { from { opacity: 0; } }
 
-/* Select-back: a wash of ink at 14 % grows from the line's end to its start (220 ms), behind the letters. */
+/* Select-back: a wash of ink at 14 % grows from the line's end to its start (180 ms), behind the letters, the way a
+   selection does; the caret gives way to it. */
 .lp-typed__live[data-wash]::after {
   content: '';
   position: absolute;
@@ -233,26 +275,35 @@ html[data-motion='reduced'] .mo-open { display: none !important; }
   border-radius: 0.06em;
   background: color-mix(in srgb, var(--ink) 14%, transparent);
   transform-origin: 100% 50%;
-  animation: lp-typed-wash 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: lp-typed-wash 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 @keyframes lp-typed-wash { from { transform: scaleX(0); } }
+.lp-typed__live[data-wash] .lp-typed__caret { animation: none; opacity: 0; }
 
 .lp-typed__caret {
   display: inline-block;
   width: 0.075em;
   height: 0.78em;
-  margin-left: 0.04em;
+  margin-left: 0.06em;
   vertical-align: -0.02em;
   border-radius: 1px;
   background: currentColor;
 }
 .lp-typed__caret--in { animation: lp-caret-in 100ms linear both; }
 @keyframes lp-caret-in { from { opacity: 0; } }
+/* A phrase holding: solid for 530 ms after its last letter, then 530 off, 530 on, three cycles at most (the hold ends
+   first and the selection takes it). */
+.lp-typed__caret--idle { animation: lp-caret-idle 1060ms linear 530ms 3 both; }
+@keyframes lp-caret-idle {
+  0%, 45.3% { opacity: 1; }
+  50%, 95.3% { opacity: 0; }
+  100% { opacity: 1; }
+}
 /* After the final letter: 530 on, 530 off, 530 on, then out in 160 ms (1,750 ms; iteration count 1). */
 .lp-typed__caret--end { animation: lp-caret-end 1750ms linear forwards; }
 @keyframes lp-caret-end {
-  0%, 30.28% { opacity: 1; }
-  30.29%, 60.57% { opacity: 0; }
-  60.58%, 90.85% { opacity: 1; }
+  0%, 27.43% { opacity: 1; }
+  30.29%, 57.71% { opacity: 0; }
+  60.57%, 90.86% { opacity: 1; }
   100% { opacity: 0; }
 }

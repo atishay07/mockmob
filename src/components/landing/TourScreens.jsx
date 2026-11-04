@@ -217,9 +217,13 @@ export function RadarScreen({ play }) {
   );
 }
 
-// ---------- 5. PrepOS ----------
-// Your question lands, Mobi types for a beat, then the reply and its three steps line up.
-const PREP_T = [40, 160, ...lineUp(5, 420)];
+// ---------- 5. PrepOS (Ask Mobi) ----------
+// The real Ask Mobi moment (LK87, 5 Nov): your question is sent (it rises from its tail corner), Mobi reads your record
+// for a beat with the panel's own pending line ("Reading your record for tonight", AskMobiPanel, his eyes running along
+// it), then the reply opens around him where he already sits, its three steps line up and the two quick replies come
+// last. The reply's room is reserved from the first frame, so nothing below moves. This screen takes about 1.4 s, not
+// the tour's usual 600 ms: the beat of reading is the moment, and the reply is its flourish.
+const PREP_T = [60, 300, 860, 920, 975, 1030, 1140];
 const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-read the two you changed'], ['Tomorrow', 'One timed half mock']];
 export function PrepOSScreen({ play }) {
   const step = useSteps(play, PREP_T);
@@ -227,7 +231,7 @@ export function PrepOSScreen({ play }) {
     <Frame title="Ask Mobi" step={step} right={<span className="ts__badge">Your record</span>}>
       <p className="ts__bubble ts__bubble--me" data-in={on(step >= 1)}>What should I do tonight?</p>
       <div className="ts__reply">
-        {step === 2 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
+        <p className="ts__reading" data-in={on(step === 2)} aria-hidden="true"><span className="ts__mobi" aria-hidden="true"><i /><i /></span>Reading your record for tonight</p>
         <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 3)}>
           <p className="ts__ai-head"><span className="ts__mobi" aria-hidden="true"><i /><i /></span><b>Mobi</b><small>from your last 3 mocks</small></p>
           <p>Retirement in Accountancy cost you the most this week. Tonight:</p>

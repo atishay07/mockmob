@@ -111,28 +111,38 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__bars em { font: 700 .7rem var(--font-body); font-style: normal; text-align: right; color: var(--ts-ink2); }
 .ts__flag { padding: .08rem .4rem; border-radius: 99px; background: rgba(255,122,102,.18); color: var(--ts-bad); font: 700 .62rem var(--font-body); }
 
-/* 5. PrepOS */
+/* 5. PrepOS (Ask Mobi; LK87, 5 Nov): a real exchange. The question is sent from its tail corner, Mobi reads your record with
+   the panel's own pending line while his eyes run along it, then the reply opens around him where he already sits (the
+   reading line and the reply's head share his place, so he never jumps), the steps line up and the quick replies come last. */
 .ts__bubble { margin: 0; max-width: 88%; font-size: .78rem; line-height: 1.4; }
-.ts__bubble--me { align-self: flex-end; min-height: 1.95rem; padding: .45rem .7rem; border-radius: 14px 14px 4px 14px; background: rgba(244,240,230,.16); color: var(--ts-ink); font-weight: 700; }
-.ts__typing { align-self: flex-start; display: flex; gap: 4px; margin: 0; padding: .55rem .7rem; border-radius: 14px; background: rgba(255,255,255,.06); }
-.ts__typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--ts-ink2); animation: ts-dot 1s ease-in-out infinite; }
-.ts__typing i:nth-child(2) { animation-delay: .15s; }
-.ts__typing i:nth-child(3) { animation-delay: .3s; }
+.ts__bubble--me { align-self: flex-end; min-height: 1.95rem; padding: .45rem .7rem; border-radius: 14px 14px 4px 14px; background: rgba(244,240,230,.16); color: var(--ts-ink); font-weight: 700;
+  transform-origin: 100% 100%; }
+.ts .ts__bubble--me[data-in] { transition: opacity 180ms var(--ts-ease), transform 320ms var(--ts-ease); }
+.ts .ts__bubble--me[data-in='false'] { transform: translateY(10px) scale(.94); }
 .ts__bubble--ai { align-self: flex-start; padding: .6rem .7rem; border-radius: 14px 14px 14px 4px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.05); }
 .ts__bubble--ai p { margin: 0; }
 .ts__bubble--ai ol { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .35rem; }
 .ts__bubble--ai li { display: flex; gap: .55rem; font-size: .74rem; color: var(--ts-ink); }
 .ts__bubble--ai li b { flex: 0 0 4.4rem; font: 700 .68rem var(--font-body); color: var(--ts-ink2); padding-top: .05rem; }
 
-/* The reply slot keeps its height while Mobi is typing, so nothing below it jumps. */
+/* The reply slot keeps its height from the first frame, so nothing below it moves. */
 .ts__reply { position: relative; display: grid; }
-.ts__reply .ts__typing { position: absolute; top: 0; left: 0; }
-.ts__reply .ts__bubble--ai { max-width: 100%; }
+.ts__reply .ts__bubble--ai { max-width: 100%; transform-origin: 0 0; }
+/* The reply opens in place (a fade and a 1.5 % grow from its top-left, no rise), so Mobi stays where he was reading. */
+.ts .ts__reply .ts__bubble--ai[data-in] { transition: opacity 260ms var(--ts-ease), transform 320ms var(--ts-ease); }
+.ts .ts__reply .ts__bubble--ai[data-in='false'] { transform: scale(.985); }
 .ts__bubble--ai .ts__ai-head { display: flex; align-items: center; gap: .4rem; margin: 0 0 .45rem; font-size: .68rem; color: var(--ts-ink2); }
 .ts__bubble--ai .ts__ai-head b { color: var(--ts-ink); font-size: .74rem; }
+/* Reading: the same inset as the reply's head (its padding plus its 1 px border), so his face is in the same place. */
+.ts__reading { position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: .4rem; margin: 0; padding: calc(.6rem + 1px) calc(.7rem + 1px); font: 600 .68rem var(--font-body); color: var(--ts-ink2); white-space: nowrap; pointer-events: none; }
+.ts .ts__reading[data-in] { transition: opacity 200ms var(--ts-ease) 40ms, transform 280ms var(--ts-ease); }
+.ts .ts__reading[data-in='false'] { transform: translateY(4px); transition: opacity 120ms ease, transform 0s 120ms; }
+.ts__reading[data-in='true'] .ts__mobi i { animation: ts-read 560ms ease-in-out 120ms both; }
 /* Mobi, as small as he gets: the logo's volt face with two eyes that blink now and then. */
 .ts__mobi { display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex: 0 0 20px; width: 20px; height: 20px; border-radius: 7px; background: var(--ts-volt); }
 .ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; animation: ts-eyes 4.2s ease-in-out infinite; }
+/* The steps and the quick replies arrive on a shorter rise than the tour's default. */
+.ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
 .ts__replies span { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .65rem; border-radius: 99px; border: 1px solid var(--ts-line); font: 700 .68rem var(--font-body); color: var(--ts-ink); }
 .ts__replies span[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
@@ -199,7 +209,8 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 @keyframes ts-pop { 0% { transform: scale(.82); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes ts-flip { 0% { transform: rotateX(90deg); } 100% { transform: none; } }
 @keyframes ts-tap { 0% { opacity: .9; transform: scale(.35); } 100% { opacity: 0; transform: scale(1.7); } }
-@keyframes ts-dot { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-3px); opacity: 1; } }
+/* Reading: his eyes run from the left of his face to the right and settle, twice, as if along a line of text. */
+@keyframes ts-read { 0%, 100% { transform: translateX(0); } 20%, 70% { transform: translateX(-1.5px); } 45%, 90% { transform: translateX(1.5px); } }
 
 @media (min-width: 900px) {
   .ts { min-height: 19rem; }

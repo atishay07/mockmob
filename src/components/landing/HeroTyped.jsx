@@ -8,9 +8,12 @@
 //   - The slot is an inline grid: every phrase is stacked in it as an invisible sizer (CSS generated text, so it is
 //     not in the DOM text), so its box is always the widest phrase and typing never moves anything (CLS 0).
 //   - One pass, from the opening's hand-off (window 'mm:opening' phase 'done') or 600 ms after paint when there was
-//     no opening: select-back (a wash from the line's end to its start), clear, type "Fresh every time.", hold, the
-//     same for "Every mark traced.", then "Know what to fix." for good. Each letter fades in over 60 ms. A solid ink caret (never volt) appears with
-//     the typing, blinks twice after the final letter and leaves. About 9 s, never loops.
+//     no opening: the caret comes in at the end of the resting line and it holds a moment (TYPING.lead), then
+//     select-back (a wash from the line's end to its start), clear, type "Fresh every time.", hold, the same for
+//     "Every mark traced.", then "Know what to fix." for good. Letters land whole, as a caret types them (5 Nov, LK87:
+//     the old 60 ms per-letter fade left a gap between the caret and a letter still fading in). The caret is an ink
+//     bar (never volt): solid while typing, hidden under the selection, blinking like a text field's while a phrase
+//     holds, and after the final letter it blinks twice and leaves. About 9 s, never loops.
 //   - Each completed phrase dispatches window 'mm:hero-typed' { index, final } (Mobi glances at the h1 and nods on
 //     the final one, HeroMobi).
 //   - It pauses while the h1 is off screen or the tab is hidden, and resumes where it stopped.
@@ -35,8 +38,8 @@ function stillOnly() {
 
 export default function HeroTyped() {
   const slotRef = useRef(null);
-  // null: the server's resting text. Otherwise { text, typing, washing, caret: 'off' | 'in' | 'on' | 'end' }; `typing` is true
-  // from the first clear on, when the text is drawn letter by letter (each new letter fades in).
+  // null: the server's resting text. Otherwise { text, washing, caret: 'off' | 'in' | 'on' | 'idle' | 'end' }: 'in' fades
+  // the caret in, 'on' is solid (typing), 'idle' blinks after a beat (a phrase holding), 'end' blinks twice and leaves.
   const [view, setView] = useState(null);
 
   useEffect(() => {
@@ -64,7 +67,7 @@ export default function HeroTyped() {
     let visible = document.visibilityState !== 'hidden';
     let gone = false;
     let tail = 0;
-    let state = { text: REST, typing: false, washing: false, caret: 'off' };
+    let state = { text: REST, washing: false, caret: 'off' };
     const show = (patch) => { state = { ...state, ...patch }; setView(state); };
 
     const step = () => {
@@ -73,12 +76,14 @@ export default function HeroTyped() {
       if (!s) return;
       if (s.kind === 'caret') show({ caret: 'in' });
       else if (s.kind === 'wash') show({ washing: true });
-      else if (s.kind === 'clear') show({ washing: false, typing: true, text: '', caret: 'on' });
-      else if (s.kind === 'letter') show({ text: phrases[s.phrase].slice(0, s.count) });
-      else if (s.kind === 'typed') window.dispatchEvent(new CustomEvent('mm:hero-typed', { detail: { index: HERO_SLOT_PHRASES.indexOf(phrases[s.phrase]), final: s.final } }));
-      else if (s.kind === 'end') {
-        // The resting line goes back to one plain text run, exactly the server's; the caret blinks twice and leaves.
-        show({ caret: 'end', typing: false });
+      else if (s.kind === 'clear') show({ washing: false, text: '', caret: 'on' });
+      else if (s.kind === 'letter') show({ text: phrases[s.phrase].slice(0, s.count), caret: 'on' });
+      else if (s.kind === 'typed') {
+        if (!s.final) show({ caret: 'idle' });
+        window.dispatchEvent(new CustomEvent('mm:hero-typed', { detail: { index: HERO_SLOT_PHRASES.indexOf(phrases[s.phrase]), final: s.final } }));
+      } else if (s.kind === 'end') {
+        // The resting line is the server's sentence again; the caret blinks twice and leaves.
+        show({ caret: 'end' });
         gone = true;
         tail = window.setTimeout(() => show({ caret: 'off' }), caretTail());
       }
@@ -145,8 +150,8 @@ export default function HeroTyped() {
       <span className="lp-typed__slot" aria-hidden="true" ref={slotRef}>
         {HERO_SLOT_PHRASES.map((p) => <span key={p} className="lp-typed__sizer" data-t={p} />)}
         <span className="lp-typed__live" data-wash={view?.washing ? '' : undefined}>
-          {/* Inline letters (never inline-block), so the line keeps the font's kerning while it types. */}
-          {view?.typing ? [...text].map((ch, n) => <span key={n} className="lp-typed__ch">{ch}</span>) : text}
+          {/* One text run while it types, so the line keeps the font's kerning and every letter lands whole. */}
+          {text}
           {/* A new caret node for every length, so it never moves as a laid-out box (no layout shift); only its first
               appearance fades in ('in'). */}
           {view && view.caret !== 'off' ? <span key={`c${text.length}`} className={`lp-typed__caret lp-typed__caret--${view.caret}`} /> : null}

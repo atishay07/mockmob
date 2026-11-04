@@ -45,10 +45,16 @@ test('decision 18: every typed phrase traces to a claim the page already makes',
   assert.equal(ledger.gap, story.facts.outOf - story.facts.marks, 'the Lab sorts every missed mark into a group');
 });
 
-test('the timing: 34 ms a letter, +24 after a space, +70 before the full stop; one pass of about 9 s', () => {
-  assert.deepEqual(letterTimes('Ab c.'), [0, 34, 68, 34 * 3 + 24, 34 * 4 + 24 + 70]);
+// LK87 (5 Nov 2026, D5): retimed after a 50 ms film beside ug.preparoo.app: letters land whole at an even 46 ms with a beat
+// at each word, the resting line holds 420 ms with its caret before the first select-back, holds are 1,700 ms (were 2,200),
+// and the whole pass is no longer than the 4 Nov one (7,606 ms to the last letter, 9,356 ms with the caret's goodbye).
+test('the timing: 46 ms a letter, +34 at a new word, +80 before the full stop; a lead before the first select-back; one pass of about 9 s, no longer than before', () => {
+  assert.deepEqual(letterTimes('Ab c.'), [0, 46, 92, 46 * 3 + 34, 46 * 4 + 34 + 80]);
   const plan = typingPlan();
   assert.equal(plan[0].kind, 'caret');
+  assert.equal(plan.find((s) => s.kind === 'wash').at, TYPING.caretIn + TYPING.lead, 'the resting line is read before it changes');
+  assert.equal(TYPING.lead, 420);
+  assert.equal(TYPING.hold, 1700);
   const kinds = plan.map((s) => s.kind);
   assert.equal(kinds.filter((k) => k === 'wash').length, 3, 'select-back before each phrase, the server text first');
   assert.equal(kinds.filter((k) => k === 'clear').length, 3);
@@ -66,6 +72,7 @@ test('the timing: 34 ms a letter, +24 after a space, +70 before the full stop; o
   assert.equal(clear1 - wash1, TYPING.wash + TYPING.beat);
   const total = plan.at(-1).at + caretTail();
   assert.ok(total > 8000 && total < 10500, `about 9 s in all (${total} ms)`);
+  assert.ok(plan.at(-1).at <= 7606 && total <= 9356, `no longer than the 4 Nov pass (${plan.at(-1).at} / ${total} ms)`);
   assert.equal(caretTail(), 530 + 530 + 530 + 160, 'two blinks, then it leaves in 160 ms');
 });
 
@@ -76,8 +83,10 @@ test('HeroTyped: server text is the resting line, the slot is aria-hidden with a
   assert.match(TYPED, /<span className="sr-only">\{REST\}<\/span>/);
   assert.match(TYPED, /<span className="lp-typed__slot" aria-hidden="true" ref=\{slotRef\}>/);
   assert.match(TYPED, /HERO_SLOT_PHRASES\.map\(\(p\) => <span key=\{p\} className="lp-typed__sizer" data-t=\{p\} \/>\)/);
-  // Before the effect runs (server HTML, no JS) the live text is the plain resting line, no caret.
-  assert.match(TYPED, /\{view\?\.typing \? \[\.\.\.text\]\.map[^\n]+ : text\}/);
+  // Before the effect runs (server HTML, no JS) the live text is the plain resting line, no caret. While it types, the
+  // text stays one run (LK87: letters land whole, no per-letter spans or fades).
+  assert.match(TYPED, /\n\s*\{text\}\n/);
+  assert.doesNotMatch(TYPED, /lp-typed__ch|\[\.\.\.text\]\.map/);
   assert.match(TYPED, /const text = view \? view\.text : REST;/);
   // A new caret node for each length: it never moves as a laid-out box, so typing makes no layout shift.
   assert.match(TYPED, /view && view\.caret !== 'off' \? <span key=\{`c\$\{text\.length\}`\} className=\{`lp-typed__caret/);
@@ -117,14 +126,21 @@ test('HeroTyped never types a phrase that would not fit the column on one line; 
   assert.deepEqual(fallback.filter((s) => s.kind === 'typed').map((s) => s.final), [true], 'with nothing else fitting it still selects back and retypes the sentence once');
 });
 
-test('the caret: a solid ink bar, never volt, never blinking while the text is static, never looping', () => {
+// LK87 (5 Nov 2026, D5) changes the 4 Nov rule "never blinking while the text is static": a caret at rest blinks the way a
+// text field's does (solid for 530 ms, then 530 off, 530 on), three finite cycles while a phrase holds, and it gives way to
+// the selection. It still never loops and is still ink.
+test('the caret: an ink bar, never volt; solid while typing, blinking like a text field while a phrase holds, gone after the last phrase, never looping', () => {
   const css = rules(CSS);
   assert.match(css, /\.lp-typed__caret \{[^}]*width: 0\.075em;[^}]*height: 0\.78em;[^}]*background: currentColor;/);
   assert.doesNotMatch(css.slice(css.indexOf('.lp-typed')), /D2F000|--volt|--accent|--brand-word/i, 'ink, never volt');
   assert.doesNotMatch(css, /infinite/);
   assert.match(css, /\.lp-typed__caret--end \{ animation: lp-caret-end 1750ms linear forwards; \}/, 'two blinks after the last letter, then gone');
+  assert.match(css, /\.lp-typed__caret--idle \{ animation: lp-caret-idle 1060ms linear 530ms 3 both; \}/, 'a resting caret blinks after 530 ms, three cycles at most');
+  assert.match(css, /\.lp-typed__live\[data-wash\] \.lp-typed__caret \{ animation: none; opacity: 0; \}/, 'the selection takes the caret\'s place');
+  assert.match(TYPED, /if \(!s\.final\) show\(\{ caret: 'idle' \}\);/, 'a finished phrase rests its caret');
   // Only opacity and transform animate in the typed line.
-  for (const name of ['lp-typed-in', 'lp-typed-wash', 'lp-caret-in', 'lp-caret-end']) {
+  for (const name of ['lp-typed-wash', 'lp-caret-in', 'lp-caret-idle', 'lp-caret-end']) {
+    assert.ok(css.includes(`@keyframes ${name}`), `${name} exists`);
     const body = css.slice(css.indexOf(`@keyframes ${name}`), css.indexOf('}', css.indexOf(`@keyframes ${name}`) + 20) + 1);
     for (const [, p] of body.matchAll(/([a-z-]+):/g)) assert.ok(['opacity', 'transform'].includes(p), `${name} animates ${p}`);
   }
