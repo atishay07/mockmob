@@ -30,3 +30,18 @@ test('LK81 pausing the tour restyles only the elements that animate, never the w
   assert.doesNotMatch(css, /\[data-active='false'\] \.ts \*/);
   assert.match(css, /\.ft\[data-playing='false'\] :is\(\.ts__tick, \.ts__tap, \.ts__marks, \.ts__opt, \.ts__chips li, \.ts__typing i, \.ts__mobi i\)/);
 });
+
+test('LK93 the DU eligibility section is there when the reader arrives: no reveal in front of the calculator, drawn while idle', () => {
+  const page = read('../../app/page.js');
+  const du = page.slice(page.indexOf('id="du-eligibility"'), page.indexOf('<ExamScreen'));
+  assert.match(du, /<EligibilityTeaser \/>/);
+  assert.doesNotMatch(du, /<Reveal>\s*<EligibilityTeaser/, 'the calculator is not behind a reveal fade');
+  const teaser = read('../du/EligibilityTeaser.jsx');
+  assert.match(teaser, /import \{ predraw \} from '@\/components\/landing\/storyPredraw\.mjs';/);
+  assert.match(teaser, /const section = hostRef\.current\?\.closest\('main > \*'\);\s*if \(section\) predraw\(section\);/);
+  // Phones: only headings come in through the blur; a big block is a 300 ms fade with no blur.
+  const css = read('../../app/feature-tour.css');
+  assert.match(css, /\.lp \.rv\.lp-head \{ filter: blur\(6px\);/);
+  assert.match(css, /\.lp \.rv:not\(\.lp-head\) \{ transition-duration: 300ms; \}/);
+  assert.doesNotMatch(css, /\.lp \.rv \{ filter: blur\(6px\)/, 'no blur on every reveal');
+});

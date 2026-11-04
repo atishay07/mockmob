@@ -262,9 +262,9 @@ export default function LandingPage() {
               <h2 className="lp-h2">{DU_HEAD.h2}</h2>
               <p className="lp-sub">{DU_HEAD.sub}</p>
             </Reveal>
-            <Reveal>
-              <EligibilityTeaser />
-            </Reveal>
+            {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
+                the section read as loading slowly). Its section is also drawn ahead while the page is idle (EligibilityTeaser). */}
+            <EligibilityTeaser />
             <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
               <div>
                 <p className="lp-cpro__badge">{COMBO.badge}</p>

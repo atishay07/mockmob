@@ -7,6 +7,7 @@ import { Check } from 'lucide-react';
 import { evaluateAll } from '@/lib/du/eligibility';
 import { PRESETS, STREAM_ORDER, encodeSelection, loadRules } from '@/lib/du/client';
 import '@/components/du/du.css';
+import { predraw } from '@/components/landing/storyPredraw.mjs';
 
 // Landing-page version of the eligibility tool: a handful of the most common subjects,
 // a live count, and a hand-off to the full calculator with the selection pre-filled.
@@ -51,6 +52,13 @@ export function EligibilityTeaser() {
   const [rules, setRules] = useState(null);
   const [failed, setFailed] = useState(false);
   const [selection, setSelection] = useState({ languages: ['english'], domains: [], gat: false });
+
+  // The section is drawn once ahead of the reader while the page is idle, like the held stories (storyPredraw.mjs,
+  // LK93): its first style and layout no longer land inside the scroll that reaches it.
+  useEffect(() => {
+    const section = hostRef.current?.closest('main > *');
+    if (section) predraw(section);
+  }, []);
 
   useEffect(() => {
     const node = hostRef.current;
