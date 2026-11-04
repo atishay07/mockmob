@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { LOGO_B_LETTERS, LOGO_B_MOBI, LOGO_B_VIEWBOX } from '../brand/logoB.js';
 import { LOGO_DOT, LOGO_LETTER_PARTS, LOGO_LETTER_X, LOGO_MO, LOGO_MOBI_INDEX, LOGO_MOBI_PARTS, LOGO_OPEN_BOX, LOGO_OPEN_VIEWBOX, LOGO_UNFOLD, LOGO_WORD } from '../brand/logoLetters.mjs';
-import { OPENING_FIRST_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, OPENING_SNAPS, OPENING_WAIT_MS, openingGate, openingGateScript } from './openingGate.mjs';
+import { OPENING_FIRST_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, OPENING_LATE_MS, OPENING_SNAPS, OPENING_WAIT_MS, openingGate, openingGateScript } from './openingGate.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const CSS = read('../../app/opening.css');
@@ -193,7 +193,7 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
   const paint = (at) => observers.filter((o) => o.on).forEach((o) => o.cb({ getEntriesByName: (n) => (n === 'first-contentful-paint' ? [{ name: n, startTime: at }] : []) }));
   return { w, d, attrs, listeners, timers, layerAttrs, clock, observers, paint };
 }
-const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((x) => [...x]), wait: OPENING_WAIT_MS };
+const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((x) => [...x]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
 const run = (opts) => { const env = fakeEnv(opts); const mode = openingGate(env.w, env.d, cfg); return { mode, ...env }; };
 
 test('the gate: first ever, then short once per session, then skip; never twice in a session', () => {
@@ -281,7 +281,7 @@ test('LK87 the layer holds its first pose until the first paint is reported, the
   assert.equal(r.timers.length, before, 'it starts once');
 });
 
-test('LK87 a late paint starts from a rest pose (0, 310 or 500 ms in) and never adds the skipped beats to the wait; a very late one goes straight to the hand-off', () => {
+test('LK87 a late paint starts from a rest pose (0, 310 or 500 ms in) and never adds the skipped beats to the wait; past the last snap the held splash dissolves', () => {
   assert.deepEqual(OPENING_SNAPS.map((x) => [...x]), [[200, 0], [450, 310], [1100, 500]]);
   // The rest poses: 0 before the blink (150 ms), 310 once the 160 ms blink is over and before the eye inks (320 ms), 500 the
   // eye inked (it ends at 520) and the camera about to pull back (500 ms).
@@ -304,10 +304,17 @@ test('LK87 a late paint starts from a rest pose (0, 310 or 500 ms in) and never 
   const r = run({ local: SESSION, paintTiming: true });
   r.clock.now = 1101;
   r.paint(1000);
-  assert.ok('data-opening-cut' in r.attrs, 'past the last snap: straight to the hand-off, like a tap');
+  // Before, a page that painted after the opening's end showed no opening at all; now the splash it paints dissolves in
+  // 160 ms where it stands (no flight from a pose the student never saw arrive, no jump).
+  assert.ok('data-opening-late' in r.attrs && !('data-opening-cut' in r.attrs), 'past the last snap: the splash dissolves');
   assert.ok(!('data-opening-hold' in r.attrs));
   assert.equal(r.w.__mmOpening.phase, 'handoff');
-  assert.deepEqual(liveDelays(r), [OPENING_HAND_MS + 40]);
+  assert.equal(OPENING_LATE_MS, 160);
+  assert.deepEqual(liveDelays(r), [OPENING_LATE_MS + 40]);
+  const css2 = rules(CSS);
+  assert.match(css2, /html\[data-opening-late\] \.mo-open \{ pointer-events: none; animation: mo-late-out 160ms cubic-bezier\(0\.23, 1, 0\.32, 1\) forwards; \}/);
+  assert.match(css2, /html\[data-opening-late\] \.mo-open \* \{ animation-play-state: paused !important; \}/, 'every part stays still while it dissolves');
+  assert.match(css2, /\[data-opening-late\] \.mm-nav \.logo-b \{ animation: none; \}/, 'the bar logo is simply there under it');
 });
 
 test('LK87 a tap while the layer holds skips to the hand-off; without paint timing it starts at once, as before', () => {

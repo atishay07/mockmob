@@ -217,6 +217,12 @@ html[data-opening-cut] .mo-open .mo-eyes__full,
 html[data-opening-cut] .mo-open .mo-eyes__ink { animation: none; opacity: 0; }
 html[data-opening-cut] .mo-open .mo-eyes__small { animation: none; opacity: 1; }
 
+/* ---- a first paint past the last snap (LK87): the held splash dissolves where it stands in 160 ms (OPENING_LATE_MS),
+   every part still, and the bar logo is simply there under it. No flight, no jump to another pose. ---- */
+html[data-opening-late] .mo-open { pointer-events: none; animation: mo-late-out 160ms cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+html[data-opening-late] .mo-open * { animation-play-state: paused !important; }
+@keyframes mo-late-out { to { opacity: 0; visibility: hidden; } }
+
 /* ---- the bar logo (LK87): hidden under the layer while the opening runs and shown the moment the word lands on it, on
    the word's own clock (the FLIP's --mo-flip-delay, or the skip). Night swaps in one frame (the same drawing); Day
    brings the ink logo up with the cream (150 to 280 ms), after the white word has gone. A 6 s fallback shows it whatever happens; from
@@ -227,6 +233,7 @@ html:is([data-opening='first'], [data-opening='short'])[data-opening-flip] .mm-n
 html:is([data-opening='first'], [data-opening='short'])[data-theme='light'][data-opening-flip] .mm-nav .logo-b { animation: mo-bar-in 130ms linear calc(var(--mo-flip-delay, 0ms) + 150ms) both; }
 html:is([data-opening='first'], [data-opening='short'])[data-opening-cut] .mm-nav .logo-b { animation: mo-bar-in-cut 1ms linear 280ms both; }
 html:is([data-opening='first'], [data-opening='short'])[data-theme='light'][data-opening-cut] .mm-nav .logo-b { animation: mo-bar-in-cut 130ms linear 150ms both; }
+html:is([data-opening='first'], [data-opening='short'])[data-opening-late] .mm-nav .logo-b { animation: none; }
 @keyframes mo-bar-wait { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mo-bar-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mo-bar-in-cut { from { opacity: 0; } to { opacity: 1; } }

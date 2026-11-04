@@ -25,9 +25,10 @@
 // Now the layer waits on its first pose ("mo" at 2.2x, html[data-opening-hold] pauses every part) until the browser
 // reports the first contentful paint, then starts from a rest pose chosen by how long the paint took (OPENING_SNAPS):
 // at once from 0, from 310 ms (after the first blink, before the eye inks) or from 500 ms (the camera's start), so a
-// slow first paint never adds the skipped beats to the wait. A paint later than the last snap goes straight to the
-// hand-off, like a tap: a student who has already waited is not held for a brand moment. Without paint timing (or if
-// no paint is reported within OPENING_WAIT_MS) it starts at once, as before.
+// slow first paint never adds the skipped beats to the wait. A paint later than the last snap dissolves the held
+// splash in OPENING_LATE_MS: a student who has already waited is not held for a brand moment (before, a page that painted
+// after the opening's end showed no opening at all). Without paint timing (or if no paint is reported within
+// OPENING_WAIT_MS) it starts at once, as before.
 
 /** The whole opening on a first-ever visit, ms from first paint (L-043: logo B, about 1.3 to 1.6 s, skippable). */
 export const OPENING_FIRST_MS = 1600;
@@ -43,11 +44,13 @@ export const OPENING_SKIP_EVENTS = Object.freeze(['pointerdown', 'touchstart', '
  * Where the clock starts when the first paint came late: [paint later than this many ms after the script, start the
  * timeline at this ms]. Each start is a rest pose (nothing is mid-motion there): 0 the "mo" before the blink, 310 the
  * blink done and the eye still empty, 500 the eye inked and the camera about to pull back. Past the last row the
- * opening goes straight to its hand-off.
+ * held splash dissolves (OPENING_LATE_MS).
  */
 export const OPENING_SNAPS = Object.freeze([[200, 0], [450, 310], [1100, 500]]);
 /** The longest the layer waits on its first pose for a paint report before it starts anyway. */
 export const OPENING_WAIT_MS = 3000;
+/** A first paint past the last snap: the held splash dissolves this fast (opening.css html[data-opening-late]). */
+export const OPENING_LATE_MS = 160;
 
 // Written in plain ES2017 with no outside references: OpeningMo.jsx inlines it as `(${openingGate})(window, document, cfg)`.
 export function openingGate(w, d, cfg) {
@@ -140,6 +143,16 @@ export function openingGate(w, d, cfg) {
     handoff();
     later(done, cfg.hand + 40);
   }
+  // A first paint later than the last snap: the held splash dissolves where it stands (opening.css
+  // html[data-opening-late], cfg.late ms) and the page is there, with no flight and no jump to another pose.
+  var dissolve = function () {
+    for (var i = 0; i < timers.length; i++) w.clearTimeout(timers[i]);
+    timers = [];
+    html.setAttribute('data-opening-late', '');
+    html.removeAttribute('data-opening-hold');
+    handoff();
+    later(done, cfg.late + 40);
+  };
   for (var i = 0; i < cfg.events.length; i++) w.addEventListener(cfg.events[i], cut, { capture: true, passive: true });
   // The bar logo is parsed just after the layer: measure it on the first frames, before the hand-off starts.
   var tries = 0;
@@ -165,7 +178,7 @@ export function openingGate(w, d, cfg) {
       for (var k = 0; k < snaps.length; k++) if (late <= snaps[k][0]) { from = snaps[k][1]; break; }
     }
     st.late = Math.round(late);
-    if (from < 0) { cut(); return; }
+    if (from < 0) { dissolve(); return; }
     if (from > 0) {
       // Every part of the layer jumps to the same rest pose while it is still held, so nothing is seen to skip.
       try {
@@ -199,7 +212,7 @@ export function openingGate(w, d, cfg) {
 
 /** The inline script OpeningMo.jsx renders (before its layer). */
 export function openingGateScript() {
-  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((s) => [...s]), wait: OPENING_WAIT_MS };
+  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((s) => [...s]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
   // Every visitor downloads it in the HTML: whole-line comments and indentation stay in this file, not in the page.
   const source = openingGate.toString().replace(/^[ \t]*\/\/.*\r?\n/gm, '').replace(/^[ \t]+/gm, '');
   return `(${source})(window,document,${JSON.stringify(cfg)})`;
