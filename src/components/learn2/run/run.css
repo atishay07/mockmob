@@ -217,6 +217,15 @@
 .lr-card__in { position: relative; display: grid; transform-style: preserve-3d; transition: transform 340ms var(--lr-flight); }
 .lr-card[data-turned] .lr-card__in { transform: rotateY(180deg); }
 .lr-card[data-still] .lr-card__in { transition: none; }
+/* The turn lifts a little (LK95): --lift runs 0 to 1 on the rotation's own 340 ms and curve, so --bump peaks (1) at 90 degrees.
+   The card scales to 1.03 there with a deeper shadow under it, then settles. Reduced motion: no lift (the 120 ms fade). */
+@property --lift { syntax: '<number>'; inherits: true; initial-value: 0; }
+.lr-card { --lift: 0; --bump: calc(1 - abs(2 * var(--lift) - 1)); transition: --lift 340ms var(--lr-flight); }
+.lr-card[data-turned] { --lift: 1; }
+.lr-card[data-still] { transition: none; }
+.lr-card__in { scale: calc(1 + 0.03 * var(--bump)); }
+.lr-card::before { content: ''; position: absolute; inset: 0; border-radius: 24px; pointer-events: none; opacity: 0; scale: calc(1 + 0.03 * var(--bump)); box-shadow: 0 30px 56px -22px rgb(0 0 0 / 0.5); }
+@supports (width: abs(1px)) { .lr-card::before { opacity: var(--bump); } }
 /* R3-SPEC L1: the type label and the menu at the top, the source pinned to the foot, the words centred between them; a face
    that does not fit is top-aligned and scrolls inside the card (auto margins fall to 0 on overflow). */
 .lr-face {
@@ -526,7 +535,8 @@
   .lr :is(.lr-enter, .lr-verdict, .lr-endform__name) { animation-name: lr-fade !important; }
   .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rl, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip, .lr-q__hint) { animation: none !important; }
   .lr .lr-fixed__check path { animation: none !important; stroke-dashoffset: 0; }
-  .lr .lr-card__in, .lr .lr-card[data-turned] .lr-card__in { transform: none; }
+  .lr .lr-card__in, .lr .lr-card[data-turned] .lr-card__in { transform: none; scale: none; }
+  .lr .lr-card::before { display: none; }
   .lr .lr-face--back { transform: none; opacity: 0; visibility: hidden; }
   .lr .lr-card[data-turned] .lr-face--back { opacity: 1; visibility: visible; }
   .lr .lr-card[data-turned] .lr-face--front { opacity: 0; visibility: hidden; }
@@ -537,7 +547,8 @@ html[data-motion='reduced'] .lr *, html[data-motion='reduced'] .lr *::before, ht
 html[data-motion='reduced'] .lr :is(.lr-enter, .lr-verdict, .lr-endform__name) { animation-name: lr-fade !important; animation-duration: 120ms !important; animation-delay: 0ms !important; }
 html[data-motion='reduced'] .lr :is(.lr-opt, .lr-rpile__card, .lr-status > span, .lr-top__pile b, .lr-panel__rl, .lr-rail svg, .lr-moved__fill, .lr-ticks i::after, .lr-top__tip, .lr-q__hint) { animation: none !important; }
 html[data-motion='reduced'] .lr .lr-fixed__check path { animation: none !important; stroke-dashoffset: 0; }
-html[data-motion='reduced'] .lr .lr-card__in, html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-card__in { transform: none; }
+html[data-motion='reduced'] .lr .lr-card__in, html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-card__in { transform: none; scale: none; }
+html[data-motion='reduced'] .lr .lr-card::before { display: none; }
 html[data-motion='reduced'] .lr .lr-face--back { transform: none; opacity: 0; visibility: hidden; }
 html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--back { opacity: 1; visibility: visible; }
 html[data-motion='reduced'] .lr .lr-card[data-turned] .lr-face--front { opacity: 0; visibility: hidden; }
