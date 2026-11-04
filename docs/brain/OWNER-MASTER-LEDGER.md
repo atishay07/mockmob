@@ -657,7 +657,7 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | LIVE 4 Nov ~1 am (main 55a1d2f63): bigger stage and type from 1360 px | **LK41** Desktop is scaled down with too much blank space. |
 | LIVE 4 Nov ~1 am (main 55a1d2f63): Key cards as index cards (paper, family band, ruled back; Night without a rim) | **LK39** Cards look boring in Light and Dark; make them more interesting. |
 | LIVE 4 Nov ~1 am (main 55a1d2f63): Night cards with one quiet hairline, no rim; lime only on the primary key | **LK43** Dark mode: the neon glow around every card is too much; make it subtle. |
-| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web (one capsule); app in 1.0.20+18 (You plan strip), not yet released | **LK42** Top bar: the Pro, credits and wallet marks look low quality; rethink the top bar (web and app). |
+| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web (one capsule); app BUILT 4 Nov ~8:15 pm in 1.0.20+18 (You plan strip), waiting for his upload | **LK42** Top bar: the Pro, credits and wallet marks look low quality; rethink the top bar (web and app). |
 | IN PROGRESS | **LK46** Web tabs: four equal tabs are fine; order Practice, Papers, Learn, Explore. App tabs: he will look on the phone first. |
 | IN PROGRESS | **LK47** The website's scroll feels too fast in its first section; slow it down. |
 | TO ANSWER | **LK48** Has copying the app's UI to the web hidden options or made some unreachable? Confirm. |
@@ -668,10 +668,10 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 
 | Status | Item |
 |---|---|
-| IN PROGRESS | **LK50** On his main account every app screen shows "Sending your answers · Computer Science mock". A glitch: a stale local draft keeps pendingSubmission after its submit window, so the strip never clears. |
-| IN PROGRESS | **LK51** The app has no Flow (Explore) feed; Practice, Papers and Learn are there. |
-| IN PROGRESS | **LK52** The app's Learn section is still a bit cluttered; its UI needs improving. |
-| IN PROGRESS | **LK53** The whole app: keep what is right, make it stronger and more premium, in the direction of Duolingo. |
+| BUILT 4 Nov ~8:15 pm in 1.0.20+18 (Desktop/MockMob-build-18, signed with the upload key; ui/1103-app-18 c93a34c95 pushed); waiting for his upload: the settler clears a stale owed paper and its pinned notification; only the server closes a paper  | **LK50** On his main account every app screen shows "Sending your answers · Computer Science mock". A glitch: a stale local draft keeps pendingSubmission after its submit window, so the strip never clears. |
+| BUILT 4 Nov ~8:15 pm in 1.0.20+18 (Desktop/MockMob-build-18, signed with the upload key; ui/1103-app-18 c93a34c95 pushed); waiting for his upload: Explore is Practice's fourth door  | **LK51** The app has no Flow (Explore) feed; Practice, Papers and Learn are there. |
+| BUILT 4 Nov ~8:15 pm in 1.0.20+18 (Desktop/MockMob-build-18, signed with the upload key; ui/1103-app-18 c93a34c95 pushed); waiting for his upload: the calm Learn  | **LK52** The app's Learn section is still a bit cluttered; its UI needs improving. |
+| BUILT 4 Nov ~8:15 pm in 1.0.20+18 (Desktop/MockMob-build-18, signed with the upload key; ui/1103-app-18 c93a34c95 pushed); waiting for his upload; review + emulator walk fixes in it  | **LK53** The whole app: keep what is right, make it stronger and more premium, in the direction of Duolingo. |
 | STANDING | **LK54** Keep a running list of what needs his feedback; he answers when back. Continue yesterday's work (Maths formula cards, the remaining chapters). |
 
 ## LAN preview look, 3 Nov about 3:15 pm (LK55-LK62; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "3 Nov 2026, about 3:15 pm"). He said: stop everything, record only; continue after his PC restart.
@@ -683,7 +683,7 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | LIVE 4 Nov ~1 am (main 55a1d2f63): preview fault fixed (tabs keep the real decks) | **LK57** "Chapter feeds did not load." shows on the preview. |
 | LIVE 4 Nov ~1 am (main 55a1d2f63): the new card look, visible on phones | **LK58** The card look is exactly the same as before (LK39 not visible). |
 | LIVE 4 Nov ~1 am (main 55a1d2f63): Up next as one module, one voice (Suggested) | **LK59** The intelligent recommendations that were added make the UI feel cluttered: the implementation in the UI is not good. |
-| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web; app in 1.0.20+18, not yet released | **LK60** No vague icons: use proper branded icons, a generated image, or something better. |
+| LIVE 4 Nov ~1 am (main 55a1d2f63) on the web; app BUILT 4 Nov ~8:15 pm in 1.0.20+18, waiting for his upload | **LK60** No vague icons: use proper branded icons, a generated image, or something better. |
 | LIVE 4 Nov ~1 am (main 55a1d2f63) on the web (Learn, Explore, Key cards); app in 1.0.20+18; ~400 lines elsewhere still to do | **LK61** The English everywhere must be improved (repeat). |
 | PARTLY LIVE 4 Nov ~1 am (main 55a1d2f63): Find's sets on Learn home; more in R7 W-WEB-FULL.md "Next" | **LK62** The mobile website is now nearly a copy of the app, but the website has more features and must be a full-fledged experience; plan how, especially Learn. |
 
@@ -692,7 +692,7 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | Status | Item |
 | --- | --- |
 | IN PROGRESS (4 Nov ~3 am stop): web lanes done and live; app merged, review done, fixes/walk/build left | **LK63** Finish every open lane (Physics, app 1.0.20+18, web cards/top bar/icons/full website, English), then review the UI against all his past feedback and keep improving until satisfied. |
-| PARTLY: web live 4 Nov ~1 am; the final AAB is not built yet | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
+| PARTLY: AAB 1.0.20+18 built 4 Nov ~8:15 pm (Desktop/MockMob-build-18, OWNER-STEPS.md); home page ships after its gate | **LK64** No prototype links or test builds: a final AAB he uploads straight to Google Play, and the final web changes deployed to www.mockmob.in so he sees them on every device. Supersedes "ship each web change only after his live look" for this round. |
 | DONE 4 Nov ~3 am except the 610 MB snapshot push (his command in the handoff) | **LK65** Commit all uncommitted work; the project final and up to date today, recorded as a proper checkpoint, for handing over and onboarding other members. |
 | ANSWERED 4 Nov ~12:10 am: "Push branches to GitHub" (his button answer) | **LK66** His message ends "Everything then should be sent to": where? Push every branch to GitHub, after the production web deploy so preview builds do not queue ahead of it. Vercel is on Hobby (100 deployments a day, one build at a time): 438 branch pushes would block production for up to a day, so the ~15 current branches go up as branches and the older ones as archive/<branch> tags (tags start no Vercel build; checked on one first). |
 
