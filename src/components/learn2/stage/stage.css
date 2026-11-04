@@ -171,6 +171,12 @@ span.st-counter { cursor: default; }
 /* R4 ui-correctness#5: in the feed it sits inside the item area, 8 px above the next item's peek strip, never on it (the
    peek's type label stays whole). It shows only while option A is really below the fold. */
 .st-below--stage { top: auto; bottom: calc(var(--st-peek, 0px) + 8px); z-index: 4; }
+/* Walk I5: the chip never sits over the question's words. While it shows, the question page ends 44 px higher (the 36 px chip and
+   its 8 px gap are a band of their own above the peek strip), so the page's last line fades out above the chip. */
+.st-view[data-below] > .st-track > .st-page--q:not([inert]) { height: calc(100% - var(--st-peek, 0px) - 44px); }
+/* The run's chip is a band inside its bar (the bar is opaque on a phone and sits below the item's box from 768 px): the text scrolls
+   under the bar's own background, never under the chip. */
+.lr-bar > .st-below { position: static; display: flex; width: max-content; margin: 8px auto 0; }
 
 /* The first feed's cue (R2 ruling 7, R3-SPEC L3): a 36 px chip with Mobi's head, centred in the 40 px peek strip (the type
    label hides while it shows); it bobs 3 times (420 ms up, 380 ms back) and fades (160 ms) on the first move. Nothing moves

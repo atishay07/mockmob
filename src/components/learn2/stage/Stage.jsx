@@ -96,7 +96,7 @@ export function watchBelow({ roots = [], limits = [], find, onChange, viewport =
 
 /**
  * The quiet "Options below" chip: 36 px, ink-2, a down chevron. A tap goes to option A. `place` 'stage' sits inside the item
- * area, 8 px above the next item's peek strip (the feed: never on the peek, R4 ui-correctness#5); 'bar' sits 8 px above the bar.
+ * area, 8 px above the next item's peek strip (the feed: never on the peek, R4 ui-correctness#5); 'bar' is a band at the top of the bar (never over the text, walk I5).
  */
 export function BelowChip({ show, onClick, place = 'bar' }) {
   if (!show) return null;
@@ -221,7 +221,7 @@ export function Stage({ label, rootRef, viewRef, trackRef, mode = 'items', busy 
         {panel}
         {top}
         {ticks ? <div className="st-ticks-desk" aria-hidden="true">{ticks}</div> : null}
-        <div className="st-view" ref={viewRef}>
+        <div className="st-view" ref={viewRef} data-below={below ? '' : undefined}>
           <div className="st-track" ref={trackRef} role={feedLabel ? 'feed' : undefined} aria-roledescription={feedLabel ? 'feed' : undefined} aria-label={feedLabel || undefined} aria-busy={busy || undefined}>
             {children}
           </div>
