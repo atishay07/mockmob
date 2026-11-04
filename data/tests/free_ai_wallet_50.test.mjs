@@ -31,7 +31,9 @@ test('no page still says Free gets 10 credits a month, and the pages that name t
   assert.match(file('src/app/pricing/page.js'), /Practice and Ask Mobi replies share one credits balance: 50 free a month, used first\./);
   assert.match(file('src/app/features/page.js'), /everyone gets 50 free a month/);
   // 20 Oct (C-dec 3/3b): a credit buys a whole Mobi job on every plan, not a reply; the 50 a month stays.
-  assert.match(file('src/app/page.js'), /One credit buys a whole Mobi job, a mistake fixed for good or a doubt answered and tested, and every plan gets 50 free credits a month/);
+  // 4 Nov home page: the landing copy lives in homeCopy.mjs (the Ask Mobi tour slide says the same two facts).
+  assert.match(file('src/components/landing/homeCopy.mjs'), /'One credit buys a whole Mobi job'\], chip: 'Every plan gets 50 free credits a month\.'/);
+  assert.doesNotMatch(file('src/components/landing/homeCopy.mjs'), /\b10 a month\b|10 on Free|10 credits/);
   assert.match(file('src/components/ai/askSuggestions.mjs'), /includedMonthlyCredits \?\? 50\}/);
 });
 

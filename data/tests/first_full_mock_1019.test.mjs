@@ -794,7 +794,10 @@ test('L4: FIRST_FULL_MOCK_ENABLED=false hides every "first full mock free" line;
   assert.match(pricing, /const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\];/);
   assert.equal((pricing.match(/\.\.\.FIRST_FREE_ITEMS/g) || []).length, 2);
   assert.equal((pricing.match(/FIRST_FULL_MOCK_COPY\.planItem/g) || []).length, 1, 'only through the switch');
-  assert.match(file('src/app/page.js'), /\.\.\.\(FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\]\),/);
+  // 4 Nov home page: the plan lists live in homeCopy.mjs; page.js passes the item only while the switch is on.
+  assert.match(file('src/app/page.js'), /firstFullMockItem: FIRST_FULL_MOCK_ON \? FIRST_FULL_MOCK_COPY\.planItem : null/);
+  assert.match(file('src/components/landing/homeCopy.mjs'), /\.\.\.\(firstFullMockItem \? \[firstFullMockItem\] : \[\]\)/);
+  assert.doesNotMatch(file('src/components/landing/homeCopy.mjs'), /'Your first full mock in every subject is free'/);
   assert.doesNotMatch(file('src/app/page.js'), /'Your first full mock in every subject is free'/);
   assert.match(file('src/components/ai/assistantKnowledge.js'), /const FIRST_FREE = FIRST_FULL_MOCK_ON \? ', and your first full mock in each subject is free' : '';/);
   const hook = file('src/lib/useFirstFullMock.js');

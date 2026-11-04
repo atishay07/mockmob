@@ -12,7 +12,8 @@ test('W-093: the non-affiliation sentence lives in Terms only', () => {
   for (const rel of ['src/components/MarketingFooter.jsx', 'src/app/about/page.js', 'src/app/coming-soon/page.js', 'src/app/cuet-subject-combination/page.js', 'src/app/page.js']) {
     assert.doesNotMatch(read(rel), /not affiliated|independent of NTA|independent exam preparation|independent CUET/i, rel);
   }
-  assert.match(read('src/app/terms/page.js'), /not affiliated with NTA, DU, CUET/);
+  // 4 Nov (ab7ca661f, L-024): Terms keeps the same meaning without the 'not affiliated' fine print the owner banned.
+  assert.match(read('src/app/terms/page.js'), /It is not run or endorsed by NTA, DU, CUET or any government exam body/);
 });
 
 test('W-093: signed-in pages carry no hedge or privacy filler lines', () => {
