@@ -9,7 +9,8 @@
 // no input for the last 400 ms. The section is switched to content-visibility: visible ([data-predraw='on']) for three
 // frames (the draw, then any fit or slack the story measures from its ResizeObserver), then handed back to auto. The
 // browser keeps a skipped section's layout, so when the reader arrives only what changed since is redrawn. One section
-// per idle period, in page order; a section the reader has already reached is skipped.
+// per idle period, in page order; a section the reader has already reached is skipped. Any content-visibility section
+// of `main` can ask: the DU eligibility section does too (EligibilityTeaser, LK93), after the three stories.
 import { undrawn } from './undrawn';
 
 const QUIET_MS = 400;
@@ -37,7 +38,7 @@ function frames(n, fn) {
 function next() {
   const list = [...queue].filter((node) => node.isConnected);
   queue.clear();
-  // Page order: the Lab first, then the tour, then the Recovery Lab.
+  // Page order: the Lab first, then the tour, then the Recovery Lab, then the DU section.
   list.sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
   const [head, ...rest] = list;
   for (const node of rest) queue.add(node);

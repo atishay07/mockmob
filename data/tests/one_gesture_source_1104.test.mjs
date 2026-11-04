@@ -152,6 +152,8 @@ test('the story\'s resize work is read-then-write and runs once per size change,
   const ctl = strip(CONTROLLER);
   assert.match(ctl, /contentvisibilityautostatechange/);
   assert.match(ctl, /new ResizeObserver\(measureNear\)/);
+  // (5 Nov 2026, LK90: <html> is one window tall on the landing, so the body is what grows and shrinks with the content.)
+  assert.match(ctl, /resizeObserver\.observe\(document\.body\)/);
   assert.doesNotMatch(body(ctl, 'onTouchMove'), /getBoundingClientRect|offsetHeight/);
   assert.doesNotMatch(body(ctl, 'onFrame'), /getBoundingClientRect|offsetHeight/);
 });
@@ -178,7 +180,8 @@ test('a declared jump that lands above a story\'s first rest leaves that story o
   const bus = strip(BUS);
   // The bus says once that a jump has ended, even if the page did not move in that frame.
   assert.match(bus, /state\.landed = landed;/);
-  assert.match(bus, /if \(!state\.dy && !state\.resized && !landed\) return;/);
+  // (5 Nov 2026, LK89: the subscribers now run only on a frame that moved, resized or landed, and BEFORE the arrival check.)
+  assert.match(bus, /if \(state\.dy \|\| state\.resized \|\| landed\) for \(const fn of \[\.\.\.subs\]\) fn\(state\);/);
   assert.match(bus, /if \(was\) \{ landedFlag = true; wake\(\); \}/);
   // The story reads the beat it landed on only on that frame, two frames later (the observer has reported by then),
   // and never on an ordinary frame, where a step the controller has just committed would be undone.
@@ -195,7 +198,54 @@ test('the edge clamp holds only a fling: a scrollbar drag, End or a script jump 
   const code = strip(CONTROLLER);
   assert.match(code, /const FLING_MS = 3000;/);
   assert.match(code, /const flinging = \(\) => now\(\) - lastRelease < FLING_MS \|\| \(wb !== null && now\(\) - wb\.last < WHEEL_QUIET_MS \* 2\);/);
-  assert.match(body(code, 'onFrame'), /if \(touches === 0 && keepY === null && !bus\.jumping\(\) && flinging\(\)\) \{/);
+  // (5 Nov 2026, LK90: a finger dragging the page natively into another story's hold is held too; see the next test.)
+  assert.match(body(code, 'onFrame'), /if \(keepY === null && !bus\.jumping\(\) && \(drag \|\| \(touches === 0 && flinging\(\)\)\)\) \{/);
+  assert.match(code, /const dragging = \(\) => touches === 1 && g !== null && g\.claim === 'native';/, 'a drag is a finger scrolling natively, never a script or the scrollbar');
   assert.match(body(code, 'onTouchEnd'), /lastRelease = now\(\);/);
   assert.match(body(code, 'onTouchCancel'), /lastRelease = now\(\);/);
+});
+
+test('a tap on a jump link is not a fling, and a jump\'s landing frame still reads jumping() (5 Nov 2026, LK89 "stuck in a scroll loop")', () => {
+  // The loop (reproduced by oneGestureJump.test.mjs): the tap's touchend counted as a fling for 3 s; the instant jump
+  // arrived on its first frame and the bus cleared jumping() before the controller read it, so the controller held the
+  // page on the edge of the near story the jump crossed, again after each of DemoJump's corrections.
+  const bus = strip(BUS);
+  const run = body(bus, 'run');
+  assert.ok(run.indexOf('fn(state)') > 0 && run.indexOf('jumpFrame(y)') > run.indexOf('fn(state)'), 'subscribers first, then the arrival check');
+  assert.match(bus, /export function onJump\(fn\) \{/);
+  assert.match(body(bus, 'jump'), /for \(const fn of \[\.\.\.jumpWatchers\]\) fn\(jumpY\);/, 'every declared jump is announced');
+  const code = strip(CONTROLLER);
+  const stand = body(code, 'standDown');
+  assert.match(stand, /keepY = null;/);
+  assert.match(stand, /keepStory = null;/);
+  assert.match(stand, /lastRelease = -Infinity;/);
+  assert.match(body(code, 'passiveListeners'), /unsubJump = bus\.onJump\(standDown\);/, 'any bus.jump (DemoJump, HashSettle, a hash) stands the controller down');
+  assert.match(body(code, 'onClick'), /standDown\(\);\s*if \(!e\.defaultPrevented\) declareAnchor\(url\.hash\);/);
+  assert.match(body(code, 'onHashChange'), /standDown\(\);\s*declareAnchor\(window\.location\.hash\);/);
+  // DemoJump: the question card, not the room, and the card itself takes focus; DemoDrill never glides.
+  const jump = strip(read('src/components/landing/DemoJump.jsx'));
+  assert.match(jump, /const CARD = '\.lp-desk__card';/);
+  assert.match(jump, /stage\.querySelector\('\.mm-drill\[tabindex\]'\)/);
+  const drill = strip(read('src/components/landing/DemoDrill.jsx'));
+  assert.match(drill, /scrollIntoView\(\{ block: 'nearest', behavior: 'instant' \}\)/, "'auto' inherits html's scroll-behavior: smooth");
+  assert.equal((drill.match(/className="lp-card mm-drill"[^>]*tabIndex=\{-1\}/g) || []).length, 2, 'both of the card\'s states take focus');
+  // The arrival is the card's own shell, quiet: no outline ring.
+  const css = strip(read('src/app/landing-close.css'));
+  assert.match(css, /#try-practice\[data-arrive='true'\] \.lp-desk__card \{\s*animation: lp-arrive 600ms/);
+  assert.doesNotMatch(css, /@keyframes lp-arrive[^@]*outline/, 'no ring in the arrival');
+  assert.doesNotMatch(css, /data-arrive='true'\] \.mm-drill/, 'the near-white ring on .mm-drill is gone');
+  assert.match(css, /@keyframes lp-arrive \{\s*30% \{ border-color: var\(--line-strong\); box-shadow: var\(--lp-arrive-lift\); \}\s*\}/);
+});
+
+test('a finger that drags the page into a story is held on the rest it came in by, and may turn back out (5 Nov 2026, LK90)', () => {
+  // Found with the hunt (tmp/night-1105/p4): a 600 px swipe from above the statement dragged the page 240 px into its
+  // hold before the finger lifted, and the release held the nearest rest (step 1; step 2 or 3 for longer swipes).
+  const code = strip(CONTROLLER);
+  const frame = body(code, 'onFrame');
+  assert.match(frame, /if \(!s\.ok \|\| \(drag && s === g\.story\)\) continue;/, 'never the story the finger started in (its exits stay free)');
+  assert.match(frame, /keepDir = 1;/);
+  assert.match(frame, /keepDir = -1;/);
+  assert.match(frame, /if \(keepY !== null && drag && \(keepDir > 0 \? y < keepY - 1 : y > keepY \+ 1\)\) \{ keepY = null; keepStory = null; \}/, 'a finger turning back out is free');
+  assert.match(frame, /if \(keepY !== null && \(touches === 0 \|\| drag\) && Math\.abs\(y - keepY\) > 1\) \{/);
+  assert.match(body(code, 'settle'), /if \(dragging\(\) && keepY !== null\) return;/, 'a finger still down keeps its hold');
 });

@@ -1,5 +1,5 @@
 /* The landing's ways in at the bottom of the page: the close band's two actions, the phone dock's two keys,
-   and the cue when a link to the sample ("Try 5 questions first") brings the question on screen (DemoJump.jsx). */
+   and the cue when a link to the sample ("Try 5 questions first") brings the question card on screen (DemoJump.jsx). */
 
 /* Every jump to the demo (a plain #try-practice link, a deep link from another page) stops below the sticky nav. */
 #try-practice { scroll-margin-top: 76px; }
@@ -57,24 +57,30 @@
   .mm-dock .mm-dock__ghost:hover { background: rgb(var(--tint) / 0.05); box-shadow: inset 0 0 0 1px var(--ink-3); }
 }
 
-/* ---------- Arrival: an ink ring settles onto the question card, then fades (no volt edges, LK68) ---------- */
-#try-practice[data-arrive='true'] .mm-drill {
-  animation: lp-arrive 1100ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both;
+/* ---------- Arrival: the question card's own shell lifts, then settles (5 Nov 2026, LK89) ----------
+   A "Try 5 questions first" link brings the card (.lp-desk__card) under the nav (DemoJump.jsx). It says so quietly: its
+   shadow deepens and its border brightens to --line-strong in about 180 ms, then both settle back over the rest of
+   600 ms. Only the peak is written; the start and the end are the card's own shadow and border (hero-scene.css), so it
+   lands exactly where it rests. No ring, no colour, no movement (the card is attached to the room above it, so a
+   translate would open a seam). Reduced motion keeps the border's brightening, without the shadow. */
+#try-practice .lp-desk__card { --lp-arrive-lift: 0 2px 6px rgba(40, 30, 10, 0.08), 0 26px 52px -22px rgba(40, 30, 10, 0.34); }
+:root[data-theme='dark'] #try-practice .lp-desk__card { --lp-arrive-lift: 0 1px 0 rgba(0, 0, 0, 0.3), 0 30px 56px -24px rgba(0, 0, 0, 0.9); }
+#try-practice[data-arrive='true'] .lp-desk__card {
+  animation: lp-arrive 600ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 @keyframes lp-arrive {
-  0% { outline: 2px solid transparent; outline-offset: 14px; }
-  28% { outline: 2px solid var(--ink); outline-offset: 5px; }
-  72% { outline: 2px solid var(--ink); outline-offset: 5px; }
-  100% { outline: 2px solid transparent; outline-offset: 5px; }
+  30% { border-color: var(--line-strong); box-shadow: var(--lp-arrive-lift); }
 }
 @keyframes lp-arrive-calm {
-  0%, 72% { outline: 2px solid var(--ink); outline-offset: 5px; }
-  100% { outline: 2px solid transparent; outline-offset: 5px; }
+  30%, 60% { border-color: var(--line-strong); }
 }
 @media (prefers-reduced-motion: reduce) {
-  #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+  #try-practice[data-arrive='true'] .lp-desk__card { animation-name: lp-arrive-calm; animation-timing-function: linear; }
 }
-html[data-motion='reduced'] #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+html[data-motion='reduced'] #try-practice[data-arrive='true'] .lp-desk__card { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+/* The card takes focus when a link brings it on (so the next Tab reaches answer A); that focus is the page's, not the
+   reader's, so it draws no ring. Its answers keep their own focus rings. */
+#try-practice .mm-drill[tabindex='-1']:focus { outline: none; }
 
 /* ---------- The dock steps down while the close band's actions hold the screen (CloseActions.jsx) ---------- */
 @media (max-width: 899px) {

@@ -17,7 +17,8 @@ import { deskStateAfter } from './heroTaps.mjs';
 // printed-paper voice) and the options carry plain letter chips. Mobi beside it answers each pick: every answer sends
 // the sample's state (demoSignal.mjs sendDemoState), which is the only thing that changes his bubble and fills one
 // bubble of Night's painted answer sheet. The card's own small Mobi retired (one Mobi in view, one finish). `note` is
-// the line under the options (the no-signup note and the other-subjects link, L-015).
+// the line under the options (the no-signup note and the other-subjects link, L-015). The card's root takes focus
+// (tabIndex -1) when a "Try 5 questions first" link brings it on screen (DemoJump.jsx), so the next Tab reaches answer A.
 const DRILL = [
   {
     subject: 'English',
@@ -101,8 +102,9 @@ export function DemoDrill({ note = null }) {
     const node = footRef.current;
     if (!node) return undefined;
     // Instant, never a programmatic glide (LK47): only when the key is out of reach, and only by what is needed.
+    // 'instant', not 'auto': the page's html has scroll-behavior: smooth, which 'auto' inherits (a glide, LK89).
     const id = window.setTimeout(() => {
-      node.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+      node.scrollIntoView({ block: 'nearest', behavior: 'instant' });
     }, 320);
     return () => window.clearTimeout(id);
   }, [answered, index]);
@@ -146,7 +148,7 @@ export function DemoDrill({ note = null }) {
 
   if (done) {
     return (
-      <div className="lp-card mm-drill" aria-live="polite">
+      <div className="lp-card mm-drill" aria-live="polite" tabIndex={-1} role="group" aria-label="Five sample questions">
         <div className="lp-card__head">
           <span className="lp-card__sub"><b>Drill complete</b><span>5 of 5</span></span>
         </div>
@@ -196,7 +198,7 @@ export function DemoDrill({ note = null }) {
   }
 
   return (
-    <div className="lp-card mm-drill" data-answered={answeredCount}>
+    <div className="lp-card mm-drill" data-answered={answeredCount} tabIndex={-1} role="group" aria-label="Five sample questions">
       <div className="lp-card__head">
         <span className="lp-card__sub"><b>{question.subject}</b><span>{index + 1} of {DRILL.length}</span></span>
         <span className="mm-drill__progress" aria-hidden="true">

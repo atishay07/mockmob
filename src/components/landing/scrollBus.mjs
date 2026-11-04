@@ -9,6 +9,7 @@
 //   hold('lab', true) / held()      a held story is on screen: loops that follow the scroll (the lean, Pip's gaze) sleep
 //   jump(y) / instantTo(y)          a programmatic move (nav link, hash, demo link) declares its target, so a story's
 //                                    edge clamp does not mistake the arrival for a fling and hold it at the first rest
+//   onJump(fn)                      hear each declared jump as it is declared (the story controller drops any hold)
 //
 // The only module state is a few numbers; it is safe to import on every page (ObjectLife does).
 
@@ -32,12 +33,19 @@ function run(t) {
   state.t = t;
   state.resized = resizedFlag;
   resizedFlag = false;
-  jumpFrame(y);
   const landed = landedFlag;
   landedFlag = false;
   state.landed = landed;
-  if (!state.dy && !state.resized && !landed) return;
-  for (const fn of [...subs]) fn(state);
+  // The subscribers first, then the jump's arrival check (5 Nov 2026, LK89). An instant jump arrives on its first frame:
+  // checked first, it cleared jumping() before the story controller read it, so the controller took the arrival for a
+  // fling across a near story and held the page on that story's edge. Now the landing frame still reads jumping(), and
+  // the frame after it carries `landed`.
+  if (state.dy || state.resized || landed) for (const fn of [...subs]) fn(state);
+  // A subscriber may have moved the page (the story controller holding it on a rest). The next frame's dy is measured
+  // from where the page was left, not from where it was read (LK90: a drag held on a rest moved back to the same y on
+  // the next frame read as no move at all, so that frame skipped the subscribers and the page got past the hold).
+  state.y = window.scrollY;
+  jumpFrame(y);
 }
 
 const wake = () => { if (!frame) frame = window.requestAnimationFrame(run); };
@@ -118,6 +126,14 @@ function jumpFrame(y) {
   armJump();
 }
 
+// Whoever holds the page against a fling (the story controller) hears every declared jump the moment it is declared:
+// a jump is the page's own move, so a hold left over from the tap that started it must not pull the page back.
+const jumpWatchers = new Set();
+export function onJump(fn) {
+  jumpWatchers.add(fn);
+  return () => jumpWatchers.delete(fn);
+}
+
 export function jump(y) {
   if (!canRun()) return;
   jumpY = Math.round(Number.isFinite(y) ? y : window.scrollY);
@@ -125,6 +141,7 @@ export function jump(y) {
   jumpInput(true);
   listen(true);
   armJump();
+  for (const fn of [...jumpWatchers]) fn(jumpY);
 }
 
 export function clearJump() {
