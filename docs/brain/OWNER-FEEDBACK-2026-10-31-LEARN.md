@@ -253,3 +253,9 @@ Reading (dictation): "denied" is likely "done": he ran the 610 MB snapshot push 
 > have you deployed anything anywhere? It is already live on mockmob.ai, but nothing seems changed to me. I don't think it's deployed, or can you confirm this and what you have exactly done? I was seeing some of the screenshots that you were seeing in between the charts. That website is looking different from what we have here right now
 
 Reading (dictation): "mockmob.ai" is www.mockmob.in; "charts" is chats. Answer: only the small Learn fix (main ced6f747f, about 3:30 am) is live; the new home page in the screenshots is the mock-ups and the local build in progress, not deployed; it ships only after the full gate (ledger LK79).
+
+## 4 Nov 2026, about 7 pm IST: speed up, finish, deploy, then tell him (verbatim)
+
+> Right now, just speed up things. Fix everything that you need to do, deploy everything, and then let me know. Make sure the things, when I see them, are as perfect as they can be.
+
+What this changes: no messages until it is all done and deployed (the Play build in its folder, the home page live and checked); work in parallel wherever it is safe; the quality bar stays (ledger LK80).
