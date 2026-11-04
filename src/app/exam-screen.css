@@ -10,9 +10,9 @@
 /* Phones and tablets: the head and Mobi share a row over the frame; from 1024 the head, Mobi and the line under the frame
    stand in a left column beside it, so the whole section is the frame's height plus its padding. */
 .xs-layout { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'head seat' 'sub sub' 'frame frame' 'gate gate'; align-items: center; gap: .5rem 1rem; }
-.xs-head { grid-area: head; min-width: 0; }
+.xs-head { grid-area: head; min-width: 0; margin: 0; }
 .xs-head .lp-h2 { margin: 0; }
-.xs-sub { grid-area: sub; }
+.xs-sub { grid-area: sub; margin: 0; }
 .xs-sub .lp-sub { margin: 0; max-width: 46ch; }
 .xs-layout > .xs-frame { grid-area: frame; margin-top: .5rem; }
 .xs-layout > .xs-seat { grid-area: seat; width: auto; grid-template-columns: 1fr; justify-items: center; text-align: center; }
@@ -97,6 +97,7 @@ button.xs-chip:active { transform: scale(.95); }
 .xs-state[data-state='answered'], .xs-state[data-state='marked-answered'] { border-color: var(--xs-ink); color: var(--xs-ink); }
 .xs-state[data-state='visited'] { border-style: dashed; border-color: var(--bad-text, #b0291f); }
 .xs-legend { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem .75rem; margin: 0; padding: 0; list-style: none; }
+.xs-legend li:last-child { grid-column: 1 / -1; }
 .xs-legend li { display: flex; align-items: center; gap: .45rem; color: var(--xs-ink-2); font-size: .75rem; line-height: 1.3; }
 .xs-legend i { display: block; flex: none; width: 16px; height: 16px; border: 1px solid var(--xs-line-strong); border-radius: 5px; }
 .xs-legend i[data-state='marked'], .xs-legend i[data-state='marked-answered'] { border-radius: 50%; }
@@ -117,7 +118,7 @@ button.xs-chip:active { transform: scale(.95); }
 .xs-gate { margin: .25rem 0 0; color: var(--ink-2); font-size: .875rem; line-height: 1.45; }
 .xs-gate b { color: var(--ink); font-weight: 650; }
 .xs-gate span { white-space: nowrap; font-variant-numeric: tabular-nums; }
-.xs-gate .lp-link { display: inline-flex; align-items: center; min-height: 44px; }
+.xs-gate .lp-link { display: inline; padding-block: 12px; } /* inline, so the second line keeps the line height; the padding still makes a 44 px target */
 
 /* ---------------------------------------------------------------- tablet and desktop */
 @media (min-width: 761px) {
