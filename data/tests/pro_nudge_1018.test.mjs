@@ -292,7 +292,7 @@ test('the Pro rows on Radar and the Mentor record open the sheet on full chapter
 test('the first-session headline never counts papers: it can open on a later paper in the first session', () => {
   const head = sheetHead('first_session');
   assert.doesNotMatch(`${head.title} ${head.lede}`, /\bfirst\b/i);
-  assert.equal(head.title, 'Paper done. Now take the limits off.');
+  assert.equal(head.title, 'Keep practising without limits');
 });
 
 test('each Pro tap names what was tapped: study plan, benchmark, the Mob limit, the credits modal', () => {
@@ -314,7 +314,7 @@ test('each Pro tap names what was tapped: study plan, benchmark, the Mob limit, 
   assert.doesNotMatch(read('src/components/mob/JoinMob.jsx'), /data-pro-feature/);
   assert.match(read('src/lib/mob/model.mjs'), /PRO_MAX_MOBS = 3;/);
   assert.match(read('src/lib/mob/model.mjs'), /Free lets you start one, and join as many as friends invite you to\./);
-  assert.match(sheetHead('mob_limit').title, /^Sit every Mob's weekly paper/);
+  assert.match(sheetHead('mob_limit').title, /^Start up to 3 Mobs/);
   assert.doesNotMatch(`${sheetHead('mob_limit').lede} ${sheetHead('mob').lede}`, /be in up to 3|Join up to 3|3 Mobs at once/, 'never says Free caps how many Mobs a student is in');
   assert.deepEqual(benefitLines('mob_limit', {}).slice(0, 2).map((l) => l.id), ['mob_more', 'mob']);
   // The credits modal's See Pro opens the sheet on credits; /pricing only when no host would show it.

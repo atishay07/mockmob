@@ -214,18 +214,18 @@ const GENERIC = Object.freeze({
 });
 
 const HEADS = Object.freeze({
-  nta: { title: 'Sit CUET before CUET', lede: 'Rehearse the whole paper on an exam-day style screen, against the clock, as often as you like. Original practice papers, not official ones.' },
-  smart: { title: 'Practise what is costing you marks', lede: 'Smart practice reads your record and weights every set toward the chapters you miss, so more of your time goes where your marks leak.' },
-  difficulty: { title: 'Choose how hard it gets', lede: 'Set easy, medium or hard for Quick practice and Full mocks. Warm up gently, or train where it is toughest.' },
+  nta: { title: 'Sit the exam before the exam', lede: 'Rehearse the whole paper on an exam-day style screen, against the clock, as often as you like. Original practice papers, not official ones.' },
+  smart: { title: 'Stop guessing what to practise', lede: 'Smart practice reads your record and weights every set toward the chapters you miss, so more of your time goes where your marks leak.' },
+  difficulty: { title: 'Train at the level you choose', lede: 'Set easy, medium or hard for Quick practice and Full mocks. Warm up gently, or train where it is toughest.' },
   review: { title: 'See every chapter that costs you marks', lede: 'Full chapter review ranks every chapter, with your pace and the answers you changed, so you know exactly what to fix next.' },
   compass: { title: 'Know what your practice is worth', lede: 'Compass Pro projects each CUET paper from your own practice, with a range, and checks it against your DU shortlist. A projection, not a prediction.' },
   saves: { title: 'Your 25 free saves are full', lede: 'This question wasn’t saved. Remove one to make room, or keep every question worth keeping with Pro, ready for revision.' },
-  credits: { title: 'Stop rationing your practice', lede: 'With Pro, Quick practice and Full mocks need no credits. Take the paper you need, the moment you need it.' },
+  credits: { title: 'Never ration practice again', lede: 'With Pro, Quick practice and Full mocks need no credits. Take the paper you need, the moment you need it.' },
   mob: { title: 'See your whole Mob, every week', lede: 'Pro opens the full side-by-side: who picked what, who changed an answer and how long each question took. Plus past weeks and up to 3 Mobs you start.' },
   // The Mob limit the student just hit on Free (release 9 rules, src/lib/mob/model.mjs): one Mob paper a week across all their
   // Mobs, and one Mob they start (they may JOIN any number by invite). PRO_MAX_MOBS = 3 is how many a Pro student may START;
   // src/lib/server/mob/service.js gives Pro every Mob's weekly paper. The sheet answers the weekly-paper limit first.
-  mob_limit: { title: "Sit every Mob's weekly paper", lede: "Free includes one Mob paper a week and one Mob you start. With Pro, sit every Mob's weekly paper, start up to 3 Mobs, and see the full side-by-side after each one." },
+  mob_limit: { title: 'Start up to 3 Mobs, one for each subject', lede: "Free includes one Mob paper a week and one Mob you start. With Pro, sit every Mob's weekly paper, start up to 3 Mobs, and see the full side-by-side after each one." },
   // Study preferences (src/components/study/StudyWorkspace.jsx): the weekly plan and mixed revision are Pro; lessons stay free.
   study: { title: 'Plan your week, day by day', lede: "Pro saves a weekly plan, a subject and the minutes for each day, and mixes up to 20 concepts you have learned into one revision session. Lessons, reviews and Today's plan stay free." },
   // The benchmark rivals (src/components/ai/AIRivalArena.jsx, src/services/usage/getDailyUsage.js LIMITS.paid).
@@ -234,7 +234,7 @@ const HEADS = Object.freeze({
   keycards: { title: 'Every Key card, on a schedule', lede: 'Pro opens every card in every chapter and brings each one back when it’s due. Free opens 5 cards a chapter and 10 card ratings a day.' },
   // Never counts papers: the sheet can open on a later paper in the first session (a paper within 2 minutes of
   // onboarding, or one the student left before the sheet was due, does not open it), so "first" would not always be true.
-  first_session: { title: 'Paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
+  first_session: { title: 'Keep practising without limits', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
   result: { title: 'Keep the momentum going', lede: 'Your next paper is built fresh from the bank. With Pro it needs no credits, and neither does the one after it.' },
   generic: GENERIC,
 });
@@ -252,7 +252,7 @@ export function keyLabel() {
 // Each benefit: a plain line (always true) and, when the student's own fact is known, a personal line in its place.
 const BENEFITS = Object.freeze({
   unlimited: {
-    plain: () => 'Unlimited Quick practice and Full mocks, each paper built fresh from one central bank.',
+    plain: () => 'Unlimited Quick practice and Full mocks, a fresh paper every time, from one central question bank.',
     personal: (f) => {
       const mocks = whole(f.fullMocks);
       if (mocks) return `You have sat ${plural(mocks, 'full mock')}. With Pro, sit as many as it takes.`;
@@ -262,7 +262,7 @@ const BENEFITS = Object.freeze({
     },
   },
   credits: {
-    plain: () => 'No credits needed for practice: every set and every Full mock is included.',
+    plain: () => 'Zero credits to count for practice: every set and every Full mock is included.',
     personal: (f) => {
       const spent = whole(f.spentWeek);
       if (spent) return `You spent ${plural(spent, 'credit')} on practice this week. With Pro, that would be 0.`;
@@ -272,7 +272,7 @@ const BENEFITS = Object.freeze({
     },
   },
   nta: {
-    plain: () => `NTA mode: the exam-day style screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`,
+    plain: () => `NTA mode: rehearse on the exam-day screen, ${NTA_COUNT} questions in ${NTA_MINUTES} minutes.`,
     personal: (f) => {
       const all = Array.isArray(f.subjects) ? f.subjects.filter(Boolean) : [];
       const subjects = all.filter((id) => NTA_SUBJECTS.includes(id === 'gat' ? 'general_test' : id));
@@ -284,7 +284,7 @@ const BENEFITS = Object.freeze({
     },
   },
   smart: {
-    plain: () => 'Smart practice weights every set toward the chapters you miss.',
+    plain: () => 'Smart practice aims every set at the chapters you miss.',
     personal: (f) => {
       const weak = clean(f.weakChapter);
       if (weak) return `${weak} had the most mistakes on your paper. Smart practice weights your sets toward chapters like it.`;
@@ -292,7 +292,7 @@ const BENEFITS = Object.freeze({
       return focus ? `Smart practice weights your sets toward chapters like ${focus}.` : null;
     },
   },
-  difficulty: { plain: () => 'Set the level for any session: easy, medium or hard.', personal: () => null },
+  difficulty: { plain: () => 'Easy, Medium and Hard sets.', personal: () => null },
   review: { plain: () => 'Full chapter review: every chapter ranked, with your pace and changed answers.', personal: () => null },
   compass: { plain: () => 'Compass Pro: your practice projected against your DU shortlist.', personal: () => null },
   saves: { plain: () => 'Unlimited saved questions. Free keeps 25.', personal: () => null },
