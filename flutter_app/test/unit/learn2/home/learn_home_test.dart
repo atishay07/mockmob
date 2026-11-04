@@ -35,14 +35,17 @@ const String _cpsr = 'accountancy.change-in-profit-sharing-ratio';
 
 Finder _row(String key) => find.byKey(ValueKey('lh-row-$key'));
 Finder _volt() => find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary);
-Finder _key(String label) => find.widgetWithText(KeyButton, label);
+/// A number and its unit are joined by a no-break space on screen (LearnWords.joinUnit, 4 Nov walk I9); the tests read it as a space.
+String _plain(String? s) => (s ?? '').replaceAll(' ', ' ');
+Finder _text(String text) => find.byWidgetPredicate((w) => w is Text && _plain(w.data ?? w.textSpan?.toPlainText()) == text, description: 'text "$text"');
+Finder _key(String label) => find.ancestor(of: _text(label), matching: find.byType(KeyButton));
 Finder _search() => find.byKey(const ValueKey('lh-search'));
 Finder _picker() => find.byKey(const ValueKey('lh-picker'));
 
 TextField _field(WidgetTester tester) => tester.widget<TextField>(_search());
 
 /// Every word on screen, one per Text.
-List<String> _texts(WidgetTester tester) => [for (final w in tester.widgetList<Text>(find.byType(Text))) w.data ?? w.textSpan?.toPlainText() ?? ''];
+List<String> _texts(WidgetTester tester) => [for (final w in tester.widgetList<Text>(find.byType(Text))) _plain(w.data ?? w.textSpan?.toPlainText())];
 
 Future<void> _tap(WidgetTester tester, Finder f) async {
   await tester.ensureVisible(f.first);
@@ -81,17 +84,17 @@ void main() {
     testWidgets('a new student: Start learning Accountancy, one volt key, the two Or rows and no zero anywhere', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(newStudent: true)));
       await settleHome(tester);
-      expect(find.text('Start learning Accountancy'), findsOneWidget);
-      expect(find.text('Chapter 1 of 14 · Accounting for Partnership: Basic Concepts'), findsOneWidget);
+      expect(_text('Start learning Accountancy'), findsOneWidget);
+      expect(_text('Chapter 1 of 14 · Accounting for Partnership: Basic Concepts'), findsOneWidget);
       expect(_key('Start chapter 1 · 10 min'), findsOneWidget);
       expect(_volt(), findsOneWidget, reason: 'the page has one volt key');
-      expect(find.text('Skip what you already know'), findsOneWidget);
-      expect(find.text('6 questions · about 6 min'), findsOneWidget);
-      expect(find.text('Play this chapter as a feed'), findsOneWidget);
-      expect(find.text('Scroll through the chapter, stop any time'), findsOneWidget);
+      expect(_text('Skip what you already know'), findsOneWidget);
+      expect(_text('6 questions · about 6 min'), findsOneWidget);
+      expect(_text('Play this chapter as a feed'), findsOneWidget);
+      expect(_text('Scroll through the chapter, stop any time'), findsOneWidget);
       // The old status line, the shelf tiles and the suggestions are gone.
       expect(find.textContaining('due today'), findsNothing);
-      expect(find.text('Where to start'), findsNothing);
+      expect(_text('Where to start'), findsNothing);
       expect(find.byKey(const ValueKey('lh-offer-sub')), findsNothing, reason: 'a new student has no sub line');
       _plainWords(tester);
     });
@@ -100,12 +103,12 @@ void main() {
       final api = HomeLearnApi();
       final router = await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      expect(find.text('Pick up Admission of a Partner'), findsOneWidget);
-      expect(find.text('6 of 16 done'), findsOneWidget);
+      expect(_text('Pick up Admission of a Partner'), findsOneWidget);
+      expect(_text('6 of 16 done'), findsOneWidget);
       expect(_key('Continue · 5 min'), findsOneWidget);
-      expect(find.text('Revise 9 due cards · 2 min'), findsOneWidget);
-      expect(find.text('Fix 3 open mistakes · 3 min'), findsOneWidget);
-      expect(find.text('Accounting for Partnership: Basic Concepts'), findsWidgets, reason: 'the fix row names its chapter');
+      expect(_text('Revise 9 due cards · 2 min'), findsOneWidget);
+      expect(_text('Fix 3 open mistakes · 3 min'), findsOneWidget);
+      expect(_text('Accounting for Partnership: Basic Concepts'), findsWidgets, reason: 'the fix row names its chapter');
       expect(api.subjectReads, 1, reason: 'one read, the subject body and the shelves together');
       // The key picks the run up by its id.
       final (path, query) = await _go(tester, _key('Continue · 5 min'), router);
@@ -119,7 +122,7 @@ void main() {
     testWidgets('the fix row starts a NEW mistakes-only run, never a resume', (tester) async {
       final router = await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()));
       await settleHome(tester);
-      final (path, query) = await _go(tester, find.text('Fix 3 open mistakes · 3 min'), router);
+      final (path, query) = await _go(tester, _text('Fix 3 open mistakes · 3 min'), router);
       expect(path, '/learn/session');
       expect(query['chapter'], _pf);
       expect(query['min'], '3');
@@ -132,7 +135,7 @@ void main() {
     testWidgets('the Revise row plays exactly the due cards the server named, as a cards run', (tester) async {
       final router = await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()));
       await settleHome(tester);
-      final (path, query) = await _go(tester, find.text('Revise 9 due cards · 2 min'), router);
+      final (path, query) = await _go(tester, _text('Revise 9 due cards · 2 min'), router);
       expect(path, '/learn/session');
       expect(query['kind'], 'cards');
       expect(query['chapter'], _pf);
@@ -149,23 +152,23 @@ void main() {
       router.pop();
       await settleHome(tester);
 
-      (path, q) = await _go(tester, find.text('Skip what you already know'), router);
+      (path, q) = await _go(tester, _text('Skip what you already know'), router);
       expect((path, q['kind'], q['min'], q['chapter']), ('/learn/session', 'level', '6', _pf));
       router.pop();
       await settleHome(tester);
 
-      (path, q) = await _go(tester, find.text('Play this chapter as a feed'), router);
+      (path, q) = await _go(tester, _text('Play this chapter as a feed'), router);
       expect((path, q['chapter'], q['min']), ('/explore/feed', _pf, '10'));
     });
 
     testWidgets('returning, nothing unfinished: Today\'s 10 minutes, the due cards first, Start · 10 min, and only the feed row', (tester) async {
       final router = await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(), subject: 'economics'));
       await settleHome(tester);
-      expect(find.text("Today's 10 minutes in Economics"), findsOneWidget);
-      expect(find.text('Chapter 1 of 17 · Introduction, Theory of Consumer Behaviour'), findsOneWidget);
-      expect(find.text('6 due cards first, then new ones here'), findsOneWidget);
+      expect(_text("Today's 10 minutes in Economics"), findsOneWidget);
+      expect(_text('Chapter 1 of 17 · Introduction, Theory of Consumer Behaviour'), findsOneWidget);
+      expect(_text('6 due cards first, then new ones here'), findsOneWidget);
       expect(_key('Start · 10 min'), findsOneWidget);
-      expect(find.text('Play this chapter as a feed'), findsOneWidget);
+      expect(_text('Play this chapter as a feed'), findsOneWidget);
       expect(find.textContaining('Revise '), findsNothing, reason: 'the Start key already plays the due cards: one of the two, never both');
       final (path, query) = await _go(tester, _key('Start · 10 min'), router);
       expect(path, '/learn/session');
@@ -176,17 +179,17 @@ void main() {
     testWidgets('Free after the day\'s session: the web\'s one block, See Pro, and the Or rows that still work', (tester) async {
       final router = await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(pro: false, freeUsed: true), nudges: true));
       await settleHome(tester);
-      expect(find.text("That was today's free session."), findsOneWidget);
-      expect(find.text('Questions come back tomorrow. Your Key cards stay open.'), findsOneWidget);
+      expect(_text("That was today's free session."), findsOneWidget);
+      expect(_text('Questions come back tomorrow. Your Key cards stay open.'), findsOneWidget);
       expect(_key('See Pro'), findsOneWidget);
       expect(_volt(), findsOneWidget);
-      expect(find.text('Continue · 8 min'), findsOneWidget);
-      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
+      expect(_text('Continue · 8 min'), findsOneWidget);
+      expect(_text('Revise 8 due cards · 2 min'), findsOneWidget);
       expect(find.textContaining('tomorrow'), findsOneWidget, reason: 'one line says it, nowhere else');
       expect(find.textContaining('Free Learn'), findsNothing);
       _plainWords(tester);
       // The unfinished feed is picked up by its id, as a feed.
-      final (path, q) = await _go(tester, find.text('Continue · 8 min'), router);
+      final (path, q) = await _go(tester, _text('Continue · 8 min'), router);
       expect(path, '/explore/feed');
       expect(q['chapter'], _aop);
       expect(q['min'], '8');
@@ -196,10 +199,10 @@ void main() {
     testWidgets('Free with Pro nudges off: the block without a key that sells', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(pro: false, freeUsed: true), nudges: false));
       await settleHome(tester);
-      expect(find.text("That was today's free session."), findsOneWidget);
+      expect(_text("That was today's free session."), findsOneWidget);
       expect(_key('See Pro'), findsNothing);
       expect(_volt(), findsNothing);
-      expect(find.text('Continue · 8 min'), findsOneWidget);
+      expect(_text('Continue · 8 min'), findsOneWidget);
     });
 
     testWidgets('an Or row that goes to Explore opens Explore on the subject', (tester) async {
@@ -212,7 +215,7 @@ void main() {
       );
       final router = await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      final (path, q) = await _go(tester, find.text('Answer single questions'), router);
+      final (path, q) = await _go(tester, _text('Answer single questions'), router);
       expect(path, '/practice', reason: 'Explore is the fourth door of Practice');
       expect(q['door'], 'explore');
       expect(q['subject'], 'accountancy');
@@ -244,7 +247,7 @@ void main() {
       await settleHome(tester);
       expect(find.byKey(const ValueKey('lh-or-revise')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-or-fix')), findsOneWidget);
-      expect(find.text('Answer single questions'), findsNothing, reason: 'two rows at most');
+      expect(_text('Answer single questions'), findsNothing, reason: 'two rows at most');
     });
 
     testWidgets('a row with nowhere to go is not drawn', (tester) async {
@@ -256,8 +259,8 @@ void main() {
       );
       await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      expect(find.text('A row with nowhere to go'), findsNothing);
-      expect(find.text('Answer single questions'), findsOneWidget);
+      expect(_text('A row with nowhere to go'), findsNothing);
+      expect(_text('Answer single questions'), findsOneWidget);
     });
 
     for (final (name, api, subject) in <(String, HomeLearnApi Function(), String)>[
@@ -284,25 +287,25 @@ void main() {
       await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
       expect(_picker(), findsOneWidget);
-      expect(find.descendant(of: _picker(), matching: find.text('Accountancy')), findsOneWidget);
+      expect(find.descendant(of: _picker(), matching: _text('Accountancy')), findsOneWidget);
       expect(tester.getSize(_picker()).height, greaterThanOrEqualTo(56));
       final container = ProviderScope.containerOf(tester.element(find.byType(LearnHome)));
       expect(container.read(practiceSubjectProvider), 'accountancy');
 
       await _tap(tester, _picker());
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Choose a subject'), findsOneWidget);
+      expect(_text('Choose a subject'), findsOneWidget);
       for (final name in ['Accountancy', 'Economics', 'Business Studies', 'English']) {
-        expect(find.descendant(of: find.byType(MmSheetScaffold), matching: find.text(name)), findsOneWidget, reason: name);
+        expect(find.descendant(of: find.byType(MmSheetScaffold), matching: _text(name)), findsOneWidget, reason: name);
       }
       await tester.tap(find.byKey(const ValueKey('lh-picker-economics')));
       await tester.pump(const Duration(milliseconds: 600));
       await settleHome(tester);
-      expect(find.text('Choose a subject'), findsNothing);
+      expect(_text('Choose a subject'), findsNothing);
       expect(container.read(practiceSubjectProvider), 'economics');
-      expect(find.descendant(of: _picker(), matching: find.text('Economics')), findsOneWidget);
-      expect(find.text("Today's 10 minutes in Economics"), findsOneWidget);
-      expect(find.text('Pick up Admission of a Partner'), findsNothing, reason: 'the old subject\'s offer is never drawn under the new name');
+      expect(find.descendant(of: _picker(), matching: _text('Economics')), findsOneWidget);
+      expect(_text("Today's 10 minutes in Economics"), findsOneWidget);
+      expect(_text('Pick up Admission of a Partner'), findsNothing, reason: 'the old subject\'s offer is never drawn under the new name');
       expect(api.calls, contains('home economics'));
     });
 
@@ -311,7 +314,7 @@ void main() {
       await settleHome(tester);
       final container = ProviderScope.containerOf(tester.element(find.byType(LearnHome)));
       expect(container.read(practiceSubjectProvider), 'economics');
-      expect(find.text("Today's 10 minutes in Economics"), findsOneWidget);
+      expect(_text("Today's 10 minutes in Economics"), findsOneWidget);
     });
 
     testWidgets('a name never breaks inside a word: one line at 384 dp and at text 1.3', (tester) async {
@@ -323,12 +326,12 @@ void main() {
       );
       await settleHome(tester);
       expect(tester.takeException(), isNull);
-      final name = tester.widget<Text>(find.descendant(of: _picker(), matching: find.text('Business Studies')));
+      final name = tester.widget<Text>(find.descendant(of: _picker(), matching: _text('Business Studies')));
       expect(name.maxLines, 1);
       expect(name.softWrap, isFalse);
       expect(name.overflow, TextOverflow.ellipsis);
       // The name fits on one line here: it is as high as one line of text, not two.
-      expect(tester.getSize(find.descendant(of: _picker(), matching: find.text('Business Studies'))).height, lessThan(40));
+      expect(tester.getSize(find.descendant(of: _picker(), matching: _text('Business Studies'))).height, lessThan(40));
     });
 
     test('a long name gives way to its first part, a slash between two words is "and"', () {
@@ -341,10 +344,10 @@ void main() {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(subjectsOnly: const ['accountancy']), subjects: const ['accountancy']));
       await settleHome(tester);
       expect(_picker(), findsOneWidget);
-      expect(find.descendant(of: _picker(), matching: find.text('Accountancy')), findsOneWidget);
+      expect(find.descendant(of: _picker(), matching: _text('Accountancy')), findsOneWidget);
       await tester.tap(_picker());
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Choose a subject'), findsNothing, reason: 'nothing to choose between');
+      expect(_text('Choose a subject'), findsNothing, reason: 'nothing to choose between');
     });
   });
 
@@ -352,9 +355,9 @@ void main() {
     testWidgets('the field reads "Find a topic, like goodwill"; focusing it opens Find: the student\'s sets as rows, and the offer steps aside', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()));
       await settleHome(tester);
-      expect(find.text('Find a topic, like goodwill'), findsOneWidget);
+      expect(_text('Find a topic, like goodwill'), findsOneWidget);
       expect(find.byType(FindHome), findsNothing);
-      expect(find.text('Cancel'), findsNothing);
+      expect(_text('Cancel'), findsNothing);
       expect(tester.getSize(_search()).height, greaterThanOrEqualTo(HomeSearchField.height - 0.01));
 
       await tester.tap(_search());
@@ -362,14 +365,14 @@ void main() {
       expect(find.byType(FindHome), findsOneWidget);
       expect(find.byType(RoadmapOffer), findsNothing, reason: 'the field leads while Find is open');
       expect(_picker(), findsNothing);
-      expect(find.text('Your roadmap'), findsNothing);
-      expect(find.text('Your cards'), findsOneWidget);
-      expect(find.text('Due today'), findsOneWidget);
-      expect(find.text('9 cards · about 2 min'), findsOneWidget);
-      expect(find.text('Missed lately'), findsOneWidget);
-      expect(find.text('In Revise'), findsOneWidget);
-      expect(find.text('Must-know lines'), findsOneWidget);
-      expect(find.text('Cancel'), findsOneWidget);
+      expect(_text('Your roadmap'), findsNothing);
+      expect(_text('Your cards'), findsOneWidget);
+      expect(_text('Due today'), findsOneWidget);
+      expect(_text('9 cards · about 2 min'), findsOneWidget);
+      expect(_text('Missed lately'), findsOneWidget);
+      expect(_text('In Revise'), findsOneWidget);
+      expect(_text('Must-know lines'), findsOneWidget);
+      expect(_text('Cancel'), findsOneWidget);
       expect(find.byType(FindPanel), findsNothing, reason: 'no words typed: no results');
       _plainWords(tester);
     });
@@ -386,12 +389,12 @@ void main() {
       expect(tester.widget<FindPanel>(find.byType(FindPanel)).subject, 'accountancy');
       expect(find.byType(FindHome), findsNothing);
 
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(_text('Cancel'));
       await settleHome(tester);
       expect(find.byType(FindPanel), findsNothing);
-      expect(find.text('Cancel'), findsNothing);
+      expect(_text('Cancel'), findsNothing);
       expect(find.byType(RoadmapOffer), findsOneWidget);
-      expect(find.text('Your roadmap'), findsOneWidget);
+      expect(_text('Your roadmap'), findsOneWidget);
       expect(_field(tester).controller!.text, '');
       expect(_field(tester).focusNode!.hasFocus, isFalse);
     });
@@ -400,8 +403,8 @@ void main() {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(newStudent: true)), find: true);
       await settleHome(tester);
       expect(find.byType(FindHome), findsOneWidget);
-      expect(find.text('Search any word from the book, like “goodwill”.'), findsOneWidget);
-      expect(find.text('Try a word'), findsNothing, reason: 'the group\'s name is for a screen reader');
+      expect(_text('Search any word from the book, like “goodwill”.'), findsOneWidget);
+      expect(_text('Try a word'), findsNothing, reason: 'the group\'s name is for a screen reader');
       for (final w in ['goodwill', 'sacrificing ratio', 'revaluation', 'debentures']) {
         expect(find.byKey(ValueKey('lh-chip-$w')), findsOneWidget, reason: w);
       }
@@ -412,10 +415,10 @@ void main() {
       expect(goodwill.width, lessThan(200));
       expect(ratio.left, MmSpace.gutter, reason: 'a word that does not fit beside the first starts the next row at the left');
       expect(ratio.width, lessThan(330), reason: 'its own words and their padding');
-      expect(find.text('Due today'), findsNothing, reason: 'a set with no cards is not a row');
-      expect(find.text('Missed lately'), findsNothing);
-      expect(find.text('In Revise'), findsNothing);
-      expect(find.text('Must-know lines'), findsOneWidget);
+      expect(_text('Due today'), findsNothing, reason: 'a set with no cards is not a row');
+      expect(_text('Missed lately'), findsNothing);
+      expect(_text('In Revise'), findsNothing);
+      expect(_text('Must-know lines'), findsOneWidget);
       _plainWords(tester);
 
       await _tap(tester, find.byKey(const ValueKey('lh-chip-goodwill')));
@@ -442,7 +445,7 @@ void main() {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()), find: true);
       await settleHome(tester);
       expect(find.byType(FindHome), findsOneWidget);
-      expect(find.text('Cancel'), findsOneWidget);
+      expect(_text('Cancel'), findsOneWidget);
       expect(_field(tester).focusNode!.hasFocus, isTrue);
     });
 
@@ -453,7 +456,7 @@ void main() {
       expect(tester.widget<FindPanel>(find.byType(FindPanel)).query, 'goodwill');
       expect(_field(tester).controller!.text, 'goodwill');
       expect(find.byType(RoadmapOffer), findsNothing);
-      expect(find.text('Cancel'), findsOneWidget);
+      expect(_text('Cancel'), findsOneWidget);
     });
 
     testWidgets('a new link to the same page replaces what is open: its words, then none', (tester) async {
@@ -498,7 +501,7 @@ void main() {
       await tester.tap(_search());
       await settleHome(tester);
       expect(controller.offset, greaterThan(120), reason: 'the field docks near the top, so the keyboard does not cover what follows');
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(_text('Cancel'));
       await settleHome(tester);
       expect(controller.offset, closeTo(120, 1));
     });
@@ -514,10 +517,10 @@ void main() {
       await settleHome(tester);
       expect(find.byType(HomeShelfSet), findsOneWidget);
       expect(find.byType(FindHome), findsNothing);
-      expect(find.text('Due today'), findsOneWidget);
-      expect(find.text('9 cards in 3 chapters, about 2 min'), findsOneWidget);
+      expect(_text('Due today'), findsOneWidget);
+      expect(_text('9 cards in 3 chapters, about 2 min'), findsOneWidget);
       for (final chip in ['Due today 9', 'Missed lately 6', 'In Revise 26', 'Must-know 236']) {
-        expect(find.text(chip), findsOneWidget, reason: chip);
+        expect(_text(chip), findsOneWidget, reason: chip);
       }
       expect(find.byType(RoadmapOffer), findsNothing, reason: 'the offer is hidden while a set is open');
       expect(_volt(), findsOneWidget);
@@ -526,8 +529,8 @@ void main() {
       expect(find.byKey(const ValueKey('lh-set-row-$_pl')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-set-row-accountancy.accounting-ratios')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-set-row-accountancy.goodwill-valuation')), findsNothing, reason: 'a chapter with none of its cards in the set is not listed');
-      expect(find.text('Cancel'), findsOneWidget);
-      expect(find.text('3 cards'), findsNWidgets(3), reason: 'each chapter and how many of its cards are in the set');
+      expect(_text('Cancel'), findsOneWidget);
+      expect(_text('3 cards'), findsNWidgets(3), reason: 'each chapter and how many of its cards are in the set');
       expect([for (final t in _texts(tester)) if (RegExp(r'^Ch \d+$').hasMatch(t)) t], isEmpty, reason: 'a chapter is its name, never a "Ch 2" from the book');
 
       final (path, q) = await _go(tester, _key('Revise these 9'), router);
@@ -543,7 +546,7 @@ void main() {
       await settleHome(tester);
       expect(find.byType(HomeShelfSet), findsNothing);
       expect(find.byType(RoadmapOffer), findsOneWidget);
-      expect(find.text('Your roadmap'), findsOneWidget);
+      expect(_text('Your roadmap'), findsOneWidget);
     });
 
     testWidgets('Cancel closes the set; the chips switch the set; typing replaces it with Find', (tester) async {
@@ -553,20 +556,20 @@ void main() {
       await settleHome(tester);
       await _tap(tester, find.byKey(const ValueKey('lh-find-missed')));
       await settleHome(tester);
-      expect(find.text('Missed lately'), findsOneWidget);
-      await tester.tap(find.text('Cancel'));
+      expect(_text('Missed lately'), findsOneWidget);
+      await tester.tap(_text('Cancel'));
       await settleHome(tester);
       expect(find.byType(HomeShelfSet), findsNothing);
       expect(find.byType(RoadmapOffer), findsOneWidget);
-      expect(find.text('Cancel'), findsNothing);
+      expect(_text('Cancel'), findsNothing);
 
       await tester.tap(_search());
       await settleHome(tester);
       await _tap(tester, find.byKey(const ValueKey('lh-find-due')));
       await settleHome(tester);
-      await _tap(tester, find.text('In Revise 26'));
+      await _tap(tester, _text('In Revise 26'));
       await settleHome(tester);
-      expect(find.text('In Revise'), findsOneWidget);
+      expect(_text('In Revise'), findsOneWidget);
       await tester.enterText(_search(), 'goodwill');
       await settleHome(tester);
       expect(find.byType(FindPanel), findsOneWidget);
@@ -581,12 +584,12 @@ void main() {
       await settleHome(tester);
       await _tap(tester, find.byKey(const ValueKey('lh-find-due')));
       await settleHome(tester);
-      expect(find.text('The cards didn\'t load'), findsOneWidget);
-      expect(find.text('Check your connection and try again.'), findsOneWidget);
+      expect(_text('The cards didn\'t load'), findsOneWidget);
+      expect(_text('Check your connection and try again.'), findsOneWidget);
       api.failOn.clear();
       await _tap(tester, _key('Try again'));
       await settleHome(tester);
-      expect(find.text('9 cards in 3 chapters, about 2 min'), findsOneWidget);
+      expect(_text('9 cards in 3 chapters, about 2 min'), findsOneWidget);
     });
   });
 
@@ -594,37 +597,37 @@ void main() {
     testWidgets('a new student: Start here on chapter 1, the real size of each chapter, no bar, no state ring', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(newStudent: true)));
       await settleHome(tester);
-      expect(find.text('Your roadmap'), findsOneWidget);
-      expect(find.text('Book order'), findsOneWidget);
-      expect(find.text('Start here'), findsOneWidget);
-      expect(find.text('Up next'), findsNothing);
-      expect(find.descendant(of: _row(_pf), matching: find.text('Start here')), findsOneWidget);
-      expect(find.descendant(of: _row(_pf), matching: find.text('45 cards · 10 questions')), findsOneWidget);
+      expect(_text('Your roadmap'), findsOneWidget);
+      expect(_text('Book order'), findsOneWidget);
+      expect(_text('Start here'), findsOneWidget);
+      expect(_text('Up next'), findsNothing);
+      expect(find.descendant(of: _row(_pf), matching: _text('Start here')), findsOneWidget);
+      expect(find.descendant(of: _row(_pf), matching: _text('45 cards · 10 questions')), findsOneWidget);
       for (final gone in ['Not started', 'Getting there', 'Holding', 'Too few answers', 'Fading', 'All 15 chapters are new to you.']) {
-        expect(find.text(gone), findsNothing, reason: '"$gone" is not a word Learn lists draw');
+        expect(_text(gone), findsNothing, reason: '"$gone" is not a word Learn lists draw');
       }
-      expect(find.text('Part 1, Partnership Accounts'), findsOneWidget);
-      expect(find.text('Accounting for Partnership'), findsOneWidget, reason: 'a unit heading that says more than its one chapter');
-      expect(find.text('Dissolution of Partnership Firm'), findsOneWidget, reason: 'a unit named like its one chapter says nothing twice');
+      expect(_text('Part 1, Partnership Accounts'), findsOneWidget);
+      expect(_text('Accounting for Partnership'), findsOneWidget, reason: 'a unit heading that says more than its one chapter');
+      expect(_text('Dissolution of Partnership Firm'), findsOneWidget, reason: 'a unit named like its one chapter says nothing twice');
       // Every playable chapter is a row, keyed by its chapter; no row carries a bar before a card is seen.
       for (final row in LearnFixtures.subject('home_accountancy_new_pro').chapters.where((c) => c.cards > 0)) {
         expect(_row(row.key), findsOneWidget, reason: row.key);
       }
-      expect(find.text('Nothing to practise here yet.'), findsNothing, reason: 'a chapter with no cards is not drawn at all');
+      expect(_text('Nothing to practise here yet.'), findsNothing, reason: 'a chapter with no cards is not drawn at all');
       _plainWords(tester);
     });
 
     testWidgets('a returning student: the coverage line, the verdict word and where it comes from, Up next on the chapter they are in', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi()));
       await settleHome(tester);
-      expect(find.descendant(of: _row(_pf), matching: find.text('12 of 45 cards seen · 3 of 10 questions tried')), findsOneWidget);
-      expect(find.descendant(of: _row(_pl), matching: find.text('11 of 42 cards seen · 1 question')), findsOneWidget);
-      expect(find.descendant(of: _row(_aop), matching: find.text('60 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
+      expect(find.descendant(of: _row(_pf), matching: _text('12 of 45 cards seen · 3 of 10 questions tried')), findsOneWidget);
+      expect(find.descendant(of: _row(_pl), matching: _text('11 of 42 cards seen · 1 question')), findsOneWidget);
+      expect(find.descendant(of: _row(_aop), matching: _text('60 cards · 2 of 10 questions tried')), findsOneWidget, reason: 'no card seen yet: the total, never "0 of"');
       expect(find.descendant(of: _row(_cpsr), matching: find.text('Needs work, from your papers', findRichText: true)), findsOneWidget);
-      expect(find.descendant(of: _row(_aop), matching: find.text('Up next')), findsOneWidget);
-      expect(find.text('Start here'), findsNothing);
+      expect(find.descendant(of: _row(_aop), matching: _text('Up next')), findsOneWidget);
+      expect(_text('Start here'), findsNothing);
       for (final gone in ['Getting there', 'Holding', 'Too few answers', 'Not started']) {
-        expect(find.text(gone), findsNothing, reason: gone);
+        expect(_text(gone), findsNothing, reason: gone);
       }
       _plainWords(tester);
     });
@@ -642,8 +645,8 @@ void main() {
     testWidgets('Free: "5 Key cards free in each chapter" once in the header, and every row keeps the chapter\'s real size', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(pro: false, newStudent: true)));
       await settleHome(tester);
-      expect(find.text('5 Key cards free in each chapter'), findsOneWidget);
-      expect(find.descendant(of: _row(_pf), matching: find.text('45 cards · 10 questions')), findsOneWidget, reason: 'never the free count');
+      expect(_text('5 Key cards free in each chapter'), findsOneWidget);
+      expect(find.descendant(of: _row(_pf), matching: _text('45 cards · 10 questions')), findsOneWidget, reason: 'never the free count');
       expect(_texts(tester).where((t) => t.contains('free card') || t.contains('5 of 45')), isEmpty);
     });
 
@@ -658,12 +661,12 @@ void main() {
       await settleHome(tester);
       await tester.ensureVisible(find.byKey(const ValueKey('lh-switch-p2')));
       await tester.pump();
-      expect(find.text('Part 2 has two options. Pick the one your school teaches.'), findsOneWidget);
+      expect(_text('Part 2 has two options. Pick the one your school teaches.'), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-choice-AFS')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-choice-CAS')), findsOneWidget);
       expect(_chosen(tester, 'AFS'), isFalse);
       expect(_chosen(tester, 'CAS'), isFalse);
-      expect(find.text('Showing Analysis of Financial Statements until you pick.'), findsOneWidget);
+      expect(_text('Showing Analysis of Financial Statements until you pick.'), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-option-coming')), findsNothing);
       // The pills are as wide as their words and flow from the left, as the web's: never one across the whole width.
       final afs = tester.getRect(find.byKey(const ValueKey('lh-choice-AFS')));
@@ -688,12 +691,12 @@ void main() {
       await tester.pump();
       // At once: the tapped side is the chosen one, the hint says it is saving, and nothing above has moved.
       expect(_chosen(tester, 'CAS'), isTrue);
-      expect(find.text('Saving your choice'), findsOneWidget);
+      expect(_text('Saving your choice'), findsOneWidget);
       expect(keys.saved, ['CAS']);
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Saving your choice'), findsOneWidget, reason: 'the server has not answered yet');
+      expect(_text('Saving your choice'), findsOneWidget, reason: 'the server has not answered yet');
       expect(find.byKey(const ValueKey('lh-row-accountancy.accounting-ratios')), findsNothing, reason: 'the other side\'s rows are gone once the cross-fade has run');
-      expect(find.text('Cards for this option are coming.'), findsOneWidget);
+      expect(_text('Cards for this option are coming.'), findsOneWidget);
       expect([for (final k in [_pf, 'accountancy.retirement-and-death-of-partner']) tester.getTopLeft(_row(k)).dy], above, reason: 'nothing above the part switch moves');
       expect(tester.getTopLeft(find.byKey(const ValueKey('lh-switch-p2'))).dy, switchTop, reason: 'the pills stay where the finger is');
 
@@ -702,9 +705,9 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 600));
       expect(_chosen(tester, 'CAS'), isTrue);
-      expect(find.text('Saving your choice'), findsNothing);
-      expect(find.text('Your choice wasn\'t saved. Try again.'), findsNothing);
-      expect(find.text('Showing Analysis of Financial Statements until you pick.'), findsNothing);
+      expect(_text('Saving your choice'), findsNothing);
+      expect(_text('Your choice wasn\'t saved. Try again.'), findsNothing);
+      expect(_text('Showing Analysis of Financial Statements until you pick.'), findsNothing);
       expect(api.subjectReads, greaterThanOrEqualTo(2), reason: 'the home was read again after the save');
       await tester.pump(const Duration(seconds: 1));
     });
@@ -727,10 +730,10 @@ void main() {
       gate.complete();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
-      expect(find.text('Your choice wasn\'t saved. Try again.'), findsOneWidget);
+      expect(_text('Your choice wasn\'t saved. Try again.'), findsOneWidget);
       expect(_chosen(tester, 'CAS'), isFalse, reason: 'the choice is dropped');
       expect(find.byKey(const ValueKey('lh-row-accountancy.accounting-ratios')), findsOneWidget, reason: 'the side that shows is back');
-      expect(find.text('Cards for this option are coming.'), findsNothing);
+      expect(_text('Cards for this option are coming.'), findsNothing);
 
       // Trying again is one tap.
       keys.fail = false;
@@ -738,13 +741,13 @@ void main() {
       keys.gate = retry;
       await tester.tap(find.byKey(const ValueKey('lh-choice-AFS')));
       await tester.pump();
-      expect(find.text('Saving your choice'), findsOneWidget);
+      expect(_text('Saving your choice'), findsOneWidget);
       expect(_chosen(tester, 'AFS'), isTrue);
       retry.complete();
       await tester.pump();
       await tester.pump(const Duration(seconds: 1));
-      expect(find.text('Saving your choice'), findsNothing);
-      expect(find.text('Your choice wasn\'t saved. Try again.'), findsNothing);
+      expect(_text('Saving your choice'), findsNothing);
+      expect(_text('Your choice wasn\'t saved. Try again.'), findsNothing);
       expect(keys.saved, ['CAS', 'AFS']);
     });
 
@@ -759,7 +762,7 @@ void main() {
 
       await _tap(tester, find.byKey(const ValueKey('lh-sort')));
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Sort chapters'), findsOneWidget);
+      expect(_text('Sort chapters'), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-sort-book')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-sort-needs')), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-sort-due')), findsNothing, reason: 'the rows carry no due counts, so a sort by them would order by something unseen');
@@ -767,14 +770,14 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('lh-sort-needs')));
       await tester.pump(const Duration(milliseconds: 600));
       await settleHome(tester);
-      expect(find.text('Needs work first'), findsOneWidget);
+      expect(_text('Needs work first'), findsOneWidget);
       for (final k in book) {
         expect(_row(k), findsOneWidget, reason: 'every row is keyed by its chapter: $k');
       }
       final needs = [for (final f in HomeModel.sortRows(HomeModel.playableParts(parts), 'needs')) f.row.key];
       expect(order(book), needs, reason: 'needs work first');
       expect(top(_cpsr), lessThan(top(_pf)), reason: 'a chapter that needs work comes before one that does not');
-      expect(find.text('Part 1, Partnership Accounts'), findsNothing, reason: 'a sorted list is flat');
+      expect(_text('Part 1, Partnership Accounts'), findsNothing, reason: 'a sorted list is flat');
 
       await _tap(tester, find.byKey(const ValueKey('lh-sort')));
       await tester.pump(const Duration(milliseconds: 600));
@@ -782,7 +785,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 600));
       await settleHome(tester);
       expect(order(book), book);
-      expect(find.text('Part 1, Partnership Accounts'), findsOneWidget);
+      expect(_text('Part 1, Partnership Accounts'), findsOneWidget);
     });
 
     testWidgets('a row opens the chapter page', (tester) async {
@@ -804,17 +807,17 @@ void main() {
       );
       await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      expect(find.text('Your roadmap'), findsOneWidget);
-      expect(find.text('No chapters here yet.'), findsOneWidget);
+      expect(_text('Your roadmap'), findsOneWidget);
+      expect(_text('No chapters here yet.'), findsOneWidget);
       expect(find.byKey(const ValueKey('lh-sort')), findsNothing);
-      expect(find.text('Nothing to practise here yet.'), findsNothing);
+      expect(_text('Nothing to practise here yet.'), findsNothing);
     });
 
     testWidgets('English carries its note under the field', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(), subject: 'english'));
       await settleHome(tester);
-      expect(find.text('English cards are written for MockMob, not taken from an NCERT book.'), findsOneWidget);
-      expect(find.text('Find a topic, like synonym'), findsOneWidget);
+      expect(_text('English cards are written for MockMob, not taken from an NCERT book.'), findsOneWidget);
+      expect(_text('Find a topic, like synonym'), findsOneWidget);
     });
   });
 
@@ -828,7 +831,7 @@ void main() {
       expect(find.byType(RoadmapOfferSkeleton), findsOneWidget);
       expect(find.byType(ChapterMapSkeleton), findsOneWidget);
       expect(find.byType(RoadmapOffer), findsNothing);
-      expect(find.text('Your roadmap'), findsNothing);
+      expect(_text('Your roadmap'), findsNothing);
       expect(_volt(), findsNothing);
     });
 
@@ -841,15 +844,15 @@ void main() {
       await settleHome(tester);
       expect(find.byType(RoadmapOfferSkeleton), findsNothing);
       expect(find.byType(RoadmapOffer), findsOneWidget);
-      expect(find.text('Your roadmap'), findsOneWidget);
+      expect(_text('Your roadmap'), findsOneWidget);
     });
 
     testWidgets('failed: "Learn didn\'t load", what is safe, and one Try again that reads it again', (tester) async {
       final api = HomeLearnApi(error: true);
       await pumpHome(tester, overrides: homeOverrides(api));
       await settleHome(tester);
-      expect(find.text('Learn didn\'t load'), findsOneWidget);
-      expect(find.text('Check your connection and try again. Your cards and their schedule are safe.'), findsOneWidget);
+      expect(_text('Learn didn\'t load'), findsOneWidget);
+      expect(_text('Check your connection and try again. Your cards and their schedule are safe.'), findsOneWidget);
       expect(_picker(), findsOneWidget, reason: 'the subject row stays usable');
       expect(_search(), findsOneWidget);
       expect(find.byType(RoadmapOffer), findsNothing);
@@ -857,15 +860,15 @@ void main() {
       api.error = false;
       await _tap(tester, _key('Try again'));
       await settleHome(tester);
-      expect(find.text('Learn didn\'t load'), findsNothing);
-      expect(find.text('Pick up Admission of a Partner'), findsOneWidget);
+      expect(_text('Learn didn\'t load'), findsNothing);
+      expect(_text('Pick up Admission of a Partner'), findsOneWidget);
     });
 
     testWidgets('offline reads as failed, never as empty', (tester) async {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(offline: true)));
       await settleHome(tester);
-      expect(find.text('Learn didn\'t load'), findsOneWidget);
-      expect(find.text('No chapters here yet.'), findsNothing);
+      expect(_text('Learn didn\'t load'), findsOneWidget);
+      expect(_text('No chapters here yet.'), findsNothing);
     });
 
     testWidgets('Find on a failed home: the same words and Try again, the field stays', (tester) async {
@@ -873,9 +876,9 @@ void main() {
       await settleHome(tester);
       await tester.tap(_search());
       await settleHome(tester);
-      expect(find.text('Learn didn\'t load'), findsOneWidget);
+      expect(_text('Learn didn\'t load'), findsOneWidget);
       expect(find.byType(FindHome), findsNothing);
-      expect(find.text('Cancel'), findsOneWidget);
+      expect(_text('Cancel'), findsOneWidget);
     });
   });
 
@@ -915,7 +918,7 @@ void main() {
       for (var i = 0; i < 40 && first == null; i++) {
         await tester.pump(const Duration(milliseconds: 16));
         final title = find.byKey(const ValueKey('lh-offer-title'));
-        if (title.evaluate().isNotEmpty && find.text("Today's 10 minutes in Economics").evaluate().isNotEmpty) first = tester.getTopLeft(title).dy;
+        if (title.evaluate().isNotEmpty && _text("Today's 10 minutes in Economics").evaluate().isNotEmpty) first = tester.getTopLeft(title).dy;
       }
       expect(first, isNotNull);
       await tester.pump(const Duration(milliseconds: 700));
@@ -951,7 +954,7 @@ void main() {
       await _tap(tester, find.byKey(const ValueKey('lh-find-due')));
       await settleHome(tester);
       expect(tester.takeException(), isNull);
-      await tester.tap(find.text('Cancel'));
+      await tester.tap(_text('Cancel'));
       await settleHome(tester);
       await tester.tap(_search());
       await settleHome(tester);
@@ -964,7 +967,7 @@ void main() {
       await pumpHome(tester, overrides: homeOverrides(HomeLearnApi(newStudent: true)), textScale: 1.3);
       await settleHome(tester);
       expect(tester.takeException(), isNull);
-      expect(find.text('Chapter 1 of 14 · Accounting for Partnership: Basic Concepts'), findsOneWidget);
+      expect(_text('Chapter 1 of 14 · Accounting for Partnership: Basic Concepts'), findsOneWidget);
     });
   });
 

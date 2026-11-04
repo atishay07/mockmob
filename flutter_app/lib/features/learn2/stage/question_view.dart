@@ -235,6 +235,8 @@ class _QuestionViewState extends State<QuestionView> {
       headTop: head?.localToGlobal(Offset.zero).dy,
       targetTop: targetTop,
       targetBottom: targetTop + target.size.height,
+      // The page fades out over its last 56 dp (StagePager); the verdict stops above that, fully inked (4 Nov re-walk).
+      clear: 64,
     );
     if (top == null) return;
     final to = top.toDouble().clamp(position.minScrollExtent, position.maxScrollExtent);

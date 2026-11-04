@@ -5,6 +5,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/learn_models.dart';
+import '../data/learn_words.dart';
 import '../learn2_balance.dart';
 import 'home_copy.dart';
 import 'home_entrance.dart';
@@ -124,10 +125,10 @@ class RoadmapOffer extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if (showKey) KeyButton(key: const ValueKey('lh-offer-key'), label: key.label, minHeight: 56, onPressed: () => onOpen(key)),
+                        if (showKey) KeyButton(key: const ValueKey('lh-offer-key'), label: LearnWords.joinUnit(key.label), minHeight: 56, onPressed: () => onOpen(key)),
                         if (showQuiet) ...[
                           if (showKey) const SizedBox(height: 4),
-                          Center(child: HomeTextKey(key: const ValueKey('lh-offer-quiet'), label: quiet.label, onTap: () => onOpen(quiet))),
+                          Center(child: HomeTextKey(key: const ValueKey('lh-offer-quiet'), label: LearnWords.joinUnit(quiet.label), onTap: () => onOpen(quiet))),
                         ],
                       ],
                     ),
@@ -195,11 +196,11 @@ class _OrRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(option.label, style: type.body.copyWith(fontSize: 15, height: 1.3, fontWeight: FontWeight.w600, color: colors.ink)),
+                    Text(LearnWords.joinUnit(option.label), style: type.body.copyWith(fontSize: 15, height: 1.3, fontWeight: FontWeight.w600, color: colors.ink)),
                     if (line != null) ...[
                       const SizedBox(height: 2),
                       Text(
-                        HomeModel.displayTitle(line),
+                        LearnWords.joinUnit(HomeModel.displayTitle(line)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: type.body.copyWith(fontSize: 13, height: 1.35, fontWeight: FontWeight.w500, color: colors.ink3),
