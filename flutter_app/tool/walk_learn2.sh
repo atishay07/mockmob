@@ -19,9 +19,34 @@ l2_build() {
   local defs=(--dart-define=DEMO_LEARN_S="$s")
   [ "$plan" = pro ] && defs+=(--dart-define=DEMO_PRO=true)
   [ "$who" = new ] && defs+=(--dart-define=DEMO_NEW=true --dart-define=DEMO_FRESH=true)
-  bash tool/flutter_locked.sh build apk --debug -t test/device_demo/demo_main.dart "${defs[@]}" || return 1
-  (cd android && ./gradlew --stop >/dev/null 2>&1)
+  # The build leaves a Gradle daemon (about 1.5 GB) behind. `./gradlew --stop` cannot be relied on (the wrapper main class is not
+  # always there), so the daemons this build started are stopped by their process ids, and only those: a daemon that was already
+  # running (another build's) is never touched.
+  local before rc=0
+  before="$(l2_gradle_pids)"
+  bash tool/flutter_locked.sh build apk --debug -t test/device_demo/demo_main.dart "${defs[@]}" || rc=1
+  l2_gradle_stop "$before"
+  [ "$rc" = 0 ] || return 1
   adb install -r build/app/outputs/flutter-apk/app-debug.apk
+}
+
+# The process ids of the running Gradle daemons (java processes with GradleDaemon on their command line), one per line, sorted.
+l2_gradle_pids() {
+  if command -v powershell.exe >/dev/null 2>&1; then
+    powershell.exe -NoProfile -Command "Get-CimInstance Win32_Process -Filter \"Name='java.exe'\" | Where-Object { \$_.CommandLine -like '*GradleDaemon*' } | ForEach-Object { \$_.ProcessId }" 2>/dev/null | tr -d '\r' | grep -E '^[0-9]+$' | sort -u
+  else
+    pgrep -f GradleDaemon 2>/dev/null | sort -u
+  fi
+}
+
+# l2_gradle_stop <pids from l2_gradle_pids before the build>: stops the Gradle daemons that were not running before it.
+# Cleanup after every build, successful or not (disk and RAM hygiene).
+l2_gradle_stop() {
+  local before="$1" pid
+  for pid in $(comm -13 <(printf '%s\n' "$before" | sort -u) <(l2_gradle_pids)); do
+    if command -v taskkill >/dev/null 2>&1; then taskkill //F //PID "$pid" >/dev/null 2>&1; else kill "$pid" 2>/dev/null; fi
+  done
+  sleep 1
 }
 
 # The demo's Learn v2 calls go to http://localhost:3452 on the phone, which adb reverse carries to this PC's dev preview.

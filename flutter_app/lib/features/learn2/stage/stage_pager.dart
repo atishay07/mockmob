@@ -589,8 +589,8 @@ class StageQuestionScope extends InheritedWidget {
 /// A question's page: from the top (12 dp down, 24 under the last line), its head fading 24 dp once it is scrolled and its
 /// foot fading 56 dp while more waits below. The content is at least as tall as the page, so the options sit at its foot in the
 /// thumb zone (R3 L2); taller than the page it flows plainly and the page scrolls. While the first option waits below the fold
-/// (less than 28 dp of it above the page's foot, M10, R4 ui-correctness#5) a quiet "Options below" chip sits inside the page,
-/// 8 dp above its foot (never on the peek strip); a tap brings option A to 12 dp under the top.
+/// (less than 28 dp of it above the page's foot, M10, R4 ui-correctness#5) a quiet "Options below" chip sits in a band under
+/// the text, inside the page (never over the text, never on the peek strip); a tap brings option A to 12 dp under the top.
 class _QuestionScroll extends StatefulWidget {
   const _QuestionScroll({required this.physics, required this.child});
 
@@ -696,30 +696,33 @@ class _QuestionScrollState extends State<_QuestionScroll> {
         );
       },
     );
-    return Stack(
-      fit: StackFit.passthrough,
+    // The chip is a band under the scrolling text, never a layer over it (4 Nov walk, I5: it covered a long question's last
+    // line). The band takes 8 dp above the chip and 8 below; the text above it fades out at its own foot as before.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ShaderMask(
-          blendMode: BlendMode.dstIn,
-          shaderCallback: (rect) {
-            final top = (24 / rect.height).clamp(0.0, 0.5);
-            final bottom = (56 / rect.height).clamp(0.0, 0.5);
-            const clear = Color(0x00FFFFFF);
-            const solid = Color(0xFFFFFFFF);
-            return LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [_top ? clear : solid, solid, solid, _more ? clear : solid],
-              stops: [0, top, 1 - bottom, 1],
-            ).createShader(rect);
-          },
-          child: scroll,
+        Expanded(
+          child: ShaderMask(
+            blendMode: BlendMode.dstIn,
+            shaderCallback: (rect) {
+              final top = (24 / rect.height).clamp(0.0, 0.5);
+              final bottom = (56 / rect.height).clamp(0.0, 0.5);
+              const clear = Color(0x00FFFFFF);
+              const solid = Color(0xFFFFFFFF);
+              return LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [_top ? clear : solid, solid, solid, _more ? clear : solid],
+                stops: [0, top, 1 - bottom, 1],
+              ).createShader(rect);
+            },
+            child: scroll,
+          ),
         ),
         if (_below)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 8,
+          Padding(
+            key: const ValueKey<String>('options-below-band'),
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: Center(child: StageIn(child: StageBelowChip(onTap: _goToOptions))),
           ),
       ],

@@ -78,9 +78,9 @@ void main() {
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(1, 1, 10)}}), 10), '1 Key card, 1 question');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10, free: true), '5 Key cards');
     expect(CoverModel.mixLineOf(cover({'counts': {'20': counts(5, 7, 9, capped: true)}}), 20), '5 Key cards, 7 questions');
-    expect(CoverModel.keyLabelOf(c, 10), 'Start · 10 min');
-    expect(CoverModel.keyLabelOf(c, 20), 'Start · 4 min');
-    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Start · 1 min');
+    expect(CoverModel.keyLabelOf(c, 10), 'Start · 10 min');
+    expect(CoverModel.keyLabelOf(c, 20), 'Start · 4 min');
+    expect(CoverModel.keyLabelOf(cover({'counts': {'10': counts(5, 0, 1)}}), 10), 'Start · 1 min');
     // A first visit says what a feed holds in plain words (phone-clarity 18).
     expect(CoverModel.mixLineOf(c, 10, history: false), 'Cards and questions');
     expect(CoverModel.mixLineOf(cover({'counts': {'10': counts(0, 8, 10)}}), 10, history: false), 'Questions, one at a time');
@@ -89,12 +89,12 @@ void main() {
       'counts': {'5': counts(8, 2, 5), '10': counts(16, 5, 10), '20': counts(16, 0, 4)},
       'resume': {'runId': 'lr_1', 'done': 6, 'of': 16, 'minutesLeft': 4},
     });
-    expect(CoverModel.keyLabelOf(r, 20), 'Continue · 4 min');
+    expect(CoverModel.keyLabelOf(r, 20), 'Continue · 4 min');
     // On a resume the key carries the time, so the mix line is empty.
     expect(CoverModel.mixLineOf(r, 5), '');
     expect(CoverModel.keyLabelOf(c, 10, freeDone: true), 'Questions on this chapter');
     // At Free's day limit a cover with a feed to pick up says so (the feed resumes its own run); only the others open questions.
-    expect(CoverModel.keyLabelOf(r, 10, freeDone: true), 'Continue · 4 min');
+    expect(CoverModel.keyLabelOf(r, 10, freeDone: true), 'Continue · 4 min');
     expect(CoverModel.opensQuestions(r, freeDone: true), isFalse);
     expect(CoverModel.opensQuestions(c, freeDone: true), isTrue);
     expect(CoverModel.opensQuestions(c), isFalse);
@@ -113,12 +113,12 @@ void main() {
     expect(CoverModel.chaptersText(14), '14 chapters');
     // A feed with a minute left reads "1 minute", never "0 minutes".
     final one = cover({'resume': {'runId': 'lr_1', 'done': 6, 'of': 16, 'minutesLeft': 0}});
-    expect(CoverModel.keyLabelOf(one, 10), 'Continue · 1 min');
+    expect(CoverModel.keyLabelOf(one, 10), 'Continue · 1 min');
     expect(CoverModel.mixLineOf(one, 10), '');
     // A fraction rounds up, as the web's wholeMinutes does.
     final half = cover({'resume': {'runId': 'lr_1', 'done': 1, 'of': 4, 'minutesLeft': 3.5}});
-    expect(CoverModel.keyLabelOf(half, 10), 'Continue · 4 min');
-    expect(CoverModel.keyLabelOf(cover({'resume': {'runId': 'lr_1', 'done': 1, 'of': 4, 'minutesLeft': 2.4}}), 10), 'Continue · 3 min');
+    expect(CoverModel.keyLabelOf(half, 10), 'Continue · 4 min');
+    expect(CoverModel.keyLabelOf(cover({'resume': {'runId': 'lr_1', 'done': 1, 'of': 4, 'minutesLeft': 2.4}}), 10), 'Continue · 3 min');
   });
 
   test('media: the opening card, a locked card never prints null, a questions-only chapter', () {

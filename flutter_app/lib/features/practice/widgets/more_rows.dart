@@ -35,7 +35,7 @@ class PracticeMoreRows extends StatelessWidget {
         // This week's Mob paper, for a student in a Mob (nothing at all otherwise).
         const MobEntryRow(place: MobEntryPlace.practice, brand: true),
         // Learn v2's chapter feeds (APP-1101 decision 4), above the untimed questions; nothing while Learn v2 is off.
-        ChapterFeedsRow(subject: subject),
+        ChapterFeedsRow(subject: subject, divider: true),
         StreamEntry(subject: subject),
         Divider(height: 1, color: context.mmColors.line),
         EntryRow(

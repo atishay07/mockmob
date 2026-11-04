@@ -92,7 +92,7 @@ void main() {
       expect(LearnWords.reviseQuestions(1), 'Revise 1 question');
       expect(StageEndModel.progressLabel(seen: 5, of: 45, open: 5), '5 of 45 cards seen. The rest open with Pro.');
       expect(StageEndModel.progressLabel(seen: 20, of: 45), '20 of 45 cards seen');
-      expect(LearnWords.withMinutes('Start', 10), 'Start · 10 min');
+      expect(LearnWords.withMinutes('Start', 10), 'Start · 10 min');
       expect(LearnFreeWords.capped, 'On Free, a session is up to 10 minutes. With Pro, pick any length.');
       expect(ExploreCopy.freeCapped, LearnFreeWords.capped);
       expect(ExploreCopy.showing(10), 'Showing 10-minute feeds.');

@@ -82,11 +82,11 @@ void main() {
     testWidgets('keeps the length on this phone: the one picked before, and the one picked now', (tester) async {
       final prefs = MemoryPrefsStore();
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro), minutes: 20, prefs: prefs));
-      expect(find.text('Start · 20 min'), findsWidgets);
+      expect(find.text('Start · 20 min'), findsWidgets);
       await tester.tap(find.text('5'));
       await settleExplore(tester);
       expect(prefs.values[LearnPrefs.feedMinutesKey], 5);
-      expect(find.text('Start · 5 min'), findsWidgets);
+      expect(find.text('Start · 5 min'), findsWidgets);
     });
 
     testWidgets('waits for the kept length before it draws the control, so it never opens on 10 and slides to 20', (tester) async {
@@ -98,12 +98,12 @@ void main() {
       gate.complete();
       await settleExplore(tester);
       expect(tester.widget<MmSegmented<int>>(find.byType(MmSegmented<int>)).value, 20);
-      expect(find.text('Start · 20 min'), findsWidgets);
+      expect(find.text('Start · 20 min'), findsWidgets);
     });
 
     testWidgets('a length that was never picked is 10', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      expect(find.text('Start · 10 min'), findsWidgets);
+      expect(find.text('Start · 10 min'), findsWidgets);
     });
   });
 
@@ -116,7 +116,7 @@ void main() {
       expect(find.text('Accounting for Partnership: Basic Concepts'), findsOneWidget);
       expect(find.text('For you: 3 open mistakes to fix'), findsOneWidget);
       expect(find.text('10 Key cards, 6 questions'), findsOneWidget);
-      expect(find.text('Start · 10 min'), findsWidgets);
+      expect(find.text('Start · 10 min'), findsWidgets);
       // The second cover has its own and no due count; its line is the state.
       expect(find.text('Profit and Loss Appropriation Account'), findsOneWidget);
       // "Too few answers" is not a verdict a cover shows (the only one is "Needs work"), so this cover has no line.
@@ -195,13 +195,13 @@ void main() {
 
     testWidgets('the key says what a tap does: play, or pick up, with a play glyph before it', (tester) async {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.proOpen)));
-      expect(find.text('Continue · 7 min'), findsOneWidget);
+      expect(find.text('Continue · 7 min'), findsOneWidget);
       expect(find.text('You stopped at 3 of 17'), findsNothing, reason: 'the lead cover says why instead');
       expect(find.text('For you: pick up where you stopped'), findsOneWidget);
       expect(find.text('About 7 minutes left'), findsNothing, reason: 'the key carries the time; the mix line is empty on a resume');
       expect(keyOf(tester, 0).play, isTrue);
       expect(keyOf(tester, 0).volt, isTrue);
-      expect(find.text('Start · 10 min'), findsWidgets, reason: 'the next cover plays a new feed');
+      expect(find.text('Start · 10 min'), findsWidgets, reason: 'the next cover plays a new feed');
     });
 
     testWidgets('a new student: Start here, never For you, and no cover says New to you', (tester) async {
@@ -257,7 +257,7 @@ void main() {
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
       expect(find.text('10 Key cards, 6 questions'), findsOneWidget);
       expect(find.text('27 Key cards, 1 question'), findsOneWidget);
-      expect(find.text('Start · 10 min'), findsWidgets);
+      expect(find.text('Start · 10 min'), findsWidgets);
 
       await tester.tap(find.text('5'));
       await settleExplore(tester);
@@ -265,16 +265,16 @@ void main() {
       expect(find.text('12 Key cards, 1 question'), findsOneWidget);
       expect(find.text('10 Key cards, 6 questions'), findsNothing);
       expect(find.text('27 Key cards, 1 question'), findsNothing);
-      expect(find.text('Start · 5 min'), findsWidgets);
-      expect(find.text('Start · 10 min'), findsNothing);
+      expect(find.text('Start · 5 min'), findsWidgets);
+      expect(find.text('Start · 10 min'), findsNothing);
 
       await tester.tap(find.text('20 min'));
       await settleExplore(tester);
       expect(find.text('23 Key cards, 10 questions'), findsOneWidget);
       // A chapter that has less than that says so: its own minutes, and what it has today.
       expect(find.text("37 Key cards, 1 question, that's all for today"), findsOneWidget);
-      expect(find.text('Start · 20 min'), findsOneWidget);
-      expect(find.text('Start · 13 min'), findsOneWidget);
+      expect(find.text('Start · 20 min'), findsOneWidget);
+      expect(find.text('Start · 13 min'), findsOneWidget);
     });
 
     testWidgets('nothing but the numbers move: the same covers stay in view', (tester) async {
@@ -296,7 +296,7 @@ void main() {
       expect(find.text(ExploreCopy.freeCapped), findsOneWidget);
       expect(find.text(ExploreCopy.feedsNote), findsNothing);
       // The keys say what is really composed.
-      expect(find.text('Start · 10 min'), findsWidgets);
+      expect(find.text('Start · 10 min'), findsWidgets);
       await tester.tap(find.text('5'));
       await settleExplore(tester);
       expect(find.text(ExploreCopy.freeCapped), findsNothing);
@@ -414,14 +414,14 @@ void main() {
 
     testWidgets('the key is part of the cover: a tap on it opens the feed too', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      await tester.tap(find.text('Start · 10 min').first);
+      await tester.tap(find.text('Start · 10 min').first);
       await settleExplore(tester);
       expect(whereIs(router), startsWith('/explore/feed?chapter=accountancy.partnership-fundamentals'));
     });
 
     testWidgets('a feed to pick up opens that run by its id, whatever the cover was', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.proOpen)));
-      await tester.tap(find.text('Continue · 7 min'));
+      await tester.tap(find.text('Continue · 7 min'));
       await settleExplore(tester);
       expect(whereIs(router), startsWith('/explore/feed?chapter=accountancy.admission-of-partner&min=10&run=lr_'));
     });
@@ -429,7 +429,7 @@ void main() {
     testWidgets('Free with the day used: keys read Questions on this chapter and open that chapter\'s questions', (tester) async {
       final router = await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.freeUsed)));
       // The cover that holds the day's feed still picks it up.
-      expect(find.text('Continue · 8 min'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsOneWidget);
       expect(keyOf(tester, 0).play, isTrue);
       await pageNext(tester);
       expect(find.text('Questions on this chapter'), findsWidgets);
@@ -680,7 +680,7 @@ void main() {
     testWidgets('a cover is one thing to a screen reader: its title and key as its name, the rest as what it adds', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpExplore(tester, exploreOverrides(CoversApi.of(CoversFixture.pro)));
-      final node = tester.getSemantics(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts, Start · 10 min').first);
+      final node = tester.getSemantics(find.bySemanticsLabel('Accounting for Partnership: Basic Concepts, Start · 10 min').first);
       expect(node.value, '1 of 14');
       expect(node.hint, startsWith('For you: 3 open mistakes to fix. 10 Key cards, 6 questions. Name the 6 essential features of partnership.'));
       handle.dispose();

@@ -11,6 +11,8 @@ import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
 import 'package:mockmob/core/models/json_helpers.dart';
 
+import '../support/plain_words.dart';
+
 void main() {
   final data = jsonDecode(File('test/fixtures/learn2/parity/chapter_model.json').readAsStringSync()) as Map<String, dynamic>;
   List<Map<String, dynamic>> rows(String key) => (data[key] as List).cast<Map<String, dynamic>>();
@@ -73,7 +75,7 @@ void main() {
         ],
         'missing': view.missing,
       };
-      expect(out, c['out'], reason: '${c['name']}');
+      expect(plain(out), c['out'], reason: '${c['name']}');
     }
   });
 
@@ -88,7 +90,7 @@ void main() {
     for (final c in rows('recaps')) {
       final seen = c['seen'] as bool?;
       final recap = LearnRecap.tryParse(c['recap']);
-      expect(seen == null ? ChapterModel.recapLabel(recap) : ChapterModel.recapLabel(recap, seen: seen), c['out'], reason: '${c['name']} ${c['recap']}');
+      expect(plain(seen == null ? ChapterModel.recapLabel(recap) : ChapterModel.recapLabel(recap, seen: seen)), c['out'], reason: '${c['name']} ${c['recap']}');
     }
     for (final c in rows('seenCases')) {
       final data = c['data'];
@@ -98,7 +100,7 @@ void main() {
 
   test('the Start key and the Continue key', () {
     for (final c in rows('startCases')) {
-      expect(ChapterModel.startKeyLabel(c['label'] as String?, c['minutes'] as int, fresh: c['fresh'] as bool), c['out'], reason: '$c');
+      expect(plain(ChapterModel.startKeyLabel(c['label'] as String?, c['minutes'] as int, fresh: c['fresh'] as bool)), c['out'], reason: '$c');
     }
     for (final c in rows('continueCases')) {
       final raw = c['resume'] as Map<String, dynamic>?;
@@ -106,7 +108,7 @@ void main() {
       // The server sends whole minutes; a fraction is the web's own wholeMinutes (a ceil), which the model keeps for the other cases.
       if (left is double && left != left.roundToDouble()) continue;
       final resume = raw == null ? null : LearnOpenRun(runId: 'r', minutesLeft: asInt(left) ?? 0);
-      expect(ChapterModel.continueLabel(resume), c['out'], reason: '$raw');
+      expect(plain(ChapterModel.continueLabel(resume)), c['out'], reason: '$raw');
     }
   });
 

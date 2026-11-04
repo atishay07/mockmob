@@ -4,10 +4,12 @@
 // as the verdict needs and never under the head line), the first question's hint, the locked, explanation, left-out, closed and
 // error variants, 48 dp targets and text scale 1.3 at 360 dp.
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/mm_spinner.dart';
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/learn2/stage/question_view.dart';
+import 'package:mockmob/features/learn2/stage/stage_keys.dart' show StageBelowChip;
 import 'package:mockmob/features/learn2/stage/stage_pager.dart';
 import 'package:mockmob/features/learn2/stage/stage_sci.dart';
 import 'package:mockmob/features/learn2/stage/stage_text.dart';
@@ -327,6 +329,48 @@ void main() {
     final viewportTop = tester.getTopLeft(find.byType(StagePager)).dy;
     expect(tester.getTopLeft(_row('A')).dy - viewportTop, moreOrLessEquals(12, epsilon: 1));
     expect(find.text('Options below'), findsNothing, reason: 'gone once the options show');
+  });
+
+  for (final scale in [1.0, 1.3]) {
+    testWidgets('the "Options below" chip sits in a band under the text and never over the stem last line (360 x 800, text $scale; walk I5)', (tester) async {
+      // The shortest plain stem that pushes option A under the fold: its last line is then the one nearest the chip.
+      String stemOf(int words) => 'Premium received on a new partner joining the firm is shared. ${List.filled(words, 'goodwill').join(' ')} Which of the following is correct.';
+      var words = 10;
+      for (;; words += 4) {
+        await tester.pumpWidget(const SizedBox());
+        await pumpStage(tester, _QHost(stem: stemOf(words), options: _plain.options), textScale: scale);
+        await tester.pumpAndSettle();
+        if (find.text('Options below').evaluate().isNotEmpty) break;
+        expect(words, lessThan(400), reason: 'a long enough stem must push the options under the fold');
+      }
+      final chip = tester.getRect(find.byType(StageBelowChip));
+      final viewport = tester.getRect(find.byType(SingleChildScrollView));
+      expect(chip.overlaps(viewport), isFalse, reason: 'the chip is outside the scrolling text, so it cannot cover any of it');
+      // The stem's last line, wherever it is on the page.
+      final paragraph = tester.renderObject<RenderParagraph>(find.byWidgetPredicate((w) => w is RichText && w.text.toPlainText().contains('Which of the following is correct.')).first);
+      final boxes = paragraph.getBoxesForSelection(TextSelection(baseOffset: 0, extentOffset: paragraph.text.toPlainText().length));
+      final last = boxes.last.toRect().shift(paragraph.localToGlobal(Offset.zero));
+      // What of the line the page shows (the rest waits under the band, to be scrolled to) is clear of the chip.
+      final shown = last.intersect(viewport);
+      expect(shown.width <= 0 || shown.height <= 0 || !shown.overlaps(chip), isTrue, reason: 'the last line $last is clear of the chip $chip');
+    });
+  }
+
+  testWidgets('a right answer on a long question brings the verdict into view when it landed under the fold (I8)', (tester) async {
+    await pumpStage(tester, _QHost(stem: _lists.stem, options: _lists.options, above: 500), textScale: 1.3);
+    await tester.pumpAndSettle();
+    // Read to the end of the page, so the last option rests at its foot and the verdict will have no room under it.
+    final scroll = find.byType(SingleChildScrollView);
+    await tester.drag(scroll, const Offset(0, -2000));
+    await tester.pumpAndSettle();
+    _host(tester).set(const StageAnswer.graded('A', StageResult(correct: true, key: 'A')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pumpAndSettle();
+    final verdict = tester.getRect(find.byType(StageVerdict));
+    final viewport = tester.getRect(scroll);
+    expect(verdict.top, greaterThanOrEqualTo(viewport.top));
+    expect(verdict.bottom, lessThanOrEqualTo(viewport.bottom), reason: 'the verdict is on the page, not under its foot');
   });
 
   testWidgets('a locked line says why and offers See Pro; no card: Why and the explanation', (tester) async {

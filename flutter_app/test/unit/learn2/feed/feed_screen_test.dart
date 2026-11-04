@@ -623,8 +623,8 @@ void main() {
       expect(find.text('Questions come back tomorrow. Your Key cards stay open.'), findsOneWidget);
       expect(find.text('See Pro'), findsOneWidget);
       expect(find.text('Or'), findsOneWidget);
-      expect(find.text('Continue · 8 min'), findsOneWidget);
-      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsOneWidget);
+      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
       expect(find.text('Answer single questions'), findsNothing, reason: 'two Or rows at most, in the server\'s order');
       expect(find.text('Today\'s free session is used'), findsNothing);
       expect(find.text('Learn opens again tomorrow'), findsNothing);
@@ -634,8 +634,8 @@ void main() {
 
     testWidgets('Free\'s day used with nothing to continue: Revise and Answer single questions, which opens Explore\'s question stream', (tester) async {
       await pumpFeed(tester, _FreeNoRunApi(), launch: const FeedLaunch(chapterKey: l2Pf), proNudges: true);
-      expect(find.text('Continue · 8 min'), findsNothing);
-      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsNothing);
+      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
       expect(find.text('Answer single questions'), findsOneWidget);
       await tap(tester, find.text('Answer single questions'));
       expect(find.textContaining('at /practice/stream'), findsOneWidget);
@@ -644,13 +644,13 @@ void main() {
 
     testWidgets('Free\'s day used: Continue picks today\'s own feed up, Revise starts a Key cards run, Close goes back', (tester) async {
       await pumpFeed(tester, FixtureLearnApi(pro: false, freeUsed: true), launch: const FeedLaunch(chapterKey: l2Pf), proNudges: true);
-      await tap(tester, find.text('Revise 8 due cards · 2 min'));
+      await tap(tester, find.text('Revise 8 due cards · 2 min'));
       expect(find.textContaining('at /learn/session'), findsOneWidget);
       await finish(tester);
 
       final api = FixtureLearnApi(pro: false, freeUsed: true);
       await pumpFeed(tester, api, launch: const FeedLaunch(chapterKey: l2Pf), proNudges: true);
-      await tap(tester, find.text('Continue · 8 min'));
+      await tap(tester, find.text('Continue · 8 min'));
       expect(tester.widget<FeedScreen>(find.byType(FeedScreen)).launch.chapterKey, 'accountancy.admission-of-partner');
       expect(tester.widget<FeedScreen>(find.byType(FeedScreen)).launch.runId, isNotNull);
       await finish(tester);
@@ -664,7 +664,7 @@ void main() {
     testWidgets('a build with no Pro nudges leaves See Pro out of Free\'s day used', (tester) async {
       await pumpFeed(tester, FixtureLearnApi(pro: false, freeUsed: true), launch: const FeedLaunch(chapterKey: l2Pf));
       expect(find.text('See Pro'), findsNothing);
-      expect(find.text('Continue · 8 min'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsOneWidget);
       expect(voltKeys(tester), 0);
       await finish(tester);
     });

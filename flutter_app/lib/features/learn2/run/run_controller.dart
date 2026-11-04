@@ -35,6 +35,7 @@ import '../../../core/models/json_helpers.dart';
 import '../data/learn_api.dart';
 import '../data/learn_models.dart';
 import '../data/learn_prefs.dart';
+import '../data/learn_words.dart' show LearnWords;
 import '../learn2_links.dart';
 import '../stage/stage_end_model.dart';
 import 'run_copy.dart';
@@ -107,9 +108,12 @@ class RunStamp {
 /// The one line under the keys: an error, a note, the stamp, a coach line or Free's look line.
 @immutable
 class RunStatusLine {
-  const RunStatusLine(this.text, {this.bad = false, this.stamp = false, this.n, this.cue = false});
+  const RunStatusLine(this.text, {this.bad = false, this.stamp = false, this.n, this.cue = false, this.leaving = false});
 
   final String text;
+
+  /// The line is on its way out (the coach line once a rating key is pressed): it fades over [RunController.coachFade].
+  final bool leaving;
   final bool bad;
   final bool stamp;
   final int? n;
@@ -166,6 +170,8 @@ class RunController extends ChangeNotifier {
   static const Duration landEasy = Duration(milliseconds: 380);
   static const Duration landDrop = Duration(milliseconds: 260);
   static const Duration reducedFade = Duration(milliseconds: 120);
+  /// The coach line under the keys fades out this long (ease-out) after a rating key before the stamp lands (4 Nov walk, I3).
+  static const Duration coachFade = Duration(milliseconds: 120);
   static const Duration stampFor = Duration(milliseconds: 1120);
   static const Duration stampForReduced = Duration(milliseconds: 1500);
   static const Duration noteFor = Duration(seconds: 3);
@@ -199,6 +205,11 @@ class RunController extends ChangeNotifier {
   bool leaving = false;
 
   RunStamp? stamp;
+
+  /// The coach line is fading out for the rating just given; it does not come back for that card ([_coachOffFor]).
+  bool coachLeaving = false;
+  String? _coachOffFor;
+  Timer? _coachTimer;
   String? note;
   String? error;
   String? lookLine;
@@ -347,7 +358,9 @@ class RunController extends ChangeNotifier {
     final s = stamp;
     if (s != null) return RunStatusLine(s.text, stamp: true, n: s.n);
     if (it is LearnCardItem && !isTurned(it) && _coachShow('front2')) return const RunStatusLine(RunCopy.coachFront, cue: true);
-    if (it is LearnCardItem && isTurned(it) && !isLook(it) && _coachShow('ratings3')) return const RunStatusLine(RunCopy.coachRate);
+    if (it is LearnCardItem && isTurned(it) && !isLook(it) && _coachShow('ratings3') && (coachLeaving || _coachOffFor != it.id)) {
+      return RunStatusLine(RunCopy.coachRate, leaving: coachLeaving);
+    }
     if (_coachShow('recap')) return const RunStatusLine(RunCopy.coachRecap);
     if (it is LearnCardItem && isLook(it) && isTurned(it) && lookLine != null && it.look) return RunStatusLine(lookLine!);
     return null;
@@ -613,7 +626,21 @@ class RunController extends ChangeNotifier {
     if (limit != null && limit.isNotEmpty) lookLine = limit;
     if (res.look) lookSaid = true;
     _reinsert(res.reinsert);
-    _showStamp(res.stamp);
+    // The coach line under the keys leaves first (120 ms, ease-out); the stamp lands after it, never over it.
+    final coachOn = !reduced && statusLine?.text == RunCopy.coachRate;
+    if (statusLine?.text == RunCopy.coachRate) _coachOffFor = it.id;
+    if (coachOn) {
+      coachLeaving = true;
+      _stampTimer?.cancel();
+      _coachTimer?.cancel();
+      _coachTimer = Timer(coachFade, () {
+        coachLeaving = false;
+        _showStamp(res.stamp);
+        _notify();
+      });
+    } else {
+      _showStamp(res.stamp);
+    }
     final flightKind = res.look ? 'missed' : kind;
     final fly = flightKind != 'missed';
     final pileNow = res.raw['revisePile'] is Map ? asInt(asJson(res.raw['revisePile'])['count']) : null;
@@ -852,7 +879,7 @@ class RunController extends ChangeNotifier {
   void _showStamp(String? text) {
     if (text == null || text.isEmpty) return;
     _stampTimer?.cancel();
-    stamp = RunStamp(text, ++_stamps);
+    stamp = RunStamp(LearnWords.joinUnit(text), ++_stamps);
     _stampTimer = Timer(reduced ? stampForReduced : stampFor, () {
       stamp = null;
       _notify();
@@ -903,6 +930,7 @@ class RunController extends ChangeNotifier {
     _gen += 1;
     _endGen += 1;
     _stampTimer?.cancel();
+    _coachTimer?.cancel();
     _noteTimer?.cancel();
     _landTimer?.cancel();
     super.dispose();

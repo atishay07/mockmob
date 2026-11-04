@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../core/theme/theme.dart';
 import '../../core/widgets/brand/brand_icon.dart';
 import '../insights/insights_routes.dart' show EntryRow;
 import '../learn/screens/learn_screen.dart';
@@ -56,9 +57,12 @@ class _Learn2DoorState extends ConsumerState<Learn2Door> {
 /// "Chapter feeds" in Practise's More ways in: Explore's covers, Key cards and questions one at a time. It opens the Explore door
 /// of this same page (LK51), so Back from a feed returns to it. Nothing at all while Learn v2 is off.
 class ChapterFeedsRow extends ConsumerWidget {
-  const ChapterFeedsRow({super.key, required this.subject});
+  const ChapterFeedsRow({super.key, required this.subject, this.divider = false});
 
   final String subject;
+
+  /// A 1 px divider under the row, as the rows around it have (Practise > More ways in); none while the row itself is off.
+  final bool divider;
 
   static const String title = 'Chapter feeds';
   static const String note = 'Key cards and questions, one at a time.';
@@ -66,12 +70,18 @@ class ChapterFeedsRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(learnOnProvider)) return const SizedBox.shrink();
-    return EntryRow(
+    final row = EntryRow(
       icon: LucideIcons.galleryVerticalEnd,
       brand: BrandIconName.feeds,
       title: title,
       note: note,
       onTap: () => context.go(Learn2Links.explore(subject: subject)),
+    );
+    if (!divider) return row;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [row, Divider(height: 1, color: context.mmColors.line)],
     );
   }
 }

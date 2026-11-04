@@ -14,6 +14,7 @@ import 'package:mockmob/features/review/data/repair_record_api.dart' show server
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
 
 import '../golden/insights/mobi_v13_golden_test.dart' as mobi;
+import 'demo_keycards.dart' show demoPro;
 import 'demo_nudges.dart' show demoNudgeKind;
 import '../golden/review/fix_v13_golden_test.dart' as fix;
 import '../unit/billing/billing_test_support.dart' as billing;
@@ -109,8 +110,9 @@ List<Override> demoV13Overrides() {
     apiClientProvider.overrideWithValue(http.newApiClient(adapter, now: DateTime.now)),
     ...rig.overrides,
     // The account sheet's credits tiles: the same balance as the Wallet (46 normally, 6 on the creditsLow walk).
-    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: _total, freeLeft: _freeLeft, held: 6))),
-    walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody(freeLeft: _freeLeft)))),
+    // With DEMO_PRO=true the plan is Pro (with its until date), so the plan strip, the Wallet and Practise's credits strip say so.
+    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: _total, freeLeft: _freeLeft, held: 6, pro: demoPro))),
+    walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody(freeLeft: _freeLeft, pro: demoPro)))),
     mobiStandingProvider.overrideWith((ref) async => mobi.ready),
     serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),
     fixCheckApiProvider.overrideWithValue(fix.FakeFixChecks()),

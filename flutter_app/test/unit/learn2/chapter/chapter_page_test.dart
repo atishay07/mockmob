@@ -80,8 +80,8 @@ void main() {
       }
       expect(find.text('of 3'), findsOneWidget, reason: 'two of the three open mistakes');
       expect(find.text(ChapterCopy.coach), findsOneWidget);
-      expect(_key('Start · 10 min'), findsOneWidget);
-      expect(find.text('Quick recap · 2 min'), findsOneWidget, reason: 'the student has seen cards here');
+      expect(_key('Start · 10 min'), findsOneWidget);
+      expect(find.text('Quick recap · 2 min'), findsOneWidget, reason: 'the student has seen cards here');
       // First up: the first three real card fronts the run opens with.
       expect(find.text('First up'), findsOneWidget);
       expect(find.byKey(const ValueKey('first-up-0')), findsOneWidget);
@@ -90,7 +90,7 @@ void main() {
       expect(find.text('Everything in this chapter'), findsOneWidget);
       expect(find.text('All 45, 12 in Revise'), findsOneWidget);
       expect(find.text('10 questions in this chapter'), findsOneWidget);
-      expect(find.text('Fix 3 open mistakes · 3 min'), findsOneWidget);
+      expect(find.text('Fix 3 open mistakes · 3 min'), findsOneWidget);
       // Round 5, fix 3: the row is named for what it opens in the app, its count is the note (the web's "Print sheet" prints).
       expect(find.text('Must-know lines'), findsOneWidget);
       expect(find.text('12 lines'), findsOneWidget);
@@ -145,7 +145,7 @@ void main() {
       expect(find.text('Add the next chapter'), findsOneWidget);
       expect(find.text('Chapter 13, fills your 20 min'), findsOneWidget, reason: 'the place, never the NCERT number');
       expect(find.text('This chapter has about 8 minutes of new things today.'), findsOneWidget);
-      expect(_key('Start · 8 min'), findsOneWidget);
+      expect(_key('Start · 8 min'), findsOneWidget);
       // Cards and the next chapter: two papers take half of the row each, not a third with an empty third.
       final cards = tester.getRect(pileFinder('cards'));
       final next = tester.getRect(pileFinder('next'));
@@ -164,11 +164,11 @@ void main() {
       await settleChapter(tester);
       expect(h.api.previews.map((k) => k.minutes), [10, 20]);
       expect(find.text('17'), findsOneWidget, reason: 'the 20-minute cards pile');
-      expect(_key('Start · 20 min'), findsOneWidget);
+      expect(_key('Start · 20 min'), findsOneWidget);
       await tester.tap(find.text('5 min'));
       await settleChapter(tester);
       expect(h.api.previews.last.minutes, 5);
-      expect(_key('Start · 5 min'), findsOneWidget);
+      expect(_key('Start · 5 min'), findsOneWidget);
     });
 
     testWidgets('two quick changes ask once, for the last one', (tester) async {
@@ -188,19 +188,19 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));
       expect(find.text('16'), findsOneWidget, reason: 'the 10-minute numbers stay');
-      expect(_key('Start · 10 min'), findsOneWidget, reason: 'the key keeps the last real length');
+      expect(_key('Start · 10 min'), findsOneWidget, reason: 'the key keeps the last real length');
       final container = ProviderScope.containerOf(tester.element(find.byType(MmSegmented<Object>)));
       expect(container.read(chapterPreviewProvider(l2Aop)).status, ChapterReadStatus.refreshing);
       // The segment keeps what was chosen at once.
       expect(tester.widget<MmSegmented<Object>>(find.byType(MmSegmented<Object>)).value, 20);
       // And the key does nothing meanwhile: it never starts what it does not say.
-      await tester.tap(_key('Start · 10 min'));
+      await tester.tap(_key('Start · 10 min'));
       await tester.pump();
       expect(h.visited, isEmpty);
       await tester.pump(const Duration(milliseconds: 600));
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text('17'), findsOneWidget);
-      expect(_key('Start · 20 min'), findsOneWidget);
+      expect(_key('Start · 20 min'), findsOneWidget);
     });
 
     testWidgets('"Your own": the sheet, a stepper in 5-minute steps, and the segment keeps the choice', (tester) async {
@@ -358,7 +358,7 @@ void main() {
       expect(find.text('Tomorrow'), findsNWidgets(2));
       expect(find.text('Back tomorrow'), findsNWidgets(2));
       expect(find.text(ChapterModel.quietLine(LearnFixtures.preview('preview_pf_10_free_used'))!), findsOneWidget);
-      expect(_key('Start · 1 min'), findsOneWidget);
+      expect(_key('Start · 1 min'), findsOneWidget);
       await tester.tap(pileFinder('questions'), warnIfMissed: false);
       await settleChapter(tester);
       expect(h.api.previews.length, 1);
@@ -377,8 +377,8 @@ void main() {
       expect(find.text('Chapter 13 added'), findsOneWidget, reason: 'the place, never the NCERT number');
       expect(find.text('Tap to remove'), findsOneWidget);
       expect(find.text('+11'), findsOneWidget, reason: 'the minutes it adds: 19 with it, 8 without');
-      expect(_key('Start · 20 min'), findsOneWidget);
-      await _tapKey(tester, 'Start · 20 min');
+      expect(_key('Start · 20 min'), findsOneWidget);
+      await _tapKey(tester, 'Start · 20 min');
       expect(_query(h), {'chapter': l2Ccss, 'min': '20', 'next': '1'});
       h.router.pop();
       await settleChapter(tester);
@@ -403,7 +403,7 @@ void main() {
       final h = await pumpChapter(tester, api: _aop(), chapter: l2Aop);
       await tester.tap(pileFinder('questions'));
       await settleChapter(tester);
-      await _tapKey(tester, 'Start · 10 min');
+      await _tapKey(tester, 'Start · 10 min');
       final uri = Uri.parse(h.visited.last);
       expect(uri.path, '/learn/session');
       expect(uri.queryParameters, {'chapter': l2Aop, 'min': '10', 'out': 'questions'});
@@ -411,15 +411,15 @@ void main() {
 
     testWidgets('with nothing left out it is just the chapter and the length', (tester) async {
       final h = await pumpChapter(tester);
-      await _tapKey(tester, 'Start · 10 min');
+      await _tapKey(tester, 'Start · 10 min');
       expect(Uri.parse(h.visited.last).path, '/learn/session');
       expect(_query(h), {'chapter': l2Pf, 'min': '10'});
     });
 
     testWidgets('the chosen length goes to the run even when Free composes less', (tester) async {
       final h = await pumpChapter(tester, api: _aop(pro: false), chapter: l2Aop, minutes: 20);
-      expect(_key('Start · 10 min'), findsOneWidget);
-      await _tapKey(tester, 'Start · 10 min');
+      expect(_key('Start · 10 min'), findsOneWidget);
+      await _tapKey(tester, 'Start · 10 min');
       expect(_query(h)['min'], '20');
     });
 
@@ -427,12 +427,12 @@ void main() {
       await pumpChapter(tester);
       final voltKeys = tester.widgetList<KeyButton>(find.byType(KeyButton)).where((k) => k.variant == KeyVariant.primary);
       expect(voltKeys.length, 1);
-      expect(voltKeys.single.label, 'Start · 10 min');
+      expect(voltKeys.single.label, 'Start · 10 min');
     });
 
     testWidgets('coming back from a run lines the chapter up again', (tester) async {
       final h = await pumpChapter(tester);
-      await _tapKey(tester, 'Start · 10 min');
+      await _tapKey(tester, 'Start · 10 min');
       expect(h.api.previews.length, 1);
       h.router.pop();
       await settleChapter(tester);
@@ -441,7 +441,7 @@ void main() {
 
     testWidgets('the quick recap opens a recap run of the length the server names', (tester) async {
       final h = await pumpChapter(tester);
-      await tester.tap(find.text('Quick recap · 2 min'));
+      await tester.tap(find.text('Quick recap · 2 min'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
       expect(_query(h), {'chapter': l2Pf, 'min': '2', 'kind': 'recap'});
@@ -453,24 +453,24 @@ void main() {
       final h = await pumpChapter(tester, chapter: l2Aop);
       expect(find.text('You stopped at 6 of 16 today.'), findsOneWidget);
       expect(find.text('About 5 min left.'), findsNothing);
-      expect(_key('Continue · 5 min'), findsOneWidget);
+      expect(_key('Continue · 5 min'), findsOneWidget);
       // One main key: the length picker and the new-run key wait behind "Start fresh instead".
       expect(find.text('How long have you got?'), findsNothing);
-      expect(_key('Start fresh · 10 min'), findsNothing);
+      expect(_key('Start fresh · 10 min'), findsNothing);
       await tester.tap(find.byKey(const ValueKey('chapter-fresh')));
       await tester.pumpAndSettle();
       expect(find.text('How long have you got?'), findsOneWidget);
-      expect(_key('Start fresh · 10 min'), findsOneWidget);
+      expect(_key('Start fresh · 10 min'), findsOneWidget);
       final keys = tester.widgetList<KeyButton>(find.byType(KeyButton)).toList();
-      expect(keys.where((k) => k.variant == KeyVariant.primary).map((k) => k.label), ['Continue · 5 min']);
-      expect(keys.where((k) => k.variant == KeyVariant.secondary).map((k) => k.label), ['Start fresh · 10 min']);
-      await _tapKey(tester, 'Start fresh · 10 min');
+      expect(keys.where((k) => k.variant == KeyVariant.primary).map((k) => k.label), ['Continue · 5 min']);
+      expect(keys.where((k) => k.variant == KeyVariant.secondary).map((k) => k.label), ['Start fresh · 10 min']);
+      await _tapKey(tester, 'Start fresh · 10 min');
       expect(_query(h), {'chapter': l2Aop, 'min': '10', 'fresh': '1'});
     });
 
-    testWidgets('Continue · 5 min opens that run', (tester) async {
+    testWidgets('Continue · 5 min opens that run', (tester) async {
       final h = await pumpChapter(tester, chapter: l2Aop);
-      await _tapKey(tester, 'Continue · 5 min');
+      await _tapKey(tester, 'Continue · 5 min');
       expect(Uri.parse(h.visited.last).path, '/learn/session');
       expect({..._query(h)}..remove('run'), {'chapter': l2Aop, 'min': '10'});
       expect(_query(h)['run'], startsWith('lr_'));
@@ -479,7 +479,7 @@ void main() {
     testWidgets('a feed to pick up opens the feed', (tester) async {
       final api = ChapterApi(edit: (k, body) => (body['resume'] as Map<String, dynamic>)['kind'] = 'feed');
       final h = await pumpChapter(tester, api: api, chapter: l2Aop);
-      await _tapKey(tester, 'Continue · 5 min');
+      await _tapKey(tester, 'Continue · 5 min');
       expect(Uri.parse(h.visited.last).path, '/explore/feed');
       expect(_query(h)['run'], startsWith('lr_'));
     });
@@ -488,7 +488,7 @@ void main() {
       final api = ChapterApi(edit: (k, body) => (body['resume'] as Map<String, dynamic>)['done'] = 16);
       await pumpChapter(tester, api: api, chapter: l2Aop);
       expect(find.text('You stopped at 16 of 16 today.'), findsNothing);
-      expect(_key('Start · 10 min'), findsOneWidget);
+      expect(_key('Start · 10 min'), findsOneWidget);
     });
   });
 
@@ -499,7 +499,7 @@ void main() {
       await tester.tap(find.text('20 min'));
       await settleChapter(tester);
       expect(find.text('Free sessions are up to 10 minutes. Pro has any length.'), findsOneWidget);
-      expect(_key('Start · 10 min'), findsOneWidget, reason: 'the key says what Free gets');
+      expect(_key('Start · 10 min'), findsOneWidget, reason: 'the key says what Free gets');
       expect(tester.widget<MmSegmented<Object>>(find.byType(MmSegmented<Object>)).value, 20, reason: 'the segment keeps the choice');
       await tester.tap(find.text('5 min'));
       await settleChapter(tester);
@@ -567,12 +567,12 @@ void main() {
       h.router.pop();
       await settleChapter(tester);
 
-      await open('Fix 2 open mistakes · 2 min');
+      await open('Fix 2 open mistakes · 2 min');
       expect(_query(h), {'chapter': l2Aop, 'min': '10', 'out': 'cards,questions,lesson'});
       h.router.pop();
       await settleChapter(tester);
 
-      await open('Lesson · 7 min, not read yet');
+      await open('Lesson · 7 min, not read yet');
       expect(Uri.parse(h.visited.last).path, '/learn/accountancy-revaluation');
       h.router.pop();
       await settleChapter(tester);
@@ -637,7 +637,7 @@ void main() {
       await settleChapter(tester);
       expect(find.text('Accounting for Partnership: Basic Concepts'), findsOneWidget);
       expect(find.text(ChapterCopy.failed), findsNothing);
-      expect(_key('Start · 10 min'), findsOneWidget);
+      expect(_key('Start · 10 min'), findsOneWidget);
     });
 
     testWidgets('an offline phone says so', (tester) async {
@@ -689,7 +689,7 @@ void main() {
     testWidgets('on a wide screen the page is one column of at most 600 dp, at the top', (tester) async {
       await pumpChapter(tester, size: const Size(900, 1000));
       expect(tester.takeException(), isNull);
-      final key = tester.getRect(_key('Start · 10 min'));
+      final key = tester.getRect(_key('Start · 10 min'));
       expect(key.width, lessThanOrEqualTo(600));
       final back = tester.getRect(find.text('Accountancy'));
       expect(back.top, lessThan(100), reason: 'at the top, not floating in the middle');
@@ -820,7 +820,7 @@ void main() {
   group('the Start key never sits under the edge of the screen', () {
     testWidgets('on a short phone it rides at the bottom while the lined-up block is on screen, and goes with the block', (tester) async {
       await pumpChapter(tester, size: const Size(360, 400));
-      final key = _key('Start · 10 min');
+      final key = _key('Start · 10 min');
       var rect = tester.getRect(key);
       expect(rect.bottom, lessThanOrEqualTo(400), reason: 'its own place is below the edge: it rides at the edge');
       expect(rect.top, greaterThan(250));
@@ -843,7 +843,7 @@ void main() {
       addTearDown(tester.view.resetPadding);
       addTearDown(tester.view.resetViewPadding);
       final h = await pumpChapter(tester, size: const Size(360, 480));
-      final rect = tester.getRect(_key('Start · 10 min'));
+      final rect = tester.getRect(_key('Start · 10 min'));
       expect(rect.bottom, lessThanOrEqualTo(480 - 24), reason: 'the gesture bar keeps 24 dp');
       await tester.tapAt(rect.center);
       await tester.pump();
@@ -854,7 +854,7 @@ void main() {
 
     testWidgets('where it fits it stays in place, between the piles and the recap', (tester) async {
       await pumpChapter(tester, size: const Size(360, 900));
-      final key = tester.getRect(_key('Start · 10 min'));
+      final key = tester.getRect(_key('Start · 10 min'));
       final coach = tester.getRect(find.text(ChapterCopy.coach));
       final recap = tester.getRect(find.textContaining('Quick recap'));
       expect(key.top, greaterThan(coach.bottom));
@@ -865,7 +865,7 @@ void main() {
       await pumpChapter(tester, chapter: l2Aop, size: const Size(360, 480));
       await tester.tap(find.byKey(const ValueKey('chapter-fresh')));
       await tester.pumpAndSettle();
-      final rect = tester.getRect(_key('Start fresh · 10 min'));
+      final rect = tester.getRect(_key('Start fresh · 10 min'));
       expect(rect.top, greaterThan(300), reason: 'in its own place, below the piles');
     });
   });
@@ -873,7 +873,7 @@ void main() {
   group('its words', () {
     final forbidden = <String, RegExp>{
       'an exclamation mark': RegExp('!'),
-      // The middle dot between a label and its length (" · 10 min") is the web's own; a bullet is not.
+      // The middle dot between a label and its length (" · 10 min") is the web's own; a bullet is not.
       'a bullet': RegExp('[•∙]'),
       'an arrow': RegExp('[←-⇿⟵-⟿⬀-⯿›»]'),
       'an emoji': RegExp('[\u{1F300}-\u{1FAFF}☀-➿]', unicode: true),
@@ -899,7 +899,7 @@ void main() {
         ChapterCopy.coach,
         ChapterCopy.listLabel,
         ChapterCopy.resumeHead(6, 16),
-        ChapterCopy.resumeLabel('Continue · 5 min', 6, 16),
+        ChapterCopy.resumeLabel('Continue · 5 min', 6, 16),
         ChapterCopy.freshKey,
         ChapterCopy.firstUp,
         ChapterCopy.stale,

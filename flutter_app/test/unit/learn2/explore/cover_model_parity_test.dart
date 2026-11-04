@@ -9,6 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
 import 'package:mockmob/features/learn2/explore/cover_model.dart';
 
+import '../support/plain_words.dart';
+
 Map<String, dynamic>? _line(CoverLine? l) => l == null ? null : {'prefix': l.prefix, 'text': l.text};
 
 Map<String, dynamic> _media(CoverMedia m) => switch (m) {
@@ -100,7 +102,7 @@ void main() {
         final want = (r['covers'] as List).cast<Map<String, dynamic>>();
         expect(answer.covers.length, want.length, reason: 'covers');
         for (var i = 0; i < want.length; i++) {
-          expect(_describe(answer.covers[i], minutes), want[i], reason: '$file cover $i (${answer.covers[i].key})');
+          expect(plain(_describe(answer.covers[i], minutes)), want[i], reason: '$file cover $i (${answer.covers[i].key})');
         }
       });
     }
@@ -111,7 +113,7 @@ void main() {
       final raw = row['cover'] as Map<String, dynamic>;
       final c = LearnCover.tryParse(raw)!;
       final want = Map<String, dynamic>.of(row)..remove('cover');
-      expect(_describe(c, minutes), want, reason: 'edge cover ${raw['key']}: $raw');
+      expect(plain(_describe(c, minutes)), want, reason: 'edge cover ${raw['key']}: $raw');
     }
   });
 

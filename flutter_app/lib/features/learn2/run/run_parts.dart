@@ -238,9 +238,8 @@ class RunStatusView extends StatelessWidget {
     } else if (l.stamp) {
       body = _StampPill(key: ValueKey<String>('stamp-${l.n}'), text: l.text);
     } else {
-      body = Text(
+      final text = Text(
         l.text,
-        key: ValueKey<String>(l.text),
         textAlign: TextAlign.center,
         style: type.body.copyWith(
           fontSize: 13.5,
@@ -248,6 +247,20 @@ class RunStatusView extends StatelessWidget {
           fontWeight: l.bad || l.cue ? FontWeight.w600 : FontWeight.w500,
           color: l.bad ? colors.badText : (l.cue ? colors.ink : colors.ink2),
         ),
+      );
+      // A line on its way out (the coach line after a rating key) fades over 120 ms on the ease-out, in place, so the
+      // stamp that follows never lands on top of it.
+      body = KeyedSubtree(
+        key: ValueKey<String>(l.text),
+        child: l.leaving
+          ? TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 1, end: Motion.reduced(context) ? 1 : 0),
+              duration: RunController.coachFade,
+              curve: Motion.out,
+              builder: (context, v, child) => Opacity(opacity: v, child: child),
+              child: text,
+            )
+          : text,
       );
     }
     return Semantics(

@@ -87,15 +87,15 @@ void main() {
   });
 
   group('the Start key', () {
-    test('names the real length the server says, and "Start · 10 min" before it has said', () {
-      expect(ChapterModel.startLabel(_recorded('preview_pf_10_free_used'), 10), 'Start · 1 min');
-      expect(ChapterModel.startLabel(null, 10), 'Start · 10 min');
-      expect(ChapterModel.startLabel(null, 35), 'Start · 35 min');
+    test('names the real length the server says, and "Start · 10 min" before it has said', () {
+      expect(ChapterModel.startLabel(_recorded('preview_pf_10_free_used'), 10), 'Start · 1 min');
+      expect(ChapterModel.startLabel(null, 10), 'Start · 10 min');
+      expect(ChapterModel.startLabel(null, 35), 'Start · 35 min');
     });
 
-    test('beside a run to pick up it is "Start fresh · 10 min"', () {
-      expect(ChapterModel.startLabel(_recorded('preview_aop_10_pro'), 10, resume: true), 'Start fresh · 10 min');
-      expect(ChapterModel.startLabel(null, 20, resume: true), 'Start fresh · 20 min');
+    test('beside a run to pick up it is "Start fresh · 10 min"', () {
+      expect(ChapterModel.startLabel(_recorded('preview_aop_10_pro'), 10, resume: true), 'Start fresh · 10 min');
+      expect(ChapterModel.startLabel(null, 20, resume: true), 'Start fresh · 20 min');
       // Any other server label is kept as it is; beside a run it reads "Start fresh: ...".
       expect(ChapterModel.startKeyLabel('Start the 7-minute lesson', 10), 'Start the 7-minute lesson');
       expect(ChapterModel.startKeyLabel('Start the 7-minute lesson', 10, fresh: true), 'Start fresh: the 7-minute lesson');
@@ -103,7 +103,7 @@ void main() {
 
     test('a run to pick up is one with something left to do', () {
       expect(ChapterModel.openRun(_recorded('preview_aop_10_pro'))?.runId, startsWith('lr_'));
-      expect(ChapterModel.continueLabel(ChapterModel.openRun(_recorded('preview_aop_10_pro'))), 'Continue · 5 min');
+      expect(ChapterModel.continueLabel(ChapterModel.openRun(_recorded('preview_aop_10_pro'))), 'Continue · 5 min');
       expect(ChapterModel.openRun(_recorded('preview_pf_10_pro')), isNull);
       final done = _recorded('preview_aop_10_pro', (b) => (b['resume'] as Map<String, dynamic>)['done'] = 16);
       expect(ChapterModel.openRun(done), isNull);

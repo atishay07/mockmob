@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
+import 'package:mockmob/features/learn2/data/learn_words.dart' show LearnWords;
 import 'package:mockmob/features/learn2/data/learn_prefs.dart';
 import 'package:mockmob/features/learn2/learn2_links.dart';
 import 'package:mockmob/features/learn2/run/run_controller.dart';
@@ -197,6 +198,26 @@ void main() {
   });
 
   group('a card', () {
+    test('a rating key fades the coach line out first, then the stamp lands: the two are never on screen together (I3)', () async {
+      final c = await started(FixtureLearnApi());
+      c.reduced = false;
+      final first = c.item! as LearnCardItem;
+      c.turn(first);
+      expect(c.statusLine?.text, RunCopy.coachRate);
+      expect(c.statusLine?.leaving, isFalse);
+      final done = c.rate(3);
+      await settle();
+      expect(c.coachLeaving, isTrue);
+      expect(c.statusLine?.text, RunCopy.coachRate, reason: 'the coach line is still the line while it fades');
+      expect(c.statusLine?.leaving, isTrue);
+      expect(c.stamp, isNull, reason: 'the stamp waits for the fade');
+      await Future<void>.delayed(RunController.coachFade + const Duration(milliseconds: 30));
+      expect(c.coachLeaving, isFalse);
+      expect(c.statusLine?.stamp, isTrue, reason: 'the stamp has landed');
+      expect(c.statusLine?.text, isNot(RunCopy.coachRate));
+      await done;
+    });
+
     test('Show answer, then Got it: the server takes the rating, the stamp says its day, the pile counts it, the next card comes', () async {
       final api = FixtureLearnApi();
       final events = RunEvents();
@@ -214,7 +235,7 @@ void main() {
       expect(api.ratings.single.rating, 3);
       expect(api.ratings.single.itemId, first.id);
       expect(c.tally.got, 1);
-      expect(c.stamp?.text, 'Back ${first.returns!.got}', reason: 'the stamp says what the key promised: "Back " and the words the card carried');
+      expect(c.stamp?.text, LearnWords.backStamp(first.returns!.got!), reason: 'the stamp says what the key promised: "Back " and the words the card carried');
       expect(c.statusLine?.stamp, isTrue);
       expect(events.rated.single.kind, 'got');
       expect(events.rated.single.flies, isTrue);
@@ -232,7 +253,7 @@ void main() {
       final c = await started(api, events: events);
       final first = c.item! as LearnCardItem;
       await c.rate(4);
-      expect(c.stamp?.text, 'Back ${first.returns!.easy}');
+      expect(c.stamp?.text, LearnWords.backStamp(first.returns!.easy!));
       expect(events.rated.last.kind, 'easy');
       expect(c.tally.easy, 1);
       expect(c.pile, 1);

@@ -11,6 +11,8 @@ import 'package:mockmob/features/learn2/stage/pager_model.dart';
 import 'package:mockmob/features/learn2/stage/sci_text.dart';
 import 'package:mockmob/features/learn2/stage/stage_end_model.dart';
 
+import '../support/plain_words.dart';
+
 void main() {
   final data = jsonDecode(File('test/fixtures/learn2/parity/stage_text.json').readAsStringSync()) as Map<String, dynamic>;
   final sci = data['sci'] as Map<String, dynamic>;
@@ -182,7 +184,7 @@ void main() {
     test('Free\'s Or rows, in order, at most two', () {
       for (final c in rows(end, 'freeRows')) {
         final got = StageEndModel.freeUsedRows(c['data'] as Map<String, dynamic>?);
-        expect([for (final r in got) {'id': r.id, 'label': r.label}], c['out'], reason: 'freeUsedRows ${c['data']}');
+        expect(plain([for (final r in got) {'id': r.id, 'label': r.label}]), c['out'], reason: 'freeUsedRows ${c['data']}');
         expect(got.length, lessThanOrEqualTo(2));
       }
     });

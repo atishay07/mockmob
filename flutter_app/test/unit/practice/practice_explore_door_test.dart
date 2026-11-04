@@ -184,6 +184,18 @@ void main() {
       expect(find.text(ExploreCopy.feedsHeading), findsWidgets);
     });
 
+    testWidgets('"Chapter feeds" has a 1 px divider under it, like the rows around it (I10)', (tester) async {
+      await pump(tester);
+      final row = find.text(ChapterFeedsRow.title);
+      await tester.dragUntilVisible(row, find.byType(Scrollable).first, const Offset(0, -240));
+      await tester.pump();
+      final feeds = find.ancestor(of: row, matching: find.byType(ChapterFeedsRow));
+      final divider = find.descendant(of: feeds, matching: find.byType(Divider));
+      expect(divider, findsOneWidget);
+      expect(tester.getSize(divider).height, 1);
+      expect(tester.getTopLeft(divider).dy, greaterThan(tester.getBottomLeft(row).dy), reason: 'under the row, not over it');
+    });
+
     testWidgets('a cover opens its feed over Practice; Back returns to the Explore door', (tester) async {
       final router = await pump(tester, location: '/practice?door=explore');
       final cover = find.textContaining('Basic Concepts').first;

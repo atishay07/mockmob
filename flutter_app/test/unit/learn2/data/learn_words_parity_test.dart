@@ -17,6 +17,9 @@ num? _n(Object? v) => switch (v) {
   _ => null,
 };
 
+/// The words as the web writes them: the app joins a number to its unit with a no-break space (I9), nothing else differs.
+String _plain(String s) => s.replaceAll(' ', ' ');
+
 void main() {
   final data = jsonDecode(File('test/fixtures/learn2/parity/words.json').readAsStringSync()) as Map<String, dynamic>;
   List<Map<String, dynamic>> rows(String key) => (data[key] as List).cast<Map<String, dynamic>>();
@@ -48,8 +51,8 @@ void main() {
     }
     for (final r in rows('backs')) {
       final w = r['words'] as String;
-      expect(LearnWords.backStamp(w), r['stamp']);
-      expect(LearnWords.backLine(w), r['line']);
+      expect(_plain(LearnWords.backStamp(w)), r['stamp']);
+      expect(_plain(LearnWords.backLine(w)), r['line']);
       expect(LearnWords.missedWords(w, true), r['missedInRun']);
       expect(LearnWords.missedWords(w, false), r['missed']);
     }
@@ -70,16 +73,24 @@ void main() {
       expect(LearnWords.wholeMinutes(_n(r['n'])), r['out'], reason: 'wholeMinutes of ${r['n']}');
     }
     for (final r in rows('withMinutes')) {
-      expect(LearnWords.withMinutes('Continue', _n(r['n'])), r['out'], reason: 'withMinutes of ${r['n']}');
+      expect(_plain(LearnWords.withMinutes('Continue', _n(r['n']))), r['out'], reason: 'withMinutes of ${r['n']}');
     }
+  });
+
+  test('a number and its unit never split across two lines (I9)', () {
+    expect(LearnWords.withMinutes('Continue', 2), 'Continue · 2 min');
+    expect(LearnWords.backLine('in 3 days'), 'back in 3 days');
+    expect(LearnWords.backStamp('in 2 weeks'), 'Back in 2 weeks');
+    expect(LearnWords.backStamp('tomorrow'), 'Back tomorrow');
+    expect(LearnWords.fixMistakes(3, 4), 'Fix 3 open mistakes · 4 min', reason: 'a count of things is not a unit of time');
   });
 
   test('the counted names', () {
     for (final r in rows('fixMistakes')) {
-      expect(LearnWords.fixMistakes(_n(r['n']), r['minutes'] as num), r['out'], reason: 'fixMistakes ${r['n']} ${r['minutes']}');
+      expect(_plain(LearnWords.fixMistakes(_n(r['n']), r['minutes'] as num)), r['out'], reason: 'fixMistakes ${r['n']} ${r['minutes']}');
     }
     for (final r in rows('reviseDue')) {
-      expect(LearnWords.reviseDue(_n(r['n']), r['minutes'] as num), r['out'], reason: 'reviseDue ${r['n']} ${r['minutes']}');
+      expect(_plain(LearnWords.reviseDue(_n(r['n']), r['minutes'] as num)), r['out'], reason: 'reviseDue ${r['n']} ${r['minutes']}');
     }
     for (final r in rows('reviseQuestions')) {
       expect(LearnWords.reviseQuestions(_n(r['n'])), r['out'], reason: 'reviseQuestions ${r['n']}');

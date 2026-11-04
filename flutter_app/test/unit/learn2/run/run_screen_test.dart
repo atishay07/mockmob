@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/learn2/data/learn_api.dart';
 import 'package:mockmob/features/learn2/data/learn_models.dart';
+import 'package:mockmob/features/learn2/data/learn_words.dart' show LearnWords;
 import 'package:mockmob/features/learn2/learn2_links.dart';
 import 'package:mockmob/features/learn2/run/run_controller.dart';
 import 'package:mockmob/features/learn2/run/run_flight.dart';
@@ -74,9 +75,9 @@ void main() {
       await tap(tester, find.text('Turn over'));
       final item = ctl(tester).item! as LearnCardItem;
       final words = item.returns!;
-      expect(find.text('back ${words.missed}'), findsOneWidget);
-      expect(find.text('back ${words.got}'), findsOneWidget);
-      expect(find.text('back ${words.easy}'), findsOneWidget);
+      expect(find.text(LearnWords.backLine(words.missed!)), findsOneWidget);
+      expect(find.text(LearnWords.backLine(words.got!)), findsOneWidget);
+      expect(find.text(LearnWords.backLine(words.easy!)), findsOneWidget);
       expect(find.text('Missed it'), findsOneWidget);
       final keys = tester.widgetList<StageStepKey>(find.byType(StageStepKey)).toList();
       expect(keys, hasLength(3));
@@ -92,7 +93,7 @@ void main() {
       final item = ctl(tester).item! as LearnCardItem;
       await tap(tester, find.text('Got it'));
       await tester.pump(const Duration(milliseconds: 50));
-      expect(find.text('Back ${item.returns!.got}'), findsOneWidget);
+      expect(find.text(LearnWords.backStamp(item.returns!.got!)), findsOneWidget);
       await finish(tester);
     });
 
@@ -111,7 +112,7 @@ void main() {
         final item = ctl(tester).item! as LearnCardItem;
         expect(item.returns!.missed, 'in this session, then tomorrow', reason: 'the recorded run carries the live server wording');
         expect(find.text('back in this session, then tomorrow'), findsOneWidget);
-        for (final s in ['Missed it', 'Got it', 'Easy', 'back ${item.returns!.missed}', 'back ${item.returns!.got}', 'back ${item.returns!.easy}']) {
+        for (final s in ['Missed it', 'Got it', 'Easy', LearnWords.backLine(item.returns!.missed!), LearnWords.backLine(item.returns!.got!), LearnWords.backLine(item.returns!.easy!)]) {
           expect(find.text(s), findsOneWidget, reason: s);
           expect(tester.getRect(find.text(s)).right, lessThanOrEqualTo(360));
           final paragraph = tester.renderObject<RenderParagraph>(find.text(s));
@@ -280,7 +281,7 @@ void main() {
       await tester.pump();
       expect(api.ratings.single.rating, 3);
       await runSettle(tester);
-      final day = 'Back ${first.returns!.got}';
+      final day = LearnWords.backStamp(first.returns!.got!);
       expect(find.text(day), findsOneWidget, reason: 'what the key promised, under the keys');
       expect(counterAt(2, n), findsOneWidget);
       expect(find.text('Turn over'), findsOneWidget);
@@ -298,7 +299,7 @@ void main() {
       await tap(tester, find.text('Turn over'));
       final first = ctl(tester).item! as LearnCardItem;
       await tap(tester, find.text('Easy'));
-      expect(find.text('Back ${first.returns!.easy}'), findsOneWidget);
+      expect(find.text(LearnWords.backStamp(first.returns!.easy!)), findsOneWidget);
       await tap(tester, find.text('Turn over'));
       haptics.calls.clear();
       await tap(tester, find.text('Missed it'));
@@ -802,11 +803,11 @@ void main() {
       expect(find.text('Questions come back tomorrow. Your Key cards stay open.'), findsOneWidget);
       expect(find.text('See Pro'), findsOneWidget);
       expect(find.text('Or'), findsOneWidget);
-      expect(find.text('Continue · 8 min'), findsOneWidget);
-      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
+      expect(find.text('Continue · 8 min'), findsOneWidget);
+      expect(find.text('Revise 8 due cards · 2 min'), findsOneWidget);
       expect(find.text('Today\'s free session is used'), findsNothing);
       expect(voltKeys(tester), 1);
-      await tap(tester, find.text('Continue · 8 min'));
+      await tap(tester, find.text('Continue · 8 min'));
       expect(find.textContaining('at /explore/feed'), findsOneWidget, reason: 'today\'s own feed, picked up by its id');
       await finish(tester);
     });

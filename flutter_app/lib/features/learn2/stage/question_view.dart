@@ -181,6 +181,10 @@ class _QuestionViewState extends State<QuestionView> {
     if (now != null && was == null) {
       if (now.correct) {
         hapticsOf(context)?.confirm();
+        // A long question's verdict sits under the options, maybe under the fold: bring it into view, only as far as it needs
+        // (4 Nov walk, I8).
+        _scroll?.cancel();
+        _scroll = Timer(const Duration(milliseconds: 160), () => _scrollToVerdict(keepHead: false));
       } else {
         // The line opens in place; 300 ms on, the page scrolls only as far as the verdict and the line need.
         _scroll?.cancel();
@@ -211,14 +215,17 @@ class _QuestionViewState extends State<QuestionView> {
   /// After a wrong answer (R4 ui-correctness#7): the page scrolls only as far as it takes to bring the verdict and the start of
   /// the line you needed into view, and never so far that the head line (the context, "You missed this in Mock 3 on 16 Oct") or
   /// the stem's first line goes under the top (`PagerModel.verdictScrollTop`).
-  void _scrollToVerdict() {
+  ///
+  /// A right answer ([keepHead] false) has only the verdict to show, so it comes into view even if that takes the head line
+  /// under the top: a long question must never leave "Right." under the fold (I8).
+  void _scrollToVerdict({bool keepHead = true}) {
     final scope = _page;
     if (!mounted || scope == null || !scope.scroll.hasClients) return;
     final position = scope.scroll.position;
     final viewport = position.context.storageContext.findRenderObject();
     final target = _boxOf(_lineKey) ?? _boxOf(_verdictKey);
     if (viewport is! RenderBox || !viewport.attached || target == null) return;
-    final head = _boxOf(_headKey);
+    final head = keepHead ? _boxOf(_headKey) : null;
     final boxTop = viewport.localToGlobal(Offset.zero).dy;
     final targetTop = target.localToGlobal(Offset.zero).dy;
     final top = PagerModel.verdictScrollTop(

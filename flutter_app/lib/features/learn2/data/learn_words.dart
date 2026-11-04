@@ -49,8 +49,13 @@ abstract final class LearnWords {
     return up < 1 ? 1 : up;
   }
 
+  /// A number and its unit stay on one line (4 Nov walk, I9): at text 1.3 "2 / min" and "back in 3 / days" split across two. The
+  /// joining space is a no-break space; the words are otherwise the web's (the parity tests compare with it read as a space).
+  static String joinUnit(String words) => words.replaceAllMapped(_numberUnit, (m) => '${m[1]}\u00A0${m[2]}');
+  static final RegExp _numberUnit = RegExp(r'(\d+) (min|days?|weeks?|months?)\b');
+
   /// "Continue · 6 min": a label with its length.
-  static String withMinutes(String label, num? minutes) => '$label · ${wholeMinutes(minutes)} min';
+  static String withMinutes(String label, num? minutes) => joinUnit('$label · ${wholeMinutes(minutes)} min');
 
   static int _count(num? n) {
     if (n == null || n.isNaN || n.isInfinite) return 0;
@@ -89,10 +94,10 @@ abstract final class LearnWords {
   }
 
   /// "Back tomorrow", "Back in 3 days": the stamp after a rating (the words are [returnWords]).
-  static String backStamp(String words) => 'Back $words';
+  static String backStamp(String words) => joinUnit('Back $words');
 
   /// "back tomorrow": a rating key's second line.
-  static String backLine(String words) => 'back $words';
+  static String backLine(String words) => joinUnit('back $words');
 
   /// The words for a Missed card: when the session also shows it again, "in this session, then tomorrow".
   static String missedWords(String scheduled, bool inRun) => inRun ? 'in this session, then $scheduled' : scheduled;
