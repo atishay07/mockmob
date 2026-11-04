@@ -711,4 +711,5 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | STANDING | **LK75** Refine these small things automatically, ourselves; think it through. |
 | DONE 4 Nov ~2:10 am | **LK76** The push command failed: it ran in the parent folder, which is not a git repository. Gave him a one-line command that names the repository. |
 | ANSWERED 4 Nov ~6:35 pm: status, ETA (AAB about 9 pm, website about 11 pm IST), nothing blocking needed from him | **LK77** Continue where you left off; tell me what is done, what is left, by when it all completes, and whether anything is needed from me. |
+| DONE (by him, 3-4 Nov night; verified 4 Nov ~6:45 pm: origin refs/archive/uncommitted-1104-main = 117408243) | **LK78** The 610 MB backup push is up to date; he did it yesterday. Do not ask again. |
 
