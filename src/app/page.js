@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { priceLine, publicOffer } from '@/lib/payments/offer';
-import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText, Users } from 'lucide-react';
+import { Check } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
@@ -15,11 +15,11 @@ import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
-import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
-import { heroTrustSegments } from '@/components/landing/heroTaps.mjs';
+import { heroBeat, heroTrustSentence } from '@/components/landing/heroTaps.mjs';
+import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
@@ -27,12 +27,16 @@ import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
-import { ExamComparator } from '@/components/landing/ExamComparator';
+import { ExamScreen } from '@/components/landing/ExamScreen';
+import OpeningMo from '@/components/landing/OpeningMo';
+import HeroTyped from '@/components/landing/HeroTyped';
+import { HomeFonts } from '@/components/landing/HomeFonts';
+import { Statement } from '@/components/landing/Statement';
+import { MobiPoseSprite } from '@/components/brand/MobiPoseSprite';
 import FeatureTour from '@/components/landing/FeatureTour';
 import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
-import { SubjectObject } from '@/components/brand/SubjectObject';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
@@ -58,21 +62,10 @@ import './home.css';
 import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
 
-const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
-  'Quick practice and Full mock on credits',
-  // The free first full mock (C-dec 1), only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
-  ...(FIRST_FULL_MOCK_ON ? [FIRST_FULL_MOCK_COPY.planItem] : []),
-  'Weekly progress tracking',
-  '25 saved questions',
-  'Your standing',
-];
-const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
-  'Unlimited Quick practice and Full mock',
-  'Compass Pro: your practice mapped to your DU shortlist',
-  'Smart practice and NTA mode',
-  'Full chapter review: every ranked chapter, pace and changed answers',
-  'Unlimited saved questions',
-];
+// The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
+// The free first full mock (C-dec 1) is listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+const freePlan = freePlanItems({ newOffer: newOfferReleased(), firstFullMockItem: FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.planItem : null });
+const proPlan = proPlanItems({ newOffer: newOfferReleased() });
 
 const OFFER = publicOffer();
 const SHOWCASE = buildCompassShowcase();
@@ -86,9 +79,8 @@ const POSITION = [
 ];
 const DU_FACTS = duIndexFacts();
 
-// The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
-// Words marked with * carry the accent.
-const STATEMENT = 'Your marks slipped somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
+// The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
+// does). Words marked with * carry the accent.
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
 // statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
 // object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
@@ -117,53 +109,20 @@ const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLE
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
 const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
 const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
-// The feature tour: every product area, one idea per slide. Screens are labelled illustrations; the
-// chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
-// Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
-const TOUR = [
-  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Train on the exam’s own clock.',
-    body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
-  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it. Not just the answer.',
-    body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, all written from the official key. If the AI’s working can’t match the key, there’s no repair and no charge.',
-    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
-  ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
-    body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
-    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
-  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay your mock, move by move.',
-    body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
-    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' },
-  { id: 'radar', label: 'Chapter review', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Chapter review', title: 'Know the chapter to fix first.',
-    body: 'A score is just a number. Chapter review traces every miss to its chapter, so tonight has a target. Pro adds pace and changed-answer detail for every chapter.',
-    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' },
-  { id: 'prepos', label: 'Ask Mobi', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'Ask Mobi', title: 'Ask what to do tonight. Get one clear step.',
-    body: 'Mobi reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in chapter review.',
-    points: ['Questions about your own record are free', 'One credit buys a whole Mobi job, a mistake fixed for good or a doubt answered and tested, and every plan gets 50 free credits a month', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and in chapter review.', href: '/mentor', cta: 'Ask Mobi' },
-  { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
-    body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
-  { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Picking five papers? Test the combination first.',
-    body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
-    points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
-  { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and your standing', title: 'Beat the score you’re aiming for.',
-    body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
-    points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed toward your standing'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See your standing' },
-  ...(MOB_LIVE ? [{ id: 'mob', label: 'The Mob', icon: <Users size={18} aria-hidden="true" />, line: 'Prep with your friends, on the same questions', kicker: 'The Mob', title: 'Bring your friends. Race the same questions.',
-    body: 'Start a Mob and share its code. Everyone gets the same five questions for 24 hours and races the runs before them. After the game, Fix it together takes you back to the question that caught you and gives you a fresh one like it.',
-    points: ['Play as a Fold, and earn new ones when your Mob finishes its weekly quest', 'Keep a chain going together, week after week', 'Turn sharing off and your marks stay private'], chip: 'Playing every game your Mob starts is free on every plan.', href: '/mob', cta: 'Open the Mob' }] : []),
-];
+// The feature tour: every product area, one idea per slide (homeCopy.mjs buildTour; the rail draws each slide's desk
+// object, BrandIcon). Screens are labelled illustrations (TourScreens.jsx, keyed by id). Learn and the Mob appear only
+// while they are live, from the same switches their pages read.
+const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
 
-const faqs = [
-  { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
-  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside. Every mock is built fresh from one live question bank, and Pro puts no cap on how many you take.' },
-  ...(MOB_LIVE ? [{ question: 'What is the Mob?', answer: 'Your study group inside MockMob. Start a Mob for a subject and share its code with friends. Everyone gets the same five questions for 24 hours, the podium shows how the runs compare, and after each game Fix it together gives you a fresh question like the one that caught you. A weekly quest and a chain keep the group going, and you can keep your marks private.' }] : []),
-  { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
-  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once covers Pro through ${OFFER.oneTime.expires}, with no auto-renewal. Monthly Pro at ₹${OFFER.monthly.rupees} a month opens soon, and whoever pays now keeps the full term.` },
-];
+const faqs = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
+const PRICING = pricingHead(OFFER);
 
 export default function LandingPage() {
   return (
     <div className="mm lp">
+      {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
+      <OpeningMo />
+      <HomeFonts />
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
       <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
       <noscript>
@@ -173,92 +132,67 @@ export default function LandingPage() {
       <SectionPosition sections={POSITION} />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
+        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70): one hero idea at every width. The words first (the
+            headline, the one sentence that says what MockMob is, one volt key and a text link, two fact sentences),
+            then the desk: Mobi standing in his lamp-lit room (HeroRoom, HeroMobi) handing you the real first question
+            (DemoDrill, the card attached to the room's foot). Phones stack it; from 960 px the desk is the right
+            column. The two hero links sit under the card on phones and under the facts on desktop (hero-scene.css).
+            No ambient pattern behind it (decision 12): the grid, the dots and the pointer spotlight went; the
+            spotlight became Mobi's gaze (decision 4). */}
         <section className="lp-hero">
-          <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
-              {/* Phones (up to 760 px) stage this row as the Play app's welcome (LK32, 1 Nov): the app's own painted room
-                  (HeroRoom), the real rigged Mobi standing in its light, and his line in a bubble that changes with each
-                  tap (HeroMobi, heroTaps.mjs). Wider screens never draw the room; their Mobi is the sample's host. */}
-              <div className="lp-hero__greeting"><HeroRoom /><HeroMobi variant="room" poster={<MobiPoster id="room" />} /></div>
               <h1 className="lp-title">
-                {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
-                {/* The headline is static (R3 H1): three inline runs with a break between them, so the browser counts them
-                    as one paint (largest contentful paint) at first render. The spaces before the breaks keep the
-                    sentence "CUET 2027. One mock. Know what to fix." for a screen reader and a search engine. */}
-                <span className="lp-title__line lp-title__line--run lp-title__brand">{HERO_LINES[0]}</span>{' '}<br />
-                <span className="lp-title__line lp-title__line--run">{HERO_LINES[1]}</span>{' '}<br />
-                <span className="lp-title__line lp-title__line--run">{HERO_LINES[2]}</span>
+                {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span>{' '}<span className="lp-title__line">behind the marks.</span></> : <>
+                {/* Three block lines with a space between them, so a screen reader and a search engine read the sentence
+                    "CUET 2027. One mock. Know what to fix." (HERO_SENTENCE); the h1 is the page's largest paint. */}
+                <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>{' '}
+                <span className="lp-title__line">{HERO_LINES[1]}</span>{' '}
+                {/* The third line types once and rests on HERO_LINES[2] (HeroTyped, P3); its server text is that line. */}
+                <HeroTyped />
                 </>}
               </h1>
-              <p className="lp-lead" data-hero style={{ '--h': 1 }}>
-                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See exactly where every mark went. Fix the right chapter tonight.'}
+              <p className="lp-lead">
+                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : <><b>{HERO_LEAD.strong}</b>{HERO_LEAD.rest}</>}
               </p>
-              <div className="lp-cta" data-hero style={{ '--h': 2 }}>
+              <div className="lp-cta">
                 <LandingActions />
               </div>
-              {/* Two quiet lines (LK32: the details band cut by about a quarter): the reassurances on one line, the
-                  live bank on the next. The long bank sentence with the subject claim stays in the shelf and the FAQ. */}
-              <div className="lp-hero__facts" data-hero style={{ '--h': 3 }}>
-                <p className="lp-trust-line">{heroTrustSegments(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' }).map((part, i, all) => <Fragment key={part}>{i > 0 ? ' ' : null}<span className="lp-trust-line__seg">{part}{i < all.length - 1 ? ' ·' : ''}</span></Fragment>)}</p>
+              {/* Two quiet sentences: the reassurances (from the live offer, no middle dots) and the live bank line. */}
+              <div className="lp-hero__facts">
+                <p className="lp-trust-line">{heroTrustSentence(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>
                 <QuestionBankLine variant="short" className="lp-bank lp-bank--short" />
-              </div>
-              <div className="lp-hero__links" data-hero style={{ '--h': 4 }}>
-                <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">
-                  Free DU eligibility and cutoff calculator
-                </Link>
-                <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Try the exam-day screen</a>
               </div>
             </div>
 
-            <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span>Your first question. Go.</span><span>No signup</span></div>
-              <div className="lp-stage__card">
-                <DemoDrill />
+            <div className="lp-desk" id="try-practice">
+              <div className="lp-desk__stage">
+                <HeroRoom />
+                <HeroMobi poster={<MobiPoster id="desk" />} />
               </div>
-              <p className="lp-stage__note">Five CUET-style questions, each with the why.</p>
-              <p className="lp-stage__other">Taking other subjects? <Link href="/signup">Sign up free and pick yours</Link></p>
-              {/* Tablets and desktop: Mobi hosts the sample from the gutter at its lower left (one Mobi in view, W-074). */}
-              <HeroMobi variant="host" poster={<MobiPoster id="host" />} />
+              <div className="lp-desk__card">
+                <DemoDrill note={<>No signup for these five. Other subjects? <Link href="/signup">Pick yours free</Link></>} />
+              </div>
+            </div>
+
+            <div className="lp-hero__links">
+              <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
+              <a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen</a>
             </div>
           </div>
 
-          {/* Second hero beat: real, linked facts on a glass dock. Numbers and words only, no icon per fact (W-076: no icon grids). */}
+          {/* Second beat (decision 14): four sentence links on a hairline, the facts unchanged; no big numbers, no glass. */}
           <div className="mm-wrap">
-            <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><b>5 questions</b><span>Free to try, no signup</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes}</b><span>DU programmes, matched to your subjects</span></a> : null}
-              <a href="#exam-experience"><b>2 screens</b><span>Practise calm. Rehearse NTA style.</span></a>
-              <a href="#your-prep"><b>60 min</b><span>50 questions on the full CUET clock</span></a>
+            <nav className="lp-beat" aria-label="Why students pick MockMob">
+              {heroBeat(DU_FACTS?.programmes ?? null).map(({ href, title, line }) => (
+                <a key={href} href={href}><b>{title}</b>{line}</a>
+              ))}
             </nav>
           </div>
         </section>
 
-        {/* ----------------------- STATEMENT (scroll-scrubbed) -------------------- */}
-        <section className="lp-statement" aria-label="What MockMob does">
-          <div className="mm-wrap lp-statement__grid">
-            <p className="lp-statement__text">
-              {STATEMENT.split(' ').map((word, i, all) => (
-                <span key={i} className="lp-statement__w" data-accent={word.startsWith('*') || undefined} style={{ '--p': (i / (all.length - 1)).toFixed(3) }}>
-                  {word.replace('*', '')}{i < all.length - 1 ? ' ' : ''}
-                </span>
-              ))}
-            </p>
-            <div className="lp-shelf">
-              <ul className="lp-shelf__row" aria-label="Subjects with full NTA-pattern mocks">
-                {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
-                  <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
-                    <Link href={href} className="lp-shelf__link">
-                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
-                      <span className="lp-shelf__name">{name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              <p className="lp-shelf__note">{SUBJECT_CLAIM.long}.</p>
-            </div>
-          </div>
-        </section>
+        {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
+        <Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} />
 
         {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
         <section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
@@ -266,9 +200,8 @@ export default function LandingPage() {
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
-              <p className="lp-kicker">Mistake Lab</p>
-              <h2 className="lp-h2" id="inside-the-lab-title">Every mark, traced back to a moment.</h2>
-              <p className="lp-sub">Your score says how it went. The Lab says why: every minute, every second thought, the reason behind each miss, and the plan for your next mock.</p>
+              <h2 className="lp-h2" id="inside-the-lab-title">{LAB_HEAD.h2}</h2>
+              <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
           <LabCinema />
@@ -278,8 +211,8 @@ export default function LandingPage() {
         <section className="lp-sec lp-sec--tour lp-pos-host" id="your-prep">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2">What’s inside MockMob.</h2>
-              <p className="lp-sub">Practise. Replay. Repair. Then one plan that ties it all together.</p>
+              <h2 className="lp-h2">{TOUR_HEAD.h2}</h2>
+              <p className="lp-sub">{TOUR_HEAD.sub}</p>
             </Reveal>
             <FeatureTour slides={TOUR} />
           </div>
@@ -289,12 +222,9 @@ export default function LandingPage() {
         <section className="lp-sec lp-pos-host" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">Score Recovery Lab</p>
-              <h2 className="lp-h2">Fix it once. Check it holds.</h2>
-              <p className="lp-sub">
-                Replay the session, repair the leak, then prove it on fresh questions days later.
-              </p>
-            </Reveal><MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." /></div>
+              <h2 className="lp-h2">{RECOVERY_HEAD.h2}</h2>
+              <p className="lp-sub">{RECOVERY_HEAD.sub}</p>
+            </Reveal><MascotSeat station="lab" pose="encouraging" label="Let’s find the lost marks." /></div>
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
         </section>
@@ -304,26 +234,21 @@ export default function LandingPage() {
           <section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">DU Compass</p>
-                <h2 className="lp-h2">Hold your shortlist up to real cutoffs.</h2>
-                <p className="lp-sub">
-                  Slide a score. See which colleges it would have cleared in 2026, by category and round.
-                </p>
+                <h2 className="lp-h2">{COMPASS_HEAD.h2}</h2>
+                <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
                 <div className="lp-cpro__copy">
-                  <p className="lp-cpro__badge">Compass Pro</p>
-                  <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
-                  <p>Turn your practice into a paper-by-paper range. Set it against your DU shortlist and see which paper has the most marks open.</p>
-                  <Link href="/pricing" className="lp-link" data-commerce="">See what Pro includes</Link>
+                  <p className="lp-cpro__badge">{COMPASS_PRO.badge}</p>
+                  <h3 className="lp-h3">{COMPASS_PRO.title}</h3>
+                  <p>{COMPASS_PRO.body}</p>
+                  <Link href="/pricing" className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link>
                 </div>
                 <ul className="lp-cpro__list">
-                  <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</span></li>
-                  <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
-                  <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
+                  {COMPASS_PRO.items.map(([title, line]) => <li key={title}><b>{title}</b><span>{line}</span></li>)}
                 </ul>
-                <p className="lp-cpro__fine">Comparing cutoffs is free, always.</p>
+                <p className="lp-cpro__fine">{COMPASS_PRO.fine}</p>
               </Reveal>
             </div>
           </section>
@@ -334,27 +259,25 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--utility" />
             <Reveal className="lp-head">
-              <h2 className="lp-h2">Which DU courses are open to you?</h2>
-              <p className="lp-sub">
-                Tick your subjects. See every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no signup.
-              </p>
+              <h2 className="lp-h2">{DU_HEAD.h2}</h2>
+              <p className="lp-sub">{DU_HEAD.sub}</p>
             </Reveal>
             <Reveal>
               <EligibilityTeaser />
             </Reveal>
             <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
               <div>
-                <p className="lp-cpro__badge">Combo Planner</p>
-                <h3 className="lp-h3">Five CUET subjects. Pick them right.</h3>
-                <p>Set your DU goals and the subjects you can take. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
+                <p className="lp-cpro__badge">{COMBO.badge}</p>
+                <h3 className="lp-h3">{COMBO.title}</h3>
+                <p>{COMBO.body}</p>
               </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">{COMBO.cta}</Link>
             </Reveal>
             <CollegeDestinations />
           </div>
         </section>
 
-        <ExamComparator />
+        <ExamScreen />
 
         {/* ------------------------------ PROOF ----------------------------- */}
         <section className="lp-sec lp-sec--tight">
@@ -369,9 +292,8 @@ export default function LandingPage() {
         <section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">MockMob on Instagram</p>
-              <h2 className="lp-h2">Featured by CUET creators.</h2>
-              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their followers. Tap a reel and watch it right here.</p>
+              <h2 className="lp-h2">{INSTAGRAM_HEAD.h2}</h2>
+              <p className="lp-sub">{INSTAGRAM_HEAD.sub}</p>
             </Reveal>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
@@ -382,8 +304,7 @@ export default function LandingPage() {
           <section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
               <Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">Wall of love</p>
-                <h2 className="lp-h2">Students, in their own words.</h2>
+                <h2 className="lp-h2">{WALL_HEAD.h2}</h2>
               </Reveal>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
             </div>
@@ -395,8 +316,8 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
             <Reveal className="lp-head">
-              <h2 className="lp-h2">Start free. Go Pro for unlimited mocks.</h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `₹${OFFER.oneTime.rupees} once covers Pro through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is on the way. Pay once now and keep every day you paid for.`}</p>
+              <h2 className="lp-h2">{PRICING.h2}</h2>
+              <p className="lp-sub">{PRICING.sub}</p>
             </Reveal>
             <Reveal className="lp-plans">
               <div className="lp-plan">
@@ -424,7 +345,7 @@ export default function LandingPage() {
         {/* -------------------------------- FAQ ----------------------------- */}
         <section className="lp-sec lp-sec--band" id="faq">
           <div className="mm-wrap mm-wrap--tight">
-            <Reveal><h2 className="lp-h2">Before your first mock.</h2></Reveal>
+            <Reveal><h2 className="lp-h2">{FAQ_HEAD.h2}</h2></Reveal>
             <Reveal className="mm-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
@@ -443,9 +364,9 @@ export default function LandingPage() {
             <div className="lp-bg__dots" />
           </div>
           <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
-            <h2 className="lp-h2 lp-h2--xl">Five questions. Your move.</h2>
-            <p className="lp-sub">Answer five now. Sign up when you’re ready to keep score.</p>
+            <MascotSeat station="close" pose="celebrating" label={CLOSE.mobi} />
+            <h2 className="lp-h2 lp-h2--xl">{CLOSE.h2}</h2>
+            <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions />
           </Reveal>
           {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
@@ -455,6 +376,8 @@ export default function LandingPage() {
         </section>
       </main>
       <MarketingFooter />
+      {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
+      <MobiPoseSprite />
       <PipGuide />
       {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>

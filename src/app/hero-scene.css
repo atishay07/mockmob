@@ -351,11 +351,13 @@
   .mm.lp .lp-hero { padding-block: 40px 56px; }
   .mm.lp .lp-hero__grid {
     grid-template-columns: minmax(0, 1fr) 520px;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto 1fr;
     grid-template-areas: 'copy desk' 'links desk';
     column-gap: clamp(40px, 4vw, 56px);
   }
-  .mm.lp .lp-hero__copy { align-self: end; }
+  /* The words sit a fixed step below the room's top (about where the desk's middle starts), so when the sample grows
+     with an answer only the second row (under the links) takes the height: the words never move. */
+  .mm.lp .lp-hero__copy { align-self: start; padding-top: clamp(48px, 9vh, 96px); }
   .mm.lp .lp-hero__links { align-self: start; margin-top: 16px; }
   .mm.lp .lp-hero .lp-title { font-size: min(84px, 12.75cqi); line-height: 0.95; letter-spacing: -0.04em; }
   .mm.lp .lp-hero .lp-lead { margin-top: 26px; max-width: 33ch; font-size: 1.25rem; line-height: 1.5; }
