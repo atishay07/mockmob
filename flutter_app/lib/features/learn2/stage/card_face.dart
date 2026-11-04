@@ -17,8 +17,9 @@
 ///            NCERT's line at the web's back size and its source; "Turn back" at the foot; a tap on the back turns it back.
 ///            A journal entry keeps plain paper
 ///   turn     rotateY 0 to 180 in 340 ms on `Motion.drawer` with perspective (1200), the faces swapping at 90 degrees,
-///            a light haptic. The card lifts as it turns (LK95): its scale rises to 1.03 at 90 degrees and settles
-///            (1 + 0.03 sin(pi t)), its soft shadow falling deeper with it (`StagePaper.liftedShadow`); from 90 degrees one
+///            a light haptic. The card lifts as it turns (LK95): its scale rises to 1.02 at 90 degrees and settles
+///            (1 + 0.02 sin(pi t)), pushed back by its near edge's depth so the turn never outgrows its slot, its soft
+///            shadow falling deeper with it (`StagePaper.liftedShadow`); from 90 degrees one
 ///            soft band of light (`MmLight.sweepColor`) crosses the incoming face, once. Under reduced motion a 120 ms
 ///            cross-fade: no lift, no light
 ///   stamp    the line under the card (20 dp, 8 dp below): a check and "In Revise" (once the server has it), or the bad
@@ -161,8 +162,9 @@ class CardFace extends StatefulWidget {
 
   static const double radius = StageSizes.cardRadius;
 
-  /// How far the card lifts at 90 degrees: its scale peaks at 1 + [lift] (LK95).
-  static const double lift = 0.03;
+  /// How far the card lifts at 90 degrees: its scale peaks at 1 + [lift] (LK95). 0.02, not 0.03: the card's slot leaves
+  /// about 5 dp above and below it, and the near edge must stay inside (5 Nov emulator walk).
+  static const double lift = 0.02;
 
   /// The lift at turn [t] (0 to 1): nothing at rest, all of it at 90 degrees.
   static double liftAt(double t) => math.sin(math.pi * t.clamp(0.0, 1.0));
@@ -251,13 +253,23 @@ class _CardFaceState extends State<CardFace> with SingleTickerProviderStateMixin
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
-              child: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.identity()
-                  ..setEntry(3, 2, 1 / 1200)
-                  ..rotateY(angle)
-                  ..scaleByDouble(scale, scale, 1, 1),
-                child: face,
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  // Perspective makes the edge that swings towards the reader taller than the card (about 12% at 60
+                  // degrees), and the card's slot clips it (5 Nov emulator walk: the top edge and the kind label were cut
+                  // flat mid-turn). The card is pushed back by exactly that edge's depth, so the near edge stays the
+                  // card's own height (times the small lift) and the far edge recedes: the turn never leaves its slot.
+                  final back = (box.maxWidth.isFinite ? box.maxWidth / 2 : 0.0) * scale * CardFace.liftAt(v);
+                  return Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 1 / 1200)
+                      ..translateByDouble(0, 0, back, 1)
+                      ..rotateY(angle)
+                      ..scaleByDouble(scale, scale, 1, 1),
+                    child: face,
+                  );
+                },
               ),
             );
           }
