@@ -122,7 +122,12 @@ switch.
   No page errors appeared. Nothing scrolls sideways at 360 px. Under reduced motion the screen does not fade.
 - Section height: 920 to 622 px at 390, and 717 or 732 to 705 px at 1440, the same in both interfaces. Both are within the
   new budgets (700 and 720 px). `#exam-experience` reserves 572 px at 390 and 615 px at 1440 (landing.css), measured as
-  the drawn content height.
+  the drawn content height. After the change, the page measures the same before anything below the hero is drawn as after
+  everything is: 2 px apart at 390, and the same 2 px was there before this packet; equal at 1440
+  (tmp/night-1105/p3/v3/report.json).
+- Not done here: the opt-in browser height test in examScreen.test.mjs (EXAM_HEIGHT_URL) was not run, because it launches
+  Chrome outside the shared browser lock. tmp/night-1105/p3/shoot.mjs takes the same measurement inside the lock. No
+  real-phone check was made, and nothing was deployed.
 - Tests changed with this decision:
   - examScreen.test.mjs: the switch outside the screen, NTA's anatomy and words, the monitor, the scale unit, the new
     height budgets, the phone bar and sheet retired, and the 44 px rule kept for the switch;
