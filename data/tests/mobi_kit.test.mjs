@@ -62,16 +62,18 @@ test('one data-motion=reduced block calms the site, and it keeps Mobi still and 
   assert.match(globals, /@import "\.\/motion-kit\.css";/);
   assert.match(globals, /:root\[data-motion='reduced'\] \*,/);
   assert.match(globals, /:root\[data-motion='reduced'\] \.skeleton::after \{ animation: none !important; \}/);
-  // Under Reduce motion MobiReact runs no frame loop and draws his still pose. The only CSS animations in mobi-figure.css
-  // are the home hero's idle="css" breathe and blink (4 Nov 2026, SPEC-HOME-1104 P2), and both sit inside a
-  // prefers-reduced-motion: no-preference block that also excludes the site's own data-motion=reduced switch.
+  // Under Reduce motion MobiReact runs no frame loop and draws his still pose. The only CSS animation in mobi-figure.css
+  // is the home hero's idle="css" breathe (4 Nov 2026, SPEC-HOME-1104 P2). His blink is three held frames (MobiReact steps
+  // data-blink through half, shut, half), not an animation. Both sit inside a prefers-reduced-motion: no-preference block
+  // that also excludes the site's own data-motion=reduced switch.
   const react = read('src/components/brand/MobiReact.jsx');
   assert.ok(react.includes('if (resolved.live) return;'), 'a still Mobi runs no sim');
   const animated = css.split('\n').filter((line) => line.includes('animation:'));
-  assert.equal(animated.length, 2, 'only the breathe and the blink');
-  for (const line of animated) assert.match(line, /animation: mb-(breathe|blink) /);
+  assert.equal(animated.length, 1, 'only the breathe');
+  for (const line of animated) assert.match(line, /animation: mb-breathe /);
   const motionBlock = css.slice(css.indexOf('@media (prefers-reduced-motion: no-preference) {'));
-  assert.ok(motionBlock.includes("mb-breathe 3.6s") && motionBlock.includes('mb-blink 170ms'), 'both only under no-preference');
+  assert.ok(motionBlock.includes("mb-breathe 3.6s"), 'the breathe only under no-preference');
+  assert.ok(motionBlock.includes("[data-blink='shut']") && motionBlock.includes('scale: 1 0.12'), 'the held blink frames only under no-preference');
   assert.match(motionBlock, /:root:not\(\[data-motion='reduced'\]\) \.mobi-react\[data-idle='css'\]/);
 });
 
