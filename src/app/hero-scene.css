@@ -381,5 +381,5 @@
 
 /* ---------- Short phones (360 x 640): the room's clamp holds it at 168 px ---------- */
 @media (max-width: 639px) and (max-height: 699px) {
-  .mm.lp .lp-hero { padding-top: 16px; }
+  .mm.lp .lp-hero { padding-top: 10px; }
 }
