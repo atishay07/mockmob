@@ -4,80 +4,240 @@
 .nta-interface-toolbar button { min-height: 40px; padding: 8px 15px; border: 0; border-radius: 4px; background: transparent; color: #dce5d4; cursor: pointer; }
 .nta-interface-toolbar button[aria-pressed='true'] { background: #d2f000; color: #182000; }
 .nta-interface-toolbar small { margin-left: auto; font-size: 12px; }
-.nta-runner[data-interface='nta'] { background: #eaf0f4; color: #222; font-family: Arial, sans-serif; --text-primary: #222; --text-subtle: #53606c; --text-muted: #53606c; --focus-ring: #286590; color-scheme: light; }
-.nta-runner[data-interface='nta'] .runner-sync-state { color: #465665; background: #eaf0f4; }
-.nta-runner[data-interface='nta'] .nta-test-header { background: #32688f; color: #fff; border-color: #225478; backdrop-filter: none; }
-.nta-runner[data-interface='nta'] :is(.nta-title-stack span, .nta-title-stack strong, .nta-progress-row, .nta-timer) { color: #fff; }
-.nta-runner[data-interface='nta'] :is(.nta-paper, .nta-review-panel, .nta-sheet-panel) { background: #fff; border: 1px solid #c4cfd6; border-radius: 3px; box-shadow: none; }
-.nta-runner[data-interface='nta'] :is(.nta-paper-head, .nta-question-meta, .nta-panel-section) { background: #f0f5f8; border-color: #c4cfd6; }
-.nta-runner[data-interface='nta'] :is(.nta-paper-head h1, .nta-question-text, .nta-question-number, .nta-summary-grid strong, .nta-sheet-head strong, .nta-passage-head strong) { color: #222; font-family: Arial, sans-serif; }
-.nta-runner[data-interface='nta'] :is(.nta-kicker, .nta-paper-tags span, .nta-summary-grid span, .nta-chip, .nta-legend, .nta-passage) { color: #455969; }
-.nta-runner[data-interface='nta'] .nta-question-block { background: white; border-color: #d6dfe5; border-radius: 0; }
-.nta-runner[data-interface='nta'] .nta-option { color: #222; background: #fff; border-color: transparent; border-radius: 0; box-shadow: none; }
-.nta-runner[data-interface='nta'] .nta-option:hover, .nta-runner[data-interface='nta'] .nta-option.is-selected { background: #eaf5ff; border-color: #c5dbeb; }
-.nta-runner[data-interface='nta'] .nta-option-letter { width: 18px; height: 18px; border: 1px solid #7f8b93; border-radius: 50%; font-size: 0; background: #fff; color: transparent; }
-.nta-runner[data-interface='nta'] .nta-option.is-selected .nta-option-letter { background: #2769bd; border: 4px solid #eaf5ff; outline: 1px solid #2769bd; }
-.nta-runner[data-interface='nta'] .nta-navigation { flex-wrap: wrap; justify-content: flex-start; }
-.nta-runner[data-interface='nta'] :is(.nta-nav-button, .nta-text-button) { color: #264963; border-color: #aebdc7; background: #edf2f5; border-radius: 3px; font-family: Arial, sans-serif; letter-spacing: 0; text-transform: none; }
-.nta-runner[data-interface='nta'] .nta-navigation > button:last-child, .nta-runner[data-interface='nta'] .nta-submit-button { background: #348638; border-color: #28712d; color: white; margin-left: auto; }
-.nta-runner[data-interface='nta'] .nta-navigation .nta-classic-review { background: #754b9c; border-color: #68408d; color: white; }
-.nta-runner[data-interface='nta'] .nta-palette-chip { color: #444; background: linear-gradient(#fff, #e4e4e4); border: 1px solid #b3b3b3; border-radius: 3px; font-family: Arial, sans-serif; font-weight: 400; }
-.nta-runner[data-interface='nta'] .nta-palette-chip.is-current { outline-color: #306a92; }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .legend.answered) { background: #309816; border-color: #27820f; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .legend.visited) { background: #d84500; border-color: #c33d00; color: white; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .legend.marked, .legend.marked-answered) { background: radial-gradient(circle at 35% 25%, #8a5bc4, #512593 70%); color: white; border-color: #7445a8; border-radius: 50%; }
-.nta-runner[data-interface='nta'] .legend { position: relative; width: 20px; height: 20px; flex-shrink: 0; }
-.nta-runner .legend.marked-answered { position: relative; background: #72529b; }
-.nta-runner .legend.marked-answered::after { content: ''; position: absolute; right: 0; bottom: 0; width: 7px; height: 7px; border-radius: 50%; background: #65d833; }
-.nta-runner[data-interface='nta'] .legend.notvisited { background: #efefef; border-color: #b3b3b3; }
-.nta-runner[data-interface='nta'] .nta-legend { font-family: Arial, sans-serif; font-weight: 400; font-size: 12px; letter-spacing: 0; }
 @media (max-width: 760px) { .nta-interface-toolbar { padding: 10px 16px; gap: 8px; } .nta-interface-toolbar small { flex-basis: 100%; margin: 0; } }
-/* The NTA-style console never follows the Arena light/dark preference. Its surface is always
-   light, so its ink tokens are dark in both themes: shared runner rules (passage text, the
-   palette close icon, the warnings pill, alerts) stay readable on it. */
-.nta-runner[data-interface='nta'] { --a-ink: #1f2933; --a-ink-2: #2f3b45; --a-ink-3: #4f5d68; --a-line: #c4cfd6; --a-line-hover: #8fa3b1; --a-hover: #f3f6f8; --a-topbar: #ffffff; --a-raised: #ffffff; --a-accent-text: #1f5f8b; --a-bad-text: #b42318; --a-warn-text: #8a5300; --a-good-text: #1d6b2a; --a-purple-text: #5b3392; --a-sheet: #ffffff; --a-line-strong: #8fa3b1; --a-focus: #286590; }
-.nta-runner[data-interface='nta'] .nta-interface-toolbar { background: #dfe7ec; border-color: #bdccd5; color: #2f3b45; }
-.nta-runner[data-interface='nta'] .nta-interface-toolbar > div { border-color: #9fb2bf; background: #fff; }
-.nta-runner[data-interface='nta'] .nta-interface-toolbar button { color: #264963; }
-.nta-runner[data-interface='nta'] .nta-interface-toolbar button[aria-pressed='true'] { background: #32688f; color: #fff; }
-.nta-runner[data-interface='nta'] .nta-passage { background: #f7fafc; border: 1px solid #bdccd5; border-radius: 3px; }
-.nta-runner[data-interface='nta'] .nta-passage-head { color: #32688f; font-family: Arial, sans-serif; letter-spacing: .04em; }
-.nta-runner[data-interface='nta'] .nta-passage p { color: #1f2933; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.7; white-space: pre-line; }
-.nta-runner[data-interface='nta'] .nta-alert { color: #6b4200; background: #fff6e0; border-color: #e5c27a; }
-.nta-runner[data-interface='nta'] .nta-integrity-status { padding: 6px 24px; }
 
-/* Phone and tablet: the paper flows as one column, the timer stays in the sticky header, and
-   the NTA actions sit in a fixed bar so Save & next, Mark for review & next and Clear response
-   are always one tap away. The palette opens as a bottom sheet. Desktop is unchanged. */
-@media (max-width: 1023px) {
-  .nta-runner[data-interface='nta'] .nta-navigation { display: none; }
-  .nta-runner[data-interface='nta'] .nta-shell { padding: 12px 10px calc(132px + env(safe-area-inset-bottom, 0px)); }
-  .nta-runner[data-interface='nta'] .nta-paper { scroll-margin-top: 112px; }
-  .nta-runner[data-interface='nta'] .nta-paper-head { padding: 12px 14px; min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-  .nta-runner[data-interface='nta'] .nta-paper-tags { flex: 1 1 auto; justify-content: flex-end; }
-  .nta-runner[data-interface='nta'] .nta-paper-head .nta-kicker { display: none; }
-  .nta-runner[data-interface='nta'] .nta-paper-head h1 { margin: 0; font-size: 17px; }
-  .nta-runner[data-interface='nta'] .nta-passage { margin: 12px; padding: 12px; }
-  .nta-runner[data-interface='nta'] .nta-passage p { font-size: 15px; line-height: 1.65; max-width: none; }
-  .nta-runner[data-interface='nta'] .nta-question-block { padding: 14px; }
-  .nta-runner[data-interface='nta'] .nta-question-meta { flex-direction: row; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
-  .nta-runner[data-interface='nta'] .nta-question-actions { width: auto; margin-left: auto; }
-  .nta-runner[data-interface='nta'] .nta-text-button { flex: 0 0 auto; padding: 0 12px; }
-  .nta-runner[data-interface='nta'] .nta-question-text { font-size: 16px; line-height: 1.55; font-weight: 700; }
-  .nta-runner[data-interface='nta'] .nta-option { min-height: 48px; padding: 10px 8px; align-items: center; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; }
-  .nta-runner[data-interface='nta'] .nta-option-text { font-size: 15px; }
-  .nta-runner[data-interface='nta'] .nta-mobile-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid #bdccd5; backdrop-filter: none; box-shadow: 0 -4px 16px rgba(31, 41, 51, .08); }
-  .nta-runner[data-interface='nta'] .nta-mobile-actions button { grid-column: span 2; min-height: 44px; padding: 0 6px; border-radius: 3px; border: 1px solid #aebdc7; background: #edf2f5; color: #264963; font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0; text-transform: none; line-height: 1.15; text-align: center; }
-  .nta-runner[data-interface='nta'] .nta-mobile-actions .nta-m-review { grid-column: span 3; background: #754b9c; border-color: #68408d; color: #fff; }
-  .nta-runner[data-interface='nta'] .nta-mobile-actions .nta-m-save { grid-column: span 3; background: #348638; border-color: #28712d; color: #fff; }
-  .nta-runner[data-interface='nta'] .nta-mobile-actions button:disabled { opacity: .45; }
-  .nta-runner[data-interface='nta'] .nta-integrity-status { padding: 6px 12px; }
+/* ==========================================================================================================================
+   NTA style (web-1105-runner, 5 Nov 2026): NTA's CBT screen as its guidelines describe it (CUET (UG) 2025 Information
+   Bulletin, Appendix V), the same anatomy and words as the home page's preview (src/app/exam-screen.css, .xs-nta):
+   - the exam's name left; the Question Paper icon, the candidate block with the Remaining Time, and the profile image right;
+   - the section on the top bar, highlighted;
+   - the question area with NTA's grey circle arrows (down to its end, up to its top) and numbered radio options;
+   - the keys Mark for Review & Next, Clear Response and Save & Next, in NTA's capitals;
+   - the Question Palette on the right with the section summary (a count in each of NTA's five symbols) above it, and the
+     > fold at its left edge.
+   On a wide screen the screen is the viewport, as at the centre: the question area and the palette scroll on their own and
+   the keys stay at the foot. Phones keep the paper in the page with the keys in a fixed bar and the palette in a sheet.
+   The five symbols take NTA's sampled colours (the preview's), with the red and the green one step darker so their white
+   numbers pass 4.5:1 (#d03f00 4.8:1, #24820a 4.9:1; NTA's own #e34501 and #2a9c06 are 4.1:1 and 3.6:1).
+   Light in both themes: the MockMob toolbar above it is the only part that is ours.
+   ========================================================================================================================== */
+.nta-runner[data-interface='nta'] {
+  --nta-indigo: #4f4f8d; --nta-red: #d03f00; --nta-green: #24820a; --nta-purple: #5a2ca4; --nta-grey: #e7e7e7; --nta-line: #d0d0d0;
+  --text-primary: #222; --text-subtle: #4f5d68; --text-muted: #4f5d68; --focus-ring: var(--nta-indigo);
+  /* Its surface is always light, so the shared runner tokens are dark ink in both themes (passage, alerts, warnings pill). */
+  --a-ink: #1f2933; --a-ink-2: #2f3b45; --a-ink-3: #4f5d68; --a-line: #c4cfd6; --a-line-hover: #8fa3b1; --a-hover: #f3f6f8; --a-topbar: #ffffff; --a-raised: #ffffff; --a-accent-text: #3f3f7a; --a-bad-text: #b42318; --a-warn-text: #8a5300; --a-good-text: #1d6b2a; --a-purple-text: #5b3392; --a-sheet: #ffffff; --a-line-strong: #8fa3b1; --a-focus: var(--nta-indigo);
+  background: #fff; color: #222; font-family: Arial, Helvetica, sans-serif; color-scheme: light;
 }
-@media (max-width: 360px) {
+.nta-runner[data-interface='nta'] :focus-visible { outline: 2px solid var(--nta-indigo); outline-offset: 2px; }
+.nta-runner[data-interface='nta'] svg { flex: none; }
+
+/* MockMob's own strip above NTA's screen: the sync note and the interface switch, quiet and in the app's type. */
+.nta-runner[data-interface='nta'] .runner-sync-state { padding: 5px 20px; color: #465665; background: #f4f6f8; border-bottom: 1px solid #dde3e8; font-size: 12px; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar { padding: 4px 20px; gap: 10px; background: #f4f6f8; border-color: #dde3e8; color: #3b4852; font-family: var(--font-body, system-ui, sans-serif); }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar > div { border-color: #b9c6cf; background: #fff; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar button { color: #2f3b45; font-weight: 600; }
+.nta-runner[data-interface='nta'] .nta-interface-toolbar button[aria-pressed='true'] { background: #2f3b45; color: #fff; }
+.app-shell .nta-runner[data-interface='nta'] .nta-interface-toolbar > div[role='group']::before { background: #2f3b45; }
+.app-shell .nta-runner[data-interface='nta'] .nta-interface-toolbar > div[role='group'] > button[aria-pressed='true'] { background: transparent; color: #fff; }
+
+/* ---- the header: exam name left; Question Paper, candidate block, profile image right ---- */
+.nta-runner[data-interface='nta'] .nta-n-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 4px 20px; border-bottom: 1px solid var(--nta-line); background: #fff; }
+.nta-runner[data-interface='nta'] .nta-n-exam { color: var(--nta-indigo); font-size: 22px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
+.nta-runner[data-interface='nta'] .nta-n-tools { display: flex; align-items: center; gap: 20px; min-width: 0; }
+.nta-runner[data-interface='nta'] .nta-n-paper { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 44px; padding: 2px 8px; border: 0; border-radius: 3px; background: transparent; color: #333; font: 12px/1.15 Arial, Helvetica, sans-serif; white-space: nowrap; cursor: pointer; }
+.nta-runner[data-interface='nta'] .nta-n-paper svg { width: 22px; height: 22px; color: var(--nta-indigo); }
+@media (hover: hover) { .nta-runner[data-interface='nta'] .nta-n-paper:hover { background: #f1f1f5; } }
+.nta-runner[data-interface='nta'] .nta-n-cand { display: grid; gap: 2px; margin: 0; font-size: 13px; line-height: 1.3; }
+.nta-runner[data-interface='nta'] .nta-n-cand > div { display: grid; grid-template-columns: 116px auto; align-items: center; }
+.nta-runner[data-interface='nta'] .nta-n-cand dt { color: #444; }
+.nta-runner[data-interface='nta'] .nta-n-cand dt::after { content: ' :'; }
+.nta-runner[data-interface='nta'] .nta-n-cand dd { margin: 0; color: #222; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 22ch; }
+.nta-runner[data-interface='nta'] .nta-timer { display: inline-block; min-width: 0; min-height: 0; padding: 1px 8px; border: 0; border-radius: 3px; background: var(--nta-indigo); color: #fff; font: 700 14px/1.35 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; }
+.nta-runner[data-interface='nta'] .nta-timer.is-low { background: #b42318; }
+/* The profile image: NTA's grey card with a pale silhouette (its own welcome screen's). Hard-stop shapes, not a wash. */
+.nta-runner[data-interface='nta'] .nta-n-photo { display: block; flex: none; width: 46px; height: 56px; border: 1px solid #c8c8c8; background: radial-gradient(circle at 50% 36%, #f7f5f3 0 22%, transparent 23%), radial-gradient(ellipse 46% 34% at 50% 100%, #f7f5f3 0 99%, transparent 100%), #e2ddd9; }
+
+/* ---- the section on the top bar, highlighted; the warnings pill at its far end ---- */
+.nta-runner[data-interface='nta'] .nta-n-sections { display: flex; align-items: stretch; gap: 12px; min-height: 36px; padding: 0 20px; border-bottom: 1px solid var(--nta-line); background: #f1f1f5; }
+.nta-runner[data-interface='nta'] .nta-n-tab { display: flex; align-items: center; padding: 0 18px; background: var(--nta-indigo); color: #fff; font-size: 14px; font-weight: 700; }
+.nta-runner[data-interface='nta'] .nta-n-sections .nta-integrity-status { display: flex; align-items: center; margin-left: auto; padding: 0; border: 0; background: transparent; }
+.nta-runner[data-interface='nta'] .ei-pill { padding: 3px 10px; background: #fff; }
+.nta-runner[data-interface='nta'] .nta-n-notices { padding: 8px 20px 0; }
+.nta-runner[data-interface='nta'] .nta-n-notices .nta-alert { margin: 0 0 8px; }
+.nta-runner[data-interface='nta'] .nta-alert { color: #6b4200; background: #fff6e0; border-color: #e5c27a; border-radius: 3px; }
+
+/* ---- the question area ---- */
+.nta-runner[data-interface='nta'] .nta-n-body { display: grid; grid-template-columns: minmax(0, 1fr) 28px clamp(260px, 24vw, 330px); background: #fff; }
+.nta-runner[data-interface='nta'] .nta-n-body[data-palette='closed'] { grid-template-columns: minmax(0, 1fr) 28px; }
+.nta-runner[data-interface='nta'] .nta-paper.nta-n-main { display: flex; flex-direction: column; min-width: 0; max-width: none; width: auto; justify-self: stretch; border: 0; border-radius: 0; background: #fff; box-shadow: none; overflow: visible; }
+.nta-runner[data-interface='nta'] .nta-n-qhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 20px; border-bottom: 1px solid var(--nta-line); }
+.nta-runner[data-interface='nta'] .nta-n-qhead h1 { margin: 0; color: #222; font: 700 17px/1.3 Arial, Helvetica, sans-serif; }
+/* NTA's grey circle arrows. */
+.nta-runner[data-interface='nta'] .nta-n-arrow { display: grid; place-items: center; flex: none; width: 36px; min-width: 0; height: 36px; min-height: 0; padding: 0; border: 0; border-radius: 50%; background: #7a7a7a; color: #fff; cursor: pointer; }
+.nta-runner[data-interface='nta'] .nta-n-arrow svg { width: 18px; height: 18px; stroke-width: 3; }
+@media (hover: hover) { .nta-runner[data-interface='nta'] .nta-n-arrow:hover { background: #5f5f5f; } }
+.nta-runner[data-interface='nta'] .nta-n-pane { padding: 18px 20px 14px; }
+.nta-runner[data-interface='nta'] .nta-n-edge { display: block; height: 0; }
+.nta-runner[data-interface='nta'] .nta-n-paneend { display: flex; justify-content: flex-end; padding-top: 18px; }
+.nta-runner[data-interface='nta'] .nta-question-list { display: grid; gap: 22px; }
+.nta-runner[data-interface='nta'] .nta-question-block { padding: 0; border: 0; background: none; }
+.nta-runner[data-interface='nta'] .nta-question-block.is-active { background: none; }
+.nta-runner[data-interface='nta'] .nta-question-number { display: block; margin-bottom: 6px; color: #222; font: 700 15px/1.3 Arial, Helvetica, sans-serif; letter-spacing: 0; text-transform: none; }
+.nta-runner[data-interface='nta'] .nta-question-text { margin: 0 0 16px; max-width: 80ch; color: #111; font: 400 17px/1.6 Arial, Helvetica, sans-serif; letter-spacing: 0; }
+.nta-runner[data-interface='nta'] .nta-options { display: grid; gap: 4px; }
+.nta-runner[data-interface='nta'] .nta-option { display: flex; align-items: flex-start; gap: 10px; width: 100%; min-height: 44px; padding: 10px 8px; border: 0; border-radius: 3px; background: transparent; box-shadow: none; color: #222; text-align: left; font: 400 16px/1.5 Arial, Helvetica, sans-serif; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.nta-runner[data-interface='nta'] .nta-option:disabled { cursor: default; opacity: .6; }
+.nta-runner[data-interface='nta'] .nta-option-text { min-width: 0; font-size: 16px; line-height: 1.5; }
+.nta-runner[data-interface='nta'] .nta-n-num { flex: none; color: #222; font-variant-numeric: tabular-nums; }
+/* A native radio button, as the browser draws it: a grey ring, then a blue ring and dot once chosen. */
+.nta-runner[data-interface='nta'] .nta-n-radio { flex: none; width: 16px; height: 16px; margin-top: 4px; border: 1px solid #767676; border-radius: 50%; background: #fff; }
+.nta-runner[data-interface='nta'] .nta-option.is-selected .nta-n-radio { border-color: #0075ff; background: #0075ff; box-shadow: inset 0 0 0 3px #fff; }
+@media (hover: hover) {
+  .nta-runner[data-interface='nta'] .nta-option:hover:not(:disabled) { background: #f4f4f8; }
+  .nta-runner[data-interface='nta'] .nta-option:hover:not(:disabled) .nta-n-radio { border-color: #4f4f4f; }
+  .nta-runner[data-interface='nta'] .nta-option.is-selected:hover .nta-n-radio { border-color: #005cc8; }
+}
+.nta-runner[data-interface='nta'] .nta-passage { margin: 0 0 18px; padding: 14px 16px; background: #f7f7fa; border: 1px solid #c8c8d4; border-radius: 3px; }
+.nta-runner[data-interface='nta'] .nta-passage-head { color: var(--nta-indigo); font-family: Arial, Helvetica, sans-serif; letter-spacing: 0; text-transform: none; font-size: 14px; }
+.nta-runner[data-interface='nta'] .nta-passage-head strong { color: #222; letter-spacing: 0; }
+.nta-runner[data-interface='nta'] .nta-passage p { color: #1f2933; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.7; white-space: pre-line; }
+
+/* ---- the keys ---- */
+.nta-runner[data-interface='nta'] .nta-navigation { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px 20px; border-top: 1px solid var(--nta-line); background: #f5f5f5; }
+.nta-runner[data-interface='nta'] :where(.nta-nav-button, .nta-submit-button, .nta-mobile-actions button, .nta-n-dialog__keys button) { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 1px solid #b0b0b0; border-radius: 3px; background: #fff; color: #222; font: 400 14px/1.15 Arial, Helvetica, sans-serif; letter-spacing: 0; text-transform: none; white-space: nowrap; cursor: pointer; }
+.nta-runner[data-interface='nta'] :where(.nta-nav-button, .nta-submit-button, .nta-mobile-actions button, .nta-n-dialog__keys button):disabled { opacity: .45; cursor: not-allowed; }
+.nta-runner[data-interface='nta'] :is(.nta-nav-button, .nta-mobile-actions button, .nta-submit-button):active:not(:disabled) { transform: translateY(1px); }
+.nta-runner[data-interface='nta'] :is(.nta-classic-review, .nta-m-review) { border-color: #68408d; background: #754b9c; color: #fff; }
+.nta-runner[data-interface='nta'] :is(.nta-n-save, .nta-m-save, .nta-submit-button, .nta-n-dialog__submit) { border-color: #28712d; background: #348638; color: #fff; font-weight: 700; }
+.nta-runner[data-interface='nta'] .nta-n-prev { margin-left: auto; }
+@media (hover: hover) {
+  .nta-runner[data-interface='nta'] :is(.nta-nav-button, .nta-n-dialog__back):hover:not(:disabled) { background: #f0f0f0; }
+  .nta-runner[data-interface='nta'] :is(.nta-classic-review, .nta-m-review):hover:not(:disabled) { background: #68408d; }
+  .nta-runner[data-interface='nta'] :is(.nta-n-save, .nta-m-save, .nta-submit-button, .nta-n-dialog__submit):hover:not(:disabled) { background: #2c7330; }
+}
+
+/* ---- the fold: the > arrow at the palette's left edge (< once folded, at the question area's right) ---- */
+.nta-runner[data-interface='nta'] .nta-n-fold { align-self: center; display: grid; place-items: center; width: 28px; min-width: 0; height: 64px; min-height: 0; padding: 0; border: 1px solid #b9b9b9; border-right: 0; border-radius: 3px 0 0 3px; background: #ececec; color: #333; cursor: pointer; }
+.nta-runner[data-interface='nta'] .nta-n-fold svg { width: 16px; height: 16px; stroke-width: 3; }
+@media (hover: hover) { .nta-runner[data-interface='nta'] .nta-n-fold:hover { background: #dedede; } }
+
+/* ---- the Question Palette ---- */
+.nta-runner[data-interface='nta'] .nta-review-panel.nta-n-palette { position: static; display: flex; flex-direction: column; gap: 0; min-height: 0; padding: 12px 14px; border: 0; border-left: 1px solid var(--nta-line); border-radius: 0; background: #fff; box-shadow: none; }
+.nta-runner[data-interface='nta'] .nta-n-palette[hidden] { display: none; }
+.nta-runner[data-interface='nta'] .nta-n-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; margin: 0; padding: 0 0 12px; border-bottom: 1px solid var(--nta-line); list-style: none; }
+.nta-runner[data-interface='nta'] .nta-n-legend li { display: flex; align-items: center; gap: 8px; color: #222; font-size: 13px; line-height: 1.25; }
+.nta-runner[data-interface='nta'] .nta-n-legend li:last-child { grid-column: 1 / -1; }
+.nta-runner[data-interface='nta'] .nta-n-section { margin: 12px 0 0; padding: 5px 10px; background: var(--nta-indigo); color: #fff; font-size: 14px; font-weight: 700; }
+.nta-runner[data-interface='nta'] .nta-n-title { margin: 10px 0 8px; color: #222; font-size: 14px; font-weight: 700; }
+.nta-runner[data-interface='nta'] .nta-palette-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px 8px; padding: 4px; margin: 0 -4px; }
+.nta-runner[data-interface='nta'] .nta-n-palette .nta-palette-grid { flex: 0 1 auto; min-height: 0; margin-bottom: 12px; overflow-y: auto; overscroll-behavior: contain; }
+.nta-runner[data-interface='nta'] .nta-n-palette .nta-submit-button { flex: none; width: 100%; margin-top: auto; }
+
+/* The five symbols, on the palette's chips and in the section summary. The shape is a ::before behind the number, so a
+   clipped shape never clips the focus ring or the current-question ring. */
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip, .nta-n-sym) { position: relative; isolation: isolate; display: grid; place-items: center; aspect-ratio: auto; border: 0; border-radius: 0; background: transparent; box-shadow: none; outline-offset: 2px; color: #fff; font: 700 14px/1 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; }
+/* NTA's symbols keep their size in a wide cell: a 52 px tab, never a stretched band. */
+.nta-runner[data-interface='nta'] .nta-palette-chip { justify-self: center; width: 100%; max-width: 52px; min-width: 0; min-height: 40px; cursor: pointer; }
+.nta-runner[data-interface='nta'] .nta-n-sym { flex: none; width: 36px; height: 30px; font-size: 13px; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip, .nta-n-sym)::before { content: ''; position: absolute; inset: 0; z-index: -1; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--notvisited, .nta-n-sym--notvisited) { color: #333; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--notvisited, .nta-n-sym--notvisited)::before { border: 1px solid #b4b4b4; border-radius: 4px; background: var(--nta-grey); }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .nta-n-sym--visited)::before { background: var(--nta-red); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .nta-n-sym--answered)::before { background: var(--nta-green); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered) { justify-self: center; width: 40px; height: 40px; }
+.nta-runner[data-interface='nta'] :is(.nta-n-sym--marked, .nta-n-sym--marked-answered) { width: 30px; height: 30px; }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .nta-n-sym--marked, .nta-n-sym--marked-answered)::before { border-radius: 50%; background: var(--nta-purple); }
+/* Answered and marked: NTA's small green badge at the circle's foot. */
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked-answered, .nta-n-sym--marked-answered)::after { content: ''; position: absolute; right: -2px; bottom: -1px; width: 12px; height: 12px; border-radius: 3px; background: #1f9a0b; box-shadow: inset 0 0 0 2px #1f9a0b, inset 0 0 0 3.5px #fff; }
+.nta-runner[data-interface='nta'] .nta-palette-chip.is-current { outline: 2px solid var(--nta-indigo); outline-offset: 2px; }
+.nta-runner[data-interface='nta'] .nta-palette-chip:active { transform: scale(.95); }
+
+/* ---- NTA style's dialogs: the submit summary and the Question Paper ---- */
+.nta-runner[data-interface='nta'] .nta-n-dialog { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 16px; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__backdrop { position: absolute; inset: 0; background: rgba(20, 20, 40, .48); }
+.nta-runner[data-interface='nta'] .nta-n-dialog__panel { position: relative; width: min(520px, 100%); max-height: calc(100dvh - 32px); overflow: auto; padding: 18px 20px 20px; border: 1px solid #b9b9b9; border-radius: 4px; background: #fff; color: #222; box-shadow: 0 16px 48px rgba(0, 0, 0, .28); }
+.nta-runner[data-interface='nta'] .nta-n-dialog__title { margin: 0; color: #222; font: 700 19px/1.3 Arial, Helvetica, sans-serif; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-section { margin: 12px 0 12px; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-legend { padding-bottom: 14px; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__note { margin: 12px 0 0; color: #333; font-size: 14px; line-height: 1.45; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__keys { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__head { position: sticky; top: -18px; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -18px -20px 0; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--nta-line); background: #fff; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__close { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 3px; background: transparent; color: #333; cursor: pointer; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__close svg { width: 20px; height: 20px; }
+@media (hover: hover) { .nta-runner[data-interface='nta'] .nta-n-dialog__close:hover { background: #f0f0f0; } }
+.nta-runner[data-interface='nta'] .nta-n-paperview .nta-n-dialog__panel { width: min(880px, 100%); padding-bottom: 8px; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__list { margin: 0; padding: 0; list-style: none; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__list > li { padding: 14px 0; border-bottom: 1px solid #e3e3e3; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__list > li:last-child { border-bottom: 0; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__q { margin: 0 0 8px; color: #111; font-size: 16px; line-height: 1.55; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__options { display: grid; gap: 4px; margin: 0; padding: 0 0 0 4px; list-style: none; color: #222; font-size: 15px; line-height: 1.5; }
+.nta-runner[data-interface='nta'] .nta-n-paperview__options span { display: inline-block; min-width: 1.6em; font-variant-numeric: tabular-nums; }
+
+/* ---- a wide screen: the screen is the viewport, as at the centre ---- */
+@media (min-width: 1024px) {
+  .nta-runner[data-interface='nta'] { display: flex; flex-direction: column; height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+  .nta-runner[data-interface='nta'] > * { flex: none; }
+  .nta-runner[data-interface='nta'] > .nta-n-body { flex: 1 1 auto; min-height: 0; }
+  .nta-runner[data-interface='nta'] .nta-n-main { min-height: 0; }
+  .nta-runner[data-interface='nta'] .nta-n-qhead, .nta-runner[data-interface='nta'] .nta-navigation { flex: none; }
+  .nta-runner[data-interface='nta'] .nta-n-pane { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  /* A passage set reads as NTA's split screen: the passage on the left, its questions on the right. */
+  .nta-runner[data-interface='nta'] .nta-n-pane[data-passage] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; align-content: start; }
+  .nta-runner[data-interface='nta'] .nta-n-pane[data-passage] > .nta-passage { grid-column: 1; grid-row: 1 / span 4; align-self: start; margin: 0; }
+  .nta-runner[data-interface='nta'] .nta-n-pane[data-passage] > :not(.nta-passage) { grid-column: 2; }
+  .nta-runner[data-interface='nta'] .nta-n-palette { overflow: hidden; }
+}
+
+/* ---- tablets and phones: the paper in the page, the keys in a fixed bar, the palette in a sheet ---- */
+@media (max-width: 1023px) {
+  .nta-runner[data-interface='nta'] .nta-n-head { position: sticky; top: 0; z-index: 35; gap: 10px; min-height: 56px; padding: 4px 12px; }
+  .nta-runner[data-interface='nta'] .nta-n-exam { font-size: 18px; }
+  .nta-runner[data-interface='nta'] .nta-n-tools { gap: 10px; }
+  .nta-runner[data-interface='nta'] .nta-n-paper { padding: 2px 4px; font-size: 11px; }
+  .nta-runner[data-interface='nta'] .nta-n-paper svg { width: 20px; height: 20px; }
+  .nta-runner[data-interface='nta'] .nta-n-cand > :is(.nta-n-cand__name, .nta-n-cand__subject), .nta-runner[data-interface='nta'] .nta-n-photo, .nta-runner[data-interface='nta'] .nta-paper .nta-navigation { display: none; }
+  .nta-runner[data-interface='nta'] .nta-n-cand > .nta-n-cand__time { grid-template-columns: auto; justify-items: end; gap: 2px; }
+  .nta-runner[data-interface='nta'] .nta-n-cand__time dt { font-size: 11px; }
+  .nta-runner[data-interface='nta'] .nta-n-cand__time dt::after { content: ''; }
+  .nta-runner[data-interface='nta'] .nta-timer { font-size: 15px; }
+  .nta-runner[data-interface='nta'] .nta-n-sections { min-height: 40px; padding: 0 12px; }
+  .nta-runner[data-interface='nta'] .nta-n-tab { padding: 0 14px; }
+  .nta-runner[data-interface='nta'] .nta-n-notices { padding: 8px 12px 0; }
+  /* The room under the paper for the fixed key bar is on the body, not the runner: in fullscreen the runner's own padding is the guard's. */
+  .nta-runner[data-interface='nta'] .nta-n-body { display: block; padding-bottom: calc(124px + env(safe-area-inset-bottom, 0px)); }
+  .nta-runner[data-interface='nta'] .nta-paper.nta-n-main { scroll-margin-top: 60px; }
+  .nta-runner[data-interface='nta'] .nta-n-qhead { padding: 8px 12px; }
+  .nta-runner[data-interface='nta'] .nta-n-arrow { width: 44px; height: 44px; }
+  .nta-runner[data-interface='nta'] .nta-n-pane { padding: 14px 12px 12px; }
+  .nta-runner[data-interface='nta'] .nta-n-edge:first-child { scroll-margin-top: 112px; }
+  .nta-runner[data-interface='nta'] .nta-n-edge:last-child { scroll-margin-bottom: calc(132px + env(safe-area-inset-bottom, 0px)); }
+  .nta-runner[data-interface='nta'] .nta-question-text { font-size: 16px; line-height: 1.55; }
+  .nta-runner[data-interface='nta'] .nta-option { min-height: 48px; padding: 10px 6px; }
+  .nta-runner[data-interface='nta'] .nta-option-text { font-size: 15.5px; }
+  .nta-runner[data-interface='nta'] .nta-passage { padding: 12px; }
+  .nta-runner[data-interface='nta'] .nta-passage p { font-size: 15px; line-height: 1.65; max-width: none; }
+  .nta-runner[data-interface='nta'] .nta-n-fold, .nta-runner[data-interface='nta'] .nta-review-panel.nta-n-palette { display: none; }
+  .nta-runner[data-interface='nta'] .nta-interface-toolbar { padding: 4px 12px 6px; gap: 2px 10px; }
+  /* The keys, one tap away: Previous, Clear Response and the Question Palette, then Mark for Review & Next and Save & Next. */
+  .nta-runner[data-interface='nta'] .nta-mobile-actions { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px)); background: #f5f5f5; border-top: 1px solid var(--nta-line); backdrop-filter: none; box-shadow: 0 -2px 10px rgba(0, 0, 0, .06); }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions button { grid-column: span 2; min-width: 0; padding: 0 6px; font-size: 13px; white-space: normal; text-align: center; line-height: 1.15; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions :is(.nta-m-review, .nta-m-save) { grid-column: span 3; }
+  .nta-runner[data-interface='nta'] .nta-mobile-actions .nta-m-save { font-weight: 700; }
+  /* The palette sheet: NTA's section summary, the section and the symbols, then Submit. */
+  .nta-runner[data-interface='nta'] .nta-sheet-backdrop { background: rgba(20, 20, 40, .48); }
+  .nta-runner[data-interface='nta'] .nta-sheet-panel { gap: 0; border: 1px solid #b9b9b9; border-bottom: 0; border-radius: 8px 8px 0 0; background: #fff; padding: 10px 14px calc(14px + env(safe-area-inset-bottom, 0px)); }
+  .nta-runner[data-interface='nta'] .nta-sheet-head { margin-bottom: 10px; }
+  .nta-runner[data-interface='nta'] .nta-sheet-head strong { margin: 0; color: #222; font: 700 17px/1.3 Arial, Helvetica, sans-serif; }
+  .nta-runner[data-interface='nta'] .nta-icon-button { border: 1px solid #b9b9b9; border-radius: 3px; background: #fff; color: #333; }
+  .nta-runner[data-interface='nta'] .nta-sheet-panel .nta-n-section { margin-bottom: 12px; }
+  .nta-runner[data-interface='nta'] .nta-sheet-panel .nta-palette-chip { min-height: 44px; }
+  .nta-runner[data-interface='nta'] .nta-sheet-panel :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered) { width: 44px; height: 44px; }
+  .nta-runner[data-interface='nta'] .nta-sheet-panel .nta-submit-button { width: 100%; margin-top: 14px; }
+}
+@media (max-width: 380px) {
+  .nta-runner[data-interface='nta'] .nta-n-exam { font-size: 16px; }
   .nta-runner[data-interface='nta'] .nta-mobile-actions button { font-size: 12px; }
 }
-/* Header sits on the NTA blue in every theme. */
-.nta-runner[data-interface='nta'] .nta-timer { background: rgba(0, 0, 0, .16); border-color: rgba(255, 255, 255, .5); }
-.nta-runner[data-interface='nta'] .nta-timer.is-low { background: #b42318; border-color: #fff; }
-.nta-runner[data-interface='nta'] .nta-test-header .bar { background: rgba(255, 255, 255, .25); }
-.nta-runner[data-interface='nta'] .nta-test-header .bar > .fill { background: #fff; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) {
+  .nta-runner[data-interface='nta'] :is(.nta-nav-button, .nta-mobile-actions button, .nta-submit-button, .nta-palette-chip):active:not(:disabled) { transform: none; }
+}
