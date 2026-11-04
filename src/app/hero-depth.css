@@ -48,7 +48,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
 /* ---------- 2. Phones: the statement is a 4-step held story (LK69) ----------
    One swipe, one clause (Statement.jsx, ScrollStory, storyController.mjs): step 0 opens with the first clause lit
    ("Your marks slipped somewhere."), each step lights the next, and on step 3 the four objects arrive onto their
-   shadows, one after another. Everything is driven by the story's step (--ss-step, data-step), never by the scroll
+   shadows, one after another. Everything is driven by the story's step (data-step), never by the scroll
    position, so no stop leaves a half-lit sentence or a half-landed object. The scene is whole from the first frame:
    the objects already stand on the table, low, small and dim (scale 0.92, opacity 0.35), their names and lamps
    barely on. Only where the scene fits (phones from 700 px tall, small tablets from 780 px) and motion is allowed;
@@ -70,12 +70,17 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   }
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
 
-  /* The words: clause k is lit from step k on (one fade, a short stagger inside the clause). */
+  /* The words: clause k (data-ph) is lit from step k on (one fade, a short stagger inside the clause). Driven by the
+     root's data-step attribute: a custom property set there would restyle the whole story's subtree. */
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w {
     animation: none;
-    opacity: clamp(0.18, calc(var(--ss-step, 0) - var(--ph, 0) + 1), 1);
+    opacity: 0.18;
     transition: opacity 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms);
   }
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w[data-ph='0'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='1'], [data-step='2'], [data-step='3']) .lp-statement__w[data-ph='1'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true']:is([data-step='2'], [data-step='3']) .lp-statement__w[data-ph='2'],
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'][data-step='3'] .lp-statement__w[data-ph='3'] { opacity: 1; }
 
   /* The shelf: low and dim until the last step, then each object lifts onto its mark 90 ms after the one before
      (and drops back in the opposite order when the reader steps back). */

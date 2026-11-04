@@ -70,6 +70,11 @@ let leanFrame = 0;
 let leanTo = null;
 const settleLeanTimers = new WeakMap();
 
+// The lean is an inline transform on the stage element and a data-lean flag on it: NOT a custom property. Setting a
+// custom property on a story's root restyles every element under it (about 500 in the Lab: 50 ms at 4x CPU, measured
+// 4 Nov 2026), while an inline transform or a data attribute on one element costs 0.2 ms.
+const leanTransform = (px) => `translate3d(0, ${px.toFixed(1)}px, 0)`;
+
 function lean(s, dy) {
   leanTo = [s, leanFor(dy, s.reduced())];
   if (leanFrame) return;
@@ -77,8 +82,8 @@ function lean(s, dy) {
     leanFrame = 0;
     const [story, px] = leanTo;
     window.clearTimeout(settleLeanTimers.get(story));
-    story.root.dataset.lean = 'drag';
-    story.root.style.setProperty('--ss-drag', `${px.toFixed(1)}px`);
+    story.stage.dataset.lean = 'drag';
+    story.stage.style.transform = leanTransform(px);
   });
 }
 
@@ -86,12 +91,12 @@ function lean(s, dy) {
 function release(s) {
   window.cancelAnimationFrame(leanFrame);
   leanFrame = 0;
-  if (!s.root.dataset.lean) return;
-  s.root.dataset.lean = 'settle';
-  s.root.style.setProperty('--ss-drag', '0px');
+  if (!s.stage.dataset.lean) return;
+  s.stage.dataset.lean = 'settle';
+  s.stage.style.transform = leanTransform(0);
   window.clearTimeout(settleLeanTimers.get(s));
   settleLeanTimers.set(s, window.setTimeout(() => {
-    if (s.root.dataset.lean === 'settle') { delete s.root.dataset.lean; s.root.style.removeProperty('--ss-drag'); }
+    if (s.stage.dataset.lean === 'settle') { delete s.stage.dataset.lean; s.stage.style.removeProperty('transform'); }
   }, 320));
 }
 
@@ -99,8 +104,8 @@ function release(s) {
 function nudge(s, dir) {
   if (s.reduced()) return;
   window.clearTimeout(settleLeanTimers.get(s));
-  s.root.dataset.lean = 'drag';
-  s.root.style.setProperty('--ss-drag', `${-dir * 10}px`);
+  s.stage.dataset.lean = 'drag';
+  s.stage.style.transform = leanTransform(-dir * 10);
   window.requestAnimationFrame(() => window.requestAnimationFrame(() => release(s)));
 }
 

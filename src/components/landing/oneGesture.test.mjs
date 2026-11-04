@@ -18,7 +18,7 @@ import {
   claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPx,
 } from './storyGesture.mjs';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
-import { benchAvailable, openBench, runMatrix } from './oneGestureBench.mjs';
+import { benchAvailable, openBench, runMatrix, runPerf, runWheel } from './oneGestureBench.mjs';
 
 // ---------------------------------------------------------------- part 1: the rules
 
@@ -117,7 +117,8 @@ test('the statement is held only where the scene fits, and hero-depth.css repeat
   assert.equal(STATEMENT_HOLD, '(max-width: 760px) and (min-height: 700px), (min-width: 761px) and (max-width: 959px) and (min-height: 780px)');
   assert.match(css, /@media \(max-width: 760px\) and \(min-height: 700px\) and \(prefers-reduced-motion: no-preference\), \(min-width: 761px\) and \(max-width: 959px\) and \(min-height: 780px\) and \(prefers-reduced-motion: no-preference\) \{/);
   assert.match(css, /--ss-beat: 22svh;/);
-  assert.match(css, /opacity: clamp\(0\.18, calc\(var\(--ss-step, 0\) - var\(--ph, 0\) \+ 1\), 1\);/, 'words follow the step, not the scroll');
+  assert.match(css, /\[data-step='3'\] \.lp-statement__w\[data-ph='3'\] \{ opacity: 1; \}/, 'words follow the step (data-step), not the scroll');
+  assert.doesNotMatch(css, /var\(--ss-step/, 'no custom property on the root: it would restyle the whole story');
   assert.match(css, /\[data-step='3'\] \.lp-shelf \.subj-obj--alive \.subj-obj__float/, 'the objects arrive on the last step');
   assert.doesNotMatch(css.slice(css.indexOf('Phones: the statement is a 4-step')), /animation-timeline: --lp-statement/, 'no scroll timeline in the held story');
   // Wide windows: every word is lit by the time the section is half way up the window.
@@ -145,18 +146,47 @@ test('the gesture matrix in real Chrome: every cell is one step on a resting pla
   } finally { await bench.close(); }
 });
 
-test('far from every story there is no listener that can cancel a scroll', { skip: RUN ? false : why, timeout: 600_000 }, async () => {
+test('wheel, trackpad and keys at 1440x900: one burst, one step', { skip: RUN ? false : why, timeout: 3_600_000 }, async () => {
+  const bench = await openBench({ url: URL_UNDER_TEST, width: 1440, height: 900, touch: false, label: 'oneGesture.test wheel' });
+  try {
+    const failures = [];
+    for (const name of (process.env.ONE_GESTURE_STORIES || 'ft-story,lc').split(',')) {
+      for (const row of await runWheel(bench, name, { log: (line) => console.log(line) })) if (!row.ok) failures.push(`${name} ${row.id}: step ${row.start}->${row.step}, y ${row.y}, off ${row.off}`);
+    }
+    assert.deepEqual(failures, []);
+  } finally { await bench.close(); }
+});
+
+test('at 4x CPU, 22 swipes keep p95 at 20 ms or less and no frame over 100 ms', { skip: process.env.MM_ONE_GESTURE_PERF === '1' && RUN ? false : 'set MM_ONE_GESTURE=1 and MM_ONE_GESTURE_PERF=1 (a production build: next dev renders slower)', timeout: 600_000 }, async () => {
+  const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test perf' });
+  try {
+    const result = await runPerf(bench);
+    console.log(JSON.stringify(result));
+    assert.ok(result.p95 <= 20, `p95 ${result.p95} ms`);
+    assert.equal(result.over100, 0, `${result.over100} frames over 100 ms (max ${result.max} ms)`);
+  } finally { await bench.close(); }
+});
+
+test('the listeners that can cancel a scroll exist only while a held story is within one screen of the viewport', { skip: RUN ? false : why, timeout: 600_000 }, async () => {
   const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test listeners' });
   try {
-    await bench.jump(0);
-    assert.deepEqual(await bench.nonPassive(), [], 'at the top of the page');
     const stories = await bench.stories();
-    const first = stories[0];
-    await bench.jump(first.top + first.hold / 2);
-    assert.deepEqual([...new Set(await bench.nonPassive())].sort(), ['touchmove', 'wheel'], 'inside a story: exactly the two the controller owns');
+    const h = bench.height;
+    // A story is near while its track is within one screen above or below the viewport (ScrollStory's observer margin).
+    const near = (y) => stories.some((s) => s.top < y + 2 * h && s.top + s.hold + s.stageH > y - h);
+    // Positions at least 120 px from the edge of any story's window, so a pixel of layout drift cannot flip the answer.
+    const clear = (y) => stories.every((s) => Math.abs(s.top - (y + 2 * h)) > 120 && Math.abs(s.top + s.hold + s.stageH - (y - h)) > 120);
     const last = stories[stories.length - 1];
-    await bench.jump(last.top + last.hold + bench.height * 3);
-    assert.deepEqual(await bench.nonPassive(), [], 'more than a screen after the last story');
+    const probes = [0, stories[0].top + stories[0].hold / 2, last.top + last.hold + h * 1.5, last.top + last.hold + h * 3].filter(clear);
+    assert.ok(probes.length >= 3, `${probes.length} probe positions`);
+    const seen = [];
+    for (const y of probes) {
+      await bench.jump(y);
+      const expected = near(y) ? ['touchmove', 'wheel'] : [];
+      assert.deepEqual([...new Set(await bench.nonPassive())].sort(), expected, `at y ${Math.round(y)}: ${near(y) ? 'a story is within one screen' : 'no story is within one screen'}`);
+      seen.push(expected.length ? 'on' : 'off');
+    }
+    assert.ok(seen.includes('on') && seen.includes('off'), `both states were probed (${seen.join(', ')})`);
   } finally { await bench.close(); }
 });
 

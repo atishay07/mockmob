@@ -199,7 +199,7 @@
 .lp-sec--cinema .lp-h2 { max-width: 16ch; }
 
 /* ---------- First load: skip rendering work for the far end of the page until it nears ---------- */
-.mm.lp :is(#on-instagram, #wall-of-love) {
+.mm.lp #wall-of-love {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }

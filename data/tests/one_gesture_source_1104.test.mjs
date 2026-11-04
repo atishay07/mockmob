@@ -156,6 +156,35 @@ test('the story\'s resize work is read-then-write and runs once per size change,
   assert.doesNotMatch(body(ctl, 'onFrame'), /getBoundingClientRect|offsetHeight/);
 });
 
+test('a step costs a fraction of a millisecond of style work: no custom property is set on the root of a story (4 Nov 2026: 50 ms at 4x in the Lab)', () => {
+  const ctl = strip(CONTROLLER);
+  assert.doesNotMatch(ctl, /setProperty\('--/, 'the lean is an inline transform on the stage, not a custom property');
+  assert.match(ctl, /story\.stage\.style\.transform = leanTransform\(px\)/);
+  const code = strip(STORY);
+  assert.doesNotMatch(code, /root\.style\.setProperty\('--ss-step'/, '--ss-step is not written on the root');
+  assert.doesNotMatch(code, /'--ss-step': step/, 'and React does not write it there either');
+  assert.match(code, /const STEP_NODES = '\.ss-fill, \.lcd__tab-ink, \[data-ss-var\]';/, 'it is written on the few elements that read it');
+  assert.match(code, /root\.dataset\.step = String\(next\); writeStep\(root, next\);/);
+  const css = strip(read('src/app/scroll-story.css'));
+  assert.match(css, /\.ss__stage\[data-lean\] \{/);
+  assert.doesNotMatch(css, /--ss-drag/);
+});
+
 test('the old speed-driven test is gone and the rules it replaced are locked here and in oneGesture.test.mjs', () => {
   assert.throws(() => read('src/components/landing/scrollStorySpeed.test.mjs'), /ENOENT/);
+});
+
+test('a declared jump that lands above a story\'s first rest leaves that story on its first step, not the last it had (4 Nov 2026, found with nav links in real Chrome)', () => {
+  const bus = strip(BUS);
+  // The bus says once that a jump has ended, even if the page did not move in that frame.
+  assert.match(bus, /state\.landed = landed;/);
+  assert.match(bus, /if \(!state\.dy && !state\.resized && !landed\) return;/);
+  assert.match(bus, /if \(was\) \{ landedFlag = true; wake\(\); \}/);
+  // The story reads the beat it landed on only on that frame, two frames later (the observer has reported by then),
+  // and never on an ordinary frame, where a step the controller has just committed would be undone.
+  const code = strip(STORY);
+  assert.match(code, /bus\.subscribe\(\(\{ y, vh, landed \}\) => fromSide\(y, vh, landed\)\)/);
+  assert.match(code, /if \(landed && !landing\) landing = window\.requestAnimationFrame\(\(\) => \{ landing = window\.requestAnimationFrame\(readLanding\); \}\);/);
+  assert.match(code, /if \(!bus\.jumping\(\) && held\.size > 0 && !held\.has\(stepRef\.current\)\) applyStep\(Math\.min\(\.\.\.held\)\);/);
+  assert.match(code, /window\.cancelAnimationFrame\(landing\);/);
 });

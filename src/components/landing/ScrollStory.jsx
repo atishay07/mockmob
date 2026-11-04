@@ -17,11 +17,13 @@
 // a 180-240 ms CSS transform (scroll-story.css). The reader's scrolling is the browser's everywhere else: the
 // controller's non-passive listeners exist only while a story is within one screen of the viewport (LK47, "no glide").
 //
-// Step-driven visuals. A step change writes data-step and --ss-step on the root straight away, so progress fills and
-// any CSS keyed to the step change at once and cannot be left half done; React catches up in a transition, so the
-// stage's own render never lands inside the gesture's frame. The IntersectionObserver on the beats still picks the
-// step for a scroll the controller does not own (scrollbar, Home/End, find-in-page): the beat crossing the middle of
-// the window wins, and a story entered from above opens on step one, from below on its last.
+// Step-driven visuals. A step change writes data-step on the root straight away, and --ss-step on the few elements that
+// read it (progress fills, the Lab's tab ink), so anything keyed to the step changes at once and cannot be left half
+// done; React catches up in a transition, so the stage's own render never lands inside the gesture's frame. --ss-step
+// is NOT written on the root: a custom property set there restyles everything under it (about 500 elements in the Lab,
+// 50 ms at 4x CPU), a data attribute or a leaf's property costs a fraction of a millisecond. The IntersectionObserver
+// on the beats still picks the step for a scroll the controller does not own (scrollbar, Home/End, find-in-page): the
+// beat crossing the middle of the window wins, and a story entered from above opens on step one, from below on its last.
 //
 // Elements marked data-ss-fit are scaled once per resize to fit their parent (all measured first, then all written),
 // and the band left under elements marked data-ss-end is measured as --ss-slack (centring, exit gap).
@@ -38,6 +40,10 @@ import '@/app/scroll-story.css';
 import * as bus from './scrollBus.mjs';
 import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
+
+// The elements that read --ss-step (it is written on each of them, never on the root).
+const STEP_NODES = '.ss-fill, .lcd__tab-ink, [data-ss-var]';
+const writeStep = (root, n) => { for (const node of root.querySelectorAll(STEP_NODES)) if (node.style.getPropertyValue('--ss-step') !== String(n)) node.style.setProperty('--ss-step', String(n)); };
 
 const reducedNow = () => {
   if (typeof window === 'undefined') return false;
@@ -123,7 +129,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     if (stepRef.current === next) return;
     stepRef.current = next;
     const root = rootRef.current;
-    if (root) { root.dataset.step = String(next); root.style.setProperty('--ss-step', String(next)); }
+    if (root) { root.dataset.step = String(next); writeStep(root, next); }
     startTransition(() => setStep(next));
   }, [steps]);
 
@@ -174,18 +180,33 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       const box = drawnAncestor(track).getBoundingClientRect();
       return box.top + box.bottom > vh ? 0 : steps - 1;
     };
-    const fromSide = (y = window.scrollY, vh = window.innerHeight) => {
-      if (held.size > 0 || !track) return;
+    // A declared jump passes the beats on its way without showing them. Once it has landed (the bus says so, once), the
+    // beat that crosses the middle of the window owns the step: a jump up to a story's heading lands above its first
+    // rest, and without this the stage would keep the last scene it had until the reader scrolled. Two frames later, so
+    // the observer has reported the landing position; never on any other frame (a step the controller has just
+    // committed is the controller's until the observer catches up).
+    let landing = 0;
+    const readLanding = () => {
+      landing = 0;
+      if (!bus.jumping() && held.size > 0 && !held.has(stepRef.current)) applyStep(Math.min(...held));
+    };
+    const fromSide = (y = window.scrollY, vh = window.innerHeight, landed = false) => {
+      if (!track) return;
+      if (held.size > 0) {
+        if (landed && !landing) landing = window.requestAnimationFrame(() => { landing = window.requestAnimationFrame(readLanding); });
+        return;
+      }
       applyStep(sideOf(y, vh));
     };
     const listen = (on) => {
-      if (on && !unsubscribe) unsubscribe = bus.subscribe(({ y, vh }) => fromSide(y, vh));
+      if (on && !unsubscribe) unsubscribe = bus.subscribe(({ y, vh, landed }) => fromSide(y, vh, landed));
       else if (!on && unsubscribe) { unsubscribe(); unsubscribe = null; }
     };
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         const i = Number(entry.target.dataset.beat);
-        if (entry.isIntersecting) { held.add(i); applyStep(i); } else held.delete(i);
+        // A declared jump (a nav link's glide) passes the beats on its way: they do not show; the settle at its end does.
+        if (entry.isIntersecting) { held.add(i); if (!bus.jumping()) applyStep(i); } else held.delete(i);
       }
       setLive(held.size > 0);
       bus.hold(id, held.size > 0);
@@ -203,6 +224,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       io.disconnect();
       near?.disconnect();
       listen(false);
+      window.cancelAnimationFrame(landing);
       if (handleRef.current) controller.near(handleRef.current, false);
       held.clear();
       bus.hold(id, false);
@@ -210,6 +232,8 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   }, [pinned, steps, applyStep, id]);
 
   useEffect(() => { onStepRef.current?.(step); }, [step]);
+  // After every render: a fill or a tab ink that React has just mounted or re-created gets the current step.
+  useEffect(() => { if (rootRef.current) writeStep(rootRef.current, stepRef.current); });
 
   // Scale marked screens to their room, once per size change (never per scroll frame): a width change, or a height
   // change big enough to matter (a rotated phone, a resized window), not the few px a browser bar moves.
@@ -273,7 +297,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       data-reduced={reduced ? 'true' : 'false'}
       data-live={live && !quiet ? 'true' : 'false'}
       data-step={step}
-      style={{ '--ss-steps': steps, '--ss-step': step, ...(beat ? { '--ss-beat': beat } : null) }}
+      style={{ '--ss-steps': steps, ...(beat ? { '--ss-beat': beat } : null) }}
     >
       <div className="ss__track" ref={trackRef}>
         <div className="ss__stage" ref={stageRef} onFocus={onFocus} role={label ? 'group' : undefined} aria-label={label}>

@@ -23,7 +23,7 @@ function StatementStage({ text, shelf, note }) {
     <div className="mm-wrap lp-statement__grid">
       <p className="lp-statement__text">
         {words.map((word, i) => (
-          <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--ph': word.clause, '--wo': word.offset }}>
+          <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
             {word.text}{i < words.length - 1 ? ' ' : ''}
           </span>
         ))}

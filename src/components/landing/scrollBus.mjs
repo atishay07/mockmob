@@ -14,10 +14,11 @@
 
 const subs = new Set();
 const holds = new Set();
-const state = { y: 0, dy: 0, vh: 0, vw: 0, t: 0, resized: false };
+const state = { y: 0, dy: 0, vh: 0, vw: 0, t: 0, resized: false, landed: false };
 let listening = false;
 let frame = 0;
 let resizedFlag = false;
+let landedFlag = false;      // a declared jump has just ended: one more frame, so whoever ignored the beats on the way can read where it landed
 
 const canRun = () => typeof window !== 'undefined';
 
@@ -32,7 +33,10 @@ function run(t) {
   state.resized = resizedFlag;
   resizedFlag = false;
   jumpFrame(y);
-  if (!state.dy && !state.resized) return;
+  const landed = landedFlag;
+  landedFlag = false;
+  state.landed = landed;
+  if (!state.dy && !state.resized && !landed) return;
   for (const fn of [...subs]) fn(state);
 }
 
@@ -125,10 +129,14 @@ export function jump(y) {
 
 export function clearJump() {
   if (jumpY === null && !jumpInputOn) return;
+  const was = jumpY !== null;
   jumpY = null;
   window.clearTimeout(jumpTimer);
   jumpInput(false);
-  if (!subs.size) listen(false);
+  if (!subs.size) { listen(false); return; }
+  // The jump ended (it arrived, went quiet, or the reader took over): one frame for the subscribers, even if the page
+  // did not move in it, so a story that ignored the beats on the way reads the one it landed on (ScrollStory).
+  if (was) { landedFlag = true; wake(); }
 }
 
 export const jumping = () => jumpY !== null;

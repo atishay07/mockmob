@@ -58,9 +58,10 @@
 .ss[data-pinned='true'] [data-ss-fit] { width: calc(100% / var(--ss-fit, 1)); transform: scale(var(--ss-fit, 1)); transform-origin: top left; }
 
 /* Progress fills. Give the element .ss-fill, --ss-i (its step) and data-state (done | on | off).
-   A step's fill is full while that step is on or past. In a held story it follows the root's --ss-step, which the
-   controller writes the moment a step is decided (a time transition, not the scroll position), so a fill is never
-   left part way; unheld (no IntersectionObserver, or a hold media query that does not match) data-state drives it. */
+   A step's fill is full while that step is on or past. In a held story it follows --ss-step, which ScrollStory writes
+   the moment a step is decided (a time transition, not the scroll position), so a fill is never
+   left part way (--ss-step is written on the fill itself, ScrollStory.jsx); unheld (no IntersectionObserver, or a hold
+   media query that does not match) data-state drives it. */
 .ss-fill { display: block; transform-origin: left center; transform: scaleX(0); transition: transform var(--mm-dur-emphasized, 420ms) var(--mm-ease-out, ease-out); }
 .ss-fill[data-state='done'], .ss-fill[data-state='on'] { transform: scaleX(1); }
 .ss-fill--y { transform-origin: center top; transform: scaleY(0); }
@@ -69,15 +70,14 @@
 .ss[data-pinned='true'] .ss-fill--y { transform: scaleY(clamp(0, calc(var(--ss-step, 0) - var(--ss-i, 0) + 1), 1)); }
 
 /* The lean: while a finger owns the gesture the stage follows it by a quarter of its travel (28 px at most), and
-   after a step (or a let-go) it settles back over 240 ms. The controller sets data-lean on the root only for that
-   long, so at rest the stage has no transform at all (nothing becomes a containing block). One transform write per
-   frame, no layout. */
-.ss[data-lean] .ss__stage {
-  transform: translate3d(0, var(--ss-drag, 0px), 0);
+   after a step (or a let-go) it settles back over 240 ms. The controller sets data-lean and an inline transform on
+   the stage only for that long, so at rest the stage has no transform at all (nothing becomes a containing block).
+   One transform write per frame, no layout, no custom property (see storyController.mjs). */
+.ss__stage[data-lean] {
   transition: transform 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   will-change: transform;
 }
-.ss[data-lean='drag'] .ss__stage { transition: none; }
+.ss__stage[data-lean='drag'] { transition: none; }
 
 /* Phones: the bottom action bar steps aside while a story holds the screen; focus brings it back. */
 @media (max-width: 899px) {
@@ -87,7 +87,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mm.lp .mm-dock { transition: none; }
   .ss-fill { transition-duration: 1ms; }
-  .ss[data-lean] .ss__stage { transform: none; transition: none; will-change: auto; }
+  .ss__stage[data-lean] { transform: none !important; transition: none; will-change: auto; }
 }
 html[data-motion='reduced'] .ss-fill { transition-duration: 1ms; }
-html[data-motion='reduced'] .ss[data-lean] .ss__stage { transform: none; transition: none; will-change: auto; }
+html[data-motion='reduced'] .ss__stage[data-lean] { transform: none !important; transition: none; will-change: auto; }

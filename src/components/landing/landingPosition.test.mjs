@@ -35,13 +35,16 @@ test('every name is a real section on the page, in page order, and a host for th
   assert.equal((PAGE.match(/lp-pos-host/g) || []).length, IDS.length, 'only the named sections are hosts');
 });
 
-test('the names are the words of the sections\' own headings, not the rejected branch\'s', () => {
+test('the names are the product\'s own words for each held story; the headings now come from homeCopy.mjs (no kickers)', () => {
   assert.match(POSITION, /name: 'Inside the Mistake Lab'/);
   assert.match(POSITION, /name: <>What’s inside <em>MockMob<\/em><\/>/);
   assert.match(POSITION, /name: 'Score Recovery Lab'/);
-  assert.match(PAGE, /<p className="lp-kicker">Mistake Lab<\/p>/);
-  assert.match(PAGE, /<h2 className="lp-h2">What’s inside MockMob\.<\/h2>/);
-  assert.match(PAGE, /<p className="lp-kicker">Score Recovery Lab<\/p>/);
+  // 1104 P5 moved the headings into homeCopy.mjs and dropped the kickers above every h2: each held section still opens
+  // with its own h2, and the tour's band name is that h2's words.
+  assert.match(PAGE, /<h2 className="lp-h2" id="inside-the-lab-title">\{LAB_HEAD\.h2\}<\/h2>/);
+  assert.match(PAGE, /<h2 className="lp-h2">\{TOUR_HEAD\.h2\}<\/h2>/);
+  assert.match(PAGE, /<h2 className="lp-h2">\{RECOVERY_HEAD\.h2\}<\/h2>/);
+  assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'What’s inside MockMob\.'/);
 });
 
 test('the band is a position readout: no link, no button, no live region, no tap', () => {

@@ -1290,32 +1290,34 @@ body:has(.mm.lp) {
 /* First paint lays out the hero, not the whole page. Every section below the statement renders only as it
    nears the screen (content-visibility: auto), which skips the style, layout and paint of about 2,000 boxes
    while the phone is still drawing the hero. Once drawn, a section keeps its real height (auto); until then
-   it reserves its measured content height (padding comes on top; the held stories scale with the screen's
-   height, desktop from 960px; re-measured 4 Nov 2026 at 390x844 and 1440x900 by tmp/home-1104/build-p1/measure.mjs), so the scrollbar and in-page links barely move. Nothing is removed: each
-   section renders in full, with its stories and animations, before it reaches the screen. */
+   it reserves its measured content height (padding comes on top), so the scrollbar and in-page links barely move.
+   A held story's section is its track (a number of svh, set by its steps and beat) plus a fixed header, written
+   calc(header px + track svh), so it stays right at any window height. Desktop is from 960px. Re-measured 4 Nov 2026
+   at 390x844 and 1440x900: the page is as tall before anything is drawn as after everything is (within 2 px; the opt-in
+   test in src/components/landing/oneGesture.test.mjs, MM_ONE_GESTURE=1). When a section's content changes, measure it
+   again. Nothing is removed: each section renders in full, with its stories and animations, before it reaches the screen. */
 .lp main > :is(.lp-sec, .lp-close) { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
-.lp main > #inside-the-lab { contain-intrinsic-size: auto 401svh; }
-.lp main > #your-prep { contain-intrinsic-size: auto 686svh; }
-.lp main > #score-recovery-lab { contain-intrinsic-size: auto 392svh; }
+.lp main > #inside-the-lab { contain-intrinsic-size: auto calc(104px + 388svh); }
+.lp main > #your-prep { contain-intrinsic-size: auto calc(89px + 676svh); }
+.lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(33px + 388svh); }
 .lp main > #compass { contain-intrinsic-size: auto 2081px; }
 .lp main > #du-eligibility { contain-intrinsic-size: auto 2305px; }
-.lp main > #exam-experience { contain-intrinsic-size: auto 1523px; }
+.lp main > #exam-experience { contain-intrinsic-size: auto 870px; }
 .lp main > .lp-sec--tight { contain-intrinsic-size: auto 144px; }
 .lp main > #on-instagram { contain-intrinsic-size: auto 852px; }
 .lp main > #pricing { contain-intrinsic-size: auto 1166px; }
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 308px; }
 .lp main > .lp-close { contain-intrinsic-size: auto 500px; }
 @media (min-width: 960px) {
-  .lp main > #inside-the-lab { contain-intrinsic-size: auto 427svh; }
-  .lp main > #your-prep { contain-intrinsic-size: auto 679svh; }
-  .lp main > #score-recovery-lab { contain-intrinsic-size: auto 384svh; }
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(169px + 388svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto calc(28px + 676svh); }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(388svh - 35px); }
   .lp main > #compass { contain-intrinsic-size: auto 1172px; }
   .lp main > #du-eligibility { contain-intrinsic-size: auto 1287px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1122px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 627px; }
   .lp main > .lp-sec--tight { contain-intrinsic-size: auto 137px; }
-  .lp main > #on-instagram { contain-intrinsic-size: auto 917px; }
+  .lp main > #on-instagram { contain-intrinsic-size: auto 882px; }
   .lp main > #pricing { contain-intrinsic-size: auto 712px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 329px; }
   .lp main > .lp-close { contain-intrinsic-size: auto 555px; }
-}
 }
