@@ -40,6 +40,7 @@ let lastRelease = -Infinity; // when the last finger left the glass (a fling's m
 let lastY = 0;
 let settleTimer = 0;
 let unsubBus = null;
+let unsubJump = null;
 let resizeObserver = null;
 
 const now = () => performance.now();
@@ -310,6 +311,16 @@ function settle() {
 
 // ---------------------------------------------------------------- declared jumps: links and hashes
 
+// A declared jump (a link, a hash, the demo key, the bus's instantTo) is the page's own move: no hold from before it
+// survives it, and the tap that started it is not a fling (5 Nov 2026, LK89). Before this, the tap's touchend counted
+// as a fling for 3 s and a hold set at that touchend (afterNativeTouch) was never cleared, so a jump across a near
+// story was put back on that story's edge, again after each correction: the page ended on the story's last step.
+function standDown() {
+  keepY = null;
+  keepStory = null;
+  lastRelease = -Infinity;
+}
+
 function declareAnchor(hash) {
   if (!hash || hash === '#') return;
   let id = hash.slice(1);
@@ -325,9 +336,14 @@ function onClick(e) {
   let url;
   try { url = new URL(anchor.href, window.location.href); } catch { return; }
   if (url.origin !== window.location.origin || url.pathname !== window.location.pathname || !url.hash) return;
-  declareAnchor(url.hash);
+  standDown();
+  // A link someone else has taken over (DemoJump) declares its own jump; this one would only race it.
+  if (!e.defaultPrevented) declareAnchor(url.hash);
 }
-const onHashChange = () => declareAnchor(window.location.hash);
+function onHashChange() {
+  standDown();
+  declareAnchor(window.location.hash);
+}
 
 // ---------------------------------------------------------------- listeners
 
@@ -342,11 +358,14 @@ function passiveListeners(on) {
   window[fn]('hashchange', onHashChange, { passive: true });
   document[fn]('contentvisibilityautostatechange', measureNear, { capture: true, passive: true });
   if (on) {
+    unsubJump = bus.onJump(standDown);
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(measureNear);
       resizeObserver.observe(document.documentElement);
     }
   } else {
+    unsubJump?.();
+    unsubJump = null;
     resizeObserver?.disconnect();
     resizeObserver = null;
   }

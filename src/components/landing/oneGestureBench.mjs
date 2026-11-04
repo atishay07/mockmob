@@ -1,6 +1,6 @@
 // The one-gesture bench: real Chrome, real touch and wheel input (CDP Input.dispatch*), against the home page's held
 // stories. Used by oneGesture.test.mjs (skipped when no Chrome or no server is reachable) and by hand:
-//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|perf] [width=390]
+//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|jump|fast|perf] [width=390] [stories] [warm]
 //
 // Real Chrome, not chrome-headless-shell: the shell never scrolls on synthetic input (LK69 forensics). One headless
 // browser on this PC at a time: the shared lock (tmp-devslots/browser.lock) is taken before launch and dropped after.
@@ -320,6 +320,208 @@ export async function runWheel(bench, name, { log = () => {} } = {}) {
   return rows;
 }
 
+// ---------------------------------------------------------------- the demo jump (LK89, 5 Nov 2026)
+/**
+ * A tap on a same-page link to the demo card (#try-practice) from below a held story, then 2.6 s of frames: the page must
+ * land with the question card wholly on screen under the nav and stay there, with focus on the card. The link is the bench's own, pinned where a thumb taps the dock, so the journey
+ * does not depend on which key the hero or the dock carries today. `places`: 'below:<story class>' (40 px past that
+ * story's track, so the story is within a screen) or 'compass' (the Compass section, the Recovery Lab's story above it).
+ */
+export async function runJump(bench, { log = () => {}, places } = {}) {
+  const touch = bench.width < 900;
+  await bench.page.evaluate(() => {
+    if (document.getElementById('bench-jump')) return;
+    const a = document.createElement('a');
+    a.id = 'bench-jump';
+    a.href = '#try-practice';
+    a.textContent = 'Try 5 questions first';
+    Object.assign(a.style, { position: 'fixed', left: '50%', bottom: '24px', transform: 'translateX(-50%)', zIndex: '2147483000', padding: '14px 20px', background: '#D2F000', color: '#0B1000', font: '600 16px system-ui', borderRadius: '14px' });
+    document.body.appendChild(a);
+  });
+  const stories = await bench.stories();
+  const list = places || [...stories.map((s) => `below:${s.name}`), 'compass'];
+  const rows = [];
+  for (const place of list) {
+    const row = await steady(bench, log, `jump-${place}`, async () => {
+      const from = await bench.page.evaluate((where) => {
+        if (where === 'compass') { const c = document.getElementById('compass'); return c ? Math.round(c.getBoundingClientRect().top + scrollY + 120) : null; }
+        const root = document.querySelector(`.ss.${where.slice(6)}[data-pinned="true"]`);
+        if (!root) return null;
+        const track = root.querySelector('.ss__track');
+        return Math.round(track.getBoundingClientRect().top + scrollY + track.offsetHeight + 40);
+      }, place);
+      if (from === null) return { id: `jump-${place}`, ok: true, skipped: true };
+      await bench.jump(from);
+      await bench.settle(500);
+      const start = await bench.y();
+      const box = await bench.page.evaluate(() => { const r = document.getElementById('bench-jump').getBoundingClientRect(); return { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2) }; });
+      await bench.page.evaluate(() => {
+        window.__jt = [];
+        const tick = () => { window.__jt.push(Math.round(scrollY)); window.__jtRaf = requestAnimationFrame(tick); };
+        window.__jtRaf = requestAnimationFrame(tick);
+      });
+      if (touch) {
+        await bench.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: box.x, y: box.y }] });
+        await sleep(60);
+        await bench.cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+      } else {
+        await bench.page.mouse.click(box.x, box.y);
+      }
+      await sleep(2600);
+      const out = await bench.page.evaluate(() => {
+        cancelAnimationFrame(window.__jtRaf);
+        const card = document.querySelector('#try-practice .lp-desk__card');
+        const nav = document.querySelector('.mm-nav');
+        const navBottom = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
+        const r = card.getBoundingClientRect();
+        const dock = document.querySelector('.lp-dockgate');
+        return { trace: window.__jt, y: Math.round(scrollY), cardTop: Math.round(r.top), cardBottom: Math.round(r.bottom), navBottom: Math.round(navBottom), vh: innerHeight, focus: String(document.activeElement?.className || document.activeElement?.tagName), dock: dock?.dataset.shown ?? null };
+      });
+      // DemoJump places the card wholly on screen under the nav (centred, the room above it showing what that leaves).
+      const onScreen = out.cardTop >= out.navBottom + 9 && out.cardBottom <= out.vh;
+      // After the page first reaches where it ends, it never leaves it again (no loop, no put back).
+      const firstAt = out.trace.findIndex((y) => Math.abs(y - out.y) <= 3);
+      const leftAgain = firstAt < 0 ? -1 : out.trace.slice(firstAt).filter((y) => Math.abs(y - out.y) > 3).length;
+      const moves = out.trace.filter((y, i) => i > 0 && y !== out.trace[i - 1]).length;
+      return { id: `jump-${place}`, start, y: out.y, cardTop: out.cardTop, navBottom: out.navBottom, moves, leftAgain, focus: out.focus, dock: out.dock, ok: onScreen && leftAgain === 0 && /mm-drill/.test(out.focus) };
+    });
+    rows.push(row);
+    if (row.skipped) { log(`skip ${row.id}`); continue; }
+    log(`${row.ok ? 'ok  ' : 'FAIL'} ${row.id} from ${row.start} to ${row.y}: card top ${row.cardTop} (nav ${row.navBottom}), ${row.moves} moves, left again ${row.leftAgain} frames, focus ${row.focus}, dock ${row.dock}`);
+  }
+  return rows;
+}
+
+// ---------------------------------------------------------------- the fast-scroll hunt (LK90, 5 Nov 2026)
+/** Record scrollY and every story's step on each frame while `gesture` runs and `ms` after it. */
+export async function record(bench, ms, gesture) {
+  await bench.page.evaluate(() => {
+    window.__tr = [];
+    const roots = [...document.querySelectorAll('.ss[data-pinned="true"]')];
+    const t0 = performance.now();
+    const tick = (t) => { window.__tr.push({ t: Math.round(t - t0), y: Math.round(scrollY), s: roots.map((r) => Number(r.dataset.step)) }); window.__trRaf = requestAnimationFrame(tick); };
+    window.__trRaf = requestAnimationFrame(tick);
+  });
+  await gesture();
+  await sleep(ms);
+  return bench.page.evaluate(() => { cancelAnimationFrame(window.__trRaf); return window.__tr; });
+}
+
+/**
+ * Read a trace against one story's rule. kind: 'enter-down' | 'enter-up' (a fling from outside must stop on the first or
+ * the last rest), 'leave-down' | 'leave-up' (a fling from the edge rest leaves freely), 'step' (one step forward).
+ * Faults, each a count of frames: reversals (the page moved against the gesture by more than 3 px, other than a clamp
+ * putting it back inside the hold), outside (once inside the hold, the page was seen outside it again: the stage
+ * unpinned and jumped), flashes (once inside the hold, the story showed a step other than the one it ends on), reentry
+ * (a leaving fling came back into the hold), skips (a step change of more than one, or more than one change).
+ */
+export function readTrace(trace, story, idx, kind, start) {
+  const top = story.top;
+  const end = story.top + story.hold;
+  const inside = (y) => y >= top - 2 && y <= end + 2;
+  const dir = kind === 'enter-down' || kind === 'leave-down' || kind === 'step' ? 1 : -1;
+  const last = trace[trace.length - 1];
+  const final = { y: last.y, step: last.s[idx] };
+  let reversals = 0;
+  let outside = 0;
+  let flashes = 0;
+  let reentry = 0;
+  let puts = 0;
+  let wasInside = false;
+  let leftAt = -1;
+  let changes = 0;
+  let maxJump = 0;
+  let overshoot = 0;
+  for (let i = 1; i < trace.length; i += 1) {
+    const a = trace[i - 1];
+    const b = trace[i];
+    const dy = b.y - a.y;
+    if (dy * dir < -3) { if (inside(b.y) && kind !== 'leave-down' && kind !== 'leave-up') puts += 1; else reversals += 1; }
+    if (b.s[idx] !== a.s[idx]) { changes += 1; maxJump = Math.max(maxJump, Math.abs(b.s[idx] - a.s[idx])); }
+    if (inside(b.y)) wasInside = true;
+    if (kind.startsWith('enter') && wasInside && !inside(b.y)) outside += 1;
+    if (kind.startsWith('enter') && wasInside && inside(b.y) && b.s[idx] !== final.step) flashes += 1;
+    if (kind.startsWith('enter') && wasInside) overshoot = Math.max(overshoot, dir > 0 ? b.y - story.rests[0] : story.rests[story.steps - 1] - b.y);
+    if (kind.startsWith('leave')) {
+      if (!inside(b.y) && leftAt < 0) leftAt = i;
+      if (leftAt >= 0 && inside(b.y)) reentry += 1;
+    }
+  }
+  const rest = (k) => story.rests[k];
+  let ok;
+  if (kind === 'enter-down') ok = final.step === 0 && Math.abs(final.y - rest(0)) <= 2;
+  else if (kind === 'enter-up') ok = final.step === story.steps - 1 && Math.abs(final.y - rest(story.steps - 1)) <= 2;
+  else if (kind === 'leave-down') ok = final.y > end + 2;
+  else if (kind === 'leave-up') ok = final.y < top - 2;
+  else ok = final.step === start + 1 && Math.abs(final.y - rest(start + 1)) <= 2;
+  const skips = kind === 'step' ? (changes > 1 ? changes - 1 : 0) + (maxJump > 1 ? 1 : 0) : 0;
+  const faults = reversals + outside + flashes + reentry + skips;
+  return { ok: ok && faults === 0, landed: ok, final, reversals, outside, flashes, reentry, puts, skips, changes, overshoot, frames: trace.length };
+}
+
+const fastLine = (name, row) => `${row.ok ? 'ok  ' : 'FAIL'} ${name} ${row.id} from ${row.start} -> y ${row.final.y} step ${row.final.step}${row.landed ? '' : ' (wrong place)'}; reversals ${row.reversals} outside ${row.outside} flashes ${row.flashes} reentry ${row.reentry} skips ${row.skips} puts ${row.puts} overshoot ${row.overshoot}`;
+
+/** Where a hunt cell starts: above or below the story for an entry, on the edge rest for a leave, on rest 1 for a step. */
+function huntStart(s, kind, far) {
+  const startStep = kind === 'step' ? 1 : kind === 'leave-down' ? s.steps - 1 : kind === 'leave-up' ? 0 : null;
+  const y0 = kind === 'enter-down' ? s.top - far : kind === 'enter-up' ? s.top + s.hold + far : s.rests[startStep];
+  return { startStep, y0 };
+}
+
+/**
+ * The hunt: fast flicks (600-1600 px at 2500-8000 px/s) entering, leaving and stepping one held story, each traced frame
+ * by frame (readTrace). Returns rows { id, ok, ...faults }.
+ */
+export async function runFast(bench, name, { log = () => {}, dists = [600, 1000, 1600], speeds = [2500, 5000, 8000], kinds = ['enter-down', 'enter-up', 'leave-down', 'leave-up', 'step'] } = {}) {
+  const rows = [];
+  const idx = (await bench.stories()).findIndex((s) => s.name === name);
+  if (idx < 0) return rows;
+  for (const kind of kinds) for (const d of dists) for (const v of speeds) {
+    const id = `${kind}-${d}-${v}`;
+    const row = await steady(bench, log, id, async () => {
+      let s = await bench.story(name);
+      const { startStep, y0 } = huntStart(s, kind, Math.round(d * 0.6));
+      await bench.jump(y0);
+      for (let tries = 0; tries < 3 && Math.abs((await bench.y()) - y0) > 2; tries += 1) await bench.jump(y0);
+      await bench.settle(400);
+      s = await bench.story(name);
+      const down = kind === 'enter-down' || kind === 'leave-down' || kind === 'step';
+      const trace = await record(bench, 1600, () => bench.flick(down ? d : -d, v, down ? {} : { fromY: 120 }));
+      await bench.settle(400);
+      return { id, start: y0, ...readTrace(trace, await bench.story(name), idx, kind, startStep ?? 0) };
+    });
+    rows.push(row);
+    log(fastLine(name, row));
+  }
+  return rows;
+}
+
+/** Wheel bursts at 1440: notches entering, leaving and inside one held story, traced like the flicks. */
+export async function runWheelFast(bench, name, { log = () => {}, bursts = [[10, 10], [20, 8], [40, 4]], kinds = ['enter-down', 'enter-up', 'leave-down', 'leave-up', 'step'] } = {}) {
+  const rows = [];
+  const idx = (await bench.stories()).findIndex((s) => s.name === name);
+  if (idx < 0) return rows;
+  for (const kind of kinds) for (const [notches, gapMs] of bursts) {
+    const id = `wheel-${kind}-${notches}x${gapMs}ms`;
+    const row = await steady(bench, log, id, async () => {
+      let s = await bench.story(name);
+      const { startStep, y0 } = huntStart(s, kind, 600);
+      await bench.jump(y0);
+      for (let tries = 0; tries < 3 && Math.abs((await bench.y()) - y0) > 2; tries += 1) await bench.jump(y0);
+      await bench.settle(400);
+      await bench.page.mouse.move(Math.round(bench.width / 2), Math.round(bench.height / 2));
+      s = await bench.story(name);
+      const down = kind === 'enter-down' || kind === 'leave-down' || kind === 'step';
+      const trace = await record(bench, 1400, () => bench.wheel(notches, { deltaY: down ? 100 : -100, gapMs }));
+      await bench.settle(400);
+      return { id, start: y0, ...readTrace(trace, await bench.story(name), idx, kind, startStep ?? 0) };
+    });
+    rows.push(row);
+    log(fastLine(name, row));
+  }
+  return rows;
+}
+
 // ---------------------------------------------------------------- frames under load (the LK69 lag acceptance)
 /**
  * 22 swipes (450 px at 900 px/s, lifted while moving, 600 ms apart) from the top of the page at 4x CPU: the frame gaps
@@ -366,12 +568,12 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
   const touch = Number(width) < 900;
   const bench = await openBench({ url, width: Number(width), height: touch ? 844 : 900, touch, label: `one-gesture ${mode}` });
   try {
-    if (mode === 'matrix') {
-      for (const name of (process.argv[5] || 'ft-story,lc').split(',')) {
-        const rows = await runMatrix(bench, name, { log: console.log });
-        console.log(`${name}: ${rows.filter((r) => r.ok).length}/${rows.length} ok`);
-      }
-    }
+    const tally = (name, rows) => console.log(`${name}: ${rows.filter((r) => r.ok).length}/${rows.length} ok`);
+    const names = () => (process.argv[5] || 'ft-story,lc').split(',');
+    if (mode === 'matrix') for (const name of names()) tally(name, await runMatrix(bench, name, { log: console.log }));
+    if (mode === 'jump') tally('jump', await runJump(bench, { log: console.log }));
+    if (mode === 'fast') for (const name of names()) tally(name, await (touch ? runFast : runWheelFast)(bench, name, { log: console.log }));
+    if (mode === 'perf') console.log(JSON.stringify(await runPerf(bench, { warm: process.argv[6] === 'warm' })));
     console.log('errors', bench.errors.slice(0, 8));
   } finally { await bench.close(); }
 }

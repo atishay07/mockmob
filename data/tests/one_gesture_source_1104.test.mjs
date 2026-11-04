@@ -178,7 +178,8 @@ test('a declared jump that lands above a story\'s first rest leaves that story o
   const bus = strip(BUS);
   // The bus says once that a jump has ended, even if the page did not move in that frame.
   assert.match(bus, /state\.landed = landed;/);
-  assert.match(bus, /if \(!state\.dy && !state\.resized && !landed\) return;/);
+  // (5 Nov 2026, LK89: the subscribers now run only on a frame that moved, resized or landed, and BEFORE the arrival check.)
+  assert.match(bus, /if \(state\.dy \|\| state\.resized \|\| landed\) for \(const fn of \[\.\.\.subs\]\) fn\(state\);/);
   assert.match(bus, /if \(was\) \{ landedFlag = true; wake\(\); \}/);
   // The story reads the beat it landed on only on that frame, two frames later (the observer has reported by then),
   // and never on an ordinary frame, where a step the controller has just committed would be undone.
@@ -198,4 +199,36 @@ test('the edge clamp holds only a fling: a scrollbar drag, End or a script jump 
   assert.match(body(code, 'onFrame'), /if \(touches === 0 && keepY === null && !bus\.jumping\(\) && flinging\(\)\) \{/);
   assert.match(body(code, 'onTouchEnd'), /lastRelease = now\(\);/);
   assert.match(body(code, 'onTouchCancel'), /lastRelease = now\(\);/);
+});
+
+test('a tap on a jump link is not a fling, and a jump\'s landing frame still reads jumping() (5 Nov 2026, LK89 "stuck in a scroll loop")', () => {
+  // The loop (reproduced by oneGestureJump.test.mjs): the tap's touchend counted as a fling for 3 s; the instant jump
+  // arrived on its first frame and the bus cleared jumping() before the controller read it, so the controller held the
+  // page on the edge of the near story the jump crossed, again after each of DemoJump's corrections.
+  const bus = strip(BUS);
+  const run = body(bus, 'run');
+  assert.ok(run.indexOf('fn(state)') > 0 && run.indexOf('jumpFrame(y)') > run.indexOf('fn(state)'), 'subscribers first, then the arrival check');
+  assert.match(bus, /export function onJump\(fn\) \{/);
+  assert.match(body(bus, 'jump'), /for \(const fn of \[\.\.\.jumpWatchers\]\) fn\(jumpY\);/, 'every declared jump is announced');
+  const code = strip(CONTROLLER);
+  const stand = body(code, 'standDown');
+  assert.match(stand, /keepY = null;/);
+  assert.match(stand, /keepStory = null;/);
+  assert.match(stand, /lastRelease = -Infinity;/);
+  assert.match(body(code, 'passiveListeners'), /unsubJump = bus\.onJump\(standDown\);/, 'any bus.jump (DemoJump, HashSettle, a hash) stands the controller down');
+  assert.match(body(code, 'onClick'), /standDown\(\);\s*if \(!e\.defaultPrevented\) declareAnchor\(url\.hash\);/);
+  assert.match(body(code, 'onHashChange'), /standDown\(\);\s*declareAnchor\(window\.location\.hash\);/);
+  // DemoJump: the question card, not the room, and the card itself takes focus; DemoDrill never glides.
+  const jump = strip(read('src/components/landing/DemoJump.jsx'));
+  assert.match(jump, /const CARD = '\.lp-desk__card';/);
+  assert.match(jump, /stage\.querySelector\('\.mm-drill\[tabindex\]'\)/);
+  const drill = strip(read('src/components/landing/DemoDrill.jsx'));
+  assert.match(drill, /scrollIntoView\(\{ block: 'nearest', behavior: 'instant' \}\)/, "'auto' inherits html's scroll-behavior: smooth");
+  assert.equal((drill.match(/className="lp-card mm-drill"[^>]*tabIndex=\{-1\}/g) || []).length, 2, 'both of the card\'s states take focus');
+  // The arrival is the card's own shell, quiet: no outline ring.
+  const css = strip(read('src/app/landing-close.css'));
+  assert.match(css, /#try-practice\[data-arrive='true'\] \.lp-desk__card \{\s*animation: lp-arrive 600ms/);
+  assert.doesNotMatch(css, /@keyframes lp-arrive[^@]*outline/, 'no ring in the arrival');
+  assert.doesNotMatch(css, /data-arrive='true'\] \.mm-drill/, 'the near-white ring on .mm-drill is gone');
+  assert.match(css, /@keyframes lp-arrive \{\s*30% \{ border-color: var\(--line-strong\); box-shadow: var\(--lp-arrive-lift\); \}\s*\}/);
 });

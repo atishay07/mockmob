@@ -10,7 +10,8 @@
 // What it asserts: 4 distances x 4 speeds on each story give exactly +1 step and land within 2 px of a resting place;
 // slow drags of 120/150/300 px give +1; 20 px gives 0; forward 100 then back 100 gives 0; two flicks 150 ms apart give 1 step
 // and 700 ms apart give 2; an entry flick stops on step 0; an exit flick leaves freely; no non-passive listener exists while
-// no story is near; the document is as tall fresh as warm (within 2 px).
+// no story is near; the document is as tall fresh as warm (within 2 px); a tap on a link to the demo card from below each
+// held story (and from Compass) lands on the card and stays there (LK89, runJump).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -18,7 +19,7 @@ import {
   claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPx,
 } from './storyGesture.mjs';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
-import { benchAvailable, openBench, runMatrix, runPerf, runWheel } from './oneGestureBench.mjs';
+import { benchAvailable, openBench, runJump, runMatrix, runPerf, runWheel } from './oneGestureBench.mjs';
 
 // ---------------------------------------------------------------- part 1: the rules
 
@@ -145,6 +146,17 @@ test('the gesture matrix in real Chrome: every cell is one step on a resting pla
     assert.deepEqual(bench.errors.filter((e) => /pageerror/.test(e)), [], 'no page errors');
   } finally { await bench.close(); }
 });
+
+for (const [width, height] of [[390, 844], [1440, 900]]) {
+  test(`a tap on a demo link below each held story lands on the question card and stays there (LK89, ${width}x${height})`, { skip: RUN ? false : why, timeout: 900_000 }, async () => {
+    const bench = await openBench({ url: URL_UNDER_TEST, width, height, touch: width < 900, label: `oneGesture.test jump ${width}` });
+    try {
+      const rows = await runJump(bench, { log: (line) => console.log(line) });
+      assert.ok(rows.filter((r) => !r.skipped).length >= 2, `${rows.length} places`);
+      assert.deepEqual(rows.filter((r) => !r.ok).map((r) => `${r.id}: from ${r.start} to ${r.y}, card top ${r.cardTop} (nav ${r.navBottom}), left again ${r.leftAgain}, focus ${r.focus}`), []);
+    } finally { await bench.close(); }
+  });
+}
 
 test('wheel, trackpad and keys at 1440x900: one burst, one step', { skip: RUN ? false : why, timeout: 3_600_000 }, async () => {
   const bench = await openBench({ url: URL_UNDER_TEST, width: 1440, height: 900, touch: false, label: 'oneGesture.test wheel' });
