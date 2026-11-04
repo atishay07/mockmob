@@ -268,3 +268,11 @@ test('R4 owner-eye#4 and first-timer#8: until an option is saved, one line names
   assert.equal(impliedOptionLine({ units: [unit('afs')] }, null), null, 'a part without options');
   assert.equal(impliedOptionLine({ option: { choices }, units: [] }, null), null);
 });
+
+test('LK94 a chosen part says which, in the app\'s words; with no choice it asks', async () => {
+  const { chosenOptionLine } = await import('../homeModel.mjs');
+  const part = { title: 'Part 2', option: { choices: [{ id: 'AFS', label: 'Analysis of Financial Statements' }, { id: 'CAS', label: 'Computerised Accounting' }] } };
+  assert.equal(chosenOptionLine(part, 'CAS', 1), 'Part 2 has two options. Yours is Computerised Accounting.');
+  assert.equal(chosenOptionLine(part, null, 1), 'Part 2 has two options. Pick the one your school teaches.');
+  assert.equal(chosenOptionLine(part, 'XYZ', 1), 'Part 2 has two options. Pick the one your school teaches.');
+});

@@ -43,6 +43,17 @@ export function optionLine(part, at = 0) {
   return `Part ${number} has ${NUMBER_WORD[n] || n} options. Pick the one your school teaches.`;
 }
 
+/**
+ * The same line once a choice is drawn (saved, or tapped and saving): it says which, plainly, so a part chosen at onboarding never
+ * reads as waiting for a pick (owner, 5 Nov, LK94; the app's HomeModel.chosenOptionLine, word for word):
+ * "Part 2 has two options. Yours is Analysis of Financial Statements." With no choice, or one the data does not name, it asks.
+ */
+export function chosenOptionLine(part, choice, at = 0) {
+  const label = choice ? (part?.option?.choices || []).find((c) => c.id === choice)?.label : null;
+  if (!label) return optionLine(part, at);
+  return optionLine(part, at).replace(' Pick the one your school teaches.', ` Yours is ${label}.`);
+}
+
 /** The one line when the picked option has no chapters with cards at all (R5). */
 export const OPTION_COMING = 'Cards for this option are coming.';
 

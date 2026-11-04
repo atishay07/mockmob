@@ -70,7 +70,8 @@ test('R5: the roadmap has no subline, no "Coming soon", no "free" on a row; the 
   assert.match(map, /freeEach\(/);
   assert.match(map, /roadmapRow\(row\)/, 'a row never says "free"');
   assert.match(map, /OPTION_COMING/);
-  assert.match(map, /optionLine\(part, at\)/);
+  // 5 Nov (LK94): once a part is chosen the line says which ("Yours is ..."); with no choice it is optionLine's.
+  assert.match(map, /chosenOptionLine\(part, choice, at\)/);
   assert.match(map, /playableParts\(allParts\)/);
 });
 

@@ -17,7 +17,7 @@ import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
 import {
-  OPTION_COMING, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
+  OPTION_COMING, chosenOptionLine, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
   unitHeading, unitsSignature, flatRows,
 } from './homeModel.mjs';
 
@@ -156,7 +156,7 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
   };
   return (
     <div className="lh-opt">
-      <span className="lh-opt__label" id={labelId}>{optionLine(part, at)}</span>
+      <span className="lh-opt__label" id={labelId}>{chosenOptionLine(part, choice, at)}</span>
       <div className="lh-opt__row" role="radiogroup" aria-labelledby={labelId}>
         {choices.map((c, i) => {
           const n = optionChapterCount(part.units, c.id);
