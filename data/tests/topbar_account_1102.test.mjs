@@ -9,10 +9,11 @@ import { readFileSync } from 'node:fs';
 const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const shell = read('src/app/(app)/AppLayoutClient.jsx');
 const css = read('src/app/(app)/arena.css');
+const pop = read('src/components/account/AccountPopover.jsx');
 const bar = shell.slice(shell.indexOf('<header className="arena-topbar">'), shell.indexOf('</header>'));
 
 test('one capsule holds the balance and the person, in that order; no coin glyph or separate Pro badge in the bar', () => {
-  assert.match(bar, /<div className="arena-acct" role="group" aria-label="Your account">[\s\S]*className="arena-acct__credits"[\s\S]*className="arena-acct__rule"[\s\S]*className="arena-acct__you"/);
+  assert.match(bar, /<div className="arena-acct" role="group" aria-label="Your account">[\s\S]*className="arena-acct__credits"[\s\S]*className="arena-acct__rule"[\s\S]*<AccountPopover /);
   assert.doesNotMatch(bar, /CreditAmount|CreditMark|arena-chip--pro|arena-chip--credits/);
   assert.equal((bar.match(/<Avatar /g) || []).length, 1, 'one avatar for every width');
 });
@@ -21,13 +22,15 @@ test('the balance says its unit in words and opens the Wallet; the person opens 
   assert.match(bar, /<b>\{Number\(barCredits\)\.toLocaleString\('en-IN'\)\}<\/b><span>\{barCredits === 1 \? 'credit' : 'credits'\}<\/span>/);
   assert.match(bar, /href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-acct__credits" data-tour="credits-pill"/, 'the tour still finds the balance');
   assert.match(bar, /aria-label=\{`\$\{creditsWords\(barCredits\)\}\. Open Wallet`\}/);
-  assert.match(bar, /href=\{previewLinks\?\.profile \|\| '\/profile'\}\s*className="arena-acct__you"/);
-  assert.match(bar, /aria-current=\{isActive\('profile'\) \? 'page' : undefined\}/);
+  // D8 (owner LK97, 5 Nov 2026): the person door is a button that opens the account pop-over (it was a link to Account).
+  assert.match(bar, /<AccountPopover user=\{user\} accountName=\{accountName\} credits=\{barCredits\} links=\{previewLinks \|\| \{\}\} current=\{isActive\('profile'\)\}>/);
+  assert.match(pop, /className="arena-acct__you"\s*aria-haspopup="dialog"\s*aria-expanded=\{open\}/);
+  assert.match(pop, /aria-current=\{current \? 'page' : undefined\}/);
 });
 
 test('Pro shows the word Pro beside the person; Free shows nothing extra', () => {
   assert.match(bar, /\{user\?\.isPremium \? <span className="arena-acct__plan">Pro<\/span> : null\}/);
-  assert.match(bar, /aria-label=\{`Account, \$\{accountName \?\? 'your profile'\}\$\{user\?\.isPremium \? ', Pro' : ''\}`\}/);
+  assert.match(pop, /aria-label=\{`Account, \$\{accountName \?\? 'your profile'\}\$\{pro \? ', Pro' : ''\}`\}/);
   assert.doesNotMatch(bar, /Free<|Upgrade|Get Pro|\/pricing/);
 });
 

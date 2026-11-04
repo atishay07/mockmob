@@ -16,6 +16,7 @@ import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SignOutButton } from '@/components/profile/SignOutConfirm';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
+import AccountPopover from '@/components/account/AccountPopover';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
 import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
@@ -485,17 +486,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <b>{Number(barCredits).toLocaleString('en-IN')}</b><span>{barCredits === 1 ? 'credit' : 'credits'}</span>
               </Link>
               <span className="arena-acct__rule" aria-hidden="true" />
-              <Link
-                href={previewLinks?.profile || '/profile'}
-                className="arena-acct__you"
-                aria-label={`Account, ${accountName ?? 'your profile'}${user?.isPremium ? ', Pro' : ''}`}
-                aria-current={isActive('profile') ? 'page' : undefined}
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <AccountPopover user={user} accountName={accountName} credits={barCredits} links={previewLinks || {}} current={isActive('profile')}>
                 <Avatar name={accountName || user?.email} size="sm" />
                 <span className="arena-acct__name arena-desktop-only">{accountName ?? 'Account'}</span>
                 {user?.isPremium ? <span className="arena-acct__plan">Pro</span> : null}
-              </Link>
+              </AccountPopover>
             </div>
             {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. It asks first, with
                 the same confirm as the Account page (release 11 walk). */}

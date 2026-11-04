@@ -1,0 +1,62 @@
+/* The account pop-over under the top bar's person door (D8). Tokens only; sits under the capsule, right edge aligned. */
+.app-shell .arena-topbar .arena-acct { position: relative; overflow: visible; }
+.app-shell .arena-acct > a:first-child { border-radius: 999px 0 0 999px; }
+.app-shell .arena-acct > button.arena-acct__you { border-radius: 0 999px 999px 0; }
+.app-shell .arena-acct__you { border: 0; background: none; cursor: pointer; font: inherit; font-family: var(--font-display); font-size: 13.5px; font-weight: 650; color: var(--a-ink); }
+.app-shell .acct-pop {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 60;
+  width: 320px;
+  max-width: calc(100vw - 24px);
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: 18px;
+  background: var(--a-sheet);
+  color: var(--a-ink);
+  box-shadow: var(--a-shadow-2);
+  font-family: var(--font-display);
+  animation: acct-pop-in 180ms var(--a-ease) both;
+}
+@keyframes acct-pop-in { from { opacity: 0; transform: translateY(-4px) scale(0.985); } }
+html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
+.app-shell .acct-pop__who { display: flex; align-items: center; gap: 12px; }
+.app-shell .acct-pop__who .avatar { width: 40px; height: 40px; font-size: 15px; flex: none; }
+.app-shell .acct-pop__id { display: grid; gap: 2px; min-width: 0; }
+.app-shell .acct-pop__id b { font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell .acct-pop__id span { font-size: 13px; color: var(--a-ink-3); }
+.app-shell .acct-pop__credits {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 44px; padding: 0 14px;
+  border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-raised);
+  color: var(--a-ink); text-decoration: none; font-size: 13.5px; font-weight: 600;
+}
+.app-shell .acct-pop__credits b { font-size: 16px; font-weight: 750; font-variant-numeric: tabular-nums; }
+.app-shell .acct-pop__block { display: grid; gap: 6px; }
+.app-shell .acct-pop__label { font-size: 12px; font-weight: 650; color: var(--a-ink-3); }
+.app-shell .acct-pop__rows { display: grid; border-top: 1px solid var(--a-line); padding-top: 4px; }
+.app-shell .acct-pop__rows a {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 44px; padding: 0 8px; margin: 0 -8px;
+  border-radius: 10px; color: var(--a-ink); text-decoration: none; font-size: 14px; font-weight: 600;
+}
+.app-shell .acct-pop__rows small { font-size: 12px; font-weight: 500; color: var(--a-ink-3); }
+.app-shell .acct-pop__out {
+  min-height: 44px; border: 0; border-radius: 10px; background: none; cursor: pointer;
+  color: var(--a-ink-3); font: inherit; font-size: 13.5px; font-weight: 600; text-align: left; padding: 0 8px; margin: 0 -8px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .acct-pop__rows a:hover, .app-shell .acct-pop__out:hover, .app-shell .acct-pop__credits:hover { background: var(--a-hover); color: var(--a-ink); }
+}
+.app-shell .acct-pop a:focus-visible, .app-shell .acct-pop button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .acct-pop__switch { width: 100%; }
+@media (max-width: 639px) { .app-shell .acct-pop { display: none; } }
+/* The person door is a button now: it takes the capsule's door look (arena.css styles the link door). */
+.app-shell .arena-acct > button.arena-acct__you { display: inline-flex; align-items: center; white-space: nowrap; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: background-color 160ms var(--mm-ease-out, ease-out); }
+.app-shell .arena-acct > button.arena-acct__you:active { background: var(--a-sunken); transition-duration: 60ms; }
+.app-shell .arena-acct > button.arena-acct__you:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; border-radius: 999px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .arena-acct > button.arena-acct__you:hover { background: var(--a-hover); } }
+html[data-motion='reduced'] .app-shell .arena-acct > button.arena-acct__you { transition: none; }
