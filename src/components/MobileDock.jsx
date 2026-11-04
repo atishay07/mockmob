@@ -13,7 +13,8 @@ import '@/app/nav-motion.css';
 // On /pricing (checkoutAware) the dock follows the plan card: it never invites a payment while
 // one is confirming, after money may have moved, or once Pro is active.
 // hideAtFooter: the bar slides away as the page footer comes into view (96px early, its own height), so it never sits over the footer links.
-export function MobileDock({ note = 'Free to start. No card.', label, href, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
+// secondary ({ href, label }): a quiet ghost key before the volt one (the landing's guest "Log in", LK83). note={null}: no note line.
+export function MobileDock({ note = 'Free to start. No card.', label, href, secondary = null, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
   const { isAuthenticated } = useAuth();
   const atFooter = useFooterInView(hideAtFooter);
   const yielding = useVoltOnScreen();
@@ -37,13 +38,19 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
   const resolvedHref = stage === 'active' ? '/dashboard' : href || (isAuthenticated ? '/dashboard' : '/signup');
   const resolvedLabel = stage === 'active' ? 'Go to Practice' : label || (isAuthenticated ? 'Go to Practice' : 'Start free');
   const resolvedNote = stage === 'active' ? 'Pro is active on this account.' : note;
+  const showSecondary = stage !== 'active' && Boolean(secondary?.href && secondary?.label);
 
   return (
     <>
       {/* With hideAtFooter the bar leaves before the footer arrives, so no pad is needed below the footer. */}
       {hideAtFooter ? null : <div className="mm-dockpad" aria-hidden="true" data-commerce={checkoutAware ? '' : undefined} />}
-      <div className="mm-dock" data-motion-dock="true" data-commerce={checkoutAware ? '' : undefined} data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
-        <p className="mm-dock__note">{resolvedNote}</p>
+      <div className="mm-dock" data-motion-dock="true" data-commerce={checkoutAware ? '' : undefined} data-keys={showSecondary ? '2' : undefined} data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
+        {resolvedNote ? <p className="mm-dock__note">{resolvedNote}</p> : null}
+        {showSecondary ? (
+          <Link href={secondary.href} className="mm-btn mm-dock__ghost">
+            {secondary.label}
+          </Link>
+        ) : null}
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
         <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
           {resolvedLabel}

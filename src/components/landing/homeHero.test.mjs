@@ -38,7 +38,7 @@ export const HERO_STRINGS = [
   { text: DESK_LINES.load, source: 'the sample is on the desk: five questions, no signup (DemoDrill DRILL, L-015)', holds: () => /DRILL\.length/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.right, source: 'DemoDrill opens the reason under a right answer (mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.miss, source: 'DemoDrill opens the reason under a miss too', holds: () => /question\.why/.test(read('./DemoDrill.jsx')) },
-  { text: DESK_LINES.five, source: 'after five, other subjects are one free signup away (the card note, L-015)', holds: () => /Other subjects\? <Link href="\/signup">Pick yours free<\/Link>/.test(HERO) },
+  { text: DESK_LINES.five, source: 'after five, the card\'s own end state offers sign-up, where a student picks a subject (DemoDrill), and the hero\'s volt key is "Sign up free" (LK83, L-015)', holds: () => /<Link href="\/signup" className="mm-btn mm-btn--primary">/.test(read('./DemoDrill.jsx')) && /way\.signup/.test(read('../LandingActions.jsx')) },
   ...heroBeat(73).map((b) => ({ text: `${b.title}. ${b.line}`, source: { '#try-practice': 'DemoDrill: five questions, no signup', '#du-eligibility': 'DU_FACTS.programmes (duIndexFacts, the DU index)', '#exam-experience': 'ExamScreen: MockMob and NTA style', '#your-prep': 'the Practice slide: a full 50-question, 60-minute mock' }[b.href], holds: () => (b.href !== '#your-prep' || /50-question, 60-minute mock/.test(TOUR)) && (b.href !== '#du-eligibility' || /heroBeat\(DU_FACTS\?\.programmes \?\? null\)/.test(HERO)) })),
 ];
 
@@ -62,10 +62,11 @@ test('LK70: the h1 comes first and the lead says what MockMob is, in the server 
   }
   assert.match(HERO, /<b>\{HERO_LEAD\.strong\}<\/b>\{HERO_LEAD\.rest\}/);
   assert.equal(HERO_LEAD.strong, 'MockMob is CUET UG mock tests');
-  // The visual lines read the approved sentence: CUET 2027. in the brand word colour, plain text.
+  // The visual lines read the approved sentence: CUET 2027. in the brand volt (D2, LK82, 5 Nov: #D2F000 Night, #3F5200 Day), plain text.
   assert.match(HERO, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}\s*<span className="lp-title__line">\{HERO_LINES\[1\]\}<\/span>\{' '\}/);
   assert.match(HERO, /<HeroTyped \/>/);
-  assert.match(CSS, /\.mm\.lp \.lp-title__brand \{ color: var\(--brand-word, var\(--accent-text\)\); \}/);
+  assert.match(CSS, /html\[data-theme\] \.mm\.lp \.lp-hero \.lp-title__brand \{ color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0\.022em; \}/);
+  assert.match(CSS, /html\[data-theme='light'\] \.mm\.lp \.lp-hero \.lp-title__brand \{ color: #3f5200; \}/);
   assert.deepEqual([...HERO_LINES], ['CUET 2027.', 'One mock.', 'Know what to fix.']);
 });
 
@@ -75,7 +76,10 @@ test('LK70 geometry: phone sizes put the words first (h1 39.5 px at 390, the roo
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__line \{ display: block; white-space: nowrap; \}/);
   assert.match(CSS, /grid-template-areas: 'copy' 'desk' 'links';/, 'phones: the words, then the desk, then the two links under the card');
   assert.match(CSS, /grid-template-areas: 'copy desk' 'links desk';/, 'desktop: the links under the facts in the left column');
-  assert.match(CSS, /min-height: 56px;\n\s+border-radius: 16px;/);
+  // D1 (LK83/LK88, 5 Nov): the volt "Sign up free" at 56 px, the secondary "Try 5 questions first" at 50 px under it.
+  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-cta \.mm-actions > a \{ width: 100%; border-radius: 16px; \}/);
+  assert.match(CSS, /\.lp-cta \.mm-actions > a:first-child \{\n\s+min-height: 56px;/);
+  assert.match(CSS, /\.lp-cta \.mm-actions > a:nth-child\(2\) \{ min-height: 50px;/);
   // The widest phrase fits (integration, 4 Nov, measured in Chrome): "Every mark traced." is 8.77 em at the phone's
   // -0.035 em tracking and 8.69 em at the desktop's -0.04 em, so 11.3 cqi (phones, tablet) and 11.4 cqi (desktop) keep it
   // under 100 % of the copy column at 360, 390, 768, 1280 and 1440: every typed phrase types and fits its line.

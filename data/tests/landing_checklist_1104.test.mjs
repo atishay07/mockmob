@@ -124,16 +124,19 @@ test('L-005 the scroll stories, reveals, count-up and object life of the previou
 });
 
 // ================================================================================================ L-006 .. L-010 states and the bottom bar
-test('L-006 signed in, the guest CTA is not shown: the hero offers a way into the Arena instead', () => {
+// Owner decision LK83/LK88 (5 Nov 2026, SPEC night-1105 D1) supersedes the 4 Nov wording of L-006, L-008, L-009, L-010 and
+// L-013 (and L-015's card-note link): sign up and log in lead, the five questions are the sample, the dock never relabels.
+test('L-006 signed in, the guest CTA is not shown: the hero offers one key back in (the guest CTA is "Sign up free" since LK83)', async () => {
+  const demo = await importMod('src/components/landing/demoSignal.mjs');
   const src = code(read('src/components/LandingActions.jsx'));
   assert.match(src, /isAuthenticated/, 'the hero actions read the signed-in state');
-  // The signed-in primary must not be the guest label "Start free practice" (the way in is practice or the Arena).
-  const signedPrimary = src.match(/isAuthenticated\s*\?\s*([^:]+?)\s*:/g) || [];
-  assert.ok(signedPrimary.length > 0, 'a signed-in branch exists');
-  assert.match(src, /(Go to (Practice|the Arena)|Enter the Arena|Welcome back|Find my first gap)/, 'a signed-in label names the way in');
-  assert.doesNotMatch(src.replace(/isAuthenticated\s*\?[^;]*?primaryText[^;]*/g, ''), /Try five questions[^]*Start free practice[^]*isAuthenticated\s*\?\s*primaryText\s*:\s*['"]Start free practice/, 'the guest label is not used for a signed-in visitor');
-  // primaryText is one constant for both states: if it is "Start free practice" a signed-in student sees the guest CTA.
-  assert.ok(!/const primaryText = recoveryReleased\(\) \? 'Find my first gap' : 'Start free practice';/.test(src) || /isAuthenticated\s*\?\s*['"`][^'"`]*(Go to|Enter|Welcome)/.test(src), 'primaryText must differ for a signed-in student (a "Start free practice" button for someone who is already in is the guest CTA)');
+  assert.match(src, /const primary = isAuthenticated \? way\.home : way\.signup;/, 'signed in: the way back in; a guest: sign-up');
+  assert.match(src, /if \(mode === 'primary' \|\| isAuthenticated\) \{/, 'signed in: one key, no "Try 5 questions first", no log-in line');
+  for (const released of [false, true]) {
+    const home = demo.wayIn({ signedIn: true, released }).home.label;
+    assert.match(home, /^(Go to (Practice|the Arena)|Find my first gap)$/, 'a signed-in label names the way in');
+    assert.doesNotMatch(home, /Sign up|Start free|Try/, 'never the guest CTA for someone who is already in');
+  }
 });
 
 test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor state, and a signed-in student gets no sign-up or upsell', () => {
@@ -148,34 +151,48 @@ test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor 
 });
 test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a static page that cannot read the plan, so a paid account needs a live walk');
 
-test('L-008 the bottom bar is ONE real button whose label and target follow the visitor state; no small linked text beside it', () => {
-  const dock = code(sources(['src/components/MobileDock.jsx', 'src/components/landing/LandingDock.jsx', 'src/components/landing/demoSignal.mjs']) + '\n' + PAGE);
-  // The button label is state-aware: signed in says Go to practice/arena, a guest who finished the sample says Sign up.
-  assert.match(PAGE_CODE, /<HeroDockGate>\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
-  assert.doesNotMatch(code(read('src/components/landing/LandingDock.jsx')), /label="Try a CUET question"|<Link/, 'the dock label is never one constant string, and nothing beside it is a link');
-  assert.match(dock, /Welcome back/, 'signed in: Welcome back');
-  assert.match(dock, /Go to (Practice|the Arena)/, 'signed in: the button goes to practice or the Arena');
-  assert.match(dock, /Try a CUET question/, 'guest: Try a CUET question');
-  assert.doesNotMatch(code(read('src/components/landing/CloseActions.jsx')), /className="lp-docklink"/, 'no small linked text beside the button (the label is the one real button)');
-  assert.match(code(read('src/components/MobileDock.jsx')), /href=\{resolvedHref\}/, 'the label and the target come from one resolved state');
-});
-
-test('L-009 after a guest finishes the five sample questions, the dock and later CTAs say Sign up, not Try a CUET question again', async () => {
+test('L-008 the bottom bar (LK83/LK88): a guest gets two real keys, a ghost "Log in" and the volt "Sign up free"; signed in, one key; no linked text beside them', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
-  assert.ok(demo.DEMO_ANSWERED_EVENT && typeof demo.subscribeDemoAnswered === 'function', 'the sample publishes a signal');
-  const subscribers = SURFACE.filter((f) => /subscribeDemoAnswered|demoAnswered|subscribeDemoState|demoFinished|DEMO_STATE_EVENT|mm:demo-state|mm:demo-answered/.test(read(f)) && !/demoSignal\.mjs|DemoDrill/.test(f));
-  const dockOrClose = subscribers.filter((f) => /LandingActions|LandingDock|CloseActions|HeroDockGate|FooterStart/.test(f));
-  assert.ok(dockOrClose.some((f) => /LandingDock/.test(f)) && dockOrClose.some((f) => /CloseActions/.test(f)), `the dock and the close band must listen for the finished sample (only ${dockOrClose.join(', ') || 'nothing'} does)`);
-  assert.match(read('src/components/landing/LandingDock.jsx'), /subscribeDemoState[\s\S]*demoFinished/, 'the dock listens for all five answered');
-  assert.match(sources(['src/components/landing/demoSignal.mjs', 'src/components/landing/CloseActions.jsx']), /Sign up/, 'and says Sign up');
+  assert.match(PAGE_CODE, /<HeroDockGate>\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
+  const landingDock = code(read('src/components/landing/LandingDock.jsx'));
+  assert.doesNotMatch(landingDock, /<Link|lp-docklink|Try a CUET question/, 'no link of its own beside the keys and no sample key in the dock');
+  assert.match(landingDock, /label=\{dock\.primary\.label\}[\s\S]*secondary=\{dock\.secondary\}/, 'both keys come from one resolved state (wayIn)');
+  assert.deepEqual(JSON.parse(JSON.stringify(demo.wayIn({}).dock)), { primary: { href: '/signup', label: 'Sign up free' }, secondary: { href: '/login', label: 'Log in' } }, 'a guest');
+  assert.equal(demo.wayIn({ signedIn: true }).dock.secondary, null, 'signed in: one key');
+  assert.match(demo.wayIn({ signedIn: true }).dock.primary.label, /^(Go to (Practice|the Arena)|Find my first gap)$/, 'signed in: the key goes back in');
+  const mobile = code(read('src/components/MobileDock.jsx'));
+  assert.match(mobile, /href=\{resolvedHref\}/, 'the volt key\'s label and target come from one resolved state');
+  assert.match(mobile, /<Link href=\{secondary\.href\} className="mm-btn mm-dock__ghost">/, 'the ghost key is a real link key');
+  assert.match(mobile, /resolvedNote \? <p className="mm-dock__note">/, 'no empty note line');
 });
 
-test('L-010 the bottom Try a CUET question works (it opens the sample) and a sign-up route is reachable from the bottom of the page', () => {
-  assert.match(read('src/components/landing/demoSignal.mjs'), /href: '\/#try-practice', label: 'Try a CUET question'/, 'the guest dock points at the sample');
+test('L-009 (LK83/LK88) the dock and the close band say "Sign up free" before, during and after the five; the sample\'s own end state offers sign-up', async () => {
+  const demo = await importMod('src/components/landing/demoSignal.mjs');
+  assert.ok(demo.DEMO_ANSWERED_EVENT && typeof demo.subscribeDemoAnswered === 'function', 'the sample still publishes its signal (the hero key\'s weight, Mobi, the painted sheet)');
+  demo.resetDemoSignal();
+  const before = JSON.stringify(demo.wayIn({}));
+  demo.sendDemoState('five', 5, null);
+  assert.equal(JSON.stringify(demo.wayIn({})), before, 'all five answered changes no key');
+  demo.resetDemoSignal();
+  assert.equal(demo.wayIn({}).dock.primary.label, 'Sign up free');
+  for (const f of ['src/components/landing/LandingDock.jsx', 'src/components/landing/CloseActions.jsx']) {
+    assert.doesNotMatch(code(read(f)), /subscribeDemoState|demoFinished|Try a CUET question/, `${f} never relabels with the sample`);
+  }
+  assert.match(code(read('src/components/landing/CloseActions.jsx')), /way\.signup\.label/, 'the close band says Sign up free');
+  assert.match(code(read('src/components/landing/DemoDrill.jsx')), /<Link href="\/signup" className="mm-btn mm-btn--primary">/, 'after the fifth answer the card itself offers sign-up');
+});
+
+test('L-010 (LK83/LK88) "Try 5 questions first" opens the sample, and sign-up and log-in are reachable from the bottom of the page', async () => {
+  const demo = await importMod('src/components/landing/demoSignal.mjs');
+  assert.deepEqual({ ...demo.SAMPLE }, { href: '/#try-practice', label: 'Try 5 questions first' }, 'the hero\'s second key points at the sample');
+  assert.match(code(read('src/components/LandingActions.jsx')), /<Link href=\{SAMPLE\.href\} prefetch=\{false\}/);
   assert.match(PAGE_CODE, /<DemoJump\s*\/>/, 'DemoJump makes every same-page sample link land on the card');
   assert.match(PAGE_CODE, /id="try-practice"/, 'the sample has its anchor');
-  assert.match(code(read('src/components/landing/CloseActions.jsx')), /href="#try-practice"/);
-  assert.match(code(read('src/components/landing/CloseActions.jsx')), /\/signup/, 'the close band offers sign up');
+  const close = code(read('src/components/landing/CloseActions.jsx'));
+  assert.match(close, /signupHref/, 'the close band offers sign up');
+  assert.match(close, /way\.login\.href/, 'and log in');
+  assert.equal(demo.wayIn({}).signup.href, '/signup');
+  assert.equal(demo.wayIn({}).login.href, '/login');
   assert.match(code(read('src/components/MarketingFooter.jsx') + read('src/components/FooterStart.jsx')), /\/signup/, 'the footer offers sign up');
 });
 
@@ -193,10 +210,17 @@ test('L-012 the top bar logo goes home, its section links point at real anchors,
   assert.match(nav, /Go to Practice/);
 });
 
-test('L-013 conversion paths: sign-up and the sample are linked from the hero, the dock, the close band and the footer, and no CTA is a dead link', () => {
+test('L-013 conversion paths (LK83/LK88): sign-up from the hero, the dock, the close band and the footer; log-in from the hero, the dock and the close band; the sample from the hero; no CTA is a dead link', async () => {
+  const demo = await importMod('src/components/landing/demoSignal.mjs');
   const hero = PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<Statement'));
-  assert.match(hero + code(read('src/components/LandingActions.jsx')), /\/signup/, 'hero: sign-up');
-  assert.match(hero + code(read('src/components/LandingActions.jsx')), /#try-practice/, 'hero: the sample');
+  const actions = code(read('src/components/LandingActions.jsx'));
+  assert.match(actions, /way\.signup/, 'hero: sign-up');
+  assert.match(actions, /way\.login\.href/, 'hero: log in');
+  assert.match(actions, /SAMPLE\.href/, 'hero: the sample');
+  assert.match(hero, /id="try-practice"/, 'the sample is in the hero');
+  assert.deepEqual([demo.wayIn({}).signup.href, demo.wayIn({}).login.href, demo.SAMPLE.href], ['/signup', '/login', '/#try-practice']);
+  assert.deepEqual([demo.wayIn({}).dock.secondary.href, demo.wayIn({}).dock.primary.href], ['/login', '/signup'], 'the dock: log in, then sign up');
+  for (const route of ['src/app/signup', 'src/app/login']) assert.ok(existsSync(join(ROOT, route)), `${route} exists`);
   assert.match(PAGE_CODE, /<HeroDockGate>[\s\S]*<LandingDock/, 'the phone dock');
   assert.match(PAGE_CODE, /<CloseActions\s*\/>/, 'the close band');
   assert.match(PAGE_CODE, /<MarketingFooter/, 'the footer');
@@ -215,9 +239,13 @@ test('L-014 the hero says its message at first glance (a short headline and one 
   assert.match(PAGE_CODE, /<LandingActions\s*\/>/, 'one action pair');
 });
 
-test('L-015 a visitor whose subjects are not among the five samples has a clear path from the hero (a sign-up route to pick their own)', () => {
+test('L-015 a visitor whose subjects are not among the five samples has a clear path from the hero: its volt key is "Sign up free" (LK83/LK88: the card note lost its link)', async () => {
+  const demo = await importMod('src/components/landing/demoSignal.mjs');
   const hero = PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<Statement'));
-  assert.match(hero, /Other subjects\?[\s\S]{0,120}href="\/signup"/, 'the sample card carries an "Other subjects?" link to sign-up');
+  assert.match(hero, /<LandingActions\s*\/>/);
+  assert.equal(demo.wayIn({}).signup.label, 'Sign up free', 'the first key in the hero is sign-up, where a student picks their own subjects');
+  assert.match(code(read('src/components/LandingActions.jsx')), /const primary = isAuthenticated \? way\.home : way\.signup;/);
+  assert.match(hero, /<DemoDrill note="No sign-up for these five\." \/>/, 'the card\'s note is one even line, no link that wraps alone');
   assert.match(code(read('src/components/landing/DemoDrill.jsx')), /\{note\}/, 'and the card renders it under the options');
   assert.match(hero, /cuet-cutoff-calculator/, 'plus the free calculator that needs no subject match');
 });
@@ -242,6 +270,13 @@ test('L-017 "CUET 2027." in the hero is the brand colour, not plain text', () =>
   const rule = rules(cssAll).filter((r) => /lp-title__brand/.test(r.sel) && /color\s*:/.test(r.body));
   assert.ok(rule.length > 0 && rule.every((r) => /--brand-word|--accent-text|#[0-9a-f]{6}/i.test(r.body)), 'it is coloured');
   assert.ok(!rule.some((r) => /color:\s*(var\(--ink\)|inherit)\s*;/.test(r.body)), 'not plain ink');
+  // D2 (owner LK82, 5 Nov 2026): the brand volt itself, true volt in Night and the deep olive in Day, with set figures; never the
+  // old lamp-lit #CDDD5A / #526700 (docs/design-decisions/web-1105-hero.md).
+  const hero = rules(stripComments(read('src/app/hero-scene.css'))).filter((r) => /\.lp-hero \.lp-title__brand/.test(r.sel));
+  assert.ok(hero.some((r) => !/light/.test(r.sel) && /color:\s*#d2f000/i.test(r.body)), 'Night: #D2F000');
+  assert.ok(hero.some((r) => /data-theme='light'/.test(r.sel) && /color:\s*#3f5200/i.test(r.body)), 'Day: #3F5200');
+  assert.ok(hero.some((r) => /font-variant-numeric:\s*lining-nums tabular-nums/.test(r.body)), 'lining, tabular figures');
+  assert.doesNotMatch(hero.map((r) => r.body).join('\n'), /cddd5a|526700|--brand-word/i);
 });
 
 test('L-018 "CUET 2027" is not styled as, or made into, a button that only scrolls down', () => {

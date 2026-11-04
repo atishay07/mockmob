@@ -55,10 +55,11 @@ export const INSTAGRAM_HEAD = Object.freeze({
 });
 export const WALL_HEAD = Object.freeze({ h2: 'Students, in their own words.' });
 export const FAQ_HEAD = Object.freeze({ h2: 'Before your first mock.' });
+// The close band leads with sign-up and log-in (LK83/LK88, 5 Nov): its words ask for the first mock, not the sample.
 export const CLOSE = Object.freeze({
   mobi: 'See you at your first mock.',
-  h2: 'Five questions. Your move.',
-  sub: 'Answer five now. Sign up when you’re ready to keep score.',
+  h2: 'Ready for your first mock?',
+  sub: 'Sign up free to keep every score and see what to fix next.',
 });
 
 /** The pricing head: the sub follows the live offer (monthly now, or the one-time term until monthly opens). */

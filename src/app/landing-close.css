@@ -1,5 +1,5 @@
-/* The landing's ways in at the bottom of the page: the close band's two actions, the phone dock's sign-up line,
-   and the cue when a "Try a CUET question" link brings the sample question on screen (DemoJump.jsx). */
+/* The landing's ways in at the bottom of the page: the close band's two actions, the phone dock's two keys,
+   and the cue when a link to the sample ("Try 5 questions first") brings the question on screen (DemoJump.jsx). */
 
 /* Every jump to the demo (a plain #try-practice link, a deep link from another page) stops below the sticky nav. */
 #try-practice { scroll-margin-top: 76px; }
@@ -19,38 +19,42 @@
   color: var(--ink-3);
 }
 .lp-close__free svg { color: var(--accent-text); flex: none; }
+/* Phones: "Sign up free" over "Log in", both the band's full width (up to 22rem), like the hero's keys. */
 @media (max-width: 639px) {
   .lp-close__go { width: 100%; max-width: 22rem; }
-  .lp-close__actions { width: 100%; }
+  .lp .lp-close .lp-close__actions { width: 100%; justify-content: stretch; }
 }
 
-/* ---------- Phone dock: "Free to start." over a sign-up link ---------- */
-.lp-dockmobi__line .lp-docklink {
-  position: relative;
-  justify-self: start;
-  /* The link's own box is the 44 px target (W-079), not a pseudo-element: padding grows it, margin keeps the line. */
-  display: inline-block;
-  min-width: 44px;
-  padding: 14px 2px 14px 10px;
-  margin: -14px -2px -14px -10px;
-  color: var(--ink);
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: var(--ink-3);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-  border-radius: 4px;
-}
-.lp-dockmobi__line .lp-docklink:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
-}
-/* L-011: the dock is one centred column. The one short line sits over the key in small, quiet ink and the key sits on the
-   bar's centre line (it used to sit right of centre beside the line). Both stay at every phone width. */
-.mm-dock__note .lp-dockmobi__line { display: block; text-align: center; }
-.mm-dock__note .lp-dockfree { font-weight: 600; color: var(--ink-3); }
+/* ---------- Phone dock (owner decision LK83/LK88, 5 Nov 2026) ----------
+   A guest: two keys side by side on the bar's centre line, a ghost "Log in" and the volt "Sign up free" (the wider one),
+   the same from the hero to the footer; no note line. A signed-in student: one key, centred (L-011). */
 @media (max-width: 899px) {
-  html[data-theme] .mm.lp .lp-dockgate .mm-dock { flex-direction: column; align-items: center; gap: 0.2rem; padding: 0.45rem 0.7rem 0.5rem; }
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock { flex-direction: row; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.5rem; }
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-btn { flex: 1 1 0; min-width: 0; min-height: 48px; padding-inline: 0.75rem; white-space: nowrap; }
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-btn--primary { flex-grow: 1.5; }
+  /* Day: the glass is near-solid paper with no saturation boost, so a dark card passing under it (the reels, the exam
+     screen) never greys the ghost key (the nav took the same fix on 4 Nov). */
+  html[data-theme='light'] .mm.lp .lp-dockgate .mm-dock {
+    background: color-mix(in srgb, var(--paper-raised) 92%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1);
+    backdrop-filter: blur(14px) saturate(1);
+  }
+}
+@media (max-width: 899px) and (prefers-reduced-transparency: reduce) {
+  html[data-theme='light'] .mm.lp .lp-dockgate .mm-dock { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+/* The ghost key: no fill and no keycap edge, a hairline ring in ink; it sits level with the volt key's face. */
+.mm-dock .mm-dock__ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  transform: translateY(calc(var(--btn-edge) * -1));
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.mm-dock .mm-dock__ghost:active { background: rgb(var(--tint) / 0.08); box-shadow: inset 0 0 0 1px var(--ink-3); }
+.mm-dock .mm-dock__ghost:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm-dock .mm-dock__ghost:hover { background: rgb(var(--tint) / 0.05); box-shadow: inset 0 0 0 1px var(--ink-3); }
 }
 
 /* ---------- Arrival: an ink ring settles onto the question card, then fades (no volt edges, LK68) ---------- */

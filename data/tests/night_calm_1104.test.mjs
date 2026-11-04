@@ -63,6 +63,9 @@ test('volt is never a text colour (C1): only the logo dot and a tick carried on 
       if (!voltIn(d.value)) continue;
       // .lp-room__dot: the painted answer sheet fills one bubble per sample answer (decision 13): a state fill, not text.
       if (/\.logo \.dot|\.lp-room__dot|\.du-chip\[aria-pressed="true"\] \.du-chip__tick/.test(r.selector)) continue;
+      // D2 (owner LK82, 5 Nov 2026, supersedes C1 for this one line): the hero's "CUET 2027." is the brand volt as text in
+      // Night (#D2F000; olive #3F5200 in Day). docs/design-decisions/web-1105-hero.md.
+      if (/\.lp-hero \.lp-title__brand/.test(r.selector) && d.prop === 'color') continue;
       offenders.push(describe(r, d));
     }
   }

@@ -133,7 +133,8 @@ export default function LandingPage() {
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
         {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70): one hero idea at every width. The words first (the
-            headline, the one sentence that says what MockMob is, one volt key and a text link, two fact sentences),
+            headline, the one sentence that says what MockMob is, the volt "Sign up free" key with the secondary "Try 5
+            questions first" under it and one "Have an account? Log in" line (LK83/LK88, 5 Nov), two fact sentences),
             then the desk: Mobi standing in his lamp-lit room (HeroRoom, HeroMobi) handing you the real first question
             (DemoDrill, the card attached to the room's foot). Phones stack it; from 960 px the desk is the right
             column. The two hero links sit under the card on phones and under the facts on desktop (hero-scene.css).
@@ -171,7 +172,9 @@ export default function LandingPage() {
                 <HeroMobi poster={<MobiPoster id="desk" />} />
               </div>
               <div className="lp-desk__card">
-                <DemoDrill note={<>No signup for these five. Other subjects? <Link href="/signup">Pick yours free</Link></>} />
+                <DemoDrill note="No sign-up for these five." />
+                {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
+                    end state offers it after the fifth answer. */}
               </div>
             </div>
 
@@ -369,7 +372,7 @@ export default function LandingPage() {
             <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions />
           </Reveal>
-          {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
+          {/* Every same-page link to the sample ("Try 5 questions first") lands on the live sample question, every time. */}
           <DemoJump />
           {/* The footer's Help sends guests to /#faq from any page: land on the questions once the page has settled. */}
           <HashSettle />
@@ -379,7 +382,7 @@ export default function LandingPage() {
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <MobiPoseSprite />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
+      {/* The phone bar (a guest: "Log in" and "Sign up free", never relabelled) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
         <LandingDock />
