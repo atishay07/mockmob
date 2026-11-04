@@ -481,12 +481,11 @@ export default function OnboardingPageClient({ preview = false }) {
   // The Commerce four show from the first frame; the seed above puts them in `selected` a moment later.
   const presetPicks = selected.length ? selected : [...PRESET_BASE];
   const rhythm = dayRhythm(days);
-  // The picker for one subject; the line that it can change later closes the last one on screen.
+  // The picker for one subject; each card ends with the line that it can change later (inside the card, so it never floats between tiles).
   const asking = subjectsAsking(presetMode ? presetPicks : selected);
   const optionBlock = (id) => (
     <React.Fragment key={id}>
-      <OptionPicker subjectId={id} value={shownChoice(id, { touched: optTouched, saved: optSaved })} onChange={chooseOption} disabled={busy} />
-      {asking[asking.length - 1] === id ? <p className="ob-opts__later">{OPTIONS_LATER}</p> : null}
+      <OptionPicker subjectId={id} value={shownChoice(id, { touched: optTouched, saved: optSaved })} onChange={chooseOption} disabled={busy} later={OPTIONS_LATER} />
     </React.Fragment>
   );
 

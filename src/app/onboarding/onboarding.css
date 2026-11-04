@@ -440,7 +440,7 @@ html[data-motion='reduced'] :is(.ob-track__thumb, .ob-track__n, .ob-progress__ba
 /* ---------- The section or part a school teaches (LK94): asked right under the picked subject ---------- */
 .ob-grid { grid-auto-flow: dense; }
 .ob-opts { grid-column: 1 / -1; display: grid; gap: 10px; }
-.ob-opts__later { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-3); text-wrap: balance; }
+.ob-opt__later { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); text-wrap: balance; }
 .ob-opt { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 14px; border-radius: var(--a-radius, 18px); border: 1px solid var(--a-line-strong); background: var(--a-raised); animation: ob-tile-in 280ms var(--a-ease) backwards; }
 .ob-opt__legend { margin: 0; padding: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--a-ink); }
 .ob-opt__ask { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; }

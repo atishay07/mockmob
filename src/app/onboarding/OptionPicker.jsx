@@ -4,7 +4,7 @@
 import React, { useId } from 'react';
 import { optionAsk } from './optionChoices.mjs';
 
-export default function OptionPicker({ subjectId, value, onChange, disabled }) {
+export default function OptionPicker({ subjectId, value, onChange, disabled, later = null }) {
   const ask = optionAsk(subjectId);
   const name = useId();
   if (!ask) return null;
@@ -24,6 +24,7 @@ export default function OptionPicker({ subjectId, value, onChange, disabled }) {
           </label>
         ))}
       </div>
+      {later ? <p className="ob-opt__later">{later}</p> : null}
     </div>
   );
 }
