@@ -20,6 +20,14 @@ function useSequence(play, events, settled) {
   // A screen that will play starts from its first frame (no flash of the finished screen before the
   // build); a paused, reduced or inactive one starts finished.
   const [value, setValue] = useState(() => (active && !reduced && !paused ? events[0]?.value ?? settled : settled));
+  // A screen stays mounted when its tool leaves the stage (5 Nov perf: the tour used to throw the screen away and build
+  // it again on every step, about 100 ms at 4x CPU). Coming back on stage, it restarts from its first frame in the same
+  // render, so the finished screen never flashes before the build.
+  const [wasActive, setWasActive] = useState(active);
+  if (active !== wasActive) {
+    setWasActive(active);
+    if (active && !reduced && !paused) setValue(events[0]?.value ?? settled);
+  }
   useEffect(() => {
     if (!active || reduced) {
       const timer = setTimeout(() => setValue(settled), 0);

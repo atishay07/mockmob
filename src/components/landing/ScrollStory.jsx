@@ -40,6 +40,7 @@ import '@/app/scroll-story.css';
 import * as bus from './scrollBus.mjs';
 import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
+import { predraw } from './storyPredraw.mjs';
 
 // --ss-fit and --ss-slack are registered as non-inherited (ship gate, 4 Nov 2026). A plain custom property inherits, so
 // writing one restyles every element under the node it is written on: --ss-fit on the Lab's four scenes cost 650
@@ -249,6 +250,15 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       bus.hold(id, false);
     };
   }, [pinned, steps, applyStep, id]);
+
+  // A story whose section is not drawn yet (content-visibility) is drawn once while the page is idle, so its first
+  // style and layout never land inside the reader's gesture (storyPredraw.mjs, LK81).
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!pinned || !stage || !undrawn(stage)) return;
+    const section = rootRef.current?.closest('main > *');
+    if (section) predraw(section);
+  }, [pinned]);
 
   useEffect(() => { onStepRef.current?.(step); }, [step]);
   // After every render: a fill or a tab ink that React has just mounted or re-created gets the current step.

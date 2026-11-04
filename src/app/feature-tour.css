@@ -54,7 +54,10 @@
 .ft :is(button, a) { touch-action: manipulation; }
 .ft :is(button, a):focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
 .ft :is(.ft__play, .ft__arrow, .ft__next):active { transform: scale(.97); }
-.ft[data-playing='false'] .ts *, .ft__slide[data-active='false'] .ts * { animation-play-state: paused; }
+/* Paused demos hold their flourishes. Only the elements that animate are named (5 Nov perf): a rule ending in `.ts *` made
+   every data-playing or data-active change restyle the whole tour, about 950 elements and 80 ms at 4x CPU. */
+.ft[data-playing='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i),
+.ft__slide[data-active='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i) { animation-play-state: paused; }
 
 @media (max-width: 899px) {
   .ft__shot .ts__bar { height: 34px; }

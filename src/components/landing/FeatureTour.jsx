@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
@@ -35,6 +35,16 @@ function TourVideo({ slide, playing }) {
   }, [playing]);
   return <video ref={ref} src={slide.video} poster={slide.poster} muted loop playsInline preload="none" aria-label={slide.videoLabel || slide.title} />;
 }
+
+// One tool's product screen. It stays mounted for the life of the tour and restarts its demo itself when its tool comes
+// back on stage (TourScreens useSequence), so a step changes a few attributes instead of rebuilding a screen (5 Nov
+// perf: the old remount cost about 100 ms a step at 4x CPU). Memoised with its own context value, so a step re-renders
+// only the two screens whose state changed. Unheld (the carousel without IntersectionObserver), the active screen is still
+// keyed by `visit`, as before, so a chip press restarts its demo.
+const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, play }) {
+  const value = useMemo(() => ({ active, reduced, paused }), [active, reduced, paused]);
+  return <DemoPlaybackContext.Provider value={value}><Screen play={play} /></DemoPlaybackContext.Provider>;
+});
 
 // The feature tour holds the screen while the reader's scroll moves through the tools (ScrollStory):
 // one tool per beat, its live demo playing while it is on stage, the chapter chips and the progress
@@ -209,7 +219,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                 <article className="ft__card">
                   <div className="ft__media">
                     <div className="ft__shot">
-                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <DemoPlaybackContext.Provider key={on ? i + ':on:' + visit : String(i)} value={{ active: on, reduced, paused }}><Screen play={on && running} /></DemoPlaybackContext.Provider> : slide.screen}
+                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen key={pinned || !on ? 'still' : visit} Screen={Screen} active={on} reduced={reduced} paused={paused} play={on && running} /> : slide.screen}
                     </div>
                   </div>
                   <div className="ft__copy">
