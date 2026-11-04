@@ -11,6 +11,8 @@ import '../../../core/models/notification_prefs.dart' as prefs;
 import '../../../core/repositories/repositories.dart';
 import '../../../core/models/my_colleges.dart';
 import '../../auth/sign_in_controller.dart' show resumeSignInSheetProvider;
+import '../../keycards/data/keycards_api.dart' show KeyCardsOff, KeyCardsPaths, keyCardsError;
+import '../../keycards/data/keycards_providers.dart' show keyCardsHomeProvider;
 import '../../rhythm/data/study_days.dart' show plannedDaysProvider;
 import '../../tools/data/my_colleges_actions.dart' show MyCollegesOutcome, myCollegesActionsProvider;
 import '../../tools/data/my_colleges_repository.dart' show myCollegesRepositoryProvider;
@@ -54,8 +56,8 @@ class SheetSyncState {
 
 /// After sign-in, writes the parts of the sheet the API supports (APP-API-CONTRACT 2.1 to 2.3):
 /// the age answer (`PUT /api/me/consent`, only when the account has no age band yet), the subjects (`PATCH /api/users/{id}`,
-/// only `{subjects}`), the study days (`PUT /api/me/goal`) and the study time
-/// (`PUT /api/me/notification-prefs`, `studyWindow`). Course, colleges, category, confidence,
+/// only `{subjects}`), then each subject's option (`PUT /api/me/subject-options`, LK94), the study days (`PUT /api/me/goal`)
+/// and the study time (`PUT /api/me/notification-prefs`, `studyWindow`). Course, colleges, category, confidence,
 /// worry and minutes have no endpoint and stay on the phone.
 ///
 /// A sheet belongs to one account ([OnboardingAnswers.owner]): the first account that signs in
@@ -230,9 +232,12 @@ class SheetSync extends Notifier<SheetSyncState> {
           _settle(userId, const SheetSyncState(SheetSyncPhase.kept));
           return;
         }
-        // The answers just given win over the account's older ones; its subjects and consent stay.
+        // The answers just given win over the account's older ones; its subjects and consent stay. The options just
+        // answered are its newest word on those subjects too (and a new account's run that failed after its subjects
+        // lands here on the retry, so its options still go).
         await _writeWeek(userId, answers, hadPlan: true);
         await _putCollegesFirst(userId, answers);
+        await _writeOptions(userId, answers);
         _stillSignedInAs(userId);
         ref.read(onboardingAnswersProvider.notifier).markSynced(userId);
         _stopRetrying();
@@ -362,6 +367,34 @@ class SheetSync extends Notifier<SheetSyncState> {
     if (subjects.isNotEmpty) {
       _stillSignedInAs(userId);
       await ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'subjects': subjects}, expectUserId: userId);
+    }
+    await _writeOptions(userId, a);
+  }
+
+  /// The option each subject on the sheet was answered with (LK94: Maths and Computer Science B1 or B2, Accountancy AFS or
+  /// CAS), after the subjects, one `PUT /api/me/subject-options` each, so Learn opens on that option's chapters. Key cards
+  /// switched off on the server (404 KEY_CARDS_OFF) leave nowhere to keep them: nothing more is sent, and the rest of the
+  /// sheet still counts as saved. An option the server does not take (422) is skipped, never retried for ever; any other
+  /// failure fails this run like every other write, and the retry sends it again.
+  Future<void> _writeOptions(String userId, OnboardingAnswers a) async {
+    var wrote = false;
+    try {
+      for (final s in a.subjects) {
+        final option = a.options[s];
+        if (option == null) continue;
+        _stillSignedInAs(userId);
+        try {
+          await ref.read(apiClientProvider).put(KeyCardsPaths.subjectOptions, body: {'subject': s.id, 'option': option}, expectUserId: userId);
+          wrote = true;
+        } on ApiError catch (e) {
+          if (keyCardsError(e) is KeyCardsOff) return;
+          if (e.kind == ApiErrorKind.validation) continue;
+          rethrow;
+        }
+      }
+    } finally {
+      // A Key cards read kept from before (Learn's options, You > Subjects) is read again with the options in it.
+      if (wrote && ref.mounted) ref.invalidate(keyCardsHomeProvider);
     }
   }
 

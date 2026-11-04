@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/domain/subject_options.dart' show normalizeSubjectOption;
 import '../../../core/repositories/student_actions.dart' show onboardedThisRunProvider;
 import '../data/eligibility.dart';
 import '../data/subjects.dart';
@@ -209,6 +210,14 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     final a = _current;
     final list = a.subjects.contains(s) ? a.subjects : [...a.subjects, s];
     _set(a.copyWith(subjects: list, confidence: {...a.confidence, s: c}).mark(Steps.subjects));
+  }
+
+  /// The option [s] is answered with (LK94): one of its choices, else nothing changes.
+  void setOption(SheetSubject s, String option) {
+    final o = normalizeSubjectOption(s.id, option);
+    if (o == null) return;
+    final a = _current;
+    _set(a.copyWith(options: {...a.options, s: o}));
   }
 
   /// Makes sure the pre-ticked subjects are on the sheet when the subjects step opens.

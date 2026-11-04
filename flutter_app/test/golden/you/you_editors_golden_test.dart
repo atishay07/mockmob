@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
+import 'package:mockmob/features/keycards/data/keycards_providers.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart' show Confidence;
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/you/account/account_screen.dart';
@@ -14,6 +16,7 @@ import 'package:mockmob/features/you/sheet/sheet_editor_screen.dart';
 import 'package:mockmob/features/you/subjects/subjects_screen.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../unit/keycards/support/keycards_fakes.dart';
 import '../../unit/you/you_test_support.dart';
 import 'you_golden_kit.dart';
 
@@ -111,6 +114,24 @@ void main() {
       await tester.pump();
       await tester.pump();
       await tester.pump(const Duration(seconds: 2));
+    },
+  );
+
+  // LK94: a subject whose paper has a choice asks it under its row. Accountancy holds Computerised Accounting (saved, from Key
+  // cards); Mathematics was just added, its default B1 ticked until Save.
+  sheetGolden(
+    'subjects_options',
+    () => const SubjectsScreen(),
+    size: const Size(384, 1800),
+    overrides: () => [
+      ...youOverrides(target: fullTarget, api: _patchApi()),
+      keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi()..options['accountancy'] = 'CAS'),
+    ],
+    interact: (tester) async {
+      await tester.pump(const Duration(milliseconds: 300));
+      await _tapText(tester, 'Mathematics');
+      await tester.pump(const Duration(seconds: 1));
     },
   );
 

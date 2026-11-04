@@ -583,7 +583,8 @@ class _NodePainter extends CustomPainter {
 // ----------------------------------------------------------------------------------------------------- the part switch
 
 /// "Part 2 has two options. Pick the one your school teaches.": one line, the pills under it, then the hint line (which option shows
-/// until one is picked, "Saving your choice", or the failure). The hint keeps its place, so saving, failing and the plain hint
+/// until one is picked, "Saving your choice", or the failure). Once a choice is drawn the line says which ("Part 2 has two
+/// options. Yours is Analysis of Financial Statements."), so a part chosen at the onboarding reads as settled, not pending. The hint keeps its place, so saving, failing and the plain hint
 /// never move what is below it. The chosen pill is filled (ink) with a check, so the choice reads without colour alone.
 class _PartSwitch extends StatelessWidget {
   const _PartSwitch({super.key, required this.part, required this.at, required this.option, required this.choice, required this.status, required this.onChoose});
@@ -611,7 +612,8 @@ class _PartSwitch extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            HomeModel.optionLine(part, at),
+            // Asks while nothing is chosen; says which once one is (LK94).
+            HomeModel.chosenOptionLine(part, choice, at),
             key: ValueKey('lh-option-line-${part.id}'),
             style: type.label.copyWith(fontSize: 13.5, height: 1.3, fontWeight: FontWeight.w600, color: colors.ink3),
           ),

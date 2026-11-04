@@ -1,0 +1,628 @@
+{
+ "web": "wt-1102-web 4b5f67e34",
+ "note": "Written by tool/learn2_parity/subject_options.mjs from the web's own data/cuet_syllabus.js. Do not edit by hand.",
+ "options": {
+  "mathematics": {
+   "label": "Section",
+   "choices": [
+    {
+     "id": "B1",
+     "label": "B1 Mathematics"
+    },
+    {
+     "id": "B2",
+     "label": "B2 Applied Mathematics"
+    }
+   ],
+   "default": "B1"
+  },
+  "computer_science": {
+   "label": "Section",
+   "choices": [
+    {
+     "id": "B1",
+     "label": "B1 Computer Science"
+    },
+    {
+     "id": "B2",
+     "label": "B2 Informatics Practices"
+    }
+   ],
+   "default": "B1"
+  },
+  "accountancy": {
+   "label": "Part",
+   "choices": [
+    {
+     "id": "AFS",
+     "label": "Analysis of Financial Statements"
+    },
+    {
+     "id": "CAS",
+     "label": "Computerised Accounting"
+    }
+   ],
+   "default": "AFS"
+  }
+ },
+ "defaults": [
+  {
+   "subject": "mathematics",
+   "out": "B1"
+  },
+  {
+   "subject": "computer_science",
+   "out": "B1"
+  },
+  {
+   "subject": "accountancy",
+   "out": "AFS"
+  },
+  {
+   "subject": "economics",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "out": "AFS"
+  },
+  {
+   "subject": "Accountancy",
+   "out": null
+  },
+  {
+   "subject": "",
+   "out": null
+  },
+  {
+   "subject": null,
+   "out": null
+  }
+ ],
+ "normalize": [
+  {
+   "subject": "mathematics",
+   "option": "B1",
+   "out": "B1"
+  },
+  {
+   "subject": "mathematics",
+   "option": "B2",
+   "out": "B2"
+  },
+  {
+   "subject": "mathematics",
+   "option": "b2",
+   "out": "B2"
+  },
+  {
+   "subject": "mathematics",
+   "option": " B1 ",
+   "out": "B1"
+  },
+  {
+   "subject": "mathematics",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "mathematics",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "B1",
+   "out": "B1"
+  },
+  {
+   "subject": "computer_science",
+   "option": "B2",
+   "out": "B2"
+  },
+  {
+   "subject": "computer_science",
+   "option": "b2",
+   "out": "B2"
+  },
+  {
+   "subject": "computer_science",
+   "option": " B1 ",
+   "out": "B1"
+  },
+  {
+   "subject": "computer_science",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "computer_science",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "AFS",
+   "out": "AFS"
+  },
+  {
+   "subject": "accountancy",
+   "option": "cas",
+   "out": "CAS"
+  },
+  {
+   "subject": "accountancy",
+   "option": "CAS",
+   "out": "CAS"
+  },
+  {
+   "subject": "accountancy",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "accountancy",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "economics",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "english",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "AFS",
+   "out": "AFS"
+  },
+  {
+   "subject": " accountancy ",
+   "option": "cas",
+   "out": "CAS"
+  },
+  {
+   "subject": " accountancy ",
+   "option": "CAS",
+   "out": "CAS"
+  },
+  {
+   "subject": " accountancy ",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": " accountancy ",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "Accountancy",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": "",
+   "option": null,
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "B1",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "B2",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "b2",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": " B1 ",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "AFS",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "cas",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "CAS",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "A1",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "A",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "B3",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": "",
+   "out": null
+  },
+  {
+   "subject": null,
+   "option": null,
+   "out": null
+  }
+ ]
+}

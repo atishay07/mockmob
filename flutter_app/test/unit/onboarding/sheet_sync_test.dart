@@ -683,6 +683,102 @@ void main() {
       expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.idle);
     });
   });
+
+  // LK94 (5 Nov): the option each subject was answered with goes to the account after the subjects.
+  group('subject options', () {
+    final withOptions = _sealed.copyWith(options: const {SheetSubject.accountancy: 'CAS', SheetSubject.mathematics: 'B1'});
+
+    test('a new account: each option goes after the subjects, one PUT each, and only then is it saved', () async {
+      final c = start(answers: withOptions);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      final order = [for (final r in writes()) '${r.method} ${r.path}'];
+      final options = [for (final r in writes()) if (r.path == '/api/me/subject-options') jsonDecode(jsonEncode(r.body))];
+      expect(options, [
+        {'subject': 'accountancy', 'option': 'CAS'},
+        {'subject': 'mathematics', 'option': 'B1'},
+      ], reason: 'in the order of the sheet');
+      expect(order.indexOf('PUT /api/me/subject-options'), greaterThan(order.indexOf('PATCH /api/users/u1')), reason: 'after the subjects: $order');
+    });
+
+    test('a sheet with no options answered writes none (Learn asks there)', () async {
+      final c = start();
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      expect(writes().where((r) => r.path == '/api/me/subject-options'), isEmpty);
+    });
+
+    test('an option for a subject no longer on the sheet is not written', () async {
+      final c = start(answers: withOptions.copyWith(options: const {SheetSubject.computerScience: 'B2', SheetSubject.accountancy: 'AFS'}));
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect([for (final r in writes()) if (r.path == '/api/me/subject-options') jsonDecode(jsonEncode(r.body))], [
+        {'subject': 'accountancy', 'option': 'AFS'},
+      ]);
+    });
+
+    test('Key cards switched off on the server: nothing more is sent, and the sheet still counts as saved', () async {
+      final c = start(answers: withOptions);
+      final base = http.handler!;
+      http.handler = (o) => o.path == '/api/me/subject-options' ? const FakeReply(404, {'error': 'KEY_CARDS_OFF'}) : base(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      expect(writes().where((r) => r.path == '/api/me/subject-options'), hasLength(1), reason: 'the first answer says they are off');
+    });
+
+    test('an option the server does not take is skipped, never retried for ever; the others still go', () async {
+      final c = start(answers: withOptions);
+      final base = http.handler!;
+      http.handler = (o) => o.path == '/api/me/subject-options' && (o.data as Map)['subject'] == 'accountancy'
+          ? const FakeReply(422, {'error': 'OPTION_NOT_FOUND'})
+          : base(o);
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+      expect(writes().where((r) => r.path == '/api/me/subject-options'), hasLength(2));
+    });
+
+    test('a failed option fails the run; the retry (the account now has subjects) sends it again and saves', () async {
+      final c = start(answers: withOptions, retryDelays: const [Duration(milliseconds: 5)]);
+      var down = true;
+      var subjects = <String>[];
+      final base = http.handler!;
+      http.handler = (o) {
+        if (o.path == '/api/users/u1' && o.method == 'PATCH') subjects = [for (final s in (o.data as Map)['subjects'] as List) s as String];
+        if (o.path == '/api/auth/me') {
+          return FakeReply(200, {
+            'user': {'id': 'u1', 'subjects': subjects},
+            'needsOnboarding': false,
+          });
+        }
+        if (o.path == '/api/me/subject-options' && down) return const FakeReply(503, {'error': 'unavailable'});
+        return base(o);
+      };
+      await c.read(onboardingAnswersProvider.future);
+      c.read(sheetSyncProvider);
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed, reason: 'never saved before every write is acknowledged');
+      down = false;
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      await settle();
+      expect(c.read(sheetSyncProvider).phase, isIn([SheetSyncPhase.saved, SheetSyncPhase.updated]));
+      final sent = [for (final r in writes()) if (r.path == '/api/me/subject-options') jsonDecode(jsonEncode(r.body))];
+      expect(sent.where((b) => (b as Map)['subject'] == 'mathematics'), isNotEmpty, reason: 'the retry sent the options again: $sent');
+    });
+
+    test('the answers keep their options on the phone and read back the same', () {
+      final back = OnboardingAnswers.fromJson(jsonDecode(jsonEncode(withOptions.toJson())) as Map<String, Object?>);
+      expect(back.options, {SheetSubject.accountancy: 'CAS', SheetSubject.mathematics: 'B1'});
+    });
+  });
 }
 
 extension on AuthSnapshot {

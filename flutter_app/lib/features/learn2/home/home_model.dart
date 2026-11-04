@@ -118,11 +118,24 @@ abstract final class HomeModel {
   static const List<String> _numberWord = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
 
   /// "Part 2 has two options. Pick the one your school teaches." (one line above the option pills). [at] is the part's place (0-based).
-  static String optionLine(LearnPart? part, [int at = 0]) {
+  static String optionLine(LearnPart? part, [int at = 0]) => '${_hasOptions(part, at)} Pick the one your school teaches.';
+
+  /// "Part 2 has two options."
+  static String _hasOptions(LearnPart? part, int at) {
     final n = part?.option?.choices.length ?? 0;
     final m = RegExp(r'^Part\s+(\d+)', caseSensitive: false).firstMatch(part?.title ?? '');
     final number = m?.group(1) ?? '${at + 1}';
-    return 'Part $number has ${n < _numberWord.length ? _numberWord[n] : '$n'} options. Pick the one your school teaches.';
+    return 'Part $number has ${n < _numberWord.length ? _numberWord[n] : '$n'} options.';
+  }
+
+  /// The same line once a choice is drawn (saved, or just tapped and saving): it says which, plainly, so a part chosen at
+  /// the onboarding or in You never reads as waiting for a pick (owner, 5 Nov, LK94; the app's words): "Part 2 has two
+  /// options. Yours is Analysis of Financial Statements." The name is the choice's own label; with no choice, or one the
+  /// data does not name, it asks as [optionLine] does.
+  static String chosenOptionLine(LearnPart? part, String? choice, [int at = 0]) {
+    final label = choice == null || choice.isEmpty ? null : part?.option?.choices.where((c) => c.id == choice).firstOrNull?.label;
+    if (label == null || label.isEmpty) return optionLine(part, at);
+    return '${_hasOptions(part, at)} Yours is $label.';
   }
 
   /// The one line when the picked option has no chapters with cards at all.

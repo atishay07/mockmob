@@ -30,6 +30,22 @@ abstract final class EditCopy {
   static const subjectsOffline = 'You are offline. Your subjects were not changed. Try again when you are connected.';
   static const subjectsRejected = 'That set was not accepted. Choose up to five listed subjects.';
   static const subjectsFailed = 'We could not save your subjects. Nothing was changed. Try again.';
+  /// Only a subject's option changed (LK94): what Learn shows now.
+  static String optionsSaved(DateTime at, List<String> labels) => 'Saved at ${formatTime12(at)}. Learn now shows ${_and(labels)}.';
+
+  /// An option did not save. [subjectsSaved] says the subjects just went through before it.
+  static String optionsFailed(List<String> subjects, {required bool subjectsSaved, bool offline = false}) {
+    final which = 'Your choice for ${_and(subjects)} did not save.';
+    if (subjectsSaved) return 'Your subjects are saved. ${which.replaceFirst('Your choice', 'The choice')} Try again.';
+    return offline ? '$which You are offline. Try again when you are connected.' : '$which Try again.';
+  }
+
+  static String _and(List<String> items) => switch (items.length) {
+        0 => '',
+        1 => items.first,
+        _ => '${items.sublist(0, items.length - 1).join(', ')} and ${items.last}',
+      };
+
   static const subjectsFallback =
       'We could not load the latest list, so this is the usual one. Your choice is checked when you save.';
   static const staleHeading = 'On your profile, but practice cannot open these';

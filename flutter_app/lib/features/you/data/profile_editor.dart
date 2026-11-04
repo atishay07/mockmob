@@ -8,6 +8,8 @@ import '../../../core/domain/cuet_rules.dart';
 // - `PATCH /api/users/{id}` with `{subjects}` (at most 5 registry ids) or `{name}` (1 to 80
 //   characters, trimmed). The server's `profilePatch` accepts nothing else. Then `GET
 //   /api/auth/me` through the auth controller, so Practice, Today and the quote re-read.
+// - `PUT /api/me/subject-options` `{subject, option}` for each subject whose paper has a choice
+//   (LK94), after the subjects.
 // - `PUT /api/me/goal` for how many days a week, keeping any pause.
 // - `PUT /api/me/notification-prefs` for the study window.
 // - `PUT /api/study/preferences` for the usual length, when study preferences are open.
@@ -22,6 +24,8 @@ import '../../onboarding/data/subjects.dart' show SheetSubject;
 import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/model/choices.dart' show StudyTime;
 import '../../onboarding/model/deck.dart' show Steps;
+import '../../keycards/data/keycards_api.dart' show KeyCardsOff, KeyCardsPaths, keyCardsError;
+import '../../keycards/data/keycards_providers.dart' show keyCardsHomeProvider;
 import '../../onboarding/state/answers_controller.dart';
 import 'goal_pause.dart';
 import 'student_target.dart' show daysForCount;
@@ -75,6 +79,37 @@ class ProfileEditor {
     _mirrorSubjects(saved);
     await _reloadProfile();
     return saved;
+  }
+
+  /// Saves each subject's option (LK94), `{subject: option}`, one `PUT /api/me/subject-options` each, in order. Returns
+  /// the options the server took. Key cards switched off on the server (404 KEY_CARDS_OFF) leave nowhere to keep them: the
+  /// rest are not sent and those come back unsaved. Any other failure reaches the screen as the ApiError, the ones saved
+  /// before it kept. The phone's sheet keeps what was saved, and the Key cards read is taken again.
+  Future<Map<String, String>> saveSubjectOptions(Map<String, String> picks) async {
+    final userId = _userId();
+    final saved = <String, String>{};
+    try {
+      for (final MapEntry(key: subject, value: option) in picks.entries) {
+        try {
+          final response = await _ref
+              .read(apiClientProvider)
+              .put(KeyCardsPaths.subjectOptions, body: {'subject': subject, 'option': option}, expectUserId: userId);
+          saved[subject] = asString(response.map['option']) ?? option;
+        } on ApiError catch (e) {
+          if (keyCardsError(e) is KeyCardsOff) return saved;
+          rethrow;
+        }
+      }
+      return saved;
+    } finally {
+      if (saved.isNotEmpty) {
+        _editAnswers((a) => a.copyWith(options: {
+              ...a.options,
+              for (final e in saved.entries) ?SheetSubject.byId(e.key): e.value,
+            }));
+        _ref.invalidate(keyCardsHomeProvider);
+      }
+    }
   }
 
   /// Saves the display name. Returns the stored name.

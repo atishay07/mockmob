@@ -40,7 +40,9 @@ const List<SheetSubject> kQuickSubjects = [
 /// subject" leads, then up to three common sets that tick in one tap; with a course, only what
 /// every one of its Bulletin combinations names starts ticked, marked "Needed for" it. Chosen rows
 /// reorder weakest first as the student rates them; once there is one, the common single picks
-/// follow. The eligibility line for the chosen course updates live.
+/// follow. The eligibility line for the chosen course updates live. A chosen subject whose paper
+/// has a choice (Maths, Computer Science, Accountancy) asks it under its ratings (LK94); Next keeps
+/// the ticked one, default or picked, for the account.
 class SubjectsStep extends ConsumerStatefulWidget {
   const SubjectsStep({super.key, required this.answers, required this.onNext});
 
@@ -169,6 +171,9 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
           note: course != null && needed.contains(s) ? ChoicesCopy.neededFor(course.short) : null,
           onToggle: () => setState(() => _capped = !c.toggleSubject(s)),
           onConfidence: (v) => c.setConfidence(s, v),
+          // A subject whose paper has a choice asks it here (LK94); the default is ticked until the student picks.
+          option: a.optionFor(s),
+          onOption: (o) => c.setOption(s, o),
         ),
       ),
     );
@@ -263,7 +268,8 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
         onPressed: a.subjects.isEmpty
             ? null
             : () {
-                c.edit((x) => x.mark(Steps.subjects));
+                // The options drawn ticked are kept as answers: the default the student saw is what is saved.
+                c.edit((x) => x.withShownOptions().mark(Steps.subjects));
                 widget.onNext();
               },
       ),

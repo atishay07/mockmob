@@ -4,10 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
+import '../../../core/domain/subject_options.dart';
 import '../../../core/motion/motion.dart' show MmShake, MmShakeState;
 import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../keycards/data/keycards_models.dart' show KcHome;
+import '../../keycards/data/keycards_providers.dart' show keyCardsHomeProvider;
+import '../../onboarding/widgets/subject_option_picker.dart';
 import '../copy.dart';
 import '../data/profile_editor.dart';
 import '../data/student_target.dart';
@@ -22,6 +26,12 @@ import 'subject_rows.dart';
 /// can open, grouped, up to five. Saved subjects practice cannot open are listed with the
 /// server's reason and a Remove key. Save writes `PATCH /api/users/{id}` and says "saved" only
 /// after the server answered; a failure keeps the choices on screen.
+///
+/// A chosen subject whose paper has a choice (Maths, Computer Science, Accountancy: LK94) asks it
+/// under its row, as the onboarding does: the saved one ticked (read from Key cards, which keep it),
+/// a subject just added with its default ticked, a held subject with nothing saved with neither.
+/// The choice is asked only where it can be kept and its saved state is known (Key cards on and
+/// read). Save writes the subjects, then each changed option (`PUT /api/me/subject-options`).
 class SubjectsScreen extends ConsumerStatefulWidget {
   const SubjectsScreen({super.key});
 
@@ -51,6 +61,15 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   /// the second refusal on, so the shake is called, not triggered by a rebuild).
   final GlobalKey<MmShakeState> _shake = GlobalKey<MmShakeState>();
   DateTime? _savedAt;
+
+  /// What the receipt says after a save: the subjects' line, or only what Learn now shows.
+  String? _receipt;
+
+  /// The options the student tapped here (subject id to option id), not saved yet.
+  final Map<String, String> _picks = {};
+
+  /// Options this screen saved, until the Key cards read that holds them is back.
+  final Map<String, String> _optionsSaved = {};
   final MobiController _mobi = MobiController();
 
   @override
@@ -69,10 +88,60 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
 
   bool get _baselineKnown => _saved != null;
 
-  bool get _changed {
+  bool get _subjectsChanged {
     final saved = _saved;
     if (saved == null) return false;
     return _chosen.length != saved.length || _chosen.toSet().difference(saved.toSet()).isNotEmpty;
+  }
+
+  bool get _changed => _subjectsChanged || (_saved != null && _optionWrites(_home).isNotEmpty);
+
+  /// The Key cards read when it can say what is saved: loaded and on. Null while it loads, failed or is off.
+  KcHome? get _home {
+    final home = ref.read(keyCardsHomeProvider).value?.value;
+    return home != null && home.enabled ? home : null;
+  }
+
+  /// The option the account holds for [id] (this screen's own save first), or null when none is saved or it is not known.
+  String? _savedOption(KcHome home, String id) {
+    final own = _optionsSaved[id];
+    if (own != null) return own;
+    for (final s in home.subjects) {
+      if (s.subject == id) return normalizeSubjectOption(id, s.option);
+    }
+    return null;
+  }
+
+  /// The option drawn ticked for a chosen [id]: the one tapped here, else the saved one; a subject just added starts on its
+  /// default, a held one with nothing saved ticks neither (nothing is shown as saved that is not).
+  String? _shownOption(KcHome home, String id) {
+    final picked = _picks[id];
+    if (picked != null) return picked;
+    final saved = _savedOption(home, id);
+    if (saved != null) return saved;
+    final held = _saved?.contains(id) ?? true;
+    return held ? null : defaultSubjectOption(id);
+  }
+
+  /// The options Save writes: each chosen subject with options whose ticked option is not the one saved.
+  Map<String, String> _optionWrites(KcHome? home) {
+    if (home == null) return const {};
+    final out = <String, String>{};
+    for (final id in _chosen) {
+      if (subjectOptionsFor(id) == null) continue;
+      final shown = _shownOption(home, id);
+      if (shown != null && shown != _savedOption(home, id)) out[id] = shown;
+    }
+    return out;
+  }
+
+  void _pick(String id, String option) {
+    setState(() {
+      _touched = true;
+      _error = null;
+      _savedAt = null;
+      _picks[id] = option;
+    });
   }
 
   /// The profile arrived (or changed) while the screen was open.
@@ -93,6 +162,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
       _savedAt = null;
       if (_chosen.remove(id)) {
         _cap = null;
+        _picks.remove(id);
         return;
       }
       if (_chosen.length >= kMaxProfileSubjects) {
@@ -111,21 +181,47 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   }
 
   Future<void> _save() async {
+    final subjectsChanged = _subjectsChanged;
+    // Taken before the save: a subject just added keeps the default it showed.
+    final writes = _optionWrites(_home);
     setState(() {
+      // Held as picks until the server takes them, so a failure keeps them ticked (and Save on).
+      _picks.addAll(writes);
       _saving = true;
       _error = null;
       _cap = null;
       _savedAt = null;
     });
+    final editor = ref.read(profileEditorProvider);
+    var subjectsSaved = false;
     try {
-      final stored = await ref.read(profileEditorProvider).saveSubjects([..._chosen]);
+      if (subjectsChanged) {
+        final stored = await editor.saveSubjects([..._chosen]);
+        subjectsSaved = true;
+        if (!mounted) return;
+        // The subjects are the account's now, whatever the options do next.
+        setState(() {
+          _saved = [...stored];
+          _chosen = [...stored];
+        });
+      }
+      final options = {
+        for (final e in writes.entries)
+          if (_chosen.contains(e.key)) e.key: e.value,
+      };
+      final took = options.isEmpty ? const <String, String>{} : await editor.saveSubjectOptions(options);
       if (!mounted) return;
       setState(() {
         _saving = false;
-        _saved = [...stored];
-        _chosen = [...stored];
         _touched = false;
-        _savedAt = ref.read(nowProvider)();
+        _optionsSaved.addAll(took);
+        for (final id in took.keys) {
+          _picks.remove(id);
+        }
+        final at = _savedAt = ref.read(nowProvider)();
+        _receipt = subjectsChanged
+            ? EditCopy.subjectsSaved(at, _chosen.length)
+            : EditCopy.optionsSaved(at, [for (final e in took.entries) subjectOptionsFor(e.key)?.choice(e.value)?.label ?? e.value]);
       });
       ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.account);
       // Only after the server stored them: Mobi is proud (a nod under Quiet, nothing under Off).
@@ -135,11 +231,16 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
       if (!mounted) return;
       setState(() {
         _saving = false;
-        _error = e.isOffline
-            ? EditCopy.subjectsOffline
-            : e.kind == ApiErrorKind.validation
-                ? EditCopy.subjectsRejected
-                : EditCopy.subjectsFailed;
+        if (subjectsSaved || !subjectsChanged) {
+          // The subjects went through (or were not changed): an option is what did not.
+          _error = EditCopy.optionsFailed([for (final id in writes.keys) subjectDisplayName(id)], subjectsSaved: subjectsSaved, offline: e.isOffline);
+        } else {
+          _error = e.isOffline
+              ? EditCopy.subjectsOffline
+              : e.kind == ApiErrorKind.validation
+                  ? EditCopy.subjectsRejected
+                  : EditCopy.subjectsFailed;
+        }
       });
     }
   }
@@ -171,6 +272,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(authSnapshotProvider, _onProfile);
+    // The Key cards read holds each subject's saved option; the choice under a row waits for it.
+    ref.watch(keyCardsHomeProvider);
+    final home = _home;
     final catalog = ref.watch(youSubjectCatalogProvider);
     final loaded = catalog.value;
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
@@ -201,7 +305,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             const SizedBox(height: MmSpace.s12),
           ],
           if (_savedAt != null) ...[
-            ReceiptLine(text: EditCopy.subjectsSaved(_savedAt!, _chosen.length)),
+            ReceiptLine(text: _receipt ?? EditCopy.subjectsSaved(_savedAt!, _chosen.length)),
             const SizedBox(height: MmSpace.s12),
           ],
           KeyButton(
@@ -261,11 +365,15 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
                 inset: 40 + MmSpace.s12,
                 children: [
                   for (final o in loaded.inGroup(group))
-                    SubjectChoiceRow(
-                      id: o.id,
-                      name: o.name,
-                      chosen: _chosen.contains(o.id),
-                      onTap: _saving ? null : () => _toggle(o.id),
+                    _withOption(
+                      home,
+                      o,
+                      SubjectChoiceRow(
+                        id: o.id,
+                        name: o.name,
+                        chosen: _chosen.contains(o.id),
+                        onTap: _saving ? null : () => _toggle(o.id),
+                      ),
                     ),
                 ],
               ),
@@ -273,6 +381,32 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
         ],
       ],
     ));
+  }
+
+  /// A chosen subject with options carries its choice under the row (LK94), in the row's own space: the picker lines up
+  /// with the name, past the 40 dp object. The row's height eases as it opens and closes.
+  Widget _withOption(KcHome? home, SubjectOption o, Widget row) {
+    final set = subjectOptionsFor(o.id);
+    if (set == null) return row;
+    return YouSizeEase(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          row,
+          if (home != null && _chosen.contains(o.id))
+            Padding(
+              padding: const EdgeInsets.only(left: 40 + MmSpace.s12),
+              child: SubjectOptionPicker(
+                options: set,
+                subjectName: o.name,
+                value: _shownOption(home, o.id),
+                onChanged: _saving ? null : (option) => _pick(o.id, option),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   /// Chosen subjects practice cannot open (retired, not offered, or unknown to the registry).

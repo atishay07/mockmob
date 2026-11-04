@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../../core/domain/subject_options.dart' show normalizeSubjectOption, subjectOptionsFor;
 import '../../../core/models/my_colleges.dart' show MyColleges;
 import '../data/du_catalog.dart';
 import '../data/subjects.dart';
@@ -69,6 +70,7 @@ class OnboardingAnswers {
     this.subjects = const [],
     this.subjectsTouched = false,
     this.confidence = const {},
+    this.options = const {},
     this.worries = const [],
     this.warmup,
     this.minutes = 20,
@@ -113,6 +115,11 @@ class OnboardingAnswers {
   /// False until the student changes the pre-ticked set, so the set can follow the course.
   final bool subjectsTouched;
   final Map<SheetSubject, Confidence> confidence;
+
+  /// The option each subject with one was answered with (LK94): Mathematics and Computer Science "B1" or "B2", Accountancy
+  /// "AFS" or "CAS" (`lib/core/domain/subject_options.dart`). Written to the account after the subjects
+  /// (`PUT /api/me/subject-options`); a subject with no entry was never asked, and Learn asks it there.
+  final Map<SheetSubject, String> options;
 
   /// Where the marks go: up to [kMaxWorries] picks in the order they were made (owner, 18 Oct,
   /// D45). The first is the primary: it decides the first move; the plan uses them all.
@@ -184,6 +191,7 @@ class OnboardingAnswers {
     List<SheetSubject>? subjects,
     bool? subjectsTouched,
     Map<SheetSubject, Confidence>? confidence,
+    Map<SheetSubject, String>? options,
     Worry? worry,
     List<Worry>? worries,
     Object? warmup = _keep,
@@ -211,6 +219,7 @@ class OnboardingAnswers {
       subjects: subjects ?? this.subjects,
       subjectsTouched: subjectsTouched ?? this.subjectsTouched,
       confidence: confidence ?? this.confidence,
+      options: options ?? this.options,
       // [worry] makes that one the primary and keeps the other picks (the You editor sets one).
       worries: worries?.take(kMaxWorries).toList() ??
           (worry == null ? this.worries : [worry, ...this.worries.where((w) => w != worry)].take(kMaxWorries).toList()),
@@ -231,6 +240,20 @@ class OnboardingAnswers {
     );
   }
 
+  /// The option drawn ticked for [s]: the one answered, else its default; null for a subject without options.
+  String? optionFor(SheetSubject s) => options[s] ?? subjectOptionsFor(s.id)?.defaultId;
+
+  /// The options the subjects step showed, kept as answers: every chosen subject with options gets the one drawn ticked
+  /// (its default when the student left it). Called as the student moves on, so the default they saw is what is saved.
+  OnboardingAnswers withShownOptions() {
+    final next = {...options};
+    for (final s in subjects) {
+      final o = optionFor(s);
+      if (o != null) next[s] = o;
+    }
+    return copyWith(options: next);
+  }
+
   /// Marks [step] answered (and no longer skipped).
   OnboardingAnswers mark(String step) => copyWith(done: {...done, step}, skipped: {...skipped}..remove(step));
 
@@ -248,6 +271,7 @@ class OnboardingAnswers {
         'subjects': [for (final s in subjects) s.id],
         'subjectsTouched': subjectsTouched,
         'confidence': {for (final e in confidence.entries) e.key.id: e.value.name},
+        'options': {for (final e in options.entries) e.key.id: e.value},
         // The primary under its old key, so a sheet stays readable by a build from before D45.
         'worry': worry?.name,
         'worries': [for (final w in worries) w.name],
@@ -284,6 +308,15 @@ class OnboardingAnswers {
         if (s != null && c != null) confidence[s] = c;
       }
     }
+    final options = <SheetSubject, String>{};
+    final rawOptions = j['options'];
+    if (rawOptions is Map) {
+      for (final e in rawOptions.entries) {
+        final s = SheetSubject.byId(e.key as String?);
+        final o = s == null ? null : normalizeSubjectOption(s.id, e.value is String ? e.value as String : null);
+        if (s != null && o != null) options[s] = o;
+      }
+    }
     final days = j['days'] is List ? {for (final d in j['days']! as List) if (d is int && d >= 0 && d < 7) d} : null;
     final syncedFor = j['syncedFor'] is String ? j['syncedFor']! as String : null;
     final category = j['category'] is String && DuCatalog.categories.contains(j['category']) ? j['category']! as String : null;
@@ -299,6 +332,7 @@ class OnboardingAnswers {
       subjects: [for (final id in strings(j['subjects'])) ?SheetSubject.byId(id)],
       subjectsTouched: j['subjectsTouched'] == true,
       confidence: confidence,
+      options: options,
       worries: _worries(j),
       warmup: WarmupResult.fromJson(j['warmup']),
       minutes: parseGoalMinutes(minutes) ?? 20,

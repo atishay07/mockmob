@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
+import '../../../core/domain/subject_options.dart' show subjectOptionsFor;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -9,9 +10,12 @@ import '../../../core/widgets/widgets.dart';
 import '../data/subjects.dart';
 import 'choice_tile.dart';
 import 'confidence_bubbles.dart';
+import 'subject_option_picker.dart';
 
 /// One subject on the subjects step: its object, its name, and the answer-sheet bubble that
-/// inks when it is on the sheet; once included, Shaky, Okay or Strong opens beneath.
+/// inks when it is on the sheet; once included, Shaky, Okay or Strong opens beneath, and a subject
+/// whose paper has a choice (Maths, Computer Science, Accountancy: LK94) asks it right there, under
+/// the ratings, its default ticked ([SubjectOptionPicker]).
 class SubjectRow extends ConsumerWidget {
   const SubjectRow({
     super.key,
@@ -22,6 +26,8 @@ class SubjectRow extends ConsumerWidget {
     required this.onConfidence,
     this.note,
     this.pulseShaky = false,
+    this.option,
+    this.onOption,
   });
 
   /// The Shaky bubble pulses once (the first set tap of a sheet with no rating yet).
@@ -35,6 +41,12 @@ class SubjectRow extends ConsumerWidget {
   final Confidence? confidence;
   final VoidCallback onToggle;
   final ValueChanged<Confidence> onConfidence;
+
+  /// The option drawn ticked (the answered one, else the default), for a subject with options.
+  final String? option;
+
+  /// The student picked an option; null asks nothing.
+  final ValueChanged<String>? onOption;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -75,13 +87,21 @@ class SubjectRow extends ConsumerWidget {
                     ? Padding(
                         // Under the name (the 40 dp object and the 12 dp gap come first: E2).
                         padding: const EdgeInsets.only(left: EmblemSizes.chip + MmSpace.s12, bottom: MmSpace.s4),
-                        // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
-                        child: ConfidenceBubbles(
-                          subject: subject.label,
-                          value: confidence ?? Confidence.okay,
-                          rated: confidence != null,
-                          onChanged: onConfidence,
-                          pulse: pulseShaky ? Confidence.shaky : null,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
+                            ConfidenceBubbles(
+                              subject: subject.label,
+                              value: confidence ?? Confidence.okay,
+                              rated: confidence != null,
+                              onChanged: onConfidence,
+                              pulse: pulseShaky ? Confidence.shaky : null,
+                            ),
+                            if (subjectOptionsFor(subject.id) case final set? when onOption != null)
+                              SubjectOptionPicker(options: set, subjectName: subject.label, value: option ?? set.defaultId, onChanged: onOption),
+                          ],
                         ),
                       )
                     : const SizedBox(width: double.infinity),
