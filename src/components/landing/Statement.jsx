@@ -22,11 +22,15 @@ function StatementStage({ text, shelf, note }) {
   return (
     <div className="mm-wrap lp-statement__grid">
       <p className="lp-statement__text">
-        {words.map((word, i) => (
-          <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
-            {word.text}{i < words.length - 1 ? ' ' : ''}
-          </span>
-        ))}
+        {words.map((word, i) => {
+          // An accent word's trailing comma or stop stays ink: the green lands on the word alone (LK86).
+          const [, core, mark] = word.accent ? word.text.match(/^(.*?)([.,;:!?]*)$/) : [null, word.text, ''];
+          return (
+            <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
+              {core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}{i < words.length - 1 ? ' ' : ''}
+            </span>
+          );
+        })}
       </p>
       {/* data-ss-step: tabbing into the shelf brings the last step on (the objects arrive), like focus into any step. */}
       <div className="lp-shelf" data-ss-step={STATEMENT_STEPS - 1}>
