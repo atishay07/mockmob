@@ -35,7 +35,7 @@ function stillOnly() {
 
 export default function HeroTyped() {
   const slotRef = useRef(null);
-  // null: the server's resting text. Otherwise { text, typing, washing, caret: 'off' | 'on' | 'end' }; `typing` is true
+  // null: the server's resting text. Otherwise { text, typing, washing, caret: 'off' | 'in' | 'on' | 'end' }; `typing` is true
   // from the first clear on, when the text is drawn letter by letter (each new letter fades in).
   const [view, setView] = useState(null);
 
@@ -44,7 +44,17 @@ export default function HeroTyped() {
     const slot = slotRef.current;
     if (!slot) return undefined;
 
-    const plan = typingPlan();
+    // Only phrases that fit the copy column on one line are typed: the slot never shows a line cut by the screen edge
+    // or running under the desk. Measured once from the sizers when typing starts (one layout read, after the web
+    // fonts are in); the resting line is always the last. With the h1 sized for the widest phrase, every phrase fits.
+    let phrases = [REST];
+    let plan = [];
+    const measure = () => {
+      const column = slot.closest('h1')?.parentElement?.getBoundingClientRect().width || Infinity;
+      const widths = new Map([...slot.querySelectorAll('.lp-typed__sizer')].map((el) => [el.dataset.t, el.getBoundingClientRect().width]));
+      phrases = HERO_SLOT_PHRASES.filter((p) => p === REST || !(widths.get(p) > column + 1));
+      plan = typingPlan(phrases);
+    };
     let i = 0;
     let timer = 0;
     let due = 0; // performance.now() the next step is due at, while running
@@ -61,11 +71,11 @@ export default function HeroTyped() {
       timer = 0;
       const s = plan[i];
       if (!s) return;
-      if (s.kind === 'caret') show({ caret: 'on' });
+      if (s.kind === 'caret') show({ caret: 'in' });
       else if (s.kind === 'wash') show({ washing: true });
-      else if (s.kind === 'clear') show({ washing: false, typing: true, text: '' });
-      else if (s.kind === 'letter') show({ text: HERO_SLOT_PHRASES[s.phrase].slice(0, s.count) });
-      else if (s.kind === 'typed') window.dispatchEvent(new CustomEvent('mm:hero-typed', { detail: { index: s.phrase, final: s.final } }));
+      else if (s.kind === 'clear') show({ washing: false, typing: true, text: '', caret: 'on' });
+      else if (s.kind === 'letter') show({ text: phrases[s.phrase].slice(0, s.count) });
+      else if (s.kind === 'typed') window.dispatchEvent(new CustomEvent('mm:hero-typed', { detail: { index: HERO_SLOT_PHRASES.indexOf(phrases[s.phrase]), final: s.final } }));
       else if (s.kind === 'end') {
         // The resting line goes back to one plain text run, exactly the server's; the caret blinks twice and leaves.
         show({ caret: 'end', typing: false });
@@ -102,8 +112,15 @@ export default function HeroTyped() {
     const start = (wait) => {
       if (started) return;
       started = true;
-      left = Math.max(0, wait);
-      update();
+      const at = performance.now() + Math.max(0, wait);
+      const go = () => {
+        if (gone) return;
+        measure();
+        left = Math.max(0, at - performance.now());
+        update();
+      };
+      if (document.fonts?.ready) document.fonts.ready.then(go, go);
+      else go();
     };
     // Wait for the opening's hand-off when it is playing; otherwise 600 ms after paint.
     const opening = window.__mmOpening;
@@ -130,7 +147,9 @@ export default function HeroTyped() {
         <span className="lp-typed__live" data-wash={view?.washing ? '' : undefined}>
           {/* Inline letters (never inline-block), so the line keeps the font's kerning while it types. */}
           {view?.typing ? [...text].map((ch, n) => <span key={n} className="lp-typed__ch">{ch}</span>) : text}
-          {view && view.caret !== 'off' ? <span className={`lp-typed__caret lp-typed__caret--${view.caret}`} /> : null}
+          {/* A new caret node for every length, so it never moves as a laid-out box (no layout shift); only its first
+              appearance fades in ('in'). */}
+          {view && view.caret !== 'off' ? <span key={`c${text.length}`} className={`lp-typed__caret lp-typed__caret--${view.caret}`} /> : null}
         </span>
       </span>
     </span>

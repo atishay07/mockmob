@@ -79,7 +79,8 @@ test('HeroTyped: server text is the resting line, the slot is aria-hidden with a
   // Before the effect runs (server HTML, no JS) the live text is the plain resting line, no caret.
   assert.match(TYPED, /\{view\?\.typing \? \[\.\.\.text\]\.map[^\n]+ : text\}/);
   assert.match(TYPED, /const text = view \? view\.text : REST;/);
-  assert.match(TYPED, /view && view\.caret !== 'off' \? <span className=\{`lp-typed__caret/);
+  // A new caret node for each length: it never moves as a laid-out box, so typing makes no layout shift.
+  assert.match(TYPED, /view && view\.caret !== 'off' \? <span key=\{`c\$\{text\.length\}`\} className=\{`lp-typed__caret/);
   // The sizer is generated text, never DOM text: the h1's text stays the sentence.
   assert.match(rules(CSS), /\.lp-typed__sizer::before \{ content: attr\(data-t\); \}/);
   assert.match(rules(CSS), /\.lp-typed__sizer,\s*\.lp-typed__live \{\s*grid-area: 1 \/ 1;/);
@@ -90,6 +91,7 @@ test('HeroTyped: server text is the resting line, the slot is aria-hidden with a
 test('HeroTyped: no timer under reduced motion or for a signed-in student; pauses off screen and in a hidden tab', () => {
   const effect = TYPED.slice(TYPED.indexOf('useEffect(() => {'));
   const guard = effect.indexOf('if (stillOnly()) return undefined;');
+  assert.ok(effect.indexOf('setTimeout') > 0);
   assert.ok(guard > 0 && guard < effect.indexOf('setTimeout'), 'the reduced-motion and signed-in guard comes before any timer');
   assert.match(TYPED, /html\.getAttribute\('data-motion'\) === 'reduced' \|\| html\.hasAttribute\('data-signed-in'\)/);
   assert.match(TYPED, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
@@ -103,7 +105,16 @@ test('HeroTyped: no timer under reduced motion or for a signed-in student; pause
 });
 
 test('decision 5: a completed phrase tells Mobi (window mm:hero-typed { index, final })', () => {
-  assert.match(TYPED, /window\.dispatchEvent\(new CustomEvent\('mm:hero-typed', \{ detail: \{ index: s\.phrase, final: s\.final \} \}\)\)/);
+  assert.match(TYPED, /window\.dispatchEvent\(new CustomEvent\('mm:hero-typed', \{ detail: \{ index: HERO_SLOT_PHRASES\.indexOf\(phrases\[s\.phrase\]\), final: s\.final \} \}\)\)/);
+});
+
+test('HeroTyped never types a phrase that would not fit the column on one line; it always rests on the sentence', () => {
+  assert.match(TYPED, /phrases = HERO_SLOT_PHRASES\.filter\(\(p\) => p === REST \|\| !\(widths\.get\(p\) > column \+ 1\)\);/);
+  assert.match(TYPED, /plan = typingPlan\(phrases\);/);
+  assert.match(TYPED, /document\.fonts\.ready\.then\(go, go\)/, 'measured with the web fonts in');
+  assert.equal(HERO_SLOT_PHRASES.at(-1), HERO_LINES[2], 'the filter keeps the resting line last');
+  const fallback = typingPlan([HERO_LINES[2]]);
+  assert.deepEqual(fallback.filter((s) => s.kind === 'typed').map((s) => s.final), [true], 'with nothing else fitting it still selects back and retypes the sentence once');
 });
 
 test('the caret: a solid ink bar, never volt, never blinking while the text is static, never looping', () => {

@@ -245,8 +245,8 @@ html[data-motion='reduced'] .mo-open { display: none !important; }
   vertical-align: -0.02em;
   border-radius: 1px;
   background: currentColor;
-  animation: lp-caret-in 100ms linear both;
 }
+.lp-typed__caret--in { animation: lp-caret-in 100ms linear both; }
 @keyframes lp-caret-in { from { opacity: 0; } }
 /* After the final letter: 530 on, 530 off, 530 on, then out in 160 ms (1,750 ms; iteration count 1). */
 .lp-typed__caret--end { animation: lp-caret-end 1750ms linear forwards; }
