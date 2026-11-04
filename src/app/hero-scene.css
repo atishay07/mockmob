@@ -80,8 +80,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
 /* The link's own box is the 44 px target: padding grows it, a matching negative margin keeps the line. */
 .mm.lp .lp-hero .lp-cta__login a {
   display: inline-block;
-  padding: 12px 4px;
-  margin: -12px -4px;
+  padding: 12px 6px;
+  margin: -12px -6px;
   color: var(--ink);
   font-weight: 650;
   text-decoration: underline;
@@ -91,7 +91,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
   border-radius: 8px;
 }
 .mm.lp .lp-hero .lp-cta__login a:active { color: var(--ink-2); }
-.mm.lp .lp-hero .lp-cta__login a:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -6px; }
+.mm.lp .lp-hero .lp-cta__login a:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -4px; }
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-hero .lp-cta__login a:hover { text-decoration-color: var(--ink-3); }
 }
