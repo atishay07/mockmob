@@ -133,7 +133,7 @@ test('the morph: the app\'s timings (420 ms open on the grow curve, 280 ms close
 
 test('wired: the result\'s score rolls and stamps after the page settles; the Start sheet grows from its key, keeps focus', () => {
   const hero = read('src/components/result/ResultHero.jsx');
-  assert.match(hero, /<RollNumber value=\{value\} run=\{run\} settle onRoll=\{onRoll\} \/>/);
+  assert.match(hero, /<RollNumber value=\{value\} run=\{run\} settle ms=\{durations\.countUp\} onRoll=\{onRoll\} \/>/); // the owner's 720 ms result tempo (G31)
   assert.match(hero, /stampFigure\(\{ figure: figure\.current, ring: ring \? ringRef\.current : null, landsIn \}\)/);
   assert.match(hero, /run=\{arrive && celebrations !== 'off'\}/);
   assert.match(hero, /ring=\{celebrations === 'full' && !nta && earnsRing\(marks\)\}/);

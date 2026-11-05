@@ -31,7 +31,7 @@ function staticSlots(text) {
   return [...text].map((ch) => ({ ch }));
 }
 
-export default function RollNumber({ value, run = false, settle = false, delay = 0, onRoll, memoryKey = null, className = '' }) {
+export default function RollNumber({ value, run = false, settle = false, delay = 0, ms = null, onRoll, memoryKey = null, className = '' }) {
   const { reduced } = useMobiPrefs();
   const text = String(value ?? '');
   const [plan, setPlan] = useState(null);
@@ -57,10 +57,10 @@ export default function RollNumber({ value, run = false, settle = false, delay =
     }
     const { before } = shown.current;
     if (!run || reduced || typeof window === 'undefined' || before === text) { setPlan(null); setInk(null); return; }
-    const next = planRoll(text, { previous: before, delay });
+    const next = planRoll(text, { previous: before, delay, ...(ms ? { ms } : null) });
     setPlan(next.moves ? next : null);
     setInk(next.moves && key !== null && before !== null ? inkFor(numberDirection(before, text)) : null);
-  }, [text, run, reduced, delay, key]);
+  }, [text, run, reduced, delay, key, ms]);
 
   // Play it: after the page settles when asked, by transform only, then drop the columns.
   useIsoLayoutEffect(() => {

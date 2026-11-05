@@ -9,13 +9,14 @@ import { AlertTriangle } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCallback, useRef } from 'react';
 import RollNumber from '@/lib/motion/RollNumber';
+import { durations } from '@/lib/motion/tokens.g.js';
 import { stampFigure } from '@/lib/motion/stampFigure';
 import { earnsRing } from '@/lib/motion/stampPlan';
 import { heroAct } from './heroAct.mjs';
 
 // The score arrives as the app's finish does (owner LK95, 5 Nov: "how to build UI exactly like the app, animations"):
-// on the first open each digit rolls up into its own slot (RollNumber, the app's MonumentalNumber: 500 ms, left to
-// right, once the page has settled, so the page's arrival never swallows it, G31), and the figure is stamped as the
+// on the first open each digit rolls up into its own slot (RollNumber, the app's MonumentalNumber, left to right, at the owner's
+// 720 ms result tempo (G31, 19 Oct: a quicker roll felt rushed), once the page has settled, so the page's arrival never swallows it, G31), and the figure is stamped as the
 // last digit lands (stampFigure, the app's FinishCeremony: 1.12 to 1, 420 ms). A good set (70% right or more) with
 // Celebrations on Full also gets the one ink ring; never in NTA mode. Celebrations Off, reduced motion and a return
 // visit show the score at once.
@@ -28,7 +29,7 @@ function Score({ value, negative, tone, run, ring }) {
   return (
     <b data-tone={tone}>
       <span ref={figure} className="mk-figure">
-        {negative ? '−' : ''}<RollNumber value={value} run={run} settle onRoll={onRoll} />
+        {negative ? '−' : ''}<RollNumber value={value} run={run} settle ms={durations.countUp} onRoll={onRoll} />
         <span ref={ringRef} className="mk-figure__ring" aria-hidden="true" />
       </span>
     </b>
