@@ -332,3 +332,9 @@ Reading (dictation): "CTS" is the CTAs; "prepro" / "prepare site" is Preparoo (u
 > So, I have you stop working. What is left, and what is needed from my side right now? And what all is done?
 
 (Answered with the status; nothing left running. Ledger LK116.)
+
+## 5 Nov 2026, about 3:55 pm IST: why have you stopped? (verbatim)
+
+> I was asking: why have you stopped working?
+
+(Clarifies 3:50 pm: he asked why work stopped, not to stop. Ledger LK116 updated.)
