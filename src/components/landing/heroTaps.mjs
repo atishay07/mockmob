@@ -105,16 +105,16 @@ export function heroFeatures({ compass = true, keyCards = false } = {}) {
 /**
  * The honest price hook (owner LK124: "as low as ₹1 a mock"): what one Full mock comes to on Pro at the top pace of the
  * pricing section's slider (value.mjs MOCK_PACES), worked out from the live offer by perMock (rounded UP to the next 10
- * paise, never down), with the pace and the price beside it so it can be checked. A monthly price and a one-time price
- * never share a sentence. null when it cannot be worked out (then no hook is drawn).
- * { lead: 'As low as', figure: '₹1.10', unit: 'a mock on Pro', line: '₹99 a month at 21 full mocks a week.', pace, href }
+ * paise, never down). The figure never stands without its pace (round 4 review: a best case shown first must carry its
+ * condition in the same line, at the same weight): "As low as ₹X a mock on Pro at N full mocks a week", then the price
+ * that makes it on its own line, so it can be checked. A monthly price and a one-time price never share a sentence.
+ * null when it cannot be worked out (then no hook is drawn). The figures follow the offer and the slider; none is typed.
+ * { lead: 'As low as', figure, unit: 'a mock on Pro', at: 'at N full mocks a week', line: '₹P a month.', pace, href }
  */
 export function heroPriceHook(offer, { from } = {}) {
   const pace = Math.max(...MOCK_PACES);
   const m = perMock(offer, pace, { from });
   if (!m) return null;
-  const line = m.kind === 'monthly'
-    ? `${m.price} a month at ${pace} full mocks a week.`
-    : `${m.price} once, at ${pace} full mocks a week to ${m.until}.`;
-  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', line, pace, href: '#pricing' };
+  const line = m.kind === 'monthly' ? `${m.price} a month.` : `${m.price} once, to ${m.until}.`;
+  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', at: `at ${pace} full mocks a week`, line, pace, href: '#pricing' };
 }

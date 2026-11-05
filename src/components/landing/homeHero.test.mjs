@@ -19,6 +19,7 @@ import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD, RECOVERY_HEAD, COMPASS_HEAD,
 import { KEY_CARDS_HEAD } from './keyCardsCopy.mjs';
 import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
 import { BLINK_EVERY_MS, GAZE_MAX_PX, GAZE_MEDIA, GLANCE, gazeOffset, glanceOffset } from '../brand/mobiGaze.mjs';
+import { OPENING_FIRST_MS, OPENING_HAND_MS } from './openingGate.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const strip = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -156,6 +157,13 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.match(BEAT_STRIP, /<BrandIcon name=\{item\.icon\} size=\{36\} className="lp-strip__icon" \/>/, 'a desk object at 36 px (objects need 32 px or more)');
   assert.match(BEAT_STRIP, /<MobiMark size=\{30\} \/>/, 'Ask Mobi is Mobi\'s own mark');
   assert.match(BEAT_STRIP, /<a href=\{hook\.href\} className="lp-strip__hook">/, 'the hook is one link to the slider');
+  // Round 4 review (6 Nov): the figure never shows without its pace: the pace follows the unit in the same flow and ink,
+  // and the price under it is ink-2 at body size (it was ink-3 at 13 px beside a 36 px figure).
+  assert.match(BEAT_STRIP, /<span className="lp-strip__hook-unit">\{hook\.unit\}<\/span>\{' '\}\s*(?:\{\/\*[^*]*\*\/\}\s*)?<span className="lp-strip__hook-at">\{hook\.at\}/);
+  assert.match(CSS, /\.mm\.lp \.lp-strip__hook-at \{ font: 650 0\.9375rem\/1\.2 var\(--font-body\); color: var\(--ink\); white-space: nowrap; \}/);
+  assert.match(CSS, /\.mm\.lp \.lp-strip__hook-line \{ display: block; margin-top: 4px; font-size: 0\.9375rem; line-height: 1\.4; color: var\(--ink-2\); \}/);
+  assert.match(CSS, /\.mm\.lp \.lp-strip__hook-unit, \.mm\.lp \.lp-strip__hook-lead, \.mm\.lp \.lp-strip__hook-at \{ font-size: 1\.0625rem; \}/, 'desktop: the pace as large as the unit');
+  assert.doesNotMatch(CSS, /lp-strip__hook-line \{[^}]*(?:ink-3|0\.8125rem)/, 'the price never shrinks to a footnote');
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook-fig \{[^}]*color: var\(--brand-word, var\(--ink\)\);[^}]*font-variant-numeric: lining-nums tabular-nums;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ display: grid; grid-template-columns: minmax\(0, 1fr\);/, 'one feature a row on phones');
   assert.match(CSS, /\.mm\.lp \.lp-strip__item:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \}/, 'tablets: an odd last cell spans the row');
@@ -180,6 +188,12 @@ test('round 4 (LK120): "CUET 2027." is the headline\'s anchor: a step larger, un
   // It draws once after the opening (520 ms, the out curve); reduce motion and no JS: drawn already; never a glow.
   assert.match(CSS, /:root:not\(\[data-motion='reduced'\]\):is\(\[data-opening='skip'\], \[data-opening='done'\]\) \.mm\.lp \.lp-hero \.lp-title__brand::before \{\s*animation: lp-mark-in 520ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 160ms both;/);
   assert.match(CSS, /@keyframes lp-mark-in \{ from \{ clip-path: inset\(0 100% 0 0\); \} to \{ clip-path: inset\(0 0 0 0\); \} \}/);
+  // Round 4 review: if the opening's gate never reaches 'done', the waiting mark still draws (3.4 s, past the longest
+  // normal opening: a late first paint (1.1 s), the rest of the opening from its 500 ms pose, the hand-off), under its own
+  // keyframes name so a normal 'done' starts a fresh draw.
+  assert.match(CSS, /:root:not\(\[data-motion='reduced'\]\):is\(\[data-opening='first'\], \[data-opening='short'\]\) \.mm\.lp \.lp-hero \.lp-title__brand::before \{\s*clip-path: inset\(0 100% 0 0\);\s*animation: lp-mark-late 520ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 3\.4s both;/);
+  assert.match(CSS, /@keyframes lp-mark-late \{ from \{ clip-path: inset\(0 100% 0 0\); \} to \{ clip-path: inset\(0 0 0 0\); \} \}/);
+  assert.ok(3400 > 1100 + (OPENING_FIRST_MS - 500) + OPENING_HAND_MS, 'the fallback waits past the longest normal opening');
   const markRules = CSS.slice(CSS.indexOf('.mm.lp .lp-hero .lp-title__brand::before {'), CSS.indexOf('@keyframes lp-mark-in'));
   assert.doesNotMatch(markRules, /box-shadow|filter|infinite/);
   assert.match(CSS, /@media \(forced-colors: active\) \{ \.mm\.lp \.lp-hero \.lp-title__brand::before \{ display: none; \} \}/);
@@ -209,6 +223,22 @@ test('round 4 (LK117, supersedes decision 12): the hero\'s texture is the brand\
   // Stronger in Night than in Day; less again when more contrast is asked for; none in forced colours.
   const alpha = (theme) => Number((TEXTURE_CSS.match(new RegExp(`${theme}[^}]*--mm-tex-ring: rgba\\([^)]*?, ([0-9.]+)\\)`)) || [])[1]);
   assert.ok(alpha(":root\\[data-theme='dark'\\] \\.mm-texture \\{") > alpha('\\.mm-texture \\{\\s*position'), 'Night carries it more');
+  // Round 4 review (6 Nov): from 960 px the field is full around the desk and reaches into the words' column only right of
+  // the lead and the keys and above the features strip: no bubble or row number behind the strip, the hook, the links or
+  // the lead. The two clear lines follow the layout's own measures (desktop-scale.css tokens; the strip's top from the
+  // hero's top, Day, measured in real Chrome on 6 Nov: Night sits 12 to 16 px lower, so Day is the tighter case).
+  assert.match(TEXTURE_CSS, /--tex-left: calc\(max\(0px, \(100% - var\(--lp-max, 1680px\) - 2 \* var\(--lp-gutter, 40px\)\) \/ 2\) \+ var\(--lp-gutter, 40px\)\);/);
+  assert.match(TEXTURE_CSS, /--tex-clear-x: calc\(var\(--tex-left\) \+ clamp\(416px, 190px \+ 16vw, 600px\)\);/);
+  assert.match(TEXTURE_CSS, /--tex-clear-y: min\(250px \+ 21vw, 700px\);/);
+  assert.match(TEXTURE_CSS, /mask-composite: intersect, add, intersect, add;/);
+  assert.match(TEXTURE_CSS, /-webkit-mask-composite: source-in, source-over, source-in, source-over;/);
+  assert.match(TEXTURE_CSS, /linear-gradient\(to right, transparent 51%, #000 55\.5%\)/, 'the desk side starts past the column edge (51.5 to 52.3 % measured)');
+  assert.match(TEXTURE_CSS, /linear-gradient\(to bottom, #000 calc\(var\(--tex-clear-y\) - 96px\), transparent calc\(var\(--tex-clear-y\) - 24px\)\)/);
+  const STRIP_TOP = { 960: 439, 1100: 481, 1280: 518, 1366: 536, 1440: 554, 1600: 594, 1920: 653, 2560: 691 };
+  for (const [w, top] of Object.entries(STRIP_TOP)) assert.ok(Math.min(250 + 0.21 * w, 700) - 24 <= top, `${w}: the field is gone above the strip (${top} px)`);
+  // The lead's and the keys' right edges from the column's start, measured (Day and Night alike): the field starts past both.
+  const WORDS_RIGHT = { 1100: 386, 1280: 385, 1366: 385, 1440: 388, 1600: 416, 1920: 464, 2560: 566 };
+  for (const [w, right] of Object.entries(WORDS_RIGHT)) assert.ok(Math.min(Math.max(416, 190 + 0.16 * w), 600) >= right + 24, `${w}: clear of the lead and keys (${right} px)`);
   assert.match(TEXTURE_CSS, /@media \(prefers-contrast: more\) \{ \.mm-texture \{ opacity: 0\.5; \} \}/);
   assert.match(TEXTURE_CSS, /@media \(forced-colors: active\) \{ \.mm-texture \{ display: none; \} \}/);
 });
@@ -275,7 +305,7 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
   await withLock('homeHero test', async () => {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
   try {
-    const sizes = [[390, 844, 2, true], [375, 667, 2, true], [360, 640, 2, true], [412, 915, 2, true], [1440, 900, 1, false]];
+    const sizes = [[390, 844, 2, true], [375, 667, 2, true], [360, 640, 2, true], [412, 915, 2, true], [1280, 800, 1, false], [1440, 900, 1, false], [1920, 1080, 1, false]];
     for (const [width, height, dsf, touch] of sizes) {
       const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dsf, hasTouch: touch, isMobile: touch });
       await ctx.addInitScript(() => { try { localStorage.setItem('mm:opened:v1', '1'); sessionStorage.setItem('mm:opening:v1', '1'); } catch { /* none */ } });
@@ -291,7 +321,20 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
         range.selectNodeContents(brand);
         const column = document.querySelector('.lp-hero__copy').getBoundingClientRect();
         const sizers = [...document.querySelectorAll('.lp-typed__sizer')].map((el) => el.getBoundingClientRect().right);
-        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), option4: b('.lp-desk .mm-drill__option:nth-child(4)'), strip: b('.lp-strip') };
+        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), option4: b('.lp-desk .mm-drill__option:nth-child(4)'), strip: b('.lp-strip'), clear: (() => {
+          // Round 4 review: where the texture's words'-column part ends (its two clear lines), resolved by a probe in the hero.
+          if (innerWidth < 960) return null;
+          const cs = getComputedStyle(document.querySelector('.mm-texture--hero'));
+          const probe = document.createElement('i');
+          probe.style.cssText = `position:absolute;width:0;height:0;left:calc(${cs.getPropertyValue('--tex-clear-x')});top:calc(${cs.getPropertyValue('--tex-clear-y')} - 24px)`;
+          document.querySelector('.lp-hero').appendChild(probe);
+          const p = probe.getBoundingClientRect();
+          probe.remove();
+          const lead = document.createRange();
+          lead.selectNodeContents(document.querySelector('.lp-hero .lp-lead'));
+          const words = Math.max(...[...lead.getClientRects()].map((r) => r.right), ...[...document.querySelectorAll('.lp-hero .lp-cta .mm-actions > a')].map((a) => a.getBoundingClientRect().right));
+          return { x: p.left, y: p.top, words };
+        })() };
       });
       const pct = (y) => (100 * y) / height;
       assert.ok(m.docW <= width, `${width}: no sideways scroll`);
@@ -303,6 +346,11 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       assert.equal(m.fact, false, `${width}: no fact line`);
       assert.ok(m.brandRight <= m.columnRight + 1 && m.sizerRight <= m.columnRight + 1, `${width}: the headline fits its column`);
       if (width >= 960) assert.ok(m.option4.bottom <= height, `${width}x${height}: the fourth option ends at ${Math.round(m.option4.bottom)}`);
+      if (width >= 960) {
+        // No bubble or row number behind the strip, the hook, the links, the lead or the keys.
+        assert.ok(m.clear.y <= m.strip.top, `${width}x${height}: the field is gone at ${Math.round(m.clear.y)}, the strip starts at ${Math.round(m.strip.top)}`);
+        assert.ok(m.clear.x >= m.clear.words, `${width}x${height}: the field starts at ${Math.round(m.clear.x)}, the lead and keys end at ${Math.round(m.clear.words)}`);
+      }
       if (width < 960) assert.ok(m.leadPx >= 16 && m.leadPx <= 17, `${width}: lead ${m.leadPx} px`);
       if (width < 960) {
         assert.ok(pct(m.h1.top) <= 12, `${width}x${height}: h1 at ${pct(m.h1.top).toFixed(1)} %`);

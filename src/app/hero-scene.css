@@ -89,13 +89,22 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   transform: rotate(-1deg);
   transform-origin: 0 50%;
 }
+/* While the opening plays the mark waits, then draws once the hand-off sets 'done'. If the gate never gets there (a script
+   error, a removed layer), the waiting rule draws it anyway after 3.4 s, past the longest normal opening (about 2.5 s
+   from the script: a late first paint, the opening, the hand-off), the CSS twin of HeroTyped's fallback start
+   (round 4 review). Its keyframes have their own name, so a normal 'done' starts a fresh draw instead of jumping the
+   waiting one to its end. */
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']):is([data-opening='first'], [data-opening='short']) .mm.lp .lp-hero .lp-title__brand::before { clip-path: inset(0 100% 0 0); }
+  :root:not([data-motion='reduced']):is([data-opening='first'], [data-opening='short']) .mm.lp .lp-hero .lp-title__brand::before {
+    clip-path: inset(0 100% 0 0);
+    animation: lp-mark-late 520ms cubic-bezier(0.23, 1, 0.32, 1) 3.4s both;
+  }
   :root:not([data-motion='reduced']):is([data-opening='skip'], [data-opening='done']) .mm.lp .lp-hero .lp-title__brand::before {
     animation: lp-mark-in 520ms cubic-bezier(0.23, 1, 0.32, 1) 160ms both;
   }
 }
 @keyframes lp-mark-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes lp-mark-late { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @media (forced-colors: active) { .mm.lp .lp-hero .lp-title__brand::before { display: none; } }
 
 /* ---------- The lead (LK70): what MockMob is, in one sentence of two lines (R3-D3, LK99: 16-17 px) ---------- */
@@ -379,8 +388,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
 /* ==========================================================================
    The features strip (round 4, owner LK124; supersedes R3-D3's number strip): the main features (heroTaps.mjs
    heroFeatures), each one link to its section, with its desk object, its name in Bricolage 700 and one quiet line; then
-   the honest price hook (heroPriceHook), "As low as ₹1.10 a mock on Pro" with the pace and price beside it, a link to
-   the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
+   the honest price hook (heroPriceHook), "As low as ₹X a mock on Pro at N full mocks a week" (the pace in the same line and
+   ink as the figure), then the price that makes it, a link to the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
    two at 390), the hook the last row; tablets two across. From
    960 px it sits in the words' column under the keys, on the page's own paper between two hairlines: two across, three
    from 1400 px.
@@ -431,14 +440,13 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   .mm.lp .lp-strip__fact:hover .lp-strip__name { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
 }
 
-/* The hook: one link, "As low as" then the figure in the brand word colour (Bricolage 700 tabular), what it is, and the
-   pace and price that make it, so a reader can check it. */
+/* The hook: one link, "As low as" then the figure in the brand word colour (Bricolage 700 tabular), what it is and the pace
+   it takes, in ink on the same line (round 4 review: the best case never shows without its condition), then the price on
+   its own line in ink-2 at body size, so a reader can check it. */
 .mm.lp .lp-strip__hook {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 6px;
-  row-gap: 2px;
+  /* Running text, not a flex row: word spaces between the parts (no gaps that read as a break between the unit and its
+     pace), and the pace (nowrap) moves to the next line whole where the line is full. */
+  display: block;
   min-height: 44px;
   padding: 14px 16px 16px;
   color: var(--ink-2);
@@ -448,13 +456,16 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
 }
 .mm.lp .lp-strip__hook-lead { font: 650 0.9375rem/1.2 var(--font-body); }
 .mm.lp .lp-strip__hook-fig {
+  /* A word space at the hook's size is too narrow beside a figure twice as large. */
+  margin-inline: 0.08em 0.12em;
   font: 700 1.75rem/1 var(--font-display);
   letter-spacing: -0.03em;
   color: var(--brand-word, var(--ink));
   font-variant-numeric: lining-nums tabular-nums;
 }
 .mm.lp .lp-strip__hook-unit { font: 700 0.9375rem/1.2 var(--font-display); color: var(--ink); }
-.mm.lp .lp-strip__hook-line { flex-basis: 100%; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+.mm.lp .lp-strip__hook-at { font: 650 0.9375rem/1.2 var(--font-body); color: var(--ink); white-space: nowrap; }
+.mm.lp .lp-strip__hook-line { display: block; margin-top: 4px; font-size: 0.9375rem; line-height: 1.4; color: var(--ink-2); }
 .mm.lp .lp-strip__hook:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
 .mm.lp .lp-strip__hook:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 20px; }
 @media (hover: hover) and (pointer: fine) {
@@ -517,10 +528,10 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   .mm.lp .lp-strip__fact { padding: 12px 10px 12px 8px; margin-inline: -8px 0; border-radius: 14px; }
   .mm.lp .lp-strip__name { font-size: 1rem; }
   .mm.lp .lp-strip__line { font-size: 0.875rem; }
-  .mm.lp .lp-strip__hook { margin-top: 6px; padding: 16px 8px 14px; margin-inline: -8px; border-top: 1px solid var(--line); border-radius: 0 0 14px 14px; column-gap: 8px; }
+  .mm.lp .lp-strip__hook { margin-top: 6px; padding: 16px 8px 14px; margin-inline: -8px; border-top: 1px solid var(--line); border-radius: 0 0 14px 14px; }
   .mm.lp .lp-strip__hook-fig { font-size: 2.25rem; }
-  .mm.lp .lp-strip__hook-unit, .mm.lp .lp-strip__hook-lead { font-size: 1.0625rem; }
-  .mm.lp .lp-strip__hook-line { flex-basis: auto; font-size: 0.9375rem; }
+  .mm.lp .lp-strip__hook-unit, .mm.lp .lp-strip__hook-lead, .mm.lp .lp-strip__hook-at { font-size: 1.0625rem; }
+  .mm.lp .lp-strip__hook-line { font-size: 1rem; }
 }
 
 /* From 1400 px the words' column holds three features across with each line on one line (two across below that: at
