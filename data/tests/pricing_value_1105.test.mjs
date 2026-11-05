@@ -224,7 +224,7 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
   assert.doesNotMatch(css, /--price-word: [^;]*(d2f000|210, ?240|volt)/i);
   assert.doesNotMatch(css, /background-clip: text|text-shadow|@keyframes [\w-]*(sheen|shine|shimmer|glow|pulse)/i);
   // LK130: "make it a bit lower ... more of the Pro to be visible": the card starts at 64% of the word's size (R3: about 47%).
-  const drop = Number(/\.plan-stage \{[^}]*padding-top: calc\(var\(--word-size\) \* ([\d.]+)\)/.exec(css)?.[1]);
+  const drop = Number(/\.plan-stage \{[^}]*padding-top: calc\(var\(--stage-word\) \* ([\d.]+)\)/.exec(css)?.[1]);
   assert.ok(drop >= 0.6, `the card starts low enough under the word: ${drop}`);
   // "In the light mode it's not properly visible": Day's word is ink at 66% (5.3:1 on the Day paper; Night's is 4.8:1).
   const dayAlpha = Number(/html\[data-theme='light'\] \.plan-stage \{[^}]*--price-word: rgba\(27, 25, 20, ([\d.]+)\)/.exec(css)?.[1]);

@@ -70,6 +70,11 @@ html[data-theme='light'] .lp .lp-price {
   color: inherit; font-variant-numeric: tabular-nums;
 }
 .lp .lp-seg__opt small { font-size: 0.8125rem; font-weight: 550; line-height: 1.2; color: inherit; opacity: 0.86; white-space: nowrap; }
+/* A 360 px phone: four keys of about 77 px, so the words under the numbers step down a size and keep clear of the rim. */
+@media (max-width: 399px) {
+  .lp .lp-seg__opt span { padding-inline: 0.125rem; }
+  .lp .lp-seg__opt small { font-size: 0.75rem; }
+}
 .lp .lp-seg__opt input:checked + span { background: var(--volt); color: var(--volt-ink); }
 .lp .lp-seg__opt input:focus-visible + span { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
 .lp .lp-seg__tick { display: none; }
@@ -108,16 +113,35 @@ html[data-theme='light'] .lp .lp-seg__opt input:checked + span .lp-seg__tick { d
 .lp .lp-value__count { max-width: 46ch; margin: 0.75rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .lp .lp-value__math { max-width: 46ch; margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-/* ---- Wide screens: the plan on the left, the value beside it, held in view while the card scrolls past --------------------- */
-@media (min-width: 960px) {
-  .lp .lp-price__grid { grid-template-columns: minmax(0, 29rem) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7.5rem); align-items: start; }
+/* ---- Tablets and wider: the plan on the left, the value beside it, held in view while the card scrolls past ---------------- */
+@media (min-width: 720px) {
+  .lp .lp-price__grid { --plan-word: 10rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 2rem; align-items: start; }
   .lp .lp-price__grid--one { grid-template-columns: minmax(0, 30rem); justify-content: center; }
   .lp .lp-price__stage, .lp .lp-price__side { max-width: none; margin-inline: 0; }
-  /* The value starts level with the card's top (the stage's word is 10rem, the card starts at 64% of it). */
-  .lp .lp-price__side { position: sticky; top: 6rem; margin-top: 6.4rem; max-width: 34rem; }
+  /* The value starts level with the card's top (the card starts at 64% of the word). */
+  .lp .lp-price__side { position: sticky; top: 6rem; margin-top: calc(var(--plan-word) * 0.64); }
+}
+@media (min-width: 960px) {
+  .lp .lp-price__grid { grid-template-columns: minmax(0, 29rem) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7.5rem); }
+  .lp .lp-price__side { max-width: 34rem; }
   .lp .lp-seg__opt b { font-size: 1.375rem; }
   .lp .lp-sheet { max-width: 19rem; gap: 6px; }
   .lp .lp-sheet i { max-width: 14px; }
+}
+/* Large desktops (LK117: "everything should be massive, clearly visible"): a bigger word, card and read-out. */
+@media (min-width: 1400px) {
+  .lp .lp-price__grid { --plan-word: 11.5rem; grid-template-columns: minmax(0, 32rem) minmax(0, 1fr); }
+  .lp .lp-price__side { max-width: 38rem; }
+  .lp .lp-value__title { font-size: 2rem; }
+  .lp .lp-seg__opt span { min-height: 68px; }
+  .lp .lp-seg__opt b { font-size: 1.5rem; }
+  .lp .lp-seg__opt small { font-size: 0.875rem; }
+  .lp .lp-value__out { font-size: 1.1875rem; }
+  .lp .lp-value__out b { font-size: 4.5rem; }
+  .lp .lp-value__catch { font-size: 1.3125rem; }
+  .lp .lp-sheet { max-width: 22rem; gap: 7px; }
+  .lp .lp-sheet i { max-width: 16px; }
+  .lp .lp-value__count { font-size: 1rem; }
 }
 
 /* ---- Reduced motion: nothing moves (the figure changes at once, PlanValue.jsx) --------------------------------------------- */

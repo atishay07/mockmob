@@ -25,9 +25,10 @@
   --strip-mark-rim: rgba(0, 0, 0, 0.3);
   --strip-chip: #1d1c18;
   --strip-chip-line: rgba(244, 240, 230, 0.18);
-  /* The word's size; the card starts at 64% of it, so the word shows down to its last quarter. */
-  --word-size: clamp(5.5rem, 27vw, 10rem);
-  position: relative; isolation: isolate; min-width: 0; padding-top: calc(var(--word-size) * 0.64);
+  /* The word's size (a page may set --plan-word on a parent, so a column beside the stage can line up with the card); the card
+     starts at 64% of it, so the word shows down to its last quarter. */
+  --stage-word: var(--plan-word, clamp(5.5rem, 27vw, 10rem));
+  position: relative; isolation: isolate; min-width: 0; padding-top: calc(var(--stage-word) * 0.64);
 }
 html[data-theme='light'] .plan-stage {
   --glass-fill: linear-gradient(180deg, rgba(255, 253, 248, 0.7) 49%, rgba(243, 239, 230, 0.76));
@@ -51,7 +52,7 @@ html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.3
 
 .plan-stage__word {
   position: absolute; inset: 0 0 auto; z-index: -1; margin: 0;
-  font-family: var(--font-display); font-weight: 800; font-size: var(--word-size);
+  font-family: var(--font-display); font-weight: 800; font-size: var(--stage-word);
   line-height: 0.82; letter-spacing: -0.06em; text-align: center; color: var(--price-word);
   pointer-events: none; user-select: none;
 }
@@ -109,7 +110,7 @@ html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.3
 
 /* ---- Wide screens: a roomier card and the 15 px blur ------------------------------------------------------------------------ */
 @media (min-width: 960px) {
-  .plan-stage { --word-size: 10rem; }
+  .plan-stage { --stage-word: var(--plan-word, 10rem); }
   .plan-stage .plan-glass.pro-plan__card { padding: 1.375rem 1.75rem 1.5rem; -webkit-backdrop-filter: blur(15px) saturate(1.4); backdrop-filter: blur(15px) saturate(1.4); }
 }
 @media (min-width: 960px) and (prefers-reduced-transparency: reduce) {
