@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { priceLine, publicOffer } from '@/lib/payments/offer';
-import { Check } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
@@ -11,7 +10,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
-import { CloseActions } from '@/components/landing/CloseActions';
+import { CloseActions, CloseSheet } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
@@ -19,11 +18,12 @@ import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
 import { heroBeat, heroTrustSentence } from '@/components/landing/heroTaps.mjs';
-import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
-import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
+import { HomePricing } from '@/components/landing/HomePricing';
+import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
@@ -63,11 +63,13 @@ import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
-// The free first full mock (C-dec 1) is listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
-const freePlan = freePlanItems({ newOffer: newOfferReleased(), firstFullMockItem: FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.planItem : null });
-const proPlan = proPlanItems({ newOffer: newOfferReleased() });
+// The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
 
 const OFFER = publicOffer();
+// When this page was built: the months to CUET in the price comparison and the one-time offer's days start here (value.mjs).
+const BUILT = new Date();
+// The close band's invite line, only while friend invites are on (the same switch /signup reads); never a code on this page.
+const INVITES_LIVE = referralsLive();
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 // The held stories, as the position band under the site bar names them while one runs (SectionPosition). Each name is
@@ -115,7 +117,6 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
 
 const faqs = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
-const PRICING = pricingHead(OFFER);
 
 export default function LandingPage() {
   return (
@@ -282,14 +283,8 @@ export default function LandingPage() {
 
         <ExamScreen />
 
-        {/* ------------------------------ PROOF ----------------------------- */}
-        <section className="lp-sec lp-sec--tight">
-          <div className="mm-wrap">
-            <Reveal>
-              <LiveStatsBand offer={OFFER} />
-            </Reveal>
-          </div>
-        </section>
+        {/* The numbers band (bank size, subjects, the price) went in R3-D7 (owner LK107): its true counts are lines of the one
+            plan in #pricing now, with their count-up (PlanCounts), and the price is the plan's own. */}
 
         {/* ------------------------------ INSTAGRAM ------------------------------ */}
         <section className="lp-sec" id="on-instagram">
@@ -315,34 +310,11 @@ export default function LandingPage() {
         ) : null}
 
         {/* ------------------------------ PRICING --------------------------- */}
-        <section className="lp-sec" id="pricing" data-commerce="">
-          <div className="mm-wrap">
-            <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">{PRICING.h2}</h2>
-              <p className="lp-sub">{PRICING.sub}</p>
-            </Reveal>
-            <Reveal className="lp-plans">
-              <div className="lp-plan">
-                <h3 className="lp-h4">Free</h3>
-                <p className="lp-plan__price mm-measure">₹0</p>
-                <ul className="lp-ticks">
-                  {freePlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
-                </ul>
-                <Link href="/signup" className="mm-btn mm-btn--secondary">Start free</Link>
-              </div>
-              <div className="lp-plan lp-plan--pro">
-                <h3 className="lp-h4">Pro</h3>
-                <p className="lp-plan__price mm-measure">₹{OFFER.purchasable === 'monthly' ? OFFER.monthly.rupees : OFFER.oneTime.rupees}<span>{OFFER.purchasable === 'monthly' ? ' a month' : ' once'}</span></p>
-                <p className="lp-plan__note">{OFFER.purchasable === 'monthly' ? 'Renews monthly. Cancel anytime in Account.' : `Access through ${OFFER.oneTime.expires}. This payment does not renew.`}</p>
-                <ul className="lp-ticks">
-                  <li><Check size={16} aria-hidden="true" />Everything in Free</li>
-                  {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
-                </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">Get Pro</Link>
-              </div>
-            </Reveal>
-          </div>
+        {/* R3-D8 (owner LK109-LK111): the /pricing page's one plan as a glass card over "Pro", its value at your pace and a
+            dated comparison (HomePricing.jsx). Every rupee figure is the offer's or the dated table's, worked out, never typed. */}
+        <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
+          <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT}
+            seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />} />
         </section>
 
         {/* -------------------------------- FAQ ----------------------------- */}
@@ -361,16 +333,16 @@ export default function LandingPage() {
         </section>
 
         {/* ------------------------------- CLOSE ---------------------------- */}
+        {/* The final card (R3-D9, owner LK110): Mobi and the brand's own answer sheet (the OMR texture, neutral rings with a few
+            pencil marks, CloseActions.jsx) in place of the generic grid and dots; Sign up free and Log in as before; while invites
+            are on, one line on where a friend's invite code goes (never a code on this page). */}
         <section className="lp-close">
-          <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__grid" />
-            <div className="lp-bg__dots" />
-          </div>
+          <CloseSheet />
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="celebrating" label={CLOSE.mobi} />
             <h2 className="lp-h2 lp-h2--xl">{CLOSE.h2}</h2>
             <p className="lp-sub">{CLOSE.sub}</p>
-            <CloseActions />
+            <CloseActions invites={INVITES_LIVE} />
           </Reveal>
           {/* Every same-page link to the sample ("Try 5 questions first") lands on the live sample question, every time. */}
           <DemoJump />

@@ -6,6 +6,8 @@ import { readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const pricing = read('src/app/pricing/page.js');
+// R3-D8 (5 Nov 2026): the plan card's terms moved, unchanged, to the module /pricing shares with the home page's #pricing.
+const plan = read('src/components/pricing/planOffer.mjs');
 const card = read('src/components/billing/PlanCard.jsx');
 const button = read('src/components/billing/RazorpayPaymentButton.jsx');
 const refunds = read('src/app/refunds/page.js');
@@ -17,7 +19,8 @@ test('/pricing never uses the retired names PrepOS, Radar or XP', () => {
 
 test('the monthly card says what is charged, when, and how to stop it, above the button', () => {
   // v16 (owner, 20 Oct 11:20 pm): /pricing is rebuilt as the app's Pro page; the plan card says the renewal in one line, and the FAQ says when and how.
-  assert.match(pricing, /renew: 'Renews every month\. Cancel any time\.'/);
+  assert.match(plan, /renew: 'Renews every month\. Cancel any time\.'/);
+  assert.match(pricing, /planTerms\(offer\)/);
   assert.match(pricing, /The first payment is taken when you start, and it renews on the same date each month until you cancel/);
   assert.match(pricing, /you keep Pro until the end of the month you already paid for/);
 });
@@ -29,8 +32,8 @@ test('before monthly opens, /pricing leads with what the button charges and stil
   // It never pushes "pay now".
   assert.doesNotMatch(pricing, /Pay once now/);
   assert.match(pricing, /\{priceHeadline\(offer\)\}/);
-  assert.match(pricing, /renew: `One payment, through \$\{offer\.oneTime\.expires\}\. It does not renew\.`/);
-  assert.match(pricing, /soon: `Monthly Pro at ₹\$\{offer\.monthly\.rupees\} a month opens soon\.`/);
+  assert.match(plan, /renew: `One payment, through \$\{offer\.oneTime\.expires\}\. It does not renew\.`/);
+  assert.match(plan, /soon: `Monthly Pro at ₹\$\{offer\.monthly\.rupees\} a month opens soon\.`/);
 });
 
 test('the comparison table has sentence-case labels and no thick coloured edge', () => {

@@ -36,8 +36,11 @@ test('every shared line that prices a full mock says the first one in each subje
   const pricing = read('src/app/pricing/page.js');
   assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'the Free plan’s Credits row, with its full stop (L7)');
   // D175 (20 Oct): the comparison row follows the rule's switch too, so it never promises a free first mock while the rule is off.
-  assert.match(pricing, /\['Full mocks', FIRST_FULL_MOCK_ON \? 'First one free, then 50 credits each' : '50 credits each', 'Unlimited'\]/);
-  assert.doesNotMatch(pricing, /\['Full mocks', 'First one free/, 'no unconditional first-free row');
+  // R3-D8 (5 Nov 2026): the rows are shared (src/components/pricing/planOffer.mjs compareRows); /pricing passes the rule's switch in.
+  const rows = read('src/components/pricing/planOffer.mjs');
+  assert.match(rows, /\['Full mocks', firstFullMockOn \? 'First one free, then 50 credits each' : '50 credits each', 'Unlimited'\]/);
+  assert.match(pricing, /compareRows\(\{ newOffer: newOfferReleased\(\), firstFullMockOn: FIRST_FULL_MOCK_ON,/);
+  for (const src of [pricing, rows]) assert.doesNotMatch(src, /\['Full mocks', 'First one free/, 'no unconditional first-free row');
   // The plan card says the price sentence once (it already carries the free first mock), not the rule a second time.
   assert.doesNotMatch(read('src/components/billing/PlanCard.jsx'), /FIRST_FULL_MOCK_COPY/);
 });

@@ -30,11 +30,20 @@ test('the hero bank line keeps every fact in one sentence and says Pro has no ca
   assert.match(line, /bank\.questions\.toLocaleString\('en-IN'\)/, 'the count is the live one');
 });
 
-test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited', () => {
+test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited', async () => {
   assert.match(COPY, /h2: 'Start free\. Go Pro for unlimited mocks\.'/);
-  assert.match(PAGE, /pricingHead\(OFFER\)/, 'the page renders the pricing head from homeCopy');
+  // R3-D8 (5 Nov 2026): #pricing is HomePricing.jsx, which renders the head from homeCopy with the page's live offer.
+  assert.match(PAGE, /<HomePricing offer=\{OFFER\}/, 'the page hands the live offer to the pricing section');
+  assert.match(read('HomePricing.jsx'), /const head = pricingHead\(offer\);/, 'the pricing head comes from homeCopy');
   assert.ok(proPlan().includes('Unlimited Quick practice and Full mock'), 'the Pro list still promises unlimited papers');
-  assert.match(read('../../app/pricing/page.js'), /\['Full mocks', [^\n]*'Unlimited'\],\n\s+\['Quick practice', '1 credit a question', 'Unlimited'\],/);
+  // The /pricing rows are shared now (src/components/pricing/planOffer.mjs compareRows): Full mocks and Quick practice stay unlimited on Pro.
+  const { compareRows } = await import('../pricing/planOffer.mjs');
+  for (const firstFullMockOn of [true, false]) {
+    const rows = Object.fromEntries(compareRows({ firstFullMockOn }).map(([name, free, pro]) => [name, [free, pro]]));
+    assert.equal(rows['Full mocks'][1], 'Unlimited');
+    assert.deepEqual(rows['Quick practice'], ['1 credit a question', 'Unlimited']);
+  }
+  assert.match(read('../../app/pricing/page.js'), /const COMPARE_ROWS = compareRows\(\{ newOffer: newOfferReleased\(\), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS \}\);/);
 });
 
 test('"from the official key, or not at all" stays true: a disagreement gives no repair and no charge', () => {

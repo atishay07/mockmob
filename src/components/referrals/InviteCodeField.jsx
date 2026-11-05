@@ -4,17 +4,25 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 // A friend's invite code typed on the sign-up page (owner D165). Closed behind one text key unless an invite is already kept,
 // so the form stays one decision. Saving only keeps the code (POST /api/referrals/pending): whether it counts is decided
 // after sign-in, for a new account, so this never says a code is valid or whose it is.
-import { useState } from 'react';
-import { REFERRAL_COPY, codeFromInput, displayReferralCode } from '@/lib/referrals/friendInvite.mjs';
+import { useEffect, useState } from 'react';
+import { INVITE_ANCHOR, REFERRAL_COPY, codeFromInput, displayReferralCode } from '@/lib/referrals/friendInvite.mjs';
 
 export default function InviteCodeField({ pending = null }) {
   const [open, setOpen] = useState(Boolean(pending));
   const [value, setValue] = useState(pending ? displayReferralCode(pending) : '');
   const [state, setState] = useState(pending ? { kind: 'saved', message: REFERRAL_COPY.signupSaved } : { kind: 'idle', message: REFERRAL_COPY.signupHint });
 
+  // The home page's close band links here (/signup#invite-code, R3-D9): that link opens the field.
+  useEffect(() => {
+    const fromLink = () => { if (window.location.hash === `#${INVITE_ANCHOR}`) setOpen(true); };
+    const frame = requestAnimationFrame(fromLink);
+    window.addEventListener('hashchange', fromLink);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('hashchange', fromLink); };
+  }, []);
+
   if (!open) {
     return (
-      <p className="auth-invite">
+      <p className="auth-invite" id={INVITE_ANCHOR}>
         <button type="button" className="auth-card__textbtn" onClick={() => setOpen(true)} aria-expanded="false">Have an invite code?</button>
       </p>
     );
@@ -35,7 +43,7 @@ export default function InviteCodeField({ pending = null }) {
   };
 
   return (
-    <form className="auth-invite auth-card__form" onSubmit={save} noValidate>
+    <form className="auth-invite auth-card__form" id={INVITE_ANCHOR} onSubmit={save} noValidate>
       <label className="auth-field">
         <span>{REFERRAL_COPY.signupField}</span>
         <input

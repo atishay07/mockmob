@@ -106,15 +106,19 @@ test('L-004 the full feature showcase is still there: every section, the tour, t
   }
   assert.match(PAGE_CODE, /<ExamScreen\s*\/>/, 'the exam-day screen section is rendered');
   assert.match(read('src/components/landing/ExamScreen.jsx'), /id="exam-experience"/, 'it keeps its anchor');
-  for (const part of ['FeatureTour', 'LabCinema', 'MistakeLab', 'Statement', 'CompassLadder', 'CreatorReels', 'LiveStatsBand', 'WallOfLove', 'EligibilityTeaser']) {
+  // R3-D7 (owner LK107, 5 Nov 2026) supersedes the numbers band here: its true counts are lines of the one plan in #pricing
+  // (HomePricing, PlanCounts), so the plan is what must be rendered, with the counts inside it.
+  for (const part of ['FeatureTour', 'LabCinema', 'MistakeLab', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
     assert.match(PAGE_CODE, new RegExp(`<${part}[\\s/>]`), `<${part} /> is rendered`);
   }
+  assert.match(code(read('src/components/landing/HomePricing.jsx')), /<PlanCounts groups=/, 'the bank and subject counts live in the plan card');
   assert.ok((PAGE_CODE.match(/<section\b/g) || []).length >= 10, 'about a dozen sections, not a short list');
   assert.doesNotMatch(PAGE_CODE, /<SubjectGrid/, 'no plain 15-subject list replaced the showcase');
 });
 
 test('L-005 the scroll stories, reveals, count-up and object life of the previous landing still exist and are used', () => {
-  for (const f of ['src/components/landing/ScrollStory.jsx', 'src/components/landing/Reveal.jsx', 'src/components/landing/LiveStatsBand.jsx', 'src/components/brand/ObjectLife.jsx', 'src/components/landing/SectionPosition.jsx', 'src/components/brand/PipGuide.jsx']) {
+  // The count-up moved with the counts (R3-D7): PlanCounts.jsx draws it through useCountUp.js, once at 40% in view (R3-D10).
+  for (const f of ['src/components/landing/ScrollStory.jsx', 'src/components/landing/Reveal.jsx', 'src/components/landing/PlanCounts.jsx', 'src/components/landing/useCountUp.js', 'src/components/brand/ObjectLife.jsx', 'src/components/landing/SectionPosition.jsx', 'src/components/brand/PipGuide.jsx']) {
     assert.ok(LANDING_REL.includes(f) || existsSync(join(ROOT, f)), `${f} exists`);
   }
   for (const story of ['FeatureTour', 'LabCinema', 'MistakeLab', 'Statement']) assert.match(read(`src/components/landing/${story}.jsx`), /ScrollStory|useScrollStory|storyController/, `${story} is a held scroll story`);
@@ -223,7 +227,7 @@ test('L-013 conversion paths (LK83/LK88): sign-up from the hero, the dock, the c
   assert.deepEqual([demo.wayIn({}).dock.secondary.href, demo.wayIn({}).dock.primary.href], ['/login', '/signup'], 'the dock: log in, then sign up');
   for (const route of ['src/app/signup', 'src/app/login']) assert.ok(existsSync(join(ROOT, route)), `${route} exists`);
   assert.match(PAGE_CODE, /<HeroDockGate>[\s\S]*<LandingDock/, 'the phone dock');
-  assert.match(PAGE_CODE, /<CloseActions\s*\/>/, 'the close band');
+  assert.match(PAGE_CODE, /<CloseActions[\s/>]/, 'the close band');
   assert.match(PAGE_CODE, /<MarketingFooter/, 'the footer');
   // No dead anchors: every in-page #id link points at an id that exists in the landing's own markup.
   const ids = new Set([...(PAGE + sources(SURFACE)).matchAll(/\bid=["']([\w-]+)["']/g)].map((m) => m[1]));
