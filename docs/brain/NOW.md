@@ -1,5 +1,12 @@
 # NOW: MockMob current state
 
+## 6 Nov 2026, about 12:40 am IST: stopped at ~90% weekly usage; round 4 saved on branches (not live); next session prompt written
+- Live: main 400d647a8 (rounds 1-3). App 1.0.21+19 awaits his upload.
+- Round 4 (LK117-LK147): branches web/r4-{demo,pricing} done; web/r4-{hero,learn,nav} fix stage unfinished (WIP commits);
+  web/r4-sections build unfinished (WIP); ui/r4-app done. Backups: origin tags archive/r4-r4-*.
+- Next: HANDOFF-2026-11-06.md and PROMPT-NEXT-SESSION-2026-11-06.md. The owner may run that prompt on another model as a
+  temporary trial (experiments/MODEL-TRIAL-2026-11.md); that session leaves a branch, it does not ship.
+
 ## 5 Nov 2026, about 4:45 pm IST: round 3 live (main ce24dc682, dpl_AgxLoHQJ3uoLMdyeifYvm2qJnr9G); new Key cards for Computerised Accounting and English reading
 - **Web:** Day palette fixed (#526700 text green, rimmed selected states, no volt slabs on cream), brand stamps and branded creator cards back, "MockMob" green in the statement, calmer hero with a branded fact strip, held stories stop above a bottom bar (Top, n of N, Skip), logo to top, Pricing pill, tour glitch fixed, phone exam screen, one-plan pricing with Rs-per-day/per-mock framing from the offer and a dated same-period comparison, Key cards flip section. Spec: docs/brain/night-1105/SPEC-R3.md.
 - **Content:** Computerised Accounting 207 cards, English reading skills 231 cards (live with the site). Financial Markets blocked: Wayback lebs202 2022/2023 truncated; try the full 2021 capture.

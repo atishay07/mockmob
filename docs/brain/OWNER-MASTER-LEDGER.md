@@ -797,3 +797,4 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | STANDING | **LK145** Split the effort 80% website (desktop, laptop, tablet, phone) and 20% app. |
 | OPEN | **LK146** Arena desktop: the sidebar needs UI refinement (the feed's use of the screen is fine). |
 | STANDING | **LK147** Do not worry about the weekly limit; keep going; when close to the limit, stop and prepare a handoff so he can continue on another account. |
+| DONE 6 Nov ~12:40 am | **LK148** Stop at 90% usage and hand off; a temporary 2-3 day trial of GPT-6 Terra on our workflow, tracked in a side file only; no standing rules; Opus stays primary. |
