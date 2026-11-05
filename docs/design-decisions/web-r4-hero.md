@@ -101,8 +101,12 @@ performance 2 (one static SVG pattern, no image), return value 1.
 
 ## Verified
 
-Real Chrome 151 headless under the shared lock, dev server (webpack) on :3591. Captures in `tmp/r4/` (v1-v6, before-*):
-360x640, 390x844, 768x1024, 1280x800, 1440x900, 1920x1080, Night and Day, plus the phone dock and a public page's dock.
+Real Chrome 151 headless under the shared lock, dev server (webpack) on :3591. Captures in `tmp/r4/` (v1-v7, before-*):
+360x640, 390x844, 768x1024, 1280x800, 1366x768, 1440x900, 1920x1080, Night and Day, plus the phone dock and a public
+page's dock. `HOME_HERO_URL=http://localhost:3591 node --test src/components/landing/homeHero.test.mjs` passed its
+running-page test (390x844, 375x667, 360x640, 412x915, 1440x900: h1 in the first 12 %, lead two lines, no fact line, the
+headline and every typed phrase inside the column, the fourth option inside the first screen at 1440x900, six taps on Mobi
+leave the bubble as it was).
 Real-pointer checks (`tmp/r4/interact.mjs`, results `tmp/r4/interact.json`): signed-in visitor types; reduced motion =
 resting line and the mark drawn without animation; the hero key is under its own centre; the pill is 44 px and a tap opens
 /pricing; the dock shows Log in + Start free / No card needed (faces level, Start free wider) and a tap opens /signup; a
