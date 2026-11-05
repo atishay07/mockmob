@@ -107,7 +107,7 @@ test('every FAQ answer is at most 45 words, in every branch', () => {
   }
 });
 
-test('no middle dots, at most one "not just" contrast, no exclamation marks, no kickers above an h2', () => {
+test('no middle dots, at most one "not just" contrast, no exclamation marks, no generic kickers above an h2 (product-name stamps only, R3-D2)', () => {
   for (const text of ALL_COPY) {
     assert.doesNotMatch(text, /[·•]/, text);
     assert.doesNotMatch(text, /!/, text);
@@ -115,7 +115,10 @@ test('no middle dots, at most one "not just" contrast, no exclamation marks, no 
   assert.ok(ALL_COPY.filter((text) => /not just/i.test(text)).length <= 1, 'one "not just" at most');
   assert.doesNotMatch(PAGE, /className="lp-kicker"/, 'the position band already names each section (T2)');
   assert.doesNotMatch(read('LabCinema.jsx'), /not just/i);
-  assert.match(COPY, /Fix the reason you missed it\./);
+  // R3-D2 (LK114): the two-beat brand voice where it is true.
+  assert.match(COPY, /Fix why you missed it\./);
+  assert.match(COPY, /'Fix it once\. Check it holds\.'/);
+  assert.match(COPY, /'Practise\. Replay\. Repair\. /);
 });
 
 test('the hero lead names the product in ink and ends with the chapter promise (LK70)', () => {
@@ -128,8 +131,8 @@ test('the Mob slide and the statement say what they said before, shorter', () =>
   const mob = TOURS[1].find((slide) => slide.id === 'mob');
   assert.match(mob.body, /Start a Mob and share its code\./);
   assert.match(mob.body, /same five questions for 24 hours/);
-  assert.match(STATEMENT, /\*where.*\*tonight.*\*shortlist/);
-  assert.equal(STATEMENT.split(' ').filter((w) => w.startsWith('*')).length, 3);
+  assert.match(STATEMENT, /\*MockMob.*\*where.*\*tonight.*\*shortlist/, '"MockMob" is green too (LK102)');
+  assert.equal(STATEMENT.split(' ').filter((w) => w.startsWith('*')).length, 4);
 });
 
 test('the exam head is 20 words or fewer and names the rehearsal in its h2 without a disclaimer', () => {

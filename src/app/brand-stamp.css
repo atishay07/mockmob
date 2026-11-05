@@ -1,0 +1,12 @@
+/* Section brand stamps (BrandStamp.jsx; R3-D2, owner LK108/LK114, 5 Nov 2026). The desk object and the product name sit above
+   the h2 as the brand speaking: sentence case, the brand-word colour (volt #D2F000 in Night, #526700 in Day: 5.55:1 on the
+   paper), Hanken 700 at 15 px, no caps, no tracking, no dots, no pill. The stamp sits 0.6 rem over its heading (the head's
+   grid gap is 1.1 rem), so it reads as the heading's own name, not as a separate row. */
+.mm.lp .lp-stamp {
+  display: inline-flex; align-items: center; gap: 0.5rem; justify-self: start;
+  margin: 0 0 -0.5rem; padding: 0;
+  color: var(--brand-word); font: 700 0.9375rem/1.2 var(--font-body); letter-spacing: 0;
+}
+.mm.lp .lp-head:not(.lp-head--left) > .lp-stamp { justify-self: center; }
+.mm.lp .lp-stamp__icon { display: block; flex: none; width: var(--stamp-icon, 28px); height: var(--stamp-icon, 28px); }
+.mm.lp .lp-stamp__icon img { display: block; width: 100%; height: 100%; object-fit: contain; -webkit-user-drag: none; pointer-events: none; }

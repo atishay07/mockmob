@@ -1,6 +1,7 @@
 // Home spec 4 Nov 2026, packet P1 (decisions 8, 9 and 16): the Night and Day tokens of the marketing system, pinned.
 // Night is the app's warm charcoal (mm_colors.dart, logo B #12110E) raised by surface, not by edges; Day is the app's cream.
-// The brand words ("CUET 2027.", the tour's "MockMob") are the brand volt #D2F000 in Night and olive #3F5200 in Day (5 Nov, LK82/LK86).
+// The brand words ("CUET 2027.", the tour's "MockMob") are the brand volt #D2F000 in Night and, since round 3 (R3-D1, LK101), the
+// app's one Day text green #526700 in Day (it replaced the greyer #3F5200 of LK82/LK86).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -72,12 +73,14 @@ test('the Night raised surfaces are told apart by surface: raised-2 is at least 
   assert.ok(contrast(night['ink-3'], night['paper-raised-2']) >= 5, 'ink-3 on raised-2 holds 5:1');
 });
 
-test('The brand words are the brand volt in Night (#D2F000) and olive in Day (#3F5200): one green on the page (owner LK82/LK86, 5 Nov)', () => {
+test('The brand words are the brand volt in Night (#D2F000) and the app’s #526700 in Day: one Day green (R3-D1, LK101; was #3F5200, LK82/LK86)', () => {
   assert.equal(night['brand-word'], '#d2f000');
   assert.ok(contrast(night['brand-word'], night.paper) >= 7, 'brand word on the Night paper');
-  assert.equal(day['brand-word'], '#3f5200');
-  assert.ok(contrast(day['brand-word'], day.paper) >= 7, 'brand word on the Day paper');
+  assert.equal(day['brand-word'], '#526700');
+  assert.ok(contrast(day['brand-word'], day.paper) >= 5.5, `brand word on the Day paper ${contrast(day['brand-word'], day.paper).toFixed(2)}`);
+  assert.ok(contrast(day['brand-word'], day['paper-raised']) >= 6.2, 'brand word on the Day raised surface');
   assert.equal(day['accent-text'], '#526700');
+  assert.equal(day['focus-ring'], '#526700', 'the Day focus ring is the app focusRing');
 });
 
 test('Day takes the app cream (proposal night, Day table)', () => {
@@ -105,7 +108,7 @@ test('the page and body ground follow the tokens in both themes', () => {
 test('the landing fallback tokens (no theme attribute) equal the Night tokens, so a no-script load never shows the old green-black', () => {
   const landing = stripComments(read('src/app/landing.css'));
   const fallback = props(block(landing, '.mm.lp'));
-  for (const key of ['paper', 'paper-raised', 'paper-raised-2', 'paper-sunken', 'ink', 'ink-2', 'ink-3', 'line', 'line-strong', 'accent-text', 'accent-line', 'accent-wash', 'brand-word', 'tint', 'surface-hover']) {
+  for (const key of ['paper', 'paper-raised', 'paper-raised-2', 'paper-sunken', 'ink', 'ink-2', 'ink-3', 'line', 'line-strong', 'accent-text', 'accent-line', 'accent-wash', 'brand-word', 'volt-edge', 'key-hairline', 'tint', 'surface-hover']) {
     assert.equal(fallback[key], night[key], `--${key} fallback equals Night`);
   }
   assert.match(landing, /html:has\(\.lp\) \{[^}]*background: #12110e;/);

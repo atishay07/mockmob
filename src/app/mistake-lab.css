@@ -15,11 +15,12 @@
 .ml__num { font: 700 0.75rem var(--font-body); font-variant-numeric: tabular-nums; }
 .ml__label { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
 .ml__steps li[data-active='true'] button { color: var(--ink); }
-.ml__steps li[data-active='true'] .ml__num { color: var(--accent-text); }
+/* The active step and its progress are brand marks (R3-D2, LK108): the brand-word colour, volt in Night and #526700 in Day. */
+.ml__steps li[data-active='true'] .ml__num { color: var(--brand-word); }
 .ml__steps li[data-done='true'] .ml__num { color: var(--ink-2); }
 .ml__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: transparent; overflow: hidden; }
 .ml__steps li[data-active='true'] .ml__bar { background: var(--line); }
-.ml__bar b { display: block; height: 100%; width: 100%; background: var(--ink-2); transform-origin: left center; transform: scaleX(0); }
+.ml__bar b { display: block; height: 100%; width: 100%; background: var(--brand-word); transform-origin: left center; transform: scaleX(0); }
 .ml__bar b[data-auto='false'] { animation: none; transform: scaleX(1); }
 .ml__caption { display: grid; }
 .ml__caption p { grid-area: 1 / 1; margin: 0; font-size: 0.95rem; line-height: 1.55; color: var(--ink-2); opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .35s var(--ease, ease); }
@@ -41,7 +42,8 @@
 /* 1. replay */
 .ml__score { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .ml__marks { display: inline-flex; align-items: baseline; gap: 0.5rem; }
-.ml__marks b { font: 800 clamp(2.4rem, 5vw, 3.2rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #f4f0e6; }
+/* The Recovery marks are the screen's hero number: the app's volt (the screen is dark in both themes). */
+.ml__marks b { font: 800 clamp(2.4rem, 5vw, 3.2rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #d2f000; }
 /* The digits hold two places and sit against their label, so the label never moves while the replay deals. */
 .ml__marks b { min-width: 2ch; text-align: end; }
 .ml__marks small { font-size: 0.85rem; color: #a6a196; }
@@ -177,7 +179,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px r
 .ml-story { --ss-beat: 70svh; }
 .ml-story[data-pinned='true'] .ml { height: 100%; grid-template-rows: auto auto minmax(0, 1fr); align-content: start; }
 .ml-story[data-pinned='true'] .ml__controls { display: none; }
-.ml-story[data-pinned='true'] .ml__bar b.ss-fill { width: 100%; height: 100%; background: var(--ink-2); }
+.ml-story[data-pinned='true'] .ml__bar b.ss-fill { width: 100%; height: 100%; background: var(--brand-word); }
 .ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: var(--line); }
 .ml-story[data-pinned='true'] .ml__stage { align-self: start; }
 .ml-story[data-reduced='true'] .ml__panel { transform: none; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear, visibility 0s linear var(--mm-dur-reduced-fade, 120ms); }

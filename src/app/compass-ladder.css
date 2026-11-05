@@ -6,13 +6,20 @@
 .cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
 .cl__group button:hover { color: var(--ink); border-color: var(--ink-3); }
 .cl__group button[aria-pressed='true'] { background: var(--volt); border-color: transparent; color: var(--volt-ink); }
+/* Day (R3-D1, LK101): never a volt slab on cream. A selected group is raised paper with a 1.5 px #526700 rim, ink words and a
+   small volt tick on its corner; hover is the pale volt state wash. Night keeps the volt fill with dark ink. */
+html[data-theme='light'] .cl__group button { position: relative; }
+html[data-theme='light'] .cl__group button[aria-pressed='true'] { background: var(--paper-raised); border-color: var(--sel-rim); box-shadow: inset 0 0 0 0.5px var(--sel-rim); color: var(--ink); }
+html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content: ''; position: absolute; top: -3px; right: -3px; width: 15px; height: 15px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 9px no-repeat; pointer-events: none; animation: var(--tick-anim, mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both); }
+@media (hover: hover) { html[data-theme='light'] .cl__group button:not([aria-pressed='true']):hover { background: var(--state-wash); } }
 .cl__group button:focus-visible, .cl input:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
 .cl__group--small button { min-height: 44px; min-width: 44px; padding: 0 0.75rem; font-size: 0.8rem; }
 .cl__row { display: flex; flex-wrap: wrap; gap: 0.6rem 1.25rem; }
 
 .cl__score { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 1rem; align-items: baseline; padding: 1rem 1.1rem; border: 1px solid var(--line-strong); border-radius: 18px; background: var(--paper-raised); }
 .cl__score label { font-size: 0.85rem; font-weight: 600; color: var(--ink-2); }
-.cl__big { font: 700 clamp(2.2rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--accent-text); min-width: 3ch; text-align: right; }
+/* The Compass score is the section's hero number: the brand-word colour (R3-D2, LK108). */
+.cl__big { font: 800 clamp(2.2rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--brand-word); min-width: 3ch; text-align: right; }
 .cl__score input { grid-column: 1 / -1; width: 100%; height: 44px; accent-color: var(--volt); cursor: pointer; background: transparent; }
 .cl__score small { grid-column: 1 / -1; font-size: 0.78rem; color: var(--ink-3); }
 .cl__big span { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
@@ -37,7 +44,7 @@
 .cl__track { grid-area: track; position: relative; display: block; height: 8px; border-radius: 999px; background: rgba(244, 240, 230, 0.08); }
 .cl__track u { position: absolute; inset: 0; border-radius: inherit; background: rgba(244, 240, 230, 0.28); transform-origin: left center; transition: transform .12s linear; }
 .cl__track b { position: absolute; top: -4px; width: 3px; height: 16px; margin-left: -1.5px; border-radius: 2px; background: #f4f0e6; }
-.cl__list li[data-state='clear'] .cl__track u { background: #cfc8b9; }
+.cl__list li[data-state='clear'] .cl__track u { background: #d2f000; }
 .cl__list li[data-state='clear'] .cl__name { color: #f4f0e6; }
 .cl__list li[data-state='short'] .cl__name { color: #c4c1ba; }
 .cl__list li[data-state='none'] { opacity: .6; }
@@ -53,8 +60,9 @@
 @media (min-width: 900px) { .lp-cpro { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; } .lp-cpro__fine { grid-column: 1 / -1; } }
 .lp-cpro__copy { display: grid; gap: 0.6rem; justify-items: start; }
 .lp-cpro__copy p { margin: 0; color: var(--ink-2); line-height: 1.6; }
-/* A plain label over the heading, never a pill (W-076). */
-.lp-cpro__badge { display: block; padding: 0; border: 0; color: var(--ink-3) !important; font: 700 0.875rem/1.3 var(--font-body); }
+/* A plain label over the heading, never a pill (W-076). It is a product name (Compass Pro, Combo Planner), so it is a brand word
+   (R3-D2, LK108): the brand-word colour, volt in Night and #526700 in Day. */
+.lp-cpro__badge { display: block; padding: 0; border: 0; color: var(--brand-word) !important; font: 700 0.875rem/1.3 var(--font-body); }
 .lp-cpro__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
 .lp-cpro__list li { display: grid; gap: 0.2rem; padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); }
 .lp-cpro__list b { font: 700 0.98rem var(--font-display); color: var(--ink); }

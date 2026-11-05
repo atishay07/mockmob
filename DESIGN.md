@@ -2,18 +2,21 @@
 name: MockMob
 description: A daylight paper page with an immediately usable illustrative decision replay and a focused Score Recovery Lab.
 colors:
-  paper: "#f4f5f0"
-  paper-raised: "#ffffff"
-  paper-sunken: "#eaece3"
-  ink: "#10140e"
-  ink-2: "#3e453b"
-  ink-3: "#5c6357"
-  line: "#d9dcd0"
-  line-strong: "#c1c5b6"
+  paper: "#f3efe6"
+  paper-raised: "#fffdf8"
+  paper-sunken: "#eae4d8"
+  ink: "#1b1914"
+  ink-2: "#4a453b"
+  ink-3: "#6b6457"
+  line: "rgba(27, 25, 20, 0.10)"
+  line-strong: "rgba(27, 25, 20, 0.22)"
   volt: "#d2f000"
-  volt-edge: "#9db400"
-  volt-soft: "#eefbaa"
+  volt-edge: "#8ba000"
+  volt-edge-night: "#9db400"
+  volt-soft: "rgba(210, 240, 0, 0.22)"
   volt-ink: "#0b1000"
+  text-green-day: "#526700"
+  good-day: "#3d6600"
   slate: "#0f130e"
   slate-2: "#1a211a"
   slate-3: "#29322a"
@@ -281,7 +284,7 @@ Diagnostic bands (readout fills, fit labels) run volt for strong, amber `#e0b93f
 
 ### Named Rules
 
-**The Two Volts Rule.** On paper, volt is a fill that carries near-black ink; when volt's identity is needed as a mark rather than a surface — an underline, an edge, a small icon, the logo dot — it becomes Volt Edge. Volt is never body-text colour on paper. On slate, volt is free to be text and graphics. The system enforces this in code: the legacy `.text-volt` utility is reassigned to ink inside `.mm`.
+**The Two Volts Rule.** On paper, volt is a fill that carries near-black ink; when volt's identity is needed as a mark rather than a surface — an underline, an edge, a small icon, the logo dot — it becomes Volt Edge. Volt is never body-text colour on paper. On slate, volt is free to be text and graphics. The system enforces this in code: the legacy `.text-volt` utility is reassigned to ink inside `.mm`. Since 5 Nov 2026 (round 3, below) the green of a brand word on the Day paper is the app's text green `#526700`, read through `--brand-word`; in Night the brand word is volt itself.
 
 **The No-Halo Rule.** Volt never appears as a decorative glow, blur, spread or text-shadow in the recovery world. The legacy marketing glows are explicitly zeroed inside `.mm`. A solid volt keyboard-focus outline on the dark replay is a functional state, not illumination.
 
@@ -620,3 +623,38 @@ Signed-in screens now share the Night Arena language through `src/app/(app)/aren
 `.app-shell`: ground #0b100e, raised #131a16, hairline #253026, sentence-case labels, the volt
 keycap as the single primary action, and a Study/Tools navigation. The NTA-style console keeps its
 conventional skin. `/preview/arena` renders the Arena with a mock user in development only.
+
+## November 5: the Day palette and brand by role (round 3, owner LK101, LK102, LK108, LK114)
+
+The 4 Nov calm-Night pass removed Day's olive layer and turned selected states into raw volt slabs on cream; the page also lost
+its brand colour by role. Round 3 sets the Day palette to the app's own (mm_colors.dart) and brings the brand back by role, never as
+decoration. Night is unchanged except where a role below says so. Pinned by `data/tests/brand_r3_1105.test.mjs`,
+`marketing_theme_tokens_1104.test.mjs` and `night_calm_1104.test.mjs`; decision note `docs/design-decisions/web-r3-brand.md`.
+
+**The Day palette.** Paper `#F3EFE6`, raised `#FFFDF8`, raised-2 `#ECE6D9`, sunken `#EAE4D8`, ink `#1B1914` / `#4A453B` /
+`#6B6457`, hairlines `rgba(27, 25, 20, 0.10)` and `rgba(27, 25, 20, 0.22)`. Volt `#D2F000` with volt ink `#0B1000` (14.9:1) is the
+action fill. The Day key's lip is `#8BA000` (Night keeps `#9DB400`) with an inset 1px `rgba(82, 103, 0, 0.28)` hairline, so the
+key holds its edge on cream. One Day text green, `#526700` (5.55:1 on the paper, 6.26:1 on raised), for brand words, accents,
+numbers and the focus ring; good `#3D6600`. The Day state wash is `rgba(210, 240, 0, 0.22)` (`#ECEFB3` on paper), for hover and
+field focus only. Shadows are warm ink `rgba(27, 25, 20, x)`, never the old green-black.
+
+**The No-Slab Rule (Day).** Never a raw volt slab on cream. A selected chip, segment, Compass group or Lab rail item in Day is
+raised paper with a 1.5px `#526700` rim and ink words, plus a small volt tick (the bubble, dark check) with a 1px
+`rgba(82, 103, 0, 0.55)` rim, as the app's `selection_style.dart` draws it. Night keeps its volt fill with dark ink.
+
+**Brand by role.** `--brand-word` (volt in Night, `#526700` in Day) colours: brand words ("CUET 2027.", "MockMob" in the tour's
+name and in the statement), product names in the section brand stamps, hero numbers (the Compass score, the creator summary),
+and progress and selected marks on the page (the tour's tab underline and progress, the Lab's and the Recovery Lab's story
+progress, the Recovery active step). Links and labels stay ink. The product screens that are dark in both themes (the tour's
+screens, the Lab's screen, the Recovery stage, the creator cards, the Compass ladder) use the app's own volt for the timer, the
+picked answer, Saved, the marks, the pace line and your own Ask Mobi bubble. Never a glow, a halo or a wash.
+
+**Brand stamps.** Above a product's section h2: its desk object (BrandIcon art, 28px) and the product name in the brand-word
+colour, Hanken 700 at 15px, sentence case, no caps, no tracking, no dots, no pill: Mistake Lab, Score Recovery Lab, DU Compass,
+MockMob on Instagram, Wall of love, Key cards. Only product names stamp a head; a generic kicker or eyebrow never does.
+
+**Texture.** The brand's own answer sheet: rows of OMR bubbles with one marked volt, faint and fading out before the words (the
+creator cards). Never a generic grid, dot matrix or glow.
+
+**Voice.** The two-beat cadence where it is true: "Fix it once. Check it holds.", "Practise. Replay. Repair.", "Fix why you
+missed it."

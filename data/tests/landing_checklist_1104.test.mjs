@@ -271,13 +271,13 @@ test('L-017 "CUET 2027." in the hero is the brand colour, not plain text', () =>
   const rule = rules(cssAll).filter((r) => /lp-title__brand/.test(r.sel) && /color\s*:/.test(r.body));
   assert.ok(rule.length > 0 && rule.every((r) => /--brand-word|--accent-text|#[0-9a-f]{6}/i.test(r.body)), 'it is coloured');
   assert.ok(!rule.some((r) => /color:\s*(var\(--ink\)|inherit)\s*;/.test(r.body)), 'not plain ink');
-  // D2 (owner LK82, 5 Nov 2026): the brand volt itself, true volt in Night and the deep olive in Day, with set figures; never the
-  // old lamp-lit #CDDD5A / #526700 (docs/design-decisions/web-1105-hero.md).
+  // D2 (owner LK82, 5 Nov 2026): the brand volt itself, true volt in Night, with set figures; never the old lamp-lit #CDDD5A
+  // (docs/design-decisions/web-1105-hero.md). Day: the app's one Day text green #526700 (R3-D1, LK101; it replaced #3F5200).
   const hero = rules(stripComments(read('src/app/hero-scene.css'))).filter((r) => /\.lp-hero \.lp-title__brand/.test(r.sel));
   assert.ok(hero.some((r) => !/light/.test(r.sel) && /color:\s*#d2f000/i.test(r.body)), 'Night: #D2F000');
-  assert.ok(hero.some((r) => /data-theme='light'/.test(r.sel) && /color:\s*#3f5200/i.test(r.body)), 'Day: #3F5200');
+  assert.ok(hero.some((r) => /data-theme='light'/.test(r.sel) && /color:\s*#526700/i.test(r.body)), 'Day: #526700');
   assert.ok(hero.some((r) => /font-variant-numeric:\s*lining-nums tabular-nums/.test(r.body)), 'lining, tabular figures');
-  assert.doesNotMatch(hero.map((r) => r.body).join('\n'), /cddd5a|526700|--brand-word/i);
+  assert.doesNotMatch(hero.map((r) => r.body).join('\n'), /cddd5a|3f5200|--brand-word/i);
 });
 
 test('L-018 "CUET 2027" is not styled as, or made into, a button that only scrolls down', () => {

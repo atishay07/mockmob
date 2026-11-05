@@ -1,7 +1,11 @@
 /* The user's preference affects marketing pages; exam-console skins stay independent.
    Night and Day take the app's own warm palette (mm_colors.dart, logo B charcoal). Night raises surfaces by surface
-   (paper, raised, raised-2), not by edges; volt is a fill and the two brand words, never an edge, a glow or a text
-   colour (1104 packet P1; tests: data/tests/marketing_theme_tokens_1104.test.mjs and night_calm_1104.test.mjs). */
+   (paper, raised, raised-2), not by edges. Volt is the action fill and, by role, the brand's voice: --brand-word is the
+   green of brand words, product names, hero numbers, progress and selected marks (volt #D2F000 in Night, the app's Day
+   accentText #526700 in Day; R3-D1/D2, owner LK101/LK108, 5 Nov 2026). Links and labels stay ink; never a glow or a wash.
+   Day never lays a raw volt slab on cream: a selected control is raised paper with a #526700 rim and a small volt tick
+   (--sel-rim, --tick-rim), the key keeps its volt fill with a darker lip and an olive hairline (--volt-edge, --key-hairline).
+   Tests: data/tests/marketing_theme_tokens_1104.test.mjs, night_calm_1104.test.mjs, day_palette_r3.test.mjs. */
 html[data-theme='dark'] .mm {
   --paper: #12110e; --paper-raised: #1b1a16; --paper-raised-2: #211f1a; --paper-sunken: #0e0d0b;
   --ink: #f4f0e6; --ink-2: #cfc8b9; --ink-3: #a29b8c;
@@ -9,21 +13,24 @@ html[data-theme='dark'] .mm {
   --slate: #0e0d0b; --slate-2: #1b1a16; --slate-3: #2a2822;
   --sh-1: 0 2px 5px #0003; --sh-2: 0 10px 28px #0003; --sh-3: 0 22px 54px #0005;
   --focus-ring: #d2f000; color-scheme: dark;
-  /* Links and labels are ink (with an underline where they are links); "CUET 2027." and the tour's "MockMob" are the only
-     volt-family words, in a lamp-lit tone that reads as one family with the key without shouting (L-017, L-030). */
+  /* Links and labels are ink (with an underline where they are links). Brand words take --brand-word, the brand volt itself. */
   --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #d2f000;
+  --volt-edge: #9db400; --key-hairline: inset 0 0 0 0 transparent; --state-wash: var(--paper-raised-2); --sel-rim: transparent; --tick-rim: transparent;
   --tint: 244 240 230; --surface-hover: #211f1a; --edge-light: rgba(244, 240, 230, 0.28);
   --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
 }
 html[data-theme='light'] .mm {
   --paper: #f3efe6; --paper-raised: #fffdf8; --paper-raised-2: #ece6d9; --paper-sunken: #eae4d8;
   --ink: #1b1914; --ink-2: #4a453b; --ink-3: #6b6457;
-  --line: rgba(27, 25, 20, 0.10); --line-strong: rgba(27, 25, 20, 0.22); --volt-soft: #eceec4;
+  --line: rgba(27, 25, 20, 0.10); --line-strong: rgba(27, 25, 20, 0.22);
   --slate: #14130f; --slate-2: #1e1c17; --slate-3: #2c2a24;
   --sh-1: 0 2px 5px #1b19140a; --sh-2: 0 10px 28px #1b19140d; --sh-3: 0 22px 54px #1b191414;
-  --focus-ring: #4f6400; color-scheme: light;
-  /* Lime-family text that holds 4.5:1 on paper; volt itself stays a fill. */
-  --accent-text: #526700; --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #3f5200;
+  --focus-ring: #526700; color-scheme: light;
+  /* One Day text green, the app's accentText #526700 (5.55:1 on the paper, 6.26:1 on raised), for brand words, accents, numbers
+     and the focus ring (R3-D1, LK101; it replaces the greyer #3F5200 of 5 Nov early morning). Volt stays the fill. */
+  --accent-text: #526700; --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #526700;
+  --volt-soft: rgba(210, 240, 0, 0.22); --volt-edge: #8ba000; --key-hairline: inset 0 0 0 1px rgba(82, 103, 0, 0.28);
+  --state-wash: rgba(210, 240, 0, 0.22); --sel-rim: #526700; --tick-rim: rgba(82, 103, 0, 0.55);
   --tint: 27 25 20; --surface-hover: #f9f5ec; --edge-light: rgba(255, 255, 255, 0.9);
   --warn-text: #845400; --bad-text: #b0291f; --good-text: #3d6600;
 }
@@ -83,12 +90,13 @@ html[data-theme='light'] .lp .lp-bg__grid { opacity: .18; background-image: line
 html[data-theme='light'] .lp .lp-bg__dots { opacity: .14; background-image: radial-gradient(circle at 1px 1px, rgba(27, 25, 20, .7) 1px, transparent 1.6px); }
 html[data-theme='light'] .lp .lp-bg__fade { background: linear-gradient(0deg, var(--paper), transparent 60%); }
 html[data-theme='light'] .lp .du-live { background: var(--paper-raised); }
-html[data-theme='light'] .lp .du-preset:hover { color: var(--ink); border-color: var(--ink-3); background: var(--paper-raised-2); }
+html[data-theme='light'] .lp .du-preset:hover { color: var(--ink); border-color: var(--ink-3); background: var(--state-wash); }
 html[data-theme='light'] .lp .du-preset { border-color: var(--line-strong); }
 html[data-theme='light'] .lp :is(.du-stat strong, .du-sum__count, .du-count, .du-live b) { color: var(--accent-text); }
 /* Product stills and the footer retain legible ink on their deliberate dark surfaces. */
 html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f4f0e6; --ink-2: #cfc8b9; --ink-3: #a29b8c; --line: rgba(244, 240, 230, 0.09); --line-strong: rgba(244, 240, 230, 0.16);
-  --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --tint: 244 240 230; --surface-hover: #211f1a; --edge-light: rgba(244, 240, 230, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
+  --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --tint: 244 240 230; --surface-hover: #211f1a; --edge-light: rgba(244, 240, 230, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
+  --brand-word: #d2f000; --volt-edge: #9db400; --key-hairline: inset 0 0 0 0 transparent; }
 @media (min-width: 1120px) and (max-width: 1199px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after { transition: none !important; } }
 html[data-motion='reduced'] :is(.mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after) { transition: none !important; }
@@ -108,9 +116,8 @@ html[data-theme='dark'] .mm-theme-hint { background: #f4f0e6; color: #1b1914; }
 body:has(.du-sum) .mm-theme-hint, body:has(.cp-sum) .mm-theme-hint { display: none; }
 body:has(#mm-nav-sheet) .mm-dock { opacity: 0; pointer-events: none; }
 
-/* The two words the owner asked to be brand-coloured keep it while links and labels went to ink (L-017 "CUET 2027." in the hero,
-   L-030 "MockMob" in the tour's name). They read --brand-word: the brand volt #D2F000 in Night, olive #3F5200 in Day (owner, 5 Nov, LK82/LK86: one green on the page; the
-   lamp-lit #CDDD5A read as "weird"). The selectors carry the
+/* Brand words read --brand-word: the brand volt #D2F000 in Night, the app's #526700 in Day (owner LK82/LK86, then R3-D1, LK101:
+   one Day green, the app's). "CUET 2027." in the hero (L-017) and "MockMob" in the tour's name (L-030). The selectors carry the
    html[data-theme] prefix so they win over the older --accent-text rules in hero-scene.css and section-position.css. */
 html[data-theme] .mm.lp .lp-title__brand { color: var(--brand-word); }
 html[data-theme] .mm.lp .lp-pos__name em { color: var(--brand-word); }

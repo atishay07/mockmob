@@ -23,11 +23,14 @@
   /* Structure */
   --line: rgba(27, 25, 20, 0.1);
   --line-strong: rgba(27, 25, 20, 0.22);
-  /* Action. Volt is a fill that carries dark ink, never a glow. */
+  /* Action. Volt is a fill that carries dark ink, never a glow. On cream (Day) the key's lip is the darker #8BA000 with an
+     olive hairline inside the fill, so the key holds its edge on the paper (R3-D1, LK101; the app shell's Day key, arena.css).
+     marketing-theme.css sets the Night lip back to #9DB400 with no hairline. */
   --volt: #d2f000;
-  --volt-edge: #9db400;
-  --volt-soft: #eceec4;
+  --volt-edge: #8ba000;
+  --volt-soft: rgba(210, 240, 0, 0.22);
   --volt-ink: #0b1000;
+  --key-hairline: inset 0 0 0 1px rgba(82, 103, 0, 0.28);
   /* Night — the product's own screens */
   --slate: #14130f;
   --slate-2: #1e1c17;
@@ -248,12 +251,12 @@ body:has(.mm) {
 .mm-btn--primary {
   background: var(--volt);
   color: var(--volt-ink);
-  box-shadow: 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
   transform: translateY(calc(var(--btn-edge) * -1));
 }
 .mm-btn--primary:active {
   transform: translateY(0);
-  box-shadow: 0 0 0 var(--volt-edge), var(--sh-1);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 0 0 var(--volt-edge), var(--sh-1);
 }
 
 .mm-btn--secondary {
@@ -2471,6 +2474,14 @@ body:has(.mm) {
 .mm-reveal {
   animation: mm-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+/* The Day selection tick (R3-D1, LK101): a selected chip, segment or group in Day is raised paper with a #526700 rim and this
+   small volt tick on its corner (the app's selection_style: volt is the bubble, with a #526700@55% rim in Day). It pops in once
+   with the press (180 ms ease-out from 0.6); reduced motion shows it at rest. */
+.mm { --tick-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.6 6.3l2.2 2.2 4.6-4.8' fill='none' stroke='%230b1000' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+@keyframes mm-tick-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .mm { --tick-anim: none; } }
+html[data-motion='reduced'] .mm { --tick-anim: none; }
+
 @keyframes mm-rise {
   from {
     opacity: 0;
@@ -2503,17 +2514,17 @@ body:has(.mm) {
   letter-spacing: -0.01em;
   text-transform: none;
   border-radius: var(--r-2);
-  box-shadow: 0 4px 0 var(--volt-edge), var(--sh-2);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 4px 0 var(--volt-edge), var(--sh-2);
   transform: translateY(-4px);
   min-height: 52px;
 }
 .mm .btn-volt:hover {
   background: #dbfb14;
-  box-shadow: 0 4px 0 var(--volt-edge), var(--sh-2);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 4px 0 var(--volt-edge), var(--sh-2);
 }
 .mm .btn-volt:active {
   transform: translateY(0);
-  box-shadow: 0 0 0 var(--volt-edge), var(--sh-1);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 0 0 var(--volt-edge), var(--sh-1);
 }
 .mm .btn-outline {
   background: var(--paper-raised);

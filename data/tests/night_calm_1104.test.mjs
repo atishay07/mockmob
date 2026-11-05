@@ -2,6 +2,14 @@
 //   1. the brand (logo dot, Mobi);  2. the one primary key as a fill (with its owned keycap edge);  3. a selected or current state as a fill
 //   that carries dark ink.  Plus the focus ring (functional) and the two owner brand words, which read --brand-word.
 // Volt is never a text colour, never an edge on a container, never a glow, never a radial or gradient wash. No glass on content.
+//
+// Round 3 (R3-D1/D2, owner LK101/LK108, 5 Nov 2026) changes two of these rules, by role and never as decoration:
+//   - Brand words, hero numbers, progress and selected marks on the page read --brand-word (volt in Night, #526700 in Day);
+//     that token is not a volt literal, so these rules do not see it, and brand_r3_1105.test.mjs pins which roles use it.
+//   - The product screens that are dark in both themes (the tour's .ts, the Lab's screen, the Recovery stage, the creator cards,
+//     the Compass ladder) look like the app again: their own volt may colour text, marks, progress and edges there. Still no glow,
+//     no wash and no glass. Elsewhere C1 and C2 hold as they were.
+//   - Day never lays a volt slab on cream (C12 now pins the Day selected-state rule: raised paper, #526700 rim, a small volt tick).
 // This grep test is the static half of the gate; the capture half is tmp/home-1104/slop/capture.mjs (volt text runs, edges, glows,
 // washes, glass, tint pixels, loops per viewport) against a running build.
 //   node --test data/tests/night_calm_1104.test.mjs                    packet P1's own files
@@ -52,10 +60,13 @@ const ALL_RULES = RAW_RULES.filter((r) => !coveredBase(r));
 const voltIn = (value) => VOLT_LITERAL.test(value.replace(/var\(--accent-text, var\(--volt\)\)/g, 'var(--accent-text)'));
 const describe = (r, d) => `${r.file.split('/').pop()}: ${r.selector} { ${d.prop}: ${d.value} }`;
 
+// The product screens that are dark in both themes (R3-D2): every selector inside one of them.
+const DARK_SCREEN = /(^|[\s,>+~])\.(ts\b|ts__|lct__|lcp-|lcc__|lcd\b|lcd__|ml__(marks|counts|tiles?|tn|leaks|move|strip|checkicon|headline|panel|stage|bar-top|tag)\b|rl__(card|cover-mark|cover-orbit|reach|engage|load-label|play|who|kind|about|identity|partner)\b|cl__(stage|list|track|cut|gap|name|top|tag)\b)/;
+const inDarkScreen = (selector) => selector.split(',').every((part) => DARK_SCREEN.test(` ${part.trim()}`));
 // Selectors where a volt fill or glyph is the brand itself or the current state.
 const BRAND_OR_STATE = /\.logo|mobi|__you\b|__you-key|__tab-ink|__pip\[data-state="now"\]|\.mm-hero__decode|readout__fill|fill-volt/i;
 
-test('volt is never a text colour (C1): only the logo dot and a tick carried on dark ink', () => {
+test('volt is never a text colour on the page (C1): only the logo dot, a tick on dark ink, and the app’s own marks inside a dark product screen (R3-D2)', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
@@ -66,19 +77,22 @@ test('volt is never a text colour (C1): only the logo dot and a tick carried on 
       // D2 (owner LK82, 5 Nov 2026, supersedes C1 for this one line): the hero's "CUET 2027." is the brand volt as text in
       // Night (#D2F000; olive #3F5200 in Day). docs/design-decisions/web-1105-hero.md.
       if (/\.lp-hero \.lp-title__brand/.test(r.selector) && d.prop === 'color') continue;
+      // R3-D2 (LK108): inside a screen that is dark in both themes the app's own volt marks the timer, the marks, Saved, the reach.
+      if (inDarkScreen(r.selector)) continue;
       offenders.push(describe(r, d));
     }
   }
   assert.deepEqual(offenders, []);
 });
 
-test('no container carries a volt edge or ring (C2): borders and outlines are neutral hairlines; only focus rings are volt', () => {
+test('no container on the page carries a volt edge or ring (C2): neutral hairlines; only focus rings, and marks inside a dark product screen (R3-D2)', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
       if (!/^(border|border-(top|right|bottom|left|inline|block)(-\w+)?|border-color|outline|outline-color)$/.test(d.prop)) continue;
       if (!voltIn(d.value)) continue;
       if (/^outline/.test(d.prop) && /:focus/.test(r.selector)) continue;
+      if (inDarkScreen(r.selector)) continue; // R3-D2: the pace line, the clock sweep, the monogram's orbit, a picked answer
       offenders.push(describe(r, d));
     }
   }
@@ -117,7 +131,7 @@ test('no volt radial, conic or linear washes (C4, C5): a gradient never carries 
   assert.match(strip(read('src/app/home.css')), /\.lp-shelf::before \{[^}]*rgba\(255, 196, 120/);
 });
 
-test('a volt fill is the key, the brand or a selected state carrying dark ink (C9)', () => {
+test('a volt fill is the key, the brand, a selected state carrying dark ink, or progress inside a dark product screen (C9, R3-D2)', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
@@ -125,6 +139,11 @@ test('a volt fill is the key, the brand or a selected state carrying dark ink (C
       if (BRAND_OR_STATE.test(r.selector)) continue;
       if (INK_ON_FILL.test(r.text)) continue;
       if (/\.mm-btn|\.btn-volt|\.pill\.volt/.test(r.selector)) continue;
+      // R3-D2: inside a dark product screen the app's own marks are volt (progress, a picked answer's tint, a cleared bar, a
+      // legend dot), never the screen or card itself.
+      if (inDarkScreen(r.selector) && !/(^|,)\s*\.(ts|lcd|ml__stage|rl__card|cl__stage)\s*(,|$)/.test(r.selector)) continue;
+      // Day's small selection tick and the Wall of love avatar: a volt bubble that carries the #526700@55% rim (R3-D1, R3-D2).
+      if (/::after/.test(r.selector) && /var\(--tick-rim\)/.test(r.text)) continue;
       offenders.push(describe(r, d));
     }
   }
@@ -213,11 +232,16 @@ test('the hero links are not hidden on phones by the landing sheets (decision 3:
   assert.doesNotMatch(strip(read('src/app/feature-tour.css')), /\.lp-hero__tool, \.lp-hero__exam-link \{ display: none; \}/);
 });
 
-test('every Night and Day pair is judged on the same tokens: the home sheets never fork a Day-only volt rule (C12)', () => {
+test('Day never lays a volt slab on cream (C12, rewritten for R3-D1, LK101): a Day-only rule carries volt only as the small tick bubble with its olive rim', () => {
   for (const file of MINE) {
     const css = strip(read(file));
-    for (const m of css.matchAll(/html\[data-theme='light'\][^{]*\{([^}]*)\}/g)) {
-      assert.doesNotMatch(m[1], /d2f000|210, ?240, ?0|var\(--volt(?![\w-])/i, `${file}: a Day-only rule with volt`);
+    for (const m of css.matchAll(/(html\[data-theme='light'\][^{]*)\{([^}]*)\}/g)) {
+      const [, selector, rawBody] = m;
+      const body = rawBody.replace(/--[\w-]+\s*:[^;]*;?/g, ''); // tokens are pinned by brand_r3_1105.test.mjs; declarations here
+      if (!/d2f000|210, ?240, ?0|var\(--volt(?![\w-])/i.test(body)) continue;
+      // The only Day volt: the tick (a ::after bubble, or the chip's own .du-chip__tick) carrying var(--tick-rim) and dark ink.
+      assert.match(selector, /::after|\.du-chip__tick/, `${file}: ${selector.trim()} puts volt in a Day-only rule that is not the tick`);
+      assert.match(body, /var\(--tick-rim\)/, `${file}: ${selector.trim()} the Day tick carries the olive rim`);
     }
   }
 });
