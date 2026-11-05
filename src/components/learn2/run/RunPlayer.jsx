@@ -11,6 +11,9 @@
 // into the Revise pile. A question sits on the page: the server grades it, a wrong pick keeps the options in view and opens
 // the line you needed in place, the explanation folds behind "Why C". Every server error kind is drawn (A8 F8): a changed or
 // held question is skipped with one line, an ended or expired run goes to its end, Free's second-tab 402 ends the run calmly.
+// LK137: a turned card can also be dragged to rate it, right Got it, left Missed it, down Easy (useRateSwipe.js): the card holds
+// where it was let go until the server has the rating, then leaves on the way it was going; the keys and 1 2 3 stay; reduced motion
+// keeps the keys only. A one-time coach line says it, after the ratings' own line.
 // Reload or resume: ?run=<id> (getRun) or ?resume=<id>; the ticks and the counter continue from the resumed point (A8 F11).
 // A run started or resumed in place (an end key, Continue, Try again) writes its own address, ?run=<id> without end=1 or fresh,
 // so a reload or Back lands in that run (R4 client-code#1); a start that a newer one overtook is ignored (client-code#10).
@@ -21,6 +24,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { LoaderCircle, X } from 'lucide-react';
 import { ReportForm } from '@/components/keycards/KeyCard';
 import { RATINGS } from '@/components/keycards/kinds';
+import { SWIPE_RATINGS, clearPose, poseTransform, swipeHint, swipeLeaveTo, swipePose } from '@/components/keycards/rateSwipe.mjs';
+import { useRateSwipe } from '@/components/keycards/useRateSwipe';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { isMotionReduced } from '@/lib/motion';
 import { useAuth } from '@/components/AuthProvider';
@@ -81,6 +86,10 @@ function launch(card, pile, kind) {
     const fade = card.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: 'linear', fill: 'forwards' }).finished.catch(() => {});
     return { handoff: fade, landed: fade };
   }
+  // LK137: a card rated by a swipe is measured where it sits in the layout (its held transform cleared first), then leaves from
+  // where it was let go, on along the way it was going (never back across the stage into the pile).
+  const pose = swipePose(card);
+  if (pose) clearPose(card);
   const root = card.closest('.lr') || document.body;
   const a = card.getBoundingClientRect();
   const ghost = card.cloneNode(true);
@@ -91,6 +100,14 @@ function launch(card, pile, kind) {
   root.appendChild(ghost);
   card.style.visibility = 'hidden';
   const done = (anim) => anim.finished.catch(() => {}).then(() => ghost.remove());
+  if (pose) {
+    const anim = ghost.animate([
+      { offset: 0, transform: poseTransform(pose), opacity: 1 },
+      { offset: 0.4, opacity: 0.85 },
+      { offset: 1, transform: poseTransform(swipeLeaveTo(pose, a.width)), opacity: 0 },
+    ], { duration: 280, easing: EASE_OUT, fill: 'forwards' });
+    return { handoff: later(160), landed: done(anim) };
+  }
   if (kind === 'missed' || !pile) {
     const anim = ghost.animate([
       { transform: 'none', opacity: 1 },
@@ -418,7 +435,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const flightTarget = () => visible(panelPileRef.current, topPileRef.current, topPosRef.current);
 
   const rate = useCallback(async (rating) => {
-    if (!item || busy || flying.current || leaving) return;
+    if (!item || busy || flying.current || leaving) return false;
     setBusy(rating); setError(null);
     let res;
     try {
@@ -426,10 +443,10 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       if (!res?.ok) throw new Error('unconfirmed');
     } catch (e) {
       setBusy(null);
-      if (isRunClosed(e)) { finish(); return; }
-      if (e?.status === 402) { setLookLine(e.data?.limit?.text || lookLine); setLookSaid(true); return; }
+      if (isRunClosed(e)) { finish(); return false; }
+      if (e?.status === 402) { setLookLine(e.data?.limit?.text || lookLine); setLookSaid(true); return false; }
       setError("That rating wasn't saved. Try again.");
-      return;
+      return false;
     }
     flying.current = true;
     setActedId(item.id);
@@ -456,6 +473,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     flying.current = false;
     setLeaving(false);
     advance();
+    return true;
   }, [item, busy, leaving, run, reinsert, showStamp, advance, finish, lookLine]);
 
   // A look (a recap card, a card past Free's ratings, a lesson read or skipped) is logged; the run does not wait for it.
@@ -591,6 +609,13 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   });
 
   const swipe = useSwipe(() => goRecap(-1), () => goRecap(1), isRecap && phase === 'play');
+  // LK137: drag a turned card to rate it (not a recap card, not a look past Free's ratings).
+  const canDrag = phase === 'play' && item?.type === 'card' && isTurned && !look && !isRecap;
+  const drag = useRateSwipe({ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate });
+  const dragRef = drag.ref;
+  const setCard = useCallback((node) => { cardRef.current = node; dragRef(node); }, [dragRef]);
+  const coachDrag = useCoach(coachKey, 'swipe1', canDrag && drag.live && !coachRate);
+  const coarse = (() => { try { return window.matchMedia('(pointer: coarse)').matches; } catch { return false; } })();
 
   const left = phase === 'play' ? minutesLeftLine(items, finished, run?.kind) : null;
   const upNext = phase === 'play' && !isRecap ? upNextLine(items, at) : null;
@@ -603,6 +628,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
         : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
           : coachRate && item?.type === 'card' && isTurned && !look ? { text: WORDS.coachRatings }
+            : coachDrag && canDrag ? { text: swipeHint({ down: drag.downOk || !coarse, touch: coarse }) }
             : coachRecap ? { text: "Answers are shown. This won't change when your cards come back." }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
 
@@ -731,7 +757,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
             // R5 LK38: each key says when the card would come back (the server's `returns`, from FSRS); none when it has no words.
             const when = item.returns?.[FLIGHT[r.rating]] || null;
             return (
-              <button key={r.rating} type="button" className="kc-rate__btn lr-rate" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy) || leaving} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
+              <button key={r.rating} type="button" className="kc-rate__btn lr-rate" data-rating={r.rating} data-lit={drag.intent && SWIPE_RATINGS[drag.intent] === r.rating ? '' : undefined} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy) || leaving} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
                 <span className="lr-rate__name">
                   {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
                   <span>{r.rating === 1 ? WORDS.missedIt : r.label}</span>
@@ -782,7 +808,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
             <div className="lr-area" data-type={item.type}>
               <div key={item.id} data-id={item.id} className="lr-enter" style={recapCard && swipe.dx ? { transform: `translateX(${swipe.dx}px)`, transition: 'none' } : undefined} {...(recapCard ? swipe.handlers : {})}>
                 {item.type === 'card' ? (
-                  <CardItem item={item} turned={isTurned} recap={isRecap} still={isRecap} cardRef={cardRef} onTurn={turn} onReport={() => setReporting(item.id)} sci={sci} />
+                  <CardItem item={item} turned={isTurned} recap={isRecap} still={isRecap} cardRef={setCard} swipe={!isRecap} onTurn={turn} onReport={() => setReporting(item.id)} sci={sci} />
                 ) : item.type === 'question' ? (
                   <QuestionItem item={item} state={answerState} streak={answerT.streak} cardRef={cardRef} onPick={pick} place={`${position} of ${total}`}
                     hint={coachPick && !answered ? WORDS.pickHint : null} sci={sci}

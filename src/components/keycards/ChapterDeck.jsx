@@ -187,7 +187,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
   return frame(
     <div className="kc-session" data-study="">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
-      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} feel arrive={at > 0 ? last : null} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
+      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} feel swipe arrive={at > 0 ? last : null} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
       <p className="kc-fine">Each card you rate goes into Revise. Missed it brings it back soon. Got it and Easy bring it back later.<span className="kc-keyhint"> Space turns the card over; 1, 2 and 3 rate it.</span></p>
     </div>,
   );

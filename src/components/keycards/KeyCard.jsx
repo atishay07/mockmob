@@ -15,6 +15,8 @@
 //                   The rating counts only once the server has it; until then the key shows it is saving.
 //                   With `feel` (Study), the press puts a small badge on the card's corner at once, and `arrive` marks a card
 //                   that rose in behind a rated one: its rating keys stay shut until the old card has gone (studyMotion.js).
+//                   With `swipe` (Study, LK137), a turned card can also be dragged: right Got it, left Missed it, down Easy
+//                   (useRateSwipe.js); the keys and 1, 2, 3 stay, and reduced motion keeps the keys only.
 //   ProGate      the one quiet Pro line with "See Pro" (opens the Upgrade sheet with the keycards reason)
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, CheckCheck, LoaderCircle, MoreHorizontal, RotateCcw } from 'lucide-react';
@@ -24,6 +26,9 @@ import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, blankRuns, gapCl
 import { TexHtml } from './TexHtml';
 import { isProRequired, proReason, sendReport, sendReview } from './api';
 import { badgeFor, leaveMs } from './studyMotion';
+import { SWIPE_RATINGS, clearSwipe, swipeHint } from './rateSwipe.mjs';
+import { useRateSwipe } from './useRateSwipe';
+import SwipeLabels from './SwipeLabels';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
@@ -237,7 +242,12 @@ function RatedBadge({ rating }) {
  */
 const BADGES = { check: Check, double: CheckCheck, again: RotateCcw };
 
-export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, feel = false, arrive = null, onRated, onLimit }) {
+/** The drag hint under the keys: shown on the first three turned cards on this device, and no more once a swipe has rated. */
+const HINT_KEY = 'mm:kc:swipehint:v1';
+const hintSeen = () => { try { return Number(localStorage.getItem(HINT_KEY)) || 0; } catch { return 99; } };
+const hintMark = (n) => { try { localStorage.setItem(HINT_KEY, String(n)); } catch { /* shown again next time */ } };
+
+export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, feel = false, arrive = null, swipe: swipeOn = false, onRated, onLimit }) {
   const [revealed, setRevealed] = useState(false);
   const [busy, setBusy] = useState(null);
   const [pressed, setPressed] = useState(null);
@@ -253,9 +263,9 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
   const reveal = useCallback(() => setRevealed(true), []);
   useEffect(() => { bornAt.current = performance.now(); }, []);
   const rate = useCallback(async (rating) => {
-    if (busy || !revealed) return;
+    if (busy || !revealed) return false;
     // The card before this one is still leaving: a quick double press must not rate this one too.
-    if (arrive && performance.now() - bornAt.current < leaveMs(arrive)) return;
+    if (arrive && performance.now() - bornAt.current < leaveMs(arrive)) return false;
     setBusy(rating);
     if (feel) setPressed(rating);
     setError(null);
@@ -266,13 +276,32 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       if (!result?.ok) throw new Error('unconfirmed');
       // { ok: true, late: true } is a review the server logged without scheduling: it counts as done, with nothing to show.
       onRated?.({ rating, result, cardId: card.id });
+      return true;
     } catch (e) {
-      if (isProRequired(e)) { onLimit?.(limitKind(proReason(e))); return; }
+      if (isProRequired(e)) { onLimit?.(limitKind(proReason(e))); return false; }
       setError("That rating wasn't saved. Try again.");
       setBusy(null);
       setPressed(null);
+      return false;
     }
   }, [busy, revealed, arrive, feel, card.id, mode, onRated, onLimit]);
+
+  // LK137: a turned card can be dragged to rate it (Study only; the keys stay). A swipe that rated retires the hint.
+  const [swiped, setSwiped] = useState(false);
+  const swipe = useRateSwipe({ enabled: swipeOn && revealed && !busy && !reporting, onRate: async (rating) => { const ok = await rate(rating); if (ok) { setSwiped(true); hintMark(99); } return ok; } });
+  const cardEl = useRef(null);
+  const swipeRef = swipe.ref;
+  const setCard = useCallback((node) => { cardEl.current = node; swipeRef(node); }, [swipeRef]);
+  // A player reused for the next card (no key) starts that card unmoved.
+  useEffect(() => () => clearSwipe(cardEl.current), [card.id]);
+  const [hint, setHint] = useState(false);
+  useEffect(() => {
+    if (!swipe.live) return;
+    const n = hintSeen();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the device's count is read on the client only
+    if (n < 3) { setHint(true); hintMark(n + 1); }
+  }, [swipe.live]);
+  const coarse = (() => { try { return window.matchMedia('(pointer: coarse)').matches; } catch { return false; } })();
 
   // The rating keys take focus and come into view (a long answer on a phone can push them under the dock).
   useEffect(() => {
@@ -303,7 +332,8 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
     <section className="kc-play" aria-labelledby={headId} data-revealed={revealed || undefined}>
       {position ? <p className="kc-pos">{position}</p> : null}
       {/* A tap anywhere on the front shows the answer too (the Turn over key is the named, focusable way). */}
-      <div className="kc-play__card" data-tap={revealed ? undefined : ''} data-arrive={arrive ? '' : undefined} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
+      <div className="kc-play__card" ref={setCard} data-tap={revealed ? undefined : ''} data-arrive={arrive ? '' : undefined} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
+        {swipeOn ? <SwipeLabels /> : null}
         <CardHead card={card} onReport={() => setReporting(true)} />
         {detail ? <p className="kc-detail">{detail}</p> : null}
         <Prompt card={card} as="h2" className="kc-play__prompt" id={headId} />
@@ -329,7 +359,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       ) : (
         <div className="kc-rate" ref={rateRow} role="group" aria-label="How well did you know it?">
           {RATINGS.map((r, i) => (
-            <button key={r.rating} ref={r.rating === 3 ? firstRate : undefined} type="button" className="kc-rate__btn" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy)} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
+            <button key={r.rating} ref={r.rating === 3 ? firstRate : undefined} type="button" className="kc-rate__btn" data-rating={r.rating} data-lit={swipe.intent && SWIPE_RATINGS[swipe.intent] === r.rating ? '' : undefined} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy)} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
               {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
               <span>{r.label}</span>
               <kbd className="kc-kbd" aria-hidden="true">{r.key}</kbd>
@@ -337,6 +367,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
           ))}
         </div>
       )}
+      {revealed && swipe.live && hint && !swiped && !error ? <p className="kc-draghint">{swipeHint({ down: swipe.downOk || !coarse, touch: coarse })}</p> : null}
       {error ? <p className="kc-err" role="alert">{error}</p> : null}
     </section>
   );
