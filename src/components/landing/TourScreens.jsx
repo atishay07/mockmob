@@ -5,8 +5,11 @@ import { Check, ShieldCheck, X } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { labStory, signed } from './labStory.mjs';
+import { firstState, shownValue } from './tourSequence.mjs';
 
-export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
+// What the tour tells each screen: on stage or not, the reader's motion setting, the Pause key, the activation epoch
+// (the story's step count when this screen came on stage) and whether the tour is held (ScrollStory) or a carousel.
+export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false, epoch: 0, held: false });
 
 // Every screen reaches its finished layout within about 600 ms of its tool coming on: rows arrive one
 // shared stagger step apart (the app's staggerStep), and only flourishes (a tap, a bar's sweep, a
@@ -14,39 +17,35 @@ export const DemoPlaybackContext = createContext({ active: false, reduced: false
 const STAGGER = durations.staggerStep;
 const lineUp = (count, from = 60) => Array.from({ length: count }, (_, i) => from + i * STAGGER);
 
+// One screen's demo (R3-D5, LK105, 5 Nov 2026). A screen stays mounted when its tool leaves the stage (5 Nov perf: a
+// remount cost about 100 ms a step at 4x CPU), so coming back it must restart from its first frame in the very render
+// that brings it on stage. That is done with an activation epoch, never a render-phase setState: the demo's state is
+// { epoch, value }, and until this activation's playback has spoken the screen shows its first frame (tourSequence.mjs).
+// The playback runs only while the screen is on stage; off stage a held screen is paused where it was and never
+// settled, so a leaving screen fades out as it was. data-ts-step therefore reads 0 and then only climbs on every
+// activation (the tour gate, tourGateBench.mjs).
 function useSequence(play, events, settled) {
-  const { active, reduced, paused } = useContext(DemoPlaybackContext);
+  const { active, reduced, paused, epoch, held } = useContext(DemoPlaybackContext);
   const clock = useRef(null);
-  // A screen that will play starts from its first frame (no flash of the finished screen before the
-  // build); a paused, reduced or inactive one starts finished.
-  const [value, setValue] = useState(() => (active && !reduced && !paused ? events[0]?.value ?? settled : settled));
-  // A screen stays mounted when its tool leaves the stage (5 Nov perf: the tour used to throw the screen away and build
-  // it again on every step, about 100 ms at 4x CPU). Coming back on stage, it restarts from its first frame in the same
-  // render, so the finished screen never flashes before the build.
-  const [wasActive, setWasActive] = useState(active);
-  if (active !== wasActive) {
-    setWasActive(active);
-    if (active && !reduced && !paused) setValue(events[0]?.value ?? settled);
-  }
+  const first = events[0]?.value ?? settled;
+  const [state, setState] = useState(() => firstState({ active, reduced, paused, epoch, first, settled }));
   useEffect(() => {
-    if (!active || reduced) {
-      const timer = setTimeout(() => setValue(settled), 0);
-      return () => clearTimeout(timer);
-    }
-    const playback = createDemoPlayback(events, setValue);
+    if (!active || reduced) return undefined;
+    const playback = createDemoPlayback(events, (value) => setState({ epoch, value }));
     clock.current = playback;
     return () => { playback.dispose(); clock.current = null; };
-  }, [active, reduced, events, settled]);
+  }, [active, reduced, events, epoch]);
   useEffect(() => {
     if (play && active && !reduced) clock.current?.resume();
     else clock.current?.pause();
-  }, [play, active, reduced]);
-  return value;
+  }, [play, active, reduced, epoch]);
+  return shownValue({ held, active, reduced, paused, epoch, state, first, settled });
 }
 
 // Compact product screens for the feature tour. Each one plays a short scripted demo every time its
 // slide becomes active (in place within about 600 ms, see STAGGER), then holds the finished state.
-// Paused and hidden demos retain their current stage. Inactive and reduced-motion screens are settled.
+// Paused and off-stage demos keep their current frame. Reduced-motion screens, and off-stage ones in the unheld
+// carousel, are finished.
 // Values are illustrative. Every screen carries two beats of real content (the moment, then what
 // follows from it) and they all come out about the same height, because the tour's tools share one
 // card and a short screen would leave an empty slab.

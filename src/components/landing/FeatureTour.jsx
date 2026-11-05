@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
@@ -15,14 +15,16 @@ export const TOUR_ADVANCE_MS = 4800;
 // less than a laptop. The sentence is the slide's own `lede` (homeCopy.mjs).
 // The rail's icons are the lamp-lit desk objects (BrandIcon, LK73), 32 px so the object never turns to mush; Ask Mobi's is the
 // brass desk bell. The chevrons and the play control stay plain line icons: controls are the interface's verbs.
+// They load eagerly at low priority (R3-D5, LK105): lazy images inside a sideways scroller only start loading as the chip
+// row scrolls them in, so on a first visit an icon arrived 24-44 ms after its chip was on screen.
 const RAIL_ICON = 32;
 function RailIcon({ name }) {
   if (typeof name !== 'string') return name; // a ready-made node (an older caller's line icon) is drawn as given
   if (name === 'bell') {
     // eslint-disable-next-line @next/next/no-img-element -- a 10 KB pre-sized webp, no optimizer round trip for a 32 px mark
-    return <img className="ft__bell" src="/brand/mascot/ask-deskbell.webp" width={RAIL_ICON} height={29} alt="" decoding="async" loading="lazy" draggable={false} />;
+    return <img className="ft__bell" src="/brand/mascot/ask-deskbell.webp" width={RAIL_ICON} height={29} alt="" decoding="async" loading="eager" fetchPriority="low" draggable={false} />;
   }
-  return <BrandIcon name={name} size={RAIL_ICON} />;
+  return <BrandIcon name={name} size={RAIL_ICON} loading="eager" fetchPriority="low" />;
 }
 function TourVideo({ slide, playing }) {
   const ref = useRef(null);
@@ -40,9 +42,10 @@ function TourVideo({ slide, playing }) {
 // back on stage (TourScreens useSequence), so a step changes a few attributes instead of rebuilding a screen (5 Nov
 // perf: the old remount cost about 100 ms a step at 4x CPU). Memoised with its own context value, so a step re-renders
 // only the two screens whose state changed. Unheld (the carousel without IntersectionObserver), the active screen is still
-// keyed by `visit`, as before, so a chip press restarts its demo.
-const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, play }) {
-  const value = useMemo(() => ({ active, reduced, paused }), [active, reduced, paused]);
+// keyed by `visit`, as before, so a chip press restarts its demo. `epoch` is the activation the screen on stage belongs
+// to (ScrollStory's step count, R3-D5): off stage every screen gets the same -1, so a step still re-renders only two.
+const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, play, epoch, held }) {
+  const value = useMemo(() => ({ active, reduced, paused, epoch, held }), [active, reduced, paused, epoch, held]);
   return <DemoPlaybackContext.Provider value={value}><Screen play={play} /></DemoPlaybackContext.Provider>;
 });
 
@@ -51,7 +54,7 @@ const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, p
 // segments following the scroll. Chips, arrows and Next jump the page to that tool's beat, so the
 // scroll position and the tool on stage never disagree. Without IntersectionObserver the old
 // carousel returns: native swipes, timed autoplay with an explicit Pause, keyboard focus holds it.
-function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
+function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) {
   const trackRef = useRef(null);
   const navRef = useRef(null);
   const clockRef = useRef(null);
@@ -96,20 +99,39 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
     const end = more > 2 && nav.scrollLeft < more - 2;
     setFade(start && end ? 'both' : start ? 'start' : end ? 'end' : 'none');
   }, []);
-  useEffect(() => {
+  // Where each chip centres, measured when the row or a chip changes size (a ResizeObserver callback, where layout is
+  // already clean), never on a step: reading offsetLeft right after a step's commit forced a style and layout pass inside
+  // the step's frame (28-34 ms of a 54-73 ms frame at 4x CPU), and the row started moving 128-192 ms late (R3-D5, P2-5).
+  const chipsRef = useRef(null);
+  const measureChips = useCallback(() => {
     const nav = navRef.current;
-    const item = nav?.querySelector('[data-chapter="' + active + '"]');
-    if (nav && item && !undrawn(nav) && nav.scrollWidth > nav.clientWidth + 2) nav.scrollTo({ left: item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
-  }, [active, reduced]);
+    if (!nav || undrawn(nav)) { chipsRef.current = null; return null; }
+    const items = [...nav.querySelectorAll('[data-chapter]')];
+    chipsRef.current = { more: nav.scrollWidth - nav.clientWidth, at: items.map((item) => item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2) };
+    return chipsRef.current;
+  }, []);
+  // The row moves in the frame after the step commits, from the cached places.
+  useLayoutEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      const nav = navRef.current;
+      const chips = chipsRef.current ?? measureChips();
+      if (!nav || !chips || chips.more <= 2 || !Number.isFinite(chips.at[active])) return;
+      nav.scrollTo({ left: chips.at[active], behavior: reduced ? 'auto' : 'smooth' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [active, reduced, measureChips]);
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return undefined;
-    readFade();
+    const read = () => { readFade(); measureChips(); };
+    read();
+    document.fonts?.ready.then(read).catch(() => {});
     if (typeof ResizeObserver === 'undefined') return undefined;
-    const observer = new ResizeObserver(readFade);
+    const observer = new ResizeObserver(read);
     observer.observe(nav);
+    nav.querySelectorAll('[data-chapter]').forEach((item) => observer.observe(item));
     return () => observer.disconnect();
-  }, [readFade]);
+  }, [readFade, measureChips]);
 
   const goTo = useCallback((index, { scroll = true, keyboard = false } = {}) => {
     if (!slides.length) return;
@@ -219,7 +241,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                 <article className="ft__card">
                   <div className="ft__media">
                     <div className="ft__shot">
-                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen key={pinned || !on ? 'still' : visit} Screen={Screen} active={on} reduced={reduced} paused={paused} play={on && running} /> : slide.screen}
+                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen key={pinned || !on ? 'still' : visit} Screen={Screen} active={on} reduced={reduced} paused={paused} play={on && running} epoch={on ? (pinned ? seq : visit) : -1} held={pinned} /> : slide.screen}
                     </div>
                   </div>
                   <div className="ft__copy">

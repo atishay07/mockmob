@@ -3,7 +3,7 @@
 // ScrollStory: a landing section that holds still while the reader's gesture walks it through its steps.
 //
 //   <ScrollStory steps={4} className="lc" beat="78svh" label="Mistake Lab, step by step" Content={Stage} {...stageProps} />
-//   function Stage({ step, pinned, reduced, live, goTo, steps, ...stageProps }) { ... }
+//   function Stage({ step, seq, pinned, reduced, live, goTo, steps, ...stageProps }) { ... }
 //
 // The stage is position: sticky inside a taller track, so the browser does the holding. Each step has a
 // resting place in the held scroll (the first at the start of the hold, the last at its end, the rest
@@ -135,11 +135,16 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   const crossing = useRef(new Set());
   const [pinned, setPinned] = useState(true);
   const [reduced, setReduced] = useState(false);
-  const [step, setStep] = useState(0);
+  // The step React shows, with the count of step changes that led to it (R3-D5, LK105): `seq` goes up by one on every
+  // change and rides in the same transition as the step, so a stage can tell a fresh arrival from a re-render (the tour
+  // hands it to the screen coming on stage as its activation epoch).
+  const [shown, setShown] = useState({ step: 0, seq: 0 });
+  const { step, seq } = shown;
   const [live, setLive] = useState(false);
   // The step as the controller sees it, written the moment a step is decided (React's own state catches up in a
   // transition, so it is never the one to ask inside a gesture).
   const stepRef = useRef(0);
+  const seqRef = useRef(0);
   const handleRef = useRef(null);
   const onStepRef = useRef(onStep);
   useEffect(() => { onStepRef.current = onStep; }, [onStep]);
@@ -149,8 +154,10 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     if (stepRef.current === next) return;
     stepRef.current = next;
     const root = rootRef.current;
+    seqRef.current += 1;
+    const change = { step: next, seq: seqRef.current };
     if (root) { root.dataset.step = String(next); writeStep(root, next); }
-    startTransition(() => setStep(next));
+    startTransition(() => setShown(change));
   }, [steps]);
 
   useEffect(() => {
@@ -316,7 +323,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     if (Number.isFinite(i) && i !== stepRef.current) goTo(i);
   }, [goTo]);
 
-  const api = useMemo(() => ({ step, pinned, reduced, live, goTo, steps }), [step, pinned, reduced, live, goTo, steps]);
+  const api = useMemo(() => ({ step, seq, pinned, reduced, live, goTo, steps }), [step, seq, pinned, reduced, live, goTo, steps]);
 
   return (
     <div
