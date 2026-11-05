@@ -12,6 +12,7 @@ export default function OptionPicker({ subjectId, value, onChange, disabled, lat
     <div className="ob-opt" role="radiogroup" aria-labelledby={`${name}-h`} aria-disabled={disabled || undefined}>
       <p className="ob-opt__legend" id={`${name}-h`}>Your {ask.name} {ask.label.toLowerCase()}</p>
       <p className="ob-opt__ask">Pick the one your school teaches.</p>
+      {ask.note ? <p className="ob-opt__note">{ask.note}</p> : null}
       <div className="ob-opt__choices">
         {ask.choices.map((c) => (
           <label key={c.id} className="ob-opt__choice mk-press" data-on={value === c.id || undefined}>

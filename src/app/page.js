@@ -19,7 +19,7 @@ import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
 import { heroBeat, heroTrustSentence } from '@/components/landing/heroTaps.mjs';
-import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
@@ -48,6 +48,7 @@ import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import WallOfLove from '@/components/landing/WallOfLove';
+import { BrandStamp } from '@/components/landing/BrandStamp';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
 import './home-refinements.css';
@@ -203,6 +204,7 @@ export default function LandingPage() {
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
+              <BrandStamp {...BRAND_STAMPS.lab} />
               <h2 className="lp-h2" id="inside-the-lab-title">{LAB_HEAD.h2}</h2>
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
@@ -225,6 +227,7 @@ export default function LandingPage() {
         <section className="lp-sec lp-pos-host" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
+              <BrandStamp {...BRAND_STAMPS.recovery} />
               <h2 className="lp-h2">{RECOVERY_HEAD.h2}</h2>
               <p className="lp-sub">{RECOVERY_HEAD.sub}</p>
             </Reveal><MascotSeat station="lab" pose="encouraging" label="Let’s find the lost marks." /></div>
@@ -237,6 +240,7 @@ export default function LandingPage() {
           <section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
+                <BrandStamp {...BRAND_STAMPS.compass} />
                 <h2 className="lp-h2">{COMPASS_HEAD.h2}</h2>
                 <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
@@ -295,6 +299,7 @@ export default function LandingPage() {
         <section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
+              <BrandStamp {...BRAND_STAMPS.instagram} />
               <h2 className="lp-h2">{INSTAGRAM_HEAD.h2}</h2>
               <p className="lp-sub">{INSTAGRAM_HEAD.sub}</p>
             </Reveal>
@@ -307,6 +312,7 @@ export default function LandingPage() {
           <section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
               <Reveal className="lp-head lp-head--left">
+                <BrandStamp {...BRAND_STAMPS.wall} />
                 <h2 className="lp-h2">{WALL_HEAD.h2}</h2>
               </Reveal>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>

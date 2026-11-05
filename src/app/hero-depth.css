@@ -20,12 +20,13 @@
   text-wrap: balance;
 }
 /* The accent is the brand green again (owner decision LK86, 5 Nov 2026; it reverses the 4 Nov "accent is weight, not
-   colour" rule for the statement only): the words marked * in homeCopy STATEMENT ("where", "tonight", "shortlist") are
-   true volt #D2F000 in Night and a deep olive in Day that holds 7.5:1 on the paper; every other word is ink. Colour on
-   the letters, never a highlighter, a glow or a wash. The accent keeps the statement's own weight: colour carries it
-   now, and a heavier green word would shout. The token lives here, on the statement, so no other text can pick it up. */
+   colour" rule for the statement only): the words marked * in homeCopy STATEMENT ("MockMob", owner LK102, then "where",
+   "tonight", "shortlist") are true volt #D2F000 in Night and the app's Day text green #526700 in Day (5.55:1 on the
+   paper; R3-D1, LK101: one Day green); every other word is ink. Colour on the letters, never a highlighter, a glow or a
+   wash. The accent keeps the statement's own weight: colour carries it now, and a heavier green word would shout. The
+   token lives here, on the statement, so no other text can pick it up. */
 .mm.lp .lp-statement { --statement-accent: #d2f000; }
-html[data-theme='light'] .mm.lp .lp-statement { --statement-accent: #3f5200; }
+html[data-theme='light'] .mm.lp .lp-statement { --statement-accent: #526700; }
 .lp-statement__w[data-accent] { color: var(--statement-accent, var(--ink)); }
 .lp-statement__mark { color: var(--ink); }
 /* On the scrub, an accent word arrives dim in ink like the rest, and turns green once it is lit (the last third of its
@@ -272,7 +273,7 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
   background: color-mix(in srgb, var(--paper) 96%, transparent);
   -webkit-backdrop-filter: saturate(1) blur(14px);
   backdrop-filter: saturate(1) blur(14px);
-  box-shadow: 0 1px 0 rgba(23, 32, 22, 0.07), 0 10px 24px -20px rgba(20, 32, 14, 0.35);
+  box-shadow: 0 1px 0 rgba(27, 25, 20, 0.07), 0 10px 24px -20px rgba(27, 25, 20, 0.35);
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   :root[data-theme='light'] .mm.lp .mm-nav { background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }

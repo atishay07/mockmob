@@ -20,8 +20,12 @@ export const OPTION_ASKS = Object.freeze({
       { id: 'B2', label: 'B2 Informatics Practices', line: 'The Informatics Practices course: Python with Pandas, data handling, databases.' },
     ],
   },
+  // R3-D11 (5 Nov 2026, content research C8): NTA's 2025 Accountancy paper asked no Computerised Accounting, and a CAS pick drops
+  // Analysis of Financial Statements from practice and mocks, so the ask says what the real paper asked. AFS stays the default.
+  // Whether CAS stays a choice at all is the owner's call (asked in the round 3 report).
   accountancy: {
     name: 'Accountancy', label: 'Part', default: 'AFS',
+    note: 'The 2025 CUET paper asked Analysis of Financial Statements only.',
     choices: [
       { id: 'AFS', label: 'Analysis of Financial Statements', line: 'Reading financial statements: ratios and cash flow.' },
       { id: 'CAS', label: 'Computerised Accounting', line: 'Keeping accounts on a computer: spreadsheets and databases.' },

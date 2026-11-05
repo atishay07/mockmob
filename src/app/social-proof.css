@@ -1,4 +1,8 @@
-/* Creator posts: authored local covers, fixed media geometry, and deferred embeds. */
+/* Creator posts: authored local covers, fixed media geometry, and deferred embeds.
+   Branded again (R3-D2, owner LK108, 5 Nov 2026: "Featured by CUET creators" had lost every brand element). The card is a dark
+   product surface in both themes, so its brand marks are the volt itself: the reach number, the monogram's dashed orbit, the play
+   key with its volt lip, the heart, the hover edge. Its texture is the brand's own answer sheet (OMR bubbles, one marked per row),
+   never a generic grid or a glow. The summary is a raised strip whose numbers take the brand-word colour. */
 .rl { display: grid; gap: 1rem; }
 .rl__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .rl__follow { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; padding: 0 1rem; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink); font: 700 0.9rem var(--font-body); text-decoration: none; }
@@ -11,7 +15,9 @@
 .rl__item { flex: 0 0 min(70vw, 16rem); min-width: 0; scroll-snap-align: start; aspect-ratio: 9 / 16; }
 @media (min-width: 768px) { .rl__item { flex-basis: 15.5rem; } }
 .rl__card { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; padding: 1rem; border-radius: 20px; border: 1px solid rgba(244, 240, 230, 0.16); color: #f4f0e6; text-align: left; cursor: pointer; overflow: hidden; background: linear-gradient(155deg, #26231c 0%, #13110d 52%, #0d0c09 100%); }
-.rl__cover-mark { position: absolute; z-index: -1; top: 3.4rem; right: 1rem; display: grid; place-items: center; width: 3.4rem; aspect-ratio: 1; border-radius: 50%; background: rgba(244,240,230,.08); color: #f4f0e6; font: 700 0.85rem var(--font-display); letter-spacing: 0.02em; }
+.rl__card::before { content: ''; position: absolute; z-index: -1; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='108' viewBox='0 0 72 108'%3E%3Cg fill='none' stroke='%23f4f0e6' stroke-opacity='.1' stroke-width='1.2'%3E%3Ccircle cx='12' cy='9' r='5'/%3E%3Ccircle cx='44' cy='9' r='5'/%3E%3Ccircle cx='60' cy='9' r='5'/%3E%3Ccircle cx='12' cy='27' r='5'/%3E%3Ccircle cx='28' cy='27' r='5'/%3E%3Ccircle cx='44' cy='27' r='5'/%3E%3Ccircle cx='28' cy='45' r='5'/%3E%3Ccircle cx='44' cy='45' r='5'/%3E%3Ccircle cx='60' cy='45' r='5'/%3E%3Ccircle cx='12' cy='63' r='5'/%3E%3Ccircle cx='28' cy='63' r='5'/%3E%3Ccircle cx='60' cy='63' r='5'/%3E%3Ccircle cx='12' cy='81' r='5'/%3E%3Ccircle cx='44' cy='81' r='5'/%3E%3Ccircle cx='60' cy='81' r='5'/%3E%3Ccircle cx='12' cy='99' r='5'/%3E%3Ccircle cx='28' cy='99' r='5'/%3E%3Ccircle cx='44' cy='99' r='5'/%3E%3C/g%3E%3Cg fill='%23d2f000' fill-opacity='.3'%3E%3Ccircle cx='28' cy='9' r='5'/%3E%3Ccircle cx='60' cy='27' r='5'/%3E%3Ccircle cx='12' cy='45' r='5'/%3E%3Ccircle cx='44' cy='63' r='5'/%3E%3Ccircle cx='28' cy='81' r='5'/%3E%3Ccircle cx='60' cy='99' r='5'/%3E%3C/g%3E%3C/svg%3E") right -4px top 6px / 72px 108px repeat; -webkit-mask-image: radial-gradient(115% 52% at 100% 0%, #000 0%, rgba(0,0,0,.45) 45%, transparent 78%); mask-image: radial-gradient(115% 52% at 100% 0%, #000 0%, rgba(0,0,0,.45) 45%, transparent 78%); pointer-events: none; }
+.rl__cover-mark { position: absolute; z-index: -1; top: 3.4rem; right: 1rem; display: grid; place-items: center; width: 3.4rem; aspect-ratio: 1; border: 1px solid rgba(210,240,0,.45); border-radius: 50%; background: #13110d; color: #d2f000; font: 800 0.9rem var(--font-display); letter-spacing: 0.01em; }
+.rl__cover-orbit { position: absolute; inset: 0.32rem; border: 1px dashed rgba(210,240,0,.4); border-radius: 50%; }
 /* The reel's kind is a plain caption over the picture (no pill, W-076); a soft shadow keeps it legible on any frame. */
 .rl__kind { display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-start; max-width: 100%; padding: 0; color: #efedea; font: 700 0.75rem var(--font-body); letter-spacing: 0; text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 8px rgba(0,0,0,.6); }
 .rl__top { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
@@ -19,7 +25,7 @@
 .rl__card { gap: 0.7rem; }
 .rl__card[data-kind='reel'] { justify-content: flex-start; }
 .rl__reach { display: grid; gap: 0.2rem; margin-top: 0.5rem; padding-right: 3.6rem; }
-.rl__reach b { font: 800 clamp(2rem, 9vw, 2.6rem)/0.95 var(--font-display); letter-spacing: -0.04em; color: #f4f0e6; }
+.rl__reach b { font: 800 clamp(2rem, 9vw, 2.6rem)/0.95 var(--font-display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; color: #d2f000; }
 .rl__reach > span { color: #d2cec5; font: 600 0.74rem/1.4 var(--font-body); }
 .rl__reach i { font-style: normal; color: #f4f0e6; }
 .rl__about { color: #e4e0d9; font: 500 0.82rem/1.5 var(--font-body); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
@@ -27,16 +33,16 @@
 .rl__card .rl__attribution { color: #cfc8b9; }
 .rl__engage { display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem; color: #d2cec5; font: 600 0.74rem var(--font-body); }
 .rl__engage span { display: inline-flex; align-items: center; gap: 0.3rem; }
-.rl__engage svg { color: #cfc8b9; }
+.rl__engage svg { color: #d2f000; }
 .rl__identity { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 0.75rem; margin-top: auto; padding-top: 0.9rem; border-top: 1px solid rgba(245,243,241,.18); }
 .rl__card:not([data-kind='reel']) .rl__identity { padding-top: 4.25rem; }
 
 /* Summary: a raised surface with one hairline (no glass, no glow: C4, C7). */
-.rl__summary { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: 22px; overflow: hidden; border: 1px solid var(--line-strong); background: var(--paper-raised); box-shadow: var(--sh-1); }
+.rl__summary { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; border-radius: 22px; overflow: hidden; border: 1px solid var(--line-strong); background: var(--paper-raised); box-shadow: var(--sh-2); }
 .rl__summary > div { display: grid; gap: 0.25rem; align-content: start; padding: 1rem 1.1rem; }
 .rl__summary > div + div { box-shadow: -1px 0 0 var(--line); }
 .rl__summary dt { color: var(--ink-3); font: 600 0.74rem var(--font-body); }
-.rl__summary dd { margin: 0; color: var(--ink); font: 800 clamp(1.4rem, 4vw, 1.9rem)/1.05 var(--font-display); letter-spacing: -0.03em; }
+.rl__summary dd { margin: 0; color: var(--brand-word, var(--ink)); font: 800 clamp(1.4rem, 4vw, 1.9rem)/1.05 var(--font-display); letter-spacing: -0.03em; }
 .rl__summary dd small { display: block; margin-top: 0.2rem; color: var(--ink-2); font: 600 0.74rem var(--font-body); letter-spacing: 0; }
 @media (min-width: 760px) { .rl__summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .rl__summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -45,9 +51,9 @@
 .rl__who { display: grid; gap: 0.25rem; min-width: 0; }
 .rl__who b { font: 700 clamp(1.2rem, 5vw, 1.65rem)/1.05 var(--font-display); letter-spacing: -0.035em; overflow-wrap: anywhere; }
 .rl__who i { min-width: 0; color: #cbc7c0; font: normal 0.76rem/1.35 var(--font-body); overflow-wrap: anywhere; }
-.rl__play { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding-left: 2px; border-radius: 50%; background: #f4f0e6; color: #12110e; box-shadow: 0 4px 0 #a29b8c; }
-.rl__load-label { display: flex; justify-content: space-between; gap: 0.5rem; color: #cfc8b9; font: 700 0.8rem var(--font-body); }
-.rl__card:active .rl__play { transform: translateY(2px); box-shadow: 0 2px 0 #a29b8c; }
+.rl__play { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding-left: 2px; border-radius: 50%; background: #d2f000; color: #0b1000; box-shadow: 0 4px 0 #9db400; transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
+.rl__load-label { display: flex; justify-content: space-between; gap: 0.5rem; color: #d2f000; font: 700 0.8rem var(--font-body); }
+.rl__card:active .rl__play { transform: translateY(2px); box-shadow: 0 2px 0 #9db400; }
 .rl__frame { position: relative; isolation: isolate; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid rgba(244, 240, 230, 0.14); }
 .rl__frame iframe { width: 100%; height: 100%; border: 0; display: block; background: #fff; }
 .rl__status { position: absolute; z-index: 1; left: 0.6rem; right: 0.6rem; top: 0.6rem; margin: 0; padding: 0.6rem 0.7rem; border-radius: 10px; background: rgba(16,14,11,.9); color: #f4f0e6; font: 600 0.78rem/1.4 var(--font-body); pointer-events: none; }
@@ -57,7 +63,7 @@
 @media (hover: hover) and (pointer: fine) {
   .rl__follow:hover { border-color: var(--ink-3); background: var(--paper-raised-2); }
   .rl__arrows button:not([aria-disabled='true']):hover { border-color: var(--ink-3); color: var(--ink); }
-  .rl__card:hover { border-color: rgba(244,240,230,.34); }
+  .rl__card:hover { border-color: rgba(210,240,0,.56); }
 }
 
 /* Consented student quotes. Long text wraps, identifiers keep their natural length, and only
@@ -82,7 +88,8 @@
 .wl__byline { display: grid; gap: 0.15rem; min-width: 0; line-height: 1.4; overflow-wrap: anywhere; }
 .wl__card b { font: 700 0.92rem/1.35 var(--font-display); }
 .wl__card i { color: var(--ink-3); font: normal 0.8rem/1.4 var(--font-body); }
-.wl__avatar { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 50%; background: var(--paper-raised-2); color: var(--ink); font: 700 0.9rem var(--font-display); }
+/* The avatar is the brand's volt disc with dark ink (R3-D2); in Day it carries the olive rim so it holds its edge on the cream card. */
+.wl__avatar { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--tick-rim, transparent); background: var(--volt); color: var(--volt-ink); font: 800 0.9rem var(--font-display); }
 .wl__card em { margin-left: auto; flex: 0 0 auto; align-self: flex-start; font: normal 700 0.68rem var(--font-body); padding: 0.25rem 0.5rem; border-radius: 999px; border: 1px dashed var(--ink-3); color: var(--ink-2); white-space: nowrap; }
 .wl__share { margin: 0; font-size: 0.85rem; line-height: 1.5; color: var(--ink-2); }
 .wl__share a { color: var(--ink); font-weight: 700; text-underline-offset: 0.15em; }

@@ -1,4 +1,6 @@
 // Night refinement 5 Nov 2026, packet P2, decision D4 (owner LK86): the statement's green words come back.
+// Round 3 (5 Nov ~10 am): "MockMob" is a green word too (owner LK102), and Day's green is the app's #526700 (R3-D1, LK101; it was
+// the greyer #3F5200).
 // The words marked * in homeCopy STATEMENT are drawn in the brand green again, true volt #D2F000 in Night and a deep olive
 // that passes AA on the Day paper, every other word in ink. As each clause comes in (the phone's held story step, or the
 // wide window's scrub) its accent word arrives dim in ink like the rest and then lights up green: colour on the letters,
@@ -27,20 +29,20 @@ const token = (block, name) => (block.match(new RegExp(`--${name}:\\s*(#[0-9a-f]
 const nightPaper = token(THEME.slice(THEME.indexOf("html[data-theme='dark'] .mm {")), 'paper');
 const dayPaper = token(THEME.slice(THEME.indexOf("html[data-theme='light'] .mm {")), 'paper');
 
-test('the three accent words are "where", "tonight" and "shortlist", one in each clause after the first', () => {
+test('the accent words are "MockMob" (LK102), then "where", "tonight" and "shortlist", one in each clause after the first', () => {
   const words = statementWords(STATEMENT);
-  assert.deepEqual(words.filter((w) => w.accent).map((w) => w.text), ['where,', 'tonight,', 'shortlist']);
-  assert.deepEqual(words.filter((w) => w.accent).map((w) => w.clause), [1, 2, 3]);
+  assert.deepEqual(words.filter((w) => w.accent).map((w) => w.text), ['MockMob', 'where,', 'tonight,', 'shortlist']);
+  assert.deepEqual(words.filter((w) => w.accent).map((w) => w.clause), [1, 1, 2, 3]);
   assert.equal(STATEMENT_STEPS, 4);
 });
 
-test('Night draws them in true volt #D2F000, Day in a deep olive that holds AA on the paper; both from one statement-only token', () => {
+test('Night draws them in true volt #D2F000, Day in the app’s #526700 that holds AA on the paper; both from one statement-only token', () => {
   assert.match(CSS, /\.mm\.lp \.lp-statement \{ --statement-accent: #d2f000; \}/);
-  assert.match(CSS, /html\[data-theme='light'\] \.mm\.lp \.lp-statement \{ --statement-accent: #3f5200; \}/);
+  assert.match(CSS, /html\[data-theme='light'\] \.mm\.lp \.lp-statement \{ --statement-accent: #526700; \}/);
   assert.equal(nightPaper, '#12110e');
   assert.equal(dayPaper, '#f3efe6');
   assert.ok(contrast('#d2f000', nightPaper) >= 7, `volt on the Night paper ${contrast('#d2f000', nightPaper).toFixed(2)}`);
-  assert.ok(contrast('#3f5200', dayPaper) >= 4.5, `olive on the Day paper ${contrast('#3f5200', dayPaper).toFixed(2)} (AA)`);
+  assert.ok(contrast('#526700', dayPaper) >= 4.5, `#526700 on the Day paper ${contrast('#526700', dayPaper).toFixed(2)} (AA)`);
   // The token belongs to the statement: no other stylesheet reads it, so no other text can turn volt through it.
   for (const file of readdirSync(new URL('src/app/', root)).filter((f) => f.endsWith('.css') && f !== 'hero-depth.css')) {
     assert.doesNotMatch(read(`src/app/${file}`), /--statement-accent/, `${file} leaves the statement's token alone`);

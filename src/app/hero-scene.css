@@ -37,12 +37,12 @@
 }
 .mm.lp .lp-hero .lp-title__line { display: block; white-space: nowrap; }
 /* "CUET 2027." is the brand volt itself (D2, LK82, 5 Nov; docs/design-decisions/web-1105-hero.md): true volt #D2F000 in
-   Night, the colour of Mobi, the logo's dot and the key, and the deep olive #3F5200 in Day (7.6:1 on the paper), never
-   the old lamp-lit #CDDD5A / #526700. Its figures are lining and tabular and the line's tracking opens to -0.022em, so
+   Night, the colour of Mobi, the logo's dot and the key, and in Day the app's one Day text green #526700 (5.55:1 on the
+   paper; R3-D1, LK101 replaced the greyer #3F5200), never the old lamp-lit #CDDD5A. Its figures are lining and tabular and the line's tracking opens to -0.022em, so
    "2027" reads as set, not squeezed. The html[data-theme] prefix outranks marketing-theme.css's --brand-word rule. */
 .mm.lp .lp-hero .lp-title__brand,
 html[data-theme] .mm.lp .lp-hero .lp-title__brand { color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.022em; }
-html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
+html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 
 /* ---------- The lead (LK70): what MockMob is, in one sentence ---------- */
 .mm.lp .lp-hero .lp-lead {

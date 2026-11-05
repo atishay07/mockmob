@@ -9,8 +9,12 @@
 .ft__list:is([data-fade='end'], [data-fade='both']) { --ft-fade-r: transparent; }
 .ft__list li { flex: 0 0 auto; }
 .ft__row { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: .5rem .75rem; border: 1px solid transparent; border-radius: 12px; background: transparent; color: var(--ink-2); font: 650 .83rem/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: background 150ms ease, color 150ms ease; }
-/* The chapter on stage is marked by a raised-2 surface and ink, no ring and no volt: the landing keeps one volt key per screen (W-075, C2). */
+/* The chapter on stage is a raised-2 surface, ink words and a short brand-word underline (volt in Night, #526700 in Day): the
+   tab underline is a selected state, so it carries the brand (R3-D2, LK108). No ring and no volt fill: one volt key per screen. */
+.ft__row { position: relative; }
+.ft__row::after { content: ''; position: absolute; left: .75rem; right: .75rem; bottom: 4px; height: 2px; border-radius: 2px; background: var(--brand-word); transform: scaleX(0); transition: transform 200ms cubic-bezier(.23, 1, .32, 1); pointer-events: none; }
 .ft__row[data-on='true'] { background: var(--paper-raised-2); color: var(--ink); }
+.ft__row[data-on='true']::after { transform: scaleX(1); }
 .ft__ico { display: flex; width: 18px; height: 18px; }
 .ft__ico svg { width: 18px; height: 18px; }
 .ft__stage { position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 24px; background: var(--paper-raised); }
@@ -25,8 +29,9 @@
 .ft__play:disabled { opacity: .45; cursor: default; }
 .ft__progress { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; padding: 0 1rem .75rem; }
 .ft__progress span { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 4px; background: var(--line); }
-.ft__progress span[data-done='true'] { background: var(--ink-2); }
-.ft__progress i { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: var(--ink-2); }
+/* Story progress is a brand mark (R3-D2): the done and running segments take the brand-word colour. */
+.ft__progress span[data-done='true'] { background: var(--brand-word); }
+.ft__progress i { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: var(--brand-word); }
 .ft__track { position: relative; display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; touch-action: pan-x pan-y pinch-zoom; }
 .ft__slide { display: grid; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
 .ft__card { min-width: 0; display: grid; grid-template-rows: 21rem minmax(10rem, auto); }
@@ -105,7 +110,7 @@
   /* Ship gate, 4 Nov 2026: the bar is near-opaque paper with no saturation boost (it was 62% with saturate 1.5, so a lime key scrolling under it smeared the bar lime). */
   html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 96%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1); backdrop-filter: blur(14px) saturate(1); }
   .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
-  html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(20,32,14,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
+  html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(27,25,20,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
   /* Phones (5 Nov 2026, LK93): only a section's heading comes in through the 6 px blur. A big block (a ladder, a plan
      grid, the reels) arrives as a 300 ms fade and rise without it: blurring a block a screen tall costs a slow phone a
      full-size filter layer on every frame of the fade, and an 800 ms fade read as the section loading slowly. */
@@ -139,7 +144,7 @@
 .ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__shot { transform: translate3d(0, 0.6rem, 0) scale(0.97); }
 .ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__copy { transform: translate3d(0, -0.9rem, 0); }
 .ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__shot { transform: translate3d(0, -0.6rem, 0) scale(0.97); }
-.ft-story[data-pinned='true'] .ft__progress .ss-fill { width: 100%; height: 100%; background: var(--ink-2); }
+.ft-story[data-pinned='true'] .ft__progress .ss-fill { width: 100%; height: 100%; background: var(--brand-word); }
 .ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
 .ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
 .ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }

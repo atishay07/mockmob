@@ -1582,6 +1582,14 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
 .lp .du-chip[aria-pressed="true"] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
 .lp .du-chip[aria-pressed="true"] .du-chip__tick { border-color: var(--volt-ink); background: var(--volt-ink); color: var(--volt); }
 .lp .du-seg__btn[aria-checked="true"] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
+/* Day (R3-D1, LK101): the calm-Night volt fill was never meant for cream. A selected chip or segment in Day is raised paper
+   with a 1.5 px #526700 rim and ink words; the chip's own tick (and a corner tick on a segment) is the small volt bubble with a
+   #526700@55% rim, as in the app (selection_style.dart). Hover is the pale volt state wash. */
+html[data-theme='light'] .lp .du-chip[aria-pressed="true"],
+html[data-theme='light'] .lp .du-seg__btn[aria-checked="true"] { border-color: var(--sel-rim); background: var(--paper-raised); box-shadow: inset 0 0 0 0.5px var(--sel-rim); color: var(--ink); }
+html[data-theme='light'] .lp .du-chip[aria-pressed="true"] .du-chip__tick { border: 1px solid var(--tick-rim); background: var(--volt); color: var(--volt-ink); }
+html[data-theme='light'] .lp .du-seg__btn { position: relative; }
+html[data-theme='light'] .lp .du-seg__btn[aria-checked="true"]::after { content: ''; position: absolute; top: -5px; right: -5px; width: 15px; height: 15px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 9px no-repeat; pointer-events: none; animation: var(--tick-anim, mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both); }
 .lp .du-select--full[data-active="true"] select { border-color: var(--ink-3); background-color: var(--paper-raised-2); color: var(--ink); }
 .lp .du-tray button { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.05); }
 .lp .du-unlocks { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.04); }
@@ -1603,6 +1611,8 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
 @media (hover: hover) {
   .lp .du-preset:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 240 230) / 0.08); }
   .lp .du-chip[aria-pressed="true"]:hover { border-color: var(--volt-ink); }
+  html[data-theme='light'] .lp .du-chip[aria-pressed="true"]:hover { border-color: var(--sel-rim); }
+  html[data-theme='light'] .lp :is(.du-chip:not([aria-pressed="true"]), .du-seg__btn:not([aria-checked="true"])):hover { background: var(--state-wash); }
   .lp .du-tray button:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 240 230) / 0.08); }
   .lp .du-unlocks button:hover { border-color: var(--ink-3); }
   .lp .du-sources a:hover { border-color: var(--ink-3); }

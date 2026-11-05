@@ -5,8 +5,11 @@
    shared nav, footer, FAQ and drill follow without per-component forks. The values
    below are the no-theme fallback; marketing-theme.css sets the same Night tokens
    under html[data-theme] (pinned by data/tests/marketing_theme_tokens_1104.test.mjs).
-   Volt is a fill (the key, Mobi, the logo dot, a selected state with dark ink), never a
-   border, glow, wash or text colour. No grid, dot matrix or pointer light in the hero.
+   Volt is the action fill (the key, Mobi, the logo dot, a Night selected state with dark ink)
+   and, by role, the brand's voice: --brand-word colours brand words, product names, hero
+   numbers, progress and selected marks (volt in Night, #526700 in Day; R3-D2, owner LK108,
+   5 Nov 2026). Links and labels stay ink. Never a glow, a wash or a decorative edge, and in
+   Day never a raw volt slab on cream. No grid, dot matrix or pointer light in the hero.
 
    Motion rules: only opacity and transform ever animate, so nothing reflows.
    Hover states change colour, border or shadow, never size or position.
@@ -37,6 +40,8 @@
   --accent-line: var(--line-strong);
   --accent-wash: transparent;
   --brand-word: #d2f000;
+  --volt-edge: #9db400;
+  --key-hairline: inset 0 0 0 0 transparent;
   --tint: 244 240 230;
   --surface-hover: #211f1a;
   --edge-light: rgba(244, 240, 230, 0.28);

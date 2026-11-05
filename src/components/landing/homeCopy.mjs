@@ -8,7 +8,10 @@
 //   tour slide body       at most 25 words, then at most 2 points of at most 10 words each
 //   Lab and Recovery step at most 45 words of step text, the numbers living inside the mock screen
 //   FAQ answer            at most 45 words
-// Copy rules: no middle dots, no kickers above an h2, no "not just" contrast, no exclamation marks, no hype, sentence case.
+// Copy rules: no middle dots, no "not just" contrast, no exclamation marks, no hype, sentence case. The only label above an h2 is
+// a product-name brand stamp (BRAND_STAMPS, R3-D2, owner LK108/LK114, 5 Nov 2026): never a generic kicker or eyebrow.
+// Voice (R3-D2, LK114): the two-beat cadence where it is true: "Fix it once. Check it holds.", "Practise. Replay. Repair.",
+// "Fix why you missed it."
 // Truth: every number comes from a capability gate, the offer, labStory.mjs or the live bank (never typed in here), and no
 // claim is new: each line is an older line of this page, shortened.
 
@@ -22,7 +25,8 @@ export const wordCount = (text) => (String(text).match(/[\p{L}\p{N}₹][\p{L}\p{
 export const HERO_LEAD = Object.freeze({ strong: 'MockMob is CUET UG mock tests', rest: ' with a review that finds the chapter behind every mark you lose.' });
 
 // ------------------------------------------------------------------ the statement (scrubs word by word; * marks an accent word)
-export const STATEMENT = 'Your marks slipped somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
+// "MockMob" is a green word too (owner LK102, 5 Nov 2026: "the Mock Mob needs to be in green also").
+export const STATEMENT = 'Your marks slipped somewhere. *MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 
 // ------------------------------------------------------------------ section heads (h2 and the one sub under it)
 export const LAB_HEAD = Object.freeze({
@@ -31,10 +35,10 @@ export const LAB_HEAD = Object.freeze({
 });
 export const TOUR_HEAD = Object.freeze({
   h2: 'What’s inside MockMob.',
-  sub: 'Practise it, replay it, repair it. Then one plan ties it together.',
+  sub: 'Practise. Replay. Repair. Then one plan ties it together.',
 });
 export const RECOVERY_HEAD = Object.freeze({
-  h2: 'Fix it once and check it holds.',
+  h2: 'Fix it once. Check it holds.',
   sub: 'Replay the session, repair the leak, then prove it on fresh questions days later.',
 });
 export const COMPASS_HEAD = Object.freeze({
@@ -54,6 +58,18 @@ export const INSTAGRAM_HEAD = Object.freeze({
   sub: 'DU seniors and admissions creators show MockMob to their followers. Tap a reel to watch it here.',
 });
 export const WALL_HEAD = Object.freeze({ h2: 'Students, in their own words.' });
+// The brand stamps above the section heads (R3-D2, owner LK108/LK114): the section's desk object (BrandIcon) and the product's
+// own name in the brand-word colour, sentence case, no caps, no dots. Only product names stamp a head: it is the brand speaking,
+// not a generic eyebrow. Key cards (LK112) takes 'keycards' when its section lands.
+export const BRAND_STAMPS = Object.freeze({
+  lab: Object.freeze({ icon: 'mistakes', name: 'Mistake Lab' }),
+  recovery: Object.freeze({ icon: 'revise', name: 'Score Recovery Lab' }),
+  compass: Object.freeze({ icon: 'compass', name: 'DU Compass' }),
+  instagram: Object.freeze({ icon: 'feeds', name: 'MockMob on Instagram' }),
+  wall: Object.freeze({ icon: 'mob', name: 'Wall of love' }),
+  keycards: Object.freeze({ icon: 'keycards', name: 'Key cards' }),
+});
+
 export const FAQ_HEAD = Object.freeze({ h2: 'Before your first mock.' });
 // The close band leads with sign-up and log-in (LK83/LK88, 5 Nov): its words ask for the first mock, not the sample.
 export const CLOSE = Object.freeze({
@@ -117,7 +133,7 @@ export function buildTour({ studyLive = false, studyLessons = 0, studySubjects =
       body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette.',
       lede: 'A quick drill on a free evening, or a full 50-question, 60-minute mock on the real clock.',
       points: ['Quick drills and full mocks', 'Close the tab mid-test and pick up later'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' }),
-    slide('repair', { label: 'Mistake Repair', line: 'Fix why you got it wrong, not the answer alone', title: 'Fix the reason you missed it.',
+    slide('repair', { label: 'Mistake Repair', line: 'Fix why you got it wrong, not the answer alone', title: 'Fix why you missed it.',
       body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, all written from the official key.',
       lede: 'Why your pick was tempting, where it breaks, and the rule to keep. From the official key, or not at all.',
       points: ['If the AI and the key disagree, you pay nothing', 'A 10-minute next step, then 5 fresh questions'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' }),
@@ -180,7 +196,7 @@ export const LAB_SCENES = Object.freeze([
   { key: 'changes', tab: 'Changes', title: 'Every second thought, on the clock.',
     body: 'Your first pick, what you switched to and when, and what each switch won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
-  { key: 'repair', tab: 'Repair', title: 'Fix the reason you missed it.',
+  { key: 'repair', tab: 'Repair', title: 'Fix why you missed it.',
     body: 'Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all.',
     take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',

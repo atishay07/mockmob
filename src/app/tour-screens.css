@@ -13,7 +13,7 @@
   background: linear-gradient(180deg, #1f1d1a, #171511) padding-box;
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(255,255,255,.10), 0 32px 64px -28px rgba(0,0,0,.85), 0 24px 48px -28px rgba(0,0,0,.5); }
 /* Day: the same device on paper, with a paper-side shadow. */
-html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(31,28,23,.14), 0 28px 50px -30px rgba(20,32,14,.5); }
+html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(31,28,23,.14), 0 28px 50px -30px rgba(27,25,20,.5); }
 /* data-ts-step, not data-step: an attribute named in a rule that ends in * restyles the whole subtree of every element
    whose attribute of that name changes, and data-step is also every scroll story's step (ScrollStory, 850 elements a step
    at 4x CPU, ship gate 4 Nov). */
@@ -23,7 +23,10 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .66rem; }
-.ts__timer { font: 700 .82rem var(--font-body); letter-spacing: 0; color: var(--ts-ink); font-variant-numeric: tabular-nums; }
+/* The tour's screens look like the app again (R3-D2, LK108): they are dark in both themes, so the app's own volt marks the
+   timer, the picked answer, its tick, the progress, Saved, the marks and your own Ask Mobi bubble. Colour on marks and edges
+   only: no glow, no halo. */
+.ts__timer { font: 700 .82rem var(--font-body); letter-spacing: 0; color: var(--ts-volt); font-variant-numeric: tabular-nums; }
 .ts__body { display: flex; flex-direction: column; gap: .6rem; padding: .85rem; background: radial-gradient(120% 70% at 50% 0%, rgba(255,255,255,.045), rgba(255,255,255,0) 72%); }
 
 /* Generic entrance used by every screen (the app's enter: fade on the card time, rise on the emphasized curve). */
@@ -41,14 +44,14 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__opts li { position: relative; display: flex; align-items: center; gap: .55rem; padding: .48rem .6rem; border-radius: 10px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.03); font: 600 .78rem var(--font-body);
   transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .3s ease, background .3s ease; }
 .ts__opts li b { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.08); font-size: .68rem; transition: background .3s ease, color .3s ease; }
-.ts__opts li[data-picked='true'] { border-color: rgba(244,240,230,.4); background: rgba(244,240,230,.08); }
+.ts__opts li[data-picked='true'] { border-color: rgba(210,240,0,.6); background: rgba(210,240,0,.1); }
 .ts__opts li[data-picked='true'] b { background: var(--ts-volt); color: #0b1000; }
-.ts__tick { margin-left: auto; color: var(--ts-ink); animation: ts-pop .35s var(--ts-ease) both; }
+.ts__tick { margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
 .ts__tap { position: absolute; left: 58%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(244,240,230,.4); opacity: 0; pointer-events: none; }
 .ts__tap[data-on='true'] { animation: ts-tap .7s ease-out both; }
 .ts__progress { height: 4px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
-.ts__progress i { display: block; height: 100%; width: 100%; transform: scaleX(var(--p)); transform-origin: left; border-radius: inherit; background: var(--ts-bar); transition: transform .6s var(--ts-ease); }
-.ts__saved { color: var(--ts-ink2); transition: opacity .3s ease; }
+.ts__progress i { display: block; height: 100%; width: 100%; transform: scaleX(var(--p)); transform-origin: left; border-radius: inherit; background: var(--ts-volt); transition: transform .6s var(--ts-ease); }
+.ts__saved { color: var(--ts-volt); transition: opacity .3s ease; }
 .ts__saved[data-on='false'] { opacity: 0; }
 
 /* 2. Mistake Repair */
@@ -62,7 +65,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__pick b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-size: .66rem; }
 .ts__pick [data-tone='bad'] b { background: rgba(255,122,102,.2); color: var(--ts-bad); }
 .ts__pick [data-tone='good'] b { background: var(--ts-volt); color: #0b1000; }
-.ts__check { display: flex; align-items: center; gap: .4rem; margin: 0; color: var(--ts-ink); font: 700 .72rem/1.3 var(--font-body); }
+.ts__check { display: flex; align-items: center; gap: .4rem; margin: 0; color: var(--ts-volt); font: 700 .72rem/1.3 var(--font-body); }
 .ts__check svg { flex: none; }
 .ts__steps p { margin: 0; font-size: .7rem; line-height: 1.35; color: var(--ts-ink2); }
 .ts__steps b { display: block; font-size: .78rem; color: var(--ts-ink); }
@@ -86,7 +89,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__opt { display: grid; place-items: center; flex: 0 0 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,.08); font: 800 .9rem var(--font-display); }
 .ts__verdict p { margin: 0; font-size: .7rem; color: var(--ts-ink2); }
 .ts__verdict p b { display: block; font-size: .84rem; color: var(--ts-ink); }
-.ts__marks { margin-left: auto; display: grid; justify-items: end; font: 700 1.45rem/1 var(--font-display); color: var(--ts-ink); }
+.ts__marks { margin-left: auto; display: grid; justify-items: end; font: 800 1.45rem/1 var(--font-display); color: var(--ts-volt); }
 .ts__marks small { font: 600 .6rem var(--font-body); color: var(--ts-ink2); }
 .ts__verdict[data-changed='true'] { border-color: rgba(255,122,102,.45); }
 .ts__verdict[data-changed='true'] .ts__marks { color: var(--ts-bad); animation: ts-pop .45s var(--ts-ease) both; }
@@ -115,7 +118,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
    the panel's own pending line while his eyes run along it, then the reply opens around him where he already sits (the
    reading line and the reply's head share his place, so he never jumps), the steps line up and the quick replies come last. */
 .ts__bubble { margin: 0; max-width: 88%; font-size: .78rem; line-height: 1.4; }
-.ts__bubble--me { align-self: flex-end; min-height: 1.95rem; padding: .45rem .7rem; border-radius: 14px 14px 4px 14px; background: rgba(244,240,230,.16); color: var(--ts-ink); font-weight: 700;
+.ts__bubble--me { align-self: flex-end; min-height: 1.95rem; padding: .45rem .7rem; border-radius: 14px 14px 4px 14px; background: var(--ts-volt); color: #0b1000; font-weight: 700;
   transform-origin: 100% 100%; }
 .ts .ts__bubble--me[data-in] { transition: opacity 180ms var(--ts-ease), transform 320ms var(--ts-ease); }
 .ts .ts__bubble--me[data-in='false'] { transform: translateY(10px) scale(.94); }
@@ -202,7 +205,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__ladder small { padding: .06rem .42rem; border-radius: 99px; background: rgba(255,255,255,.08); font-size: .6rem; font-weight: 700; color: var(--ts-ink); }
 .ts__ladder li[data-mark='target'] { border-style: dashed; border-color: rgba(255,255,255,.18); }
 .ts__ladder li[data-mark='you'] { border-color: rgba(244,240,230,.4); background: rgba(244,240,230,.1); color: var(--ts-ink); font-weight: 700; }
-.ts__ladder li[data-mark='you'] b { color: var(--ts-ink); }
+.ts__ladder li[data-mark='you'] b { color: var(--ts-volt); }
 
 @keyframes ts-breathe { 50% { opacity: .3; } }
 @keyframes ts-eyes { 0%, 46%, 50%, 100% { transform: scaleY(1); } 48% { transform: scaleY(.15); } }

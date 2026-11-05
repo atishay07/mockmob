@@ -519,7 +519,7 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
   position: absolute; left: 50%; top: 50%; z-index: -1; width: 0; height: 0; box-sizing: border-box;
   border: 0 solid var(--volt, #d2f000); border-radius: 50%; opacity: 0; translate: -50% -50%; pointer-events: none;
 }
-html[data-theme='light'] .mk-figure__ring { border-color: var(--a-accent-text, #3f5200); }
+html[data-theme='light'] .mk-figure__ring { border-color: var(--a-accent-text, #526700); }
 
 /* ==========================================================================
    REDUCED MOTION for the kit. globals.css finishes every one-shot motion at once; the app instead
