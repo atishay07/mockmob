@@ -42,6 +42,13 @@ DU calculator), one-time offer (the hook says "once ... to 31 July 2027"), month
 
 ## Why the typed line was "sometimes there, sometimes gone" (LK120)
 
+### Review follow-up
+
+- The price hook names the full-mock pace alongside the figure and puts the offer price on a second line in readable body text. The amount follows the merged slider.
+- The texture fades out behind the lead, features and price. The CUET mark has a timed fallback if the opening hand-off stalls.
+- At 1366 × 768 the question and entry actions take priority. The rest of the feature strip and the price hook continue below the first screen.
+- Ask Mobi links to the feature tour, which includes its named Ask Mobi chapter and a demonstration from the student's record. The bank-line helpers and their tests are retained for the shared question-bank component.
+
 `HeroTyped.stillOnly()` returned true when `<html data-signed-in>` was set, and the opening's inline gate sets that attribute
 whenever a Supabase session cookie (`sb-*-auth-token`) is present. So the same page typed for a guest and sat still for
 anyone signed in on that browser: the owner is signed in on some browsers and not on others. Measured in real Chrome at
