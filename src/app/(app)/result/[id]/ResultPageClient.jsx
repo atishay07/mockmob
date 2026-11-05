@@ -765,7 +765,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
       {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
-        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} strip={answerMap} repairReceipt={repairsDid}
+        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} repairReceipt={repairsDid}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
 
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).

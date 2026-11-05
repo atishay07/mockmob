@@ -17,7 +17,7 @@
 .rp-hero__score b { font-size: clamp(44px, 7vw, 64px); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec); }
 .rp-hero__score b[data-tone='good'] { color: var(--a-accent-text, #d2f000); }
 .rp-hero__score b[data-tone='bad'] { color: var(--a-bad-text, #ff9d92); }
-.rp-hero__score span { font-size: 18px; font-weight: 600; color: var(--a-ink-3, #93a08f); }
+.rp-hero__score > span { font-size: 18px; font-weight: 600; color: var(--a-ink-3, #93a08f); }
 .rp-hero__line { margin: 0; font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 60ch; }
 .rp-stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
 .rp-stats div { min-width: 0; padding: 10px 12px; border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); }

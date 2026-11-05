@@ -10,9 +10,12 @@
 //
 // A native modal <dialog>: the page behind is inert, Tab cycles inside it, Escape and a press on the
 // scrim close it, focus returns to the key that opened it. Under 1024 px it is a bottom sheet that
-// rises on a spring and follows a swipe down; from 1024 px it is a panel that grows out of the
-// sidebar's Start key. Reduced motion: a 150 ms fade, no movement. Glass on the sheet only, with a
-// solid fill where backdrop-filter is missing.
+// follows a swipe down; from 1024 px it is a panel beside the sidebar. Either way it opens as the app's
+// does (owner LK95, 5 Nov): a container transform out of the Start key that was pressed (morphPlan.mjs,
+// the app's MorphSheetRoute: the shape grows from the key in 420 ms, the key's volt dissolves into it,
+// the content arrives once the shape has room), and it gathers back into the key when it closes. With no
+// key on screen (a ?start= link) it rises as before. Reduced motion: a 120 ms fade, no movement. Glass on
+// the sheet only, with a solid fill where backdrop-filter is missing.
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react';
 import { X, Lock, Check, RefreshCw, ChevronLeft, ChevronRight, Play } from 'lucide-react';
@@ -21,6 +24,7 @@ import { PipActor } from '@/components/brand/PipActor';
 import { RowArt, SubjectObject } from './StartArt';
 import { balanceLine, dragOffset, dragOutcome, sheetTitle, springEasing, subjectName } from './startModel.mjs';
 import { useSubjectRail } from './useSubjectRail';
+import { MORPH, bezier, contentKeyframes, discKeyframes, glassKeyframes, morphFrom, radiiOf, shapeKeyframes } from './morphPlan.mjs';
 import { InlineNudge, openUpgrade } from '@/components/pro';
 
 // Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
@@ -54,12 +58,73 @@ function sheetLayout() {
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="radio"]), input[type="radio"]:checked, [tabindex]:not([tabindex="-1"])';
 
+// The key the sheet grows from, as the morph needs it: its box, its corner radius and its fill. Null when it is not on screen.
+function keyShape(key) {
+  if (!key?.isConnected || typeof key.getBoundingClientRect !== 'function') return null;
+  const r = key.getBoundingClientRect();
+  if (!(r.width > 0 && r.height > 0) || r.bottom <= 0 || r.top >= window.innerHeight) return null;
+  const style = window.getComputedStyle(key);
+  const raw = style.borderTopLeftRadius || '0';
+  const radius = raw.trim().endsWith('%') ? (Math.min(r.width, r.height) * parseFloat(raw)) / 100 : parseFloat(raw) || 0;
+  return { rect: { left: r.left, top: r.top, width: r.width, height: r.height }, radius, color: style.backgroundColor, edge: style.boxShadow };
+}
+
+// The container transform (morphPlan.mjs): the sheet's shape between the key and its own box, the content arriving
+// or leaving inside it, and the key's volt at the origin. Returns a promise for the end, or null when there is no key
+// to grow from (the caller then plays the plain rise or slide).
+const morphs = new WeakMap();
+
+function morph(el, key, { closing = false } = {}) {
+  // A morph still playing (closed mid-open, or an effect run twice) is dropped first, so the sheet is measured where it rests.
+  el.getAnimations({ subtree: true }).forEach((a) => { if (a.id === 'mk-start-morph') a.cancel(); });
+  const token = {};
+  morphs.set(el, token);
+  const shape = keyShape(key);
+  const box = el.getBoundingClientRect();
+  if (!shape || !(box.height > 0)) return null;
+  const from = morphFrom(shape.rect, box, shape.radius);
+  const duration = closing ? MORPH.closeMs : MORPH.openMs;
+  const easing = bezier(closing ? MORPH.close : MORPH.grow);
+  const fill = closing ? 'forwards' : 'none';
+  el.dataset.morph = closing ? 'closing' : 'opening';
+  const played = [
+    el.animate(shapeKeyframes(from, radiiOf(window.getComputedStyle(el)), { closing }), { duration, easing, fill }),
+    el.animate(glassKeyframes({ closing }), { duration, easing: 'linear', fill }),
+  ];
+  // The content scales about the key's centre, as seen from each part.
+  const ox = from.inset.left + shape.rect.width / 2;
+  const oy = from.inset.top + shape.rect.height / 2;
+  el.querySelectorAll(':scope > .st-grab, :scope > .st-body').forEach((part) => {
+    part.style.transformOrigin = `${Math.round(ox - part.offsetLeft)}px ${Math.round(oy - part.offsetTop)}px`;
+    played.push(part.animate(contentKeyframes({ closing }), { duration, easing: 'linear', fill }));
+  });
+  // The key's volt stays on the key while the sheet travels (desktop), dissolving into the shape (or gathering again).
+  const disc = el.querySelector(':scope > .st-origin');
+  if (disc) {
+    Object.assign(disc.style, {
+      left: `${from.inset.left}px`, top: `${from.inset.top}px`, width: `${shape.rect.width}px`, height: `${shape.rect.height}px`,
+      borderRadius: `${from.radius}px`, background: shape.color, boxShadow: shape.edge && shape.edge !== 'none' ? shape.edge : '',
+    });
+    played.push(disc.animate(discKeyframes({ closing }), { duration, easing: 'linear', fill }));
+    if (from.dx || from.dy) {
+      const travel = [{ translate: '0px 0px' }, { translate: `${from.dx}px ${from.dy}px` }];
+      played.push(disc.animate(closing ? travel.reverse() : travel, { duration, easing, fill }));
+    }
+  }
+  played.forEach((a) => { a.id = 'mk-start-morph'; });
+  // Only the latest morph clears the flag (a dropped one settles later, as a rejected promise).
+  return Promise.all(played.map((a) => a.finished)).then(() => {}, () => {}).finally(() => {
+    if (!closing && morphs.get(el) === token && el.dataset.morph === 'opening') delete el.dataset.morph;
+  });
+}
+
 function animateIn(el, key) {
   if (typeof el.animate !== 'function') return;
   if (reducedMotion()) {
-    el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150, easing: 'ease-out' });
+    el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: MORPH.reducedMs, easing: 'linear' });
     return;
   }
+  if (morph(el, key)) return;
   if (sheetLayout()) {
     // Rises from the bar on a firm spring (the skirt under the sheet hides the small overshoot).
     el.animate([{ transform: 'translate3d(0, 100%, 0)' }, { transform: 'translate3d(0, 0, 0)' }], { duration: 420, easing: spring(0.8) });
@@ -80,10 +145,15 @@ function animateIn(el, key) {
   });
 }
 
-function animateOut(el, fromDrag = null) {
+function animateOut(el, fromDrag = null, key = null) {
   if (typeof el.animate !== 'function' || reducedMotion()) {
-    if (typeof el.animate === 'function') return el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 120, easing: 'ease-out', fill: 'forwards' }).finished.catch(() => {});
+    if (typeof el.animate === 'function') return el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: MORPH.reducedMs, easing: 'linear', fill: 'forwards' }).finished.catch(() => {});
     return Promise.resolve();
+  }
+  // Closed by the close key, Escape, the scrim or a row: it gathers back into the key. A swipe slides on away from the finger.
+  if (fromDrag === null) {
+    const gathered = morph(el, key, { closing: true });
+    if (gathered) return gathered;
   }
   if (sheetLayout()) {
     const from = fromDrag === null ? 'translate3d(0, 0, 0)' : `translate3d(0, ${dragOffset(fromDrag)}px, 0)`;
@@ -137,7 +207,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
     closing.current = true;
     el.dataset.state = 'closing';
     el.style.transform = '';
-    animateOut(el, fromDrag).then(finish);
+    animateOut(el, fromDrag, opening.current.returnFocus?.() || null).then(finish);
   }, [finish]);
 
   // Opens as a modal when mounted; the key it grew from gets focus back when it goes.
@@ -177,13 +247,31 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
       if (event.shiftKey && (active === first || !el.contains(active))) { event.preventDefault(); last.focus(); }
       else if (!event.shiftKey && (active === last || !el.contains(active))) { event.preventDefault(); first.focus(); }
     };
+    // Focus never drops to the page while the sheet is open: when the plan arrives and the rows are laid out again, the
+    // focused row was blurred to <body> (seen 5 Nov: focus out at 125 ms with no new target). It goes back to that row,
+    // or to the sheet's first key. A press on the sheet's blank space is left alone.
+    let pressedAt = -Infinity;
+    const onPointerDown = () => { pressedAt = performance.now(); };
+    const onFocusOut = (event) => {
+      if (event.relatedTarget || closing.current || performance.now() - pressedAt < 400) return;
+      const lost = event.target;
+      window.requestAnimationFrame(() => {
+        if (closing.current || !el.open || (document.activeElement && document.activeElement !== document.body)) return;
+        const back = lost?.isConnected && el.contains(lost) && lost.getClientRects().length ? lost : el.querySelector('[data-autofocus]') || el.querySelector('.st-row');
+        back?.focus({ preventScroll: true });
+      });
+    };
     el.addEventListener('cancel', onCancel);
     el.addEventListener('close', onNativeClose);
     el.addEventListener('keydown', onKeyDown);
+    el.addEventListener('pointerdown', onPointerDown, true);
+    el.addEventListener('focusout', onFocusOut);
     return () => {
       el.removeEventListener('cancel', onCancel);
       el.removeEventListener('close', onNativeClose);
       el.removeEventListener('keydown', onKeyDown);
+      el.removeEventListener('pointerdown', onPointerDown, true);
+      el.removeEventListener('focusout', onFocusOut);
     };
   }, [open, requestClose, onClose]);
 
@@ -394,6 +482,8 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
         {/* Shares the page's screen claim: over a page that already shows a nudge (Practice, a result), the sheet shows none. */}
         {pro ? null : <InlineNudge placement="start_sheet" facts={{ balance, subjects }} className="st-nudge" />}
       </div>
+      {/* The Start key's volt at the origin of the morph (morph() above); a picture only, drawn while it plays. */}
+      <span className="st-origin" aria-hidden="true" />
     </dialog>
   );
 }

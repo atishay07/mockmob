@@ -1,21 +1,38 @@
 "use client";
 // The result's summary card (N12, 17 Oct night: the owner wants the earlier result back, with Mobi and the full
 // screen of information). One card, in the order a student reads it:
-//   Mobi's reveal beside the receipt (12-hour time), the score counting up to its denominator, the plain finding
+//   Mobi's reveal beside the receipt (12-hour time), the score rolling into place beside its denominator, the plain finding
 //   (which chapter cost the most, how many of the missed marks), Mobi's line, the four counts, the answer map
 //   (every question, one bubble, opens that answer), then the one next move with Repair's value and cost.
 // Mobi follows the server's recap tone (reaction.js, the app's table); never in NTA mode and never sleepy.
 import { AlertTriangle } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
-import { useCountUp } from '@/lib/motion/useCountUp';
-import { COUNT_UP_CURVE } from '@/lib/motion/countUpPlan';
+import { useCallback, useRef } from 'react';
+import RollNumber from '@/lib/motion/RollNumber';
+import { stampFigure } from '@/lib/motion/stampFigure';
+import { earnsRing } from '@/lib/motion/stampPlan';
 import { heroAct } from './heroAct.mjs';
 
-// The score counts up once on the first open, on the motion tokens (owner G31; release 11 walk: this card rolled on its own
-// 700 ms ease-out, not the token, and the page's arrival swallowed half of it): the countUp duration (720 ms) on the
-// count-up curve, once the page has settled (countUpPlan.js). A return visit and reduced motion show it at once (useCountUp).
-function CountUp({ value, run }) {
-  return useCountUp(value, { from: run ? 0 : undefined, enabled: run, curve: COUNT_UP_CURVE, settle: true });
+// The score arrives as the app's finish does (owner LK95, 5 Nov: "how to build UI exactly like the app, animations"):
+// on the first open each digit rolls up into its own slot (RollNumber, the app's MonumentalNumber: 500 ms, left to
+// right, once the page has settled, so the page's arrival never swallows it, G31), and the figure is stamped as the
+// last digit lands (stampFigure, the app's FinishCeremony: 1.12 to 1, 420 ms). A good set (70% right or more) with
+// Celebrations on Full also gets the one ink ring; never in NTA mode. Celebrations Off, reduced motion and a return
+// visit show the score at once.
+function Score({ value, negative, tone, run, ring }) {
+  const figure = useRef(null);
+  const ringRef = useRef(null);
+  const onRoll = useCallback(({ landsIn }) => {
+    stampFigure({ figure: figure.current, ring: ring ? ringRef.current : null, landsIn });
+  }, [ring]);
+  return (
+    <b data-tone={tone}>
+      <span ref={figure} className="mk-figure">
+        {negative ? '−' : ''}<RollNumber value={value} run={run} settle onRoll={onRoll} />
+        <span ref={ringRef} className="mk-figure__ring" aria-hidden="true" />
+      </span>
+    </b>
+  );
 }
 
 /**
@@ -29,7 +46,7 @@ function CountUp({ value, run }) {
  * repairReceipt  { lead, strong } what the repairs made before this paper did on it (data/repair_receipt.mjs), or null
  * next      the next-move panel (rendered by the page)
  */
-export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, next = null, unit = 'marks', repairReceipt = null }) {
+export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : null;
   const tone = marks.scored < 0 ? 'bad' : marks.max && marks.scored / marks.max >= 0.4 ? 'good' : 'mid';
@@ -44,7 +61,8 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
       <div className="rp-hero__main">
         <p className="rp-eyebrow">{receipt}</p>
         <h1 className="rp-hero__score" aria-label={`${marks.scored} of ${marks.max} ${unit}`}>
-          <b data-tone={tone}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} run={arrive} /></b><span>/ {marks.max} {unit}</span>
+          <Score value={Math.abs(marks.scored)} negative={marks.scored < 0} tone={tone} run={arrive && celebrations !== 'off'}
+            ring={celebrations === 'full' && !nta && earnsRing(marks)} /><span>/ {marks.max} {unit}</span>
         </h1>
         <p className="rh-verdict">{verdict}</p>
         {finding?.detail && marks.gap ? <p className="rp-hero__line">{finding.detail}{reaction?.line ? ` ${reaction.line}` : ''}</p> : reaction?.line ? <p className="rp-hero__line">{reaction.line}</p> : null}
