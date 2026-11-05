@@ -4,20 +4,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SAMPLE, demoFinished, resetDemoSignal, sendDemoState, wayIn } from './demoSignal.mjs';
+import { DESK_NOTE } from './heroTaps.mjs';
+import { DOCK_GO, SAMPLE, demoFinished, resetDemoSignal, sendDemoState, wayIn } from './demoSignal.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const code = (src) => src.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
-test('D1 dock: a guest gets the ghost "Log in" beside the volt "Sign up free"; a signed-in student gets one key back in', () => {
-  assert.deepEqual(wayIn({}).dock, { primary: { href: '/signup', label: 'Sign up free' }, secondary: { href: '/login', label: 'Log in' } });
-  assert.deepEqual(wayIn({ released: true }).dock.primary, { href: '/signup?next=%2Frecovery', label: 'Sign up free' });
-  assert.deepEqual(wayIn({ signedIn: true }).dock, { primary: { href: '/dashboard', label: 'Go to Practice' }, secondary: null });
+test('D1 dock: a guest gets the ghost "Log in" beside the volt "Start free" (its true line inside); a signed-in student gets one key back in', () => {
+  // Round 4 (owner LK135, 5 Nov 2026: "the CTA is a bit weak"): the dock's volt key reads "Start free" with "No card needed"
+  // inside it, on the home page and every public page (PublicDock). Supersedes D1's dock label "Sign up free"; the hero and
+  // the close band keep "Sign up free" (LK83/LK88), and every guest key still goes to /signup.
+  assert.deepEqual({ ...DOCK_GO }, { label: 'Start free', sub: 'No card needed' });
+  assert.deepEqual(wayIn({}).dock, { primary: { href: '/signup', label: 'Start free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' });
+  assert.deepEqual(wayIn({ released: true }).dock.primary, { href: '/signup?next=%2Frecovery', label: 'Start free' });
+  assert.deepEqual(wayIn({ signedIn: true }).dock, { primary: { href: '/dashboard', label: 'Go to Practice' }, secondary: null, sub: null });
   assert.deepEqual(wayIn({ signedIn: true, released: true }).dock.primary, { href: '/recovery', label: 'Find my first gap' });
   const dock = code(read('./LandingDock.jsx'));
   assert.match(dock, /label=\{dock\.primary\.label\}/);
   assert.match(dock, /secondary=\{dock\.secondary\}/);
   assert.match(dock, /note=\{null\}/, 'no note line beside the keys');
+  assert.match(dock, /sub=\{dock\.sub\}/, 'the true line inside the volt key');
+  const pub = code(read('../PublicDock.jsx'));
+  assert.match(pub, /label=\{isAuthenticated \? undefined : DOCK_GO\.label\}/, 'the public pages say the same');
+  assert.match(pub, /sub=\{isAuthenticated \? null : DOCK_GO\.sub\}/);
   const mobile = code(read('../MobileDock.jsx'));
   assert.match(mobile, /className="mm-btn mm-dock__ghost"/, 'the second key is the ghost');
   assert.ok(mobile.indexOf('mm-dock__ghost') < mobile.indexOf('mm-btn mm-btn--primary'), 'Log in sits before (left of) Sign up free');
@@ -64,6 +73,8 @@ test('D1 close band: a guest gets "Sign up free" and "Log in", never the sample;
 
 test('D1 the sample card\'s note is one even line with no link', () => {
   const page = read('../../app/page.js');
-  assert.match(page, /<DemoDrill note="No sign-up for these five\." \/>/);
+  // Round 4 (owner LK122): the note is DESK_NOTE (heroTaps.mjs), rewritten from a marketing angle, still one line, no link.
+  assert.match(page, /<DemoDrill note=\{DESK_NOTE\} \/>/);
+  assert.equal(DESK_NOTE, 'Free, no sign-up. Every answer shows its reason.');
   assert.doesNotMatch(page, /Pick yours free|Other subjects\?/);
 });

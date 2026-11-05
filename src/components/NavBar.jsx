@@ -116,14 +116,13 @@ export function NavBar() {
         </div>
 
         <div className="mm-nav__end">
-          {/* The home page's way to the bottom on a phone (R3-D4, LK104: "there should be something for the bottom
-              also"): a small pill to the plan. pageJump.mjs (data-page-jump) takes the tap: a glide within three screens,
-              a veil further; styled in section-position.css, shown below 900 px. Hidden with the other prices in the
-              app's Custom Tabs (data-commerce). */}
+          {/* The home page's small Pricing pill on a phone (R3-D4, LK104), styled in section-position.css and shown below
+              900 px. Round 4 (owner LK133, 5 Nov 2026): it opens the /pricing page itself, not the home page's #pricing.
+              Hidden with the other prices in the app's Custom Tabs (data-commerce). */}
           {pathname === '/' ? (
-            <a href="#pricing" className="mm-nav__price" data-page-jump="" data-commerce="">
+            <Link href="/pricing" className="mm-nav__price" data-commerce="">
               <span>Pricing</span>
-            </a>
+            </Link>
           ) : null}
           <ThemeToggle hint />
           {/* The nav's action is the quiet (secondary) button: the page's own call to action is the one volt on screen

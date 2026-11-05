@@ -1,0 +1,79 @@
+/* ==========================================================================
+   The brand texture (round 4, owner LK117/LK120; BrandTexture.jsx): the answer sheet's bubble field behind the home hero
+   and, where a section asks for it, behind a key section. Rings in the page's hairline colour with one pencil mark a row.
+   It shows where the desk lamp would light it: strongest around the desk, falling off toward the words and fading out
+   before the section's edge, so the section meets the next one on plain paper. Night carries it more than Day (the owner:
+   "in black mode the black space is even more significant"). No volt, no glow, no blur, nothing moves.
+   The parent section is position: relative and isolation: isolate (hero-scene.css for the hero), so z-index -1 sits behind
+   its content and in front of its background.
+   ========================================================================== */
+.mm-texture {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  --mm-tex-ring: rgba(27, 25, 20, 0.07);
+  --mm-tex-mark: rgba(27, 25, 20, 0.075);
+}
+:root[data-theme='dark'] .mm-texture { --mm-tex-ring: rgba(244, 240, 230, 0.08); --mm-tex-mark: rgba(244, 240, 230, 0.09); }
+.mm-texture__ring { fill: none; stroke: var(--mm-tex-ring); stroke-width: 1.2; }
+.mm-texture__mark { fill: var(--mm-tex-mark); stroke: var(--mm-tex-mark); stroke-width: 1.2; }
+.mm-texture__num { fill: var(--mm-tex-ring); font: 600 8.5px/1 var(--font-body, system-ui); font-variant-numeric: tabular-nums; }
+
+/* The hero: the lamp's pool. Phones: the sheet shows at the top right, where the headline's short lines leave the
+   paper open, and falls off down the page (the words and the desk fill the width below). From 960 px the field is full
+   around the desk (the right column, the gap beside it and the gutters) and reaches into the words' column only where
+   that column is empty paper: right of the lead and the keys, above the features strip. Under the strip, the price hook
+   and the links, and behind the lead and the keys, the paper is plain, so no bubble or row number sits behind small
+   text (round 4 review, 6 Nov 2026: the field ran behind "Score Recovery", the hook and the links). Both fade out over
+   the hero's last fifth, so the hero meets the statement on plain paper. */
+.mm-texture--hero {
+  -webkit-mask-image: radial-gradient(ellipse 95% 34% at 92% 10%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 95% 34% at 92% 10%, #000 0%, rgba(0, 0, 0, 0.6) 45%, transparent 100%);
+}
+@media (min-width: 960px) {
+  .mm-texture--hero {
+    /* Where the words' column starts (desktop-scale.css: --lp-max, --lp-gutter), from the texture's own left edge. */
+    --tex-left: calc(max(0px, (100% - var(--lp-max, 1680px) - 2 * var(--lp-gutter, 40px)) / 2) + var(--lp-gutter, 40px));
+    /* Clear of the lead and the keys: their longest right edge from the column's start, measured 1100 to 2560 px wide
+       (385 to 566 px), plus 24 px. The field fades in over the next 140 px. */
+    --tex-clear-x: calc(var(--tex-left) + clamp(416px, 190px + 16vw, 600px));
+    /* The features strip's top from the hero's top, measured 960 to 2560 px wide (439 to 691 px, Day; Night is 12 to
+       16 px lower): 250 px + 21 vw, at most 700 px. The field is gone 24 px above it, after a 72 px fade. */
+    --tex-clear-y: min(250px + 21vw, 700px);
+    /* Layers, top first: the hero's last fifth fades out (intersect) / the desk side, full height, from the column's
+       right edge to the desk's left edge (add) / the words' column above the strip (intersect) / right of the lead and
+       the keys (the bottom layer). So: (words' column right of the lead, above the strip, or the desk side) and not the
+       hero's last fifth. */
+    -webkit-mask-image:
+      linear-gradient(to bottom, #000 78%, transparent 100%),
+      linear-gradient(to right, transparent 51%, #000 55.5%),
+      linear-gradient(to bottom, #000 calc(var(--tex-clear-y) - 96px), transparent calc(var(--tex-clear-y) - 24px)),
+      linear-gradient(to right, transparent var(--tex-clear-x), #000 calc(var(--tex-clear-x) + 140px));
+    -webkit-mask-composite: source-in, source-over, source-in, source-over;
+    mask-image:
+      linear-gradient(to bottom, #000 78%, transparent 100%),
+      linear-gradient(to right, transparent 51%, #000 55.5%),
+      linear-gradient(to bottom, #000 calc(var(--tex-clear-y) - 96px), transparent calc(var(--tex-clear-y) - 24px)),
+      linear-gradient(to right, transparent var(--tex-clear-x), #000 calc(var(--tex-clear-x) + 140px));
+    mask-composite: intersect, add, intersect, add;
+  }
+}
+
+/* A key section: a quiet band at both side edges, clear of the centred column, fading out at its top and bottom. */
+.mm-texture--section {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0, transparent min(22vw, 18rem), transparent calc(100% - min(22vw, 18rem)), #000 100%),
+    linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, #000 0, transparent min(22vw, 18rem), transparent calc(100% - min(22vw, 18rem)), #000 100%),
+    linear-gradient(to bottom, transparent 0, #000 18%, #000 82%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* More contrast asked for: the field steps back further; forced colours: none at all. */
+@media (prefers-contrast: more) { .mm-texture { opacity: 0.5; } }
+@media (forced-colors: active) { .mm-texture { display: none; } }

@@ -11,7 +11,8 @@
 //            student (the Supabase session cookie, readable before paint), a bot or a driven browser
 //            (navigator.webdriver), and any storage error (so it can never run twice in a session).
 //   'done'   set when the hand-off has finished; the layer is display:none from then on (opening.css).
-// It also writes <html data-signed-in="1"> when the session cookie is there, which HeroTyped reads (no typing then).
+// It also writes <html data-signed-in="1"> when the session cookie is there (the opening skips; since round 4, LK120, the
+// typed line types for a signed-in visitor too: that skip was why the line was "sometimes there, sometimes gone").
 //
 // While it runs, any pointerdown, touchstart, wheel or keydown jumps straight to the hand-off, so it never holds a
 // student. The hand-off is a FLIP of the composed word onto the bar logo's own box (both are Logo.jsx's viewBox, so

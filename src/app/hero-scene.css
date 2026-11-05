@@ -8,22 +8,29 @@
    two lines, the two fact lines are one, the groups sit on a 16/24 px rhythm (16 inside a group, 24 between groups;
    desktop 24/28), and the second beat is shown properly: a branded number strip under the hero (HeroBeatStrip; picked
    over a rotating line in the desk card, docs/design-decisions/web-r3-hero.md).
-   Motion: none on load here (the opening and the typed line are the load moment); Mobi idles in CSS
-   (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
+   Round 4 (owner LK117-LK124, 5 Nov 2026; docs/design-decisions/web-r4-hero.md): the desktop hero fills the screen (the
+   site-wide desktop container is desktop-scale.css; the desk takes 41 % of the width, the words the rest), "CUET 2027." is
+   set larger under a highlighter mark, the fact line is gone (LK121), the number strip became the features strip with the
+   honest price hook (LK124), and the brand's answer-sheet texture sits behind it all (BrandTexture, brand-texture.css).
+   Motion: the highlighter draws once on load, then the typed line (the opening and the typed line are the load moment);
+   Mobi idles in CSS (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
    ========================================================================== */
 
 /* ---------- The layout ---------- */
 .mm.lp .lp-hero { padding-block: 22px 40px; }
+/* The texture (BrandTexture) is the hero's first child: the hero is its positioned, isolated parent. */
+.mm.lp .lp-hero { position: relative; isolation: isolate; }
 .mm.lp .lp-hero__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: 'copy' 'desk' 'links';
+  grid-template-areas: 'copy' 'desk' 'strip' 'links';
   gap: 0;
   align-items: start;
 }
 .mm.lp .lp-hero__copy { grid-area: copy; display: block; container-type: inline-size; min-width: 0; }
 .mm.lp .lp-hero__links { grid-area: links; }
 .mm.lp .lp-desk { grid-area: desk; }
+.mm.lp .lp-strip { grid-area: strip; min-width: 0; }
 
 /* ---------- The headline: Display XL (Bricolage 800), "CUET 2027." in the brand word colour, plain text ---------- */
 .mm.lp .lp-hero .lp-title {
@@ -47,6 +54,58 @@
 .mm.lp .lp-hero .lp-title__brand,
 html[data-theme] .mm.lp .lp-hero .lp-title__brand { color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.022em; }
 html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
+
+/* ---------- "CUET 2027." highlighted (round 4, owner LK120: "no highlighting of the CUET stuff") ----------
+   The exam's name is the headline's anchor, the way Preparoo sets its exam name: one step larger than the two lines under
+   it (1.3x on phones, 1.45x from 960 px, always inside the column: 5.6 em is its widest with the mark's overhang, measured
+   in Chrome) and under a highlighter mark, the stroke a student puts through the line that matters: its ends a little
+   uneven and the stroke a degree off level, like a hand drew it. Day: the true volt as a highlighter band over the
+   letters' lower part, the letters in a deep Day green (#2C3A00: 9.5:1 on the volt, 11:1 on the paper above it). Night:
+   the letters stay true volt (D2, LK82) and the mark is a thick volt stroke under them, the way a highlighter underlines
+   on a dark page (a band behind volt letters read as a muddy selection in the captures).
+   It draws once on load from the left (520 ms, the app's out curve), after the opening; reduce motion: drawn already. */
+.mm.lp .lp-hero .lp-title__brand {
+  position: relative;
+  z-index: 0;
+  width: fit-content;
+  font-size: min(1.3em, 18cqi);
+  --mark: #d2f000;
+  --mark-top: 0.99em;
+  --mark-bottom: -0.11em;
+  /* Night's stroke hangs under the line: the line keeps that much air before "One mock.". */
+  margin-bottom: 0.13em;
+}
+html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --mark-top: 0.4em; --mark-bottom: 0.02em; margin-bottom: 0.02em; }
+.mm.lp .lp-hero .lp-title__brand::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: -0.06em;
+  right: -0.08em;
+  top: var(--mark-top);
+  bottom: var(--mark-bottom);
+  border-radius: 0.05em 0.16em 0.08em 0.2em / 0.12em 0.2em 0.1em 0.24em;
+  background: var(--mark);
+  transform: rotate(-1deg);
+  transform-origin: 0 50%;
+}
+/* While the opening plays the mark waits, then draws once the hand-off sets 'done'. If the gate never gets there (a script
+   error, a removed layer), the waiting rule draws it anyway after 3.4 s, past the longest normal opening (about 2.5 s
+   from the script: a late first paint, the opening, the hand-off), the CSS twin of HeroTyped's fallback start
+   (round 4 review). Its keyframes have their own name, so a normal 'done' starts a fresh draw instead of jumping the
+   waiting one to its end. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']):is([data-opening='first'], [data-opening='short']) .mm.lp .lp-hero .lp-title__brand::before {
+    clip-path: inset(0 100% 0 0);
+    animation: lp-mark-late 520ms cubic-bezier(0.23, 1, 0.32, 1) 3.4s both;
+  }
+  :root:not([data-motion='reduced']):is([data-opening='skip'], [data-opening='done']) .mm.lp .lp-hero .lp-title__brand::before {
+    animation: lp-mark-in 520ms cubic-bezier(0.23, 1, 0.32, 1) 160ms both;
+  }
+}
+@keyframes lp-mark-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes lp-mark-late { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@media (forced-colors: active) { .mm.lp .lp-hero .lp-title__brand::before { display: none; } }
 
 /* ---------- The lead (LK70): what MockMob is, in one sentence of two lines (R3-D3, LK99: 16-17 px) ---------- */
 .mm.lp .lp-hero .lp-lead {
@@ -99,10 +158,6 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-hero .lp-cta__login a:hover { text-decoration-color: var(--ink-3); }
 }
-
-/* ---------- The one fact line (R3-D3, LK99; no middle dots): the live count in ink weight, then the money ---------- */
-.mm.lp .lp-hero__fact { margin: 16px 0 0; max-width: none; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); text-wrap: balance; }
-.mm.lp .lp-hero__count { color: var(--ink-2); font-weight: 650; font-variant-numeric: tabular-nums; }
 
 /* ---------- The two hero links: ink, underlined text links (decision 3) ---------- */
 .mm.lp .lp-hero__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; margin-top: 10px; }
@@ -331,19 +386,17 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 :root[data-motion='reduced'] .lp .lp-desk .mm-drill__reveal { transition: none; }
 
 /* ==========================================================================
-   The second beat (R3-D3, LK100; supersedes decision 14's hairline row of sentence links): the four facts
-   (heroTaps.mjs heroBeat) as a branded number strip under the hero, each a link to its section, with number weight in
-   the brand word colour (--brand-word: volt in Night, the Day green in Day). No glass, no glow, nothing moves.
+   The features strip (round 4, owner LK124; supersedes R3-D3's number strip): the main features (heroTaps.mjs
+   heroFeatures), each one link to its section, with its desk object, its name in Bricolage 700 and one quiet line; then
+   the honest price hook (heroPriceHook), "As low as ₹X a mock on Pro at N full mocks a week" (the pace in the same line and
+   ink as the figure), then the price that makes it, a link to the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
+   two at 390), the hook the last row; tablets two across. From
+   960 px it sits in the words' column under the keys, on the page's own paper between two hairlines: two across, three
+   from 1400 px.
+   No glass, no glow, nothing moves.
    ========================================================================== */
-
-/* ---------- The number strip (brandloss B4; HeroBeatStrip.jsx) ----------
-   Raised paper with hairline cells, two by two on phones, one row from 960 px. Each cell is one link: its desk
-   object and figure on one row (Bricolage 700 tabular, the brand word colour), then what the figure counts, then one
-   quiet line. A warm shadow in Day, a dark one in Night. */
 .mm.lp .lp-strip {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 32px;
+  margin-top: 24px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 22px;
@@ -351,92 +404,153 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
   box-shadow: 0 1px 2px rgba(27, 25, 20, 0.05), 0 18px 40px -28px rgba(27, 25, 20, 0.28);
 }
 :root[data-theme='dark'] .mm.lp .lp-strip { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 22px 44px -30px rgba(0, 0, 0, 0.75); }
+.mm.lp .lp-strip__list { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
+.mm.lp .lp-strip__item { display: flex; min-width: 0; border-bottom: 1px solid var(--line); }
 .mm.lp .lp-strip__fact {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
   align-content: start;
   column-gap: 10px;
+  flex: 1;
+  min-width: 0;
   min-height: 44px;
-  padding: 16px 16px 18px;
+  padding: 12px 16px;
   color: var(--ink-3);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 160ms ease-out;
 }
-/* Hairlines between the cells: a column rule on the left cells, a row rule under the first row. */
-.mm.lp .lp-strip__fact:nth-child(odd) { border-right: 1px solid var(--line); }
-.mm.lp .lp-strip__fact:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
-/* Three facts (no DU index): the last one takes the whole second row, so no empty cell is left. */
-@media (max-width: 959px) { .mm.lp .lp-strip__fact:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; } }
-.mm.lp .lp-strip__icon { grid-row: 1; grid-column: 1; align-self: center; }
-.mm.lp .lp-strip__fig {
+.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: center; }
+.mm.lp .lp-strip__icon--mobi { display: grid; place-items: center; width: 36px; height: 36px; }
+.mm.lp .lp-strip__name {
   grid-row: 1;
   grid-column: 2;
-  align-self: center;
-  font: 700 2.125rem/1 var(--font-display);
+  align-self: end;
+  font: 700 0.9375rem/1.2 var(--font-display);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.mm.lp .lp-strip__line { grid-row: 2; grid-column: 2; margin-top: 2px; font-size: 0.8125rem; line-height: 1.35; text-wrap: balance; }
+.mm.lp .lp-strip__fact:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
+.mm.lp .lp-strip__fact:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 12px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-strip__fact:hover { background: rgb(var(--tint, 27 25 20) / 0.035); }
+  .mm.lp .lp-strip__fact:hover .lp-strip__name { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
+}
+
+/* The hook: one link, "As low as" then the figure in the brand word colour (Bricolage 700 tabular), what it is and the pace
+   it takes, in ink on the same line (round 4 review: the best case never shows without its condition), then the price on
+   its own line in ink-2 at body size, so a reader can check it. */
+.mm.lp .lp-strip__hook {
+  /* Running text, not a flex row: word spaces between the parts (no gaps that read as a break between the unit and its
+     pace), and the pace (nowrap) moves to the next line whole where the line is full. */
+  display: block;
+  min-height: 44px;
+  padding: 14px 16px 16px;
+  color: var(--ink-2);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms ease-out;
+}
+.mm.lp .lp-strip__hook-lead { font: 650 0.9375rem/1.2 var(--font-body); }
+.mm.lp .lp-strip__hook-fig {
+  /* A word space at the hook's size is too narrow beside a figure twice as large. */
+  margin-inline: 0.08em 0.12em;
+  font: 700 1.75rem/1 var(--font-display);
   letter-spacing: -0.03em;
   color: var(--brand-word, var(--ink));
   font-variant-numeric: lining-nums tabular-nums;
 }
-.mm.lp .lp-strip__unit { grid-column: 1 / -1; margin-top: 10px; font: 700 0.9375rem/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
-.mm.lp .lp-strip__line { grid-column: 1 / -1; margin-top: 4px; font-size: 0.8125rem; line-height: 1.4; text-wrap: balance; }
-.mm.lp .lp-strip__fact:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
-.mm.lp .lp-strip__fact:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 20px; }
+.mm.lp .lp-strip__hook-unit { font: 700 0.9375rem/1.2 var(--font-display); color: var(--ink); }
+.mm.lp .lp-strip__hook-at { font: 650 0.9375rem/1.2 var(--font-body); color: var(--ink); white-space: nowrap; }
+.mm.lp .lp-strip__hook-line { display: block; margin-top: 4px; font-size: 0.9375rem; line-height: 1.4; color: var(--ink-2); }
+.mm.lp .lp-strip__hook:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
+.mm.lp .lp-strip__hook:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 20px; }
 @media (hover: hover) and (pointer: fine) {
-  .mm.lp .lp-strip__fact:hover { background: rgb(var(--tint, 27 25 20) / 0.035); }
-  .mm.lp .lp-strip__fact:hover .lp-strip__unit { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
+  .mm.lp .lp-strip__hook:hover { background: rgb(var(--tint, 27 25 20) / 0.035); }
+  .mm.lp .lp-strip__hook:hover .lp-strip__hook-unit { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
 }
 
-/* ---------- Tablets (761 to 959 px): the phone's stack, held to a readable column ---------- */
+/* ---------- Tablets (640 to 959 px): the phone's stack, wider (round 4, LK119: at 768 the old 560 px column left 104 px
+   of empty paper each side); the strip two across ---------- */
 @media (min-width: 640px) and (max-width: 959px) {
-  .mm.lp .lp-hero__grid { max-width: 560px; margin-inline: auto; }
-  .mm.lp .lp-hero .lp-title { font-size: min(3.5rem, 11.3cqi); }
-  .mm.lp .lp-desk { --desk-h: 15rem; }
+  .mm.lp .lp-hero__grid { max-width: 752px; margin-inline: auto; }
+  .mm.lp .lp-hero .lp-title { font-size: min(4.25rem, 11.3cqi); }
+  .mm.lp .lp-desk { --desk-h: 16.5rem; }
+  /* The wider room seats a larger Mobi (between the phone's 134 and the desktop's 180), his bubble beside him. */
+  .lp-desk__figure { --mobi-h: min(160px, calc(var(--desk-h) - 34px)); left: 40px; }
+  .lp-desk__bubble { left: calc(40px + var(--bubble-x, 120px)); bottom: 48px; width: 10.5rem; font-size: 0.9375rem; }
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm.lp .lp-strip__item:nth-child(odd) { border-right: 1px solid var(--line); }
+  .mm.lp .lp-strip__item:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; }
 }
 
-/* ---------- Desktop (960 px up): the words left, the desk right (520 px), the links under the facts ---------- */
+/* ---------- Desktop (960 px up): the words left, the desk right; the strip and the links under the keys ----------
+   The desk is 41 % of the window (440 to 720 px), its room as tall as the screen allows (so the sample's four options sit in
+   the first screen at 1280x800, 1440x900 and 1920x1080); the words take the rest. The headline fills its column: 11.4 cqi
+   keeps the widest typed phrase (8.69 em) inside it, up to 128 px; "CUET 2027." is 1.45x that, up to 17.4 cqi (its 5.6 em
+   with the mark's overhang stays inside the column). */
 @media (min-width: 960px) {
-  .mm.lp .lp-hero { padding-block: 40px 56px; }
+  .mm.lp .lp-hero { padding-block: 28px 56px; }
   .mm.lp .lp-hero__grid {
-    grid-template-columns: minmax(0, 1fr) 520px;
-    grid-template-rows: auto 1fr;
-    grid-template-areas: 'copy desk' 'links desk';
-    column-gap: clamp(40px, 4vw, 56px);
+    --desk-w: clamp(440px, 41vw, 720px);
+    grid-template-columns: minmax(0, 1fr) var(--desk-w);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 'copy desk' 'strip desk' 'links desk';
+    column-gap: clamp(40px, 4vw, 80px);
   }
-  /* The words sit a fixed step below the room's top (about where the desk's middle starts), so when the sample grows
-     with an answer only the second row (under the links) takes the height: the words never move. */
-  .mm.lp .lp-hero__copy { align-self: start; padding-top: clamp(48px, 9vh, 96px); }
-  .mm.lp .lp-hero__links { align-self: start; margin-top: 16px; }
-  /* 8.69 em is the widest phrase at this tracking: 11.4cqi keeps it inside the column (74 px at 1440, 71 at 1280). */
-  .mm.lp .lp-hero .lp-title { font-size: min(84px, 11.4cqi); line-height: 0.95; letter-spacing: -0.04em; }
-  .mm.lp .lp-hero .lp-lead { margin-top: 24px; max-width: 40ch; font-size: 1.25rem; line-height: 1.5; }
+  .mm.lp .lp-hero__copy { align-self: start; padding-top: clamp(8px, 2vh, 28px); }
+  .mm.lp .lp-hero__links { align-self: start; margin-top: 12px; }
+  .mm.lp .lp-hero .lp-title { font-size: min(128px, 11.4cqi); line-height: 0.95; letter-spacing: -0.04em; }
+  .mm.lp .lp-hero .lp-title__brand { font-size: min(1.45em, 17.4cqi); line-height: 0.98; }
+  .mm.lp .lp-hero .lp-lead { margin-top: 24px; max-width: 40ch; font-size: clamp(1.25rem, 0.6rem + 0.9vw, 1.5rem); line-height: 1.5; }
   .mm.lp .lp-hero .lp-cta { margin-top: 28px; }
   .mm.lp .lp-hero .lp-cta .mm-actions { display: flex; align-items: center; gap: 14px; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a { width: auto; min-height: 58px; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child { min-height: 58px; padding-inline: 28px; font-size: 1.125rem; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a:nth-child(2) { min-height: 58px; padding-inline: 24px; font-size: 1.0625rem; }
   .mm.lp .lp-hero .lp-cta__login { margin-top: 12px; text-align: left; font-size: 1rem; }
-  .mm.lp .lp-hero__fact { margin-top: 24px; font-size: 0.9375rem; }
-  .mm.lp .lp-desk { --desk-h: 318px; margin: 0; }
+  .mm.lp .lp-desk { --desk-h: clamp(220px, calc(100svh - 580px), 400px); margin: 0; }
   .lp-desk__room { border-radius: 28px 28px 0 0; }
   .lp-desk__figure { --mobi-h: 180px; left: 46px; bottom: calc(14px - var(--mobi-h) * 6 / 168); }
   .lp-desk__bubble { left: calc(46px + var(--bubble-x, 136px)); bottom: 56px; width: 11.375rem; padding: 11px 15px; font-size: 1rem; }
   .mm.lp .lp-desk__card { padding: 20px 24px 22px; border-radius: 0 0 28px 28px; }
   .mm.lp .lp-desk .mm-drill__q { margin-top: 16px; font-size: 1.4375rem; }
   .mm.lp .lp-desk .mm-drill__option { min-height: 52px; }
-  .mm.lp .lp-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-top: 48px; border-radius: 28px; }
-  .mm.lp .lp-strip__fact { padding: 22px 24px 24px; column-gap: 12px; }
-  .mm.lp .lp-strip__fact:nth-child(n) { border-right: 1px solid var(--line); border-bottom: 0; }
-  .mm.lp .lp-strip__fact:last-child { border-right: 0; }
-  .mm.lp .lp-strip__fig { font-size: 2.75rem; }
-  .mm.lp .lp-strip__unit { margin-top: 14px; font-size: 1.0625rem; }
+
+  /* The strip in the words' column: the page's own paper between two hairlines, three across, no cell rules. */
+  .mm.lp .lp-strip { margin-top: 32px; overflow: visible; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; }
+  :root[data-theme='dark'] .mm.lp .lp-strip { box-shadow: none; }
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 8px; padding-top: 6px; }
+  .mm.lp .lp-strip__item, .mm.lp .lp-strip__item:nth-child(odd) { border: 0; }
+  .mm.lp .lp-strip__fact { padding: 12px 10px 12px 8px; margin-inline: -8px 0; border-radius: 14px; }
+  .mm.lp .lp-strip__name { font-size: 1rem; }
   .mm.lp .lp-strip__line { font-size: 0.875rem; }
+  .mm.lp .lp-strip__hook { margin-top: 6px; padding: 16px 8px 14px; margin-inline: -8px; border-top: 1px solid var(--line); border-radius: 0 0 14px 14px; }
+  .mm.lp .lp-strip__hook-fig { font-size: 2.25rem; }
+  .mm.lp .lp-strip__hook-unit, .mm.lp .lp-strip__hook-lead, .mm.lp .lp-strip__hook-at { font-size: 1.0625rem; }
+  .mm.lp .lp-strip__hook-line { font-size: 1rem; }
 }
 
-/* The hero never shares the screen with the guide Mobi (PipGuide waits while the desk Mobi is in view), so its
-   columns take the guide's lane and line up with the site bar on both edges: the headline gets the width it needs. */
-@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .mm.lp main .lp-hero > .mm-wrap:not(.mm-wrap .mm-wrap) { padding-right: var(--gutter); }
+/* From 1400 px the words' column holds three features across with each line on one line (two across below that: at
+   1280 three across broke every line in two). */
+@media (min-width: 1400px) {
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Large desktops: the ways in grow with the headline, so the keys never look small beside a 100 px line. */
+@media (min-width: 1600px) {
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child { min-height: 64px; padding-inline: 32px; font-size: 1.1875rem; }
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:nth-child(2) { min-height: 64px; padding-inline: 28px; font-size: 1.125rem; }
+}
+
+/* Wide screens: the sample card's type grows with its card. */
+@media (min-width: 1440px) {
+  .mm.lp .lp-desk .mm-drill__q { font-size: 1.625rem; }
+  .mm.lp .lp-desk .mm-drill__option { min-height: 56px; font-size: 1.0625rem; }
+  .lp-desk__bubble { width: 12.5rem; font-size: 1.0625rem; }
 }
 
 /* ---------- Short phones (360 x 640): the room's clamp holds it at 168 px ---------- */

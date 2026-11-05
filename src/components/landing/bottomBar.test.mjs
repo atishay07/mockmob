@@ -10,7 +10,7 @@
 // (runJump's bar-skip and logo places); the glide against the story controller is oneGestureJump.test.mjs.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { GLIDE_MS, GLIDE_SCREENS, HEAD_GAP, RISE_MS, RISE_PX, VEIL_IN_MS, planJump } from './pageJump.mjs';
 import { stepCount, stepLabel } from './sectionPositionPhase.mjs';
 
@@ -170,13 +170,15 @@ test('the veil is the page\'s paper under the site bar: 120 ms in, 240 ms out', 
 });
 
 test('the phone nav carries a small Pricing pill on the home page only, hidden with the other prices in the app', () => {
-  assert.match(NAV, /\{pathname === '\/' \? \(\s*<a href="#pricing" className="mm-nav__price" data-page-jump="" data-commerce="">\s*<span>Pricing<\/span>\s*<\/a>\s*\) : null\}/);
+  // Round 4 (owner LK133, 5 Nov 2026): the pill opens the /pricing page, not the home page's #pricing (supersedes R3-D4's jump).
+  assert.match(NAV, /\{pathname === '\/' \? \(\s*<Link href="\/pricing" className="mm-nav__price" data-commerce="">\s*<span>Pricing<\/span>\s*<\/Link>\s*\) : null\}/);
+  assert.doesNotMatch(NAV, /href="#pricing"/, 'no bar link jumps to the plan on the home page');
   assert.match(BAR_CSS, /\.mm \.mm-nav__price \{ display: none; \}/);
   assert.match(BAR_CSS, /@media \(min-width: 375px\) and \(max-width: 899px\) \{\s*\.mm \.mm-nav__price \{[^}]*min-height: 44px;/, 'a 44 px target on phones from 375 px');
   // Below 400 px the row closes up so the menu key keeps its place; below 375 px there is no room (measured), the menu keeps Pricing.
   assert.match(BAR_CSS, /@media \(min-width: 375px\) and \(max-width: 399px\) \{\s*\.mm \.mm-nav__row:has\(\.mm-nav__price\) \{ gap: 0\.5rem; \}/);
   assert.match(BAR_CSS, /\.mm \.mm-nav__price > span \{[^}]*height: 30px;[^}]*border-radius: 999px;/);
-  assert.match(PAGE, /<section className="lp-sec[^"]*" id="pricing"/, 'the place it goes');
+  assert.ok(existsSync(new URL('../../app/pricing/page.js', import.meta.url)), 'the page it opens');
 });
 
 test('the Lab fits a short phone: on a portrait window 700 px tall or less its chrome gives the room back before the screen scales to half', () => {

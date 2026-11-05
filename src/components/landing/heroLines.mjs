@@ -33,6 +33,9 @@ export const HERO_SLOT_PHRASES = Object.freeze([...HERO_TYPED, HERO_LINES[2]]);
 export const TYPING = Object.freeze({
   /** After the opening's hand-off, or this long after first paint when the opening was skipped. */
   startAfterPaint: 600,
+  /** While an opening plays, the pass starts at its hand-off, or this long after the hero mounts if the hand-off never
+   *  arrives (round 4, LK120: the line must type on every visit; the longest opening is 1,600 ms). */
+  openingFallback: 2400,
   /** The caret fades in at the end of the resting line when typing starts. */
   caretIn: 100,
   /** The resting line holds with its caret before the first select-back, so the sentence is read before it changes. */

@@ -97,12 +97,12 @@ test('HeroTyped: server text is the resting line, the slot is aria-hidden with a
   assert.doesNotMatch(TYPED, /aria-live/);
 });
 
-test('HeroTyped: no timer under reduced motion or for a signed-in student; pauses off screen and in a hidden tab', () => {
+test('HeroTyped: no timer under reduced motion; pauses off screen and in a hidden tab', () => {
   const effect = TYPED.slice(TYPED.indexOf('useEffect(() => {'));
   const guard = effect.indexOf('if (stillOnly()) return undefined;');
   assert.ok(effect.indexOf('setTimeout') > 0);
-  assert.ok(guard > 0 && guard < effect.indexOf('setTimeout'), 'the reduced-motion and signed-in guard comes before any timer');
-  assert.match(TYPED, /html\.getAttribute\('data-motion'\) === 'reduced' \|\| html\.hasAttribute\('data-signed-in'\)/);
+  assert.ok(guard > 0 && guard < effect.indexOf('setTimeout'), 'the reduced-motion guard comes before any timer');
+  assert.match(TYPED, /if \(html\.getAttribute\('data-motion'\) === 'reduced'\) return true;/);
   assert.match(TYPED, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
   assert.match(TYPED, /new IntersectionObserver/);
   assert.match(TYPED, /visibilitychange/);
@@ -111,6 +111,16 @@ test('HeroTyped: no timer under reduced motion or for a signed-in student; pause
   assert.match(TYPED, /window\.addEventListener\('mm:opening', onOpening\)/);
   assert.match(TYPED, /start\(TYPING\.startAfterPaint - performance\.now\(\)\)/);
   assert.equal(TYPING.startAfterPaint, 600);
+});
+
+test('round 4 (owner LK120): the line types on every visit, signed in or not, and never waits for ever on the opening', () => {
+  // The cause of "sometimes there, sometimes gone": a Supabase session cookie (<html data-signed-in>) used to skip the pass.
+  const still = TYPED.slice(TYPED.indexOf('function stillOnly()'), TYPED.indexOf('export default function HeroTyped'));
+  assert.doesNotMatch(still, /data-signed-in/, 'a signed-in visitor sees the same pass as a guest');
+  // If the opening's hand-off is missed, the fallback starts the pass after the longest opening (1,600 ms) has ended.
+  assert.match(TYPED, /fallback = window\.setTimeout\(\(\) => start\(0\), TYPING\.openingFallback\);/);
+  assert.match(TYPED, /window\.clearTimeout\(fallback\);/);
+  assert.ok(TYPING.openingFallback > 1600 && TYPING.openingFallback <= 3000);
 });
 
 test('decision 5: a completed phrase tells Mobi (window mm:hero-typed { index, final })', () => {

@@ -1,0 +1,65 @@
+/* ==========================================================================
+   The phone bar's guest keys, re-made (round 4, owner LK135, 5 Nov 2026: "this bar below ... is not properly made: spacing
+   issue, UI/UX issues, and ... the CTA is a bit weak"; docs/design-decisions/web-r4-hero.md). One key row on every page
+   that draws a guest's two keys: the home page (LandingDock, in .lp-dockgate) and the public pages (PublicDock).
+
+   - "Start free" is the volt key and takes the room: its label, and one true line under it inside the key ("No card
+     needed"), so the way in says what it costs before it is pressed. "Log in" is the quiet ghost key beside it, sized to
+     its word, never the same weight.
+   - Both keys share one height (52 px) and one radius, and their faces sit level: every raised key here is lifted by its
+     keycap edge (--btn-edge), so the bar takes that edge into its top padding and the keys sit in the bar's optical middle
+     (before, the faces sat 4 px high, so the bar read 4 px top and 12 px bottom).
+   - A signed-in student keeps the one centred key (no sub-line); /pricing's checkout dock is untouched (one key).
+   ========================================================================== */
+@media (max-width: 899px) {
+  html[data-theme] .mm .mm-dock[data-keys='2'],
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] {
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: stretch;
+    gap: 6px 8px;
+    padding: calc(10px + var(--btn-edge, 4px)) 10px 10px;
+  }
+  /* The home page's bar is the floating glass card (feature-tour.css): its safe-area floor stays its own. */
+  html[data-theme] .mm .mm-dock[data-keys='2']:not(.lp-dockgate .mm-dock) { padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+  html[data-theme] .mm .mm-dock[data-keys='2'] .mm-dock__note { flex-basis: 100%; margin-top: calc(var(--btn-edge, 4px) * -1); }
+
+  html[data-theme] .mm .mm-dock[data-keys='2'] .mm-btn,
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-btn {
+    min-height: 52px;
+    max-width: none;
+    border-radius: 15px;
+    white-space: nowrap;
+  }
+  /* Log in: sized to its word, a hairline ring, level with the volt key's face. */
+  html[data-theme] .mm .mm-dock[data-keys='2'] .mm-dock__ghost,
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-dock__ghost {
+    flex: 0 0 auto;
+    min-width: 5.5rem;
+    padding-inline: 1.125rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+  }
+  /* Start free: the rest of the row, the label over its line. */
+  html[data-theme] .mm .mm-dock[data-keys='2'] .mm-btn--primary,
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-btn--primary {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 1rem;
+  }
+  html[data-theme] .mm .mm-dock .mm-dock__go {
+    flex-direction: column;
+    gap: 1px;
+    padding-block: 7px 8px;
+    line-height: 1.1;
+  }
+  .mm-dock .mm-dock__go-label { font-size: 1.0625rem; font-weight: 800; letter-spacing: -0.015em; }
+  /* The true line: the key's own ink at 72 % (about 7:1 on the volt), never a second colour. */
+  .mm-dock .mm-dock__go-sub { font-family: var(--font-body); font-size: 0.75rem; font-weight: 650; letter-spacing: 0; color: rgb(11 16 0 / 0.72); }
+}
+/* A narrow phone (320 to 359 px): the ghost closes up and the line steps down, so both keys keep one row. */
+@media (max-width: 359px) {
+  html[data-theme] .mm .mm-dock[data-keys='2'] .mm-dock__ghost,
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-dock__ghost { min-width: 0; padding-inline: 0.875rem; }
+  .mm-dock .mm-dock__go-sub { font-size: 0.6875rem; }
+}

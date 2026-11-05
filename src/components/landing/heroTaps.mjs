@@ -1,19 +1,24 @@
-// The home hero's words that are not the headline (1104 "Desk Light", decisions 13, 14, 18; round 3 R3-D3, LK99/LK100,
-// 5 Nov 2026): Mobi's bubble on the desk, the one fact line under the keys and the four facts of the second beat. Pure:
-// no browser, no clock, so the words are tested (heroTaps.test.mjs, homeHero.test.mjs). Word for word as decided;
-// change them here.
+// The home hero's words that are not the headline (1104 "Desk Light", decisions 13, 14, 18; round 3 R3-D3, LK99/LK100;
+// round 4, owner LK121/LK122/LK124, 5 Nov 2026): Mobi's bubble on the desk, the features strip under the keys and its price
+// hook. Pure: no browser, no clock (the caller passes the date), so the words are tested (heroTaps.test.mjs, homeHero.test.mjs).
+// Word for word as decided; change them here.
 //
 // The bubble's lines come only from the sample's state, never from taps (decision 13): on load he says his name and
-// hands you the first question (R3-D3: "Hi, I'm Mobi." is back, brandloss B5); a right answer and a miss each get a
-// line; the fifth answer gets the last. A tap gives one reaction act and leaves the line as it is.
+// offers you a CUET question; a right answer and a miss each get a line; the fifth answer gets the last. A tap gives one
+// reaction act and leaves the line as it is. Round 4 (LK122: "think from a marketing angle ... how to write copy
+// properly"): plain, warm, complete sentences that invite, and no "Go.".
+
+import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
 
 /** The bubble's four lines, by the sample's state. Each at most 44 characters, sentence case, no hype. */
 export const DESK_LINES = Object.freeze({
-  load: 'Hi, I’m Mobi. Your first question. Go.',
-  right: 'Right. The why is under it.',
-  miss: 'Close one. Read the why.',
-  five: 'That’s five. Pick your subject next.',
+  load: 'Hi, I’m Mobi. Try this CUET question.',
+  right: 'That’s right. The reason is just below.',
+  miss: 'Not this time. The reason is just below.',
+  five: 'All five done. Sign up to keep going.',
 });
+/** The sample card's note under the options (round 4, LK122): what the five are, said once, plainly. */
+export const DESK_NOTE = 'Free, no sign-up. Every answer shows its reason.';
 export const DESK_STATES = Object.freeze(Object.keys(DESK_LINES));
 
 /** The line for a sample state ('load', 'right', 'miss' or 'five'); anything else is the load line. */
@@ -77,22 +82,39 @@ export function heroFactLine(price, { bankSize = null } = {}) {
   return hasCount(bankSize) ? { count: `${n(bankSize)} questions.`, rest: ` ${rest}` } : { count: '', rest };
 }
 
-/** The number strip's accessible name (its nav landmark): what the four facts answer, in sentence case. */
-export const HERO_BEAT_LABEL = 'Why MockMob';
+/** The features strip's accessible name (its nav landmark). */
+export const HERO_FEATURES_LABEL = 'What MockMob gives you';
 
 /**
- * The second beat (R3-D3, LK100: "branded properly ... shown properly"): the same four facts as before, now with their
- * number weight and a desk object each (the number strip under the hero, HeroBeatStrip): `figure` in the brand word
- * colour, `unit` what it counts, `line` one quiet line, `icon` the desk object (BrandIcon). The facts
- * are unchanged: five free questions on this page, the DU programme count (DU_FACTS, live from the index), the two exam
- * screens, the 60-minute 50-question clock. `programmes` is duIndexFacts().programmes, or null (then three facts).
+ * The features strip (round 4, owner LK124: "highlight the main features ... or remove"; supersedes R3-D3's number strip of
+ * 5 / 73 / 2 / 60): the main features, each with its desk object and one plain line, each a link to where it lives on this
+ * page. The Compass link falls back to the free DU calculator when the page has no Compass section; Key cards appear only
+ * while their section does (KEY_CARDS_ENABLED). Every line says only what its own section says (homeHero.test.mjs HERO_STRINGS).
  */
-export function heroBeat(programmes = null) {
-  const du = Number.isFinite(programmes) && programmes > 0;
+export function heroFeatures({ compass = true, keyCards = false } = {}) {
   return [
-    { href: '#try-practice', icon: 'questions', figure: '5', unit: 'questions free', line: 'Each with the why, no signup' },
-    ...(du ? [{ href: '#du-eligibility', icon: 'compass', figure: String(programmes), unit: 'DU programmes', line: 'Matched to your subjects' }] : []),
-    { href: '#exam-experience', icon: 'papers', figure: '2', unit: 'exam screens', line: 'Practise calm, rehearse NTA style' },
-    { href: '#your-prep', icon: 'today', figure: '60', unit: 'minutes, 50 questions', line: 'The full CUET clock' },
+    { href: '#pricing', icon: 'papers', name: 'Unlimited mocks', line: 'On Pro, every one fresh' },
+    { href: '#inside-the-lab', icon: 'mistakes', name: 'Mistake Lab', line: 'Every lost mark, traced' },
+    { href: '#score-recovery-lab', icon: 'revise', name: 'Score Recovery', line: 'Fix it once, check it holds' },
+    { href: compass ? '#compass' : '#du-eligibility', icon: 'compass', name: 'DU Compass', line: 'Check your DU shortlist' },
+    { href: '#your-prep', icon: 'mobi', name: 'Ask Mobi', line: 'One clear step for tonight' },
+    ...(keyCards ? [{ href: '#key-cards', icon: 'keycards', name: 'Key cards', line: 'Turn it, rate it, keep it' }] : []),
   ];
+}
+
+/**
+ * The honest price hook (owner LK124: "as low as ₹1 a mock"): what one Full mock comes to on Pro at the top pace of the
+ * pricing section's slider (value.mjs MOCK_PACES), worked out from the live offer by perMock (rounded UP to the next 10
+ * paise, never down). The figure never stands without its pace (round 4 review: a best case shown first must carry its
+ * condition in the same line, at the same weight): "As low as ₹X a mock on Pro at N full mocks a week", then the price
+ * that makes it on its own line, so it can be checked. A monthly price and a one-time price never share a sentence.
+ * null when it cannot be worked out (then no hook is drawn). The figures follow the offer and the slider; none is typed.
+ * { lead: 'As low as', figure, unit: 'a mock on Pro', at: 'at N full mocks a week', line: '₹P a month.', pace, href }
+ */
+export function heroPriceHook(offer, { from } = {}) {
+  const pace = Math.max(...MOCK_PACES);
+  const m = perMock(offer, pace, { from });
+  if (!m) return null;
+  const line = m.kind === 'monthly' ? `${m.price} a month.` : `${m.price} once, to ${m.until}.`;
+  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', at: `at ${pace} full mocks a week`, line, pace, href: '#pricing' };
 }
