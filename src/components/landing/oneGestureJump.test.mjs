@@ -234,6 +234,32 @@ test('a fast drag from below into a story is held on its last rest', () => {
   assert.equal(shown, 3);
 });
 
+test('an outside touch clamps entry when the compositor scrolls before the first touchmove is delivered', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  const at = { clientX: 195, clientY: 600 };
+  const target = new FakeElement();
+  win.dispatch('touchstart', { touches: [at], target });
+  win.scrollTo({ top: rests[1] });
+  frame();
+  assert.equal(win.scrollY, rests[0], 'the first compositor frame stops at the entrance');
+  win.dispatch('touchend', { touches: [], target });
+  frames(30);
+  assert.equal(shown, 0);
+});
+
+test('lifting an outside touch preserves its entry clamp when the page has already moved ahead of the next frame', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  drag(40, 12, { lift: false });
+  assert.equal(win.scrollY, rests[0]);
+  win.scrollTo({ top: rests[1] });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(30);
+  assert.equal(win.scrollY, rests[0]);
+  assert.equal(shown, 0);
+});
+
 test('a finger held still inside the hold keeps it; a finger that turns back out is free', () => {
   placeAt(STORY_TOP - 200);
   drag(40, 10, { lift: false });

@@ -159,7 +159,10 @@ function onTouchStart(e) {
   bus.clearJump();
   if (touches !== 1) { g = null; return; }
   const p = e.touches[0];
-  g = { x: p.clientX, y: p.clientY, story: holding(), claim: undefined, dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target };
+  const story = holding();
+  lastY = window.scrollY;
+  // Outside a hold, the compositor can scroll before the first touchmove reaches the controller.
+  g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target };
 }
 
 function onTouchMove(e) {
@@ -171,7 +174,6 @@ function onTouchMove(e) {
   g.samples.push({ t: e.timeStamp, y: p.clientY });
   if (g.samples.length > 10) g.samples.shift();
   if (g.claim === undefined) {
-    if (!g.story) { g.claim = 'native'; return; }
     if (Math.max(Math.abs(dx), Math.abs(dy)) < SLOP) { if (e.cancelable) e.preventDefault(); return; }
     const dir = dy < 0 ? 1 : -1;
     g.claim = claimTouch({
@@ -213,6 +215,7 @@ function onTouchCancel() {
 
 // A native touch ended with the page inside a hold: its momentum may not run through the steps. Hold the nearest rest.
 function afterNativeTouch() {
+  if (keepY !== null) return;
   const s = holding();
   if (s) { keepStory = s; keepY = restOf(s, nearestStep(s.top, s.hold, s.steps, window.scrollY)); }
 }
