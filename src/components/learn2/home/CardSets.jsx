@@ -22,6 +22,7 @@ function watchMore(row) {
   check();
   const box = typeof ResizeObserver === 'function' ? new ResizeObserver(check) : null;
   box?.observe(row);
+  for (const chip of row.children) box?.observe(chip);
   row.addEventListener('scroll', check, { passive: true });
   return () => { box?.disconnect(); row.removeEventListener('scroll', check); };
 }

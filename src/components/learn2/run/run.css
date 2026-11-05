@@ -285,9 +285,7 @@
 /* The flight's ghost: a copy of the card above the whole player, so the next item can rise beneath it. */
 .lr-ghost { position: fixed !important; z-index: 80; margin: 0 !important; box-sizing: border-box; pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; }
 .lr-ghost, .lr-ghost * { animation: none !important; transition: none !important; }
-/* LK137: a card being swiped is not cut off at the stage column's edge (from 768 px the area is its own scroll box). */
-.lr-area:has(> .lr-enter > .lr-card[data-swipe]) { overflow: visible; }
-/* While a card is dragged (down, over the bar on a laptop) the status line steps aside; the lit key says what the drag does. */
+/* Keep the stage scroll box while a card moves so a long answer stays where the student left it. The lit key names the rating. */
 .lr-bar .lr-status { transition: opacity 150ms var(--lr-ease); }
 .lr:has(.lr-card[data-swipe='drag'], .lr-card[data-swipe='commit']) .lr-bar .lr-status { opacity: 0; }
 

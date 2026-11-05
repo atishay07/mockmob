@@ -255,7 +255,7 @@ test('A2 on a real touch: the scroll box inside the run\'s card follows the card
   assert.match(hook, /const ok = wholeInView\(el\) && !inner;/);
   // The swiped card is never cut at the stage column's edge, and the status line steps aside while it moves.
   const run = code('src/components/learn2/run/run.css');
-  assert.match(run, /\.lr-area:has\(> \.lr-enter > \.lr-card\[data-swipe\]\) \{ overflow: visible; \}/);
+  assert.doesNotMatch(run, /\.lr-area:has\([^\n]*data-swipe[^\n]*overflow: visible/);
   assert.match(run, /\.lr:has\(\.lr-card\[data-swipe='drag'\], \.lr-card\[data-swipe='commit'\]\) \.lr-bar \.lr-status \{ opacity: 0; \}/);
 });
 

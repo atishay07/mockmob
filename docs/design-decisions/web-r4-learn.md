@@ -116,8 +116,10 @@ it. Not Revise (another packet's file); the player takes `swipe` as an opt-in pr
   scroll box, so the browser read `touch-action` only up to the face and panned (the drag was cancelled); every element inside a
   swipe card now takes the card's value. And taking the touch's capture from the word it landed on to the card fired a
   `lostpointercapture` on that word, which bubbled to the card and sprang it home; only the card's own loss ends a drag now.
-- From 768 px the run's stage column is a scroll box; a swiped card is no longer cut at its edge, and the status line under the
-  keys steps aside while a card is dragged (on a laptop a card dragged down passes over it).
+- From 768 px the run's stage column stays scrollable during a drag, preserving the reading position on a long card. The
+  rating key outside the stage shows the direction even when the card moves past the stage's edge.
+- The review pass reserves a mouse or pen drag on answer text for selection and copying. The card's header and padding
+  remain drag surfaces. On touch, a drag on the words still works. The set row fades only while a chip is past its edge.
 
 ## Checks (6 Nov 2026)
 
