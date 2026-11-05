@@ -1,3 +1,20 @@
+## 5 Nov 2026, about 4:30 pm IST: round 3 to production (owner LK99-LK115) and new Key cards (Computerised Accounting, English reading)
+
+Shipped (main from web/r3; spec docs/brain/night-1105/SPEC-R3.md; notes docs/design-decisions/web-r3-*.md):
+- Day palette (LK101): one Day text green #526700 (the app's), Day key lip #8BA000 + hairline, Day selected states as rimmed raised paper with a volt tick (no volt slabs on cream), warm shadows; "MockMob" green in the statement (LK102).
+- Brand back by role (LK108): brand stamps (desk object + product name) above the Lab, Recovery Lab, DU Compass, Instagram, Wall of love and Key cards; volt in the product screens again; branded creator cards with an answer-sheet texture; the punchy voice lines.
+- Hero (LK99/LK100): calmer first screen (2-line lead, one fact line, "Hi, I'm Mobi."), the four facts as a branded number strip (judged over a rotating line).
+- Held stories (LK103/LK104): cards stop above a bottom band on phones; a bottom bar with Top, the section name, n of N and Skip; the logo goes to the top; a Pricing pill in the phone nav.
+- Tour (LK105): activation epoch (no finished-state flash), sequenced change instead of a crossfade, eager rail icons.
+- Exam (LK106): a phone-native exam screen below 761 px in a phone frame; the desktop monitor unchanged.
+- Pricing (LK107-LK111): the numbers band folded into the one plan card (glass over "Pro"), value from the offer object (about Rs X a day / a mock at 2/4/7/14 full mocks a week), a same-period comparison with three dated rival rows (5 Nov 2026, sources in a disclosure; never "cheapest"), the close band with an invite line only while invites are live.
+- Key cards section (LK112): five real cards with a 3D flip, a glass front, progress and the rating keys; the loading kit (count-up on true numbers).
+- Accountancy (LK115): both Part B choices stay; the AFS line notes the 2025 paper asked AFS only.
+- Content (LK113): Computerised Accounting 207 cards (NCERT leca101-104, Reprint 2026-27) and English reading skills 231 authored cards; 22 held by the content lead; Financial Markets not done (the Wayback copies of lebs202 2022/2023 are truncated at 1 MiB; the full 2021 capture is the fallback).
+
+Verified: test:app 1018, learn 434, keycards 125, keycards-ui 40, subjects 62, nta 234, recovery 637, billing 453, auth 141, dock 63, du 42, learning 357, today 146, landing and round tests 407 all 0 fail (mob 7, study 1, egress 1 pre-existing); eslint clean; webpack and Turbopack builds pass; on the production build 22 swipes at 4x CPU over100 = 0 cold and warm (p95 16 ms); one-gesture matrix 128/128 at 390; every home section looked at at 390 and 1440, Night and Day.
+Not verified: a real phone; signed-in states in a browser; the per-packet independent reviews ran only for the Key cards packet (the usage limit stopped the others).
+
 ## 5 Nov 2026, about 7:45 am IST: night refinement round 2 to production (owner LK95, LK98: the app's motion on the web, public and app pages refined)
 
 Shipped (main from web/1105-round2; design notes docs/design-decisions/web-1105-motion.md, web-1105-public.md, web-1105-appweb.md):
