@@ -761,3 +761,39 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | STANDING | **LK114** His feedback is a direction, not a full list: understand it and apply the same thinking everywhere on our own. |
 | DECIDED 5 Nov ~11:10 am | **LK115** Accountancy Part B: keep both choices (AFS and CAS) at onboarding and in Learn; AFS default, with the 2025-paper line. |
 | ANSWERED 5 Nov ~3:55 pm | **LK116** Why did you stop working? Tell me what is left, what is needed from me, and what is done. |
+
+## The full website and app feedback, 5 Nov about 11:40 pm (LK117-LK147; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "5 Nov 2026, about 11:40 pm")
+
+| Status | Item |
+|---|---|
+| OPEN | **LK117** Desktop hero: too much white/blank space; massive and clearly visible like Preparoo, filling the screen (only small side margins); a background texture like before, especially in Night. |
+| OPEN | **LK118** Day green is still not exactly right. |
+| OPEN | **LK119** The whole site is not optimised for desktop (and tablet/laptop): formatting at every size. |
+| OPEN | **LK120** Mobile hero: no texture, no highlighting of CUET; the typed line is sometimes there, sometimes gone: find why and fix. |
+| OPEN | **LK121** Remove the fact line ("5,765 questions. Free to start, Pro ₹99 a month.") from the hero; keep "Have an account? Log in". |
+| OPEN | **LK122** The demo card's copy ("Hi, I'm Mobi. Your first question. Go." ...) is weak: rewrite from a marketing angle. |
+| OPEN | **LK123** "Not your subject?" on the demo: pick a subject, get 5 random questions from that subject's bank. |
+| OPEN | **LK124** The fact strip ("5 questions free", "73 DU programmes") is useless/unclear: show the main features or remove; "as low as ₹1 a mock" is a better hook. |
+| OPEN | **LK125** In the statement "MockMob" must be green from the start, not turn green on scroll. |
+| OPEN | **LK126** Mistake Lab: the Repair and SWOT scenes are cluttered on phones. |
+| OPEN | **LK127** Too much white space between items and sections on phones (Score Recovery Lab and others). |
+| OPEN | **LK128** Key cards section: refine more; less blank space. |
+| OPEN | **LK129** The exam section ("Practise calm, then rehearse exam day") degraded: revert to the previous version or do it properly. |
+| OPEN | **LK130** Pricing: the plan card covers too much of the big "Pro" word; move it lower; in Day the word is hard to see. |
+| OPEN | **LK131** Value slider: 2 a week is too low; start at 5-7 a week so even the lowest makes students feel they practise too little, under ₹10 a mock; a cool catch at the top end (under ₹1). |
+| OPEN | **LK132** Remove the "What each costs to May 2027" comparison completely (bad copy, weak UI, naming other platforms is legally risky). |
+| OPEN | **LK133** The nav's Pricing pill goes to the /pricing page, not #pricing. |
+| OPEN | **LK134** /pricing: the bottom plan card refined like the home page's; the final slide as "Free or Pro" or similar. |
+| OPEN | **LK135** The phone bottom bar (Log in / Sign up free): spacing and UI/UX issues; the CTA is weak. |
+| OPEN | **LK136** Learn Accountancy Part B (AFS vs CAS) affects only the last chapters (CUET Part 1/Part 2; three Class 12 books): cross-check the approach. |
+| OPEN | **LK137** Web Key cards: rating by swipe (right Got it, down Easy, left Missed) as well as keys. |
+| STANDING | **LK138** Keep adding refinements like these on our own, without being told again. |
+| OPEN | **LK139** Learn search is cluttered; the Show answer toggle is broken; a chapter search shows chapters and cards instead of the chapter. |
+| OPEN | **LK140** Learn is clunky overall: refine. |
+| OPEN | **LK141** The You button does not open the full You section while the top profile icon does: the opposite of what it should do. |
+| OPEN | **LK142** Arena (Today, Practice, everything) still feels limited and not easy enough to use; not impressive. |
+| OPEN | **LK143** Ask Mobi (the AI layer) has disappeared from the UI: bring it back as a main feature, with a plan. |
+| OPEN | **LK144** App: more haptics (for example the Mob tutorial); the Explore and Learn feeds are good: only a little greener/better. |
+| STANDING | **LK145** Split the effort 80% website (desktop, laptop, tablet, phone) and 20% app. |
+| OPEN | **LK146** Arena desktop: the sidebar needs UI refinement (the feed's use of the screen is fine). |
+| STANDING | **LK147** Do not worry about the weekly limit; keep going; when close to the limit, stop and prepare a handoff so he can continue on another account. |

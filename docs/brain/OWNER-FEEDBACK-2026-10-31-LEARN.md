@@ -338,3 +338,70 @@ Reading (dictation): "CTS" is the CTAs; "prepro" / "prepare site" is Preparoo (u
 > I was asking: why have you stopped working?
 
 (Clarifies 3:50 pm: he asked why work stopped, not to stop. Ledger LK116 updated.)
+
+## 5 Nov 2026, about 11:40 pm IST: the full website feedback and the app feedback; keep going, hand off near the limit (verbatim)
+
+> Now I'll give you the entire feedback on the website and everything. Don't worry about the weekly limits. They don't affect you specifically that much. In a particular session even if only 10% of the weekly usage remains, that's easily one whole 5-hour limit session.
+>
+> Moving on to the main thing: the website feedback.
+>
+> Firstly talking about the main first hero section: on mobile it looks, I would say, good enough. On desktop the main issue is that there is too much white space and blank space. You can do it like Prepro has done it. Everything should be massive, clearly visible, and enforced to a proper desktop size. It should cover the entire screen with not even a single little blank space. There is some blank space but only where it's needed, like very minor margins on the sides. We have too much blank space everywhere. Even if you are unable to cut down the blank space because you will just be adding text or making it bigger, it still won't do it. Some sort of texture or stuff needs to be in the background, like we had previously. It looks fine in white mode, but in black mode the black space, or whatever I should call it, is even more significant.
+>
+> Again, the green in the light mode is still not how it exactly should be. For the rest, the entire major issue, I would say, is how things are formatted. I would again reference the PrepAr website you have researched many times, but it's not just that website. Every website is optimized for mobile and desktop both. I don't think you have optimized it for desktop right now, so I'll shift to mobile right now and give my feedback there only. The mobile website is better in terms of the hero section. Still no texture or highlighting of the CVT stuff. How do they do it? By making the main CVT and IPMAT thing the typing animation but we can't do it. Also the typing animation says "sometimes there, sometimes it's gone" on the home page so I don't know what is exactly true. What's the reason for this?
+>
+> Just make sure to remove these random texts filled everywhere. The "Have an account? Log in" part is okay but 5,700 questions, free to standard, pro, 99 months: too much information just on the top. This is not a good UI/UX choice.
+>
+> The question slide, which is below: "Hi I'm Mobby. Your first question: go. What kind of English is this?" I mean it's not about the grammar or anything but just think from a marketing angle and, in general, also how to write copy properly.
+>
+> The questions again: there should be an option of "Not your subject?" or something like that. I don't know how to implement it tastefully but you have to do that. If someone selects their questions and all, then we can show random 5 questions from the bank of those specific subjects.
+>
+> The 5 main features that you are highlighting, like "5 questions free," are again very useless. We are already saying that at the top. "73 DU programs" could be, but again is this the number that we are offering? 15 subjects so they make you qualified for 73 programs or what? You have to highlight the main 5 features or something relevant or you can just remove this. I don't know what exactly. "₹99 per month" is okay but even more interesting could be adding something like "as low as ₹1 per mock" or something like that, if you get my point.
+>
+> When I am scrolling down to this section, "Your mark slipped somewhere. MockMob shows you where," MockMob is not green inherently. It turns green after scrolling so it's looking very weird there. These kinds of things you have to keep in mind as I said before also.
+>
+> When I come to the Mistake Lab, most screens are good. This Repair one is a bit too clustered for the mobile screen and Swap one also but it's overall fine. The Skip button on mobile is good. With the Score Recovery Lab you have done exactly what I wanted but there is again too much white space between some things and sections of the page, on mobile also.
+>
+> This key cards thing that you have done looks cool. The implementation is also good. It can be just refined a bit more. I don't know how exactly but something. Again white space and blanks everywhere. If you try to remove links I don't mean for everything to get listed, just make it proper.
+>
+> Practice, Calm, then Rehearse. Exam Day, you have degraded this a lot. This is not how we wanted it. The last one was really good, the rest of them and our original one were also good but this, what you have done right now, just won't work. Revert back to this or make a proper implementation of how I want you to do it.
+>
+> The only thing that you have done perfectly, I would say, is this Pro thing. Just R is covering the Pro a bit too much so make it a bit lower. I would like more of the Pro to be visible. It's visible in the dark mode but in the light mode it's not properly visible. Try to just move it down a bit.
+>
+> Then when I'm at "What a Mock Cost at Your Base," this is good, how I wanted you to do it. Overall this section can be refined a lot in terms of UI and how we are presenting it. Even the lowest thing that we are doing, like 2 mocks per week, is just too low. We need to be able to make them believe that they should practice more mocks or just make them seem more useful than they are. Make it in such a way that even the lowest bar makes the students think that they are doing too low right now. If they are practicing 1 mock or 2 mocks a week, that's too low. They should be doing 5 or 7 a week at least so that our pricing is more attractive, less than ₹10 a mock, like that.
+>
+> The final thing in the slider should be: 14 a week is a lot and still we are above ₹1,000. I don't know what exactly we can do to show it as even less than ₹1,000. We don't exactly have to show it but it would be a cool catch.
+>
+> Then they should provide what each costs to me, 2027. Again very vague and bad English. What have you even written here? I don't understand it myself. Mock, Mock Pro, 7 months into 99, okay.
+>
+> In All Access, CVT Codes, ScienceNow, you have had to show a comparison and you have failed in terms of UI. In the sources how the hell can you mention stuff like Preparo or Ofer? We can't directly compare to them legally. I don't know if this is even allowed: to mention other websites, places like this, and compare. Just remove this completely.
+>
+> The pricing button at the top should not take you to the pricing on the landing page. It should take you to the pricing page itself. There also at the end, the bottom one, plan everything. That's the stuff with how you have made it. Refine it to how it is on the home page.
+>
+> Other than that the pricing page is really good in terms of everything: Pro Unlocks and stuff like that. Just the final last slide. We can make it something like Free or Pro, something like that. Just think about it.
+>
+> Another thing which I remembered on the home page is that this bar below, which comes up, is not properly made: "Login and sign up for free." Firstly, spacing issue, UI/UX issues, and other than that, the CTA is a bit weak. Coming to the Learn section. For accounts, I was noticing one thing: there is an option between Analysis of Financial Statement and Computerized Accounting, which mainly affects the last one or two chapters only. Accounting for Share Capital Issue and Retention of Dividends: all this is unaffected. I know this, as CUET treats this as Part 1 and Part 2. In Class 12, there are three separate books for this.
+>
+> Just cross-check how you have done it and whether it is the right approach. I am not seeing any issue with it. Just cross-check everything.
+>
+> The cards, if possible on the web also, can have some functionality like Got It, Missed, or Easy. Maybe some swipe functionality, like Got It to the right, Easy down, and Missed left, something like that. If you can implement it, it is just a cool thing.
+>
+> I have been seeing that these kinds of things might not be useful to anyone, but you should always think and keep adding these kinds of refinements without me telling you these things again and again. Even the chapter lists and all are all right. You have even added the search functionality, so the search functionality is cluttered in this. This is off, right? Show Answer: this toggle is broken. It is very weird. I don't know how to show this to you. It is showing chapters and cards instead of what it should show if someone wants to search a chapter. That is one thing.
+>
+> Overall, the Learn section I visited before also is a bit clunky and needs refinement. When I click on the U section button, it is not opening the entire U section. When I click on the top icon where my profile is situated, where A is written, it is opening the entire U section. It is actually doing the opposite of what it should be doing, of what I think a UI should do. Think about that also.
+>
+> Overall, Arena is still pretty much the same. I didn't tell you exactly what to do, but it is not very impressive with anything. Today Practice and Everything still feel a bit too limited. Many things are still not as easy to use as I want them to be. I don't know if even you can do anything in that, but I completely forgot how we have implemented that Ask Mob thing. I think that is completely gone from the UI. I can't find it anywhere exactly. Actually, what happened to that? That was one of our main features, and it had to be the entire AI layer of the system. I don't know, due to clutter or what, it's completely gone now. Do you have any plan for what you can do to bring it back?
+>
+> I think that's all for the website end. For the app,
+>
+> for the app, I'll tell you what I like and what needs improvement.
+>
+> * Haptics: you have improved them a lot, but in some places they can still be improved. In the tutorial section of Mob, adding haptics there, maybe. I'm not sure but it could be a good thing.
+> * Seeing the explore feed on mobile: really good, very fluid. Even the line feed looks a bit better on mobile. I don't think that I have any huge recommendation for that. It already looks really nice. Maybe just make stuff, by the way, greener and better. Whatever you can do, but not much. It already looks very good.
+>
+> I think focus can now be shifted more towards the website, like 80% towards the website and 20% maybe to the app. Still keep on making it better and focus on the website, both on the desktop, mobile, tablet, and laptop experience, everything as a whole.
+>
+> Many things on the arena side of the desktop are good. The feed and all cover more of the screen and are not an issue, so it's honestly fine. Just as I said, the sidebar is lower than all UI refinement stuff is required. I think that's all for the feedback. Let me know if you need anything else from my side.
+>
+> .f something is left. When you are close to hitting it, I said to myself, "Went to stop and prepare handoff so that I can continue another account," but for now, keep going.
+
+Reading (dictation): "Prepro"/"PrepAr"/"Preparo" is Preparoo; "CVT" is CUET; "Mobby" is Mobi; "free to standard, pro, 99 months" is the fact line "Free to start, Pro ₹99 a month"; "Mistake Lab ... Swap" is probably the SWOT scene; "R is covering the Pro" is the plan card covering the big "Pro" word; "Your Base" is "your pace"; "above ₹1,000 ... less than ₹1,000" most likely means ₹1 a mock; "Ofer" is Oswaal (or the offer rows); "U section" is You; "Ask Mob" is Ask Mobi; "the line feed" is the Learn feed; "Went to stop and prepare handoff so that I can continue another account" means: when close to the usage limit, stop and prepare a handoff so he can continue on another account. Ledger rows LK117-LK147.
