@@ -1,14 +1,16 @@
-/* The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov 2026): ExamScreen.jsx. One desktop exam screen inside a
-   monitor (ExamDevice.jsx, exam-device.css), a browser window whose address bar shows where the screen lives, and the
-   MockMob / NTA style switch beside it. Two skins on one screen:
+/* The home page's exam section (LK72 4 Nov; D6, LK91, LK92, R3-D6 LK106 5 Nov 2026): ExamScreen.jsx. One desktop exam
+   screen inside a monitor (ExamDevice.jsx, exam-device.css), a browser window whose address bar shows where the screen
+   lives, and the MockMob / NTA style switch beside it. Two skins on one screen:
    - data-interface='mockmob' is our runner (src/app/(app)/test/TestPageClient.jsx) and follows the page theme through the
      marketing tokens, the way the runner follows Night and Day;
    - data-interface='nta' is NTA's CBT screen as its guidelines describe it, light in both themes (a rehearsal skin).
-   The screen is laid out at 880 x 550 design pixels: --u is one design pixel, 1/880 of the glass (a size container), so
-   the whole screen scales with the monitor and a phone sees the same desktop screen, smaller (text stays real text).
-   Volt appears once on screen: Submit test, the runner's own primary; a selected option is dark ink on that one fill.
-   Everything animates on opacity and transform only. Heights, at most: 700 px of section at 390, 720 px at 1440
-   (examScreen.test.mjs states the budget and measures it in a browser on request). */
+   The monitor's screen is laid out at 880 x 550 design pixels: --u is one design pixel, 1/880 of the glass (a size
+   container), so the whole screen scales with the monitor. From 761 px that is all; below it the same state is drawn as a
+   phone-native screen inside a phone (the last part of this file, R3-D6), because the scaled screen's text fell to 4 px.
+   Volt appears once on the monitor's screen: Submit test, the runner's own primary; a selected option is dark ink on that
+   one fill. Everything animates on opacity and transform only. Heights, at most: 1,060 px of section at 390 and 1,100 px
+   at 360 (the phone, R3-D6), 720 px at 1440 (examScreen.test.mjs states the budget and measures it in a browser on
+   request). */
 .lp .xs.lp-sec { padding-block: clamp(1.5rem, 4vw, 2.75rem); border-block: 1px solid var(--line); }
 /* Phones and tablets: the head and Mobi share a row, then the line, the switch and the monitor; from 1024 the head, the
    line, the switch, Mobi and the gate line stand in a left column beside the monitor. */
@@ -239,3 +241,137 @@ button.xs-chip:active { transform: scale(.95); }
   .xs-switch button, .xs-progress b, .xs-option, .xs-text, button.xs-chip { transition: none; }
 }
 :root[data-motion='reduced'] :is(.xs-app, .xs-nta) { animation: none; }
+
+/* ---------------------------------------------------------------- the phone (R3-D6, LK106, 5 Nov 2026)
+   Below 761 px the screen is drawn for a phone, in real pixels, inside the phone of exam-device.css (ExamScreen.jsx: the
+   `phone` tree and PhoneNta). Scaled down, the monitor's screen put its text at 4.1-4.5 px (preparoo B12); here --u is one
+   CSS pixel and every size the miniature drew under 12 px, or every target under 44 px, is set again. The rules: the
+   question 19 px (NTA style 18 px, its own Arial), the options 16 px, nothing under 12 px, 44 px targets; the switch stays
+   beside the phone (the answers and the clock are one state); the header's details and the palette collapse into a drawer,
+   the runner's own phone sheet (TestPageClient.jsx: Previous / palette / Next and the palette sheet; NTA style's five keys
+   and its palette sheet). The MockMob skin follows the page theme through the same --xs-* tokens as the monitor; volt is the
+   Next key, the selected letter and Submit, as in the runner. */
+.xs-frame--phone { --u: 1px; font-size: 14px; }
+.xs-p-browser { flex: none; display: flex; align-items: center; height: 40px; padding: 0 10px; border-bottom: 1px solid var(--line); background: var(--paper-raised-2, var(--paper-sunken)); color: var(--ink-3); }
+.xs-p-browser .xs-url { height: 28px; padding: 0 12px; font-size: 12px; }
+.xs-p-browser .xs-url svg { width: 12px; height: 12px; }
+
+/* MockMob: a slim header (exit, where you are, the clock), the paper, the bar, the drawer. */
+.xs-p-app { position: relative; }
+.xs-frame--phone .xs-saved { padding: 5px 16px; font-size: 12px; }
+.xs-p-top { flex: none; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--xs-line); }
+.xs-frame--phone .xs-exit { width: 44px; height: 44px; border-radius: 12px; }
+.xs-frame--phone .xs-exit svg { width: 18px; height: 18px; }
+.xs-p-where { display: grid; gap: 7px; min-width: 0; }
+.xs-p-where strong { overflow: hidden; font: 700 15px/1.2 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; text-overflow: ellipsis; }
+.xs-p-where i { display: block; height: 4px; overflow: hidden; border-radius: 4px; background: var(--xs-line-strong); }
+.xs-p-where b { display: block; height: 100%; border-radius: 4px; background: var(--xs-ink); transform-origin: 0 50%; transform: scaleX(var(--p, 0)); transition: transform 240ms cubic-bezier(.23, 1, .32, 1); }
+.xs-frame--phone .xs-timer { height: 40px; gap: 6px; padding: 0 12px; border-radius: 12px; font-size: 16px; }
+.xs-frame--phone .xs-timer svg { width: 16px; height: 16px; }
+.xs-p-paper { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 12px 14px 10px; }
+.xs-frame--phone .xs-tags span { padding: 4px 10px; font-size: 12px; }
+.xs-p-qhead { display: flex; align-items: center; gap: 4px; min-width: 0; margin-top: 4px; }
+.xs-frame--phone .xs-state { min-width: 0; overflow: hidden; padding: 3px 9px; font-size: 12px; text-overflow: ellipsis; }
+.xs-frame--phone .xs-actions { margin-left: auto; gap: 0; }
+.xs-frame--phone .xs-text { min-height: 44px; gap: 6px; padding: 0 10px; border-radius: 10px; font-size: 14px; }
+.xs-frame--phone .xs-text svg { width: 15px; height: 15px; }
+.xs-frame--phone .xs-stem { margin: 2px 0 12px; font-size: 19px; line-height: 1.34; }
+.xs-frame--phone .xs-options { gap: 8px; }
+.xs-frame--phone .xs-option { min-height: 52px; gap: 10px; padding: 8px 12px; border-radius: 14px; font-size: 16px; line-height: 1.3; -webkit-touch-callout: none; }
+.xs-frame--phone .xs-letter { width: 30px; height: 30px; border-radius: 9px; font-size: 14px; }
+.xs-frame--phone .xs-note { margin-top: 10px; gap: 8px; font-size: 12px; }
+.xs-frame--phone .xs-note::before { width: 14px; }
+/* The runner's phone bar: Previous, the drawer (Review) and Next, the one volt key while the drawer is shut. The bar's foot
+   holds the phone's home indicator. */
+.xs-p-bar { position: relative; flex: none; display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px; padding: 8px 12px 18px; border-top: 1px solid var(--xs-line); background: var(--xs-bg); }
+.xs-p-bar::after, .xs-pn-keys::after { content: ''; position: absolute; left: 50%; bottom: 6px; width: 96px; height: 4px; margin-left: -48px; border-radius: 4px; background: currentColor; opacity: .3; pointer-events: none; }
+.xs-frame--phone .xs-btn { min-height: 48px; padding: 0 8px; border-radius: 14px; font-size: 15px; touch-action: manipulation; transition: transform 100ms ease; }
+.xs-frame--phone .xs-btn:active:not(:disabled) { transform: scale(.97); }
+.xs-p-bar .xs-p-next { border-color: transparent; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; font-weight: 700; }
+.xs-p-bar .xs-p-next:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #9db400; }
+.xs-p-bar .xs-p-next:disabled { opacity: .5; }
+
+/* The drawer: a sheet inside the phone over a dimmed paper. Shut, it is inert and hidden; it rises on transform only. */
+.xs-p-drawer { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.xs-p-drawer[data-open='true'] { pointer-events: auto; }
+.xs-p-scrim { position: absolute; inset: 0; width: 100%; padding: 0; border: 0; background: rgba(8, 7, 5, .55); opacity: 0; cursor: default; -webkit-tap-highlight-color: transparent; transition: opacity 200ms ease; }
+html[data-theme='light'] .xs-p-scrim { background: rgba(27, 25, 20, .32); }
+.xs-p-drawer[data-open='true'] .xs-p-scrim { opacity: 1; }
+.xs-p-sheet { position: absolute; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; max-height: calc(100% - 24px); overflow-y: auto; overscroll-behavior: contain; padding: 8px 16px 18px; border-top: 1px solid var(--xs-line-strong); border-radius: 22px 22px 0 0; background: var(--xs-bg); box-shadow: 0 -16px 36px -20px rgba(0, 0, 0, .45); transform: translateY(104%); visibility: hidden; transition: transform 220ms cubic-bezier(.32, .72, 0, 1), visibility 0s linear 220ms; }
+.xs-p-drawer[data-open='true'] .xs-p-sheet { transform: none; visibility: visible; transition: transform 280ms cubic-bezier(.32, .72, 0, 1), visibility 0s; }
+.xs-p-sheet::before { content: ''; flex: none; align-self: center; width: 36px; height: 4px; margin-bottom: 8px; border-radius: 4px; background: var(--xs-line-strong); }
+.xs-p-sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.xs-p-sheet .xs-title span { font-size: 12px; }
+.xs-p-sheet .xs-title strong { font-size: 18px; }
+.xs-frame--phone .xs-progress { gap: 6px; margin-top: 10px; }
+.xs-frame--phone .xs-progress > div { gap: 12px; font-size: 12px; }
+.xs-frame--phone .xs-counters { gap: 6px; margin-top: 12px; }
+.xs-frame--phone .xs-counters > div { display: flex; align-items: baseline; gap: 8px; padding: 7px 12px; border-radius: 12px; }
+.xs-frame--phone .xs-counters strong { font-size: 18px; }
+.xs-frame--phone .xs-counters span { font-size: 12px; }
+.xs-frame--phone .xs-grid { gap: 8px; margin: 12px 0; }
+.xs-frame--phone .xs-chip { min-height: 44px; border-radius: 12px; font-size: 15px; }
+.xs-frame--phone .xs-chip:is([data-state='marked'], [data-state='marked-answered']) { width: 44px; border-radius: 50%; }
+.xs-frame--phone .xs-legend { gap: 8px 12px; }
+.xs-frame--phone .xs-legend li { gap: 8px; font-size: 12px; }
+.xs-frame--phone .xs-legend i { width: 14px; height: 14px; }
+.xs-frame--phone .xs-submit { flex: none; min-height: 48px; margin-top: 14px; border-radius: 14px; font-size: 15px; }
+.xs-frame--phone .xs-readback { min-height: 18px; margin-top: 8px; font-size: 12px; }
+
+/* NTA style on the phone: NTA's palette, Arial and symbols, laid out as the runner's NTA style is on a phone. */
+.xs-pn { position: relative; }
+.xs-frame--phone .xs-n-head { height: 54px; gap: 10px; padding: 0 12px; }
+.xs-frame--phone .xs-n-exam { font-size: 17px; white-space: nowrap; }
+.xs-pn-tools { display: flex; align-items: center; gap: 12px; }
+.xs-frame--phone .xs-n-paper { gap: 2px; font-size: 12px; }
+.xs-frame--phone .xs-n-paper svg { width: 20px; height: 20px; }
+.xs-pn-time { display: grid; justify-items: end; gap: 3px; color: #444; font-size: 12px; line-height: 1.1; }
+.xs-frame--phone .xs-n-time { padding: 2px 7px; border-radius: 3px; font-size: 15px; font-weight: 700; }
+.xs-frame--phone .xs-n-sections { height: 38px; padding: 0 12px; }
+.xs-frame--phone .xs-n-tab { padding: 0 14px; font-size: 13px; }
+.xs-pn-main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.xs-frame--phone .xs-n-qhead { padding: 8px 12px; }
+.xs-frame--phone .xs-n-qhead h3 { font-size: 16px; }
+.xs-frame--phone .xs-n-down { width: 28px; height: 28px; }
+.xs-frame--phone .xs-n-down svg { width: 16px; height: 16px; }
+.xs-frame--phone .xs-n-qbody { padding: 12px 12px 8px; }
+.xs-frame--phone .xs-n-stem { margin-bottom: 10px; font-size: 18px; line-height: 1.45; }
+.xs-frame--phone .xs-n-options { gap: 2px; justify-items: stretch; }
+.xs-frame--phone .xs-n-option { min-height: 48px; gap: 10px; padding: 4px 6px; font-size: 16px; line-height: 1.3; }
+.xs-frame--phone .xs-n-radio { width: 18px; height: 18px; }
+.xs-frame--phone .xs-n-option[aria-pressed='true'] .xs-n-radio { box-shadow: inset 0 0 0 3px #fff; }
+/* NTA style's keys, one tap away (the runner's phone bar): Previous, Clear Response and the Question Palette, then Mark for
+   Review & Next and Save & Next. */
+.xs-pn-keys { position: relative; flex: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 8px 8px 18px; border-top: 1px solid #d0d0d0; background: #f5f5f5; color: #222; }
+.xs-frame--phone .xs-n-key { grid-column: span 2; min-width: 0; min-height: 44px; padding: 0 6px; font-size: 13px; line-height: 1.15; white-space: normal; text-align: center; touch-action: manipulation; }
+.xs-frame--phone .xs-n-key:first-child { border-color: #b0b0b0; background: #fff; color: #222; }
+.xs-frame--phone .xs-pn-review { grid-column: span 3; border-color: #68408d; background: #754b9c; color: #fff; }
+.xs-frame--phone .xs-n-key--save { grid-column: span 3; margin-left: 0; }
+.xs-frame--phone .xs-n-key:disabled { opacity: .45; cursor: default; }
+/* NTA's palette sheet: white, square-shouldered, with the candidate block the header folded away. */
+.xs-frame--phone .xs-pn-sheet { padding: 12px 14px 18px; border: 1px solid #b9b9b9; border-bottom: 0; border-radius: 8px 8px 0 0; background: #fff; box-shadow: 0 -10px 30px -14px rgba(0, 0, 0, .35); }
+.xs-pn-sheet::before { content: none; }
+.xs-pn-title { color: #222; font: 700 17px/1.3 Arial, Helvetica, sans-serif; }
+.xs-pn-close { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid #b9b9b9; border-radius: 3px; background: #fff; color: #333; cursor: pointer; }
+.xs-pn-close svg { width: 18px; height: 18px; }
+.xs-pn-cand { display: flex; align-items: center; gap: 10px; margin: 10px 0 12px; padding: 8px 0; border-block: 1px solid #e3e3e3; }
+.xs-frame--phone .xs-n-photo { width: 36px; height: 43px; }
+.xs-frame--phone .xs-n-cand { gap: 3px; font-size: 12px; }
+.xs-frame--phone .xs-n-cand > div { grid-template-columns: 104px auto; }
+.xs-frame--phone .xs-n-legend { gap: 8px; padding-bottom: 12px; }
+.xs-frame--phone .xs-n-legend li { gap: 8px; font-size: 12px; }
+.xs-frame--phone .xs-n-sym { width: 32px; height: 26px; font-size: 13px; }
+.xs-frame--phone .xs-n-sym:is([data-state='marked'], [data-state='marked-answered']) { width: 26px; height: 26px; }
+.xs-frame--phone .xs-n-section { margin-top: 12px; padding: 5px 10px; font-size: 13px; }
+.xs-frame--phone[data-interface='nta'] .xs-grid { gap: 8px; margin: 12px 0; }
+.xs-frame--phone[data-interface='nta'] .xs-chip { min-height: 44px; font-size: 15px; }
+.xs-frame--phone[data-interface='nta'] .xs-chip:is([data-state='marked'], [data-state='marked-answered']) { width: 44px; }
+.xs-frame--phone[data-interface='nta'] .xs-chip[data-state='marked-answered']::after { right: -3px; bottom: -2px; width: 13px; height: 13px; border-radius: 3px; box-shadow: inset 0 0 0 2px #22b80c, inset 0 0 0 3.5px #fff; }
+.xs-frame--phone .xs-n-submit { flex: none; min-height: 44px; margin-top: 4px; font-size: 15px; }
+.xs-frame--phone[data-interface='nta'] .xs-readback { margin-top: 8px; font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .xs-p-sheet, .xs-p-drawer[data-open='true'] .xs-p-sheet { transition: visibility 0s; }
+  .xs-p-scrim, .xs-p-where b, .xs-frame--phone .xs-btn { transition: none; }
+}
+:root[data-motion='reduced'] :is(.xs-p-sheet, .xs-p-drawer[data-open='true'] .xs-p-sheet) { transition: visibility 0s; }

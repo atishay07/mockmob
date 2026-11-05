@@ -110,3 +110,17 @@ test('the five questions are four-option Accountancy items with the runner\'s tw
   }
   assert.ok(has('<span>{q.chapter}</span>') && has('{q.difficulty && <span>{q.difficulty}</span>}'), 'the runner prints the chapter and the difficulty as two chips');
 });
+
+// R3-D6 (LK106, 5 Nov 2026): below 761 px the home page draws the runner as it is on a phone. Its anatomy is the runner's
+// phone anatomy: a bar under the paper with Previous, the palette and Next (NTA style: its keys and the Question Palette),
+// and a palette sheet with a close key, the counts, the palette and Submit. Its few new words are the runner's own.
+test('the phone preview is the runner on a phone: its bar, its palette sheet and its words', () => {
+  const JSX = read('ExamScreen.jsx');
+  assert.ok(has('className="nta-mobile-actions"') && has('className="nta-mobile-sheet" role="dialog"'), 'the runner has a phone bar and a palette sheet');
+  assert.ok(has('aria-label="Close palette"') && JSX.includes('aria-label="Close palette"'), 'the sheet\'s close key says what the runner\'s says');
+  assert.ok(has('{answered}/{questions.length} answered') || has('{answered} answered'), 'the sheet counts the answers');
+  // NTA style on a phone: the runner's five keys, the preview's five keys.
+  for (const key of ['Previous', 'NTA.clearResponse', 'NTA.paletteTitle', 'NTA.markNext']) assert.ok(RUNNER.slice(RUNNER.indexOf('className="nta-mobile-actions"')).includes(key), `the runner's NTA phone bar has ${key}`);
+  assert.equal(EXAM.mockmob.previous, 'Previous');
+  assert.ok(has('Review') && has('Submit test'), 'Review and Submit test are the runner\'s');
+});

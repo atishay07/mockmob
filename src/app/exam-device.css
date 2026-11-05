@@ -67,3 +67,42 @@ html[data-theme='light'] .xs-device {
   background: var(--xs-stand);
   box-shadow: inset 0 1px 0 var(--xs-stand-edge), 0 1.4cqw 2.2cqw -1.1cqw var(--xs-shadow);
 }
+
+/* ---------------------------------------------------------------- the phone (R3-D6, LK106, 5 Nov 2026)
+   Below 761 px the monitor's screen was a 4 px miniature (preparoo B12: 26 of its 37 texts under 10 px at 390), so phones
+   see a phone instead, made of the monitor's own material: the bezel's warm charcoal with its hairline edge, the camera
+   centred in the top bezel as on the monitor, the stand's aluminium as the rim and the side keys, and the monitor's one soft
+   shadow under it. The screen inside is phone-native, in real pixels (exam-screen.css, "the phone"); the monitor is untouched
+   and shows from 761 px. The glass has one fixed height per width band, so switching MockMob and NTA style never moves the
+   page. */
+.xs-phone { display: none; }
+@media (max-width: 760px) {
+  .xs-device > .xs-monitor { display: none; }
+  .xs-phone { display: grid; justify-items: center; }
+}
+.xs-phone__body {
+  position: relative;
+  box-sizing: border-box;
+  width: min(100%, 384px);
+  padding: 17px 7px 7px;
+  border-radius: 36px;
+  background: var(--xs-bezel);
+  box-shadow: inset 0 0 0 1px var(--xs-bezel-edge), 0 0 0 1.5px var(--xs-stand), 0 26px 44px -30px var(--xs-shadow);
+}
+/* The camera, centred in the top bezel, like the monitor's. */
+.xs-phone__body::before { content: ''; position: absolute; top: 6px; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--xs-camera); }
+/* The side keys, in the stand's aluminium: the power key on the right, the volume rocker on the left. */
+.xs-phone__body::after { content: ''; position: absolute; top: 132px; right: -3.5px; width: 2.5px; height: 58px; border-radius: 0 2px 2px 0; background: var(--xs-stand); }
+.xs-phone__keys { position: absolute; top: 108px; left: -3.5px; width: 2.5px; height: 84px; border-radius: 2px 0 0 2px; background: var(--xs-stand); }
+.xs-phone__glass {
+  position: relative;
+  height: 616px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 29px 29px 29px 29px / 20px 20px 29px 29px;
+  background: var(--paper-raised);
+  box-shadow: 0 0 0 1px var(--xs-glass-edge);
+}
+/* Narrow phones wrap the options to two lines, so the glass is a little taller there (measured, both interfaces, all five
+   questions: tmp/r3/exam). */
+@media (max-width: 374px) { .xs-phone__glass { height: 660px; } }
