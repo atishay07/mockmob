@@ -363,6 +363,9 @@ export const EXAM = Object.freeze({
   warnings: 'Warnings 0/3',
   ctaFree: 'See Pro',
   ctaPro: 'Set up an NTA mock',
+  // Phones (R4-H6, owner LK129, 6 Nov 2026): the monitor stays a scaled picture of the real screen, and one key opens that
+  // screen full screen at a readable size, sideways like a monitor, with the same switch, answers and clock.
+  full: Object.freeze({ open: 'Try it full screen', title: 'The exam screen, full screen', close: 'Close full screen', turn: 'Turn your phone sideways.' }),
   // Five Accountancy questions, ours, with the chapter and difficulty chips the runner shows. `options` letters are A to D.
   questions: Object.freeze([
     { chapter: 'Admission of a partner', difficulty: 'Medium', text: 'Goodwill brought in by an incoming partner is shared by the old partners in:', options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'] },

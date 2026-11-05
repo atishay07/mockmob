@@ -1,4 +1,4 @@
 /* MockMob shared tokens: the app's Day palette (mm_colors.dart), round 3, 5 Nov 2026 (R3-D1, LK101; DESIGN.md "November 5").
-   Volt is the action fill with volt ink; the Day key lip is #8BA000; Day brand words, accents and the focus ring are #526700;
-   a Day selected state is raised paper with a #526700 rim and a small volt tick, never a volt slab on cream. */
-:root { --mm-paper:#f3efe6;--mm-raised:#fffdf8;--mm-ink:#1b1914;--mm-ink-2:#4a453b;--mm-volt:#d2f000;--mm-volt-ink:#0b1000;--mm-volt-edge-day:#8ba000;--mm-volt-edge-night:#9db400;--mm-text-green-day:#526700;--mm-good-day:#3d6600;--mm-state-wash-day:rgba(210, 240, 0, 0.22);--mm-slate:#12110e;--mm-line:rgba(27, 25, 20, 0.10);--mm-radius:12px; }
+   Volt is the action fill with volt ink; a stroke on volt (the key lip) is #9DB400 in both themes (round 4, LK118); Day brand words, accents and the focus ring are #526700;
+   a Day selected state is raised paper with an ink-70% rim and a small volt tick, never a volt slab on cream. */
+:root { --mm-paper:#f3efe6;--mm-raised:#fffdf8;--mm-ink:#17150f;--mm-ink-2:#454036;--mm-volt:#d2f000;--mm-volt-ink:#0b1000;--mm-volt-edge-day:#9db400;--mm-volt-edge-night:#9db400;--mm-text-green-day:#526700;--mm-good-day:#3d6600;--mm-state-wash-day:rgba(210, 240, 0, 0.22);--mm-slate:#12110e;--mm-line:#d8d1c2;--mm-radius:12px; }

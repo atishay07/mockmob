@@ -68,6 +68,8 @@ import './home.css';
 import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
 import './desktop-scale.css';
+// Round 4 (6 Nov 2026): every section under the hero laid out again for desktop and phones; loaded last (home-sections.css).
+import './home-sections.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -97,11 +99,11 @@ const shelfBase = (id) => {
   return stage ? ((stage.contact.cy + stage.contact.ry) / 100).toFixed(3) : '0.9';
 };
 // The picture's drawn width for the srcset: the shelf box (--shelf-obj, home.css and hero-depth.css: at most 42vw
-// on phones, 11.5rem on desktop) times the share of the box the object fills. Without it a phone fetched the
-// 512 px file for a 130 px object.
+// on phones, 11.5rem on desktop, up to 15rem (270 px) from 1440 px, home-sections.css) times the share of the box the object
+// fills. Without it a phone fetched the 512 px file for a 130 px object.
 const shelfSizes = (id) => {
   const share = (objectStage(subjectArt(id))?.box.width ?? 100) / 100;
-  return `(max-width: 959px) ${Math.ceil(42 * share)}vw, ${Math.ceil(184 * share)}px`;
+  return `(max-width: 959px) ${Math.ceil(42 * share)}vw, (min-width: 1440px) ${Math.ceil(270 * share)}px, ${Math.ceil(184 * share)}px`;
 };
 const SHELF = [
   { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },

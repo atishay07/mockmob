@@ -1241,35 +1241,41 @@ body:has(.mm.lp) {
 .lp main > :is(.lp-sec, .lp-close) { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
 /* Drawn once ahead of the reader while the page is idle (storyPredraw.mjs, LK81), then handed back to auto. */
 .lp main > [data-predraw='on'] { content-visibility: visible; }
-.lp main > #inside-the-lab { contain-intrinsic-size: auto calc(100px + 388svh); }
-.lp main > #your-prep { contain-intrinsic-size: auto calc(87px + 676svh); }
-.lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(29px + 388svh); }
-.lp main > #key-cards { contain-intrinsic-size: auto 830px; } /* the Key cards demo (R3-D10), measured 5 Nov at 390x844 */
-/* Narrow phones wrap the Key cards words once or twice more (measured 5 Nov by width: 879 px to 361, 854 px from 362 to 383,
-   830 px from 384; the 1100-1115 px desktop band wraps once more too, 44 px, left on the 480 px value). */
-@media (max-width: 383px) { .lp main > #key-cards { contain-intrinsic-size: auto 854px; } }
-@media (max-width: 361px) { .lp main > #key-cards { contain-intrinsic-size: auto 879px; } }
-.lp main > #compass { contain-intrinsic-size: auto 2075px; }
-.lp main > #du-eligibility { contain-intrinsic-size: auto 2301px; }
-.lp main > #exam-experience { contain-intrinsic-size: auto 981px; } /* the phone (R3-D6), measured 5 Nov at 390x844: 1,031 px with padding */
-.lp main > #on-instagram { contain-intrinsic-size: auto 848px; }
+.lp main > #inside-the-lab { contain-intrinsic-size: auto calc(142px + 374svh); }
+.lp main > #your-prep { contain-intrinsic-size: auto calc(827svh - 96px); }
+.lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(90px + 371svh); }
+.lp main > #key-cards { contain-intrinsic-size: auto 802px; } /* the Key cards demo, re-measured 6 Nov (R4-H5) at 390x844 */
+/* Narrow phones wrap the Key cards words once or twice more (re-measured 6 Nov: 852 px at 360, 826 px at 375, 802 px at 390).
+   Round 4 (R4-H1, H5, H6, 6 Nov 2026) re-measured every value below at 360x640, 375x812, 390x844, 1024x768, 1100x800,
+   1280x800, 1440x900, 1920x1080 and 2560x1440 (tmp/r4/intrinsic.cjs in the r4-sections worktree): the held stories now
+   overlap their empty bands on phones, the heads stand side by side on desktop, the rhythm changed and the exam section is the
+   monitor again. The svh terms of the held stories are fitted to two phone heights (360x640 and 390x844). */
+@media (max-width: 383px) { .lp main > #key-cards { contain-intrinsic-size: auto 826px; } }
+@media (max-width: 361px) { .lp main > #key-cards { contain-intrinsic-size: auto 852px; } }
+.lp main > #compass { contain-intrinsic-size: auto 2093px; }
+.lp main > #du-eligibility { contain-intrinsic-size: auto 2287px; }
+.lp main > #exam-experience { contain-intrinsic-size: auto 660px; } /* the monitor again (R4-H6), measured 6 Nov at 390x844 */
+.lp main > #on-instagram { contain-intrinsic-size: auto 867px; }
 .lp main > #pricing { contain-intrinsic-size: auto 1162px; }
-.lp main > .lp-sec--band { contain-intrinsic-size: auto 306px; }
+.lp main > .lp-sec--band { contain-intrinsic-size: auto 367px; }
 .lp main > .lp-close { contain-intrinsic-size: auto 492px; }
 @media (min-width: 960px) {
-  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(169px + 388svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(27px + 676svh); }
-  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(388svh - 35px); }
-  .lp main > #key-cards { contain-intrinsic-size: auto 480px; } /* measured 5 Nov at 1024x768 and 1440x900 (the padding scales) */
-  .lp main > #compass { contain-intrinsic-size: auto 1172px; }
-  .lp main > #du-eligibility { contain-intrinsic-size: auto 1287px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 615px; } /* the monitor, re-measured 5 Nov (R3-D6) at 1440x900: 705 px with padding */
-  .lp main > #on-instagram { contain-intrinsic-size: auto 882px; }
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(190px + 388svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto calc(845svh - 99px); }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(388svh - 38px); }
+  .lp main > #key-cards { contain-intrinsic-size: auto 508px; } /* measured 6 Nov at 1024x768 */
+  .lp main > #compass { contain-intrinsic-size: auto 1168px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 1254px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 711px; } /* the monitor at 1440x900: 801 px with padding and its two hairlines */
+  .lp main > #on-instagram { contain-intrinsic-size: auto 878px; }
   .lp main > #pricing { contain-intrinsic-size: auto 712px; }
-  .lp main > .lp-sec--band { contain-intrinsic-size: auto 329px; }
-  .lp main > .lp-close { contain-intrinsic-size: auto 539px; }
+  .lp main > .lp-sec--band { contain-intrinsic-size: auto 306px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 286px; }
 }
-/* Key cards on large screens, where the root font grows (18 px from 1920, 22 px from 2560): measured 5 Nov at 1920x1080 and
-   2560x1440. From 960 to 1919 the 480 px value holds (measured at 960, 1024, 1280, 1366, 1440 and 1800). */
-@media (min-width: 1920px) { .lp main > #key-cards { contain-intrinsic-size: auto 531px; } }
-@media (min-width: 2560px) { .lp main > #key-cards { contain-intrinsic-size: auto 639px; } }
+/* Key cards on wide screens (R4-H1: the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): measured 6 Nov
+   at 1100x800, 1280x800, 1440x900, 1920x1080 (18 px root) and 2560x1440 (22 px root). */
+@media (min-width: 1100px) { .lp main > #key-cards { contain-intrinsic-size: auto 688px; } }
+@media (min-width: 1280px) { .lp main > #key-cards { contain-intrinsic-size: auto 549px; } }
+@media (min-width: 1440px) { .lp main > #key-cards { contain-intrinsic-size: auto 575px; } }
+@media (min-width: 1920px) { .lp main > #key-cards { contain-intrinsic-size: auto 585px; } }
+@media (min-width: 2560px) { .lp main > #key-cards { contain-intrinsic-size: auto 774px; } }

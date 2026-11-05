@@ -46,6 +46,9 @@ html[data-theme='light'] .mm.lp .lp-statement { --statement-accent: #526700; }
     }
   }
 }
+/* The brand word (R4-H4, owner LK125, 6 Nov 2026): "MockMob" is green and lit from the first frame, in every state (the
+   scrub, the held story, reduced motion); only "where", "tonight" and "shortlist" light up as their clause arrives. */
+.mm.lp .lp-statement .lp-statement__w[data-brand] { animation: none; opacity: 1; color: var(--statement-accent, var(--ink)); }
 @keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
 @keyframes lp-word-accent {
   from { opacity: 0.18; color: var(--ink); }
@@ -113,6 +116,8 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
     color: var(--statement-accent, var(--ink));
     transition: opacity 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms), color 420ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--wo, 0) * 34ms + 200ms);
   }
+  /* The brand word stands lit and green at every step (R4-H4): it never dims or waits for its clause. */
+  :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__w[data-accent][data-brand] { opacity: 1; color: var(--statement-accent, var(--ink)); transition: none; }
 
   /* The shelf: low and dim until the last step, then each object lifts onto its mark 90 ms after the one before
      (and drops back in the opposite order when the reader steps back). */

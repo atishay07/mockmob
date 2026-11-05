@@ -114,13 +114,12 @@ test('the five questions are four-option Accountancy items with the runner\'s tw
 // R3-D6 (LK106, 5 Nov 2026): below 761 px the home page draws the runner as it is on a phone. Its anatomy is the runner's
 // phone anatomy: a bar under the paper with Previous, the palette and Next (NTA style: its keys and the Question Palette),
 // and a palette sheet with a close key, the counts, the palette and Submit. Its few new words are the runner's own.
-test('the phone preview is the runner on a phone: its bar, its palette sheet and its words', () => {
+// R4-H6 (LK129, 6 Nov 2026) retired R3-D6's phone preview (the runner's phone bar and palette sheet drawn small): a phone sees
+// the monitor's screen, and "Try it full screen" opens that same screen, so the phone promises nothing the runner does not draw.
+test('on a phone the preview is the monitor\'s own screen, opened full screen: no phone layout of its own', () => {
   const JSX = read('ExamScreen.jsx');
-  assert.ok(has('className="nta-mobile-actions"') && has('className="nta-mobile-sheet" role="dialog"'), 'the runner has a phone bar and a palette sheet');
-  assert.ok(has('aria-label="Close palette"') && JSX.includes('aria-label="Close palette"'), 'the sheet\'s close key says what the runner\'s says');
-  assert.ok(has('{answered}/{questions.length} answered') || has('{answered} answered'), 'the sheet counts the answers');
-  // NTA style on a phone: the runner's five keys, the preview's five keys.
-  for (const key of ['Previous', 'NTA.clearResponse', 'NTA.paletteTitle', 'NTA.markNext']) assert.ok(RUNNER.slice(RUNNER.indexOf('className="nta-mobile-actions"')).includes(key), `the runner's NTA phone bar has ${key}`);
+  assert.doesNotMatch(JSX, /xs-p-bar|xs-p-sheet|PhoneNta|aria-label="Close palette"/, 'no phone bar or palette sheet of its own');
+  assert.match(JSX, /<div className="xs-full__glass">\{frame\}<\/div>/, 'the full-screen dialog draws the monitor\'s screen');
   assert.equal(EXAM.mockmob.previous, 'Previous');
   assert.ok(has('Review') && has('Submit test'), 'Review and Submit test are the runner\'s');
 });

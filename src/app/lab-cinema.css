@@ -84,7 +84,7 @@ html[data-theme='light'] .lc {
 .lc__rail-meter .ss-fill { height: 100%; border-radius: inherit; background: var(--brand-word); }
 .lc__rail button[data-on='true'] { color: var(--ink); }
 .lc__rail button[data-on='true'] .lc__rail-ico { background: var(--volt); border-color: transparent; color: #0b1000; transform: scale(1.06); }
-/* Day (R3-D1, LK101): the scene on stage is raised paper with a #526700 rim and ink glyph, plus the small volt tick on its corner;
+/* Day (R3-D1, LK101): the scene on stage is raised paper with the --sel-rim rim (ink at 70%, R4 LK118) and ink glyph, plus the small volt tick;
    never a volt slab on cream. Night keeps the volt tile with dark ink. */
 html[data-theme='light'] .lc__rail-ico { position: relative; }
 html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico { background: var(--paper-raised); border-color: var(--sel-rim); box-shadow: inset 0 0 0 0.5px var(--sel-rim); color: var(--ink); }
@@ -441,6 +441,24 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lcp--repair { gap: 0.7rem; }
   .lcp-q { padding: 0.7rem 0.8rem; }
   .lcp-q__stem { margin-bottom: 0.55rem; }
+}
+
+/* Phones, round 4 (R4-H5, owner LK126, 6 Nov 2026: "This Repair one is a bit too clustered for the mobile screen and the
+   SWOT one also"): the two dense scenes show less at once so what shows is larger (the screen scales to fit, so every line
+   taken out lets the rest grow). Repair keeps the trap, the question, your pick and the key, why your pick looked right, why
+   the key is right and the rule to keep; the two options nobody picked, "where it breaks" (the key's reason says it), the
+   answer-key line and the record line step aside. The SWOT keeps the plan and the four groups by name; the second
+   plan step's reason and each group's detail and question chips step aside (the wide screen and the app show them). */
+@media (max-width: 759px) and (orientation: portrait) {
+  .lcp--repair .lcp-q__opts li:not([data-state]), .lcp--repair .lcr-record, .lcp--repair .lcp-check, .lcp--repair .lcp-block[data-kind='wrong'] { display: none; }
+  .lcp--repair { gap: 0.8rem; }
+  .lcp--repair .lcp-blocks { gap: 0.55rem; }
+  .lcp--repair .lcp-block { padding: 0.65rem 0.85rem; }
+  .lcp--repair .lcp-block p { font-size: 0.875rem; line-height: 1.45; }
+  .lcp--swot .lcp-plan:not([data-first='true']) .lcp-plan__why, .lcp--swot :is(.lcp-swot__detail, .lcp-swot__see) { display: none; }
+  .lcp--swot .lcp-swot__q { display: grid; align-content: start; gap: 0.2rem; padding: 0.8rem 0.85rem; }
+  .lcp--swot .lcp-swot__title { font-size: 0.9375rem; }
+  .lcp--swot .lcs-block { gap: 0.55rem; }
 }
 
 /* Short windows: the words shrink before the screen does. */

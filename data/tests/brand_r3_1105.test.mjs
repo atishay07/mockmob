@@ -68,16 +68,18 @@ test('R3-D1: no greyer #3F5200 left on the home page (brand word, statement, her
   assert.match(css('src/app/motion-kit.css'), /var\(--a-accent-text, #526700\)/);
 });
 
-test('R3-D1: the key keeps its volt fill and dark ink; in Day its lip is #8BA000 with an inset olive hairline, Night keeps #9DB400', () => {
+// R4 LK118 (owner, 6 Nov 2026: "the green in the light mode is still not how it exactly should be"; make Day the app's palette
+// exactly) supersedes R3-D1's #8BA000 lip and olive hairline: a stroke on volt is the app's voltEdge #9DB400 in both themes
+// (mm_colors.dart; its volt pills' 1 dp border, its key's enamel foot), so the Day key's lip and hairline are #9DB400.
+test('R4 LK118: the key keeps its volt fill and dark ink; its lip is the app voltEdge #9DB400 in both themes, with a #9DB400 hairline in Day', () => {
   const marketing = props(block(css('src/app/marketing.css'), '.mm'));
   assert.equal(marketing.volt, '#d2f000');
   assert.equal(marketing['volt-ink'], '#0b1000');
-  assert.equal(marketing['volt-edge'], '#8ba000', 'the base .mm tokens are the Day palette');
-  assert.equal(day['volt-edge'], '#8ba000');
-  assert.equal(day['key-hairline'], 'inset 0 0 0 1px rgba(82, 103, 0, 0.28)');
+  assert.equal(marketing['volt-edge'], '#9db400', 'the base .mm tokens are the Day palette');
+  assert.equal(day['volt-edge'], '#9db400');
+  assert.equal(day['key-hairline'], 'inset 0 0 0 1px #9db400');
   assert.equal(night['volt-edge'], '#9db400');
   assert.equal(night['key-hairline'], 'inset 0 0 0 0 transparent');
-  assert.ok(contrast('#8ba000', day.paper) >= 2.5, `the Day lip against the cream ${contrast('#8ba000', day.paper).toFixed(2)}`);
   assert.ok(contrast('#0b1000', '#d2f000') >= 14, 'ink on the key');
   const key = rule(css('src/app/marketing.css'), '.mm-btn--primary');
   assert.match(key, /box-shadow: var\(--key-hairline, inset 0 0 0 0 transparent\), 0 var\(--btn-edge\) 0 var\(--volt-edge\), var\(--sh-2\);/);
@@ -86,14 +88,16 @@ test('R3-D1: the key keeps its volt fill and dark ink; in Day its lip is #8BA000
   assert.match(THEME, /:is\(\.mm-screen, \.mm-foot\) \{[^}]*--volt-edge: #9db400; --key-hairline: inset 0 0 0 0 transparent;/);
 });
 
-test('R3-D1: the Day state tokens: wash rgba(210,240,0,.22), rim #526700, tick rim rgba(82,103,0,.55)', () => {
+// R4 LK118: a chosen control's rim is the app's MmSelection rim, ink at 70% (1.5 px), not #526700; the tick keeps its olive rim.
+test('R4 LK118: the Day state tokens: wash rgba(210,240,0,.22), rim ink at 70% (the app MmSelection), tick rim rgba(82,103,0,.55)', () => {
   assert.equal(day['state-wash'], 'rgba(210, 240, 0, 0.22)');
   assert.equal(day['volt-soft'], 'rgba(210, 240, 0, 0.22)');
-  assert.equal(day['sel-rim'], '#526700');
+  assert.equal(day['sel-rim'], 'rgba(23, 21, 15, 0.7)');
   assert.equal(day['tick-rim'], 'rgba(82, 103, 0, 0.55)');
-  assert.ok(contrast('#526700', day['paper-raised']) >= 3, 'the rim meets the 3:1 non-text rule on the raised fill');
+  // Ink at 70% on the raised fill composites to #5D5B55: the rim meets the 3:1 non-text rule.
+  assert.ok(contrast('#5d5b55', day['paper-raised']) >= 3, 'the rim meets the 3:1 non-text rule on the raised fill');
   // Ink on the wash, composited on the paper (#ECEFB3), stays AAA.
-  assert.ok(contrast('#1b1914', '#eceFb3'.toLowerCase()) >= 7);
+  assert.ok(contrast('#17150f', '#eceFb3'.toLowerCase()) >= 7);
 });
 
 test('R3-D1: a Day selected chip, segment, Compass group or Lab rail item is raised paper, a #526700 rim and ink, with a small volt tick; never a volt slab', () => {
@@ -126,12 +130,12 @@ test('R3-D1: warm shadows: no green-black rgba(20,32,14) or rgba(23,32,22) on th
 
 test('R3-D1: the Day palette is recorded in DESIGN.md and shared/tokens.css', () => {
   const design = read('DESIGN.md');
-  for (const value of ['#F3EFE6', '#FFFDF8', '#1B1914', '#D2F000', '#0B1000', '#8BA000', '#526700', '#3D6600', 'rgba(210, 240, 0, 0.22)']) {
+  for (const value of ['#F3EFE6', '#FFFDF8', '#17150F', '#D2F000', '#0B1000', '#9DB400', '#526700', '#3D6600', 'rgba(210, 240, 0, 0.22)']) {
     assert.ok(design.includes(value), `DESIGN.md records ${value}`);
   }
   assert.match(design, /never a raw volt slab on cream/i);
   const tokens = read('shared/tokens.css');
-  for (const [name, value] of [['--mm-paper', '#f3efe6'], ['--mm-raised', '#fffdf8'], ['--mm-ink', '#1b1914'], ['--mm-volt', '#d2f000'], ['--mm-volt-ink', '#0b1000'], ['--mm-volt-edge-day', '#8ba000'], ['--mm-text-green-day', '#526700'], ['--mm-good-day', '#3d6600']]) {
+  for (const [name, value] of [['--mm-paper', '#f3efe6'], ['--mm-raised', '#fffdf8'], ['--mm-ink', '#17150f'], ['--mm-volt', '#d2f000'], ['--mm-volt-ink', '#0b1000'], ['--mm-volt-edge-day', '#9db400'], ['--mm-text-green-day', '#526700'], ['--mm-good-day', '#3d6600']]) {
     assert.match(tokens, new RegExp(`${name}:\\s*${value}`, 'i'), `shared/tokens.css ${name}`);
   }
 });

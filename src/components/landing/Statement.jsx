@@ -26,7 +26,7 @@ function StatementStage({ text, shelf, note }) {
           // An accent word's trailing comma or stop stays ink: the green lands on the word alone (LK86).
           const [, core, mark] = word.accent ? word.text.match(/^(.*?)([.,;:!?]*)$/) : [null, word.text, ''];
           return (
-            <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
+            <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-brand={word.brand || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
               {core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}{i < words.length - 1 ? ' ' : ''}
             </span>
           );
