@@ -18,6 +18,8 @@ const MINE = [
   'src/app/marketing-theme.css', 'src/app/marketing.css', 'src/app/landing.css', 'src/app/home.css', 'src/app/feature-tour.css',
   'src/app/tour-screens.css', 'src/app/compass-ladder.css', 'src/app/social-proof.css', 'src/app/lab-cinema.css', 'src/app/mistake-lab.css',
   'src/components/du/du.css',
+  // Round 3 (5 Nov 2026), packet R3-cards: the Key cards section and the loading kit are held to the same calm by default.
+  'src/components/landing/key-cards.css', 'src/components/landing/loading-kit.css',
 ];
 const OTHERS = [
   'src/app/hero-scene.css', 'src/app/home-refinements.css', 'src/app/hero-depth.css', 'src/app/scroll-story.css', 'src/app/section-position.css',
@@ -131,12 +133,16 @@ test('a volt fill is the key, the brand or a selected state carrying dark ink (C
   assert.deepEqual(offenders, []);
 });
 
-test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock and the summary bar', () => {
+// R3-D10 (owner LK112, 5 Nov 2026: "the same way the pricing card and other things have a glassmorphism effect"): the owner asked
+// for glass on the Key cards card, so its front panel (.kc-demo__glass, over the card's own subject object) is the one named
+// exception on content; his words supersede C7 for that panel only. docs/design-decisions/web-r3-cards.md.
+test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock, the summary bar and the Key cards front', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
       if (!/backdrop-filter$/.test(d.prop) || /^none$/.test(d.value)) continue;
       if (/\.mm-nav|\.mm-dock|\.lp-pos|\.du-sum|\.du-toast/.test(r.selector)) continue;
+      if (/^\.kc-demo__glass$/.test(r.selector) && /key-cards\.css$/.test(r.file)) continue;
       offenders.push(describe(r, d));
     }
   }

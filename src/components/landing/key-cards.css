@@ -1,0 +1,189 @@
+/* Key cards on the home page (R3-D10, owner LK112, 5 Nov 2026; KeyCardsDemo.jsx). Night is the default (the landing's no-theme
+   tokens are Night's), Day overrides by token. Volt appears only as the app's roles: the volt keys (Turn over, Got it) carry dark
+   ink and their keycap lip; progress and the current dot read --brand-word (R3-D2). The one piece of glass on this section is the
+   card's front, over its own subject object (the owner asked for glass on the Key cards card, LK112; night_calm C7 names it). */
+
+/* ---------- the section: head, demo and foot (one column on phones; from 960 px the demo is the right column) ---------- */
+.lp-kc__grid { display: grid; gap: clamp(1.75rem, 5vw, 2.5rem); grid-template-areas: "head" "demo" "foot"; }
+.lp-kc__grid > .lp-kc__head { grid-area: head; margin: 0; }
+.lp-kc__grid > .kc-demo { grid-area: demo; justify-self: start; width: 100%; max-width: 30rem; }
+.lp-kc__grid > .kc-foot { grid-area: foot; }
+@media (min-width: 960px) {
+  .lp-kc__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); grid-template-areas: "head demo" "foot demo";
+    column-gap: clamp(3rem, 7vw, 7rem); row-gap: 2.25rem; align-items: start;
+  }
+  .lp-kc__grid > .lp-kc__head { align-self: end; }
+  .lp-kc__grid > .kc-demo { justify-self: end; }
+}
+
+/* The section stamp (R3-D2): the Key cards desk object and the product's name in the brand word colour, sentence case. */
+.lp-kc__stamp {
+  display: inline-flex; align-items: center; gap: 0.625rem; margin: 0;
+  font: 700 1.0625rem/1.2 var(--font-display); letter-spacing: -0.01em; color: var(--brand-word);
+}
+
+/* ---------- the demo ---------- */
+.kc-demo { position: relative; }
+.kc-demo__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* "1 / 5" and its bar */
+.kc-demo__top { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 0.875rem; }
+.kc-demo__count { margin: 0; min-width: 2.75em; font: 700 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--ink); }
+.kc-demo__bar { flex: 1; height: 4px; border-radius: 999px; overflow: hidden; background: rgb(var(--tint, 244 240 230) / 0.12); }
+.kc-demo__bar > span {
+  display: block; height: 100%; border-radius: inherit; background: var(--brand-word);
+  transform-origin: left center; transition: transform 260ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* The scene: the rated card steps aside (opacity only, then the next one rises in on its own wrapper). */
+.kc-demo__scene[data-leave] { opacity: 0; transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+.kc-demo__arrive { perspective: 1000px; animation: kc-card-in 260ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes kc-card-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* The card: two faces on one grid cell, so it is as tall as its taller face; the flip is a real 3D turn. */
+.kc-demo__card {
+  position: relative; display: grid; transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.kc-demo__card[data-turned] { transform: rotateY(180deg); cursor: default; }
+.kc-demo__card--end { cursor: default; }
+.kc-demo__face {
+  position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 20rem; overflow: hidden;
+  border-radius: 24px; border: 1px solid var(--line); box-shadow: var(--sh-2);
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.kc-demo__face--back { transform: rotateY(180deg); }
+@media (min-width: 960px) { .kc-demo__face { min-height: 22rem; } }
+
+/* Front: the card's subject object in its subject light (the app's light fields), the glass laid over its lower half. */
+.kc-demo__face--front {
+  --kc-light: var(--kc-light-n, #2c2a24);
+  justify-content: flex-end; padding: 0.75rem;
+  background: radial-gradient(95% 70% at 70% 24%, var(--kc-light) 0%, transparent 72%), var(--paper-raised);
+}
+.kc-demo__art {
+  position: absolute; top: 9%; right: -9%; width: 92%; max-width: 25rem; height: auto;
+  transform: rotate(-4deg); pointer-events: none; user-select: none; -webkit-user-drag: none;
+}
+
+.kc-demo__glass {
+  position: relative; z-index: 1; display: grid; gap: 0.625rem; padding: 1.125rem 1.125rem 1rem; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(244, 240, 230, 0.1) 49%, rgba(244, 240, 230, 0.05));
+  border: 1px solid rgba(244, 240, 230, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 24px rgba(0, 0, 0, 0.28);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
+}
+.kc-demo__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; margin: 0; font: 500 0.8125rem/1.25 var(--font-body); color: var(--ink-2); }
+.kc-demo__head b { font-weight: 650; color: var(--ink); }
+.kc-demo__prompt {
+  margin: 0; font: 600 clamp(1.25rem, 1.05rem + 0.7vw, 1.5rem)/1.3 var(--font-stem); letter-spacing: -0.005em;
+  color: var(--ink); text-wrap: pretty;
+}
+.kc-demo__prompt:focus, .kc-demo__answer:focus { outline: none; }
+.kc-demo__cue { display: flex; align-items: center; gap: 0.4rem; margin: 0.125rem 0 0; font: 500 0.8125rem/1.3 var(--font-body); color: var(--ink-2); }
+.kc-demo__gap { display: inline-block; width: 3em; height: 0.95em; margin: 0 0.15em; border-bottom: 2px solid currentColor; opacity: 0.55; vertical-align: baseline; }
+
+/* Back: plain paper, the question small, the answer in the reading face, then the app's "In short" and book lines. */
+.kc-demo__face--back { gap: 0.75rem; padding: 1.25rem 1.25rem 1.125rem; background: var(--paper-raised-2, #211f1a); border-color: var(--line-strong); }
+.kc-demo__asked { margin: 0; font: 500 0.9375rem/1.45 var(--font-body); color: var(--ink-2); text-wrap: pretty; }
+.kc-demo__answer {
+  margin: 0; padding-top: 0.875rem; border-top: 1px dashed var(--line-strong);
+  font: 600 clamp(1.25rem, 1.1rem + 0.5vw, 1.4375rem)/1.35 var(--font-stem); color: var(--ink); text-wrap: pretty;
+}
+.kc-demo__note { margin: 0; font: 400 0.9375rem/1.5 var(--font-body); color: var(--ink-2); text-wrap: pretty; }
+.kc-demo__note b { margin-right: 0.4em; font-weight: 650; color: var(--ink); }
+.kc-demo__foot { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; margin: auto 0 0; padding-top: 0.5rem; font: 500 0.8125rem/1.35 var(--font-body); color: var(--ink-2); }
+.kc-demo__must { flex: none; font-weight: 650; color: var(--ink); }
+
+/* End card: plain paper like the back (its words are read, so nothing sits behind them), the Key cards desk object beside the title. */
+.kc-demo__face--end { gap: 0.75rem; padding: 1.25rem 1.25rem 1rem; background: var(--paper-raised-2, #211f1a); border-color: var(--line-strong); }
+.kc-demo__end-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.kc-demo__end-art { flex: none; width: 4rem; height: 4rem; transform: rotate(-6deg); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+.kc-demo__face--end .kc-demo__again { align-self: flex-start; margin-top: auto; }
+.kc-demo__lead { margin: 0; font: 400 0.9375rem/1.45 var(--font-body); color: var(--ink-2); }
+.kc-demo__rows { display: grid; margin: 0; padding: 0; list-style: none; }
+.kc-demo__rows li { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; padding: 0.5rem 0; border-top: 1px solid var(--line); font: 400 0.9375rem/1.35 var(--font-body); }
+.kc-demo__rows b { font-weight: 650; color: var(--ink); }
+.kc-demo__rows span { color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; }
+.kc-demo__again {
+  justify-self: start; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 650 0.9375rem/1.2 var(--font-body); color: var(--ink);
+  text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.22em;
+}
+.kc-demo__again:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: 4px; }
+
+/* Dots under the card: done, now (the brand word), next. Decorative: "1 / 5" says it in words. */
+.kc-demo__pips { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0 0.875rem; padding: 0; list-style: none; }
+.kc-demo__pips li { width: 7px; height: 7px; border-radius: 50%; background: rgb(var(--tint, 244 240 230) / 0.2); transition: background-color 200ms ease, transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.kc-demo__pips li[data-state='done'] { background: var(--ink-3); }
+.kc-demo__pips li[data-state='now'] { background: var(--brand-word); transform: scale(1.35); }
+
+/* Keys: "Turn over" first; after the turn the app's three rating keys fade in, each saying when the card comes back. */
+.kc-demo__keys { display: grid; min-height: 62px; align-items: start; }
+.kc-demo__keys[data-show='none'] { min-height: 0; }
+.kc-demo__turn { width: 100%; }
+.kc-demo__rates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; animation: kc-keys-in 200ms cubic-bezier(0.23, 1, 0.32, 1) 300ms both; }
+@keyframes kc-keys-in { from { opacity: 0; transform: translateY(6px); } }
+.kc-demo__rate {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 60px; padding: 0.5rem 0.375rem;
+  border-radius: 14px; border: 1px solid var(--line-strong); background: var(--paper-raised); color: var(--ink);
+  font: 650 0.9375rem/1.1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), background-color 160ms ease, border-color 160ms ease;
+}
+.kc-demo__rate-when { max-width: 100%; font: 500 0.75rem/1.25 var(--font-body); color: var(--ink-2); text-align: center; text-wrap: balance; }
+.kc-demo__rate[data-rating='3'] {
+  background: var(--volt); color: var(--volt-ink); border-color: transparent;
+  box-shadow: inset 0 0 0 1px rgba(82, 103, 0, 0.28), 0 3px 0 var(--volt-edge); transform: translateY(-1px);
+}
+.kc-demo__rate[data-rating='3'] .kc-demo__rate-when { color: rgb(16 20 14 / 0.78); }
+.kc-demo__rate:active:not(:disabled) { transform: scale(0.97); }
+.kc-demo__rate[data-rating='3']:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgba(82, 103, 0, 0.28), 0 0 0 var(--volt-edge); }
+.kc-demo__rate:disabled { cursor: default; }
+.kc-demo__rate:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
+@media (hover: hover) {
+  .kc-demo__rate:hover:not(:disabled):not([data-rating='3']) { background: var(--surface-hover); border-color: var(--ink-3); }
+  .kc-demo__rate[data-rating='3']:hover:not(:disabled) { background: #dbfb14; color: var(--volt-ink); }
+}
+
+/* The other subjects' art, fetched ahead and never seen. */
+.kc-demo__ahead { position: absolute; left: 0; bottom: 0; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.kc-demo__ahead-img { width: 1px; height: 1px; }
+
+/* ---------- the foot: the bank (true numbers that count up once), what Free opens, and the one key ---------- */
+.kc-foot { display: grid; gap: 0.75rem; justify-items: start; }
+.kc-foot__bank { margin: 0; font: 500 clamp(1.125rem, 1rem + 0.5vw, 1.3125rem)/1.4 var(--font-body); color: var(--ink); text-wrap: pretty; }
+.kc-foot__bank b { font: 700 1.25em/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--brand-word); }
+.kc-foot__free { margin: 0; max-width: 40ch; font: 400 0.9375rem/1.5 var(--font-body); color: var(--ink-2); }
+.kc-foot .mm-btn { margin-top: 0.5rem; }
+
+/* ---------- Day: the same roles on the cream tokens ---------- */
+html[data-theme='light'] .kc-demo__face--front { --kc-light: var(--kc-light-d, #efe9dc); }
+html[data-theme='light'] :is(.kc-demo__face--back, .kc-demo__face--end) { background: var(--paper-raised); }
+html[data-theme='light'] .kc-demo__glass {
+  background: linear-gradient(180deg, rgba(255, 253, 248, 0.8) 49%, rgba(243, 239, 230, 0.8));
+  border-color: rgba(27, 25, 20, 0.08);
+  box-shadow: 0 4px 24px rgba(27, 25, 20, 0.08), inset 0 1px 0 #fff;
+}
+
+/* ---------- reduced motion (the device or the site's own switch): the card fades between its faces, nothing moves ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .kc-demo__card, .kc-demo__card[data-turned] { transform: none; transition: none; }
+  .kc-demo__face { transition: opacity 200ms ease; }
+  .kc-demo__face--back { transform: none; opacity: 0; }
+  .kc-demo__card[data-turned] .kc-demo__face--front { opacity: 0; }
+  .kc-demo__card[data-turned] .kc-demo__face--back { opacity: 1; }
+  .kc-demo__arrive { animation-name: kc-fade-in; }
+  .kc-demo__rates { animation: kc-fade-in 200ms ease both; }
+  .kc-demo__bar > span, .kc-demo__pips li { transition: none; }
+}
+:root[data-motion='reduced'] :is(.kc-demo__card, .kc-demo__card[data-turned]) { transform: none; transition: none; }
+:root[data-motion='reduced'] .kc-demo__face { transition: opacity 200ms ease; }
+:root[data-motion='reduced'] .kc-demo__face--back { transform: none; opacity: 0; }
+:root[data-motion='reduced'] .kc-demo__card[data-turned] .kc-demo__face--front { opacity: 0; }
+:root[data-motion='reduced'] .kc-demo__card[data-turned] .kc-demo__face--back { opacity: 1; }
+:root[data-motion='reduced'] .kc-demo__arrive { animation-name: kc-fade-in; }
+:root[data-motion='reduced'] .kc-demo__rates { animation: kc-fade-in 200ms ease both; }
+:root[data-motion='reduced'] :is(.kc-demo__bar > span, .kc-demo__pips li) { transition: none; }
+@keyframes kc-fade-in { from { opacity: 0; } }

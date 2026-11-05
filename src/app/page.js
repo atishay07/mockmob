@@ -48,6 +48,10 @@ import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import WallOfLove from '@/components/landing/WallOfLove';
+import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
+import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
+import { KEY_CARDS_HEAD } from '@/components/landing/keyCardsCopy.mjs';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
 import './home-refinements.css';
@@ -114,6 +118,10 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // while they are live, from the same switches their pages read.
 const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
 
+// Key cards (R3-D10, LK112): five real cards from the app's decks, read once at build (keyCardsPicks.mjs), shown only while
+// Key cards are live for students (KEY_CARDS_ENABLED, the switch every Key cards route reads). No card readable, no section.
+const KEY_CARDS_LIVE = process.env.KEY_CARDS_ENABLED === 'true';
+const KEY_CARDS = KEY_CARDS_LIVE ? keyCardsDemo() : null;
 const faqs = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
 const PRICING = pricingHead(OFFER);
 
@@ -231,6 +239,22 @@ export default function LandingPage() {
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
         </section>
+
+        {/* ------------------------------ KEY CARDS ------------------------------ */}
+        {/* R3-D10 (owner LK112, 5 Nov 2026): a real card that turns over in 3D, glass over its subject object, rated with the
+            app's keys; the bank's true numbers count up once (LoadingKit). The stamp is the product's name (R3-D2). */}
+        {KEY_CARDS ? (
+          <section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title">
+            <div className="mm-wrap lp-kc__grid">
+              <Reveal className="lp-head lp-head--left lp-kc__head">
+                <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>
+                <h2 className="lp-h2" id="key-cards-title">{KEY_CARDS_HEAD.h2}</h2>
+                <p className="lp-sub">{KEY_CARDS_HEAD.sub}</p>
+              </Reveal>
+              <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} />
+            </div>
+          </section>
+        ) : null}
 
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
