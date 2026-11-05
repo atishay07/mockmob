@@ -214,15 +214,16 @@ test('L6, L7, L8: "50 credits", full stops on the pricing rows, and the tour poi
   const pricing = read('src/app/pricing/page.js');
   assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'L7: the Free Credits row ends with a full stop either way');
   assert.match(pricing, /On Pro, practice needs none, so they all go to Ask Mobi\./, 'and so does the Pro line');
-  // L8: the You sheet draws the account card (name, Sign out, Show me around, Guide), then Ask Mobi. The tour says so.
+  // L8, as of owner LK141 and LK143 (5 Nov 2026): the You sheet is gone. On a phone Ask Mobi is Mobi's face in the top bar and the first
+  // row of the You page; the tour says where it lands.
   const { TOUR_STEPS_ALL } = await import('../../src/lib/appTour.mjs');
-  const { HELP_DOOR, TOUR_LABEL } = await import('../../src/lib/helpDoor.mjs');
-  const ask = TOUR_STEPS_ALL.find((s) => s.title === 'Ask Mobi').bodies['nav-more'];
-  assert.match(ask, new RegExp(`^Ask Mobi is in the You sheet, right under ${TOUR_LABEL} and ${HELP_DOOR.label}\. `));
-  assert.doesNotMatch(ask, /below your name/);
-  const sheet = read('src/app/(app)/AppLayoutClient.jsx').split('id="arena-sheet"')[1];
-  const at = (needle) => sheet.indexOf(needle);
-  assert.ok(at('arena-sheet__who') < at('arena-sheet__tour') && at('arena-sheet__tour') < at('{HELP_DOOR.label}') && at('{HELP_DOOR.label}') < at('arena-sheet__lead--ask'), 'name, Show me around, Guide, then Ask Mobi');
+  const step = TOUR_STEPS_ALL.find((s) => s.title === 'Ask Mobi');
+  assert.deepEqual(step.target, ['nav-mentor', 'nav-mentor-top', 'nav-more']);
+  assert.match(step.bodies['nav-mentor-top'], /^Mobi’s face at the top of every page opens Ask Mobi\. /);
+  assert.match(step.bodies['nav-more'], /^Ask Mobi is the first row of the You page, and Mobi’s face at the top of every page\. /);
+  for (const body of Object.values(step.bodies)) assert.doesNotMatch(body, /You sheet|below your name/);
+  const places = read('src/components/nav/YouPlaces.jsx');
+  assert.ok(places.indexOf('you-places__ask') < places.indexOf('{groups.map'), 'Ask Mobi leads the You page’s places');
 });
 
 // ---- 10. (walk item 15) a handle or the email's prefix is not a name ------------------------------------------------------
@@ -254,14 +255,18 @@ test('walk 15: the new student is greeted without a name until a real first name
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /const accountName = shownName\(user\?\.name, user\?\.email\);/);
   assert.doesNotMatch(shell, /user\?\.name \?\? /, 'no label prints the raw name');
-  assert.equal((shell.match(/\{accountName \?\? 'Account'\}/g) || []).length, 2, 'the top bar and the You sheet');
+  assert.equal((shell.match(/\{accountName \?\? 'Account'\}/g) || []).length, 1, 'the top bar (the You sheet is gone, LK141)');
+  assert.match(read('src/components/account/AccountPopover.jsx'), /const name = accountName \?\? COPY\.noName;/, 'and the account sheet');
 });
 
 // ---- 11. (walk item 12) one line under Ask Mobi -----------------------------------------------------------------------------
-test('walk 12: the Ask Mobi door has one line, "He explains any answer.", on the sidebar and on the phone\'s You sheet', () => {
+test('walk 12: the Ask Mobi door has one line, "He explains any answer.", on the sidebar and on the phone\'s You page', () => {
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.match(shell, /const ASK_MOBI_NOTE = 'He explains any answer\.';/);
-  assert.equal((shell.match(/<span className="arena-sheet__lead-note">\{ASK_MOBI_NOTE\}<\/span>/g) || []).length, 2, 'the rail door and the sheet row');
+  const places = read('src/components/nav/YouPlaces.jsx');
+  assert.match(places, /export const ASK_MOBI_NOTE = 'He explains any answer\.';/);
+  assert.match(shell, /import \{ ASK_MOBI_NOTE, YouPlacesProvider \} from '@\/components\/nav\/YouPlaces';/);
+  assert.equal((shell.match(/<span className="arena-sheet__lead-note">\{ASK_MOBI_NOTE\}<\/span>/g) || []).length, 1, 'the rail door');
+  assert.match(places, /<span className="you-places__ask-text"><b>Ask Mobi<\/b><span>\{ASK_MOBI_NOTE\}<\/span><\/span>/, 'and the You page row (LK141)');
   for (const old of ['He explains questions, results and your plan.', 'He knows your record.', 'Ask about a question, a result or your plan.']) {
     assert.doesNotMatch(shell, new RegExp(old.replace(/[.?]/g, '\$&')), old);
   }

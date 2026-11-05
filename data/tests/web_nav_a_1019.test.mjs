@@ -102,7 +102,9 @@ test('the phone bar is five slots: Today, Practice, Start in the centre, Mob, Yo
   const bar = layout.slice(layout.indexOf('<div className="arena-dock">'), layout.indexOf('<StartSheetHost'));
   assert.match(bar, /data-slots=\{dockTabs\.length \+ 2\}/);
   assert.match(bar, /\{index === 2 \? <StartKey variant="bar"/, 'Start is the third child');
-  assert.match(bar, /<AppIcon name="account" size=\{24\} \/><span>You<\/span>/, 'You opens the sheet');
+  // Owner LK141 (5 Nov 2026): You opens the You page, like every other slot opens its place (it opened a sheet).
+  assert.match(bar, /<Link href=\{hrefOf\(YOU_DOCK\)\} data-tour="nav-more"[^>]*><AppIcon name="account" size=\{24\} \/><span>You<\/span><\/Link>/, 'You opens the You page');
+  assert.doesNotMatch(layout, /mobileMenuOpen|id="arena-sheet"/, 'no You sheet');
   // The Revise count: on Practice in the bar and on Your papers in the sidebar and in Practice's row of tabs (never on the dock's Review: there is none).
   assert.match(bar, /tab\.id === 'dashboard' && reviseBadge \? <i className="arena-dot arena-dot--dock"/);
   assert.match(layout, /tab\.id === 'review' && reviseBadge \? <i className="arena-dot"/);
@@ -119,26 +121,29 @@ test('the phone bar is five slots: Today, Practice, Start in the centre, Mob, Yo
   assert.equal(dockPlaceOf('/today'), 'today');
 });
 
-test('the You sheet: the account card, Ask Mobi with his face, Your progress, Your plan, then Night and Day last', () => {
+test('LK141: the You page’s places: Ask Mobi with his face, Your progress, Your plan, then Guide and Show me around (the old sheet’s rows)', () => {
   assert.deepEqual(youSheetGroups(false, { mob: true }).map((group) => [group.label, group.items.map((item) => item.label)]), [
     ['Your progress', ['Progress', 'Marks trend']],
     ['Your plan', ['Colleges', 'Wallet']],
   ]);
   // With the Mob off, Your standing is among the progress pages, so it keeps a link.
   assert.deepEqual(youSheetGroups(false, { mob: false })[0].items.map((item) => item.label), ['Progress', 'Marks trend', 'Your standing']);
-  const sheet = layout.slice(layout.indexOf('id="arena-sheet"'), layout.indexOf('<div className="arena-dock">'));
-  const order = ['arena-sheet__account', 'arena-sheet__lead--ask', '{sheetGroups.map', '<AppearanceSwitch />'].map((needle) => sheet.indexOf(needle));
-  assert.ok(order.every((at) => at > 0) && order.every((at, i) => i === 0 || at > order[i - 1]), `sheet order ${order}`);
-  assert.match(sheet, /<Image className="arena-sheet__mobi" src=\{MOBI_FACE\.src\}/, 'Mobi’s face replaces the sparkle');
-  assert.match(sheet, /aria-label="You: your account, progress and plan"/);
+  const places = read('src/components/nav/YouPlaces.jsx');
+  const order = ['className="you-places__ask"', '{groups.map', "label: HELP_DOOR.label", 'onClick={onTour}'].map((needle) => places.indexOf(needle));
+  assert.ok(order.every((at) => at > 0) && order.every((at, i) => i === 0 || at > order[i - 1]), `places order ${order}`);
+  assert.match(places, /<Image className="you-places__face" src=\{MOBI_FACE\.src\}/, 'Mobi’s face on his row');
+  assert.match(places, /<nav className="you-places" aria-label="Your places">/);
   assert.match(layout, /const MOBI_FACE = mascot\.greeting;/);
-  // The sheet's own focus starts on its first link or button (the account row), not the first nav row.
-  assert.match(layout, /sheet\?\.querySelector\('a\[href\], button'\)\?\.focus/);
+  // The shell hands its lists and links down (the preview's addresses, the tour); the You page draws them under its heading.
+  assert.match(layout, /<YouPlacesProvider value=\{youPlaces\}>\{children\}<\/YouPlacesProvider>/);
+  const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
+  assert.ok(profile.indexOf('<SignedInLine') < profile.indexOf('<YouPlaces />') && profile.indexOf('<YouPlaces />') < profile.indexOf('<YourSheet'), 'under the heading and the signed-in line, above the account');
+  assert.match(read('src/components/nav/you-places.css'), /@media \(min-width: 1024px\) \{ \.app-shell \.you-places \{ display: none; \} \}/, 'the sidebar lists them from 1024 px');
 });
 
 test('copy, read aloud (R6): full sentences, no telegram style', () => {
-  // Release 11 (walk item 12): one line for the one door, on the sidebar and on the phone's sheet (web_fixa_1019.test.mjs).
-  assert.match(layout, /const ASK_MOBI_NOTE = 'He explains any answer\.';/);
+  // Release 11 (walk item 12): one line for the one door, on the sidebar and on the phone's You page (web_fixa_1019.test.mjs).
+  assert.match(read('src/components/nav/YouPlaces.jsx'), /export const ASK_MOBI_NOTE = 'He explains any answer\.';/);
   assert.match(layout, /<span className="arena-sheet__lead-name">Ask Mobi<\/span>/);
   assert.equal(MOB_PAGES[0].label, 'Your Mob');
   assert.deepEqual(MOB_PAGES.map((tab) => tab.label), ['Your Mob', 'Your standing']);
@@ -148,13 +153,16 @@ test('copy, read aloud (R6): full sentences, no telegram style', () => {
   }
 });
 
-test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ordinary /mentor link and opens Ask Mobi’s own page', () => {
+test('LK143: Mobi’s door heads the rail under Start, is the ordinary /mentor link and opens Ask Mobi’s own page; the top bar key below 1024 px', () => {
   const aside = layout.slice(layout.indexOf('<aside className="arena-sidebar"'), layout.indexOf('</aside>'));
-  assert.ok(aside.indexOf('className="arena-mobi-door"') > aside.indexOf('{navGroups.map'), 'after the places');
-  assert.ok(aside.indexOf('className="arena-mobi-door"') < aside.indexOf('className="arena-sidebar__foot"'), 'above the appearance row (D6)');
-  assert.match(aside, /<Link href=\{previewLinks\?\.mentor \|\| '\/mentor'\} className="arena-mobi-door" data-tour="nav-mentor"/);
+  assert.ok(aside.indexOf('className="arena-mobi-door"') > aside.indexOf('<StartKey variant="sidebar"'), 'under Start');
+  assert.ok(aside.indexOf('className="arena-mobi-door"') < aside.indexOf('{navGroups.map'), 'before the places');
+  assert.match(aside, /<Link href=\{mentorHref\} className="arena-mobi-door" data-tour="nav-mentor"/);
   assert.match(aside, /<Image className="arena-mobi-door__face" src=\{MOBI_FACE\.src\}/);
-  assert.match(places, /\.arena-mobi-door \{ display: none; \}/, 'drawn from 1024 px only; a phone has the sheet row');
+  assert.match(places, /\.arena-mobi-door \{ display: none; \}/, 'drawn from 1024 px only');
+  assert.match(layout, /<Link href=\{mentorHref\} className="arena-askkey" data-tour="nav-mentor-top"/, 'the top bar key');
+  assert.match(places, /@media \(min-width: 1024px\) \{ \.app-shell \.arena-askkey \{ display: none; \} \}/, 'the bar does not repeat the rail’s door');
+  assert.match(places, /\.app-shell \.arena-askkey \{[^}]*min-width: 44px; height: 44px;/, 'a 44 px target');
   assert.equal(ASK_MOBI_NAV.href, '/mentor');
   assert.doesNotMatch(read('src/components/ai/AskMobiHost.jsx'), /data-tour="nav-mentor"/, 'the door is a plain link: it opens /mentor, Ask Mobi’s own page, and no longer the panel in place (1019 option B)');
 });
@@ -239,15 +247,12 @@ test('the sidebar compaction follows the new rail: 38 px rows only where 44 woul
   assert.doesNotMatch(arena, /max-height: 869px|max-height: 915px/);
 });
 
-test('the You sheet is 24 px shorter (531 px at 390 wide), so it needs no scroll from a phone 692 px tall', () => {
-  assert.match(places, /html \.app-shell \.arena-sheet > \.arena-sheet__lead, html \.app-shell \.arena-sheet > \.arena-appearance \{ margin-bottom: 0; \}/);
-});
-
 test('the guide tour follows the new map: every stop has a target on the bar or in the sidebar, and says where to look on a phone', () => {
   const all = tourSteps({ mob: true, study: true });
   assert.equal(all.length, TOUR_STEPS_ALL.length);
-  // The targets a phone has: the bar's places and the You button (data-tour nav-more); the sidebar adds each page's own row.
-  const phone = new Set(['nav-today', 'nav-dashboard', 'nav-mob', 'nav-more', 'nav-start']);
+  // The targets a phone has: the bar's places, the You button (data-tour nav-more) and Mobi's key in the top bar (nav-mentor-top, owner
+  // LK143); the sidebar adds each page's own row.
+  const phone = new Set(['nav-today', 'nav-dashboard', 'nav-mob', 'nav-more', 'nav-start', 'nav-mentor-top']);
   const sidebar = new Set(['nav-today', 'nav-dashboard', 'nav-review', 'nav-learn', 'nav-explore', 'nav-saved', 'nav-mob', 'nav-leaderboard', 'nav-profile', 'nav-progress', 'nav-analytics', 'nav-admission-compass', 'nav-wallet', 'nav-help', 'nav-mentor']);
   for (const step of all) {
     const targets = [].concat(step.target);
@@ -266,10 +271,12 @@ test('Today keeps its colleges card, so Colleges leaving the bar costs no door (
   assert.match(read('src/app/(app)/today/page.jsx'), /TodayColleges/);
 });
 
-test('R4: the rail still fills top to bottom on entry and the You sheet’s rows still rise one after another (each row’s --i)', () => {
+test('R4: the rail still fills top to bottom on entry and the You page’s rows still rise one after another (each row’s --i)', () => {
   assert.match(layout, /const railIndex = new Map\(navGroups\.flatMap\(\(group\) => group\.items\)\.map\(\(tab, i\) => \[tab\.id, i\]\)\);/);
   assert.match(layout, /group\.items\.map\(\(tab\) => renderNavLink\(tab, undefined, railIndex\.get\(tab\.id\)\)\)/);
-  assert.match(layout, /renderNavLink\(tab, \(\) => setMobileMenuOpen\(false\), sheetIndex\.get\(tab\.id\)\)/);
+  // The old sheet's rows are the You page's (LK141): each carries its --i and rises once.
+  assert.match(read('src/components/nav/YouPlaces.jsx'), /style=\{\{ '--i': i\+\+ \}\}/);
+  assert.match(read('src/components/nav/you-places.css'), /animation: you-places-rise 300ms [^;]*calc\(min\(var\(--i, 0\), 8\) \* 24ms\) backwards;/);
   assert.match(layout, /style=\{\{ '--i': index \}\}/, 'the row carries its index');
   assert.match(read('src/app/(app)/arena-support.css'), /\.arena-sidebar \.arena-nav-link[^{]*\{ animation: arena-nav-in 380ms var\(--a-ease\) both; animation-delay: calc\(60ms \+ var\(--i, 0\) \* 22ms\)/);
 });

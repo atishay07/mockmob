@@ -397,6 +397,24 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 }
 @media (min-width: 1024px) { .app-shell .pr .pr-ticket.pr-summary { position: sticky; top: 84px; } }
 .app-shell .pr .pr-ticket.pr-summary > * { grid-row: auto; grid-column: auto; }
+/* The main job one tap and in sight (owner LK142, 5 Nov 2026). On a laptop the card's Start key sat under the fold on arrival (at
+   1366 x 768 its foot was 76 px below the window) until the card had scrolled to its sticky top. Now the key rides the window's foot
+   inside the card, on the card's own ground, until the card's end comes into view and it lands in its place: the phone bar's rule
+   (F12), on the desktop card. Under 860 px of height the card is also a little tighter, so it lands sooner. */
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-ticket__go-row {
+    position: sticky; bottom: 0; z-index: 1;
+    margin: -6px -16px -16px; padding: 6px 16px 16px; border-radius: 0 0 22px 22px;
+    background: var(--pr-grain), var(--a-raised);
+  }
+}
+@media (min-width: 1024px) and (max-height: 860px) {
+  .app-shell .pr .pr-ticket.pr-summary { gap: 10px; padding: 14px; top: 76px; }
+  .app-shell .pr .pr-ticket__top { grid-template-columns: 58px minmax(0, 1fr) auto; }
+  .app-shell .pr .pr-ticket__obj { width: 58px; height: 58px; }
+  .app-shell .pr .pr-ticket__fresh { font-size: 13px; line-height: 1.45; }
+  .app-shell .pr .pr-ticket__go-row { margin: -4px -14px -14px; padding: 4px 14px 14px; }
+}
 .app-shell .pr .pr-ticket__top { position: relative; display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; align-items: end; gap: 12px; }
 .app-shell .pr .pr-ticket__obj { display: block; width: 76px; height: 76px; }
 .app-shell .pr .pr-ticket__obj > .subj-obj { animation: pr-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both; }
@@ -468,6 +486,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 /* Phones and tablets: the card has no Start of its own; the bar under it is its footer and carries Start. */
 @media (max-width: 1023px) {
   .app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { display: none; }
+  .app-shell .pr .pr-ticket__go-row { display: contents; }
   /* The bar is the card's footer and lands against its bottom edge: the tail's 30 px row gap and the bar's -31 px margin cancel, so the
      bar overlaps the card by 1 px, not 31. The card therefore keeps its ordinary 16 px (R4 owner-eye#7: the 48 px it reserved for an
      overlap that never happens was a dead band inside the card, and with the bar's own slot it read as blank space before Your papers).

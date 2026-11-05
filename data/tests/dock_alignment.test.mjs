@@ -23,24 +23,24 @@ test('the dock holds Today, Practice, the Start key, Mob and You; every other pa
   assert.deepEqual(MOBILE_STUDY_NAV.map((tab) => tab.label), ['Today', 'Practice', 'Mob']);
   assert.deepEqual(mobileNavigation({ mob: true }).map((tab) => tab.href ?? `/${tab.id}`), ['/today', '/dashboard', '/mob']);
   assert.deepEqual(mobileNavigation({ mob: false }).map((tab) => tab.label), ['Today', 'Practice'], 'the Mob is not drawn while it is off');
-  // Every page the old dock and More sheet reached still has a link: in the sidebar's places, or on the You sheet (its head and groups).
+  // Every page the old dock and More sheet reached still has a link: in the sidebar's places, or on the You page's places (LK141).
   const sidebar = arenaNavigation(false, { mob: true }).flatMap((group) => group.items.map((item) => item.id));
   const sheet = youSheetGroups(false, { mob: true }).flatMap((group) => group.items.map((item) => item.id));
   for (const id of ['today', 'dashboard', 'learn', 'review', 'explore', 'saved', 'mob', 'leaderboard', 'progress', 'analytics', 'admission-compass', 'profile', 'wallet', 'help']) {
     assert.ok(sidebar.includes(id), `${id} is in the sidebar`);
   }
-  assert.deepEqual(sheet, ['progress', 'analytics', 'admission-compass', 'wallet'], 'the You sheet lists the plan; the account head and Ask Mobi sit above it');
+  assert.deepEqual(sheet, ['progress', 'analytics', 'admission-compass', 'wallet'], 'the You page lists the plan; Ask Mobi sits above it, Guide and the tour below');
   assert.equal(ASK_MOBI_NAV.href, '/mentor');
   // Learn, Explore, Saved and Your papers moved into Practice's row of tabs on a phone, in this order.
   assert.deepEqual(PRACTICE_PAGES.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
-  // The shell draws the capsule from those lists: the Start key as the third child, You (the sheet's opener) as the last.
+  // The shell draws the capsule from those lists: the Start key as the third child, You (a link to the You page, LK141) as the last.
   assert.match(layout, /const dockTabs = mobileNavigation\(\{ mob: mobOn \}\)/);
-  assert.match(layout, /\{index === 2 \? <StartKey variant="bar" onOpen=\{\(\) => setMobileMenuOpen\(false\)\} \/> : null\}/);
-  assert.match(layout, /<AppIcon name="account" size=\{24\} \/><span>You<\/span>/);
-  // The You sheet: the account card (name, Show me around, Guide) heads it, Ask Mobi follows, the places come next and Night and
-  // Day comes last, still below Ask Mobi (D6).
-  assert.match(layout, /<Link href=\{previewLinks\?\.help \|\| '\/help'\} className="arena-sheet__help"[\s\S]{0,160}?>\s*<AppIcon name="help" \/> \{HELP_DOOR\.label\}/);
-  assert.match(layout, /className="arena-sheet__lead arena-sheet__lead--ask"[\s\S]{0,1200}?\{sheetGroups\.map[\s\S]{0,700}?<AppearanceSwitch \/>/);
+  assert.match(layout, /\{index === 2 \? <StartKey variant="bar" \/> : null\}/);
+  assert.match(layout, /<Link href=\{hrefOf\(YOU_DOCK\)\} data-tour="nav-more"[^>]*><AppIcon name="account" size=\{24\} \/><span>You<\/span><\/Link>/);
+  // The You page's places: Ask Mobi leads, the groups follow, then Guide and Show me around; no theme control there (D6 holds).
+  const places = read('src/components/nav/YouPlaces.jsx');
+  assert.ok(places.indexOf('you-places__ask') < places.indexOf('{groups.map') && places.indexOf('{groups.map') < places.indexOf('HELP_DOOR.label'));
+  assert.doesNotMatch(places, /AppearanceSwitch/);
   // And Learn keeps a second home on the Practice page, while the lessons are on.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   // R2 phone-clarity 14: with Learn v2 on, Learn is a tab in Practice's row, so the card leaves Practice; off, it stays.
@@ -54,7 +54,7 @@ test('the Start key is the capsule’s centre slot, so the nav holds five slots 
   const dock = layout.slice(layout.indexOf('<div className="arena-dock">'), layout.indexOf('<StartSheetHost'));
   assert.match(dock, /<nav className="arena-bottomnav" aria-label="Quick study navigation" data-slots=\{dockTabs\.length \+ 2\}>/);
   assert.ok(dock.indexOf('<StartKey variant="bar"') < dock.indexOf('</nav>'), 'the key is drawn inside the capsule');
-  assert.match(layout, /document\.querySelector\('\.arena-dock'\)/, 'the You sheet measures the whole dock');
+  assert.doesNotMatch(layout, /id="arena-sheet"/, 'no You sheet rises from the dock any more (LK141)');
   // The key is an action, so the lens and the marks never rest on it: only places mark the capsule.
   const rules = arenaCss.slice(arenaCss.indexOf('html .app-shell .arena-bottomnav:has(> :nth-child(1)'), arenaCss.indexOf('html .app-shell .arena-bottomnav :is(a, button) {'));
   assert.doesNotMatch(rules, /nth-child\(3\)\[aria-expanded/);
@@ -248,22 +248,68 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           await page.waitFor('#start-sheet[open]', 10000);
           await page.key('Escape', 'Escape', 27);
         });
-        await t.test(`${theme} You rises from the dock and closes on Escape`, async () => {
+        // Owner LK141 (5 Nov 2026): You opens the You page (it opened a sheet), and the top bar's person opens the account sheet.
+        await t.test(`${theme} You opens the You page; the person in the top bar opens the account sheet, which closes on Escape`, async () => {
           await page.viewport(390, 844, 1);
           await page.goto(view('dashboard'), '.arena-dock nav a');
           await hydrate(page);
-          const at = await page.eval(`(() => { const b = [...document.querySelectorAll('.arena-dock nav button')].find((n) => n.textContent.trim() === 'You'); const r = b.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: b.contains(document.elementFromPoint(x, y)) }; })()`);
+          const at = await page.eval(`(() => { const b = [...document.querySelectorAll('.arena-dock nav a')].find((n) => n.textContent.trim() === 'You'); const r = b.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: b.contains(document.elementFromPoint(x, y)) }; })()`);
           assert.equal(at.hit, true);
           await page.click(at.x, at.y);
-          await page.waitFor('#arena-sheet');
+          const t0 = Date.now();
+          while (Date.now() - t0 < 30000 && !(await page.eval(`location.search.includes('view=profile&') && Boolean(document.querySelector('.you-places'))`))) await new Promise((r) => setTimeout(r, 200));
           await new Promise((r) => setTimeout(r, 500));
-          const sheet = await page.eval(`(() => { const s = document.getElementById('arena-sheet').getBoundingClientRect(); const d = document.querySelector('.arena-dock').getBoundingClientRect(); const lens = getComputedStyle(document.querySelector('.arena-bottomnav'), '::before').opacity; return { gap: d.top - s.bottom, top: s.top, lens: Number(lens) }; })()`);
-          assert.ok(near(sheet.gap, 8, 1), `sheet sits 8 px above the dock (${sheet.gap})`);
-          assert.ok(sheet.top >= 0);
-          assert.equal(sheet.lens, 1, 'the lens moves to You');
+          const you = await page.eval(`(() => ({ current: document.querySelector('.arena-dock nav a[aria-current="page"] span')?.textContent.trim(), lens: Number(getComputedStyle(document.querySelector('.arena-bottomnav'), '::before').opacity) }))()`);
+          assert.equal(you.current, 'You', 'You is the current place');
+          assert.equal(you.lens, 1, 'the lens rests under You');
+          const door = await page.eval(`(() => { const b = document.querySelector('.arena-acct__you'); const r = b.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; })()`);
+          await page.click(door.x, door.y);
+          await page.waitFor('.acct-pop--sheet');
+          await new Promise((r) => setTimeout(r, 400));
+          const sheet = await page.eval(`(() => { const s = document.querySelector('.acct-pop--sheet').getBoundingClientRect(); const bar = document.querySelector('.arena-topbar').getBoundingClientRect(); return { gap: s.top - bar.bottom, left: s.left, right: innerWidth - s.right, bottom: s.bottom }; })()`);
+          assert.ok(near(sheet.gap, 8, 1), `the sheet sits 8 px under the top bar (${sheet.gap})`);
+          assert.ok(near(sheet.left, 12, 1) && near(sheet.right, 12, 1), `12 px at each side (${sheet.left}, ${sheet.right})`);
+          assert.ok(sheet.bottom <= 844);
+          assert.equal(await page.eval(`(() => {
+            const dock = document.querySelector('.arena-dock');
+            const r = dock.querySelector('a').getBoundingClientRect();
+            return dock.inert && document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.matches('.acct-pop-scrim');
+          })()`), true, 'the scrim intercepts the dock and the dock is inert');
           await page.key('Escape', 'Escape', 27);
           await new Promise((r) => setTimeout(r, 300));
-          assert.equal(await page.eval(`Boolean(document.getElementById('arena-sheet'))`), false);
+          assert.equal(await page.eval(`Boolean(document.querySelector('.acct-pop'))`), false);
+          assert.equal(await page.eval(`document.activeElement === document.querySelector('.arena-acct__you')`), true);
+          assert.equal(await page.eval(`document.querySelector('.arena-dock').inert`), false);
+        });
+        await t.test(`${theme} top bar fits a long Pro account and Today clears the short-phone dock`, async () => {
+          await page.goto(`${BASE}/preview/arena?view=dashboard&plan=pro&data=long&role=moderator`, '.arena-topbar__row');
+          for (const width of [320, 360, 640, 700, 768]) {
+            await page.viewport(width, 844, 1);
+            assert.ok(await page.eval(`(() => {
+              const row = document.querySelector('.arena-topbar__row');
+              const avatar = document.querySelector('.arena-acct__you').getBoundingClientRect();
+              return row.scrollWidth <= row.clientWidth + 1 && avatar.right <= innerWidth;
+            })()`), `account fits at ${width}px`);
+          }
+          await page.viewport(360, 640, 1);
+          await page.goto(view('today'), '.tm__key');
+          await page.eval(`document.querySelector('.arena-fixture-note')?.style.setProperty('display', 'none')`);
+          const bounds = await page.eval(`(() => {
+            const key = document.querySelector('.tm__key');
+            const dock = document.querySelector('.arena-dock');
+            const r = key.getBoundingClientRect();
+            return { gap: dock.getBoundingClientRect().top - r.bottom, hit: key.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)) };
+          })()`);
+          assert.ok(bounds.hit && bounds.gap >= 12, `Start key clears the dock by ${bounds.gap}px`);
+        });
+        await t.test(`${theme} all desktop sidebar places fit at 1366 × 768`, async () => {
+          await page.viewport(1366, 768, 1);
+          await page.goto(view('dashboard'), '.arena-sidebar__places');
+          await page.eval(`document.querySelector('.arena-fixture-note')?.style.setProperty('display', 'none')`);
+          assert.ok(await page.eval(`(() => {
+            const places = document.querySelector('.arena-sidebar__places');
+            return places.scrollHeight <= places.clientHeight + 1;
+          })()`), 'the places need no scrolling at laptop height');
         });
         await t.test(`${theme} desktop: the sidebar keeps its key, no dock, never two volt keys in one viewport`, async () => {
           await page.viewport(1440, 900, 1);

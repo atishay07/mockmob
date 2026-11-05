@@ -260,6 +260,9 @@ test('the navigation opens /mentor as a page; the docked panel stays for asks ab
   assert.match(host, /window\.addEventListener\(ASK_MOBI_EVENT, onAsk\)/, 'the panel still answers openAskMobi from a question, a mock, Today and Practice');
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /className="arena-mobi-door"/);
-  assert.match(shell, /className="arena-sheet__lead arena-sheet__lead--ask"/);
-  assert.equal((shell.match(/href=\{previewLinks\?\.mentor \|\| '\/mentor'\}/g) || []).length, 2, 'the sidebar door and the You sheet row both open /mentor');
+  // Owner LK143 (5 Nov 2026): Ask Mobi is a first-class door: the rail's door under Start, the top bar's key below 1024 px, and the
+  // You page's first row (the You sheet is gone, LK141). Every one is the plain /mentor link the shell computes once.
+  assert.match(shell, /const mentorHref = previewLinks\?\.mentor \|\| '\/mentor';/);
+  assert.equal((shell.match(/<Link href=\{mentorHref\} className="arena-(mobi-door|askkey)"/g) || []).length, 2, 'the rail door and the top bar key open /mentor');
+  assert.match(read('src/components/nav/YouPlaces.jsx'), /<Link href=\{mentorHref\} className="you-places__ask"/, 'and the You page row');
 });

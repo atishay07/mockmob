@@ -70,18 +70,6 @@ export function askRequestFromHref(href) {
   return { tab: questionRef ? 'ask' : tab, questionRef };
 }
 
-/** The phone's More button: where focus goes back to when Ask Mobi, opened from a row in the More sheet, closes. */
-export const MORE_BUTTON = '[data-tour="nav-more"]';
-
-/**
- * Where focus returns when the panel closes and the control that opened it is gone. A row in the phone's More sheet closes with
- * the sheet the moment it is pressed, so on Esc there is nothing to return to; the More button, which opened that sheet, is.
- * A selector, or null when the opener stays on the page and is focused again as it is.
- */
-export function returnFocusFor(from) {
-  try { return from?.closest?.('.arena-sheet') ? MORE_BUTTON : null; } catch { return null; }
-}
-
 /** The point the panel grows from: the centre of the control that opened it. */
 export function originOf(element) {
   const rect = element?.getBoundingClientRect?.();
@@ -104,8 +92,6 @@ export function openAskMobi({ context = null, tab = 'plan', questionRef = null, 
       tab: scoped.kind === 'question' ? 'ask' : cleanTab,
       questionRef: scoped.kind === 'question' ? scoped.ref : null,
       origin: originOf(from),
-      // Only said when it matters (a row of the phone's More sheet), so every other request keeps the detail it always had.
-      ...(returnFocusFor(from) ? { returnTo: returnFocusFor(from) } : {}),
       context: scoped,
     },
   });
@@ -117,7 +103,7 @@ export function openAskMobi({ context = null, tab = 'plan', questionRef = null, 
 export const isPlainClick = (event) => !(event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey);
 
 /**
- * The navigation's own "Ask Mobi" row (sidebar, or More on a phone) is a plain link to /mentor. In the arena a plain click
+ * The navigation's own "Ask Mobi" link points to /mentor. In the arena a plain click
  * opens the panel about the page instead; a modifier-click still opens /mentor. True for that row's href only.
  */
 export function isAskMobiNavHref(href) {

@@ -140,8 +140,9 @@ test('a lesson or recall run keeps Learn as the current page, and the dock marks
   assert.equal(dockPlaceOf('/study/abc'), 'practice');
   for (const path of ['/dashboard', '/review', '/review/rules', '/learn', '/explore', '/saved']) assert.equal(dockPlaceOf(path), 'practice', path);
   assert.equal(placeTabs('/study/abc', { study: true }), null, 'the row of tabs is drawn on the place’s own pages only, never inside a lesson');
-  assert.match(layout, /data-within=\{!isActive\(tab\.id\) && dockPlace === tab\.dock && !mobileMenuOpen \? 'true' : undefined\}/);
-  assert.match(layout, /data-tour="nav-more" data-within=\{dockPlace === 'you' && !mobileMenuOpen \? 'true' : undefined\}/);
+  // Owner LK141 (5 Nov 2026): the dock's You is a link to the You page, so it is current there and marked within on the pages under You.
+  assert.match(layout, /data-within=\{!isActive\(tab\.id\) && dockPlace === tab\.dock \? 'true' : undefined\}/);
+  assert.match(layout, /data-tour="nav-more" aria-current=\{isActive\(YOU_DOCK\.id\) \? 'page' : undefined\} data-within=\{!isActive\(YOU_DOCK\.id\) && dockPlace === 'you' \? 'true' : undefined\}/);
   assert.match(read('src/app/(app)/nav-places.css'), /\.arena-bottomnav:has\(> :nth-child\(2\)\[data-within='true'\]\) \{ --abn-i: 1; --abn-on: 1; \}/);
   assert.match(read('src/app/(app)/arena.css'), /\.arena-bottomnav:has\(> :nth-child\(5\)\[data-within='true'\]\) \{ --abn-i: 4; --abn-on: 1; \}/);
 });

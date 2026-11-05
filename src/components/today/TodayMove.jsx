@@ -234,7 +234,11 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
               <button type="button" className="tm__token" aria-expanded={lenOpen} aria-controls="tm-lengths" onClick={() => setLenOpen((v) => !v)}>
                 about {lenChip(minutes)}<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
               </button>
-            ) : minutes && !done ? <span>about <b>{minutes < 60 ? minutes : lenChip(minutes)}</b>{minutes < 60 ? ' min' : ''}</span> : null}
+            ) : minutes && !done ? (
+              // tm__mins: the key below says the same minutes ("Start Revise · 5 min"), so the shortest phones (360 x 640) let this copy
+              // go and keep the key above the dock (A5, owner LK142). A plan's key carries no minutes, so its line always stays.
+              <span className={isPlan ? undefined : 'tm__mins'}>about <b>{minutes < 60 ? minutes : lenChip(minutes)}</b>{minutes < 60 ? ' min' : ''}</span>
+            ) : null}
           </div>
         ) : null}
         {lengths ? (

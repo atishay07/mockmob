@@ -163,7 +163,7 @@ test('copy rules: no exclamation marks, no em dashes, no middle dots in what stu
 });
 
 // 19 Oct 2026 (owner G29: "I seriously don't see sign out of this browser"): Sign out is a labelled row, first in its own group.
-test('G29 account actions: Sign out leads the group, then Sign out of other devices, then Delete account; Sign out is in words in the top bar and the phone More sheet', () => {
+test('G29 account actions: Sign out leads the group, then Sign out of other devices, then Delete account; Sign out is in words in the top bar and the account sheet', () => {
   const page = read('src/app/(app)/profile/ProfilePageClient.jsx');
   const group = page.slice(page.indexOf('id="account-actions"'));
   const at = (piece) => { const i = group.indexOf(piece); assert.ok(i > 0, `${piece} is in Account actions`); return i; };
@@ -173,7 +173,9 @@ test('G29 account actions: Sign out leads the group, then Sign out of other devi
   assert.match(read('src/components/profile/SignOutConfirm.jsx'), /title: 'Sign out'/);
   assert.match(read('src/components/profile/SignOutControl.jsx'), /<SignOutButton className="acct-key">/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 2, 'the top bar and the phone More sheet both say Sign out in words');
+  // Owner LK141 (5 Nov 2026): the phone's account menu is the top bar person's sheet now (AccountPopover), which says Sign out in words.
+  assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 1, 'the top bar says Sign out in words');
+  assert.match(read('src/components/account/accountPopoverCopy.mjs'), /signOut: 'Sign out'/, 'and so does the account sheet');
   assert.ok(!/aria-label="Sign out"/.test(shell), 'no icon-only Sign out left');
   assert.ok(ACCOUNT_ANCHORS.includes('account-actions') && ACCOUNT_ANCHORS.includes('sign-out') && ACCOUNT_ANCHORS.includes('sign-in') && ACCOUNT_ANCHORS.includes('delete'));
 });

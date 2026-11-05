@@ -6,9 +6,10 @@
 // the number in "Show me around" is read from the tour that will run, never typed into a sentence. Pure data and one filter,
 // so a test can hold both.
 // The map is the five places (WEB-NAV-1019 option A, owner D114). On a phone a page inside Practice is shown on the Practice
-// tab (its row of tabs holds Your papers, Learn, Explore and Saved), and a page inside You on the You tab (its sheet), so
-// every stop has something to point at on every screen; `bodies` says where to look when the stop lands on that tab.
-// The sheet's opener keeps the id nav-more (the You tab).
+// tab (its row of tabs holds Your papers, Learn, Explore and Saved), and a page inside You on the You tab (it opens the You page,
+// which lists them; owner LK141), so every stop has something to point at on every screen; `bodies` says where to look when the
+// stop lands on that tab. The dock's You keeps the id nav-more. Ask Mobi is the rail's door under Start from 1024 px and the top
+// bar's key below it (nav-mentor-top; owner LK143).
 export const TOUR_STEPS_ALL = Object.freeze([
   { title: 'Today', target: 'nav-today', body: 'Your next useful step, and why: what to practise now and what is due for review.' },
   { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
@@ -20,10 +21,13 @@ export const TOUR_STEPS_ALL = Object.freeze([
     bodies: { 'nav-more': 'Progress is under You. It shows your study days, badges and personal bests, week by week.' } },
   { title: 'Colleges', target: ['nav-admission-compass', 'nav-more'], body: 'See which DU courses your subjects open and each college’s 2026 cutoff. Your first choice of college shows on Today.',
     bodies: { 'nav-more': 'Colleges is under You. See which DU courses your subjects open and each college’s 2026 cutoff. Your first choice of college shows on Today.' } },
-  { title: 'Ask Mobi', target: ['nav-mentor', 'nav-more'], body: 'Ask Mobi is his own page: ask any CUET doubt, or ask what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
-    bodies: { 'nav-more': 'Ask Mobi is in the You sheet, right under Show me around and Guide. His own page takes any CUET doubt, or what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.' } },
+  { title: 'Ask Mobi', target: ['nav-mentor', 'nav-mentor-top', 'nav-more'], body: 'Ask Mobi is his own page: ask any CUET doubt, or ask what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
+    bodies: {
+      'nav-mentor-top': 'Mobi’s face at the top of every page opens Ask Mobi. His own page takes any CUET doubt, or what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
+      'nav-more': 'Ask Mobi is the first row of the You page, and Mobi’s face at the top of every page. His own page takes any CUET doubt, or what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
+    } },
   { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result. Your standing, where your mocks place you among MockMob students, is right beside it.', mob: true },
-  // The last stop is the standalone Guide page (D11, renamed from Help and FAQ): a link in the sidebar's You place, in the You sheet on a phone.
+  // The last stop is the standalone Guide page (D11, renamed from Help and FAQ): a link in the sidebar's You place, on the You page on a phone.
   { title: 'Guide', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Guide has the common questions, this tour to take again and a way to write to us.',
     bodies: { 'nav-more': 'Stuck anywhere? Guide is under You. It has the common questions, this tour to take again and a way to write to us.' } },
 ]);
