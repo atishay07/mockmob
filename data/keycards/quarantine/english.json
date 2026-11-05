@@ -716,6 +716,690 @@
         "review:not_exact",
         "review:Rule is stated as always true but is only generally true: omits are->were, will->would, can->could, and present tense stays for universal truths or still-valid facts. Add these or narrow the front."
       ]
+    },
+    {
+      "id": "kc.english.factual-passage.word-because",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'because' show in a passage?",
+      "back": "Cause: it introduces the reason for something.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 370,
+      "reasons": [
+        "review:not_important",
+        "review:Trivially basic for a Class 12 CUET student; every learner knows because shows cause."
+      ]
+    },
+    {
+      "id": "kc.english.factual-passage.word-finally",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'finally' show in a passage?",
+      "back": "Sequence: it marks the last step or the last point.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 460,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Finally can fairly be labelled sequence, time order or conclusion; the front does not fix one label."
+      ]
+    },
+    {
+      "id": "kc.english.factual-passage.word-meanwhile",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'meanwhile' show in a passage?",
+      "back": "Time: it shows something happening at the same time as another event.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 470,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Meanwhile can fairly be labelled time or sequence; the front does not fix one label."
+      ]
+    },
+    {
+      "id": "kc.english.factual-passage.rule-inference",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a inference question?",
+      "back": "Collect the clues in the passage, then choose the option those clues support. Stay close to the text.\nTrap: an extreme option the text does not support.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 620,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is ungrammatical: \"a inference question\" must read \"an inference question\"."
+      ]
+    },
+    {
+      "id": "kc.english.factual-passage.rule-authors-purpose",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a author's purpose question?",
+      "back": "Ask why the writer wrote it: to inform, explain, persuade, entertain or describe. Weigh the opening, the kind of details and the ending, and choose the purpose that fits the whole passage.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 640,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is ungrammatical: \"a author's purpose question\" must read \"an author's purpose question\"."
+      ]
+    },
+    {
+      "id": "kc.english.factual-passage.rule-read-order",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: should you read the passage or the questions first in a comprehension set?",
+      "back": "Read the passage once for its gist and structure, then take each question and go back to the lines it points to. Some students glance at the questions first to know what to look for; either way, answer from the text, not from memory.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "reading-skills"
+      ],
+      "order": 670,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:No single right answer: the back says either order works, so the front does not have one answer."
+      ]
+    },
+    {
+      "id": "kc.english.narrative-passage.def-narrator",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "Who is the narrator of a story?",
+      "back": "The person or voice that tells the story to the reader.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrator"
+      ],
+      "order": 330,
+      "reasons": [
+        "review:not_important",
+        "review:trivially basic for CUET Class 12 level"
+      ]
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-sequence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a sequence-of-events question?",
+      "back": "Find each event in the passage and note where it falls; watch time words such as first, then, after, before, finally. Put the options in order and check each against the text.\nTrap: an event told early may have happened earlier, as in a flashback.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 680,
+      "reasons": [
+        "review:not_exact",
+        "review:Trap line garbled: an event told early may not be earliest; in a flashback an event told later happened earlier. Reword."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.def-euphemism",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a euphemism?",
+      "back": "A mild or indirect word or phrase used in place of one that sounds harsh, blunt or unpleasant.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 330,
+      "note": "Example: 'Let go' for 'dismissed from a job'.",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: engl102 oneword-euphemism already cards this item"
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.def-elegy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an elegy?",
+      "back": "A poem of serious reflection, especially a lament for someone who has died.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 560,
+      "note": "Example: Thomas Gray's 'Elegy Written in a Country Churchyard'.",
+      "reasons": [
+        "review:not_important",
+        "review:duplicate: engl102 oneword-elegy already cards this item"
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.ex-paradox-learn",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The more I learn, the less I seem to know.'",
+      "back": "Paradox\nIt seems self-contradictory but holds a truth: learning shows how much remains unknown.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 750,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Balanced contrast (the more/the less) could fairly be named antithesis as well as paradox"
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.ex-litotes-unwise",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'Her answer was not unwise.'",
+      "back": "Litotes\nThe praise (wise) is made by denying its opposite (unwise).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 800,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Litotes is a form of understatement; a student could fairly name understatement too. Front not single-answer"
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.rule-figure-of-speech",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer an identify-the-figure-of-speech question?",
+      "back": "Ask what is unusual in the line: a comparison, an exaggeration, a repeated sound, a thing acting like a person, or two opposite words.\nMatch it to the exact definition: 'like' or 'as' means simile; 'is' with no 'like' means metaphor.\nTrap: close pairs, such as simile and metaphor, or alliteration and assonance.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 880,
+      "reasons": [
+        "review:not_exact",
+        "review:Heuristic overstated: \"is\" with no like means metaphor, and \"like\" or \"as\" always means simile, are not reliable (as/like appear in other constructions)"
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-ironic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'ironic' tone show?",
+      "back": "Saying one thing while meaning another, so that the real meaning clashes with the surface words, often to be amusing or to make a point.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3060,
+      "note": "Example: 'What lovely weather,' he said, as the rain soaked his notes.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'ironic' tone\" must read \"an 'ironic' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-appreciative",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'appreciative' tone show?",
+      "back": "Showing thanks or recognition for the value or quality of something.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3160,
+      "note": "Example: 'We are grateful for every hour the volunteers gave us.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'appreciative' tone\" must read \"an 'appreciative' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-objective",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'objective' tone show?",
+      "back": "Based on facts, not on personal feelings or opinions; fair and neutral.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3180,
+      "note": "Example: 'The survey covered 500 homes; 62 per cent had a working tap.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'objective' tone\" must read \"an 'objective' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-analytical",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'analytical' tone show?",
+      "back": "Examining something closely, part by part, with logical reasoning to understand how it works.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3190,
+      "note": "Example: 'Three factors explain the fall: rising costs, weak demand and delay.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'analytical' tone\" must read \"an 'analytical' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-apprehensive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'apprehensive' tone show?",
+      "back": "Anxious or fearful that something bad may happen.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3220,
+      "note": "Example: 'She read the letter twice, dreading what the result might be.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'apprehensive' tone\" must read \"an 'apprehensive' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-optimistic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'optimistic' tone show?",
+      "back": "Hopeful and confident about the future; expecting good outcomes.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3230,
+      "note": "Example: 'Despite the setbacks, the team felt sure the next season would be better.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'optimistic' tone\" must read \"an 'optimistic' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-indignant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'indignant' tone show?",
+      "back": "Angry and offended because of something that seems unfair or unjust.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3260,
+      "note": "Example: 'How dare they dismiss the villagers' complaints without even a hearing!'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'indignant' tone\" must read \"an 'indignant' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-earnest",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'earnest' tone show?",
+      "back": "Sincere and serious, showing deep and genuine conviction.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3350,
+      "note": "Example: 'I truly believe that every child deserves a school within reach.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'earnest' tone\" must read \"an 'earnest' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-apathetic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'apathetic' tone show?",
+      "back": "Showing no interest, enthusiasm or concern.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3400,
+      "note": "Example: 'Few cared about the vote, and most did not even bother to turn up.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'apathetic' tone\" must read \"an 'apathetic' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-elegiac",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'elegiac' tone show?",
+      "back": "Sadly thoughtful and mournful, as if grieving for someone or something lost.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3450,
+      "note": "Example: 'The old mill stands silent now, and all its busy days are gone.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'elegiac' tone\" must read \"an 'elegiac' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-acerbic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'acerbic' tone show?",
+      "back": "Sharp and harsh in manner or speech, with bitter wit.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3460,
+      "note": "Example: 'His review was brief: the film was long, loud and entirely without a point.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'acerbic' tone\" must read \"an 'acerbic' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-irreverent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'irreverent' tone show?",
+      "back": "Showing no respect for things that are usually treated with respect, such as authority or tradition.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3480,
+      "note": "Example: 'The principal's speech was long, so I mimicked his voice behind the stage.'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'irreverent' tone\" must read \"an 'irreverent' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-incredulous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'incredulous' tone show?",
+      "back": "Unable or unwilling to believe something; showing disbelief.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3490,
+      "note": "Example: 'You expect me to believe that the dog ate your entire project?'",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: Front is ungrammatical: \"a 'incredulous' tone\" must read \"an 'incredulous' tone\" (the engr101 reviewer held the same slip); fix the article and re-review."
+      ]
     }
   ]
 }

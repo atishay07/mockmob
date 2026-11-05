@@ -1354,6 +1354,1177 @@
       "reasons": [
         "review:missing"
       ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.steps-ch1-accounting-cycle",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "steps",
+      "front": "Basic phases of the accounting cycle, in order.",
+      "back": "1. Business transactions are analysed.\n2. The transactions are recorded in the journal.\n3. Journal entries are posted to the ledger accounts.\n4. A trial balance is prepared from balances of accounts.\n5. Accounts are reviewed and the necessary adjustments made.\n6. Adjustments are posted in the ledger to prepare adjusted trial balance.\n7. Adjusted trial balance is used to prepare the balance sheet and profit and loss account.\n8. Financial Statements are prepared from the finally adjusted ledger and balancing the accounts.",
+      "quote": "Business transactions are analysed. The transactions are recorded in the journal. Journal entries are posted to the ledger accounts. A trial balance is prepared from balances of accounts. Accounts are reviewed and the necessary adjustments made. Adjustments are posted in the ledger to prepare adjusted trial balance. Adjusted trial balance is used to prepare the balance sheet and profit and loss account. Financial Statements are prepared from the finally adjusted ledger and balancing the accounts.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 3,
+        "section": "1.2 Components of CAS"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "accounting cycle"
+      ],
+      "order": 1060,
+      "reasons": [
+        "review:not_important",
+        "review:Manual accounting-cycle background, not a CUET-listed CAS topic; eight long exact sentences are poor recall material."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch1-feature-transparency",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "Salient feature \"Transparency and Control\": what will the organisation have with computerised accounting?",
+      "back": "Greater transparency for day-to-day business operations\nWith computerised accounting, the organisation will have greater transparency for day-to-day business operations and access to the vital information.",
+      "quote": "With computerised accounting, the organisation will have greater transparency for day-to-day business operations and access to the vital information.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "1.3.2 Transparency and Control"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "features"
+      ],
+      "order": 1090,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is open: NCERT's sentence gives two answers (greater transparency for day-to-day operations, and access to vital information)."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch1-feature-scalability",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "Salient feature \"Scalability\": what does CAS enable?",
+      "back": "Changing the volume of data processing with the size of the business\nCAS enables in changing the volume of data processing in tune with the change in the size of the business.",
+      "quote": "CAS enables in changing the volume of data processing in tune with the change in the size of the business.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "1.3.4 Scalability"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "features"
+      ],
+      "order": 1110,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front 'what does CAS enable?' is open-ended; the section also says it suits any business size, so no single right answer."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.types-ch1-kinds-of-codes",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "types",
+      "front": "Types of codes used in the codification of accounts.",
+      "back": "Sequential Codes\nBlock Codes\nMnemonic Codes",
+      "quote": "1.4.1.1 Sequential Codes In Sequential Code, numbers and/or letters are assigned in consecutive order. These codes are applied primarily to source documents such as cheques, invoices, etc. A sequential code can facilitate document searches. This process enables in either identification of missing codes (numbers) relating to a particular document or a relevant document can be traced on the basis of code. For examples: CODES ACCOUNTS CL001 GCERT LTD CL002 XYZ LTD CL003 ARIL CORPORATION OF INDIA 1.4.1.2 Block Codes In a block code, a range of numbers is partitioned into a desired number of sub-ranges and each sub-range is allotted to a specific group. In most of the uses of block codes, numbers within a sub-range follow sequential coding scheme, i.e. the numbers increase consecutively. As an example, dealer codes for a trading firm could be as follows: CODES DEALER-TYPE 100 - 199 Small Pumps 200 - 299 Medium Pumps 300 - 399 Pipes 400 - 499 Motors 1.4.1.3 Mnemonic Codes",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 7,
+        "section": "1.4.1 Codification of Accounts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "codification",
+        "types of codes"
+      ],
+      "order": 1290,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote is not contiguous NCERT text: it runs across pages 7-8 and splices the CL001-CL003 and dealer-code tables in a different order than printed, so it is not found in pdftotext or pdfium text. Rebuild the quote from exact fragments (the three 1.4.1.x headings) or drop."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch1-ais-implemented",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "Through which system may AIS and its various sub-systems be implemented?",
+      "back": "Computerised Accounting System\nAccounting Information System (AIS) and its various sub-systems may be implemented through Computerised Accounting System.",
+      "quote": "Accounting Information System (AIS) and its various sub-systems may be implemented through Computerised Accounting System.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 11,
+        "section": "1.8 Accounting Information System (AIS)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "AIS"
+      ],
+      "order": 1430,
+      "reasons": [
+        "review:not_important",
+        "review:Trivial one-line fact (answer is guessable); the AIS sub-system list carries the value."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch1-coding-first-requires",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "In CAS, what does coding first require?",
+      "back": "Development of its structure\nCoding first requires development of its structure.",
+      "quote": "Coding first requires development of its structure.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca101",
+        "chapterNo": 1,
+        "page": 13,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "codification"
+      ],
+      "order": 1590,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Vague front ('what does coding first require?') and a thin summary line; not a memory-worthy CAS point."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch2-default-sheets",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "How many worksheets does a new Excel workbook have by default?",
+      "back": "Three\nBy default, three sheets, namely Sheet 1, Sheet 2, and Sheet 3 are available to users.",
+      "quote": "By default, three sheets, namely Sheet 1, Sheet 2, and Sheet 3 are available to users.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 18,
+        "section": "2.1 BASIC CONCEPTS OF SPREADSHEET"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "workbook"
+      ],
+      "order": 2050,
+      "reasons": [
+        "review:not_important",
+        "review:Version-dependent click trivia (default sheet count), not a CAS concept worth memory."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch2-nested-if",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "How are several conditions checked with nested IF functions?",
+      "back": "This way we can check as many conditions as we need to. The truthfulness of each condition would lead to its own statement. If none of the conditions is true, then it executes the last statement. To implement this scenario include an IF() function inside of another.",
+      "quote": "This way we can check as many conditions as we need to. The truthfulness of each condition would lead to its own statement. If none of the conditions is true, then it executes the last statement. To implement this scenario include an IF() function inside of another.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 29,
+        "section": "Naming Ranges – IF Functions – Nested IF Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "if"
+      ],
+      "order": 2260,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back opens with a dangling \"This way we can check...\" so the answer does not stand alone; front allows several phrasings of the nested IF idea."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.formula-ch2-pmt-syntax",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "formula",
+      "front": "Formula: PMT and its arguments",
+      "back": "= PMT(rate, nper, pv, [fv], [type])\nrate is the interest rate per period\nnper is the number of periods\npv is the present value or the amount the future payments are worth presently\ntype is the value 0 for payments made at the end of the period or the value 1 for payments made at the beginning of the period.",
+      "quote": "= PMT(rate, nper, pv, [fv], [type]) where rate is the interest rate per period, nper is the number of periods, pv is the present value or the amount the future payments are worth presently, fv is the future value or cash balance that after the last payment is made (a future value of zero when we omit this optional argument) type is the value 0 for payments made at the end of the period or the value 1 for payments made at the beginning of the period.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 45,
+        "section": "FINANCIAL FUNCTIONS"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "financial",
+        "loan"
+      ],
+      "order": 2550,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate of list-ch3-pmt-parameters, which describes all five PMT arguments (this card leaves fv undescribed); kept the fuller card."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.term-ch2-fill-handle",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "term",
+      "front": "A ____ is the small black square in the lower-right corner of the selection.",
+      "back": "Fill handle\nA Fill handle is the small black square in the lower-right corner of the selection.",
+      "quote": "A Fill handle is the small black square in the lower-right corner of the selection.",
+      "blanks": [
+        "Fill handle"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 47,
+        "section": "2.2.1.1 The data fill options"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "data-entry"
+      ],
+      "order": 2600,
+      "reasons": [
+        "review:not_important",
+        "review:One-screen UI trivia (fill handle position); not a CUET CAS topic."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.types-ch2-cell-data-types",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "types",
+      "front": "Name the types of data in the cells of an Excel worksheet.",
+      "back": "labels, values, date and formulas and data validation",
+      "quote": "Excel worksheet consists of four types of data in cells: labels, values, date and formulas and data validation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 50,
+        "section": "2.2.1.2 Import/Copy Data from other sources"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "data-entry"
+      ],
+      "order": 2610,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:NCERT list is garbled (\"four types: labels, values, date and formulas and data validation\"), so a student cannot give one exact four-item answer; low CUET value."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.list-ch2-error-alert-styles",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "list",
+      "front": "Name the styles of error alert in data validation.",
+      "back": "Information: displays a message but will prevent entry of invalid data.\nWarning: displays a warning message but will not prevent entry of invalid data.\nStop: will prevent invalid entry of data.",
+      "quote": "In Style drop-down menu select Information, Warning or Stop as per the severity and accuracy requirement for data where. (i) Information: displays a message but will prevent entry of invalid data. (ii) Warning: displays a warning message but will not prevent entry of invalid data. (iii) Stop: will prevent invalid entry of data.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 53,
+        "section": "2.2.2 DATA VALIDATION"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "validation"
+      ],
+      "order": 2640,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: NCERT p53 says the Information style 'will prevent entry of invalid data', the same as Stop; in Excel only Stop prevents it, so the card teaches two styles as one behaviour."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch2-two-variable-table",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "What does a two-variable data table use?",
+      "back": "use only one formula with two lists of input values. The formula must refer two different input cells.",
+      "quote": "use only one formula with two lists of input values. The formula must refer two different input cells.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 69,
+        "section": "2.5.2 TWO-VARIABLE DATA TABLE"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "data-table"
+      ],
+      "order": 2720,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back starts mid-sentence (\"use only one formula...\") and the one-variable/two-variable contrast is not on the front; weak standalone answer."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch2-pivot-table",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "What is a Pivot Table?",
+      "back": "A Pivot Table is way to present information in a report format. A PivotTable report often provides enhanced layout, attractive and formatted report with improved readability.",
+      "quote": "A Pivot Table is way to present information in a report format. A PivotTable report often provides enhanced layout, attractive and formatted report with improved readability.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca102",
+        "chapterNo": 2,
+        "page": 69,
+        "section": "2.5 PREPARATION OF REPORTS USING PIVOT TABLE"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pivot"
+      ],
+      "order": 2730,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate: asks what a PivotTable is, as def-ch2-pivot-interactive does (clearer, kept)."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.list-ch3-salary-bill",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "list",
+      "front": "Name the 4 things the preparation of a salary bill should provide for.",
+      "back": "Maintaining payroll related data\nPeriodic payroll computations\nPreparation of salary statement and employees salary slips\nGeneration of advice to bank",
+      "quote": "Maintaining payroll related data such as Employee No., Name, Attendance, Basic Pay, applicable Dearness and other Allowances, deductions to be made. Periodic payroll computations: the payroll computation includes the calculation of various earning and deduction heads, which are to be derived from basic values (such as basic salary, number of days under leave without pay (LWP) and unauthorised absence, etc) as per the formulae. Preparation of salary statement and employees salary slips Generation of advice to bank: It contains the net salary to be transferred to individual bank account of employees and other salary related statutory payments such as provident fund, tax, etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 87,
+        "section": "3.1 Payroll Accounting"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "payroll"
+      ],
+      "order": 3010,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote spans printed pp 87-88 and is not contiguous in extracted text (running header and Reprint line sit between bullets 2 and 3), so the quote check fails; wording itself is NCERT. Re-cut so each quote sits on one page or use fragments."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.list-ch3-payroll-deductions",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "list",
+      "front": "Name the deductions made in salary computation (payroll components).",
+      "back": "Professional Tax (Applicable in some states) (PT)\nProvident Fund (PF)\nTax Deduction at Source (TDS)\nRecovery of Loan Instalment (LOAN)\nAny Other Deduction",
+      "quote": "Professional Tax (Applicable in some states) (PT) : It is a statutory deduction according to the legislature of the State Government. Provident Fund (PF) : It is a statutory deduction, as part of social security. It is decided by the Government under the Provident Fund Act and is computed as a percentage of (Basic Pay + Dearness Pay, if applicable). Tax Deduction at Source (TDS) : It is a statutory deduction, which is deducted monthly towards Income Tax liability of an employee. It is essentially an apportionment of yearly Income Tax liability over 12 months. Recovery of Loan Instalment (LOAN) : Any amount signified by the employee for deduction on account of any loan taken up by him/her. Any Other Deduction : It may include any other deduction not included above such as Recovery of “Advance against Salary”, deductions on account of “Food Grain Advance”, “Festival Advance”, etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 88,
+        "section": "3.1.1 Payroll Components"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "payroll",
+        "deductions"
+      ],
+      "order": 3080,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote spans pp 88-89 (page number 88 and Reprint line sit inside the TDS text and a page break precedes LOAN), not found contiguously in pdftotext or pdfium; cited page 88 only partly holds it."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch3-noedp",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "Define Number of Effective Days Present (NOEDP).",
+      "back": "Number of Effective Days Present (NOEDP) – is the Number of Days in a Month Minus Leave without Pay minus Unauthorised Absence",
+      "quote": "Number of Effective Days Present (NOEDP) – is the Number of Days in a Month Minus Leave without Pay minus Unauthorised Absence",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 89,
+        "section": "3.1.2 Elements Used in Payroll Calculation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "payroll"
+      ],
+      "order": 3150,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate: repeats formula-ch3-noedp (kept, with its note)."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.term-ch3-absolute-address",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "term",
+      "front": "The ____ is used for those cells whose reference should not change while the formula is to be copied into other cells.",
+      "back": "absolute address\nThe absolute address is used for those cells whose reference should not change while the formula is to be copied into other cells.",
+      "quote": "The absolute address is used for those cells whose reference should not change while the formula is to be copied into other cells.",
+      "blanks": [
+        "absolute address"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 90,
+        "section": "3.1.2.1 Template Design"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "spreadsheet",
+        "absolute-address"
+      ],
+      "order": 3260,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank \"absolute address\" has synonyms (absolute reference / absolute cell reference); a correct student answer may be marked wrong."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.formula-ch3-total-depreciation",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "formula",
+      "front": "Formula: Total Amount of Depreciation over the life of an asset.",
+      "back": "Total Amount of Depreciation = Acquisition Cost – Salvage Value (Over Life of the Asset)",
+      "quote": "Total Amount of Depreciation = Acquisition Cost – Salvage Value (Over Life of the Asset)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 93,
+        "section": "3.2.1 Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "depreciation"
+      ],
+      "order": 3330,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate: the same formula as formula-ch3-total-depreciable-amount (Acquisition Cost - Salvage Value), kept."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.formula-ch3-slm-depreciation",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "formula",
+      "front": "Formula: Straight Line Depreciation (SLM).",
+      "back": "Total Depreciable Amount / Expected Useful Life",
+      "quote": "Total Depreciable Amount / Expected Useful Life",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 94,
+        "section": "3.2.2.1 Straight Line Method (SLM)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "depreciation",
+        "slm"
+      ],
+      "order": 3390,
+      "note": "Printed as a fraction: Total Depreciable Amount over Expected Useful Life.",
+      "reasons": [
+        "review:not_exact",
+        "review:Quote is a stacked fraction: the left side \"Straight Line Depreciation =\" is missing and the \"/\" is not in the extracted text (absent in pdfium); card back is a bare fraction, not the formula as printed."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.formula-ch3-slm-rate",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "formula",
+      "front": "Formula: Rate of Depreciation (SLM).",
+      "back": "Straight Line Depreciation × 100 / Total Depreciable Amount",
+      "quote": "Straight Line Depreciation × 100 / Total Depreciable Amount",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 94,
+        "section": "3.2.2.1 Straight Line Method (SLM)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "depreciation",
+        "slm"
+      ],
+      "order": 3400,
+      "note": "Printed as a fraction: Straight Line Depreciation over Total Depreciable Amount, times 100.",
+      "reasons": [
+        "review:not_exact",
+        "review:Quote omits \"Rate of Depreciation =\" and the \"/\" is not in the extracted text (absent in pdfium); \"x 100 /\" is ambiguous about the fraction layout."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.list-ch3-db-parameters",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "list",
+      "front": "Name the 5 parameters of the Excel DB function (declining balance depreciation).",
+      "back": "Cost: Initial cost of the asset\nSalvage: Salvage value\nLife: Life (in years) of the asset\nPeriod: Period (in years) for which the depreciation is calculated\nMonth: No. of months in the 1st year",
+      "quote": "Cost Initial cost of the asset H Salvage Salvage value I Life Life (in years) of the asset J Period Period (in years) for which the depreciation is calculated K Month No. of months in the 1st year",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 96,
+        "section": "3.2.2.2 Written Down Value (WDV) Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "depreciation",
+        "db-function"
+      ],
+      "order": 3430,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote contains stray table column letters (H I J K) from Figure 3.6, not NCERT wording; strip them and cite parameters cleanly."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.formula-ch3-schedule-gross-block",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "formula",
+      "front": "Formula: closing Gross Block in the fixed asset schedule.",
+      "back": "Gross Block = Op. Bal + Additions/Adjustments",
+      "quote": "Gross Block = Op. Bal + Additions/Adjustments",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 98,
+        "section": "3.2.2.3 Schedule Forming Part of the Balance Sheet"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "depreciation-schedule"
+      ],
+      "order": 3440,
+      "note": "NCERT's cell formula (B8+C8-D8) also subtracts Deductions/Adjustments.",
+      "reasons": [
+        "review:not_important",
+        "review:Printed text omits Deductions (cell formula is B8+C8-D8), so the card teaches an incomplete closing Gross Block formula; do not publish as printed."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch3-first-step",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "What is the first step in using a spreadsheet for an application?",
+      "back": "The first step in using spreadsheet is to list out the elements of the application.",
+      "quote": "The first step in using spreadsheet is to list out the elements of the application.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 101,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "spreadsheet"
+      ],
+      "order": 3510,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:NCERT p 90 calls planning the layout and template the first step, while the summary says list the elements; two defensible answers, and the point is low-value."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch3-if-function",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "What is the IF function used for in these spreadsheet applications?",
+      "back": "If-function is used to implement different action corresponding to different conditions.",
+      "quote": "If-function is used to implement different action corresponding to different conditions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 101,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "spreadsheet",
+        "if-function"
+      ],
+      "order": 3520,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate of def-ch2-if-function (kept); its front also points at 'these spreadsheet applications'."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.term-ch3-pmt-schedule",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "term",
+      "front": "The function ____ is used to compute the loan repayment schedule.",
+      "back": "PMT\nThe function PMT is used to compute the loan repayment schedule.",
+      "quote": "The function PMT is used to compute the loan repayment schedule.",
+      "blanks": [
+        "PMT"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca103",
+        "chapterNo": 3,
+        "page": 101,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "loan",
+        "pmt"
+      ],
+      "order": 3540,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate: repeats fact-ch3-pmt-function (PMT computes the loan instalments), kept."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.types-ch4-graph-line-kinds",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "types",
+      "front": "Name the two kinds of graph by the number of lines.",
+      "back": "A graph may either be a singleline graph or a multiple-line graph.",
+      "quote": "A graph may either be a singleline graph or a multiple-line graph.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 105,
+        "section": "4.1 Graphs and Charts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "line graph"
+      ],
+      "order": 4030,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote/back carry extraction artifact \"singleline\"; printed form is a hyphenated compound (single-line); back must repair from printed page."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.diff-ch4-pie-vs-bar-represent",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "difference",
+      "front": "Pie chart vs bar diagram: what each represents.",
+      "back": "A pie chart represents multiple sub-groups of single variable.\nA bar diagram depicts two or more variables.",
+      "quote": "A pie chart represents multiple sub-groups of single variable. A bar diagram depicts two or more variables.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 105,
+        "section": "4.1 Graphs and Charts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pie chart",
+        "bar chart"
+      ],
+      "order": 4050,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Content lead hold, 5 Nov 2026: near-identical front to diff-ch4-pie-bar-use-summary (kept) with a different answer, so a student cannot tell which answer is wanted."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-switch-row-column",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "Which Design tab box swaps the row data and column data of a chart?",
+      "back": "On the Design tab, in the Data group, click the arrow at the Switch Row/Column box.",
+      "quote": "On the Design tab, in the Data group, click the arrow at the Switch Row/Column box.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 110,
+        "section": "4.2.2 Formatting of Chart"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chart tools"
+      ],
+      "order": 4160,
+      "reasons": [
+        "review:not_important",
+        "review:Not important: one-screen click trivia (Switch Row/Column menu path)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-format-current-selection",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "On the Format tab, how do we select the chart element that needs formatting?",
+      "back": "On the Format tab, in the Current Selection group, click the arrow next to the Chart Elements box, and then select the chart element which requires to format.",
+      "quote": "On the Format tab, in the Current Selection group, click the arrow next to the Chart Elements box, and then select the chart element which requires to format.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 111,
+        "section": "4.2.2.2 Changing the format of a selected chart element"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chart tools"
+      ],
+      "order": 4170,
+      "reasons": [
+        "review:not_important",
+        "review:Not important: one-screen click trivia (Format tab menu path)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-text-home-font",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "Where do we find formatting buttons for the text of a chart element on the Home tab?",
+      "back": "On the Home tab, in the Font group, click the formatting buttons that we want to use.",
+      "quote": "On the Home tab, in the Font group, click the formatting buttons that we want to use.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 112,
+        "section": "Changing the text format"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chart tools"
+      ],
+      "order": 4180,
+      "reasons": [
+        "review:not_important",
+        "review:Not important: one-screen click trivia (Home tab Font group)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-layout-tab",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "What can we insert on the Layout tab of the Chart Tools?",
+      "back": "On the Layout tab, we can insert different Clip Arts, Picture, data labels, grids etc.",
+      "quote": "On the Layout tab, we can insert different Clip Arts, Picture, data labels, grids etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 113,
+        "section": "4.2.2.3 Changing the layout of the chart element"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "chart tools"
+      ],
+      "order": 4190,
+      "reasons": [
+        "review:not_important",
+        "review:Not important: click trivia (items insertable on Layout tab)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-pie-max-categories",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "What is the maximum number of categories an Excel pie chart can plot?",
+      "back": "Pie chart cannot plot more than seven",
+      "quote": "Pie chart cannot plot more than seven",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 114,
+        "section": "4.2.3 Change the Chart Type"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "pie chart"
+      ],
+      "order": 4210,
+      "note": "In short: an Excel pie chart cannot plot more than seven categories; the categories are the parts of the whole pie.",
+      "reasons": [
+        "review:not_exact",
+        "review:Back is a truncated fragment (\"cannot plot more than seven\") with no noun; printed sentence ends \"seven catgories\" (NCERT typo) and needs the full sentence on p114."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.def-ch4-resizing",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "definition",
+      "front": "What does resizing of a chart mean?",
+      "back": "Resizing of the chart means changing size of the chart as desired.",
+      "quote": "Resizing of the chart means changing size of the chart as desired.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 115,
+        "section": "4.2.4 Resizing of Chart/Graph"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "chart resizing"
+      ],
+      "order": 4220,
+      "reasons": [
+        "review:not_important",
+        "review:Not important: tautological definition, not worth memory; also not a \"must\" importance: not must."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch4-2d-known-derived",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "fact",
+      "front": "On a 2-D graph, which value goes on the X-axis and which on the Y-axis?",
+      "back": "When we plot the data on 2-D type of graph; the known value goes on the X-axis (independent) and derived (dependent variable) value on Y-axis.",
+      "quote": "When we plot the data on 2-D type of graph; the known value goes on the X-axis (independent) and derived (dependent variable) value on Y-axis.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 115,
+        "section": "4.2.5 2D - 3D Charts/Graphs"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "axes"
+      ],
+      "order": 4230,
+      "reasons": [
+        "review:not_important",
+        "review:Content lead hold, 5 Nov 2026: near-duplicate: repeats fact-ch4-axes-category-value (independent values on X, dependent on Y), kept."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.kl-ch4-trends",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "key_line",
+      "front": "Graphs and charts help in easy visualisation of any ____ present in data.",
+      "back": "Graphs and charts help in easy visualisation of any trends present in data.",
+      "quote": "Graphs and charts help in easy visualisation of any trends present in data.",
+      "blanks": [
+        "trends"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 118,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "graphs"
+      ],
+      "order": 4410,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank \"trends\" has obvious synonyms (patterns); not one right fill."
+      ]
+    },
+    {
+      "id": "kc.accountancy.computerized-accounting-system.steps-ch4-chart-steps",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.computerized-accounting-system",
+      "chapter": "Computerized Accounting System",
+      "unit": "Computerised Accounting System",
+      "kind": "steps",
+      "front": "Steps to prepare a chart in Excel, in order.",
+      "back": "Step 1: Enter data in a worksheet with proper column and row titles.\nStep 2: Create a basic chart using the pattern from the panel available on top of worksheet in Chart groups’ option.\nStep 3: Change the layout or style of chart.\nStep 4: Add or remove titles or data labels.\nStep 5: Show or hide a legend.\nStep 6: Display or hide chart axes or gridlines.\nStep 7: Move (resize) a chart\nStep 8: Save a chart",
+      "quote": "Step – 1: Enter data in a worksheet with proper column and row titles. Step – 2: Create a basic chart using the pattern from the panel available on top of worksheet in Chart groups’ option. Step – 3: Change the layout or style of chart. Apply a predefined chart layout. Apply a predefined chart style. Change the layout of chart elements. Change the format of chart elements. Step – 4: Add or remove titles or data labels. Add (Remove) a chart title. Add (Remove) axis titles. Link a title to a worksheet cell. Add (Remove) data labels. Step – 5: Show or hide a legend. Step – 6: Display or hide chart axes or gridlines. Display (hide) primary axes Display (hide) secondary axes Display (hide) gridlines Step – 7: Move (resize) a chart Step – 8: Save a chart",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Computerised Accounting System",
+        "code": "leca104",
+        "chapterNo": 4,
+        "page": 119,
+        "section": "Steps to prepare a chart"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "chart steps"
+      ],
+      "order": 4420,
+      "reasons": [
+        "review:not_exact",
+        "review:Back contains a corrupted character (\"Chart groups� option\"); not NCERT exact wording; also sub-steps of Steps 3-6 dropped without marking."
+      ]
     }
   ]
 }
