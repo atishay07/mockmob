@@ -1,7 +1,7 @@
 // node --test src/components/landing/homeHero.test.mjs
 // The home hero, "Desk Light" (4 Nov 2026, SPEC-HOME-1104 packet P2), refined in round 3 (R3-D3, owner LK99/LK100,
 // 5 Nov 2026): the LK67 and LK70 measures and the decisions the hero owns (2, 3, 4, 5, 12, 13, 15, 18; decision 14's
-// hairline beat is superseded by R3-D3's two variants). Source-level by default; with HOME_HERO_URL set (for example
+// hairline beat is superseded by R3-D3's number strip). Source-level by default; with HOME_HERO_URL set (for example
 // http://localhost:3572) it also measures the running page in real Chrome (the shared browser lock, one browser) at
 // 390x844, 375x667, 360x640, 412x915 and 1440x900 (LK70: the h1 starts in the first 12 % of the screen, the pitch
 // sentence ends by 40 % at 390x844 and 48 % at 360x640, the key by 46 % at 390x844; R3-D3: the lead is two lines at
@@ -12,8 +12,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { HERO_LINES, HERO_SENTENCE, HERO_TYPED } from './heroLines.mjs';
-import { DESK_LINES, HERO_BEAT_TIMING, heroBeat, heroFactLine } from './heroTaps.mjs';
-import { HERO_LEAD, HERO_BEAT_VARIANT, buildFaqs, buildTour, LAB_HEAD } from './homeCopy.mjs';
+import { DESK_LINES, heroBeat, heroFactLine } from './heroTaps.mjs';
+import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD } from './homeCopy.mjs';
 import { BLINK_EVERY_MS, GAZE_MAX_PX, GAZE_MEDIA, GLANCE, gazeOffset, glanceOffset } from '../brand/mobiGaze.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -24,7 +24,6 @@ const CSS = strip(read('../../app/hero-scene.css'));
 const FIGURE_CSS = strip(read('../brand/mobi-figure.css'));
 const REACT = read('../brand/MobiReact.jsx');
 const MOBI = read('./HeroMobi.jsx');
-const BEAT_LINE = read('./HeroBeatLine.jsx');
 const BEAT_STRIP = read('./HeroBeatStrip.jsx');
 const OFFER = { purchasable: 'monthly', monthly: { rupees: 99 }, oneTime: { rupees: 99, expires: '31 July 2027' } };
 
@@ -43,9 +42,7 @@ export const HERO_STRINGS = [
   { text: DESK_LINES.right, source: 'DemoDrill opens the reason under a right answer (mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.miss, source: 'DemoDrill opens the reason under a miss too', holds: () => /question\.why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.five, source: 'after five, the card\'s own end state offers sign-up, where a student picks a subject (DemoDrill), and the hero\'s volt key is "Sign up free" (LK83, L-015)', holds: () => /<Link href="\/signup" className="mm-btn mm-btn--primary">/.test(read('./DemoDrill.jsx')) && /way\.signup/.test(read('../LandingActions.jsx')) },
-  ...heroBeat(73).map((b) => ({ text: `${b.title}. ${b.line}`, source: { '#try-practice': 'DemoDrill: five questions, no signup', '#du-eligibility': 'DU_FACTS.programmes (duIndexFacts, the DU index)', '#exam-experience': 'ExamScreen: MockMob and NTA style', '#your-prep': 'the Practice slide: a full 50-question, 60-minute mock' }[b.href], holds: () => (b.href !== '#your-prep' || /50-question, 60-minute mock/.test(TOUR)) && (b.href !== '#du-eligibility' || /const BEAT = heroBeat\(DU_FACTS\?\.programmes \?\? null\);/.test(PAGE)) })),
-  // Variant B prints each fact as figure + unit: the same fact, so the same source.
-  ...heroBeat(73).map((b) => ({ text: `${b.figure} ${b.unit}`, source: 'heroBeat: the same fact as its title', holds: () => b.title.toLowerCase().includes(b.unit.split(',')[0].toLowerCase()) })),
+  ...heroBeat(73).map((b) => ({ text: `${b.figure} ${b.unit}. ${b.line}`, source: { '#try-practice': 'DemoDrill: five questions, no signup', '#du-eligibility': 'DU_FACTS.programmes (duIndexFacts, the DU index)', '#exam-experience': 'ExamScreen: MockMob and NTA style', '#your-prep': 'the Practice slide: a full 50-question, 60-minute mock' }[b.href], holds: () => (b.href !== '#your-prep' || /50-question, 60-minute mock/.test(TOUR)) && (b.href !== '#du-eligibility' || /const BEAT = heroBeat\(DU_FACTS\?\.programmes \?\? null\);/.test(PAGE)) })),
 ];
 
 test('decision 18: every hero string traces to a source, and each source still says it', () => {
@@ -59,9 +56,9 @@ test('decision 18: every hero string traces to a source, and each source still s
 });
 
 test('LK70: the h1 comes first and the lead says what MockMob is, in the server HTML order', () => {
-  // R3-D3: one fact line (QuestionBankLine variant="fact") in place of the two; the beat is variant A (in the desk card,
-  // before the room) or variant B (the strip after the hero links).
-  const order = ['<h1 className="lp-title">', '<p className="lp-lead">', '<div className="lp-cta">', '<QuestionBankLine variant="fact"', 'id="try-practice">', '<HeroBeatLine ', '<div className="lp-desk__stage">', '<div className="lp-hero__links">', '<HeroBeatStrip '];
+  // R3-D3: one fact line (QuestionBankLine variant="fact") in place of the two; the beat is the strip after the hero
+  // links.
+  const order = ['<h1 className="lp-title">', '<p className="lp-lead">', '<div className="lp-cta">', '<QuestionBankLine variant="fact"', 'id="try-practice">', '<div className="lp-desk__stage">', '<div className="lp-hero__links">', '<HeroBeatStrip '];
   let at = -1;
   for (const mark of order) {
     const i = HERO.indexOf(mark);
@@ -121,61 +118,23 @@ test('R3-D3 (LK99): calmer, Preparoo-clean: a two-line lead at 17 px, one fact l
   assert.doesNotMatch(CSS, /lp-hero__facts/, 'the two-line facts block is gone');
 });
 
-test('R3-D3 (LK100): the second beat is built twice for the judges, switched by one constant, the same four facts in both', () => {
-  assert.ok(['A', 'B'].includes(HERO_BEAT_VARIANT), `HERO_BEAT_VARIANT is 'A' or 'B', not ${HERO_BEAT_VARIANT}`);
-  assert.match(HERO, /\{HERO_BEAT_VARIANT === 'A' \? <HeroBeatLine items=\{BEAT\} label=\{HERO_BEAT_LABEL\} \/> : null\}/, 'A: inside the desk card, before the room');
-  assert.match(HERO, /\{HERO_BEAT_VARIANT === 'B' \? \(\s*<div className="mm-wrap">\s*<HeroBeatStrip items=\{BEAT\} label=\{HERO_BEAT_LABEL\} \/>/, 'B: under the hero');
-  assert.match(HERO, /className=\{HERO_BEAT_VARIANT === 'A' \? 'lp-desk lp-desk--beat' : 'lp-desk'\} id="try-practice"/);
-  assert.equal((PAGE.match(/<HeroBeatLine /g) || []).length, 1);
+test('R3-D3 (LK100): the second beat is one branded number strip under the hero (the judged pick over the rotating line)', () => {
+  assert.match(HERO, /\{\/\* The second beat: the four facts as a branded number strip under the hero\. \*\/\}\s*<div className="mm-wrap">\s*<HeroBeatStrip items=\{BEAT\} label=\{HERO_BEAT_LABEL\} \/>/, 'under the hero');
   assert.equal((PAGE.match(/<HeroBeatStrip /g) || []).length, 1);
-  // Neither variant is glass or glow (the owner asked for glass on the pricing and Key cards, not here).
-  const beatCss = CSS.slice(CSS.indexOf('.lp-beatline {'), CSS.indexOf('/* ---------- Tablets'));
-  assert.doesNotMatch(beatCss, /backdrop-filter|radial-gradient|box-shadow: 0 0 /);
-});
-
-test('R3-D3 variant A: one rotating line in the desk card: 3 s dwell, 600 ms slide, pauses, one pass (WCAG 2.2.2), stacked under reduced motion', () => {
-  assert.deepEqual({ ...HERO_BEAT_TIMING }, { dwellMs: 3000, slideMs: 600, passes: 1 });
-  // The dwell IS the segment's fill animation, so a pause pauses the clock exactly; its end is the tick.
-  assert.match(CSS, /\.lp-beatline\[data-phase='run'\] \.lp-beatline__seg\[data-state='now'\] \.lp-beatline__fill \{ animation: lp-beat-fill var\(--beat-dwell, 3000ms\) linear both; \}/);
-  assert.match(CSS, /\.lp-beatline\[data-phase='run'\]\[data-paused\] \.lp-beatline__seg\[data-state='now'\] \.lp-beatline__fill \{ animation-play-state: paused; \}/, 'the pause outranks the animation shorthand');
-  assert.match(BEAT_LINE, /if \(event\.animationName !== FILL_ANIMATION \|\| state !== 'run'\) return;/);
-  assert.match(BEAT_LINE, /show\(0\);\n\s+setPhase\('done'\);/, 'one pass, then it rests on the first fact');
-  // The slide: 600 ms, cubic-bezier(.25, .1, .25, 1), up and out, up and in.
-  assert.match(CSS, /transition: transform var\(--beat-slide, 600ms\) cubic-bezier\(0\.25, 0\.1, 0\.25, 1\), opacity var\(--beat-slide, 600ms\)/);
-  assert.match(CSS, /\.lp-beatline__item\[data-pos='past'\] \{ transform: translate3d\(0, -100%, 0\); opacity: 0; \}/);
-  assert.match(CSS, /\.lp-beatline__item\[data-pos='next'\] \{ transform: translate3d\(0, 100%, 0\); opacity: 0; \}/);
-  // Pauses: a fine pointer over it, focus in it, a finger on it, off screen, a hidden tab.
-  assert.match(BEAT_LINE, /const paused = hold\.hover \|\| hold\.focus \|\| hold\.touch \|\| hold\.away \|\| hold\.hidden;/);
-  assert.match(BEAT_LINE, /onPointerEnter=\{onPointerEnter\}/);
-  assert.match(BEAT_LINE, /onFocus=\{onFocus\}/);
-  assert.match(BEAT_LINE, /onPointerDown=\{onPointerDown\}/);
-  assert.match(BEAT_LINE, /document\.addEventListener\('visibilitychange', onVisibility\)/);
-  // A segment shows its fact and stops the clock for good; segments and links are 44 px targets.
-  assert.match(BEAT_LINE, /const pick = \(index\) => \{ show\(index\); setPhase\('done'\); \};/);
-  assert.match(CSS, /\.lp-beatline__seg \{[^}]*width: 44px;\n\s+height: 44px;/);
-  assert.match(CSS, /\.lp-beatline__item a \{[^}]*min-height: 44px;/);
-  // Nothing below moves: every fact in one grid cell, the window as tall as the tallest.
-  assert.match(CSS, /\.lp-beatline__item \{\n\s+grid-area: 1 \/ 1;/);
-  // Nothing is announced as it turns; all four links are in the DOM, in order, for a screen reader.
-  assert.doesNotMatch(BEAT_LINE, /aria-live/);
-  assert.match(BEAT_LINE, /\{items\.map\(\(item, i\) => \(\n\s+<li key=\{item\.href\} className="lp-beatline__item" data-pos=\{pos\(i\)\}>/);
-  // Reduce motion (device or the student's switch): no clock, no slide, the facts stacked.
-  assert.match(BEAT_LINE, /if \(!visible \|\| reducedRef\.current \|\| count < 2\) return;/, 'it starts only on screen, never under Reduce motion');
-  assert.match(BEAT_LINE, /const state = prefs\.reduced && phase === 'run' \? 'done' : phase;/, 'switched on mid-pass, it rests');
-  for (const scope of ['@media (prefers-reduced-motion: reduce) {', ":root[data-motion='reduced'] .lp-beatline__steps { display: none; }"]) assert.ok(CSS.includes(scope), scope);
-  assert.match(CSS, /:root\[data-motion='reduced'\] :is\(\.lp-beatline__item, \.lp-beatline__item\[data-pos\]\) \{ grid-area: auto; transform: none; opacity: 1; transition: none; \}/);
-  // Brand words by role: the fact's figure in the brand word colour, the "now" segment too; never a loop.
-  assert.match(CSS, /\.lp-beatline__title em \{ font-style: normal; color: var\(--brand-word, var\(--ink\)\); \}/);
-  assert.match(CSS, /\.lp-beatline__fill \{[^}]*background: var\(--brand-word, var\(--ink\)\);/);
-  assert.doesNotMatch(BEAT_LINE, /setInterval|infinite/);
-});
-
-test('R3-D3 variant B: a branded number strip under the hero: desk objects, Bricolage 700 tabular figures in the brand word colour, each a link', () => {
+  // The rotating line was judged and removed entirely (docs/design-decisions/web-r3-hero.md): no component, no CSS, no switch.
+  assert.doesNotMatch(PAGE, /HeroBeatLine|HERO_BEAT_VARIANT|lp-desk--beat/);
+  assert.doesNotMatch(CSS, /lp-beatline|lp-beat-fill/);
+  assert.doesNotMatch(read('./homeCopy.mjs'), /HERO_BEAT_VARIANT/);
+  // No glass or glow (the owner asked for glass on the pricing and Key cards, not here); nothing moves.
+  const stripCss = CSS.slice(CSS.indexOf('.mm.lp .lp-strip {'), CSS.indexOf('/* ---------- Tablets'));
+  assert.doesNotMatch(stripCss, /backdrop-filter|radial-gradient|box-shadow: 0 0 |animation/);
+  assert.match(BEAT_STRIP, /<nav className="lp-strip" aria-label=\{label\}>/);
   assert.match(BEAT_STRIP, /<a key=\{item\.href\} href=\{item\.href\} className="lp-strip__fact">/);
   assert.match(BEAT_STRIP, /<BrandIcon name=\{item\.icon\} size=\{36\} className="lp-strip__icon" \/>/, 'a desk object at 36 px (objects need 32 px or more)');
   assert.match(CSS, /\.mm\.lp \.lp-strip__fig \{[^}]*font: 700 2\.125rem\/1 var\(--font-display\);[^}]*color: var\(--brand-word, var\(--ink\)\);[^}]*font-variant-numeric: lining-nums tabular-nums;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip \{\n\s+display: grid;\n\s+grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/, 'two by two on phones');
-  assert.match(CSS, /\.mm\.lp \.lp-strip \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\);/, 'four across on desktop');
+  assert.match(CSS, /@media \(max-width: 959px\) \{ \.mm\.lp \.lp-strip__fact:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \} \}/, 'three facts: the last spans the row');
+  assert.match(CSS, /\.mm\.lp \.lp-strip \{ grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax\(0, 1fr\);/, 'one row on desktop, as many columns as facts');
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
 });

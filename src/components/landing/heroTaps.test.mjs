@@ -6,7 +6,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { DESK_LINES, DESK_STATES, HERO_BEAT_LABEL, HERO_BEAT_TIMING, deskAct, deskLine, deskStateAfter, heroBankLine, heroBeat, heroFactLine, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
+import { DESK_LINES, DESK_STATES, HERO_BEAT_LABEL, deskAct, deskLine, deskStateAfter, heroBankLine, heroBeat, heroFactLine, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
 import { BRAND_ICONS } from '../../../data/brand_icons.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -70,11 +70,11 @@ test('the reassurance sentences (kept for other surfaces): built from the live o
 });
 
 test('R3-D3 (LK99): the two fact lines are one: the live count in ink weight, then the money from the live offer', () => {
-  assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: 5765 }), { count: '5,765 questions.', rest: ' Free to start, Pro ₹99 a month.' });
-  assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: 123456 }), { count: '1,23,456 questions.', rest: ' Free to start, Pro ₹99 a month.' }, 'Indian grouping');
-  assert.equal(heroFactLine('Pro ₹99 once, through 31 July 2027', { bankSize: 5765 }).rest, ' Free to start, Pro ₹99 once, through 31 July 2027.');
+  assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: 5765 }), { count: '5,765 questions.', rest: ' Free to start, Pro\u00a0₹99 a month.' });
+  assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: 123456 }), { count: '1,23,456 questions.', rest: ' Free to start, Pro\u00a0₹99 a month.' }, 'Indian grouping');
+  assert.equal(heroFactLine('Pro ₹99 once, through 31 July 2027', { bankSize: 5765 }).rest, ' Free to start, Pro\u00a0₹99 once, through 31 July 2027.');
   // Without a live count, the same money words alone: nothing a reader has read changes when the count arrives.
-  for (const missing of [null, undefined, 0, -3, NaN, Infinity]) assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: missing }), { count: '', rest: 'Free to start, Pro ₹99 a month.' });
+  for (const missing of [null, undefined, 0, -3, NaN, Infinity]) assert.deepEqual(heroFactLine('Pro ₹99 a month', { bankSize: missing }), { count: '', rest: 'Free to start, Pro\u00a0₹99 a month.' });
   assert.equal(heroFactLine('', {}).rest, 'Free to start.');
   for (const size of [null, 5765]) {
     const { count, rest } = heroFactLine('Pro ₹99 a month', { bankSize: size });
@@ -96,20 +96,18 @@ test('R3-D3 (LK99): the two fact lines are one: the live count in ink weight, th
 test('R3-D3 (LK100): the second beat keeps its four facts (three without the DU index), now with number weight and a desk object each', () => {
   const beat = heroBeat(73);
   assert.deepEqual(beat.map((b) => b.href), ['#try-practice', '#du-eligibility', '#exam-experience', '#your-prep']);
-  assert.deepEqual(beat.map((b) => b.title), ['Five questions free', '73 DU programmes', 'Two exam screens', '60 minutes, 50 questions']);
   assert.deepEqual(beat.map((b) => b.figure), ['5', '73', '2', '60']);
   assert.deepEqual(beat.map((b) => b.unit), ['questions free', 'DU programmes', 'exam screens', 'minutes, 50 questions']);
   assert.deepEqual(beat.map((b) => b.icon), ['questions', 'compass', 'papers', 'today']);
   for (const b of beat) {
     assert.ok(BRAND_ICONS[b.icon], `${b.icon} is a desk object`);
-    assert.ok(b.title.startsWith(b.mark), `${b.title} starts with its brand-word mark ${b.mark}`);
-    assert.doesNotMatch(`${b.title} ${b.line}`, /·|!|%/);
-    assert.ok(`${b.title} ${b.line}`.split(' ').length <= 12);
+    assert.deepEqual(Object.keys(b).sort(), ['figure', 'href', 'icon', 'line', 'unit'], 'only what the strip draws');
+    assert.doesNotMatch(`${b.figure} ${b.unit} ${b.line}`, /·|!|%/);
+    assert.ok(`${b.figure} ${b.unit} ${b.line}`.split(' ').length <= 12);
   }
   assert.equal(heroBeat(null).length, 3, 'no programme count without the DU index');
-  assert.ok(!heroBeat(null).some((b) => /DU programmes/.test(b.title)));
+  assert.ok(!heroBeat(null).some((b) => /DU programmes/.test(b.unit)));
   assert.equal(HERO_BEAT_LABEL, 'Why MockMob');
-  assert.deepEqual({ ...HERO_BEAT_TIMING }, { dwellMs: 3000, slideMs: 600, passes: 1 });
   const page = read('../../app/page.js');
   assert.match(page, /const BEAT = heroBeat\(DU_FACTS\?\.programmes \?\? null\);/);
   assert.doesNotMatch(page, /className="lp-proof"|className="lp-beat"/, 'neither the old glass strip nor the hairline row');
@@ -120,7 +118,7 @@ test('the count is the page\'s real inventory value (/api/stats bankSize), fetch
   assert.match(stats, /fetch\('\/api\/stats'\)/);
   assert.match(stats, /pending \|\|= fetch/, 'one request per page view');
   assert.match(read('QuestionBankLine.jsx'), /heroBankLine\(bank\?\.questions \?\? null\)/);
-  for (const file of ['HeroMobi.jsx', 'HeroRoom.jsx', 'heroTaps.mjs', 'QuestionBankLine.jsx', 'HeroBeatLine.jsx', 'HeroBeatStrip.jsx', '../../app/page.js']) {
+  for (const file of ['HeroMobi.jsx', 'HeroRoom.jsx', 'heroTaps.mjs', 'QuestionBankLine.jsx', 'HeroBeatStrip.jsx', '../../app/page.js']) {
     assert.doesNotMatch(read(file), /\b\d{1,2},\d{3}\b|\b\d{4,6} questions/, file);
   }
 });

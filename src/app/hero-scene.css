@@ -6,8 +6,8 @@
    line on desktop (one DOM, grid areas). No ambient pattern, no glow, no glass: the only light is the painted lamp.
    Round 3 (R3-D3, LK99/LK100, 5 Nov 2026; preparoo B9/B11): calmer, with fewer things in the first screen. The lead is
    two lines, the two fact lines are one, the groups sit on a 16/24 px rhythm (16 inside a group, 24 between groups;
-   desktop 24/28), and the second beat is shown properly: variant A, a rotating line at the top of the desk card, or
-   variant B, a branded number strip under the hero (HERO_BEAT_VARIANT, homeCopy.mjs).
+   desktop 24/28), and the second beat is shown properly: a branded number strip under the hero (HeroBeatStrip; picked
+   over a rotating line in the desk card, docs/design-decisions/web-r3-hero.md).
    Motion: none on load here (the opening and the typed line are the load moment); Mobi idles in CSS
    (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
    ========================================================================== */
@@ -331,107 +331,13 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
 :root[data-motion='reduced'] .lp .lp-desk .mm-drill__reveal { transition: none; }
 
 /* ==========================================================================
-   The second beat (R3-D3, LK100; supersedes decision 14's hairline row of sentence links). Two variants for the judges,
-   HERO_BEAT_VARIANT in homeCopy.mjs; both carry the same four facts (heroTaps.mjs heroBeat) as links to their sections,
-   with number weight in the brand word colour (--brand-word: volt in Night, the Day green in Day). No glass, no glow.
+   The second beat (R3-D3, LK100; supersedes decision 14's hairline row of sentence links): the four facts
+   (heroTaps.mjs heroBeat) as a branded number strip under the hero, each a link to its section, with number weight in
+   the brand word colour (--brand-word: volt in Night, the Day green in Day). No glass, no glow, nothing moves.
    ========================================================================== */
 
-/* ---------- Variant A: one rotating line at the top of the desk card (preparoo B9; HeroBeatLine.jsx) ----------
-   The desk card becomes paper, painting, paper: the beat band on top (the card's top corners move to it), the room, the
-   sample card. The band: a quiet label and four 44 px segment keys, then a window as tall as the tallest fact, where
-   one fact shows at a time. Each segment fills over its fact's 3 s dwell; the fact slides up and out in 600 ms as the
-   next rises in. One pass, then it rests on the first fact with every segment full. */
-.lp-beatline {
-  position: relative;
-  z-index: 1;
-  padding: 2px 18px 14px;
-  border: 1px solid var(--line);
-  border-bottom: 0;
-  border-radius: 22px 22px 0 0;
-  background: var(--paper-raised);
-  color: var(--ink);
-}
-.mm.lp .lp-desk--beat .lp-desk__room { border-radius: 0; }
-.lp-beatline__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
-.lp-beatline__label { margin: 0; font: 600 0.875rem/1.2 var(--font-body); color: var(--ink-3); letter-spacing: 0; }
-.lp-beatline__steps { display: flex; margin-right: -6px; }
-/* Each segment is a 44 px key whose visible part is a 3 px bar (story progress). */
-.lp-beatline__seg {
-  display: grid;
-  align-items: center;
-  width: 44px;
-  height: 44px;
-  margin: 0;
-  padding: 0 4px;
-  border: 0;
-  border-radius: 8px;
-  background: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-.lp-beatline__bar { display: block; height: 3px; overflow: hidden; border-radius: 2px; background: var(--line-strong); }
-.lp-beatline__fill { display: block; height: 100%; background: var(--brand-word, var(--ink)); transform: scaleX(0); transform-origin: 0 50%; }
-.lp-beatline__seg[data-state='seen'] .lp-beatline__fill { transform: none; background: var(--ink-3); }
-.lp-beatline[data-phase='done'] .lp-beatline__seg[data-state='now'] .lp-beatline__fill { transform: none; }
-.lp-beatline[data-phase='run'] .lp-beatline__seg[data-state='now'] .lp-beatline__fill { animation: lp-beat-fill var(--beat-dwell, 3000ms) linear both; }
-.lp-beatline[data-phase='run'][data-paused] .lp-beatline__seg[data-state='now'] .lp-beatline__fill { animation-play-state: paused; }
-@keyframes lp-beat-fill { from { transform: scaleX(0); } to { transform: none; } }
-.lp-beatline__seg:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -4px; }
-@media (hover: hover) and (pointer: fine) {
-  .lp-beatline__seg:hover .lp-beatline__bar { background: var(--ink-3); }
-}
-
-/* The window: every fact in one grid cell, so the window is the tallest one's height and nothing below moves. */
-/* clip, not hidden: a clipped box cannot be scrolled, so focusing a fact waiting below never scrolls the window. */
-.lp-beatline__window { display: grid; margin: 0 -8px; padding: 0; overflow: hidden; overflow: clip; list-style: none; }
-.lp-beatline__item {
-  grid-area: 1 / 1;
-  min-width: 0;
-  transition: transform var(--beat-slide, 600ms) cubic-bezier(0.25, 0.1, 0.25, 1), opacity var(--beat-slide, 600ms) cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-.lp-beatline__item[data-pos='past'] { transform: translate3d(0, -100%, 0); opacity: 0; }
-.lp-beatline__item[data-pos='next'] { transform: translate3d(0, 100%, 0); opacity: 0; }
-/* An item out of sight goes back below unseen: only its opacity is animated on the way down. */
-.lp-beatline__item[data-pos='next'] { transition-property: opacity; }
-.lp-beatline__item a {
-  display: block;
-  min-height: 44px;
-  padding: 2px 8px;
-  color: var(--ink-3);
-  text-decoration: none;
-  border-radius: 10px;
-  -webkit-tap-highlight-color: transparent;
-}
-.lp-beatline__item a:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -2px; }
-.lp-beatline__title {
-  display: block;
-  font: 700 1.375rem/1.15 var(--font-display);
-  letter-spacing: -0.022em;
-  color: var(--ink);
-  font-variant-numeric: lining-nums tabular-nums;
-  white-space: nowrap;
-}
-.lp-beatline__title em { font-style: normal; color: var(--brand-word, var(--ink)); }
-.lp-beatline__line { display: block; margin-top: 3px; font-size: 0.875rem; line-height: 1.35; }
-@media (hover: hover) and (pointer: fine) {
-  .lp-beatline__item a:hover .lp-beatline__line { color: var(--ink-2); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
-}
-/* Reduce motion (the device's or the student's own switch): no clock, no slide; the four facts stacked two by two. */
-@media (prefers-reduced-motion: reduce) {
-  .lp-beatline__steps { display: none; }
-  .lp-beatline__window { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
-  .lp-beatline__item, .lp-beatline__item[data-pos] { grid-area: auto; transform: none; opacity: 1; transition: none; }
-  .lp-beatline__title { font-size: 1rem; white-space: normal; }
-  .lp-beatline__line { font-size: 0.8125rem; }
-}
-:root[data-motion='reduced'] .lp-beatline__steps { display: none; }
-:root[data-motion='reduced'] .lp-beatline__window { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 16px; }
-:root[data-motion='reduced'] :is(.lp-beatline__item, .lp-beatline__item[data-pos]) { grid-area: auto; transform: none; opacity: 1; transition: none; }
-:root[data-motion='reduced'] .lp-beatline__title { font-size: 1rem; white-space: normal; }
-:root[data-motion='reduced'] .lp-beatline__line { font-size: 0.8125rem; }
-
-/* ---------- Variant B: a branded number strip under the hero (brandloss B4; HeroBeatStrip.jsx) ----------
-   Raised paper with hairline cells, two by two on phones, four across from 960 px. Each cell is one link: its desk
+/* ---------- The number strip (brandloss B4; HeroBeatStrip.jsx) ----------
+   Raised paper with hairline cells, two by two on phones, one row from 960 px. Each cell is one link: its desk
    object and figure on one row (Bricolage 700 tabular, the brand word colour), then what the figure counts, then one
    quiet line. A warm shadow in Day, a dark one in Night. */
 .mm.lp .lp-strip {
@@ -460,6 +366,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
 /* Hairlines between the cells: a column rule on the left cells, a row rule under the first row. */
 .mm.lp .lp-strip__fact:nth-child(odd) { border-right: 1px solid var(--line); }
 .mm.lp .lp-strip__fact:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+/* Three facts (no DU index): the last one takes the whole second row, so no empty cell is left. */
+@media (max-width: 959px) { .mm.lp .lp-strip__fact:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; } }
 .mm.lp .lp-strip__icon { grid-row: 1; grid-column: 1; align-self: center; }
 .mm.lp .lp-strip__fig {
   grid-row: 1;
@@ -516,10 +424,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #3f5200; }
   .mm.lp .lp-desk__card { padding: 20px 24px 22px; border-radius: 0 0 28px 28px; }
   .mm.lp .lp-desk .mm-drill__q { margin-top: 16px; font-size: 1.4375rem; }
   .mm.lp .lp-desk .mm-drill__option { min-height: 52px; }
-  .lp-beatline { padding: 4px 24px 18px; border-radius: 28px 28px 0 0; }
-  .lp-beatline__title { font-size: 1.75rem; }
-  .lp-beatline__line { font-size: 0.9375rem; }
-  .mm.lp .lp-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 48px; border-radius: 28px; }
+  .mm.lp .lp-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-top: 48px; border-radius: 28px; }
   .mm.lp .lp-strip__fact { padding: 22px 24px 24px; column-gap: 12px; }
   .mm.lp .lp-strip__fact:nth-child(n) { border-right: 1px solid var(--line); border-bottom: 0; }
   .mm.lp .lp-strip__fact:last-child { border-right: 0; }

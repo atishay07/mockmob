@@ -25,16 +25,6 @@ export const wordCount = (text) => (String(text).match(/[\p{L}\p{N}₹][\p{L}\p{
  */
 export const HERO_LEAD = Object.freeze({ strong: 'MockMob is CUET UG mock tests', rest: ' that trace every lost mark to its chapter.' });
 
-/**
- * The hero's second beat (R3-D3, LK100), built two ways for the judges to pick (heroTaps.mjs heroBeat holds the facts):
- *   'A'  one rotating line inside the Mobi hero card (the desk), under a label, with a 4-segment progress: 3 s on each
- *        fact, a 600 ms slide, paused on hover, focus or touch, one pass and it rests (WCAG 2.2.2); stacked under
- *        reduced motion (HeroBeatLine.jsx).
- *   'B'  a branded number strip under the hero: Bricolage 700 tabular figures in the brand word colour, a desk object
- *        per fact, each a link to its section (HeroBeatStrip.jsx).
- */
-export const HERO_BEAT_VARIANT = 'A';
-
 // ------------------------------------------------------------------ the statement (scrubs word by word; * marks an accent word)
 export const STATEMENT = 'Your marks slipped somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 

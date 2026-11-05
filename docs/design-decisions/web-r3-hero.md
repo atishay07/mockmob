@@ -3,8 +3,9 @@
 Round 3 packet R3-hero, branch `web/r3-hero` (from main 83925b982). Owner items LK99 ("the hero section needs a bit more
 refinement ... Preparoo ... is a bit cleaner") and LK100 ("'5 versions free' and '73 TV programs' ... should be shown
 properly, removed, or utilized better"), decision R3-D3 of `docs/brain/night-1105/SPEC-R3.md`. Research: preparoo B9-B11,
-brandloss B4, B5, B7 (`tmp-night/r3-research/ALL.md`). Stage 1 of 2: both variants of the second beat are built behind one
-constant, `HERO_BEAT_VARIANT` in `src/components/landing/homeCopy.mjs`, committed as `'A'`, for the judges to pick.
+brandloss B4, B5, B7 (`tmp-night/r3-research/ALL.md`). Both variants of the second beat were built
+(stage 1, commit e8e6a38e8, kept in history), captured and judged; **B, the branded number strip, won** and A was removed
+entirely (stage 2). The verdict and scores are in "The pick" below.
 
 ## User task
 
@@ -32,7 +33,37 @@ reduce motion (A stacked), one-time offer (the money clause reads "Pro ₹99 onc
 Kept: the h1 and its typed line, "CUET 2027." (its Day colour belongs to R3-D1), the desk (room, rigged Mobi, sample card),
 the two hero links, no ambient pattern, no glass, no loops.
 
-## The second beat: two variants
+## The pick: B, the branded number strip (A removed)
+
+Judged on the captures at 390x844 and 1440x900, Night and Day (plus 360x640), against the five criteria the packet set.
+Scores 1-5 (5 best).
+
+| Criterion | A rotating line | B number strip | Why |
+|---|---|---|---|
+| Preparoo-level cleanliness | 3 | 4 | A puts a label, four segment bars, a 22 px headline and a sub-line on top of the desk card: the card reads as three stacked papers and the first screen gains a block. B keeps the first screen to h1, lead, keys, one fact line, the desk (preparoo B11's 5-7 pieces); the strip is one clean raised sheet with hairline cells. |
+| Brand | 3 | 5 | A is type only (brand word colour on one word). B carries the brand's own desk objects (sheet, compass, papers, calendar) beside Bricolage 700 figures in the brand word colour: it looks like MockMob and nobody else (brandloss B4). |
+| Clarity for a 16-year-old new to CBT | 3 | 5 | A shows one fact at a time for 3 s; a first-time reader sees "Five questions free" (which repeats the key right above it) and has to wait or tap segments for the rest. B shows all four at once, number first (5, 73, 2, 60), each with what it counts and one plain line; nothing to wait for or decode. |
+| Accessibility | 4 | 5 | A was built well (WCAG 2.2.2 pause/stop, focus, reduce-motion stack), but it is still auto-moving content with five extra states to get right. B is static links with 44 px targets, a focus ring, a nav landmark ("Why MockMob") and a spoken name in words; nothing to pause. |
+| First-screen calm | 2 | 5 | A is the only thing that moves on its own in the first screen (besides the one-time typed line), for about 14 s; on desktop it also pushes the sample card's options below 900 px. B adds nothing to the first screen and nothing moves. |
+| **Total** | **15 / 25** | **24 / 25** | |
+
+What A did better: it is seen in the first screen at 390x844; B sits under the sample card (as decision 14's row did). That
+is the one cost, and it is accepted: LK100 asked for the beat to be "shown properly", and B is a much stronger showing
+than the old hairline row (34-44 px figures and desk objects instead of 14 px sentence links), while LK99 asked for a
+calmer first screen, which A works against. Every fact is still reachable from the first screen: the five questions are
+the desk itself, and the two hero links sit right above the strip.
+
+Removed with A: `HeroBeatLine.jsx`, the `.lp-beatline` and `.lp-desk--beat` CSS (and its desktop and reduced-motion
+rules), `HERO_BEAT_VARIANT` (homeCopy.mjs), `HERO_BEAT_TIMING` and the facts' A-only `title` and `mark` fields
+(heroTaps.mjs). Kept: `HERO_BEAT_LABEL` ("Why MockMob") as the strip's accessible name.
+
+Refined while judging:
+- Three facts (no DU index): the last cell spans the row on phones, and on desktop the strip is one row with as many
+  columns as facts (`grid-auto-flow: column`), so no empty cell is ever drawn.
+- The fact line keeps "Pro" and its price together (a no-break space, heroFactLine): with the one-time offer the line
+  wraps on phones as "Free to start, / Pro ₹99 once, through 31 July 2027." instead of breaking "Pro / ₹99".
+
+## The second beat: the two variants as built (A no longer in the tree)
 
 The same four facts in both (`heroBeat`, heroTaps.mjs): Five questions free (#try-practice), 73 DU programmes
 (#du-eligibility), Two exam screens (#exam-experience), 60 minutes, 50 questions (#your-prep). Each fact now carries a
@@ -89,6 +120,10 @@ change flows through without touching this packet's CSS.
 
 ## Captures
 
+Final (B only, after the pick): `tmp/r3/hero/final/` (`{390,1440}-{night,day}-{first,beat}.png` and `report.json`)
+and `tmp/r3/hero/final2/` (360 and 390 Night, after the no-break space). The local dev server ran with the one-time
+offer, so these show "Pro ₹99 once, through 31 July 2027." (two lines on phones, one at 1440). Stage 1 captures:
+
 Variant A: `tmp/r3/hero/variant-A/` (git-ignored). Variant B: `tmp/r3/hero/variant-B/`. Each holds
 `{390,1440,360,1024}-{night,day}-first.png` (the first screen) and `-beat.png` (the beat centred); A also has
 `-beat-2.png` and `-beat-3.png` (later facts), `390-night-reduced.png` (stacked), `1440-night-focus.png` (keyboard focus)
@@ -104,10 +139,14 @@ measured boxes (lead lines, fact lines, positions).
 - Variant A clock: start at 1.28 s after load (on screen), ticks at +3.01 s, +3.61 s, +3.61 s, +3.61 s, then rests on fact 1
   (`done`); the room below did not move. Hover pauses it (after a fix: the pause now outranks the animation shorthand);
   focus shows the focused fact inside the window; a segment click shows its fact and stops; reduced motion never starts
-  and stacks all four.
+  and stacks all four (stage 1; A is now removed).
+- Stage 2 (B only), same set-up but the one-time offer env: lead 2 lines at 360, 390 and 1440, Night and Day; the strip 2 x 2
+  at 390 (350 x 282 px) and one row of four at 1440 (1228 x 151 px); no sideways scroll; no page errors; Mobi's first
+  bubble reads "Hi, I'm Mobi. Your first question. Go."
+- Tests: landing component suites, landing_checklist_1104, web_landing_health_1020, night_calm_1104,
+  marketing_theme_tokens_1104, release9_public_1018: 258 pass, 0 fail; eslint clean on the changed files.
 
 ## Not done here
 
-- Stage 2 (the judges' pick, removing the losing variant).
 - "CUET 2027." in Day (#3F5200 to #526700) is R3-D1's; untouched.
 - The tap lines and the squash-in on return visits from brandloss B5 were not part of R3-D3.

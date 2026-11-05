@@ -72,28 +72,27 @@ export function heroTrustLine(price, options) {
  * a typed number. `price` is priceLine(OFFER) ("Pro ₹99 a month", or "Pro ₹99 once, through 31 July 2027").
  */
 export function heroFactLine(price, { bankSize = null } = {}) {
-  const rest = price ? `Free to start, ${price}.` : 'Free to start.';
+  // "Pro" and its price never part at a wrap (the one-time offer's longer clause wraps on phones).
+  const rest = price ? `Free to start, ${price.replace(/^Pro /, 'Pro\u00a0')}.` : 'Free to start.';
   return hasCount(bankSize) ? { count: `${n(bankSize)} questions.`, rest: ` ${rest}` } : { count: '', rest };
 }
 
-/** The label over the rotating beat (variant A): what the four facts answer, in sentence case. */
+/** The number strip's accessible name (its nav landmark): what the four facts answer, in sentence case. */
 export const HERO_BEAT_LABEL = 'Why MockMob';
-/** Variant A's clock (preparoo B9): 3 s on each fact, a 600 ms slide, one pass, then it rests on the first. */
-export const HERO_BEAT_TIMING = Object.freeze({ dwellMs: 3000, slideMs: 600, passes: 1 });
 
 /**
  * The second beat (R3-D3, LK100: "branded properly ... shown properly"): the same four facts as before, now with their
- * number weight and a desk object each. `title` is the sentence (variant A's rotating line, its `mark` in the brand
- * word colour); `figure` and `unit` are variant B's number strip; `icon` names the desk object (BrandIcon). The facts
+ * number weight and a desk object each (the number strip under the hero, HeroBeatStrip): `figure` in the brand word
+ * colour, `unit` what it counts, `line` one quiet line, `icon` the desk object (BrandIcon). The facts
  * are unchanged: five free questions on this page, the DU programme count (DU_FACTS, live from the index), the two exam
  * screens, the 60-minute 50-question clock. `programmes` is duIndexFacts().programmes, or null (then three facts).
  */
 export function heroBeat(programmes = null) {
   const du = Number.isFinite(programmes) && programmes > 0;
   return [
-    { href: '#try-practice', icon: 'questions', title: 'Five questions free', mark: 'Five', figure: '5', unit: 'questions free', line: 'Each with the why, no signup' },
-    ...(du ? [{ href: '#du-eligibility', icon: 'compass', title: `${programmes} DU programmes`, mark: String(programmes), figure: String(programmes), unit: 'DU programmes', line: 'Matched to your subjects' }] : []),
-    { href: '#exam-experience', icon: 'papers', title: 'Two exam screens', mark: 'Two', figure: '2', unit: 'exam screens', line: 'Practise calm, rehearse NTA style' },
-    { href: '#your-prep', icon: 'today', title: '60 minutes, 50 questions', mark: '60 minutes', figure: '60', unit: 'minutes, 50 questions', line: 'The full CUET clock' },
+    { href: '#try-practice', icon: 'questions', figure: '5', unit: 'questions free', line: 'Each with the why, no signup' },
+    ...(du ? [{ href: '#du-eligibility', icon: 'compass', figure: String(programmes), unit: 'DU programmes', line: 'Matched to your subjects' }] : []),
+    { href: '#exam-experience', icon: 'papers', figure: '2', unit: 'exam screens', line: 'Practise calm, rehearse NTA style' },
+    { href: '#your-prep', icon: 'today', figure: '60', unit: 'minutes, 50 questions', line: 'The full CUET clock' },
   ];
 }
