@@ -15,11 +15,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ChevronLeft, ChevronDown } from 'lucide-react';
 import { ErrorState } from '@/components/ui/Skeleton';
-import { Switch } from '@/components/ui/Switch';
 import { ncertFont } from '@/components/keycards/ncertFont';
 import { chapterCards, useLearnRead } from '../api';
 import { useLearnLinks } from '../links';
 import CardList, { visibleSections } from './CardList';
+import AnswersKey from './AnswersKey';
 import { RUN_CARDS_MAX, countWord, subjectLabel, useAddToRevise, usePick, withParams } from './cardsShared';
 import '@/components/keycards/keycards.css';
 import './cards.css';
@@ -265,10 +265,7 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
           <FilterChips value={filter} onChange={setFilter} options={options} />
 
           <div className="l2c-tools">
-            <label className="l2c-switch">
-              <Switch checked={showAnswers} onChange={setShowAnswers} aria-label="Show answers" />
-              <span aria-hidden="true">Show answers</span>
-            </label>
+            <AnswersKey on={showAnswers} onChange={setShowAnswers} controls="l2c-list-main" />
             <Jump sections={sections} onGo={goToSection} />
             <button type="button" className="kc-btn kc-btn--quiet" aria-pressed={pick.mode} aria-label={pick.mode ? 'Done picking' : 'Pick cards'} onClick={() => (pick.mode ? pick.stop() : pick.setMode(true))}>{pick.mode ? 'Done' : 'Pick'}</button>
           </div>
@@ -284,7 +281,7 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
           {empty ? (
             <div className="l2c-empty"><h2>{EMPTY[filter][0]}</h2><p>{EMPTY[filter][1]}</p></div>
           ) : (
-            <div className={read.status === 'refreshing' ? 'l2c-refreshing' : undefined} key={filter}>
+            <div id="l2c-list-main" className={read.status === 'refreshing' ? 'l2c-refreshing' : undefined} key={filter}>
               <CardList
                 sections={data.sections}
                 lockedLine={data.lockedLine}

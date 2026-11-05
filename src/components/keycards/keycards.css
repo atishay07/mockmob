@@ -394,6 +394,50 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
   animation: kc-badge 140ms var(--kc-study-ease) both;
 }
 .kc-badge[data-k='again'] { background: var(--a-ink-3); color: var(--a-raised); box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.4); }
+
+/* ---------- Swipe to rate (LK137; rateSwipe.mjs and useRateSwipe.js carry the numbers) ----------
+   A turned card follows the pointer through its inline translate and rotate (never transform, which the card's entrance animation
+   fills): right Got it, left Missed it, down Easy. A touch keeps the page's
+   vertical scroll (pan-y) unless the whole card is in view, when down is offered too (none). The pill at the card's head says what
+   letting go there does, as strongly as the drag is far (--swipe-p, 0 to 1), and the matching key lights. Let go short of it and
+   the card springs home in 300 ms; let go past it and the card holds there until the rating is saved, then its flight takes it. */
+[data-swipeable] { touch-action: pan-y; }
+[data-swipeable][data-swipe-on][data-swipe-down] { touch-action: none; }
+/* The browser reads touch-action only up to the nearest scroll box, and the run's card face is one (a long answer scrolls inside
+   it): every element inside a swipe card takes the card's value, so a sideways touch on the words is the card's, not a pan. */
+[data-swipeable][data-swipe-on] * { touch-action: inherit; }
+/* A mouse grabs the card by its head, margins and empty space; on the words a press selects them (never rates), and the cursor
+   says so (data-swipe-words, useRateSwipe.js). */
+@media (hover: hover) and (pointer: fine) {
+  [data-swipeable][data-swipe-on] { cursor: grab; }
+  [data-swipeable][data-swipe-on][data-swipe-words]:not([data-swipe]) { cursor: text; }
+}
+[data-swipeable][data-swipe='drag'] { transition: none !important; cursor: grabbing; user-select: none; -webkit-user-select: none; z-index: 5; }
+[data-swipeable][data-swipe='commit'] { transition: none !important; user-select: none; -webkit-user-select: none; z-index: 5; }
+[data-swipeable][data-swipe='settle'] { transition: translate 300ms cubic-bezier(0.34, 1.3, 0.64, 1), rotate 300ms cubic-bezier(0.34, 1.3, 0.64, 1) !important; }
+.kc-swipe { position: absolute; inset: 0; z-index: 6; display: grid; justify-items: center; align-content: start; padding-top: 14px; pointer-events: none; }
+.kc-swipe__l {
+  grid-area: 1 / 1; display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 16px 0 13px; border-radius: 999px;
+  background: #d2f000; color: #10140e; font: 700 15px/1 var(--font-display); letter-spacing: -0.01em; white-space: nowrap;
+  box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 10px 24px -12px rgb(0 0 0 / 0.55);
+  opacity: 0; transform: translateY(-4px) scale(0.92);
+}
+.kc-swipe__l[data-dir='left'] { background: var(--a-ink); color: var(--a-bg); box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.55); }
+/* The pill rides on the side that stays on screen: a card going right shows it near its left edge, a card going left near its
+   right edge, a card going down at its centre. */
+.kc-swipe__l[data-dir='right'] { justify-self: start; margin-left: 18px; }
+.kc-swipe__l[data-dir='left'] { justify-self: end; margin-right: 18px; }
+:is([data-swipe-intent='right'] > .kc-swipe > [data-dir='right'], [data-swipe-intent='left'] > .kc-swipe > [data-dir='left'], [data-swipe-intent='down'] > .kc-swipe > [data-dir='down']) {
+  opacity: min(1, calc(var(--swipe-p, 0) * 1.6)); transform: translateY(calc((1 - var(--swipe-p, 0)) * -4px)) scale(calc(0.92 + var(--swipe-p, 0) * 0.08));
+}
+:is([data-swipe-ready][data-swipe-intent='right'] > .kc-swipe > [data-dir='right'], [data-swipe-ready][data-swipe-intent='left'] > .kc-swipe > [data-dir='left'], [data-swipe-ready][data-swipe-intent='down'] > .kc-swipe > [data-dir='down']) {
+  animation: kc-swipe-ready 180ms var(--kc-study-ease, ease-out) both;
+}
+@keyframes kc-swipe-ready { 0% { scale: 1; } 45% { scale: 1.06; } 100% { scale: 1; } }
+/* The key the drag would press, lit while the drag leans that way (the keys stay the named way to rate). */
+.kc-rate__btn[data-lit]:not([data-rating='3']) { border-color: var(--a-ink-2); background: var(--a-hover); color: var(--a-ink); }
+.kc-rate__btn[data-rating='3'][data-lit] { background: #dbfb14; }
+.kc-draghint { display: block; margin-top: 2px; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); }
 .kc-end[data-stagger] { animation: kc-fade 160ms var(--kc-study-ease) both; }
 .kc-end[data-stagger] > * { animation: kc-in 200ms var(--kc-study-ease) both; }
 .kc-end[data-stagger] > :nth-child(2) { animation-delay: 40ms; }

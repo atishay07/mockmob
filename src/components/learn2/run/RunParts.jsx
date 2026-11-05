@@ -10,6 +10,7 @@ import MobiReact from '@/components/brand/MobiReact';
 import { CardHead, InShort, NcertText, Prompt } from '@/components/keycards/KeyCard';
 import { cardFace, isNcert, kindFamily, sourceLine } from '@/components/keycards/kinds';
 import { ncertFont } from '@/components/keycards/ncertFont';
+import SwipeLabels from '@/components/keycards/SwipeLabels';
 import { ClampLine, SciFront, SciNcert, Stem } from '../stage';
 import { WORDS, pileLabel } from '../../../../data/learn/words.js';
 import { firstLine, optionText } from './runMath';
@@ -162,7 +163,7 @@ function Ask({ card, sci, as: Tag, className, id }) {
   return <Tag className={className} id={id}><SciFront text={cardFace(card).front} numbered /></Tag>;
 }
 
-export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport, sci = false }) {
+export function CardItem({ item, turned, recap, still, cardRef, swipe = false, onTurn, onReport, sci = false }) {
   // No "Must-know" on a run's card face: the composer serves Must-know first, so every card would carry it (MAIN 03:55, LK13).
   const card = item.card ? { ...item.card, importance: null } : {};
   const face = cardFace(card);
@@ -175,6 +176,7 @@ export function CardItem({ item, turned, recap, still, cardRef, onTurn, onReport
   return (
     <div className={`lr-card ${ncertFont.variable}`} ref={cardRef} data-size={step} data-family={kindFamily(card.kind)} data-turned={turned || undefined} data-still={still || undefined}
       onClick={(e) => { if (!turned && !e.target.closest('button, a, textarea, input, [role="menu"]')) onTurn(); }}>
+      {swipe ? <SwipeLabels /> : null}
       <div className="lr-card__in">
         <section className="lr-face lr-face--front" aria-hidden={turned || undefined} inert={turned || undefined}>
           {head}

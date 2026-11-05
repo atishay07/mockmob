@@ -110,23 +110,31 @@
   .lh-findband[data-stuck] { box-shadow: 0 1px 0 var(--a-line); }
 }
 
-/* ---------- R7 W (LK62): the sets under the Find field. Keys, not cards: a hairline key each, two to a row on a phone, all in one row
-   from 760 px. They sit with the field (Find's own tools), quieter than Up next: no volt, no shadow. ---------- */
-.lh-sets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 2px 0 26px; min-width: 0; }
-.lh-sets[data-n='1'] { grid-template-columns: minmax(0, 1fr); }
+/* ---------- R7 W (LK62): the sets under the Find field. R4 (LK139, "the search functionality is cluttered"): one quiet row of chips,
+   the same chip as the Cards view's filters (name, then its count in the quieter ink), instead of two rows of boxed keys on a phone.
+   On a phone the row scrolls sideways and fades at its edge; from 560 px it wraps. No volt, no shadow: Up next keeps the one key. */
+.lh-sets {
+  display: flex; gap: 8px; min-width: 0; margin: 2px -16px 24px; padding: 0 16px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+}
+/* The edge fade only while more chips are past the right edge (CardSets.jsx, data-more): a row that fits is never faded. */
+.lh-sets[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
+.lh-sets::-webkit-scrollbar { display: none; }
 .lh-set {
-  display: grid; align-content: center; gap: 2px; min-height: 60px; padding: 9px 14px; min-width: 0; border: 1px solid var(--a-line-strong); border-radius: 14px;
-  background: transparent; color: var(--a-ink); text-align: left; font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 999px;
+  background: transparent; color: var(--a-ink); font: inherit; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: background-color 150ms var(--lh-ease), border-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
 }
-.lh-set__t { font: 650 14.5px/1.25 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
-.lh-set__v { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.lh-set:active { transform: scale(0.98); background: var(--a-hover); }
-.lh-set:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lh-set__t { font: 650 14.5px/1 var(--font-body); color: var(--a-ink); }
+.lh-set__v { font: 600 14px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.lh-set:active { transform: scale(0.97); background: var(--a-hover); }
+.lh-set:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 @media (hover: hover) and (pointer: fine) { .lh-set:hover { background: var(--a-hover); border-color: var(--a-line-hover); } }
 @media (prefers-reduced-motion: reduce) { .lh-set { transition: none; } .lh-set:active { transform: none; } }
+@container lh (min-width: 560px) {
+  .lh-sets, .lh-sets[data-more] { flex-wrap: wrap; margin-inline: 0; padding: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+}
 @container lh (min-width: 760px) {
-  .lh-sets { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: -8px 0 32px; }
+  .lh-sets { margin: -6px 0 32px; }
 }
 
 /* ---------- The Free line: only when today's one Learn session is used ---------- */
@@ -251,9 +259,12 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 /* ---------- The part switch (LK2, phone-clarity.md item 9): "Your school teaches" and two chips, under the part's heading ---------- */
 .lh-opt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 2px 0 12px; }
 .lh-opt__label { font: 600 13.5px/1.3 var(--font-body); color: var(--a-ink-3); }
+/* R4 (LK139): where the part's common chapters come first, the switch sits after them, right above the units it changes. */
+.lh-part__units > .lh-opt { padding: 18px 0 4px; }
+.lh-part__units > .lh-opt .lh-opt__label { color: var(--a-ink-2); }
 .lh-opt__row { display: flex; flex-wrap: wrap; gap: 8px; }
 .lh-opt__btn {
-  display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 18px; background: transparent;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: transparent;
   color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: background-color 200ms var(--lh-ease), color 200ms var(--lh-ease), border-color 200ms var(--lh-ease);
 }

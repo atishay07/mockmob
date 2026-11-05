@@ -285,6 +285,9 @@
 /* The flight's ghost: a copy of the card above the whole player, so the next item can rise beneath it. */
 .lr-ghost { position: fixed !important; z-index: 80; margin: 0 !important; box-sizing: border-box; pointer-events: none; transform-origin: 50% 50%; will-change: transform, opacity; }
 .lr-ghost, .lr-ghost * { animation: none !important; transition: none !important; }
+/* Keep the stage scroll box while a card moves so a long answer stays where the student left it. The lit key names the rating. */
+.lr-bar .lr-status { transition: opacity 150ms var(--lr-ease); }
+.lr:has(.lr-card[data-swipe='drag'], .lr-card[data-swipe='commit']) .lr-bar .lr-status { opacity: 0; }
 
 /* ---------- The question, on the page (A4 3.3.6, A1 3.5): the options are the only boxes ---------- */
 .lr-q { display: grid; gap: 14px; min-width: 0; }

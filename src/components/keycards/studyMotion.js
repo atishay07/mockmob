@@ -13,6 +13,7 @@
 // carries the same numbers.
 
 import { liftGhost } from '../study/studyFeel.js';
+import { clearPose, poseTransform, swipeLeaveTo, swipePose } from './rateSwipe.mjs';
 
 export const STUDY_EASE = 'cubic-bezier(0.2, 0.8, 0.2, 1)';
 
@@ -57,6 +58,15 @@ export function leaveKeyframes(rating, { reduced = false } = {}) {
   ];
 }
 
+/** Keyframes for a card let go after a swipe: from its held pose, on off the stage the way it was going (swipeLeaveTo). */
+export function swipeLeaveKeyframes(pose, width) {
+  return [
+    { offset: 0, opacity: 1, transform: poseTransform(pose) },
+    { offset: 0.4, opacity: 0.85 },
+    { offset: 1, opacity: 0, transform: poseTransform(swipeLeaveTo(pose, width)) },
+  ];
+}
+
 /** The timing for a leave: the shared ease-out over 280 ms (260 for Missed); reduced motion holds the badge for 300 ms. */
 export function leaveOptions(rating, { reduced = false } = {}) {
   if (reduced) return { duration: STUDY_MOTION.reducedHoldMs, easing: 'linear', fill: 'forwards' };
@@ -68,7 +78,12 @@ export function leaveOptions(rating, { reduced = false } = {}) {
  * off. Returns the Animation, so the next rating can finish() it at once, or null when nothing was started.
  */
 export function leaveCard(card, host, rating, { reduced = false } = {}) {
-  const lifted = liftGhost(card, host, leaveKeyframes(rating, { reduced }), leaveOptions(rating, { reduced }), { className: 'kc-ghost' });
+  // A card rated by a swipe (LK137) leaves from where it was let go, on along the same way, its label still on it. It is measured
+  // where it sits in the layout (the held transform cleared first), so the ghost starts exactly over it.
+  const pose = !reduced ? swipePose(card) : null;
+  if (pose) clearPose(card);
+  const frames = pose ? swipeLeaveKeyframes(pose, card?.getBoundingClientRect?.().width) : leaveKeyframes(rating, { reduced });
+  const lifted = liftGhost(card, host, frames, leaveOptions(rating, { reduced }), { className: 'kc-ghost' });
   if (!lifted) return null;
   lifted.ghost.setAttribute('data-leave', String(rating));
   return lifted.animation;
