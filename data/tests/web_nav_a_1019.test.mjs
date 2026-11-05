@@ -247,10 +247,6 @@ test('the sidebar compaction follows the new rail: 38 px rows only where 44 woul
   assert.doesNotMatch(arena, /max-height: 869px|max-height: 915px/);
 });
 
-test('the You sheet is 24 px shorter (531 px at 390 wide), so it needs no scroll from a phone 692 px tall', () => {
-  assert.match(places, /html \.app-shell \.arena-sheet > \.arena-sheet__lead, html \.app-shell \.arena-sheet > \.arena-appearance \{ margin-bottom: 0; \}/);
-});
-
 test('the guide tour follows the new map: every stop has a target on the bar or in the sidebar, and says where to look on a phone', () => {
   const all = tourSteps({ mob: true, study: true });
   assert.equal(all.length, TOUR_STEPS_ALL.length);

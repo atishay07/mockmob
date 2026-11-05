@@ -97,8 +97,6 @@
   .app-shell .arena-dock { display: flex; }
   .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .app-shell .pr-summary { bottom: calc(76px + env(safe-area-inset-bottom)); }
-  .app-shell .arena-sheet { max-height: calc(100dvh - 148px); overflow-y: auto; overscroll-behavior: contain; }
-  .app-shell .arena-sheet__account { flex-wrap: wrap; }
 }
 @media (max-width: 600px) {
   .app-shell .con-pair { grid-template-columns: 1fr; }

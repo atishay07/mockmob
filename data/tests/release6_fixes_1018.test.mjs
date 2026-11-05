@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { cutIndexLine, cutSentence, knownRecord, momentsInTimeOrder, nearestSlot, reelMoments, replayView, spokenTime } from '../replay.js';
 import { aiRenewsLine } from '../review_input.mjs';
-import { MORE_BUTTON, openAskMobi, returnFocusFor } from '../../src/components/ai/askMobi.mjs';
+import { openAskMobi } from '../../src/components/ai/askMobi.mjs';
 import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
@@ -206,24 +206,14 @@ test('no empty band under the "Badge earned" row: the reel row shares its hairli
   assert.match(stripComments(read('src/components/result/result-1017.css')), /\.rl-page\s*\{\s*--rl-gap:\s*24px;\s*gap:\s*var\(--rl-gap\)/);
 });
 
-test('Ask Mobi opened from a row in the phone\'s More sheet gives focus back to the More button on Esc', () => {
-  const inSheet = { closest: (sel) => (sel === '.arena-sheet' ? {} : null) };
-  const onPage = { closest: () => null };
-  assert.equal(returnFocusFor(inSheet), MORE_BUTTON);
-  assert.equal(MORE_BUTTON, '[data-tour="nav-more"]');
-  assert.equal(returnFocusFor(onPage), null, 'a control that stays on the page is focused again as it is');
-  assert.equal(returnFocusFor(null), null);
-  assert.equal(returnFocusFor({ closest: () => { throw new Error('detached'); } }), null);
-  // The request carries it to the host, which hands it to the panel, which falls back to it when the opener is gone.
+test('Ask Mobi restores focus to its opener, which stays on the page after Round 4', () => {
   let detail = null;
   const target = { dispatchEvent: (event) => { detail = event.detail; return true; } };
-  openAskMobi({ context: { kind: 'page' }, from: Object.assign(inSheet, { getBoundingClientRect: () => ({ width: 0 }) }) }, target);
-  assert.equal(detail.returnTo, MORE_BUTTON);
-  // Every other request keeps exactly the detail it always had (mobi_help_door.test.mjs pins it): no returnTo key at all.
-  openAskMobi({ context: { kind: 'page' }, from: Object.assign(onPage, { getBoundingClientRect: () => ({ width: 0 }) }) }, target);
-  assert.ok(!('returnTo' in detail), 'no returnTo when the opener stays on the page');
-  assert.match(read('src/components/ai/AskMobiHost.jsx'), /returnTo=\{request\.returnTo\}/);
-  assert.match(read('src/components/ai/AssistantDrawer.jsx'), /document\.querySelector\(returnTo\)/);
+  const from = { getBoundingClientRect: () => ({ left: 10, top: 20, width: 44, height: 44 }) };
+  openAskMobi({ context: { kind: 'page' }, from }, target);
+  assert.deepEqual(detail.origin, { x: 32, y: 42 });
+  assert.ok(!('returnTo' in detail));
+  assert.match(read('src/components/ai/AssistantDrawer.jsx'), /previous\?\.isConnected && previous !== document\.body\) previous\.focus/);
 });
 
 test('while the part sits under the index, one heading says "Your mistakes": the block\'s own title is for screen readers only', () => {

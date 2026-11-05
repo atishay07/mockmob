@@ -270,9 +270,46 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           assert.ok(near(sheet.gap, 8, 1), `the sheet sits 8 px under the top bar (${sheet.gap})`);
           assert.ok(near(sheet.left, 12, 1) && near(sheet.right, 12, 1), `12 px at each side (${sheet.left}, ${sheet.right})`);
           assert.ok(sheet.bottom <= 844);
+          assert.equal(await page.eval(`(() => {
+            const dock = document.querySelector('.arena-dock');
+            const r = dock.querySelector('a').getBoundingClientRect();
+            return dock.inert && document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.matches('.acct-pop-scrim');
+          })()`), true, 'the scrim intercepts the dock and the dock is inert');
           await page.key('Escape', 'Escape', 27);
           await new Promise((r) => setTimeout(r, 300));
           assert.equal(await page.eval(`Boolean(document.querySelector('.acct-pop'))`), false);
+          assert.equal(await page.eval(`document.activeElement === document.querySelector('.arena-acct__you')`), true);
+          assert.equal(await page.eval(`document.querySelector('.arena-dock').inert`), false);
+        });
+        await t.test(`${theme} top bar fits a long Pro account and Today clears the short-phone dock`, async () => {
+          await page.goto(`${BASE}/preview/arena?view=dashboard&plan=pro&data=long&role=moderator`, '.arena-topbar__row');
+          for (const width of [320, 360, 640, 700, 768]) {
+            await page.viewport(width, 844, 1);
+            assert.ok(await page.eval(`(() => {
+              const row = document.querySelector('.arena-topbar__row');
+              const avatar = document.querySelector('.arena-acct__you').getBoundingClientRect();
+              return row.scrollWidth <= row.clientWidth + 1 && avatar.right <= innerWidth;
+            })()`), `account fits at ${width}px`);
+          }
+          await page.viewport(360, 640, 1);
+          await page.goto(view('today'), '.tm__key');
+          await page.eval(`document.querySelector('.arena-fixture-note')?.style.setProperty('display', 'none')`);
+          const bounds = await page.eval(`(() => {
+            const key = document.querySelector('.tm__key');
+            const dock = document.querySelector('.arena-dock');
+            const r = key.getBoundingClientRect();
+            return { gap: dock.getBoundingClientRect().top - r.bottom, hit: key.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)) };
+          })()`);
+          assert.ok(bounds.hit && bounds.gap >= 12, `Start key clears the dock by ${bounds.gap}px`);
+        });
+        await t.test(`${theme} all desktop sidebar places fit at 1366 × 768`, async () => {
+          await page.viewport(1366, 768, 1);
+          await page.goto(view('dashboard'), '.arena-sidebar__places');
+          await page.eval(`document.querySelector('.arena-fixture-note')?.style.setProperty('display', 'none')`);
+          assert.ok(await page.eval(`(() => {
+            const places = document.querySelector('.arena-sidebar__places');
+            return places.scrollHeight <= places.clientHeight + 1;
+          })()`), 'the places need no scrolling at laptop height');
         });
         await t.test(`${theme} desktop: the sidebar keeps its key, no dock, never two volt keys in one viewport`, async () => {
           await page.viewport(1440, 900, 1);

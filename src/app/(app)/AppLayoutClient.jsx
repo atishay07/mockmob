@@ -155,7 +155,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       if (done) return;
       const active = document.activeElement;
       // A page that put focus on purpose (a search box, a sheet) keeps it.
-      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-dock, .arena-sheet, .arena-topbar')) { finish(); return; }
+      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-dock, .acct-pop, .arena-topbar')) { finish(); return; }
       const heading = main.querySelector('h1');
       if (!heading && !fallback) return;
       finish();

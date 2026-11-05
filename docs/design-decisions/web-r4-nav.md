@@ -112,6 +112,11 @@ only new character), performance 2 (no new reads; the art is the static mascot a
 
 ## Pinned tests updated to these decisions (owner LK141, LK143, LK146)
 
+Review follow-up. The account sheet makes the background inert while open and restores focus to the avatar. The
+compact mouse-only rail is an explicit 44 px exception. Touch rows keep 44 px. The short-phone Today layout moves the
+date beside the greeting and removes the repeated duration. Narrow top bars put the Pro label inside the account sheet
+when space is tight. The browser check measures dock clearance, top-bar fit, the laptop rail and the sheet's focus and scrim.
+
 `account_popover_1105` (phones open the sheet; was "the door goes to Account"), `ask_mobi_doors_1019`, `ask_mobi_entries` (no theme
 switch in the rail; Mobi's door under Start), `community_1018` (dock You is a link), `dock_alignment` (static and the browser walk:
 You opens the You page, the person opens the account sheet), `help_faq` (Appearance in the account panel), `release9_nav_1018`,
