@@ -720,21 +720,21 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 
 | Status | Item |
 |---|---|
-| IN PROGRESS (web/1105-perf) | **LK81** Fix the slow-phone stutter on the Lab and tour sections (first draw at 4x CPU, the tour's per-step rebuild). |
-| OPEN | **LK82** The hero's "CUET 2027." line: its font and colours look weird. |
-| OPEN | **LK83** The main CTA is only "Try 5 questions"; the main CTA should be sign up / log in (or similar), not only the five questions. |
-| OPEN | **LK84** Uneven text lines (for example "Pick yours free"): better typographic choices. |
-| OPEN | **LK85** Improve the hero section and the rest a bit more. |
-| OPEN | **LK86** The statement scroll lost its mix of white and green (volt) words, which was well branded; bring it back, better. |
-| OPEN | **LK87** Scroll feel, blur and motion and the tour's desk-object icons are good; more thought for the newer parts, especially PrepOS / Ask Mobi. |
-| OPEN | **LK88** Scrolling up shows one CTA after another (the dock changing); CTAs should be sign up, log in or similar, not only the five questions. |
-| OPEN | **LK89** "Try a CUET question" sometimes gets stuck in a scroll loop; when not, the arrival is not clean (a white box, then a highlight). |
-| OPEN (with LK81) | **LK90** Scroll still inconsistent: it glitches, especially when scrolling really fast. |
-| OPEN | **LK91** The exam screen's MockMob / NTA switch: he liked the previous one better (it showed the real URL); the NTA mode is not accurate now. |
-| OPEN | **LK92** Add desktop photos or a device mock-up in the exam (NTA) section; think of more like it. |
-| OPEN | **LK93** A section (probably DU Eligibility, "Energy") loads a bit slowly. |
-| OPEN | **LK94** Learn: subject options must be asked at onboarding and editable in Learn: Computer Science Section B1 (Computer Science) or B2 (Informatics Practices); Accountancy Part B Analysis of Financial Statements or Computerised Accounting; every subject with such a choice. App and web. |
-| OPEN | **LK95** Key cards are really good (turn-over can be refined); Explore feed much better; MCQs improved. Carry the app's things to the web: the Pro plan descriptions, the app's UI exactly, its animations. |
-| OPEN | **LK96** After these fixes: send the final app (Play build) and deploy everything to the website. |
-| OPEN (nice touch) | **LK97** Tapping the profile at the top should open a small pop-up with quick toggles (Day/Night and the like), not jump to the whole You page. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK81** Fix the slow-phone stutter on the Lab and tour sections (first draw at 4x CPU, the tour's per-step rebuild). |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK82** The hero's "CUET 2027." line: its font and colours look weird. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK83** The main CTA is only "Try 5 questions"; the main CTA should be sign up / log in (or similar), not only the five questions. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK84** Uneven text lines (for example "Pick yours free"): better typographic choices. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK85** Improve the hero section and the rest a bit more. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK86** The statement scroll lost its mix of white and green (volt) words, which was well branded; bring it back, better. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK87** Scroll feel, blur and motion and the tour's desk-object icons are good; more thought for the newer parts, especially PrepOS / Ask Mobi. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK88** Scrolling up shows one CTA after another (the dock changing); CTAs should be sign up, log in or similar, not only the five questions. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK89** "Try a CUET question" sometimes gets stuck in a scroll loop; when not, the arrival is not clean (a white box, then a highlight). |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK90** Scroll still inconsistent: it glitches, especially when scrolling really fast. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK91** The exam screen's MockMob / NTA switch: he liked the previous one better (it showed the real URL); the NTA mode is not accurate now. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK92** Add desktop photos or a device mock-up in the exam (NTA) section; think of more like it. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK93** A section (probably DU Eligibility, "Energy") loads a bit slowly. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90); app 1.0.21+19 built (Desktop/MockMob-build-19) | **LK94** Learn: subject options must be asked at onboarding and editable in Learn: Computer Science Section B1 (Computer Science) or B2 (Informatics Practices); Accountancy Part B Analysis of Financial Statements or Computerised Accounting; every subject with such a choice. App and web. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) (web: Pro sheet words, card turn); app 19 card turn | **LK95** Key cards are really good (turn-over can be refined); Explore feed much better; MCQs improved. Carry the app's things to the web: the Pro plan descriptions, the app's UI exactly, its animations. |
+| DONE 5 Nov ~5:50 am: web live; app 1.0.21+19 in Desktop/MockMob-build-19 for his upload | **LK96** After these fixes: send the final app (Play build) and deploy everything to the website. |
+| LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK97** Tapping the profile at the top should open a small pop-up with quick toggles (Day/Night and the like), not jump to the whole You page. |
 | STANDING | **LK98** Keep going until morning until satisfied with the app and the website: a proper overall refinement (UI/UX, brand, fonts, typography); keep doubling down on the brand. When all of it is done and he is away: add content (more questions, Learn and practice, Key cards). |
