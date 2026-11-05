@@ -441,6 +441,21 @@ html[data-theme='light'] .lc {
   .lc[data-pinned='true'] .lc-scene__body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
   .lc-scene__title { font-size: clamp(1.35rem, 5.6vw, 2.4rem); }
 }
+/* Short phones (R3-D4, 5 Nov 2026): the held card now stops above the 64 px bottom band, and even before it every scene
+   was clipped at 360 x 640 (36 to 117 px at the smallest scale, 0.62; the SWOT tiles were cut). On a portrait window
+   700 px tall or less the Lab's own chrome gives the room back first: the rail runs each icon beside its name, the
+   words take two lines, the rows sit closer, and only then may the screen scale to half (the landscape hold goes to 0.45). */
+@media (max-width: 959px) and (max-height: 700px) and (orientation: portrait) {
+  .lc { --lcd-chrome: 3.1rem; --lc-obj: 4.6rem; --lc-obj-clear: 4.8rem; }
+  .lc .lc-scene__fit { --ss-fit-min: 0.5; }
+  .lc[data-pinned='true'] .lc__grid { row-gap: 0.5rem; }
+  .lc .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.3rem 0.9rem; }
+  .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.45rem) 0.85rem 0.6rem; }
+  .lc .lc__rail button { flex-direction: row; gap: 0.35rem; min-height: 44px; padding: 0.25rem 0.15rem 0.45rem; font-size: 0.75rem; }
+  .lc .lc__rail-ico { width: 1.45rem; height: 1.45rem; border-radius: 8px; }
+  .lc[data-pinned='true'] .lc-scene__body { -webkit-line-clamp: 2; line-clamp: 2; margin-top: 0.35rem; }
+  .lc-scene__title { font-size: clamp(1.25rem, 5.4vw, 1.6rem); }
+}
 
 /* ---------- Wide or landscape: words beside the screen ---------- */
 @media (min-width: 960px), (orientation: landscape) and (min-width: 600px) {

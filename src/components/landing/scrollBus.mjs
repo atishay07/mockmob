@@ -10,6 +10,8 @@
 //   jump(y) / instantTo(y)          a programmatic move (nav link, hash, demo link) declares its target, so a story's
 //                                    edge clamp does not mistake the arrival for a fling and hold it at the first rest
 //   onJump(fn)                      hear each declared jump as it is declared (the story controller drops any hold)
+//   glideTo(y, { ms, done })        the reader's own way back to a place within three screens (R3-D4): a declared jump
+//                                    for its whole length, ended by any input of the reader's (pageJump.mjs)
 //
 // The only module state is a few numbers; it is safe to import on every page (ObjectLife does).
 
@@ -110,8 +112,8 @@ function jumpInput(on) {
   if (on === jumpInputOn || !canRun()) return;
   jumpInputOn = on;
   for (const type of USER_INPUT) {
-    if (on) window.addEventListener(type, clearJump, { passive: true });
-    else window.removeEventListener(type, clearJump);
+    if (on) window.addEventListener(type, userTook, { passive: true });
+    else window.removeEventListener(type, userTook);
   }
 }
 
@@ -122,6 +124,7 @@ function armJump() {
 
 function jumpFrame(y) {
   if (jumpY === null) return;
+  if (gliding) { armJump(); return; } // a glide's frames pass far from its end: it has not arrived until it ends
   if (Math.abs(y - jumpY) <= 3 || performance.now() - jumpAt > JUMP_MAX_MS) { clearJump(); return; }
   armJump();
 }
@@ -164,6 +167,56 @@ export function instantTo(y) {
   jump(y);
   window.scrollTo({ top: Math.round(y), behavior: 'instant' });
 }
+
+// ---- the reader's own way back (R3-D4, LK104, 5 Nov 2026) -------------------------------------------------------------
+// The one glide on the landing. LK47 ("no glide") still holds for everything the page does on its own; this runs only
+// when the reader asks for a place (the logo on the home page, the bottom bar's Top and Skip, the phone nav's Pricing
+// pill, pageJump.mjs) and the place is within three screens. It is a declared jump for its whole length: no story clamps
+// it and no beat steps a story on the way. Any touch, wheel, key or pointer press clears the jump, and with it the glide:
+// the reader always wins. Each frame is an instant move ('instant', not 'auto', which inherits html's smooth scroll).
+
+/** Preparoo's curve for the same move (850 ms, ease-in-out-cubic). */
+export const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((-2 * t + 2) ** 3) / 2);
+
+let glideFrame = 0;
+let gliding = false;
+
+/**
+ * Glide to `target` (a y, or a function read every frame so a section that is drawn on the way cannot leave the end
+ * short) over `ms`, then call `done`. The jump stays declared until the glide has ended; the reader's own input ends
+ * both wherever the page is.
+ */
+export function glideTo(target, { ms = 850, ease = easeInOutCubic, done } = {}) {
+  if (!canRun()) return;
+  const end = () => Math.round(typeof target === 'function' ? target() : target);
+  const from = window.scrollY;
+  jump(end());
+  window.cancelAnimationFrame(glideFrame);
+  gliding = true;
+  let t0 = 0;
+  const tick = (t) => {
+    glideFrame = 0;
+    if (!gliding) return;
+    if (!t0) t0 = t;
+    const k = Math.min(1, Math.max(0, (t - t0) / ms));
+    const to = end();
+    jumpY = to;
+    window.scrollTo({ top: Math.round(from + (to - from) * ease(k)), behavior: 'instant' });
+    armJump();
+    if (k < 1) { glideFrame = window.requestAnimationFrame(tick); return; }
+    gliding = false; // the bus clears the jump on the frame that sees the page arrive
+    done?.();
+  };
+  glideFrame = window.requestAnimationFrame(tick);
+}
+
+/** The reader touched, wheeled, pressed a key or a pointer: a glide stops where it is and the jump is over. */
+function userTook() {
+  if (gliding) { gliding = false; window.cancelAnimationFrame(glideFrame); glideFrame = 0; }
+  clearJump();
+}
+
+export const isGliding = () => gliding;
 
 /** The document y of an in-page anchor's target, as the browser would scroll to it (its scroll margin kept). */
 export function anchorY(element) {

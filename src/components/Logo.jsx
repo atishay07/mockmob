@@ -57,6 +57,9 @@ export function LogoMark({ height, className = '', detail, title }) {
 
 // `prefetch={false}` when the logo already points at the page it sits on (the landing): Next.js would
 // otherwise fetch the landing's own route data again as soon as the header is on screen.
+// On the home page a tap on the logo goes back to the top (R3-D4, owner LK104, 5 Nov 2026): a Link to the page you are on
+// does nothing, so the home page takes the click first (pageJump.mjs, installed by SectionPosition: a glide within three
+// screens, a veil further, declared to the scroll bus so no held story clamps it). The `logo` class is what it looks for.
 export function Logo({ className = '', href = '/', height, detail, prefetch }) {
   return (
     <Link href={href} prefetch={prefetch} className={`logo ${className}`.trim()} aria-label="MockMob home">

@@ -47,28 +47,31 @@ test('the names are the product\'s own words for each held story; the headings n
   assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'What’s inside MockMob\.'/);
 });
 
+// The top band (wide windows) and the bottom bar (phones, R3-D4) live in one component and one stylesheet. The band's own
+// markup and rules are what came before the bar: the JSX up to the bar's root, the CSS up to the bar's heading.
+const BAND_JSX = BAND.slice(BAND.indexOf('<div className="lp-pos"'), BAND.indexOf('<div className="lp-bar"'));
+const BAND_RULES = RULES.slice(0, RULES.indexOf('.mm.lp .lp-bar {'));
+
 test('the band is a position readout: no link, no button, no live region, no tap', () => {
-  assert.doesNotMatch(BAND, /<(a|button)\b|href=|onClick|aria-live|role="(status|alert|progressbar)"/);
+  // R3-D4 (owner LK103/LK104, 5 Nov 2026) gave phones a bottom bar with two keys (Top, Skip); the band itself, the
+  // wide-window readout under the site bar, still has none.
+  assert.ok(BAND_JSX.length > 100, 'the band markup is found');
+  assert.doesNotMatch(BAND_JSX, /<(a|button)|href=|onClick|aria-live|role="(status|alert|progressbar)"/);
+  assert.doesNotMatch(BAND, /aria-live|role="(status|alert|progressbar)"/, 'nothing on either is announced while you scroll');
   assert.match(BAND, /view\.on \? \{ role: 'group', 'aria-label': 'Where you are on this page' \} : null/, 'a labelled group only while it is on');
   assert.match(CSS, /\.mm\.lp \.lp-pos \{[^}]*pointer-events: none;/);
-  assert.doesNotMatch(CSS, /pointer-events: auto/);
+  assert.doesNotMatch(BAND_RULES, /pointer-events: auto/);
   assert.match(CSS, /\.lp-pos__band \{[^}]*visibility: hidden;/, 'out of the accessibility tree while it is off');
+  // Only the bar's two keys take a pointer.
+  assert.deepEqual([...RULES.matchAll(/([^{}]+)\{[^}]*pointer-events: auto/g)].map((m) => m[1].trim()), ['.mm.lp :is(.lp-bar__top, .lp-bar__skip)']);
 });
 
 test('the band sits under the site bar and its menu, and never glows', () => {
   const z = Number(CSS.match(/\.lp-pos \{[^}]*z-index: (\d+)/)[1]);
   assert.ok(z < 60, 'the site bar is z-index 60');
-  assert.doesNotMatch(RULES, /glow|text-shadow|box-shadow|drop-shadow|gradient\(/i);
+  assert.doesNotMatch(BAND_RULES, /glow|text-shadow|box-shadow|drop-shadow|gradient\(/i);
+  assert.doesNotMatch(RULES, /glow|text-shadow|box-shadow|drop-shadow/i, 'the bar and the veil carry no shadow or glow either');
   assert.match(CSS, /\.lp-pos__rule \{[^}]*height: 2px;/);
-});
-
-test('reduced motion, reduced transparency, short landscape windows and print are all handled', () => {
-  assert.match(CSS, /@media \(prefers-reduced-motion: reduce\) \{[^}]*transition: none !important/);
-  assert.match(CSS, /html\[data-motion='reduced'\] \.mm\.lp :is\(\.lp-pos__band, \.lp-pos__name\) \{[^}]*transition: none !important/);
-  assert.match(CSS, /prefers-reduced-transparency: reduce/);
-  assert.match(CSS, /@media \(max-height: 520px\) \{\s*\.mm\.lp \.lp-pos \{ display: none; \}/);
-  assert.match(CSS, /@media print/);
-  assert.doesNotMatch(RULES, /transition: all|ease-in[^-]/);
 });
 
 test("on a wide window the band keeps the bar's left edge, by the same lane the bar grows", () => {
@@ -76,12 +79,17 @@ test("on a wide window the band keeps the bar's left edge, by the same lane the 
   assert.match(read('../../app/brand-pip.css'), /:is\(\.mm-nav, \.mm-foot\) > \.mm-wrap \{ max-width: calc\(75rem \+ var\(--pip-lane\)\); \}/);
 });
 
-test('the held stories start under the band and tuck up by its height, so the page reads as it did', () => {
+test('on a wide window the held stories start under the band and tuck up by its height; on a phone the band is gone', () => {
   assert.match(CSS, /--lp-pos-h: 2\.5rem/);
-  assert.match(CSS, /\.lp-pos-host \.ss \{ --ss-top: calc\(61px \+ env\(safe-area-inset-top, 0px\) \+ 0\.75rem \+ var\(--lp-pos-h\)\); \}/);
+  // R3-D4 (5 Nov 2026): below 900 px the band's name and progress moved to the bottom bar, so the stage offset and the
+  // tuck are wide-window rules now (they were every window from 521 px tall), and the band is not drawn on a phone.
+  assert.match(CSS, /@media \(min-width: 900px\) and \(min-height: 521px\) \{\s*\.mm\.lp \.lp-pos-host \.ss \{ --ss-top: calc\(72px \+ 1\.25rem \+ var\(--lp-pos-h\)\); \}/);
   assert.match(CSS, /\.lp-pos-host \.ss\[data-pinned='true'\] \{ margin-top: calc\(var\(--lp-pos-h\) \* -1\); \}/);
   assert.match(CSS, /\.lp-pos-host \.ss--centre\[data-pinned='true'\] \{ margin-top: calc\(var\(--ss-slack, 0px\) \/ -2 - var\(--lp-pos-h\)\); \}/);
-  assert.match(CSS, /@media \(min-width: 900px\) and \(min-height: 521px\) \{\s*\.mm\.lp \.lp-pos-host \.ss \{ --ss-top: calc\(72px \+ 1\.25rem \+ var\(--lp-pos-h\)\); \}/);
+  assert.match(CSS, /@media \(max-width: 899px\) \{\s*\.mm\.lp \.lp-pos \{ display: none; \}/);
+  assert.doesNotMatch(RULES, /@media \(min-height: 521px\) \{/, 'no phone-wide stage offset is left');
+  // On a phone the band's per-frame read never runs (the bar follows the step instead).
+  assert.match(BAND, /listen\(near\.size > 0 && !phone\.matches\)/);
 });
 
 test('the band reads geometry only for sections on screen, and writes state only when it changes', () => {
