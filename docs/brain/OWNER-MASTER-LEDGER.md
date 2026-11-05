@@ -743,20 +743,20 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 
 | Status | Item |
 |---|---|
-| OPEN | **LK99** The new CTAs are in, but the hero needs more refinement; Preparoo's landing is cleaner and better in some ways. |
-| OPEN | **LK100** Brand every element properly: the hero's second beat ("Five questions free", "73 DU programmes") must be shown properly, removed, or used better. |
-| OPEN | **LK101** Day mode: the green is everywhere, extremely light, and a very different colour from before and from the brand colour. Find why and fix. |
-| OPEN | **LK102** The statement: "MockMob" in "MockMob shows you where" must be green too. |
-| OPEN | **LK103** On phones the held stories' card fills the whole screen to the bottom; leave 10-20% at the bottom like Preparoo, with a blur and a progress/loading cue. A clear way to skip to the bottom or the top. |
-| OPEN | **LK104** The MockMob logo in the site bar takes you to the top (on the home page), and there is a way to the bottom too. |
-| OPEN | **LK105** "What's inside MockMob" (the tour) is still glitchy in its animation, sometimes. |
-| OPEN | **LK106** The exam screen: he likes the desktop version; on phones it is too small to see. A tasteful phone version. |
-| OPEN | **LK107** The numbers card under the exam section (5,765 questions, 15 subjects, ₹99) has little relevance; remove or use it well. |
-| OPEN | **LK108** Branding has been removed in many places and the landing became plainer ("Featured by CUET creators" and more); bring the brand back. |
-| OPEN | **LK109** The home page's pricing section: cleaner, like the pricing page: one plan, everything in it. |
-| OPEN | **LK110** The final card (with the referral code) needs thought; value framing like "₹22 a day": ask how many mocks a day or month, a toggle that shows the value per mock (₹1, ₹2 a mock). |
-| OPEN | **LK111** An honest comparison with other platforms ("on platform X you pay ₹5,500 for this; here this much"). |
-| OPEN | **LK112** Preparoo-level polish: loading animation everywhere, a very clean look; a Key cards (flashcards) section on the home page with the glass look the pricing cards have. |
-| APPROVED 5 Nov ~10 am | **LK113** Content: his OK to download any NCERT book needed and to do anything else needed for content. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK99** The new CTAs are in, but the hero needs more refinement; Preparoo's landing is cleaner and better in some ways. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK100** Brand every element properly: the hero's second beat ("Five questions free", "73 DU programmes") must be shown properly, removed, or used better. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK101** Day mode: the green is everywhere, extremely light, and a very different colour from before and from the brand colour. Find why and fix. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK102** The statement: "MockMob" in "MockMob shows you where" must be green too. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK103** On phones the held stories' card fills the whole screen to the bottom; leave 10-20% at the bottom like Preparoo, with a blur and a progress/loading cue. A clear way to skip to the bottom or the top. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK104** The MockMob logo in the site bar takes you to the top (on the home page), and there is a way to the bottom too. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK105** "What's inside MockMob" (the tour) is still glitchy in its animation, sometimes. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK106** The exam screen: he likes the desktop version; on phones it is too small to see. A tasteful phone version. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK107** The numbers card under the exam section (5,765 questions, 15 subjects, ₹99) has little relevance; remove or use it well. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK108** Branding has been removed in many places and the landing became plainer ("Featured by CUET creators" and more); bring the brand back. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK109** The home page's pricing section: cleaner, like the pricing page: one plan, everything in it. |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK110** The final card (with the referral code) needs thought; value framing like "₹22 a day": ask how many mocks a day or month, a toggle that shows the value per mock (₹1, ₹2 a mock). |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK111** An honest comparison with other platforms ("on platform X you pay ₹5,500 for this; here this much"). |
+| LIVE 5 Nov ~4:45 pm (main ce24dc682) | **LK112** Preparoo-level polish: loading animation everywhere, a very clean look; a Key cards (flashcards) section on the home page with the glass look the pricing cards have. |
+| PARTLY DONE 5 Nov ~4:45 pm: CAS 207 + English reading 231 cards live; Financial Markets blocked (truncated archive) | **LK113** Content: his OK to download any NCERT book needed and to do anything else needed for content. |
 | STANDING | **LK114** His feedback is a direction, not a full list: understand it and apply the same thinking everywhere on our own. |
 | DECIDED 5 Nov ~11:10 am | **LK115** Accountancy Part B: keep both choices (AFS and CAS) at onboarding and in Learn; AFS default, with the 2025-paper line. |

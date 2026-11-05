@@ -1,5 +1,11 @@
 # NOW: MockMob current state
 
+## 5 Nov 2026, about 4:45 pm IST: round 3 live (main ce24dc682, dpl_AgxLoHQJ3uoLMdyeifYvm2qJnr9G); new Key cards for Computerised Accounting and English reading
+- **Web:** Day palette fixed (#526700 text green, rimmed selected states, no volt slabs on cream), brand stamps and branded creator cards back, "MockMob" green in the statement, calmer hero with a branded fact strip, held stories stop above a bottom bar (Top, n of N, Skip), logo to top, Pricing pill, tour glitch fixed, phone exam screen, one-plan pricing with Rs-per-day/per-mock framing from the offer and a dated same-period comparison, Key cards flip section. Spec: docs/brain/night-1105/SPEC-R3.md.
+- **Content:** Computerised Accounting 207 cards, English reading skills 231 cards (live with the site). Financial Markets blocked: Wayback lebs202 2022/2023 truncated; try the full 2021 capture.
+- **Usage:** weekly at about 80% after round 3; keep to small fixes until the week resets (10 Nov 9:30 am IST).
+- **Open:** real-phone look; count-up figures may read "0 5,765" to screen readers (check CountUp markup); app 1.0.21+19 awaits his upload; leftover empty folder wt-r3-bottom (locked).
+
 ## 5 Nov 2026, about 7:50 am IST: round 2 of the night refinement shipped (main 88ff026cc)
 - **Web:** the app's motion on the web (the result score's digit roll at his 720 ms tempo, the finish stamp with one ring on a good set, the Start sheet growing out of its key); public pages with Sign up free / Log in everywhere (site bar, phone menu, a PublicDock), "CUET 2027" never split, even lines, nav links from 1120 px, phone footer in two columns; the logged-in web scanned at 25 views x 6 sizes x 2 themes and fixed (Learn feed bar overlap, Practice tiles at 1280, Your papers, wallet alignment, no decorative monospace, 44 px targets). Gate: suites 0 new failures, eslint clean, both builds, 22 swipes over100 = 0, matrix 128/128. Not measured: the Start sheet open at 4x CPU on a production build (dev build showed frames up to ~130 ms).
 - **Earlier tonight (round 1, main 7b47b4c90):** LK81-LK97 live; app 1.0.21+19 in Desktop/MockMob-build-19 for his upload.
