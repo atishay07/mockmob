@@ -35,10 +35,26 @@ export default function AccountPopover({ user, accountName, credits, links = {},
   const pro = Boolean(user?.isPremium);
   const profileHref = links.profile || '/profile';
 
+  // While the phone sheet is open the page behind it is inert (the skip link, the top bar, the page, the dock and the rail), so a screen reader's
+  // cursor stays in the dialog as Tab does (fix stage, 6 Nov). Released before focus goes back to the door, which sits in the top bar.
+  const inerted = useRef([]);
+  const release = useCallback(() => {
+    for (const el of inerted.current) el.inert = false;
+    inerted.current = [];
+  }, []);
+
   const close = useCallback((returnFocus) => {
+    release();
     setOpen(null);
     if (returnFocus) door.current?.focus();
-  }, []);
+  }, [release]);
+
+  useEffect(() => {
+    if (open !== 'sheet' || !host) return undefined;
+    inerted.current = [...host.querySelectorAll(':scope > :is(.arena-skip, .arena-topbar, .app-main, .arena-dock, .arena-sidebar)')].filter((el) => !el.inert);
+    for (const el of inerted.current) el.inert = true;
+    return release;
+  }, [open, host, release]);
 
   useEffect(() => {
     if (!open) return undefined;

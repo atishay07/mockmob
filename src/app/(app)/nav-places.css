@@ -102,9 +102,26 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
   .app-shell .arena-topbar .logo { --logo-h: 18px; }
   .app-shell .arena-topbar__row { gap: 8px; }
   .app-shell .arena-topbar__end { gap: 6px; }
-  .app-shell .arena-acct__credits { padding: 0 10px 0 13px; }
+  .app-shell .arena-acct__credits { gap: 4px; padding: 0 10px 0 11px; }
 }
 @media (max-width: 349px) { .app-shell .arena-askkey { display: none; } }
+/* The bar never runs past its gutter (fix stage, 6 Nov; measured from 320 to 1366 px, Free and Pro, 108 and 1,250 credits, the
+   moderator chip and a long name). Below 440 px a Pro student's "Pro" word steps out of the bar: with Mobi's key there it pushed the
+   avatar 12 to 34 px off a 360 to 412 px screen. The plan is one tap away, the first line of the account sheet ("Pro, until ..."), and
+   the door's name still says it ("Account, ..., Pro"). From 1024 px a long name gives way first (it ends in an ellipsis); the page's
+   title, the moderator chip, the switch, the balance and Sign out keep their size. */
+@media (max-width: 439px) {
+  .app-shell .arena-acct > .arena-acct__you .arena-acct__plan { display: none; }
+  .app-shell .arena-acct > .arena-acct__you:has(.arena-acct__plan) { padding-right: 5px; }
+}
+@media (min-width: 1024px) {
+  .app-shell .arena-topbar__end { min-width: 0; }
+  .app-shell .arena-topbar__end > :not(.arena-acct) { flex-shrink: 0; }
+  .app-shell .arena-topbar .arena-acct { flex-shrink: 1; min-width: 0; }
+  .app-shell .arena-acct > .arena-acct__credits { flex: none; }
+  .app-shell .arena-acct > button.arena-acct__you { min-width: 0; }
+  .app-shell .arena-acct__you .arena-acct__name { min-width: 0; }
+}
 html[data-motion='reduced'] .app-shell .arena-askkey { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-askkey { transition: none; } .app-shell .arena-askkey:active { transform: none; } }
 
