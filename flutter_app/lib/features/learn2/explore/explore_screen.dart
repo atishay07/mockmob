@@ -276,7 +276,7 @@ class _FeedsHead extends StatelessWidget {
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context);
     final title = _heading(context);
-    final countStyle = type.caption.copyWith(color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()]);
+    final countStyle = type.caption.copyWith(color: colors.accentText, fontFeatures: const [FontFeature.tabularFigures()]);
     final label = type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w700);
 
     double width(String text, TextStyle style) {

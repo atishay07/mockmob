@@ -83,6 +83,7 @@ class _SwipePreviewCardState extends ConsumerState<SwipePreviewCard> with Single
   void _start(DragStartDetails _) {
     _demoStopped = true;
     _x.stop();
+    unawaited(ref.read(hapticsProvider).gestureStart());
   }
 
   void _update(DragUpdateDetails d) {
@@ -96,6 +97,7 @@ class _SwipePreviewCardState extends ConsumerState<SwipePreviewCard> with Single
 
   void _end(DragEndDetails d) {
     _past = false;
+    unawaited(ref.read(hapticsProvider).gestureEnd());
     unawaited(_springTo(0, velocity: d.velocity.pixelsPerSecond.dx));
   }
 

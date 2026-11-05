@@ -533,7 +533,7 @@ class _Head extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (eyebrow != null) ...[
-          BalancedText(eyebrow!, style: type.label.copyWith(color: colors.ink3)),
+          BalancedText(eyebrow!, style: type.label.copyWith(color: colors.accentText)),
           const SizedBox(height: MmSpace.s6),
         ],
         Semantics(

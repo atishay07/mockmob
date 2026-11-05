@@ -129,7 +129,10 @@ class _SegmentState extends State<_Segment> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final base = widget.state == _Seg.done ? colors.accentText : StageTicks.ahead(colors);
+    // Finished segments are brand green; on Night the volt is dimmed so they stay apart from the
+    // segment filling now, which is full volt.
+    final done = colors.isNight ? colors.accentText.withValues(alpha: 0.6) : colors.accentText;
+    final base = widget.state == _Seg.done ? done : StageTicks.ahead(colors);
     return ClipRRect(
       borderRadius: BorderRadius.circular(2),
       child: SizedBox.expand(

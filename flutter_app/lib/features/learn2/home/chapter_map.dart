@@ -342,7 +342,7 @@ class _UnitBlock extends StatelessWidget {
             padding: EdgeInsets.only(top: first ? 6 : 18, bottom: 2),
             child: Semantics(
               header: true,
-              child: Text(HomeModel.displayTitle(heading), style: type.body.copyWith(fontSize: 13, height: 1.35, fontWeight: FontWeight.w600, color: colors.ink3)),
+              child: Text(HomeModel.displayTitle(heading), style: type.body.copyWith(fontSize: 13, height: 1.35, fontWeight: FontWeight.w600, color: colors.accentText)),
             ),
           ),
         _Rows(

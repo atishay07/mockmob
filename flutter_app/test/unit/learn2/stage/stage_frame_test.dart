@@ -151,8 +151,11 @@ void main() {
       expect(widths.toSet(), hasLength(1), reason: 'equal segments');
       expect(tester.getRect(segs.at(1)).left - tester.getRect(segs.at(0)).right, 3, reason: '3 dp gaps');
       expect(tester.getSize(segs.at(0)).height, 2);
-      expect(fillOf(tester, 0), colors.accentText);
-      expect(fillOf(tester, 1), colors.accentText);
+      // Night dims the finished green so it stays apart from the full-volt fill of the current one.
+      final done = colors.accentText.withValues(alpha: 0.6);
+      expect(fillOf(tester, 0), done);
+      expect(fillOf(tester, 1), done);
+      expect(fillOf(tester, 0), isNot(colors.volt));
       expect(fillOf(tester, 2), StageTicks.ahead(colors));
       expect(fillOf(tester, 3), colors.volt, reason: 'the current fill');
     });
