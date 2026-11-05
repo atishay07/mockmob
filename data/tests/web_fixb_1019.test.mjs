@@ -95,8 +95,11 @@ test('G31: the result score rolls on the countUp token and a token curve, after 
   assert.equal(durations.countUp, 720);
   assert.ok(curves[COUNT_UP_CURVE], 'the curve is a token');
   assert.equal(COUNT_UP_CURVE, 'glide');
+  // Owner LK95 (5 Nov 2026, "how to build UI exactly like the app, animations") supersedes the count-up on the result's score:
+  // it is the app's digit roll now (RollNumber; data/tests/web_motion_1105.test.mjs), and it keeps this settle wait.
   const hero = read('src/components/result/ResultHero.jsx');
-  assert.match(hero, /useCountUp\(value, \{ from: run \? 0 : undefined, enabled: run, curve: COUNT_UP_CURVE, settle: true \}\)/);
+  assert.match(hero, /<RollNumber value=\{value\} run=\{run\} settle onRoll=\{onRoll\} \/>/);
+  assert.match(read('src/lib/motion/RollNumber.jsx'), /wait = settleStep\(wait, now\);/);
   assert.doesNotMatch(code(hero), /requestAnimationFrame|\/ 700/, 'no private roll left');
   // The settle rule: two smooth frames in a row, or 900 ms at most.
   let s = settleStep(undefined, 0);

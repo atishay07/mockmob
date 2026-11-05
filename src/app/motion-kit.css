@@ -501,6 +501,27 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
 ::view-transition-new(mm-frame-top), ::view-transition-new(mm-frame-dock), ::view-transition-new(mm-frame-side) { animation: none; }
 
 /* ==========================================================================
+   THE MONUMENTAL NUMBER ROLL (src/lib/motion/RollNumber.jsx) and THE FINISH STAMP (stampFigure.js): the app's
+   MonumentalNumber and FinishCeremony. Every digit sits in its own slot, one tabular figure wide, so nothing beside
+   the number moves. While it rolls the slot clips a column of the digits it passes through (transform only); at rest
+   the slot is the digit alone. The ring is one ink line behind the figure: volt in Night, the olive accent in Day.
+   Reduced motion never rolls or stamps (the components check it), so there is nothing to calm here.
+   ========================================================================== */
+.mk-roll { font-variant-numeric: tabular-nums lining-nums; }
+.mk-roll__slot { display: inline-block; position: relative; }
+.mk-roll[data-rolling] .mk-roll__slot { clip-path: inset(0); }
+.mk-roll__digit { visibility: hidden; }
+.mk-roll__col { position: absolute; inset: 0 0 auto 0; display: flex; flex-direction: column; }
+.mk-roll__col > span { display: block; }
+.mk-roll[data-waiting] .mk-roll__col { opacity: 0; }
+.mk-figure { position: relative; display: inline-block; isolation: isolate; }
+.mk-figure__ring {
+  position: absolute; left: 50%; top: 50%; z-index: -1; width: 0; height: 0; box-sizing: border-box;
+  border: 0 solid var(--volt, #d2f000); border-radius: 50%; opacity: 0; translate: -50% -50%; pointer-events: none;
+}
+html[data-theme='light'] .mk-figure__ring { border-color: var(--a-accent-text, #3f5200); }
+
+/* ==========================================================================
    REDUCED MOTION for the kit. globals.css finishes every one-shot motion at once; the app instead
    keeps a short fade where something arrives, so nothing pops in. Opacity only, 120 ms.
    ========================================================================== */
