@@ -131,18 +131,24 @@
 .ft-story[data-pinned='true'] .ft { height: 100%; grid-template-rows: auto minmax(0, 1fr); align-content: start; }
 .ft-story[data-pinned='true'] .ft__room { min-height: 0; }
 .ft-story[data-pinned='true'] .ft__track { display: grid; overflow: hidden; scroll-snap-type: none; touch-action: auto; }
-.ft-story[data-pinned='true'] .ft__slide { grid-area: 1 / 1; display: grid; opacity: 0; visibility: hidden; animation: none; transition: opacity var(--mm-dur-card, 240ms) ease, visibility 0s linear var(--mm-dur-card, 240ms); }
-.ft-story[data-pinned='true'] .ft__slide[data-active='true'] { opacity: 1; visibility: visible; transition-delay: 0s; }
-.ft-story[data-pinned='true'] .ft__slide .ft__copy,
-.ft-story[data-pinned='true'] .ft__slide .ft__shot { transition: transform var(--mm-dur-emphasized, 420ms) var(--mm-ease-emphasized, ease-out); }
-.ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__copy { transform: translate3d(0, 0.9rem, 0); }
-.ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__shot { transform: translate3d(0, 0.6rem, 0) scale(0.97); }
-.ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__copy { transform: translate3d(0, -0.9rem, 0); }
-.ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__shot { transform: translate3d(0, -0.6rem, 0) scale(0.97); }
+/* The change is sequenced, never a crossfade (R3-D5, LK105, 5 Nov 2026): the old symmetric 240 ms crossfade in one grid
+   cell held two tools at about 50/50 for about 115 ms on every step, text through text. Now the leaving tool fades out in
+   120 ms on the app's exit curve and does not move; the arriving one waits 90 ms, then fades in over 200 ms and rises
+   0.6rem into place (from above when the reader goes back). Two tools share the screen for about 25 ms, the fainter
+   below 0.25 (the tour gate, tourGateBench.mjs). A leaving tool keeps its place until it is hidden, then waits off stage
+   0.6rem low (or high once passed) for its next arrival. */
+.ft-story { --ft-out: 120ms; --ft-in: 200ms; --ft-in-delay: 90ms; --ft-rise: 0.6rem; }
+.ft-story[data-pinned='true'] .ft__slide { grid-area: 1 / 1; display: grid; opacity: 0; visibility: hidden; animation: none; transition: opacity var(--ft-out) var(--mm-ease-exit, ease-in), visibility 0s linear var(--ft-out); }
+.ft-story[data-pinned='true'] .ft__slide[data-active='true'] { opacity: 1; visibility: visible; transition: opacity var(--ft-in) var(--mm-ease-glide, ease-out) var(--ft-in-delay), visibility 0s linear 0s; }
+.ft-story[data-pinned='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: translate3d(0, var(--ft-rise), 0); transition: transform 0s linear var(--ft-out); }
+.ft-story[data-pinned='true'] .ft__slide[data-past='true'] :is(.ft__copy, .ft__shot) { transform: translate3d(0, calc(-1 * var(--ft-rise)), 0); }
+.ft-story[data-pinned='true'] .ft__slide[data-active='true'] :is(.ft__copy, .ft__shot) { transform: none; transition: transform var(--ft-in) var(--mm-ease-out, ease-out) var(--ft-in-delay); }
 .ft-story[data-pinned='true'] .ft__progress .ss-fill { width: 100%; height: 100%; background: var(--ink-2); }
 .ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
+/* Reduced motion: no movement and no overlap; the leaving tool goes at once and the arriving one fades in over 120 ms. */
 .ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
-.ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }
+.ft-story[data-reduced='true'] .ft__slide { transition: opacity 0s linear, visibility 0s linear; }
+.ft-story[data-reduced='true'] .ft__slide[data-active='true'] { transition: opacity var(--mm-dur-reduced-fade, 120ms) ease-out, visibility 0s linear; }
 /* Phones: the screen takes the height of its content (every tool's screen is about the same height, and
    they share one cell), so the title and the one-line description sit right under it. ScrollStory's
    slack (.ss--centre) centres the card in the held window on every size. */

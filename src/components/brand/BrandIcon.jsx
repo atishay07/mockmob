@@ -39,7 +39,9 @@ export function MobiMark({ size = 18, className = '' }) {
   );
 }
 
-export function BrandIcon({ name, size = 40, label, className = '', style }) {
+// `loading` and `fetchPriority` pass through to the image: lazy by default; the feature tour's chip rail loads its ten
+// eagerly at low priority, because a lazy image inside a sideways scroller only starts when it is scrolled in (R3-D5).
+export function BrandIcon({ name, size = 40, label, className = '', style, loading = 'lazy', fetchPriority }) {
   const icon = BRAND_ICONS[name];
   if (!icon || size < MIN_OBJECT_PX) {
     const Line = LINE[name] || Layers;
@@ -56,7 +58,7 @@ export function BrandIcon({ name, size = 40, label, className = '', style }) {
       role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
       {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized webp pair, no optimizer round trip for a 40 px mark */}
       <img className="brand-icon__img" src={brandIconSrc(name, size)} srcSet={brandIconSrcSet(name)} sizes={`${size}px`}
-        width={size} height={size} alt="" decoding="async" loading="lazy" draggable={false} />
+        width={size} height={size} alt="" decoding="async" loading={loading} fetchPriority={fetchPriority} draggable={false} />
     </span>
   );
 }

@@ -21,7 +21,11 @@ test('LK81 the tour keeps every screen mounted: a step changes attributes, it do
   const tour = read('./FeatureTour.jsx');
   assert.doesNotMatch(tour, /':on:'/, 'no key that remounts the active screen on every step');
   assert.match(tour, /key=\{pinned \|\| !on \? 'still' : visit\}/);
-  assert.match(read('./TourScreens.jsx'), /if \(active !== wasActive\)/, 'a screen coming back on stage restarts its demo in the same render');
+  // R3-D5 (5 Nov 2026, LK105): the restart is an activation epoch now, not the render-phase `if (active !== wasActive)`
+  // setState this line used to pin (that reset, inside a startTransition render, was rebased to the finished screen).
+  const screens = read('./TourScreens.jsx');
+  assert.doesNotMatch(screens, /wasActive/);
+  assert.match(screens, /return shownValue\(\{ held, active, reduced, paused, epoch, state, first, settled \}\);/, 'a screen coming back on stage shows its first frame in the same render');
 });
 
 test('LK81 pausing the tour restyles only the elements that animate, never the whole tour', () => {
