@@ -738,3 +738,24 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | DONE 5 Nov ~5:50 am: web live; app 1.0.21+19 in Desktop/MockMob-build-19 for his upload | **LK96** After these fixes: send the final app (Play build) and deploy everything to the website. |
 | LIVE 5 Nov ~5:50 am (main 7b47b4c90) | **LK97** Tapping the profile at the top should open a small pop-up with quick toggles (Day/Night and the like), not jump to the whole You page. |
 | STANDING (round 1 live 5:50 am, round 2 live ~7:50 am: the app's motion on the web, public and app pages refined) | **LK98** Keep going until morning until satisfied with the app and the website: a proper overall refinement (UI/UX, brand, fonts, typography); keep doubling down on the brand. When all of it is done and he is away: add content (more questions, Learn and practice, Key cards). |
+
+## His look at the live site after the night, 5 Nov about 10 am (LK99-LK114; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "5 Nov 2026, about 10 am")
+
+| Status | Item |
+|---|---|
+| OPEN | **LK99** The new CTAs are in, but the hero needs more refinement; Preparoo's landing is cleaner and better in some ways. |
+| OPEN | **LK100** Brand every element properly: the hero's second beat ("Five questions free", "73 DU programmes") must be shown properly, removed, or used better. |
+| OPEN | **LK101** Day mode: the green is everywhere, extremely light, and a very different colour from before and from the brand colour. Find why and fix. |
+| OPEN | **LK102** The statement: "MockMob" in "MockMob shows you where" must be green too. |
+| OPEN | **LK103** On phones the held stories' card fills the whole screen to the bottom; leave 10-20% at the bottom like Preparoo, with a blur and a progress/loading cue. A clear way to skip to the bottom or the top. |
+| OPEN | **LK104** The MockMob logo in the site bar takes you to the top (on the home page), and there is a way to the bottom too. |
+| OPEN | **LK105** "What's inside MockMob" (the tour) is still glitchy in its animation, sometimes. |
+| OPEN | **LK106** The exam screen: he likes the desktop version; on phones it is too small to see. A tasteful phone version. |
+| OPEN | **LK107** The numbers card under the exam section (5,765 questions, 15 subjects, ₹99) has little relevance; remove or use it well. |
+| OPEN | **LK108** Branding has been removed in many places and the landing became plainer ("Featured by CUET creators" and more); bring the brand back. |
+| OPEN | **LK109** The home page's pricing section: cleaner, like the pricing page: one plan, everything in it. |
+| OPEN | **LK110** The final card (with the referral code) needs thought; value framing like "₹22 a day": ask how many mocks a day or month, a toggle that shows the value per mock (₹1, ₹2 a mock). |
+| OPEN | **LK111** An honest comparison with other platforms ("on platform X you pay ₹5,500 for this; here this much"). |
+| OPEN | **LK112** Preparoo-level polish: loading animation everywhere, a very clean look; a Key cards (flashcards) section on the home page with the glass look the pricing cards have. |
+| APPROVED 5 Nov ~10 am | **LK113** Content: his OK to download any NCERT book needed and to do anything else needed for content. |
+| STANDING | **LK114** His feedback is a direction, not a full list: understand it and apply the same thinking everywhere on our own. |
