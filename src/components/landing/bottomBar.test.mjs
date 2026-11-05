@@ -176,7 +176,7 @@ test('the phone nav carries a small Pricing pill on the home page only, hidden w
   // Below 400 px the row closes up so the menu key keeps its place; below 375 px there is no room (measured), the menu keeps Pricing.
   assert.match(BAR_CSS, /@media \(min-width: 375px\) and \(max-width: 399px\) \{\s*\.mm \.mm-nav__row:has\(\.mm-nav__price\) \{ gap: 0\.5rem; \}/);
   assert.match(BAR_CSS, /\.mm \.mm-nav__price > span \{[^}]*height: 30px;[^}]*border-radius: 999px;/);
-  assert.match(PAGE, /<section className="lp-sec" id="pricing"/, 'the place it goes');
+  assert.match(PAGE, /<section className="lp-sec[^"]*" id="pricing"/, 'the place it goes');
 });
 
 test('the Lab fits a short phone: on a portrait window 700 px tall or less its chrome gives the room back before the screen scales to half', () => {
