@@ -51,6 +51,7 @@ class GuideBar extends StatelessWidget {
             if (!showBack) const SizedBox.square(dimension: 48) else MmPressable(
               semanticsLabel: OnboardingCopy.back,
               onTap: onBack,
+              haptic: MmPressHaptic.selection,
               pressedScale: 0.9,
               builder: (context, pressed, _) => SizedBox.square(
                 dimension: 48,

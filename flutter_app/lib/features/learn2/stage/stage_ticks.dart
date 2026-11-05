@@ -17,7 +17,7 @@ class StageTicks extends StatelessWidget {
   /// Items in all (0 while loading).
   final int total;
 
-  /// Items before the current one that are done (the segments drawn ink-2).
+  /// Items before the current one that are done (the segments drawn in the brand green).
   final int done;
 
   /// The current item (0-based), or -1 for none (a checkpoint, the end).
@@ -129,7 +129,7 @@ class _SegmentState extends State<_Segment> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final base = widget.state == _Seg.done ? colors.ink2 : StageTicks.ahead(colors);
+    final base = widget.state == _Seg.done ? colors.accentText : StageTicks.ahead(colors);
     return ClipRRect(
       borderRadius: BorderRadius.circular(2),
       child: SizedBox.expand(

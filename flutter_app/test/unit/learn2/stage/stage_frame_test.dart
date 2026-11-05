@@ -142,7 +142,7 @@ void main() {
   group('ticks', () {
     Color fillOf(WidgetTester tester, int i) => tester.widgetList<ColoredBox>(find.descendant(of: find.byType(StageTicks), matching: find.byType(ColoredBox))).elementAt(i).color;
 
-    testWidgets('one segment per item: done ink-2, the current one filling volt, the rest ahead', (tester) async {
+    testWidgets('one segment per item: done brand green (R4 owner: greener feeds), the current one filling volt, the rest ahead', (tester) async {
       await pumpStage(tester, const Padding(padding: EdgeInsets.all(16), child: StageTicks(total: 6, done: 2, current: 2)));
       final colors = MmColors.dark;
       final segs = find.descendant(of: find.byType(StageTicks), matching: find.byType(ClipRRect));
@@ -151,8 +151,8 @@ void main() {
       expect(widths.toSet(), hasLength(1), reason: 'equal segments');
       expect(tester.getRect(segs.at(1)).left - tester.getRect(segs.at(0)).right, 3, reason: '3 dp gaps');
       expect(tester.getSize(segs.at(0)).height, 2);
-      expect(fillOf(tester, 0), colors.ink2);
-      expect(fillOf(tester, 1), colors.ink2);
+      expect(fillOf(tester, 0), colors.accentText);
+      expect(fillOf(tester, 1), colors.accentText);
       expect(fillOf(tester, 2), StageTicks.ahead(colors));
       expect(fillOf(tester, 3), colors.volt, reason: 'the current fill');
     });

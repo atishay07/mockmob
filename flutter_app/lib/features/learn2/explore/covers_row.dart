@@ -257,7 +257,7 @@ class CoverPager extends StatelessWidget {
             child: Text(
               ExploreCopy.pager(index + 1, count),
               textAlign: TextAlign.center,
-              style: type.labelLarge.copyWith(fontSize: 13.5, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink2),
+              style: type.labelLarge.copyWith(fontSize: 13.5, height: 1.2, fontWeight: FontWeight.w600, color: colors.accentText),
             ),
           ),
           const SizedBox(width: MmSpace.s8),
