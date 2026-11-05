@@ -209,7 +209,7 @@ test('feature tour: from 900 px the chips wrap with no mask (none clipped); belo
 // LOW: the lime "aurora" wash behind the hero and the close (the glow L-019 forbids).
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambient pattern, the close band keeps its neutral grid and dots', () => {
+test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambient pattern, the close band draws the neutral answer sheet', () => {
   const src = fileURLToPath(new URL('src/', root));
   for (const file of walk(src, ['.css', '.jsx', '.js'])) {
     assert.doesNotMatch(stripComments(readFileSync(file, 'utf8')), /lp-bg__aurora|lp-depth-far/, file);
@@ -220,10 +220,22 @@ test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambi
   assert.doesNotMatch(backdrop, /lp-bg__(grid|dots|spot|fade)|pointermove|requestAnimationFrame/);
   const landing = stripComments(read('src/app/landing.css'));
   assert.doesNotMatch(landing, /lp-bg__spot/);
+  // The grid and dots rules stay for the public tool pages that still draw them (the cutoff calculator, the combination planner).
   const pattern = landing.slice(landing.indexOf('.lp-bg__grid {'), landing.indexOf('.lp-bg__fade {'));
-  assert.ok(pattern.length > 40, 'the close band keeps its grid and dots rules');
+  assert.ok(pattern.length > 40, 'the grid and dots rules are kept for the tool pages');
   assert.doesNotMatch(pattern, /d2f000|210, ?240, ?0/i, 'the pattern is neutral hairlines, never volt');
-  assert.match(read('src/app/page.js'), /<div className="lp-bg lp-bg--static" aria-hidden="true">\n\s+<div className="lp-bg__grid" \/>\n\s+<div className="lp-bg__dots" \/>/);
+  // R3-D9 / R3-D2 (owner LK108, LK110, 5 Nov 2026) supersede the home close band's grid and dots: its texture is the brand's own
+  // answer sheet (CloseActions.jsx CloseSheet: rings, four options a question, one pencil mark a row), still neutral, never volt.
+  const page = read('src/app/page.js');
+  assert.match(page, /<section className="lp-close">\s*<CloseSheet \/>/);
+  assert.doesNotMatch(page, /lp-bg__grid|lp-bg__dots/, 'no generic grid or dot matrix on the home page');
+  const sheet = read('src/components/landing/CloseActions.jsx');
+  assert.match(sheet, /<pattern id="lp-omr"/);
+  assert.match(sheet, /className=\{col === mark \? 'lp-close__mark' : 'lp-close__ring'\}/);
+  const close = stripComments(read('src/app/landing-close.css'));
+  const omr = close.slice(close.indexOf('.lp-close {'), close.indexOf('.lp-close__mark {') + 120);
+  assert.ok(omr.length > 120, 'the answer sheet rules are found');
+  assert.doesNotMatch(omr, /d2f000|210, ?240, ?0|var\(--volt|blur\(|infinite/i, 'neutral, sharp and still');
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

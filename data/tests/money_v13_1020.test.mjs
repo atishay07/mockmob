@@ -129,7 +129,8 @@ test('copy rules: plain warm English, no exclamation, no arrows, no em dash, no 
   walk(WALLET_V13_COPY); walk(balanceSplit(data)); walk(priceRows(data, PRICES)); walk(packCards(data)); walk(proBridge(data, { rupees: 99, cycle: 'month' }));
   walk(packsIntro({ ...data, commerce: { open: true } })); walk(packsIntro({ ...data, plan: { name: 'Pro' }, commerce: { open: true } }));
   const pricing = file('src/app/pricing/page.js');
-  const outcomes = pricing.slice(pricing.indexOf('const PRO_COPY'), pricing.indexOf('function planTerms'));
+  // R3-D8 (5 Nov 2026): planTerms moved to the shared src/components/pricing/planOffer.mjs, so the words end where the plans begin.
+  const outcomes = pricing.slice(pricing.indexOf('const PRO_COPY'), pricing.indexOf('const buildPlans'));
   assert.ok(outcomes.length > 200, 'the moments are found');
   strings.push(outcomes);
   for (const t of strings) {
@@ -155,10 +156,14 @@ test('the Pro page: one checkout, the price headline as h1, dev-only preview swi
   // v16: the h1 is the app's promise; the price headline sits beside the hero's Get Pro key (D185: never inside it).
   assert.match(pricing, /<h1 className="pro-hero__title" id="pro-title">\{PRO_COPY\.title\}<\/h1>/);
   assert.match(pricing, /href="#plans">\{PRO_COPY\.key\}<\/a>\s+<span className="pro-hero__price">\{priceHeadline\(offer\)\}<\/span>/);
-  assert.match(pricing, /key: 'Get Pro',/);
+  // The plan's own words are shared with the home page's #pricing (R3-D8): the key still says Get Pro.
+  assert.match(pricing, /key: PLAN_COPY\.key,/);
+  assert.match(file('src/components/pricing/planOffer.mjs'), /key: 'Get Pro',/);
   assert.match(pricing, /if \(process\.env\.NODE_ENV === 'production' \|\| !params\) return \{\};/, 'the preview switches never work in production');
   assert.match(pricing, /<div className="pro-plan" id="plans">/, 'the dock, the hero key and the Upgrade sheet land on the checkout');
-  assert.match(pricing, /<span className="pro-plan__fig">\{PRO_PLAN\.price\}<\/span> <span className="pro-plan__cycle">\{PRO_PLAN\.cycle\}<\/span>/, 'the plan says plainly that Pro is paid');
+  // R3-D8: the plan card is the shared PlanCard now (src/components/pricing/PlanCard.jsx), its price the same priceTag(offer).
+  assert.match(pricing, /<PlanCard offer=\{offer\} titleId="pro-price">/);
+  assert.match(file('src/components/pricing/PlanCard.jsx'), /<span className="pro-plan__fig">\{tag\.price\}<\/span> <span className="pro-plan__cycle">\{tag\.cycle\}<\/span>/, 'the plan says plainly that Pro is paid');
   const css = file('src/app/pricing/pro-page.css');
   assert.doesNotMatch(css, /text-shadow|blur\(|backdrop-filter/);
   assert.match(css, /prefers-reduced-motion: reduce/);

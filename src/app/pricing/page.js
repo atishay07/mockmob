@@ -12,6 +12,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
 import { NtaArt, PapersArt, ProHeroArt, SmartArt, Tick } from '@/components/pricing/ProShowcase';
+import { PlanCard } from '@/components/pricing/PlanCard';
+import { PLAN_COPY, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
@@ -43,16 +45,17 @@ export function generateMetadata() {
 
 // The Pro page's words, mirrored from the app's Pro page (flutter_app/lib/features/billing/billing_copy.dart; owner I6, and
 // 20 Oct 11:20 pm: "built like how it is on the app"). One idea per line. The price lives in the plan card, the line beside the
-// key and the dock, never inside a key (D185: the key always says Get Pro).
+// key and the dock, never inside a key (D185: the key always says Get Pro). The plan's own words (label, plan, key, compare) are
+// shared with the home page's #pricing (src/components/pricing/planOffer.mjs, R3-D8).
 const PRO_COPY = Object.freeze({
-  label: 'MockMob Pro',
+  label: PLAN_COPY.label,
   title: 'Practise without limits',
   lede: 'Unlimited mocks from one central bank, every one new. Smart practice on the chapters you miss. The exam-day screen, as you will meet it.',
   unlocks: 'Everything Pro unlocks',
   also: 'Also in Pro',
-  compare: 'Free and Pro, side by side',
-  plan: 'One plan, everything in it',
-  key: 'Get Pro',
+  compare: PLAN_COPY.compare,
+  plan: PLAN_COPY.plan,
+  key: PLAN_COPY.key,
   moments: [
     {
       key: 'mocks',
@@ -86,17 +89,6 @@ const PRO_COPY = Object.freeze({
   onProLine: 'Everything Pro includes is open.',
   manage: 'Manage your plan in Account',
 });
-
-/** The plan card's one line of terms, the dock's note and, while only one-time access is on sale, the monthly line. */
-function planTerms(offer) {
-  return offer.purchasable === 'monthly'
-    ? { renew: 'Renews every month. Cancel any time.', dock: `₹${offer.monthly.rupees} a month. Cancel any time.`, soon: null }
-    : {
-      renew: `One payment, through ${offer.oneTime.expires}. It does not renew.`,
-      dock: `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`,
-      soon: `Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`,
-    };
-}
 
 const buildPlans = (offer) => [
   {
@@ -132,17 +124,9 @@ const buildPlans = (offer) => [
   },
 ];
 
-// Free and Pro, side by side: the app's rows (BillingCopy.compareRows), in the website's own true terms. A true cell is a tick,
-// false a dash (not included), and text says the rest. Short, so the table reads at a glance.
-const COMPARE_ROWS = newOfferReleased() ? RECOVERY_PACKAGING_ROWS : [
-  ['A new paper every time', true, true],
-  ['Full mocks', FIRST_FULL_MOCK_ON ? 'First one free, then 50 credits each' : '50 credits each', 'Unlimited'],
-  ['Quick practice', '1 credit a question', 'Unlimited'],
-  ['Smart practice', false, true],
-  ['Exam-day screen', false, true],
-  ['Easy, Medium, Hard', false, true],
-  ['Insights in detail', 'Top three chapters', true],
-];
+// Free and Pro, side by side: the app's rows (BillingCopy.compareRows), in the website's own true terms, shared with the home
+// page (planOffer.mjs compareRows). A true cell is a tick, false a dash (not included), and text says the rest.
+const COMPARE_ROWS = compareRows({ newOffer: newOfferReleased(), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS });
 
 // The Mob's rows and its "Also in Pro" tile, only while it is live (MOB_ENABLED and MOB_V3_ENABLED, the switches its route and
 // API read), in the Mob's own Free and Pro terms (src/lib/mob/v3/denCopy.mjs, "Free and Pro in the Mob"): playing is free on
@@ -358,31 +342,26 @@ export default async function PricingPage({ searchParams }) {
 
             {/* The one plan and its one checkout. The dock, the hero key and the Upgrade sheet (/pricing#plans) land here. */}
             <div className="pro-plan" id="plans">
-              <div className="pro-plan__card" data-commerce="">
-                {isCurrentUserPremium ? (
-                  <>
-                    <h2 className="pro-plan__title">{PRO_COPY.onPro}</h2>
-                    <p className="pro-plan__renew">{PRO_COPY.onProLine}</p>
-                    <Link className="mm-btn mm-btn--secondary pro-plan__manage" href="/profile#plan">{PRO_COPY.manage}</Link>
-                  </>
-                ) : (
-                  <>
-                    <h2 className="pro-plan__title" id="pro-price">{PRO_COPY.plan}</h2>
-                    <p className="pro-plan__price"><span className="pro-plan__fig">{PRO_PLAN.price}</span> <span className="pro-plan__cycle">{PRO_PLAN.cycle}</span></p>
-                    <p className="pro-plan__renew">{terms.renew}</p>
-                    {terms.soon ? <p className="pro-plan__soon">{terms.soon}</p> : null}
-                    <div className="pro-plan__go">
-                      <RazorpayPaymentButton
-                        planId={PRO_PLAN.planId}
-                        amount={PRO_PLAN.amount}
-                        label={PRO_PLAN.ctaLabel}
-                        billing={PRO_PLAN.billing}
-                        initialIsPremium={isCurrentUserPremium}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
+              {isCurrentUserPremium ? (
+                <div className="pro-plan__card" data-commerce="">
+                  <h2 className="pro-plan__title">{PRO_COPY.onPro}</h2>
+                  <p className="pro-plan__renew">{PRO_COPY.onProLine}</p>
+                  <Link className="mm-btn mm-btn--secondary pro-plan__manage" href="/profile#plan">{PRO_COPY.manage}</Link>
+                </div>
+              ) : (
+                // The shared plan card (title, price, terms): the same one the home page's #pricing draws in glass.
+                <PlanCard offer={offer} titleId="pro-price">
+                  <div className="pro-plan__go">
+                    <RazorpayPaymentButton
+                      planId={PRO_PLAN.planId}
+                      amount={PRO_PLAN.amount}
+                      label={PRO_PLAN.ctaLabel}
+                      billing={PRO_PLAN.billing}
+                      initialIsPremium={isCurrentUserPremium}
+                    />
+                  </div>
+                </PlanCard>
+              )}
             </div>
           </div>
         </section>

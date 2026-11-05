@@ -26,7 +26,15 @@ const MINE = [
   'src/app/marketing-theme.css', 'src/app/marketing.css', 'src/app/landing.css', 'src/app/home.css', 'src/app/feature-tour.css',
   'src/app/tour-screens.css', 'src/app/compass-ladder.css', 'src/app/social-proof.css', 'src/app/lab-cinema.css', 'src/app/mistake-lab.css',
   'src/components/du/du.css',
+  // R3-D8 (5 Nov 2026): the home page's one plan, its value calculator and the dated comparison (HomePricing.jsx).
+  'src/app/home-pricing.css',
 ];
+// Owner decisions of round 3 (SPEC-R3 R3-D8, owner LK109 and LK112, 5 Nov 2026) that supersede C7 and C9 for one element each:
+//   GLASS_OK   the home plan card is glass ("the pricing card ... glassmorphism effect"), a blur over the word "Pro" only;
+//   STRIP_ART  the plan card carries the /pricing page's own art (the answer sheet's volt rule, its marked answers and the
+//              "MockMob Pro" label's volt mark), which the owner asked to bring with the plan: brand art, not a wash or an edge.
+const GLASS_OK = /\.lp-plan\.pro-plan__card/;
+const STRIP_ART = /\.pro-strip__rule|\.pro-strip__dots i\[data-on\]|\.pro-chip__dot/;
 const OTHERS = [
   'src/app/hero-scene.css', 'src/app/home-refinements.css', 'src/app/hero-depth.css', 'src/app/scroll-story.css', 'src/app/section-position.css',
   'src/app/landing-close.css', 'src/app/exam-screen.css', 'src/app/opening.css',
@@ -138,6 +146,7 @@ test('a volt fill is the key, the brand, a selected state carrying dark ink, or 
       if (!/^background(-color)?$/.test(d.prop) || !voltIn(d.value)) continue;
       if (BRAND_OR_STATE.test(r.selector)) continue;
       if (INK_ON_FILL.test(r.text)) continue;
+      if (STRIP_ART.test(r.selector) && /home-pricing\.css$/.test(r.file)) continue;
       if (/\.mm-btn|\.btn-volt|\.pill\.volt/.test(r.selector)) continue;
       // R3-D2: inside a dark product screen the app's own marks are volt (progress, a picked answer's tint, a cleared bar, a
       // legend dot), never the screen or card itself.
@@ -150,12 +159,13 @@ test('a volt fill is the key, the brand, a selected state carrying dark ink, or 
   assert.deepEqual(offenders, []);
 });
 
-test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock and the summary bar', () => {
+test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock, the summary bar and (R3-D8) the home plan card', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
       if (!/backdrop-filter$/.test(d.prop) || /^none$/.test(d.value)) continue;
       if (/\.mm-nav|\.mm-dock|\.lp-pos|\.du-sum|\.du-toast/.test(r.selector)) continue;
+      if (GLASS_OK.test(r.selector) && /home-pricing\.css$/.test(r.file)) continue;
       offenders.push(describe(r, d));
     }
   }

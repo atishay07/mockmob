@@ -29,6 +29,33 @@ export function ProHeroArt({ label }) {
   );
 }
 
+// The home plan card's head (R3-D8, owner LK109: the /pricing page's one plan "with its art"): the hero art laid flat as a strip
+// for the card, the answer sheet with its volt rule and its marked answers, the foil seal resting on it and the "MockMob Pro"
+// label. Drawn by src/app/home-pricing.css; the words beside it say the same thing, so it is hidden from assistive technology.
+// 2 rows of 12 answer circles; the marked ones are where a student has answered (one a column at most, like a real sheet).
+const STRIP_FILLED = new Set([1, 4, 8, 11, 14, 18, 21]);
+
+/** The plan card's seal strip: the dotted answer sheet, the foil seal and the "MockMob Pro" label. */
+export function ProSealStrip({ label }) {
+  return (
+    <div className="pro-strip">
+      <div className="pro-strip__scene" aria-hidden="true">
+        <span className="pro-strip__sheet">
+          <span className="pro-strip__rule" />
+          <span className="pro-strip__dots">
+            {Array.from({ length: 24 }, (_, i) => <i key={i} data-on={STRIP_FILLED.has(i) ? '' : undefined} />)}
+          </span>
+        </span>
+        <span className="pro-strip__seal">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/art/pro/foil-seal.webp" alt="" width={320} height={315} decoding="async" loading="lazy" />
+        </span>
+      </div>
+      <p className="pro-chip"><span className="pro-chip__dot" aria-hidden="true" />{label}</p>
+    </div>
+  );
+}
+
 // One sheet of the fan: a header rule and a 3 by 5 grid of answer circles; `marks` are the circles shaded in.
 const FAN = [
   { tilt: -14, marks: [3, 7, 11] },

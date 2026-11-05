@@ -572,20 +572,9 @@ body:has(.mm.lp) {
 .lp-sec {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
-.lp-sec--tight {
-  padding-block: clamp(2rem, 4vw, 3.5rem);
-}
 .lp-sec--band {
   background: linear-gradient(180deg, rgb(var(--tint) / 0.028), rgb(var(--tint) / 0));
   border-block: 1px solid var(--line);
-}
-.lp .mm-figures {
-  border-color: var(--line-strong);
-  background: var(--line);
-  box-shadow: var(--sh-2);
-}
-.lp .mm-figure {
-  background: var(--paper-raised);
 }
 
 /* ---------- Bento ---------- */
@@ -1086,65 +1075,9 @@ body:has(.mm.lp) {
   margin: 1.5rem 0 0;
 }
 
-/* ---------- Pricing ---------- */
-
-.lp-plans {
-  display: grid;
-  gap: 1rem;
-  align-items: stretch;
-}
-.lp-plan {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-4);
-  background: var(--paper-raised);
-}
-.lp-plan--pro {
-  border-color: var(--ink-3);
-  background: var(--paper-raised-2);
-  box-shadow: var(--sh-2);
-}
-.lp-plan {
-  display: flex;
-  flex-direction: column;
-}
-.lp-plan .mm-btn {
-  width: 100%;
-  margin-top: auto;
-}
-.lp-plan .lp-ticks {
-  margin-bottom: 0.75rem;
-}
-.lp-plan__price {
-  margin: 0;
-  font-size: clamp(2.5rem, 7vw, 3.75rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  color: var(--ink);
-}
-.lp-plan__price span {
-  margin-left: 0.4rem;
-  font-family: var(--font-body);
-  font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--ink-3);
-}
-.lp-plan__note {
-  margin: 0;
-  font-size: 0.9375rem;
-  color: var(--ink-2);
-}
-@media (min-width: 800px) {
-  .lp-plans {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: 1.5rem;
-  }
-}
+/* ---------- Pricing ----------
+   The two flat plan cards (.lp-plans, .lp-plan) went in R3-D8 (owner LK109): #pricing is the /pricing page's one plan as a glass
+   card now, in home-pricing.css (HomePricing.jsx). */
 
 .lp-voices {
   display: grid;
@@ -1184,11 +1117,6 @@ body:has(.mm.lp) {
   padding-block: clamp(4rem, 10vw, 8rem);
   border-top: 1px solid var(--line);
   text-align: center;
-}
-.lp-close .lp-bg__grid,
-.lp-close .lp-bg__dots {
-  -webkit-mask-image: radial-gradient(ellipse 70% 90% at 50% 100%, #000 10%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 90% at 50% 100%, #000 10%, transparent 75%);
 }
 .lp-close__inner {
   display: grid;
@@ -1319,7 +1247,6 @@ body:has(.mm.lp) {
 .lp main > #compass { contain-intrinsic-size: auto 2075px; }
 .lp main > #du-eligibility { contain-intrinsic-size: auto 2301px; }
 .lp main > #exam-experience { contain-intrinsic-size: auto 981px; } /* the phone (R3-D6), measured 5 Nov at 390x844: 1,031 px with padding */
-.lp main > .lp-sec--tight { contain-intrinsic-size: auto 144px; }
 .lp main > #on-instagram { contain-intrinsic-size: auto 848px; }
 .lp main > #pricing { contain-intrinsic-size: auto 1162px; }
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 306px; }
@@ -1331,7 +1258,6 @@ body:has(.mm.lp) {
   .lp main > #compass { contain-intrinsic-size: auto 1172px; }
   .lp main > #du-eligibility { contain-intrinsic-size: auto 1287px; }
   .lp main > #exam-experience { contain-intrinsic-size: auto 615px; } /* the monitor, re-measured 5 Nov (R3-D6) at 1440x900: 705 px with padding */
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 137px; }
   .lp main > #on-instagram { contain-intrinsic-size: auto 882px; }
   .lp main > #pricing { contain-intrinsic-size: auto 712px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 329px; }

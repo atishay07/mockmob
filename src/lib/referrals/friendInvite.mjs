@@ -54,6 +54,10 @@ export function codeFromInput(raw) {
 
 export const referralLink = (code, origin = SITE) => `${origin}/r/${code}`;
 
+/** The sign-up page's invite field, as a link can open it: /signup#invite-code (the home page's close band, R3-D9). */
+export const INVITE_ANCHOR = 'invite-code';
+export const INVITE_FIELD_HREF = `/signup#${INVITE_ANCHOR}`;
+
 export const ANDROID_PACKAGE = 'in.mockmob.app';
 
 /** True for an Android browser (the user agent says Android). Only used to send a friend's link to the Play Store listing. */
@@ -163,6 +167,10 @@ export const REFERRAL_COPY = Object.freeze({
   // Pricing.
   pricingWelcome: 'New accounts start with this month’s 50 free credits.',
   pricingInvite: (reward = DEFAULT_REWARD) => `Invite a friend and you both get ${fmt(reward)} credits once they finish a practice.`,
+  // The home page's close band, for a guest (R3-D9, 5 Nov 2026): where to add a friend's code, never a code itself.
+  homeInviteAsk: 'Have a friend’s invite code?',
+  homeInviteLink: 'Add it when you sign up',
+  homeInviteReward: (reward = DEFAULT_REWARD) => `You both get ${fmt(reward)} credits once you finish one practice.`,
   // History lines (credit_transactions action 'referral').
   historyInviter: 'A friend you invited practised',
   historyFriend: 'Joined with a friend’s invite',

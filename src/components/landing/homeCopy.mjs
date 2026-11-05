@@ -16,6 +16,8 @@
 // claim is new: each line is an older line of this page, shortened.
 
 import { labStory, signed } from './labStory.mjs';
+import { perDay, MONTH_DAYS } from '../../lib/payments/value.mjs';
+import { SUBJECT_CLAIM, PUBLIC_SUBJECT_COUNT } from '../../../data/subject_claim.js';
 
 export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2, tourPointWords: 10, step: 45, faq: 45, viewport: 60 });
 export const wordCount = (text) => (String(text).match(/[\p{L}\p{N}₹][\p{L}\p{N}’'₹.,:%+\-/×]*/gu) || []).length;
@@ -82,15 +84,90 @@ export const CLOSE = Object.freeze({
   sub: 'Sign up free to keep every score and see what to fix next.',
 });
 
-/** The pricing head: the sub follows the live offer (monthly now, or the one-time term until monthly opens). */
+/**
+ * The pricing head (R3-D8, LK110). On the monthly plan the sub is the plan's value a day, worked out from the live offer
+ * (src/lib/payments/value.mjs perDay: ₹99 over a 30-day month, rounded up), never typed; until monthly opens it is the
+ * one-time term.
+ */
 export function pricingHead(offer) {
+  const day = offer.purchasable === 'monthly' ? perDay(offer) : null;
   return {
     h2: 'Start free. Go Pro for unlimited mocks.',
-    sub: offer.purchasable === 'monthly'
-      ? `Pro is ₹${offer.monthly.rupees} a month. Cancel any month and keep what you paid for.`
+    sub: day
+      ? `₹${offer.monthly.rupees} a month is about ${day.perDay} a day.`
       : `₹${offer.oneTime.rupees} once covers Pro through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} is on the way.`,
   };
 }
+
+// ------------------------------------------------------------------ the one plan on the home page (R3-D7, R3-D8)
+// The /pricing page's one plan (owner LK109) as a glass card over the word "Pro". Its title, price and terms are the shared
+// plan's (src/components/pricing/planOffer.mjs); these are the home card's own words. Every ₹ figure is worked out from the
+// offer (value.mjs) or read from the dated table (data/price_comparison_1105.mjs) and comes in as an argument.
+export const PLAN_HOME = Object.freeze({
+  backdrop: 'Pro',
+  pricingLink: 'See everything in Pro',
+  free: 'Or start on Free: 50 credits a month, no card needed.',
+  freeCta: 'Start free',
+});
+
+/**
+ * The plan card's lines, in three groups (R3-D7: the numbers band's true counts now live here, with a count-up). A line with
+ * `count` draws a live number from /api/stats (PlanCounts.jsx): 'bank' the questions in the public bank, 'subjects' the public
+ * subjects that hold questions; `rest` follows the number, and `fallback` is the whole line while the count cannot load. Every
+ * Pro item is proPlan()'s, so the card and the lists say the same thing.
+ */
+export function planGroups({ newOffer = false } = {}) {
+  const pro = proPlan({ newOffer });
+  const bank = { count: 'bank', rest: 'questions in one live bank, every mock built fresh', fallback: 'One live question bank, every mock built fresh' };
+  const subjects = { count: 'subjects', rest: 'CUET subjects with full mocks', fallback: SUBJECT_CLAIM.short };
+  const lines = (...items) => items.map((item) => (typeof item === 'string' ? { text: item } : item));
+  if (newOffer) {
+    return [
+      { label: 'Practise', lines: lines(bank, subjects, pro[2], pro[3]) },
+      { label: 'Recover', lines: lines(pro[0], pro[1]) },
+      { label: 'Keep', lines: lines(pro[4]) },
+    ];
+  }
+  return [
+    { label: 'Practise', lines: lines(bank, subjects, pro[0], pro[2]) },
+    { label: 'Review', lines: lines(pro[3], pro[4]) },
+    { label: 'Plan', lines: lines(pro[1]) },
+  ];
+}
+
+/** The free plan as one quiet line under the card. `firstFullMock` is the rule's own sentence (FIRST_FULL_MOCK_COPY.plan) while
+ *  the free first full mock is on, else null (page.js decides, data/first_full_mock.js). */
+export const freeLine = ({ firstFullMock = null } = {}) => (firstFullMock ? `${PLAN_HOME.free} ${firstFullMock}` : PLAN_HOME.free);
+
+/** The value calculator's words (PlanValue.jsx). `m` is one row of value.mjs perMockTable: every figure in it is computed. */
+export const VALUE_COPY = Object.freeze({
+  title: 'What a mock costs at your pace',
+  pace: 'Full mocks a week',
+  result: 'a mock',
+  about: 'about',
+  math: (m) => {
+    const n = m.mocks.toLocaleString('en-IN');
+    // The sum keeps together (no-break spaces), so a phone never breaks it after the price.
+    const sum = `${m.price}\u00a0÷\u00a0${n}\u00a0=\u00a0${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`;
+    return m.kind === 'monthly' ? `${m.pace} a week is ${n} Full mocks in a ${MONTH_DAYS}-day month. ${sum}` : `${m.pace} a week to ${m.until} is ${n} Full mocks. ${sum}`;
+  },
+});
+
+/**
+ * The dated comparison's words (PriceCompare.jsx). `pro` is value.mjs proToExam (computed from the offer over the same period),
+ * `row` a row of data/price_comparison_1105.mjs; prices come in already formatted from their paise.
+ */
+export const COMPARE_COPY = Object.freeze({
+  title: (to) => `What each costs to ${to}`,
+  pro: 'MockMob Pro',
+  proGets: (pro) => (pro.kind === 'monthly'
+    ? `Unlimited Full mocks in ${PUBLIC_SUBJECT_COUNT} subjects. Cancel any month.`
+    : `Unlimited Full mocks in ${PUBLIC_SUBJECT_COUNT} subjects.`),
+  proTerm: (pro) => (pro.kind === 'monthly' ? `${pro.months} months × ${pro.perMonth}, from ${pro.fromMonth}` : `once, through ${pro.until}`),
+  note: (date) => `Prices as listed on each platform’s page, ${date}.`,
+  sources: 'Sources',
+  source: ({ row, price, host, date }) => `${row.platform}, ${row.product}: ${price} ${row.term}. Read on ${host}, ${date}.`,
+});
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks
 export const COMPASS_PRO = Object.freeze({

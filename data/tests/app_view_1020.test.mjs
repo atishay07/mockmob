@@ -87,7 +87,9 @@ test('the nav, the footer and the dock mark their pricing links, and the buy but
   assert.match(read('src/components/SeoContentPage.jsx'), /data-commerce=\{link\.href\.startsWith\('\/pricing'\) \? '' : undefined\}/);
   assert.match(read('src/components/billing/RazorpayPaymentButton.jsx'), /<div className="mm-checkout" data-commerce="">/);
   assert.match(read('src/components/billing/PrepOSCreditPurchaseButton.jsx'), /<div className=\{className\} data-commerce="">/);
-  assert.match(read('src/app/page.js'), /<section className="lp-sec" id="pricing" data-commerce="">/);
+  // R3-D8 (5 Nov 2026): the section keeps its mark; its class gained the round's own modifier.
+  assert.match(read('src/app/page.js'), /<section className="lp-sec lp-sec--price" id="pricing" data-commerce="">/);
+  assert.match(read('src/components/pricing/PlanCard.jsx'), /<div className=\{`pro-plan__card.*`\} data-commerce="">/, 'the shared plan card marks itself');
 });
 
 test('the plan and payment pages swap their body for the notice, with no link to buy', () => {
