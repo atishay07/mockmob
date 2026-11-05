@@ -326,3 +326,9 @@ Reading (dictation): "CTS" is the CTAs; "prepro" / "prepare site" is Preparoo (u
 > Keep both choices
 
 (His answer to "Should Accountancy onboarding keep offering Computerised Accounting?" Onboarding keeps AFS and CAS; AFS stays the default with the line that the 2025 paper asked AFS only. Ledger LK115.)
+
+## 5 Nov 2026, about 3:50 pm IST: stop; what is left, what is needed from him, what is done (verbatim)
+
+> So, I have you stop working. What is left, and what is needed from my side right now? And what all is done?
+
+(Answered with the status; nothing left running. Ledger LK116.)

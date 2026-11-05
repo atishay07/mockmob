@@ -760,3 +760,4 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | PARTLY DONE 5 Nov ~4:45 pm: CAS 207 + English reading 231 cards live; Financial Markets blocked (truncated archive) | **LK113** Content: his OK to download any NCERT book needed and to do anything else needed for content. |
 | STANDING | **LK114** His feedback is a direction, not a full list: understand it and apply the same thinking everywhere on our own. |
 | DECIDED 5 Nov ~11:10 am | **LK115** Accountancy Part B: keep both choices (AFS and CAS) at onboarding and in Learn; AFS default, with the 2025-paper line. |
+| ANSWERED 5 Nov ~3:50 pm | **LK116** Stop working; tell me what is left, what is needed from me, and what is done. |
