@@ -89,7 +89,7 @@ function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggl
   );
 }
 
-function LockedLine({ text }) {
+export function LockedLine({ text }) {
   return (
     <li className="l2c-locked">
       <Lock size={16} strokeWidth={2.2} aria-hidden="true" />

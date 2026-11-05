@@ -6,7 +6,8 @@
 // R3 ruling R5: no subline under the heading (the sort control says the order); an unstarted row is its name and "45 cards · 10
 // questions", no bar; Free's "5 free in each chapter" is said once in the header and never on a row; chapters with no cards are not
 // drawn (so no "Coming soon" rows); a part with options says "Part 2 has two options. Pick the one your school teaches." above the pills,
-// and "Cards for this option are coming." when the picked option has no chapter with cards.
+// and "Cards for this option are coming." when the picked option has no chapter with cards. R4 (LK139): a part whose common chapters
+// come first has the choice right above its option units ("The rest of Part 2 has two options."), not under the part's heading.
 // From a 960 px container the two parts face each other like an open book. The sort menu (Book order, Needs work first) is the only
 // control in its head. The part choice (LK2) is one line under the part's heading ("Your school teaches" and two chips): the tapped
 // side stays chosen at once, only the option units cross-fade inside a height animation, rows are keyed by chapter, and a failed save
@@ -17,7 +18,7 @@ import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
 import {
-  OPTION_COMING, chosenOptionLine, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
+  OPTION_COMING, chosenOptionLine, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionAtTail, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
   unitHeading, unitsSignature, flatRows,
 } from './homeModel.mjs';
 
@@ -316,10 +317,15 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
             const choice = effectiveChoice(part, local);
             // The picked option has no chapter with cards at all: one line says so (R5). Both showing (nothing picked) never does.
             const optionEmpty = Boolean(part.option && choice && shownOptionUnits(part.units.filter((u) => u.optionId), choice).length === 0);
+            // R4, LK139: when the part's common chapters come first (Accountancy's Share Capital and Debentures), the choice sits right
+            // above the units it changes, so it is plain that it never touches the common ones.
+            const atTail = Boolean(part.option) && optionAtTail(part);
+            const partSwitch = part.option ? <PartSwitch key={`${part.id}-switch`} part={part} at={partAt} choice={choice} status={status[part.id]} onChoose={(cid) => choose(part, cid)} /> : null;
             const out = [];
             part.units.forEach((unit, i) => {
               if (unit.optionId) {
                 if (i !== firstOption) return;
+                if (atTail) out.push(partSwitch);
                 const units = part.units.filter((u) => u.optionId);
                 out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} here={here} saving={status[part.id] === 'saving'} />);
                 return;
@@ -330,7 +336,7 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
             return (
               <section className="lh-part" key={part.id} aria-label={part.title}>
                 <h3 className="lh-part__title">{part.title}</h3>
-                {part.option ? <PartSwitch part={part} at={partAt} choice={choice} status={status[part.id]} onChoose={(cid) => choose(part, cid)} /> : null}
+                {atTail ? null : partSwitch}
                 <div className="lh-part__units">{out}</div>
               </section>
             );

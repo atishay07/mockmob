@@ -36,11 +36,26 @@ export function playableParts(parts) {
 }
 
 const NUMBER_WORD = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
-/** "Part 2 has two options. Pick the one your school teaches." (one line above the option pills, R5). `at` is the part's place (0-based). */
+/**
+ * True when a part opens with chapters every student reads and ends with its option units (Accountancy's Part 2: Share Capital and
+ * Debentures for all, then Analysis of Financial Statements or Computerised Accounting, CUET 2026 Unit V and "Optional to Unit V").
+ * The choice then sits right above the option units, after the common ones (R4, LK139).
+ */
+export function optionAtTail(part) {
+  const units = part?.units || [];
+  const first = units.findIndex((u) => u.optionId);
+  return first > 0 && units.slice(first).every((u) => u.optionId);
+}
+
+/**
+ * "Part 2 has two options. Pick the one your school teaches." (one line above the option pills, R5). `at` is the part's place
+ * (0-based). When the part opens with common chapters and ends with the options (optionAtTail), the line sits after the common ones
+ * and says so: "The rest of Part 2 has two options. ..." (R4, LK139: the choice changes only the last unit).
+ */
 export function optionLine(part, at = 0) {
   const n = part?.option?.choices?.length || 0;
   const number = /^Part\s+(\d+)/i.exec(String(part?.title || ''))?.[1] || String(at + 1);
-  return `Part ${number} has ${NUMBER_WORD[n] || n} options. Pick the one your school teaches.`;
+  return `${optionAtTail(part) ? 'The rest of Part' : 'Part'} ${number} has ${NUMBER_WORD[n] || n} options. Pick the one your school teaches.`;
 }
 
 /**

@@ -49,12 +49,20 @@
 .l2c-chips[data-ready] .l2c-chips__ind { opacity: 1; transition: transform 240ms var(--kc-ease), width 240ms var(--kc-ease); }
 
 .l2c-tools { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; min-height: 44px; }
-.l2c-tools .l2c-switch { margin-right: auto; }
-.l2c-switch { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font: 600 14.5px/1.2 var(--font-body); color: var(--a-ink-2); cursor: pointer; }
-.l2c-switch .mk-switch { flex: none; }
-.l2c .mk-switch[aria-checked='true'] { background: var(--a-ink); border-color: var(--a-ink); }
-.l2c .mk-switch[aria-checked='true'] .mk-switch__thumb { background: var(--a-bg); }
-.l2c .mk-switch__tick { stroke: var(--a-bg); }
+/* "Show answers" (LK139, AnswersKey.jsx): a key that says what it does, an eye, and the ink fill while answers are shown (the same
+   fill as a chosen filter chip). It replaced a switch whose on state read as a stray white pill. */
+.l2c-answers {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-right: auto; padding: 0 16px 0 13px;
+  border: 1px solid var(--a-line-strong); border-radius: 999px; background: transparent; color: var(--a-ink);
+  font: 650 14.5px/1 var(--font-body); white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--kc-ease), border-color 160ms var(--kc-ease), color 160ms var(--kc-ease);
+}
+.l2c-answers svg { flex: none; color: var(--a-ink-2); }
+.l2c-answers[data-on] { background: var(--a-ink); border-color: transparent; color: var(--a-bg); }
+.l2c-answers[data-on] svg { color: inherit; }
+.l2c-answers:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.l2c-answers:active { transform: scale(0.97); }
+@media (hover: hover) { .l2c-answers:not([data-on]):hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
 .l2c-tools .kc-btn--quiet { min-height: 44px; padding: 0 10px; }
 .l2c-tools .kc-btn--quiet:last-child { margin-right: -10px; }
 .l2c-tools .kc-btn--quiet[aria-pressed='true'] { color: var(--a-ink); text-decoration-color: var(--a-ink-2); }
@@ -226,6 +234,9 @@
 .l2f-layout .l2c-rail { display: none; }
 @container lh (min-width: 980px) {
   .l2f-layout { grid-template-columns: 240px minmax(0, 680px); column-gap: 48px; justify-content: start; }
+  /* Results lead with chapters: the cards' rail only joins when the whole card list is there (more than one chapter of cards). */
+  .l2f-panel[data-kind='results'] .l2f-layout:not([data-rail]) { grid-template-columns: minmax(0, 760px); }
+  .l2f-panel[data-kind='results'] .l2f-layout:not([data-rail]) .l2f-main { grid-column: 1; }
   .l2f-layout .l2c-rail { display: block; grid-column: 1; grid-row: 1; position: sticky; top: 140px; align-self: start; max-height: calc(100vh - 164px); overflow-y: auto; padding-top: 6px; scrollbar-width: thin; }
   .l2f-layout .l2f-main { grid-column: 2; grid-row: 1; }
   .l2f-layout .l2c-jumpbtn { display: none !important; }
@@ -243,6 +254,15 @@
 .l2f-skel { display: grid; }
 .l2f-skel .l2c-skel__row { height: 64px; }
 .l2f-block { display: grid; gap: 0; }
+/* Find's three answers (R4, LK139): Chapters, Lessons, then Key cards, each under one small sentence-case heading with its count. */
+.l2f-sec { display: flex; align-items: baseline; gap: 8px; margin: 0 0 6px; font: 700 14px/1.3 var(--font-body); color: var(--a-ink-2); }
+.l2f-sec__n { font-weight: 600; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.l2f-main > .l2f-block + .l2f-block, .l2f-main > .l2f-block + .l2f-cards { margin-top: 10px; }
+.l2f-cards { display: grid; gap: 12px; min-width: 0; }
+.l2f-cards__head { display: grid; gap: 4px; }
+.l2f-cards__head .l2f-sec { margin: 0; }
+.l2f-cards[data-secondary] .l2f-cards__head { padding-top: 6px; }
+.l2f-more--cards { margin-top: -4px; }
 .l2f-more { justify-self: start; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-ink-2); font: 650 14px/1 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; cursor: pointer; }
 .l2f-more:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
 @media (hover: hover) { .l2f-more:hover { color: var(--a-ink); } }
@@ -251,7 +271,7 @@
 .l2f-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 @media (hover: hover) { .l2f-link:hover { background: var(--a-hover); } .l2f-link:hover svg { transform: translateX(2px); color: var(--a-ink); } }
 .l2f-link b { font: 650 16px/1.35 var(--font-body); color: var(--a-ink); min-width: 0; text-wrap: pretty; }
-.l2f-link span { font: 500 13.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.l2f-link > span { font: 500 13.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .l2f-link svg { color: var(--a-ink-3); transition: transform 150ms var(--kc-ease), color 150ms var(--kc-ease); }
 
 /* ---------- R6 Web D (LK39, LK41, LK43): rows that say their kind, a subtle Night, a wider column on a computer ----------
