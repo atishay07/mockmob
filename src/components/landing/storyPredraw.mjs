@@ -5,7 +5,7 @@
 // first style and layout took about 350 ms and the tour's about 290 ms, a visible freeze mid-swipe as each came near.
 //
 // Here each held story's section is drawn once ahead of time, while the reader is not touching the page: after the
-// page has loaded and the hero has settled (its typed line done, or the reader's first scroll), in an idle period with
+// page has loaded and the first paint has had time to settle, in an idle period with
 // no input for the last 400 ms. The section is switched to content-visibility: visible ([data-predraw='on']) for three
 // frames (the draw, then any fit or slack the story measures from its ResizeObserver), then handed back to auto. The
 // browser keeps a skipped section's layout, so when the reader arrives only what changed since is redrawn. One section
@@ -15,7 +15,6 @@ import { undrawn } from './undrawn';
 
 const QUIET_MS = 400;
 const LOAD_SETTLE_MS = 1500;
-const HERO_WAIT_MS = 9000;
 
 const queue = new Set();
 let started = false;
@@ -65,21 +64,13 @@ function pump() {
 function start() {
   if (started || typeof window === 'undefined') return;
   started = true;
-  const mark = () => { lastInput = now(); if (!ready) go(); };
+  const mark = () => { lastInput = now(); };
   for (const type of ['touchstart', 'touchmove', 'wheel', 'keydown', 'pointerdown', 'scroll']) window.addEventListener(type, mark, { passive: true, capture: true });
-  let timer = 0;
-  function go() {
-    if (ready) return;
-    window.clearTimeout(timer);
-    window.removeEventListener('mm:hero-typed', onTyped);
+  // The hero can keep typing well after its first paint. Wait for idle after load, without holding the queue for
+  // the last typed word: the reader can reach the first heavy section while that word is still being drawn.
+  const afterLoad = () => window.setTimeout(() => {
     ready = true;
     pump();
-  }
-  function onTyped(event) { if (event.detail?.final) window.setTimeout(go, 300); }
-  const afterLoad = () => window.setTimeout(() => {
-    window.addEventListener('mm:hero-typed', onTyped);
-    // No typed line on this visit (reduced motion, a signed-in hero, a variant without it): do not wait for one.
-    timer = window.setTimeout(go, document.querySelector('.lp-typed__live') ? HERO_WAIT_MS : 0);
   }, LOAD_SETTLE_MS);
   if (document.readyState === 'complete') afterLoad();
   else window.addEventListener('load', afterLoad, { once: true });
