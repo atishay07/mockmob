@@ -759,3 +759,4 @@ Owner of this round: the app port session (c4dbd3b5), coordinating with the Key 
 | OPEN | **LK112** Preparoo-level polish: loading animation everywhere, a very clean look; a Key cards (flashcards) section on the home page with the glass look the pricing cards have. |
 | APPROVED 5 Nov ~10 am | **LK113** Content: his OK to download any NCERT book needed and to do anything else needed for content. |
 | STANDING | **LK114** His feedback is a direction, not a full list: understand it and apply the same thinking everywhere on our own. |
+| DECIDED 5 Nov ~11:10 am | **LK115** Accountancy Part B: keep both choices (AFS and CAS) at onboarding and in Learn; AFS default, with the 2025-paper line. |

@@ -320,3 +320,9 @@ Reading (dictation): "CV2027" is the hero's "CUET 2027." brand line; "Mockma" is
 > Lastly keep in mind this is very small and concise feedback on just some things that I was able to see, to give you some direction. Just understand the kind of things I'm saying and implement other things also according to this on your own because I wasn't able to see each and every change or thing that you did
 
 Reading (dictation): "CTS" is the CTAs; "prepro" / "prepare site" is Preparoo (ug.preparoo.app); "5 versions free" and "73 TV programs" are the hero's second beat "Five questions free" and "73 DU programmes"; "Mock Mob" is MockMob; "a leading downloader" is most likely a loading/progress indicator; "Mob logo" is the MockMob logo in the site bar; "What's Inside Walk Mob" is the tour "What's inside MockMob"; "mode screen" is the exam screen with its MockMob / NTA style switch; "5,700 questions, 1570 subjects, 99 per month" is the numbers band (5,765 questions, 15 subjects, ₹99); "CUT creators" is "Featured by CUET creators"; "NCR" is NCERT. Ledger rows LK99-LK114. What this changes: a third refinement round on the home page (Preparoo-level clean, brand back everywhere, Day green fixed, held stories leave room at the bottom with a progress cue, top/bottom shortcuts, a tasteful phone exam screen, the pricing section as the pricing page's one plan with value framing and an honest comparison, a glass Key cards section); and the content lane is approved, including NCERT downloads.
+
+## 5 Nov 2026, about 11:10 am IST: Accountancy keeps both Part B choices (verbatim)
+
+> Keep both choices
+
+(His answer to "Should Accountancy onboarding keep offering Computerised Accounting?" Onboarding keeps AFS and CAS; AFS stays the default with the line that the 2025 paper asked AFS only. Ledger LK115.)
