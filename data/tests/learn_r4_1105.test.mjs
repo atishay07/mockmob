@@ -229,6 +229,8 @@ test('A2 wired in the Learn run and Key cards Study; keys kept; reduced motion t
   assert.match(run, /const r = RATINGS\.find\(\(x\) => x\.key === e\.key\);/, 'the 1 2 3 keys stay');
   assert.match(run, /data-lit=\{drag\.intent && SWIPE_RATINGS\[drag\.intent\] === r\.rating/);
   assert.match(code('src/components/learn2/run/RunParts.jsx'), /\{swipe \? <SwipeLabels \/> : null\}/);
+  // The one-time hint: the ratings' own line has the first rateable card, the drag line the next one (both in a first run).
+  assert.match(run, /useCoach\(coachKey, 'swipe1', canDrag && drag\.live && \(!coachRate \|\| ratedNow > 0\)\)/);
   const card = code('src/components/keycards/KeyCard.jsx');
   assert.match(card, /useRateSwipe\(\{ enabled: swipeOn && revealed && !busy && !reporting/);
   assert.match(card, /\{swipeOn \? <SwipeLabels \/> : null\}/);

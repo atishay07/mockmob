@@ -105,7 +105,7 @@ it. Not Revise (another packet's file); the player takes `swipe` as an opt-in pr
   is offered to a touch only while the whole card is in view (then the card owns the touch, `touch-action: none`). A mouse or pen
   always has all three. The hint says only the ways that work there.
 - The hint before a first drag: the run's one-time coach line ("Drag the card: right for Got it, left for Missed it, down for
-  Easy."), after the ratings' own line; in Study a quiet line under the keys on the first three turned cards on the device, gone
+  Easy."), on the next rateable card after the ratings' own line, so a first run teaches both; in Study a quiet line under the keys on the first three turned cards on the device, gone
   once a swipe has rated.
 - Kept: the three keys, 1 / 2 / 3, Space, the existing Study badge and leave motion for key presses, the run's flight into the
   Revise pile for key presses.

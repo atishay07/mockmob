@@ -614,7 +614,9 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const drag = useRateSwipe({ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate });
   const dragRef = drag.ref;
   const setCard = useCallback((node) => { cardRef.current = node; dragRef(node); }, [dragRef]);
-  const coachDrag = useCoach(coachKey, 'swipe1', canDrag && drag.live && !coachRate);
+  // The ratings' own line has the first rateable card; the drag line comes from the next one, so a first run teaches both.
+  const ratedNow = tally.missed + tally.got + tally.easy;
+  const coachDrag = useCoach(coachKey, 'swipe1', canDrag && drag.live && (!coachRate || ratedNow > 0));
   const coarse = (() => { try { return window.matchMedia('(pointer: coarse)').matches; } catch { return false; } })();
 
   const left = phase === 'play' ? minutesLeftLine(items, finished, run?.kind) : null;
@@ -627,7 +629,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
     : note ? { text: note }
       : stamp ? { text: stamp.text, stamp: true, key: stamp.n }
         : coachFront && item?.type === 'card' && !isTurned ? { text: WORDS.turnCue, cue: true }
-          : coachRate && item?.type === 'card' && isTurned && !look ? { text: WORDS.coachRatings }
+          : coachDrag && canDrag && ratedNow > 0 ? { text: swipeHint({ down: drag.downOk || !coarse, touch: coarse }) }
+            : coachRate && item?.type === 'card' && isTurned && !look ? { text: WORDS.coachRatings }
             : coachDrag && canDrag ? { text: swipeHint({ down: drag.downOk || !coarse, touch: coarse }) }
             : coachRecap ? { text: "Answers are shown. This won't change when your cards come back." }
                 : look && isTurned && lookLine && item?.look ? { text: lookLine } : null;
