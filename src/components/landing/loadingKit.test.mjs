@@ -1,9 +1,9 @@
 // The home page's loading-motion kit (R3-D10, owner LK112, 5 Nov 2026; research preparoo B8): count-up on true numbers once
-// at 40% in view, a shimmer for blocks that are still loading, rows that arrive in turn. Pure rules and source checks.
+// at 40% in view, rows that arrive in turn. Pure rules and source checks.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { COUNT_UP, SHIMMER, STAGGER, countAt, countPlan, easeOutQuart, formatCount, staggerDelay } from './loadingRules.mjs';
+import { COUNT_UP, STAGGER, countAt, countPlan, easeOutQuart, formatCount, staggerDelay } from './loadingRules.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const strip = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
@@ -11,7 +11,7 @@ const KIT = read('LoadingKit.jsx');
 const CSS = strip(read('loading-kit.css'));
 
 test('the count-up runs 1,900 ms on an ease-out quart and starts at 40% in view', () => {
-  assert.deepEqual({ ...COUNT_UP }, { ms: 1900, share: 0.4 });
+  assert.deepEqual({ ...COUNT_UP }, { ms: 1900, share: 0.4, below: 96 });
   assert.equal(easeOutQuart(0), 0);
   assert.equal(easeOutQuart(1), 1);
   assert.equal(easeOutQuart(0.5), 1 - 0.5 ** 4);
@@ -56,21 +56,10 @@ test('the printed value is the server\'s and the first paint\'s: the roll is a c
   assert.match(CSS, /\.lk-count \{[^}]*font-variant-numeric: tabular-nums;/, 'the width never jumps');
   assert.match(CSS, /\.lk-count\[data-lk\] \.lk-count__value \{ color: transparent; \}/, 'transparent, so it stays in the accessibility tree');
   assert.match(KIT, /new IntersectionObserver\(/);
-  assert.match(KIT, /\{ threshold: \[0, share\] \}/);
+  assert.match(KIT, /\{ threshold: \[0, share\], rootMargin: `0px 0px -\$\{COUNT_UP\.below\}px 0px` \}/, 'in view means above the phone dock');
   assert.match(KIT, /watch\.disconnect\(\);\s*roll\(\);/, 'it rolls once, then stops watching');
   assert.doesNotMatch(KIT, /addEventListener\(\s*['"]scroll/, 'no scroll listener');
   assert.match(KIT, /isMotionReduced\(\)/, 'reduced motion (device or the site switch) prints the value');
-});
-
-test('the shimmer: a neutral skeleton, one band sweeping by transform 4 times at 1.2 s, then still; never volt; reduced motion is still', () => {
-  assert.deepEqual({ ...SHIMMER }, { ms: 1200, passes: 4 });
-  assert.match(CSS, /\.lk-shimmer::after \{[^}]*animation: lk-shimmer 1\.2s linear 4;/);
-  assert.match(CSS, /@keyframes lk-shimmer \{ to \{ transform: translateX\(150%\); \} \}/);
-  assert.doesNotMatch(CSS, /infinite/);
-  assert.doesNotMatch(CSS, /d2f000|var\(--volt|var\(--brand-word|210,\s*240,\s*0/i);
-  assert.match(CSS, /@media \(prefers-reduced-motion: reduce\) \{[^]*\.lk-shimmer::after \{ animation: none; opacity: 0; \}/);
-  assert.match(CSS, /:root\[data-motion='reduced'\] \.lk-shimmer::after \{ animation: none; opacity: 0; \}/);
-  assert.match(KIT, /export function Shimmer\([^)]*\) \{\s*return <Tag className=\{`lk-shimmer \$\{className\}`\.trim\(\)\} style=\{style\} aria-hidden="true" \/>;/);
 });
 
 test('rows arrive 70 ms apart, each rising 6 px over 160 ms; keyframes move opacity and transform only', () => {

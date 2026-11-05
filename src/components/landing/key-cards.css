@@ -67,6 +67,8 @@
   position: absolute; top: 9%; right: -9%; width: 92%; max-width: 25rem; height: auto;
   transform: rotate(-4deg); pointer-events: none; user-select: none; -webkit-user-drag: none;
 }
+/* Day on a wide screen (review, 5 Nov): the art sits higher and smaller, so only a sliver of it runs under the glass. */
+@media (min-width: 960px) { .kc-demo__art { top: 3%; right: -4%; width: 76%; max-width: 21rem; } }
 
 .kc-demo__glass {
   position: relative; z-index: 1; display: grid; gap: 0.625rem; padding: 1.125rem 1.125rem 1rem; border-radius: 18px;

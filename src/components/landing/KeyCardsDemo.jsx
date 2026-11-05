@@ -13,15 +13,18 @@ import { Fragment, useCallback, useEffect, useId, useRef, useState } from 'react
 import Link from 'next/link';
 import { RotateCw } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { recoveryReleased } from '@/../data/capabilities';
+import { signupPathFor } from '@/lib/auth-redirect';
 import { isMotionReduced } from '@/lib/motion/draw';
-import { wayIn } from './demoSignal.mjs';
 import { CountUp, staggerStyle } from './LoadingKit';
 import { BANK_WORDS, KEY_CARDS_WORDS as W, backRow, cardOf } from './keyCardsCopy.mjs';
 import './key-cards.css';
 
 const LEAVE_MS = 180; // the rated card steps aside before the next one rises in
 const CARDS_ART = '/art/icons/keycards-192.webp'; // the Key cards desk object, beside the end card's title
+// "Sign up free to keep going" names Key cards as the way back (the signup page saves the path and a student who already
+// has an account lands on /cards). Today a brand-new account still goes through onboarding first and the saved path is
+// dropped there (postSignInPath keeps only a Mob invite through it); carrying /cards through onboarding is an auth change.
+const KEEP_GOING_HREF = signupPathFor('/cards');
 
 // Is the keyboard (or a screen reader) inside the demo? Then focus follows the card; a pointer user's focus stays put.
 const holdsFocus = (node) => typeof document !== 'undefined' && Boolean(node?.contains(document.activeElement));
@@ -49,7 +52,6 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
   const [leaving, setLeaving] = useState(false);
   const [ratings, setRatings] = useState([]);
   const { isAuthenticated } = useAuth();
-  const way = wayIn({ signedIn: isAuthenticated, released: recoveryReleased() });
   const promptId = useId();
 
   const root = useRef(null);
@@ -203,7 +205,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
             {isAuthenticated ? null : <p className="kc-foot__free">{BANK_WORDS.free(bank.taste)}</p>}
           </>
         ) : null}
-        <Link href={isAuthenticated ? '/cards' : way.signup.href} className={done ? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'}>
+        <Link href={isAuthenticated ? '/cards' : KEEP_GOING_HREF} className={done ? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'}>
           {isAuthenticated ? W.openCards : W.keepGoing}
         </Link>
       </div>

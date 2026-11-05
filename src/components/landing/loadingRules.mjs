@@ -5,13 +5,12 @@
 //              ease-out quart, about Preparoo's 1,990 ms. The server and the first paint always print the real value, so a
 //              reader without script, a search engine and a screen reader get the number, never a made-up zero; the roll only
 //              runs for a number that enters from off screen (one already in view at load simply stays).
-//   Shimmer    a skeleton for a block that is still loading (async): a soft band sweeps across it 4 times, 1.2 s each, then
-//              it rests (the app's skeleton rule, WA-03, as du-shimmer). Neutral tint, never volt; transform only.
 //   Stagger    rows of a demo arrive one after another: a 6 px rise and fade over 160 ms, 70 ms apart.
-// Reduced motion (the device setting or the site's own switch): the number is simply there, the skeleton is still, rows appear.
+// Reduced motion (the device setting or the site's own switch): the number is simply there, rows appear.
 
-export const COUNT_UP = Object.freeze({ ms: 1900, share: 0.4 });
-export const SHIMMER = Object.freeze({ ms: 1200, passes: 4 });
+// `below` is the phone dock's band (its height plus its gap, HeroDockGate's DOCK): a number counts as in view only above it,
+// so the roll is not played under the dock. On desktop it only means the roll starts 96 px later.
+export const COUNT_UP = Object.freeze({ ms: 1900, share: 0.4, below: 96 });
 export const STAGGER = Object.freeze({ step: 70, ms: 160, rise: 6 });
 
 /** Ease-out quart: fast at first, settling softly on the true value. */

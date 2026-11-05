@@ -7,7 +7,7 @@ import { WORDS } from '../../../data/learn/words.js';
 
 export const KEY_CARDS_HEAD = Object.freeze({
   stamp: 'Key cards',
-  h2: 'Turn the card. Keep the line.',
+  h2: 'Turn it. Rate it. It comes back on time.',
   sub: 'Say the answer in your head, turn the card, then rate it. Your rating sets when it comes back.',
 });
 

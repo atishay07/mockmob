@@ -3,7 +3,6 @@
 //
 //   <CountUp value={16020} />                 a true number that climbs once at 40% in view (the printed value first)
 //   <CountUp value={3.3} decimals={2} />      "3.30", for a price per mock
-//   <Shimmer className="my-line" />           a skeleton block while something loads (put aria-busy on its container)
 //   <ol className="lk-stagger"> <li style={staggerStyle(i)}> ...    rows that arrive 70 ms apart
 //
 // No animation library, no scroll listener: one IntersectionObserver per number, removed once it has rolled, and one
@@ -57,7 +56,7 @@ export function CountUp({ value, decimals = 0, locale = 'en-IN', ms = COUNT_UP.m
         watch.disconnect();
         roll();
       }
-    }, { threshold: [0, share] });
+    }, { threshold: [0, share], rootMargin: `0px 0px -${COUNT_UP.below}px 0px` });
     watch.observe(node);
     return () => {
       watch.disconnect();
@@ -73,11 +72,6 @@ export function CountUp({ value, decimals = 0, locale = 'en-IN', ms = COUNT_UP.m
       <span ref={live} className="lk-count__live" aria-hidden="true" />
     </span>
   );
-}
-
-/** A skeleton block for something still loading. Decorative: the container says it is busy (aria-busy). */
-export function Shimmer({ as: Tag = 'span', className = '', style }) {
-  return <Tag className={`lk-shimmer ${className}`.trim()} style={style} aria-hidden="true" />;
 }
 
 /** The style for row `i` of a .lk-stagger list. */

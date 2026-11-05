@@ -9,25 +9,11 @@
 .lk-count:not([data-lk]) .lk-count__live { display: none; }
 .lk-count[data-lk] .lk-count__value { color: transparent; }
 
-/* Shimmer: a calm skeleton (the page's tint, never volt) with one soft band sweeping across it 4 times, then still. */
-.lk-shimmer {
-  position: relative; display: block; overflow: hidden; isolation: isolate;
-  min-height: 0.75em; border-radius: 8px; background: rgb(var(--tint, 244 240 230) / 0.07);
-}
-.lk-shimmer::after {
-  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
-  background: linear-gradient(90deg, transparent, rgb(var(--tint, 244 240 230) / 0.08) 50%, transparent);
-  animation: lk-shimmer 1.2s linear 4;
-}
-@keyframes lk-shimmer { to { transform: translateX(150%); } }
-
 /* Stagger: each row rises 6 px and fades in over 160 ms, 70 ms after the one before (staggerStyle(i) sets the delay). */
 .lk-stagger > * { animation: lk-row-in 160ms cubic-bezier(0.23, 1, 0.32, 1) var(--lk-delay, 0ms) both; }
 @keyframes lk-row-in { from { opacity: 0; transform: translateY(6px); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lk-shimmer::after { animation: none; opacity: 0; }
   .lk-stagger > * { animation: none; }
 }
-:root[data-motion='reduced'] .lk-shimmer::after { animation: none; opacity: 0; }
 :root[data-motion='reduced'] .lk-stagger > * { animation: none; }

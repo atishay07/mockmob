@@ -134,6 +134,23 @@ test('the section sits right after the Score Recovery Lab and before Compass, wi
   assert.match(desktop, /\.lp main > #score-recovery-lab \{[^}]*\}\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
 });
 
+test('the reserved height is measured for each width band the section changes in (review fix, 5 Nov)', () => {
+  // Content height (section minus its padding, which scales on desktop: 164 px at 1024, 224 px at 1440), measured by width with
+  // tmp/r3/cards/measure.mjs: 879 px to 361, 854 px from 362 to 383, 830 px from 384 (390); 480 px from 960 to 1919 (1024
+  // and 1440 alike); 531 px from 1920 (18 px root), 639 px from 2560 (22 px root).
+  const at = (re) => { const m = LANDING_CSS.match(re); assert.ok(m, `a reserved value for ${re}`); return [Number(m[1]), m.index]; };
+  const [at390] = at(/\n\.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \}/);
+  const [at375, i375] = at(/@media \(max-width: 383px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  const [at360, i360] = at(/@media \(max-width: 361px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  const [atDesk] = at(/\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \}/);
+  const [at1920, i1920] = at(/@media \(min-width: 1920px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  const [at2560, i2560] = at(/@media \(min-width: 2560px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  assert.deepEqual([at360, at375, at390, atDesk, at1920, at2560], [879, 854, 830, 480, 531, 639]);
+  // Later bands must follow the ones they narrow, or the wider value wins.
+  assert.ok(i360 > i375, 'the 361 px band follows the 383 px one');
+  assert.ok(i1920 > LANDING_CSS.indexOf('  .lp main > #key-cards') && i2560 > i1920, 'the large-screen bands follow the 960 px block');
+});
+
 // ------------------------------------------------------------------------------------------------ the flip and its motion
 test('the card turns in 3D: 600 ms on cubic-bezier(.4,0,.2,1), perspective 1000 px, both faces backface-hidden', () => {
   assert.match(CSS, /\.kc-demo__arrive \{ perspective: 1000px;/);
@@ -177,10 +194,18 @@ test('progress: "1 / 5" in words for the eye and "Card 1 of 5" for a screen read
 });
 
 test('one key under the demo: guest "Sign up free to keep going" (secondary, volt once the five are done), signed in "Open Key cards"', () => {
-  assert.match(DEMO, /<Link href=\{isAuthenticated \? '\/cards' : way\.signup\.href\} className=\{done \? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'\}>/);
+  assert.match(DEMO, /<Link href=\{isAuthenticated \? '\/cards' : KEEP_GOING_HREF\} className=\{done \? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'\}>/);
   assert.match(DEMO, /\{isAuthenticated \? W\.openCards : W\.keepGoing\}/);
   assert.match(DEMO, /\{isAuthenticated \? null : <p className="kc-foot__free">/, 'no Pro line for a signed-in student');
   assert.equal((DEMO.match(/href=/g) || []).length, 1, 'the demo itself links nowhere else');
+});
+
+test('"Sign up free to keep going" leads back to Key cards: the guest key carries next=/cards (review fix, 5 Nov)', async () => {
+  assert.match(DEMO, /const KEEP_GOING_HREF = signupPathFor\('\/cards'\);/);
+  assert.doesNotMatch(DEMO, /wayIn|recoveryReleased/, 'the Recovery way in is not this key');
+  const { signupPathFor, safeNextPath } = await import('../../lib/auth-redirect.js');
+  assert.equal(signupPathFor('/cards'), '/signup?next=%2Fcards');
+  assert.equal(safeNextPath('/cards'), '/cards', 'the signup page keeps /cards as the page to return to');
 });
 
 test('no two landing modules differ only by the case of their name (Windows resolves KeyCardsDemo to keyCardsDemo.mjs, Linux does not)', async () => {
@@ -192,4 +217,20 @@ test('no two landing modules differ only by the case of their name (Windows reso
     assert.ok(!seen.has(key) || seen.get(key) === stem, `${stem} and ${seen.get(key)} clash on a case-blind disk`);
     seen.set(key, stem);
   }
+});
+
+// ------------------------------------------------------------------------------------------------ review fixes (5 Nov)
+test('reduced motion: no section head (.rv.lp-head) keeps the phone blur, under the device setting or the site switch', () => {
+  const FT = strip(read('../../app/feature-tour.css'));
+  // The phone blur is `.lp .rv.lp-head` (0,3,0) and Reveal never sets data-in under reduced motion, so the lift must name it.
+  const reduce = FT.slice(FT.indexOf('@media (prefers-reduced-motion: reduce) {'));
+  const block = reduce.slice(0, reduce.indexOf('\n}'));
+  assert.match(block, /\.lp \.rv, \.lp \.rv\.lp-head \{ filter: none; \}/);
+  assert.ok(FT.indexOf('@media (prefers-reduced-motion: reduce) {') > FT.indexOf('.lp .rv.lp-head { filter: blur(6px)'), 'the lift comes after the blur');
+  assert.match(FT, /:root\[data-motion='reduced'\] \.lp \.rv\.lp-head \{ filter: none; \}/);
+});
+
+test('one volt in view: the phone dock steps aside while the Key cards demo or its key holds the screen', () => {
+  const GATE = read('HeroDockGate.jsx');
+  assert.match(GATE, /document\.querySelectorAll\('[^']*\.lp \.kc-demo, \.lp \.kc-foot'\)/);
 });

@@ -26,8 +26,10 @@ export function HeroDockGate({ children }) {
     const demo = document.getElementById('try-practice');
     const elig = document.querySelector('#du-eligibility .du-teaser__pick');
     // The interactive product panels (the feature tour's screen, the exam screen's frame) are content you read to the
-    // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo.
-    const panels = [...document.querySelectorAll('.lp .ft, .lp .xs-frame')];
+    // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo. The Key cards
+    // demo and its key are one (R3-D10): its volt keys (Got it, then the key that turns volt after the fifth card) appear
+    // after load, so the volt watch below never sees them, and the bar would sit as a second volt under them.
+    const panels = [...document.querySelectorAll('.lp .ft, .lp .xs-frame, .lp .kc-demo, .lp .kc-foot')];
     // One volt per screen (W-075): while a section's own volt button (pricing, the eligibility teaser, the close band)
     // is in the band between the nav and the bar, the bar steps aside so that button is the only volt on screen.
     const volts = [...document.querySelectorAll('.lp main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.lp-hero, .lp-dockgate'));
