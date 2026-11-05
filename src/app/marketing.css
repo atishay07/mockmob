@@ -758,6 +758,10 @@ body:has(.mm) {
   .mm-figures {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  /* A figure whose live number could not be read hides itself (LiveStatsBand): the band then lays out only the figures
+     it has, never an empty grey slab beside them (5 Nov 2026). */
+  .mm-figures:has(> :only-child) { grid-template-columns: minmax(0, 1fr); }
+  .mm-figures:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .mm-figure {
   background: var(--paper-raised);
