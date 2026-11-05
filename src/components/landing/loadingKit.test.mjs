@@ -34,7 +34,7 @@ test('countAt climbs from 0 to the true value and lands on it exactly, whole num
   assert.equal(countAt(10, { to: 50, ms: 0 }), 50);
 });
 
-test('countPlan: a number already 40% in view, a non-number or reduced motion stays as printed; one below the fold waits at 0', () => {
+test('countPlan: a number already 40% in view, a non-number or reduced motion stays as printed; one below the fold arms the roll', () => {
   assert.equal(countPlan({ value: 16020, ratio: 0 }), 'arm');
   assert.equal(countPlan({ value: 16020, ratio: 0.39 }), 'arm');
   assert.equal(countPlan({ value: 16020, ratio: 0.4 }), 'show');
@@ -54,7 +54,8 @@ test('numbers print in Indian grouping, with fixed decimals when asked', () => {
 test('the printed value is the server\'s and the first paint\'s: the roll is a copy React does not own, over a transparent value', () => {
   assert.match(KIT, /<span className="lk-count__value">\{printed\}<\/span>\s*<span ref=\{live\} className="lk-count__live" aria-hidden="true" \/>/);
   assert.match(CSS, /\.lk-count \{[^}]*font-variant-numeric: tabular-nums;/, 'the width never jumps');
-  assert.match(CSS, /\.lk-count\[data-lk\] \.lk-count__value \{ color: transparent; \}/, 'transparent, so it stays in the accessibility tree');
+  assert.match(CSS, /\.lk-count\[data-lk='rolling'\] \.lk-count__value \{ color: transparent; \}/, 'only transparent during the roll, so the true value stays in the accessibility tree');
+  assert.doesNotMatch(KIT, /write\(0\)|dataset\.lk = 'armed'/, 'never rest on zero while waiting for the roll');
   assert.match(KIT, /new IntersectionObserver\(/);
   assert.match(KIT, /\{ threshold: \[0, share\], rootMargin: `0px 0px -\$\{COUNT_UP\.below\}px 0px` \}/, 'in view means above the phone dock');
   assert.match(KIT, /watch\.disconnect\(\);\s*roll\(\);/, 'it rolls once, then stops watching');

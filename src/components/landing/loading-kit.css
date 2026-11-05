@@ -6,8 +6,8 @@
    so the words after the number never jump. */
 .lk-count { position: relative; display: inline-block; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lk-count__live { position: absolute; inset: 0; text-align: right; pointer-events: none; }
-.lk-count:not([data-lk]) .lk-count__live { display: none; }
-.lk-count[data-lk] .lk-count__value { color: transparent; }
+.lk-count:not([data-lk='rolling']) .lk-count__live { display: none; }
+.lk-count[data-lk='rolling'] .lk-count__value { color: transparent; }
 
 /* Stagger: each row rises 6 px and fades in over 160 ms, 70 ms after the one before (staggerStyle(i) sets the delay). */
 .lk-stagger > * { animation: lk-row-in 160ms cubic-bezier(0.23, 1, 0.32, 1) var(--lk-delay, 0ms) both; }

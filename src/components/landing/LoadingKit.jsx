@@ -42,14 +42,12 @@ export function CountUp({ value, decimals = 0, locale = 'en-IN', ms = COUNT_UP.m
       const entry = entries[entries.length - 1];
       if (!entry) return;
       if (!armed) {
-        // The first answer decides: already 40% in view (or reduced motion), the printed value stays; otherwise it waits at 0.
+        // If the number is already 40% in view, leave it still. Otherwise arm the roll and keep the printed value until it runs.
         if (countPlan({ value: target, ratio: entry.isIntersecting ? entry.intersectionRatio : 0, reduced: isMotionReduced(), share }) === 'show') {
           watch.disconnect();
           return;
         }
         armed = true;
-        node.dataset.lk = 'armed';
-        write(0);
         return;
       }
       if (entry.isIntersecting && entry.intersectionRatio >= share) {
