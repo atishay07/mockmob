@@ -328,6 +328,12 @@ export async function runWheel(bench, name, { log = () => {} } = {}) {
  * land with the question card wholly on screen under the nav and stay there, with focus on the card. The link is the bench's own, pinned where a thumb taps the dock, so the journey
  * does not depend on which key the hero or the dock carries today. `places`: 'below:<story class>' (40 px past that
  * story's track, so the story is within a screen) or 'compass' (the Compass section, the Recovery Lab's story above it).
+ * R3-D4 (5 Nov 2026) adds the reader's own shortcuts, each tapped where a thumb finds it:
+ *   'skip:<story class>'  the bottom bar's Skip, from the story's second rest (phones): the page lands with the next
+ *                         section's heading 20 px under the site bar, out of the story, and stays; focus on that heading.
+ *   'top:<story class>'   the bar's Top from the story's second rest (phones): the page lands at 0 and stays.
+ *   'logo'                the site bar's logo from below the last held story: the page lands at 0 and stays.
+ *   'pill'                the phone nav's Pricing pill from the top: the plan's heading lands under the site bar.
  */
 export async function runJump(bench, { log = () => {}, places } = {}) {
   const touch = bench.width < 900;
@@ -341,9 +347,18 @@ export async function runJump(bench, { log = () => {}, places } = {}) {
     document.body.appendChild(a);
   });
   const stories = await bench.stories();
-  const list = places || [...stories.map((s) => `below:${s.name}`), 'compass'];
+  // The bar's shortcuts exist on phones only; the logo everywhere.
+  const shortcuts = touch ? [...stories.filter((s) => s.name !== 'lp-statement__story').map((s) => `skip:${s.name}`), 'top:lc', 'logo', 'pill'] : ['logo'];
+  const list = places || [...stories.map((s) => `below:${s.name}`), 'compass', ...shortcuts];
   const rows = [];
   for (const place of list) {
+    if (/^(skip|top):|^(logo|pill)$/.test(place)) {
+      const row = await steady(bench, log, `jump-${place}`, () => shortcut(bench, place, touch));
+      rows.push(row);
+      if (row.skipped) { log(`skip ${row.id}`); continue; }
+      log(`${row.ok ? 'ok  ' : 'FAIL'} ${row.id} from ${row.start} to ${row.y} (expected ${row.expected}): heading top ${row.headTop ?? '-'} (nav ${row.navBottom}), ${row.moves} moves, left again ${row.leftAgain} frames, story step ${row.step ?? '-'}, focus ${row.focus}`);
+      continue;
+    }
     const row = await steady(bench, log, `jump-${place}`, async () => {
       const from = await bench.page.evaluate((where) => {
         if (where === 'compass') { const c = document.getElementById('compass'); return c ? Math.round(c.getBoundingClientRect().top + scrollY + 120) : null; }
@@ -392,6 +407,86 @@ export async function runJump(bench, { log = () => {}, places } = {}) {
     log(`${row.ok ? 'ok  ' : 'FAIL'} ${row.id} from ${row.start} to ${row.y}: card top ${row.cardTop} (nav ${row.navBottom}), ${row.moves} moves, left again ${row.leftAgain} frames, focus ${row.focus}, dock ${row.dock}`);
   }
   return rows;
+}
+
+/** One of the reader's shortcuts (R3-D4): the bar's Skip or Top, or the logo. See runJump. */
+async function shortcut(bench, place, touch) {
+  const [kind, name] = place.split(':');
+  const id = `jump-${place}`;
+  const page = bench.page;
+  await page.evaluate(() => { const link = document.getElementById('bench-jump'); if (link) link.style.display = 'none'; });
+  try {
+    let from;
+    if (kind === 'pill') {
+      from = 0;
+    } else if (kind === 'logo') {
+      const all = await bench.stories();
+      const last = all[all.length - 1];
+      from = last.top + last.hold + Math.round(bench.height * 1.5);
+    } else {
+      const s = await bench.story(name);
+      if (!s) return { id, ok: true, skipped: true };
+      from = s.rests[Math.min(1, s.steps - 1)];
+    }
+    await bench.jump(from);
+    await bench.settle(500);
+    const start = await bench.y();
+    const selector = { skip: '.lp-bar[data-on="true"] .lp-bar__skip', top: '.lp-bar[data-on="true"] .lp-bar__top', logo: '.mm-nav .logo', pill: '.mm-nav .mm-nav__price' }[kind];
+    // The bar rises 200 ms after its story goes live.
+    let box = null;
+    for (let i = 0; i < 20 && !box; i += 1) {
+      box = await page.evaluate((sel) => {
+        const el = document.querySelector(sel);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        if (!(r.width > 0) || getComputedStyle(el).visibility === 'hidden') return null;
+        return { x: Math.round(r.left + r.width / 2), y: Math.round(r.top + r.height / 2), href: el.getAttribute('href') };
+      }, selector);
+      if (!box) await sleep(100);
+    }
+    if (!box) return { id, ok: false, start, y: start, expected: null, moves: 0, leftAgain: 0, navBottom: 0, focus: `no ${selector} on screen` };
+    await page.evaluate(() => {
+      window.__jt = [];
+      const tick = () => { window.__jt.push(Math.round(scrollY)); window.__jtRaf = requestAnimationFrame(tick); };
+      window.__jtRaf = requestAnimationFrame(tick);
+    });
+    if (touch) {
+      await bench.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: box.x, y: box.y }] });
+      await sleep(60);
+      await bench.cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    } else {
+      await page.mouse.click(box.x, box.y);
+    }
+    await sleep(2600);
+    const out = await page.evaluate(({ kind: k, href, story }) => {
+      cancelAnimationFrame(window.__jtRaf);
+      const nav = document.querySelector('.mm-nav');
+      const navBottom = nav ? Math.max(0, Math.round(nav.getBoundingClientRect().bottom)) : 0;
+      const active = document.activeElement;
+      const focus = active ? `${active.tagName.toLowerCase()}${active.id ? `#${active.id}` : ''}${typeof active.className === 'string' && active.className ? `.${active.className.split(' ')[0]}` : ''}` : 'none';
+      const root = story ? document.querySelector(`.ss.${story}`) : null;
+      const step = root ? Number(root.dataset.step) : null;
+      if (k !== 'skip' && k !== 'pill') return { trace: window.__jt, y: Math.round(scrollY), expected: 0, navBottom, focus, step };
+      const section = document.getElementById(href.slice(1));
+      const head = section.querySelector('.lp-head, h2') || section;
+      let top = 0;
+      for (let node = head; node; node = node.offsetParent) top += node.offsetTop;
+      const track = root?.querySelector('.ss__track');
+      const stage = root?.querySelector('.ss__stage');
+      const holdEnd = track ? Math.round(track.getBoundingClientRect().top + scrollY + track.offsetHeight - stage.offsetHeight) : null;
+      return { trace: window.__jt, y: Math.round(scrollY), expected: Math.round(top - navBottom - 20), headTop: Math.round(head.getBoundingClientRect().top), navBottom, focus, step, holdEnd };
+    }, { kind, href: box.href, story: name || null });
+    const firstAt = out.trace.findIndex((y) => Math.abs(y - out.y) <= 3);
+    const leftAgain = firstAt < 0 ? -1 : out.trace.slice(firstAt).filter((y) => Math.abs(y - out.y) > 3).length;
+    const moves = out.trace.filter((y, i) => i > 0 && y !== out.trace[i - 1]).length;
+    let ok = Math.abs(out.y - out.expected) <= 3 && leftAgain === 0;
+    if (kind === 'skip') ok = ok && out.headTop >= out.navBottom && out.y > out.holdEnd + 2 && /h2/.test(out.focus);
+    if (kind === 'pill') ok = ok && out.headTop >= out.navBottom && /h2/.test(out.focus);
+    if (kind === 'top') ok = ok && /main#main-content/.test(out.focus);
+    return { id, start, y: out.y, expected: out.expected, headTop: out.headTop, navBottom: out.navBottom, moves, leftAgain, step: out.step, focus: out.focus, ok };
+  } finally {
+    await page.evaluate(() => { const link = document.getElementById('bench-jump'); if (link) link.style.display = ''; });
+  }
 }
 
 // ---------------------------------------------------------------- the fast-scroll hunt (LK90, 5 Nov 2026)

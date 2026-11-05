@@ -46,3 +46,18 @@ export function positionAt(reads, { line, vh }) {
   }
   return { index: -1, progress: 0 };
 }
+
+// ---- the bottom bar (phones, R3-D4) ----------------------------------------------------------------------------------
+
+/** How many steps a held story has: its --ss-steps (ScrollStory writes it on the root), else the number of its beats. */
+export function stepCount(prop, beats = 0) {
+  const n = Number.parseInt(String(prop ?? '').trim(), 10);
+  return n > 0 ? n : Math.max(1, beats);
+}
+
+/** The bar's count: "2 of 4" for the second of four steps (0-based step in), '' before a story is known. */
+export function stepLabel(step, steps) {
+  if (!(steps > 0)) return '';
+  const n = Math.max(0, Math.min(steps - 1, Math.round(step) || 0));
+  return `${n + 1} of ${steps}`;
+}

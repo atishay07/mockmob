@@ -23,6 +23,19 @@
   position: relative;
 }
 @media (min-width: 900px) { .ss { --ss-top: calc(72px + 1.25rem); --ss-bottom: 1.5rem; } }
+/* Phones: the held card stops above the bottom band (R3-D4, owner LK103, 5 Nov 2026: "Why does the card ... snap to
+   the entire bottom of the phone? ... below, like 10-20%, ... some sort of a blur"). The band is 11% of the window,
+   80 to 104 px (93 px on a 390 x 844 phone), 64 px on a window 700 px tall or less, plus the safe area; the bottom bar
+   (SectionPosition, section-position.css) fills it while a story is live. Set here at load, so a story's first fit
+   already leaves it. Landscape phones keep their own tight hold (max-height 520: no band, no bar). A story that sets its
+   own floor (the statement leaves its dock 84 px) keeps it. */
+@media (max-width: 899px) and (min-height: 521px) {
+  :root { --ss-band: clamp(80px, 11svh, 104px); }
+  .ss { --ss-bottom: calc(var(--ss-band) + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 899px) and (min-height: 521px) and (max-height: 700px) {
+  :root { --ss-band: 64px; }
+}
 
 .ss[data-pinned='true'] .ss__track {
   position: relative;
@@ -79,7 +92,8 @@
 }
 .ss__stage[data-lean='drag'] { transition: none; }
 
-/* Phones: the bottom action bar steps aside while a story holds the screen; focus brings it back. */
+/* Phones: the bottom action bar steps aside while a story holds the screen (the story's bottom bar takes its slot,
+   section-position.css); focus brings it back. */
 @media (max-width: 899px) {
   .mm.lp .mm-dock { transition: opacity 150ms ease, transform 200ms var(--mm-ease-out, ease-out); }
   .mm.lp:has(.ss[data-live='true']) .mm-dock:not(:focus-within) { opacity: 0; transform: translateY(calc(100% + 2rem)); pointer-events: none; }

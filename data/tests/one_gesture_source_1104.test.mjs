@@ -249,3 +249,22 @@ test('a finger that drags the page into a story is held on the rest it came in b
   assert.match(frame, /if \(keepY !== null && \(touches === 0 \|\| drag\) && Math\.abs\(y - keepY\) > 1\) \{/);
   assert.match(body(code, 'settle'), /if \(dragging\(\) && keepY !== null\) return;/, 'a finger still down keeps its hold');
 });
+
+test('the one glide on the landing is the reader\'s own way back (R3-D4, LK104, 5 Nov 2026): bus.glideTo, called only by pageJump', () => {
+  // LK47 ("no glide") stands for everything the page does on its own. The owner's round 3 asked for the logo to take the
+  // reader to the top and for a way to skip and to reach the bottom; within three screens that is an 850 ms
+  // ease-in-out-cubic glide (Preparoo's own), further a veil and one instant jump. The glide is a declared jump for its
+  // whole length (no story clamps it) and stops on any touch, wheel, key or pointer of the reader's.
+  const callers = HOME_FILES.filter((file) => /glideTo\(/.test(strip(read(file)))).sort();
+  assert.deepEqual(callers, ['src/components/landing/pageJump.mjs', 'src/components/landing/scrollBus.mjs']);
+  const jump = strip(read('src/components/landing/pageJump.mjs'));
+  assert.match(jump, /import \* as bus from '\.\/scrollBus\.mjs';/);
+  assert.doesNotMatch(jump, /window\.scroll(To|By)\(/, 'pageJump moves the page only through the bus');
+  assert.match(jump, /return Math\.abs\(to - from\) <= GLIDE_SCREENS \* vh \? 'glide' : 'veil';/);
+  assert.match(jump, /if \(reduced\) return 'instant';/, 'never a glide under reduced motion');
+  const bus = strip(BUS);
+  assert.match(body(bus, 'glideTo'), /jump\(end\(\)\);/, 'declared before the first frame');
+  assert.match(body(bus, 'jumpInput'), /addEventListener\(type, userTook, \{ passive: true \}\)/, 'the reader\'s input ends it');
+  // Every frame of it is instant: html's scroll-behavior: smooth would turn each into a glide of its own.
+  assert.match(body(bus, 'glideTo'), /behavior: 'instant'/);
+});

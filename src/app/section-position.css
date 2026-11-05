@@ -1,6 +1,7 @@
 /* ==========================================================================
-   SECTION POSITION (landing): the band under the site bar that names the held story you are in
-   (SectionPosition.jsx).
+   SECTION POSITION (landing): where you are in the held stories, and the way out of them (SectionPosition.jsx).
+   Phones (below 900 px): the bottom bar, the veil and the nav's Pricing pill (R3-D4, LK103/LK104), further down.
+   Wide windows: the band under the site bar that names the held story you are in.
    A held story pins its stage, so its heading is long gone by the middle of it. Once a section's heading has
    gone under the band and its story is still running, a one-line band slides in under the site bar with the
    section's name and a 2px rule along its bottom edge that fills with the hold; it leaves when the story has run.
@@ -94,14 +95,16 @@
    The stage starts under the band, and the story tucks up by the band's height, so the gap from a heading to its
    story is what it was. The track never takes a pointer (its stage's own content does), so the tucked-up overlap
    leaves the heading's last words selectable. */
-@media (min-height: 521px) {
-  .mm.lp .lp-pos-host .ss { --ss-top: calc(61px + env(safe-area-inset-top, 0px) + 0.75rem + var(--lp-pos-h)); }
+@media (min-width: 900px) and (min-height: 521px) {
+  .mm.lp .lp-pos-host .ss { --ss-top: calc(72px + 1.25rem + var(--lp-pos-h)); }
   .mm.lp .lp-pos-host .ss[data-pinned='true'] { margin-top: calc(var(--lp-pos-h) * -1); }
   .mm.lp .lp-pos-host .ss--centre[data-pinned='true'] { margin-top: calc(var(--ss-slack, 0px) / -2 - var(--lp-pos-h)); }
   .mm.lp .lp-pos-host .ss__track { pointer-events: none; }
 }
-@media (min-width: 900px) and (min-height: 521px) {
-  .mm.lp .lp-pos-host .ss { --ss-top: calc(72px + 1.25rem + var(--lp-pos-h)); }
+/* Phones: the band's name and progress moved to the bottom bar (R3-D4), so the held stories start right under the
+   site bar (scroll-story.css) and keep the 40 px the band took. */
+@media (max-width: 899px) {
+  .mm.lp .lp-pos { display: none; }
 }
 /* Landscape phones keep their own tight hold; the band stays out of the way there. */
 @media (max-height: 520px) {
@@ -118,4 +121,186 @@ html[data-motion='reduced'] .mm.lp :is(.lp-pos__band, .lp-pos__name) { transitio
 }
 @media print {
   .mm.lp .lp-pos { display: none; }
+}
+
+/* ==========================================================================
+   THE BOTTOM BAR (phones, R3-D4; owner LK103/LK104, 5 Nov 2026)
+   While a held story is live it takes the phone dock's slot (the dock steps aside, scroll-story.css): a progressive
+   blur over the page's paper, the height of the band the held card stops above (--ss-band, scroll-story.css), and one
+   row: Top, the section's name with "2 of 4" over one segment per step, and Skip. Four backdrop layers (1.5, 4, 8 and
+   14 px), each masked to start lower than the one before, so the blur grows towards the bottom edge with no seam
+   (Preparoo's band is the same idea in ten layers; their last five do not show). A paper tint over them keeps the row
+   readable. Under reduced transparency, or on a phone with 4 GB of memory or less (data-lite), the tint alone, denser.
+   It sits outside every stage (a lean would drag it), under the site bar (60) and the veil (58). The bar itself never
+   takes a pointer: a swipe that starts on it still moves the story (the controller listens on the window); only its
+   two keys do.
+   ========================================================================== */
+.mm.lp .lp-bar { display: none; }
+@media (max-width: 899px) and (min-height: 521px) {
+  .mm.lp .lp-bar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 54;
+    height: calc(var(--ss-band, 92px) + env(safe-area-inset-bottom, 0px));
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 220ms;
+  }
+  .mm.lp .lp-bar[data-on='true'],
+  .mm.lp .lp-bar:focus-within { visibility: visible; transition: visibility 0s; }
+
+  .mm.lp .lp-bar__blur { position: absolute; inset: 0; opacity: 0; transition: opacity 150ms ease-out; }
+  .mm.lp .lp-bar:is([data-on='true'], :focus-within) .lp-bar__blur { opacity: 1; }
+  .mm.lp .lp-bar__blur i { position: absolute; inset: 0; }
+  .mm.lp .lp-bar__blur i:nth-child(1) { -webkit-backdrop-filter: blur(1.5px); backdrop-filter: blur(1.5px); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%); mask-image: linear-gradient(to bottom, transparent 0%, #000 22%); }
+  .mm.lp .lp-bar__blur i:nth-child(2) { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); -webkit-mask-image: linear-gradient(to bottom, transparent 12%, #000 40%); mask-image: linear-gradient(to bottom, transparent 12%, #000 40%); }
+  .mm.lp .lp-bar__blur i:nth-child(3) { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); -webkit-mask-image: linear-gradient(to bottom, transparent 25%, #000 58%); mask-image: linear-gradient(to bottom, transparent 25%, #000 58%); }
+  .mm.lp .lp-bar__blur i:nth-child(4) { -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); -webkit-mask-image: linear-gradient(to bottom, transparent 40%, #000 75%); mask-image: linear-gradient(to bottom, transparent 40%, #000 75%); }
+  .mm.lp .lp-bar__blur::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 0%, transparent) 0%, color-mix(in srgb, var(--paper) 55%, transparent) 45%, color-mix(in srgb, var(--paper) 88%, transparent) 100%);
+  }
+  .mm.lp .lp-bar[data-lite='true'] .lp-bar__blur i { display: none; }
+  .mm.lp .lp-bar[data-lite='true'] .lp-bar__blur::after { background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 0%, transparent) 0%, color-mix(in srgb, var(--paper) 86%, transparent) 38%, var(--paper) 100%); }
+
+  /* The row sits where the dock's keys sit: on the same floor, in the same side gutters. */
+  .mm.lp .lp-bar__row {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px));
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 12px;
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    transition: opacity 150ms ease-out, transform 200ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+  .mm.lp .lp-bar:is([data-on='true'], :focus-within) .lp-bar__row { opacity: 1; transform: none; }
+
+  .mm.lp :is(.lp-bar__top, .lp-bar__skip) {
+    pointer-events: auto;
+    box-sizing: border-box;
+    min-height: 44px;
+    border: 1px solid var(--line-strong);
+    background: var(--paper-raised);
+    color: var(--ink);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: transform 160ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), background-color 160ms ease-out;
+  }
+  .mm.lp :is(.lp-bar__top, .lp-bar__skip):active { transform: scale(0.96); }
+  .mm.lp :is(.lp-bar__top, .lp-bar__skip):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+  .mm.lp .lp-bar__top { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 999px; }
+  .mm.lp .lp-bar__skip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 1.05rem;
+    border-radius: 14px;
+    font: 650 0.9375rem/1 var(--font-display);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* The name and the count on one line, the step segments under them. */
+  .mm.lp .lp-bar__where { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 8px; row-gap: 7px; min-width: 0; }
+  .mm.lp .lp-bar__name { margin: 0; overflow: hidden; color: var(--ink); font: 650 0.8125rem/1.25 var(--font-display); white-space: nowrap; text-overflow: ellipsis; }
+  .mm.lp .lp-bar__name em { font-style: normal; color: var(--brand-word, var(--accent-text)); }
+  .mm.lp .lp-bar__count { margin: 0; color: var(--ink-2); font: 600 0.75rem/1.25 var(--font-body, inherit); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .mm.lp .lp-bar__steps { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); gap: 3px; height: 3px; }
+  .mm.lp .lp-bar__steps i { position: relative; display: block; overflow: hidden; border-radius: 2px; background: var(--line-strong); }
+  /* A step's segment fills when the story reaches it: driven by the step, never the scroll position (220 ms). */
+  .mm.lp .lp-bar__steps i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--brand-word, var(--accent-text));
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 220ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+  .mm.lp .lp-bar__steps i[data-on='true']::after { transform: scaleX(1); }
+}
+@media (max-width: 899px) and (min-height: 521px) and (hover: hover) and (pointer: fine) {
+  .mm.lp :is(.lp-bar__top, .lp-bar__skip):hover { background: var(--surface-hover, var(--paper-sunken)); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .mm.lp .lp-bar__blur i { display: none; }
+  .mm.lp .lp-bar__blur::after { background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 0%, transparent) 0%, color-mix(in srgb, var(--paper) 86%, transparent) 38%, var(--paper) 100%); }
+}
+
+/* ---------- The veil (pageJump.mjs) ----------
+   A shortcut further than three screens jumps under the page's own paper: 120 ms in, one instant jump, then 240 ms out
+   while the arriving section rises 12 px into place. Under the site bar, so the bar stays as the anchor. */
+.mm.lp .lp-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 58;
+  background: var(--paper);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s linear 240ms;
+}
+.mm.lp .lp-veil[data-on='true'] { opacity: 1; visibility: visible; transition: opacity 120ms ease-out, visibility 0s; }
+
+/* ---------- The phone nav's Pricing pill (NavBar.jsx, home page only) ----------
+   "Something for the bottom": a small pill beside the theme switch that goes to the plan (#pricing) through
+   pageJump.mjs. A 30 px pill in a 44 px target. Wide windows have Pricing among the bar's links or in the menu. Below
+   375 px the bar has no room for it (measured at 360: the menu key was pushed 13 px into the gutter), so there the
+   menu keeps Pricing. */
+.mm .mm-nav__price { display: none; }
+@media (min-width: 375px) and (max-width: 899px) {
+  .mm .mm-nav__price {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
+    color: var(--ink);
+    text-decoration: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mm .mm-nav__price > span {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--paper-raised);
+    font: 650 0.8125rem/1 var(--font-display);
+    white-space: nowrap;
+    transition: transform 160ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+  .mm .mm-nav__price:active > span { transform: scale(0.96); }
+  .mm .mm-nav__price:focus-visible { outline: none; }
+  .mm .mm-nav__price:focus-visible > span { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+}
+/* Below 400 px the bar is tight (the wordmark is 149 px, the switch 64, the menu 48): the row's gaps close up a little and
+   the pill's words go to 12 px, so the menu key keeps its place in the gutter. */
+@media (min-width: 375px) and (max-width: 399px) {
+  .mm .mm-nav__row:has(.mm-nav__price) { gap: 0.5rem; }
+  .mm .mm-nav__end:has(.mm-nav__price) { gap: 0.25rem; }
+  .mm .mm-nav__price { padding: 0; }
+  .mm .mm-nav__price > span { padding: 0 0.6rem; font-size: 0.75rem; }
+}
+
+/* ---------- Reduced motion: the bar, the veil and the pill swap without travel ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp :is(.lp-bar__row, .lp-bar__blur, .lp-veil) { transition: none !important; transform: none !important; }
+  .mm.lp .lp-bar__steps i::after { transition: none !important; }
+  .mm :is(.lp-bar__top, .lp-bar__skip, .mm-nav__price > span) { transition: none !important; }
+}
+html[data-motion='reduced'] .mm.lp :is(.lp-bar__row, .lp-bar__blur, .lp-veil) { transition: none !important; transform: none !important; }
+html[data-motion='reduced'] .mm.lp .lp-bar__steps i::after { transition: none !important; }
+@media print {
+  .mm.lp :is(.lp-bar, .lp-veil) { display: none; }
 }

@@ -254,3 +254,54 @@ test('a slow drag that stops short of a story is never touched', () => {
   drag(10, 30);
   assert.equal(win.scrollY, STORY_TOP - 200);
 });
+
+// ---------------------------------------------------------------- the reader's way back (R3-D4, 5 Nov 2026)
+// The logo on the home page and the bottom bar's Top and Skip move the page through pageJump.mjs: within three screens a
+// glide (scrollBus.glideTo, 850 ms), a declared jump for its whole length. No story may clamp it on the way, it must end
+// exactly where it was sent, and any touch of the reader's must stop it where it is.
+
+test('a glide to the top across a near story arrives at 0 and stays: no hold on the story\'s edge', () => {
+  placeAt(END + 300);
+  // The tap on the logo or on Top: a touch that starts and ends on the glass (a fling window for 3 s, LK89).
+  win.dispatch('touchstart', { touches: [{ clientX: 40, clientY: 800 }], target: new FakeElement() });
+  clock.t += 60;
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  bus.glideTo(0, { ms: 850 });
+  frames(70); // 1.1 s
+  assert.equal(win.scrollY, 0, `ends at the top; moves ${moves.slice(0, 6).join(' ')} ... ${moves.slice(-4).join(' ')}`);
+  assert.ok(moves.every((y, i) => i === 0 || y <= moves[i - 1]), 'every frame moved up: never put back on a rest');
+  assert.ok(!moves.includes(END) || moves.indexOf(END) === moves.lastIndexOf(END), 'the story\'s last rest is passed, not held');
+  assert.equal(bus.jumping(), false, 'the jump is over once the page has arrived');
+  frames(120);
+  assert.equal(win.scrollY, 0, 'and it stays there');
+});
+
+test('the glide eases in and out over 850 ms (ease-in-out-cubic), and a touch stops it where it is', () => {
+  assert.equal(bus.easeInOutCubic(0), 0);
+  assert.equal(bus.easeInOutCubic(0.5), 0.5);
+  assert.equal(bus.easeInOutCubic(1), 1);
+  assert.ok(bus.easeInOutCubic(0.1) < 0.1 && bus.easeInOutCubic(0.9) > 0.9, 'slow at both ends');
+  placeAt(2400);
+  bus.glideTo(0, { ms: 850 });
+  frames(20); // about 320 ms in
+  const mid = win.scrollY;
+  assert.ok(mid > 0 && mid < 2400, `part way (${mid})`);
+  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 400 }], target: new FakeElement() });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(60);
+  assert.equal(win.scrollY, mid, 'the reader took over: the page stays where the touch found it');
+  assert.equal(bus.isGliding(), false);
+});
+
+test('a glide from inside a hold (Top tapped on a rest) leaves the story: the tap\'s hold is dropped', () => {
+  placeAt(rests[1]);
+  win.dispatch('touchstart', { touches: [{ clientX: 40, clientY: 800 }], target: new FakeElement() });
+  clock.t += 60;
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  const target = STORY_TOP - 900;
+  bus.glideTo(target, { ms: 850 });
+  frames(80);
+  assert.equal(win.scrollY, target, `left the story for ${target}; moves ${moves.slice(-5).join(' ')}`);
+  frames(60);
+  assert.equal(win.scrollY, target);
+});
