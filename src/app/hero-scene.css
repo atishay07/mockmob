@@ -58,11 +58,11 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 /* ---------- "CUET 2027." highlighted (round 4, owner LK120: "no highlighting of the CUET stuff") ----------
    The exam's name is the headline's anchor, the way Preparoo sets its exam name: one step larger than the two lines under
    it (1.3x on phones, 1.45x from 960 px, always inside the column: 5.6 em is its widest with the mark's overhang, measured
-   in Chrome) and under a highlighter mark, the stroke a student puts through the line that matters. The mark is a band
-   its ends a little uneven and the stroke a degree off level, like a hand drew it. Day: the true volt as a highlighter
-   band over the letters' lower part, the letters in the app's deepest Day green (#2C3A00, 11.9:1 on the volt). Night: the
-   letters stay true volt (D2, LK82) and the mark is a thick volt stroke under them, the way a highlighter underlines on a
-   dark page (a band behind volt letters read as a muddy selection in the captures).
+   in Chrome) and under a highlighter mark, the stroke a student puts through the line that matters: its ends a little
+   uneven and the stroke a degree off level, like a hand drew it. Day: the true volt as a highlighter band over the
+   letters' lower part, the letters in a deep Day green (#2C3A00: 9.5:1 on the volt, 11:1 on the paper above it). Night:
+   the letters stay true volt (D2, LK82) and the mark is a thick volt stroke under them, the way a highlighter underlines
+   on a dark page (a band behind volt letters read as a muddy selection in the captures).
    It draws once on load from the left (520 ms, the app's out curve), after the opening; reduce motion: drawn already. */
 .mm.lp .lp-hero .lp-title__brand {
   position: relative;
@@ -380,8 +380,10 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
    The features strip (round 4, owner LK124; supersedes R3-D3's number strip): the main features (heroTaps.mjs
    heroFeatures), each one link to its section, with its desk object, its name in Bricolage 700 and one quiet line; then
    the honest price hook (heroPriceHook), "As low as ₹1.10 a mock on Pro" with the pace and price beside it, a link to
-   the pricing slider. Phones: raised paper with hairline cells, two across, the hook a full-width row at its foot. From
-   960 px it sits in the words' column under the keys, on the page's own paper: three across between two hairlines.
+   the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
+   two at 390), the hook the last row; tablets two across. From
+   960 px it sits in the words' column under the keys, on the page's own paper between two hairlines: two across, three
+   from 1400 px.
    No glass, no glow, nothing moves.
    ========================================================================== */
 .mm.lp .lp-strip {
@@ -393,11 +395,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   box-shadow: 0 1px 2px rgba(27, 25, 20, 0.05), 0 18px 40px -28px rgba(27, 25, 20, 0.28);
 }
 :root[data-theme='dark'] .mm.lp .lp-strip { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 22px 44px -30px rgba(0, 0, 0, 0.75); }
-.mm.lp .lp-strip__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; }
+.mm.lp .lp-strip__list { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0; padding: 0; list-style: none; }
 .mm.lp .lp-strip__item { display: flex; min-width: 0; border-bottom: 1px solid var(--line); }
-/* Hairlines between the cells: a column rule on the left cells; an odd last cell takes the whole row. */
-.mm.lp .lp-strip__item:nth-child(odd) { border-right: 1px solid var(--line); }
-.mm.lp .lp-strip__item:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; }
 .mm.lp .lp-strip__fact {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -407,13 +406,13 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   flex: 1;
   min-width: 0;
   min-height: 44px;
-  padding: 14px 14px 16px;
+  padding: 12px 16px;
   color: var(--ink-3);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   transition: background-color 160ms ease-out;
 }
-.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: start; }
+.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: center; }
 .mm.lp .lp-strip__icon--mobi { display: grid; place-items: center; width: 36px; height: 36px; }
 .mm.lp .lp-strip__name {
   grid-row: 1;
@@ -424,7 +423,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   color: var(--ink);
   text-wrap: balance;
 }
-.mm.lp .lp-strip__line { grid-row: 2; grid-column: 2; margin-top: 3px; font-size: 0.8125rem; line-height: 1.35; text-wrap: balance; }
+.mm.lp .lp-strip__line { grid-row: 2; grid-column: 2; margin-top: 2px; font-size: 0.8125rem; line-height: 1.35; text-wrap: balance; }
 .mm.lp .lp-strip__fact:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
 .mm.lp .lp-strip__fact:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 12px; }
 @media (hover: hover) and (pointer: fine) {
@@ -463,15 +462,18 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   .mm.lp .lp-strip__hook:hover .lp-strip__hook-unit { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
 }
 
-/* ---------- Tablets (640 to 959 px): the phone's stack, held to a readable column; the strip three across ---------- */
+/* ---------- Tablets (640 to 959 px): the phone's stack, wider (round 4, LK119: at 768 the old 560 px column left 104 px
+   of empty paper each side); the strip two across ---------- */
 @media (min-width: 640px) and (max-width: 959px) {
-  .mm.lp .lp-hero__grid { max-width: 600px; margin-inline: auto; }
-  .mm.lp .lp-hero .lp-title { font-size: min(3.5rem, 11.3cqi); }
-  .mm.lp .lp-desk { --desk-h: 15rem; }
-  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .mm.lp .lp-strip__item:nth-child(odd) { border-right: 0; }
-  .mm.lp .lp-strip__item:not(:nth-child(3n)) { border-right: 1px solid var(--line); }
-  .mm.lp .lp-strip__item:last-child:nth-child(odd) { grid-column: auto; }
+  .mm.lp .lp-hero__grid { max-width: 752px; margin-inline: auto; }
+  .mm.lp .lp-hero .lp-title { font-size: min(4.25rem, 11.3cqi); }
+  .mm.lp .lp-desk { --desk-h: 16.5rem; }
+  /* The wider room seats a larger Mobi (between the phone's 134 and the desktop's 180), his bubble beside him. */
+  .lp-desk__figure { --mobi-h: min(160px, calc(var(--desk-h) - 34px)); left: 40px; }
+  .lp-desk__bubble { left: calc(40px + var(--bubble-x, 120px)); bottom: 48px; width: 10.5rem; font-size: 0.9375rem; }
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mm.lp .lp-strip__item:nth-child(odd) { border-right: 1px solid var(--line); }
+  .mm.lp .lp-strip__item:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; }
 }
 
 /* ---------- Desktop (960 px up): the words left, the desk right; the strip and the links under the keys ----------
@@ -510,9 +512,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   /* The strip in the words' column: the page's own paper between two hairlines, three across, no cell rules. */
   .mm.lp .lp-strip { margin-top: 32px; overflow: visible; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; }
   :root[data-theme='dark'] .mm.lp .lp-strip { box-shadow: none; }
-  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 8px; padding-top: 6px; }
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 8px; padding-top: 6px; }
   .mm.lp .lp-strip__item, .mm.lp .lp-strip__item:nth-child(odd) { border: 0; }
-  .mm.lp .lp-strip__item:last-child:nth-child(odd) { grid-column: auto; }
   .mm.lp .lp-strip__fact { padding: 12px 10px 12px 8px; margin-inline: -8px 0; border-radius: 14px; }
   .mm.lp .lp-strip__name { font-size: 1rem; }
   .mm.lp .lp-strip__line { font-size: 0.875rem; }
@@ -520,6 +521,18 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   .mm.lp .lp-strip__hook-fig { font-size: 2.25rem; }
   .mm.lp .lp-strip__hook-unit, .mm.lp .lp-strip__hook-lead { font-size: 1.0625rem; }
   .mm.lp .lp-strip__hook-line { flex-basis: auto; font-size: 0.9375rem; }
+}
+
+/* From 1400 px the words' column holds three features across with each line on one line (two across below that: at
+   1280 three across broke every line in two). */
+@media (min-width: 1400px) {
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Large desktops: the ways in grow with the headline, so the keys never look small beside a 100 px line. */
+@media (min-width: 1600px) {
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child { min-height: 64px; padding-inline: 32px; font-size: 1.1875rem; }
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:nth-child(2) { min-height: 64px; padding-inline: 28px; font-size: 1.125rem; }
 }
 
 /* Wide screens: the sample card's type grows with its card. */

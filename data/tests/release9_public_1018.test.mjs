@@ -144,8 +144,11 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
   const home = read('src/app/page.js');
   // 4 Nov 2026 (SPEC-HOME-1104 P2): the same reassurances as one sentence pair with no middle dots. 5 Nov 2026 (R3-D3,
   // owner LK99: "the two fact lines become one line"): one fact line, the live count then the money, still built from
-  // priceLine(OFFER) (heroTaps.mjs heroFactLine).
-  assert.ok(home.includes('<QuestionBankLine variant="fact" price={priceLine(OFFER)} className="lp-hero__fact" />'));
+  // priceLine(OFFER) (heroTaps.mjs heroFactLine). Round 4 (owner LK121/LK124, 5 Nov 2026): the hero's fact line went; its
+  // money is the price hook, worked out from the same live offer (heroPriceHook -> value.mjs perMock), which frames a monthly
+  // price as "a month" and the one-time price as "once ... to 31 July 2027", never one for the other (heroTaps.test.mjs).
+  assert.ok(home.includes('const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });'));
+  assert.ok(!home.includes('lp-hero__fact'), 'no fact line in the hero');
   // What a buyer is charged today (checkout code, unchanged): the one-time plan is ₹99, live, through 31 July 2027;
   // the monthly plan opens only when its Razorpay plan id is configured.
   const plans = read('src/lib/payments/plans.js');

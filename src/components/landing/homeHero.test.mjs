@@ -119,7 +119,7 @@ test('LK70 geometry: phone sizes put the words first (h1 39.5 px at 390, the roo
   // under 100 % of the copy column at 360, 390, 768, 1280 and 1440: every typed phrase types and fits its line.
   assert.ok(8.77 * 11.3 < 99.5);
   assert.ok(8.69 * 11.4 < 99.5);
-  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title \{ font-size: min\(3\.5rem, 11\.3cqi\); \}/);
+  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title \{ font-size: min\(4\.25rem, 11\.3cqi\); \}/, 'tablets: up to 68 px in a 752 px column (round 4)');
   // Round 4 (LK117): the headline fills its column up to 128 px (79 px at 1440, 101 px at 1920, measured), and the hero
   // takes the site-wide desktop container (desktop-scale.css: 3.5 vw gutters, up to 1,680 px), not the guide Mobi's lane.
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title \{ font-size: min\(128px, 11\.4cqi\); line-height: 0\.95; letter-spacing: -0\.04em; \}/);
@@ -157,9 +157,10 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.match(BEAT_STRIP, /<MobiMark size=\{30\} \/>/, 'Ask Mobi is Mobi\'s own mark');
   assert.match(BEAT_STRIP, /<a href=\{hook\.href\} className="lp-strip__hook">/, 'the hook is one link to the slider');
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook-fig \{[^}]*color: var\(--brand-word, var\(--ink\)\);[^}]*font-variant-numeric: lining-nums tabular-nums;/);
-  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ display: grid; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/, 'two across on phones');
-  assert.match(CSS, /\.mm\.lp \.lp-strip__item:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \}/, 'an odd last cell spans the row');
-  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); column-gap: 8px;/, 'three across in the words\' column on desktop');
+  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ display: grid; grid-template-columns: minmax\(0, 1fr\);/, 'one feature a row on phones');
+  assert.match(CSS, /\.mm\.lp \.lp-strip__item:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \}/, 'tablets: an odd last cell spans the row');
+  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); column-gap: 8px;/, 'two across in the words\' column from 960 px');
+  assert.match(CSS, /@media \(min-width: 1400px\) \{\s*\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); \}/, 'three across from 1400 px');
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
