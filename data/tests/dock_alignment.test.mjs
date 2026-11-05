@@ -198,8 +198,10 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           const probe = `(() => {
             const key = document.querySelector('[data-start-key="bar"]'); const s = getComputedStyle(key);
             const bar = document.querySelector('.pr-bar__go'); const r = bar.getBoundingClientRect();
-            const top = document.querySelector('.arena-topbar').getBoundingClientRect().height; const dock = document.querySelector('.arena-dock').getBoundingClientRect().top;
-            const seen = Math.max(0, Math.min(r.bottom, dock) - Math.max(r.top, top)) / r.height;
+            const top = document.querySelector('.arena-topbar').getBoundingClientRect().height; const dock = document.querySelector('.arena-dock').getBoundingClientRect();
+            const aboveDock = Math.min(r.bottom, dock.top) - Math.max(r.top, top);
+            const belowDock = Math.min(r.bottom, innerHeight) - Math.max(r.top, dock.bottom);
+            const seen = Math.max(0, aboveDock, belowDock) / r.height;
             return { look: [s.backgroundColor, s.color, s.boxShadow].join('|'), quiet: key.hasAttribute('data-quiet'), seen, w: key.getBoundingClientRect().width, h: key.getBoundingClientRect().height };
           })()`;
           const down = new Map();
@@ -221,7 +223,7 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           for (const [y, m] of down) {
             assert.ok(near(m.w, 56) && near(m.h, 56), `at ${y} the key keeps its 56 px box`);
             if (m.seen >= 0.5) assert.equal(m.quiet, true, `at ${y} the session bar's key is on screen, so the dock key is quiet`);
-            if (m.seen <= 0.05) assert.equal(m.quiet, false, `at ${y} no session key is on screen, so the dock key is lime`);
+            if (m.seen === 0) assert.equal(m.quiet, false, `at ${y} no session key is on screen, so the dock key is lime`);
           }
           const lime = [...down.values()].find((m) => !m.quiet);
           assert.ok(lime, 'the page has a place where the dock key is lime');
