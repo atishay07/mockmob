@@ -2,14 +2,16 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
+import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { keepTogether } from '@/lib/keepTogether.mjs';
 
 // Read-mode surface inside a Persuade site: comprehension and wayfinding come
 // first, and the conversion rail sits at the end of the article rather than
-// interrupting it. `page.eyebrow` is deliberately not rendered.
+// interrupting it. `page.eyebrow` is deliberately not rendered. Every drawn string goes through keepTogether, so
+// "CUET 2027" or "CUET UG 2026" never parts at a line end (night 1105); the JSON-LD keeps plain spaces.
 export function SeoContentPage({ page }) {
   return (
     <div className="mm">
@@ -38,12 +40,12 @@ export function SeoContentPage({ page }) {
               <nav className="mm-crumbs" aria-label="Breadcrumb">
                 <Link href="/">Home</Link>
                 <span aria-hidden="true">/</span>
-                <span>{page.breadcrumb}</span>
+                <span>{keepTogether(page.breadcrumb)}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title">{page.h1}</h1>
-              <p className="mm-article__intro">{page.intro}</p>
-              {/* The page's one action, before the essay: a visitor who came to practise can start here. */}
-              <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Start a free mock</Link></p>
+              <h1 className="mm-h1 mm-article__title">{keepTogether(page.h1)}</h1>
+              <p className="mm-article__intro">{keepTogether(page.intro)}</p>
+              {/* The page's one action, before the essay, in the home page's words (LK83/LK88): the key says where it goes. */}
+              <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Sign up free</Link></p>
               {/* A subject guide carries its paper's lamp-lit object, the same one the landing shelf links from. */}
               {page.subjectArt ? <SubjectObject id={page.subjectArt} size={168} lit priority className="mm-article__object" /> : null}
             </div>
@@ -52,15 +54,15 @@ export function SeoContentPage({ page }) {
           <div className="mm-wrap mm-wrap--tight mm-article">
             {page.sections.map((section) => (
               <section key={section.heading} className="mm-article__section">
-                <h2 className="mm-h2">{section.heading}</h2>
+                <h2 className="mm-h2">{keepTogether(section.heading)}</h2>
                 {section.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
+                  <p key={paragraph}>{keepTogether(paragraph)}</p>
                 ))}
 
                 {section.chips ? (
                   <ul className="mm-article__chips">
                     {section.chips.map((chip) => (
-                      <li key={chip}>{chip}</li>
+                      <li key={chip}>{keepTogether(chip)}</li>
                     ))}
                   </ul>
                 ) : null}
@@ -69,7 +71,7 @@ export function SeoContentPage({ page }) {
                   <div className="mm-article__links">
                     {section.links.map((link) => (
                       <Link key={link.href} href={link.href} className="mm-chip" data-commerce={link.href.startsWith('/pricing') ? '' : undefined}>
-                        {link.label}
+                        {keepTogether(link.label)}
                       </Link>
                     ))}
                   </div>
@@ -82,8 +84,8 @@ export function SeoContentPage({ page }) {
               <div className="mm-faqs">
                 {page.faqs.map((faq) => (
                   <details key={faq.question} className="mm-faq">
-                    <summary>{faq.question}</summary>
-                    <div className="mm-faq__body">{faq.answer}</div>
+                    <summary>{keepTogether(faq.question)}</summary>
+                    <div className="mm-faq__body">{keepTogether(faq.answer)}</div>
                   </details>
                 ))}
               </div>
@@ -99,7 +101,7 @@ export function SeoContentPage({ page }) {
               </p>
               <div className="mm-actions" style={{ marginTop: '1.75rem' }}>
                 <Link href="/signup" className="mm-btn mm-btn--primary">
-                  Start a free mock
+                  Sign up free
                 </Link>
                 <Link href="/pricing" className="mm-btn mm-btn--secondary" data-commerce="">
                   See what Pro adds
@@ -111,7 +113,7 @@ export function SeoContentPage({ page }) {
       </main>
 
       <MarketingFooter />
-      <MobileDock note="Practise this syllabus tonight." />
+      <PublicDock />
     </div>
   );
 }

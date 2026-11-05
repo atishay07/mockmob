@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
+import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import ComboPlanner from '@/components/du/ComboPlanner';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import { keepTogether } from '@/lib/keepTogether.mjs';
 import '@/app/landing.css';
 import '@/components/du/du.css';
 import './combo-planner.css';
@@ -77,8 +78,8 @@ export default function ComboPlannerPage() {
             <div className="mm-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
-                  <summary>{question}</summary>
-                  <div className="mm-faq__body">{answer}</div>
+                  <summary>{keepTogether(question)}</summary>
+                  <div className="mm-faq__body">{keepTogether(answer)}</div>
                 </details>
               ))}
             </div>
@@ -89,7 +90,7 @@ export default function ComboPlannerPage() {
         </section>
       </main>
       <MarketingFooter />
-      <MobileDock note="Free. No signup." label="Try a CUET question" href="/#try-practice" />
+      <PublicDock />
     </div>
   );
 }

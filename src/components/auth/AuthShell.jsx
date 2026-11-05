@@ -5,6 +5,7 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import MobiReact from '@/components/brand/MobiReact';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { keepTogether } from '@/lib/keepTogether.mjs';
 import '@/app/auth.css';
 
 // The four commerce subjects most students sit, as the app's lamp-lit objects on one desk.
@@ -19,8 +20,9 @@ export function AuthShell({ title, lead, points = [], children }) {
       <NavBar />
       <main id="main-content" className="mm-wrap auth__grid">
         <div className="auth__copy">
-          <h1 className="mm-h1 auth__title">{title}</h1>
-          <p className="mm-lead auth__lead">{lead}</p>
+          {/* "CUET 2027" never parts at a line end (it split at 360, 390 and 1440 before, night 1105). */}
+          <h1 className="mm-h1 auth__title">{keepTogether(title)}</h1>
+          <p className="mm-lead auth__lead">{keepTogether(lead)}</p>
         </div>
         <div className="auth__card">{children}</div>
         <div className="auth__scene">
@@ -38,7 +40,7 @@ export function AuthShell({ title, lead, points = [], children }) {
               {points.map((point, i) => (
                 <li key={point} style={{ '--i': i }}>
                   <Check size={18} aria-hidden="true" />
-                  {point}
+                  {keepTogether(point)}
                 </li>
               ))}
             </ul>

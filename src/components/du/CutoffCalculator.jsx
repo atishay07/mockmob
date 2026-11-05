@@ -307,7 +307,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
   // W-075 (release 9): one lime key per viewport. The sticky "View courses" key steps back to outlined while the page's own
-  // closing key is on screen (signed out: "Start a free mock"); signed in, that closing key is not lime at all (the app's
+  // closing key is on screen (signed out: "Sign up free", night 1105); signed in, that closing key is not lime at all (the app's
   // Start key is the one lime action there).
   const ctaRef = useRef(null);
   const [ctaInView, setCtaInView] = useState(false);
@@ -696,7 +696,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div className="du-cta__actions">
           {/* Signed in, the sidebar's and the dock's Start key are the app's lime action, so Go to Practice is outlined (W-075). */}
           <Link href={isAuthenticated ? '/dashboard' : '/signup'} className={isAuthenticated ? 'mm-btn mm-btn--secondary' : 'mm-btn mm-btn--primary'}>
-            {isAuthenticated ? 'Go to Practice' : 'Start a free mock'}
+            {isAuthenticated ? 'Go to Practice' : 'Sign up free'}
           </Link>
           <Link href={isAuthenticated ? '/review' : '/features'} className={isAuthenticated ? 'mm-btn mm-btn--quiet' : 'mm-btn mm-btn--secondary'}>
             {isAuthenticated ? 'Open my chapter review' : 'See how chapter review works'}

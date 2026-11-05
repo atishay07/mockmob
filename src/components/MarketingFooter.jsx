@@ -25,7 +25,8 @@ const SUBJECT_LINKS = [
   ['Economics', '/cuet/economics'],
   ['Business Studies', '/cuet/business-studies'],
   ['All 15 CUET subjects', '/cuet'],
-  ['CUET 2027 guide', '/cuet-2027'],
+  // A no-break space: "CUET 2027" never parts at a line end (night 1105).
+  ['CUET\u00a02027 guide', '/cuet-2027'],
 ];
 
 // Help is chosen by sign-in (FooterHelpLink): /help for a student, the landing's public questions for a guest.

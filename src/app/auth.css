@@ -5,10 +5,12 @@
 .auth__grid {
   display: grid;
   gap: 1.5rem;
-  padding-block: 1.25rem 4rem;
+  padding-block: 1.25rem 3rem;
 }
 .auth__copy { display: grid; gap: 0.625rem; align-content: start; animation: auth-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-.auth .mm-h1.auth__title { font-size: clamp(2rem, 8.4vw, 3.5rem); max-width: 14ch; margin: 0; }
+/* 18ch, not 14: with "CUET 2027" held together the title is two balanced lines ("Start your / CUET 2027 practice."),
+   not three. */
+.auth .mm-h1.auth__title { font-size: clamp(2rem, 8.4vw, 3.5rem); max-width: 18ch; margin: 0; }
 .auth .auth__lead { margin: 0; max-width: 38ch; }
 .auth__card { animation: auth-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) 80ms both; }
 
@@ -55,6 +57,9 @@
     padding-block: 3.5rem 6rem;
   }
   .auth__copy { grid-area: copy; }
+  /* Two columns from 900: the headline's column is about 430 px at 1024, so the type scales with the screen to keep
+     "Start your / CUET 2027 practice." on two lines (56 px from about 1330). */
+  .auth .mm-h1.auth__title { font-size: clamp(2.5rem, 4.2vw, 3.5rem); }
   .auth__card { grid-area: card; }
   .auth__scene { grid-area: scene; }
   .auth__desk { height: 220px; }
@@ -186,6 +191,7 @@ html[data-motion='reduced'] .auth :is(.auth__copy, .auth__card, .auth__obj, .aut
 }
 .auth-card__fine {
   margin: 0;
+  text-wrap: balance;
   font-size: 0.8125rem;
   line-height: 1.5;
   color: var(--ink-3);

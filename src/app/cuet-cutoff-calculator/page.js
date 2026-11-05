@@ -7,6 +7,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import { keepTogether } from '@/lib/keepTogether.mjs';
 import '@/app/landing.css';
 
 export const metadata = seoMetadata({
@@ -107,15 +108,13 @@ export default function CutoffCalculatorPage() {
               <li>
                 <h3 className="lp-h4">Cutoffs come in three rounds</h3>
                 <p>
-                  Round 1 is usually the highest. Rounds 2 and 3 show how far cutoffs fell as seats stayed vacant.
-                  Round 3 scores are independent of the earlier rounds.
+                  {keepTogether('Round 1 is usually the highest. Rounds 2 and 3 show how far cutoffs fell as seats stayed vacant. Round 3 scores are independent of the earlier rounds.')}
                 </p>
               </li>
               <li>
                 <h3 className="lp-h4">Plan from the range, not one number</h3>
                 <p>
-                  A seat you would have cleared in Round 1 is a strong sign. A seat you clear only in Round 3 is a reach
-                  that depends on vacancies.
+                  {keepTogether('A seat you would have cleared in Round 1 is a strong sign. A seat you clear only in Round 3 is a reach that depends on vacancies.')}
                 </p>
               </li>
             </ol>
@@ -153,8 +152,8 @@ export default function CutoffCalculatorPage() {
             <div className="mm-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
-                  <summary>{question}</summary>
-                  <div className="mm-faq__body">{answer}</div>
+                  <summary>{keepTogether(question)}</summary>
+                  <div className="mm-faq__body">{keepTogether(answer)}</div>
                 </details>
               ))}
             </div>

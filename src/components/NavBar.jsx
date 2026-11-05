@@ -126,15 +126,16 @@ export function NavBar() {
           ) : onAuthPage ? (
             // On Log in and Sign up the form's own key is the page's one volt: the bar offers the other door, quietly.
             <Link href={pathname === '/login' ? '/signup' : '/login'} className="mm-nav__link mm-nav__login">
-              {pathname === '/login' ? 'Create an account' : 'Log in'}
+              {pathname === '/login' ? 'Sign up free' : 'Log in'}
             </Link>
           ) : (
             <>
               <Link href="/login" className="mm-nav__link mm-nav__login">
                 Log in
               </Link>
+              {/* The home page's words (owner LK83/LK88, 5 Nov): one name for the way in, on every page. */}
               <Link href="/signup" className="mm-btn mm-btn--secondary mm-nav__cta">
-                Start free
+                Sign up free
               </Link>
             </>
           )}
@@ -196,12 +197,27 @@ export function NavBar() {
               >
                 Sign out
               </button>
+              <div className="mm-nav__sheet-keys">
+                <Link href="/dashboard" onClick={closeMenu} className="mm-btn mm-btn--primary">
+                  Go to Practice
+                </Link>
+              </div>
             </>
           ) : (
-            <Link href="/login" onClick={closeMenu}>
-              Log in
-              <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-            </Link>
+            // The way in closes the sheet, as on the home page's bar: a ghost "Log in" and the volt "Sign up free" (owner
+            // LK83/LK88). On Log in or Sign up, only the other door.
+            <div className="mm-nav__sheet-keys">
+              {pathname === '/login' ? null : (
+                <Link href="/login" onClick={closeMenu} className="mm-btn mm-btn--secondary">
+                  Log in
+                </Link>
+              )}
+              {pathname === '/signup' ? null : (
+                <Link href="/signup" onClick={closeMenu} className="mm-btn mm-btn--primary">
+                  Sign up free
+                </Link>
+              )}
+            </div>
           )}
         </div>
       ) : null}

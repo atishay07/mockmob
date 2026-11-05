@@ -27,9 +27,13 @@ export default function SiteNotFound() {
               ? 'The link may be old, or the page may have moved. Your practice, your record and the question bank are all where you left them.'
               : 'The link may be old, or the page may have moved. The rest of MockMob is where it always was.'}
           />
-          <p>
+          {/* One volt way home; a second, quiet door: Practice for a student, Log in for a guest (the public pages' pair,
+              night 1105). */}
+          <p className="ui-state__actions snf__actions">
             <Link href="/" className="ui-state__action ui-state__action--primary mk-press">{signedIn ? 'Go to Today' : 'Go to the home page'}</Link>
-            {signedIn ? <>{' '}<Link href="/dashboard" className="ui-state__action mk-press">Open Practice</Link></> : null}
+            {signedIn
+              ? <Link href="/dashboard" className="ui-state__action mk-press">Open Practice</Link>
+              : <Link href="/login" className="ui-state__action mk-press">Log in</Link>}
           </p>
         </div>
       </main>

@@ -295,3 +295,17 @@ html[data-theme='dark'] .mm-pro .pro-plan__card { box-shadow: inset 0 2px 0 rgba
 :root[data-motion='reduced'] .mm-pro .pro-art__seal::after { animation: none; opacity: 0; }
 :root[data-motion='reduced'] .mm-pro .pro-show,
 :root[data-motion='reduced'] .mm-pro .pro-also__tile { animation: none; }
+
+/* Night 1105 (R2-B). Phones: the two "Also in Pro" tiles were two thin columns of four-word lines ("Your answer- / change
+   habit and / pace across every / paper."); under 520 px each tile is one full-width row, art beside the words, as on a
+   wide screen. Wide screens: "Free and Pro, side by side" sat 144 px below the tiles (two 72 px section paddings); it
+   now keeps the page's own section step. */
+@media (max-width: 519px) {
+  .mm-pro .pro-also { grid-template-columns: minmax(0, 1fr); }
+  .mm-pro .pro-also__tile { grid-template-columns: 4rem minmax(0, 1fr); align-items: center; gap: 1rem; padding: 1rem 1.125rem; }
+  .mm-pro .pro-also__tile .pro-also__art { width: 4rem; height: auto; max-height: 64px; object-fit: contain; }
+  .mm-pro .pro-also__tile[data-wide] { grid-template-columns: 4rem minmax(0, 1fr); }
+}
+@media (min-width: 960px) {
+  .mm-pro .pro-sec + .pro-sec--plan { padding-top: 1.5rem; }
+}

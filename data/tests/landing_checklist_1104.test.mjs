@@ -145,7 +145,8 @@ test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor 
   }
   const nav = code(read('src/components/NavBar.jsx'));
   assert.match(nav, /isAuthenticated \?[\s\S]{0,200}\/dashboard[\s\S]{0,200}Go to Practice/, 'nav: signed in shows Go to Practice');
-  assert.match(nav, /Start free/, 'nav: a guest gets Start free');
+  // Night 1105 (R2-B): the bar says the home page's words too (LK83/LK88); it said Start free until then.
+  assert.match(nav, /Sign up free/, 'nav: a guest gets Sign up free');
   const close = code(read('src/components/landing/CloseActions.jsx'));
   assert.match(close, /isAuthenticated \? homeHref : signupHref/, 'close band: sign up is not offered to a signed-in student');
 });
@@ -206,7 +207,7 @@ test('L-012 the top bar logo goes home, its section links point at real anchors,
   const hashLinks = [...nav.matchAll(/href: '\/#([a-z-]+)'/g)].map((m) => m[1]);
   assert.ok(hashLinks.length >= 1);
   for (const id of hashLinks) assert.match(PAGE + sources(SURFACE), new RegExp(`id=["']${id}["']`), `nav link /#${id} has a target`);
-  assert.match(nav, /Start free/);
+  assert.match(nav, /Sign up free/);
   assert.match(nav, /Go to Practice/);
 });
 
