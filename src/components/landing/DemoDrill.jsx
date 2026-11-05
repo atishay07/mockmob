@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -99,6 +99,7 @@ export function DemoDrill({ note = null }) {
   const switchRef = useRef(null);
   const request = useRef(null);
   const lastSet = useRef({});
+  const leadId = useId();
   // Answering disables the options and "Next" unmounts once used, so keyboard and
   // screen-reader focus would fall back to the page body. Hand it forward instead.
   const focusNext = useRef(null);
@@ -315,27 +316,33 @@ export function DemoDrill({ note = null }) {
           <div className="lp-card__body">
             {/* One line under the head: what a pick gives, and while it loads or if it fails, that instead (in place, so the
                 card does not grow). */}
-            <p className="mm-drill__pick-lead" aria-live="polite" data-tone={failedName ? 'error' : null}>
+            <p className="mm-drill__pick-lead" id={leadId} aria-live="polite" data-tone={failedName ? 'error' : null}>
               {failedName
                 ? `Couldn’t load ${failedName} just now. Try again, or pick another subject.`
                 : loadingName
                   ? `Loading five ${loadingName} questions.`
-                  : 'Five questions from the MockMob bank, picked at random.'}
+                  : 'Five questions from the MockMob bank, each with its answer explained.'}
             </p>
             <div className="mm-drill__subjects" role="group" aria-label="CUET subjects" aria-busy={loading ? 'true' : 'false'} ref={panelRef}>
               {DEMO_SUBJECTS.map((subject) => {
                 const isCurrent = current?.slug === subject.slug;
+                // The key being fetched (or that could not load) carries its own state: busy while it loads, and the line
+                // above ("Loading five ...", "Couldn't load ...") as its description, so a screen reader hears it on the key.
+                const isLoading = loading === subject.slug;
+                const speaks = isLoading || failed === subject.slug;
                 return (
                   <button
                     key={subject.slug}
                     type="button"
                     className="mm-drill__subject"
                     aria-pressed={isCurrent ? 'true' : 'false'}
-                    data-state={loading === subject.slug ? 'loading' : null}
+                    aria-busy={isLoading ? 'true' : undefined}
+                    aria-describedby={speaks ? leadId : undefined}
+                    data-state={isLoading ? 'loading' : null}
                     onClick={() => chooseSubject(subject.slug)}
                   >
                     <span>{subject.name}</span>
-                    {isCurrent && loading !== subject.slug ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
+                    {isCurrent && !isLoading ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
                   </button>
                 );
               })}

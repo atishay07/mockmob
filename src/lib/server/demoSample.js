@@ -16,7 +16,13 @@
 //     30 a subject until the bank itself changes.
 //   * Egress: one narrow read of the subject's ids (seven small columns, no text), then the window's rows in batches of
 //     DEMO_BATCH by id with the columns the gate needs, stopping as soon as the window can be filled (DEMO_MAX_FULL_ROWS at
-//     most). Each server keeps a subject's window DEMO_POOL_TTL_MS, and the route lets the CDN keep each answer a day.
+//     most). Each server keeps a subject's window DEMO_POOL_TTL_MS (an hour: the CDN in front absorbs the traffic, so the
+//     memo only has to hold a burst, and a pulled question leaves a warm server within the hour), and the route lets the CDN
+//     keep each answer a day, tagged so it can be purged (the runbook line in src/app/api/sample/route.js).
+//   * The window is fixed and deliberately small: the same 30 a subject for every visitor until the bank changes. The
+//     visitor's set is picked at random among its six, so a retry shows other questions, but never more than those 30
+//     (450 in all, answers and reasons included: the accepted ceiling for a public sample). Rotating it (a new salt)
+//     exposes 30 more a subject each time; that is the owner's call, not a schedule here.
 import { createHash } from 'node:crypto';
 import { readablePracticeQuestions } from '../../../data/practice_library.js';
 import { isPassageLinkedQuestion } from '../../../data/nta_question_selector.js';
@@ -32,7 +38,7 @@ export const DEMO_POOL_SALT = 'mockmob-demo-window-v1';
 export const DEMO_CHAPTER_CAP = 3;
 export const DEMO_BATCH = 40;
 export const DEMO_MAX_FULL_ROWS = 240;
-export const DEMO_POOL_TTL_MS = 6 * 60 * 60 * 1000;
+export const DEMO_POOL_TTL_MS = 60 * 60 * 1000;
 const PAGE = 1000;
 
 // The first read: enough to order a subject's rows and drop the obvious misses (a passage set, an off-syllabus row).

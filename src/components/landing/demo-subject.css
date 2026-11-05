@@ -102,11 +102,9 @@
   /* "Computer Science" and "Political Science" stay on one line in a third of a 468 px card (a 768 px tablet). */
   .mm.lp .lp-desk .mm-drill__subject { padding-inline: 10px; font-size: 0.875rem; }
 }
-/* On a phone the line under the head holds two lines whatever it says (what a pick gives, loading, a failure), so the
-   list does not move while a subject loads. */
-@container (max-width: 419.98px) {
-  .mm.lp .lp-desk .mm-drill__pick-lead { min-height: calc(2 * 1.45em); }
-}
+/* At every size the line under the head holds two lines whatever it says (what a pick gives and a failure take two from
+   360 px to 1920 px; loading takes one), so the list never moves while a subject loads or fails. */
+.mm.lp .lp-desk .mm-drill__pick-lead { min-height: calc(2 * 1.45em); }
 /* Loading: a small ring turns beside the name until the five arrive (the status line says it in words too). */
 .mm.lp .lp-desk .mm-drill__subject[data-state='loading'] { border-color: var(--ink-3); }
 .mm.lp .lp-desk .mm-drill__subject[data-state='loading']::after {

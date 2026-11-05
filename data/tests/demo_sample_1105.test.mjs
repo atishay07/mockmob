@@ -157,7 +157,9 @@ test('sets: six disjoint fives of the window; a set past a short window wraps; u
   assert.equal(pool[0].options.length, 4, 'an answer is a copy: the window is never changed by a caller');
 });
 
-test('a subject\'s window is read once per server for six hours, and once when visitors ask together; a failure is not remembered', async () => {
+test('a subject\'s window is read once per server for an hour, and once when visitors ask together; a failure is not remembered', async () => {
+  // Review fix (6 Nov): an hour, not six, so a pulled question leaves a warm server within the hour of the CDN purge.
+  assert.equal(DEMO_POOL_TTL_MS, 60 * 60 * 1000);
   const rows = bank(37);
   let t = 0;
   let made = 0;
@@ -186,7 +188,7 @@ test('a subject\'s window is read once per server for six hours, and once when v
   assert.equal(await createDemoSample({ db: () => fakeDb(tablesOf([])) }).get(q('subject=accountancy&set=0')), null, 'an empty subject is no answer');
 });
 
-test('the route: public and rate-limited; the CDN keeps an answer a day; a refusal, the limit, a thin subject or a failure is never cached', () => {
+test('the route: public and rate-limited; the CDN keeps an answer a day, tagged for a purge; a refusal, the limit, a thin subject or a failure is never cached', () => {
   const route = code(read('src/app/api/sample/route.js'));
   assert.match(route, /export async function GET\(request\)/);
   assert.doesNotMatch(route, /\bauth\(/, 'no sign-in: the sample is for guests');
@@ -195,7 +197,12 @@ test('the route: public and rate-limited; the CDN keeps an answer a day; a refus
   assert.match(route, /const CACHED = \{ 'Cache-Control': 'public, max-age=300', 'CDN-Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' \};/);
   assert.match(route, /const NO_STORE = \{ 'Cache-Control': 'no-store' \};/);
   assert.equal((route.match(/CACHED/g) || []).length, 2, 'defined once, used once: on the 200 only');
-  assert.match(route, /reply\(diagnostics, 200, answer, CACHED\)/);
+  assert.match(route, /reply\(diagnostics, 200, answer, \{ \.\.\.CACHED, \.\.\.cacheTags\(query\.slug\) \}\)/);
+  // Review fix (6 Nov): every answer carries a cache tag, so a pulled or frozen question can be purged from the CDN at once,
+  // and the runbook line sits beside it.
+  assert.match(route, /const cacheTags = \(slug\) => \(\{ 'Vercel-Cache-Tag': `demo-sample,demo-sample-\$\{slug\}` \}\);/);
+  assert.equal((route.match(/\bcacheTags\b/g) || []).length, 2,'defined once, used once: tags only on the 200');
+  assert.match(read('src/app/api/sample/route.js'), /after pulling or freezing a question, run\s*\/\/\s*`vercel cache dangerously-delete --tag demo-sample`/);
   for (const status of ['400', '429', '503']) assert.match(route, new RegExp(`reply\\(diagnostics, ${status}, [^\\n]*NO_STORE`), status);
   assert.match(route.slice(route.indexOf('} catch (error) {')), /status: 503, headers: NO_STORE/);
   assert.match(route, /createDemoSample\(\{ db: \(\) => supabaseAdmin\(\) \}\)/, 'the database client is made only when a read is needed');
@@ -231,6 +238,14 @@ test('the card: its own five first, a picked set accepted whole, the request onl
   assert.match(drill, /const next = acceptDemoSet\(response\.ok \? await response\.json\(\) : null, slug\);/);
   assert.match(drill, /className="mm-drill__switch"[^>]*>\s*Not your subject\?\s*<\/button>/);
   assert.match(drill, /aria-pressed=\{isCurrent \? 'true' : 'false'\}/, 'the subject playing now is marked, not by colour alone');
+  // Review fixes (6 Nov). The lead says what the five are and what each brings, and no more: the window is a fixed 30 a
+  // subject, so it never claims a random draw from the bank. Its two-line hold is at every size, so nothing moves.
+  assert.match(drill, /'Five questions from the MockMob bank, each with its answer explained\.'/);
+  assert.doesNotMatch(code(drill), /at random|randomly|random five|random 5/i);
+  // The key being fetched carries its own state for a screen reader, not only the ring and the group's aria-busy.
+  assert.match(drill, /aria-busy=\{isLoading \? 'true' : undefined\}/);
+  assert.match(drill, /aria-describedby=\{speaks \? leadId : undefined\}/);
+  assert.match(drill, /className="mm-drill__pick-lead" id=\{leadId\} aria-live="polite"/);
   assert.match(drill, /if \(event\.key === 'Escape'\)/);
   assert.match(drill, /sendDemoState\('load', 0\);\s*focusNext\.current = 'options';\s*setLive\(next\);/, 'a new set puts Mobi back on his first line');
   assert.doesNotMatch(drill, /localStorage|sessionStorage/, 'nothing about a guest\'s pick is stored');
@@ -238,5 +253,6 @@ test('the card: its own five first, a picked set accepted whole, the request onl
   assert.match(css, /\.mm-drill__switch \{[^}]*min-height: 44px;/);
   assert.match(css, /\.mm-drill__subject \{[^}]*min-height: 44px;/);
   assert.match(css, /\.mm-drill__close \{[^}]*width: 44px;\s*height: 44px;/);
+  assert.match(css, /^\.mm\.lp \.lp-desk \.mm-drill__pick-lead \{ min-height: calc\(2 \* 1\.45em\); \}$/m, 'the lead holds two lines at every size');
   assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*:root:not\(\[data-motion='reduced'\]\)/, 'motion only when it is welcome');
 });

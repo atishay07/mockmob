@@ -3,9 +3,10 @@
 // and DemoDrill.jsx bundles only these few lines, never the syllabus.
 //
 // The card opens on its own five (DemoDrill DRILL: English first, no network). A visitor who picks a subject gets five
-// random live questions of it from GET /api/sample?subject=<slug>&set=<n> (src/app/api/sample/route.js). The server
-// keeps a fixed window of DEMO_POOL_SIZE questions a subject, cut into sets of five; `set` picks one of them, so the CDN
-// holds one answer per subject and set, and the questions a visitor can ever see are bounded (the design note:
+// live questions of it from GET /api/sample?subject=<slug>&set=<n> (src/app/api/sample/route.js): one of six sets, picked
+// at random here. The server keeps a fixed window of DEMO_POOL_SIZE questions a subject, cut into sets of five; `set`
+// picks one of them, so the CDN holds one answer per subject and set, and the questions a visitor can ever see are
+// bounded. The card's copy therefore never says the five are drawn at random from the whole bank (the design note:
 // docs/design-decisions/web-r4-demo.md).
 
 /** Questions in a set: the card's five. */
