@@ -115,8 +115,9 @@
    On a phone the row scrolls sideways and fades at its edge; from 560 px it wraps. No volt, no shadow: Up next keeps the one key. */
 .lh-sets {
   display: flex; gap: 8px; min-width: 0; margin: 2px -16px 24px; padding: 0 16px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
 }
+/* The edge fade only while more chips are past the right edge (CardSets.jsx, data-more): a row that fits is never faded. */
+.lh-sets[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent); }
 .lh-sets::-webkit-scrollbar { display: none; }
 .lh-set {
   flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 999px;
@@ -130,7 +131,7 @@
 @media (hover: hover) and (pointer: fine) { .lh-set:hover { background: var(--a-hover); border-color: var(--a-line-hover); } }
 @media (prefers-reduced-motion: reduce) { .lh-set { transition: none; } .lh-set:active { transform: none; } }
 @container lh (min-width: 560px) {
-  .lh-sets { flex-wrap: wrap; margin-inline: 0; padding: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
+  .lh-sets, .lh-sets[data-more] { flex-wrap: wrap; margin-inline: 0; padding: 0; overflow: visible; -webkit-mask-image: none; mask-image: none; }
 }
 @container lh (min-width: 760px) {
   .lh-sets { margin: -6px 0 32px; }

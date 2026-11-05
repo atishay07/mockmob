@@ -8,18 +8,36 @@
 //   data-swipe-intent right | left | down          (which label shows; --swipe-p is how far, 0 to 1)
 //   data-swipe-ready  once a release there would rate
 //   data-swipe-down   while down is offered to a touch (touch-action: none); without it the page keeps its vertical scroll
+//   data-swipe-words  while a mouse hovers the card's words (the text cursor: a press there selects, it never swipes)
 // A committed card stays where it was let go until the rating is saved: the caller's flight takes it from there (it reads
 // `swipePose(card)`); a rating that fails springs it home. Reduced motion: no gesture at all, the keys rate.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { tick } from '@/lib/haptics';
 import { isMotionReduced } from '@/lib/motion';
 import { releaseVelocity } from '@/lib/motion/dragPolicy';
-import { SWIPE, applyPose, clearPose, clearSwipe, dragPose, lockAxis, releaseRating } from './rateSwipe.mjs';
+import { SWIPE, applyPose, clearPose, clearSwipe, dragPose, lockAxis, onWords, pressStartsSwipe, releaseRating } from './rateSwipe.mjs';
 
 export { swipePose, clearSwipe } from './rateSwipe.mjs';
 
 const SETTLE_MS = 300;
 const INTERACTIVE = 'button, a, input, textarea, select, label, [role="menu"], [role="menuitem"], .kc-menu, .kc-report';
+// The card's words, for a mouse: its text blocks (the prompt, the NCERT text, the In short and source lines). The head's small tags,
+// the drag pills and the face that is turned away (inert) are not words: the head is where a mouse grabs the card.
+const WORDS = 'p, h1, h2, h3, h4, h5, h6, li, dt, dd, blockquote, pre, table, figcaption, .kc-ncert';
+const NOT_WORDS = '.kc-head, .kc-swipe, [inert], [aria-hidden="true"]';
+
+/** The boxes of the card's words (see WORDS); read on a mouse press and, once a frame at most, while a mouse hovers. */
+function wordRects(el) {
+  const out = [];
+  try {
+    for (const n of el.querySelectorAll(WORDS)) {
+      const off = n.closest(NOT_WORDS) || n.closest(INTERACTIVE);
+      if ((off && off !== el && el.contains(off)) || !n.textContent.trim()) continue;
+      out.push(n.getBoundingClientRect());
+    }
+  } catch { /* no words read: the press swipes as before */ }
+  return out;
+}
 
 function wholeInView(el) {
   try {
@@ -39,25 +57,35 @@ function scrollsInside(el) {
   return false;
 }
 
-/** Keeps data-swipe-down (and the hook's downOk) true while the whole card is in view; returns the unbind. */
+/**
+ * Keeps data-swipe-down (and the hook's downOk) true while the whole card is in view; returns the unbind. Whether something inside
+ * the card scrolls is walked only when the card's size can have changed (on bind, a resize of the window or the card, and 400 ms
+ * after the answer opens); a scroll frame measures only the card's own box (review, 6 Nov: no style walk per scroll frame).
+ */
 function watchDown(el, setDownOk) {
   let raf = 0;
-  const check = () => {
+  let inner = false;
+  const apply = () => {
     raf = 0;
-    const ok = wholeInView(el) && !scrollsInside(el);
+    const ok = wholeInView(el) && !inner;
     if (ok) el.dataset.swipeDown = ''; else delete el.dataset.swipeDown;
     setDownOk(ok);
   };
-  const soon = () => { if (!raf) raf = requestAnimationFrame(check); };
+  const check = () => { inner = scrollsInside(el); apply(); };
+  const soon = () => { if (!raf) raf = requestAnimationFrame(apply); };
+  const resized = () => { if (raf) cancelAnimationFrame(raf); raf = requestAnimationFrame(check); };
   el.dataset.swipeOn = '';
   check();
   const late = window.setTimeout(check, 400); // after the answer has opened
-  window.addEventListener('resize', soon);
+  const box = typeof ResizeObserver === 'function' ? new ResizeObserver(resized) : null;
+  box?.observe(el);
+  window.addEventListener('resize', resized);
   document.addEventListener('scroll', soon, { capture: true, passive: true });
   return () => {
     window.clearTimeout(late);
     if (raf) cancelAnimationFrame(raf);
-    window.removeEventListener('resize', soon);
+    box?.disconnect();
+    window.removeEventListener('resize', resized);
     document.removeEventListener('scroll', soon, { capture: true });
     delete el.dataset.swipeDown;
     delete el.dataset.swipeOn;
@@ -87,16 +115,35 @@ function bindSwipe(el, { enabledRef, rateRef, setIntent }) {
     settleTimer = window.setTimeout(() => { if (el.dataset.swipe === 'settle') delete el.dataset.swipe; }, SETTLE_MS);
   };
 
+  // A mouse over the words shows the text cursor (a press there selects); elsewhere on the card, the grab cursor. Once a frame.
+  let hoverAt = null;
+  let hoverRaf = 0;
+  const hoverCheck = () => {
+    hoverRaf = 0;
+    const words = Boolean(hoverAt) && enabledRef.current && onWords(hoverAt.x, hoverAt.y, wordRects(el));
+    if (words) el.dataset.swipeWords = ''; else delete el.dataset.swipeWords;
+  };
+  const hover = (e) => {
+    if (e.pointerType === 'touch') return;
+    hoverAt = { x: e.clientX, y: e.clientY };
+    if (!hoverRaf) hoverRaf = requestAnimationFrame(hoverCheck);
+  };
+  const leave = () => { hoverAt = null; delete el.dataset.swipeWords; };
+
   const down = (e) => {
     if (!enabledRef.current || g || el.dataset.swipe === 'commit') return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
     if (e.target?.closest?.(INTERACTIVE)) return;
+    // A mouse or pen press on the words is the browser's (select, copy); only a touch swipes from them (rateSwipe.mjs, "words").
+    const words = e.pointerType !== 'touch' && onWords(e.clientX, e.clientY, wordRects(el));
+    if (!pressStartsSwipe({ pointer: e.pointerType, button: e.button, words })) return;
     const r = el.getBoundingClientRect();
     g = { id: e.pointerId, type: e.pointerType, x: e.clientX, y: e.clientY, axis: null, width: r.width, samples: [{ t: e.timeStamp, x: e.clientX, y: e.clientY }], pose: null, ready: false };
   };
 
   const move = (e) => {
-    if (!g || g.id !== e.pointerId) return;
+    if (!g) { hover(e); return; }
+    if (g.id !== e.pointerId) return;
     const dx = e.clientX - g.x;
     const dy = e.clientY - g.y;
     g.samples.push({ t: e.timeStamp, x: e.clientX, y: e.clientY });
@@ -169,9 +216,13 @@ function bindSwipe(el, { enabledRef, rateRef, setIntent }) {
   el.addEventListener('lostpointercapture', lost);
   el.addEventListener('click', click, true);
   el.addEventListener('dragstart', drag);
+  el.addEventListener('pointerleave', leave);
   el.dataset.swipeable = '';
   return () => {
     window.clearTimeout(settleTimer);
+    if (hoverRaf) cancelAnimationFrame(hoverRaf);
+    el.removeEventListener('pointerleave', leave);
+    leave();
     el.removeEventListener('pointerdown', down);
     el.removeEventListener('pointermove', move);
     el.removeEventListener('pointerup', up);

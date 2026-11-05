@@ -9,7 +9,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { cardPreview, resultCounts } from '../../src/components/learn2/cards/findModel.mjs';
-import { SWIPE, SWIPE_RATINGS, SWIPE_WORDS, applyPose, clearSwipe, commitDistance, dragPose, lockAxis, poseTransform, releaseRating, swipeHint, swipeLeaveTo, swipePose } from '../../src/components/keycards/rateSwipe.mjs';
+import { SWIPE, SWIPE_RATINGS, SWIPE_WORDS, applyPose, clearSwipe, commitDistance, dragPose, lockAxis, onWords, poseTransform, pressStartsSwipe, releaseRating, swipeHint, swipeLeaveTo, swipePose } from '../../src/components/keycards/rateSwipe.mjs';
 import { RATINGS } from '../../src/components/keycards/kinds.js';
 import { leaveCard, swipeLeaveKeyframes } from '../../src/components/keycards/studyMotion.js';
 import { optionAtTail, optionLine, chosenOptionLine } from '../../src/components/learn2/home/homeModel.mjs';
@@ -250,10 +250,62 @@ test('A2 on a real touch: the scroll box inside the run\'s card follows the card
   const hook = code('src/components/keycards/useRateSwipe.js');
   assert.match(hook, /const lost = \(e\) => \{ if \(e\.target === el\) cancel\(e\); \};/);
   assert.match(hook, /el\.addEventListener\('lostpointercapture', lost\);/);
-  // Down is offered to a touch only while the whole card is in view and nothing inside it scrolls.
-  assert.match(hook, /const ok = wholeInView\(el\) && !scrollsInside\(el\);/);
+  // Down is offered to a touch only while the whole card is in view and nothing inside it scrolls (the inner walk is cached: see the
+  // review test below).
+  assert.match(hook, /const ok = wholeInView\(el\) && !inner;/);
   // The swiped card is never cut at the stage column's edge, and the status line steps aside while it moves.
   const run = code('src/components/learn2/run/run.css');
   assert.match(run, /\.lr-area:has\(> \.lr-enter > \.lr-card\[data-swipe\]\) \{ overflow: visible; \}/);
   assert.match(run, /\.lr:has\(\.lr-card\[data-swipe='drag'\], \.lr-card\[data-swipe='commit'\]\) \.lr-bar \.lr-status \{ opacity: 0; \}/);
+});
+
+// ------------------------------------------------------------------------------------------------ the review (6 Nov)
+
+test('A2 review: a mouse drag that starts on the answer selects it and never rates; the head and margins still grab', () => {
+  // The run's turned card at 1280 px, as the browser lays it out: the head row, the asked line, the NCERT paragraph (3 lines).
+  const head = { left: 380, right: 1020, top: 160, bottom: 188 };
+  const ask = { left: 380, right: 1020, top: 210, bottom: 262 };
+  const ncert = { left: 380, right: 1020, top: 290, bottom: 380 };
+  const words = [ask, ncert]; // the head is not words (wordRects skips .kc-head): it is where a mouse grabs the card
+  const mouseAt = (x, y) => pressStartsSwipe({ pointer: 'mouse', button: 0, words: onWords(x, y, words) });
+  assert.equal(mouseAt(600, 330), false, 'a press on the NCERT paragraph is a selection, not a swipe');
+  assert.equal(mouseAt(600, 268), false, 'between two blocks, within the reach: still the words');
+  assert.equal(mouseAt(372, 300), false, 'just before the first letter (a selection begun in the margin): the words');
+  assert.equal(mouseAt(600, 174), true, 'the head grabs the card');
+  assert.equal(mouseAt(350, 300), true, 'the margin, past the reach, grabs the card');
+  assert.equal(mouseAt(600, 460), true, 'the empty space under a short answer grabs the card');
+  assert.equal(pressStartsSwipe({ pointer: 'pen', words: true }), false, 'a pen selects like a mouse');
+  assert.equal(pressStartsSwipe({ pointer: 'touch', words: true }), true, 'a touch never selects by dragging: it swipes from the words');
+  assert.equal(pressStartsSwipe({ pointer: 'mouse', button: 2 }), false, 'a right-click is the menu');
+  assert.equal(pressStartsSwipe({ pointer: 'touch', onKey: true }), false);
+  assert.equal(onWords(600, 330, [{ left: 0, right: 0, top: 0, bottom: 0 }]), false, 'a block with no box (hidden) is no words');
+  assert.equal(SWIPE.wordReach, 12);
+  // Wired: the hook asks before a mouse press becomes a gesture, and the cursor says which part does what.
+  const hook = code('src/components/keycards/useRateSwipe.js');
+  assert.match(hook, /const words = e\.pointerType !== 'touch' && onWords\(e\.clientX, e\.clientY, wordRects\(el\)\);\s*if \(!pressStartsSwipe\(\{ pointer: e\.pointerType, button: e\.button, words \}\)\) return;/);
+  assert.match(hook, /const NOT_WORDS = '\.kc-head, \.kc-swipe, \[inert\], \[aria-hidden="true"\]';/, 'the head, the pills and the turned-away face are not words');
+  assert.match(hook, /\.kc-ncert'/, 'the NCERT text is words');
+  const css = code('src/components/keycards/keycards.css');
+  assert.match(css, /\[data-swipeable\]\[data-swipe-on\]\[data-swipe-words\]:not\(\[data-swipe\]\) \{ cursor: text; \}/);
+});
+
+test('A2 review: a scroll frame measures only the card\'s box; the walk for inner scroll boxes runs on resize and the late check', () => {
+  const hook = code('src/components/keycards/useRateSwipe.js');
+  const watch = hook.slice(hook.indexOf('function watchDown'), hook.indexOf('function bindSwipe'));
+  assert.match(watch, /const soon = \(\) => \{ if \(!raf\) raf = requestAnimationFrame\(apply\); \};/, 'scroll: apply (one rect), not check');
+  assert.match(watch, /document\.addEventListener\('scroll', soon, \{ capture: true, passive: true \}\);/);
+  assert.match(watch, /const check = \(\) => \{ inner = scrollsInside\(el\); apply\(\); \};/);
+  assert.match(watch, /new ResizeObserver\(resized\)/, 'the answer opening resizes the card: the walk runs again');
+  assert.match(watch, /window\.setTimeout\(check, 400\)/);
+  assert.doesNotMatch(watch.slice(watch.indexOf('const apply'), watch.indexOf('const check')), /scrollsInside/);
+});
+
+test('A1 review: the sets row fades its right edge only while its last chip is cut by it', () => {
+  const css = code('src/components/learn2/home/learn-home.css');
+  assert.doesNotMatch(css.match(/\.lh-sets \{[^}]*\}/)[0], /mask-image/, 'no fade on a row that fits');
+  assert.match(css, /\.lh-sets\[data-more\] \{ -webkit-mask-image: linear-gradient/);
+  const sets = code('src/components/learn2/home/CardSets.jsx');
+  assert.match(sets, /const more = Boolean\(last\) && last\.getBoundingClientRect\(\)\.right > row\.getBoundingClientRect\(\)\.right \+ 0\.5;/,
+    'the last chip cut by the edge, not the end padding (at 540 px the chips fit while the padding still scrolls 13 px)');
+  assert.match(sets, /row\.addEventListener\('scroll', check, \{ passive: true \}\);/, 'scrolled to its end, the last chip is not faded');
 });

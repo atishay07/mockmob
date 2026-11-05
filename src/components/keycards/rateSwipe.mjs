@@ -8,6 +8,11 @@
 //           of 650 px/s or more in that direction after at least 32 px; otherwise it springs home
 //   down    with a touch, down is offered only while the whole card is in view (then the card owns the touch; else the page keeps
 //           its vertical scroll and only left and right rate); a mouse or pen always has all three
+//   words   a mouse or pen press on the card's words is the browser's, never a swipe: on a laptop a student drags across the answer to
+//           select or copy a line, and that must not rate the card (review, 6 Nov; a rating has no undo). The words reach 12 px past
+//           each text block's box, so a selection begun just before the first letter is the browser's too. A mouse grabs the card
+//           by its head, its margins and its empty space (the cursor says which: grab there, the text cursor on the words). A touch
+//           never selects by dragging, so it swipes from anywhere on the card.
 // Reduced motion turns the gesture off entirely: the keys rate (useRateSwipe.js).
 
 export const SWIPE = Object.freeze({
@@ -17,7 +22,28 @@ export const SWIPE = Object.freeze({
   flingVelocity: 650, flingMin: 32,
   cross: 0.25, upResist: 0.2,
   leanPerPx: 0.06, leanMax: 10,
+  wordReach: 12,
 });
+
+/**
+ * True when the point (x, y) is on the card's words: inside one of the text blocks' `rects` (DOMRect-like: left, right, top,
+ * bottom), widened by `reach` px each side and half of it above and below.
+ */
+export function onWords(x, y, rects, reach = SWIPE.wordReach) {
+  for (const r of rects || []) {
+    if (!r || !(r.right > r.left) || !(r.bottom > r.top)) continue;
+    if (x >= r.left - reach && x <= r.right + reach && y >= r.top - reach / 2 && y <= r.bottom + reach / 2) return true;
+  }
+  return false;
+}
+
+/** Whether a press may start a swipe: never on a key or the menu, never a mouse's other buttons, never a mouse or pen on the words. */
+export function pressStartsSwipe({ pointer = 'touch', button = 0, onKey = false, words = false } = {}) {
+  if (onKey) return false;
+  if (pointer === 'mouse' && button !== 0) return false;
+  if (pointer !== 'touch' && words) return false;
+  return true;
+}
 
 /** The rating each way commits: right Got it, left Missed it, down Easy (the RATINGS of kinds.js: 1 Missed, 3 Got it, 4 Easy). */
 export const SWIPE_RATINGS = Object.freeze({ right: 3, left: 1, down: 4 });
