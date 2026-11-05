@@ -1,7 +1,8 @@
 /* The You page's places (owner LK141): Ask Mobi with his face, then the groups as two columns of 48 px rows split by hairlines, the
    look the You sheet had (D114), on the page's own ground. Tokens only; Night and Day both hold. From 1024 px the sidebar lists the
    same pages, so the block is not drawn. Motion: the rows rise once, one after another (transform and opacity only). */
-.app-shell .you-places { display: grid; gap: 18px; margin: 4px 0 28px; }
+/* The page's own 28 px gap sits around the block; it pulls up to 16 px under the signed-in line, which it belongs with. */
+.app-shell .you-places { display: grid; gap: 18px; margin: -12px 0 0; }
 @media (min-width: 1024px) { .app-shell .you-places { display: none; } }
 .app-shell .you-places__ask {
   display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px;
