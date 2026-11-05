@@ -121,6 +121,29 @@
       "mustShare": 0.82,
       "belowMinimum": false
     },
+    "accountancy.computerized-accounting-system": {
+      "published": 207,
+      "quarantined": 37,
+      "byKind": {
+        "list": 22,
+        "definition": 96,
+        "fact": 50,
+        "formula": 22,
+        "types": 6,
+        "example": 1,
+        "key_line": 4,
+        "steps": 1,
+        "term": 2,
+        "difference": 3
+      },
+      "byImportance": {
+        "must": 133,
+        "good": 74
+      },
+      "coverage_note": null,
+      "mustShare": 0.64,
+      "belowMinimum": false
+    },
     "accountancy.debentures": {
       "published": 86,
       "quarantined": 0,

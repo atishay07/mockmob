@@ -1,8 +1,8 @@
 {
   "accountancy": {
-    "version": 11,
-    "sha256": "9e14c424afadc3aa3786f6e286c0d3af756f32c25cd1520402bd29aa9c301063",
-    "cards": 920
+    "version": 12,
+    "sha256": "5ed70a82d0f836741e154ce79be45712194c74d9929d82badb61bb5da4cd7b73",
+    "cards": 1127
   },
   "biology": {
     "version": 6,
@@ -30,9 +30,9 @@
     "cards": 1200
   },
   "english": {
-    "version": 4,
-    "sha256": "0ea2da47131916c6a2e338dd76e6495379c284568bcbe99b0249dec8a1c0cac7",
-    "cards": 650
+    "version": 5,
+    "sha256": "5fa7c4f4c1e20e4e5081597498c810a0b4f5680ff4d962faafcb05dc348dd788",
+    "cards": 881
   },
   "geography": {
     "version": 3,

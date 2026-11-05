@@ -37,7 +37,7 @@ test('subject: the seeded returning Pro student (A7 suggestions, parts, true row
   assert.equal(http, 200);
   assert.equal(body.plan, 'pro');
   assert.equal(body.student.isNew, false);
-  assert.equal(body.subject.cards, 920);
+  assert.equal(body.subject.cards, 1127);
   assert.equal(body.freeNote, null);
   assert.equal(body.suggestions.length, 3);
   assert.equal(new Set(body.suggestions.map((s) => s.kind)).size, 3);
@@ -61,7 +61,7 @@ test('subject: a new Free student gets the first-run set and the Free line', asy
   const call = student('free', 'new');
   const { body } = await call('/api/learn/subject', { query: { subject: 'accountancy' } });
   assert.equal(body.student.isNew, true);
-  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 920.');
+  assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 1127.');
   assert.deepEqual(body.suggestions.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(body.suggestions[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   const rows = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters));
@@ -226,7 +226,7 @@ test('honest shrink: "Add the next chapter" fills the rest from the next chapter
   assert.ok(before.shrink.addNext);
   const after = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], addNext: true } })).body;
   assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title, ref: before.shrink.addNext.ref, place: before.shrink.addNext.place });
-  assert.deepEqual(after.added.place, { n: 2, of: 14 }, 'R4 ruling N: the place of the added chapter among the playable chapters');
+  assert.deepEqual(after.added.place, { n: 2, of: 15 }, 'R4 ruling N: the place of the added chapter among the playable chapters');
   assert.ok(after.piles.find((p) => p.id === 'cards').count > before.piles.find((p) => p.id === 'cards').count);
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], kind: 'mix', addNext: true } })).body;
   assert.equal(run.added.key, before.shrink.addNext.key);
@@ -266,7 +266,7 @@ test('E1: Learn shows the re-tiered Must-know (about one card in four)', async (
   const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
   assert.deepEqual([cards.counts.total, cards.counts.must], [45, 12]);
   const shelves = (await call('/api/learn/shelves', { query: { subject: 'accountancy' } })).body;
-  assert.deepEqual([shelves.must.count, shelves.must.chapters], [236, 14]); // data/keycards/tiers.json, as live
+  assert.deepEqual([shelves.must.count, shelves.must.chapters], [276, 15]); // data/keycards/tiers.json, as live
   const preview = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   assert.match(preview.recap.label, /^Or a quick recap: the 12 Must-know lines, about \d min$/);
   assert.equal(preview.shelf.cards.mustKnow, 12);
@@ -304,7 +304,7 @@ test('H4: no slashes in subject or chapter names', async () => {
 test('B7 1 and 9: a run body names its chapter whole (key, title, ref, partTitle, number); a missing chapter is 404 CHAPTER_NOT_FOUND', async () => {
   const call = student('pro');
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 5, kind: 'feed', requestKey: 'b7-preview-0001' } })).body;
-  assert.deepEqual(run.chapter, { key: PF, title: 'Accounting for Partnership: Basic Concepts', ref: 'Ch 1', partTitle: 'Part 1, Partnership Accounts', number: 1, place: { n: 1, of: 14 } });
+  assert.deepEqual(run.chapter, { key: PF, title: 'Accounting for Partnership: Basic Concepts', ref: 'Ch 1', partTitle: 'Part 1, Partnership Accounts', number: 1, place: { n: 1, of: 15 } });
   const out = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: 'accountancy.not-a-chapter', minutes: 5, kind: 'feed', requestKey: 'b7-preview-0002' } });
   assert.deepEqual([out.http, out.body.error], [404, 'CHAPTER_NOT_FOUND']);
 });

@@ -16,6 +16,63 @@
       "mustShare": 0.43,
       "belowMinimum": false
     },
+    "english.factual-passage": {
+      "published": 52,
+      "quarantined": 6,
+      "byKind": {
+        "definition": 18,
+        "types": 3,
+        "difference": 6,
+        "word": 9,
+        "example": 10,
+        "rule": 6
+      },
+      "byImportance": {
+        "must": 17,
+        "good": 35
+      },
+      "coverage_note": null,
+      "mustShare": 0.33,
+      "belowMinimum": false
+    },
+    "english.literary-passage": {
+      "published": 116,
+      "quarantined": 18,
+      "byKind": {
+        "definition": 50,
+        "types": 2,
+        "difference": 6,
+        "example": 18,
+        "rule": 6,
+        "word": 34
+      },
+      "byImportance": {
+        "must": 33,
+        "good": 83
+      },
+      "coverage_note": null,
+      "mustShare": 0.28,
+      "belowMinimum": false
+    },
+    "english.narrative-passage": {
+      "published": 63,
+      "quarantined": 2,
+      "byKind": {
+        "definition": 37,
+        "steps": 1,
+        "types": 3,
+        "difference": 7,
+        "example": 9,
+        "rule": 6
+      },
+      "byImportance": {
+        "must": 19,
+        "good": 44
+      },
+      "coverage_note": null,
+      "mustShare": 0.3,
+      "belowMinimum": false
+    },
     "english.vocabulary": {
       "published": 523,
       "quarantined": 15,

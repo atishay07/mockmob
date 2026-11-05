@@ -1,6 +1,6 @@
 {
   "subject": "english",
-  "version": 4,
+  "version": 5,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -2739,6 +2739,5039 @@
         "grammar"
       ],
       "order": 7840
+    },
+    {
+      "id": "kc.english.factual-passage.def-factual-passage",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a factual passage in a reading test?",
+      "back": "A passage that gives information about real people, events, places or ideas, such as a news report or a science article. Its aim is to inform, and its details can be checked.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "passage-types"
+      ],
+      "order": 100
+    },
+    {
+      "id": "kc.english.factual-passage.def-main-idea",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the main idea of a passage?",
+      "back": "The central point the writer wants to make about the topic. Every paragraph supports it, and it is best stated as a full sentence.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "main-idea"
+      ],
+      "order": 110,
+      "note": "Topic: 'Pollution'. Main idea: 'Pollution in our rivers can be reduced if towns treat their waste.'"
+    },
+    {
+      "id": "kc.english.factual-passage.def-topic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the topic of a passage?",
+      "back": "The subject the passage is about, given in a word or short phrase. It says what the passage covers, not what the writer says about it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "main-idea"
+      ],
+      "order": 120
+    },
+    {
+      "id": "kc.english.factual-passage.def-supporting-detail",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a supporting detail?",
+      "back": "A fact, example, reason or description that backs up or explains the main idea.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "main-idea"
+      ],
+      "order": 130
+    },
+    {
+      "id": "kc.english.factual-passage.def-topic-sentence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a topic sentence?",
+      "back": "The sentence that states the main idea of a paragraph. It often comes first, but it can also appear in the middle or at the end.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "paragraph"
+      ],
+      "order": 140
+    },
+    {
+      "id": "kc.english.factual-passage.def-inference",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an inference in reading?",
+      "back": "A conclusion you reach by joining clues in the text with what you already know. The text does not state it directly.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "inference"
+      ],
+      "order": 150,
+      "note": "'Rahul pulled his raincoat tighter.' We infer it is raining or cold."
+    },
+    {
+      "id": "kc.english.factual-passage.def-fact",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a fact?",
+      "back": "A statement that can be checked and shown to be true or false, for example by records, measurement or observation.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 160
+    },
+    {
+      "id": "kc.english.factual-passage.def-opinion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an opinion?",
+      "back": "A view or judgement that a person holds. It cannot be proved true or false, and it often uses words such as 'best', 'should' or 'I think'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 170
+    },
+    {
+      "id": "kc.english.factual-passage.def-claim",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a claim in a passage?",
+      "back": "A statement the writer puts forward as true and tries to prove with reasons and evidence.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "argument"
+      ],
+      "order": 180
+    },
+    {
+      "id": "kc.english.factual-passage.def-evidence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is evidence in a passage?",
+      "back": "The facts, examples, figures or expert statements a writer uses to show that a claim is true.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "argument"
+      ],
+      "order": 190
+    },
+    {
+      "id": "kc.english.factual-passage.def-bias",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is bias in writing?",
+      "back": "A strong leaning for or against a person, group or idea, which makes the writing one-sided and unfair.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "author-view"
+      ],
+      "order": 200
+    },
+    {
+      "id": "kc.english.factual-passage.def-objective-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is objective writing?",
+      "back": "Writing based on facts and kept free of the writer's personal feelings or opinions. It stays neutral.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "author-view"
+      ],
+      "order": 210
+    },
+    {
+      "id": "kc.english.factual-passage.def-subjective-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is subjective writing?",
+      "back": "Writing shaped by the writer's own feelings, tastes and opinions rather than by facts alone.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "author-view"
+      ],
+      "order": 220
+    },
+    {
+      "id": "kc.english.factual-passage.def-context-clue",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a context clue?",
+      "back": "A hint in the words or sentences around an unfamiliar word that helps you work out its meaning.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "vocabulary"
+      ],
+      "order": 230
+    },
+    {
+      "id": "kc.english.factual-passage.def-expository-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is expository writing?",
+      "back": "Writing that explains or gives information about a subject, as in a textbook chapter or a how-to article. Its aim is to inform and explain.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "writing-types"
+      ],
+      "order": 240
+    },
+    {
+      "id": "kc.english.factual-passage.def-persuasive-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is persuasive writing?",
+      "back": "Writing that tries to make the reader believe something or act in a certain way, using reasons, appeals and strong language. An advertisement is an example.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "writing-types"
+      ],
+      "order": 250
+    },
+    {
+      "id": "kc.english.factual-passage.def-argumentative-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is argumentative writing?",
+      "back": "Writing that takes a position on an issue and backs it with logical reasons and evidence, often answering the opposite view as well.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "writing-types"
+      ],
+      "order": 260
+    },
+    {
+      "id": "kc.english.factual-passage.def-descriptive-writing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is descriptive writing?",
+      "back": "Writing that paints a clear picture of a person, place, object or event through vivid details that appeal to the senses.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "writing-types"
+      ],
+      "order": 270
+    },
+    {
+      "id": "kc.english.factual-passage.types-text-structures",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of text structure in a factual passage",
+      "back": "Description: details about a person, place, thing or idea\nSequence: events or steps in time order\nCause and effect: why something happens and what follows\nCompare and contrast: how things are alike and different\nProblem and solution: a problem and the ways to deal with it",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "text-structure"
+      ],
+      "order": 280
+    },
+    {
+      "id": "kc.english.factual-passage.types-author-purposes",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of author's purpose",
+      "back": "To inform: give facts and knowledge\nTo explain: show how or why something works\nTo persuade: win the reader over to a view or action\nTo entertain: amuse or interest the reader\nTo describe: paint a picture of a person, place or thing",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "author-view"
+      ],
+      "order": 290
+    },
+    {
+      "id": "kc.english.factual-passage.types-context-clues",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of context clue",
+      "back": "Definition clue: the sentence states the meaning, often after 'is', 'means' or a comma\nSynonym clue: a word of similar meaning appears nearby\nAntonym clue: an opposite word nearby, often after 'but' or 'unlike'\nExample clue: examples that show the meaning, often after 'such as'",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "vocabulary"
+      ],
+      "order": 300
+    },
+    {
+      "id": "kc.english.factual-passage.diff-fact-opinion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Fact vs opinion: the difference",
+      "back": "Fact: a statement that can be checked and proved true or false.\nOpinion: a statement of what someone thinks or feels; it cannot be proved.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 310
+    },
+    {
+      "id": "kc.english.factual-passage.diff-main-idea-supporting-detail",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Main idea vs supporting detail: the difference",
+      "back": "Main idea: the central point the whole passage makes.\nSupporting detail: a fact, example or reason that backs up that point.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "main-idea"
+      ],
+      "order": 320
+    },
+    {
+      "id": "kc.english.factual-passage.diff-topic-main-idea",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Topic vs main idea: the difference",
+      "back": "Topic: the subject of the passage, in a word or phrase ('Water saving').\nMain idea: what the writer says about that subject, in a sentence ('Households can save water by fixing leaks').",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "main-idea"
+      ],
+      "order": 330
+    },
+    {
+      "id": "kc.english.factual-passage.diff-skimming-scanning",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Skimming vs scanning: the difference",
+      "back": "Skimming: reading quickly to get the general idea of the passage.\nScanning: moving your eyes over the text to find one particular word, name, date or fact.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "reading-skills"
+      ],
+      "order": 340
+    },
+    {
+      "id": "kc.english.factual-passage.diff-summary-paraphrase",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Summary vs paraphrase: the difference",
+      "back": "Summary: a short account of only the main points, in your own words.\nParaphrase: a restatement of the full meaning of a passage in different words; it is about as long as the original.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "reading-skills"
+      ],
+      "order": 350
+    },
+    {
+      "id": "kc.english.factual-passage.diff-stated-fact-inference",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Stated fact vs inference: the difference",
+      "back": "Stated fact: the text says it in so many words.\nInference: the text does not say it, but its clues lead you to it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "inference"
+      ],
+      "order": 360
+    },
+    {
+      "id": "kc.english.factual-passage.word-therefore",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'therefore' show in a passage?",
+      "back": "Effect or result: what follows from the reason just given.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 380
+    },
+    {
+      "id": "kc.english.factual-passage.word-consequently",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'consequently' show in a passage?",
+      "back": "Effect or result: what happened because of the earlier event.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 390
+    },
+    {
+      "id": "kc.english.factual-passage.word-however",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'however' show in a passage?",
+      "back": "Contrast: the idea that follows goes against the one before it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 400
+    },
+    {
+      "id": "kc.english.factual-passage.word-nevertheless",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'nevertheless' show in a passage?",
+      "back": "Contrast: something still holds true in spite of what was just said.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 410
+    },
+    {
+      "id": "kc.english.factual-passage.word-whereas",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'whereas' show in a passage?",
+      "back": "Contrast: it sets two things side by side to show how they differ.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 420
+    },
+    {
+      "id": "kc.english.factual-passage.word-similarly",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'similarly' show in a passage?",
+      "back": "Comparison: the next idea is like the one before it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 430
+    },
+    {
+      "id": "kc.english.factual-passage.word-for-instance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'for instance' show in a passage?",
+      "back": "Example: it introduces a case that illustrates the point.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 440
+    },
+    {
+      "id": "kc.english.factual-passage.word-in-addition",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'in addition' show in a passage?",
+      "back": "Addition: it adds one more point to what has been said.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 450
+    },
+    {
+      "id": "kc.english.factual-passage.word-on-the-contrary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "Which relationship does the signal word 'on the contrary' show in a passage?",
+      "back": "Contrast: it says the opposite of what was just stated is true.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "signal-words"
+      ],
+      "order": 480
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-brahmaputra",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'The Brahmaputra flows through Assam.'",
+      "back": "Fact\nIt can be checked on a map.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 490
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-cricket",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'Cricket is the most exciting sport in the world.'",
+      "back": "Opinion\n'Most exciting' is a personal judgement.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 500
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-boiling",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'Water boils at 100 degrees Celsius at sea level.'",
+      "back": "Fact\nIt can be tested and measured.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 510
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-swim",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'Everyone should learn to swim before the age of ten.'",
+      "back": "Opinion\n'Should' shows what the writer thinks is right.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 520
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-library",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'The school library has more than 4,000 books.'",
+      "back": "Fact\nThe number can be checked by counting.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 530
+    },
+    {
+      "id": "kc.english.factual-passage.ex-fo-winter",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Fact or opinion: 'Winter mornings are the most peaceful time of the year.'",
+      "back": "Opinion\n'Most peaceful' depends on feeling; it cannot be proved.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "fact-opinion"
+      ],
+      "order": 540
+    },
+    {
+      "id": "kc.english.factual-passage.ex-ts-sequence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the text structure: 'First, wash the rice. Next, boil it for ten minutes. Finally, drain the water.'",
+      "back": "Sequence (chronological order)\nThe steps come in time order, marked by first, next and finally.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "text-structure"
+      ],
+      "order": 550
+    },
+    {
+      "id": "kc.english.factual-passage.ex-ts-cause-effect",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the text structure: 'Because the river was polluted, the fish died, and the fishing families lost their income.'",
+      "back": "Cause and effect\nA cause (pollution) leads to effects (dead fish, lost income).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "text-structure"
+      ],
+      "order": 560
+    },
+    {
+      "id": "kc.english.factual-passage.ex-ts-compare-contrast",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the text structure: 'Buses are cheaper than trains, but trains are faster and more comfortable.'",
+      "back": "Compare and contrast\nTwo things are set side by side to show how they differ.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "text-structure"
+      ],
+      "order": 570
+    },
+    {
+      "id": "kc.english.factual-passage.ex-ts-problem-solution",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the text structure: 'Many students sleep too little. Schools can help by starting classes an hour later.'",
+      "back": "Problem and solution\nA problem is stated, then a way to deal with it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "text-structure"
+      ],
+      "order": 580
+    },
+    {
+      "id": "kc.english.factual-passage.rule-main-idea",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a main idea or central theme question?",
+      "back": "Ask what every paragraph is about and what the writer wants you to remember. Choose the option that covers the whole passage.\nTrap: an option true of one paragraph only, or one too broad.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 590
+    },
+    {
+      "id": "kc.english.factual-passage.rule-title",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a suitable title question?",
+      "back": "Choose the title that sums up the whole passage in few words: its topic and the writer's point.\nTrap: a title naming one detail, or one too wide.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 600
+    },
+    {
+      "id": "kc.english.factual-passage.rule-specific-detail",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a specific detail question?",
+      "back": "Find the question's key words in the passage and read the lines around them. Match the option to the text, not to what you already know.\nTrap: an option using the right words with a changed meaning.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 610
+    },
+    {
+      "id": "kc.english.factual-passage.rule-vocabulary-context",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a vocabulary in context (meaning, synonym or antonym of a word) question?",
+      "back": "Go back to the word and read the sentence around it. Put each option in its place and keep the one that fits. For an antonym, pick the opposite of that sense.\nTrap: the common meaning may not be the one used here.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 630
+    },
+    {
+      "id": "kc.english.factual-passage.rule-not-except",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a NOT or EXCEPT question?",
+      "back": "Three options are true to the passage and one is not. Check each option against the text, cross out the true ones and choose the one left.\nTrap: forgetting the NOT and picking a true statement.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 650
+    },
+    {
+      "id": "kc.english.factual-passage.rule-statement-set",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.factual-passage",
+      "chapter": "Factual Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a statement-set ('Which of the statements are true?') question?",
+      "back": "Test each statement on its own against the passage and mark it true or false. Then pick the option that matches your marks.\nTrap: a statement that is partly true; one wrong word makes it false.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "reading-comprehension",
+        "question-type"
+      ],
+      "order": 660
+    },
+    {
+      "id": "kc.english.literary-passage.def-figure-of-speech",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a figure of speech?",
+      "back": "A word or phrase used in a non-literal way to create a special effect, such as a simile, a metaphor or hyperbole.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 100,
+      "note": "Saying 'I am starving' does not mean the speaker is dying of hunger."
+    },
+    {
+      "id": "kc.english.literary-passage.def-simile",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a simile?",
+      "back": "A figure of speech that compares two unlike things directly, using 'like' or 'as'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 110,
+      "note": "Example: Her voice was as sweet as honey."
+    },
+    {
+      "id": "kc.english.literary-passage.def-metaphor",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a metaphor?",
+      "back": "A figure of speech that describes one thing by saying it is another, without using 'like' or 'as'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 120,
+      "note": "Example: Life is a journey."
+    },
+    {
+      "id": "kc.english.literary-passage.def-extended-metaphor",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an extended metaphor?",
+      "back": "A metaphor that is carried on through several lines, or a whole poem or passage, with further details that keep developing the comparison.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 130,
+      "note": "Example: Life is a road with sharp turns, steep hills and a final destination."
+    },
+    {
+      "id": "kc.english.literary-passage.def-personification",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is personification?",
+      "back": "A figure of speech that gives human qualities, feelings or actions to an object, an animal or an idea.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 140,
+      "note": "Example: The sun smiled down on the village."
+    },
+    {
+      "id": "kc.english.literary-passage.def-hyperbole",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is hyperbole?",
+      "back": "Deliberate exaggeration used for emphasis or effect, not meant to be taken literally.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 150,
+      "note": "Example: This bag weighs a ton."
+    },
+    {
+      "id": "kc.english.literary-passage.def-understatement",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is understatement?",
+      "back": "Presenting something as smaller, less serious or less important than it really is, often for humour or irony.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 160,
+      "note": "Example: After the marathon, he said he was 'a little tired'."
+    },
+    {
+      "id": "kc.english.literary-passage.def-alliteration",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is alliteration?",
+      "back": "The repetition of the same consonant sound at the beginning of words that are close together.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 170,
+      "note": "Example: Fresh flowers filled the field."
+    },
+    {
+      "id": "kc.english.literary-passage.def-assonance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is assonance?",
+      "back": "The repetition of the same vowel sound in nearby words, with different consonant sounds around it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 180,
+      "note": "Example: Try to light the white kite."
+    },
+    {
+      "id": "kc.english.literary-passage.def-consonance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is consonance?",
+      "back": "The repetition of the same consonant sound within or at the end of nearby words, with different vowel sounds.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 190,
+      "note": "Example: 'blank' and 'think' repeat the final 'k' sound."
+    },
+    {
+      "id": "kc.english.literary-passage.def-onomatopoeia",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is onomatopoeia?",
+      "back": "The use of a word that imitates the sound it names.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 200,
+      "note": "Examples: buzz, hiss, thud, splash."
+    },
+    {
+      "id": "kc.english.literary-passage.def-oxymoron",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an oxymoron?",
+      "back": "A figure of speech that joins two words of opposite meaning in one phrase.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 210,
+      "note": "Examples: open secret, living dead."
+    },
+    {
+      "id": "kc.english.literary-passage.def-paradox",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a paradox?",
+      "back": "A statement that seems to contradict itself or to be absurd but turns out to contain a truth.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 220,
+      "note": "Example: Less is more."
+    },
+    {
+      "id": "kc.english.literary-passage.def-irony",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is irony?",
+      "back": "The use of words or events so that the real meaning or outcome is the opposite of, or very different from, what is said or expected.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "irony"
+      ],
+      "order": 230
+    },
+    {
+      "id": "kc.english.literary-passage.def-verbal-irony",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is verbal irony?",
+      "back": "Irony in which a speaker says the opposite of what they really mean.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "irony"
+      ],
+      "order": 240,
+      "note": "Example: Saying 'What lovely weather!' in the middle of a storm."
+    },
+    {
+      "id": "kc.english.literary-passage.def-situational-irony",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is situational irony?",
+      "back": "Irony in which the outcome of events is the opposite of what was expected or would be fitting.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "irony"
+      ],
+      "order": 250,
+      "note": "Example: A fire station burns down."
+    },
+    {
+      "id": "kc.english.literary-passage.def-dramatic-irony",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is dramatic irony?",
+      "back": "Irony in which the audience or reader knows something important that the characters in the story do not.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "irony"
+      ],
+      "order": 260,
+      "note": "Example: We know the box holds a snake, but the heroine opens it happily."
+    },
+    {
+      "id": "kc.english.literary-passage.def-satire",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is satire?",
+      "back": "A work or style that uses humour, exaggeration or irony to expose and criticise the foolishness or faults of people, institutions or society.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "literary-term"
+      ],
+      "order": 270,
+      "note": "Example: Jonathan Swift's Gulliver's Travels."
+    },
+    {
+      "id": "kc.english.literary-passage.def-allegory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an allegory?",
+      "back": "A story, poem or picture in which characters and events stand for deeper ideas, usually moral or political ones.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "literary-term"
+      ],
+      "order": 280,
+      "note": "Example: George Orwell's Animal Farm stands for the Russian Revolution and what followed."
+    },
+    {
+      "id": "kc.english.literary-passage.def-allusion",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an allusion?",
+      "back": "A brief, indirect reference to a person, place, event or work of literature, history or myth that the reader is expected to know.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 290,
+      "note": "Example: 'He met his Waterloo' alludes to Napoleon's final defeat."
+    },
+    {
+      "id": "kc.english.literary-passage.def-apostrophe",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is apostrophe as a figure of speech?",
+      "back": "Speaking directly to an absent or dead person, or to an object or an idea, as if it could hear and answer.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 300,
+      "note": "Example: O wind, carry my message home."
+    },
+    {
+      "id": "kc.english.literary-passage.def-anaphora",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is anaphora?",
+      "back": "The repetition of the same word or phrase at the beginning of successive lines, sentences or clauses.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 310,
+      "note": "Example: Every day, every night, every hour, she waited."
+    },
+    {
+      "id": "kc.english.literary-passage.def-antithesis",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is antithesis?",
+      "back": "The placing of sharply contrasting ideas side by side in balanced, parallel phrases or clauses.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 320,
+      "note": "Example: We want peace; they want war."
+    },
+    {
+      "id": "kc.english.literary-passage.def-litotes",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is litotes?",
+      "back": "A form of understatement that affirms something by denying its opposite.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 340,
+      "note": "Example: 'He is no fool' means he is quite clever."
+    },
+    {
+      "id": "kc.english.literary-passage.def-metonymy",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is metonymy?",
+      "back": "A figure of speech in which a thing is called by the name of something closely associated with it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 350,
+      "note": "Example: 'The press' for journalists."
+    },
+    {
+      "id": "kc.english.literary-passage.def-synecdoche",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is synecdoche?",
+      "back": "A figure of speech in which a part stands for the whole, or the whole stands for a part.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 360,
+      "note": "Example: 'Wheels' for a car."
+    },
+    {
+      "id": "kc.english.literary-passage.def-pun",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a pun?",
+      "back": "A play on words that uses the two meanings of a word, or two words that sound alike, for humour or effect.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 370,
+      "note": "Example: I wondered why the ball kept getting bigger, and then it hit me."
+    },
+    {
+      "id": "kc.english.literary-passage.def-imagery",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is imagery in a poem or passage?",
+      "back": "Descriptive language that appeals to the senses and creates pictures or sensations in the reader's mind.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "imagery"
+      ],
+      "order": 380,
+      "note": "Example: the scent of wet earth and the cold bite of the wind."
+    },
+    {
+      "id": "kc.english.literary-passage.def-symbolism",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is symbolism?",
+      "back": "The use of an object, person, colour or action to stand for an idea beyond its literal meaning.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "literary-term"
+      ],
+      "order": 390,
+      "note": "Example: A dove stands for peace."
+    },
+    {
+      "id": "kc.english.literary-passage.def-transferred-epithet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a transferred epithet?",
+      "back": "A figure of speech in which an adjective is moved from the person it really describes to a noun it cannot literally describe.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 400,
+      "note": "Example: 'An angry letter' means the writer, not the letter, is angry."
+    },
+    {
+      "id": "kc.english.literary-passage.def-rhetorical-question",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a rhetorical question?",
+      "back": "A question asked to make a point or create an effect, not to get an answer.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 410,
+      "note": "Example: Can anyone say that war is a good thing?"
+    },
+    {
+      "id": "kc.english.literary-passage.def-repetition",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is repetition as a literary device?",
+      "back": "The repeating of a word, phrase or line for emphasis, rhythm or effect.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 420,
+      "note": "Example: She waited and waited and waited."
+    },
+    {
+      "id": "kc.english.literary-passage.def-refrain",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a refrain in a poem or song?",
+      "back": "A line or group of lines repeated at regular intervals, often at the end of each stanza.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 430
+    },
+    {
+      "id": "kc.english.literary-passage.def-rhyme",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is rhyme in poetry?",
+      "back": "The repetition of the same or a very similar sound at the end of words, usually at the ends of lines.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rhyme"
+      ],
+      "order": 440,
+      "note": "Example: moon and soon; light and night."
+    },
+    {
+      "id": "kc.english.literary-passage.def-internal-rhyme",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is internal rhyme?",
+      "back": "Rhyme between words inside the same line, or between a word in the middle of a line and the word at its end.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rhyme"
+      ],
+      "order": 450
+    },
+    {
+      "id": "kc.english.literary-passage.def-rhyme-scheme",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a rhyme scheme?",
+      "back": "The pattern of end rhymes in a poem, shown by letters, with each new end sound given the next letter.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "rhyme"
+      ],
+      "order": 460,
+      "note": "Examples: abab, aabb."
+    },
+    {
+      "id": "kc.english.literary-passage.def-rhythm",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is rhythm in poetry?",
+      "back": "The pattern of stressed and unstressed syllables that gives a line of verse its beat.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 470
+    },
+    {
+      "id": "kc.english.literary-passage.def-stanza",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a stanza?",
+      "back": "A group of lines in a poem that forms one unit, set apart by a space, like a paragraph in prose.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 480
+    },
+    {
+      "id": "kc.english.literary-passage.def-couplet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a couplet?",
+      "back": "Two successive lines of verse, usually of the same length and often rhyming.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 490
+    },
+    {
+      "id": "kc.english.literary-passage.def-quatrain",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a quatrain?",
+      "back": "A stanza or poem of four lines, which may use any rhyme scheme.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 500
+    },
+    {
+      "id": "kc.english.literary-passage.def-enjambment",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is enjambment?",
+      "back": "The continuation of a sentence or phrase from one line of verse to the next without a pause or punctuation at the line end.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 510,
+      "note": "The opposite is an end-stopped line, where the thought ends with the line."
+    },
+    {
+      "id": "kc.english.literary-passage.def-sonnet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a sonnet?",
+      "back": "A poem of fourteen lines with a fixed rhyme scheme, usually in iambic pentameter.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 520,
+      "note": "Two main types: the Petrarchan (Italian) and the Shakespearean (English)."
+    },
+    {
+      "id": "kc.english.literary-passage.def-free-verse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is free verse?",
+      "back": "Poetry that has no regular rhyme scheme and no fixed metre; its rhythm follows natural speech.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 530,
+      "note": "Walt Whitman's Leaves of Grass is a famous early example."
+    },
+    {
+      "id": "kc.english.literary-passage.def-blank-verse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is blank verse?",
+      "back": "Poetry written in a regular metre, usually iambic pentameter, but without rhyme.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 540,
+      "note": "Much of Shakespeare's drama and Milton's Paradise Lost is in blank verse."
+    },
+    {
+      "id": "kc.english.literary-passage.def-ode",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an ode?",
+      "back": "A long lyric poem in a formal, elevated style that is addressed to, and praises, a person, an object or an idea.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 550,
+      "note": "Example: Keats's 'Ode to a Nightingale'."
+    },
+    {
+      "id": "kc.english.literary-passage.def-ballad",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a ballad?",
+      "back": "A poem or song that tells a story in short stanzas, often with a refrain.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 570,
+      "note": "Coleridge's 'The Rime of the Ancient Mariner' is a literary ballad."
+    },
+    {
+      "id": "kc.english.literary-passage.def-lyric",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a lyric poem?",
+      "back": "A short poem in which a single speaker expresses personal thoughts and feelings.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 580,
+      "note": "Sonnets and odes are kinds of lyric poems."
+    },
+    {
+      "id": "kc.english.literary-passage.def-epic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an epic in literature?",
+      "back": "A long narrative poem, in an elevated style, about the heroic deeds of a hero or heroes and important to a nation or culture.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 590,
+      "note": "Examples: the Ramayana, the Mahabharata and Homer's Iliad."
+    },
+    {
+      "id": "kc.english.literary-passage.def-speaker",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the speaker of a poem?",
+      "back": "The voice that talks in the poem. It is a persona created by the poet and is not always the poet.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 600
+    },
+    {
+      "id": "kc.english.literary-passage.types-irony",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of irony",
+      "back": "Verbal irony: the speaker says the opposite of what is meant.\nSituational irony: the outcome is the opposite of what was expected.\nDramatic irony: the audience knows something the characters do not.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "irony"
+      ],
+      "order": 610
+    },
+    {
+      "id": "kc.english.literary-passage.types-imagery",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of imagery",
+      "back": "Visual imagery: appeals to sight.\nAuditory imagery: appeals to hearing.\nTactile imagery: appeals to touch.\nOlfactory imagery: appeals to smell.\nGustatory imagery: appeals to taste.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "imagery"
+      ],
+      "order": 620
+    },
+    {
+      "id": "kc.english.literary-passage.diff-simile-metaphor",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Simile vs metaphor: the difference",
+      "back": "Simile: compares two things using 'like' or 'as' (She is as brave as a lion).\nMetaphor: says one thing is another, with no 'like' or 'as' (She is a lion in battle).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 630
+    },
+    {
+      "id": "kc.english.literary-passage.diff-metonymy-synecdoche",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Metonymy vs synecdoche: the difference",
+      "back": "Metonymy: names a thing by something closely associated with it ('the crown' for a king).\nSynecdoche: names a thing by one of its parts, or a part by the whole ('hands' for workers).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 640
+    },
+    {
+      "id": "kc.english.literary-passage.diff-alliteration-assonance",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Alliteration vs assonance: the difference",
+      "back": "Alliteration: repeats a consonant sound at the start of nearby words (bright blue boats).\nAssonance: repeats a vowel sound inside nearby words (go slow over the road).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 650
+    },
+    {
+      "id": "kc.english.literary-passage.diff-personification-apostrophe",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Personification vs apostrophe: the difference",
+      "back": "Personification: gives human qualities to a non-human thing ('The wind sang').\nApostrophe: speaks directly to an absent person or a thing as if it could answer ('O wind, sing to me').",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 660
+    },
+    {
+      "id": "kc.english.literary-passage.diff-free-verse-blank-verse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Free verse vs blank verse: the difference",
+      "back": "Free verse: no regular rhyme and no fixed metre.\nBlank verse: no rhyme, but a regular metre, usually iambic pentameter (ten syllables, five beats).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "poetic-form"
+      ],
+      "order": 670
+    },
+    {
+      "id": "kc.english.literary-passage.ex-simile-deer",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The little boy ran down the corridor like a startled deer.'",
+      "back": "Simile\nThe boy is compared to a deer directly, using the word 'like'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 680
+    },
+    {
+      "id": "kc.english.literary-passage.ex-metaphor-zoo",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The classroom was a zoo before the teacher arrived.'",
+      "back": "Metaphor\nThe classroom is said to be a zoo, with no 'like' or 'as'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 690
+    },
+    {
+      "id": "kc.english.literary-passage.ex-personification-sea",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The angry sea refused to let the little boat go.'",
+      "back": "Personification\nA sea cannot be angry or refuse; it is given human feelings and choices.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 700
+    },
+    {
+      "id": "kc.english.literary-passage.ex-hyperbole-million",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'I have told you a million times to close the door.'",
+      "back": "Hyperbole\nThe number is an obvious exaggeration, used for emphasis.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 710
+    },
+    {
+      "id": "kc.english.literary-passage.ex-alliteration-balloons",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'Bright blue balloons bobbed above the busy bazaar.'",
+      "back": "Alliteration\nThe consonant sound 'b' is repeated at the start of nearby words.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 720
+    },
+    {
+      "id": "kc.english.literary-passage.ex-onomatopoeia-kettle",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The kettle hissed and the door banged shut.'",
+      "back": "Onomatopoeia\n'Hissed' and 'banged' imitate the sounds they name.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sound-device"
+      ],
+      "order": 730
+    },
+    {
+      "id": "kc.english.literary-passage.ex-oxymoron-silence",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The room fell into a deafening silence.'",
+      "back": "Oxymoron\n'Deafening' and 'silence' are opposites joined in one phrase.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 740
+    },
+    {
+      "id": "kc.english.literary-passage.ex-apostrophe-moon",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'O Moon, keep watch over my sleeping child tonight.'",
+      "back": "Apostrophe\nThe speaker addresses the Moon directly, as if it could listen.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 760
+    },
+    {
+      "id": "kc.english.literary-passage.ex-anaphora-peace",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'We shall work for peace; we shall work for justice; we shall work for freedom.'",
+      "back": "Anaphora\nThe phrase 'we shall work for' is repeated at the start of each clause.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 770
+    },
+    {
+      "id": "kc.english.literary-passage.ex-antithesis-house",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'Money can buy a house, but not a home.'",
+      "back": "Antithesis\nTwo contrasting ideas, a house and a home, are set in balanced parallel phrases.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 780
+    },
+    {
+      "id": "kc.english.literary-passage.ex-euphemism-passed",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'Grandfather passed away peacefully last night.'",
+      "back": "Euphemism\n'Passed away' is a gentler phrase used in place of 'died'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 790
+    },
+    {
+      "id": "kc.english.literary-passage.ex-metonymy-white-house",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The White House announced a new policy today.'",
+      "back": "Metonymy\nThe building stands for the President and the government linked with it.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 810
+    },
+    {
+      "id": "kc.english.literary-passage.ex-synecdoche-hands",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The farmer hired ten hands for the harvest.'",
+      "back": "Synecdoche\n'Hands', a part of the workers, stands for the whole workers.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 820
+    },
+    {
+      "id": "kc.english.literary-passage.ex-pun-dough",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'The baker quit because he could not make enough dough.'",
+      "back": "Pun\n'Dough' plays on two meanings: bread mixture and money.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 830
+    },
+    {
+      "id": "kc.english.literary-passage.ex-transferred-epithet-night",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'He spent a sleepless night worrying about the result.'",
+      "back": "Transferred epithet\n'Sleepless' really describes the man, but it is attached to the night.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 840
+    },
+    {
+      "id": "kc.english.literary-passage.ex-rhetorical-question-monsoon",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the figure of speech: 'Is there anyone who does not love the monsoon?'",
+      "back": "Rhetorical question\nIt is asked to make a point, and no answer is expected.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "figure-of-speech"
+      ],
+      "order": 850
+    },
+    {
+      "id": "kc.english.literary-passage.ex-rhyme-scheme-moon",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "What is the rhyme scheme of these lines? 'The moon is high, / The path is long, / The owls cry, / A soft night song.'",
+      "back": "abab\nHigh and cry rhyme (a); long and song rhyme (b).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rhyme"
+      ],
+      "order": 860
+    },
+    {
+      "id": "kc.english.literary-passage.ex-rhyme-scheme-stars",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "What is the rhyme scheme of these lines? 'The stars come out, / The owls shout, / The night grows deep, / The children sleep.'",
+      "back": "aabb\nOut and shout rhyme (a); deep and sleep rhyme (b).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rhyme"
+      ],
+      "order": 870
+    },
+    {
+      "id": "kc.english.literary-passage.rule-rhyme-scheme",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you find the rhyme scheme of a poem?",
+      "back": "Read the lines aloud. Mark the end sound of line 1 as a.\nGive each later line the same letter if its end sound matches an earlier one, or the next new letter (b, c ...) if it is new.\nTrap: judge by sound, not spelling (love and move do not rhyme).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 890
+    },
+    {
+      "id": "kc.english.literary-passage.rule-central-idea",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a central idea question on a poem or extract?",
+      "back": "Read the whole poem or extract first, then ask what the writer is saying about the subject overall.\nChoose the option that covers the whole text, not one detail.\nTrap: an option true of one line only, or one that adds ideas the text does not state.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 900
+    },
+    {
+      "id": "kc.english.literary-passage.rule-meaning-of-line",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a question on the meaning of a line or image?",
+      "back": "Re-read the line with the lines before and after it. Decide what it stands for beyond its literal sense, such as a comparison, a symbol or a sense picture.\nChoose the option that fits the whole poem.\nTrap: picking the literal meaning of a figurative line.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 910
+    },
+    {
+      "id": "kc.english.literary-passage.rule-speaker-attitude",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a question on the speaker's attitude in a poem?",
+      "back": "Find the words, images and details that show how the speaker feels about the subject.\nDecide whether the feeling is positive, negative or neutral, then pick the option that fits the whole poem.\nTrap: mixing up the poet with the speaker; use only what the text shows.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 920
+    },
+    {
+      "id": "kc.english.literary-passage.def-tone",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is tone in a passage?",
+      "back": "The writer's attitude towards the subject or the reader, shown through word choice, details and style.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "reading-comprehension"
+      ],
+      "order": 3000,
+      "note": "The same event can sound proud, bitter or amused, depending on the words chosen."
+    },
+    {
+      "id": "kc.english.literary-passage.diff-tone-mood",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Tone vs mood: the difference",
+      "back": "Tone: the writer's attitude towards the subject, such as mocking or admiring.\nMood: the feeling the passage creates in the reader, such as gloomy or calm.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "mood"
+      ],
+      "order": 3010
+    },
+    {
+      "id": "kc.english.literary-passage.rule-tone-question",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a tone or attitude question?",
+      "back": "Mark the words and details that carry feeling: adjectives, verbs, images and punctuation.\nDecide positive, negative or neutral first, then pick the exact word.\nCheck that the option fits the whole passage.\nTrap: a word that fits one sentence but not the passage.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "question-type"
+      ],
+      "order": 3020
+    },
+    {
+      "id": "kc.english.literary-passage.rule-tone-close-options",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you choose between two close tone options?",
+      "back": "Compare them by kind and strength: serious or playful, sincere or mocking, mild or strong.\nGo back to the passage and match the strength of its language.\nTrap: choosing an extreme word such as 'scornful' when the passage is only mildly critical.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "question-type"
+      ],
+      "order": 3030
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-sardonic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'sardonic' tone show?",
+      "back": "Mocking in a bitter, grimly amused way; the writer sneers at something while seeming to find it funny.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3040,
+      "note": "Example: 'How generous of the council to repair one pothole in a decade,' he wrote."
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-sarcastic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'sarcastic' tone show?",
+      "back": "Saying the opposite of what is meant in order to mock or hurt someone.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3050,
+      "note": "Example: 'Great, another delay,' she said, after waiting two hours."
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-satirical",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'satirical' tone show?",
+      "back": "Using humour, exaggeration or ridicule to expose and criticise foolishness or wrongdoing, especially in public life.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3070,
+      "note": "Satire aims to criticise, not just to amuse."
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-wry",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'wry' tone show?",
+      "back": "Dry, mildly mocking humour that shows the writer finds a bad or awkward situation slightly funny.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3080,
+      "note": "Example: 'The bus, true to form, arrived just as I finished walking.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-nostalgic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'nostalgic' tone show?",
+      "back": "Fondly longing for a happy time in the past and remembering it with warm feeling.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3090,
+      "note": "Example: 'Those long summer evenings in the village feel like another world now.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-wistful",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'wistful' tone show?",
+      "back": "Gently and sadly longing for something that is past or out of reach.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3100,
+      "note": "Example: 'She watched the train leave, wishing she were on it.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-melancholic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'melancholic' tone show?",
+      "back": "Deeply and thoughtfully sad, with a lasting gloom that often has no single clear cause.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3110,
+      "note": "Example: 'The empty playground held nothing but the autumn wind.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-sombre",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'sombre' tone show?",
+      "back": "Serious, dark and gloomy; a heavy, grave mood with no cheer.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3120,
+      "note": "Example: 'The mourners stood in silence under a grey sky.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-solemn",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'solemn' tone show?",
+      "back": "Serious and dignified, without any humour; suited to an important or formal occasion.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3130,
+      "note": "Example: 'He rose and, in a quiet, measured voice, took the oath.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-reverent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'reverent' tone show?",
+      "back": "Showing deep respect and awe for someone or something held sacred or great.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3140,
+      "note": "Example: 'Pilgrims entered the shrine with bowed heads and hushed voices.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-laudatory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'laudatory' tone show?",
+      "back": "Praising someone or something warmly and openly.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3150,
+      "note": "Example: 'Her brilliant work has set a standard for the whole field.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-critical",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'critical' tone show?",
+      "back": "Pointing out faults and expressing disapproval of someone or something.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3170,
+      "note": "Example: 'The plan is poorly thought out and ignores the needs of the poor.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-didactic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'didactic' tone show?",
+      "back": "Meant to teach, especially to give a moral lesson, and often in a preachy way.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3200,
+      "note": "Example: 'Remember, children, honesty is always the best policy.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-cautionary",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'cautionary' tone show?",
+      "back": "Giving a warning so that readers will avoid a danger or mistake.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3210,
+      "note": "Example: 'Those who ignore the signs of erosion will lose their fields.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-pessimistic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'pessimistic' tone show?",
+      "back": "Expecting the worst; seeing mainly the bad side and doubting that things will improve.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3240,
+      "note": "Example: 'Nothing will change; these plans always fail in the end.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-resigned",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'resigned' tone show?",
+      "back": "Accepting something unpleasant because it cannot be changed, without protest.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3250,
+      "note": "Example: 'The shop would close; there was nothing more to be done.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-scornful",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'scornful' tone show?",
+      "back": "Showing strong contempt; treating someone or something as worthless.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3270,
+      "note": "Example: 'He dismissed the idea as the dream of a fool.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-derisive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'derisive' tone show?",
+      "back": "Mocking in a jeering way that treats someone as unworthy of respect.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3280,
+      "note": "Example: 'The crowd roared with jeering laughter at his speech.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-condescending",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'condescending' tone show?",
+      "back": "Talking down to others as if one is superior, showing they are less clever or important.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3290,
+      "note": "Example: 'Don't worry, dear, the grown-ups will explain it simply for you.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-patronising",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'patronising' tone show?",
+      "back": "Seeming kind or friendly while showing that you think the other person is less intelligent or capable.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3300,
+      "note": "Example: 'Well done for trying; it must be hard for someone like you.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-mocking",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'mocking' tone show?",
+      "back": "Making fun of someone or something in an unkind way, often by ridiculing or imitating.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3310,
+      "note": "Example: 'Oh yes, our great leader, the master of all he surveys!'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-jocular",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'jocular' tone show?",
+      "back": "Playful and joking; cheerful, light humour.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3320,
+      "note": "Example: 'I would offer you a seat, but the cat has the best one.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-flippant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'flippant' tone show?",
+      "back": "Treating something serious without proper respect or seriousness; too casual.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3330,
+      "note": "Example: 'The exam? Oh, I just guessed my way through it.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-facetious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'facetious' tone show?",
+      "back": "Joking about a serious matter in a silly or inappropriate way, at the wrong moment.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3340,
+      "note": "Example: 'The flood? Just a free swimming pool for the neighbourhood.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-sentimental",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'sentimental' tone show?",
+      "back": "Showing tender feelings such as love, pity or nostalgia, often more than the situation needs.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3360,
+      "note": "Example: 'Tears filled her eyes as she kissed the faded photograph.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-sympathetic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'sympathetic' tone show?",
+      "back": "Showing understanding and care for another person's suffering or feelings.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3370,
+      "note": "Example: 'It must have been so hard for you, and I am sorry you went through it.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-detached",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'detached' tone show?",
+      "back": "Not emotionally involved; keeping a distance and showing no personal feeling.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3380,
+      "note": "Example: 'The doctor noted the symptoms, recorded the date and moved to the next patient.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-dispassionate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'dispassionate' tone show?",
+      "back": "Calm and not influenced by strong emotion, so able to be rational and fair.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3390,
+      "note": "Example: 'Weighing the evidence calmly, the committee reached its verdict.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-bitter",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'bitter' tone show?",
+      "back": "Angry and resentful because of unfair treatment or disappointment.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3410,
+      "note": "Example: 'After years of broken promises, he wanted nothing more to do with them.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-reflective",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'reflective' tone show?",
+      "back": "Thinking deeply and quietly about experiences or ideas.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3420,
+      "note": "Example: 'Looking back, I see how much that failure taught me.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-conciliatory",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'conciliatory' tone show?",
+      "back": "Meant to calm anger and make peace; willing to settle a dispute.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3430,
+      "note": "Example: 'Perhaps we were both at fault, and I am ready to talk it over.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-defiant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'defiant' tone show?",
+      "back": "Openly refusing to obey or give in to authority or opposition; boldly resistant.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3440,
+      "note": "Example: 'Order me to stop if you like; I will keep speaking.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-caustic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'caustic' tone show?",
+      "back": "Severely critical or sarcastic in a biting way that stings.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3470,
+      "note": "Example: 'A masterpiece, if you enjoy watching paint dry.'"
+    },
+    {
+      "id": "kc.english.literary-passage.word-tone-disparaging",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.literary-passage",
+      "chapter": "Literary Passage",
+      "unit": "Reading Comprehension",
+      "kind": "word",
+      "front": "What attitude does a 'disparaging' tone show?",
+      "back": "Expressing the view that something is of little value or importance; belittling.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "tone",
+        "attitude-word"
+      ],
+      "order": 3500,
+      "note": "Example: 'It was merely a small effort, hardly worth a mention.'"
+    },
+    {
+      "id": "kc.english.narrative-passage.def-narrative-passage",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a narrative passage?",
+      "back": "A passage that tells a story or an account of events, usually in time order, with characters, a setting and some problem or change.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrative",
+        "reading-comprehension"
+      ],
+      "order": 100,
+      "note": "Typical clues: named characters, past-tense events, dialogue and a sequence of happenings."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-plot",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the plot of a story?",
+      "back": "The sequence of events that make up a story, arranged by the writer so that one event leads to the next.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 110,
+      "note": "Plot is what happens; setting and character are where and to whom."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-exposition",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is exposition in a plot?",
+      "back": "The opening part of a story that introduces the characters, the setting and the background before the main trouble begins.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 120
+    },
+    {
+      "id": "kc.english.narrative-passage.def-climax",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the climax of a story?",
+      "back": "The turning point at which the tension is highest and the main conflict reaches its peak, so the outcome is about to be decided.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 130
+    },
+    {
+      "id": "kc.english.narrative-passage.def-resolution",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the resolution of a plot?",
+      "back": "The part in which the main conflict is settled and the story's problem is solved or ends.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 140,
+      "note": "Many glossaries use 'denouement' for this closing part of the plot."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-denouement",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the denouement of a story?",
+      "back": "The final part after the climax, in which the remaining threads are drawn together and the outcome is made clear.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 150,
+      "note": "The word comes from French, meaning 'untying' (of a knot)."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-conflict",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is conflict in a story?",
+      "back": "A struggle between opposing forces, such as two characters or a character and something outside, that drives the plot.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "conflict"
+      ],
+      "order": 160
+    },
+    {
+      "id": "kc.english.narrative-passage.def-internal-conflict",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an internal conflict?",
+      "back": "A struggle inside a character's own mind, such as between desire and duty, or between two choices.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conflict"
+      ],
+      "order": 170,
+      "note": "Example: a boy torn between telling the truth and shielding his friend."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-external-conflict",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an external conflict?",
+      "back": "A struggle between a character and something outside himself or herself, such as another person, nature or society.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conflict"
+      ],
+      "order": 180
+    },
+    {
+      "id": "kc.english.narrative-passage.def-protagonist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "Who is the protagonist of a story?",
+      "back": "The main character, around whom the story centres and whose struggle the reader mainly follows.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 190
+    },
+    {
+      "id": "kc.english.narrative-passage.def-antagonist",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "Who is the antagonist of a story?",
+      "back": "The character or force that opposes the protagonist and creates the main conflict.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 200,
+      "note": "An antagonist need not be a villain; it may be a rival, a group or a force."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-foil",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a foil in a story?",
+      "back": "A character who contrasts sharply with another, usually the main character, so that the other's qualities stand out.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 210
+    },
+    {
+      "id": "kc.english.narrative-passage.def-characterisation",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is characterisation?",
+      "back": "The way a writer creates and presents a character, through description, speech, actions and what others say or think.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 220
+    },
+    {
+      "id": "kc.english.narrative-passage.def-direct-characterisation",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is direct characterisation?",
+      "back": "The writer or narrator tells the reader plainly what a character is like.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 230,
+      "note": "Example: Meera was a generous, impatient girl."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-indirect-characterisation",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is indirect characterisation?",
+      "back": "The reader learns what a character is like from the character's speech, actions and thoughts and from other people's reactions, not from a plain statement.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 240,
+      "note": "Example: Meera pressed her lunch into the beggar's hands and ran for the bus."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-round-character",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a round character?",
+      "back": "A complex, fully developed character with many sides, strengths and flaws, who can surprise the reader.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 250
+    },
+    {
+      "id": "kc.english.narrative-passage.def-flat-character",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a flat character?",
+      "back": "A simple character built around one quality or idea, who shows little depth and rarely surprises the reader.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 260
+    },
+    {
+      "id": "kc.english.narrative-passage.def-dynamic-character",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a dynamic character?",
+      "back": "A character who changes in an important way, such as in attitude or understanding, because of the events of the story.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 270
+    },
+    {
+      "id": "kc.english.narrative-passage.def-static-character",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a static character?",
+      "back": "A character who stays basically the same from the beginning to the end of the story.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 280
+    },
+    {
+      "id": "kc.english.narrative-passage.def-setting",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the setting of a story?",
+      "back": "The time and place in which a story happens, often with its social surroundings.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "setting"
+      ],
+      "order": 290
+    },
+    {
+      "id": "kc.english.narrative-passage.def-theme",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the theme of a story?",
+      "back": "The central idea or underlying message about life or human nature that a story explores.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "theme"
+      ],
+      "order": 300,
+      "note": "A theme is usually shown through events and characters, not announced."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-moral",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is the moral of a story?",
+      "back": "The lesson about right and wrong or good conduct that a story teaches, often stated at its end.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "theme"
+      ],
+      "order": 310
+    },
+    {
+      "id": "kc.english.narrative-passage.def-mood",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is mood in a story?",
+      "back": "The feeling or atmosphere that a piece of writing creates in the reader, such as gloom, calm or tension.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mood"
+      ],
+      "order": 320,
+      "note": "Setting, description and word choice help to build it."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-point-of-view",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is point of view in a narrative?",
+      "back": "The position from which a story is told, decided by who tells it and how much that teller knows.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 340
+    },
+    {
+      "id": "kc.english.narrative-passage.def-first-person",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is first-person narration?",
+      "back": "A narrator who is part of the story tells it as 'I' (or 'we'), so the reader sees events only through that person's eyes.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 350
+    },
+    {
+      "id": "kc.english.narrative-passage.def-third-person-omniscient",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is third-person omniscient narration?",
+      "back": "An outside narrator, using 'he', 'she' and 'they', who knows the thoughts and feelings of all the characters and the events everywhere.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 360
+    },
+    {
+      "id": "kc.english.narrative-passage.def-third-person-limited",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is third-person limited narration?",
+      "back": "An outside narrator, using 'he' or 'she', who tells the story through the thoughts and feelings of one character only.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 370
+    },
+    {
+      "id": "kc.english.narrative-passage.def-unreliable-narrator",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an unreliable narrator?",
+      "back": "A narrator whose account the reader cannot fully trust, because he or she is mistaken, biased, dishonest or too young to understand.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrator"
+      ],
+      "order": 380
+    },
+    {
+      "id": "kc.english.narrative-passage.def-flashback",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a flashback in a narrative?",
+      "back": "A scene that breaks into the story's present to show something that happened earlier.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 390
+    },
+    {
+      "id": "kc.english.narrative-passage.def-foreshadowing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is foreshadowing?",
+      "back": "Hints or clues given early in a story that suggest what will happen later.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 400
+    },
+    {
+      "id": "kc.english.narrative-passage.def-suspense",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is suspense in a story?",
+      "back": "The tense, excited uncertainty a reader feels about what will happen next, especially to a character in danger.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 410
+    },
+    {
+      "id": "kc.english.narrative-passage.def-cliffhanger",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a cliffhanger?",
+      "back": "An ending, or the end of a chapter, that stops at an exciting moment with the outcome unsettled, so the reader wants to read on.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 420
+    },
+    {
+      "id": "kc.english.narrative-passage.def-anecdote",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an anecdote?",
+      "back": "A short, interesting or amusing account of a real incident, usually about a person.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrative"
+      ],
+      "order": 430
+    },
+    {
+      "id": "kc.english.narrative-passage.def-fable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a fable?",
+      "back": "A short story, often with animals as characters, that teaches a moral lesson.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrative"
+      ],
+      "order": 440,
+      "note": "Example: the tale of the tortoise and the hare."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-parable",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a parable?",
+      "back": "A short, simple story about people that teaches a moral or spiritual lesson.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "narrative"
+      ],
+      "order": 450,
+      "note": "Unlike a fable, a parable usually has human characters."
+    },
+    {
+      "id": "kc.english.narrative-passage.def-epiphany",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is an epiphany in literature?",
+      "back": "A sudden moment in which a character grasps a truth or sees something in a new light.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 460
+    },
+    {
+      "id": "kc.english.narrative-passage.def-motive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "definition",
+      "front": "What is a character's motive in a story?",
+      "back": "The reason that makes a character act as he or she does, such as a want, a fear or a need.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 470
+    },
+    {
+      "id": "kc.english.narrative-passage.steps-plot-stages",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "steps",
+      "front": "Stages of a plot, in order",
+      "back": "Exposition: the characters, setting and background are introduced.\nRising action: events build the conflict and the tension.\nClimax: the turning point, where the tension is highest.\nFalling action: events after the climax lead towards the end.\nResolution: the conflict is settled and the story closes.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "plot"
+      ],
+      "order": 480
+    },
+    {
+      "id": "kc.english.narrative-passage.types-conflict",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of conflict in a story",
+      "back": "Person vs person: a character struggles against another character.\nPerson vs self: a character struggles with his or her own doubts or choices.\nPerson vs nature: a character struggles against a natural force, such as a storm or the wilderness.\nPerson vs society: a character struggles against the rules, customs or beliefs of a group.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "conflict"
+      ],
+      "order": 490
+    },
+    {
+      "id": "kc.english.narrative-passage.types-point-of-view",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of point of view in a narrative",
+      "back": "First person: a character tells the story as 'I'.\nSecond person: the narrator speaks to 'you'; this is rare in stories.\nThird-person omniscient: an outside narrator knows every character's mind.\nThird-person limited: an outside narrator shows one character's mind only.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 500
+    },
+    {
+      "id": "kc.english.narrative-passage.types-character",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "types",
+      "front": "Types of character in a story",
+      "back": "Round: complex and fully developed, with many sides.\nFlat: simple, built around one quality.\nDynamic: changes because of the events of the story.\nStatic: stays the same from beginning to end.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 510,
+      "note": "Round and flat describe depth; dynamic and static describe change."
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-theme-moral",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Theme vs moral: the difference",
+      "back": "Theme: the central idea or message a story explores, often put in a phrase (for example, the cost of greed).\nMoral: a direct lesson on how to behave, often stated as a sentence (for example, 'Greed brings ruin').",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "theme"
+      ],
+      "order": 520
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-theme-topic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Theme vs topic: the difference",
+      "back": "Topic: the subject the story is about, in a word or phrase (for example, friendship).\nTheme: what the story says about that subject, as a full statement (for example, true friends stand by you in hard times).",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "theme"
+      ],
+      "order": 530
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-flashback-foreshadowing",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Flashback vs foreshadowing: the difference",
+      "back": "Flashback: shows an event from the past, breaking into the present of the story.\nForeshadowing: hints at an event that has not yet happened.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 540
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-first-third-person",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "First-person vs third-person narration: the difference",
+      "back": "First person: the narrator is a character in the story and says 'I', so the view is limited to that character.\nThird person: the narrator stands outside the story and uses 'he', 'she' and 'they'.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 550
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-round-flat",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Round vs flat character: the difference",
+      "back": "Round: complex, with strengths and flaws, and able to surprise the reader.\nFlat: simple, shown by one trait, and easy to predict.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 560
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-dynamic-static",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Dynamic vs static character: the difference",
+      "back": "Dynamic: changes in attitude or understanding during the story.\nStatic: remains the same throughout the story.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 570
+    },
+    {
+      "id": "kc.english.narrative-passage.diff-direct-indirect-characterisation",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "difference",
+      "front": "Direct vs indirect characterisation: the difference",
+      "back": "Direct: the narrator states a character's traits outright ('She was kind').\nIndirect: the reader infers the traits from what the character says, does and thinks, and from how others react.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 580
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-flashback-gate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the technique: 'Ravi reached the school gate. Ten years ago, on this very spot, his father had pressed a brass compass into his hand.'",
+      "back": "Flashback\nThe story steps back from the present to an earlier event.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 590
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-foreshadowing-crow",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the technique: 'A crow cawed three times from the dead tree, and Mira's grandmother muttered that bad news was on its way.'",
+      "back": "Foreshadowing\nThe omen hints at trouble that comes later in the story.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 600
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-first-person-door",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the point of view: 'I held my breath as the door swung open. Nobody had warned me that the room would be empty.'",
+      "back": "First person\nThe narrator is a character who says 'I' and tells the events from his or her own view.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 610
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-omniscient-stranger",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the point of view: 'Kabir smiled at the stranger, suspecting a trick. The stranger, ashamed of his plan, wished he had never come.'",
+      "back": "Third-person omniscient\nAn outside narrator shows the private thoughts of both characters.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "point-of-view"
+      ],
+      "order": 620
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-direct-characterisation-sharma",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the type of characterisation: 'Mr Sharma was a stern, miserly man who trusted nobody.'",
+      "back": "Direct characterisation\nThe narrator states the character's traits plainly.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 630
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-indirect-characterisation-farida",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the type of characterisation: 'Unasked, Farida carried the old woman's basket up three flights and refused the coin offered.'",
+      "back": "Indirect characterisation\nThe reader infers her kindness from her actions; no trait is stated.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 640
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-internal-conflict-wallet",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the type of conflict: 'Dev held the lost wallet for a long time. He needed the money badly, yet he knew it was not his to keep.'",
+      "back": "Internal conflict (person vs self)\nThe struggle is between two choices inside Dev's own mind.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conflict"
+      ],
+      "order": 650
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-cliffhanger-letter",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the technique ending a chapter: 'Tara touched the seal of the letter. Then the lights went out, and a hand closed over her wrist.'",
+      "back": "Cliffhanger\nThe chapter stops at a moment of danger, leaving the outcome unknown.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "technique"
+      ],
+      "order": 660
+    },
+    {
+      "id": "kc.english.narrative-passage.ex-dynamic-character-raju",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "example",
+      "front": "Name the type of character: 'At first Raju mocked the new boy; by the end of the year he was the first to defend him.'",
+      "back": "Dynamic character\nRaju's attitude changes in an important way during the story.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "character"
+      ],
+      "order": 670
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-character-trait",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a character-trait question?",
+      "back": "Look at what the character says, does and thinks, and how others treat him or her. Pick the word that fits the pattern of behaviour.\nTrap: a word that fits one moment but not the whole passage.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 690
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-motive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a character's-motive question?",
+      "back": "Ask why the character acts: find the stated reason, or the need or fear just before the action, and what the character gains. Pick the option the text supports.\nTrap: a sensible-sounding reason that is not in the passage.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 700
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-narrator-attitude",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a narrator's-feeling or attitude question?",
+      "back": "Study the narrator's word choice, adjectives and comments on people and events. Decide positive, negative or neutral first, then the exact feeling.\nTrap: mixing up a character's feeling with the narrator's.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 710
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-theme-moral",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a theme or moral question?",
+      "back": "Ask what the main character learns or how the central conflict ends. State the lesson in general terms and check it against the whole passage.\nTrap: an option that fits only one detail.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 720
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-phrase-in-context",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a meaning-of-a-phrase-in-context question?",
+      "back": "Re-read the sentences before and after the phrase. Work out what the situation suggests, then choose the option that fits there. A figurative phrase may not mean its literal words.\nTrap: choosing the usual meaning when the passage uses it differently.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 730
+    },
+    {
+      "id": "kc.english.narrative-passage.rule-predict-next",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.narrative-passage",
+      "chapter": "Narrative Passage",
+      "unit": "Reading Comprehension",
+      "kind": "rule",
+      "front": "Rule: how do you answer a what-happens-next question?",
+      "back": "Use the clues in the last lines: the unsettled problem, any hints, the characters' habits. Choose the outcome that follows logically and suits the passage's tone.\nTrap: a dramatic option with no clue in the passage.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "question-type"
+      ],
+      "order": 740
     },
     {
       "id": "kc.english.vocabulary.word-lucid",
