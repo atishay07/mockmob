@@ -51,7 +51,8 @@ test('H1: one fluid column from 1100 px: a 3.5vw gutter, at most 1680 px, the ri
   assert.match(SECTIONS, /\.mm\.mm\.lp :is\(\.mm-nav, \.mm-foot\) > \.mm-wrap\.mm-wrap \{\s*max-width: none;\s*padding-left: max\(var\(--sec-gutter\), \(100% - var\(--sec-max\)\) \/ 2\);/);
   // The hero's own column and #pricing are other packets': never touched here.
   assert.doesNotMatch(SECTIONS, /\.lp-hero\s*[{.>]|#pricing\s*[{.]/);
-  assert.match(PAGE, /import '\.\/hero-scene\.css';\n(\/\/[^\n]*\n)?import '\.\/home-sections\.css';/, 'loaded last on the home page');
+  const imports = PAGE.match(/^import .*\.css';.*$/gm);
+  assert.equal(imports.at(-1), "import './home-sections.css';", 'sections load last, after the hero sizing layer');
 });
 
 test('H1: a head\'s heading and its line stand side by side from 1100 px; Mobi\'s seats leave the flow while he guides; the FAQ sits beside its heading', () => {

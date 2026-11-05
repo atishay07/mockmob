@@ -39,7 +39,7 @@ export default function AccountPopover({ user, accountName, credits, links = {},
   // cursor stays in the dialog as Tab does (fix stage, 6 Nov). Released before focus goes back to the door, which sits in the top bar.
   const inerted = useRef([]);
   const release = useCallback(() => {
-    for (const el of inerted.current) el.inert = false;
+    for (const el of inerted.current) el.removeAttribute('inert');
     inerted.current = [];
   }, []);
 
@@ -51,8 +51,9 @@ export default function AccountPopover({ user, accountName, credits, links = {},
 
   useEffect(() => {
     if (open !== 'sheet' || !host) return undefined;
-    inerted.current = [...host.querySelectorAll(':scope > :is(.arena-skip, .arena-topbar, .app-main, .arena-dock, .arena-sidebar)')].filter((el) => !el.inert);
-    for (const el of inerted.current) el.inert = true;
+    const background = [...host.querySelectorAll(':scope > :is(.arena-skip, .arena-topbar, .app-main, .arena-dock, .arena-sidebar)')].filter((el) => !el.inert);
+    for (const el of background) el.setAttribute('inert', '');
+    inerted.current = background;
     return release;
   }, [open, host, release]);
 
