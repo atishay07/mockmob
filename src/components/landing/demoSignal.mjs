@@ -58,6 +58,10 @@ export function subscribeDemoState(listener, target = typeof window === 'undefin
   return () => target?.removeEventListener?.(DEMO_STATE_EVENT, listener);
 }
 
+/** The phone bar's volt key for a guest (round 4, owner LK135; the same on every public page, PublicDock): the way in in
+ *  two words, and one true line under them (sign-up asks for no card: the close band's own "Free to start. No card needed."). */
+export const DOCK_GO = Object.freeze({ label: 'Start free', sub: 'No card needed' });
+
 /** The sample's way in: same-page, so DemoJump brings the question card on screen. */
 export const SAMPLE = Object.freeze({ href: '/#try-practice', label: 'Try 5 questions first' });
 
@@ -66,7 +70,8 @@ export const SAMPLE = Object.freeze({ href: '/#try-practice', label: 'Try 5 ques
  * rule). Sign up and log in lead; the five questions are the sample.
  *   hero    guest: "Sign up free" (volt), "Try 5 questions first" (secondary), then "Have an account? Log in";
  *           signed in: one key back in.
- *   dock    guest: ghost "Log in" beside volt "Sign up free", the same from the hero to the footer; signed in: one key.
+ *   dock    guest: ghost "Log in" beside the volt "Start free" with its true line "No card needed" inside the key (round 4,
+ *           owner LK135: the bar's CTA was weak; dock.css), the same from the hero to the footer; signed in: one key.
  *   close   guest: "Sign up free" and "Log in"; signed in: one key.
  * Nothing here reads the sample's state: a reader who answers the five never sees a key change its label.
  */
@@ -74,6 +79,6 @@ export function wayIn({ signedIn = false, released = false } = {}) {
   const home = Object.freeze({ href: released ? '/recovery' : '/dashboard', label: released ? 'Find my first gap' : 'Go to Practice' });
   const signup = Object.freeze({ href: released ? '/signup?next=%2Frecovery' : '/signup', label: 'Sign up free' });
   const login = Object.freeze({ href: '/login', label: 'Log in' });
-  if (signedIn) return { state: 'signed-in', dock: { primary: home, secondary: null }, home, signup, login };
-  return { state: 'guest', dock: { primary: signup, secondary: login }, home, signup, login };
+  if (signedIn) return { state: 'signed-in', dock: { primary: home, secondary: null, sub: null }, home, signup, login };
+  return { state: 'guest', dock: { primary: { href: signup.href, label: DOCK_GO.label }, secondary: login, sub: DOCK_GO.sub }, home, signup, login };
 }

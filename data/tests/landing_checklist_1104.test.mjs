@@ -156,13 +156,14 @@ test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor 
 });
 test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a static page that cannot read the plan, so a paid account needs a live walk');
 
-test('L-008 the bottom bar (LK83/LK88): a guest gets two real keys, a ghost "Log in" and the volt "Sign up free"; signed in, one key; no linked text beside them', async () => {
+test('L-008 the bottom bar (LK83/LK88; round 4 LK135): a guest gets two real keys, a ghost "Log in" and the volt "Start free" with its true line; signed in, one key; no linked text beside them', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   assert.match(PAGE_CODE, /<HeroDockGate>\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
   const landingDock = code(read('src/components/landing/LandingDock.jsx'));
   assert.doesNotMatch(landingDock, /<Link|lp-docklink|Try a CUET question/, 'no link of its own beside the keys and no sample key in the dock');
   assert.match(landingDock, /label=\{dock\.primary\.label\}[\s\S]*secondary=\{dock\.secondary\}/, 'both keys come from one resolved state (wayIn)');
-  assert.deepEqual(JSON.parse(JSON.stringify(demo.wayIn({}).dock)), { primary: { href: '/signup', label: 'Sign up free' }, secondary: { href: '/login', label: 'Log in' } }, 'a guest');
+  // Round 4 (owner LK135, 5 Nov 2026: the bar's CTA was weak): "Start free" with "No card needed" inside the key, still to /signup.
+  assert.deepEqual(JSON.parse(JSON.stringify(demo.wayIn({}).dock)), { primary: { href: '/signup', label: 'Start free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' }, 'a guest');
   assert.equal(demo.wayIn({ signedIn: true }).dock.secondary, null, 'signed in: one key');
   assert.match(demo.wayIn({ signedIn: true }).dock.primary.label, /^(Go to (Practice|the Arena)|Find my first gap)$/, 'signed in: the key goes back in');
   const mobile = code(read('src/components/MobileDock.jsx'));
@@ -171,7 +172,7 @@ test('L-008 the bottom bar (LK83/LK88): a guest gets two real keys, a ghost "Log
   assert.match(mobile, /resolvedNote \? <p className="mm-dock__note">/, 'no empty note line');
 });
 
-test('L-009 (LK83/LK88) the dock and the close band say "Sign up free" before, during and after the five; the sample\'s own end state offers sign-up', async () => {
+test('L-009 (LK83/LK88; round 4 LK135) the dock says "Start free" and the close band "Sign up free" before, during and after the five; the sample\'s own end state offers sign-up', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   assert.ok(demo.DEMO_ANSWERED_EVENT && typeof demo.subscribeDemoAnswered === 'function', 'the sample still publishes its signal (the hero key\'s weight, Mobi, the painted sheet)');
   demo.resetDemoSignal();
@@ -179,7 +180,8 @@ test('L-009 (LK83/LK88) the dock and the close band say "Sign up free" before, d
   demo.sendDemoState('five', 5, null);
   assert.equal(JSON.stringify(demo.wayIn({})), before, 'all five answered changes no key');
   demo.resetDemoSignal();
-  assert.equal(demo.wayIn({}).dock.primary.label, 'Sign up free');
+  assert.equal(demo.wayIn({}).dock.primary.label, 'Start free');
+  assert.equal(demo.wayIn({}).dock.primary.href, demo.wayIn({}).signup.href, 'the same way in as the hero\'s "Sign up free"');
   for (const f of ['src/components/landing/LandingDock.jsx', 'src/components/landing/CloseActions.jsx']) {
     assert.doesNotMatch(code(read(f)), /subscribeDemoState|demoFinished|Try a CUET question/, `${f} never relabels with the sample`);
   }
@@ -250,7 +252,8 @@ test('L-015 a visitor whose subjects are not among the five samples has a clear 
   assert.match(hero, /<LandingActions\s*\/>/);
   assert.equal(demo.wayIn({}).signup.label, 'Sign up free', 'the first key in the hero is sign-up, where a student picks their own subjects');
   assert.match(code(read('src/components/LandingActions.jsx')), /const primary = isAuthenticated \? way\.home : way\.signup;/);
-  assert.match(hero, /<DemoDrill note="No sign-up for these five\." \/>/, 'the card\'s note is one even line, no link that wraps alone');
+  // Round 4 (owner LK122): the note is heroTaps.mjs DESK_NOTE, rewritten from a marketing angle; still one line, no link.
+  assert.match(hero, /<DemoDrill note=\{DESK_NOTE\} \/>/, 'the card\'s note is one even line, no link that wraps alone');
   assert.match(code(read('src/components/landing/DemoDrill.jsx')), /\{note\}/, 'and the card renders it under the options');
   assert.match(hero, /cuet-cutoff-calculator/, 'plus the free calculator that needs no subject match');
 });
@@ -555,7 +558,10 @@ test('L-041 the landing says plainly that every mock comes fresh from one live c
   assert.match(faqText, /built fresh from one live question bank/i, 'one live bank, fresh mocks');
   assert.match(faqText, /Pro has no cap/i, 'no cap on Pro');
   assert.match(heroLines.HERO_TYPED.join(' '), /Fresh every time/i, 'it is in the headline sequence too');
-  assert.match(PAGE_CODE, /<QuestionBankLine\b/, 'the live bank line sits in the hero');
+  // Round 4 (owner LK121/LK124, 5 Nov 2026): the hero's fact line went; the hero says it in its features strip ("Unlimited
+  // mocks", "On Pro, every one fresh", linking to the plan), and the plan in #pricing carries the live bank count.
+  assert.match(PAGE_CODE, /<HeroBeatStrip items=\{FEATURES\}/, 'the hero\'s features strip');
+  assert.match(read('src/components/landing/heroTaps.mjs'), /name: 'Unlimited mocks', line: 'On Pro, every one fresh'/, 'says it plainly, not as a banner');
   const everything = COPY.join('\n') + sources(SURFACE) + read('data/subject_claim.js');
   assert.doesNotMatch(everything, /never repeats?|never see(s)? the same|never (get|see) a repeat|zero repeats|no repeats/i);
   assert.doesNotMatch(PAGE_CODE, /className="[^"]*(banner|announce)/i, 'not a loud banner');

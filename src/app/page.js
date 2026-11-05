@@ -2,7 +2,7 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 import { Fragment } from 'react';
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
-import { priceLine, publicOffer } from '@/lib/payments/offer';
+import { publicOffer } from '@/lib/payments/offer';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
@@ -17,15 +17,15 @@ import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
-import { HERO_BEAT_LABEL, heroBeat } from '@/components/landing/heroTaps.mjs';
+import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/components/landing/heroTaps.mjs';
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
+import { BrandTexture } from '@/components/landing/BrandTexture';
 import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { HomePricing } from '@/components/landing/HomePricing';
 import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
-import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamScreen } from '@/components/landing/ExamScreen';
@@ -43,7 +43,7 @@ import { subjectArt } from '@/../data/subject_art.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
-import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
+import { buildCompassShowcase } from '@/lib/du/showcase';
 import CompassLadder from '@/components/landing/CompassLadder';
 import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
@@ -67,6 +67,7 @@ import './lab-cinema.css';
 import './home.css';
 import '@/components/brand/mobi-figure.css';
 import './hero-scene.css';
+import './desktop-scale.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -85,10 +86,6 @@ const POSITION = [
   { id: 'your-prep', name: <>What’s inside <em>MockMob</em></> },
   { id: 'score-recovery-lab', name: 'Score Recovery Lab' },
 ];
-const DU_FACTS = duIndexFacts();
-// The hero's second beat (R3-D3, LK100): its four facts as a branded number strip under the hero (HeroBeatStrip; the
-// judged pick over a rotating line in the desk card, docs/design-decisions/web-r3-hero.md).
-const BEAT = heroBeat(DU_FACTS?.programmes ?? null);
 
 // The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
 // does). Words marked with * carry the accent.
@@ -130,6 +127,11 @@ const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, stu
 const KEY_CARDS_LIVE = process.env.KEY_CARDS_ENABLED === 'true';
 const KEY_CARDS = KEY_CARDS_LIVE ? keyCardsDemo() : null;
 const faqs = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
+// The hero's features strip and its price hook (round 4, owner LK124; docs/design-decisions/web-r4-hero.md): the main
+// features, each a link to its own section on this page (Compass falls back to the DU calculator, Key cards only while
+// their section is drawn), and "As low as ₹X a mock" worked out from the live offer at the pricing slider's top pace.
+const FEATURES = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCards: Boolean(KEY_CARDS) });
+const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });
 
 export default function LandingPage() {
   return (
@@ -146,16 +148,17 @@ export default function LandingPage() {
       <SectionPosition sections={POSITION} />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
-        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), made calmer in round 3 (R3-D3, LK99/LK100, 5 Nov): one
-            hero idea at every width. The words first (the headline, the two-line sentence that says what MockMob is, the
-            volt "Sign up free" key with the secondary "Try 5 questions first" under it and one "Have an account? Log in"
-            line (LK83/LK88), then ONE fact line: the live bank count and the price), then the desk: Mobi standing in his
-            lamp-lit room (HeroRoom, HeroMobi) handing you the real first question (DemoDrill, the card attached to the
-            room's foot). Phones stack it; from 960 px the desk is the right column. The two hero links sit under the card
-            on phones and under the fact line on desktop (hero-scene.css). The second beat is a branded number strip under
-            the hero (HeroBeatStrip): the four facts, each a link to its section.
-            No ambient pattern behind it (decision 12). */}
+        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), calmer in round 3 (R3-D3, LK99/LK100), and in round 4
+            (owner LK117-LK124, LK133, 5 Nov; docs/design-decisions/web-r4-hero.md) made to fill a desktop screen: one
+            hero idea at every width. The words first: the headline with "CUET 2027." under a volt highlighter mark, the
+            sentence that says what MockMob is, the volt "Sign up free" key with "Try 5 questions first" under it and one
+            "Have an account? Log in" line (LK83/LK88; the fact line went, LK121). Then the desk: Mobi in his lamp-lit room
+            (HeroRoom, HeroMobi) offering a CUET question (DemoDrill, the card attached to the room's foot). Then the
+            features strip (HeroBeatStrip: the main features, each a link, and the honest price hook, LK124) and the two
+            hero links. Phones stack it; from 960 px the desk is the right column and the strip and links sit under the
+            keys (hero-scene.css, desktop-scale.css). Behind it, the brand's answer-sheet texture (BrandTexture, LK117). */}
         <section className="lp-hero">
+          <BrandTexture variant="hero" />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
               <h1 className="lp-title">
@@ -174,8 +177,6 @@ export default function LandingPage() {
               <div className="lp-cta">
                 <LandingActions />
               </div>
-              {/* One quiet fact line (R3-D3): the live bank count, then the money from the live offer; no middle dots. */}
-              <QuestionBankLine variant="fact" price={priceLine(OFFER)} className="lp-hero__fact" />
             </div>
 
             <div className="lp-desk" id="try-practice">
@@ -184,21 +185,19 @@ export default function LandingPage() {
                 <HeroMobi poster={<MobiPoster id="desk" />} />
               </div>
               <div className="lp-desk__card">
-                <DemoDrill note="No sign-up for these five." />
+                <DemoDrill note={DESK_NOTE} />
                 {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
                     end state offers it after the fifth answer. */}
               </div>
             </div>
 
+            {/* The features strip (LK124): the main features, each a link, then "As low as ₹X a mock" from the live offer. */}
+            <HeroBeatStrip items={FEATURES} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
+
             <div className="lp-hero__links">
               <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
               <a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen</a>
             </div>
-          </div>
-
-          {/* The second beat: the four facts as a branded number strip under the hero. */}
-          <div className="mm-wrap">
-            <HeroBeatStrip items={BEAT} label={HERO_BEAT_LABEL} />
           </div>
         </section>
 

@@ -48,9 +48,10 @@ test('LK67: no media query hides the room, Mobi, his bubble or the desk', () => 
   for (const block of mediaBlocks(css)) {
     assert.doesNotMatch(block, /\.lp-(room|desk|desk__room|desk__mobi|desk__figure|desk__bubble|desk__stage)\s*\{[^}]*display:\s*none/, block.slice(0, 80));
   }
-  // The only display: none on the room's parts is the other theme's painting.
+  // The only display: none on the room's parts is the other theme's painting (and, in forced colours, the highlighter
+  // mark under "CUET 2027.", round 4: a mark the system cannot colour is left out, the words stay).
   const nones = [...css.matchAll(/([^{}]+)\{[^{}]*display:\s*none[^{}]*\}/g)].map((m) => m[1].trim());
-  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)/, sel);
+  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)|lp-title__brand::before/, sel);
 });
 
 test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his place in the lamp pool', () => {
@@ -58,8 +59,10 @@ test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his plac
   assert.match(css, /--mobi-h: min\(134px, calc\(var\(--desk-h, 212px\) - 34px\)\);/);
   assert.match(css, /@media \(min-width: 960px\) \{[\s\S]*\.lp-desk__figure \{ --mobi-h: 180px; left: 46px;/);
   assert.match(css, /--desk-h: clamp\(10\.5rem, 25svh, 13\.25rem\);/, 'the phone room: 168 to 212 px');
-  assert.match(css, /\.mm\.lp \.lp-desk \{ --desk-h: 318px; margin: 0; \}/, 'the desktop room: 318 px');
-  assert.match(css, /grid-template-columns: minmax\(0, 1fr\) 520px;/);
+  // Round 4 (owner LK117: the desktop hero fills the screen): the desk is 41 % of the window (440 to 720 px) and its room as
+  // tall as the screen allows (220 to 400 px), so the sample's four options stay in the first screen.
+  assert.match(css, /\.mm\.lp \.lp-desk \{ --desk-h: clamp\(220px, calc\(100svh - 580px\), 400px\); margin: 0; \}/, 'the desktop room');
+  assert.match(css, /--desk-w: clamp\(440px, 41vw, 720px\);\s*grid-template-columns: minmax\(0, 1fr\) var\(--desk-w\);/);
 });
 
 test('the room is the app\'s painted file, not a drawn SVG room, and only the shown theme\'s file is fetched', () => {
@@ -139,8 +142,9 @@ test('the sample: a theme-aware card with the subject and "1 of 5" as two spans,
   assert.match(DRILL, /<span className="lp-card__sub"><b>\{question\.subject\}<\/b><span>\{index \+ 1\} of \{DRILL\.length\}<\/span><\/span>/);
   assert.doesNotMatch(DRILL, /mm-screen|·|Mascot/, 'no forced night screen, no middle dot, no second Mobi');
   assert.match(DRILL, /<div className="mm-drill__reveal" data-open=\{answered \? 'true' : 'false'\}>/);
-  // D1 (owner LK83/LK88, 5 Nov 2026): the note is one even line with no link; sign-up is the hero's volt key.
-  assert.match(HERO, /<DemoDrill note="No sign-up for these five\." \/>/);
+  // D1 (owner LK83/LK88, 5 Nov 2026): the note is one even line with no link; sign-up is the hero's volt key. Round 4
+  // (LK122): its words are heroTaps.mjs DESK_NOTE.
+  assert.match(HERO, /<DemoDrill note=\{DESK_NOTE\} \/>/);
   const css = strip(CSS);
   assert.match(css, /\.mm\.lp \.lp-desk \.mm-drill__q \{[^}]*font-family: var\(--font-stem, Georgia, 'Times New Roman', serif\);/);
   assert.match(css, /grid-template-rows: 0fr; transition: grid-template-rows 240ms/);

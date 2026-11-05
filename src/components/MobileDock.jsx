@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { readCheckoutStatus, readCheckoutStatusOnServer, subscribeCheckoutStatus } from '@/lib/payments/checkoutStatus';
 import '@/app/nav-motion.css';
+import '@/app/dock.css';
 
 // Thumb-zone action bar. Mobile only — on desktop the nav CTA carries this
 // job, so the bar is display:none rather than duplicated.
@@ -14,7 +15,9 @@ import '@/app/nav-motion.css';
 // one is confirming, after money may have moved, or once Pro is active.
 // hideAtFooter: the bar slides away as the page footer comes into view (96px early, its own height), so it never sits over the footer links.
 // secondary ({ href, label }): a quiet ghost key before the volt one (the landing's guest "Log in", LK83). note={null}: no note line.
-export function MobileDock({ note = 'Free to start. No card.', label, href, secondary = null, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
+// sub: a short true line set inside the volt key under its label (round 4, owner LK135: "the CTA is a bit weak"), as the
+// guest docks' "Start free" / "No card needed" (dock.css). Never shown on the signed-in, active or checkout keys.
+export function MobileDock({ note = 'Free to start. No card.', label, href, secondary = null, sub = null, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
   const { isAuthenticated } = useAuth();
   const atFooter = useFooterInView(hideAtFooter);
   const yielding = useVoltOnScreen();
@@ -39,6 +42,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
   const resolvedLabel = stage === 'active' ? 'Go to Practice' : label || (isAuthenticated ? 'Go to Practice' : 'Start free');
   const resolvedNote = stage === 'active' ? 'Pro is active on this account.' : note;
   const showSecondary = stage !== 'active' && Boolean(secondary?.href && secondary?.label);
+  const showSub = stage !== 'active' && !isAuthenticated && Boolean(sub);
 
   return (
     <>
@@ -52,8 +56,14 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
           </Link>
         ) : null}
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
-        <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
-          {resolvedLabel}
+        <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className={showSub ? 'mm-btn mm-btn--primary mm-dock__go' : 'mm-btn mm-btn--primary'}>
+          {showSub ? (
+            <>
+              <span className="mm-dock__go-label">{resolvedLabel}</span>
+              {/* Read as one name: "Start free, no card needed". */}
+              <span className="mm-dock__go-sub"><span className="sr-only">, </span>{sub}</span>
+            </>
+          ) : resolvedLabel}
         </Link>
       </div>
     </>

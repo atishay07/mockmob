@@ -17,8 +17,15 @@
 //   - Each completed phrase dispatches window 'mm:hero-typed' { index, final } (Mobi glances at the h1 and nods on
 //     the final one, HeroMobi).
 //   - It pauses while the h1 is off screen or the tab is hidden, and resumes where it stopped.
-//   - Reduced motion (the device or the site's own switch) and a signed-in student (<html data-signed-in>): no
-//     timers at all, the resting line only. Only opacity and transform animate (opening.css).
+//   - Reduced motion (the device or the site's own switch): no timers at all, the resting line only. Only opacity and
+//     transform animate (opening.css).
+//
+// Why it was "sometimes there, sometimes gone" (owner LK120, 5 Nov 2026; found in round 4, docs/design-decisions/
+// web-r4-hero.md): the pass was skipped for anyone with a Supabase session cookie (<html data-signed-in>, written by the
+// opening's gate). The owner is signed in on some browsers and not on others, so the same page typed on one visit and sat
+// still on the next; measured in Chrome at 390x844 with and without the cookie (round 4 captures). A signed-in visitor now
+// sees the same pass as a guest. And if the opening's hand-off event is ever missed (the layer removed, a script error),
+// a fallback start (TYPING.openingFallback after the effect) types anyway, so the pass never waits for ever.
 
 import '@/app/opening.css';
 import { useEffect, useRef, useState } from 'react';
@@ -28,7 +35,7 @@ const REST = HERO_LINES[2];
 
 function stillOnly() {
   const html = document.documentElement;
-  if (html.getAttribute('data-motion') === 'reduced' || html.hasAttribute('data-signed-in')) return true;
+  if (html.getAttribute('data-motion') === 'reduced') return true;
   try {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
@@ -127,16 +134,21 @@ export default function HeroTyped() {
       if (document.fonts?.ready) document.fonts.ready.then(go, go);
       else go();
     };
-    // Wait for the opening's hand-off when it is playing; otherwise 600 ms after paint.
+    // Wait for the opening's hand-off when it is playing; otherwise 600 ms after paint. The fallback starts it anyway if
+    // the hand-off never arrives (the longest opening is 1.6 s), so no visit ends without the pass.
     const opening = window.__mmOpening;
     const onOpening = (event) => { if (event.detail?.phase === 'done') start(0); };
-    if (opening && opening.mode !== 'skip' && opening.phase !== 'done') window.addEventListener('mm:opening', onOpening);
-    else start(TYPING.startAfterPaint - performance.now());
+    let fallback = 0;
+    if (opening && opening.mode !== 'skip' && opening.phase !== 'done') {
+      window.addEventListener('mm:opening', onOpening);
+      fallback = window.setTimeout(() => start(0), TYPING.openingFallback);
+    } else start(TYPING.startAfterPaint - performance.now());
 
     return () => {
       gone = true;
       pause();
       window.clearTimeout(tail);
+      window.clearTimeout(fallback);
       io?.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('mm:opening', onOpening);

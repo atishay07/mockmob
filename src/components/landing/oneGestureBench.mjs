@@ -333,7 +333,8 @@ export async function runWheel(bench, name, { log = () => {} } = {}) {
  *                         section's heading 20 px under the site bar, out of the story, and stays; focus on that heading.
  *   'top:<story class>'   the bar's Top from the story's second rest (phones): the page lands at 0 and stays.
  *   'logo'                the site bar's logo from below the last held story: the page lands at 0 and stays.
- *   'pill'                the phone nav's Pricing pill from the top: the plan's heading lands under the site bar.
+ *   'pill'                the phone nav's Pricing pill from the top: the plan's heading lands under the site bar. Retired
+ *                         from the default list in round 4 (owner LK133): the pill opens /pricing now, not an in-page jump.
  */
 export async function runJump(bench, { log = () => {}, places } = {}) {
   const touch = bench.width < 900;
@@ -348,7 +349,7 @@ export async function runJump(bench, { log = () => {}, places } = {}) {
   });
   const stories = await bench.stories();
   // The bar's shortcuts exist on phones only; the logo everywhere.
-  const shortcuts = touch ? [...stories.filter((s) => s.name !== 'lp-statement__story').map((s) => `skip:${s.name}`), 'top:lc', 'logo', 'pill'] : ['logo'];
+  const shortcuts = touch ? [...stories.filter((s) => s.name !== 'lp-statement__story').map((s) => `skip:${s.name}`), 'top:lc', 'logo'] : ['logo'];
   const list = places || [...stories.map((s) => `below:${s.name}`), 'compass', ...shortcuts];
   const rows = [];
   for (const place of list) {
