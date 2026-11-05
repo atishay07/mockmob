@@ -69,7 +69,9 @@
 
 /* Marks ledger: ruled figures, no tinted tile */
 .app-shell .rd .pp-ledger { border: 0; border-block: 1px solid var(--a-line); border-radius: 0; overflow: visible; }
-.app-shell .rd .pp-ledger > div { padding: 16px 0 16px 20px; border: 0; border-left: 1px solid var(--a-line); background: none; }
+/* Each figure sits right under its label (5 Nov 2026): the cells stretch to the tallest, and without align-content the figures
+   of Right, Wrong and Blank (no note under them) slid 12-16 px lower than Net marks and Accuracy. */
+.app-shell .rd .pp-ledger > div { align-content: start; padding: 16px 0 16px 20px; border: 0; border-left: 1px solid var(--a-line); background: none; }
 .app-shell .rd .pp-ledger > div:first-child { padding-left: 0; border-left: 0; }
 .app-shell .rd .pp-ledger > div[data-emph] { background: none; }
 .app-shell .rd .pp-ledger > div[data-emph] dd { color: var(--a-ink); font-size: 34px; }

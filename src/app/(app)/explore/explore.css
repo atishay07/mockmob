@@ -19,7 +19,7 @@
 .ex-options { display: grid; gap: 10px; }
 .ex-option { display: flex; gap: 12px; align-items: center; text-align: left; min-height: 52px; width: 100%; padding: 12px 14px; border: 1px solid var(--a-line-strong); border-radius: 10px; background: var(--a-bg); color: var(--a-ink-2); line-height: 1.5; cursor: pointer; }
 .ex-option > span:nth-child(2) { flex: 1; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-.ex-option__key { display: grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--a-line-strong); color: var(--a-ink); font-family: var(--font-mono); font-size: 12px; }
+.ex-option__key { display: grid; place-items: center; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--a-line-strong); color: var(--a-ink); font: 700 13px/1 var(--font-display); }
 .ex-option:not(:disabled):hover { border-color: var(--a-accent-text); color: var(--a-ink); }
 .ex-option:disabled { cursor: default; opacity: 1; }
 .ex-option[data-state="correct"] { color: var(--a-good-text); border-color: var(--a-good-text); }
@@ -50,7 +50,7 @@
 .question-vote button { display: grid; place-items: center; width: 44px; height: 44px; border: none; border-radius: 22px; color: var(--a-ink-3); background: transparent; cursor: pointer; }
 .question-vote button[aria-pressed="true"] { background: var(--a-accent-text); color: var(--a-bg); }
 .question-vote button:disabled { cursor: wait; }
-.question-vote__score { min-width: 26px; text-align: center; color: var(--a-ink-2); font: 600 12px var(--font-mono); font-variant-numeric: tabular-nums; }
+.question-vote__score { min-width: 26px; text-align: center; color: var(--a-ink-2); font: 650 12.5px var(--font-display); font-variant-numeric: tabular-nums; }
 .question-vote__error { display: block; color: var(--a-bad-text); font-size: 12px; }
 @media (max-width: 1100px) { .ex-layout { grid-template-columns: minmax(0, 1fr); } .ex-aside { position: static; max-width: 600px; border-top: 1px solid var(--a-line); } }
 @media (max-width: 600px) { .ex-filters { grid-template-columns: 1fr 1fr; } .ex-filters label:first-child { grid-column: 1 / -1; } .ex-question__actions { align-items: start; } .ex-question__tools { flex: 1; justify-content: flex-end; } .ex-question__meta { font-size: 12px; } }

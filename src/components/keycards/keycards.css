@@ -202,9 +202,10 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 .kc-pos { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .kc-pos__of { margin-left: auto; font-weight: 500; font-size: 13px; color: var(--a-ink-3); }
 .kc-menu { position: relative; flex: none; }
-.kc-menu__btn { display: grid; place-items: center; width: 44px; height: 36px; margin: -4px -10px -4px 0; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-3); cursor: pointer; }
+.kc-menu__btn { display: grid; place-items: center; width: 44px; height: 44px; margin: -8px -10px -8px 0; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-3); cursor: pointer; }
 .kc-menu__btn[aria-expanded='true'], .kc-menu__btn:hover { color: var(--a-ink); background: var(--a-hover); }
 .kc-menu__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+/* 44 px tall (was 36, under the touch minimum; 5 Nov 2026); the negative margin keeps the card head's height. */
 .kc-menu__list {
   position: absolute; z-index: 20; right: -6px; top: calc(100% + 6px); display: grid; min-width: 220px; padding: 6px; border-radius: 14px;
   background: var(--a-sheet); border: 1px solid var(--a-line-strong); box-shadow: var(--a-shadow-2); animation: kc-pop 160ms var(--kc-ease) both; transform-origin: top right;

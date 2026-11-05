@@ -40,9 +40,10 @@
 @media (min-width: 560px) { .l2c-chips { margin-inline: 0; padding-inline: 0; overflow: visible; -webkit-mask-image: none !important; mask-image: none !important; } }
 .l2c-chip { position: relative; z-index: 1; flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: transparent; color: var(--a-ink-2); font: 650 14.5px/1 var(--font-body); white-space: nowrap; cursor: pointer; transition: color 160ms var(--kc-ease), border-color 160ms var(--kc-ease); -webkit-tap-highlight-color: transparent; }
 .l2c-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
-.l2c-chip .l2c-n { font-variant-numeric: tabular-nums; font-weight: 600; opacity: 0.7; }
+/* The count is the quieter ink, not a faded one: at 70% opacity it was 3.9:1 on Day's paper (5 Nov 2026); ink-3 is 5.9:1. */
+.l2c-chip .l2c-n { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--a-ink-3); }
 .l2c-chip[aria-pressed='true'] { color: var(--a-bg); border-color: transparent; }
-.l2c-chip[aria-pressed='true'] .l2c-n { opacity: 0.75; }
+.l2c-chip[aria-pressed='true'] .l2c-n { color: inherit; opacity: 0.75; }
 @media (hover: hover) { .l2c-chip[aria-pressed='false']:hover { color: var(--a-ink); border-color: var(--a-line-hover); } }
 .l2c-chips__ind { position: absolute; z-index: 0; top: 0; left: 0; height: 44px; width: var(--w, 0px); border-radius: 999px; background: var(--a-ink); transform: translateX(var(--x, 0px)); opacity: 0; pointer-events: none; }
 .l2c-chips[data-ready] .l2c-chips__ind { opacity: 1; transition: transform 240ms var(--kc-ease), width 240ms var(--kc-ease); }

@@ -208,7 +208,8 @@
 .study-record h2 { font-size: 1.25rem; margin: 0; }
 .study-record p { color: var(--a-ink-2); line-height: 1.6; }
 .study-record .study-record__due { margin: 12px 0 0; color: var(--a-ink); }
-.study-facts { display: flex; gap: 18px; flex-wrap: wrap; padding-block: 16px; color: var(--a-ink-2); }
+/* The counts sit on the ring's centre line (5 Nov 2026: the two plain counts rode 11 px above "lessons read" beside its ring). */
+.study-facts { display: flex; align-items: center; gap: 8px 22px; flex-wrap: wrap; padding-block: 16px; color: var(--a-ink-2); }
 .study-facts b { color: var(--a-ink); }
 .study-button { display: inline-flex; gap: 10px; align-items: center; min-height: 44px; padding: 10px 16px; margin: 0 12px 8px 0; border: 1px solid var(--a-line-strong); border-radius: 12px; color: var(--a-ink); background: var(--a-raised); font-weight: 600; }
 .study-sequence { list-style: none; padding: 0; margin-block: 20px; border-block: 1px solid var(--a-line); }

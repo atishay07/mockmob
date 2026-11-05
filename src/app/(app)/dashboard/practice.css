@@ -336,7 +336,7 @@ html[data-theme='light'] .app-shell .pr {
 @media (hover: hover) and (pointer: fine) {
   .app-shell .pr .pr-tile[data-mode='nta']:not([aria-checked='true']):hover { box-shadow: inset 0 0 0 1px var(--a-line-hover, var(--a-line-strong)), inset 0 1px 0 var(--pr-cool-edge); }
 }
-.app-shell .pr .pr-tile__kicker { font-size: 12.5px; font-weight: 650; line-height: 1.3; color: var(--a-accent-text); }
+.app-shell .pr .pr-tile__kicker { font-size: 12.5px; font-weight: 650; line-height: 1.3; color: var(--a-accent-text); text-wrap: balance; }
 /* A 360 px phone: the exam picture is a little smaller, so a locked tile's "Needs Pro" never sits on top of it. */
 @media (max-width: 389px) { .app-shell .pr .pr-tile[data-mode='nta'] .pr-tile__art .st-exam { width: 54px !important; height: 46px !important; } }
 
@@ -702,5 +702,12 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-subjects { gap: 8px; }
   .app-shell .pr .pr-subject { --pr-obj: 80px; }
   .app-shell .pr .pr-subject__name { font-size: 14px; }
+  .app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 1280-1439 px (5 Nov 2026, the same fault one band up): two tiles a row left each about 305-380 px, so NTA mode's "The closest
+   thing to exam day" ran under its "Needs Pro" (64 px of overlap at 1280, 21 at 1366) and "Quick practice" and "Smart practice"
+   broke onto two lines. The tiles stay one to a row until 1440, where a tile is 385 px and the kicker clears the price by 16 px. */
+@media (min-width: 1280px) and (max-width: 1439px) {
   .app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr); }
 }

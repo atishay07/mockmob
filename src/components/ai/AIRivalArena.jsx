@@ -362,13 +362,13 @@ function RivalShell({ children, usage }) {
   const total = wallet?.known ? wallet.total : null;
   const free = formatFreeRival(usage);
   // Themed with the Arena's own tokens, Night and Day alike (W-078): no dark panel inside Daylight. The wallet is one
-  // plain line, not a row of pills.
+  // plain line, not a row of pills. Its two facts sit apart by space, not a middle dot (which dangled at the end of the first line
+  // on a phone when the line wrapped; 5 Nov 2026).
   return (
     <div className="rvl-shell mx-auto w-full max-w-7xl">
       <p className="rvl-wallet">
         <Coins size={14} aria-hidden="true" />
         <span>Credits <b>{total ?? 'not available'}</b></span>
-        <span aria-hidden="true">·</span>
         <span>Free benchmarks today <b>{free === '—' ? 'not available' : free}</b></span>
       </p>
       {children}
