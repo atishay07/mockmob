@@ -1,15 +1,15 @@
-// The home hero's words that are not the headline (1104 "Desk Light", decisions 13, 14, 18): Mobi's bubble on the
-// desk, the two fact sentences under the key and the four sentence links of the second beat. Pure: no browser, no
-// clock, so the words are tested (heroTaps.test.mjs, homeHero.test.mjs). Word for word as decided; change them here.
+// The home hero's words that are not the headline (1104 "Desk Light", decisions 13, 14, 18; round 3 R3-D3, LK99/LK100,
+// 5 Nov 2026): Mobi's bubble on the desk, the one fact line under the keys and the four facts of the second beat. Pure:
+// no browser, no clock, so the words are tested (heroTaps.test.mjs, homeHero.test.mjs). Word for word as decided;
+// change them here.
 //
-// The bubble's lines come only from the sample's state, never from taps (decision 13): on load he hands you the first
-// question; a right answer and a miss each get a line; the fifth answer gets the last. A tap gives one reaction act
-// and leaves the line as it is. The six tap-only pitch lines (LK32) retired: their facts now live in the lead, the
-// typed line and the bank line.
+// The bubble's lines come only from the sample's state, never from taps (decision 13): on load he says his name and
+// hands you the first question (R3-D3: "Hi, I'm Mobi." is back, brandloss B5); a right answer and a miss each get a
+// line; the fifth answer gets the last. A tap gives one reaction act and leaves the line as it is.
 
 /** The bubble's four lines, by the sample's state. Each at most 44 characters, sentence case, no hype. */
 export const DESK_LINES = Object.freeze({
-  load: 'Your first question. Go.',
+  load: 'Hi, I’m Mobi. Your first question. Go.',
   right: 'Right. The why is under it.',
   miss: 'Close one. Read the why.',
   five: 'That’s five. Pick your subject next.',
@@ -65,23 +65,34 @@ export function heroTrustLine(price, options) {
 }
 
 /**
- * The second beat (decision 14): four sentence links in a hairline row, no big numbers, no glass. The facts are
- * unchanged from the old proof strip: five free questions, the DU programme count (DU_FACTS, live from the index),
- * two exam screens, the 60-minute 50-question clock. `programmes` is duIndexFacts().programmes, or null.
+ * The hero's one fact line (R3-D3, LK99: "the two fact lines become one line"; preparoo B11). The live bank count
+ * leads in ink weight (`count`), then the money (`rest`): "N questions. Free to start, Pro ₹99 a month." Until a
+ * live count arrives (or when there is none) only the money shows, the same words, so nothing a reader has read
+ * changes: the count simply appears in front. One line on a 360 px phone for the monthly offer, no middle dots, never
+ * a typed number. `price` is priceLine(OFFER) ("Pro ₹99 a month", or "Pro ₹99 once, through 31 July 2027").
  */
-export function heroBeat(programmes = null) {
-  return [
-    { href: '#try-practice', title: 'Five questions free', line: 'Each with the why, no signup' },
-    ...(Number.isFinite(programmes) && programmes > 0
-      ? [{ href: '#du-eligibility', title: `${programmes} DU programmes`, line: 'Matched to your subjects' }]
-      : []),
-    { href: '#exam-experience', title: 'Two exam screens', line: 'Practise calm, rehearse NTA style' },
-    { href: '#your-prep', title: '60 minutes, 50 questions', line: 'The full CUET clock' },
-  ];
+export function heroFactLine(price, { bankSize = null } = {}) {
+  // "Pro" and its price never part at a wrap (the one-time offer's longer clause wraps on phones).
+  const rest = price ? `Free to start, ${price.replace(/^Pro /, 'Pro\u00a0')}.` : 'Free to start.';
+  return hasCount(bankSize) ? { count: `${n(bankSize)} questions.`, rest: ` ${rest}` } : { count: '', rest };
 }
 
-/** The lead (LK70): what MockMob is, in one sentence. The first clause is set in ink at weight 650. */
-export const HERO_LEAD = Object.freeze({
-  strong: 'MockMob is CUET UG mock tests',
-  rest: ' with a review that finds the chapter behind every mark you lose.',
-});
+/** The number strip's accessible name (its nav landmark): what the four facts answer, in sentence case. */
+export const HERO_BEAT_LABEL = 'Why MockMob';
+
+/**
+ * The second beat (R3-D3, LK100: "branded properly ... shown properly"): the same four facts as before, now with their
+ * number weight and a desk object each (the number strip under the hero, HeroBeatStrip): `figure` in the brand word
+ * colour, `unit` what it counts, `line` one quiet line, `icon` the desk object (BrandIcon). The facts
+ * are unchanged: five free questions on this page, the DU programme count (DU_FACTS, live from the index), the two exam
+ * screens, the 60-minute 50-question clock. `programmes` is duIndexFacts().programmes, or null (then three facts).
+ */
+export function heroBeat(programmes = null) {
+  const du = Number.isFinite(programmes) && programmes > 0;
+  return [
+    { href: '#try-practice', icon: 'questions', figure: '5', unit: 'questions free', line: 'Each with the why, no signup' },
+    ...(du ? [{ href: '#du-eligibility', icon: 'compass', figure: String(programmes), unit: 'DU programmes', line: 'Matched to your subjects' }] : []),
+    { href: '#exam-experience', icon: 'papers', figure: '2', unit: 'exam screens', line: 'Practise calm, rehearse NTA style' },
+    { href: '#your-prep', icon: 'today', figure: '60', unit: 'minutes, 50 questions', line: 'The full CUET clock' },
+  ];
+}

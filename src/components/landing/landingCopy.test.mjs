@@ -123,7 +123,10 @@ test('no middle dots, at most one "not just" contrast, no exclamation marks, no 
 
 test('the hero lead names the product in ink and ends with the chapter promise (LK70)', () => {
   const lead = `${HERO_LEAD.strong}${HERO_LEAD.rest}`;
-  assert.equal(lead, 'MockMob is CUET UG mock tests with a review that finds the chapter behind every mark you lose.');
+  // R3-D3 (owner LK99, 5 Nov 2026: the lead in two lines at 16-17 px, Preparoo-clean): 72 characters, the same claim.
+  // Supersedes the 4 Nov 94-character lead "... with a review that finds the chapter behind every mark you lose."
+  assert.equal(lead, 'MockMob is CUET UG mock tests that trace every lost mark to its chapter.');
+  assert.ok(lead.length <= 76, 'two lines on a 360 px phone');
   assert.ok(wordCount(lead) <= 20);
 });
 

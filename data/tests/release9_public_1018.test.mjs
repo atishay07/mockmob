@@ -142,9 +142,10 @@ test('price framing: /pricing and the landing read the same helpers, and checkou
   assert.match(pricing, /\.\.\.priceTag\(offer\),/);
   assert.doesNotMatch(pricing, /\{`Pro is ₹\$\{offer\.monthly\.rupees\} a month\.`\}/, 'the H1 no longer hard-codes "a month"');
   const home = read('src/app/page.js');
-  // 4 Nov 2026 (SPEC-HOME-1104 P2): the same reassurances as one sentence pair with no middle dots (heroTrustSentence),
-  // still built from priceLine(OFFER).
-  assert.ok(home.includes("<p className=\"lp-trust-line\">{heroTrustSentence(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>"));
+  // 4 Nov 2026 (SPEC-HOME-1104 P2): the same reassurances as one sentence pair with no middle dots. 5 Nov 2026 (R3-D3,
+  // owner LK99: "the two fact lines become one line"): one fact line, the live count then the money, still built from
+  // priceLine(OFFER) (heroTaps.mjs heroFactLine).
+  assert.ok(home.includes('<QuestionBankLine variant="fact" price={priceLine(OFFER)} className="lp-hero__fact" />'));
   // What a buyer is charged today (checkout code, unchanged): the one-time plan is ₹99, live, through 31 July 2027;
   // the monthly plan opens only when its Razorpay plan id is configured.
   const plans = read('src/lib/payments/plans.js');

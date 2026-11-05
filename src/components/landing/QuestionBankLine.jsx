@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { SUBJECT_CLAIM } from '../../../data/subject_claim.js';
 import { loadBankSize } from './bankStats';
-import { heroBankLine } from './heroTaps.mjs';
+import { heroBankLine, heroFactLine } from './heroTaps.mjs';
 
 // One sentence of proof (bolder copy, M-006; tightened for the phone hero, D38, 18 Oct). It carries every fact the
 // longer line did: the subject claim (15 subjects, 19 of every 20 CUET papers), that every mock is built fresh from
@@ -13,7 +13,9 @@ import { heroBankLine } from './heroTaps.mjs';
 //
 // variant="short" (the home hero since LK32, 1 Nov): one quiet line, "One bank of N questions. No cap on Pro."
 // (heroTaps.mjs heroBankLine); the subject claim stays in the shelf note and the FAQ.
-export function QuestionBankLine({ className = '', variant = 'long', ...rest }) {
+// variant="fact" (the home hero since R3-D3, 5 Nov 2026: one fact line, not two): the live count in ink weight, then
+// the money from `price` (priceLine(OFFER)): "N questions. Free to start, Pro ₹99 a month." (heroTaps heroFactLine).
+export function QuestionBankLine({ className = '', variant = 'long', price = '', ...rest }) {
   const [bank, setBank] = useState(null);
 
   useEffect(() => {
@@ -22,6 +24,10 @@ export function QuestionBankLine({ className = '', variant = 'long', ...rest }) 
     return () => { live = false; };
   }, []);
 
+  if (variant === 'fact') {
+    const line = heroFactLine(price, { bankSize: bank?.questions ?? null });
+    return <p className={className} {...rest}>{line.count ? <b className="lp-hero__count">{line.count}</b> : null}{line.rest}</p>;
+  }
   if (variant === 'short') return <p className={className} {...rest}>{heroBankLine(bank?.questions ?? null)}</p>;
 
   return (

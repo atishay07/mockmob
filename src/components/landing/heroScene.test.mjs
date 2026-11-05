@@ -33,6 +33,8 @@ const mediaBlocks = (css) => {
 };
 
 test('LK67: one desk at every width, the room and Mobi inside it, the card attached to its foot', () => {
+  // R3-D3 (5 Nov 2026): the second beat is a strip under the hero (the judged pick), so the desk is the room, Mobi and
+  // the attached card, as before.
   assert.match(HERO, /<div className="lp-desk" id="try-practice">\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=/);
   assert.equal((HERO.match(/<HeroMobi /g) || []).length, 1, 'one Mobi in the hero');
   assert.doesNotMatch(PAGE, /variant="(room|host)"|lp-hero__greeting|lp-stage__heading|lp-stage__note/);
@@ -47,7 +49,7 @@ test('LK67: no media query hides the room, Mobi, his bubble or the desk', () => 
     assert.doesNotMatch(block, /\.lp-(room|desk|desk__room|desk__mobi|desk__figure|desk__bubble|desk__stage)\s*\{[^}]*display:\s*none/, block.slice(0, 80));
   }
   // The only display: none on the room's parts is the other theme's painting.
-  const nones = [...css.matchAll(/([^{}]+)\{[^}]*display:\s*none[^}]*\}/g)].map((m) => m[1].trim());
+  const nones = [...css.matchAll(/([^{}]+)\{[^{}]*display:\s*none[^{}]*\}/g)].map((m) => m[1].trim());
   for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)/, sel);
 });
 

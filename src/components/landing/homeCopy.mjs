@@ -21,8 +21,12 @@ export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2,
 export const wordCount = (text) => (String(text).match(/[\p{L}\p{N}₹][\p{L}\p{N}’'₹.,:%+\-/×]*/gu) || []).length;
 
 // ------------------------------------------------------------------ hero (P2 renders these)
-/** The one sentence under the headline (LK70): it says what MockMob is. "MockMob is CUET UG mock tests" is the ink part. */
-export const HERO_LEAD = Object.freeze({ strong: 'MockMob is CUET UG mock tests', rest: ' with a review that finds the chapter behind every mark you lose.' });
+/**
+ * The one sentence under the headline (LK70): it says what MockMob is. "MockMob is CUET UG mock tests" is the ink part.
+ * R3-D3 (LK99, 5 Nov 2026: "cleaner like Preparoo"): two lines at 16-17 px on a phone, so it is 72 characters, not 94;
+ * the claim is the same (the review traces every miss to its chapter, homeCopy buildTour radar).
+ */
+export const HERO_LEAD = Object.freeze({ strong: 'MockMob is CUET UG mock tests', rest: ' that trace every lost mark to its chapter.' });
 
 // ------------------------------------------------------------------ the statement (scrubs word by word; * marks an accent word)
 // "MockMob" is a green word too (owner LK102, 5 Nov 2026: "the Mock Mob needs to be in green also").

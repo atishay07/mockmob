@@ -3,7 +3,11 @@
    One hero idea at every width: the words first, then Mobi standing in his lamp-lit room (the desk) handing you the
    real first question (the sample card attached to the room's foot). Phones stack it; from 960 px it is two columns
    (the words, then the desk at 520 px). The two hero links sit under the sample card on phones and under the fact
-   lines on desktop (one DOM, grid areas). No ambient pattern, no glow, no glass: the only light is the painted lamp.
+   line on desktop (one DOM, grid areas). No ambient pattern, no glow, no glass: the only light is the painted lamp.
+   Round 3 (R3-D3, LK99/LK100, 5 Nov 2026; preparoo B9/B11): calmer, with fewer things in the first screen. The lead is
+   two lines, the two fact lines are one, the groups sit on a 16/24 px rhythm (16 inside a group, 24 between groups;
+   desktop 24/28), and the second beat is shown properly: a branded number strip under the hero (HeroBeatStrip; picked
+   over a rotating line in the desk card, docs/design-decisions/web-r3-hero.md).
    Motion: none on load here (the opening and the typed line are the load moment); Mobi idles in CSS
    (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
    ========================================================================== */
@@ -44,14 +48,14 @@
 html[data-theme] .mm.lp .lp-hero .lp-title__brand { color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.022em; }
 html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 
-/* ---------- The lead (LK70): what MockMob is, in one sentence ---------- */
+/* ---------- The lead (LK70): what MockMob is, in one sentence of two lines (R3-D3, LK99: 16-17 px) ---------- */
 .mm.lp .lp-hero .lp-lead {
   margin: 16px 0 0;
-  max-width: 34ch;
+  max-width: 36ch;
   font-size: 1.0625rem;
   line-height: 1.45;
   color: var(--ink-2);
-  /* One sentence in three even lines (D3, LK84): balanced, so "mark you lose." never trails alone. */
+  /* Two even lines: balanced, so "to its chapter." never trails alone. */
   text-wrap: balance;
 }
 .mm.lp .lp-hero .lp-lead b { font-weight: 650; color: var(--ink); }
@@ -59,7 +63,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 /* ---------- The ways in (LK83/LK88, 5 Nov): the volt "Sign up free", the secondary "Try 5 questions first" under it,
    then one quiet "Have an account? Log in" line. Phones stack the two keys at full width; desktop sets them in a row.
    A signed-in student sees one key and no line. ---------- */
-.mm.lp .lp-hero .lp-cta { margin-top: 22px; }
+.mm.lp .lp-hero .lp-cta { margin-top: 24px; }
 .mm.lp .lp-hero .lp-cta .mm-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; max-width: none; }
 .mm.lp .lp-hero .lp-cta .mm-actions > a { width: 100%; border-radius: 16px; }
 .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child {
@@ -96,10 +100,9 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
   .mm.lp .lp-hero .lp-cta__login a:hover { text-decoration-color: var(--ink-3); }
 }
 
-/* ---------- The two fact sentences (no middle dots) ---------- */
-.mm.lp .lp-hero__facts { display: grid; gap: 0; margin-top: 14px; }
-.mm.lp .lp-hero__facts > p { margin: 0; max-width: none; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); text-wrap: balance; }
-.mm.lp .lp-hero .lp-bank__n { color: inherit; font-weight: inherit; }
+/* ---------- The one fact line (R3-D3, LK99; no middle dots): the live count in ink weight, then the money ---------- */
+.mm.lp .lp-hero__fact { margin: 16px 0 0; max-width: none; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); text-wrap: balance; }
+.mm.lp .lp-hero__count { color: var(--ink-2); font-weight: 650; font-variant-numeric: tabular-nums; }
 
 /* ---------- The two hero links: ink, underlined text links (decision 3) ---------- */
 .mm.lp .lp-hero__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; margin-top: 10px; }
@@ -123,7 +126,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 /* ==========================================================================
    The desk: the room (HeroRoom), Mobi in its lamp pool (HeroMobi), his bubble, and the sample card attached below.
    ========================================================================== */
-.mm.lp .lp-desk { --desk-h: clamp(10.5rem, 25svh, 13.25rem); position: relative; margin: 20px -4px 0; min-width: 0; }
+.mm.lp .lp-desk { --desk-h: clamp(10.5rem, 25svh, 13.25rem); position: relative; margin: 24px -4px 0; min-width: 0; }
 .lp-desk__stage { position: relative; }
 .lp-desk__room {
   position: relative;
@@ -328,29 +331,60 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 :root[data-motion='reduced'] .lp .lp-desk .mm-drill__reveal { transition: none; }
 
 /* ==========================================================================
-   The second beat (decision 14): a hairline row of four sentence links. No big numbers, no tiles, no glass.
+   The second beat (R3-D3, LK100; supersedes decision 14's hairline row of sentence links): the four facts
+   (heroTaps.mjs heroBeat) as a branded number strip under the hero, each a link to its section, with number weight in
+   the brand word colour (--brand-word: volt in Night, the Day green in Day). No glass, no glow, nothing moves.
    ========================================================================== */
-.mm.lp .lp-beat {
+
+/* ---------- The number strip (brandloss B4; HeroBeatStrip.jsx) ----------
+   Raised paper with hairline cells, two by two on phones, one row from 960 px. Each cell is one link: its desk
+   object and figure on one row (Bricolage 700 tabular, the brand word colour), then what the figure counts, then one
+   quiet line. A warm shadow in Day, a dark one in Night. */
+.mm.lp .lp-strip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 20px;
-  margin-top: 36px;
-  padding-top: 6px;
-  border-top: 1px solid var(--line);
+  margin-top: 32px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper-raised);
+  box-shadow: 0 1px 2px rgba(27, 25, 20, 0.05), 0 18px 40px -28px rgba(27, 25, 20, 0.28);
 }
-.mm.lp .lp-beat a {
-  display: block;
+:root[data-theme='dark'] .mm.lp .lp-strip { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 22px 44px -30px rgba(0, 0, 0, 0.75); }
+.mm.lp .lp-strip__fact {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: start;
+  column-gap: 10px;
   min-height: 44px;
-  padding: 12px 0;
-  color: var(--ink-2);
-  font-size: 0.875rem;
-  line-height: 1.4;
+  padding: 16px 16px 18px;
+  color: var(--ink-3);
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms ease-out;
 }
-.mm.lp .lp-beat b { display: block; font: 700 1rem/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
-.mm.lp .lp-beat a:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 6px; }
+/* Hairlines between the cells: a column rule on the left cells, a row rule under the first row. */
+.mm.lp .lp-strip__fact:nth-child(odd) { border-right: 1px solid var(--line); }
+.mm.lp .lp-strip__fact:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+/* Three facts (no DU index): the last one takes the whole second row, so no empty cell is left. */
+@media (max-width: 959px) { .mm.lp .lp-strip__fact:last-child:nth-child(odd) { grid-column: 1 / -1; border-right: 0; } }
+.mm.lp .lp-strip__icon { grid-row: 1; grid-column: 1; align-self: center; }
+.mm.lp .lp-strip__fig {
+  grid-row: 1;
+  grid-column: 2;
+  align-self: center;
+  font: 700 2.125rem/1 var(--font-display);
+  letter-spacing: -0.03em;
+  color: var(--brand-word, var(--ink));
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.mm.lp .lp-strip__unit { grid-column: 1 / -1; margin-top: 10px; font: 700 0.9375rem/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
+.mm.lp .lp-strip__line { grid-column: 1 / -1; margin-top: 4px; font-size: 0.8125rem; line-height: 1.4; text-wrap: balance; }
+.mm.lp .lp-strip__fact:active { background: rgb(var(--tint, 27 25 20) / 0.05); }
+.mm.lp .lp-strip__fact:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 20px; }
 @media (hover: hover) and (pointer: fine) {
-  .mm.lp .lp-beat a:hover b { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
+  .mm.lp .lp-strip__fact:hover { background: rgb(var(--tint, 27 25 20) / 0.035); }
+  .mm.lp .lp-strip__fact:hover .lp-strip__unit { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px; }
 }
 
 /* ---------- Tablets (761 to 959 px): the phone's stack, held to a readable column ---------- */
@@ -375,15 +409,14 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
   .mm.lp .lp-hero__links { align-self: start; margin-top: 16px; }
   /* 8.69 em is the widest phrase at this tracking: 11.4cqi keeps it inside the column (74 px at 1440, 71 at 1280). */
   .mm.lp .lp-hero .lp-title { font-size: min(84px, 11.4cqi); line-height: 0.95; letter-spacing: -0.04em; }
-  .mm.lp .lp-hero .lp-lead { margin-top: 26px; max-width: 33ch; font-size: 1.25rem; line-height: 1.5; }
-  .mm.lp .lp-hero .lp-cta { margin-top: 32px; }
+  .mm.lp .lp-hero .lp-lead { margin-top: 24px; max-width: 40ch; font-size: 1.25rem; line-height: 1.5; }
+  .mm.lp .lp-hero .lp-cta { margin-top: 28px; }
   .mm.lp .lp-hero .lp-cta .mm-actions { display: flex; align-items: center; gap: 14px; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a { width: auto; min-height: 58px; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child { min-height: 58px; padding-inline: 28px; font-size: 1.125rem; }
   .mm.lp .lp-hero .lp-cta .mm-actions > a:nth-child(2) { min-height: 58px; padding-inline: 24px; font-size: 1.0625rem; }
-  .mm.lp .lp-hero .lp-cta__login { margin-top: 16px; text-align: left; font-size: 1rem; }
-  .mm.lp .lp-hero__facts { margin-top: 18px; }
-  .mm.lp .lp-hero__facts > p { font-size: 0.9375rem; }
+  .mm.lp .lp-hero .lp-cta__login { margin-top: 12px; text-align: left; font-size: 1rem; }
+  .mm.lp .lp-hero__fact { margin-top: 24px; font-size: 0.9375rem; }
   .mm.lp .lp-desk { --desk-h: 318px; margin: 0; }
   .lp-desk__room { border-radius: 28px 28px 0 0; }
   .lp-desk__figure { --mobi-h: 180px; left: 46px; bottom: calc(14px - var(--mobi-h) * 6 / 168); }
@@ -391,9 +424,13 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
   .mm.lp .lp-desk__card { padding: 20px 24px 22px; border-radius: 0 0 28px 28px; }
   .mm.lp .lp-desk .mm-drill__q { margin-top: 16px; font-size: 1.4375rem; }
   .mm.lp .lp-desk .mm-drill__option { min-height: 52px; }
-  .mm.lp .lp-beat { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 44px; padding-top: 18px; }
-  .mm.lp .lp-beat a { padding: 0 20px 0 0; font-size: 0.9375rem; }
-  .mm.lp .lp-beat b { font-size: 1.0625rem; }
+  .mm.lp .lp-strip { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin-top: 48px; border-radius: 28px; }
+  .mm.lp .lp-strip__fact { padding: 22px 24px 24px; column-gap: 12px; }
+  .mm.lp .lp-strip__fact:nth-child(n) { border-right: 1px solid var(--line); border-bottom: 0; }
+  .mm.lp .lp-strip__fact:last-child { border-right: 0; }
+  .mm.lp .lp-strip__fig { font-size: 2.75rem; }
+  .mm.lp .lp-strip__unit { margin-top: 14px; font-size: 1.0625rem; }
+  .mm.lp .lp-strip__line { font-size: 0.875rem; }
 }
 
 /* The hero never shares the screen with the guide Mobi (PipGuide waits while the desk Mobi is in view), so its
