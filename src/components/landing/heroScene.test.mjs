@@ -33,7 +33,9 @@ const mediaBlocks = (css) => {
 };
 
 test('LK67: one desk at every width, the room and Mobi inside it, the card attached to its foot', () => {
-  assert.match(HERO, /<div className="lp-desk" id="try-practice">\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=/);
+  // R3-D3 (LK100, 5 Nov 2026): variant A of the second beat sits at the top of the desk card, before the room; the
+  // room, Mobi and the attached card are unchanged.
+  assert.match(HERO, /<div className=\{HERO_BEAT_VARIANT === 'A' \? 'lp-desk lp-desk--beat' : 'lp-desk'\} id="try-practice">\s*\{HERO_BEAT_VARIANT === 'A' \? <HeroBeatLine items=\{BEAT\} label=\{HERO_BEAT_LABEL\} \/> : null\}\s*<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=/);
   assert.equal((HERO.match(/<HeroMobi /g) || []).length, 1, 'one Mobi in the hero');
   assert.doesNotMatch(PAGE, /variant="(room|host)"|lp-hero__greeting|lp-stage__heading|lp-stage__note/);
   assert.doesNotMatch(MOBI, /variant\s*=|\{ variant/, 'HeroMobi has one variant');
@@ -46,9 +48,10 @@ test('LK67: no media query hides the room, Mobi, his bubble or the desk', () => 
   for (const block of mediaBlocks(css)) {
     assert.doesNotMatch(block, /\.lp-(room|desk|desk__room|desk__mobi|desk__figure|desk__bubble|desk__stage)\s*\{[^}]*display:\s*none/, block.slice(0, 80));
   }
-  // The only display: none on the room's parts is the other theme's painting.
-  const nones = [...css.matchAll(/([^{}]+)\{[^}]*display:\s*none[^}]*\}/g)].map((m) => m[1].trim());
-  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)/, sel);
+  // The only display: none on the room's parts is the other theme's painting. (R3-D3: under reduced motion the beat's
+  // segment keys go too: with no clock they control nothing, and the four facts are stacked in full.)
+  const nones = [...css.matchAll(/([^{}]+)\{[^{}]*display:\s*none[^{}]*\}/g)].map((m) => m[1].trim());
+  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)|lp-beatline__steps$/, sel);
 });
 
 test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his place in the lamp pool', () => {

@@ -18,8 +18,10 @@ import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
-import { heroBeat, heroTrustSentence } from '@/components/landing/heroTaps.mjs';
-import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_BEAT_LABEL, heroBeat } from '@/components/landing/heroTaps.mjs';
+import HeroBeatLine from '@/components/landing/HeroBeatLine';
+import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
+import { HERO_LEAD, HERO_BEAT_VARIANT, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, pricingHead, freePlan as freePlanItems, proPlan as proPlanItems, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
@@ -78,6 +80,9 @@ const POSITION = [
   { id: 'score-recovery-lab', name: 'Score Recovery Lab' },
 ];
 const DU_FACTS = duIndexFacts();
+// The hero's second beat (R3-D3, LK100): its four facts, drawn as variant A (a rotating line in the desk card) or B (a
+// number strip under the hero), HERO_BEAT_VARIANT in homeCopy.mjs.
+const BEAT = heroBeat(DU_FACTS?.programmes ?? null);
 
 // The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
 // does). Words marked with * carry the accent.
@@ -132,14 +137,15 @@ export default function LandingPage() {
       <SectionPosition sections={POSITION} />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
-        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70): one hero idea at every width. The words first (the
-            headline, the one sentence that says what MockMob is, the volt "Sign up free" key with the secondary "Try 5
-            questions first" under it and one "Have an account? Log in" line (LK83/LK88, 5 Nov), two fact sentences),
-            then the desk: Mobi standing in his lamp-lit room (HeroRoom, HeroMobi) handing you the real first question
-            (DemoDrill, the card attached to the room's foot). Phones stack it; from 960 px the desk is the right
-            column. The two hero links sit under the card on phones and under the facts on desktop (hero-scene.css).
-            No ambient pattern behind it (decision 12): the grid, the dots and the pointer spotlight went; the
-            spotlight became Mobi's gaze (decision 4). */}
+        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), made calmer in round 3 (R3-D3, LK99/LK100, 5 Nov): one
+            hero idea at every width. The words first (the headline, the two-line sentence that says what MockMob is, the
+            volt "Sign up free" key with the secondary "Try 5 questions first" under it and one "Have an account? Log in"
+            line (LK83/LK88), then ONE fact line: the live bank count and the price), then the desk: Mobi standing in his
+            lamp-lit room (HeroRoom, HeroMobi) handing you the real first question (DemoDrill, the card attached to the
+            room's foot). Phones stack it; from 960 px the desk is the right column. The two hero links sit under the card
+            on phones and under the fact line on desktop (hero-scene.css). The second beat is variant A (a rotating line
+            at the top of the desk card) or B (a number strip under the hero), HERO_BEAT_VARIANT in homeCopy.mjs.
+            No ambient pattern behind it (decision 12). */}
         <section className="lp-hero">
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
@@ -159,14 +165,12 @@ export default function LandingPage() {
               <div className="lp-cta">
                 <LandingActions />
               </div>
-              {/* Two quiet sentences: the reassurances (from the live offer, no middle dots) and the live bank line. */}
-              <div className="lp-hero__facts">
-                <p className="lp-trust-line">{heroTrustSentence(priceLine(OFFER), { monthly: OFFER.purchasable === 'monthly' })}</p>
-                <QuestionBankLine variant="short" className="lp-bank lp-bank--short" />
-              </div>
+              {/* One quiet fact line (R3-D3): the live bank count, then the money from the live offer; no middle dots. */}
+              <QuestionBankLine variant="fact" price={priceLine(OFFER)} className="lp-hero__fact" />
             </div>
 
-            <div className="lp-desk" id="try-practice">
+            <div className={HERO_BEAT_VARIANT === 'A' ? 'lp-desk lp-desk--beat' : 'lp-desk'} id="try-practice">
+              {HERO_BEAT_VARIANT === 'A' ? <HeroBeatLine items={BEAT} label={HERO_BEAT_LABEL} /> : null}
               <div className="lp-desk__stage">
                 <HeroRoom />
                 <HeroMobi poster={<MobiPoster id="desk" />} />
@@ -184,14 +188,12 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second beat (decision 14): four sentence links on a hairline, the facts unchanged; no big numbers, no glass. */}
-          <div className="mm-wrap">
-            <nav className="lp-beat" aria-label="Why students pick MockMob">
-              {heroBeat(DU_FACTS?.programmes ?? null).map(({ href, title, line }) => (
-                <a key={href} href={href}><b>{title}</b>{line}</a>
-              ))}
-            </nav>
-          </div>
+          {/* Variant B of the second beat: the four facts as a branded number strip under the hero. */}
+          {HERO_BEAT_VARIANT === 'B' ? (
+            <div className="mm-wrap">
+              <HeroBeatStrip items={BEAT} label={HERO_BEAT_LABEL} />
+            </div>
+          ) : null}
         </section>
 
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
