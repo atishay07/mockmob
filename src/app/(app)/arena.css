@@ -536,6 +536,8 @@ html[data-motion='reduced'] .app-shell :is(.arena-sheet, .arena-sheet-scrim, .ar
   touch-action: manipulation;
   transition: background-color 160ms var(--mm-ease-out, ease-out);
 }
+/* The doors reach over the capsule's hairline, so each is the full 44 px (the 1 px border left them 42; 5 Nov 2026). */
+.app-shell .arena-acct > :is(a, button) { margin-block: -1px; }
 .app-shell .arena-acct > a:active { background: var(--a-sunken); transition-duration: 60ms; }
 .app-shell .arena-acct > a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; border-radius: 999px; }
 @media (hover: hover) and (pointer: fine) {
@@ -918,7 +920,12 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
 }
 
 /* ---------- MockMob test console (branded interface only) ---------- */
+/* No Geist Mono in the MockMob screen (5 Nov 2026): the timer, "Question 1", the option letters, the palette and its legend were a
+   monospace costume, while the home page's MockMob preview of this screen draws them in the brand's own faces (examScreen.test:
+   no mono). The token points at the display face inside this interface only; NTA's screen keeps its own type (nta-classic.css).
+   Figures are tabular wherever they count or tick. */
 .app-shell .nta-runner[data-interface="mockmob"] {
+  --font-mono: var(--font-display);
   background:
     radial-gradient(50% 30% at 75% 0%, rgba(210, 240, 0, 0.06), transparent 70%),
     var(--a-bg);
@@ -928,6 +935,7 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   border-color: var(--a-line);
   background: var(--a-topbar);
 }
+.app-shell .nta-runner[data-interface="mockmob"] :is(.nta-palette-chip, .nta-legend, .nta-summary-grid, .nta-progress-row) { font-variant-numeric: tabular-nums; }
 .app-shell .nta-runner[data-interface="mockmob"] :is(.nta-title-stack span, .nta-kicker, .nta-progress-row, .nta-summary-grid span, .nta-legend) {
   font-family: var(--font-body);
   font-size: 12px;
@@ -946,8 +954,9 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   background: var(--a-raised);
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-timer {
-  font-weight: 600;
+  font-weight: 650;
   font-size: 15px;
+  font-variant-numeric: tabular-nums;
   color: var(--a-ink);
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-timer .icon {
@@ -1000,8 +1009,8 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-question-number {
   font-family: var(--font-mono);
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 650;
+  letter-spacing: 0.01em;
   text-transform: none;
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-question-text {
@@ -1176,7 +1185,8 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .arena-nav-link[aria-current="page"] svg { color: var(--a-accent-text); }
 .app-shell .arena-chip svg:not(.credit-mark) { width: 15px; height: 15px; }
 .credit-amount { display: inline-flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.credit-amount__value { font-family: var(--font-mono); font-weight: 600; letter-spacing: -0.01em; }
+/* The balance is display type with tabular figures, as in the top bar (LK42), never Geist Mono as a costume (5 Nov 2026). */
+.credit-amount__value { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
 .credit-amount[data-state='unlimited'] .credit-amount__value { font-family: var(--font-display); font-weight: 700; letter-spacing: 0; }
 .credit-amount__unit { font-size: 12px; font-weight: 600; color: var(--a-ink-3); }
 .credit-amount[data-state='unknown'] { opacity: .85; }
@@ -2058,3 +2068,10 @@ html[data-motion='reduced'] .app-shell .arena-skip { transition: none; }
 /* Progress's foot line: "Change your study days" never breaks across two lines (a wrapped link's centre falls in the
    gap between its halves), and its tap area reaches 44 px tall without moving the sentence (S016, standards s10 item 17). */
 .app-shell .rc__foot .rc__foot-link { display: inline-block; white-space: nowrap; padding-block: 13px; margin-block: -13px; }
+
+/* Even lines in the app, as on the home page (D3, LK84; carried into the app 5 Nov 2026): a paragraph never ends on one word or
+   a lone link ("4. Your weeks" on Today at 390 px), and headings break into lines of about equal length. Zero specificity, so a
+   rule that sets its own wrap still wins; the NTA console keeps the browser's own wrapping. */
+:where(.app-shell) :where(p, li, dd, figcaption) { text-wrap: pretty; }
+:where(.app-shell) :where(h1, h2, h3, h4) { text-wrap: balance; }
+:where(.app-shell .nta-runner[data-interface='nta']) :where(p, li, dd, h1, h2, h3, h4) { text-wrap: wrap; }

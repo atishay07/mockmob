@@ -515,6 +515,16 @@ html[data-theme='light'] .st-scrim { background: color-mix(in srgb, var(--a-bg) 
 
 @media (min-width: 1024px) { .st-top .st-kept:not([hidden]) { display: inline-flex; } }
 
+/* The feed's bar on a 600 px stage (768-1359 px, 5 Nov 2026): Previous with its "Up" chip, Revise later, Chapter and the 220 px
+   step key came to about 640 px, so "Turn over" sat 33 px over "Chapter" on every laptop from 900 to 1359 px. In this band the
+   Previous key drops its "Up" chip (Up still works; the keys list says so), the gaps are 10 px and the step key is at least 196 px:
+   about 590 px with "See how it went", inside the stage. From 1360 the bar is 800 px and is as before. */
+@media (min-width: 768px) and (max-width: 1359px) {
+  .st-bar:not([data-wide]) { gap: 10px; }
+  .st-bar:not([data-wide]) .st-prev .kc-kbd { display: none; }
+  .st-bar:not([data-wide]) .st-step.kc-btn { min-width: 196px; }
+}
+
 /* ---------- Desktop (1200 and up): panel, stage, rail as one centred group (A1 3.2) ---------- */
 @media (min-width: 1200px) {
   .st.kc { --P: 216px; --G1: 40px; --S: 600px; --G2: 24px; --R: 64px; --st-pad-y: 36px; --st-card-min: 360px; }

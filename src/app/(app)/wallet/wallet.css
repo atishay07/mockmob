@@ -66,7 +66,13 @@
 .app-shell .wl-packs { display: grid; gap: 16px; min-width: 0; }
 .app-shell .wl-packs__head { display: grid; gap: 4px; }
 .app-shell .wl-packgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 760px) { .app-shell .wl-packgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 760px) {
+  .app-shell .wl-packgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Three cards side by side share their rows (5 Nov 2026): at 1024-1279 px "Best value" drops under "300 credits" and "Save 3%"
+     under its price, so the prices and the keys sat at three heights. With the rows shared, the prices line up and so do the keys. */
+  .app-shell .wl-pack { grid-row: span 5; grid-template-rows: subgrid; row-gap: 6px; }
+  .app-shell .wl-pack__top { align-self: start; }
+}
 .app-shell .wl-pack {
   position: relative; display: grid; gap: 6px; align-content: start; min-width: 0; padding: 20px 20px 18px;
   border: 1px solid var(--a-line); border-radius: 18px; background: var(--a-raised);

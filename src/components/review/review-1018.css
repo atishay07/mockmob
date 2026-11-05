@@ -159,6 +159,14 @@
   .app-shell .rv8-board > .rv8-side { display: block; grid-column: 2; grid-row: 1; position: sticky; top: 84px; margin-top: 26px; }
   .app-shell .rv8-side .rv8-revise { margin-top: 0; }
   .app-shell .rv8-side .rv8-sec { margin-top: 30px; }
+  .app-shell .rv8-board > .rv8-side { container: rv8side / inline-size; }
+}
+/* Saved repairs in a narrow right column (5 Nov 2026): at 1024-1365 px the column is 279-381 px, and with the number on the left
+   and "Check it held" on the right the words had 102-205 px, so a repair's three lines broke into six to eight ("Admission of a /
+   partner / Mock 2, Mon 12 / Oct, 10:42 PM"). Under 400 px the key goes under the words, which then take the column's width. */
+@container rv8side (max-width: 399px) {
+  .app-shell .rv8-side .rv8-sv__row { grid-template-columns: 40px minmax(0, 1fr); }
+  .app-shell .rv8-side .rv8-sv__row .rv8-act { grid-column: 2; justify-self: start; align-self: start; margin-top: 6px; }
 }
 @media (max-width: 380px) {
   .app-shell .rvw .rv8-sechead h2 { font-size: 21px; }
