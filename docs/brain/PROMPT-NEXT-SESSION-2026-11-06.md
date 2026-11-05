@@ -22,9 +22,9 @@ C:\Users\atish\Desktop\mockmob copy (Git Bash and PowerShell available).
    from origin/main, resolving conflicts by keeping both sides' intent.
 3. Run the full gate in the handoff (tests, eslint, both builds, speed and scroll benches on a quiet machine, visual pass at 390
    and 1440 in Night and Day, looking at every screenshot).
-4. Release rule for this session: do NOT push to main and do NOT deploy. Leave the integrated branch, the gate results and the
-   screenshots, and write a STATUS-style report in docs/brain/experiments/ (see below). The owner's primary engineer reviews and
-   ships it.
+4. Ship only after the full gate passes: write the STATUS entry (what shipped, what was verified, what was not), push the
+   integrated branch to main, wait for the Vercel deploy to be READY, check runtime errors and the live page at phone size.
+   If any gate step fails and you cannot fix it, do not ship: leave the branch and report.
 5. If time is left: the smaller open items in the handoff (CountUp screen-reader text; the Financial Markets source check).
 
 ## Rules that always hold
@@ -39,7 +39,6 @@ C:\Users\atish\Desktop\mockmob copy (Git Bash and PowerShell available).
   first. Turbopack builds only in wt-1101-content.
 - Commit with explicit pathspecs and clear messages. Be honest in reports: done, not done, not verified.
 
-## Side log for this session (owner's model trial, temporary)
-Keep docs/brain/experiments/MODEL-TRIAL-2026-11.md updated as you go (the template is in the file): what you attempted, what you
-finished, what you got wrong and fixed, tests and gate results, and where you were unsure. This log is research only; it changes
-no rule.
+## Before you stop
+Update NOW.md (a new top entry), the ledger statuses and STATUS.md; commit everything with explicit pathspecs; if the Continuum
+tools exist, save a continuum_checkpoint. Tell the owner plainly: what is live, what is left, what you need from him.
