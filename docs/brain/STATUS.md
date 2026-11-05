@@ -1,3 +1,9 @@
+## 6 Nov 2026, about 3:16 am IST — Round 4 candidate paused locally
+
+- All six web packets are integrated on `web/r4-release` with runtime tip `06aed8557`. Round 3 is live at main `400d647a8`, Vercel `dpl_F74Lgyeyodb5YPh2kiK5HTxfiAmT` READY.
+- Both builds passed and App passed 1,020 tests with two skips. The landing suite has one source assertion that still expects outside-touch classification in the old handler. The new behavior tests pass. A prior build passed 128/128, then a later build exposed one fast entry skip and one 103 ms warm frame. The current build still needs the full performance, gesture and final visual gates.
+- The owner paused the session at 5% usage. Private Vercel access works after team approval. See `mockmob-next/docs/brain/HANDOFF-2026-11-06-ROUND-4-RELEASE.md` for evidence and the exact resumption steps.
+
 ## 5 Nov 2026, about 4:30 pm IST: round 3 to production (owner LK99-LK115) and new Key cards (Computerised Accounting, English reading)
 
 Shipped (main from web/r3; spec docs/brain/night-1105/SPEC-R3.md; notes docs/design-decisions/web-r3-*.md):
