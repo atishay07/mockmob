@@ -164,8 +164,12 @@ test('the rail icons load eagerly at low priority; the chip row moves the next f
   assert.match(icon, /loading=\{loading\} fetchPriority=\{fetchPriority\}/);
   // No layout read on a step: the old effect read offsetLeft and scrollWidth right after the commit.
   assert.doesNotMatch(tour, /querySelector\('\[data-chapter="' \+ active/);
-  assert.match(tour, /useLayoutEffect\(\(\) => \{\s*const frame = requestAnimationFrame\(\(\) => \{\s*const nav = navRef\.current;\s*const chips = chipsRef\.current \?\? measureChips\(\);/);
-  assert.match(tour, /const observer = new ResizeObserver\(read\);\s*observer\.observe\(nav\);\s*nav\.querySelectorAll\('\[data-chapter\]'\)\.forEach\(\(item\) => observer\.observe\(item\)\);/);
+  const onStep = tour.slice(tour.indexOf('useLayoutEffect(() => {'), tour.indexOf('}, [active, reduced, alignChapter]);'));
+  assert.match(onStep, /if \(!railVisible\.current\) return undefined;/);
+  assert.match(onStep, /requestAnimationFrame\(\(\) => alignChapter\(active, !reduced\)\)/);
+  assert.doesNotMatch(onStep, /measureChips|scrollWidth|offsetLeft/);
+  assert.match(tour, /const chips = chipsRef\.current;\s*if \(!railVisible\.current \|\| !nav \|\| !chips/);
+  assert.match(tour, /new ResizeObserver\(read\) : null;\s*observer\?\.observe\(nav\);\s*nav\.querySelectorAll\('\[data-chapter\]'\)\.forEach\(\(item\) => observer\?\.observe\(item\)\);/);
 });
 
 // ---------------------------------------------------------------- part 2: the real gate

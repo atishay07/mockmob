@@ -90,11 +90,13 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
   // Keep the current chapter chip centred without moving the document's vertical scroll (the row scrolls
   // itself; instant under reduced motion). The row's edges fade only where more chips wait beyond them.
   const [fade, setFade] = useState('none');
+  const chipsRef = useRef(null);
+  const chapterRef = useRef(active);
+  const railVisible = useRef(false);
   const readFade = useCallback(() => {
     const nav = navRef.current;
-    // Undrawn (content-visibility): the ResizeObserver below reads it once the section is drawn.
-    if (!nav || undrawn(nav)) return;
-    const more = nav.scrollWidth - nav.clientWidth;
+    if (!nav || !chipsRef.current) return;
+    const { more } = chipsRef.current;
     const start = nav.scrollLeft > 2;
     const end = more > 2 && nav.scrollLeft < more - 2;
     setFade(start && end ? 'both' : start ? 'start' : end ? 'end' : 'none');
@@ -102,36 +104,52 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
   // Where each chip centres, measured when the row or a chip changes size (a ResizeObserver callback, where layout is
   // already clean), never on a step: reading offsetLeft right after a step's commit forced a style and layout pass inside
   // the step's frame (28-34 ms of a 54-73 ms frame at 4x CPU), and the row started moving 128-192 ms late (R3-D5, P2-5).
-  const chipsRef = useRef(null);
   const measureChips = useCallback(() => {
     const nav = navRef.current;
     if (!nav || undrawn(nav)) { chipsRef.current = null; return null; }
     const items = [...nav.querySelectorAll('[data-chapter]')];
     chipsRef.current = { more: nav.scrollWidth - nav.clientWidth, at: items.map((item) => item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2) };
-    return chipsRef.current;
   }, []);
-  // The row moves in the frame after the step commits, from the cached places.
+  const alignChapter = useCallback((index, smooth) => {
+    const nav = navRef.current;
+    const chips = chipsRef.current;
+    if (!railVisible.current || !nav || !chips || chips.more <= 2 || !Number.isFinite(chips.at[index])) return;
+    nav.scrollTo({ left: chips.at[index], behavior: smooth ? 'smooth' : 'instant' });
+  }, []);
+  // The step never measures the rail. The old cache-miss fallback forced the off-screen tour to lay out mid-swipe.
   useLayoutEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      const nav = navRef.current;
-      const chips = chipsRef.current ?? measureChips();
-      if (!nav || !chips || chips.more <= 2 || !Number.isFinite(chips.at[active])) return;
-      nav.scrollTo({ left: chips.at[active], behavior: reduced ? 'auto' : 'smooth' });
-    });
+    chapterRef.current = active;
+    if (!railVisible.current) return undefined;
+    const frame = requestAnimationFrame(() => alignChapter(active, !reduced));
     return () => cancelAnimationFrame(frame);
-  }, [active, reduced, measureChips]);
+  }, [active, reduced, alignChapter]);
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return undefined;
-    const read = () => { readFade(); measureChips(); };
-    read();
-    document.fonts?.ready.then(read).catch(() => {});
-    if (typeof ResizeObserver === 'undefined') return undefined;
-    const observer = new ResizeObserver(read);
-    observer.observe(nav);
-    nav.querySelectorAll('[data-chapter]').forEach((item) => observer.observe(item));
-    return () => observer.disconnect();
-  }, [readFade, measureChips]);
+    const read = () => {
+      measureChips();
+      alignChapter(chapterRef.current, false);
+      readFade();
+    };
+    const view = typeof IntersectionObserver === 'function' ? new IntersectionObserver(([entry]) => {
+      railVisible.current = entry.isIntersecting;
+      if (entry.isIntersecting) alignChapter(chapterRef.current, false);
+    }) : null;
+    railVisible.current = !view;
+    view?.observe(nav);
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(read) : null;
+    observer?.observe(nav);
+    nav.querySelectorAll('[data-chapter]').forEach((item) => observer?.observe(item));
+    if (!observer) {
+      read();
+      window.addEventListener('resize', read);
+    }
+    return () => {
+      view?.disconnect();
+      observer?.disconnect();
+      if (!observer) window.removeEventListener('resize', read);
+    };
+  }, [readFade, measureChips, alignChapter]);
 
   const goTo = useCallback((index, { scroll = true, keyboard = false } = {}) => {
     if (!slides.length) return;
