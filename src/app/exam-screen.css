@@ -258,6 +258,7 @@ button.xs-chip:active { transform: scale(.95); }
 }
 .xs-full {
   position: fixed; inset: 0; z-index: 90; overflow: hidden; background: var(--paper); color: var(--ink);
+  box-sizing: border-box; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
   animation: xs-full-in 200ms cubic-bezier(.23, 1, .32, 1) both;
 }
 html[data-theme='dark'] .xs-full { background: #0e0d0b; }
@@ -281,4 +282,6 @@ html[data-theme='dark'] .xs-full { background: #0e0d0b; }
 .xs-frame--away { background: var(--paper-raised); }
 @keyframes xs-full-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .xs-full { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .xs-full__close:active { transform: none; } }
 :root[data-motion='reduced'] .xs-full { animation: none; }
+:root[data-motion='reduced'] .xs-full__close:active { transform: none; }

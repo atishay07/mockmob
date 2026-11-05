@@ -23,7 +23,7 @@
 // renders only in NTA style; every MockMob-mode string is held against the runner's source by examPreviewParity.test.mjs.
 // The questions are five real Accountancy items; the other ten chips stand as they would mid-paper. Nothing is submitted
 // anywhere: Submit only reads the counts back. The screen is drawn in one place at a time: in the monitor, or in the dialog.
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ArrowDown, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, X } from 'lucide-react';
@@ -60,6 +60,8 @@ export function ExamScreen() {
   const fullClose = useRef(null);
   const fullBox = useRef(null);
   const fullWas = useRef(false);
+  const fullRequested = useRef(false);
+  const ownsFullscreen = useRef(false);
   // The clock starts when the visitor first acts and runs only while the screen is on screen and the tab is visible.
   // Reduced motion keeps it still.
   const [clock, setClock] = useState(EXAM.startSeconds);
@@ -87,14 +89,16 @@ export function ExamScreen() {
   }, [started, onScreen, full]);
   // The dialog lives on the page root (a fixed layer inside a section with content-visibility would be clipped to it); the
   // page under it does not scroll; the focus goes to its close key and comes back to the key that opened it.
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (full) {
+      const dialog = fullBox.current;
+      dialog.showModal();
       const root = document.documentElement;
       const was = root.style.overflow;
       root.style.overflow = 'hidden';
       fullClose.current?.focus({ preventScroll: true });
       fullWas.current = true;
-      return () => { root.style.overflow = was; };
+      return () => { dialog.close(); root.style.overflow = was; };
     }
     if (fullWas.current) { fullWas.current = false; fullOpener.current?.focus({ preventScroll: true }); }
     return undefined;
@@ -102,33 +106,37 @@ export function ExamScreen() {
   // Leaving the browser's own full screen (its back gesture, or Escape there) closes the dialog too.
   useEffect(() => {
     if (!full) return undefined;
-    const left = () => { if (!document.fullscreenElement) setFull(false); };
+    const left = () => {
+      if (!ownsFullscreen.current || document.fullscreenElement) return;
+      ownsFullscreen.current = false;
+      fullRequested.current = false;
+      setFull(false);
+    };
     document.addEventListener('fullscreenchange', left);
     return () => document.removeEventListener('fullscreenchange', left);
   }, [full]);
   const openFull = () => {
+    fullRequested.current = true;
     setFull(true);
     // Where the browser allows it (Android Chrome), the page goes full screen and turns to landscape; elsewhere the dialog
     // fills the window and draws the screen sideways itself. Nothing else is asked of the student.
     const root = document.documentElement;
-    if (root.requestFullscreen && window.matchMedia('(pointer: coarse)').matches) {
-      root.requestFullscreen({ navigationUI: 'hide' }).then(() => window.screen?.orientation?.lock?.('landscape')).catch(() => {});
+    if (!document.fullscreenElement && root.requestFullscreen && window.matchMedia('(pointer: coarse)').matches) {
+      root.requestFullscreen({ navigationUI: 'hide' }).then(() => {
+        if (!fullRequested.current) return document.exitFullscreen?.();
+        ownsFullscreen.current = true;
+        return window.screen?.orientation?.lock?.('landscape');
+      }).catch(() => {});
     }
   };
   // Leaving the browser's full screen also ends its landscape lock (the Screen Orientation API releases it with full screen).
   const closeFull = () => {
+    fullRequested.current = false;
     setFull(false);
-    if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
-  };
-  // Escape closes; Tab stays inside the dialog (its close key, the switch and the screen's own controls).
-  const fullKey = (event) => {
-    if (event.key === 'Escape') { event.stopPropagation(); closeFull(); return; }
-    if (event.key !== 'Tab' || !fullBox.current) return;
-    const all = [...fullBox.current.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')].filter((n) => n.getClientRects().length > 0);
-    if (!all.length) return;
-    const first = all[0];
-    const last = all[all.length - 1];
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); } else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    if (ownsFullscreen.current) {
+      ownsFullscreen.current = false;
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+    }
   };
 
   const question = EXAM.questions[index];
@@ -299,7 +307,7 @@ export function ExamScreen() {
       </div>
       {/* Only ever open after a tap, so the document is there to host it. */}
       {full ? createPortal(
-        <div className="xs-full" role="dialog" aria-modal="true" aria-label={EXAM.full.title} onKeyDown={fullKey} ref={fullBox}>
+        <dialog className="xs-full" aria-label={EXAM.full.title} onCancel={(event) => { event.preventDefault(); closeFull(); }} ref={fullBox}>
           <div className="xs-full__stage">
             <div className="xs-full__bar">
               <button ref={fullClose} type="button" className="xs-full__close" aria-label={EXAM.full.close} onClick={closeFull}><X aria-hidden="true" /></button>
@@ -310,7 +318,7 @@ export function ExamScreen() {
               <div className="xs-full__glass">{frame}</div>
             </div>
           </div>
-        </div>, document.querySelector('.mm.lp') || document.body) : null}
+        </dialog>, document.querySelector('.mm.lp') || document.body) : null}
     </section>
   );
 }

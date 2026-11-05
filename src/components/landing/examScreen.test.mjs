@@ -242,6 +242,11 @@ test('section height budgets and the full-screen dialog in a browser', { skip: !
           const box = await key.boundingBox();
           assert.ok(box && box.height >= 44, `${width}px ${theme}: the full-screen key is ${box?.height} px tall`);
           await key.click();
+          assert.equal(await page.locator('.xs-full:modal').count(), 1, 'the browser has opened a modal');
+          await page.locator('.xs-full .xs-switch').getByRole('button', { name: /^MockMob/ }).click();
+          const answer = page.locator('.xs-full .xs-option').last();
+          await answer.click();
+          assert.equal(await answer.getAttribute('aria-pressed'), 'true');
           for (const mode of [/^MockMob/, /NTA style/]) {
             await page.locator('.xs-full .xs-switch').getByRole('button', { name: mode }).click();
             const sizes = await page.$eval('.xs-full', (dialog) => {
@@ -255,6 +260,8 @@ test('section height budgets and the full-screen dialog in a browser', { skip: !
           await page.keyboard.press('Escape');
           assert.equal(await page.locator('.xs-full').count(), 0, 'Escape closes the dialog');
           assert.equal(await page.evaluate(() => document.activeElement?.classList.contains('xs-full-open')), true, 'the focus is back on the key');
+          await page.locator('.xs-layout > .xs-switch').getByRole('button', { name: /^MockMob/ }).click();
+          assert.equal(await page.locator('.xs-device .xs-option').last().getAttribute('aria-pressed'), 'true', 'the answer survives switching skins and returning to the monitor');
         }
         await page.close();
       }
@@ -286,15 +293,15 @@ test('R4-H6: below 761 px a "Try it full screen" key under the monitor, a 48 px 
 });
 
 test('R4-H6: the dialog is the same screen and switch in a named modal; Escape or the close key shuts it; the focus goes in and back', () => {
-  assert.match(DIALOG, /<div className="xs-full" role="dialog" aria-modal="true" aria-label=\{EXAM\.full\.title\} onKeyDown=\{fullKey\} ref=\{fullBox\}>/);
+  assert.match(DIALOG, /<dialog className="xs-full" aria-label=\{EXAM\.full\.title\} onCancel=\{\(event\) => \{ event\.preventDefault\(\); closeFull\(\); \}\} ref=\{fullBox\}>/);
+  assert.match(JSX, /dialog\.showModal\(\)/, 'the browser makes the background inert and contains keyboard focus');
   assert.match(DIALOG, /<div className="xs-full__glass">\{frame\}<\/div>/, 'the dialog draws the screen itself');
   assert.match(JSX, /\{full \? <div className="xs-frame xs-frame--away" aria-hidden="true" \/> : frame\}/, 'drawn in one place at a time: one timer, one set of live regions');
   assert.match(DIALOG, /<button ref=\{fullClose\} type="button" className="xs-full__close" aria-label=\{EXAM\.full\.close\} onClick=\{closeFull\}>/);
-  assert.match(JSX, /if \(event\.key === 'Escape'\) \{ event\.stopPropagation\(\); closeFull\(\); return; \}/);
   assert.match(JSX, /fullClose\.current\?\.focus\(\{ preventScroll: true \}\);/);
   assert.match(JSX, /fullOpener\.current\?\.focus\(\{ preventScroll: true \}\);/);
   assert.match(JSX, /root\.style\.overflow = 'hidden';/, 'the page under the dialog holds still');
-  assert.match(DIALOG, /<\/div>, document\.querySelector\('\.mm\.lp'\) \|\| document\.body\) : null\}/, 'on the page root, outside the contained section');
+  assert.match(DIALOG, /<\/dialog>, document\.querySelector\('\.mm\.lp'\) \|\| document\.body\) : null\}/, 'on the page root, outside the contained section');
   assert.match(JSX, /data-running=\{started && \(onScreen \|\| full\)\}/, 'the clock runs while the dialog is open');
   for (const key of ['open', 'title', 'close', 'turn']) assert.ok(EXAM.full[key], `EXAM.full.${key}`);
 });
@@ -304,7 +311,8 @@ test('R4-H6: readable and sideways: 880 design px at up to 0.9 px each, turned a
   assert.match(FULL_CSS, /\.xs-full__glass \{ container: xs-full \/ inline-size; position: relative; width: min\(100%, 792px\); aspect-ratio: 16 \/ 10;/, '792 / 880 = 0.9 px a design pixel');
   assert.match(FULL_CSS, /\.xs-full__fit \{[^}]*overflow: auto;/, 'taller than the window, it scrolls inside the dialog');
   assert.match(FULL_CSS, /@media \(orientation: portrait\) and \(max-width: 760px\) \{\s*\.xs-full__stage \{ left: 100vw; width: 100dvh; height: 100vw; transform: rotate\(90deg\); transform-origin: 0 0;/);
-  assert.match(JSX, /root\.requestFullscreen\(\{ navigationUI: 'hide' \}\)\.then\(\(\) => window\.screen\?\.orientation\?\.lock\?\.\('landscape'\)\)\.catch\(\(\) => \{\}\)/);
+  assert.match(JSX, /root\.requestFullscreen\(\{ navigationUI: 'hide' \}\)\.then/);
+  assert.match(JSX, /return window\.screen\?\.orientation\?\.lock\?\.\('landscape'\)/);
   assert.match(JSX, /document\.addEventListener\('fullscreenchange', left\)/, 'leaving the browser\'s full screen closes the dialog');
   assert.match(FULL_CSS, /@media \(prefers-reduced-motion: reduce\) \{ \.xs-full \{ animation: none; \} \}/);
   assert.match(FULL_CSS, /:root\[data-motion='reduced'\] \.xs-full \{ animation: none; \}/);
