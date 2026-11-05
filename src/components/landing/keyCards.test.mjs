@@ -134,21 +134,25 @@ test('the section sits right after the Score Recovery Lab and before Compass, wi
   assert.match(desktop, /\.lp main > #score-recovery-lab \{[^}]*\}\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
 });
 
-test('the reserved height is measured for each width band the section changes in (review fix, 5 Nov)', () => {
-  // Content height (section minus its padding, which scales on desktop: 164 px at 1024, 224 px at 1440), measured by width with
-  // tmp/r3/cards/measure.mjs: 879 px to 361, 854 px from 362 to 383, 830 px from 384 (390); 480 px from 960 to 1919 (1024
-  // and 1440 alike); 531 px from 1920 (18 px root), 639 px from 2560 (22 px root).
+test('the reserved height is measured for each width band the section changes in (review fix, 5 Nov; re-measured R4, 6 Nov)', () => {
+  // Content height (section minus its padding), measured by width with tmp/r4/intrinsic.cjs (round 4, 6 Nov 2026: the phone
+  // gaps are one 20 px step, the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): 852 px at 360,
+  // 826 px at 375, 802 px at 390; 508 px at 1024, 688 px at 1100, 549 px at 1280, 575 px at 1440; 585 px from 1920 (18 px
+  // root), 774 px from 2560 (22 px root).
   const at = (re) => { const m = LANDING_CSS.match(re); assert.ok(m, `a reserved value for ${re}`); return [Number(m[1]), m.index]; };
   const [at390] = at(/\n\.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \}/);
   const [at375, i375] = at(/@media \(max-width: 383px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [at360, i360] = at(/@media \(max-width: 361px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [atDesk] = at(/\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \}/);
+  const [at1100, i1100] = at(/@media \(min-width: 1100px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  const [at1280, i1280] = at(/@media \(min-width: 1280px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
+  const [at1440, i1440] = at(/@media \(min-width: 1440px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [at1920, i1920] = at(/@media \(min-width: 1920px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [at2560, i2560] = at(/@media \(min-width: 2560px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
-  assert.deepEqual([at360, at375, at390, atDesk, at1920, at2560], [879, 854, 830, 480, 531, 639]);
+  assert.deepEqual([at360, at375, at390, atDesk, at1100, at1280, at1440, at1920, at2560], [852, 826, 802, 508, 688, 549, 575, 585, 774]);
   // Later bands must follow the ones they narrow, or the wider value wins.
   assert.ok(i360 > i375, 'the 361 px band follows the 383 px one');
-  assert.ok(i1920 > LANDING_CSS.indexOf('  .lp main > #key-cards') && i2560 > i1920, 'the large-screen bands follow the 960 px block');
+  assert.ok(i1100 > LANDING_CSS.indexOf('  .lp main > #key-cards') && i1280 > i1100 && i1440 > i1280 && i1920 > i1440 && i2560 > i1920, 'the wide bands follow the 960 px block, in order');
 });
 
 // ------------------------------------------------------------------------------------------------ the flip and its motion

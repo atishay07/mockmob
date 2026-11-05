@@ -3,8 +3,8 @@
    (paper, raised, raised-2), not by edges. Volt is the action fill and, by role, the brand's voice: --brand-word is the
    green of brand words, product names, hero numbers, progress and selected marks (volt #D2F000 in Night, the app's Day
    accentText #526700 in Day; R3-D1/D2, owner LK101/LK108, 5 Nov 2026). Links and labels stay ink; never a glow or a wash.
-   Day never lays a raw volt slab on cream: a selected control is raised paper with a #526700 rim and a small volt tick
-   (--sel-rim, --tick-rim), the key keeps its volt fill with a darker lip and an olive hairline (--volt-edge, --key-hairline).
+   Day never lays a raw volt slab on cream: a selected control is raised paper with the app's ink-70% rim and a small volt tick
+   (--sel-rim, --tick-rim), the key keeps its volt fill with the app's voltEdge lip and hairline (--volt-edge, --key-hairline).
    Tests: data/tests/marketing_theme_tokens_1104.test.mjs, night_calm_1104.test.mjs, day_palette_r3.test.mjs. */
 html[data-theme='dark'] .mm {
   --paper: #12110e; --paper-raised: #1b1a16; --paper-raised-2: #211f1a; --paper-sunken: #0e0d0b;
@@ -20,18 +20,23 @@ html[data-theme='dark'] .mm {
   --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
 }
 html[data-theme='light'] .mm {
-  --paper: #f3efe6; --paper-raised: #fffdf8; --paper-raised-2: #ece6d9; --paper-sunken: #eae4d8;
-  --ink: #1b1914; --ink-2: #4a453b; --ink-3: #6b6457;
-  --line: rgba(27, 25, 20, 0.10); --line-strong: rgba(27, 25, 20, 0.22);
+  /* Day is the app's Daylight palette, value for value (R4 LK118, 6 Nov 2026: mm_colors.dart MmColors.light): ground, raised,
+     raised 2, sunken, the three inks, the two opaque warm hairlines, the umber card and glass shadows and the edge light. */
+  --paper: #f3efe6; --paper-raised: #fffdf8; --paper-raised-2: #e9e4d8; --paper-sunken: #eae5da;
+  --ink: #17150f; --ink-2: #454036; --ink-3: #655f53;
+  --line: #d8d1c2; --line-strong: #bdb4a2;
   --slate: #14130f; --slate-2: #1e1c17; --slate-3: #2c2a24;
-  --sh-1: 0 2px 5px #1b19140a; --sh-2: 0 10px 28px #1b19140d; --sh-3: 0 22px 54px #1b191414;
+  --sh-1: 0 1px 2px rgba(42, 32, 16, 0.06); --sh-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 14px 30px -18px rgba(42, 32, 16, 0.15); --sh-3: 0 1px 3px rgba(42, 32, 16, 0.08), 0 18px 36px -20px rgba(42, 32, 16, 0.18);
   --focus-ring: #526700; color-scheme: light;
   /* One Day text green, the app's accentText #526700 (5.55:1 on the paper, 6.26:1 on raised), for brand words, accents, numbers
-     and the focus ring (R3-D1, LK101; it replaces the greyer #3F5200 of 5 Nov early morning). Volt stays the fill. */
+     and the focus ring (R3-D1, LK101). Volt stays the fill, and a stroke on volt is the app's voltEdge #9DB400 (its pills' 1 dp
+     border and its key's enamel foot), so the key's lip and hairline are #9DB400 in both themes (R4 LK118). A chosen control is
+     the app's MmSelection: raised paper with a 1.5 px rim of ink at 70%, never olive; the volt tick keeps its olive 55% rim
+     (LetterBubble's Day rim). */
   --accent-text: #526700; --accent-line: var(--line-strong); --accent-wash: transparent; --brand-word: #526700;
-  --volt-soft: rgba(210, 240, 0, 0.22); --volt-edge: #8ba000; --key-hairline: inset 0 0 0 1px rgba(82, 103, 0, 0.28);
-  --state-wash: rgba(210, 240, 0, 0.22); --sel-rim: #526700; --tick-rim: rgba(82, 103, 0, 0.55);
-  --tint: 27 25 20; --surface-hover: #f9f5ec; --edge-light: rgba(255, 255, 255, 0.9);
+  --volt-soft: rgba(210, 240, 0, 0.22); --volt-edge: #9db400; --key-hairline: inset 0 0 0 1px #9db400;
+  --state-wash: rgba(210, 240, 0, 0.22); --sel-rim: rgba(23, 21, 15, 0.7); --tick-rim: rgba(82, 103, 0, 0.55);
+  --tint: 23 21 15; --surface-hover: #f9f5ec; --edge-light: rgba(255, 255, 255, 0.8);
   --warn-text: #845400; --bad-text: #b0291f; --good-text: #3d6600;
 }
 html[data-theme='light']:has(.mm), html[data-theme='light'] body:has(.mm) { background: #f3efe6; color-scheme: light; }

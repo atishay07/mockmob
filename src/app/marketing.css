@@ -14,23 +14,23 @@
   /* Surfaces */
   --paper: #f3efe6;
   --paper-raised: #fffdf8;
-  --paper-raised-2: #ece6d9;
-  --paper-sunken: #eae4d8;
+  --paper-raised-2: #e9e4d8;
+  --paper-sunken: #eae5da;
   /* Ink — all three clear 4.5:1 on --paper */
-  --ink: #1b1914;
-  --ink-2: #4a453b;
-  --ink-3: #6b6457;
+  --ink: #17150f;
+  --ink-2: #454036;
+  --ink-3: #655f53;
   /* Structure */
-  --line: rgba(27, 25, 20, 0.1);
-  --line-strong: rgba(27, 25, 20, 0.22);
-  /* Action. Volt is a fill that carries dark ink, never a glow. On cream (Day) the key's lip is the darker #8BA000 with an
-     olive hairline inside the fill, so the key holds its edge on the paper (R3-D1, LK101; the app shell's Day key, arena.css).
-     marketing-theme.css sets the Night lip back to #9DB400 with no hairline. */
+  --line: #d8d1c2;
+  --line-strong: #bdb4a2;
+  /* Action. Volt is a fill that carries dark ink, never a glow. A stroke on volt is the app's voltEdge #9DB400 (R4 LK118, 6 Nov
+     2026: mm_colors.dart, the same in both themes): the key's lip, and in Day a 1px hairline of it inside the fill (the app's volt
+     pills' border). marketing-theme.css drops the hairline in Night. The surfaces and inks here are the app's Daylight values. */
   --volt: #d2f000;
-  --volt-edge: #8ba000;
+  --volt-edge: #9db400;
   --volt-soft: rgba(210, 240, 0, 0.22);
   --volt-ink: #0b1000;
-  --key-hairline: inset 0 0 0 1px rgba(82, 103, 0, 0.28);
+  --key-hairline: inset 0 0 0 1px #9db400;
   /* Night — the product's own screens */
   --slate: #14130f;
   --slate-2: #1e1c17;

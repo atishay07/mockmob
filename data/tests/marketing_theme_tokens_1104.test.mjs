@@ -83,14 +83,18 @@ test('The brand words are the brand volt in Night (#D2F000) and the app’s #526
   assert.equal(day['focus-ring'], '#526700', 'the Day focus ring is the app focusRing');
 });
 
-test('Day takes the app cream (proposal night, Day table)', () => {
+// R4 LK118 (owner, 6 Nov 2026): Day is the app's Daylight palette value for value (mm_colors.dart MmColors.light): raised 2
+// #E9E4D8, sunken #EAE5DA, inks #17150F / #454036 / #655F53 and the opaque warm hairlines #D8D1C2 / #BDB4A2.
+test('Day takes the app cream (proposal night, Day table; R4 LK118: the app Daylight values exactly)', () => {
   assert.equal(day.paper, '#f3efe6');
   assert.equal(day['paper-raised'], '#fffdf8');
-  assert.equal(day['paper-sunken'], '#eae4d8');
-  assert.equal(day.ink, '#1b1914');
-  assert.equal(day['ink-2'], '#4a453b');
-  assert.equal(day['ink-3'], '#6b6457');
-  assert.equal(day.line, 'rgba(27, 25, 20, 0.10)');
+  assert.equal(day['paper-raised-2'], '#e9e4d8');
+  assert.equal(day['paper-sunken'], '#eae5da');
+  assert.equal(day.ink, '#17150f');
+  assert.equal(day['ink-2'], '#454036');
+  assert.equal(day['ink-3'], '#655f53');
+  assert.equal(day.line, '#d8d1c2');
+  assert.equal(day['line-strong'], '#bdb4a2');
   assert.equal(day['accent-line'], 'var(--line-strong)', 'no lime edges in Day either');
   assert.equal(day['accent-wash'], 'transparent');
   assert.ok(contrast(day['ink-3'], day.paper) >= 4.5, 'ink-3 on the Day paper');

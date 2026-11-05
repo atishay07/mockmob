@@ -4,14 +4,14 @@ description: A daylight paper page with an immediately usable illustrative decis
 colors:
   paper: "#f3efe6"
   paper-raised: "#fffdf8"
-  paper-sunken: "#eae4d8"
-  ink: "#1b1914"
-  ink-2: "#4a453b"
-  ink-3: "#6b6457"
-  line: "rgba(27, 25, 20, 0.10)"
-  line-strong: "rgba(27, 25, 20, 0.22)"
+  paper-sunken: "#eae5da"
+  ink: "#17150f"
+  ink-2: "#454036"
+  ink-3: "#655f53"
+  line: "#d8d1c2"
+  line-strong: "#bdb4a2"
   volt: "#d2f000"
-  volt-edge: "#8ba000"
+  volt-edge: "#9db400"
   volt-edge-night: "#9db400"
   volt-soft: "rgba(210, 240, 0, 0.22)"
   volt-ink: "#0b1000"
@@ -631,15 +631,17 @@ its brand colour by role. Round 3 sets the Day palette to the app's own (mm_colo
 decoration. Night is unchanged except where a role below says so. Pinned by `data/tests/brand_r3_1105.test.mjs`,
 `marketing_theme_tokens_1104.test.mjs` and `night_calm_1104.test.mjs`; decision note `docs/design-decisions/web-r3-brand.md`.
 
-**The Day palette.** Paper `#F3EFE6`, raised `#FFFDF8`, raised-2 `#ECE6D9`, sunken `#EAE4D8`, ink `#1B1914` / `#4A453B` /
-`#6B6457`, hairlines `rgba(27, 25, 20, 0.10)` and `rgba(27, 25, 20, 0.22)`. Volt `#D2F000` with volt ink `#0B1000` (14.9:1) is the
-action fill. The Day key's lip is `#8BA000` (Night keeps `#9DB400`) with an inset 1px `rgba(82, 103, 0, 0.28)` hairline, so the
-key holds its edge on cream. One Day text green, `#526700` (5.55:1 on the paper, 6.26:1 on raised), for brand words, accents,
+**The Day palette** (round 4, 6 Nov 2026, LK118: the app's `MmColors.light`, value for value). Paper `#F3EFE6`, raised `#FFFDF8`,
+raised-2 `#E9E4D8`, sunken `#EAE5DA`, ink `#17150F` / `#454036` / `#655F53`, hairlines `#D8D1C2` and `#BDB4A2`. Volt `#D2F000`
+with volt ink `#0B1000` (14.9:1) is the action fill; a stroke on volt is the app's voltEdge `#9DB400` in both themes (the key's
+lip, and in Day a 1px `#9DB400` hairline inside the fill, as the app draws its volt pills). Card and glass shadows are the app's
+warm umber `rgba(42, 32, 16, x)`. One Day text green, `#526700` (5.55:1 on the paper, 6.26:1 on raised), for brand words, accents,
 numbers and the focus ring; good `#3D6600`. The Day state wash is `rgba(210, 240, 0, 0.22)` (`#ECEFB3` on paper), for hover and
 field focus only. Shadows are warm ink `rgba(27, 25, 20, x)`, never the old green-black.
 
 **The No-Slab Rule (Day).** Never a raw volt slab on cream. A selected chip, segment, Compass group or Lab rail item in Day is
-raised paper with a 1.5px `#526700` rim and ink words, plus a small volt tick (the bubble, dark check) with a 1px
+raised paper with a 1.5px rim of ink at 70% (the app's `MmSelection`; round 4 replaced round 3's `#526700` rim) and ink
+words, plus a small volt tick (the bubble, dark check) with a 1px
 `rgba(82, 103, 0, 0.55)` rim, as the app's `selection_style.dart` draws it. Night keeps its volt fill with dark ink.
 
 **Brand by role.** `--brand-word` (volt in Night, `#526700` in Day) colours: brand words ("CUET 2027.", "MockMob" in the tour's

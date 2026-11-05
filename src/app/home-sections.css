@@ -1,0 +1,131 @@
+/* ==========================================================================
+   HOME SECTIONS, ROUND 4 (6 Nov 2026; owner LK117, LK119, LK126-LK128; SPEC-R4 H1 and H5)
+   Every section under the hero, laid out again for the window it is in. Loaded last on the home page (page.js), so its
+   rules win over the older layers; selectors start at .mm.lp main. Nothing here hides or removes content.
+   - Desktop (from 1100 px): one fluid column for every section (small side gutters of about 3.5vw, at most 1680 px of
+     content, the right edge kept clear of Mobi's lane while he guides), headings about 72 px at 1440, each section's heading
+     and its line side by side so no head leaves an empty half, a calmer section rhythm, the FAQ beside its heading.
+   - Phones: a 48-64 px rhythm between sections (it was 112 px and more around the held stories).
+   - The brand's own texture, an answer sheet's bubbles (the close band's OMR sheet, CloseActions.jsx), under the statement's
+     shelf, in both themes, strongest in Night where the empty black read largest. Never under a letter; it does not move.
+   Pinned by data/tests/home_sections_r4_1105.test.mjs; decisions in docs/design-decisions/web-r4-sections.md.
+   ========================================================================== */
+
+/* ---------- 1. Type: section headings sized to the window ----------
+   About 72 px at 1440 (owner LK117: "everything should be massive"), 28 px on a 390 phone as before, capped at 4.5 rem. */
+.mm.lp { --fs-h2: clamp(1.75rem, 0.55rem + 4.4vw, 4.5rem); }
+/* The exam section's heading stands in the narrow column beside the monitor (exam-screen.css), which the owner asked to keep as
+   it is (LK129): it keeps the earlier ladder there, so the column reads in four lines, not six. */
+.mm.lp .xs .lp-h2 { font-size: clamp(1.75rem, 0.8rem + 3.6vw, 3.25rem); }
+
+/* ---------- 2. Rhythm ----------
+   Phones: 28 px above and below a section, so two sections sit 56 px apart (the target is 48-64 px). Tablets grow with the
+   width; desktop is 5vw (72 px at 1440, 96 px at 1920), so two sections sit about 145 px apart on a laptop where they sat
+   170-200 px apart. The close band opens with the same rhythm (its top was 128 px plus Mobi's empty seat, 411 px in all). The
+   exam section keeps its own tighter padding between its two hairlines (exam-screen.css). */
+.mm.lp main > .lp-sec:not(.xs) { padding-block: clamp(1.75rem, 5vw, 6rem); }
+.mm.lp main > .lp-close { padding-top: clamp(2rem, 6vw, 6rem); }
+.mm.lp main > .lp-sec .lp-head { margin-bottom: clamp(1.5rem, 3.4vw, 3rem); }
+@media (max-width: 760px) {
+  .mm.lp main > .lp-sec:not(.xs) { padding-block: 1.75rem; }
+  .mm.lp main > .lp-sec .lp-head { gap: 0.75rem; margin-bottom: 1.5rem; }
+  .mm.lp main > .lp-statement:not(:has(.ss[data-pinned='true'])) { padding-block: 1.75rem; }
+  .mm.lp main > .lp-close { padding-top: 2rem; }
+}
+
+/* The held stories on phones (the Lab, the tour, the Recovery Lab, the statement): a held stage keeps the site bar's height
+   free above its content and the bottom band's (80-104 px) below it, which is right while it holds and is empty page before
+   and after (146-149 px between the stories, measured at 390). The story's box now overlaps those two bands (its stage
+   keeps them while it holds, and its empty bands take no taps, scroll-story.css), so the page before and after it sits at
+   the 56 px rhythm. The centred stories (tour, Recovery) keep their slack arithmetic. */
+@media (max-width: 899px) and (min-height: 521px) {
+  .mm.lp main > .lp-sec .lc.ss[data-pinned='true'] { margin-top: calc(1rem - var(--ss-top)); margin-bottom: calc(-1 * var(--ss-bottom)); }
+  .mm.lp main > .lp-sec .ss--centre.ss[data-pinned='true'] { margin-top: calc(var(--ss-slack, 0px) / -2 + 1rem - var(--ss-top)); margin-bottom: calc(var(--ss-slack, 0px) / -2 - var(--ss-bottom)); }
+  .mm.lp main > .lp-statement .ss[data-pinned='true'] { margin-bottom: calc(1.75rem - var(--ss-bottom)); }
+}
+
+/* ---------- 3. The fluid column (desktop) ----------
+   The side gutter is 3.5vw (24-64 px) and the content at most 1680 px wide. While Mobi guides from his lane (the right 174 px
+   of the window plus 40 px of air, brand-pip.css), the right edge stays clear of it; with reduced motion he sits in the flow
+   and the column is symmetric. The hero's own column and #pricing keep theirs. */
+@media (min-width: 1100px) {
+  .mm.lp { --sec-gutter: clamp(24px, 3.5vw, 64px); --sec-max: 1680px; --sec-lane: 0px; }
+  :root .mm.lp main > :is(section, div):not(.lp-hero):not(#pricing) .mm-wrap:not(.mm-wrap .mm-wrap) {
+    max-width: none;
+    padding-left: max(var(--sec-gutter), (100% - var(--sec-max)) / 2);
+    padding-right: max(var(--sec-gutter), (100% - var(--sec-max)) / 2, var(--sec-lane));
+  }
+}
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']):not([data-pip-static]) .mm.lp { --sec-lane: 214px; }
+}
+
+/* The site bar and the footer take the same left edge (one left edge for the bar, the sections and the footer, as before);
+   their right edge is the plain gutter, because Mobi never flies above the bar or past the end of main. */
+@media (min-width: 1100px) {
+  :root .mm.mm.lp :is(.mm-nav, .mm-foot) > .mm-wrap.mm-wrap {
+    max-width: none;
+    padding-left: max(var(--sec-gutter), (100% - var(--sec-max)) / 2);
+    padding-right: max(var(--sec-gutter), (100% - var(--sec-max)) / 2);
+  }
+}
+
+/* ---------- 4. Section heads (desktop): the heading and its line side by side ----------
+   The stamp and the heading on the left (7 parts), the line on the right (5 parts), its last line on the heading's last line,
+   so a head fills the column instead of leaving its right half empty. Key cards and the exam keep their own two-column
+   sections; the FAQ and the close band keep theirs. */
+@media (min-width: 1100px) {
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) {
+    max-width: none; width: 100%;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 6rem);
+    justify-items: start; text-align: left;
+  }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) > * { grid-column: 1; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) > .lp-sub { grid-column: 2; grid-row: 1; align-self: end; max-width: 34rem; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head):has(> .lp-stamp) > .lp-sub { grid-row: 1 / span 2; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) .lp-h2 { max-width: 17ch; }
+  /* A head with no line (the wall of love) keeps one column. */
+  .mm.lp main > .lp-sec :is(.lp-head--left, #du-eligibility .lp-head):not(:has(> .lp-sub)) { grid-template-columns: minmax(0, 1fr); }
+  /* The Compass head led with Mobi's seat on the left, which pushed the heading 240 px in while he flew to his lane: the seat
+     goes after the head while he guides (with reduced motion he keeps his seat in front). */
+  :root:not([data-motion='reduced']) .mm.lp main .lp-guide-head--lead { flex-direction: row; justify-content: space-between; }
+}
+/* While he guides, a head's seat is only the place he flies to (PipGuide moves it into his lane), so it no longer takes the
+   head's width or the close band's height: it stands at the head's (or the band's) top right, out of the flow, and the
+   heading gets the whole column. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']):not([data-pip-static]) .mm.lp main :is(.lp-guide-head, .lp-close__inner) { position: relative; }
+  :root:not([data-motion='reduced']):not([data-pip-static]) .mm.lp main :is(.lp-guide-head, .lp-close__inner) > .pip-seat { position: absolute; top: 0; right: 0; margin: 0; }
+}
+@media (min-width: 1100px) and (prefers-reduced-motion: reduce) {
+  .mm.lp main .lp-guide-head--lead { flex-direction: row-reverse; }
+}
+
+/* ---------- 5. The FAQ beside its heading (desktop) ----------
+   The narrow centred list left two empty thirds; the heading stands on the left (it stays in view while the answers open)
+   and the questions take the right. */
+@media (min-width: 1100px) {
+  .mm.lp main #faq .mm-wrap--tight { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2rem, 5vw, 6rem); align-items: start; }
+  .mm.lp main #faq .mm-wrap--tight > :first-child { position: sticky; top: calc(var(--lp-pos-top, 61px) + 2rem); }
+  .mm.lp main #faq .lp-h2 { text-align: left; }
+  .mm.lp main #faq .mm-faqs { margin-top: 0; }
+}
+
+/* ---------- 5b. The statement's shelf on wide screens ----------
+   From 1440 px the four papers grow with the window (at most 15 rem, 270 px at 1920), so the right half is not a small still
+   life in a large empty field. page.js asks for the matching image size (shelfSizes). */
+@media (min-width: 1440px) { .mm.lp .lp-statement { --shelf-obj: clamp(11.5rem, 12vw, 15rem); } }
+
+/* ---------- 6. The brand texture: an answer sheet under the statement's shelf ----------
+   Rings in the hairline colour, four options a row and one pencil mark in each (the close band's sheet, CloseActions.jsx,
+   drawn here as a 104 x 128 tile), lying on the desk under the four papers like a sheet on the table. A radial mask fades it
+   out before the words and the page edges. Neutral, never volt; it does not move. Night carries it a little stronger, where
+   the dark read as empty (LK117). */
+.mm.lp .lp-shelf::after {
+  content: ''; position: absolute; z-index: -2; inset: -10% -16% -4%; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='128'%3E%3Cdefs%3E%3Cpattern id='p' x='3' width='22' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='11' cy='8' r='5.5' fill='none' stroke='rgb(244 240 230/.07)' stroke-width='1.25'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='3' width='88' height='128' fill='url(%23p)'/%3E%3Cg fill='rgb(244 240 230/.13)'%3E%3Ccircle cx='36' cy='8' r='6'/%3E%3Ccircle cx='80' cy='24' r='6'/%3E%3Ccircle cx='14' cy='40' r='6'/%3E%3Ccircle cx='58' cy='56' r='6'/%3E%3Ccircle cx='36' cy='72' r='6'/%3E%3Ccircle cx='14' cy='88' r='6'/%3E%3Ccircle cx='80' cy='104' r='6'/%3E%3Ccircle cx='58' cy='120' r='6'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 104px 128px repeat;
+  -webkit-mask-image: radial-gradient(ellipse 48% 46% at 50% 54%, #000 18%, transparent 74%);
+  mask-image: radial-gradient(ellipse 48% 46% at 50% 54%, #000 18%, transparent 74%);
+}
+html[data-theme='light'] .mm.lp .lp-shelf::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='128'%3E%3Cdefs%3E%3Cpattern id='p' x='3' width='22' height='16' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='11' cy='8' r='5.5' fill='none' stroke='rgb(23 21 15/.08)' stroke-width='1.25'/%3E%3C/pattern%3E%3C/defs%3E%3Crect x='3' width='88' height='128' fill='url(%23p)'/%3E%3Cg fill='rgb(23 21 15/.13)'%3E%3Ccircle cx='36' cy='8' r='6'/%3E%3Ccircle cx='80' cy='24' r='6'/%3E%3Ccircle cx='14' cy='40' r='6'/%3E%3Ccircle cx='58' cy='56' r='6'/%3E%3Ccircle cx='36' cy='72' r='6'/%3E%3Ccircle cx='14' cy='88' r='6'/%3E%3Ccircle cx='80' cy='104' r='6'/%3E%3Ccircle cx='58' cy='120' r='6'/%3E%3C/g%3E%3C/svg%3E"); }
+@media (prefers-contrast: more) { .mm.lp .lp-shelf::after { display: none; } }

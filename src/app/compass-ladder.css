@@ -6,7 +6,7 @@
 .cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
 .cl__group button:hover { color: var(--ink); border-color: var(--ink-3); }
 .cl__group button[aria-pressed='true'] { background: var(--volt); border-color: transparent; color: var(--volt-ink); }
-/* Day (R3-D1, LK101): never a volt slab on cream. A selected group is raised paper with a 1.5 px #526700 rim, ink words and a
+/* Day (R3-D1, LK101): never a volt slab on cream. A selected group is raised paper with a 1.5 px rim (--sel-rim: ink at 70%, the app MmSelection, R4 LK118), ink words and a
    small volt tick on its corner; hover is the pale volt state wash. Night keeps the volt fill with dark ink. */
 html[data-theme='light'] .cl__group button { position: relative; }
 html[data-theme='light'] .cl__group button[aria-pressed='true'] { background: var(--paper-raised); border-color: var(--sel-rim); box-shadow: inset 0 0 0 0.5px var(--sel-rim); color: var(--ink); }

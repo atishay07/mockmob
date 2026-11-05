@@ -121,6 +121,9 @@
 .kc-demo__pips li { width: 7px; height: 7px; border-radius: 50%; background: rgb(var(--tint, 244 240 230) / 0.2); transition: background-color 200ms ease, transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
 .kc-demo__pips li[data-state='done'] { background: var(--ink-3); }
 .kc-demo__pips li[data-state='now'] { background: var(--brand-word); transform: scale(1.35); }
+/* Day (R4 LK118): a filled mark is volt in both themes with the app's olive 55% rim (mm_colors markFill, LetterBubble). */
+html[data-theme='light'] .kc-demo__pips li[data-state='now'] { position: relative; background: transparent; }
+html[data-theme='light'] .kc-demo__pips li[data-state='now']::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--volt); box-shadow: 0 0 0 1px var(--tick-rim); }
 
 /* Keys: "Turn over" first; after the turn the app's three rating keys fade in, each saying when the card comes back. */
 .kc-demo__keys { display: grid; min-height: 62px; align-items: start; }
@@ -137,11 +140,11 @@
 .kc-demo__rate-when { max-width: 100%; font: 500 0.75rem/1.25 var(--font-body); color: var(--ink-2); text-align: center; text-wrap: balance; }
 .kc-demo__rate[data-rating='3'] {
   background: var(--volt); color: var(--volt-ink); border-color: transparent;
-  box-shadow: inset 0 0 0 1px rgba(82, 103, 0, 0.28), 0 3px 0 var(--volt-edge); transform: translateY(-1px);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 3px 0 var(--volt-edge); transform: translateY(-1px);
 }
 .kc-demo__rate[data-rating='3'] .kc-demo__rate-when { color: rgb(16 20 14 / 0.78); }
 .kc-demo__rate:active:not(:disabled) { transform: scale(0.97); }
-.kc-demo__rate[data-rating='3']:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgba(82, 103, 0, 0.28), 0 0 0 var(--volt-edge); }
+.kc-demo__rate[data-rating='3']:active:not(:disabled) { transform: translateY(2px); box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 0 0 var(--volt-edge); }
 .kc-demo__rate:disabled { cursor: default; }
 .kc-demo__rate:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; }
 @media (hover: hover) {
@@ -160,13 +163,32 @@
 .kc-foot__free { margin: 0; max-width: 40ch; font: 400 0.9375rem/1.5 var(--font-body); color: var(--ink-2); }
 .kc-foot .mm-btn { margin-top: 0.5rem; }
 
+/* ---------- Round 4 (R4-H5, owner LK127, 6 Nov 2026): tighter on phones, larger on desktop ----------
+   Phones: one 20 px step between the head, the demo and the foot (it was 28-40 px), the dots closer to the card and the key,
+   the foot's lines closer together; nothing removed. Desktop: the demo is the section's large right half (36 rem), the card
+   taller, the head and the foot on the left. */
+@media (max-width: 760px) {
+  .lp-kc__grid { gap: 1.25rem; }
+  .kc-demo__top { margin-bottom: 0.625rem; }
+  .kc-demo__pips { margin: 0.75rem 0 0.625rem; }
+  .kc-foot { gap: 0.5rem; }
+  .kc-foot .mm-btn { margin-top: 0.25rem; }
+}
+@media (min-width: 1100px) {
+  .lp-kc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 31rem); column-gap: clamp(3rem, 6vw, 8rem); row-gap: 2rem; }
+  .lp-kc__grid > .kc-demo { max-width: 36rem; }
+  .kc-demo__face { min-height: 25rem; }
+  .lp-kc__grid > .kc-foot { align-self: start; }
+}
+@media (min-width: 1440px) { .lp-kc__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 36rem); } }
+
 /* ---------- Day: the same roles on the cream tokens ---------- */
 html[data-theme='light'] .kc-demo__face--front { --kc-light: var(--kc-light-d, #efe9dc); }
 html[data-theme='light'] :is(.kc-demo__face--back, .kc-demo__face--end) { background: var(--paper-raised); }
 html[data-theme='light'] .kc-demo__glass {
   background: linear-gradient(180deg, rgba(255, 253, 248, 0.8) 49%, rgba(243, 239, 230, 0.8));
-  border-color: rgba(27, 25, 20, 0.08);
-  box-shadow: 0 4px 24px rgba(27, 25, 20, 0.08), inset 0 1px 0 #fff;
+  border-color: var(--line);
+  box-shadow: 0 4px 24px rgba(42, 32, 16, 0.08), inset 0 1px 0 #fff;
 }
 
 /* ---------- reduced motion (the device or the site's own switch): the card fades between its faces, nothing moves ---------- */

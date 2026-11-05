@@ -9,7 +9,11 @@ export const STATEMENT_HOLD = '(max-width: 760px) and (min-height: 700px), (min-
 
 const ENDS = /[.,;:!?]$/;
 
-/** [{ text, accent, clause, offset }] for every word, with its clause (0-based) and its place in the clause. */
+// The brand's own name is the one word that is green from the first frame (owner LK125, 6 Nov 2026: "MockMob is not
+// green inherently. It turns green after scrolling so it's looking very weird"): it never waits for its clause.
+export const BRAND_WORD = 'MockMob';
+
+/** [{ text, accent, brand, clause, offset }] for every word, with its clause (0-based) and its place in the clause. */
 export function statementWords(text, steps = STATEMENT_STEPS) {
   const words = String(text).trim().split(/\s+/).filter(Boolean);
   let groups = [[]];
@@ -32,5 +36,8 @@ export function statementWords(text, steps = STATEMENT_STEPS) {
   }
   const info = new Array(words.length);
   groups.forEach((group, clause) => group.forEach((index, offset) => { info[index] = { clause, offset }; }));
-  return words.map((word, i) => ({ text: word.replace(/\*/g, ''), accent: word.startsWith('*'), ...info[i] }));
+  return words.map((word, i) => {
+    const text = word.replace(/\*/g, '');
+    return { text, accent: word.startsWith('*'), brand: text.replace(/[.,;:!?]+$/, '') === BRAND_WORD, ...info[i] };
+  });
 }
