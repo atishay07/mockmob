@@ -4,9 +4,9 @@
    anticipation and springs on press. Transform, opacity and box-shadow only.
    ========================================================================== */
 
-/* Sliding pill behind the five links (desktop; below 1024px the links live in the menu) */
+/* Sliding pill behind the five links (desktop; below 1120px the links live in the menu) */
 .mm-nav__pill { display: none; }
-@media (min-width: 1024px) {
+@media (min-width: 1120px) {
   .mm-nav__links { position: relative; isolation: isolate; --ni-x: 0px; --ni-w: 0px; --ni-on: 0; }
   .mm-nav__pill {
     display: block; position: absolute; z-index: -1; left: 0; top: 50%; height: 40px; margin-top: -20px;

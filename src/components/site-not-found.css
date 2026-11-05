@@ -6,3 +6,9 @@
 .snf__main { flex: 1; width: 100%; max-width: 680px; margin: 0 auto; padding: clamp(28px, 10vh, 112px) clamp(16px, 4vw, 40px) 56px; }
 .snf__main:focus { outline: none; }
 .app-shell.snf .student-page { padding: 0; }
+/* Night 1105: the headline, its two-line lede and the keys keep one rhythm (the keys sat 16 px under the lede), and the
+   lede breaks evenly. The keys are 48 px tall, the public pages' size. */
+.app-shell.snf .pr-head h1 { text-wrap: balance; }
+.app-shell.snf .pr-head p { margin-top: 12px; text-wrap: pretty; }
+.app-shell.snf .snf__actions { margin: 28px 0 0; gap: 12px; }
+.app-shell.snf .snf__actions .ui-state__action { min-height: 48px; margin-top: 0; padding-inline: 20px; font-size: 15px; }

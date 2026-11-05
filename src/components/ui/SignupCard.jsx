@@ -227,7 +227,7 @@ export function SignupCard({ mode = 'signup' }) {
 
       <p className="auth-card__switch">
         {isLogin ? 'New here?' : 'Already have an account?'}{' '}
-        <Link href={isLogin ? '/signup' : '/login'}>{isLogin ? 'Create an account' : 'Log in'}</Link>
+        <Link href={isLogin ? '/signup' : '/login'}>{isLogin ? 'Sign up free' : 'Log in'}</Link>
       </p>
       <p className="auth-card__fine">{isLogin ? 'Your email is how you sign in.' : 'Your email is how you sign in, and you stay signed in on this device until you sign out.'}</p>
     </div>

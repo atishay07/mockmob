@@ -149,9 +149,10 @@ test('perf: between acts the rig runs no frame loop; he breathes and blinks in C
   assert.match(FIGURE_CSS, /@media \(prefers-reduced-motion: no-preference\) \{\n\s+:root:not\(\[data-motion='reduced'\]\) \.mobi-react\[data-idle='css'\]\[data-live='true'\]:not\(\[data-acting\]\) \.mobi-react__look/);
 });
 
-test('decision 15: one volt key per viewport: the bar\'s Start free is the raised-paper secondary', () => {
+test('decision 15: one volt key per viewport: the bar\'s Sign up free is the raised-paper secondary', () => {
   const nav = read('../NavBar.jsx');
-  assert.match(nav, /<Link href="\/signup" className="mm-btn mm-btn--secondary mm-nav__cta">\s*Start free\s*<\/Link>/);
+  // The label is the home page's (LK83/LK88, night 1105 R2-B; it said Start free before). The rule pinned here is unchanged.
+  assert.match(nav, /<Link href="\/signup" className="mm-btn mm-btn--secondary mm-nav__cta">\s*Sign up free\s*<\/Link>/);
   assert.doesNotMatch(nav, /mm-nav__cta[^"]*mm-btn--primary|mm-btn--primary[^"]*mm-nav__cta/);
   assert.match(read('../LandingActions.jsx'), /className=\{heroKey\}/, 'the hero key steps down once the sample is answered');
   assert.match(read('./DemoDrill.jsx'), /<button type="button" className="mm-btn mm-btn--primary" onClick=\{next\}>/, 'then the sample\'s own key is the one volt');

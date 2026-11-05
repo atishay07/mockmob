@@ -2,7 +2,7 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
+import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { absoluteUrl, breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
@@ -47,7 +47,7 @@ export default async function CuetSubjectsPage() {
         }}
       />
       <NavBar />
-      <main>
+      <main id="main-content">
         <article>
           <header className="mm-article__head">
             <div className="mm-wrap mm-wrap--tight">
@@ -91,7 +91,7 @@ export default async function CuetSubjectsPage() {
         </article>
       </main>
       <MarketingFooter />
-      <MobileDock note={FIRST_FULL_FREE ? 'Your first mock in each subject is free.' : 'Practise tonight.'} />
+      <PublicDock note={FIRST_FULL_FREE ? 'Your first mock in each subject is free.' : null} />
     </div>
   );
 }

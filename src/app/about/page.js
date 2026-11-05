@@ -2,7 +2,7 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
+import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 import { PublicHeroArt, PUBLIC_HERO_CSS } from '@/components/landing/PublicHeroArt';
@@ -45,7 +45,7 @@ export default function AboutPage() {
       />
       <NavBar />
 
-      <main>
+      <main id="main-content">
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight pub-hero">
             <div>
@@ -80,14 +80,14 @@ export default function AboutPage() {
             <p className="mm-body" style={{ marginTop: '1rem' }}>
               Payments are processed by Razorpay, and our refund policy is written in plain
               language on the{' '}
-              <Link href="/refunds" className="mm-link">
+              <Link href="/refunds" className="mm-link mm-link--inline">
                 refunds page
               </Link>
               .
             </p>
             <div className="mm-actions" style={{ marginTop: '2rem' }}>
               <Link href="/signup" className="mm-btn mm-btn--primary">
-                Start a free mock
+                Sign up free
               </Link>
               <Link href="/contact" className="mm-btn mm-btn--secondary">
                 Talk to us
@@ -98,7 +98,7 @@ export default function AboutPage() {
       </main>
 
       <MarketingFooter />
-      <MobileDock note="One exam. Done properly." />
+      <PublicDock />
       <style>{PUBLIC_HERO_CSS}</style>
     </div>
   );

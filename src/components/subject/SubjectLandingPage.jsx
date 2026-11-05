@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { MessageCircleQuestion, RefreshCw, ScanSearch, Users, Wrench } from 'lucide-react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
+import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
+import { keepTogether } from '@/lib/keepTogether.mjs';
 import {
   FIRST_FULL_FREE, PAPER, STREAMS, bankLine, commonFaqs, fmt, freshLine, paperCode, primaryAction, syllabusChapterCount,
 } from '@/lib/subjectPages.mjs';
@@ -15,7 +16,8 @@ import './subject-page.css';
 // A public CUET subject page (/cuet/<slug>). Read-mode, like the other guides (SeoContentPage), but built around the
 // paper itself: the paper's facts first, then what CUET asks (the 2026 syllabus with the live bank's counts per unit),
 // then how MockMob turns practice into marks, then the questions students ask. One action: the free first mock.
-// Every number comes from src/lib/subjectPages.mjs; an unknown count is left out, never shown as 0.
+// Every number comes from src/lib/subjectPages.mjs; an unknown count is left out, never shown as 0. Drawn copy goes through
+// keepTogether, so "CUET UG 2026" never parts at a line end (night 1105); the JSON-LD keeps plain spaces.
 export function SubjectLandingPage({ hub, units, bank, others }) {
   const name = hub.name;
   const code = paperCode(hub);
@@ -83,8 +85,8 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
                 <span aria-hidden="true">/</span>
                 <span>{name}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title">{hub.h1}</h1>
-              <p className="mm-article__intro">{hub.intro}</p>
+              <h1 className="mm-h1 mm-article__title">{keepTogether(hub.h1)}</h1>
+              <p className="mm-article__intro">{keepTogether(hub.intro)}</p>
               <div className="mm-article__go sj-go">
                 <Link href="/signup" className="mm-btn mm-btn--primary">{action}</Link>
                 <a href="#syllabus" className="sj-go__link">See the syllabus</a>
@@ -117,9 +119,9 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
             <section className="mm-article__section" id="syllabus" aria-labelledby="syllabus-title">
               <h2 className="mm-h2" id="syllabus-title">What CUET asks in {hub.inName || name}</h2>
               <p>
-                {units.length} unit{units.length === 1 ? '' : 's'} and {chapterTotal} chapters, from NTA’s CUET UG 2026 syllabus, the latest published.
+                {units.length} unit{units.length === 1 ? '' : 's'} and {chapterTotal} chapters, from NTA’s {keepTogether('CUET UG 2026')} syllabus, the latest published.
                 NTA has not released the 2027 list yet.
-                {hub.syllabusNote ? ` ${hub.syllabusNote}` : ''}
+                {hub.syllabusNote ? ` ${keepTogether(hub.syllabusNote)}` : ''}
                 {bank?.units ? ' With each unit: how many questions the live bank holds for it.' : ''}
               </p>
               <ol className="sj-units">
@@ -147,8 +149,8 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
             </section>
 
             <section className="mm-article__section">
-              <h2 className="mm-h2">{hub.essay.heading}</h2>
-              {hub.essay.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <h2 className="mm-h2">{keepTogether(hub.essay.heading)}</h2>
+              {hub.essay.body.map((paragraph) => <p key={paragraph}>{keepTogether(paragraph)}</p>)}
             </section>
 
             <section className="mm-article__section" aria-labelledby="helps-title">
@@ -159,7 +161,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
                     <span className="sj-help__icon" aria-hidden="true"><Icon size={20} strokeWidth={1.8} /></span>
                     <div>
                       <h3 className="sj-help__title">{title}</h3>
-                      <p className="sj-help__body">{body}</p>
+                      <p className="sj-help__body">{keepTogether(body)}</p>
                       {href ? <Link href={href} className="sj-help__link">{link}</Link> : null}
                     </div>
                   </li>
@@ -172,8 +174,8 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
               <div className="mm-faqs">
                 {faqs.map((faq) => (
                   <details key={faq.question} className="mm-faq">
-                    <summary>{faq.question}</summary>
-                    <div className="mm-faq__body">{faq.answer}</div>
+                    <summary>{keepTogether(faq.question)}</summary>
+                    <div className="mm-faq__body">{keepTogether(faq.answer)}</div>
                   </details>
                 ))}
               </div>
@@ -212,7 +214,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
       </main>
 
       <MarketingFooter />
-      <MobileDock note={FIRST_FULL_FREE ? `Your first ${name} mock is free.` : `Practise ${name} tonight.`} />
+      <PublicDock note={FIRST_FULL_FREE ? `Your first ${name} mock is free.` : null} />
     </div>
   );
 }

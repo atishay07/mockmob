@@ -89,7 +89,7 @@ html[data-theme='light'] .lp :is(.du-stat strong, .du-sum__count, .du-count, .du
 /* Product stills and the footer retain legible ink on their deliberate dark surfaces. */
 html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f4f0e6; --ink-2: #cfc8b9; --ink-3: #a29b8c; --line: rgba(244, 240, 230, 0.09); --line-strong: rgba(244, 240, 230, 0.16);
   --accent-text: var(--ink); --accent-line: var(--line-strong); --accent-wash: transparent; --tint: 244 240 230; --surface-hover: #211f1a; --edge-light: rgba(244, 240, 230, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
-@media (min-width: 1024px) and (max-width: 1150px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
+@media (min-width: 1120px) and (max-width: 1199px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after { transition: none !important; } }
 html[data-motion='reduced'] :is(.mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after) { transition: none !important; }
 
