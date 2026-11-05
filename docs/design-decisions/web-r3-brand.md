@@ -91,6 +91,34 @@ pool is mostly one repeated template, and the 2025 paper asked none.
   brand-word roles, the screens' volt, the creator cards and their OMR texture, the voice, and the Accountancy note.
 - Also fixed: the onboarding radio dot grew from `scale(0)` (failing `motion-pass-1016e`, pre-existing); it now comes in from 0.6.
 
-## Verification
+## Verification (what was actually exercised)
 
-See the report section at the end (filled after the after-scan).
+- Dev server (`next dev --webpack`, port 3571, no Supabase env: `/api/stats` answers 503, so live counts were not exercised), real
+  Chrome headless under the shared lock. Frames in `tmp/r3/brand/shots/` (v1 before the OMR fix, v2, v3, v3wall, click-*):
+  390x844 and 1440x900 Night and Day for the hero, statement, Lab, tour, Recovery, Compass, DU, Instagram and close; 360x640 and
+  1024x768 for the stamped heads and controls; `/preview/wall` for the volt avatars (the home section is hidden: no consented voices).
+- A real touch tap on a Compass group at 390: Day computes raised `rgb(255, 253, 248)`, rim `rgb(82, 103, 0)`, ink, tick
+  `rgb(210, 240, 0)`; Night computes the volt fill with dark ink; `elementFromPoint` returns the button (nothing covers it).
+- The phone statement lights "MockMob" with its clause in both themes; Day computes `#526700`.
+- The daygreen scan (`tmp-night/r3-research/daygreen/scan-daygreen.cjs` + `analyze.py`, copied to `tmp/r3/brand/daygreen/`, plus
+  `summarize.py`) against this dev server, Day forced, before (main 83925b982) and after:
+
+| | 390 before | 390 after | 1440 before | 1440 after |
+|---|---|---|---|---|
+| --brand-word / --focus-ring | #3f5200 / #4f6400 | #526700 / #526700 | same | same |
+| #3F5200 text, px² | 37,707 | 0 | 79,225 | 0 |
+| #526700 text and marks, px² | 14,248 | 113,310 | 36,790 | 191,384 |
+| green-black shadow area, px² | 448,746 | 0 | 1,043,683 | 0 |
+| key lip #9DB400 / #8BA000, px² | 30,599 / 0 | 1,190 / 28,258 | 14,452 / 0 | 3,223 / 12,679 |
+| volt slabs on cream (viewports) | 25 (24/41) | 17 (19/41) | 47 (35/35) | 41 (35/35) |
+| of which selected states | 8 (rail 4, groups 3, chip 1) | 0 | 8 | 0 |
+| green pixels, share of shot | 2.55% | 2.91% | 1.10% | 1.36% |
+| olive (mid + deep) share of green | 18% | 27% | 25% | 32% |
+
+  The volt objects left on cream are the action keys (allowed: the fill), the small selection tick, the exam screen's submit
+  (`xs-submit`, the exam packet's), the nav's "New" pill (`src/components/new-tag.css`, not this packet's; 33 viewports at 1440)
+  and two false positives on dark surfaces (a tour reply chip, the footer's IG mark).
+- Tests: the landing suites (296: 274 pass, 10 skipped bench tests that need a running browser bench, 0 fail), the
+  brand_r3 suite (15 pass), and the other suites that read the touched files (199 pass). ESLint clean on the changed JS.
+- Not verified: a real phone; Lighthouse or performance; the onboarding screen itself in a browser (it needs a signed-in session;
+  the note is pinned by test only); the Key cards stamp (that section is another packet's).
