@@ -96,7 +96,7 @@ html[data-theme='light'] .xs-device {
 .xs-phone__keys { position: absolute; top: 108px; left: -3.5px; width: 2.5px; height: 84px; border-radius: 2px 0 0 2px; background: var(--xs-stand); }
 .xs-phone__glass {
   position: relative;
-  height: 616px;
+  height: 640px;
   overflow: hidden;
   isolation: isolate;
   border-radius: 29px 29px 29px 29px / 20px 20px 29px 29px;

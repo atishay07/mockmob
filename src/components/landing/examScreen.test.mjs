@@ -198,7 +198,7 @@ test('motion is opacity and transform only, and Reduce motion keeps it still', (
 test('the section is short: a head of at most 20 words, the size budgets are stated, and the old rules are not reused', () => {
   assert.ok(wordCount(EXAM_HEAD.sub) <= 20);
   // D6 made the section shorter than the 4 Nov budgets (930 at 390, 760 at 1440). R3-D6 trades the 4 px miniature for a
-  // phone-native screen, which is taller at 390 (1,007 px measured 5 Nov); 1440 keeps D6's monitor and budget.
+  // phone-native screen, which is taller at 390 (1,031 px measured 5 Nov); 1440 keeps D6's monitor and budget.
   assert.match(CSS, /at most: 1,060 px of section at 390 and 1,100 px\s+at 360 \(the phone, R3-D6\), 720 px at 1440/);
   assert.doesNotMatch(JSX, /lp-exam/, 'the old NTA clone\'s classes are gone from the new component');
   assert.match(JSX, /id="exam-experience"/, 'the hero link and the dashboard\'s preview link still land here');

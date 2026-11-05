@@ -310,7 +310,7 @@ html[data-theme='light'] .xs-p-scrim { background: rgba(27, 25, 20, .32); }
 .xs-frame--phone .xs-counters strong { font-size: 18px; }
 .xs-frame--phone .xs-counters span { font-size: 12px; }
 .xs-frame--phone .xs-grid { gap: 8px; margin: 12px 0; }
-.xs-frame--phone .xs-chip { min-height: 44px; border-radius: 12px; font-size: 15px; }
+.xs-frame--phone .xs-chip { min-height: 44px; border-radius: 12px; font: 700 15px/1 var(--font-display); font-variant-numeric: tabular-nums; } /* the live chips are buttons: one weight for all fifteen */
 .xs-frame--phone .xs-chip:is([data-state='marked'], [data-state='marked-answered']) { width: 44px; border-radius: 50%; }
 .xs-frame--phone .xs-legend { gap: 8px 12px; }
 .xs-frame--phone .xs-legend li { gap: 8px; font-size: 12px; }
