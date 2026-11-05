@@ -25,8 +25,6 @@
   --pro-bar: rgba(23, 32, 22, 0.16);
   --pro-smart-bar: var(--accent-text, #526700);
   --pro-col: rgba(190, 220, 0, 0.16);
-  --pro-plan-bg: linear-gradient(180deg, #fffdf5, #f5f1e3);
-  --pro-plan-line: #e0d9c4;
 }
 html[data-theme='dark'] .mm-pro {
   --pro-card: #151b17;
@@ -44,8 +42,6 @@ html[data-theme='dark'] .mm-pro {
   --pro-bar: rgba(244, 245, 240, 0.2);
   --pro-smart-bar: var(--volt);
   --pro-col: rgba(210, 240, 0, 0.07);
-  --pro-plan-bg: linear-gradient(180deg, #262116, #171914);
-  --pro-plan-line: #3a3a2a;
 }
 
 .mm-pro .pro-wrap { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: max(var(--gutter, 1rem), env(safe-area-inset-left)); }
@@ -215,9 +211,9 @@ html[data-theme='dark'] .mm-pro {
 .mm-pro .pro-also__tile[data-wide] { grid-column: 1 / -1; grid-template-columns: 6rem minmax(0, 1fr); align-items: center; gap: 1rem; }
 .mm-pro .pro-also__tile[data-wide] .pro-also__art { width: 6rem; height: auto; border-radius: 8px; }
 
-/* ---- Free and Pro, side by side, and the plan ------------------------------------------------------------------------------ */
-.mm-pro .pro-sec--plan { padding-top: 1rem; }
-.mm-pro .pro-plan__grid { display: grid; gap: 1.5rem; }
+/* ---- Free and Pro, side by side (the table) ---------------------------------------------------------------------------- */
+.mm-pro .pro-cmp__grid { display: grid; gap: 0.25rem; }
+.mm-pro .pro-cmp__line { margin: 0 0 1.25rem; max-width: 40ch; font-size: 1.0625rem; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
 .mm-pro .pro-cmp { min-width: 0; }
 .mm-pro .pro-cmp__table {
   width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed;
@@ -234,26 +230,34 @@ html[data-theme='dark'] .mm-pro {
 .mm-pro .pro-cmp__dash { display: inline-block; vertical-align: middle; width: 16px; height: 2px; border-radius: 1px; background: var(--ink-3); }
 .mm-pro .pro-cmp__word { font-weight: 700; color: var(--ink); }
 
-.mm-pro .pro-plan { min-width: 0; scroll-margin-top: 5rem; }
-.mm-pro .pro-plan__card {
-  display: grid; padding: 1.375rem 1.375rem 1.25rem; border-radius: 28px;
-  background: var(--pro-plan-bg); border: 1px solid var(--pro-plan-line); box-shadow: inset 0 2px 0 var(--volt-edge);
+/* ---- Free or Pro: the last section (R4, owner LK134) ------------------------------------------------------------------------
+   Two plans on two stages (src/components/pricing/plan-stage.css): Free's card under a quiet "Free", Pro's glass card under the
+   big "Pro" exactly as on the home page, with the one checkout. Side by side from 960 px, Free first; stacked on phones. */
+.mm-pro .pro-choice__head { display: grid; gap: 0.25rem; }
+.mm-pro .pro-choice__head .pro-h2 { margin-bottom: 0; }
+.mm-pro .pro-choice__line { margin: 0; max-width: 40ch; font-size: 1.0625rem; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+/* 20 px under the line, so the big "Free" never touches it on a phone (R4 review). */
+.mm-pro .pro-choice__grid { display: grid; gap: 1.5rem; margin-top: 1.25rem; }
+.mm-pro .pro-plan { scroll-margin-top: 4rem; }
+/* Free's card: the plan card's own shape and measure, on solid paper (only Pro is glass). */
+.mm-pro .pro-choice__free .mm-plan { border-radius: 28px; padding: 1.25rem 1.25rem 1.375rem; box-shadow: 0 4px 24px rgba(27, 25, 20, 0.06); }
+html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--pro-card); border-color: var(--pro-card-line); box-shadow: 0 4px 24px rgba(0, 0, 0, 0.28); }
+/* On a phone each of Free's terms reads as a label over its words, never a narrow column of a long sentence. */
+@media (max-width: 519px) {
+  .mm-pro .pro-choice__free .mm-plan__terms > div { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  .mm-pro .pro-choice__free .mm-plan__terms dd { font-weight: 500; color: var(--ink-2); }
 }
-html[data-theme='dark'] .mm-pro .pro-plan__card { box-shadow: inset 0 2px 0 rgba(210, 240, 0, 0.6); }
-.mm-pro .pro-plan__title { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.25; color: var(--ink); }
-.mm-pro .pro-plan__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem; margin: 0.375rem 0 0; }
-.mm-pro .pro-plan__fig { font-family: var(--font-display); font-weight: 800; font-size: clamp(3rem, 13vw, 3.75rem); line-height: 1; letter-spacing: -0.035em; color: var(--ink); font-variant-numeric: tabular-nums; }
-.mm-pro .pro-plan__cycle { font-size: 1.1875rem; color: var(--ink-2); white-space: nowrap; }
-.mm-pro .pro-plan__renew { margin: 0.625rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
-.mm-pro .pro-plan__soon { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); }
-.mm-pro .pro-plan__go { margin-top: 1.25rem; }
+/* How Free works folds under Free's card at every width (it no longer has a column of its own). */
+.mm-pro .pro-choice__free .mm-plans__fold { display: block; margin-top: 0.75rem; padding-inline: 0.25rem; }
+.mm-pro .pro-plan__go { margin-top: 1.5rem; }
 .mm-pro .pro-plan__go .mm-plan__cta, .mm-pro .pro-plan__go .mm-checkout { margin: 0; }
 .mm-pro .pro-plan__go .mm-checkout__submit { width: 100%; min-height: 56px; font-size: 1.0625rem; }
 .mm-pro .pro-plan__manage { margin-top: 1.25rem; width: 100%; }
 
 /* ---- Wider screens --------------------------------------------------------------------------------------------------------- */
 @media (min-width: 600px) and (max-width: 959px) {
-  .mm-pro .pro-shows, .mm-pro .pro-also, .mm-pro .pro-plan__grid, .mm-pro .pro-sec .pro-h2 { max-width: 36rem; margin-inline: auto; }
+  .mm-pro .pro-shows, .mm-pro .pro-also, .mm-pro .pro-cmp__grid, .mm-pro .pro-choice__grid, .mm-pro .pro-sec .pro-h2,
+  .mm-pro .pro-choice__line { max-width: 36rem; margin-inline: auto; }
 }
 @media (min-width: 960px) {
   .mm-pro { --pro-u: 1.4px; }
@@ -276,9 +280,13 @@ html[data-theme='dark'] .mm-pro .pro-plan__card { box-shadow: inset 0 2px 0 rgba
   .mm-pro .pro-also:not(:has([data-wide])) .pro-also__tile { grid-template-columns: 4.5rem minmax(0, 1fr); align-items: center; gap: 1.25rem; padding: 1.25rem 1.5rem; }
   .mm-pro .pro-also__tile[data-wide] { grid-column: auto; grid-template-columns: none; align-items: start; gap: 0.625rem; }
   .mm-pro .pro-also__tile[data-wide] .pro-also__art { width: auto; height: 64px; }
-  .mm-pro .pro-plan__grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr); column-gap: 3rem; align-items: start; }
-  .mm-pro .pro-plan { position: sticky; top: 6rem; margin-top: 3.5rem; }
-  .mm-pro .pro-plan__card { padding: 1.75rem; }
+  /* The table beside its heading; the two plans side by side, Free first. */
+  .mm-pro .pro-cmp__grid { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.5fr); column-gap: clamp(2.5rem, 5vw, 5rem); align-items: start; }
+  .mm-pro .pro-cmp__head { position: sticky; top: 6rem; }
+  .mm-pro .pro-choice__grid { grid-template-columns: repeat(2, minmax(0, 30rem)); justify-content: center; column-gap: clamp(2rem, 4vw, 4rem); align-items: start; }
+  .mm-pro .pro-choice__head { justify-items: center; text-align: center; }
+  .mm-pro .pro-choice__line { max-width: none; }
+  .mm-pro .pro-choice__free .mm-plan { padding: 1.375rem 1.75rem 1.5rem; }
 }
 
 /* ---- Motion ---------------------------------------------------------------------------------------------------------------- */
@@ -307,5 +315,5 @@ html[data-theme='dark'] .mm-pro .pro-plan__card { box-shadow: inset 0 2px 0 rgba
   .mm-pro .pro-also__tile[data-wide] { grid-template-columns: 4rem minmax(0, 1fr); }
 }
 @media (min-width: 960px) {
-  .mm-pro .pro-sec + .pro-sec--plan { padding-top: 1.5rem; }
+  .mm-pro .pro-sec + .pro-sec--compare { padding-top: 1.5rem; }
 }

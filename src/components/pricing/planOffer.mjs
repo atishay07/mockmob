@@ -14,6 +14,17 @@ export const PLAN_COPY = Object.freeze({
   compare: 'Free and Pro, side by side',
 });
 
+/**
+ * The line under /pricing's last heading, "Free or Pro" (R4, owner LK134). "Unlimited mocks" is Pro's promise only on the
+ * current offer (Full mock and Quick practice unlimited on Pro); the new recovery offer promises unlimited available practice
+ * and reattempts (homeCopy proPlan), so it says that instead. Fix stage of R4 pricing, after review.
+ */
+export function choiceLine({ newOffer = false } = {}) {
+  return newOffer
+    ? 'Start on Free, no card needed. Go Pro for unlimited practice and reattempts.'
+    : 'Start on Free, no card needed. Go Pro for unlimited mocks.';
+}
+
 /** The plan card's one line of terms, the dock's note and, while only one-time access is on sale, the monthly line. */
 export function planTerms(offer) {
   return offer.purchasable === 'monthly'

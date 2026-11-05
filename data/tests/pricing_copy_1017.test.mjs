@@ -54,13 +54,15 @@ test('W-097: pricing leads with Rs 99 a month and gives each plan its renewal, c
   // v16 (owner, 20 Oct 11:20 pm): /pricing is rebuilt as the app's Pro page; the Free card keeps its terms; Pro's renewal is the plan card's one line.
   assert.equal((pricing.match(/\['Renewal'/g) || []).length, 1);
   assert.equal((pricing.match(/\['Credits'/g) || []).length, 1);
-  // R3-D8 (5 Nov 2026): the plan card moved, unchanged, into the shared PlanCard (the home page's #pricing draws the same one).
-  assert.match(pricing, /<PlanCard offer=\{offer\} titleId="pro-price">/);
+  // R3-D8 (5 Nov 2026): the plan card moved into the shared PlanCard (the home page's #pricing draws the same one); R4 (LK134):
+  // on /pricing it is the home page's glass card too, an h3 under the last section's "Free or Pro".
+  assert.match(pricing, /<PlanCard offer=\{offer\} titleAs="h3" titleId="pro-price" className="plan-glass"/);
   const card = read('src/components/pricing/PlanCard.jsx');
   assert.match(card, /<p className="pro-plan__renew">\{terms\.renew\}<\/p>/);
   assert.match(card, /const tag = priceTag\(offer\);/, 'the card says what is charged today');
   assert.match(pricing, /mm-plans__fold/, 'phones get How Free works as a folded block');
-  for (const src of [pricing, card, read('src/components/pricing/planOffer.mjs'), read('src/components/landing/HomePricing.jsx'), read('src/components/landing/PriceCompare.jsx')]) {
+  // R4-H7 (LK132): the dated rival comparison (PriceCompare.jsx) is gone, so it is no longer in this list.
+  for (const src of [pricing, card, read('src/components/pricing/planOffer.mjs'), read('src/components/landing/HomePricing.jsx'), read('src/components/landing/PlanValue.jsx')]) {
     assert.doesNotMatch(src, /originalPrice|<s>|countdown|only \d+ left/i);
   }
 });

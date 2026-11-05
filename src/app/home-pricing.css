@@ -1,112 +1,31 @@
 /* ==========================================================================
-   THE HOME PAGE'S #pricing (R3-D7, R3-D8; owner LK107, LK109-LK112, 5 Nov 2026; HomePricing.jsx)
-   The /pricing page's one plan as a glass card over a big "Pro" (the owner's explicit ask for glass on the plan card, LK112,
-   after Preparoo: a 0.8-alpha warm fill, an 8 px blur on phones and 15 px on wide screens, radius 28, a soft warm shadow and
-   an inset highlight; solid paper under prefers-reduced-transparency), its seal strip from the /pricing art (the answer sheet
-   with its volt rule and marked answers, the foil seal, the "MockMob Pro" label), the plan's lines in groups with the live
-   counts in the brand word colour, Get Pro and the quiet Free line. Beside it from 960 px (under it on phones): what a Full mock
-   comes to at your pace, a segmented control (Night: the selected pace is a volt fill carrying dark ink; Day, R3-D1: paper
-   #FFFDF8 with a 1.5 px #526700 rim, ink text and a small volt tick), and the dated comparison to CUET.
-   Volt only as the key, the selected pace and the seal strip's brand art; every number in the brand word colour reads
-   --brand-word (volt in Night, the Day green in Day). No glow, no gradient text, no sheen; motion only on a change (300 ms).
+   THE HOME PAGE'S #pricing (R3-D7, R3-D8; owner LK107, LK109-LK112; R4-H7, owner LK130-LK132, 5 Nov 2026; HomePricing.jsx)
+   The /pricing page's one plan on its stage (the big "Pro", the glass card, its seal strip and grouped lines: shared with
+   /pricing in src/components/pricing/plan-stage.css), Get Pro and the quiet Free line; beside it from 960 px (under it on
+   phones) what a Full mock comes to at your pace: a segmented control of Full mocks a week (5 / 7 / 14 / 21, each with what it
+   means: 1 per paper, 1 a day, 2 a day, 3 a day), the figure, the catch (a question costs a few paise), the month as an answer
+   sheet (one ring per Full mock, filled to the pace) and the maths. Night: the selected pace is a volt fill carrying dark ink;
+   Day (R3-D1): paper #FFFDF8 with a 1.5 px #526700 rim, ink text and a small volt tick. Numbers that matter and the filled
+   rings read --brand-word (volt in Night, the Day green in Day). The dated rival comparison is gone (R4-H7, LK132).
+   No glow, no gradient text, no sheen; motion only on a change (300 ms at most), none under reduced motion.
    ========================================================================== */
 
 .lp .lp-price {
-  --glass-fill: linear-gradient(180deg, rgba(244, 240, 230, 0.075) 49%, rgba(244, 240, 230, 0.04));
-  --glass-line: rgba(244, 240, 230, 0.12);
-  --glass-hi: rgba(244, 240, 230, 0.1);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
-  --price-word: rgba(244, 240, 230, 0.5);
-  --strip-sheet: #242320;
-  --strip-sheet-line: rgba(244, 245, 240, 0.12);
-  --strip-dot: rgba(244, 245, 240, 0.26);
-  --strip-mark-rim: rgba(0, 0, 0, 0.3);
-  --strip-chip: #1d1c18;
-  --strip-chip-line: rgba(244, 240, 230, 0.18);
   --seg-track: rgba(244, 240, 230, 0.05);
+  --sheet-ring: rgba(244, 240, 230, 0.2);
 }
 html[data-theme='light'] .lp .lp-price {
-  --glass-fill: linear-gradient(180deg, rgba(255, 253, 248, 0.8) 49%, rgba(243, 239, 230, 0.8));
-  --glass-line: rgba(27, 25, 20, 0.08);
-  --glass-hi: #ffffff;
-  --glass-shadow: 0 4px 24px rgba(27, 25, 20, 0.08);
-  --price-word: rgba(27, 25, 20, 0.55);
-  --strip-sheet: #fbfaf5;
-  --strip-sheet-line: #d8d3c5;
-  --strip-dot: rgba(27, 25, 20, 0.26);
-  --strip-mark-rim: rgba(82, 103, 0, 0.55);
-  --strip-chip: #ffffff;
-  --strip-chip-line: #526700;
   --seg-track: rgba(27, 25, 20, 0.04);
+  --sheet-ring: rgba(27, 25, 20, 0.22);
 }
 
 .lp .lp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 /* ---- Layout ---------------------------------------------------------------------------------------------------------------- */
 .lp .lp-price__head { margin-bottom: clamp(0.5rem, 2vw, 1.5rem); }
-.lp .lp-price__grid { display: grid; gap: 2.75rem; }
+.lp .lp-price__grid { display: grid; gap: 2.5rem; }
 .lp .lp-price__stage,
 .lp .lp-price__side { width: 100%; max-width: 30rem; margin-inline: auto; min-width: 0; }
-
-/* The stage: the word "Pro" sits behind the card's top; the card overlaps about a third of it. */
-.lp .lp-price__stage { position: relative; isolation: isolate; padding-top: clamp(2.9rem, 13vw, 4.5rem); }
-.lp .lp-price__word {
-  position: absolute; inset: 0 0 auto; z-index: -1; margin: 0;
-  font-family: var(--font-display); font-weight: 800; font-size: clamp(5.5rem, 27vw, 10rem);
-  line-height: 0.82; letter-spacing: -0.06em; text-align: center; color: var(--price-word);
-  pointer-events: none; user-select: none;
-}
-
-/* ---- The glass card -------------------------------------------------------------------------------------------------------- */
-.lp .lp-plan.pro-plan__card {
-  position: relative; display: grid; padding: 1.125rem 1.25rem 1.25rem; border-radius: 28px;
-  background: var(--glass-fill); border: 1px solid var(--glass-line);
-  -webkit-backdrop-filter: blur(8px) saturate(1.4); backdrop-filter: blur(8px) saturate(1.4);
-  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi);
-}
-@media (prefers-reduced-transparency: reduce) {
-  .lp .lp-plan.pro-plan__card { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
-}
-.lp .lp-plan .pro-plan__title { margin: 0.25rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
-.lp .lp-plan .pro-plan__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5rem; margin: 0.375rem 0 0; }
-.lp .lp-plan .pro-plan__fig { font-family: var(--font-display); font-weight: 800; font-size: clamp(3rem, 13vw, 3.75rem); line-height: 1; letter-spacing: -0.035em; color: var(--ink); font-variant-numeric: tabular-nums; }
-.lp .lp-plan .pro-plan__cycle { font-size: 1.1875rem; color: var(--ink-2); white-space: nowrap; }
-.lp .lp-plan .pro-plan__renew { margin: 0.5rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
-.lp .lp-plan .pro-plan__soon { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); }
-
-/* The seal strip: the /pricing hero art laid flat (ProShowcase.jsx ProSealStrip). */
-.lp .lp-plan .pro-strip { position: relative; height: 104px; margin: 0 -0.25rem 0.5rem; }
-.lp .lp-plan .pro-strip__scene { position: absolute; inset: 0; }
-.lp .lp-plan .pro-strip__sheet {
-  position: absolute; left: 58px; right: 2px; top: 12px; height: 70px; border-radius: 14px;
-  background: var(--strip-sheet); border: 1px solid var(--strip-sheet-line); transform: rotate(-1.5deg);
-  box-shadow: 0 10px 22px rgba(27, 25, 20, 0.12);
-}
-.lp .lp-plan .pro-strip__rule { position: absolute; top: 8px; left: 40px; width: 38%; height: 3px; border-radius: 2px; background: var(--volt); }
-.lp .lp-plan .pro-strip__dots {
-  position: absolute; inset: 20px 10px 9px 40px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-content: space-between; justify-items: center;
-}
-.lp .lp-plan .pro-strip__dots i { display: block; width: 13px; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--strip-dot); }
-.lp .lp-plan .pro-strip__dots i[data-on] { background: var(--volt); border-color: var(--strip-mark-rim); }
-.lp .lp-plan .pro-strip__seal { position: absolute; left: -4px; top: -2px; width: 96px; filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.32)); }
-.lp .lp-plan .pro-strip__seal img { display: block; width: 100%; height: auto; }
-.lp .lp-plan .pro-chip {
-  position: absolute; right: 12px; bottom: 0; margin: 0; display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.3125rem 0.75rem; white-space: nowrap; border-radius: 999px; background: var(--strip-chip); border: 1px solid var(--strip-chip-line);
-  font-family: var(--font-display); font-weight: 650; font-size: 0.875rem; color: var(--ink);
-}
-.lp .lp-plan .pro-chip__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--volt); border: 1px solid var(--strip-mark-rim); }
-
-/* The plan's lines, grouped, with the live counts (PlanCounts.jsx). */
-.lp .lp-plan__groups { display: grid; gap: 1rem; margin-top: 1.25rem; padding-top: 1.125rem; border-top: 1px solid var(--line); }
-.lp .lp-plan__label { margin: 0 0 0.4375rem; font-family: var(--font-display); font-weight: 650; font-size: 0.875rem; line-height: 1.3; color: var(--ink-3); }
-.lp .lp-plan__lines { display: grid; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
-.lp .lp-plan__lines li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); }
-.lp .lp-plan__tick { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--accent-text); }
-.lp .lp-count { font-family: var(--font-display); font-weight: 750; color: var(--brand-word); font-variant-numeric: tabular-nums; }
-.lp .lp-count--wait { display: inline-block; width: 3.2em; height: 0.9em; vertical-align: -0.08em; border-radius: 4px; background: rgb(var(--tint) / 0.12); animation: lp-count-wait 1.1s ease-in-out 6 alternate; }
-@keyframes lp-count-wait { from { opacity: 0.55; } to { opacity: 1; } }
 
 /* Get Pro, the way to everything in Pro, and Free as one quiet line. */
 .lp .lp-plan__go { display: grid; gap: 0.25rem; justify-items: center; margin-top: 1.5rem; }
@@ -130,21 +49,31 @@ html[data-theme='light'] .lp .lp-price {
 .lp :is(.lp-plan__more, .lp-plan__freekey):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 6px; }
 
 /* ---- What a mock costs at your pace (PlanValue.jsx) ------------------------------------------------------------------------ */
-.lp .lp-value__title, .lp .lp-cmp__title {
-  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: clamp(1.25rem, 2vw, 1.5rem); line-height: 1.2; letter-spacing: -0.02em; color: var(--ink);
+.lp .lp-value__title {
+  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: clamp(1.375rem, 2.2vw, 1.75rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink);
 }
-.lp .lp-seg { margin: 0.875rem 0 0; padding: 0; border: 0; min-width: 0; max-width: 28rem; }
+.lp .lp-seg { margin: 1rem 0 0; padding: 0; border: 0; min-width: 0; }
 .lp .lp-seg__legend { margin: 0 0 0.5rem; padding: 0; font-size: 0.9375rem; font-weight: 600; color: var(--ink-2); }
 .lp .lp-seg__track {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px;
-  border-radius: 999px; background: var(--seg-track); border: 1px solid var(--line);
+  border-radius: 20px; background: var(--seg-track); border: 1px solid var(--line);
 }
 .lp .lp-seg__opt { position: relative; display: block; min-width: 0; }
 .lp .lp-seg__opt input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .lp .lp-seg__opt span {
-  display: flex; align-items: center; justify-content: center; gap: 0.375rem; min-height: 44px; border-radius: 999px;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; color: var(--ink-2); font-variant-numeric: tabular-nums;
+  display: grid; justify-items: center; align-content: center; gap: 0.125rem; min-height: 60px; padding: 0.375rem 0.25rem; border-radius: 16px;
+  color: var(--ink-2); text-align: center;
   transition: background-color 220ms cubic-bezier(0.23, 1, 0.32, 1), color 220ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.lp .lp-seg__opt b {
+  display: inline-flex; align-items: center; gap: 0.3125rem; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1.1;
+  color: inherit; font-variant-numeric: tabular-nums;
+}
+.lp .lp-seg__opt small { font-size: 0.8125rem; font-weight: 550; line-height: 1.2; color: inherit; opacity: 0.86; white-space: nowrap; }
+/* A 360 px phone: four keys of about 77 px, so the words under the numbers step down a size and keep clear of the rim. */
+@media (max-width: 399px) {
+  .lp .lp-seg__opt span { padding-inline: 0.125rem; }
+  .lp .lp-seg__opt small { font-size: 0.75rem; }
 }
 .lp .lp-seg__opt input:checked + span { background: var(--volt); color: var(--volt-ink); }
 .lp .lp-seg__opt input:focus-visible + span { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
@@ -158,51 +87,65 @@ html[data-theme='light'] .lp .lp-seg__opt input:checked + span .lp-seg__tick { d
 @media (hover: hover) and (pointer: fine) {
   .lp .lp-seg__opt input:not(:checked):hover + span { background: rgb(var(--tint) / 0.07); color: var(--ink); }
 }
-.lp .lp-value__read { margin-top: 1rem; }
+
+/* The figure and the catch. */
+.lp .lp-value__read { margin-top: 1.25rem; }
 .lp .lp-value__out { margin: 0; font-size: 1.0625rem; line-height: 1.2; color: var(--ink-2); }
 .lp .lp-value__out b {
-  font-family: var(--font-display); font-weight: 800; font-size: clamp(2.375rem, 9vw, 3rem); line-height: 1; letter-spacing: -0.035em;
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(2.75rem, 11vw, 3.75rem); line-height: 1; letter-spacing: -0.035em;
   color: var(--brand-word); font-variant-numeric: tabular-nums;
 }
-.lp .lp-value__math { max-width: 46ch; margin: 0.5rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); font-variant-numeric: tabular-nums; text-wrap: pretty; }
-
-/* ---- What each costs to CUET (PriceCompare.jsx) ---------------------------------------------------------------------------- */
-.lp .lp-cmp { margin-top: 2.25rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-.lp .lp-cmp__table { width: 100%; margin-top: 0.75rem; border-collapse: collapse; }
-.lp .lp-cmp__table :is(th, td) { padding: 0.8125rem 0; border-top: 1px solid var(--line); vertical-align: top; font-weight: 400; }
-.lp .lp-cmp__table tbody tr:first-child :is(th, td) { border-top: 0; }
-.lp .lp-cmp__table th { padding-right: 1rem; text-align: left; }
-.lp .lp-cmp__table td { width: 36%; text-align: right; }
-.lp .lp-cmp__table b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.3; color: var(--ink); }
-.lp .lp-cmp__table td b { font-size: 1.25rem; font-weight: 750; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.lp .lp-cmp__table span { display: block; margin-top: 0.1875rem; font-size: 0.875rem; line-height: 1.4; color: var(--ink-3); }
-.lp .lp-cmp__table tr[data-pro] b { color: var(--brand-word); }
-.lp .lp-cmp__note { margin: 0.5rem 0 0; font-size: 0.8125rem; line-height: 1.5; color: var(--ink-3); }
-.lp .lp-cmp__sources { margin-top: 0.25rem; }
-.lp .lp-cmp__sources summary {
-  display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; font-size: 0.875rem; font-weight: 650; color: var(--ink-2);
-  text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 4px;
+.lp .lp-value__catch {
+  margin: 0.5rem 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; line-height: 1.3; letter-spacing: -0.01em; color: var(--ink);
 }
-.lp .lp-cmp__sources summary:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 6px; }
-.lp .lp-cmp__sources ul { display: grid; gap: 0.5rem; margin: 0.25rem 0 0; padding: 0 0 0 1.1rem; font-size: 0.8125rem; line-height: 1.5; color: var(--ink-3); overflow-wrap: anywhere; }
 
-/* ---- Wide screens: the card on the left, value and comparison beside it ----------------------------------------------------- */
-@media (min-width: 960px) {
-  .lp .lp-price__grid { grid-template-columns: minmax(0, 29rem) minmax(0, 1fr); column-gap: clamp(3rem, 6vw, 6.5rem); align-items: start; }
+/* The month as an answer sheet: one ring per Full mock the top pace gives in a 30-day month, filled to this pace. The rings fill
+   in reading order (2 ms apart, 160 ms each, ease-out), so a change reads as more mocks, not as a flash. */
+.lp .lp-sheet {
+  display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); gap: 5px; justify-items: center; max-width: 16rem; margin: 1.25rem 0 0;
+}
+.lp .lp-sheet i {
+  display: block; width: 100%; max-width: 13px; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--sheet-ring); background: transparent;
+  transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition-delay: calc(var(--i, 0) * 2ms);
+}
+.lp .lp-sheet i[data-on] { background: var(--brand-word); border-color: var(--brand-word); }
+.lp .lp-value__count { max-width: 46ch; margin: 0.75rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.lp .lp-value__math { max-width: 46ch; margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* ---- Tablets and wider: the plan on the left, the value beside it, held in view while the card scrolls past ---------------- */
+@media (min-width: 720px) {
+  .lp .lp-price__grid { --plan-word: 10rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 2rem; align-items: start; }
   .lp .lp-price__grid--one { grid-template-columns: minmax(0, 30rem); justify-content: center; }
   .lp .lp-price__stage, .lp .lp-price__side { max-width: none; margin-inline: 0; }
-  .lp .lp-price__stage { padding-top: 4.5rem; }
-  .lp .lp-price__side { padding-top: 5.75rem; max-width: 34rem; }
-  .lp .lp-plan.pro-plan__card { padding: 1.375rem 1.75rem 1.5rem; -webkit-backdrop-filter: blur(15px) saturate(1.4); backdrop-filter: blur(15px) saturate(1.4); }
+  /* The value starts level with the card's top (the card starts at 64% of the word). */
+  .lp .lp-price__side { position: sticky; top: 6rem; margin-top: calc(var(--plan-word) * 0.64); }
 }
-@media (min-width: 960px) and (prefers-reduced-transparency: reduce) {
-  .lp .lp-plan.pro-plan__card { -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (min-width: 960px) {
+  .lp .lp-price__grid { grid-template-columns: minmax(0, 29rem) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7.5rem); }
+  .lp .lp-price__side { max-width: 34rem; }
+  .lp .lp-seg__opt b { font-size: 1.375rem; }
+  .lp .lp-sheet { max-width: 19rem; gap: 6px; }
+  .lp .lp-sheet i { max-width: 14px; }
+}
+/* Large desktops (LK117: "everything should be massive, clearly visible"): a bigger word, card and read-out. */
+@media (min-width: 1400px) {
+  .lp .lp-price__grid { --plan-word: 11.5rem; grid-template-columns: minmax(0, 32rem) minmax(0, 1fr); }
+  .lp .lp-price__side { max-width: 38rem; }
+  .lp .lp-value__title { font-size: 2rem; }
+  .lp .lp-seg__opt span { min-height: 68px; }
+  .lp .lp-seg__opt b { font-size: 1.5rem; }
+  .lp .lp-seg__opt small { font-size: 0.875rem; }
+  .lp .lp-value__out { font-size: 1.1875rem; }
+  .lp .lp-value__out b { font-size: 4.5rem; }
+  .lp .lp-value__catch { font-size: 1.3125rem; }
+  .lp .lp-sheet { max-width: 22rem; gap: 7px; }
+  .lp .lp-sheet i { max-width: 16px; }
+  .lp .lp-value__count { font-size: 1rem; }
 }
 
 /* ---- Reduced motion: nothing moves (the figure changes at once, PlanValue.jsx) --------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .lp .lp-seg__opt span { transition: none; }
-  .lp .lp-count--wait { animation: none; }
+  .lp .lp-seg__opt span, .lp .lp-sheet i { transition: none; }
 }
-:root[data-motion='reduced'] .lp .lp-seg__opt span { transition: none; }
-:root[data-motion='reduced'] .lp .lp-count--wait { animation: none; }
+:root[data-motion='reduced'] .lp :is(.lp-seg__opt span, .lp-sheet i) { transition: none; }

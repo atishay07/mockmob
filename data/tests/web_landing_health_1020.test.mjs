@@ -87,8 +87,9 @@ test('a11y: /pricing headings step down in order (the Pro card under the h1 is a
   // v16: the h1 is the promise, each section an h2 (the plan card's title too), each card under it an h3.
   const pricing = read('src/app/pricing/page.js');
   assert.equal((pricing.match(/<h1 /g) || []).length, 1);
-  // R3-D8 (5 Nov 2026): the plan card is the shared PlanCard; on /pricing its title is an h2 (the default), on the home page an h3.
-  assert.match(pricing, /<PlanCard offer=\{offer\} titleId="pro-price">/);
+  // R3-D8 (5 Nov 2026): the plan card is the shared PlanCard (an h2 by default). R4 (owner LK134): on /pricing it sits in the last
+  // section, under that section's h2 "Free or Pro" beside Free's card (an h3), so its title is an h3, as on the home page.
+  assert.match(pricing, /<h2 className="pro-h2" id="pro-choice-h">\{PRO_COPY\.choice\}<\/h2>[\s\S]*?<PricingCard \{\.\.\.FREE_PLAN\} \/>[\s\S]*?<PlanCard offer=\{offer\} titleAs="h3" titleId="pro-price"/);
   const plan = read('src/components/pricing/PlanCard.jsx');
   assert.match(plan, /titleAs: Title = 'h2'/);
   assert.match(plan, /<Title className="pro-plan__title" id=\{titleId\}>\{PLAN_COPY\.plan\}<\/Title>/);

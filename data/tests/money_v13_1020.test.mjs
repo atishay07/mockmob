@@ -160,11 +160,14 @@ test('the Pro page: one checkout, the price headline as h1, dev-only preview swi
   assert.match(pricing, /key: PLAN_COPY\.key,/);
   assert.match(file('src/components/pricing/planOffer.mjs'), /key: 'Get Pro',/);
   assert.match(pricing, /if \(process\.env\.NODE_ENV === 'production' \|\| !params\) return \{\};/, 'the preview switches never work in production');
-  assert.match(pricing, /<div className="pro-plan" id="plans">/, 'the dock, the hero key and the Upgrade sheet land on the checkout');
+  // R4 (owner LK134, 5 Nov 2026): the checkout sits in the last section, Free or Pro, on Pro's stage (the home page's card).
+  assert.match(pricing, /<PlanStage word=\{PRO_COPY\.words\.pro\} id="plans" className="pro-plan">/, 'the dock, the hero key and the Upgrade sheet land on the checkout');
   // R3-D8: the plan card is the shared PlanCard now (src/components/pricing/PlanCard.jsx), its price the same priceTag(offer).
-  assert.match(pricing, /<PlanCard offer=\{offer\} titleId="pro-price">/);
+  assert.match(pricing, /<PlanCard offer=\{offer\} titleAs="h3" titleId="pro-price" className="plan-glass" head=\{<ProSealStrip label=\{PRO_COPY\.label\} \/>\}>/);
   assert.match(file('src/components/pricing/PlanCard.jsx'), /<span className="pro-plan__fig">\{tag\.price\}<\/span> <span className="pro-plan__cycle">\{tag\.cycle\}<\/span>/, 'the plan says plainly that Pro is paid');
   const css = file('src/app/pricing/pro-page.css');
+  // The page's own sheet stays flat; the plan card's glass is the shared stage's (owner LK112 and LK134: "refine it to how it is
+  // on the home page"), in src/components/pricing/plan-stage.css only.
   assert.doesNotMatch(css, /text-shadow|blur\(|backdrop-filter/);
   assert.match(css, /prefers-reduced-motion: reduce/);
   const button = file('src/components/billing/RazorpayPaymentButton.jsx');
