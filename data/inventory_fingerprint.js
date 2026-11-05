@@ -24,7 +24,7 @@ import { INVENTORY_VISIBLE_FILTER, countInventory, readInventoryRows } from './i
 import { sharedEligibilitySnapshot } from './evidence_registry.js';
 
 /** Bump when any source file of the count changes (the pin test names which). */
-export const INVENTORY_LOGIC_VERSION = 'inventory-logic-4'; // 2: Syllabus v2 drops retired chapters; 3: the 85 re-tagged questions keep their evidence; 4: so do the 476 live re-tags (31 Oct 2026)
+export const INVENTORY_LOGIC_VERSION = 'inventory-logic-5'; // 2: Syllabus v2 drops retired chapters; 3: the 85 re-tagged questions keep their evidence; 4: so do the 476 live re-tags (31 Oct 2026); 5: option_text.js strips the letters of "Both Assertion ..." options again (4b5f67e34, 3 Nov), which option_compare.js reads
 export const FINGERPRINT_VERSION = 1;
 /** The database function that digests the columns the count reads (migration 20261020160100). */
 export const CONTENT_DIGEST_FUNCTION = 'inventory_content_digest';
