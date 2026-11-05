@@ -14,7 +14,32 @@
 /* In You, a hairline between the plan (Progress, Marks trend, Colleges) and the account pages (Wallet, Guide, the tour). */
 .app-shell .arena-sidebar .arena-nav-rule { display: block; height: 1px; margin: 4px 12px 4px 40px; background: var(--a-line); }
 
-/* Mobi's door: a raised row with his face at the foot of the sidebar, above Night and Day (D6). Static art, like the logo's
+/* The rail (owner LK146, 5 Nov 2026: refined, nothing cut off at 1366 x 768): the logo, Start and Mobi's door head it and never
+   scroll; the places are one list under them that scrolls on its own only when a window is too short for it. */
+@media (min-width: 1024px) {
+  .app-shell .arena-sidebar { overflow: hidden; }
+  .app-shell .arena-sidebar__places {
+    display: flex; flex-direction: column; gap: 6px; flex: 1 1 auto; min-height: 0;
+    margin: 0 -14px; padding: 6px 14px 10px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  }
+  .app-shell .arena-sidebar__places > .arena-nav-group--place + .arena-nav-group--place { margin-top: 6px; }
+}
+/* Laptop heights on a mouse window. arena.css brings the rows to 38 px under 880 px of height; under 820 (1366 x 768, 1280 x 800 with
+   the browser's own bars) the rows are 34 px and a place's pages sit flush, so Learn and the Mob together (15 rows) fit whole: measured
+   585 px of room at 1366 x 768 for 571 px of rows. Under 740 the rows are 32 px. A touch screen keeps its 44 px rows and the list
+   scrolls instead. WCAG 2.2 asks 24 px for a pointer target. */
+@media (min-width: 1024px) and (max-height: 819px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar .arena-sidebar__places .arena-nav-group .arena-nav-link { min-height: 34px; }
+  .app-shell .arena-sidebar .arena-sidebar__places .arena-nav-group { gap: 0; }
+  .app-shell .arena-sidebar .arena-sidebar__places .arena-nav-group .arena-nav-link[aria-current='page']::before { top: 7px; bottom: 7px; }
+  .app-shell .arena-sidebar .arena-sidebar__places .arena-nav-rule { margin-block: 3px; }
+}
+@media (min-width: 1024px) and (max-height: 739px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar .arena-sidebar__places .arena-nav-group .arena-nav-link { min-height: 32px; }
+  .app-shell .arena-sidebar__places > .arena-nav-group--place + .arena-nav-group--place { margin-top: 2px; }
+}
+
+/* Mobi's door: a raised row with his face, right under Start (LK143; it was at the foot, D6). Static art, like the logo's
    Mobi; the row answers the pointer like its neighbours. */
 .app-shell .arena-mobi-door { display: none; }
 @media (min-width: 1024px) {
@@ -24,7 +49,6 @@
     gap: 12px;
     flex: none;
     min-height: 52px;
-    margin-top: auto;
     padding: 5px 12px 5px 10px;
     border: 1px solid var(--a-line);
     border-radius: 14px;
@@ -49,6 +73,40 @@
 html[data-mobi-open] .app-shell .arena-mobi-door:not([aria-current='page']) { background: var(--a-hover); border-color: var(--a-line-strong); }
 html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-mobi-door { transition: none; } }
+
+/* ---------- Ask Mobi in the top bar (below 1024 px) ----------
+   LK143: a first-class door on every screen of a phone and a tablet, beside the account: his face in a 44 px hairline capsule, his
+   name beside it from 640 px. From 1024 px the rail's door, right under Start, is the same door, so the bar does not repeat it. */
+.app-shell .arena-askkey {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px; flex: none;
+  min-width: 44px; height: 44px; padding: 0 10px;
+  border: 1px solid var(--a-line); border-radius: 999px; background: var(--a-raised);
+  color: var(--a-ink); font: 650 13.5px/1 var(--font-display); text-decoration: none; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 160ms var(--mm-ease-out, ease-out), transform 120ms var(--mm-ease-out, ease-out);
+}
+.app-shell .arena-askkey__face { flex: none; width: 22px; height: auto; }
+.app-shell .arena-askkey__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.app-shell .arena-askkey:active { transform: scale(0.96); background: var(--a-sunken); }
+.app-shell .arena-askkey[aria-current='page'] { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.app-shell .arena-askkey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .arena-askkey:hover { background: var(--a-hover); } }
+@media (min-width: 640px) {
+  .app-shell .arena-askkey { padding: 0 14px 0 11px; }
+  .app-shell .arena-askkey__label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+}
+@media (min-width: 1024px) { .app-shell .arena-askkey { display: none; } }
+/* A 360 px phone holds the logo, Mobi's key and the account capsule with its 16 px gutters: the word and the gaps give a little. Under
+   350 px (a 320 px phone) the key steps out of the bar; the You page's first row is the same door. */
+@media (max-width: 379px) {
+  .app-shell .arena-topbar .logo { --logo-h: 18px; }
+  .app-shell .arena-topbar__row { gap: 8px; }
+  .app-shell .arena-topbar__end { gap: 6px; }
+  .app-shell .arena-acct__credits { padding: 0 10px 0 13px; }
+}
+@media (max-width: 349px) { .app-shell .arena-askkey { display: none; } }
+html[data-motion='reduced'] .app-shell .arena-askkey { transition: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-askkey { transition: none; } .app-shell .arena-askkey:active { transform: none; } }
 
 /* ---------- Dock (below 1024 px) ---------- */
 @media (max-width: 1023px) {

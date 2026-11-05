@@ -795,7 +795,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 <div><dt>Difficulty</dt><dd>{scope.difficulty ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('difficulty')}>{difficultyValue}</button> : difficultyValue}</dd></div>
               </dl>
             </div>
-            {startKey('pr-summary__cta')}
+            {/* The key's own row: from 1024 px it rides the window's foot inside the card until the card's end is in view (owner
+                LK142: the main job in sight; practice.css). */}
+            <div className="pr-ticket__go-row">{startKey('pr-summary__cta')}</div>
           </aside>
 
           {/* Phones and tablets: the session bar, sticky inside the setup (practice.css). It rides above the tab bar while

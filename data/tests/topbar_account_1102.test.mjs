@@ -23,8 +23,9 @@ test('the balance says its unit in words and opens the Wallet; the person opens 
   assert.match(bar, /href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-acct__credits" data-tour="credits-pill"/, 'the tour still finds the balance');
   assert.match(bar, /aria-label=\{`\$\{creditsWords\(barCredits\)\}\. Open Wallet`\}/);
   // D8 (owner LK97, 5 Nov 2026): the person door is a button that opens the account pop-over (it was a link to Account).
-  assert.match(bar, /<AccountPopover user=\{user\} accountName=\{accountName\} credits=\{barCredits\} links=\{previewLinks \|\| \{\}\} current=\{isActive\('profile'\)\}>/);
-  assert.match(pop, /className="arena-acct__you"\s*aria-haspopup="dialog"\s*aria-expanded=\{open\}/);
+  // LK141 (5 Nov 2026): it opens the same panel as a sheet on a phone, with Show me around (onTour).
+  assert.match(bar, /<AccountPopover user=\{user\} accountName=\{accountName\} credits=\{barCredits\} links=\{previewLinks \|\| \{\}\} current=\{isActive\('profile'\)\} onTour=\{startTour\}>/);
+  assert.match(pop, /className="arena-acct__you"\s*aria-haspopup="dialog"\s*aria-expanded=\{Boolean\(open\)\}/);
   assert.match(pop, /aria-current=\{current \? 'page' : undefined\}/);
 });
 

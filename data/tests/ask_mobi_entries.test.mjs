@@ -154,14 +154,16 @@ test('every entry is wired once, with its one label, and none adds a card or an 
   assert.doesNotMatch(css, /background(-color)?:|box-shadow|linear-gradient|radial-gradient|text-shadow|backdrop-filter|#d2f000|var\(--volt/, 'a text button or a hairline row: no fill, no card, no glow, no accent');
 });
 
-test('the Help door no longer carries Mobi, and nothing about Mobi sits under the theme switch', () => {
+test('the Help door no longer carries Mobi, and Mobi’s door heads the rail under Start (LK143; D6 kept: never under a theme switch)', () => {
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  const foot = shell.slice(shell.indexOf('className="arena-sidebar__foot"'), shell.indexOf('</aside>')).replace(/\{\/\*[\s\S]*?\*\/\}/g, '');
-  assert.match(foot, /<AppearanceSwitch compact \/>/);
-  assert.doesNotMatch(foot, /Orb|Ask Mobi|openAskMobi/);
+  const aside = shell.slice(shell.indexOf('<aside className="arena-sidebar"'), shell.indexOf('</aside>'));
+  // Owner LK146 (5 Nov 2026): the rail is refined and nothing is cut off at 1366 x 768. Night and Day left it for the top bar's switch
+  // and the account pop-over's Appearance, so no theme control sits in the rail at all.
+  assert.doesNotMatch(aside, /<AppearanceSwitch|arena-sidebar__foot/);
+  assert.ok(aside.indexOf('<StartKey variant="sidebar"') < aside.indexOf('className="arena-mobi-door"'), 'under Start');
+  assert.ok(aside.indexOf('className="arena-mobi-door"') < aside.indexOf('className="arena-sidebar__places"'), 'above the places');
   assert.match(shell, /item\('mentor', 'Ask Mobi'|arenaNavigation/);
   assert.match(read('src/lib/arenaNavigation.js'), /item\('mentor', 'Ask Mobi', 'prepos'\)/, 'Ask Mobi stays an ordinary /mentor link');
-  assert.match(shell, /className="arena-mobi-door"/, 'Mobi’s own door sits above the foot, never under the theme switch (D6)');
   assert.doesNotMatch(shell, /Open Help to ask Mobi/, 'the tour does not send a student to Help for Mobi');
 });
 

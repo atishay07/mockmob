@@ -15,7 +15,6 @@ import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SignOutButton } from '@/components/profile/SignOutConfirm';
-import AppearanceSwitch from '@/components/AppearanceSwitch';
 import AccountPopover from '@/components/account/AccountPopover';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
@@ -31,11 +30,12 @@ import './nav-badge.css';
 import './signout.css';
 // study.css (26 KB) loads with the study components that draw it (StudyWorkspace, StudyRun, StudyChapterSummary, StudyProgress,
 // ReviseRun), not on every app page (speed.md item 8).
-import { arenaNavigation, ASK_MOBI_NAV, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
+import { arenaNavigation, ASK_MOBI_NAV, YOU_DOCK, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
 import './nav-places.css';
 import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
+import { ASK_MOBI_NOTE, YouPlacesProvider } from '@/components/nav/YouPlaces';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { LEARN2_ENV_ON, useL2Off, useNavN1 } from '@/components/learn2/flag';
 import { useLearnDue } from '@/components/learn2/api';
@@ -43,7 +43,7 @@ import { LEARN_DOT_LABEL, REVISE_DOT_LABEL, dotName } from '@/lib/nav/dueCount.m
 import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
-import { HELP_DOOR, TOUR_LABEL } from '@/lib/helpDoor.mjs';
+import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 
 // React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
@@ -54,12 +54,10 @@ function PageTransition({ children }) {
   return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
 }
 
-// Mobi's face on his door (the sidebar's foot and the phone's You sheet): the real mascot art, static, as on the logo.
+// Mobi's face on his doors (the top bar's key, the sidebar's foot and the You page's first row): the real mascot art, static, as on the logo.
 const MOBI_FACE = mascot.greeting;
-// The one line under "Ask Mobi" (R6, read aloud), on the sidebar's door and the phone sheet's row alike (release 11 walk: three
-// taglines for one door). The owner's nav option A gives the door this line; it fits one line at 232 px. What he does, so the
-// line under "Ask Mobi" never starts with "Ask" again.
-const ASK_MOBI_NOTE = 'He explains any answer.';
+// The one line under "Ask Mobi" (R6, read aloud), ASK_MOBI_NOTE, is the same on the sidebar's door and the You page's row (release 11
+// walk: three taglines for one door). It fits one line at 232 px. What he does, so the line under "Ask Mobi" never starts with "Ask".
 
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
@@ -73,8 +71,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const router = useRouter();
   const { user, status, refreshSession } = useAuth();
   const { isModerator } = useRole();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const menuOpener = useRef(null);
   const [tourOpen, setTourOpen] = useState(false);
   const [tourStep, setTourStep] = useState(0);
   const [tourTarget, setTourTarget] = useState(null);
@@ -111,59 +107,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // Read from the address the hydration-safe way, like &l2=off above.
   const navN1Address = useNavN1();
   const navAlt = Boolean(previewRoute) && navN1Address;
-
-  useEffect(() => {
-    if (!mobileMenuOpen) return;
-    const sheet = document.getElementById('arena-sheet');
-    const opener = menuOpener.current;
-    const header = document.querySelector('.app-shell .arena-topbar');
-    const dock = document.querySelector('.arena-dock');
-    // The You sheet rises from the dock: it sits on the dock's top edge and never reaches under the header.
-    const fitMenu = () => {
-      const bottom = dock?.getBoundingClientRect();
-      // 8 px of air between the sheet and the floating dock, as between the dock's capsule and its key.
-      const dockTop = bottom?.height ? Math.min(innerHeight, bottom.top - 8) : innerHeight;
-      const available = dockTop - (header?.getBoundingClientRect().bottom || 64) - 12;
-      if (sheet) {
-        sheet.style.maxHeight = `${Math.max(80, available)}px`;
-        sheet.style.bottom = `${Math.max(0, innerHeight - dockTop)}px`;
-      }
-    };
-    const resize = new ResizeObserver(fitMenu);
-    if (header) resize.observe(header);
-    if (dock) resize.observe(dock);
-    fitMenu();
-    window.addEventListener('resize', fitMenu);
-    window.addEventListener('scroll', fitMenu, { passive: true });
-    // Focus starts at the top of the sheet, on the account row, and reads down from there.
-    const frame = requestAnimationFrame(() => sheet?.querySelector('a[href], button')?.focus({ preventScroll: true }));
-    const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
-    // The scrim closes on its own click, so a tap on it never falls through to the page beneath.
-    const inMenu = (target) => target.closest?.('.arena-topbar, .arena-dock, .arena-sheet, .arena-sheet-scrim');
-    const closeOutside = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
-    const closeOnExit = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
-    const desktop = matchMedia('(min-width: 1024px)');
-    const closeOnDesktop = () => { if (desktop.matches) setMobileMenuOpen(false); };
-    document.addEventListener('keydown', closeOnEscape);
-    document.addEventListener('pointerdown', closeOutside);
-    document.addEventListener('focusin', closeOnExit);
-    desktop.addEventListener('change', closeOnDesktop);
-    return () => {
-      cancelAnimationFrame(frame);
-      resize.disconnect();
-      window.removeEventListener('resize', fitMenu);
-      window.removeEventListener('scroll', fitMenu);
-      document.removeEventListener('keydown', closeOnEscape);
-      document.removeEventListener('pointerdown', closeOutside);
-      document.removeEventListener('focusin', closeOnExit);
-      desktop.removeEventListener('change', closeOnDesktop);
-    };
-  }, [mobileMenuOpen]);
-
-  const toggleMenu = (event) => {
-    menuOpener.current = event.currentTarget;
-    setMobileMenuOpen(open => !open);
-  };
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -323,7 +266,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
     if (chromeless) return undefined;
-    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); };
+    const openGuide = (event) => { event.preventDefault(); setTourStep(0); setTourOpen(true); };
     window.addEventListener('mockmob:open-guide', openGuide);
     return () => window.removeEventListener('mockmob:open-guide', openGuide);
   }, [chromeless]);
@@ -365,17 +308,16 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const keepLearn = (tab) => showStudy || tab.id !== 'learn';
   // The five places (WEB-NAV-1019 option A, owner D114): the sidebar draws Today, Practice, Mob and You as bold rows with their
   // pages indented under them (no group headers); the phone dock draws Today, Practice, the Start key, Mob and You; You opens
-  // the You sheet; Practice's and the Mob's pages are a row of tabs on those pages. Every page keeps its link and route.
+  // the You page, whose places list what the old You sheet did (owner LK141); Practice's and the Mob's pages are a row of tabs on
+  // those pages. Every page keeps its link and route.
   const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy, learn2 }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
   const sheetGroups = youSheetGroups(isModerator, { mob: mobOn, contribute: contributeOn });
   const dockTabs = mobileNavigation({ mob: mobOn });
   const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
   const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy, learn2 });
   const allTabs = [...navGroups.flatMap((group) => group.items), ...sheetGroups.flatMap((group) => group.items), ASK_MOBI_NAV];
-  // The rail fills top to bottom once on entering the Arena, and the You sheet's rows rise one after another: each row's place in
-  // its own list is its --i (the stagger the release 10 rail had, kept across the places).
+  // The rail fills top to bottom once on entering the Arena: each row's place in its list is its --i (the release 10 stagger).
   const railIndex = new Map(navGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
-  const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   // Key cards (/cards, /cards/<chapter>) live in Learn too: no tab of their own (KEYCARDS-BUILD-SPEC.md section 3).
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'))
@@ -389,6 +331,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const accountName = shownName(user?.name, user?.email);
   // The top bar's balance: the wallet's live total once it answers, else the account's own total (one balance, D78).
   const barCredits = wallet.wallet?.known ? wallet.wallet.total : (user?.creditBalance ?? 0);
+  const mentorHref = previewLinks?.mentor || '/mentor';
+  // The You page's places (YouPlaces.jsx) read the shell's lists and links through this, so the preview's addresses and the tour hold.
+  const youPlaces = { groups: sheetGroups, hrefOf, isActive, mentorHref, onTour: startTour };
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
   const renderNavLink = (tab, onNavigate, index = 0) => (
     <React.Fragment key={tab.id}>
@@ -414,9 +359,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     || allTabs.find((tab) => isActive(tab.id))?.label
     || (activePath.startsWith('/result') ? 'Result' : '');
 
-  // The tour, from any row that offers it ("Show me around": the You sheet's account card, the sidebar's You group).
+  // The tour, from any row that offers it ("Show me around": the You page's places, the sidebar's You group, the account sheet).
   function startTour() {
-    setMobileMenuOpen(false);
     setTourStep(0);
     setTourOpen(true);
   }
@@ -436,6 +380,22 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       <aside className="arena-sidebar" aria-label="Main navigation">
         <Logo />
         {!isTestRoute && <StartKey variant="sidebar" />}
+        {/* Mobi's own door, right under Start (owner LK143, 5 Nov 2026: "completely gone from the UI ... one of our main features"): the
+            two things a student comes to do, practise and ask, head the rail, and the places follow. It was at the foot, under 15 rows,
+            and fell below the fold at 1366 x 768. A plain link to /mentor, Ask Mobi's own page (two doors and the conversation;
+            ASK-MOBI-1019, D114). The docked panel is for asks about one question or one mock and is not opened from here. Below
+            1024 px the top bar carries the same door as a key, and the You page lists it first. */}
+        {!isTestRoute && (
+          <Link href={mentorHref} className="arena-mobi-door" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined}>
+            <Image className="arena-mobi-door__face" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
+            <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE}</span></span>
+          </Link>
+        )}
+        {/* The places (owner LK146: nothing cut off at 1366 x 768). On a mouse window they fit at every common laptop height
+            (nav-places.css); where they still cannot (a touch screen keeps 44 px rows), only this list scrolls, so the logo, Start and
+            Mobi's door stay in view. Night and Day left the rail: it is the top bar's switch, and the account pop-over's Appearance
+            (Night, Daylight, Match device), one press away on every page. */}
+        <div className="arena-sidebar__places">
         {navGroups.map((group) => (
           <nav key={group.id} className={group.place ? 'arena-nav-group arena-nav-group--place' : 'arena-nav-group'} aria-label={group.label}>
             {group.place ? null : <p className="arena-nav-label">{group.label}</p>}
@@ -449,18 +409,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             ) : null}
           </nav>
         ))}
-        {/* Mobi's own door, at the foot above Night and Day (D6): the one place in the navigation where a student talks to him.
-            A plain link to /mentor, Ask Mobi's own page (two doors and the conversation; ASK-MOBI-1019, D114). The docked panel is for asks about
-            one question or one mock and is not opened from here. */}
-        {!isTestRoute && (
-          <Link href={previewLinks?.mentor || '/mentor'} className="arena-mobi-door" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined}>
-            <Image className="arena-mobi-door__face" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
-            <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE}</span></span>
-          </Link>
-        )}
-        {/* The foot is the appearance row alone (D11). */}
-        <div className="arena-sidebar__foot">
-          <AppearanceSwitch compact />
         </div>
       </aside>
 
@@ -476,6 +424,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <AppIcon name="moderation" /> Moderator
               </Link>
             )}
+            {/* Ask Mobi, a first-class door at every width (owner LK143, 5 Nov 2026: "completely gone from the UI ... one of our main
+                features"): his face, and his name from 640 px. A plain link to his own page, like the sidebar's door. */}
+            <Link href={mentorHref} className="arena-askkey" data-tour="nav-mentor-top" aria-current={isActive('mentor') ? 'page' : undefined}>
+              <Image className="arena-askkey__face" src={MOBI_FACE.src} width={22} height={30} sizes="22px" alt="" />
+              <span className="arena-askkey__label">Ask Mobi</span>
+            </Link>
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
             {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
                 One capsule, two doors: the balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
@@ -486,7 +440,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <b>{Number(barCredits).toLocaleString('en-IN')}</b><span>{barCredits === 1 ? 'credit' : 'credits'}</span>
               </Link>
               <span className="arena-acct__rule" aria-hidden="true" />
-              <AccountPopover user={user} accountName={accountName} credits={barCredits} links={previewLinks || {}} current={isActive('profile')}>
+              <AccountPopover user={user} accountName={accountName} credits={barCredits} links={previewLinks || {}} current={isActive('profile')} onTour={startTour}>
                 <Avatar name={accountName || user?.email} size="sm" />
                 <span className="arena-acct__name arena-desktop-only">{accountName ?? 'Account'}</span>
                 {user?.isPremium ? <span className="arena-acct__plan">Pro</span> : null}
@@ -516,63 +470,22 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         {tabRow ? <PlaceTabs key={tabRow.id} group={tabRow} hrefOf={hrefOf} isActive={isActive} count={reviseBadge || 0} countLabel={countLabel} /> : null}
         <PageTransition>
           <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-            <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}>{children}</TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
+            <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}><YouPlacesProvider value={youPlaces}>{children}</YouPlacesProvider></TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
           </div>
         </PageTransition>
       </main>
-      {!isTestRoute && mobileMenuOpen && (
-        <>
-          <div className="arena-sheet-scrim arena-mobile-only" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
-          <div className="arena-sheet arena-mobile-only" id="arena-sheet" role="region" aria-label="You: your account, progress and plan">
-            <span className="arena-sheet__handle" aria-hidden="true" />
-            <div className="arena-sheet__account">
-              <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
-                <Avatar name={accountName || user?.email} size="sm" />
-                <span>{accountName ?? 'Account'}</span>
-              </Link>
-              <div className="arena-sheet__tools">
-                {/* The phone's account menu says Sign out in words (owner G29), and asks first like every Sign out. */}
-                <SignOutButton className="arena-signout">
-                  <AppIcon name="signout" />
-                  <span>Sign out</span>
-                </SignOutButton>
-              </div>
-              <button type="button" className="arena-sheet__help arena-sheet__tour" onClick={startTour}>
-                <AppIcon name="guide" /> {TOUR_LABEL}
-              </button>
-              <Link href={previewLinks?.help || '/help'} className="arena-sheet__help" aria-current={isActive('help') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
-                <AppIcon name="help" /> {HELP_DOOR.label}
-              </Link>
-            </div>
-            {/* Ask Mobi, with Mobi's face, above the places and the theme control (D6). */}
-            <Link href={previewLinks?.mentor || '/mentor'} className="arena-sheet__lead arena-sheet__lead--ask" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
-              <Image className="arena-sheet__mobi" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
-              <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE}</span></span>
-            </Link>
-            {sheetGroups.map((group) => (
-              <nav key={group.id} className="arena-nav-group" aria-label={group.label}>
-                <p className="arena-nav-label">{group.label}</p>
-                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false), sheetIndex.get(tab.id)))}
-              </nav>
-            ))}
-            {/* Night and Day comes last, so the places come first; it is still below Ask Mobi (D6). */}
-            <AppearanceSwitch />
-          </div>
-        </>
-      )}
       {/* The phone and tablet dock: one glass capsule of the same five places as the app (D105, D114): Today, Practice, the
           Start key in the centre, Mob and You. Start is an action: it opens the Start sheet, it is never a current place.
-          You opens the You sheet (its data-tour is the sheet opener's, which the tour and Ask Mobi's focus return use). */}
+          You opens the You page like every other slot opens its place (owner LK141); its data-tour stays nav-more, which the tour reads. */}
       {!isTestRoute && <div className="arena-dock">
         <nav className="arena-bottomnav" aria-label="Quick study navigation" data-slots={dockTabs.length + 2}>
           {dockTabs.map((tab, index) => (
             <React.Fragment key={tab.id}>
-              {index === 2 ? <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} /> : null}
+              {index === 2 ? <StartKey variant="bar" /> : null}
               <Link
                 href={hrefOf(tab)}
-                onClick={() => setMobileMenuOpen(false)}
                 aria-current={isActive(tab.id) ? 'page' : undefined}
-                data-within={!isActive(tab.id) && dockPlace === tab.dock && !mobileMenuOpen ? 'true' : undefined}
+                data-within={!isActive(tab.id) && dockPlace === tab.dock ? 'true' : undefined}
                 data-tour={`nav-${tab.id}`}
               >
                 <AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>
@@ -580,8 +493,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </Link>
             </React.Fragment>
           ))}
-          {dockTabs.length < 3 ? <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} /> : null}
-          <button type="button" data-tour="nav-more" data-within={dockPlace === 'you' && !mobileMenuOpen ? 'true' : undefined} aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="account" size={24} /><span>You</span></button>
+          {dockTabs.length < 3 ? <StartKey variant="bar" /> : null}
+          <Link href={hrefOf(YOU_DOCK)} data-tour="nav-more" aria-current={isActive(YOU_DOCK.id) ? 'page' : undefined} data-within={!isActive(YOU_DOCK.id) && dockPlace === 'you' ? 'true' : undefined}><AppIcon name="account" size={24} /><span>You</span></Link>
         </nav>
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}

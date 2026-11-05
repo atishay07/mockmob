@@ -38,10 +38,11 @@ html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
 .app-shell .acct-pop__block { display: grid; gap: 6px; }
 .app-shell .acct-pop__label { font-size: 12px; font-weight: 650; color: var(--a-ink-3); }
 .app-shell .acct-pop__rows { display: grid; border-top: 1px solid var(--a-line); padding-top: 4px; }
-.app-shell .acct-pop__rows a {
+.app-shell .acct-pop__rows :is(a, button) {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   min-height: 44px; padding: 0 8px; margin: 0 -8px;
-  border-radius: 10px; color: var(--a-ink); text-decoration: none; font-size: 14px; font-weight: 600;
+  border: 0; border-radius: 10px; background: none; color: var(--a-ink); text-decoration: none; text-align: left;
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
 }
 .app-shell .acct-pop__rows small { font-size: 12px; font-weight: 500; color: var(--a-ink-3); }
 .app-shell .acct-pop__out {
@@ -49,11 +50,25 @@ html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
   color: var(--a-ink-3); font: inherit; font-size: 13.5px; font-weight: 600; text-align: left; padding: 0 8px; margin: 0 -8px;
 }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .acct-pop__rows a:hover, .app-shell .acct-pop__out:hover, .app-shell .acct-pop__credits:hover { background: var(--a-hover); color: var(--a-ink); }
+  .app-shell .acct-pop__rows :is(a, button):hover, .app-shell .acct-pop__out:hover, .app-shell .acct-pop__credits:hover { background: var(--a-hover); color: var(--a-ink); }
 }
 .app-shell .acct-pop a:focus-visible, .app-shell .acct-pop button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .acct-pop__switch { width: 100%; }
-@media (max-width: 639px) { .app-shell .acct-pop { display: none; } }
+/* A phone (owner LK141): the same panel as a sheet under the top bar, across the screen with 12 px of air at each side, over a scrim
+   that also covers the dock. It scrolls inside itself when the screen is short, and the page under it does not scroll. */
+.app-shell .acct-pop.acct-pop--sheet {
+  position: fixed; left: 12px; right: 12px; z-index: 47; width: auto; max-width: none;
+  max-height: calc(100dvh - var(--acct-top, 72px) - 12px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 16px; border-radius: 20px;
+  animation-name: acct-sheet-in; animation-duration: 220ms;
+}
+@keyframes acct-sheet-in { from { opacity: 0; transform: translateY(-8px); } }
+.app-shell .acct-pop-scrim { position: fixed; inset: 0; z-index: 46; background: color-mix(in srgb, var(--a-bg) 72%, transparent); animation: acct-scrim-in 200ms ease-out both; }
+html[data-theme='light'] .app-shell .acct-pop-scrim { background: color-mix(in srgb, var(--a-ink) 26%, transparent); }
+@keyframes acct-scrim-in { from { opacity: 0; } }
+html:has(.app-shell .acct-pop--sheet) { overflow: hidden; }
+html[data-motion='reduced'] .app-shell :is(.acct-pop--sheet, .acct-pop-scrim) { animation: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.acct-pop, .acct-pop-scrim) { animation: none; } }
 /* The person door is a button now: it takes the capsule's door look (arena.css styles the link door). */
 .app-shell .arena-acct > button.arena-acct__you { display: inline-flex; align-items: center; white-space: nowrap; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: background-color 160ms var(--mm-ease-out, ease-out); }
 .app-shell .arena-acct > button.arena-acct__you:active { background: var(--a-sunken); transition-duration: 60ms; }

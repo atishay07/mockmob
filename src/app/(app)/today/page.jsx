@@ -6,6 +6,7 @@
 //   2. Up next: the recommended move with its reason, its stake and its minutes, and two other moves on the same card; in the first
 //      7 days its overline says the day and a rail of seven marks draws the chained path, whose step for today leads (release 8)
 //      a tap swaps the lead live (the pick is kept for the day in this tab, never written to the server)
+//   2b. Ask Mobi: one row under the lead card, to his own page (owner LK143, 5 Nov 2026)
 //   3. This week: tappable days with a readout of what was done and what is planned
 //   4. Road to CUET in three layers: due today, due this week, the overall goal (D26); Change plan is a guided sentence
 //   5. Weak chapters, each opening to its own mistakes
@@ -43,6 +44,7 @@ import TodayQueue from '@/components/today/TodayQueue';
 import TodayColleges from '@/components/today/TodayColleges';
 import TodayCollegesStrip from '@/components/today/TodayCollegesStrip';
 import TodayCue from '@/components/today/TodayCue';
+import TodayAsk from '@/components/today/TodayAsk';
 import TodayMob from '@/components/today/TodayMob';
 import NameAsk from '@/components/profile/NameAsk';
 import { todayContext } from '@/components/ai/askContexts.mjs';
@@ -334,6 +336,8 @@ export default function Today() {
               />
             )}
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
+            {/* Ask Mobi, right under the lead card (owner LK143): his own page, one tap from Today. */}
+            <TodayAsk />
             {stripBelow ? <div className="today__colleges">{strip}</div> : null}
             <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
             {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}

@@ -26,7 +26,8 @@ test('D11: the nav row, the phone More sheet and the page all say Guide; the pag
   const nav = read('src/lib/arenaNavigation.js');
   assert.match(nav, /item\('help', 'Guide', 'help'\)/, 'the sidebar row (its href is still /help)');
   assert.ok(nav.includes(`'${HELP_DOOR.label}'`), 'arenaNavigation.js (which imports nothing local) holds the same word as HELP_DOOR.label');
-  assert.match(layout, /<AppIcon name="help" \/> \{HELP_DOOR\.label\}/, 'the More sheet row');
+  // Owner LK141 (5 Nov 2026): the You sheet is gone; its Guide row is the You page's (YouPlaces.jsx).
+  assert.match(read('src/components/nav/YouPlaces.jsx'), /row\(\{ id: 'help', label: HELP_DOOR\.label, icon: 'help' \}\)/, 'the You page row');
   assert.match(read('src/app/(app)/help/HelpPageClient.jsx'), /<ArenaHead title=\{GUIDE_PAGE_TITLE\}/);
   assert.match(read('src/app/(app)/help/page.js'), /title: 'Guide and questions \| MockMob'/);
   assert.ok(read('src/app/(app)/help/page.js').length > 0 && !/Help and FAQ/.test(read('src/app/(app)/help/page.js')));
@@ -44,16 +45,15 @@ test('D11: "Help" and "Help and FAQ" are no longer a nav label or page title in 
   for (const line of [HELP_DOOR.label, TOUR_LABEL, GUIDE_PAGE_TITLE]) assert.doesNotMatch(line, /[!→↗]|\b[A-Z]{3,}\b/);
 });
 
-test('N17: "Show me around" opens the tour from a visible first row in the You sheet and under the sidebar’s You place', () => {
+test('N17: "Show me around" opens the tour from the You page, the account sheet and under the sidebar’s You place', () => {
   assert.equal(TOUR_LABEL, 'Show me around');
   assert.equal(HELP_DOOR_ROWS[0].label, TOUR_LABEL, 'the Guide page keeps the same first row');
-  assert.match(layout, /function startTour\(\) \{[\s\S]{0,120}setMobileMenuOpen\(false\);[\s\S]{0,80}setTourStep\(0\);[\s\S]{0,60}setTourOpen\(true\);/);
-  // The You sheet: the tour row comes before the Guide row, both inside the account card at the head of the sheet.
-  const sheet = layout.slice(layout.indexOf('id="arena-sheet"'));
-  const tourAt = sheet.indexOf('onClick={startTour}');
-  const guideAt = sheet.indexOf('{HELP_DOOR.label}');
-  assert.ok(tourAt > 0 && guideAt > tourAt, 'Show me around is the first row of the sheet card, then Guide');
-  assert.ok(tourAt < sheet.indexOf('<AppearanceSwitch />'), 'both rows sit above the theme control');
+  assert.match(layout, /function startTour\(\) \{[\s\S]{0,80}setTourStep\(0\);[\s\S]{0,60}setTourOpen\(true\);/);
+  // Owner LK141 (5 Nov 2026): the You sheet is gone. On a phone the tour is a row of the You page (beside Guide) and of the account sheet.
+  const places = read('src/components/nav/YouPlaces.jsx');
+  assert.ok(places.indexOf("label: HELP_DOOR.label") < places.indexOf('onClick={onTour}'), 'Guide, then Show me around, in the You page’s Help group');
+  assert.match(layout, /const youPlaces = \{ groups: sheetGroups, hrefOf, isActive, mentorHref, onTour: startTour \};/);
+  assert.match(layout, /<AccountPopover [^>]*onTour=\{startTour\}>/);
   // The sidebar: a row under You, after the Guide row.
   assert.match(layout, /group\.id === 'you' && !isTestRoute \? \([\s\S]{0,200}onClick=\{startTour\}[\s\S]{0,200}\{TOUR_LABEL\}/);
   assert.match(arenaCss, /button\.arena-nav-link\s*\{[^}]*width:\s*100%/, 'the sidebar button looks like its neighbours');
@@ -72,31 +72,30 @@ test('the /analytics nav item is "Marks trend" in the sidebar and the More sheet
   assert.match(read('src/components/ai/assistantKnowledge.js'), /name: 'Marks trend',\s*route: '\/analytics'/);
   assert.doesNotMatch(read('src/app/(app)/admission-compass/AdmissionCompassPageClient.jsx'), /Weak chapters/);
   assert.doesNotMatch(layout, /Weak chapters/);
-  // The sheet's rows do not wrap: a nav row in the sheet is one line (ellipsis, never two lines).
-  assert.match(arenaCss, /\.arena-sheet \.arena-nav-link\s*\{[^}]*min-height:\s*48px/);
+  // The You page's rows (the old sheet's, LK141) do not wrap: one line each (ellipsis, never two lines), 48 px tall.
+  const placesCss = read('src/components/nav/you-places.css');
+  assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 48px/);
+  assert.match(placesCss, /\.you-places__row span \{[^}]*white-space: nowrap/);
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
 // D6: on a phone Ask Mobi is above the theme control.
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('D6: in the phone You sheet the Ask Mobi row sits above the theme control, and the sheet’s groups do not list it again', () => {
-  const sheet = layout.slice(layout.indexOf('id="arena-sheet"'));
-  const ask = sheet.indexOf('arena-sheet__lead--ask');
-  const theme = sheet.indexOf('<AppearanceSwitch />');
-  const groups = sheet.indexOf('{sheetGroups.map');
-  assert.ok(ask > 0 && theme > ask, 'Ask Mobi is before the theme switch');
-  assert.ok(groups > ask && theme > groups, 'the places (Your progress, Your plan) sit between them: Night and Day comes last');
+test('D6 and LK143: Ask Mobi leads the You page’s places and heads the rail under Start; never under a theme control', () => {
+  // Owner LK141 (5 Nov 2026): the You sheet became the You page's places; LK143: Ask Mobi is a first-class door.
+  const places = read('src/components/nav/YouPlaces.jsx');
+  assert.ok(places.indexOf('className="you-places__ask"') < places.indexOf('{groups.map'), 'Ask Mobi is the first row of the You page’s places');
+  assert.doesNotMatch(places, /AppearanceSwitch/, 'no theme control on the places');
   assert.match(layout, /const sheetGroups = youSheetGroups\(/);
   const navSource = read('src/lib/arenaNavigation.js');
   const sheetGroupsSource = navSource.slice(navSource.indexOf('export function youSheetGroups'), navSource.indexOf('export function placeTabs'));
-  assert.ok(sheetGroupsSource.length > 100 && !/ASK_MOBI|'mentor'/.test(sheetGroupsSource), 'the sheet groups skip Ask Mobi');
-  assert.match(sheet, /data-tour="nav-mentor"/, 'the tour and the in-place Ask Mobi still find the row');
-  assert.match(sheet, /href=\{previewLinks\?\.mentor \|\| '\/mentor'\}/, 'it is still the ordinary /mentor link, intercepted into the panel by AskMobiHost');
-  // The sidebar: Ask Mobi is Mobi’s own door at its foot, above Night and Day (D6), still the ordinary /mentor link.
+  assert.ok(sheetGroupsSource.length > 100 && !/ASK_MOBI|'mentor'/.test(sheetGroupsSource), 'the groups skip Ask Mobi');
+  assert.match(layout, /data-tour="nav-mentor-top"/, 'the tour finds the top bar key on a phone');
+  // The sidebar: Ask Mobi is Mobi’s own door right under Start, still the ordinary /mentor link.
   assert.match(read('src/lib/arenaNavigation.js'), /const ASK_MOBI = item\('mentor', 'Ask Mobi', 'prepos'\)/);
-  assert.match(layout, /className="arena-mobi-door"[\s\S]{0,900}?<div className="arena-sidebar__foot">/);
-  assert.match(layout, /<Link href=\{previewLinks\?\.mentor \|\| '\/mentor'\} className="arena-mobi-door" data-tour="nav-mentor"/);
+  assert.match(layout, /<StartKey variant="sidebar" \/>\}[\s\S]{0,1200}?className="arena-mobi-door"[\s\S]{0,900}?<div className="arena-sidebar__places">/);
+  assert.match(layout, /<Link href=\{mentorHref\} className="arena-mobi-door" data-tour="nav-mentor"/);
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -38,6 +38,7 @@ import { useToast } from '@/components/ToastProvider';
 import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
+import YouPlaces from '@/components/nav/YouPlaces';
 import InstallPractice from '@/components/InstallPractice';
 import TodayCompass from '@/components/du/TodayCompass';
 import { shownFirstName } from '@/lib/displayName.mjs';
@@ -274,6 +275,9 @@ export default function ProfilePageClient() {
       {/* Who is signed in, with a plain Sign out, on the first screen (release 11 walk: the group below is 7.6 screens down a
           phone). It is the same confirm as the Account actions row, the top bar and the phone's You sheet. */}
       <SignedInLine email={user?.email || ''} />
+      {/* The You place's pages, on a phone and a tablet (owner LK141: the dock's You opens this page): Ask Mobi, Progress, Marks trend,
+          Colleges, Wallet, Guide and Show me around, what the old You sheet listed. From 1024 px the sidebar lists them. */}
+      <YouPlaces />
 
       <div className="acct-grid">
         <div className="acct-col">

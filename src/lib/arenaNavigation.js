@@ -68,8 +68,14 @@ export function arenaNavigation(moderator = false, { mob = false, contribute = f
   ];
 }
 
-/** Ask Mobi: Mobi's own door at the foot of the sidebar, above Night and Day (D6), and a row with his face on the phone's You sheet. */
+/** Ask Mobi: Mobi's own door at the foot of the sidebar, above Night and Day (D6), a key in the top bar at every width, and the
+ *  first row of the You page's places on a phone (owner LK143, 5 Nov 2026: "completely gone from the UI"). */
 export const ASK_MOBI_NAV = ASK_MOBI;
+
+/** The dock's You (owner LK141, 5 Nov 2026): a link to the You page, the way every other dock slot opens its place's page. The
+ *  person in the top bar opens the account sheet (AccountPopover). It used to be the other way round, and he called that "the opposite
+ *  of what I think a UI should do". */
+export const YOU_DOCK = Object.freeze({ ...YOU, dock: 'you' });
 
 // The phone dock: Today, Practice, the Start key (drawn by the shell as the centre slot), Mob, then You (a button that opens
 // the You sheet, drawn by the shell). Colleges left the dock for You and Today's top-3 card (D104); Review moved inside
@@ -80,9 +86,10 @@ export function mobileNavigation({ mob = false } = {}) {
 }
 export const MOBILE_STUDY_NAV = mobileNavigation({ mob: true });
 
-// The You sheet on a phone. Its head is the account card (the name to Account, Sign out, Show me around and Guide), then
-// Ask Mobi, then these two groups, then Night and Day at the very end (D6: Ask Mobi is never below the theme control).
-// The Moderation and Contribute groups come along when the student has them.
+// The You page's places on a phone and a tablet (owner LK141: the dock's You opens the You page, which carries what the You sheet did).
+// Ask Mobi leads them, then these two groups, then Guide and Show me around; the account itself (Sign out, Appearance) is the page
+// below them and the top bar's account sheet. The Moderation and Contribute groups come along when the student has them.
+// (The name is the old sheet's: tests and the tour read it.)
 export function youSheetGroups(moderator = false, { mob = false, contribute = false } = {}) {
   return [
     ...(moderator ? [{ id: 'moderation', label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),

@@ -11,6 +11,8 @@
 /* A line under the thing it is about: underlined text, the hairline darkens on hover. */
 .ame--text { padding: 0 2px; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-decoration-thickness: 1px; text-underline-offset: 4px; }
 @media (hover: hover) { .ame--text:hover { color: var(--a-ink); text-decoration-color: currentColor; } }
+/* Mobi's small face before the words (LK143): static art, the size of a cap height and a half; it is not underlined. */
+.ame--text .ame__face { flex: none; width: 16px; height: auto; }
 
 /* A row in a list: the ask, what the record says about it in one line, hairlines above and below. */
 .ame--row {

@@ -1711,8 +1711,8 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
   html .app-shell .arena-bottomnav:has(> :nth-child(2)[aria-current='page']) { --abn-i: 1; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
-  /* On a place that lives under More (Learn, Explore, Saved, Progress, Account, Help) the lens rests under More. */
+  html .app-shell .arena-bottomnav:has(> :nth-child(5):is([aria-current='page'], [aria-expanded='true'])) { --abn-i: 4; --abn-on: 1; }
+  /* On a page that lives under You (Progress, Marks trend, Colleges, Wallet, Guide, Ask Mobi) the lens rests under You. */
   html .app-shell .arena-bottomnav:has(> :nth-child(5)[data-within='true']) { --abn-i: 4; --abn-on: 1; }
   html .app-shell .arena-bottomnav :is(a, button) {
     position: relative;

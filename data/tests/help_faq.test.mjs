@@ -64,6 +64,11 @@ test('The Guide is linked from You, the account place, and the footer, and the p
 test('the arena menu offers Night, Daylight and Match device, tied to the same setting as Account', () => {
   const src = read('src/components/AppearanceSwitch.jsx');
   for (const word of ['Night', 'Daylight', 'Match device', 'setThemeMode', 'useThemeMode']) assert.ok(src.includes(word), word);
+  // Owner LK141 and LK146 (5 Nov 2026): the You sheet is gone and Night and Day left the rail; the three-way switch is the account
+  // pop-over's Appearance (the top bar's person, at every width, a sheet on a phone), beside the top bar's Night and Day switch.
+  const pop = read('src/components/account/AccountPopover.jsx');
+  assert.match(pop, /<AppearanceSwitch className="acct-pop__switch" \/>/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.equal((shell.match(/<AppearanceSwitch( compact)? \/>/g) || []).length, 2, 'sidebar (compact foot row) and More sheet');
+  assert.match(shell, /<AccountPopover /);
+  assert.match(shell, /<span className="arena-theme arena-sm-up"><ThemeToggle \/><\/span>/);
 });
