@@ -170,7 +170,7 @@ export const VALUE_COPY = Object.freeze({
     return m.kind === 'monthly' ? `${what}: ${n} Full mocks in a ${MONTH_DAYS}-day month, ${q} questions.` : `${what}, to ${m.until}: ${n} Full mocks, ${q} questions.`;
   },
   /** The sum, kept together (no-break spaces), so a phone never breaks it after the price. */
-  math: (m) => `${m.price} ÷ ${m.mocks.toLocaleString('en-IN')} = ${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`,
+  math: (m) => `${m.price}\u00a0÷\u00a0${m.mocks.toLocaleString('en-IN')}\u00a0=\u00a0${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`,
 });
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks
