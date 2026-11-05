@@ -17,7 +17,7 @@
 
 import { labStory, signed } from './labStory.mjs';
 import { perDay, MONTH_DAYS } from '../../lib/payments/value.mjs';
-import { SUBJECT_CLAIM, PUBLIC_SUBJECT_COUNT } from '../../../data/subject_claim.js';
+import { SUBJECT_CLAIM } from '../../../data/subject_claim.js';
 
 export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2, tourPointWords: 10, step: 45, faq: 45, viewport: 60 });
 export const wordCount = (text) => (String(text).match(/[\p{L}\p{N}₹][\p{L}\p{N}’'₹.,:%+\-/×]*/gu) || []).length;
@@ -102,7 +102,7 @@ export function pricingHead(offer) {
 // ------------------------------------------------------------------ the one plan on the home page (R3-D7, R3-D8)
 // The /pricing page's one plan (owner LK109) as a glass card over the word "Pro". Its title, price and terms are the shared
 // plan's (src/components/pricing/planOffer.mjs); these are the home card's own words. Every ₹ figure is worked out from the
-// offer (value.mjs) or read from the dated table (data/price_comparison_1105.mjs) and comes in as an argument.
+// offer (value.mjs) and comes in as an argument.
 export const PLAN_HOME = Object.freeze({
   backdrop: 'Pro',
   pricingLink: 'See everything in Pro',
@@ -139,34 +139,38 @@ export function planGroups({ newOffer = false } = {}) {
  *  the free first full mock is on, else null (page.js decides, data/first_full_mock.js). */
 export const freeLine = ({ firstFullMock = null } = {}) => (firstFullMock ? `${PLAN_HOME.free} ${firstFullMock}` : PLAN_HOME.free);
 
-/** The value calculator's words (PlanValue.jsx). `m` is one row of value.mjs perMockTable: every figure in it is computed. */
+/** The papers a CUET UG candidate can sit at most (NTA, CUET UG 2025 onwards: up to five subjects), for the lowest pace's
+ *  honest framing (R4-H7: 5 a week is one a week in each of five papers, not a lot). */
+export const CUET_PAPERS = 5;
+const COUNT_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
+const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
+/** What a pace means, said plainly (R4-H7, owner LK131): `short` under the number in the control, `long` in the read-out.
+ *  5 a week is one a week in each of five CUET papers; a multiple of 7 is so many a day. */
+export function paceWords(pace) {
+  if (pace === CUET_PAPERS) return { short: '1 per paper', long: `one a week in each of ${COUNT_WORDS[CUET_PAPERS]} CUET papers` };
+  if (pace % 7 === 0 && COUNT_WORDS[pace / 7]) return { short: `${pace / 7} a day`, long: `${COUNT_WORDS[pace / 7]} a day` };
+  return { short: `${pace} a week`, long: `${pace} a week` };
+}
+
+/** The value calculator's words (PlanValue.jsx; R3-D8, R4-H7). `m` is one row of value.mjs perMockTable: every figure in it is
+ *  computed from the offer. The read-out is the figure, the catch (a question), then what the pace means and the sum. */
 export const VALUE_COPY = Object.freeze({
   title: 'What a mock costs at your pace',
   pace: 'Full mocks a week',
   result: 'a mock',
   about: 'about',
-  math: (m) => {
+  /** The catch (owner LK131, "a cool catch"): a Full mock is 50 questions, so a question costs a few paise. */
+  question: (m) => `${cap(m.perQuestion.text)} a question.`,
+  /** What the pace comes to over the period the price pays for, in whole mocks and questions. */
+  count: (m) => {
     const n = m.mocks.toLocaleString('en-IN');
-    // The sum keeps together (no-break spaces), so a phone never breaks it after the price.
-    const sum = `${m.price}\u00a0÷\u00a0${n}\u00a0=\u00a0${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`;
-    return m.kind === 'monthly' ? `${m.pace} a week is ${n} Full mocks in a ${MONTH_DAYS}-day month. ${sum}` : `${m.pace} a week to ${m.until} is ${n} Full mocks. ${sum}`;
+    const q = m.questions.toLocaleString('en-IN');
+    const what = cap(paceWords(m.pace).long);
+    return m.kind === 'monthly' ? `${what}: ${n} Full mocks in a ${MONTH_DAYS}-day month, ${q} questions.` : `${what}, to ${m.until}: ${n} Full mocks, ${q} questions.`;
   },
-});
-
-/**
- * The dated comparison's words (PriceCompare.jsx). `pro` is value.mjs proToExam (computed from the offer over the same period),
- * `row` a row of data/price_comparison_1105.mjs; prices come in already formatted from their paise.
- */
-export const COMPARE_COPY = Object.freeze({
-  title: (to) => `What each costs to ${to}`,
-  pro: 'MockMob Pro',
-  proGets: (pro) => (pro.kind === 'monthly'
-    ? `Unlimited Full mocks in ${PUBLIC_SUBJECT_COUNT} subjects. Cancel any month.`
-    : `Unlimited Full mocks in ${PUBLIC_SUBJECT_COUNT} subjects.`),
-  proTerm: (pro) => (pro.kind === 'monthly' ? `${pro.months} months × ${pro.perMonth}, from ${pro.fromMonth}` : `once, through ${pro.until}`),
-  note: (date) => `Prices as listed on each platform’s page, ${date}.`,
-  sources: 'Sources',
-  source: ({ row, price, host, date }) => `${row.platform}, ${row.product}: ${price} ${row.term}. Read on ${host}, ${date}.`,
+  /** The sum, kept together (no-break spaces), so a phone never breaks it after the price. */
+  math: (m) => `${m.price} ÷ ${m.mocks.toLocaleString('en-IN')} = ${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`,
 });
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks

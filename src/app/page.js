@@ -338,8 +338,8 @@ export default function LandingPage() {
         ) : null}
 
         {/* ------------------------------ PRICING --------------------------- */}
-        {/* R3-D8 (owner LK109-LK111): the /pricing page's one plan as a glass card over "Pro", its value at your pace and a
-            dated comparison (HomePricing.jsx). Every rupee figure is the offer's or the dated table's, worked out, never typed. */}
+        {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and its value
+            at your pace (HomePricing.jsx). Every rupee figure is the offer's, worked out, never typed. */}
         <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
           <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT}
             seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />} />

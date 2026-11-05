@@ -11,8 +11,11 @@ import { AppViewNotice } from '@/components/AppViewNotice';
 import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
-import { NtaArt, PapersArt, ProHeroArt, SmartArt, Tick } from '@/components/pricing/ProShowcase';
+import { NtaArt, PapersArt, ProHeroArt, ProSealStrip, SmartArt, Tick } from '@/components/pricing/ProShowcase';
 import { PlanCard } from '@/components/pricing/PlanCard';
+import { PlanStage } from '@/components/pricing/PlanStage';
+import { PlanCounts } from '@/components/landing/PlanCounts';
+import { planGroups } from '@/components/landing/homeCopy.mjs';
 import { PLAN_COPY, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
@@ -54,8 +57,15 @@ const PRO_COPY = Object.freeze({
   unlocks: 'Everything Pro unlocks',
   also: 'Also in Pro',
   compare: PLAN_COPY.compare,
+  compareLine: 'On Free, credits decide how often you practise, never what you can see. Pro takes the limits off practice.',
   plan: PLAN_COPY.plan,
   key: PLAN_COPY.key,
+  // The last section, a plain choice (R4, owner LK134, 5 Nov 2026: "the final last slide ... something like Free or Pro"): each
+  // plan's card under its own big word, Free beside Pro, the one checkout on Pro's card.
+  choice: 'Free or Pro',
+  choiceLine: 'Start on Free, no card needed. Go Pro for unlimited mocks.',
+  words: { free: 'Free', pro: 'Pro' },
+  freeHow: 'How Free works',
   moments: [
     {
       key: 'mocks',
@@ -261,7 +271,7 @@ export default async function PricingPage({ searchParams }) {
       <AppViewNotice />
       <main data-commerce-page>
         {/* The Pro page (version 16), section by section as the app draws it: the seal, the promise, what Pro unlocks, what
-            else is in it, Free and Pro side by side, then the one plan with its one key. */}
+            else is in it, Free and Pro side by side, then the choice, Free or Pro, with the one plan's one key (R4, LK134). */}
         <section className="pro-hero" aria-labelledby="pro-title">
           <div className="pro-wrap pro-hero__grid">
             <ProHeroArt label={PRO_COPY.label} />
@@ -316,11 +326,14 @@ export default async function PricingPage({ searchParams }) {
           </div>
         </section>
 
-        <section className="pro-sec pro-sec--plan" id="compare" aria-labelledby="pro-compare-h">
-          <div className="pro-wrap pro-plan__grid">
-            <div className="pro-cmp">
+        <section className="pro-sec pro-sec--compare" id="compare" aria-labelledby="pro-compare-h">
+          <div className="pro-wrap pro-cmp__grid">
+            <div className="pro-cmp__head">
               <h2 className="pro-h2" id="pro-compare-h">{PRO_COPY.compare}</h2>
-              <table className="pro-cmp__table">
+              <p className="pro-cmp__line">{PRO_COPY.compareLine}</p>
+            </div>
+            <div className="pro-cmp">
+              <table className="pro-cmp__table" aria-labelledby="pro-compare-h">
                 <thead>
                   <tr>
                     <td />
@@ -339,58 +352,56 @@ export default async function PricingPage({ searchParams }) {
                 </tbody>
               </table>
             </div>
-
-            {/* The one plan and its one checkout. The dock, the hero key and the Upgrade sheet (/pricing#plans) land here. */}
-            <div className="pro-plan" id="plans">
-              {isCurrentUserPremium ? (
-                <div className="pro-plan__card" data-commerce="">
-                  <h2 className="pro-plan__title">{PRO_COPY.onPro}</h2>
-                  <p className="pro-plan__renew">{PRO_COPY.onProLine}</p>
-                  <Link className="mm-btn mm-btn--secondary pro-plan__manage" href="/profile#plan">{PRO_COPY.manage}</Link>
-                </div>
-              ) : (
-                // The shared plan card (title, price, terms): the same one the home page's #pricing draws in glass.
-                <PlanCard offer={offer} titleId="pro-price">
-                  <div className="pro-plan__go">
-                    <RazorpayPaymentButton
-                      planId={PRO_PLAN.planId}
-                      amount={PRO_PLAN.amount}
-                      label={PRO_PLAN.ctaLabel}
-                      billing={PRO_PLAN.billing}
-                      initialIsPremium={isCurrentUserPremium}
-                    />
-                  </div>
-                </PlanCard>
-              )}
-            </div>
           </div>
         </section>
 
-        <section className="mm-section" aria-labelledby="free-plan-h">
-          <div className="mm-wrap">
-            <h2 className="mm-h2" id="free-plan-h">Or start free.</h2>
-            <p className="mm-body mm-section__intro">No card needed. Stay on Free as long as it is enough.</p>
-            <div className="mm-plans pro-free">
-              <div className="mm-plans__col">
+        {/* Free or Pro (R4, owner LK134): the last section is the choice. Free's card under a quiet "Free", Pro's under the big
+            "Pro" as on the home page (PlanStage and the glass PlanCard with its seal strip and grouped lines, shared with #pricing
+            there), and the one checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it. */}
+        <section className="pro-sec pro-choice" aria-labelledby="pro-choice-h">
+          <div className="pro-wrap">
+            <div className="pro-choice__head">
+              <h2 className="pro-h2" id="pro-choice-h">{PRO_COPY.choice}</h2>
+              <p className="pro-choice__line">{PRO_COPY.choiceLine}</p>
+            </div>
+            <div className="pro-choice__grid">
+              <PlanStage word={PRO_COPY.words.free} className="pro-choice__free plan-stage--quiet">
                 <PricingCard {...FREE_PLAN} />
                 <details className="mm-plans__fold mm-faq">
-                  <summary>How Free works</summary>
+                  <summary>{PRO_COPY.freeHow}</summary>
                   <div className="mm-faq__body">
                     <ul>
                       {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
                     </ul>
-                    <a className="mm-link" href="#compare">Free and Pro, side by side</a>
+                    <a className="mm-link" href="#compare">{PRO_COPY.compare}</a>
                   </div>
                 </details>
-              </div>
-              {/* Side by side, how Free works fills the second column with facts from the table above. */}
-              <div className="mm-plans__note" role="group" aria-label="How Free works">
-                <h3>How Free works</h3>
-                <ul>
-                  {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
-                </ul>
-                <a className="mm-link" href="#compare">Free and Pro, side by side</a>
-              </div>
+              </PlanStage>
+              <PlanStage word={PRO_COPY.words.pro} id="plans" className="pro-plan">
+                {isCurrentUserPremium ? (
+                  <div className="pro-plan__card plan-glass" data-commerce="">
+                    <ProSealStrip label={PRO_COPY.label} />
+                    <h3 className="pro-plan__title">{PRO_COPY.onPro}</h3>
+                    <p className="pro-plan__renew">{PRO_COPY.onProLine}</p>
+                    <Link className="mm-btn mm-btn--secondary pro-plan__manage" href="/profile#plan">{PRO_COPY.manage}</Link>
+                  </div>
+                ) : (
+                  // The shared plan card (title, price, terms), the same one the home page's #pricing draws in glass, with its
+                  // lines and the checkout.
+                  <PlanCard offer={offer} titleAs="h3" titleId="pro-price" className="plan-glass" head={<ProSealStrip label={PRO_COPY.label} />}>
+                    <PlanCounts groups={planGroups({ newOffer: newOfferReleased() })} />
+                    <div className="pro-plan__go">
+                      <RazorpayPaymentButton
+                        planId={PRO_PLAN.planId}
+                        amount={PRO_PLAN.amount}
+                        label={PRO_PLAN.ctaLabel}
+                        billing={PRO_PLAN.billing}
+                        initialIsPremium={isCurrentUserPremium}
+                      />
+                    </div>
+                  </PlanCard>
+                )}
+              </PlanStage>
             </div>
           </div>
         </section>
