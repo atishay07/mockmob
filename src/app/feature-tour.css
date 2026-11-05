@@ -122,8 +122,11 @@
 @media (prefers-reduced-motion: reduce) {
   .ft__slide[data-active='true'] { animation: none; }
   .mm.lp .mm-dock { transition: none; }
-  .lp .rv { filter: none; }
+  /* 5 Nov 2026 (R3 cards fix): the phone head blur above is 0,3,0; Reveal never sets data-in under reduced motion, so the
+     lift must match that weight or every section head stays blurred for good. */
+  .lp .rv, .lp .rv.lp-head { filter: none; }
 }
+:root[data-motion='reduced'] .lp .rv.lp-head { filter: none; }
 @media (prefers-reduced-transparency: reduce) {
   .mm.lp .mm-nav, .mm.lp .mm-dock { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .mm.lp .mm-nav::after { display: none; }

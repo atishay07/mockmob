@@ -28,6 +28,8 @@ const MINE = [
   'src/components/du/du.css',
   // R3-D8 (5 Nov 2026): the home page's one plan, its value calculator and the dated comparison (HomePricing.jsx).
   'src/app/home-pricing.css',
+  // Round 3 (5 Nov 2026), packet R3-cards: the Key cards section and the loading kit are held to the same calm by default.
+  'src/components/landing/key-cards.css', 'src/components/landing/loading-kit.css',
 ];
 // Owner decisions of round 3 (SPEC-R3 R3-D8, owner LK109 and LK112, 5 Nov 2026) that supersede C7 and C9 for one element each:
 //   GLASS_OK   the home plan card is glass ("the pricing card ... glassmorphism effect"), a blur over the word "Pro" only;
@@ -159,13 +161,17 @@ test('a volt fill is the key, the brand, a selected state carrying dark ink, or 
   assert.deepEqual(offenders, []);
 });
 
-test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock, the summary bar and (R3-D8) the home plan card', () => {
+// R3-D10 (owner LK112, 5 Nov 2026: "the same way the pricing card and other things have a glassmorphism effect"): the owner asked
+// for glass on the Key cards card, so its front panel (.kc-demo__glass, over the card's own subject object) is the one named
+// exception on content; his words supersede C7 for that panel only. docs/design-decisions/web-r3-cards.md.
+test('no glass on content (C7): backdrop-filter appears only on the site bar, its fade, the dock, the summary bar, the home plan card (R3-D8) and the Key cards front', () => {
   const offenders = [];
   for (const r of ALL_RULES) {
     for (const d of r.decls) {
       if (!/backdrop-filter$/.test(d.prop) || /^none$/.test(d.value)) continue;
       if (/\.mm-nav|\.mm-dock|\.lp-pos|\.du-sum|\.du-toast/.test(r.selector)) continue;
       if (GLASS_OK.test(r.selector) && /home-pricing\.css$/.test(r.file)) continue;
+      if (/^\.kc-demo__glass$/.test(r.selector) && /key-cards\.css$/.test(r.file)) continue;
       offenders.push(describe(r, d));
     }
   }

@@ -318,7 +318,8 @@ test('L-019 no glow around buttons or anything else: no coloured or zero-offset 
 
 test('L-019 no sheen sweep, no light running around an edge, no drifting glow blobs', () => {
   const keyframes = [...cssAll.matchAll(/@keyframes\s+([\w-]+)\s*\{((?:[^{}]|\{[^{}]*\})*)\}/g)];
-  // du-shimmer is the DU teaser's loading skeleton (four passes, then still), not a sheen on a control.
+  // du-shimmer is the DU teaser's loading skeleton (four passes, then still), not a sheen on a control. A sheen on a control
+  // or any other sweep still fails. (The home page's loading kit has no shimmer: R3 review, 5 Nov.)
   const bad = keyframes.filter(([, name]) => name !== 'du-shimmer').filter(([, name, body]) => /sheen|shine|shimmer|glint|glow|aurora|blob|orbit|halo|conic|spin-border|border-run/i.test(name) || /conic-gradient|--angle|--sheen/.test(body));
   assert.deepEqual(bad.map((k) => k[1]), [], 'sheen, sweep or running-light keyframes');
   assert.doesNotMatch(cssAll, /conic-gradient\([^)]*(from var\(--|from calc)/, 'no rotating conic edge light');
