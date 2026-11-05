@@ -11,10 +11,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { MOCK_PACES, DEFAULT_PACE, MONTH_DAYS, QUESTIONS_PER_MOCK, ceilTenPaise, perDay, perMock, perMockTable, perQuestion, asLowAs, daysBetween, rupees } from '../../src/lib/payments/value.mjs';
 import { TEST_MODES } from '../test_modes.js';
 import { PLAN_HOME, VALUE_COPY, CUET_PAPERS, paceWords, pricingHead, planGroups, freeLine, proPlan } from '../../src/components/landing/homeCopy.mjs';
-import { PLAN_COPY, planTerms, compareRows } from '../../src/components/pricing/planOffer.mjs';
+import { PLAN_COPY, planTerms, compareRows, choiceLine } from '../../src/components/pricing/planOffer.mjs';
 import { REFERRAL_COPY, INVITE_FIELD_HREF, INVITE_ANCHOR } from '../../src/lib/referrals/friendInvite.mjs';
 
 const read = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -29,6 +31,11 @@ const READ_DAY = new Date(Date.UTC(2026, 10, 5)); // 5 Nov 2026, the day rounds 
 const PRICE_SOURCES = ['src/components/landing/HomePricing.jsx', 'src/components/landing/PlanValue.jsx',
   'src/components/landing/PlanCounts.jsx', 'src/components/landing/PlanFree.jsx', 'src/components/landing/CloseActions.jsx', 'src/components/pricing/PlanCard.jsx',
   'src/components/pricing/PlanStage.jsx', 'src/components/pricing/planOffer.mjs', 'src/components/landing/homeCopy.mjs', 'src/lib/payments/value.mjs', 'src/app/page.js'];
+// The pricing pages and the pieces only they draw, and every sheet that styles a price (R4 review: the rival guard reads them all).
+const PRICE_PAGES = ['src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js', 'src/components/ui/PricingCard.jsx', 'src/components/pricing/ProShowcase.jsx'];
+const PRICE_SHEETS = ['src/app/home-pricing.css', 'src/components/pricing/plan-stage.css', 'src/app/pricing/pro-page.css'];
+// The CUET-prep platforms the round 3 comparison named, and their peers: a floor; the source walk and the "vs" rules are the guard.
+const RIVALS = /preparoo|adda ?247|oswaal|testbook|physics ?wallah|career ?launcher|unacademy|vedantu|byju|embibe|\btoppr\b|aakash|educart|arihant/i;
 
 // ------------------------------------------------------------------------------------------------ computed, never typed
 test('R4-H7: the paces are 5 / 7 / 14 / 21 Full mocks a week, one a day first, and every figure is price / (n x 30/7) rounded up', () => {
@@ -97,9 +104,10 @@ test('what each pace means is said plainly: 5 is one a week in each of five CUET
 
 test('the maths is shown and checks out: what the pace comes to, then the division to the paisa, "rounded up" only when it was', () => {
   const [five, seven] = perMockTable(monthly());
-  assert.equal(VALUE_COPY.count(five), 'One a week in each of five CUET papers: 21 Full mocks in a 30-day month, 1,050 questions.');
+  // "At ...": the month at this pace, never a promise or a cap (R4 review: the sheet's 90 rings are the top pace's month).
+  assert.equal(VALUE_COPY.count(five), 'At one a week in each of five CUET papers: 21 Full mocks in a 30-day month, 1,050 questions.');
   assert.equal(VALUE_COPY.math(five), '₹99 ÷ 21 = ₹4.71, rounded up to ₹4.80.');
-  assert.equal(VALUE_COPY.count(seven), 'One a day: 30 Full mocks in a 30-day month, 1,500 questions.');
+  assert.equal(VALUE_COPY.count(seven), 'At one a day: 30 Full mocks in a 30-day month, 1,500 questions.');
   assert.equal(VALUE_COPY.math(seven), '₹99 ÷ 30 = ₹3.30.');
   for (const r of perMockTable(monthly())) {
     assert.equal(Math.round((99 / r.mocks) * 100), r.exactPaise, `₹99 ÷ ${r.mocks} on a calculator`);
@@ -111,7 +119,7 @@ test('the one-time offer gets its own sentences: days to its expiry, never "a mo
   const row = perMock(oneTime(), 7, { from: READ_DAY });
   assert.equal(row.kind, 'once');
   assert.equal(row.mocks, 268, 'one a day for 268 days');
-  assert.equal(VALUE_COPY.count(row), 'One a day, to 31 July 2027: 268 Full mocks, 13,400 questions.');
+  assert.equal(VALUE_COPY.count(row), 'At one a day, to 31 July 2027: 268 Full mocks, 13,400 questions.');
   assert.equal(VALUE_COPY.math(row), '₹99 ÷ 268 = ₹0.37, rounded up to ₹0.40.');
   assert.equal(perMock(oneTime(), 7), null, 'without a date, no one-time figure (the page passes its build date)');
   assert.equal(perDay(oneTime(99, '1 November 2026'), { from: READ_DAY }), null, 'an expired one-time offer gives no figure');
@@ -139,17 +147,69 @@ test('R4-H7 (LK132): the rival comparison is gone with its table, its sources an
   const home = stripComments(read('src/components/landing/HomePricing.jsx'));
   assert.doesNotMatch(home, /PriceCompare|PRICE_COMPARISON|proToExam|price_comparison/);
   assert.doesNotMatch(read('src/app/home-pricing.css'), /lp-cmp/);
-  const rivals = /preparoo|adda ?247|oswaal|testbook|physics ?wallah|\bPW\b|career ?launcher|unacademy|vedantu|byju/i;
-  for (const rel of [...PRICE_SOURCES, 'src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js']) {
-    assert.doesNotMatch(stripComments(read(rel)), rivals, `${rel} names another platform`);
+  for (const rel of [...PRICE_SOURCES, ...PRICE_PAGES]) {
+    assert.doesNotMatch(stripComments(read(rel)), RIVALS, `${rel} names another platform`);
+    assert.doesNotMatch(stripComments(read(rel)), /\bPW\b/, `${rel} names another platform`);
     assert.doesNotMatch(stripComments(read(rel)), /5,?499|1,?168|549900|116800/, `${rel} keeps a rival price`);
   }
   // Nothing anywhere in the pricing sources claims to be the cheapest.
-  for (const rel of [...PRICE_SOURCES, 'src/app/home-pricing.css', 'src/components/pricing/plan-stage.css', 'src/app/pricing/page.js']) {
+  for (const rel of [...PRICE_SOURCES, ...PRICE_PAGES, ...PRICE_SHEETS]) {
     assert.doesNotMatch(stripComments(read(rel)), /cheapest|lowest price|best price|best value/i, rel);
   }
 });
 
+// The names above are a floor, not the guard: a new rival, a rival's price or a comparison block must fail too (R4 review).
+test('R4-H7 (LK132): no comparison with other platforms can come back: no rival in any rendered source, no "vs", no sources block, no typed price on /pricing but Free\'s ₹0', () => {
+  // 1. Every rendered source (src/ and data/'s modules; tests and comments aside) is free of the CUET-prep names, so a rival
+  //    cannot come back through a new file either. Research notes may name them in comments; pages never do.
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  const rendered = [];
+  const walk = (dir) => {
+    for (const entry of readdirSync(join(root, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) { if (entry.name !== 'node_modules' && entry.name !== '__tests__' && !entry.name.startsWith('.')) walk(rel); }
+      else if (/\.(m?js|jsx)$/.test(entry.name) && !/\.test\./.test(entry.name)) rendered.push(rel);
+    }
+  };
+  walk('src');
+  for (const name of readdirSync(join(root, 'data'))) if (/\.m?js$/.test(name)) rendered.push(`data/${name}`);
+  assert.ok(rendered.length > 500, `the walk reached the sources: ${rendered.length}`);
+  for (const rel of rendered) {
+    const code = stripComments(read(rel));
+    assert.doesNotMatch(code, RIVALS, `${rel} names another platform`);
+    assert.doesNotMatch(code, /\bPW\b/, `${rel} names another platform`);
+  }
+  // 2. No pricing surface sets MockMob against anyone else: no "vs" or "versus", no "other prep / apps / platforms", no
+  //    "elsewhere", no sources block or "prices as listed", and no comparison component or sheet class.
+  for (const rel of [...PRICE_SOURCES, ...PRICE_PAGES]) {
+    const code = stripComments(read(rel));
+    assert.doesNotMatch(code, /\bvs\.?\s|\bversus\b/i, `${rel}: a "vs" comparison`);
+    assert.doesNotMatch(code, /other (CUET )?(prep|platforms?|apps?|websites?|sites|test series|coaching)|elsewhere|compared? (with|to) other/i, `${rel}: a comparison with others`);
+    assert.doesNotMatch(code, /\bsources?\s*:|prices? (checked|as listed)|as listed on|PriceCompare|PRICE_COMPARISON|price_comparison/i, `${rel}: a sources block or the comparison`);
+  }
+  for (const rel of PRICE_SHEETS) assert.doesNotMatch(stripComments(read(rel)), /\.lp-cmp\b|price-?compare|\.rival/i, rel);
+  // 3. /pricing types one rupee amount only, Free's ₹0; every other figure comes from the offer, so no rival price can be typed in.
+  for (const rel of PRICE_PAGES) {
+    const typed = stripComments(read(rel)).match(/₹\s?\d[\d,.]*/g) || [];
+    assert.ok(typed.every((amount) => amount === '₹0'), `${rel} types a rupee amount: ${typed.join(', ')}`);
+  }
+});
+
+// ------------------------------------------------------------------------------------------------ the choice line, by offer
+test('R4 /pricing: "Free or Pro" says unlimited mocks only while Pro\'s list does; the new offer says what it gives', () => {
+  assert.equal(choiceLine(), 'Start on Free, no card needed. Go Pro for unlimited mocks.');
+  assert.ok(proPlan().includes('Unlimited Quick practice and Full mock'), 'the current offer: Full mocks unlimited on Pro');
+  assert.equal(compareRows().find(([name]) => name === 'Full mocks')[2], 'Unlimited');
+  const next = choiceLine({ newOffer: true });
+  assert.doesNotMatch(next, /unlimited mocks/i, 'the new offer does not promise unlimited mocks');
+  assert.match(next, /unlimited practice and reattempts/);
+  assert.ok(proPlan({ newOffer: true }).includes('Unlimited available practice and reattempts'), 'the new offer\'s own promise');
+  const pricing = stripComments(read('src/app/pricing/page.js'));
+  assert.match(pricing, /choiceLine: choiceLine\(\{ newOffer: newOfferReleased\(\) \}\),/, 'the page reads the line for the offer on sale');
+  assert.doesNotMatch(pricing, /choiceLine: '/, 'never a typed line that could outlive the offer');
+  // The per-mock maths (and its month sheet) only for the current offer, where Full mocks are unlimited.
+  assert.match(stripComments(read('src/components/landing/HomePricing.jsx')), /const table = newOffer \? \[\] : perMockTable\(offer, \{ from \}\);/);
+});
 
 // ------------------------------------------------------------------------------------------------ the one plan, shared
 test('R3-D7: the numbers band is gone; its true counts are lines of the plan card with a count-up at 40% in view', () => {
@@ -199,13 +259,16 @@ test('R3-D8, R4: #pricing and /pricing draw one plan, through shared pieces, as 
   const pricing = read('src/app/pricing/page.js');
   assert.match(pricing, /import \{ PlanCard \} from '@\/components\/pricing\/PlanCard';/);
   assert.match(pricing, /import \{ PlanStage \} from '@\/components\/pricing\/PlanStage';/);
-  assert.match(pricing, /import \{ PLAN_COPY, compareRows, planTerms \} from '@\/components\/pricing\/planOffer\.mjs';/);
+  assert.match(pricing, /import \{ PLAN_COPY, choiceLine, compareRows, planTerms \} from '@\/components\/pricing\/planOffer\.mjs';/);
   assert.match(pricing, /<PlanStage word=\{PRO_COPY\.words\.free\} className="pro-choice__free plan-stage--quiet">\s*<PricingCard \{\.\.\.FREE_PLAN\} \/>/);
   assert.match(pricing, /<PlanStage word=\{PRO_COPY\.words\.pro\} id="plans" className="pro-plan">/);
   assert.match(pricing, /<PlanCounts groups=\{planGroups\(\{ newOffer: newOfferReleased\(\) \}\)\} \/>\s*<div className="pro-plan__go">\s*<RazorpayPaymentButton/);
   assert.match(pricing, /choice: 'Free or Pro',/);
   assert.equal((pricing.match(/<RazorpayPaymentButton/g) || []).length, 1, 'one checkout');
   assert.doesNotMatch(pricing, /Or start free\.|mm-plans__note/, 'the old Free section folded into the choice');
+  // While the choice is on screen it carries both keys, so the phone's dock steps aside (R4 review: it covered Free's card).
+  assert.match(pricing, /<section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">/);
+  assert.match(read('src/components/MobileDock.jsx'), /querySelectorAll\('main :is\(\.mm-btn--primary, \.btn-volt, \[data-dock-yield\]\)'\)/);
   assert.doesNotMatch(pricing, /function planTerms|\['Smart practice', false, true\]/, 'nothing is copied back into the page');
   assert.equal(compareRows({ newOffer: true, recoveryRows: [['x', true, true]] }).length, 1, 'the new offer brings its own rows');
   assert.deepEqual(planTerms(monthly()), { renew: 'Renews every month. Cancel any time.', dock: '₹99 a month. Cancel any time.', soon: null });
@@ -229,6 +292,9 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
   // "In the light mode it's not properly visible": Day's word is ink at 66% (5.3:1 on the Day paper; Night's is 4.8:1).
   const dayAlpha = Number(/html\[data-theme='light'\] \.plan-stage \{[^}]*--price-word: rgba\(27, 25, 20, ([\d.]+)\)/.exec(css)?.[1]);
   assert.ok(dayAlpha >= 0.6, `Day word ink: ${dayAlpha}`);
+  // The quiet "Free" beside it on /pricing stays well under Pro's ink in Day (R4 review: 0.3 read nearly as heavy as Pro's 0.66).
+  const quietDay = Number(/html\[data-theme='light'\] \.plan-stage--quiet \{ --price-word: rgba\(27, 25, 20, ([\d.]+)\)/.exec(css)?.[1]);
+  assert.ok(quietDay > 0 && quietDay <= dayAlpha / 3 + 0.001, `Day's quiet Free word: ${quietDay} against Pro's ${dayAlpha}`);
   // The page sheets carry no glass of their own.
   for (const rel of ['src/app/home-pricing.css', 'src/app/pricing/pro-page.css']) assert.doesNotMatch(stripComments(read(rel)), /backdrop-filter/, rel);
 });

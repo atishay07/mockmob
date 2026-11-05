@@ -62,11 +62,13 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
 
 // One volt per screen (W-075): while the page's own volt button is on screen, the bar steps aside so that button is
 // the only volt in view; it comes back when the button scrolls away. The nav's action is the quiet secondary button.
+// A section marked data-dock-yield (/pricing's "Free or Pro") counts as the page's own action too: while the choice is on screen
+// it carries both keys, so the bar never covers Free's card with a competing Get Pro (R4 pricing review, 6 Nov 2026).
 function useVoltOnScreen() {
   const [on, setOn] = useState(false);
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return undefined;
-    const buttons = [...document.querySelectorAll('main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.mm-dock, .mm-nav, .lp-dockgate'));
+    const buttons = [...document.querySelectorAll('main :is(.mm-btn--primary, .btn-volt, [data-dock-yield])')].filter((el) => !el.closest('.mm-dock, .mm-nav, .lp-dockgate'));
     if (!buttons.length) return undefined;
     const seen = new Set();
     const io = new IntersectionObserver((entries) => {

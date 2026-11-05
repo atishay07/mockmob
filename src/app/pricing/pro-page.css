@@ -236,7 +236,8 @@ html[data-theme='dark'] .mm-pro {
 .mm-pro .pro-choice__head { display: grid; gap: 0.25rem; }
 .mm-pro .pro-choice__head .pro-h2 { margin-bottom: 0; }
 .mm-pro .pro-choice__line { margin: 0; max-width: 40ch; font-size: 1.0625rem; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
-.mm-pro .pro-choice__grid { display: grid; gap: 1.5rem; margin-top: 0.5rem; }
+/* 20 px under the line, so the big "Free" never touches it on a phone (R4 review). */
+.mm-pro .pro-choice__grid { display: grid; gap: 1.5rem; margin-top: 1.25rem; }
 .mm-pro .pro-plan { scroll-margin-top: 4rem; }
 /* Free's card: the plan card's own shape and measure, on solid paper (only Pro is glass). */
 .mm-pro .pro-choice__free .mm-plan { border-radius: 28px; padding: 1.25rem 1.25rem 1.375rem; box-shadow: 0 4px 24px rgba(27, 25, 20, 0.06); }

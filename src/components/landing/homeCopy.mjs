@@ -162,11 +162,13 @@ export const VALUE_COPY = Object.freeze({
   about: 'about',
   /** The catch (owner LK131, "a cool catch"): a Full mock is 50 questions, so a question costs a few paise. */
   question: (m) => `${cap(m.perQuestion.text)} a question.`,
-  /** What the pace comes to over the period the price pays for, in whole mocks and questions. */
+  /** What the pace comes to over the period the price pays for, in whole mocks and questions. It starts "At ..." so it reads as
+   *  this pace's month, never as a promise or a cap (the sheet above it draws the top pace's month; Pro's Full mocks are
+   *  unlimited on the offer this figure is shown for; R4 review). */
   count: (m) => {
     const n = m.mocks.toLocaleString('en-IN');
     const q = m.questions.toLocaleString('en-IN');
-    const what = cap(paceWords(m.pace).long);
+    const what = `At ${paceWords(m.pace).long}`;
     return m.kind === 'monthly' ? `${what}: ${n} Full mocks in a ${MONTH_DAYS}-day month, ${q} questions.` : `${what}, to ${m.until}: ${n} Full mocks, ${q} questions.`;
   },
   /** The sum, kept together (no-break spaces), so a phone never breaks it after the price. */

@@ -34,19 +34,20 @@ student sees "You are on Pro" on the same glass card); invites on or off; Night 
 2. **The pace control (LK131).** "Full mocks a week: 5 / 7 / 14 / 21", each key with what it means under the number: 1 per
    paper, 1 a day, 2 a day, 3 a day. One a day is selected first. The read-out is the figure ("about ₹3.30 a mock", rounded
    up), the catch ("Under 7 paise a question."), the month as an answer sheet (one ring per Full mock the top pace gives in a
-   30-day month, 90 rings, filled to the pace), what the pace comes to ("One a day: 30 Full mocks in a 30-day month, 1,500
+   30-day month, 90 rings, filled to the pace), what the pace comes to ("At one a day: 30 Full mocks in a 30-day month, 1,500
    questions.") and the sum ("₹99 ÷ 30 = ₹3.30."). On the live ₹99 monthly offer the four paces are ₹4.80, ₹3.30, ₹1.70 and
-   ₹1.10 a mock, and under 10, 7, 4 and 3 paise a question. The lowest pace is said plainly: "One a week in each of five CUET
+   ₹1.10 a mock, and under 10, 7, 4 and 3 paise a question. The lowest pace is said plainly: "At one a week in each of five CUET
    papers: 21 Full mocks in a 30-day month, 1,050 questions." Everything is computed from the offer in
    `src/lib/payments/value.mjs` (`perMockTable`, the new `perQuestion` with the Full mock's own size from
    `data/test_modes.js`, and `asLowAs`, the top pace's row, for the hero's "as low as ₹X a mock" hook in H2).
 3. **The rival comparison is gone (LK132).** `PriceCompare.jsx`, `data/price_comparison_1105.mjs` (the three rival rows and
-   their sources), `COMPARE_COPY`, `proToExam` / `monthsThrough` and the `.lp-cmp` CSS are deleted. A test now holds that no
-   pricing surface names another platform or keeps a rival price.
+   their sources), `COMPARE_COPY`, `proToExam` / `monthsThrough` and the `.lp-cmp` CSS are deleted. Tests now hold that no
+   rendered source names another platform, that no pricing surface says "vs", compares with "other prep" or carries a
+   sources block, and that /pricing types no rupee amount but Free's ₹0 (fix stage, below).
 4. **/pricing ends on "Free or Pro" (LK134).** The table "Free and Pro, side by side" now stands beside its heading and one
    line ("On Free, credits decide how often you practise, never what you can see. Pro takes the limits off practice.", from
    the page's own Free notes). The last section is the choice: "Free or Pro / Start on Free, no card needed. Go Pro for
-   unlimited mocks.", Free's card under a quiet "Free" and the home page's glass Pro card under "Pro" (seal strip, title, ₹99
+   unlimited mocks." (the line follows the offer on sale: `planOffer.mjs choiceLine`), Free's card under a quiet "Free" and the home page's glass Pro card under "Pro" (seal strip, title, ₹99
    a month, the grouped lines with the live counts, and the one Razorpay checkout). `#plans` is Pro's stage, so the hero key,
    the dock and the Upgrade sheet still land on the checkout. "How Free works" folds under Free's card at every width (it no
    longer has its own column). The old "Or start free." section folded into the choice; the Ask Mobi credits and FAQ
@@ -149,3 +150,56 @@ release 9/10, landing copy and others): 520 pass, 0 fail, 3 skipped. `npm run te
 1,000 of 1,005 in one run, the 3 failures (practice_pick_parity, release9b_mob_merge_1018, sample_import) touch no pricing file
 and each passes when run alone (8/8, 7/7, 8/8); that run coincided with the C: drive reaching 0 bytes free. `npx eslint` on
 every changed JS file: clean.
+
+## Fix stage (6 Nov 2026, after the read-only review)
+
+The review found no high-severity defect; it raised two medium and five low findings. What changed, and why:
+
+- **Medium, the rival guard was a short denylist (fixed).** `pricing_value_1105` now walks every rendered source (`src/`
+  and `data/`'s modules, 1,200+ files, tests and comments aside) for the CUET-prep names, so a rival cannot return through a new
+  file (checked by a probe file naming one: the test failed, the probe was removed). On the pricing surfaces (the home page's
+  pricing files, `/pricing`, `/pricing/ai-credits`, `PricingCard`, `ProShowcase` and the three pricing sheets) it also fails
+  on "vs" or "versus", "other prep / apps / platforms", "elsewhere", a "Sources:" block or "prices as listed", and the old
+  comparison's names and class. `/pricing` may type one rupee amount, Free's ₹0; every other figure comes from the offer.
+  The names stay as a floor. (`about`, `terms`, `cuet-2027` and `cuet-practice-tests-online` are covered by the source walk.)
+- **Medium, "unlimited mocks" beside the paces (fixed where this packet wrote it).** The new "Free or Pro" line now comes from
+  `choiceLine({ newOffer })` in `planOffer.mjs`: "Go Pro for unlimited mocks." on the current offer, where Pro's list and the
+  side-by-side table say Full mocks are unlimited, and "Go Pro for unlimited practice and reattempts." on the new recovery
+  offer, which is that offer's own promise (`proPlan({ newOffer: true })`). A test holds both branches and that the page reads
+  the switch. The per-mock maths and its month sheet already show only for the current offer (`HomePricing`).
+  The sheet: the count line under it now starts "At ..." ("At one a day: 30 Full mocks in a 30-day month, 1,500
+  questions."), so it reads as this pace's month. "Up to" was rejected: on the offer the sheet is drawn for, Pro's Full mocks
+  are unlimited, so "up to 90" would invent a cap that does not exist.
+  Not changed (older than this packet): `/pricing`'s hero lede and first moment ("Unlimited mocks") and the home head ("Start
+  free. Go Pro for unlimited mocks.", pinned by `landingCopy.test.mjs`) are not switched on the new offer. Whoever releases
+  the new offer should give those lines its words; open for the owner below.
+- **Low, the quiet "Free" read nearly as heavy as "Pro" in Day (fixed).** Day's Free word is ink at 0.2 (was 0.3; Pro is
+  0.66), held by a test at a third of Pro's or less; Night stays 0.24 against Pro's 0.5. The choice's cards start 20 px under
+  the line (was 8 px), so the big "Free" no longer touches it on a phone.
+- **Low, the dock covered Free's card on a 360 px phone (fixed).** `MobileDock` already steps aside while the page's own volt
+  key is on screen; a section marked `data-dock-yield` now counts too, and `/pricing`'s choice carries it. While Free or Pro
+  is on screen, the choice's own keys are the only ones; the dock returns above and below it.
+- **Low, Free's card repeats the Credits row in its list (not changed).** The Credits term and the list's Quick practice and
+  Full mock rows are each pinned by earlier owner money rules (`free_ai_wallet_50`, `practice_credit_per_question`) and
+  predate this packet; trimming them is the owner's call. Open below.
+- **Low, "1 per paper" is ambiguous (not changed).** The legend right above the keys is "Full mocks a week", so the key reads
+  "5 Full mocks a week, 1 per paper", the same pattern as "7, 1 a day"; the read-out spells it out. The suggested "1 a week
+  each" is 13 characters and breaks the 360 px fit (12 at most).
+- **Low, the 503 (named).** It is `GET /api/stats` answering 503 `{"state":"unavailable","reason":"snapshot_missing"}`: this
+  dev server has no database or inventory snapshot. It is the plan card's counts' failed state, which draws the lines without
+  numbers; nothing in pricing reads anything else that failed (the capture logs every 4xx/5xx response).
+
+Open for the owner (added): the hero lede, first moment and home head on the new offer; Free's card length on `/pricing`.
+
+Fix-stage verification. Tests: `pricing_value_1105` now 18 (was 16): the source-wide rival walk with the "vs" / sources /
+typed-rupee rules, and the choice line by offer; the dock yield and Day's quiet word are added to the existing stage tests;
+the count-line strings follow the "At ..." wording (this packet's own pins). The landing suites: 390 pass, 0 fail, 11 skipped,
+12 todo. Every suite that reads a touched file (27 files, with `web_nav_a_1019` and `web_fixb_1019` for the dock): 375 pass,
+0 fail. `npm run test:app` 1,018 pass, 0 fail, 2 skipped; `test:dock` 63 pass; `test:billing` 453 pass. `npx eslint` on the
+changed JS: clean. Looks (real Chrome, headless, the shared lock; dev server 3594 with a placeholder monthly plan id; files
+in `tmp/r4/`, git-ignored): `/pricing`'s choice at 360x640, 390x844, 768x1024, 1440x900 and 1920x1080, Night and Day (f1):
+the line and the "Free" word clear of each other, the Day "Free" plainly lighter than "Pro", no dock over Free's card, no
+horizontal overflow. The dock at 360x640 Day (f2), read from the page: shown on the side-by-side table, hidden from 200 px
+before the choice through Free's list and Pro's checkout, shown again at Ask Mobi and the FAQ. Home `#pricing` at 390x844
+and 1440x900, Night and Day (f3): "At one a day: 30 Full mocks in a 30-day month, 1,500 questions." under the sheet. The only
+failing request in every capture is `GET /api/stats` 503.

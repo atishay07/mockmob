@@ -16,7 +16,7 @@ import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
 import { PlanCounts } from '@/components/landing/PlanCounts';
 import { planGroups } from '@/components/landing/homeCopy.mjs';
-import { PLAN_COPY, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
+import { PLAN_COPY, choiceLine, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
@@ -63,7 +63,8 @@ const PRO_COPY = Object.freeze({
   // The last section, a plain choice (R4, owner LK134, 5 Nov 2026: "the final last slide ... something like Free or Pro"): each
   // plan's card under its own big word, Free beside Pro, the one checkout on Pro's card.
   choice: 'Free or Pro',
-  choiceLine: 'Start on Free, no card needed. Go Pro for unlimited mocks.',
+  // Its line follows the offer on sale (planOffer.mjs choiceLine): "unlimited mocks" only while Pro's list says so.
+  choiceLine: choiceLine({ newOffer: newOfferReleased() }),
   words: { free: 'Free', pro: 'Pro' },
   freeHow: 'How Free works',
   moments: [
@@ -358,7 +359,7 @@ export default async function PricingPage({ searchParams }) {
         {/* Free or Pro (R4, owner LK134): the last section is the choice. Free's card under a quiet "Free", Pro's under the big
             "Pro" as on the home page (PlanStage and the glass PlanCard with its seal strip and grouped lines, shared with #pricing
             there), and the one checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it. */}
-        <section className="pro-sec pro-choice" aria-labelledby="pro-choice-h">
+        <section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">
           <div className="pro-wrap">
             <div className="pro-choice__head">
               <h2 className="pro-h2" id="pro-choice-h">{PRO_COPY.choice}</h2>

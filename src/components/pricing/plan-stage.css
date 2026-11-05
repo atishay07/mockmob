@@ -44,9 +44,10 @@ html[data-theme='light'] .plan-stage {
   --strip-chip-line: #526700;
 }
 
-/* A quieter word, for the plan beside Pro on /pricing ("Free"): the same type, half the ink, so Pro stays the one to look at. */
+/* A quieter word, for the plan beside Pro on /pricing ("Free"): the same type, under half of Pro's ink, so Pro stays the one to
+   look at (Night 0.24 against 0.5; Day 0.2 against 0.66, since Day's 0.3 read nearly as heavy as Pro in the R4 review). */
 .plan-stage--quiet { --price-word: rgba(244, 240, 230, 0.24); }
-html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.3); }
+html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.2); }
 
 .plan-stage .lp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
