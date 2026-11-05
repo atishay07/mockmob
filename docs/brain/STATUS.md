@@ -1,3 +1,18 @@
+## 5 Nov 2026, about 5:40 am IST: the night refinement to production (owner LK81-LK97, his 2:40 am live-site look), and app 1.0.21+19 built
+
+Shipped (main from web/1105-night; spec docs/brain/night-1105/SPEC.md; design notes docs/design-decisions/web-1105-*.md):
+- LK81 slow-phone stutter: held stories drawn while the page is idle (storyPredraw.mjs, also the DU section), the tour keeps its screens mounted, pausing restyles only what animates. 22 swipes at 4x CPU on the production build: frames over 100 ms 11 -> 0 cold (after the hero) and warm, worst 442 -> 96 ms, p95 24 -> 16 ms.
+- LK83/LK88 CTAs: Sign up free leads, Try 5 questions first second, "Have an account? Log in"; the phone dock is Log in / Sign up free from hero to footer and never changes; the close band is Sign up free / Log in. LK82 "CUET 2027." in the brand volt (#D2F000 Night, #3F5200 Day) with tabular figures; --brand-word follows, one green on the page. LK84 text-wrap pretty/balance across the landing.
+- LK86 the statement's green words back (they light up as each clause arrives). LK87 the opening waits for first paint, the typed line lands whole with a resting caret, Ask Mobi "Reading your record for tonight".
+- LK91/LK92 the exam screen in a CSS desktop monitor with an address bar (mockmob.in/test?...), NTA style faithful to NTA's CBT guidelines; the test runner's NTA style matches it (header, palette symbols, NTA's capitals, a section summary before submit, Question Paper).
+- LK89 no demo-jump loop (the edge clamp fired on the jump's landing frame), the card lands centred with a quiet shell lift (no white ring); LK90 a fast swipe into a story lands on its edge step, geometry re-measured from the body; LK93 the DU calculator is there on arrival (no reveal gap).
+- LK97 web account pop-over like the app's Account sheet (plan, credits, Appearance, links, sign out); LK95 Upgrade sheet words follow the app; the Key card turn lifts; LK94 subject options asked at onboarding (web) and Learn says "Yours is ..."; Practice at 1024-1279 px no longer collides; the numbers band lays out only the figures it has.
+
+Verified: node suites test:app 1009, learn 434, keycards 125, keycards-ui 40, subjects 62, nta 234, recovery 637, billing 453, auth 141, dock 55, du 42, learning 357, today 146, landing 270 all 0 fail; mob 7, study 1, egress 1, health-egress 1 failing = identical on the base branch (pre-existing). eslint clean on every changed file. Both builds (webpack here, Turbopack in wt-1101-content) pass. One-gesture matrix 128/128 at 390 (four stories), wheel 27/27 at 1440, the demo jump lands from below every story at 390 and 1440. Visual pass: every home section at 390 and 1440, Night and Day.
+Not verified: a real phone; signed-in hero/dock states in a browser (source tests only); onboarding options on a live account.
+
+App: 1.0.21+19 (branch ui/1105-app-19, c34db6b69, pushed): subject options at onboarding and You > Subjects, Learn says the chosen option, the card turn lifts and catches the light (kept inside its slot after the emulator walk). Desktop/MockMob-build-19 (sells AAB, arm64 APK, symbols, OWNER-STEPS.md). Suite 12,469 pass, 111 = known old golden drift. His step: upload 19 (it replaces 18).
+
 ## 5 Nov 2026, about 12:30 am IST: the new home page "Desk Light" to production (owner LK67-LK75; his 4 Nov ~7 pm "speed up... deploy everything... as perfect as they can be"), plus tonight's Learn fixes
 
 **What shipped (branch web/1104-polish, spec docs/brain/handoff-1104/home-spec/SPEC-HOME-1104.md on feat/app-and-web):**
