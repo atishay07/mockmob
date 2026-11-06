@@ -95,6 +95,7 @@ function syncHeld(y = window.scrollY) {
 // frame ends the fling where the page stands (Chrome keeps the scroll position). Only where directional pans exist (the
 // browsers that need it); never on a mouse or trackpad; one frame, so the page is never left frozen.
 let flingStopped = 0;
+let stoppedAt = null; // the clamp a fling was last stopped on: once per catch, never every frame (each stop costs a page restyle)
 function stopFling() {
   if (typeof document === 'undefined' || !touchPans()) return;
   const html = document.documentElement;
@@ -414,11 +415,10 @@ function onFrame({ y }) {
   if (keepY !== null && drag && (keepDir > 0 ? y < keepY - 1 : y > keepY + 1)) { keepY = null; keepStory = null; }
   if (keepY !== null && (touches === 0 || drag) && Math.abs(y - keepY) > 1) {
     put(keepY);
-    if (touches === 0 && now() - lastRelease < FLING_MS) stopFling();
+    if (touches === 0 && now() - lastRelease < FLING_MS && stoppedAt !== keepY) { stoppedAt = keepY; stopFling(); syncHeld(keepY); }
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
   lastY = window.scrollY;
-  syncHeld(lastY);
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
 }
@@ -430,7 +430,7 @@ function settle() {
   if (touches > 0 || (wb && now() - wb.last < WHEEL_QUIET_MS)) return;
   const y = window.scrollY;
   const s = holding(y);
-  if (!s) return;
+  if (!s) { syncHeld(y); return; }
   const k = nearestStep(s.top, s.hold, s.steps, y);
   const target = restOf(s, k);
   if (Math.abs(y - target) > 1) put(target);

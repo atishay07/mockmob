@@ -286,7 +286,8 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(css, /@supports \(touch-action: pan-up\) \{\s*@media \(pointer: coarse\) \{\s*\.ss__track\[data-held\] \{ touch-action: pinch-zoom; \}\s*\.ss__track\[data-held='first'\] \{ touch-action: pan-up pinch-zoom; \}\s*\.ss__track\[data-held='last'\] \{ touch-action: pan-down pinch-zoom; \}/);
   const held = body(code, 'syncHeld');
   assert.match(held, /s\.step\(\) <= 0 \? 'first' : s\.step\(\) >= s\.steps - 1 \? 'last' : 'mid'/, 'the mark follows the step the story shows');
-  assert.match(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'kept current on every frame');
+  assert.doesNotMatch(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'never written on every frame: each write restyled the page mid-swipe (R5 speed bench)');
+  assert.match(body(code, 'settle'), /syncHeld\(target\);/, 'kept current when the page comes to rest');
   assert.match(body(code, 'commit'), /syncHeld\(\);/, 'and on every committed step');
   assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
   assert.match(code, /const ADOPT_PX = 64;/);
@@ -295,5 +296,5 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(stop, /requestAnimationFrame\(\(\) => \{ html\.style\.overflowY = before; flingStopped = 0; \}\)/, 'one frame only: the page is never left frozen');
   assert.match(body(code, 'touchPans'), /CSS\.supports\?\.\('touch-action', 'pan-up'\)/);
   assert.match(body(code, 'touchPans'), /\(pointer: coarse\)/, 'never on a mouse or trackpad');
-  assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS\) stopFling\(\);/, 'only a touch fling the clamp has caught');
+  assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS && stoppedAt !== keepY\) \{ stoppedAt = keepY; stopFling\(\); syncHeld\(keepY\); \}/, 'only a touch fling the clamp has caught');
 });
