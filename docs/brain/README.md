@@ -1,3 +1,5 @@
+> **Frozen on 6 Nov 2026.** The living copy of these docs is in the private team brain (`atishay07/mockmob-brain`, `docs/` folder, cloned at `~/mockmob-brain`). Scripts still read data files here, so leave them in place; update the brain instead.
+
 # MockMob project brain
 
 Authority: the owner's approved implementation roadmap, 2026-10-02, narrowed by the

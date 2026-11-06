@@ -8,6 +8,15 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
+## Project context lives in the team brain (since 6 Nov 2026)
+
+The living MockMob docs moved to the private repo `atishay07/mockmob-brain`, which every teammate clones to `~/mockmob-brain`: NOW, the owner ledger, STATUS, specs, decisions and every session handover. It loads at session start and syncs by itself.
+
+- Wherever this file says `docs/brain/<file>`, read and update `~/mockmob-brain/docs/<file>` instead.
+- `docs/brain/` in this repo is frozen. Scripts still read its data files, so don't edit or move them.
+- Save handovers with `continuum_checkpoint` (project `mockmob`); they are shared with the team.
+- Who decides what: `~/mockmob-brain/TEAM.md`.
+
 ## MockMob implementation contract
 Read PRODUCT.md, DESIGN.md, then docs/brain/README.md before changing behavior.
 The current direction is Score Recovery for CUET UG 2027 Commerce, AI-integrated.
