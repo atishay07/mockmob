@@ -11,7 +11,8 @@
    Round 4 (owner LK117-LK124, 5 Nov 2026; docs/design-decisions/web-r4-hero.md): the desktop hero fills the screen (the
    site-wide desktop container is desktop-scale.css; the desk takes 41 % of the width, the words the rest), "CUET 2027." is
    set larger under a highlighter mark, the fact line is gone (LK121), the number strip became the features strip with the
-   honest price hook (LK124), and the brand's answer-sheet texture sits behind it all (BrandTexture, brand-texture.css).
+   honest price hook (LK124), and a texture sits behind it all: since round 5 (owner, 6 Nov 2026: the answer-sheet bubbles
+   read "very weird") the page's own paper grain, strongest around the desk (BrandTexture, brand-texture.css).
    Motion: the highlighter draws once on load, then the typed line (the opening and the typed line are the load moment);
    Mobi idles in CSS (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
    ========================================================================== */
@@ -387,8 +388,9 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
 
 /* ==========================================================================
    The features strip (round 4, owner LK124; supersedes R3-D3's number strip): the main features (heroTaps.mjs
-   heroFeatures), each one link to its section, with its desk object, its name in Bricolage 700 and one quiet line; then
-   the honest price hook (heroPriceHook), "As low as ₹X a mock on Pro at N full mocks a week" (the pace in the same line and
+   heroFeatures), each one link to its section, with its icon (round 5: one drawn line set, featureGlyphs.mjs), its name in
+   Bricolage 700 and one quiet line; then
+   the honest price hook (heroPriceHook), "As low as ₹X a mock on Pro at 3 full mocks a day" (the slider's words) (the pace in the same line and
    ink as the figure), then the price that makes it, a link to the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
    two at 390), the hook the last row; tablets two across. From
    960 px it sits in the words' column under the keys, on the page's own paper between two hairlines: two across, three
@@ -411,7 +413,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   grid-template-columns: auto minmax(0, 1fr);
   grid-template-rows: auto auto;
   align-content: start;
-  column-gap: 10px;
+  column-gap: 14px;
   flex: 1;
   min-width: 0;
   min-height: 44px;
@@ -421,8 +423,12 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   -webkit-tap-highlight-color: transparent;
   transition: background-color 160ms ease-out;
 }
-.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: center; }
-.mm.lp .lp-strip__icon--mobi { display: grid; place-items: center; width: 36px; height: 36px; }
+/* The icon (round 5, owner 6 Nov 2026; featureGlyphs.mjs): one drawn line set, its 24 px grid shown at 28 px so it holds its
+   own beside the two lines of words (a 2 px stroke), ink-2 strokes and one detail in the brand word colour (volt in Night,
+   #526700 in Day). No tile behind it. */
+.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: center; width: 28px; height: 28px; color: var(--ink-2); }
+.mm.lp .lp-strip__accent { stroke: var(--brand-word, var(--ink)); }
+.mm.lp .lp-strip__accent--fill { fill: var(--brand-word, var(--ink)); }
 .mm.lp .lp-strip__name {
   grid-row: 1;
   grid-column: 2;

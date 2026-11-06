@@ -656,7 +656,14 @@ colour, Hanken 700 at 15px, sentence case, no caps, no tracking, no dots, no pil
 MockMob on Instagram, Wall of love, Key cards. Only product names stamp a head; a generic kicker or eyebrow never does.
 
 **Texture.** The brand's own answer sheet: rows of OMR bubbles with one marked volt, faint and fading out before the words (the
-creator cards). Never a generic grid, dot matrix or glow.
+creator cards). Never a generic grid, dot matrix or glow. Not behind the home hero (round 5, 6 Nov 2026: the owner found the
+bubble field there "very weird"): the hero carries the paper's own grain instead (BrandTexture, brand-texture.css), a fine
+static noise, light and dark specks that cancel so the ground never lifts into a patch, strongest around the desk and gone
+at the hero's foot, stronger in Night, never volt.
+
+**Hero strip icons** (round 5, 6 Nov 2026): one drawn line set (featureGlyphs.mjs), a 24 px grid shown at 28 px, a 1.75 px
+round stroke in ink 2 and one detail in `--brand-word`; inline beside the name and line, never in a tile. The section brand
+stamps keep their desk objects.
 
 **Voice.** The two-beat cadence where it is true: "Fix it once. Check it holds.", "Practise. Replay. Repair.", "Fix why you
 missed it."

@@ -1,8 +1,9 @@
 // node --test src/components/landing/homeHero.test.mjs
 // The home hero, "Desk Light" (4 Nov 2026, SPEC-HOME-1104 packet P2), refined in round 3 (R3-D3, owner LK99/LK100,
 // 5 Nov 2026) and round 4 (owner LK117-LK124, 5 Nov 2026: the desktop hero fills the screen, "CUET 2027." highlighted, the
-// fact line gone, the features strip and its price hook, the brand's answer-sheet texture; docs/design-decisions/
-// web-r4-hero.md): the LK67 and LK70 measures and the decisions the hero owns (2, 3, 4, 5, 13, 15, 18; decision 12's "no
+// fact line gone, the features strip and its price hook, a texture behind the hero; docs/design-decisions/
+// web-r4-hero.md) and round 5 (owner, 6 Nov 2026: the answer-sheet texture was "very weird", the strip's icons needed
+// improvement: the paper's own grain, one drawn icon set): the LK67 and LK70 measures and the decisions the hero owns (2, 3, 4, 5, 13, 15, 18; decision 12's "no
 // ambient pattern" is superseded by the owner's texture request, LK117). Source-level by default; with HOME_HERO_URL set (for example
 // http://localhost:3572) it also measures the running page in real Chrome (the shared browser lock, one browser) at
 // 390x844, 375x667, 360x640, 412x915 and 1440x900 (LK70: the h1 starts in the first 12 % of the screen, the pitch
@@ -15,6 +16,7 @@ import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { HERO_LINES, HERO_SENTENCE, HERO_TYPED } from './heroLines.mjs';
 import { DESK_LINES, DESK_NOTE, heroFeatures, heroPriceHook } from './heroTaps.mjs';
+import { FEATURE_GLYPHS, GLYPH_GRID, GLYPH_STROKE } from './featureGlyphs.mjs';
 import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD, RECOVERY_HEAD, COMPASS_HEAD, proPlan } from './homeCopy.mjs';
 import { KEY_CARDS_HEAD } from './keyCardsCopy.mjs';
 import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
@@ -33,6 +35,7 @@ const FIGURE_CSS = strip(read('../brand/mobi-figure.css'));
 const REACT = read('../brand/MobiReact.jsx');
 const MOBI = read('./HeroMobi.jsx');
 const BEAT_STRIP = read('./HeroBeatStrip.jsx');
+const THEME_CSS = strip(read('../../app/marketing-theme.css'));
 const OFFER = { purchasable: 'monthly', monthly: { rupees: 99 }, oneTime: { rupees: 99, expires: '31 July 2027' } };
 
 // ---- Decision 18: every hero string, with where its truth comes from ---------------------------------------------
@@ -154,8 +157,10 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.doesNotMatch(stripCss, /backdrop-filter|radial-gradient|box-shadow: 0 0 |animation/);
   assert.match(BEAT_STRIP, /<nav className="lp-strip" aria-label=\{label\}>/);
   assert.match(BEAT_STRIP, /<a href=\{item\.href\} className="lp-strip__fact">/);
-  assert.match(BEAT_STRIP, /<BrandIcon name=\{item\.icon\} size=\{36\} className="lp-strip__icon" \/>/, 'a desk object at 36 px (objects need 32 px or more)');
-  assert.match(BEAT_STRIP, /<MobiMark size=\{30\} \/>/, 'Ask Mobi is Mobi\'s own mark');
+  // Round 5 (owner, 6 Nov 2026: the icons "need improvement"; the photographic desk objects read muddy at 30 to 36 px): one
+  // drawn line set, inline beside the words, no tile, no photo.
+  assert.match(BEAT_STRIP, /<StripGlyph name=\{item\.icon\} \/>/);
+  assert.doesNotMatch(BEAT_STRIP, /BrandIcon|MobiMark|<img|<Image/, 'no desk-object art in the strip');
   assert.match(BEAT_STRIP, /<a href=\{hook\.href\} className="lp-strip__hook">/, 'the hook is one link to the slider');
   // Round 4 review (6 Nov): the figure never shows without its pace: the pace follows the unit in the same flow and ink,
   // and the price under it is ink-2 at body size (it was ink-3 at 13 px beside a 36 px figure).
@@ -173,6 +178,40 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
+});
+
+test('round 5 (owner, 6 Nov 2026): the strip\'s icons are one drawn line set: a 24 px grid, a 1.75 px round stroke in ink, one detail in the brand accent', () => {
+  // Every feature the strip can show has its own glyph, each drawn once.
+  const keys = heroFeatures({ compass: true, keyCards: true }).map((f) => f.icon);
+  for (const key of keys) assert.ok(FEATURE_GLYPHS[key], `${key} has a glyph`);
+  assert.equal(new Set(keys).size, keys.length, 'no two features share an icon');
+  assert.equal(GLYPH_GRID, 24);
+  assert.equal(GLYPH_STROKE, 1.75);
+  for (const [key, glyph] of Object.entries(FEATURE_GLYPHS)) {
+    // One small detail in the accent, the rest in ink.
+    assert.equal(glyph.parts.filter((p) => p.accent).length, 1, `${key}: one accent part`);
+    assert.ok(glyph.parts.some((p) => !p.accent), `${key}: drawn in ink`);
+    // Everything sits on the 24 px grid: every absolute move, line and curve point inside 1 to 23 (room for the stroke).
+    for (const part of glyph.parts) {
+      for (const m of part.d.matchAll(/([MLC])([^A-Za-z]+)/g)) {
+        for (const n of m[2].trim().split(/[\s,]+|(?=-)/).filter(Boolean).map(Number)) assert.ok(n >= 1 && n <= 23, `${key}: ${n} on the grid`);
+      }
+    }
+  }
+  // The svg: the grid, the stroke, round caps and joins, ink from currentColor, decorative (the link's words name it).
+  for (const attr of ['viewBox={`0 0 ${GLYPH_GRID} ${GLYPH_GRID}`}', 'fill="none"', 'stroke="currentColor"', 'strokeWidth={GLYPH_STROKE}', 'strokeLinecap="round"', 'strokeLinejoin="round"', 'aria-hidden="true"', 'focusable="false"']) {
+    assert.ok(BEAT_STRIP.includes(attr), attr);
+  }
+  // Ink is ink-2; the accent is the brand word colour (volt in Night, #526700 in Day), from the tokens, never typed.
+  assert.match(CSS, /\.mm\.lp \.lp-strip__icon \{[^}]*width: 28px; height: 28px; color: var\(--ink-2\);/);
+  assert.match(CSS, /\.mm\.lp \.lp-strip__accent \{ stroke: var\(--brand-word, var\(--ink\)\); \}/);
+  assert.match(CSS, /\.mm\.lp \.lp-strip__accent--fill \{ fill: var\(--brand-word, var\(--ink\)\); \}/);
+  assert.match(THEME_CSS, /html\[data-theme='dark'\] \.mm \{[^}]*--brand-word: #d2f000;/);
+  assert.match(THEME_CSS, /html\[data-theme='light'\] \.mm \{[^}]*--brand-word: #526700;/);
+  // No tile: the icon has no background, border, radius or padding of its own (DESIGN.md: never an icon tile).
+  const iconRule = CSS.match(/\.mm\.lp \.lp-strip__icon \{[^}]*\}/)[0];
+  assert.doesNotMatch(iconRule, /background|border|padding|box-shadow/);
+  assert.doesNotMatch(CSS, /lp-strip__icon--mobi/, 'the Mobi face mark\'s box is gone');
 });
 
 test('round 4 (LK120): "CUET 2027." is the headline\'s anchor: a step larger, under a highlighter mark that draws once', () => {
@@ -206,39 +245,56 @@ test('decision 3: the two hero links stay, as ink underlined text links', () => 
   assert.match(CSS, /\.mm\.lp \.lp-hero__links > a \{[^}]*min-height: 44px;/);
 });
 
-test('round 4 (LK117, supersedes decision 12): the hero\'s texture is the brand\'s own answer sheet, never a generic grid, dots or glow', () => {
-  // The owner (5 Nov, ~11:40 pm): "some sort of texture ... in the background, like we had previously ... in black mode the
-  // black space is even more significant". The old generic backdrop (grid, dot matrix, volt spotlight) stays gone.
+test('round 5 (owner 6 Nov 2026; LK117, supersedes decision 12): the hero\'s texture is the paper\'s own fine grain, never bubbles, a grid, dots or glow', () => {
+  // Round 4 (owner, 5 Nov ~11:40 pm): "some sort of texture ... in the background, like we had previously ... in black mode
+  // the black space is even more significant". Round 5 (6 Nov): the answer-sheet bubble field "is kind of very weird ... needs
+  // to be replaced". The old generic backdrop (grid, dot matrix, volt spotlight) stays gone too.
   assert.match(HERO, /<section className="lp-hero">\s*<BrandTexture variant="hero" \/>/, 'the section\'s first child, behind everything');
   assert.doesNotMatch(HERO, /HeroBackdrop|lp-bg|lp-hero__spot|spotlight/);
   assert.doesNotMatch(PAGE, /<HeroBackdrop/);
   assert.doesNotMatch(CSS, /radial-gradient|rgb\(210 240 0|rgba\(210, 240, 0|#d2f000[^;]*;\s*\}?\s*\/\*\s*glow/i);
   assert.match(CSS, /\.mm\.lp \.lp-hero \{ position: relative; isolation: isolate; \}/);
-  // The sheet: numbered questions, four bubbles each, one pencil mark a row; hidden from assistive technology; neutral.
-  assert.match(TEXTURE, /<svg className=\{`mm-texture mm-texture--\$\{variant\}`\} aria-hidden="true" focusable="false"/);
-  assert.match(TEXTURE, /<ellipse/);
-  assert.match(TEXTURE, /className="mm-texture__num"/);
-  assert.doesNotMatch(TEXTURE.replace(/^\s*\/\/.*$/gm, '') + TEXTURE_CSS, /d2f000|210, 240, 0|volt|animation|blur\(/i, 'never volt, never moving, never a blur');
+  // One empty layer hidden from assistive technology: no bubbles, rows, numbers or pattern.
+  const code = TEXTURE.replace(/^\s*\/\/.*$/gm, '');
+  assert.match(code, /<div className=\{`mm-texture mm-texture--\$\{variant\}`\} aria-hidden="true" \/>/);
+  assert.doesNotMatch(code, /<ellipse|<pattern|<text|mm-texture__(num|ring|mark)/);
+  assert.doesNotMatch(code + TEXTURE_CSS, /d2f000|210, 240, 0|volt|animation|transition|blur\(/i, 'never volt, never moving, never a blur');
   assert.match(TEXTURE_CSS, /\.mm-texture \{[^}]*position: absolute;[^}]*z-index: -1;[^}]*pointer-events: none;/);
-  // Stronger in Night than in Day; less again when more contrast is asked for; none in forced colours.
-  const alpha = (theme) => Number((TEXTURE_CSS.match(new RegExp(`${theme}[^}]*--mm-tex-ring: rgba\\([^)]*?, ([0-9.]+)\\)`)) || [])[1]);
-  assert.ok(alpha(":root\\[data-theme='dark'\\] \\.mm-texture \\{") > alpha('\\.mm-texture \\{\\s*position'), 'Night carries it more');
-  // Round 4 review (6 Nov): from 960 px the field is full around the desk and reaches into the words' column only right of
-  // the lead and the keys and above the features strip: no bubble or row number behind the strip, the hook, the links or
-  // the lead. The two clear lines follow the layout's own measures (desktop-scale.css tokens; the strip's top from the
-  // hero's top, Day, measured in real Chrome on 6 Nov: Night sits 12 to 16 px lower, so Day is the tighter case).
-  assert.match(TEXTURE_CSS, /--tex-left: calc\(max\(0px, \(100% - var\(--lp-max, 1680px\) - 2 \* var\(--lp-gutter, 40px\)\) \/ 2\) \+ var\(--lp-gutter, 40px\)\);/);
-  assert.match(TEXTURE_CSS, /--tex-clear-x: calc\(var\(--tex-left\) \+ clamp\(416px, 190px \+ 16vw, 600px\)\);/);
-  assert.match(TEXTURE_CSS, /--tex-clear-y: min\(250px \+ 21vw, 700px\);/);
-  assert.match(TEXTURE_CSS, /mask-composite: intersect, add, intersect, add;/);
-  assert.match(TEXTURE_CSS, /-webkit-mask-composite: source-in, source-over, source-in, source-over;/);
-  assert.match(TEXTURE_CSS, /linear-gradient\(to right, transparent 51%, #000 55\.5%\)/, 'the desk side starts past the column edge (51.5 to 52.3 % measured)');
-  assert.match(TEXTURE_CSS, /linear-gradient\(to bottom, #000 calc\(var\(--tex-clear-y\) - 96px\), transparent calc\(var\(--tex-clear-y\) - 24px\)\)/);
-  const STRIP_TOP = { 960: 439, 1100: 481, 1280: 518, 1366: 536, 1440: 554, 1600: 594, 1920: 653, 2560: 691 };
-  for (const [w, top] of Object.entries(STRIP_TOP)) assert.ok(Math.min(250 + 0.21 * w, 700) - 24 <= top, `${w}: the field is gone above the strip (${top} px)`);
-  // The lead's and the keys' right edges from the column's start, measured (Day and Night alike): the field starts past both.
-  const WORDS_RIGHT = { 1100: 386, 1280: 385, 1366: 385, 1440: 388, 1600: 416, 1920: 464, 2560: 566 };
-  for (const [w, right] of Object.entries(WORDS_RIGHT)) assert.ok(Math.min(Math.max(416, 190 + 0.16 * w), 600) >= right + 24, `${w}: clear of the lead and keys (${right} px)`);
+  // The grain: a pre-drawn noise tile (an SVG feTurbulence image the browser rasterises once, tiled seamlessly) used as a
+  // mask over plain colour; no live CSS filter, no blend mode, nothing repainted on scroll.
+  assert.equal((TEXTURE_CSS.match(/feTurbulence type='fractalNoise'/g) || []).length, 2, 'a light and a dark half of one noise');
+  assert.equal((TEXTURE_CSS.match(/stitchTiles='stitch'/g) || []).length, 2, 'seamless tiles');
+  const seeds = TEXTURE_CSS.match(/seed='\d+'/g) || [];
+  assert.equal(seeds.length, 2);
+  assert.equal(new Set(seeds).size, 1, 'the same noise, so a light speck and a dark speck never share a grain');
+  assert.doesNotMatch(TEXTURE_CSS, /(^|[;{\s])(filter|backdrop-filter|mix-blend-mode):/m);
+  assert.match(TEXTURE_CSS, /mask-size: 256px 256px, 100% 100%, 100% 100%;/);
+  assert.match(TEXTURE_CSS, /mask-composite: intersect, intersect;/);
+  assert.match(TEXTURE_CSS, /-webkit-mask-composite: source-in, source-in;/);
+  // It fades in under the nav and out over the hero's last quarter, so the hero meets the statement on plain paper.
+  assert.match(TEXTURE_CSS, /linear-gradient\(to bottom, transparent 0, #000 40px, #000 76%, transparent 100%\)/);
+  // Light and dark specks cancel, so the grain never lifts or darkens the ground into a patch (no glow, no wash); and Night
+  // carries it more than Day. Levels = alpha x (speck colour - ground), from the theme tokens.
+  const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const lum = (c) => 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  const token = (theme, name) => THEME_CSS.match(new RegExp(`html\\[data-theme='${theme}'\\] \\.mm \\{[^}]*--${name}: ([^;]+);`))[1].trim();
+  const night = { ground: lum(hex(token('dark', 'paper'))), tint: lum(token('dark', 'tint').split(' ').map(Number)) };
+  const day = { ground: lum(hex(token('light', 'paper'))), raised: lum(hex(token('light', 'paper-raised'))), tint: lum(token('light', 'tint').split(' ').map(Number)) };
+  const nightRule = TEXTURE_CSS.match(/:root\[data-theme='dark'\] \.mm-texture \{ --grain-hi: rgb\(var\(--tint, [\d ]+\) \/ ([\d.]+)\); --grain-lo: rgb\(0 0 0 \/ ([\d.]+)\); \}/);
+  assert.ok(nightRule, 'the Night grain');
+  const dayHi = Number(TEXTURE_CSS.match(/--grain-hi: color-mix\(in srgb, var\(--paper-raised, #fffdf8\) (\d+)%, transparent\);/)[1]) / 100;
+  const dayLo = Number(TEXTURE_CSS.match(/--grain-lo: rgb\(var\(--tint, 23 21 15\) \/ ([\d.]+)\);/)[1]);
+  const nightUp = Number(nightRule[1]) * (night.tint - night.ground);
+  const nightDown = Number(nightRule[2]) * night.ground;
+  const dayUp = dayHi * (day.raised - day.ground);
+  const dayDown = dayLo * (day.ground - day.tint);
+  assert.ok(Math.abs(nightUp - nightDown) <= 0.1 * nightUp, `Night balanced: +${nightUp.toFixed(1)} / -${nightDown.toFixed(1)} levels`);
+  assert.ok(Math.abs(dayUp - dayDown) <= 0.1 * dayUp, `Day balanced: +${dayUp.toFixed(1)} / -${dayDown.toFixed(1)} levels`);
+  assert.ok(nightUp > dayUp, 'Night carries it more');
+  assert.ok(nightUp <= 20 && dayUp <= 12, 'a few levels: grain, never a pattern that competes with the words');
+  // Where it shows: the lamp's falloff, strongest around the desk (from 960 px the right column), softer toward the words.
+  assert.match(TEXTURE_CSS, /--grain-falloff: radial-gradient\(ellipse 160% 46% at 85% 4%, #000 35%, transparent 100%\);/);
+  assert.match(TEXTURE_CSS, /@media \(min-width: 960px\) \{\s*\.mm-texture--hero \{ --grain-falloff: radial-gradient\(ellipse 72% 120% at 78% 40%, #000 38%, rgba\(0, 0, 0, 0\.5\) 72%, transparent 100%\); \}/);
   assert.match(TEXTURE_CSS, /@media \(prefers-contrast: more\) \{ \.mm-texture \{ opacity: 0\.5; \} \}/);
   assert.match(TEXTURE_CSS, /@media \(forced-colors: active\) \{ \.mm-texture \{ display: none; \} \}/);
 });
@@ -321,19 +377,15 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
         range.selectNodeContents(brand);
         const column = document.querySelector('.lp-hero__copy').getBoundingClientRect();
         const sizers = [...document.querySelectorAll('.lp-typed__sizer')].map((el) => el.getBoundingClientRect().right);
-        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), option4: b('.lp-desk .mm-drill__option:nth-child(4)'), strip: b('.lp-strip'), clear: (() => {
-          // Round 4 review: where the texture's words'-column part ends (its two clear lines), resolved by a probe in the hero.
-          if (innerWidth < 960) return null;
-          const cs = getComputedStyle(document.querySelector('.mm-texture--hero'));
-          const probe = document.createElement('i');
-          probe.style.cssText = `position:absolute;width:0;height:0;left:calc(${cs.getPropertyValue('--tex-clear-x')});top:calc(${cs.getPropertyValue('--tex-clear-y')} - 24px)`;
-          document.querySelector('.lp-hero').appendChild(probe);
-          const p = probe.getBoundingClientRect();
-          probe.remove();
-          const lead = document.createRange();
-          lead.selectNodeContents(document.querySelector('.lp-hero .lp-lead'));
-          const words = Math.max(...[...lead.getClientRects()].map((r) => r.right), ...[...document.querySelectorAll('.lp-hero .lp-cta .mm-actions > a')].map((a) => a.getBoundingClientRect().right));
-          return { x: p.left, y: p.top, words };
+        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), option4: b('.lp-desk .mm-drill__option:nth-child(4)'), strip: b('.lp-strip'), texture: (() => {
+          // Round 5: the grain covers the hero, behind it, untouchable, drawn by its two masked layers.
+          const el = document.querySelector('.lp-hero > .mm-texture--hero');
+          if (!el) return null;
+          const cs = getComputedStyle(el);
+          const hero = document.querySelector('.lp-hero').getBoundingClientRect();
+          const r = el.getBoundingClientRect();
+          const mask = (pseudo) => { const p = getComputedStyle(el, pseudo); return p.maskImage || p.webkitMaskImage || ''; };
+          return { z: cs.zIndex, events: cs.pointerEvents, hidden: el.getAttribute('aria-hidden'), same: Math.abs(r.top - hero.top) < 1 && Math.abs(r.height - hero.height) < 1 && Math.abs(r.width - hero.width) < 1, before: mask('::before'), after: mask('::after') };
         })() };
       });
       const pct = (y) => (100 * y) / height;
@@ -346,11 +398,13 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       assert.equal(m.fact, false, `${width}: no fact line`);
       assert.ok(m.brandRight <= m.columnRight + 1 && m.sizerRight <= m.columnRight + 1, `${width}: the headline fits its column`);
       if (width >= 960) assert.ok(m.option4.bottom <= height, `${width}x${height}: the fourth option ends at ${Math.round(m.option4.bottom)}`);
-      if (width >= 960) {
-        // No bubble or row number behind the strip, the hook, the links, the lead or the keys.
-        assert.ok(m.clear.y <= m.strip.top, `${width}x${height}: the field is gone at ${Math.round(m.clear.y)}, the strip starts at ${Math.round(m.strip.top)}`);
-        assert.ok(m.clear.x >= m.clear.words, `${width}x${height}: the field starts at ${Math.round(m.clear.x)}, the lead and keys end at ${Math.round(m.clear.words)}`);
-      }
+      // Round 5: the paper grain is drawn behind the whole hero, never in the way of a tap, at every width.
+      assert.ok(m.texture, `${width}: the hero's texture`);
+      assert.equal(m.texture.z, '-1');
+      assert.equal(m.texture.events, 'none');
+      assert.equal(m.texture.hidden, 'true');
+      assert.ok(m.texture.same, `${width}: the grain covers the hero`);
+      for (const layer of [m.texture.before, m.texture.after]) assert.match(layer, /data:image\/svg\+xml.*radial-gradient.*linear-gradient/, `${width}: noise, falloff and fade`);
       if (width < 960) assert.ok(m.leadPx >= 16 && m.leadPx <= 17, `${width}: lead ${m.leadPx} px`);
       if (width < 960) {
         assert.ok(pct(m.h1.top) <= 12, `${width}x${height}: h1 at ${pct(m.h1.top).toFixed(1)} %`);
