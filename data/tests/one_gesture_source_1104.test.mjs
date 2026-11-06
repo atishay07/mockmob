@@ -276,3 +276,24 @@ test('the one glide on the landing is the reader\'s own way back (R3-D4, LK104, 
   // Every frame of it is instant: html's scroll-behavior: smooth would turn each into a glide of its own.
   assert.match(body(bus, 'glideTo'), /behavior: 'instant'/);
 });
+
+test('touch screens: inside a held story the browser may pan only the way out, a fling caught on an edge is stopped, and a touch just short of an edge is the story\'s (R5, 6 Nov 2026, LK161)', () => {
+  // Measured on Android Chrome (real touch, emulator): quick swipes flew 2-3 steps because a swipe that starts while the
+  // last fling runs reaches the page uncancelable, a caught fling kept running and was boosted by the next swipe, and a
+  // fling that stopped 8 px short of a story started the next swipe outside it. Each has its own rule here.
+  const code = strip(CONTROLLER);
+  const css = read('src/app/scroll-story.css');
+  assert.match(css, /@supports \(touch-action: pan-up\) \{\s*@media \(pointer: coarse\) \{\s*\.ss__track\[data-held\] \{ touch-action: pinch-zoom; \}\s*\.ss__track\[data-held='first'\] \{ touch-action: pan-up pinch-zoom; \}\s*\.ss__track\[data-held='last'\] \{ touch-action: pan-down pinch-zoom; \}/);
+  const held = body(code, 'syncHeld');
+  assert.match(held, /s\.step\(\) <= 0 \? 'first' : s\.step\(\) >= s\.steps - 1 \? 'last' : 'mid'/, 'the mark follows the step the story shows');
+  assert.match(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'kept current on every frame');
+  assert.match(body(code, 'commit'), /syncHeld\(\);/, 'and on every committed step');
+  assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
+  assert.match(code, /const ADOPT_PX = 64;/);
+  const stop = body(code, 'stopFling');
+  assert.match(stop, /html\.style\.overflowY = 'hidden';/);
+  assert.match(stop, /requestAnimationFrame\(\(\) => \{ html\.style\.overflowY = before; flingStopped = 0; \}\)/, 'one frame only: the page is never left frozen');
+  assert.match(body(code, 'touchPans'), /CSS\.supports\?\.\('touch-action', 'pan-up'\)/);
+  assert.match(body(code, 'touchPans'), /\(pointer: coarse\)/, 'never on a mouse or trackpad');
+  assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS\) stopFling\(\);/, 'only a touch fling the clamp has caught');
+});

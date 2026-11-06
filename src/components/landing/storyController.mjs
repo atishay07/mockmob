@@ -67,6 +67,66 @@ const holding = (y = window.scrollY) => {
   return null;
 };
 
+// ---------------------------------------------------------------- touch screens: what the browser may pan (R5, LK161)
+
+// Measured on Android Chrome (6 Nov 2026): a swipe that starts while the last fling still runs reaches the page
+// uncancelable (Chrome treats touch listeners as passive during a fling), so no preventDefault could stop it and one
+// swipe flew the page through 2-3 steps. While the page rests inside a hold, the held track says which step it is on
+// (data-held: first, mid, last; scroll-story.css): on a touch screen the browser may then pan only the way out of the
+// story (up from the first step, down from the last) and not at all between, whatever the page can cancel. Steps are
+// the controller's alone.
+let heldTrack = null;
+let heldEdge = '';
+function syncHeld(y = window.scrollY) {
+  const s = holding(y);
+  const edge = !s ? '' : s.steps < 2 ? 'both' : s.step() <= 0 ? 'first' : s.step() >= s.steps - 1 ? 'last' : 'mid';
+  const track = s ? s.track : null;
+  if (track === heldTrack && edge === heldEdge) return;
+  if (heldTrack && heldTrack !== track) markHeld(heldTrack, '');
+  if (track) markHeld(track, edge);
+  heldTrack = track;
+  heldEdge = edge;
+}
+
+// A fling that stopped a few px short of a story's edge leaves the page just outside it (8 px, measured): a touch on that
+// story's track takes the page onto the edge's rest and is the story's, so it steps once instead of flying through.
+// A touch fling put back on a story's edge keeps running underneath on Android Chrome (measured, 6 Nov 2026): the next
+// swipe, a moment later, "boosts" it past every step, before any page rule can act. Making the root unscrollable for one
+// frame ends the fling where the page stands (Chrome keeps the scroll position). Only where directional pans exist (the
+// browsers that need it); never on a mouse or trackpad; one frame, so the page is never left frozen.
+let flingStopped = 0;
+function stopFling() {
+  if (typeof document === 'undefined' || !touchPans()) return;
+  const html = document.documentElement;
+  if (flingStopped || html.style.overflowY === 'hidden') return;
+  const before = html.style.overflowY;
+  html.style.overflowY = 'hidden';
+  flingStopped = window.requestAnimationFrame(() => { html.style.overflowY = before; flingStopped = 0; });
+}
+let pans = null;
+function touchPans() {
+  if (pans === null) pans = typeof CSS !== 'undefined' && !!CSS.supports?.('touch-action', 'pan-up') && !!window.matchMedia?.('(pointer: coarse)').matches;
+  return pans;
+}
+
+const markHeld = (track, edge) => { if (!track?.dataset) return; if (edge) track.dataset.held = edge; else delete track.dataset.held; };
+const ADOPT_PX = 64;
+function adoptEdge(target) {
+  if (!target) return null;
+  const y = window.scrollY;
+  for (const s of nearSet) {
+    if (!s.ok || s.steps < 2 || typeof s.track?.contains !== 'function' || !s.track.contains(target)) continue;
+    const end = s.top + s.hold;
+    const k = y < s.top && s.top - y <= ADOPT_PX ? 0 : y > end && y - end <= ADOPT_PX ? s.steps - 1 : -1;
+    if (k < 0) continue;
+    put(restOf(s, k));
+    if (s.step() !== k) s.show(k);
+    syncHeld(restOf(s, k));
+    return s;
+  }
+  return null;
+}
+
 // ---------------------------------------------------------------- the content's lean and its settle (transform only)
 
 let leanFrame = 0;
@@ -122,6 +182,7 @@ function commit(s, goal, { source }) {
   s.show(next);
   keepY = null;
   if (s.ok) put(restOf(s, next));
+  syncHeld();
   busyUntil = now() + lockMs(s.reduced());
   if (source !== 'touch') nudge(s, next > from ? 1 : -1);
   return true;
@@ -159,7 +220,7 @@ function onTouchStart(e) {
   bus.clearJump();
   if (touches !== 1) { g = null; return; }
   const p = e.touches[0];
-  const story = holding();
+  const story = holding() ?? adoptEdge(e.target);
   lastY = window.scrollY;
   // Outside a hold, the compositor can scroll before the first touchmove reaches the controller.
   g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target };
@@ -353,9 +414,11 @@ function onFrame({ y }) {
   if (keepY !== null && drag && (keepDir > 0 ? y < keepY - 1 : y > keepY + 1)) { keepY = null; keepStory = null; }
   if (keepY !== null && (touches === 0 || drag) && Math.abs(y - keepY) > 1) {
     put(keepY);
+    if (touches === 0 && now() - lastRelease < FLING_MS) stopFling();
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
   lastY = window.scrollY;
+  syncHeld(lastY);
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
 }
@@ -373,6 +436,7 @@ function settle() {
   if (Math.abs(y - target) > 1) put(target);
   const from = s.step();
   if (from !== k) { s.show(k); nudge(s, k > from ? 1 : -1); }
+  syncHeld(target);
 }
 
 // ---------------------------------------------------------------- declared jumps: links and hashes
@@ -463,6 +527,9 @@ function detach() {
   unsubBus?.();
   unsubBus = null;
   window.clearTimeout(settleTimer);
+  if (heldTrack) markHeld(heldTrack, '');
+  heldTrack = null;
+  heldEdge = '';
   keepY = null;
   keepStory = null;
   g = null;
