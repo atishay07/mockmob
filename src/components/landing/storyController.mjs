@@ -234,6 +234,7 @@ function onWheel(e) {
     next.story = s;
     // A burst that starts inside the lock is swallowed whole: owned (so the page does not scroll) but never fired.
     next.fired = now() < busyUntil;
+    if (next.fired) next.firedAt = t;
     next.own = !!s && (next.fired || (canStep(s, dir) && !scrollsInside(e.target, dir, s.stage)));
   } else {
     next.story = wb.story;
@@ -241,7 +242,9 @@ function onWheel(e) {
     // A wheel still turning after its step (a mouse spun on and on), or a second push inside the burst: once the lock is
     // over it steps again, or, from the story's last rest, leaves it. Without this a mouse spun without a pause stood
     // still in a story until the hand stopped (6 Nov 2026, R5). A trackpad's falling momentum never re-arms.
-    if (next.own && next.fired && next.story && now() >= busyUntil && wheelPushes(wb.px, px)) {
+    // The lock is measured on the events' own clock as well as the page's: a fast spin (30 notches 10 ms apart) is one
+    // step however late its events are handled.
+    if (next.own && next.fired && next.story && now() >= busyUntil && t - (next.firedAt ?? t) >= lockMs(next.story.reduced()) && wheelPushes(wb.px, px)) {
       if (canStep(next.story, dir) && !scrollsInside(e.target, dir, next.story.stage)) { next.fired = false; next.sum = 0; }
       else next.own = false;
     }
@@ -263,7 +266,7 @@ function onWheel(e) {
       keepDir = dir;
       keepY = restOf(s, dir > 0 ? 0 : s.steps - 1);
       put(keepY);
-      catchWheel(s);
+      catchWheel(s, t);
     }
     return;
   }
@@ -272,6 +275,7 @@ function onWheel(e) {
   wb.sum += px;
   if (!wb.fired && now() >= busyUntil && wb.sum >= WHEEL_MIN_PX) {
     wb.fired = true;
+    wb.firedAt = t;
     commit(wb.story, wb.story.step() + wb.dir, { source: 'wheel' });
   }
 }
@@ -317,8 +321,8 @@ const flinging = () => now() - lastRelease < FLING_MS || wheelRunning();
 // so the wheel's next notches no longer scroll the page in only to be put back on the edge. Before this a mouse spun down
 // the page shook 100 px at the Mistake Lab's door and could not get in while the wheel turned (6 Nov 2026, R5 feedback).
 // The arrival counts as a step for the lock; a wheel still turning after it steps on (wheelPushes, in onWheel).
-function catchWheel(s) {
-  wb = { ...wb, story: s, own: true, fired: true };
+function catchWheel(s, t = wb.last) {
+  wb = { ...wb, story: s, own: true, fired: true, firedAt: t };
   busyUntil = now() + lockMs(s.reduced());
 }
 

@@ -84,7 +84,7 @@ test('preventDefault is called only for a gesture the controller owns', () => {
   assert.match(wheel, /e\.ctrlKey/, 'pinch zoom is never cancelled');
   // R5 (6 Nov 2026): a burst from outside is cancelled only on the notch that would cross a story's edge, and that
   // notch is then the story's (catchWheel), so a spun mouse wheel neither overshoots nor shakes at the door.
-  assert.match(wheel, /const s = keepY === null && !bus\.jumping\(\) \? edgeAhead\(window\.scrollY, dir, Math\.max\(2 \* px, 120\)\) : null;\s*if \(s\) \{\s*if \(e\.cancelable\) e\.preventDefault\(\);[\s\S]*?catchWheel\(s\);/);
+  assert.match(wheel, /const s = keepY === null && !bus\.jumping\(\) \? edgeAhead\(window\.scrollY, dir, Math\.max\(2 \* px, 120\)\) : null;\s*if \(s\) \{\s*if \(e\.cancelable\) e\.preventDefault\(\);[\s\S]*?catchWheel\(s, t\);/);
   const keys = body(code, 'onKeyDown');
   assert.match(keys, /const s = holding\(\);\s*if \(!s \|\| \(now\(\) >= busyUntil && !canStep\(s, dir\)\)\) return;[\s\S]*e\.preventDefault\(\);/);
   assert.match(keys, /\(e\.key === ' ' \|\| e\.key === 'Spacebar'\) && target\?\.closest\(PRESSABLE\)\) return;/, 'Space on a focused button is the button\'s');
