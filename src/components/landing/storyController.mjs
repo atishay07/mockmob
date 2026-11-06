@@ -186,7 +186,10 @@ function commit(s, goal, { source }) {
   s.show(next);
   keepY = null;
   if (s.ok) put(restOf(s, next));
-  syncHeld();
+  // The held mark follows at rest (settle, 150 ms on): marked here it restyled the whole story inside the step's own
+  // frame, ~90 ms at 4x CPU (measured, LK169).
+  window.clearTimeout(settleTimer);
+  settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
   busyUntil = now() + lockMs(s.reduced());
   if (source !== 'touch') nudge(s, next > from ? 1 : -1);
   return true;
@@ -421,7 +424,9 @@ function onFrame({ y }) {
   if (keepY !== null && drag && (keepDir > 0 ? y < keepY - 1 : y > keepY + 1)) { keepY = null; keepStory = null; }
   if (keepY !== null && (touches === 0 || drag) && Math.abs(y - keepY) > 1) {
     put(keepY);
-    if (touches === 0 && now() - lastRelease < FLING_MS && stoppedAt !== keepY) { stoppedAt = keepY; stopFling(); syncHeld(keepY); }
+    // The held mark waits for rest (settle): marking mid-fling changed the track's touch-action, and Chrome restyled the
+    // whole story in the scroll handler, a 100 ms frame at 4x CPU on every catch (measured, LK169).
+    if (touches === 0 && now() - lastRelease < FLING_MS && stoppedAt !== keepY) { stoppedAt = keepY; stopFling(); }
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
   lastY = window.scrollY;

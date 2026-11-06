@@ -292,7 +292,7 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(body(code, 'onFrame'), /if \(lastY < s\.top && y >= s\.top\)/, 'a frame 1 px short of the edge is still outside: a fling that paused there crossed uncaught (LK169)');
   assert.match(body(code, 'onFrame'), /else if \(lastY > end && y <= end\)/);
   assert.match(body(code, 'settle'), /syncHeld\(target\);/, 'kept current when the page comes to rest');
-  assert.match(body(code, 'commit'), /syncHeld\(\);/, 'and on every committed step');
+  assert.match(body(code, 'commit'), /settleTimer = window\.setTimeout\(settle, SETTLE_QUIET_MS\);/, 'a committed step is marked at rest (settle), never in its own frame');
   assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
   assert.match(code, /const ADOPT_PX = 64;/);
   assert.match(code, /track\.classList\.add\(`held-\$\{edge\}`\)/, 'a class, never a data attribute (an attribute write restyled the whole story)');
@@ -301,5 +301,5 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(stop, /requestAnimationFrame\(\(\) => \{ html\.style\.overflowY = before; flingStopped = 0; \}\)/, 'one frame only: the page is never left frozen');
   assert.match(body(code, 'touchPans'), /CSS\.supports\?\.\('touch-action', 'pan-up'\)/);
   assert.match(body(code, 'touchPans'), /\(pointer: coarse\)/, 'never on a mouse or trackpad');
-  assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS && stoppedAt !== keepY\) \{ stoppedAt = keepY; stopFling\(\); syncHeld\(keepY\); \}/, 'only a touch fling the clamp has caught');
+  assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS && stoppedAt !== keepY\) \{ stoppedAt = keepY; stopFling\(\); \}/, 'only a touch fling the clamp has caught; the mark waits for rest (a mid-fling mark cost a 100 ms frame)');
 });
