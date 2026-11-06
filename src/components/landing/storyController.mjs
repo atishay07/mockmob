@@ -221,6 +221,7 @@ function scrollsInside(target, dir, boundary) {
 function onTouchStart(e) {
   touches = e.touches.length;
   keepY = null;
+  stoppedAt = null;
   bus.clearJump();
   if (touches !== 1) { g = null; return; }
   const p = e.touches[0];
@@ -396,8 +397,8 @@ function edgeAhead(y, dir, px) {
   for (const s of nearSet) {
     if (!s.ok || s.steps < 2) continue;
     const end = s.top + s.hold;
-    if (dir > 0 && y < s.top - 1 && y + px >= s.top) return s;
-    if (dir < 0 && y > end + 1 && y - px <= end) return s;
+    if (dir > 0 && y < s.top && y + px >= s.top) return s;
+    if (dir < 0 && y > end && y - px <= end) return s;
   }
   return null;
 }
@@ -408,8 +409,10 @@ function onFrame({ y }) {
     for (const s of nearSet) {
       if (!s.ok || (drag && s === g.story)) continue;
       const end = s.top + s.hold;
-      if (lastY < s.top - 1 && y >= s.top) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
-      else if (lastY > end + 1 && y <= end) { keepStory = s; keepY = restOf(s, s.steps - 1); keepDir = -1; }
+      // Strictly outside before, inside now: a frame 1 px short of the edge (1735 for a top of 1736, measured) is still
+      // outside, or a fling that paused there crossed uncaught and flew through every step (LK169).
+      if (lastY < s.top && y >= s.top) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
+      else if (lastY > end && y <= end) { keepStory = s; keepY = restOf(s, s.steps - 1); keepDir = -1; }
       else continue;
       if (!drag && wheelRunning()) catchWheel(s);
       break;
@@ -422,8 +425,6 @@ function onFrame({ y }) {
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
   lastY = window.scrollY;
-  // Kept current as the page moves (a swipe can start mid-motion): cheap, a class write only when the mark changes.
-  syncHeld(lastY);
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
 }
@@ -431,6 +432,7 @@ function onFrame({ y }) {
 function settle() {
   if (dragging() && keepY !== null) return; // a finger still down keeps its hold (it may move again)
   keepY = null;
+  stoppedAt = null; // the next catch may stop its own fling
   keepStory = null;
   if (touches > 0 || (wb && now() - wb.last < WHEEL_QUIET_MS)) return;
   const y = window.scrollY;

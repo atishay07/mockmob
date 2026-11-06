@@ -286,7 +286,11 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(css, /@supports \(touch-action: pan-up\) \{\s*@media \(pointer: coarse\) \{\s*\.ss__track\.held-mid \{ touch-action: pinch-zoom; \}\s*\.ss__track\.held-first \{ touch-action: pan-up pinch-zoom; \}\s*\.ss__track\.held-last \{ touch-action: pan-down pinch-zoom; \}/);
   const held = body(code, 'syncHeld');
   assert.match(held, /s\.step\(\) <= 0 \? 'first' : s\.step\(\) >= s\.steps - 1 \? 'last' : 'mid'/, 'the mark follows the step the story shows');
-  assert.match(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'kept current as the page moves: a swipe can start mid-motion (two real skips when it was set only at rest)');
+  assert.doesNotMatch(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'never on every scroll frame: marking mid-fling cost long frames and broke a fast drag into a story (LK169)');
+  assert.match(body(code, 'settle'), /stoppedAt = null;/, 'each catch may stop its own fling (a guard that never reset let a second fling into the same story run on)');
+  assert.match(body(code, 'onTouchStart'), /stoppedAt = null;/);
+  assert.match(body(code, 'onFrame'), /if \(lastY < s\.top && y >= s\.top\)/, 'a frame 1 px short of the edge is still outside: a fling that paused there crossed uncaught (LK169)');
+  assert.match(body(code, 'onFrame'), /else if \(lastY > end && y <= end\)/);
   assert.match(body(code, 'settle'), /syncHeld\(target\);/, 'kept current when the page comes to rest');
   assert.match(body(code, 'commit'), /syncHeld\(\);/, 'and on every committed step');
   assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
