@@ -3,7 +3,7 @@
 // weird ... Full marks, 190, mistake lab 190, all but key cards ... How many key cards will you practice? ... think of something
 // and improvise this also"; research and decisions in docs/design-decisions/web-r5-value.md).
 // Two inputs in the student's own units: Full mocks a week (value.mjs PACE, 5 to 21; the hero's "as low as" hook reads the top)
-// and Key cards a day (CARD_PACE, 10 to 60, only while Key cards are live). Every output is a different number: the whole Full
+// and Key cards a day (CARD_PACE, 12 to 60, only while Key cards are live). Every output is a different number: the whole Full
 // mocks the pace gives (each brings its own Mistake Lab read and chapter review, said once in words and never counted again),
 // their questions, and the Key cards the plan turns. The price frames: a day (the price over the days it pays for), then a mock
 // and a question at the student's pace. Unlike things are never added into one count.
@@ -23,8 +23,10 @@
 // Pure: no clock (the caller passes the date), no React, so node --test pins every figure (data/tests/pricing_value_1105.test.mjs).
 import { MOCK_PACES, PACE, QUESTIONS_PER_MOCK, aboutTenPaise, perDay, perQuestion, rupees } from './value.mjs';
 
-/** Key cards a day: from 10 to 60 (15 minutes at Key cards' own 15 seconds a card), in steps of 5; 20 (about 5 minutes) first. */
-export const CARD_PACE = Object.freeze({ min: 10, max: 60, step: 5, start: 20 });
+/** Key cards a day: from 12 to 60 (15 minutes at Key cards' own 15 seconds a card), in steps of 6; 24 (about 6 minutes) first.
+ *  Steps of 6, not 5: on a 30-day month a multiple of 5 cards a day can turn exactly as many cards as the mocks hold questions
+ *  (35 a day at 5 mocks a week: 1,050 and 1,050), and no two lines may share a number. */
+export const CARD_PACE = Object.freeze({ min: 12, max: 60, step: 6, start: 24 });
 /** Every value the Key cards slider can take, lowest first. */
 export const CARD_PACES = Object.freeze(Array.from({ length: (CARD_PACE.max - CARD_PACE.min) / CARD_PACE.step + 1 }, (_, i) => CARD_PACE.min + i * CARD_PACE.step));
 
@@ -61,9 +63,9 @@ function share(pricePaise, count) {
  * { kind: 'monthly' | 'once', days, until, price: '₹99', pricePaise,
  *   perDay: { about, aboutPaise, exact },
  *   pace, mocks, questions, perMock: { about, aboutPaise, exact }, perQuestion: value.mjs perQuestion,
- *   cards: { perDay, count, minutes, bank: { cards, subjects } } | null }
+ *   cards: { perDay, count, minutes, bank: { cards, subjects } } | null, mobi: { credits } | null }
  */
-export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.start, keyCards = null, minutesPerCard = null } = {}) {
+export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.start, keyCards = null, minutesPerCard = null, mobiCredits = null } = {}) {
   const day = perDay(offer, { from });
   if (!day || !Number.isFinite(pace) || pace <= 0) return null;
   const mocks = wholeMocks(pace, day.days);
@@ -79,6 +81,9 @@ export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.st
     perMock: share(pricePaise, mocks),
     perQuestion: perQuestion(pricePaise, questions),
     cards: perDayCards ? { perDay: perDayCards, count: perDayCards * day.days, minutes: cardMinutes(perDayCards, minutesPerCard), bank } : null,
+    // Pro's monthly credits for Mistake Repair and Ask Mobi (src/services/credits/aiCreditWallet.js AI_PRO_INCLUDED_MONTHLY_CREDITS,
+    // passed in by the server): a fixed grant a month, never counted as unlimited; null when not passed.
+    mobi: Number.isInteger(mobiCredits) && mobiCredits > 0 ? { credits: mobiCredits } : null,
   };
 }
 

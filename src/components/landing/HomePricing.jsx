@@ -5,6 +5,7 @@ import { PLAN_COPY } from '@/components/pricing/planOffer.mjs';
 import { ProSealStrip } from '@/components/pricing/ProShowcase';
 import { cardsBank, planValue } from '@/lib/payments/receipt.mjs';
 import { KEYCARD_RULES } from '@/../data/keycards.js';
+import { AI_PRO_INCLUDED_MONTHLY_CREDITS } from '@/services/credits/aiCreditWallet';
 import { PLAN_HOME, freeLine, planGroups, pricingHead } from './homeCopy.mjs';
 import { Reveal } from './Reveal';
 import { PlanCounts } from './PlanCounts';
@@ -49,8 +50,9 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
           </PlanCard>
         </PlanStage>
         {value ? (
-          <div className={`lp-price__side${bank ? ' lp-price__side--full' : ''}`}>
-            <PlanValue offer={terms} from={from.toISOString()} keyCards={bank} minutesPerCard={bank ? KEYCARD_RULES.minutesPerCard : null} />
+          <div className="lp-price__side lp-price__side--full">
+            <PlanValue offer={terms} from={from.toISOString()} keyCards={bank} minutesPerCard={bank ? KEYCARD_RULES.minutesPerCard : null}
+              mobiCredits={AI_PRO_INCLUDED_MONTHLY_CREDITS} />
           </div>
         ) : null}
       </div>

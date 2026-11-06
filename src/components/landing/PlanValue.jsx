@@ -3,32 +3,34 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { PACE } from '@/lib/payments/value.mjs';
 import { CARD_PACE, mockPaces, planValue } from '@/lib/payments/receipt.mjs';
+import { BrandIcon } from '@/components/brand/BrandIcon';
+import { stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
 import { VALUE_COPY } from './homeCopy.mjs';
 
-// Everything Pro's price covers at the student's own pace, beside the Pro card (round 5, second take; owner 6 Nov 2026: "the
-// slider implementation that you have done is a good direction, but it's a bit weird ... Full marks, 190, mistake lab 190, all but
-// key cards ... How many key cards will you practice?"; docs/design-decisions/web-r5-value.md).
-// It leads with what the price comes to a day, the same at every pace, with its sum. Two questions follow in the student's own
-// units, each a native range (arrows, Home/End and Page keys, a 44 px target; a screen reader hears the value in words through
-// aria-valuetext): full mocks a week (5 to 21, ticks at one and two a day) and, while Key cards are live, Key cards a day (10 to
-// 60, ticks every ten). The answer says that plan back over the period the price pays for, one line for each question, so no two
-// lines share a number (Full mocks with the price of a mock and of a question, their questions and the Lab read and chapter
-// review after every mock; the Key cards turned with their minutes a day and the bank they come from), then what else Pro holds
-// without a number. Every figure comes from receipt.mjs planValue (pure, tested); nothing here is typed or works
-// out money itself.
+// Everything Pro's price covers at the student's own pace, beside the Pro card (round 5, third take; owner 6 Nov 2026: "a slider for
+// how many things a student can do, like if someone is attempting 1 mock, then repairs, then key cards and other stuff ... So many
+// features other than mocks ... which the Pro plan gives"; after the second take: "it doesn't add all the other features";
+// docs/design-decisions/web-r5-value.md).
+// Two questions in the student's own units, each a native range (arrows, Home/End and Page keys, a 44 px target; a screen reader
+// hears the value in words through aria-valuetext): full mocks a week (5 to 21, ticks at one and two a day) and, while Key cards
+// are live, Key cards a day (12 to 60, ticks every twelve). Then every Pro feature as its own line, with its own desk object and its
+// own measure, never the same number twice: Full mocks (the month's count, the price of one), Mistake Lab (the answers it
+// traces), Chapter review (after every mock), Mistake Repair and Ask Mobi (Pro's monthly credits), Key cards (cards turned); then
+// what Pro includes without a measure (NTA exam mode, Smart practice, Compass Pro, saved questions); then the payoff: the price
+// for all of it, a day and a question. Every figure comes from receipt.mjs planValue (pure, tested); nothing here is typed or
+// works out money itself.
 // The days left are counted from the day the page was built (`from`, so the server's figures and the first paint agree), then,
-// once the block is on a reader's screen, from the reader's own day: the page is built once per release, and a frozen day would
-// overstate the mocks left and understate a day's price as the term runs down.
-// The counts roll to their new values in 280 ms (ease-out) from wherever they stand, so a drag reads as more, not as a flash;
-// reduced motion changes them at once. The rolling digits are hidden from screen readers, which read the real figures, and one
-// polite live line says the new plan once the student stops moving a slider.
+// once the block is on a reader's screen, from the reader's own day (a one-time term runs down; a month is always 30 days).
+// The counts roll to their new values in 280 ms (ease-out) from wherever they stand; reduced motion changes them at once. The
+// rolling digits are hidden from screen readers, which read the real figures, and one polite live line says the new plan once
+// the student stops moving a slider.
 
 const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 const n = (count) => Number(count).toLocaleString('en-IN');
 const dayOf = (date) => date.toISOString().slice(0, 10);
-/** The ticks on each rail: whole days on the mocks rail (one and two a day), every ten on the Key cards rail. */
+/** The ticks on each rail: whole days on the mocks rail (one and two a day), every twelve on the Key cards rail. */
 const MOCK_TICKS = Object.freeze([7, 14]);
-const CARD_TICKS = Object.freeze([20, 30, 40, 50]);
+const CARD_TICKS = Object.freeze([24, 36, 48]);
 
 /** Rolls whole numbers to new targets together (one frame loop, ease-out), starting from the figures on screen. */
 function useRoll(targets, duration = 280) {
@@ -64,15 +66,13 @@ function Count({ shown, real }) {
   return <><span aria-hidden="true">{n(shown)}</span><span className="lp-sr">{n(real)}</span></>;
 }
 
-/** One line of the answer: its name and count, then what one costs (in ink) and what it holds, each on its own row. */
-function Line({ label, detail: [lead, rest], shown, real }) {
-  return (
-    <div className="lp-val__line">
-      <dt>{label}</dt>
-      <dd><Count shown={shown} real={real} /></dd>
-      <dd className="lp-val__more">{lead ? <b>{lead}</b> : null}<span>{rest}</span></dd>
-    </div>
-  );
+/** A feature's desk object: the brand's 3D icon (BrandIcon), or Mobi himself for Mistake Repair and Ask Mobi (the hero strip's). */
+function FeatureObject({ name }) {
+  if (name === 'mobi') {
+    // eslint-disable-next-line @next/next/no-img-element -- pre-sized webp set, as the hero strip draws it
+    return <span className="lp-val__obj" aria-hidden="true"><img src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes="40px" width={40} height={37} alt="" decoding="async" loading="lazy" /></span>;
+  }
+  return <BrandIcon name={name} size={40} className="lp-val__obj" />;
 }
 
 /** One question: its words, the answer in words, a 44 px native range over a drawn rail with its ticks, and the two ends. */
@@ -97,7 +97,7 @@ function Pace({ id, ask, words, value, min, max, step, ticks, onChange }) {
   );
 }
 
-export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null }) {
+export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null, mobiCredits = null }) {
   const id = useId();
   const [readOn, setReadOn] = useState(from);
   useEffect(() => {
@@ -115,8 +115,8 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null 
   const low = paces[0] ?? PACE.min;
   const high = paces.at(-1) ?? PACE.max;
   const pick = Math.min(Math.max(pace, low), high);
-  const v = useMemo(() => (paces.length ? planValue(offer, { from: at, pace: pick, cards, keyCards, minutesPerCard }) : null), [paces, offer, at, pick, cards, keyCards, minutesPerCard]);
-  const [mocks, turned] = useRoll(v ? [v.mocks, v.cards?.count ?? 0] : [0, 0]);
+  const v = useMemo(() => (paces.length ? planValue(offer, { from: at, pace: pick, cards, keyCards, minutesPerCard, mobiCredits }) : null), [paces, offer, at, pick, cards, keyCards, minutesPerCard, mobiCredits]);
+  const [mocks, traced, turned] = useRoll(v ? [v.mocks, v.questions, v.cards?.count ?? 0] : [0, 0, 0]);
   useEffect(() => {
     if (!touched || !v) return undefined;
     const timer = setTimeout(() => setSaid(VALUE_COPY.live(v)), 700);
@@ -124,16 +124,16 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null 
   }, [touched, v]);
   if (!v) return null;
 
-  const day = VALUE_COPY.day(v);
-  const { lines } = VALUE_COPY;
+  const pay = VALUE_COPY.payoff(v);
+  // The rolling figure of each counted line, and the real one a screen reader hears.
+  const rolled = { mocks: [mocks, v.mocks], lab: [traced, v.questions], cards: [turned, v.cards?.count ?? 0] };
   // A move marks the block as touched, so the live line speaks only after a student's own change, never on load.
   const move = (set) => (value) => { setTouched(true); set(value); };
   return (
     <div className="lp-val" role="group" aria-labelledby={`${id}-title`}>
       <div className="lp-val__top">
         <h3 className="lp-val__title" id={`${id}-title`}>{VALUE_COPY.title(v)}</h3>
-        <p className="lp-val__day">{day.lead}<b>{day.figure}</b>{day.unit}</p>
-        <p className="lp-val__sum">{VALUE_COPY.daySum(v)}</p>
+        <p className="lp-val__period">{VALUE_COPY.period(v)}</p>
       </div>
 
       <div className="lp-val__paces">
@@ -146,14 +146,33 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null 
       </div>
 
       <div className="lp-val__out">
-        <p className="lp-val__plan">{VALUE_COPY.plan}</p>
-        <dl className="lp-val__lines">
-          <Line label={lines.mocks.label} detail={lines.mocks.detail(v)} shown={mocks} real={v.mocks} />
-          {v.cards ? <Line label={lines.cards.label} detail={lines.cards.detail(v)} shown={turned} real={v.cards.count} /> : null}
-        </dl>
+        <p className="lp-val__plan">{VALUE_COPY.plan(v)}</p>
+        <ul className="lp-val__stack">
+          {VALUE_COPY.counted(v).map((item) => (
+            <li key={item.key} className="lp-val__feat" data-feature={item.key}>
+              <FeatureObject name={item.icon} />
+              <span className="lp-val__what"><b>{item.name}</b><span>{item.line}</span></span>
+              <span className="lp-val__measure">
+                {item.figure ? (rolled[item.key] ? <b><Count shown={rolled[item.key][0]} real={rolled[item.key][1]} /></b> : <b>{item.figure}</b>) : null}
+                <span>{item.unit}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <ul className="lp-val__inc" aria-label={VALUE_COPY.includedWord}>
+          {VALUE_COPY.included.map((item) => (
+            <li key={item.key} className="lp-val__inc-item">
+              <FeatureObject name={item.icon} />
+              <span className="lp-val__what"><b>{item.name}</b><span>{item.line}</span></span>
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <p className="lp-val__also"><b>{VALUE_COPY.also.lead}</b> {VALUE_COPY.alsoLine()} {VALUE_COPY.also.credits}</p>
+      <div className="lp-val__pay">
+        <p className="lp-val__payoff">{pay.lead}<b>{pay.figure}</b>{pay.unit}</p>
+        <p className="lp-val__payline">{VALUE_COPY.payoffLine(v)}</p>
+      </div>
       <p className="lp-sr" aria-live="polite">{said}</p>
     </div>
   );

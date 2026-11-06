@@ -89,3 +89,15 @@ logs show the plan card and the value card with the same top and foot at 1440 an
   about 165 days are left (mid-February 2027), so a release before then keeps it true.
 - On the monthly branch (not live) the section sub and the card would both say ₹3.30 a day.
 - On desktop /pricing the reading and focus order is now Pro, then Free, while Free still sits on the left.
+
+## Third take (6 Nov 2026, after the owner's preview review)
+
+The owner saw the preview's one-time fallback ("about ₹0.40 a day ... 99/267 days") and a card that "just counts mocks and all, and
+it doesn't add all the other features". Production sells monthly; the card is now built and checked on the monthly offer (dev server
+run with `RAZORPAY_PLAN_ID_PRO_MONTHLY_99` set; one-time still works). One card: the two sliders (full mocks a week; Key cards a day,
+now 12 to 60 in sixes so the Key cards turned can never equal the questions), then every Pro feature as its own line with its own
+brand object and its own measure, never the same number twice: Full mocks (21 this month, about ₹4.80 a mock), Mistake Lab (1,050
+answers traced), Chapter review (after every mock), Mistake Repair and Ask Mobi (50 credits a month, Pro's real grant,
+`AI_PRO_INCLUDED_MONTHLY_CREDITS`; one credit = one Mobi job), Key cards (720 cards turned, about 6 minutes a day); then NTA exam mode,
+Quick and Smart practice, Compass Pro and saved questions as included tiles; then the payoff "All of it for ₹99 a month / ₹3.30 a day,
+under 10 paise a question." Shots: `tmp/r5-feedback/pricing2/monthly-final/`.
