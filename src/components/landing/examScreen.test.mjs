@@ -9,9 +9,12 @@
 // the header's details and the palette in a drawer). R4-H6 (LK129, 6 Nov 2026, the owner's decision, which supersedes R3-D6:
 // "Exam Day, you have degraded this a lot ... Revert back"): the phone sees the round-2 monitor, scaled, again, and a "Try it
 // full screen" key under it opens the same screen in a full-screen dialog at a readable size, sideways like a monitor.
+// R5 (owner, 6 Nov 2026, which supersedes R4-H6's sideways dialog: "Then, this full-screen mode on mobile: it should detect that
+// it's mobile, and it should not make it horizontal"): the full-screen view draws the runner as it is on a phone, upright, in
+// real pixels (TestPageClient.jsx and nta-classic.css below 1024 px), never turned and never locked; the inline monitor stays.
 // Source-level: vocabulary, theme, labelled counters, the switch that keeps the answers and the timer, the monitor, NTA's
-// anatomy, the full-screen dialog and the size budgets. The heights and the dialog's text sizes are measured in a browser
-// (tmp/r4/ in the r4-sections worktree, and the opt-in test at the end of this file).
+// anatomy, the full-screen view and the size budgets. The heights and the view's text sizes are measured in a browser
+// (tmp/r5-feedback/exam/ in the web-polish worktree, and the opt-in test at the end of this file).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -33,8 +36,11 @@ const strings = (value, out = []) => {
 };
 const MAIN = JSX.slice(0, JSX.indexOf('function NtaScreen('));
 const NTA_SCREEN = JSX.slice(JSX.indexOf('function NtaScreen('));
-// R4-H6: the screen is one const (`frame`) drawn in the monitor or in the full-screen dialog; the dialog and its CSS.
+// R4-H6: the screen is one const (`frame`) drawn in the monitor or in the full-screen dialog; the dialog and its CSS. R5: the
+// monitor draws `frame`, the full-screen view draws `phone` (the runner on a phone; NTA style: PhoneNta), from the one state.
 const FRAME = JSX.slice(JSX.indexOf('  const frame = ('), JSX.indexOf('  const switchKeys = ('));
+const PHONE = JSX.slice(JSX.indexOf('  const phone = ('), JSX.indexOf('  const switchKeys = ('));
+const PHONE_NTA = JSX.slice(JSX.indexOf('function PhoneNta('));
 const DIALOG = JSX.slice(JSX.indexOf('{full ? createPortal('), JSX.indexOf('function NtaScreen('));
 const FULL_CSS = CSS.slice(CSS.indexOf('full screen on phones (R4-H6'));
 
@@ -212,11 +218,11 @@ test('the section is short: a head of at most 20 words, the size budgets are sta
 
 // Opt-in browser measure: EXAM_HEIGHT_URL=http://localhost:3592/ node --test src/components/landing/examScreen.test.mjs
 // Section height at most 780 px at 360 and 390 and 810 px at 1440, in both interfaces and both themes; switching never moves it.
-// On a phone (360, 390) the full-screen key is at least 44 px tall and opens the dialog. Held upright, the dialog's long side is
-// the window's height, so the screen is drawn 792 px wide at 390 x 844 (0.9 px a design pixel: MockMob's stem 16.2 px, NTA's
-// 14 px, options 12.6-13 px) and 620 px at 360 x 640 (0.7: stems 10.9-12.7 px, options 9.9-10.2 px), in both interfaces;
-// Escape closes it and gives the focus back to the key.
-test('section height budgets and the full-screen dialog in a browser', { skip: !process.env.EXAM_HEIGHT_URL }, async () => {
+// On a phone (360, 390) the full-screen key is at least 44 px tall and opens the view (R5): upright (its stage is the window,
+// never turned), the runner on a phone in real pixels (MockMob's stem 19 px and options 16 px, NTA style's 16 and 15.5 px),
+// every key in it at least 44 px; the palette key raises the sheet and Escape lowers the sheet alone; Escape then closes the
+// view and gives the focus back to the key; the answer stays in the monitor.
+test('section height budgets and the full-screen view in a browser', { skip: !process.env.EXAM_HEIGHT_URL }, async () => {
   const { createRequire } = await import('node:module');
   const require = createRequire(import.meta.url);
   const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
@@ -243,22 +249,32 @@ test('section height budgets and the full-screen dialog in a browser', { skip: !
           assert.ok(box && box.height >= 44, `${width}px ${theme}: the full-screen key is ${box?.height} px tall`);
           await key.click();
           assert.equal(await page.locator('.xs-full:modal').count(), 1, 'the browser has opened a modal');
+          const stage = await page.$eval('.xs-full__stage', (el) => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height), t: getComputedStyle(el).transform }; });
+          assert.deepEqual(stage, { w: width, h: height, t: 'none' }, `${width}px ${theme}: the view is upright, the size of the window`);
           await page.locator('.xs-full .xs-switch').getByRole('button', { name: /^MockMob/ }).click();
           const answer = page.locator('.xs-full .xs-option').last();
           await answer.click();
           assert.equal(await answer.getAttribute('aria-pressed'), 'true');
           for (const mode of [/^MockMob/, /NTA style/]) {
             await page.locator('.xs-full .xs-switch').getByRole('button', { name: mode }).click();
-            const sizes = await page.$eval('.xs-full', (dialog) => {
+            const seen = await page.$eval('.xs-full', (dialog) => {
               const size = (sel) => { const el = dialog.querySelector(sel); return el ? parseFloat(getComputedStyle(el).fontSize) : 0; };
-              return { stem: size('.xs-stem, .xs-n-stem'), option: size('.xs-option, .xs-n-option') };
+              const keys = [...dialog.querySelectorAll('.xs-phone button')].map((b) => b.getBoundingClientRect()).filter((r) => r.width && r.height);
+              return { stem: size('.xs-stem, .xs-n-stem'), option: size('.xs-option, .xs-n-option'), smallest: Math.round(Math.min(...keys.map((r) => Math.min(r.width, r.height)))) };
             });
-            const [stemMin, optionMin] = width >= 390 ? [13.5, 12.5] : [10.5, 9.5];
-            assert.ok(sizes.stem >= stemMin, `${width}px ${theme} ${mode}: the dialog's stem is ${sizes.stem} px`);
-            assert.ok(sizes.option >= optionMin, `${width}px ${theme} ${mode}: the dialog's options are ${sizes.option} px`);
+            const [stemMin, optionMin] = /NTA/.test(mode.source) ? [16, 15.5] : [19, 16];
+            assert.ok(seen.stem >= stemMin, `${width}px ${theme} ${mode}: the view's stem is ${seen.stem} px`);
+            assert.ok(seen.option >= optionMin, `${width}px ${theme} ${mode}: the view's options are ${seen.option} px`);
+            assert.ok(seen.smallest >= 44, `${width}px ${theme} ${mode}: a key in the view is ${seen.smallest} px`);
           }
+          // NTA style is current: its Question Palette key raises the sheet; Escape lowers the sheet and leaves the view.
+          await page.locator('.xs-full .xs-ph-keys .xs-n-key').nth(2).click();
+          assert.equal(await page.locator('.xs-full .xs-ph-sheet:modal').count(), 1, 'the palette sheet is up');
           await page.keyboard.press('Escape');
-          assert.equal(await page.locator('.xs-full').count(), 0, 'Escape closes the dialog');
+          assert.equal(await page.locator('.xs-full .xs-ph-sheet:modal').count(), 0, 'Escape lowers the sheet');
+          assert.equal(await page.locator('.xs-full:modal').count(), 1, 'and leaves the view open');
+          await page.keyboard.press('Escape');
+          assert.equal(await page.locator('.xs-full').count(), 0, 'Escape closes the view');
           assert.equal(await page.evaluate(() => document.activeElement?.classList.contains('xs-full-open')), true, 'the focus is back on the key');
           await page.locator('.xs-layout > .xs-switch').getByRole('button', { name: /^MockMob/ }).click();
           assert.equal(await page.locator('.xs-device .xs-option').last().getAttribute('aria-pressed'), 'true', 'the answer survives switching skins and returning to the monitor');
@@ -274,14 +290,17 @@ test('R4-H6: the monitor is the one device at every width; round 3\'s drawn phon
   assert.match(DEVICE_JSX, /export function ExamDevice\(\{ children, ref \}\)/);
   assert.match(DEVICE_JSX, /<div className="xs-device" ref=\{ref\}>\s*<div className="xs-monitor">\s*<div className="xs-bezel">\s*<div className="xs-glass">\{children\}<\/div>/);
   assert.doesNotMatch(DEVICE_JSX + DEVICE_CSS, /xs-phone/, 'no phone device');
-  assert.doesNotMatch(JSX + CSS, /xs-frame--phone|xs-p-|xs-pn|PhoneNta|setDrawer/, 'no phone-native screen and no drawer');
+  assert.doesNotMatch(JSX + CSS, /xs-frame--phone|xs-p-|xs-pn|setDrawer/, 'no R3-D6 phone screen and no drawer');
+  // R5: a phone-native screen is drawn again, but only inside the full-screen view, never in the section (no drawn phone).
+  assert.equal((JSX.match(/\{phone\}/g) || []).length, 1, 'the phone screen is drawn in one place');
+  assert.ok(JSX.indexOf('{phone}') > JSX.indexOf('{full ? createPortal('), 'and that place is the full-screen view');
   assert.doesNotMatch(DEVICE_CSS, /\.xs-device > \.xs-monitor \{ display: none; \}/, 'the monitor shows at every width');
   // The monitor's own rules are D6's numbers, unchanged.
   assert.match(DEVICE_CSS, /\.xs-bezel \{[^}]*padding: 1\.3cqw 1\.3cqw 3cqw;[^}]*border-radius: 2cqw;/);
   assert.match(CSS, /\.xs-frame \{\s*--u: calc\(100cqw \/ 880\);/);
   // Kept from R3-D6: a phone's long press also fires the context menu, and the strike it made is not undone.
   assert.match(JSX, /const strikeFromMenu = \(event, option\) => \{ event\.preventDefault\(\); if \(pressStruck\.current\) \{ pressStruck\.current = false; return; \}/);
-  assert.equal((JSX.match(/\{optionButtons\}/g) || []).length, 1, 'one set of options, in the one screen');
+  assert.equal((JSX.match(/\{optionButtons\}/g) || []).length, 1, 'one set of options, drawn in one screen at a time');
 });
 
 test('R4-H6: below 761 px a "Try it full screen" key under the monitor, a 48 px secondary key, hidden from 761 px', () => {
@@ -292,29 +311,128 @@ test('R4-H6: below 761 px a "Try it full screen" key under the monitor, a 48 px 
   assert.match(FULL_CSS, /grid-template-areas: 'head seat' 'sub sub' 'switch switch' 'device device' 'full full' 'gate gate';/, 'the key sits right under the monitor');
 });
 
-test('R4-H6: the dialog is the same screen and switch in a named modal; Escape or the close key shuts it; the focus goes in and back', () => {
-  assert.match(DIALOG, /<dialog className="xs-full" aria-label=\{EXAM\.full\.title\} onCancel=\{\(event\) => \{ event\.preventDefault\(\); closeFull\(\); \}\} ref=\{fullBox\}>/);
+test('R4-H6, R5: the view is the same state and switch in a named modal; the focus goes in and back; one screen at a time', () => {
+  // React bubbles a nested dialog's cancel (the palette sheet's Escape) to this one's onCancel: only the view's own closes it.
+  assert.match(DIALOG, /<dialog className="xs-full" aria-label=\{EXAM\.full\.title\} onCancel=\{\(event\) => \{ if \(event\.target !== event\.currentTarget\) return; event\.preventDefault\(\); closeFull\(\); \}\} ref=\{fullBox\}>/);
   assert.match(JSX, /dialog\.showModal\(\)/, 'the browser makes the background inert and contains keyboard focus');
-  assert.match(DIALOG, /<div className="xs-full__glass">\{frame\}<\/div>/, 'the dialog draws the screen itself');
+  assert.match(DIALOG, /<div ref=\{fullStage\} className="xs-full__stage">/);
+  assert.match(DIALOG, /\{phone\}/, 'the view draws the runner on a phone');
+  assert.doesNotMatch(DIALOG, /\{frame\}|xs-full__glass/, 'not the monitor\'s screen');
   assert.match(JSX, /\{full \? <div className="xs-frame xs-frame--away" aria-hidden="true" \/> : frame\}/, 'drawn in one place at a time: one timer, one set of live regions');
   assert.match(DIALOG, /<button ref=\{fullClose\} type="button" className="xs-full__close" aria-label=\{EXAM\.full\.close\} onClick=\{closeFull\}>/);
+  assert.match(DIALOG, /<div className="xs-switch" role="group" aria-label=\{words\.switchLabel\}>\{switchKeys\}<\/div>/);
   assert.match(JSX, /fullClose\.current\?\.focus\(\{ preventScroll: true \}\);/);
   assert.match(JSX, /fullOpener\.current\?\.focus\(\{ preventScroll: true \}\);/);
-  assert.match(JSX, /root\.style\.overflow = 'hidden';/, 'the page under the dialog holds still');
+  assert.match(JSX, /root\.style\.overflow = 'hidden';/, 'the page under the view holds still');
   assert.match(DIALOG, /<\/dialog>, document\.querySelector\('\.mm\.lp'\) \|\| document\.body\) : null\}/, 'on the page root, outside the contained section');
-  assert.match(JSX, /data-running=\{started && \(onScreen \|\| full\)\}/, 'the clock runs while the dialog is open');
-  for (const key of ['open', 'title', 'close', 'turn']) assert.ok(EXAM.full[key], `EXAM.full.${key}`);
+  assert.match(JSX, /data-running=\{started && \(onScreen \|\| full\)\}/, 'the clock runs while the view is open');
+  for (const key of ['open', 'title', 'close']) assert.ok(EXAM.full[key], `EXAM.full.${key}`);
 });
 
-test('R4-H6: readable and sideways: 880 design px at up to 0.9 px each, turned a quarter on an upright phone, real full screen where allowed', () => {
+// ---------------------------------------------------------------- R5 (owner, 6 Nov 2026): full screen on a phone stays upright
+// "Then, this full-screen mode on mobile: it should detect that it's mobile, and it should not make it horizontal." It replaces
+// R4-H6's monitor screen turned a quarter (and its landscape lock): the view draws the runner as it is on a phone, in real pixels.
+test('R5: the view is never turned and never locked to landscape; where the browser allows, its stage goes full screen upright', () => {
+  assert.doesNotMatch(JSX, /orientation\??\.lock|screen\??\.orientation/, 'no orientation lock');
+  assert.doesNotMatch(CSS, /rotate\(90deg\)|orientation: portrait/, 'nothing is drawn sideways for an upright phone');
+  assert.doesNotMatch(JSX + CSS, /xs-full__turn|xs-full__glass|xs-full__fit|EXAM\.full\.turn/, 'no "turn your phone" line and no monitor glass in the view');
+  assert.equal(EXAM.full.turn, undefined);
+  for (const text of strings(EXAM.full)) assert.doesNotMatch(text, /sideways|landscape|\bturn/i, text);
+  // Full screen is asked for the view's stage, for a coarse pointer only: not the page (a page made full screen after the view
+  // opened is drawn over it) and not the <dialog> (the Fullscreen API refuses one).
+  assert.match(JSX, /stage\.requestFullscreen\(\{ navigationUI: 'hide' \}\)\.then/);
+  assert.match(JSX, /window\.matchMedia\('\(pointer: coarse\)'\)\.matches/);
+  assert.doesNotMatch(JSX, /(documentElement|root|dialog)\.requestFullscreen/);
+  assert.match(FULL_CSS, /\.xs-full__stage \{[^}]*background: inherit; \}/, 'drawn in its own layer when full screen, the stage carries the view\'s ground');
+});
+
+test('R5: the view is the runner on a phone: MockMob\'s header, paper, phone bar and palette sheet; NTA style\'s own phone screen', () => {
+  assert.match(PHONE, /<div className="xs-frame xs-phone" data-interface=\{mode\}>/);
+  assert.match(PHONE, /\{nta \? \(\s*<PhoneNta /, 'NTA style draws its own phone screen');
+  assert.doesNotMatch(PHONE, /xs-switch|setMode|useState|xs-exit/, 'the one state, no switch of its own; the view\'s close key is the way out');
+  // MockMob, in the runner's order: the saved note, the header (the attempt and subject, where you are, the timer), the paper,
+  // the phone bar, the palette sheet.
+  let at = -1;
+  for (const piece of ['xs-saved', 'xs-ph-head', '{progress}', '{timer}', 'xs-ph-paper', '{paper}', 'xs-ph-bar', 'xs-ph-sheet', '{review}']) {
+    const i = PHONE.indexOf(piece, at + 1);
+    assert.ok(i > at, `${piece} comes next`);
+    at = i;
+  }
+  assert.match(PHONE, /\{words\.prev\}[\s\S]*\{words\.palette\}[\s\S]*\{words\.next\}/, 'Prev, Palette, Next');
+  assert.match(PHONE, /aria-haspopup="dialog" aria-expanded=\{sheet\} aria-label=\{words\.paletteKey\(answered, EXAM\.total\)\}/);
+  assert.match(PHONE, /<dialog ref=\{sheetBox\} className="xs-ph-sheet" aria-label=\{words\.paletteSheet\}/);
+  assert.match(PHONE, /\{words\.answeredOf\(answered, EXAM\.total\)\}/);
+  assert.match(PHONE, /aria-label=\{words\.closePalette\}/);
+  // The paper and the review are the monitor's own parts: one state, one set of options, one set of chips.
+  assert.equal((JSX.match(/\{paper\}/g) || []).length, 2, 'the paper, in the monitor or in the view');
+  assert.equal((JSX.match(/\{review\}/g) || []).length, 2, 'the review, in the monitor\'s panel or in the view\'s sheet');
+  // NTA style on a phone: the exam, the Question Paper icon and the Remaining Time; the section bar; the question with NTA's
+  // arrows; the five keys in the runner's phone order; NTA's palette sheet. No candidate block, no photo, no strike-out.
+  for (const piece of ['xs-n-head', 'xs-n-exam', 'xs-n-paper', 'xs-ph-time', 'xs-n-sections', 'xs-n-tab', 'xs-ph-pane', 'xs-n-qhead', 'xs-ph-arrow', 'xs-n-radio', 'xs-ph-keys', 'xs-ph-sheet', 'xs-n-legend', 'xs-n-section', 'xs-n-submit']) {
+    assert.ok(PHONE_NTA.includes(`"${piece}`) || PHONE_NTA.includes(` ${piece}"`) || PHONE_NTA.includes(` ${piece} `), piece);
+  }
+  assert.match(PHONE_NTA, /\{EXAM\.mockmob\.previous\}[\s\S]*\{t\.clearResponse\}[\s\S]*\{t\.paletteTitle\}[\s\S]*\{t\.markNext\}[\s\S]*\{t\.save\}/, 'Previous, the clear key, the palette key, the mark key, the save key');
+  assert.match(PHONE_NTA, /aria-label=\{t\.toEnd\}[\s\S]*aria-label=\{t\.toTop\}/, 'NTA\'s arrows take the question to its end and its top');
+  assert.match(PHONE_NTA, /answers\[index\] === option \? clearAnswer\(\) : choose\(option\)/, 'clicking the chosen option again clears it');
+  assert.doesNotMatch(PHONE_NTA, /startPress|toggleStrike|xs-letter|xs-n-cand|xs-n-photo/);
+});
+
+test('R5: phone sizes in real pixels: the question 19 px (NTA style 16 px), options 16 px (15.5 px), 44 px targets, nothing under 12 px', () => {
+  assert.match(FULL_CSS, /\.xs-frame\.xs-phone \{ --u: 1px;/, 'one design pixel is one CSS pixel');
+  assert.match(FULL_CSS, /\.xs-phone \.xs-stem \{[^}]*font-size: 19px;/);
+  assert.match(FULL_CSS, /\.xs-phone \.xs-option \{[^}]*min-height: 52px;[^}]*font-size: 16px;/);
+  assert.match(FULL_CSS, /\.xs-phone \.xs-n-stem \{[^}]*font-size: 16px;/);
+  assert.match(FULL_CSS, /\.xs-phone \.xs-n-option \{[^}]*min-height: 48px;[^}]*font-size: 15\.5px;/);
+  const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const [selector, min] of [['.xs-phone .xs-text', 44], ['.xs-phone .xs-btn', 48], ['.xs-phone .xs-n-key', 44], ['.xs-ph-arrow', 44], ['.xs-ph-sheet .xs-chip', 44], ['.xs-ph-sheet__close', 44], ['.xs-full__close', 44]]) {
+    const rule = FULL_CSS.match(new RegExp(`${escape(selector)} \\{[^}]*\\}`));
+    assert.ok(rule, selector);
+    const size = Number((rule[0].match(/(?:min-height|height): (\d+)px/) || [])[1]);
+    assert.ok(size >= min, `${selector} is ${size} px`);
+  }
+  const sizes = [...FULL_CSS.matchAll(/font-size: (\d+(?:\.\d+)?)px|font: \d+ (\d+(?:\.\d+)?)px/g)].map((m) => Number(m[1] || m[2]));
+  assert.ok(sizes.length > 20 && Math.min(...sizes) >= 12, `the smallest text in the view is ${Math.min(...sizes)} px`);
+  // The header and the keys stay put; the paper scrolls between them.
+  assert.match(FULL_CSS, /\.xs-ph-paper \{ flex: 1 1 auto; min-height: 0; overflow-y: auto;/);
+  assert.match(FULL_CSS, /\.xs-ph-pane \{ flex: 1 1 auto; min-height: 0; overflow-y: auto;/);
+});
+
+test('R5: Escape, the close key, the back gesture and leaving full screen close the view; the page keeps its place; the sheet lowers alone', () => {
+  // One history entry of the view's own (with the router's state, so Next.js reads a step over it as the same page), taken
+  // back on close unless the back gesture already took it.
+  assert.match(JSX, /window\.history\.pushState\(\{ \.\.\.\(window\.history\.state \|\| \{\}\), xsFull: true \}, ''\)/);
+  assert.match(JSX, /if \(window\.history\.state\?\.xsFull\) \{[\s\S]*?window\.history\.back\(\);/);
+  assert.match(JSX, /window\.addEventListener\('popstate', back\)/, 'the back gesture closes the view');
+  assert.match(JSX, /document\.addEventListener\('fullscreenchange', left\)/, 'leaving the browser\'s full screen closes the view');
+  assert.match(JSX, /if \(document\.fullscreenElement\) document\.exitFullscreen\?\.\(\)/, 'closing gives the browser\'s full screen back');
+  // The key goes back where it sat on screen (a phone turned while the view was open reflows the page under it).
+  assert.match(JSX, /fullAnchor\.current = fullOpener\.current \? fullOpener\.current\.getBoundingClientRect\(\)\.top : null;/);
+  assert.match(JSX, /keepPlace\(\); fullOpener\.current\?\.focus\(\{ preventScroll: true \}\);/);
+  // The palette sheet is its own modal: Escape (or the phone's back as a close request) lowers it alone, the focus goes to its
+  // close key and back to the palette key, and a chip goes to the question and lowers it, as the runner's sheet does.
+  assert.match(JSX, /el\.addEventListener\('cancel', onCancel\);/);
+  assert.match(JSX, /sheetClose\.current\?\.focus\(\{ preventScroll: true \}\);/);
+  assert.match(JSX, /sheetOpener\.current\?\.focus\(\{ preventScroll: true \}\);/);
+  assert.match(JSX, /onClick=\{\(\) => \{ go\(i\); setSheet\(false\); \}\}/);
+});
+
+test('R5: turned sideways while open, nothing is forced: a rail for the controls, one header row, the question beside its options', () => {
+  const side = FULL_CSS.slice(FULL_CSS.indexOf('@media (orientation: landscape) and (max-height: 560px) {'));
+  assert.ok(side.length < FULL_CSS.length, 'a rule for a short landscape window');
+  assert.match(side, /\.xs-full__stage \{ flex-direction: row; \}/);
+  assert.match(side, /\.xs-full__bar \{ flex-direction: column;/);
+  assert.match(side, /\.xs-ph-head \{ grid-template-columns: auto minmax\(0, 1fr\) auto;/);
+  assert.match(side, /\.xs-ph-paper > \.xs-options \{ grid-column: 2;/);
+  assert.match(side, /\.xs-ph-keys \{ grid-template-columns: repeat\(5, minmax\(0, 1fr\)\); \}/);
+});
+
+test('R5: the view opens on opacity, the sheet rises on transform only, and Reduce motion stills both', () => {
   assert.match(FULL_CSS, /\.xs-full \{\s*position: fixed; inset: 0; z-index: 90;/);
-  assert.match(FULL_CSS, /\.xs-full__glass \{ container: xs-full \/ inline-size; position: relative; width: min\(100%, 792px\); aspect-ratio: 16 \/ 10;/, '792 / 880 = 0.9 px a design pixel');
-  assert.match(FULL_CSS, /\.xs-full__fit \{[^}]*overflow: auto;/, 'taller than the window, it scrolls inside the dialog');
-  assert.match(FULL_CSS, /@media \(orientation: portrait\) and \(max-width: 760px\) \{\s*\.xs-full__stage \{ left: 100vw; width: 100dvh; height: 100vw; transform: rotate\(90deg\); transform-origin: 0 0;/);
-  assert.match(JSX, /root\.requestFullscreen\(\{ navigationUI: 'hide' \}\)\.then/);
-  assert.match(JSX, /return window\.screen\?\.orientation\?\.lock\?\.\('landscape'\)/);
-  assert.match(JSX, /document\.addEventListener\('fullscreenchange', left\)/, 'leaving the browser\'s full screen closes the dialog');
-  assert.match(FULL_CSS, /@media \(prefers-reduced-motion: reduce\) \{ \.xs-full \{ animation: none; \} \}/);
-  assert.match(FULL_CSS, /:root\[data-motion='reduced'\] \.xs-full \{ animation: none; \}/);
   assert.match(FULL_CSS, /@keyframes xs-full-in \{ from \{ opacity: 0; \} to \{ opacity: 1; \} \}/, 'it opens on opacity only');
+  assert.match(FULL_CSS, /\.xs-ph-sheet\[open\] \{[^}]*animation: xs-ph-sheet-rise 280ms/);
+  assert.match(FULL_CSS, /@keyframes xs-ph-sheet-rise \{ from \{ transform: translateY\(100%\); \} \}/);
+  assert.match(FULL_CSS, /@media \(prefers-reduced-motion: reduce\) \{ \.xs-full \{ animation: none; \} \}/);
+  assert.match(FULL_CSS, /@media \(prefers-reduced-motion: reduce\) \{ \.xs-ph-sheet\[open\], \.xs-ph-sheet::backdrop \{ animation: none; \}/);
+  assert.match(FULL_CSS, /:root\[data-motion='reduced'\] \.xs-full \{ animation: none; \}/);
+  assert.match(FULL_CSS, /:root\[data-motion='reduced'\] \.xs-ph-sheet\[open\], :root\[data-motion='reduced'\] \.xs-ph-sheet::backdrop \{ animation: none; \}/);
 });

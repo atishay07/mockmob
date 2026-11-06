@@ -115,11 +115,40 @@ test('the five questions are four-option Accountancy items with the runner\'s tw
 // phone anatomy: a bar under the paper with Previous, the palette and Next (NTA style: its keys and the Question Palette),
 // and a palette sheet with a close key, the counts, the palette and Submit. Its few new words are the runner's own.
 // R4-H6 (LK129, 6 Nov 2026) retired R3-D6's phone preview (the runner's phone bar and palette sheet drawn small): a phone sees
-// the monitor's screen, and "Try it full screen" opens that same screen, so the phone promises nothing the runner does not draw.
-test('on a phone the preview is the monitor\'s own screen, opened full screen: no phone layout of its own', () => {
+// the monitor's screen. R5 (owner, 6 Nov 2026: "this full-screen mode on mobile: it should detect that it's mobile, and it should
+// not make it horizontal") keeps that monitor and makes "Try it full screen" draw the runner as it is on a phone, upright: so the
+// view's phone anatomy and words are the runner's own below 1024 px (TestPageClient.jsx: MockMob's phone bar and palette sheet;
+// NTA style's five phone keys, its Question Palette sheet and NTA's arrows), and the view promises nothing the runner does not draw.
+test('on a phone, full screen draws the runner\'s phone anatomy in the runner\'s words (R5)', () => {
   const JSX = read('ExamScreen.jsx');
-  assert.doesNotMatch(JSX, /xs-p-bar|xs-p-sheet|PhoneNta|aria-label="Close palette"/, 'no phone bar or palette sheet of its own');
-  assert.match(JSX, /<div className="xs-full__glass">\{frame\}<\/div>/, 'the full-screen dialog draws the monitor\'s screen');
-  assert.equal(EXAM.mockmob.previous, 'Previous');
+  const words = EXAM.mockmob;
+  const nta = EXAM.nta;
+  const inOrder = (text, parts, what) => {
+    let at = -1;
+    for (const part of parts) { const i = text.indexOf(part, at + 1); assert.ok(i > at, `${what}: "${part}" comes next`); at = i; }
+  };
+  // MockMob's phone bar (the runner's second nta-mobile-actions): Prev with its chevron, the palette key, Next, the primary.
+  const bar = RUNNER.slice(RUNNER.lastIndexOf('<div className="nta-mobile-actions">'), RUNNER.lastIndexOf('{mobilePaletteOpen && ('));
+  inOrder(bar, [`<Icon name="chevL" /> ${words.prev}`, `'${words.palette}'`, 'is-primary', 'mobileNextLabel'], 'the runner\'s phone bar');
+  assert.ok(has(`const mobileNextLabel = isLastBlock ? (submitting ? 'Submitting...' : 'Submit') : '${words.next}';`));
+  assert.ok(bar.includes('aria-label={`Question palette, ${answered} of ${questions.length} answered`}'));
+  assert.equal(words.paletteKey(6, 15), 'Question palette, 6 of 15 answered');
+  // Its palette sheet: named Question palette; Review palette over n/m answered; Close palette; the counts, the palette, Submit test.
+  const sheet = RUNNER.slice(RUNNER.lastIndexOf('{mobilePaletteOpen && ('), RUNNER.indexOf('{practiceRun && <span className="pr-sr"'));
+  inOrder(sheet, [`aria-label="${words.paletteSheet}"`, `<span className="nta-kicker">${words.paletteTitle}</span>`, '<strong>{answered}/{questions.length} answered</strong>', `aria-label="${words.closePalette}"`, '<span>Answered</span>', '{renderPalette(true)}', `'${words.submit}'`], 'the runner\'s palette sheet');
+  assert.equal(words.answeredOf(6, 15), '6/15 answered');
+  // The preview's view: the same bar and sheet, in the same order.
+  const phone = JSX.slice(JSX.indexOf('  const phone = ('), JSX.indexOf('  const switchKeys = ('));
+  inOrder(phone, ['{words.prev}', '{words.paletteKey(answered, EXAM.total)}', '{words.palette}', '{words.next}', '{words.paletteSheet}', '{words.paletteTitle}', '{words.answeredOf(answered, EXAM.total)}', '{words.closePalette}', '{review}'], 'the preview\'s view');
+  // NTA style on a phone (the runner's first nta-mobile-actions): Previous, Clear Response and the palette, then the mark key and
+  // the save key; its sheet: Question Palette, Close palette, the section summary, the section, the palette, Submit.
+  const ntaBar = RUNNER.slice(RUNNER.indexOf('<div className="nta-mobile-actions">'), RUNNER.indexOf('{mobilePaletteOpen && ('));
+  inOrder(ntaBar, [`>${words.previous}</button>`, '{NTA.clearResponse}', '{NTA.paletteTitle}', '{NTA.markNext}', '{ntaKeyLabel}'], 'the runner\'s NTA phone keys');
+  const ntaSheet = RUNNER.slice(RUNNER.indexOf('{mobilePaletteOpen && ('), RUNNER.indexOf('{ntaSummaryOpen && !submitting && ('));
+  inOrder(ntaSheet, ['<strong>{NTA.paletteTitle}</strong>', `aria-label="${words.closePalette}"`, '{renderNtaLegend()}', '<p className="nta-n-section">', '{renderPalette(true)}', 'NTA.submit'], 'the runner\'s NTA palette sheet');
+  const phoneNta = JSX.slice(JSX.indexOf('function PhoneNta('));
+  inOrder(phoneNta, ['{EXAM.mockmob.previous}', '{t.clearResponse}', '{t.paletteTitle}', '{t.markNext}', '{t.save}', '<strong>{t.paletteTitle}</strong>', '{EXAM.mockmob.closePalette}', 'xs-n-legend', 'xs-n-section', '{chipGrid(', '{t.submit}'], 'the preview\'s NTA view');
+  // NTA's grey circle arrows, named as the runner names them.
+  for (const key of ['toEnd', 'toTop']) assert.ok(has(`aria-label="${nta[key]}"`), `the runner's NTA arrow: "${nta[key]}"`);
   assert.ok(has('Review') && has('Submit test'), 'Review and Submit test are the runner\'s');
 });

@@ -6,8 +6,8 @@
    - data-interface='nta' is NTA's CBT screen as its guidelines describe it, light in both themes (a rehearsal skin).
    The screen is laid out at 880 x 550 design pixels: --u is one design pixel, 1/880 of the glass (a size container), so
    the whole screen scales with the monitor and a phone sees the same desktop screen, smaller (the round-2 picture the owner
-   asked back, LK129). Below 761 px a "Try it full screen" key opens the same screen in a dialog at a readable size, laid
-   sideways like a monitor (the last part of this file). Volt appears once on screen: Submit test, the runner's own primary;
+   asked back, LK129). Below 761 px a "Try it full screen" key opens the same state in a full-screen view drawn as the runner
+   is on a phone, upright (R5, the last part of this file). Volt appears once on screen: Submit test, the runner's own primary;
    a selected option is dark ink on that one fill. Everything animates on opacity and transform only. Heights, at most:
    780 px of section at 360 and 390, 810 px at 1440 (the monitor grows with round 4's wider column, R4-H1: 801 px measured on
    6 Nov, so the section still fits a 1440 x 900 window under the site bar; examScreen.test.mjs states the budget and measures
@@ -243,13 +243,20 @@ button.xs-chip:active { transform: scale(.95); }
 }
 :root[data-motion='reduced'] :is(.xs-app, .xs-nta) { animation: none; }
 
-/* ---------------------------------------------------------------- full screen on phones (R4-H6, LK129, 6 Nov 2026)
-   The monitor stays the picture; below 761 px one secondary key under it opens the same screen in a dialog that fills the
-   window. The screen keeps its 880-wide design and is drawn at about 0.9 px a design pixel (the stem 15 px, options 13 px),
-   not fitted down to the window's height: on a phone held sideways it scrolls a little inside the dialog. Held upright, the
-   dialog's stage is turned a quarter clockwise (Android's landscape), so the student turns the phone and reads a monitor;
-   where the browser can, ExamScreen also asks for real full screen and a landscape lock, and then nothing is turned. The
-   bar carries the close key and the same switch (the state is one). Opens on opacity only, 200 ms; reduced motion: none. */
+/* ---------------------------------------------------------------- full screen on phones (R4-H6 LK129; R5, 6 Nov 2026)
+   The monitor stays the picture; below 761 px one secondary key under it opens the same state in a view that fills the
+   window. R5 (owner: "it should detect that it's mobile, and it should not make it horizontal"; it replaces R4-H6's monitor
+   screen turned a quarter): the view is the runner as it is on a phone, upright and in real pixels (--u is one CSS pixel),
+   never turned and never locked. MockMob is TestPageClient.jsx below 1024 px: the saved note; the header with the attempt,
+   the subject and the timer over Question n of m and the answered count; the paper; the phone bar Prev / Palette / Next; the
+   palette sheet. NTA style is nta-classic.css below 1024 px: the exam, the Question Paper icon and the Remaining Time; the
+   section bar; the question with NTA's circle arrows; the five keys; NTA's palette sheet. Sizes are the runner's phone sizes,
+   a little larger where it went under 12 px: the question 19 px (NTA style 16 px, its own Arial), options 16 px (NTA style
+   15.5 px), nothing under 12 px, every target 44 px or more. The bar above the screen carries the close key and the same
+   switch (the state is one). The header and the keys stay put and the paper scrolls between them; the sheet is a modal
+   <dialog> that rises on transform only (280 ms; reduced motion: none). Turned sideways while open (a short landscape
+   window), nothing is forced: the header folds into one row, the question and its options sit side by side, NTA's five keys
+   keep one row and the sheet keeps a readable width. The view opens on opacity only, 200 ms; reduced motion: none. */
 .xs-full-open { display: none; }
 @media (max-width: 760px) {
   .xs-layout { grid-template-areas: 'head seat' 'sub sub' 'switch switch' 'device device' 'full full' 'gate gate'; }
@@ -262,26 +269,171 @@ button.xs-chip:active { transform: scale(.95); }
   animation: xs-full-in 200ms cubic-bezier(.23, 1, .32, 1) both;
 }
 html[data-theme='dark'] .xs-full { background: #0e0d0b; }
-.xs-full__stage { position: absolute; top: 0; left: 0; width: 100vw; height: 100dvh; display: flex; flex-direction: column; padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); box-sizing: border-box; }
-@media (orientation: portrait) and (max-width: 760px) {
-  .xs-full__stage { left: 100vw; width: 100dvh; height: 100vw; transform: rotate(90deg); transform-origin: 0 0; padding: 8px 10px; }
-}
-.xs-full__bar { flex: none; display: flex; align-items: center; gap: .75rem; padding-bottom: 8px; }
+/* The stage is what goes full screen on a phone (ExamScreen.jsx): drawn in its own layer then, so it carries the view's ground. */
+.xs-full__stage { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left); background: inherit; }
+.xs-full__bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: max(6px, env(safe-area-inset-top)) 12px 6px; border-bottom: 1px solid var(--line); }
 .xs-full__close { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper-raised); color: var(--ink); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform 100ms ease; }
 .xs-full__close svg { width: 20px; height: 20px; }
 .xs-full__close:active { transform: scale(.96); }
 .xs-full__close:focus-visible { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 2px; }
-.xs-full__turn { flex: 1; min-width: 0; margin: 0; color: var(--ink-2); font-size: .875rem; font-weight: 600; visibility: hidden; }
-@media (orientation: portrait) and (max-width: 760px) { .xs-full__turn { visibility: visible; } }
 .xs-full__bar .xs-switch { margin-left: auto; }
-/* The screen's box: 880 design pixels wide at up to 0.9 px each, never wider than the stage; its height follows the 16:10
-   glass minus the window bar (the browser's own bar stays: it says where the screen lives). Taller than the stage, it
-   scrolls; shorter, it sits in the middle. */
-.xs-full__fit { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; display: grid; place-items: start center; border-radius: 12px; }
-.xs-full__glass { container: xs-full / inline-size; position: relative; width: min(100%, 792px); aspect-ratio: 16 / 10; margin-block: auto; overflow: hidden; border-radius: 10px; background: var(--paper-raised); box-shadow: 0 0 0 1px var(--line-strong); }
 .xs-frame--away { background: var(--paper-raised); }
+
+/* The screen: the monitor's two skins and their tokens, laid out for a phone in real pixels. */
+.xs-frame.xs-phone { --u: 1px; position: relative; inset: auto; flex: 1 1 auto; min-width: 0; min-height: 0; font-size: 15px; }
+
+/* MockMob: the runner's phone header, the paper between it and the bar, the phone bar. */
+.xs-phone .xs-saved { padding: 5px 16px; font-size: 12px; }
+.xs-ph-head { flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 12px; padding: 8px 16px 10px; border-bottom: 1px solid var(--xs-line); }
+.xs-ph-head .xs-progress { grid-column: 1 / -1; grid-row: 2; }
+.xs-phone .xs-title span { font-size: 12px; }
+.xs-phone .xs-title strong { font-size: 17px; }
+.xs-phone .xs-timer { height: 40px; gap: 6px; padding: 0 12px; border-radius: 12px; font-size: 16px; }
+.xs-phone .xs-timer svg { width: 16px; height: 16px; }
+.xs-phone .xs-progress { gap: 6px; }
+.xs-phone .xs-progress > div { font-size: 12.5px; }
+.xs-ph-paper { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 14px max(16px, calc((100% - 720px) / 2)) 18px; }
+.xs-phone .xs-tags span { padding: 4px 10px; font-size: 12px; }
+/* The question's meta as the runner stacks it below 1024 px: where you are and its state, then Mark and Clear (sharing the
+   width below 521 px). */
+.xs-phone .xs-qhead { flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 12px; }
+.xs-phone .xs-qhead > div:first-child { gap: 10px; }
+.xs-phone .xs-qhead h3 { font-size: 18px; }
+.xs-phone .xs-state { padding: 3px 10px; font-size: 12px; }
+.xs-phone .xs-actions { gap: 8px; }
+.xs-phone .xs-text { min-height: 44px; gap: 6px; padding: 0 14px; border: 1px solid var(--xs-line-strong); border-radius: 12px; font-size: 14px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.xs-phone .xs-text svg { width: 15px; height: 15px; }
+@media (max-width: 520px) {
+  .xs-phone .xs-actions { align-self: stretch; }
+  .xs-phone .xs-text { flex: 1; justify-content: center; }
+}
+.xs-phone .xs-stem { margin: 14px 0 16px; font-size: 19px; line-height: 1.4; }
+.xs-phone .xs-options { gap: 8px; }
+.xs-phone .xs-option { min-height: 52px; gap: 12px; padding: 8px 12px; border-radius: 14px; font-size: 16px; line-height: 1.35; -webkit-touch-callout: none; }
+.xs-phone .xs-letter { width: 30px; height: 30px; border-radius: 9px; font-size: 14px; }
+.xs-phone .xs-note { margin-top: 12px; gap: 8px; font-size: 13px; }
+.xs-phone .xs-note::before { width: 16px; }
+/* The runner's phone bar: Prev, Palette (the sheet) and Next, the one volt key while the sheet is down (the runner's
+   is-primary), with Submit test's keycap edge. */
+.xs-ph-bar { flex: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid var(--xs-line); background: var(--xs-bg); }
+.xs-phone .xs-btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-width: 0; min-height: 48px; padding: 0 10px; border-radius: 14px; font-size: 15px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: transform 100ms ease; }
+.xs-phone .xs-btn svg { width: 18px; height: 18px; }
+.xs-phone .xs-btn:active:not(:disabled) { transform: scale(.97); }
+.xs-phone .xs-btn--next { margin-left: 0; border-color: transparent; background: #d2f000; color: #0b1000; box-shadow: 0 3px 0 #9db400; font-weight: 700; }
+.xs-phone .xs-btn--next:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #9db400; }
+
+/* The palette sheet (the runner's phone sheet): a modal <dialog> over the dimmed screen, risen from the foot. It sits inside
+   the screen, so it carries the screen's skin: MockMob's in the page theme, NTA's white below. */
+.xs-ph-sheet { position: fixed; inset: auto 0 0; box-sizing: border-box; width: 100%; max-width: 560px; max-height: min(84dvh, 640px); margin: 0 auto; padding: 12px 16px max(16px, env(safe-area-inset-bottom)); overflow-y: auto; overscroll-behavior: contain; border: 1px solid var(--xs-line-strong); border-bottom: 0; border-radius: 22px 22px 0 0; background: var(--xs-bg); color: var(--xs-ink); box-shadow: 0 -18px 40px -24px rgba(0, 0, 0, .5); font-size: 14px; }
+.xs-ph-sheet[open] { display: flex; flex-direction: column; animation: xs-ph-sheet-rise 280ms cubic-bezier(.32, .72, 0, 1) both; }
+.xs-ph-sheet::backdrop { background: rgba(8, 7, 5, .55); animation: xs-ph-sheet-dim 200ms ease-out both; }
+html[data-theme='light'] .xs-ph-sheet::backdrop { background: rgba(27, 25, 20, .32); }
+@keyframes xs-ph-sheet-rise { from { transform: translateY(100%); } }
+@keyframes xs-ph-sheet-dim { from { opacity: 0; } }
+.xs-ph-sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.xs-ph-sheet__head span { display: block; color: var(--xs-ink-3); font-size: 12.5px; font-weight: 600; }
+.xs-ph-sheet__head strong { display: block; font: 700 18px/1.25 var(--font-display); font-variant-numeric: tabular-nums; }
+.xs-ph-sheet__close { display: inline-grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid var(--xs-line-strong); border-radius: 12px; background: transparent; color: var(--xs-ink-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.xs-ph-sheet__close svg { width: 18px; height: 18px; }
+.xs-ph-sheet .xs-counters { gap: 8px; margin-top: 14px; }
+.xs-ph-sheet .xs-counters > div { padding: 8px 12px; border-radius: 12px; }
+.xs-ph-sheet .xs-counters strong { font-size: 20px; }
+.xs-ph-sheet .xs-counters span { font-size: 12.5px; }
+.xs-ph-sheet .xs-grid { gap: 8px; margin: 14px 0; }
+.xs-ph-sheet .xs-chip { min-height: 44px; border-radius: 12px; font: 700 15px/1 var(--font-display); font-variant-numeric: tabular-nums; } /* one weight for all fifteen: a live chip is a button */
+.xs-ph-sheet .xs-chip:is([data-state='marked'], [data-state='marked-answered']) { width: 44px; border-radius: 50%; }
+.xs-ph-sheet .xs-legend { gap: 8px 12px; }
+.xs-ph-sheet .xs-legend li { gap: 8px; font-size: 12.5px; }
+.xs-ph-sheet .xs-legend i { width: 14px; height: 14px; }
+.xs-ph-sheet .xs-submit { flex: none; min-height: 48px; margin-top: 16px; border-radius: 14px; font-size: 15px; }
+.xs-ph-sheet .xs-readback { min-height: 18px; margin-top: 8px; font-size: 12.5px; }
+
+/* NTA style on a phone: NTA's palette, Arial and symbols, as the runner's NTA style lays them out below 1024 px. */
+.xs-phone .xs-n-head { height: auto; min-height: 56px; gap: 10px; padding: 4px 12px; }
+.xs-phone .xs-n-exam { font-size: 18px; white-space: nowrap; }
+.xs-phone .xs-n-tools { gap: 12px; }
+.xs-phone .xs-n-paper { gap: 2px; font-size: 12px; }
+.xs-phone .xs-n-paper svg { width: 20px; height: 20px; }
+.xs-ph-time { display: grid; justify-items: end; gap: 3px; color: #444; font-size: 12px; line-height: 1.1; }
+.xs-phone .xs-n-time { padding: 2px 8px; border-radius: 3px; font-size: 15px; font-weight: 700; line-height: 1.35; }
+.xs-phone .xs-n-sections { height: 40px; padding: 0 12px; }
+.xs-phone .xs-n-tab { padding: 0 14px; font-size: 14px; }
+.xs-ph-pane { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.xs-phone .xs-n-qhead { gap: 12px; padding: 6px 12px; }
+.xs-phone .xs-n-qhead h3 { font-size: 17px; }
+/* NTA's grey circle arrows: down to the question's end, up to its top (the runner's, 44 px on a phone). */
+.xs-ph-arrow { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #7a7a7a; color: #fff; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.xs-phone .xs-ph-arrow svg { width: 18px; height: 18px; stroke-width: 3; }
+@media (hover: hover) { .xs-ph-arrow:hover { background: #5f5f5f; } }
+.xs-phone .xs-n-qbody { overflow: visible; padding: 14px 12px 6px; }
+.xs-phone .xs-n-stem { max-width: 80ch; margin-bottom: 14px; font-size: 16px; line-height: 1.55; }
+.xs-phone .xs-n-options { gap: 4px; justify-items: stretch; }
+.xs-phone .xs-n-option { align-items: flex-start; width: 100%; min-height: 48px; gap: 10px; padding: 10px 6px; font-size: 15.5px; line-height: 1.5; }
+.xs-phone .xs-n-radio { width: 16px; height: 16px; margin-top: 4px; }
+.xs-phone .xs-n-option[aria-pressed='true'] .xs-n-radio { box-shadow: inset 0 0 0 3px #fff; }
+@media (hover: hover) { .xs-phone .xs-n-option:hover { background: #f4f4f8; } }
+.xs-ph-end { display: flex; justify-content: flex-end; padding: 4px 12px 14px; }
+/* NTA style's keys one tap away (the runner's phone bar): Previous, Clear Response and Question Palette, then Mark for Review
+   & Next and Save & Next. */
+.xs-ph-keys { flex: none; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; padding: 8px 8px max(8px, env(safe-area-inset-bottom)); border-top: 1px solid #d0d0d0; background: #f5f5f5; box-shadow: 0 -2px 10px rgba(0, 0, 0, .06); }
+.xs-phone .xs-n-key { grid-column: span 2; min-width: 0; min-height: 44px; padding: 0 6px; font-size: 13px; line-height: 1.15; white-space: normal; text-align: center; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.xs-phone .xs-n-key:first-child { border-color: #b0b0b0; background: #fff; color: #222; }
+.xs-phone .xs-n-key--review { grid-column: span 3; border-color: #68408d; background: #754b9c; color: #fff; }
+.xs-phone .xs-n-key--save { grid-column: span 3; margin-left: 0; }
+.xs-phone .xs-n-key:disabled { opacity: .45; cursor: default; }
+@media (max-width: 380px) {
+  .xs-phone .xs-n-exam { font-size: 16px; }
+  .xs-phone .xs-n-key { font-size: 12px; }
+}
+/* NTA's palette sheet: white and square-shouldered; the section summary, the section, the palette and Submit. */
+.xs-phone[data-interface='nta'] .xs-ph-sheet { padding: 10px 14px max(14px, env(safe-area-inset-bottom)); border-color: #b9b9b9; border-radius: 8px 8px 0 0; background: #fff; color: #222; box-shadow: 0 -10px 30px -14px rgba(0, 0, 0, .35); }
+.xs-phone[data-interface='nta'] .xs-ph-sheet::backdrop { background: rgba(20, 20, 40, .48); }
+.xs-phone[data-interface='nta'] .xs-ph-sheet__head strong { color: #222; font: 700 17px/1.3 Arial, Helvetica, sans-serif; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet__close { border-color: #b9b9b9; border-radius: 3px; background: #fff; color: #333; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-legend { gap: 8px 10px; margin-top: 10px; padding-bottom: 12px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-legend li { gap: 8px; font-size: 13px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-sym { width: 36px; height: 30px; font-size: 13px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-sym:is([data-state='marked'], [data-state='marked-answered']) { width: 30px; height: 30px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-section { margin: 12px 0; padding: 5px 10px; font-size: 14px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-grid { gap: 10px 8px; margin: 0 0 12px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-chip { justify-self: center; width: 100%; max-width: 52px; min-height: 44px; font-size: 14px; } /* NTA's symbols keep their size in a wide cell, as the runner's */
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-chip:is([data-state='marked'], [data-state='marked-answered']) { width: 44px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-chip[data-state='marked-answered']::after { right: -2px; bottom: -1px; width: 12px; height: 12px; border-radius: 3px; box-shadow: inset 0 0 0 2px #22b80c, inset 0 0 0 3.5px #fff; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-n-submit { flex: none; min-height: 44px; margin-top: 4px; font-size: 15px; }
+.xs-phone[data-interface='nta'] .xs-ph-sheet .xs-readback { min-height: 18px; margin-top: 8px; font-size: 12.5px; }
+
+/* Turned sideways while the view is open: nothing is forced and nothing asks for the phone back upright. Height is what a
+   short landscape window lacks, so the close key and the switch stand in a rail at the left, the header folds into one row,
+   the question sits beside its options (the stem left, the options right), NTA's five keys share one row (their words wrap)
+   and the keys and the sheet keep a hand's width. */
+@media (orientation: landscape) and (max-height: 560px) {
+  .xs-full__stage { flex-direction: row; }
+  .xs-full__bar { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 10px; width: 148px; padding: 8px; border-bottom: 0; border-right: 1px solid var(--line); }
+  .xs-full__bar .xs-switch { flex-direction: column; margin-left: 0; border-radius: 26px; }
+  .xs-full__bar .xs-switch button { justify-content: center; padding: 0 .75rem; }
+  .xs-phone .xs-saved { padding-block: 3px; }
+  .xs-ph-head { grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px 20px; padding-block: 6px; }
+  .xs-ph-head .xs-progress { grid-column: auto; grid-row: auto; }
+  .xs-ph-paper { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(4, auto) 1fr; column-gap: 24px; align-content: start; padding-top: 10px; }
+  .xs-ph-paper > * { grid-column: 1; }
+  .xs-ph-paper > .xs-options { grid-column: 2; grid-row: 1 / -1; align-self: start; }
+  .xs-phone .xs-qhead { margin-top: 8px; }
+  .xs-phone .xs-stem { margin: 10px 0 0; }
+  .xs-phone .xs-option { min-height: 48px; }
+  .xs-ph-bar { grid-template-columns: repeat(3, minmax(0, 200px)); justify-content: center; }
+  .xs-phone .xs-n-head { min-height: 48px; }
+  .xs-phone .xs-n-sections { height: 34px; }
+  .xs-phone .xs-n-qbody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 24px; align-items: start; padding-top: 10px; }
+  .xs-ph-keys { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .xs-phone .xs-n-key, .xs-phone .xs-n-key--review, .xs-phone .xs-n-key--save { grid-column: auto; padding: 0 8px; }
+  .xs-ph-sheet { max-height: calc(100dvh - 16px); }
+}
+
 @keyframes xs-full-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .xs-full { animation: none; } }
 @media (prefers-reduced-motion: reduce) { .xs-full__close:active { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .xs-ph-sheet[open], .xs-ph-sheet::backdrop { animation: none; } .xs-phone .xs-btn { transition: none; } }
 :root[data-motion='reduced'] .xs-full { animation: none; }
 :root[data-motion='reduced'] .xs-full__close:active { transform: none; }
+:root[data-motion='reduced'] .xs-ph-sheet[open], :root[data-motion='reduced'] .xs-ph-sheet::backdrop { animation: none; }
+:root[data-motion='reduced'] .xs-phone .xs-btn { transition: none; }

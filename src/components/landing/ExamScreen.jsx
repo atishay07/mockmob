@@ -1,15 +1,24 @@
 "use client";
 
-// The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov; R4-H6, LK129 6 Nov 2026): one exam screen on a desktop
+// The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov; R4-H6, LK129, R5 6 Nov 2026): one exam screen on a desktop
 // monitor at every width, with a MockMob / NTA style switch beside it that keeps the answers and the timer.
 // - The monitor (ExamDevice.jsx) holds a browser window whose address bar shows where the screen really lives
 //   (mockmob.in/test, with interface=nta in NTA style, the address the runner reads). The screen is laid out at 880 x 550
 //   design pixels and scales with the monitor as a whole, so a phone sees the same desktop screen, smaller: the round-2
 //   picture the owner liked (LK129 reverted R3-D6's phone-native screen inside a drawn phone).
-// - Phones (below 761 px) get one more key under the monitor, "Try it full screen": the same screen, the same state, in a
-//   full-screen dialog at a readable size (--u about 0.9 px), laid sideways like a monitor. Held upright it is drawn turned
-//   a quarter (the student turns the phone); where the browser can, it also goes full screen and locks to landscape. The
-//   dialog carries the same switch; Escape, the close key or leaving the browser's full screen closes it.
+// - Phones (below 761 px) get one more key under the monitor, "Try it full screen": the same state in a full-screen view.
+//   R5 (owner, 6 Nov 2026: "this full-screen mode on mobile: it should detect that it's mobile, and it should not make it
+//   horizontal"; it replaces R4-H6's monitor screen drawn sideways): the view is the runner as it really is on a phone,
+//   upright and in real pixels, never turned and never locked to landscape. MockMob is the runner below 1024 px
+//   (TestPageClient.jsx): the saved note, the header (the attempt and subject, the timer, Question n of m and the answered
+//   count under them), the chips, the question with Mark and Clear, the options, and its phone bar (Prev, Palette, Next),
+//   whose Palette key raises its palette sheet (the counts, the 15 chips, the legend, Submit test). NTA style is the runner's
+//   NTA style on a phone (nta-classic.css): the exam, the Question Paper icon and the Remaining Time on top, the section bar,
+//   the question with NTA's circle arrows and radios, its five keys and its Question Palette sheet (PhoneNta). A bar above
+//   the screen carries the close key and the same switch. Where the browser allows it (Android Chrome) the page also goes
+//   full screen, upright. Escape, the close key, the back gesture (the view keeps one history entry of its own) or leaving the
+//   browser's full screen closes it, and the focus goes back to the key. Turned sideways while open, the same screen uses the
+//   width (exam-screen.css); nothing asks the student to turn the phone.
 // - MockMob is our own screen, the runner's anatomy (src/app/(app)/test/TestPageClient.jsx): the saved note, the header
 //   with Question n of m, the answered count and the timer, the chapter and difficulty chips, the stem, four options with
 //   letter chips, Mark and Clear, the strike-out (press and hold an option), Previous and Next, and the review panel with
@@ -19,14 +28,14 @@
 //   numbered radio options, NTA's three keys (EXAM.nta: mark-and-next, clear, save-and-next), the Question Palette on the right
 //   with the section summary (a count in each of NTA's five symbols) above it, and the > arrow at its left that folds it
 //   away. Clicking the chosen option again clears it, as the guidelines say. No strike-out: NTA has none.
-// Every word comes from homeCopy.mjs (EXAM): NTA's words live only in EXAM.nta and are drawn only by NtaScreen, which
-// renders only in NTA style; every MockMob-mode string is held against the runner's source by examPreviewParity.test.mjs.
+// Every word comes from homeCopy.mjs (EXAM): NTA's words live only in EXAM.nta and are drawn only by NtaScreen and PhoneNta,
+// which render only in NTA style; every MockMob-mode string is held against the runner's source by examPreviewParity.test.mjs.
 // The questions are five real Accountancy items; the other ten chips stand as they would mid-paper. Nothing is submitted
-// anywhere: Submit only reads the counts back. The screen is drawn in one place at a time: in the monitor, or in the dialog.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+// anywhere: Submit only reads the counts back. The screen is drawn in one place at a time: in the monitor, or in the view.
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { ArrowDown, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -42,6 +51,7 @@ const LIVE = EXAM.questions.length;
 const two = (n) => String(n).padStart(2, '0');
 const mmss = (s) => `${two(Math.floor(s / 60))}:${two(s % 60)}`;
 const hhmmss = (s) => `${two(Math.floor(s / 3600))}:${two(Math.floor(s / 60) % 60)}:${two(s % 60)}`;
+const stillMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 
 export function ExamScreen() {
   const { user } = useAuth();
@@ -54,14 +64,24 @@ export function ExamScreen() {
   const [noteOn, setNoteOn] = useState(true);
   const [readBack, setReadBack] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(true);
-  // The full-screen dialog (phones, R4-H6): open or not, and the key that opened it, which takes the focus back when it closes.
+  // The full-screen view (phones; R4-H6, R5): open or not, the key that opened it (the focus goes back to it), and what it took
+  // from the browser: its own full screen (a coarse pointer, where allowed) and one history entry, so the back gesture closes it.
   const [full, setFull] = useState(false);
   const fullOpener = useRef(null);
   const fullClose = useRef(null);
   const fullBox = useRef(null);
+  const fullStage = useRef(null);
   const fullWas = useRef(false);
   const fullRequested = useRef(false);
   const ownsFullscreen = useRef(false);
+  const ownsEntry = useRef(false);
+  const fullAnchor = useRef(null);
+  // The view's palette sheet, the runner's phone sheet: raised by the palette key in its bar, the focus to its close key and back.
+  const [sheet, setSheet] = useState(false);
+  const sheetBox = useRef(null);
+  const sheetOpener = useRef(null);
+  const sheetClose = useRef(null);
+  const sheetWas = useRef(false);
   // The clock starts when the visitor first acts and runs only while the screen is on screen and the tab is visible.
   // Reduced motion keeps it still.
   const [clock, setClock] = useState(EXAM.startSeconds);
@@ -74,7 +94,7 @@ export function ExamScreen() {
   const nta = mode === 'nta';
   const words = EXAM.mockmob;
 
-  // The monitor is on screen (the dialog opens from beside it; the clock also runs while the dialog is open).
+  // The monitor is on screen (the view opens from beside it; the clock also runs while the view is open).
   useEffect(() => {
     const node = deviceRef.current;
     if (!node || typeof IntersectionObserver === 'undefined') return undefined;
@@ -87,7 +107,17 @@ export function ExamScreen() {
     const id = window.setInterval(() => { if (document.visibilityState === 'visible') setClock((s) => Math.max(0, s - 1)); }, 1000);
     return () => window.clearInterval(id);
   }, [started, onScreen, full]);
-  // The dialog lives on the page root (a fixed layer inside a section with content-visibility would be clipped to it); the
+  // Where the key sat on screen when the view opened. Closing puts it back there (inside the window), so the student lands on
+  // the exam section again even when the phone was turned while the view was open and the page reflowed under it.
+  const keepPlace = useCallback(() => {
+    const key = fullOpener.current;
+    const top = fullAnchor.current;
+    if (!key || top == null) return;
+    const box = key.getBoundingClientRect();
+    const shift = box.top - Math.max(16, Math.min(top, window.innerHeight - box.height - 16));
+    if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: 'instant' });
+  }, []);
+  // The view lives on the page root (a fixed layer inside a section with content-visibility would be clipped to it); the
   // page under it does not scroll; the focus goes to its close key and comes back to the key that opened it.
   useLayoutEffect(() => {
     if (full) {
@@ -98,45 +128,86 @@ export function ExamScreen() {
       root.style.overflow = 'hidden';
       fullClose.current?.focus({ preventScroll: true });
       fullWas.current = true;
+      // On a phone (a coarse pointer), where the browser allows it (Android Chrome), the view's stage goes full screen, upright
+      // as the student holds it: no orientation lock and nothing turned (R5). The stage, not the page: a page made full screen
+      // after the view opened is drawn over it (the top layer keeps the later one on top); and not the <dialog>, which the
+      // Fullscreen API refuses.
+      const stage = fullStage.current;
+      if (fullRequested.current && stage && !document.fullscreenElement && stage.requestFullscreen && window.matchMedia('(pointer: coarse)').matches) {
+        stage.requestFullscreen({ navigationUI: 'hide' }).then(() => {
+          if (!fullRequested.current) return document.exitFullscreen?.();
+          ownsFullscreen.current = true;
+          return undefined;
+        }).catch(() => {});
+      }
       return () => { dialog.close(); root.style.overflow = was; };
     }
-    if (fullWas.current) { fullWas.current = false; fullOpener.current?.focus({ preventScroll: true }); }
+    if (fullWas.current) { fullWas.current = false; keepPlace(); fullOpener.current?.focus({ preventScroll: true }); }
     return undefined;
-  }, [full]);
-  // Leaving the browser's own full screen (its back gesture, or Escape there) closes the dialog too.
-  useEffect(() => {
-    if (!full) return undefined;
-    const left = () => {
-      if (!ownsFullscreen.current || document.fullscreenElement) return;
-      ownsFullscreen.current = false;
-      fullRequested.current = false;
-      setFull(false);
-    };
-    document.addEventListener('fullscreenchange', left);
-    return () => document.removeEventListener('fullscreenchange', left);
-  }, [full]);
-  const openFull = () => {
-    fullRequested.current = true;
-    setFull(true);
-    // Where the browser allows it (Android Chrome), the page goes full screen and turns to landscape; elsewhere the dialog
-    // fills the window and draws the screen sideways itself. Nothing else is asked of the student.
-    const root = document.documentElement;
-    if (!document.fullscreenElement && root.requestFullscreen && window.matchMedia('(pointer: coarse)').matches) {
-      root.requestFullscreen({ navigationUI: 'hide' }).then(() => {
-        if (!fullRequested.current) return document.exitFullscreen?.();
-        ownsFullscreen.current = true;
-        return window.screen?.orientation?.lock?.('landscape');
-      }).catch(() => {});
-    }
-  };
-  // Leaving the browser's full screen also ends its landscape lock (the Screen Orientation API releases it with full screen).
-  const closeFull = () => {
+  }, [full, keepPlace]);
+  // Closing gives back what the view took: the browser's full screen, and its history entry (unless the back gesture already
+  // took it, or the router has since written over it: then it stays, a harmless step back to the same page).
+  const closeFull = useCallback(() => {
     fullRequested.current = false;
     setFull(false);
+    setSheet(false);
     if (ownsFullscreen.current) {
       ownsFullscreen.current = false;
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
     }
+    if (ownsEntry.current) {
+      ownsEntry.current = false;
+      if (window.history.state?.xsFull) {
+        // The step back restores the scroll the browser kept for the page's entry; the key's place wins after it.
+        window.addEventListener('popstate', () => requestAnimationFrame(keepPlace), { once: true });
+        window.history.back();
+      }
+    }
+  }, [keepPlace]);
+  // The back gesture (the browser's back: iOS's swipe, Android's back where no full screen or dialog takes it first) and
+  // leaving the browser's own full screen (Android's back gesture there) close the view too.
+  useEffect(() => {
+    if (!full) return undefined;
+    const back = () => { if (!ownsEntry.current) return; ownsEntry.current = false; closeFull(); requestAnimationFrame(keepPlace); };
+    const left = () => { if (!ownsFullscreen.current || document.fullscreenElement) return; ownsFullscreen.current = false; closeFull(); };
+    window.addEventListener('popstate', back);
+    document.addEventListener('fullscreenchange', left);
+    return () => { window.removeEventListener('popstate', back); document.removeEventListener('fullscreenchange', left); };
+  }, [full, closeFull, keepPlace]);
+  const openFull = () => {
+    if (full) return;
+    fullRequested.current = true;
+    fullAnchor.current = fullOpener.current ? fullOpener.current.getBoundingClientRect().top : null;
+    setFull(true);
+    // One history entry of the view's own (the router's state copied into it, so Next.js treats a step back or forward over it
+    // as the same page): the back gesture closes the view instead of leaving the page.
+    try {
+      window.history.pushState({ ...(window.history.state || {}), xsFull: true }, '');
+      ownsEntry.current = true;
+    } catch { ownsEntry.current = false; }
+  };
+  // The palette sheet is a modal <dialog> over the view: the view behind it is inert; Escape, its close key, a chip or a press on
+  // the dimmed screen lowers it (the phone's back gesture too, where the browser treats it as a close request).
+  useLayoutEffect(() => {
+    const el = sheetBox.current;
+    if (sheet && el) {
+      if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
+      sheetClose.current?.focus({ preventScroll: true });
+      sheetWas.current = true;
+      const onCancel = (event) => { event.preventDefault(); setSheet(false); };
+      const onClose = () => setSheet(false);
+      el.addEventListener('cancel', onCancel);
+      el.addEventListener('close', onClose);
+      return () => { el.removeEventListener('cancel', onCancel); el.removeEventListener('close', onClose); if (el.open) el.close(); };
+    }
+    if (sheetWas.current) { sheetWas.current = false; sheetOpener.current?.focus({ preventScroll: true }); }
+    return undefined;
+  }, [sheet]);
+  // A press on the dimmed screen around the sheet lands on the <dialog> itself, outside its box.
+  const sheetScrim = (event) => {
+    if (event.target !== event.currentTarget) return;
+    const box = event.currentTarget.getBoundingClientRect();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) setSheet(false);
   };
 
   const question = EXAM.questions[index];
@@ -188,11 +259,12 @@ export function ExamScreen() {
   const isStruck = (option) => (struck[index] || []).includes(option);
   const address = nta ? EXAM.address.nta : EXAM.address.mockmob;
 
-  // The 15 chips, one grid for both interfaces: MockMob draws them as outlined chips, NTA style in NTA's own symbols.
+  // The 15 chips, one grid for both interfaces: MockMob draws them as outlined chips, NTA style in NTA's own symbols. In the
+  // view's palette sheet a pick also lowers the sheet, as the runner's does.
   const chipGrid = (names) => (
     <div className="xs-grid" role="group" aria-label={nta ? names.paletteTitle : words.paletteTitle}>
       {states.map((state, i) => (i < LIVE
-        ? <button key={i} type="button" className="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => go(i)}>{i + 1}</button>
+        ? <button key={i} type="button" className="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => { go(i); setSheet(false); }}>{i + 1}</button>
         : <span key={i} className="xs-chip" data-state={state} aria-hidden="true">{i + 1}</span>))}
     </div>
   );
@@ -210,8 +282,46 @@ export function ExamScreen() {
       </button>
     );
   });
-  // The screen itself: drawn in the monitor, or in the full-screen dialog while that is open (never both: one timer, one
-  // set of live regions).
+  // MockMob's parts, drawn by the monitor's screen or by the full-screen view (one at a time): where you are, the clock, the
+  // question, and the review (counts, chips, legend, Submit).
+  const progress = (
+    <div className="xs-progress">
+      <div><span>{words.questionOf(index + 1, EXAM.total)}</span><span>{words.answered(answered)}</span></div>
+      <i aria-hidden="true"><b style={{ '--p': answered / EXAM.total }} /></i>
+    </div>
+  );
+  const timer = (
+    <div className="xs-timer" role="timer" aria-label={`${words.timer}: ${Math.floor(clock / 60)} minutes ${clock % 60} seconds`} data-running={started && (onScreen || full)}>
+      <Clock3 aria-hidden="true" /><span>{mmss(clock)}</span>
+    </div>
+  );
+  const paper = (
+    <>
+      <div className="xs-tags"><span>{question.chapter}</span><span>{question.difficulty}</span></div>
+      <div className="xs-qhead">
+        <div><h3>{words.heading(index + 1)}</h3><span className="xs-state" data-state={states[index]}>{chipWord}</span></div>
+        <div className="xs-actions">
+          <button type="button" className="xs-text" onClick={toggleMark} aria-pressed={Boolean(marked[index])}><Flag aria-hidden="true" />{marked[index] ? words.unmark : words.mark}</button>
+          <button type="button" className="xs-text" onClick={clearAnswer}>{words.clear}</button>
+        </div>
+      </div>
+      <p className="xs-stem" aria-live="polite">{question.text}</p>
+      <div className="xs-options" role="group" aria-label={`Options for question ${index + 1}`}>{optionButtons}</div>
+      {noteOn ? <p className="xs-note">{words.strikeNote}</p> : null}
+    </>
+  );
+  const review = (
+    <>
+      <div className="xs-counters">{words.counters.map(([key, label]) => (
+        <div key={key} data-k={key}><strong>{counts[key]}</strong><span>{label}</span></div>
+      ))}</div>
+      {chipGrid(mockmobNames)}
+      <ul className="xs-legend">{words.legend.map(([state, label]) => <li key={state}><i data-state={state} aria-hidden="true" />{label}</li>)}</ul>
+      <button type="button" className="xs-submit" onClick={() => setReadBack((v) => !v)} aria-expanded={readBack}>{words.submit}</button>
+      <p className="xs-readback" role="status">{readBack ? `${words.counters[0][1]} ${counts.answered}, ${words.chip.visited} ${counts.pending}, ${words.counters[1][1]} ${counts.marked}.` : ''}</p>
+    </>
+  );
+  // The monitor's screen: drawn in the monitor while the view is shut (never both: one timer, one set of live regions).
   const frame = (
     <div className="xs-frame" data-interface={mode}>
       <div className="xs-browser" aria-hidden="true">
@@ -231,28 +341,13 @@ export function ExamScreen() {
               <button type="button" className="xs-exit" aria-label={words.exit} onClick={reset}><X aria-hidden="true" /></button>
               <div><span>{EXAM.attempt}</span><strong>{EXAM.subject}</strong></div>
             </div>
-            <div className="xs-progress">
-              <div><span>{words.questionOf(index + 1, EXAM.total)}</span><span>{words.answered(answered)}</span></div>
-              <i aria-hidden="true"><b style={{ '--p': answered / EXAM.total }} /></i>
-            </div>
-            <div className="xs-timer" role="timer" aria-label={`${words.timer}: ${Math.floor(clock / 60)} minutes ${clock % 60} seconds`} data-running={started && (onScreen || full)}>
-              <Clock3 aria-hidden="true" /><span>{mmss(clock)}</span>
-            </div>
+            {progress}
+            {timer}
           </header>
 
           <div className="xs-body">
             <div className="xs-paper">
-              <div className="xs-tags"><span>{question.chapter}</span><span>{question.difficulty}</span></div>
-              <div className="xs-qhead">
-                <div><h3>{words.heading(index + 1)}</h3><span className="xs-state" data-state={states[index]}>{chipWord}</span></div>
-                <div className="xs-actions">
-                  <button type="button" className="xs-text" onClick={toggleMark} aria-pressed={Boolean(marked[index])}><Flag aria-hidden="true" />{marked[index] ? words.unmark : words.mark}</button>
-                  <button type="button" className="xs-text" onClick={clearAnswer}>{words.clear}</button>
-                </div>
-              </div>
-              <p className="xs-stem" aria-live="polite">{question.text}</p>
-              <div className="xs-options" role="group" aria-label={`Options for question ${index + 1}`}>{optionButtons}</div>
-              {noteOn ? <p className="xs-note">{words.strikeNote}</p> : null}
+              {paper}
               <div className="xs-nav">
                 <button type="button" className="xs-btn" disabled={index === 0} onClick={prev}>{words.previous}</button>
                 <button type="button" className="xs-btn xs-btn--next" disabled={index === LIVE - 1} onClick={next}>{words.next}</button>
@@ -261,15 +356,43 @@ export function ExamScreen() {
 
             <aside className="xs-review" aria-label={words.review}>
               <span className="xs-panel-title">{words.review}</span>
-              <div className="xs-counters">{words.counters.map(([key, label]) => (
-                <div key={key} data-k={key}><strong>{counts[key]}</strong><span>{label}</span></div>
-              ))}</div>
-              {chipGrid(mockmobNames)}
-              <ul className="xs-legend">{words.legend.map(([state, label]) => <li key={state}><i data-state={state} aria-hidden="true" />{label}</li>)}</ul>
-              <button type="button" className="xs-submit" onClick={() => setReadBack((v) => !v)} aria-expanded={readBack}>{words.submit}</button>
-              <p className="xs-readback" role="status">{readBack ? `${words.counters[0][1]} ${counts.answered}, ${words.chip.visited} ${counts.pending}, ${words.counters[1][1]} ${counts.marked}.` : ''}</p>
+              {review}
             </aside>
           </div>
+        </div>
+      )}
+    </div>
+  );
+  // The full-screen view's screen (R5): the same state as the runner draws it on a phone, upright, in real pixels. MockMob: the
+  // runner's phone header (its close is the view's own key, in the bar above), the paper, the phone bar and the palette sheet;
+  // NTA style: PhoneNta. The sheet sits inside the screen, so it takes the screen's skin.
+  const phone = (
+    <div className="xs-frame xs-phone" data-interface={mode}>
+      {nta ? (
+        <PhoneNta key="nta" index={index} question={question} answers={answers} states={states} answered={answered} clock={clock} started={started} onScreen={onScreen || full}
+          readBack={readBack} setReadBack={setReadBack} choose={choose} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} prev={prev}
+          chipGrid={chipGrid} sheet={sheet} setSheet={setSheet} sheetBox={sheetBox} sheetOpener={sheetOpener} sheetClose={sheetClose} sheetScrim={sheetScrim} />
+      ) : (
+        <div key="mockmob" className="xs-app xs-ph">
+          <p className="xs-saved" role="status">{EXAM.saved}</p>
+          <header className="xs-ph-head">
+            <div className="xs-title"><div><span>{EXAM.attempt}</span><strong>{EXAM.subject}</strong></div></div>
+            {progress}
+            {timer}
+          </header>
+          <div className="xs-ph-paper">{paper}</div>
+          <div className="xs-ph-bar">
+            <button type="button" className="xs-btn" disabled={index === 0} onClick={prev}><ChevronLeft aria-hidden="true" />{words.prev}</button>
+            <button ref={sheetOpener} type="button" className="xs-btn" aria-haspopup="dialog" aria-expanded={sheet} aria-label={words.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{words.palette}</button>
+            <button type="button" className="xs-btn xs-btn--next" disabled={index === LIVE - 1} onClick={next}>{words.next}<ChevronRight aria-hidden="true" /></button>
+          </div>
+          <dialog ref={sheetBox} className="xs-ph-sheet" aria-label={words.paletteSheet} onClick={sheetScrim}>
+            <div className="xs-ph-sheet__head">
+              <div><span>{words.paletteTitle}</span><strong>{words.answeredOf(answered, EXAM.total)}</strong></div>
+              <button ref={sheetClose} type="button" className="xs-ph-sheet__close" aria-label={words.closePalette} onClick={() => setSheet(false)}><X aria-hidden="true" /></button>
+            </div>
+            {review}
+          </dialog>
         </div>
       )}
     </div>
@@ -305,25 +428,23 @@ export function ExamScreen() {
         </button>
         </div>
       </div>
-      {/* Only ever open after a tap, so the document is there to host it. */}
+      {/* Only ever open after a tap, so the document is there to host it. React bubbles a nested dialog's cancel (the palette
+          sheet's Escape) up to this one's onCancel, so only the view's own closes the view. */}
       {full ? createPortal(
-        <dialog className="xs-full" aria-label={EXAM.full.title} onCancel={(event) => { event.preventDefault(); closeFull(); }} ref={fullBox}>
-          <div className="xs-full__stage">
+        <dialog className="xs-full" aria-label={EXAM.full.title} onCancel={(event) => { if (event.target !== event.currentTarget) return; event.preventDefault(); closeFull(); }} ref={fullBox}>
+          <div ref={fullStage} className="xs-full__stage">
             <div className="xs-full__bar">
               <button ref={fullClose} type="button" className="xs-full__close" aria-label={EXAM.full.close} onClick={closeFull}><X aria-hidden="true" /></button>
-              <p className="xs-full__turn">{EXAM.full.turn}</p>
               <div className="xs-switch" role="group" aria-label={words.switchLabel}>{switchKeys}</div>
             </div>
-            <div className="xs-full__fit">
-              <div className="xs-full__glass">{frame}</div>
-            </div>
+            {phone}
           </div>
         </dialog>, document.querySelector('.mm.lp') || document.body) : null}
     </section>
   );
 }
 
-// NTA style: drawn only while the visitor has picked it (the one place EXAM.nta's screen words are read).
+// NTA style: drawn only while the visitor has picked it (the one place EXAM.nta's screen words are read, with PhoneNta).
 function NtaScreen({ index, question, answers, states, clock, started, onScreen, paletteOpen, setPaletteOpen, readBack, setReadBack, choose, clearAnswer, markAndNext, saveAndNext, chipGrid }) {
   const t = EXAM.nta;
   const name = Object.fromEntries(t.legend);
@@ -387,6 +508,77 @@ function NtaScreen({ index, question, answers, states, clock, started, onScreen,
           </aside>
         ) : null}
       </div>
+    </div>
+  );
+}
+
+// NTA style in the full-screen view (R5): drawn only while the visitor has picked NTA style. The runner's NTA style on a phone
+// (nta-classic.css below 1024 px): the exam's name, the Question Paper icon and the Remaining Time on top (the candidate's name,
+// subject and photo fold away), the section bar, the question with NTA's grey circle arrows (down to its end, up to its top)
+// and numbered radios, and its five keys one tap away: Previous, the clear key and the palette key, then the mark key and the
+// save key (EXAM.nta's words). The palette key raises NTA's palette sheet: the section summary with a count in each symbol,
+// the section, the palette and Submit.
+function PhoneNta({ index, question, answers, states, answered, clock, started, onScreen, readBack, setReadBack, choose, clearAnswer, markAndNext, saveAndNext, prev, chipGrid, sheet, setSheet, sheetBox, sheetOpener, sheetClose, sheetScrim }) {
+  const t = EXAM.nta;
+  const name = Object.fromEntries(t.legend);
+  const tally = Object.fromEntries(t.legend.map(([state]) => [state, states.filter((s) => s === state).length]));
+  const pick = (option) => (answers[index] === option ? clearAnswer() : choose(option));
+  const pane = useRef(null);
+  const scrollPane = (toEnd) => { const el = pane.current; if (el) el.scrollTo({ top: toEnd ? el.scrollHeight : 0, behavior: stillMotion() ? 'auto' : 'smooth' }); };
+  return (
+    <div className="xs-nta xs-ph-nta">
+      <header className="xs-n-head">
+        <strong className="xs-n-exam">{t.exam}</strong>
+        <div className="xs-n-tools">
+          <span className="xs-n-paper"><FileText aria-hidden="true" />{t.questionPaper}</span>
+          <div className="xs-ph-time"><span>{t.remaining}</span><span className="xs-n-time" role="timer" aria-label={`${t.remaining}: ${Math.floor(clock / 60)} minutes ${clock % 60} seconds`} data-running={started && onScreen}>{hhmmss(clock)}</span></div>
+        </div>
+      </header>
+      <div className="xs-n-sections"><span className="xs-n-tab" aria-current="true">{EXAM.subject}</span></div>
+
+      <div className="xs-ph-pane" ref={pane}>
+        <div className="xs-n-qhead">
+          <h3>{t.question(index + 1)}</h3>
+          <button type="button" className="xs-ph-arrow" aria-label={t.toEnd} onClick={() => scrollPane(true)}><ArrowDown aria-hidden="true" /></button>
+        </div>
+        <div className="xs-n-qbody">
+          <p className="xs-n-stem" aria-live="polite">{question.text}</p>
+          <div className="xs-n-options" role="group" aria-label={`Options for question ${index + 1}`}>
+            {question.options.map((text, option) => (
+              <button key={`${index}-${option}`} type="button" className="xs-n-option" aria-pressed={answers[index] === option} onClick={() => pick(option)}>
+                <span className="xs-n-radio" aria-hidden="true" />
+                <span className="xs-n-num">{option + 1}.</span>
+                <span>{text}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="xs-ph-end">
+          <button type="button" className="xs-ph-arrow" aria-label={t.toTop} onClick={() => scrollPane(false)}><ArrowUp aria-hidden="true" /></button>
+        </div>
+      </div>
+
+      <div className="xs-ph-keys">
+        <button type="button" className="xs-n-key" disabled={index === 0} onClick={prev}>{EXAM.mockmob.previous}</button>
+        <button type="button" className="xs-n-key" disabled={answers[index] === undefined} onClick={clearAnswer}>{t.clearResponse}</button>
+        <button ref={sheetOpener} type="button" className="xs-n-key" aria-haspopup="dialog" aria-expanded={sheet} aria-label={EXAM.mockmob.paletteKey(answered, EXAM.total)} onClick={() => setSheet(true)}>{t.paletteTitle}</button>
+        <button type="button" className="xs-n-key xs-n-key--review" onClick={markAndNext}>{t.markNext}</button>
+        <button type="button" className="xs-n-key xs-n-key--save" onClick={saveAndNext}>{t.save}</button>
+      </div>
+
+      <dialog ref={sheetBox} className="xs-ph-sheet" aria-label={t.paletteTitle} onClick={sheetScrim}>
+        <div className="xs-ph-sheet__head">
+          <strong>{t.paletteTitle}</strong>
+          <button ref={sheetClose} type="button" className="xs-ph-sheet__close" aria-label={EXAM.mockmob.closePalette} onClick={() => setSheet(false)}><X aria-hidden="true" /></button>
+        </div>
+        <ul className="xs-n-legend">{t.legend.map(([state, label]) => (
+          <li key={state} data-state={state}><span className="xs-n-sym" data-state={state}>{tally[state]}</span>{label}</li>
+        ))}</ul>
+        <p className="xs-n-section">{EXAM.subject}</p>
+        {chipGrid({ paletteTitle: t.paletteTitle, stateName: (state) => name[state] })}
+        <button type="button" className="xs-n-submit" onClick={() => setReadBack((v) => !v)} aria-expanded={readBack}>{t.submit}</button>
+        <p className="xs-readback" role="status">{readBack ? `${t.legend.map(([state, label]) => `${label.replace(/ \(.*\)$/, '')} ${tally[state]}`).join(', ')}.` : ''}</p>
+      </dialog>
     </div>
   );
 }
