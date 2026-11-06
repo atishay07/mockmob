@@ -1,0 +1,186 @@
+/* ==========================================================================
+   WHAT STUDENTS USUALLY PAY, AND WHAT YOU PAY: the /pricing page's value section (PricingValue.jsx; round 6, owner 7 Nov 2026).
+   Phone first (390 px). The heading and its lede; two solid cards, each led by its own control (the receipt, then the pace),
+   stacked on phones and side by side from 960 px, as tall as each other; the tiles of what else the same price holds, on
+   hairlines (no boxes: they are a list, not a row of cards); the two keys and the footnote.
+   Surfaces are the page's own tokens: raised paper cards on the page paper, hairlines between a card's parts (never a card in a
+   card), one accent. A chosen key is the volt fill with dark ink in Night, and in Day raised paper with the ink rim and the small
+   volt tick (the No-Slab Rule, as the Pro | Free switch). Brand green (--brand-word) only on Pro's price, its bar and the punch
+   line's Pro part. No glow, no gradient, no glass.
+   Motion: a key settles when pressed (100 ms), its colours change in 180 ms, the bars glide in 280 ms ease-out (the total rolls in
+   the component); none under reduced motion.
+   ========================================================================== */
+.pro-val .pro-val__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* ---- The heading ---------------------------------------------------------------------------------------------------------- */
+.mm-pro .pro-val__head { display: grid; gap: 0.5rem; margin-bottom: 1.5rem; }
+.mm-pro .pro-val__head .pro-h2 { margin: 0; }
+.pro-val .pro-val__lede { margin: 0; max-width: 46ch; font-size: 1.0625rem; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+/* ---- The two cards -------------------------------------------------------------------------------------------------------- */
+.pro-val .pro-val__grid { display: grid; gap: 1rem; }
+.pro-val .pro-val__card {
+  display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid var(--line); border-radius: 28px; background: var(--paper-raised); box-shadow: var(--sh-1);
+}
+/* A card's parts are separated by hairlines, never boxed. */
+.pro-val :is(.pro-val__way, .pro-val__pro, .pro-val__at) { padding-top: 1.25rem; border-top: 1px solid var(--line); }
+.pro-val .pro-val__label { margin: 0 0 0.375rem; font-size: 0.8125rem; font-weight: 650; line-height: 1.3; color: var(--ink-3); }
+
+/* The questions and their keys: five subject keys, four pace keys, each at least 52 px tall (the pace keys carry their pace in
+   words under the number). */
+.pro-val .pro-val__q { margin: 0 0 0.625rem; font-size: 1rem; font-weight: 650; line-height: 1.35; color: var(--ink); text-wrap: balance; }
+.pro-val .pro-val__steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.5rem; }
+.pro-val .pro-val__steps--pace { grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); }
+.pro-val .pro-val__step {
+  position: relative; min-width: 0; min-height: 52px; padding: 0.375rem 0.25rem; border: 1px solid var(--line-strong); border-radius: 14px;
+  background: var(--paper); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1; color: var(--ink-2); font-variant-numeric: tabular-nums;
+  transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1),
+    border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.pro-val .pro-val__step--pace { display: grid; place-content: center; gap: 0.3125rem; min-height: 60px; }
+.pro-val .pro-val__step--pace b { font-weight: inherit; }
+.pro-val .pro-val__step--pace span { font-family: var(--font-body, inherit); font-size: 0.75rem; font-weight: 600; line-height: 1.2; color: var(--ink-3); white-space: nowrap; }
+.pro-val .pro-val__step:active { transform: scale(0.97); }
+.pro-val .pro-val__step[aria-pressed='true'] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
+.pro-val .pro-val__step[aria-pressed='true'] span { color: var(--volt-ink); opacity: 0.78; }
+html[data-theme='light'] .pro-val .pro-val__step[aria-pressed='true'] {
+  border-color: var(--sel-rim); background: var(--paper-raised); box-shadow: inset 0 0 0 0.5px var(--sel-rim); color: var(--ink);
+}
+html[data-theme='light'] .pro-val .pro-val__step[aria-pressed='true'] span { color: var(--ink-2); opacity: 1; }
+html[data-theme='light'] .pro-val .pro-val__step[aria-pressed='true']::after {
+  content: ''; position: absolute; top: 4px; right: 4px; width: 14px; height: 14px; box-sizing: border-box; border-radius: 50%;
+  border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 8px no-repeat; pointer-events: none;
+  animation: mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.pro-val .pro-val__step:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .pro-val .pro-val__step[aria-pressed='false']:hover { color: var(--ink); border-color: var(--ink-3); }
+}
+
+/* The receipt: the usual way's two lines with their desk objects, a dashed rule, the total; Pro's price; the bars; the punch line. */
+.pro-val .pro-val__lines { margin: 0; padding: 0; list-style: none; }
+.pro-val .pro-val__line { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; column-gap: 0.75rem; padding: 0.4375rem 0; }
+.pro-val .pro-val__obj { --bi-size: 32px; display: inline-grid; place-items: center; width: 32px; height: 32px; }
+.pro-val .pro-val__obj img { display: block; max-width: 100%; height: auto; }
+.pro-val .pro-val__what { display: grid; gap: 0.125rem; min-width: 0; }
+.pro-val .pro-val__what b { font-weight: 650; font-size: 1rem; line-height: 1.3; color: var(--ink); }
+.pro-val .pro-val__what span { font-size: 0.8125rem; line-height: 1.35; color: var(--ink-3); }
+.pro-val .pro-val__sum { font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.pro-val .pro-val__total {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0.5rem 0 0; padding-top: 0.75rem;
+  border-top: 1px dashed var(--line-strong); font-size: 0.9375rem; font-weight: 600; color: var(--ink-2);
+}
+.pro-val .pro-val__total b { font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.pro-val .pro-val__pro-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0; }
+.pro-val .pro-val__pro-head b { font-family: var(--font-display); font-weight: 750; font-size: 1.125rem; color: var(--ink); }
+.pro-val .pro-val__pro-head span {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; line-height: 1.1; letter-spacing: -0.02em; color: var(--brand-word);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.pro-val .pro-val__pro-line { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.45; color: var(--ink-3); text-wrap: pretty; }
+.pro-val .pro-val__bars { display: grid; gap: 0.625rem; }
+.pro-val .pro-val__bar { display: grid; grid-template-columns: 7.25rem minmax(0, 1fr); align-items: center; column-gap: 0.75rem; }
+.pro-val .pro-val__bar i { font-style: normal; font-size: 0.8125rem; font-weight: 650; color: var(--ink-3); }
+.pro-val .pro-val__fill { display: block; height: 14px; width: max(4px, calc(var(--w, 1) * 100%)); border-radius: 999px; transition: width 280ms cubic-bezier(0.23, 1, 0.32, 1); }
+.pro-val .pro-val__fill--usual { background: var(--ink-3); }
+.pro-val .pro-val__fill--pro { background: var(--brand-word); }
+.pro-val .pro-val__punch {
+  margin: 0; padding-top: 1.25rem; border-top: 1px solid var(--line); font-family: var(--font-display); font-weight: 750;
+  font-size: clamp(1.625rem, 7vw, 2.25rem); line-height: 1.12; letter-spacing: -0.025em; color: var(--ink-2); font-variant-numeric: tabular-nums;
+  text-wrap: balance;
+}
+.pro-val .pro-val__punch b { font-weight: 800; color: var(--brand-word); }
+
+/* The pace: what Pro comes to a mock, a question and a day. On phones and beside the receipt they are three rows of a ledger
+   (the number with its unit beside it, the "about" or "under" before it in a column of its own, so the numbers line up); where the
+   card has the page's full measure (tablets) the three sit side by side. The maths under them; the test-series line at the foot. */
+.pro-val .pro-val__figs { margin: 0; padding: 0; list-style: none; }
+.pro-val .pro-val__fig { display: flex; align-items: baseline; gap: 0.5rem; padding: 0.625rem 0; }
+.pro-val .pro-val__fig + .pro-val__fig { border-top: 1px solid var(--line); }
+.pro-val .pro-val__fig-pre { flex: none; width: 3.25rem; font-size: 0.9375rem; font-weight: 600; color: var(--ink-3); }
+.pro-val .pro-val__fig-row { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.4375rem; min-width: 0; }
+.pro-val .pro-val__fig-num {
+  font-family: var(--font-display); font-weight: 800; font-size: 2rem; line-height: 1.1; letter-spacing: -0.025em; color: var(--ink);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.pro-val .pro-val__fig-unit { font-size: 1rem; font-weight: 600; line-height: 1.3; color: var(--ink-2); }
+.pro-val .pro-val__maths { margin: 0.5rem 0 0; font-size: 0.875rem; line-height: 1.45; color: var(--ink-3); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.pro-val .pro-val__series {
+  margin: auto 0 0; padding-top: 1.25rem; border-top: 1px solid var(--line); font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1875rem; line-height: 1.35; letter-spacing: -0.01em; color: var(--ink); text-wrap: pretty;
+}
+
+/* ---- Also in the same price ------------------------------------------------------------------------------------------------ */
+.pro-val .pro-val__also { margin-top: 3rem; }
+.pro-val .pro-val__also-h {
+  margin: 0 0 1.25rem; font-family: var(--font-display); font-weight: 750; font-size: clamp(1.375rem, 5vw, 1.75rem); line-height: 1.15;
+  letter-spacing: -0.02em; color: var(--ink); text-wrap: balance;
+}
+.pro-val .pro-val__tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; margin: 0; padding: 0; list-style: none; }
+.pro-val .pro-val__tile { display: grid; gap: 0.625rem; align-content: start; min-width: 0; padding-top: 1rem; border-top: 1px solid var(--line-strong); }
+.pro-val .pro-val__tile-copy h4 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; line-height: 1.25; color: var(--ink); }
+.pro-val .pro-val__tile-copy p { margin: 0.25rem 0 0; font-size: 0.875rem; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
+/* Seven tiles on two columns: the first (unlimited mocks) takes the row, its object beside its words. */
+.pro-val .pro-val__tiles[data-count='7'] > :first-child { grid-column: 1 / -1; grid-template-columns: 32px minmax(0, 1fr); column-gap: 0.875rem; align-items: start; }
+
+/* ---- The keys and the footnote ---------------------------------------------------------------------------------------------- */
+.pro-val .pro-val__go { display: grid; gap: 1rem; margin-top: 2.5rem; }
+.pro-val .pro-val__go .mm-btn { min-height: 56px; font-size: 1.0625rem; }
+.pro-val .pro-val__note { margin: 1.25rem 0 0; max-width: 64ch; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-3); text-wrap: pretty; }
+
+/* ---- Wider screens ---------------------------------------------------------------------------------------------------------- */
+@media (min-width: 600px) and (max-width: 959px) {
+  .mm-pro .pro-val__head, .pro-val .pro-val__grid, .pro-val .pro-val__also, .pro-val .pro-val__go, .pro-val .pro-val__note { max-width: 36rem; margin-inline: auto; }
+  .pro-val .pro-val__go { margin-top: 2.5rem; }
+  .pro-val .pro-val__note { margin-top: 1.25rem; }
+  .pro-val .pro-val__card { padding: 1.5rem 1.75rem 1.75rem; }
+  /* Three figures side by side. */
+  .pro-val .pro-val__figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1rem; }
+  .pro-val .pro-val__fig { display: grid; align-content: start; gap: 0.25rem; padding: 0; }
+  .pro-val .pro-val__fig + .pro-val__fig { border-top: 0; padding-left: 1rem; border-left: 1px solid var(--line); }
+  .pro-val .pro-val__fig-pre { width: auto; min-height: 1.3em; font-size: 0.875rem; }
+  .pro-val .pro-val__fig-num { font-size: 1.75rem; }
+  .pro-val .pro-val__fig-unit { font-size: 0.9375rem; }
+  .pro-val .pro-val__go { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pro-val .pro-val__go .mm-btn { width: 100%; }
+}
+@media (min-width: 960px) {
+  .mm-pro .pro-choice + .pro-val { padding-top: 2.5rem; }
+  .mm-pro .pro-val__head { justify-items: center; text-align: center; margin-bottom: 2.25rem; }
+  .pro-val .pro-val__lede { max-width: 52ch; font-size: 1.125rem; }
+  .pro-val .pro-val__grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); gap: 1.5rem; align-items: stretch; max-width: 68rem; margin-inline: auto; }
+  .pro-val .pro-val__grid--one { grid-template-columns: minmax(0, 36rem); justify-content: center; }
+  .pro-val .pro-val__card { padding: 1.75rem 2rem 2rem; gap: 1.5rem; }
+  .pro-val :is(.pro-val__way, .pro-val__pro, .pro-val__at) { padding-top: 1.5rem; }
+  .pro-val .pro-val__punch { padding-top: 1.5rem; font-size: 2.25rem; }
+  /* The three figures side by side here too (brief B2(4)): the pace card's inner width at 1440 px is about 438 px. */
+  .pro-val .pro-val__figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1rem; }
+  .pro-val .pro-val__fig { display: grid; align-content: start; gap: 0.25rem; padding: 0; }
+  .pro-val .pro-val__fig + .pro-val__fig { border-top: 0; padding-left: 1rem; border-left: 1px solid var(--line); }
+  .pro-val .pro-val__fig-pre { width: auto; min-height: 1.3em; font-size: 0.875rem; }
+  .pro-val .pro-val__fig-num { font-size: 1.75rem; }
+  .pro-val .pro-val__also { max-width: 68rem; margin: 4rem auto 0; }
+  .pro-val .pro-val__also-h { text-align: center; margin-bottom: 1.75rem; }
+  .pro-val .pro-val__tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 2rem; }
+  .pro-val .pro-val__tile { grid-template-columns: 32px minmax(0, 1fr); column-gap: 0.875rem; align-items: start; padding-top: 1.25rem; }
+  .pro-val .pro-val__tile-copy h4 { font-size: 1.125rem; }
+  .pro-val .pro-val__tile-copy p { font-size: 0.9375rem; }
+  /* Seven tiles: the first takes the row; eight: the first takes two columns. Either way every row is full. */
+  .pro-val .pro-val__tiles[data-count='7'] > :first-child { grid-column: 1 / -1; }
+  .pro-val .pro-val__tiles[data-count='8'] > :first-child { grid-column: span 2; }
+  .pro-val .pro-val__go { display: flex; justify-content: center; gap: 1.25rem; margin-top: 3rem; }
+  .pro-val .pro-val__go .mm-btn { min-width: 13rem; }
+  .pro-val .pro-val__note { margin: 1.25rem auto 0; text-align: center; }
+}
+
+/* ---- Reduced motion -------------------------------------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .pro-val .pro-val__step, .pro-val .pro-val__fill { transition: none; }
+  .pro-val .pro-val__step:active { transform: none; }
+  html[data-theme='light'] .pro-val .pro-val__step[aria-pressed='true']::after { animation: none; }
+}
+:root[data-motion='reduced'] .pro-val :is(.pro-val__step, .pro-val__fill) { transition: none; }
+:root[data-motion='reduced'] .pro-val .pro-val__step:active { transform: none; }
+html[data-theme='light'][data-motion='reduced'] .pro-val .pro-val__step[aria-pressed='true']::after { animation: none; }

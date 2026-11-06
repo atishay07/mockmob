@@ -34,8 +34,26 @@ html[data-theme='light'] .lp .lp-price {
 
 .lp .lp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
+/* ---- The head, centred at every width (owner, 7 Nov 2026: "center-aligned ... because it's a headline"; "all this text should
+   not be just lying around randomly. It should be properly made") ---------------------------------------------------------------
+   Mobi's seat above it as an eyebrow (brand-pip.css .pip-seat--eyebrow), the h2 in balanced lines, then the rate as one designed
+   element: a hairline pill, the price and the day's figure in the display face, the day's figure in the one accent. Not a key:
+   no hover, no fill. The one-time offer's second sentence sits under it, quiet. */
+.lp .lp-price__head { margin-bottom: clamp(0.5rem, 2vw, 1.5rem); justify-items: center; text-align: center; }
+.lp .lp-price__head .lp-h2 { margin-inline: auto; text-wrap: balance; }
+.lp .lp-price__rate {
+  max-width: 100%; margin: 0; padding: 8px 16px; border: 1px solid var(--line-strong); border-radius: 999px;
+  font-size: clamp(0.9375rem, 0.9rem + 0.3vw, 1.0625rem); font-weight: 550; line-height: 1.35; color: var(--ink-2); text-wrap: balance;
+}
+.lp .lp-price__fig {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.2em; letter-spacing: -0.015em; color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.lp .lp-price__fig--accent { color: var(--brand-word); }
+.lp .lp-price__soon { margin: -0.375rem 0 0; font-size: 0.875rem; line-height: 1.45; color: var(--ink-3); text-wrap: balance; }
+/* A narrow phone may break the one-time sentence in two: the pill turns into a rounded box so the two lines sit well in it. */
+@media (max-width: 420px) { .lp .lp-price__rate { border-radius: 1.25rem; } }
+
 /* ---- Layout ---------------------------------------------------------------------------------------------------------------- */
-.lp .lp-price__head { margin-bottom: clamp(0.5rem, 2vw, 1.5rem); }
 .lp .lp-price__grid { display: grid; gap: 2rem; }
 .lp .lp-price__stage,
 .lp .lp-price__side { width: 100%; max-width: 30rem; margin-inline: auto; min-width: 0; }
@@ -62,10 +80,11 @@ html[data-theme='light'] .lp .lp-price {
 .lp :is(.lp-plan__more, .lp-plan__freekey):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 6px; }
 
 /* ---- Everything the price covers at your pace (PlanValue.jsx) ---------------------------------------------------------- */
-/* A solid card, the plan card's equal: the same 28 px corners and soft shadow, raised paper instead of glass. Its four parts are
-   separated by hairlines; when the card is stretched to the plan card's height, the room goes evenly between the parts. */
+/* A solid card, the plan card's equal: the same 28 px corners and soft shadow, raised paper instead of glass. Its parts follow in
+   the normal flow with one steady gap (owner, 7 Nov 2026: no empty bands); when the card is stretched to the plan card's height,
+   the spare room goes above the footnote, which closes the card (.lp-usual__note margin-top: auto). */
 .lp .lp-val {
-  display: flex; flex-direction: column; justify-content: space-between; gap: 1.125rem;
+  display: flex; flex-direction: column; gap: 1.125rem;
   padding: 1.25rem 1.25rem 1.375rem; border: 1px solid var(--line); border-radius: 28px; background: var(--paper-raised);
   box-shadow: var(--val-card-shadow);
 }
@@ -145,7 +164,20 @@ html[data-theme='light'] .lp .lp-usual__step[aria-pressed='true'] { border-color
 .lp .lp-usual__pro-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 0; }
 .lp .lp-usual__pro-head b { font-family: var(--font-display); font-weight: 750; font-size: 1.0625rem; color: var(--ink); }
 .lp .lp-usual__pro-head span { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; color: var(--brand-word); font-variant-numeric: tabular-nums; }
-.lp .lp-usual__pro-line { margin: 0.125rem 0 0; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+/* Everything the one price holds (owner, 7 Nov 2026: "a maximalist approach"): a short label, then each feature as its own desk
+   object (the hero strip's cut) and its name, in aligned columns that fill the card's width (two on a phone, three where there is
+   room), so the set reads as one made list, not loose tags. A hairline each, no fill, no shadow: the objects carry the colour. */
+.lp .lp-usual__pro { container-type: inline-size; }
+.lp .lp-usual__all { margin: 0.625rem 0 0; font-size: 0.8125rem; font-weight: 650; line-height: 1.3; color: var(--ink-3); }
+.lp .lp-usual__feats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.375rem; margin: 0.5rem 0 0; padding: 0; list-style: none; }
+@container (min-width: 25rem) { .lp .lp-usual__feats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.lp .lp-usual__feat {
+  display: flex; align-items: center; gap: 0.5rem; min-width: 0; min-height: 2.75rem; padding: 0.25rem 0.625rem 0.25rem 0.375rem;
+  border: 1px solid var(--line); border-radius: 14px; font-size: 0.8125rem; font-weight: 650; line-height: 1.25; color: var(--ink);
+}
+.lp .lp-usual__feat > span { min-width: 0; }
+.lp .lp-usual__obj-sm { flex: none; display: block; width: 2rem; height: auto; aspect-ratio: 12 / 11; object-fit: contain; }
+.lp .lp-usual__em { font-family: var(--font-display); font-weight: 800; color: var(--brand-word); }
 .lp .lp-usual__bars { display: grid; gap: 0.5rem; }
 .lp .lp-usual__bar { display: grid; grid-template-columns: 7.25rem minmax(0, 1fr); align-items: center; column-gap: 0.625rem; }
 .lp .lp-usual__bar i { font-style: normal; font-size: 0.75rem; font-weight: 650; color: var(--ink-3); }
@@ -154,7 +186,7 @@ html[data-theme='light'] .lp .lp-usual__step[aria-pressed='true'] { border-color
 .lp .lp-usual__fill--pro { background: var(--brand-word); }
 .lp .lp-usual__punch { margin: 0; font-family: var(--font-display); font-weight: 750; font-size: clamp(1.375rem, 6vw, 1.75rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .lp .lp-usual__punch b { font-weight: 800; color: var(--brand-word); }
-.lp .lp-usual__note { margin: 0; font-size: 0.6875rem; line-height: 1.4; color: var(--ink-3); text-wrap: pretty; }
+.lp .lp-usual__note { margin: auto 0 0; font-size: 0.6875rem; line-height: 1.4; color: var(--ink-3); text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) { .lp .lp-usual__step, .lp .lp-usual__fill { transition: none; } }
 :root[data-motion='reduced'] .lp :is(.lp-usual__step, .lp-usual__fill) { transition: none; }
 

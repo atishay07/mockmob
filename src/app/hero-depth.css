@@ -223,15 +223,6 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
 }
 html[data-motion='reduced'] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
 
-/* ---------- 7. The eligibility bar takes the dock's slot ----------
-   While the DU teaser's chips hold the screen, its live count bar (sticky, du.css) is the one action at the
-   bottom: HeroDockGate lowers the dock (data-yield='elig') and the bar settles into the dock's place, on the
-   same safe-area floor, so one bar shows, never two stacked over the second row of chips. */
-@media (max-width: 899px) {
-  .mm.lp .du-teaser .du-live { transition: bottom var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
-  .mm.lp:has(.lp-dockgate[data-yield='elig']) .du-teaser .du-live { bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px)); }
-}
-
 /* ---------- 8. Mobi rides in the phone dock (DockMobi, HeroDockGate.jsx) ----------
    He stands in the dock's left slot, his antenna just over the glass, and answers the page: he hops in when the
    dock rises, greets the first time, and nods, tilts, points or thinks as each new section takes the screen.

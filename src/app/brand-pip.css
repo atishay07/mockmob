@@ -392,3 +392,37 @@ html[data-pip-guide][data-lit-in-view] :is(.pip-rig__breath, .pip-actor[data-ali
   visibility: hidden;
   transition: opacity 160ms var(--mm-ease-out, ease-out), visibility 0s linear 160ms;
 }
+
+/* ---- 7 Nov 2026: Mobi as a centred head's eyebrow (owner: the pricing line "No rush. Free stays free." was "lying around
+   randomly"; also the DU section's seat) ----
+   The seat stands in the flow above the head at every width, never collapsed: Mobi, and beside him his line in a speech bubble
+   whose tail points at him, so the line reads as Mobi speaking, not as loose text. --center centres the pair over the head.
+   Raised paper and one hairline: no glow, gradient or glass. */
+.pip-seat.pip-seat--eyebrow { grid-template-columns: auto minmax(0, max-content); gap: 10px; align-items: center; width: fit-content; max-width: 100%; margin: 0 0 12px; }
+.pip-seat.pip-seat--center { margin-inline: auto; justify-content: center; }
+.pip-seat.pip-seat--eyebrow .pip-seat__art { width: 72px; height: 84px; }
+.pip-seat.pip-seat--eyebrow figcaption {
+  position: relative; display: block; max-width: 17rem; padding: 8px 14px; border: 1px solid var(--line-strong); border-radius: 16px;
+  background: var(--paper-raised); font-size: 14px; line-height: 1.4; text-align: left; text-wrap: balance;
+}
+.pip-seat.pip-seat--eyebrow figcaption b { font-weight: 650; }
+.pip-seat.pip-seat--eyebrow figcaption span { display: block; margin-top: 2px; }
+/* The tail: a small square of the bubble's own paper turned 45 degrees, its two outer edges drawn, pointing at Mobi. */
+.pip-seat.pip-seat--eyebrow figcaption::before {
+  content: ''; position: absolute; left: -6px; top: 50%; width: 10px; height: 10px; margin-top: -5px;
+  border-left: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); border-bottom-left-radius: 2px;
+  background: inherit; transform: rotate(45deg);
+}
+@media (min-width: 761px) { .pip-seat.pip-seat--eyebrow .pip-seat__art { width: 84px; height: 98px; } }
+/* Desktop while he guides (1100 px and up, motion allowed): the eyebrow seat stays centred over the head, in the flow, at
+   every width. The station rule above would stack him over his line at 160 px, and PipGuide's measure() sets an inline
+   translateX that moves every seat into his lane; here the eyebrow keeps its side-by-side pair and its place (the !important
+   beats the inline transform), so measure() reads the centred art box and he lands there at the small seat's scale, the same
+   way he lands on the exam-screen seat. The bubble's tail keeps pointing left at him. Specificity (0,8,0) beats the station
+   rules (0,6,0) and (0,7,0). */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .pip-seat.pip-seat--eyebrow[data-pip-station] {
+    width: fit-content; flex-basis: auto; grid-template-columns: auto minmax(0, max-content); text-align: left; transform: none !important;
+  }
+  :root:not([data-motion='reduced']) .mm.lp .pip-seat.pip-seat--eyebrow[data-pip-station] .pip-seat__art { width: 84px; height: 98px; }
+}

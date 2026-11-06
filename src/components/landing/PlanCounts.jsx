@@ -10,7 +10,16 @@ import { useCountUp, useSeenOnce } from './useCountUp';
 // same answer the hero's bank line reads, bankStats.js): the questions in the public bank and the public subjects that hold
 // questions. While the answer loads, the number's place shows a still placeholder; if it fails, the line says the same thing
 // without a number (never a made-up figure). The numbers count up once, when the lines are 40% in view (useCountUp).
-// `groups` is homeCopy.mjs planGroups(): [{ label, lines: [{ text } | { count, rest, fallback }] }].
+// `groups` is homeCopy.mjs planGroups(): [{ label, lines: [{ text, em } | { count, rest, fallback }] }].
+// Owner, 7 Nov 2026 ("you can highlight unlimited also, and keywords like that"): a text line's `em` (its quantity or scope word,
+// homeCopy planEm) is drawn like the counted numbers, so "Unlimited", "every chapter", "50 credits a month" and "Every Key card"
+// carry the same weight as the live counts. The sentence stays one run of text for a screen reader (the mark is a plain <b>).
+
+function WordLine({ line }) {
+  const at = line.em ? line.text.indexOf(line.em) : -1;
+  if (at < 0) return line.text;
+  return <>{line.text.slice(0, at)}<b className="lp-count lp-count--word">{line.em}</b>{line.text.slice(at + line.em.length)}</>;
+}
 
 function CountLine({ line, value, state }) {
   if (state === 'failed' || (state === 'ready' && value == null)) return line.fallback;
@@ -44,7 +53,7 @@ export function PlanCounts({ groups }) {
             {group.lines.map((line) => (
               <li key={line.count || line.text}>
                 <Tick className="lp-plan__tick" />
-                <span>{line.count ? <CountLine line={line} value={values[line.count]} state={state} /> : line.text}</span>
+                <span>{line.count ? <CountLine line={line} value={values[line.count]} state={state} /> : <WordLine line={line} />}</span>
               </li>
             ))}
           </ul>

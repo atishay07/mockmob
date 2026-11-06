@@ -5,10 +5,10 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 // wide, AVIF with a WebP fallback). The browser fetches only the width it draws, and only as the section nears
 // the screen: the sprite was a CSS background, so every phone downloaded all 270 KB of it during the first paint.
 const COLLEGES = [
-  { name: 'SRCC', detail: 'B.Com (Hons) cutoffs', art: 'srcc', course: 'b-com-hons' },
-  { name: 'Hindu College', detail: 'B.A. (Hons) Economics cutoffs', art: 'hindu', course: 'b-a-hons-economics' },
-  { name: 'Hansraj College', detail: 'B.Com (Hons) cutoffs', art: 'hansraj', course: 'b-com-hons' },
-  { name: 'St. Stephen’s', detail: 'B.A. (Hons) English cutoffs', art: 'stephens', course: 'b-a-hons-english' },
+  { name: 'SRCC', pill: 'B.Com (Hons)', detail: 'B.Com (Hons) cutoffs', art: 'srcc', course: 'b-com-hons' },
+  { name: 'Hindu College', pill: 'Economics', detail: 'B.A. (Hons) Economics cutoffs', art: 'hindu', course: 'b-a-hons-economics' },
+  { name: 'Hansraj College', pill: 'B.Com (Hons)', detail: 'B.Com (Hons) cutoffs', art: 'hansraj', course: 'b-com-hons' },
+  { name: 'St. Stephen’s', pill: 'English', detail: 'B.A. (Hons) English cutoffs', art: 'stephens', course: 'b-a-hons-english' },
 ];
 const ART_WIDTHS = [300, 450, 600];
 // The drawn width of the art (home-refinements.css): half the row on phones, half a card on tablets, a quarter
@@ -16,7 +16,24 @@ const ART_WIDTHS = [300, 450, 600];
 const ART_SIZES = '(max-width: 760px) calc(50vw - 26px), (max-width: 1023px) calc(25vw - 20px), 288px';
 const srcSet = (art, type) => ART_WIDTHS.map((w) => `/images/campus/${art}-${w}.${type} ${w}w`).join(', ');
 
-export function CollegeDestinations() {
+export function CollegeDestinations({ compact = false }) {
+  if (compact) {
+    return (
+      <div className="lp-colleges lp-colleges--compact" id="college-destinations">
+        <p className="lp-colleges__label" id="lp-colleges-label">Popular college cutoffs</p>
+        <ul className="lp-colleges__pills" aria-labelledby="lp-colleges-label">
+          {COLLEGES.map((college) => (
+            <li key={college.name}>
+              <Link className="lp-college-pill" href={`/cuet-cutoff-calculator?course=${college.course}`}>
+                <strong>{college.name}</strong>{' '}
+                <span>{college.pill}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
     <div className="lp-colleges" id="college-destinations">
       <div className="lp-colleges__intro">

@@ -117,8 +117,9 @@ export function creditWorth(mocks, pricePaise, credits) {
 // price; no platform is named): a mock test series at 500 a subject (500 to 1,000 is common), revision cards or a revision book
 // at 250 a subject. In paise; the page writes them with rupees(), so no rupee amount is typed anywhere.
 export const USUAL_PRICES = Object.freeze({ mockSeriesPaise: 50000, mockSeriesHighPaise: 100000, revisionPaise: 25000 });
-/** The one control: CUET subjects, 1 to 5 (CUET UG allows up to five), 4 first. */
-export const SUBJECT_COUNT = Object.freeze({ min: 1, max: 5, start: 4 });
+/** The one control: CUET subjects, 1 to 5 (CUET UG allows up to five), 5 first (owner, 7 Nov 2026: "the default should be 5
+ *  only, because 99% of students are taking 5 subjects"). */
+export const SUBJECT_COUNT = Object.freeze({ min: 1, max: 5, start: 5 });
 
 /**
  * The usual way for `subjects` CUET subjects against Pro's own price, or null when the offer gives no price.

@@ -90,14 +90,28 @@ export const CLOSE = Object.freeze({
  * The pricing head (R3-D8, LK110). On the monthly plan the sub is the plan's value a day, worked out from the live offer
  * (src/lib/payments/value.mjs perDay: ₹99 over a 30-day month, rounded up), never typed; until monthly opens it is the
  * one-time term.
+ * Owner, 7 Nov 2026 ("all this text should not be just lying around randomly. It should be properly made"): HomePricing.jsx
+ * draws the rate as one centred pill, so the head gives it in parts too:
+ *   rate      the pill's words, in order: { text, figure, accent } (a figure is set in the display face, the accent one in the
+ *             brand colour): "₹99" and "₹3.30" on the monthly plan, the one price on the one-time offer;
+ *   rateText  those words as one line;
+ *   note      the one-time offer's second sentence (monthly Pro on the way), drawn under the pill; null on the monthly plan.
+ * `sub` stays the whole line (rateText, then the note), for the tests and the screen reader. One-time keeps its own wording.
  */
 export function pricingHead(offer) {
   const day = offer.purchasable === 'monthly' ? perDay(offer) : null;
+  const part = (text, figure = false, accent = false) => Object.freeze({ text, figure, accent });
+  const rate = Object.freeze(day
+    ? [part(`₹${offer.monthly.rupees}`, true), part(' a month is about '), part(day.perDay, true, true), part(' a day.')]
+    : [part(`₹${offer.oneTime.rupees}`, true, true), part(` once covers Pro through ${offer.oneTime.expires}.`)]);
+  const rateText = rate.map((p) => p.text).join('');
+  const note = day ? null : `Monthly Pro at ₹${offer.monthly.rupees} is on the way.`;
   return {
     h2: 'Start free. Go Pro for unlimited mocks.',
-    sub: day
-      ? `₹${offer.monthly.rupees} a month is about ${day.perDay} a day.`
-      : `₹${offer.oneTime.rupees} once covers Pro through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} is on the way.`,
+    sub: note ? `${rateText} ${note}` : rateText,
+    rate,
+    rateText,
+    note,
   };
 }
 
@@ -116,13 +130,14 @@ export const PLAN_HOME = Object.freeze({
  * The plan card's lines, in three groups (R3-D7: the numbers band's true counts now live here, with a count-up). A line with
  * `count` draws a live number from /api/stats (PlanCounts.jsx): 'bank' the questions in the public bank, 'subjects' the public
  * subjects that hold questions; `rest` follows the number, and `fallback` is the whole line while the count cannot load. Every
- * Pro item is proPlan()'s, so the card and the lists say the same thing.
+ * Pro item is proPlan()'s, so the card and the lists say the same thing. A text line is { text, em }: `em` is the part of the
+ * text PlanCounts draws like a count (planEm below), or null.
  */
 export function planGroups({ newOffer = false, keyCards = false } = {}) {
   const pro = proPlan({ newOffer, keyCards });
   const bank = { count: 'bank', rest: 'questions in one live bank, every mock built fresh', fallback: 'One live question bank, every mock built fresh' };
   const subjects = { count: 'subjects', rest: 'CUET subjects with full mocks', fallback: SUBJECT_CLAIM.short };
-  const lines = (...items) => items.map((item) => (typeof item === 'string' ? { text: item } : item));
+  const lines = (...items) => items.map((item) => (typeof item === 'string' ? { text: item, em: planEm(item) } : item));
   if (newOffer) {
     return [
       { label: 'Practise', lines: lines(bank, subjects, pro[2], pro[3]) },
@@ -173,6 +188,20 @@ export const VALUE_COPY = Object.freeze({
   proName: 'MockMob Pro',
   proPrice: (u) => (u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} once`),
   proLine: ({ keyCards = false } = {}) => `Every subject, unlimited mocks, Mistake Lab, ${keyCards ? 'Key cards and ' : ''}Ask Mobi.`,
+  // Owner, 7 Nov 2026 ("you can follow a maximalist approach, adding more things"): under Pro's price, what that one price
+  // holds, as the features' own desk objects and names. `icon` keys the hero strip's objects (stripObjects.mjs; the names of
+  // heroTaps.mjs heroFeatures), `em` is the word drawn like a count. Key cards only while they are live.
+  allIn: (u) => `All in the same ${u.pro}`,
+  features: ({ keyCards = false } = {}) => [
+    { icon: 'questions', name: 'Unlimited mocks', em: 'Unlimited' },
+    { icon: 'mistakes', name: 'Mistake Lab', em: null },
+    { icon: 'revise', name: 'Score Recovery', em: null },
+    { icon: 'mobi', name: 'Ask Mobi', em: null },
+    ...(keyCards ? [{ icon: 'keycards', name: 'Key cards', em: null }] : []),
+    { icon: 'compass', name: 'DU Compass', em: null },
+  ],
+  /** The punch line under the bars (owner, 7 Nov 2026: "bring back '₹3,000 the usual way. ₹99 a month here.'"). */
+  punch: (u) => Object.freeze({ usual: `${u.total} the usual way.`, pro: u.kind === 'monthly' ? `${u.pro} a month here.` : `${u.pro} once here.` }),
   barUsual: 'The usual way',
   barPro: 'MockMob Pro',
   footnote: () => `Typical prices: ${rupees(USUAL_PRICES.mockSeriesPaise)} a subject for a CUET mock series (${rupees(USUAL_PRICES.mockSeriesPaise)}-${rupees(USUAL_PRICES.mockSeriesHighPaise).slice(1)} is common) and ${rupees(USUAL_PRICES.revisionPaise)} a subject for revision cards or a revision book. Yours may differ.`,
@@ -225,6 +254,14 @@ export function proPlan({ newOffer = false, keyCards = false } = {}) {
     ...(keyCards ? ['Every Key card, with no daily review cap'] : []),
   ];
 }
+
+/**
+ * The word a Pro line is weighed by (owner, 7 Nov 2026: "you have highlighted the questions and 15 CUET subjects, you can
+ * highlight unlimited also, and keywords like that"): the line's quantity or scope, drawn like the counted numbers. The first of
+ * these a line holds, or null (Smart practice and NTA mode, the Compass line). A line keeps its whole text; this only marks a part.
+ */
+export const PLAN_EM = Object.freeze(['Unlimited', 'every chapter', `${PRO_MOBI_CREDITS} credits a month`, 'Every Key card']);
+export const planEm = (text) => PLAN_EM.find((em) => String(text).includes(em)) ?? null;
 
 // ------------------------------------------------------------------ the feature tour (one idea per slide)
 // `icon` names a desk object (BrandIcon, data/brand_icons.mjs) or 'bell', the brass desk bell of Ask Mobi

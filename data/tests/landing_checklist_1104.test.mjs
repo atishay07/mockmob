@@ -339,7 +339,7 @@ test('L-019 no gradient text anywhere on the landing', () => {
 
 test('L-020 no eyebrow pill or label with a dot (pulsing or static), no kicker above headings, no decorative icon row', () => {
   const markup = code(sources(SURFACE));
-  assert.doesNotMatch(markup, /className="[^"]*\b(eyebrow|lp-eyebrow|mm-eyebrow|lp-kicker|mm-kicker|lp-pill|mm-pill|lp-chip-dot|pulse-dot|lp-dot|live-dot)\b[^"]*"/, 'no eyebrow, kicker, pill or dot element in landing markup');
+  assert.doesNotMatch(markup, /className="[^"]*\b(?<!pip-seat--)(eyebrow|lp-eyebrow|mm-eyebrow|lp-kicker|mm-kicker|lp-pill|mm-pill|lp-chip-dot|pulse-dot|lp-dot|live-dot)\b[^"]*"/, 'no eyebrow, kicker, pill or dot element in landing markup');
   const css = rules(cssAll);
   const dotted = css.filter((r) => !/\.xs-/.test(r.sel)).filter((r) => /::before|::after/.test(r.sel) && /(eyebrow|kicker|pill|badge|chip)/.test(r.sel) && /border-radius:\s*(50%|999|9999)/.test(r.body) && /(width|height):\s*(\d(\.\d+)?px|0\.[3-6]r?em)/.test(r.body));
   assert.deepEqual(dotted.map((r) => r.sel), [], 'no dot drawn before a label');

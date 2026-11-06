@@ -43,3 +43,16 @@
 @media (prefers-reduced-motion: reduce) {
   .lp-college { transition: none; }
 }
+
+/* Compact college row on the home page (CollegeDestinations compact): a label and four pill links. */
+.lp-colleges--compact { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .9rem; margin-top: 1rem; }
+.lp-colleges__label { margin: 0; font-size: .8125rem; color: var(--ink-3); }
+.lp-colleges__pills { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; padding: 0; list-style: none; }
+.lp-college-pill { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; padding: 0 .95rem; border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink); text-decoration: none; font-size: .875rem; background: transparent; }
+.lp-college-pill span { color: var(--ink-3); font-size: .75rem; }
+.lp-college-pill:hover { background: var(--paper-raised-2); }
+.lp-college-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* The DU section's head is centred, with Mobi's seat directly above it (7 Nov 2026, owner feedback). */
+.mm.lp #du-eligibility .lp-head { justify-items: center; text-align: center; margin-inline: auto; }
+.mm.lp #du-eligibility .lp-head > .lp-sub { margin-inline: auto; }

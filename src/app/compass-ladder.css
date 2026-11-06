@@ -70,8 +70,8 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .lp-cpro__fine { margin: 0; font-size: 0.78rem; line-height: 1.5; color: var(--ink-3); }
 
 /* Combo Planner promo in the DU section: the same raised surface as Compass Pro. */
-.lp-combo { display: grid; gap: 1rem; align-items: center; margin-block: 1.5rem; padding: clamp(1.1rem, 3vw, 1.6rem); border-radius: 22px; border: 1px solid var(--line-strong); background: var(--paper-raised); box-shadow: var(--sh-1); }
-.lp-combo > div { display: grid; gap: 0.5rem; justify-items: start; }
+.lp-combo { display: grid; gap: 1rem; align-items: center; margin-block: 1rem; padding: clamp(.8rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem); border-radius: 18px; border: 1px solid var(--line-strong); background: var(--paper-raised); box-shadow: var(--sh-1); }
+.lp-combo > div { display: grid; gap: 0.3rem; justify-items: start; }
 .lp-combo p:not(.lp-cpro__badge) { margin: 0; max-width: 62ch; color: var(--ink-2); line-height: 1.6; }
 .lp-combo .mm-btn { justify-self: start; }
 @media (min-width: 900px) { .lp-combo { grid-template-columns: minmax(0, 1fr) auto; } }

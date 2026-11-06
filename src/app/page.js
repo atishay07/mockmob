@@ -289,7 +289,7 @@ export default function LandingPage() {
         {/* ------------------------- FREE DU CALCULATOR --------------------- */}
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
-            <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--utility" />
+            <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--eyebrow pip-seat--center" />
             <Reveal className="lp-head">
               <h2 className="lp-h2">{DU_HEAD.h2}</h2>
               <p className="lp-sub">{DU_HEAD.sub}</p>
@@ -305,7 +305,7 @@ export default function LandingPage() {
               </div>
               <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">{COMBO.cta}</Link>
             </Reveal>
-            <CollegeDestinations />
+            <CollegeDestinations compact />
           </div>
         </section>
 
@@ -345,7 +345,7 @@ export default function LandingPage() {
             only while Key cards are live. Every rupee figure is the offer's, worked out, never typed. */}
         <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
           <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
-            seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />} />
+            seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--eyebrow pip-seat--center" />} />
         </section>
 
         {/* -------------------------------- FAQ ----------------------------- */}

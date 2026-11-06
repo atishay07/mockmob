@@ -22,7 +22,12 @@ import '@/app/home-pricing.css';
 // new (recovery) offer is not released and while the offer gives a figure; monthly and one-time each get their own sentences,
 // never one sentence for both. `from` is the date the page was built, the one-time days' first count (PlanValue recounts them
 // from the reader's own day). `keyCards` is the served Key cards bank (keyCardsDemo().bank) while Key cards are live, else null
-// (no Key cards question or line). `seat` is the section's Mobi seat (page.js keeps every seat in one place).
+// (no Key cards question or line). `seat` is the section's Mobi seat (page.js keeps every seat in one place): from 7 Nov 2026 an
+// eyebrow centred above the head, his line in a speech bubble (brand-pip.css .pip-seat--eyebrow, .pip-seat--center).
+// The head is centred at every width (owner, 7 Nov 2026: "overall formatting should be better, like center-aligned ... because
+// it's a headline"; "all this text should not be just lying around randomly"): the h2, then the rate as one pill drawn from
+// pricingHead's parts (the price and the day's figure in the display face, the day's in the brand colour), its whole sentence
+// read once by a screen reader; the one-time offer's second sentence sits under the pill.
 export function HomePricing({ offer, newOffer = false, firstFullMock = null, from = new Date(), keyCards = null, seat = null }) {
   const head = pricingHead(offer);
   // The plain offer the client needs to work the figures out (no plan ids), and the bank's two counts.
@@ -34,7 +39,15 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
       {seat}
       <Reveal className="lp-head lp-price__head">
         <h2 className="lp-h2">{head.h2}</h2>
-        <p className="lp-sub">{head.sub}</p>
+        <p className="lp-price__rate">
+          <span className="lp-sr">{head.rateText}</span>
+          <span aria-hidden="true">
+            {head.rate.map((part, i) => (part.figure
+              ? <b key={i} className={part.accent ? 'lp-price__fig lp-price__fig--accent' : 'lp-price__fig'}>{part.text}</b>
+              : <span key={i}>{part.text}</span>))}
+          </span>
+        </p>
+        {head.note ? <p className="lp-price__soon">{head.note}</p> : null}
       </Reveal>
       <div className={`lp-price__grid${value ? '' : ' lp-price__grid--one'}`}>
         <PlanStage word={PLAN_HOME.backdrop} className="lp-price__stage">

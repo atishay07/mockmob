@@ -170,5 +170,21 @@ test('owner 7 Nov 2026: the Pro card and the table name what fixes and revises, 
   assert.deepEqual(rows['Key cards'], ['A taste of each chapter', 'Every card']);
   assert.ok(!compareRows({}).some(([name]) => name === 'Key cards'));
   assert.equal(VALUE_COPY.each({ key: 'mocks', perSubject: '₹500' }), '₹500 a subject for 10 to 30 papers, typical');
-  assert.equal(VALUE_COPY.punch, undefined, 'the totals are said once (owner: no repeated numbers)');
+  // Owner, 7 Nov 2026 (later the same day): "we should add it back in": the punch line under the bars, as before.
+  const u = { total: '₹3,750', pro: '₹99', kind: 'monthly' };
+  assert.deepEqual({ ...VALUE_COPY.punch(u) }, { usual: '₹3,750 the usual way.', pro: '₹99 a month here.' });
+  assert.equal(VALUE_COPY.punch({ ...u, kind: 'once' }).pro, '₹99 once here.');
+});
+
+test('owner 7 Nov 2026: the pricing head gives its rate in parts for the pill, and the parts say the sub exactly', () => {
+  for (const offer of OFFERS) {
+    const head = pricingHead(offer);
+    assert.equal(head.h2, 'Start free. Go Pro for unlimited mocks.');
+    assert.equal(head.rate.map((part) => part.text).join(''), head.rateText);
+    assert.equal(head.note ? `${head.rateText} ${head.note}` : head.rateText, head.sub, 'sub stays the whole line');
+    assert.ok(head.rate.some((part) => part.figure), 'a figure in the display face');
+    assert.equal(head.rate.filter((part) => part.accent).length, 1, 'one accent');
+  }
+  assert.equal(pricingHead(OFFERS[0]).note, null, 'monthly: one sentence');
+  assert.match(pricingHead(OFFERS[1]).note, /^Monthly Pro at ₹99 is on the way\.$/, 'one-time keeps its own second sentence');
 });

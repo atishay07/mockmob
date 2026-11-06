@@ -230,7 +230,7 @@ html[data-theme='dark'] .mm-pro {
 .mm-pro .pro-cmp__dash { display: inline-block; vertical-align: middle; width: 16px; height: 2px; border-radius: 1px; background: var(--ink-3); }
 .mm-pro .pro-cmp__word { font-weight: 700; color: var(--ink); }
 
-/* ---- Free or Pro: the last section (R4, owner LK134) ------------------------------------------------------------------------
+/* ---- Free or Pro (R4, owner LK134; round 6: after "Also in Pro", before the value section and the table) ----------------------
    Two plans on two stages (src/components/pricing/plan-stage.css): Free's card under a quiet "Free", Pro's glass card under the
    big "Pro" exactly as on the home page, with the one checkout. Side by side from 960 px, Free first; stacked on phones. */
 .mm-pro .pro-choice__head { display: grid; gap: 0.25rem; }
@@ -316,6 +316,8 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
 }
 @media (min-width: 960px) {
   .mm-pro .pro-sec + .pro-sec--compare { padding-top: 1.5rem; }
+  /* Round 6 (owner, 7 Nov 2026): "Free or Pro" now follows the "Also in Pro" tiles, with the same step. */
+  .mm-pro .pro-sec + .pro-choice { padding-top: 1.5rem; }
 }
 
 /* ---- Free or Pro: Pro first (round 5, owner 6 Nov 2026: "on the phone, Pro is below Free. That should not be the case. Free or

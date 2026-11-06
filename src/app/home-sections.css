@@ -75,17 +75,17 @@
    so a head fills the column instead of leaving its right half empty. Key cards and the exam keep their own two-column
    sections; the FAQ and the close band keep theirs. */
 @media (min-width: 1100px) {
-  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) {
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) .lp-head--left {
     max-width: none; width: 100%;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 6rem);
     justify-items: start; text-align: left;
   }
-  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) > * { grid-column: 1; }
-  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) > .lp-sub { grid-column: 2; grid-row: 1; align-self: end; max-width: 34rem; }
-  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head):has(> .lp-stamp) > .lp-sub { grid-row: 1 / span 2; }
-  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) :is(.lp-head--left, #du-eligibility .lp-head) .lp-h2 { max-width: 17ch; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) .lp-head--left > * { grid-column: 1; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) .lp-head--left > .lp-sub { grid-column: 2; grid-row: 1; align-self: end; max-width: 34rem; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) .lp-head--left:has(> .lp-stamp) > .lp-sub { grid-row: 1 / span 2; }
+  .mm.lp main > .lp-sec:not(.lp-kc):not(.xs) .lp-head--left .lp-h2 { max-width: 17ch; }
   /* A head with no line (the wall of love) keeps one column. */
-  .mm.lp main > .lp-sec :is(.lp-head--left, #du-eligibility .lp-head):not(:has(> .lp-sub)) { grid-template-columns: minmax(0, 1fr); }
+  .mm.lp main > .lp-sec .lp-head--left:not(:has(> .lp-sub)) { grid-template-columns: minmax(0, 1fr); }
   /* The Compass head led with Mobi's seat on the left, which pushed the heading 240 px in while he flew to his lane: the seat
      goes after the head while he guides (with reduced motion he keeps his seat in front). */
   :root:not([data-motion='reduced']) .mm.lp main .lp-guide-head--lead { flex-direction: row; justify-content: space-between; }

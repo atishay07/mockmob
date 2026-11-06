@@ -1306,44 +1306,34 @@
   text-align: center;
   color: var(--ink-3);
 }
-/* Live count that rides above the mobile dock while ticking subjects on the landing page. */
-.du-live {
-  position: sticky;
-  bottom: 5.5rem;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-height: 52px;
-  padding: 0.55rem 0.9rem;
-  border: 1px solid rgba(210, 240, 0, 0.5);
-  border-radius: var(--r-2);
-  background: #11160f;
-  box-shadow: var(--sh-3);
-  font-size: 0.875rem;
-  color: var(--ink-2);
-  text-decoration: none;
-}
-.du-live > span:first-child {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent-text, var(--volt));
-}
-.du-live b {
+.du-teaser__more {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  margin-left: auto;
-  font-size: 0.8125rem;
-  white-space: nowrap;
-  color: var(--ink);
+  gap: 0.4rem;
+  justify-self: start;
+  min-height: 44px;
+  margin-top: 0.35rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-2);
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+  cursor: pointer;
 }
-@media (min-width: 900px) {
-  .du-teaser .du-live {
-    display: none;
-  }
+.du-teaser__more:hover { color: var(--ink); }
+.du-teaser__more:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.du-teaser__more svg { transition: transform 0.2s var(--ease); }
+.du-teaser__more[aria-expanded='true'] svg { transform: rotate(180deg); }
+.du-teaser__names {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ink-2);
 }
+@media (prefers-reduced-motion: reduce) { .du-teaser__more svg { transition: none; } }
+:root[data-motion='reduced'] .du-teaser__more svg { transition: none; }
 
 /* ---------- Page shell ---------- */
 
@@ -1507,7 +1497,6 @@
   .du-filters,
   .du-tools,
   .du-cta,
-  .du-live,
   .du-card__chev,
   .du-more,
   .du-toast {
@@ -1568,9 +1557,6 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
   .du-delta { opacity: 1; }
 }
 
-/* The landing's DU teaser: its live count sits in the flow, not stuck over the chips of its own section. */
-.lp .du-live { position: static; }
-
 /* ---------- Home and public DU pages (.lp): calm Night, 4 Nov 2026 (slop C1, C2, C4, C8, M3) ----------
    Volt is a fill that carries dark ink (the selected chip, the segment, the sticky bar's key); every edge is a neutral hairline,
    every wash is a quiet surface, and "good" is the good-text colour. The rules above stay as they were: the app's Colleges
@@ -1605,7 +1591,6 @@ html[data-theme='light'] .lp .du-seg__btn[aria-checked="true"]::after { content:
 .lp .du-cta { border-color: var(--line-strong); background: var(--paper-raised); }
 .lp .du-teaser__out { border-color: var(--line-strong); background: rgb(var(--tint, 244 240 230) / 0.04); }
 .lp .du-teaser__streams b { background: var(--ink-2); }
-.lp .du-live { border-color: var(--line-strong); background: var(--paper-raised-2); }
 .lp .du-clear { background: var(--good-text, #3d6600); box-shadow: none; }
 .lp .du-delta[data-dir='up'] { background: color-mix(in srgb, var(--good-text, #3d6600) 18%, transparent); color: var(--good-text, #3d6600); }
 @media (hover: hover) {

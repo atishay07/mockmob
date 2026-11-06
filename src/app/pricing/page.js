@@ -1,7 +1,7 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 export const dynamic = "force-dynamic";
 import React from 'react';
-import { newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
+import { newOfferReleased, recoveryReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
 import { priceHeadline, priceTag, publicOffer } from '@/lib/payments/offer';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
@@ -15,6 +15,8 @@ import { NtaArt, PapersArt, ProHeroArt, ProSealStrip, SmartArt, Tick } from '@/c
 import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
 import { PlanChoice } from '@/components/pricing/PlanChoice';
+import { PricingValue } from '@/components/pricing/PricingValue';
+import { plainTerms, valueShown } from '@/components/pricing/pricingValueCopy.mjs';
 import { PlanCounts } from '@/components/landing/PlanCounts';
 import { planGroups } from '@/components/landing/homeCopy.mjs';
 import { PLAN_COPY, choiceLine, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
@@ -112,6 +114,8 @@ const buildPlans = (offer) => [
     cycle: 'forever',
     description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
+    // Free's key goes to sign-up; the value section's Start free goes to the same place.
+    ctaHref: '/signup',
     terms: [
       ['Renewal', 'None, and no card needed'],
       ['Credits', `50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 a Mobi job (a mistake fixed for good, or a doubt answered and tested). Answers from your record are free.${FIRST_FULL_MOCK_ON ? ' Your first Full mock in each subject is free.' : ''}`],
@@ -256,6 +260,9 @@ export default async function PricingPage({ searchParams }) {
   const mob = mobRows();
   const rows = mob ? [...COMPARE_ROWS, ...mob] : COMPARE_ROWS;
   const [moment1, moment2, moment3] = PRO_COPY.moments;
+  // The value section's plain offer (no plan ids), drawn only while the offer gives a price and the new offer is not released.
+  const valueTerms = plainTerms(offer);
+  const showValue = valueShown(valueTerms, { newOffer: newOfferReleased() });
 
   return (
     <div className="mm mm-pro">
@@ -275,8 +282,9 @@ export default async function PricingPage({ searchParams }) {
       {/* Opened from the Android app (?from=app): no plans or prices, a plain notice (src/app/app-view.css). */}
       <AppViewNotice />
       <main data-commerce-page>
-        {/* The Pro page (version 16), section by section as the app draws it: the seal, the promise, what Pro unlocks, what
-            else is in it, Free and Pro side by side, then the choice, Free or Pro, with the one plan's one key (R4, LK134). */}
+        {/* The Pro page (version 16), section by section: the seal, the promise, what Pro unlocks, what else is in it, then the
+            choice, Free or Pro, with the one plan's one key (R4, LK134), what students usually pay against what Pro costs (round 6),
+            Free and Pro side by side, Ask Mobi's credits and the questions. */}
         <section className="pro-hero" aria-labelledby="pro-title">
           <div className="pro-wrap pro-hero__grid">
             <ProHeroArt label={PRO_COPY.label} />
@@ -331,40 +339,13 @@ export default async function PricingPage({ searchParams }) {
           </div>
         </section>
 
-        <section className="pro-sec pro-sec--compare" id="compare" aria-labelledby="pro-compare-h">
-          <div className="pro-wrap pro-cmp__grid">
-            <div className="pro-cmp__head">
-              <h2 className="pro-h2" id="pro-compare-h">{PRO_COPY.compare}</h2>
-              <p className="pro-cmp__line">{PRO_COPY.compareLine}</p>
-            </div>
-            <div className="pro-cmp">
-              <table className="pro-cmp__table" aria-labelledby="pro-compare-h">
-                <thead>
-                  <tr>
-                    <td />
-                    <th scope="col">Free</th>
-                    <th scope="col" data-pro=""><span className="pro-cmp__pill">Pro</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map(([feature, free, pro]) => (
-                    <tr key={feature}>
-                      <th scope="row">{feature}</th>
-                      <td><CompareCell value={free} /></td>
-                      <td data-pro=""><CompareCell value={pro} pro /></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        {/* Free or Pro (R4, owner LK134): the last section is the choice. Free's card under a quiet "Free", Pro's under the big
-            "Pro" as on the home page (PlanStage and the glass PlanCard with its seal strip and grouped lines, shared with #pricing
-            there), and the one checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it.
+        {/* Free or Pro (R4, owner LK134): the choice. Free's card under a quiet "Free", Pro's under the big "Pro" as on the home
+            page (PlanStage and the glass PlanCard with its seal strip and grouped lines, shared with #pricing there), and the one
+            checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it.
             Round 5 (owner, 6 Nov 2026: "Pro should be the first option"): Pro comes first in the page, and on phones the two are
-            one swipeable pair under a Pro | Free switch (PlanChoice); tablets and desktops still draw Free first, beside Pro. */}
+            one swipeable pair under a Pro | Free switch (PlanChoice); tablets and desktops still draw Free first, beside Pro.
+            Round 6 (owner, 7 Nov 2026: "after the screen where it's written 'Also in Pro', move the Free or Pro pricing section
+            above the Free and Pro side-by-side"): it follows "Also in Pro", before the value section and the table. */}
         <section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">
           <div className="pro-wrap">
             <div className="pro-choice__head">
@@ -410,6 +391,52 @@ export default async function PricingPage({ searchParams }) {
                 </details>
               </PlanStage>
             </PlanChoice>
+          </div>
+        </section>
+
+        {/* What students usually pay, and what you pay (round 6, owner 7 Nov 2026: "below that, keep a more detailed value
+            indicator than the homepage one ... and then we can have the comparison table"): CUET subjects (5 first) and full mocks a
+            week (1 a day first), the usual way against Pro's price with the punch line, what Pro comes to at that pace, what else
+            the same price holds, and the two keys (src/components/pricing/PricingValue.jsx). Every figure from receipt.mjs. */}
+        {showValue ? (
+          <PricingValue
+            offer={valueTerms}
+            keyCards={process.env.KEY_CARDS_ENABLED === 'true'}
+            mob={Boolean(mob)}
+            recovery={recoveryReleased()}
+            from={new Date().toISOString()}
+            freeHref={FREE_PLAN.ctaHref}
+            proHref="#plans"
+            actions={!isCurrentUserPremium}
+          />
+        ) : null}
+
+        <section className="pro-sec pro-sec--compare" id="compare" aria-labelledby="pro-compare-h">
+          <div className="pro-wrap pro-cmp__grid">
+            <div className="pro-cmp__head">
+              <h2 className="pro-h2" id="pro-compare-h">{PRO_COPY.compare}</h2>
+              <p className="pro-cmp__line">{PRO_COPY.compareLine}</p>
+            </div>
+            <div className="pro-cmp">
+              <table className="pro-cmp__table" aria-labelledby="pro-compare-h">
+                <thead>
+                  <tr>
+                    <td />
+                    <th scope="col">Free</th>
+                    <th scope="col" data-pro=""><span className="pro-cmp__pill">Pro</span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map(([feature, free, pro]) => (
+                    <tr key={feature}>
+                      <th scope="row">{feature}</th>
+                      <td><CompareCell value={free} /></td>
+                      <td data-pro=""><CompareCell value={pro} pro /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 

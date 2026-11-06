@@ -5,16 +5,13 @@ import MobiReact from '@/components/brand/MobiReact';
 
 // The landing's phone action bar waits its turn. On the first screen the hero's own buttons and the demo
 // question already offer "try a question", so the bar stays down until the hero buttons (.lp-cta) have
-// scrolled away, and steps aside again while the demo (#try-practice) holds the screen. While the DU
-// teaser's chips hold the screen, its own live count bar is the action at the bottom, so the dock yields
-// (data-yield='elig') and that bar takes its slot (hero-depth.css). It rises on the app's out curve and
+// scrolled away, and steps aside again while the demo (#try-practice) holds the screen. It rises on the app's out curve and
 // leaves on the leave curve (hero-depth.css). Focus inside the bar always shows it. Without
 // IntersectionObserver it simply shows. The state is written straight to data attributes, so scrolling never
 // re-renders anything.
 const NAV = 64;
 const DOCK = 96;
 const DEMO_MIN_PX = 96;
-const ELIG_MIN_PX = 120;
 
 export function HeroDockGate({ children }) {
   const gate = useRef(null);
@@ -24,7 +21,6 @@ export function HeroDockGate({ children }) {
     if (!node) return undefined;
     const cta = document.querySelector('.lp-hero .lp-cta');
     const demo = document.getElementById('try-practice');
-    const elig = document.querySelector('#du-eligibility .du-teaser__pick');
     // The interactive product panels (the feature tour's screen, the exam screen's frame) are content you read to the
     // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo. The Key cards
     // demo and its key are one (R3-D10): its volt keys (Got it, then the key that turns volt after the fifth card) appear
@@ -35,11 +31,9 @@ export function HeroDockGate({ children }) {
     const volts = [...document.querySelectorAll('.lp main :is(.mm-btn--primary, .btn-volt)')].filter((el) => !el.closest('.lp-hero, .lp-dockgate'));
     const show = (on) => { node.dataset.shown = on ? 'true' : 'false'; };
     if (typeof IntersectionObserver === 'undefined' || (!cta && !demo)) { show(true); return undefined; }
-    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false, panels: new Set(), volts: new Set() };
+    const state = { cta: Boolean(cta), demo: Boolean(demo), panels: new Set(), volts: new Set() };
     const update = () => {
-      show(!state.cta && !state.demo && !state.elig && state.panels.size === 0 && state.volts.size === 0);
-      if (state.elig && !state.cta && !state.demo) node.dataset.yield = 'elig';
-      else delete node.dataset.yield;
+      show(!state.cta && !state.demo && state.panels.size === 0 && state.volts.size === 0);
     };
     const band = `-${NAV}px 0px -${DOCK}px 0px`;
     const ctaWatch = new IntersectionObserver((entries) => {
@@ -52,11 +46,6 @@ export function HeroDockGate({ children }) {
       state.demo = entries[entries.length - 1].isIntersecting;
       update();
     }, { rootMargin: `-${NAV + DEMO_MIN_PX}px 0px -${DOCK + DEMO_MIN_PX}px 0px`, threshold: 0 });
-    // The teaser's chips (the box its live bar sticks in) count once a real part of them is above the dock.
-    const eligWatch = new IntersectionObserver((entries) => {
-      state.elig = entries[entries.length - 1].isIntersecting;
-      update();
-    }, { rootMargin: `-${NAV}px 0px -${DOCK + ELIG_MIN_PX}px 0px`, threshold: 0 });
     const panelWatch = new IntersectionObserver((entries) => {
       for (const entry of entries) { if (entry.isIntersecting) state.panels.add(entry.target); else state.panels.delete(entry.target); }
       update();
@@ -69,8 +58,7 @@ export function HeroDockGate({ children }) {
     volts.forEach((button) => voltWatch.observe(button));
     if (cta) ctaWatch.observe(cta);
     if (demo) demoWatch.observe(demo);
-    if (elig) eligWatch.observe(elig);
-    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); delete node.dataset.yield; };
+    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); panelWatch.disconnect(); voltWatch.disconnect(); };
   }, []);
 
   // One loop at a time (ship gate, 4 Nov 2026): a lit shelf object (the statement's shelf, the lab's prop) floats for as
