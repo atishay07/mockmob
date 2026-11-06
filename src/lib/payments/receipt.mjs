@@ -65,7 +65,7 @@ function share(pricePaise, count) {
  *   pace, mocks, questions, perMock: { about, aboutPaise, exact }, perQuestion: value.mjs perQuestion,
  *   cards: { perDay, count, minutes, bank: { cards, subjects } } | null, mobi: { credits } | null }
  */
-export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.start, keyCards = null, minutesPerCard = null, mobiCredits = null } = {}) {
+export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.start, keyCards = null, minutesPerCard = null, mobiCredits = null, credits = null } = {}) {
   const day = perDay(offer, { from });
   if (!day || !Number.isFinite(pace) || pace <= 0) return null;
   const mocks = wholeMocks(pace, day.days);
@@ -84,8 +84,28 @@ export function planValue(offer, { from, pace = PACE.start, cards = CARD_PACE.st
     // Pro's monthly credits for Mistake Repair and Ask Mobi (src/services/credits/aiCreditWallet.js AI_PRO_INCLUDED_MONTHLY_CREDITS,
     // passed in by the server): a fixed grant a month, never counted as unlimited; null when not passed.
     mobi: Number.isInteger(mobiCredits) && mobiCredits > 0 ? { credits: mobiCredits } : null,
+    worth: day.kind === 'monthly' ? creditWorth(mocks, pricePaise, credits) : null,
   };
 }
 
 /** The mock paces the slider offers for this offer on this day: every pace that fills at least one whole mock, lowest first. */
 export const mockPaces = (offer, { from } = {}) => MOCK_PACES.filter((pace) => planValue(offer, { from, pace }) !== null);
+
+/**
+ * What the same full mocks would cost on Free at MockMob's own credit prices (round 5, final pass; owner: "credit card cashback ...
+ * 'How much will you do this, this, this?' ... you'll be saving this much per month"). Never overstated:
+ *   - only full mocks are priced (a Full mock is TEST_MODES.full.creditCost credits on Free), and Free's own free monthly credits
+ *     (AI_FREE_MONTHLY_CREDITS) are taken off first; Mobi credits are not counted, since Free gets the same grant;
+ *   - at the cheapest price a credit sells for (the best pack's paise per credit), rounded DOWN to the whole rupee;
+ *   - on the monthly offer only (a month of Free against a month of Pro); null otherwise.
+ * `credits` = { packPaise, packCredits, mockCredits, freeCredits }, passed in by the server from creditPacks.mjs, test_modes.js and
+ * aiCreditWallet.js. { credits, worthPaise, worth: '₹236', save: '₹137' | null, paysAt: whole mocks a month from which it pays }.
+ */
+export function creditWorth(mocks, pricePaise, credits) {
+  const c = credits || {};
+  if (!(c.packPaise > 0 && c.packCredits > 0 && c.mockCredits > 0 && c.freeCredits >= 0) || !(mocks > 0)) return null;
+  const paid = Math.max(0, mocks * c.mockCredits - c.freeCredits);
+  const worthPaise = Math.floor((paid * c.packPaise) / c.packCredits / 100 + 1e-9) * 100;
+  const paysAt = Math.floor((Math.ceil((pricePaise + 1) * c.packCredits / c.packPaise) + c.freeCredits) / c.mockCredits) + 1;
+  return { credits: paid, worthPaise, worth: rupees(worthPaise), save: worthPaise > pricePaise ? rupees(worthPaise - pricePaise) : null, savePaise: Math.max(0, worthPaise - pricePaise), paysAt };
+}

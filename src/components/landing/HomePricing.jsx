@@ -5,8 +5,11 @@ import { PLAN_COPY } from '@/components/pricing/planOffer.mjs';
 import { ProSealStrip } from '@/components/pricing/ProShowcase';
 import { cardsBank, planValue } from '@/lib/payments/receipt.mjs';
 import { KEYCARD_RULES } from '@/../data/keycards.js';
-import { AI_PRO_INCLUDED_MONTHLY_CREDITS } from '@/services/credits/aiCreditWallet';
-import { PLAN_HOME, freeLine, planGroups, pricingHead } from './homeCopy.mjs';
+import { AI_FREE_MONTHLY_CREDITS, AI_PRO_INCLUDED_MONTHLY_CREDITS } from '@/services/credits/aiCreditWallet';
+import { CREDIT_PACKS } from '@/services/credits/creditPacks.mjs';
+import { TEST_MODES } from '@/../data/test_modes.js';
+import { rupees } from '@/lib/payments/value.mjs';
+import { PLAN_HOME, VALUE_COPY, freeLine, planGroups, pricingHead } from './homeCopy.mjs';
 import { Reveal } from './Reveal';
 import { PlanCounts } from './PlanCounts';
 import { PlanFree } from './PlanFree';
@@ -25,6 +28,14 @@ import '@/app/home-pricing.css';
 // never one sentence for both. `from` is the date the page was built, the one-time days' first count (PlanValue recounts them
 // from the reader's own day). `keyCards` is the served Key cards bank (keyCardsDemo().bank) while Key cards are live, else null
 // (no Key cards question or line). `seat` is the section's Mobi seat (page.js keeps every seat in one place).
+/** MockMob's own pay-as-you-go prices for the value card's "worth" (receipt.mjs creditWorth): the cheapest price a credit sells
+ *  for (the best pack), what a Full mock costs on Free, and Free's free credits a month. Never typed: read from the catalog. */
+function creditPrices() {
+  const best = [...CREDIT_PACKS].filter((p) => !p.legacy).sort((x, y) => x.amountPaise / x.credits - y.amountPaise / y.credits)[0];
+  const prices = { packPaise: best.amountPaise, packCredits: best.credits, mockCredits: TEST_MODES.full.creditCost, freeCredits: AI_FREE_MONTHLY_CREDITS };
+  return { prices, footnote: VALUE_COPY.footnote({ ...prices, packPrice: rupees(best.amountPaise) }) };
+}
+
 export function HomePricing({ offer, newOffer = false, firstFullMock = null, from = new Date(), keyCards = null, seat = null }) {
   const head = pricingHead(offer);
   // The plain offer the client needs to work the figures out (no plan ids), and the bank's two counts.
@@ -52,7 +63,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
         {value ? (
           <div className="lp-price__side lp-price__side--full">
             <PlanValue offer={terms} from={from.toISOString()} keyCards={bank} minutesPerCard={bank ? KEYCARD_RULES.minutesPerCard : null}
-              mobiCredits={AI_PRO_INCLUDED_MONTHLY_CREDITS} />
+              mobiCredits={AI_PRO_INCLUDED_MONTHLY_CREDITS} credits={creditPrices()} />
           </div>
         ) : null}
       </div>

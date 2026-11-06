@@ -27,6 +27,8 @@ import { VALUE_COPY } from './homeCopy.mjs';
 
 const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 const n = (count) => Number(count).toLocaleString('en-IN');
+/** A rolling whole-rupee figure, written as the page writes rupees ("₹236"). */
+const rupeesOf = (whole) => `\u20b9${n(whole)}`;
 const dayOf = (date) => date.toISOString().slice(0, 10);
 /** The ticks on each rail: whole days on the mocks rail (one and two a day), every twelve on the Key cards rail. */
 const MOCK_TICKS = Object.freeze([7, 14]);
@@ -67,12 +69,13 @@ function Count({ shown, real }) {
 }
 
 /** A feature's desk object: the brand's 3D icon (BrandIcon), or Mobi himself for Mistake Repair and Ask Mobi (the hero strip's). */
-function FeatureObject({ name }) {
+function FeatureObject({ name, small = false }) {
+  const size = small ? 32 : 40;
   if (name === 'mobi') {
     // eslint-disable-next-line @next/next/no-img-element -- pre-sized webp set, as the hero strip draws it
-    return <span className="lp-val__obj" aria-hidden="true"><img src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes="40px" width={40} height={37} alt="" decoding="async" loading="lazy" /></span>;
+    return <span className="lp-val__obj" aria-hidden="true"><img src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes={`${size}px`} width={size} height={Math.round(size * 11 / 12)} alt="" decoding="async" loading="lazy" /></span>;
   }
-  return <BrandIcon name={name} size={40} className="lp-val__obj" />;
+  return <BrandIcon name={name} size={size} className="lp-val__obj" />;
 }
 
 /** One question: its words, the answer in words, a 44 px native range over a drawn rail with its ticks, and the two ends. */
@@ -97,7 +100,7 @@ function Pace({ id, ask, words, value, min, max, step, ticks, onChange }) {
   );
 }
 
-export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null, mobiCredits = null }) {
+export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null, mobiCredits = null, credits = null }) {
   const id = useId();
   const [readOn, setReadOn] = useState(from);
   useEffect(() => {
@@ -115,8 +118,8 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null,
   const low = paces[0] ?? PACE.min;
   const high = paces.at(-1) ?? PACE.max;
   const pick = Math.min(Math.max(pace, low), high);
-  const v = useMemo(() => (paces.length ? planValue(offer, { from: at, pace: pick, cards, keyCards, minutesPerCard, mobiCredits }) : null), [paces, offer, at, pick, cards, keyCards, minutesPerCard, mobiCredits]);
-  const [mocks, traced, turned] = useRoll(v ? [v.mocks, v.questions, v.cards?.count ?? 0] : [0, 0, 0]);
+  const v = useMemo(() => (paces.length ? planValue(offer, { from: at, pace: pick, cards, keyCards, minutesPerCard, mobiCredits, credits: credits?.prices }) : null), [paces, offer, at, pick, cards, keyCards, minutesPerCard, mobiCredits, credits]);
+  const [worthRupees, saveRupees] = useRoll(v ? [(v.worth?.worthPaise ?? 0) / 100, (v.worth?.savePaise ?? 0) / 100] : [0, 0]);
   useEffect(() => {
     if (!touched || !v) return undefined;
     const timer = setTimeout(() => setSaid(VALUE_COPY.live(v)), 700);
@@ -124,17 +127,12 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null,
   }, [touched, v]);
   if (!v) return null;
 
-  const pay = VALUE_COPY.payoff(v);
-  // The rolling figure of each counted line, and the real one a screen reader hears.
-  const rolled = { mocks: [mocks, v.mocks], lab: [traced, v.questions], cards: [turned, v.cards?.count ?? 0] };
+  const save = VALUE_COPY.save(v);
   // A move marks the block as touched, so the live line speaks only after a student's own change, never on load.
   const move = (set) => (value) => { setTouched(true); set(value); };
   return (
     <div className="lp-val" role="group" aria-labelledby={`${id}-title`}>
-      <div className="lp-val__top">
-        <h3 className="lp-val__title" id={`${id}-title`}>{VALUE_COPY.title(v)}</h3>
-        <p className="lp-val__period">{VALUE_COPY.period(v)}</p>
-      </div>
+      <h3 className="lp-val__title" id={`${id}-title`}>{VALUE_COPY.title(v)}</h3>
 
       <div className="lp-val__paces">
         <Pace id={`${id}-mocks`} ask={VALUE_COPY.mocks.ask} words={VALUE_COPY.mocks.words} value={pick} min={low} max={high} step={PACE.step}
@@ -145,34 +143,29 @@ export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null,
         ) : null}
       </div>
 
-      <div className="lp-val__out">
-        <p className="lp-val__plan">{VALUE_COPY.plan(v)}</p>
-        <ul className="lp-val__stack">
-          {VALUE_COPY.counted(v).map((item) => (
-            <li key={item.key} className="lp-val__feat" data-feature={item.key}>
-              <FeatureObject name={item.icon} />
-              <span className="lp-val__what"><b>{item.name}</b><span>{item.line}</span></span>
-              <span className="lp-val__measure">
-                {item.figure ? (rolled[item.key] ? <b><Count shown={rolled[item.key][0]} real={rolled[item.key][1]} /></b> : <b>{item.figure}</b>) : null}
-                <span>{item.unit}</span>
-              </span>
-            </li>
-          ))}
-        </ul>
-        <ul className="lp-val__inc" aria-label={VALUE_COPY.includedWord}>
-          {VALUE_COPY.included.map((item) => (
-            <li key={item.key} className="lp-val__inc-item">
-              <FeatureObject name={item.icon} />
-              <span className="lp-val__what"><b>{item.name}</b><span>{item.line}</span></span>
-            </li>
-          ))}
-        </ul>
+      <div className="lp-val__answer">
+        {v.worth ? (
+          <>
+            <p className="lp-val__worth"><span aria-hidden="true">{VALUE_COPY.worth({ ...v, worth: { ...v.worth, worth: rupeesOf(worthRupees) } })}</span><span className="lp-sr">{VALUE_COPY.worth(v)}</span></p>
+            <p className="lp-val__pay">{VALUE_COPY.pay(v)}</p>
+            {save ? (
+              <p className="lp-val__save">{save.lead}<b><span aria-hidden="true">{rupeesOf(saveRupees)}</span><span className="lp-sr">{save.figure}</span></b>{save.unit}</p>
+            ) : <p className="lp-val__save">{VALUE_COPY.paysFor(v)}</p>}
+            {credits?.footnote ? <p className="lp-val__note">{credits.footnote}</p> : null}
+          </>
+        ) : (
+          <>
+            <p className="lp-val__pay">{VALUE_COPY.pay(v)}</p>
+            <p className="lp-val__save">{VALUE_COPY.plain(v)}</p>
+          </>
+        )}
       </div>
 
-      <div className="lp-val__pay">
-        <p className="lp-val__payoff">{pay.lead}<b>{pay.figure}</b>{pay.unit}</p>
-        <p className="lp-val__payline">{VALUE_COPY.payoffLine(v)}</p>
-      </div>
+      <ul className="lp-val__chips" aria-label="What Pro includes">
+        {VALUE_COPY.chips(v).map((chip) => (
+          <li key={chip.key} className="lp-val__chip"><FeatureObject name={chip.icon} small />{chip.label}</li>
+        ))}
+      </ul>
       <p className="lp-sr" aria-live="polite">{said}</p>
     </div>
   );

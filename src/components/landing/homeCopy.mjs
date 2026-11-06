@@ -149,54 +149,43 @@ const aboutWord = (share) => `${share.exact ? '' : 'About '}${share.about}`;
 const listed = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`);
 
 /**
- * The value card's words (PlanValue.jsx; round 5, third take, owner 6 Nov 2026: "a slider for how many things a student can do,
- * like if someone is attempting 1 mock, then repairs, then key cards and other stuff ... so appealing that the cost is so low that
- * someone thinks 'How is this even possible?' ... So many features other than mocks ... which the Pro plan gives", and after the
- * second take: "it just counts mocks and all, and it doesn't add all the other features"). `v` is receipt.mjs planValue: every
- * figure is computed from the offer, the Full mock's size, the student's own two inputs, the real Key cards bank, Key cards' own
- * time a card and Pro's real monthly credits, never typed here.
- * The card: two questions in the student's own units, then every Pro feature as its own line with its own object and its own
- * measure (never the same number twice), then the payoff: the price for all of it, a day and a question.
- * Truth: every claim is already on this page or the plan card: proPlan, the Lab's FAQ ("After every mock, the Lab shows ..."), the
- * tour (chapter review "after every mock", "Train on the exam's own clock", "Every set aims at what you miss"), /pricing ("Rehearse on
- * the exam-day screen"), ONE_CREDIT_LINE (one credit: a mistake fixed for good, or a doubt answered) and the Key cards section.
- * Mistake Repair and Ask Mobi run on Pro's monthly credits: their grant is said, never "unlimited".
+ * The value card's words (PlanValue.jsx; round 5, final pass, owner 6 Nov 2026: "too much information overload ... credit card
+ * cashback ... 'How much will you do this, this, this?' Then they show you ... you'll be saving this much per month"). `v` is
+ * receipt.mjs planValue: every figure is computed from the offer, the student's two inputs and MockMob's own credit prices
+ * (creditWorth: the same full mocks on Free, after Free's free monthly credits, at the best pack's price per credit, rounded down).
+ * The card: two questions, the answer (what it is worth, what you pay, what you save), one line of where the worth comes from,
+ * then one row of what Pro includes, as chips. Mistake Repair and Ask Mobi are never called unlimited.
  */
 export const VALUE_COPY = Object.freeze({
-  title: (v) => `Everything your ${v.price} covers`,
-  /** Under the title: the period the price pays for (a monthly and a one-time price never share a sentence). */
-  period: (v) => (v.kind === 'monthly' ? 'One month of Pro, at your pace.' : `Pro to ${v.until}, at your pace.`),
-  /** The two questions, each answered in words on its slider ("5 a week", "20 a day"). */
+  title: (v) => (v.kind === 'monthly' ? `What ${v.price} a month gets you` : `What ${v.price} gets you`),
   mocks: Object.freeze({ ask: 'How many full mocks will you sit?', words: paceWords }),
   cards: Object.freeze({ ask: 'How many Key cards will you turn?', words: cardWords }),
-  /** The stack's head: the student's own plan, kept for the period. */
-  plan: (v) => (v.kind === 'monthly' ? 'If you keep that pace for a month' : `If you keep that pace to ${v.until}`),
-  /** Every feature with a measure: its object (BrandIcon, or Mobi), its name, its measure (a figure and its unit, or words) and one
-   *  line. Each measure is a different number (the questions are the Lab's answers traced; the mock line gives the price of one). */
-  counted: (v) => [
-    { key: 'mocks', icon: 'questions', name: 'Full mocks', figure: n(v.mocks), unit: v.kind === 'monthly' ? 'this month' : `to ${v.until}`, line: `${aboutWord(v.perMock)} a mock, each on the exam’s own clock` },
-    { key: 'lab', icon: 'mistakes', name: 'Mistake Lab', figure: n(v.questions), unit: 'answers traced', line: 'Time and changes on every answer, then a SWOT' },
-    { key: 'review', icon: 'feeds', name: 'Chapter review', figure: null, unit: 'After every mock', line: 'Every chapter ranked, with pace and changes' },
-    ...(v.mobi ? [{ key: 'mobi', icon: 'mobi', name: 'Mistake Repair and Ask Mobi', figure: n(v.mobi.credits), unit: 'credits a month', line: 'One credit: a mistake fixed for good, or a doubt answered' }]
-      : [{ key: 'mobi', icon: 'mobi', name: 'Mistake Repair and Ask Mobi', figure: null, unit: 'Monthly credits', line: 'A credit: a mistake fixed for good, or a doubt answered' }]),
-    ...(v.cards ? [{ key: 'cards', icon: 'keycards', name: 'Key cards', figure: n(v.cards.count), unit: 'cards turned', line: `${v.cards.minutes ? `About ${v.cards.minutes} minutes a day, from` : 'From'} all ${n(v.cards.bank.cards)} cards` }] : []),
+  /** The answer, cashback style: worth, pay, save (monthly offer only; else the price a day and a mock). */
+  worth: (v) => (v.worth ? `Worth ${v.worth.worth} at credit prices` : null),
+  pay: (v) => (v.kind === 'monthly' ? `You pay ${v.price}` : `You pay ${v.price} once`),
+  save: (v) => (v.worth?.save ? Object.freeze({ lead: 'You save ', figure: v.worth.save, unit: ' a month' }) : null),
+  paysFor: (v) => (v.worth && !v.worth.save ? `Pays for itself at ${n(v.worth.paysAt)} full mocks a month` : null),
+  /** Without a credit worth (the one-time offer): the price a day and a mock, so the answer still says something true. */
+  plain: (v) => `${cap(aboutWord(v.perDay))} a day, ${aboutWord(v.perMock).replace(/^About/, 'about')} a mock.`,
+  /** Where the worth comes from, in one line (every figure from the pack, the mode and the free grant). */
+  footnote: ({ packPrice, packCredits, mockCredits, freeCredits }) =>
+    `Credit prices: the ${packPrice} pack, ${n(packCredits)} credits; a full mock is ${n(mockCredits)} credits, after Free’s ${n(freeCredits)} free credits a month.`,
+  /** One row of what Pro includes, as chips with their objects: the two counts, then the features, no descriptions. */
+  chips: (v) => [
+    { key: 'mocks', icon: 'questions', label: `${n(v.mocks)} full mocks` },
+    { key: 'lab', icon: 'mistakes', label: 'Mistake Lab on every mock' },
+    { key: 'review', icon: 'feeds', label: 'Chapter review' },
+    ...(v.cards ? [{ key: 'cards', icon: 'keycards', label: `${n(v.cards.count)} Key cards` }] : []),
+    ...(v.mobi ? [{ key: 'mobi', icon: 'mobi', label: `${n(v.mobi.credits)} Mobi credits` }] : []),
+    { key: 'nta', icon: 'papers', label: 'NTA mode' },
+    { key: 'compass', icon: 'compass', label: 'Compass Pro' },
+    { key: 'saved', icon: 'saved', label: 'Saved questions' },
   ],
-  /** Every feature Pro includes without a measure, in the plan card's own words (proPlan). */
-  included: Object.freeze([
-    Object.freeze({ key: 'nta', icon: 'papers', name: 'NTA exam mode', line: 'The exam-day screen, to rehearse on' }),
-    Object.freeze({ key: 'smart', icon: 'today', name: 'Quick and Smart practice', line: 'Unlimited sets, Smart aimed at what you miss' }),
-    Object.freeze({ key: 'compass', icon: 'compass', name: 'Compass Pro', line: 'Mapped to your DU shortlist' }),
-    Object.freeze({ key: 'saved', icon: 'saved', name: 'Saved questions', line: 'Unlimited, to come back to' }),
-  ]),
-  includedWord: 'Included',
-  /** The payoff: the price for all of it (big), then a day and a question. */
-  payoff: (v) => Object.freeze({ lead: 'All of it for ', figure: v.price, unit: v.kind === 'monthly' ? ' a month' : ' once' }),
-  payoffLine: (v) => `${cap(aboutWord(v.perDay))} a day, ${v.perQuestion.text} a question.`,
   /** What a screen reader hears once the student stops moving a slider. */
   live: (v) => {
     const plan = listed([paceWords(v.pace).long, ...(v.cards ? [cardWords(v.cards.perDay).long] : [])]);
-    const counts = listed([`${n(v.mocks)} full mocks`, `${n(v.questions)} answers traced`, ...(v.cards ? [`${n(v.cards.count)} Key cards turned`] : [])]);
-    return `${cap(plan)}, ${v.kind === 'monthly' ? 'for a month' : `to ${v.until}`}: ${counts}. ${aboutWord(v.perMock)} a mock, ${v.perQuestion.text} a question.`;
+    const answer = v.worth ? `worth ${v.worth.worth} at credit prices; you pay ${v.price}${v.worth.save ? `, you save ${v.worth.save} a month` : ''}.` : `${n(v.mocks)} full mocks.`;
+    return `${cap(plan)}: ${answer}`;
   },
 });
 

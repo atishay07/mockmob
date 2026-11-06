@@ -20,10 +20,10 @@ import { TEST_MODES } from '../../../data/test_modes.js';
  *  little") to 21, three a day, in steps of one. It starts at its floor, 5 a week (round 5, second take): the student moves it up
  *  from there, and at the start no figure on the value card repeats another (at one a day a mock would cost what a day does, and
  *  the mocks would equal the days). */
-export const PACE = Object.freeze({ min: 5, max: 21, step: 1, start: 5 });
+export const PACE = Object.freeze({ min: 5, max: 21, step: 1, start: 7 });
 /** Every value the slider can take, lowest first (the hero's "as low as" hook reads the last). */
 export const MOCK_PACES = Object.freeze(Array.from({ length: (PACE.max - PACE.min) / PACE.step + 1 }, (_, i) => PACE.min + i * PACE.step));
-/** The pace selected first: 5 Full mocks a week, the floor. */
+/** The pace selected first: one Full mock a day (round 5, final pass). */
 export const DEFAULT_PACE = PACE.start;
 /** A month of Pro, in days, for the per-day and per-mock framing (price / (n x 30/7)). */
 export const MONTH_DAYS = 30;
