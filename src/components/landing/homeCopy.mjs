@@ -17,7 +17,8 @@
 
 import { labStory, signed } from './labStory.mjs';
 import { perDay, paceWords } from '../../lib/payments/value.mjs';
-import { cardWords } from '../../lib/payments/receipt.mjs';
+import { cardWords, USUAL_PRICES } from '../../lib/payments/receipt.mjs';
+import { rupees } from '../../lib/payments/value.mjs';
 import { SUBJECT_CLAIM } from '../../../data/subject_claim.js';
 
 export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2, tourPointWords: 10, step: 45, faq: 45, viewport: 60 });
@@ -149,44 +150,32 @@ const aboutWord = (share) => `${share.exact ? '' : 'About '}${share.about}`;
 const listed = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`);
 
 /**
- * The value card's words (PlanValue.jsx; round 5, final pass, owner 6 Nov 2026: "too much information overload ... credit card
- * cashback ... 'How much will you do this, this, this?' Then they show you ... you'll be saving this much per month"). `v` is
- * receipt.mjs planValue: every figure is computed from the offer, the student's two inputs and MockMob's own credit prices
- * (creditWorth: the same full mocks on Free, after Free's free monthly credits, at the best pack's price per credit, rounded down).
- * The card: two questions, the answer (what it is worth, what you pay, what you save), one line of where the worth comes from,
- * then one row of what Pro includes, as chips. Mistake Repair and Ask Mobi are never called unlimited.
+ * The value card's words (PlanValue.jsx; round 5, final pass, owner 6 Nov 2026: "the main goal was to compare it to how people
+ * usually pay. Students usually buy a mock series ... and some revision key card-type books or flashcards ... We'll just be
+ * showing the ₹99 only versus what they are paying otherwise"). `u` is receipt.mjs usualWay: the typical per-subject prices
+ * (USUAL_PRICES, the owner's own low estimates, said as typical, no platform named) times the student's own subject count, and
+ * Pro's own price from the offer. A month of Pro is never multiplied: Pro is always said as so much "a month".
  */
 export const VALUE_COPY = Object.freeze({
-  title: (v) => (v.kind === 'monthly' ? `What ${v.price} a month gets you` : `What ${v.price} gets you`),
-  mocks: Object.freeze({ ask: 'How many full mocks will you sit?', words: paceWords }),
-  cards: Object.freeze({ ask: 'How many Key cards will you turn?', words: cardWords }),
-  /** The answer, cashback style: worth, pay, save (monthly offer only; else the price a day and a mock). */
-  worth: (v) => (v.worth ? `Worth ${v.worth.worth} at credit prices` : null),
-  pay: (v) => (v.kind === 'monthly' ? `You pay ${v.price}` : `You pay ${v.price} once`),
-  save: (v) => (v.worth?.save ? Object.freeze({ lead: 'You save ', figure: v.worth.save, unit: ' a month' }) : null),
-  paysFor: (v) => (v.worth && !v.worth.save ? `Pays for itself at ${n(v.worth.paysAt)} full mocks a month` : null),
-  /** Without a credit worth (the one-time offer): the price a day and a mock, so the answer still says something true. */
-  plain: (v) => `${cap(aboutWord(v.perDay))} a day, ${aboutWord(v.perMock).replace(/^About/, 'about')} a mock.`,
-  /** Where the worth comes from, in one line (every figure from the pack, the mode and the free grant). */
-  footnote: ({ packPrice, packCredits, mockCredits, freeCredits }) =>
-    `Credit prices: the ${packPrice} pack, ${n(packCredits)} credits; a full mock is ${n(mockCredits)} credits, after Free’s ${n(freeCredits)} free credits a month.`,
-  /** One row of what Pro includes, as chips with their objects: the two counts, then the features, no descriptions. */
-  chips: (v) => [
-    { key: 'mocks', icon: 'questions', label: `${n(v.mocks)} full mocks` },
-    { key: 'lab', icon: 'mistakes', label: 'Mistake Lab on every mock' },
-    { key: 'review', icon: 'feeds', label: 'Chapter review' },
-    ...(v.cards ? [{ key: 'cards', icon: 'keycards', label: `${n(v.cards.count)} Key cards` }] : []),
-    ...(v.mobi ? [{ key: 'mobi', icon: 'mobi', label: `${n(v.mobi.credits)} Mobi credits` }] : []),
-    { key: 'nta', icon: 'papers', label: 'NTA mode' },
-    { key: 'compass', icon: 'compass', label: 'Compass Pro' },
-    { key: 'saved', icon: 'saved', label: 'Saved questions' },
-  ],
-  /** What a screen reader hears once the student stops moving a slider. */
-  live: (v) => {
-    const plan = listed([paceWords(v.pace).long, ...(v.cards ? [cardWords(v.cards.perDay).long] : [])]);
-    const answer = v.worth ? `worth ${v.worth.worth} at credit prices; you pay ${v.price}${v.worth.save ? `, you save ${v.worth.save} a month` : ''}.` : `${n(v.mocks)} full mocks.`;
-    return `${cap(plan)}: ${answer}`;
-  },
+  title: 'What students usually pay, and what you pay',
+  ask: 'How many CUET subjects are you taking?',
+  subjects: (count) => `${count} ${count === 1 ? 'subject' : 'subjects'}`,
+  usualHead: 'The usual way',
+  lines: Object.freeze({
+    mocks: Object.freeze({ icon: 'questions', name: 'Mock test series' }),
+    revision: Object.freeze({ icon: 'keycards', name: 'Revision cards or books' }),
+  }),
+  each: (line) => `${line.perSubject} a subject, typical`,
+  usualTotal: (u) => `${u.total} for ${VALUE_COPY.subjects(u.subjects)}`,
+  proName: 'MockMob Pro',
+  proPrice: (u) => (u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} once`),
+  proLine: ({ keyCards = false } = {}) => `Every subject, unlimited mocks, Mistake Lab, ${keyCards ? 'Key cards and ' : ''}Ask Mobi.`,
+  /** The punch line under the bars. */
+  punch: (u) => Object.freeze({ usual: `${u.total} the usual way.`, pro: u.kind === 'monthly' ? `${u.pro} a month here.` : `${u.pro} once here.` }),
+  barUsual: 'The usual way',
+  barPro: 'MockMob Pro',
+  footnote: () => `Typical prices: ${rupees(USUAL_PRICES.mockSeriesPaise)} a subject for a CUET mock series (${rupees(USUAL_PRICES.mockSeriesPaise)}-${rupees(USUAL_PRICES.mockSeriesHighPaise).slice(1)} is common) and ${rupees(USUAL_PRICES.revisionPaise)} a subject for revision cards or a revision book. Yours may differ.`,
+  live: (u) => `${cap(VALUE_COPY.subjects(u.subjects))}: ${u.total} the usual way, ${VALUE_COPY.proPrice(u)} on MockMob Pro.`,
 });
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks

@@ -109,3 +109,31 @@ export function creditWorth(mocks, pricePaise, credits) {
   const paysAt = Math.floor((Math.ceil((pricePaise + 1) * c.packCredits / c.packPaise) + c.freeCredits) / c.mockCredits) + 1;
   return { credits: paid, worthPaise, worth: rupees(worthPaise), save: worthPaise > pricePaise ? rupees(worthPaise - pricePaise) : null, savePaise: Math.max(0, worthPaise - pricePaise), paysAt };
 }
+
+// ------------------------------------------------------------------ the usual way (round 5, final pass, owner 6 Nov 2026)
+// Owner: "the main goal was to compare it to how people usually pay. Students usually buy a mock series ... 1,000 per subject or
+// 500 per subject ... and some revision key card-type books or flashcards ... A student usually spends more than ₹5,000-₹6,000".
+// Typical prices a student pays per CUET subject, the owner's own LOW estimates (said on the page as typical, never as anyone's
+// price; no platform is named): a mock test series at 500 a subject (500 to 1,000 is common), revision cards or a revision book
+// at 250 a subject. In paise; the page writes them with rupees(), so no rupee amount is typed anywhere.
+export const USUAL_PRICES = Object.freeze({ mockSeriesPaise: 50000, mockSeriesHighPaise: 100000, revisionPaise: 25000 });
+/** The one control: CUET subjects, 1 to 5 (CUET UG allows up to five), 4 first. */
+export const SUBJECT_COUNT = Object.freeze({ min: 1, max: 5, start: 4 });
+
+/**
+ * The usual way for `subjects` CUET subjects against Pro's own price, or null when the offer gives no price.
+ * { subjects, lines: [{ key, perSubjectPaise, perSubject, totalPaise }], totalPaise, total, proPaise, pro, kind, share }
+ * `share` is Pro's price as a share of the usual total (the bars are drawn to it; never a month multiplied).
+ */
+export function usualWay(offer, subjects = SUBJECT_COUNT.start) {
+  const raw = Number(subjects);
+  const count = Math.min(SUBJECT_COUNT.max, Math.max(SUBJECT_COUNT.min, Number.isFinite(raw) ? Math.round(raw) : SUBJECT_COUNT.start));
+  const monthlyOffer = offer?.purchasable === 'monthly';
+  const proRupees = monthlyOffer ? offer?.monthly?.rupees : offer?.oneTime?.rupees;
+  if (!(proRupees > 0)) return null;
+  const lines = [['mocks', USUAL_PRICES.mockSeriesPaise], ['revision', USUAL_PRICES.revisionPaise]]
+    .map(([key, per]) => ({ key, perSubjectPaise: per, perSubject: rupees(per), totalPaise: per * count }));
+  const totalPaise = lines.reduce((sum, line) => sum + line.totalPaise, 0);
+  const proPaise = proRupees * 100;
+  return { subjects: count, lines, totalPaise, total: rupees(totalPaise), proPaise, pro: rupees(proPaise), kind: monthlyOffer ? 'monthly' : 'once', share: proPaise / totalPaise };
+}
