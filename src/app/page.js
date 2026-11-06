@@ -152,7 +152,7 @@ export default function LandingPage() {
         {/* ------------------------------ HERO ------------------------------ */}
         {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), calmer in round 3 (R3-D3, LK99/LK100), and in round 4
             (owner LK117-LK124, LK133, 5 Nov; docs/design-decisions/web-r4-hero.md) made to fill a desktop screen: one
-            hero idea at every width. The words first: the headline with "CUET 2027." under a volt highlighter mark, the
+            hero idea at every width. The words first: the headline with "CUET 2027." a step larger in the brand colour, the
             sentence that says what MockMob is, the volt "Sign up free" key with "Try 5 questions first" under it and one
             "Have an account? Log in" line (LK83/LK88; the fact line went, LK121). Then the desk: Mobi in his lamp-lit room
             (HeroRoom, HeroMobi) offering a CUET question (DemoDrill, the card attached to the room's foot). Then the

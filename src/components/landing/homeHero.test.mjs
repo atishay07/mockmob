@@ -2,8 +2,9 @@
 // The home hero, "Desk Light" (4 Nov 2026, SPEC-HOME-1104 packet P2), refined in round 3 (R3-D3, owner LK99/LK100,
 // 5 Nov 2026) and round 4 (owner LK117-LK124, 5 Nov 2026: the desktop hero fills the screen, "CUET 2027." highlighted, the
 // fact line gone, the features strip and its price hook, a texture behind the hero; docs/design-decisions/
-// web-r4-hero.md) and round 5 (owner, 6 Nov 2026: the answer-sheet texture was "very weird", the strip's icons needed
-// improvement: the paper's own grain, one drawn icon set): the LK67 and LK70 measures and the decisions the hero owns (2, 3, 4, 5, 13, 15, 18; decision 12's "no
+// web-r4-hero.md) and round 5 (owner, 6 Nov 2026: the answer-sheet texture was "very weird": the paper's own grain; the
+// highlighter on "CUET 2027." was "not tasteful at all" (LK159): type and colour alone; the drawn line icons were "a
+// regression" (LK160): the brand's 3D desk objects again, improved): the LK67 and LK70 measures and the decisions the hero owns (2, 3, 4, 5, 13, 15, 18; decision 12's "no
 // ambient pattern" is superseded by the owner's texture request, LK117). Source-level by default; with HOME_HERO_URL set (for example
 // http://localhost:3572) it also measures the running page in real Chrome (the shared browser lock, one browser) at
 // 390x844, 375x667, 360x640, 412x915 and 1440x900 (LK70: the h1 starts in the first 12 % of the screen, the pitch
@@ -12,19 +13,32 @@
 // tall on phones and 170 px on desktop; the bubble never changes on six real taps).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { fileURLToPath } from 'node:url';
 import { HERO_LINES, HERO_SENTENCE, HERO_TYPED } from './heroLines.mjs';
 import { DESK_LINES, DESK_NOTE, heroFeatures, heroPriceHook } from './heroTaps.mjs';
-import { FEATURE_GLYPHS, GLYPH_GRID, GLYPH_STROKE } from './featureGlyphs.mjs';
-import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD, RECOVERY_HEAD, COMPASS_HEAD, proPlan } from './homeCopy.mjs';
+import { STRIP_OBJECTS, STRIP_OBJECT_BASE, STRIP_OBJECT_BOX, STRIP_OBJECT_SIZES, STRIP_OBJECT_WIDTHS, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
+import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD, RECOVERY_HEAD, COMPASS_HEAD, BRAND_STAMPS, TOUR_ICON, proPlan } from './homeCopy.mjs';
 import { KEY_CARDS_HEAD } from './keyCardsCopy.mjs';
 import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
 import { BLINK_EVERY_MS, GAZE_MAX_PX, GAZE_MEDIA, GLANCE, gazeOffset, glanceOffset } from '../brand/mobiGaze.mjs';
-import { OPENING_FIRST_MS, OPENING_HAND_MS } from './openingGate.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const strip = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
+// The strip's object files (public/art/icons/strip), and a webp's canvas size from its header (VP8X, VP8L or VP8), as
+// data/tests/brand_icons_1103.test.mjs reads it. The pixel checks use sharp (Next's own image library) when it loads.
+const publicFile = (src) => fileURLToPath(new URL(`../../../public${src}`, import.meta.url));
+function webpSize(file) {
+  const b = readFileSync(file);
+  assert.equal(b.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(b.toString('ascii', 8, 12), 'WEBP');
+  const kind = b.toString('ascii', 12, 16);
+  if (kind === 'VP8X') return { w: 1 + b.readUIntLE(24, 3), h: 1 + b.readUIntLE(27, 3), alpha: Boolean(b[20] & 0x10) };
+  if (kind === 'VP8L') { const v = b.readUInt32LE(21); return { w: 1 + (v & 0x3fff), h: 1 + ((v >> 14) & 0x3fff), alpha: Boolean((v >> 28) & 1) }; }
+  return { w: b.readUInt16LE(26) & 0x3fff, h: b.readUInt16LE(28) & 0x3fff, alpha: false };
+}
+const sharp = await import('sharp').then((m) => m.default, () => null);
 const PAGE = read('../../app/page.js');
 const HERO = PAGE.slice(PAGE.indexOf('<section className="lp-hero">'), PAGE.indexOf('STATEMENT ('));
 const CSS = strip(read('../../app/hero-scene.css'));
@@ -157,10 +171,8 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.doesNotMatch(stripCss, /backdrop-filter|radial-gradient|box-shadow: 0 0 |animation/);
   assert.match(BEAT_STRIP, /<nav className="lp-strip" aria-label=\{label\}>/);
   assert.match(BEAT_STRIP, /<a href=\{item\.href\} className="lp-strip__fact">/);
-  // Round 5 (owner, 6 Nov 2026: the icons "need improvement"; the photographic desk objects read muddy at 30 to 36 px): one
-  // drawn line set, inline beside the words, no tile, no photo.
-  assert.match(BEAT_STRIP, /<StripGlyph name=\{item\.icon\} \/>/);
-  assert.doesNotMatch(BEAT_STRIP, /BrandIcon|MobiMark|<img|<Image/, 'no desk-object art in the strip');
+  // Round 5 (owner, 6 Nov 2026, LK160): each feature's 3D desk object (the next test), beside the words, no tile.
+  assert.match(BEAT_STRIP, /<StripObject name=\{item\.icon\} \/>/);
   assert.match(BEAT_STRIP, /<a href=\{hook\.href\} className="lp-strip__hook">/, 'the hook is one link to the slider');
   // Round 4 review (6 Nov): the figure never shows without its pace: the pace follows the unit in the same flow and ink,
   // and the price under it is ink-2 at body size (it was ink-3 at 13 px beside a 36 px figure).
@@ -173,69 +185,102 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ display: grid; grid-template-columns: minmax\(0, 1fr\);/, 'one feature a row on phones');
   assert.match(CSS, /\.mm\.lp \.lp-strip__item:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \}/, 'tablets: an odd last cell spans the row');
   assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); column-gap: 8px;/, 'two across in the words\' column from 960 px');
-  assert.match(CSS, /@media \(min-width: 1400px\) \{\s*\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); \}/, 'three across from 1400 px');
+  assert.match(CSS, /@media \(min-width: 1400px\) \{\s*\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); column-gap: 4px; \}/, 'three across from 1400 px');
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);
 });
 
-test('round 5 (owner, 6 Nov 2026): the strip\'s icons are one drawn line set: a 24 px grid, a 1.75 px round stroke in ink, one detail in the brand accent', () => {
-  // Every feature the strip can show has its own glyph, each drawn once.
-  const keys = heroFeatures({ compass: true, keyCards: true }).map((f) => f.icon);
-  for (const key of keys) assert.ok(FEATURE_GLYPHS[key], `${key} has a glyph`);
-  assert.equal(new Set(keys).size, keys.length, 'no two features share an icon');
-  assert.equal(GLYPH_GRID, 24);
-  assert.equal(GLYPH_STROKE, 1.75);
-  for (const [key, glyph] of Object.entries(FEATURE_GLYPHS)) {
-    // One small detail in the accent, the rest in ink.
-    assert.equal(glyph.parts.filter((p) => p.accent).length, 1, `${key}: one accent part`);
-    assert.ok(glyph.parts.some((p) => !p.accent), `${key}: drawn in ink`);
-    // Everything sits on the 24 px grid: every absolute move, line and curve point inside 1 to 23 (room for the stroke).
-    for (const part of glyph.parts) {
-      for (const m of part.d.matchAll(/([MLC])([^A-Za-z]+)/g)) {
-        for (const n of m[2].trim().split(/[\s,]+|(?=-)/).filter(Boolean).map(Number)) assert.ok(n >= 1 && n <= 23, `${key}: ${n} on the grid`);
+test('round 5 (owner, 6 Nov 2026, LK160): the strip draws the brand\'s 3D desk objects again: the right object, one weight, one baseline, cut for 2x and 3x', async () => {
+  // Each feature shows the object that already means it on this page: the section its link opens is stamped with that
+  // object (BRAND_STAMPS), the mocks are the tour's Practice object (an answer sheet and a pencil), Ask Mobi is Mobi.
+  const features = heroFeatures({ compass: true, keyCards: true });
+  const keys = features.map((f) => f.icon);
+  assert.deepEqual(keys, ['questions', 'mistakes', 'revise', 'compass', 'mobi', 'keycards']);
+  assert.equal(new Set(keys).size, keys.length, 'no two features share an object');
+  const stampFor = { '#inside-the-lab': BRAND_STAMPS.lab.icon, '#score-recovery-lab': BRAND_STAMPS.recovery.icon, '#compass': BRAND_STAMPS.compass.icon, '#key-cards': BRAND_STAMPS.keycards.icon };
+  for (const f of features) if (stampFor[f.href]) assert.equal(f.icon, stampFor[f.href], `${f.name}: the object its section is stamped with`);
+  assert.equal(features[0].icon, TOUR_ICON.arena, 'Unlimited mocks: the tour\'s Practice object');
+  assert.equal(features.find((f) => f.name === 'Ask Mobi').icon, 'mobi', 'Ask Mobi is Mobi himself');
+  // The files: every width, one 12:11 box, true alpha, small; the srcset names them all, the sizes say the drawn box.
+  for (const key of keys) {
+    assert.ok(STRIP_OBJECTS[key], `${key} is a strip object`);
+    for (const w of STRIP_OBJECT_WIDTHS) {
+      const file = publicFile(stripObjectSrc(key, w));
+      assert.ok(existsSync(file), `${key}-${w}.webp exists`);
+      const size = webpSize(file);
+      assert.deepEqual([size.w, size.h], [w, Math.round((w * STRIP_OBJECT_BOX.height) / STRIP_OBJECT_BOX.width)], `${key}-${w}: the 12:11 box`);
+      assert.ok(size.alpha, `${key}-${w} keeps its alpha`);
+      assert.ok(statSync(file).size < 12 * 1024, `${key}-${w} stays under 12 KB`);
+    }
+  }
+  assert.deepEqual([...STRIP_OBJECT_WIDTHS], [96, 144, 192], '2x and 3x phones get a file cut for them');
+  assert.equal(stripObjectSrcSet('compass'), '/art/icons/strip/compass-96.webp 96w, /art/icons/strip/compass-144.webp 144w, /art/icons/strip/compass-192.webp 192w');
+  assert.equal(STRIP_OBJECT_SIZES, '(min-width: 3400px) 70px, (min-width: 2560px) 55px, (min-width: 1400px) 45px, 48px', 'the drawn box at every root');
+  assert.equal(stripObjectSrc('nope'), null);
+  // The markup: one img per feature, its box laid out before it decodes (nothing shifts), decorative, lazy, never dragged.
+  for (const attr of ['className="lp-strip__obj"', 'srcSet={stripObjectSrcSet(name)}', 'sizes={STRIP_OBJECT_SIZES}', 'width={STRIP_OBJECT_BOX.width}', 'height={STRIP_OBJECT_BOX.height}', 'alt=""', 'loading="lazy"', 'draggable={false}']) {
+    assert.ok(BEAT_STRIP.includes(attr), attr);
+  }
+  assert.doesNotMatch(BEAT_STRIP, /StripGlyph|featureGlyphs|<svg|MobiMark|BrandIcon/, 'no drawn line set, no flat face mark, no padded 192 px squares');
+  assert.ok(!existsSync(new URL('./featureGlyphs.mjs', import.meta.url)), 'the drawn line set is gone');
+  // The box: 3rem (2.75rem three across, 2.5rem on the large roots), lifted onto the second line's baseline (the running
+  // page test measures it); in rem, so it grows with the page's type; no tile, frame or glow; never a target.
+  const objRule = CSS.match(/\.mm\.lp \.lp-strip__obj \{[^}]*\}/)[0];
+  for (const decl of ['grid-row: 1 / span 2;', 'align-self: center;', 'width: 3rem;', 'height: auto;', 'translate: 0 -0.25rem;', 'pointer-events: none;']) assert.ok(objRule.includes(decl), decl);
+  assert.doesNotMatch(objRule, /background|border|padding|box-shadow|filter|radius/);
+  assert.match(CSS, /@media \(min-width: 960px\) \{[^@]*\.mm\.lp \.lp-strip__obj \{ translate: 0 -0\.1875rem; \}/);
+  assert.match(CSS, /@media \(min-width: 1400px\) \{[^@]*\.mm\.lp \.lp-strip__fact \{ column-gap: 10px; padding-right: 4px; \}\s*\.mm\.lp \.lp-strip__obj \{ width: 2\.75rem; translate: 0 -0\.125rem; \}/);
+  assert.match(CSS, /@media \(min-width: 1920px\) \{\s*\.mm\.lp \.lp-strip__obj \{ width: 2\.5rem; translate: 0 -0\.05rem; \}/);
+  assert.doesNotMatch(CSS, /lp-strip__icon|lp-strip__accent/, 'the line set\'s rules are gone');
+  // The pixels (when sharp is installed): every object stands on the shared baseline, inside its box, at one size class
+  // (round 4 drew 22 to 34 px objects in a padded 36 px square), and the only thing under it is a dark contact shadow.
+  if (!sharp) return;
+  const f = 192 / STRIP_OBJECT_BOX.width;
+  for (const key of keys) {
+    const { data, info } = await sharp(publicFile(stripObjectSrc(key, 192))).raw().toBuffer({ resolveWithObject: true });
+    let x0 = info.width, x1 = -1, y0 = info.height, y1 = -1, area = 0;
+    for (let y = 0; y < info.height; y += 1) {
+      for (let x = 0; x < info.width; x += 1) {
+        if (data[(y * info.width + x) * 4 + 3] < 200) continue;
+        area += 1;
+        x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+      }
+    }
+    const w = (x1 - x0 + 1) / f, h = (y1 - y0 + 1) / f;
+    assert.ok(Math.abs((y1 + 1) / f - STRIP_OBJECT_BASE) <= 1, `${key} stands on the baseline (${((y1 + 1) / f).toFixed(1)})`);
+    assert.ok(y0 / f >= 0.5 && x0 >= 0 && x1 < info.width, `${key} inside its box`);
+    assert.ok(Math.max(w, h) >= 35 && Math.max(w, h) <= 44, `${key}: ${w.toFixed(1)} x ${h.toFixed(1)} css px`);
+    const cssArea = area / (f * f);
+    assert.ok(cssArea >= 480 && cssArea <= 950, `${key}: one visual weight (${Math.round(cssArea)} css px of object)`);
+    // Under its foot (past its own antialiased edge, one row): only the shadow's dark pixels.
+    for (let y = y1 + 2; y < info.height; y += 1) {
+      for (let x = 0; x < info.width; x += 1) {
+        const i = (y * info.width + x) * 4;
+        if (data[i + 3] > 0) assert.ok(data[i] + data[i + 1] + data[i + 2] <= 3 * 60, `${key}: the shadow is dark, never a glow`);
       }
     }
   }
-  // The svg: the grid, the stroke, round caps and joins, ink from currentColor, decorative (the link's words name it).
-  for (const attr of ['viewBox={`0 0 ${GLYPH_GRID} ${GLYPH_GRID}`}', 'fill="none"', 'stroke="currentColor"', 'strokeWidth={GLYPH_STROKE}', 'strokeLinecap="round"', 'strokeLinejoin="round"', 'aria-hidden="true"', 'focusable="false"']) {
-    assert.ok(BEAT_STRIP.includes(attr), attr);
-  }
-  // Ink is ink-2; the accent is the brand word colour (volt in Night, #526700 in Day), from the tokens, never typed.
-  assert.match(CSS, /\.mm\.lp \.lp-strip__icon \{[^}]*width: 28px; height: 28px; color: var\(--ink-2\);/);
-  assert.match(CSS, /\.mm\.lp \.lp-strip__accent \{ stroke: var\(--brand-word, var\(--ink\)\); \}/);
-  assert.match(CSS, /\.mm\.lp \.lp-strip__accent--fill \{ fill: var\(--brand-word, var\(--ink\)\); \}/);
-  assert.match(THEME_CSS, /html\[data-theme='dark'\] \.mm \{[^}]*--brand-word: #d2f000;/);
-  assert.match(THEME_CSS, /html\[data-theme='light'\] \.mm \{[^}]*--brand-word: #526700;/);
-  // No tile: the icon has no background, border, radius or padding of its own (DESIGN.md: never an icon tile).
-  const iconRule = CSS.match(/\.mm\.lp \.lp-strip__icon \{[^}]*\}/)[0];
-  assert.doesNotMatch(iconRule, /background|border|padding|box-shadow/);
-  assert.doesNotMatch(CSS, /lp-strip__icon--mobi/, 'the Mobi face mark\'s box is gone');
 });
 
-test('round 4 (LK120): "CUET 2027." is the headline\'s anchor: a step larger, under a highlighter mark that draws once', () => {
-  // One step larger than the lines under it, always inside the column (5.4 em measured, plus the mark's overhang).
-  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__brand \{\n\s+position: relative;\n\s+z-index: 0;\n\s+width: fit-content;\n\s+font-size: min\(1\.3em, 18cqi\);/);
+test('round 5 (owner, 6 Nov 2026, LK159): "CUET 2027." is the headline\'s anchor by type and colour alone, never a highlighter', () => {
+  // A step larger than the lines under it, the brand word colour on the letters (the LK70 test above pins volt in Night and
+  // #526700 in Day), always inside the column (5.54 em measured at its tracking).
+  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__brand \{ font-size: min\(1\.3em, 18cqi\); \}/);
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__brand \{ font-size: min\(1\.45em, 17\.4cqi\); line-height: 0\.98; \}/);
   assert.ok(5.54 * 18 < 100 && 5.54 * 17.4 < 100, 'the brand line fits its column at either cap');
-  // Day: the volt band over the letters' lower part, the letters in the deepest Day green; Night: a volt stroke under
-  // volt letters (a band behind volt letters read as a muddy selection).
-  assert.match(CSS, /html\[data-theme='light'\] \.mm\.lp \.lp-hero \.lp-title__brand \{ color: #2c3a00; --mark-top: 0\.4em; --mark-bottom: 0\.02em;/);
-  assert.match(CSS, /--mark: #d2f000;\n\s+--mark-top: 0\.99em;/);
-  assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__brand::before \{[^}]*z-index: -1;[^}]*background: var\(--mark\);/);
-  // It draws once after the opening (520 ms, the out curve); reduce motion and no JS: drawn already; never a glow.
-  assert.match(CSS, /:root:not\(\[data-motion='reduced'\]\):is\(\[data-opening='skip'\], \[data-opening='done'\]\) \.mm\.lp \.lp-hero \.lp-title__brand::before \{\s*animation: lp-mark-in 520ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 160ms both;/);
-  assert.match(CSS, /@keyframes lp-mark-in \{ from \{ clip-path: inset\(0 100% 0 0\); \} to \{ clip-path: inset\(0 0 0 0\); \} \}/);
-  // Round 4 review: if the opening's gate never reaches 'done', the waiting mark still draws (3.4 s, past the longest
-  // normal opening: a late first paint (1.1 s), the rest of the opening from its 500 ms pose, the hand-off), under its own
-  // keyframes name so a normal 'done' starts a fresh draw.
-  assert.match(CSS, /:root:not\(\[data-motion='reduced'\]\):is\(\[data-opening='first'\], \[data-opening='short'\]\) \.mm\.lp \.lp-hero \.lp-title__brand::before \{\s*clip-path: inset\(0 100% 0 0\);\s*animation: lp-mark-late 520ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 3\.4s both;/);
-  assert.match(CSS, /@keyframes lp-mark-late \{ from \{ clip-path: inset\(0 100% 0 0\); \} to \{ clip-path: inset\(0 0 0 0\); \} \}/);
-  assert.ok(3400 > 1100 + (OPENING_FIRST_MS - 500) + OPENING_HAND_MS, 'the fallback waits past the longest normal opening');
-  const markRules = CSS.slice(CSS.indexOf('.mm.lp .lp-hero .lp-title__brand::before {'), CSS.indexOf('@keyframes lp-mark-in'));
-  assert.doesNotMatch(markRules, /box-shadow|filter|infinite/);
-  assert.match(CSS, /@media \(forced-colors: active\) \{ \.mm\.lp \.lp-hero \.lp-title__brand::before \{ display: none; \} \}/);
+  // No marker in any sheet the home page draws: no band, stroke, swoosh, glow, gradient or outline on the line, nothing drawn
+  // before or after it, and the old draw-in is gone (round 4's highlighter, which the owner called "not tasteful at all").
+  const sheets = ['hero-scene', 'hero-depth', 'home', 'landing', 'home-refinements', 'home-sections', 'desktop-scale', 'marketing-theme', 'marketing'];
+  const all = sheets.map((name) => strip(read(`../../app/${name}.css`))).join('\n');
+  const brandRules = [...all.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter((m) => /lp-title__brand/.test(m[1]));
+  assert.ok(brandRules.length >= 3, 'the brand line has its colour and size rules');
+  for (const [, sel, body] of brandRules) {
+    assert.doesNotMatch(sel, /::?(before|after)/, `${sel.trim()}: nothing drawn around the words`);
+    assert.doesNotMatch(body, /background|box-shadow|text-shadow|text-decoration|border|outline|filter|text-stroke|clip-path|mask|gradient|animation|--mark/, `${sel.trim()}: type and colour only`);
+  }
+  assert.doesNotMatch(all, /@keyframes lp-mark|lp-mark-(in|late)/, 'the highlighter\'s draw-in is gone');
 });
 
 test('decision 3: the two hero links stay, as ink underlined text links', () => {
@@ -386,7 +431,18 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
           const r = el.getBoundingClientRect();
           const mask = (pseudo) => { const p = getComputedStyle(el, pseudo); return p.maskImage || p.webkitMaskImage || ''; };
           return { z: cs.zIndex, events: cs.pointerEvents, hidden: el.getAttribute('aria-hidden'), same: Math.abs(r.top - hero.top) < 1 && Math.abs(r.height - hero.height) < 1 && Math.abs(r.width - hero.width) < 1, before: mask('::before'), after: mask('::after') };
-        })() };
+        })(), brandMarks: [getComputedStyle(brand, '::before').content, getComputedStyle(brand, '::after').content], brandBg: getComputedStyle(brand).backgroundImage + getComputedStyle(brand).backgroundColor, objs: [...document.querySelectorAll('.lp-strip__fact')].map((a) => {
+          // Round 5 (LK160): each desk object's shared baseline (40.5/44 down its box) against its second line's baseline.
+          const img = a.querySelector('.lp-strip__obj').getBoundingClientRect();
+          const line = a.querySelector('.lp-strip__line');
+          const probe = document.createElement('span');
+          probe.style.cssText = 'display:inline-block;width:0;height:0;vertical-align:baseline';
+          line.appendChild(probe);
+          const base = probe.getBoundingClientRect().top;
+          probe.remove();
+          const rr = document.createRange(); rr.selectNodeContents(line);
+          return { off: img.top + img.height * (40.5 / 44) - base, rows: new Set([...rr.getClientRects()].map((c) => Math.round(c.top))).size };
+        }) };
       });
       const pct = (y) => (100 * y) / height;
       assert.ok(m.docW <= width, `${width}: no sideways scroll`);
@@ -398,6 +454,13 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       assert.equal(m.fact, false, `${width}: no fact line`);
       assert.ok(m.brandRight <= m.columnRight + 1 && m.sizerRight <= m.columnRight + 1, `${width}: the headline fits its column`);
       if (width >= 960) assert.ok(m.option4.bottom <= height, `${width}x${height}: the fourth option ends at ${Math.round(m.option4.bottom)}`);
+      // Round 5 (LK159): nothing is drawn behind, before or after "CUET 2027.": type and colour alone.
+      assert.deepEqual(m.brandMarks, ['none', 'none'], `${width}: no marker around "CUET 2027."`);
+      assert.match(m.brandBg, /^none(rgba\(0, 0, 0, 0\)|transparent)$/, `${width}: no band behind "CUET 2027."`);
+      // Round 5 (LK160): the strip's objects stand on their second line's baseline, and three across every line holds one line.
+      assert.ok(m.objs.length >= 5, `${width}: the strip's objects`);
+      for (const o of m.objs) assert.ok(Math.abs(o.off) <= 1.5, `${width}: an object stands ${o.off.toFixed(1)} px off its line's baseline`);
+      if (width >= 1400) for (const o of m.objs) assert.equal(o.rows, 1, `${width}: a strip line wraps`);
       // Round 5: the paper grain is drawn behind the whole hero, never in the way of a tap, at every width.
       assert.ok(m.texture, `${width}: the hero's texture`);
       assert.equal(m.texture.z, '-1');

@@ -10,11 +10,12 @@
    over a rotating line in the desk card, docs/design-decisions/web-r3-hero.md).
    Round 4 (owner LK117-LK124, 5 Nov 2026; docs/design-decisions/web-r4-hero.md): the desktop hero fills the screen (the
    site-wide desktop container is desktop-scale.css; the desk takes 41 % of the width, the words the rest), "CUET 2027." is
-   set larger under a highlighter mark, the fact line is gone (LK121), the number strip became the features strip with the
-   honest price hook (LK124), and a texture sits behind it all: since round 5 (owner, 6 Nov 2026: the answer-sheet bubbles
-   read "very weird") the page's own paper grain, strongest around the desk (BrandTexture, brand-texture.css).
-   Motion: the highlighter draws once on load, then the typed line (the opening and the typed line are the load moment);
-   Mobi idles in CSS (mobi-figure.css), his bubble cross-fades, the sample's reveal opens. Reduce motion: fades or nothing.
+   set a step larger, the fact line is gone (LK121), the number strip became the features strip with the honest price hook
+   (LK124), and a texture sits behind it all: since round 5 (owner, 6 Nov 2026: the answer-sheet bubbles read "very weird")
+   the page's own paper grain, strongest around the desk (BrandTexture, brand-texture.css). Round 5 also took the highlighter
+   off "CUET 2027." (LK159: type and colour alone) and put the brand's 3D desk objects back in the strip (LK160).
+   Motion: the opening and the typed line are the load moment; Mobi idles in CSS (mobi-figure.css), his bubble cross-fades,
+   the sample's reveal opens. Reduce motion: fades or nothing.
    ========================================================================== */
 
 /* ---------- The layout ---------- */
@@ -56,57 +57,18 @@
 html[data-theme] .mm.lp .lp-hero .lp-title__brand { color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0.022em; }
 html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 
-/* ---------- "CUET 2027." highlighted (round 4, owner LK120: "no highlighting of the CUET stuff") ----------
-   The exam's name is the headline's anchor, the way Preparoo sets its exam name: one step larger than the two lines under
-   it (1.3x on phones, 1.45x from 960 px, always inside the column: 5.6 em is its widest with the mark's overhang, measured
-   in Chrome) and under a highlighter mark, the stroke a student puts through the line that matters: its ends a little
-   uneven and the stroke a degree off level, like a hand drew it. Day: the true volt as a highlighter band over the
-   letters' lower part, the letters in a deep Day green (#2C3A00: 9.5:1 on the volt, 11:1 on the paper above it). Night:
-   the letters stay true volt (D2, LK82) and the mark is a thick volt stroke under them, the way a highlighter underlines
-   on a dark page (a band behind volt letters read as a muddy selection in the captures).
-   It draws once on load from the left (520 ms, the app's out curve), after the opening; reduce motion: drawn already. */
-.mm.lp .lp-hero .lp-title__brand {
-  position: relative;
-  z-index: 0;
-  width: fit-content;
-  font-size: min(1.3em, 18cqi);
-  --mark: #d2f000;
-  --mark-top: 0.99em;
-  --mark-bottom: -0.11em;
-  /* Night's stroke hangs under the line: the line keeps that much air before "One mock.". */
-  margin-bottom: 0.13em;
-}
-html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --mark-top: 0.4em; --mark-bottom: 0.02em; margin-bottom: 0.02em; }
-.mm.lp .lp-hero .lp-title__brand::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  left: -0.06em;
-  right: -0.08em;
-  top: var(--mark-top);
-  bottom: var(--mark-bottom);
-  border-radius: 0.05em 0.16em 0.08em 0.2em / 0.12em 0.2em 0.1em 0.24em;
-  background: var(--mark);
-  transform: rotate(-1deg);
-  transform-origin: 0 50%;
-}
-/* While the opening plays the mark waits, then draws once the hand-off sets 'done'. If the gate never gets there (a script
-   error, a removed layer), the waiting rule draws it anyway after 3.4 s, past the longest normal opening (about 2.5 s
-   from the script: a late first paint, the opening, the hand-off), the CSS twin of HeroTyped's fallback start
-   (round 4 review). Its keyframes have their own name, so a normal 'done' starts a fresh draw instead of jumping the
-   waiting one to its end. */
-@media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']):is([data-opening='first'], [data-opening='short']) .mm.lp .lp-hero .lp-title__brand::before {
-    clip-path: inset(0 100% 0 0);
-    animation: lp-mark-late 520ms cubic-bezier(0.23, 1, 0.32, 1) 3.4s both;
-  }
-  :root:not([data-motion='reduced']):is([data-opening='skip'], [data-opening='done']) .mm.lp .lp-hero .lp-title__brand::before {
-    animation: lp-mark-in 520ms cubic-bezier(0.23, 1, 0.32, 1) 160ms both;
-  }
-}
-@keyframes lp-mark-in { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes lp-mark-late { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-@media (forced-colors: active) { .mm.lp .lp-hero .lp-title__brand::before { display: none; } }
+/* ---------- "CUET 2027." emphasised by type and colour alone (round 5, owner 6 Nov 2026, LK159) ----------
+   Round 4 read LK120 ("no highlighting of the CUET stuff") as a call for a marker: a volt highlighter band behind the letters
+   in Day, a hand-drawn volt stroke under them in Night. The owner: "I don't mean that you have to straight up just run a
+   highlighter over it. It looks very bad and is not tasteful at all." The marker is gone in both themes. The exam's name
+   stays the headline's anchor the way a brand sets its own name: the brand word colour on the letters (above: volt in
+   Night, the Day text green in Day) and one step larger than the two lines under it, at the same weight and a slightly
+   opened tracking for the set figures: 1.3x on phones, 1.45x from 960 px, always inside the column (5.54 em wide, measured
+   in Chrome). Nothing behind, under or around it: no band, stroke, glow, gradient or outline. Three variants judged at 390
+   and 1440 in both themes (tmp/r5-feedback/hero2/cuet-v1..v3): the lines' own size read as just the first of three lines
+   (LK120's complaint again); a column-wide masthead at tighter tracking was, in Night, a slab of volt type heavier than
+   the volt key under it and crowded "2027"; this step reads as the anchor and keeps the key the one volt block. */
+.mm.lp .lp-hero .lp-title__brand { font-size: min(1.3em, 18cqi); }
 
 /* ---------- The lead (LK70): what MockMob is, in one sentence of two lines (R3-D3, LK99: 16-17 px) ---------- */
 .mm.lp .lp-hero .lp-lead {
@@ -388,7 +350,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
 
 /* ==========================================================================
    The features strip (round 4, owner LK124; supersedes R3-D3's number strip): the main features (heroTaps.mjs
-   heroFeatures), each one link to its section, with its icon (round 5: one drawn line set, featureGlyphs.mjs), its name in
+   heroFeatures), each one link to its section, with its desk object (round 5, LK160: stripObjects.mjs), its name in
    Bricolage 700 and one quiet line; then
    the honest price hook (heroPriceHook), "As low as ₹X a mock on Pro at 3 full mocks a day" (the slider's words) (the pace in the same line and
    ink as the figure), then the price that makes it, a link to the pricing slider. Phones: raised paper, one feature a row between hairlines (two across broke every name and line in
@@ -423,12 +385,25 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   -webkit-tap-highlight-color: transparent;
   transition: background-color 160ms ease-out;
 }
-/* The icon (round 5, owner 6 Nov 2026; featureGlyphs.mjs): one drawn line set, its 24 px grid shown at 28 px so it holds its
-   own beside the two lines of words (a 2 px stroke), ink-2 strokes and one detail in the brand word colour (volt in Night,
-   #526700 in Day). No tile behind it. */
-.mm.lp .lp-strip__icon { grid-row: 1 / span 2; grid-column: 1; align-self: center; width: 28px; height: 28px; color: var(--ink-2); }
-.mm.lp .lp-strip__accent { stroke: var(--brand-word, var(--ink)); }
-.mm.lp .lp-strip__accent--fill { fill: var(--brand-word, var(--ink)); }
+/* The desk object (round 5, owner 6 Nov 2026, LK160; stripObjects.mjs, cut by scripts/brand/build-strip-objects.mjs): the
+   brand's 3D object for the feature in a fixed 12:11 box, 3rem (48 px) wide (smaller three across, below; the files are
+   96, 144 and 192 px wide, so 2x and 3x screens get their own), every object trimmed to one visual weight and standing on
+   one baseline, 40.5/44 down its box, on its own soft contact shadow. The box is centred on the two lines and lifted so
+   that baseline meets the second line's (0.25rem here, measured in Chrome at every width the hero test runs): the objects
+   stand on the same line as the words. In rem, so it grows with the page's type on large screens. No tile, frame or glow
+   behind it, and it is never a target of its own (the link is). */
+.mm.lp .lp-strip__obj {
+  grid-row: 1 / span 2;
+  grid-column: 1;
+  align-self: center;
+  display: block;
+  width: 3rem;
+  height: auto;
+  translate: 0 -0.25rem;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
 .mm.lp .lp-strip__name {
   grid-row: 1;
   grid-column: 2;
@@ -534,6 +509,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
   .mm.lp .lp-strip__fact { padding: 12px 10px 12px 8px; margin-inline: -8px 0; border-radius: 14px; }
   .mm.lp .lp-strip__name { font-size: 1rem; }
   .mm.lp .lp-strip__line { font-size: 0.875rem; }
+  .mm.lp .lp-strip__obj { translate: 0 -0.1875rem; }
   .mm.lp .lp-strip__hook { margin-top: 6px; padding: 16px 8px 14px; margin-inline: -8px; border-top: 1px solid var(--line); border-radius: 0 0 14px 14px; }
   .mm.lp .lp-strip__hook-fig { font-size: 2.25rem; }
   .mm.lp .lp-strip__hook-unit, .mm.lp .lp-strip__hook-lead, .mm.lp .lp-strip__hook-at { font-size: 1.0625rem; }
@@ -541,9 +517,18 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #2c3a00; --ma
 }
 
 /* From 1400 px the words' column holds three features across with each line on one line (two across below that: at
-   1280 three across broke every line in two). */
+   1280 three across broke every line in two). Three across, the objects step down to a 2.75rem (44 px) box with a 10 px gap
+   and the cells give up 6 px of their right padding and 4 px of their gap, so the longest line ("One clear step for
+   tonight") still holds one line at 1400 (measured in Chrome). From 1920 px the page's type grows with the root (18, 22,
+   28 px, landing.css) inside the words' column, which stops at 1,680 px: the box steps to 2.5rem so the lines keep their
+   room, and stays on the line's baseline. */
 @media (min-width: 1400px) {
-  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mm.lp .lp-strip__list { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 4px; }
+  .mm.lp .lp-strip__fact { column-gap: 10px; padding-right: 4px; }
+  .mm.lp .lp-strip__obj { width: 2.75rem; translate: 0 -0.125rem; }
+}
+@media (min-width: 1920px) {
+  .mm.lp .lp-strip__obj { width: 2.5rem; translate: 0 -0.05rem; }
 }
 
 /* Large desktops: the ways in grow with the headline, so the keys never look small beside a 100 px line. */

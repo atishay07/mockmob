@@ -48,10 +48,10 @@ test('LK67: no media query hides the room, Mobi, his bubble or the desk', () => 
   for (const block of mediaBlocks(css)) {
     assert.doesNotMatch(block, /\.lp-(room|desk|desk__room|desk__mobi|desk__figure|desk__bubble|desk__stage)\s*\{[^}]*display:\s*none/, block.slice(0, 80));
   }
-  // The only display: none on the room's parts is the other theme's painting (and, in forced colours, the highlighter
-  // mark under "CUET 2027.", round 4: a mark the system cannot colour is left out, the words stay).
+  // The only display: none on the room's parts is the other theme's painting (round 5, LK159: the highlighter under
+  // "CUET 2027." and its forced-colours rule are gone; the line is type and colour alone).
   const nones = [...css.matchAll(/([^{}]+)\{[^{}]*display:\s*none[^{}]*\}/g)].map((m) => m[1].trim());
-  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)|lp-title__brand::before/, sel);
+  for (const sel of nones) assert.match(sel, /lp-room__paint--(night|day)/, sel);
 });
 
 test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his place in the lamp pool', () => {

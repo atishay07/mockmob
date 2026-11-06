@@ -9,6 +9,7 @@ import { readFileSync } from 'node:fs';
 import { DESK_LINES, DESK_NOTE, DESK_STATES, HERO_FEATURES_LABEL, deskAct, deskLine, deskStateAfter, heroBankLine, heroFactLine, heroFeatures, heroPriceHook, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
 import { MOCK_PACES, PACE, paceWords, perMock } from '../../lib/payments/value.mjs';
 import { BRAND_ICONS } from '../../../data/brand_icons.mjs';
+import { STRIP_OBJECTS } from './stripObjects.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -105,7 +106,9 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   assert.deepEqual(all.map((f) => f.href), ['#pricing', '#inside-the-lab', '#score-recovery-lab', '#compass', '#your-prep', '#key-cards']);
   for (const f of all) {
     assert.deepEqual(Object.keys(f).sort(), ['href', 'icon', 'line', 'name'], 'only what the strip draws');
-    assert.ok(f.icon === 'mobi' || BRAND_ICONS[f.icon], `${f.icon} has an icon key (drawn in featureGlyphs.mjs)`);
+    // Round 5 (LK160): its desk object, cut for the strip (stripObjects.mjs) from the brand's own library (Mobi is Mobi).
+    assert.ok(STRIP_OBJECTS[f.icon], `${f.icon} has a strip object`);
+    assert.ok(f.icon === 'mobi' || BRAND_ICONS[f.icon], `${f.icon} is one of the brand's desk objects`);
     assert.ok(f.line.length <= 28, `${f.line}: one line in a 3-across cell`);
     assert.doesNotMatch(`${f.name} ${f.line}`, /·|!|%|\d|guarantee|never repeats|best|#1/i, f.name);
   }

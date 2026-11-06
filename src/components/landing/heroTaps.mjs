@@ -87,13 +87,14 @@ export const HERO_FEATURES_LABEL = 'What MockMob gives you';
 
 /**
  * The features strip (round 4, owner LK124: "highlight the main features ... or remove"; supersedes R3-D3's number strip of
- * 5 / 73 / 2 / 60): the main features, each with its drawn icon (featureGlyphs.mjs) and one plain line, each a link to where it lives on this
- * page. The Compass link falls back to the free DU calculator when the page has no Compass section; Key cards appear only
- * while their section does (KEY_CARDS_ENABLED). Every line says only what its own section says (homeHero.test.mjs HERO_STRINGS).
+ * 5 / 73 / 2 / 60): the main features, each with its desk object (stripObjects.mjs; round 5, LK160) and one plain line, each a link
+ * to where it lives on this page. The Compass link falls back to the free DU calculator when the page has no Compass section; Key
+ * cards appear only while their section does (KEY_CARDS_ENABLED). Every line says only what its own section says (homeHero.test.mjs
+ * HERO_STRINGS). `icon` names the object: the one that stamps the linked section, the answer sheet for mocks, Mobi for Ask Mobi.
  */
 export function heroFeatures({ compass = true, keyCards = false } = {}) {
   return [
-    { href: '#pricing', icon: 'papers', name: 'Unlimited mocks', line: 'On Pro, every one fresh' },
+    { href: '#pricing', icon: 'questions', name: 'Unlimited mocks', line: 'On Pro, every one fresh' },
     { href: '#inside-the-lab', icon: 'mistakes', name: 'Mistake Lab', line: 'Every lost mark, traced' },
     { href: '#score-recovery-lab', icon: 'revise', name: 'Score Recovery', line: 'Fix it once, check it holds' },
     { href: compass ? '#compass' : '#du-eligibility', icon: 'compass', name: 'DU Compass', line: 'Check your DU shortlist' },

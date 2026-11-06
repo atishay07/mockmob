@@ -661,9 +661,17 @@ bubble field there "very weird"): the hero carries the paper's own grain instead
 static noise, light and dark specks that cancel so the ground never lifts into a patch, strongest around the desk and gone
 at the hero's foot, stronger in Night, never volt.
 
-**Hero strip icons** (round 5, 6 Nov 2026): one drawn line set (featureGlyphs.mjs), a 24 px grid shown at 28 px, a 1.75 px
-round stroke in ink 2 and one detail in `--brand-word`; inline beside the name and line, never in a tile. The section brand
-stamps keep their desk objects.
+**Hero strip icons** (round 5, 6 Nov 2026, LK160; a drawn line set tried that morning was "a regression"): the brand's 3D
+desk objects, each the one that already means its feature on this page: the object that stamps the section its link opens
+(Mistake Lab `mistakes`, Score Recovery `revise`, DU Compass `compass`, Key cards `keycards`), the tour's answer sheet and
+pencil (`questions`) for Unlimited mocks, and Mobi's own 3D greeting render for Ask Mobi. Cut from the brand's own art by
+`scripts/brand/build-strip-objects.mjs` (`stripObjects.mjs`; no generation): trimmed, one visual weight, one baseline, a soft
+contact shadow baked under each, 96/144/192 px files in a 12:11 box drawn at 3rem (2.75rem three across, 2.5rem on the large
+roots), the objects standing on the second line's baseline. Never a tile, frame or glow.
+
+**"CUET 2027." in the hero** (round 5, LK159: the round 4 highlighter "is not tasteful at all"): the headline's anchor by type
+and colour alone: the brand word colour, one step larger than the two lines under it (1.3x phones, 1.45x desktop), same
+weight. Never a band, stroke, swoosh, glow, gradient or outline behind or under it.
 
 **Voice.** The two-beat cadence where it is true: "Fix it once. Check it holds.", "Practise. Replay. Repair.", "Fix why you
 missed it."
