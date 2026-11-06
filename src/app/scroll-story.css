@@ -66,7 +66,7 @@
 .ss__beat[data-edge='last'] { height: calc(50svh + 0.5 * var(--ss-gap)); }
 .ss[data-pinned='false'] .ss__beat { display: none; }
 
-/* Touch screens: while the page rests inside a held story (the controller marks its track data-held: first, mid, last),
+/* Touch screens: while the page rests inside a held story (the controller marks its track with a class: held-first, held-mid, held-last),
    the browser may pan the page only the way out of the story: up from the first step, down from the last, not at all
    between (R5, 6 Nov 2026, owner LK161: "I'm scrolling once on the mobile, and it's registering many swipes"). Measured
    on Android Chrome: a swipe that starts while the last fling still runs reaches the page uncancelable, so preventDefault
@@ -75,10 +75,10 @@
    the script's rules alone; a mouse or trackpad (pointer: fine) is never affected. */
 @supports (touch-action: pan-up) {
   @media (pointer: coarse) {
-    .ss__track[data-held] { touch-action: pinch-zoom; }
-    .ss__track[data-held='first'] { touch-action: pan-up pinch-zoom; }
-    .ss__track[data-held='last'] { touch-action: pan-down pinch-zoom; }
-    .ss__track[data-held='both'] { touch-action: pan-y pinch-zoom; }
+    .ss__track.held-mid { touch-action: pinch-zoom; }
+    .ss__track.held-first { touch-action: pan-up pinch-zoom; }
+    .ss__track.held-last { touch-action: pan-down pinch-zoom; }
+    .ss__track.held-both { touch-action: pan-y pinch-zoom; }
   }
 }
 

@@ -283,14 +283,15 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   // fling that stopped 8 px short of a story started the next swipe outside it. Each has its own rule here.
   const code = strip(CONTROLLER);
   const css = read('src/app/scroll-story.css');
-  assert.match(css, /@supports \(touch-action: pan-up\) \{\s*@media \(pointer: coarse\) \{\s*\.ss__track\[data-held\] \{ touch-action: pinch-zoom; \}\s*\.ss__track\[data-held='first'\] \{ touch-action: pan-up pinch-zoom; \}\s*\.ss__track\[data-held='last'\] \{ touch-action: pan-down pinch-zoom; \}/);
+  assert.match(css, /@supports \(touch-action: pan-up\) \{\s*@media \(pointer: coarse\) \{\s*\.ss__track\.held-mid \{ touch-action: pinch-zoom; \}\s*\.ss__track\.held-first \{ touch-action: pan-up pinch-zoom; \}\s*\.ss__track\.held-last \{ touch-action: pan-down pinch-zoom; \}/);
   const held = body(code, 'syncHeld');
   assert.match(held, /s\.step\(\) <= 0 \? 'first' : s\.step\(\) >= s\.steps - 1 \? 'last' : 'mid'/, 'the mark follows the step the story shows');
-  assert.doesNotMatch(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'never written on every frame: each write restyled the page mid-swipe (R5 speed bench)');
+  assert.match(body(code, 'onFrame'), /syncHeld\(lastY\);/, 'kept current as the page moves: a swipe can start mid-motion (two real skips when it was set only at rest)');
   assert.match(body(code, 'settle'), /syncHeld\(target\);/, 'kept current when the page comes to rest');
   assert.match(body(code, 'commit'), /syncHeld\(\);/, 'and on every committed step');
   assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
   assert.match(code, /const ADOPT_PX = 64;/);
+  assert.match(code, /track\.classList\.add\(`held-\$\{edge\}`\)/, 'a class, never a data attribute (an attribute write restyled the whole story)');
   const stop = body(code, 'stopFling');
   assert.match(stop, /html\.style\.overflowY = 'hidden';/);
   assert.match(stop, /requestAnimationFrame\(\(\) => \{ html\.style\.overflowY = before; flingStopped = 0; \}\)/, 'one frame only: the page is never left frozen');

@@ -110,7 +110,10 @@ function touchPans() {
   return pans;
 }
 
-const markHeld = (track, edge) => { if (!track?.dataset) return; if (edge) track.dataset.held = edge; else delete track.dataset.held; };
+// A class, not a data attribute: an attribute write restyled the whole story (40-80 ms at 4x CPU, measured); a class
+// toggle is invalidated precisely (5-12 ms).
+const HELD = ['held-first', 'held-mid', 'held-last', 'held-both'];
+const markHeld = (track, edge) => { if (!track?.classList) return; track.classList.remove(...HELD); if (edge) track.classList.add(`held-${edge}`); };
 const ADOPT_PX = 64;
 function adoptEdge(target) {
   if (!target) return null;
@@ -419,6 +422,8 @@ function onFrame({ y }) {
     if (keepStory && keepStory.step() !== nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY)) keepStory.show(nearestStep(keepStory.top, keepStory.hold, keepStory.steps, keepY));
   }
   lastY = window.scrollY;
+  // Kept current as the page moves (a swipe can start mid-motion): cheap, a class write only when the mark changes.
+  syncHeld(lastY);
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
 }
