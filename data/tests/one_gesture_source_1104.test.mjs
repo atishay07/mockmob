@@ -72,8 +72,11 @@ test('preventDefault is called only for a gesture the controller owns', () => {
   const calls = [...code.matchAll(/preventDefault\(\)/g)].length;
   assert.equal(calls, 4, 'touchmove (waiting + owned), wheel, keys');
   const move = body(code, 'onTouchMove');
+  // A touch that starts outside a held story is native from touchstart (the compositor may scroll before the first touchmove).
+  const start = body(code, 'onTouchStart');
+  assert.match(start, /claim: story \? undefined : 'native'/);
+  assert.doesNotMatch(start, /preventDefault\(/);
   // Under the slop the page waits (a story is held), then a decision; native claims return before any cancel.
-  assert.match(move, /if \(!g\.story\) \{ g\.claim = 'native'; return; \}/);
   assert.match(move, /if \(g\.claim === 'native'\) return;\s*if \(e\.cancelable\) e\.preventDefault\(\);/);
   const wheel = body(code, 'onWheel');
   assert.match(wheel, /if \(!wb\.own\) return;\s*keepY = null;\s*if \(e\.cancelable\) e\.preventDefault\(\);/);

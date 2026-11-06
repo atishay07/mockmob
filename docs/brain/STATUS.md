@@ -1,3 +1,12 @@
+## 6 Nov 2026, about 1:00 pm IST — Round 4 release gate passed; pushed to main
+
+- Runtime unchanged from `06aed8557` (the webpack build of 03:14 am served on 127.0.0.1:3518). The only code change is the source assertion in `data/tests/one_gesture_source_1104.test.mjs`: outside touches are now checked as `native` in `onTouchStart`; the preventDefault and behaviour assertions are unchanged.
+- Landing suites (`src/components/landing/*.test.mjs`, `*_1104`, `*_1105`, `web_landing_health_1020`): 437 pass, 0 fail, 11 skipped, 12 todo. ESLint on every JS file changed since `400d647a8`: clean.
+- 22-swipe bench at 4x CPU: cold over100 0 (max 97 ms, LoAF max 84), warm over100 0 (max 97 ms, LoAF max 89). Gesture matrix at 390: 128/128 (four stories 32/32) plus jump checks, no page errors.
+- Visual: all 72 section captures (390 and 1440, Night and Day) reviewed. The 1440 Key cards shots caught the count-up mid-roll (16,371); a follow-up check shows it settles on the real 16,458 at 1440 and 390, rolling digits aria-hidden.
+- Evidence (local, ignored): `tmp/r4-release-gate/{landing-gate2,eslint-gate2,swipes-gate2,matrix-gate2,sections-gate2,keycards-settle}.log`, `release-shots/`.
+- Not exercised: production sample data, signed-in use, a physical phone, a screen reader.
+
 ## 6 Nov 2026, about 3:16 am IST — Round 4 candidate paused locally
 
 - All six web packets are integrated on `web/r4-release` with runtime tip `06aed8557`. Round 3 is live at main `400d647a8`, Vercel `dpl_F74Lgyeyodb5YPh2kiK5HTxfiAmT` READY.
