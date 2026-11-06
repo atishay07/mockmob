@@ -16,7 +16,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   COMMIT_PX, FLICK_PX, FLICK_V, LEAN_MAX, LOCK_MS, LOCK_REDUCED_MS, SLOP, WHEEL_MIN_PX, WHEEL_QUIET_MS,
-  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPx,
+  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPushes, wheelPx,
 } from './storyGesture.mjs';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
 import { benchAvailable, openBench, runJump, runMatrix, runPerf, runWheel } from './oneGestureBench.mjs';
@@ -77,6 +77,16 @@ test('a wheel burst is notches or a trackpad tail: one burst after 160 ms of qui
   assert.equal(keyDirection(' '), 1);
   assert.equal(keyDirection('ArrowUp'), -1);
   assert.equal(keyDirection('a'), 0);
+});
+
+test('a wheel still turning after its step is a new push; a trackpad tail is not (R5, 6 Nov 2026)', () => {
+  assert.equal(wheelPushes(100, 100), true, 'a mouse notch repeating its size');
+  assert.equal(wheelPushes(120, 120), true, 'line-mode notches (3 lines x 40 px)');
+  assert.equal(wheelPushes(30, 30), false, 'small equal deltas are a finger on a trackpad, not a notch');
+  assert.equal(wheelPushes(20, 40), true, 'a second swipe rising out of the first');
+  assert.equal(wheelPushes(10, 14), false, 'small wobble is not a push');
+  for (let px = 60, prev = 70; px > 2; prev = px, px = Math.floor(px * 0.88)) assert.equal(wheelPushes(prev, px), false, `momentum ${prev} -> ${px}`);
+  assert.equal(wheelPushes(0, 100), false, 'nothing before it: the burst is fresh, not re-armed');
 });
 
 test('resting places: the first at the start of the hold, the last at its end, the rest evenly between', () => {

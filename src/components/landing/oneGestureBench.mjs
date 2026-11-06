@@ -319,6 +319,24 @@ export async function runWheel(bench, name, { log = () => {} } = {}) {
   await check('key-pagedown', 1, () => bench.key('PageDown'), 1);
   await check('key-space', 1, () => bench.key('Space'), 1);
   await check('key-arrowup', 2, () => bench.key('ArrowUp'), -1);
+  // R5 (6 Nov 2026): a mouse spun without a pause from above the story (one burst: notches 60 ms apart). It used to stop
+  // at the door and shake 100 px for as long as the wheel turned. Now it lands on the first rest without overshooting,
+  // holds it through the lock, steps on while the wheel turns, and the page never moves back up while spinning down.
+  const spin = await steady(bench, log, 'wheel-spin-in-from-above', async () => {
+    let s = await refresh();
+    await bench.jump(s.top - 260);
+    await bench.settle(400);
+    await bench.page.mouse.move(Math.round(bench.width / 2), Math.round(bench.height / 2));
+    const trace = await record(bench, 600, () => bench.wheel(24, { gapMs: 60 }));
+    await bench.settle();
+    s = await refresh();
+    let back = 0;
+    for (let i = 1; i < trace.length; i += 1) back = Math.max(back, trace[i - 1].y - trace[i].y);
+    const step = await bench.step(name);
+    return { id: 'wheel-spin-in-from-above', start: -1, step, back, ok: step >= 1 && back <= 2 };
+  });
+  rows.push(spin);
+  log(`${spin.ok ? 'ok  ' : 'FAIL'} ${name} wheel-spin-in-from-above step ${spin.step} moved back ${spin.back} px`);
   return rows;
 }
 

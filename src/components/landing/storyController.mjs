@@ -22,7 +22,7 @@ import * as bus from './scrollBus.mjs';
 import { drawnAncestor, undrawn } from './undrawn.js';
 import {
   SETTLE_QUIET_MS, SLOP, WHEEL_MIN_PX, WHEEL_QUIET_MS,
-  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPx,
+  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPushes, wheelPx,
 } from './storyGesture.mjs';
 
 const stories = new Set();   // every mounted story handle
@@ -227,6 +227,7 @@ function onWheel(e) {
   bus.clearJump();
   const t = e.timeStamp > 0 ? e.timeStamp : now();
   const dir = e.deltaY > 0 ? 1 : -1;
+  const px = wheelPx(e.deltaY, e.deltaMode);
   const next = wheelBurst(wb, { t, dir });
   if (next.fresh) {
     const s = holding();
@@ -237,15 +238,38 @@ function onWheel(e) {
   } else {
     next.story = wb.story;
     next.own = wb.own;
+    // A wheel still turning after its step (a mouse spun on and on), or a second push inside the burst: once the lock is
+    // over it steps again, or, from the story's last rest, leaves it. Without this a mouse spun without a pause stood
+    // still in a story until the hand stopped (6 Nov 2026, R5). A trackpad's falling momentum never re-arms.
+    if (next.own && next.fired && next.story && now() >= busyUntil && wheelPushes(wb.px, px)) {
+      if (canStep(next.story, dir) && !scrollsInside(e.target, dir, next.story.stage)) { next.fired = false; next.sum = 0; }
+      else next.own = false;
+    }
   }
+  next.px = px;
   wb = next;
   // A burst that is not the story's (it began outside a hold, or leaves it) leaves a clamp standing: the tail of a
   // wheel fling that arrives from outside is stopped at the first rest like any other fling. A burst the story owns
   // takes the page back.
-  if (!wb.own) return;
+  if (!wb.own) {
+    // The notch that would carry the page across a story's edge lands on the edge instead of overshooting it and being
+    // put back a frame later (a 47-100 px kick at every story's door, R5). A notch can scroll more than its deltaY says
+    // (Chrome at device scale 2 reports 50 for a 100 px notch), so look ahead twice the delta, at least 120 px: landing
+    // on the edge a little early is invisible, overshooting it is not.
+    const s = keepY === null && !bus.jumping() ? edgeAhead(window.scrollY, dir, Math.max(2 * px, 120)) : null;
+    if (s) {
+      if (e.cancelable) e.preventDefault();
+      keepStory = s;
+      keepDir = dir;
+      keepY = restOf(s, dir > 0 ? 0 : s.steps - 1);
+      put(keepY);
+      catchWheel(s);
+    }
+    return;
+  }
   keepY = null;
   if (e.cancelable) e.preventDefault();
-  wb.sum += wheelPx(e.deltaY, e.deltaMode);
+  wb.sum += px;
   if (!wb.fired && now() >= busyUntil && wb.sum >= WHEEL_MIN_PX) {
     wb.fired = true;
     commit(wb.story, wb.story.step() + wb.dir, { source: 'wheel' });
@@ -286,7 +310,28 @@ const dragging = () => touches === 1 && g !== null && g.claim === 'native';
 // page's own choice of place, so it is never pulled back to a story's edge; if it ends inside a hold, settle() takes it
 // to the nearest rest.
 const FLING_MS = 3000;
-const flinging = () => now() - lastRelease < FLING_MS || (wb !== null && now() - wb.last < WHEEL_QUIET_MS * 2);
+const wheelRunning = () => wb !== null && now() - wb.last < WHEEL_QUIET_MS * 2;
+const flinging = () => now() - lastRelease < FLING_MS || wheelRunning();
+
+// A wheel burst that began outside a story and has carried the page to its edge: the story takes the rest of the burst,
+// so the wheel's next notches no longer scroll the page in only to be put back on the edge. Before this a mouse spun down
+// the page shook 100 px at the Mistake Lab's door and could not get in while the wheel turned (6 Nov 2026, R5 feedback).
+// The arrival counts as a step for the lock; a wheel still turning after it steps on (wheelPushes, in onWheel).
+function catchWheel(s) {
+  wb = { ...wb, story: s, own: true, fired: true };
+  busyUntil = now() + lockMs(s.reduced());
+}
+
+/** The near story whose edge a wheel move of px from y (direction dir) would cross into, if any. */
+function edgeAhead(y, dir, px) {
+  for (const s of nearSet) {
+    if (!s.ok || s.steps < 2) continue;
+    const end = s.top + s.hold;
+    if (dir > 0 && y < s.top - 1 && y + px >= s.top) return s;
+    if (dir < 0 && y > end + 1 && y - px <= end) return s;
+  }
+  return null;
+}
 
 function onFrame({ y }) {
   const drag = dragging();
@@ -296,6 +341,9 @@ function onFrame({ y }) {
       const end = s.top + s.hold;
       if (lastY < s.top - 1 && y >= s.top) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
       else if (lastY > end + 1 && y <= end) { keepStory = s; keepY = restOf(s, s.steps - 1); keepDir = -1; }
+      else continue;
+      if (!drag && wheelRunning()) catchWheel(s);
+      break;
     }
   }
   if (keepY !== null && drag && (keepDir > 0 ? y < keepY - 1 : y > keepY + 1)) { keepY = null; keepStory = null; }

@@ -16,6 +16,8 @@ export const LOCK_MS = 420;       // a gesture that starts inside this long afte
 export const LOCK_REDUCED_MS = 120;
 export const WHEEL_QUIET_MS = 160;// a wheel burst ends after this much quiet (or a change of direction)
 export const WHEEL_MIN_PX = 12;   // travel in a burst before its one step fires
+export const WHEEL_NOTCH_PX = 40; // an event this big that repeats its size is a mouse wheel's notch, not a trackpad's tail
+export const WHEEL_PUSH_PX = 24;  // an event this big and half again the one before it is a new push
 export const SETTLE_QUIET_MS = 150;
 export const HOLD_SLACK = 2;      // px around a hold that still count as inside it
 
@@ -78,6 +80,17 @@ export function claimTouch({ inStory, dx, dy, locked, canStep, scrollsInside }) 
 export function wheelBurst(burst, { t, dir }) {
   if (!burst || t - burst.last > WHEEL_QUIET_MS || dir !== burst.dir) return { dir, last: t, sum: 0, fired: false, fresh: true };
   return { ...burst, last: t, fresh: false };
+}
+
+/**
+ * Inside a burst that has already stepped, once the step lock is over: is this event (px, the one before prevPx) a new
+ * push rather than the fading momentum of the push that stepped? A mouse wheel still turning repeats its notch; a second
+ * swipe on a trackpad rises. A trackpad's own momentum only falls, so it stays one gesture, one step (LK69).
+ */
+export function wheelPushes(prevPx, px) {
+  if (!(prevPx > 0) || !(px > 0)) return false;
+  if (px >= WHEEL_NOTCH_PX && Math.abs(px - prevPx) <= 1) return true;
+  return px >= WHEEL_PUSH_PX && px > prevPx * 1.5;
 }
 
 /** A step key: arrows, PageUp/Down, Space. +1, -1 or 0. */

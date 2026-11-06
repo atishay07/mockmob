@@ -70,7 +70,7 @@ test('attach() runs only while a story is within one screen of the viewport', ()
 test('preventDefault is called only for a gesture the controller owns', () => {
   const code = strip(CONTROLLER);
   const calls = [...code.matchAll(/preventDefault\(\)/g)].length;
-  assert.equal(calls, 4, 'touchmove (waiting + owned), wheel, keys');
+  assert.equal(calls, 5, 'touchmove (waiting + owned), wheel (owned + the notch that lands on a story edge), keys');
   const move = body(code, 'onTouchMove');
   // A touch that starts outside a held story is native from touchstart (the compositor may scroll before the first touchmove).
   const start = body(code, 'onTouchStart');
@@ -79,8 +79,12 @@ test('preventDefault is called only for a gesture the controller owns', () => {
   // Under the slop the page waits (a story is held), then a decision; native claims return before any cancel.
   assert.match(move, /if \(g\.claim === 'native'\) return;\s*if \(e\.cancelable\) e\.preventDefault\(\);/);
   const wheel = body(code, 'onWheel');
-  assert.match(wheel, /if \(!wb\.own\) return;\s*keepY = null;\s*if \(e\.cancelable\) e\.preventDefault\(\);/);
+  // A burst the story does not own returns before the owned cancel (its only cancel is the edge landing, below).
+  assert.match(wheel, /if \(!wb\.own\) \{[\s\S]*?\s+return;\s+\}\s+keepY = null;\s*if \(e\.cancelable\) e\.preventDefault\(\);/);
   assert.match(wheel, /e\.ctrlKey/, 'pinch zoom is never cancelled');
+  // R5 (6 Nov 2026): a burst from outside is cancelled only on the notch that would cross a story's edge, and that
+  // notch is then the story's (catchWheel), so a spun mouse wheel neither overshoots nor shakes at the door.
+  assert.match(wheel, /const s = keepY === null && !bus\.jumping\(\) \? edgeAhead\(window\.scrollY, dir, Math\.max\(2 \* px, 120\)\) : null;\s*if \(s\) \{\s*if \(e\.cancelable\) e\.preventDefault\(\);[\s\S]*?catchWheel\(s\);/);
   const keys = body(code, 'onKeyDown');
   assert.match(keys, /const s = holding\(\);\s*if \(!s \|\| \(now\(\) >= busyUntil && !canStep\(s, dir\)\)\) return;[\s\S]*e\.preventDefault\(\);/);
   assert.match(keys, /\(e\.key === ' ' \|\| e\.key === 'Spacebar'\) && target\?\.closest\(PRESSABLE\)\) return;/, 'Space on a focused button is the button\'s');
@@ -200,7 +204,8 @@ test('the edge clamp holds only a fling: a scrollbar drag, End or a script jump 
   // step (1,499 px at 390, the Lab's at 1440). The clamp now needs a touch released within 3 s or a running wheel burst.
   const code = strip(CONTROLLER);
   assert.match(code, /const FLING_MS = 3000;/);
-  assert.match(code, /const flinging = \(\) => now\(\) - lastRelease < FLING_MS \|\| \(wb !== null && now\(\) - wb\.last < WHEEL_QUIET_MS \* 2\);/);
+  assert.match(code, /const wheelRunning = \(\) => wb !== null && now\(\) - wb\.last < WHEEL_QUIET_MS \* 2;/);
+  assert.match(code, /const flinging = \(\) => now\(\) - lastRelease < FLING_MS \|\| wheelRunning\(\);/);
   // (5 Nov 2026, LK90: a finger dragging the page natively into another story's hold is held too; see the next test.)
   assert.match(body(code, 'onFrame'), /if \(keepY === null && !bus\.jumping\(\) && \(drag \|\| \(touches === 0 && flinging\(\)\)\)\) \{/);
   assert.match(code, /const dragging = \(\) => touches === 1 && g !== null && g\.claim === 'native';/, 'a drag is a finger scrolling natively, never a script or the scrollbar');
