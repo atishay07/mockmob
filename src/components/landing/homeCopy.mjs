@@ -118,8 +118,8 @@ export const PLAN_HOME = Object.freeze({
  * subjects that hold questions; `rest` follows the number, and `fallback` is the whole line while the count cannot load. Every
  * Pro item is proPlan()'s, so the card and the lists say the same thing.
  */
-export function planGroups({ newOffer = false } = {}) {
-  const pro = proPlan({ newOffer });
+export function planGroups({ newOffer = false, keyCards = false } = {}) {
+  const pro = proPlan({ newOffer, keyCards });
   const bank = { count: 'bank', rest: 'questions in one live bank, every mock built fresh', fallback: 'One live question bank, every mock built fresh' };
   const subjects = { count: 'subjects', rest: 'CUET subjects with full mocks', fallback: SUBJECT_CLAIM.short };
   const lines = (...items) => items.map((item) => (typeof item === 'string' ? { text: item } : item));
@@ -132,7 +132,8 @@ export function planGroups({ newOffer = false } = {}) {
   }
   return [
     { label: 'Practise', lines: lines(bank, subjects, pro[0], pro[2]) },
-    { label: 'Review', lines: lines(pro[3], pro[4]) },
+    { label: 'Fix', lines: lines(pro[3], pro[5]) },
+    { label: 'Revise', lines: lines(...(keyCards ? [pro[6]] : []), pro[4]) },
     { label: 'Plan', lines: lines(pro[1]) },
   ];
 }
@@ -165,13 +166,13 @@ export const VALUE_COPY = Object.freeze({
     mocks: Object.freeze({ icon: 'questions', name: 'Mock test series' }),
     revision: Object.freeze({ icon: 'keycards', name: 'Revision cards or books' }),
   }),
-  each: (line) => `${line.perSubject} a subject, typical`,
+  // Owner, 7 Nov 2026: the card had lost how many mocks you get. A series is a fixed set of papers (10 to 30 a subject is
+  // typical, owner's USP note 16 Oct); Pro's line says unlimited.
+  each: (line) => (line.key === 'mocks' ? `${line.perSubject} a subject for 10 to 30 papers, typical` : `${line.perSubject} a subject, typical`),
   usualTotal: (u) => `${u.total} for ${VALUE_COPY.subjects(u.subjects)}`,
   proName: 'MockMob Pro',
   proPrice: (u) => (u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} once`),
   proLine: ({ keyCards = false } = {}) => `Every subject, unlimited mocks, Mistake Lab, ${keyCards ? 'Key cards and ' : ''}Ask Mobi.`,
-  /** The punch line under the bars. */
-  punch: (u) => Object.freeze({ usual: `${u.total} the usual way.`, pro: u.kind === 'monthly' ? `${u.pro} a month here.` : `${u.pro} once here.` }),
   barUsual: 'The usual way',
   barPro: 'MockMob Pro',
   footnote: () => `Typical prices: ${rupees(USUAL_PRICES.mockSeriesPaise)} a subject for a CUET mock series (${rupees(USUAL_PRICES.mockSeriesPaise)}-${rupees(USUAL_PRICES.mockSeriesHighPaise).slice(1)} is common) and ${rupees(USUAL_PRICES.revisionPaise)} a subject for revision cards or a revision book. Yours may differ.`,
@@ -204,10 +205,25 @@ export function freePlan({ newOffer = false, firstFullMockItem = null } = {}) {
   if (newOffer) return ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'];
   return ['Quick practice and Full mock on credits', ...(firstFullMockItem ? [firstFullMockItem] : []), 'Weekly progress tracking', '25 saved questions', 'Your standing'];
 }
-/** What Pro adds on top of Free. */
-export function proPlan({ newOffer = false } = {}) {
+/** Pro's monthly credits (src/services/credits/aiCreditWallet.js AI_PRO_INCLUDED_MONTHLY_CREDITS; a test holds them equal). */
+export const PRO_MOBI_CREDITS = 50;
+
+/**
+ * Everything in Pro. Owner, 7 Nov 2026: the card read as a mock platform; it now names what fixes and revises too (Mistake Lab,
+ * Mistake Repair and Ask Mobi, Key cards), each in its true Pro terms. Items 0-4 keep their places (planGroups reads them by index);
+ * 5 and 6 are new, 6 only while Key cards are live.
+ */
+export function proPlan({ newOffer = false, keyCards = false } = {}) {
   if (newOffer) return ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'];
-  return ['Unlimited Quick practice and Full mock', 'Compass Pro: your practice mapped to your DU shortlist', 'Smart practice and NTA mode', 'Full chapter review: every ranked chapter, pace and changed answers', 'Unlimited saved questions'];
+  return [
+    'Unlimited Quick practice and Full mock',
+    'Compass Pro: your practice mapped to your DU shortlist',
+    'Smart practice and NTA mode',
+    'Mistake Lab after every mock: every chapter, your pace and changed answers',
+    'Unlimited saved questions',
+    `Mistake Repair and Ask Mobi: ${PRO_MOBI_CREDITS} credits a month, all for Mobi`,
+    ...(keyCards ? ['Every Key card, with no daily review cap'] : []),
+  ];
 }
 
 // ------------------------------------------------------------------ the feature tour (one idea per slide)

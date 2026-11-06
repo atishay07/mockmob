@@ -41,7 +41,7 @@ export function planTerms(offer) {
  * false a dash (not included), and text says the rest. With the new offer released, its recovery rows (data/capabilities.js
  * RECOVERY_PACKAGING_ROWS) are passed in and used instead.
  */
-export function compareRows({ newOffer = false, firstFullMockOn = false, recoveryRows = [] } = {}) {
+export function compareRows({ newOffer = false, firstFullMockOn = false, recoveryRows = [], keyCards = false } = {}) {
   if (newOffer) return recoveryRows;
   return [
     ['A new paper every time', true, true],
@@ -50,6 +50,9 @@ export function compareRows({ newOffer = false, firstFullMockOn = false, recover
     ['Smart practice', false, true],
     ['Exam-day screen', false, true],
     ['Easy, Medium, Hard', false, true],
-    ['Insights in detail', 'Top three chapters', true],
+    ['Mistake Lab after every mock', 'Top three chapters', 'Every chapter'],
+    // Owner, 7 Nov 2026: the table showed only practice. One credits balance, 50 a month on both plans; Pro needs none for practice.
+    ['Mistake Repair and Ask Mobi', '50 credits a month, shared with practice', '50 credits a month, all for Mobi'],
+    ...(keyCards ? [['Key cards', 'A taste of each chapter', 'Every card']] : []),
   ];
 }

@@ -195,7 +195,9 @@ test('second take: the hero\'s "as low as" hook and the value card\'s top pace s
     const hook = heroPriceHook(offer, { from });
     const v = planValue(offer, { from, pace: PACE.max });
     if (!hook || !v) { assert.equal(hook, null); assert.equal(v, null); continue; }
-    assert.equal(v.perMock.about, hook.figure, `${offer.purchasable} ${from.toISOString().slice(0, 10)}`);
+    // Owner, 7 Nov 2026: from a rupee up the hook says the nearest whole rupee ("About ₹1"); under it, the card's own figure.
+    const want = hook.lead === 'About' ? `₹${Math.round(Number(v.perMock.about.slice(1)))}` : v.perMock.about;
+    assert.equal(hook.figure, want, `${offer.purchasable} ${from.toISOString().slice(0, 10)}`);
     assert.equal(hook.at, `at ${paceWords(PACE.max).long}`);
   }
 });
@@ -255,15 +257,15 @@ test('final pass: what students usually pay, against Pro\'s own price a month, f
   // The words: Pro is always "a month" (never multiplied), the usual prices always "typical".
   assert.equal(VALUE_COPY.title, 'What students usually pay, and what you pay');
   assert.equal(VALUE_COPY.ask, 'How many CUET subjects are you taking?');
-  assert.deepEqual(u.lines.map((l) => [VALUE_COPY.lines[l.key].name, VALUE_COPY.each(l)]), [['Mock test series', '₹500 a subject, typical'], ['Revision cards or books', '₹250 a subject, typical']]);
+  assert.deepEqual(u.lines.map((l) => [VALUE_COPY.lines[l.key].name, VALUE_COPY.each(l)]), [['Mock test series', '₹500 a subject for 10 to 30 papers, typical'], ['Revision cards or books', '₹250 a subject, typical']]);
   assert.equal(VALUE_COPY.proPrice(u), '₹99 a month');
   assert.equal(VALUE_COPY.proPrice(usualWay(oneTime(), 4)), '₹99 once');
   assert.equal(VALUE_COPY.proLine({ keyCards: true }), 'Every subject, unlimited mocks, Mistake Lab, Key cards and Ask Mobi.');
   assert.equal(VALUE_COPY.proLine(), 'Every subject, unlimited mocks, Mistake Lab, Ask Mobi.');
-  assert.deepEqual({ ...VALUE_COPY.punch(u) }, { usual: '₹3,000 the usual way.', pro: '₹99 a month here.' });
+  assert.equal(VALUE_COPY.punch, undefined, 'owner, 7 Nov 2026: the totals are said once, not again under the bars');
   assert.equal(VALUE_COPY.footnote(), 'Typical prices: ₹500 a subject for a CUET mock series (₹500-1,000 is common) and ₹250 a subject for revision cards or a revision book. Yours may differ.');
   assert.equal(VALUE_COPY.live(u), '4 subjects: ₹3,000 the usual way, ₹99 a month on MockMob Pro.');
-  for (const text of [VALUE_COPY.title, VALUE_COPY.ask, VALUE_COPY.footnote(), VALUE_COPY.live(u), VALUE_COPY.punch(u).usual, VALUE_COPY.punch(u).pro]) {
+  for (const text of [VALUE_COPY.title, VALUE_COPY.ask, VALUE_COPY.footnote(), VALUE_COPY.live(u)]) {
     assert.doesNotMatch(text, /\d+ months|×|x \d|cheapest|[·•!]/, text);
   }
   for (const key of ['mocks', 'revision']) assert.ok(BRAND_ICONS[VALUE_COPY.lines[key].icon], key);
@@ -279,7 +281,7 @@ test('a monthly price and a one-time price never share one sentence', () => {
   const plans = [...OFFER_DAYS.flatMap(([offer, from]) => [5, 7, 14, 21].map((pace) => planValue(offer, { from, pace, cards: 24, keyCards: BANK, minutesPerCard: MIN, credits: { packPaise: 4900, packCredits: 300, mockCredits: 50, freeCredits: 50 } })))].filter(Boolean);
   const lines = [
     pricingHead(monthly()).sub, pricingHead(oneTime()).sub,
-    ...[1, 2, 3, 4, 5].flatMap((count) => [monthly(), oneTime()].map((o) => usualWay(o, count))).flatMap((u) => [VALUE_COPY.live(u), VALUE_COPY.proPrice(u), VALUE_COPY.punch(u).usual, VALUE_COPY.punch(u).pro, VALUE_COPY.usualTotal(u)]),
+    ...[1, 2, 3, 4, 5].flatMap((count) => [monthly(), oneTime()].map((o) => usualWay(o, count))).flatMap((u) => [VALUE_COPY.live(u), VALUE_COPY.proPrice(u), VALUE_COPY.usualTotal(u)]),
     ...Object.values(planTerms(monthly())), ...Object.values(planTerms(oneTime())),
   ].filter(Boolean);
   for (const line of lines) for (const sentence of sentences(line)) {
@@ -367,7 +369,7 @@ test('R3-D7: the numbers band is gone; its true counts are lines of the plan car
   assert.ok(!existsSync(new URL('../../src/components/landing/LiveStatsBand.jsx', import.meta.url)), 'the band component left with the band');
   assert.doesNotMatch(read('src/app/landing.css'), /\.lp-sec--tight|\.lp \.mm-figures/);
   const groups = planGroups();
-  assert.deepEqual(groups.map((g) => g.label), ['Practise', 'Review', 'Plan'], 'sentence-case group names, no caps');
+  assert.deepEqual(groups.map((g) => g.label), ['Practise', 'Fix', 'Revise', 'Plan'], 'sentence-case group names, no caps (owner, 7 Nov 2026: Fix and Revise)');
   const counted = groups.flatMap((g) => g.lines).filter((line) => line.count).map((line) => line.count);
   assert.deepEqual(counted, ['bank', 'subjects'], 'the bank size and the subjects, from /api/stats');
   assert.deepEqual(groups.flatMap((g) => g.lines).filter((line) => line.text).map((line) => line.text).sort(), [...proPlan()].sort(), 'every Pro item, once');
@@ -411,7 +413,7 @@ test('R3-D8, R4: #pricing and /pricing draw one plan, through shared pieces, as 
   assert.match(pricing, /import \{ PLAN_COPY, choiceLine, compareRows, planTerms \} from '@\/components\/pricing\/planOffer\.mjs';/);
   assert.match(pricing, /<PlanStage word=\{PRO_COPY\.words\.free\} id="plan-free" className="pro-choice__free plan-stage--quiet">\s*<PricingCard \{\.\.\.FREE_PLAN\} \/>/);
   assert.match(pricing, /<PlanStage word=\{PRO_COPY\.words\.pro\} id="plans" className="pro-plan">/);
-  assert.match(pricing, /<PlanCounts groups=\{planGroups\(\{ newOffer: newOfferReleased\(\) \}\)\} \/>\s*<div className="pro-plan__go">\s*<RazorpayPaymentButton/);
+  assert.match(pricing, /<PlanCounts groups=\{planGroups\(\{ newOffer: newOfferReleased\(\), keyCards: process\.env\.KEY_CARDS_ENABLED === 'true' \}\)\} \/>\s*<div className="pro-plan__go">\s*<RazorpayPaymentButton/);
   assert.match(pricing, /choice: 'Free or Pro',/);
   assert.equal((pricing.match(/<RazorpayPaymentButton/g) || []).length, 1, 'one checkout');
   assert.doesNotMatch(pricing, /Or start free\.|mm-plans__note/, 'the old Free section folded into the choice');
@@ -532,7 +534,7 @@ test('the new pricing words follow the copy rules: no middle dots, no "!", no hy
   const plans = OFFER_DAYS.flatMap(([offer, from]) => [5, 7, 13, 21].map((pace) => planValue(offer, { from, pace, cards: 42, keyCards: BANK, minutesPerCard: MIN }))).filter(Boolean);
   const words = [
     ...Object.values(PLAN_HOME), VALUE_COPY.ask,
-    ...[1, 2, 3, 4, 5].flatMap((count) => [monthly(), oneTime()].map((o) => usualWay(o, count))).flatMap((u) => [VALUE_COPY.live(u), VALUE_COPY.proPrice(u), VALUE_COPY.punch(u).usual, VALUE_COPY.punch(u).pro, VALUE_COPY.usualTotal(u)]),
+    ...[1, 2, 3, 4, 5].flatMap((count) => [monthly(), oneTime()].map((o) => usualWay(o, count))).flatMap((u) => [VALUE_COPY.live(u), VALUE_COPY.proPrice(u), VALUE_COPY.usualTotal(u)]),
     VALUE_COPY.footnote(), VALUE_COPY.title, VALUE_COPY.proLine({ keyCards: true }),
     ...MOCK_PACES.flatMap((pace) => [paceWords(pace).short, paceWords(pace).long]),
     ...CARD_PACES.flatMap((cards) => [cardWords(cards).short, cardWords(cards).long]),

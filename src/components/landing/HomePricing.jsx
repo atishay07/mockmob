@@ -39,7 +39,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
       <div className={`lp-price__grid${value ? '' : ' lp-price__grid--one'}`}>
         <PlanStage word={PLAN_HOME.backdrop} className="lp-price__stage">
           <PlanCard offer={offer} titleAs="h3" titleId="lp-plan-title" className="lp-plan plan-glass" head={<ProSealStrip label={PLAN_COPY.label} />}>
-            <PlanCounts groups={planGroups({ newOffer })} />
+            <PlanCounts groups={planGroups({ newOffer, keyCards: Boolean(bank) })} />
             <div className="lp-plan__go">
               <Link href="/pricing#plans" className="mm-btn mm-btn--primary">{PLAN_COPY.key}</Link>
               <Link href="/pricing" className="lp-plan__more">{PLAN_HOME.pricingLink}</Link>

@@ -119,5 +119,8 @@ export function heroPriceHook(offer, { from } = {}) {
   const m = perMock(offer, pace, { from });
   if (!m) return null;
   const line = m.kind === 'monthly' ? `${m.price} a month.` : `${m.price} once, to ${m.until}.`;
-  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', at: `at ${paceWords(pace).long}`, line, pace, href: '#pricing' };
+  // Owner, 7 Nov 2026: "why not just make it ₹1 ... doesn't matter, that 10 paisa". From a rupee up the figure is the nearest
+  // whole rupee and says "About" (₹99 over 90 mocks is ₹1.10: "About ₹1"); under a rupee it stays the exact-ish paise figure.
+  const whole = m.exactPaise >= 100 ? Math.round(m.exactPaise / 100) : null;
+  return { lead: whole ? 'About' : 'As low as', figure: whole ? `₹${whole}` : m.about, unit: 'a mock on Pro', at: `at ${paceWords(pace).long}`, line, pace, href: '#pricing' };
 }

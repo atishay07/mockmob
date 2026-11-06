@@ -10,7 +10,7 @@ import { VALUE_COPY } from './homeCopy.mjs';
 // only versus what they are paying otherwise"). One control, the student's own CUET subject count (1 to 5, large steps, native
 // buttons with aria-pressed, 44 px). The usual way for that many subjects (typical per-subject prices, receipt.mjs USUAL_PRICES),
 // its total rolling to its new value (280 ms ease-out; at once under reduced motion), then MockMob Pro's price and what it
-// covers, then two bars drawn to scale (the usual total full width, Pro's price its true share) and the punch line. Every figure
+// covers, then two bars drawn to scale (the usual total full width, Pro's price its true share). Every figure
 // comes from receipt.mjs usualWay (pure, tested); nothing here works out money. A month of Pro is never multiplied.
 
 const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
@@ -51,7 +51,6 @@ export function PlanValue({ offer, keyCards = false }) {
   const u = usualWay(offer, subjects);
   const total = useRoll(u ? u.totalPaise / 100 : 0);
   if (!u) return null;
-  const punch = VALUE_COPY.punch(u);
   const pick = (count) => { setSubjects(count); const next = usualWay(offer, count); if (next) setSaid(VALUE_COPY.live(next)); };
 
   return (
@@ -91,7 +90,6 @@ export function PlanValue({ offer, keyCards = false }) {
         <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
         <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
       </div>
-      <p className="lp-usual__punch"><span>{punch.usual}</span> <b>{punch.pro}</b></p>
       <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
       <p className="lp-sr" aria-live="polite">{said}</p>
     </div>

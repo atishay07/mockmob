@@ -43,7 +43,7 @@ test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited
     assert.equal(rows['Full mocks'][1], 'Unlimited');
     assert.deepEqual(rows['Quick practice'], ['1 credit a question', 'Unlimited']);
   }
-  assert.match(read('../../app/pricing/page.js'), /const COMPARE_ROWS = compareRows\(\{ newOffer: newOfferReleased\(\), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS \}\);/);
+  assert.match(read('../../app/pricing/page.js'), /const COMPARE_ROWS = compareRows\(\{ newOffer: newOfferReleased\(\), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS, keyCards: process\.env\.KEY_CARDS_ENABLED === 'true' \}\);/);
 });
 
 test('"from the official key, or not at all" stays true: a disagreement gives no repair and no charge', () => {
@@ -151,4 +151,24 @@ test('the exam head is 20 words or fewer and names the rehearsal in its h2 witho
   assert.match(EXAM_HEAD.h2, /rehearse exam day/i);
   assert.ok(wordCount(EXAM_HEAD.sub) <= COPY_BUDGET.sub);
   assert.equal(EXAM.questions.length, 5);
+});
+
+test('owner 7 Nov 2026: the Pro card and the table name what fixes and revises, in true Pro terms', async () => {
+  const { planGroups, PRO_MOBI_CREDITS, VALUE_COPY } = await import('./homeCopy.mjs');
+  const { compareRows } = await import('../pricing/planOffer.mjs');
+  const wallet = readFileSync(new URL('../../services/credits/aiCreditWallet.js', import.meta.url), 'utf8');
+  assert.match(wallet, new RegExp(`AI_PRO_INCLUDED_MONTHLY_CREDITS = ${PRO_MOBI_CREDITS};`), 'the card says the credits Pro really gets');
+  const text = (groups) => groups.flatMap((g) => g.lines.map((l) => l.text ?? l.fallback));
+  const withCards = planGroups({ keyCards: true });
+  assert.deepEqual(withCards.map((g) => g.label), ['Practise', 'Fix', 'Revise', 'Plan']);
+  assert.ok(text(withCards).some((t) => /^Mistake Lab after every mock/.test(t)));
+  assert.ok(text(withCards).includes('Mistake Repair and Ask Mobi: 50 credits a month, all for Mobi'));
+  assert.ok(text(withCards).includes('Every Key card, with no daily review cap'));
+  assert.ok(!text(planGroups({})).some((t) => /Key card/.test(t)), 'no Key cards line while they are off');
+  const rows = Object.fromEntries(compareRows({ keyCards: true }).map(([name, free, pro]) => [name, [free, pro]]));
+  assert.deepEqual(rows['Mistake Repair and Ask Mobi'], ['50 credits a month, shared with practice', '50 credits a month, all for Mobi']);
+  assert.deepEqual(rows['Key cards'], ['A taste of each chapter', 'Every card']);
+  assert.ok(!compareRows({}).some(([name]) => name === 'Key cards'));
+  assert.equal(VALUE_COPY.each({ key: 'mocks', perSubject: '₹500' }), '₹500 a subject for 10 to 30 papers, typical');
+  assert.equal(VALUE_COPY.punch, undefined, 'the totals are said once (owner: no repeated numbers)');
 });

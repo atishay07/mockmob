@@ -132,7 +132,7 @@ test('round 4 (owner LK124): the price hook is worked out from the live offer at
   const top = Math.max(...MOCK_PACES);
   const hook = heroPriceHook(monthly, { from });
   assert.equal(hook.pace, top, 'the slider\'s top value');
-  assert.equal(hook.figure, perMock(monthly, top, { from }).about, 'perMock, rounded UP to the next 10 paise');
+  assert.equal(hook.figure, '₹1', 'owner 7 Nov: the nearest whole rupee from a rupee up (₹1.10 reads About ₹1)');
   // Round 4 review (6 Nov): the best case never stands without its condition. The pace follows the unit in the same line
   // ("As low as ₹X a mock on Pro at 3 full mocks a day"), then the price that makes it, so it can be checked. Round 5 (owner,
   // 6 Nov: "21 also makes sense (3 a day)"): the pace is said in the slider's own words, the same words its top end shows.
@@ -140,10 +140,10 @@ test('round 4 (owner LK124): the price hook is worked out from the live offer at
   assert.equal(hook.at, `at ${paceWords(top).long}`, 'the pace right after the unit, in the slider’s words');
   assert.equal(hook.at, 'at 3 full mocks a day');
   assert.equal(hook.line, '₹99 a month.', 'the price that makes it');
-  assert.equal(hook.lead, 'As low as');
+  assert.equal(hook.lead, 'About');
   assert.equal(hook.unit, 'a mock on Pro');
   assert.equal(hook.href, '#pricing', 'a link to the slider that works it out');
-  assert.equal(`${hook.lead} ${hook.figure} ${hook.unit} ${hook.at}. ${hook.line}`, `As low as ${perMock(monthly, top, { from }).about} a mock on Pro at 3 full mocks a day. ₹99 a month.`);
+  assert.equal(`${hook.lead} ${hook.figure} ${hook.unit} ${hook.at}. ${hook.line}`, 'About ₹1 a mock on Pro at 3 full mocks a day. ₹99 a month.');
   // A one-time offer says its own period, never "a month" (monthly and one-time never share a sentence).
   const oneTime = heroPriceHook(once, { from });
   assert.equal(oneTime.line, '₹99 once, to 31 July 2027.');
@@ -154,6 +154,7 @@ test('round 4 (owner LK124): the price hook is worked out from the live offer at
   assert.equal(perMock(monthly, 14, { from }).about, '₹1.70');
   assert.equal(perMock(monthly, 21, { from }).about, '₹1.10');
   assert.equal(oneTime.figure, '₹0.20');
+  assert.equal(oneTime.lead, 'As low as', 'under a rupee the paise figure stays');
   assert.equal(heroPriceHook({}, { from }), null, 'nothing to work out: no hook');
   const page = read('../../app/page.js');
   assert.match(page, /const PRICE_HOOK = heroPriceHook\(OFFER, \{ from: BUILT \}\);/);

@@ -141,7 +141,7 @@ const buildPlans = (offer) => [
 
 // Free and Pro, side by side: the app's rows (BillingCopy.compareRows), in the website's own true terms, shared with the home
 // page (planOffer.mjs compareRows). A true cell is a tick, false a dash (not included), and text says the rest.
-const COMPARE_ROWS = compareRows({ newOffer: newOfferReleased(), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS });
+const COMPARE_ROWS = compareRows({ newOffer: newOfferReleased(), firstFullMockOn: FIRST_FULL_MOCK_ON, recoveryRows: RECOVERY_PACKAGING_ROWS, keyCards: process.env.KEY_CARDS_ENABLED === 'true' });
 
 // The Mob's rows and its "Also in Pro" tile, only while it is live (MOB_ENABLED and MOB_V3_ENABLED, the switches its route and
 // API read), in the Mob's own Free and Pro terms (src/lib/mob/v3/denCopy.mjs, "Free and Pro in the Mob"): playing is free on
@@ -384,7 +384,7 @@ export default async function PricingPage({ searchParams }) {
                   // The shared plan card (title, price, terms), the same one the home page's #pricing draws in glass, with its
                   // lines and the checkout.
                   <PlanCard offer={offer} titleAs="h3" titleId="pro-price" className="plan-glass" head={<ProSealStrip label={PRO_COPY.label} />}>
-                    <PlanCounts groups={planGroups({ newOffer: newOfferReleased() })} />
+                    <PlanCounts groups={planGroups({ newOffer: newOfferReleased(), keyCards: process.env.KEY_CARDS_ENABLED === 'true' })} />
                     <div className="pro-plan__go">
                       <RazorpayPaymentButton
                         planId={PRO_PLAN.planId}

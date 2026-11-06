@@ -82,7 +82,7 @@ export const HERO_STRINGS = [
     'Ask Mobi': () => /Ask what to do tonight\. Get one clear step\./.test(buildTour({}).map((t) => t.title).join(' ')),
     'Key cards': () => /^Turn it\. Rate it\./.test(KEY_CARDS_HEAD.h2),
   }[f.name])() })),
-  { text: `${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).lead} ${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure}`, source: 'perMock(offer) at the pricing slider\'s top pace (value.mjs MOCK_PACES), rounded up, never typed', holds: () => heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure === perMock(OFFER, Math.max(...MOCK_PACES), { from: new Date(Date.UTC(2026, 10, 6)) }).about },
+  { text: `${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).lead} ${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure}`, source: 'perMock(offer) at the pricing slider\'s top pace (value.mjs MOCK_PACES), the nearest rupee from 1 up (owner, 7 Nov), never typed', holds: () => { const m = perMock(OFFER, Math.max(...MOCK_PACES), { from: new Date(Date.UTC(2026, 10, 6)) }); return heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure === (m.exactPaise >= 100 ? `₹${Math.round(m.exactPaise / 100)}` : m.about); } },
 ];
 
 test('decision 18: every hero string traces to a source, and each source still says it', () => {
