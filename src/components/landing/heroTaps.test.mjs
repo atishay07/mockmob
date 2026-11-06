@@ -7,7 +7,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { DESK_LINES, DESK_NOTE, DESK_STATES, HERO_FEATURES_LABEL, deskAct, deskLine, deskStateAfter, heroBankLine, heroFactLine, heroFeatures, heroPriceHook, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
-import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
+import { MOCK_PACES, PACE, paceWords, perMock } from '../../lib/payments/value.mjs';
 import { BRAND_ICONS } from '../../../data/brand_icons.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -105,7 +105,7 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   assert.deepEqual(all.map((f) => f.href), ['#pricing', '#inside-the-lab', '#score-recovery-lab', '#compass', '#your-prep', '#key-cards']);
   for (const f of all) {
     assert.deepEqual(Object.keys(f).sort(), ['href', 'icon', 'line', 'name'], 'only what the strip draws');
-    assert.ok(f.icon === 'mobi' || BRAND_ICONS[f.icon], `${f.icon} is a desk object (or Mobi's own mark)`);
+    assert.ok(f.icon === 'mobi' || BRAND_ICONS[f.icon], `${f.icon} has an icon key (drawn in featureGlyphs.mjs)`);
     assert.ok(f.line.length <= 28, `${f.line}: one line in a 3-across cell`);
     assert.doesNotMatch(`${f.name} ${f.line}`, /·|!|%|\d|guarantee|never repeats|best|#1/i, f.name);
   }
@@ -131,22 +131,26 @@ test('round 4 (owner LK124): the price hook is worked out from the live offer at
   assert.equal(hook.pace, top, 'the slider\'s top value');
   assert.equal(hook.figure, perMock(monthly, top, { from }).about, 'perMock, rounded UP to the next 10 paise');
   // Round 4 review (6 Nov): the best case never stands without its condition. The pace follows the unit in the same line
-  // ("As low as ₹X a mock on Pro at N full mocks a week"), then the price that makes it, so it can be checked.
-  assert.equal(hook.at, `at ${top} full mocks a week`, 'the pace right after the unit');
+  // ("As low as ₹X a mock on Pro at 3 full mocks a day"), then the price that makes it, so it can be checked. Round 5 (owner,
+  // 6 Nov: "21 also makes sense (3 a day)"): the pace is said in the slider's own words, the same words its top end shows.
+  assert.equal(top, PACE.max);
+  assert.equal(hook.at, `at ${paceWords(top).long}`, 'the pace right after the unit, in the slider’s words');
+  assert.equal(hook.at, 'at 3 full mocks a day');
   assert.equal(hook.line, '₹99 a month.', 'the price that makes it');
   assert.equal(hook.lead, 'As low as');
   assert.equal(hook.unit, 'a mock on Pro');
   assert.equal(hook.href, '#pricing', 'a link to the slider that works it out');
-  assert.equal(`${hook.lead} ${hook.figure} ${hook.unit} ${hook.at}. ${hook.line}`, `As low as ${perMock(monthly, top, { from }).about} a mock on Pro at ${top} full mocks a week. ₹99 a month.`);
+  assert.equal(`${hook.lead} ${hook.figure} ${hook.unit} ${hook.at}. ${hook.line}`, `As low as ${perMock(monthly, top, { from }).about} a mock on Pro at 3 full mocks a day. ₹99 a month.`);
   // A one-time offer says its own period, never "a month" (monthly and one-time never share a sentence).
   const oneTime = heroPriceHook(once, { from });
   assert.equal(oneTime.line, '₹99 once, to 31 July 2027.');
   assert.equal(oneTime.at, hook.at, 'the same pace either way');
   assert.doesNotMatch(`${oneTime.at} ${oneTime.line}`, /a month/);
-  // The hook follows the slider's top value whatever it is: on this branch 2 / 4 / 7 / 14 (monthly ₹1.70, the one-time
-  // offer to 31 July 2027 ₹0.20 from 6 Nov 2026); with the owner's 5 / 7 / 14 / 21 (the pricing packet) monthly reads ₹1.10.
+  // The hook follows the slider's top value whatever it is: 21 a week (round 5's slider runs 5 to 21) reads ₹1.10 on the
+  // monthly offer and ₹0.20 on the one-time offer to 31 July 2027 from 6 Nov 2026; 14 a week would read ₹1.70.
   assert.equal(perMock(monthly, 14, { from }).about, '₹1.70');
   assert.equal(perMock(monthly, 21, { from }).about, '₹1.10');
+  assert.equal(oneTime.figure, '₹0.20');
   assert.equal(heroPriceHook({}, { from }), null, 'nothing to work out: no hook');
   const page = read('../../app/page.js');
   assert.match(page, /const PRICE_HOOK = heroPriceHook\(OFFER, \{ from: BUILT \}\);/);

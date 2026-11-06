@@ -8,7 +8,7 @@
 // reaction act and leaves the line as it is. Round 4 (LK122: "think from a marketing angle ... how to write copy
 // properly"): plain, warm, complete sentences that invite, and no "Go.".
 
-import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
+import { MOCK_PACES, paceWords, perMock } from '../../lib/payments/value.mjs';
 
 /** The bubble's four lines, by the sample's state. Each at most 44 characters, sentence case, no hype. */
 export const DESK_LINES = Object.freeze({
@@ -87,7 +87,7 @@ export const HERO_FEATURES_LABEL = 'What MockMob gives you';
 
 /**
  * The features strip (round 4, owner LK124: "highlight the main features ... or remove"; supersedes R3-D3's number strip of
- * 5 / 73 / 2 / 60): the main features, each with its desk object and one plain line, each a link to where it lives on this
+ * 5 / 73 / 2 / 60): the main features, each with its drawn icon (featureGlyphs.mjs) and one plain line, each a link to where it lives on this
  * page. The Compass link falls back to the free DU calculator when the page has no Compass section; Key cards appear only
  * while their section does (KEY_CARDS_ENABLED). Every line says only what its own section says (homeHero.test.mjs HERO_STRINGS).
  */
@@ -106,15 +106,17 @@ export function heroFeatures({ compass = true, keyCards = false } = {}) {
  * The honest price hook (owner LK124: "as low as ₹1 a mock"): what one Full mock comes to on Pro at the top pace of the
  * pricing section's slider (value.mjs MOCK_PACES), worked out from the live offer by perMock (rounded UP to the next 10
  * paise, never down). The figure never stands without its pace (round 4 review: a best case shown first must carry its
- * condition in the same line, at the same weight): "As low as ₹X a mock on Pro at N full mocks a week", then the price
- * that makes it on its own line, so it can be checked. A monthly price and a one-time price never share a sentence.
- * null when it cannot be worked out (then no hook is drawn). The figures follow the offer and the slider; none is typed.
- * { lead: 'As low as', figure, unit: 'a mock on Pro', at: 'at N full mocks a week', line: '₹P a month.', pace, href }
+ * condition in the same line, at the same weight): "As low as ₹X a mock on Pro at 3 full mocks a day", the pace in the
+ * slider's own words (value.mjs paceWords; round 5, owner 6 Nov 2026: "3 a day makes sense"), then the price that makes it on
+ * its own line, so it can be checked in the receipt at the slider's top. A monthly price and a one-time price never share a
+ * sentence. null when it cannot be worked out (then no hook is drawn). The figures follow the offer and the slider; none is
+ * typed.
+ * { lead: 'As low as', figure, unit: 'a mock on Pro', at: 'at 3 full mocks a day', line: '₹P a month.', pace, href }
  */
 export function heroPriceHook(offer, { from } = {}) {
   const pace = Math.max(...MOCK_PACES);
   const m = perMock(offer, pace, { from });
   if (!m) return null;
   const line = m.kind === 'monthly' ? `${m.price} a month.` : `${m.price} once, to ${m.until}.`;
-  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', at: `at ${pace} full mocks a week`, line, pace, href: '#pricing' };
+  return { lead: 'As low as', figure: m.about, unit: 'a mock on Pro', at: `at ${paceWords(pace).long}`, line, pace, href: '#pricing' };
 }

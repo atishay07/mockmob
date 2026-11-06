@@ -1,7 +1,10 @@
 // Round 3 pricing on the home page (SPEC-R3 R3-D7, R3-D8, R3-D9; owner LK107, LK109-LK112, 5 Nov 2026), refined in round 4
 // (SPEC-R4 H7 and /pricing; owner LK130-LK134, 5 Nov 2026 11:40 pm): the numbers band folded into the one plan, the plan as a glass
 // card on its stage under a big "Pro" (shared with /pricing, where the last section is now "Free or Pro"), the value at the
-// student's own pace (5 / 7 / 14 / 21 Full mocks a week, with the catch: a question costs a few paise) and the branded close band.
+// student's own pace and the branded close band. Round 5 (owner, 6 Nov 2026: "In 5, you have written 1 per paper. What does that
+// mean? ... There should be a slider for how many things a student can do ... So many features other than mocks also do we
+// have, which the Pro plan gives") turned the four pace keys into one slider (5 to 21 Full mocks a week, said in words) and the
+// per-mock read-out into a receipt of everything Pro's price covers at that pace (src/lib/payments/receipt.mjs).
 // Round 4 removed the dated rival comparison (owner LK132: "how can you mention stuff like Preparoo ... we can't directly compare
 // to them legally ... just remove this completely"); these tests now hold that it stays gone.
 // These tests pin the owner's money rules, not the markup: every rupee figure is worked out from the offer
@@ -13,9 +16,12 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MOCK_PACES, DEFAULT_PACE, MONTH_DAYS, QUESTIONS_PER_MOCK, ceilTenPaise, perDay, perMock, perMockTable, perQuestion, asLowAs, daysBetween, rupees } from '../../src/lib/payments/value.mjs';
+import { MOCK_PACES, PACE, DEFAULT_PACE, MONTH_DAYS, QUESTIONS_PER_MOCK, ceilTenPaise, paceWords, perDay, perMock, perMockTable, perQuestion, asLowAs, daysBetween, rupees } from '../../src/lib/payments/value.mjs';
+import { PER_MOCK, cardsBank, proReceipt, receiptTable } from '../../src/lib/payments/receipt.mjs';
+import { keyCardsDemo } from '../../src/components/landing/keyCardsPicks.mjs';
 import { TEST_MODES } from '../test_modes.js';
-import { PLAN_HOME, VALUE_COPY, CUET_PAPERS, paceWords, pricingHead, planGroups, freeLine, proPlan } from '../../src/components/landing/homeCopy.mjs';
+import { PLAN_HOME, VALUE_COPY, paceWords as homePaceWords, pricingHead, planGroups, freeLine, proPlan, buildFaqs } from '../../src/components/landing/homeCopy.mjs';
+import { BANK_WORDS } from '../../src/components/landing/keyCardsCopy.mjs';
 import { PLAN_COPY, planTerms, compareRows, choiceLine } from '../../src/components/pricing/planOffer.mjs';
 import { REFERRAL_COPY, INVITE_FIELD_HREF, INVITE_ANCHOR } from '../../src/lib/referrals/friendInvite.mjs';
 
@@ -26,9 +32,11 @@ const stripComments = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s
 const monthly = (rupeesPerMonth = 99) => ({ purchasable: 'monthly', monthly: { rupees: rupeesPerMonth }, oneTime: { rupees: 99, expires: '31 July 2027' } });
 const oneTime = (rupeesOnce = 99, expires = '31 July 2027') => ({ purchasable: 'one_time', monthly: { rupees: 99 }, oneTime: { rupees: rupeesOnce, expires } });
 const READ_DAY = new Date(Date.UTC(2026, 10, 5)); // 5 Nov 2026, the day rounds 3 and 4 were built
+// A Key cards bank as keyCardsDemo().bank gives it (the served decks on 6 Nov 2026: 16,458 cards in 14 subjects).
+const BANK = Object.freeze({ cards: 16458, subjects: 14, taste: 5 });
 
 // The files that draw a price on the home page's #pricing, its close band and the shared plan card.
-const PRICE_SOURCES = ['src/components/landing/HomePricing.jsx', 'src/components/landing/PlanValue.jsx',
+const PRICE_SOURCES = ['src/components/landing/HomePricing.jsx', 'src/components/landing/PlanValue.jsx', 'src/lib/payments/receipt.mjs',
   'src/components/landing/PlanCounts.jsx', 'src/components/landing/PlanFree.jsx', 'src/components/landing/CloseActions.jsx', 'src/components/pricing/PlanCard.jsx',
   'src/components/pricing/PlanStage.jsx', 'src/components/pricing/planOffer.mjs', 'src/components/landing/homeCopy.mjs', 'src/lib/payments/value.mjs', 'src/app/page.js'];
 // The pricing pages and the pieces only they draw, and every sheet that styles a price (R4 review: the rival guard reads them all).
@@ -38,24 +46,30 @@ const PRICE_SHEETS = ['src/app/home-pricing.css', 'src/components/pricing/plan-s
 const RIVALS = /preparoo|adda ?247|oswaal|testbook|physics ?wallah|career ?launcher|unacademy|vedantu|byju|embibe|\btoppr\b|aakash|educart|arihant/i;
 
 // ------------------------------------------------------------------------------------------------ computed, never typed
-test('R4-H7: the paces are 5 / 7 / 14 / 21 Full mocks a week, one a day first, and every figure is price / (n x 30/7) rounded up', () => {
-  assert.deepEqual([...MOCK_PACES], [5, 7, 14, 21], 'owner LK131: the lowest is 5 (one a week in each of five papers), the top three a day');
+test('round 5: one slider of Full mocks a week, 5 to 21 in steps of one, one a day first; every per-mock figure is price / (n x 30/7) rounded up', () => {
+  assert.deepEqual({ ...PACE }, { min: 5, max: 21, step: 1, start: 7 }, 'owner LK131: the lowest is 5, the top three a day');
+  assert.deepEqual([...MOCK_PACES], Array.from({ length: 17 }, (_, i) => 5 + i), 'every whole pace from 5 to 21');
   assert.equal(DEFAULT_PACE, 7, 'one a day is selected first');
   assert.ok(MOCK_PACES.includes(DEFAULT_PACE));
   assert.equal(MONTH_DAYS, 30);
   const table = perMockTable(monthly());
-  assert.deepEqual(table.map((row) => row.mocks), [21, 30, 60, 90]);
-  assert.deepEqual(table.map((row) => row.about), ['₹4.80', '₹3.30', '₹1.70', '₹1.10']);
+  assert.equal(table.length, MOCK_PACES.length, 'every slider value has its row');
+  const at = (pace) => table.find((row) => row.pace === pace);
+  assert.deepEqual([5, 7, 14, 21].map((pace) => at(pace).mocks), [21, 30, 60, 90]);
+  assert.deepEqual([5, 7, 14, 21].map((pace) => at(pace).about), ['₹4.80', '₹3.30', '₹1.70', '₹1.10']);
   for (const row of table) {
     // The formula, in paise, gives the same figure the page prints.
     assert.equal(row.aboutPaise, ceilTenPaise(9900 / row.mocks), `pace ${row.pace}`);
     assert.ok(row.aboutPaise >= row.exactPaise, 'rounded up, never down');
     assert.equal(row.price, '₹99');
+    assert.equal(row.pricePaise, 9900);
   }
+  // A faster pace never makes a mock dearer.
+  for (let i = 1; i < table.length; i += 1) assert.ok(table[i].aboutPaise <= table[i - 1].aboutPaise, `pace ${table[i].pace}`);
   // The owner's bar (LK131): even the lowest pace is under ₹10 a mock, and 5 a week is under ₹5 (spec R4-H7).
   assert.ok(table.every((row) => row.aboutPaise < 1000), 'every pace under ₹10 a mock');
   assert.ok(table[0].aboutPaise < 500, '5 a week is under ₹5 a mock');
-  // The hero's "as low as" hook reads the control's top pace, so the two can never disagree (R4-H2).
+  // The hero's "as low as" hook reads the slider's top pace, so the two can never disagree (R4-H2).
   assert.deepEqual(asLowAs(monthly()), table[table.length - 1]);
   assert.equal(asLowAs(monthly()).about, '₹1.10');
 });
@@ -64,7 +78,10 @@ test('change the offer and every figure follows it: nothing on the page is a typ
   const dearer = perMockTable(monthly(149));
   assert.deepEqual(dearer.map((row) => row.about), dearer.map((row) => rupees(ceilTenPaise(Math.round(14900 / row.mocks)))));
   assert.notDeepEqual(dearer.map((row) => row.about), perMockTable(monthly()).map((row) => row.about));
-  assert.deepEqual(dearer.map((row) => row.perQuestion.text), ['under 15 paise', 'under 10 paise', 'under 5 paise', 'under 4 paise']);
+  assert.deepEqual([5, 7, 14, 21].map((pace) => dearer.find((row) => row.pace === pace).perQuestion.text), ['under 15 paise', 'under 10 paise', 'under 5 paise', 'under 4 paise']);
+  // The receipt follows the offer too: a dearer month makes each thing dearer.
+  assert.notEqual(proReceipt(monthly(149), 7).each.text, proReceipt(monthly(), 7).each.text);
+  assert.equal(proReceipt(monthly(149), 7).price, '₹149');
   assert.equal(perDay(monthly()).perDay, '₹3.30', '₹99 a month is about ₹3.30 a day');
   assert.equal(perDay(monthly(149)).perDay, '₹5');
   assert.equal(pricingHead(monthly()).sub, '₹99 a month is about ₹3.30 a day.');
@@ -75,13 +92,13 @@ test('change the offer and every figure follows it: nothing on the page is a typ
   }
 });
 
-test('the catch (R4-H7): a Full mock is 50 questions, so a question is "under N paise", N the next whole paisa above the exact figure', () => {
+test('the per-question rule (R4-H7), now the receipt\'s "each": "under N paise", N the next whole paisa above the exact figure', () => {
   assert.equal(QUESTIONS_PER_MOCK, TEST_MODES.full.fixedCount, 'the Full mock\'s own size, from the mode that builds it');
   assert.equal(QUESTIONS_PER_MOCK, 50);
   const table = perMockTable(monthly());
-  assert.deepEqual(table.map((row) => row.questions), [1050, 1500, 3000, 4500], 'whole mocks x 50');
-  assert.deepEqual(table.map(VALUE_COPY.question), ['Under 10 paise a question.', 'Under 7 paise a question.', 'Under 4 paise a question.', 'Under 3 paise a question.']);
+  assert.deepEqual([5, 7, 14, 21].map((pace) => table.find((row) => row.pace === pace).questions), [1050, 1500, 3000, 4500], 'whole mocks x 50');
   for (const row of table) {
+    assert.equal(row.questions, Math.floor(row.mocks) * QUESTIONS_PER_MOCK, `${row.pace}: whole mocks only`);
     assert.ok(row.perQuestion.exactPaise < row.perQuestion.paise, `${row.pace}: "under" only when it is under`);
     assert.ok(row.perQuestion.paise - row.perQuestion.exactPaise <= 1, `${row.pace}: the next whole paisa, never a looser bound`);
     assert.equal(row.perQuestion.exactPaise, 9900 / row.questions);
@@ -93,24 +110,61 @@ test('the catch (R4-H7): a Full mock is 50 questions, so a question is "under N 
   assert.equal(perQuestion(9900, 0), null);
 });
 
-test('what each pace means is said plainly: 5 is one a week in each of five CUET papers, the rest so many a day', () => {
-  assert.equal(CUET_PAPERS, 5);
-  assert.deepEqual(MOCK_PACES.map((pace) => paceWords(pace).short), ['1 per paper', '1 a day', '2 a day', '3 a day']);
-  assert.deepEqual(MOCK_PACES.map((pace) => paceWords(pace).long), ['one a week in each of five CUET papers', 'one a day', 'two a day', 'three a day']);
-  for (const pace of MOCK_PACES) assert.ok(paceWords(pace).short.length <= 12, `${pace}: fits under the number on a 360 px phone`);
+test('round 5: every pace is said plainly, so many a day when the week divides by 7, else so many a week; never "1 per paper"', () => {
+  assert.equal(homePaceWords, paceWords, 'one wording, shared by the slider, the receipt and the hero hook');
+  assert.deepEqual([5, 6, 7, 13, 14, 20, 21].map((pace) => paceWords(pace).long),
+    ['5 full mocks a week', '6 full mocks a week', '1 full mock a day', '13 full mocks a week', '2 full mocks a day', '20 full mocks a week', '3 full mocks a day']);
+  assert.deepEqual([PACE.min, PACE.max].map((pace) => paceWords(pace).short), ['5 a week', '3 a day'], 'the slider\'s two ends');
+  for (const pace of MOCK_PACES) {
+    const { long, short } = paceWords(pace);
+    assert.match(long, /^\d+ full mocks? a (day|week)$/, `${pace}: a number, what, and how often`);
+    assert.doesNotMatch(`${long} ${short}`, /per paper|paper/i, 'the words the owner could not read are gone');
+    assert.ok(short.length <= 9, `${pace}: an end label fits under a 360 px track`);
+  }
   const value = read('src/components/landing/PlanValue.jsx');
-  assert.match(value, /<small>\{paceWords\(r\.pace\)\.short\}<\/small>/, 'under each number in the control');
+  assert.match(value, /aria-valuetext=\{words\.long\}/, 'a screen reader hears the pace in the same words');
+  assert.match(value, /<p className="lp-rcpt__say" aria-hidden="true">\{words\.long\}<\/p>/, 'the eye reads it above the slider');
+  assert.match(value, /<span>\{paceWords\(min\)\.short\}<\/span><span>\{paceWords\(max\)\.short\}<\/span>/, 'and at its ends');
 });
 
-test('the maths is shown and checks out: what the pace comes to, then the division to the paisa, "rounded up" only when it was', () => {
-  const [five, seven] = perMockTable(monthly());
-  // "At ...": the month at this pace, never a promise or a cap (R4 review: the sheet's 90 rings are the top pace's month).
-  assert.equal(VALUE_COPY.count(five), 'At one a week in each of five CUET papers: 21 Full mocks in a 30-day month, 1,050 questions.');
-  assert.equal(VALUE_COPY.math(five), '₹99 ÷ 21 = ₹4.71, rounded up to ₹4.80.');
-  assert.equal(VALUE_COPY.count(seven), 'At one a day: 30 Full mocks in a 30-day month, 1,500 questions.');
-  assert.equal(VALUE_COPY.math(seven), '₹99 ÷ 30 = ₹3.30.');
-  for (const r of perMockTable(monthly())) {
-    assert.equal(Math.round((99 / r.mocks) * 100), r.exactPaise, `₹99 ÷ ${r.mocks} on a calculator`);
+test('round 5, the receipt: every count is computed (whole mocks, one Lab read and one chapter review each, the real Key cards bank); the close divides by mocks and questions only', () => {
+  assert.deepEqual([...PER_MOCK], ['mocks', 'lab', 'review'], 'the stated per-mock rule: the mock, its Lab read, its chapter review');
+  // Monthly, one a day, Key cards off: 30 mocks and 30 of each thing they bring.
+  const off = proReceipt(monthly(), 7);
+  assert.deepEqual(off.lines, [{ key: 'mocks', count: 30 }, { key: 'lab', count: 30 }, { key: 'review', count: 30 }]);
+  assert.equal(off.questions, 1500);
+  assert.equal(off.total, undefined, 'unlike things are never added into one count (a mock and its own Lab read are one sitting)');
+  assert.equal(off.each.text, 'under 7 paise', '₹99 ÷ 1,500 questions is 6.6 paise');
+  assert.deepEqual(off.perMock, { about: '₹3.30', aboutPaise: 330, exact: '₹3.30' });
+  // Key cards live: every card of the served bank is one more thing Pro opens (BANK_WORDS: "Pro every card").
+  const on = proReceipt(monthly(), 7, { keyCards: BANK });
+  assert.deepEqual(on.lines.at(-1), { key: 'cards', count: 16458, subjects: 14 });
+  assert.equal(on.each.text, off.each.text, 'a bank of cards is listed, never counted into the price per question');
+  for (const r of [...receiptTable(monthly()), ...receiptTable(monthly(), { keyCards: BANK }), ...receiptTable(oneTime(), { from: READ_DAY, keyCards: BANK })]) {
+    for (const key of PER_MOCK) assert.equal(r.lines.find((line) => line.key === key).count, r.mocks, `${r.pace} ${key}: one per whole mock`);
+    assert.equal(r.mocks, Math.floor(perMock(r.kind === 'monthly' ? monthly() : oneTime(), r.pace, { from: READ_DAY }).mocks), 'whole mocks, never rounded up');
+    assert.equal(r.questions, r.mocks * QUESTIONS_PER_MOCK);
+    assert.deepEqual(r.each, perQuestion(9900, r.questions), 'the price per question by the per-question rule');
+    assert.ok(r.each.exactPaise <= r.each.paise, 'never flattering');
+  }
+  // The sum on the page checks out on a calculator, and the answer is the same rule.
+  assert.equal(VALUE_COPY.sum(on), '₹99\u00a0÷\u00a030\u00a0full\u00a0mocks');
+  assert.equal(`${VALUE_COPY.each(off)}${VALUE_COPY.eachTail}`, 'Under\u00a07\u00a0paise a question.', 'the figure never parts from its unit');
+  assert.equal(VALUE_COPY.total, 'A full mock, everything above included');
+  assert.equal(VALUE_COPY.lines.mocks.detail({ questions: on.questions, about: on.perMock.about }), '1,500 questions. About ₹3.30 a mock.');
+  assert.equal(VALUE_COPY.lines.cards.detail(on.lines.at(-1)), 'Every card, in 14 subjects');
+  assert.equal(VALUE_COPY.live(on), '1 full mock a day: 30 full mocks, about ₹3.30 a mock, under 7 paise a question.');
+  // Only a real, positive bank is counted: anything else draws no Key cards line.
+  for (const bad of [null, {}, { cards: 0, subjects: 14 }, { cards: 12.5, subjects: 3 }, { cards: '16458', subjects: 0 }, { cards: -3, subjects: 2 }]) {
+    assert.equal(cardsBank(bad), null, JSON.stringify(bad));
+    assert.equal(proReceipt(monthly(), 7, { keyCards: bad }).lines.length, 3);
+  }
+  // The real decks the home page reads (keyCardsPicks.mjs, at build): the receipt counts exactly their cards.
+  const real = keyCardsDemo({ log: () => {} })?.bank;
+  if (real) {
+    const live = proReceipt(oneTime(), 7, { from: READ_DAY, keyCards: real });
+    assert.equal(live.lines.find((line) => line.key === 'cards').count, real.cards);
+    assert.equal(live.lines.find((line) => line.key === 'cards').subjects, real.subjects);
   }
 });
 
@@ -119,18 +173,30 @@ test('the one-time offer gets its own sentences: days to its expiry, never "a mo
   const row = perMock(oneTime(), 7, { from: READ_DAY });
   assert.equal(row.kind, 'once');
   assert.equal(row.mocks, 268, 'one a day for 268 days');
-  assert.equal(VALUE_COPY.count(row), 'At one a day, to 31 July 2027: 268 Full mocks, 13,400 questions.');
-  assert.equal(VALUE_COPY.math(row), '₹99 ÷ 268 = ₹0.37, rounded up to ₹0.40.');
+  assert.equal(row.about, '₹0.40', '₹99 ÷ 268 = ₹0.37, rounded up');
+  const r = proReceipt(oneTime(), 7, { from: READ_DAY });
+  assert.equal(VALUE_COPY.head(r), 'MockMob Pro, to 31 July 2027');
+  assert.equal(VALUE_COPY.head(proReceipt(monthly(), 7)), 'MockMob Pro, one 30-day month');
+  assert.equal(r.each.text, 'under 1 paisa', '₹99 ÷ 13,400 questions = 0.74 paise');
+  assert.equal(VALUE_COPY.lines.mocks.detail({ questions: r.questions, about: r.perMock.about }), '13,400 questions. About ₹0.40 a mock.');
+  // The hero's hook at the slider's top and the receipt at the slider's top say the same per-mock figure.
+  assert.equal(proReceipt(oneTime(), PACE.max, { from: READ_DAY }).perMock.about, asLowAs(oneTime(), { from: READ_DAY }).about);
   assert.equal(perMock(oneTime(), 7), null, 'without a date, no one-time figure (the page passes its build date)');
+  assert.equal(proReceipt(oneTime(), 7), null);
   assert.equal(perDay(oneTime(99, '1 November 2026'), { from: READ_DAY }), null, 'an expired one-time offer gives no figure');
+  assert.deepEqual(receiptTable(oneTime(99, '1 November 2026'), { from: READ_DAY }), [], 'and no receipt');
+  // Near the end of the term a pace may not fill one whole mock: then there is nothing to count.
+  assert.equal(proReceipt(oneTime(), 5, { from: new Date(Date.UTC(2027, 6, 30)) }), null, 'one day at 5 a week is 0.7 of a mock');
+  assert.equal(proReceipt(oneTime(), 5, { from: new Date(Date.UTC(2027, 6, 25)) }).mocks, 4, '6 days at 5 a week is 4.3 mocks: 4 whole ones');
 });
 
 test('a monthly price and a one-time price never share one sentence', () => {
   const sentences = (text) => String(text).split(/(?<=\.)\s+/);
-  const rows = [...perMockTable(monthly()), ...perMockTable(oneTime(), { from: READ_DAY })];
+  const rows = [...receiptTable(monthly(), { keyCards: BANK }), ...receiptTable(oneTime(), { from: READ_DAY, keyCards: BANK })];
   const lines = [
     pricingHead(monthly()).sub, pricingHead(oneTime()).sub,
-    ...rows.flatMap((row) => [VALUE_COPY.count(row), VALUE_COPY.math(row), VALUE_COPY.question(row)]),
+    ...rows.flatMap((r) => [VALUE_COPY.title(r), VALUE_COPY.head(r), VALUE_COPY.sum(r), `${VALUE_COPY.each(r)}${VALUE_COPY.eachTail}`, VALUE_COPY.live(r),
+      VALUE_COPY.lines.mocks.detail({ questions: r.questions, about: r.perMock.about })]),
     ...Object.values(planTerms(monthly())), ...Object.values(planTerms(oneTime())),
   ].filter(Boolean);
   for (const line of lines) for (const sentence of sentences(line)) {
@@ -207,8 +273,8 @@ test('R4 /pricing: "Free or Pro" says unlimited mocks only while Pro\'s list doe
   const pricing = stripComments(read('src/app/pricing/page.js'));
   assert.match(pricing, /choiceLine: choiceLine\(\{ newOffer: newOfferReleased\(\) \}\),/, 'the page reads the line for the offer on sale');
   assert.doesNotMatch(pricing, /choiceLine: '/, 'never a typed line that could outlive the offer');
-  // The per-mock maths (and its month sheet) only for the current offer, where Full mocks are unlimited.
-  assert.match(stripComments(read('src/components/landing/HomePricing.jsx')), /const table = newOffer \? \[\] : perMockTable\(offer, \{ from \}\);/);
+  // The receipt only for the current offer, where Full mocks are unlimited.
+  assert.match(stripComments(read('src/components/landing/HomePricing.jsx')), /const rows = newOffer \? \[\] : receiptTable\(offer, \{ from, keyCards \}\);/);
 });
 
 // ------------------------------------------------------------------------------------------------ the one plan, shared
@@ -252,8 +318,8 @@ test('R3-D8, R4: #pricing and /pricing draw one plan, through shared pieces, as 
   assert.equal(freeLine({ firstFullMock: 'Your first full mock in every subject is free.' }), 'Or start on Free: 50 credits a month, no card needed. Your first full mock in every subject is free.');
   assert.match(read('src/app/page.js'), /firstFullMock=\{FIRST_FULL_MOCK_ON \? FIRST_FULL_MOCK_COPY\.plan : null\}/, 'the rule’s own sentence, only while it is on');
   assert.match(read('src/components/landing/PlanFree.jsx'), /\{isAuthenticated \? null : <Link href="\/signup" className="lp-plan__freekey">\{cta\}<\/Link>\}/);
-  // Branch: the unlimited-mocks maths only while the current offer is the one on sale.
-  assert.match(home, /const table = newOffer \? \[\] : perMockTable\(offer, \{ from \}\);/);
+  // Branch: the unlimited-mocks receipt only while the current offer is the one on sale.
+  assert.match(home, /const rows = newOffer \? \[\] : receiptTable\(offer, \{ from, keyCards \}\);/);
   // /pricing draws the same card on the same stage (R4, owner LK134: "refine it to how it is on the home page"), with its
   // grouped lines and the one checkout, as the last section's choice: Free under a quiet "Free", beside Pro.
   const pricing = read('src/app/pricing/page.js');
@@ -299,34 +365,65 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
   for (const rel of ['src/app/home-pricing.css', 'src/app/pricing/pro-page.css']) assert.doesNotMatch(stripComments(read(rel)), /backdrop-filter/, rel);
 });
 
-test('the pace control is a real control: native radios in a fieldset, 44 px keys, a focus ring, and the R3-D1 Day selected state', () => {
+test('round 5: the pace is a real slider: a labelled native range, 44 px tall, keyboard and screen reader ready, with a visible focus ring', () => {
   const value = read('src/components/landing/PlanValue.jsx');
-  assert.match(value, /<fieldset className="lp-seg">\s*<legend className="lp-seg__legend">\{VALUE_COPY\.pace\}<\/legend>/);
-  assert.match(value, /<input type="radio" name=\{`\$\{id\}-pace`\} value=\{r\.pace\} checked=\{r\.pace === pace\} onChange=\{\(\) => setPace\(r\.pace\)\} \/>/);
-  assert.match(value, /<div className="lp-value__read" aria-live="polite">/, 'a screen reader hears the new figure and the catch once');
-  assert.match(value, /<b aria-hidden="true">\{rupees\(shown\)\}<\/b><span className="lp-sr">\{row\.about\}<\/span>/);
-  assert.match(value, /<p className="lp-value__catch">\{VALUE_COPY\.question\(row\)\}<\/p>/);
-  assert.match(value, /if \(reduced\(\)\)/, 'reduced motion changes the figure at once');
-  assert.equal(VALUE_COPY.pace, 'Full mocks a week');
+  assert.match(value, /<label className="lp-rcpt__ask" htmlFor=\{`\$\{id\}-pace`\}>\{VALUE_COPY\.ask\}<\/label>/, 'the question names the slider');
+  assert.match(value, /<input id=\{`\$\{id\}-pace`\} type="range" min=\{min\} max=\{max\} step=\{PACE\.step\} value=\{pace\} aria-valuetext=\{words\.long\}/);
+  assert.match(value, /onChange=\{\(event\) => setPace\(Number\(event\.target\.value\)\)\}/);
+  assert.match(value, /useState\(rows\.some\(\(r\) => r\.pace === DEFAULT_PACE\) \? DEFAULT_PACE : min\)/, 'one a day first');
+  assert.match(value, /<p className="lp-sr" aria-live="polite">\{VALUE_COPY\.live\(row\)\}<\/p>/, 'a screen reader hears the new total once');
+  assert.match(value, /<span aria-hidden="true">\{n\(shown\)\}<\/span><span className="lp-sr">\{n\(real\)\}<\/span>/, 'the rolling digits are hidden; the real figure is read');
+  assert.match(value, /if \(reduced\(\) \|\| start\.length !== goal\.length\)/, 'reduced motion changes the counts at once');
+  assert.match(value, /function useRoll\(targets, duration = 280\)/, 'the roll is 280 ms (150-350 ms, ease-out)');
+  assert.match(value, /1 - Math\.pow\(1 - t, 3\)/, 'ease-out');
+  assert.equal(VALUE_COPY.ask, 'How many full mocks will you sit?');
   const css = read('src/app/home-pricing.css');
-  const keyHeight = Number(/\.lp \.lp-seg__opt span \{[^}]*min-height: (\d+)px/.exec(css)?.[1]);
-  assert.ok(keyHeight >= 44, `each key is at least 44 px tall: ${keyHeight}`);
-  assert.match(css, /\.lp \.lp-seg__opt input:focus-visible \+ span \{ outline: 2px solid var\(--focus-ring/);
-  assert.match(css, /\.lp \.lp-seg__opt input:checked \+ span \{ background: var\(--volt\); color: var\(--volt-ink\); \}/, 'Night: a volt fill carrying dark ink');
-  assert.match(css, /html\[data-theme='light'\] \.lp \.lp-seg__opt input:checked \+ span \{ background: #fffdf8; color: var\(--ink\); box-shadow: inset 0 0 0 1\.5px #526700; \}/, 'Day: paper, a 1.5 px green rim, ink');
+  assert.match(css, /\.lp \.lp-rcpt__range \{ --thumb: 28px; position: relative; height: 44px;/, 'a 44 px target');
+  assert.match(css, /\.lp \.lp-rcpt__range input \{[^}]*height: 44px;/);
+  assert.match(css, /\.lp \.lp-rcpt__range input:focus-visible::-webkit-slider-thumb \{ box-shadow: [^}]*var\(--focus-ring/, 'a visible focus ring (Chrome)');
+  assert.match(css, /\.lp \.lp-rcpt__range input:focus-visible::-moz-range-thumb \{ box-shadow: [^}]*var\(--focus-ring/, 'and Firefox');
+  assert.match(css, /\.lp \.lp-rcpt__fill \{[^}]*background: var\(--brand-word\);/, 'the one accent fills the track');
+  assert.match(css, /::-webkit-slider-thumb \{[^}]*background: var\(--rcpt-knob\);/, 'the knob is plain paper, so volt stays the key\'s and the fill\'s');
+  assert.doesNotMatch(stripComments(css).match(/\.lp \.lp-rcpt__range[^{]*\{[^}]*\}/g).join(' '), /--volt\b|#d2f000|#9db400/i, 'no volt on the slider but the fill (--brand-word)');
+  assert.doesNotMatch(stripComments(css), /gradient\(|text-shadow|backdrop-filter|transition: all/, 'no gradient, glow or glass; never transition: all');
 });
 
-test('the month as an answer sheet: one ring per Full mock of the top pace, filled to this pace, monthly only, decoration only, still under reduced motion', () => {
+test('round 5: the receipt lists what Pro includes beyond the counts from the plan card, and the credit-based helpers without a number', () => {
+  const pro = proPlan();
+  const [smart, compass, saves, helpers] = VALUE_COPY.included;
+  assert.equal(smart.label, pro[2], 'Smart practice and NTA mode, the plan card\'s own line');
+  assert.equal(saves.label, pro[4], 'Unlimited saved questions, the plan card\'s own line');
+  assert.match(compass.label, /^Compass Pro\b/);
+  assert.ok(pro.some((line) => line.startsWith('Compass Pro:')), 'Compass Pro is on the plan card');
+  // Mistake Repair and Ask Mobi run on monthly credits capped per student in the database: named, never counted or unlimited.
+  assert.equal(helpers.label, 'Mistake Repair and Ask Mobi');
+  assert.equal(helpers.detail, 'On your monthly credits');
+  assert.doesNotMatch(`${helpers.label} ${helpers.detail}`, /\d|unlimited|no cap|free/i);
+  assert.equal(VALUE_COPY.includedWord, 'Included');
+  assert.equal(VALUE_COPY.included.length, 4);
+  // The counted lines' words, and where each claim already stands on the page.
+  assert.deepEqual(Object.values(VALUE_COPY.lines).map((line) => line.label), ['Full mocks', 'Mistake Lab reads', 'Chapter reviews', 'Key cards']);
+  assert.equal(VALUE_COPY.lines.review.detail(), 'Every ranked chapter, pace and changed answers');
+  assert.ok(pro.includes(`Full chapter review: ${VALUE_COPY.lines.review.detail().charAt(0).toLowerCase()}${VALUE_COPY.lines.review.detail().slice(1)}`), 'the plan card\'s chapter review line');
+  const faq = buildFaqs({ offer: monthly() }).find((f) => f.question === 'What is the Mistake Lab?').answer;
+  assert.match(faq, /^After every mock, the Lab shows/, 'a Lab read after every mock');
+  assert.match(faq, /every answer you changed/);
+  assert.match(faq, /SWOT/);
+  assert.match(BANK_WORDS.free(5), /Pro every card\.$/, 'Pro opens every Key card');
+  // The receipt's markup: a description list of counts, the included lines, the total, the sum and the answer.
   const value = read('src/components/landing/PlanValue.jsx');
-  assert.match(value, /const SHEET_MAX = 90;/);
-  assert.equal(perMockTable(monthly()).at(-1).mocks, 90, '21 a week fills the sheet in a 30-day month');
-  assert.match(value, /const sheet = row\.kind === 'monthly' && Number\.isInteger\(top\.mocks\) && top\.mocks <= SHEET_MAX \? top\.mocks : 0;/, 'one-time periods draw no sheet');
-  assert.match(value, /<div className="lp-sheet" aria-hidden="true">/, 'the count line says it in words');
-  assert.match(value, /<MonthSheet total=\{sheet\} filled=\{Math\.floor\(row\.mocks\)\} \/>/);
+  assert.match(value, /<dl className="lp-rcpt__lines">/);
+  assert.match(value, /\{VALUE_COPY\.included\.map\(\(item, i\) => \(/);
+  assert.match(value, /<p className="lp-rcpt__each"><b>\{VALUE_COPY\.each\(row\)\}<\/b>\{VALUE_COPY\.eachTail\}<\/p>/);
+  // The page hands it the served Key cards bank only while Key cards are live, and HomePricing passes it through.
+  assert.match(read('src/app/page.js'), /keyCards=\{KEY_CARDS \? KEY_CARDS\.bank : null\}/);
+  assert.match(read('src/components/landing/HomePricing.jsx'), /<PlanValue rows=\{rows\} \/>/);
+  // The old pace keys, month sheet and per-mock read-out are gone with their words.
+  assert.doesNotMatch(value, /lp-seg|lp-sheet|MonthSheet|1 per paper/);
+  assert.doesNotMatch(read('src/app/home-pricing.css'), /\.lp-seg|\.lp-sheet|\.lp-value/);
   const css = stripComments(read('src/app/home-pricing.css'));
-  assert.match(css, /\.lp \.lp-sheet i\[data-on\] \{ background: var\(--brand-word\); border-color: var\(--brand-word\); \}/, 'filled marks read the brand word colour');
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.lp \.lp-seg__opt span, \.lp \.lp-sheet i \{ transition: none; \}/);
-  assert.match(css, /:root\[data-motion='reduced'\] \.lp :is\(\.lp-seg__opt span, \.lp-sheet i\) \{ transition: none; \}/);
+  assert.match(css, /\.lp \.lp-rcpt__each b \{ font-weight: inherit; color: var\(--brand-word\); \}/, 'the answer reads the brand word colour');
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.lp \.lp-rcpt__range input::-webkit-slider-thumb \{ transition: none; \}/);
 });
 
 // ------------------------------------------------------------------------------------------------ the close band
@@ -350,17 +447,20 @@ test('R3-D9: the final card keeps Sign up free and Log in, wears the answer shee
 
 // ------------------------------------------------------------------------------------------------ copy rules on the new words
 test('the new pricing words follow the copy rules: no middle dots, no "!", no hype, sentence case, and the section sub fits its budget', () => {
-  const rows = [...perMockTable(monthly()), ...perMockTable(oneTime(), { from: READ_DAY })];
+  const rows = [...receiptTable(monthly()), ...receiptTable(oneTime(), { from: READ_DAY, keyCards: BANK })];
   const words = [
-    ...Object.values(PLAN_HOME), VALUE_COPY.title, VALUE_COPY.pace, VALUE_COPY.result, VALUE_COPY.about,
-    ...rows.flatMap((row) => [VALUE_COPY.count(row), VALUE_COPY.math(row), VALUE_COPY.question(row)]),
+    ...Object.values(PLAN_HOME), VALUE_COPY.lead, VALUE_COPY.ask, VALUE_COPY.includedWord, VALUE_COPY.total, VALUE_COPY.eachTail,
+    ...VALUE_COPY.included.flatMap((item) => [item.label, item.detail].filter(Boolean)),
+    ...Object.values(VALUE_COPY.lines).map((line) => line.label),
+    ...rows.flatMap((r) => [VALUE_COPY.title(r), VALUE_COPY.head(r), VALUE_COPY.sum(r), VALUE_COPY.each(r), VALUE_COPY.live(r),
+      ...r.lines.map((line) => VALUE_COPY.lines[line.key].detail(line.key === 'mocks' ? { questions: r.questions, about: r.perMock.about } : line))]),
     ...MOCK_PACES.flatMap((pace) => [paceWords(pace).short, paceWords(pace).long]),
     ...planGroups().flatMap((g) => [g.label, ...g.lines.map((line) => line.text || `${line.rest} ${line.fallback}`)]),
     REFERRAL_COPY.homeInviteAsk, REFERRAL_COPY.homeInviteLink, REFERRAL_COPY.homeInviteReward(),
   ];
   for (const text of words) {
     assert.doesNotMatch(text, /[·•!]|→|->|\bunlock|seamless|supercharge|game-?changer|journey|cheapest/i, text);
-    assert.doesNotMatch(text.replace(/\b(CUET|NTA)\b/g, ''), /\b[A-Z]{4,}\b/, `no capitals: ${text}`);
+    assert.doesNotMatch(text.replace(/\b(CUET|NTA|SWOT)\b/g, ''), /\b[A-Z]{4,}\b/, `no capitals: ${text}`);
   }
   assert.ok(pricingHead(monthly()).sub.split(/\s+/).length <= 20);
 });

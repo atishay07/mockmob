@@ -4,6 +4,9 @@
 // week at least ... less than ₹10 a mock", and a catch at the top end), computed from the offer object
 // (src/lib/payments/offer.js publicOffer) and never typed: a day, and a Full mock and a question at the student's own pace.
 // The dated rival comparison left the site in R4 (owner LK132: naming other platforms is a legal risk), and its maths with it.
+// Round 5 (owner, 6 Nov 2026: "In 5, you have written 1 per paper. What does that mean? ... There should be a slider"): the four
+// keys became one slider of Full mocks a week, 5 to 21 (PACE), each value said plainly (paceWords), and the value block beside
+// the Pro card became a receipt of everything Pro's price covers at that pace (receipt.mjs).
 //
 // Pure: no clock (the caller passes the date) and one import, the Full mock's own size (data/test_modes.js, itself pure), so
 // node --test runs every branch (data/tests/pricing_value_1105.test.mjs).
@@ -13,16 +16,32 @@
 // is shown beside it; and a monthly price and a one-time price never share one sentence.
 import { TEST_MODES } from '../../../data/test_modes.js';
 
-/** The paces the segmented control offers: Full mocks a week (R4-H7: 5 is one a week in each of five CUET papers, 7 one a
- *  day, 14 two a day, 21 three a day). */
-export const MOCK_PACES = Object.freeze([5, 7, 14, 21]);
+/** The slider: Full mocks a week, from 5 (owner LK131: "start at 5-7 so even the lowest makes students feel they practise too
+ *  little") to 21, three a day, in steps of one; one a day first. */
+export const PACE = Object.freeze({ min: 5, max: 21, step: 1, start: 7 });
+/** Every value the slider can take, lowest first (the hero's "as low as" hook reads the last). */
+export const MOCK_PACES = Object.freeze(Array.from({ length: (PACE.max - PACE.min) / PACE.step + 1 }, (_, i) => PACE.min + i * PACE.step));
 /** The pace selected first: one Full mock a day. */
-export const DEFAULT_PACE = 7;
+export const DEFAULT_PACE = PACE.start;
 /** A month of Pro, in days, for the per-day and per-mock framing (price / (n x 30/7)). */
 export const MONTH_DAYS = 30;
 /** The questions in one Full mock (a CUET paper: 50 questions in 60 minutes), from the mode that builds it. */
 export const QUESTIONS_PER_MOCK = TEST_MODES.full.fixedCount;
 const WEEK_DAYS = 7;
+
+/**
+ * A pace said plainly, the same words on the slider, in the receipt and in the hero's hook (owner, 6 Nov 2026: "In 7, 1 a day
+ * makes sense ... 21 also makes sense (3 a day), but 5, 1 per paper, what does that mean?"): a whole number a day when the
+ * week divides by 7, else so many a week. `long` names the thing ("1 full mock a day", "5 full mocks a week"); `short` is the
+ * slider's end label ("1 a day", "5 a week").
+ */
+export function paceWords(pace) {
+  const n = Number(pace);
+  const perDay = n % WEEK_DAYS === 0 ? n / WEEK_DAYS : null;
+  const count = perDay ?? n;
+  const unit = perDay ? 'a day' : 'a week';
+  return { long: `${count} full ${count === 1 ? 'mock' : 'mocks'} ${unit}`, short: `${count} ${unit}` };
+}
 
 const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 
@@ -78,7 +97,7 @@ export function perDay(offer, { from } = {}) {
  * What one Full mock comes to at `pace` mocks a week. The chain is the one the page prints, so a reader can check it on a
  * calculator: mocks = pace x days / 7 (shown), exact = price / mocks (shown to the paisa), about = that figure rounded UP to the
  * next 10 paise.
- * { pace, mocks, exact: '₹11.51', about: '₹11.60', aboutPaise, price: '₹99', days, kind }
+ * { pace, mocks, exact: '₹11.51', about: '₹11.60', aboutPaise, price: '₹99', pricePaise, days, kind }
  */
 export function perMock(offer, pace, { from } = {}) {
   const p = period(offer, from);
@@ -89,7 +108,7 @@ export function perMock(offer, pace, { from } = {}) {
   const aboutPaise = ceilTenPaise(exactPaise);
   const questions = Math.floor(mocks) * QUESTIONS_PER_MOCK;
   return {
-    kind: p.kind, pace, days: p.days, until: p.until ?? null, mocks, price: rupees(p.rupees * 100), exactPaise, exact: rupees(exactPaise), aboutPaise, about: rupees(aboutPaise),
+    kind: p.kind, pace, days: p.days, until: p.until ?? null, mocks, price: rupees(p.rupees * 100), pricePaise: p.rupees * 100, exactPaise, exact: rupees(exactPaise), aboutPaise, about: rupees(aboutPaise),
     questions, perQuestion: perQuestion(p.rupees * 100, questions),
   };
 }
@@ -112,9 +131,9 @@ export function perQuestion(pricePaise, questions) {
   return { exactPaise, paise: whole, under, text: `${under ? 'under ' : ''}${whole} ${whole === 1 ? 'paisa' : 'paise'}` };
 }
 
-/** Every pace of the control, worked out. */
+/** Every pace of the slider, worked out. */
 export const perMockTable = (offer, opts) => MOCK_PACES.map((pace) => perMock(offer, pace, opts)).filter(Boolean);
 
-/** The lowest honest per-mock figure: the control's top pace (R4-H2, the hero's "as low as ₹X a mock" hook reads this, so the
- *  hook and the control can never disagree). null when the offer gives no figure. */
+/** The lowest honest per-mock figure: the slider's top pace (R4-H2, the hero's "as low as ₹X a mock" hook reads this, so the
+ *  hook and the slider can never disagree). null when the offer gives no figure. */
 export const asLowAs = (offer, opts) => perMock(offer, MOCK_PACES[MOCK_PACES.length - 1], opts);

@@ -16,7 +16,7 @@
 // claim is new: each line is an older line of this page, shortened.
 
 import { labStory, signed } from './labStory.mjs';
-import { perDay, MONTH_DAYS } from '../../lib/payments/value.mjs';
+import { perDay, paceWords, MONTH_DAYS } from '../../lib/payments/value.mjs';
 import { SUBJECT_CLAIM } from '../../../data/subject_claim.js';
 
 export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2, tourPointWords: 10, step: 45, faq: 45, viewport: 60 });
@@ -139,40 +139,52 @@ export function planGroups({ newOffer = false } = {}) {
  *  the free first full mock is on, else null (page.js decides, data/first_full_mock.js). */
 export const freeLine = ({ firstFullMock = null } = {}) => (firstFullMock ? `${PLAN_HOME.free} ${firstFullMock}` : PLAN_HOME.free);
 
-/** The papers a CUET UG candidate can sit at most (NTA, CUET UG 2025 onwards: up to five subjects), for the lowest pace's
- *  honest framing (R4-H7: 5 a week is one a week in each of five papers, not a lot). */
-export const CUET_PAPERS = 5;
-const COUNT_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
+export { paceWords };
 const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+const n = (count) => Number(count).toLocaleString('en-IN');
 
-/** What a pace means, said plainly (R4-H7, owner LK131): `short` under the number in the control, `long` in the read-out.
- *  5 a week is one a week in each of five CUET papers; a multiple of 7 is so many a day. */
-export function paceWords(pace) {
-  if (pace === CUET_PAPERS) return { short: '1 per paper', long: `one a week in each of ${COUNT_WORDS[CUET_PAPERS]} CUET papers` };
-  if (pace % 7 === 0 && COUNT_WORDS[pace / 7]) return { short: `${pace / 7} a day`, long: `${COUNT_WORDS[pace / 7]} a day` };
-  return { short: `${pace} a week`, long: `${pace} a week` };
-}
-
-/** The value calculator's words (PlanValue.jsx; R3-D8, R4-H7). `m` is one row of value.mjs perMockTable: every figure in it is
- *  computed from the offer. The read-out is the figure, the catch (a question), then what the pace means and the sum. */
+/**
+ * The value receipt's words (PlanValue.jsx; round 5, owner 6 Nov 2026: "it should not look like that. We are just offering
+ * mocks ... There should be a slider for how many things a student can do ... So many features other than mocks also do we
+ * have, which the Pro plan gives"). `r` is one row of receipt.mjs receiptTable: every figure in it is computed from the offer,
+ * the Full mock's size, one stated per-mock rule and the real Key cards bank. The receipt counts what a pace comes to, lists
+ * what Pro includes beyond it without a number, and ends on the price divided by the count.
+ * Truth: the counted lines and the included lines are each already said on this page: the plan card (proPlan), the Lab's FAQ
+ * answer ("After every mock, the Lab shows ..."), and the Key cards bank line ("Pro every card"). Mistake Repair and Ask Mobi run
+ * on monthly credits capped per student, so they are included by name, never with a count or "unlimited".
+ */
 export const VALUE_COPY = Object.freeze({
-  title: 'What a mock costs at your pace',
-  pace: 'Full mocks a week',
-  result: 'a mock',
-  about: 'about',
-  /** The catch (owner LK131, "a cool catch"): a Full mock is 50 questions, so a question costs a few paise. */
-  question: (m) => `${cap(m.perQuestion.text)} a question.`,
-  /** What the pace comes to over the period the price pays for, in whole mocks and questions. It starts "At ..." so it reads as
-   *  this pace's month, never as a promise or a cap (the sheet above it draws the top pace's month; Pro's Full mocks are
-   *  unlimited on the offer this figure is shown for; R4 review). */
-  count: (m) => {
-    const n = m.mocks.toLocaleString('en-IN');
-    const q = m.questions.toLocaleString('en-IN');
-    const what = `At ${paceWords(m.pace).long}`;
-    return m.kind === 'monthly' ? `${what}: ${n} Full mocks in a ${MONTH_DAYS}-day month, ${q} questions.` : `${what}, to ${m.until}: ${n} Full mocks, ${q} questions.`;
-  },
-  /** The sum, kept together (no-break spaces), so a phone never breaks it after the price. */
-  math: (m) => `${m.price}\u00a0÷\u00a0${m.mocks.toLocaleString('en-IN')}\u00a0=\u00a0${m.exact}${m.exact === m.about ? '' : `, rounded up to ${m.about}`}.`,
+  title: (r) => `Everything your ${r.price} covers`,
+  lead: 'No cap on full mocks. Each one brings its own Lab read and chapter review.',
+  ask: 'How many full mocks will you sit?',
+  /** The receipt's head: the period the price pays for (a monthly and a one-time price never share a sentence). */
+  head: (r) => (r.kind === 'monthly' ? `MockMob Pro, one ${MONTH_DAYS}-day month` : `MockMob Pro, to ${r.until}`),
+  /** The counted lines, in receipt.mjs order. `detail` takes the row's (or the line's) figures. */
+  lines: Object.freeze({
+    mocks: Object.freeze({ label: 'Full mocks', detail: ({ questions, about }) => `${n(questions)} questions. About ${about} a mock.` }),
+    lab: Object.freeze({ label: 'Mistake Lab reads', detail: () => 'Time, changed answers and a SWOT for each' }),
+    review: Object.freeze({ label: 'Chapter reviews', detail: () => 'Every ranked chapter, pace and changed answers' }),
+    cards: Object.freeze({ label: 'Key cards', detail: ({ subjects }) => `Every card, in ${n(subjects)} subjects` }),
+  }),
+  /** What Pro includes beyond the counts, without a number: the plan card's own lines (proPlan: Smart practice and NTA mode,
+   *  Compass Pro, unlimited saves), then the two helpers that run on monthly credits, said as such. */
+  included: Object.freeze([
+    Object.freeze({ label: proPlan()[2] }),
+    Object.freeze({ label: 'Compass Pro for your DU shortlist' }),
+    Object.freeze({ label: proPlan()[4] }),
+    Object.freeze({ label: 'Mistake Repair and Ask Mobi', detail: 'On your monthly credits' }),
+  ]),
+  includedWord: 'Included',
+  /** The close: one full mock with everything above it, then the sum it comes from (kept together by no-break spaces, so a
+   *  phone never breaks it after the price). Unlike things are never added into one count (orchestrator review, 6 Nov). */
+  total: 'A full mock, everything above included',
+  sum: ({ price, mocks }) => `${price} ÷ ${n(mocks)} full mocks`,
+  /** The answer, "Under 1 paisa" (the figure, in the brand word colour, held on one line by no-break spaces so a phone never
+   *  parts the number from its unit), then " a question.". */
+  each: (r) => cap(r.each.text).replace(/ /g, ' '),
+  eachTail: ' a question.',
+  /** What a screen reader hears once the slider settles on a pace. */
+  live: (r) => `${cap(paceWords(r.pace).long)}: ${n(r.mocks)} full mocks, about ${r.perMock.about} a mock, ${r.each.text} a question.`,
 });
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks
