@@ -1,25 +1,34 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from 'react';
-import { DEFAULT_PACE, PACE, paceWords, rupees } from '@/lib/payments/value.mjs';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { PACE } from '@/lib/payments/value.mjs';
+import { CARD_PACE, mockPaces, planValue } from '@/lib/payments/receipt.mjs';
 import { VALUE_COPY } from './homeCopy.mjs';
 
-// Everything Pro's price covers at the student's own pace, as a receipt under one slider (round 5, owner 6 Nov 2026: "There
-// should be a slider for how many things a student can do, like if someone is attempting 1 mock, then repairs, then key cards
-// and other stuff ... making it so appealing that the cost is so low that someone thinks, 'How is this even possible?'").
-// The slider is a native range (arrows, Home/End and Page keys, a 44 px target, a screen reader hears the pace in words through
-// aria-valuetext): Full mocks a week, 5 to 21, each value said plainly ("5 full mocks a week", "1 full mock a day"). The receipt
-// counts what that pace comes to over the period the price pays for (Full mocks with their questions and the price of one,
-// a Mistake Lab read and a chapter review for each, the Key cards Pro opens while Key cards are live), lists what Pro includes
-// beyond the counts without a number, and ends on one full mock's price with all of it included and a question's ("Under 1
-// paisa a question."). Unlike things (a mock, its own Lab read, a bank of cards) are never added into one count.
-// Every figure was worked out on the server from the live offer (src/lib/payments/receipt.mjs receiptTable); nothing here is
-// typed or computed from money. The counts roll to their new values in 280 ms (ease-out) from wherever they stand, so a drag
-// reads as more, not as a flash; reduced motion changes them at once. The rolling digits are hidden from screen readers, which
-// read the real figures, and one polite live line says the new total once the pace changes.
+// Everything Pro's price covers at the student's own pace, beside the Pro card (round 5, second take; owner 6 Nov 2026: "the
+// slider implementation that you have done is a good direction, but it's a bit weird ... Full marks, 190, mistake lab 190, all but
+// key cards ... How many key cards will you practice?"; docs/design-decisions/web-r5-value.md).
+// It leads with what the price comes to a day, the same at every pace, with its sum. Two questions follow in the student's own
+// units, each a native range (arrows, Home/End and Page keys, a 44 px target; a screen reader hears the value in words through
+// aria-valuetext): full mocks a week (5 to 21, ticks at one and two a day) and, while Key cards are live, Key cards a day (10 to
+// 60, ticks every ten). The answer says that plan back over the period the price pays for, one line for each question, so no two
+// lines share a number (Full mocks with the price of a mock and of a question, their questions and the Lab read and chapter
+// review after every mock; the Key cards turned with their minutes a day and the bank they come from), then what else Pro holds
+// without a number. Every figure comes from receipt.mjs planValue (pure, tested); nothing here is typed or works
+// out money itself.
+// The days left are counted from the day the page was built (`from`, so the server's figures and the first paint agree), then,
+// once the block is on a reader's screen, from the reader's own day: the page is built once per release, and a frozen day would
+// overstate the mocks left and understate a day's price as the term runs down.
+// The counts roll to their new values in 280 ms (ease-out) from wherever they stand, so a drag reads as more, not as a flash;
+// reduced motion changes them at once. The rolling digits are hidden from screen readers, which read the real figures, and one
+// polite live line says the new plan once the student stops moving a slider.
 
 const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 const n = (count) => Number(count).toLocaleString('en-IN');
+const dayOf = (date) => date.toISOString().slice(0, 10);
+/** The ticks on each rail: whole days on the mocks rail (one and two a day), every ten on the Key cards rail. */
+const MOCK_TICKS = Object.freeze([7, 14]);
+const CARD_TICKS = Object.freeze([20, 30, 40, 50]);
 
 /** Rolls whole numbers to new targets together (one frame loop, ease-out), starting from the figures on screen. */
 function useRoll(targets, duration = 280) {
@@ -55,63 +64,97 @@ function Count({ shown, real }) {
   return <><span aria-hidden="true">{n(shown)}</span><span className="lp-sr">{n(real)}</span></>;
 }
 
-export function PlanValue({ rows }) {
-  const id = useId();
-  const min = rows[0].pace;
-  const max = rows[rows.length - 1].pace;
-  const [pace, setPace] = useState(rows.some((r) => r.pace === DEFAULT_PACE) ? DEFAULT_PACE : min);
-  const row = rows.find((r) => r.pace === pace) ?? rows[0];
-  // The per-mock price rolls in 10-paise steps (it is always rounded up to 10 paise).
-  const [mocks, questions, tenPaise] = useRoll([row.mocks, row.questions, row.perMock.aboutPaise / 10]);
-  const mockWords = VALUE_COPY.lines.mocks.detail;
-  const words = paceWords(pace);
-
+/** One line of the answer: its name and count, then what one costs (in ink) and what it holds, each on its own row. */
+function Line({ label, detail: [lead, rest], shown, real }) {
   return (
-    <div className="lp-rcpt" role="group" aria-labelledby={`${id}-title`}>
-      <h3 className="lp-rcpt__title" id={`${id}-title`}>{VALUE_COPY.title(row)}</h3>
-      <p className="lp-rcpt__lead">{VALUE_COPY.lead}</p>
+    <div className="lp-val__line">
+      <dt>{label}</dt>
+      <dd><Count shown={shown} real={real} /></dd>
+      <dd className="lp-val__more">{lead ? <b>{lead}</b> : null}<span>{rest}</span></dd>
+    </div>
+  );
+}
 
-      <div className="lp-rcpt__pace">
-        <label className="lp-rcpt__ask" htmlFor={`${id}-pace`}>{VALUE_COPY.ask}</label>
-        <p className="lp-rcpt__say" aria-hidden="true">{words.long}</p>
-        <div className="lp-rcpt__range" style={{ '--fill': max > min ? (pace - min) / (max - min) : 1 }}>
-          <span className="lp-rcpt__track" aria-hidden="true"><span className="lp-rcpt__fill" /></span>
-          <input id={`${id}-pace`} type="range" min={min} max={max} step={PACE.step} value={pace} aria-valuetext={words.long}
-            onChange={(event) => setPace(Number(event.target.value))} />
-        </div>
-        <p className="lp-rcpt__ends" aria-hidden="true"><span>{paceWords(min).short}</span><span>{paceWords(max).short}</span></p>
+/** One question: its words, the answer in words, a 44 px native range over a drawn rail with its ticks, and the two ends. */
+function Pace({ id, ask, words, value, min, max, step, ticks, onChange }) {
+  const span = max - min;
+  return (
+    <div className="lp-val__pace">
+      <div className="lp-val__ask">
+        <label htmlFor={id}>{ask}</label>
+        <span className="lp-val__say" aria-hidden="true">{words(value).short}</span>
+      </div>
+      <div className="lp-val__range" style={{ '--fill': span > 0 ? (value - min) / span : 1 }}>
+        <span className="lp-val__track" aria-hidden="true">
+          <span className="lp-val__fill" />
+          {ticks.filter((t) => t > min && t < max).map((t) => <i key={t} className="lp-val__tick" style={{ '--at': (t - min) / span }} />)}
+        </span>
+        <input id={id} type="range" min={min} max={max} step={step} value={value} aria-valuetext={words(value).long}
+          onChange={(event) => onChange(Number(event.target.value))} />
+      </div>
+      <p className="lp-val__ends" aria-hidden="true"><span>{words(min).short}</span><span>{words(max).short}</span></p>
+    </div>
+  );
+}
+
+export function PlanValue({ offer, from, keyCards = null, minutesPerCard = null }) {
+  const id = useId();
+  const [readOn, setReadOn] = useState(from);
+  useEffect(() => {
+    if (dayOf(new Date()) === dayOf(new Date(from))) return undefined;
+    const frame = requestAnimationFrame(() => setReadOn(new Date().toISOString()));
+    return () => cancelAnimationFrame(frame);
+  }, [from]);
+  const at = useMemo(() => new Date(readOn), [readOn]);
+  const paces = useMemo(() => mockPaces(offer, { from: at }), [offer, at]);
+  const [pace, setPace] = useState(PACE.start);
+  const [cards, setCards] = useState(CARD_PACE.start);
+  const [touched, setTouched] = useState(false);
+  const [said, setSaid] = useState('');
+  // Near the end of a one-time term the lowest paces fill no whole mock; the slider then starts at the first pace that does.
+  const low = paces[0] ?? PACE.min;
+  const high = paces.at(-1) ?? PACE.max;
+  const pick = Math.min(Math.max(pace, low), high);
+  const v = useMemo(() => (paces.length ? planValue(offer, { from: at, pace: pick, cards, keyCards, minutesPerCard }) : null), [paces, offer, at, pick, cards, keyCards, minutesPerCard]);
+  const [mocks, turned] = useRoll(v ? [v.mocks, v.cards?.count ?? 0] : [0, 0]);
+  useEffect(() => {
+    if (!touched || !v) return undefined;
+    const timer = setTimeout(() => setSaid(VALUE_COPY.live(v)), 700);
+    return () => clearTimeout(timer);
+  }, [touched, v]);
+  if (!v) return null;
+
+  const day = VALUE_COPY.day(v);
+  const { lines } = VALUE_COPY;
+  // A move marks the block as touched, so the live line speaks only after a student's own change, never on load.
+  const move = (set) => (value) => { setTouched(true); set(value); };
+  return (
+    <div className="lp-val" role="group" aria-labelledby={`${id}-title`}>
+      <div className="lp-val__top">
+        <h3 className="lp-val__title" id={`${id}-title`}>{VALUE_COPY.title(v)}</h3>
+        <p className="lp-val__day">{day.lead}<b>{day.figure}</b>{day.unit}</p>
+        <p className="lp-val__sum">{VALUE_COPY.daySum(v)}</p>
       </div>
 
-      <div className="lp-rcpt__paper">
-        <p className="lp-rcpt__head"><span>{VALUE_COPY.head(row)}</span><b>{row.price}</b></p>
-        <dl className="lp-rcpt__lines">
-          {row.lines.map((line) => {
-            const copy = VALUE_COPY.lines[line.key];
-            const rolls = line.key !== 'cards';
-            return (
-              <div key={line.key} className="lp-rcpt__line">
-                <dt>
-                  {copy.label}
-                  {line.key === 'mocks' ? (
-                    <small><span aria-hidden="true">{mockWords({ questions, about: rupees(tenPaise * 10) })}</span><span className="lp-sr">{mockWords({ questions: row.questions, about: row.perMock.about })}</span></small>
-                  ) : <small>{copy.detail(line)}</small>}
-                </dt>
-                <dd>{rolls ? <Count shown={mocks} real={line.count} /> : n(line.count)}</dd>
-              </div>
-            );
-          })}
-          {VALUE_COPY.included.map((item, i) => (
-            <div key={item.label} className="lp-rcpt__line lp-rcpt__line--inc" data-first={i === 0 ? '' : undefined}>
-              <dt>{item.label}{item.detail ? <small>{item.detail}</small> : null}</dt>
-              <dd>{VALUE_COPY.includedWord}</dd>
-            </div>
-          ))}
+      <div className="lp-val__paces">
+        <Pace id={`${id}-mocks`} ask={VALUE_COPY.mocks.ask} words={VALUE_COPY.mocks.words} value={pick} min={low} max={high} step={PACE.step}
+          ticks={MOCK_TICKS} onChange={move(setPace)} />
+        {v.cards ? (
+          <Pace id={`${id}-cards`} ask={VALUE_COPY.cards.ask} words={VALUE_COPY.cards.words} value={v.cards.perDay} min={CARD_PACE.min}
+            max={CARD_PACE.max} step={CARD_PACE.step} ticks={CARD_TICKS} onChange={move(setCards)} />
+        ) : null}
+      </div>
+
+      <div className="lp-val__out">
+        <p className="lp-val__plan">{VALUE_COPY.plan}</p>
+        <dl className="lp-val__lines">
+          <Line label={lines.mocks.label} detail={lines.mocks.detail(v)} shown={mocks} real={v.mocks} />
+          {v.cards ? <Line label={lines.cards.label} detail={lines.cards.detail(v)} shown={turned} real={v.cards.count} /> : null}
         </dl>
-        <p className="lp-rcpt__total"><span>{VALUE_COPY.total}</span><b><span aria-hidden="true">{rupees(tenPaise * 10)}</span><span className="lp-sr">{row.perMock.about}</span></b></p>
-        <p className="lp-rcpt__sum"><span aria-hidden="true">{VALUE_COPY.sum({ price: row.price, mocks })}</span><span className="lp-sr">{VALUE_COPY.sum(row)}</span></p>
-        <p className="lp-rcpt__each"><b>{VALUE_COPY.each(row)}</b>{VALUE_COPY.eachTail}</p>
       </div>
-      <p className="lp-sr" aria-live="polite">{VALUE_COPY.live(row)}</p>
+
+      <p className="lp-val__also"><b>{VALUE_COPY.also.lead}</b> {VALUE_COPY.alsoLine()} {VALUE_COPY.also.credits}</p>
+      <p className="lp-sr" aria-live="polite">{said}</p>
     </div>
   );
 }

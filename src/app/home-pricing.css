@@ -3,35 +3,40 @@
    6 Nov 2026; HomePricing.jsx)
    The /pricing page's one plan on its stage (the big "Pro", the glass card, its seal strip and grouped lines: shared with
    /pricing in src/components/pricing/plan-stage.css), Get Pro and the quiet Free line; beside it from 720 px (under it on
-   phones) everything the price covers at your pace (PlanValue.jsx): one slider of Full mocks a week said in words, then a
-   receipt on raised paper (dashed rules, tabular counts on the right): Full mocks, a Mistake Lab read and a chapter review for
-   each, the Key cards Pro opens, what Pro includes beyond the counts, the total, the sum and the answer ("Under 1 paisa each.").
-   One accent: the slider's fill and the answer read --brand-word (volt in Night, the Day green in Day); the knob is plain
-   paper (light ink in Night, raised paper in Day) with a hairline and a soft offset shadow, so volt stays the Get Pro key's
-   and the fill's (data/tests/night_calm_1104.test.mjs C3, C9). No glow, no gradient, no sheen; the counts roll on a change
-   only (280 ms, ease-out), none under reduced motion. The dated rival comparison is gone (R4-H7, LK132).
+   phones) everything the price covers at your pace (PlanValue.jsx), as a solid card of its own: level with the plan card's top
+   and as tall as it, so the two read as equals (round 5, second take, owner: "both should be equally visible ... Maybe you bring
+   it up"). Inside: the price a day (the one big figure), two questions on native ranges (full mocks a week, Key cards a day,
+   each answered in words, with ticks), the plan said back as three different numbers, and one line of what else Pro holds.
+   One accent: the day's figure and the rails' fills read --brand-word (volt in Night, the Day green in Day); the knobs are plain
+   paper with a hairline and a soft offset shadow, so volt stays the Get Pro key's and the fills' (data/tests/night_calm_1104.test.mjs
+   C3, C9). No glow, no gradient, no glass on this card; the counts roll on a change only (280 ms, ease-out), none under reduced
+   motion. The dated rival comparison is gone (R4-H7, LK132).
    ========================================================================== */
 
 .lp .lp-price {
-  --rcpt-rail: rgba(244, 240, 230, 0.14);
-  --rcpt-knob: #f4f0e6;
-  --rcpt-knob-edge: rgba(0, 0, 0, 0.35);
-  --rcpt-knob-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-  --rcpt-knob-press: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --val-rail: rgba(244, 240, 230, 0.14);
+  --val-tick: rgba(244, 240, 230, 0.34);
+  --val-knob: #f4f0e6;
+  --val-knob-edge: rgba(0, 0, 0, 0.35);
+  --val-knob-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  --val-knob-press: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --val-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
 }
 html[data-theme='light'] .lp .lp-price {
-  --rcpt-rail: rgba(27, 25, 20, 0.13);
-  --rcpt-knob: #fffdf8;
-  --rcpt-knob-edge: rgba(27, 25, 20, 0.2);
-  --rcpt-knob-shadow: 0 2px 6px rgba(42, 32, 16, 0.24);
-  --rcpt-knob-press: 0 1px 2px rgba(42, 32, 16, 0.3);
+  --val-rail: rgba(27, 25, 20, 0.13);
+  --val-tick: rgba(27, 25, 20, 0.3);
+  --val-knob: #fffdf8;
+  --val-knob-edge: rgba(27, 25, 20, 0.2);
+  --val-knob-shadow: 0 2px 6px rgba(42, 32, 16, 0.24);
+  --val-knob-press: 0 1px 2px rgba(42, 32, 16, 0.3);
+  --val-card-shadow: 0 4px 24px rgba(27, 25, 20, 0.08);
 }
 
 .lp .lp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 
 /* ---- Layout ---------------------------------------------------------------------------------------------------------------- */
 .lp .lp-price__head { margin-bottom: clamp(0.5rem, 2vw, 1.5rem); }
-.lp .lp-price__grid { display: grid; gap: 2.5rem; }
+.lp .lp-price__grid { display: grid; gap: 2rem; }
 .lp .lp-price__stage,
 .lp .lp-price__side { width: 100%; max-width: 30rem; margin-inline: auto; min-width: 0; }
 
@@ -57,132 +62,133 @@ html[data-theme='light'] .lp .lp-price {
 .lp :is(.lp-plan__more, .lp-plan__freekey):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 6px; }
 
 /* ---- Everything the price covers at your pace (PlanValue.jsx) ---------------------------------------------------------- */
-.lp .lp-rcpt__title {
-  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: clamp(1.375rem, 2.2vw, 1.75rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--ink);
+/* A solid card, the plan card's equal: the same 28 px corners and soft shadow, raised paper instead of glass. Its four parts are
+   separated by hairlines; when the card is stretched to the plan card's height, the room goes evenly between the parts. */
+.lp .lp-val {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 1.125rem;
+  padding: 1.25rem 1.25rem 1.375rem; border: 1px solid var(--line); border-radius: 28px; background: var(--paper-raised);
+  box-shadow: var(--val-card-shadow);
 }
-.lp .lp-rcpt__lead { max-width: 46ch; margin: 0.5rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.lp .lp-val__title {
+  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.015em; color: var(--ink);
+}
+/* The one big figure: what the price comes to a day, with its sum under it. */
+.lp .lp-val__day {
+  margin: 0.375rem 0 0; font-family: var(--font-display); font-weight: 750; font-size: clamp(2rem, 8.6vw, 2.5rem); line-height: 1.05;
+  letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.lp .lp-val__day b { font-weight: 800; color: var(--brand-word); }
+.lp .lp-val__sum { margin: 0.375rem 0 0; font-size: 0.875rem; line-height: 1.4; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-/* The slider: the question, the pace in words, a 44 px native range over a drawn rail, and its two ends. */
-.lp .lp-rcpt__pace { margin-top: 1.25rem; }
-.lp .lp-rcpt__ask { display: block; font-size: 0.9375rem; font-weight: 600; line-height: 1.4; color: var(--ink-2); }
-.lp .lp-rcpt__say {
-  margin: 0.125rem 0 0; font-family: var(--font-display); font-weight: 750; font-size: 1.375rem; line-height: 1.2; letter-spacing: -0.015em;
-  color: var(--ink); font-variant-numeric: tabular-nums;
+/* The two questions: the words and the answer on one line, a 44 px native range over a drawn rail with ticks, the two ends. */
+.lp .lp-val__paces { display: grid; gap: 0.875rem; padding-top: 1.125rem; border-top: 1px solid var(--line); }
+.lp .lp-val__ask { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.lp .lp-val__ask label { min-width: 0; font-size: 0.9375rem; font-weight: 600; line-height: 1.35; color: var(--ink-2); text-wrap: balance; }
+.lp .lp-val__say {
+  flex: none; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap;
 }
-.lp .lp-rcpt__range { --thumb: 28px; position: relative; height: 44px; margin-top: 0.25rem; }
-.lp .lp-rcpt__track {
-  position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: 999px; background: var(--rcpt-rail); pointer-events: none;
+.lp .lp-val__range { --thumb: 28px; position: relative; height: 44px; margin-top: 0.125rem; }
+.lp .lp-val__track {
+  position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: 999px; background: var(--val-rail); pointer-events: none;
 }
-/* The fill ends under the thumb's centre: half a thumb, then the share of the rest the pace has travelled. */
-.lp .lp-rcpt__fill {
+/* The fill ends under the thumb's centre: half a thumb, then the share of the rest the value has travelled. Ticks sit where the
+   thumb's centre would sit on their value, so "1 a day" lands on its tick. */
+.lp .lp-val__fill {
   position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--thumb) / 2 + var(--fill, 0) * (100% - var(--thumb)));
   border-radius: inherit; background: var(--brand-word);
 }
-.lp .lp-rcpt__range input {
-  position: relative; z-index: 1; display: block; width: 100%; height: 44px; margin: 0; padding: 0; background: transparent; cursor: pointer;
-  -webkit-appearance: none; appearance: none;
+.lp .lp-val__tick {
+  position: absolute; top: 50%; left: calc(var(--thumb) / 2 + var(--at, 0) * (100% - var(--thumb))); width: 2px; height: 12px; margin: -6px 0 0 -1px;
+  border-radius: 1px; background: var(--val-tick);
 }
-.lp .lp-rcpt__range input:focus { outline: none; }
-.lp .lp-rcpt__range input::-webkit-slider-runnable-track { height: 44px; border: 0; background: transparent; }
-.lp .lp-rcpt__range input::-moz-range-track { height: 44px; border: 0; background: transparent; }
-.lp .lp-rcpt__range input::-webkit-slider-thumb {
+.lp .lp-val__range input {
+  position: relative; z-index: 1; display: block; width: 100%; height: 44px; margin: 0; padding: 0; background: transparent; cursor: pointer;
+  -webkit-appearance: none; appearance: none; touch-action: pan-y;
+}
+.lp .lp-val__range input:focus { outline: none; }
+.lp .lp-val__range input::-webkit-slider-runnable-track { height: 44px; border: 0; background: transparent; }
+.lp .lp-val__range input::-moz-range-track { height: 44px; border: 0; background: transparent; }
+.lp .lp-val__range input::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none; box-sizing: border-box; width: var(--thumb); height: var(--thumb); margin-top: calc((44px - var(--thumb)) / 2);
-  border: 1px solid var(--rcpt-knob-edge); border-radius: 50%; background: var(--rcpt-knob); box-shadow: var(--rcpt-knob-shadow);
+  border: 1px solid var(--val-knob-edge); border-radius: 50%; background: var(--val-knob); box-shadow: var(--val-knob-shadow);
   transition: box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.lp .lp-rcpt__range input::-moz-range-thumb {
-  box-sizing: border-box; width: var(--thumb); height: var(--thumb); border: 1px solid var(--rcpt-knob-edge); border-radius: 50%; background: var(--rcpt-knob);
-  box-shadow: var(--rcpt-knob-shadow); transition: box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1);
+.lp .lp-val__range input::-moz-range-thumb {
+  box-sizing: border-box; width: var(--thumb); height: var(--thumb); border: 1px solid var(--val-knob-edge); border-radius: 50%; background: var(--val-knob);
+  box-shadow: var(--val-knob-shadow); transition: box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-/* Pressed: the knob settles (its shadow tightens). Focus: a solid ring in the focus colour, set off from the knob by the paper. */
-.lp .lp-rcpt__range input:active::-webkit-slider-thumb { box-shadow: var(--rcpt-knob-press); }
-.lp .lp-rcpt__range input:active::-moz-range-thumb { box-shadow: var(--rcpt-knob-press); }
-.lp .lp-rcpt__range input:focus-visible::-webkit-slider-thumb { box-shadow: var(--rcpt-knob-shadow), 0 0 0 2px var(--paper), 0 0 0 4px var(--focus-ring, var(--ink)); }
-.lp .lp-rcpt__range input:focus-visible::-moz-range-thumb { box-shadow: var(--rcpt-knob-shadow), 0 0 0 2px var(--paper), 0 0 0 4px var(--focus-ring, var(--ink)); }
-.lp .lp-rcpt__ends { display: flex; justify-content: space-between; gap: 1rem; margin: 0; font-size: 0.8125rem; font-weight: 550; line-height: 1.3; color: var(--ink-3); }
+/* Pressed: the knob settles (its shadow tightens). Focus: a solid ring in the focus colour, set off from the knob by the card. */
+.lp .lp-val__range input:active::-webkit-slider-thumb { box-shadow: var(--val-knob-press); }
+.lp .lp-val__range input:active::-moz-range-thumb { box-shadow: var(--val-knob-press); }
+.lp .lp-val__range input:focus-visible::-webkit-slider-thumb { box-shadow: var(--val-knob-shadow), 0 0 0 2px var(--paper-raised), 0 0 0 4px var(--focus-ring, var(--ink)); }
+.lp .lp-val__range input:focus-visible::-moz-range-thumb { box-shadow: var(--val-knob-shadow), 0 0 0 2px var(--paper-raised), 0 0 0 4px var(--focus-ring, var(--ink)); }
+.lp .lp-val__ends { display: flex; justify-content: space-between; gap: 1rem; margin: 0; font-size: 0.8125rem; font-weight: 550; line-height: 1.3; color: var(--ink-3); }
 
-/* The receipt: raised paper, a head with the period and the price, the counted lines, what Pro includes, the total, the sum and
-   the answer. Rules are dashed hairlines, the way a printed receipt draws them, and the total sits under a tear line (a notch
-   cut into each edge, in the page's own paper); every figure is a tabular numeral. */
-.lp .lp-rcpt__paper {
-  --rcpt-pad: 1.125rem;
-  position: relative; overflow: hidden; margin-top: 1.25rem; padding: 1.125rem var(--rcpt-pad) 1.25rem;
-  border: 1px solid var(--line); border-radius: 20px; background: var(--paper-raised);
+/* The answer: the plan kept for the period, then three different numbers, each with what it holds and what one costs. */
+.lp .lp-val__out { padding-top: 1.125rem; border-top: 1px solid var(--line); }
+.lp .lp-val__plan { margin: 0; font-size: 0.875rem; font-weight: 600; line-height: 1.4; color: var(--ink-3); }
+.lp .lp-val__lines { display: grid; gap: 0.75rem; margin: 0.625rem 0 0; padding: 0; }
+.lp .lp-val__line { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 1rem; }
+.lp .lp-val__line dt { min-width: 0; font-weight: 650; font-size: 1rem; line-height: 1.3; color: var(--ink); }
+.lp .lp-val__line dd {
+  margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink);
+  text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap;
 }
-.lp .lp-rcpt__head {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0; padding-bottom: 0.75rem;
-  border-bottom: 1px dashed var(--line-strong); font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.3; color: var(--ink);
+/* Under the name and count: what one costs (in ink, it reads first), then what it holds, each on its own row. */
+.lp .lp-val__line .lp-val__more {
+  grid-column: 1 / -1; display: grid; gap: 0.125rem; margin-top: 0.25rem; font-family: inherit; font-weight: 450; font-size: 0.8125rem; line-height: 1.4;
+  letter-spacing: 0; color: var(--ink-3); text-align: left; white-space: normal; font-variant-numeric: tabular-nums; text-wrap: pretty;
 }
-.lp .lp-rcpt__head b { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lp .lp-rcpt__lines { margin: 0; padding: 0.375rem 0 0; }
-.lp .lp-rcpt__line { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 1rem; padding: 0.4375rem 0; }
-.lp .lp-rcpt__line dt { min-width: 0; font-weight: 650; font-size: 1rem; line-height: 1.3; color: var(--ink); }
-.lp .lp-rcpt__line dt small {
-  display: block; margin-top: 0.125rem; font-weight: 450; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); font-variant-numeric: tabular-nums; text-wrap: pretty;
-}
-.lp .lp-rcpt__line dd {
-  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: 1.125rem; line-height: 1.3; color: var(--ink); text-align: right;
-  font-variant-numeric: tabular-nums; white-space: nowrap;
-}
-.lp .lp-rcpt__line--inc { padding: 0.25rem 0; }
-.lp .lp-rcpt__line--inc[data-first] { margin-top: 0.5rem; padding-top: 0.8125rem; border-top: 1px dashed var(--line-strong); }
-.lp .lp-rcpt__line--inc dt { font-weight: 550; font-size: 0.9375rem; line-height: 1.4; color: var(--ink-2); }
-.lp .lp-rcpt__line--inc dt small { margin-top: 0; }
-.lp .lp-rcpt__line.lp-rcpt__line--inc dd { font-family: inherit; font-weight: 600; font-size: 0.8125rem; color: var(--ink-3); }
-.lp .lp-rcpt__total {
-  position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin: 0.75rem 0 0; padding-top: 1rem;
-  border-top: 1px dashed var(--line-strong); font-weight: 650; font-size: 1rem; color: var(--ink-2);
-}
-.lp .lp-rcpt__total::before,
-.lp .lp-rcpt__total::after {
-  content: ''; position: absolute; top: -10px; width: 20px; height: 20px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper);
-}
-.lp .lp-rcpt__total::before { left: calc(-1 * var(--rcpt-pad) - 11px); }
-.lp .lp-rcpt__total::after { right: calc(-1 * var(--rcpt-pad) - 11px); }
-.lp .lp-rcpt__total b { font-family: var(--font-display); font-weight: 800; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
-.lp .lp-rcpt__sum { margin: 0.75rem 0 0; font-size: 0.9375rem; line-height: 1.4; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.lp .lp-rcpt__each {
-  margin: 0.125rem 0 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(2rem, 9vw, 2.75rem); line-height: 1.05; letter-spacing: -0.03em;
-  color: var(--ink); font-variant-numeric: tabular-nums; text-wrap: balance;
-}
-.lp .lp-rcpt__each b { font-weight: inherit; color: var(--brand-word); }
+.lp .lp-val__line .lp-val__more b { font-weight: 650; color: var(--ink-2); }
 
-/* ---- Tablets and wider: the plan on the left, the receipt beside it -------------------------------------------------------- */
-/* Round 5: the receipt is about as tall as the card, so it no longer sticks while the card scrolls past (a sticky receipt taller
-   than a 900 px window would hide its own answer under the fold until the card ended). */
+/* What else Pro holds, in one line, without a number. */
+.lp .lp-val__also { margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.lp .lp-val__also b { font-weight: 650; color: var(--ink); }
+
+/* ---- Tablets and wider: the plan and the value as equals, side by side -------------------------------------------------------- */
+/* Two equal columns; the value card starts level with the plan card's top (the card starts at 64% of the word). With both
+   questions (Key cards live, as in production) it holds about as much as the plan card, so it stretches to the card's foot and the
+   two end level; with one question (Key cards off) it keeps its own height rather than open empty bands. */
 @media (min-width: 720px) {
-  .lp .lp-price__grid { --plan-word: 10rem; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 2rem; align-items: start; }
+  .lp .lp-price__grid { --plan-word: 10rem; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.5rem; align-items: start; }
   .lp .lp-price__grid--one { grid-template-columns: minmax(0, 30rem); justify-content: center; }
   .lp .lp-price__stage, .lp .lp-price__side { max-width: none; margin-inline: 0; }
-  /* The receipt starts level with the card's top (the card starts at 64% of the word). */
   .lp .lp-price__side { margin-top: calc(var(--plan-word) * 0.64); }
+  .lp .lp-price__side--full { align-self: stretch; display: flex; flex-direction: column; }
+  .lp .lp-price__side--full .lp-val { flex: 1 1 auto; }
 }
 @media (min-width: 960px) {
-  .lp .lp-price__grid { grid-template-columns: minmax(0, 29rem) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7.5rem); }
-  .lp .lp-price__side { max-width: 34rem; }
-  .lp .lp-rcpt__paper { --rcpt-pad: 1.5rem; padding-block: 1.25rem 1.5rem; }
-  .lp .lp-rcpt__lead { max-width: none; }
+  .lp .lp-price__grid { column-gap: clamp(2rem, 4vw, 4rem); }
+  .lp .lp-val { padding: 1.5rem 1.75rem 1.625rem; }
+  .lp .lp-val__title { font-size: 1.375rem; }
+  .lp .lp-val__day { font-size: 3rem; }
+  .lp .lp-val__sum { font-size: 0.9375rem; }
+  .lp .lp-val__paces { gap: 1.25rem; }
+  .lp .lp-val__ask label { font-size: 1rem; }
+  .lp .lp-val__say { font-size: 1.375rem; }
+  .lp .lp-val__plan { font-size: 0.9375rem; }
+  .lp .lp-val__lines { gap: 1.375rem; margin-top: 1rem; }
+  .lp .lp-val__line dt { font-size: 1.0625rem; }
+  .lp .lp-val__line dd { font-size: 2rem; }
+  .lp .lp-val__line .lp-val__more { font-size: 0.875rem; }
 }
 /* Large desktops (LK117: "everything should be massive, clearly visible"): a bigger word, card and read-out. */
 @media (min-width: 1400px) {
-  .lp .lp-price__grid { --plan-word: 11.5rem; grid-template-columns: minmax(0, 32rem) minmax(0, 1fr); }
-  .lp .lp-price__side { max-width: 38rem; }
-  .lp .lp-rcpt__title { font-size: 2rem; }
-  .lp .lp-rcpt__lead, .lp .lp-rcpt__ask { font-size: 1rem; }
-  .lp .lp-rcpt__say { font-size: 1.625rem; }
-  .lp .lp-rcpt__line dt { font-size: 1.0625rem; }
-  .lp .lp-rcpt__line dt small { font-size: 0.875rem; }
-  .lp .lp-rcpt__line dd { font-size: 1.25rem; }
-  .lp .lp-rcpt__line--inc dt { font-size: 1rem; }
-  .lp .lp-rcpt__line.lp-rcpt__line--inc dd { font-size: 0.875rem; }
-  .lp .lp-rcpt__total b { font-size: 1.875rem; }
-  .lp .lp-rcpt__each { font-size: 2.875rem; }
+  .lp .lp-price__grid { --plan-word: 11.5rem; }
+  .lp .lp-val__title { font-size: 1.5rem; }
+  .lp .lp-val__day { font-size: 3.375rem; }
+  .lp .lp-val__say { font-size: 1.5rem; }
+  .lp .lp-val__line dt { font-size: 1.125rem; }
+  .lp .lp-val__line .lp-val__more { font-size: 0.9375rem; }
+  .lp .lp-val__line dd { font-size: 2.25rem; }
+  .lp .lp-val__also { font-size: 0.9375rem; }
 }
 
 /* ---- Reduced motion: nothing moves (the counts change at once, PlanValue.jsx) ---------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .lp .lp-rcpt__range input::-webkit-slider-thumb { transition: none; }
-  .lp .lp-rcpt__range input::-moz-range-thumb { transition: none; }
+  .lp .lp-val__range input::-webkit-slider-thumb { transition: none; }
+  .lp .lp-val__range input::-moz-range-thumb { transition: none; }
 }
-:root[data-motion='reduced'] .lp .lp-rcpt__range input::-webkit-slider-thumb { transition: none; }
-:root[data-motion='reduced'] .lp .lp-rcpt__range input::-moz-range-thumb { transition: none; }
+:root[data-motion='reduced'] .lp .lp-val__range input::-webkit-slider-thumb { transition: none; }
+:root[data-motion='reduced'] .lp .lp-val__range input::-moz-range-thumb { transition: none; }

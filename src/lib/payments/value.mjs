@@ -6,22 +6,24 @@
 // The dated rival comparison left the site in R4 (owner LK132: naming other platforms is a legal risk), and its maths with it.
 // Round 5 (owner, 6 Nov 2026: "In 5, you have written 1 per paper. What does that mean? ... There should be a slider"): the four
 // keys became one slider of Full mocks a week, 5 to 21 (PACE), each value said plainly (paceWords), and the value block beside
-// the Pro card became a receipt of everything Pro's price covers at that pace (receipt.mjs).
+// the Pro card became the value plan of everything Pro's price covers at the student's own pace (receipt.mjs).
 //
 // Pure: no clock (the caller passes the date) and one import, the Full mock's own size (data/test_modes.js, itself pure), so
 // node --test runs every branch (data/tests/pricing_value_1105.test.mjs).
-// Honest-money rules (owner UI standards, R3 spec): every "about" figure is the division to the paisa rounded UP to the next 10
-// paise, never down (a count of mocks is shown to one decimal, or rounded down once it is 20 or more), so the figure matches
-// price / (n x 30/7) rounded up; a question is "under" the next whole paisa only when the exact figure is below it; the maths
-// is shown beside it; and a monthly price and a one-time price never share one sentence.
+// Honest-money rules (owner UI standards, R3 spec): every "about" figure is the true division rounded UP to the next 10 paise,
+// never down (aboutTenPaise; a count of mocks is shown to one decimal, or rounded down once it is 20 or more), so the figure
+// matches price / (n x 30/7) rounded up; a question is "under" the next whole paisa only when the exact figure is below it; the
+// maths is shown beside it; and a monthly price and a one-time price never share one sentence.
 import { TEST_MODES } from '../../../data/test_modes.js';
 
 /** The slider: Full mocks a week, from 5 (owner LK131: "start at 5-7 so even the lowest makes students feel they practise too
- *  little") to 21, three a day, in steps of one; one a day first. */
-export const PACE = Object.freeze({ min: 5, max: 21, step: 1, start: 7 });
+ *  little") to 21, three a day, in steps of one. It starts at its floor, 5 a week (round 5, second take): the student moves it up
+ *  from there, and at the start no figure on the value card repeats another (at one a day a mock would cost what a day does, and
+ *  the mocks would equal the days). */
+export const PACE = Object.freeze({ min: 5, max: 21, step: 1, start: 5 });
 /** Every value the slider can take, lowest first (the hero's "as low as" hook reads the last). */
 export const MOCK_PACES = Object.freeze(Array.from({ length: (PACE.max - PACE.min) / PACE.step + 1 }, (_, i) => PACE.min + i * PACE.step));
-/** The pace selected first: one Full mock a day. */
+/** The pace selected first: 5 Full mocks a week, the floor. */
 export const DEFAULT_PACE = PACE.start;
 /** A month of Pro, in days, for the per-day and per-mock framing (price / (n x 30/7)). */
 export const MONTH_DAYS = 30;
@@ -47,6 +49,13 @@ const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 
 
 /** Rupees in paise rounded UP to the next 10 paise (a tiny epsilon keeps an exact 330.0000001 from becoming 340). */
 export const ceilTenPaise = (paise) => Math.ceil(paise / 10 - 1e-9) * 10;
+
+/**
+ * "About" a share of the price: price / count, rounded UP to the next 10 paise from the true division (never from a figure
+ * already rounded to the paisa, which could sit up to half a paisa under it). One rule for a day, a mock and the value plan
+ * beside the Pro card (receipt.mjs), so at one full mock a day a mock and a day always read the same figure.
+ */
+export const aboutTenPaise = (pricePaise, count) => ceilTenPaise(pricePaise / count);
 
 /** "₹3.30", "₹4.80", "₹99", "₹1,043": whole rupees print without paise, everything else with two places. */
 export function rupees(paise) {
@@ -89,14 +98,14 @@ function period(offer, from) {
 export function perDay(offer, { from } = {}) {
   const p = period(offer, from);
   if (!p) return null;
-  const perDayPaise = ceilTenPaise((p.rupees * 100) / p.days);
+  const perDayPaise = aboutTenPaise(p.rupees * 100, p.days);
   return { kind: p.kind, rupees: p.rupees, days: p.days, until: p.until ?? null, perDayPaise, perDay: rupees(perDayPaise) };
 }
 
 /**
  * What one Full mock comes to at `pace` mocks a week. The chain is the one the page prints, so a reader can check it on a
- * calculator: mocks = pace x days / 7 (shown), exact = price / mocks (shown to the paisa), about = that figure rounded UP to the
- * next 10 paise.
+ * calculator: mocks = pace x days / 7 (shown), exact = price / mocks (to the paisa), about = price / mocks rounded UP to the
+ * next 10 paise (aboutTenPaise).
  * { pace, mocks, exact: '₹11.51', about: '₹11.60', aboutPaise, price: '₹99', pricePaise, days, kind }
  */
 export function perMock(offer, pace, { from } = {}) {
@@ -105,7 +114,7 @@ export function perMock(offer, pace, { from } = {}) {
   const mocks = mocksIn(pace, p.days);
   if (!(mocks > 0)) return null;
   const exactPaise = Math.round((p.rupees * 100) / mocks);
-  const aboutPaise = ceilTenPaise(exactPaise);
+  const aboutPaise = aboutTenPaise(p.rupees * 100, mocks);
   const questions = Math.floor(mocks) * QUESTIONS_PER_MOCK;
   return {
     kind: p.kind, pace, days: p.days, until: p.until ?? null, mocks, price: rupees(p.rupees * 100), pricePaise: p.rupees * 100, exactPaise, exact: rupees(exactPaise), aboutPaise, about: rupees(aboutPaise),

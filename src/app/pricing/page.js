@@ -14,6 +14,7 @@ import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButto
 import { NtaArt, PapersArt, ProHeroArt, ProSealStrip, SmartArt, Tick } from '@/components/pricing/ProShowcase';
 import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
+import { PlanChoice } from '@/components/pricing/PlanChoice';
 import { PlanCounts } from '@/components/landing/PlanCounts';
 import { planGroups } from '@/components/landing/homeCopy.mjs';
 import { PLAN_COPY, choiceLine, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
@@ -66,6 +67,9 @@ const PRO_COPY = Object.freeze({
   // Its line follows the offer on sale (planOffer.mjs choiceLine): "unlimited mocks" only while Pro's list says so.
   choiceLine: choiceLine({ newOffer: newOfferReleased() }),
   words: { free: 'Free', pro: 'Pro' },
+  // On phones the two plans are one swipeable pair under a Pro | Free switch, Pro first (round 5, owner 6 Nov 2026): the switch's
+  // name for a screen reader ("Plans", then "Pro, pressed" or "Free").
+  switchLabel: 'Plans',
   freeHow: 'How Free works',
   moments: [
     {
@@ -358,26 +362,16 @@ export default async function PricingPage({ searchParams }) {
 
         {/* Free or Pro (R4, owner LK134): the last section is the choice. Free's card under a quiet "Free", Pro's under the big
             "Pro" as on the home page (PlanStage and the glass PlanCard with its seal strip and grouped lines, shared with #pricing
-            there), and the one checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it. */}
+            there), and the one checkout on Pro's card. The dock, the hero key and the Upgrade sheet (/pricing#plans) land on it.
+            Round 5 (owner, 6 Nov 2026: "Pro should be the first option"): Pro comes first in the page, and on phones the two are
+            one swipeable pair under a Pro | Free switch (PlanChoice); tablets and desktops still draw Free first, beside Pro. */}
         <section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">
           <div className="pro-wrap">
             <div className="pro-choice__head">
               <h2 className="pro-h2" id="pro-choice-h">{PRO_COPY.choice}</h2>
               <p className="pro-choice__line">{PRO_COPY.choiceLine}</p>
             </div>
-            <div className="pro-choice__grid">
-              <PlanStage word={PRO_COPY.words.free} className="pro-choice__free plan-stage--quiet">
-                <PricingCard {...FREE_PLAN} />
-                <details className="mm-plans__fold mm-faq">
-                  <summary>{PRO_COPY.freeHow}</summary>
-                  <div className="mm-faq__body">
-                    <ul>
-                      {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
-                    </ul>
-                    <a className="mm-link" href="#compare">{PRO_COPY.compare}</a>
-                  </div>
-                </details>
-              </PlanStage>
+            <PlanChoice label={PRO_COPY.switchLabel} options={[{ label: PRO_COPY.words.pro, controls: 'plans' }, { label: PRO_COPY.words.free, controls: 'plan-free' }]}>
               <PlanStage word={PRO_COPY.words.pro} id="plans" className="pro-plan">
                 {isCurrentUserPremium ? (
                   <div className="pro-plan__card plan-glass" data-commerce="">
@@ -403,7 +397,19 @@ export default async function PricingPage({ searchParams }) {
                   </PlanCard>
                 )}
               </PlanStage>
-            </div>
+              <PlanStage word={PRO_COPY.words.free} id="plan-free" className="pro-choice__free plan-stage--quiet">
+                <PricingCard {...FREE_PLAN} />
+                <details className="mm-plans__fold mm-faq">
+                  <summary>{PRO_COPY.freeHow}</summary>
+                  <div className="mm-faq__body">
+                    <ul>
+                      {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
+                    </ul>
+                    <a className="mm-link" href="#compare">{PRO_COPY.compare}</a>
+                  </div>
+                </details>
+              </PlanStage>
+            </PlanChoice>
           </div>
         </section>
 

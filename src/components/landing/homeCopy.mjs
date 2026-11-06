@@ -16,7 +16,8 @@
 // claim is new: each line is an older line of this page, shortened.
 
 import { labStory, signed } from './labStory.mjs';
-import { perDay, paceWords, MONTH_DAYS } from '../../lib/payments/value.mjs';
+import { perDay, paceWords } from '../../lib/payments/value.mjs';
+import { cardWords } from '../../lib/payments/receipt.mjs';
 import { SUBJECT_CLAIM } from '../../../data/subject_claim.js';
 
 export const COPY_BUDGET = Object.freeze({ sub: 20, tourBody: 25, tourPoints: 2, tourPointWords: 10, step: 45, faq: 45, viewport: 60 });
@@ -139,52 +140,64 @@ export function planGroups({ newOffer = false } = {}) {
  *  the free first full mock is on, else null (page.js decides, data/first_full_mock.js). */
 export const freeLine = ({ firstFullMock = null } = {}) => (firstFullMock ? `${PLAN_HOME.free} ${firstFullMock}` : PLAN_HOME.free);
 
-export { paceWords };
+export { paceWords, cardWords };
 const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 const n = (count) => Number(count).toLocaleString('en-IN');
+/** "About ₹0.40", or "₹3.30" when the division is exact (receipt.mjs share). */
+const aboutWord = (share) => `${share.exact ? '' : 'About '}${share.about}`;
+/** "a, b and c". */
+const listed = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`);
 
 /**
- * The value receipt's words (PlanValue.jsx; round 5, owner 6 Nov 2026: "it should not look like that. We are just offering
- * mocks ... There should be a slider for how many things a student can do ... So many features other than mocks also do we
- * have, which the Pro plan gives"). `r` is one row of receipt.mjs receiptTable: every figure in it is computed from the offer,
- * the Full mock's size, one stated per-mock rule and the real Key cards bank. The receipt counts what a pace comes to, lists
- * what Pro includes beyond it without a number, and ends on the price divided by the count.
- * Truth: the counted lines and the included lines are each already said on this page: the plan card (proPlan), the Lab's FAQ
- * answer ("After every mock, the Lab shows ..."), and the Key cards bank line ("Pro every card"). Mistake Repair and Ask Mobi run
- * on monthly credits capped per student, so they are included by name, never with a count or "unlimited".
+ * The value plan's words (PlanValue.jsx; round 5, second take, owner 6 Nov 2026: "Full marks, 190, mistake lab 190, all but key
+ * cards ... How many key cards will you practice? ... think of something and improvise this also"; research and decisions in
+ * docs/design-decisions/web-r5-value.md). `v` is receipt.mjs planValue: every figure in it is computed from the offer, the Full
+ * mock's size, the student's own two inputs, the real Key cards bank and Key cards' own time a card, never typed here.
+ * The block leads with what the price comes to a day (the same at every pace), asks two questions in the student's own units
+ * (full mocks a week, Key cards a day), says back what that plan comes to over the period the price pays for (every line a
+ * different number: a mock's Lab read and chapter review are said once, with the mocks, never counted again), and names what
+ * else Pro holds without a number.
+ * Truth: every claim is already on this page: the plan card (proPlan), the Lab's FAQ answer ("After every mock, the Lab
+ * shows ..."), the tour's chapter review ("after every mock"), the Key cards section ("Pro every card", "It comes back on time").
+ * Mistake Repair and Ask Mobi run on monthly credits capped per student, so they are named, never counted or called unlimited.
  */
 export const VALUE_COPY = Object.freeze({
-  title: (r) => `Everything your ${r.price} covers`,
-  lead: 'No cap on full mocks. Each one brings its own Lab read and chapter review.',
-  ask: 'How many full mocks will you sit?',
-  /** The receipt's head: the period the price pays for (a monthly and a one-time price never share a sentence). */
-  head: (r) => (r.kind === 'monthly' ? `MockMob Pro, one ${MONTH_DAYS}-day month` : `MockMob Pro, to ${r.until}`),
-  /** The counted lines, in receipt.mjs order. `detail` takes the row's (or the line's) figures. */
+  title: (v) => `Everything your ${v.price} covers`,
+  /** The leading figure: the price over the days it pays for ("About ₹0.40 a day"; exact on a 30-day month: "₹3.30 a day"). */
+  day: (v) => Object.freeze({ lead: v.perDay.exact ? '' : 'About ', figure: v.perDay.about, unit: ' a day' }),
+  /** Its sum, so it can be checked on a calculator (a monthly and a one-time price never share a sentence). */
+  daySum: (v) => (v.kind === 'monthly' ? `${v.price} ÷ ${n(v.days)} days, one month of Pro` : `${v.price} ÷ ${n(v.days)} days, to ${v.until}`),
+  /** The two questions, each answered in words on its slider ("1 a day", "20 a day"). */
+  mocks: Object.freeze({ ask: 'How many full mocks will you sit?', words: paceWords }),
+  cards: Object.freeze({ ask: 'How many Key cards will you turn?', words: cardWords }),
+  /** The answer's head: the student's own plan, kept for the period the price pays for (named once, in the day's sum above). */
+  plan: 'If you keep that pace',
+  /** The answer: one line for each question, so each count answers its own slider and no two lines can share a number (Full
+   *  mocks are at most 3 a day, Key cards at least 10). `detail` is [what one costs, in ink; what it holds]. */
   lines: Object.freeze({
-    mocks: Object.freeze({ label: 'Full mocks', detail: ({ questions, about }) => `${n(questions)} questions. About ${about} a mock.` }),
-    lab: Object.freeze({ label: 'Mistake Lab reads', detail: () => 'Time, changed answers and a SWOT for each' }),
-    review: Object.freeze({ label: 'Chapter reviews', detail: () => 'Every ranked chapter, pace and changed answers' }),
-    cards: Object.freeze({ label: 'Key cards', detail: ({ subjects }) => `Every card, in ${n(subjects)} subjects` }),
+    mocks: Object.freeze({
+      label: 'Full mocks',
+      detail: (v) => [`${aboutWord(v.perMock)} a mock, ${v.perQuestion.text} a question`, `${n(v.questions)} questions, with a Mistake Lab read and chapter review after every mock`],
+    }),
+    cards: Object.freeze({
+      label: 'Key cards turned',
+      detail: (v) => [v.cards.minutes ? `About ${v.cards.minutes} minutes a day` : '', `From all ${n(v.cards.bank.cards)} cards in ${n(v.cards.bank.subjects)} subjects`],
+    }),
   }),
-  /** What Pro includes beyond the counts, without a number: the plan card's own lines (proPlan: Smart practice and NTA mode,
-   *  Compass Pro, unlimited saves), then the two helpers that run on monthly credits, said as such. */
-  included: Object.freeze([
-    Object.freeze({ label: proPlan()[2] }),
-    Object.freeze({ label: 'Compass Pro for your DU shortlist' }),
-    Object.freeze({ label: proPlan()[4] }),
-    Object.freeze({ label: 'Mistake Repair and Ask Mobi', detail: 'On your monthly credits' }),
-  ]),
-  includedWord: 'Included',
-  /** The close: one full mock with everything above it, then the sum it comes from (kept together by no-break spaces, so a
-   *  phone never breaks it after the price). Unlike things are never added into one count (orchestrator review, 6 Nov). */
-  total: 'A full mock, everything above included',
-  sum: ({ price, mocks }) => `${price} ÷ ${n(mocks)} full mocks`,
-  /** The answer, "Under 1 paisa" (the figure, in the brand word colour, held on one line by no-break spaces so a phone never
-   *  parts the number from its unit), then " a question.". */
-  each: (r) => cap(r.each.text).replace(/ /g, ' '),
-  eachTail: ' a question.',
-  /** What a screen reader hears once the slider settles on a pace. */
-  live: (r) => `${cap(paceWords(r.pace).long)}: ${n(r.mocks)} full mocks, about ${r.perMock.about} a mock, ${r.each.text} a question.`,
+  /** What else Pro holds, without a number: the plan card's own lines (proPlan), then the two helpers on monthly credits. */
+  also: Object.freeze({
+    lead: 'Also in Pro:',
+    items: Object.freeze(['unlimited Quick practice', 'Smart practice', 'NTA mode', 'Compass Pro', 'unlimited saved questions']),
+    credits: 'Mistake Repair and Ask Mobi run on your monthly credits.',
+  }),
+  /** The also line's first sentence: "Unlimited Quick practice, Smart practice, NTA mode, Compass Pro and unlimited saved questions." */
+  alsoLine: () => `${cap(listed(VALUE_COPY.also.items))}.`,
+  /** What a screen reader hears once the student stops moving a slider. */
+  live: (v) => {
+    const plan = listed([paceWords(v.pace).long, ...(v.cards ? [cardWords(v.cards.perDay).long] : [])]);
+    const counts = listed([`${n(v.mocks)} full mocks (${n(v.questions)} questions)`, ...(v.cards ? [`${n(v.cards.count)} Key cards turned`] : [])]);
+    return `${cap(plan)}, ${v.kind === 'monthly' ? 'for the month' : `to ${v.until}`}: ${counts}. ${aboutWord(v.perMock)} a mock, ${v.perQuestion.text} a question.`;
+  },
 });
 
 // ------------------------------------------------------------------ the two Compass and Combo blocks
@@ -345,6 +358,13 @@ export const EXAM = Object.freeze({
     legend: Object.freeze([['answered', 'Answered'], ['marked', 'Marked'], ['visited', 'Not answered'], ['notvisited', 'Not visited'], ['marked-answered', 'Answered and marked']]),
     submit: 'Submit test',
     paletteTitle: 'Review palette',
+    // On a phone (the full-screen view, R5): the runner's phone bar and its palette sheet (TestPageClient.jsx below 1024 px).
+    prev: 'Prev',
+    palette: 'Palette',
+    paletteKey: (n, total) => `Question palette, ${n} of ${total} answered`,
+    paletteSheet: 'Question palette',
+    closePalette: 'Close palette',
+    answeredOf: (n, total) => `${n}/${total} answered`,
   }),
   // NTA style: the CBT screen the guidelines describe. The timer and the candidate's profile image sit top right with the
   // Question Paper icon, the section is on the top bar, the Question Palette is on the right with the section summary
@@ -366,6 +386,9 @@ export const EXAM = Object.freeze({
     paletteTitle: 'Question Palette',
     hidePalette: 'Hide the Question Palette',
     showPalette: 'Show the Question Palette',
+    // On a phone (the full-screen view, R5): NTA's grey circle arrows, named as the runner's NTA style names them.
+    toEnd: 'Go to the end of the question',
+    toTop: 'Go to the top of the question',
   }),
   // The browser's address bar on the monitor: where this screen really lives. The runner reads `interface=nta` from the
   // address, so the NTA-style address is the one a Pro student opens.
@@ -375,9 +398,10 @@ export const EXAM = Object.freeze({
   warnings: 'Warnings 0/3',
   ctaFree: 'See Pro',
   ctaPro: 'Set up an NTA mock',
-  // Phones (R4-H6, owner LK129, 6 Nov 2026): the monitor stays a scaled picture of the real screen, and one key opens that
-  // screen full screen at a readable size, sideways like a monitor, with the same switch, answers and clock.
-  full: Object.freeze({ open: 'Try it full screen', title: 'The exam screen, full screen', close: 'Close full screen', turn: 'Turn your phone sideways.' }),
+  // Phones (R4-H6, owner LK129, 6 Nov 2026): the monitor stays a scaled picture of the real screen, and one key opens the same
+  // state full screen with the same switch, answers and clock. R5 (owner, 6 Nov 2026: "it should not make it horizontal"): the
+  // view is the runner as it is on a phone, upright; nothing asks the student to turn the phone.
+  full: Object.freeze({ open: 'Try it full screen', title: 'The exam screen, full screen', close: 'Close full screen' }),
   // Five Accountancy questions, ours, with the chapter and difficulty chips the runner shows. `options` letters are A to D.
   questions: Object.freeze([
     { chapter: 'Admission of a partner', difficulty: 'Medium', text: 'Goodwill brought in by an incoming partner is shared by the old partners in:', options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'] },

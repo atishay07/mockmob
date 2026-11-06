@@ -3,7 +3,8 @@ import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
 import { PLAN_COPY } from '@/components/pricing/planOffer.mjs';
 import { ProSealStrip } from '@/components/pricing/ProShowcase';
-import { receiptTable } from '@/lib/payments/receipt.mjs';
+import { cardsBank, planValue } from '@/lib/payments/receipt.mjs';
+import { KEYCARD_RULES } from '@/../data/keycards.js';
 import { PLAN_HOME, freeLine, planGroups, pricingHead } from './homeCopy.mjs';
 import { Reveal } from './Reveal';
 import { PlanCounts } from './PlanCounts';
@@ -15,15 +16,20 @@ import '@/app/home-pricing.css';
 // page's one plan ("One plan, everything in it", the shared PlanCard with its seal strip) as a glass card on its stage under a
 // big "Pro" (PlanStage, shared with /pricing; R4: the card sits lower so most of the word shows), its lines grouped with the
 // true counts (PlanCounts), Get Pro to the checkout on /pricing, and Free as one quiet line with Start free. Beside it (under it
-// on phones): everything Pro's price covers at your own pace, as a receipt under one slider (PlanValue; round 5, owner 6 Nov
-// 2026). The dated comparison with other CUET prep is gone (R4-H7, owner LK132: naming other platforms is a legal risk).
-// Branch: the receipt counts Full mocks as unlimited, which is Pro's promise only on the current offer, so it shows while the
-// new (recovery) offer is not released; monthly and one-time each get their own sentences, never one sentence for both. `from`
-// is the date the page was built, for the one-time days. `keyCards` is the served Key cards bank (keyCardsDemo().bank) while
-// Key cards are live, else null (no Key cards line). `seat` is the section's Mobi seat (page.js keeps every seat in one place).
+// on phones), level with the card's top and as tall as the card: everything Pro's price covers at your own pace (PlanValue;
+// round 5, second take, owner 6 Nov 2026: "both should be equally visible"). The dated comparison with other CUET prep is gone
+// (R4-H7, owner LK132: naming other platforms is a legal risk).
+// Branch: the value plan counts Full mocks as unlimited, which is Pro's promise only on the current offer, so it shows while the
+// new (recovery) offer is not released and while the offer gives a figure; monthly and one-time each get their own sentences,
+// never one sentence for both. `from` is the date the page was built, the one-time days' first count (PlanValue recounts them
+// from the reader's own day). `keyCards` is the served Key cards bank (keyCardsDemo().bank) while Key cards are live, else null
+// (no Key cards question or line). `seat` is the section's Mobi seat (page.js keeps every seat in one place).
 export function HomePricing({ offer, newOffer = false, firstFullMock = null, from = new Date(), keyCards = null, seat = null }) {
   const head = pricingHead(offer);
-  const rows = newOffer ? [] : receiptTable(offer, { from, keyCards });
+  // The plain offer the client needs to work the figures out (no plan ids), and the bank's two counts.
+  const terms = { purchasable: offer.purchasable, monthly: { rupees: offer.monthly?.rupees }, oneTime: { rupees: offer.oneTime?.rupees, expires: offer.oneTime?.expires } };
+  const bank = cardsBank(keyCards);
+  const value = newOffer ? null : planValue(terms, { from, keyCards: bank });
   return (
     <div className="mm-wrap lp-price">
       {seat}
@@ -31,7 +37,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
         <h2 className="lp-h2">{head.h2}</h2>
         <p className="lp-sub">{head.sub}</p>
       </Reveal>
-      <div className={`lp-price__grid${rows.length ? '' : ' lp-price__grid--one'}`}>
+      <div className={`lp-price__grid${value ? '' : ' lp-price__grid--one'}`}>
         <PlanStage word={PLAN_HOME.backdrop} className="lp-price__stage">
           <PlanCard offer={offer} titleAs="h3" titleId="lp-plan-title" className="lp-plan plan-glass" head={<ProSealStrip label={PLAN_COPY.label} />}>
             <PlanCounts groups={planGroups({ newOffer })} />
@@ -42,9 +48,9 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
             <PlanFree line={freeLine({ firstFullMock })} cta={PLAN_HOME.freeCta} />
           </PlanCard>
         </PlanStage>
-        {rows.length ? (
-          <div className="lp-price__side">
-            <PlanValue rows={rows} />
+        {value ? (
+          <div className={`lp-price__side${bank ? ' lp-price__side--full' : ''}`}>
+            <PlanValue offer={terms} from={from.toISOString()} keyCards={bank} minutesPerCard={bank ? KEYCARD_RULES.minutesPerCard : null} />
           </div>
         ) : null}
       </div>

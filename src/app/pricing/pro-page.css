@@ -317,3 +317,71 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
 @media (min-width: 960px) {
   .mm-pro .pro-sec + .pro-sec--compare { padding-top: 1.5rem; }
 }
+
+/* ---- Free or Pro: Pro first (round 5, owner 6 Nov 2026: "on the phone, Pro is below Free. That should not be the case. Free or
+   Pro should be a slider or something like that, and Pro should be the first option"; PlanChoice.jsx) ---------------------------
+   The page lists Pro, then Free. Below 760 px the two are one swipeable pair: a horizontal scroll-snap rail running to the screen's
+   edges, each card a little narrower than the screen so the next one peeks, under a two-option switch (Pro | Free) that follows
+   the swipe and brings either card in. The switch's thumb slides under the chosen key (220 ms, ease-out; none under reduced
+   motion): in Night it is the volt fill with dark ink (a selected state), in Day raised paper with the ink rim and the small
+   volt tick (the No-Slab Rule). From 760 px the switch is not drawn and the cards keep their places: stacked, Free first, on
+   tablets, and Free beside Pro (Free on the left) from 960 px, as before. */
+.mm-pro .pro-switch-row { display: none; }
+@media (min-width: 760px) {
+  .mm-pro .pro-choice__free { order: -1; }
+}
+@media (min-width: 960px) {
+  .mm-pro .pro-choice__free { order: 0; grid-column: 1; grid-row: 1; }
+  .mm-pro .pro-choice__grid > .pro-plan { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 759px) {
+  .mm-pro .pro-switch-row { display: block; margin-top: 1.25rem; }
+  .mm-pro .pro-switch {
+    position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: min(100%, 16rem);
+    padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper-raised-2);
+  }
+  .mm-pro .pro-switch::before {
+    content: ''; position: absolute; z-index: -1; top: 4px; bottom: 4px; left: 4px; box-sizing: border-box; width: calc(50% - 4px);
+    border-radius: 999px; background: var(--volt); transform: translateX(calc(var(--on, 0) * 100%));
+    transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  html[data-theme='light'] .mm-pro .pro-switch::before {
+    background: var(--paper-raised); border: 1px solid var(--sel-rim); box-shadow: inset 0 0 0 0.5px var(--sel-rim), 0 1px 3px rgba(42, 32, 16, 0.12);
+  }
+  .mm-pro .pro-switch__key {
+    position: relative; min-height: 44px; padding: 0 1rem; border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+    font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--ink-2); -webkit-tap-highlight-color: transparent;
+    transition: color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .mm-pro .pro-switch__key[aria-pressed='true'] { color: var(--volt-ink); }
+  html[data-theme='light'] .mm-pro .pro-switch__key[aria-pressed='true'] { color: var(--ink); }
+  html[data-theme='light'] .mm-pro .pro-switch__key[aria-pressed='true']::after {
+    content: ''; position: absolute; top: 2px; right: 6px; width: 15px; height: 15px; box-sizing: border-box; border-radius: 50%;
+    border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 9px no-repeat; pointer-events: none;
+    animation: mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .mm-pro .pro-switch__key:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .mm-pro .pro-switch__key[aria-pressed='false']:hover { color: var(--ink); }
+  }
+
+  /* The rail: from screen edge to screen edge, the cards start on the page's gutter, Pro's rests at the start, Free's at the end. */
+  .mm-pro .pro-choice__grid {
+    display: flex; align-items: flex-start; gap: 0.75rem; max-width: none; margin: 1rem calc(-1 * var(--gutter, 20px)) 0;
+    padding: 0 var(--gutter, 20px) 0.25rem; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter, 20px); scrollbar-width: none;
+  }
+  .mm-pro .pro-choice__grid::-webkit-scrollbar { display: none; }
+  .mm-pro .pro-choice__grid > .plan-stage { flex: 0 0 min(calc(100% - 2.75rem), 36rem); scroll-snap-align: start; scroll-snap-stop: always; }
+}
+@media (min-width: 600px) and (max-width: 759px) {
+  .mm-pro .pro-switch-row { max-width: 36rem; margin-inline: auto; }
+}
+@media (max-width: 759px) and (prefers-reduced-motion: reduce) {
+  .mm-pro .pro-switch::before, .mm-pro .pro-switch__key { transition: none; }
+  html[data-theme='light'] .mm-pro .pro-switch__key[aria-pressed='true']::after { animation: none; }
+}
+@media (max-width: 759px) {
+  :root[data-motion='reduced'] .mm-pro .pro-switch::before, :root[data-motion='reduced'] .mm-pro .pro-switch__key { transition: none; }
+  html[data-theme='light'][data-motion='reduced'] .mm-pro .pro-switch__key[aria-pressed='true']::after { animation: none; }
+}

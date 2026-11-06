@@ -88,8 +88,9 @@ test('a11y: /pricing headings step down in order (the Pro card under the h1 is a
   const pricing = read('src/app/pricing/page.js');
   assert.equal((pricing.match(/<h1 /g) || []).length, 1);
   // R3-D8 (5 Nov 2026): the plan card is the shared PlanCard (an h2 by default). R4 (owner LK134): on /pricing it sits in the last
-  // section, under that section's h2 "Free or Pro" beside Free's card (an h3), so its title is an h3, as on the home page.
-  assert.match(pricing, /<h2 className="pro-h2" id="pro-choice-h">\{PRO_COPY\.choice\}<\/h2>[\s\S]*?<PricingCard \{\.\.\.FREE_PLAN\} \/>[\s\S]*?<PlanCard offer=\{offer\} titleAs="h3" titleId="pro-price"/);
+  // section, under that section's h2 "Free or Pro" beside Free's card (an h3), so its title is an h3, as on the home page. Round 5
+  // (owner, 6 Nov 2026: "Pro should be the first option"): Pro's card comes first in the page, then Free's (PlanChoice.jsx).
+  assert.match(pricing, /<h2 className="pro-h2" id="pro-choice-h">\{PRO_COPY\.choice\}<\/h2>[\s\S]*?<PlanCard offer=\{offer\} titleAs="h3" titleId="pro-price"[\s\S]*?<PricingCard \{\.\.\.FREE_PLAN\} \/>/);
   const plan = read('src/components/pricing/PlanCard.jsx');
   assert.match(plan, /titleAs: Title = 'h2'/);
   assert.match(plan, /<Title className="pro-plan__title" id=\{titleId\}>\{PLAN_COPY\.plan\}<\/Title>/);
