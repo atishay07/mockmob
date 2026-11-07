@@ -147,18 +147,16 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-theme { display: inline-flex; align-items: center; }
 .app-shell .arena-launch__reason { font-size: 13px; color: var(--a-ink-2); max-width: 60ch; }
-/* A quiet hairline grid, fading out down the page. No glow: the page ground stays neutral. */
+/* The page ground is plain paper, as on the website below its hero and in the app (R8 CONT-09, 8 Nov 2026). The 48 px
+   hairline grid it carried since 2 Oct is retired (DESIGN.md Texture: never a generic grid, dot matrix or glow). The paper
+   grain was tried at a quieter strength: on a working surface it read as noise behind the text, and the website keeps
+   grain for the hero's lamp only. The element stays as the fixed layer under the shell (print hides it). */
 .app-shell .arena-backdrop {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image:
-    linear-gradient(to right, var(--a-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--a-grid) 1px, transparent 1px);
-  background-size: 48px 48px, 48px 48px;
-  -webkit-mask-image: linear-gradient(180deg, #000, transparent 75%);
-  mask-image: linear-gradient(180deg, #000, transparent 75%);
+  background: none;
 }
 
 /* ---------- Navigation ---------- */
