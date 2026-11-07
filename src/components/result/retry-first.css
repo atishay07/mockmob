@@ -3,7 +3,7 @@
    the page's one volt stays the next-move key. Motion is a short rise under the status line, and nothing under reduced motion. */
 
 /* The sheet sits in the open row's body, which already has its own indent and gap. */
-.app-shell .rx .rx-body > .rvw-sheet.rx-retry { margin: 0; padding: 0; border-top: 0; gap: 12px; animation: none; }
+.app-shell .rx :is(.rx-body, .rx-body > .rp-lead > .rp-lead__main) > .rvw-sheet.rx-retry { margin: 0; padding: 0; border-top: 0; gap: 12px; animation: none; }
 
 /* Review's button reset, scoped to the sheet so the result's other buttons are left alone. Nothing inside counts for specificity,
    so the keys and the options (their own rules) win over it. */

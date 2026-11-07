@@ -123,7 +123,8 @@ test('a Repair pressed on a sealed mistake opens the retry; the paid start waits
 });
 
 test('the key, the book explanation and the repair appear only after the student asked: the explanation opens, the status line leads', () => {
-  assert.match(renderBody, /\{tried\?\.how === 'tried' \? <RetrySaid said=\{retrySaid\(\{ pick: tried\.pick, keyIndex: q\.correctIndex, right: tried\.right \}\)\} \/> : null\}/);
+  // ARC-15 (R8): what the try said leads the revealed row, with the reader Mobi beside it (withReader).
+  assert.match(renderBody, /\{tried\?\.how === 'tried' \? withReader\(<RetrySaid said=\{retrySaid\(\{ pick: tried\.pick, keyIndex: q\.correctIndex, right: tried\.right \}\)\} \/>\) : null\}/);
   assert.match(renderBody, /isWrong && !tried \? \(\s*<details className="rp-expl">/, 'an unasked wrong answer keeps its collapsed explanation; a revealed one opens it');
   assert.match(renderBody, /RETRY_COPY\.noExplanation\(isWrong && Number\.isInteger\(given\)\)/);
   // One Ask Mobi line per mistake: in the sealed body and in the revealed one it is the same single `foot`.

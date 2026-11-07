@@ -10,6 +10,8 @@ import { join } from 'node:path';
 import { ACTION_LABELS, actionLabel } from '../repair_presentation.mjs';
 import { actionFor, chapterRows, chaptersBody, reviewLine } from '../review_chapters.mjs';
 import { analysisFromRows, leadMistake, nextMove } from '../result_next_move.mjs';
+import { diagnosisLine, groupByNumber, rowDiagnosis } from '../../src/components/result/rowDiagnosis.mjs';
+import LAB from './fixtures/mistake_lab/contract_replay_v1.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
 const read = (path) => readFileSync(new URL(path, root), 'utf8');
@@ -164,4 +166,22 @@ test('the result page leads its list with that mistake, read once at load so row
   assert.match(source, /const leadQid = useMemo\(/);
   assert.match(source, /inRepairOrder\(analysis\?\.mistakes, listOrder\)/);
   assert.match(source, /lead=\{leadMoved \? runNumbers\[leadQid\] : null\}/);
+});
+
+
+// ARC-12 (R8): the diagnosis on a mistake's own row is the ledger group that holds it, in plain words, with its own time.
+test('every lost question on the row says the ledger group whose chips include it, and nothing for a held key', () => {
+  const groups = groupByNumber(LAB);
+  for (const g of LAB.groups) {
+    for (const n of g.numbers) {
+      const d = rowDiagnosis(groups, { number: n, ms: 45000 });
+      if (g.id === 'held') assert.equal(d, null, `Q${n} is held: no line`);
+      else { assert.equal(d.group, g.id, `Q${n} reads its own group`); assert.ok(d.line.length > 0); }
+    }
+  }
+  assert.equal(diagnosisLine('other_wrong', { t: '45s' }), 'Lost to the idea, not time: 45s on it, no answer change');
+  assert.equal(diagnosisLine('quick_wrong', { t: '12s' }), 'Lost to a rush: answered in 12s');
+  assert.equal(diagnosisLine('changed_from_right'), 'Lost to a decision: it was right, then changed');
+  assert.equal(groupByNumber({ ...LAB, state: 'basic' }).size, 0, 'the basic ledger says nothing a row does not already show');
+  assert.equal(rowDiagnosis(groups, { number: 999 }), null);
 });

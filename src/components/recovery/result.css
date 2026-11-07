@@ -38,6 +38,12 @@
 .rp-strip button[data-verdict='wrong'] { background: var(--a-bad-wash, rgba(255, 122, 107, .1)); border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 60%, transparent); color: var(--a-bad-text, #ff9d92); }
 .rp-strip button[data-changed]::after { content: ''; position: absolute; top: -3px; right: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--a-warn-text, #e0b93f); border: 2px solid var(--a-raised, #131a16); }
 .rp-strip button:hover { border-color: var(--a-line-hover); }
+/* ARC-10: a key under re-check has a dashed rim, and the line under the sheet names both markers (only those the paper has). */
+.rp-strip button[data-held] { border-style: dashed; border-color: var(--a-warn-text, #e0b93f); }
+.rp-legend { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 16px; margin: -6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3, #93a08f); }
+.rp-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.rp-legend__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--a-warn-text, #e0b93f); flex: none; }
+.rp-legend__ring { width: 14px; height: 14px; border-radius: 4px; border: 1.5px dashed var(--a-warn-text, #e0b93f); flex: none; }
 .rp-strip button:focus-visible, .rp-q__bar:focus-visible, .rp-filters button:focus-visible, .srl :is(button, summary):focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
 /* ---------- 2. Score Recovery Lab ---------- */
@@ -182,7 +188,8 @@
 .rp-q[data-verdict='correct'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-good-text, #b6e36e); }
 .rp-q__h { font: inherit; }
 .rp-q__bar { width: 100%; display: grid; grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; align-items: start; padding: 14px 16px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
-.rp-q__bar:hover { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .rp-q__bar:hover { background: var(--a-hover); } }
+.rp-q__bar:active { background: var(--a-hover); }
 .rp-q__badge { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font: 700 13px/1 var(--font-display, inherit); background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line-strong, #384736); color: var(--a-ink-2, #bcc5b9); }
 .rp-q__summary { display: grid; gap: 6px; min-width: 0; }
 .rp-q__text { font-size: 15px; line-height: 1.5; font-weight: 500; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
@@ -328,7 +335,10 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 .rp-q__ring { position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; box-shadow: 0 0 0 2px var(--a-focus, #d2f000); opacity: 0; animation: rp-ring 1400ms var(--a-ease, ease) both; }
 @keyframes rp-ring { 0% { opacity: 0; } 12% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; } }
 .rp-q__foot { align-items: center; gap: 10px; }
-.rp-reader { width: 34px; margin-right: auto; display: block; transform-origin: 50% 90%; }
+.rp-reader { width: 40px; display: block; transform-origin: 50% 90%; }
+/* ARC-15: Mobi beside the opened row's first line, not beside the report link. */
+.rp-lead { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; min-width: 0; }
+.rp-lead__main { min-width: 0; display: grid; gap: 12px; }
 @media (prefers-reduced-motion: reduce) { .rp-q__ring { animation: none; opacity: 1; } .rp-strip button::before { transition: none; } }
 @media (prefers-reduced-motion: no-preference) {
   .rp-strip button[data-ripple] { animation: rp-ripple 360ms var(--a-ease, ease) both; animation-delay: calc(560ms + var(--i, 0) * var(--rp-step, 35ms)); }

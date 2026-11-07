@@ -33,7 +33,7 @@ function Chip({ status, cheer }) {
   );
 }
 
-function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, sealed = false }) {
+function Row({ row, open, onToggle, status, cohort, diagnosis = null, cheer, children, arrived, sealed = false }) {
   const given = row.d?.givenIndex;
   const key = row.q?.correctIndex;
   const stem = String(row.q?.question ?? row.q?.body ?? '').trim() || 'Question unavailable';
@@ -57,6 +57,8 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, se
               {Number.isInteger(key) && !sealed ? <span className="rx-pick" data-kind="key"><i>{LETTERS[key]}</i>answer</span> : null}
               {cohort ? <span className="rx-row__cohort">{cohort}</span> : null}
             </span>
+            {/* ARC-12: the diagnosis on the question's own row, in the ledger group's words. */}
+            {diagnosis ? <span className="rx-row__why">{diagnosis}</span> : null}
             {mineText || keyText ? (
               <span className="rx-row__opts">
                 {mineText ? <span className="rx-opt" data-kind="mine"><i>{LETTERS[given]}</i><span><small>Your answer</small>{mineText}</span></span> : null}
@@ -85,6 +87,7 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, se
  * statusOf     (row) => { id, label } | null
  * sealedOf     (row) => true while the mistake is sealed (W-032): its key stays off the row until the student tries or asks
  * cohortOf     (row) => "18 of 22 got it right" | null
+ * diagnosisOf  (row) => "Lost to the idea, not time: 45s on it" | null (ARC-12: the ledger group, said on the row)
  * renderBody   (row) => the opened row's content (only called for rows opened at least once)
  * visited      Set of qids opened at least once
  * showAll, onShowAll, blanksOpen, onBlanks
@@ -94,14 +97,14 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived, se
  * top          a node at the head of the section (the repair run's track, once a run has begun)
  * after        nodes under the list (the credit line, the lesson link)
  */
-export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, sealedOf = () => false, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', lead = null, cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
+export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, sealedOf = () => false, cohortOf, diagnosisOf = () => null, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', lead = null, cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
   const listId = useId();
   const blankId = useId();
   const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount, answered });
   const shown = showAll ? mistakes : mistakes.slice(0, SHOWN_FIRST);
   const rest = mistakes.length - SHOWN_FIRST;
   const row = (r) => (
-    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} sealed={sealedOf(r)} cohort={cohortOf(r)} cheer={cheer === r.q.id}
+    <Row key={r.q.id} row={r} open={openIds.has(r.q.id)} onToggle={onToggle} status={statusOf(r)} sealed={sealedOf(r)} cohort={cohortOf(r)} diagnosis={diagnosisOf(r)} cheer={cheer === r.q.id}
       arrived={arrived?.number === r.number ? arrived.n : null}>
       {visited.has(r.q.id) ? renderBody(r) : null}
     </Row>

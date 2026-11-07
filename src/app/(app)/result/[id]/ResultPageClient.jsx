@@ -62,6 +62,7 @@ import { useMyDailySet } from '@/components/useMyDailySet';
 import { bankCount, nextPaper, practiceSubjectId } from '@/lib/paperCopy.mjs';
 import AnalysisParts, { partFromUrl, writePart, scrollToPart } from '@/components/result/AnalysisParts';
 import { settleInto, cancelSettle } from '@/components/result/settleInto.mjs';
+import { groupByNumber, rowDiagnosis } from '@/components/result/rowDiagnosis.mjs';
 import { QuestionStrip, replayCutLine } from '@/components/result/ReplaySlots';
 import { knownRecord } from '@/../data/replay';
 import { ReelEntry } from '@/components/result/PaperReel';
@@ -233,9 +234,20 @@ export default function ResultPageClient({ previewId = null }) {
   const leadMoved = useMemo(() => { const natural = inRepairOrder(analysis?.mistakes, repairOrder); return Boolean(leadQid) && natural.length > 1 && natural[0]?.q?.id !== leadQid; }, [analysis, repairOrder, leadQid]);
 
   useEffect(() => cancelSettle, []);
-  const jumpTo = useCallback((number, { repair = false, instant, keepFocus = false } = {}) => {
+  const jumpTo = useCallback((number, { repair = false, instant, keepFocus = false, fromFront = false } = {}) => {
     const row = analysis?.rows.find(r => r.number === number);
     if (!row) return;
+    // ARC-17 (R8, owner D43 "a clear way back"): a jump from the front (the answer map, the next move, the notice) adds one history
+    // entry, so the phone's Back returns to the front where the student was, instead of leaving the result. The front's scroll is
+    // kept on its own entry; part changes inside the analysis still replace (no history spam).
+    if (fromFront) {
+      try {
+        window.history.replaceState({ ...(window.history.state || {}), mmFrontY: window.scrollY }, '');
+        const rest = { ...(window.history.state || {}) };
+        delete rest.mmFrontY;
+        window.history.pushState(rest, '', window.location.href);
+      } catch { /* the URL is a convenience only */ }
+    }
     const inRun = runIds.includes(row.q.id);
     const step = inRun && (repair || engaged);
     const quick = instant ?? (step && engaged);
@@ -260,6 +272,18 @@ export default function ResultPageClient({ previewId = null }) {
       if (!keepFocus) el?.querySelector('.rp-q__bar')?.focus({ preventScroll: true });
     }));
   }, [analysis, runIds, engaged, orderedMistakes]);
+
+  // ARC-17: Back from a jump lands on the entry the jump left: the part named in its URL opens again, and the front's scroll returns.
+  useEffect(() => {
+    const onPop = (event) => {
+      const id = partFromUrl();
+      setPart(id);
+      const y = event.state?.mmFrontY;
+      if (Number.isFinite(y)) { cancelSettle(); requestAnimationFrame(() => requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'instant' }))); }
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   // ?q=N (Today's weak chapters, Last paper and the reel's last key): once the paper is read, open that question the way a press on
   // its row does: Your mistakes (or the part that owns it) opens, the row expands and comes into view with its Repair button. It is
@@ -351,12 +375,15 @@ export default function ResultPageClient({ previewId = null }) {
   const answerReviews = attempt.answerReviews || {};
   const mode = attemptMode(attempt);
   const subject = subjectName(attempt.subject);
-  const runModel = endingModel({ ids: runIds, outcomes: repairOutcomes, reached });
+  const runModel = endingModel({ ids: runIds, outcomes: repairOutcomes, reached, checks });
   const checkMap = Object.fromEntries(Object.entries(checks).map(([qid, c]) => [qid, c.right ? 'right' : 'wrong']));
   const aiCredits = wallet.wallet?.known ? wallet.wallet.total : null;
+  // One balance (D78, W-060; ARC-03): every "You have N" on the page reads the wallet the chip reads once it is known, so a repair's
+  // spend shows everywhere at once; the session's balance stands in only until the wallet is read.
+  const oneBalance = aiCredits ?? (user ? user.creditBalance ?? null : null);
   const move = nextMove({
     analysis, answerReviews, repairOrder, repaired, checks: checkMap, aiCredits,
-    practiceCredits: user ? user.creditBalance ?? null : null, isPremium: Boolean(user?.isPremium), dailySet,
+    practiceCredits: oneBalance, isPremium: Boolean(user?.isPremium), dailySet,
     mode, subject: practiceSubjectId(attempt.subject), subjectName: subject,
     labReady: Boolean(attempt.lab) && attempt.answerReviewState !== 'unavailable', hour,
   });
@@ -389,7 +416,7 @@ export default function ResultPageClient({ previewId = null }) {
   };
   // F17: which paper every mistake here came from, and when it was attempted ("Mock 3, Accountancy, 16 Oct, 9:40 PM").
   const paperLine = paperStamp({ source: attempt.paper?.source, subject: subjectName(attempt.subject), at: attempt.paper?.completedAt ?? attempt.completedAt });
-  const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}`;
+  const bubbleLabel = (r) => `Q${r.number}, ${r.chapter}: ${verdictWord(r.verdict)}${r.changed ? ', answer changed' : ''}${HELD_STATES.has(answerReviews[r.q.id]?.state) && answerReviews[r.q.id]?.state !== 'corrected' ? ', key being re-checked' : ''}`;
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
   const rippleStep = firstWrong > 0 ? Math.min(35, Math.round(700 / firstWrong)) : 0;
 
@@ -453,12 +480,15 @@ export default function ResultPageClient({ previewId = null }) {
     const isWrong = verdict === 'wrong';
     const review = answerReviews[q.id];
     const tried = retried[q.id] || null;
+    // ARC-15 (R8): the reader Mobi sits beside the first thing the opened row says (the hidden-answer note, what the try said, or
+    // the options), at 40 px, so he visibly reads it; the report link stands alone at the row's foot.
+    const reader = reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null;
+    const withReader = (node) => (reader ? <div className="rp-lead">{reader}<div className="rp-lead__main">{node}</div></div> : node);
     // One Ask Mobi line per mistake and the report link close the row, sealed or not (askAbout is declared below; it runs when called).
     const foot = (
       <>
         {askAbout(row)}
         <div className="rp-q__foot">
-          {reaction && reading === q.id && !engaged ? <span className="rp-reader" key={`reader-${q.id}`}><ReaderMobi react={readerReact?.qid === q.id ? readerReact : null} /></span> : null}
           <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
             {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
           </button>
@@ -468,8 +498,8 @@ export default function ResultPageClient({ previewId = null }) {
     if (sealedOf(row)) {
       return (
         <div className="rp-q__body rx-body" data-sealed="">
-          <RetryFirst q={questionModel(q, d)} number={number} repairable={isWrong && Number.isInteger(given) && aiCredits !== 0}
-            onTried={({ pick, right }) => reveal(row, { how: 'tried', pick, right })} onShow={() => reveal(row, { how: 'shown' })} />
+          {withReader(<RetryFirst q={questionModel(q, d)} number={number} repairable={isWrong && Number.isInteger(given) && aiCredits !== 0}
+            onTried={({ pick, right }) => reveal(row, { how: 'tried', pick, right })} onShow={() => reveal(row, { how: 'shown' })} />)}
           {foot}
         </div>
       );
@@ -483,9 +513,9 @@ export default function ResultPageClient({ previewId = null }) {
     const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
     return (
       <div className="rp-q__body rx-body">
-        {tried?.how === 'tried' ? <RetrySaid said={retrySaid({ pick: tried.pick, keyIndex: q.correctIndex, right: tried.right })} /> : null}
-        {others ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : null}
-        <ul className="rp-options">
+        {tried?.how === 'tried' ? withReader(<RetrySaid said={retrySaid({ pick: tried.pick, keyIndex: q.correctIndex, right: tried.right })} />) : null}
+        {others ? (tried?.how === 'tried' ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : withReader(<OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} />)) : null}
+        {(tried?.how === 'tried' || others ? (node) => node : withReader)(<ul className="rp-options">
           {q.options.map((opt, j) => {
             const mine = given === j, key = q.correctIndex === j;
             const corrected = review?.state === 'corrected' && review.currentIndex === j;
@@ -499,7 +529,7 @@ export default function ResultPageClient({ previewId = null }) {
               </li>
             );
           })}
-        </ul>
+        </ul>)}
         {timeRow?.lines.length ? (
           <div className="rp-td">
             <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
@@ -517,7 +547,7 @@ export default function ResultPageClient({ previewId = null }) {
         {isWrong && Number.isInteger(given) ? (
           <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
             autoStart={autoRepair === q.id || savedIds.has(q.id)} saved={savedRepairs[q.id]?.repairedAt || (savedIds.has(q.id) ? 'saved' : null)} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived} onCheck={checked}
-            insights={repairInsights} askContext={askContextOf(row)}
+            insights={repairInsights} askContext={askContextOf(row)} practice={practiceOf(row)}
             isCurrent={(!engaged || runCurrent === q.id) && cheer !== q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
             handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
             earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissAt(m), href: `/result/${m.attemptId}` } : null; })()}
@@ -527,6 +557,13 @@ export default function ResultPageClient({ previewId = null }) {
         {foot}
       </div>
     );
+  };
+
+  // ARC-07: the chapter set a failed repair offers beside Try again (Practice's own setup, which shows the price before it starts).
+  const practiceOf = (row) => {
+    if (!row.chapter) return null;
+    const p = new URLSearchParams({ subject: attempt.subject || '', mode: 'quick', count: '5', chapter: row.chapter });
+    return { href: `/dashboard?${p}`, label: `Practise 5 on ${row.chapter}` };
   };
 
   // Ask Mobi about this question (ASK-MOBI-1018): one quiet text line under the repair, for a wrong answer or a blank whose key
@@ -539,7 +576,9 @@ export default function ResultPageClient({ previewId = null }) {
     const given = d?.givenIndex;
     return questionContext({
       attemptId: attempt.id, questionId: q.id, number, chapter: row.chapter,
-      pickText: Number.isInteger(given) ? texts[given] : null, keyText: Number.isInteger(q.correctIndex) ? texts[q.correctIndex] : null,
+      // ARC-08: while the row is sealed (W-032, the key hidden until the student tries again or asks), Mobi's sheet does not name
+      // the key either, so the free retry is not spoiled one tap away. Once the key is shown, the sheet names it as before.
+      pickText: Number.isInteger(given) ? texts[given] : null, keyText: Number.isInteger(q.correctIndex) && !sealedOf(row) ? texts[q.correctIndex] : null,
       hasKey: Number.isInteger(q.correctIndex), blank: verdict === 'skipped',
     });
   };
@@ -579,16 +618,24 @@ export default function ResultPageClient({ previewId = null }) {
   };
   const cohortItem = new Map((repairOrder?.state === 'cohort' ? repairOrder.items || [] : []).filter(x => x?.reason === 'most_right' && x.line).map(x => [x.qid, x.line]));
   const cohortOf = (row) => { const line = cohortItem.get(row.q.id); return line ? line.replace(' other students got it right.', ' got it right') : null; };
+  // ARC-12: how this question's marks were lost, from the ledger group that holds it (the same group "Where your marks went" lists
+  // it under), with its own time when the clock record has it.
+  const diagGroups = groupByNumber(ledgerOf(attempt.lab || null));
+  const diagnosisOf = (row) => {
+    const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
+    const ms = timeRow && timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null;
+    return rowDiagnosis(diagGroups, { number: row.number, ms, changed: row.changed })?.line || null;
+  };
   const blanks = analysis.rows.filter(r => r.verdict === 'skipped');
   const heldCount = Object.values(checks).filter(c => c.right).length;
   const repairsLeft = orderedMistakes.filter(r => !handled.has(r.q.id) && !HELD_STATES.has(answerReviews[r.q.id]?.state)).length;
   const chapterCounts = Object.entries(analysis.mistakes.reduce((m, row) => { if (row.chapter) m[row.chapter] = (m[row.chapter] || 0) + 1; return m; }, {})).sort((x, y) => y[1] - x[1]).map(([chapter, count]) => ({ chapter, count }));
   const topChapter = move?.target?.chapter || finding?.chapter || chapterCounts[0]?.chapter || null;
   const lesson = <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={chapterCounts} conceptIds={analysis.mistakes.map(row => row.q.conceptId).filter(Boolean)} />;
-  const next = nextPaper({ mode: attempt.selectionMeta?.mode, subject: attempt.subject, subjectName: subject, count: bankCount(stats, attempt.subject), total: attempt.total, isPremium: Boolean(user?.isPremium), balance: user ? user.creditBalance ?? null : null });
+  const next = nextPaper({ mode: attempt.selectionMeta?.mode, subject: attempt.subject, subjectName: subject, count: bankCount(stats, attempt.subject), total: attempt.total, isPremium: Boolean(user?.isPremium), balance: oneBalance });
 
   const onAct = ({ kind, target }) => {
-    if ((kind === 'repair' || kind === 'check') && Number.isInteger(target?.number)) jumpTo(target.number, { repair: true });
+    if ((kind === 'repair' || kind === 'check') && Number.isInteger(target?.number)) jumpTo(target.number, { repair: true, fromFront: true });
   };
 
   // ---------- The Lab's parts (each drawn only when it has something to hold) ----------
@@ -605,17 +652,26 @@ export default function ResultPageClient({ previewId = null }) {
   const mapCount = analysis.rows.length;
   const balanced = (most) => Math.ceil(mapCount / Math.ceil(mapCount / most));
   const mapFit = mapCount > 0 && mapCount <= 20;
+  // ARC-10: the sheet's markers say what they mean, right under it, only for the markers this paper has.
+  const heldKeys = new Set(analysis.rows.filter(r => HELD_STATES.has(answerReviews[r.q.id]?.state) && answerReviews[r.q.id]?.state !== 'corrected').map(r => r.q.id));
+  const anyChanged = analysis.rows.some(r => r.changed);
+  const legend = anyChanged || heldKeys.size ? (
+    <p className="rp-legend">
+      {anyChanged ? <span><i className="rp-legend__dot" aria-hidden="true" />Answer changed</span> : null}
+      {heldKeys.size ? <span><i className="rp-legend__ring" aria-hidden="true" />Key being re-checked</span> : null}
+    </p>
+  ) : null;
   const answerMap = (
     <ol className="rp-strip" aria-label="Answer map: press a question to open it" data-fit={mapFit || undefined}
       style={{ '--rp-step': `${rippleStep}ms`, ...(mapFit ? { '--rp-cols': balanced(10), '--rp-cols-phone': balanced(6) } : {}) }}>
       {analysis.rows.map(r => (
         <li key={r.q.id} style={{ '--i': r.index }}>
-          <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined}
+          <button type="button" data-verdict={r.verdict} data-changed={r.changed || undefined} data-held={heldKeys.has(r.q.id) || undefined}
             data-ripple={firstWrong >= 0 && r.index <= firstWrong ? (r.index === firstWrong ? 'end' : '') : undefined}
             data-label={bubbleLabel(r)} data-peek={peek === r.number || undefined}
             onPointerDown={(event) => startBubblePress(event, r.number)} onPointerUp={endBubblePress} onPointerCancel={endBubblePress} onPointerLeave={endBubblePress}
             onContextMenu={(event) => { if (event.nativeEvent.pointerType === 'touch' || suppressRef.current) event.preventDefault(); }}
-            onClick={() => { if (suppressRef.current) { suppressRef.current = false; return; } jumpTo(r.number); }}
+            onClick={() => { if (suppressRef.current) { suppressRef.current = false; return; } jumpTo(r.number, { fromFront: true }); }}
             aria-label={bubbleLabel(r).replace(/^Q/, 'Question ')}>{r.number}</button>
         </li>
       ))}
@@ -661,24 +717,24 @@ export default function ResultPageClient({ previewId = null }) {
       {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
         </div>
       ) },
-    { id: 'mistakes', name: 'Your mistakes', figure: String(marks.wrong + marks.blank),
+    { id: 'mistakes', name: 'Your mistakes', figure: String(marks.wrong + marks.blank), empty: marks.wrong + marks.blank === 0,
       line: `${marks.wrong} wrong and ${marks.blank} left blank.${waiting ? ` Q${waiting.number} is repaired and waiting for Check it held.` : repaired.size ? ` ${repaired.size} repaired.` : ''}`,
       body: (
         <div className="rl-part" id="rl-repair">
           <MistakeList
             mistakes={orderedMistakes} blanks={blanks} openIds={open} onToggle={toggle} visited={visited}
-            statusOf={statusOf} sealedOf={sealedOf} cohortOf={cohortOf} renderBody={renderBody}
+            statusOf={statusOf} sealedOf={sealedOf} cohortOf={cohortOf} diagnosisOf={diagnosisOf} renderBody={renderBody}
             showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
             repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'} lead={leadMoved ? runNumbers[leadQid] : null}
             cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
             top={engaged && segments.length > 1 ? (
               <div className="rt-bar">
-                <RunTrack segments={segments} onGo={goSegment} onFinish={runIds.some(id => repairOutcomes[id]) ? () => setEnding(true) : null} />
+                <RunTrack segments={segments} onGo={goSegment} onFinish={() => setEnding(true)} />
               </div>
             ) : null}
             after={<>
               {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
-              <RepairTotal remaining={repairsLeft} />
+              <RepairTotal remaining={repairsLeft} waiting={orderedMistakes.filter(r => HELD_STATES.has(answerReviews[r.q.id]?.state)).map(r => r.number)} />
               {analysis.mistakes.length ? <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p> : null}
               {move?.kind === 'practise' && move.rule === 2 ? null : lesson}
             </>}
@@ -765,7 +821,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
       {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
-        notice={notice} onNotice={(n) => jumpTo(n)} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} repairReceipt={repairsDid}
+        notice={notice} onNotice={(n) => jumpTo(n, { fromFront: true })} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} legend={legend} repairReceipt={repairsDid}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
 
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).
@@ -799,7 +855,7 @@ export default function ResultPageClient({ previewId = null }) {
         <Link href={next.href} className="btn-outline md rp-next__go mk-press"><AppIcon name="practice" size={16} />{next.action}</Link>
       </section>
       {/* Free only, after a scored set (D79): one quiet line beside the next paper's price. */}
-      <ProFacts facts={{ weakChapter: weakestChapter(chapterCounts), balance: user ? user.creditBalance ?? null : null, subjects: user?.subjects || [] }} />
+      <ProFacts facts={{ weakChapter: weakestChapter(chapterCounts), balance: oneBalance, subjects: user?.subjects || [] }} />
       {attempt.total > 0 ? <InlineNudge placement="result" facts={{ weakChapter: weakestChapter(chapterCounts) }} className="rp-nudge" /> : null}
 
       <nav className="rp-links" aria-label="More from your record">

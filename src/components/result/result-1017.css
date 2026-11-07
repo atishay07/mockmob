@@ -76,7 +76,10 @@
   gap: 4px 12px; align-items: start; width: 100%; min-height: 64px; padding: 14px 2px; border: 0; border-radius: 0;
   background: transparent; color: inherit; text-align: left; cursor: pointer;
 }
-.rx .rx-row__bar.rp-q__bar:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); }
+/* ARC-14: hover only where there is a real pointer (a tapped row on a phone kept the tint and looked selected); touch gets the same
+   tint while pressed. */
+@media (hover: hover) and (pointer: fine) { .rx .rx-row__bar.rp-q__bar:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); } }
+.rx .rx-row__bar.rp-q__bar:active { background: var(--a-hover, rgba(244, 245, 240, .04)); }
 .rx-row__bar .rx-chev { grid-area: chev; margin-top: 12px; }
 .rx-row__n {
   grid-area: n; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
@@ -106,21 +109,24 @@
 .rx-opt[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text, #ff9d92); color: var(--a-bad-text, #ff9d92); }
 .rx-opt[data-kind='key'] i { border: 1.5px solid var(--a-good-text, #b6e36e); color: var(--a-good-text, #b6e36e); }
 .rx-opt small { display: block; font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--a-ink-3, #93a08f); }
-.rx-chip[data-state='nocredit'] { color: var(--a-ink-3, #93a08f); border-style: dashed; }
 .rx-row__cohort { color: var(--a-ink-2, #bcc5b9); }
+.rx-row__why { font-size: 13px; line-height: 1.4; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
 .rx-row__side { grid-area: side; display: grid; justify-items: end; gap: 6px; }
 .rx-row__cost { font: 700 15px/1.2 var(--font-display, inherit); color: var(--a-bad-text, #ff9d92); font-variant-numeric: tabular-nums; }
 .rx-row[data-verdict='skipped'] .rx-row__cost { color: var(--a-ink-3, #93a08f); }
+/* ARC-01 (R8, owner D15): the row's state is a status, not a second button. The whole row is the button (it opens the row
+   and the paid key inside it says "Repair Q42"), so the state word has no outline and no pill: plain 13 px text in the
+   state's colour, under the marks it cost. */
 .rx-chip {
-  position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 3px 10px; border-radius: 999px;
-  border: 1px solid var(--a-line-strong, #384736); font: 600 12.5px/1.2 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); white-space: nowrap;
+  position: relative; display: inline-flex; align-items: center; gap: 6px; min-height: 20px; padding: 0; border: 0; border-radius: 0;
+  background: none; font: 600 13px/1.3 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); white-space: nowrap;
 }
-.rx-chip[data-state='first'] { border-color: var(--a-volt-line); color: var(--a-accent-text, #d2f000); }
-.rx-chip[data-state='check'] { border-color: var(--a-accent-text, #d2f000); color: var(--a-ink, #f2f4ec); }
-.rx-chip[data-state='held'] { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 60%, transparent); color: var(--a-good-text, #b6e36e); }
-.rx-chip[data-state='slipped'] { border-color: color-mix(in oklab, var(--a-warn-text, #e0b93f) 60%, transparent); color: var(--a-warn-text, #e0b93f); }
-.rx-chip[data-state='recheck'] { border-style: dashed; color: var(--a-warn-text, #e0b93f); }
-.rx-chip[data-state='none'], .rx-chip[data-state='corrected'] { color: var(--a-ink-3, #93a08f); }
+.rx-chip[data-state='first'] { color: var(--a-accent-text, #d2f000); }
+.rx-chip[data-state='check'] { color: var(--a-ink, #f2f4ec); }
+.rx-chip[data-state='held'] { color: var(--a-good-text, #b6e36e); }
+.rx-chip[data-state='slipped'] { color: var(--a-warn-text, #e0b93f); }
+.rx-chip[data-state='recheck'] { color: var(--a-warn-text, #e0b93f); }
+.rx-chip[data-state='none'], .rx-chip[data-state='corrected'], .rx-chip[data-state='nocredit'] { color: var(--a-ink-3, #93a08f); }
 .rx-chip__ring { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--a-line-strong, #384736); border-top-color: var(--a-ink, #f2f4ec); }
 .rx-cheer { position: absolute; right: calc(100% + 6px); bottom: -8px; width: 40px; pointer-events: none; }
 .rx-row__wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 200ms var(--rx-ease); }
@@ -197,7 +203,8 @@
   .rx-row__ch { grid-row: 1; }
   .rx-row__stem { grid-row: 2; }
   .rx-row__facts { grid-area: facts; grid-row: 1 / span 2; margin: 0; }
-  .rx-row__opts { grid-column: 2 / -2; grid-row: 3; margin-top: 6px; }
+  .rx-row__why { grid-column: 2 / 4; grid-row: 3; margin-top: 2px; }
+  .rx-row__opts { grid-column: 2 / -2; grid-row: 4; margin-top: 6px; }
   .rx-row__side { display: contents; }
   .rx-row__cost { grid-area: cost; grid-row: 1 / span 2; text-align: right; }
   .rx-chip { grid-area: status; grid-row: 1 / span 2; justify-self: end; }
@@ -279,6 +286,18 @@
   /* On a phone the one next move comes before the 50-bubble answer map, so it is in the first screen. */
   .rl-page .rh-next { order: 4; }
   .rl-page .rh > .rp-strip { order: 5; padding-top: 16px; border-top: 1px solid var(--a-line, #253026); }
+  .rl-page .rh > .rp-legend { order: 5; margin-top: -4px; }
+}
+/* ARC-16 (R8): on the smallest phones (360 px wide) the one next move starts in the first screen. Only spacing and line
+   height tighten; every line, tile and the re-check note stay. */
+@media (max-width: 370px) {
+  .rl-page .rh { gap: 8px 12px; padding: 16px; }
+  .rl-page .rh .rp-hero__main { gap: 4px; }
+  .rl-page .rh .rp-hero__line { font-size: 14px; line-height: 1.45; }
+  .rl-page .rh .rx-notice { font-size: 13px; line-height: 1.35; }
+  .rl-page .rh .rx-notice .rx-link { font-size: 13px; }
+  .rl-page .rp-stats div { padding: 6px 8px; }
+  .rl-page .rh-next { padding-top: 12px; }
 }
 /* Today's card is also named .tm (src/components/today/today.css, scoped to .app-shell); "Your traps across mocks"
    is a plain disclosure row in the Lab, so the Today card's frame is taken back off it here. */

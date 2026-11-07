@@ -44,10 +44,11 @@ function Score({ value, negative, tone, run, ring }) {
  * still     Mobi holds still once the student is reading or repairing
  * notice    { text, number } a key under re-check or a correction, or null
  * strip     the answer map (rendered by the page; it owns the jumps)
+ * legend    one line under the map naming its markers (ARC-10), or null
  * repairReceipt  { lead, strong } what the repairs made before this paper did on it (data/repair_receipt.mjs), or null
  * next      the next-move panel (rendered by the page)
  */
-export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
+export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, legend = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : null;
   const tone = marks.scored < 0 ? 'bad' : marks.max && marks.scored / marks.max >= 0.4 ? 'good' : 'mid';
@@ -82,6 +83,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
         <div><dt>Accuracy</dt><dd><span className="rp-stat__value">{accuracy === null ? 'None' : `${accuracy}%`}</span><small>of answered</small></dd></div>
       </dl>
       {strip}
+      {legend}
       {next ? <div className="rh-next">{next}</div> : null}
     </header>
   );
