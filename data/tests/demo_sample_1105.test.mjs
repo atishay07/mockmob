@@ -248,7 +248,8 @@ test('the card: its own five first, a picked set accepted whole, the request onl
   assert.match(drill, /aria-describedby=\{speaks \? leadId : undefined\}/);
   assert.match(drill, /className="mm-drill__pick-lead" id=\{leadId\} aria-live="polite"/);
   assert.match(drill, /if \(event\.key === 'Escape'\)/);
-  assert.match(drill, /sendDemoState\('load', 0\);\s*focusNext\.current = 'options';\s*setLive\(next\);/, 'a new set puts Mobi back on his first line');
+  // R8 HERO-03 (8 Nov 2026): a new set gives Mobi a line that names the subject ("Physics it is. Your move.").
+  assert.match(drill, /tellDesk\('live', 0, next\.name\);\s*focusNext\.current = 'options';\s*setLive\(next\);/, 'a new set gives Mobi its own line');
   assert.doesNotMatch(drill, /localStorage|sessionStorage/, 'nothing about a guest\'s pick is stored');
   const css = read('src/components/landing/demo-subject.css');
   assert.match(css, /\.mm-drill__switch \{[^}]*min-height: 44px;/);

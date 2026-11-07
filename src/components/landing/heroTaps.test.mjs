@@ -6,7 +6,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { DESK_LINES, DESK_NOTE, DESK_STATES, HERO_FEATURES_LABEL, deskAct, deskLine, deskStateAfter, heroBankLine, heroFactLine, heroFeatures, heroPriceHook, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
+import { DESK_END_STATES, DESK_LINES, DESK_NOTE, DESK_STATES, HERO_FEATURES_LABEL, deskAct, deskEndState, deskLine, deskStateAfter, heroBankLine, heroFactLine, heroFeatures, heroPriceHook, heroTrustSegments, heroTrustSentence } from './heroTaps.mjs';
 import { MOCK_PACES, PACE, paceWords, perMock } from '../../lib/payments/value.mjs';
 import { BRAND_ICONS } from '../../../data/brand_icons.mjs';
 import { STRIP_OBJECTS } from './stripObjects.mjs';
@@ -14,7 +14,9 @@ import { STRIP_OBJECTS } from './stripObjects.mjs';
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
 test('the bubble has four lines, one per sample state, word for word; the first says his name (R3-D3)', () => {
-  assert.deepEqual(DESK_STATES, ['load', 'right', 'miss', 'five']);
+  // R8 HERO-03, HERO-08 (8 Nov 2026): the fifth answer gets its own right or miss line, the end of the five a line for the
+  // score, and the subject list, a loaded subject and a "Try 5 questions first" tap with the card on screen each a line.
+  assert.deepEqual(DESK_STATES, ['load', 'right', 'miss', 'all', 'four', 'three', 'two', 'tough', 'pick', 'live', 'here']);
   // R3-D3 (brandloss B5): "Hi, I'm Mobi." comes first. Round 4 (owner LK122, 5 Nov 2026: "Your first question. Go. What kind
   // of English is this? ... think from a marketing angle"): complete, plain sentences that invite; no "Go.". Decision 13 is
   // unchanged: lines change with the sample, never a tap. The questions are original CUET-pattern questions (DemoDrill:
@@ -23,8 +25,19 @@ test('the bubble has four lines, one per sample state, word for word; the first 
     load: 'Hi, I’m Mobi. Try this CUET question.',
     right: 'That’s right. The reason is just below.',
     miss: 'Not this time. The reason is just below.',
-    five: 'All five done. Sign up to keep going.',
+    all: 'Five of five. Ready for a full mock?',
+    four: 'Four of five. Your one miss is below.',
+    three: 'Three of five. See your misses below.',
+    two: 'Two of five. See your misses below.',
+    tough: 'Tough five. Start with the list below.',
+    pick: 'Pick a subject. I’ll pull five more.',
+    live: 'Your subject it is. Your move.',
+    here: 'Here it is. Pick an answer.',
   });
+  assert.equal(deskLine('live', { subject: 'Physics' }), 'Physics it is. Your move.');
+  assert.equal(deskLine('live', { subject: 'Political Science' }), 'Political Science it is. Your move.');
+  assert.ok(deskLine('live', { subject: 'Political Science' }).length <= 40, 'the longest subject still fits the bubble');
+  assert.doesNotMatch(Object.values(DESK_LINES).join(' '), /sign up/i, 'Mobi never pushes sign-up; the card\'s key does');
   assert.doesNotMatch(Object.values(DESK_LINES).join(' '), /\bGo\.|the why\b|real CUET|previous year|PYQ/i);
   assert.equal(DESK_NOTE, 'Free, no sign-up. Every answer shows its reason.');
   assert.ok(DESK_LINES.load.startsWith('Hi, I’m Mobi. '), 'his name comes first, before the sample line');
@@ -32,30 +45,37 @@ test('the bubble has four lines, one per sample state, word for word; the first 
   assert.equal(deskLine(undefined), DESK_LINES.load);
 });
 
-test('every bubble line is plain: sentence case, at most 44 characters, no hype, no numbers, no exclamation or emoji', () => {
+test('every bubble line is plain: sentence case, at most 40 characters, no hype, no numbers, no exclamation or emoji', () => {
   for (const line of Object.values(DESK_LINES)) {
-    assert.ok(line.length <= 44, `${line} is ${line.length} characters`);
+    assert.ok(line.length <= 40, `${line} is ${line.length} characters`);
     assert.match(line, /^[A-Z]/, `${line} starts in sentence case`);
     assert.doesNotMatch(line, /[!→←%·]|\d|\p{Extended_Pictographic}/u, line);
     assert.doesNotMatch(line, /master|guarantee|unlimited|best|#1/i, line);
   }
 });
 
-test('the sample state after an answer: right, miss, and the fifth answer is always "five"', () => {
+test('the sample state after an answer: right or miss, the fifth too (R8 HERO-03); the end state follows the score', () => {
   assert.equal(deskStateAfter({ index: 0, correct: true }), 'right');
   assert.equal(deskStateAfter({ index: 3, correct: false }), 'miss');
-  assert.equal(deskStateAfter({ index: 4, correct: true }), 'five');
-  assert.equal(deskStateAfter({ index: 4, correct: false }), 'five');
+  assert.equal(deskStateAfter({ index: 4, correct: true }), 'right');
+  assert.equal(deskStateAfter({ index: 4, correct: false }), 'miss');
+  assert.deepEqual([5, 4, 3, 2, 1, 0].map((score) => deskEndState(score)), ['all', 'four', 'three', 'two', 'tough', 'tough']);
+  assert.deepEqual([...DESK_END_STATES], ['all', 'four', 'three', 'two', 'tough']);
   assert.equal(deskAct('right'), 'correct');
   assert.equal(deskAct('miss'), 'encourage');
-  assert.equal(deskAct('five'), 'cheer');
+  assert.equal(deskAct('all'), 'cheer');
+  assert.equal(deskAct('four'), 'cheer');
+  assert.equal(deskAct('tough'), 'encourage');
   assert.equal(deskAct('load'), null);
+  assert.equal(deskAct('pick'), null);
 });
 
 test('the lines change only with the sample: DemoDrill sends the state, HeroMobi never sets it from a tap', () => {
   const drill = read('DemoDrill.jsx');
-  assert.match(drill, /sendDemoState\(deskStateAfter\(\{ index, correct: optionIndex === question\.correct, total: DRILL\.length \}\), index \+ 1\);/);
-  assert.match(drill, /sendDemoState\('load', 0\);/, 'a restart puts the load line back');
+  assert.match(drill, /tellDesk\(deskStateAfter\(\{ correct: optionIndex === question\.correct \}\), index \+ 1\);/);
+  assert.match(drill, /tellDesk\(deskEndState\(score, DRILL\.length\), DRILL\.length\);/, 'the end of the five answers the score');
+  assert.match(drill, /sendDemoState\(state, count, undefined, \{ subject \}\);/, 'every line goes out as the sample\'s state');
+  assert.match(drill, /tellDesk\('load', 0\);/, 'a restart puts the load line back');
   const mobi = read('HeroMobi.jsx');
   assert.match(mobi, /window\.addEventListener\(DEMO_STATE_EVENT, onState\)/);
   // The one place the line's state is set is the sample's state handler.

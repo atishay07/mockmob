@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import '@/app/landing-close.css';
 import { instantTo } from './scrollBus.mjs';
+import { sendDemoState } from './demoSignal.mjs';
 
 // Every same-page link to the sample questions (#try-practice: the hero's "Try 5 questions first" key, the hero beat's
 // "Five questions free") brings the question card itself on screen. Left to the router, a second tap did nothing: the
@@ -62,6 +63,20 @@ function focusTarget(stage) {
     || stage.querySelector('.mm-drill__foot .mm-btn');
 }
 
+/**
+ * Focus the first answer still open, with a visible ring (data-here draws the answers' own focus ring until it blurs), and on
+ * an unanswered card tell Mobi to point at it. False when the card has no open answer (the subject list, the score).
+ */
+function pointAtAnswer(stage) {
+  const option = stage.querySelector('.mm-drill[data-mode="drill"] .mm-drill__option:not(:disabled)');
+  if (!option) return false;
+  option.dataset.here = 'true';
+  option.addEventListener('blur', () => { delete option.dataset.here; }, { once: true });
+  option.focus({ preventScroll: true, focusVisible: true });
+  if (stage.querySelector('.mm-drill[data-answered="0"]')) sendDemoState('here', 0);
+  return true;
+}
+
 export function DemoJump() {
   useEffect(() => {
     let arriveTimer = 0;
@@ -78,9 +93,12 @@ export function DemoJump() {
     const go = (stage) => {
       cancelAnimationFrame(frame);
       const card = stage.querySelector(CARD) || stage;
+      const top = topFor(stage, card);
+      // R8 HERO-08: the card is already wholly on screen (a desktop, where it sits beside the key), so nothing would move
+      // and the tap looked dead. Point at it instead: answer A takes focus with its ring and Mobi says "Here it is.".
+      if (top === null && pointAtAnswer(stage)) { arrive(stage); return; }
       // Focus first, without scrolling: the dock (shown while focus is inside it) can leave as the card comes on.
       focusTarget(stage)?.focus({ preventScroll: true });
-      const top = topFor(stage, card);
       if (top !== null && Math.abs(window.scrollY - top) >= 2) instantTo(top);
       arrive(stage);
       // Two frames on, once the page has laid itself out around the jump, a last correction if the card drifted.
