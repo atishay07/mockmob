@@ -109,6 +109,23 @@ html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.2
 .plan-stage .lp-count--wait { display: inline-block; width: 3.2em; height: 0.9em; vertical-align: -0.08em; border-radius: 4px; background: rgb(var(--tint, 27 25 20) / 0.12); animation: plan-count-wait 1.1s ease-in-out 6 alternate; }
 @keyframes plan-count-wait { from { opacity: 0.55; } to { opacity: 1; } }
 
+/* ---- R8 PRICE-05: Free's card top reads like Pro's ---------------------------------------------------------------------------
+   The quiet "Free" word tucks under its card exactly as "Pro" does, but Free's solid card cut the letters with a hard edge, which
+   read as a layering bug beside Pro's glass. Free's card is now just see-through enough (Night 86%, Day 74% of its own paper, an
+   8 px blur) for the word's last quarter to show softly; it stays far quieter than Pro (no sheen, no inner light) and goes solid
+   under reduced transparency. The solid colour comes first, for a browser without color-mix(). */
+.mm-pro .plan-stage--quiet.pro-choice__free .mm-plan {
+  background: var(--paper-raised); background: color-mix(in srgb, var(--paper-raised) 74%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+html[data-theme='dark'] .mm-pro .plan-stage--quiet.pro-choice__free .mm-plan {
+  background: var(--pro-card); background: color-mix(in srgb, var(--pro-card) 86%, transparent);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .mm-pro .plan-stage--quiet.pro-choice__free .mm-plan { background: var(--paper-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  html[data-theme='dark'] .mm-pro .plan-stage--quiet.pro-choice__free .mm-plan { background: var(--pro-card); }
+}
+
 /* ---- Wide screens: a roomier card and the 15 px blur ------------------------------------------------------------------------ */
 @media (min-width: 960px) {
   .plan-stage { --stage-word: var(--plan-word, 10rem); }

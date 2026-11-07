@@ -544,8 +544,8 @@ test('round 5 /pricing (owner: "Pro should be the first option"): Pro comes firs
   assert.match(phone, /html\[data-theme='light'\] \.mm-pro \.pro-switch::before \{[^}]*background: var\(--paper-raised\); border: 1px solid var\(--sel-rim\);/, 'Day: no volt slab on cream');
   assert.match(phone, /transition: transform 220ms cubic-bezier\(0\.23, 1, 0\.32, 1\);/);
   assert.match(css, /@media \(max-width: 759px\) and \(prefers-reduced-motion: reduce\) \{\s*\.mm-pro \.pro-switch::before, \.mm-pro \.pro-switch__key \{ transition: none; \}/);
-  // Tablets keep Free above Pro, desktops Free beside Pro on the left, as before.
-  assert.match(css, /@media \(min-width: 760px\) \{\s*\.mm-pro \.pro-choice__free \{ order: -1; \}/);
+  // R8 PRICE-10: tablets stack Pro first, like phones (no reordering under 960 px); desktops Free beside Pro on the left.
+  assert.doesNotMatch(css, /\.mm-pro \.pro-choice__free \{ order: -1; \}/);
   assert.match(css, /@media \(min-width: 960px\) \{\s*\.mm-pro \.pro-choice__free \{ order: 0; grid-column: 1; grid-row: 1; \}\s*\.mm-pro \.pro-choice__grid > \.pro-plan \{ grid-column: 2; grid-row: 1; \}/);
   assert.doesNotMatch(css, /backdrop-filter|transition: all/);
 });
@@ -555,9 +555,12 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
   const glass = [...css.matchAll(/([^{}]+)\{([^{}]*backdrop-filter:[^{}]*)\}/g)].map((m) => [m[1].trim(), m[2]]);
   assert.ok(glass.length >= 2);
   for (const [selector, body] of glass) {
+    // R8 PRICE-05: Free's card on /pricing may soften its own word's tuck (8 px blur, no saturate, no sheen); nothing else.
+    if (/\.plan-stage--quiet\.pro-choice__free \.mm-plan$/.test(selector)) { assert.match(body, /backdrop-filter: (none|blur\(8px\));/); continue; }
     assert.match(selector, /\.plan-stage \.plan-glass\.pro-plan__card$/, `glass only on the plan card: ${selector}`);
     assert.match(body, /backdrop-filter: (none|blur\((8|15)px\) saturate\(1\.4\))/);
   }
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.mm-pro \.plan-stage--quiet\.pro-choice__free \.mm-plan \{ background: var\(--paper-raised\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/, 'Free goes solid under reduced transparency');
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.plan-stage \.plan-glass\.pro-plan__card \{ background: var\(--paper-raised\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/);
   assert.match(css, /\.plan-stage__word \{[^}]*color: var\(--price-word\)/);
   assert.doesNotMatch(css, /--price-word: [^;]*(d2f000|210, ?240|volt)/i);
