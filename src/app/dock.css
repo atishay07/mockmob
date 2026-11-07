@@ -3,7 +3,7 @@
    issue, UI/UX issues, and ... the CTA is a bit weak"; docs/design-decisions/web-r4-hero.md). One key row on every page
    that draws a guest's two keys: the home page (LandingDock, in .lp-dockgate) and the public pages (PublicDock).
 
-   - "Start free" is the volt key and takes the room: its label, and one true line under it inside the key ("No card
+   - "Sign up free" (R8 SEC-15: the hero's own label) is the volt key and takes the room: its label, and one true line under it inside the key ("No card
      needed"), so the way in says what it costs before it is pressed. "Log in" is the quiet ghost key beside it, sized to
      its word, never the same weight.
    - Both keys share one height (52 px) and one radius, and their faces sit level: every raised key here is lifted by its
@@ -40,7 +40,7 @@
     font-size: 0.9375rem;
     font-weight: 700;
   }
-  /* Start free: the rest of the row, the label over its line. */
+  /* Sign up free: the rest of the row, the label over its line. */
   html[data-theme] .mm .mm-dock[data-keys='2'] .mm-btn--primary,
   html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-btn--primary {
     flex: 1 1 0;

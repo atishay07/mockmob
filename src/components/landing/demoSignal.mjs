@@ -36,16 +36,17 @@ export function resetDemoSignal() {
 
 // The sample's state for the desk (1104 decision 13): DemoDrill sends it after every answer and on a restart, and
 // the desk listens. HeroMobi turns it into his bubble line and his act (heroTaps.mjs deskLine, deskAct); HeroRoom
-// fills one bubble of Night's painted answer sheet per answer. detail: { state, answered }, where state is 'load',
-// 'right', 'miss' or 'five' and answered is how many of the five are answered (0 to 5).
+// fills one bubble of Night's painted answer sheet per answer. detail: { state, answered, subject }, where state is one of
+// heroTaps.mjs DESK_STATES ('load', 'right', 'miss', an end state, 'pick', 'live', 'here'), answered is how many of the five
+// are answered (0 to 5) and subject names a live set that just loaded (for 'live').
 export const DEMO_STATE_EVENT = 'mm:demo-state';
 
 let finished = false;
 
-export function sendDemoState(state, answered, target = typeof window === 'undefined' ? null : window) {
+export function sendDemoState(state, answered, target = typeof window === 'undefined' ? null : window, { subject = null } = {}) {
   // All five answered: the sample's own end state offers sign-up (DemoDrill). A restart does not take it back.
   if (state === 'five' || answered >= 5) finished = true;
-  target?.dispatchEvent?.(new CustomEvent(DEMO_STATE_EVENT, { detail: { state, answered } }));
+  target?.dispatchEvent?.(new CustomEvent(DEMO_STATE_EVENT, { detail: { state, answered, subject } }));
 }
 
 /** True once a guest has answered all five sample questions on this page view. */
@@ -58,9 +59,10 @@ export function subscribeDemoState(listener, target = typeof window === 'undefin
   return () => target?.removeEventListener?.(DEMO_STATE_EVENT, listener);
 }
 
-/** The phone bar's volt key for a guest (round 4, owner LK135; the same on every public page, PublicDock): the way in in
- *  two words, and one true line under them (sign-up asks for no card: the close band's own "Free to start. No card needed."). */
-export const DOCK_GO = Object.freeze({ label: 'Start free', sub: 'No card needed' });
+/** The phone bar's volt key for a guest (round 4, owner LK135; the same on every public page, PublicDock): the way in, and
+ *  one true line under it (sign-up asks for no card: the close band's own "Free to start. No card needed."). R8 (SEC-15,
+ *  HERO-04): one label per action, so the bar says the hero's own "Sign up free" (LK83), not a second name for it. */
+export const DOCK_GO = Object.freeze({ label: 'Sign up free', sub: 'No card needed' });
 
 /** The sample's way in: same-page, so DemoJump brings the question card on screen. */
 export const SAMPLE = Object.freeze({ href: '/#try-practice', label: 'Try 5 questions first' });
@@ -70,7 +72,7 @@ export const SAMPLE = Object.freeze({ href: '/#try-practice', label: 'Try 5 ques
  * rule). Sign up and log in lead; the five questions are the sample.
  *   hero    guest: "Sign up free" (volt), "Try 5 questions first" (secondary), then "Have an account? Log in";
  *           signed in: one key back in.
- *   dock    guest: ghost "Log in" beside the volt "Start free" with its true line "No card needed" inside the key (round 4,
+ *   dock    guest: ghost "Log in" beside the volt "Sign up free" with its true line "No card needed" inside the key (round 4,
  *           owner LK135: the bar's CTA was weak; dock.css), the same from the hero to the footer; signed in: one key.
  *   close   guest: "Sign up free" and "Log in"; signed in: one key.
  * Nothing here reads the sample's state: a reader who answers the five never sees a key change its label.

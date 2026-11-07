@@ -156,14 +156,15 @@ test('L-007 the hero CTA, the nav and the bottom bar each branch on the visitor 
 });
 test.todo('L-007 (paid) no paid upsell for a paid student: the landing is a static page that cannot read the plan, so a paid account needs a live walk');
 
-test('L-008 the bottom bar (LK83/LK88; round 4 LK135): a guest gets two real keys, a ghost "Log in" and the volt "Start free" with its true line; signed in, one key; no linked text beside them', async () => {
+test('L-008 the bottom bar (LK83/LK88; round 4 LK135; R8 SEC-15): a guest gets two real keys, a ghost "Log in" and the volt "Sign up free" with its true line; signed in, one key; no linked text beside them', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   assert.match(PAGE_CODE, /<HeroDockGate>\s*<LandingDock \/>\s*<\/HeroDockGate>/, 'the landing mounts the state-aware dock');
   const landingDock = code(read('src/components/landing/LandingDock.jsx'));
   assert.doesNotMatch(landingDock, /<Link|lp-docklink|Try a CUET question/, 'no link of its own beside the keys and no sample key in the dock');
   assert.match(landingDock, /label=\{dock\.primary\.label\}[\s\S]*secondary=\{dock\.secondary\}/, 'both keys come from one resolved state (wayIn)');
-  // Round 4 (owner LK135, 5 Nov 2026: the bar's CTA was weak): "Start free" with "No card needed" inside the key, still to /signup.
-  assert.deepEqual(JSON.parse(JSON.stringify(demo.wayIn({}).dock)), { primary: { href: '/signup', label: 'Start free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' }, 'a guest');
+  // Round 4 (owner LK135, 5 Nov 2026: the bar's CTA was weak): "No card needed" inside the key, still to /signup. R8 SEC-15,
+  // HERO-04 (8 Nov 2026): one label per action, so the key says the hero's "Sign up free".
+  assert.deepEqual(JSON.parse(JSON.stringify(demo.wayIn({}).dock)), { primary: { href: '/signup', label: 'Sign up free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' }, 'a guest');
   assert.equal(demo.wayIn({ signedIn: true }).dock.secondary, null, 'signed in: one key');
   assert.match(demo.wayIn({ signedIn: true }).dock.primary.label, /^(Go to (Practice|the Arena)|Find my first gap)$/, 'signed in: the key goes back in');
   const mobile = code(read('src/components/MobileDock.jsx'));
@@ -172,7 +173,7 @@ test('L-008 the bottom bar (LK83/LK88; round 4 LK135): a guest gets two real key
   assert.match(mobile, /resolvedNote \? <p className="mm-dock__note">/, 'no empty note line');
 });
 
-test('L-009 (LK83/LK88; round 4 LK135) the dock says "Start free" and the close band "Sign up free" before, during and after the five; the sample\'s own end state offers sign-up', async () => {
+test('L-009 (LK83/LK88; round 4 LK135; R8 SEC-15) the dock and the close band both say "Sign up free" before, during and after the five; the sample\'s own end state offers sign-up', async () => {
   const demo = await importMod('src/components/landing/demoSignal.mjs');
   assert.ok(demo.DEMO_ANSWERED_EVENT && typeof demo.subscribeDemoAnswered === 'function', 'the sample still publishes its signal (the hero key\'s weight, Mobi, the painted sheet)');
   demo.resetDemoSignal();
@@ -180,7 +181,7 @@ test('L-009 (LK83/LK88; round 4 LK135) the dock says "Start free" and the close 
   demo.sendDemoState('five', 5, null);
   assert.equal(JSON.stringify(demo.wayIn({})), before, 'all five answered changes no key');
   demo.resetDemoSignal();
-  assert.equal(demo.wayIn({}).dock.primary.label, 'Start free');
+  assert.equal(demo.wayIn({}).dock.primary.label, 'Sign up free');
   assert.equal(demo.wayIn({}).dock.primary.href, demo.wayIn({}).signup.href, 'the same way in as the hero\'s "Sign up free"');
   for (const f of ['src/components/landing/LandingDock.jsx', 'src/components/landing/CloseActions.jsx']) {
     assert.doesNotMatch(code(read(f)), /subscribeDemoState|demoFinished|Try a CUET question/, `${f} never relabels with the sample`);
