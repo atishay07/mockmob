@@ -350,7 +350,7 @@ export const LAB_SCENES = Object.freeze([
     take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
-    short: 'A SWOT after every mock, with the exact sets to do next. Free.',
+    short: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
 ]);
 
