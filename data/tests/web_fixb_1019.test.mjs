@@ -84,7 +84,8 @@ test('G29: one Sign out confirm everywhere, a plain Sign out under the Account t
   assert.doesNotMatch(shell, /await signOut\(\)/, 'nothing in the shell signs out on the first tap');
   const page = read('src/app/(app)/profile/ProfilePageClient.jsx');
   assert.ok(page.indexOf('<SignedInLine') > 0 && page.indexOf('<SignedInLine') < page.indexOf('id="account-actions"'), 'a plain Sign out near the top');
-  assert.ok(page.indexOf('<SignedInLine') < page.indexOf('<YourSheet'), 'above the first card');
+  // R8 TOOLS-14: the page leads with the student; the signed-in line sits right under the student's own card, still near the top.
+  assert.ok(page.indexOf('<SignedInLine') > page.indexOf('<YourSheet') && page.indexOf('<SignedInLine') < page.indexOf('<PlanCredits'), 'right under the first card');
   const other = read('src/components/auth/SignOutOtherDevices.jsx');
   assert.match(other, />Sign out of other devices<\/h3>/);
   assert.match(other, /'Sign out of other devices'\}/, 'the key says what the heading says');

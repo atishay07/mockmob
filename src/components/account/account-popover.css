@@ -45,6 +45,20 @@ html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
   font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
 }
 .app-shell .acct-pop__rows small { font-size: 12px; font-weight: 500; color: var(--a-ink-3); }
+/* Rows that act look pressable (owner F5; R8 PRAC-17, TOOLS-19): one grouped card in the same raised surface and hairline as the
+   Credits row above, 48 px rows split by straight hairlines, a trailing chevron, and an immediate pressed fill (60 ms in, 150 ms
+   out). Sign out stays the quiet text line below it. */
+.app-shell .acct-pop .acct-pop__rows { padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-raised); overflow: hidden; }
+.app-shell .acct-pop .acct-pop__rows :is(a, button) {
+  min-height: 48px; margin: 0; padding: 0 12px 0 14px; border-radius: 0;
+  transition: background-color 150ms var(--a-ease, ease-out); -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.app-shell .acct-pop .acct-pop__rows :is(a, button) + :is(a, button) { border-top: 1px solid var(--a-line); }
+.app-shell .acct-pop .acct-pop__rows :is(a, button):active { background: var(--a-hover); transition-duration: 60ms; }
+.app-shell .acct-pop .acct-pop__rows :is(a, button):focus-visible { outline-offset: -2px; }
+.app-shell .acct-pop__chev { flex: none; color: var(--a-ink-3); }
+.app-shell .acct-pop__two { display: grid; gap: 1px; min-width: 0; padding: 6px 0; }
+html[data-motion='reduced'] .app-shell .acct-pop .acct-pop__rows :is(a, button) { transition: none; }
 .app-shell .acct-pop__out {
   min-height: 44px; border: 0; border-radius: 10px; background: none; cursor: pointer;
   color: var(--a-ink-3); font: inherit; font-size: 13.5px; font-weight: 600; text-align: left; padding: 0 8px; margin: 0 -8px;

@@ -272,9 +272,6 @@ export default function ProfilePageClient() {
   return (
     <div className="student-page student-page--profile acct view">
       <ArenaHead title="Your account." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
-      {/* Who is signed in, with a plain Sign out, on the first screen (release 11 walk: the group below is 7.6 screens down a
-          phone). It is the same confirm as the Account actions row, the top bar and the phone's You sheet. */}
-      <SignedInLine email={user?.email || ''} />
       {/* The You place's pages, on a phone and a tablet (owner LK141: the dock's You opens this page): Ask Mobi, Progress, Marks trend,
           Colleges, Wallet, Guide and Show me around, what the old You sheet listed. From 1024 px the sidebar lists them. */}
       <YouPlaces />
@@ -290,6 +287,10 @@ export default function ProfilePageClient() {
             onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
             credits={<AccountCredits user={user} />}
           />
+          {/* Who is signed in, with a plain Sign out, right under the student's own card (R8 TOOLS-14: the page leads with the student,
+              not with leaving; release 11 walk: still near the top, never 7.6 screens down a phone). The same confirm as the Account
+              actions row and the top bar. From 1024 px the top bar's labelled Sign out (G29) is on screen, so this line steps aside. */}
+          <SignedInLine email={user?.email || ''} />
 
           {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
               the colleges it names (TODAY-1017 section 7). */}

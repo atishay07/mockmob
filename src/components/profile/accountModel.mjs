@@ -262,7 +262,7 @@ export const CONTRIBUTE_ROW_IDS = Object.freeze(['upload', 'my-uploads']);
 export const standingRows = (contribute = false) => COMMUNITY_ROWS.filter((row) => contribute || !CONTRIBUTE_ROW_IDS.includes(row.id));
 
 export const HELP_ROWS = Object.freeze([
-  Object.freeze({ id: 'guide', label: 'Replay the guide', note: 'A short tour of the places you study', action: 'guide' }),
+  Object.freeze({ id: 'guide', label: 'Show me around', note: 'A short tour of the places you study', action: 'guide' }),
   Object.freeze({ id: 'contact', label: 'Contact us', note: 'A result that looks wrong, or anything else', href: '/contact' }),
   Object.freeze({ id: 'privacy-policy', label: 'Privacy policy', note: 'What we keep, and for how long', href: '/privacy' }),
 ]);

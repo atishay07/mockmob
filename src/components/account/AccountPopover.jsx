@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { SignOutButton } from '@/components/profile/SignOutConfirm';
@@ -107,6 +108,8 @@ export default function AccountPopover({ user, accountName, credits, links = {},
   const tour = () => { close(false); onTour?.(); };
   const until = pro ? proUntilWords(user?.premiumUntil) : null;
   const name = accountName ?? COPY.noName;
+  // Every row that acts looks pressable (owner F5; R8 PRAC-17, TOOLS-19): a trailing chevron, a hairline between rows, a pressed fill.
+  const chev = <ChevronRight className="acct-pop__chev" size={16} strokeWidth={2.2} aria-hidden="true" />;
 
   const body = (
     <div ref={panel} id={panelId} className={`acct-pop${open === 'sheet' ? ' acct-pop--sheet' : ''}`} role="dialog" aria-modal={open === 'sheet' ? 'true' : undefined} aria-labelledby={titleId} style={open === 'sheet' ? { top, '--acct-top': `${top}px` } : undefined}>
@@ -129,13 +132,13 @@ export default function AccountPopover({ user, accountName, credits, links = {},
       </div>
 
       <nav className="acct-pop__rows" aria-label="Account">
-        <Link href={profileHref} onClick={leave}>{COPY.rowAccount}</Link>
-        <Link href={`${profileHref}#privacy`} onClick={leave}>{COPY.rowPrivacy}</Link>
-        <Link href={links.help || '/help'} onClick={leave}>{COPY.rowHelp}</Link>
-        {onTour ? <button type="button" onClick={tour}>{TOUR_LABEL}</button> : null}
+        <Link href={profileHref} onClick={leave}><span>{COPY.rowAccount}</span>{chev}</Link>
+        <Link href={`${profileHref}#privacy`} onClick={leave}><span>{COPY.rowPrivacy}</span>{chev}</Link>
+        <Link href={links.help || '/help'} onClick={leave}><span>{COPY.rowHelp}</span>{chev}</Link>
+        {onTour ? <button type="button" onClick={tour}><span>{TOUR_LABEL}</span>{chev}</button> : null}
         <a href={COPY.contactHref}>
-          <span>{COPY.rowContact}</span>
-          <small>{COPY.contactAddress}</small>
+          <span className="acct-pop__two"><span>{COPY.rowContact}</span><small>{COPY.contactAddress}</small></span>
+          {chev}
         </a>
       </nav>
 

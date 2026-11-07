@@ -154,6 +154,8 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 .app-shell .acct-who__text { flex: 1 1 200px; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); overflow-wrap: anywhere; }
 .app-shell .acct-who__text b { font-weight: 650; color: var(--a-ink); }
 .app-shell .acct-who__key { flex: none; }
+.app-shell .acct-col > .acct-who { margin: 0; }
+@media (min-width: 1024px) { .app-shell .acct-col > .acct-who { display: none; } }
 .app-shell .acct-actions { gap: 6px; }
 .app-shell .acct-actions__list { display: grid; }
 .app-shell .acct-actions__list > * + * { border-top: 1px solid var(--a-line); }
@@ -261,6 +263,10 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 4; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 5; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 6; }
+  /* R8 TOOLS-14: the signed-in line follows the student's card (same order, later in the source); the invite sits with credits,
+     after them, never above "Hi". */
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #signed-in { order: 1; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #invite { order: 6; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 7; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #password { order: 8; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 9; }

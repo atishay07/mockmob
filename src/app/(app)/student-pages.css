@@ -3,7 +3,9 @@
 .app-shell .student-page {
   width: min(100%, 960px);
   min-width: 0;
-  margin-inline: auto;
+  /* One left edge for every Arena page (R8 TOOLS-18): each page keeps its own reading width, but starts where the main column
+     starts, as Ask Mobi, Colleges, Marks trend and Rival already do, so a page title never jumps sideways between sidebar rows. */
+  margin-inline: 0 auto;
 }
 
 .app-shell .student-page :is(h1, h2, h3) {
