@@ -910,7 +910,9 @@ export function createLearn(deps) {
     const [pub, index, options] = await Promise.all([
       published(), Promise.resolve(questionIndex(subject)).catch(() => ({ list: [] })), userId ? store.options(userId) : Promise.resolve(new Map()),
     ]);
-    return { pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])), subject, option: options.get(subject) || null, cards: pub.cardsOf(subject) };
+    // R8 LEARN-15: the student and the clock go with it, so a resumed or replayed run's key words ("Got it, back in 3 weeks") read
+    // this student's card states, as the stamp does; without them every reviewed card read as new ("back in 3 days").
+    return { userId: userId || null, now: now(), pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])), subject, option: options.get(subject) || null, cards: pub.cardsOf(subject) };
   }
 
   /** A replayed start: the run with only its items not done when it has begun, else whole. */
