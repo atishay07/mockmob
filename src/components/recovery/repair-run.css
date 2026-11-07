@@ -140,6 +140,8 @@ html:has(dialog.re[open]) { overflow: hidden; }
 .re__life li:nth-child(1)::after { background: var(--a-select, #d2f000); }
 .re__life li:nth-child(2):not([data-inked])::before { border-style: dashed; background: var(--a-bg, #0b100e); border-color: var(--a-ink-3, #93a08f); }
 .re__life li:nth-child(2):not([data-inked]) { color: var(--a-ink-3, #93a08f); }
+/* ARC-02: Retested is lit when Check it held came back right in this run; the thread from Repaired runs on to it. */
+.re__life li:nth-child(2):has(+ li[data-lit])::after { background: var(--a-select, #d2f000); }
 
 /* Pinned: the one volt key and the quiet one under it. */
 .re__band { flex: none; display: grid; gap: 4px; justify-items: stretch; padding: 10px 24px max(16px, env(safe-area-inset-bottom)); border-top: 1px solid var(--a-line, #253026); background: var(--a-bg, #0b100e); }
@@ -170,6 +172,9 @@ html:has(dialog.re[open]) { overflow: hidden; }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__bubble[data-kind='now'] circle { stroke-dashoffset: 100; animation: re-ring 380ms var(--ease-in-out, ease) var(--re-d, 200ms) forwards; }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(2) { color: var(--a-ink-3, #93a08f); animation: re-lit 200ms ease calc(var(--re-d, 600ms) + 380ms) forwards; }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(2)::before { border-style: dashed; background: var(--a-bg, #0b100e); border-color: var(--a-ink-3, #93a08f); animation: re-node 240ms var(--ease-out, ease) calc(var(--re-d, 600ms) + 380ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(3)[data-lit] { color: var(--a-ink-3, #93a08f); animation: re-lit 200ms ease calc(var(--re-d, 1000ms) + 380ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(3)[data-lit]::before { border-style: dashed; background: var(--a-bg, #0b100e); border-color: var(--a-ink-3, #93a08f); animation: re-node 240ms var(--ease-out, ease) calc(var(--re-d, 1000ms) + 380ms) forwards; }
+  :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(2):has(+ li[data-lit])::after { transform: scaleX(0); animation: re-line 360ms var(--ease-in-out, ease) calc(var(--re-d, 600ms) + 420ms) forwards; }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__life li:nth-child(1)::after { transform: scaleX(0); background: var(--a-select, #d2f000); animation: re-line 360ms var(--ease-in-out, ease) calc(var(--re-d, 600ms) + 20ms) forwards; }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero[data-landed] .re__num { animation: re-pop 360ms var(--ease-out, ease); }
   :root:not([data-motion='reduced']) .re[data-celebrate] .re__hero[data-landed] .re__count::before { animation: re-bloom 600ms var(--ease-out, ease) forwards; }
