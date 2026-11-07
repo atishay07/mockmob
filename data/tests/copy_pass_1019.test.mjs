@@ -34,7 +34,10 @@ test('every shared line that prices a full mock says the first one in each subje
   assert.equal((knowledge.match(/your first full mock in each subject is free/g) || []).length, 1, 'one clause');
   assert.equal((knowledge.match(/a full mock costs 50\$\{FIRST_FREE\}\. Answers from your record are free\./g) || []).length, 2, 'the Credits guide entry and the instant credits answer');
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'the Free plan’s Credits row, with its full stop (L7)');
+  // R8 PRICE-16: the first free full mock is said once, in the Free list behind its switch (FIRST_FREE_ITEMS); the Credits row
+  // still ends with its full stop.
+  assert.match(pricing, /Answers from your record are free\.<\/span><\/>\]/, 'the Free plan’s Credits row, with its full stop (L7)');
+  assert.match(pricing, /const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\];/, 'the first free mock follows its switch');
   // D175 (20 Oct): the comparison row follows the rule's switch too, so it never promises a free first mock while the rule is off.
   // R3-D8 (5 Nov 2026): the rows are shared (src/components/pricing/planOffer.mjs compareRows); /pricing passes the rule's switch in.
   const rows = read('src/components/pricing/planOffer.mjs');

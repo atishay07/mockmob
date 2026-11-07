@@ -212,7 +212,10 @@ test('L6, L7, L8: "50 credits", full stops on the pricing rows, and the tour poi
   assert.match(ONE_CREDIT_LINE, /A full mock costs 50 credits[,.]/, 'L6: never a bare "costs 50"');
   assert.match(ONE_CREDIT_LINE, /Everything Mobi reads from your record is free\./);
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'L7: the Free Credits row ends with a full stop either way');
+  // R8 PRICE-16: the first free full mock is said once, in the Free list behind its switch (FIRST_FREE_ITEMS); the Credits row
+  // still ends with its full stop.
+  assert.match(pricing, /Answers from your record are free\.<\/span><\/>\]/, 'L7: the Free Credits row ends with a full stop either way');
+  assert.match(pricing, /const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\];/, 'the first free mock follows its switch');
   assert.match(pricing, /On Pro, practice needs none, so they all go to Ask Mobi\./, 'and so does the Pro line');
   // L8, as of owner LK141 and LK143 (5 Nov 2026): the You sheet is gone. On a phone Ask Mobi is Mobi's face in the top bar and the first
   // row of the You page; the tour says where it lands.

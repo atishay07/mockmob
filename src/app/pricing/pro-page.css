@@ -247,6 +247,8 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
   .mm-pro .pro-choice__free .mm-plan__terms > div { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
   .mm-pro .pro-choice__free .mm-plan__terms dd { font-weight: 500; color: var(--ink-2); }
 }
+/* R8 PRICE-16: the Credits term is the allowance, then one quieter line of what each thing costs. */
+.mm-pro .pro-choice__free .mm-plan__terms-sub { display: block; margin-top: 0.25rem; font-size: 0.875rem; font-weight: 500; line-height: 1.5; color: var(--ink-2); }
 /* How Free works folds under Free's card at every width (it no longer has a column of its own). */
 .mm-pro .pro-choice__free .mm-plans__fold { display: block; margin-top: 0.75rem; padding-inline: 0.25rem; }
 .mm-pro .pro-plan__go { margin-top: 1.5rem; }
