@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
@@ -9,6 +10,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/models/subject.dart' show isHiddenSubject;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
+import '../../../core/router/routes.dart' show AppRoutes;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
@@ -33,6 +35,7 @@ import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_sheets.dart';
 import '../v3/mob_v3_flags.dart' show mobV3EnabledProvider;
+import '../v3/mob_v3_nav.dart' show MobV3Nav;
 import '../v3/logic/moment_queue.dart' show denSessionMemoryProvider;
 import '../v3/screens/den_screen.dart' show DenScreen;
 
@@ -137,14 +140,36 @@ class _MobSkeleton extends StatelessWidget {
   }
 }
 
+/// The Mob tab while the Mob is off (R8 APP-08): Mobi, what a Mob is, and two ways on, never a dead end. The
+/// explainer opens in its replay form, which ends with one key back here (its Start and Join keys would lead into a Mob
+/// that is not open yet).
 class _OffCard extends StatelessWidget {
   const _OffCard();
 
   @override
   Widget build(BuildContext context) {
+    final type = context.mmType;
+    final colors = context.mmColors;
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16),
-      child: MobCard(child: Text(MobCopy.unavailable, style: context.mmType.body.copyWith(color: context.mmColors.ink2))),
+      child: MobCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Center(
+              child: ExcludeSemantics(child: MobiCharacter(size: 140, entrance: MobiAct.wave, seed: 23, interactive: true)),
+            ),
+            const SizedBox(height: MmSpace.s16),
+            Semantics(header: true, child: Text(MobCopy.offTitle, style: type.title.copyWith(color: colors.ink))),
+            const SizedBox(height: MmSpace.s8),
+            Text(MobCopy.offLine, style: type.body.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s24),
+            KeyButton(label: MobCopy.offHow, onPressed: () => MobV3Nav.howItWorks(context, replay: true)),
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: MobCopy.offPractise, onPressed: () => context.go(AppRoutes.practice)),
+          ],
+        ),
+      ),
     );
   }
 }

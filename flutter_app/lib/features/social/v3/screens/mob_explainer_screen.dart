@@ -9,7 +9,10 @@
 // - Each slide has one clock (its own timeline, seekable); the incoming slide starts as the track
 //   starts moving, the outgoing one lands its end state at once (interruptible).
 // - Reduced motion: no track slide (a 120 ms fade), and every slide in its reduced form.
-// - Haptics: selection on each slide change; light on the end keys (KeyButton's own). Nothing else.
+// - Haptics (R8 APP-09, LK144): selection on each slide change; gestureStart once when a drag passes the 70 dp commit
+//   point and gestureEnd when it is let go and commits; light once when a pull at either end reaches the rubber band;
+//   confirm (not selection) the first time the last slide arrives, with its end keys; light on the end keys
+//   (KeyButton's own). All through hapticsOf, so the Touch feedback switch turns every one off.
 
 import 'dart:math' as math;
 
@@ -86,6 +89,18 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
   int? _incoming;
   double _dragDx = 0;
   bool _dragging = false;
+
+  /// This drag has passed the commit point (its gestureStart has been felt).
+  bool _armed = false;
+
+  /// This drag has hit the rubber band at an end (its light tap has been felt).
+  bool _banded = false;
+
+  /// The last slide's arrival has been felt (once per visit to the explainer).
+  bool _endFelt = false;
+
+  /// The pull past which a drag commits, and the pull at an end where the rubber band is felt.
+  static const double _commitPull = 70;
   bool _started = false;
   bool _left = false;
   String? _mobName;
@@ -143,7 +158,14 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
       ..stop()
       ..value = 1;
     setState(() => index = i);
-    hapticsOf(context)?.selection();
+    final haptics = hapticsOf(context);
+    if (i == _last && !_endFelt) {
+      // The end of the story, with its keys: one distinct moment, once.
+      _endFelt = true;
+      haptics?.confirm();
+    } else {
+      haptics?.selection();
+    }
     if (_reduced) {
       _track.value = i.toDouble();
       _fade.forward(from: 0);
@@ -179,13 +201,27 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
     _track.stop();
     _dragDx = 0;
     _dragging = true;
+    _armed = false;
+    _banded = false;
   }
 
   void _onDragUpdate(DragUpdateDetails d, double width) {
     _dragDx += d.delta.dx;
+    final atEnd = (index == 0 && _dragDx > 0) || (index == _last && _dragDx < 0);
+    if (_dragDx.abs() > _commitPull) {
+      if (atEnd && !_banded) {
+        // The pull meets the end of the story: one light tap, so the rubber band is felt as well as seen.
+        _banded = true;
+        hapticsOf(context)?.light();
+      } else if (!atEnd && !_armed) {
+        // Past the commit point: letting go now turns the slide.
+        _armed = true;
+        hapticsOf(context)?.gestureStart();
+      }
+    }
     if (_reduced) return;
     var o = _dragDx;
-    if ((index == 0 && o > 0) || (index == _last && o < 0)) o /= 3;
+    if (atEnd) o /= 3;
     _track.value = index - o / width;
     final toward = o < 0 ? index + 1 : index - 1;
     if (toward >= 0 && toward <= _last && _incoming != toward && o.abs() > 8) {
@@ -199,9 +235,11 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
     _dragging = false;
     final v = d.velocity.pixelsPerSecond.dx / 1000; // dp per ms
     final dx = _dragDx;
-    if ((dx < -70 || (dx < -20 && -v > 0.45)) && index < _last) {
+    if ((dx < -_commitPull || (dx < -20 && -v > 0.45)) && index < _last) {
+      hapticsOf(context)?.gestureEnd();
       goTo(index + 1);
-    } else if ((dx > 70 || (dx > 20 && v > 0.45)) && index > 0) {
+    } else if ((dx > _commitPull || (dx > 20 && v > 0.45)) && index > 0) {
+      hapticsOf(context)?.gestureEnd();
       goTo(index - 1);
     } else {
       _snapBack();

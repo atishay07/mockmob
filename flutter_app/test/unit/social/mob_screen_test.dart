@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MobiCharacter;
 import 'package:mockmob/features/social/copy.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
 import 'package:mockmob/features/social/data/mob_repository.dart';
@@ -64,9 +65,13 @@ void main() {
       expect(find.text(MobCopy.tryAgain), findsOneWidget);
     });
 
-    testWidgets('the server switch off: one plain line, no start form', (tester) async {
+    testWidgets('the server switch off: Mobi, what a Mob is and two ways on, no start form (R8 APP-08)', (tester) async {
       await _pump(tester, const MobScreen(), RemoteState<MobRead>(error: ApiError.fromResponse(404, errorBody('MOB_DISABLED'))));
-      expect(find.text(MobCopy.unavailable), findsOneWidget);
+      expect(find.text(MobCopy.offTitle), findsOneWidget);
+      expect(find.text(MobCopy.offLine), findsOneWidget);
+      expect(find.byType(MobiCharacter), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, MobCopy.offHow), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, MobCopy.offPractise), findsOneWidget);
       expect(find.text(MobCopy.startKey), findsNothing);
     });
 

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/billing/billing.dart' show playBillingEnabledProvider;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobPrefsStoreProvider;
@@ -43,6 +44,28 @@ Future<SocialServer> _open(WidgetTester tester, ExplainerVia via, {String code =
 Future<void> _next(WidgetTester tester) async {
   await tester.tap(find.byKey(const ValueKey('ex-next')));
   await _play(tester);
+}
+
+/// Every haptic the explainer asks for, by name: the base calls and the verbs (as a phone that has them all).
+class _HapticLog implements HapticDriver, HapticVerbDriver {
+  final List<String> calls = [];
+
+  int count(String name) => calls.where((c) => c == name).length;
+
+  @override
+  Future<void> selectionClick() async => calls.add('selection');
+
+  @override
+  Future<void> lightImpact() async => calls.add('light');
+
+  @override
+  Future<void> mediumImpact() async => calls.add('medium');
+
+  @override
+  Future<bool> perform(HapticVerb verb) async {
+    calls.add(verb.name);
+    return true;
+  }
 }
 
 int _index(WidgetTester tester) => tester.state<MobExplainerScreenState>(find.byType(MobExplainerScreen)).index;
@@ -359,6 +382,67 @@ void main() {
       await _next(tester);
       await tester.pumpAndSettle();
       expect(tester.binding.hasScheduledFrame, isFalse);
+    });
+  });
+
+  // R8 APP-09 (LK144): the tutorial is felt as well as seen, through the Touch feedback switch.
+  group('haptics', () {
+    Future<_HapticLog> openFelt(WidgetTester tester, {bool enabled = true}) async {
+      final log = _HapticLog();
+      await _open(tester, ExplainerVia.start, reduced: false, extra: [hapticsProvider.overrideWithValue(Haptics(enabled: enabled, driver: log))]);
+      return log;
+    }
+
+    testWidgets('a committed swipe: gestureStart past the commit point, then gestureEnd on release', (tester) async {
+      final log = await openFelt(tester);
+      await tester.drag(find.byType(MobExplainerScreen), const Offset(-160, 0));
+      await _play(tester);
+      expect(_index(tester), 1);
+      final start = log.calls.indexOf('gestureStart');
+      expect(start, isNonNegative);
+      expect(log.calls.indexOf('gestureEnd'), greaterThan(start));
+      expect(log.count('gestureStart'), 1, reason: 'once per drag');
+    });
+
+    testWidgets('a short drag that snaps back is not a commit', (tester) async {
+      final log = await openFelt(tester);
+      await tester.timedDrag(find.byType(MobExplainerScreen), const Offset(-40, 0), const Duration(milliseconds: 600));
+      await _play(tester);
+      expect(log.calls, isNot(contains('gestureStart')));
+      expect(log.calls, isNot(contains('gestureEnd')));
+    });
+
+    testWidgets('a pull past either end hits the rubber band with one light tap', (tester) async {
+      final log = await openFelt(tester);
+      await tester.drag(find.byType(MobExplainerScreen), const Offset(200, 0));
+      await _play(tester);
+      expect(_index(tester), 0);
+      expect(log.count('light'), 1);
+      expect(log.calls, isNot(contains('gestureEnd')));
+    });
+
+    testWidgets('arriving at slide 7 is one confirm, once', (tester) async {
+      final log = await openFelt(tester);
+      for (var i = 0; i < MobExplainerCopy.slideCount - 1; i++) {
+        await _next(tester);
+      }
+      expect(_index(tester), MobExplainerCopy.slideCount - 1);
+      expect(log.count('confirm'), 1);
+      // Back and on again: a slide change, not a second ending.
+      await tester.tapAt(const Offset(40, 300));
+      await _play(tester);
+      await tester.tapAt(const Offset(300, 300));
+      await _play(tester);
+      expect(log.count('confirm'), 1);
+    });
+
+    testWidgets('with Touch feedback off nothing is felt', (tester) async {
+      final log = await openFelt(tester, enabled: false);
+      await tester.drag(find.byType(MobExplainerScreen), const Offset(-160, 0));
+      await _play(tester);
+      await tester.drag(find.byType(MobExplainerScreen), const Offset(200, 0));
+      await _play(tester);
+      expect(log.calls, isEmpty);
     });
   });
 }

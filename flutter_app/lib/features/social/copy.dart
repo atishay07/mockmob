@@ -304,6 +304,12 @@ abstract final class MobCopy {
   static const String loadFailedOffline = 'You\'re offline, so your Mob didn\'t load.';
   static const String tryAgain = 'Try again';
   static const String unavailable = 'The Mob is not available yet.';
+
+  /// The Mob tab while the Mob is off (R8 APP-08): what it is, and somewhere to go meanwhile.
+  static const String offTitle = 'The Mob opens soon';
+  static const String offLine = 'You and up to 4 friends play the same questions within 24 hours, then see who did best and fix the misses together.';
+  static const String offHow = 'See how the Mob works';
+  static const String offPractise = 'Practise now';
   static const String loadingMob = 'Loading your Mob';
 
   // Join.
