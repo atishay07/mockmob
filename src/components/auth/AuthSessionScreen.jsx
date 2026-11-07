@@ -57,9 +57,7 @@ export function AuthSessionScreen({
           position: relative;
           isolation: isolate;
           overflow: hidden;
-          background:
-            radial-gradient(ellipse at 50% -22%, rgba(210, 240, 0, 0.18), rgba(210, 240, 0, 0.05) 34%, transparent 64%),
-            linear-gradient(180deg, #090a08 0%, #050505 56%, #0a0a0a 100%);
+          background: radial-gradient(ellipse at 50% -22%, rgba(255, 198, 120, 0.08), transparent 60%), #12110e;
         }
         .auth-session-bg::before {
           content: "";
@@ -67,11 +65,7 @@ export function AuthSessionScreen({
           inset: 0;
           z-index: -2;
           pointer-events: none;
-          background-image:
-            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-          background-size: 72px 72px;
-          mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent 78%);
+          background-image: none;
         }
         .auth-session-bg::after {
           content: "";
@@ -79,27 +73,18 @@ export function AuthSessionScreen({
           inset: 0;
           z-index: -1;
           pointer-events: none;
-          background:
-            linear-gradient(180deg, rgba(255,255,255,0.055), transparent 22%),
-            repeating-linear-gradient(to bottom, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 9px);
-          opacity: 0.18;
+          display: none;
         }
         .auth-session-card {
           position: relative;
-          border: 1px solid rgba(255,255,255,0.09);
+          border: 1px solid #312e27;
           border-radius: 16px;
-          background:
-            linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.016)),
-            rgba(10,10,10,0.78);
+          background: #1b1a16;
           box-shadow: 0 24px 90px rgba(0,0,0,0.42);
           padding: 32px;
-          backdrop-filter: blur(18px) saturate(130%);
-          -webkit-backdrop-filter: blur(18px) saturate(130%);
         }
         /* Daylight variant: this screen precedes the Arena shell, so it must not flash dark. */
-        html[data-theme='light'] .auth-session-bg { background: radial-gradient(ellipse at 50% -22%, rgba(124, 150, 20, 0.12), transparent 60%), #f3efe6; }
-        html[data-theme='light'] .auth-session-bg::before { background-image: linear-gradient(rgba(23,21,15,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(23,21,15,0.04) 1px, transparent 1px); }
-        html[data-theme='light'] .auth-session-bg::after { display: none; }
+        html[data-theme='light'] .auth-session-bg { background: radial-gradient(ellipse at 50% -22%, rgba(255, 198, 120, 0.12), transparent 60%), #f3efe6; }
         html[data-theme='light'] .auth-session-card { border-color: #d8d1c2; background: #fff; box-shadow: 0 24px 60px -30px rgba(42,32,16,0.25); }
         html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #17150f; }
         html[data-theme='light'] .auth-session-card .logo .dot { color: #526700; }
