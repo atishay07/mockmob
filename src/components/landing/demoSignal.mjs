@@ -38,15 +38,16 @@ export function resetDemoSignal() {
 // the desk listens. HeroMobi turns it into his bubble line and his act (heroTaps.mjs deskLine, deskAct); HeroRoom
 // fills one bubble of Night's painted answer sheet per answer. detail: { state, answered, subject }, where state is one of
 // heroTaps.mjs DESK_STATES ('load', 'right', 'miss', an end state, 'pick', 'live', 'here'), answered is how many of the five
-// are answered (0 to 5) and subject names a live set that just loaded (for 'live').
+// are answered (0 to 5) and subject names a live set that just loaded (for 'live'). restore is true when the subject list
+// closes and the card puts back the bubble it had: the line returns, but Mobi plays no act for it.
 export const DEMO_STATE_EVENT = 'mm:demo-state';
 
 let finished = false;
 
-export function sendDemoState(state, answered, target = typeof window === 'undefined' ? null : window, { subject = null } = {}) {
+export function sendDemoState(state, answered, target = typeof window === 'undefined' ? null : window, { subject = null, restore = false } = {}) {
   // All five answered: the sample's own end state offers sign-up (DemoDrill). A restart does not take it back.
   if (state === 'five' || answered >= 5) finished = true;
-  target?.dispatchEvent?.(new CustomEvent(DEMO_STATE_EVENT, { detail: { state, answered, subject } }));
+  target?.dispatchEvent?.(new CustomEvent(DEMO_STATE_EVENT, { detail: { state, answered, subject, restore } }));
 }
 
 /** True once a guest has answered all five sample questions on this page view. */

@@ -195,9 +195,9 @@ export function DemoDrill({ note = null }) {
     return () => window.clearTimeout(id);
   }, [answered, index]);
 
-  function tellDesk(state, count, subject = null) {
+  function tellDesk(state, count, subject = null, restore = false) {
     if (state !== 'pick') deskNow.current = { state, answered: count, subject };
-    sendDemoState(state, count, undefined, { subject });
+    sendDemoState(state, count, undefined, { subject, restore });
   }
 
   function pick(optionIndex, event) {
@@ -260,9 +260,10 @@ export function DemoDrill({ note = null }) {
     setFailure(null);
     focusNext.current = 'switch';
     setPicking(false);
-    // Back on the card, Mobi says what he said before the list opened.
+    // Back on the card, Mobi says what he said before the list opened. It is a restore, not a new answer, so he
+    // plays no act for it (R8 revision).
     const { state, answered: count, subject } = deskNow.current;
-    tellDesk(state, count, subject);
+    tellDesk(state, count, subject, true);
   }
 
   // A subject's five: the route's answer is checked whole (acceptDemoSet) before the card plays it. A failure keeps the
@@ -321,7 +322,7 @@ export function DemoDrill({ note = null }) {
     return (
       <div className="lp-card mm-drill" aria-live="polite" tabIndex={-1} role="group" aria-label="Five sample questions">
         <div className="lp-card__head">
-          <span className="lp-card__sub"><b>Your score</b><span>5 of 5</span></span>
+          <span className="lp-card__sub"><b>Your score</b><span>All 5 answered</span></span>
         </div>
         <div className="lp-card__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Your score: ${score} out of 5.`}>
           <p className="mm-drill__score">

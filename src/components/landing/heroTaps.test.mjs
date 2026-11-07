@@ -10,6 +10,7 @@ import { DESK_END_STATES, DESK_LINES, DESK_NOTE, DESK_STATES, HERO_FEATURES_LABE
 import { MOCK_PACES, PACE, paceWords, perMock } from '../../lib/payments/value.mjs';
 import { BRAND_ICONS } from '../../../data/brand_icons.mjs';
 import { STRIP_OBJECTS } from './stripObjects.mjs';
+import { resetDemoSignal, sendDemoState } from './demoSignal.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
@@ -26,10 +27,10 @@ test('the bubble has four lines, one per sample state, word for word; the first 
     right: 'That’s right. The reason is just below.',
     miss: 'Not this time. The reason is just below.',
     all: 'Five of five. Ready for a full mock?',
-    four: 'Four of five. Your one miss is below.',
-    three: 'Three of five. See your misses below.',
-    two: 'Two of five. See your misses below.',
-    tough: 'Tough five. Start with the list below.',
+    four: 'Four of five. Open the miss to see why.',
+    three: 'Three of five. Open a miss to see why.',
+    two: 'Two of five. Open a miss to see why.',
+    tough: 'Every miss has a reason. Open one.',
     pick: 'Pick a subject. I’ll pull five more.',
     live: 'Your subject it is. Your move.',
     here: 'Here it is. Pick an answer.',
@@ -74,7 +75,7 @@ test('the lines change only with the sample: DemoDrill sends the state, HeroMobi
   const drill = read('DemoDrill.jsx');
   assert.match(drill, /tellDesk\(deskStateAfter\(\{ correct: optionIndex === question\.correct \}\), index \+ 1\);/);
   assert.match(drill, /tellDesk\(deskEndState\(score, DRILL\.length\), DRILL\.length\);/, 'the end of the five answers the score');
-  assert.match(drill, /sendDemoState\(state, count, undefined, \{ subject \}\);/, 'every line goes out as the sample\'s state');
+  assert.match(drill, /sendDemoState\(state, count, undefined, \{ subject, restore \}\);/, 'every line goes out as the sample\'s state');
   assert.match(drill, /tellDesk\('load', 0\);/, 'a restart puts the load line back');
   const mobi = read('HeroMobi.jsx');
   assert.match(mobi, /window\.addEventListener\(DEMO_STATE_EVENT, onState\)/);
@@ -82,6 +83,22 @@ test('the lines change only with the sample: DemoDrill sends the state, HeroMobi
   assert.equal((mobi.match(/setState\(/g) || []).length, 1);
   const onTapped = mobi.slice(mobi.indexOf('const onTapped'), mobi.indexOf('const line = deskLine'));
   assert.doesNotMatch(onTapped, /setState|setAct/, 'a tap changes neither the line nor the act he was given');
+});
+
+test('closing the subject list puts the line back without a new act (R8 revision): restore rides on the event', () => {
+  const events = [];
+  const target = { dispatchEvent: (event) => events.push(event.detail) };
+  sendDemoState('miss', 2, target, { restore: true });
+  sendDemoState('right', 3, target);
+  assert.deepEqual(events, [{ state: 'miss', answered: 2, subject: null, restore: true }, { state: 'right', answered: 3, subject: null, restore: false }]);
+  resetDemoSignal();
+  const drill = read('DemoDrill.jsx');
+  const close = drill.slice(drill.indexOf('function closeSubjects'), drill.indexOf('async function chooseSubject'));
+  assert.match(close, /tellDesk\(state, count, subject, true\);/, 'the close is sent as a restore');
+  const mobi = read('HeroMobi.jsx');
+  const onState = mobi.slice(mobi.indexOf('const onState'), mobi.indexOf('window.addEventListener(DEMO_STATE_EVENT'));
+  assert.ok(onState.indexOf('setState(next)') < onState.indexOf('if (event.detail?.restore) return;'), 'the line still comes back');
+  assert.ok(onState.indexOf('if (event.detail?.restore) return;') < onState.indexOf('deskAct(next)'), 'but no act plays');
 });
 
 test('the reassurance sentences (kept for other surfaces): built from the live offer, no middle dots, the count only when live', () => {

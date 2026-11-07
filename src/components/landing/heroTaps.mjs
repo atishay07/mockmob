@@ -14,8 +14,9 @@ import { MOCK_PACES, paceWords, perMock } from '../../lib/payments/value.mjs';
  * The bubble's lines, by the sample's state. Each at most 40 characters (the bubble's fixed box holds them all without
  * growing), sentence case, no hype, no numerals. R8 (HERO-03): Mobi answers what just happened. The fifth answer gets its
  * own right or miss line like the other four; the end of the five gets a line for the score ('all' five, 'four', 'three',
- * 'two', and 'tough' for one or none), and none of them pushes sign-up (the card's own key does that). Opening the subject
- * list says what a pick does ('pick'); a subject that loads names itself ('live', deskLine(state, { subject })); a
+ * 'two', and 'tough' for one or none), and none of them pushes sign-up (the card's own key does that). The end lines with
+ * a miss coach the readout's rows (each opens to its reason) instead of repeating the card's verdict, and each still wraps
+ * to two lines at every width, so the box does not grow. Opening the subject list says what a pick does ('pick'); a subject that loads names itself ('live', deskLine(state, { subject })); a
  * "Try 5 questions first" tap with the card already on screen points at it ('here').
  */
 export const DESK_LINES = Object.freeze({
@@ -23,10 +24,10 @@ export const DESK_LINES = Object.freeze({
   right: 'That’s right. The reason is just below.',
   miss: 'Not this time. The reason is just below.',
   all: 'Five of five. Ready for a full mock?',
-  four: 'Four of five. Your one miss is below.',
-  three: 'Three of five. See your misses below.',
-  two: 'Two of five. See your misses below.',
-  tough: 'Tough five. Start with the list below.',
+  four: 'Four of five. Open the miss to see why.',
+  three: 'Three of five. Open a miss to see why.',
+  two: 'Two of five. Open a miss to see why.',
+  tough: 'Every miss has a reason. Open one.',
   pick: 'Pick a subject. I’ll pull five more.',
   live: 'Your subject it is. Your move.',
   here: 'Here it is. Pick an answer.',

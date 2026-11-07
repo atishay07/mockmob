@@ -103,6 +103,8 @@ export default function HeroMobi({ poster = null }) {
       if (!DESK_STATES.includes(next)) return;
       setState(next);
       if (next === 'live') setSubject(event.detail?.subject || null);
+      // The subject list closed and the card put its line back: nothing new happened, so no act (R8 revision).
+      if (event.detail?.restore) return;
       const mood = deskAct(next);
       if (!mood) return;
       if (!Rig) load();

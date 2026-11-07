@@ -236,8 +236,9 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct']
 }
 :root[data-motion='reduced'] .mm.lp .lp-desk :is(.mm-drill__miss-fold, .mm-drill__miss-chev) { transition: none; }
 
-/* HERO-08: "Try 5 questions first" with the card already on screen puts focus on answer A and shows it, quietly: the focus
-   ring the answers already use, no pulse, no glow. */
-.mm.lp .lp-desk .mm-drill__option[data-here='true']:focus { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+/* HERO-08: "Try 5 questions first" with the card already on screen puts focus on answer A and shows it, quietly: a plain
+   ink ring, no pulse, no glow. Not --focus-ring: that is volt in Night and #526700 in Day, the colours of a correct answer,
+   so an unanswered (possibly wrong) option would look pre-marked right (R8 revision). */
+.mm.lp .lp-desk .mm-drill__option[data-here='true']:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
 /* Day draws the readout box on paper, so its rows rise to raised paper to read as keys. */
 html[data-theme='light'] .mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss { background: var(--paper-raised); }
