@@ -17,35 +17,35 @@ colors:
   volt-ink: "#0b1000"
   text-green-day: "#526700"
   good-day: "#3d6600"
-  slate: "#0f130e"
-  slate-2: "#1a211a"
-  slate-3: "#29322a"
-  slate-line: "rgba(244, 245, 240, 0.13)"
-  chalk: "#f4f5f0"
-  chalk-2: "#a6ae9f"
+  slate: "#0e0d0b"
+  slate-2: "#1b1a16"
+  slate-3: "#2a2822"
+  slate-line: "rgba(244, 240, 230, 0.09)"
+  chalk: "#f4f0e6"
+  chalk-2: "#cfc8b9"
   flag: "#b93225"
   flag-soft: "#fbe9e7"
 typography:
   display:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "clamp(2.3rem, 10.5vw, 4.75rem)"
     fontWeight: 800
     lineHeight: 0.98
     letterSpacing: "-0.035em"
   headline:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "clamp(1.75rem, 6.6vw, 3rem)"
     fontWeight: 800
     lineHeight: 1.03
     letterSpacing: "-0.03em"
   title:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "clamp(1.25rem, 4.4vw, 1.6rem)"
     fontWeight: 700
     lineHeight: 1.15
     letterSpacing: "-0.02em"
   subhead:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 700
     lineHeight: 1.25
@@ -66,11 +66,11 @@ typography:
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "Gabarito, system-ui, sans-serif"
-    fontSize: "0.6875rem"
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
+    fontSize: "0.9375rem"
     fontWeight: 700
     lineHeight: 1.2
-    letterSpacing: "0.06em"
+    letterSpacing: "0"
   measure:
     fontFamily: "Geist Mono, ui-monospace, monospace"
     fontSize: "0.6875rem"
@@ -78,7 +78,7 @@ typography:
     letterSpacing: "0.06em"
     fontFeature: "tnum"
   recovery-display:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "clamp(44px, 5.7vw, 76px)"
     fontWeight: 800
     lineHeight: 1.02
@@ -89,7 +89,7 @@ typography:
     fontWeight: 600
     lineHeight: 1.4
   recovery-headline:
-    fontFamily: "Gabarito, system-ui, sans-serif"
+    fontFamily: "Bricolage Grotesque, system-ui, sans-serif"
     fontSize: "clamp(26px, 4vw, 40px)"
     lineHeight: 1.12
     letterSpacing: "-0.025em"
@@ -222,6 +222,15 @@ components:
 ---
 
 # Design System: MockMob
+
+
+> **Current contract (8 Nov 2026, R8 visible-craft pass).** The front matter above is the live system: Bricolage Grotesque
+> display (data/brand_flags.mjs `displayFont`), Hanken Grotesk reading and labels, Literata for the home page's question
+> voice, Geist Mono for compact measurements; labels and tags are sentence case with no tracking (never uppercase); the warm
+> Night and Day palettes in src/app/marketing-theme.css, matched value for value by the app's MmColors and, from R8, by the
+> Arena's `--a-*` roles. Where an older dated section below still says Gabarito, uppercase labels or the green-black
+> slate, it is history: the November sections and this note win. Reference board for craft decisions:
+> docs/brain/R8-CRAFT-REFERENCES.md.
 
 ## Overview
 
