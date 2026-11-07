@@ -172,6 +172,12 @@ class MistakeView extends StatelessWidget {
       _ => null,
     };
     final earlierPick = tried == null ? null : step.item.givenIndex;
+    // The trap belongs to the paper's pick: after a try, "Why B looked right" still names the
+    // option the student fell for, never the retry (which may be the key itself).
+    final paperPick = switch (outcome) {
+      OutcomeExplained(:final response) => response.chosenIndex ?? step.item.givenIndex,
+      _ => step.item.givenIndex,
+    };
     final words = tried == null || question == null
         ? null
         : retryOptionWords(pick: tried, key: keyIndex, before: step.item.givenIndex, source: step.item.source);
@@ -226,10 +232,13 @@ class MistakeView extends StatelessWidget {
                       haptic: false,
                       builder: (context, reveal) => FoldedQuestion(
                         key: ValueKey('fold-${step.item.key}'),
-                        line: ReviewCopy.foldedQuestion(step.item.number, _letter(chosen), _letter(keyIndex)),
+                        line: tried != null && _letter(earlierPick) != _letter(chosen)
+                            ? ReviewCopy.foldedRetry(step.item.number, _letter(earlierPick), _letter(chosen), _letter(keyIndex))
+                            : ReviewCopy.foldedQuestion(step.item.number, _letter(chosen), _letter(keyIndex)),
                         number: step.item.number,
                         pick: _letter(chosen),
                         answer: _letter(keyIndex),
+                        paperPick: tried != null && _letter(earlierPick) != _letter(chosen) ? _letter(earlierPick) : null,
                         reveal: reveal,
                         panel: QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, earlier: earlierPick, words: words),
                       ),
@@ -246,6 +255,7 @@ class MistakeView extends StatelessWidget {
                       context,
                       outcome,
                       chosenLetter: _letter(chosen),
+                      trapLetter: _letter(paperPick),
                       keyLetter: _letter(keyIndex),
                       verdict: verdict,
                       skippedTry: step.tryStage == TryStage.done && tried == null,
@@ -363,7 +373,7 @@ class MistakeView extends StatelessWidget {
   /// (MistakeRepair.jsx): the wait line, the four steps of a landed repair, a failure's notice and
   /// "could not explain". A key review and a set-aside question have no Mobi, as on the website.
   /// He is always the first child here, so he keeps his state from the wait to the repair.
-  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? keyLetter, RetryVerdict? verdict, bool skippedTry = false}) {
+  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? trapLetter, String? keyLetter, RetryVerdict? verdict, bool skippedTry = false}) {
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
     Widget withMobi(Widget line) => RepairMobi(stepKey: run.current!.item.key, outcome: outcome, beside: line, verdict: verdict, skippedTry: skippedTry);
     // The verdict, when the phone can already tell it: it leads, with Mobi beside it, and the wait
@@ -405,7 +415,8 @@ class MistakeView extends StatelessWidget {
           if (response.explanation != null)
             WorkedExplanation(
               explanation: response.explanation!,
-              chosenLetter: chosenLetter,
+              // The explanation is about the paper's pick, whatever the try chose.
+              chosenLetter: trapLetter ?? chosenLetter,
               keyLetter: keyLetter,
               letterOf: question == null ? null : _letter,
               recordLines: _recordLines(run.current!.item.questionId, response),
@@ -497,7 +508,7 @@ class MarksLine extends StatelessWidget {
 /// question" to open it again. The two states cross-fade on top of each other (no size animation
 /// inside the scrolling list); the height settles when the fade ends.
 class FoldedQuestion extends StatefulWidget {
-  const FoldedQuestion({super.key, required this.line, required this.panel, this.number, this.pick, this.answer, this.reveal});
+  const FoldedQuestion({super.key, required this.line, required this.panel, this.number, this.pick, this.answer, this.paperPick, this.reveal});
 
   /// What the line says, for TalkBack ("Q7. Your pick B. Key C.").
   final String line;
@@ -508,6 +519,9 @@ class FoldedQuestion extends StatefulWidget {
   final int? number;
   final String? pick;
   final String? answer;
+
+  /// The paper's pick when a try changed it: drawn first, in coral, as "Paper pick".
+  final String? paperPick;
 
   /// The key reveal's clock, or null for the final state.
   final Animation<double>? reveal;
@@ -536,7 +550,7 @@ class _FoldedQuestionState extends State<FoldedQuestion> {
             padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
             child: widget.number == null
                 ? Text(widget.line, style: type.labelLarge.copyWith(color: colors.ink))
-                : FoldLine(line: widget.line, number: widget.number!, pick: widget.pick, answer: widget.answer, reveal: widget.reveal),
+                : FoldLine(line: widget.line, number: widget.number!, pick: widget.pick, answer: widget.answer, paperPick: widget.paperPick, reveal: widget.reveal),
           ),
         ),
         FlushKey(label: ReviewCopy.showQuestion, onPressed: () => setState(() => _open = true)),
@@ -567,12 +581,17 @@ class _FoldedQuestionState extends State<FoldedQuestion> {
 /// FoldLine). On the reveal's clock the pick settles and its word fades in, then the key's ring
 /// draws round, fills, and its word fades in. TalkBack hears the one plain sentence.
 class FoldLine extends StatelessWidget {
-  const FoldLine({super.key, required this.line, required this.number, this.pick, this.answer, this.reveal});
+  const FoldLine({super.key, required this.line, required this.number, this.pick, this.answer, this.paperPick, this.reveal});
 
   final String line;
   final int number;
   final String? pick;
   final String? answer;
+
+  /// The paper's pick after a try that changed it. Then the paper's pick is the coral one and the
+  /// try is named as the retry: a right retry is the key itself ("Now right"), never "Your answer"
+  /// in coral; a wrong retry stays coral.
+  final String? paperPick;
   final Animation<double>? reveal;
 
   @override
@@ -597,7 +616,17 @@ class FoldLine extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text('Q$number', style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
-        if (pick != null)
+        if (paperPick != null)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _LetterBubble(letter: paperPick!, mine: true),
+              const SizedBox(width: MmSpace.s8),
+              Text(ReviewCopy.paperPick, style: type.label.copyWith(color: colors.badText)),
+            ],
+          ),
+        // A right retry is the key: one bubble, filled, named "Now right".
+        if (pick != null && !(paperPick != null && pick == answer))
           Transform.translate(
             offset: Offset(0, -KeyRevealTiming.settle * (1 - Motion.out.transform(settle))),
             child: Row(
@@ -607,7 +636,7 @@ class FoldLine extends StatelessWidget {
                 const SizedBox(width: MmSpace.s8),
                 Opacity(
                   opacity: KeyRevealTiming.window(t, KeyRevealTiming.yourWordStart, KeyRevealTiming.yourWordEnd),
-                  child: Text(ReviewCopy.yourAnswer, style: type.label.copyWith(color: colors.badText)),
+                  child: Text(paperPick != null ? ReviewCopy.yourRetry : ReviewCopy.yourAnswer, style: type.label.copyWith(color: colors.badText)),
                 ),
               ],
             ),
@@ -620,7 +649,10 @@ class FoldLine extends StatelessWidget {
               const SizedBox(width: MmSpace.s8),
               Opacity(
                 opacity: KeyRevealTiming.window(t, KeyRevealTiming.keyWordStart, 1),
-                child: Text(ReviewCopy.correctAnswer, style: type.label.copyWith(color: colors.ink)),
+                child: Text(
+                  paperPick != null && pick == answer ? ReviewCopy.nowRight : ReviewCopy.correctAnswer,
+                  style: type.label.copyWith(color: colors.ink),
+                ),
               ),
             ],
           ),

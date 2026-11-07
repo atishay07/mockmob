@@ -106,7 +106,8 @@ abstract final class ReviewCopy {
   static String tonightCount(int n, String source, int chapterOpen) {
     final head = '${plural(n, 'mistake')} from $source.';
     final rest = chapterOpen - n;
-    if (rest <= 0) return '$head You can stop after any one.';
+    // "Stop after any one" only when there is more than one (R8 APP-15).
+    if (rest <= 0) return n > 1 ? '$head You can stop after any one.' : head;
     return '$head ${rest == 1 ? '1 more' : '$rest more'} in this chapter from earlier papers.';
   }
 
@@ -117,7 +118,7 @@ abstract final class ReviewCopy {
   /// list said 5 to repair).
   static String tonightSource(String source, int n, int chapterOpen, {int? totalOpen}) {
     final waiting = (totalOpen ?? chapterOpen) - n;
-    if (waiting <= 0) return 'From $source. You can stop after any one.';
+    if (waiting <= 0) return n > 1 ? 'From $source. You can stop after any one.' : 'From $source.';
     return 'From $source. ${waiting == 1 ? '1 more' : '$waiting more'} to repair below.';
   }
 
@@ -302,9 +303,11 @@ abstract final class ReviewCopy {
   // ---- Repair entry ---------------------------------------------------------------------
 
   static String entryLead(int n, int? minutes) =>
-      '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
-  /// The line under the entry's number, which already says how many.
-  static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
+      '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}.${n > 1 ? ' You can stop after any one.' : ''}';
+  /// The line under the entry's number, which already says how many. "You can stop after any one" only when the run
+  /// holds more than one ([count]; R8 APP-15).
+  static String entryMeaning(int? minutes, {int count = 2}) =>
+      '${minutes == null ? 'Take your time' : 'About $minutes minutes'}.${count > 1 ? ' You can stop after any one.' : ''}';
   static String creditLine(int balance) => 'Uses 1 credit per mistake. You have $balance.';
 
   /// The headline when the wallet covers fewer mistakes than the repair holds.
@@ -458,6 +461,13 @@ abstract final class ReviewCopy {
   /// are left out (the website's `foldedQuestionLine`).
   static String foldedQuestion(int number, String? pick, String? key) =>
       ['Q$number.', if (pick != null) 'Your pick $pick.', if (key != null) 'Key $key.'].join(' ');
+  /// The folded line after a try that changed the pick: "Q3. Paper pick B. Now C. Key C." The
+  /// paper's pick stays named, so the trap explained under it is the one the student fell for.
+  static String foldedRetry(int number, String? paper, String? now, String? key) =>
+      ['Q$number.', if (paper != null) 'Paper pick $paper.', if (now != null) 'Now $now.', if (key != null) 'Key $key.'].join(' ');
+  static const paperPick = 'Paper pick';
+  static const nowRight = 'Now right';
+  static const yourRetry = 'Your retry';
   static const showQuestion = 'Show the question';
   static const hideQuestion = 'Hide the question';
 
@@ -500,7 +510,7 @@ abstract final class ReviewCopy {
 
   static String retryTitle(String chapter) => 'Practise 5 on ${shortChapter(chapter)}';
   static String retryLine(int? cost, bool free) => free
-      ? 'A separate practice session. 5 questions, about 5 minutes. Free with your allowance.'
+      ? 'A separate practice session. 5 questions, about 5 minutes. Free today.'
       : 'A separate practice session. 5 questions, about 5 minutes.${cost == null ? '' : ' ${plural(cost, 'credit')}.'}';
   static const retryKey = 'Practise 5 questions';
   static const retryShort = 'Not enough credits for a retry. The repair counts without one.';
@@ -516,7 +526,9 @@ abstract final class ReviewCopy {
   /// open mistakes in other papers, which the run never touched, so the two are said apart.
   static String endingFact(String chapter, int? left, {int elsewhere = 0, int setAside = 0, int reviewed = 0}) {
     final name = shortChapter(chapter);
-    final other = elsewhere > 0 ? ' $elsewhere ${left == 0 ? '' : 'more '}in other papers.' : '';
+    // The other papers' number names its chapter (R8 APP-15): "14 more Goodwill mistakes in other papers.", never a bare
+    // "14 more" beside the tab's open count.
+    final other = elsewhere > 0 ? ' $elsewhere ${left == 0 ? '' : 'more '}$name ${elsewhere == 1 ? 'mistake' : 'mistakes'} in other papers.' : '';
     return [
       if (left != null)
         left == 0
