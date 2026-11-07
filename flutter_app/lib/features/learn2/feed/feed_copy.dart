@@ -77,6 +77,7 @@ abstract final class FeedCopy {
   static const String endTitleFallback = 'This feed';
   static const String endErrorTitle = 'Your feed is saved';
   static const String endErrorLine = "The summary didn't load, but everything you did is saved.";
+  static const String endErrorUnsavedLine = "The summary didn't load either. Everything else you did is kept.";
   static const String backToExplore = 'Back to Explore';
   static const String startingAgain = 'Starting';
 

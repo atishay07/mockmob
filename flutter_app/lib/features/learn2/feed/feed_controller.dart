@@ -223,6 +223,9 @@ class FeedController extends ChangeNotifier {
   /// Items done, for the stop rule (before any, Close leaves; after one, it asks).
   int get itemsDone => FeedModel.itemsDone(_items, _states, base: base);
 
+  /// Answers whose save failed and that are still unsaved (an answer sent again clears its error).
+  int get unsavedCount => _states.values.where((s) => s.error != null).length;
+
   /// The stop rule applies: the items are on screen and one is done.
   bool get asksToStop => status == FeedStatus.ready && mode == FeedMode.items && itemsDone > 0;
 

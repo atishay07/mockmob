@@ -351,7 +351,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     }
     if (_stopOpen) return;
     _stopOpen = true;
-    final choice = await showStopSheet(context, done: math.min(c.doneCount, c.total), of: c.total);
+    final choice = await showStopSheet(context, done: math.min(c.doneCount, c.total), of: c.total, unsaved: c.unsavedCount);
     _stopOpen = false;
     if (!mounted) return;
     if (choice == StageStopChoice.end) c.finish(c.doneCount);

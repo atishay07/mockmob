@@ -185,7 +185,16 @@ abstract final class StageEndModel {
   }
 
   /// The stop sheet's line (R2 ruling 6): "5 of 20 done. It’s all saved."
-  static String stopSheetLine(Object? done, Object? of) => whole(of) > 0 ? '${whole(done)} of ${whole(of)} done. It’s all saved.' : 'It’s all saved.';
+  ///
+  /// With [unsaved] answers that failed to save it never claims everything is saved (R8 APP-07): "5 of 20 done. 1 answer
+  /// didn’t save. The rest is kept."
+  static String stopSheetLine(Object? done, Object? of, {int unsaved = 0}) {
+    final saved = unsaved > 0 ? '${unsavedLine(unsaved)} The rest is kept.' : 'It’s all saved.';
+    return whole(of) > 0 ? '${whole(done)} of ${whole(of)} done. $saved' : saved;
+  }
+
+  /// "1 answer didn’t save." / "2 answers didn’t save."
+  static String unsavedLine(int n) => n == 1 ? '1 answer didn’t save.' : '$n answers didn’t save.';
 
   /// A pile card's front size: 12 when its longest word is over 11 characters, else 13 (R2 screens 11).
   static int pileFrontSize(String? text) {

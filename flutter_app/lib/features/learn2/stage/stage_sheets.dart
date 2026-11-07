@@ -127,16 +127,19 @@ const String stageBackToIt = 'Back to it';
 
 /// "Stop for now?": [done] of [of], then "Stop here" and "Back to it". Each key calls its callback.
 class StopSheet extends StatelessWidget {
-  const StopSheet({super.key, required this.done, required this.of, required this.onEnd, required this.onKeepGoing, this.endLabel = 'Stop here'});
+  const StopSheet({super.key, required this.done, required this.of, required this.onEnd, required this.onKeepGoing, this.endLabel = 'Stop here', this.unsaved = 0});
 
   final int done;
   final int of;
+
+  /// Answers that failed to save and were not sent again: the line names them instead of "It’s all saved."
+  final int unsaved;
   final VoidCallback onEnd;
   final VoidCallback onKeepGoing;
   final String endLabel;
 
   /// The sheet's line: "8 of 17 done. It’s all saved."
-  static String lineFor({required int done, required int of}) => StageEndModel.stopSheetLine(done, of);
+  static String lineFor({required int done, required int of, int unsaved = 0}) => StageEndModel.stopSheetLine(done, of, unsaved: unsaved);
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +149,7 @@ class StopSheet extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(lineFor(done: done, of: of), style: type.body.copyWith(fontSize: 14.5, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink2)),
+        Text(lineFor(done: done, of: of, unsaved: unsaved), style: type.body.copyWith(fontSize: 14.5, height: 1.5, fontWeight: FontWeight.w500, color: colors.ink2)),
         const SizedBox(height: 18),
         StageStepKey(label: endLabel, onTap: onEnd),
         const SizedBox(height: 10),
@@ -158,7 +161,7 @@ class StopSheet extends StatelessWidget {
 
 /// Opens "Stop for now?" and answers with the student's choice (null when the sheet was dragged away, the scrim tapped or the X
 /// pressed: back to it).
-Future<StageStopChoice?> showStopSheet(BuildContext context, {required int done, required int of, String endLabel = 'Stop here'}) {
+Future<StageStopChoice?> showStopSheet(BuildContext context, {required int done, required int of, String endLabel = 'Stop here', int unsaved = 0}) {
   return showStageSheet<StageStopChoice>(
     context: context,
     title: 'Stop for now?',
@@ -166,6 +169,7 @@ Future<StageStopChoice?> showStopSheet(BuildContext context, {required int done,
     builder: (sheet) => StopSheet(
       done: done,
       of: of,
+      unsaved: unsaved,
       endLabel: endLabel,
       onEnd: () => Navigator.of(sheet).pop(StageStopChoice.end),
       onKeepGoing: () => Navigator.of(sheet).pop(StageStopChoice.keepGoing),

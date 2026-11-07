@@ -262,7 +262,7 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
     }
     if (_stopOpen) return;
     _stopOpen = true;
-    final choice = await showStopSheet(context, done: math.min(c.itemsDone, c.of), of: c.of);
+    final choice = await showStopSheet(context, done: math.min(c.itemsDone, c.of), of: c.of, unsaved: c.unsavedCount);
     _stopOpen = false;
     if (!mounted) return;
     if (choice == StageStopChoice.end) c.stopHere();
@@ -679,7 +679,9 @@ class FeedScreenState extends ConsumerState<FeedScreen> {
       return EndScreen(
         close: close,
         titleKey: _endTitleKey,
-        error: (title: FeedCopy.endErrorTitle, line: FeedCopy.endErrorLine),
+        error: c.unsavedCount > 0
+            ? (title: StageEndModel.unsavedLine(c.unsavedCount), line: FeedCopy.endErrorUnsavedLine)
+            : (title: FeedCopy.endErrorTitle, line: FeedCopy.endErrorLine),
         onRetry: () {
           final r = c.run;
           if (r != null && r.id.isNotEmpty) unawaited(c.readEnd(r.id, c.dirty, stop: c.stoppedHere));

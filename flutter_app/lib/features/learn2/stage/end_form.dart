@@ -180,18 +180,29 @@ class EndScreen extends StatelessWidget {
 
     final err = error;
     if (err != null) {
+      // Mobi and the words sit in the middle of the room between the close row and the keys (R8 APP-07, D40: the title
+      // alone at the foot left the top of the screen empty); the keys stay at the thumb.
       return frame(
-        const SizedBox.shrink(),
+        Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s8, bottom: 28),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const StageMobi(act: 'think', size: 120),
+              const SizedBox(height: 18),
+              Semantics(key: titleKey, header: true, liveRegion: true, child: StageBalancedText(TextSpan(text: err.title, style: headStyle))),
+              const SizedBox(height: 14),
+              Text(err.line, style: quietStyle),
+            ],
+          ),
+        ),
         Padding(
           padding: EdgeInsets.only(bottom: math.max(24, pad.bottom)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Semantics(key: titleKey, header: true, liveRegion: true, child: StageBalancedText(TextSpan(text: err.title, style: headStyle))),
-              const SizedBox(height: 14),
-              Text(err.line, style: quietStyle),
-              const SizedBox(height: 22),
               StageStepKey(label: 'Try again', onTap: onRetry, minHeight: 56),
               for (final k in retryKeys) ...[const SizedBox(height: 6), Center(child: k)],
             ],

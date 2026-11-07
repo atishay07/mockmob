@@ -255,6 +255,9 @@ class RunController extends ChangeNotifier {
 
   RunItemState stateOf(String itemId) => _states[itemId] ?? const RunItemState();
 
+  /// Answers whose save failed and that are still unsaved (an answer sent again clears its error).
+  int get unsavedCount => _states.values.where((s) => s.error != null).length;
+
   RunSave? saveOf(String questionId) => _saves[questionId];
 
   /// The item on screen, null outside play.
