@@ -41,7 +41,7 @@ html:has(.app-shell) {
   --a-edge: rgba(244, 240, 230, 0.16);
   --a-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px -18px rgba(0, 0, 0, 0.6);
   --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
-  --a-option-hover: #211f1a;
+  --a-option-hover: #2c2a24;
   --a-letter: #2a2822;
   --a-grid: transparent;
   --a-bad-text: #ffa396;
@@ -83,7 +83,7 @@ html[data-theme='light']:has(.app-shell) {
   --a-edge: rgba(255, 255, 255, 0.8);
   --a-shadow-1: 0 1px 2px rgba(42, 32, 16, 0.06), 0 12px 32px -18px rgba(42, 32, 16, 0.18);
   --a-shadow-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 24px 56px -28px rgba(42, 32, 16, 0.22);
-  --a-option-hover: #f9f5ec;
+  --a-option-hover: #f2ede0;
   --a-letter: #e9e4d8;
   --a-grid: transparent;
   --a-bad-text: #b0291f;
@@ -1061,7 +1061,7 @@ html[data-theme='light'] .arena-dark-island {
   --a-line: #312e27; --a-line-strong: #4a453b; --a-line-hover: rgba(244, 240, 230, 0.32);
   --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989; --a-ink-4: #938c7d;
   --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: rgba(210, 240, 0, 0.07);
-  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04);
+  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04); --a-option-hover: #2c2a24;
   --text-primary: #f4f0e6; --text-muted: #bdb6a6; --text-subtle: #a09989; --text-faint: #938c7d; --focus-ring: #d2f000;
   color-scheme: dark;
 }
