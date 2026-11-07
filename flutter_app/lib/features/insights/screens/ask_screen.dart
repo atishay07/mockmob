@@ -104,9 +104,14 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   /// "See all 7 questions about your record" is open.
   bool _allRecord = false;
 
-  /// Mobi waves hello the first time Ask opens each day (late at night he is sleepy or asleep);
-  /// after that he is simply there. Asked once, here.
-  late final MobiAct _entrance = MobiRation.greeting('ask');
+  /// Mobi waves hello the first time Ask opens each day; after that he is simply there. Asked
+  /// once, here. Never asleep or dozing on Ask (R8 APP-13): here he is the one speaking, so late at
+  /// night he plays his wake once and stands awake beside his own greeting (the sleepy stance draws
+  /// z's too). Idle screens keep the late-night sleep.
+  late final MobiAct _entrance = switch (MobiRation.greeting('ask')) {
+    MobiAct.sleep || MobiAct.sleepy => MobiAct.wake,
+    final act => act,
+  };
   late final bool _greets = MobiRation.speakOnce('ask');
 
   /// How many messages were already there when this screen opened or have since settled: those
