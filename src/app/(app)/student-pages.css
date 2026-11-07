@@ -292,7 +292,7 @@ html[data-motion='reduced'] .app-shell .rc-day[data-state='open'] .rc-day__dot::
 /* A plot dot is a small mark: it pops from 0.6 and nothing, never from a point (WA-04, the app's M14). */
 .app-shell .pt__dot { position: absolute; width: 11px; height: 11px; margin: 0 0 -5.5px -5.5px; border-radius: 50%; background: var(--a-raised, #131a16); border: 2px solid var(--a-select, #d2f000); transform: scale(0.6); opacity: 0; transition: transform var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) calc(var(--pt-i, 0) * 150ms + 120ms), opacity var(--mm-dur-ui) var(--mm-ease-out) calc(var(--pt-i, 0) * 150ms + 120ms); }
 .app-shell .pt[data-seen='true'] .pt__dot { transform: scale(1); opacity: 1; }
-.app-shell .pt__dot[data-newest='true'] { width: 15px; height: 15px; margin: 0 0 -7.5px -7.5px; background: var(--volt, #d2f000); box-shadow: 0 0 0 4px var(--a-volt-wash, rgba(210,240,0,.12)), 0 0 14px var(--volt-glow, rgba(210,240,0,.25)); }
+.app-shell .pt__dot[data-newest='true'] { width: 15px; height: 15px; margin: 0 0 -7.5px -7.5px; background: var(--volt, #d2f000); box-shadow: 0 0 0 4px var(--a-volt-wash, rgba(210,240,0,.12)); }
 .app-shell .pt__marks { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; text-align: center; }
 .app-shell .pt__marks b { display: block; font: 800 16px/1.2 var(--font-display); font-variant-numeric: tabular-nums; color: var(--a-ink-2, #bcc5b9); }
 .app-shell .pt__marks li[data-newest='true'] b { color: var(--a-accent-text, #d2f000); font-size: 19px; }

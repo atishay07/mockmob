@@ -50,8 +50,8 @@ html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 
 /* The volt keycap (restored 19 Oct, owner G28, from 06285f1a^): it sits on its own edge and presses down into it. */
 .app-shell .acct-key--volt { background: var(--volt, #d2f000); border-color: transparent; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
 .app-shell .acct-key--volt:active:not(:disabled) { transform: translate3d(0, 2px, 0); box-shadow: 0 1px 0 #9db400; }
-html[data-theme='light'] .app-shell .acct-key--volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000; }
-html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 1px 0 #8ba000; }
+html[data-theme='light'] .app-shell .acct-key--volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400; }
+html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 1px 0 #9db400; }
 @media (hover: hover) and (pointer: fine) { .app-shell .acct-key--volt:hover:not(:disabled) { background: var(--volt, #d2f000); border-color: transparent; filter: brightness(1.05); } }
 .app-shell .acct-key--danger { border-color: color-mix(in srgb, var(--a-bad-text) 45%, transparent); color: var(--a-bad-text); }
 .app-shell .acct-link {

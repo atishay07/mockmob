@@ -602,7 +602,8 @@ html[data-motion='reduced'] .app-shell .arena-acct > a { transition: none; }
   cursor: not-allowed;
 }
 /* The primary action is the marketing keycap (restored 19 Oct, owner G28 and G31, from c9662f67^): volt, a hard
-   bottom edge and a soft light under it; it sits 3 px up and goes flush with its edge when pressed. */
+   bottom edge and a soft neutral shadow under it; it sits 3 px up and goes flush with its edge when pressed. Never a volt
+   halo (owner glow ban, 17 Oct; R8 CONT-02): the shadow is the website's and the app's neutral drop. */
 .app-shell .btn-volt {
   min-height: 46px;
   border-radius: 14px;
@@ -610,13 +611,13 @@ html[data-motion='reduced'] .app-shell .arena-acct > a { transition: none; }
   text-transform: none;
   font-weight: 700;
   color: #0b1000;
-  box-shadow: 0 3px 0 #9db400, 0 10px 24px -12px rgba(210, 240, 0, 0.55);
+  box-shadow: 0 3px 0 #9db400, 0 10px 24px -12px rgba(0, 0, 0, 0.55);
   transform: translateY(-3px);
   transition: transform 0.15s var(--a-ease), box-shadow 0.15s var(--a-ease), background-color 0.15s ease;
 }
 .app-shell .btn-volt:hover:not(:disabled) {
   background: #dbfb14;
-  box-shadow: 0 3px 0 #9db400, 0 14px 30px -12px rgba(210, 240, 0, 0.65);
+  box-shadow: 0 3px 0 #9db400, 0 14px 30px -12px rgba(0, 0, 0, 0.6);
 }
 .app-shell .btn-volt:active:not(:disabled) {
   transform: translateY(0);
@@ -626,10 +627,11 @@ html[data-motion='reduced'] .app-shell .arena-acct > a { transition: none; }
   transform: none;
   box-shadow: none;
 }
-/* Day: the same keycap, its edge a step darker and a thin line so the lime holds on white. */
-html[data-theme='light'] .app-shell .btn-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 10px 22px -14px rgb(82 103 0 / 0.45); }
-html[data-theme='light'] .app-shell .btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 14px 26px -14px rgb(82 103 0 / 0.5); }
-html[data-theme='light'] .app-shell .btn-volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #8ba000; }
+/* Day: the same keycap with a thin olive line so the lime holds on paper, the website's #9db400 lip (marketing-theme.css
+   --volt-edge, both themes) and a soft warm shadow instead of an olive glow. */
+html[data-theme='light'] .app-shell .btn-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400, 0 1px 2px rgba(42, 32, 16, 0.06), 0 10px 22px -14px rgba(42, 32, 16, 0.18); }
+html[data-theme='light'] .app-shell .btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400, 0 1px 2px rgba(42, 32, 16, 0.06), 0 14px 26px -14px rgba(42, 32, 16, 0.24); }
+html[data-theme='light'] .app-shell .btn-volt:active:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #9db400; }
 html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
 .app-shell .btn-volt.md { padding: 12px 20px; font-size: 15px; }
 .app-shell .btn-volt.sm { padding: 9px 16px; font-size: 13px; }
@@ -1652,11 +1654,13 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !i
    G31, from c9662f67^). On a keycap (.btn-volt) the lean-in lifts it a pixel above its resting 3 px. */
 .app-shell .na__cta { transition: transform var(--mk-spring-dur) var(--mk-spring), box-shadow 240ms ease, background-color 160ms ease; }
 @media (hover: hover) and (pointer: fine) {
-  .app-shell .na__cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210,240,0,.5)); }
-  .app-shell .na__cta.btn-volt:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 3px 0 #9db400, 0 12px 28px -10px var(--volt-glow-strong, rgba(210,240,0,.5)); }
-  html[data-theme='light'] .app-shell .na__cta.btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000, 0 12px 26px -12px rgb(82 103 0 / 0.5); }
+  .app-shell .na__cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px rgba(0, 0, 0, 0.5); }
+  .app-shell .na__cta.btn-volt:hover:not(:disabled) { transform: translateY(-4px); box-shadow: 0 3px 0 #9db400, 0 12px 28px -10px rgba(0, 0, 0, 0.55); }
+  html[data-theme='light'] .app-shell .na__cta:hover { box-shadow: 0 10px 24px -10px rgba(42, 32, 16, 0.2); }
+  html[data-theme='light'] .app-shell .na__cta.btn-volt:hover:not(:disabled) { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400, 0 1px 2px rgba(42, 32, 16, 0.06), 0 12px 26px -12px rgba(42, 32, 16, 0.24); }
 }
-.app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210,240,0,.5)); transition-duration: 90ms, 120ms, 160ms; }
+.app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px rgba(0, 0, 0, 0.4); transition-duration: 90ms, 120ms, 160ms; }
+html[data-theme='light'] .app-shell .na__cta:active { box-shadow: 0 2px 6px -3px rgba(42, 32, 16, 0.2); }
 .app-shell .na__cta.btn-volt:active:not(:disabled) { transform: translateY(0); box-shadow: 0 0 0 #9db400; }
 /* A new time was chosen: the plan on screen is the old one until the new one arrives, so its key waits. */
 .app-shell .na__cta[data-stale] { opacity: 0.6; pointer-events: none; }

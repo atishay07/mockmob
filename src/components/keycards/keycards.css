@@ -40,8 +40,8 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 }
 .kc-btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .kc-btn:disabled { opacity: 0.55; cursor: default; }
-.kc-btn--volt { background: #d2f000; color: #10140e; box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000; transform: translateY(-1px); }
-.kc-btn--volt:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #8ba000; }
+.kc-btn--volt { background: #d2f000; color: #10140e; box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400; transform: translateY(-1px); }
+.kc-btn--volt:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #9db400; }
 .kc-btn--volt:disabled { box-shadow: none; transform: none; }
 .kc-btn--line { border-color: var(--a-line-strong); background: var(--a-raised); }
 .kc-btn--line:active:not(:disabled) { transform: scale(0.98); }
@@ -315,9 +315,9 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
   background: var(--a-raised); color: var(--a-ink); font: 650 15px/1 var(--font-body); cursor: pointer;
   transition: transform 100ms var(--kc-ease), background-color var(--kc-dur) var(--kc-ease), border-color var(--kc-dur) var(--kc-ease);
 }
-.kc-rate__btn[data-rating='3'] { background: #d2f000; color: #10140e; border-color: transparent; box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #8ba000; transform: translateY(-1px); }
+.kc-rate__btn[data-rating='3'] { background: #d2f000; color: #10140e; border-color: transparent; box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 3px 0 #9db400; transform: translateY(-1px); }
 .kc-rate__btn:active:not(:disabled) { transform: scale(0.97); }
-.kc-rate__btn[data-rating='3']:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #8ba000; }
+.kc-rate__btn[data-rating='3']:active:not(:disabled) { transform: translateY(2px); box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.28), 0 0 0 #9db400; }
 .kc-rate__btn:disabled { cursor: default; opacity: 0.6; }
 .kc-rate__btn[aria-busy='true'] { opacity: 1; }
 .kc-rate__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
