@@ -83,7 +83,7 @@ export function PricingValue({ offer, keyCards = false, mob = false, recovery = 
   const steps = paceSteps(offer, { from: day });
   const at = steps.includes(pace) ? pace : (steps[0] ?? null);
   const v = at ? planValue(offer, { from: day, pace: at }) : null;
-  const figures = paceFigures(v);
+  const figures = paceFigures(v, { subjects: u.subjects });
   const punch = C.punch(u);
   const tiles = valueTiles({ keyCards, mob, recovery });
 
@@ -95,7 +95,7 @@ export function PricingValue({ offer, keyCards = false, mob = false, recovery = 
   const pickPace = (next) => {
     setPace(next);
     const plan = planValue(offer, { from: day, pace: next });
-    if (plan) setSaid(C.livePace(plan));
+    if (plan) setSaid(C.livePace(plan, { subjects: u.subjects }));
   };
 
   return (

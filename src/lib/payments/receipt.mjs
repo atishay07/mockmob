@@ -50,7 +50,7 @@ export function cardsBank(bank) {
 export const wholeMocks = (pace, days) => Math.floor((pace * days) / 7 + 1e-9);
 
 /** { about: '₹0.40', aboutPaise: 40, exact: false }: price / count, rounded up; `exact` when nothing was rounded. */
-function share(pricePaise, count) {
+export function share(pricePaise, count) {
   const aboutPaise = aboutTenPaise(pricePaise, count);
   return { about: rupees(aboutPaise), aboutPaise, exact: Math.abs(pricePaise / count - aboutPaise) < 1e-9 };
 }

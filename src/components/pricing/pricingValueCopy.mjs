@@ -13,7 +13,7 @@
 // Copy rules: sentence case, no middle dots, no exclamation marks, no hype, no arrows on keys; a monthly price and a one-time
 // price never share one sentence.
 import { MOCK_PACES, PACE, paceWords, rupees } from '../../lib/payments/value.mjs';
-import { SUBJECT_COUNT, USUAL_PRICES, planValue, usualWay } from '../../lib/payments/receipt.mjs';
+import { SUBJECT_COUNT, USUAL_PRICES, planValue, share, usualWay } from '../../lib/payments/receipt.mjs';
 import { PRO_MOBI_CREDITS, VALUE_COPY } from '../landing/homeCopy.mjs';
 
 const cap = (text) => text.charAt(0).toUpperCase() + text.slice(1);
@@ -58,8 +58,10 @@ const about = (share) => (share.exact ? '' : 'About');
 /**
  * The three figures at a pace, each { key, pre, value, unit, text }: a mock, a question and a day, from receipt.mjs planValue
  * (whole mocks only, every "about" the true division rounded up to 10 paise; a question "under" the next whole paisa).
+ * R8 PRICE-17: at one mock a day the day's figure is the mock's figure again, so when the caller passes the student's `subjects`
+ * that third tile says what Pro comes to a subject instead (the same rounding, receipt.mjs share): three measures at every pace.
  */
-export function paceFigures(v) {
+export function paceFigures(v, { subjects = null } = {}) {
   if (!v) return [];
   const q = v.perQuestion;
   const question = q.exactPaise >= 100
@@ -70,6 +72,11 @@ export function paceFigures(v) {
     { key: 'question', ...question },
     { key: 'day', pre: about(v.perDay), value: v.perDay.about, unit: 'a day' },
   ];
+  if (Number.isInteger(subjects) && subjects > 0 && v.perDay.aboutPaise === v.perMock.aboutPaise) {
+    const each = share(v.pricePaise, subjects);
+    // (Near the end of a one-time term the mocks left can equal the subjects; then the subject says nothing new either.)
+    if (each.aboutPaise !== v.perMock.aboutPaise) figures[2] = { key: 'subject', pre: about(each), value: each.about, unit: 'a subject' };
+  }
   return figures.map((f) => ({ ...f, text: [f.pre.toLowerCase(), f.value, f.unit].filter(Boolean).join(' ') }));
 }
 
@@ -104,7 +111,7 @@ export const PRICING_VALUE = Object.freeze({
   punch: (u) => ({ usual: `${u.total} the usual way.`, rest: 'the usual way.', pro: VALUE_COPY.punch(u).pro }),
   paceHead: 'At your pace',
   /** The maths beside the figures (value.mjs: "the maths is shown beside it"): whole mocks and their questions in the period. */
-  paceMaths: (v) => `${cap(paceWords(v.pace).long)}: ${n(v.mocks)} full mocks and ${n(v.questions)} questions ${v.kind === 'monthly' ? `in ${v.days} days` : `by ${v.until}`}.`,
+  paceMaths: (v) => `${cap(paceWords(v.pace).long)}: ${n(v.mocks)} full mocks and ${n(v.questions)} questions ${v.kind === 'monthly' ? `in ${v.days} days` : `by ${String(v.until).replace(/ /g, ' ')}`}.`, // PRICE-17: the date never splits
   seriesLine: 'A test series stops at its last paper. Pro builds a new one every time you start.',
   alsoHead: (u) => `Also in the same ${u.pro}`,
   getPro: 'Get Pro', // D185: the key says Get Pro (planOffer.mjs PLAN_COPY.key)
@@ -113,7 +120,7 @@ export const PRICING_VALUE = Object.freeze({
   footnote: () => `Typical prices: ${rupees(USUAL_PRICES.mockSeriesPaise)} a subject for a CUET mock series (${rupees(USUAL_PRICES.mockSeriesPaise)}-${rupees(USUAL_PRICES.mockSeriesHighPaise).slice(1)} is common) and ${rupees(USUAL_PRICES.revisionPaise)} a subject for revision cards or a revision book. Yours may differ.`,
   /** What a screen reader hears after a key is pressed. */
   liveSubjects: (u) => `${cap(subjectsWord(u.subjects))}: ${u.total} the usual way, ${proPrice(u)} on MockMob Pro.`,
-  livePace: (v) => `${cap(paceWords(v.pace).long)}: ${paceFigures(v).map((f) => f.text).join(', ')}.`,
+  livePace: (v, { subjects = null } = {}) => `${cap(paceWords(v.pace).long)}: ${paceFigures(v, { subjects }).map((f) => f.text).join(', ')}.`,
 });
 
 /**
