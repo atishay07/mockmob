@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/copy/formatters.dart';
@@ -160,14 +159,11 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
           ),
         MomentBody(
           header: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s4, ReviewSpace.moment, 0),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, ReviewSpace.moment, 0),
             child: Row(
               children: [
-                IconButton(
-                  onPressed: widget.onClose,
-                  tooltip: 'Close',
-                  icon: Icon(LucideIcons.x, color: colors.ink),
-                ),
+                // A labelled Close, not a bare cross (D43, R8 APP-10).
+                MmBackPill(closes: true, onTap: widget.onClose),
               ],
             ),
           ),
@@ -243,7 +239,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               ),
               const SizedBox(height: MmSpace.s8),
               Text(
-                reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
+                reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n), count: n),
                 style: type.lead.copyWith(color: colors.ink2),
               ),
               const SizedBox(height: MmSpace.s24),

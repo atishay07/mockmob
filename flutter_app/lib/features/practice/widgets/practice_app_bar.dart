@@ -31,17 +31,17 @@ class PracticeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The 48 dp target is 2 dp wider than the disc on each side: the disc's edge sits on the gutter
-    // and the title starts 12 dp after it.
-    const slop = (MmTarget.min - GlassBackButton.disc) / 2;
+    // The labelled Back pill (D43, R8 APP-10) sits on the gutter and the title starts 12 dp after it.
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter - slop, MmSpace.s4, MmSpace.gutter, 0),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, 0),
       child: SizedBox(
         height: 56,
         child: Row(
           children: [
-            if (showBack) GlassBackButton(onTap: onBack ?? () => leavePractice(context)) else const SizedBox(width: slop),
-            const SizedBox(width: MmSpace.s12 - slop),
+            if (showBack) ...[
+              MmBackPill(onTap: onBack ?? () => leavePractice(context)),
+              const SizedBox(width: MmSpace.s12),
+            ],
             if (title != null)
               Expanded(
                 child: Semantics(

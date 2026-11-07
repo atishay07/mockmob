@@ -231,21 +231,17 @@ class PageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     return Padding(
       // The arrow's glyph is 24 dp centred in its 48 dp target, so 4 dp of row padding puts it on
       // the gutter (16) like every other screen's left edge.
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
         child: Row(
           children: [
-            IconButton(
-              onPressed: () => context.canPop() ? context.pop() : context.go(AppRoutes.review),
-              tooltip: 'Back',
-              icon: Icon(LucideIcons.arrowLeft, color: colors.ink),
-            ),
-            const SizedBox(width: MmSpace.s8),
+            // A labelled Back, not a bare arrow (D43, R8 APP-10).
+            MmBackPill(onTap: () => context.canPop() ? context.pop() : context.go(AppRoutes.review)),
+            const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

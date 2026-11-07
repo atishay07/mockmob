@@ -4,7 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../router/routes.dart';
 import '../theme/theme.dart';
-import 'hit_slop.dart';
+import 'materials/fake_glass.dart';
 import 'pressable.dart';
 
 /// The one header of every pushed page (SPACING.md 9, audit G2): the back arrow on the gutter, the
@@ -80,28 +80,24 @@ class MmPageHeader extends StatelessWidget {
             children: [
               const SizedBox(width: MmSpace.gutter),
               if (showBack) ...[
-                // The arrow's glyph is 24 dp and sits on the gutter; the target reaches 16 dp to
-                // its left (to the screen edge) and 8 dp to its right: 48 dp wide.
-                MmHitSlop(
-                  slop: const EdgeInsets.fromLTRB(MmSpace.gutter, 2, MmSpace.s8, 2),
-                  child: MmPressable(
-                    semanticsLabel: closes ? 'Close' : backLabel,
-                    haptic: MmPressHaptic.selection,
-                    focusRadius: MmRadius.smallAll,
-                    onTap: onBack ?? () => context.canPop() ? context.pop() : context.go(fallbackRoute),
-                    builder: (context, pressed, _) => SizedBox(
-                      width: 24,
-                      height: 44,
-                      child: Icon(closes ? LucideIcons.x : LucideIcons.arrowLeft, size: 24, color: pressed ? colors.ink2 : colors.ink),
-                    ),
-                  ),
+                // A labelled key, never a bare arrow (D43, R8 APP-10): "Back", or "Close" on a page that
+                // opens over another.
+                MmBackPill(
+                  closes: closes,
+                  label: closes ? 'Close' : backLabel,
+                  onTap: onBack ?? () => context.canPop() ? context.pop() : context.go(fallbackRoute),
                 ),
-                const SizedBox(width: MmSpace.s16),
+                const SizedBox(width: MmSpace.s12),
               ],
+              // The title steps down to fit whole beside the key (never "Admission Comp..."), as on Ask Mobi.
               Expanded(
                 child: Semantics(
                   header: true,
-                  child: Text(title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(title, style: type.screenTitle, maxLines: 1, softWrap: false),
+                  ),
                 ),
               ),
               if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
@@ -123,6 +119,62 @@ class MmPageHeader extends StatelessWidget {
             child: Text(caption!, style: type.small.copyWith(color: colors.ink2)),
           ),
       ],
+    );
+  }
+}
+
+/// The one way back on a pushed page (D43: "a clear cut button to go back, rather than just that small back icon"): a
+/// chevron and "Back" (or a cross and "Close") on a 44 dp glass pill in a 48 dp target. Glass, because it is chrome
+/// floating over the page.
+class MmBackPill extends StatelessWidget {
+  const MmBackPill({super.key, required this.onTap, this.closes = false, this.label});
+
+  final VoidCallback onTap;
+
+  /// A cross and "Close" for a page that opens over the one under it; a chevron and "Back" otherwise.
+  final bool closes;
+
+  /// The word on the key; "Back" or "Close" by default.
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final word = label ?? (closes ? 'Close' : 'Back');
+    return MmPressable(
+      semanticsLabel: word,
+      haptic: MmPressHaptic.selection,
+      focusRadius: MmRadius.pillAll,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox(
+        height: MmTarget.min,
+        child: Center(
+          child: FakeGlass(
+            borderRadius: MmRadius.pillAll,
+            pressed: pressed,
+            grain: false,
+            child: SizedBox(
+              height: 44,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(closes ? LucideIcons.x : LucideIcons.chevronLeft, size: closes ? 18 : 20, color: colors.ink),
+                    const SizedBox(width: MmSpace.s4),
+                    // The word is chrome: it grows with the system text up to 1.3x, never past the pill.
+                    MediaQuery.withClampedTextScaling(
+                      maxScaleFactor: 1.3,
+                      child: Text(word, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
