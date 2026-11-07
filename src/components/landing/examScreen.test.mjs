@@ -121,6 +121,9 @@ test('the counters and the legend name every state in words, and every chip is o
   const pending = 1 + rest.filter((s) => s === 'n').length; // question 3 (visited, unanswered) and the rest
   const notVisited = (EXAM.questions.length - EXAM.start.visited.length) + rest.filter((s) => s === 'x').length;
   assert.equal(6 + pending + notVisited, EXAM.total);
+  // R8 SEC-12: the Pending tile counts what the runner's does (questions minus answered), so Answered + Pending is the paper.
+  assert.match(JSX, /pending: EXAM\.total - answered/);
+  assert.match(read('../../app/(app)/test/TestPageClient.jsx'), /const pendingCount = questions\.length - answered;/);
 });
 
 test('the MockMob anatomy is the runner\'s: saved note, header, chips, strike-out, Mark and Clear, Previous and Next, review, Submit', () => {
