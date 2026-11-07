@@ -5,6 +5,7 @@ import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildBank, bytesOf, fakeDb, setFixtureSecret } from './helpers/egress_fixtures.mjs';
+import { servedRow } from '../option_order.js';
 import { readablePracticeQuestions } from '../practice_library.js';
 import { SUBJECT_PAGES } from '../../src/lib/subjectPages.mjs';
 import {
@@ -54,7 +55,7 @@ test('the window holds only what Practice serves, in the card\'s shape, 30 at mo
     const rows = bank(seed);
     const subject = rows.filter((r) => r.subject === 'accountancy');
     const served = new Map((await readablePracticeQuestions(subject.filter((r) => !r.is_deleted && (r.status === 'live' || (r.verification_state === 'verified' && r.exploration_state === 'active'))), fakeDb(tablesOf(rows), { strict: false })))
-      .filter(demoShape).map((r) => [JSON.stringify(demoQuestionOut(r, 'accountancy')), r]));
+      .map((r) => servedRow(r).row).filter(demoShape).map((r) => [JSON.stringify(demoQuestionOut(r, 'accountancy')), r]));
     const pool = await readDemoPool(fakeDb(tablesOf(rows)), 'accountancy');
     assert.equal(pool.length, DEMO_POOL_SIZE, `seed ${seed}`);
     for (const item of pool) assert.ok(served.has(JSON.stringify(item)), `seed ${seed}: every question is one Practice would serve, as the card shows it`);
@@ -256,3 +257,19 @@ test('the card: its own five first, a picked set accepted whole, the request onl
   assert.match(css, /^\.mm\.lp \.lp-desk \.mm-drill__pick-lead \{ min-height: calc\(2 \* 1\.45em\); \}$/m, 'the lead holds two lines at every size');
   assert.match(css, /@media \(prefers-reduced-motion: no-preference\) \{\s*:root:not\(\[data-motion='reduced'\]\)/, 'motion only when it is welcome');
 });
+
+test('7 Nov 2026: bank rows keep correct_index empty; the window resolves the key from correct_answer and serves the stable order (LK44)', async () => {
+  const rows = bank(11).map((r) => (r.subject === 'accountancy' ? { ...r, correct_index: null } : r));
+  const pool = await readDemoPool(fakeDb(tablesOf(rows)), 'accountancy');
+  assert.equal(pool.length, DEMO_POOL_SIZE, 'an empty correct_index no longer empties the window (it emptied every subject in production)');
+  const byStem = new Map(rows.filter((r) => r.subject === 'accountancy').map((r) => [String(r.body || r.question).replace(/\s+/g, ' ').trim(), r]));
+  for (const item of pool) {
+    const stored = byStem.get(item.q);
+    assert.ok(stored, 'every question comes from the bank');
+    const key = String(stored.correct_answer).trim().toUpperCase();
+    const storedText = (Array.isArray(stored.options) ? stored.options : []).map((o, i) => ({ key: o?.key || 'ABCD'[i], text: String(o?.text ?? o).replace(/\s+/g, ' ').trim() })).find((o) => o.key === key)?.text;
+    if (storedText) assert.equal(item.options[item.correct], storedText.replace(/^[A-D][.)]\s*/, ''), 'the marked answer is the text of the stored key, wherever the order put it');
+  }
+  assert.match(code(read('src/lib/server/demoSample.js')), /servedRow\(stored\)\.row/);
+});
+

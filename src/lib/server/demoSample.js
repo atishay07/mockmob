@@ -31,6 +31,7 @@ import { plainOptionTexts } from '../../../data/option_text.js';
 import { isServableQuestion, resolveChapter } from '../../../data/cuet_syllabus.js';
 import { INVENTORY_COLUMNS, INVENTORY_VISIBLE_FILTER } from '../../../data/inventory_count.js';
 import { createTtlMemo } from '../../../data/ttl_memo.js';
+import { servedRow } from '../../../data/option_order.js';
 import { SUBJECT_PAGES } from '../subjectPages.mjs';
 import { DEMO_POOL_SIZE, DEMO_SETS, DEMO_SET_SIZE, demoSubject } from '../demoSample.mjs';
 
@@ -133,7 +134,10 @@ export async function readDemoPool(db, subjectId, { stats = {} } = {}) {
     stats.fullRowsRead += (data || []).length;
     const readable = new Map((await readablePracticeQuestions(data || [], db)).map((row) => [row.id, row]));
     for (const id of ids) {
-      const row = readable.get(id);
+      // Served as every other surface serves it (data/option_order.js, LK44): the stable option order, and the key resolved
+      // from correct_answer. Bank rows keep correct_index empty (7 Nov 2026: every row), so reading it raw emptied every window.
+      const stored = readable.get(id);
+      const row = stored ? servedRow(stored).row : null;
       if (!row || !demoShape(row)) continue;
       const out = demoQuestionOut(row, subjectId);
       const n = perChapter.get(out.chapter) || 0;
