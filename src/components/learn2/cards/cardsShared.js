@@ -54,6 +54,8 @@ export function withParams(href, extra = {}) {
 export const RUN_CARDS_MAX = 100;
 
 export const countWord = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+/** A run key over a set of cards (R8 LEARN-09): one card reads "Study this card", more "Study these 12" (also "Revise ..."). */
+export const theseKey = (n, verb = 'Study') => (Number(n) === 1 ? `${verb} this card` : `${verb} these ${n}`);
 
 /** The picked set as a hook: toggle, clear, and whether pick mode is on (it stays on while anything is picked). */
 export function usePick() {

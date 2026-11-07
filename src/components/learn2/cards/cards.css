@@ -32,8 +32,9 @@
 .l2c-ref { min-height: 21px; font: 500 14.5px/1.45 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 
 /* ---------- Filters and the quiet controls under them ---------- */
-/* One row of chips with one sliding indicator in the ink fill (volt stays on the Study key). On a phone the row scrolls
-   sideways and fades at its edge. */
+/* One row of chips with one sliding indicator (volt stays on the Study key). On a phone the row scrolls sideways and fades
+   at its edge. R8 LEARN-05: the indicator is the site's rimmed pick (the SegmentedControl's tint and 1.5px line, the chapter
+   page's "10 min"), not an ink slab, so Day stays quiet and Learn has one selected style. */
 .l2c-chips { position: relative; display: flex; gap: 4px; min-height: 44px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin-inline: calc(var(--l2c-gut) * -1); padding-inline: var(--l2c-gut); scroll-padding-inline: var(--l2c-gut); }
 .l2c-chips::-webkit-scrollbar { display: none; }
 .l2c-chips[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); }
@@ -42,15 +43,15 @@
 .l2c-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -3px; }
 /* The count is the quieter ink, not a faded one: at 70% opacity it was 3.9:1 on Day's paper (5 Nov 2026); ink-3 is 5.9:1. */
 .l2c-chip .l2c-n { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--a-ink-3); }
-.l2c-chip[aria-pressed='true'] { color: var(--a-bg); border-color: transparent; }
+.l2c-chip[aria-pressed='true'] { color: var(--a-ink); border-color: transparent; }
 .l2c-chip[aria-pressed='true'] .l2c-n { color: inherit; opacity: 0.75; }
 @media (hover: hover) { .l2c-chip[aria-pressed='false']:hover { color: var(--a-ink); border-color: var(--a-line-hover); } }
-.l2c-chips__ind { position: absolute; z-index: 0; top: 0; left: 0; height: 44px; width: var(--w, 0px); border-radius: 999px; background: var(--a-ink); transform: translateX(var(--x, 0px)); opacity: 0; pointer-events: none; }
+.l2c-chips__ind { position: absolute; z-index: 0; top: 0; left: 0; height: 44px; width: var(--w, 0px); border-radius: 999px; background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); transform: translateX(var(--x, 0px)); opacity: 0; pointer-events: none; }
 .l2c-chips[data-ready] .l2c-chips__ind { opacity: 1; transition: transform 240ms var(--kc-ease), width 240ms var(--kc-ease); }
 
 .l2c-tools { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; min-height: 44px; }
-/* "Show answers" (LK139, AnswersKey.jsx): a key that says what it does, an eye, and the ink fill while answers are shown (the same
-   fill as a chosen filter chip). It replaced a switch whose on state read as a stray white pill. */
+/* "Show answers" (LK139, AnswersKey.jsx): a key that says what it does, an eye, and while answers are shown the same rimmed pick
+   as a chosen filter chip (R8 LEARN-05; it was an ink slab). It replaced a switch whose on state read as a stray white pill. */
 .l2c-answers {
   display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-right: auto; padding: 0 16px 0 13px;
   border: 1px solid var(--a-line-strong); border-radius: 999px; background: transparent; color: var(--a-ink);
@@ -58,7 +59,7 @@
   transition: background-color 160ms var(--kc-ease), border-color 160ms var(--kc-ease), color 160ms var(--kc-ease);
 }
 .l2c-answers svg { flex: none; color: var(--a-ink-2); }
-.l2c-answers[data-on] { background: var(--a-ink); border-color: transparent; color: var(--a-bg); }
+.l2c-answers[data-on] { background: var(--ctl-seg-pick-bg); border-color: transparent; box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); color: var(--a-ink); }
 .l2c-answers[data-on] svg { color: inherit; }
 .l2c-answers:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .l2c-answers:active { transform: scale(0.97); }
@@ -150,6 +151,8 @@
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 10px; padding-left: 12px; border-left: 1px solid var(--a-line-strong);
   font: 400 15.5px/1.55 var(--font-ncert), Georgia, 'Times New Roman', serif; color: var(--a-ink-2); max-width: 62ch;
 }
+/* A row's own Show opens the whole line (R8 LEARN-10); the 2-line fold stays for "Show answers" and search matches. */
+.l2c-row[data-whole] .l2c-clip { display: block; -webkit-line-clamp: unset; overflow: visible; }
 
 .l2c-more { grid-area: more; display: block; }
 .l2c-full { display: grid; gap: 10px; padding-top: 14px; animation: kc-reveal 220ms var(--kc-ease) both; }

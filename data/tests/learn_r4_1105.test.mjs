@@ -78,6 +78,7 @@ test('A1 "Show answers" is a key that says what it does (the switch he called br
   assert.match(key, /\{on \? 'Hide answers' : 'Show answers'\}/);
   assert.match(key, /aria-controls=\{controls\}/);
   assert.doesNotMatch(key, /aria-pressed|role="switch"/, 'the label says the action, so no pressed state is announced over it');
+  assert.match(key, /aria-expanded=\{Boolean\(on\)\}/, 'R8 LEARN-14: the state reaches assistive tech as the list it opens');
   for (const file of ['src/components/learn2/cards/FindView.jsx', 'src/components/learn2/cards/CardsView.jsx']) {
     const view = code(file);
     assert.doesNotMatch(view, /ui\/Switch|<Switch /, file);
@@ -86,7 +87,9 @@ test('A1 "Show answers" is a key that says what it does (the switch he called br
   const css = code('src/components/learn2/cards/cards.css');
   assert.doesNotMatch(css, /\.l2c \.mk-switch/, 'no more ink-on-ink switch overrides');
   assert.match(css, /\.l2c-answers \{[^}]*min-height: 44px/);
-  assert.match(css, /\.l2c-answers\[data-on\] \{ background: var\(--a-ink\)/);
+  // R8 LEARN-05: on is the rimmed pick (tint + 1.5px line), as a chosen chip and the chapter page's "10 min"; never an ink slab.
+  assert.match(css, /\.l2c-answers\[data-on\] \{ background: var\(--ctl-seg-pick-bg\);[^}]*inset 0 0 0 1\.5px var\(--ctl-seg-pick-line\)/);
+  assert.match(css, /\.l2c-chips__ind \{[^}]*background: var\(--ctl-seg-pick-bg\)/);
 });
 
 test('A1 Learn\'s sets are one row of chips (name and count), the full words kept in the spoken name', () => {

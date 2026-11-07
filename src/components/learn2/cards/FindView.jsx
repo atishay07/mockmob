@@ -24,7 +24,7 @@ import { useLearnLinks } from '../links';
 import CardList, { LockedLine } from './CardList';
 import AnswersKey from './AnswersKey';
 import { FilterChips, Jump, PickBar, Rail, goToSection, useCurrentSection } from './CardsView';
-import { RUN_CARDS_MAX, countWord, hitParts, useAddToRevise, usePick, withParams } from './cardsShared';
+import { RUN_CARDS_MAX, countWord, hitParts, theseKey, useAddToRevise, usePick, withParams } from './cardsShared';
 import { cardPreview, resultCounts } from './findModel.mjs';
 import { setHead } from '../home/homeModel.mjs';
 import '@/components/keycards/keycards.css';
@@ -178,7 +178,7 @@ function Results({ subject, text }) {
     const studyKey = nCards && !preview.cut ? (
       nCards <= RUN_CARDS_MAX ? (
         <div className="l2c-keys">
-          <Link className={panel.showPickBar || secondary ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar || secondary ? undefined : ''} href={runHref(ids)}>Study these {nCards}</Link>
+          <Link className={panel.showPickBar || secondary ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar || secondary ? undefined : ''} href={runHref(ids)}>{theseKey(nCards)}</Link>
         </div>
       ) : <p className="kc-fine l2f-over">{nCards} cards match. Pick up to {RUN_CARDS_MAX} to study, or type another word to narrow it.</p>
     ) : null;
@@ -315,7 +315,7 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
         <Tools showAnswers={panel.showAnswers} onShowAnswers={panel.setShowAnswers} pick={pick} groups={panel.groups} controls="l2f-set-list" />
         {total <= RUN_CARDS_MAX ? (
           <div className="l2c-keys">
-            <Link className={panel.showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar ? undefined : ''} href={runHref(ids)}>{due ? `Revise these ${total}` : `Study these ${total}`}</Link>
+            <Link className={panel.showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar ? undefined : ''} href={runHref(ids)}>{theseKey(total, due ? 'Revise' : 'Study')}</Link>
           </div>
         ) : <p className="kc-fine l2f-over">{total} cards in this set. Pick up to {RUN_CARDS_MAX} to study them, or open a chapter.</p>}
         <Notices actions={actions} />
