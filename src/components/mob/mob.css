@@ -9,7 +9,7 @@
 :root {
   --mob-c0: #4fb8aa; --mob-c1: #67a9e0; --mob-c2: #a993ea; --mob-c3: #e58aa6;
   --mob-c4: #d9ad4f; --mob-c5: #86c26f; --mob-c6: #e9946a; --mob-c7: #9fabb8;
-  --mob-disc-ink: #0b100e;
+  --mob-disc-ink: #12110e;
 }
 html[data-theme='light'] {
   --mob-c0: #2f8f84; --mob-c1: #3c7fb8; --mob-c2: #7a63c4; --mob-c3: #b85676;
@@ -200,17 +200,17 @@ html[data-theme='light'] {
 
 /* Public join page (outside the arena shell, so it carries the arena's tokens itself) */
 .mob-join {
-  --a-bg: #0b100e; --a-raised: #131a16; --a-raised-2: #18211b; --a-sunken: #0f1512; --a-line: #253026; --a-line-strong: #384736;
-  --a-line-hover: rgba(244, 245, 240, 0.32); --a-ink: #f2f4ec; --a-ink-2: #bcc5b9; --a-ink-3: #93a08f; --a-accent-text: #d2f000;
-  --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 245, 240, 0.04); --a-bad-text: #ff9d92; --a-good-text: #b6e36e;
+  --a-bg: #12110e; --a-raised: #1b1a16; --a-raised-2: #25231e; --a-sunken: #0d0c0a; --a-line: #312e27; --a-line-strong: #4a453b;
+  --a-line-hover: rgba(244, 240, 230, 0.32); --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989; --a-accent-text: #d2f000;
+  --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04); --a-bad-text: #ffa396; --a-good-text: #c6e86e;
   --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: rgba(210, 240, 0, 0.07); --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
   color-scheme: dark;
 }
 html[data-theme='light'] .mob-join {
-  --a-bg: #f4f5f0; --a-raised: #ffffff; --a-raised-2: #f8f9f4; --a-sunken: #eef0e8; --a-line: #dce1d4; --a-line-strong: #bcc5b0;
-  --a-line-hover: #8f9a84; --a-ink: #172016; --a-ink-2: #3d4a39; --a-ink-3: #56624f; --a-accent-text: #4f6400; --a-select: #6f8700;
-  --a-focus: #4f6400; --a-hover: rgba(23, 32, 22, 0.05); --a-bad-text: #b3261e; --a-good-text: #3f6b12;
-  --a-volt-line: rgba(111, 135, 0, 0.5); --a-volt-wash: rgba(124, 150, 20, 0.08); --a-shadow-2: 0 1px 2px rgba(20, 32, 14, 0.06), 0 24px 56px -28px rgba(20, 32, 14, 0.22);
+  --a-bg: #f3efe6; --a-raised: #fffdf8; --a-raised-2: #f9f5ec; --a-sunken: #eae5da; --a-line: #d8d1c2; --a-line-strong: #bdb4a2;
+  --a-line-hover: #9a917f; --a-ink: #17150f; --a-ink-2: #454036; --a-ink-3: #655f53; --a-accent-text: #526700; --a-select: #6f8700;
+  --a-focus: #526700; --a-hover: rgba(23, 21, 15, 0.05); --a-bad-text: #b0291f; --a-good-text: #3d6600;
+  --a-volt-line: rgba(111, 135, 0, 0.5); --a-volt-wash: rgba(124, 150, 20, 0.08); --a-shadow-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 24px 56px -28px rgba(42, 32, 16, 0.22);
   color-scheme: light;
 }
 .mob-volt {

@@ -97,8 +97,8 @@ html[data-theme='light'] .rt__seg[data-state='done'] .rt__bar { box-shadow: inse
   border-radius: 24px; background: var(--a-bg, #0b100e); color: var(--a-ink, #f2f4ec); overflow: hidden;
 }
 .re[open] { display: flex; flex-direction: column; min-height: min(640px, 100dvh); }
-.re::backdrop { background: rgba(6, 9, 7, .72); }
-html[data-theme='light'] .re::backdrop { background: rgba(32, 38, 24, .42); }
+.re::backdrop { background: rgba(8, 7, 5, .72); }
+html[data-theme='light'] .re::backdrop { background: rgba(23, 21, 15, .42); }
 html:has(dialog.re[open]) { overflow: hidden; }
 .re__scroll { flex: 1 1 auto; overflow-y: auto; display: grid; align-content: center; padding: 28px 24px 12px; }
 /* One block, centred in the room above the keys. */

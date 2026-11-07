@@ -7,10 +7,10 @@
   --ml-neutral: var(--a-line-strong, #384736);
   --ml-tick: var(--a-raised, #131a16);
   --ml-changed: var(--a-warn-text, #e0b93f);
-  --ml-never: #5f6a5b;
-  --ml-hatch: rgba(242, 244, 236, 0.3);
+  --ml-never: #6a645a;
+  --ml-hatch: rgba(244, 240, 230, 0.3);
   --ml-long: var(--a-bad-text, #ff9d92);
-  --ml-stripe: rgba(11, 16, 14, 0.45);
+  --ml-stripe: rgba(18, 17, 14, 0.45);
   --ml-quick: var(--a-bad-text, #ff9d92);
   --ml-other: #c9604f;
   --ml-blank: var(--a-ink-3, #93a08f);
@@ -20,13 +20,13 @@
 }
 html[data-theme='light'] .ml {
   --ml-changed: #c08000; /* amber as a fill; the darker warn text reads brown at bar size */
-  --ml-never: #9aa392;
-  --ml-hatch: rgba(23, 32, 22, 0.32);
+  --ml-never: #a39b8a;
+  --ml-hatch: rgba(23, 21, 15, 0.32);
   --ml-stripe: rgba(255, 255, 255, 0.5);
   --ml-other: #7a1d15;
-  --ml-blank: #b5bdab;
-  --ml-held: #f7f8f3;
-  --ml-dot: #56624f;
+  --ml-blank: #bdb4a2;
+  --ml-held: #f9f5ec;
+  --ml-dot: #655f53;
 }
 .ml :is(p) { margin: 0; }
 

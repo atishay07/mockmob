@@ -6,7 +6,7 @@
 .amb-layer--overlay, .amb-layer--sheet { position: fixed; inset: 0; z-index: 95; display: block; }
 
 .amb-scrim { position: absolute; inset: 0; border: 0; padding: 0; background: var(--a-scrim, rgba(5, 8, 6, 0.55)); cursor: default; }
-html[data-theme='light'] .amb-scrim { background: rgba(23, 32, 22, 0.28); }
+html[data-theme='light'] .amb-scrim { background: rgba(23, 21, 15, 0.28); }
 
 .amb-panel {
   display: flex; flex-direction: column; min-height: 0;
@@ -28,7 +28,7 @@ html[data-theme='light'] .amb-scrim { background: rgba(23, 32, 22, 0.28); }
   box-shadow: 0 -24px 56px -28px rgba(0, 0, 0, 0.6);
   touch-action: pan-y;
 }
-html[data-theme='light'] .amb-panel--sheet { box-shadow: 0 -24px 56px -28px rgba(20, 32, 14, 0.22); }
+html[data-theme='light'] .amb-panel--sheet { box-shadow: 0 -24px 56px -28px rgba(42, 32, 16, 0.22); }
 
 /* The docked form: the main column gives up the panel's width while the student has it open. */
 @media (min-width: 1280px) {

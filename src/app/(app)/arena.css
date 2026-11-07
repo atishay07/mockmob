@@ -1,7 +1,7 @@
 /* ==========================================================================
    ARENA  —  scope: .app-shell (signed-in app)
    Brings the authenticated screens into the Night Arena language of the
-   homepage: green-tinted night ground, solid raised surfaces with a top-edge
+   homepage: warm charcoal night ground (the app and website palette), solid raised surfaces with a top-edge
    highlight, hairlines, Gabarito headings, sentence-case labels and the volt
    keycap as the one primary action. Everything is scoped so marketing pages
    that share the legacy primitives (.glass, .eyebrow …) are untouched.
@@ -12,38 +12,42 @@
 /* Semantic app tokens. Dark is Night Arena; light is a calm daylight palette driven by
    the same `mm:theme:v1` preference as the marketing site. Tokens live on <html> while
    the app shell is mounted so portals (modals, toasts) rendered into <body> inherit them. */
+/* R8 CONT-01 (8 Nov 2026): the roles keep their names; their values are the app's warm palette (mm_colors.dart MmColors.dark
+   and .light, the same values marketing-theme.css uses), so the Arena is one world with the website and the app. --a-ink-4
+   stays a step darker than ink 3 but text-safe (4.7:1 on raised 2 in Night, 4.6:1 in Day); the app's own ink4 is too faint
+   for the text this role carries. */
 html:has(.app-shell) {
-  --a-bg: #0b100e;
-  --a-raised: #131a16;
-  --a-raised-2: #18211b;
-  --a-sunken: #0f1512;
-  --a-line: #253026;
-  --a-line-strong: #384736;
-  --a-line-hover: rgba(244, 245, 240, 0.32);
-  --a-ink: #f2f4ec;
-  --a-ink-2: #bcc5b9;
-  --a-ink-3: #93a08f;
-  --a-ink-4: #7f8b7b;
+  --a-bg: #12110e;
+  --a-raised: #1b1a16;
+  --a-raised-2: #25231e;
+  --a-sunken: #0d0c0a;
+  --a-line: #312e27;
+  --a-line-strong: #4a453b;
+  --a-line-hover: rgba(244, 240, 230, 0.32);
+  --a-ink: #f4f0e6;
+  --a-ink-2: #bdb6a6;
+  --a-ink-3: #a09989;
+  --a-ink-4: #938c7d;
   --a-volt-line: rgba(210, 240, 0, 0.5);
   --a-volt-wash: rgba(210, 240, 0, 0.07);
   --a-accent-text: #d2f000;  /* volt as text; a darker lime in light mode */
   --a-select: #d2f000;       /* selected border/ring */
   --a-focus: #d2f000;
-  --a-hover: rgba(244, 245, 240, 0.04);
-  --a-topbar: rgba(11, 16, 14, 0.86);
-  --a-sidebar: linear-gradient(180deg, #101612, #0c110e);
-  --a-sheet: #0e1411;
-  --a-glass-top: rgba(244, 245, 240, 0.025);
-  --a-edge: rgba(244, 245, 240, 0.16);
+  --a-hover: rgba(244, 240, 230, 0.04);
+  --a-topbar: rgba(18, 17, 14, 0.86);
+  --a-sidebar: linear-gradient(180deg, #161511, #100f0c);
+  --a-sheet: #161511;
+  --a-glass-top: rgba(244, 240, 230, 0.025);
+  --a-edge: rgba(244, 240, 230, 0.16);
   --a-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px -18px rgba(0, 0, 0, 0.6);
   --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
-  --a-option-hover: #1d271f;
-  --a-letter: #222d22;
-  --a-grid: rgba(244, 245, 240, 0.035);
-  --a-bad-text: #ff9d92;
+  --a-option-hover: #211f1a;
+  --a-letter: #2a2822;
+  --a-grid: transparent;
+  --a-bad-text: #ffa396;
   --a-bad-wash: rgba(255, 122, 107, 0.1);
-  --a-warn-text: #e0b93f;
-  --a-good-text: #b6e36e;
+  --a-warn-text: #edb75a;
+  --a-good-text: #c6e86e;
   --a-purple-text: #c4b5fd;
   --a-radius: 18px;
   --a-ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -55,33 +59,33 @@ html:has(.app-shell) {
   color-scheme: dark;
 }
 html[data-theme='light']:has(.app-shell) {
-  --a-bg: #f4f5f0;
-  --a-raised: #ffffff;
-  --a-raised-2: #f8f9f4;
-  --a-sunken: #eef0e8;
-  --a-line: #dce1d4;
-  --a-line-strong: #bcc5b0;
-  --a-line-hover: #8f9a84;
-  --a-ink: #172016;
-  --a-ink-2: #3d4a39;
-  --a-ink-3: #56624f;
-  --a-ink-4: #646f5d;
+  --a-bg: #f3efe6;
+  --a-raised: #fffdf8;
+  --a-raised-2: #f9f5ec;
+  --a-sunken: #eae5da;
+  --a-line: #d8d1c2;
+  --a-line-strong: #bdb4a2;
+  --a-line-hover: #9a917f;
+  --a-ink: #17150f;
+  --a-ink-2: #454036;
+  --a-ink-3: #655f53;
+  --a-ink-4: #6b6558;
   --a-volt-line: rgba(111, 135, 0, 0.5);
   --a-volt-wash: rgba(124, 150, 20, 0.08);
-  --a-accent-text: #4f6400;
+  --a-accent-text: #526700;
   --a-select: #6f8700;
-  --a-focus: #4f6400;
-  --a-hover: rgba(23, 32, 22, 0.05);
-  --a-topbar: rgba(244, 245, 240, 0.9);
-  --a-sidebar: #eef0e8;
-  --a-sheet: #eef0e8;
+  --a-focus: #526700;
+  --a-hover: rgba(23, 21, 15, 0.05);
+  --a-topbar: rgba(243, 239, 230, 0.9);
+  --a-sidebar: #eae5da;
+  --a-sheet: #eae5da;
   --a-glass-top: rgba(255, 255, 255, 0);
-  --a-edge: rgba(255, 255, 255, 0.9);
-  --a-shadow-1: 0 1px 2px rgba(20, 32, 14, 0.06), 0 12px 32px -18px rgba(20, 32, 14, 0.18);
-  --a-shadow-2: 0 1px 2px rgba(20, 32, 14, 0.06), 0 24px 56px -28px rgba(20, 32, 14, 0.22);
-  --a-option-hover: #f1f4e6;
-  --a-letter: #e6eadc;
-  --a-grid: rgba(23, 32, 22, 0.05);
+  --a-edge: rgba(255, 255, 255, 0.8);
+  --a-shadow-1: 0 1px 2px rgba(42, 32, 16, 0.06), 0 12px 32px -18px rgba(42, 32, 16, 0.18);
+  --a-shadow-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 24px 56px -28px rgba(42, 32, 16, 0.22);
+  --a-option-hover: #f9f5ec;
+  --a-letter: #e9e4d8;
+  --a-grid: transparent;
   --a-bad-text: #b0291f;
   --a-bad-wash: rgba(176, 41, 31, 0.08);
   --a-warn-text: #845400;
@@ -91,18 +95,18 @@ html[data-theme='light']:has(.app-shell) {
   /* Tailwind's default palette is variable-backed, so the app's existing utilities
      (text-zinc-*, text-white, border-white/10, bg-white/[x]) re-map here instead of being
      rewritten screen by screen. Status hues darken to keep 4.5:1 on paper. */
-  --color-zinc-50: #172016;
-  --color-zinc-100: #1d261b;
-  --color-zinc-200: #2a3527;
-  --color-zinc-300: #3a4636;
-  --color-zinc-400: #47533f;
-  --color-zinc-500: #56624f;
-  --color-zinc-600: #646f5d;
-  --color-zinc-700: #b5bfaa;
-  --color-zinc-800: #d9dfd1;
-  --color-zinc-900: #eaece3;
-  --color-zinc-950: #f4f5f0;
-  --color-white: #172016;
+  --color-zinc-50: #17150f;
+  --color-zinc-100: #1d1a14;
+  --color-zinc-200: #2a261f;
+  --color-zinc-300: #3a352c;
+  --color-zinc-400: #454036;
+  --color-zinc-500: #655f53;
+  --color-zinc-600: #6b6558;
+  --color-zinc-700: #bdb4a2;
+  --color-zinc-800: #d8d1c2;
+  --color-zinc-900: #e9e4d8;
+  --color-zinc-950: #f3efe6;
+  --color-white: #17150f;
   --color-red-300: #a3241b;
   --color-red-400: #b0291f;
   --color-amber-100: #6b4400;
@@ -118,7 +122,7 @@ html[data-theme='light']:has(.app-shell) {
 }
 html:has(.app-shell),
 html:has(.app-shell) body {
-  background: var(--a-bg, #0b100e);
+  background: var(--a-bg, #12110e);
 }
 /* Light-mode corrections for literal-colour utilities (volt is inlined, not a variable). */
 html[data-theme='light'] .app-shell :is(.text-volt, .pill.volt, .badge.premium, .verdict-good):not(.arena-dark-island *) { color: var(--a-accent-text) !important; }
@@ -126,7 +130,7 @@ html[data-theme='light'] .app-shell .verdict-mid { color: var(--a-warn-text); }
 html[data-theme='light'] .app-shell .verdict-bad, html[data-theme='light'] .app-shell .pill.red { color: var(--a-bad-text); }
 html[data-theme='light'] .app-shell :is(.bg-black\/20, .bg-black\/25, .bg-black\/30):not(.arena-dark-island *) { background-color: var(--a-hover); }
 html[data-theme='light'] .app-shell .pill.subtle { background: var(--a-sunken); color: var(--a-ink-3); }
-html[data-theme='light'] .app-shell .select { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2356624f'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); }
+html[data-theme='light'] .app-shell .select { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23655f53'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E"); }
 .app-shell .select option { background: var(--a-raised); color: var(--a-ink); }
 /* Shared primitives in globals.css that hard-code night ink. */
 html:has(.app-shell) :is(.app-shell .stat .value, .app-shell .logo, .app-shell .seo-copy h2) { color: var(--a-ink); }
@@ -1051,12 +1055,12 @@ html:has(.app-shell) .mm-toast--error { color: var(--a-bad-text); }
 html:has(.app-shell) .mm-toast .btn-ghost { color: var(--a-ink-2); }
 /* Dark islands (PrepOS console, Rival console, launcher) keep Night Arena tokens in light mode. */
 html[data-theme='light'] .arena-dark-island {
-  --a-bg: #0b100e; --a-raised: #131a16; --a-raised-2: #18211b; --a-sunken: #0f1512;
-  --a-line: #253026; --a-line-strong: #384736; --a-line-hover: rgba(244, 245, 240, 0.32);
-  --a-ink: #f2f4ec; --a-ink-2: #bcc5b9; --a-ink-3: #93a08f; --a-ink-4: #7f8b7b;
+  --a-bg: #12110e; --a-raised: #1b1a16; --a-raised-2: #25231e; --a-sunken: #0d0c0a;
+  --a-line: #312e27; --a-line-strong: #4a453b; --a-line-hover: rgba(244, 240, 230, 0.32);
+  --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989; --a-ink-4: #938c7d;
   --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: rgba(210, 240, 0, 0.07);
-  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 245, 240, 0.04);
-  --text-primary: #f2f4ec; --text-muted: #bcc5b9; --text-subtle: #93a08f; --text-faint: #7f8b7b; --focus-ring: #d2f000;
+  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04);
+  --text-primary: #f4f0e6; --text-muted: #bdb6a6; --text-subtle: #a09989; --text-faint: #938c7d; --focus-ring: #d2f000;
   color-scheme: dark;
 }
 
@@ -1254,16 +1258,16 @@ html[data-theme='light'] .arena-dark-island {
   --line: var(--a-line); --line-strong: var(--a-line-strong);
   --accent-text: var(--a-accent-text); --focus-ring: var(--a-focus);
   --bad-text: var(--a-bad-text); --warn-text: var(--a-warn-text); --good-text: var(--a-good-text);
-  --tint: 244 245 240;
+  --tint: 244 240 230;
   /* Defined only on .mm, so they were unset here: square cards, no button edge, inherited ink on volt. */
-  --volt-ink: #0b1000; --volt-edge: #9db400; --slate-3: #29322a;
+  --volt-ink: #0b1000; --volt-edge: #9db400; --slate-3: #2a2822;
   --r-1: 10px; --r-2: 14px; --r-3: 20px; --r-4: 28px;
   --sh-1: 0 2px 5px #0003; --sh-2: 0 10px 28px #0003; --sh-3: 0 22px 54px #0005;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 html[data-theme='light'] .app-shell .cmp {
-  --tint: 23 32 22;
-  --sh-1: 0 2px 5px #14200e0a; --sh-2: 0 10px 28px #14200e0d; --sh-3: 0 22px 54px #14200e14;
+  --tint: 23 21 15;
+  --sh-1: 0 2px 5px rgba(42, 32, 16, 0.04); --sh-2: 0 10px 28px rgba(42, 32, 16, 0.05); --sh-3: 0 22px 54px rgba(42, 32, 16, 0.08);
 }
 .app-shell .cmp-head { display: grid; gap: 18px; align-items: end; }
 .app-shell .cmp-head p { margin: 8px 0 0; max-width: 60ch; font-size: 15px; line-height: 1.6; color: var(--a-ink-2); }
@@ -1504,11 +1508,11 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
     --dock-gutter: 16px;
     --dock-gap: 8px;
     --dock-pad: 4px;
-    --dock-glass: rgb(14 20 17 / 0.94); /* dense enough that no text behind the dock reads through it, even where blur is weak */
+    --dock-glass: rgb(24 23 19 / 0.94); /* dense enough that no text behind the dock reads through it, even where blur is weak */
     --dock-solid: var(--a-raised);
-    --dock-edge: rgb(244 245 240 / 0.14);
-    --dock-rim: rgb(244 245 240 / 0.07);
-    --dock-lens: rgb(244 245 240 / 0.12);
+    --dock-edge: rgb(244 240 230 / 0.14);
+    --dock-rim: rgb(244 240 230 / 0.07);
+    --dock-lens: rgb(244 240 230 / 0.12);
     --dock-shadow: 0 20px 40px -22px rgb(0 0 0 / 0.55), 0 2px 6px -2px rgb(0 0 0 / 0.25);
     position: fixed;
     left: 0;
@@ -1522,11 +1526,11 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { transition: none; }
     pointer-events: none;
   }
   html[data-theme='light'] .app-shell .arena-dock {
-    --dock-glass: rgb(255 255 255 / 0.93);
+    --dock-glass: rgb(255 253 248 / 0.93);
     --dock-edge: rgb(255 255 255 / 0.85);
-    --dock-rim: rgb(23 32 22 / 0.1);
-    --dock-lens: rgb(23 32 22 / 0.07);
-    --dock-shadow: 0 18px 36px -20px rgb(23 32 22 / 0.24), 0 1px 3px rgb(23 32 22 / 0.08);
+    --dock-rim: rgb(23 21 15 / 0.1);
+    --dock-lens: rgb(23 21 15 / 0.07);
+    --dock-shadow: 0 18px 36px -20px rgb(42 32 16 / 0.24), 0 1px 3px rgb(42 32 16 / 0.08);
   }
   /* The page ends at the dock (D13). Without this, whatever sits under the floating capsule and its key shows around them:
      on Practice the volt edge of the mode tiles and a stray number ran along the capsule, which read as "text and line"

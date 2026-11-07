@@ -16,9 +16,9 @@
   --den-lamp: 242 169 59;
   --den-lamp-strength: 0.26;
   --den-ground: var(--a-bg);
-  --den-tag: rgba(11, 16, 14, 0.62);
+  --den-tag: rgba(18, 17, 14, 0.62);
   --den-tag-ink: #f2ecdc;
-  --den-silhouette: #3a4438;
+  --den-silhouette: #423e35;
   --den-seat: rgba(242, 236, 220, 0.42);
   --den-shadow: rgba(0, 0, 0, 0.42);
   --den-seg: #e9dfc8;
@@ -31,7 +31,7 @@ html[data-theme='light'] :is(.den, .den-page, .den-k, .den-fly, .join-v3) {
   --den-lamp-strength: 0.17;
   --den-tag: rgba(255, 252, 244, 0.86);
   --den-tag-ink: #2b2318;
-  --den-silhouette: #b9bdb0;
+  --den-silhouette: #c3bbaa;
   --den-seat: rgba(59, 42, 18, 0.34);
   --den-shadow: rgba(59, 42, 18, 0.2);
   --den-seg: #3b2f20;
@@ -74,8 +74,8 @@ html[data-theme='light'] .den-room__art--day { display: block; }
 }
 html[data-theme='light'] .den-room__lamp { mix-blend-mode: multiply; }
 .den-room__floor { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(to bottom, transparent, var(--den-ground) 92%); }
-.den-room__scrim { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: linear-gradient(to bottom, rgb(11 16 14 / 0.55), transparent); }
-html[data-theme='light'] .den-room__scrim { background: linear-gradient(to bottom, rgb(244 245 240 / 0.4), transparent); }
+.den-room__scrim { position: absolute; left: 0; right: 0; top: 0; height: 120px; background: linear-gradient(to bottom, rgb(18 17 14 / 0.55), transparent); }
+html[data-theme='light'] .den-room__scrim { background: linear-gradient(to bottom, rgb(244 240 230 / 0.4), transparent); }
 .den-stage--preview .den-room__scrim { display: none; }
 
 .den-stage__head { position: absolute; z-index: 4; top: 12px; left: var(--gutter); right: var(--gutter); display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }

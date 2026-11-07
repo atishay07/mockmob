@@ -7,23 +7,23 @@
   --lc-ease: var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
   /* Paper: the top card is the lit card surface Practice uses, a step lighter than the page; the cards under it sit a step darker. */
   /* Flat paper and grain, no tinted radial (R2 screens 18: no gradients or glow). */
-  --lc-face: var(--kc-grain), #1b241e;
-  --lc-under: #161e18;
-  --lc-under-2: #121914;
-  --lc-edge: #3a4a3a;
-  --lc-edge-hi: #57705a;
-  --lc-top-light: rgb(244 245 240 / 0.06);
+  --lc-face: var(--kc-grain), #222019;
+  --lc-under: #1b1a16;
+  --lc-under-2: #161511;
+  --lc-edge: #4a453b;
+  --lc-edge-hi: #6a6355;
+  --lc-top-light: rgb(244 240 230 / 0.06);
   --lc-paper-shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 12px 24px -12px rgb(0 0 0 / 0.7);
   gap: 20px;
 }
 html[data-theme='light'] .lc {
-  --lc-face: var(--kc-grain), #ffffff;
-  --lc-under: #f4f6ef;
-  --lc-under-2: #eceee6;
-  --lc-edge: #cdd5c2;
-  --lc-edge-hi: #9fae93;
+  --lc-face: var(--kc-grain), #fffdf8;
+  --lc-under: #f6f2e9;
+  --lc-under-2: #ece7dc;
+  --lc-edge: #d3cbbb;
+  --lc-edge-hi: #a89f8c;
   --lc-top-light: rgb(255 255 255 / 0.9);
-  --lc-paper-shadow: 0 1px 1px rgb(20 32 14 / 0.07), 0 10px 22px -12px rgb(20 32 14 / 0.25);
+  --lc-paper-shadow: 0 1px 1px rgb(42 32 16 / 0.07), 0 10px 22px -12px rgb(42 32 16 / 0.25);
 }
 /* The page has no bar of its own at the foot (the shell already clears the dock), so it ends where the shelf ends. */
 .app-shell .kc.lc { max-width: 1120px; padding-bottom: 8px; }

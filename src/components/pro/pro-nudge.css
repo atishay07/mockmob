@@ -25,12 +25,12 @@
   box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 64px -28px rgb(0 0 0 / 0.6);
 }
 .pn-sheet[open] { display: block; }
-html[data-theme='light'] .pn-sheet { box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(20 32 14 / 0.3); }
+html[data-theme='light'] .pn-sheet { box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(42 32 16 / 0.3); }
 .pn-sheet::backdrop {
-  background: rgb(5 8 6 / 0.6);
+  background: rgb(8 7 5 / 0.6);
   animation: pn-scrim-in 220ms ease-out;
 }
-html[data-theme='light'] .pn-sheet::backdrop { background: rgb(23 32 22 / 0.32); }
+html[data-theme='light'] .pn-sheet::backdrop { background: rgb(23 21 15 / 0.32); }
 .pn-sheet[data-state='closing']::backdrop { opacity: 0; transition: opacity 180ms ease-out; }
 @keyframes pn-scrim-in { from { opacity: 0; } }
 html:has(.pn-sheet[open]) { overflow: hidden; }

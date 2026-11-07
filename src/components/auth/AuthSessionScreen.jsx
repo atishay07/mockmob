@@ -97,14 +97,14 @@ export function AuthSessionScreen({
           -webkit-backdrop-filter: blur(18px) saturate(130%);
         }
         /* Daylight variant: this screen precedes the Arena shell, so it must not flash dark. */
-        html[data-theme='light'] .auth-session-bg { background: radial-gradient(ellipse at 50% -22%, rgba(124, 150, 20, 0.12), transparent 60%), #f4f5f0; }
-        html[data-theme='light'] .auth-session-bg::before { background-image: linear-gradient(rgba(23,32,22,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(23,32,22,0.04) 1px, transparent 1px); }
+        html[data-theme='light'] .auth-session-bg { background: radial-gradient(ellipse at 50% -22%, rgba(124, 150, 20, 0.12), transparent 60%), #f3efe6; }
+        html[data-theme='light'] .auth-session-bg::before { background-image: linear-gradient(rgba(23,21,15,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(23,21,15,0.04) 1px, transparent 1px); }
         html[data-theme='light'] .auth-session-bg::after { display: none; }
-        html[data-theme='light'] .auth-session-card { border-color: #dce1d4; background: #fff; box-shadow: 0 24px 60px -30px rgba(20,32,14,0.25); }
-        html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #172016; }
-        html[data-theme='light'] .auth-session-card .logo .dot { color: #4f6400; }
-        html[data-theme='light'] .auth-session-card p { color: #56624f; }
-        html[data-theme='light'] .auth-session-card .bg-white\\/10 { background: #e6eadc; }
+        html[data-theme='light'] .auth-session-card { border-color: #d8d1c2; background: #fff; box-shadow: 0 24px 60px -30px rgba(42,32,16,0.25); }
+        html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #17150f; }
+        html[data-theme='light'] .auth-session-card .logo .dot { color: #526700; }
+        html[data-theme='light'] .auth-session-card p { color: #655f53; }
+        html[data-theme='light'] .auth-session-card .bg-white\\/10 { background: #e9e4d8; }
         .auth-session-spinner {
           width: 28px;
           height: 28px;
@@ -138,8 +138,8 @@ export function AuthSessionScreen({
           background: var(--volt);
           transform: translate(-50%, -50%);
         }
-        html[data-theme='light'] .auth-session-mark--ask::before { background: #4f6400; }
-        html[data-theme='light'] .auth-session-quiet { border-color: #cfd6c4; color: #172016; }
+        html[data-theme='light'] .auth-session-mark--ask::before { background: #526700; }
+        html[data-theme='light'] .auth-session-quiet { border-color: #cfc7b6; color: #17150f; }
         .auth-session-mark--error::before,
         .auth-session-mark--error::after {
           content: "";

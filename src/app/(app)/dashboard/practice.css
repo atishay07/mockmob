@@ -530,7 +530,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
     transition: border-radius 200ms var(--mm-ease-out), box-shadow 200ms var(--mm-ease-out);
   }
   /* Opaque on purpose: the setup scrolls under the riding bar, and nothing behind it may read through. */
-  html[data-theme='light'] .app-shell .pr .pr-bar__in { box-shadow: 0 16px 36px -18px rgb(20 32 14 / 0.38); }
+  html[data-theme='light'] .app-shell .pr .pr-bar__in { box-shadow: 0 16px 36px -18px rgb(42 32 16 / 0.38); }
   @supports (container-type: scroll-state) {
     .app-shell .pr .pr-bar { container-type: scroll-state; margin-top: -31px; }
     .app-shell .pr .pr-ticket.pr-summary { border-radius: 22px 22px 0 0; }
