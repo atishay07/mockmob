@@ -1,7 +1,9 @@
 /* Practice runner motion (every mode except NTA). Scoped to .pr-run, which the NTA mode never carries.
-   Transforms and opacity only; Arena tokens so Night and Day both work. Reduced motion drops every
-   movement and keeps the same information as text. */
-.pr-run {
+   The submit and leave sheets (.pr-sheet) also open in an NTA paper drawn in the MockMob interface, so they
+   carry the same variables (R8 revision). Transforms and opacity only; Arena tokens so Night and Day both
+   work. Reduced motion drops every movement and keeps the same information as text. */
+.pr-run,
+.pr-sheet {
   --pr-ease: cubic-bezier(.2, .8, .2, 1);
   --pr-fade-out: cubic-bezier(.25, .46, .45, .94);
   --pr-spring: cubic-bezier(.34, 1.36, .5, 1);

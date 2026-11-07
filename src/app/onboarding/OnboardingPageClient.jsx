@@ -631,7 +631,7 @@ export default function OnboardingPageClient({ preview = false }) {
                 <details className="ob-how">
                   <summary>{ONBOARDING_HOW_MOCKS_TITLE}</summary>
                   <p>{ONBOARDING_HOW_MOCKS}</p>
-                  <p>{SUBJECT_RULE_NOTE}</p>
+                  <p>Why 5? {SUBJECT_RULE_NOTE}</p>
                 </details>
               ) : null}
 
