@@ -36,7 +36,7 @@ import { minutesFor } from '../run/runMath';
 import { usePrintSheet } from '../print/ChapterPrintSheet';
 import { useAuth } from '@/components/AuthProvider';
 import { chapterShort } from '../../../../data/learn/words.js';
-import { chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, runSummary, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
+import { chapterQuietLine, chapterVerdict, coachKeyFor, freeDayDone, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, runSummary, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 import '../../keycards/keycards.css';
 import './chapter.css';
 
@@ -365,7 +365,8 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
     setLeaveOut((out) => [...out, pile.id]);
   };
 
-  const ready = Boolean(data) && piles.some((p) => !p.left);
+  // A pile held for tomorrow is not in the run: Start is ready only with a pile it will really play (R8 LEARN-01).
+  const ready = Boolean(data) && piles.some((p) => !p.left && !p.held);
   const refreshing = read.status === 'refreshing';
   const resume = data?.resume && Number(data.resume.done) < Number(data.resume.of) ? data.resume : null;
   const startHref = withFlag(withFlag(links.run({ chapterKey, minutes, kind: 'mix', leaveOut }), 'next', addNext && data?.added ? '1' : null), 'fresh', resume ? '1' : null);
@@ -389,7 +390,9 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
   const next = !data?.added && shrink?.addNext ? shrink.addNext : null;
   const added = data?.added || null;
   const plus = added && baseMinutes ? Math.max(0, Number(data.realMinutes) - Number(baseMinutes)) : 0;
-  const quiet = lastIn ? 'Keep at least one pile in.' : chapterQuietLine(data);
+  // Free's used day with nothing to play here (R8 LEARN-01): no Start; the quick recap (or another chapter) is the one key.
+  const dayDone = !resume ? freeDayDone(data, piles) : null;
+  const quiet = lastIn ? 'Keep at least one pile in.' : dayDone ? dayDone.line : chapterQuietLine(data);
   const n = piles.length + (next || added ? 1 : 0);
   const loading = !data && read.status !== 'error';
   const missing = read.status === 'error' && isChapterMissing(read.error);
@@ -467,9 +470,18 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                             {coach && piles.length > 1 ? <p className="lc-coach" data-done={coach === 'done' || undefined} aria-hidden={coach === 'done' || undefined}>Tap a pile to leave it out.</p> : null}
                             {read.status === 'stale' ? <p className="lc-fine" role="status">We couldn&apos;t update the plan. You&apos;re seeing the last one.</p> : null}
 
-                            <div className="lc-go" data-resume={resume ? '' : undefined}>
+                            <div className="lc-go" data-resume={resume ? '' : undefined} data-daydone={dayDone ? '' : undefined}>
                               <div className="lc-go__bar">
-                                {ready ? (
+                                {dayDone ? (
+                                  recap ? (
+                                    <Link className="kc-btn kc-btn--volt lc-go__key" data-page-primary="" href={links.run({ chapterKey, minutes: data.recap.minutes, kind: 'recap' })}
+                                      aria-label={`Quick recap of the ${data.recap.count} Must-know ${data.recap.count === 1 ? 'line' : 'lines'}, about ${data.recap.minutes} min`}>
+                                      <span className="lc-go__label">{recap}</span>
+                                    </Link>
+                                  ) : (
+                                    <Link className="kc-btn kc-btn--line lc-go__key" href={links.home(subject)}><span className="lc-go__label">Pick another chapter</span></Link>
+                                  )
+                                ) : ready ? (
                                   <Link className={`kc-btn ${resume ? 'kc-btn--line' : 'kc-btn--volt'} lc-go__key`} data-page-primary={resume ? undefined : ''} href={startHref}
                                     aria-disabled={refreshing || undefined} onClick={holdWhileRefreshing}>
                                     <span key={startLabel} className="lc-go__label">{startLabel}</span>
@@ -480,7 +492,7 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                               </div>
                               <p className="lc-go__note" id={quietId} aria-live="polite" data-empty={quiet ? undefined : ''}>{quiet || ''}</p>
                             </div>
-                            {recap ? (
+                            {recap && !dayDone ? (
                               <Link className="lc-recap" href={links.run({ chapterKey, minutes: data.recap.minutes, kind: 'recap' })}
                                 aria-label={`Quick recap of the ${data.recap.count} Must-know ${data.recap.count === 1 ? 'line' : 'lines'}, about ${data.recap.minutes} min`}>
                                 {recap}<ChevronRight size={16} strokeWidth={2.4} aria-hidden="true" />

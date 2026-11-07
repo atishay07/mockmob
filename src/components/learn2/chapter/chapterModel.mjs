@@ -57,6 +57,22 @@ export function runSummary(data, piles = []) {
   return m >= 1 ? `${plural(steps, 'step')} · about ${m} min` : plural(steps, 'step');
 }
 
+/**
+ * R8 LEARN-01: Free's used day with nothing left to play here. The piles still drawn are only the ones held for tomorrow (every
+ * step count of the piles in the run is 0), so the page must not lead with a Start that would play nothing it lists. Returns
+ * null when there is something to play (the normal page), else { line } with the one true line for the quiet slot, naming only
+ * the piles that are drawn: "That was today's free session. Questions and your mistakes come back tomorrow."
+ */
+export function freeDayDone(data, piles = []) {
+  if (!data?.freeSession?.used) return null;
+  const list = Array.isArray(piles) ? piles : [];
+  const playable = list.filter((p) => !p.left && !p.held).reduce((n, p) => n + (Number(p.count) || 0), 0);
+  if (playable > 0) return null;
+  const held = new Set(list.filter((p) => p.held).map((p) => p.id));
+  const what = held.has('questions') && held.has('mistakes') ? 'Questions and your mistakes come back' : held.has('mistakes') ? 'Your mistakes come back' : 'Questions come back';
+  return { line: `That was today's free session. ${what} tomorrow.` };
+}
+
 // R2 ruling 9: the first-visit line under Start is gone (the run's own first card says how it works). Kept as a name only so
 // older callers and tests read that it is never shown.
 export const FIRST_VISIT_LINE = 'Cards and questions, one at a time. Stop whenever you like; everything you do is saved.';
