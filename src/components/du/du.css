@@ -1253,6 +1253,16 @@
   font-weight: 600;
   color: var(--ink-2);
 }
+/* R8 (SEC-07): the zero after the first ticks is "so far": quiet ink at a smaller size, in the same line box, so the
+   readout does not move when the third subject brings the real count in. */
+.du-teaser__big[data-early] span,
+html[data-theme='light'] .lp .du-teaser__big[data-early] span {
+  min-width: 0;
+  font-size: 2rem;
+  line-height: calc(clamp(3rem, 7vw, 4.5rem) * 0.9);
+  letter-spacing: -0.02em;
+  color: var(--ink-3);
+}
 .du-teaser__lead {
   margin: 0;
   min-height: 3em;
