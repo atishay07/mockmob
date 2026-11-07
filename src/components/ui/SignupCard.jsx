@@ -9,6 +9,14 @@ import { rememberNextPath } from '@/lib/auth-redirect';
 const RESEND_WAIT_SECONDS = 60;
 const MIN_CODE_LENGTH = 6;
 const MAX_CODE_LENGTH = 10;
+// R8 PUB-07: the form checks the address itself (noValidate), so every phone shows the same in-card reason, never a browser bubble
+// over the key. A plain shape check only: something, an @, something, a dot, something.
+const EMAIL_SHAPE = /^\S+@\S+\.\S+$/;
+const EMAIL_WHY = Object.freeze({
+  // "sign-in" never breaks at its hyphen.
+  empty: <>Enter your email first, and we send you a <span style={{ whiteSpace: 'nowrap' }}>sign-in</span> code.</>,
+  incomplete: 'That email looks incomplete. Check the @ and what comes after it.',
+});
 // Google refuses sign-in inside embedded browsers (Instagram, Facebook, WhatsApp, Android WebView).
 const IN_APP_BROWSER_RE = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|Line\/|WhatsApp|Snapchat|; wv\)/i;
 const noSubscribe = () => () => {};
@@ -30,7 +38,8 @@ export function SignupCard({ mode = 'signup' }) {
   const emailInputRef = useRef(null);
   // The primary key always looks ready (W-057: a dim key read as broken). Pressed with no email, it says why and
   // puts the cursor in the field instead.
-  const [askEmail, setAskEmail] = useState(false);
+  // R8 PUB-07: why the email cannot be sent yet ('' when it can), said in the card instead of the browser's own bubble.
+  const [emailWhy, setEmailWhy] = useState('');
   const isLogin = mode === 'login';
 
   useEffect(() => {
@@ -94,7 +103,9 @@ export function SignupCard({ mode = 'signup' }) {
 
   const handleEmailSubmit = async (event) => {
     event.preventDefault();
-    if (!email.trim()) { setAskEmail(true); emailInputRef.current?.focus(); return; }
+    const typed = email.trim();
+    const why = !typed ? EMAIL_WHY.empty : EMAIL_SHAPE.test(typed) ? '' : EMAIL_WHY.incomplete;
+    if (why) { setEmailWhy(why); emailInputRef.current?.focus(); return; }
     await sendCode();
   };
 
@@ -161,7 +172,7 @@ export function SignupCard({ mode = 'signup' }) {
 
       <div className="auth-card__or">or use your email</div>
 
-      <form className="auth-card__form" onSubmit={otpSent ? handleOtpVerify : handleEmailSubmit} noValidate={otpSent}>
+      <form className="auth-card__form" onSubmit={otpSent ? handleOtpVerify : handleEmailSubmit} noValidate>
         <label className="auth-field">
           <span>Email</span>
           <input
@@ -174,14 +185,16 @@ export function SignupCard({ mode = 'signup' }) {
             spellCheck={false}
             ref={emailInputRef}
             value={email}
-            onChange={(event) => { setEmail(event.target.value); if (askEmail) setAskEmail(false); }}
-            aria-invalid={askEmail || undefined}
-            aria-describedby={askEmail ? 'auth-email-why' : undefined}
+            onChange={(event) => { setEmail(event.target.value); if (emailWhy) setEmailWhy(''); }}
+            aria-invalid={emailWhy && !otpSent ? true : undefined}
+            aria-describedby={emailWhy && !otpSent ? 'auth-email-why' : undefined}
             placeholder="you@example.com"
             disabled={emailLoading}
             readOnly={otpSent}
           />
         </label>
+        {/* The reason, once, right under the field it is about. */}
+        {emailWhy && !otpSent ? <small className="auth-card__why" id="auth-email-why" role="alert">{emailWhy}</small> : null}
         {otpSent && (
           <label className="auth-field auth-field--code">
             <span>Sign-in code</span>
@@ -203,8 +216,6 @@ export function SignupCard({ mode = 'signup' }) {
         <button type="submit" className="mm-btn mm-btn--primary" disabled={submitDisabled}>
           {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a sign-in code'}
         </button>
-        {/* Pressed with no email: the reason, once, under the key. */}
-        {askEmail && !otpSent ? <small className="auth-card__why" id="auth-email-why" role="alert">Enter your email first, and we send you a sign-in code.</small> : null}
         {otpSent ? (
           <div className="auth-card__actions">
             <button type="button" className="auth-card__textbtn" onClick={sendCode} disabled={busy || resendIn > 0}>
