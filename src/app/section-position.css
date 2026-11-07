@@ -52,9 +52,15 @@
 .mm.lp:has(.lp-pos[data-on='true']) .mm-nav::after { opacity: 0; }
 
 .mm.lp .lp-pos__row { display: flex; align-items: center; width: 100%; min-width: 0; }
-/* On a wide window the site bar's column grows by Mobi's lane (brand-pip.css), so the band's words keep the bar's left edge. */
-@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .mm.lp .lp-pos__row { max-width: calc(75rem + var(--pip-lane)); }
+/* On a wide window the band's words keep the site bar's left edge, which is also the sections' (R8 SEC-16, 8 Nov 2026): the
+   bar and the sections moved to the fluid column (home-sections.css, section 3) and the band had stayed on the old 75rem
+   column, 56 px to the right of the wordmark and every heading at 1440. */
+@media (min-width: 1100px) {
+  .mm.lp .lp-pos__row {
+    max-width: none;
+    padding-left: max(var(--sec-gutter, 24px), (100% - var(--sec-max, 1680px)) / 2);
+    padding-right: max(var(--sec-gutter, 24px), (100% - var(--sec-max, 1680px)) / 2);
+  }
 }
 /* One line of running text, so a brand word in an <em> stays one space from its neighbours. */
 .mm.lp .lp-pos__name {
