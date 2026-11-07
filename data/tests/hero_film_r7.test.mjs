@@ -107,26 +107,32 @@ test('the hero: the film in the desk\'s old place, the words first; phones: word
   assert.match(read('src/components/brand/PipGuide.jsx'), /document\.querySelectorAll\('\.lp-mobi, \.lp-hero'\)\.forEach\(el=>heroWatch\.observe\(el\)\)/);
 });
 
-test('CollegeStrip: sixteen CUET colleges with their emblems, as a marquee, with the heading and the not-affiliated line', () => {
-  const files = ['du', 'srcc', 'ststephens', 'hindu', 'lsr', 'miranda', 'hansraj', 'kmc', 'ramjas', 'jnu', 'bhu', 'jamia', 'amu', 'uoh', 'allahabad', 'pondicherry'];
-  for (const file of files) {
-    assert.match(STRIP, new RegExp(`file: '${file}', w: \\d+, h: 192 \\}`), file);
-    assert.ok(existsSync(join(ROOT, `public/art/colleges/${file}.webp`)), `${file}.webp`);
+test('CollegeStrip: two marquees, universities on top from University of Delhi, the DU colleges under them from SRCC', () => {
+  const universities = ['du', 'jnu', 'bhu', 'jamia', 'uoh', 'amu'];
+  const colleges = ['srcc', 'ststephens', 'hindu', 'lsr', 'miranda', 'hansraj', 'kmc', 'ramjas'];
+  const block = (name) => STRIP.slice(STRIP.indexOf(`export const ${name} = Object.freeze([`), STRIP.indexOf(']);', STRIP.indexOf(`export const ${name} = Object.freeze([`)));
+  assert.deepEqual([...block('UNIVERSITIES').matchAll(/file: '([a-z]+)'/g)].map((m) => m[1]), universities, 'the universities, University of Delhi first');
+  assert.deepEqual([...block('COLLEGES').matchAll(/file: '([a-z]+)'/g)].map((m) => m[1]), colleges, 'the colleges, SRCC first');
+  for (const file of [...universities, ...colleges]) assert.ok(existsSync(join(ROOT, `public/art/colleges/${file}.webp`)), `${file}.webp`);
+  for (const gone of ['pondicherry', 'allahabad']) {
+    assert.doesNotMatch(STRIP, new RegExp(`file: '${gone}'`), `${gone} left out (owner: not aspirational)`);
+    assert.ok(!existsSync(join(ROOT, `public/art/colleges/${gone}.webp`)), `${gone}.webp removed`);
   }
-  assert.equal((STRIP.match(/\{ name: /g) || []).length, files.length, 'only these');
   assert.match(STRIP, /export const COLLEGE_HEAD = 'Get into the college you want\.';/);
   assert.match(STRIP, /export const COLLEGE_NOTE = 'College names and logos belong to their owners\. MockMob is not affiliated with them\.';/);
   assert.match(STRIP, /<h2 className="lp-colleges__title" id="colleges-title">\{COLLEGE_HEAD\}<\/h2>/);
   assert.match(STRIP, /<p className="lp-colleges__note">\{COLLEGE_NOTE\}<\/p>/);
   assert.match(STRIP, /<img className="lp-colleges__logo" src=\{collegeSrc\(college\.file\)\} width=\{college\.w\} height=\{college\.h\} alt="" loading="lazy"/);
-  assert.match(STRIP, /aria-hidden=\{copy \? 'true' : undefined\}/, 'the second copy is hidden from screen readers');
+  assert.match(STRIP, /aria-label=\{copy \? undefined : row\.label\} aria-hidden=\{copy \? 'true' : undefined\}/, 'only the first copy of each row is read out, named');
   assert.doesNotMatch(STRIP, /^'use client'/, 'a server component');
   assert.match(STRIP_CSS, /\.mm\.lp \.lp-colleges__chip \{[^}]*background: var\(--paper-raised\);/);
   assert.match(STRIP_CSS, /\.mm\.lp \.lp-colleges__name \{[^}]*font-family: var\(--font-display\);[^}]*font-weight: 650;/);
   assert.match(STRIP_CSS, /\.mm\.lp \.lp-colleges__note \{[^}]*color: var\(--ink-3\);/);
   assert.doesNotMatch(STRIP_CSS, /text-transform: uppercase/, 'no all-caps eyebrow');
-  assert.match(STRIP_CSS, /animation: lp-colleges-roll 70s linear infinite;/, 'a slow linear marquee');
-  assert.match(STRIP_CSS, /:hover \.lp-colleges__track,\s*\.mm\.lp \.lp-colleges__marquee:focus-within \.lp-colleges__track \{ animation-play-state: paused; \}/, 'paused on hover and focus');
+  assert.match(STRIP_CSS, /animation: lp-colleges-roll var\(--roll\) linear infinite;/, 'linear marquees');
+  assert.match(STRIP_CSS, /\.lp-colleges__marquee--colleges \.lp-colleges__track \{ animation-direction: reverse; \}/, 'the colleges move the other way');
+  assert.match(STRIP_CSS, /\.mm\.lp \.lp-colleges__marquee \{ --roll: 22s; overflow: hidden; \}\s*\.mm\.lp \.lp-colleges__marquee--colleges \{ --roll: 37s; \}/, 'phones: quicker, the universities quickest');
+  assert.match(STRIP_CSS, /:hover \.lp-colleges__track,\s*\.mm\.lp \.lp-colleges__rows:focus-within \.lp-colleges__track \{ animation-play-state: paused; \}/, 'paused on hover and focus');
   assert.match(STRIP_CSS, /@media \(prefers-reduced-motion: reduce\) \{[^@]*animation: none;/, 'still under reduced motion');
   assert.match(STRIP_CSS, /:root\[data-motion='reduced'\] \.mm\.lp \.lp-colleges__track \{ width: auto; animation: none; \}/);
   // Copy: sentence case, no exclamation marks, no middle dots (every quoted string in both components).
