@@ -53,7 +53,10 @@ class SubmitSheetCard extends StatelessWidget {
     final type = context.mmType;
     final cells = sheetCellsOf(session);
     final counts = sheetCountsOf(cells);
-    final firstOpen = cells.indexWhere((c) => !c.answered);
+    // The palette's split (R8 APP-12): seen and left blank, and never opened, counted apart, so the two pages agree.
+    final seenBlank = counts.notAnswered - counts.notVisited;
+    final firstSeenBlank = cells.indexWhere((c) => !c.answered && c.visited);
+    final firstUnseen = cells.indexWhere((c) => !c.answered && !c.visited);
     final firstMarked = cells.indexWhere((c) => c.marked);
     final paper = RunnerCopy.paperName(
       isMock: session.isMock,
@@ -95,7 +98,14 @@ class SubmitSheetCard extends StatelessWidget {
             phase: phase,
             animateInk: animateInk,
             bubbleSize: 17,
-            semanticsLabel: RunnerCopy.sheetSummary(answered: counts.answered, notAnswered: counts.notAnswered, marked: counts.marked),
+            // The palette's words for the same sheet (R8 APP-12).
+            semanticsLabel: RunnerCopy.legendSummary(
+              answered: counts.answered,
+              notAnswered: seenBlank,
+              notVisited: counts.notVisited,
+              marked: counts.marked,
+              total: counts.total,
+            ),
           ),
         ),
         _SheetLegend(cells: cells),
@@ -110,15 +120,27 @@ class SubmitSheetCard extends StatelessWidget {
             goToLabel: firstMarked < 0 ? null : RunnerCopy.goToQuestion(firstMarked + 1),
           ),
         if (counts.marked > 0 && counts.notAnswered > 0) Divider(height: 1, thickness: 1, color: colors.line),
-        if (counts.notAnswered > 0)
+        // Mobi points at the first of the two rows that shows.
+        if (seenBlank > 0)
           _CountRow(
             key: openRowKey,
             pulse: pulseOpen,
-            glyph: const Bubble(state: BubbleState.blank, size: 16, animate: false),
-            count: counts.notAnswered,
+            glyph: const Bubble(state: BubbleState.hollow, size: 16, animate: false),
+            count: seenBlank,
             word: RunnerCopy.notAnsweredWord,
-            goTo: onGoTo == null || firstOpen < 0 ? null : () => onGoTo!(firstOpen),
-            goToLabel: firstOpen < 0 ? null : RunnerCopy.goToQuestion(firstOpen + 1),
+            goTo: onGoTo == null || firstSeenBlank < 0 ? null : () => onGoTo!(firstSeenBlank),
+            goToLabel: firstSeenBlank < 0 ? null : RunnerCopy.goToQuestion(firstSeenBlank + 1),
+          ),
+        if (seenBlank > 0 && counts.notVisited > 0) Divider(height: 1, thickness: 1, color: colors.line),
+        if (counts.notVisited > 0)
+          _CountRow(
+            key: seenBlank > 0 ? null : openRowKey,
+            pulse: seenBlank > 0 ? false : pulseOpen,
+            glyph: const Bubble(state: BubbleState.blank, size: 16, animate: false),
+            count: counts.notVisited,
+            word: RunnerCopy.notVisitedWord,
+            goTo: onGoTo == null || firstUnseen < 0 ? null : () => onGoTo!(firstUnseen),
+            goToLabel: firstUnseen < 0 ? null : RunnerCopy.goToQuestion(firstUnseen + 1),
           ),
       ],
     );
@@ -127,10 +149,10 @@ class SubmitSheetCard extends StatelessWidget {
 
 /// The four states of a question on the sheet, apart, so the four counts add up to the total:
 /// answered, not answered, and each of those marked for review (AP3-07, A21).
-typedef SheetLegendCounts = ({int answered, int notAnswered, int markedAnswered, int markedNotAnswered});
+typedef SheetLegendCounts = ({int answered, int notAnswered, int notVisited, int markedAnswered, int markedNotAnswered});
 
 SheetLegendCounts sheetLegendCountsOf(List<SheetCell> cells) {
-  var a = 0, n = 0, ma = 0, mn = 0;
+  var a = 0, n = 0, nv = 0, ma = 0, mn = 0;
   for (final c in cells) {
     if (c.answered && c.marked) {
       ma++;
@@ -138,11 +160,13 @@ SheetLegendCounts sheetLegendCountsOf(List<SheetCell> cells) {
       mn++;
     } else if (c.answered) {
       a++;
-    } else {
+    } else if (c.visited) {
       n++;
+    } else {
+      nv++;
     }
   }
-  return (answered: a, notAnswered: n, markedAnswered: ma, markedNotAnswered: mn);
+  return (answered: a, notAnswered: n, notVisited: nv, markedAnswered: ma, markedNotAnswered: mn);
 }
 
 /// What each shape on the sheet means, in words with its count, four entries at 12 sp that add up to
@@ -182,7 +206,8 @@ class _SheetLegend extends StatelessWidget {
           runSpacing: MmSpace.s4,
           children: [
             item(CustomPaint(size: const Size.square(22), painter: _AnsweredGlyph(colors)), RunnerCopy.answered, n.answered),
-            item(const Bubble(state: BubbleState.blank, size: 14, animate: false), RunnerCopy.notAnswered, n.notAnswered),
+            item(const Bubble(state: BubbleState.hollow, size: 14, animate: false), RunnerCopy.notAnswered, n.notAnswered),
+            if (n.notVisited > 0) item(const Bubble(state: BubbleState.blank, size: 14, animate: false), RunnerCopy.notVisited, n.notVisited),
             item(CustomPaint(size: const Size.square(22), painter: _MarkedAnsweredGlyph(colors)), RunnerCopy.legendMarkedAnswered, n.markedAnswered),
             item(const Bubble(state: BubbleState.marked, size: 16, animate: false), RunnerCopy.legendMarkedBlank, n.markedNotAnswered),
           ],

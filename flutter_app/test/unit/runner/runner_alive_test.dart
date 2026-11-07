@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 import 'package:mockmob/features/runner/copy.dart';
 import 'package:mockmob/features/runner/logic/sheet_cells.dart';
@@ -180,13 +181,13 @@ void main() {
           .widget<AnimatedOpacity>(find.ancestor(of: find.byType(SheetCellKey).at(i), matching: find.byType(AnimatedOpacity)).first)
           .opacity;
       expect([for (var i = 0; i < cells.length; i++) opacityOf(i)], [0.3, 1, 0.3, 1, 0.3], reason: 'the two marked cells stay bright');
-      expect(find.text(RunnerCopy.goToQuestion(2)), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, RunnerCopy.goToQuestion(2)), findsWidgets, reason: 'one key (its label is drawn twice, the sizer and the face)');
     });
 
     testWidgets('without a filter the key still goes to the first question without an answer', (tester) async {
       await tester.pumpWidget(host(cells));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.text(RunnerCopy.goToFirstOpen(2)), findsOneWidget);
+      expect(find.widgetWithText(KeyButton, RunnerCopy.goToFirstOpen(2)), findsWidgets, reason: 'one key (its label is drawn twice, the sizer and the face)');
     });
   });
 

@@ -119,7 +119,7 @@ void main() {
       await tester.tap(find.text('Questions'));
       await settle(tester);
       expect(find.text('2 of 50 answered'), findsNothing, reason: 'the number and its unit are drawn apart');
-      await tester.tap(find.text('Go to question 2, first not answered'));
+      await tester.tap(find.widgetWithText(KeyButton, 'Go to question 2, first not answered').first);
       await settle(tester);
       expect(s.calls, contains('goTo 1'));
     });
@@ -141,6 +141,9 @@ void main() {
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit');
       await settle(tester);
       expect(find.text('Go to question 3').last, findsOneWidget, reason: 'the first marked question');
+      // Question 2 was never opened: it is on the "not visited" row now (R8 APP-12), under the "not answered" one.
+      await tester.ensureVisible(find.text('Go to question 2').last);
+      await settle(tester);
       await tester.tap(find.text('Go to question 2').last);
       await settle(tester);
       expect(s.calls, contains('goTo 1'));

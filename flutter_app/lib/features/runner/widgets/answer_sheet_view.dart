@@ -234,7 +234,9 @@ class _SheetPainter extends CustomPainter {
           );
         }
       } else {
-        bubbles.paint(canvas, center, r, c.marked ? BubbleState.marked : BubbleState.blank);
+        // As on the palette (R8 APP-12): a question seen and left blank is a solid hollow ring, one never opened the
+        // dashed one, so the two pages draw the same states the same way.
+        bubbles.paint(canvas, center, r, c.marked ? BubbleState.marked : (c.visited ? BubbleState.hollow : BubbleState.blank));
       }
     }
   }

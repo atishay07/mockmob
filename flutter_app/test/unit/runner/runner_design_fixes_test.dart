@@ -192,9 +192,11 @@ void main() {
       );
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
       await settle(tester);
-      // Four entries with their counts, which add up to the 50 questions (7 + 41 + 1 + 1).
+      // Five entries with their counts, which add up to the 50 questions (7 + 1 + 40 + 1 + 1): seen and left blank, and
+      // never opened, are counted apart as on the palette (R8 APP-12).
       expect(find.text('Answered 7'), findsOneWidget);
-      expect(find.text('Not answered 41'), findsOneWidget);
+      expect(find.text('Not answered 1'), findsOneWidget);
+      expect(find.text('Not visited 40'), findsOneWidget);
       expect(find.text('Marked, answered 1'), findsOneWidget);
       expect(find.text('Marked, not answered 1'), findsOneWidget);
     });

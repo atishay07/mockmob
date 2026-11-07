@@ -149,18 +149,18 @@ class _PaletteSheetState extends State<PaletteSheet> {
         const SizedBox(height: MmSpace.s8),
         _Legend(counts: counts, unsynced: cells.where((c) => c.unsynced).length, filter: filter, onFilter: widget.onFilter),
         if (target >= 0) ...[
-          // A quiet text key, left on the gutter: the grid and the pinned submit key are the loud
-          // things here, this is a shortcut.
+          // A key that looks like one (R8 APP-19, owner F5): the secondary pill with its hairline rim, on the
+          // gutter, 8 dp under the legend chips so the two targets never overlap. The grid and the submit key stay
+          // the loud things; this is the shortcut.
+          const SizedBox(height: MmSpace.s8),
           Align(
             alignment: Alignment.centerLeft,
-            // The key's own padding is pulled back, so its words start on the gutter with the rest.
-            child: Transform.translate(
-              offset: const Offset(-MmSpace.s16, 0),
-              child: KeyButton.quiet(
-                label: filter == null ? RunnerCopy.goToFirstOpen(target + 1) : RunnerCopy.goToQuestion(target + 1),
-                onPressed: () => onJump(target),
-                hapticOnCommit: false,
-              ),
+            child: KeyButton.secondary(
+              label: filter == null ? RunnerCopy.goToFirstOpen(target + 1) : RunnerCopy.goToQuestion(target + 1),
+              onPressed: () => onJump(target),
+              expanded: false,
+              minHeight: MmTarget.min,
+              hapticOnCommit: false,
             ),
           ),
         ],

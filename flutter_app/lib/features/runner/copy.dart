@@ -173,6 +173,7 @@ abstract final class RunnerCopy {
   static const String legendMarkedAnswered = 'Marked, answered';
   static const String legendMarkedBlank = 'Marked, not answered';
   static const String notAnsweredWord = 'not answered';
+  static const String notVisitedWord = 'not visited';
   static const String cannotChange = 'You cannot change answers after you submit.';
   static String submitKey(bool isMock) => isMock ? 'Submit mock' : 'Submit practice';
   static const String keepWorking = 'Keep working';
