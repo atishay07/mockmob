@@ -161,7 +161,7 @@ test('owner 7 Nov 2026: the Pro card and the table name what fixes and revises, 
   const text = (groups) => groups.flatMap((g) => g.lines.map((l) => l.text ?? l.fallback));
   const withCards = planGroups({ keyCards: true });
   assert.deepEqual(withCards.map((g) => g.label), ['Practise', 'Fix', 'Revise', 'Plan']);
-  assert.ok(text(withCards).some((t) => /^Mistake Lab after every mock/.test(t)));
+  assert.ok(text(withCards).some((t) => /^Mistake Lab across all your mocks/.test(t)));
   assert.ok(text(withCards).includes('Mistake Repair and Ask Mobi: 50 credits a month, all for Mobi'));
   assert.ok(text(withCards).includes('Every Key card, with no daily review cap'));
   assert.ok(!text(planGroups({})).some((t) => /Key card/.test(t)), 'no Key cards line while they are off');

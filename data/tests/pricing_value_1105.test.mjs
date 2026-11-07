@@ -323,7 +323,7 @@ test('7 Nov: each Pro line marks its quantity or scope word like the counted num
   assert.deepEqual(Object.fromEntries(textLines(planGroups({ keyCards: true })).map((l) => [l.text, l.em])), {
     'Unlimited Quick practice and Full mock': 'Unlimited',
     'Smart practice and NTA mode': null,
-    'Mistake Lab after every mock: every chapter, your pace and changed answers': 'every chapter',
+    'Mistake Lab across all your mocks: every chapter, your pace and changed answers': 'every chapter',
     'Mistake Repair and Ask Mobi: 50 credits a month, all for Mobi': '50 credits a month',
     'Every Key card, with no daily review cap': 'Every Key card',
     'Unlimited saved questions': 'Unlimited',

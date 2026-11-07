@@ -39,7 +39,7 @@ const PARTS = [
   },
   {
     title: 'Chapter review',
-    body: 'Your misses traced back to their chapters, built only from questions you attempted. Free after every mock; Pro adds pace and changed-answer detail.',
+    body: 'Your misses traced back to their chapters, built only from questions you attempted. Every mock’s review is free; across your mocks, Free ranks your top three chapters and Pro ranks every chapter, with your pace and changed answers.',
     href: '/signup', link: 'Create a free account',
   },
   {
