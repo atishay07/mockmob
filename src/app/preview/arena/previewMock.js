@@ -38,6 +38,7 @@ import { buildTrapTags, indexAtlas } from '../../../../data/trap_atlas';
 import { buildLater } from '../../../../data/revise';
 import { optionHash } from '../../../../data/option_hash';
 import { RESULT_PAPERS, paperRepairOrder } from '../../../../data/result_papers.mjs';
+import { fixJob } from '../../../../data/mobi_fix.js';
 
 const DAY = 86_400_000;
 const SUBJECT = 'accountancy';
@@ -102,9 +103,21 @@ function earlierPapers(now) {
   })).reverse();
 }
 
+// ARC-18 (R8): the signature journey follows Q42 from the answer sheet to its repair, its NCERT line, its checks, Ask Mobi and its
+// practice link, so in this preview Q42 is one idea all the way through: calls in arrears, in Share Capital (Q42's own chapter, the
+// paper's costliest, so Q42 stays the next move's lead). The rule is the one the paper's rule check already names. Only the stem
+// and options change here; the committed test fixture keeps its own Q42.
+export const Q42_STEM = 'Illustrative question 42: a company called ₹10 a share on 1,000 shares, and the holders of 100 shares did not pay. How is the unpaid ₹1,000 shown?';
+export const Q42_OPTIONS = ['Added to the called-up capital', 'As a current liability', 'Deducted from the called-up capital', 'Not shown until the shares are forfeited'];
+function withQ42(src) {
+  const q = (src.questionsSnapshot || []).find((x) => x.id === 'q42');
+  if (q) Object.assign(q, { question: Q42_STEM, options: [...Q42_OPTIONS] });
+  return src;
+}
+
 // The Lab's 50-question fixture paper as a scored attempt, completed an hour ago.
 function labPaper({ now, labMode }) {
-  const src = JSON.parse(JSON.stringify(LAB_PAPER.attempt));
+  const src = withQ42(JSON.parse(JSON.stringify(LAB_PAPER.attempt)));
   const right = src.details.filter((d) => d.isCorrect === true).length;
   const wrong = src.details.filter((d) => d.isCorrect === false).length;
   const rec = src.selectionMeta.recovery;
@@ -174,7 +187,7 @@ export async function fixtureReplayMock(paperName = 'full', { cohortTime = null,
   const load = REPLAY_PAPERS[paperName] || REPLAY_PAPERS.full;
   const [{ default: input }, { default: contract }] = await load();
   const now = Date.now();
-  const src = JSON.parse(JSON.stringify(input.attempt));
+  const src = paperName === 'full' ? withQ42(JSON.parse(JSON.stringify(input.attempt))) : JSON.parse(JSON.stringify(input.attempt));
   const right = src.details.filter((d) => d.isCorrect === true).length;
   const wrong = src.details.filter((d) => d.isCorrect === false).length;
   const mode = src.selectionMeta?.mode || 'full';
@@ -252,28 +265,59 @@ function mistakeIds(attempt, answerReviews) {
 }
 
 // A v3 Mistake Repair payload (fixture text, no model call, no credit). `stored` is the free reopen.
-export function fixtureRepairV3({ stored = false, practiceChapter = 'Share Capital' } = {}) {
-  const chapterParam = encodeURIComponent(practiceChapter).replace(/%20/g, '+');
+// The two ideas a v3 repair can be written about in the preview: `arrears` (the result's Q42, Share Capital) and `sacrifice` (the
+// Admission of a Partner questions Review lists). Illustrative text, never a model call.
+const REPAIR_IDEAS = {
+  arrears: {
+    chapter: 'Share Capital', options: Q42_OPTIONS,
+    trap: 'Illustrative: option A treats the unpaid call as more capital, because it is a sum linked to the shares, so adding it feels natural.',
+    why_wrong: 'Illustrative: the money was called but never received. Adding it would show capital the company does not have.',
+    why_right: 'Illustrative: paid-up capital is the called-up capital minus the calls in arrears, so the unpaid ₹1,000 is deducted. That is option C.',
+    contrast: 'If the question had asked for the called-up capital, the full ₹10,000 would stand. It asks how the unpaid call is shown, so it is deducted: option C.',
+    others: [
+      { index: 1, why: 'Illustrative: a liability is money the company owes. Here the shareholders owe the company, so it is not a liability.' },
+      { index: 3, why: 'Illustrative: the unpaid call is shown as soon as it is unpaid, before any forfeiture.' },
+    ],
+    rule: 'Illustrative: calls in arrears are deducted from the called-up capital, never added.',
+    memory_hook: 'Called, not paid: take it away.',
+    another_way: 'Illustrative: 1,000 shares at ₹10 called is ₹10,000. 100 shares did not pay, so ₹1,000 is missing. ₹10,000 minus ₹1,000 leaves ₹9,000 paid up.',
+  },
+  sacrifice: {
+    chapter: 'Admission of a Partner', options: null,
+    trap: 'Illustrative: option A applies the old ratio. It is the first ratio in the question, and it is the right rule in the most common textbook case.',
+    why_wrong: 'Illustrative: here a new ratio is stated, so each partner gave up a different share. Using the old ratio assumes both gave up shares in 3:2.',
+    why_right: 'Illustrative: sacrifice is old share minus new share, worked out for each partner. That gives the key, option C.',
+    contrast: 'If the question had said the incoming partner takes the share in the old ratio, option A would be right. It states a new ratio, so option C.',
+    others: [
+      { index: 1, why: 'Illustrative: this is the gaining ratio, the new share minus the old share, so it turns the subtraction around.' },
+      { index: 3, why: 'Illustrative: this treats the incoming partner’s share as equal, which the question does not say.' },
+    ],
+    rule: 'Illustrative: sacrifice = old share − new share, for each partner.',
+    memory_hook: 'Sacrifice is what you had, minus what you keep.',
+    another_way: 'Illustrative: put every share over 10 first. Old shares 6 and 4, new shares 4 and 4, so the sacrifice is 2 and 0. Only one partner gives anything up.',
+  },
+};
+
+// A v3 Mistake Repair payload (fixture text, no model call, no credit). `stored` is the free reopen. ARC-18: `idea` picks what it is
+// about, the practice link names that idea's chapter, `wallet` is the total after this repair (from the chip's own balance), and
+// Mobi's job is sent as the v13 server sends it (src/services/recovery/repairFlow.js), so the preview shows check 1 then check 2.
+export function fixtureRepairV3({ stored = false, idea = 'arrears', practiceChapter = null, wallet = null } = {}) {
+  const I = REPAIR_IDEAS[idea] || REPAIR_IDEAS.arrears;
+  const chapter = practiceChapter || I.chapter;
+  const chapterParam = encodeURIComponent(chapter).replace(/%20/g, '+');
   const practiceHref = `/test?subject=accountancy&mode=quick&count=5&chapter=${chapterParam}&recoveryFrom=fixture-attempt`;
   return {
-    ok: true, status: stored ? 'stored' : 'explained', charged: stored ? 0 : 1, wallet: stored ? null : { total: 67, state: 'available' },
+    ok: true, status: stored ? 'stored' : 'explained', charged: stored ? 0 : 1, wallet: stored ? null : wallet,
     chosenIndex: 0, keyIndex: 2, practiceHref,
-    practiceAction: { type: 'practice', subject: 'accountancy', chapter: practiceChapter, mode: 'quick', count: 5, attemptId: 'fixture-attempt' },
-    pattern: { line: 'Since 9 Oct, 2 of your 3 repairs in Share Capital had this trap.', scope: 'chapter', k: 2, n: 3, trapType: 'wrong_rule' },
+    practiceAction: { type: 'practice', subject: 'accountancy', chapter, mode: 'quick', count: 5, attemptId: 'fixture-attempt' },
+    mobi: fixJob({ repair: { trap_type: 'wrong_rule' }, question: { options: I.options || ['Option A', 'Option B', 'Option C', 'Option D'] }, chosenIndex: 0, keyIndex: 2,
+      history: { caught: 2, chances: 3, line: 'This trap has caught you 2 times in 3 chances. This fix is aimed at it.' } }),
+    pattern: { line: `Since 9 Oct, 2 of your 3 repairs in ${chapter} had this trap.`, scope: 'chapter', k: 2, n: 3, trapType: 'wrong_rule' },
     repair: {
       version: 3, trap_type: 'wrong_rule',
-      trap: 'Illustrative: option A applies the old ratio. It is the first ratio in the question, and it is the right rule in the most common textbook case.',
-      why_wrong: 'Illustrative: here a new ratio is stated, so each partner gave up a different share. Using the old ratio assumes both gave up shares in 3:2.',
-      why_right: 'Illustrative: sacrifice is old share minus new share, worked out for each partner. That gives the key, option C.',
-      contrast: 'If the question had said the incoming partner takes the share in the old ratio, option A would be right. It states a new ratio, so option C.',
-      others: [
-        { index: 1, why: 'Illustrative: this is the gaining ratio, the new share minus the old share, so it turns the subtraction around.' },
-        { index: 3, why: 'Illustrative: this treats the incoming partner’s share as equal, which the question does not say.' },
-      ],
-      rule: 'Illustrative: sacrifice = old share − new share, for each partner.',
-      memory_hook: 'Sacrifice is what you had, minus what you keep.',
-      another_way: 'Illustrative: put every share over 10 first. Old shares 6 and 4, new shares 4 and 4, so the sacrifice is 2 and 0. Only one partner gives anything up.',
-      why_tempting: 'Illustrative: option A applies the old ratio.', key_idea: 'Illustrative: sacrifice = old share − new share, for each partner.',
+      trap: I.trap, why_wrong: I.why_wrong, why_right: I.why_right, contrast: I.contrast, others: I.others,
+      rule: I.rule, memory_hook: I.memory_hook, another_way: I.another_way,
+      why_tempting: I.trap, key_idea: I.rule,
       model: 'fixture', generatedAt: new Date().toISOString(),
     },
   };
@@ -281,13 +325,30 @@ export function fixtureRepairV3({ stored = false, practiceChapter = 'Share Capit
 
 // ---------- Slice 3: Across your mocks, the Rule book, the rule check, repair order ----------
 
+// ARC-18 (R8): the two committed contracts disagree on the oldest mock's never-opened count (Across: 7, 6 and 4; the Rule book: 4, 6
+// and 4, which its own interval, 14 of 150, sums). The preview reads one set of numbers for both, the Rule book's, so Radar and Your
+// rules agree. The committed fixtures stay as they are for their own tests.
+const NEVER_OPENED = (() => {
+  const m = /Never opened: (\d+), (\d+) and (\d+) of (\d+)/.exec(JSON.stringify(RULES));
+  return m ? { counts: [Number(m[1]), Number(m[2]), Number(m[3])], of: Number(m[4]) } : null;
+})();
+
 /** Across your mocks in one of its three states: the committed contract (ready), or the none and below-gate shells. */
 export function fixtureAcross(state = 'ready') {
   const A = LAB_COPY.across;
   const shell = (s, mocks, message) => ({ version: 1, state: s, title: A.title, mocks, message, basis: null, lines: [], more: [], showAll: null, showFewer: A.showFewer });
   if (state === 'none') return shell('none', 0, A.none);
   if (state === 'below_gate') return shell('below_gate', 1, A.belowGate.one);
-  return JSON.parse(JSON.stringify(ACROSS));
+  const across = JSON.parse(JSON.stringify(ACROSS));
+  if (NEVER_OPENED) {
+    const [a, b, c] = NEVER_OPENED.counts;
+    for (const line of [...(across.lines || []), ...(across.more || [])]) {
+      if (line?.id !== 'never_opened') continue;
+      line.text = line.text.replace(/\d+, \d+ and \d+ of \d+/, `${a}, ${b} and ${c} of ${NEVER_OPENED.of}`);
+      line.marks = (a + b + c) * 5;
+    }
+  }
+  return across;
 }
 
 /** The Rule book in a state: 'ready' (the contract), 'few' (repairs only; the habits below their gate), 'new' (nothing yet). */

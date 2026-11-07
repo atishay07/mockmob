@@ -17,6 +17,8 @@ import { reviewBody } from '@/../data/review_input.mjs';
 import { SUBJECTS } from '@/../data/subjects';
 import { fixtureRepairV3 } from './previewMock';
 import { fixtureCheckField } from './previewRepairCheck';
+import { previewOneTotal } from './previewChip';
+import { fixJob } from '@/../data/mobi_fix.js';
 
 // Pass 1018 (REVIEW-RESULT-1018 P-RR1): the mocks' student and its states. ?review=student1018 (default) | one | done | zero.
 const one1018 = { ...student1018, papers: student1018.papers.filter((p) => p.id === 'm3'), items: student1018.items.filter((i) => i.paper === 'm3'), chapterQuestions: { m3: student1018.chapterQuestions.m3 } };
@@ -54,12 +56,15 @@ const EXPLAIN = {
 const KEY_INDEX = 1;
 const LETTER = 'ABCD';
 function repairFor(item, opts) {
-  const base = fixtureRepairV3(opts);
+  const base = fixtureRepairV3({ idea: 'sacrifice', ...opts });
   const chosenIndex = item?.pick && LETTER.indexOf(item.pick) >= 0 && LETTER.indexOf(item.pick) !== KEY_INDEX ? LETTER.indexOf(item.pick) : 0;
   const fix = (t) => (typeof t === 'string' ? t.replace(/option C/g, `option ${LETTER[KEY_INDEX]}`).replace(/option A/g, `option ${LETTER[chosenIndex]}`) : t);
   const r = base.repair || {};
+  // ARC-18: Mobi's job names this question's own options (the base fixture is written around the result's Q42).
+  const options = (item && OPTIONS[item.ch]) || GENERIC;
+  const mobi = base.mobi ? fixJob({ repair: { trap_type: 'wrong_rule' }, question: { options }, chosenIndex, keyIndex: KEY_INDEX, history: base.mobi.history }) : base.mobi;
   return {
-    ...base, chosenIndex, keyIndex: KEY_INDEX,
+    ...base, chosenIndex, keyIndex: KEY_INDEX, mobi,
     repair: { ...r, trap: fix(r.trap), why_right: fix(r.why_right), contrast: fix(r.contrast), why_tempting: fix(r.why_tempting), others: (r.others || []).map((o) => ({ ...o, index: o.index === KEY_INDEX ? 2 : o.index, why: fix(o.why) })) },
   };
 }
@@ -73,7 +78,12 @@ function record() {
   const mem = (window.__previewReview ||= { key: null, repaired: new Map(), spent: 0 });
   if (mem.key !== k) Object.assign(mem, { key: k, repaired: new Map(), spent: 0 });
   const items = base.items.map((i) => (mem.repaired.has(`${i.paper}:${i.q}`) ? { ...i, state: 'repaired', repairedAt: mem.repaired.get(`${i.paper}:${i.q}`) } : i));
-  const wallet = base.wallet ? { ...base.wallet, aiCredits: Number.isFinite(base.wallet.aiCredits) ? base.wallet.aiCredits - mem.spent : base.wallet.aiCredits } : base.wallet;
+  // ARC-18 (one balance, D78): the page reads the same total the top bar chip reads (previewOneTotal), less the repairs this tab paid
+  // for anywhere in the preview, so "Uses N of your M" and "You have N" equal the chip. ?review=zero keeps its empty wallet.
+  const one = previewOneTotal(new URLSearchParams(window.location.search));
+  const spent = window.__previewRepairIds?.size || 0;
+  const shared = (v) => (Number.isFinite(v) && v > 0 && one !== null ? Math.max(0, one - spent) : v);
+  const wallet = base.wallet ? { ...base.wallet, aiCredits: shared(base.wallet.aiCredits), practiceCredits: shared(base.wallet.practiceCredits) } : base.wallet;
   return { ...base, items, wallet };
 }
 
@@ -146,6 +156,7 @@ export function previewReview(url, method, init, fixture, json) {
     return new Promise((resolve) => setTimeout(() => {
       mem.repaired.set(`${item.paper}:${item.q}`, new Date(Date.parse(rec.now)).toISOString());
       mem.spent += 1;
+      (window.__previewRepairIds ||= new Set()).add(body.requestId || `review-${item.paper}-${item.q}`);
       resolve(json({ ...repairFor(item, { stored: false, practiceChapter: chapter }), wallet: { total: rec.wallet.aiCredits - 1, state: 'available' }, ...(check ? { check } : {}) }));
     }, 900));
   }
