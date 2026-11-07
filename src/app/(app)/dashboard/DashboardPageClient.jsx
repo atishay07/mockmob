@@ -456,7 +456,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     if (id === 'full' && firstFullState === FIRST_FULL_MOCK_STATE.available) return { text: FIRST_FULL_MOCK_COPY.short, tone: 'included' };
     if (id === 'full' && !firstFullState) return { text: '', tone: 'cost' };
     // Quick practice is priced by its question count (1 credit a question); a Full mock is a fixed price.
-    if (TEST_MODES[id].creditPerQuestion) return { text: `${TEST_MODES[id].creditPerQuestion} a question`, tone: 'cost' };
+    // R8 PRAC-13: the unit is said, as on Pricing ("1 credit a question").
+    if (TEST_MODES[id].creditPerQuestion) { const n = TEST_MODES[id].creditPerQuestion; return { text: `${n} ${n === 1 ? 'credit' : 'credits'} a question`, tone: 'cost' }; }
     return { text: `${TEST_MODES[id].creditCost} ${TEST_MODES[id].creditCost === 1 ? 'credit' : 'credits'}`, tone: 'cost' };
   };
   const minutes = (() => {
@@ -568,14 +569,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <div>
           <h1 className="display-md">What are we practising?</h1>
           <p className="sr-only">Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
-          {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
-              not again here (release 9: it was stated about four times in the first fold). */}
-          {/* Pro: no pill and no access sentence up here (R2 phone-clarity 14, R3 X5). */}
-          {isPremium ? null : (
-            <p className="pr-head__credits">
-              <CreditAmount kind="practice" amount={balance} unit unitLabel="credits" size={15} />
-            </p>
-          )}
+          {/* R8 PRAC-15 / CONT-16: no balance pill here. The top bar's credits chip (the Wallet link) shows the balance at every
+              width, so the pill printed the same number twice in the first fold, in the slot where the next action leads. The
+              price stays on every mode tile and the card's Cost line. */}
           <PracticeMobChip userId={user?.id} />
         </div>
       </header>
@@ -788,7 +784,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             <div className="pr-ticket__fine" role="group" aria-labelledby="pr-ticket-fine">
               <div className="pr-ticket__fine-head">
                 <span id="pr-ticket-fine"><SlidersHorizontal size={15} strokeWidth={2} aria-hidden="true" />Fine-tune</span>
-                {scope.chapters || scope.difficulty ? <button type="button" className="pr-ticket__edit" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>Edit<span className="sr-only"> fine-tune</span></button> : null}
+                {scope.chapters || scope.difficulty ? <button type="button" className="pr-ticket__edit" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>Choose<span className="sr-only"> what to fine-tune</span></button> : null}
               </div>
               <dl>
                 <div><dt>Chapters</dt><dd>{scope.chapters ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('chapters')}>{chapterValue}</button> : chapterValue}</dd></div>
@@ -811,7 +807,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 <button type="button" className="pr-bar__fine" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>
                   <SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" />
                   <span className="pr-bar__fine-text"><b>Fine-tune</b> {scope.chapters ? `${sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `all ${chapterTotal}` : 'all'} chapters, ` : ''}{difficultyValue.toLowerCase()} level</span>
-                  <span className="pr-bar__fine-edit">Edit</span>
+                  <span className="pr-bar__fine-edit">Choose</span>
                 </button>
               ) : (
                 <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'your weak topics, nothing to choose' : 'built the NTA way, nothing to choose'}</span></p>

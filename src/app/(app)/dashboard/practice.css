@@ -570,6 +570,19 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-bar__fine-edit { flex: none; padding: 4px 10px; border: 1px solid var(--a-line-strong); border-radius: 8px; font-weight: 700; color: var(--a-ink); }
   .app-shell .pr .pr-bar__fine:active:not([data-static]) .pr-bar__fine-edit { background: var(--a-hover); scale: 0.96; }
   .app-shell .pr .pr-bar__fine:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
+  /* R8 PRAC-10: while the Fine-tune block is on screen above the bar, the bar's Fine-tune line steps aside, so the same
+     setting is never shown twice and the bar never sits over the block's own "Choose chapters". Pure CSS (a view timeline on
+     the block, read by the line), so Practice keeps no scroll script of its own (F12). The line folds over the first and
+     last stretch of the block's pass, tied to the finger; where view timelines are not supported it simply stays. */
+  @supports (animation-timeline: view()) {
+    .app-shell .pr { timeline-scope: --pr-fine; }
+    .app-shell .pr #pr-fine { view-timeline: --pr-fine block; view-timeline-inset: 0px 150px; }
+    .app-shell .pr .pr-bar__fine:not([data-static]) { overflow: hidden; animation: pr-fine-away linear both; animation-timeline: --pr-fine; animation-range: cover 0% cover 100%; }
+  }
+}
+@keyframes pr-fine-away {
+  0%, 100% { max-height: 52px; min-height: 44px; opacity: 1; visibility: visible; }
+  7%, 93% { max-height: 0; min-height: 0; opacity: 0; border-bottom-color: transparent; visibility: hidden; }
 }
 
 /* ---------- Head: the balance and the two prices, one line under the lede ---------- */
