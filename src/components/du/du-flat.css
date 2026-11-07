@@ -100,6 +100,8 @@
 /* The planner's sticky outcome bar sits under the nav like the calculator's; the link to the calculator reads as a link. */
 .cp .cp-sum { margin-bottom: 1rem; scroll-margin-top: 5rem; }
 .cp .cp-step { scroll-margin-top: 8rem; }
+/* R8 PUB-04: below 1100 px a jump lands under the nav and the two-line summary bar with a 1.25rem gap (combo-planner.css). */
+@media (max-width: 1099px) { .cp .cp-step { scroll-margin-top: calc(3.9rem + 4.25rem + 1.25rem); } }
 .cp .cp-combo__go { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
 /* Search fields on phones: the field stays below the sticky header when scrolled into view, and the

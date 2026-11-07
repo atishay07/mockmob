@@ -78,19 +78,23 @@ export default function ComboPlanner() {
   );
 
   const goTo = (ref) => ref.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
-  const best = ranked[0];
+  // R8 PUB-11: with no targets, a combination that opens no DU programme at all is noise; it is not listed or counted. With
+  // targets it stays, since its missed-target lines say what to add.
+  const shown = targets.length ? ranked : ranked.filter((r) => r.unlocked > 0);
+  const best = shown[0];
   return (
     <div className="cp">
-      {/* Phones and tablets: once a subject is ticked, the outcome stays in view, as on the cutoff calculator. */}
-      {pool.length ? (
-        <div className="du-sum cp-sum" role="region" aria-label="Your combinations">
-          <p><strong className="mm-measure">{ranked.length}</strong><span>{ranked.length === 1 ? 'combination' : 'combinations'}{best ? `, best fit ${best.items.length} ${best.items.length === 1 ? 'paper' : 'papers'}` : ''}</span></p>
-          <div>
-            <button type="button" onClick={() => goTo(listRef)}>Edit<span className="du-sum__long"> subjects</span></button>
-            <button type="button" data-primary onClick={() => goTo(resultsRef)}>View combinations</button>
-          </div>
+      {/* Phones and tablets: once a subject is ticked, the outcome stays in view, as on the cutoff calculator. R8 PUB-11: the bar is
+          the page's one volt while it shows (data-dock-yield: the phone dock steps aside), so it is always mounted for the dock to
+          watch, and hidden until a subject is ticked. R8 PUB-04: the best fit is its own short second line, so the bar stays two
+          lines tall on a phone instead of wrapping to three. */}
+      <div className="du-sum cp-sum" role="region" aria-label="Your combinations" data-dock-yield="" hidden={!pool.length}>
+        <p><strong className="mm-measure">{shown.length}</strong><span>{shown.length === 1 ? 'combination' : 'combinations'}{best ? <small><span className="du-sr">, </span>best fit {best.items.length} {best.items.length === 1 ? 'paper' : 'papers'}</small> : null}</span></p>
+        <div>
+          <button type="button" onClick={() => goTo(listRef)}>Edit<span className="du-sum__long"> subjects</span></button>
+          <button type="button" data-primary onClick={() => goTo(resultsRef)}>View combinations</button>
         </div>
-      ) : null}
+      </div>
       <section className="cp-step" aria-labelledby="cp-s1">
         <h2 id="cp-s1" className="cp-step__title">Where do you want to go?</h2>
         <p className="cp-step__hint">Pick up to {MAX_TARGETS} DU programmes. {targets.length} chosen.</p>
@@ -141,9 +145,10 @@ export default function ComboPlanner() {
       <section className="cp-step cp-out" aria-labelledby="cp-s3" aria-busy={stale} ref={resultsRef}>
         <h2 id="cp-s3" className="cp-step__title">Your best combinations</h2>
         {!pool.length ? <p className="cp-step__hint">Tick a few subjects, or use a quick start, to see combinations.</p> : null}
+        {pool.length && ranked.length && !shown.length ? <p className="cp-step__hint">None of these combinations opens a DU programme yet. Tick another domain subject.</p> : null}
         {keep.length ? <p className="cp-keep"><b>Do not drop:</b> {keep.map(nameOf).join(', ')}. Every combination that reaches all your targets uses {keep.length === 1 ? 'it' : 'them'}.</p> : null}
         <ol className="cp-list" aria-live="polite">
-          {ranked.map((r, i) => (
+          {shown.map((r, i) => (
             <li key={r.items.map(key).join('|')} className="cp-combo" data-best={i === 0 || undefined}>
               <div className="cp-combo__head">
                 <span className="cp-combo__rank">{i === 0 ? 'Best fit' : `Combination ${i + 1}`}</span>

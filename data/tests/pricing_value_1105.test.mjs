@@ -511,7 +511,8 @@ test('R3-D8, R4: #pricing and /pricing draw one plan, through shared pieces, as 
   assert.doesNotMatch(pricing, /Or start free\.|mm-plans__note/, 'the old Free section folded into the choice');
   // While the choice is on screen it carries both keys, so the phone's dock steps aside (R4 review: it covered Free's card).
   assert.match(pricing, /<section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">/);
-  assert.match(read('src/components/MobileDock.jsx'), /querySelectorAll\('main :is\(\.mm-btn--primary, \.btn-volt, \[data-dock-yield\]\)'\)/);
+  // R8 PUB-11: the same selector, re-scanned as the page mounts its own actions (the combo planner's summary bar).
+  assert.match(read('src/components/MobileDock.jsx'), /const VOLT_SELECTOR = 'main :is\(\.mm-btn--primary, \.btn-volt, \[data-dock-yield\]\)';[\s\S]*document\.querySelectorAll\(VOLT_SELECTOR\)/);
   assert.doesNotMatch(pricing, /function planTerms|\['Smart practice', false, true\]/, 'nothing is copied back into the page');
   assert.equal(compareRows({ newOffer: true, recoveryRows: [['x', true, true]] }).length, 1, 'the new offer brings its own rows');
   assert.deepEqual(planTerms(monthly()), { renew: 'Renews every month. Cancel any time.', dock: '₹99 a month. Cancel any time.', soon: null });
