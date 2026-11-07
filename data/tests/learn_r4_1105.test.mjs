@@ -228,7 +228,8 @@ test('A2 wired in the Learn run and Key cards Study; keys kept; reduced motion t
   assert.match(hook, /if \(e\.target\?\.closest\?\.\(INTERACTIVE\)\) return;/, 'a press on a key or the menu is never a drag');
   const run = code('src/components/learn2/run/RunPlayer.jsx');
   assert.match(run, /const canDrag = phase === 'play' && item\?\.type === 'card' && isTurned && !look && !isRecap;/);
-  assert.match(run, /useRateSwipe\(\{ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate \}\)/);
+  // R8 LEARN-03 adds the one-time demo (demo: the drag coach line is showing); the enabling rule is unchanged.
+  assert.match(run, /useRateSwipe\(\{ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate, demo: demoWanted \}\)/);
   assert.match(run, /const r = RATINGS\.find\(\(x\) => x\.key === e\.key\);/, 'the 1 2 3 keys stay');
   assert.match(run, /data-lit=\{drag\.intent && SWIPE_RATINGS\[drag\.intent\] === r\.rating/);
   assert.match(code('src/components/learn2/run/RunParts.jsx'), /\{swipe \? <SwipeLabels \/> : null\}/);
