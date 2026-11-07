@@ -18,7 +18,7 @@ import ScrollStory from './ScrollStory';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { RECOVERY_STEPS } from './homeCopy.mjs';
-import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger } from './labStory.mjs';
+import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, labStory, marksLedger } from './labStory.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
 const SESSION = STORY.map((r) => ({
@@ -32,6 +32,8 @@ const SESSION = STORY.map((r) => ({
 const MARK = { right: MARKS.right, wrong: MARKS.wrong, skip: MARKS.blank };
 const PACE = clock(PAPER_PACE_SEC);
 const LEDGER = marksLedger();
+// The next move is the Lab SWOT's first set (labStory.mjs), so the Lab, Ask Mobi in the tour and this step name one step (R8 SEC-03).
+const FIRST_SET = labStory().swot.plan[0].label;
 const qList = (qs) => (qs.length > 1 ? `${qs.slice(0, -1).map((n) => `Q${n}`).join(', ')} and Q${qs.at(-1)}` : `Q${qs[0]}`);
 const ABOUT = {
   changed_from_right: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} right until you changed ${qs.length > 1 ? 'them' : 'it'}.`,
@@ -293,7 +295,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <section className="ml__panel" data-active={step === 2} aria-hidden={step !== 2} inert={step !== 2 ? true : undefined} aria-label="Get one next move">
             <p className="ml__eyebrow">Your next move</p>
             <div className="ml__move">
-              <h3>Try 10 questions. {LEDGER.doLine}</h3>
+              <h3>{FIRST_SET}. {LEDGER.doLine}</h3>
               <p className="ml__why">Why this: {LEDGER.headline}</p>
               <div className="ml__where" aria-label="Shown in">
                 <span>Today</span><span>Your papers</span><span>Ask Mobi</span><span>Results</span>
