@@ -14,6 +14,9 @@ import { stampFigure } from '@/lib/motion/stampFigure';
 import { earnsRing } from '@/lib/motion/stampPlan';
 import { heroAct } from './heroAct.mjs';
 
+// R8 PRAC-14: the receipt never breaks a time from its AM / PM, or a duration between its minutes and seconds.
+const keepTogether = (text) => (typeof text === 'string' ? text.replace(/(\d)[ \u202f](AM|PM|am|pm)(?![a-z])/g, '$1\u00a0$2').replace(/(\d+m) (\d+s)/g, '$1\u00a0$2') : text);
+
 // The score arrives as the app's finish does (owner LK95, 5 Nov: "how to build UI exactly like the app, animations"):
 // on the first open each digit rolls up into its own slot (RollNumber, the app's MonumentalNumber, left to right, at the owner's
 // 720 ms result tempo (G31, 19 Oct: a quicker roll felt rushed), once the page has settled, so the page's arrival never swallows it, G31), and the figure is stamped as the
@@ -60,7 +63,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
     <header className="rp-hero rh" data-mobi={reaction ? undefined : 'none'} data-arrive={arrive || undefined}>
       {reaction ? <div className="rp-hero__pip rh-pip"><MobiReact act={heroAct(reaction.act)} size={96} label={reaction.alt} still={holdStill} /></div> : null}
       <div className="rp-hero__main">
-        <p className="rp-eyebrow">{receipt}</p>
+        <p className="rp-eyebrow">{keepTogether(receipt)}</p>
         <h1 className="rp-hero__score" aria-label={`${marks.scored} of ${marks.max} ${unit}`}>
           <Score value={Math.abs(marks.scored)} negative={marks.scored < 0} tone={tone} run={arrive && celebrations !== 'off'}
             ring={celebrations === 'full' && !nta && earnsRing(marks)} /><span>/ {marks.max} {unit}</span>

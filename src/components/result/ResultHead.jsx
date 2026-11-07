@@ -6,6 +6,9 @@
 import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 
+// R8 PRAC-14: the receipt never breaks a time from its AM / PM, or a duration between its minutes and seconds.
+const keepTogether = (text) => (typeof text === 'string' ? text.replace(/(\d)[ \u202f](AM|PM|am|pm)(?![a-z])/g, '$1\u00a0$2').replace(/(\d+m) (\d+s)/g, '$1\u00a0$2') : text);
+
 const still = () => {
   try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
 };
@@ -36,7 +39,7 @@ export default function ResultHead({ receipt, marks, finding, notice = null, onN
   const tone = marks.scored < 0 ? 'bad' : undefined;
   return (
     <div className="rx-head" data-arrive={arrive || undefined}>
-      <p className="rx-receipt">{receipt}</p>
+      <p className="rx-receipt">{keepTogether(receipt)}</p>
       <h1 className="rx-score" aria-label={`${marks.scored} of ${marks.max} ${unit}`}>
         <b data-tone={tone}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} run={arrive} /></b>
         <span>/ {marks.max} {unit}</span>
