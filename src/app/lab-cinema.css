@@ -561,3 +561,16 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc .lc__obj { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }
+
+/* R8 (SEC-06, 8 Nov 2026): one "where am I" cue. The story's progress already runs in the phone bottom bar's segments and
+   the desktop band's rule, so the rail marks only the scene on stage: its underline (phones) or its stretch of the rail's
+   line (wide) moves from scene to scene and passed scenes no longer stay filled. On a wide window the device's own
+   Time / Changes / Repair / SWOT tabs repeated the rail beside it, so they step aside while the rail is shown, and the
+   screen starts under the title row. */
+.lc[data-pinned='true'] .lc__rail-meter .ss-fill[data-state='done'] { transform: scaleX(0); }
+@media (max-width: 959px) { .lc .lc__rail-meter { background: transparent; } }
+@media (min-width: 960px) and (min-height: 600px) {
+  .lc[data-pinned='true'] .lc__rail-meter .ss-fill[data-state='done'] { transform: scaleY(0); }
+  .lc[data-pinned='true'] .lcd__tabs { display: none; }
+  .lc[data-pinned='true'] { --lcd-chrome: calc(var(--lc-obj) + 0.85rem); }
+}

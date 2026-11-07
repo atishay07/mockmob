@@ -198,3 +198,8 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px r
   .ml-story[data-pinned='true'] .ml__caption { display: none; }
   .ml-story[data-pinned='true'] .ml__steps button { min-height: 44px; }
 }
+
+/* R8 (SEC-06, 8 Nov 2026): held, the step buttons mark only the step on stage (its underline); the story's progress is the
+   phone bottom bar's segments and the desktop band's rule, so passed steps no longer stay filled. */
+.ml-story[data-pinned='true'] .ml__bar b.ss-fill[data-state='done'] { transform: scaleX(0); }
+.ml-story[data-pinned='true'] .ml__steps li:not([data-active='true']) .ml__bar { background: transparent; }
