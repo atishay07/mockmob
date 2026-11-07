@@ -236,7 +236,67 @@ function bindSwipe(el, { enabledRef, rateRef, setIntent }) {
   };
 }
 
-export function useRateSwipe({ enabled = true, onRate } = {}) {
+// R8 LEARN-03: the gesture shown once (owner D90: a first-timer "won't know what ... swipe left and swipe right mean"). On the card
+// where the drag coach line first shows, after the turn settles, the card leans right with its "Got it" pill, comes home, leans
+// left with "Missed it", and comes home again (about 1.6 s, the pills the real drag uses). Once per device, in the run and in Key
+// cards Study alike; the first touch or key cancels it; never under reduced motion (there the gesture itself is off and the keys
+// rate). The keys stay the visible path the whole time.
+export const SWIPE_DEMO_KEY = 'mm:keycards:swipe-demo:v1';
+const DEMO_DELAY_MS = 520;
+const demoSeen = () => { try { return localStorage.getItem(SWIPE_DEMO_KEY) === '1'; } catch { return true; } };
+const markDemo = () => { try { localStorage.setItem(SWIPE_DEMO_KEY, '1'); } catch { /* shown again next time */ } };
+const easeOut = (t) => 1 - (1 - t) ** 3;
+const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+// x px, lean deg, --swipe-p, ms, curve; a step with `intent` shows that pill.
+const DEMO_STEPS = [
+  { intent: 'right', x: 28, r: 4, p: 0.75, ms: 380, ease: easeOut },
+  { x: 0, r: 0, p: 0, ms: 300, ease: easeInOut },
+  { x: 0, r: 0, p: 0, ms: 140, ease: easeOut },
+  { intent: 'left', x: -28, r: -4, p: 0.75, ms: 380, ease: easeOut },
+  { x: 0, r: 0, p: 0, ms: 300, ease: easeInOut },
+];
+
+/** Plays the demo on a card element; returns cancel(). Transform (translate, rotate) and the pill's opacity only. */
+export function playSwipeDemo(el) {
+  if (!el?.style) return () => {};
+  let raf = 0;
+  let step = 0;
+  let from = { x: 0, r: 0, p: 0 };
+  let t0 = 0;
+  el.dataset.swipeDemo = '';
+  const finish = () => {
+    cancelAnimationFrame(raf);
+    el.removeEventListener('pointerdown', finish, true);
+    window.removeEventListener('keydown', finish, true);
+    if (el.dataset.swipeDemo === undefined) return;
+    delete el.dataset.swipeDemo;
+    if (!el.dataset.swipe) clearSwipe(el);
+  };
+  const frame = (now) => {
+    if (!t0) t0 = now;
+    const s = DEMO_STEPS[step];
+    if (s.intent) el.dataset.swipeIntent = s.intent;
+    const k = s.ease(Math.min(1, (now - t0) / s.ms));
+    const x = from.x + (s.x - from.x) * k;
+    const r = from.r + (s.r - from.r) * k;
+    const p = from.p + (s.p - from.p) * k;
+    applyPose(el, { x: Math.round(x * 10) / 10, y: 0, r: Math.round(r * 100) / 100 });
+    el.style.setProperty('--swipe-p', String(Math.round(p * 100) / 100));
+    if (now - t0 >= s.ms) {
+      from = { x: s.x, r: s.r, p: s.p };
+      step += 1;
+      t0 = now;
+      if (step >= DEMO_STEPS.length) { finish(); return; }
+    }
+    raf = requestAnimationFrame(frame);
+  };
+  el.addEventListener('pointerdown', finish, true);
+  window.addEventListener('keydown', finish, true);
+  raf = requestAnimationFrame(frame);
+  return finish;
+}
+
+export function useRateSwipe({ enabled = true, onRate, demo = false } = {}) {
   const [el, setEl] = useState(null);
   const [live, setLive] = useState(false); // the gesture exists here (a client without reduced motion)
   const [intent, setIntent] = useState(null);
@@ -255,6 +315,18 @@ export function useRateSwipe({ enabled = true, onRate } = {}) {
   // Down is offered to a touch only while the whole card is in view (then a touch on it is ours, not the page's scroll).
   useEffect(() => (el && live && enabled ? watchDown(el, setDownOk) : undefined), [el, live, enabled]);
   useEffect(() => (el && live ? bindSwipe(el, { enabledRef, rateRef, setIntent }) : undefined), [el, live]);
+
+  // R8 LEARN-03: the one-time demo, once the turned card has settled (see playSwipeDemo).
+  useEffect(() => {
+    if (!el || !live || !enabled || !demo || demoSeen()) return undefined;
+    let cancel = null;
+    const t = window.setTimeout(() => {
+      if (!el.isConnected || demoSeen() || el.dataset.swipe) return;
+      markDemo();
+      cancel = playSwipeDemo(el);
+    }, DEMO_DELAY_MS);
+    return () => { window.clearTimeout(t); cancel?.(); };
+  }, [el, live, enabled, demo]);
 
   return { ref, live: live && enabled, intent, downOk };
 }

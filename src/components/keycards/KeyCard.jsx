@@ -288,13 +288,14 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
 
   // LK137: a turned card can be dragged to rate it (Study only; the keys stay). A swipe that rated retires the hint.
   const [swiped, setSwiped] = useState(false);
-  const swipe = useRateSwipe({ enabled: swipeOn && revealed && !busy && !reporting, onRate: async (rating) => { const ok = await rate(rating); if (ok) { setSwiped(true); hintMark(99); } return ok; } });
+  const [hint, setHint] = useState(false);
+  // R8 LEARN-03: while the drag line shows, the turned card also shows the gesture once (per device; see useRateSwipe).
+  const swipe = useRateSwipe({ enabled: swipeOn && revealed && !busy && !reporting, demo: hint && !swiped, onRate: async (rating) => { const ok = await rate(rating); if (ok) { setSwiped(true); hintMark(99); } return ok; } });
   const cardEl = useRef(null);
   const swipeRef = swipe.ref;
   const setCard = useCallback((node) => { cardEl.current = node; swipeRef(node); }, [swipeRef]);
   // A player reused for the next card (no key) starts that card unmoved.
   useEffect(() => () => clearSwipe(cardEl.current), [card.id]);
-  const [hint, setHint] = useState(false);
   useEffect(() => {
     if (!swipe.live) return;
     const n = hintSeen();
