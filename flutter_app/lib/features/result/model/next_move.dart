@@ -159,6 +159,8 @@ class MoveAlt {
   final AltKind kind;
   final String label;
 
+  MoveAlt withLabel(String label) => MoveAlt(kind: kind, label: label, detail: detail, qid: qid, number: number, chapter: chapter);
+
   /// One line under the link on what it gives and costs, said before it is tapped (a repair offered
   /// beside a chapter set). Not part of the cross-platform fixtures; null when the label says it all.
   final String? detail;
@@ -207,6 +209,23 @@ class ResultMove {
 
   /// "All 4 repairs take about 15 minutes."
   final String? note;
+
+  /// The same move with its alternative relabelled (the result's one repair scope, D15) or its cost line taken from
+  /// the live quote (R8 APP-04: the Start sheet, the result and the repair agree on free or paid).
+  ResultMove copyWith({String? altLabel, String? cost}) => ResultMove(
+    kind: kind,
+    rule: rule,
+    label: label,
+    why: why,
+    value: value,
+    cost: cost ?? this.cost,
+    late: late,
+    alt: altLabel == null ? alt : alt?.withLabel(altLabel),
+    note: note,
+    qid: qid,
+    number: number,
+    chapter: chapter,
+  );
 
   /// The mistake a repair or a check opens.
   final String? qid;
@@ -410,9 +429,13 @@ String repairCostLine(int? aiCredits) => ['1 credit.', ?haveLine(aiCredits), 'No
 
 /// The cost of a 10-question chapter set: Pro covers it; otherwise its credits and the balance. One credits balance
 /// (D78): "credits", never "practice credits" beside a repair's "credit".
-String practiceCostLine({bool isPremium = false, int? practiceCredits}) {
+///
+/// With the set's own quote ([freeToday], [cost]) the line says what the Start sheet says for the same student: "Free
+/// today." when the daily allowance covers it, otherwise the quote's price.
+String practiceCostLine({bool isPremium = false, int? practiceCredits, bool freeToday = false, int? cost}) {
   if (isPremium) return 'Pro covers this set.';
-  return ['This set uses ${NextMoveRules.practiceCost} credits.', ?haveLine(practiceCredits)].join(' ');
+  if (freeToday) return 'Free today.';
+  return ['This set uses ${cost ?? NextMoveRules.practiceCost} credits.', ?haveLine(practiceCredits)].join(' ');
 }
 
 /// The one next move, first rule that applies:

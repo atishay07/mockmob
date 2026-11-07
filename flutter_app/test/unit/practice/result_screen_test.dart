@@ -97,7 +97,7 @@ void main() {
     // K7: "Your paper is saved," the score, the sheet. Opened again, the sheet is at its end: saved, with when.
     expect(find.byType(FinishStage), findsOneWidget);
     expect(find.text('Your paper is saved.'), findsOneWidget);
-    expect(find.text('Accountancy practice, 10 questions on Admission of a partner. Recorded at 11:51 PM.'), findsOneWidget);
+    expect(find.text('Accountancy practice, 10 questions on Admission of a partner. Recorded at 11:51\u00A0PM.'), findsOneWidget);
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
     expect(find.text('of 50 marks'), findsOneWidget);
@@ -171,7 +171,7 @@ void main() {
     await tester.pump();
     await frames(tester, ms: 400);
     expect(find.text('Your paper is saved.'), findsOneWidget);
-    expect(find.textContaining('Recorded at 11:51 PM.'), findsOneWidget);
+    expect(find.textContaining('Recorded at 11:51\u00A0PM.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -253,7 +253,7 @@ void main() {
     gate.complete(DateTime(2026, 10, 12, 23, 53));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Accountancy practice, 10 questions. Recorded at 11:53 PM.'), findsOneWidget);
+    expect(find.text('Accountancy practice, 10 questions. Recorded at 11:53\u00A0PM.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -308,11 +308,11 @@ void main() {
     await tester.pump(const Duration(milliseconds: 900));
     final blanks = find.text('1 left blank, 5 marks not earned');
     await bringIn(tester, blanks);
-    expect(find.text('Question 10, Not attempted'), findsNothing);
+    expect(find.text('Question 10, Blank'), findsNothing);
     await tester.tap(blanks);
     await frames(tester);
-    await bringIn(tester, find.text('Question 10, Not attempted'));
-    await tester.tap(find.text('Question 10, Not attempted'));
+    await bringIn(tester, find.text('Question 10, Blank'));
+    await tester.tap(find.text('Question 10, Blank'));
     await tester.pump(const Duration(milliseconds: 300));
     expect(find.text('You did not answer this question.'), findsOneWidget);
     expect(find.byType(MistakeRepairEntry), findsNothing);
@@ -376,7 +376,11 @@ void main() {
     expect(volt, findsOneWidget);
     final repair = find.byKey(const ValueKey('result-foot-repair'));
     expect(repair, findsOneWidget);
-    expect(find.descendant(of: repair, matching: find.text('Repair Q3')), findsOneWidget);
+    // One scope for the repair (R8 APP-02): Mobi's read names Goodwill's wrong answers, so the quiet key repairs that
+    // same set with the same verb ("Repair these N"), not Q3 alone.
+    final repairText = find.descendant(of: repair, matching: find.textContaining('Repair these '));
+    expect(repairText, findsOneWidget);
+    final repairLabel = tester.widget<Text>(repairText).data!;
     expect(tester.getRect(repair).top, greaterThan(tester.getRect(volt).bottom), reason: 'it sits under the volt key');
     final foot = find.byType(ResultFoot);
     expect(find.descendant(of: foot, matching: find.byType(KeyButton)), findsNWidgets(2), reason: 'one volt key and one quiet link');
@@ -386,7 +390,7 @@ void main() {
     await tester.tap(repair);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q3');
-    expect(router.state.uri.queryParameters['count'], '1');
+    expect(repairLabel, 'Repair these ${router.state.uri.queryParameters['count']}');
   });
 
   testWidgets('R4: when the next move is the repair itself there is no second repair key in the foot', (tester) async {
@@ -401,7 +405,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     await tester.tap(find.text('Finish for now'));
     await tester.pump();
-    expect(find.text('Practice finished. Recorded at 11:51 PM.'), findsOneWidget);
+    expect(find.text('Practice finished. Recorded at 11:51\u00A0PM.'), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 1700));
     await tester.pump(const Duration(milliseconds: 300));
     expect(router.state.uri.path, '/today');
@@ -732,8 +736,8 @@ void main() {
       await bringIn(tester, blanks);
       await tester.tap(blanks);
       await frames(tester);
-      await bringIn(tester, find.text('Question 9, Not attempted'));
-      await tester.tap(find.text('Question 9, Not attempted'));
+      await bringIn(tester, find.text('Question 9, Blank'));
+      await tester.tap(find.text('Question 9, Blank'));
       await frames(tester);
       expect(find.textContaining('Ask Mobi about Q'), findsNWidgets(2));
     });

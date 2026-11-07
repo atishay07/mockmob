@@ -45,7 +45,7 @@ void main() {
     expect(r.fixChapter, 'Goodwill');
     // The rest of the reach, because Goodwill is not every wrong answer.
     expect(r.reachNote, 'With every wrong answer right, this paper would have been 50.');
-    expect(PaperReadCopy.fixKey(3), 'Fix these 3');
+    expect(PaperReadCopy.fixKey(3), 'Repair these 3', reason: 'one verb for a repair (R8 APP-02)');
   });
 
   test('strengths are real: a clean chapter, never the chapter that lost the most', () {

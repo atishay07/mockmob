@@ -25,7 +25,7 @@ import '../result/data/move_state.dart';
 import '../result/layers_copy.dart';
 import '../result/model/move_inputs.dart';
 import '../result/model/next_move.dart';
-import '../result/model/paper_read.dart' show chapterHistoryOf, paperReadOf;
+import '../result/model/paper_read.dart' show PaperReadCopy, chapterHistoryOf, paperReadOf;
 import '../result/move_nav.dart';
 import '../result/widgets/fold_section.dart';
 import '../result/widgets/mistake_row.dart';
@@ -35,10 +35,13 @@ import '../review/your_papers_link.dart' show yourPapersLocation;
 import 'copy.dart';
 import '../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import 'data/default_subject.dart' show publicIdOf;
+import 'data/practice_quote.dart' show practiceQuoteProvider;
 import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
 import 'data/result_actions.dart';
+import 'model/cost_line.dart' show CostKind, costLineFor;
 import 'model/finish_reaction.dart' show FinishMarks, FinishTone, finishToneFor;
+import 'model/practice_selection.dart' show PracticeMode, QuoteQuery;
 import 'model/practice_ask.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
@@ -451,7 +454,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final order = moveOrderOf(detail?.lab?.repairOrder);
     final state = MoveState.watch(ref, attemptId: attempt.id, wrongQids: [for (final q in model.wrong) q.qid]);
     final now = ref.watch(nowProvider)();
-    final move = nextMove(
+    final baseMove = nextMove(
       analysis: rows,
       reviews: reviews,
       order: order,
@@ -465,13 +468,17 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       labReady: detail?.lab != null,
       hour: now.hour,
     );
+    // The chapter set's cost from its own quote, as the Start sheet would say it (R8 APP-04): "Free today." while the
+    // daily allowance covers it. Otherwise (or until the quote answers) the price line with the one balance stands.
+    final setQuote = baseMove.kind == MoveKind.practise && !state.isPro
+        ? ref.watch(practiceQuoteProvider(QuoteQuery(subject: subjectId, apiMode: PracticeMode.chapter.apiMode, count: NextMoveRules.setSize))).value
+        : null;
+    final setFree = setQuote != null && costLineFor(setQuote).kind == CostKind.freeToday;
+    final move = setFree ? baseMove.copyWith(cost: practiceCostLine(freeToday: true)) : baseMove;
     // The repair key (R4, walk 19 Oct): after a weak paper the volt key is a chapter set, and the mistake's own
     // "Repair Qn" stays one tap away as a quiet key under it (the panel's text link keeps the cost and the detail).
     final repairAlt = move.kind != MoveKind.repair && move.alt?.kind == AltKind.repair ? move.alt : null;
     final repairTo = repairAlt == null ? null : MoveNav.forAlt(repairAlt, attemptId: attempt.id, subject: subjectId);
-    final repairKey = repairAlt == null || repairTo == null
-        ? null
-        : ResultFootAction(LayersCopy.repairKey(repairAlt.number!), () => _go(repairTo), note: '1 credit.');
     final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
     final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
     final byQid = {for (final q in model.questions) q.qid: q};
@@ -522,6 +529,16 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final onFix = fixable.isEmpty || keysOff
         ? null
         : () => _go(Uri(path: AppRoutes.reviewRepair(attempt.id, fixable.first), queryParameters: {'count': '${fixable.length}'}).toString());
+    // One repair, one scope (D15: "Repair first", "Repair in 1" read as "a very confusing UI"). When Mobi's read
+    // names the mistakes the quiet key would start on, the key, the read and the panel's alternative all repair that
+    // same set, with the same verb: "Repair these 2", 1 credit each.
+    final setScope = repairAlt != null && onFix != null && fixable.length > 1 && fixable.contains(repairAlt.qid);
+    final repairKey = repairAlt == null || repairTo == null
+        ? null
+        : setScope
+        ? ResultFootAction(PaperReadCopy.fixKey(fixable.length), onFix, note: PaperReadCopy.fixNote(fixable.length))
+        : ResultFootAction(LayersCopy.repairKey(repairAlt.number!), () => _go(repairTo), note: '1 credit.');
+    final panelMove = setScope ? move.copyWith(altLabel: PaperReadCopy.orFixFirst(fixable.length)) : move;
 
     // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
     // still counts up.
@@ -556,8 +573,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       // Layer 2: the one next move, why, and what a repair gives before paying.
       const SizedBox(height: MmSpace.s24),
       NextMovePanel(
-        move: move,
+        move: panelMove,
         onAlt: switch (move.alt) {
+          _ when setScope => onFix,
           final alt? => switch (MoveNav.forAlt(alt, attemptId: attempt.id, subject: subjectId)) {
             final to? => () => _go(to),
             null => null,
@@ -728,6 +746,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       chaptersDetail: costliest.tied.length > 1 ? costliest.detail : null,
                                       read: model.hasRows && !failedKeys ? read : null,
                                       onFix: onFix,
+                                      fixOpen: fixable.length,
                                       onSettled: () {
                                         if (mounted && !_settled) setState(() => _settled = true);
                                       },

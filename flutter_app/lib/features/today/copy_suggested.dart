@@ -81,8 +81,8 @@ abstract final class SuggestedCopy {
   static String? repairLine(int? n) => n == null || n <= 0
       ? null
       : n == 1
-          ? 'Fix this mistake now, before it costs you marks again.'
-          : 'Fix these $n mistakes now, before they cost you marks again.';
+          ? 'Repair this mistake now, before it costs you marks again.'
+          : 'Repair these $n mistakes now, before they cost you marks again.';
 
   /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
   static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';

@@ -30,8 +30,8 @@ abstract final class NudgeCopy {
   static const String friendPaidSecondary = 'See invites';
 
   static String repairOpenTitle(int open) => '$open ${open == 1 ? 'mistake is' : 'mistakes are'} waiting to be fixed.';
-  static const String repairOpenLine = 'Fix one before it slips again.';
-  static const String repairOpenKey = 'Fix one now';
+  static const String repairOpenLine = 'Repair one before it slips again.';
+  static const String repairOpenKey = 'Repair one now';
 
   static const String practiceTodayTitle = 'Ten minutes keeps today on your chain.';
   static const String practiceTodayLine = 'A short set counts.';

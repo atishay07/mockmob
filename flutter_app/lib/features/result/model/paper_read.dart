@@ -245,10 +245,14 @@ abstract final class PaperReadCopy {
   static const String tied = 'Tied';
 
   /// The key that repairs what the reach names.
-  static String fixKey(int n) => n == 1 ? 'Fix this one' : 'Fix these $n';
+  /// One verb for a mistake's repair on every screen (D15): "Repair", never "Fix".
+  static String fixKey(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';
   static String fixNote(int n) => n == 1 ? '1 credit.' : '1 credit each.';
   static String fixSpoken(int n, String? chapter) =>
-      n == 1 ? 'Fix this one${chapter == null ? '' : ' in $chapter'}. 1 credit.' : 'Fix these $n${chapter == null ? '' : ' in $chapter'}. 1 credit each.';
+      n == 1 ? 'Repair this one${chapter == null ? '' : ' in $chapter'}. 1 credit.' : 'Repair these $n${chapter == null ? '' : ' in $chapter'}. 1 credit each.';
+
+  /// The chapter set's alternative when it repairs the read's own set: "Or repair these 2 first, 1 credit each".
+  static String orFixFirst(int n) => n == 1 ? 'Or repair this one first, 1 credit' : 'Or repair these $n first, 1 credit each';
 
   static String _pct(double s) => '${(s * 100).round()}%';
 

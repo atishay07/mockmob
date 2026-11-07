@@ -236,6 +236,7 @@ class PaperReadCard extends StatelessWidget {
     this.lead,
     this.leadDetail,
     this.onFix,
+    this.fixOpen,
     this.plain = false,
     this.at,
     this.blockGap = FinishBeats.blockGap,
@@ -255,6 +256,10 @@ class PaperReadCard extends StatelessWidget {
 
   /// Opens the repair of [PaperRead.fixQids]; null hides the key (nothing repairable, keys held).
   final VoidCallback? onFix;
+
+  /// How many of [PaperRead.fixQids] are still open, when the caller knows (a repaired one is not repaired again): the
+  /// key names the run it really opens (R8 APP-02: "Repair these 2" opened a run of 1). Null: all of them.
+  final int? fixOpen;
 
   /// No Mobi (NTA): the heading is the student's own.
   final bool plain;
@@ -280,7 +285,7 @@ class PaperReadCard extends StatelessWidget {
     final type = context.mmType;
     final body = type.body.copyWith(color: colors.ink);
     final r = read;
-    final fixCount = r.fixQids.length;
+    final fixCount = fixOpen ?? r.fixQids.length;
     final blocks = <Widget>[
       if (r.strengths.isNotEmpty)
         _ReadBlock(icon: LucideIcons.trendingUp, label: PaperReadCopy.strengths, tint: colors.goodText, children: [
