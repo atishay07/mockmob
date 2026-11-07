@@ -133,8 +133,10 @@ class _RepairApi implements RepairApi {
   @override
   Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     await Future<void>.delayed(const Duration(milliseconds: 900));
-    final response = demoRepairResponse(demoBook.detail(attemptId), questionId);
+    final response = demoRepairResponse(demoBook.detail(attemptId), questionId, spendable: demoBalance - 1);
     if (response == null) throw const ApiError(status: 404, kind: ApiErrorKind.notFound, code: 'not_found');
+    // The credit is spent only once the repair arrives, as on the server: the one balance then reads one less.
+    demoSpent += 1;
     return response;
   }
 }
@@ -253,8 +255,11 @@ List<Override> _overrides() {
     learnCatalogProvider.overrideWithBuild((ref, notifier) => RemoteState(value: learn.catalog(), fetchedAt: now)),
     quoteRepositoryProvider.overrideWithValue(
       practice.FakeQuoteRepository((s, m, c, p) {
-        if (m == 'full') return practice.creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50);
-        if (m == 'nta') return practice.quoteOf(cost: 50, balance: 120, durationSec: 3600, count: 50, mode: 'nta');
+        // A mock stays walkable in the demo, so its quote launches. It names the balance only when the one balance
+        // covers it: "50 credits. You have 120." beside "You have 46" elsewhere was a false count (R8 APP-05).
+        final mockBalance = demoBalance >= 50 ? demoBalance : null;
+        if (m == 'full') return practice.quoteOf(cost: 50, balance: mockBalance, durationSec: 3600, mode: 'full', count: 50);
+        if (m == 'nta') return practice.quoteOf(cost: 50, balance: mockBalance, durationSec: 3600, count: 50, mode: 'nta');
         return practice.dailyFree(count: c ?? 10);
       }),
     ),
@@ -329,7 +334,11 @@ List<Override> _overrides() {
 
     // Result and Review.
     recapProgressProvider.overrideWith((ref, id) async => null),
-    creditsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: demoAiCredits, fetchedAt: DateTime.now())),
+    // Read again whenever a repair is kept, so "You have N" follows the repair's "1 credit used. N left." (R8 APP-05).
+    creditsRepositoryProvider.overrideWithBuild((ref, n) {
+      ref.watch(repairLocalRecordsProvider);
+      return RemoteState(value: demoAiCredits, fetchedAt: DateTime.now());
+    }),
     repairApiProvider.overrideWithValue(_RepairApi()),
 
     // You.

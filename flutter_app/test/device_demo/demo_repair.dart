@@ -6,7 +6,10 @@ import 'package:mockmob/core/models/models.dart';
 
 /// The `POST /api/recovery/repair` body for [questionId] of [paper] (an `explained` answer that
 /// charges one explanation credit), or null when the paper has no such question.
-RepairResponse? demoRepairResponse(AttemptDetail? paper, String questionId, {DateTime? at}) {
+///
+/// [spendable] is the balance left after this repair's credit, from the demo's one balance (`demoBalance` in
+/// demo_v13.dart), so "1 credit used. 45 left." follows "You have 46".
+RepairResponse? demoRepairResponse(AttemptDetail? paper, String questionId, {DateTime? at, int spendable = 45}) {
   final attempt = paper?.attempt;
   final q = attempt?.questions.where((x) => x.id == questionId).firstOrNull;
   if (attempt == null || q == null || q.options.isEmpty) return null;
@@ -28,7 +31,7 @@ RepairResponse? demoRepairResponse(AttemptDetail? paper, String questionId, {Dat
       'generatedAt': (at ?? DateTime.now()).toUtc().toIso8601String(),
     },
     'charged': 1,
-    'wallet': {'state': 'available', 'known': true, 'spendable': 8},
+    'wallet': {'state': 'available', 'known': true, 'total': spendable, 'spendable': spendable},
     'chosenIndex': chosen ?? -1,
     'keyIndex': key,
     // Fix it for good (MOBI-CONTRACT 4): the pick, the key and the trap's record in Asha's own answers.

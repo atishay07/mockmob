@@ -63,6 +63,13 @@ Run `android/gradlew --stop` after building to free the Gradle daemon's memory.
   unity of command, the money multiplier, four English words). Airplane mode on the emulator makes every
   Key cards read fail as offline, so the screens show the kept copy and "As of 9:40 PM". Learn shows the
   tests' lesson catalog, and Review reads its index from the demo record.
+- One credits balance: every "You have N" and "N left" comes from `demoBalance` in `demo_v13.dart` (46, or 6 on the
+  creditsLow walk). Each explained repair spends 1, so the repair says "1 credit used. 45 left." and the result's
+  "You have" follows. A full mock or NTA paper (50 credits) stays launchable so it can be walked; its quote names the
+  balance only when the balance covers it. The account sheet and Wallet tiles are fixed at the starting 46.
+- Learn v2 (the Learn tab's chapters, "Repair N open mistakes", "Needs work") is served by the web dev preview's own
+  in-memory student (`demo_learn.dart`, port 3452), not by `demo_book`. Its chapters and counts are the preview's and
+  will not match Today's weakest chapter (Goodwill); compare Learn only with the web preview.
 - The demo does not set FLAG_SECURE, so its exam screens can be captured; the real app does.
 - The question stream, Ask and anything else that needs an account show their signed-out states.
   The CUET tools work from the files bundled with the app.

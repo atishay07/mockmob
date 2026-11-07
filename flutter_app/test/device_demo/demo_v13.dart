@@ -100,8 +100,17 @@ http.FakeReply _serve(dynamic o) {
   return const http.FakeReply(404, {'ok': false, 'error': 'not_found'});
 }
 
-/// Asha's AI credits as the server reports them: 46 to spend (40 of 50 this month and 6 bought), or 6 on the creditsLow walk.
-final demoAiCredits = AiCredits.fromJson({'state': 'available', 'wallet': _demoWallet});
+/// The credits the demo's repairs have spent this run (each explained repair charges 1), so every "You have N" and
+/// "N left" line agrees: 46 before a repair, 45 after one (R8 APP-05).
+int demoSpent = 0;
+
+/// Asha's one balance right now: the starting total less what this run's repairs spent.
+int get demoBalance => _total - demoSpent;
+
+/// Asha's AI credits as the server reports them: 46 to spend (40 of 50 this month and 6 bought), or 6 on the creditsLow
+/// walk, less what this run's repairs spent.
+AiCredits get demoAiCredits =>
+    AiCredits.fromJson({'state': 'available', 'wallet': {..._demoWallet, 'total': demoBalance, 'spendable': demoBalance}});
 
 List<Override> demoV13Overrides() {
   final adapter = http.FakeHttpAdapter()..handler = _serve;
