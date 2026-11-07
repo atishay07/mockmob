@@ -304,3 +304,11 @@ html[data-motion='reduced'] .mm.lp .lp-bar__steps i::after { transition: none !i
 @media print {
   .mm.lp :is(.lp-bar, .lp-veil) { display: none; }
 }
+
+/* R8 (SEC-09, 8 Nov 2026): at 360 px "What's inside MockMob" ran 4 px past its slot and lost the brand word to an ellipsis.
+   Small phones give the name the room: Skip's sides come in a little (it stays well over 44 px wide) and the name tightens
+   its tracking by a hair, so every story's name is whole. */
+@media (max-width: 380px) {
+  .mm.lp .lp-bar__skip { padding: 0 0.85rem; }
+  .mm.lp .lp-bar__name { letter-spacing: -0.012em; }
+}

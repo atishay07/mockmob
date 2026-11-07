@@ -47,7 +47,8 @@ test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited
 });
 
 test('"from the official key, or not at all" stays true: a disagreement gives no repair and no charge', () => {
-  assert.match(COPY, /Written from the official key, or not written at all\./);
+  // The Lab's Repair scene keeps the promise (R8 SEC-10 reworded it to name only the reasons every screen shows).
+  assert.match(COPY, /why the key is right, and the rule to keep\. From the official key, or not at all\./);
   assert.match(COPY, /From the official key, or not at all\./);
   assert.match(read('../../../data/mistake_repair.js'), /A disagreement never produces an explanation[\s\S]{0,120}the student is not charged/);
 });

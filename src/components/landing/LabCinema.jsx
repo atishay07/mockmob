@@ -311,7 +311,7 @@ function Stage({ step, pinned, reduced, goTo }) {
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
-      {SCENES.map(({ key, tab, title, body, take }, i) => {
+      {SCENES.map(({ key, tab, title, body, short, take }, i) => {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
@@ -320,6 +320,7 @@ function Stage({ step, pinned, reduced, goTo }) {
               <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
               <p className="lc-scene__body">{body}</p>
+              {short ? <p className="lc-scene__body lc-scene__body--short" aria-hidden="true">{short}</p> : null}
               <p className="lc-scene__take">{take}</p>
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>

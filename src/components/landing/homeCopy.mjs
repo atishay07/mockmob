@@ -331,19 +331,26 @@ export function buildFaqs({ offer, mobLive = false } = {}) {
 
 // ------------------------------------------------------------------ Mistake Lab: four scenes on one sample session
 const S = labStory();
-/** The four Lab scenes (title, body, take). Numbers come from the sample session (labStory.mjs), never typed here. */
+/** The four Lab scenes (title, body, take). Numbers come from the sample session (labStory.mjs), never typed here.
+ *  `short` is the body for a short held window (700-740 px tall phones, R8 SEC-09): a whole sentence that fits two lines at
+ *  360 px, in place of the long body cut off mid-promise by a line clamp. */
 export const LAB_SCENES = Object.freeze([
   { key: 'time', tab: 'Time', title: 'Find the minutes that cost you.',
     body: `Every question against CUET’s pace of ${S.pace}. Overruns light up, and so does what they bought you.`,
+    short: `Every question against CUET’s ${S.pace} pace, and what each overrun bought.`,
     take: S.time.wrongAllOver && S.time.underAllRight ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.` : `${S.time.overCount} questions ran over pace.` },
   { key: 'changes', tab: 'Changes', title: 'Every second thought, on the clock.',
     body: 'Your first pick, what you switched to and when, and what each switch won or cost.',
+    short: 'Every switch on the clock, and the marks it won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', title: 'Fix why you missed it.',
-    body: 'Why your pick was tempting, where it breaks, and the rule to keep. Written from the official key, or not written at all.',
+    // R8 SEC-10: the body names only reasons every screen shows (phones leave out "Where it breaks"; the key's reason says it).
+    body: 'Why your pick was tempting, why the key is right, and the rule to keep. From the official key, or not at all.',
+    short: 'Why your pick tempted you and the rule to keep, from the official key only.',
     take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
+    short: 'A SWOT after every mock, with the exact sets to do next. Free.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
 ]);
 

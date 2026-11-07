@@ -574,3 +574,12 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc[data-pinned='true'] .lcd__tabs { display: none; }
   .lc[data-pinned='true'] { --lcd-chrome: calc(var(--lc-obj) + 0.85rem); }
 }
+
+/* R8 (SEC-09, 8 Nov 2026): a short held window shows each scene's short body, a whole sentence in two lines, in place of
+   the long one clamped mid-sentence ("Written from the official key, or..." at 360 x 640). The long body stays in the
+   page for screen readers; the short one is for the eye only. */
+.lc-scene__body--short { display: none; }
+@media (max-height: 740px) {
+  .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; -webkit-line-clamp: none; line-clamp: none; }
+  .lc[data-pinned='true'] .lc-scene__body--short { display: block; }
+}
