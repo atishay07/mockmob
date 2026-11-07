@@ -352,7 +352,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   const heroAbove = Boolean(hero && !hero.followsSubject);
   const label = section || (hero ? 'Or start something else' : 'Pick a session');
   // The hero's object: 112 px on a phone, 132 px wider (drawn at that size, never zoomed).
-  const heroArt = (() => { try { return window.matchMedia('(max-width: 479px)').matches ? 112 : 132; } catch { return 132; } })();
+  const heroArt = (() => { try { return window.matchMedia('(max-width: 380px)').matches ? 96 : window.matchMedia('(max-width: 479px)').matches ? 112 : 132; } catch { return 132; } })();
 
   const heroNode = planState === 'loading' && !hero ? (
     <div className="st-hero st-hero--loading" data-rise role="status" aria-label="Working out your next move">
