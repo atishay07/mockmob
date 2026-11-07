@@ -89,6 +89,10 @@ const subscribeConnection = callback => {
 };
 const connectionSnapshot = () => navigator.onLine;
 
+// A /test address without its paper key (a stale or shared link): it can never load, so the page says so in the nav's own
+// place names and offers the one way forward, never a retry that repeats the same check (R8 CONT-08).
+const EXPIRED_LINK = 'This paper link has expired. Start a fresh paper from Practice.';
+
 const CHIP_LABELS = { answered: 'Answered', marked: 'Marked', 'marked-answered': 'Answered and marked', visited: 'Not answered', notvisited: 'Not visited' };
 
 const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
@@ -97,6 +101,9 @@ const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 
 function optionLabel(option) {
   return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
 }
+
+// R8 PRAC-12: only the first letter is raised ("Medium"); chapter names print exactly as written.
+const sentenceCase = (value) => { const text = String(value || ''); return text.charAt(0).toUpperCase() + text.slice(1); };
 
 function displayLabel(value) {
   return String(value || '')
@@ -216,12 +223,14 @@ const SWIPE_COMMIT_PX = 72;
 const SWIPE_FLICK = 0.45; // px per ms
 const LONG_PRESS_MS = 460;
 const STRIKE_NOTE_KEY = 'mm:strikeNote:v1';
+// R8 PRAC-05: the two answered states sit together and add up to the header's "N answered"; a marked question with no
+// answer says so, so no label reads as a second, smaller count of the same thing. The rows always sum to the paper.
 const LEGEND = [
   ['answered', 'Answered'],
-  ['marked', 'Marked'],
+  ['marked-answered', 'Answered and marked'],
+  ['marked', 'Marked, no answer'],
   ['visited', 'Not answered'],
   ['notvisited', 'Not visited'],
-  ['marked-answered', 'Answered and marked'],
 ];
 const prefersReducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 const rubberBand = (dx) => Math.sign(dx) * 64 * (1 - 1 / (Math.abs(dx) / 160 + 1));
@@ -313,6 +322,10 @@ function TestRunner() {
   const [mobiAct, setMobiAct] = useState('reading');
   const reviewDialogRef = useRef(null);
   const reviewReturnRef = useRef(null);
+  // Leaving a running paper (R8 PRAC-02, PRAC-07): the X and any app link outside the paper (the desktop sidebar, the top
+  // bar) open the product's own sheet instead of the browser's grey dialog. null when closed, else where Leave goes.
+  const [exitTo, setExitTo] = useState(null);
+  const exitDialogRef = useRef(null);
   const [ackSeq, setAckSeq] = useState(0);
   const [lastAnswerSeq, setLastAnswerSeq] = useState(0);
   // NTA style only: the palette's > fold (wide screens), the submit summary and the Question Paper view.
@@ -397,7 +410,7 @@ function TestRunner() {
       submittedRef.current = false;
       if ((!generationKey || generationKey.length < 12) && !launch.get('sessionId')) {
         if (!alive) return;
-        setError('Missing generation key. Start a fresh test from the dashboard.');
+        setError(EXPIRED_LINK);
         setLoading(false);
         return;
       }
@@ -701,7 +714,12 @@ function TestRunner() {
     } catch (e) {
       submittedRef.current = false;
       setSubmitting(false);
-      setError(`Submit failed: ${e.message}. Your answers are saved. Press Submit again.`);
+      // A server sentence the student can act on is shown as written; a code (PREVIEW_ONLY, Request failed (500)) is logged,
+      // never printed (R8 PRAC-03). The banner's one key says what it does: Try submitting again.
+      const said = String(e?.message || '');
+      const human = said && !/^[A-Z][A-Z0-9_]{2,}(?![a-z])/.test(said) && !/^Request failed/.test(said) && !/^Network error/.test(said);
+      if (!human) console.warn('[runner] submit failed:', said || e);
+      setError(human ? `${said.replace(/[.\s]+$/, '')}. Your answers are saved.` : 'Submitting did not go through. Your answers are saved.');
       if(e.kind === 'network' || !navigator.onLine){
         setPendingSubmission(true);
         setError(selectionMeta?.sessionTicket
@@ -795,6 +813,27 @@ function TestRunner() {
   const closePaperView = useCallback(() => setPaperViewOpen(false), []);
   useModalFocus(ntaSummaryOpen && classicInterface, ntaSummaryRef, closeNtaSummary);
   useModalFocus(paperViewOpen && classicInterface, paperViewRef, closePaperView);
+  const closeExit = useCallback(() => setExitTo(null), []);
+  useModalFocus(!!exitTo, exitDialogRef, closeExit);
+  // While the paper runs, a click on any app link outside it asks first, as the X does: one rule on phone and desktop. A
+  // real tab close keeps the browser's own beforeunload guard. Modified clicks (new tab) and other-site links pass through.
+  const paperRunning = !loading && questions.length > 0;
+  useEffect(() => {
+    if (!paperRunning) return undefined;
+    const onClick = (event) => {
+      if (submittedRef.current || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target?.closest?.('a[href]');
+      if (!link || fullscreenTarget.current?.contains(link) || (link.target && link.target !== '_self') || link.hasAttribute('download')) return;
+      const url = new URL(link.href, window.location.href);
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+      event.preventDefault();
+      event.stopPropagation();
+      setExitTo(`${url.pathname}${url.search}${url.hash}`);
+    };
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
+  }, [paperRunning]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -808,9 +847,9 @@ function TestRunner() {
     const onKeyDown = (event) => {
       if (!canAnswer()) return;
       const tag = event.target?.tagName;
-      if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+      if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || exitTo || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
-      if (practiceRun && reviewOpen) return;
+      if (reviewOpen) return;
       // Shift + 1 to 4 crosses an option out (practice only; shown from memory, recorded as a strike event).
       if (practiceRun && event.shiftKey && /^Digit[1-5]$/.test(event.code)) {
         const active = questionsRef.current[idx];
@@ -832,7 +871,7 @@ function TestRunner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, canAnswer, practiceRun, reviewOpen, toggleStrike]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, practiceRun, reviewOpen, toggleStrike]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -962,7 +1001,7 @@ function TestRunner() {
 
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
-      <ErrorState message="No subject selected" />
+      <ErrorState title="No subject picked" message="Pick a subject to start a paper." />
       <div className="mt-4">
         {/* A Mob paper that could not start leads back to the Mob, where the reason and the next step already are. */}
         {searchParams.get('mob') === '1' ? (
@@ -971,7 +1010,7 @@ function TestRunner() {
           </Button>
         ) : (
           <Button variant="outline" onClick={() => router.push('/dashboard')}>
-            <Icon name="home" /> Back to dashboard
+            <Icon name="home" /> Go to Practice
           </Button>
         )}
       </div>
@@ -989,7 +1028,7 @@ function TestRunner() {
         message={refusal.message}
         actions={<>
           <Link href={fullMockHref(subjectId, user?.isPremium === true, refusal.fullMockKey)} className="ui-state__action ui-state__action--primary">Start a Full mock</Link>
-          <Link href="/dashboard" className="ui-state__action">Back to dashboard</Link>
+          <Link href="/dashboard" className="ui-state__action">Back to Practice</Link>
         </>}
       />
     </div>
@@ -1028,10 +1067,12 @@ function TestRunner() {
 
   if (error && !questions.length) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">
-      <ErrorState mascot message={error} onRetry={() => window.location.reload()} />
+      {error === EXPIRED_LINK
+        ? <ErrorState mascot title="This paper link has expired" message="Start a fresh paper from Practice." />
+        : <ErrorState mascot message={error} onRetry={() => window.location.reload()} />}
       <div className="mt-4">
-        <Button variant="outline" onClick={() => router.push('/dashboard')}>
-          <Icon name="home" /> Back to dashboard
+        <Button variant={error === EXPIRED_LINK ? 'volt' : 'outline'} onClick={() => router.push('/dashboard')}>
+          <Icon name="home" /> Go to Practice
         </Button>
       </div>
     </div>
@@ -1089,7 +1130,9 @@ function TestRunner() {
   const firstBlank = questions.findIndex((question) => answers[question.id] === undefined);
 
   const openReview = () => {
-    reviewReturnRef.current = document.activeElement;
+    // Opened from the palette sheet (which closes now): focus comes back to the Palette key, not to a key that is gone.
+    const from = document.activeElement;
+    reviewReturnRef.current = mobilePaletteDialogRef.current?.contains(from) ? mobilePaletteTriggerRef.current : from;
     setMobiAct('reading');
     setMobilePaletteOpen(false);
     if (!reviewOpen) recordSheet(true);
@@ -1103,15 +1146,11 @@ function TestRunner() {
     setNtaSummaryOpen(true);
   };
 
+  // Every submit check is an in-app sheet: NTA style keeps NTA's section summary; the MockMob interface (Quick practice, a
+  // Full mock, and an NTA paper drawn in the MockMob interface) uses the same submit sheet with its counts (R8 PRAC-02).
   const confirmAndSubmit = () => {
-    if (practiceRun) { openReview(); return; }
     if (classicInterface) { openNtaSummary(); return; }
-    if (pendingCount > 0 || markedCount > 0) {
-      const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
-      recordSheet(true);
-      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) { recordSheet(false); return; }
-    }
-    submitTest('submit');
+    openReview();
   };
 
   const goNext = () => {
@@ -1206,9 +1245,22 @@ function TestRunner() {
           <button type="button" className="nta-text-button" onClick={() => toggleMarked(question.id)}>
             <Icon name="flag" /> {marked[question.id] ? 'Unmark' : 'Mark'}
           </button>
-          <button type="button" className="nta-text-button" onClick={() => clearAnswer(question.id)}>
-            Clear
-          </button>
+          {/* R8 PRAC-06: after Clear, the same key reads "Undo clear" for four seconds, a drain line under its label, then goes
+              back to Clear. Nothing floats over the options while the student picks again. */}
+          {(() => {
+            // One key, so focus stays on it when the label changes.
+            const undoing = practiceRun && undoClear?.qid === question.id;
+            return (
+              <button
+                type="button"
+                className={`nta-text-button${undoing ? ' pr-undo-key' : ''}`}
+                onClick={undoing ? undoClearAnswer : () => clearAnswer(question.id)}
+                aria-label={undoing ? `Undo clear: restore the answer to question ${undoClear.number}` : undefined}
+              >
+                {undoing ? <><span className="pr-label" key={`u${undoClear.n}`}>Undo clear</span><i className="pr-undo-drain" key={`d${undoClear.n}`} aria-hidden="true" /></> : 'Clear'}
+              </button>
+            );
+          })()}
           {!isNtaMode && (
             <VoteControls
               questionId={question.id}
@@ -1558,9 +1610,10 @@ function TestRunner() {
 
   return (
     <div ref={fullscreenTarget} className={practiceRun ? 'nta-runner pr-run' : 'nta-runner'} data-interface={classicInterface ? 'nta' : 'mockmob'}>
-      <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Saved on this device. Stay online to submit.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
+      {/* R8 PRAC-16: while all is well (online, saving) the note is for screen readers only; it shows when offline, waiting or held. */}
+      <div role="status" className={`runner-sync-state${!pendingSubmission && online && syncStatus !== 'pending' ? ' is-quiet' : ''}`}>{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Saved on this device. Stay online to submit.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
       {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
-      {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
+      {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error"><p>{error}</p><button type="button" onClick={submitTest} disabled={submitting}>Try submitting again</button></div>}
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
@@ -1597,11 +1650,7 @@ function TestRunner() {
           {!isNtaMode && <button
             type="button"
             className="nta-icon-button"
-            onClick={() => {
-              if (confirm('Exit test? Your progress is saved and you can resume from the same URL.')) {
-                router.push('/dashboard');
-              }
-            }}
+            onClick={() => setExitTo('/dashboard')}
             aria-label="Exit test"
           >
             <Icon name="x" />
@@ -1639,7 +1688,7 @@ function TestRunner() {
               </div>
               <div className="nta-paper-tags">
                 <span>{q.chapter}</span>
-                {q.difficulty && <span>{q.difficulty}</span>}
+                {q.difficulty && <span>{sentenceCase(q.difficulty)}</span>}
               </div>
             </div>
 
@@ -1655,7 +1704,7 @@ function TestRunner() {
                   </article>
                 )}
 
-                <div className="nta-question-list">
+                <div className="nta-question-list" data-single={block.isPassage ? undefined : ''}>
                   {block.entries.map((entry) => renderQuestion(entry.question, entry.index))}
                 </div>
               </>;
@@ -1699,14 +1748,16 @@ function TestRunner() {
           </div>
 
           <aside className="nta-review-panel" aria-label="Question review panel">
+            {/* R8 PRAC-05: in a practice run the legend below counts every state, so the four tiles (whose Answered and Marked
+                overlap) would show a second, disagreeing set of numbers. The header keeps the one total. */}
             <div className="nta-panel-section">
               <span className="nta-kicker">Review</span>
-              <div className="nta-summary-grid">
+              {practiceRun ? <strong className="nta-panel-total">{answered}/{questions.length} answered</strong> : <div className="nta-summary-grid">
                 <div><strong>{answered}</strong><span>Answered</span></div>
                 <div><strong>{markedCount}</strong><span>Marked</span></div>
                 <div><strong>{pendingCount}</strong><span>Pending</span></div>
                 <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
-              </div>
+              </div>}
             </div>
             {renderPalette()}
             {practiceRun ? renderLegend() : <div className="nta-legend">
@@ -1748,12 +1799,12 @@ function TestRunner() {
                 <Icon name="x" />
               </button>
             </div>
-            <div className="nta-summary-grid">
+            {!practiceRun && <div className="nta-summary-grid">
               <div><strong>{answered}</strong><span>Answered</span></div>
               <div><strong>{markedCount}</strong><span>Marked</span></div>
               <div><strong>{pendingCount}</strong><span>Pending</span></div>
               <div><strong>{notVisitedCount}</strong><span>Not visited</span></div>
-            </div>
+            </div>}
             {renderPalette(true)}
             {practiceRun && renderLegend()}
             <button type="button" className={`nta-submit-button ${allReady ? 'is-ready' : ''}`} onClick={confirmAndSubmit} disabled={submitting}>
@@ -1766,15 +1817,9 @@ function TestRunner() {
 
       {practiceRun && <span className="pr-sr" role="status">{allReady ? `All ${questions.length} answered${serverSaves ? ' and saved' : ''}. Ready to submit.` : ''}</span>}
 
-      {practiceRun && undoClear && (
-        <div className="pr-undo" role="status" key={`undo-${undoClear.n}`}>
-          <span>Answer cleared.</span>
-          <button type="button" onClick={undoClearAnswer} aria-label={`Undo: restore the answer to question ${undoClear.number}`}>Undo</button>
-          <i aria-hidden="true" />
-        </div>
-      )}
+      {practiceRun && <span className="pr-sr" role="status">{undoClear ? `Answer cleared. Undo clear is on the Clear key for four seconds.` : ''}</span>}
 
-      {practiceRun && reviewOpen && (
+      {!classicInterface && reviewOpen && (
         <div ref={reviewDialogRef} className="pr-sheet" role="dialog" aria-modal="true" aria-labelledby="pr-sheet-title">
           <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={closeReview} />
           <div className="pr-sheet__panel">
@@ -1793,6 +1838,20 @@ function TestRunner() {
             <div className="pr-sheet__actions">
               <button type="button" data-autofocus onClick={closeReview}>Keep answering</button>
               <button type="button" className="is-primary" disabled={submitting} onClick={() => { setReviewOpen(false); submitTest('submit'); }}>Submit now</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {exitTo && (
+        <div ref={exitDialogRef} className="pr-sheet pr-sheet--exit" role="dialog" aria-modal="true" aria-labelledby="pr-exit-title" aria-describedby="pr-exit-line">
+          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Keep answering" onClick={closeExit} />
+          <div className="pr-sheet__panel">
+            <h2 id="pr-exit-title">{isMockMode ? 'Leave this mock?' : 'Leave this practice?'}</h2>
+            <p id="pr-exit-line" className="pr-sheet__line">{answered > 0 ? `Your ${answered} answer${answered === 1 ? ' is' : 's are'} kept.` : 'Nothing is lost.'} The timer keeps running while you are away.</p>
+            <div className="pr-sheet__actions">
+              <button type="button" onClick={() => { const to = exitTo; setExitTo(null); router.push(to); }}>Leave</button>
+              <button type="button" className="is-primary" data-autofocus onClick={closeExit}>Keep answering</button>
             </div>
           </div>
         </div>

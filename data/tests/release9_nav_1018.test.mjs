@@ -128,7 +128,9 @@ test('W-079: Edit fine-tune, Whole unit, the runner legend, the Start sheet arro
   const run = stripComments(read('src/app/(app)/test/practice-run.css'));
   assert.match(run, /\.pr-legend button\s*\{[^}]*min-height:\s*44px/);
   assert.match(run, /\.pr-goto\s*\{[^}]*min-height:\s*44px/);
-  assert.match(run, /\.pr-undo button\s*\{[^}]*min-height:\s*44px/);
+  // R8 PRAC-06: the undo after Clear is the Clear key itself ("Undo clear"), so it keeps the 44 px runner key and no toast floats.
+  assert.match(run, /\.pr-undo-key\s*\{/);
+  assert.match(read('src/app/(app)/test/TestPageClient.jsx'), /\.nta-text-button\s*\{[^}]*min-height:\s*44px/);
   const start = stripComments(read('src/components/start/start.css'));
   assert.match(start, /\.st-rail__arrow\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px/);
   assert.match(start, /\.st-rail__disc\s*\{[^}]*width:\s*44px;[^}]*height:\s*44px/, 'the drawn disc is the 44 px target too');

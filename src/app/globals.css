@@ -1497,8 +1497,15 @@ html[data-theme='light'] .mmx-sheet {
 .recovery-record { display:flex; justify-content:space-between; gap:24px; border-top:1px solid #c1c5b6; padding:20px 0; line-height:1.5; }
 .recovery-lab textarea { display:block;width:100%;min-height:110px;border:1px solid #89917f;background:white;border-radius:8px;padding:14px;margin-top:12px;color:#10140e; }
 .runner-sync-state { padding:10px 16px;font-size:12px;color:#c3cbbd;background:#1a211a; }
-.runner-submit-error { padding:16px;background:#fbe9e7;color:#7b231d; }
-.runner-submit-error button { margin-left:16px;text-decoration:underline; }
+.runner-sync-state.is-quiet, .app-shell .runner-sync-state.is-quiet { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0; }
+/* R8 PRAC-03: the failed-submit banner follows the theme (it was a light pink slab in Night), says one thing and has one key. */
+.runner-submit-error { display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:8px 12px;padding:10px 10px 10px 14px;border-radius:12px;border:1px solid color-mix(in oklab, var(--a-bad-text, #ff9d92) 40%, transparent);background:var(--a-bad-wash, rgba(255,122,107,.1));color:var(--a-ink, #f2f4ec); }
+.runner-submit-error p { flex:1 1 200px;margin:0;font-size:14px;line-height:1.45; }
+.runner-submit-error button { flex:none;min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--a-line-strong, rgba(255,255,255,.18));background:var(--a-raised-2, #18211b);color:var(--a-ink, #f2f4ec);font:700 14px/1 var(--font-body);cursor:pointer; }
+.runner-submit-error button:hover:not(:disabled) { border-color:var(--a-line-hover, rgba(255,255,255,.28)); }
+.runner-submit-error button:focus-visible { outline:2px solid var(--a-focus, #d2f000);outline-offset:2px; }
+.runner-submit-error button:disabled { opacity:.5;cursor:progress; }
+@media (min-width:1024px){ .runner-submit-error { margin:10px 24px; } }
 @media(max-width:520px){.recovery-record{flex-direction:column;gap:8px}}
 
 /* ==========================================================================

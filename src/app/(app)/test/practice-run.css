@@ -117,7 +117,7 @@
 .pr-legend button:hover { background: var(--a-hover, rgba(255,255,255,.04)); color: var(--a-ink-2, #d4d4d8); }
 .pr-legend button[aria-pressed='true'] { border-color: var(--a-line-hover, rgba(255,255,255,.24)); background: var(--a-hover, rgba(255,255,255,.05)); color: var(--a-ink, #f4f6ed); }
 .pr-legend button b { margin-left: auto; font-variant-numeric: tabular-nums; }
-.pr-legend button:focus-visible, .pr-goto:focus-visible, .pr-sheet button:focus-visible, .pr-undo button:focus-visible { outline: 2px solid var(--a-focus, var(--volt)); outline-offset: 2px; }
+.pr-legend button:focus-visible, .pr-goto:focus-visible, .pr-sheet button:focus-visible, .pr-undo-key:focus-visible { outline: 2px solid var(--a-focus, var(--volt)); outline-offset: 2px; }
 .pr-run .nta-palette-chip { transition: opacity 200ms var(--pr-ease), transform 200ms var(--pr-ease); }
 .pr-run .nta-palette-chip.is-dimmed { opacity: .28; transform: scale(.92); }
 .pr-goto {
@@ -126,22 +126,12 @@
   color: var(--a-ink, #f4f6ed); font: 800 12px/1 var(--font-display); animation: pr-rise 220ms var(--pr-ease) both;
 }
 
-/* ---------- Answer cleared, undo ---------- */
-.pr-undo {
-  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 60;
-  display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 16px; border-radius: 12px;
-  border: 1px solid var(--a-line, rgba(255,255,255,.12)); background: var(--a-raised, #151712); color: var(--a-ink, #f4f6ed);
-  box-shadow: 0 16px 40px rgba(0,0,0,.32); font-size: 14px;
-  transform: translate3d(-50%, 0, 0); animation: pr-toast 260ms var(--pr-spring) both;
-}
-.pr-undo button {
-  min-height: 44px; padding: 0 14px; border-radius: 8px; border: 0; cursor: pointer;
-  background: var(--a-hover, rgba(255,255,255,.08)); color: var(--pr-accent); font: 800 13px/1 var(--font-display);
-}
-.pr-undo i { position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px; background: var(--pr-accent); opacity: .5; transform-origin: left; animation: pr-drain 4s linear both; }
-@keyframes pr-toast { from { opacity: 0; transform: translate3d(-50%, 12px, 0); } to { opacity: 1; transform: translate3d(-50%, 0, 0); } }
+/* ---------- Answer cleared, undo (R8 PRAC-06) ----------
+   In place: the Clear key itself reads "Undo clear" for four seconds with a drain line along its foot, then reverts. It was a
+   fixed toast over option D. Same slot and 44 px height as Clear, so nothing moves. */
+.pr-undo-key { position: relative; overflow: hidden; color: var(--pr-accent) !important; }
+.pr-undo-drain { position: absolute; left: 10px; right: 10px; bottom: 5px; height: 2px; border-radius: 2px; background: var(--pr-accent); opacity: .6; transform-origin: left; animation: pr-drain 4s linear both; }
 @keyframes pr-drain { from { transform: scaleX(1); } to { transform: scaleX(0); } }
-@media (max-width: 1023px) { .pr-undo { bottom: calc(78px + env(safe-area-inset-bottom, 0px)); } }
 
 /* ---------- Submit sheet ---------- */
 .pr-sheet { position: fixed; inset: 0; z-index: 85; display: grid; place-items: center; padding: 16px; }
@@ -156,6 +146,8 @@
 .pr-sheet__counts div { padding: 10px; border-radius: 10px; border: 1px solid var(--a-line, rgba(255,255,255,.08)); background: var(--a-hover, rgba(255,255,255,.025)); }
 .pr-sheet__counts dt { font-size: 12px; color: var(--a-ink-3, #a1a1aa); }
 .pr-sheet__counts dd { margin: 2px 0 0; font: 800 22px/1.1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--a-ink, #f4f6ed); }
+/* The leave sheet (R8 PRAC-02): the same sheet, one line, two keys; Keep answering leads. */
+.pr-sheet__line { margin: -4px 0 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #d4d4d8); }
 .pr-sheet__say { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; min-height: 72px; }
 .pr-sheet__say p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #d4d4d8); }
 .pr-sheet__say button.pr-sheet__go { min-height: 44px; padding: 0 14px; border-radius: 10px; cursor: pointer; border: 1px solid color-mix(in oklab, var(--pr-accent) 55%, transparent); background: transparent; color: var(--a-ink, #f4f6ed); font: 700 14px/1.3 var(--font-display); text-align: left; }
@@ -174,7 +166,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .pr-live[data-entering], .pr-ghost, .pr-strike, .pr-note, .pr-label, .pr-run .is-ready, .pr-run .is-ready::after,
-  .pr-goto, .pr-undo, .pr-undo i, .pr-sheet__backdrop, .pr-sheet__panel { animation: none !important; }
+  .pr-goto, .pr-undo-drain, .pr-sheet__backdrop, .pr-sheet__panel { animation: none !important; }
   .pr-ghost { display: none; }
   .pr-run .nta-palette-chip, .pr-live.is-springing { transition: none !important; }
   .pr-run .nta-option { transition: border-color 120ms linear, background-color 120ms linear !important; transform: none !important; }
@@ -209,3 +201,6 @@
 .nta-build__line { margin: 10px 0 0; max-width: 56ch; font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #c9cdc2); }
 .nta-build__line--quiet { margin-top: 6px; font-size: 13.5px; color: var(--a-ink-3, #9aa094); }
 @media (min-width: 768px) { .nta-build { padding: 28px; gap: 24px; } .nta-build__title { font-size: 28px; } }
+
+/* R8 PRAC-05: the side panel's one total in a practice run (the legend below counts each state). */
+.pr-run .nta-panel-total { display: block; font: 750 18px/1.2 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
