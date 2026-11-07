@@ -215,3 +215,8 @@
    bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. Unheld (the timed carousel)
    it stays: there it is the autoplay timer. */
 .ft-story[data-pinned='true'] .ft__progress { display: none; }
+/* R8 (SEC-05): held, the first tool's Prev has nowhere to go and says so; the last tool's Next is a link to the next
+   section, drawn as the same key. */
+.ft__arrow:disabled { opacity: .45; cursor: default; }
+.ft :is(.ft__play, .ft__arrow):disabled:active { transform: none; }
+a.ft__next { text-decoration: none; }
