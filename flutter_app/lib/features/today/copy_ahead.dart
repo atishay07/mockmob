@@ -109,10 +109,10 @@ abstract final class AheadCopy {
   static String joinLabels(List<String> labels) =>
       labels.length <= 1 ? labels.join() : '${labels.sublist(0, labels.length - 1).join(', ')} and ${labels.last}';
 
-  /// "+33 on Mock 6.", "−12 on Mock 6.", or "Level with Mock 6." when the marks are the same (never
-  /// "0 on Mock 6.", which reads as a zero score).
+  /// "33 above Mock 6.", "12 below Mock 6.", or "Level with Mock 6." when the marks are the same. Never a signed
+  /// number beside a paper's name (R8 APP-06): with negative marking, "−56 on Mock 6" reads as a score of −56.
   static String marksChange(int delta, String previous) =>
-      delta == 0 ? 'Level with $previous.' : '${delta > 0 ? '+' : minusSign}${delta.abs()} on $previous.';
+      delta == 0 ? 'Level with $previous.' : '${delta.abs()} ${delta > 0 ? 'above' : 'below'} $previous.';
   static const String minusSign = '−';
   static String chartSemantics(List<(String, int)> points, int outOf) =>
       'Marks on your latest ${points.length} mocks, out of $outOf: ${points.map((p) => '${p.$1}, ${p.$2}').join('; ')}.';

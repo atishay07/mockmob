@@ -428,7 +428,7 @@ void main() {
       final rows = buildToday(ashaInputs()).sheet;
       final m7 = rows.first;
       expect((m7.right, m7.wrong, m7.blank), (42, 6, 2));
-      expect(m7.change, '+33 on Mock 6');
+      expect(m7.change, '33 above Mock 6');
       expect(rows[1].change, isNull);
     });
 

@@ -348,8 +348,8 @@ void main() {
     test('the words: best of these, and the change on the one before in the true sign', () {
       expect(AheadCopy.marksBest(204, 'Mock 7', 6), '204 on Mock 7, your best of these 6.');
       expect(AheadCopy.marksNotBest(171, 'Mock 7', 6, 204, 'Mock 5'), '171 on Mock 7. Your best of these 6 is 204, on Mock 5.');
-      expect(AheadCopy.marksChange(33, 'Mock 6'), '+33 on Mock 6.');
-      expect(AheadCopy.marksChange(-12, 'Mock 6'), '−12 on Mock 6.');
+      expect(AheadCopy.marksChange(33, 'Mock 6'), '33 above Mock 6.');
+      expect(AheadCopy.marksChange(-12, 'Mock 6'), '12 below Mock 6.');
     });
 
     test('a best shared by two or more papers names every one of them, never "your best" for one (final walk, low)', () {

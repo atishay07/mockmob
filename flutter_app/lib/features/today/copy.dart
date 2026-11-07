@@ -313,8 +313,9 @@ abstract final class TodayCopy {
   static const String sealed = 'Sealed';
   static String quickLabel(int total) => 'Quick $total';
   static String marksOf(int outOf) => 'of $outOf';
-  static String changeUp(int by, String than) => '+$by on $than';
-  static String changeDown(int by, String than) => '$minusSign$by on $than';
+  // Words, never a signed figure beside a paper's name (R8 APP-06): with negative marking "−56 on Mock 6" reads as a score.
+  static String changeUp(int by, String than) => '$by above $than';
+  static String changeDown(int by, String than) => '$by below $than';
   static String changeLevel(String than) => 'Level with $than';
   static String splitLine(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank';
 
