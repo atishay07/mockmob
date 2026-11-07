@@ -27,7 +27,7 @@ test('stageTag says why a card is here, and nothing in a recap', () => {
 test('runPiles counts distinct cards, marks the current pile, and says "left" on a resumed run', () => {
   const items = [card('i1', 'c1'), card('i2', 'c2'), q('i3'), card('i4', 'c1', { again: true }), q('i5', 'mistake')];
   const piles = runPiles(items, 3, { at: 3 });
-  assert.deepEqual(piles.map((p) => [p.id, p.label, p.value, p.current]), [['cards', 'Key cards', '2 of 2', true], ['questions', 'Questions', '1 of 1', false], ['mistakes', '1 open mistake', '', false]]);
+  assert.deepEqual(piles.map((p) => [p.id, p.label, p.value, p.current]), [['cards', 'Key cards', '2 of 2 done', true], ['questions', 'Questions', '1 of 1 done', false], ['mistakes', '1 open mistake', '', false]]);
   const resumed = runPiles(items, 0, { resumed: true });
   assert.equal(resumed[0].value, '2 left');
   // R2 screens 10: before anything is done, the rail reads totals, never a column of zeros.
@@ -134,8 +134,11 @@ test('R3 L5 end formula: up to 3 numbers with one set of labels, every zero drop
     { value: '2', n: 2, label: 'open mistakes fixed' },
   ]);
   assert.deepEqual(endNumbers({ revise: 0, seen: 12, answered: 3, right: 3 }).map((x) => [x.value, x.label]), [['3 of 3', 'questions right']], 'the bar carries cards seen');
-  assert.deepEqual(endNumbers({ answered: 2, right: 0, mistakes: 1, fixed: 0 }).map((x) => [x.value, x.label]), [['2', 'questions tried']], 'no fixed mistake: no number');
-  assert.deepEqual(endNumbers({ fixed: 1, mistakes: 2 }).map((x) => [x.value, x.label]), [['1', 'open mistake fixed']]);
+  // R8 LEARN-06: a mistake missed again stays on the end ("2 mistakes still open"), so the numbers cover every step done.
+  assert.deepEqual(endNumbers({ answered: 2, right: 0, mistakes: 1, fixed: 0 }).map((x) => [x.value, x.label]), [['2', 'questions tried'], ['1', 'mistake still open']], 'no fixed mistake: it stays open');
+  assert.deepEqual(endNumbers({ revise: 5, answered: 5, right: 1, mistakes: 2, fixed: 0 }).map((x) => [x.value, x.label]).slice(-1), [['2', 'mistakes still open']]);
+  assert.deepEqual(endNumbers({ fixed: 1, mistakes: 2 }).map((x) => [x.value, x.label]), [['1 of 2', 'mistakes fixed']]);
+  assert.deepEqual(endNumbers({ fixed: 1, mistakes: null }).map((x) => [x.value, x.label]), [['1', 'open mistake fixed']]);
   for (const x of endNumbers({ revise: 3, answered: 4, right: 1, mistakes: 3, fixed: 2 })) assert.doesNotMatch(x.label, /tried|missed|old|seen/);
   assert.deepEqual(endNumbers({}), []);
   const all = [endNumbers({ revise: 0, seen: 0, answered: 0, mistakes: 0 }), endNumbers({ revise: 3, seen: 5, answered: 4, right: 0, mistakes: 2, fixed: 0 }), endNumbers({ answered: 1, right: 1 })].flat();
