@@ -278,7 +278,8 @@ test('fixc 1: no student-visible line names the old "Review" tab', () => {
   assert.match(read('src/app/(app)/recovery/page.jsx'), /or open Your papers\./);
   assert.match(read('src/app/features/page.js'), /title: 'Your papers and mistake repair'/);
   assert.doesNotMatch(read('src/app/features/page.js'), /Review and Mistake Repair/);
-  assert.match(read('src/components/landing/MistakeLab.jsx'), /<span>Your papers<\/span><span>Ask Mobi<\/span>/);
+  // R8 SEC-14: the places are one line of text now, not pills; it still names Your papers.
+  assert.match(read('src/components/landing/MistakeLab.jsx'), /<span>Shows up in<\/span>Today, Your papers, Ask Mobi and Results/);
   assert.match(read('src/components/landing/ProductScreens.jsx'), /\['Your papers', 'Saved mistake explanations'/);
 });
 

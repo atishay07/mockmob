@@ -20,10 +20,13 @@ test('the Time scene waits for the lab to be in view, then plays; other scenes k
   assert.match(CSS, /\.lc-scene\[data-armed='false'\] :is\(\*, \*::after\) \{ transition: none !important; \}/);
 });
 
-test('the replay clock restarts on the rising edge of inView, only while playing on its first step', () => {
-  assert.match(LAB, /const rose = inView && !wasInView\.current;/);
+test('the replay clock restarts on the rising edge of inView (or, held, of its score coming on screen), only while playing on its first step', () => {
+  // R8 SEC-13: held, the score row's own visibility also counts, so the replay deals in as it scrolls into view and never
+  // stands at 0 / 50 above the hold.
+  assert.match(LAB, /const live = inView \|\| \(pinned && scoreSeen\);/);
+  assert.match(LAB, /const rose = live && !wasInView\.current;/);
   assert.match(LAB, /if \(!rose \|\| reduced \|\| !playing \|\| hold \|\| step !== 0\) return;/);
   assert.match(LAB, /clockRef\.current = \{ token, elapsed: 0 \};\n\s+setRevealed\(0\);/);
   // Declared before the clock effect, so the restart is in place when the clock reads it.
-  assert.ok(LAB.indexOf('const rose = inView') < LAB.indexOf('A single elapsed clock owns the step'));
+  assert.ok(LAB.indexOf('const rose = live') < LAB.indexOf('A single elapsed clock owns the step'));
 });
