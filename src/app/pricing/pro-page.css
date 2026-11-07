@@ -326,12 +326,11 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
    edges, each card a little narrower than the screen so the next one peeks, under a two-option switch (Pro | Free) that follows
    the swipe and brings either card in. The switch's thumb slides under the chosen key (220 ms, ease-out; none under reduced
    motion): in Night it is the volt fill with dark ink (a selected state), in Day raised paper with the ink rim and the small
-   volt tick (the No-Slab Rule). From 760 px the switch is not drawn and the cards keep their places: stacked, Free first, on
+   volt tick (the No-Slab Rule). From 760 px the switch is not drawn and the cards keep their places: stacked, Pro first, on
    tablets, and Free beside Pro (Free on the left) from 960 px, as before. */
 .mm-pro .pro-switch-row { display: none; }
-@media (min-width: 760px) {
-  .mm-pro .pro-choice__free { order: -1; }
-}
+/* R8 PRICE-10: tablets (760-959 px) stack the cards in the page's own order, Pro first, like phones; only side by side (960 px
+   and up) does Free take the left column. */
 @media (min-width: 960px) {
   .mm-pro .pro-choice__free { order: 0; grid-column: 1; grid-row: 1; }
   .mm-pro .pro-choice__grid > .pro-plan { grid-column: 2; grid-row: 1; }
