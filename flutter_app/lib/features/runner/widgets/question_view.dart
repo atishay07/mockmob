@@ -33,9 +33,15 @@ class QuestionView extends StatelessWidget {
     this.isStruck,
     this.onStrike,
     this.passageRead,
+    this.regionHeight,
   });
 
   final SessionQuestion question;
+
+  /// The height of the question region, when known: the option cards grow into spare room only
+  /// when the question and all four options still fit it (R8 APP-03), so option D is never pushed
+  /// below the fold on a budget phone by a card that grew for nothing.
+  final double? regionHeight;
 
   /// The chosen option index, or null.
   final int? selected;
@@ -81,7 +87,9 @@ class QuestionView extends StatelessWidget {
         : length <= 60
         ? 30.0
         : length <= 100
-        ? 27.0
+        // 24, not 27 (R8 APP-03): a 61 to 100 character stem ran to four lines at 27 and pushed
+        // option D off a 360 x 800 screen. Still well above reading size.
+        ? 24.0
         : length <= 140
         ? 24.0
         : length <= 200
@@ -92,15 +100,62 @@ class QuestionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // On a tall screen the cards grow (56 dp up to 72 dp), so the gap between a short question
+    // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 56.
+    final screen = MediaQuery.sizeOf(context).height;
+    final grown = (AnswerOption.cardHeight + (screen - 700) * 0.1).clamp(AnswerOption.cardHeight, 72.0);
+    final region = regionHeight;
+    if (region == null) return _build(context, grown);
+    // The cards grow only by the room the question leaves: measured at the real width, never a guess.
+    return LayoutBuilder(
+      builder: (context, box) {
+        final fit = _fitFor(context, box.maxWidth, region, grown);
+        return _build(context, fit.height, gap: fit.gap);
+      },
+    );
+  }
+
+  /// The card height that keeps the question, its mark row and every option inside [region]: the
+  /// natural 56 dp cards plus an equal share of whatever room is left, up to [grown]. When the stack
+  /// runs over by less than 16 dp, the two 16 dp gaps (above the mark row and above the cards) give
+  /// it back, down to 8 each, so option D sits whole on screen instead of 4 dp under the fold.
+  ({double height, double gap}) _fitFor(BuildContext context, double width, double region, double grown) {
+    const normal = (height: AnswerOption.cardHeight, gap: MmSpace.s16);
+    final passage = question.passageText;
+    // A passage or a banner changes the stack in ways a measure here cannot see: keep 56.
+    if ((passage != null && passage.isNotEmpty) || (leading?.isNotEmpty ?? false) || !width.isFinite) return normal;
+    final scaler = MediaQuery.textScalerOf(context);
+    final type = context.mmType;
+    double measure(String text, TextStyle style, double w) {
+      final painter = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)
+        ..layout(maxWidth: math.max(1.0, w));
+      final h = painter.height;
+      painter.dispose();
+      return h;
+    }
+
+    final body = distinctBody(question.question, question.body);
+    var used = measure(question.question, questionStyle(context, length: question.question.length), width);
+    if (body != null && body.isNotEmpty) used += MmSpace.s12 + measure(body, type.body, width);
+    // The mark row (48 dp), the air above it and above the cards.
+    used += MmSpace.s16 + MmTarget.min + MmSpace.s16;
+    if (note != null && scaler.scale(1) >= 1.15) used += scaler.scale(20);
+    // Each card: its text plus 12 dp above and below, at least 56; the bubble and its gaps take 76 dp of the width.
+    for (final o in question.options) {
+      used += math.max(AnswerOption.cardHeight, measure(o.text, type.body.copyWith(fontWeight: FontWeight.w600), width - 76) + 2 * MmSpace.s12);
+    }
+    used += AnswerOption.cardGap * math.max(0, question.options.length - 1);
+    final spare = region - used;
+    if (question.options.isEmpty) return normal;
+    if (spare < 0) return (height: AnswerOption.cardHeight, gap: spare > -2 * MmSpace.s8 ? (MmSpace.s16 + spare / 2).clamp(MmSpace.s8, MmSpace.s16) : MmSpace.s16);
+    return (height: (AnswerOption.cardHeight + spare / question.options.length).clamp(AnswerOption.cardHeight, grown), gap: MmSpace.s16);
+  }
+
+  Widget _build(BuildContext context, double optionHeight, {double gap = MmSpace.s16}) {
     final colors = context.mmColors;
     final type = context.mmType;
     final passage = question.passageText;
     final body = distinctBody(question.question, question.body);
-
-    // On a tall screen the cards grow (56 dp up to 72 dp), so the gap between a short question
-    // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 56.
-    final screen = MediaQuery.sizeOf(context).height;
-    final optionHeight = (AnswerOption.cardHeight + (screen - 700) * 0.1).clamp(AnswerOption.cardHeight, 72.0);
 
     // Three groups: the banners and the question block above, the cards at the foot, next to the
     // thumb and the bottom bar. Whatever height the screen has left over is split into equal
@@ -146,7 +201,7 @@ class QuestionView extends StatelessWidget {
             ],
             // The mark key (and the practice's one line) sit 16 dp under the question, not up beside
             // the top bar: the things the student reaches for are close to the words they are about.
-            const SizedBox(height: MmSpace.s16),
+            SizedBox(height: gap),
             EnterItem(
               order: 1,
               // From 1.15x text the note would wrap beside the toggle: it takes a line above it.
@@ -172,7 +227,7 @@ class QuestionView extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: MmSpace.s16),
+          padding: EdgeInsets.only(top: gap),
           // Soft 56 dp cards of the answer sheet, 8 dp apart: no rules, no boxes inside boxes.
           child: _WashGlide(
             selected: selected,

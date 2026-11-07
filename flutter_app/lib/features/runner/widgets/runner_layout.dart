@@ -292,6 +292,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                                     passageRead: _passages.putIfAbsent(question.passageGroupId ?? question.id, PassageRead.new),
                                     onStrike: onStrike == null ? null : (option) => onStrike(question.id, option),
                                     note: _noteFor(s, at, strikable: onStrike != null),
+                                    regionHeight: (box.maxHeight - padTop - padBottom).clamp(0.0, double.infinity),
                                   ),
                                 ),
                               ),

@@ -82,15 +82,37 @@ class ClearBandState extends State<ClearBand> {
     final colors = context.mmColors;
     final type = context.mmType;
     final Widget content;
+    final more = widget.moreBelow;
     if (widget.selected != null && widget.canAnswer) {
-      content = KeyButton.secondary(
-        key: const ValueKey('clear'),
+      final clear = KeyButton.secondary(
         label: RunnerCopy.clearAnswer,
         onPressed: _clear,
         expanded: false,
         minHeight: MmTarget.min,
         hapticOnCommit: false,
       );
+      // An answer given while options still run below keeps the cue beside the key (R8 APP-03): a
+      // student who picked A must still learn that D exists.
+      content = more == null
+          ? KeyedSubtree(key: const ValueKey('clear'), child: clear)
+          : Row(
+              key: const ValueKey('clear'),
+              children: [
+                clear,
+                Expanded(
+                  child: ValueListenableBuilder<bool>(
+                    valueListenable: more,
+                    builder: (context, shown, _) => AnimatedOpacity(
+                      key: const ValueKey('runner-more-options-beside'),
+                      opacity: shown ? 1 : 0,
+                      duration: Motion.of(context, Motion.ui),
+                      curve: Motion.out,
+                      child: const RunnerMoreBelow(compact: true),
+                    ),
+                  ),
+                ),
+              ],
+            );
     } else if (_cleared != null && widget.canAnswer) {
       content = Row(
         key: const ValueKey('undo'),
@@ -105,7 +127,6 @@ class ClearBandState extends State<ClearBand> {
         ],
       );
     } else {
-      final more = widget.moreBelow;
       content = more == null
           ? const SizedBox.shrink(key: ValueKey('none'))
           : ValueListenableBuilder<bool>(
@@ -142,7 +163,10 @@ class ClearBandState extends State<ClearBand> {
 /// "More below" with a chevron: one quiet line centred in the band under the question, no capsule, no glow, no
 /// motion of its own. It never sits over an option, and it keeps its own size at any text size.
 class RunnerMoreBelow extends StatelessWidget {
-  const RunnerMoreBelow({super.key});
+  const RunnerMoreBelow({super.key, this.compact = false});
+
+  /// Beside "Clear my answer": the same words, set at the band's right edge instead of centred.
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +177,7 @@ class RunnerMoreBelow extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: compact ? MainAxisAlignment.end : MainAxisAlignment.center,
             children: [
               Text(RunnerCopy.moreOptions, style: style),
               const SizedBox(width: MmSpace.s4),
