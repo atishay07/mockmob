@@ -45,7 +45,7 @@ export function SeoContentPage({ page }) {
               <h1 className="mm-h1 mm-article__title">{keepTogether(page.h1)}</h1>
               <p className="mm-article__intro">{keepTogether(page.intro)}</p>
               {/* The page's one action, before the essay, in the home page's words (LK83/LK88): the key says where it goes. */}
-              <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Sign up free</Link></p>
+              <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Start free</Link></p>
               {/* A subject guide carries its paper's lamp-lit object, the same one the landing shelf links from. */}
               {page.subjectArt ? <SubjectObject id={page.subjectArt} size={168} lit priority className="mm-article__object" /> : null}
             </div>
@@ -101,7 +101,7 @@ export function SeoContentPage({ page }) {
               </p>
               <div className="mm-actions" style={{ marginTop: '1.75rem' }}>
                 <Link href="/signup" className="mm-btn mm-btn--primary">
-                  Sign up free
+                  Start free
                 </Link>
                 <Link href="/pricing" className="mm-btn mm-btn--secondary" data-commerce="">
                   See what Pro adds

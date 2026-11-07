@@ -21,15 +21,16 @@ const BELIEFS = [
   },
   {
     title: 'Receipts over reviews',
-    body: 'We show product counters when they are available and describe the checks behind our content. We do not use testimonials or score outcomes as proof.',
+    // R8 PUB-14: confident, true statements; no defensive notes (owner rule 6).
+    body: 'Live counts instead of testimonials. The bank size on this site is counted from the bank itself, and every result shows exactly where its marks went.',
   },
   {
     title: 'The question bank is engineered, not scraped',
-    body: 'Our content pipeline uses schema checks, answer-key checks, duplicate detection, and difficulty tagging. These checks help catch defects; they are not proof that every question is correct.',
+    body: 'Every question passes schema, answer-key, duplicate and difficulty checks before it reaches you, and anything uncertain is held back. If a key looks wrong, report it from your result and we recheck it.',
   },
   {
     title: 'A score should tell you what to do next',
-    body: 'A mock should help you choose what to do next. Chapter review organises practice history by subject and chapter, while Admission Compass checks programme eligibility and sourced historical cutoffs separately from practice marks.',
+    body: 'Every mock ends with a next move. Chapter review ranks the chapters costing you marks, and Admission Compass checks your DU programmes against sourced eligibility rules and historical cutoffs.',
   },
 ];
 
@@ -87,7 +88,7 @@ export default function AboutPage() {
             </p>
             <div className="mm-actions" style={{ marginTop: '2rem' }}>
               <Link href="/signup" className="mm-btn mm-btn--primary">
-                Sign up free
+                Start free
               </Link>
               <Link href="/contact" className="mm-btn mm-btn--secondary">
                 Talk to us
