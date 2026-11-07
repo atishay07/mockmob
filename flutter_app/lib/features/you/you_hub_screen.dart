@@ -75,6 +75,10 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   /// reports what an earlier sliver pushes under it), so the row measures this itself.
   final ValueNotifier<bool> _stuck = ValueNotifier<bool>(false);
 
+  /// True while the whole row sits above the bar (R8 APP-17): at rest on a small phone its slot lands under the bar,
+  /// so the row stays hidden there (no chip, no stray letter beside the bar) until it is clear of it or pinned.
+  final ValueNotifier<bool> _clearOfBar = ValueNotifier<bool>(false);
+
   static const List<String> _chipLabels = [
     YouCopy.jumpWeek,
     YouCopy.jumpBadges,
@@ -87,6 +91,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   void initState() {
     super.initState();
     _scroll.addListener(_trackAfterFrame);
+    // Measured once the first frame lands as well, so the row shows at rest wherever it is clear of the bar.
+    _trackAfterFrame();
   }
 
   /// Whether this tab was in front at the last build. The shell turns a tab's tickers off while another tab is in front,
@@ -109,6 +115,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     _scroll.dispose();
     _active.dispose();
     _stuck.dispose();
+    _clearOfBar.dispose();
     super.dispose();
   }
 
@@ -140,6 +147,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     if (viewport is RenderBox && viewport.attached && viewport.hasSize) {
       final stuck = header.localToGlobal(Offset.zero).dy <= viewport.localToGlobal(Offset.zero).dy + 0.5 && _scroll.hasClients && _scroll.offset > 0.5;
       if (_stuck.value != stuck) _stuck.value = stuck;
+      final insets = MmBarInsets.maybeOf(context);
+      final barTop = insets == null || !insets.showing ? 0.0 : insets.barTopAbove(MediaQuery.paddingOf(context).bottom);
+      final viewportBottom = viewport.localToGlobal(Offset(0, viewport.size.height)).dy;
+      final clear = header.localToGlobal(Offset(0, header.size.height)).dy <= viewportBottom - barTop + 0.5;
+      if (_clearOfBar.value != clear) _clearOfBar.value = clear;
     }
     final line = header.localToGlobal(Offset.zero).dy + header.size.height + MmSpace.s16;
     int? active;
@@ -348,7 +360,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       ),
                       SliverPersistentHeader(
                         pinned: true,
-                        delegate: _ChipsHeader(headerKey: _headerKey, active: _active, stuck: _stuck, labels: _chipLabels, onSelected: _jumpTo),
+                        delegate: _ChipsHeader(headerKey: _headerKey, active: _active, stuck: _stuck, clearOfBar: _clearOfBar, labels: _chipLabels, onSelected: _jumpTo),
                       ),
                       SliverPadding(
                         padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
@@ -477,13 +489,16 @@ class _RepairRecordRow extends StatelessWidget {
 /// slides under it, so it never shows text through it. A [ChipRail] gives each chip its whole
 /// width, so none is cut mid-letter.
 class _ChipsHeader extends SliverPersistentHeaderDelegate {
-  const _ChipsHeader({required this.headerKey, required this.active, required this.stuck, required this.labels, required this.onSelected});
+  const _ChipsHeader({required this.headerKey, required this.active, required this.stuck, required this.clearOfBar, required this.labels, required this.onSelected});
 
   static const double extent = 56;
 
   final GlobalKey headerKey;
   final ValueNotifier<int?> active;
   final ValueListenable<bool> stuck;
+
+  /// The whole row is above the bar. Hidden (and untouchable) while it is neither clear of the bar nor pinned.
+  final ValueListenable<bool> clearOfBar;
   final List<String> labels;
   final ValueChanged<int> onSelected;
 
@@ -512,16 +527,30 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
           ),
           child: child,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
-          child: ValueListenableBuilder<int?>(
-            valueListenable: active,
-            builder: (context, selected, _) => ChipRail.labelled(
-              labels: labels,
-              selected: selected,
-              onSelected: onSelected,
-              semanticLabel: YouCopy.jumpLabel,
-              bubbles: false,
+        child: ListenableBuilder(
+          listenable: Listenable.merge([stuck, clearOfBar]),
+          builder: (context, rail) {
+            final shown = stuck.value || clearOfBar.value;
+            // A 120 ms fade, never a slide: the row is where it always was, it only waits to be clear of the bar.
+            return IgnorePointer(
+              ignoring: !shown,
+              child: ExcludeSemantics(
+                excluding: !shown,
+                child: AnimatedOpacity(opacity: shown ? 1 : 0, duration: Motion.of(context, const Duration(milliseconds: 120)), curve: Motion.out, child: rail),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
+            child: ValueListenableBuilder<int?>(
+              valueListenable: active,
+              builder: (context, selected, _) => ChipRail.labelled(
+                labels: labels,
+                selected: selected,
+                onSelected: onSelected,
+                semanticLabel: YouCopy.jumpLabel,
+                bubbles: false,
+              ),
             ),
           ),
         ),
@@ -530,7 +559,8 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(covariant _ChipsHeader old) => old.labels != labels || old.active != active || old.stuck != stuck || old.onSelected != onSelected;
+  bool shouldRebuild(covariant _ChipsHeader old) =>
+      old.labels != labels || old.active != active || old.stuck != stuck || old.clearOfBar != clearOfBar || old.onSelected != onSelected;
 }
 
 /// A typeset section of the hub (SPACING.md 3.1): 32 dp of air, a hairline rule, 16 dp, the title
