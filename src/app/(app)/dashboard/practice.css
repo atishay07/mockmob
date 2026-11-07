@@ -354,10 +354,12 @@ html[data-theme='light'] .app-shell .pr {
 .app-shell .pr .pr-nta__about { margin: 0; max-width: 62ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 
 /* ---------- Fine-tune: always open, above the session, scoped by the mode (owner F8, F9) ---------- */
+/* R8 CONT-14: the holders take the commitment radius (28) so their corners stay concentric with the 12-13 px controls
+   inside at a 16 px inset (outer = inner + inset). */
 .app-shell .pr .pr-fine2 {
   gap: 0;
   padding: 18px 16px;
-  border-radius: 22px;
+  border-radius: 28px;
   background: var(--pr-surface);
   box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
   scroll-margin-top: 96px;
@@ -623,7 +625,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr-skel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .app-shell .pr-skeleton .pr-skel--tile { height: 182px; border-radius: 20px; }
 .app-shell .pr-skeleton .pr-skel--seg { width: 240px; height: 50px; }
-.app-shell .pr-skeleton .pr-skel--fine { height: 200px; border-radius: 22px; }
+.app-shell .pr-skeleton .pr-skel--fine { height: 200px; border-radius: 28px; }
 .app-shell .pr-skeleton .pr-skel--card { height: 460px; border-radius: 22px; }
 @media (min-width: 1024px) {
   .app-shell .pr-skeleton .pr-skel--disc { width: 116px; height: 140px; }
@@ -666,7 +668,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-doors { margin-top: 40px; }
 }
 .app-shell .pr .pr-door {
-  gap: 14px; padding: 18px 16px; border-top: 0; border-radius: 22px; background: var(--pr-surface);
+  gap: 14px; padding: 18px 16px; border-top: 0; border-radius: 28px; background: var(--pr-surface);
   box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
 }
 @media (min-width: 1024px) { .app-shell .pr .pr-door { padding: 20px 22px; } }

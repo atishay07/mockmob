@@ -7,9 +7,11 @@
 /* ---------- 1. Summary ---------- */
 .rp-hero {
   display: grid; grid-template-columns: auto 1fr; gap: 16px 22px; align-items: center;
-  padding: clamp(18px, 3vw, 28px); border-radius: var(--a-radius, 18px); border: 1px solid var(--a-line, #253026);
+  padding: clamp(18px, 3vw, 28px); border-radius: 28px; border: 1px solid var(--a-line, #253026);
   background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
+/* R8 CONT-14: concentric corners. The card takes the commitment radius (28) so it wraps its 14 px key at an 18-28 px
+   inset without pinching (outer close to inner + inset). */
 .rp-hero__pip { width: clamp(76px, 12vw, 112px); height: auto; margin: 0; align-self: start; }
 .rp-hero__pip :is(img, svg) { width: 100%; height: auto; }
 .rp-hero__main { display: grid; gap: 6px; min-width: 0; }

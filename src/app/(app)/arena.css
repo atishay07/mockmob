@@ -860,6 +860,8 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   background: linear-gradient(180deg, var(--a-glass-top), transparent 120px), var(--a-raised);
   box-shadow: var(--a-shadow-2);
 }
+/* R8 CONT-14: the question paper wraps 14 px options at a 17 px inset, so its corners take the commitment radius (28). */
+.app-shell .nta-runner[data-interface="mockmob"] .nta-paper { border-radius: 28px; }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-sheet-panel {
   border-radius: 20px 20px 0 0;
 }
