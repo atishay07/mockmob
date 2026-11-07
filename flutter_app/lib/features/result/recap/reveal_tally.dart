@@ -99,9 +99,10 @@ class _TallyRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final kinds = [
-      (BubbleState.filled, 'correct'),
+      // The Keep list's own words for the result front, as on the web (R8 CONT-06): right, wrong, blank.
+      (BubbleState.filled, 'right'),
       (BubbleState.wrong, 'wrong'),
-      (BubbleState.blank, 'not attempted'),
+      (BubbleState.blank, 'blank'),
       if (held) (BubbleState.marked, 'being checked'),
     ];
     final scaler = MediaQuery.textScalerOf(context);

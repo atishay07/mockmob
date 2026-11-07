@@ -126,9 +126,9 @@ void main() {
 
     test('a receipt names the chapter of a By-chapter run, and only then', () {
       final at = DateTime(2026, 10, 12, 23, 51);
-      expect(PracticeCopy.recorded(at), 'Practice finished. Recorded at 11:51 PM.');
-      expect(PracticeCopy.recorded(at, chapter: 'Goodwill'), 'Chapter practice finished, Goodwill. Recorded at 11:51 PM.');
-      expect(PracticeCopy.recorded(at, chapter: 'Goodwill.'), 'Chapter practice finished, Goodwill. Recorded at 11:51 PM.');
+      expect(PracticeCopy.recorded(at), 'Practice finished. Recorded at 11:51\u00A0PM.');
+      expect(PracticeCopy.recorded(at, chapter: 'Goodwill'), 'Chapter practice finished, Goodwill. Recorded at 11:51\u00A0PM.');
+      expect(PracticeCopy.recorded(at, chapter: 'Goodwill.'), 'Chapter practice finished, Goodwill. Recorded at 11:51\u00A0PM.');
       expect(PracticeCopy.finished(at, chapter: 'Goodwill'), PracticeCopy.recorded(at, chapter: 'Goodwill'));
     });
 

@@ -13,6 +13,12 @@ void main() {
       expect(formatTime12(DateTime(2026, 10, 12, 12, 30)), '12:30 PM');
       expect(formatTime12(DateTime(2026, 10, 12, 0, 59)), '12:59 AM');
     });
+
+    // R8 APP-16: a receipt's time never breaks between the figure and AM or PM at large text.
+    test('the kept form joins the time and AM or PM with a no-break space', () {
+      expect(formatTime12Kept(DateTime(2026, 11, 8, 2, 39)), '2:39\u00A0AM');
+      expect(formatDayMonthKept(DateTime(2026, 11, 8)), '8\u00A0November');
+    });
   });
 
   group('dates', () {

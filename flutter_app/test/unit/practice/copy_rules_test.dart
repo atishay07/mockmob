@@ -81,7 +81,7 @@ void main() {
     expect(PracticeCopy.reviewWrong(3), 'Review 3 wrong answers');
     expect(PracticeCopy.chapterResultLine('Admission of a partner'), 'Chapter: Admission of a partner.');
     expect(PracticeCopy.chapterResultLine('Goodwill.'), 'Chapter: Goodwill.');
-    expect(PracticeCopy.recorded(DateTime(2026, 10, 12, 23, 51)), 'Practice finished. Recorded at 11:51 PM.');
-    expect(PracticeCopy.finished(DateTime(2026, 10, 12, 23, 51)), 'Practice finished. Recorded at 11:51 PM.');
+    expect(PracticeCopy.recorded(DateTime(2026, 10, 12, 23, 51)), 'Practice finished. Recorded at 11:51\u00A0PM.');
+    expect(PracticeCopy.finished(DateTime(2026, 10, 12, 23, 51)), 'Practice finished. Recorded at 11:51\u00A0PM.');
   });
 }

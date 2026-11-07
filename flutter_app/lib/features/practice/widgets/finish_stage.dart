@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/copy/formatters.dart' show formatTime12, formatDayMonth, weekdayName;
+import '../../../core/copy/formatters.dart' show formatTime12Kept, formatDayMonthKept, weekdayName;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -65,6 +65,7 @@ class FinishStage extends ConsumerStatefulWidget {
     this.chaptersDetail,
     this.read,
     this.onFix,
+    this.fixOpen,
     this.spent,
     this.timed = 0,
   });
@@ -74,6 +75,9 @@ class FinishStage extends ConsumerStatefulWidget {
 
   /// Opens the repair of the answers the read's Opportunity names ("Fix these 2").
   final VoidCallback? onFix;
+
+  /// How many of the read's answers are still open: the count the read's repair key names.
+  final int? fixOpen;
 
   /// Under the read's lead sentence, for a tie: what the tied chapters cost together.
   final String? chaptersDetail;
@@ -614,6 +618,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
                   lead: widget.chaptersLead,
                   leadDetail: widget.chaptersDetail,
                   onFix: widget.onFix,
+                  fixOpen: widget.fixOpen,
                 ),
               ],
             ],
@@ -650,6 +655,9 @@ abstract final class FinishCopy {
   /// "Recorded at 10:11 PM." or "Recorded on Sunday, 18 October at 10:11 PM.", in the student's own day.
   static String recordedWhen(DateTime at, DateTime now) {
     final sameDay = at.year == now.year && at.month == now.month && at.day == now.day;
-    return sameDay ? 'Recorded at ${formatTime12(at)}.' : 'Recorded on ${weekdayName(at.weekday)}, ${formatDayMonth(at)} at ${formatTime12(at)}.';
+    // No-break spaces inside the time and the date (R8 APP-16): never "2:39" over "AM." at large text.
+    return sameDay
+        ? 'Recorded at ${formatTime12Kept(at)}.'
+        : 'Recorded on ${weekdayName(at.weekday)}, ${formatDayMonthKept(at)} at ${formatTime12Kept(at)}.';
   }
 }

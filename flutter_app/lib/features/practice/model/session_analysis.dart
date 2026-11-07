@@ -261,7 +261,7 @@ List<Observation> _observations(
       Observation(
         kind: ObservationKind.blank,
         tone: ObservationTone.neutral,
-        label: 'Not attempted',
+        label: 'Blank',
         headline: '${blank.length == 1 ? 'One question' : '${blank.length} questions'} not attempted',
         detail: 'A question left out costs nothing but earns nothing. The record cannot tell whether time ran out.',
         tip: 'Under +5/−1, once you can rule out one option, a guess is worth +1 on average.',

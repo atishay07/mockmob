@@ -449,10 +449,10 @@ abstract final class PracticeCopy {
   static String chapterResultLine(String name) => 'Chapter: ${name.endsWith('.') ? name.substring(0, name.length - 1) : name}.';
   /// With a [chapter] (a By-chapter run) the receipt names it, the same way the result does.
   static String recorded(DateTime at, {String? chapter}) => chapter == null || chapter.trim().isEmpty
-      ? 'Practice finished. Recorded at ${formatTime12(at)}.'
-      : 'Chapter practice finished, ${_noStop(chapter)}. Recorded at ${formatTime12(at)}.';
+      ? 'Practice finished. Recorded at ${formatTime12Kept(at)}.'
+      : 'Chapter practice finished, ${_noStop(chapter)}. Recorded at ${formatTime12Kept(at)}.';
   /// Under the result's figure, where the eyebrow already says the practice is finished: just the time.
-  static String recordedLine(DateTime at) => 'Recorded at ${formatTime12(at)}.';
+  static String recordedLine(DateTime at) => 'Recorded at ${formatTime12Kept(at)}.';
   static String _noStop(String s) {
     final t = s.trim();
     return t.endsWith('.') ? t.substring(0, t.length - 1) : t;
@@ -474,11 +474,12 @@ abstract final class PracticeCopy {
   /// The ending says it the way the result page does: one wording for the same fact.
   static String finished(DateTime at, {String? chapter}) => recorded(at, chapter: chapter);
   static String sectionWrong(int n) => 'Wrong answers ($n)';
-  static String sectionBlank(int n) => 'Not attempted ($n)';
-  static String sectionCorrect(int n) => 'Correct ($n)';
-  static const String statusCorrect = 'Correct';
+  // One vocabulary for the three answer states, as on the web and the result front (R8 CONT-06): Right, Wrong, Blank.
+  static String sectionBlank(int n) => 'Blank ($n)';
+  static String sectionCorrect(int n) => 'Right ($n)';
+  static const String statusCorrect = 'Right';
   static const String statusWrong = 'Wrong';
-  static const String statusBlank = 'Not attempted';
+  static const String statusBlank = 'Blank';
   static String questionNumber(int n) => 'Question $n';
   static const String yourAnswer = 'Your answer';
   static const String correctAnswer = 'Correct answer';

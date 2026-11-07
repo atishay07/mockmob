@@ -45,6 +45,13 @@ String formatTime12(DateTime time) {
   return '$hour:$minute $suffix';
 }
 
+/// "11:42 PM" with a no-break space, for a time inside running text (receipts): at large text the line wraps before
+/// the time, never between "2:39" and "AM" (R8 APP-16). The same words as [formatTime12].
+String formatTime12Kept(DateTime time) => formatTime12(time).replaceFirst(' ', '\u00A0');
+
+/// "12 October" with a no-break space, for a date inside running text.
+String formatDayMonthKept(DateTime date) => '${date.day}\u00A0${_months[date.month - 1]}';
+
 /// Evening runs from 4:00 PM to 4:59 AM: the hours a student says "tonight" about.
 bool isEvening(DateTime time) => time.hour >= 16 || time.hour < 5;
 

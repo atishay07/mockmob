@@ -101,9 +101,9 @@ abstract final class ResultCopy {
   static String outOf(int max) => 'of $max';
   static String figureLabel(int marks, int max) => formatMarks(marks, max);
   static const scheme = '5 marks for each correct answer, minus 1 for each wrong answer.';
-  static String correct(int n) => '$n correct';
+  static String correct(int n) => '$n right';
   static String wrong(int n) => '$n wrong';
-  static String notAttempted(int n) => '$n not attempted';
+  static String notAttempted(int n) => '$n blank';
   static String sum(int c, int w, int u) => '$c + $w + $u = ${plural(c + w + u, 'question')}.';
   // Scores read "115 of 250" everywhere on screen (the figure, the comparison, Recent papers).
   static String previous(String mock, int marks, int max) => '$mock, same format: ${formatSignedNumber(marks)} of $max.';
@@ -330,16 +330,17 @@ abstract final class ResultCopy {
     return 'Q$number, $subject: $word';
   }
 
-  static String groupBlank(int n) => 'Not attempted ($n)';
+  // One vocabulary for the three answer states, as on the web and the result front (R8 CONT-06): Right, Wrong, Blank.
+  static String groupBlank(int n) => 'Blank ($n)';
 
   /// The "Not attempted" header for TalkBack: it shows or hides the rows.
   static String groupBlankToggle(int n, {required bool open}) => '${plural(n, 'question')} not attempted. ${open ? 'Hide' : 'Show'} them.';
-  static String groupCorrect(int n) => 'Correct ($n)';
+  static String groupCorrect(int n) => 'Right ($n)';
   static String groupHeld(int n) => 'Being checked ($n)';
   static String question(int n) => 'Question $n';
-  static const statusCorrect = 'Correct';
+  static const statusCorrect = 'Right';
   static const statusWrong = 'Wrong';
-  static const statusBlank = 'Not attempted';
+  static const statusBlank = 'Blank';
   static const statusHeld = 'Being checked';
   static const yourAnswer = 'Your answer';
   static const correctAnswer = 'Correct answer';
