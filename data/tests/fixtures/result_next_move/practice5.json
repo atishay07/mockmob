@@ -81,8 +81,8 @@
       "rule": 3,
       "label": "Repair Q3",
       "why": "Nature & Significance of Management. You picked A.",
-      "value": "A repair gives you why A looked right, the trap, one rule to keep, and a new question to check it held.",
-      "cost": "1 credit. You have 68. No charge if the repair cannot be written.",
+      "value": "A repair gives you why A looked right, the trap, one rule to keep, and new questions to check it held.",
+      "cost": "Try it free first, then repair for 1 credit. You have 68. No charge if the repair cannot be written.",
       "late": null,
       "alt": {
         "kind": "practise",

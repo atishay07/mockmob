@@ -179,18 +179,19 @@ export function lateLine(hour) {
   return hour >= NEXT_MOVE_RULES.lateFrom || hour < NEXT_MOVE_RULES.lateUntil ? 'It is late. One repair is enough for tonight.' : null;
 }
 
-/** "A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held." */
+/** "A repair gives you why D looked right, the trap, one rule to keep, and new questions to check it held." (ARC-04: up to 2 checks, so no count.) */
 export function repairValueLine(letter, { checkReady = true } = {}) {
   const pick = letter ? letter : 'your answer';
   return checkReady
-    ? `A repair gives you why ${pick} looked right, the trap, one rule to keep, and a new question to check it held.`
+    ? `A repair gives you why ${pick} looked right, the trap, one rule to keep, and new questions to check it held.`
     : `A repair gives you why ${pick} looked right, the trap, and one rule to keep.`;
 }
 
-/** "1 credit. You have 68. No charge if the repair cannot be written." */
+/** "Try it free first, then repair for 1 credit. You have 68. No charge if the repair cannot be written." (ARC-01: the free retry
+ * gate is said before the key, so the jump to the row is not a surprise.) */
 export function repairCostLine(aiCredits) {
   const have = haveLine(aiCredits);
-  return ['1 credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
+  return ['Try it free first, then repair for 1 credit.', have, 'No charge if the repair cannot be written.'].filter(Boolean).join(' ');
 }
 
 /**
@@ -385,7 +386,7 @@ export function mistakesHead({ count, repairedCount = 0, heldCount = 0, answered
     // The empty state teaches what will appear here (FEATURE-ADOPTION item 10).
     empty: count ? null : answered === 0
       ? 'Questions you answer and get wrong on your next paper show up here, each with its own repair.'
-      : 'A wrong answer shows up here with its own repair: why your pick looked right, one rule to keep and a new question to check it held.',
+      : 'A wrong answer shows up here with its own repair: why your pick looked right, one rule to keep and new questions to check it held.',
     side: !count ? null : repairedCount ? `${repairedCount} of ${count} repaired${heldCount ? `, ${heldCount} held` : ''}` : `−${count * NEXT_MOVE_RULES.gapWrong} marks`,
   };
 }

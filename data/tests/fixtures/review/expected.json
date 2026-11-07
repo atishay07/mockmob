@@ -8,7 +8,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Admission of a partner. You picked D.",
-        "cost": "1 credit. You have 40. No charge if the repair cannot be written.",
+        "cost": "Try it free first, then repair for 1 credit. You have 40. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",
@@ -518,7 +518,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Share Capital. You picked D.",
-        "cost": "1 credit. You have 68. No charge if the repair cannot be written.",
+        "cost": "Try it free first, then repair for 1 credit. You have 68. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",
@@ -649,7 +649,7 @@
         "rule": 3,
         "label": "Repair Q42",
         "why": "Admission of a partner. You picked D.",
-        "cost": "1 credit. You have 40. No charge if the repair cannot be written.",
+        "cost": "Try it free first, then repair for 1 credit. You have 40. No charge if the repair cannot be written.",
         "late": null,
         "alt": {
           "kind": "practise",

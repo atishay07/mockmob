@@ -156,7 +156,7 @@ export function savedRepairs(record) {
     const line = i.state === 'slipped'
       ? `Slipped on a new question${i.checkedAt ? ` ${whenSaid(i.checkedAt, ctx.now)}` : ''}. Back in Revise tomorrow.`
       : i.state === 'repaired'
-        ? `Repaired${repairedAt ? ` ${repairedAt}` : ''}. One new question shows whether it held.`
+        ? `Repaired${repairedAt ? ` ${repairedAt}` : ''}. New questions show whether it held.`
         : `Held on a new question.${repairedAt ? ` Repaired ${repairedAt}.` : ''}`;
     const kind = i.state === 'repaired' ? 'pending' : i.state;
     return { ...itemOut(i), chapter: i.chapterRef.name, chapterId: i.chapterRef.id, kind, line, action: actionFor(i) };

@@ -116,8 +116,8 @@ test('the next move is the shared function on the open set: Repair Q42 (Mock 3),
   assert.equal(move.rule, 3);
   assert.equal(move.label, 'Repair Q42');
   assert.deepEqual({ qid: move.target.qid, number: move.target.number, chapter: move.target.chapter, attemptId: move.target.attemptId, paper: move.target.paper }, { qid: 'm3:42', number: 42, chapter: 'Admission of a partner', attemptId: 'm3', paper: 'Mock 3' });
-  assert.equal(move.value, 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.');
-  assert.equal(move.cost, '1 credit. You have 40. No charge if the repair cannot be written.');
+  assert.equal(move.value, 'A repair gives you why D looked right, the trap, one rule to keep, and new questions to check it held.');
+  assert.equal(move.cost, 'Try it free first, then repair for 1 credit. You have 40. No charge if the repair cannot be written.');
   assert.equal(move.alt.label, 'Practise 10 on Admission of a partner instead');
   assert.deepEqual(move.panel, { title: 'Admission of a partner', line: 'Your costliest chapter: 35 marks lost in Mock 3 and Mock 2. Q42 comes first.' });
 });
@@ -151,7 +151,7 @@ test('0 credits: practise the costliest chapter and say when the credits renew (
   const unknown = copy(student);
   unknown.wallet.aiCredits = null;
   assert.equal(reviewMove(unknown).label, 'Repair Q42');
-  assert.match(reviewMove(unknown).cost, /^1 credit\. /);
+  assert.match(reviewMove(unknown).cost, /^Try it free first, then repair for 1 credit\. /);
   assert.ok(!/You have 0/.test(reviewMove(unknown).cost));
 });
 

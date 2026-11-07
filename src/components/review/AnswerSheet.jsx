@@ -1,8 +1,8 @@
 "use client";
 // The free answer sheet (LEARN-REVIEW-1017 5.5, L13): an open mistake never needs a credit to be understood. It opens in
 // place under its row. "Try it again" shows the question with the key hidden; "Show the answer" shows your pick, the
-// correct answer and the book explanation. Both are free and record nothing. "Fix it for good, 1 credit" (v13, Mobi's job; it
-// was "Repair Q{n}") is the paid step inside it, its price said before the tap, and
+// correct answer and the book explanation. Both are free and record nothing. "Repair Q{n}, 1 credit" (R8 ARC-01: one verb with the
+// result page and the list; v13 had named it "Fix it for good", now Mobi's line under the result's key) is the paid step inside it, its price said before the tap, and
 // runs the existing repair (recovery/MistakeRepair.jsx, which holds RepairCheck). A mistake that already has a saved repair
 // (repaired, held, slipped) opens that repair, free, and is never offered a paid one (F17).
 //
@@ -60,7 +60,7 @@ function Answer({ q, showStem = true }) {
           return (
             <li key={i}>
               <span className="rvw-opt" data-k={key ? 'right' : mine ? 'wrong' : undefined}>
-                <i>{LETTERS[i]}</i><span>{o}{key || mine ? <small>{key && mine ? 'Your pick, correct' : key ? 'Correct' : 'Your pick'}</small> : null}</span>
+                <i>{LETTERS[i]}</i><span>{o}{key || mine ? <small>{key && mine ? 'Your pick, correct' : key ? 'Correct answer' : 'Your pick'}</small> : null}</span>
               </span>
             </li>
           );
@@ -117,7 +117,7 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
       {body}
       {showKeys ? (
         <FreeKeys mode={mode} onTry={() => setMode('try')} onShow={() => setMode('answer')} showAnswer={!item.keyState}>
-          {repairable && !noAi ? <button type="button" className="rvw-key mk-press" onClick={() => setMode('repair')} aria-label={FIX_COPY.startAria(item.number)}>{FIX_COPY.startLabel}</button> : null}
+          {repairable && !noAi ? <button type="button" className="rvw-key mk-press" onClick={() => setMode('repair')} aria-label={FIX_COPY.startAria(item.number)}>{FIX_COPY.startLabel(item.number)}</button> : null}
         </FreeKeys>
       ) : null}
       {showKeys && repairable && noAi ? (
