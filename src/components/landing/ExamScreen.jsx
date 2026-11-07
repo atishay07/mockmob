@@ -67,6 +67,17 @@ export function ExamScreen() {
   // The full-screen view (phones; R4-H6, R5): open or not, the key that opened it (the focus goes back to it), and what it took
   // from the browser: its own full screen (a coarse pointer, where allowed) and one history entry, so the back gesture closes it.
   const [full, setFull] = useState(false);
+  // R8 SEC-11: on a phone the monitor is a picture of the real screen (owner LK129), its keys 13-17 px. They are inert there
+  // and a tap anywhere on the picture opens the same state full screen, where every key is full size. The visible
+  // "Try it full screen" key below stays the way in for the keyboard and screen readers.
+  const [pictureOnly, setPictureOnly] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 760px)');
+    const sync = () => setPictureOnly(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
   const fullOpener = useRef(null);
   const fullClose = useRef(null);
   const fullBox = useRef(null);
@@ -323,7 +334,7 @@ export function ExamScreen() {
   );
   // The monitor's screen: drawn in the monitor while the view is shut (never both: one timer, one set of live regions).
   const frame = (
-    <div className="xs-frame" data-interface={mode}>
+    <div className="xs-frame" data-interface={mode} inert={pictureOnly || undefined}>
       <div className="xs-browser" aria-hidden="true">
         <span className="xs-browser__nav"><ChevronLeft /><ChevronRight /><RotateCw /></span>
         <span className="xs-url"><Lock /><span><b>{EXAM.address.host}</b>{address}</span></span>
@@ -418,6 +429,7 @@ export function ExamScreen() {
 
         <ExamDevice ref={deviceRef}>
           {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
+          {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
         </ExamDevice>
 
         <p className="xs-gate"><b>{EXAM.gateTitle}.</b> {EXAM.gate} <span>{EXAM.warnings}.</span>{' '}

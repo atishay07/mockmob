@@ -437,3 +437,15 @@ html[data-theme='light'] .xs-ph-sheet::backdrop { background: rgba(27, 25, 20, .
 :root[data-motion='reduced'] .xs-full__close:active { transform: none; }
 :root[data-motion='reduced'] .xs-ph-sheet[open], :root[data-motion='reduced'] .xs-ph-sheet::backdrop { animation: none; }
 :root[data-motion='reduced'] .xs-phone .xs-btn { transition: none; }
+
+/* R8 (SEC-11, 8 Nov 2026): phones. The whole picture is one tap target for the full-screen view; its tiny keys are inert
+   (ExamScreen.jsx), so a thumb never lands on a 15 px chip. The press dims the glass for a beat. */
+.xs-tap { display: none; }
+@media (max-width: 760px) {
+  .xs-tap {
+    display: block; position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0; border: 0; border-radius: inherit;
+    background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+    transition: background-color 120ms ease-out;
+  }
+  .xs-tap:active { background: rgb(0 0 0 / 0.08); }
+}
