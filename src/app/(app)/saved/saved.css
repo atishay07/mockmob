@@ -41,9 +41,13 @@
 .sv-row[data-cue] .sv-under { opacity: 1; justify-content: flex-end; background: var(--a-bad-wash); }
 .sv-row[data-cue] .sv-under__go { visibility: hidden; }
 /* Learn v2: the way back to Explore above the title (Saved lives inside Explore). */
-.sv-back { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin: -8px 0 4px -6px; padding: 0 8px 0 2px; border-radius: 10px; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); text-decoration: none; }
+/* The same labelled Back key as the deeper You pages (R8 TOOLS-09, owner D43: a clear button, not a small back icon). */
+.sv-back { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin: 0 0 12px; padding: 0 16px 0 10px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-raised); color: var(--a-ink); font: 650 14px/1 var(--font-display); text-decoration: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: background-color 150ms var(--a-ease, ease-out), border-color 150ms var(--a-ease, ease-out), transform 120ms var(--a-ease, ease-out); }
+.sv-back svg { color: var(--a-ink-2); }
+.sv-back:active { transform: scale(0.97); background: var(--a-hover); }
 .sv-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-@media (hover: hover) { .sv-back:hover { color: var(--a-ink); } }
+@media (hover: hover) and (pointer: fine) { .sv-back:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+@media (prefers-reduced-motion: reduce) { .sv-back { transition: none; } .sv-back:active { transform: none; } }
 
 .sv-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 4px 0; position: relative; z-index: 1; }
 .sv-act { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 13px var(--font-display); text-decoration: none; cursor: pointer; }

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { RIVAL_PROFILES } from '@/services/ai-rival/rivalProfiles';
 import { useAuth } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
 import { CUET_MAX_SUBJECTS } from '@/lib/cuetRules.mjs';
 import { creditCount, usesLine } from '@/lib/creditCopy.mjs';
 import MobiReact from '@/components/brand/MobiReact';
@@ -357,20 +358,26 @@ export default function AIRivalArena() {
 }
 
 function RivalShell({ children, usage }) {
-  const wallet = usage?.aiWallet || null;
-  // Unknown or paused wallets show no number; the number is the one credits balance.
-  const total = wallet?.known ? wallet.total : null;
+  const { user } = useAuth();
+  // One balance on the screen (R8 TOOLS-08): the same wallet read as the top bar's credits pill. The usage route's own wallet is
+  // used only when it is known; an unknown balance or an unknown free count is left out, never printed as "not available".
+  const shared = useWalletSummary(user?.id || null, { reuseFresh: true });
+  const wallet = usage?.aiWallet?.known ? usage.aiWallet : shared.wallet?.known ? shared.wallet : null;
+  const total = wallet ? wallet.total : null;
   const free = formatFreeRival(usage);
+  const freeKnown = free !== '—';
   // Themed with the Arena's own tokens, Night and Day alike (W-078): no dark panel inside Daylight. The wallet is one
   // plain line, not a row of pills. Its two facts sit apart by space, not a middle dot (which dangled at the end of the first line
   // on a phone when the line wrapped; 5 Nov 2026).
   return (
     <div className="rvl-shell mx-auto w-full max-w-7xl">
-      <p className="rvl-wallet">
-        <Coins size={14} aria-hidden="true" />
-        <span>Credits <b>{total ?? 'not available'}</b></span>
-        <span>Free benchmarks today <b>{free === '—' ? 'not available' : free}</b></span>
-      </p>
+      {total != null || freeKnown ? (
+        <p className="rvl-wallet">
+          <Coins size={14} aria-hidden="true" />
+          {total != null ? <span>Credits <b>{Number(total).toLocaleString('en-IN')}</b></span> : null}
+          {freeKnown ? <span>Free benchmarks today <b>{free}</b></span> : null}
+        </p>
+      ) : null}
       {children}
     </div>
   );

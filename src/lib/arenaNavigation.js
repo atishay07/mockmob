@@ -4,7 +4,7 @@ import { CAPABILITIES } from '@/../data/capabilities';
 // 2026 under D112 and confirmed by the owner as D114). Today, Practice, Start (an action, drawn by the shell), Mob and You.
 // Every page keeps its own link and its own route; only where a link sits changed. Nothing is hidden (R3).
 //
-// hint: a plain descriptor shown beside a coined or branded name ("Mob, with friends"; "Colleges, DU cutoffs").
+// hint: a plain descriptor shown beside a coined or branded name ("Mob, with friends"; "Colleges, DU Compass").
 // The Guide row is HELP_DOOR.label (src/lib/helpDoor.mjs); a test holds the two together (this file is also loaded on its own, so it imports nothing local).
 const item = (id, label, icon = id, href = `/${id}`, hint = null) => ({ id, label, icon, href, hint });
 // place: one of the five places, drawn as a bold row in the desktop sidebar. sub: a page that lives inside the place above
@@ -34,7 +34,7 @@ const STANDING = item('leaderboard', 'Your standing', 'ranks');
 const YOU = { ...item('profile', 'You', 'account'), title: 'Your account' };
 const PROGRESS = item('progress', 'Progress');
 const TREND = item('analytics', 'Marks trend', 'radar', '/analytics');
-const COLLEGES = item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU cutoffs');
+const COLLEGES = item('admission-compass', 'Colleges', 'colleges', '/admission-compass', 'DU Compass');
 const WALLET = item('wallet', 'Wallet', 'wallet');
 const GUIDE = item('help', 'Guide', 'help');
 const ASK_MOBI = item('mentor', 'Ask Mobi', 'prepos');
@@ -129,7 +129,7 @@ export function placeTabs(path, { mob = false, study = false, learn2 = LEARN2_NA
 // Account, Progress, Marks trend, Colleges, Wallet, Guide, Ask Mobi and the moderator and contributor pages are in You.
 const PLACE_PAGES = Object.freeze({
   today: ['today'],
-  practice: ['dashboard', 'review', 'learn', 'study', 'cards', 'explore', 'saved'],
+  practice: ['dashboard', 'review', 'learn', 'study', 'cards', 'explore', 'saved', 'rival'],
   mob: ['mob', 'leaderboard'],
   you: ['profile', 'progress', 'analytics', 'admission-compass', 'wallet', 'help', 'mentor', 'moderation', 'upload', 'my-uploads'],
 });

@@ -95,6 +95,20 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
   .app-shell .arena-askkey { padding: 0 14px 0 11px; }
   .app-shell .arena-askkey__label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
 }
+/* R8 TOOLS-07 (LK143, Ask Mobi as a main feature): on a phone his key says what it does, not only his face. To make room, the
+   balance shows its number below 440 px; the capsule's name still says "108 credits. Open Wallet", and Wallet and You spell it out.
+   From 380 px the key reads "Ask Mobi"; on a 360 px phone it reads "Ask" beside his face (the name stays in its accessible name). */
+@media (max-width: 639px) {
+  .app-shell .arena-askkey { gap: 5px; padding: 0 12px 0 9px; }
+  .app-shell .arena-askkey__label { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
+}
+@media (max-width: 439px) {
+  .app-shell .arena-acct__credits > span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .app-shell .arena-acct__credits { padding: 0 10px 0 14px; }
+}
+@media (max-width: 379px) {
+  .app-shell .arena-askkey__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
 @media (min-width: 1024px) { .app-shell .arena-askkey { display: none; } }
 /* A 360 px phone holds the logo, Mobi's key and the account capsule with its 16 px gutters: the word and the gaps give a little. Under
    350 px (a 320 px phone) the key steps out of the bar; the You page's first row is the same door. */
@@ -276,3 +290,22 @@ html[data-motion='reduced'] .app-shell .arena-tabs::before, html[data-motion='re
   .app-shell :is(.arena-tab, .arena-tabs__hint, .arena-tabs__disc) { transition: none; }
   .app-shell .arena-tabs::before, .app-shell .arena-tabs::after { transition: none; }
 }
+
+/* The Back key on deeper pages (owner D43, R8 TOOLS-09): a labelled 44 px key above the page heading, the way out named, never a
+   bare icon. Quiet surface and rim like the Arena's secondary keys, so it reads pressable without competing with the page's volt
+   action. Phones and tablets only: from 1024 px the sidebar marks the place. Press: 120 ms ease-out scale, no motion when reduced. */
+.app-shell .arena-back {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 44px; margin: 0 0 14px; padding: 0 16px 0 10px;
+  border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-raised);
+  color: var(--a-ink); font: 650 14px/1 var(--font-display); text-decoration: none; -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; transition: background-color 150ms var(--a-ease, ease-out), border-color 150ms var(--a-ease, ease-out), transform 120ms var(--a-ease, ease-out);
+}
+.app-shell .arena-back svg { color: var(--a-ink-2); }
+.app-shell .arena-back:active { transform: scale(0.97); background: var(--a-hover); }
+.app-shell .arena-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .arena-back:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+@media (min-width: 1024px) { .app-shell .arena-back { display: none; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-back { transition: none; } .app-shell .arena-back:active { transform: none; } }
+html[data-motion='reduced'] .app-shell .arena-back { transition: none; }
+/* "Colleges, DU Compass" (R8 TOOLS-06: the place and the product, one name each) holds one line in the rail, like "Learn, ..." */
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-admission-compass'] .arena-nav-link__hint { font-size: 12.5px; white-space: nowrap; }

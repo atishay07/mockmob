@@ -61,7 +61,9 @@ test('A3: the rail: logo, Start and Mobi’s door stay put; the places scroll on
 
 test('A4: Ask Mobi is a door on every screen: the rail under Start, the top bar below 1024 px, the You page, Today, and his face on the asks', () => {
   assert.match(shell, /<Link href=\{mentorHref\} className="arena-askkey" data-tour="nav-mentor-top" aria-current=\{isActive\('mentor'\) \? 'page' : undefined\}>/);
-  assert.match(shell, /<span className="arena-askkey__label">Ask Mobi<\/span>/, 'his name is said, visually from 640 px');
+  // R8 TOOLS-07 (LK143): his key says what it does on a phone too: "Ask Mobi" from 380 px, "Ask" on a 360 px phone.
+  assert.match(shell, /<span className="arena-askkey__label">Ask<span className="arena-askkey__name"> Mobi<\/span><\/span>/, 'his name is said in words');
+  assert.match(navCss, /@media \(max-width: 639px\) \{[\s\S]{0,200}\.arena-askkey__label \{ position: static;/, 'visible on a phone');
   assert.match(navCss, /@media \(min-width: 640px\) \{[\s\S]{0,200}\.arena-askkey__label \{ position: static;/);
   assert.match(navCss, /@media \(max-width: 349px\) \{ \.app-shell \.arena-askkey \{ display: none; \} \}/, 'a 320 px phone keeps its bar whole');
   const today = read('src/app/(app)/today/page.jsx');
