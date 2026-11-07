@@ -89,6 +89,30 @@ function LinkRows({ label, rows, all, onAll, noun, query, id }) {
   );
 }
 
+/**
+ * R8 LEARN-08: the same search in the student's other subjects, one row each ("Also in Business Studies: 2 chapters, 14 cards"). A tap
+ * switches the subject and keeps the query, so the results open there. Counts only the cards the student can open.
+ */
+function AlsoIn({ others, onSubject }) {
+  if (!others?.length || typeof onSubject !== 'function') return null;
+  return (
+    <section className="l2f-block l2f-also" aria-label="In your other subjects">
+      <ul className="l2f-links">
+        {others.map((o) => {
+          const meta = [o.chapters ? countWord(o.chapters, 'chapter') : null, o.cards ? countWord(o.cards, 'card') : null].filter(Boolean).join(', ');
+          return (
+            <li key={o.subject}>
+              <button type="button" className="l2f-link" onClick={() => onSubject(o.subject)} aria-label={`Also in ${o.name}: ${meta}. Search there`}>
+                <b>Also in {o.name}</b><span>{meta}</span><ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 /** The tools and keys the results and the sets share: Show answers, the chapter jump on a phone, Pick, and the study keys. */
 function Tools({ showAnswers, onShowAnswers, pick, groups, controls }) {
   return (
@@ -127,7 +151,7 @@ function useRunHref(links, chapterOf) {
 
 // ------------------------------------------------------------------------------------------------------------ results
 
-function Results({ subject, text }) {
+function Results({ subject, text, onSubject }) {
   const links = useLearnLinks();
   const { user } = useAuth() || {};
   const isPro = user?.isPremium === true;
@@ -235,6 +259,7 @@ function Results({ subject, text }) {
             <p className="l2f-count" role="status">{r ? counts.line : ''}</p>
           </div>
           {body}
+          {r && results.status !== 'error' ? <AlsoIn others={r.others} onSubject={onSubject} /> : null}
         </div>
       </div>
       {panel.showPickBar ? (
@@ -358,6 +383,7 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
           </div>
           <FilterChips value={shelf} onChange={onShelf} options={options} label="Which set" />
           {body}
+          {r && results.status !== 'error' ? <AlsoIn others={r.others} onSubject={onSubject} /> : null}
         </div>
       </div>
       {panel.showPickBar ? (
@@ -368,12 +394,12 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
 }
 
 /** What Learn home's panel shows while the student searches (`text`) or has a shelf key open (`shelf`). */
-export default function FindView({ subject, text = '', shelf = null, shelves = null, onShelf, onBack }) {
+export default function FindView({ subject, text = '', shelf = null, shelves = null, onShelf, onBack, onSubject }) {
   const searching = text.trim().length > 0;
   return (
     <div className={`kc kc--inline l2c l2f ${ncertFont.variable}`}>
       {searching
-        ? <Results subject={subject} text={text} />
+        ? <Results subject={subject} text={text} onSubject={onSubject} />
         : shelf ? <SetPanel subject={subject} shelf={shelf} shelves={shelves} onShelf={onShelf} onBack={onBack} /> : null}
     </div>
   );
