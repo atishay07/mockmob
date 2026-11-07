@@ -99,6 +99,18 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
   const { step, token } = timeline;
   const [playing, setPlaying] = useState(true);
   const inView = useReadableRegion(readingRef);
+  // R8 SEC-13: held, the replay deals itself in as soon as its score row is on screen, not only once the reading band
+  // holds it, so a reader scrolling in never meets '0 / 50, 0 right, 0 wrong' standing still above the hold.
+  const scoreRef = useRef(null);
+  const [scoreSeen, setScoreSeen] = useState(false);
+  useEffect(() => {
+    const node = scoreRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(([entry]) => setScoreSeen(entry.isIntersecting));
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
+  const live = inView || (pinned && scoreSeen);
   const [hold, setHold] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [revealed, setRevealed] = useState(0);
@@ -119,7 +131,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     return () => query.removeEventListener('change', sync);
   }, []);
 
-  const running = playing && inView && !hold && !reduced;
+  const running = playing && live && !hold && !reduced;
 
   // The page's peak: Pip (perched beside this lab) watches the replay and jumps once when the
   // leak becomes one next move. Later loops only get a nod.
@@ -140,13 +152,13 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
   // and reduced motion keep their meaning: none of them restarts anything.
   const wasInView = useRef(false);
   useEffect(() => {
-    const rose = inView && !wasInView.current;
-    wasInView.current = inView;
+    const rose = live && !wasInView.current;
+    wasInView.current = live;
     if (!rose || reduced || !playing || hold || step !== 0) return;
     clockRef.current = { token, elapsed: 0 };
     setRevealed(0);
     setPicked(null);
-  }, [inView, reduced, playing, hold, step, token]);
+  }, [live, reduced, playing, hold, step, token]);
 
   // A single elapsed clock owns the step, question reveals and visible progress.
   // Leaving the reading region preserves elapsed time; it never catches up offscreen.
@@ -254,7 +266,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <span className="ml__reading-region" ref={readingRef} aria-hidden="true" />
           {/* 1. Replay */}
           <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the session">
-            <div className="ml__score" aria-live={running ? 'off' : 'polite'}>
+            <div className="ml__score" ref={scoreRef} aria-live={running ? 'off' : 'polite'}>
               <span className="ml__marks"><b>{marks}</b><small>/ 50 marks</small></span>
               <span className="ml__counts"><i data-k="right">{right} right</i><i data-k="wrong">{wrong} wrong</i><i data-k="skip">{blank} blank</i></span>
             </div>
@@ -297,9 +309,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             <div className="ml__move">
               <h3>{FIRST_SET}. {LEDGER.doLine}</h3>
               <p className="ml__why">Why this: {LEDGER.headline}</p>
-              <div className="ml__where" aria-label="Shown in">
-                <span>Today</span><span>Your papers</span><span>Ask Mobi</span><span>Results</span>
-              </div>
+              <p className="ml__where"><span>Shows up in</span>Today, Your papers, Ask Mobi and Results</p>
             </div>
             <SessionStrip kind="move" />
           </section>
