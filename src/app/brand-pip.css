@@ -426,3 +426,9 @@ html[data-pip-guide][data-lit-in-view] :is(.pip-rig__breath, .pip-actor[data-ali
   }
   :root:not([data-motion='reduced']) .mm.lp .pip-seat.pip-seat--eyebrow[data-pip-station] .pip-seat__art { width: 84px; height: 98px; }
 }
+
+/* R8 PUB-13: Mobi's lane is the home page's (PipGuide flies only there). The DU tools also wear .mm.lp for their shared styles,
+   so without this their header grew by the lane and the logo sat at 106 px at 1440 instead of the 160 px every other page uses. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp.du-page { --pip-lane: 0px; }
+}
