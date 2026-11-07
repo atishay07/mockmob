@@ -21,6 +21,7 @@ import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts
 import { useCardsLinks } from './links';
 import { PrintHead, PrintMark } from '@/components/print/PrintMark';
 import { ncertFont } from './ncertFont';
+import { chapterTitle } from '@/lib/today/chapterTitle.mjs';
 import { leaveCard } from './studyMotion';
 import { isMotionReduced } from '@/lib/motion';
 import { softClick } from '@/components/study/studyFeel';
@@ -258,7 +259,7 @@ export function PrintSheet({ deck, cards }) {
     <section className={`kc-print pm-sheet ${ncertFont.variable}`} aria-hidden="true">
       <PrintMark />
       <PrintHead />
-      <h1>{deck.chapter.title}</h1>
+      <h1>{chapterTitle(String(deck.chapter.key || '').split('.')[0], deck.chapter.title)}</h1>
       <p className="kc-print__ref">{(deckOrigin(cards)
         ? [deckOrigin(cards), plural(cards.length, 'Must-know card')]
         : [chapterRef(deck.chapter.ncert, { title: deck.chapter.title }), `${plural(cards.length, 'Must-know card')} in NCERT’s exact words, each with its page`]).filter(Boolean).join('. ')}.</p>
@@ -347,6 +348,8 @@ export default function ChapterDeck({ chapterKey }) {
   if (state === 'error' || !deck) return shell(<ErrorState title="The cards didn't load" message="Check your connection and try again. Nothing you added is lost." onRetry={retry} />);
 
   const { chapter, counts } = deck;
+  // R8 LEARN-04: the title as Today and the Learn roadmap print it; the stored name stays in links and queries.
+  const title = chapterTitle(String(chapter.key || chapterKey || '').split('.')[0], chapter.title);
   const ref = chapterRef(chapter.ncert, { title: chapter.title });
   // The unit only when it adds something: not the chapter's own title again, nor the book's name above "Book, Ch 1".
   const unit = unitRepeats(chapter.unit, { title: chapter.title, ncert: ref ? chapter.ncert : null }) ? null : chapter.unit;
@@ -362,7 +365,7 @@ export default function ChapterDeck({ chapterKey }) {
       <header className="kc-dhead">
         {/* The spec's order: the unit, then the chapter title, then the NCERT reference (a unit beside the reference read as one phrase). */}
         {unit ? <p className="kc-dhead__unit">{unit}</p> : null}
-        <h1 className="kc-title">{chapter.title}</h1>
+        <h1 className="kc-title">{title}</h1>
         {ref || origin || chapter.chip ? (
           <p className="kc-dhead__ref">
             {ref ? <span aria-label={chapterRefSpoken(chapter.ncert)}>{ref}</span> : null}

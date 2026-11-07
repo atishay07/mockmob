@@ -50,7 +50,7 @@ test('Up next: the footer shows every move but the one on the card, the server p
 
 test('Up next: the module is the page\'s one recommendation and starts nothing on a cell tap (only its key starts)', () => {
   const hero = src('../RoadmapHero.jsx');
-  assert.match(hero, /upNextMoves\(roadmap\)/);
+  assert.match(hero, /upNextMoves\(roadmap, \{ subjectName \}\)/);
   assert.match(hero, /className="lh-up__cell"[^>]*onClick=\{\(\) => pick\(m\.id\)\}/);
   assert.match(hero, /Suggested/);
   assert.doesNotMatch(hero, /lh-or__row/, 'no list rows competing with the roadmap');
@@ -72,9 +72,9 @@ test('roadmap rows say state, not advice: "Needs work" with its ring, why said o
 
 test('Find\'s sets are on Learn home under the field, each opening in place; none drawn when empty', () => {
   const home = src('../LearnHome.jsx');
-  assert.match(home, /<CardSets shelves=\{shelves\} onShelf=\{openShelf\} \/>/);
+  assert.match(home, /<CardSets shelves=\{shelves\} onShelf=\{openShelf\} subjectName=\{subjectName\} \/>/);
   const sets = src('../CardSets.jsx');
-  assert.match(sets, /shelfKeys\(shelves\)/);
+  assert.match(sets, /shelfKeys\(shelves, subjectName\)/);
   assert.match(sets, /if \(!items\.length\) return null;/);
   assert.match(sets, /data-skey=\{it\.id\}/, 'focus returns to the set key on Back');
 });
@@ -89,4 +89,14 @@ test('the prototype links rule: the preview shell keeps decks, student and subje
   assert.match(preview, /const carried = \['decks', 'student', 'subject'/);
   assert.match(preview, /\.\.\.Object\.fromEntries\(carried\)/);
   assert.match(preview, /params\.get\('study'\) === 'on' && !learnV2 \? \{ learn: '\/preview\/study' \}/);
+});
+
+// R8 LEARN-02: the Revise row says its scope, so it never reads against Key cards' all-subject count.
+test('R8 LEARN-02: the Revise move names its subject; without one it reads as the server wrote it', async () => {
+  const { scopedRevise } = await import('../homeModel.mjs');
+  assert.equal(scopedRevise('Revise 8 due cards', 'Accountancy'), 'Revise 8 Accountancy cards');
+  assert.equal(scopedRevise('Revise 1 due card', 'Business Studies'), 'Revise 1 Business Studies card');
+  assert.equal(scopedRevise('Revise 8 due cards', ''), 'Revise 8 due cards');
+  const revise = upNextMoves(PICKUP, { subjectName: 'Accountancy' }).find((m) => m.kind === 'revise');
+  if (revise) assert.doesNotMatch(revise.cell.title, /due cards/);
 });
