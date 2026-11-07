@@ -186,5 +186,5 @@ test('owner 7 Nov 2026: the pricing head gives its rate in parts for the pill, a
     assert.equal(head.rate.filter((part) => part.accent).length, 1, 'one accent');
   }
   assert.equal(pricingHead(OFFERS[0]).note, null, 'monthly: one sentence');
-  assert.match(pricingHead(OFFERS[1]).note, /^Monthly Pro at ₹99 is on the way\.$/, 'one-time keeps its own second sentence');
+  assert.equal(pricingHead(OFFERS[1]).note, null, 'one-time: the monthly line is said once, in the card (R8 PRICE-06, LK175)');
 });

@@ -95,7 +95,7 @@ export const CLOSE = Object.freeze({
  *   rate      the pill's words, in order: { text, figure, accent } (a figure is set in the display face, the accent one in the
  *             brand colour): "₹99" and "₹3.30" on the monthly plan, the one price on the one-time offer;
  *   rateText  those words as one line;
- *   note      the one-time offer's second sentence (monthly Pro on the way), drawn under the pill; null on the monthly plan.
+ *   note      always null since R8 PRICE-06: the monthly line lives once, in the card (kept so callers need no change).
  * `sub` stays the whole line (rateText, then the note), for the tests and the screen reader. One-time keeps its own wording.
  */
 export function pricingHead(offer) {
@@ -105,7 +105,9 @@ export function pricingHead(offer) {
     ? [part(`₹${offer.monthly.rupees}`, true), part(' a month is about '), part(day.perDay, true, true), part(' a day.')]
     : [part(`₹${offer.oneTime.rupees}`, true, true), part(` once covers Pro through ${offer.oneTime.expires}.`)]);
   const rateText = rate.map((p) => p.text).join('');
-  const note = day ? null : `Monthly Pro at ₹${offer.monthly.rupees} is on the way.`;
+  // R8 PRICE-06 (owner LK175, "text should not be just lying around randomly"): the head is the headline and the pill only. The
+  // monthly fact is said once, inside the card (planOffer.mjs planTerms soon: "Monthly Pro at ₹99 a month opens soon.").
+  const note = null;
   return {
     h2: 'Start free. Go Pro for unlimited mocks.',
     sub: note ? `${rateText} ${note}` : rateText,

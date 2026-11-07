@@ -291,8 +291,10 @@ test('7 Nov: the pricing head is centred at every width and its rate is one desi
   assert.equal(m.note, null);
   assert.equal(pricingHead(monthly(149)).rate[2].text, '₹5', 'the day\'s figure follows the offer');
   const o = pricingHead(oneTime());
-  assert.equal(o.sub, '₹99 once covers Pro through 31 July 2027. Monthly Pro at ₹99 is on the way.', 'one-time keeps its own wording');
-  assert.equal(`${o.rateText} ${o.note}`, o.sub);
+  // R8 PRICE-06 (LK175): the monthly line is said once, inside the card, so the head is the headline and the pill only.
+  assert.equal(o.sub, '₹99 once covers Pro through 31 July 2027.', 'one-time: the pill alone');
+  assert.equal(o.note, null);
+  assert.equal(o.rateText, o.sub);
   assert.deepEqual(o.rate.filter((p) => p.figure).map((p) => p.text), ['₹99']);
   for (const head of [m, o]) assert.equal(head.rate.filter((p) => p.accent).length, 1, 'one accent in the pill');
   const home = stripComments(read('src/components/landing/HomePricing.jsx'));
@@ -463,7 +465,10 @@ test('R3-D7: the numbers band is gone; its true counts are lines of the plan car
   assert.equal(planGroups({ newOffer: true }).flatMap((g) => g.lines).filter((line) => line.text).length, proPlan({ newOffer: true }).length);
   const counts = read('src/components/landing/PlanCounts.jsx');
   assert.match(counts, /loadPublicStats\(\)/, 'the same /api/stats answer the hero reads');
-  assert.match(counts, /useSeenOnce\(ref, 0\.4\)/, 'counts once at 40% in view');
+  // R8 PRICE-01: the first counted line is watched (60% in view), and a known number keeps the placeholder until it is seen.
+  assert.match(counts, /useSeenOnce\(ref, 0\.6\)/, 'counts once its first counted line is 60% in view');
+  assert.match(counts, /ref=\{line === firstCount \? ref : undefined\}/, 'the observer is on the first counted line');
+  assert.match(counts, /if \(!seen\) return <><span className="lp-count lp-count--wait" aria-hidden="true" \/>/, 'never a false 0 before the count starts');
   assert.match(counts, /<b className="lp-count" aria-hidden="true">[\s\S]*<span className="lp-sr">\{value\.real/, 'a screen reader hears the real number, never a counting one');
   assert.match(counts, /if \(state === 'failed' \|\| \(state === 'ready' && value == null\)\) return line\.fallback;/, 'no number when the count cannot load');
   const stats = read('src/components/landing/bankStats.js');
