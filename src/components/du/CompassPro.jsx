@@ -197,7 +197,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
 
       <article className="cpro-card cpro-short">
         <div className="cpro-short__head">
-          <h3>My colleges</h3>
+          <h3>Your colleges</h3>
           <label className="cpro-select"><span id="cpro-l-category">Category</span>
             <Listbox labelledBy="cpro-l-category" sheetTitle="Category" size="sm" value={category} onChange={setCategory} options={MAIN_CATEGORIES.map((c) => ({ value: c, label: CATEGORY_LABELS[c] || c }))} />
           </label>

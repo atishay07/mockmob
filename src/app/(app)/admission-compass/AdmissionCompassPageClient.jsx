@@ -20,7 +20,7 @@ import './compass.css';
 const TOOLS = [
   { href: '/cuet-subject-combination', title: 'Plan your subjects', short: 'Plan subjects', line: 'Combo Planner: the CUET subjects that open the courses you want' },
   { href: '/cuet-previous-year-questions', title: 'Past CUET papers', short: 'Past papers', line: 'Real questions from earlier years, by subject' },
-  { href: '/dashboard?mode=full', title: 'Get a score of your own', short: 'Get a score', line: 'A full mock gives Compass a practice score to set beside the cutoffs' },
+  { href: '/dashboard?mode=full', title: 'Get a score of your own', short: 'Get a score', line: 'A full mock gives DU Compass a practice score to set beside the cutoffs' },
 ];
 
 // Profile subject ids -> DU catalog ids (they match, except the aptitude test).
@@ -51,17 +51,18 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          {/* One name for this place everywhere (W-067): the dock, the sidebar, the More sheet and the app call it Colleges. */}
+          {/* One name for this place everywhere (W-067): the dock, the sidebar, the More sheet and the app call it Colleges. The tool
+              itself is DU Compass, as the website stamps it, named once in the lede (R8 TOOLS-06). */}
           <h1 className="display-md">Colleges</h1>
           <p className="cmp-lede">
             {seed.length > 0
-              ? 'Your subjects are ticked. A score is optional: see every course they open, with 2026 cutoffs.'
-              : 'Tick your CUET subjects. A score is optional: see every course they open, with 2026 cutoffs.'}
+              ? 'DU Compass: your subjects are ticked. A score is optional. See every course they open, with 2026 cutoffs.'
+              : 'DU Compass: tick your CUET subjects. A score is optional. See every course they open, with 2026 cutoffs.'}
           </p>
         </div>
       </header>
 
-      {user?.id ? <FirstTime id="compass">Open a course for its colleges and 2026 cutoffs, then Add to my colleges. The first shows on Today.</FirstTime> : null}
+      {user?.id ? <FirstTime id="compass">Open a course for its colleges and 2026 cutoffs, then Add to your colleges. The first shows on Today.</FirstTime> : null}
 
       <nav className="cmp-tools" aria-label="CUET tools">
         <ul>

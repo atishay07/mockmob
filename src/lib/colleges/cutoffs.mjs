@@ -49,14 +49,14 @@ export function stripView({ state, rows }) {
   if (state === 'loading') return { kind: 'loading', label: 'Your colleges', line: '', figure: null };
   if (state === 'error') return { kind: 'error', label: 'Your colleges', line: 'Your list did not load. Open Colleges to see it', sub: '', figure: null };
   const list = rows || [];
-  if (!list.length) return { kind: 'empty', label: 'Your colleges', line: 'Choose your colleges', sub: 'See the score each one needed last year.', figure: null };
+  if (!list.length) return { kind: 'empty', label: 'Your colleges', line: 'Choose your colleges', sub: 'See the score each one needed in 2026.', figure: null };
   const top = hardestOf(list);
   const label = `Your colleges, ${picked(list.length)}`;
-  if (!top) return { kind: 'ready', label, line: 'Open them to see the score each one needed last year', sub: '', figure: null };
+  if (!top) return { kind: 'ready', label, line: 'Open them to see the score each one needed in 2026', sub: '', figure: null };
   return {
     kind: 'ready',
     label,
-    line: `${top.college} needed ${formatScore(top.cut.cutoff)} of 1000 last year`,
+    line: `${top.college} needed ${formatScore(top.cut.cutoff)} of 1000 in 2026`,
     sub: '',
     figure: formatScore(top.cut.cutoff),
     college: top.college,

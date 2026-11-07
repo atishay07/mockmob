@@ -69,7 +69,7 @@ export default function TodayCompass() {
         {!loading && !ready && !askForSubjects ? <p className="tcp__line">See which DU programmes your subjects open, and DU&rsquo;s 2026 cutoffs.</p> : null}
         {ready && first ? (
           <p className="tcp__near">
-            First on My colleges: <b>{first.college}</b>
+            First on your colleges: <b>{first.college}</b>
             {cut ? <span>{cutoffLine(cut)}{first.programme ? ` in ${first.programme}` : ''}</span> : null}
           </p>
         ) : null}

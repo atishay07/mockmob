@@ -305,7 +305,7 @@ test('Today, Account and the Compass rows all use the one list', () => {
   const calc = read('src/components/du/CutoffCalculator.jsx');
   assert.match(calc, /<AddToMyColleges userId=\{userId\} programmeId=\{group\?\.id\}/);
   const mine = read('src/components/colleges/MyColleges.jsx');
-  assert.match(mine, /Add to my colleges/);
+  assert.match(mine, /Add to your colleges/, 'R8 TOOLS-06: one list name, Your colleges');
   assert.match(mine, /ladderView\(mine\.colleges\)/, 'Today shows the first 3 and a count of the rest');
   assert.match(mine, /id="colleges"/, 'Account has the anchor the Today link goes to');
 });
