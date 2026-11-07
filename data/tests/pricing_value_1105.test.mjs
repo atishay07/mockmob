@@ -555,12 +555,11 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
   const glass = [...css.matchAll(/([^{}]+)\{([^{}]*backdrop-filter:[^{}]*)\}/g)].map((m) => [m[1].trim(), m[2]]);
   assert.ok(glass.length >= 2);
   for (const [selector, body] of glass) {
-    // R8 PRICE-05: Free's card on /pricing may soften its own word's tuck (8 px blur, no saturate, no sheen); nothing else.
-    if (/\.plan-stage--quiet\.pro-choice__free \.mm-plan$/.test(selector)) { assert.match(body, /backdrop-filter: (none|blur\(8px\));/); continue; }
     assert.match(selector, /\.plan-stage \.plan-glass\.pro-plan__card$/, `glass only on the plan card: ${selector}`);
     assert.match(body, /backdrop-filter: (none|blur\((8|15)px\) saturate\(1\.4\))/);
   }
-  assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.mm-pro \.plan-stage--quiet\.pro-choice__free \.mm-plan \{ background: var\(--paper-raised\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/, 'Free goes solid under reduced transparency');
+  // R8 PRICE-05: the quiet word is drawn smaller and sits whole above its card (no glass on Free's card).
+  assert.match(css, /\.plan-stage--quiet \.plan-stage__word \{ top: calc\(var\(--stage-word\) \* 0\.04\); font-size: calc\(var\(--stage-word\) \* 0\.74\); \}/);
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.plan-stage \.plan-glass\.pro-plan__card \{ background: var\(--paper-raised\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/);
   assert.match(css, /\.plan-stage__word \{[^}]*color: var\(--price-word\)/);
   assert.doesNotMatch(css, /--price-word: [^;]*(d2f000|210, ?240|volt)/i);
