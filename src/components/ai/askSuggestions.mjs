@@ -56,7 +56,7 @@ export function recordSummary(insights, { pro = false } = {}) {
   const p = insights.pace;
   return [
     { id: 'ledger', label: 'Marks ledger', text: `${l.net} net marks from ${plural(insights.questions, 'question')} in ${plural(insights.sessions, 'session')}` },
-    { id: 'leak', label: 'Biggest leak', text: top ? `${top.chapter}, ${top.open} of ${l.open} open marks` : 'No chapter has enough answers to rank yet' },
+    { id: 'leak', label: 'Biggest leak', text: top ? `${top.chapter}, ${top.open} of ${l.open} marks lost` : 'No chapter has enough answers to rank yet' },
     { id: 'pace', label: 'Pace', text: !pro ? 'Pace detail is part of Pro' : p?.usable && p.medianSec ? `A typical question takes ${sec(p.medianSec)}, across ${plural(p.questionsTimed, 'timed question')}` : 'Not enough timed questions for pace yet' },
   ];
 }
@@ -84,7 +84,7 @@ function catalogue(context, insights, { pro }) {
     misread: { price: 'paid', label: context.blank ? 'What should I look for first?' : 'What did I misread?', line: `Points to the words in ${q} that decide the answer` },
     quick_check: { price: 'paid', label: 'Give me a quick check for this idea', line: 'A one-line test to run before answering' },
     chapter_history: chapterName ? { price: 'free', label: `Have I missed ${chapterName} before?`, line: chapter ? chapterLine(chapter) : null } : null,
-    marks_leak: { price: 'free', label: 'Where am I losing marks?', line: top ? `${top.chapter}, ${top.open} of ${insights.ledger.open} open marks` : null },
+    marks_leak: { price: 'free', label: 'Where am I losing marks?', line: top ? `${top.open} marks lost in ${top.chapter}` : null },
     pace: { price: 'free', label: 'Where am I losing time?', line: pro && p?.usable && p.medianSec ? `A typical question takes ${sec(p.medianSec)}` : null },
     week: { price: 'free', label: 'How did this week go?', line: ready(insights) && insights.week?.thisWeek?.sessions ? `${plural(insights.week.thisWeek.sessions, 'session')} in the last 7 days` : null },
     mock_change: { price: 'paid', label: 'What should I change before the next mock?', line: 'Uses this mock and your record' },
@@ -126,6 +126,20 @@ export function suggestionsFor({ context, insights = null, status = 'loading', p
     if (out.length >= limit) break;
   }
   return out;
+}
+
+/**
+ * The suggestion id whose label is exactly this text ("Where am I losing marks?" -> marks_leak), or null. A door on /mentor hands
+ * the panel its ask as text; marking that id asked keeps "Ask next" from offering the question Mobi just answered (R8 TOOLS-02).
+ */
+export function askIdForText(text, context = {}) {
+  const want = String(text || '').trim().toLowerCase();
+  if (!want) return null;
+  const all = catalogue(context || {}, null, { pro: false });
+  for (const [id, ask] of Object.entries(all)) {
+    if (ask && String(ask.label).trim().toLowerCase() === want) return id;
+  }
+  return null;
 }
 
 /** A free ask answered here: { reply, actions, source }. Null for a paid ask (it needs a written reply). */

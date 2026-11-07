@@ -106,7 +106,7 @@ test('thin, empty, loading, offline and failed: honest words, nothing invented, 
   assert.deepEqual(standingView({ phase: 'offline' }), { kind: 'error', line: JOB_COPY.standOffline, retry: true });
   assert.deepEqual(standingView({ phase: 'error' }), { kind: 'error', line: JOB_COPY.standFailed, retry: true });
   assert.deepEqual(standingView({ phase: 'done', body: { ok: false } }).kind, 'error');
-  assert.match(JOB_COPY.standFailed, /Nothing was charged\.$/);
+  assert.doesNotMatch(JOB_COPY.standFailed, /charged/i, 'R8 TOOLS-20: a free read never talks about a charge');
 });
 
 test('the bar: a window around the band and the cutoff, snapped to 50s, inside 0..max', () => {

@@ -50,6 +50,12 @@
   color: var(--a-ink); font: inherit; font-size: 16px; line-height: 22px;
 }
 .amd-field textarea::placeholder { color: var(--a-ink-3); }
+/* The rounded rim above is the field's focus state: no second, square ring on the textarea inside it (R8 TOOLS-12). The page's own
+   focus rules (.app-shell .amd :is(...textarea):focus-visible and .app-shell .student-page :is(...)) are more specific, so this
+   names the same paths plus the field. */
+.amd-field textarea:focus-visible,
+.app-shell .amd .amd-field textarea:focus-visible,
+.app-shell .student-page .amd-field textarea:focus-visible { outline: none; }
 .amd-send {
   display: grid; place-items: center; flex: none; width: 48px; height: 48px; border: 0; border-radius: 50%;
   background: var(--a-ink); color: var(--a-bg); cursor: pointer; margin-bottom: 0;

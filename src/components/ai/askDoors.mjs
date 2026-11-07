@@ -58,7 +58,7 @@ export const greeting = (name, sessions) => {
 export const greetName = (user) => shownFirstName(user?.name, user?.email);
 
 export const recordLine = (sessions) => (sessions === 1 ? 'Mobi reads your first paper and answers from it.' : `Mobi reads your ${sessions} papers and answers from them.`);
-export const leadFigureLine = (chapter) => `marks to win back in ${chapter}, your biggest leak`;
+export const leadFigureLine = (chapter) => `marks lost in ${chapter}, your biggest leak`;
 export const seeAll = (n) => `See all ${n} questions about your record`;
 export const seeFewer = 'Show fewer questions';
 export const chaptersRanked = (n) => `${n} ${n === 1 ? 'chapter' : 'chapters'} ranked from your answers`;
@@ -166,8 +166,8 @@ export function priceOfTyped(text, { insights = null, status = 'loading', pro = 
 
 /**
  * The record's own biggest leak: its top-ranked chapter and that chapter's figure, { lost, chapter }, or null when no chapter is
- * ranked yet. The ranking and the figure are the record's (data/prepos_insights.js: chapters ranked by the marks to win back,
- * `open`; the record below the doors prints the same number as "marks to win back"), never worked out a second way here, so one
+ * ranked yet. The ranking and the figure are the record's (data/prepos_insights.js: chapters ranked by the marks lost,
+ * `open`; the record below the doors prints the same number as "marks lost"), never worked out a second way here, so one
  * chapter has one number on the page and the door names the chapter the answer names.
  */
 export function recordLead(insights) {
@@ -284,7 +284,7 @@ export function recordDoorAsks(insights, { pro = false, last = null, now = new D
   const changes = isReady ? insights.changes : null;
   const ranked = isReady ? insights.chapters?.ranked || [] : [];
   return [
-    { id: 'losing', text: 'Where am I losing marks?', price: 'free', preview: lead ? `${lead.lost} marks to win back in ${lead.chapter}` : 'Reads your wrong and blank answers' },
+    { id: 'losing', text: 'Where am I losing marks?', price: 'free', preview: lead ? `${lead.lost} marks lost in ${lead.chapter}` : 'Reads your wrong and blank answers' },
     { id: 'chapter', text: 'Which chapter should I practise?', price: 'free', preview: ranked.length ? chaptersRanked(ranked.length) : 'Ranks the chapters costing you the most marks' },
     ...(last ? [{ id: 'last', text: LAST_PAPER_ASK, price: 'free', preview: last.preview, answer: last }] : []),
     { id: 'revise', text: `What should I revise ${tonightOrToday(now)}?`, price: 'free', preview: revisePreview(tonightOrToday(now)), tonight: true },

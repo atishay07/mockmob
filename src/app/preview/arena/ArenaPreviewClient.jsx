@@ -484,6 +484,22 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       window.__previewRule = { id: rule.id, kind: rule.kind, text: rule.text, since: new Date().toISOString() };
       return wait(json({ active: window.__previewRule }));
     }
+    // Where you stand (GET /api/mobi/standing, free): an illustrative partial band from the preview student's Accountancy practice,
+    // its chapters the record's own. ?standing=down shows the failure, ?data=empty a student with no papers (R8 TOOLS-20).
+    if (url.pathname === '/api/mobi/standing' && method === 'GET') {
+      if (fixture.get('standing') === 'down') return json({ error: 'unavailable' }, 503);
+      if (state === 'empty') return json({ ok: true, status: 'empty', band: null, thin: [] });
+      return json({
+        ok: true, status: 'partial', thin: [], colleges: [], first: null, gap: null, category: 'UR', paperMax: 250,
+        band: { low: 150, mid: 162, high: 175, max: 250, count: 1, complete: false, papers: [{ subject: 'accountancy', name: 'Accountancy', low: 150, mid: 162, high: 175, open: 70 }] },
+        closeFastest: [
+          { subject: 'accountancy', subjectName: 'Accountancy', chapter: 'Partnership Fundamentals', marks: 30, wrong: 5, blank: 1, href: '/test?subject=accountancy&mode=quick&count=10&chapter=Partnership+Fundamentals' },
+          { subject: 'accountancy', subjectName: 'Accountancy', chapter: 'Goodwill', marks: 20, wrong: 3, blank: 1, href: '/test?subject=accountancy&mode=quick&count=10&chapter=Goodwill' },
+        ],
+        note: 'From your own practice, before NTA normalisation. Not a prediction.',
+        links: { colleges: '/admission-compass' },
+      });
+    }
     // My colleges (GET, PUT, POST, DELETE /api/me/colleges; ?colleges=ready|empty|full|down), kept in memory for the page's life.
     if (url.pathname === '/api/me/colleges') {
       const kind = fixture.get('colleges') || 'ready';

@@ -79,15 +79,15 @@ test('money: the doors mark every Free ask, hand the panel the record they alrea
 });
 
 // ---- 3. (LOW, truth) one chapter, one number ---------------------------------------------------------------------------------
-test('truth: the door\'s chapter and figure are the record\'s own top-ranked chapter and its "marks to win back"', () => {
+test('truth: the door\'s chapter and figure are the record\'s own top-ranked chapter and its "marks lost" (R8 CONT-07: never a recoverable-marks figure)', () => {
   assert.deepEqual(recordLead(HEAVY), { lost: 30, chapter: 'Partnership Fundamentals' });
   // The chapter with more wrongs is not the lead when the record ranks another first: no second arithmetic.
   const flipped = { ...HEAVY, chapters: { ranked: [chapter('Share Capital', { wrong: 5, skip: 0, open: 30 }), chapter('Goodwill', { wrong: 20, skip: 0, open: 29 })], thin: [] } };
   assert.deepEqual(recordLead(flipped), { lost: 30, chapter: 'Share Capital' });
   const asks = recordDoorAsks(HEAVY, { now: new Date(2026, 9, 19, 21) });
-  assert.equal(asks[0].preview, '30 marks to win back in Partnership Fundamentals');
-  assert.equal(leadFigureLine('Goodwill'), 'marks to win back in Goodwill, your biggest leak');
-  assert.match(read('src/components/ai/RecordView.jsx'), /<b>\{c\.open\}<\/b><small>marks to win back<\/small>/, 'the record below prints the same figure in the same words');
+  assert.equal(asks[0].preview, '30 marks lost in Partnership Fundamentals');
+  assert.equal(leadFigureLine('Goodwill'), 'marks lost in Goodwill, your biggest leak');
+  assert.match(read('src/components/ai/RecordView.jsx'), /<b>\{c\.open\}<\/b><small>marks lost<\/small>/, 'the record below prints the same figure in the same words');
   assert.doesNotMatch(read('src/components/ai/AskMobiDoors.jsx'), /marks lost in/);
   assert.doesNotMatch(code(read('src/components/ai/askDoors.mjs')), /LOST_WRONG|LOST_BLANK/);
 });

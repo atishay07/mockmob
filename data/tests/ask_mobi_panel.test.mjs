@@ -138,7 +138,7 @@ test('the record chip summary: marks ledger, biggest leak, pace', () => {
   const rows = recordSummary(INSIGHTS, { pro: true });
   assert.deepEqual(rows.map((r) => r.id), ['ledger', 'leak', 'pace']);
   assert.equal(rows[0].text, '670 net marks from 250 questions in 9 sessions');
-  assert.equal(rows[1].text, 'Partnership, 55 of 250 open marks');
+  assert.equal(rows[1].text, 'Partnership, 55 of 250 marks lost');
   assert.equal(rows[2].text, 'A typical question takes 48s, across 120 timed questions');
   assert.equal(recordSummary(INSIGHTS, { pro: false })[2].text, 'Pace detail is part of Pro');
   assert.deepEqual(recordSummary(EMPTY), []);

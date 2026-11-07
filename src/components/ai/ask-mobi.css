@@ -178,7 +178,8 @@ a.amb-cost__wallet { display: block; min-height: 0; padding-block: 13px; margin-
 .amb-num { display: inline-block; animation: amb-fade 160ms ease-out both; }
 
 .amb :is(button, a, textarea):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.amb-field textarea:focus-visible { outline: none; }
+.amb-field textarea:focus-visible,
+.app-shell .student-page .amb-field textarea:focus-visible { outline: none; }
 
 /* Motion: an answer arrives with a 4 px rise and a fade; asks arrive once per open, 40 ms apart. */
 .amb-rise { animation: amb-rise 220ms var(--a-ease, ease-out) both; }
