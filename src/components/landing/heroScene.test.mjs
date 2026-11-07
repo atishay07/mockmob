@@ -59,10 +59,11 @@ test('LK67: Mobi\'s size rule (134 px on phones, 180 px on desktop) and his plac
   assert.match(css, /--mobi-h: min\(134px, calc\(var\(--desk-h, 212px\) - 34px\)\);/);
   assert.match(css, /@media \(min-width: 960px\) \{[\s\S]*\.lp-desk__figure \{ --mobi-h: 180px; left: 46px;/);
   assert.match(css, /--desk-h: clamp\(10\.5rem, 25svh, 13\.25rem\);/, 'the phone room: 168 to 212 px');
-  // Round 4 (owner LK117: the desktop hero fills the screen): the desk is 41 % of the window (440 to 720 px) and its room as
-  // tall as the screen allows (220 to 400 px), so the sample's four options stay in the first screen.
-  assert.match(css, /\.mm\.lp \.lp-desk \{ --desk-h: clamp\(220px, calc\(100svh - 580px\), 400px\); margin: 0; \}/, 'the desktop room');
-  assert.match(css, /--desk-w: clamp\(440px, 41vw, 720px\);\s*grid-template-columns: minmax\(0, 1fr\) var\(--desk-w\);/);
+  // Round 7 (owner, 7 Nov 2026): the film took the hero's right column (42 % of the window, 460 to 860 px); the desk is its
+  // own section (section#try), a centred 560 px column with a 20 rem room.
+  assert.match(css, /\.mm\.lp \.lp-desk \{ --desk-h: 20rem; margin: 0; \}/, 'the desktop room');
+  assert.match(css, /\.mm\.lp \.lp-try \.lp-desk \{ max-width: 560px; margin: 0 auto; \}/, 'the centred desk');
+  assert.match(css, /--film-w: clamp\(480px, 46vw, 880px\);\s*grid-template-columns: minmax\(0, 1fr\) var\(--film-w\);/);
 });
 
 test('the room is the app\'s painted file, not a drawn SVG room, and only the shown theme\'s file is fetched', () => {

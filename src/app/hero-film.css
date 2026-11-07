@@ -1,0 +1,88 @@
+/* ==========================================================================
+   THE HERO'S FILM (round 7, owner 7 Nov 2026, after klayprep.com; HeroFilm.jsx). Loaded after every older home layer.
+   The launch teaser as the hero's picture: a 16:9 frame on raised paper with the site's large-card radius (22 px on
+   phones, 28 px from 960 px, as the desk and the strip), a 1 px hairline and the theme's soft shadow. No glow, no gradient,
+   no glass. The poster is drawn first in the fixed frame (no shift); the film plays over it, muted.
+   Phones: under the keys, the full column. From 960 px: the hero's right column (hero-scene.css --film-w, 42 % of the
+   window), centred on the words' column beside it.
+   Two round 44 px keys in the top right corner (sound, pause/play) and, when the film does not play by itself, a round
+   56 px Play key on the poster. Paper keys with a hairline in both themes; tokens only.
+   ========================================================================== */
+.mm.lp .lp-film { margin: 24px 0 0; min-width: 0; }
+.mm.lp .lp-film__frame {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--paper-raised);
+  box-shadow: var(--sh-2);
+}
+.mm.lp .lp-film__poster,
+.mm.lp .lp-film__video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.mm.lp .lp-film__video { z-index: 1; background: transparent; }
+
+/* The corner keys: sound on/off, then pause/play. */
+.mm.lp .lp-film__keys { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; gap: 8px; }
+.mm.lp .lp-film__key,
+.mm.lp .lp-film__start {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--sh-1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-film__key:active,
+.mm.lp .lp-film__start:active { background: var(--paper-raised); transform: scale(0.94); transition-duration: 100ms; }
+.mm.lp .lp-film__key:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+.mm.lp .lp-film__key[aria-pressed='true'] { border-color: var(--ink-3); }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-film__key:hover,
+  .mm.lp .lp-film__start:hover { background: var(--paper-raised); border-color: var(--ink-3); }
+}
+
+/* The Play key on the poster, when the film does not play by itself (Reduce motion, Data Saver, a refused start). */
+.mm.lp .lp-film__start {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: 56px;
+  height: 56px;
+  translate: -50% -50%;
+}
+.mm.lp .lp-film__start svg { margin-left: 3px; }
+
+/* Reduce motion: the keys change at once. */
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp :is(.lp-film__key, .lp-film__start) { transition: none; }
+  .mm.lp :is(.lp-film__key, .lp-film__start):active { transform: none; }
+}
+:root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start) { transition: none; }
+:root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start):active { transform: none; }
+
+/* Desktop: the hero's right column, centred on the words beside it, the large-card radius, the keys a little further in. */
+@media (min-width: 960px) {
+  .mm.lp .lp-hero .lp-film { margin: 0; align-self: center; }
+  .mm.lp .lp-film__frame { border-radius: 28px; }
+  .mm.lp .lp-film__keys { top: 16px; right: 16px; }
+}

@@ -18,7 +18,9 @@ const SOURCES = [
 
 test('no landing source carries a retired claim, a hype word or a guarantee', () => {
   const banned = /41 subjects|never repeats?|\bunlock|supercharg|revolutioni[sz]|\belevate|seamless|guarantee|#1\b|not affiliated/i;
-  for (const [name, src] of SOURCES) assert.doesNotMatch(stripComments(src), banned, name);
+  // The one exception is the owner's (7 Nov 2026): the college strip's logo line (CollegeStrip.jsx COLLEGE_NOTE).
+  const note = 'College names and logos belong to their owners. MockMob is not affiliated with them.';
+  for (const [name, src] of SOURCES) assert.doesNotMatch(stripComments(src).split(note).join(''), banned, name);
 });
 
 test('the hero bank line keeps every fact in one sentence and says Pro has no cap', () => {

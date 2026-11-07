@@ -1,0 +1,109 @@
+/* ==========================================================================
+   THE COLLEGE STRIP (round 7, owner 7 Nov 2026, after klayprep.com; CollegeStrip.jsx). Right under the hero.
+   A hairline, "Get into the college you want." in the display face (sentence case, no eyebrow), the CUET colleges as
+   chips like the promo film's (raised paper, the emblem 44 px tall, the short name in Bricolage 650), and one small ink-3
+   line that the names and logos are their owners'. Phones: a 3 x 2 grid, each chip the emblem over its name. From 640 px:
+   one centred row (it wraps into centred rows only where six do not fit). Nothing moves. Tokens only, Night and Day.
+   In Night the emblem stands on a round cream seal (--ink): several are black or navy line art drawn for paper.
+   ========================================================================== */
+.mm.lp .lp-colleges { position: relative; padding-block: 0 clamp(1.75rem, 4vw, 3.5rem); }
+.mm.lp .lp-colleges__wrap::before {
+  content: '';
+  display: block;
+  height: 1px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  background: var(--line);
+}
+.mm.lp .lp-colleges__title {
+  margin: 0 auto;
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 0.9rem + 1.8vw, 2.5rem);
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  text-align: center;
+  text-wrap: balance;
+}
+/* The marquee (owner, 7 Nov 2026): one row of pill chips moving left in a linear loop; the track holds the list twice, so
+   moving it by half its width loops without a seam.
+   Hover or keyboard focus pauses it; reduced motion stops it and wraps the first copy into centred rows. */
+.mm.lp .lp-colleges__marquee {
+  margin-top: 20px;
+  overflow: hidden;
+}
+.mm.lp .lp-colleges__track { display: flex; width: max-content; animation: lp-colleges-roll 70s linear infinite; }
+.mm.lp .lp-colleges__marquee:hover .lp-colleges__track,
+.mm.lp .lp-colleges__marquee:focus-within .lp-colleges__track { animation-play-state: paused; }
+@keyframes lp-colleges-roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.mm.lp .lp-colleges__list { display: flex; gap: 10px; margin: 0; padding: 4px 10px 8px 0; list-style: none; }
+.mm.lp .lp-colleges__chip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper-raised);
+  box-shadow: var(--sh-1);
+}
+.mm.lp .lp-colleges__seal {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+html[data-theme='dark'] .mm.lp .lp-colleges__seal { background: var(--ink); }
+.mm.lp .lp-colleges__logo {
+  display: block;
+  width: auto;
+  height: 38px;
+  max-width: 42px;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.mm.lp .lp-colleges__name {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .lp-colleges__track { width: auto; animation: none; }
+  .mm.lp .lp-colleges__list { flex-wrap: wrap; justify-content: center; padding-right: 0; }
+  .mm.lp .lp-colleges__list[aria-hidden='true'] { display: none; }
+}
+:root[data-motion='reduced'] .mm.lp .lp-colleges__track { width: auto; animation: none; }
+:root[data-motion='reduced'] .mm.lp .lp-colleges__list { flex-wrap: wrap; justify-content: center; padding-right: 0; }
+:root[data-motion='reduced'] .mm.lp .lp-colleges__list[aria-hidden='true'] { display: none; }
+.mm.lp .lp-colleges__note {
+  margin: 16px auto 0;
+  max-width: 60ch;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--ink-3);
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .mm.lp .lp-colleges__marquee { margin-top: 24px; }
+  .mm.lp .lp-colleges__list { gap: 12px; padding-right: 12px; }
+  .mm.lp .lp-colleges__name { font-size: 1rem; }
+  .mm.lp .lp-colleges__note { margin-top: 20px; font-size: 0.875rem; }
+}
+/* Desktop: the strip is centred in the window. The guide Mobi's lane is not kept here: the hero or the desk's own Mobi is
+   always on screen beside it, and while one is, the guide waits out of view (PipGuide, W-074). */
+@media (min-width: 1100px) {
+  :root .mm.lp main > section#colleges.lp-colleges .mm-wrap.lp-colleges__wrap:not(.mm-wrap .mm-wrap) {
+    padding-right: max(var(--sec-gutter), (100% - var(--sec-max)) / 2);
+  }
+}

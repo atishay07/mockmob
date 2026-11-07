@@ -20,8 +20,10 @@ import { MobiPoster } from '@/components/landing/MobiPoster';
 import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/components/landing/heroTaps.mjs';
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { BrandTexture } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
+import HeroFilm from '@/components/landing/HeroFilm';
+import { CollegeStrip } from '@/components/landing/CollegeStrip';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { HomePricing } from '@/components/landing/HomePricing';
@@ -70,6 +72,9 @@ import './hero-scene.css';
 import './desktop-scale.css';
 // Round 4 (6 Nov 2026): every section under the hero laid out again for desktop and phones; loaded last (home-sections.css).
 import './home-sections.css';
+// Round 7 (7 Nov 2026): the hero's film and the college strip, after every older layer.
+import './hero-film.css';
+import './college-strip.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -144,7 +149,7 @@ export default function LandingPage() {
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
       <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
       <noscript>
-        <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}.lp-room__file{opacity:1!important}'}</style>
+        <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}.lp-room__file{opacity:1!important}.lp-film__keys{display:none}'}</style>
       </noscript>
       <NavBar />
       <SectionPosition sections={POSITION} />
@@ -159,7 +164,10 @@ export default function LandingPage() {
             features strip (HeroBeatStrip: the main features, each a link, and the honest price hook, LK124) and the two
             hero links. Phones stack it; from 960 px the desk is the right column and the strip and links sit under the
             keys (hero-scene.css, desktop-scale.css). Behind it, the paper's own grain (BrandTexture, LK117; round 5 replaced
-            the answer-sheet bubbles the owner found "very weird"). */}
+            the answer-sheet bubbles the owner found "very weird").
+            Round 7 (owner, 7 Nov 2026, after klayprep.com): the launch film (HeroFilm, hero-film.css) is the hero's picture in
+            the desk's place: the right column from 960 px, under the keys on phones. The desk moved to section#try under the
+            college strip (CollegeStrip), keeping id="try-practice". */}
         <section className="lp-hero">
           <BrandTexture variant="hero" />
           <div className="mm-wrap lp-hero__grid">
@@ -182,6 +190,33 @@ export default function LandingPage() {
               </div>
             </div>
 
+            {/* The film (round 7, owner 7 Nov 2026): the launch teaser plays muted as the hero's picture (HeroFilm). */}
+            <HeroFilm />
+
+            {/* The features strip (LK124): the main features, each a link, then "As low as ₹X a mock" from the live offer. */}
+            <HeroBeatStrip items={FEATURES} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
+
+            <div className="lp-hero__links">
+              <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
+              <a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen</a>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------------- COLLEGES (round 7: the CUET colleges' own emblems, owner 7 Nov) ---------------------- */}
+        <CollegeStrip />
+
+        {/* ------------------------------ TRY FIVE QUESTIONS ------------------------------ */}
+        {/* The desk moved out of the hero when the film took its place (round 7, 7 Nov 2026): Mobi in his lamp-lit room
+            (HeroRoom, HeroMobi) offering the five CUET questions (DemoDrill, the card attached to the room's foot), under a
+            short head, in one centred column. It keeps id="try-practice", so "Try 5 questions first" and every deep link
+            (/#try-practice) still land on the card (DemoJump). */}
+        <section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
+          <div className="mm-wrap lp-try__wrap">
+            <div className="lp-head lp-try__head">
+              <h2 className="lp-h2" id="try-title">{TRY_HEAD.h2}</h2>
+              <p className="lp-sub">{TRY_HEAD.sub}</p>
+            </div>
             <div className="lp-desk" id="try-practice">
               <div className="lp-desk__stage">
                 <HeroRoom />
@@ -192,14 +227,6 @@ export default function LandingPage() {
                 {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
                     end state offers it after the fifth answer. */}
               </div>
-            </div>
-
-            {/* The features strip (LK124): the main features, each a link, then "As low as ₹X a mock" from the live offer. */}
-            <HeroBeatStrip items={FEATURES} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
-
-            <div className="lp-hero__links">
-              <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
-              <a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen</a>
             </div>
           </div>
         </section>
