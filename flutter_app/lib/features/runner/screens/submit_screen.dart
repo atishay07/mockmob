@@ -12,6 +12,7 @@ import '../../../core/sync/session/session_engine.dart';
 import '../../../core/motion/mm_scroll_behavior.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/edge_fade_scroll.dart' show MmEdgeFadeScroll;
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
@@ -605,7 +606,10 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!centred) return SingleChildScrollView(padding: padding, child: child);
     return LayoutBuilder(
-      builder: (context, box) => SingleChildScrollView(
+      // The foot's edge dissolves while rows wait below it, so a row cut by the note above the key reads as "more
+      // here", not sliced (device walk 8 Nov: at 1.3x "Go to question 3" was cut in half by "You cannot change
+      // answers"). Nothing fades when the whole sheet fits.
+      builder: (context, box) => MmEdgeFadeScroll(
         // The app's one bounce (GLASS-1017 5.9, F3), as on every page.
         physics: MmScrollBehavior.page,
         padding: padding,

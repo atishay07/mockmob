@@ -5,9 +5,13 @@ import 'package:flutter/widgets.dart';
 /// text the Start sheet's mode tiles ended at the sheet's edge with no cue). At rest with
 /// everything visible nothing is faded. The same rule as the body of `showMmSheet`.
 class MmEdgeFadeScroll extends StatefulWidget {
-  const MmEdgeFadeScroll({super.key, required this.child, this.topExtent = 24, this.bottomExtent = 32});
+  const MmEdgeFadeScroll({super.key, required this.child, this.topExtent = 24, this.bottomExtent = 32, this.physics, this.padding});
 
   final Widget child;
+
+  /// The scroll view's physics and padding, as on a plain [SingleChildScrollView].
+  final ScrollPhysics? physics;
+  final EdgeInsetsGeometry? padding;
 
   /// How far the top and the bottom edges dissolve while more content waits past them.
   final double topExtent;
@@ -43,7 +47,7 @@ class _MmEdgeFadeScrollState extends State<MmEdgeFadeScroll> {
       onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
       child: NotificationListener<ScrollNotification>(
         onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
-        child: SingleChildScrollView(child: widget.child),
+        child: SingleChildScrollView(physics: widget.physics, padding: widget.padding, child: widget.child),
       ),
     );
     // Always the mask, even with nothing to fade: swapping it in and out would rebuild the scroll
