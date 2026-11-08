@@ -144,7 +144,7 @@ void main() {
       );
       expect(c.kind, AskMobiKind.today);
       expect(c.reason, 'From Mock 3, Accountancy, on 12 October.');
-      expect(c.lines, ['13 wrong, 31 right, 6 not attempted.', 'Partnership: 6 wrong, 1 not attempted in 8 questions']);
+      expect(c.lines, ['13 wrong, 31 right, 6 blank.', 'Partnership: 6 wrong, 1 blank in 8 questions']);
       expect(openingFor(c, rich())!.title, c.reason);
     });
 

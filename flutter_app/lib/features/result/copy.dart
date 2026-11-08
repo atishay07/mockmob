@@ -170,7 +170,7 @@ abstract final class ResultCopy {
     MarkPart.scored => '${plural(b.correct, 'correct answer')}, ${marksValue(b.scored)} scored.',
     MarkPart.takenOff => '${plural(b.wrong, 'wrong answer')}, ${marksValue(b.takenOff)} taken off.',
     MarkPart.notEarnedWrong => '${plural(b.wrong, 'wrong answer')}, ${marksValue(b.notEarnedOnWrong)} not earned.',
-    MarkPart.notEarnedBlank => '${b.unattempted} not attempted, ${marksValue(b.notEarnedOnBlank)} not earned.',
+    MarkPart.notEarnedBlank => '${b.unattempted} blank, ${marksValue(b.notEarnedOnBlank)} not earned.',
   };
 
   /// The state of a bubble in words, for a tile's TalkBack label.
@@ -207,7 +207,7 @@ abstract final class ResultCopy {
       missedMarksDenominator(chapterMissed: cost, paperMissed: missed, paperMax: max) == null
       ? '${plural(cost, 'mark')} cost in this chapter.'
       : '$cost of the $missed marks you missed were in this chapter.';
-  static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c correct, $w wrong, $u not attempted.';
+  static String chapterCounts(int q, int c, int w, int u) => '${plural(q, 'question')}: $c right, $w wrong, $u blank.';
   static String blanksEvidence(int u, int q) => 'You did not attempt $u of $q questions here. Blank answers are not mistakes to repair.';
   static String wrongByNumber(int n) =>
       'No chapter had enough questions to single out, so here ${n == 1 ? 'is the one answer' : 'are the $n answers'} you got wrong.';
@@ -243,8 +243,8 @@ abstract final class ResultCopy {
   static String readyToRepairOf(int n, int wrong) => '$n of ${plural(wrong, 'wrong answer')} ready to repair.';
   static String readyToRepairRest(int rest) =>
       '${rest == 1 ? 'The other one is' : 'The other $rest are'} repaired already, or ${rest == 1 ? 'its' : 'their'} answer ${rest == 1 ? 'key is' : 'keys are'} being checked.';
-  static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Your papers.';
-  static String blanksCount(int n) => '$n not attempted.';
+  static String blanksInReview(int n) => '$n blank. ${n == 1 ? 'It is' : 'They are'} in Your papers.';
+  static String blanksCount(int n) => '$n blank.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
   static String walletShort(int needed, int balance) => balance <= 0
       ? 'This repair needs $needed credits. You have none. Read the key explanations in Your papers.'
@@ -312,7 +312,7 @@ abstract final class ResultCopy {
   static const replay = 'Replay recap';
   static String continueRecap(int card) => 'Continue recap, card $card of 4';
   static String submittedOn(DateTime at) => 'Submitted at ${formatTime12(at)}, ${formatDayMonth(at)}.';
-  static String countsWithDenominators(int c, int w, int u, int n) => '$c of $n correct, $w wrong, $u not attempted.';
+  static String countsWithDenominators(int c, int w, int u, int n) => '$c of $n right, $w wrong, $u blank.';
   /// The Lab's section title (Mistake Lab v4: the owner's own word, in place of "Where the marks
   /// went"). With a server `lab` the ledger uses the server's `labels.name`, the same word.
   static const sectionWhere = 'Mistake Lab';
@@ -322,10 +322,10 @@ abstract final class ResultCopy {
   /// A long press on a bubble of the answer map: "Q12, Accountancy: wrong".
   static String bubbleTip(int number, String subject, BubbleState state) {
     final word = switch (state) {
-      BubbleState.filled => 'correct',
+      BubbleState.filled => 'right',
       BubbleState.wrong => 'wrong',
       BubbleState.marked => 'being checked',
-      _ => 'not attempted',
+      _ => 'blank',
     };
     return 'Q$number, $subject: $word';
   }
@@ -333,8 +333,8 @@ abstract final class ResultCopy {
   // One vocabulary for the three answer states, as on the web and the result front (R8 CONT-06): Right, Wrong, Blank.
   static String groupBlank(int n) => 'Blank ($n)';
 
-  /// The "Not attempted" header for TalkBack: it shows or hides the rows.
-  static String groupBlankToggle(int n, {required bool open}) => '${plural(n, 'question')} not attempted. ${open ? 'Hide' : 'Show'} them.';
+  /// The "Blank" header for TalkBack: it shows or hides the rows.
+  static String groupBlankToggle(int n, {required bool open}) => '${plural(n, 'question')} blank. ${open ? 'Hide' : 'Show'} them.';
   static String groupCorrect(int n) => 'Right ($n)';
   static String groupHeld(int n) => 'Being checked ($n)';
   static String question(int n) => 'Question $n';

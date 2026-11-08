@@ -246,13 +246,16 @@ abstract final class PaperReadCopy {
 
   /// The key that repairs what the reach names.
   /// One verb for a mistake's repair on every screen (D15): "Repair", never "Fix".
-  static String fixKey(int n) => n == 1 ? 'Repair this one' : 'Repair these $n';
+  /// With one open mistake and its [number] known, the key names it as the result's own key does ("Repair Q2"), so the
+  /// same repair never carries two labels on one screen.
+  static String fixKey(int n, {int? number}) => n == 1 ? (number == null ? 'Repair this one' : 'Repair Q$number') : 'Repair these $n';
   static String fixNote(int n) => n == 1 ? '1 credit.' : '1 credit each.';
-  static String fixSpoken(int n, String? chapter) =>
-      n == 1 ? 'Repair this one${chapter == null ? '' : ' in $chapter'}. 1 credit.' : 'Repair these $n${chapter == null ? '' : ' in $chapter'}. 1 credit each.';
+  static String fixSpoken(int n, String? chapter, {int? number}) =>
+      n == 1 ? '${fixKey(1, number: number)}${chapter == null ? '' : ' in $chapter'}. 1 credit.' : 'Repair these $n${chapter == null ? '' : ' in $chapter'}. 1 credit each.';
 
   /// The chapter set's alternative when it repairs the read's own set: "Or repair these 2 first, 1 credit each".
-  static String orFixFirst(int n) => n == 1 ? 'Or repair this one first, 1 credit' : 'Or repair these $n first, 1 credit each';
+  static String orFixFirst(int n, {int? number}) =>
+      n == 1 ? 'Or repair ${number == null ? 'this one' : 'Q$number'} first, 1 credit' : 'Or repair these $n first, 1 credit each';
 
   static String _pct(double s) => '${(s * 100).round()}%';
 

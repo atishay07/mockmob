@@ -168,7 +168,7 @@ void main() {
 
   test('why: real counts and the chapters that lost marks', () {
     final model = buildWhy(ashaRecord(tuesdayEvening), 'm7', toDate: (d) => d)!;
-    expect(TodayCopy.whyCounts(model.wrong, model.correct, model.blank), '6 wrong, 42 right, 2 not attempted.');
+    expect(TodayCopy.whyCounts(model.wrong, model.correct, model.blank), '6 wrong, 42 right, 2 blank.');
     expect(model.chapters.first.chapter, 'Partnership fundamentals');
     expect(model.chapters.first.wrong, 4);
     expect(model.early, isFalse);

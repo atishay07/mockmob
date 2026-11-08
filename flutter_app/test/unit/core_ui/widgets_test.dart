@@ -215,7 +215,7 @@ void main() {
         QuestionCell.changed,
       ];
       await pumpMockmob(tester, const Center(child: QuestionStrip(cells: cells, columns: 3)));
-      expect(find.bySemanticsLabel('2 correct, 2 wrong, 1 not attempted, 1 changed, 1 repaired'), findsOneWidget);
+      expect(find.bySemanticsLabel('2 right, 2 wrong, 1 blank, 1 changed, 1 repaired'), findsOneWidget);
       handle.dispose();
     });
 

@@ -68,9 +68,9 @@ class QuestionStrip extends StatelessWidget {
     final blank = count((c) => c == QuestionCell.blank);
     final changed = count((c) => c == QuestionCell.changed);
     return [
-      '$right correct',
+      '$right right',
       '$wrong wrong',
-      '$blank not attempted',
+      '$blank blank',
       if (changed > 0) '$changed changed',
       if (repaired > 0) '$repaired repaired',
     ].join(', ');

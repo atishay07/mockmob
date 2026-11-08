@@ -55,7 +55,7 @@ abstract final class FinishRevealCopy {
   static const String ledgerHead = 'How your marks add up';
   static String rightLabel(int n) => '$n right';
   static String wrongLabel(int n) => '$n wrong';
-  static String blankLabel(int n) => '$n not attempted';
+  static String blankLabel(int n) => '$n blank';
   static const String rightRule = '+5 each';
   static const String wrongRule = '−1 each';
   static const String blankRule = '0 each';
@@ -237,6 +237,7 @@ class PaperReadCard extends StatelessWidget {
     this.leadDetail,
     this.onFix,
     this.fixOpen,
+    this.fixNumber,
     this.plain = false,
     this.at,
     this.blockGap = FinishBeats.blockGap,
@@ -260,6 +261,10 @@ class PaperReadCard extends StatelessWidget {
   /// How many of [PaperRead.fixQids] are still open, when the caller knows (a repaired one is not repaired again): the
   /// key names the run it really opens (R8 APP-02: "Repair these 2" opened a run of 1). Null: all of them.
   final int? fixOpen;
+
+  /// The question number of the one open mistake, when exactly one is open: the key then says "Repair Q2", the same
+  /// words as the result's own repair key (D15). Null: "Repair this one".
+  final int? fixNumber;
 
   /// No Mobi (NTA): the heading is the student's own.
   final bool plain;
@@ -308,8 +313,8 @@ class PaperReadCard extends StatelessWidget {
             children: [
               KeyButton.secondary(
                 key: const ValueKey('paper-read-fix'),
-                label: PaperReadCopy.fixKey(fixCount),
-                semanticsLabel: PaperReadCopy.fixSpoken(fixCount, r.fixChapter),
+                label: PaperReadCopy.fixKey(fixCount, number: fixNumber),
+                semanticsLabel: PaperReadCopy.fixSpoken(fixCount, r.fixChapter, number: fixNumber),
                 expanded: false,
                 minHeight: 44,
                 onPressed: onFix,

@@ -155,8 +155,8 @@ void main() {
 
     test('Mobi says what a long-pressed bubble was', () {
       expect(PracticeCopy.cellSays(7, QuestionCell.wrong), 'Question 7: wrong');
-      expect(PracticeCopy.cellSays(1, QuestionCell.right), 'Question 1: correct');
-      expect(PracticeCopy.cellSays(12, QuestionCell.blank), 'Question 12: not attempted');
+      expect(PracticeCopy.cellSays(1, QuestionCell.right), 'Question 1: right');
+      expect(PracticeCopy.cellSays(12, QuestionCell.blank), 'Question 12: blank');
     });
   });
 

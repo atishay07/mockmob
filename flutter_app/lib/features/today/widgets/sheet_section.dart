@@ -80,7 +80,7 @@ class _PaperRow extends ConsumerWidget {
     return joinSentences([
       head,
       '${row.marks} of ${row.outOf} marks',
-      '${row.right} right, ${row.wrong} wrong, ${row.blank} not attempted',
+      '${row.right} right, ${row.wrong} wrong, ${row.blank} blank',
       row.change,
       'Opens the result',
     ]);

@@ -308,7 +308,7 @@ class PaperRowView extends ConsumerWidget {
     return [
       head,
       '${formatSignedNumber(line.marks ?? 0)} of ${line.max} marks',
-      '${line.right} right, ${line.wrong} wrong, ${line.blank} not attempted',
+      '${line.right} right, ${line.wrong} wrong, ${line.blank} blank',
       ?line.change,
       ReviewCopy.opensResult,
     ].join('. ');

@@ -73,9 +73,9 @@ void main() {
 
   test('the practice result sentences', () {
     expect(PracticeCopy.figureSemantics(8, 10), '8 of 10 correct');
-    expect(PracticeCopy.countsLine(8, 1, 1), '8 right, 1 wrong, 1 not attempted');
+    expect(PracticeCopy.countsLine(8, 1, 1), '8 right, 1 wrong, 1 blank');
     expect(PracticeCopy.countsLine(8, 2, 0), '8 right, 2 wrong');
-    expect(PracticeCopy.countsLine(7, 0, 3), '7 right, 3 not attempted');
+    expect(PracticeCopy.countsLine(7, 0, 3), '7 right, 3 blank');
     expect(PracticeCopy.countsLine(10, 0, 0), '10 right. Nothing wrong, nothing left out.');
     expect(PracticeCopy.reviewWrong(1), 'Review 1 wrong answer');
     expect(PracticeCopy.reviewWrong(3), 'Review 3 wrong answers');

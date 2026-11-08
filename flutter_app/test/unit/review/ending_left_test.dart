@@ -52,7 +52,7 @@ void main() {
     expect(open.elsewhere, 2, reason: "Mock 6's two Partnership mistakes are in another paper");
     expect(
       ReviewCopy.endingFact(model.chapter, open.here, elsewhere: open.elsewhere, setAside: model.setAside),
-      '1 left in Partnership. 2 more Partnership mistakes in other papers. 1 set aside while its key is checked.',
+      '1 left in Partnership. Your other papers have 2 more mistakes in this chapter. 1 set aside while its key is checked.',
     );
   });
 

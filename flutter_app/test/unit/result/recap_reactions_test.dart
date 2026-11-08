@@ -175,8 +175,8 @@ void main() {
 
     test('a long press says the question, the subject and the verdict', () {
       expect(AnswerMap.tip(12, 'Accountancy', BubbleState.wrong), 'Q12, Accountancy: wrong');
-      expect(AnswerMap.tip(3, 'Accountancy', BubbleState.filled), 'Q3, Accountancy: correct');
-      expect(AnswerMap.tip(4, 'Accountancy', BubbleState.blank), 'Q4, Accountancy: not attempted');
+      expect(AnswerMap.tip(3, 'Accountancy', BubbleState.filled), 'Q3, Accountancy: right');
+      expect(AnswerMap.tip(4, 'Accountancy', BubbleState.blank), 'Q4, Accountancy: blank');
       expect(AnswerMap.tip(5, 'Accountancy', BubbleState.marked), 'Q5, Accountancy: being checked');
     });
 
@@ -215,7 +215,7 @@ void main() {
       expect(ResultCopy.flowSentence(MarkPart.scored, b), '26 correct answers, 115 marks scored.');
       expect(ResultCopy.flowSentence(MarkPart.takenOff, b), '15 wrong answers, 15 marks taken off.');
       expect(ResultCopy.flowSentence(MarkPart.notEarnedWrong, b), '15 wrong answers, 75 marks not earned.');
-      expect(ResultCopy.flowSentence(MarkPart.notEarnedBlank, b), '9 not attempted, 45 marks not earned.');
+      expect(ResultCopy.flowSentence(MarkPart.notEarnedBlank, b), '9 blank, 45 marks not earned.');
     });
   });
 

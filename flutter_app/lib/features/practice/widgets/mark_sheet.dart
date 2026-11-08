@@ -126,11 +126,11 @@ abstract final class SheetCopy {
 
   static const String chaptersHead = 'Marks by chapter';
 
-  /// "2 right, 1 wrong, 1 not attempted"
+  /// "2 right, 1 wrong, 1 blank"
   static String chapterCounts(int right, int wrong, int blank) =>
-      [if (right > 0) '$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
+      [if (right > 0) '$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank blank'].join(', ');
 
-  /// "Goodwill: 9 of 20 marks. 2 right, 1 wrong, 1 not attempted."
+  /// "Goodwill: 9 of 20 marks. 2 right, 1 wrong, 1 blank."
   static String chapterSpoken(ChapterMark c) =>
       '${c.name}: ${formatSignedNumber(c.scored)} of ${c.max} marks. ${chapterCounts(c.right, c.wrong, c.blank)}.';
 }

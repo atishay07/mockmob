@@ -42,7 +42,7 @@ abstract final class ReviewCopy {
   }
 
   static String showAllPapers(int n) => 'Show all $n papers';
-  static String paperSplit(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank not attempted';
+  static String paperSplit(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank';
   static const paperSealed = 'Your result is ready and not opened yet';
   static const openYourResult = 'Your result is ready';
   static const opensSealed = 'Opens your result';
@@ -59,8 +59,8 @@ abstract final class ReviewCopy {
     }
     // Whole sentences no longer than the old fragments, so the caption keeps its line count at 360 dp (copy pass, 19 Oct).
     final what = subject == null ? '' : '$subject ';
-    if (open == 1) return '1 ${what}mistake is waiting. Fix it before it costs you marks again.';
-    if (chapters <= 1) return '$open ${what}mistakes are waiting in one chapter. Fix them before they cost you marks again.';
+    if (open == 1) return '1 ${what}mistake is waiting. Repair it before it costs you marks again.';
+    if (chapters <= 1) return '$open ${what}mistakes are waiting in one chapter. Repair them before they cost you marks again.';
     return '$open ${what}mistakes are waiting in $chapters chapters. Start with the one that costs you the most marks.';
   }
 
@@ -204,7 +204,7 @@ abstract final class ReviewCopy {
   }
   static String foundIn(String source, String date) => 'Found in $source on $date';
 
-  static String notAttemptedHeading(String source, int n) => 'Not attempted in $source ($n)';
+  static String notAttemptedHeading(String source, int n) => 'Left blank in $source ($n)';
   static const notAttemptedNote = 'Skipped questions are not mistakes. Look at the answer or try one again.';
   static const seeAnswer = 'See the answer';
   static const tryAgain = 'Try it again';
@@ -526,9 +526,10 @@ abstract final class ReviewCopy {
   /// open mistakes in other papers, which the run never touched, so the two are said apart.
   static String endingFact(String chapter, int? left, {int elsewhere = 0, int setAside = 0, int reviewed = 0}) {
     final name = shortChapter(chapter);
-    // The other papers' number names its chapter (R8 APP-15): "14 more Goodwill mistakes in other papers.", never a bare
-    // "14 more" beside the tab's open count.
-    final other = elsewhere > 0 ? ' $elsewhere ${left == 0 ? '' : 'more '}$name ${elsewhere == 1 ? 'mistake' : 'mistakes'} in other papers.' : '';
+    // The other papers' number is tied to its chapter (R8 APP-15), never a bare "14 more" beside the tab's open count. The
+    // sentence before it already names the chapter, so it is not said twice, and no sentence opens on a numeral:
+    // "Nothing left in Goodwill from this paper. Your other papers have 7 more mistakes in this chapter."
+    final other = elsewhere > 0 ? ' Your other papers have $elsewhere more ${elsewhere == 1 ? 'mistake' : 'mistakes'} in this chapter.' : '';
     return [
       if (left != null)
         left == 0

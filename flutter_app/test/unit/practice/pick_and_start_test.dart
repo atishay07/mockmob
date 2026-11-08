@@ -341,7 +341,7 @@ void main() {
     // Blanks have no reasons to read: they are named as left out, never added to the wrong ones.
     expect(
       PracticeCopy.finishLine(FinishTone.good, const FinishMarks(correct: 7, wrong: 0, blank: 3, total: 10)),
-      'Most of this set is right. The 3 not attempted are below.',
+      'Most of this set is right. The 3 left blank are below.',
     );
     expect(PracticeCopy.finishLine(FinishTone.great, const FinishMarks(correct: 8, wrong: 1, blank: 1, total: 10)).contains('2'), isFalse);
   });

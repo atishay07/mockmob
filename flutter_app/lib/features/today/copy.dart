@@ -553,11 +553,11 @@ abstract final class TodayCopy {
   static const String whyTitle = 'Why this';
   static String whyFrom(String source, String subject, DateTime date) => 'From $source, $subject, on ${formatDayMonth(date)}.';
   static String whyCounts(int wrong, int correct, int blank) =>
-      '$wrong wrong, $correct right, $blank not attempted.';
+      '$wrong wrong, $correct right, $blank blank.';
   static String chapterRow(int wrong, int blank) {
     if (blank == 0) return '$wrong wrong';
-    if (wrong == 0) return '$blank not attempted';
-    return '$wrong wrong, $blank not attempted';
+    if (wrong == 0) return '$blank blank';
+    return '$wrong wrong, $blank blank';
   }
   static const String whyEarly = 'You have one paper so far. Each mock you add sharpens the picture.';
   static const String whyRepair =

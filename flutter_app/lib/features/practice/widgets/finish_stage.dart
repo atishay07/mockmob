@@ -66,6 +66,7 @@ class FinishStage extends ConsumerStatefulWidget {
     this.read,
     this.onFix,
     this.fixOpen,
+    this.fixNumber,
     this.spent,
     this.timed = 0,
   });
@@ -78,6 +79,9 @@ class FinishStage extends ConsumerStatefulWidget {
 
   /// How many of the read's answers are still open: the count the read's repair key names.
   final int? fixOpen;
+
+  /// The one open mistake's question number, when exactly one is open ("Repair Q2").
+  final int? fixNumber;
 
   /// Under the read's lead sentence, for a tie: what the tied chapters cost together.
   final String? chaptersDetail;
@@ -619,6 +623,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
                   leadDetail: widget.chaptersDetail,
                   onFix: widget.onFix,
                   fixOpen: widget.fixOpen,
+                  fixNumber: widget.fixNumber,
                 ),
               ],
             ],

@@ -244,7 +244,7 @@ abstract final class PracticeCopy {
   static const String summaryTime = 'Time';
   static const String summaryMarking = 'Marking';
   static const String summaryCost = 'Cost';
-  static const String markingValue = '+5 right, ${minusSign}1 wrong, 0 not attempted';
+  static const String markingValue = '+5 right, ${minusSign}1 wrong, 0 blank';
   static const String allChapters = 'All chapters';
   static const String costIncluded = 'Included with Pro';
   static const String costFree = 'Free';
@@ -394,7 +394,7 @@ abstract final class PracticeCopy {
   static String figureSemantics(int correct, int total) => '$correct of $total correct';
   static String countsLine(int right, int wrong, int blank) {
     if (wrong == 0 && blank == 0) return '$right right. Nothing wrong, nothing left out.';
-    return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
+    return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank blank'].join(', ');
   }
 
   /// Mobi's line after the reaction. About the sheet, never about the person. The counts are said
@@ -408,7 +408,7 @@ abstract final class PracticeCopy {
     if (m.wrong > 0) {
       reasons = mostRight ? 'Most of this set is right. The reasons for the other ${m.wrong} are below.' : 'The reasons are below.';
     } else if (m.blank > 0) {
-      reasons = mostRight ? 'Most of this set is right. The ${m.blank} not attempted are below.' : 'The ones not attempted are below.';
+      reasons = mostRight ? 'Most of this set is right. The ${m.blank} left blank are below.' : 'The ones left blank are below.';
     } else {
       reasons = 'Every one right. Nothing to fix from this set.';
     }
@@ -432,7 +432,7 @@ abstract final class PracticeCopy {
     // Below zero the marks missed would exceed the paper ("18 of the 18" on 15), so say what was lost instead.
     if (m.scored < 0) return ResultCopy.negativeLoss(m.wrong, m.blank);
     if (m.wrong > 0) return '${plural(m.wrong, 'wrong answer')} cost ${m.lostToWrong} of the ${m.missed} marks you missed.';
-    if (m.blank > 0) return '${plural(m.blank, 'question')} not attempted left ${m.leftOnBlanks} marks on the table.';
+    if (m.blank > 0) return '${plural(m.blank, 'question')} blank, ${m.leftOnBlanks} marks left on the table.';
     return '';
   }
 
@@ -460,9 +460,9 @@ abstract final class PracticeCopy {
 
   /// What Mobi says for a long press on bubble [number] of the sheet.
   static String cellSays(int number, QuestionCell cell) => '${questionNumber(number)}: ${switch (cell) {
-    QuestionCell.right => 'correct',
+    QuestionCell.right => 'right',
     QuestionCell.wrong => 'wrong',
-    QuestionCell.blank => 'not attempted',
+    QuestionCell.blank => 'blank',
     QuestionCell.changed => 'answer changed',
     QuestionCell.repaired => 'repaired',
   }}';

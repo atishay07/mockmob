@@ -110,7 +110,7 @@ void main() {
       expect(ReviewCopy.mistakesCaption(0, 0, null, rows: 3), 'You have nothing left to repair. The chapters below still show where your marks went.');
       expect(ReviewCopy.mistakesCaption(7, 3, 'Economics', rows: 3), '7 Economics mistakes are waiting in 3 chapters. Start with the one that costs you the most marks.');
       expect(ReviewCopy.mistakesCaption(0, 0, 'Economics', rows: 0), 'You have nothing left to repair in Economics.', reason: 'no chapter rows, so none are said to be below');
-      expect(ReviewCopy.mistakesCaption(1, 1, null, rows: 1), '1 mistake is waiting. Fix it before it costs you marks again.');
+      expect(ReviewCopy.mistakesCaption(1, 1, null, rows: 1), '1 mistake is waiting. Repair it before it costs you marks again.');
       expect(PracticeCopy.papersNote(papers: 0, open: 3), 'You have 3 mistakes to repair, with the papers they came from.');
     });
 
