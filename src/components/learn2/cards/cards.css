@@ -153,6 +153,8 @@
 }
 /* A row's own Show opens the whole line (R8 LEARN-10); the 2-line fold stays for "Show answers" and search matches. */
 .l2c-row[data-whole] .l2c-clip { display: block; -webkit-line-clamp: unset; overflow: visible; }
+/* ...with the page it comes from under it, as the opened row has it. */
+.l2c-src { display: block; margin-top: 6px; padding-left: 13px; }
 
 .l2c-more { grid-area: more; display: block; }
 .l2c-full { display: grid; gap: 10px; padding-top: 14px; animation: kc-reveal 220ms var(--kc-ease) both; }

@@ -198,6 +198,10 @@ html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #f
 .lc-face__of { margin-left: 4px; font: 600 14px/1 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
 /* Free's held pile (Key cards only today): dimmed like a left-out pile, a dashed top edge, and not a button. */
 .lc-pile[data-held] .lc-pile__btn { cursor: default; }
+/* A held pile is not a choice: no corner ring that reads as an unticked option (R8 LEARN-01 revision). */
+.lc-pile[data-held] .lc-tick { display: none; }
+/* Under the "Back tomorrow" heading each held pile's own "Back tomorrow" line would say it again; the face keeps "Tomorrow". */
+.lc-piles[data-daydone] .lc-pile[data-held] .lc-pile__min { display: none; }
 .lc-pile[data-held] .lc-sheet--a { border-top: 1.5px dashed var(--lc-edge-hi); }
 .lc-pile[data-held] .lc-pile__btn:hover .lc-fan { transform: none !important; }
 

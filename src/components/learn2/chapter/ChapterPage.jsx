@@ -440,13 +440,14 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                   ) : null}
 
                   {picker ? (
-                    <section className="lc-lined" id={`${headId}-lined`} aria-labelledby={headId} data-resume={resume ? '' : undefined}>
+                    <section className="lc-lined" id={`${headId}-lined`} aria-labelledby={dayDone ? `${headId}-incl` : headId} data-resume={resume ? '' : undefined}>
                       <div className="lc-lined__in">
-                        <div className="lc-ctl">
+                        {/* Free's used day (R8 LEARN-01 revision): no length to pick, so the picker is not drawn; every other day it stays. */}
+                        {dayDone ? null : <div className="lc-ctl">
                           <h2 id={headId} className="lc-lined__h">How long have you got?</h2>
                           <LengthControl minutes={minutes} onChange={choose} onOwn={() => setOwnOpen(true)} labelledBy={headId} wrapRef={lenRef} />
                           <OwnSheet key={ownOpen ? 'open' : 'shut'} open={ownOpen} minutes={minutes} onChoose={choose} onClose={closeOwn} anchorRef={lenRef} />
-                        </div>
+                        </div>}
 
                         {read.status === 'error' ? (
                           <div className="lc-error" role="alert">
@@ -456,10 +457,12 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                         ) : (
                           <>
                             <div className="lc-incl">
-                              <h3 className="lc-incl__h" id={`${headId}-incl`}>{"What's in this session"}</h3>
+                              {dayDone
+                                ? <h2 className="lc-incl__h" id={`${headId}-incl`}>Back tomorrow</h2>
+                                : <h3 className="lc-incl__h" id={`${headId}-incl`}>{"What's in this session"}</h3>}
                               <p className="lc-incl__sum" aria-live="polite">{runSummary(data, piles)}</p>
                             </div>
-                            <ul className="lc-piles" aria-labelledby={`${headId}-incl`} data-n={n}>
+                            <ul className="lc-piles" aria-labelledby={`${headId}-incl`} data-n={n} data-daydone={dayDone ? '' : undefined}>
                               {piles.map((p, i) => (
                                 <Pile key={p.id} pile={p} index={i} minutes={minutes} busy={refreshing} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} describedBy={p.held ? quietId : undefined} />
                               ))}

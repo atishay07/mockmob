@@ -383,7 +383,6 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
           </div>
           <FilterChips value={shelf} onChange={onShelf} options={options} label="Which set" />
           {body}
-          {r && results.status !== 'error' ? <AlsoIn others={r.others} onSubject={onSubject} /> : null}
         </div>
       </div>
       {panel.showPickBar ? (

@@ -100,3 +100,46 @@ test('R8 LEARN-02: the Revise move names its subject; without one it reads as th
   const revise = upNextMoves(PICKUP, { subjectName: 'Accountancy' }).find((m) => m.kind === 'revise');
   if (revise) assert.doesNotMatch(revise.cell.title, /due cards/);
 });
+
+// R8 w6 revision: a set chip on Learn home opened SetPanel, which read Results' `r`, `results` and `onSubject` and crashed
+// ("r is not defined"). Sets are not searches and the shelf API sends no `others`, so SetPanel never draws AlsoIn.
+test('R8 LEARN-08 revision: SetPanel uses none of Results\' search values; AlsoIn stays in Results only', () => {
+  const view = src('../../cards/FindView.jsx');
+  const body = (name) => {
+    const at = view.indexOf(`function ${name}(`);
+    assert.ok(at >= 0, `${name} is in FindView.jsx`);
+    const next = view.slice(at + 1).search(/\n(?:export default )?function /);
+    return next < 0 ? view.slice(at) : view.slice(at, at + 1 + next);
+  };
+  const set = body('SetPanel');
+  assert.doesNotMatch(set, /AlsoIn/);
+  assert.doesNotMatch(set, /\bresults\./);
+  assert.doesNotMatch(set, /(^|[^\w.])r\./m, 'no bare r. in SetPanel');
+  assert.doesNotMatch(set, /onSubject/);
+  assert.match(body('Results'), /<AlsoIn others=\{r\.others\} onSubject=\{onSubject\} \/>/);
+});
+
+// R8 w6 revision: on Free's used day the length picker did nothing beside "Quick recap · 1 min", and held piles kept an empty ring.
+test('R8 LEARN-01 revision: the used day draws no length picker, titles the piles "Back tomorrow", and held piles show no ring', () => {
+  const page = src('../../chapter/ChapterPage.jsx');
+  assert.match(page, /\{dayDone \? null : <div className="lc-ctl">/);
+  assert.match(page, /<h2 className="lc-incl__h" id=\{`\$\{headId\}-incl`\}>Back tomorrow<\/h2>/);
+  assert.match(page, /aria-labelledby=\{dayDone \? `\$\{headId\}-incl` : headId\}/);
+  assert.match(page, /\{"What's in this session"\}/, 'every other day keeps its heading');
+  const css = src('../../chapter/chapter.css');
+  assert.match(css, /\.lc-pile\[data-held\] \.lc-tick \{ display: none; \}/);
+  assert.match(page, /data-n=\{n\} data-daydone=\{dayDone \? '' : undefined\}/);
+  assert.match(css, /\.lc-piles\[data-daydone\] \.lc-pile\[data-held\] \.lc-pile__min \{ display: none; \}/, 'the heading says it once');
+});
+
+// R8 w6 revision: a row's own Show gives the whole line with the NCERT excerpt's leading '…' and the page it comes from.
+test('R8 LEARN-10 revision: the whole line keeps the leading ellipsis and names its page', async () => {
+  const list = src('../../cards/CardList.jsx');
+  assert.match(list, /withLead\(whole \? flat\(source\) : snippet\(source, query, 210\), card\)/);
+  assert.match(list, /const whereFrom = whole \? sourceLine\(card\.source\) : null;/);
+  const { withLead } = await import('../../../keycards/kinds.js');
+  const ncert = { source: { kind: 'ncert', book: 'x' }, kind: 'fact' };
+  assert.equal(withLead('relation between persons', ncert).startsWith('…'), true);
+  assert.equal(withLead('…already cut', ncert), '…already cut');
+  assert.equal(withLead('Partnership is a relation', ncert), 'Partnership is a relation');
+});
