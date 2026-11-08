@@ -63,8 +63,12 @@ export function previewRecordAttempt(id) {
   return a ? { ...a, mode: 'quick', paper: { source: 'Quick practice', completedAt: a.completedAt } } : null;
 }
 
-export function previewInsights(names = { accountancy: 'Accountancy' }) {
-  const insights = computePrepOSInsights(ATTEMPTS, { subjectNames: names });
+// ?record=wide: a record with eleven ranked chapters, so the Pro list's "Show all" key can be checked (illustrative only).
+const WIDE_CHAPTERS = ['Admission of a Partner', 'Retirement of a Partner', 'Dissolution', 'Share Capital', 'Debentures', 'Cash Flow Statement', 'Financial Statements', 'Comparative Statements'];
+const WIDE = [attempt('p4', 5, WIDE_CHAPTERS.flatMap((chapter, c) => Array.from({ length: 4 + (c % 3) }, (_, k) => ({ chapter, final: k <= c % 3 ? W : R }))))];
+
+export function previewInsights(names = { accountancy: 'Accountancy' }, { wide = false } = {}) {
+  const insights = computePrepOSInsights(wide ? [...ATTEMPTS, ...WIDE] : ATTEMPTS, { subjectNames: names });
   return { ok: true, insights, findings: readout(insights, { limit: 4 }) };
 }
 
