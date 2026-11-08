@@ -7,7 +7,7 @@ import '../theme/theme.dart';
 import 'materials/fake_glass.dart';
 import 'pressable.dart';
 
-/// The one header of every pushed page (SPACING.md 9, audit G2): the back arrow on the gutter, the
+/// The one header of every pushed page (SPACING.md 9, audit G2): the labelled Back key on the gutter, the
 /// title inline in the tab roots' `screenTitle` cut, an optional trailing action, on a 56 dp row,
 /// and an optional caption under the row on the gutter. It replaces the stacked back-arrow-then-28
 /// headline and the five bespoke bars (review `PageHeader`, practice `PracticeAppBar`, the auth,
@@ -64,6 +64,16 @@ class MmPageHeader extends StatelessWidget {
   /// The row's height.
   static const double rowHeight = 56;
 
+  void _back(BuildContext context) {
+    if (onBack != null) {
+      onBack!();
+    } else if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go(fallbackRoute);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -78,15 +88,18 @@ class MmPageHeader extends StatelessWidget {
           height: rowHeight,
           child: Row(
             children: [
-              const SizedBox(width: MmSpace.gutter),
+              if (!showBack) const SizedBox(width: MmSpace.gutter),
               if (showBack) ...[
+                // The gutter left of the key is part of its reach (a thumb at the screen's edge still goes back);
+                // the key itself carries the label, the press and the haptic.
+                SizedBox(
+                  width: MmSpace.gutter,
+                  height: rowHeight,
+                  child: GestureDetector(behavior: HitTestBehavior.opaque, excludeFromSemantics: true, onTap: () => _back(context)),
+                ),
                 // A labelled key, never a bare arrow (D43, R8 APP-10): "Back", or "Close" on a page that
                 // opens over another.
-                MmBackPill(
-                  closes: closes,
-                  label: closes ? 'Close' : backLabel,
-                  onTap: onBack ?? () => context.canPop() ? context.pop() : context.go(fallbackRoute),
-                ),
+                MmBackPill(closes: closes, label: closes ? 'Close' : backLabel, onTap: () => _back(context)),
                 const SizedBox(width: MmSpace.s12),
               ],
               // The title steps down to fit whole beside the key (never "Admission Comp..."), as on Ask Mobi.

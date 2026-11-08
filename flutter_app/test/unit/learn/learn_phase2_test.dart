@@ -87,7 +87,7 @@ void main() {
   });
 
   group('the page header', () {
-    testWidgets('is the one page header of the app: the back arrow on the gutter, a 48 dp reach, and it goes back', (tester) async {
+    testWidgets('is the one page header of the app: the labelled Back key on the gutter, a 48 dp reach, and it goes back', (tester) async {
       var back = 0;
       await pumpMockmob(
         tester,
@@ -96,18 +96,22 @@ void main() {
         wrapInScaffold: true,
       );
       expect(find.byType(MmPageHeader), findsOneWidget);
-      final arrow = tester.getRect(find.byIcon(LucideIcons.arrowLeft));
-      expect(arrow.left, 16, reason: 'the glyph sits on the gutter');
-      expect(tester.getTopLeft(find.text(LearnCopy.title)).dx, 56, reason: 'the title follows the arrow at 16 dp');
-      final press = await tester.startGesture(arrow.center);
+      // R8 APP-10: a chevron and "Back" on a pill, never a bare arrow.
+      final key = tester.getRect(find.byType(MmBackPill));
+      expect(key.left, 16, reason: 'the key sits on the gutter');
+      expect(key.height, greaterThanOrEqualTo(48), reason: 'a 48 dp target');
+      expect(find.descendant(of: find.byType(MmBackPill), matching: find.byIcon(LucideIcons.chevronLeft)), findsOneWidget);
+      expect(find.descendant(of: find.byType(MmBackPill), matching: find.text(LearnCopy.back)), findsOneWidget);
+      expect(tester.getTopLeft(find.text(LearnCopy.title)).dx, key.right + 12, reason: 'the title follows the key at 12 dp');
+      final press = await tester.startGesture(key.center);
       await tester.pump(); // the press spring's first frame
       await tester.pump(const Duration(milliseconds: 80));
       final sink = tester.widget<Transform>(find.descendant(of: find.byType(MmPressable), matching: find.byType(Transform)).first).transform.storage[0];
       expect(sink, lessThan(1), reason: 'the key sinks on the next frames of the touch');
       await press.up();
       expect(back, 1);
-      await tester.tapAt(Offset(arrow.left - 12, arrow.center.dy));
-      expect(back, 2, reason: 'the target reaches past the glyph');
+      await tester.tapAt(Offset(key.left - 12, key.center.dy));
+      expect(back, 2, reason: 'the target reaches past the key into the gutter');
     });
   });
 

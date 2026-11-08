@@ -195,8 +195,10 @@ void main() {
   group('one left edge', () {
     testWidgets('the headings, notes and cards all start on the 16 dp gutter, after the one page header', (tester) async {
       await pumpScreen(tester, prefs: prefsWith(window: const StudyWindow(start: ClockTime(20, 0), end: ClockTime(21, 0))));
-      // The one page header (G2): the back arrow is on the gutter and the title follows it.
-      expect(tester.getTopLeft(find.text('Notifications').first).dx, 56, reason: 'the title sits after the back arrow');
+      // The one page header (G2, R8 APP-10): the labelled Back key is on the gutter and the title follows it.
+      final key = tester.getRect(find.byType(MmBackPill));
+      expect(key.left, 16, reason: 'the Back key sits on the gutter');
+      expect(tester.getTopLeft(find.text('Notifications').first).dx, key.right + 12, reason: 'the title sits 12 dp after the Back key');
       for (final text in ['Your day', 'What I want to hear about', 'Quiet hours', 'Reminders a week', 'Take a break']) {
         expect(tester.getTopLeft(find.text(text).first).dx, 16, reason: '$text sits on the gutter');
       }
