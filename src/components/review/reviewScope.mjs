@@ -116,9 +116,22 @@ export function scopeOf(body, subject = 'all', name = '') {
   };
 }
 
-/** The four figures of the stats strip, with the line under each, from the scope. */
-export function statsOf(scope, scopeName = '') {
+/** AR-S3: how many of the scope's open mistakes were repaired on this visit (`pending`, a Set of item uids). They stay in their
+ *  rows until Review reads again, so the receipt and its Check it held stay on screen; the counts already take them as repaired. */
+export function pendingIn(rows, pending) {
+  if (!pending?.size) return 0;
+  let n = 0;
+  for (const r of rows || []) for (const m of r.open || []) if (pending.has(m.uid)) n += 1;
+  return n;
+}
+
+/** "9 are repaired." as the head line says it, for n repaired mistakes. */
+export const repairedClause = (n) => (n ? ` ${n === 1 ? '1 is repaired' : `${n} are repaired`}.` : '');
+
+/** The four figures of the stats strip, with the line under each, from the scope (and the mistakes repaired on this visit). */
+export function statsOf(scope, scopeName = '', pending = null) {
   const { papers, rows, saved } = scope;
+  const moved = pendingIn(rows, pending);
   // An older caller's scope carries no count: its rows are taken as every paper, as before.
   const complete = scope.complete !== false;
   const total = Number.isInteger(scope.total) ? scope.total : complete ? papers.length : null;
@@ -134,11 +147,12 @@ export function statsOf(scope, scopeName = '') {
     for (const [k, n] of kinds) if (!n) kinds.delete(k);
   } else if (complete) for (const p of papers) kinds.set(p.kind, kinds.get(p.kind) + 1);
   else kinds.clear();
-  const toRepair = rows.reduce((t, r) => t + r.open.length, 0);
-  const chapters = rows.filter((r) => r.open.length).length;
+  const toRepair = rows.reduce((t, r) => t + r.open.length, 0) - moved;
+  const chapters = rows.filter((r) => r.open.some((m) => !pending?.has?.(m.uid))).length;
   const held = saved.filter((x) => x.state === 'held').length;
   const slipped = saved.filter((x) => x.state === 'slipped').length;
-  const pending = saved.filter((x) => x.state === 'repaired').length;
+  const waiting = saved.filter((x) => x.state === 'repaired').length + moved;
+  const repaired = saved.length + moved;
   const latestSubject = latest ? latest.subjectName || subjectLabel(latest.subject) : '';
   let trend = null;
   if (latest && diff === null) {
@@ -163,9 +177,9 @@ export function statsOf(scope, scopeName = '') {
     latestNote: latest ? `${latest.name}, ${latestSubject}` : 'Your first paper’s marks show here',
     trend,
     toRepair,
-    toRepairNote: toRepair ? `across ${plural(chapters, 'chapter')}` : saved.length ? 'Every mistake is repaired' : papers.length ? 'Nothing to repair' : 'No mistakes yet',
-    repaired: saved.length,
-    repairedNote: saved.length ? [held ? `${held} held` : null, slipped ? `${slipped} slipped` : null, pending ? `${pending} waiting to be checked` : null].filter(Boolean).join(', ') : 'None yet',
+    toRepairNote: toRepair ? `across ${plural(chapters, 'chapter')}` : repaired ? 'Every mistake is repaired' : papers.length ? 'Nothing to repair' : 'No mistakes yet',
+    repaired,
+    repairedNote: repaired ? [held ? `${held} held` : null, slipped ? `${slipped} slipped` : null, waiting ? `${waiting} waiting to be checked` : null].filter(Boolean).join(', ') : 'None yet',
   };
 }
 

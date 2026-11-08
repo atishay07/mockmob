@@ -36,7 +36,7 @@ import { ChapterKeycardsLink } from '@/components/keycards/KeycardsLinks';
 import MobEntry from '@/components/mob/MobEntry';
 import { useAuth } from '@/components/AuthProvider';
 import { useRailCue } from '@/components/start/railCue';
-import { firstOpen, paperCountsOf, scopeOf, statsOf, subjectLabel, subjectsOf } from './reviewScope.mjs';
+import { firstOpen, paperCountsOf, pendingIn, repairedClause, scopeOf, statsOf, subjectLabel, subjectsOf } from './reviewScope.mjs';
 import './review-1018.css';
 
 const SHOWN = 5;
@@ -96,7 +96,7 @@ function costLine(wallet) {
 /** One mistake under the open chapter: badge, the stem's first line, its paper and time, the pick, and Repair.
  *  Repair opens the same sealed sheet as the row (Try it again, Show the answer, Repair Qn for 1 credit): the paid step
  *  is only ever the student's tap inside it, as on the result page (W-032). */
-function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
+function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged, onRepaired }) {
   return (
     <li className="rv8-mk" data-open={open || undefined} id={`rv8-q-${row.uid.replace(/[^A-Za-z0-9_-]/g, '-')}`}>
       <div className="rv8-mk__row">
@@ -112,7 +112,7 @@ function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
             is the entry, so the paid action is never offered twice (F11). */}
         {open ? null : <button type="button" className="rv8-act mk-press" onClick={onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>}
       </div>
-      {open && item ? <AnswerSheet key={item.uid} item={item} wallet={wallet} onChanged={onChanged} stemInRow /> : null}
+      {open && item ? <AnswerSheet key={item.uid} item={item} wallet={wallet} onChanged={onChanged} onRepaired={onRepaired} stemInRow /> : null}
     </li>
   );
 }
@@ -149,10 +149,12 @@ function ChapterFoot({ row, byUid, wallet, openUid, setOpenUid, onChanged }) {
   );
 }
 
-function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, onChanged }) {
+function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, onChanged, pending, onRepaired, onClosed }) {
   const panel = `rv8-ch-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
-  const allRepaired = !row.open.length;
+  // AR-S3: a mistake repaired on this visit keeps its row (and its receipt) until Review reads again, but is no longer counted here.
+  const left = row.open.length - pendingIn([row], pending);
+  const allRepaired = !left;
   const dailySet = useMyDailySet();
   return (
     <li className="rv8-ch" data-open={open || undefined} id={`rv8-row-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`}>
@@ -171,13 +173,14 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
             {/* Free only (D79): one quiet line under the chapter's practice key. */}
             {wallet?.isPremium ? null : <InlineNudge placement="review_chapter" facts={{ focusChapter: row.name }} />}
           </div>
-          <div className="rv8-mkhead"><span>{row.open.length ? `${plural(row.open.length, 'mistake')} to repair` : 'Nothing left to repair'}</span>{row.open.length ? <small>Newest first</small> : null}</div>
+          <div className="rv8-mkhead" tabIndex={-1}><span>{left ? `${plural(left, 'mistake')} to repair` : 'Nothing left to repair'}</span>{left ? <small>Newest first</small> : null}</div>
           {row.open.length ? (
             <ul className="rv8-mks" aria-label={`Mistakes to repair in ${row.name}`}>
-              {row.open.map((m) => (
+              {row.open.map((m, i) => (
                 <MistakeRow key={m.uid} row={m} item={byUid.get(m.uid)} wallet={wallet} open={openUid === m.uid}
                   onOpen={() => setOpenUid(openUid === m.uid ? null : m.uid)}
-                  onRepair={() => setOpenUid(m.uid)} onChanged={onChanged} />
+                  onRepair={() => setOpenUid(m.uid)} onRepaired={onRepaired}
+                  onChanged={(how) => { if (how?.closed) onClosed?.({ chapter: row.id, uid: m.uid, index: i }); onChanged(how); }} />
               ))}
             </ul>
           ) : null}
@@ -188,8 +191,10 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
   );
 }
 
-function WeakChapters({ rows, line, scopeName, hasPapers, startHref, byUid, wallet, openId, setOpenId, openUid, setOpenUid, onChanged }) {
+function WeakChapters({ rows, line: given, savedCount = 0, scopeName, hasPapers, startHref, byUid, wallet, openId, setOpenId, openUid, setOpenUid, onChanged, pending, onRepaired, onClosed }) {
   const [all, setAll] = useState(() => rows.findIndex((r) => r.id === openId) >= SHOWN);
+  const moved = pendingIn(rows, pending);
+  const line = moved && given?.lost ? { ...given, fixed: repairedClause(savedCount + moved) } : given;
   const shown = all ? rows : rows.slice(0, SHOWN);
   const rest = rows.slice(SHOWN);
   return (
@@ -201,6 +206,7 @@ function WeakChapters({ rows, line, scopeName, hasPapers, startHref, byUid, wall
           <ul className="rv8-chs">
             {shown.map((row) => (
               <ChapterRow key={row.id} row={row} open={openId === row.id} wallet={wallet} byUid={byUid} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged}
+                pending={pending} onRepaired={onRepaired} onClosed={onClosed}
                 onToggle={() => { setOpenUid(null); setOpenId(openId === row.id ? null : row.id); }} />
             ))}
           </ul>
@@ -438,7 +444,24 @@ export default function ReviewChapters({ body, onChanged }) {
   });
   const scopeName = subject === 'all' ? '' : subjects.find((x) => x.id === subject)?.name || subjectLabel(subject);
   const scope = useMemo(() => scopeOf(body, subject, scopeName), [body, subject, scopeName]);
-  const stats = useMemo(() => statsOf(scope, scopeName), [scope, scopeName]);
+  // AR-S3: mistakes repaired on this visit, counted as repaired while they stay open in their rows (until Review reads again).
+  const [repairedNow, setRepairedNow] = useState(() => new Set());
+  const onRepaired = useCallback((uid) => { if (uid) setRepairedNow((s) => (s.has(uid) ? s : new Set(s).add(uid))); }, []);
+  const stats = useMemo(() => statsOf(scope, scopeName, repairedNow), [scope, scopeName, repairedNow]);
+  // AR-S3: closing a repaired mistake reloads Review and its row moves under Saved repairs. Focus goes to the row now in its place
+  // (the next mistake), or the list's heading when none is left, instead of dropping to the page.
+  const refocus = useRef(null);
+  const onClosed = useCallback((at) => { refocus.current = at; }, []);
+  useEffect(() => {
+    const want = refocus.current;
+    if (!want || lose.rows.some((r) => r.open.some((m) => m.uid === want.uid))) return;
+    refocus.current = null;
+    const active = document.activeElement;
+    if (active && active !== document.body && active.isConnected) return;
+    const chapter = document.getElementById(`rv8-row-${String(want.chapter).replace(/[^A-Za-z0-9_-]/g, '-')}`);
+    const keys = chapter ? [...chapter.querySelectorAll('.rv8-mk__main')] : [];
+    (keys[Math.min(want.index, keys.length - 1)] || chapter?.querySelector('.rv8-mkhead'))?.focus({ preventScroll: true });
+  }, [lose.rows]);
   // What the student saw last time (all subjects), read once; the new figures are kept for the next visit.
   const [seen] = useState(() => { try { return JSON.parse(window.localStorage.getItem(SEEN_KEY) || 'null'); } catch { return null; } });
   useEffect(() => {
@@ -487,7 +510,7 @@ export default function ReviewChapters({ body, onChanged }) {
       <div className="rv8-board">
         <div className="rv8-main">
           <PapersList key={`papers-${subject}`} papers={scope.papers} total={stats.papers} stamps={stamps} scopeName={scopeName} startHref={startHref} current={current} showTrend={subject === 'all'} />
-          <WeakChapters key={`chapters-${subject}`} rows={scope.rows} line={scope.line} scopeName={scopeName} hasPapers={scope.papers.length > 0} startHref={startHref} byUid={byUid} wallet={body.wallet} openId={openId} setOpenId={setOpenId} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged} />
+          <WeakChapters key={`chapters-${subject}`} rows={scope.rows} line={scope.line} savedCount={scope.saved.length} pending={repairedNow} onRepaired={onRepaired} onClosed={onClosed} scopeName={scopeName} hasPapers={scope.papers.length > 0} startHref={startHref} byUid={byUid} wallet={body.wallet} openId={openId} setOpenId={setOpenId} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged} />
         </div>
         <div className="rv8-side">
           <ReviseRow due={body.reviseDue} answeredToday={body.revise?.answeredToday || 0} />

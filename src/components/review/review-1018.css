@@ -50,6 +50,9 @@
 
 .app-shell .rv8-mkhead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0 2px; border-top: 1px solid var(--a-line); font: 680 15px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .rv8-mkhead small { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+/* AR-S3: focus lands here when the last mistake of a chapter is repaired and its sheet closes. */
+.app-shell .rv8-mkhead:focus { outline: none; }
+.app-shell .rv8-mkhead:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
 .app-shell .rv8-mks, .app-shell .rv8-svs, .app-shell .rv8-pps { list-style: none; margin: 0; padding: 0; }
 .app-shell .rv8-mk { border-bottom: 1px solid color-mix(in oklab, var(--a-line) 70%, transparent); }
 .app-shell .rv8-mk:last-child { border-bottom: 0; }

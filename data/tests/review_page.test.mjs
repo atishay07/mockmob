@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { reviewBody, reviewMove, chapterRows, receipt } from '../review_input.mjs';
 import { recordFromBody } from '../../src/components/review/reviewRecord.mjs';
-import { scopeOf, statsOf, subjectsOf, firstOpen, subjectKey } from '../../src/components/review/reviewScope.mjs';
+import { scopeOf, statsOf, subjectsOf, firstOpen, subjectKey, pendingIn, repairedClause } from '../../src/components/review/reviewScope.mjs';
 
 const fixture = (name) => JSON.parse(readFileSync(new URL(`./fixtures/review/${name}.json`, import.meta.url), 'utf8'));
 const NAMES = ['student', 'check_pending', 'zero_credits', 'all_held', 'one_paper', 'revise_dedupe', 'nothing_missed'];
@@ -105,4 +105,19 @@ test('G25 Review page order (D106): the strip, the subject filter, Your papers, 
   assert.match(page, /useRailCue\(rowRef, \{ items: '\.rv8-chip'/, 'the filter has the sideways-scroll cue');
   const css = readFileSync(new URL('../../src/components/review/review-1018.css', import.meta.url), 'utf8');
   assert.match(css, /\.rv8-board > \.rv8-main \{ grid-column: 1; grid-row: 1; \}/);
+});
+
+test('AR-S3: a mistake repaired on this visit counts as repaired while it stays open in its row', () => {
+  const scope = scopeOf(reviewBody(fixture('student-1018')), 'all');
+  const before = statsOf(scope);
+  const row = scope.rows.find((r) => r.open.length);
+  const pending = new Set([row.open[0].uid]);
+  assert.equal(pendingIn(scope.rows, pending), 1);
+  assert.equal(pendingIn(scope.rows, new Set(['not-in-scope'])), 0);
+  const after = statsOf(scope, '', pending);
+  assert.equal(after.toRepair, before.toRepair - 1);
+  assert.equal(after.repaired, before.repaired + 1);
+  assert.equal(repairedClause(10), ' 10 are repaired.');
+  assert.equal(repairedClause(1), ' 1 is repaired.');
+  assert.equal(repairedClause(0), '');
 });

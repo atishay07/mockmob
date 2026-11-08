@@ -75,7 +75,7 @@ function Answer({ q, showStem = true }) {
 }
 
 // stemInRow: the row above already prints this question's stem, so the sheet leaves it out when it is the same words (F11).
-export default function AnswerSheet({ item, wallet, autoRepair = false, onChanged, stemInRow = false }) {
+export default function AnswerSheet({ item, wallet, autoRepair = false, onChanged, onRepaired, stemInRow = false }) {
   const saved = SAVED.has(item.state) && !item.keyState;
   const repairable = item.repairable;
   const [mode, setMode] = useState(saved ? 'saved' : autoRepair && repairable ? 'repair' : 'hidden');
@@ -88,8 +88,13 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
   const pendingReload = useRef(false);
   const changed = useRef(onChanged);
   useEffect(() => { changed.current = onChanged; }, [onChanged]);
-  useEffect(() => () => { if (pendingReload.current) changed.current?.(); }, []);
-  const settle = (_qid, status) => { if (status === 'stored') onChanged?.(); else if (status === 'explained') pendingReload.current = true; };
+  // AR-S3 (round 2): the closing reload says it comes from a close, so Review can put focus back on the list; onRepaired lets the
+  // page count this mistake as repaired the moment its repair arrives, while it still sits open in its row.
+  useEffect(() => () => { if (pendingReload.current) changed.current?.({ closed: true }); }, []);
+  const settle = (_qid, status) => {
+    if (status === 'stored') onChanged?.();
+    else if (status === 'explained') { pendingReload.current = true; onRepaired?.(item.uid); }
+  };
 
   const showStem = !(stemInRow && q && sameStem(item.stem, q.stem));
   const waiting = needs && (read.status === 'loading' || read.status === 'idle');

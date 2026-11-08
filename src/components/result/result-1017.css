@@ -135,7 +135,8 @@
 .rx-row:not([data-open]) .rx-row__inner { visibility: hidden; }
 .rx .rx-row .rx-body { padding: 2px 2px 18px 46px; }
 .rx .rx-row .rx-body:focus { outline: none; }
-.rx .rx-row .rx-body:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 8px; }
+/* AR-S5: .rx-row__inner clips at the body's own box, so the ring is drawn inside it (the 2 px top and right padding hold it). */
+.rx .rx-row .rx-body:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
 .rx-more, .rx-blanks__bar {
   display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 10px 2px;
   border: 0; border-bottom: 1px solid var(--a-line, #253026); background: transparent; color: var(--a-ink, #f2f4ec);

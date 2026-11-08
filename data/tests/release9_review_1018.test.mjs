@@ -126,7 +126,7 @@ test('F11: no ".:" join after a stem that already ends its sentence', () => {
 test('F11: Review shows one Repair entry at a time and the sheet leaves out a stem the row has already shown', () => {
   const chapters = read('src/components/review/ReviewChapters.jsx');
   assert.match(chapters, /\{open \? null : <button type="button" className="rv8-act mk-press" onClick=\{onRepair\}/, "the row's Repair goes while its sheet is open");
-  assert.match(chapters, /<AnswerSheet key=\{item\.uid\} item=\{item\} wallet=\{wallet\} onChanged=\{onChanged\} stemInRow \/>/);
+  assert.match(chapters, /<AnswerSheet key=\{item\.uid\} item=\{item\} wallet=\{wallet\} onChanged=\{onChanged\}(?: onRepaired=\{onRepaired\})? stemInRow \/>/);
   const sheet = read('src/components/review/AnswerSheet.jsx');
   assert.match(sheet, /stemInRow && q && sameStem\(item\.stem, q\.stem\)/);
   assert.match(sheet, /showStem=\{showStem\}/);
