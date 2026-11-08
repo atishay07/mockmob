@@ -3,7 +3,7 @@
 // Account > Progress and help: the calm list from the restructure's You page, inside the live navigation. Your standing is the
 // same page and the same words as the sidebar's link under Progress, so a phone that never opens the menu still reaches it from
 // here. Contribute and My uploads are drawn only while CONTRIBUTE_ENABLED is on (COMMUNITY-1018); the group no longer says community.
-// "Replay the guide" opens the live shell's tour: it asks the shell first (GUIDE_EVENT, cancelable),
+// "Show me around" opens the live shell's tour: it asks the shell first (GUIDE_EVENT, cancelable),
 // then presses the shell's own Guide button, and says where the guide lives if neither answered.
 import { useState } from 'react';
 import Link from 'next/link';

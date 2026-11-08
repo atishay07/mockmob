@@ -51,6 +51,10 @@ function parseScore(value) {
   return Number.isFinite(n) && n >= 0 && n <= 1000 ? n : null;
 }
 
+// The student's own score, as typed (800 stays 800, 812.5 stays 812.5). formatScore always prints one decimal, which is right for
+// DU's published cutoffs but reads machine-made on the student's own number (R8 TOOLS-16).
+const ownScore = (n) => (Number.isFinite(n) ? String(n) : '');
+
 function normName(s) {
   return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '');
 }
@@ -190,7 +194,7 @@ function CutoffTable({ group, catIndex, category, score }) {
     <>
       {clearing != null ? (
         <p className="du-clearing" role="status">
-          A score of <strong className="mm-measure">{formatScore(score)}</strong> was at or above a published 2026 cutoff in <strong>{clearing}</strong> of {state.rows.length} college entries.
+          A score of <strong className="mm-measure">{ownScore(score)}</strong> was at or above a published 2026 cutoff in <strong>{clearing}</strong> of {state.rows.length} college entries.
         </p>
       ) : null}
       <div className="du-tools">
@@ -311,6 +315,9 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   // Start key is the one lime action there).
   const ctaRef = useRef(null);
   const [ctaInView, setCtaInView] = useState(false);
+  // R8 TOOLS-15: while the subjects card fills the screen under the sticky bar, the bar's Edit key would scroll to where the
+  // student already is. The bar marks it (data-editing) and steps that key aside; the live count and View courses stay.
+  const [inSubjects, setInSubjects] = useState(false);
 
   // Load the data, then take the starting selection from the link (teaser, chapter review, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
@@ -439,6 +446,15 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   };
 
   useEffect(() => {
+    const el = sideRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    // In view below the top bar and the sticky summary (about 8rem): the student is inside the subjects card.
+    const io = new IntersectionObserver(([entry]) => setInSubjects(entry.isIntersecting), { rootMargin: '-128px 0px -35% 0px', threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [data]);
+
+  useEffect(() => {
     const el = ctaRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return undefined;
     const io = new IntersectionObserver(([entry]) => setCtaInView(entry.isIntersecting), { threshold: 0.05 });
@@ -471,7 +487,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   return (
     <div className="du-app">
       {hasSelection ? (
-        <div className="du-sum" role="region" aria-label="Your selection">
+        <div className="du-sum" role="region" aria-label="Your selection" data-editing={inSubjects ? '' : undefined}>
           <p>
             <strong className="mm-measure"><RollingCount value={eligible.length} /></strong>
             <span>of {total} open</span>
@@ -554,7 +570,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 )}
               </h2>
               <p className="du-sub">
-                {hasSelection ? `Category ${category}${score != null ? `, score ${formatScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
+                {hasSelection ? `Category ${category}${score != null ? `, score ${ownScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
               </p>
               </div>
             </div>
@@ -581,7 +597,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 ))}
               </ul>
               <p className="du-printonly">
-                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${formatScore(score)}.` : ''} Source: University of Delhi admissions 2026 documents. Historical cutoffs do not predict a future allocation.
+                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${ownScore(score)}.` : ''} Source: University of Delhi admissions 2026 documents. Historical cutoffs do not predict a future allocation.
               </p>
 
               {unlocks.length > 0 ? (

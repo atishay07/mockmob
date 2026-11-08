@@ -282,8 +282,9 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
         </div>
       ) : null}
 
+      {/* With a thread open, its own footer already shows the balance just above: the page keeps only the free-versus-written note (R8 TOOLS-13). */}
       <div className="amd-credit">
-        <Link href="/wallet" className="amd-credit__first">{credits.first}</Link>
+        {idle ? <Link href="/wallet" className="amd-credit__first">{credits.first}</Link> : null}
         <p>{credits.second}</p>
       </div>
 

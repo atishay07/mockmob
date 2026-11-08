@@ -40,12 +40,12 @@ test('strip copy: real figure in a plain sentence; a fresh account is asked to c
   const rows = withCutoffs(['Shri Ram College of Commerce', 'Lady Shri Ram College for Women (W)', 'Hansraj College', 'Hindu College', 'Kirori Mal College'].map((c) => entry(c)), { 'b-com-hons': BCOM });
   const ready = stripView({ state: 'ready', rows });
   assert.equal(ready.label, 'Your colleges, 5 picked');
-  assert.equal(ready.line, 'Shri Ram College of Commerce needed 924.3 of 1000 last year');
+  assert.equal(ready.line, 'Shri Ram College of Commerce needed 924.3 of 1000 in 2026');
   assert.equal(ready.figure, '924.3');
   const empty = stripView({ state: 'ready', rows: [] });
   assert.equal(empty.kind, 'empty');
   assert.equal(empty.line, 'Choose your colleges');
-  assert.equal(stripView({ state: 'ready', rows: [{ college: 'X', cut: null }] }).line, 'Open them to see the score each one needed last year');
+  assert.equal(stripView({ state: 'ready', rows: [{ college: 'X', cut: null }] }).line, 'Open them to see the score each one needed in 2026');
   assert.equal(stripView({ state: 'error' }).line, 'Your list did not load. Open Colleges to see it');
   assert.equal(stripView({ state: 'loading' }).kind, 'loading');
   for (const v of [ready, empty]) assert.doesNotMatch(`${v.label} ${v.line} ${v.sub}`, /!|guarantee|chance/i, 'plain copy, no promise of a seat');
@@ -68,7 +68,7 @@ test('You: the Colleges card is Your colleges with each closing mark, right unde
   const card = read('src/components/colleges/MyColleges.jsx');
   assert.match(card, /<h2 id="mc-account-h" className="mc-h2">Your colleges<\/h2>/);
   assert.match(card, /<CutLine read=\{cuts\} entry=\{c\} \/>/);
-  assert.match(card, /Needed <b>\{figure\}<\/b> of 1000 last year/);
+  assert.match(card, /Needed <b>\{figure\}<\/b> of 1000 in 2026/);
   assert.match(card, /'Choose your colleges'/);
   const css = read('src/components/profile/account.css');
   const phone = css.slice(css.lastIndexOf('@media (max-width: 1023px)'));

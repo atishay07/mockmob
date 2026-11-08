@@ -33,6 +33,7 @@ import './signout.css';
 import { arenaNavigation, ASK_MOBI_NAV, YOU_DOCK, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
 import './nav-places.css';
 import Image from 'next/image';
+import { ChevronLeft } from 'lucide-react';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { ASK_MOBI_NOTE, YouPlacesProvider } from '@/components/nav/YouPlaces';
@@ -263,7 +264,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     };
   }, [tourOpen, tourStep, TOUR_STEPS]);
 
-  // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
+  // Account's "Show me around" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
     if (chromeless) return undefined;
     const openGuide = (event) => { event.preventDefault(); setTourStep(0); setTourOpen(true); };
@@ -353,11 +354,20 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </Link>
     </React.Fragment>
   );
+  // A clear, labelled Back on the deeper pages that have no row of tabs (owner D43: never only a small icon; R8 TOOLS-09). Phones and
+  // tablets only: from 1024 px the sidebar shows where the page sits. The pages under You go back to You; Rival, opened from
+  // Practice and from Mobi, goes back to Practice.
+  const backTo = isTestRoute || tabRow ? null
+    : /^\/(wallet|help|admission-compass|progress|analytics)(\/|$)/.test(activePath) ? { href: hrefOf(YOU_DOCK), label: 'You' }
+      : /^\/rival(\/|$)/.test(activePath) ? { href: hrefOf({ id: 'dashboard' }), label: 'Practice' }
+        : null;
+
   // The top bar names the page: a tab's own name inside a row of tabs ("Your papers", "Your Mob"), else the place's page name.
   const currentTitle = tabRow?.tabs.find((tab) => isActive(tab.id))?.label
     || allTabs.find((tab) => isActive(tab.id))?.title
     || allTabs.find((tab) => isActive(tab.id))?.label
-    || (activePath.startsWith('/result') ? 'Result' : '');
+    || (activePath.startsWith('/result') ? 'Result' : '')
+    || (activePath.startsWith('/rival') ? 'Rival' : '');
 
   // The tour, from any row that offers it ("Show me around": the You page's places, the sidebar's You group, the account sheet).
   function startTour() {
@@ -425,10 +435,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </Link>
             )}
             {/* Ask Mobi, a first-class door at every width (owner LK143, 5 Nov 2026: "completely gone from the UI ... one of our main
-                features"): his face, and his name from 640 px. A plain link to his own page, like the sidebar's door. */}
+                features"): his face and his name at every width (R8 TOOLS-07: "Ask Mobi" in words from 380 px, "Ask" on a 360 px phone),
+                so a first-time student reads what the face does. A plain link to his own page, like the sidebar's door. */}
             <Link href={mentorHref} className="arena-askkey" data-tour="nav-mentor-top" aria-current={isActive('mentor') ? 'page' : undefined}>
               <Image className="arena-askkey__face" src={MOBI_FACE.src} width={22} height={30} sizes="22px" alt="" />
-              <span className="arena-askkey__label">Ask Mobi</span>
+              <span className="arena-askkey__label">Ask<span className="arena-askkey__name"> Mobi</span></span>
             </Link>
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
             {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
@@ -470,6 +481,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         {tabRow ? <PlaceTabs key={tabRow.id} group={tabRow} hrefOf={hrefOf} isActive={isActive} count={reviseBadge || 0} countLabel={countLabel} /> : null}
         <PageTransition>
           <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
+            {backTo ? <Link href={backTo.href} className="arena-back" aria-label={`Back to ${backTo.label}`}><ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" /><span>{backTo.label}</span></Link> : null}
             <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}><YouPlacesProvider value={youPlaces}>{children}</YouPlacesProvider></TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
           </div>
         </PageTransition>
@@ -484,7 +496,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               {index === 2 ? <StartKey variant="bar" /> : null}
               <Link
                 href={hrefOf(tab)}
-                aria-current={isActive(tab.id) ? 'page' : undefined}
+                aria-current={isActive(tab.id) ? 'page' : dockPlace === tab.dock ? 'true' : undefined}
                 data-within={!isActive(tab.id) && dockPlace === tab.dock ? 'true' : undefined}
                 data-tour={`nav-${tab.id}`}
               >
@@ -494,7 +506,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             </React.Fragment>
           ))}
           {dockTabs.length < 3 ? <StartKey variant="bar" /> : null}
-          <Link href={hrefOf(YOU_DOCK)} data-tour="nav-more" aria-current={isActive(YOU_DOCK.id) ? 'page' : undefined} data-within={!isActive(YOU_DOCK.id) && dockPlace === 'you' ? 'true' : undefined}><AppIcon name="account" size={24} /><span>You</span></Link>
+          <Link href={hrefOf(YOU_DOCK)} data-tour="nav-more" aria-current={isActive(YOU_DOCK.id) ? 'page' : dockPlace === 'you' ? 'true' : undefined} data-within={!isActive(YOU_DOCK.id) && dockPlace === 'you' ? 'true' : undefined}><AppIcon name="account" size={24} /><span>You</span></Link>
         </nav>
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}

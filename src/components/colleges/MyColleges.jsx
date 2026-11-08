@@ -56,7 +56,7 @@ export function TodayColleges({ userId }) {
   return (
     <section className="glass mc-card" aria-labelledby="mc-today-h" data-state={mine.status}>
       <header className="mc-head">
-        <h2 id="mc-today-h" className="mc-h2">My colleges</h2>
+        <h2 id="mc-today-h" className="mc-h2">Your colleges</h2>
         {mine.status === 'ready' && mine.colleges.length ? <Link className="mc-link" href={LIST_HREF}>Edit colleges</Link> : null}
       </header>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
@@ -83,8 +83,8 @@ function CutLine({ read, entry }) {
   if (read.status !== 'ready') return <span className="mc-cut" aria-hidden="true">&nbsp;</span>;
   const row = read.rows.find((r) => entryKey(r) === entryKey(entry));
   const figure = cutoffFigure(row);
-  if (!figure) return <span className="mc-cut">No Round 1 cutoff published last year</span>;
-  return <span className="mc-cut">Needed <b>{figure}</b> of 1000 last year</span>;
+  if (!figure) return <span className="mc-cut">No Round 1 cutoff published in 2026</span>;
+  return <span className="mc-cut">Needed <b>{figure}</b> of 1000 in 2026</span>;
 }
 
 /**
@@ -115,11 +115,11 @@ export function AccountColleges({ userId, picker = null }) {
         {mine.status === 'ready' ? <span className="mc-count">{countLine(colleges.length)}</span> : null}
       </header>
       {/* An empty list has its own line below, so the lede is about the list only once there is one. */}
-      {mine.status === 'ready' && !colleges.length ? null : <p className="mc-lede">Each with the lowest score that got in last year, out of 1000. Put your top choice first; the same list is in the app.</p>}
+      {mine.status === 'ready' && !colleges.length ? null : <p className="mc-lede">Each with the lowest score that got in during 2026 Round 1, out of 1000. Put your top choice first; the same list is in the app.</p>}
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
       {mine.status === 'error' ? <Failed onRetry={mine.retry} /> : null}
       {mine.status === 'ready' && !colleges.length && !picker ? <Empty /> : null}
-      {mine.status === 'ready' && !colleges.length && picker && !adding ? <p className="mc-note">No colleges yet. Pick the ones you are aiming for and see the score each one needed last year.</p> : null}
+      {mine.status === 'ready' && !colleges.length && picker && !adding ? <p className="mc-note">No colleges yet. Pick the ones you are aiming for and see the score each one needed in 2026.</p> : null}
       {mine.status === 'ready' && colleges.length && !adding ? (
         <ol className="mc-list">
           {colleges.map((c, i) => (
@@ -130,7 +130,7 @@ export function AccountColleges({ userId, picker = null }) {
               <span className="mc-tools">
                 <button type="button" className="mc-icon" aria-disabled={busy || i === 0 || undefined} onClick={() => { if (!busy && i > 0) mine.move(i, i - 1); }} aria-label={`Move ${c.college} up`}><ArrowUp size={18} aria-hidden="true" /></button>
                 <button type="button" className="mc-icon" aria-disabled={busy || i === colleges.length - 1 || undefined} onClick={() => { if (!busy && i < colleges.length - 1) mine.move(i, i + 1); }} aria-label={`Move ${c.college} down`}><ArrowDown size={18} aria-hidden="true" /></button>
-                <button type="button" className="mc-icon mc-icon--remove" aria-disabled={busy || undefined} onClick={() => { if (busy) return; const at = i; mine.remove(c).then((ok) => { if (ok) setUndo({ entry: c, at }); }); }} aria-label={`Remove ${c.college} from My colleges`}><Trash2 size={18} aria-hidden="true" /></button>
+                <button type="button" className="mc-icon mc-icon--remove" aria-disabled={busy || undefined} onClick={() => { if (busy) return; const at = i; mine.remove(c).then((ok) => { if (ok) setUndo({ entry: c, at }); }); }} aria-label={`Remove ${c.college} from your colleges`}><Trash2 size={18} aria-hidden="true" /></button>
               </span>
             </li>
           ))}
@@ -167,7 +167,7 @@ export function AddToMyColleges({ userId, programmeId, programme, college }) {
   const on = hasEntry(mine.colleges, entry);
   const full = !on && mine.colleges.length >= MAX_COLLEGES;
   const unavailable = mine.status !== 'ready';
-  if (full) return <span className="mc-full">My colleges is full</span>;
+  if (full) return <span className="mc-full">Your colleges list is full</span>;
   return (
     <button
       type="button"
@@ -178,7 +178,7 @@ export function AddToMyColleges({ userId, programmeId, programme, college }) {
       onClick={() => (on ? mine.remove(entry) : mine.add(entry))}
     >
       {on ? <Check size={16} aria-hidden="true" /> : <Plus size={16} aria-hidden="true" />}
-      <span>{on ? 'In My colleges' : 'Add to my colleges'}</span>
+      <span>{on ? 'In your colleges' : 'Add to your colleges'}</span>
       <span className="sr-only">{`, ${college}`}</span>
     </button>
   );

@@ -142,11 +142,11 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
                     <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
                     {i === 0 && chapterFinding?.action ? <button type="button" className="pp-rank__go" onClick={() => onNavigate(chapterFinding.action.href)}>{chapterFinding.action.label}</button> : null}
                   </div>
-                  <p className="pp-rank__marks"><b>{c.open}</b><small>marks to win back</small></p>
+                  <p className="pp-rank__marks"><b>{c.open}</b><small>marks lost</small></p>
                 </li>
               ))}
             </ol>
-            <p className="pp-note">A right answer adds 5 marks, so every wrong or blank answer is 5 marks you can still win. Each wrong one also cost 1 on its paper.</p>
+            <p className="pp-note">A right answer adds 5 marks, so each wrong or blank answer here counts as 5 marks lost. Each wrong one also cost 1 on its paper.</p>
           </>
         )}
         {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} />}

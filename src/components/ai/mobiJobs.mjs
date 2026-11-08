@@ -14,7 +14,8 @@ export const JOB_COPY = Object.freeze({
   // Where you stand
   standTitle: 'Where you stand',
   standReading: 'Working out where you stand.',
-  standFailed: 'Where you stand could not be worked out just now. Nothing was charged.',
+  // Where you stand is free on every plan, so its failure never mentions a charge (R8 TOOLS-20: no defensive filler).
+  standFailed: 'Mobi could not read where you stand just now.',
   standOffline: 'You are offline. Where you stand loads here when you are back online.',
   standEmpty: 'Finish one scored paper and Mobi sets your practice against your colleges.',
   standThin: 'Mobi gives a range once a paper has 30 questions answered or skipped.',

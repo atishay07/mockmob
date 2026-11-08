@@ -147,6 +147,11 @@
     display: none;
   }
 }
+/* R8 TOOLS-15: inside the subjects card the Edit key would scroll to where the student already is, so it steps aside and
+   View courses is the bar's one action; the live count stays as the readout while chips are ticked. */
+.du-sum[data-editing] > div > button:first-child {
+  display: none;
+}
 
 /* ---------- Subjects pane ---------- */
 
@@ -254,6 +259,12 @@
 }
 .du-finder input::placeholder {
   color: var(--ink-3);
+}
+/* One clear control: the custom key below (it refocuses the field), never Chrome's own cancel cross beside it. */
+.du-finder input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
 }
 .du-finder input:focus-visible,
 .du-input:focus-visible,

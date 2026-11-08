@@ -8,7 +8,8 @@ export const ACCOUNT_POPOVER_COPY = Object.freeze({
   appearance: 'Appearance',
   rowAccount: 'Name, sign-in and plan',
   rowPrivacy: 'Privacy',
-  rowHelp: 'Help and about',
+  // One label per place (R8 TOOLS-05): "Guide" is the help page everywhere, "Show me around" is the tour.
+  rowHelp: 'Guide',
   rowContact: 'Write to us',
   contactAddress: 'support@mockmob.in',
   contactHref: 'mailto:support@mockmob.in?subject=MockMob%20help',

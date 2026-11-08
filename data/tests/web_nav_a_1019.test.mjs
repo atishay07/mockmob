@@ -137,7 +137,8 @@ test('LK141: the You page’s places: Ask Mobi with his face, Your progress, You
   // The shell hands its lists and links down (the preview's addresses, the tour); the You page draws them under its heading.
   assert.match(layout, /<YouPlacesProvider value=\{youPlaces\}>\{children\}<\/YouPlacesProvider>/);
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
-  assert.ok(profile.indexOf('<SignedInLine') < profile.indexOf('<YouPlaces />') && profile.indexOf('<YouPlaces />') < profile.indexOf('<YourSheet'), 'under the heading and the signed-in line, above the account');
+  // R8 TOOLS-14: the signed-in line moved under the student's own card; the places still lead the page.
+  assert.ok(profile.indexOf('<YouPlaces />') < profile.indexOf('<YourSheet') && profile.indexOf('<YourSheet') < profile.indexOf('<SignedInLine'), 'the places under the heading, above the account; the signed-in line under the first card');
   assert.match(read('src/components/nav/you-places.css'), /@media \(min-width: 1024px\) \{ \.app-shell \.you-places \{ display: none; \} \}/, 'the sidebar lists them from 1024 px');
 });
 

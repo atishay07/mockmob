@@ -30,6 +30,7 @@ import { JOB_COPY, chatFailure, followUpOpen, isTonightAsk, threadFromReply } fr
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
   suggestionsFor,
+  askIdForText,
 } from './askSuggestions.mjs';
 
 // Offline: a written reply needs a connection, so nothing is sent and nothing is charged; answers from the record already on
@@ -299,6 +300,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       const ask = (reply, actions = []) => setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: plan.text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
       if (plan.kind === 'none' || plan.kind === 'wait') return;
       started.current = true;
+      // A door's ask that is also an "Ask next" row is marked asked, so Mobi never offers back what it just answered.
+      const handedId = askIdForText(plan.text, scoped);
+      if (handedId) setAsked((prev) => (prev.includes(handedId) ? prev : [...prev, handedId]));
       if (plan.kind === 'page') pushFree(plan.text, initial.answer);
       else if (plan.kind === 'product') pushFree(plan.text, answerFree(plan.product, { context: scoped, insights, pro }));
       else if (plan.kind === 'record') pushFree(plan.text, plan.answer);

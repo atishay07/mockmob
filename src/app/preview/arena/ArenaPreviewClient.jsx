@@ -487,6 +487,22 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       window.__previewRule = { id: rule.id, kind: rule.kind, text: rule.text, since: new Date().toISOString() };
       return wait(json({ active: window.__previewRule }));
     }
+    // Where you stand (GET /api/mobi/standing, free): an illustrative partial band from the preview student's Accountancy practice,
+    // its chapters the record's own. ?standing=down shows the failure, ?data=empty a student with no papers (R8 TOOLS-20).
+    if (url.pathname === '/api/mobi/standing' && method === 'GET') {
+      if (fixture.get('standing') === 'down') return json({ error: 'unavailable' }, 503);
+      if (state === 'empty') return json({ ok: true, status: 'empty', band: null, thin: [] });
+      return json({
+        ok: true, status: 'partial', thin: [], colleges: [], first: null, gap: null, category: 'UR', paperMax: 250,
+        band: { low: 150, mid: 162, high: 175, max: 250, count: 1, complete: false, papers: [{ subject: 'accountancy', name: 'Accountancy', low: 150, mid: 162, high: 175, open: 70 }] },
+        closeFastest: [
+          { subject: 'accountancy', subjectName: 'Accountancy', chapter: 'Partnership Fundamentals', marks: 30, wrong: 5, blank: 1, href: '/test?subject=accountancy&mode=quick&count=10&chapter=Partnership+Fundamentals' },
+          { subject: 'accountancy', subjectName: 'Accountancy', chapter: 'Goodwill', marks: 20, wrong: 3, blank: 1, href: '/test?subject=accountancy&mode=quick&count=10&chapter=Goodwill' },
+        ],
+        note: 'From your own practice, before NTA normalisation. Not a prediction.',
+        links: { colleges: '/admission-compass' },
+      });
+    }
     // My colleges (GET, PUT, POST, DELETE /api/me/colleges; ?colleges=ready|empty|full|down), kept in memory for the page's life.
     if (url.pathname === '/api/me/colleges') {
       const kind = fixture.get('colleges') || 'ready';
@@ -509,7 +525,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (method === 'POST') {
         const entry = JSON.parse(init.body || '{}');
         if (window.__previewColleges.some((c) => same(c, entry))) return json({ ...body(), result: 'exists' });
-        if (window.__previewColleges.length >= 8) return json({ error: 'list_full', message: 'My colleges is full. Remove one to add another.', ...body() }, 409);
+        if (window.__previewColleges.length >= 8) return json({ error: 'list_full', message: 'Your colleges list is full. Remove one to add another.', ...body() }, 409);
         window.__previewColleges = [...window.__previewColleges, entry];
         return json({ ...body(), result: 'added' }, 201);
       }
@@ -602,7 +618,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const none = state === 'empty' || fixture.get('record') === 'empty' || fixture.get('history') === 'none';
       return json({ ok: true, session: null, messages: none ? [] : [
         { id: 'h1', role: 'user', text: 'Where am I losing marks?', createdAt: '2026-10-14T14:42:00.000Z', response: null },
-        { id: 'h2', role: 'assistant', text: 'Partnership Fundamentals is where the most marks are open.', createdAt: '2026-10-14T14:42:01.000Z', response: { reply: 'Partnership Fundamentals is where the most marks are open.', origin: 'record', charge: { kind: 'none', amount: 0 } } },
+        { id: 'h2', role: 'assistant', text: 'Partnership Fundamentals is where you lose the most marks.', createdAt: '2026-10-14T14:42:01.000Z', response: { reply: 'Partnership Fundamentals is where you lose the most marks.', origin: 'record', charge: { kind: 'none', amount: 0 } } },
         { id: 'h3', role: 'user', text: 'Why is 19:11:10 right and 9:6:5 wrong?', createdAt: '2026-10-15T16:10:00.000Z', response: null },
         { id: 'h4', role: 'assistant', text: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', createdAt: '2026-10-15T16:10:09.000Z', response: { reply: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', origin: 'model', charge: { kind: 'prepos_credit', amount: 1 } } },
       ] });

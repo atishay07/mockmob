@@ -115,7 +115,7 @@ function ProgressOverview({ view }) {
   // Progress: this week (the anchor, out of the goal), the next step that earns a study day, then the evidence.
   return (
     <section className="pr ov rv rv--progress"><OneMobi>
-      <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions, recovery checks and playbook show." />
+      <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions and checks show." />
       {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
       {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
       {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} onLoad={setRhythm} between={<LearningNextAction compact onError={partFail} />} /> : null}

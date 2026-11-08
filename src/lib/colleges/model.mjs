@@ -114,8 +114,8 @@ export function fromServer(body) {
 // ---- words ------------------------------------------------------------------------------------------------------
 
 export const countLine = (n) => `${n} of ${MAX_COLLEGES} colleges`;
-export const moreLine = (n) => `${n} more on My colleges`;
-export const FULL_LINE = `My colleges is full at ${MAX_COLLEGES}. Remove one to add another.`;
+export const moreLine = (n) => `${n} more in your colleges`;
+export const FULL_LINE = `Your colleges list is full at ${MAX_COLLEGES}. Remove one to add another.`;
 export const EMPTY_LINE = 'No colleges yet. Add one from Admission Compass and it shows here and in the app.';
 export function errorLine(error) {
   if (error?.status === 409) return FULL_LINE;

@@ -27,7 +27,7 @@ test('content follows the app sheet: plan, credits, Appearance, account rows, Wr
   assert.match(pop, /links\.wallet \|\| '\/wallet'/);
   assert.match(pop, /<SignOutButton className="acct-pop__out">/);
   assert.equal(COPY.rowAccount, 'Name, sign-in and plan');
-  assert.equal(COPY.rowHelp, 'Help and about');
+  assert.equal(COPY.rowHelp, 'Guide', 'R8 TOOLS-05: the help page is called Guide on every surface');
   assert.equal(COPY.rowContact, 'Write to us');
   assert.equal(COPY.contactAddress, 'support@mockmob.in');
   assert.equal(COPY.planFree, 'Free');

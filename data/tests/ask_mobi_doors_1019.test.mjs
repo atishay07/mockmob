@@ -110,7 +110,7 @@ test('the record asks: seven in the app\'s order, each priced, the Pro ones visi
   assert.deepEqual(free.filter((a) => a.locked).map((a) => a.id), ['pace', 'changes'], 'visible, locked, never hidden (D101, R3)');
   assert.equal(free[4].preview, 'Timing from your timed papers');
   assert.equal(free[6].preview, 'From the answers you changed');
-  assert.equal(free[0].preview, '75 marks to win back in Goodwill');
+  assert.equal(free[0].preview, '75 marks lost in Goodwill');
   assert.equal(free[1].preview, '3 chapters ranked from your answers');
   assert.equal(free[3].preview, 'Your chapters, rules and traps for tonight');
   assert.equal(free[5].preview, '3 papers, 30 questions in 7 days');

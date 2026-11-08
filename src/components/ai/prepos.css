@@ -29,6 +29,9 @@
 .pp-findings li[data-kind='leak'] .pp-findings__icon { color: var(--pp-bad, #ffb6a9); }
 .pp-findings b { display: block; font: 700 15px/1.3 var(--font-display); color: var(--pp-ink, #f2f4ec); }
 .pp-findings p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--pp-ink-2, #b4bdae); }
+/* A finding without an icon spans the card, so every action key sits on the card's right edge, not wherever its text ends (R8 TOOLS-04). */
+.pp-findings li > :only-child { grid-column: 1 / -1; min-width: 0; }
+.pp-findings li > :only-child > p { max-width: 72ch; }
 .pp-findings__foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 12px; margin-top: 10px; }
 .pp-findings__foot i { font-style: normal; font-size: 12px; color: var(--pp-ink-3, #8f9a8b); }
 .pp-findings__foot button { min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.22)); background: transparent; color: var(--pp-ink, #f2f4ec); font: 700 13px var(--font-display); cursor: pointer; }
@@ -245,7 +248,7 @@ html[data-theme='light'] .prepos-console .pp-ask__switch button[aria-pressed='tr
 .app-shell .prepos-console--page { --pp-ink: var(--a-ink); --pp-ink-2: var(--a-ink-2); --pp-ink-3: var(--a-ink-3); --pp-accent: var(--a-accent-text); --pp-bad: var(--a-bad-text); --pp-line: var(--a-line); --pp-line-strong: var(--a-line-strong); --pp-wash: var(--a-sunken); color: var(--a-ink); }
 .app-shell .prepos-console--page > nav { border-color: var(--a-line); }
 .prepos-minute--on { border-color: var(--a-select, #d2f000); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-ink, #f2f4ec); box-shadow: inset 0 0 0 1px var(--a-select, #d2f000); }
-/* The ranked chapters (N15, 17 Oct night): number, chapter, what happened, the bar, and the marks to win back. */
+/* The ranked chapters (N15, 17 Oct night): number, chapter, what happened, the bar, and the marks lost. */
 .pp-rank { list-style: none; margin: 0; padding: 0; display: grid; }
 .pp-rank li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; padding: 16px 0; border-top: 1px solid var(--pp-line, rgba(244, 245, 240, 0.07)); }
 .pp-rank li:first-child { border-top: 0; padding-top: 4px; }
