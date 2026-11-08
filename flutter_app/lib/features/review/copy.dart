@@ -550,7 +550,12 @@ abstract final class ReviewCopy {
   static const firstRepair = 'This is your first repair.';
   static String goodPlaceToStop(DateTime now) => 'That is a good place to stop for ${tonightOrToday(now)}.';
   static String repairMore(int n) => 'Repair ${plural(n, 'more mistake')}';
-  static String repairMoreLine(String chapter, int? minutes) => minutes == null ? chapter : '$chapter, about $minutes minutes';
+  /// The line under the ending's "Repair N more" key. [from] names the paper when the next run is in another one, so
+  /// "Repair 3 more" beside "Your other papers have 11 more" says which 3 (device walk, 8 Nov).
+  static String repairMoreLine(String chapter, int? minutes, {String? from}) {
+    final where = from == null ? chapter : '$chapter in $from';
+    return minutes == null ? where : '$where, about $minutes minutes';
+  }
   static String finishFor(DateTime now) => 'Finish for ${tonightOrToday(now)}';
   /// The ending's key when mistakes of this run were missed (a failed call, or one the server
   /// could not explain): the same mistakes, again.

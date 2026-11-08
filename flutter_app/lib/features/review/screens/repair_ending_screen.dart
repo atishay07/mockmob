@@ -198,6 +198,8 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final full = ref.watch(celebrationModeProvider) == CelebrationMode.full;
     final lateNight = clock.isLateNight && ref.watch(lateNightLinesProvider);
     final next = index?.nextAfter(widget.attemptId, model.touchedKeys);
+    // The next run's paper, named only when it is another paper than this one.
+    final nextFrom = next == null || next.attemptId == widget.attemptId ? null : next.source;
     final ackedAt = model.lastAckedAt;
     final nothing = model.repaired == 0;
     // What is still open in this chapter: in this paper (what the run covered) and in other papers,
@@ -273,13 +275,13 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
           ] else if (next != null) ...[
             KeyButton(
               label: ReviewCopy.repairMore(next.items.length),
-              semanticsLabel: '${ReviewCopy.repairMore(next.items.length)}. ${ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length))}',
+              semanticsLabel: '${ReviewCopy.repairMore(next.items.length)}. ${ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length), from: nextFrom)}',
               onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(next.attemptId, next.items.first.questionId)),
             ),
             const SizedBox(height: MmSpace.s4),
             ExcludeSemantics(
               child: Text(
-                ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length)),
+                ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length), from: nextFrom),
                 style: type.caption.copyWith(color: colors.ink2),
                 textAlign: TextAlign.center,
               ),
@@ -291,13 +293,17 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
             KeyButton(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
           // The mistakes repaired in this run, asked once more with the key hidden: a quiet way on,
           // under the keys, never a second volt key.
-          if (reviewAgainKeys.isNotEmpty)
+          // The 8 dp keeps the two quiet keys' 48 dp targets apart: painted at 40 dp and stacked flush, their targets
+          // overlapped by 8, so the bottom of "Finish for today" opened Review again (device walk, 8 Nov).
+          if (reviewAgainKeys.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s8),
             Align(
               child: KeyButton.quiet(
                 label: ReviewAgainCopy.reviewThese,
                 onPressed: () => context.push(Uri(path: ReviewAgainCopy.path, queryParameters: {'keys': reviewAgainKeys.join(',')}).toString()),
               ),
             ),
+          ],
         ],
       ),
     );
