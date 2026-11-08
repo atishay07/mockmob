@@ -385,7 +385,7 @@ export default function LandingPage() {
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <MobiPoseSprite />
       <PipGuide />
-      {/* The phone bar (a guest: "Log in" and "Sign up free", never relabelled) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
+      {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
         <LandingDock />

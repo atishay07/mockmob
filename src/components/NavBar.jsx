@@ -88,14 +88,30 @@ export function NavBar() {
     }
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onPointerDown);
+    // R8 HERO-13: while the sheet is open the page behind it holds still (and the scrim dims it).
+    const root = document.documentElement;
+    const before = root.style.overflow;
+    root.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onPointerDown);
+      root.style.overflow = before;
     };
   }, [menuOpen]);
 
+  // R8 HERO-14: the first Tab offers a jump past the bar to the page's own content (its main landmark).
+  const skipToContent = (event) => {
+    const target = document.getElementById('main-content') || document.querySelector('main');
+    if (!target) return;
+    event.preventDefault();
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    if (target.getBoundingClientRect().top < 0) target.scrollIntoView({ block: 'start', behavior: 'instant' });
+  };
+
   return (
     <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
+      <a href="#main-content" className="mm-skip" onClick={skipToContent}>Skip to content</a>
       <div className="mm-wrap mm-nav__row">
         <Logo prefetch={pathname === '/' ? false : undefined} />
 
@@ -170,6 +186,8 @@ export function NavBar() {
         </div>
       </div>
 
+      {/* R8 HERO-13: the open sheet is a layer over the page: a scrim under it dims the page, and a tap on it closes the menu. */}
+      {menuOpen ? <div className="mm-nav__scrim" aria-hidden="true" onClick={closeMenu} /> : null}
       {menuOpen ? (
         <div className="mm-nav__sheet mm-nav__sheet--in" id="mm-nav-sheet">
           {/* Shown only below 240px (high zoom), where the bar has no room for the switch. */}

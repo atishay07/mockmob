@@ -119,7 +119,7 @@ test('decision 13: the Night sheet fills one bubble per sample answer (not per t
 });
 
 test('decision 13: the bubble never changes size; the line cross-fades over 180 ms with a 4 px rise', () => {
-  assert.match(MOBI, /\{DESK_STATES\.map\(\(key\) => \(\s*<span key=\{key\} className="lp-desk__line" data-on=\{key === state \? 'true' : undefined\}>\{DESK_LINES\[key\]\}<\/span>/);
+  assert.match(MOBI, /\{DESK_STATES\.map\(\(key\) => \(\s*<span key=\{key\} className="lp-desk__line" data-on=\{key === state \? 'true' : undefined\}>\{key === 'live' \? deskLine\(key, \{ subject \}\) : DESK_LINES\[key\]\}<\/span>/);
   assert.match(MOBI, /<span className="sr-only" aria-live="polite">\{line\}<\/span>/, 'a screen reader hears the current line');
   const css = strip(CSS);
   assert.match(css, /\.lp-desk__bubble \{[^}]*display: grid;[^}]*width: 9\.75rem;/);

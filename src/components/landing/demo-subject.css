@@ -138,3 +138,107 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__readout { background: var(--
 :root[data-motion='reduced'] .mm.lp .lp-desk .mm-drill__subject[data-state='loading']::after { animation: none; border-color: var(--ink-3); }
 @keyframes mm-demo-in { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
 @keyframes mm-demo-spin { to { transform: rotate(360deg); } }
+
+/* ==========================================================================
+   R8 visible-craft pass (8 Nov 2026). Kept in this file, not hero-scene.css, so the hero's own sheet stays as it is.
+   ========================================================================== */
+
+/* HERO-06: a subject that could not load is marked on its own key (a red rim and a turn-back mark, never colour alone), and
+   the line above says it in the error tone. */
+.mm.lp .lp-desk .mm-drill__pick-lead[data-tone='error'] { color: var(--bad-text, #b0291f); }
+.mm.lp .lp-desk .mm-drill__subject[data-state='failed'] { border-color: var(--bad-text, #b0291f); box-shadow: inset 0 0 0 1px var(--bad-text, #b0291f); }
+.mm.lp .lp-desk .mm-drill__subject[data-state='failed'] .mm-drill__subject-mark { color: var(--bad-text, #b0291f); stroke-width: 2.2; }
+
+/* HERO-07: Day keeps its own rule for a selected answer: raised paper with a #526700 rim (two px, drawn as border plus an inset
+   line so nothing shifts), the letter chip in #526700 with paper ink, and the tick in #526700. No volt slab on cream. Night
+   keeps its volt fill (hero-scene.css). */
+html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct'] {
+  background: var(--paper-raised);
+  border-color: #526700;
+  box-shadow: inset 0 0 0 1px #526700;
+  color: var(--ink);
+}
+html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct'] .mm-drill__key { background: #526700; color: var(--paper-raised); }
+html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct'] .mm-drill__verdict-icon { color: #526700; }
+
+/* HERO-05: every flagged chapter is a pressable row (44 px, an edge, a chevron) that opens the question it came from, its
+   answer and reason, and the one way on. It opens 0fr to 1fr over 200 ms, the card's own reveal; reduced motion opens at once. */
+.mm.lp .lp-desk .mm-drill__readout ul { gap: 6px; }
+.mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss {
+  display: block;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 150ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss:hover { border-color: var(--ink-3); }
+}
+.mm.lp .lp-desk .mm-drill__miss-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px 8px 11px;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  color: var(--ink);
+  font: 600 0.90625rem/1.3 var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .lp-desk .mm-drill__miss-row > span { flex: 1; min-width: 0; }
+.mm.lp .lp-desk .mm-drill__miss-row:active { background: var(--paper-sunken); }
+.mm.lp .lp-desk .mm-drill__miss-row:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 1px; }
+.mm.lp .lp-desk .mm-drill__readout li .mm-drill__miss-chev {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--ink-3);
+  transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-desk .mm-drill__miss[data-open='true'] .mm-drill__miss-chev { transform: rotate(90deg); color: var(--ink); }
+.mm.lp .lp-desk .mm-drill__miss-fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp .lp-desk .mm-drill__miss[data-open='true'] .mm-drill__miss-fold { grid-template-rows: 1fr; }
+.mm.lp .lp-desk .mm-drill__miss-body { min-height: 0; overflow: hidden; }
+.mm.lp .lp-desk .mm-drill__miss-body > p { margin: 0 12px 0 35px; font-size: 0.875rem; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
+.mm.lp .lp-desk .mm-drill__miss-body > .mm-drill__miss-q {
+  padding-top: 2px;
+  font-family: var(--font-stem, Georgia, 'Times New Roman', serif);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.mm.lp .lp-desk .mm-drill__miss-body > .mm-drill__miss-why { margin-top: 6px; }
+.mm.lp .lp-desk .mm-drill__miss-why strong { color: var(--ink); font-weight: 650; }
+.mm.lp .lp-desk .mm-drill__miss-body > .mm-drill__miss-next { margin-top: 2px; margin-bottom: 2px; }
+.mm.lp .lp-desk .mm-drill__miss-next a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--ink-3);
+  text-underline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-desk .mm-drill__miss-next a:hover { text-decoration-color: currentColor; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .lp-desk :is(.mm-drill__miss-fold, .mm-drill__miss-chev) { transition: none; }
+}
+:root[data-motion='reduced'] .mm.lp .lp-desk :is(.mm-drill__miss-fold, .mm-drill__miss-chev) { transition: none; }
+
+/* HERO-08: "Try 5 questions first" with the card already on screen puts focus on answer A and shows it, quietly: a plain
+   ink ring, no pulse, no glow. Not --focus-ring: that is volt in Night and #526700 in Day, the colours of a correct answer,
+   so an unanswered (possibly wrong) option would look pre-marked right (R8 revision). */
+.mm.lp .lp-desk .mm-drill__option[data-here='true']:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* Day draws the readout box on paper, so its rows rise to raised paper to read as keys. */
+html[data-theme='light'] .mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss { background: var(--paper-raised); }

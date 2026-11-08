@@ -7,7 +7,7 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
 import { DEMO_SUBJECTS, acceptDemoSet, demoSetUrl, demoSubject, pickDemoSet } from '@/lib/demoSample.mjs';
 import { markDemoAnswered, sendDemoState } from './demoSignal.mjs';
-import { deskStateAfter } from './heroTaps.mjs';
+import { deskEndState, deskStateAfter } from './heroTaps.mjs';
 import './demo-subject.css';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
@@ -41,7 +41,8 @@ const DRILL = [
     q: 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?',
     options: ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000'],
     correct: 1,
-    why: 'Equity = assets − liabilities = ₹80,000 − ₹30,000 = ₹50,000.',
+    // No-break spaces round the operators (R8 HERO-15): the worked sum never parts at a line end.
+    why: 'Equity = assets − liabilities = ₹80,000 − ₹30,000 = ₹50,000.',
     chapter: 'Accounting equation',
   },
   {
@@ -76,6 +77,41 @@ const DRILL = [
 ];
 
 const KEYS = ['A', 'B', 'C', 'D'];
+/** A live subject that has not answered in this long is called slow and can be tapped again (R8 HERO-02, patchy 4G). */
+const SLOW_MS = 8000;
+
+/**
+ * The end verdict, true to the score (R8 HERO-01): five of five asks for a full mock, four names its one chapter, two or
+ * three is a solid start with its chapters counted, and none or one is a tough five with a place to start. Never "Good."
+ * for a low score, never "exactly": five questions cannot show that much. `chapters` is how many different chapters missed.
+ */
+export function drillVerdict(score, chapters) {
+  if (score >= 5) return 'All five. Ready for 50 of these in 60 minutes?';
+  if (score === 4) return 'Sharp. One chapter to look at.';
+  if (score >= 2) return `Solid start. ${chapters === 1 ? 'One chapter' : `${chapters} chapters`} to look at first.`;
+  return 'Tough five. Here’s where to start.';
+}
+
+/** Where the volt key must sit to be reachable: above the phone bar when it is showing, else the window's foot. */
+function reachLimit() {
+  const dock = document.querySelector('.mm-dock');
+  if (dock) {
+    const box = dock.getBoundingClientRect();
+    const look = window.getComputedStyle(dock);
+    if (box.height > 0 && box.top < window.innerHeight && look.visibility !== 'hidden' && Number(look.opacity) > 0.05) return box.top;
+  }
+  return window.innerHeight;
+}
+
+/** The small turn-back mark on a subject that could not load (tap it again). */
+function RetryMark() {
+  return (
+    <svg className="icon mm-drill__subject-mark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 12a9 9 0 1 0 3-6.7" />
+      <path d="M3 4v5h5" />
+    </svg>
+  );
+}
 
 export function DemoDrill({ note = null }) {
   const [index, setIndex] = useState(0);
@@ -83,6 +119,8 @@ export function DemoDrill({ note = null }) {
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
   const [missed, setMissed] = useState([]);
+  // The readout's open row (R8 HERO-05): one missed question at a time shows its question, answer and reason.
+  const [openMiss, setOpenMiss] = useState(null);
   // The subject sample: `live` is the picked subject's set ({ slug, name, set, questions }), null while the card plays its
   // own five; `picking` shows the subject list in the card; `loading` and `failed` are the slug being fetched or that could
   // not load; `fresh` (set once the list has been opened) lets the question ease back in, never on the first paint.
@@ -90,6 +128,8 @@ export function DemoDrill({ note = null }) {
   const [picking, setPicking] = useState(false);
   const [loading, setLoading] = useState(null);
   const [failed, setFailed] = useState(null);
+  // Why the failed subject failed: 'offline', 'slow' (no answer in SLOW_MS) or 'error' (R8 HERO-02, HERO-06).
+  const [failure, setFailure] = useState(null);
   const [fresh, setFresh] = useState(false);
   const rootRef = useRef(null);
   const footRef = useRef(null);
@@ -99,6 +139,8 @@ export function DemoDrill({ note = null }) {
   const switchRef = useRef(null);
   const request = useRef(null);
   const lastSet = useRef({});
+  // The bubble's line for the card as it stands, so closing the subject list puts it back (R8 HERO-03).
+  const deskNow = useRef({ state: 'load', answered: 0, subject: null });
   const leadId = useId();
   // Answering disables the options and "Next" unmounts once used, so keyboard and
   // screen-reader focus would fall back to the page body. Hand it forward instead.
@@ -115,6 +157,8 @@ export function DemoDrill({ note = null }) {
     if (target === 'next') footRef.current?.querySelector('.mm-btn')?.focus({ preventScroll: true });
     else if (target === 'options') optionsRef.current?.querySelector('button')?.focus({ preventScroll: true });
     else if (target === 'result') resultRef.current?.focus({ preventScroll: true });
+    // A pointer pick or "Next" keeps focus in the card without drawing a ring on its volt key (R8 HERO-11).
+    else if (target === 'card') rootRef.current?.focus({ preventScroll: true });
     else if (target === 'switch') switchRef.current?.focus({ preventScroll: true });
     else if (target === 'panel') {
       const list = panelRef.current;
@@ -138,58 +182,74 @@ export function DemoDrill({ note = null }) {
   // into reach once the reveal sequence has played.
   useEffect(() => {
     if (!answered) return undefined;
-    const node = footRef.current;
-    if (!node) return undefined;
     // Instant, never a programmatic glide (LK47): only when the key is out of reach, and only by what is needed.
     // 'instant', not 'auto': the page's html has scroll-behavior: smooth, which 'auto' inherits (a glide, LK89).
+    // R8 HERO-10: only the key itself is brought up, to 12 px above the phone bar (or the window's foot), so Mobi's room
+    // and the headline stay on screen; a key already in reach moves nothing.
     const id = window.setTimeout(() => {
-      node.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+      const key = footRef.current?.querySelector('.mm-btn');
+      if (!key) return;
+      const over = key.getBoundingClientRect().bottom - (reachLimit() - 12);
+      if (over > 0) window.scrollBy({ top: Math.ceil(over), behavior: 'instant' });
     }, 320);
     return () => window.clearTimeout(id);
   }, [answered, index]);
 
+  function tellDesk(state, count, subject = null, restore = false) {
+    if (state !== 'pick') deskNow.current = { state, answered: count, subject };
+    sendDemoState(state, count, undefined, { subject, restore });
+  }
+
   function pick(optionIndex, event) {
     if (answered) return;
-    focusNext.current = 'next';
+    // Keyboard (Enter or Space: detail 0) hands focus to "Next" with its ring; a tap keeps it in the card (R8 HERO-11).
+    focusNext.current = event.detail === 0 ? 'next' : 'card';
     setPicked(optionIndex);
     markDemoAnswered();
-    sendDemoState(deskStateAfter({ index, correct: optionIndex === question.correct, total: DRILL.length }), index + 1);
+    tellDesk(deskStateAfter({ correct: optionIndex === question.correct }), index + 1);
     if (event.detail > 0) pipReact('hero', mobiMoment(optionIndex === question.correct ? 'rightAnswer' : 'wrongAnswer'));
     if (optionIndex === question.correct) {
       setScore((s) => s + 1);
     } else {
-      setMissed((list) => [...list, question.chapter]);
+      // Each miss keeps its question, answer and reason, so the readout can open them again (R8 HERO-05).
+      setMissed((list) => [...list, { chapter: question.chapter, q: question.q, answer: question.options[question.correct], why: question.why }]);
     }
   }
 
   function next(event) {
     if (index + 1 >= DRILL.length) {
       focusNext.current = 'result';
+      setOpenMiss(null);
       setDone(true);
+      // Mobi's line for the score (R8 HERO-03): the readout is what he points at, never a sign-up push.
+      tellDesk(deskEndState(score, DRILL.length), DRILL.length);
       // The end of the drill is proportional, like a finished run in the app: all five right celebrates,
       // most right is a cheer, and a third or more missed gets encouragement.
       if (event.detail > 0) pipReact('hero', runMood(score, DRILL.length));
       return;
     }
-    focusNext.current = 'options';
+    focusNext.current = event.detail === 0 ? 'options' : 'card';
     setIndex((i) => i + 1);
     setPicked(null);
   }
 
   function restart() {
-    sendDemoState('load', 0);
+    tellDesk('load', 0);
     setIndex(0);
     setPicked(null);
     setScore(0);
     setMissed([]);
+    setOpenMiss(null);
     setDone(false);
   }
 
   function openSubjects() {
     focusNext.current = 'panel';
     setFailed(null);
+    setFailure(null);
     setFresh(true);
     setPicking(true);
+    tellDesk('pick', 0);
   }
 
   function closeSubjects() {
@@ -197,27 +257,38 @@ export function DemoDrill({ note = null }) {
     request.current = null;
     setLoading(null);
     setFailed(null);
+    setFailure(null);
     focusNext.current = 'switch';
     setPicking(false);
+    // Back on the card, Mobi says what he said before the list opened. It is a restore, not a new answer, so he
+    // plays no act for it (R8 revision).
+    const { state, answered: count, subject } = deskNow.current;
+    tellDesk(state, count, subject, true);
   }
 
   // A subject's five: the route's answer is checked whole (acceptDemoSet) before the card plays it. A failure keeps the
   // list open with one line that says so; the card underneath is untouched. Picking another subject while one loads
   // drops the first request.
+  // R8 HERO-02: a request that has not answered in SLOW_MS is dropped (a plain timer, not AbortSignal.timeout, which older
+  // Android WebViews lack) and the key can be tapped again; offline says so (HERO-06).
   async function chooseSubject(slug) {
     request.current?.abort();
     const controller = new AbortController();
     request.current = controller;
     setLoading(slug);
     setFailed(null);
+    setFailure(null);
+    let slow = false;
+    const timer = window.setTimeout(() => { slow = true; controller.abort(); }, SLOW_MS);
     try {
       const response = await fetch(demoSetUrl(slug, pickDemoSet(lastSet.current[slug] ?? null)), { signal: controller.signal });
       const next = acceptDemoSet(response.ok ? await response.json() : null, slug);
+      window.clearTimeout(timer);
       if (request.current !== controller) return;
       if (!next) throw new Error('unavailable');
       lastSet.current[slug] = next.set;
       request.current = null;
-      sendDemoState('load', 0);
+      tellDesk('live', 0, next.name);
       focusNext.current = 'options';
       setLive(next);
       setFresh(true);
@@ -225,14 +296,17 @@ export function DemoDrill({ note = null }) {
       setPicked(null);
       setScore(0);
       setMissed([]);
+      setOpenMiss(null);
       setDone(false);
       setLoading(null);
       setPicking(false);
     } catch {
+      window.clearTimeout(timer);
       if (request.current !== controller) return;
       request.current = null;
       setLoading(null);
       setFailed(slug);
+      setFailure(typeof navigator !== 'undefined' && navigator.onLine === false ? 'offline' : slow ? 'slow' : 'error');
     }
   }
 
@@ -244,32 +318,45 @@ export function DemoDrill({ note = null }) {
   }
 
   if (done && !picking) {
+    const chapters = new Set(missed.map((miss) => miss.chapter)).size;
     return (
       <div className="lp-card mm-drill" aria-live="polite" tabIndex={-1} role="group" aria-label="Five sample questions">
         <div className="lp-card__head">
-          <span className="lp-card__sub"><b>Drill complete</b><span>5 of 5</span></span>
+          <span className="lp-card__sub"><b>Your score</b><span>All 5 answered</span></span>
         </div>
-        <div className="lp-card__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Drill complete. You scored ${score} out of 5.`}>
+        <div className="lp-card__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Your score: ${score} out of 5.`}>
           <p className="mm-drill__score">
             {score}
             <span>/5</span>
           </p>
-          <p className="mm-drill__verdict">
-            {score >= 4
-              ? 'Sharp. Ready for 50 of these in 60 minutes?'
-              : 'Good. Now you know exactly where to start.'}
-          </p>
+          <p className="mm-drill__verdict">{drillVerdict(score, chapters)}</p>
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
               <p className="mm-drill__readout-head">After a full mock, chapter review would flag:</p>
+              {/* R8 HERO-05: each flagged chapter opens the question it came from, its answer and reason, and the one way on:
+                  the signature chain (miss, reason, chapter, next step) in miniature. No marks are promised. */}
               <ul>
-                {missed.map((chapter, i) => (
-                  <li key={`${chapter}-${i}`}>
-                    <Icon name="target" style={{ width: '15px', height: '15px' }} aria-hidden="true" />
-                    {chapter}
-                  </li>
-                ))}
+                {missed.map((miss, i) => {
+                  const open = openMiss === i;
+                  const panelId = `${leadId}-miss-${i}`;
+                  return (
+                    <li key={`${miss.chapter}-${i}`} className="mm-drill__miss" data-open={open ? 'true' : 'false'}>
+                      <button type="button" className="mm-drill__miss-row" aria-expanded={open} aria-controls={panelId} onClick={() => setOpenMiss(open ? null : i)}>
+                        <Icon name="target" style={{ width: '15px', height: '15px' }} aria-hidden="true" />
+                        <span>{miss.chapter}</span>
+                        <Icon name="chevR" className="mm-drill__miss-chev" aria-hidden="true" />
+                      </button>
+                      <div className="mm-drill__miss-fold" id={panelId} inert={!open}>
+                        <div className="mm-drill__miss-body">
+                          <p className="mm-drill__miss-q">{miss.q}</p>
+                          <p className="mm-drill__miss-why"><strong>Answer: {miss.answer}.</strong> {miss.why}</p>
+                          <p className="mm-drill__miss-next"><Link href="/signup">Sign up free</Link> to practise this chapter.</p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ) : (
@@ -282,8 +369,9 @@ export function DemoDrill({ note = null }) {
           )}
 
           <div className="mm-drill__actions">
+            {/* One name for the way in on the whole page (R8 HERO-04, SEC-15): the hero's "Sign up free". */}
             <Link href="/signup" className="mm-btn mm-btn--primary">
-              Start practising free
+              Sign up free
             </Link>
             <div className="mm-drill__more">
               <button type="button" className="mm-drill__replay" onClick={restart}>
@@ -318,7 +406,11 @@ export function DemoDrill({ note = null }) {
                 card does not grow). */}
             <p className="mm-drill__pick-lead" id={leadId} aria-live="polite" data-tone={failedName ? 'error' : null}>
               {failedName
-                ? `Couldn’t load ${failedName} just now. Try again, or pick another subject.`
+                ? failure === 'offline'
+                  ? `You’re offline. Reconnect, then tap ${failedName} again.`
+                  : failure === 'slow'
+                    ? `${failedName} is taking too long. Tap it to try again.`
+                    : `Couldn’t load ${failedName} just now. Try again, or pick another subject.`
                 : loadingName
                   ? `Loading five ${loadingName} questions.`
                   : 'Five questions from the MockMob bank, each with its answer explained.'}
@@ -329,7 +421,8 @@ export function DemoDrill({ note = null }) {
                 // The key being fetched (or that could not load) carries its own state: busy while it loads, and the line
                 // above ("Loading five ...", "Couldn't load ...") as its description, so a screen reader hears it on the key.
                 const isLoading = loading === subject.slug;
-                const speaks = isLoading || failed === subject.slug;
+                const isFailed = failed === subject.slug;
+                const speaks = isLoading || isFailed;
                 return (
                   <button
                     key={subject.slug}
@@ -338,11 +431,12 @@ export function DemoDrill({ note = null }) {
                     aria-pressed={isCurrent ? 'true' : 'false'}
                     aria-busy={isLoading ? 'true' : undefined}
                     aria-describedby={speaks ? leadId : undefined}
-                    data-state={isLoading ? 'loading' : null}
+                    data-state={isLoading ? 'loading' : isFailed ? 'failed' : null}
                     onClick={() => chooseSubject(subject.slug)}
                   >
                     <span>{subject.name}</span>
-                    {isCurrent && !isLoading ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
+                    {/* The key that failed carries a red rim and a turn-back mark (R8 HERO-06); the one playing, its tick. */}
+                    {isFailed ? <RetryMark /> : isCurrent && !isLoading ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
                   </button>
                 );
               })}
@@ -416,7 +510,7 @@ export function DemoDrill({ note = null }) {
                     </span>
                   </p>
                   <button type="button" className="mm-btn mm-btn--primary" onClick={next}>
-                    {index + 1 >= DRILL.length ? 'See your readout' : 'Next question'}
+                    {index + 1 >= DRILL.length ? 'See my score' : 'Next question'}
                   </button>
                 </>
               ) : null}

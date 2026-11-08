@@ -14,6 +14,8 @@ export function FooterStart() {
   const { isAuthenticated } = useAuth();
   const pathname = usePathname() || '';
   if (/^\/(signup|login)(\/|$)/.test(pathname)) return null;
+  // R8 SEC-15: the home page ends on its close band's own "Sign up free" and "Log in", so its footer does not repeat the pair.
+  if (pathname === '/') return null;
   const released = recoveryReleased();
 
   if (isAuthenticated) {

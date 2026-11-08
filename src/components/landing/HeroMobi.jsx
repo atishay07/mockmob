@@ -13,11 +13,13 @@
 //   The headline  when a typed phrase completes (HeroTyped's window event mm:hero-typed), his eyes glance 2 px
 //                 toward the h1 over 140 ms and back over 160 ms; on the final phrase he nods once (decision 5).
 //   The sample    every answer sends its state (demoSignal.mjs): a right answer plays `correct`, a miss
-//                 `encourage`, the fifth `cheer`, and only then does his bubble change (heroTaps.mjs deskLine).
+//                 `encourage`, the end of the five cheers or encourages by the score, and only then does his bubble
+//                 change (heroTaps.mjs deskLine). The subject list, a loaded subject and a "Try 5 questions first" tap
+//                 with the card on screen each have a line too (R8 HERO-03, HERO-08).
 //   Taps          one reaction act each (hop, tilt, startle; never the same twice; MobiReact's tap run). The
 //                 bubble never changes on a tap (decision 13). On Android an act-playing tap buzzes 8 ms.
 //
-// The bubble never changes size: all four lines sit in one grid cell (the widest sets the box) and the shown one
+// The bubble never changes size: all the lines sit in one grid cell (the widest sets the box) and the shown one
 // cross-fades in over 180 ms with a 4 px rise. A screen reader hears the current line once, from a polite live region.
 // Reduce motion: no acts, no gaze, no glance, no breathe; the line still changes (a fade). No sound.
 
@@ -46,6 +48,7 @@ export default function HeroMobi({ poster = null }) {
   const rootRef = useRef(null);
   const [Rig, setRig] = useState(null);
   const [state, setState] = useState('load');
+  const [subject, setSubject] = useState(null);
   const [act, setAct] = useState(HERO_FIRST_ACT);
   const loading = useRef(false);
 
@@ -99,6 +102,9 @@ export default function HeroMobi({ poster = null }) {
       const next = event.detail?.state;
       if (!DESK_STATES.includes(next)) return;
       setState(next);
+      if (next === 'live') setSubject(event.detail?.subject || null);
+      // The subject list closed and the card put its line back: nothing new happened, so no act (R8 revision).
+      if (event.detail?.restore) return;
       const mood = deskAct(next);
       if (!mood) return;
       if (!Rig) load();
@@ -153,12 +159,12 @@ export default function HeroMobi({ poster = null }) {
     if (!Rig && event.target.closest?.('.mobi-react__hit')) load();
   };
 
-  const line = deskLine(state);
+  const line = deskLine(state, { subject });
   return (
     <div ref={rootRef} className="lp-mobi lp-desk__mobi" data-rig={Rig ? 'on' : 'off'} data-state={state} onClick={onTapped} onPointerDown={pressStart} onPointerUp={pressEnd} onPointerCancel={pressEnd} onKeyDown={load}>
       <p className="lp-desk__bubble" aria-hidden="true">
         {DESK_STATES.map((key) => (
-          <span key={key} className="lp-desk__line" data-on={key === state ? 'true' : undefined}>{DESK_LINES[key]}</span>
+          <span key={key} className="lp-desk__line" data-on={key === state ? 'true' : undefined}>{key === 'live' ? deskLine(key, { subject }) : DESK_LINES[key]}</span>
         ))}
       </p>
       <span className="sr-only" aria-live="polite">{line}</span>

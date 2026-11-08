@@ -2822,3 +2822,50 @@ html .mm .mm-nav__sheet .mm-nav__sheet-keys .mm-btn--secondary:active { backgrou
   .mm-foot__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1rem; }
   .mm-foot__cols > :nth-child(-n + 2) { grid-column: 1 / -1; }
 }
+
+/* ---------- R8 HERO-14: "Skip to content", the bar's first stop for a keyboard. Hidden until it has keyboard focus, then a
+   44 px paper pill at the top left, over the bar. ---------- */
+.mm-skip {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 8px);
+  left: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper-raised);
+  color: var(--ink);
+  font: 650 0.9375rem/1 var(--font-body);
+  text-decoration: none;
+  box-shadow: 0 10px 24px -16px rgba(0, 0, 0, 0.5);
+}
+.mm-skip:not(:focus-visible) {
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.mm-skip:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+
+/* ---------- R8 HERO-13: the phone menu's scrim. It sits under the open sheet (from the bar's foot to the screen's), dims the
+   page so the sheet reads as a layer, and closes the menu on a tap. Fades in over 160 ms; reduced motion shows it at once. */
+.mm-nav__scrim {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  background: rgba(40, 32, 16, 0.16);
+  animation: mm-scrim-in 160ms ease-out both;
+}
+html[data-theme='dark'] .mm-nav__scrim { background: rgba(12, 10, 6, 0.45); }
+@keyframes mm-scrim-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .mm-nav__scrim { animation: none; } }
+html[data-motion='reduced'] .mm-nav__scrim { animation: none; }

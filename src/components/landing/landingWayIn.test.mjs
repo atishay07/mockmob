@@ -10,13 +10,14 @@ import { DOCK_GO, SAMPLE, demoFinished, resetDemoSignal, sendDemoState, wayIn } 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const code = (src) => src.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
-test('D1 dock: a guest gets the ghost "Log in" beside the volt "Start free" (its true line inside); a signed-in student gets one key back in', () => {
-  // Round 4 (owner LK135, 5 Nov 2026: "the CTA is a bit weak"): the dock's volt key reads "Start free" with "No card needed"
-  // inside it, on the home page and every public page (PublicDock). Supersedes D1's dock label "Sign up free"; the hero and
-  // the close band keep "Sign up free" (LK83/LK88), and every guest key still goes to /signup.
-  assert.deepEqual({ ...DOCK_GO }, { label: 'Start free', sub: 'No card needed' });
-  assert.deepEqual(wayIn({}).dock, { primary: { href: '/signup', label: 'Start free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' });
-  assert.deepEqual(wayIn({ released: true }).dock.primary, { href: '/signup?next=%2Frecovery', label: 'Start free' });
+test('D1 dock: a guest gets the ghost "Log in" beside the volt "Sign up free" (its true line inside); a signed-in student gets one key back in', () => {
+  // Round 4 (owner LK135, 5 Nov 2026: "the CTA is a bit weak"): the dock's volt key carries "No card needed" inside it, on
+  // the home page and every public page (PublicDock). R8 SEC-15, HERO-04 (8 Nov 2026): one label per action, so the key says
+  // the hero's and the close band's own "Sign up free" (LK83/LK88), not a second name ("Start free"); every guest key still
+  // goes to /signup.
+  assert.deepEqual({ ...DOCK_GO }, { label: 'Sign up free', sub: 'No card needed' });
+  assert.deepEqual(wayIn({}).dock, { primary: { href: '/signup', label: 'Sign up free' }, secondary: { href: '/login', label: 'Log in' }, sub: 'No card needed' });
+  assert.deepEqual(wayIn({ released: true }).dock.primary, { href: '/signup?next=%2Frecovery', label: 'Sign up free' });
   assert.deepEqual(wayIn({ signedIn: true }).dock, { primary: { href: '/dashboard', label: 'Go to Practice' }, secondary: null, sub: null });
   assert.deepEqual(wayIn({ signedIn: true, released: true }).dock.primary, { href: '/recovery', label: 'Find my first gap' });
   const dock = code(read('./LandingDock.jsx'));

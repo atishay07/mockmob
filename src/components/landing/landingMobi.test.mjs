@@ -36,11 +36,12 @@ test('the hero Mobi is the rigged Mobi (MobiReact interactive, CSS idle), loaded
   assert.match(ACTOR, /alive \? <span className="pip-actor__float">\{art\}<\/span> : art/);
 });
 
-test('a sample answer makes the hero Mobi react (right: correct, miss: encourage, five: cheer); the guide no longer glances at the headline', () => {
+test('a sample answer makes the hero Mobi react (right: correct, miss: encourage, the end by the score); the guide no longer glances at the headline', () => {
   const HERO = read('HeroMobi.jsx');
   assert.match(DRILL, /pipReact\('hero', mobiMoment\(optionIndex === question\.correct \? 'rightAnswer' : 'wrongAnswer'\)\)/);
   assert.match(HERO, /window\.addEventListener\(DEMO_STATE_EVENT, onState\)/, 'the sample\'s state, not a tap, moves him');
-  assert.match(read('heroTaps.mjs'), /\{ right: 'correct', miss: 'encourage', five: 'cheer' \}\[state\]/);
+  // R8 HERO-03 (8 Nov 2026): the end of the five cheers a good score and encourages a low one.
+  assert.match(read('heroTaps.mjs'), /\{ right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage' \}\[state\]/);
   assert.match(read('../../lib/mobiMoments.js'), /rightAnswer: 'correct',[\s\S]*wrongAnswer: 'encourage',/);
   assert.doesNotMatch(GUIDE, /addEventListener\('pip:glance'/, 'a line every 2.3 s would fight his tap acts');
   assert.match(GUIDE, /encourage: \{ pose: 'encouraging', motion: 'tilt'/);

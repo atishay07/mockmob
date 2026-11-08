@@ -4,40 +4,70 @@
 // Word for word as decided; change them here.
 //
 // The bubble's lines come only from the sample's state, never from taps (decision 13): on load he says his name and
-// offers you a CUET question; a right answer and a miss each get a line; the fifth answer gets the last. A tap gives one
+// offers you a CUET question; a right answer and a miss each get a line (the fifth too), and the end of the five a line for the score. A tap gives one
 // reaction act and leaves the line as it is. Round 4 (LK122: "think from a marketing angle ... how to write copy
 // properly"): plain, warm, complete sentences that invite, and no "Go.".
 
 import { MOCK_PACES, paceWords, perMock } from '../../lib/payments/value.mjs';
 
-/** The bubble's four lines, by the sample's state. Each at most 44 characters, sentence case, no hype. */
+/**
+ * The bubble's lines, by the sample's state. Each at most 40 characters (the bubble's fixed box holds them all without
+ * growing), sentence case, no hype, no numerals. R8 (HERO-03): Mobi answers what just happened. The fifth answer gets its
+ * own right or miss line like the other four; the end of the five gets a line for the score ('all' five, 'four', 'three',
+ * 'two', and 'tough' for one or none), and none of them pushes sign-up (the card's own key does that). The end lines with
+ * a miss coach the readout's rows (each opens to its reason) instead of repeating the card's verdict, and each still wraps
+ * to two lines at every width, so the box does not grow. Opening the subject list says what a pick does ('pick'); a subject that loads names itself ('live', deskLine(state, { subject })); a
+ * "Try 5 questions first" tap with the card already on screen points at it ('here').
+ */
 export const DESK_LINES = Object.freeze({
   load: 'Hi, I’m Mobi. Try this CUET question.',
   right: 'That’s right. The reason is just below.',
   miss: 'Not this time. The reason is just below.',
-  five: 'All five done. Sign up to keep going.',
+  all: 'Five of five. Ready for a full mock?',
+  four: 'Four of five. Open the miss to see why.',
+  three: 'Three of five. Open a miss to see why.',
+  two: 'Two of five. Open a miss to see why.',
+  tough: 'Every miss has a reason. Open one.',
+  pick: 'Pick a subject. I’ll pull five more.',
+  live: 'Your subject it is. Your move.',
+  here: 'Here it is. Pick an answer.',
 });
 /** The sample card's note under the options (round 4, LK122): what the five are, said once, plainly. */
 export const DESK_NOTE = 'Free, no sign-up. Every answer shows its reason.';
 export const DESK_STATES = Object.freeze(Object.keys(DESK_LINES));
+/** The end-of-five states, from the score. */
+export const DESK_END_STATES = Object.freeze(['all', 'four', 'three', 'two', 'tough']);
 
-/** The line for a sample state ('load', 'right', 'miss' or 'five'); anything else is the load line. */
-export function deskLine(state) {
+/**
+ * The line for a sample state; anything else is the load line. 'live' names the subject that loaded ("Physics it is. Your
+ * move."), falling back to its generic line without one.
+ */
+export function deskLine(state, { subject = null } = {}) {
+  if (state === 'live' && subject) return `${subject} it is. Your move.`;
   return DESK_LINES[state] || DESK_LINES.load;
 }
 
-/**
- * The sample's state after an answer: the last of `total` questions answered is 'five' (whatever the pick), before
- * that a right pick is 'right' and a wrong one 'miss'. `index` is the answered question's place, from 0.
- */
-export function deskStateAfter({ index, correct, total = 5 }) {
-  if (Number(index) + 1 >= total) return 'five';
+/** The sample's state after an answer, any of the five: a right pick is 'right', a wrong one 'miss'. */
+export function deskStateAfter({ correct }) {
   return correct ? 'right' : 'miss';
 }
 
-/** Mobi's act for a sample state: right is the app's `correct`, a miss `encourage`, the fifth `cheer`. */
+/** The sample's state once all `total` are answered, from the score. */
+export function deskEndState(score, total = 5) {
+  const right = Math.max(0, Math.min(total, Number(score) || 0));
+  if (right >= total) return 'all';
+  if (right === total - 1) return 'four';
+  if (right === 3) return 'three';
+  if (right === 2) return 'two';
+  return 'tough';
+}
+
+/**
+ * Mobi's act for a sample state: right is the app's `correct`, a miss `encourage`; the end cheers a good score and
+ * encourages a low one.
+ */
 export function deskAct(state) {
-  return { right: 'correct', miss: 'encourage', five: 'cheer' }[state] || null;
+  return { right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage' }[state] || null;
 }
 
 const n = (count) => Number(count).toLocaleString('en-IN');

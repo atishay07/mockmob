@@ -65,7 +65,11 @@ export const HERO_STRINGS = [
   { text: DESK_NOTE, source: 'the sample needs no sign-up and opens the reason under every answer (DemoDrill mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.right, source: 'DemoDrill opens the reason under a right answer (mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.miss, source: 'DemoDrill opens the reason under a miss too', holds: () => /question\.why/.test(read('./DemoDrill.jsx')) },
-  { text: DESK_LINES.five, source: 'after five, the card\'s own end state offers sign-up, where a student picks a subject (DemoDrill), and the hero\'s volt key is "Sign up free" (LK83, L-015)', holds: () => /<Link href="\/signup" className="mm-btn mm-btn--primary">/.test(read('./DemoDrill.jsx')) && /way\.signup/.test(read('../LandingActions.jsx')) },
+  // R8 HERO-03: the end of the five answers the score (heroTaps deskEndState) and points at the readout, which lists the
+  // misses (or says there is nothing to flag); the card's own end state offers sign-up as "Sign up free" (LK83, L-015).
+  ...['all', 'four', 'three', 'two', 'tough'].map((key) => ({ text: DESK_LINES[key], source: 'the readout under the score lists each miss, or none (DemoDrill mm-drill__readout, deskEndState)', holds: () => /mm-drill__readout/.test(read('./DemoDrill.jsx')) && /deskEndState\(score, DRILL\.length\)/.test(read('./DemoDrill.jsx')) && /<Link href="\/signup" className="mm-btn mm-btn--primary">\s*Sign up free/.test(read('./DemoDrill.jsx')) })),
+  { text: DESK_LINES.pick, source: 'a picked subject plays five live questions (DemoDrill chooseSubject, /api/sample)', holds: () => /demoSetUrl\(slug/.test(read('./DemoDrill.jsx')) },
+  { text: DESK_LINES.here, source: 'DemoJump points at answer A when the card is already on screen (pointAtAnswer)', holds: () => /sendDemoState\('here', 0\)/.test(read('./DemoJump.jsx')) },
   // Round 4 (LK124): every feature cell says only what its own section says.
   ...heroFeatures({ compass: true, keyCards: true }).map((f) => ({ text: `${f.name}. ${f.line}`, source: {
     'Unlimited mocks': 'Pro: unlimited Quick and Full (homeCopy proPlan); every mock built fresh from one live bank (the FAQ)',
@@ -109,10 +113,11 @@ test('LK70: the h1 comes first and the lead says what MockMob is, in the server 
     at = i;
   }
   assert.match(HERO, /<b>\{HERO_LEAD\.strong\}<\/b>\{HERO_LEAD\.rest\}/);
-  assert.equal(HERO_LEAD.strong, 'MockMob is CUET UG mock tests');
+  // R8 HERO-09, CONT-17 (8 Nov 2026): "MockMob is CUET UG mock tests" read as a singular verb on a plural noun.
+  assert.equal(HERO_LEAD.strong, 'CUET UG mocks');
   // R3-D3 (LK99): the lead is two lines at 16-17 px on a phone, so at most 76 characters (72 now; measured in Chrome:
   // two lines at 360, 390, 1024 and 1440). The claim is unchanged: the review traces every miss to its chapter.
-  assert.equal(`${HERO_LEAD.strong}${HERO_LEAD.rest}`, 'MockMob is CUET UG mock tests that trace every lost mark to its chapter.');
+  assert.equal(`${HERO_LEAD.strong}${HERO_LEAD.rest}`, 'CUET UG mocks that trace every lost mark to its chapter.');
   assert.ok(`${HERO_LEAD.strong}${HERO_LEAD.rest}`.length <= 76);
   // The visual lines read the approved sentence: CUET 2027. in the brand volt (D2, LK82, 5 Nov: #D2F000 Night; Day #526700 since R3-D1, LK101), plain text.
   assert.match(HERO, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}\s*<span className="lp-title__line">\{HERO_LINES\[1\]\}<\/span>\{' '\}/);
