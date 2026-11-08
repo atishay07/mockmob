@@ -883,7 +883,8 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   line-height: 1.3;
   font-weight: 600;
   letter-spacing: 0;
-  text-transform: capitalize;
+  /* R8 PRAC-12 / CONT-13: chapter names print as written ('Admission of Partner'), as on the result and in Explore. */
+  text-transform: none;
   color: var(--a-ink-2);
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-question-block {
@@ -900,8 +901,17 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   text-transform: none;
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-question-text {
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  /* R8 CONT-04: the stem is read, not announced. Hanken at 500, as the app's runner sets it (mm_type.dart: "Hanken Grotesk is
+     for everything a student reads"); the display face stays for the timer, numbers and titles. */
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+@media (min-width: 1024px) {
+  .app-shell .nta-runner[data-interface="mockmob"] .nta-question-text { font-size: 19px; line-height: 30px; }
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-option {
   min-height: 56px;
@@ -926,12 +936,20 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
   box-shadow: 0 0 0 1px var(--a-select) inset;
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-option-letter {
-  border-radius: 9px;
+  /* R8 CONT-03: the answer sheet's own round bubble, as the app's answer_option.dart draws it, so the sample, the Arena and the
+     app share one answer control. Hanken, as the option text. */
+  border-radius: 999px;
   background: var(--a-letter);
   color: var(--a-ink-2);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+}
+/* Day: the selected answer is raised paper with a 1.5px ink rim at 70% (DESIGN, the No-Slab Rule; the app's MmSelection), the
+   bubble keeps its small volt fill with dark ink. */
+html[data-theme='light'] .app-shell .nta-runner[data-interface="mockmob"] .nta-option.is-selected {
+  border-color: rgba(23, 21, 15, 0.7);
+  box-shadow: 0 0 0 0.5px rgba(23, 21, 15, 0.7) inset;
 }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-option-text {
   font-size: 15px;
@@ -991,8 +1009,66 @@ html[data-theme='light'] .app-shell .btn-volt:disabled { box-shadow: none; }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-palette-chip--marked-answered::after {
   background: var(--volt);
 }
+/* R8 PRAC-01: every palette state draws the colour its legend swatch promises (the plain sunken tile above outranked the
+   page's own marked and not-answered colours, so a marked answer read as blank). Theme tokens, so Day gets rimmed paper
+   tiles in its own purple and red, and the answered tile keeps its volt tint. The swatch and the tile share one rule. */
+.app-shell .nta-runner[data-interface="mockmob"] :is(.nta-palette-chip--marked, .legend.marked) {
+  border-color: color-mix(in oklab, var(--a-purple-text) 58%, transparent);
+  background: color-mix(in oklab, var(--a-purple-text) 13%, transparent);
+  color: var(--a-purple-text);
+}
+.app-shell .nta-runner[data-interface="mockmob"] :is(.nta-palette-chip--visited, .legend.visited) {
+  border-color: color-mix(in oklab, var(--a-bad-text) 50%, transparent);
+  background: var(--a-bad-wash);
+  color: var(--a-bad-text);
+}
+.app-shell .nta-runner[data-interface="mockmob"] .legend.notvisited {
+  border-color: var(--a-line-strong);
+  background: var(--a-sunken);
+}
+.app-shell .nta-runner[data-interface="mockmob"] :is(.nta-palette-chip--marked-answered, .legend.marked-answered) {
+  position: relative;
+  border-color: var(--a-select);
+  background: rgba(210, 240, 0, 0.14);
+  color: var(--a-accent-text);
+}
+.app-shell .nta-runner[data-interface="mockmob"] .nta-palette-chip--marked-answered::after,
+.app-shell .nta-runner[data-interface="mockmob"] .legend.marked-answered::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--a-purple-text);
+  box-shadow: 0 0 0 1.5px var(--a-raised);
+}
+.app-shell .nta-runner[data-interface="mockmob"] .legend.marked-answered::after { right: -3px; bottom: -3px; width: 6px; height: 6px; box-shadow: 0 0 0 1px var(--a-raised); }
 .app-shell .nta-runner[data-interface="mockmob"] .nta-palette-chip.is-current {
+  outline-color: var(--a-select);
   outline-offset: 2px;
+}
+.app-shell .nta-runner[data-interface="mockmob"] .legend { border-radius: 4px; }
+/* R8 PRAC-08: the paper's progress bar reads in Day. Night keeps its volt fill on the dark track, without the glow; Day draws a
+   visible track and the Day progress green (DESIGN, brand by role: progress marks are the Day text green, never volt on cream). */
+.app-shell .nta-runner[data-interface="mockmob"] .nta-header-progress .bar > .fill { box-shadow: none; }
+html[data-theme='light'] .app-shell .nta-runner[data-interface="mockmob"] .nta-header-progress .bar {
+  background: rgba(38, 44, 20, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(38, 44, 20, 0.12);
+}
+html[data-theme='light'] .app-shell .nta-runner[data-interface="mockmob"] .nta-header-progress .bar > .fill { background: var(--a-accent-text); }
+/* R8 PRAC-04: small phones see the options without scrolling. The question number is said once, in the progress row
+   ("Question 1 of 10"); the paper head keeps its console name and the chapter chips in a tighter head; the paper's h1 and a
+   lone question's own number stay for screen readers. The status chip keeps its own line above Mark / Clear, so marking a
+   question (a longer chip, "Unmark") never reflows the stem. Stem size unchanged. */
+@media (max-width: 520px) {
+  .app-shell .nta-runner[data-interface="mockmob"] .nta-paper-head { min-height: 0; gap: 8px; padding: 12px 16px; }
+  .app-shell .nta-runner[data-interface="mockmob"] :is(.nta-paper-head h1, .nta-question-list[data-single] .nta-question-number) {
+    position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .app-shell .nta-runner[data-interface="mockmob"] .nta-question-meta { gap: 8px; margin-bottom: 12px; }
+  .app-shell .nta-runner[data-interface="mockmob"] .nta-question-text { margin-bottom: 14px; }
 }
 .app-shell .nta-interface-toolbar {
   border-color: var(--a-line);

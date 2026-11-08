@@ -108,7 +108,8 @@ test('the five questions are four-option Accountancy items with the runner\'s tw
     assert.match(q.difficulty, /^(Easy|Medium|Hard)$/);
     assert.ok(q.text.endsWith(':') || q.text.endsWith('?') || q.text.endsWith('.'));
   }
-  assert.ok(has('<span>{q.chapter}</span>') && has('{q.difficulty && <span>{q.difficulty}</span>}'), 'the runner prints the chapter and the difficulty as two chips');
+  // R8 PRAC-12: the chapter as written, the difficulty with its first letter raised (CSS no longer title-cases the chips).
+  assert.ok(has('<span>{q.chapter}</span>') && has('{q.difficulty && <span>{sentenceCase(q.difficulty)}</span>}'), 'the runner prints the chapter and the difficulty as two chips');
 });
 
 // R3-D6 (LK106, 5 Nov 2026): below 761 px the home page draws the runner as it is on a phone. Its anatomy is the runner's

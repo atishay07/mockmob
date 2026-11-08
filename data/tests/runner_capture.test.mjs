@@ -295,7 +295,8 @@ async function passagePath(s, snap) {
   await h.advance(6000); await h.click(h.find('.nta-palette-chip').find((b) => h.text(b) === '3')); snap('palette 3');
   await h.advance(4000); await h.click(h.one('.nta-nav-button', 'Next')); snap('q6 again');
   await h.advance(3000); await h.click(h.one('.nta-nav-button', 'Next')); snap('q7');
-  await h.advance(2000); await h.click(h.one('.nta-submit-button', 'Submit test')); snap('submitted');
+  // R8 PRAC-02: the MockMob interface's submit check is the in-app sheet; Submit now sends the paper.
+  await h.advance(2000); await h.click(h.one('.nta-submit-button', 'Submit test')); await h.click(h.one('button', 'Submit now')); snap('submitted');
 }
 
 test('an NTA passage set: every question on the page is recorded as opened, and the page itself is unchanged', async () => {
@@ -398,18 +399,27 @@ test('the submit sheet: its time is on no question, Keep answering returns to th
   assert.match(buildTimeDecisions(attempt).rows[0].lines[0], /^25s on this question, until you went to submit at 1:35\./);
 });
 
-test('NTA: the submit check is recorded around the browser dialog, and cancelling it changes nothing on the page', async (t) => {
+// R8 PRAC-02: in the MockMob interface the NTA submit check is the product's own sheet (no browser dialog); Keep answering is
+// the cancel, and the time on the sheet is still credited to no question.
+test('NTA: the submit check is recorded around the submit sheet, and Keep answering changes nothing on the page', async (t) => {
   const s = await h.mount({ mode: 'nta' });
-  t.after(() => { globalThis.confirm = () => true; return s.unmount(); });
+  t.after(() => s.unmount());
   await h.click(h.one('button', 'Continue in this window'));
   await h.advance(6000); await h.click(h.find('.nta-option')[0]);
   const before = s.html();
-  globalThis.confirm = () => { h.clock.now += 4000; return false; }; // four seconds reading the dialog, then Cancel
+  let confirms = 0;
+  const realConfirm = globalThis.confirm;
+  globalThis.confirm = () => { confirms += 1; return true; };
   await h.click(h.one('.nta-submit-button', 'Submit test'));
-  assert.equal(s.html(), before, 'Cancel leaves the paper exactly as it was');
+  assert.ok(h.find('.pr-sheet').length === 1, 'the submit sheet opens');
+  h.clock.now += 4000; // four seconds reading the sheet, then Keep answering
+  await h.click(h.one('button', 'Keep answering'));
+  assert.equal(s.html(), before, 'Keep answering leaves the paper exactly as it was');
   assert.equal(s.submitted().length, 0);
-  globalThis.confirm = () => true;
   await h.advance(3000); await h.click(h.one('.nta-submit-button', 'Submit test'));
+  await h.click(h.one('button', 'Submit now'));
+  globalThis.confirm = realConfirm;
+  assert.equal(confirms, 0, 'the browser dialog is never used');
   const body = s.submitted()[0].body;
   assert.deepEqual(types(body.events), ['visit', 'answer', 'visit:sheet', 'visit', 'visit:sheet', 'end:submit']);
   const trace = readTrace(serverScore(s, body).score.recovery);

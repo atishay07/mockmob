@@ -148,6 +148,12 @@ export const ONBOARDING_LEAD = FIRST_FULL_MOCK_ON
   ? 'Pick up to 5. Every mock is built fresh from one live question bank, and your first full mock in each subject is free. After that, each one uses credits on Free; on Pro there is no cap. Swap subjects any time.'
   : 'Pick up to 5. Every mock is built fresh from one live question bank. Each one uses credits on Free; on Pro there is no cap. Swap subjects any time.';
 
+/** Onboarding, subjects step (R8 PRAC-11): the task in one line above the subjects, and the full mock rules one tap away in
+ *  "How mocks work" under the grid (the same words as ONBOARDING_LEAD, nothing cut). */
+export const ONBOARDING_SUBJECTS_TASK = 'Pick up to 5 subjects. Swap any time.';
+export const ONBOARDING_HOW_MOCKS_TITLE = 'How mocks work';
+export const ONBOARDING_HOW_MOCKS = ONBOARDING_LEAD.replace(/^Pick up to 5\. /, '').replace(/ Swap subjects any time\.$/, '');
+
 /** Onboarding: each step's headline and lead (M-006, 18 Oct: bolder and punchier, still true, no exclamation marks). */
 export const ONBOARDING_STEPS = Object.freeze({
   subjects: Object.freeze({ title: 'Your papers. Your mocks.', lead: ONBOARDING_LEAD }),

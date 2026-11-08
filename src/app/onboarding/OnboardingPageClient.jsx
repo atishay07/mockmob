@@ -44,7 +44,7 @@ import { mobiAct, useMobiScope } from '@/components/brand/pipEvents';
 import { useCountUp } from '@/lib/motion';
 import { getMobiPrefs } from '@/lib/mobiPrefs';
 import { SUBJECT_RULE_NOTE } from '@/lib/cuetRules.mjs';
-import { ONBOARDING_STEPS, bankCount, tileCount } from '@/lib/paperCopy.mjs';
+import { ONBOARDING_HOW_MOCKS, ONBOARDING_HOW_MOCKS_TITLE, ONBOARDING_STEPS, ONBOARDING_SUBJECTS_TASK, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
   cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, stepFromQuery, thumbIndex,
@@ -517,8 +517,10 @@ export default function OnboardingPageClient({ preview = false }) {
             )}
             <h1 ref={headingRef} tabIndex={-1} className="ob-title">{copy.title}</h1>
             {/* On the preset, the key comes straight after the title; the lead and the five-paper note follow the card. */}
-            {presetMode ? null : <p className="ob-lead">{copy.lead}</p>}
-            {step === 'subjects' && !presetMode ? <p className="ob-rule">{SUBJECT_RULE_NOTE}</p> : null}
+            {/* R8 PRAC-11: on the first subjects step the task leads in one line; the mock rules and the five-paper note sit in
+                "How mocks work" under the grid, so the subjects are in the first view on a small phone. */}
+            {presetMode ? null : <p className="ob-lead">{step === 'subjects' && !edit ? ONBOARDING_SUBJECTS_TASK : copy.lead}</p>}
+            {step === 'subjects' && !presetMode && edit ? <p className="ob-rule">{SUBJECT_RULE_NOTE}</p> : null}
           </div>
           {/* One Mobi on the screen, beside the title (never over it); he stays put between steps. */}
           <div className="ob-mobi" aria-hidden="true"><MobiReact key={mobi.n} act={mobi.act} size={88} onDone={mobi.onDone} /></div>
@@ -579,28 +581,6 @@ export default function OnboardingPageClient({ preview = false }) {
                 </div>
               ) : null}
 
-              {/* The DU course, optional, with the subjects it takes (the app's course search). Not in edit mode: that is only the papers. */}
-              {!edit && !presetMode ? (
-                <CourseFinder rules={rules} failed={rulesFailed} onRetry={() => setRulesTry((n) => n + 1)} courseId={courseId} onCourse={chooseCourse} picked={selected} disabled={busy} />
-              ) : null}
-
-              {sets.length > 0 && !searching && !presetMode ? (
-                <section className="ob-sets" aria-labelledby="ob-sets-h">
-                  <h2 id="ob-sets-h">{SETS_LABEL}</h2>
-                  <div className="ob-sets__list">
-                    {sets.map((set) => {
-                      const on = setMatches(set, selected);
-                      return (
-                        <button key={set.id} type="button" className="ob-set mk-press" aria-pressed={on} data-on={on || undefined} disabled={busy} onClick={() => tapSet(set)}>
-                          <b>{set.title}</b>
-                          <span>{set.subjects.map((id) => shortSubjectName(find(id))).join(', ')}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </section>
-              ) : null}
-
               {!presetMode ? (<>
               <label className="ob-search">
                 <span className="sr-only">Search subjects</span>
@@ -645,6 +625,38 @@ export default function OnboardingPageClient({ preview = false }) {
                   );
                 })}
               </div>
+
+              {/* R8 PRAC-11: the rules behind "up to 5" and the credits, one tap away under the grid (nothing cut). */}
+              {!edit ? (
+                <details className="ob-how">
+                  <summary>{ONBOARDING_HOW_MOCKS_TITLE}</summary>
+                  <p>{ONBOARDING_HOW_MOCKS}</p>
+                  <p>Why 5? {SUBJECT_RULE_NOTE}</p>
+                </details>
+              ) : null}
+
+              {/* The DU course, optional, with the subjects it takes (the app's course search). After the grid (R8 PRAC-11), so the
+                  one required task comes first. Not in edit mode: that is only the papers. */}
+              {!edit && !presetMode ? (
+                <CourseFinder rules={rules} failed={rulesFailed} onRetry={() => setRulesTry((n) => n + 1)} courseId={courseId} onCourse={chooseCourse} picked={selected} disabled={busy} />
+              ) : null}
+
+              {sets.length > 0 && !searching && !presetMode ? (
+                <section className="ob-sets" aria-labelledby="ob-sets-h">
+                  <h2 id="ob-sets-h">{SETS_LABEL}</h2>
+                  <div className="ob-sets__list">
+                    {sets.map((set) => {
+                      const on = setMatches(set, selected);
+                      return (
+                        <button key={set.id} type="button" className="ob-set mk-press" aria-pressed={on} data-on={on || undefined} disabled={busy} onClick={() => tapSet(set)}>
+                          <b>{set.title}</b>
+                          <span>{set.subjects.map((id) => shortSubjectName(find(id))).join(', ')}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              ) : null}
 
               {/* The CUET papers MockMob cannot practise yet: listed so a student knows they exist, never hidden, never pickable. */}
               {notYet.total > 0 ? (
