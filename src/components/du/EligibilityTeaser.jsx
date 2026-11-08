@@ -130,7 +130,7 @@ export function EligibilityTeaser() {
   const total = rules ? rules.groups.length : 73;
   const counted = Boolean(rules && hasDomains);
   // Early ticks (R8 SEC-07): with fewer than three domain subjects and no GAT the count can still read 0 (DU's 2026 rules
-  // count one language and three subjects, or two languages and two), so the zero is "so far" and the line names both routes.
+  // count one language and three subjects, or two languages and two subjects), so the zero is "so far" and the line names both routes.
   const early = counted && eligible.length === 0 && selection.domains.length < 3 && !selection.gat;
 
   return (
@@ -182,7 +182,7 @@ export function EligibilityTeaser() {
             </p>
             <p className="du-teaser__lead">
               {early
-                ? 'Keep ticking: most DU programmes count one language and three subjects, or two languages and two.'
+                ? 'Keep ticking: most DU programmes count one language and three subjects, or two languages and two subjects.'
                 : counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains

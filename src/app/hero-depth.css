@@ -81,7 +81,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   :root:not([data-motion='reduced']) .lp-statement { padding-block: 0; }
   :root:not([data-motion='reduced']) .lp-statement .ss {
     --ss-beat: 22svh;
-    --ss-bottom: 84px;
+    --ss-bottom: 96px;
     --shelf-obj: min(42vw, 18.5svh, 11rem);
     --shelf-stagger: 1.75rem;
   }
@@ -169,7 +169,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
    about 45% of the hold at 9vw and the four objects stand at a size you can read their names beside. */
 @media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .lp-statement .ss {
-    --shelf-obj: min(44vw, 12rem, calc(30svh - 90px));
+    --shelf-obj: min(44vw, 12rem, calc(30svh - 100px));
     --shelf-stagger: 1rem;
   }
   :root:not([data-motion='reduced']) .lp-statement .ss[data-pinned='true'] .lp-statement__grid {

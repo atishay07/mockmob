@@ -2763,6 +2763,11 @@ html[data-motion='reduced'] .mm { --tick-anim: none; }
 .mm-foot .logo {
   --logo-h: 30px;
 }
+/* The footer is a dark surface in Day too, so its logo ring stays cream like the other footer links; --ink is cream
+   inside .mm-foot (R8 sweep LS-1; beats brand.css's Day ring, which is for the light nav). */
+:root[data-theme='light'] .mm-foot .logo:focus-visible {
+  outline-color: var(--ink);
+}
 
 /* ==========================================================================
    Public pages, night of 5 Nov 2026 (packet R2-B; docs/design-decisions/web-1105-public.md)
