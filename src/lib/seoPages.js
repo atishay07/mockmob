@@ -37,7 +37,7 @@ export const seoPages = {
           'Use the free mock experience to set a baseline. Your first few attempts can show which subject feels slow, which chapters need review, how many questions are skipped, and whether accuracy changes near the end. Use those observations to give each later practice session a clear purpose.',
         ],
         links: [
-          { href: '/signup', label: 'Start free CUET practice' },
+          { href: '/signup', label: 'Start free' },
           { href: '/pricing', label: 'Compare Free and Pro' },
         ],
       },
