@@ -155,7 +155,10 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     }
     final line = header.localToGlobal(Offset.zero).dy + header.size.height + MmSpace.s16;
     int? active;
-    for (var i = 0; i < _sectionKeys.length; i++) {
+    // At rest nothing is lit (as before the first-frame measure of R8 APP-17): on a tall phone the first section sits
+    // right under the row, which is not a choice the student made.
+    final scrolled = _scroll.hasClients && _scroll.offset > 0.5;
+    for (var i = 0; scrolled && i < _sectionKeys.length; i++) {
       final box = _sectionKeys[i].currentContext?.findRenderObject();
       if (box is! RenderBox || !box.attached) continue;
       if (box.localToGlobal(Offset.zero).dy <= line) active = i;
