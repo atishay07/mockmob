@@ -293,7 +293,7 @@ export function buildTour({ studyLive = false, studyLessons = 0, studySubjects =
     slide('radar', { label: 'Chapter review', line: 'The chapter to fix first', title: 'Know the chapter to fix first.',
       body: 'A score is just a number. Chapter review traces every miss to its chapter, so tonight has a target.',
       lede: 'Every miss traced back to its chapter, so tonight has one clear target.',
-      points: ['Your top three chapters, free after every mock', 'Pro ranks every chapter, with pace and changed answers'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' }),
+      points: ['Your top three chapters free, ranked across your mocks', 'Pro ranks every chapter, with pace and changed answers'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' }),
     slide('prepos', { label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
       body: 'Mobi reads your practice record and answers with the leak, the pace problem and one next step, the same one Today shows.',
       lede: 'Ask about your own record and get one next step, the same one Today shows you.',
