@@ -43,7 +43,7 @@ html:has(.app-shell) {
   --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
   --a-option-hover: #2c2a24;
   --a-letter: #2a2822;
-  --a-grid: transparent;
+  --a-grid: rgba(244, 240, 230, 0.035);
   --a-bad-text: #ffa396;
   --a-bad-wash: rgba(255, 122, 107, 0.1);
   --a-warn-text: #edb75a;
@@ -85,7 +85,7 @@ html[data-theme='light']:has(.app-shell) {
   --a-shadow-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 24px 56px -28px rgba(42, 32, 16, 0.22);
   --a-option-hover: #f2ede0;
   --a-letter: #e9e4d8;
-  --a-grid: transparent;
+  --a-grid: rgba(42, 32, 16, 0.05);
   --a-bad-text: #b0291f;
   --a-bad-wash: rgba(176, 41, 31, 0.08);
   --a-warn-text: #845400;
@@ -147,16 +147,19 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-theme { display: inline-flex; align-items: center; }
 .app-shell .arena-launch__reason { font-size: 13px; color: var(--a-ink-2); max-width: 60ch; }
-/* The page ground is plain paper, as on the website below its hero and in the app (R8 CONT-09, 8 Nov 2026). The 48 px
-   hairline grid it carried since 2 Oct is retired (DESIGN.md Texture: never a generic grid, dot matrix or glow). The paper
-   grain was tried at a quieter strength: on a working surface it read as noise behind the text, and the website keeps
-   grain for the hero's lamp only. The element stays as the fixed layer under the shell (print hides it). */
+/* The quiet hairline grid behind the Arena is back (owner, 8 Nov 2026 evening: the earlier texture looked better), now
+   in the warm palette's ink so it sits on the warm ground. It fades out down the page; print hides the layer. */
 .app-shell .arena-backdrop {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: none;
+  background-image:
+    linear-gradient(to right, var(--a-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--a-grid) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 75%);
+  mask-image: linear-gradient(180deg, #000, transparent 75%);
 }
 
 /* ---------- Navigation ---------- */
