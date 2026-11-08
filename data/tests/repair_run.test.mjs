@@ -202,7 +202,7 @@ test('the four steps are the app words; Retested is lit only by a check that hel
   const ids = ['a', 'b', 'c'];
   const held = endingModel({ ids, outcomes: { a: 'explained', b: 'explained' }, reached: new Set(ids), checks: { a: { right: true } } });
   assert.deepEqual(held.retested, ['a']);
-  assert.equal(laterLine(held), 'Held on a new question. Revise brings it back later to see if it is still right.');
+  assert.equal(laterLine(held), 'Held on new questions. Revise brings it back later to see if it is still right.');
   const slipped = endingModel({ ids, outcomes: { a: 'explained' }, reached: new Set(ids), checks: { a: { right: false } } });
   assert.deepEqual(slipped.retested, []);
   assert.equal(laterLine(slipped), 'Slipped on a new question. Revise brings the idea back to try again.');

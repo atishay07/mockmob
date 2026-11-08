@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import SceneVignette from '@/components/scenes/SceneVignette';
+import { useWalletSummary } from '@/components/useWalletSummary';
 import { useRuleBook } from '@/components/rules/useRuleBook';
 import { bookRules } from '@/../data/rule_book';
 import { reviewMove } from '@/../data/review_input.mjs';
@@ -210,7 +211,13 @@ function ReviewInner({ tabParam }) {
   }, []);
   useEffect(() => { load(); }, [load]);
 
-  const body = read.status === 'ready' ? read.body : null;
+  const readBody = read.status === 'ready' ? read.body : null;
+  // AR-S2: a repair announces the new balance (top bar chip and every "You have N" line). The page's own cost lines take it too, so
+  // the chip and the lines agree before the next read of this page arrives (practice credits follow only when the server reports the one
+  // shared balance). An unknown live balance never replaces the page's.
+  const { user: me } = useAuth();
+  const live = useWalletSummary(me?.id, { reuseFresh: true });
+  const body = useMemo(() => (readBody?.wallet && live.wallet?.known && Number.isFinite(live.wallet.total) ? { ...readBody, wallet: { ...readBody.wallet, aiCredits: live.wallet.total, ...(readBody.wallet.practiceCredits === readBody.wallet.aiCredits ? { practiceCredits: live.wallet.total } : {}) } } : readBody), [readBody, live.wallet]);
   const record = useMemo(() => (body ? recordFromBody(body) : null), [body]);
   const move = useMemo(() => (record && body.state === 'ready' ? reviewMove(record, { dailySet }) : null), [record, body, dailySet]);
   const items = useMemo(() => body?.items || [], [body]);

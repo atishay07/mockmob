@@ -7,7 +7,7 @@
 // (repaired, held, slipped) opens that repair, free, and is never offered a paid one (F17).
 //
 // The question itself (options, key, explanation) is read from the attempt, not from /api/me/review, which never carries a key.
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
@@ -83,7 +83,13 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
   const [read, retry] = useQuestion(item, mode !== 'hidden');
   const q = read.status === 'ready' ? read.q : null;
   const noAi = Number.isFinite(wallet?.aiCredits) && wallet.aiCredits < 1;
-  const settle = (_qid, status) => { if (status === 'explained' || status === 'stored') onChanged?.(); };
+  // AR-S3: a paid repair stays on screen with its own receipt ("1 credit used. You have 107.") and its Check it held; Review reloads
+  // (and the repair moves under Saved repairs) only when the sheet closes. A stored reopen changes nothing on screen, so it reloads at once.
+  const pendingReload = useRef(false);
+  const changed = useRef(onChanged);
+  useEffect(() => { changed.current = onChanged; }, [onChanged]);
+  useEffect(() => () => { if (pendingReload.current) changed.current?.(); }, []);
+  const settle = (_qid, status) => { if (status === 'stored') onChanged?.(); else if (status === 'explained') pendingReload.current = true; };
 
   const showStem = !(stemInRow && q && sameStem(item.stem, q.stem));
   const waiting = needs && (read.status === 'loading' || read.status === 'idle');

@@ -41,7 +41,7 @@ export const RUN_COPY = Object.freeze({
   // is never lit here. The line under the steps says what happened, never that a step is missing.
   stages: Object.freeze(['Found', 'Repaired', 'Retested', 'Still right']),
   stagesLabel: 'Steps: Found, Repaired, Retested, Still right',
-  laterHeld: 'Held on a new question. Revise brings it back later to see if it is still right.',
+  laterHeld: 'Held on new questions. Revise brings it back later to see if it is still right.',
   laterSlipped: 'Slipped on a new question. Revise brings the idea back to try again.',
   laterUnchecked: 'Check it held asks new questions on the same idea. They come with the repair, at no extra credit.',
   nothingTitle: 'Nothing repaired this time',

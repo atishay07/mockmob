@@ -406,4 +406,5 @@ export function fixtureRevise(kind = 'ready') {
   return { ...body, state: 'empty', items: [], shown: 0, due: 0, minutes: 0, boxes: [0, 0, 0, 0], cards: 0, head: LAB_COPY.revise.head.none, summary: null, next: LAB_COPY.revise.nextNone, nextDay: null, nextDayLabel: null };
 }
 /** POST /api/me/revise/answer: the committed right, wrong and done answers (the key of every fixture question is B). */
-export const fixtureReviseAnswer = (choice, box = 1) => JSON.parse(JSON.stringify(choice === 1 ? (box >= 4 ? LATER.answers.done : LATER.answers.right) : LATER.answers.wrong));
+// The committed answers carry keyIndex 0 (right) and 3 (wrong); every preview question's key is B, so the key is forced to 1 here.
+export const fixtureReviseAnswer = (choice, box = 1) => ({ ...JSON.parse(JSON.stringify(choice === 1 ? (box >= 4 ? LATER.answers.done : LATER.answers.right) : LATER.answers.wrong)), keyIndex: 1 });

@@ -470,6 +470,10 @@ export default function ResultPageClient({ previewId = null }) {
   const reveal = (row, how) => {
     setRetried((s) => (s[row.q.id] ? s : { ...s, [row.q.id]: how }));
     if (autoRepair === row.q.id) setAutoRepair(null);
+    // AR-S5: "Show the answer" removes the key the student pressed; focus moves to the revealed body (Try it again moves its own).
+    if (how?.how === 'shown' && typeof document !== 'undefined') {
+      requestAnimationFrame(() => requestAnimationFrame(() => document.querySelector(`#q-${row.number}-body .rx-body:not([data-sealed])`)?.focus({ preventScroll: true })));
+    }
   };
 
   // The opened row: what the answer row always held, in the same order (How others answered, the options with your pick
@@ -512,7 +516,7 @@ export default function ResultPageClient({ previewId = null }) {
     // The trap tag under the student's own wrong option (server-built: the trap atlas, then the question format).
     const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
     return (
-      <div className="rp-q__body rx-body">
+      <div className="rp-q__body rx-body" tabIndex={-1}>
         {tried?.how === 'tried' ? withReader(<RetrySaid said={retrySaid({ pick: tried.pick, keyIndex: q.correctIndex, right: tried.right })} />) : null}
         {others ? (tried?.how === 'tried' ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : withReader(<OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} />)) : null}
         {(tried?.how === 'tried' || others ? (node) => node : withReader)(<ul className="rp-options">
@@ -551,7 +555,7 @@ export default function ResultPageClient({ previewId = null }) {
             isCurrent={(!engaged || runCurrent === q.id) && cheer !== q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
             handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
             earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissAt(m), href: `/result/${m.attemptId}` } : null; })()}
-            next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
+            next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : false; })()} />
         ) : null}
         {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
         {foot}

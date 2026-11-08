@@ -46,7 +46,8 @@ h4.mr-title { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.
 .mr-check svg { flex: none; color: var(--a-good-text, #b6e36e); }
 .mr-block { display: grid; gap: 4px; min-width: 0; }
 .mr-label { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
-.mr-label:focus { outline: none; }
+.mr-label:focus, .mr-title:focus { outline: none; }
+.mr-title:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; border-radius: 4px; }
 .mr-label:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 4px; }
 .mr-block > p, .mr-reveal__inner > p { margin: 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
 

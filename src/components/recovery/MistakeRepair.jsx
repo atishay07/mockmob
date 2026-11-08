@@ -176,6 +176,9 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   // Fix it for good: check 1, then check 2, then held. The server marks both and says when the fix is held.
   const [first, setFirst] = useState(null);
   const [held, setHeld] = useState(null);
+  const titleRef = useRef(null);
+  // AR-S5: the paid key is gone once the repair arrives, so focus moves to the repair's heading (a reopened one does not take it).
+  useEffect(() => { if (state.status === 'explained') titleRef.current?.focus({ preventScroll: true }); }, [state.status]);
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fix = isFixJob(state);
@@ -183,7 +186,9 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const history = fix ? historyLine(state.mobi) : null;
   const heldNow = fix ? heldView(held) : null;
   // The row's chip follows the whole fix once the server says it held or slipped (never a second cheer: it is not new).
-  const onFixHeld = (h) => { setHeld(h); onCheck?.(questionId, { right: h.held, replayed: true }); };
+  // AR-S1: the page hears a fix job only from this verdict (both checks), never from check 1 alone. It cheers once, when the server
+  // says so in this visit; a held state read back from storage is replayed and never cheers again.
+  const onFixHeld = (h, meta) => { setHeld(h); onCheck?.(questionId, { right: h.held, replayed: !!meta?.replayed }); };
   const fresh = state.status === 'explained';
   const stake = marksAtStake(scheme);
   const v3 = blocks.version === 3;
@@ -206,7 +211,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       <header className="mr-head" data-stagger style={stagger('head')}>
         {mobi}
         <div className="mr-head__text">
-          <h4 className="mr-title">{blocks.heading || REPAIR_COPY.fallbackHeading}</h4>
+          <h4 className="mr-title" tabIndex={-1} ref={titleRef}>{blocks.heading || REPAIR_COPY.fallbackHeading}</h4>
           <span className="mr-check"><KeyRound size={14} strokeWidth={2.4} aria-hidden="true" />{checkChip(answer)}</span>
         </div>
       </header>
@@ -241,7 +246,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
       {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askContext={askContext} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
       {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} of={fix ? 2 : null} onHeld={fix ? onFixHeld : undefined}
-        onResult={(result) => { setFirst(result); onCheck?.(questionId, result); }} /> : null}
+        onResult={(result) => { setFirst(result); if (!fix) onCheck?.(questionId, result); }} /> : null}
       {showCheck && showSecondCheck({ fix, first }) ? (
         <RepairCheck attemptId={attemptId} questionId={questionId} check={null} slot={2} of={2} style={stagger('check2')} onHeld={onFixHeld}
           onResult={() => {}} />
@@ -264,7 +269,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       <p className="mr-fine mr-receipt" data-stagger style={stagger('foot')}>{state.status === 'stored' ? REPAIR_COPY.savedFoot(attemptedWhen(Date.parse(state.repair?.generatedAt))) : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</p>
       <footer className="mr-foot mr-do" data-stagger style={stagger('do')}>
         {v3 && (state.practiceHref || nextButton) ? <h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5> : null}
-        {nextButton || <p className="mr-left">No other mistakes left to repair in this session.</p>}
+        {nextButton || (next === false ? <p className="mr-left">No other mistakes left to repair in this session.</p> : null)}
         {state.practiceHref ? <Link className={`mr-practice${next ? ' mr-practice--quiet' : ''}`} href={state.practiceHref}>{practiceLabel}</Link> : null}
       </footer>
     </section>
@@ -339,22 +344,17 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       }
       setFolded(true);
       setState({ status: body.status, ...body, op: requestId.current });
+      // ARC-03 (W-060, one balance everywhere), AR-S2: a repair that spent a credit reads the wallet once more and announces it, so the
+      // top bar chip and every "You have N" line take the new total at once. It runs here, where the paid response lands, not in an
+      // effect: Review reloads and unmounts this panel at once, and announceWallet is keyed on the user, so it is safe after unmount.
+      if (body.status === 'explained' && Number(body.charged) > 0 && userId) {
+        fetch('/api/ai/credits', { cache: 'no-store' })
+          .then(async (res) => announceWallet(userId, walletFromResponse(await res.json().catch(() => null), { ok: res.ok })))
+          .catch(() => { /* the next read catches up */ });
+      }
       onSettled?.(questionId, body.status);
     } finally { inFlight.current = false; }
   }
-
-  // ARC-03 (W-060, one balance everywhere): a repair that spent a credit reads the wallet once more, as Ask Mobi does after a
-  // reply, and announces it, so the top bar chip and every "You have N" line take the new total at once. Keyed on the request,
-  // so it runs once per paid repair; a free reopen or a failure (charged 0) reads nothing.
-  const charged = state.status === 'explained' && Number(state.charged) > 0 ? state.op || 'repair' : null;
-  useEffect(() => {
-    if (!charged || !userId) return undefined;
-    let alive = true;
-    fetch('/api/ai/credits', { cache: 'no-store' })
-      .then(async (res) => { const body = await res.json().catch(() => null); if (alive) announceWallet(userId, walletFromResponse(body, { ok: res.ok })); })
-      .catch(() => { /* the next read catches up */ });
-    return () => { alive = false; };
-  }, [charged, userId]);
 
   useEffect(() => {
     if (state.status !== 'loading') return undefined;

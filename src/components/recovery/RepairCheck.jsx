@@ -48,7 +48,8 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
   const href = slot === 2 ? slotHref(attemptId, questionId, 2) : safeCheckHref(check?.href, attemptId, questionId);
   const heldSaid = useRef(onHeld);
   useEffect(() => { heldSaid.current = onHeld; }, [onHeld]);
-  const tellHeld = (body) => { const h = heldFrom(body); if (typeof h.held === 'boolean') heldSaid.current?.(h); };
+  // replayed: true only for a held state read back from storage (a reopened repair), never for one the server just said in this visit.
+  const tellHeld = (body, replayed = false) => { const h = heldFrom(body); if (typeof h.held === 'boolean') heldSaid.current?.(h, { replayed }); };
 
   async function load() {
     const mine = ++seq.current;
@@ -58,7 +59,7 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
     const outcome = await requestCheck(fetch, href);
     const plan = planCheckLoad(outcome);
     if (mine !== seq.current) return;
-    if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body);
+    if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body, true);
     if (plan.state === 'ready') setView({ phase: 'ready', check: plan.check, pool: plan.check.pool ?? null });
     else if (plan.state === 'answered') setView({ phase: 'answered', check: plan.check, result: plan.result, replayed: true });
     else if (plan.state === 'none') setView({ phase: 'none', message: plan.message, canRetry: plan.canRetry });
@@ -98,7 +99,7 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
       const outcome = await submitCheck(fetch, slotPayload({ attemptId, questionId, checkQuestionId: open.checkQuestionId, pick, requestId: requestId.current }, slot));
       const plan = planCheckAnswer(outcome);
       if (mine !== seq.current) return;
-      if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body);
+      if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body, !!plan.replayed);
       if (plan.state === 'answered') {
         focusVerdict.current = true;
         setView({ phase: 'answered', check: open, result: plan.result, replayed: plan.replayed });
