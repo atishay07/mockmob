@@ -233,6 +233,32 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
   }, []);
   const atStart = pinned && active === 0;
   const atEnd = pinned && Boolean(after) && active === slides.length - 1;
+  // R8 SEC-05 (revision): at the held tour's ends Next swaps between a button and a link. Keyboard focus follows the key
+  // through the swap instead of dropping to <body>; activating the link hands focus to the next section's heading.
+  const focusedNext = useRef(null);
+  const onNextFocus = useCallback((event) => { focusedNext.current = event.currentTarget; }, []);
+  const onNextBlur = useCallback((event) => {
+    const el = event.currentTarget;
+    if (event.relatedTarget) { focusedNext.current = null; return; }
+    // Blur to nowhere: a swap (handled in the layout effect below) or a click on blank page; the latter forgets the key.
+    requestAnimationFrame(() => { if (focusedNext.current === el && el.isConnected) focusedNext.current = null; });
+  }, []);
+  const onAfterLink = useCallback(() => {
+    focusedNext.current = null;
+    const heading = after && document.getElementById(after.id)?.querySelector('h2');
+    if (!heading) return;
+    if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }, [after]);
+  // Only when the focused key itself was swapped out (focus fell to <body>) does it move to the new key.
+  useLayoutEffect(() => {
+    const was = focusedNext.current;
+    if (!was || was.isConnected) return;
+    focusedNext.current = null;
+    const focused = document.activeElement;
+    if (focused && focused !== document.body) return;
+    rootRef.current?.querySelector('.ft__next')?.focus({ preventScroll: true });
+  }, [atEnd]);
 
   const paused = !playing || keyboardHold;
   const next = slides[(active + 1) % slides.length];
@@ -295,10 +321,10 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
           </div>
 
           <div className="ft__controls">
-            <button type="button" className="ft__arrow" disabled={atStart} onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
+            <button type="button" className="ft__arrow" aria-disabled={atStart || undefined} onClick={event => { if (atStart) return; goTo(active - 1, { keyboard: event.detail === 0 }); }} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
             {atEnd
-              ? <a className="ft__next" href={'#' + after.id} data-page-jump="" aria-label={'Next section: ' + after.name}><span>Up next <b>{after.name}</b></span></a>
-              : <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span></button>}
+              ? <a className="ft__next" href={'#' + after.id} data-page-jump="" onClick={onAfterLink} onFocus={onNextFocus} onBlur={onNextBlur} aria-label={'Next section: ' + after.name}><span>Up next <b>{after.name}</b></span></a>
+              : <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} onFocus={onNextFocus} onBlur={onNextBlur} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span></button>}
           </div>
         </div>
       </div>

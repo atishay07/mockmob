@@ -205,7 +205,7 @@ const RADAR_ROWS = [
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   return (
-    <Frame title="Chapter review after one mock" step={step}>
+    <Frame title={`Chapter review across your last ${STORY.swot.partnershipLost.length} mocks`} step={step}>
       <ul className="ts__bars">
         {RADAR_ROWS.map(([chapter, subject, pct], i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(pct < 50)}>

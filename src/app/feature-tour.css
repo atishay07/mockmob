@@ -216,7 +216,10 @@
    it stays: there it is the autoplay timer. */
 .ft-story[data-pinned='true'] .ft__progress { display: none; }
 /* R8 (SEC-05): held, the first tool's Prev has nowhere to go and says so; the last tool's Next is a link to the next
-   section, drawn as the same key. */
-.ft__arrow:disabled { opacity: .45; cursor: default; }
-.ft :is(.ft__play, .ft__arrow):disabled:active { transform: none; }
+   section, drawn as the same key.
+   Prev stays focusable (aria-disabled, not disabled) so keyboard focus never drops to <body> at the first tool. */
+.ft__arrow[aria-disabled='true'] { opacity: .45; cursor: default; }
+.ft .ft__arrow[aria-disabled='true']:active { transform: none; }
+/* The next section's heading takes focus from the tour's last key (FeatureTour.jsx); the page glide shows where it is. */
+.lp-sec h2[tabindex='-1']:focus { outline: none; }
 a.ft__next { text-decoration: none; }
