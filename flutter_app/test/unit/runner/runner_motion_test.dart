@@ -119,7 +119,7 @@ void main() {
       await tester.tap(find.text('Questions'));
       await settle(tester);
       expect(find.text('2 of 50 answered'), findsNothing, reason: 'the number and its unit are drawn apart');
-      await tester.tap(find.widgetWithText(KeyButton, 'Go to question 2, first not answered').first);
+      await tester.tap(find.widgetWithText(KeyButton, 'Go to question 2').first);
       await settle(tester);
       expect(s.calls, contains('goTo 1'));
     });
@@ -133,7 +133,7 @@ void main() {
       await pumpRunner(tester, session: s);
       await tester.tap(find.text('Questions'));
       await settle(tester);
-      expect(find.textContaining('first not answered'), findsNothing);
+      expect(find.textContaining('Go to question'), findsNothing);
     });
 
     testWidgets('the submit page takes the student back to the first question still empty', (tester) async {

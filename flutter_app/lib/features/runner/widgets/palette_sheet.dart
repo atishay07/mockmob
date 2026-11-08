@@ -115,7 +115,7 @@ class _PaletteSheetState extends State<PaletteSheet> {
           container: true,
           label: RunnerCopy.legendSummary(
             answered: counts.answered,
-            notAnswered: counts.notAnswered - counts.notVisited,
+            notAnswered: sheetSeenBlankOf(cells),
             notVisited: counts.notVisited,
             marked: counts.marked,
             total: counts.total,
@@ -147,7 +147,7 @@ class _PaletteSheetState extends State<PaletteSheet> {
           Text(widget.openUntil!, style: type.caption.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s8),
-        _Legend(counts: counts, unsynced: cells.where((c) => c.unsynced).length, filter: filter, onFilter: widget.onFilter),
+        _Legend(counts: counts, seenBlank: sheetSeenBlankOf(cells), unsynced: cells.where((c) => c.unsynced).length, filter: filter, onFilter: widget.onFilter),
         if (target >= 0) ...[
           // A key that looks like one (R8 APP-19, owner F5): the secondary pill with its hairline rim, on the
           // gutter, 8 dp under the legend chips so the two targets never overlap. The grid and the submit key stay
@@ -268,9 +268,12 @@ class _CellWaveState extends State<_CellWave> with SingleTickerProviderStateMixi
 /// The shapes of the three other states with their counts. "Answered" is the header's number.
 /// Each item is a filter key (48 dp tall): on, only its cells stay bright; tapped again, off.
 class _Legend extends StatelessWidget {
-  const _Legend({required this.counts, required this.unsynced, this.filter, this.onFilter});
+  const _Legend({required this.counts, required this.seenBlank, required this.unsynced, this.filter, this.onFilter});
 
   final SheetCounts counts;
+
+  /// Seen and left blank, not marked ([sheetSeenBlankOf]): the Submit page's "not answered" number.
+  final int seenBlank;
 
   /// Answers that exist only on this phone so far; the legend names their dot while there are any.
   final int unsynced;
@@ -290,7 +293,6 @@ class _Legend extends StatelessWidget {
       );
     }
 
-    final seenBlank = counts.notAnswered - counts.notVisited;
     // Only the states that exist: a legend item with a count of zero is noise.
     final items = <Widget>[
       if (seenBlank > 0)

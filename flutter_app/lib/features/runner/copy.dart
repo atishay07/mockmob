@@ -123,7 +123,9 @@ abstract final class RunnerCopy {
   static const String paletteTitle = 'Your answer sheet';
 
   /// The palette's key that jumps to the first question without an answer.
-  static String goToFirstOpen(int number) => 'Go to question $number, first not answered';
+  /// The palette's shortcut to the first question without an answer: the Submit row's own words, no claim about its
+  /// state (it may be not answered, not visited or marked), and one line at 1.3x.
+  static String goToFirstOpen(int number) => 'Go to question $number';
 
   /// Beside the counts on the submit page: the question the count takes the student back to.
   static String goToQuestion(int number) => 'Go to question $number';

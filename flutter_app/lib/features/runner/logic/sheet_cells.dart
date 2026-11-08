@@ -119,13 +119,19 @@ SheetMobiCue sheetMobiCue(SheetCounts counts) {
 enum SheetFilter { notAnswered, notVisited, marked, unsynced }
 
 /// Whether [cell] is in the state [filter] names (the legend's own meaning: "not answered" is a
-/// question seen and left blank; "not visited" one never opened).
+/// question seen and left blank, not marked; "not visited" one never opened). A blank question marked for review
+/// is the marked state's, as the Submit page's legend has it ("Marked, not answered"), so the palette, the
+/// Submit rows and the legend all count it once, in the same place (R8 APP-12).
 bool sheetCellMatches(SheetCell cell, SheetFilter filter) => switch (filter) {
-  SheetFilter.notAnswered => !cell.answered && cell.visited,
+  SheetFilter.notAnswered => !cell.answered && cell.visited && !cell.marked,
   SheetFilter.notVisited => !cell.answered && !cell.visited,
   SheetFilter.marked => cell.marked,
   SheetFilter.unsynced => cell.unsynced,
 };
+
+/// Questions seen and left blank, not marked for review: the "Not answered" count on the palette, the Submit
+/// page's row and its legend alike.
+int sheetSeenBlankOf(List<SheetCell> cells) => cells.where((c) => sheetCellMatches(c, SheetFilter.notAnswered)).length;
 
 /// The next cell matching [filter] after [from], wrapping round, so the "Go to question N" key
 /// walks through the matches; [from] itself comes last. -1 when nothing matches.

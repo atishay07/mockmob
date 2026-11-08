@@ -32,6 +32,44 @@ void main() {
     expect(n.answered + n.notAnswered + n.markedAnswered + n.markedNotAnswered, cells.length);
   });
 
+  test('R8 APP-12: a blank marked for review is counted once, by the marked state, on the row, the legend and the palette', () {
+    final cells = sheetCellsOf(_session());
+    final n = sheetLegendCountsOf(cells);
+    expect(sheetSeenBlankOf(cells), n.notAnswered, reason: 'the "not answered" row and the legend say the same number');
+    expect(sheetSeenBlankOf(cells), 3);
+    final markedBlank = cells[46];
+    expect(markedBlank.marked && !markedBlank.answered, isTrue);
+    expect(sheetCellMatches(markedBlank, SheetFilter.notAnswered), isFalse, reason: 'the palette filter matches the count');
+    expect(sheetCellMatches(markedBlank, SheetFilter.marked), isTrue);
+  });
+
+  testWidgets("R8 APP-12: the 'not answered' row reads the legend's own count with a marked blank on the sheet", (tester) async {
+    tester.view.physicalSize = const Size(360, 800) * 2;
+    tester.view.devicePixelRatio = 2;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp(
+          theme: buildTheme(Brightness.light),
+          home: Scaffold(
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SubmitSheetCard(session: _session(), animateInk: false),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 600));
+    String rowText(String word) => tester
+        .widgetList<RichText>(find.byType(RichText))
+        .map((r) => r.text.toPlainText())
+        .firstWhere((t) => t.endsWith(word), orElse: () => '');
+    expect(rowText('not answered'), startsWith('3'), reason: 'Not answered 3 in the legend, 3 not answered on the row');
+    expect(rowText('marked for review'), startsWith('2'), reason: 'Marked, answered 1 + Marked, not answered 1');
+    await tester.pump(const Duration(seconds: 2));
+  });
+
   for (final scale in [1.0, 1.3]) {
     testWidgets('the legend shows four 12 sp entries with their counts, in at most two lines at 360 dp (text $scale)', (tester) async {
       tester.view.physicalSize = const Size(360, 800) * 2;

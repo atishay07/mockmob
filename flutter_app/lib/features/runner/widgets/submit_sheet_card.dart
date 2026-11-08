@@ -54,8 +54,9 @@ class SubmitSheetCard extends StatelessWidget {
     final cells = sheetCellsOf(session);
     final counts = sheetCountsOf(cells);
     // The palette's split (R8 APP-12): seen and left blank, and never opened, counted apart, so the two pages agree.
-    final seenBlank = counts.notAnswered - counts.notVisited;
-    final firstSeenBlank = cells.indexWhere((c) => !c.answered && c.visited);
+    // A blank marked for review is counted by the marked row, as the legend beside it says ("Marked, not answered").
+    final seenBlank = sheetSeenBlankOf(cells);
+    final firstSeenBlank = cells.indexWhere((c) => sheetCellMatches(c, SheetFilter.notAnswered));
     final firstUnseen = cells.indexWhere((c) => !c.answered && !c.visited);
     final firstMarked = cells.indexWhere((c) => c.marked);
     final paper = RunnerCopy.paperName(
@@ -119,7 +120,7 @@ class SubmitSheetCard extends StatelessWidget {
             goTo: onGoTo == null || firstMarked < 0 ? null : () => onGoTo!(firstMarked),
             goToLabel: firstMarked < 0 ? null : RunnerCopy.goToQuestion(firstMarked + 1),
           ),
-        if (counts.marked > 0 && counts.notAnswered > 0) Divider(height: 1, thickness: 1, color: colors.line),
+        if (counts.marked > 0 && (seenBlank > 0 || counts.notVisited > 0)) Divider(height: 1, thickness: 1, color: colors.line),
         // Mobi points at the first of the two rows that shows.
         if (seenBlank > 0)
           _CountRow(
