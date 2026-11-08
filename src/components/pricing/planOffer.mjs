@@ -31,7 +31,7 @@ export function planTerms(offer) {
     ? { renew: 'Renews every month. Cancel any time.', dock: `₹${offer.monthly.rupees} a month. Cancel any time.`, soon: null }
     : {
       renew: `One payment, through ${String(offer.oneTime.expires).replace(/ /g, ' ')}. It does not renew.`,
-      dock: `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`,
+      dock: `₹${offer.oneTime.rupees} once, through ${String(offer.oneTime.expires).replace(/ /g, ' ')}.`,
       soon: `Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`,
     };
 }

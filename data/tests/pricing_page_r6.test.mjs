@@ -12,7 +12,7 @@ import { readFileSync } from 'node:fs';
 import { MOCK_PACES, PACE, paceWords, rupees } from '../../src/lib/payments/value.mjs';
 import { SUBJECT_COUNT, USUAL_PRICES, planValue, usualWay } from '../../src/lib/payments/receipt.mjs';
 import { BRAND_ICONS } from '../brand_icons.mjs';
-import { PLAN_COPY } from '../../src/components/pricing/planOffer.mjs';
+import { PLAN_COPY, planTerms } from '../../src/components/pricing/planOffer.mjs';
 import { PLAN_HOME, PRO_MOBI_CREDITS, VALUE_COPY } from '../../src/components/landing/homeCopy.mjs';
 import {
   PACE_STEPS, PRICING_VALUE as C, SUBJECT_STEPS, VALUE_START, paceFigures, paceStep, paceSteps, plainTerms, valueShown, valueTiles,
@@ -205,6 +205,9 @@ test('a monthly price and a one-time price never share one sentence; the one-tim
   const o = usualWay(oneTime(), 5);
   assert.equal(C.lede(m), 'Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ₹99 a month.');
   assert.equal(C.lede(o, { until: '31 July 2027' }), 'Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ₹99 once, through 31 July 2027.'); // PRICE-17: the date never splits
+  // PP-03b (8 Nov 2026): the one-time FAQ answer and the phone dock keep the date on one line too.
+  assert.equal(planTerms(oneTime()).dock, '₹99 once, through 31 July 2027.');
+  assert.match(stripComments(read(PAGE)), /It stays active until \$\{String\(offer\.oneTime\.expires\)\.replace\(\/ \/g, ' '\)\}, then your account moves to Free\./);
   for (const [offer, from] of OFFER_DAYS) {
     const u = usualWay(offer, 5);
     const v = planValue(offer, { from, pace: 7 });

@@ -183,7 +183,7 @@ const buildFaqs = (offer, bankSize = null) => [
     q: 'What happens when I cancel?',
     a: offer.purchasable === 'monthly'
       ? 'Renewals stop. Pro stays active until the end of the month you already paid for, then your account moves to Free. Your history, saved questions and credits stay.'
-      : `There is nothing to cancel. Pro is one payment with no renewal. It stays active until ${offer.oneTime.expires}, then your account moves to Free. Your history, saved questions and credits stay.`,
+      : `There is nothing to cancel. Pro is one payment with no renewal. It stays active until ${String(offer.oneTime.expires).replace(/ /g, ' ')}, then your account moves to Free. Your history, saved questions and credits stay.`,
   },
   pricingBankFaq(bankSize),
   ...(offer.purchasable === 'monthly' ? [
