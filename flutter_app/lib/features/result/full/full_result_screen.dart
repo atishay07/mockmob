@@ -895,19 +895,16 @@ class _TopBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Each line steps down to fit whole beside the labelled Back key (never "Business Stu..."), as
-                  // MmPageHeader's title does.
+                  // The paper's name steps down to fit whole beside the labelled Back key, as MmPageHeader's title
+                  // does; the subject keeps its size and breaks between words onto a second line at large text
+                  // (never "Business Stu...", never shrunk past reading).
                   FittedBox(
                     fit: BoxFit.scaleDown,
                     alignment: Alignment.centerLeft,
                     child: Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 1, softWrap: false),
                   ),
                   if (subtitle != null)
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(subtitle!, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 1, softWrap: false),
-                    ),
+                    Text(subtitle!, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),
