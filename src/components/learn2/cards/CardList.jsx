@@ -14,10 +14,10 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Lock } from 'lucide-react';
 import { CardSource, InShort, NcertText, ReportForm } from '@/components/keycards/KeyCard';
-import { blankRuns, gapClass, cardFace, kindFamily } from '@/components/keycards/kinds';
+import { blankRuns, gapClass, cardFace, kindFamily, sourceLine, withLead } from '@/components/keycards/kinds';
 import { TexHtml } from '@/components/keycards/TexHtml';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { hitParts, snippet } from './cardsShared';
+import { flat, hitParts, snippet } from './cardsShared';
 
 function Marked({ text, query }) {
   return hitParts(text, query).map((p, i) => (p.hit ? <mark key={i} className="l2c-hit">{p.text}</mark> : <span key={i}>{p.text}</span>));
@@ -44,10 +44,15 @@ function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggl
   const lineOn = showAnswers || shown || open || (backHit && !frontHit);
   // A typeset card's line is its served plain back (the formula read out), never the pdftotext quote.
   const source = !card.texHtml && query && card.quote && !hitParts(card.back, query).some((p) => p.hit) ? card.quote : card.back;
-  const line = source ? snippet(source, query, 210) : '';
+  // R8 LEARN-10: a row opened by its own Show gives the whole line (no 210-character cut, no 2-line clamp); the list-wide
+  // "Show answers" keeps every row folded to 2 lines so the list stays calm.
+  const whole = shown && !showAnswers && !open;
+  // A line that starts mid-sentence is an NCERT excerpt: it keeps the leading '…' the opened row shows, folded or whole.
+  const line = source ? withLead(whole ? flat(source) : snippet(source, query, 210), card) : '';
+  const whereFrom = whole ? sourceLine(card.source) : null;
   const must = card.importance === 'must';
   return (
-    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-picked={picked || undefined} data-family={kindFamily(card.kind)}>
+    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-whole={whole || undefined} data-picked={picked || undefined} data-family={kindFamily(card.kind)}>
       <label className="l2c-pick">
         <input type="checkbox" checked={picked} onChange={() => onPick(card.id)} aria-label={`Pick this card: ${front}`} />
         <span className="l2c-pick__box" aria-hidden="true"><Check size={13} strokeWidth={3} /></span>
@@ -61,7 +66,7 @@ function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggl
       <button type="button" className="l2c-hit-area" aria-expanded={open} aria-controls={panel} onClick={onToggle}>
         <span className="l2c-front"><Front card={card} query={query} /></span>
         <span className="l2c-fold" data-on={lineOn && !open ? '' : undefined} aria-hidden={!(lineOn && !open)}>
-          <span className="l2c-fold__in"><span className="l2c-clip"><Marked text={line} query={query} /></span></span>
+          <span className="l2c-fold__in"><span className="l2c-clip"><Marked text={line} query={query} /></span>{whereFrom ? <span className="kc-source l2c-src">{whereFrom}</span> : null}</span>
         </span>
       </button>
       {!showAnswers && !open && !(backHit && !frontHit) ? (

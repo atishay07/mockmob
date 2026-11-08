@@ -127,7 +127,9 @@ html[data-theme='light'] .lc {
 .lc-pile:not([data-left]) .lc-sw__knob { transform: translateX(14px); background: #0e140f; }
 html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #fff; }
 .lc-sw__word { font: 650 13px/1 var(--font-body); color: var(--a-ink-2); }
-.lc-pile[data-held] .lc-sw__track { opacity: 0.5; }
+/* A pile held for tomorrow has no switch (R8 LEARN-01): its face and "Back tomorrow" say it; a dead "Tomorrow" toggle under it
+   read as the session's only content. */
+.lc-pile[data-held] .lc-sw { display: none; }
 .lc-pile[data-left] .lc-pile__btn { opacity: 0.55; }
 .lc-pile { min-width: 0; animation: kc-rise 260ms var(--lc-ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
 .lc-pile__btn {
@@ -196,6 +198,10 @@ html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #f
 .lc-face__of { margin-left: 4px; font: 600 14px/1 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
 /* Free's held pile (Key cards only today): dimmed like a left-out pile, a dashed top edge, and not a button. */
 .lc-pile[data-held] .lc-pile__btn { cursor: default; }
+/* A held pile is not a choice: no corner ring that reads as an unticked option (R8 LEARN-01 revision). */
+.lc-pile[data-held] .lc-tick { display: none; }
+/* Under the "Back tomorrow" heading each held pile's own "Back tomorrow" line would say it again; the face keeps "Tomorrow". */
+.lc-piles[data-daydone] .lc-pile[data-held] .lc-pile__min { display: none; }
 .lc-pile[data-held] .lc-sheet--a { border-top: 1.5px dashed var(--lc-edge-hi); }
 .lc-pile[data-held] .lc-pile__btn:hover .lc-fan { transform: none !important; }
 
@@ -317,6 +323,23 @@ html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #f
   .lc-own-layer *,
   .lc *, .lc *::before, .lc *::after { animation: none !important; transition: none !important; }
   .lc-coach[data-done] { opacity: 0; }
+}
+
+/* A short phone (360 x 640 and the like, R8 LEARN-12): the sticky Start bar sat over the bottom of the piles on landing, so the
+   counts the student checks before Start were cut. Here the fans go landscape, the gaps above them close up, and the In/Out row
+   under each pile gives way to the tick on its face (the pile itself stays the switch, and its face still says "Left out"), so
+   the piles and their counts clear the bar while Start stays in reach. */
+@media (max-width: 599px) and (max-height: 700px) {
+  .lc-main { gap: 10px; }
+  .lc-ctl { gap: 6px; }
+  .lc-len-wrap .lc-seg .ctl-seg__opt { min-height: 44px; }
+  .lc-incl { margin-top: 10px; }
+  .lc-lined .lc-incl + .lc-piles { margin-top: 2px; padding-top: 6px; }
+  .lc-fan { aspect-ratio: 16 / 9; margin-bottom: 4px; }
+  .lc-pile__btn { padding-bottom: 0; }
+  .lc-pile .lc-sw { display: none; }
+  .app-shell .lc-go:not([data-resume]) { padding-top: 6px; padding-bottom: 8px; }
+  .lc-go__key { min-height: 48px; }
 }
 
 /* A short laptop window (1366 x 650 and the like): the fans go landscape and the head sits closer, so Start stays on screen. */

@@ -263,13 +263,17 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-part__units > .lh-opt { padding: 18px 0 4px; }
 .lh-part__units > .lh-opt .lh-opt__label { color: var(--a-ink-2); }
 .lh-opt__row { display: flex; flex-wrap: wrap; gap: 8px; }
+/* R8 LEARN-11: the part choice is the same control as Key cards' "Your part": two halves on one sunken track, the pick rimmed (the
+   site's SegmentedControl tint and 1.5px line), so a picked part reads as picked on both screens and Day has no ink slab. */
+.lh-opt__row { display: grid; grid-template-columns: 1fr 1fr; flex-basis: 100%; gap: 0; padding: 4px; border-radius: 14px; background: var(--a-sunken); border: 1px solid var(--a-line); max-width: 560px; }
 .lh-opt__btn {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 22px; background: transparent;
   color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: background-color 200ms var(--lh-ease), color 200ms var(--lh-ease), border-color 200ms var(--lh-ease);
 }
 .lh-opt__btn { gap: 6px; }
-.lh-opt__btn[aria-checked='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
+.lh-opt__row .lh-opt__btn { justify-content: center; min-height: 48px; padding: 6px 12px; border: 0; border-radius: 10px; text-align: center; text-wrap: balance; line-height: 1.25; }
+.lh-opt__btn[aria-checked='true'] { background: var(--ctl-seg-pick-bg); border-color: transparent; color: var(--a-ink); font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
 .lh-opt__tick { flex: none; }
 .lh-opt__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) { .lh-opt__btn:not([aria-checked='true']):hover { border-color: var(--a-line-hover); color: var(--a-ink); } }

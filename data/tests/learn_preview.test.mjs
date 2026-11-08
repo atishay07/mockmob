@@ -378,3 +378,18 @@ test('R4 ruling N: every Accountancy chapter has one place, 1 to 14 in roadmap o
   assert.deepEqual(preview.chapter.place, rows.find((r) => r.key === AOP).place);
   assert.equal(preview.chapter.ref, rows.find((r) => r.key === AOP).ref, 'ref stays, for source lines only');
 });
+
+// ---------------------------------------------------------------- R8 LEARN-15: the key words and the stamp agree on a replayed start
+
+test('R8 LEARN-15: a replayed start (same request key) keeps the reviewed cards\' return words, and they match the stamp', async () => {
+  const call = student('free');
+  const body = { chapterKey: PF, minutes: 10, kind: 'mix', leaveOut: ['questions', 'mistakes'], requestKey: 'r8-learn15-0001' };
+  const first = (await call('/api/learn/runs', { method: 'POST', body })).body;
+  const again = (await call('/api/learn/runs', { method: 'POST', body })).body;
+  const words = (run) => run.items.filter((i) => i.type === 'card').map((i) => [i.id, i.returns?.got || null]);
+  assert.deepEqual(words(again), words(first), 'the replay reads this student\'s states, not a new card\'s');
+  const reviewed = first.items.find((i) => i.type === 'card' && i.stage === 'due' && i.returns?.got && i.returns.got !== 'in 3 days');
+  assert.ok(reviewed, 'the seed has a reviewed card that comes back later than a new one');
+  const rated = (await call(`/api/learn/runs/${first.id}/rate`, { method: 'POST', body: { itemId: reviewed.id, rating: 3 } })).body;
+  assert.equal(rated.stamp.toLowerCase(), `back ${reviewed.returns.got}`, 'Got it on the key is the stamp');
+});

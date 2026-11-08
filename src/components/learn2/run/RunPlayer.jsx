@@ -611,12 +611,15 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const swipe = useSwipe(() => goRecap(-1), () => goRecap(1), isRecap && phase === 'play');
   // LK137: drag a turned card to rate it (not a recap card, not a look past Free's ratings).
   const canDrag = phase === 'play' && item?.type === 'card' && isTurned && !look && !isRecap;
-  const drag = useRateSwipe({ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate });
+  // R8 LEARN-03: on the card where the drag line first shows, the card also shows the gesture once (per device; see useRateSwipe).
+  const [demoWanted, setDemoWanted] = useState(false);
+  const drag = useRateSwipe({ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate, demo: demoWanted });
   const dragRef = drag.ref;
   const setCard = useCallback((node) => { cardRef.current = node; dragRef(node); }, [dragRef]);
   // The ratings' own line has the first rateable card; the drag line comes from the next one, so a first run teaches both.
   const ratedNow = tally.missed + tally.got + tally.easy;
   const coachDrag = useCoach(coachKey, 'swipe1', canDrag && drag.live && (!coachRate || ratedNow > 0));
+  if (demoWanted !== coachDrag) setDemoWanted(coachDrag);
   const coarse = (() => { try { return window.matchMedia('(pointer: coarse)').matches; } catch { return false; } })();
 
   const left = phase === 'play' ? minutesLeftLine(items, finished, run?.kind) : null;

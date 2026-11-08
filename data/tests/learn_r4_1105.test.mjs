@@ -78,6 +78,7 @@ test('A1 "Show answers" is a key that says what it does (the switch he called br
   assert.match(key, /\{on \? 'Hide answers' : 'Show answers'\}/);
   assert.match(key, /aria-controls=\{controls\}/);
   assert.doesNotMatch(key, /aria-pressed|role="switch"/, 'the label says the action, so no pressed state is announced over it');
+  assert.match(key, /aria-expanded=\{Boolean\(on\)\}/, 'R8 LEARN-14: the state reaches assistive tech as the list it opens');
   for (const file of ['src/components/learn2/cards/FindView.jsx', 'src/components/learn2/cards/CardsView.jsx']) {
     const view = code(file);
     assert.doesNotMatch(view, /ui\/Switch|<Switch /, file);
@@ -86,7 +87,9 @@ test('A1 "Show answers" is a key that says what it does (the switch he called br
   const css = code('src/components/learn2/cards/cards.css');
   assert.doesNotMatch(css, /\.l2c \.mk-switch/, 'no more ink-on-ink switch overrides');
   assert.match(css, /\.l2c-answers \{[^}]*min-height: 44px/);
-  assert.match(css, /\.l2c-answers\[data-on\] \{ background: var\(--a-ink\)/);
+  // R8 LEARN-05: on is the rimmed pick (tint + 1.5px line), as a chosen chip and the chapter page's "10 min"; never an ink slab.
+  assert.match(css, /\.l2c-answers\[data-on\] \{ background: var\(--ctl-seg-pick-bg\);[^}]*inset 0 0 0 1\.5px var\(--ctl-seg-pick-line\)/);
+  assert.match(css, /\.l2c-chips__ind \{[^}]*background: var\(--ctl-seg-pick-bg\)/);
 });
 
 test('A1 Learn\'s sets are one row of chips (name and count), the full words kept in the spoken name', () => {
@@ -225,7 +228,8 @@ test('A2 wired in the Learn run and Key cards Study; keys kept; reduced motion t
   assert.match(hook, /if \(e\.target\?\.closest\?\.\(INTERACTIVE\)\) return;/, 'a press on a key or the menu is never a drag');
   const run = code('src/components/learn2/run/RunPlayer.jsx');
   assert.match(run, /const canDrag = phase === 'play' && item\?\.type === 'card' && isTurned && !look && !isRecap;/);
-  assert.match(run, /useRateSwipe\(\{ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate \}\)/);
+  // R8 LEARN-03 adds the one-time demo (demo: the drag coach line is showing); the enabling rule is unchanged.
+  assert.match(run, /useRateSwipe\(\{ enabled: canDrag && !busy && !leaving && !reporting && !sheet, onRate: rate, demo: demoWanted \}\)/);
   assert.match(run, /const r = RATINGS\.find\(\(x\) => x\.key === e\.key\);/, 'the 1 2 3 keys stay');
   assert.match(run, /data-lit=\{drag\.intent && SWIPE_RATINGS\[drag\.intent\] === r\.rating/);
   assert.match(code('src/components/learn2/run/RunParts.jsx'), /\{swipe \? <SwipeLabels \/> : null\}/);

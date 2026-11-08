@@ -910,7 +910,9 @@ export function createLearn(deps) {
     const [pub, index, options] = await Promise.all([
       published(), Promise.resolve(questionIndex(subject)).catch(() => ({ list: [] })), userId ? store.options(userId) : Promise.resolve(new Map()),
     ]);
-    return { pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])), subject, option: options.get(subject) || null, cards: pub.cardsOf(subject) };
+    // R8 LEARN-15: the student and the clock go with it, so a resumed or replayed run's key words ("Got it, back in 3 weeks") read
+    // this student's card states, as the stamp does; without them every reviewed card read as new ("back in 3 days").
+    return { userId: userId || null, now: now(), pub, questionsById: new Map((index?.list || []).map((q) => [q.id, q])), subject, option: options.get(subject) || null, cards: pub.cardsOf(subject) };
   }
 
   /** A replayed start: the run with only its items not done when it has begun, else whole. */
@@ -1763,7 +1765,7 @@ export function createLearn(deps) {
     const titles = new Map(chapters.map((ch) => [ch.key, ch.title]));
     let lessons = [];
     try { lessons = lessonsFor ? await lessonsFor(userId, sid) : []; } catch { lessons = []; }
-    return ok(searchSubject({
+    const body = searchSubject({
       query, chapters,
       lessons: lessons.map((l) => ({ id: l.id, title: l.title, chapterKey: l.chapterKey })),
       cards: [...cardsList].sort(bookOrder),
@@ -1771,7 +1773,23 @@ export function createLearn(deps) {
       kindLabel: (k) => KIND_LABELS[k] || k,
       isOpen: (card) => me.isPro || taste.has(card.id),
       stub: lockedStub,
-    }));
+    });
+    // R8 LEARN-08: a student types a topic from the subject they are thinking of. The same query over their other subjects (chapter
+    // names and the cards they can open, from the published set already in memory) gives one row each: "Also in Business Studies:
+    // 2 chapters, 14 cards". Counts only, no card text; at most 2 subjects, and only those with a match.
+    if (!body.tooShort) {
+      body.others = subjectsOf(me).filter((o) => o !== sid).map((o) => {
+        const list = pub.cardsOf(o);
+        const open = tasteIds(list);
+        const r = searchSubject({
+          query, chapters: subjectChapters(o).map((ch) => ({ key: ch.key, title: cleanTitle(ch.title || ch.name), name: ch.name })),
+          cards: list, kindLabel: (k) => KIND_LABELS[k] || k, isOpen: (card) => me.isPro || open.has(card.id), limit: list.length,
+        });
+        // Only the cards this student can open are counted, so Free never reads a number of cards it cannot see.
+        return { subject: o, name: subjectName(o), chapters: r.chapters.length, cards: r.cards.filter((c) => !c.locked).length };
+      }).filter((o) => o.chapters + o.cards > 0).slice(0, 2);
+    }
+    return ok(body);
   }
 
   return { subject, home, preview, start, getRun, answer, rate, end, cards, shelves, search, covers, store, snapshot };

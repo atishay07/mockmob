@@ -104,7 +104,8 @@ test('R4 home lows: the picker is plain buttons with aria-pressed, the portalled
   const css = src('../learn-home.css');
   assert.match(css, /\.lh-psheet \{ --lh-ease: /);
   assert.match(css, /\.lh-row__here \{[^}]*box-shadow: none; filter: none; text-shadow: none;/);
-  assert.match(css, /\.lh-opt__btn\[aria-checked='true'\] \{ background: var\(--a-ink\)/);
+  // R8 LEARN-11: the picked part is rimmed, as Key cards' "Your part" (no ink slab on Day).
+  assert.match(css, /\.lh-opt__btn\[aria-checked='true'\] \{ background: var\(--ctl-seg-pick-bg\);[^}]*inset 0 0 0 1\.5px var\(--ctl-seg-pick-line\)/);
   const map = code(src('../ChapterMap.jsx'));
   assert.match(map, /impliedOptionLine\(part, choice\)/);
   assert.match(map, /<Check className="lh-opt__tick"/);

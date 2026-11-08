@@ -46,12 +46,13 @@ export function runPiles(items, finished, { at = -1, resumed = false } = {}) {
   });
   const order = ['lesson', 'cards', 'questions', 'mistakes'];
   // R2 screens 10: no column of zeros. Before an item of a pile is done the row reads its total ("16 Key cards"), after
-  // that "4 of 16"; a resumed run's row reads what is left, and "Done" when nothing is.
+  // that "4 of 16 done" (R8 LEARN-13: the word "done" keeps it apart from the rail's position, "2 of 5"); a resumed run's row
+  // reads what is left, and "Done" when nothing is.
   return [...rows.values()].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)).map((r) => {
     const left = Math.max(0, r.of - r.done);
     if (resumed) return { ...r, value: left ? `${left} left` : 'Done' };
     if (!r.done) return { ...r, label: pileTotal(r.id, r.of), value: '' };
-    return { ...r, value: `${r.done} of ${r.of}` };
+    return { ...r, value: `${r.done} of ${r.of} done` };
   });
 }
 

@@ -247,7 +247,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   // The student's choice shows at once; the key waits for the server's answer for that length (it starts only what it says).
   const chooseMinutes = useCallback((m) => { lengthStore.set(MINUTES_KEY, String(m)); setMinutes(m); }, []);
   const pendingLength = Boolean(data?.roadmap) && home.status === 'refreshing' && Number(data.roadmap.asked) !== (minutes || 10);
-  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} minutes={minutes || 10} onMinutes={chooseMinutes} pending={pendingLength} /> : failed ? null : <HeroSkeleton />) : null;
+  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} minutes={minutes || 10} onMinutes={chooseMinutes} pending={pendingLength} subjectName={subjectName} /> : failed ? null : <HeroSkeleton />) : null;
   const hint = findHints(active)[0];
   const placeholder = hint ? `Find a topic, like ${hint}` : 'Find a chapter or topic';
 
@@ -276,13 +276,13 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
       </div>
 
       {/* R7 W (LK62): Learn's sets of cards, in reach at every width, under the field that finds them. */}
-      {ready && mode === 'chapters' ? <CardSets shelves={shelves} onShelf={openShelf} /> : null}
+      {ready && mode === 'chapters' ? <CardSets shelves={shelves} onShelf={openShelf} subjectName={subjectName} /> : null}
 
       {ready && data.subject?.note && mode === 'chapters' ? <p className="lh-note">{data.subject.note}</p> : null}
 
       <div id="lh-panel" className="lh-panel" key={mode} data-swap={swapped || undefined} tabIndex={-1} onClickCapture={(e) => { if (mode === 'results' && e.target.closest?.('a')) remember(); }} aria-label={panelName} role="region">
         {mode === 'results' || mode === 'set' ? (
-          <FindView subject={active} text={text} shelf={shelf} shelves={shelves} onShelf={openShelf} onBack={backFromSet} />
+          <FindView subject={active} text={text} shelf={shelf} shelves={shelves} onShelf={openShelf} onBack={backFromSet} onSubject={pick} />
         ) : failed ? (
           <MapError onRetry={home.refresh} busy={home.status === 'refreshing'} />
         ) : !ready ? (

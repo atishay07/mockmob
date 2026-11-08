@@ -46,8 +46,10 @@ export function reviseLabel(groups) {
  * on run and feed ends:
  *   revise    cards sent to (or kept for) Revise: "14" / "in Revise, back Wed" (label from reviseLabel or given)
  *   answered  questions answered: "1 of 2" / "questions right"; none right: "2" / "questions tried" (never "0 of 2")
- *   fixed     open mistakes fixed: "2" / "open mistakes fixed" (none fixed: no number; never "mistakes tried")
- * No "cards seen" number: the chapter's bar carries it ("20 of 45 cards seen"). `seen` and `mistakes` are read and ignored.
+ *   fixed     open mistakes: all fixed "2" / "open mistakes fixed"; some fixed "1 of 2" / "mistakes fixed"; none fixed
+ *             "2" / "mistakes still open" (R8 LEARN-06: a failed repair stays visible, so the counts cover every step and the
+ *             chain carries on to the end's "Fix 2 open mistakes" link; never "mistakes tried"). `mistakes` null: fixed only.
+ * No "cards seen" number: the chapter's bar carries it ("20 of 45 cards seen"). `seen` is read and ignored.
  * `n` is the leading figure (the count-up animates it); `value` is the whole figure as drawn.
  */
 export function endNumbers({ revise = 0, reviseText = 'in Revise', answered = 0, right = 0, mistakes = null, fixed = 0 } = {}) {
@@ -57,9 +59,13 @@ export function endNumbers({ revise = 0, reviseText = 'in Revise', answered = 0,
   const a = num(answered);
   const r = Math.min(num(right), a);
   if (a) out.push(r ? { value: `${r} of ${a}`, n: r, label: a === 1 ? 'question right' : 'questions right' } : { value: String(a), n: a, label: a === 1 ? 'question tried' : 'questions tried' });
-  const f = mistakes === null ? num(fixed) : Math.min(num(fixed), num(mistakes));
-  if (f) out.push({ value: String(f), n: f, label: f === 1 ? 'open mistake fixed' : 'open mistakes fixed' });
-  return out.slice(0, 3);
+  const m = mistakes === null ? null : num(mistakes);
+  const f = m === null ? num(fixed) : Math.min(num(fixed), m);
+  if (m && !f) out.push({ value: String(m), n: m, label: m === 1 ? 'mistake still open' : 'mistakes still open' });
+  else if (m && f < m) out.push({ value: `${f} of ${m}`, n: f, label: 'mistakes fixed' });
+  else if (f) out.push({ value: String(f), n: f, label: f === 1 ? 'open mistake fixed' : 'open mistakes fixed' });
+  // Never more than 3; the Revise number gives way first, so a mistake's line is never the one dropped.
+  return out.length > 3 && rv ? out.slice(1, 4) : out.slice(0, 3);
 }
 
 /**

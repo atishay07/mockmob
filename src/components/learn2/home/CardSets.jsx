@@ -27,8 +27,9 @@ function watchMore(row) {
   return () => { box?.disconnect(); row.removeEventListener('scroll', check); };
 }
 
-export default function CardSets({ shelves, onShelf }) {
-  const sets = shelfKeys(shelves);
+export default function CardSets({ shelves, onShelf, subjectName = '' }) {
+  // The spoken names say the subject ("Due today: 8 Accountancy cards"), so the scope reaches a screen reader too (R8 LEARN-02).
+  const sets = shelfKeys(shelves, subjectName);
   const must = Number(shelves?.must?.count) || 0;
   const items = [
     ...sets.map((k) => ({ id: k.id, title: k.title, value: k.count, name: k.id === 'due' && shelves?.due?.minutes ? k.name.replace(/\. Show them$/, `, about ${shelves.due.minutes} min. Show them`) : k.name })),

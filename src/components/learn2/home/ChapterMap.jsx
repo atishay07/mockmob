@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { Check, ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
+import { finePrint } from '@/components/keycards/optionChoice';
 import {
   OPTION_COMING, chosenOptionLine, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionAtTail, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
   unitHeading, unitsSignature, flatRows,
@@ -148,6 +149,9 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
   const labelId = useId();
   const index = choices.findIndex((c) => c.id === choice);
   const implied = impliedOptionLine(part, choice);
+  // R8 LEARN-11: the same line as Key cards' "Your part" (one copy, optionChoice.finePrint), so the effect of the choice reads the same.
+  const word = String(part.option.label || 'part').toLowerCase().replace(/^your\s+/, '') || 'part';
+  const fine = finePrint({ phase: 'idle', saved: choice, word, all: choices.length === 2 ? `both ${word}s` : `every ${word}` }).text;
   const key = (event, i) => {
     if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
     event.preventDefault();
@@ -170,7 +174,7 @@ function PartSwitch({ part, at, choice, status, onChoose }) {
           );
         })}
       </div>
-      {implied && status !== 'saving' && status !== 'failed' ? <p className="lh-opt__hint lh-opt__implied">{implied}</p> : null}
+      {status !== 'saving' && status !== 'failed' ? <p className="lh-opt__hint lh-opt__implied">{implied || fine}</p> : null}
       {status === 'saving' || status === 'failed'
         ? <p className="lh-opt__hint" role={status === 'failed' ? 'alert' : 'status'} data-failed={status === 'failed' || undefined}>{status === 'failed' ? "Your choice wasn't saved. Try again." : 'Saving your choice'}</p>
         : null}

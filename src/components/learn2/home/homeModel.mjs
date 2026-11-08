@@ -389,7 +389,17 @@ function keyOf(o) {
  * Each: { id, kind, headline, why, sub, progress, key: { label, run?, href?, go? }, cell: { title, value } }. The cell is how the move reads
  * in the footer: its title (the label without its minutes) and its value (the minutes, or the reason when there are none).
  */
-export function upNextMoves(roadmap) {
+/**
+ * R8 LEARN-02: the Revise row on Learn home counts this subject's due cards only (the server's dueNow for the subject), while Key
+ * cards' "20 cards due today" is every subject. The row says its scope: "Revise 8 due cards" reads "Revise 8 Accountancy cards".
+ */
+export function scopedRevise(label, subjectName = '') {
+  const name = String(subjectName || '').trim();
+  if (!name) return label;
+  return String(label || '').replace(/^Revise (\d+) due (cards?)\b/, (_, n, cards) => `Revise ${n} ${name} ${cards}`);
+}
+
+export function upNextMoves(roadmap, { subjectName = '' } = {}) {
   if (!roadmap) return [];
   const lead = {
     id: 'lead', kind: roadmap.mode, suggested: true,
@@ -399,10 +409,11 @@ export function upNextMoves(roadmap) {
   };
   const alts = (roadmap.or || []).slice(0, 2).map((o) => {
     const m = minutesOf(o);
+    const title = o.kind === 'revise' ? scopedRevise(stripMinutes(o.label), subjectName) : stripMinutes(o.label);
     return {
-      id: o.kind, kind: o.kind, suggested: false, headline: stripMinutes(o.label), why: whyOf(o), sub: null, progress: null,
+      id: o.kind, kind: o.kind, suggested: false, headline: title, why: whyOf(o), sub: null, progress: null,
       key: { ...o, label: keyOf(o) }, quiet: null,
-      cell: { title: stripMinutes(o.label), value: m ? `${m} min` : '' },
+      cell: { title, value: m ? `${m} min` : '' },
     };
   });
   return [lead, ...alts];

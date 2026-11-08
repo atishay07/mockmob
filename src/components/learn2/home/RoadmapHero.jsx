@@ -69,11 +69,11 @@ function OfferLength({ chosen, onChange, capped }) {
   );
 }
 
-export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes = null, pending: waiting = false }) {
+export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes = null, pending: waiting = false, subjectName = '' }) {
   const titleId = useId().replace(/:/g, '');
   const [onCard, setOnCard] = useState('lead');
   const [arrived, setArrived] = useState(null); // the cell that just came back to the footer crossfades in
-  const moves = useMemo(() => upNextMoves(roadmap), [roadmap]);
+  const moves = useMemo(() => upNextMoves(roadmap, { subjectName }), [roadmap, subjectName]);
   if (!roadmap) return null;
   const { mode, capped } = roadmap;
   // R2 R3: at most two other moves, in the server's order (upNextMoves keeps the same rule).

@@ -20,6 +20,7 @@ import { blocksOf, chapterRef, chapterRefSpoken, countsLine, plural, stateCue } 
 import { useCardsLinks } from './links';
 import { INITIAL_CHOICE, canChoose, choiceReducer, finePrint, isBusy, rowEntrance, shownOption } from './optionChoice';
 import { ncertFont } from './ncertFont';
+import { chapterTitle } from '@/lib/today/chapterTitle.mjs';
 import './keycards.css';
 
 /** The shape beside a state word: the state is said in words; the shape is the second, non-colour cue. */
@@ -44,21 +45,24 @@ export function StateGlyph({ state }) {
   );
 }
 
-function ChapterRow({ ch, isPro, href, index, heading = null, settled = false }) {
+function ChapterRow({ ch, subjectId = null, isPro, href, index, heading = null, settled = false }) {
   // Fixed when the row mounts: a row of the list's first draw rises in its stagger; a row that arrives later (a new part's
   // chapters) only fades in; a row already there is never remounted, so it never animates again.
   const [entrance] = useState(() => rowEntrance(settled));
   const cue = stateCue(ch.state);
+  // R8 LEARN-04: the name a student reads is the one Today and the Learn roadmap print ("Retirement and Death of a Partner");
+  // the stored name stays in the link.
+  const title = chapterTitle(subjectId || String(ch.key || '').split('.')[0], ch.title);
   // Under a unit heading that is the book's own name, the row says just "Ch 7"; the spoken label keeps the whole reference.
   const ref = chapterRef(ch.ncert, { title: ch.title, unit: heading });
   const counts = countsLine(ch, isPro);
   const unit = ch.unit && String(ch.unit).trim().toLowerCase() !== String(ch.title).trim().toLowerCase() ? `CUET unit: ${ch.unit}` : null;
-  const spoken = [ch.title, ref ? chapterRefSpoken(ch.ncert) : null, unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
+  const spoken = [title, ref ? chapterRefSpoken(ch.ncert) : null, unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
   return (
     <li className="kc-row" data-enter={entrance} style={{ '--i': Math.min(index, 12) }}>
       <Link className="kc-row__link" href={href} aria-label={spoken}>
         <span className="kc-row__main">
-          <b className="kc-row__title">{ch.title}</b>
+          <b className="kc-row__title">{title}</b>
           {ref || ch.chip ? <span className="kc-row__ref">{ref}{ch.chip ? <span className="kc-chip">{ch.chip}</span> : null}</span> : null}
         </span>
         <span className="kc-row__state" data-state={cue.state} data-fading={cue.fading || undefined}><StateGlyph state={cue.state} />{cue.label}</span>
@@ -132,7 +136,7 @@ function UnitsList({ subject, blocks, links, isPro, tabbed, busy }) {
         <section key={b.label || `plain-${bi}`} className="kc-unit" data-headed={b.unit ? '' : undefined} data-group={b.group ? '' : undefined} aria-label={b.label || `${subject.title} chapters`}>
           {b.unit ? <h2 className="kc-unit__h">{b.unit}</h2> : null}
           <ul className="kc-rows">
-            {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} heading={b.unit} settled={settled} />)}
+            {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} subjectId={subject.subject} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} heading={b.unit} settled={settled} />)}
           </ul>
         </section>
       )) : <p className="kc-empty-line">No chapters with cards in {subject.title} yet.</p>}
@@ -216,7 +220,7 @@ export default function KeycardsHome() {
       <section className="kc-today" aria-labelledby="kc-today-h" data-due={due ? '' : undefined}>
         <div className="kc-today__copy">
           <h2 id="kc-today-h" className="kc-today__line">{due ? <><b>{due}</b> {due === 1 ? 'card' : 'cards'} due today</> : 'Nothing due today'}</h2>
-          <p>{due ? `About ${plural(minutes, 'minute')} in Revise, with the rest of today’s work.` : 'Open a chapter and add it to Revise. Its cards come back there when they are due.'}</p>
+          <p>{due ? `Across your subjects. About ${plural(minutes, 'minute')} in Revise, with the rest of today’s work.` : 'Open a chapter and add it to Revise. Its cards come back there when they are due.'}</p>
         </div>
         {due ? <Link className="kc-btn kc-btn--volt kc-today__key" href={links.revise()} data-page-primary="">Revise now</Link> : null}
       </section>

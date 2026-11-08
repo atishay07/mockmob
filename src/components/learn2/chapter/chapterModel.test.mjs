@@ -106,7 +106,8 @@ test('R2 ruling 9: the page draws no first-visit line, no missing line, one main
   assert.match(readFileSync(new URL('../LengthPicker.jsx', import.meta.url), 'utf8'), /: 'Other' }]/, 'the length control (now shared with Learn home) says Other');
   assert.match(page, /<FirstUp key=/);
   assert.match(page, /const picker = !resume \|\| fresh;/, 'with a run to pick up, the picker waits under "Start fresh instead"');
-  assert.equal((page.match(/kc-btn--volt/g) || []).length, 3, 'the volt is the resume key, or the Start key (its link and its waiting button) only when there is no resume');
+  // R8 LEARN-01 adds the fourth branch: Free's used day with nothing to play, where the recap takes the Start key's place.
+  assert.equal((page.match(/kc-btn--volt/g) || []).length, 4, 'the volt is the resume key, or the Start key (its link and its waiting button) only when there is no resume, or the recap in its place on a used day');
 });
 
 // ---- Round 3 (packet R3-explore): X6 and ruling W on the chapter page -------------------------------------------------------
@@ -197,4 +198,15 @@ test('LK37: the piles are real switches (role=switch, aria-checked) with In or O
   assert.match(page, /if \(inRun\.length <= 1\) \{\n\s+setShake\(pile\.id\);/, 'the last pile in cannot be switched off');
   const css = readFileSync(new URL('./chapter.css', import.meta.url), 'utf8');
   assert.match(css, /\.lc-sw__knob \{[^}]*transition: transform 180ms/, 'the knob moves by transform only');
+});
+
+// R8 LEARN-01: Free's used day with nothing to play here leads with the recap, never a Start over piles held for tomorrow.
+test('freeDayDone: only when the day is used and no pile in the run has a step', async () => {
+  const { freeDayDone } = await import('./chapterModel.mjs');
+  const held = [{ id: 'questions', count: 10, held: 'free', left: false }, { id: 'mistakes', count: 1, held: 'free', left: false }];
+  assert.equal(freeDayDone({ freeSession: { used: false } }, held), null);
+  assert.equal(freeDayDone({ freeSession: { used: true } }, [{ id: 'cards', count: 5, left: false }, ...held]), null, 'Key cards to play: the normal Start');
+  assert.deepEqual(freeDayDone({ freeSession: { used: true } }, held), { line: "That was today's free session. Questions and your mistakes come back tomorrow." });
+  assert.equal(freeDayDone({ freeSession: { used: true } }, held.slice(0, 1)).line, "That was today's free session. Questions come back tomorrow.");
+  assert.equal(freeDayDone({ freeSession: null }, held), null, 'Pro never reads it');
 });
