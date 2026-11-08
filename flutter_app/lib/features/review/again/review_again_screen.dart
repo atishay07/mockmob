@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart' show formatDayMonth;
 import '../../../core/haptics/haptics.dart';
@@ -312,7 +311,7 @@ class _TopBar extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -320,8 +319,9 @@ class _TopBar extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 48),
             child: Row(
               children: [
-                IconButton(onPressed: onBack, tooltip: 'Back', icon: Icon(LucideIcons.arrowLeft, color: colors.ink)),
-                const SizedBox(width: MmSpace.s8),
+                // The labelled key every pushed page uses (D43, R8 APP-10), never a bare arrow.
+                MmBackPill(onTap: onBack),
+                const SizedBox(width: MmSpace.s12),
                 Expanded(child: Semantics(header: true, child: Text(ReviewAgainCopy.title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis))),
                 if (show)
                   Semantics(
@@ -335,10 +335,8 @@ class _TopBar extends StatelessWidget {
           ),
           if (show) ...[
             const SizedBox(height: MmSpace.s4),
-            Padding(
-              padding: const EdgeInsets.only(left: MmSpace.s12),
-              child: _AnsweredBar(answered: answered, total: total),
-            ),
+            // On the gutter, under the Back key's left edge.
+            _AnsweredBar(answered: answered, total: total),
           ],
         ],
       ),

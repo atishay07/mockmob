@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/swot.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, MmBackPill;
+import '../../helpers/golden_harness.dart' show pumpMockmob;
 import 'package:mockmob/features/review/again/review_again_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
 
@@ -114,6 +116,15 @@ void main() {
       await _tapKey(tester, 'See how it went');
     },
   );
+
+  // R8 APP-10: Review again's way back is the labelled key every pushed page uses, never a bare arrow.
+  testWidgets('Review again has the labelled Back key', (tester) async {
+    await pumpMockmob(tester, const ReviewAgainScreen(), size: kReviewSize, disableAnimations: true, overrides: reviewOverrides(records: _records), wrapInScaffold: false);
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byType(MmBackPill), findsOneWidget);
+    expect(find.descendant(of: find.byType(MmBackPill), matching: find.text('Back')), findsOneWidget);
+    expect(find.byIcon(LucideIcons.arrowLeft), findsNothing);
+  });
 
   reviewGolden(
     'review_again_empty',

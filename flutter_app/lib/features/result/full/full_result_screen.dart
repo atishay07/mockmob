@@ -877,17 +877,15 @@ class _TopBar extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          const SizedBox(width: MmSpace.s4),
-          MmPressable(
-            onTap: onBack,
-            semanticsLabel: MaterialLocalizations.of(context).backButtonTooltip,
-            focusRadius: MmRadius.pillAll,
-            builder: (context, pressed, _) => SizedBox.square(
-              dimension: MmTarget.min,
-              child: Icon(LucideIcons.arrowLeft, size: 22, color: colors.ink),
-            ),
+          // The gutter left of the key still goes back (a thumb at the screen's edge); the key carries the label.
+          SizedBox(
+            width: MmSpace.gutter,
+            height: 56,
+            child: GestureDetector(behavior: HitTestBehavior.opaque, excludeFromSemantics: true, onTap: onBack),
           ),
-          const SizedBox(width: MmSpace.s4),
+          // The labelled key every pushed page uses (D43, R8 APP-10), never a bare arrow.
+          MmBackPill(onTap: onBack),
+          const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Semantics(
               header: true,
@@ -897,8 +895,19 @@ class _TopBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  if (subtitle != null) Text(subtitle!, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  // Each line steps down to fit whole beside the labelled Back key (never "Business Stu..."), as
+                  // MmPageHeader's title does.
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 1, softWrap: false),
+                  ),
+                  if (subtitle != null)
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(subtitle!, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 1, softWrap: false),
+                    ),
                 ],
               ),
             ),

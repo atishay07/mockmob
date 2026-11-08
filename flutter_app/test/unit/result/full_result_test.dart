@@ -1,7 +1,7 @@
 
 import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show BubbleGrid, BubbleState, Mobi;
+import 'package:mockmob/core/widgets/widgets.dart' show BubbleGrid, BubbleState, Mobi, MmBackPill;
 import 'package:mockmob/features/result/widgets/answer_map.dart' show AnswerMap;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
@@ -70,6 +70,13 @@ void main() {
     expect(find.textContaining('Session complete'), findsNothing);
     expect(find.text('Replay recap'), findsOneWidget);
     expect(log.seen, ['a7']);
+  });
+
+  testWidgets("R8 APP-10: the full result's way back is the labelled Back key, never a bare arrow", (tester) async {
+    await pump(tester);
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.byType(MmBackPill), findsOneWidget);
+    expect(find.descendant(of: find.byType(MmBackPill), matching: find.text('Back')), findsOneWidget);
   });
 
   testWidgets('a mistake opens to its key and its repair, priced before paying; blank rows have no repair key', (tester) async {

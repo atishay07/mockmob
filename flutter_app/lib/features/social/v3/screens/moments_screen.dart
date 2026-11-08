@@ -15,6 +15,7 @@ import '../../../../core/motion/motion.dart';
 import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/key_button.dart';
+import '../../../../core/widgets/page_header.dart' show MmBackPill;
 import '../../../../core/widgets/pressable.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
@@ -210,13 +211,22 @@ class MomentsView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(4, 4, MmSpace.gutter, 4),
             child: Row(
               children: [
-                MmPressable(
-                  onTap: run?.onExit ?? () => Navigator.of(context).maybePop(),
-                  semanticsLabel: run != null ? MobV3Copy.close : MobV3Copy.back,
-                  focusRadius: BorderRadius.circular(999),
-                  builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(run != null ? LucideIcons.x : LucideIcons.arrowLeft, color: pressed ? c.ink2 : c.ink)),
-                ),
-                const SizedBox(width: 4),
+                if (run != null) ...[
+                  // Inside a results run the close mark matches the run's other steps (podium, moments kit) and
+                  // keeps the step dots centred.
+                  MmPressable(
+                    onTap: run.onExit,
+                    semanticsLabel: MobV3Copy.close,
+                    focusRadius: BorderRadius.circular(999),
+                    builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(LucideIcons.x, color: pressed ? c.ink2 : c.ink)),
+                  ),
+                  const SizedBox(width: 4),
+                ] else ...[
+                  // A pushed page: the labelled key every pushed page uses (D43, R8 APP-10), never a bare arrow.
+                  const SizedBox(width: MmSpace.gutter - 4),
+                  MmBackPill(label: MobV3Copy.back, onTap: () => Navigator.of(context).maybePop()),
+                  const SizedBox(width: MmSpace.s12),
+                ],
                 Expanded(
                   child: runHeaderMiddle(
                     context,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/screens/fix_together_screen.dart';
+import 'package:mockmob/core/widgets/page_header.dart' show MmBackPill;
 import 'package:mockmob/features/social/v3/screens/moments_screen.dart';
 import 'package:mockmob/features/social/v3/widgets/podium_stage.dart';
 
@@ -50,6 +51,12 @@ void main() {
       expect(find.text('Fix question 4 together'), findsOneWidget);
       expect(find.text('Back to the den'), findsNothing);
       expect(find.byKey(const ValueKey('moments-open')), findsNothing);
+    });
+
+    testWidgets('R8 APP-10: opened as a page, the way back is the labelled Back key, never a bare arrow', (tester) async {
+      await pump(tester, const MomentsScreen(gameId: zoyaGame));
+      expect(find.byType(MmBackPill), findsOneWidget);
+      expect(find.descendant(of: find.byType(MmBackPill), matching: find.text('Back')), findsOneWidget);
     });
 
     testWidgets('F3: no moment mentions the trap question, and nothing counts who was wrong', (tester) async {
