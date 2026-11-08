@@ -170,9 +170,10 @@ export function DemoDrill({ note = null }) {
   // sits on the card's last line), bring it back at once, never with a glide (LK47, LK89).
   useEffect(() => {
     const node = rootRef.current;
-    if (!node || !(picking || fresh)) return;
-    if (node.getBoundingClientRect().top < 0) node.scrollIntoView({ block: 'start', behavior: 'instant' });
-  }, [picking, fresh, live]);
+    if (!node || done || !(picking || fresh)) return;
+    // Counts the card's scroll-margin, so the sticky nav never covers its head (R8 sweep LH-01).
+    if (node.getBoundingClientRect().top < (parseFloat(getComputedStyle(node).scrollMarginTop) || 0)) node.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, [picking, fresh, live, done]);
 
   // A request still running when the card goes away is dropped.
   useEffect(() => () => request.current?.abort(), []);
@@ -233,7 +234,10 @@ export function DemoDrill({ note = null }) {
     setPicked(null);
   }
 
-  function restart() {
+  function restart(event) {
+    // Hand focus to the restarted card (keyboard: answer A; tap: the card) and let the head scroll back into view (R8 sweep LH-01).
+    focusNext.current = event?.detail === 0 ? 'options' : 'card';
+    setFresh(true);
     tellDesk('load', 0);
     setIndex(0);
     setPicked(null);

@@ -86,8 +86,13 @@ export function NavBar() {
     function onPointerDown(event) {
       if (!navRef.current?.contains(event.target)) setMenuOpen(false);
     }
+    // R8 sweep LH-02: Tab out of the sheet closes it, so focus never lands on a control hidden under the scrim.
+    function onFocusIn(event) {
+      if (!navRef.current?.contains(event.target)) setMenuOpen(false);
+    }
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('focusin', onFocusIn);
     // R8 HERO-13: while the sheet is open the page behind it holds still (and the scrim dims it).
     const root = document.documentElement;
     const before = root.style.overflow;
@@ -95,6 +100,7 @@ export function NavBar() {
     return () => {
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('focusin', onFocusIn);
       root.style.overflow = before;
     };
   }, [menuOpen]);
