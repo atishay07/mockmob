@@ -1826,13 +1826,13 @@ function TestRunner() {
             <h2 id="pr-sheet-title">{isMockMode ? 'Submit this mock?' : 'Submit this practice?'}</h2>
             <dl className="pr-sheet__counts">
               <div><dt>Answered</dt><dd>{answered}</dd></div>
-              <div><dt>Not answered</dt><dd>{pendingCount}</dd></div>
+              <div><dt>No answer</dt><dd>{pendingCount}</dd></div>
               <div><dt>Marked</dt><dd>{markedCount}</dd></div>
             </dl>
             <div className={isMockMode ? 'pr-sheet__say is-plain' : 'pr-sheet__say'}>
               {!isMockMode && <SheetMobi act={mobiAct === 'reading' ? 'reading' : pendingCount > 0 ? 'point' : markedCount > 0 ? 'tilt' : 'nod'} />}
               {pendingCount > 0 && firstBlank >= 0
-                ? <button type="button" className="pr-sheet__go" onClick={() => { setReviewOpen(false); gotoQuestion(firstBlank, { via: 'palette' }); }}>{pendingCount} not answered. Go to {firstBlank + 1}?</button>
+                ? <button type="button" className="pr-sheet__go" onClick={() => { setReviewOpen(false); gotoQuestion(firstBlank, { via: 'palette' }); }}>{pendingCount} with no answer. Go to {firstBlank + 1}?</button>
                 : <p>{markedCount > 0 ? `${markedCount} marked for review. Every question has an answer.` : `All ${questions.length} answered.`}</p>}
             </div>
             <div className="pr-sheet__actions">
