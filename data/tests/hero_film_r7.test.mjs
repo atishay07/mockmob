@@ -32,7 +32,7 @@ test('the launch teaser\'s files stay in the repo until the walkthrough ships (r
 });
 
 // Round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting"): the walkthrough film,
-// three files picked by need, nine chapters under the frame, nothing on the picture.
+// three files picked by need, ten chapters under the frame, nothing on the picture.
 const loadConfig = () => import(pathToFileURL(join(ROOT, 'src/components/landing/heroFilmConfig.mjs')).href);
 
 test('round 9 film config: the walkthrough\'s label, poster and three files; nine chapters in the journey\'s order, starts rising from 0', async () => {
@@ -41,11 +41,11 @@ test('round 9 film config: the walkthrough\'s label, poster and three files; nin
   assert.equal(CFG.poster, '/video/hero-v2-poster.webp');
   assert.deepEqual({ ...CFG.sources }, { 480: '/video/hero-v2-480.mp4', 720: '/video/hero-v2-720.mp4', 1080: '/video/hero-v2-1080.mp4' });
   assert.equal(CFG.chapters, FILM_CHAPTERS);
-  assert.deepEqual(FILM_CHAPTERS.map((c) => c.id), ['score', 'mocks', 'exam', 'repair', 'learn', 'keycards', 'askmobi', 'plan', 'mob']);
-  assert.deepEqual(FILM_CHAPTERS.map((c) => c.name), ['Your score', 'Mocks', 'Exam screen', 'Mistake Repair', 'Learn', 'Key cards', 'Ask Mobi', 'Plan and colleges', 'The Mob']);
+  assert.deepEqual(FILM_CHAPTERS.map((c) => c.id), ['score', 'repair', 'learn', 'askmobi', 'keycards', 'mocks', 'exam', 'plan', 'mob', 'value']);
+  assert.deepEqual(FILM_CHAPTERS.map((c) => c.name), ['Your score', 'Mistake Repair', 'Learn', 'Ask Mobi', 'Key cards', 'Mocks', 'Exam screen', 'Plan and colleges', 'The Mob', 'What you get']);
   assert.equal(FILM_CHAPTERS[0].start, 0, 'the first chapter starts the film');
   for (let i = 1; i < FILM_CHAPTERS.length; i += 1) assert.ok(FILM_CHAPTERS[i].start > FILM_CHAPTERS[i - 1].start, `${FILM_CHAPTERS[i].id} starts after ${FILM_CHAPTERS[i - 1].id}`);
-  assert.ok(FILM_CHAPTERS.at(-1).start <= 62, 'inside the 62 s cap');
+  assert.ok(FILM_CHAPTERS.at(-1).start <= 68, 'inside the 68 s cap');
   assert.ok(Object.isFrozen(CFG) && Object.isFrozen(FILM_CHAPTERS) && FILM_CHAPTERS.every(Object.isFrozen));
   // Chapter names and the label: no exclamation marks, middle dots or arrows.
   for (const w of [CFG.label, ...FILM_CHAPTERS.map((c) => c.name)]) assert.doesNotMatch(w, /!|·|→|->/, w);
@@ -128,7 +128,7 @@ test('round 9 nothing on the picture: a pointer tap on it pauses or plays; the k
   assert.match(FILM_CSS, /@media \(hover: hover\) and \(pointer: fine\) \{[^@]*\.mm\.lp \.lp-film__frame \{ cursor: pointer; \}/);
 });
 
-test('round 9 the chapter bar: nine segments that seek and play, named "Chapter 4 of 9: Mistake Repair", the current one marked and filling', () => {
+test('round 9 the chapter bar: ten segments that seek and play, named "Chapter 2 of 10: Mistake Repair", the current one marked and filling', () => {
   assert.match(FILM_CODE, /aria-label=\{`Chapter \$\{i \+ 1\} of \$\{COUNT\}: \$\{c\.name\}`\}/);
   assert.match(FILM_CODE, /aria-current=\{i === chapter \? 'true' : undefined\}/);
   assert.match(FILM_CODE, /data-state=\{i < chapter \? 'past' : i === chapter \? 'current' : 'next'\}/);

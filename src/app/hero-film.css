@@ -6,7 +6,7 @@
    Phones: under the keys, the full column. From 960 px: the hero's right column (hero-scene.css --film-w, 42 % of the
    window), centred on the words' column beside it.
    Round 9: nothing on the picture (a tap on it pauses or plays). Under the frame, one row: the round 44 px pause/play key,
-   the chapter bar (nine segments, each a 44 px tall target; the current chapter's name above its thin rails; the current
+   the chapter bar (ten segments, each a 44 px tall target; the current chapter's name above its thin rails; the current
    one fills in ink as it plays), the round 44 px sound key. When the film does not play by itself, a round 56 px Play key
    sits on the poster. Paper keys with a hairline in both themes; ink and hairline rails; tokens only.
    ========================================================================== */
@@ -69,7 +69,7 @@
   .mm.lp .lp-film__frame { cursor: pointer; }
 }
 
-/* The chapter bar: the chapter's name above nine thin rails; each segment is a 44 px tall target the width of its rail. */
+/* The chapter bar: the chapter's name above ten thin rails; each segment is a 44 px tall target the width of its rail. */
 .mm.lp .lp-film__track { position: relative; height: 44px; min-width: 0; }
 .mm.lp .lp-film__now {
   position: absolute;
@@ -125,9 +125,12 @@
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-film__seg:hover .lp-film__rail { transform: scaleY(1.5); }
 }
-/* Under 360 px nine 24 px segments no longer fit beside the two keys: the row keeps one line and shares what is left. */
-@media (max-width: 359px) {
+/* Ten 24 px segments beside the two keys need 240 px: under 380 px (a 375 px phone leaves 239 px) the keys sit 4 px from the bar,
+   and under 360 px the row keeps one line and shares what is left. */
+@media (max-width: 379px) {
   .mm.lp .lp-film__keys { column-gap: 4px; }
+}
+@media (max-width: 359px) {
   .mm.lp .lp-film__seg { min-width: 0; }
 }
 

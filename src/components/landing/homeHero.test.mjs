@@ -462,10 +462,10 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       // Round 7: the film is the hero's picture now (the sample moved to section#try): on desktop it is large and wholly in
       // the first screen.
       if (width >= 960) assert.ok(m.film && m.film.bottom <= height && m.film.width >= width * 0.38, `${width}x${height}: the film is large and in the first screen`);
-      // Round 9 (owner, 9 Nov 2026): the film's keys sit in one row under the picture, never over it; nine chapter
+      // Round 9 (owner, 9 Nov 2026): the film's keys sit in one row under the picture, never over it; ten chapter
       // segments, each a 44 px tall and at least 24 px wide target, on one line; on desktop the row is in the first screen.
       assert.ok(m.filmKeys && m.filmKeys.top >= m.film.bottom && m.filmKeys.height === 44, `${width}: the film's keys in one 44 px row under the picture`);
-      assert.equal(m.filmSegs.length, 9, `${width}: nine chapters`);
+      assert.equal(m.filmSegs.length, 10, `${width}: ten chapters`);
       assert.equal(new Set(m.filmSegs.map((s) => s.top)).size, 1, `${width}: the chapters on one line`);
       for (const s of m.filmSegs) assert.ok(s.w >= 23.99 && s.h >= 44, `${width}: a chapter target ${s.w.toFixed(1)}x${s.h} px`);
       if (width >= 960) assert.ok(m.filmKeys.bottom <= height, `${width}x${height}: the film's keys in the first screen`);
