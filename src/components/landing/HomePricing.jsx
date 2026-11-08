@@ -27,7 +27,7 @@ import '@/app/home-pricing.css';
 // The head is centred at every width (owner, 7 Nov 2026: "overall formatting should be better, like center-aligned ... because
 // it's a headline"; "all this text should not be just lying around randomly"): the h2, then the rate as one pill drawn from
 // pricingHead's parts (the price and the day's figure in the display face, the day's in the brand colour), its whole sentence
-// read once by a screen reader; the one-time offer's second sentence sits under the pill.
+// read once by a screen reader. Nothing sits under the pill (R8 PRICE-06): the monthly line is said once, in the card.
 export function HomePricing({ offer, newOffer = false, firstFullMock = null, from = new Date(), keyCards = null, seat = null }) {
   const head = pricingHead(offer);
   // The plain offer the client needs to work the figures out (no plan ids), and the bank's two counts.

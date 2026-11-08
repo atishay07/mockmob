@@ -51,3 +51,5 @@
 .cp-sum[hidden] { display: none; }
 .cp-sum p > span { display: grid; gap: 0.0625rem; line-height: 1.25; }
 .cp-sum p small { font-size: 0.75rem; font-weight: 500; color: var(--ink-3); white-space: nowrap; }
+/* R8 PUB-04: the bar's 44 px keys set its height; a slimmer frame keeps the whole bar under 60 px on a phone. */
+.du-sum.cp-sum { padding-block: 0.375rem; }
