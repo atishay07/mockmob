@@ -9,14 +9,14 @@
 
 :root {
   /* Day (the default theme) */
-  --ctl-surface: #ffffff;
-  --ctl-sunken: #eef0e8;
-  --ctl-line: #dce1d4;
-  --ctl-line-strong: #bcc5b0;
-  --ctl-line-hover: #8f9a84;
-  --ctl-ink: #172016;
-  --ctl-ink-2: #3d4a39;
-  --ctl-ink-3: #56624f;
+  --ctl-surface: #fffdf8;
+  --ctl-sunken: #eae5da;
+  --ctl-line: #d8d1c2;
+  --ctl-line-strong: #bdb4a2;
+  --ctl-line-hover: #9a917f;
+  --ctl-ink: #17150f;
+  --ctl-ink-2: #454036;
+  --ctl-ink-3: #655f53;
   --ctl-volt: #d2f000;
   --ctl-volt-edge: #9db400;
   --ctl-volt-ink: #0b1000;
@@ -24,43 +24,43 @@
   --ctl-seg-pick-line: #7f9200;
   --ctl-wash: rgba(124, 150, 20, 0.1);
   --ctl-select-line: #6f8700;
-  --ctl-accent-text: #4f6400;
-  --ctl-focus: #4f6400;
-  --ctl-hover: rgba(23, 32, 22, 0.05);
-  --ctl-lens-bg: rgba(23, 32, 22, 0.07);
-  --ctl-track-inset: inset 0 1px 2px rgba(20, 32, 14, 0.07);
+  --ctl-accent-text: #526700;
+  --ctl-focus: #526700;
+  --ctl-hover: rgba(23, 21, 15, 0.05);
+  --ctl-lens-bg: rgba(23, 21, 15, 0.07);
+  --ctl-track-inset: inset 0 1px 2px rgba(42, 32, 16, 0.07);
   --ctl-edge: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  --ctl-pop-bg: rgba(255, 255, 255, 0.9);
-  --ctl-pop-solid: #ffffff;
-  --ctl-pop-shadow: 0 1px 2px rgba(20, 32, 14, 0.08), 0 20px 48px -16px rgba(20, 32, 14, 0.3);
-  --ctl-scrim: rgba(16, 22, 14, 0.32);
+  --ctl-pop-bg: rgba(255, 253, 248, 0.9);
+  --ctl-pop-solid: #fffdf8;
+  --ctl-pop-shadow: 0 1px 2px rgba(42, 32, 16, 0.08), 0 20px 48px -16px rgba(42, 32, 16, 0.3);
+  --ctl-scrim: rgba(23, 21, 15, 0.32);
   --ctl-ease: cubic-bezier(0.23, 1, 0.32, 1);
   --ctl-spring: cubic-bezier(0.34, 1.32, 0.64, 1);
 }
 :root[data-theme='dark'] {
   /* Night: warm charcoal, volt as the one accent */
-  --ctl-surface: #131a16;
-  --ctl-sunken: #0f1512;
-  --ctl-line: #253026;
-  --ctl-line-strong: #384736;
-  --ctl-line-hover: rgba(244, 245, 240, 0.32);
-  --ctl-ink: #f2f4ec;
-  --ctl-ink-2: #bcc5b9;
-  --ctl-ink-3: #93a08f;
+  --ctl-surface: #1b1a16;
+  --ctl-sunken: #0d0c0a;
+  --ctl-line: #312e27;
+  --ctl-line-strong: #4a453b;
+  --ctl-line-hover: rgba(244, 240, 230, 0.32);
+  --ctl-ink: #f4f0e6;
+  --ctl-ink-2: #bdb6a6;
+  --ctl-ink-3: #a09989;
   --ctl-wash: rgba(210, 240, 0, 0.08);
   --ctl-select-line: rgba(210, 240, 0, 0.55);
   --ctl-accent-text: #d2f000;
   --ctl-focus: #d2f000;
-  --ctl-hover: rgba(244, 245, 240, 0.05);
-  --ctl-lens-bg: rgba(244, 245, 240, 0.08);
+  --ctl-hover: rgba(244, 240, 230, 0.05);
+  --ctl-lens-bg: rgba(244, 240, 230, 0.08);
   --ctl-seg-pick-bg: rgba(210, 240, 0, 0.14);
   --ctl-seg-pick-line: #d2f000;
   --ctl-track-inset: inset 0 1px 2px rgba(0, 0, 0, 0.28);
-  --ctl-edge: inset 0 1px 0 rgba(244, 245, 240, 0.05);
-  --ctl-pop-bg: rgba(22, 30, 25, 0.9);
-  --ctl-pop-solid: #161e19;
+  --ctl-edge: inset 0 1px 0 rgba(244, 240, 230, 0.05);
+  --ctl-pop-bg: rgba(27, 26, 22, 0.9);
+  --ctl-pop-solid: #1b1a16;
   --ctl-pop-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 22px 52px -14px rgba(0, 0, 0, 0.7);
-  --ctl-scrim: rgba(4, 7, 5, 0.55);
+  --ctl-scrim: rgba(6, 5, 4, 0.55);
 }
 
 /* ---------- Listbox trigger ---------- */

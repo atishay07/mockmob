@@ -26,8 +26,8 @@ const LEVELS = [
 
 // A small picture of each theme: the screen, a card on it, a volt mark. Match device is both,
 // split on a diagonal.
-const NIGHT = { bg: '#0b100e', card: '#18211b', line: '#384736', edge: 'none' };
-const DAY = { bg: '#f4f5f0', card: '#ffffff', line: '#c9d0bd', edge: '#6f8700' };
+const NIGHT = { bg: '#12110e', card: '#25231e', line: '#4a453b', edge: 'none' };
+const DAY = { bg: '#f3efe6', card: '#fffdf8', line: '#cfc7b6', edge: '#6f8700' };
 function Screen({ c }) {
   return (
     <g>

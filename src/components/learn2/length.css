@@ -8,8 +8,8 @@
 
 .lc-own-layer { --lc-ease: cubic-bezier(0.22, 1, 0.36, 1); }
 /* Your own: a small sheet. A bottom sheet on a phone; a panel under the control on a wider screen. */
-.lc-own__scrim { position: fixed; inset: 0; z-index: 1000; border: 0; padding: 0; background: rgb(4 7 5 / 0.5); cursor: default; animation: kc-fade 200ms var(--lc-ease) both; }
-html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
+.lc-own__scrim { position: fixed; inset: 0; z-index: 1000; border: 0; padding: 0; background: rgb(6 5 4 / 0.5); cursor: default; animation: kc-fade 200ms var(--lc-ease) both; }
+html[data-theme='light'] .lc-own__scrim { background: rgb(23 21 15 / 0.28); }
 .lc-own {
   position: fixed; z-index: 1001; left: 0; right: 0; bottom: 0; display: grid; gap: 16px; padding: 10px 16px calc(20px + env(safe-area-inset-bottom));
   border-radius: 22px 22px 0 0; background: var(--a-sheet); border: 1px solid var(--a-line-strong); border-bottom: 0; box-shadow: var(--a-shadow-2);

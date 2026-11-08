@@ -48,12 +48,12 @@ function useWide() {
 }
 
 function useChartColors() {
-  const [colors, setColors] = useState({ ink: '#93a08f', line: 'rgba(244,245,240,0.08)', accent: '#d2f000' });
+  const [colors, setColors] = useState({ ink: '#a09989', line: 'rgba(244,240,230,0.08)', accent: '#d2f000' });
   useEffect(() => {
     const read = () => {
       const s = getComputedStyle(document.documentElement);
       const pick = (name, fallback) => s.getPropertyValue(name).trim() || fallback;
-      setColors({ ink: pick('--a-ink-3', '#93a08f'), line: pick('--a-line', 'rgba(244,245,240,0.08)'), accent: pick('--a-accent-text', '#d2f000') });
+      setColors({ ink: pick('--a-ink-3', '#a09989'), line: pick('--a-line', 'rgba(244,240,230,0.08)'), accent: pick('--a-accent-text', '#d2f000') });
     };
     const t = window.setTimeout(read, 0);
     window.addEventListener('mm-theme', read);

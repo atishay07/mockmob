@@ -46,7 +46,7 @@
 .app-shell .con-option { display: flex; gap: 8px; align-items: center; }
 .app-shell .con-option input { flex: 1; width: 0; min-width: 0; }
 .app-shell .con-key, .app-shell .con-remove { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink-2); font-size: 16px; cursor: pointer; }
-.app-shell .con-key[aria-pressed='true'] { background: var(--volt); color: #0b100e; border-color: var(--volt); }
+.app-shell .con-key[aria-pressed='true'] { background: var(--volt); color: #12110e; border-color: var(--volt); }
 .app-shell .con-message { padding: 18px; border-radius: 12px; border: 1px solid var(--a-line-strong); color: var(--a-good-text); font-size: 14px; line-height: 1.6; }
 .app-shell .con-message[data-state='error'] { color: var(--a-bad-text); }
 .app-shell .con-form .btn-volt { justify-content: center; }

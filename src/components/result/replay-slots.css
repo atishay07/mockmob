@@ -28,8 +28,8 @@
 /* The lit build's textures (deploy/1016-batch replay.css, the replay's never-opened and held cells; restored 19 Oct, owner G28
    and the release 11 walk): a blank column is hatched and a key held for re-check is dotted, in the slots and in the key.
    Texture only: no glow, no wash. */
-.rs { --rs-hatch: rgba(244, 245, 240, 0.3); --rs-held-dot: var(--a-ink-3, #93a08f); }
-html[data-theme='light'] .rs { --rs-hatch: rgba(23, 32, 22, 0.32); --rs-held-dot: #56624f; }
+.rs { --rs-hatch: rgba(244, 240, 230, 0.3); --rs-held-dot: var(--a-ink-3, #93a08f); }
+html[data-theme='light'] .rs { --rs-hatch: rgba(23, 21, 15, 0.32); --rs-held-dot: #655f53; }
 .rs-q[data-v='blank'] .rs-col i { background: repeating-linear-gradient(135deg, var(--rs-hatch) 0 1.5px, transparent 1.5px 4px); }
 .rs-q[data-v='held'] .rs-col i { background: radial-gradient(circle, var(--rs-held-dot) 0 0.9px, transparent 1.2px) 0 0 / 4px 4px; }
 .rs-q[data-changed] .rs-col::before { content: ''; position: absolute; left: 50%; bottom: calc(var(--h) * var(--f, 0) + 4px); transition: bottom 200ms var(--rs-ease); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; border: 2px solid var(--a-warn-text); box-sizing: border-box; z-index: 2; }

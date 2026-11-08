@@ -10,18 +10,18 @@
 
 .ob {
   --ob-lamp: rgba(255, 198, 120, 0.11);
-  --ob-plate: #17201a;
-  --ob-plate-hi: #263228;
-  --ob-groove: rgba(244, 245, 240, 0.07);
+  --ob-plate: #1e1c17;
+  --ob-plate-hi: #2c2a24;
+  --ob-groove: rgba(244, 240, 230, 0.07);
   --ob-volt: var(--volt, #d2f000);
   --ob-on-volt: #0b1000;
   min-height: 100dvh; display: flex; flex-direction: column;
 }
 html[data-theme='light'] .ob {
   --ob-lamp: rgba(255, 184, 92, 0.16);
-  --ob-plate: #f1f3ec;
+  --ob-plate: #f6f2e9;
   --ob-plate-hi: #ffffff;
-  --ob-groove: rgba(23, 32, 22, 0.08);
+  --ob-groove: rgba(23, 21, 15, 0.08);
   --ob-volt: #c9e600;
 }
 
@@ -264,14 +264,14 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
   border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-sunken);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.22);
 }
-html[data-theme='light'] .ob-track { box-shadow: inset 0 1px 2px rgba(20, 32, 14, 0.08); }
+html[data-theme='light'] .ob-track { box-shadow: inset 0 1px 2px rgba(42, 32, 16, 0.08); }
 .ob-track__thumb {
   position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc((100% - 10px) / 7); border-radius: 15px; pointer-events: none;
   background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 18px -10px rgba(158, 182, 0, 0.9);
   transform: translate3d(calc(var(--ob-pick, 3) * 100%), 0, 0);
   transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); /* no overshoot (owner N5) */
 }
-html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400, 0 8px 18px -12px rgba(79, 100, 0, 0.7); }
+html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400, 0 8px 18px -12px rgba(42, 32, 16, 0.3); }
 .ob-track__opt { position: relative; z-index: 1; display: grid; place-items: center; min-height: 60px; border-radius: 15px; cursor: pointer; }
 .ob-track__opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .ob-track__opt input:disabled { cursor: default; }
@@ -309,12 +309,12 @@ html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400,
   background: radial-gradient(circle at 36% 26%, var(--ob-plate-hi), var(--ob-plate) 64%);
   box-shadow: inset 0 1px 0 var(--a-edge), inset 0 -12px 26px rgba(0, 0, 0, 0.22), 0 24px 30px -20px rgba(0, 0, 0, 0.7);
 }
-html[data-theme='light'] .ob-dial__plate { box-shadow: inset 0 1px 0 #fff, inset 0 -12px 26px rgba(20, 32, 14, 0.06), 0 22px 28px -18px rgba(20, 32, 14, 0.28); }
+html[data-theme='light'] .ob-dial__plate { box-shadow: inset 0 1px 0 #fff, inset 0 -12px 26px rgba(42, 32, 16, 0.06), 0 22px 28px -18px rgba(42, 32, 16, 0.28); }
 .ob-dial::after {
   content: ''; position: absolute; pointer-events: none; z-index: -1; left: 20%; right: 20%; bottom: -8px; height: 16px; border-radius: 50%;
   background: radial-gradient(closest-side, rgba(0, 0, 0, 0.42), transparent);
 }
-html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-side, rgba(20, 32, 14, 0.18), transparent); }
+html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-side, rgba(42, 32, 16, 0.18), transparent); }
 .ob-dial__ring { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; }
 .ob-dial__base { fill: none; stroke: var(--ob-groove); stroke-width: 12; }
 /* The arcs settle into place with a small turn and draw on in order. */

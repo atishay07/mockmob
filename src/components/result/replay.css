@@ -5,39 +5,39 @@
 .rpl, .rpl-strip {
   /* Night */
   --rpl-stage: var(--a-sunken, #0f1512);
-  --rpl-track: rgba(244, 245, 240, 0.05);
+  --rpl-track: rgba(244, 240, 230, 0.05);
   --rpl-right: #a9d96c;
   --rpl-wrong: #ff8f82;
-  --rpl-blank: #4b5948;
-  --rpl-label: #0b100e;
-  --rpl-label-blank: #e4e9df;
-  --rpl-dot: #f2f4ec;
+  --rpl-blank: #57524a;
+  --rpl-label: #12110e;
+  --rpl-label-blank: #ece6d9;
+  --rpl-dot: #f4f0e6;
   --rpl-flag: var(--a-warn-text, #e0b93f);
   --rpl-head: #d2f000;
-  --rpl-veil: rgba(15, 21, 18, 0.76);
-  --rpl-tick: rgba(244, 245, 240, 0.16);
-  --rpl-tick-major: rgba(244, 245, 240, 0.32);
-  --rpl-hatch: rgba(244, 245, 240, 0.3);
+  --rpl-veil: rgba(18, 17, 14, 0.76);
+  --rpl-tick: rgba(244, 240, 230, 0.16);
+  --rpl-tick-major: rgba(244, 240, 230, 0.32);
+  --rpl-hatch: rgba(244, 240, 230, 0.3);
   --rpl-held-dot: var(--a-ink-3, #93a08f);
-  --rpl-cell: rgba(244, 245, 240, 0.07);
+  --rpl-cell: rgba(244, 240, 230, 0.07);
   --rpl-ease: var(--a-ease, cubic-bezier(0.16, 1, 0.3, 1));
 }
 html[data-theme='light'] :is(.rpl, .rpl-strip) {
-  --rpl-track: rgba(23, 32, 22, 0.06);
+  --rpl-track: rgba(23, 21, 15, 0.06);
   --rpl-right: #8cc04a;
   --rpl-wrong: #ef8679;
-  --rpl-blank: #c5ccbb;
-  --rpl-label: #172016;
-  --rpl-label-blank: #2a3527;
-  --rpl-dot: #172016;
+  --rpl-blank: #cdc5b4;
+  --rpl-label: #17150f;
+  --rpl-label-blank: #2a261f;
+  --rpl-dot: #17150f;
   --rpl-flag: #9a6500;
-  --rpl-head: #4f6400;
+  --rpl-head: #526700;
   --rpl-veil: rgba(238, 240, 232, 0.8);
-  --rpl-tick: rgba(23, 32, 22, 0.18);
-  --rpl-tick-major: rgba(23, 32, 22, 0.36);
-  --rpl-hatch: rgba(23, 32, 22, 0.32);
-  --rpl-held-dot: #56624f;
-  --rpl-cell: rgba(23, 32, 22, 0.08);
+  --rpl-tick: rgba(23, 21, 15, 0.18);
+  --rpl-tick-major: rgba(23, 21, 15, 0.36);
+  --rpl-hatch: rgba(23, 21, 15, 0.32);
+  --rpl-held-dot: #655f53;
+  --rpl-cell: rgba(23, 21, 15, 0.08);
 }
 
 .rpl { display: grid; gap: 14px; min-width: 0; scroll-margin-top: 96px; }
@@ -242,12 +242,12 @@ html[data-theme='light'] .rpl-bar[data-hover] .rpl-bar__fill { filter: brightnes
 .rpl-sw { flex: none; width: 12px; height: 12px; border-radius: 3px; background: var(--a-line-strong, #384736); }
 .rpl-sw[data-g='changed_from_right'] { background: var(--a-warn-text, #e0b93f); }
 html[data-theme='light'] .rpl-sw[data-g='changed_from_right'] { background: #c08000; }
-.rpl-sw[data-g='struck_key'] { background: repeating-linear-gradient(45deg, rgba(11, 16, 14, 0.45) 0 1.5px, transparent 1.5px 6px), var(--a-purple-text, #c4b5fd); }
+.rpl-sw[data-g='struck_key'] { background: repeating-linear-gradient(45deg, rgba(18, 17, 14, 0.45) 0 1.5px, transparent 1.5px 6px), var(--a-purple-text, #c4b5fd); }
 html[data-theme='light'] .rpl-sw[data-g='struck_key'] { background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5) 0 1.5px, transparent 1.5px 6px), var(--a-purple-text, #5b3a9a); }
-.rpl-sw[data-g='long_stay'] { background: repeating-linear-gradient(135deg, rgba(11, 16, 14, 0.45) 0 2px, transparent 2px 5px), var(--a-bad-text, #ff9d92); }
+.rpl-sw[data-g='long_stay'] { background: repeating-linear-gradient(135deg, rgba(18, 17, 14, 0.45) 0 2px, transparent 2px 5px), var(--a-bad-text, #ff9d92); }
 .rpl-sw[data-g='quick_wrong'] { background: var(--a-bad-text, #ff9d92); }
-.rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #5f6a5b; }
-html[data-theme='light'] .rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #9aa392; }
+.rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #6a645a; }
+html[data-theme='light'] .rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #a39b8a; }
 .rpl-sw[data-g='other_wrong'] { background: #c9604f; }
 html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
 .rpl-sw[data-g='other_blank'] { background: var(--a-ink-3, #93a08f); }

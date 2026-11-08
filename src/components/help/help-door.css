@@ -51,8 +51,8 @@
   transform-origin: 50% 100%;
 }
 .help-menu[data-closing] { animation: help-menu-out 140ms ease-out both; }
-.help-menu-scrim { position: fixed; inset: 0; z-index: 42; background: rgb(5 8 6 / 0.55); animation: arena-scrim-in 220ms ease-out both; }
-html[data-theme='light'] .help-menu-scrim { background: rgb(23 32 22 / 0.28); }
+.help-menu-scrim { position: fixed; inset: 0; z-index: 42; background: rgb(8 7 5 / 0.55); animation: arena-scrim-in 220ms ease-out both; }
+html[data-theme='light'] .help-menu-scrim { background: rgb(23 21 15 / 0.28); }
 .help-menu-scrim[data-closing] { animation: help-menu-fade 140ms ease-out both; }
 
 .help-menu__title { margin: 0 10px 8px; font: 700 15px/1.25 var(--font-display); color: var(--a-ink); }
