@@ -45,3 +45,11 @@
 .cp-combo__go { justify-self: start; display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; }
 .cp-fine { margin: 0; color: var(--ink-3); font-size: 0.78rem; line-height: 1.5; }
 @media (prefers-reduced-motion: reduce) { .cp-out[aria-busy='true'] .cp-list { transition: none; } }
+
+/* R8 PUB-04: the bar's best fit is its own short line (ComboPlanner.jsx), so the bar stays two lines tall on a phone, and a jump
+   lands below it (du-flat.css .cp .cp-step scroll margin). */
+.cp-sum[hidden] { display: none; }
+.cp-sum p > span { display: grid; gap: 0.0625rem; line-height: 1.25; }
+.cp-sum p small { font-size: 0.75rem; font-weight: 500; color: var(--ink-3); white-space: nowrap; }
+/* R8 PUB-04: the bar's 44 px keys set its height; a slimmer frame keeps the whole bar under 60 px on a phone. */
+.du-sum.cp-sum { padding-block: 0.375rem; }

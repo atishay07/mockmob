@@ -37,7 +37,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
     {
       icon: ScanSearch,
       title: 'See exactly where the marks went',
-      body: `After every mock, the review shows the time you spent on each question, every answer you changed and the ${name} chapter behind each miss. Chapter review is free after every mock.`,
+      body: `After every mock, the review shows the time you spent on each question, every answer you changed and the ${name} chapter behind each miss, on Free too. Across your mocks, Free ranks your top three chapters and Pro ranks every chapter.`,
     },
     {
       icon: Wrench,

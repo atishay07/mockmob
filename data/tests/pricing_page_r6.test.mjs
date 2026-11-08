@@ -174,7 +174,7 @@ test('round 6: a mock, a question and a day at the chosen pace are receipt.mjs p
       assert.equal(mock.unit, 'a mock');
       assert.equal(day.unit, 'a day');
       assert.match(question.unit, /a question$/);
-      assert.equal(C.paceMaths(v), `${paceWords(pace).long.replace(/^./, (c) => c.toUpperCase())}: ${v.mocks.toLocaleString('en-IN')} full mocks and ${v.questions.toLocaleString('en-IN')} questions ${offer.purchasable === 'monthly' ? `in ${v.days} days` : `by ${offer.oneTime.expires}`}.`);
+      assert.equal(C.paceMaths(v), `${paceWords(pace).long.replace(/^./, (c) => c.toUpperCase())}: ${v.mocks.toLocaleString('en-IN')} full mocks and ${v.questions.toLocaleString('en-IN')} questions ${offer.purchasable === 'monthly' ? `in ${v.days} days` : `by ${offer.oneTime.expires.replace(/ /g, ' ')}`}.`, 'R8 PRICE-17: the date never splits');
       seen += 1;
     }
   }
@@ -182,6 +182,19 @@ test('round 6: a mock, a question and a day at the chosen pace are receipt.mjs p
   // At the start on the monthly offer: one full mock a day.
   const start = paceFigures(planValue(monthly(), { pace: VALUE_START.pace }));
   assert.deepEqual(start.map((f) => f.text), ['₹3.30 a mock', 'under 7 paise a question', '₹3.30 a day']);
+  // R8 PRICE-17: with the student's subjects, one a day's repeated figure becomes what Pro comes to a subject (three measures).
+  const withSubjects = paceFigures(planValue(monthly(), { pace: VALUE_START.pace }), { subjects: 5 });
+  assert.deepEqual(withSubjects.map((f) => f.text), ['₹3.30 a mock', 'under 7 paise a question', '₹19.80 a subject']);
+  for (const [offer, from] of OFFER_DAYS) {
+    for (const pace of paceSteps(offer, { from })) {
+      for (const subjects of SUBJECT_STEPS) {
+        const v = planValue(offer, { from, pace });
+        const [mock, , third] = paceFigures(v, { subjects });
+        if (v.mocks !== subjects) assert.notEqual(third.value, mock.value, `three different figures at ${pace} a week, ${subjects} subjects`);
+      }
+    }
+  }
+  assert.match(stripComments(read(COMPONENT)), /const figures = paceFigures\(v, \{ subjects: u\.subjects \}\);/);
   assert.equal(C.seriesLine, 'A test series stops at its last paper. Pro builds a new one every time you start.');
   const component = stripComments(read(COMPONENT));
   assert.match(component, /const v = at \? planValue\(offer, \{ from: day, pace: at \}\) : null;/);

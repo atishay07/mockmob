@@ -63,3 +63,13 @@
   html[data-theme] .mm.lp .lp-dockgate .mm-dock[data-keys='2'] .mm-dock__ghost { min-width: 0; padding-inline: 0.875rem; }
   .mm-dock .mm-dock__go-sub { font-size: 0.6875rem; }
 }
+
+/* R8 PRICE-18: the home page's floating bar sits 0.55 rem above the screen's foot (feature-tour.css), and a line of page text
+   scrolling through that gap read as stray, clipped text under the bar. The gap under the bar is now solid page colour, edge to
+   edge; it moves with the bar when the bar steps aside. */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock::after {
+    content: ''; position: absolute; left: calc(-0.7rem - 1px); right: calc(-0.7rem - 1px); top: calc(100% + 1px);
+    height: calc(0.55rem + env(safe-area-inset-bottom) + 2px); background: var(--paper); pointer-events: none;
+  }
+}

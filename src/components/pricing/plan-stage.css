@@ -109,6 +109,14 @@ html[data-theme='light'] .plan-stage--quiet { --price-word: rgba(27, 25, 20, 0.2
 .plan-stage .lp-count--wait { display: inline-block; width: 3.2em; height: 0.9em; vertical-align: -0.08em; border-radius: 4px; background: rgb(var(--tint, 27 25 20) / 0.12); animation: plan-count-wait 1.1s ease-in-out 6 alternate; }
 @keyframes plan-count-wait { from { opacity: 0.55; } to { opacity: 1; } }
 
+/* ---- R8 PRICE-05: the quiet word sits whole above its card -----------------------------------------------------------------
+   "Free" used to tuck under Free's solid card like "Pro" tucks under its glass, but a solid card cut the letters with a hard edge,
+   which read as a layering bug. Glass stays Pro's alone, so instead the quiet word is drawn a quarter smaller and set just above
+   its card: whole, still under half of Pro's ink, and plainly second to Pro. The card itself does not move, so Free and Pro still
+   line up side by side. (Chosen over a see-through Free card, which would put glass on a second card, and over lifting the card,
+   which broke the side-by-side line-up.) */
+.plan-stage--quiet .plan-stage__word { top: calc(var(--stage-word) * 0.04); font-size: calc(var(--stage-word) * 0.74); }
+
 /* ---- Wide screens: a roomier card and the 15 px blur ------------------------------------------------------------------------ */
 @media (min-width: 960px) {
   .plan-stage { --stage-word: var(--plan-word, 10rem); }

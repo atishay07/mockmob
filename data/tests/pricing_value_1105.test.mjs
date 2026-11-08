@@ -291,8 +291,10 @@ test('7 Nov: the pricing head is centred at every width and its rate is one desi
   assert.equal(m.note, null);
   assert.equal(pricingHead(monthly(149)).rate[2].text, '₹5', 'the day\'s figure follows the offer');
   const o = pricingHead(oneTime());
-  assert.equal(o.sub, '₹99 once covers Pro through 31 July 2027. Monthly Pro at ₹99 is on the way.', 'one-time keeps its own wording');
-  assert.equal(`${o.rateText} ${o.note}`, o.sub);
+  // R8 PRICE-06 (LK175): the monthly line is said once, inside the card, so the head is the headline and the pill only.
+  assert.equal(o.sub, '₹99 once covers Pro through 31 July 2027.', 'one-time: the pill alone');
+  assert.equal(o.note, null);
+  assert.equal(o.rateText, o.sub);
   assert.deepEqual(o.rate.filter((p) => p.figure).map((p) => p.text), ['₹99']);
   for (const head of [m, o]) assert.equal(head.rate.filter((p) => p.accent).length, 1, 'one accent in the pill');
   const home = stripComments(read('src/components/landing/HomePricing.jsx'));
@@ -321,7 +323,7 @@ test('7 Nov: each Pro line marks its quantity or scope word like the counted num
   assert.deepEqual(Object.fromEntries(textLines(planGroups({ keyCards: true })).map((l) => [l.text, l.em])), {
     'Unlimited Quick practice and Full mock': 'Unlimited',
     'Smart practice and NTA mode': null,
-    'Mistake Lab after every mock: every chapter, your pace and changed answers': 'every chapter',
+    'Mistake Lab across all your mocks: every chapter, your pace and changed answers': 'every chapter',
     'Mistake Repair and Ask Mobi: 50 credits a month, all for Mobi': '50 credits a month',
     'Every Key card, with no daily review cap': 'Every Key card',
     'Unlimited saved questions': 'Unlimited',
@@ -463,7 +465,10 @@ test('R3-D7: the numbers band is gone; its true counts are lines of the plan car
   assert.equal(planGroups({ newOffer: true }).flatMap((g) => g.lines).filter((line) => line.text).length, proPlan({ newOffer: true }).length);
   const counts = read('src/components/landing/PlanCounts.jsx');
   assert.match(counts, /loadPublicStats\(\)/, 'the same /api/stats answer the hero reads');
-  assert.match(counts, /useSeenOnce\(ref, 0\.4\)/, 'counts once at 40% in view');
+  // R8 PRICE-01: the first counted line is watched (60% in view), and a known number keeps the placeholder until it is seen.
+  assert.match(counts, /useSeenOnce\(ref, 0\.6\)/, 'counts once its first counted line is 60% in view');
+  assert.match(counts, /ref=\{line === firstCount \? ref : undefined\}/, 'the observer is on the first counted line');
+  assert.match(counts, /if \(!seen\) return <><span className="lp-count lp-count--wait" aria-hidden="true" \/>/, 'never a false 0 before the count starts');
   assert.match(counts, /<b className="lp-count" aria-hidden="true">[\s\S]*<span className="lp-sr">\{value\.real/, 'a screen reader hears the real number, never a counting one');
   assert.match(counts, /if \(state === 'failed' \|\| \(state === 'ready' && value == null\)\) return line\.fallback;/, 'no number when the count cannot load');
   const stats = read('src/components/landing/bankStats.js');
@@ -506,7 +511,8 @@ test('R3-D8, R4: #pricing and /pricing draw one plan, through shared pieces, as 
   assert.doesNotMatch(pricing, /Or start free\.|mm-plans__note/, 'the old Free section folded into the choice');
   // While the choice is on screen it carries both keys, so the phone's dock steps aside (R4 review: it covered Free's card).
   assert.match(pricing, /<section className="pro-sec pro-choice" aria-labelledby="pro-choice-h" data-dock-yield="">/);
-  assert.match(read('src/components/MobileDock.jsx'), /querySelectorAll\('main :is\(\.mm-btn--primary, \.btn-volt, \[data-dock-yield\]\)'\)/);
+  // R8 PUB-11: the same selector, re-scanned as the page mounts its own actions (the combo planner's summary bar).
+  assert.match(read('src/components/MobileDock.jsx'), /const VOLT_SELECTOR = 'main :is\(\.mm-btn--primary, \.btn-volt, \[data-dock-yield\]\)';[\s\S]*document\.querySelectorAll\(VOLT_SELECTOR\)/);
   assert.doesNotMatch(pricing, /function planTerms|\['Smart practice', false, true\]/, 'nothing is copied back into the page');
   assert.equal(compareRows({ newOffer: true, recoveryRows: [['x', true, true]] }).length, 1, 'the new offer brings its own rows');
   assert.deepEqual(planTerms(monthly()), { renew: 'Renews every month. Cancel any time.', dock: '₹99 a month. Cancel any time.', soon: null });
@@ -539,8 +545,8 @@ test('round 5 /pricing (owner: "Pro should be the first option"): Pro comes firs
   assert.match(phone, /html\[data-theme='light'\] \.mm-pro \.pro-switch::before \{[^}]*background: var\(--paper-raised\); border: 1px solid var\(--sel-rim\);/, 'Day: no volt slab on cream');
   assert.match(phone, /transition: transform 220ms cubic-bezier\(0\.23, 1, 0\.32, 1\);/);
   assert.match(css, /@media \(max-width: 759px\) and \(prefers-reduced-motion: reduce\) \{\s*\.mm-pro \.pro-switch::before, \.mm-pro \.pro-switch__key \{ transition: none; \}/);
-  // Tablets keep Free above Pro, desktops Free beside Pro on the left, as before.
-  assert.match(css, /@media \(min-width: 760px\) \{\s*\.mm-pro \.pro-choice__free \{ order: -1; \}/);
+  // R8 PRICE-10: tablets stack Pro first, like phones (no reordering under 960 px); desktops Free beside Pro on the left.
+  assert.doesNotMatch(css, /\.mm-pro \.pro-choice__free \{ order: -1; \}/);
   assert.match(css, /@media \(min-width: 960px\) \{\s*\.mm-pro \.pro-choice__free \{ order: 0; grid-column: 1; grid-row: 1; \}\s*\.mm-pro \.pro-choice__grid > \.pro-plan \{ grid-column: 2; grid-row: 1; \}/);
   assert.doesNotMatch(css, /backdrop-filter|transition: all/);
 });
@@ -553,6 +559,8 @@ test('the glass is the plan card\'s only, with a solid fallback; R4: the card si
     assert.match(selector, /\.plan-stage \.plan-glass\.pro-plan__card$/, `glass only on the plan card: ${selector}`);
     assert.match(body, /backdrop-filter: (none|blur\((8|15)px\) saturate\(1\.4\))/);
   }
+  // R8 PRICE-05: the quiet word is drawn smaller and sits whole above its card (no glass on Free's card).
+  assert.match(css, /\.plan-stage--quiet \.plan-stage__word \{ top: calc\(var\(--stage-word\) \* 0\.04\); font-size: calc\(var\(--stage-word\) \* 0\.74\); \}/);
   assert.match(css, /@media \(prefers-reduced-transparency: reduce\) \{\s*\.plan-stage \.plan-glass\.pro-plan__card \{ background: var\(--paper-raised\); -webkit-backdrop-filter: none; backdrop-filter: none; \}/);
   assert.match(css, /\.plan-stage__word \{[^}]*color: var\(--price-word\)/);
   assert.doesNotMatch(css, /--price-word: [^;]*(d2f000|210, ?240|volt)/i);

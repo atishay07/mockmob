@@ -78,6 +78,8 @@ function ProLock({ what }) {
 // (its page already offers the next step) and `chaptersFirst` (the ranked chapters straight under the next step). The Mentor record tab passes none of them and is unchanged.
 export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false, chaptersInReview = false }) {
   const [showThin, setShowThin] = useState(false);
+  // R8 PRICE-02 revision: Pro ranks every chapter, as /pricing says. The first eight show; the rest open with one key.
+  const [allChapters, setAllChapters] = useState(false);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
 
@@ -111,7 +113,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   // the chapters costing the most marks, each with what happened in it, the marks a right answer would have added, and
   // for the first one the practice that wins them back. The chapter finding in "What stands out" said the same thing
   // again, so on a page that shows the ranking first it is left out there (one place for it, one action).
-  const shownChapters = chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS);
+  const shownChapters = chapters.ranked.slice(0, pro ? (allChapters ? chapters.ranked.length : 8) : FREE_CHAPTERS);
   const chapterFinding = findings.find((f) => f.id === 'chapter') || null;
   const shownFindings = chaptersFirst && chapters.ranked.length ? findings.filter((f) => f.id !== 'chapter') : findings;
   // Review 1018 (REVIEW-RESULT-1018 4.6, P-RR1): on Weak chapters the ranked list moved to Review, which leads with where you
@@ -148,6 +150,9 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
             </ol>
             <p className="pp-note">A right answer adds 5 marks, so each wrong or blank answer here counts as 5 marks lost. Each wrong one also cost 1 on its paper.</p>
           </>
+        )}
+        {pro && chapters.ranked.length > 8 && !allChapters && (
+          <button type="button" className="pp-toggle" onClick={() => setAllChapters(true)}>Show all {chapters.ranked.length} chapters</button>
         )}
         {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} />}
         {pro && chapters.thin.length > 0 && (

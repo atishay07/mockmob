@@ -440,7 +440,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const page = new URLSearchParams(window.location.search);
       if (page.get('record') === 'empty' || state === 'empty') return json({ ok: true, insights: { state: 'empty', sessions: 0, questions: 0 }, findings: [] });
       if (page.get('record') === 'down') return json({ ok: false, error: 'insights_unavailable' }, 503);
-      return json(previewInsights());
+      return json(previewInsights(undefined, { wide: page.get('record') === 'wide' }));
     }
     if (url.pathname === '/api/analytics') {
       if (state === 'empty') return json({ totalAttempts: 0, totals: { correct: 0, wrong: 0, unattempted: 0 }, scoring: { device: 0 }, timeline: [], subjects: [], weakChapters: [] });

@@ -74,19 +74,36 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
 // the only volt in view; it comes back when the button scrolls away. The nav's action is the quiet secondary button.
 // A section marked data-dock-yield (/pricing's "Free or Pro") counts as the page's own action too: while the choice is on screen
 // it carries both keys, so the bar never covers Free's card with a competing Get Pro (R4 pricing review, 6 Nov 2026).
+// R8 PUB-11: a page's own action can mount after the bar does (the combo planner's sticky summary waits for the DU data), so new
+// volt keys and yield sections inside main are picked up as they arrive (one re-scan a frame at most), and removed ones let go.
+// Every <main> counts (a page can have two: AppViewNotice draws its own), as the selector always read 'main :is(...)'.
+const VOLT_SELECTOR = 'main :is(.mm-btn--primary, .btn-volt, [data-dock-yield])';
 function useVoltOnScreen() {
   const [on, setOn] = useState(false);
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return undefined;
-    const buttons = [...document.querySelectorAll('main :is(.mm-btn--primary, .btn-volt, [data-dock-yield])')].filter((el) => !el.closest('.mm-dock, .mm-nav, .lp-dockgate'));
-    if (!buttons.length) return undefined;
     const seen = new Set();
+    const watched = new Set();
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) { if (entry.isIntersecting) seen.add(entry.target); else seen.delete(entry.target); }
       setOn(seen.size > 0);
     }, { rootMargin: '-64px 0px 0px 0px', threshold: 0 });
-    buttons.forEach((button) => io.observe(button));
-    return () => io.disconnect();
+    const scan = () => {
+      for (const el of watched) {
+        if (!el.isConnected) { io.unobserve(el); watched.delete(el); seen.delete(el); }
+      }
+      for (const el of document.querySelectorAll(VOLT_SELECTOR)) {
+        if (!watched.has(el) && !el.closest('.mm-dock, .mm-nav, .lp-dockgate')) { watched.add(el); io.observe(el); }
+      }
+      setOn(seen.size > 0);
+    };
+    scan();
+    let frame = 0;
+    const mo = typeof MutationObserver === 'undefined' ? null : new MutationObserver(() => {
+      if (!frame) frame = requestAnimationFrame(() => { frame = 0; scan(); });
+    });
+    mo?.observe(document.body, { childList: true, subtree: true });
+    return () => { io.disconnect(); mo?.disconnect(); cancelAnimationFrame(frame); };
   }, []);
   return on;
 }

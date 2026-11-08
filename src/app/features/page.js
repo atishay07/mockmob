@@ -35,17 +35,17 @@ const PARTS = [
   {
     title: 'Your papers and mistake repair',
     body: 'Every miss from a session lands in Your papers with its explanation. Repair one, then a fresh question on the same idea comes back later to check the fix held.',
-    href: '/signup', link: 'Create a free account',
+    href: '/signup', link: 'Start free',
   },
   {
     title: 'Chapter review',
-    body: 'Your misses traced back to their chapters, built only from questions you attempted. Free after every mock; Pro adds pace and changed-answer detail.',
-    href: '/signup', link: 'Create a free account',
+    body: 'Your misses traced back to their chapters, built only from questions you attempted. Every mock’s review is free; across your mocks, Free ranks your top three chapters and Pro ranks every chapter, with your pace and changed answers.',
+    href: '/signup', link: 'Start free',
   },
   {
     title: 'Saved questions',
     body: 'Keep the questions that deserve another go and practise their chapter from the same row. 25 on Free.',
-    href: '/signup', link: 'Create a free account',
+    href: '/signup', link: 'Start free',
   },
   {
     title: 'Ask Mobi',
@@ -65,7 +65,7 @@ const PARTS = [
   {
     title: 'Your standing',
     body: 'Your own rank among MockMob students, from your recorded mocks. You see your rank and your average; no other student’s name is shown. It is separate from your CUET exam rank.',
-    href: '/signup', link: 'Create a free account',
+    href: '/signup', link: 'Start free',
   },
 ];
 
@@ -82,7 +82,7 @@ export default function FeaturesPage() {
       <NavBar />
 
       <main>
-        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
+        <section className="mm-section mm-section--flush ft-hero" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight pub-hero">
             <div>
               <h1 className="mm-h1">What MockMob does</h1>
@@ -94,7 +94,7 @@ export default function FeaturesPage() {
           </div>
         </section>
 
-        <section className="mm-section">
+        <section className="mm-section ft-sec">
           <div className="mm-wrap mm-wrap--tight">
             <ul className="ft-list">
               {PARTS.map((part) => (
@@ -114,6 +114,9 @@ export default function FeaturesPage() {
 
       <MarketingFooter />
       <style>{`${PUBLIC_HERO_CSS}
+        /* R8 PUB-13: the cards follow the subjects line by 56 px (two section paddings left a 224 px empty band at 1440). */
+        .mm-section.ft-hero { padding-bottom: 3.5rem; }
+        .mm-section.ft-sec { padding-top: 0; }
         .ft-list {
           --ft-tint: 255 255 255; --ft-top: rgba(255, 255, 255, 0.06); --ft-dot: rgba(255, 255, 255, 0.16);
           --ft-dot-lead: rgba(210, 240, 0, 0.3); --ft-lead-line: rgba(210, 240, 0, 0.24);

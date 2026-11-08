@@ -25,15 +25,16 @@ const page = {
     {
       heading: 'CUET 2027 expected timeline',
       body: [
-        'NTA has not released the CUET UG 2027 bulletin yet. Based on the 2026 cycle, registration is expected around February to March 2027, the exam in May 2027, and results by late June or early July, followed by university counselling such as DU CSAS.',
+        // R8 PUB-14: the provisional status is said once, in the intro; the sections below plan with it instead of repeating it.
+        'Based on the 2026 cycle, registration is expected around February to March 2027, the exam in May 2027, and results by late June or early July, followed by university counselling such as DU CSAS.',
         'What that means practically: the syllabus year starts now. Students who begin timed practice in Class 12 autumn walk into May with two full revision cycles; students who start after the bulletin get one at best.',
       ],
     },
     {
       heading: 'Exam pattern: use the latest cycle as a reference',
       body: [
-        'The 2027 exam format has not been confirmed. Use the latest completed cycle to understand the kind of preparation to expect, then check the NTA bulletin for the final papers, duration, and question rules before you plan around them.',
-        'Subject choices and marking rules can affect your preparation. Confirm both in the official 2027 bulletin when it is published; do not treat historical rules as a guarantee of the next cycle.',
+        'Prepare on the latest completed cycle: the kind of papers, the clock and the marking you can expect. The NTA bulletin then sets the final papers, duration and question rules.',
+        'Subject choices and marking rules shape your plan, so check both in the 2027 bulletin the day it is out.',
       ],
     },
     {
@@ -41,7 +42,7 @@ const page = {
       body: [
         'The most you can take is five. The CUET UG 2026 information bulletin lets a candidate choose up to five subjects in all, and a language or the General Aptitude Test uses one of the five. The 2025 bulletin said the same. NTA has not said what 2027 will allow, and press reports say a lower limit is being discussed, so plan with five and check the bulletin when it is out.',
         'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements can differ, and the 2027 rules may change when institutions publish their bulletins.',
-        'MockMob Admission Compass checks sourced DU programme eligibility and historical cutoffs. It does not predict admission, and its historical data does not replace the official 2027 requirements.',
+        'MockMob Admission Compass checks your DU programmes against sourced eligibility rules and historical cutoffs, so you see where past cutoffs fell. It does not predict admission.',
       ],
       links: [
         { href: '/cuet-subject-combination', label: 'Plan your CUET subject combination' },
@@ -56,7 +57,7 @@ const page = {
         'As the exam approaches, use timed practice that matches the official format once NTA publishes the 2027 rules. Keep a separate block for targeted chapter review.',
       ],
       links: [
-        { href: '/signup', label: 'Start free CUET 2027 practice' },
+        { href: '/signup', label: 'Start free' },
         { href: '/cuet-mock-test-free', label: 'Free CUET mock tests' },
         { href: '/cuet-previous-year-questions', label: 'CUET previous year questions' },
       ],

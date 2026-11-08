@@ -138,7 +138,7 @@ test('one sentence says the price everywhere: "A practice question costs 1 credi
   assert.deepEqual({ ...PRACTICE_PRICE }, { perQuestion: 1, set: 10, setQuestions: 10, full: 50 });
   const pricing = file('src/app/pricing/page.js');
   assert.match(pricing, /^ {2}PRACTICE_PRICE_LINE,$/m, '/pricing notes');
-  assert.match(pricing, /1 a question in Quick practice, 50 a Full mock/);
+  assert.match(pricing, /'1 credit a question, 50 a full mock, 1 a Mobi job' : '1 credit a Mobi job'}/, 'R8 PRICE-16: the Free card short cost line (prices once: the list says them on the current offer)');
   assert.match(pricing, /Quick practice, 5 to 20 questions, 1 credit a question/);
   // R3-D8 (5 Nov 2026): the Free and Pro rows are shared with the home page (src/components/pricing/planOffer.mjs).
   assert.match(file('src/components/pricing/planOffer.mjs'), /\['Quick practice', '1 credit a question', 'Unlimited'\]/);

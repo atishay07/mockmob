@@ -235,7 +235,10 @@ html[data-motion='reduced'] .auth :is(.auth__copy, .auth__card, .auth__obj, .aut
   outline-offset: 2px;
   border-radius: var(--r-1);
 }
-.auth-card__why { display: block; margin-top: -0.25rem; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+/* R8 PUB-07: the email's reason sits right under the field in the theme's error ink (--bad-text: 4.5:1 in Night and Day; --flag alone is 3:1 at night), and the field
+   takes the same rim, so a first-time student sees what is wrong and where; the 3 px focus ring is unchanged. */
+.auth-card__why { display: block; margin-top: -0.5rem; font-size: 0.875rem; font-weight: 600; line-height: 1.45; color: var(--bad-text, var(--flag)); text-wrap: pretty; }
+.auth-field .input[aria-invalid='true'] { border-color: var(--bad-text, var(--flag)); }
 /* A friend's invite code (owner D165): under the sign-up card, closed behind one text key until wanted. */
 .auth-invite { margin: 0.75rem 0 0; }
 p.auth-invite { text-align: center; }

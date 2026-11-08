@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 
 // One picture for a public page's hero (W-072: the text-only Features and About pages get the landing's own imagery, not
@@ -25,15 +26,20 @@ export function PublicHeroArt({ kind = 'subjects' }) {
       </figure>
     );
   }
+  // R8 PUB-15: four objects alone read as "four subjects"; one line under them says they are four of the 15 (the footer's
+  // "All 15 CUET subjects", the same /cuet list), so the count agrees with the rest of the site.
   return (
-    <ul className="pub-art pub-art--subjects" aria-label="The four CUET subjects MockMob covers first">
-      {LAUNCH.map(([id, name], i) => (
-        <li key={id}>
-          <SubjectObject id={id} size={112} lit={i === 1} sizes="(min-width: 900px) 112px, 72px" className="pub-art__obj" style={{ '--obj-size': 'var(--pub-obj)' }} />
-          <span>{name}</span>
-        </li>
-      ))}
-    </ul>
+    <div className="pub-art pub-art-set">
+      <ul className="pub-art--subjects" aria-label="The four CUET subjects MockMob covers first">
+        {LAUNCH.map(([id, name], i) => (
+          <li key={id}>
+            <SubjectObject id={id} size={112} lit={i === 1} sizes="(min-width: 900px) 112px, 72px" className="pub-art__obj" style={{ '--obj-size': 'var(--pub-obj)' }} />
+            <span>{name}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="pub-art__more">Four of the <Link href="/cuet" className="mm-link mm-link--inline">15 CUET subjects</Link> you can practise.</p>
+    </div>
   );
 }
 
@@ -42,10 +48,13 @@ export const PUBLIC_HERO_CSS = `
   .pub-hero { display: grid; gap: 1.75rem; }
   @media (min-width: 900px) { .pub-hero { gap: 2.5rem; } }
   .pub-art { margin: 0; }
-  .pub-art--subjects { --pub-obj: 72px; list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
+  .pub-art--subjects { --pub-obj: 72px; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; }
   @media (min-width: 900px) { .pub-art--subjects { --pub-obj: 112px; gap: 1rem; max-width: 640px; } }
   .pub-art--subjects li { display: grid; justify-items: center; gap: 0.5rem; text-align: center; }
   .pub-art--subjects span { font: 600 0.8125rem/1.25 var(--font-display); color: var(--ink-2); }
+  .pub-art-set { display: grid; gap: 1rem; }
+  @media (min-width: 900px) { .pub-art-set { max-width: 640px; } }
+  .pub-art__more { margin: 0; text-align: center; font-size: 0.9375rem; line-height: 1.45; color: var(--ink-2); }
   .pub-art--campus { max-width: 560px; }
   .pub-art--campus img { display: block; width: 100%; height: auto; border-radius: 20px; }
   .pub-art--campus figcaption { margin-top: 0.6rem; font-size: 0.8125rem; line-height: 1.45; color: var(--ink-3, var(--ink-2)); }

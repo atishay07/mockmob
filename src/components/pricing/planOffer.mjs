@@ -50,7 +50,9 @@ export function compareRows({ newOffer = false, firstFullMockOn = false, recover
     ['Smart practice', false, true],
     ['Exam-day screen', false, true],
     ['Easy, Medium, Hard', false, true],
-    ['Mistake Lab after every mock', 'Top three chapters', 'Every chapter'],
+    // R8 PRICE-02: each mock's own review (time, changed answers, the chapter behind each miss) is open on Free; what Free
+    // limits is the ranking across mocks (src/components/ai/RecordView.jsx FREE_CHAPTERS), so the row names that.
+    ['Mistake Lab across your mocks', 'Top three chapters', 'Every chapter'],
     // Owner, 7 Nov 2026: the table showed only practice. One credits balance, 50 a month on both plans; Pro needs none for practice.
     ['Mistake Repair and Ask Mobi', '50 credits a month, shared with practice', '50 credits a month, all for Mobi'],
     ...(keyCards ? [['Key cards', 'A taste of each chapter', 'Every card']] : []),

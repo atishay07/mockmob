@@ -113,12 +113,16 @@ const buildPlans = (offer) => [
     price: '₹0',
     cycle: 'forever',
     description: 'Enough to see whether MockMob suits you. No card needed.',
-    ctaLabel: 'Create a free account',
+    // R8 PUB-08: one label for the one sign-up action, the dock's and the value section's "Start free".
+    ctaLabel: 'Start free',
     // Free's key goes to sign-up; the value section's Start free goes to the same place.
     ctaHref: '/signup',
     terms: [
-      ['Renewal', 'None, and no card needed'],
-      ['Credits', `50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 a Mobi job (a mistake fixed for good, or a doubt answered and tested). Answers from your record are free.${FIRST_FULL_MOCK_ON ? ' Your first Full mock in each subject is free.' : ''}`],
+      // R8 PRICE-16: each fact once. "No card needed" is the lede's; the first free full mock is the list's (FIRST_FREE_ITEMS); the
+      // credits read as the allowance, then one short line of what each thing costs.
+      ['Renewal', 'None'],
+      // The practice prices are said once: by the list below on today's offer, by this line when the new offer's list has none.
+      ['Credits', <>50 free every month<span className="mm-plan__terms-sub">{newOfferReleased() ? '1 credit a question, 50 a full mock, 1 a Mobi job' : '1 credit a Mobi job'} (a mistake fixed for good, or a doubt answered and tested). Answers from your record are free.</span></>],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', ...FIRST_FREE_ITEMS, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',
@@ -128,7 +132,7 @@ const buildPlans = (offer) => [
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',
-      'Your standing',
+      'Your standing: your rank among MockMob students',
     ],
   },
   {
