@@ -86,7 +86,7 @@ function daypartHello() {
 
 function heroTitle(plan, top, planned) {
   if (plan.primary.kind !== 'ordinary_practice') return plan.primary.reason || plan.primary.title;
-  if (top) return `${top.chapter} is where most marks are open.`;
+  if (top) return `${top.chapter} is where you lose the most marks.`;
   const { count, review } = practiceForMinutes(planned);
   return review ? `${count} questions, then a look at what you missed.` : `${count} questions against the clock.`;
 }

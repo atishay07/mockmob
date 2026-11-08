@@ -180,7 +180,7 @@ export function readout(insights, { limit = 4 } = {}) {
   const out = [];
   const top = insights.chapters.ranked[0];
   if (top) {
-    out.push({ id: 'chapter', kind: 'leak', n: top.n, headline: `${top.chapter} is where the most marks are open`,
+    out.push({ id: 'chapter', kind: 'leak', n: top.n, headline: `${top.chapter} is where you lose the most marks`,
       detail: `${top.subjectName}: ${top.right} right, ${top.wrong} wrong, ${top.skip} left blank out of ${top.n} questions over ${top.sessions} session${top.sessions === 1 ? '' : 's'}. Those ${top.wrong + top.skip} questions were worth ${top.open} marks.`,
       action: { label: `Practise ${top.chapter}`, href: `/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick` } });
   } else if (insights.chapters.thin[0]) {

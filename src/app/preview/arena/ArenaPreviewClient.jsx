@@ -522,7 +522,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (method === 'POST') {
         const entry = JSON.parse(init.body || '{}');
         if (window.__previewColleges.some((c) => same(c, entry))) return json({ ...body(), result: 'exists' });
-        if (window.__previewColleges.length >= 8) return json({ error: 'list_full', message: 'My colleges is full. Remove one to add another.', ...body() }, 409);
+        if (window.__previewColleges.length >= 8) return json({ error: 'list_full', message: 'Your colleges list is full. Remove one to add another.', ...body() }, 409);
         window.__previewColleges = [...window.__previewColleges, entry];
         return json({ ...body(), result: 'added' }, 201);
       }
@@ -615,7 +615,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const none = state === 'empty' || fixture.get('record') === 'empty' || fixture.get('history') === 'none';
       return json({ ok: true, session: null, messages: none ? [] : [
         { id: 'h1', role: 'user', text: 'Where am I losing marks?', createdAt: '2026-10-14T14:42:00.000Z', response: null },
-        { id: 'h2', role: 'assistant', text: 'Partnership Fundamentals is where the most marks are open.', createdAt: '2026-10-14T14:42:01.000Z', response: { reply: 'Partnership Fundamentals is where the most marks are open.', origin: 'record', charge: { kind: 'none', amount: 0 } } },
+        { id: 'h2', role: 'assistant', text: 'Partnership Fundamentals is where you lose the most marks.', createdAt: '2026-10-14T14:42:01.000Z', response: { reply: 'Partnership Fundamentals is where you lose the most marks.', origin: 'record', charge: { kind: 'none', amount: 0 } } },
         { id: 'h3', role: 'user', text: 'Why is 19:11:10 right and 9:6:5 wrong?', createdAt: '2026-10-15T16:10:00.000Z', response: null },
         { id: 'h4', role: 'assistant', text: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', createdAt: '2026-10-15T16:10:09.000Z', response: { reply: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', origin: 'model', charge: { kind: 'prepos_credit', amount: 1 } } },
       ] });

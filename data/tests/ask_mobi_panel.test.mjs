@@ -130,7 +130,7 @@ test('free answers carry real figures and one next move; the opening is there fo
   const mock = openingFor({ context: normalizeContext({ kind: 'mock', ref: 'att1', label: 'Mock 3', lines: ['Partnership: 36 of 78 marks lost.'] }), insights: INSIGHTS, status: 'ready' });
   assert.equal(mock.source, 'From Mock 3');
   const practice = openingFor({ context: normalizeContext({ kind: 'practice' }), insights: INSIGHTS, status: 'ready', pro: true });
-  assert.match(practice.reply, /Partnership is where the most marks are open/);
+  assert.match(practice.reply, /Partnership is where you lose the most marks/);
   assert.equal(openingFor({ context: normalizeContext({ kind: 'practice' }), insights: null, status: 'loading' }), null, 'nothing is shown before the record is read');
 });
 
