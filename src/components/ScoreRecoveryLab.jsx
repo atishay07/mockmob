@@ -36,12 +36,22 @@ import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
 // The repair total in the one spend line: each repair is 1 credit, so the ones left cost that many together.
 // Nothing to repair, nothing to say. Unknown balance shows no number, never 0.
-export function RepairTotal({ remaining }) {
+// ARC-09: `waiting` is the question numbers left out of repairs while their key is re-checked, said where the count is, so
+// "These 14 repairs" beside "Your 15 mistakes" explains itself.
+export function waitingLine(waiting = []) {
+  const n = (waiting || []).filter(Number.isInteger);
+  if (!n.length) return '';
+  if (n.length === 1) return `Q${n[0]} waits for its key check.`;
+  return `${n.slice(0, -1).map((x) => `Q${x}`).join(', ')} and Q${n.at(-1)} wait for their key checks.`;
+}
+
+export function RepairTotal({ remaining, waiting = [] }) {
   const auth = useContext(AuthContext);
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   if (!(remaining > 0)) return null;
   const what = remaining === 1 ? 'This repair' : `These ${remaining} repairs`;
-  return <p className="srl-fine">{usesLine({ what, verb: remaining === 1 ? 'uses' : 'use', cost: remaining, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+  const why = waitingLine(waiting);
+  return <p className="srl-fine">{usesLine({ what, verb: remaining === 1 ? 'uses' : 'use', cost: remaining, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}{why ? ` ${why}` : ''}</p>;
 }
 
 function QChips({ numbers, onJump }) {
@@ -99,7 +109,8 @@ export function LabLedger({ attempt, analysis, timeRead = null, lab = null, onJu
         {marks.wrong ? <p className="srl-rule">Each wrong answer costs 6: the 5 you didn’t get, plus the 1 penalty.</p> : null}
       </> : null}
       {/* The older-paper line stays here; the first timed mock prompt lives with the time (one prompt on a page). */}
-      {firstTimed ? null : <OlderPaper older={older} />}
+      {/* ARC-11: a paper with nothing missed has nothing for the record to explain, so the older-paper line stays out of that moment. */}
+      {firstTimed || !marks.gap ? null : <OlderPaper older={older} />}
     </div>
   );
 }

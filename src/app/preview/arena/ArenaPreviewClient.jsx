@@ -44,7 +44,7 @@ import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, FULL_SUBJECTS, LIVE_SUBJECTS, fixtureFeed, fixtureChapters, syllabusChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
-import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
+import { checkSetFor, fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureCheckPost2, firstCheckRight, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
 import { fixtureReviseQueue, fixtureReviseLegacy, fixtureStudyRun, freshCardsMemory } from './previewRevise';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
@@ -170,6 +170,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
   window.__previewSubmissions = [];
   window.__previewChatRequests = [];
   const replyReceipts = new Map();
+  // ARC-18: the paid repairs this tab made (one per request id, like the server's receipt), on the result and on Review. The credits
+  // read spends them, so the chip, the repair's "You have N" and every other line read one balance after a repair.
+  const repairReceipts = (window.__previewRepairIds ||= new Set());
   let lostReply = false;
   // Resolve on a separate task, like an HTTP response. Immediate in-memory
   // replies can race initial effect cleanup/reset during development hydration.
@@ -425,7 +428,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
       const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
       // The AI balance is the same wallet the top bar and Ask Mobi read, so the page never shows two numbers for one pool.
-      const ai = projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid, includedMonthlyCredits: 50, paidAiOpen: true });
+      const ai = projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size + repairReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid, includedMonthlyCredits: 50, paidAiOpen: true });
       return json({ ...creditsContract, ai: { ...creditsContract.ai, balance: ai.known ? ai.total : creditsContract.ai.balance }, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
@@ -590,7 +593,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const page = new URLSearchParams(window.location.search);
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
         : page.get('wallet') === 'zero' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 50, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: false, includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: previewBalancePart(page) })
-        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: page.get('plan') === 'pro' ? 0 : previewBalancePart(page) });
+        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size + repairReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: page.get('plan') === 'pro' ? 0 : previewBalancePart(page) });
       return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
     // Ask Mobi's page lists the earlier questions with what each cost and when (ASK-MOBI-1019): two saved exchanges, one written reply
@@ -624,24 +627,41 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const mode = fixture.get('check') || 'ready';
       const memory = (window.__previewCheck ||= freshCheckMemory());
       const later = (reply, ms) => new Promise((resolve) => setTimeout(() => resolve(reply), ms));
+      // The fix job's second check (ARC-18): its own memory, and the held line once both are marked.
+      const sent = method === 'GET' ? null : JSON.parse(init.body || '{}');
+      const set = checkSetFor(method === 'GET' ? url.searchParams.get('questionId') : sent?.questionId);
+      if (url.searchParams.get('slot') === '2' || sent?.slot === 2) {
+        const memory2 = (window.__previewCheck2 ||= freshCheckMemory());
+        if (method === 'GET') { const got = fixtureCheckGet(mode, memory2, { slot: 2, set }); return later(new Response(JSON.stringify(got.body), { status: got.http, headers: { 'Content-Type': 'application/json' } }), got.delay || 25); }
+        const posted = fixtureCheckPost2(mode, sent, memory2, firstCheckRight(memory, set), set);
+        Object.assign(memory2, posted.remember || {});
+        return later(new Response(JSON.stringify(posted.body), { status: posted.http, headers: { 'Content-Type': 'application/json' } }), posted.delay || 25);
+      }
       if (method === 'GET') {
-        const got = fixtureCheckGet(mode, memory);
+        const got = fixtureCheckGet(mode, memory, { set });
         memory.reads += 1;
         return later(new Response(JSON.stringify(got.body), { status: got.http, headers: { 'Content-Type': 'application/json' } }), got.delay || 25);
       }
-      const posted = fixtureCheckPost(mode, JSON.parse(init.body || '{}'), memory);
+      const posted = fixtureCheckPost(mode, sent, memory, set);
       Object.assign(memory, posted.remember || {});
       if (posted.lost) return new Promise((resolve, reject) => setTimeout(() => reject(new TypeError('Illustrative: the connection dropped before the answer was marked')), 400));
       return later(new Response(JSON.stringify(posted.body), { status: posted.http, headers: { 'Content-Type': 'application/json' } }), posted.delay || 25);
     }
-    if (url.pathname === '/api/recovery/ask-context') return json(fixtureAskContext());
+    // ARC-18: the stem and chapter of the question handed over, from the same paper the result shows.
+    if (url.pathname === '/api/recovery/ask-context') {
+      const qid = String(url.searchParams.get('questionId') || url.searchParams.get('q') || '').split(':').pop();
+      const q = (window.__previewLabPaper?.attempt || fixtureMock('full').attempt).questionsSnapshot?.find((x) => x.id === qid);
+      return json(fixtureAskContext(q ? { question: q.question, chapter: q.chapter, questionId: qid } : { questionId: qid }));
+    }
     // Mistake Repair fixtures. Illustrative text, no model call, no credit.
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') === '1' ? 'v3' : fixture.get('repair') || 'explained';
+      // ARC-18: a paid repair spends one credit from the same total the chip reads (previewOneTotal), once per request id.
+      const spend = () => { repairReceipts.add(JSON.parse(init.body || '{}').requestId || `r${repairReceipts.size}`); const total = previewOneTotal(fixture); return total === null ? null : { total: Math.max(0, total - repairReceipts.size), state: 'available' }; };
       // ?repair=v3 (or repair=1) is a version 3 repair (trap, why the key is right, other options, rule with hook, another way, pattern) with its check; v3-stored is its free reopen.
       if (kind === 'v3' || kind === 'v3-stored') {
-        const check = fixtureCheckField(fixture.get('check') || 'ready');
-        return json({ ...fixtureRepairV3({ stored: kind === 'v3-stored' }), ...(check ? { check } : {}) });
+        const check = fixtureCheckField(fixture.get('check') || 'ready', JSON.parse(init.body || '{}').questionId);
+        return json({ ...fixtureRepairV3({ stored: kind === 'v3-stored', wallet: kind === 'v3-stored' ? null : spend() }), ...(check ? { check } : {}) });
       }
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
       if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 1, secondIndex: 1 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
@@ -651,7 +671,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (kind === 'pending') return json({ ok: false, error: 'in_progress', message: 'Illustrative: this repair is still being prepared. Nothing extra is charged.' }, 409);
       if (kind === 'insufficient') return json({ ok: false, error: 'insufficient_ai_credits', balance: 0, message: 'This repair uses 1 AI credit. You have 0. The stored explanation and fresh practice are still free.' }, 402);
       if (kind === 'fail') return json({ ok: false, error: 'unusable_output', charged: 0, message: 'The repair could not be prepared reliably this time. You were not charged.' }, 502);
-      return json({ ok: true, status: kind === 'stored' ? 'stored' : 'explained', charged: kind === 'stored' ? 0 : 1, wallet: { total: 67, state: 'available' }, ...base, repair: {
+      return json({ ok: true, status: kind === 'stored' ? 'stored' : 'explained', charged: kind === 'stored' ? 0 : 1, wallet: kind === 'stored' ? null : spend(), ...base, repair: {
         why_tempting: 'Illustrative: the old ratio is the first ratio you see, and it is right in the most common textbook case, so it feels safe.',
         why_wrong: 'Illustrative: here a new ratio is stated, so each partner gave up a different share. The old ratio would make both sacrifice in 3:2.',
         key_idea: 'Illustrative: sacrifice = old share − new share, worked out for each partner. Use the old ratio only when the incoming share is taken in that ratio.',

@@ -83,7 +83,7 @@ test('Saved repairs: slipped, then waiting, then held; each opens free with one 
   assert.equal(saved.length, 9);
   assert.deepEqual(saved.slice(0, 4).map((s) => [s.number, s.state, s.action]), [[17, 'slipped', 'See repair'], [29, 'repaired', 'Check it held'], [27, 'repaired', 'Check it held'], [14, 'held', 'See repair']]);
   assert.equal(saved[0].line, 'Slipped on a new question tonight, 8:55 PM. Back in Revise tomorrow.');
-  assert.equal(saved[1].line, 'Repaired tonight, 8:30 PM. One new question shows whether it held.');
+  assert.equal(saved[1].line, 'Repaired tonight, 8:30 PM. New questions show whether it held.');
   assert.equal(savedLine(saved), '6 held on a new question, 1 slipped, 2 waiting for Check it held.');
 });
 

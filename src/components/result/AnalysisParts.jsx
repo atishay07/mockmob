@@ -9,6 +9,7 @@
 // so Back returns to it and a link can open a part. The open row is a neutral lit fill with a 3 px ink bar: never lime.
 // Motion: the old part fades out (120 ms) and the new one rises 8 px while fading in (200 ms); scale 0.98 on rows.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { BrandStamp } from '@/components/landing/BrandStamp';
 import './result-parts.css';
 
 const reduced = () => { try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; } };
@@ -46,7 +47,7 @@ export function scrollToPart(id) {
 }
 
 /**
- * parts: [{ id, name, line, figure, body }] in index order. `open` is the open part's id; `onOpen(id)` opens one.
+ * parts: [{ id, name, line, figure, body, empty? }] in index order (`empty`: "Next" passes over it). `open` is the open part's id; `onOpen(id)` opens one.
  */
 export default function AnalysisParts({ parts, open, onOpen }) {
   const indexRef = useRef(null);
@@ -68,8 +69,30 @@ export default function AnalysisParts({ parts, open, onOpen }) {
     const raf = requestAnimationFrame(() => setReady(true));
     return () => { ro.disconnect(); cancelAnimationFrame(raf); };
   }, [measure]);
+  // ARC-13: the part's sticky heading names what is under it. Once the part's own content has scrolled up under the heading
+  // (less than 96 px of it left in view), the heading steps away (160 ms fade), so at the foot of the page it never sits over
+  // the next paper or the links. Read on scroll, one frame at a time; nothing moves the page.
+  useEffect(() => {
+    let raf = 0;
+    const read = () => {
+      raf = 0;
+      const part = document.getElementById(`ap-part-${open}`);
+      const head = part?.querySelector(':scope > .ap-dhead');
+      const body = part?.querySelector(':scope > .ap-body');
+      if (!part || !head || !body) return;
+      const released = body.getBoundingClientRect().bottom < head.getBoundingClientRect().bottom + 96;
+      if (released !== part.hasAttribute('data-released')) part.toggleAttribute('data-released', released);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(read); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
+  }, [open]);
   const at = Math.max(0, parts.findIndex((p) => p.id === open));
-  const next = parts[at + 1] || null;
+  // ARC-11: "Next" skips a part with nothing in it (a paper with no mistakes), so it never leads into an empty part; the index
+  // still lists every part.
+  const next = parts.slice(at + 1).find((p) => !p.empty) || null;
   const choose = (id) => { onOpen(id); scrollToPart(id); };
   // Arrow keys move along the index (a list of buttons; Home and End jump).
   const onKey = (event) => {
@@ -84,6 +107,9 @@ export default function AnalysisParts({ parts, open, onOpen }) {
   };
   return (
     <section className="ap" aria-labelledby="ap-title">
+      {/* CONT-05 (R8): the product the website sells by name heads the result's analysis, in the brand-stamp pattern (the desk
+          object and the name in the brand-word colour, sentence case); the heading under it stays. */}
+      <BrandStamp icon="mistakes" name="Mistake Lab" />
       <h2 id="ap-title" className="ap-title">Your full analysis</h2>
       <p className="ap-lede">Six parts, each with what it found. One opens at a time.</p>
       <div className="ap-grid">

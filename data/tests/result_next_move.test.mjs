@@ -87,10 +87,10 @@ test('late at night is one plain line, never a figure', () => {
 });
 
 test('repair value and cost: the four parts before paying, the balance, the no-charge promise; unknown balance has no number', () => {
-  assert.equal(repairValueLine('D'), 'A repair gives you why D looked right, the trap, one rule to keep, and a new question to check it held.');
+  assert.equal(repairValueLine('D'), 'A repair gives you why D looked right, the trap, one rule to keep, and new questions to check it held.');
   assert.equal(repairValueLine('D', { checkReady: false }), 'A repair gives you why D looked right, the trap, and one rule to keep.');
-  assert.equal(repairCostLine(68), '1 credit. You have 68. No charge if the repair cannot be written.');
-  assert.equal(repairCostLine(null), '1 credit. No charge if the repair cannot be written.');
+  assert.equal(repairCostLine(68), 'Try it free first, then repair for 1 credit. You have 68. No charge if the repair cannot be written.');
+  assert.equal(repairCostLine(null), 'Try it free first, then repair for 1 credit. No charge if the repair cannot be written.');
 });
 
 test('the mistakes head: marks at stake, then repaired and held counts', () => {

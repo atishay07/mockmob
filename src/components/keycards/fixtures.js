@@ -148,6 +148,18 @@ const AC_ADMISSION = [
   ad('formula-sacrifice', 'formula', 'Formula: the sacrifice by a partner.', 'Old Share of Profit – New Share of Profit', { page: 54, order: 20 }),
 ];
 
+// Accountancy Part 2, chapter 1 (Share Capital): the two cards "The line you needed" shows under the preview paper's Q42 (calls in
+// arrears, ARC-18), copied verbatim from the bundled deck (data/keycards/decks/accountancy.json), NCERT's own words and pages.
+const SC_SRC = { kind: 'ncert', book: 'Accountancy Part 2: Company Accounts and Analysis of Financial Statements', code: 'leac201', chapterNo: 1 };
+const sc = (slug, kind, front, quote, extra) => ({
+  id: `kc.${AC}.share-capital.${slug}`, v: 1, subject: AC, chapterKey: `${AC}.share-capital`, chapter: 'Share Capital', unit: 'Company Accounts: Accounting for Share and Debenture Capital',
+  kind, front, back: quote, quote, blanks: [], source: { ...SC_SRC, page: extra.page, section: extra.section }, importance: 'must', asked: 0, tags: extra.tags, order: extra.order,
+});
+const AC_SHARE_CAPITAL = [
+  sc('def-calls-in-arrears-def', 'definition', 'Define Calls in Arrears.', "When any shareholder fails to pay the amount due on allotment or on any of the calls, such amount is known as 'Calls in Arrears'/'Unpaid Calls'.", { page: 16, section: '1.6.1 Calls in Arrears', tags: ['calls in arrears'], order: 630 }),
+  sc('formula-paid-up-formula', 'formula', 'Formula: paid up capital.', 'Therefore, paid up capital is equal to the called-up capital minus call in arrears.', { page: 4, section: '1.3.1 Categories of Share Capital', tags: ['categories', 'calls in arrears'], order: 290 }),
+];
+
 export const FIXTURE_DECKS = Object.freeze({ [CH1]: BS_CH1, [AC_CH]: AC_RATIOS, [AD_CH]: AC_ADMISSION });
 
 const KEYCARD_FREE = { tastePerChapter: 5, reviewsPerDay: 10, newPerDay: 5, lineNeededPerDay: 3 };
@@ -279,6 +291,8 @@ export function fixtureReviseKeycards({ isPro = false, limit = 3 } = {}) {
 
 export function fixtureLine(questionId, { isPro = false, variant = 'ready' } = {}) {
   if (variant === 'line-none' || /none/.test(String(questionId))) return { cards: [], source: 'none' };
+  // The result preview's Q42 is a calls-in-arrears question (ARC-18): its line is Share Capital's, linked.
+  if (String(questionId) === 'q42') return { cards: [...AC_SHARE_CAPITAL], source: 'linked', ...(isPro ? {} : { left: 2 }) };
   // Odd and even questions show the two sources the block can carry.
   const n = [...String(questionId)].reduce((a, ch) => a + ch.charCodeAt(0), 0);
   const linked = n % 2 === 0;

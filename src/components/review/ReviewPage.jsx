@@ -157,7 +157,8 @@ function AlsoInReview({ body, items, wallet, openUid, setOpenUid, onChanged }) {
       {blanks.length ? (
         <>
           <button type="button" className="rvw-row mk-press" aria-expanded={fold === 'blank'} onClick={() => toggle('blank')}>
-            <b>Not attempted</b>
+            {/* CONT-06 (R8): the three answer states read Right / Wrong / Blank on every web surface. */}
+            <b>Blanks</b>
             <span>{blanks.length} left blank in {joinNames(blankPapers)}, {blanks.length * 5} marks not earned. Try any of them again, free.</span>
             <i className="rvw-chev" data-dir="down" aria-hidden="true" />
           </button>

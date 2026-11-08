@@ -54,7 +54,7 @@ test('the result page links to Practice with the same subject and mode, and pric
   assert.equal(full.href, '/dashboard?subject=accountancy&mode=full');
   assert.equal(full.fresh, 'Your next Full mock in Accountancy is built new from the 1,404 questions in the bank, questions you have not answered first.');
   assert.equal(full.price, 'There is no cap on how many papers you take. A Full mock uses 50 credits. You have 40.');
-  assert.equal(full.action, 'Set up another Full mock');
+  assert.equal(full.action, 'Take another full mock', 'ARC-11: the same words as the next move for the same action');
 
   const pro = nextPaper({ mode: 'nta', subject: 'gat', subjectName: 'Gat', count: 227, isPremium: true });
   assert.doesNotMatch(pro.fresh, /227/);

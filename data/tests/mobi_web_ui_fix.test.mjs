@@ -25,12 +25,15 @@ const MOBI = {
   crowd: null, steps: ['trap', 'why_your_option', 'why_key', 'rule', 'check_1', 'check_2'],
 };
 
-test('the price is said before the tap, on every plan, and the key names the job', () => {
-  assert.equal(FIX_COPY.startLabel, 'Fix it for good, 1 credit');
+test('the price is said before the tap, on every plan, and the key carries the one Repair verb (R8 ARC-01, owner D15)', () => {
+  assert.equal(FIX_COPY.startLabel(7), 'Repair Q7, 1 credit');
+  assert.equal(FIX_COPY.startLabel(null), 'Repair, 1 credit');
+  assert.equal(FIX_COPY.startTitle(7), 'Repair Q7');
   assert.equal(FIX_COPY.askTitle(7), 'Ask Mobi about Q7');
   assert.equal(FIX_COPY.askTitle(null), 'Ask Mobi about this question');
-  assert.equal(FIX_COPY.startAria(7), 'Fix it for good, 1 credit, for Q7', 'the accessible name starts with the visible words');
-  assert.equal(FIX_COPY.startLine('B'), 'Why option B looked right, why the key is right and one rule to keep. Then 2 new questions to check the fix held.');
+  assert.equal(FIX_COPY.startAria(7), 'Repair Q7, 1 credit', 'the accessible name starts with the visible words');
+  // ARC-04: the job asks up to 2 checks (a second only when one exists), so the line names no count; Mobi's job is said in it.
+  assert.equal(FIX_COPY.startLine('B'), 'Mobi fixes it for good: why option B looked right, why the key is right and one rule to keep. Then new questions on the same idea to check it held.');
   assert.equal(FIX_COPY.check(2), 'Check 2 of 2');
   for (const v of Object.values(FIX_COPY)) assert.doesNotMatch(typeof v === 'function' ? v(3) : v, BANNED);
 });
@@ -66,10 +69,11 @@ test('check 1 then check 2 (slot 2), then held in the server\'s words; unknown s
 
 test('wiring: Review\'s key and the result\'s start say the job and its price; check 2 and held follow check 1', () => {
   const sheet = read('src/components/review/AnswerSheet.jsx');
-  assert.match(sheet, /aria-label=\{FIX_COPY\.startAria\(item\.number\)\}>\{FIX_COPY\.startLabel\}<\/button>/);
+  assert.match(sheet, /aria-label=\{FIX_COPY\.startAria\(item\.number\)\}>\{FIX_COPY\.startLabel\(item\.number\)\}<\/button>/);
   const repair = read('src/components/recovery/MistakeRepair.jsx');
-  assert.match(repair, /<p className="mr-ask-title">\{FIX_COPY\.askTitle\(number\)\}<\/p>/);
-  assert.match(repair, /<b>\{FIX_COPY\.start\}<\/b>/);
+  // ARC-01: no second title above the key names the action again; the key itself says "Repair Q7".
+  assert.doesNotMatch(repair, /<p className="mr-ask-title">/);
+  assert.match(repair, /<b>\{FIX_COPY\.startTitle\(number\)\}<\/b>/);
   assert.match(repair, /showCheck && showSecondCheck\(\{ fix, first \}\) \? \(\s*<RepairCheck attemptId=\{attemptId\} questionId=\{questionId\} check=\{null\} slot=\{2\} of=\{2\}/);
   assert.ok(repair.indexOf('slot={2}') > repair.indexOf('check={state.check}'), 'check 2 after check 1');
   assert.ok(repair.indexOf('className="mr-held"') > repair.indexOf('slot={2}'), 'held after check 2');

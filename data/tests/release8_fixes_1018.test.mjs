@@ -162,9 +162,9 @@ test('W-032: a Review row\'s Repair opens the sealed sheet (Try it again, Show t
   assert.doesNotMatch(page, /autoRepair|setAuto|auto=\{/, 'no auto-start path in the chapter rows');
   assert.match(page, /onRepair=\{\(\) => setOpenUid\(m\.uid\)\}/);
   assert.match(page, /className="rv8-act mk-press" onClick=\{onRepair\}/);
-  // The sealed sheet carries the priced key; nothing on the row itself reserves a credit. v13 (C-dec 3, D157): the key is
-  // Mobi's job, "Fix it for good, 1 credit" (fixForGood.mjs FIX_COPY.startLabel), its price said before the tap.
-  assert.match(read('src/components/review/AnswerSheet.jsx'), /aria-label=\{FIX_COPY\.startAria\(item\.number\)\}>\{FIX_COPY\.startLabel\}<\/button>/);
+  // The sealed sheet carries the priced key; nothing on the row itself reserves a credit. R8 ARC-01 (owner D15, one label): the key
+  // reads "Repair Q7, 1 credit" (fixForGood.mjs FIX_COPY.startLabel), the list's own verb, its price said before the tap.
+  assert.match(read('src/components/review/AnswerSheet.jsx'), /aria-label=\{FIX_COPY\.startAria\(item\.number\)\}>\{FIX_COPY\.startLabel\(item\.number\)\}<\/button>/);
 });
 
 test('W-032: reopening a saved repair is quiet and free: the server answers "stored" before it reserves, whatever the request id', () => {

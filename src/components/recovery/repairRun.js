@@ -11,7 +11,8 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 // ---------- Words (ReviewCopy in the app) ----------
 
 export const RUN_COPY = Object.freeze({
-  progress: (i, n) => `${i} of ${plural(n, 'mistake')}`,
+  // ARC-09: the run counts what it can repair (a key under re-check is left out), so it says so: "1 of 14 to repair".
+  progress: (i, n) => `${i} of ${n} to repair`,
   trackLabel: 'Repair progress',
   trackHint: 'Use the arrow keys to step between mistakes you have opened.',
   trackGo: 'Show this mistake',
@@ -34,12 +35,15 @@ export const RUN_COPY = Object.freeze({
   endingUnit: (n) => (n === 1 ? 'mistake repaired' : 'mistakes repaired'),
   // The four steps of a mistake, the same words as the app's ReviewCopy (found, repaired, retested,
   // stillRight, lifeCaption, lifeSpoken in flutter_app lib/features/review/copy.dart). Found: the
-  // question was answered wrong. Repaired: the server acknowledged a repair. Retested (right on a new
-  // question on the same idea) and Still right (right again later) have no source yet, so they are
-  // never lit and the line says so.
+  // question was answered wrong. Repaired: the server acknowledged a repair. Retested: Check it held,
+  // marked right by the server in this run (ARC-02, R8: the check ships with the repair, so the step
+  // is lit when it held). Still right (right again later, in Revise) has no source on this page, so it
+  // is never lit here. The line under the steps says what happened, never that a step is missing.
   stages: Object.freeze(['Found', 'Repaired', 'Retested', 'Still right']),
   stagesLabel: 'Steps: Found, Repaired, Retested, Still right',
-  laterSteps: 'The last two steps test you with new questions on the same idea. They are not ready yet.',
+  laterHeld: 'Held on a new question. Revise brings it back later to see if it is still right.',
+  laterSlipped: 'Slipped on a new question. Revise brings the idea back to try again.',
+  laterUnchecked: 'Check it held asks new questions on the same idea. They come with the repair, at no extra credit.',
   nothingTitle: 'Nothing repaired this time',
   mobiRepaired: 'Mobi, pleased with the repair',
   mobiNothing: 'Mobi, ready for another try',
@@ -201,7 +205,18 @@ export function earlierMissAt(miss, now = Date.now()) {
  * aside; a mistake the student reached that did not settle (a failed call, "could not explain") is
  * a miss; the rest were never opened.
  */
-export function endingModel({ ids = [], outcomes = {}, reached = new Set() } = {}) {
+/** The line under the four steps: held on a check, slipped on one, or no check taken yet in this run. */
+export function laterLine(model) {
+  if (model?.retested?.length) return RUN_COPY.laterHeld;
+  if (model?.slipped?.length) return RUN_COPY.laterSlipped;
+  return RUN_COPY.laterUnchecked;
+}
+
+/**
+ * checks  { [qid]: { right } }: Check it held as the server marked it in this visit (ARC-02). A repair of this run whose check
+ *         came back right is `retested`; one that came back wrong is `slipped`. Nothing else lights Retested.
+ */
+export function endingModel({ ids = [], outcomes = {}, reached = new Set(), checks = {} } = {}) {
   const repairedNow = [];
   const repairedEarlier = [];
   const setAside = [];
@@ -215,9 +230,12 @@ export function endingModel({ ids = [], outcomes = {}, reached = new Set() } = {
     else if (reached.has(id) || REPAIR_OUTCOMES.includes(o)) missed.push(id);
     else untouched.push(id);
   }
+  const repairedAll = [...repairedNow, ...repairedEarlier];
+  const retested = repairedAll.filter((id) => checks?.[id]?.right === true);
+  const slipped = repairedAll.filter((id) => checks?.[id]?.right === false);
   return {
     repaired: repairedNow.length,
-    repairedNow, repairedEarlier, setAside, missed, untouched,
+    repairedNow, repairedEarlier, setAside, missed, untouched, retested, slipped,
     left: missed.length + untouched.length,
     nothing: repairedNow.length === 0,
   };
@@ -231,7 +249,7 @@ export function retryIds(model) {
 /** The one fact the number does not carry: what is left, and what is set aside. */
 export function endingFact({ left = 0, setAside = 0 } = {}) {
   return [
-    left === 0 ? 'Nothing left from this paper.' : `${left} left from this paper.`,
+    left === 0 ? 'Nothing left to repair from this paper.' : `${left} left to repair from this paper.`,
     setAside > 0 ? `${setAside} set aside while ${setAside === 1 ? 'its key is' : 'their keys are'} checked.` : null,
   ].filter(Boolean).join(' ');
 }

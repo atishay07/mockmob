@@ -1,7 +1,7 @@
 // "Fix it for good": Mistake Repair as Mobi's flagship job (C-dec 3 and 3b, D157; contract MOBI-CONTRACT section 4). PURE.
 //
-// Reached from "Ask Mobi about Q7" on a paper's answers. The price is said before the tap: "Fix it for good, 1 credit", on
-// every plan (Pro does not make it free). The job, in order: your option, why it looked right (with your own history of that
+// Reached from "Repair Q7" on a paper's answers. The price is said before the tap: "Repair Q7, 1 credit", on every plan (Pro
+// does not make it free); Mobi's line under the key says it fixes the mistake for good. The job, in order: your option, why it looked right (with your own history of that
 // trap), why the key is right, one rule to keep, check 1 then check 2 (2 new, unseen, verified questions on the same idea),
 // then held. A stored fix reopens free; a key dispute and a failed fix cost nothing.
 import { askLabel, checkHref } from '../../../data/repair_check_client.mjs';
@@ -10,17 +10,21 @@ export const FIX_PRICE = 1;
 
 export const FIX_COPY = Object.freeze({
   askTitle: (number) => askLabel(number).replace('this mistake', 'this question'),
-  start: 'Fix it for good',
+  // ARC-01 (R8, owner D15 "one label per action"): the paid control carries the same verb as the next move, the row's
+  // chip and Review ("Repair Q42"); "fix it for good" is Mobi's description of the job, said under it, never a second label.
+  start: 'Repair',
+  startTitle: (number) => (Number.isInteger(number) && number > 0 ? `Repair Q${number}` : 'Repair'),
   price: '1 credit',
-  startLabel: 'Fix it for good, 1 credit',
-  // The accessible name starts with the visible words, then names the question.
-  startAria: (number) => (Number.isInteger(number) && number > 0 ? `Fix it for good, 1 credit, for Q${number}` : 'Fix it for good, 1 credit'),
-  startLine: (pick) => `Why ${pick ? `option ${pick}` : 'your answer'} looked right, why the key is right and one rule to keep. Then 2 new questions to check the fix held.`,
-  noCredits: (pick) => `Fixing it for good shows why ${pick || 'your pick'} looked right, the trap, one rule and 2 new questions to check it held, for 1 credit.`,
+  startLabel: (number) => `${Number.isInteger(number) && number > 0 ? `Repair Q${number}` : 'Repair'}, 1 credit`,
+  // The accessible name starts with the visible words.
+  startAria: (number) => `${Number.isInteger(number) && number > 0 ? `Repair Q${number}` : 'Repair'}, 1 credit`,
+  // ARC-04: the job asks up to 2 checks (a second only when a second unseen question exists), so no surface names a count.
+  startLine: (pick) => `Mobi fixes it for good: why ${pick ? `option ${pick}` : 'your answer'} looked right, why the key is right and one rule to keep. Then new questions on the same idea to check it held.`,
+  noCredits: (pick) => `A repair shows why ${pick || 'your pick'} looked right, the trap, one rule and new questions to check it held, for 1 credit.`,
   yourOption: 'Your option',
   theKey: 'The key',
   check: (slot) => `Check ${slot} of 2`,
-  secondLead: 'A second new question on the same idea. It comes with this fix, so there is no extra credit.',
+  secondLead: 'A second new question on the same idea. It comes with this repair, so there is no extra credit.',
   heldTitle: 'Held',
   slippedTitle: 'Not held yet',
   writing: (number) => (Number.isInteger(number) ? `Mobi is fixing Q${number} for good.` : 'Mobi is fixing this for good.'),

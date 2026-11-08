@@ -1,6 +1,10 @@
 /* Your full analysis, pass 1018 (REVIEW-RESULT-1018 5.2 to 5.4). Hairline index rows (72-76 px), no cards; the open row is a
    neutral lit fill with a 3 px ink bar (never lime). One part open: below the index on phones and in a narrow column, beside it when the column is 880 px or wider. */
 .ap { --ap-ease: cubic-bezier(0.23, 1, 0.32, 1); margin-top: 36px; min-width: 0; container: ap / inline-size; }
+/* CONT-05: the Mistake Lab stamp over the heading (BrandStamp; the landing's pattern in Arena tokens: volt in Night, the Day green). */
+.ap .lp-stamp { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 8px; padding: 0; color: var(--a-accent-text); font: 700 15px/1.2 var(--font-body); letter-spacing: 0; }
+.ap .lp-stamp__icon { display: block; flex: none; width: var(--stamp-icon, 28px); height: var(--stamp-icon, 28px); }
+.ap .lp-stamp__icon img { display: block; width: 100%; height: 100%; object-fit: contain; -webkit-user-drag: none; pointer-events: none; }
 .ap .ap-title { margin: 0; font: 740 26px/1.15 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); }
 .ap-lede { margin: 6px 0 0; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
 .ap-grid { margin-top: 14px; min-width: 0; }
@@ -32,11 +36,17 @@
   position: sticky; top: var(--arena-topbar-h, 63px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px;
   min-height: 56px; margin-bottom: 10px; background: var(--a-bg); border-bottom: 1px solid var(--a-line); scroll-margin-top: var(--arena-topbar-h, 63px);
 }
+/* ARC-13: once the part's content has scrolled under its heading, the heading steps away instead of labelling what follows. */
+.ap-dhead { transition: opacity 160ms var(--ap-ease), transform 160ms var(--ap-ease), visibility 0s linear 0s; }
+.ap-part[data-released] > .ap-dhead { opacity: 0; transform: translateY(-6px); visibility: hidden; pointer-events: none; transition: opacity 160ms var(--ap-ease), transform 160ms var(--ap-ease), visibility 0s linear 160ms; }
 /* A row opened by a jump (?q=N, a chip, Repair next) lands below the sticky part heading (56 px plus its 1 px rule), not under it:
    a mistake's row in Your mistakes (.rx-row) and a row in Answer by answer (.rp-q). */
 .ap-body :is(.rp-q, .rx-row) { scroll-margin-top: calc(var(--arena-topbar-h, 63px) + 57px + 12px); }
 .ap-dhead h3 { margin: 0; font: 740 22px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); scroll-margin-top: var(--arena-topbar-h, 63px); }
-.ap .ap-all { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); white-space: nowrap; }
+/* ARC-17: the way back to the index is a real 44 px key (an outlined chip), not a small underlined link. */
+.ap .ap-all { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink); white-space: nowrap; transition: transform 160ms var(--ap-ease), border-color 160ms var(--ap-ease); }
+.ap .ap-all:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .ap .ap-all:hover { border-color: var(--a-ink-3); } }
 .ap .ap-next {
   display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 52px; margin-top: 18px; padding: 6px 0 0;
   border: 0; border-top: 1px dashed var(--a-line-strong); background: none; cursor: pointer; text-align: left;
@@ -82,6 +92,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .ap-part { animation: none; }
+  .ap-dhead, .ap-part[data-released] > .ap-dhead { transition: none; transform: none; }
   .ap .ap-row, .ap .ap-next, .ap-mark[data-ready] { transition: none; }
 }
 

@@ -16,7 +16,8 @@ import {
 import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
 import { attemptedWhen } from '@/../data/repair_paper.mjs';
 import { AuthContext } from '@/components/AuthProvider';
-import { useWalletSummary } from '@/components/useWalletSummary';
+import { announceWallet, useWalletSummary } from '@/components/useWalletSummary';
+import { walletFromResponse } from '@/services/credits/aiWalletState';
 import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
@@ -25,6 +26,7 @@ import RepairCheck from './RepairCheck';
 import RepairAsk from './RepairAsk';
 import { RUN_COPY, arrowIntent, swipeIntent } from './repairRun';
 import { FIX_COPY, heldView, historyLine, isFixJob, pickLines, showSecondCheck } from './fixForGood.mjs';
+import { settleInto } from '@/components/result/settleInto.mjs';
 import './mistake-repair.css';
 
 const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40).padEnd(16, '0');
@@ -53,13 +55,13 @@ function RepairStart({ chosen, number = null, onStart }) {
       </div>
     );
   }
-  // "Ask Mobi about Q7" is this job: the title names the question, the key names the job and its price before the tap.
+  // ARC-01 (R8, owner D15): the key carries the one verb the next move, the row and Review use ("Repair Q7") and its price
+  // before the tap; Mobi's line under it says what the job is ("fixes it for good"). No second title names it again.
   return (
     <>
-      <p className="mr-ask-title">{FIX_COPY.askTitle(number)}</p>
       <button type="button" className="mr-start" onClick={onStart} aria-label={`${FIX_COPY.startAria(number)}. ${FIX_COPY.startLine(chosen)}`}>
         <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-        <span className="mr-start__text"><b>{FIX_COPY.start}</b><small>{FIX_COPY.startLine(chosen)}</small></span>
+        <span className="mr-start__text"><b>{FIX_COPY.startTitle(number)}</b><small>{FIX_COPY.startLine(chosen)}</small></span>
         <span className="mr-start__cost">{FIX_COPY.price}</span>
       </button>
       <RepairCost />
@@ -193,7 +195,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const order = [
     'head', picks && 'picks', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
     'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'ask', showCheck && 'check', showCheck && fix && 'check2', heldNow && 'held', record.length > 0 && 'record',
-    stake && 'marks', state.practiceHref && 'do', 'foot',
+    stake && 'marks', 'foot', 'do',
   ].filter(Boolean);
   const stagger = (id) => ({ '--mr-i': order.indexOf(id) });
   const practiceLabel = REPAIR_COPY.practise(state.practiceAction?.chapter || null);
@@ -257,15 +259,13 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
         </div>
       ) : null}
       {stake ? <p className="mr-marks" data-stagger style={stagger('marks')}>{stake.line}</p> : null}
-      {state.practiceHref ? (
-        <div className="mr-block mr-do" data-stagger style={stagger('do')}>
-          {v3 ? <h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5> : null}
-          <Link className={`mr-practice${next ? ' mr-practice--quiet' : ''}`} href={state.practiceHref}>{practiceLabel}</Link>
-        </div>
-      ) : null}
-      <footer className="mr-foot" data-stagger style={stagger('foot')}>
-        <span className="mr-fine">{state.status === 'stored' ? REPAIR_COPY.savedFoot(attemptedWhen(Date.parse(state.repair?.generatedAt))) : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</span>
+      {/* ARC-06: the receipt is fine print above the next step, so nothing sits between the two actions; under "Do this next" the
+          volt Next mistake leads and the chapter set follows it (with no next mistake, the set leads). */}
+      <p className="mr-fine mr-receipt" data-stagger style={stagger('foot')}>{state.status === 'stored' ? REPAIR_COPY.savedFoot(attemptedWhen(Date.parse(state.repair?.generatedAt))) : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</p>
+      <footer className="mr-foot mr-do" data-stagger style={stagger('do')}>
+        {v3 && (state.practiceHref || nextButton) ? <h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5> : null}
         {nextButton || <p className="mr-left">No other mistakes left to repair in this session.</p>}
+        {state.practiceHref ? <Link className={`mr-practice${next ? ' mr-practice--quiet' : ''}`} href={state.practiceHref}>{practiceLabel}</Link> : null}
       </footer>
     </section>
   );
@@ -281,8 +281,11 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   insights   { lines: [{ kind, text }] } | null: this answer's "From your record" sentences, built on the server
 //   saved      the server holds a written repair for this mistake (lab.repaired): it opens free, never offered as paid (F17)
 //   onCheck    (questionId, { right, replayed }): Check it held came back marked by the server
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null, askContext = null }) {
+//   practice   { href, label }: the chapter set offered beside Try again when the repair fails (ARC-07)
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null, askContext = null, practice = null }) {
   const [state, setState] = useState({ status: 'idle' });
+  const auth = useContext(AuthContext);
+  const userId = auth?.user?.id || null;
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
   const [folded, setFolded] = useState(true);
@@ -335,10 +338,23 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
         return;
       }
       setFolded(true);
-      setState({ status: body.status, ...body });
+      setState({ status: body.status, ...body, op: requestId.current });
       onSettled?.(questionId, body.status);
     } finally { inFlight.current = false; }
   }
+
+  // ARC-03 (W-060, one balance everywhere): a repair that spent a credit reads the wallet once more, as Ask Mobi does after a
+  // reply, and announces it, so the top bar chip and every "You have N" line take the new total at once. Keyed on the request,
+  // so it runs once per paid repair; a free reopen or a failure (charged 0) reads nothing.
+  const charged = state.status === 'explained' && Number(state.charged) > 0 ? state.op || 'repair' : null;
+  useEffect(() => {
+    if (!charged || !userId) return undefined;
+    let alive = true;
+    fetch('/api/ai/credits', { cache: 'no-store' })
+      .then(async (res) => { const body = await res.json().catch(() => null); if (alive) announceWallet(userId, walletFromResponse(body, { ok: res.ok })); })
+      .catch(() => { /* the next read catches up */ });
+    return () => { alive = false; };
+  }, [charged, userId]);
 
   useEffect(() => {
     if (state.status !== 'loading') return undefined;
@@ -353,6 +369,25 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
     queueMicrotask(() => run({ quiet: !!saved }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoStart, initialReview, saved]);
+
+  // ARC-05: when the repair (or its wait line) arrives, its heading must not land under the sticky top bar and run line. If the
+  // panel is on screen and its heading is hidden by them, the page brings the panel under the chrome once (settleInto stops the
+  // moment the student scrolls or taps). A panel off screen (a saved repair opening on load) is never pulled into view.
+  const shellRef = useRef(null);
+  const aimed = state.status === 'explained' || state.status === 'stored' || state.status === 'loading' ? state.status : null;
+  useEffect(() => {
+    if (!aimed || typeof window === 'undefined') return undefined;
+    const raf = requestAnimationFrame(() => requestAnimationFrame(() => {
+      const shell = shellRef.current;
+      if (!shell) return;
+      const box = shell.getBoundingClientRect();
+      if (box.bottom <= 0 || box.top >= window.innerHeight) return;
+      const head = shell.querySelector('.mr-head, .mr-top') || shell;
+      const margin = parseFloat(window.getComputedStyle(shell).scrollMarginTop) || 0;
+      if (head.getBoundingClientRect().top < margin - 8) settleInto(shell, { behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }));
+    return () => cancelAnimationFrame(raf);
+  }, [aimed]);
 
   // `next` is computed by the page from the mistakes not yet handled, never counting this one.
   const nextButton = next
@@ -428,7 +463,12 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
             {mobi}
             <p className="mr-note">{state.message}</p>
           </div>
-          {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
+          {/* ARC-07: a failure never ends the run here. Try again leads; the next mistake and the chapter set stay one tap away. */}
+          <div className="mr-foot mr-fail">
+            {state.canRetry ? <button type="button" className="mr-retry" data-lead="" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
+            {state.status === 'error' && next ? <button type="button" className="mr-next-btn mr-next-btn--quiet" onClick={next.go}>Next mistake: Q{next.number}</button> : null}
+            {state.status === 'error' && practice?.href && state.code !== 'insufficient_ai_credits' ? <Link className="mr-practice mr-practice--quiet" href={practice.href}>{practice.label}</Link> : null}
+          </div>
           {/* Out of credits: the free ways forward, not a dead end. */}
           {state.code === 'insufficient_ai_credits' ? (
             <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/wallet">See your credits</Link></p>
@@ -459,5 +499,5 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
     return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights} askContext={askContext}
       folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} from={paper} onCheck={onCheck} />;
   })();
-  return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
+  return <div className="mr-shell" ref={shellRef} data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
 }

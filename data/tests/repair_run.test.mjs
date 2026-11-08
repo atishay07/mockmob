@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import {
   RUN_COPY, runSegments, canGoTo, segmentLabel, stepIndex, swipeIntent, arrowIntent,
   sourceLabel, buildMissedBefore, earlierMisses, missedCount, dayMonth, earlierMissLine,
-  endingModel, retryIds, endingFact, nothingLine, tonightOrToday, finishFor, endingAct, repairAct,
+  endingModel, laterLine, retryIds, endingFact, nothingLine, tonightOrToday, finishFor, endingAct, repairAct,
   createOnceGate, createTapCycle, tapAct, REPAIR_MOBI_MOOD, TAP_CYCLE, TAP_VISIT_CAP, TAP_IDLE_RESET_MS,
 } from '../../src/components/recovery/repairRun.js';
 import { repairMood } from '../repair_presentation.mjs';
@@ -35,8 +35,9 @@ test('only reached segments can be shown again, and stepping skips what is ahead
   assert.equal(segmentLabel(seg, 1), 'Mistake 2 of 4, on screen');
   assert.equal(segmentLabel(seg, 3), 'Mistake 4 of 4, not reached yet');
   assert.equal(segmentLabel(runSegments({ ids, numbers, outcomes: { a: 'explained' }, reached: new Set(['a']), current: 'a' }), 0), 'Mistake 1 of 4, repaired, on screen');
-  assert.equal(RUN_COPY.progress(1, 1), '1 of 1 mistake');
-  assert.equal(RUN_COPY.progress(2, 5), '2 of 5 mistakes');
+  // ARC-09: the run counts what it can repair, and says so.
+  assert.equal(RUN_COPY.progress(1, 1), '1 of 1 to repair');
+  assert.equal(RUN_COPY.progress(2, 5), '2 of 5 to repair');
 });
 
 test('a swipe needs distance, speed and a mostly sideways path; arrows ignore fields and modifiers', () => {
@@ -110,9 +111,9 @@ test('the ending counts only what the server acknowledged and names the misses',
 });
 
 test('the ending says what is left and what is set aside, plainly', () => {
-  assert.equal(endingFact({ left: 0, setAside: 0 }), 'Nothing left from this paper.');
-  assert.equal(endingFact({ left: 2, setAside: 1 }), '2 left from this paper. 1 set aside while its key is checked.');
-  assert.equal(endingFact({ left: 0, setAside: 3 }), 'Nothing left from this paper. 3 set aside while their keys are checked.');
+  assert.equal(endingFact({ left: 0, setAside: 0 }), 'Nothing left to repair from this paper.');
+  assert.equal(endingFact({ left: 2, setAside: 1 }), '2 left to repair from this paper. 1 set aside while its key is checked.');
+  assert.equal(endingFact({ left: 0, setAside: 3 }), 'Nothing left to repair from this paper. 3 set aside while their keys are checked.');
   // Release 11: the place is called Your papers (the nav, the tab and the page title).
   assert.equal(nothingLine({ setAside: 0 }), 'Your mistakes stay in Your papers.');
   assert.equal(nothingLine({ setAside: 2 }), '2 set aside. They stay in Your papers.');
@@ -195,13 +196,24 @@ test('the run is wired in: the repair panel takes the run props, Mobi goes throu
   assert.match(css, /rt-in-a 160ms/, 'the hand-over is 160 ms');
 });
 
-test('the four steps are the app words (ReviewCopy in flutter_app copy.dart) and say plainly that the last two are not ready', () => {
+test('the four steps are the app words; Retested is lit only by a check that held in this run, and the line says what happened (ARC-02)', () => {
   assert.deepEqual([...RUN_COPY.stages], ['Found', 'Repaired', 'Retested', 'Still right']);
   assert.equal(RUN_COPY.stagesLabel, `Steps: ${RUN_COPY.stages.join(', ')}`);
-  assert.equal(RUN_COPY.laterSteps, 'The last two steps test you with new questions on the same idea. They are not ready yet.');
+  const ids = ['a', 'b', 'c'];
+  const held = endingModel({ ids, outcomes: { a: 'explained', b: 'explained' }, reached: new Set(ids), checks: { a: { right: true } } });
+  assert.deepEqual(held.retested, ['a']);
+  assert.equal(laterLine(held), 'Held on a new question. Revise brings it back later to see if it is still right.');
+  const slipped = endingModel({ ids, outcomes: { a: 'explained' }, reached: new Set(ids), checks: { a: { right: false } } });
+  assert.deepEqual(slipped.retested, []);
+  assert.equal(laterLine(slipped), 'Slipped on a new question. Revise brings the idea back to try again.');
+  const unchecked = endingModel({ ids, outcomes: { a: 'explained' }, reached: new Set(ids) });
+  assert.deepEqual(unchecked.retested, []);
+  assert.equal(laterLine(unchecked), 'Check it held asks new questions on the same idea. They come with the repair, at no extra credit.');
+  assert.doesNotMatch(Object.values(RUN_COPY).filter((v) => typeof v === 'string').join(' '), /not ready yet/, 'the ending never denies a step the student took');
   const ending = read('src/components/recovery/RepairEnding.jsx');
   assert.match(ending, /aria-label=\{RUN_COPY\.stagesLabel\}/);
-  assert.match(ending, /\{RUN_COPY\.laterSteps\}/);
+  assert.match(ending, /\{laterLine\(model\)\}/);
+  assert.match(ending, /data-lit=\{model\.retested\?\.length \? true : undefined\}/);
   for (const old of ['>Checked<', '>Holds<', 'Checked comes later']) assert.ok(!ending.includes(old), `no "${old}" on the ending`);
 });
 

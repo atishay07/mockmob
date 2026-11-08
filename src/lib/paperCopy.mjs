@@ -110,7 +110,10 @@ export function nextPaper({ mode, subject, subjectName = '', count = null, total
   else if (modeId === 'nta' || modeId === 'smart') price = `There is no cap on how many papers you take. ${name} needs Pro.`;
   else if (modeId === 'full') price = `There is no cap on how many papers you take. ${usesLine({ what: 'A Full mock', cost: MODE_COST.full, pool: 'practice', balance })}`;
   else price = ['There is no cap on how many papers you take. Practice shows the price before it starts.', haveLine(balance) && `You have ${creditCountShort(balance)}.`].filter(Boolean).join(' ');
-  return { title: 'Take another fresh paper', fresh, price, href, action: modeId ? `Set up another ${modeId === 'nta' ? 'NTA paper' : name}` : 'Set up another paper' };
+  // ARC-11 (R8): a full mock's key says what the result's next move says for the same action ("Take another full mock"), so
+  // one action has one label on the page.
+  const action = modeId === 'full' ? 'Take another full mock' : modeId ? `Set up another ${modeId === 'nta' ? 'NTA paper' : name}` : 'Set up another paper';
+  return { title: 'Take another fresh paper', fresh, price, href, action };
 }
 
 function creditCountShort(balance) {
