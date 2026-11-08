@@ -55,6 +55,7 @@ const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, p
 // scroll position and the tool on stage never disagree. Without IntersectionObserver the old
 // carousel returns: native swipes, timed autoplay with an explicit Pause, keyboard focus holds it.
 function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) {
+  const rootRef = useRef(null);
   const trackRef = useRef(null);
   const navRef = useRef(null);
   const clockRef = useRef(null);
@@ -153,8 +154,10 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
 
   const goTo = useCallback((index, { scroll = true, keyboard = false } = {}) => {
     if (!slides.length) return;
+    // Held, the tour never wraps (R8 SEC-05): a wrap threw the reader about 4,900 px back to the first tool, or on to the
+    // last. The first tool's Prev is disabled and the last tool's Next is a link to the next section (below).
+    if (pinned) { if (index >= 0 && index < slides.length) storyGoTo(index, { instant: keyboard }); return; }
     const next = (index + slides.length) % slides.length;
-    if (pinned) { storyGoTo(next, { instant: keyboard }); return; }
     const adjacent = Math.abs(next - activeRef.current) === 1;
     activeRef.current = next;
     setCarousel(next);
@@ -216,12 +219,53 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     else { clockRef.current?.clock.pause(); clockRef.current?.progress?.pause(); }
   }, [running, active, visit]);
 
+  // The section after the tour (the next section with an id, named by its stamp or heading): where the last tool's Next
+  // goes while the tour is held, the same place the bottom bar's Skip goes.
+  const [after, setAfter] = useState(null);
+  useEffect(() => {
+    const host = rootRef.current?.closest('section[id]');
+    for (let node = host?.nextElementSibling; node; node = node.nextElementSibling) {
+      if (!node.id || node.hidden) continue;
+      const name = (node.querySelector('.lp-stamp__name') || node.querySelector('h2'))?.textContent?.trim().replace(/\.$/, '');
+      if (name) setAfter({ id: node.id, name });
+      return;
+    }
+  }, []);
+  const atStart = pinned && active === 0;
+  const atEnd = pinned && Boolean(after) && active === slides.length - 1;
+  // R8 SEC-05 (revision): at the held tour's ends Next swaps between a button and a link. Keyboard focus follows the key
+  // through the swap instead of dropping to <body>; activating the link hands focus to the next section's heading.
+  const focusedNext = useRef(null);
+  const onNextFocus = useCallback((event) => { focusedNext.current = event.currentTarget; }, []);
+  const onNextBlur = useCallback((event) => {
+    const el = event.currentTarget;
+    if (event.relatedTarget) { focusedNext.current = null; return; }
+    // Blur to nowhere: a swap (handled in the layout effect below) or a click on blank page; the latter forgets the key.
+    requestAnimationFrame(() => { if (focusedNext.current === el && el.isConnected) focusedNext.current = null; });
+  }, []);
+  const onAfterLink = useCallback(() => {
+    focusedNext.current = null;
+    const heading = after && document.getElementById(after.id)?.querySelector('h2');
+    if (!heading) return;
+    if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  }, [after]);
+  // Only when the focused key itself was swapped out (focus fell to <body>) does it move to the new key.
+  useLayoutEffect(() => {
+    const was = focusedNext.current;
+    if (!was || was.isConnected) return;
+    focusedNext.current = null;
+    const focused = document.activeElement;
+    if (focused && focused !== document.body) return;
+    rootRef.current?.querySelector('.ft__next')?.focus({ preventScroll: true });
+  }, [atEnd]);
+
   const paused = !playing || keyboardHold;
   const next = slides[(active + 1) % slides.length];
   const status = reduced ? 'Explore' : paused ? 'Paused' : pinned ? 'Live demo' : 'Autoplay';
 
   return (
-    <div className="ft" role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'} data-keyboard={keyboardHold ? 'true' : 'false'}
+    <div className="ft" ref={rootRef} role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'} data-keyboard={keyboardHold ? 'true' : 'false'}
       onPointerDownCapture={event => { if (!event.target.closest('.ft__play')) setKeyboardHold(false); }}
       onFocusCapture={event => { if (!pinned && !event.target.closest('.ft__play') && event.target.matches(':focus-visible')) setKeyboardHold(true); }}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardHold(false); }}>
@@ -277,8 +321,10 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
           </div>
 
           <div className="ft__controls">
-            <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
-            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span></button>
+            <button type="button" className="ft__arrow" aria-disabled={atStart || undefined} onClick={event => { if (atStart) return; goTo(active - 1, { keyboard: event.detail === 0 }); }} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
+            {atEnd
+              ? <a className="ft__next" href={'#' + after.id} data-page-jump="" onClick={onAfterLink} onFocus={onNextFocus} onBlur={onNextBlur} aria-label={'Next section: ' + after.name}><span>Up next <b>{after.name}</b></span></a>
+              : <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} onFocus={onNextFocus} onBlur={onNextBlur} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span></button>}
           </div>
         </div>
       </div>

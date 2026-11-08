@@ -293,7 +293,7 @@ export default function PipGuide() {
       let raf=0,index=0,current=null,lastTime=0,disposed=false,arrivedAt=0;const greeted=new Set();
       let mood=null,reactionUntil=0,n=0;
       const pending=new Map();
-      let activeId='',rendered='',previousY=scrollY,direction=1,visible=false,geometry=[],dirty=true,mainEnd=Infinity,awayId='',away=false;
+      let activeId='',rendered='',previousY=scrollY,direction=1,visible=false,geometry=[],lane=null,dirty=true,mainEnd=Infinity,awayId='',away=false;
       // A seat's place in the page is read from layout (offsetTop), not from its painted box: a seat inside a
       // Reveal (the close band's) is painted 1.5rem low until the band has risen in, and a transform ending fires
       // no resize, so the painted box left him standing that much low, his feet on his own line.
@@ -310,6 +310,8 @@ export default function PipGuide() {
           stations.forEach((s,i)=>{s.seat.style.transform=`translateX(${innerWidth-174-lefts[i]}px)`;});
         }
         geometry=stations.map(s=>{const r=s.art.getBoundingClientRect();return {x:r.left,y:layoutTop(s.art),w:r.width,h:r.height};});
+        // His lane on a wide window: where a lane seat's art stands (an eyebrow seat stays centred over its head).
+        lane=wide?geometry.find((g,i)=>!stations[i].seat.classList.contains('pip-seat--eyebrow'))||null:null;
         mainEnd=(document.querySelector('main')?.getBoundingClientRect().bottom || innerHeight)+scrollY;
         dirty=false;
         settleUndrawn();
@@ -327,6 +329,10 @@ export default function PipGuide() {
         const s=stations[index],g=geometry[index],y=g.y-scrollY;
         const onScreen=y>=72 && y+g.h<=innerHeight-100;
         const target={x:g.x,y:wide?clamp(y,100,Math.max(100,innerHeight-g.h-110)):y,w:g.w,h:g.h};
+        // R8 SEC-01: an eyebrow seat is centred over its heading (the DU and pricing heads). Once it has scrolled up past
+        // the lane's top he used to be held there at the seat's x, right over the heading and then the calculator, for as
+        // long as the section was in view. Held, he waits in the lane at the right instead, clear of the content.
+        if(wide && lane && target.y-y>8 && s.seat.classList.contains('pip-seat--eyebrow')) target.x=lane.x+(lane.w-g.w)/2;
         // Phone frames follow the document exactly; only an 8px local arrival eases.
         // Easing the viewport coordinate itself would trail fast scroll over controls.
         if(!wide && (!current || current.station!==s.id)) current={...target,arrival:direction*8,station:s.id};

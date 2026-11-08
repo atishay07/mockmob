@@ -129,6 +129,9 @@ export function EligibilityTeaser() {
   // Until there is a count to show, the number is the whole list, never a placeholder dash.
   const total = rules ? rules.groups.length : 73;
   const counted = Boolean(rules && hasDomains);
+  // Early ticks (R8 SEC-07): with fewer than three domain subjects and no GAT the count can still read 0 (DU's 2026 rules
+  // count one language and three subjects, or two languages and two), so the zero is "so far" and the line names both routes.
+  const early = counted && eligible.length === 0 && selection.domains.length < 3 && !selection.gat;
 
   return (
     <div className="du-teaser" ref={hostRef}>
@@ -173,12 +176,14 @@ export function EligibilityTeaser() {
           <p className="du-state du-state--error">The DU data could not load. Open the full calculator instead.</p>
         ) : (
           <>
-            <p className="du-teaser__big">
+            <p className="du-teaser__big" data-early={early ? 'true' : undefined}>
               <span className="mm-measure">{counted ? eligible.length : total}</span>
-              <small>{counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
+              <small>{early ? `of ${total} DU programmes so far` : counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
             </p>
             <p className="du-teaser__lead">
-              {counted
+              {early
+                ? 'Keep ticking: most DU programmes count one language and three subjects, or two languages and two.'
+                : counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains
                   ? 'Checking them against DU’s 2026 rules.'

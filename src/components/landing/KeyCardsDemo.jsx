@@ -119,7 +119,6 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
             <span aria-hidden="true">{shown} / {total}</span>
             <span className="kc-demo__sr">{cardOf(shown, total)}</span>
           </p>
-          <span className="kc-demo__bar" aria-hidden="true"><span style={{ transform: `scaleX(${shown / total})` }} /></span>
         </div>
 
         <div className="kc-demo__scene" data-leave={leaving || undefined}>

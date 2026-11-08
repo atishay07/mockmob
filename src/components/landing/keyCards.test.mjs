@@ -190,10 +190,10 @@ test('the glass is the card front only, over its subject object: blurred, satura
   assert.match(CSS, /\.kc-demo__face--front \{[^}]*radial-gradient\([^)]*var\(--kc-light\)/, 'the subject light (the app\'s light field), never volt');
 });
 
-test('progress: "1 / 5" in words for the eye and "Card 1 of 5" for a screen reader, a bar above and dots below in the brand word colour', () => {
+test('progress: "1 / 5" in words for the eye and "Card 1 of 5" for a screen reader, and dots below in the brand word colour (no second bar, R8 SEC-06)', () => {
   assert.match(DEMO, /<span aria-hidden="true">\{shown\} \/ \{total\}<\/span>\s*<span className="kc-demo__sr">\{cardOf\(shown, total\)\}<\/span>/);
   assert.match(DEMO, /<ol className="kc-demo__pips" aria-hidden="true">/);
-  assert.match(CSS, /\.kc-demo__bar > span \{[^}]*background: var\(--brand-word\);/);
+  assert.doesNotMatch(DEMO, /kc-demo__bar/, 'one progress cue: the count and the dots, no bar repeating them');
   assert.match(CSS, /\.kc-demo__pips li\[data-state='now'\] \{ background: var\(--brand-word\);/);
 });
 

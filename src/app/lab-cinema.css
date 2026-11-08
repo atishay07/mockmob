@@ -561,3 +561,25 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc .lc__obj { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }
+
+/* R8 (SEC-06, 8 Nov 2026): one "where am I" cue. The story's progress already runs in the phone bottom bar's segments and
+   the desktop band's rule, so the rail marks only the scene on stage: its underline (phones) or its stretch of the rail's
+   line (wide) moves from scene to scene and passed scenes no longer stay filled. On a wide window the device's own
+   Time / Changes / Repair / SWOT tabs repeated the rail beside it, so they step aside while the rail is shown, and the
+   screen starts under the title row. */
+.lc[data-pinned='true'] .lc__rail-meter .ss-fill[data-state='done'] { transform: scaleX(0); }
+@media (max-width: 959px) { .lc .lc__rail-meter { background: transparent; } }
+@media (min-width: 960px) and (min-height: 600px) {
+  .lc[data-pinned='true'] .lc__rail-meter .ss-fill[data-state='done'] { transform: scaleY(0); }
+  .lc[data-pinned='true'] .lcd__tabs { display: none; }
+  .lc[data-pinned='true'] { --lcd-chrome: calc(var(--lc-obj) + 0.85rem); }
+}
+
+/* R8 (SEC-09, 8 Nov 2026): a short held window shows each scene's short body, a whole sentence in two lines, in place of
+   the long one clamped mid-sentence ("Written from the official key, or..." at 360 x 640). The long body stays in the
+   page for screen readers; the short one is for the eye only. */
+.lc-scene__body--short { display: none; }
+@media (max-height: 740px) {
+  .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; -webkit-line-clamp: none; line-clamp: none; }
+  .lc[data-pinned='true'] .lc-scene__body--short { display: block; }
+}

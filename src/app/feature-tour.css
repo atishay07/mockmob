@@ -187,3 +187,39 @@
   .ft__list { flex-wrap: wrap; gap: .3rem; overflow-x: visible; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none; }
   .ft__row { padding-inline: .7rem; }
 }
+
+/* R8 (SEC-02, 8 Nov 2026): the held stage is scaled to fit its window (ScrollStory writes --ss-fit on .ft__stage; it is
+   registered non-inherited, so a fit write restyles one node). At 360 x 640 the scale is about 0.67, which drew Pause,
+   Prev, Next and the tool's link 30 px tall. Every control keeps a 44 px square hit area on screen at any scale: an
+   invisible ::before sized 44 px divided by the scale, centred on the control. Only the few nodes on the way to a control
+   inherit the scale (an explicit inherit), so a fit write still restyles a handful of elements, never the stage. On phones
+   the padding around the controls grows by the same amount once the scale drops, so no hit area is clipped by the stage
+   or overlaps its neighbour (about 4 px of extra room at 360 x 640, none at 390 x 844). */
+.ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__track, .ft__slide, .ft__card, .ft__copy, .ft__play, .ft__arrow, .ft__next, .ft__cta) { --ss-fit: inherit; }
+.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta) { position: relative; }
+/* The bars sit above the track, which is positioned and comes later, so their hit areas are not painted under it. */
+.ft :is(.ft__chrome, .ft__controls) { position: relative; z-index: 1; }
+.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta)::before {
+  --ss-fit: inherit;
+  content: ''; position: absolute; left: 50%; top: 50%;
+  width: max(100%, calc(44px / var(--ss-fit, 1))); height: max(100%, calc(44px / var(--ss-fit, 1)));
+  transform: translate(-50%, -50%);
+}
+@media (max-width: 899px) {
+  .ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__copy) { --ft-hit-pad: max(0px, calc((44px / var(--ss-fit, 1) - 44px) / 2)); }
+  .ft-story[data-pinned='true'] .ft__chrome { padding-top: max(.45rem, var(--ft-hit-pad)); padding-right: max(.7rem, var(--ft-hit-pad)); }
+  .ft-story[data-pinned='true'] .ft__copy { padding-bottom: max(.55rem, var(--ft-hit-pad)); }
+  .ft-story[data-pinned='true'] .ft__controls { gap: max(.65rem, var(--ft-hit-pad)); padding: max(.35rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)); }
+}
+/* R8 (SEC-06): held, the step is already shown by the chapter chip on stage and by the story's own progress (the phone
+   bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. Unheld (the timed carousel)
+   it stays: there it is the autoplay timer. */
+.ft-story[data-pinned='true'] .ft__progress { display: none; }
+/* R8 (SEC-05): held, the first tool's Prev has nowhere to go and says so; the last tool's Next is a link to the next
+   section, drawn as the same key.
+   Prev stays focusable (aria-disabled, not disabled) so keyboard focus never drops to <body> at the first tool. */
+.ft__arrow[aria-disabled='true'] { opacity: .45; cursor: default; }
+.ft .ft__arrow[aria-disabled='true']:active { transform: none; }
+/* The next section's heading takes focus from the tour's last key (FeatureTour.jsx); the page glide shows where it is. */
+.lp-sec h2[tabindex='-1']:focus { outline: none; }
+a.ft__next { text-decoration: none; }

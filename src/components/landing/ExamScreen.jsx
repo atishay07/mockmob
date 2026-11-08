@@ -67,6 +67,17 @@ export function ExamScreen() {
   // The full-screen view (phones; R4-H6, R5): open or not, the key that opened it (the focus goes back to it), and what it took
   // from the browser: its own full screen (a coarse pointer, where allowed) and one history entry, so the back gesture closes it.
   const [full, setFull] = useState(false);
+  // R8 SEC-11: on a phone the monitor is a picture of the real screen (owner LK129), its keys 13-17 px. They are inert there
+  // and a tap anywhere on the picture opens the same state full screen, where every key is full size. The visible
+  // "Try it full screen" key below stays the way in for the keyboard and screen readers.
+  const [pictureOnly, setPictureOnly] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 760px)');
+    const sync = () => setPictureOnly(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
   const fullOpener = useRef(null);
   const fullClose = useRef(null);
   const fullBox = useRef(null);
@@ -221,7 +232,10 @@ export function ExamScreen() {
   const states = useMemo(() => Array.from({ length: EXAM.total }, (_, i) => stateOf(i)), [answers, marked, visited]); // eslint-disable-line react-hooks/exhaustive-deps
   const count = (...which) => states.filter((s) => which.includes(s)).length;
   const answered = count('answered', 'marked-answered');
-  const counts = { answered, marked: count('marked', 'marked-answered'), pending: count('visited', 'marked'), notvisited: count('notvisited') };
+  // Pending is the runner's (TestPageClient.jsx pendingCount = questions - answered, R8 SEC-12): every question still to answer,
+  // so Answered and Pending always add up to the paper. It was the visited-but-unanswered count, the state the legend and the
+  // chips call "Not answered": one state with two names, and four tiles that summed to 16 on a 15-question paper.
+  const counts = { answered, marked: count('marked', 'marked-answered'), pending: EXAM.total - answered, notvisited: count('notvisited') };
 
   const touch = () => { setStarted(true); setReadBack(false); };
   const go = (i) => { touch(); setIndex(i); setVisited((v) => ({ ...v, [i]: true })); };
@@ -318,12 +332,12 @@ export function ExamScreen() {
       {chipGrid(mockmobNames)}
       <ul className="xs-legend">{words.legend.map(([state, label]) => <li key={state}><i data-state={state} aria-hidden="true" />{label}</li>)}</ul>
       <button type="button" className="xs-submit" onClick={() => setReadBack((v) => !v)} aria-expanded={readBack}>{words.submit}</button>
-      <p className="xs-readback" role="status">{readBack ? `${words.counters[0][1]} ${counts.answered}, ${words.chip.visited} ${counts.pending}, ${words.counters[1][1]} ${counts.marked}.` : ''}</p>
+      <p className="xs-readback" role="status">{readBack ? `${words.counters[0][1]} ${counts.answered}, ${words.counters[2][1]} ${counts.pending}, ${words.counters[1][1]} ${counts.marked}.` : ''}</p>
     </>
   );
   // The monitor's screen: drawn in the monitor while the view is shut (never both: one timer, one set of live regions).
   const frame = (
-    <div className="xs-frame" data-interface={mode}>
+    <div className="xs-frame" data-interface={mode} inert={pictureOnly || undefined}>
       <div className="xs-browser" aria-hidden="true">
         <span className="xs-browser__nav"><ChevronLeft /><ChevronRight /><RotateCw /></span>
         <span className="xs-url"><Lock /><span><b>{EXAM.address.host}</b>{address}</span></span>
@@ -418,6 +432,7 @@ export function ExamScreen() {
 
         <ExamDevice ref={deviceRef}>
           {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
+          {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
         </ExamDevice>
 
         <p className="xs-gate"><b>{EXAM.gateTitle}.</b> {EXAM.gate} <span>{EXAM.warnings}.</span>{' '}

@@ -151,7 +151,8 @@ function swotRead(session, changes) {
     { id: 'opportunity', label: 'Opportunities', title: 'Cash flow', detail: `${cash.right} right of ${cash.of} across ${cash.papers} papers. ${cash.paper.lost} marks slipped here in this paper.`, qs: [] },
     { id: 'threat', label: 'Threats', title: `Partnership in each of your latest ${lost.length} mocks`, detail: `Marks slipped here: ${list(lost.map(String))}, oldest first.`, qs: partnership.qs },
   ];
-  return { plan, quadrants, partnershipLost: lost };
+  // record: each strong or middling chapter across all the papers, for the tour's chapter review (TourScreens.jsx).
+  return { plan, quadrants, partnershipLost: lost, record: { Ratios: { right: ratios.right, of: ratios.of }, 'Cash flow': { right: cash.right, of: cash.of } } };
 }
 
 // The four scenes' numbers, ready to print.

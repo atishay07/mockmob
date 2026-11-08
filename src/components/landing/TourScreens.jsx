@@ -189,19 +189,23 @@ export function ReplayScreen({ play }) {
 }
 
 // ---------- 4. Radar ----------
+// The same student as the Mistake Lab (R8 SEC-03): the Accountancy chapters carry the Lab's names and record across its
+// three papers (labStory.mjs), so Partnership is the one to fix first, Cash flow sits mid-table and Ratios is the strongest.
+// The other subjects' rows stay illustrative.
 const RADAR_T = [...lineUp(6), 400];
+const pct = ({ right, of }) => Math.round((right / of) * 100);
 const RADAR_ROWS = [
-  ['Partner retirement', 'Accountancy', 38],
+  ['Partnership', 'Accountancy', 38],
   ['Money and banking', 'Economics', 52],
   ['Reading passages', 'English', 61],
+  ['Cash flow', 'Accountancy', pct(STORY.swot.record['Cash flow'])],
   ['Business environment', 'Business Studies', 68],
-  ['Ratio analysis', 'Accountancy', 76],
-  ['Cash flow', 'Accountancy', 84],
+  ['Ratios', 'Accountancy', pct(STORY.swot.record.Ratios)],
 ];
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   return (
-    <Frame title="Chapter review after one mock" step={step}>
+    <Frame title={`Chapter review across your last ${STORY.swot.partnershipLost.length} mocks`} step={step}>
       <ul className="ts__bars">
         {RADAR_ROWS.map(([chapter, subject, pct], i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(pct < 50)}>
@@ -211,7 +215,7 @@ export function RadarScreen({ play }) {
           </li>
         ))}
       </ul>
-      <p className="ts__note" data-in={on(step >= 7)}>Partner retirement cost the most marks. Tonight starts there.</p>
+      <p className="ts__note" data-in={on(step >= 7)}>Partnership cost the most marks. Tonight starts there.</p>
     </Frame>
   );
 }
@@ -223,7 +227,8 @@ export function RadarScreen({ play }) {
 // last. The reply's room is reserved from the first frame, so nothing below moves. This screen takes about 1.4 s, not
 // the tour's usual 600 ms: the beat of reading is the moment, and the reply is its flourish.
 const PREP_T = [60, 300, 860, 920, 975, 1030, 1140];
-const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-read the two you changed'], ['Tomorrow', 'One timed half mock']];
+// The plan is the Lab's own (R8 SEC-03): its first set (Practise 10 on Partnership) and the answers it changed.
+const PREP_PLAN = [['20 min', 'Partnership: 10 fresh questions'], ['10 min', `Re-read the ${['no', 'one', 'two', 'three', 'four'][STORY.changes.length] ?? STORY.changes.length} you changed`], ['Tomorrow', 'One timed half mock']];
 export function PrepOSScreen({ play }) {
   const step = useSteps(play, PREP_T);
   return (
@@ -233,7 +238,7 @@ export function PrepOSScreen({ play }) {
         <p className="ts__reading" data-in={on(step === 2)} aria-hidden="true"><span className="ts__mobi" aria-hidden="true"><i /><i /></span>Reading your record for tonight</p>
         <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 3)}>
           <p className="ts__ai-head"><span className="ts__mobi" aria-hidden="true"><i /><i /></span><b>Mobi</b><small>from your last 3 mocks</small></p>
-          <p>Retirement in Accountancy cost you the most this week. Tonight:</p>
+          <p>Partnership in Accountancy cost you the most this week. Tonight:</p>
           <ol>
             {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
           </ol>

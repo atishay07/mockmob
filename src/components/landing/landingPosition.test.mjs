@@ -74,9 +74,9 @@ test('the band sits under the site bar and its menu, and never glows', () => {
   assert.match(CSS, /\.lp-pos__rule \{[^}]*height: 2px;/);
 });
 
-test("on a wide window the band keeps the bar's left edge, by the same lane the bar grows", () => {
-  assert.match(CSS, /@media \(min-width: 1100px\) and \(prefers-reduced-motion: no-preference\) \{\s*:root:not\(\[data-motion='reduced'\]\) \.mm\.lp \.lp-pos__row \{ max-width: calc\(75rem \+ var\(--pip-lane\)\); \}/);
-  assert.match(read('../../app/brand-pip.css'), /:is\(\.mm-nav, \.mm-foot\) > \.mm-wrap \{ max-width: calc\(75rem \+ var\(--pip-lane\)\); \}/);
+test("on a wide window the band keeps the bar's left edge: the same fluid column as the bar and the sections (R8 SEC-16)", () => {
+  assert.match(CSS, /@media \(min-width: 1100px\) \{\s*\.mm\.lp \.lp-pos__row \{\s*max-width: none;\s*padding-left: max\(var\(--sec-gutter, 24px\), \(100% - var\(--sec-max, 1680px\)\) \/ 2\);/);
+  assert.match(read('../../app/home-sections.css'), /:is\(\.mm-nav, \.mm-foot\) > \.mm-wrap\.mm-wrap \{\s*max-width: none;\s*padding-left: max\(var\(--sec-gutter\), \(100% - var\(--sec-max\)\) \/ 2\);/);
 });
 
 test('on a wide window the held stories start under the band and tuck up by its height; on a phone the band is gone', () => {

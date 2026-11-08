@@ -27,14 +27,10 @@
 .kc-demo { position: relative; }
 .kc-demo__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* "1 / 5" and its bar */
+/* "1 / 5". R8 (SEC-06, 8 Nov 2026): the bar beside it repeated the dots under the card, so the count and the dots carry
+   the progress on their own (one cue in words, one in marks). */
 .kc-demo__top { display: flex; align-items: center; gap: 0.875rem; margin-bottom: 0.875rem; }
 .kc-demo__count { margin: 0; min-width: 2.75em; font: 700 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--ink); }
-.kc-demo__bar { flex: 1; height: 4px; border-radius: 999px; overflow: hidden; background: rgb(var(--tint, 244 240 230) / 0.12); }
-.kc-demo__bar > span {
-  display: block; height: 100%; border-radius: inherit; background: var(--brand-word);
-  transform-origin: left center; transition: transform 260ms cubic-bezier(0.23, 1, 0.32, 1);
-}
 
 /* The scene: the rated card steps aside (opacity only, then the next one rises in on its own wrapper). */
 .kc-demo__scene[data-leave] { opacity: 0; transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1); }
@@ -200,7 +196,7 @@ html[data-theme='light'] .kc-demo__glass {
   .kc-demo__card[data-turned] .kc-demo__face--back { opacity: 1; }
   .kc-demo__arrive { animation-name: kc-fade-in; }
   .kc-demo__rates { animation: kc-fade-in 200ms ease both; }
-  .kc-demo__bar > span, .kc-demo__pips li { transition: none; }
+  .kc-demo__pips li { transition: none; }
 }
 :root[data-motion='reduced'] :is(.kc-demo__card, .kc-demo__card[data-turned]) { transform: none; transition: none; }
 :root[data-motion='reduced'] .kc-demo__face { transition: opacity 200ms ease; }
@@ -209,5 +205,5 @@ html[data-theme='light'] .kc-demo__glass {
 :root[data-motion='reduced'] .kc-demo__card[data-turned] .kc-demo__face--back { opacity: 1; }
 :root[data-motion='reduced'] .kc-demo__arrive { animation-name: kc-fade-in; }
 :root[data-motion='reduced'] .kc-demo__rates { animation: kc-fade-in 200ms ease both; }
-:root[data-motion='reduced'] :is(.kc-demo__bar > span, .kc-demo__pips li) { transition: none; }
+:root[data-motion='reduced'] .kc-demo__pips li { transition: none; }
 @keyframes kc-fade-in { from { opacity: 0; } }
