@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/models.dart' show Attempt;
+import 'package:mockmob/core/models/practice_quote.dart' show PracticeQuote;
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/platform/native_prefs.dart';
@@ -24,6 +25,7 @@ import 'package:mockmob/features/today/logic/today_model.dart' show TodayAction;
 import 'package:mockmob/features/you/you_providers.dart' show lateNightLinesProvider, PrefToggle;
 
 import '../../../helpers/golden_harness.dart';
+import '../../practice/support/harness.dart' show FakeQuoteRepository, creditsQuote;
 
 /// Today's analytics write, kept out of the result tests.
 class _QuietTodayActions extends TodayActions {
@@ -143,6 +145,10 @@ List<Override> resultOverrides({
 
   /// The student's attempts, for "Scores by session" (Review's own read of them).
   List<Attempt> reviewAttempts = const [],
+
+  /// The chapter set's own quote, which the next move's cost line reads (R8 APP-04): priced unless a test says, so the line
+  /// keeps the wallet's words; `dailyFree()` for a student whose daily allowance covers the set.
+  PracticeQuote? setQuote,
   List<Override> extra = const [],
 }) => [
   recapDataProvider(attemptId).overrideWithValue(data),
@@ -165,6 +171,7 @@ List<Override> resultOverrides({
   // Unknown balances unless a test names them, and Review's index settled and empty: no database or network read.
   creditFiguresProvider.overrideWithValue(credits ?? const CreditFigures()),
   reviewInputsProvider.overrideWithValue(ReviewInputs(attempts: RemoteState(value: reviewAttempts, fetchedAt: DateTime(2026, 10, 12, 22)))),
+  quoteRepositoryProvider.overrideWithValue(FakeQuoteRepository((s, m, c, p) => setQuote ?? creditsQuote())),
   ...extra,
 ];
 

@@ -641,10 +641,22 @@ abstract final class ReviewCopy {
   static String practiseInSubject(int n, String subject) => 'Practise $n in $subject';
 
   /// The line under the Practise key: what it is, and what it costs (unknown never zero; Pro covers it).
-  static String practiseLine({required int size, required int cost, required bool allRepaired, bool isPro = false, int? credits}) {
+  /// [freeToday]: the set's own quote says the daily allowance covers it, so the line says what the Start sheet says
+  /// ("Free today."); [quotePending]: that quote is on its way, so no cost is claimed yet (R8 APP-04).
+  static String practiseLine({
+    required int size,
+    required int cost,
+    required bool allRepaired,
+    bool isPro = false,
+    int? credits,
+    bool freeToday = false,
+    bool quotePending = false,
+  }) {
     final lead = allRepaired ? 'Practise to prove it on new questions. ' : '';
     final base = '$size new questions, about $size minutes.';
     if (isPro) return '$lead$base Pro covers this set.';
+    if (freeToday) return '$lead$base Free today.';
+    if (quotePending) return '$lead$base';
     if (credits == null) return '$lead$base Uses $cost credits.';
     if (credits < cost) return '$lead$base It uses $cost credits. You have $credits.';
     return '$lead$base Uses $cost of your $credits credits.';

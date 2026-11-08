@@ -9,6 +9,7 @@ import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/models/practice_quote.dart' show PracticeQuote;
 import 'package:mockmob/core/models/repair.dart';
 import 'package:mockmob/core/models/rhythm.dart' show Goal, Rhythm;
 import 'package:mockmob/features/insights/data/insights_repository.dart';
@@ -20,6 +21,7 @@ import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/goal_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
+import 'package:mockmob/core/repositories/quote_repository.dart' show quoteRepositoryProvider;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart' show PendingResult;
@@ -42,6 +44,7 @@ import 'package:mockmob/features/review/revise/revise_data.dart' show reviseEntr
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../../unit/practice/support/harness.dart' show FakeQuoteRepository, creditsQuote;
 import '../../unit/review/support/review_fixtures.dart';
 
 /// The Night Sheet golden frame: 384 by 853 logical px at DPR 2.
@@ -119,7 +122,11 @@ List<Override> reviewOverrides({
   CreditFigures? figures,
   bool unknownFigures = true,
   Map<String, CheckOutcome>? checks,
+  PracticeQuote? setQuote,
 }) => [
+  // The chapter set's own quote, which the lead's cost line reads (R8 APP-04). A priced quote by default, so the line keeps the
+  // wallet's words; pass `dailyFree()` for a student whose daily allowance covers the set.
+  quoteRepositoryProvider.overrideWithValue(FakeQuoteRepository((s, m, c, p) => setQuote ?? creditsQuote())),
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
   nowProvider.overrideWithValue(() => nowUtc ?? eveningUtc),

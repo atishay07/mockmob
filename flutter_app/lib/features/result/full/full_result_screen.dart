@@ -19,6 +19,10 @@ import '../../insights/data/ask_suggestions.dart' show AskSheetCopy;
 import '../../insights/data/trend.dart' show trendSeries;
 import '../../insights/widgets/trend_chart.dart' show TrendSection;
 import '../../paper_reel/paper_reel.dart' show PaperReel, PaperReelModel, PaperReelResultEntry, ReelMoveKind, ReelNextMove, ReelResult, reelSeenProvider;
+import '../../insights/data/subject_names.dart' show canonicalSubjectId;
+import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
+import '../../practice/model/cost_line.dart' show CostKind, costLineFor;
+import '../../practice/model/practice_selection.dart' show PracticeMode, QuoteQuery;
 import '../../practice/widgets/result_foot.dart';
 import '../../review/your_papers_link.dart' show yourPapersLocation;
 import '../../practice/widgets/top_edge_fade.dart' show BarFade;
@@ -386,7 +390,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       final reviews = moveReviewsOf(detail);
       final order = moveOrderOf(detail?.lab?.repairOrder);
       final now = ref.watch(nowProvider)();
-      final move = nextMove(
+      final baseMove = nextMove(
         analysis: rows,
         reviews: reviews,
         order: order,
@@ -400,6 +404,29 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
         labReady: detail?.lab != null,
         hour: now.hour,
       );
+      // The chapter set's cost from its own quote, as the practice result and the Start sheet say it (R8 APP-04): "Free
+      // today." while the daily allowance covers it, the price line once the quote says it costs, and no cost line while
+      // the quote is on its way. On device the mock result said "This set uses 10 credits" for the same set the practice
+      // result and the Start sheet called free.
+      final setQuoteAsync = baseMove.kind == MoveKind.practise && !state.isPro
+          ? ref.watch(
+              practiceQuoteProvider(
+                QuoteQuery(
+                  subject: canonicalSubjectId(attempt.subject),
+                  apiMode: PracticeMode.chapter.apiMode,
+                  count: NextMoveRules.setSize,
+                ),
+              ),
+            )
+          : null;
+      final setQuote = setQuoteAsync?.value;
+      final setPending = setQuoteAsync != null && setQuoteAsync.isLoading && !setQuoteAsync.hasValue;
+      final setFree = setQuote != null && costLineFor(setQuote).kind == CostKind.freeToday;
+      final move = setFree
+          ? baseMove.copyWith(cost: practiceCostLine(freeToday: true))
+          : setPending
+          ? baseMove.copyWith(cost: '')
+          : baseMove;
       footMove = move;
       // Already the student's own clock (see [RecapModel.recordedAt]): no second conversion, and "today" is theirs too.
       final clock = ref.watch(reviewClockProvider);

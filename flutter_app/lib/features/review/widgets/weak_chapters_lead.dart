@@ -9,6 +9,9 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../credits/data/credit_figures.dart' show creditFiguresProvider;
 import '../../insights/data/subject_names.dart' show canonicalSubjectId;
+import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
+import '../../practice/model/cost_line.dart' show CostKind, costLineFor;
+import '../../practice/model/practice_selection.dart' show PracticeMode, QuoteQuery;
 import '../../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import '../../result/model/next_move.dart' show NextMoveRules;
 import '../copy.dart';
@@ -86,12 +89,29 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
     final practice = credits.stale ? null : credits.practice;
     final inSubject = open.name == otherChapter;
     final practiseLabel = inSubject ? ReviewCopy.practiseInSubject(NextMoveRules.setSize, subjectName(open.subject ?? '')) : ReviewCopy.practiseOnChapter(NextMoveRules.setSize);
+    // The set's cost from its own quote, as the Start sheet and the results say it (R8 APP-04): on device this line said
+    // "Uses 10 of your 43 credits" for the set the setup page called "Free today".
+    final quoteSubject = canonicalSubjectId(open.subject ?? '');
+    final setQuoteAsync = credits.isPro || quoteSubject.isEmpty
+        ? null
+        : ref.watch(
+            practiceQuoteProvider(
+              QuoteQuery(
+                subject: quoteSubject,
+                apiMode: inSubject ? PracticeMode.quick.apiMode : PracticeMode.chapter.apiMode,
+                count: NextMoveRules.setSize,
+              ),
+            ),
+          );
+    final setQuote = setQuoteAsync?.value;
     final line = ReviewCopy.practiseLine(
       size: NextMoveRules.setSize,
       cost: NextMoveRules.practiceCost,
       allRepaired: open.open.isEmpty,
       isPro: credits.isPro,
       credits: practice,
+      freeToday: setQuote != null && costLineFor(setQuote).kind == CostKind.freeToday,
+      quotePending: setQuoteAsync != null && setQuoteAsync.isLoading && !setQuoteAsync.hasValue,
     );
     final summary = body.line;
     final lede = type.body.copyWith(fontSize: 15, height: 22 / 15, color: colors.ink2);
