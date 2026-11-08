@@ -689,6 +689,7 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
       onRetry: c.retryEnd,
       keyKind: _keyKind,
       onKey: _onKey,
+      unsaved: c.unsavedCount,
     );
   }
 

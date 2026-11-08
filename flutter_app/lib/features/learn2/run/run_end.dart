@@ -41,6 +41,7 @@ class RunEndScreen extends StatelessWidget {
     required this.keyKind,
     required this.onKey,
     this.titleKey,
+    this.unsaved = 0,
   });
 
   final RunEndStatus status;
@@ -64,12 +65,22 @@ class RunEndScreen extends StatelessWidget {
   final ValueChanged<LearnOption> onKey;
   final GlobalKey? titleKey;
 
+  /// Ratings and answers that failed to save this run (R8 APP-07): the error end then names them, never "is saved".
+  final int unsaved;
+
   @override
   Widget build(BuildContext context) {
     if (status == RunEndStatus.loading || status == RunEndStatus.idle) return EndScreen(close: close, loading: true);
     final d = data;
     if (status == RunEndStatus.error || d == null) {
-      return EndScreen(close: close, titleKey: titleKey, onRetry: onRetry, error: (title: RunCopy.endErrorTitle, line: RunCopy.endErrorLine));
+      return EndScreen(
+        close: close,
+        titleKey: titleKey,
+        onRetry: onRetry,
+        error: unsaved > 0
+            ? (title: StageEndModel.unsavedLine(unsaved), line: RunCopy.endErrorUnsavedLine)
+            : (title: RunCopy.endErrorTitle, line: RunCopy.endErrorLine),
+      );
     }
     final raw = d.raw;
     final runKind = asString(raw['kind']) ?? kind;

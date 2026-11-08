@@ -87,6 +87,8 @@ abstract final class RunCopy {
   // ---------------------------------------------------------------- the end
   static const String endErrorTitle = 'Your session is saved';
   static const String endErrorLine = "The summary didn't load, but every rating and answer is saved.";
+  // R8 APP-07: when an answer failed to save, the end names it instead of saying everything is saved.
+  static const String endErrorUnsavedLine = "The summary didn't load either. Every other rating and answer is kept.";
   static String levelSub(int right, int of) => 'Your weakest part: $right of $of right';
   static const String endSaid = 'How it went';
 }
