@@ -41,7 +41,7 @@ export async function POST(request) {
     const result = await addCollege(session.user.id, parsed.entry);
     const rows = await getColleges(session.user.id);
     if (result === 'full') {
-      return NextResponse.json({ error: 'list_full', message: 'My colleges is full. Remove one to add another.', ...listBody(rows) }, { status: 409, headers: NO_STORE });
+      return NextResponse.json({ error: 'list_full', message: 'Your colleges list is full. Remove one to add another.', ...listBody(rows) }, { status: 409, headers: NO_STORE });
     }
     return ok(rows, result === 'added' ? 201 : 200, { result });
   } catch { return unavailable(); }

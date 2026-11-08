@@ -218,7 +218,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             </label>
             <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college || mine.status !== 'ready' || mine.busy}>Add target</button>
           </div>
-        ) : <p className="cpro-muted">My colleges is full. Remove a target to add another.</p>}
+        ) : <p className="cpro-muted">Your colleges list is full. Remove a target to add another.</p>}
         {mine.notice ? <p className="cpro-muted" role="status">{mine.notice}</p> : null}
 
         {shortlist.length ? (
@@ -252,12 +252,12 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
                       verdict.position === 'below' ? `Your band is ${verdict.by}+ below the earliest listed cutoff.` : 'DU listed no cutoff for this category.'}
                   </p>
                   </>}
-                  <button type="button" className="cpro-remove" onClick={() => remove(t)} aria-label={`Remove ${t.college} from My colleges`}><Trash2 size={16} aria-hidden="true" /></button>
+                  <button type="button" className="cpro-remove" onClick={() => remove(t)} aria-label={`Remove ${t.college} from your colleges`}><Trash2 size={16} aria-hidden="true" /></button>
                 </li>
               );
             })}
           </ul>
-        ) : mine.status === 'error' ? <p className="cpro-muted">My colleges did not load. <button type="button" className="pr-link" onClick={mine.retry}>Try again</button></p> : <p className="cpro-muted">{mine.status === 'ready' ? 'Add colleges you are aiming for. They are saved to your account and show in the app.' : 'Loading My colleges'}</p>}
+        ) : mine.status === 'error' ? <p className="cpro-muted">Your colleges did not load. <button type="button" className="pr-link" onClick={mine.retry}>Try again</button></p> : <p className="cpro-muted">{mine.status === 'ready' ? 'Add colleges you are aiming for. They are saved to your account and show in the app.' : 'Loading your colleges'}</p>}
         <p className="cpro-fine">Cutoffs are DU’s published 2026 minimum allocation scores; reserved categories clear a round at the lower of their own or the UR cutoff. 2027 cutoffs will differ with seats and demand.</p>
       </article>
     </section>

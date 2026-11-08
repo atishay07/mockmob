@@ -44,7 +44,7 @@ function fixtureBody() {
       request: { programmeId: 'b-com-hons', programme: 'B.Com. (Hons.)', college: 'Deshbandhu College' },
       added: { status: 201, body: { ...listBody(FOUR), result: 'added' } },
       exists: { status: 200, body: { ...listBody(FOUR), result: 'exists' } },
-      full: { status: 409, body: { error: 'list_full', message: 'My colleges is full. Remove one to add another.', ...listBody(EIGHT) } },
+      full: { status: 409, body: { error: 'list_full', message: 'Your colleges list is full. Remove one to add another.', ...listBody(EIGHT) } },
     },
     delete: {
       request: { query: { programmeId: 'b-a-hons-economics', college: 'Hansraj College' } },
@@ -134,7 +134,7 @@ test('Today shows the first 3 and the count of the rest', () => {
   assert.equal(ladderView(FOUR).more, 1);
   assert.equal(ladderView(FOUR.slice(0, 3)).more, 0);
   assert.deepEqual(ladderView(null), { shown: [], more: 0, total: 0 });
-  assert.equal(moreLine(5), '5 more on My colleges');
+  assert.equal(moreLine(5), '5 more in your colleges');
   assert.equal(countLine(4), '4 of 8 colleges');
 });
 
@@ -333,4 +333,19 @@ test('the store runs changes one at a time and puts the list back when the serve
   assert.match(hook, /store\.chain\.then\(run, run\)/);
   assert.match(hook, /colleges: theirs \|\| before/);
   assert.match(hook, /store\.loading/);
+});
+
+// R8 TOOLS-06: the list has one name a student reads or hears, "your colleges". No page, line, label or
+// server message says "My colleges" any more (comments may keep the feature's old name).
+test('the list goes by one name: nothing a student reads or hears says "My colleges"', () => {
+  const files = [
+    'src/components/colleges/MyColleges.jsx', 'src/lib/colleges/model.mjs', 'src/components/du/CompassPro.jsx',
+    'src/components/du/TodayCompass.jsx', 'src/app/api/me/colleges/route.js', 'src/app/preview/arena/ArenaPreviewClient.jsx',
+  ];
+  for (const f of files) {
+    const src = read(f).replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '').replace(/\s\/\/ .*$/gm, '');
+    assert.doesNotMatch(src, /My colleges/, f);
+  }
+  assert.doesNotMatch(read('data/tests/fixtures/colleges/contract_colleges_v1.json'), /My colleges/);
+  assert.match(read('src/components/du/TodayCompass.jsx'), /Your top choice: <b>\{first\.college\}<\/b>/);
 });

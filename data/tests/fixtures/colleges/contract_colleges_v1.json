@@ -183,7 +183,7 @@
       "status": 409,
       "body": {
         "error": "list_full",
-        "message": "My colleges is full. Remove one to add another.",
+        "message": "Your colleges list is full. Remove one to add another.",
         "colleges": [
           {
             "position": 1,
