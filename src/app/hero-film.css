@@ -1,12 +1,14 @@
 /* ==========================================================================
-   THE HERO'S FILM (round 7, owner 7 Nov 2026, after klayprep.com; HeroFilm.jsx). Loaded after every older home layer.
-   The launch teaser as the hero's picture: a 16:9 frame on raised paper with the site's large-card radius (22 px on
+   THE HERO'S FILM (round 7, owner 7 Nov 2026, after klayprep.com; round 9, 9 Nov 2026: the walkthrough; HeroFilm.jsx).
+   Loaded after every older home layer. The film as the hero's picture: a 16:9 frame on raised paper with the site's large-card radius (22 px on
    phones, 28 px from 960 px, as the desk and the strip), a 1 px hairline and the theme's soft shadow. No glow, no gradient,
    no glass. The poster is drawn first in the fixed frame (no shift); the film plays over it, muted.
    Phones: under the keys, the full column. From 960 px: the hero's right column (hero-scene.css --film-w, 42 % of the
    window), centred on the words' column beside it.
-   Two round 44 px keys in the top right corner (sound, pause/play) and, when the film does not play by itself, a round
-   56 px Play key on the poster. Paper keys with a hairline in both themes; tokens only.
+   Round 9: nothing on the picture (a tap on it pauses or plays). Under the frame, one row: the round 44 px pause/play key,
+   the chapter bar (nine segments, each a 44 px tall target; the current chapter's name above its thin rails; the current
+   one fills in ink as it plays), the round 44 px sound key. When the film does not play by itself, a round 56 px Play key
+   sits on the poster. Paper keys with a hairline in both themes; ink and hairline rails; tokens only.
    ========================================================================== */
 .mm.lp .lp-film { margin: 24px 0 0; min-width: 0; }
 .mm.lp .lp-film__frame {
@@ -32,8 +34,14 @@
 }
 .mm.lp .lp-film__video { z-index: 1; background: transparent; }
 
-/* The corner keys: sound on/off, then pause/play. */
-.mm.lp .lp-film__keys { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; gap: 8px; }
+/* The row under the frame: pause/play, the chapter bar with the chapter's name, sound. One row at every width. */
+.mm.lp .lp-film__keys {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  column-gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
 .mm.lp .lp-film__key,
 .mm.lp .lp-film__start {
   display: grid;
@@ -58,6 +66,69 @@
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-film__key:hover,
   .mm.lp .lp-film__start:hover { background: var(--paper-raised); border-color: var(--ink-3); }
+  .mm.lp .lp-film__frame { cursor: pointer; }
+}
+
+/* The chapter bar: the chapter's name above nine thin rails; each segment is a 44 px tall target the width of its rail. */
+.mm.lp .lp-film__track { position: relative; height: 44px; min-width: 0; }
+.mm.lp .lp-film__now {
+  position: absolute;
+  z-index: 1;
+  top: 3px;
+  left: 2px;
+  right: 2px;
+  margin: 0;
+  overflow: hidden;
+  color: var(--ink-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 18px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+.mm.lp .lp-film__chapters { position: absolute; inset: 0; display: flex; }
+.mm.lp .lp-film__seg {
+  display: flex;
+  flex: 1 1 0;
+  align-items: flex-end;
+  min-width: 24px;
+  height: 44px;
+  margin: 0;
+  padding: 0 2px 10px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .lp-film__rail {
+  display: block;
+  width: 100%;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-film__fill {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.mm.lp .lp-film__seg[data-state='past'] .lp-film__fill { transform: scaleX(1); }
+.mm.lp .lp-film__seg[data-state='current'] .lp-film__fill { transform: scaleX(var(--p, 0)); }
+.mm.lp .lp-film__seg:focus-visible { outline: none; }
+.mm.lp .lp-film__seg:focus-visible .lp-film__rail { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 3px; }
+.mm.lp .lp-film__seg:active .lp-film__rail { transform: scaleY(1.5); transition-duration: 100ms; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-film__seg:hover .lp-film__rail { transform: scaleY(1.5); }
+}
+/* Under 360 px nine 24 px segments no longer fit beside the two keys: the row keeps one line and shares what is left. */
+@media (max-width: 359px) {
+  .mm.lp .lp-film__keys { column-gap: 4px; }
+  .mm.lp .lp-film__seg { min-width: 0; }
 }
 
 /* The Play key on the poster, when the film does not play by itself (Reduce motion, Data Saver, a refused start). */
@@ -72,17 +143,18 @@
 }
 .mm.lp .lp-film__start svg { margin-left: 3px; }
 
-/* Reduce motion: the keys change at once. */
+/* Reduce motion: the keys and the rails change at once (the fill already steps with the film's time). */
 @media (prefers-reduced-motion: reduce) {
-  .mm.lp :is(.lp-film__key, .lp-film__start) { transition: none; }
+  .mm.lp :is(.lp-film__key, .lp-film__start, .lp-film__rail) { transition: none; }
   .mm.lp :is(.lp-film__key, .lp-film__start):active { transform: none; }
 }
-:root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start) { transition: none; }
+:root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start, .lp-film__rail) { transition: none; }
 :root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start):active { transform: none; }
 
-/* Desktop: the hero's right column, centred on the words beside it, the large-card radius, the keys a little further in. */
+/* Desktop: the hero's right column, centred on the words beside it, the large-card radius, the row a little roomier. */
 @media (min-width: 960px) {
   .mm.lp .lp-hero .lp-film { margin: 0; align-self: center; }
   .mm.lp .lp-film__frame { border-radius: 28px; }
-  .mm.lp .lp-film__keys { top: 16px; right: 16px; }
+  .mm.lp .lp-film__keys { column-gap: 14px; margin-top: 14px; }
+  .mm.lp .lp-film__now { font-size: 0.875rem; }
 }

@@ -601,13 +601,16 @@ test('L-043 the logo opening uses logo B and lasts about 1.3 s per session (1.6 
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/);
 });
 
-test('L-044 no Higgsfield or video scene is live on the landing; the scroll scenes are SVG/Mobi; the one film is the hero\'s launch teaser (round 7)', () => {
+test('L-044 no Higgsfield or video scene is live on the landing; the scroll scenes are SVG/Mobi; the one film is the hero\'s (round 7 teaser, round 9 walkthrough)', () => {
   assert.doesNotMatch(sources(SURFACE) + PAGE, /higgsfield/i);
   assert.doesNotMatch(PAGE_CODE, /<video\b|\.mp4|\.webm/);
   const tour = homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true });
   assert.ok(tour.every((slide) => !slide.video), 'no tour slide carries a video file');
   // Owner, 7 Nov 2026: "the promo video playing as the main hero" (klayprep.com). HeroFilm is the landing's one film,
-  // muted, and only in the hero; no scroll scene is a video.
+  // muted, and only in the hero; no scroll scene is a video. Round 9 (9 Nov 2026): the walkthrough, its files named in one
+  // place (heroFilmConfig.mjs, part of the landing's surface through HeroFilm).
+  assert.ok(SURFACE.includes('src/components/landing/heroFilmConfig.mjs'), 'the film config is on the landing surface');
+  assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v2-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
   assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
   assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<CollegeStrip')), /<HeroFilm \/>/, 'the film is in the hero');
   assert.equal((PAGE_CODE.match(/<HeroFilm\b/g) || []).length, 1);
