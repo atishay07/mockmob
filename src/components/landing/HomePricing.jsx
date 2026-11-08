@@ -6,6 +6,7 @@ import { ProSealStrip } from '@/components/pricing/ProShowcase';
 import { cardsBank, usualWay } from '@/lib/payments/receipt.mjs';
 import { PLAN_HOME, freeLine, planGroups, pricingHead } from './homeCopy.mjs';
 import { Reveal } from './Reveal';
+import { DOCK_GO } from './demoSignal.mjs';
 import { PlanCounts } from './PlanCounts';
 import { PlanFree } from './PlanFree';
 import { PlanValue } from './PlanValue';
@@ -14,7 +15,7 @@ import '@/app/home-pricing.css';
 // The home page's #pricing (R3-D7, R3-D8; owner LK107, LK109, LK110, LK112; R4-H7, owner LK130-LK132, 5 Nov 2026). The /pricing
 // page's one plan ("One plan, everything in it", the shared PlanCard with its seal strip) as a glass card on its stage under a
 // big "Pro" (PlanStage, shared with /pricing; R4: the card sits lower so most of the word shows), its lines grouped with the
-// true counts (PlanCounts), Get Pro to the checkout on /pricing, and Free as one quiet line with Start free. Beside it (under it
+// true counts (PlanCounts), Get Pro to the checkout on /pricing, and Free as one quiet line with Sign up free. Beside it (under it
 // on phones), level with the card's top and as tall as the card: everything Pro's price covers at your own pace (PlanValue;
 // round 5, second take, owner 6 Nov 2026: "both should be equally visible"). The dated comparison with other CUET prep is gone
 // (R4-H7, owner LK132: naming other platforms is a legal risk).
@@ -57,7 +58,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
               <Link href="/pricing#plans" className="mm-btn mm-btn--primary">{PLAN_COPY.key}</Link>
               <Link href="/pricing" className="lp-plan__more">{PLAN_HOME.pricingLink}</Link>
             </div>
-            <PlanFree line={freeLine({ firstFullMock })} cta={PLAN_HOME.freeCta} />
+            <PlanFree line={freeLine({ firstFullMock })} cta={DOCK_GO.label} />
           </PlanCard>
         </PlanStage>
         {value ? (

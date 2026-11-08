@@ -27,7 +27,6 @@ html[data-theme='light'] .lc {
 }
 /* The page has no bar of its own at the foot (the shell already clears the dock), so it ends where the shelf ends. */
 .app-shell .kc.lc { max-width: 1120px; padding-bottom: 8px; }
-.lc-back { margin-bottom: -6px; }
 .kc.lc { gap: 12px; }
 
 /* ---------- Board: the lined-up block, and "Everything in this chapter" beside it when the board is wide (A4 3.2.2) ---------- */

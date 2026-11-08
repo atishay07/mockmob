@@ -1419,8 +1419,8 @@ html[data-theme='light'] .mmx-sheet {
 .recovery-replay { padding:20px; background:#1c2b30; color:#f4f5f0; border-radius:12px; margin:24px 0; }
 .recovery-replay input { width:100%; accent-color:#d2f000; margin:20px 0; min-height:44px; }
 .recovery-next { margin:24px 0; padding-block:20px; border-top:1px solid #c9cfc6; }
-.recovery-action { display:inline-flex; align-items:center; gap:10px; background:#d2f000; color:#182024; border-radius:10px; padding:14px 20px; min-height:48px; font-weight:700; margin:12px 0; }
-.recovery-action:focus-visible { outline:3px solid #172126; outline-offset:4px; }
+.recovery-action { margin:12px 0; text-decoration:none; }
+.recovery-action:focus-visible { outline:2px solid var(--a-focus); outline-offset:3px; }
 .recovery-note { font-size:13px; color:#4b595b; }
 @media(max-width:520px) { .recovery-facts { gap:12px; } .recovery-facts strong { font-size:28px; } .recovery-facts span { font-size:12px; } }
 /* The recovery journey extends MockMob's existing paper / slate / volt world. */

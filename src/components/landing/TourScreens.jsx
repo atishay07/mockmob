@@ -90,10 +90,10 @@ export function PracticeScreen({ play }) {
       <p className="ts__q">A partner’s capital account shows a debit balance. Where does it go in the balance sheet?</p>
       <ul className="ts__opts">
         {PRACTICE_OPTS.map((text, i) => (
-          <li key={text} data-in={on(step > i)} data-picked={on(i === 1 && step >= 5)}>
+          <li key={text} data-in={on(step > i)} data-picked={on(i === 0 && step >= 5)}>
             <b>{'ABCD'[i]}</b><span>{text}</span>
-            {i === 1 ? <span className="ts__tap" data-on={on(step === 5)} aria-hidden="true" /> : null}
-            {i === 1 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+            {i === 0 ? <span className="ts__tap" data-on={on(step === 5)} aria-hidden="true" /> : null}
+            {i === 0 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
           </li>
         ))}
       </ul>

@@ -58,9 +58,18 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 .kc-spin { animation: kc-spin 900ms linear infinite; }
 @keyframes kc-spin { to { transform: rotate(360deg); } }
 
-.kc-back { display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: -6px 0 -14px -6px; padding: 0 10px 0 4px; border-radius: 10px; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); text-decoration: none; }
+.kc-back {
+  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: 0 0 14px; padding: 0 16px 0 10px;
+  border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-raised); color: var(--a-ink);
+  font: 650 14px/1 var(--font-display); text-decoration: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out;
+}
+/* Same Back key as the Arena's other deeper pages (.arena-back, owner D43; R8 CONT-SW-04). */
+.kc-back svg { color: var(--a-ink-2); }
+.kc-back:active { transform: scale(0.97); background: var(--a-hover); }
 .kc-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-@media (hover: hover) { .kc-back:hover { color: var(--a-ink); background: var(--a-hover); } }
+@media (hover: hover) and (pointer: fine) { .kc-back:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+@media (prefers-reduced-motion: reduce) { .kc-back { transition: none; } .kc-back:active { transform: none; } }
 
 /* ---------- Home: today ---------- */
 .kc-today {
