@@ -116,6 +116,8 @@
      body keeps `contain`, so nothing reaches the page behind. */
   .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: auto; scrollbar-width: thin; }
   .lr-enter { flex: none; }
+  /* R8 sweep AL-01: a card never scrolls its area (its face scrolls inside itself), so the swipe demo and a drag are not cut off. */
+  .lr-area[data-type='card'] { overflow: visible; }
   .lr-area[data-type='question'] + .lr-bar { margin-top: 0; }
   .lr-area[data-type='question'] { flex: none; padding: 4px 2px 8px; }
   .lr-bar { position: relative; background: transparent; }

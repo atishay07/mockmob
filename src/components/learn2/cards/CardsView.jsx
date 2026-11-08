@@ -191,7 +191,7 @@ export function PickBar({ count, onStudy, onAdd, adding, onClear, studyHref }) {
       <p className="l2c-bar__n" role="status">{count} picked</p>
       <button type="button" className="kc-btn kc-btn--quiet l2c-bar__clear" onClick={onClear}>Clear</button>
       <div className="l2c-bar__keys">
-        <Link className="kc-btn kc-btn--volt kc-btn--small" href={studyHref} onClick={onStudy}>{theseKey(count)}</Link>
+        <Link className="kc-btn kc-btn--volt kc-btn--small" data-page-primary="" href={studyHref} onClick={onStudy}>{theseKey(count)}</Link>
         <button type="button" className="kc-btn kc-btn--line kc-btn--small" disabled={adding} onClick={(e) => onAdd(e.currentTarget)}>Add to Revise</button>
       </div>
     </div>

@@ -102,7 +102,7 @@ function AlsoIn({ others, onSubject }) {
           const meta = [o.chapters ? countWord(o.chapters, 'chapter') : null, o.cards ? countWord(o.cards, 'card') : null].filter(Boolean).join(', ');
           return (
             <li key={o.subject}>
-              <button type="button" className="l2f-link" onClick={() => onSubject(o.subject)} aria-label={`Also in ${o.name}: ${meta}. Search there`}>
+              <button type="button" className="l2f-link" onClick={() => { onSubject(o.subject); requestAnimationFrame(() => { window.scrollTo({ top: 0 }); document.querySelector('.l2f-h')?.focus({ preventScroll: true }); }); }} aria-label={`Also in ${o.name}: ${meta}. Search there`}>
                 <b>Also in {o.name}</b><span>{meta}</span><ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />
               </button>
             </li>
@@ -151,7 +151,7 @@ function useRunHref(links, chapterOf) {
 
 // ------------------------------------------------------------------------------------------------------------ results
 
-function Results({ subject, text, onSubject }) {
+function Results({ subject, subjectName, text, onSubject }) {
   const links = useLearnLinks();
   const { user } = useAuth() || {};
   const isPro = user?.isPremium === true;
@@ -255,7 +255,7 @@ function Results({ subject, text, onSubject }) {
         <Rail sections={railOn ? panel.groups : []} current={panel.current} onGo={goToSection} heading={`Cards in ${countWord(panel.groups.length, 'chapter')}`} />
         <div className="l2f-main">
           <div className="l2f-sub">
-            <h2 className="l2f-h">Results for “{query || text.trim()}”</h2>
+            <h2 className="l2f-h" tabIndex={-1}>Results for “{query || text.trim()}”{subjectName ? ` in ${subjectName}` : ''}</h2>
             <p className="l2f-count" role="status">{r ? counts.line : ''}</p>
           </div>
           {body}
@@ -393,12 +393,12 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
 }
 
 /** What Learn home's panel shows while the student searches (`text`) or has a shelf key open (`shelf`). */
-export default function FindView({ subject, text = '', shelf = null, shelves = null, onShelf, onBack, onSubject }) {
+export default function FindView({ subject, text = '', shelf = null, shelves = null, onShelf, onBack, onSubject, subjectName }) {
   const searching = text.trim().length > 0;
   return (
     <div className={`kc kc--inline l2c l2f ${ncertFont.variable}`}>
       {searching
-        ? <Results subject={subject} text={text} onSubject={onSubject} />
+        ? <Results subject={subject} subjectName={subjectName} text={text} onSubject={onSubject} />
         : shelf ? <SetPanel subject={subject} shelf={shelf} shelves={shelves} onShelf={onShelf} onBack={onBack} /> : null}
     </div>
   );

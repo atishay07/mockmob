@@ -282,7 +282,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
 
       <div id="lh-panel" className="lh-panel" key={mode} data-swap={swapped || undefined} tabIndex={-1} onClickCapture={(e) => { if (mode === 'results' && e.target.closest?.('a')) remember(); }} aria-label={panelName} role="region">
         {mode === 'results' || mode === 'set' ? (
-          <FindView subject={active} text={text} shelf={shelf} shelves={shelves} onShelf={openShelf} onBack={backFromSet} onSubject={pick} />
+          <FindView subject={active} text={text} shelf={shelf} shelves={shelves} onShelf={openShelf} onBack={backFromSet} onSubject={pick} subjectName={subjectName} />
         ) : failed ? (
           <MapError onRetry={home.refresh} busy={home.status === 'refreshing'} />
         ) : !ready ? (

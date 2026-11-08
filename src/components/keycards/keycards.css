@@ -99,6 +99,8 @@ html[data-theme='light'] :is(.kc, .kc-line) {
   transition: background-color var(--kc-dur) var(--kc-ease), color var(--kc-dur) var(--kc-ease);
 }
 /* R8 LEARN-11: the pick is rimmed (the SegmentedControl's tint and 1.5px line), the same as Learn's part choice. */
+.kc-opt__btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.kc-opt__tick { flex: none; }
 .kc-opt__btn[aria-checked='true'] { background: var(--ctl-seg-pick-bg); color: var(--a-ink); font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
 .kc-opt__row[aria-busy='true'] .kc-opt__btn:not([aria-checked='true']) { cursor: progress; }
 /* The line under the picker keeps one height (two lines, or the Try again key's 44 px) whatever it says, so nothing below moves. */

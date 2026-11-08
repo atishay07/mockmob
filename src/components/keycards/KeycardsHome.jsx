@@ -10,7 +10,7 @@
 //   Free      one quiet Pro line (InlineNudge, placement keycards), dismissable, never a modal on entry
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight } from 'lucide-react';
+import { Check, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { InlineNudge } from '@/components/pro';
@@ -103,13 +103,24 @@ function OptionPicker({ subject, onBusy }) {
     try { await refreshHome(); dispatch({ type: 'refreshed' }); } catch { dispatch({ type: 'refresh-failed' }); }
   }
   const fine = finePrint({ phase: state.phase, saved: subject.option, word, all });
+  const key = (event, i) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const next = (i + (event.key === 'ArrowRight' ? 1 : opts.choices.length - 1)) % opts.choices.length;
+    choose(opts.choices[next].id);
+    event.currentTarget.parentElement.querySelectorAll('[role="radio"]')[next]?.focus();
+  };
   const labelId = `kc-opt-${subject.subject}`;
   return (
     <div className="kc-opt">
       <p className="kc-opt__label" id={labelId}>{`Your ${word} in ${subject.title}`}</p>
       <div className="kc-opt__row" role="radiogroup" aria-labelledby={labelId} aria-busy={busy || undefined}>
-        {opts.choices.map((c) => (
-          <button key={c.id} type="button" role="radio" aria-checked={current === c.id} className="kc-opt__btn" onClick={() => choose(c.id)}>{c.label}</button>
+        {opts.choices.map((c, i) => (
+          <button key={c.id} type="button" role="radio" aria-checked={current === c.id} tabIndex={current === c.id || (current == null && i === 0) ? 0 : -1} className="kc-opt__btn"
+            onKeyDown={(e) => key(e, i)} onClick={() => choose(c.id)}>
+            {current === c.id ? <Check className="kc-opt__tick" size={15} strokeWidth={2.6} aria-hidden="true" /> : null}
+            {c.label}
+          </button>
         ))}
       </div>
       <div className="kc-opt__fine">

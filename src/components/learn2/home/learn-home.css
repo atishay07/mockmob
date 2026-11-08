@@ -260,7 +260,7 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 .lh-opt { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 2px 0 12px; }
 .lh-opt__label { font: 600 13.5px/1.3 var(--font-body); color: var(--a-ink-3); }
 /* R4 (LK139): where the part's common chapters come first, the switch sits after them, right above the units it changes. */
-.lh-part__units > .lh-opt { padding: 18px 0 4px; }
+.lh-part__units > .lh-opt { padding: 18px 0 16px; }
 .lh-part__units > .lh-opt .lh-opt__label { color: var(--a-ink-2); }
 .lh-opt__row { display: flex; flex-wrap: wrap; gap: 8px; }
 /* R8 LEARN-11: the part choice is the same control as Key cards' "Your part": two halves on one sunken track, the pick rimmed (the
