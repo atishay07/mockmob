@@ -28,6 +28,8 @@ html[data-theme='light'] .lc {
 /* The page has no bar of its own at the foot (the shell already clears the dock), so it ends where the shelf ends. */
 .app-shell .kc.lc { max-width: 1120px; padding-bottom: 8px; }
 .kc.lc { gap: 12px; }
+/* .kc-back pulls up 10px for the 24px .kc gap; here the gap is 12px, so +2px keeps the 14px space under Back (R8 CONT-SW-04b) */
+.kc.lc > .lc-back { margin-bottom: 2px; }
 
 /* ---------- Board: the lined-up block, and "Everything in this chapter" beside it when the board is wide (A4 3.2.2) ---------- */
 .lc-board { container-type: inline-size; container-name: lc-board; min-width: 0; }

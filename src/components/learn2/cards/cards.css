@@ -14,7 +14,8 @@
 
 /* ---------- Page: one column, and at 1100 the section list beside it ---------- */
 .l2c-layout { display: grid; gap: 18px; min-width: 0; }
-.l2c-layout > .l2c-back { margin: -6px 0 -10px -6px; }
+/* Back fits its label (no grid stretch), sits on the gutter, and 18px gap - 4px leaves the 14px space under every Back key (R8 CONT-SW-04) */
+.l2c-layout > .l2c-back { justify-self: start; margin: 0 0 -4px; }
 .l2c-main { display: grid; gap: 18px; min-width: 0; align-content: start; }
 .l2c-rail { display: none; }
 @media (min-width: 1100px) {

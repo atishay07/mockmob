@@ -5,11 +5,12 @@
 .app-shell .rb { gap: 24px; }
 .rb :is(p, h2, h3) { margin: 0; }
 .rb-back {
-  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: 0 0 14px; padding: 0 16px 0 10px;
+  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: 0 0 -10px; padding: 0 16px 0 10px;
   border: 1px solid var(--a-line-strong, #384736); border-radius: 999px; background: var(--a-raised, #131a16); color: var(--a-ink, #f2f4ec);
   font: 650 14px/1 var(--font-display, inherit); text-decoration: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out;
 }
+/* -10px takes the .rb row gap (24px, 22px on phones) down to the 12-14px space .arena-back leaves (R8 CONT-SW-04b) */
 .rb-back svg { color: var(--a-ink-2, #bcc5b9); }
 .rb-back:active { transform: scale(0.97); background: var(--a-hover, rgba(244, 245, 240, .04)); }
 @media (hover: hover) and (pointer: fine) { .rb-back:hover { border-color: var(--a-line-hover, #4a5a47); background: var(--a-hover, rgba(244, 245, 240, .04)); } }

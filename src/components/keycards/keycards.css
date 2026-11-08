@@ -59,12 +59,13 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 @keyframes kc-spin { to { transform: rotate(360deg); } }
 
 .kc-back {
-  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: 0 0 14px; padding: 0 16px 0 10px;
+  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: 0 0 -10px; padding: 0 16px 0 10px;
   border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-raised); color: var(--a-ink);
   font: 650 14px/1 var(--font-display); text-decoration: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
   transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 120ms ease-out;
 }
-/* Same Back key as the Arena's other deeper pages (.arena-back, owner D43; R8 CONT-SW-04). */
+/* Same Back key as the Arena's other deeper pages (.arena-back, owner D43; R8 CONT-SW-04). The -10px bottom margin takes the
+   .kc 24px row gap down to the 14px space .arena-back leaves under it (R8 CONT-SW-04b). */
 .kc-back svg { color: var(--a-ink-2); }
 .kc-back:active { transform: scale(0.97); background: var(--a-hover); }
 .kc-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
