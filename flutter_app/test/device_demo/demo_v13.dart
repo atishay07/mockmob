@@ -5,8 +5,13 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/api/api_providers.dart';
+import 'dart:math' show min;
+
 import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/repositories/repair_local_repository.dart' show repairLocalRecordsProvider;
 import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
+import 'package:mockmob/features/credits/data/credits_models.dart' show CreditsOverview;
 import 'package:mockmob/features/insights/data/mobi_api.dart' show mobiStandingProvider;
 import 'package:mockmob/features/nudges/nudges.dart' show NudgeKind;
 import 'package:mockmob/features/review/data/fix_api.dart' show fixCheckApiProvider;
@@ -112,6 +117,18 @@ int get demoBalance => _total - demoSpent;
 AiCredits get demoAiCredits =>
     AiCredits.fromJson({'state': 'available', 'wallet': {..._demoWallet, 'total': demoBalance, 'spendable': demoBalance}});
 
+/// The account read (the account sheet's tiles and every result's "You have N") follows the one balance: it is read
+/// again whenever a repair is kept, so it says 45 after one repair, as the repair's "1 credit used. 45 left." does (R8 APP-05).
+class _DemoMeCredits extends you.FakeMeCredits {
+  _DemoMeCredits() : super(const RemoteState());
+
+  @override
+  RemoteState<CreditsOverview> build() {
+    ref.watch(repairLocalRecordsProvider);
+    return you.oneBalanceState(total: demoBalance, freeLeft: min(_freeLeft, demoBalance), held: 6, pro: demoPro);
+  }
+}
+
 List<Override> demoV13Overrides() {
   final adapter = http.FakeHttpAdapter()..handler = _serve;
   final rig = billing.BillingRig(userId: 'u1', store: billing.FakePlayStore());
@@ -120,7 +137,7 @@ List<Override> demoV13Overrides() {
     ...rig.overrides,
     // The account sheet's credits tiles: the same balance as the Wallet (46 normally, 6 on the creditsLow walk).
     // With DEMO_PRO=true the plan is Pro (with its until date), so the plan strip, the Wallet and Practise's credits strip say so.
-    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: _total, freeLeft: _freeLeft, held: 6, pro: demoPro))),
+    meCreditsProvider.overrideWith(_DemoMeCredits.new),
     walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody(freeLeft: _freeLeft, pro: demoPro)))),
     mobiStandingProvider.overrideWith((ref) async => mobi.ready),
     serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),

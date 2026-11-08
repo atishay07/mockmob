@@ -66,7 +66,8 @@ Run `android/gradlew --stop` after building to free the Gradle daemon's memory.
 - One credits balance: every "You have N" and "N left" comes from `demoBalance` in `demo_v13.dart` (46, or 6 on the
   creditsLow walk). Each explained repair spends 1, so the repair says "1 credit used. 45 left." and the result's
   "You have" follows. A full mock or NTA paper (50 credits) stays launchable so it can be walked; its quote names the
-  balance only when the balance covers it. The account sheet and Wallet tiles are fixed at the starting 46.
+  balance only when the balance covers it. The account read (the account sheet's tiles and the practice and mock
+  results' "You have N") is read again after each repair and follows; the Wallet page's tiles stay at the starting 46.
 - Learn v2 (the Learn tab's chapters, "Repair N open mistakes", "Needs work") is served by the web dev preview's own
   in-memory student (`demo_learn.dart`, port 3452), not by `demo_book`. Its chapters and counts are the preview's and
   will not match Today's weakest chapter (Goodwill); compare Learn only with the web preview.
