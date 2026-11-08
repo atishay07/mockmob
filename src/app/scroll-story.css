@@ -65,6 +65,14 @@
 .ss__beat[data-edge='first'] { top: 0; height: calc(50svh + 0.5 * var(--ss-gap)); }
 .ss__beat[data-edge='last'] { height: calc(50svh + 0.5 * var(--ss-gap)); }
 .ss[data-pinned='false'] .ss__beat { display: none; }
+/* Free on touch (owner, 9 Nov 2026; ScrollStory.jsx HELD_ON): a story holds only on a wide window with a mouse or trackpad.
+   Everywhere else its track and stage are plain blocks, whatever data-pinned says before the page hydrates, so a phone
+   never reserves a held height and the page scrolls straight past. */
+@media (max-width: 959.98px), (hover: none), (pointer: coarse) {
+  .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
+  .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
+  .ss[data-pinned] .ss__beat { display: none; }
+}
 
 /* Touch screens: while the page rests inside a held story (the controller marks its track with a class: held-first, held-mid, held-last),
    the browser may pan the page only the way out of the story: up from the first step, down from the last, not at all

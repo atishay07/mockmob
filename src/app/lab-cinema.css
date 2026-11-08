@@ -547,6 +547,38 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 .lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 22px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
 .lc[data-pinned='false'] .lc-scene__mini .lcd-bar { padding: 1rem 0.2rem 0.85rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--s-line); }
 
+/* ---------- Free on touch (owner, 9 Nov 2026): the four scenes as one sideways row of cards ----------
+   Nothing holds on a phone or a touch screen (ScrollStory HELD_ON). The rail stays on top as the scene tabs; under it the
+   scenes sit side by side, each a card with its words over its screen, the next one showing at the edge so the row reads
+   as more to see. A sideways swipe or a tap on the rail moves one scene; an up or down swipe is the page's, always. While
+   held (wide windows with a mouse) the row is no box at all, so the held grid places every scene as before. */
+.lc__reel { display: contents; }
+@media (max-width: 959.98px), (hover: none), (pointer: coarse) {
+  .lc[data-pinned='false'] .lc__rail { display: grid; }
+  .lc[data-pinned='false'] .lc__rail-meter .ss-fill[data-state='done'] { transform: scaleX(0); }
+  .lc[data-pinned='false'] .lc__grid { gap: 1rem; }
+  .lc[data-pinned='false'] .lc__reel {
+    position: relative;
+    display: flex;
+    gap: 0.75rem;
+    margin-inline: calc(-1 * var(--gutter, 1rem));
+    padding: 0.25rem var(--gutter, 1rem) 1.75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter, 1rem);
+    scrollbar-width: none;
+  }
+  .lc[data-pinned='false'] .lc__reel::-webkit-scrollbar { display: none; }
+  .lc[data-pinned='false'] .lc-scene { flex: 0 0 min(86%, 30rem); align-content: start; align-items: start; gap: 1rem; scroll-snap-align: start; scroll-snap-stop: always; }
+  .lc[data-pinned='false'] .lc-scene__step { margin-bottom: 0.4rem; }
+  .lc[data-pinned='false'] .lc-scene__title { font-size: clamp(1.35rem, 6vw, 1.75rem); }
+  .lc[data-pinned='false'] .lc-scene__body { font-size: 0.9375rem; }
+  /* The card that is not on stage rests a little back, so the one in front reads as the current scene. */
+  .lc[data-pinned='false'] .lc-scene { transition: opacity 0.3s var(--lc-ease); }
+  .lc[data-pinned='false'] .lc-scene[data-on='false'] { opacity: 0.55; }
+}
+
 /* The object drifts with the whole story (compositor-only, where supported). There is no drifting light behind the screen (L-019). */
 @supports (animation-timeline: view()) {
   .lc[data-pinned='true'] .lc__obj { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
