@@ -121,7 +121,8 @@ const buildPlans = (offer) => [
       // R8 PRICE-16: each fact once. "No card needed" is the lede's; the first free full mock is the list's (FIRST_FREE_ITEMS); the
       // credits read as the allowance, then one short line of what each thing costs.
       ['Renewal', 'None'],
-      ['Credits', <>50 free every month<span className="mm-plan__terms-sub">1 a question, 50 a full mock, 1 a Mobi job (a mistake fixed or a doubt answered). Answers from your record are free.</span></>],
+      // The practice prices are said once: by the list below on today's offer, by this line when the new offer's list has none.
+      ['Credits', <>50 free every month<span className="mm-plan__terms-sub">{newOfferReleased() ? '1 a question, 50 a full mock, ' : ''}1 a Mobi job (a mistake fixed for good, or a doubt answered and tested). Answers from your record are free.</span></>],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', ...FIRST_FREE_ITEMS, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',

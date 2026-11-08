@@ -28,7 +28,7 @@ test('no page still says Free gets 10 credits a month, and the pages that name t
   }
   // One credits balance (D78): the 50 free a month are for practice and Ask Mobi alike.
   // R8 PRICE-16: the Credits term is the allowance, then one short line of what each thing costs (the same 50, the same prices).
-  assert.match(file('src/app/pricing/page.js'), /\['Credits', <>50 free every month<span className="mm-plan__terms-sub">1 a question, 50 a full mock, 1 a Mobi job \(a mistake fixed or a doubt answered\)/);
+  assert.match(file('src/app/pricing/page.js'), /\['Credits', <>50 free every month<span className="mm-plan__terms-sub">\{newOfferReleased\(\) \? '1 a question, 50 a full mock, ' : ''\}1 a Mobi job \(a mistake fixed for good, or a doubt answered and tested\)/);
   assert.match(file('src/app/pricing/page.js'), /Practice and Ask Mobi replies share one credits balance: 50 free a month, used first\./);
   assert.match(file('src/app/features/page.js'), /everyone gets 50 free a month/);
   // 20 Oct (C-dec 3/3b): a credit buys a whole Mobi job on every plan, not a reply; the 50 a month stays.
