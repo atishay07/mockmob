@@ -164,7 +164,9 @@ class _ReviewAgainScreenState extends ConsumerState<ReviewAgainScreen> {
             total: _held.length,
             missedKeys: [for (var i = 0; i < _held.length; i++) if (!_held[i]) set[i].key],
           ),
-          onBack: _back,
+          // "Back to Your papers" goes there. Opened from a repair's ending (a seeded set), the page under this one is
+          // that ending, so a pop would land on it under a label that names Your papers (device walk, 8 Nov).
+          onBack: widget.seed != null ? () => context.go(AppRoutes.review) : _back,
           onAnother: ref.watch(reviewAgainCountProvider) > set.length ? _again : null,
         );
       } else {
@@ -322,14 +324,30 @@ class _TopBar extends StatelessWidget {
                 // The labelled key every pushed page uses (D43, R8 APP-10), never a bare arrow.
                 MmBackPill(onTap: onBack),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(child: Semantics(header: true, child: Text(ReviewAgainCopy.title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis))),
-                if (show)
+                // The title steps down to fit whole beside the key and the count, with air before the count (at 1.3x
+                // "Review again" ran into "0 of 1" on a 360 dp phone).
+                Expanded(
+                  child: Semantics(
+                    header: true,
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: AlignmentDirectional.centerStart,
+                        child: Text(ReviewAgainCopy.title, style: type.screenTitle, maxLines: 1),
+                      ),
+                    ),
+                  ),
+                ),
+                if (show) ...[
+                  const SizedBox(width: MmSpace.s8),
                   Semantics(
                     liveRegion: true,
                     label: ReviewAgainCopy.progressSpoken(answered, total),
                     excludeSemantics: true,
                     child: Text(ReviewAgainCopy.progress(answered, total), style: type.labelLarge.copyWith(color: colors.ink2)),
                   ),
+                ],
               ],
             ),
           ),
