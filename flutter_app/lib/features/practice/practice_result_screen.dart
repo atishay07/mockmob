@@ -469,12 +469,20 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       hour: now.hour,
     );
     // The chapter set's cost from its own quote, as the Start sheet would say it (R8 APP-04): "Free today." while the
-    // daily allowance covers it. Otherwise (or until the quote answers) the price line with the one balance stands.
-    final setQuote = baseMove.kind == MoveKind.practise && !state.isPro
-        ? ref.watch(practiceQuoteProvider(QuoteQuery(subject: subjectId, apiMode: PracticeMode.chapter.apiMode, count: NextMoveRules.setSize))).value
+    // daily allowance covers it, the price line with the one balance once the quote says it costs. While the quote is
+    // on its way the key carries no cost line at all, so a free student never reads a spend that is not true; if the
+    // quote fails, the price line stands (the Start sheet asks again before anything is spent).
+    final setQuoteAsync = baseMove.kind == MoveKind.practise && !state.isPro
+        ? ref.watch(practiceQuoteProvider(QuoteQuery(subject: subjectId, apiMode: PracticeMode.chapter.apiMode, count: NextMoveRules.setSize)))
         : null;
+    final setQuote = setQuoteAsync?.value;
+    final setPending = setQuoteAsync != null && setQuoteAsync.isLoading && !setQuoteAsync.hasValue;
     final setFree = setQuote != null && costLineFor(setQuote).kind == CostKind.freeToday;
-    final move = setFree ? baseMove.copyWith(cost: practiceCostLine(freeToday: true)) : baseMove;
+    final move = setFree
+        ? baseMove.copyWith(cost: practiceCostLine(freeToday: true))
+        : setPending
+        ? baseMove.copyWith(cost: '')
+        : baseMove;
     // The repair key (R4, walk 19 Oct): after a weak paper the volt key is a chapter set, and the mistake's own
     // "Repair Qn" stays one tap away as a quiet key under it (the panel's text link keeps the cost and the detail).
     final repairAlt = move.kind != MoveKind.repair && move.alt?.kind == AltKind.repair ? move.alt : null;
@@ -526,6 +534,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       for (final q in read.fixQids)
         if (!state.repaired.contains(q)) q,
     ];
+    // One open mistake: the read's key names it ("Repair Q2"), as the foot's own repair key does (D15).
+    final fixNumber = fixable.length == 1 ? byQid[fixable.single]?.number : null;
     final onFix = fixable.isEmpty || keysOff
         ? null
         : () => _go(Uri(path: AppRoutes.reviewRepair(attempt.id, fixable.first), queryParameters: {'count': '${fixable.length}'}).toString());
@@ -747,6 +757,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       read: model.hasRows && !failedKeys ? read : null,
                                       onFix: onFix,
                                       fixOpen: fixable.length,
+                                      fixNumber: fixNumber,
                                       onSettled: () {
                                         if (mounted && !_settled) setState(() => _settled = true);
                                       },
@@ -793,6 +804,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                           move.label,
                           () => _go(MoveNav.forMove(move, attemptId: attempt.id, subject: subjectId)),
                           note: LayersCopy.footNote(move.cost),
+                          reserveNote: setPending,
                         ),
                         showFinish: !large,
                         // One quiet link: the mistake's repair when the volt key is something else (R4, D108), else the

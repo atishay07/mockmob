@@ -440,10 +440,13 @@ List<Override> resultOverrides({
   ReplayInventory? replay,
   Future<DateTime?>? receivedLater,
 
+  /// The quotes the next move's chapter set reads (credits by default).
+  FakeQuoteRepository? quotes,
+
   /// The two balances the next move states (null: unknown, never zero).
   CreditFigures credits = const CreditFigures(),
 }) => [
-  ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
+  ...practiceOverrides(quotes: quotes, catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
   creditFiguresProvider.overrideWithValue(credits),
   repairLocalRecordsProvider.overrideWith((ref) => Stream.value(const [])),
   replayInventoryProvider.overrideWith((ref, id) async => replay),

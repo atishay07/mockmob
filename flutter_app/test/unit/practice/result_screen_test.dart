@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/models/practice_quote.dart' show PracticeQuote;
 import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptDetailProvider;
 import 'package:mockmob/core/storage/prefs_store.dart' show MemoryPrefsStore;
 import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiKind;
@@ -230,7 +231,10 @@ void main() {
   testWidgets('one next move: the foot key, why, what a repair gives and its cost before paying, and the late hour in words', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
     await tester.pump(const Duration(milliseconds: 900));
-    expect(find.widgetWithText(KeyButton, 'Repair Q9'), findsOneWidget);
+    expect(find.descendant(of: find.byType(ResultFoot), matching: find.widgetWithText(KeyButton, 'Repair Q9')), findsOneWidget);
+    // One label for the one repair (D15, R8): Mobi's read names the same single mistake with the same words.
+    expect(find.descendant(of: find.byKey(const ValueKey('paper-read-fix')), matching: find.text('Repair Q9')), findsWidgets);
+    expect(find.text('Repair this one'), findsNothing);
     expect(find.text('Why Q9 first'), findsOneWidget);
     expect(find.text('Admission of a partner. You picked B.'), findsOneWidget);
     // No check question is promised until the Lab says one is ready (RESULT-1017 4.4).
@@ -360,6 +364,52 @@ void main() {
     expect(router.state.uri.queryParameters, {'mode': 'chapter', 'subject': 'accountancy', 'count': '10', 'chapter': 'Goodwill'});
   });
 
+  group("R8 APP-04: the chapter set's cost line follows its own quote", () {
+    final weak = [
+      ('Goodwill', V.right),
+      ('Goodwill', V.right),
+      for (var i = 0; i < 6; i++) ('Goodwill', V.wrong),
+      ('Admission of a partner', V.wrong),
+      ('Admission of a partner', V.blank),
+    ];
+    List<String> footLines(WidgetTester tester) => [
+      for (final t in tester.widgetList<Text>(find.descendant(of: find.byType(ResultFoot), matching: find.byType(Text)))) t.data ?? '',
+    ];
+
+    testWidgets("while the quote is on its way the foot names no spend, and keeps the line's room", (tester) async {
+      final never = Completer<PracticeQuote>();
+      await pumpResult(
+        tester,
+        resultOverrides(
+          attemptId: 'p1',
+          detail: detailOf(weak),
+          credits: const CreditFigures(ai: 68, practice: 40),
+          quotes: FakeQuoteRepository((s, m, c, p) => never.future),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(find.widgetWithText(KeyButton, 'Practise 10 on Goodwill'), findsOneWidget);
+      expect(footLines(tester).where((l) => l.contains('credit')), isEmpty, reason: 'no "This set uses 10 credits" before the quote says so');
+      expect(footLines(tester).where((l) => l.contains('Free today')), isEmpty);
+      expect(footLines(tester), contains(''), reason: 'the caption line is held, so the bar does not grow when the cost arrives');
+    });
+
+    testWidgets('a quote the daily allowance covers says "Free today."', (tester) async {
+      await pumpResult(
+        tester,
+        resultOverrides(
+          attemptId: 'p1',
+          detail: detailOf(weak),
+          credits: const CreditFigures(ai: 68, practice: 40),
+          quotes: FakeQuoteRepository((s, m, c, p) => dailyFree()),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(footLines(tester), contains('Free today.'));
+      expect(footLines(tester).where((l) => l.contains('credits')), isEmpty);
+    });
+  });
+
   testWidgets('R4: after a weak set the volt key is the chapter set, and "Repair Qn" (v15.2) stays one tap away as a quiet key', (tester) async {
     final weak = [
       ('Goodwill', V.right),
@@ -396,7 +446,7 @@ void main() {
   testWidgets('R4: when the next move is the repair itself there is no second repair key in the foot', (tester) async {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
     await tester.pump(const Duration(milliseconds: 900));
-    expect(find.widgetWithText(KeyButton, 'Repair Q9'), findsOneWidget);
+    expect(find.descendant(of: find.byType(ResultFoot), matching: find.widgetWithText(KeyButton, 'Repair Q9')), findsOneWidget);
     expect(find.byKey(const ValueKey('result-foot-repair')), findsNothing);
   });
 
@@ -602,7 +652,7 @@ void main() {
     expect(find.text('8 of 9 answered were right.'), findsOneWidget);
     await tester.tap(fold);
     await frames(tester);
-    await tester.scrollUntilVisible(find.text('One question not attempted'), 200, scrollable: _page);
+    await tester.scrollUntilVisible(find.text('One question left blank'), 200, scrollable: _page);
     expect(find.text('What this set shows'), findsOneWidget);
     expect(find.text('BLANKS'), findsNothing);
   });
