@@ -87,8 +87,13 @@ export function NavBar() {
       if (!navRef.current?.contains(event.target)) setMenuOpen(false);
     }
     // R8 sweep LH-02: Tab out of the sheet closes it, so focus never lands on a control hidden under the scrim.
+    // Closing lifts the page lock and restores the old scroll, so the newly focused control is brought back into view
+    // once that has settled: instantly, and only as far as needed (html's scroll-padding keeps it clear of the nav).
     function onFocusIn(event) {
-      if (!navRef.current?.contains(event.target)) setMenuOpen(false);
+      if (navRef.current?.contains(event.target)) return;
+      const t = event.target;
+      setMenuOpen(false);
+      requestAnimationFrame(() => requestAnimationFrame(() => t.scrollIntoView?.({ block: 'nearest', behavior: 'instant' })));
     }
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onPointerDown);

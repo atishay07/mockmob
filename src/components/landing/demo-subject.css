@@ -3,7 +3,8 @@
    states. Tokens only (Night and Day both), 44 px targets, no glow, no gradient, one accent: the volt stays the right
    answer's fill, so a picked subject is marked with an ink edge and a tick. */
 
-.mm.lp .lp-desk .mm-drill { container-type: inline-size; scroll-margin-top: 84px; }
+/* 8 px plus the landing html's 76 px scroll-padding (landing.css) keeps the card's head 84 px down, clear of the nav. */
+.mm.lp .lp-desk .mm-drill { container-type: inline-size; scroll-margin-top: 8px; }
 
 /* ---------- The card's last line: the note and the key ---------- */
 .mm.lp .lp-desk .mm-drill__base {
@@ -218,9 +219,7 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct']
 .mm.lp .lp-desk .mm-drill__miss-why strong { color: var(--ink); font-weight: 650; }
 .mm.lp .lp-desk .mm-drill__miss-body > .mm-drill__miss-next { margin-top: 2px; padding-block: 10px 12px; }
 .mm.lp .lp-desk .mm-drill__miss-next a {
-  display: inline-block;
-  padding-block: 12px;
-  margin-block: -12px;
+  position: relative;
   color: var(--ink);
   font-weight: 650;
   text-decoration: underline;
@@ -228,6 +227,8 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct']
   text-decoration-color: var(--ink-3);
   text-underline-offset: 4px;
 }
+/* R8 sweep LH-03: the 44 px hit area is a pseudo-element, so the focus ring hugs the words and stays inside the fold. */
+.mm.lp .lp-desk .mm-drill__miss-next a::before { content: ''; position: absolute; inset: -12px -4px; }
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .lp-desk .mm-drill__miss-next a:hover { text-decoration-color: currentColor; }
 }

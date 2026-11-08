@@ -131,6 +131,13 @@ body:has(.mm.lp) {
   border: 0;
 }
 
+/* R8 sweep LH-02: keyboard focus and in-page scrolling stop below the sticky nav (61 px on phones, 69 px on desktop,
+   plus a gap). Landing only: the du pages share .mm.lp but their step anchors already count the nav in scroll-margin. */
+html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
+/* The nav's own controls sit inside that padding by design (the bar is sticky), so they opt out of it: without this, a tap
+   on the menu key at scrollY 1100 counted the key as hidden and the page jumped up about 430 px on each open and close. */
+.mm.lp:not(.du-page) .mm-nav, .mm.lp:not(.du-page) .mm-nav * { scroll-margin-top: -76px; }
+
 /* ---------- Shared chrome on dark ---------- */
 
 @supports (backdrop-filter: blur(1px)) {

@@ -171,8 +171,9 @@ export function DemoDrill({ note = null }) {
   useEffect(() => {
     const node = rootRef.current;
     if (!node || done || !(picking || fresh)) return;
-    // Counts the card's scroll-margin, so the sticky nav never covers its head (R8 sweep LH-01).
-    if (node.getBoundingClientRect().top < (parseFloat(getComputedStyle(node).scrollMarginTop) || 0)) node.scrollIntoView({ block: 'start', behavior: 'instant' });
+    // Counts the card's scroll-margin plus html's scroll-padding, so the sticky nav never covers its head (R8 sweep LH-01, LH-02).
+    const clear = (parseFloat(getComputedStyle(node).scrollMarginTop) || 0) + (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0);
+    if (node.getBoundingClientRect().top < clear) node.scrollIntoView({ block: 'start', behavior: 'instant' });
   }, [picking, fresh, live, done]);
 
   // A request still running when the card goes away is dropped.
