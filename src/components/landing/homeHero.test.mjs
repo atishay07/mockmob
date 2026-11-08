@@ -102,10 +102,11 @@ test('decision 18: every hero string traces to a source, and each source still s
 });
 
 test('LK70: the h1 comes first and the lead says what MockMob is, in the server HTML order', () => {
-  // Round 4 (LK121): no fact line under the keys; the features strip comes after the desk (on desktop it sits under the
-  // keys by grid area), then the two hero links. The texture is the section's first child, behind everything.
+  // Round 4 (LK121): no fact line under the keys. Round 7 (owner, 7 Nov 2026): the film (HeroFilm) took the desk's place,
+  // then the features strip (on desktop it sits under the keys by grid area) and the two hero links; after the hero, the
+  // college strip, then the desk in its own section#try. The texture is the hero's first child, behind everything.
   assert.doesNotMatch(HERO, /<QuestionBankLine\b|lp-hero__fact/);
-  const order = ['<BrandTexture variant="hero" />', '<h1 className="lp-title">', '<p className="lp-lead">', '<div className="lp-cta">', 'id="try-practice">', '<div className="lp-desk__stage">', '<HeroBeatStrip ', '<div className="lp-hero__links">'];
+  const order = ['<BrandTexture variant="hero" />', '<h1 className="lp-title">', '<p className="lp-lead">', '<div className="lp-cta">', '<HeroFilm />', '<HeroBeatStrip ', '<div className="lp-hero__links">', '</section>', '<CollegeStrip />', '<section className="lp-sec lp-try" id="try"', 'id="try-practice">', '<div className="lp-desk__stage">'];
   let at = -1;
   for (const mark of order) {
     const i = HERO.indexOf(mark);
@@ -131,8 +132,8 @@ test('LK70 geometry: phone sizes put the words first (h1 39.5 px at 390, the roo
   assert.match(CSS, /\.mm\.lp \.lp-hero \{ padding-block: 22px 40px; \}/);
   assert.match(CSS, /font-size: min\(2\.75rem, 11\.3cqi\);/, 'the h1 is 39.5 px at 390 and fits the widest phrase on one line');
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-title__line \{ display: block; white-space: nowrap; \}/);
-  assert.match(CSS, /grid-template-areas: 'copy' 'desk' 'strip' 'links';/, 'phones: the words, the desk, the features strip, the two links');
-  assert.match(CSS, /grid-template-areas: 'copy desk' 'strip desk' 'links desk';/, 'desktop: the strip and the links under the keys in the left column');
+  assert.match(CSS, /grid-template-areas: 'copy' 'film' 'strip' 'links';/, 'phones: the words, the film, the features strip, the two links');
+  assert.match(CSS, /grid-template-areas: 'copy film' 'strip strip' 'links links';/, 'desktop: the film beside the words; the strip and the links full width under both (owner, 7 Nov 2026)');
   // D1 (LK83/LK88, 5 Nov): the volt "Sign up free" at 56 px, the secondary "Try 5 questions first" at 50 px under it.
   assert.match(CSS, /\.mm\.lp \.lp-hero \.lp-cta \.mm-actions > a \{ width: 100%; border-radius: 16px; \}/);
   assert.match(CSS, /\.lp-cta \.mm-actions > a:first-child \{\n\s+min-height: 56px;/);
@@ -189,7 +190,7 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook-fig \{[^}]*color: var\(--brand-word, var\(--ink\)\);[^}]*font-variant-numeric: lining-nums tabular-nums;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ display: grid; grid-template-columns: minmax\(0, 1fr\);/, 'one feature a row on phones');
   assert.match(CSS, /\.mm\.lp \.lp-strip__item:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; border-right: 0; \}/, 'tablets: an odd last cell spans the row');
-  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); column-gap: 8px;/, 'two across in the words\' column from 960 px');
+  assert.match(CSS, /\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); column-gap: 8px;/, 'three across, full width under the words and the film, from 960 px');
   assert.match(CSS, /@media \(min-width: 1400px\) \{\s*\.mm\.lp \.lp-strip__list \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); column-gap: 4px; \}/, 'three across from 1400 px');
   assert.match(CSS, /\.mm\.lp \.lp-strip__fact \{[^}]*min-height: 44px;/);
   assert.match(CSS, /\.mm\.lp \.lp-strip__hook \{[^}]*min-height: 44px;/);
@@ -427,7 +428,7 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
         range.selectNodeContents(brand);
         const column = document.querySelector('.lp-hero__copy').getBoundingClientRect();
         const sizers = [...document.querySelectorAll('.lp-typed__sizer')].map((el) => el.getBoundingClientRect().right);
-        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), option4: b('.lp-desk .mm-drill__option:nth-child(4)'), strip: b('.lp-strip'), texture: (() => {
+        return { h1: b('.lp-hero .lp-title'), lead: b('.lp-hero .lp-lead'), key: b('.lp-hero .lp-cta .mm-actions > a:first-child'), room: b('.lp-desk__room'), fig: b('.lp-desk__figure'), docW: document.documentElement.scrollWidth, text: document.querySelector('.lp-hero').innerText, leadLines: lines('.lp-hero .lp-lead'), leadPx: parseFloat(getComputedStyle(document.querySelector('.lp-hero .lp-lead')).fontSize), fact: Boolean(document.querySelector('.lp-hero__fact')), brandRight: range.getBoundingClientRect().right, columnRight: column.right, sizerRight: Math.max(...sizers), film: b('.lp-hero .lp-film__frame'), strip: b('.lp-strip'), texture: (() => {
           // Round 5: the grain covers the hero, behind it, untouchable, drawn by its two masked layers.
           const el = document.querySelector('.lp-hero > .mm-texture--hero');
           if (!el) return null;
@@ -458,7 +459,9 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       assert.equal(m.leadLines, 2, `${width}: the lead is ${m.leadLines} lines`);
       assert.equal(m.fact, false, `${width}: no fact line`);
       assert.ok(m.brandRight <= m.columnRight + 1 && m.sizerRight <= m.columnRight + 1, `${width}: the headline fits its column`);
-      if (width >= 960) assert.ok(m.option4.bottom <= height, `${width}x${height}: the fourth option ends at ${Math.round(m.option4.bottom)}`);
+      // Round 7: the film is the hero's picture now (the sample moved to section#try): on desktop it is large and wholly in
+      // the first screen.
+      if (width >= 960) assert.ok(m.film && m.film.bottom <= height && m.film.width >= width * 0.38, `${width}x${height}: the film is large and in the first screen`);
       // Round 5 (LK159): nothing is drawn behind, before or after "CUET 2027.": type and colour alone.
       assert.deepEqual(m.brandMarks, ['none', 'none'], `${width}: no marker around "CUET 2027."`);
       assert.match(m.brandBg, /^none(rgba\(0, 0, 0, 0\)|transparent)$/, `${width}: no band behind "CUET 2027."`);
@@ -485,6 +488,9 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
       if (width === 360) assert.ok(pct(m.lead.bottom) <= 48, `360x640 lead ends at ${pct(m.lead.bottom).toFixed(1)} %`);
       if (width === 390) {
         // Six real taps on Mobi: the bubble never changes.
+        // Round 7: the desk is in section#try under the college strip; bring it on screen first.
+        await page.locator('.lp-desk__figure').scrollIntoViewIfNeeded();
+        await page.waitForTimeout(400);
         const before = await page.evaluate(() => document.querySelector('.lp-desk__line[data-on]').textContent);
         const box = await page.locator('.lp-desk__figure').boundingBox();
         for (let i = 0; i < 6; i += 1) { await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2); await page.waitForTimeout(500); }

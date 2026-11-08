@@ -38,6 +38,8 @@ export const HERO_LEAD = Object.freeze({ strong: 'CUET UG mocks', rest: ' that t
 export const STATEMENT = 'Your marks slipped somewhere. *MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 
 // ------------------------------------------------------------------ section heads (h2 and the one sub under it)
+// The head over the five sample questions (round 7, 7 Nov 2026: the desk's own section under the college strip).
+export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Free, no sign-up. Every answer shows its reason.' });
 export const LAB_HEAD = Object.freeze({
   h2: 'Every mark, traced back to a moment.',
   sub: 'Every mock opens in the Lab: time, changed answers and the reason behind each miss.',

@@ -70,7 +70,10 @@ test('one Mobi in view (W-074)', () => {
   // while the hero's Mobi is on screen.
   assert.equal((read('../../app/page.js').match(/<HeroMobi\b/g) || []).length, 1);
   assert.match(GUIDE, /const shown=\(wide\|\|onScreen\) && scrollY < mainEnd-140 && !heroMobi;/);
-  assert.match(GUIDE, /document\.querySelectorAll\('\.lp-mobi'\)\.forEach\(el=>heroWatch\.observe\(el\)\)/);
+  // Round 7: the desk (and its Mobi) left the hero for section#try; the flyer also waits while the hero shows, so it never
+  // covers the film, and the watch keeps every target's state (one leaving never hides another still on screen).
+  assert.match(GUIDE, /document\.querySelectorAll\('\.lp-mobi, \.lp-hero'\)\.forEach\(el=>heroWatch\.observe\(el\)\)/);
+  assert.match(GUIDE, /if\(e\.isIntersecting\)heroSeen\.add\(e\.target\);else heroSeen\.delete\(e\.target\);/);
   // Where another figure stands in for a seat, the seat's own is hidden outright, image included.
   assert.match(CSS, /\[data-pip-guide='on'\] \.pip-seat\[data-pip-station\] \.pip-seat__art > \.pip-rig \.pip-image,\n\.pip-seat\[data-pip-reacting='true'\] \.pip-seat__art > :is\(\.pip-image, \.pip-rig\),\n\.pip-seat\[data-pip-reacting='true'\] \.pip-seat__art > \.pip-rig \.pip-image \{ opacity: 0; visibility: hidden; \}/);
   // Phones and Reduce motion: the figure most on screen stays, any other yields.

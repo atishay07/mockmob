@@ -225,7 +225,9 @@ test('L-013 conversion paths (LK83/LK88): sign-up from the hero, the dock, the c
   assert.match(actions, /way\.signup/, 'hero: sign-up');
   assert.match(actions, /way\.login\.href/, 'hero: log in');
   assert.match(actions, /SAMPLE\.href/, 'hero: the sample');
-  assert.match(hero, /id="try-practice"/, 'the sample is in the hero');
+  // Round 7 (7 Nov 2026): the film took the desk's place in the hero; the sample is the section right under the college strip.
+  assert.match(hero, /<HeroFilm \/>/, 'the hero shows the film');
+  assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('<CollegeStrip'), PAGE_CODE.indexOf('<Statement')), /<section className="lp-sec lp-try" id="try"[\s\S]*id="try-practice"/, 'the sample sits in section#try, after the college strip');
   assert.deepEqual([demo.wayIn({}).signup.href, demo.wayIn({}).login.href, demo.SAMPLE.href], ['/signup', '/login', '/#try-practice']);
   assert.deepEqual([demo.wayIn({}).dock.secondary.href, demo.wayIn({}).dock.primary.href], ['/login', '/signup'], 'the dock: log in, then sign up');
   for (const route of ['src/app/signup', 'src/app/login']) assert.ok(existsSync(join(ROOT, route)), `${route} exists`);
@@ -376,12 +378,18 @@ test('L-023 commerce-first positioning is clear: the commerce subjects lead the 
 
 // ================================================================================================ L-024 .. L-025 defensive fine print and anti-slop copy
 const FINE_PRINT = /illustrative|not a prediction|not an? (admission )?prediction|example only|not affiliated|just a diagnostic|for illustration|sample data only|demo data/i;
-test('L-024 no defensive fine print in the landing text ("illustrative", "not a prediction", "example only", "not affiliated", "just a diagnostic")', () => {
-  const hits = RENDERED.filter((s) => FINE_PRINT.test(s));
+// One exception, the owner's own (7 Nov 2026, round 7): the college strip under the hero shows the CUET colleges' real
+// logos with "logos belong to their owners, not affiliated" under them (CollegeStrip.jsx COLLEGE_NOTE). That one line, in
+// that one component, is the only "not affiliated" on the landing.
+const COLLEGE_NOTE = 'College names and logos belong to their owners. MockMob is not affiliated with them.';
+test('L-024 no defensive fine print in the landing text ("illustrative", "not a prediction", "example only", "not affiliated", "just a diagnostic"), save the college strip\'s owner-asked logo line', () => {
+  const hits = RENDERED.filter((s) => FINE_PRINT.test(s) && s !== COLLEGE_NOTE);
   assert.deepEqual([...new Set(hits)], [], 'rendered landing text');
+  const strip = code(read('src/components/landing/CollegeStrip.jsx'));
+  assert.equal(strip.split(COLLEGE_NOTE).length, 2, 'the logo line is said once, in the college strip');
   const jsxHits = [];
   for (const f of SURFACE.filter((x) => !/ChapterReadout|ProductScreens|RecoveryPreview/.test(x) || LANDING_REL.includes(x))) {
-    const body = code(read(f));
+    const body = code(read(f)).split(COLLEGE_NOTE).join('');
     for (const m of body.matchAll(/(["'`>])((?:(?!\1)[^\n])*?)(illustrative|not a prediction|example only|not affiliated|just a diagnostic)/gi)) jsxHits.push(`${f}: ${m[3]}`);
   }
   assert.deepEqual(jsxHits, [], 'strings in the components the page renders');
@@ -593,12 +601,16 @@ test('L-043 the logo opening uses logo B and lasts about 1.3 s per session (1.6 
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/);
 });
 
-test('L-044 no Higgsfield or video scene is live on the landing; the scroll scenes are SVG/Mobi', () => {
+test('L-044 no Higgsfield or video scene is live on the landing; the scroll scenes are SVG/Mobi; the one film is the hero\'s launch teaser (round 7)', () => {
   assert.doesNotMatch(sources(SURFACE) + PAGE, /higgsfield/i);
   assert.doesNotMatch(PAGE_CODE, /<video\b|\.mp4|\.webm/);
   const tour = homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true });
   assert.ok(tour.every((slide) => !slide.video), 'no tour slide carries a video file');
-  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot');
+  // Owner, 7 Nov 2026: "the promo video playing as the main hero" (klayprep.com). HeroFilm is the landing's one film,
+  // muted, and only in the hero; no scroll scene is a video.
+  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
+  assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<CollegeStrip')), /<HeroFilm \/>/, 'the film is in the hero');
+  assert.equal((PAGE_CODE.match(/<HeroFilm\b/g) || []).length, 1);
 });
 
 test('L-045 the site promotes the Android app only where a real link exists: no placeholder or broken store badges', () => {

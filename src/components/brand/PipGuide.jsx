@@ -390,10 +390,12 @@ export default function PipGuide() {
       let reactionTimer=0;
       let arriveTimer=0;
       // The headline changed: he looks at it from the lane, once he has flown in and waved, never mid-act.
-      // The hero's own Mobi (HeroMobi, the sample's host) is on screen: the flyer waits out of view (W-074).
+      // The desk's own Mobi (HeroMobi, the sample's host, section#try since round 7) or the hero (its film since round 7,
+      // which once held the desk) is on screen: the flyer waits out of view (W-074), so it never covers the film.
       let heroMobi=false;
-      const heroWatch=new IntersectionObserver((entries)=>{const seen=entries.some(e=>e.isIntersecting);if(seen!==heroMobi){heroMobi=seen;wake();}});
-      document.querySelectorAll('.lp-mobi').forEach(el=>heroWatch.observe(el));
+      const heroSeen=new Set();
+      const heroWatch=new IntersectionObserver((entries)=>{for(const e of entries){if(e.isIntersecting)heroSeen.add(e.target);else heroSeen.delete(e.target);}const seen=heroSeen.size>0;if(seen!==heroMobi){heroMobi=seen;wake();}});
+      document.querySelectorAll('.lp-mobi, .lp-hero').forEach(el=>heroWatch.observe(el));
       const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
       root.dataset.pipGuide='on';setRunning(true);
