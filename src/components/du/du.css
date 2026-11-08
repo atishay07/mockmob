@@ -270,7 +270,7 @@
 .du-input:focus-visible,
 .du-select select:focus-visible,
 .du-search input:focus-visible {
-  outline: 3px solid var(--volt);
+  outline: 3px solid var(--a-focus, var(--volt));
   outline-offset: 1px;
 }
 .du-finder__clear {

@@ -26,7 +26,7 @@
   -webkit-tap-highlight-color: transparent; transition: transform 120ms var(--a-ease, ease-out), background-color 160ms ease;
   animation: you-places-rise 300ms cubic-bezier(.23, 1, .32, 1) calc(min(var(--i, 0), 8) * 24ms) backwards;
 }
-.app-shell .you-places__row span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell .you-places__row span { min-width: 0; overflow-wrap: break-word; }
 .app-shell .you-places__row svg { flex: none; width: 19px; height: 19px; color: var(--a-ink-3); }
 .app-shell .you-places__row:active { transform: scale(0.97); }
 .app-shell .you-places__row[aria-current='page'] { border-radius: 10px; border-bottom-color: transparent; background: var(--a-volt-wash); }

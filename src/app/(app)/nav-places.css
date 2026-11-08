@@ -308,4 +308,5 @@ html[data-motion='reduced'] .app-shell .arena-tabs::before, html[data-motion='re
 @media (prefers-reduced-motion: reduce) { .app-shell .arena-back { transition: none; } .app-shell .arena-back:active { transform: none; } }
 html[data-motion='reduced'] .app-shell .arena-back { transition: none; }
 /* "Colleges, DU Compass" (R8 TOOLS-06: the place and the product, one name each) holds one line in the rail, like "Learn, ..." */
-.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-admission-compass'] .arena-nav-link__hint { font-size: 12.5px; white-space: nowrap; }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-admission-compass'] { gap: 8px; }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-admission-compass'] .arena-nav-link__hint { font-size: 11.5px; white-space: nowrap; }

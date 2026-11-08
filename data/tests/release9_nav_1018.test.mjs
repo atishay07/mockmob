@@ -72,10 +72,11 @@ test('the /analytics nav item is "Marks trend" in the sidebar and the More sheet
   assert.match(read('src/components/ai/assistantKnowledge.js'), /name: 'Marks trend',\s*route: '\/analytics'/);
   assert.doesNotMatch(read('src/app/(app)/admission-compass/AdmissionCompassPageClient.jsx'), /Weak chapters/);
   assert.doesNotMatch(layout, /Weak chapters/);
-  // The You page's rows (the old sheet's, LK141) do not wrap: one line each (ellipsis, never two lines), 48 px tall.
+  // The You page's rows (the old sheet's, LK141) are 48 px tall. R8 sweep AT-4: a label is never cut with an ellipsis, so on a 360 px phone
+  // "Show me around" wraps to two lines inside the 48 px row instead of reading "Show me aro...".
   const placesCss = read('src/components/nav/you-places.css');
   assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 48px/);
-  assert.match(placesCss, /\.you-places__row span \{[^}]*white-space: nowrap/);
+  assert.doesNotMatch(placesCss, /\.you-places__row span \{[^}]*(?:text-overflow: ellipsis|white-space: nowrap)/);
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

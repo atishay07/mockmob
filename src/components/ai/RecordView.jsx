@@ -2,7 +2,7 @@
 
 // "Your record": the student's own sessions, explained. Every figure states its sample;
 // nothing here uses a model or credits, and nothing claims a cause or a prediction.
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { StatusIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
@@ -80,6 +80,9 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   const [showThin, setShowThin] = useState(false);
   // R8 PRICE-02 revision: Pro ranks every chapter, as /pricing says. The first eight show; the rest open with one key.
   const [allChapters, setAllChapters] = useState(false);
+  const rankRef = useRef(null);
+  // The key that opened the rest unmounts, so focus moves to the first newly shown chapter instead of falling to the page.
+  useEffect(() => { if (allChapters) rankRef.current?.children[8]?.focus(); }, [allChapters]);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
 
@@ -134,9 +137,9 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
           <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE} or more answered questions with a miss yet, so none is ranked. A few questions in a chapter are needed before a ranking means anything.</p>
         ) : (
           <>
-            <ol className="pp-rank">
+            <ol className="pp-rank" ref={rankRef}>
               {shownChapters.map((c, i) => (
-                <li key={c.key}>
+                <li key={c.key} tabIndex={i === 8 ? -1 : undefined}>
                   <span className="pp-rank__n" aria-hidden="true">{i + 1}</span>
                   <div className="pp-rank__main">
                     <div className="pp-rank__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
@@ -148,11 +151,11 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
                 </li>
               ))}
             </ol>
+            {pro && chapters.ranked.length > 8 && !allChapters && (
+              <button type="button" className="pp-toggle" onClick={() => setAllChapters(true)}>Show all {chapters.ranked.length} chapters</button>
+            )}
             <p className="pp-note">A right answer adds 5 marks, so each wrong or blank answer here counts as 5 marks lost. Each wrong one also cost 1 on its paper.</p>
           </>
-        )}
-        {pro && chapters.ranked.length > 8 && !allChapters && (
-          <button type="button" className="pp-toggle" onClick={() => setAllChapters(true)}>Show all {chapters.ranked.length} chapters</button>
         )}
         {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} />}
         {pro && chapters.thin.length > 0 && (
@@ -208,8 +211,8 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
           <p className="pp-note">No changed answers recorded{changes.sessionsWithTelemetry === 0 ? ' (no session has a usable replay yet)' : ''}.</p>
         ) : (
           <div className="pp-changes" ref={changesRef} data-in={changesSeen ? 'true' : 'false'}>
-            <div><span>Helped</span><i data-k="gain" style={{ width: `${(changes.marksGained / maxChange) * 100}%` }} /><b>{signed(changes.marksGained)}</b><small>{changes.gains}</small></div>
-            <div><span>Hurt</span><i data-k="loss" style={{ width: `${(changes.marksLost / maxChange) * 100}%` }} /><b>{signed(-changes.marksLost)}</b><small>{changes.losses}</small></div>
+            <div><span>Helped</span><i data-k="gain" style={{ width: `${(changes.marksGained / maxChange) * 100}%` }} /><b>{signed(changes.marksGained)}</b><small>{changes.gains} {changes.gains === 1 ? 'change' : 'changes'}</small></div>
+            <div><span>Hurt</span><i data-k="loss" style={{ width: `${(changes.marksLost / maxChange) * 100}%` }} /><b>{signed(-changes.marksLost)}</b><small>{changes.losses} {changes.losses === 1 ? 'change' : 'changes'}</small></div>
             <p className="pp-note">Net {signed(changes.net)} marks across {changes.count} changes in {changes.sessionsWithTelemetry} replayed session{changes.sessionsWithTelemetry === 1 ? '' : 's'}. This shows what happened, not why you changed.</p>
           </div>
         )}

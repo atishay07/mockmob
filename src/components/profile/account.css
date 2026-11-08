@@ -324,7 +324,7 @@ html[data-theme='light'] .app-shell .acct-glance__ring-on { stroke: var(--a-sele
 .app-shell .acct-pw__box { position: relative; display: block; }
 .app-shell .acct-pw__box .input { width: 100%; padding-right: 76px; }
 .app-shell .acct-pw__show {
-  position: absolute; top: 50%; right: 4px; transform: translateY(-50%); min-width: 64px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 10px;
+  position: absolute; top: 50%; right: 4px; transform: translateY(-50%); min-width: 64px; min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px;
   background: transparent; color: var(--a-accent-text); font: 700 13.5px/1 var(--font-body); cursor: pointer; touch-action: manipulation;
 }
 .app-shell .acct-pw__show:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }

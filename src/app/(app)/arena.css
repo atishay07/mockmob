@@ -189,6 +189,7 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 /* "Show me around" under the sidebar's Account group is a button that looks like its neighbours. */
 .app-shell button.arena-nav-link { width: 100%; appearance: none; background: none; text-align: left; cursor: pointer; }
 .app-shell button.arena-nav-link:hover { background: var(--a-hover); }
+.app-shell .arena-sidebar button.arena-nav-link--sub { width: auto; }
 .app-shell .arena-nav-label {
   margin: 0 0 2px;
   padding-inline: 12px;

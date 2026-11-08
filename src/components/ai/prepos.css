@@ -251,6 +251,7 @@ html[data-theme='light'] .prepos-console .pp-ask__switch button[aria-pressed='tr
 /* The ranked chapters (N15, 17 Oct night): number, chapter, what happened, the bar, and the marks lost. */
 .pp-rank { list-style: none; margin: 0; padding: 0; display: grid; }
 .pp-rank li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 4px 14px; align-items: start; padding: 16px 0; border-top: 1px solid var(--pp-line, rgba(244, 245, 240, 0.07)); }
+.pp-rank > li:focus-visible { outline: 2px solid var(--pp-accent, #d2f000); outline-offset: 4px; border-radius: 8px; scroll-margin: 96px 0; }
 .pp-rank li:first-child { border-top: 0; padding-top: 4px; }
 .pp-rank__n { font: 700 15px/1.6 var(--font-display); color: var(--pp-ink-3, #8f9a8b); font-variant-numeric: tabular-nums; }
 .pp-rank__main { display: grid; gap: 8px; min-width: 0; }
