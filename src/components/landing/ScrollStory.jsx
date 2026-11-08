@@ -27,6 +27,11 @@
 //
 // Elements marked data-ss-fit are scaled once per resize to fit their parent (all measured first, then all written),
 // and the band left under elements marked data-ss-end is measured as --ss-slack (centring, exit gap).
+// FREE ON TOUCH (owner, 9 Nov 2026: "We don't like forcefully forcing people to scroll through the entire section. They
+// can see if they want to."). A story holds only on a wide window driven by a mouse or trackpad (HELD_ON). On a phone, a
+// tablet or any touch screen the page scrolls freely past every story: nothing holds, no gesture is owned, and each
+// stage shows its steps as a card the reader can swipe sideways or tap through (each stage's unheld mode). The
+// stylesheet repeats the query (scroll-story.css), so a phone never reserves a held height before the page hydrates.
 // Every step's content stays in the DOM in reading order; focusing into a step brings it on stage, and the
 // scrollbar, find-in-page and screen readers still move through the story by position.
 // Reduced motion keeps the hold with calm, instant swaps (lock 120 ms, no lean). Without IntersectionObserver the
@@ -54,6 +59,9 @@ function registerOwn() {
   }
 }
 registerOwn();
+
+// Where a story may hold at all (FREE ON TOUCH above): a wide window whose main pointer is a mouse or trackpad.
+export const HELD_ON = '(min-width: 960px) and (hover: hover) and (pointer: fine)';
 
 // The elements that read --ss-step (it is written on each of them, never on the root).
 const STEP_NODES = '.ss-fill, .lcd__tab-ink, [data-ss-var]';
@@ -163,17 +171,19 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
     const heldQuery = hold ? window.matchMedia(hold) : null;
+    const wideQuery = window.matchMedia(HELD_ON);
     const sync = () => {
       const calmNow = reducedNow();
       setReduced(calmNow);
-      setPinned(typeof IntersectionObserver !== 'undefined' && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
+      setPinned(typeof IntersectionObserver !== 'undefined' && wideQuery.matches && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
     };
     sync();
     calm.addEventListener?.('change', sync);
     heldQuery?.addEventListener?.('change', sync);
+    wideQuery.addEventListener?.('change', sync);
     const watch = typeof MutationObserver !== 'undefined' ? new MutationObserver(sync) : null;
     watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
+    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); wideQuery.removeEventListener?.('change', sync); watch?.disconnect(); };
   }, [hold, holdCalm]);
 
   // The controller's handle for this story: the gesture, clamp and settle rules live in storyController.mjs.

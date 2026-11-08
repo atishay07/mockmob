@@ -261,8 +261,49 @@ function ScreenBar({ label }) {
   );
 }
 
+// The nearest card in a sideways row to where the row has come to rest.
+function restingCard(reel) {
+  const cards = reel.children;
+  if (!cards.length) return 0;
+  const origin = cards[0].offsetLeft;
+  let best = 0;
+  let gap = Infinity;
+  for (let i = 0; i < cards.length; i += 1) {
+    const d = Math.abs(reel.scrollLeft - (cards[i].offsetLeft - origin));
+    if (d < gap) { gap = d; best = i; }
+  }
+  return best;
+}
+
 function Stage({ step, pinned, reduced, goTo }) {
-  const ready = pinned && !reduced;
+  // Held or free, the scene on stage plays its screen and the rest wait in their first frame.
+  const ready = !reduced;
+  // Free (touch screens, owner 9 Nov 2026): the four scenes sit in one sideways row of cards (.lc__reel). The reader swipes
+  // it or taps the rail; the rail follows the row once it comes to rest, and a tap on the rail moves the row.
+  const reelRef = useRef(null);
+  const stepNow = useRef(step);
+  useEffect(() => { stepNow.current = step; }, [step]);
+  useEffect(() => {
+    const reel = reelRef.current;
+    if (pinned || !reel) return undefined;
+    let timer = 0;
+    const settle = () => {
+      if (reel.scrollWidth <= reel.clientWidth + 2) return;
+      const i = restingCard(reel);
+      if (i !== stepNow.current) goTo(i);
+    };
+    const onScroll = () => { window.clearTimeout(timer); timer = window.setTimeout(settle, 90); };
+    reel.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.clearTimeout(timer); reel.removeEventListener('scroll', onScroll); };
+  }, [pinned, goTo]);
+  useEffect(() => {
+    const reel = reelRef.current;
+    if (pinned || !reel || reel.scrollWidth <= reel.clientWidth + 2) return;
+    const cards = reel.children;
+    if (!cards[step]) return;
+    const left = cards[step].offsetLeft - cards[0].offsetLeft;
+    if (Math.abs(reel.scrollLeft - left) > 4) reel.scrollTo({ left, behavior: reduced ? 'auto' : 'smooth' });
+  }, [step, pinned, reduced]);
   // The first scene opens on step one, so its screen was already "on" while the lab was still far below
   // the reader and its story played unseen: the Time screen met the reader finished and still. It waits
   // in its first frame (data-armed) while the lab is out of the window and plays when half of it is in,
@@ -311,9 +352,11 @@ function Stage({ step, pinned, reduced, goTo }) {
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
+      {/* The scenes' row: a plain part of the grid while held (display: contents), a sideways row of cards on touch. */}
+      <div className="lc__reel" ref={reelRef}>
       {SCENES.map(({ key, tab, title, body, short, take }, i) => {
         const Panel = PANELS[key];
-        const on = pinned ? step === i : true;
+        const on = step === i;
         return (
           <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !armed ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
@@ -330,6 +373,7 @@ function Stage({ step, pinned, reduced, goTo }) {
           </article>
         );
       })}
+      </div>
     </div>
   );
 }
