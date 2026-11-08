@@ -97,16 +97,29 @@ const _asha = AuthSnapshot(
   subjects: ['accountancy', 'business_studies', 'economics', 'english'],
 );
 
+/// The catalog's attempt summaries come from the one record, so the setup page and the submit page number the next
+/// mock as the result does: Mock 8 after Mock 7 (the tests' fixture said six mocks, so the walk read "Mock 7" twice).
+class _DemoCatalog extends practice.FakeCatalog {
+  @override
+  Future<List<AttemptSummary>> attemptSummaries({int maxPages = 8}) async => [
+    for (final a in demoBook.attempts) AttemptSummary(id: a.id, subject: a.subject, mode: a.mode),
+  ];
+}
+
 /// Starts exactly what was chosen, as a new session every time: the chosen subject, the chosen
 /// length, a 60-minute 50-question paper for a full mock or NTA mode.
 class _Starter implements PracticeStarting {
   int _n = 0;
 
+  /// This launch's stamp in every session id. The record is held in memory, but repairs are kept on the phone, so a
+  /// plain counter gave a new launch's first paper the last launch's repairs ("Repaired" on a mistake just made).
+  final String _launch = DateTime.now().millisecondsSinceEpoch.toRadixString(36);
+
   @override
   Future<StartOutcome> start(PracticeSelection selection, {PracticeQuote? quote, int? mockNumber}) async {
     await Future<void>.delayed(const Duration(milliseconds: 600));
     final mock = selection.mode.isMock;
-    final id = '${mock ? 'demo-${selection.mode.apiMode}' : 'demo-p'}${++_n}';
+    final id = '${mock ? 'demo-${selection.mode.apiMode}' : 'demo-p'}$_launch-${++_n}';
     final count = selection.effectiveCount;
     final minutes = mock ? 60 : count;
     demoSessions[id] = DemoSession(
@@ -263,7 +276,7 @@ List<Override> _overrides() {
         return practice.dailyFree(count: c ?? 10);
       }),
     ),
-    practiceCatalogApiProvider.overrideWithValue(practice.FakeCatalog()),
+    practiceCatalogApiProvider.overrideWithValue(_DemoCatalog()),
     practiceStarterProvider.overrideWithValue(_Starter()),
     // The open paper (left, not submitted) is a real draft: the bar's Resume capsule, Today's
     // resume hero and Start's Resume row all show it, with its answers counted from the session.
