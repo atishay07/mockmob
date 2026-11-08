@@ -57,7 +57,7 @@ const page = {
         'As the exam approaches, use timed practice that matches the official format once NTA publishes the 2027 rules. Keep a separate block for targeted chapter review.',
       ],
       links: [
-        { href: '/signup', label: 'Start free' },
+        { href: '/signup', label: 'Sign up free' },
         { href: '/cuet-mock-test-free', label: 'Free CUET mock tests' },
         { href: '/cuet-previous-year-questions', label: 'CUET previous year questions' },
       ],

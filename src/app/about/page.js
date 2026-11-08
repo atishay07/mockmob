@@ -88,7 +88,7 @@ export default function AboutPage() {
             </p>
             <div className="mm-actions" style={{ marginTop: '2rem' }}>
               <Link href="/signup" className="mm-btn mm-btn--primary">
-                Start free
+                Sign up free
               </Link>
               <Link href="/contact" className="mm-btn mm-btn--secondary">
                 Talk to us

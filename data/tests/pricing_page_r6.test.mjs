@@ -204,7 +204,7 @@ test('a monthly price and a one-time price never share one sentence; the one-tim
   const m = usualWay(monthly(), 5);
   const o = usualWay(oneTime(), 5);
   assert.equal(C.lede(m), 'Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ₹99 a month.');
-  assert.equal(C.lede(o, { until: '31 July 2027' }), 'Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ₹99 once, through 31 July 2027.');
+  assert.equal(C.lede(o, { until: '31 July 2027' }), 'Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ₹99 once, through 31 July 2027.'); // PRICE-17: the date never splits
   for (const [offer, from] of OFFER_DAYS) {
     const u = usualWay(offer, 5);
     const v = planValue(offer, { from, pace: 7 });

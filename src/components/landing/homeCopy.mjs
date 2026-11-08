@@ -126,7 +126,7 @@ export const PLAN_HOME = Object.freeze({
   backdrop: 'Pro',
   pricingLink: 'See everything in Pro',
   free: 'Or start on Free: 50 credits a month, no card needed.',
-  freeCta: 'Start free',
+  freeCta: 'Sign up free',
 });
 
 /**

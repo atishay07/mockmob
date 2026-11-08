@@ -32,7 +32,7 @@ test('before monthly opens, /pricing leads with what the button charges and stil
   // It never pushes "pay now".
   assert.doesNotMatch(pricing, /Pay once now/);
   assert.match(pricing, /\{priceHeadline\(offer\)\}/);
-  assert.match(plan, /renew: `One payment, through \$\{offer\.oneTime\.expires\}\. It does not renew\.`/);
+  assert.match(plan, /renew: `One payment, through \$\{String\(offer\.oneTime\.expires\)\.replace\(\/ \/g, ' '\)\}\. It does not renew\.`/);
   assert.match(plan, /soon: `Monthly Pro at ₹\$\{offer\.monthly\.rupees\} a month opens soon\.`/);
 });
 

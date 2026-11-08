@@ -25,7 +25,7 @@ const PARTS = [
   {
     title: 'Practice',
     body: 'Quick practice of 5 to 20 questions, or a 50-question Full mock in 60 minutes, timed and marked +5 / −1 the way CUET marks it. Close the tab mid-test and pick up where you left off.',
-    href: '/signup', link: 'Start free',
+    href: '/signup', link: 'Sign up free',
   },
   {
     title: 'NTA mode',
@@ -35,21 +35,21 @@ const PARTS = [
   {
     title: 'Your papers and mistake repair',
     body: 'Every miss from a session lands in Your papers with its explanation. Repair one, then a fresh question on the same idea comes back later to check the fix held.',
-    href: '/signup', link: 'Start free',
+    href: '/signup', link: 'Sign up free',
   },
   {
     title: 'Chapter review',
     body: 'Your misses traced back to their chapters, built only from questions you attempted. Every mock’s review is free; across your mocks, Free ranks your top three chapters and Pro ranks every chapter, with your pace and changed answers.',
-    href: '/signup', link: 'Start free',
+    href: '/signup', link: 'Sign up free',
   },
   {
     title: 'Saved questions',
     body: 'Keep the questions that deserve another go and practise their chapter from the same row. 25 on Free.',
-    href: '/signup', link: 'Start free',
+    href: '/signup', link: 'Sign up free',
   },
   {
     title: 'Ask Mobi',
-    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; written replies use credits from your one balance, 1 a reply, and everyone gets 50 free a month.',
+    body: 'One next step from your own practice record, sized to the time you have. Questions about your record are free; a Mobi job (a mistake fixed for good, or a doubt answered and tested) uses 1 credit from your one balance, and everyone gets 50 free a month.',
     href: '/pricing/ai-credits', link: 'How credits work',
   },
   {
@@ -65,7 +65,7 @@ const PARTS = [
   {
     title: 'Your standing',
     body: 'Your own rank among MockMob students, from your recorded mocks. You see your rank and your average; no other student’s name is shown. It is separate from your CUET exam rank.',
-    href: '/signup', link: 'Start free',
+    href: '/signup', link: 'Sign up free',
   },
 ];
 
@@ -106,7 +106,7 @@ export default function FeaturesPage() {
               ))}
             </ul>
             <p style={{ marginTop: '2rem' }}>
-              <Link href="/signup" className="mm-btn mm-btn--primary">Start free</Link>
+              <Link href="/signup" className="mm-btn mm-btn--primary">Sign up free</Link>
             </p>
           </div>
         </section>

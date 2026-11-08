@@ -16,7 +16,7 @@ import '@/app/dock.css';
 // hideAtFooter: the bar slides away as the page footer comes into view (96px early, its own height), so it never sits over the footer links.
 // secondary ({ href, label }): a quiet ghost key before the volt one (the landing's guest "Log in", LK83). note={null}: no note line.
 // sub: a short true line set inside the volt key under its label (round 4, owner LK135: "the CTA is a bit weak"), as the
-// guest docks' "Start free" / "No card needed" (dock.css). Never shown on the signed-in, active or checkout keys.
+// guest docks' "Sign up free" / "No card needed" (dock.css). Never shown on the signed-in, active or checkout keys.
 export function MobileDock({ note = 'Free to start. No card.', label, href, secondary = null, sub = null, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
   const { isAuthenticated } = useAuth();
   const atFooter = useFooterInView(hideAtFooter);
@@ -39,7 +39,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
   }
 
   const resolvedHref = stage === 'active' ? '/dashboard' : href || (isAuthenticated ? '/dashboard' : '/signup');
-  const resolvedLabel = stage === 'active' ? 'Go to Practice' : label || (isAuthenticated ? 'Go to Practice' : 'Start free');
+  const resolvedLabel = stage === 'active' ? 'Go to Practice' : label || (isAuthenticated ? 'Go to Practice' : 'Sign up free');
   const resolvedNote = stage === 'active' ? 'Pro is active on this account.' : note;
   const showSecondary = stage !== 'active' && Boolean(secondary?.href && secondary?.label);
   const showSub = stage !== 'active' && !isAuthenticated && Boolean(sub);
@@ -60,7 +60,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
           {showSub ? (
             <>
               <span className="mm-dock__go-label">{resolvedLabel}</span>
-              {/* Read as one name: "Start free, no card needed". */}
+              {/* Read as one name: "Sign up free, no card needed". */}
               <span className="mm-dock__go-sub"><span className="sr-only">, </span>{sub}</span>
             </>
           ) : resolvedLabel}

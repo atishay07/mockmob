@@ -15,7 +15,7 @@ import './pricing-value.css';
 // rolling to its new value, MockMob Pro's price, two bars drawn to scale, and the punch line "₹X the usual way. ₹99 a month
 // here.") and the pace (full mocks a week as four plain keys, 1 a day first; what Pro comes to a mock, a question and a day at
 // that pace, with the maths beside them); then what else the same price holds (desk objects, names and lines the site already
-// ships); then Get Pro and Start free, and the typical-prices footnote.
+// ships); then Get Pro and Sign up free, and the typical-prices footnote.
 // Every figure comes from receipt.mjs (usualWay, planValue) through pricingValueCopy.mjs; nothing here works out money.
 // Controls are native buttons with aria-pressed, 44 px and up, with the page's focus ring; a polite live line says the new
 // figures. The total rolls in 280 ms ease-out, the bars glide in 280 ms; at once under reduced motion (the device's setting or

@@ -77,10 +77,10 @@ test('the full bar of links needs about 1100 px: below 1120 the links live in th
   assert.match(css, /@media \(min-width: 1120px\) \{\n  \.mm-nav__toggle \{\n    display: none;/);
 });
 
-test('the public pages\' phone dock is the home page\'s: a guest gets "Log in" and "Start free" (its true line inside), a student one key back in', () => {
+test('the public pages\' phone dock is the home page\'s: a guest gets "Log in" and "Sign up free" (its true line inside), a student one key back in', () => {
   const dock = read('src/components/PublicDock.jsx');
   assert.match(dock, /useAuth\(\)/);
-  // Round 4 (owner LK135, 5 Nov 2026): the home page's re-made bar, so the same "Start free" / "No card needed" key here.
+  // Round 4 (owner LK135, 5 Nov 2026): the home page's re-made bar, so the same "Sign up free" / "No card needed" key here.
   assert.match(dock, /label=\{isAuthenticated \? undefined : DOCK_GO\.label\}/);
   assert.match(dock, /sub=\{isAuthenticated \? null : DOCK_GO\.sub\}/);
   assert.match(dock, /secondary=\{isAuthenticated \? null : LOG_IN\}/);
@@ -88,7 +88,7 @@ test('the public pages\' phone dock is the home page\'s: a guest gets "Log in" a
   for (const f of ['src/app/about/page.js', 'src/app/cuet/page.js', 'src/app/cuet-subject-combination/page.js', 'src/components/SeoContentPage.jsx', 'src/components/subject/SubjectLandingPage.jsx']) {
     const src = read(f);
     assert.match(src, /<PublicDock /, `${f} uses the public dock`);
-    assert.doesNotMatch(src, /<MobileDock /, `${f}: no single "Start free" key`);
+    assert.doesNotMatch(src, /<MobileDock /, `${f}: no single "Sign up free" key`);
   }
   assert.doesNotMatch(read('src/app/cuet-subject-combination/page.js'), /Try a CUET question/, 'no sample key in the dock (LK83)');
   const css = read('src/app/marketing.css');

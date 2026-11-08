@@ -113,9 +113,9 @@ const buildPlans = (offer) => [
     price: '₹0',
     cycle: 'forever',
     description: 'Enough to see whether MockMob suits you. No card needed.',
-    // R8 PUB-08: one label for the one sign-up action, the dock's and the value section's "Start free".
-    ctaLabel: 'Start free',
-    // Free's key goes to sign-up; the value section's Start free goes to the same place.
+    // R8 PUB-08: one label for the one sign-up action, the dock's and the value section's "Sign up free".
+    ctaLabel: 'Sign up free',
+    // Free's key goes to sign-up; the value section's Sign up free goes to the same place.
     ctaHref: '/signup',
     terms: [
       // R8 PRICE-16: each fact once. "No card needed" is the lede's; the first free full mock is the list's (FIRST_FREE_ITEMS); the

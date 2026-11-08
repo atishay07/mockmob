@@ -30,7 +30,7 @@ export function planTerms(offer) {
   return offer.purchasable === 'monthly'
     ? { renew: 'Renews every month. Cancel any time.', dock: `₹${offer.monthly.rupees} a month. Cancel any time.`, soon: null }
     : {
-      renew: `One payment, through ${offer.oneTime.expires}. It does not renew.`,
+      renew: `One payment, through ${String(offer.oneTime.expires).replace(/ /g, ' ')}. It does not renew.`,
       dock: `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`,
       soon: `Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`,
     };

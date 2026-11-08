@@ -86,7 +86,7 @@ const proPrice = (u) => (u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} o
 export const PRICING_VALUE = Object.freeze({
   title: 'What students usually pay, and what you pay.',
   /** The lede: monthly and one-time each get their own sentence. */
-  lede: (u, { until = null } = {}) => `Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ${u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} once${until ? `, through ${until}` : ''}`}.`,
+  lede: (u, { until = null } = {}) => `Set your subjects and how often you sit a full mock. The usual way uses typical prices; Pro is ${u.kind === 'monthly' ? `${u.pro} a month` : `${u.pro} once${until ? `, through ${String(until).replace(/ /g, ' ')}` : ''}`}.`,
   askSubjects: 'How many CUET subjects are you taking?',
   askPace: 'Full mocks a week',
   subjects: subjectsWord,
@@ -115,7 +115,7 @@ export const PRICING_VALUE = Object.freeze({
   seriesLine: 'A test series stops at its last paper. Pro builds a new one every time you start.',
   alsoHead: (u) => `Also in the same ${u.pro}`,
   getPro: 'Get Pro', // D185: the key says Get Pro (planOffer.mjs PLAN_COPY.key)
-  startFree: 'Start free', // homeCopy.mjs PLAN_HOME.freeCta
+  startFree: 'Sign up free', // homeCopy.mjs PLAN_HOME.freeCta
   /** The typical prices, said once (homeCopy.mjs VALUE_COPY.footnote, word for word). */
   footnote: () => `Typical prices: ${rupees(USUAL_PRICES.mockSeriesPaise)} a subject for a CUET mock series (${rupees(USUAL_PRICES.mockSeriesPaise)}-${rupees(USUAL_PRICES.mockSeriesHighPaise).slice(1)} is common) and ${rupees(USUAL_PRICES.revisionPaise)} a subject for revision cards or a revision book. Yours may differ.`,
   /** What a screen reader hears after a key is pressed. */
