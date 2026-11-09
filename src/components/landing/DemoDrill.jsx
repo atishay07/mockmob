@@ -6,8 +6,10 @@ import { Icon } from '@/components/ui/Icons';
 import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
 import { DEMO_SUBJECTS, acceptDemoSet, demoSetUrl, demoSubject, pickDemoSet } from '@/lib/demoSample.mjs';
+import { trackFunnel } from '@/lib/funnel';
 import { markDemoAnswered, sendDemoState } from './demoSignal.mjs';
 import { deskEndState, deskStateAfter } from './heroTaps.mjs';
+import { saveSample } from './sampleCarry.mjs';
 import './demo-subject.css';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
@@ -208,6 +210,8 @@ export function DemoDrill({ note = null }) {
     focusNext.current = event.detail === 0 ? 'next' : 'card';
     setPicked(optionIndex);
     markDemoAnswered();
+    // The aggregate funnel (src/lib/funnel.js): the step's name only, once per page load, no id and no cookie.
+    trackFunnel('sample_started');
     tellDesk(deskStateAfter({ correct: optionIndex === question.correct }), index + 1);
     if (event.detail > 0) pipReact('hero', mobiMoment(optionIndex === question.correct ? 'rightAnswer' : 'wrongAnswer'));
     if (optionIndex === question.correct) {
@@ -215,7 +219,7 @@ export function DemoDrill({ note = null }) {
     } else {
       // Each miss keeps its question, answer and reason, so the readout can open them again (R8 HERO-05), plus its place in
       // the five and the option the student picked, so the readout names the question and sets their answer beside the
-      // right one (9 Nov 2026 demo result pass). Nothing leaves the card; the list goes on restart.
+      // right one (9 Nov 2026 demo result pass). Nothing leaves the browser; the list goes on restart.
       setMissed((list) => [...list, { n: index + 1, chapter: question.chapter, q: question.q, picked: question.options[optionIndex], answer: question.options[question.correct], why: question.why }]);
     }
   }
@@ -225,6 +229,10 @@ export function DemoDrill({ note = null }) {
       focusNext.current = 'result';
       setOpenMiss(null);
       setDone(true);
+      // The result goes with the reader to sign-up (sampleCarry.mjs): the score and the missed chapters' names, kept in
+      // this browser only, so /signup opens on what these five showed and not on a stranger's greeting.
+      saveSample({ score, subject: live ? live.name : null, misses: missed });
+      trackFunnel('sample_done');
       // Mobi's line for the score (R8 HERO-03): the readout is what he points at, never a sign-up push.
       tellDesk(deskEndState(score, DRILL.length), DRILL.length);
       // The end of the drill is proportional, like a finished run in the app: all five right celebrates,
@@ -295,6 +303,7 @@ export function DemoDrill({ note = null }) {
       if (!next) throw new Error('unavailable');
       lastSet.current[slug] = next.set;
       request.current = null;
+      trackFunnel('sample_subject_chosen');
       tellDesk('live', 0, next.name);
       focusNext.current = 'options';
       setLive(next);

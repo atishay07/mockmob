@@ -14,6 +14,7 @@ import { CloseActions, CloseSheet } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
+import { FunnelBeacon } from '@/components/landing/FunnelBeacon';
 import { HeroRoom } from '@/components/landing/HeroRoom';
 import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
@@ -146,6 +147,8 @@ export default function LandingPage() {
       {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
       <OpeningMo />
       <HomeFonts />
+      {/* The landing's steps of the aggregate funnel (FunnelBeacon): step names only, counted while FUNNEL_ENABLED is on. */}
+      <FunnelBeacon />
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
       <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
       <noscript>
