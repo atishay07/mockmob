@@ -1,6 +1,8 @@
 // The one-gesture bench: real Chrome, real touch and wheel input (CDP Input.dispatch*), against the home page's held
 // stories. Used by oneGesture.test.mjs (skipped when no Chrome or no server is reachable) and by hand:
-//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|wheel|jump|fast|perf] [width=390] [stories] [warm]
+//   node src/components/landing/oneGestureBench.mjs [url=http://localhost:3467/] [mode=matrix|flow|wheel|jump|fast|perf] [width=390] [stories] [warm]
+// `flow` (10 Nov 2026, LK190) is the touch screen's own matrix: nothing holds there, so `matrix` (one gesture, one step
+// by touch) now describes only a touch on a mouse-first device and is no longer run at phone width.
 //
 // Real Chrome, not chrome-headless-shell: the shell never scrolls on synthetic input (LK69 forensics). One headless
 // browser on this PC at a time: the shared lock (tmp-devslots/browser.lock) is taken before launch and dropped after.
@@ -288,6 +290,185 @@ export async function runMatrix(bench, name, { log = () => {}, reduced = false }
   await edge('slow-drag-300-arriving-is-free', (s) => s.top - 500, () => bench.drag(300), (r, s) => r.y > s.top - 500 + 200 && r.y < s.top);
   void innerH;
   return rows;
+}
+
+// ---------------------------------------------------------------- FLOW: the touch screen's matrix (10 Nov 2026, LK190)
+/**
+ * On a touch screen a story never holds the page (ScrollStory.jsx FLOW). What must hold instead, cell by cell:
+ *   free      every gesture moves the page the way the finger went; a flick is never caught on a story's edge
+ *   settled   a scroll that rests inside a story rests exactly on a resting place, and the story shows that step
+ *   gentle    from a rest, a drag of 0.6 of a gap moves one step, 0.3 of a gap none, and back the same way
+ *   shown     walking the story with gentle drags shows every step once, in order
+ *   passing   a fling from above the story runs on into it (or through it); the steps it passes show in order
+ * Returns rows { id, ok, ... } like runMatrix.
+ */
+export async function runFlow(bench, name, { log = () => {} } = {}) {
+  const rows = [];
+  const refresh = async () => bench.story(name);
+  const at = async (k) => { let s = await refresh(); await bench.jump(s.rests[k]); s = await refresh(); if (Math.abs((await bench.y()) - s.rests[k]) > 2) await bench.jump(s.rests[k]); return refresh(); };
+  const read = async (id, start, y0) => {
+    const y = await bench.settle();
+    const s = await refresh();
+    const step = await bench.step(name);
+    const nearest = s.rests.reduce((best, r, i) => (Math.abs(r - y) < Math.abs(s.rests[best] - y) ? i : best), 0);
+    const inHold = y >= s.top - 2 && y <= s.top + s.hold + 2;
+    return [{ id, start, step, delta: step - start, y, y0, off: y - s.rests[nearest], nearest, inHold }, s];
+  };
+  // At rest inside the story: on a resting place, showing that step. Outside it: the story shows the end it was left by.
+  const consistent = (r, s) => (r.inHold ? Math.abs(r.off) <= 2 && r.step === r.nearest : (r.y > s.top + s.hold ? r.step === s.steps - 1 : r.step === 0));
+  const check = async (id, startStep, gesture, rule) => {
+    const row = await steady(bench, log, id, async () => {
+      const before = await at(startStep);
+      const y0 = await bench.y();
+      await gesture(before);
+      const [made, s] = await read(id, startStep, y0);
+      made.ok = consistent(made, s) && rule(made, s);
+      return made;
+    });
+    rows.push(row);
+    log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} step ${startStep}->${row.step} y ${row.y0}->${row.y} off ${row.off}${row.inHold ? '' : ' (left the story)'}`);
+    return row;
+  };
+  const s0 = await refresh();
+  const gap = s0.gap;
+  const reach = bench.height - 170; // the longest drag one finger can make on this screen
+  // gentle: the distances are shares of this story's own gap.
+  await check('drag-0.3-gap-stays', 1, () => bench.drag(Math.round(gap * 0.3)), (r) => r.delta === 0);
+  if (gap * 0.6 <= reach) await check('drag-0.6-gap-one-step', 1, () => bench.drag(Math.round(gap * 0.6)), (r) => r.delta === 1);
+  if (gap * 0.6 <= reach) await check('drag-back-0.6-gap-one-step', 2, () => bench.drag(-Math.round(gap * 0.6)), (r) => r.delta === -1);
+  if (gap * 1.6 <= reach && s0.steps > 3) await check('drag-1.6-gap-two-steps', 1, () => bench.drag(Math.round(gap * 1.6)), (r) => r.delta === 2);
+  await check('nudge-20-stays', 1, () => bench.drag(20), (r) => r.delta === 0);
+  await check('reverse-100-back-100-stays', 1, () => bench.dragReverse(100, 100), (r) => r.delta === 0);
+  // free: a flick always moves the page down, by more the harder it is; where it ends is consistent.
+  let lastTravel = 0;
+  for (const [d, v] of [[150, 1200], [300, 1200], [300, 3000], [600, 3000], [600, 6000]]) {
+    const row = await check(`flick-${d}-${v}`, 1, () => bench.flick(d, v), (r) => r.y > r.y0 + Math.min(d, gap / 2) - 2 || r.delta >= 1);
+    row.travel = row.y - row.y0;
+    lastTravel = Math.max(lastTravel, row.travel);
+  }
+  await check('flick-up-300-3000', Math.min(2, s0.steps - 1), () => bench.flick(-300, 3000, { fromY: 120 }), (r) => r.y < r.y0);
+  // Two quick flicks are two flicks: nothing is swallowed by a lock.
+  await check('two-flicks-150ms', 0, async () => { await bench.flick(200, 2000); await sleep(150); await bench.flick(200, 2000); }, (r) => r.delta >= 1 || !r.inHold);
+  // shown: gentle drags walk every step once, in order.
+  {
+    const id = 'walk-every-step';
+    const row = await steady(bench, log, id, async () => {
+      let s = await at(0);
+      const seen = [await bench.step(name)];
+      const dragPx = Math.min(reach, Math.round(s.gap * 0.62));
+      for (let i = 1; i < s.steps; i += 1) { await bench.drag(dragPx); await bench.settle(500); seen.push(await bench.step(name)); }
+      s = await refresh();
+      const y = await bench.y();
+      const want = Array.from({ length: s.steps }, (_, k) => k);
+      return { id, start: 0, step: seen[seen.length - 1], delta: seen.length - 1, y, y0: s.rests[0], off: y - s.rests[s.steps - 1], nearest: s.steps - 1, inHold: true, seen, ok: dragPx >= s.gap * 0.55 ? JSON.stringify(seen) === JSON.stringify(want) : seen.every((k, i) => i === 0 || k >= seen[i - 1]) };
+    });
+    rows.push(row);
+    log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} steps shown ${row.seen.join(' ')}`);
+  }
+  // passing: a fling from above is not caught on the first rest; the steps it passes show in order (never backwards).
+  const edge = async (id, from, gesture, rule) => {
+    const row = await steady(bench, log, id, async () => {
+      let s = await refresh();
+      const y0 = from(s);
+      await bench.jump(y0);
+      for (let tries = 0; tries < 3 && Math.abs((await bench.y()) - y0) > 2; tries += 1) await bench.jump(y0);
+      await bench.page.evaluate((n) => {
+        const root = document.querySelector(`.ss.${n}`);
+        window.__flowSeen = [Number(root.dataset.step)];
+        window.__flowWatch?.disconnect();
+        window.__flowWatch = new MutationObserver(() => { const k = Number(root.dataset.step); if (window.__flowSeen[window.__flowSeen.length - 1] !== k) window.__flowSeen.push(k); });
+        window.__flowWatch.observe(root, { attributes: true, attributeFilter: ['data-step'] });
+      }, name);
+      await gesture(s);
+      const [made] = await read(id, 0, Math.round(y0));
+      s = await refresh();
+      made.seen = await bench.page.evaluate(() => { window.__flowWatch?.disconnect(); return window.__flowSeen; });
+      made.ok = consistent(made, s) && rule(made, s);
+      return made;
+    });
+    rows.push(row);
+    log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} y ${row.y0}->${row.y} step ${row.step}, shown on the way ${row.seen.join(' ')}${row.inHold ? '' : ' (left the story)'}`);
+  };
+  const rising = (seen) => seen.every((k, i) => i === 0 || k > seen[i - 1]);
+  const falling = (seen) => seen.every((k, i) => i === 0 || k < seen[i - 1]);
+  await edge('pass-flick-600-6000-from-500-above', (s) => s.top - 500, () => bench.flick(600, 6000), (r, s) => r.y > s.rests[0] + s.gap / 2 && rising(r.seen));
+  await edge('pass-flick-600-2500-from-360-above', (s) => s.top - 360, () => bench.flick(600, 2500), (r, s) => r.y > s.rests[0] + 2 && rising(r.seen));
+  await edge('pass-flick-600-6000-from-below', (s) => s.top + s.hold + 500, () => bench.flick(-600, 6000, { fromY: 120 }), (r, s) => r.y < s.rests[s.steps - 1] - s.gap / 2 && falling(r.seen));
+  await edge('exit-flick-300-3000-down', (s) => s.rests[s.steps - 1], () => bench.flick(300, 3000), (r, s) => r.y > s.top + s.hold + 2);
+  await edge('exit-flick-300-3000-up', (s) => s.rests[0], () => bench.flick(-300, 3000, { fromY: 120 }), (r, s) => r.y < s.top - 2);
+  await edge('slow-drag-300-short-of-the-story-is-free', (s) => s.top - 500, () => bench.drag(300), (r, s) => r.y > s.top - 500 + 200 && r.y < s.top);
+  void lastTravel;
+  return rows;
+}
+
+/**
+ * FLOW's one stop, on a page nobody has scrolled yet: the first fling that brings each story on from above lands on its
+ * first step; the same fling a second time runs on into the story. A quiet story (the statement) never lands a fling.
+ * Each story is tried on a fresh load (a story the reader has rested in no longer lands anything). Returns rows { id, ok, ... }.
+ */
+export async function runLanding(bench, { log = () => {} } = {}) {
+  const rows = [];
+  const names = (await bench.stories()).map((s) => s.name);
+  for (const name of names) {
+    const lands = await bench.page.evaluate((n) => document.querySelector(`.ss.${n}`)?.closest('.lp-statement') === null, name);
+    // A page nobody has scrolled: a fling that lands on one story has usually flown through the one before it, so each
+    // story is tried on its own fresh load, from the top (a reload restores the scroll, and a page restored inside a
+    // story has come to rest there: that story would already count as arrived in).
+    await bench.page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+    await sleep(600);
+    await bench.page.reload({ waitUntil: 'load', timeout: 240000 });
+    await sleep(3500);
+    for (const pass of ['first', 'second']) {
+      const id = `${name}-${pass}-fling-from-above`;
+      const row = await steady(bench, log, id, async () => {
+        let s = await bench.story(name);
+        const y0 = s.top - 500;
+        await sleep(3200); // past the fling window of the gesture before, so the jump below is not read as a fling
+        await bench.jump(y0);
+        for (let tries = 0; tries < 3 && Math.abs((await bench.y()) - y0) > 2; tries += 1) await bench.jump(y0);
+        await bench.flick(600, 6000);
+        const y = await bench.settle();
+        s = await bench.story(name);
+        const step = await bench.step(name);
+        const landed = Math.abs(y - s.rests[0]) <= 2 && step === 0;
+        const ranOn = y > s.rests[0] + s.gap / 2;
+        return { id, start: y0, step, y, top: s.top, ok: lands && pass === 'first' ? landed : ranOn, landed, ranOn };
+      });
+      rows.push(row);
+      log(`${row.ok ? 'ok  ' : 'FAIL'} ${id} y ${row.start}->${row.y} (first rest ${row.top}) step ${row.step}: ${row.landed ? 'landed on the first step' : row.ranOn ? 'ran on into the story' : 'stopped short'}`);
+    }
+  }
+  return rows;
+}
+
+/**
+ * The whole page by flicks: how many of the same ordinary flick (300 px at 1200 px/s, lifted moving) it takes to bring
+ * `selector` (default the plans) to the top of the window from the top of the page, and whether any flick left the page
+ * where it was (stuck). The number the owner asked about: "People will just not scroll to the end of the pricing page."
+ */
+export async function runJourney(bench, { selector = '#pricing', dist = 300, speed = 1200, max = 140, log = () => {} } = {}) {
+  await bench.jump(0);
+  await bench.page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await sleep(600);
+  let flicks = 0;
+  let stuck = 0;
+  const trail = [];
+  const target = async () => bench.page.evaluate((sel) => { const n = document.querySelector(sel); return n ? Math.round(n.getBoundingClientRect().top + window.scrollY) : null; }, selector);
+  for (; flicks < max; ) {
+    const goal = await target();
+    const y0 = await bench.y();
+    if (goal === null || y0 >= goal - bench.height * 0.5) break;
+    await bench.flick(dist, speed);
+    const y = await bench.settle(350, 6000);
+    flicks += 1;
+    const stories = await bench.stories();
+    const live = stories.filter((s) => y >= s.top - 2 && y <= s.top + s.hold + 2).map((s) => `${s.name}:${s.step}`).join(' ');
+    // A flick inside a held story moves a step without moving the page far: that is the story's step, not a stuck page.
+    if (Math.abs(y - y0) < 4 && !live) stuck += 1;
+    trail.push(`${y}${live ? ` [${live}]` : ''}`);
+    log(`flick ${flicks}: ${y0} -> ${y}${live ? ` [${live}]` : ''}`);
+  }
+  return { flicks, stuck, reached: flicks < max, height: await bench.documentHeight(), trail };
 }
 
 // ---------------------------------------------------------------- wheel, trackpad and keys (desktop)
@@ -693,6 +874,9 @@ if (import.meta.url === pathToFileURL(process.argv[1] || '').href) {
     const tally = (name, rows) => console.log(`${name}: ${rows.filter((r) => r.ok).length}/${rows.length} ok`);
     const names = () => (process.argv[5] || 'ft-story,lc').split(',');
     if (mode === 'matrix') for (const name of names()) tally(name, await runMatrix(bench, name, { log: console.log }));
+    if (mode === 'flow') for (const name of names()) tally(name, await runFlow(bench, name, { log: console.log }));
+    if (mode === 'landing') tally('landing', await runLanding(bench, { log: console.log }));
+    if (mode === 'journey') console.log(JSON.stringify(await runJourney(bench, { log: console.log })));
     if (mode === 'wheel') for (const name of names()) tally(name, await runWheel(bench, name, { log: console.log }));
     if (mode === 'jump') tally('jump', await runJump(bench, { log: console.log }));
     if (mode === 'fast') for (const name of names()) tally(name, await (touch ? runFast : runWheelFast)(bench, name, { log: console.log }));

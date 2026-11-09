@@ -12,6 +12,17 @@
 //   settle  a native scroll that ends inside a hold (scrollbar, Home/End, find-in-page) goes to the nearest rest.
 //   no glide: steps commit instantly. The stage's content moves with a 180-240 ms CSS transform (scroll-story.css).
 //
+// FLOW (10 Nov 2026, owner LK190: held stories felt "very locked in" on phones, and a page that scrolls past them shows
+// no features). A story whose handle says flow() (a touch screen, storyGesture.mjs FLOW_QUERY) is never held: no touch is
+// owned, no fling is clamped at its edge or put back on a rest while it runs, and its track is never marked, so the
+// browser pans freely through it. The story shows the step under the window's middle as the page passes (ScrollStory's
+// own observer) and only `settle` remains: a scroll that comes to REST inside it goes to the nearest resting place. A
+// mouse wheel or a key on such a device still moves one step, and a picked step (a tab, an arrow) is unchanged.
+//   landing  the one stop a flowing story makes (handle.land): the FIRST fling that brings it on from above is held on
+//            its first rest, so a hard flick from the hero cannot fly past a story unseen. Only a fling: a finger's own
+//            drag is never held. Only once: `landed` is set by that stop, or by the reader coming to rest inside the
+//            story any other way, and from then on the story never stops a fling. Never on the way back up.
+//
 // THE WINDOW RULE (design C's guard, LK47: "no glide"): the only non-passive listeners on the page, `touchmove` and
 // `wheel`, exist ONLY while a held story is within one screen of the viewport (nearSet). Everywhere else scrolling is
 // 100% native and no listener can cancel it. A source test (data/tests/one_gesture_source_1104.test.mjs) forbids
@@ -67,6 +78,14 @@ const holding = (y = window.scrollY) => {
   return null;
 };
 
+/** FLOW: this story never holds the page (a touch screen); it only settles a scroll that has come to rest inside it. */
+const flowing = (s) => !!s && typeof s.flow === 'function' && s.flow() === true;
+/** The story that holds the page at y: none while the story there flows. */
+const gripping = (y = window.scrollY) => { const s = holding(y); return s && !flowing(s) ? s : null; };
+/** FLOW: may this story still land a fling? Once per story, and only a story that asked to (a passage like the statement does not). */
+const lands = (s) => s.land === true && !s.landed;
+const gapOf = (s) => s.hold / Math.max(1, s.steps - 1);
+
 // ---------------------------------------------------------------- touch screens: what the browser may pan (R5, LK161)
 
 // Measured on Android Chrome (6 Nov 2026): a swipe that starts while the last fling still runs reaches the page
@@ -78,7 +97,7 @@ const holding = (y = window.scrollY) => {
 let heldTrack = null;
 let heldEdge = '';
 function syncHeld(y = window.scrollY) {
-  const s = holding(y);
+  const s = gripping(y); // a flowing story is never marked: the browser pans through it both ways
   const edge = !s ? '' : s.steps < 2 ? 'both' : s.step() <= 0 ? 'first' : s.step() >= s.steps - 1 ? 'last' : 'mid';
   const track = s ? s.track : null;
   if (track === heldTrack && edge === heldEdge) return;
@@ -119,7 +138,7 @@ function adoptEdge(target) {
   if (!target) return null;
   const y = window.scrollY;
   for (const s of nearSet) {
-    if (!s.ok || s.steps < 2 || typeof s.track?.contains !== 'function' || !s.track.contains(target)) continue;
+    if (!s.ok || s.steps < 2 || flowing(s) || typeof s.track?.contains !== 'function' || !s.track.contains(target)) continue;
     const end = s.top + s.hold;
     const k = y < s.top && s.top - y <= ADOPT_PX ? 0 : y > end && y - end <= ADOPT_PX ? s.steps - 1 : -1;
     if (k < 0) continue;
@@ -228,10 +247,10 @@ function onTouchStart(e) {
   bus.clearJump();
   if (touches !== 1) { g = null; return; }
   const p = e.touches[0];
-  const story = holding() ?? adoptEdge(e.target);
+  const story = gripping() ?? adoptEdge(e.target);
   lastY = window.scrollY;
   // Outside a hold, the compositor can scroll before the first touchmove reaches the controller.
-  g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target };
+  g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target, pageY: lastY };
 }
 
 function onTouchMove(e) {
@@ -261,7 +280,7 @@ function onTouchEnd(e) {
   lastRelease = now();
   const done = g;
   g = null;
-  if (!done) { afterNativeTouch(); return; }
+  if (!done) { afterNativeTouch(null); return; }
   if (done.claim === 'own') {
     const last = done.samples[done.samples.length - 1];
     const dy = last.y - done.y;
@@ -272,7 +291,7 @@ function onTouchEnd(e) {
     return;
   }
   if (done.claim === 'spent') { if (done.story) release(done.story); return; }
-  afterNativeTouch();
+  afterNativeTouch(done);
 }
 
 function onTouchCancel() {
@@ -283,10 +302,24 @@ function onTouchCancel() {
 }
 
 // A native touch ended with the page inside a hold: its momentum may not run through the steps. Hold the nearest rest.
-function afterNativeTouch() {
+function afterNativeTouch(done) {
   if (keepY !== null) return;
   const s = holding();
-  if (s) { keepStory = s; keepY = restOf(s, nearestStep(s.top, s.hold, s.steps, window.scrollY)); }
+  if (!s) return;
+  // FLOW: the momentum is the reader's; the page is only settled once it has come to rest (a finger lifted without a
+  // fling makes no more scroll frames, so the settle is asked for here as well).
+  if (flowing(s)) {
+    // The landing, for a swipe that crossed into the story with the finger still down: lifted inside the first step's
+    // band on its first arrival, its momentum lands on the first rest like a fling that crossed the edge on its own.
+    // Further in, the reader has walked the steps under the finger: nothing is taken back.
+    if (lands(s) && done && typeof done.pageY === 'number' && done.pageY < s.top && window.scrollY < s.top + gapOf(s) / 2) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
+    s.landed = true;
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
+    return;
+  }
+  keepStory = s;
+  keepY = restOf(s, nearestStep(s.top, s.hold, s.steps, window.scrollY));
 }
 
 // ---------------------------------------------------------------- wheel and trackpad
@@ -411,6 +444,13 @@ function onFrame({ y }) {
   if (keepY === null && !bus.jumping() && (drag || (touches === 0 && flinging()))) {
     for (const s of nearSet) {
       if (!s.ok || (drag && s === g.story)) continue;
+      // FLOW: nothing is caught at a flowing story's edge, but for its landing: the first fling in from above, never a drag.
+      if (flowing(s)) {
+        if (drag || !lands(s) || !(lastY < s.top && y >= s.top)) continue;
+        s.landed = true;
+        keepStory = s; keepY = restOf(s, 0); keepDir = 1;
+        break;
+      }
       const end = s.top + s.hold;
       // Strictly outside before, inside now: a frame 1 px short of the edge (1735 for a top of 1736, measured) is still
       // outside, or a fling that paused there crossed uncaught and flew through every step (LK169).
@@ -443,6 +483,7 @@ function settle() {
   const y = window.scrollY;
   const s = holding(y);
   if (!s) { syncHeld(y); return; }
+  s.landed = true; // FLOW: the reader has come to rest inside this story, however they got here: it never lands a fling now
   const k = nearestStep(s.top, s.hold, s.steps, y);
   const target = restOf(s, k);
   if (Math.abs(y - target) > 1) put(target);

@@ -235,7 +235,11 @@ test('a tap on a jump link is not a fling, and a jump\'s landing frame still rea
   assert.match(jump, /const CARD = '\.lp-desk__card';/);
   assert.match(jump, /stage\.querySelector\('\.mm-drill\[tabindex\]'\)/);
   const drill = strip(read('src/components/landing/DemoDrill.jsx'));
-  assert.match(drill, /scrollIntoView\(\{ block: 'nearest', behavior: 'instant' \}\)/, "'auto' inherits html's scroll-behavior: smooth");
+  // R8 (HERO-10, 8 Nov 2026) changed how the card brings its head and its key into reach (block: 'start', and a scrollBy
+  // of only what is needed); the rule this line guards is unchanged: every move is instant, never 'auto' or 'smooth'.
+  const moves = [...drill.matchAll(/(?:scrollIntoView|scrollBy|scrollTo)\(\{[^}]*\}\)/g)].map((m) => m[0]);
+  assert.ok(moves.length >= 2, `${moves.length} programmatic moves in the card`);
+  for (const move of moves) assert.match(move, /behavior: 'instant'/, `'auto' inherits html's scroll-behavior: smooth (${move})`);
   assert.equal((drill.match(/className="lp-card mm-drill"[^>]*tabIndex=\{-1\}/g) || []).length, 2, 'both of the card\'s states take focus');
   // The arrival is the card's own shell, quiet: no outline ring.
   const css = strip(read('src/app/landing-close.css'));
@@ -293,7 +297,7 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(body(code, 'onFrame'), /else if \(lastY > end && y <= end\)/);
   assert.match(body(code, 'settle'), /syncHeld\(target\);/, 'kept current when the page comes to rest');
   assert.match(body(code, 'commit'), /settleTimer = window\.setTimeout\(settle, SETTLE_QUIET_MS\);/, 'a committed step is marked at rest (settle), never in its own frame');
-  assert.match(body(code, 'onTouchStart'), /const story = holding\(\) \?\? adoptEdge\(e\.target\);/);
+  assert.match(body(code, 'onTouchStart'), /const story = gripping\(\) \?\? adoptEdge\(e\.target\);/, 'a story that flows takes no touch (10 Nov 2026)');
   assert.match(code, /const ADOPT_PX = 64;/);
   assert.match(code, /track\.classList\.add\(`held-\$\{edge\}`\)/, 'a class, never a data attribute (an attribute write restyled the whole story)');
   const stop = body(code, 'stopFling');
@@ -302,4 +306,42 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(body(code, 'touchPans'), /CSS\.supports\?\.\('touch-action', 'pan-up'\)/);
   assert.match(body(code, 'touchPans'), /\(pointer: coarse\)/, 'never on a mouse or trackpad');
   assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS && stoppedAt !== keepY\) \{ stoppedAt = keepY; stopFling\(\); \}/, 'only a touch fling the clamp has caught; the mark waits for rest (a mid-fling mark cost a 100 ms frame)');
+});
+
+test('FLOW: on a touch screen a story never holds the page; it shows the step the page has reached and only settles a scroll at rest (10 Nov 2026, owner LK190)', () => {
+  // He found the held stories "very locked in" on a phone, and a page that scrolls past them "isn't able to really show
+  // the features". The balance: the stage stays sticky and shows every step, the scroll and its momentum are the
+  // browser's own, and the hold costs 0.6 of the mouse's. The behaviour is run in oneGestureJump.test.mjs (simulated)
+  // and in real Chrome by oneGestureBench.mjs (mode flow).
+  const gesture = strip(read('src/components/landing/storyGesture.mjs'));
+  assert.match(gesture, /export const FLOW_QUERY = '\(hover: none\), \(pointer: coarse\)';/);
+  assert.match(gesture, /export const FLOW_SHARE = 0\.6;/);
+  const code = strip(CONTROLLER);
+  assert.match(code, /const flowing = \(s\) => !!s && typeof s\.flow === 'function' && s\.flow\(\) === true;/);
+  assert.match(code, /const gripping = \(y = window\.scrollY\) => \{ const s = holding\(y\); return s && !flowing\(s\) \? s : null; \};/);
+  // No touch is owned, no edge is adopted, nothing is caught on the way in, the track is never marked.
+  assert.match(body(code, 'syncHeld'), /const s = gripping\(y\);/);
+  assert.match(body(code, 'adoptEdge'), /flowing\(s\)/);
+  // One stop is left, once per story: the first fling in from above lands on the first rest. Never a drag, never twice.
+  const frame = body(code, 'onFrame');
+  assert.match(frame, /if \(flowing\(s\)\) \{\s*if \(drag \|\| !lands\(s\) \|\| !\(lastY < s\.top && y >= s\.top\)\) continue;\s*s\.landed = true;\s*keepStory = s; keepY = restOf\(s, 0\); keepDir = 1;\s*break;\s*\}/);
+  assert.ok(frame.indexOf('if (flowing(s))') < frame.indexOf('const end = s.top + s.hold;'), 'decided before the held story\'s own clamp');
+  assert.match(code, /const lands = \(s\) => s\.land === true && !s\.landed;/);
+  assert.match(body(code, 'settle'), /s\.landed = true;/, 'coming to rest inside a story is an arrival too');
+  // The momentum is the reader's: a touch that ends inside a flowing story sets no hold, it only asks for the settle.
+  const after = body(code, 'afterNativeTouch');
+  assert.match(after, /if \(lands\(s\) && done && typeof done\.pageY === 'number' && done\.pageY < s\.top && window\.scrollY < s\.top \+ gapOf\(s\) \/ 2\) \{ keepStory = s; keepY = restOf\(s, 0\); keepDir = 1; \}/, 'a swipe that crossed the edge finger-down lands once too, only from inside the first step\'s band');
+  assert.match(after, /s\.landed = true;\s*window\.clearTimeout\(settleTimer\);\s*settleTimer = window\.setTimeout\(settle, SETTLE_QUIET_MS\);\s*return;/);
+  assert.ok(after.indexOf('if (flowing(s))') < after.indexOf('keepY = restOf(s, nearestStep'), 'decided before the held story\'s hold is set');
+  // The settle itself is every story's: a scroll that rests inside a hold goes to the nearest rest.
+  assert.match(body(code, 'settle'), /const s = holding\(y\);/);
+  // The story tells the controller, and the stylesheet shortens the hold with its own media query (no layout from script).
+  const story = strip(STORY);
+  assert.match(story, /import \{ FLOW_QUERY \} from '\.\/storyGesture\.mjs';/);
+  assert.match(story, /reduced: reducedNow, flow: flowNow, land: land \?\? !quiet \};/, 'a quiet story (the statement) is a passage: it never lands a fling');
+  const css = read('src/app/scroll-story.css');
+  assert.match(css, /--ss-run: var\(--ss-beat\);/);
+  assert.match(css, /--ss-gap: calc\(var\(--ss-steps\) \* var\(--ss-run\) \/ max\(1, var\(--ss-steps\) - 1\)\);/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{ \.ss \{ --ss-run: calc\(var\(--ss-beat\) \* 0\.6\); \} \}/);
+  assert.match(css, /height: calc\(100svh \+ var\(--ss-steps\) \* var\(--ss-run\)\);/);
 });

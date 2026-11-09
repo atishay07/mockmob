@@ -99,9 +99,14 @@ const controller = await import('./storyController.mjs');
 // 4000, 4719, 5437 and 6156. The demo card sits in the hero, at 520 px; the nav is not simulated (DemoJump's gap is).
 const STORY_TOP = 4000;
 const track = new FakeElement({ top: STORY_TOP, height: 3000 });
+// The marks a held track carries (held-first, held-mid, held-last), so a test can see that a flowing story never gets one.
+const marks = new Set();
+track.classList = { add: (...names) => names.forEach((n) => marks.add(n)), remove: (...names) => names.forEach((n) => marks.delete(n)) };
+// FLOW (10 Nov 2026): the handle says whether the story flows (a touch screen). Off for every test above the flow block.
+let flowOn = false;
 const stage = new FakeElement({ top: STORY_TOP, height: 844 });
 let shown = 0;
-const handle = { id: 'story', root: new FakeElement(), track, stage, steps: 4, step: () => shown, show: (n) => { shown = n; }, reduced: () => false };
+const handle = { id: 'story', root: new FakeElement(), track, stage, steps: 4, step: () => shown, show: (n) => { shown = n; }, reduced: () => false, flow: () => flowOn };
 controller.register(handle);
 controller.near(handle, true);
 const rests = [0, 1, 2, 3].map((k) => Math.round(STORY_TOP + (2156 * k) / 3));
@@ -330,4 +335,166 @@ test('a glide from inside a hold (Top tapped on a rest) leaves the story: the ta
   assert.equal(win.scrollY, target, `left the story for ${target}; moves ${moves.slice(-5).join(' ')}`);
   frames(60);
   assert.equal(win.scrollY, target);
+});
+
+// ---------------------------------------------------------------- FLOW: a touch screen is never held (10 Nov 2026, LK190)
+// The owner: held stories feel "very locked in" on a phone and "people will just not scroll to the end"; a page that
+// scrolls past them "isn't able to really show the features". On a touch screen the story's handle says flow(): no
+// finger is held, the track is never marked, and a scroll that has come to rest inside the story is settled on the
+// nearest resting place (invisible: the stage is sticky). One stop is left, once per story: the first fling that
+// brings a story on from above lands on its first step (handle.land), so no story is flown past unseen.
+handle.land = true;
+function flowTest(name, fn, { landed = true } = {}) {
+  test(name, () => {
+    flowOn = true;
+    handle.landed = landed; // most tests are about a story the reader has already arrived in
+    try { fn(); } finally { flowOn = false; shown = 0; handle.landed = false; handle.land = true; placeAt(STORY_TOP - 2000); }
+  });
+}
+const flingFromAbove = (ys) => {
+  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 600 }], target: new FakeElement() });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  const seen = [];
+  for (const y of ys) { win.scrollTo({ top: y }); frame(); seen.push(win.scrollY); }
+  return seen;
+};
+const INTO = [STORY_TOP - 200, STORY_TOP + 100, STORY_TOP + 500, STORY_TOP + 800, STORY_TOP + 900];
+
+flowTest('FLOW landing: the first fling that brings a story on from above lands on its first step, and the story never stops a fling again', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  const first = flingFromAbove(INTO);
+  assert.deepEqual(first.slice(1), [rests[0], rests[0], rests[0], rests[0]], 'held on the first rest for as long as the fling runs');
+  frames(30);
+  assert.equal(win.scrollY, rests[0]);
+  assert.equal(shown, 0, 'showing its first step');
+  assert.equal(handle.landed, true);
+  assert.deepEqual([...marks], [], 'and still not marked: the next touch pans freely');
+  // The same fling again: the story is free now.
+  placeAt(STORY_TOP - 360);
+  const again = flingFromAbove(INTO);
+  assert.deepEqual(again, INTO, 'never put back while it runs');
+  frames(30);
+  assert.equal(win.scrollY, rests[1], `settled on the nearest rest (${rests[1]}) once it stopped`);
+  assert.equal(shown, 1, 'and the story shows that step');
+}, { landed: false });
+
+flowTest('FLOW landing: a swipe that crosses the edge with the finger down and lifts moving lands too, once', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  drag(40, 12, { fling: [200, 200, 200, 100] }); // 480 px under the finger (120 px into the story), then 700 px of momentum
+  assert.equal(win.scrollY, rests[0], 'the momentum landed on the first rest');
+  assert.equal(shown, 0);
+  placeAt(STORY_TOP - 360);
+  drag(40, 12, { fling: [200, 200, 200, 100] });
+  assert.equal(win.scrollY, rests[1], 'the second time the same swipe runs on (820 px in: the second rest)');
+}, { landed: false });
+
+flowTest('FLOW landing: a finger that walks the page in is never stopped, first arrival or not', () => {
+  placeAt(STORY_TOP - 360);
+  shown = 0;
+  drag(40, 15, { lift: false });
+  assert.equal(win.scrollY, STORY_TOP + 240, 'the page went where the finger took it');
+  frames(20); // the finger rests: nothing moves under it
+  assert.equal(win.scrollY, STORY_TOP + 240);
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(30);
+  assert.equal(win.scrollY, rests[0], 'lifted with no fling, it settles on the nearest rest');
+  assert.equal(handle.landed, true, 'and that was the arrival: no fling is stopped after it');
+  // A finger that walked two steps in before lifting keeps what it reached: nothing is taken back to the first step.
+  handle.landed = false;
+  placeAt(STORY_TOP - 200);
+  drag(40, 30, { fling: [60, 40, 20] });
+  assert.ok(win.scrollY > rests[0], `not pulled back to the first rest (y ${win.scrollY})`);
+}, { landed: false });
+
+flowTest('FLOW landing: never on the way back up, and never for a story that did not ask (the statement)', () => {
+  placeAt(END + 360);
+  shown = 3;
+  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 300 }], target: new FakeElement() });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  const up = [END + 200, END - 100, END - 500, END - 800];
+  const seen = [];
+  for (const y of up) { win.scrollTo({ top: y }); frame(); seen.push(win.scrollY); }
+  assert.deepEqual(seen, up, 'a fling up into the story from below is free');
+  frames(30);
+  handle.landed = false;
+  handle.land = false;
+  placeAt(STORY_TOP - 360);
+  assert.deepEqual(flingFromAbove(INTO), INTO, 'a passage (land off) never stops a fling');
+}, { landed: false });
+
+flowTest('FLOW: a fling carries through the whole story and out the other side', () => {
+  placeAt(STORY_TOP - 360);
+  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 600 }], target: new FakeElement() });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  for (let y = STORY_TOP - 200; y <= END + 700; y += 300) { win.scrollTo({ top: y }); frame(); }
+  const out = win.scrollY;
+  assert.ok(out > END + 400, `left the story (y ${out}, end ${END})`);
+  frames(30);
+  assert.equal(win.scrollY, out, 'and nothing pulls it back');
+});
+
+flowTest('FLOW: from a rest, a drag of more than half a gap moves one step, less than half goes back, more than one and a half moves two', () => {
+  const gap = rests[1] - rests[0]; // 719 px in this story
+  for (const [travel, want] of [[Math.round(gap * 0.3), 1], [Math.round(gap * 0.6), 2], [Math.round(gap * 1.6), 3]]) {
+    placeAt(rests[1]);
+    shown = 1;
+    drag(travel / 10, 10);
+    assert.equal(win.scrollY, rests[want], `${travel} px from rest 1 ends on rest ${want}`);
+    assert.equal(shown, want);
+  }
+  // And back up the same way.
+  placeAt(rests[2]);
+  shown = 2;
+  drag(-Math.round(gap * 0.6) / 10, 10);
+  assert.equal(win.scrollY, rests[1]);
+});
+
+flowTest('FLOW: a finger lifted without a fling after a small move still settles (no scroll frame follows the lift)', () => {
+  placeAt(rests[2]);
+  shown = 2;
+  drag(10, 6, { lift: false }); // 60 px, finger still down
+  frames(20);                   // it rests there: the settle timer has fired and found a finger down
+  assert.equal(win.scrollY, rests[2] + 60);
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(30);
+  assert.equal(win.scrollY, rests[2], 'back on the rest it was nearest to');
+});
+
+flowTest('FLOW: the track is never marked, so the browser may pan both ways at every step', () => {
+  for (const k of [0, 1, 3]) {
+    placeAt(rests[k]);
+    frames(20);
+    assert.deepEqual([...marks], [], `no held mark on rest ${k}`);
+  }
+});
+
+test('held (a mouse or trackpad device): the same rests are marked, as before', () => {
+  placeAt(rests[1]);
+  shown = 1;
+  frames(20);
+  assert.deepEqual([...marks], ['held-mid']);
+  placeAt(STORY_TOP - 2000);
+  frames(20);
+  assert.deepEqual([...marks], []);
+});
+
+flowTest('FLOW: a picked step (a tab, an arrow) still goes to its rest at once', () => {
+  placeAt(rests[0]);
+  shown = 0;
+  controller.goTo(handle, 2);
+  frames(30);
+  assert.equal(shown, 2);
+  assert.equal(win.scrollY, rests[2]);
+});
+
+flowTest('FLOW: leaving by the last rest is free, and a scroll that stops just outside the story is left alone', () => {
+  placeAt(rests[3]);
+  shown = 3;
+  drag(30, 10);
+  assert.equal(win.scrollY, END + 300);
+  placeAt(STORY_TOP - 40);
+  drag(2, 5);
+  assert.equal(win.scrollY, STORY_TOP - 30, 'outside the hold: not pulled in');
 });

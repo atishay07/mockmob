@@ -17,6 +17,17 @@
 // a 180-240 ms CSS transform (scroll-story.css). The reader's scrolling is the browser's everywhere else: the
 // controller's non-passive listeners exist only while a story is within one screen of the viewport (LK47, "no glide").
 //
+// FLOW ON TOUCH (10 Nov 2026, owner LK190; settles LK179). He found the held stories "very locked in" on a phone ("People
+// will just not scroll to the end"), and the free prototype of 9 Nov hid the steps behind a sideways swipe ("we aren't
+// able to really show the features"). So on a touch screen (storyGesture.mjs FLOW_QUERY) a story keeps its sticky stage
+// and shows every step, but never takes the gesture: the scroll and its momentum are the browser's own, the stage shows
+// the step whose beat is under the window's middle as the page passes (the observer below), a gentle swipe moves one
+// step and a flick passes several or carries on out. The controller only settles a scroll that has come to rest inside
+// the story on the nearest resting place. The hold is also shorter there (scroll-story.css --ss-run, 0.6 of the
+// mouse's), so the four stories cost about eight screens of scroll, not twenty-two separate gestures. A mouse or a
+// trackpad keeps one gesture, one step. One stop remains, once per story: the first fling that brings a story on from
+// above lands on its first step (`land`, on unless the story is `quiet`: the statement is a passage, not a chapter).
+//
 // Step-driven visuals. A step change writes data-step on the root straight away, and --ss-step on the few elements that
 // read it (progress fills, the Lab's tab ink), so anything keyed to the step changes at once and cannot be left half
 // done; React catches up in a transition, so the stage's own render never lands inside the gesture's frame. --ss-step
@@ -41,6 +52,7 @@ import * as bus from './scrollBus.mjs';
 import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
 import { predraw } from './storyPredraw.mjs';
+import { FLOW_QUERY } from './storyGesture.mjs';
 
 // --ss-fit and --ss-slack are registered as non-inherited (ship gate, 4 Nov 2026). A plain custom property inherits, so
 // writing one restyles every element under the node it is written on: --ss-fit on the Lab's four scenes cost 650
@@ -58,6 +70,13 @@ registerOwn();
 // The elements that read --ss-step (it is written on each of them, never on the root).
 const STEP_NODES = '.ss-fill, .lcd__tab-ink, [data-ss-var]';
 const writeStep = (root, n) => { for (const node of root.querySelectorAll(STEP_NODES)) if (node.style.getPropertyValue('--ss-step') !== String(n)) node.style.setProperty('--ss-step', String(n)); };
+
+// FLOW: is the main pointer a finger? Asked by the controller inside its handlers, so the list is kept, not re-made.
+let flowList = null;
+const flowNow = () => {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+  try { flowList ??= window.matchMedia(FLOW_QUERY); return flowList.matches; } catch { return false; }
+};
 
 const reducedNow = () => {
   if (typeof window === 'undefined') return false;
@@ -126,7 +145,7 @@ function measureSlack(root, stage) {
   if (slack > 0) writeSlack(root, stage, `${slack}px`);
 }
 
-export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, ...rest }) {
+export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, land, ...rest }) {
   const id = useId();
   const rootRef = useRef(null);
   const stageRef = useRef(null);
@@ -141,6 +160,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   const [shown, setShown] = useState({ step: 0, seq: 0 });
   const { step, seq } = shown;
   const [live, setLive] = useState(false);
+  // FLOW: true once mounted on a touch screen (the server and the first paint say false; nothing is laid out from it,
+  // the stylesheet's own media query sets the shorter hold).
+  const [flow, setFlow] = useState(false);
   // The step as the controller sees it, written the moment a step is decided (React's own state catches up in a
   // transition, so it is never the one to ask inside a gesture).
   const stepRef = useRef(0);
@@ -167,13 +189,17 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       const calmNow = reducedNow();
       setReduced(calmNow);
       setPinned(typeof IntersectionObserver !== 'undefined' && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
+      setFlow(flowNow());
     };
     sync();
     calm.addEventListener?.('change', sync);
     heldQuery?.addEventListener?.('change', sync);
+    let touchQuery = null;
+    try { touchQuery = window.matchMedia(FLOW_QUERY); } catch { /* an old browser: the first answer stands */ }
+    touchQuery?.addEventListener?.('change', sync);
     const watch = typeof MutationObserver !== 'undefined' ? new MutationObserver(sync) : null;
     watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
+    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); touchQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
   }, [hold, holdCalm]);
 
   // The controller's handle for this story: the gesture, clamp and settle rules live in storyController.mjs.
@@ -182,11 +208,11 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     const track = trackRef.current;
     const stage = stageRef.current;
     if (!pinned || !root || !track || !stage || steps < 2) return undefined;
-    const handle = { id, root, track, stage, steps, step: () => stepRef.current, show: applyStep, reduced: reducedNow };
+    const handle = { id, root, track, stage, steps, step: () => stepRef.current, show: applyStep, reduced: reducedNow, flow: flowNow, land: land ?? !quiet };
     handleRef.current = handle;
     const off = controller.register(handle);
     return () => { off(); handleRef.current = null; bus.hold(id, false); };
-  }, [pinned, steps, applyStep, id]);
+  }, [pinned, steps, applyStep, id, land, quiet]);
 
   // The beat crossing the middle of the window owns the step for any scroll the controller does not own. With no
   // beat crossing, the side the reader comes from does: the beats cover the whole track, so the track then lies wholly
@@ -332,6 +358,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       data-pinned={pinned ? 'true' : 'false'}
       data-reduced={reduced ? 'true' : 'false'}
       data-live={live && !quiet ? 'true' : 'false'}
+      data-flow={flow ? 'true' : undefined}
       data-step={step}
       style={{ '--ss-steps': steps, ...(beat ? { '--ss-beat': beat } : null) }}
     >
