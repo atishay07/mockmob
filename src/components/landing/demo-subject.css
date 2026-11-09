@@ -243,3 +243,61 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__option[data-state='correct']
 .mm.lp .lp-desk .mm-drill__option[data-here='true']:focus { outline: 2px solid var(--ink); outline-offset: 2px; }
 /* Day draws the readout box on paper, so its rows rise to raised paper to read as keys. */
 html[data-theme='light'] .mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss { background: var(--paper-raised); }
+
+/* ==========================================================================
+   Demo result pass (9 Nov 2026): each miss names its question and sets the student's answer beside the right one.
+   ========================================================================== */
+
+/* The row: the question's number in the answers' own letter-chip shape (tabular, not mono), then the chapter, which stays
+   the row's words. The open row's edge darkens so the one that is open reads at a glance. */
+/* `.mm-drill__miss-row > span` (flex: 1) is the chapter's rule; the chip's own selector outranks it so it keeps its size. */
+.mm.lp .lp-desk .mm-drill__miss-row > .mm-drill__miss-n {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 7px;
+  background: var(--paper-sunken);
+  color: var(--ink-2);
+  font: 700 0.8125rem/1 var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+.mm.lp .lp-desk .mm-drill__miss-row > .mm-drill__miss-chapter { flex: 1; min-width: 0; overflow-wrap: break-word; }
+.mm.lp .lp-desk .mm-drill__readout li.mm-drill__miss[data-open='true'] { border-color: var(--ink-3); }
+
+/* The open body runs the row's width (from the chip's edge), so a long stem or option wraps less on a phone. */
+.mm.lp .lp-desk .mm-drill__miss-body > :is(p, dl) { margin-inline: 11px 12px; }
+.mm.lp .lp-desk .mm-drill__miss-answers { display: grid; gap: 8px; margin-block: 10px 0; }
+.mm.lp .lp-desk .mm-drill__miss-answer { min-width: 0; }
+.mm.lp .lp-desk .mm-drill__miss-answer dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-2);
+  font: 600 0.8125rem/1.3 var(--font-body);
+}
+.mm.lp .lp-desk .mm-drill__miss-answer dd {
+  margin: 2px 0 0 22px;
+  color: var(--ink);
+  font: 650 0.9375rem/1.4 var(--font-body);
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+.mm.lp .lp-desk .mm-drill__miss-mark { flex: none; width: 16px; height: 16px; stroke-width: 2.4; }
+.mm.lp .lp-desk .mm-drill__miss-answer[data-kind='yours'] .mm-drill__miss-mark { color: var(--bad-text, #b0291f); }
+.mm.lp .lp-desk .mm-drill__miss-answer[data-kind='correct'] .mm-drill__miss-mark { color: var(--good-text, #3d6600); }
+/* The reason's worked sums keep their no-break spaces (R8 HERO-15), so at large text one could outrun the fold and be clipped
+   by its overflow; it breaks only when it cannot fit at all. */
+.mm.lp .lp-desk .mm-drill__miss-body > .mm-drill__miss-why { margin-top: 10px; overflow-wrap: break-word; }
+
+/* The one line above the way in: what a full mock adds over these five. */
+.mm.lp .lp-desk .mm-drill__actions-lead {
+  margin: 0 0 2px;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
+}

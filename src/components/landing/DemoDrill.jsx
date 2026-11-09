@@ -213,8 +213,10 @@ export function DemoDrill({ note = null }) {
     if (optionIndex === question.correct) {
       setScore((s) => s + 1);
     } else {
-      // Each miss keeps its question, answer and reason, so the readout can open them again (R8 HERO-05).
-      setMissed((list) => [...list, { chapter: question.chapter, q: question.q, answer: question.options[question.correct], why: question.why }]);
+      // Each miss keeps its question, answer and reason, so the readout can open them again (R8 HERO-05), plus its place in
+      // the five and the option the student picked, so the readout names the question and sets their answer beside the
+      // right one (9 Nov 2026 demo result pass). Nothing leaves the card; the list goes on restart.
+      setMissed((list) => [...list, { n: index + 1, chapter: question.chapter, q: question.q, picked: question.options[optionIndex], answer: question.options[question.correct], why: question.why }]);
     }
   }
 
@@ -338,25 +340,40 @@ export function DemoDrill({ note = null }) {
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
-              <p className="mm-drill__readout-head">After a full mock, chapter review would flag:</p>
-              {/* R8 HERO-05: each flagged chapter opens the question it came from, its answer and reason, and the one way on:
-                  the signature chain (miss, reason, chapter, next step) in miniature. No marks are promised. */}
+              {/* What these five actually showed (9 Nov 2026): the misses themselves, not a forecast of a full mock's review. */}
+              <p className="mm-drill__readout-head">What you missed in these five</p>
+              {/* R8 HERO-05: each miss opens the question it came from, the student's answer beside the right one, the reason
+                  and the one way on: the signature chain (miss, reason, chapter, next step) in miniature. No marks are
+                  promised. The row leads with the question's number (two misses in one chapter stay two rows); the chapter is
+                  the row's words. */}
               <ul>
                 {missed.map((miss, i) => {
                   const open = openMiss === i;
                   const panelId = `${leadId}-miss-${i}`;
                   return (
-                    <li key={`${miss.chapter}-${i}`} className="mm-drill__miss" data-open={open ? 'true' : 'false'}>
+                    <li key={`${miss.n}-${i}`} className="mm-drill__miss" data-open={open ? 'true' : 'false'}>
                       <button type="button" className="mm-drill__miss-row" aria-expanded={open} aria-controls={panelId} onClick={() => setOpenMiss(open ? null : i)}>
-                        <Icon name="target" style={{ width: '15px', height: '15px' }} aria-hidden="true" />
-                        <span>{miss.chapter}</span>
+                        <span className="mm-drill__miss-n">Q{miss.n}</span>{' '}
+                        <span className="mm-drill__miss-chapter">{miss.chapter}</span>
                         <Icon name="chevR" className="mm-drill__miss-chev" aria-hidden="true" />
                       </button>
                       <div className="mm-drill__miss-fold" id={panelId} inert={!open}>
                         <div className="mm-drill__miss-body">
                           <p className="mm-drill__miss-q">{miss.q}</p>
-                          <p className="mm-drill__miss-why"><strong>Answer: {miss.answer}.</strong> {miss.why}</p>
-                          <p className="mm-drill__miss-next"><Link href="/signup">Sign up free</Link> to practise this chapter.</p>
+                          {/* Words carry the outcome; the marks and their colours only repeat it. */}
+                          <dl className="mm-drill__miss-answers">
+                            <div className="mm-drill__miss-answer" data-kind="yours">
+                              <dt><Icon name="x" className="mm-drill__miss-mark" aria-hidden="true" />Your answer</dt>
+                              <dd>{miss.picked}</dd>
+                            </div>
+                            <div className="mm-drill__miss-answer" data-kind="correct">
+                              <dt><Icon name="check" className="mm-drill__miss-mark" aria-hidden="true" />Correct answer</dt>
+                              <dd>{miss.answer}</dd>
+                            </div>
+                          </dl>
+                          <p className="mm-drill__miss-why">{miss.why}</p>
+                          {/* The link is the general sign-up, not a way into this chapter, so the line says the real next step. */}
+                          <p className="mm-drill__miss-next"><Link href="/signup">Sign up free</Link>, then choose chapters like this one in Practice.</p>
                         </div>
                       </div>
                     </li>
@@ -374,6 +391,8 @@ export function DemoDrill({ note = null }) {
           )}
 
           <div className="mm-drill__actions">
+            {/* What a full mock adds over these five, said once above the way in (a perfect five already says it in its note). */}
+            {missed.length > 0 ? <p className="mm-drill__actions-lead">A full mock gives you a broader chapter review.</p> : null}
             {/* One name for the way in on the whole page (R8 HERO-04, SEC-15): the hero's "Sign up free". */}
             <Link href="/signup" className="mm-btn mm-btn--primary">
               Sign up free
