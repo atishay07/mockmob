@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { Maximize, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { FILM, chapterAt, pickSource } from './heroFilmConfig.mjs';
 
 export { FILM };
@@ -19,6 +19,10 @@ export { FILM };
 //   - Nothing else is drawn on the picture: a tap or click on it pauses or plays (pointer; keyboards use the keys). Under
 //     the frame, one row: the pause/play key, the chapter bar (one segment per chapter: it seeks to that chapter and
 //     plays; the current one fills as it plays; arrow keys move between them), the current chapter's name, the sound key.
+//   - Full screen (owner, 9 Nov 2026): one key. On a laptop it sits in the row beside the sound key; on a phone the row has
+//     no room left, so it is a small round key in the picture's top corner. It plays the film full screen with the
+//     browser's own controls and sound on (pressing it means "I'm watching"): sideways on a phone (Android turns the
+//     screen; an iPhone opens its own player, which turns with the phone). Leaving full screen hides the controls again.
 //   - The fill moves only while the film plays and is on screen (one animation frame at a time; under Reduce motion it
 //     steps with the film's own time updates). Paused, nothing runs.
 
@@ -40,6 +44,11 @@ function reducedMotion() {
   } catch {
     return true;
   }
+}
+
+// Full screen: the element API where there is one (desktop, Android); an iPhone has only the video's own player.
+function fullscreenNow() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
 }
 
 const COUNT = FILM.chapters.length;
@@ -190,26 +199,64 @@ export default function HeroFilm() {
   };
   // Sound on unmutes and plays; sound off only mutes. The first time sound comes on, the film goes back to the start of
   // the chapter on screen, so the narrator's line is heard whole rather than from its middle.
+  const soundUp = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    setSoundOn(true);
+    if (!heardOnce.current) {
+      heardOnce.current = true;
+      setHeard(true);
+      if (video.readyState >= 1) {
+        const { index } = chapterAt(video.currentTime, video.duration, FILM.chapters);
+        video.currentTime = FILM.chapters[index].start;
+      }
+    }
+    if (video.paused) play();
+  };
   const toggleSound = () => {
     const video = videoRef.current;
     if (!video) return;
-    if (video.muted) {
-      video.muted = false;
-      setSoundOn(true);
-      if (!heardOnce.current) {
-        heardOnce.current = true;
-        setHeard(true);
-        if (video.readyState >= 1) {
-          const { index } = chapterAt(video.currentTime, video.duration, FILM.chapters);
-          video.currentTime = FILM.chapters[index].start;
-        }
-      }
-      if (video.paused) play();
-    } else {
+    if (video.muted) soundUp();
+    else {
       video.muted = true;
       setSoundOn(false);
     }
   };
+  // Full screen: the video alone, with the browser's own controls, sound on and playing; sideways on a phone.
+  const fullScreen = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    soundUp();
+    if (video.requestFullscreen || video.webkitRequestFullscreen) {
+      video.controls = true;
+      const ask = video.requestFullscreen ? video.requestFullscreen({ navigationUI: 'hide' }) : video.webkitRequestFullscreen();
+      Promise.resolve(ask)
+        .then(() => {
+          if (window.matchMedia('(pointer: coarse)').matches) screen.orientation?.lock?.('landscape')?.catch?.(() => {});
+        })
+        .catch(() => { video.controls = false; });
+    } else if (video.webkitEnterFullscreen) {
+      // iPhone: its own player (it has its own controls and turns with the phone).
+      try { video.webkitEnterFullscreen(); } catch { /* not allowed yet: the film plays in place */ }
+    }
+  };
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    const onChange = () => {
+      if (fullscreenNow()) return;
+      video.controls = false;
+      try { screen.orientation?.unlock?.(); } catch { /* nothing locked */ }
+    };
+    document.addEventListener('fullscreenchange', onChange);
+    document.addEventListener('webkitfullscreenchange', onChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange);
+      document.removeEventListener('webkitfullscreenchange', onChange);
+    };
+  }, []);
+
   // A chapter's segment: to its first frame, and play.
   const seek = (index) => {
     const video = videoRef.current;
@@ -270,6 +317,9 @@ export default function HeroFilm() {
             <span>Sound on</span>
           </button>
         ) : null}
+        <button type="button" className="lp-film__full lp-film__full--corner" onClick={(event) => { event.stopPropagation(); fullScreen(); }} aria-label="Watch full screen">
+          <Maximize size={16} strokeWidth={2.25} aria-hidden="true" />
+        </button>
       </div>
       <div className="lp-film__keys">
         <button type="button" className="lp-film__key" onClick={togglePlay} aria-label={playing ? 'Pause film' : 'Play film'}>
@@ -298,6 +348,9 @@ export default function HeroFilm() {
         </div>
         <button type="button" className="lp-film__key" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? 'Turn sound off' : 'Turn sound on'}>
           {soundOn ? <Volume2 size={20} strokeWidth={2} aria-hidden="true" /> : <VolumeX size={20} strokeWidth={2} aria-hidden="true" />}
+        </button>
+        <button type="button" className="lp-film__key lp-film__full--row" onClick={fullScreen} aria-label="Watch full screen">
+          <Maximize size={18} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
     </figure>

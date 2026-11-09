@@ -23,6 +23,8 @@ import { BrandTexture } from '@/components/landing/BrandTexture';
 import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
+import TestBar from '@/components/landing/TestBar';
+import DesktopHint from '@/components/landing/DesktopHint';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
@@ -152,6 +154,8 @@ export default function LandingPage() {
         <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}.lp-room__file{opacity:1!important}.lp-film__keys{display:none}'}</style>
       </noscript>
       <NavBar />
+      <TestBar />
+      <DesktopHint />
       <SectionPosition sections={POSITION} />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}

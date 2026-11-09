@@ -80,6 +80,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
 @media (max-width: 760px) and (min-height: 700px) and (prefers-reduced-motion: no-preference), (min-width: 761px) and (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
   /* Free on touch (owner, 9 Nov 2026): the statement no longer holds on any phone (ScrollStory HELD_ON), so it keeps the
      section's own padding here and scrubs its words like a wide window; the held rules below wait unused. */
+  :root[data-scroll='held']:not([data-motion='reduced']) .lp-statement { padding-block: 0; }
   :root:not([data-motion='reduced']) .lp-statement .ss {
     --ss-beat: 22svh;
     --ss-bottom: 96px;

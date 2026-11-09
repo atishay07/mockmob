@@ -69,10 +69,14 @@
    Everywhere else its track and stage are plain blocks, whatever data-pinned says before the page hydrates, so a phone
    never reserves a held height and the page scrolls straight past. */
 @media (max-width: 959.98px), (hover: none), (pointer: coarse) {
-  .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
-  .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
-  .ss[data-pinned] .ss__beat { display: none; }
+  :root:not([data-scroll='held']) .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
+  :root:not([data-scroll='held']) .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
+  :root:not([data-scroll='held']) .ss[data-pinned] .ss__beat { display: none; }
 }
+/* The share link's test switch (TestBar.jsx): "Free" on a wide window too; "Held" lifts the guard above on phones. */
+:root[data-scroll='free'] .ss[data-pinned] .ss__track { height: auto; view-timeline: none; }
+:root[data-scroll='free'] .ss[data-pinned] .ss__stage { position: static; height: auto; padding: 0; pointer-events: auto; }
+:root[data-scroll='free'] .ss[data-pinned] .ss__beat { display: none; }
 
 /* Touch screens: while the page rests inside a held story (the controller marks its track with a class: held-first, held-mid, held-last),
    the browser may pan the page only the way out of the story: up from the first step, down from the last, not at all

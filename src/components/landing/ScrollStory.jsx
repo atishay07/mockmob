@@ -175,14 +175,17 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     const sync = () => {
       const calmNow = reducedNow();
       setReduced(calmNow);
-      setPinned(typeof IntersectionObserver !== 'undefined' && wideQuery.matches && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
+      // The share link's test switch (TestBar.jsx) may force every screen free or held: html[data-scroll].
+      const forced = document.documentElement.getAttribute('data-scroll');
+      const wide = forced === 'held' ? true : forced === 'free' ? false : wideQuery.matches;
+      setPinned(typeof IntersectionObserver !== 'undefined' && wide && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
     };
     sync();
     calm.addEventListener?.('change', sync);
     heldQuery?.addEventListener?.('change', sync);
     wideQuery.addEventListener?.('change', sync);
     const watch = typeof MutationObserver !== 'undefined' ? new MutationObserver(sync) : null;
-    watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
+    watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion', 'data-scroll'] });
     return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); wideQuery.removeEventListener?.('change', sync); watch?.disconnect(); };
   }, [hold, holdCalm]);
 
