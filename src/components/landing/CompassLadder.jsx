@@ -98,10 +98,13 @@ export default function CompassLadder({ data }) {
           </div>
         </div>
 
-        <div className="cl__score">
+        {/* --p, how far along the track the score sits (the track's fill reads it, r10-tools.css), is set on the group and
+            inherited by the slider: an inline style on the input itself is rewritten by a screenshot tool that touches
+            inputs before the page hydrates, and React then reports a hydration mismatch for it (10 Nov 2026). */}
+        <div className="cl__score" style={{ '--p': `${pct(score)}%` }}>
           <label htmlFor="cl-score">If your score were</label>
           <output htmlFor="cl-score" className="cl__big">{Math.round(score)}<span> / 1000</span></output>
-          <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} style={{ '--p': `${pct(score)}%` }} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
+          <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
           <small id="cl-score-help">Drag the slider, or use the arrow keys.</small>
           <div className="cl__try">
             <div className="cl__group cl__group--small" role="group" aria-label="Try a score">

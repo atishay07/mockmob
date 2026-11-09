@@ -1270,22 +1270,40 @@ body:has(.mm.lp) {
 .lp main > #compass { contain-intrinsic-size: auto 2166px; } /* re-measured 10 Nov (R10) at 390x844 */
 .lp main > #du-eligibility { contain-intrinsic-size: auto 1582px; } /* re-measured 10 Nov (R10) at 390x844 */
 .lp main > #exam-experience { contain-intrinsic-size: auto 730px; } /* the monitor again (R4-H6), re-measured 10 Nov (R10, the gate card) at 390x844 */
-.lp main > #on-instagram { contain-intrinsic-size: auto 867px; }
-.lp main > #pricing { contain-intrinsic-size: auto 1162px; }
+.lp main > #on-instagram { contain-intrinsic-size: auto 869px; } /* re-measured 10 Nov (R10) at 390x844 */
+/* The plan and the value card (the 1162 px here dated from before the value card: the page grew 1,200 px when the plans
+   were first drawn). Measured 10 Nov at 390x844 with the one-time offer (2361), less the two lines the monthly offer lacks. */
+.lp main > #pricing { contain-intrinsic-size: auto 2316px; }
+@media (min-width: 720px) and (max-width: 959px) { .lp main > #pricing { contain-intrinsic-size: auto 1530px; } } /* two columns from 720 px: 1547 at 820x1180 */
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 367px; }
-.lp main > .lp-close { contain-intrinsic-size: auto 492px; }
+.lp main > .lp-close { contain-intrinsic-size: auto 573px; } /* re-measured 10 Nov (R10: Mobi's bubble, the invite line) at 390x844 */
+/* From 960 px the three stories are fitted (10 Nov, R10) to 1440x900 and 1440x768 with a mouse (held): 3650 / 3137, 7371 / 6346, 3454 / 3073. */
 @media (min-width: 960px) {
-  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(190px + 388svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(845svh - 99px); }
-  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(388svh - 38px); }
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(158px + 388svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto calc(382px + 776.5svh); }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(856px + 288.6svh); }
   .lp main > #key-cards { contain-intrinsic-size: auto 538px; } /* re-measured 10 Nov (R10) at 1024x768 */
   .lp main > #compass { contain-intrinsic-size: auto 1113px; } /* re-measured 10 Nov (R10) at 1440x900 */
   .lp main > #du-eligibility { contain-intrinsic-size: auto 1076px; } /* re-measured 10 Nov (R10) at 1440x900 */
   .lp main > #exam-experience { contain-intrinsic-size: auto 781px; } /* the monitor and the gate card at 1440x900, re-measured 10 Nov (R10) */
-  .lp main > #on-instagram { contain-intrinsic-size: auto 878px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 712px; }
+  .lp main > #on-instagram { contain-intrinsic-size: auto 886px; } /* re-measured 10 Nov (R10) at 1440x900 */
+  .lp main > #pricing { contain-intrinsic-size: auto 1478px; } /* the plan beside the value card: 1498 with the one-time offer at 1440x900, less a line */
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 306px; }
-  .lp main > .lp-close { contain-intrinsic-size: auto 286px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 367px; } /* re-measured 10 Nov (R10) at 1440x900 */
+}
+/* FLOW (10 Nov 2026, owner LK190): on a touch screen a story's hold is 0.6 of its beat (scroll-story.css --ss-run), so
+   its section is shorter than a mouse's. Fitted to two window heights each, all drawn: phones at 390x844 and 390x700
+   (2327 / 1963, 4453 / 3716, 2249 / 1934), a touch screen from 960 px at 1180x820 and 1180x700 (2433 / 2105, 4460 / 3821,
+   2269 / 2062). At 360x640 the phone fit is within 80 px; before this the page shrank by 2,400 px as the stories were drawn. */
+@media (hover: none), (pointer: coarse) {
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(193px + 252.8svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto calc(133px + 511.8svh); }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(403px + 218.75svh); }
+}
+@media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px) {
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(192px + 273.3svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto calc(94px + 532.5svh); }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto calc(855px + 172.5svh); }
 }
 /* Key cards on wide screens (R4-H1: the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): measured 6 Nov
    at 1100x800, 1280x800, 1440x900, 1920x1080 (18 px root) and 2560x1440 (22 px root). */
