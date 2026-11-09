@@ -610,7 +610,7 @@ test('L-044 no Higgsfield or video scene is live on the landing; the scroll scen
   // muted, and only in the hero; no scroll scene is a video. Round 9 (9 Nov 2026): the walkthrough, its files named in one
   // place (heroFilmConfig.mjs, part of the landing's surface through HeroFilm).
   assert.ok(SURFACE.includes('src/components/landing/heroFilmConfig.mjs'), 'the film config is on the landing surface');
-  assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v2-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
+  assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v3-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
   assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
   assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<CollegeStrip')), /<HeroFilm \/>/, 'the film is in the hero');
   assert.equal((PAGE_CODE.match(/<HeroFilm\b/g) || []).length, 1);

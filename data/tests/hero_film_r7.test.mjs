@@ -38,14 +38,14 @@ const loadConfig = () => import(pathToFileURL(join(ROOT, 'src/components/landing
 test('round 9 film config: the walkthrough\'s label, poster and three files; nine chapters in the journey\'s order, starts rising from 0', async () => {
   const { FILM: CFG, FILM_CHAPTERS } = await loadConfig();
   assert.match(CFG.label, /^MockMob walkthrough, \d+ seconds$/);
-  assert.equal(CFG.poster, '/video/hero-v2-poster.webp');
-  assert.deepEqual({ ...CFG.sources }, { 480: '/video/hero-v2-480.mp4', 720: '/video/hero-v2-720.mp4', 1080: '/video/hero-v2-1080.mp4' });
+  assert.equal(CFG.poster, '/video/hero-v3-poster.webp');
+  assert.deepEqual({ ...CFG.sources }, { 480: '/video/hero-v3-480.mp4', 720: '/video/hero-v3-720.mp4', 1080: '/video/hero-v3-1080.mp4' });
   assert.equal(CFG.chapters, FILM_CHAPTERS);
   assert.deepEqual(FILM_CHAPTERS.map((c) => c.id), ['score', 'repair', 'learn', 'askmobi', 'keycards', 'mocks', 'exam', 'plan', 'mob', 'value']);
   assert.deepEqual(FILM_CHAPTERS.map((c) => c.name), ['Your score', 'Mistake Repair', 'Learn', 'Ask Mobi', 'Key cards', 'Mocks', 'Exam screen', 'Plan and colleges', 'The Mob', 'What you get']);
   assert.equal(FILM_CHAPTERS[0].start, 0, 'the first chapter starts the film');
   for (let i = 1; i < FILM_CHAPTERS.length; i += 1) assert.ok(FILM_CHAPTERS[i].start > FILM_CHAPTERS[i - 1].start, `${FILM_CHAPTERS[i].id} starts after ${FILM_CHAPTERS[i - 1].id}`);
-  assert.ok(FILM_CHAPTERS.at(-1).start <= 68, 'inside the 68 s cap');
+  assert.ok(FILM_CHAPTERS.at(-1).start <= 101, 'inside the narrated film (101 s)');
   assert.ok(Object.isFrozen(CFG) && Object.isFrozen(FILM_CHAPTERS) && FILM_CHAPTERS.every(Object.isFrozen));
   // Chapter names and the label: no exclamation marks, middle dots or arrows.
   for (const w of [CFG.label, ...FILM_CHAPTERS.map((c) => c.name)]) assert.doesNotMatch(w, /!|·|→|->/, w);
@@ -61,7 +61,7 @@ test('round 9 sources by need: the frame\'s rendered width x min(devicePixelRati
     [662, 1, false, 720], [880, 1, false, 720], [550, 2, false, 720], [551, 2, false, 1080], [662, 2, false, 1080],
     [880, 3, false, 1080], [1101, 1, false, 1080], [880, 2, true, 480], [0, 1, false, 480], [400, undefined, false, 480],
   ];
-  for (const [w, dpr, save, res] of cases) assert.equal(pickSource(w, dpr, save), `/video/hero-v2-${res}.mp4`, `${w} css px at ${dpr}x${save ? ', Data Saver' : ''}`);
+  for (const [w, dpr, save, res] of cases) assert.equal(pickSource(w, dpr, save), `/video/hero-v3-${res}.mp4`, `${w} css px at ${dpr}x${save ? ', Data Saver' : ''}`);
   // Picked once on mount from the frame's own width.
   assert.match(FILM_CODE, /video\.src = pickSource\(frame\.getBoundingClientRect\(\)\.width, window\.devicePixelRatio, navigator\.connection\?\.saveData === true\);/);
 });
