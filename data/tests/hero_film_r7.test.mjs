@@ -173,8 +173,11 @@ test('HeroFilm: two 44 px round keys, pause/play and sound, named, with a visibl
   assert.match(FILM_CODE, /aria-label=\{playing \? 'Pause film' : 'Play film'\}/);
   assert.match(FILM_CODE, /import \{ Pause, Play, Volume2, VolumeX \} from 'lucide-react';/);
   assert.match(FILM_CODE, /const \[soundOn, setSoundOn\] = useState\(false\);/);
-  // Turning sound on unmutes and plays.
-  assert.match(FILM_CODE, /if \(video\.muted\) \{\s*video\.muted = false;\s*setSoundOn\(true\);\s*if \(video\.paused\) play\(\);/);
+  // Turning sound on unmutes and plays; the first time, back to the start of the chapter on screen (the narrator's whole line).
+  assert.match(FILM_CODE, /if \(video\.muted\) \{\s*video\.muted = false;\s*setSoundOn\(true\);\s*if \(!heardOnce\.current\) \{[\s\S]*?video\.currentTime = FILM\.chapters\[index\]\.start;[\s\S]*?if \(video\.paused\) play\(\);/);
+  // Until sound has come on once, a "Sound on" key in the picture's corner (a pointer shortcut; it does not stop the tap reaching only itself).
+  assert.match(FILM_CODE, /\{!heard && !needsTap \? \([\s\S]*?className="lp-film__unmute" onClick=\{\(event\) => \{ event\.stopPropagation\(\); toggleSound\(\); \}\}[\s\S]*?<span>Sound on<\/span>/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__unmute \{[^}]*height: 44px;/);
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__key,\n\.mm\.lp \.lp-film__start \{[^}]*width: 44px;[^}]*height: 44px;[^}]*border: 1px solid var\(--line-strong\);[^}]*border-radius: 50%;[^}]*background: var\(--paper\);/);
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__key:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\); outline-offset: 2px; \}/);
   assert.match(FILM_CODE, /aria-label=\{FILM\.label\}/);

@@ -146,9 +146,51 @@
 }
 .mm.lp .lp-film__start svg { margin-left: 3px; }
 
+/* "Sound on": the film is narrated and starts muted. A small paper key in the picture's lower-right corner until sound has
+   come on once (then it is gone for good); a 44 px tall target around a 32 px pill. */
+.mm.lp .lp-film__unmute {
+  position: absolute;
+  z-index: 2;
+  right: 6px;
+  bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  margin: 0;
+  padding: 0 14px 0 12px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .lp-film__unmute::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 6px 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  box-shadow: var(--sh-1);
+  transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-film__unmute:active::before { background: var(--paper-raised); transform: scale(0.96); transition-duration: 100ms; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-film__unmute:hover::before { background: var(--paper-raised); border-color: var(--ink-3); }
+}
+@media (min-width: 960px) {
+  .mm.lp .lp-film__unmute { right: 10px; bottom: 10px; }
+}
+
 /* Reduce motion: the keys and the rails change at once (the fill already steps with the film's time). */
 @media (prefers-reduced-motion: reduce) {
   .mm.lp :is(.lp-film__key, .lp-film__start, .lp-film__rail) { transition: none; }
+  .mm.lp .lp-film__unmute::before { transition: none; }
   .mm.lp :is(.lp-film__key, .lp-film__start):active { transform: none; }
 }
 :root[data-motion='reduced'] .mm.lp :is(.lp-film__key, .lp-film__start, .lp-film__rail) { transition: none; }

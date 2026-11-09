@@ -61,6 +61,9 @@ export default function HeroFilm() {
   // The round Play key on the poster: autoplay is off here, or the browser refused to start the film.
   const [needsTap, setNeedsTap] = useState(false);
   const [chapter, setChapter] = useState(0);
+  // The film is narrated: until sound has come on once, a small "Sound on" key sits in the picture's corner.
+  const heardOnce = useRef(false);
+  const [heard, setHeard] = useState(false);
 
   const start = useCallback(() => {
     const video = videoRef.current;
@@ -185,13 +188,22 @@ export default function HeroFilm() {
       video.pause();
     }
   };
-  // Sound on unmutes and plays; sound off only mutes.
+  // Sound on unmutes and plays; sound off only mutes. The first time sound comes on, the film goes back to the start of
+  // the chapter on screen, so the narrator's line is heard whole rather than from its middle.
   const toggleSound = () => {
     const video = videoRef.current;
     if (!video) return;
     if (video.muted) {
       video.muted = false;
       setSoundOn(true);
+      if (!heardOnce.current) {
+        heardOnce.current = true;
+        setHeard(true);
+        if (video.readyState >= 1) {
+          const { index } = chapterAt(video.currentTime, video.duration, FILM.chapters);
+          video.currentTime = FILM.chapters[index].start;
+        }
+      }
       if (video.paused) play();
     } else {
       video.muted = true;
@@ -248,6 +260,14 @@ export default function HeroFilm() {
           // A large pointer target on the poster; keyboards and screen readers use the "Play film" key under it.
           <button type="button" className="lp-film__start" onClick={(event) => { event.stopPropagation(); play(); }} tabIndex={-1} aria-hidden="true">
             <Play size={24} strokeWidth={2.25} aria-hidden="true" />
+          </button>
+        ) : null}
+        {!heard && !needsTap ? (
+          // The narrator is muted by default: one small key in the corner until sound has come on once (keyboards and
+          // screen readers use the sound key under the frame).
+          <button type="button" className="lp-film__unmute" onClick={(event) => { event.stopPropagation(); toggleSound(); }} tabIndex={-1} aria-hidden="true">
+            <VolumeX size={16} strokeWidth={2.25} aria-hidden="true" />
+            <span>Sound on</span>
           </button>
         ) : null}
       </div>
