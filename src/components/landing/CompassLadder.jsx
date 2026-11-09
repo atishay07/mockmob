@@ -101,7 +101,7 @@ export default function CompassLadder({ data }) {
         <div className="cl__score">
           <label htmlFor="cl-score">If your score were</label>
           <output htmlFor="cl-score" className="cl__big">{Math.round(score)}<span> / 1000</span></output>
-          <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
+          <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} style={{ '--p': `${pct(score)}%` }} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
           <small id="cl-score-help">Drag the slider, or use the arrow keys.</small>
           <div className="cl__try">
             <div className="cl__group cl__group--small" role="group" aria-label="Try a score">
@@ -113,7 +113,7 @@ export default function CompassLadder({ data }) {
 
         <p className="cl__summary" aria-live={sweeping ? 'off' : 'polite'}>
           {listed.length ? (
-            <><b>{Math.round(score)}</b> clears <b>{cleared} of {listed.length === 1 ? 'the 1' : `these ${listed.length}`}</b> {ROUND_LABEL[round]} {category} {listed.length === 1 ? 'cutoff' : 'cutoffs'} ({data.cycle.replace(' UG ', ' ')}).</>
+            <><b>{Math.round(score)}</b> clears <b>{cleared} of {listed.length === 1 ? 'the 1' : `these ${listed.length}`}</b> {ROUND_LABEL[round]} {category} {listed.length === 1 ? 'cutoff' : 'cutoffs'} <span className="cl__cycle">({data.cycle.replace(' UG ', ' ')}).</span></>
           ) : (
             <>No {ROUND_LABEL[round]} {category} cutoff was published for these colleges in <b>{data.cycle}</b>. Try another round or category.</>
           )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
@@ -26,6 +26,15 @@ function RailIcon({ name }) {
   }
   return <BrandIcon name={name} size={RAIL_ICON} loading="eager" fetchPriority="low" />;
 }
+// A two-sentence title ("Picking five papers? Test the combination first.") breaks between its sentences, never inside
+// one: each sentence is its own inline block (r10-lab-tour.css), so a narrow card wraps at the full stop. A one-sentence
+// title is returned as it is.
+function Sentences({ text }) {
+  const parts = String(text).split(/(?<=[.?!])\s+(?=\S)/);
+  if (parts.length < 2) return text;
+  return parts.map((part, i) => <Fragment key={i}>{i ? ' ' : null}<span className="ft__sentence">{part}</span></Fragment>);
+}
+
 function TourVideo({ slide, playing }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -307,7 +316,7 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
                     </div>
                   </div>
                   <div className="ft__copy">
-                    <h3 className="ft__title">{slide.title}</h3>
+                    <h3 className="ft__title"><Sentences text={slide.title} /></h3>
                     <p className="ft__body">{slide.body}</p>
                     <p className="ft__lede">{slide.lede || slide.line}</p>
                     {/* The slide's one true line (its chip) is for screen readers now: phones read the title and the lede, never a third sentence (LK71). */}

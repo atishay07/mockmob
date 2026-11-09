@@ -1,0 +1,139 @@
+/* Round 10 (10 Nov 2026, owner LK189: a deeper UI/UX and taste refinement of the landing page). Refinements for this
+   group of sections only, loaded after every older layer (page.js). Each rule says what it fixes and why.
+   Group lab-tour: section#inside-the-lab (the Mistake Lab's four held scenes), section#your-prep (the feature tour) and the
+   phone bottom bar the held stories show. Visual only: nothing here touches the scroll model (track heights, the
+   gesture, the step logic); every rule is scoped by the section's id so it wins over the older layers without !important. */
+
+/* ==========================================================================
+   MISTAKE LAB (#inside-the-lab)
+   ========================================================================== */
+
+/* Desktop: the tabs sat at the top of the left column and the scene's words floated at mid-height, with an empty band
+   between them and under them, so tabs, words and the device read as three loose things. The tabs and the words are now
+   one block, centred against the device (empty rows above and below take the slack; the words' row is the tallest
+   scene's, so nothing moves between scenes). */
+@media (min-width: 960px) and (min-height: 600px) {
+  #inside-the-lab .lc[data-pinned='true'] .lc__grid { grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr); row-gap: 0; }
+  #inside-the-lab .lc[data-pinned='true'] .lc__rail { grid-row: 2; }
+  #inside-the-lab .lc[data-pinned='true'] .lc-scene__copy { grid-row: 3; align-self: start; padding-top: clamp(1.75rem, 3.6vh, 2.75rem); }
+  /* The rail's rows were as wide as the column (460 px), so the hover and press wash ran 300 px past a 60 px label. The
+     rail now takes the width of its longest row. */
+  #inside-the-lab .lc[data-pinned='true'] .lc__rail { justify-self: start; min-width: 12.5rem; }
+}
+
+/* Desktop, tall windows: the Time and SWOT screens ended 130 px above the device's bottom edge (the device is sized for
+   Changes, the longest scene), so two of four screens looked half empty. Their rows get the room: Time's bars sit a
+   little further apart and a little thicker, the SWOT's tiles and plan rows breathe. Short windows keep the old rhythm
+   (the screens would scale down instead). */
+@media (min-width: 960px) and (min-height: 860px) {
+  #inside-the-lab .lct__rows { gap: 0.85rem; }
+  #inside-the-lab .lct__track { height: 0.95rem; }
+  #inside-the-lab .lcp--time { gap: 1.05rem; }
+  #inside-the-lab .lcp--swot { gap: 1.2rem; }
+  #inside-the-lab .lcp--swot .lcs-block { gap: 0.6rem; }
+  #inside-the-lab .lcp--swot .lcs-plan { gap: 0.55rem; }
+  #inside-the-lab .lcp--swot .lcp-plan { padding: 0.8rem 0.95rem; }
+  #inside-the-lab .lcp--swot .lcp-swot { gap: 0.65rem; }
+  #inside-the-lab .lcp--swot .lcp-swot__q { padding: 0.95rem 1rem; }
+}
+
+/* Desktop: 145 px of empty page stood between each head and its story (the head's 48 px margin on top of the held
+   stage's own clearance for the bar and band, which the scroll model needs). The head's share comes down to 16 px. */
+@media (min-width: 1100px) {
+  .mm.lp main > #inside-the-lab .lp-head, .mm.lp main > #your-prep .lp-head { margin-bottom: 1rem; }
+}
+
+/* The take (the scene's one-line result) wore a grey list bullet, so it read as a stray note. Its mark is the brand's small
+   tick colour (volt in Night, #526700 in Day), which ties it to the rail's marker of the scene on stage. */
+#inside-the-lab .lc-scene__take::before { background: var(--brand-word, var(--volt)); }
+
+/* Phones: the scene's words sat on the device (bottom of their row), so the title jumped between scenes: 17 px under the
+   tabs on Time, 55 px on Changes. They now hang a fixed step under the tabs; the room the shorter scenes leave goes
+   above the device, where it reads as the device's own margin. */
+@media (max-width: 959px) and (orientation: portrait) {
+  #inside-the-lab .lc[data-pinned='true'] .lc-scene__copy { align-self: start; padding-top: 0.4rem; }
+}
+
+/* ==========================================================================
+   FEATURE TOUR (#your-prep)
+   ========================================================================== */
+
+/* Held, the in-card progress row is hidden (the bottom bar and the band carry the progress), but it still took 15 px
+   between the card's bar and the screen: the blank strip above every device. It now takes no room. */
+#your-prep .ft-story[data-pinned='true'] .ft__progress { display: none; }
+
+/* Phones: the ten tools share one cell, so every tool's card stretched to the tallest one and split the spare height
+   four ways: empty stage above the device and under it, a gap between the sentence and its link, and the title at a
+   different height on every tool. The tools now share two rows (subgrid): the stage row is the tallest screen's, with
+   each device centred in it, and the words row starts on one line for every tool, the link right under its sentence. */
+@media (max-width: 899px) {
+  #your-prep .ft-story[data-pinned='true'] .ft__track { grid-template-rows: auto auto; }
+  #your-prep .ft-story[data-pinned='true'] .ft__slide { grid-area: 1 / 1 / 3 / 2; grid-template-rows: subgrid; }
+  #your-prep .ft-story[data-pinned='true'] .ft__card { grid-row: 1 / 3; grid-template-rows: subgrid; }
+  #your-prep .ft-story[data-pinned='true'] .ft__media { padding: 0.75rem; }
+  #your-prep .ft-story[data-pinned='true'] .ft__cta { margin-top: 0.15rem; }
+}
+/* A two-sentence title breaks between its sentences, never inside one ("Picking five papers? Test / the combination
+   first.", "Bring your friends. Race / the same questions."): FeatureTour.jsx sets each sentence in its own span. */
+#your-prep .ft__sentence { display: inline-block; }
+
+/* Back and Up next are one pair, but Back was a sunken tile with no edge and Up next a raised key with one. Both are now
+   the same raised key (edge, fill, radius), and Up next sets its two words as label and name. */
+#your-prep .ft__arrow { box-sizing: border-box; border: 1px solid var(--line-strong); background: var(--paper-raised); }
+#your-prep .ft__next span { align-items: baseline; color: var(--ink-2); font-size: 0.75rem; font-weight: 600; }
+#your-prep .ft__next b { color: var(--ink); font-size: 0.9375rem; }
+@media (hover: hover) and (pointer: fine) {
+  #your-prep .ft__arrow:not([aria-disabled='true']):hover { background: var(--paper-sunken); }
+}
+
+/* Desktop: ten chips wrapped into a row of eight and a row of two. They are now one row of ten equal tiles, each desk
+   object over its name, spanning exactly the card's width, so the rail and the card read as one object. The brand-word
+   underline still marks the tool on stage. */
+@media (min-width: 900px) {
+  #your-prep .ft__list { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.25rem; }
+  #your-prep .ft__list li { min-width: 0; }
+  #your-prep .ft__row { flex-direction: column; gap: 0.35rem; width: 100%; height: 100%; min-height: 4.6rem; padding: 0.5rem 0.35rem 0.75rem; white-space: normal; text-align: center; font-size: 0.8125rem; line-height: 1.2; }
+  #your-prep .ft__row::after { left: 1.1rem; right: 1.1rem; bottom: 5px; }
+}
+
+/* Desktop head: "What's inside / MockMob." stood two lines tall in its 7-part column, with the line 270 px away at the
+   right edge of a tall empty band. From 1280 px the heading takes one line and the line sits right after it, its last
+   line on the heading's baseline: one compact head over the rail. */
+@media (min-width: 1280px) {
+  #your-prep .lp-head--left { grid-template-columns: max-content minmax(0, 1fr); column-gap: clamp(2.5rem, 4.5vw, 4.5rem); }
+  #your-prep .lp-head--left .lp-h2 { max-width: none; white-space: nowrap; }
+  #your-prep .lp-head--left > :is(.lp-h2, .lp-sub) { align-self: last baseline; }
+  #your-prep .lp-head--left > .lp-sub { max-width: 27rem; }
+}
+
+/* Desktop card: the screen's stage was a sunken slab with square corners butted against the card's bar, its hairline
+   and its rounded edge, and the words, the bar and the controls each started at a different left edge (75, 91 and
+   67 px). The stage is now an inset well whose radius nests inside the card's, and one left edge runs through the bar,
+   the words and Back. */
+@media (min-width: 900px) {
+  #your-prep .ft { --ft-edge: 2rem; }
+  #your-prep .ft__chrome { padding-left: var(--ft-edge); }
+  #your-prep .ft__copy { padding: 2rem var(--ft-edge); }
+  #your-prep .ft__media { margin: 0 0.75rem 0.75rem 0; border-radius: 16px; }
+  #your-prep .ft__controls { padding: 0.75rem 0.75rem 0.75rem var(--ft-edge); }
+}
+
+/* ==========================================================================
+   THE PHONE BOTTOM BAR (the held stories' Top / name / count / Skip row)
+   ========================================================================== */
+
+/* "What's inside MockMob" filled its slot to the pixel at 390 px (169 of 169) and lost its brand word to an ellipsis at
+   360 (147 in 145): the row's gaps give the name 6 px more at every phone width, so it is whole at every count.
+   The row sat 9 px off the screen's bottom edge with 40 px of blur above it, and its keys' centre line was 19 px below
+   the phone dock's (the Log in / Sign up free bar it takes over from), so the hand-over read as a drop. The row is now
+   centred in its band: equal air above and below, and its centre line within 4 px of the dock keys'. */
+@media (max-width: 899px) and (min-height: 521px) {
+  .mm.lp .lp-bar__row { column-gap: 10px; bottom: calc((var(--ss-band, 92px) - 44px) / 2 + env(safe-area-inset-bottom, 0px)); }
+  .mm.lp .lp-bar__where { column-gap: 6px; }
+}
+/* At 360 px the count's widest form ("10 of 10") still cut the name by 2 px; small phones close the row's gaps to 8 px
+   and Skip's sides by a hair (it stays 58 px wide). */
+@media (max-width: 380px) and (min-height: 521px) {
+  .mm.lp .lp-bar__row { column-gap: 8px; }
+  .mm.lp .lp-bar__skip { padding: 0 0.8rem; }
+}

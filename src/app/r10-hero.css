@@ -1,0 +1,150 @@
+/* Round 10 (10 Nov 2026, owner LK189: a deeper UI/UX and taste refinement of the landing page). Refinements for this
+   group of sections only, loaded after every older layer (page.js). Each rule says what it fixes and why.
+   Group: the home page's site bar, the hero (headline, keys, film, features strip and price hook, the two hero links),
+   the college strip. Every rule is scoped under .mm.lp, so no other public page changes. */
+
+/* ==========================================================================
+   1. The site bar on phones (375 to 399 px, where the home page's Pricing pill shows)
+   ========================================================================== */
+/* The Pricing pill, the theme switch and the menu key sat 4 px apart (7 px between their visible edges) while the wordmark
+   had 25 px to the pill: three controls jammed into the right edge. From 385 px there is room for an 8 px rhythm (11 px
+   between visible edges) with the wordmark still 12 px or more clear; at 375 to 384 the old 4 px stays (no room). */
+@media (min-width: 385px) and (max-width: 399px) {
+  .mm.lp .mm-nav__end:has(.mm-nav__price) { gap: 0.5rem; }
+}
+
+/* ==========================================================================
+   2. The hero on phones and tablets (below 960 px)
+   ========================================================================== */
+@media (max-width: 959px) {
+  /* The two hero links ("Free DU eligibility and cutoff calculator", "Try the exam-day screen") floated under the features
+     card as two stray underlined lines. They become the card's footer tray: the card's lower corners square off, its lift
+     moves to the tray, and the tray (page paper, one hairline round it, the card's 22 px radius at its foot) holds the two
+     links, still ink and underlined (decision 3). One block, one shadow, nothing lying around. */
+  .mm.lp .lp-hero .lp-strip { border-radius: 22px 22px 0 0; box-shadow: 0 1px 2px rgba(27, 25, 20, 0.05); }
+  :root[data-theme='dark'] .mm.lp .lp-hero .lp-strip { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); }
+  .mm.lp .lp-hero__links {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin-top: 0;
+    padding: 4px 16px 6px;
+    border: 1px solid var(--line);
+    border-top: 0;
+    border-radius: 0 0 22px 22px;
+    background: var(--paper);
+    box-shadow: 0 18px 40px -28px rgba(27, 25, 20, 0.28);
+  }
+  :root[data-theme='dark'] .mm.lp .lp-hero__links { box-shadow: 0 22px 44px -30px rgba(0, 0, 0, 0.75); }
+  .mm.lp .lp-hero__links > a { font-size: 0.9375rem; }
+
+  /* "Sound on" sat 6 px from the picture's right edge but 12 px from its foot, a 32 px pill a third as wide as a 360 px
+     picture. Now a 28 px pill (12 px words) with 8 px on both sides: concentric with the frame's 22 px corner (22 - 8 = 14,
+     the pill's own radius). The key stays a 44 px tall target. */
+  .mm.lp .lp-film__unmute { right: 8px; bottom: 0; gap: 5px; padding: 0 11px 0 9px; font-size: 0.75rem; }
+  .mm.lp .lp-film__unmute::before { inset: 8px 0; }
+  .mm.lp .lp-film__unmute svg { width: 14px; height: 14px; }
+}
+
+/* Night: the film's nine chapter rails were 16 % ink on the near-black paper (1.6:1), so the chapter bar all but vanished
+   while Day's warm rails read plainly (1.8:1). 26 % ink brings Night level with Day (about 2.1:1), still well under the
+   ink fill that marks the chapter playing. */
+:root[data-theme='dark'] .mm.lp .lp-film__rail { background: color-mix(in srgb, var(--ink) 26%, transparent); }
+
+/* Phones (below 640 px): the price hook read as three stacked fragments in five type styles ("As low as" body 650,
+   the figure, "a mock on Pro" display 700, "at 3 full mocks a day" body 650, the price body 400). It becomes one price
+   tag: the qualifier small over the figure, the figure's two-line caption beside it (its pace in the same ink and weight,
+   round 4 review), then the price that makes it under both. The caption is centred on the figure. */
+@media (max-width: 639px) {
+  .mm.lp .lp-strip__hook {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: 'lead lead' 'fig unit' 'fig at' 'line line';
+    column-gap: 12px;
+    align-items: center;
+    padding: 14px 16px 16px;
+  }
+  .mm.lp .lp-strip__hook-lead { grid-area: lead; margin-bottom: 4px; font: 600 0.875rem/1.2 var(--font-body); color: var(--ink-2); }
+  .mm.lp .lp-strip__hook-fig { grid-area: fig; margin: 0; font-size: 2.5rem; line-height: 1; }
+  .mm.lp .lp-strip__hook-unit { grid-area: unit; align-self: end; font: 650 0.9375rem/1.25 var(--font-body); }
+  .mm.lp .lp-strip__hook-at { grid-area: at; align-self: start; line-height: 1.25; }
+  .mm.lp .lp-strip__hook-line { grid-area: line; margin-top: 10px; }
+}
+
+/* Every width: "a mock on Pro" was set in the display face and "at 3 full mocks a day" in the body face, so one phrase
+   changed font halfway. Both are the body face at 650 now; the figure is the hook's only display type. */
+.mm.lp .lp-strip__hook-unit { font-family: var(--font-body); font-weight: 650; }
+
+/* Tablets (640 to 959 px): the volt key stretched to 482 px beside a 193 px "Try 5 questions first", the login line sat
+   centred under a left-aligned headline, and a 17 px lead stood under a 68 px headline. The keys are sized to their words
+   in a row on the column's left edge (as on desktop), the login line under them on the same edge, and the lead steps up to
+   20 px in two balanced lines. */
+@media (min-width: 640px) and (max-width: 959px) {
+  .mm.lp .lp-hero .lp-lead { max-width: 30rem; font-size: 1.25rem; line-height: 1.45; }
+  .mm.lp .lp-hero .lp-cta .mm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .mm.lp .lp-hero .lp-cta .mm-actions > a { width: auto; }
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:first-child { padding-inline: 32px; }
+  .mm.lp .lp-hero .lp-cta .mm-actions > a:nth-child(2) { min-height: 56px; padding-inline: 24px; }
+  .mm.lp .lp-hero .lp-cta__login { margin-top: 12px; text-align: left; }
+  /* The two links fit one row here: side by side in the tray. */
+  .mm.lp .lp-hero__links { flex-direction: row; flex-wrap: wrap; gap: 0 28px; }
+}
+
+/* ==========================================================================
+   3. The hero on desktop (960 px up)
+   ========================================================================== */
+@media (min-width: 960px) {
+  /* The words' column against the film: the film was centred on the column, so its top sat 14 px above the caps of
+     "CUET 2027." at 1440 (8 at 1280, 39 at 1920) and the two blocks never shared an edge. The headline's first line now
+     starts at its cap height (text-box trim) and the film starts at the same top as the column, so the picture's top edge
+     and the caps of "CUET 2027." are one line at every desktop width. The big C is pulled back by its side bearing
+     (0.04 em, 4 px at 1440) so its stroke, not its glyph box, sits on the column's left edge with the lead and the keys. */
+  .mm.lp .lp-hero .lp-title__brand { text-box: trim-start cap alphabetic; margin-inline-start: -0.04em; }
+  .mm.lp .lp-hero .lp-film { align-self: start; margin-top: clamp(8px, 2vh, 28px); }
+
+  /* The hook's hairline ran 8 px past both ends of the strip's top hairline (its hover box borrowed the gutter). The rule
+     now hangs under the features list itself, so both hairlines span the column exactly; the hook keeps its 8 px of hover
+     room inside a box as wide as its words. */
+  .mm.lp .lp-strip__list { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .mm.lp .lp-strip__hook { width: fit-content; margin-top: 0; border-top: 0; border-radius: 14px; }
+}
+
+/* From 1024 px the two hero links leave their own row (a stray pair of underlines in the left third, with an empty
+   right half) and close the hook's band on the right, level with the film's right edge, centred on the hook's two lines.
+   The hero ends in one band: the price on the left, the two free tools on the right. */
+@media (min-width: 1024px) {
+  .mm.lp .lp-hero__links {
+    grid-area: strip;
+    align-self: end;
+    justify-self: end;
+    position: relative;
+    z-index: 1;
+    gap: 0 28px;
+    margin: 0 0 calc(1.9rem - 5px);
+  }
+}
+
+/* ==========================================================================
+   4. The college strip
+   ========================================================================== */
+/* The marquees were cut off hard at the column's edges, a sliced chip on each side with bare paper beyond it. They run
+   the full width of the window now and fade out over their last few chips, so the rows read as moving past rather than
+   chopped. Still lists under reduced motion keep the column (they wrap and centre). */
+.mm.lp .lp-colleges { overflow-x: clip; --colleges-fade: clamp(28px, 7vw, 120px); }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-colleges__rows {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--colleges-fade), #000 calc(100% - var(--colleges-fade)), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 var(--colleges-fade), #000 calc(100% - var(--colleges-fade)), transparent 100%);
+  }
+}
+/* The ownership line broke "...belong to their / owners. MockMob is..." on phones (balanced lines cut the first sentence),
+   and on desktop it wrapped to two lines inside 60ch with room to spare. Phones: the measure holds the first sentence and
+   not one word more, so the line breaks between the two sentences. From 640 px: one line. */
+@media (max-width: 639px) {
+  .mm.lp .lp-colleges__note { max-width: 19.5rem; text-wrap: wrap; }
+}
+@media (min-width: 640px) {
+  .mm.lp .lp-colleges__note { max-width: none; }
+}

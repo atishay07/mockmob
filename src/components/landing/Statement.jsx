@@ -17,6 +17,11 @@ import ScrollStory from './ScrollStory';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
 
+/** The note with its figures' phrases ("15 subjects", "19 of every 20 CUET papers") marked; any other note stays plain. */
+function noteParts(note) {
+  return String(note).split(/(\d+ subjects|\d+ of every \d+ CUET papers)/).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
+}
+
 function StatementStage({ text, shelf, note }) {
   const words = useMemo(() => statementWords(text), [text]);
   return (
@@ -44,7 +49,9 @@ function StatementStage({ text, shelf, note }) {
             </li>
           ))}
         </ul>
-        <p className="lp-shelf__note">{note}</p>
+        {/* Round 10: the claim's two figures ("15 subjects", "19 of every 20 CUET papers", data/subject_claim.js) are set
+            in ink, so the proof under the shelf reads at a glance instead of as one grey caption. Same words. */}
+        <p className="lp-shelf__note">{noteParts(note)}</p>
       </div>
     </div>
   );

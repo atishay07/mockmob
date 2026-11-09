@@ -85,7 +85,8 @@ export function HeroRoom() {
         {theme === 'night' ? <SceneLife scene="welcome" night breaths={1} /> : null}
       </div>
       <div className="lp-room__paint lp-room__paint--day">
-        <Picture art={DAY} sizes="(max-width: 760px) 118vw, 614px" className="lp-room__file--day" />
+        {/* 760px: from 1024 px the room stands beside the card and the Day painting is drawn 140 % of its 540 px (r10-sample.css). */}
+        <Picture art={DAY} sizes="(max-width: 760px) 118vw, 760px" className="lp-room__file--day" />
         {theme === 'day' ? <SceneLife scene="allClear" night={false} breaths={1} /> : null}
       </div>
     </div>

@@ -3,7 +3,7 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, ChevronDown } from 'lucide-react';
+import { Check, ChevronDown, Plus } from 'lucide-react';
 import { evaluateAll } from '@/lib/du/eligibility';
 import { PRESETS, STREAM_ORDER, encodeSelection, loadRules } from '@/lib/du/client';
 import '@/components/du/du.css';
@@ -40,11 +40,13 @@ const DOMAINS = [
 const SHOWN_DOMAINS = ['accountancy', 'business_studies', 'economics', 'mathematics'];
 const MAX_NAMES = 6;
 
+// A subject chip is a tag you add, not a checkbox (R10, owner "nothing looks like a form"): a quiet plus until it is picked,
+// then the tick. The mark keeps one size, so a tap never moves the chips.
 function Chip({ pressed, onClick, children }) {
   return (
     <button type="button" className="du-chip" aria-pressed={pressed} onClick={onClick}>
       <span className="du-chip__tick" aria-hidden="true">
-        <Check size={12} strokeWidth={3} />
+        {pressed ? <Check size={12} strokeWidth={3} /> : <Plus size={13} strokeWidth={2.25} />}
       </span>
       <span>{children}</span>
     </button>

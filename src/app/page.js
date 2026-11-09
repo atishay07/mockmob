@@ -55,7 +55,7 @@ import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
 import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
-import { KEY_CARDS_HEAD } from '@/components/landing/keyCardsCopy.mjs';
+import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
@@ -76,6 +76,12 @@ import './home-sections.css';
 // Round 7 (7 Nov 2026): the hero's film and the college strip, after every older layer.
 import './hero-film.css';
 import './college-strip.css';
+// Round 10 (10 Nov 2026, owner LK189): the deeper taste refinement, one file per group of sections, after every older layer.
+import './r10-hero.css';
+import './r10-sample.css';
+import './r10-lab-tour.css';
+import './r10-tools.css';
+import './r10-close.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -282,7 +288,7 @@ export default function LandingPage() {
             <div className="mm-wrap lp-kc__grid">
               <Reveal className="lp-head lp-head--left lp-kc__head">
                 <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>
-                <h2 className="lp-h2" id="key-cards-title">{KEY_CARDS_HEAD.h2}</h2>
+                <h2 className="lp-h2" id="key-cards-title">{headPhrases(KEY_CARDS_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
                 <p className="lp-sub">{KEY_CARDS_HEAD.sub}</p>
               </Reveal>
               <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} />

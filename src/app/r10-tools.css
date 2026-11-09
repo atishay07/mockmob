@@ -1,0 +1,176 @@
+/* Round 10 (10 Nov 2026, owner LK189: a deeper UI/UX and taste refinement of the landing page). Refinements for this
+   group of sections only, loaded after every older layer (page.js). Each rule says what it fixes and why. */
+
+/* ============ Score Recovery Lab (#score-recovery-lab): steps 3 and 4 of the held story. Visual only: the story's steps,
+   gestures and timing (ScrollStory, MistakeLab's clock) are untouched. The stage is a product screen, dark in both themes. */
+
+/* Step 4 "Check": the three dated checks are one timeline that carries the screen (a node per check on one rail, the rows
+   sharing the panel's height), and the release state is the rail's dashed tail with its own hollow node. It was a list over
+   a dashed box ("Fresh checks open soon.") that read as an unfinished screen, with a dead band under it on phones. */
+#score-recovery-lab .ml__panel:has(> .ml__checks) { display: flex; flex-direction: column; }
+#score-recovery-lab .ml__checks { flex: 1 1 auto; grid-auto-rows: minmax(3.5rem, 1fr); align-content: stretch; }
+#score-recovery-lab .ml__checks li { position: relative; grid-template-columns: 2.25rem minmax(0, 1fr) auto; column-gap: 0.9rem; padding: 0.25rem 0; border-top: 0; }
+#score-recovery-lab .ml__checkicon { position: relative; z-index: 1; width: 2.25rem; height: 2.25rem; border-radius: 50%; border: 1px solid rgba(244, 240, 230, 0.16); background: #1d1b17; color: #a6a196; }
+/* The first check (tomorrow) is the next thing that happens: its node carries the good colour, the later two stay locked. */
+#score-recovery-lab .ml__checks li:first-child .ml__checkicon { border-color: rgba(182, 227, 110, 0.45); background: #1f2416; color: #b6e36e; }
+/* The rail: from each node to the next, through the centre of the node column. */
+#score-recovery-lab .ml__checks li::before { content: ''; position: absolute; left: calc(1.125rem - 1px); top: calc(50% + 1.125rem); width: 2px; height: calc(100% - 2.25rem); border-radius: 1px; background: rgba(244, 240, 230, 0.14); }
+/* After the last check the rail runs on, dashed, to the release state's node (not open yet). */
+#score-recovery-lab .ml__checks li:last-child::before { height: calc(50% + 0.5rem - 5px); background: repeating-linear-gradient(to bottom, rgba(244, 240, 230, 0.32) 0 4px, transparent 4px 8px); }
+#score-recovery-lab .ml__panel:has(.ml__status[data-state='available']) .ml__checks li:last-child::before { background: rgba(244, 240, 230, 0.14); }
+#score-recovery-lab .ml__checks b { font-size: 1.0625rem; letter-spacing: -0.01em; }
+#score-recovery-lab .ml__checks div span { font-size: 0.8125rem; color: #b2aea5; }
+#score-recovery-lab .ml__checks em { color: #a6a196; font-weight: 600; }
+/* The release state is the timeline's last line, on the rail (no dashed box): a hollow node while fresh checks are not
+   released, a filled one once they are. The words are the product's state (data/capabilities), unchanged. */
+#score-recovery-lab .ml__status { position: relative; flex: none; padding: 0 0 0 3.15rem; border: 0; border-radius: 0; font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; color: #cac6be; }
+#score-recovery-lab .ml__status::before { content: ''; position: absolute; left: calc(1.125rem - 5px); top: calc(0.625rem - 5px); width: 10px; height: 10px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid rgba(244, 240, 230, 0.42); background: #13110e; }
+#score-recovery-lab .ml__status[data-state='available']::before { border-color: #b6e36e; background: #b6e36e; }
+
+/* Step 3 "Plan": "Shows up in" is the label of its own line under a hairline, not a small word run into the list. */
+#score-recovery-lab .ml__where { display: grid; gap: 0.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(244, 240, 230, 0.1); }
+#score-recovery-lab .ml__where span { margin: 0; font-size: 0.75rem; }
+
+/* Phones: the session strip (the ten questions, Q4 and Q8 lit) now closes the Check screen too, pinned to the stage's foot as
+   on desktop, so the check stays tied to the session. That screen left a 90 px dead band; the strip fits in it, so the stage
+   keeps its height and scale (Find and Plan, which have no room for it, keep none). */
+@media (max-width: 959px) {
+  #score-recovery-lab .ml__panel:has(> .ml__checks) .ml__strip { display: grid; margin-top: auto; gap: 0.45rem; padding-top: 0.75rem; }
+  #score-recovery-lab .ml__checks li { grid-template-columns: 2.25rem minmax(0, 1fr); }
+  #score-recovery-lab .ml__strip ol { gap: 0.3rem; }
+  #score-recovery-lab .ml__strip li { height: 2.125rem; border-radius: 8px; }
+  #score-recovery-lab .ml__strip li span { top: 2px; left: 4px; font-size: 0.5625rem; }
+  #score-recovery-lab .ml__strip li svg { width: 11px; height: 11px; }
+}
+
+/* ============ Key cards (#key-cards) ============ */
+/* The heading's two phrases are runs of their own (page.js, headPhrases): "Turn it. Rate it." / "It comes back on time." on
+   phones and "Turn it. Rate it." / "It comes back" / "on time." on desktop. Balanced wrapping broke it "Turn it. Rate / it. It
+   comes / back on time." at 1440 and left "It" at a line end at 390. */
+#key-cards h2.lp-h2 { text-wrap: wrap; }
+#key-cards .lp-kc__phrase { display: inline-block; text-wrap: pretty; } /* pretty: never "time." alone on a line (1024) */
+
+/* The count and the dots are one progress row under the card: "1 / 5" stood alone above the card's left corner, far from
+   the dots that say the same thing. The markup is unchanged (one cue in words, one in marks, R8 SEC-06). */
+#key-cards .kc-demo { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'scene scene' 'pips count' 'keys keys'; align-items: center; }
+#key-cards .kc-demo__scene { grid-area: scene; }
+#key-cards .kc-demo__top { grid-area: count; margin: 0; }
+#key-cards .kc-demo__count { min-width: 0; font-size: 0.875rem; color: var(--ink-2); }
+#key-cards .kc-demo__keys { grid-area: keys; }
+/* The five dots become five short progress segments: done ones filled in the brand word at half strength, the current one
+   full and longer, the rest a hairline tint (seven-pixel dots read as decoration, and at the end all five looked the same). */
+#key-cards .kc-demo__pips { grid-area: pips; justify-content: flex-start; gap: 0.375rem; margin: 0.875rem 0; }
+#key-cards .kc-demo__pips li { width: 1.125rem; height: 4px; border-radius: 2px; transform: none; transition: background-color 200ms ease, width 240ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease; }
+#key-cards .kc-demo__pips li[data-state='done'] { background: var(--brand-word); opacity: 0.45; }
+#key-cards .kc-demo__pips li[data-state='now'] { width: 2rem; background: var(--brand-word); transform: none; }
+#key-cards .kc-demo:has(.kc-demo__card--end) .kc-demo__pips li { opacity: 1; }
+html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now'] { background: var(--brand-word); }
+html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now']::after { content: none; }
+@media (prefers-reduced-motion: reduce) { #key-cards .kc-demo__pips li { transition: none; } }
+:root[data-motion='reduced'] #key-cards .kc-demo__pips li { transition: none; }
+
+/* The bank line, what Free opens and the key are one panel, the page's raised surface (Compass Pro, Combo Planner): they
+   stacked as three loose lines under the demo. */
+#key-cards .kc-foot { gap: 0.375rem; padding: 1.125rem 1.25rem 1.25rem; border: 1px solid var(--line); border-radius: 20px; background: var(--paper-raised); box-shadow: var(--sh-1); }
+#key-cards .kc-foot .mm-btn { margin-top: 0.625rem; }
+/* Phones: the bank line keeps to one line inside the panel ("14 subjects." fell to a line of its own). */
+@media (max-width: 959px) {
+  #key-cards .kc-foot { max-width: 30rem; padding: 1rem 1rem 1.125rem; } /* as wide as the demo above it on a tablet */
+  #key-cards .kc-foot__bank { font-size: 1.0625rem; }
+  #key-cards .kc-foot .mm-btn { width: 100%; }
+}
+
+/* ============ Compass (#compass) ============ */
+/* The score slider looks draggable: an 8 px track filled to the score in the brand word (CompassLadder writes --p) and a
+   28 px knob with a lift. The native control was a thin line with a small dot (checklist 4: sliders look draggable). */
+#compass .cl__score input[type='range'] { -webkit-appearance: none; appearance: none; height: 44px; margin: 0; background: transparent; }
+#compass .cl__score input[type='range']::-webkit-slider-runnable-track { height: 8px; border-radius: 999px; background: linear-gradient(to right, var(--brand-word) 0 var(--p, 50%), rgb(var(--tint, 244 240 230) / 0.14) var(--p, 50%) 100%); }
+#compass .cl__score input[type='range']::-moz-range-track { height: 8px; border-radius: 999px; background: rgb(var(--tint, 244 240 230) / 0.14); }
+#compass .cl__score input[type='range']::-moz-range-progress { height: 8px; border-radius: 999px; background: var(--brand-word); }
+#compass .cl__score input[type='range']::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 28px; height: 28px; margin-top: -10px; border: 0; border-radius: 50%; background: #f4f0e6; box-shadow: 0 0 0 1px rgb(0 0 0 / 0.28), 0 3px 8px rgb(0 0 0 / 0.42); transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1); }
+#compass .cl__score input[type='range']::-moz-range-thumb { width: 28px; height: 28px; border: 0; border-radius: 50%; background: #f4f0e6; box-shadow: 0 0 0 1px rgb(0 0 0 / 0.28), 0 3px 8px rgb(0 0 0 / 0.42); }
+#compass .cl__score input[type='range']:active::-webkit-slider-thumb { transform: scale(1.1); }
+html[data-theme='light'] #compass .cl__score input[type='range']::-webkit-slider-thumb { background: #fffdf8; box-shadow: 0 0 0 1px var(--line-strong), 0 2px 6px rgb(42 32 16 / 0.22); }
+html[data-theme='light'] #compass .cl__score input[type='range']::-moz-range-thumb { background: #fffdf8; box-shadow: 0 0 0 1px var(--line-strong), 0 2px 6px rgb(42 32 16 / 0.22); }
+#compass .cl__score input[type='range']:focus-visible { outline-offset: 4px; border-radius: 12px; }
+@media (prefers-reduced-motion: reduce) { #compass .cl__score input[type='range']::-webkit-slider-thumb { transition: none; } }
+/* On a touch screen "or use the arrow keys" is not true; the line stays the slider's description for assistive tech. */
+@media (pointer: coarse) { #compass .cl__score small { display: none; } }
+
+/* Phones: each college is two rows, the name over its track on the left and the cutoff over its gap in one right-hand
+   column of numbers. It was name, cutoff, track and "Short by" on three rows (75 px a college), the gap left under the track
+   as loose text; now about 58 px, so the ten colleges take one screen less. */
+@media (max-width: 639px) {
+  #compass .cl__list li { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'name cut' 'track gap'; align-items: center; column-gap: 1rem; row-gap: 0.3rem; padding: 0.65rem 0; }
+  #compass .cl__gap { min-width: 6.5rem; text-align: right; }
+}
+
+/* Compass Pro: its three features are rows on hairlines inside the card, not three boxes inside a box (W-076). */
+#compass .lp-cpro__list { gap: 0; }
+#compass .lp-cpro__list li { padding: 0.85rem 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; }
+#compass .lp-cpro__list li:last-child { padding-bottom: 0.25rem; }
+/* Wide: the fine print closes the copy column, level with the last feature row, instead of a full-width row of its own
+   under a 60 px gap in the left column. */
+@media (min-width: 900px) {
+  #compass .lp-cpro { grid-template-rows: auto 1fr; }
+  #compass .lp-cpro__list { grid-column: 2; grid-row: 1 / span 2; }
+  #compass .lp-cpro__fine { grid-column: 1; grid-row: 2; align-self: end; }
+}
+/* The cycle in the summary is one unit: it broke "(CSAS / 2026-27)." across two lines at 1440. */
+#compass .cl__cycle { white-space: nowrap; }
+
+/* ============ DU eligibility (#du-eligibility), the Combo Planner aside and the college cutoff chips ============ */
+/* A subject chip is a tag you add, not a form's checkbox: no empty radio ring, a quiet plus until it is picked
+   (EligibilityTeaser's Chip), then the existing tick (volt with dark ink in Night, the small volt bubble with its rim in Day). */
+#du-eligibility .du-chip:not([aria-pressed='true']) .du-chip__tick { border-color: transparent; background: none; color: var(--ink-3); }
+@media (hover: hover) { #du-eligibility .du-chip:not([aria-pressed='true']):hover .du-chip__tick { color: var(--ink); } }
+
+/* Phones and tablets (one column): the count is the calculator card's own result tray, edge to edge under a hairline, not a
+   box inside the box; the key gets the width to stay on one line ("See programmes and past / cutoffs" broke at 390). */
+@media (max-width: 899px) {
+  #du-eligibility .du-teaser { padding-bottom: 0; overflow: hidden; }
+  #du-eligibility .du-teaser__out { margin: 0.25rem calc(-1 * clamp(1.25rem, 3vw, 2rem)) 0; padding: 1.25rem clamp(1.25rem, 3vw, 2rem) 1.375rem; border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; }
+  #du-eligibility .du-teaser .mm-btn { padding-inline: 1rem; white-space: nowrap; }
+}
+@media (max-width: 379px) { #du-eligibility .du-teaser .mm-btn { padding-inline: 0.5rem; font-size: 0.9375rem; } } /* 360 px: still one line */
+/* Small laptops (two columns, a narrow result column): the key broke onto two lines at 1024 as well. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  #du-eligibility .du-teaser__out { padding-inline: 1rem; }
+  #du-eligibility .du-teaser .mm-btn { padding-inline: 0.75rem; font-size: 0.9375rem; white-space: nowrap; }
+}
+
+/* Day: the stream bars carry their counts again. Their track was the dark slate (#2c2a24) under an ink-2 fill, so every
+   bar read as one full dark bar (26 and 2 looked the same); the track is now the light ink tint, as the Night track is. */
+html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb(var(--tint, 23 21 15) / 0.1); }
+
+/* The cutoff chips after the calculator: on phones a two-by-two set of equal tiles, the college over its course, under a
+   label that reads as the group's title. They wrapped 2-1-1 as ragged pills with the course squeezed beside each name. */
+#du-eligibility .lp-colleges__label { font-weight: 600; color: var(--ink-2); }
+@media (max-width: 559px) {
+  #du-eligibility .lp-colleges--compact { display: grid; gap: 0.625rem; }
+  #du-eligibility .lp-colleges__pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  #du-eligibility .lp-college-pill { flex-direction: column; align-items: flex-start; justify-content: center; gap: 0.125rem; width: 100%; min-height: 3.5rem; padding: 0.5rem 0.875rem; border-radius: 14px; }
+  #du-eligibility .lp-college-pill strong { font-size: 0.9375rem; line-height: 1.25; }
+  #du-eligibility .lp-college-pill span { line-height: 1.3; }
+}
+
+/* ============ Exam screen (#exam-experience) ============ */
+/* NTA mode's gate is a small card of the product (ExamScreen: a mark, the guard's words, its warnings pill with the eye, the
+   way to it). Under the key on phones it read as a stray line of small text ("... Warnings 0/3. See Pro"). */
+#exam-experience .xs-gate { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); grid-template-areas: 'mark text' 'mark foot'; column-gap: 0.75rem; row-gap: 0.25rem; padding: 0.875rem 1rem 0.375rem 0.875rem; border: 1px solid var(--line); border-radius: 16px; background: var(--paper-raised); }
+#exam-experience .xs-gate__mark { grid-area: mark; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 10px; background: var(--paper-raised-2); color: var(--ink); }
+#exam-experience .xs-gate__mark svg { width: 18px; height: 18px; }
+#exam-experience .xs-gate__text { grid-area: text; margin: 0; }
+#exam-experience .xs-gate__foot { grid-area: foot; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 0.75rem; margin: 0; }
+#exam-experience .xs-gate__warn { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 1.625rem; padding: 0 0.625rem; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 0.75rem; font-weight: 650; color: var(--ink-2); }
+#exam-experience .xs-gate__warn svg { width: 13px; height: 13px; flex: none; }
+#exam-experience .xs-gate .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+/* A tablet's full-width card keeps the pill and its link together rather than 600 px apart. */
+@media (min-width: 761px) and (max-width: 1023px) { #exam-experience .xs-gate__foot { justify-content: flex-start; column-gap: 1.25rem; } }
+
+/* Phones: the MockMob / NTA style switch spans the width as two equal halves, square with the monitor and the full-screen
+   key under it (it sat as a short pill at the left over a full-width screen and key). */
+@media (max-width: 760px) {
+  #exam-experience .xs-layout > .xs-switch { justify-self: stretch; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #exam-experience .xs-layout > .xs-switch button { justify-content: center; }
+}

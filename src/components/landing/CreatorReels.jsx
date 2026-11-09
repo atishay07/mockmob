@@ -145,6 +145,9 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
     node.scrollBy({ left: dir * step * 2, behavior: reduce ? 'auto' : 'smooth' });
   };
 
+  // Round 10 (10 Nov 2026): the date line belongs to the counts, so it sits right under the summary it dates (it was a lone line
+  // under the reels, 500 px below the numbers on a desktop). With no summary it still closes the strip.
+  const note = <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>;
   return (
     <div className="rl">
       {creators.length ? (
@@ -154,6 +157,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
         </dl>
       ) : null}
+      {creators.length ? note : null}
       <div className="rl__bar">
         <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow"><IgGlyph size={17} />Follow @{handle}</a>
         {items.length > 1 ? (
@@ -164,12 +168,13 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           </div>
         ) : null}
       </div>
-      <ul className="rl__track" ref={trackRef} onScroll={updateEnds} aria-label="Curated Instagram reels and posts">
+      {/* data-end: the strip is scrolled to its end; while it is not, more cards wait past the right edge (r10-close.css fades it). */}
+      <ul className="rl__track" ref={trackRef} onScroll={updateEnds} aria-label="Curated Instagram reels and posts" data-end={ends.end}>
         {items.map((item) => (
           <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
         ))}
       </ul>
-      <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>
+      {creators.length ? null : note}
     </div>
   );
 }

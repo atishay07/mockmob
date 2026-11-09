@@ -31,8 +31,13 @@ export const HERO_SLOT_PHRASES = Object.freeze([...HERO_TYPED, HERO_LINES[2]]);
  * the shorter holds keep the whole pass no longer than before (about 9 s with the caret's goodbye).
  */
 export const TYPING = Object.freeze({
-  /** After the opening's hand-off, or this long after first paint when the opening was skipped. */
-  startAfterPaint: 600,
+  /** This long after the page started loading when the opening was skipped (round 10, 10 Nov 2026: was 600). At 600 the
+   *  first select-back cleared the line about 1.4 s in, so a student's first read of the headline was "CUET 2027. One mock."
+   *  and an empty third line; now the whole sentence holds for the first read and the line clears no earlier than ~3 s. */
+  startAfterPaint: 2200,
+  /** After the opening's hand-off (first visits), a beat to read the whole sentence on the page the opening just lifted
+   *  off, before the caret comes in (round 10: was 0, so the line cleared about 0.8 s after the page appeared). */
+  afterOpening: 1000,
   /** While an opening plays, the pass starts at its hand-off, or this long after the hero mounts if the hand-off never
    *  arrives (round 4, LK120: the line must type on every visit; the longest opening is 1,600 ms). */
   openingFallback: 2400,

@@ -81,6 +81,8 @@ const DRILL = [
 const KEYS = ['A', 'B', 'C', 'D'];
 /** A live subject that has not answered in this long is called slow and can be tapped again (R8 HERO-02, patchy 4G). */
 const SLOW_MS = 8000;
+/** A stem longer than this many characters is set a step smaller (round 10; the card's own five are all shorter). */
+const LONG_STEM = 110;
 
 /**
  * The end verdict, true to the score (R8 HERO-01): five of five asks for a full mock, four names its one chapter, two or
@@ -480,19 +482,29 @@ export function DemoDrill({ note = null }) {
         <>
           <div className="lp-card__head">
             <span className="lp-card__sub"><b>{question.subject}</b><span>{index + 1} of {DRILL.length}</span></span>
+            {/* Round 10: each dash keeps its answer's outcome (right or missed), so the five read as a record, not a count
+                that repeats "1 of 5". The words still say it; the dashes are decoration for a screen reader. */}
             <span className="mm-drill__progress" aria-hidden="true">
-              {DRILL.map((item, i) => (
-                <span
-                  key={item.q}
-                  className="mm-drill__pip"
-                  data-state={i < index ? 'past' : i === index ? 'now' : 'next'}
-                />
-              ))}
+              {DRILL.map((item, i) => {
+                const result = i < index
+                  ? (missed.some((miss) => miss.n === i + 1) ? 'wrong' : 'right')
+                  : i === index && answered ? (picked === question.correct ? 'right' : 'wrong') : undefined;
+                return (
+                  <span
+                    key={item.q}
+                    className="mm-drill__pip"
+                    data-state={i < index ? 'past' : i === index ? 'now' : 'next'}
+                    data-result={result}
+                  />
+                );
+              })}
             </span>
           </div>
 
           <div className="lp-card__body" data-fresh={fresh ? 'true' : null}>
-            <p className="mm-drill__q">{question.q}</p>
+            {/* Round 10: a long bank stem (a live subject's, often 150+ characters) is set a step smaller, so it is not
+                seven lines over the options on a phone. The words are the bank's, unchanged. */}
+            <p className="mm-drill__q" data-long={question.q.length > LONG_STEM ? 'true' : undefined}>{question.q}</p>
 
             <div className="mm-drill__options" role="group" aria-label="Answer options" ref={optionsRef}>
               {question.options.map((option, optionIndex) => {

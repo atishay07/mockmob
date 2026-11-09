@@ -7,8 +7,8 @@
 //     a screen reader reads HERO_LINES[2] from the sr-only copy and never the typing (the slot is aria-hidden).
 //   - The slot is an inline grid: every phrase is stacked in it as an invisible sizer (CSS generated text, so it is
 //     not in the DOM text), so its box is always the widest phrase and typing never moves anything (CLS 0).
-//   - One pass, from the opening's hand-off (window 'mm:opening' phase 'done') or 600 ms after paint when there was
-//     no opening: the caret comes in at the end of the resting line and it holds a moment (TYPING.lead), then
+//   - One pass, a second after the opening's hand-off (window 'mm:opening' phase 'done'), or 2.2 s into the load when
+//     there was no opening, so the student's first read is the whole sentence (round 10): the caret comes in at the end of the resting line and it holds a moment (TYPING.lead), then
 //     select-back (a wash from the line's end to its start), clear, type "Fresh every time.", hold, the same for
 //     "Every mark traced.", then "Know what to fix." for good. Letters land whole, as a caret types them (5 Nov, LK87:
 //     the old 60 ms per-letter fade left a gap between the caret and a letter still fading in). The caret is an ink
@@ -134,10 +134,12 @@ export default function HeroTyped() {
       if (document.fonts?.ready) document.fonts.ready.then(go, go);
       else go();
     };
-    // Wait for the opening's hand-off when it is playing; otherwise 600 ms after paint. The fallback starts it anyway if
-    // the hand-off never arrives (the longest opening is 1.6 s), so no visit ends without the pass.
+    // Wait for the opening's hand-off when it is playing, plus a beat to read the whole sentence (TYPING.afterOpening);
+    // otherwise TYPING.startAfterPaint from the start of the load, so the first read is always the full headline (round 10).
+    // The fallback starts it anyway if the hand-off never arrives (the longest opening is 1.6 s), so no visit ends without
+    // the pass.
     const opening = window.__mmOpening;
-    const onOpening = (event) => { if (event.detail?.phase === 'done') start(0); };
+    const onOpening = (event) => { if (event.detail?.phase === 'done') start(TYPING.afterOpening); };
     let fallback = 0;
     if (opening && opening.mode !== 'skip' && opening.phase !== 'done') {
       window.addEventListener('mm:opening', onOpening);

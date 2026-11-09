@@ -139,6 +139,8 @@ test('the reserved height is measured for each width band the section changes in
   // gaps are one 20 px step, the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): 852 px at 360,
   // 826 px at 375, 802 px at 390; 508 px at 1024, 688 px at 1100, 549 px at 1280, 575 px at 1440; 585 px from 1920 (18 px
   // root), 774 px from 2560 (22 px root).
+  // Re-measured R10 (10 Nov 2026) after the progress row moved under the card and the foot became a panel: 865, 865, 817;
+  // 538, 718, 579, 605; 671 and 814 (tmp/1110-refine/tools/heights.mjs).
   const at = (re) => { const m = LANDING_CSS.match(re); assert.ok(m, `a reserved value for ${re}`); return [Number(m[1]), m.index]; };
   const [at390] = at(/\n\.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \}/);
   const [at375, i375] = at(/@media \(max-width: 383px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
@@ -149,7 +151,7 @@ test('the reserved height is measured for each width band the section changes in
   const [at1440, i1440] = at(/@media \(min-width: 1440px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [at1920, i1920] = at(/@media \(min-width: 1920px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
   const [at2560, i2560] = at(/@media \(min-width: 2560px\) \{ \.lp main > #key-cards \{ contain-intrinsic-size: auto (\d+)px; \} \}/);
-  assert.deepEqual([at360, at375, at390, atDesk, at1100, at1280, at1440, at1920, at2560], [852, 826, 802, 508, 688, 549, 575, 585, 774]);
+  assert.deepEqual([at360, at375, at390, atDesk, at1100, at1280, at1440, at1920, at2560], [865, 865, 817, 538, 718, 579, 605, 671, 814]);
   // Later bands must follow the ones they narrow, or the wider value wins.
   assert.ok(i360 > i375, 'the 361 px band follows the 383 px one');
   assert.ok(i1100 > LANDING_CSS.indexOf('  .lp main > #key-cards') && i1280 > i1100 && i1440 > i1280 && i1920 > i1440 && i2560 > i1920, 'the wide bands follow the 960 px block, in order');

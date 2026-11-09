@@ -1,0 +1,133 @@
+/* Round 10 (10 Nov 2026, owner LK189: a deeper UI/UX and taste refinement of the landing page). Refinements for this
+   group of sections only, loaded after every older layer (page.js). Each rule says what it fixes and why. */
+
+/* ==========================================================================
+   section#try on wide screens (1024 px up). Fixes: the sample was a 560 px column in the middle of a 1440 px void, its
+   heading two lines and a whole screen above the options. Now the desk lies on its side: Mobi's lamp-lit room on the
+   left (the whole painted room, not a slice) and the question card on the right, one 1120 px object under a one-line
+   heading, so the heading, Mobi and all four options share the first screen. The room stays in view (sticky) while the
+   card grows with the reason or the score, so Mobi's reaction is beside what he reacts to.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* The heading spans the pair and sits on one line (it broke "Try five CUET / questions." in the 560 px column). */
+  .mm.lp .lp-try__head { max-width: 1120px; }
+  .mm.lp .lp-try__head > .lp-h2 { max-width: none; }
+  .mm.lp .lp-try .lp-desk {
+    display: grid;
+    grid-template-columns: minmax(0, 27fr) minmax(0, 28fr);
+    column-gap: 20px;
+    align-items: start;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  /* The room keeps to the top of its column while the card beside it grows. */
+  .mm.lp .lp-try .lp-desk__stage { position: sticky; top: 92px; }
+  /* The whole room, near square: the Night band's lamp, sheet, window and floor pool all show (the stacked desk showed a
+     320 px slice). Its own four corners now, like the card's. */
+  .mm.lp .lp-try .lp-desk__room { height: auto; aspect-ratio: 540 / 476; border-radius: 28px; }
+  /* Night: the band file (frame y 0.20 to 0.95) fills the room, 2cqw of the lamp's top cropped. */
+  .mm.lp .lp-try .lp-room__paint--night { top: -27cqw; }
+  /* Day: the 3:2 room overscanned to cover the taller frame; its feathered edges stay outside. */
+  .mm.lp .lp-try .lp-room__paint--day { left: -20cqw; width: 140cqw; height: 93.333cqw; top: -4cqw; }
+  /* The card is a whole card beside the room, not the room's foot: its own top edge and four equal corners. */
+  .mm.lp .lp-try .lp-desk__card { margin-top: 0; border-top: 1px solid var(--line); border-radius: 28px; }
+  /* Mobi grows with the taller room; his bubble sits beside his head, not at his feet. */
+  .mm.lp .lp-try .lp-desk__figure { --mobi-h: 208px; left: 44px; bottom: calc(22px - var(--mobi-h) * 6 / 168); }
+  .mm.lp .lp-try .lp-desk__bubble { left: calc(44px + 150px); bottom: 112px; }
+}
+
+/* ==========================================================================
+   The sample card (DemoDrill), every state.
+   ========================================================================== */
+
+/* The head row's five dashes repeated "1 of 5" and the done ones went dimmer than the current one. Each dash now keeps its
+   answer: right in the brand green (volt in Night, #526700 in Day), missed in the error red, the current one ink, the
+   rest a hairline grey. 24 x 4 px, 4 px apart, so the record reads at a glance. */
+.mm.lp .lp-try .lp-desk .mm-drill__progress { gap: 4px; }
+.mm.lp .lp-try .lp-desk .mm-drill__pip { width: 24px; height: 4px; border-radius: 2px; }
+.mm.lp .lp-try .lp-desk .mm-drill__pip[data-state='past'] { background: var(--ink-3); }
+.mm.lp .lp-try .lp-desk .mm-drill__pip[data-result='right'] { background: #d2f000; }
+html[data-theme='light'] .mm.lp .lp-try .lp-desk .mm-drill__pip[data-result='right'] { background: #526700; }
+.mm.lp .lp-try .lp-desk .mm-drill__pip[data-result='wrong'] { background: var(--bad-text, #b0291f); }
+
+/* The card's last line (the no-sign-up note and "Not your subject?") floated under the options as loose text. It is now
+   the card's footer: a hairline 14 px under the options, the note and the key on one row (on one baseline) where the note
+   fits whole beside the key, the key straight under the note where it does not (at 1024 the note had squeezed to two
+   lines beside the key, "its reason." alone on the second). */
+.mm.lp .lp-try .lp-desk .mm-drill__base { align-items: baseline; margin: 14px 0 -12px; padding-top: 2px; border-top: 1px solid var(--line); row-gap: 0; }
+.mm.lp .lp-try .lp-desk .mm-drill__base > .lp-card__note { flex: 0 0 auto; max-width: 100%; padding-top: 10px; text-wrap: balance; }
+
+/* The subject keys: the loading ring, the retry mark and the playing tick sat in the name's line and pushed "Business
+   Studies" to two lines the moment it was tapped, so the key and the whole list under it jumped 10 px. The mark now sits
+   in the key's right padding, centred, and a key that carries one sets its name in 3 px of block padding: a name that
+   needs two lines beside the mark still fits the same 44 px key, and nothing moves. */
+.mm.lp .lp-try .lp-desk .mm-drill__subject { position: relative; }
+.mm.lp .lp-try .lp-desk .mm-drill__subject:is([aria-pressed='true'], [data-state]) { padding-block: 3px; padding-right: 32px; }
+.mm.lp .lp-try .lp-desk .mm-drill__subject > .mm-drill__subject-mark,
+.mm.lp .lp-try .lp-desk .mm-drill__subject[data-state='loading']::after { position: absolute; top: 50%; right: 11px; margin-top: -8px; }
+.mm.lp .lp-try .lp-desk .mm-drill__subject[data-state='loading']::after { box-sizing: border-box; width: 16px; height: 16px; }
+
+/* ---------- The result ---------- */
+/* The score's lockup: "/5" was glued to the figure by the figure's -0.05em tracking and read as a subscript. Now the
+   figure is set larger (4.5rem), "/5" sits on its baseline at 0.42 of it with a 0.08em space, in ink-3. */
+.mm.lp .lp-try .lp-desk .mm-drill__score { display: flex; align-items: baseline; gap: 0.08em; font-size: 4.5rem; line-height: 0.9; letter-spacing: -0.04em; }
+.mm.lp .lp-try .lp-desk .mm-drill__score span { font-size: 0.42em; letter-spacing: -0.01em; }
+/* The verdict wrapped "...to look / at first." at 360: balanced lines. */
+.mm.lp .lp-try .lp-desk .mm-drill__verdict { margin-top: 10px; text-wrap: balance; }
+/* The misses sat in a tinted box inside the card with keys inside that (three nested edges, and at 360 the open answer was
+   squeezed into 210 px). The box goes; the line names the group and the rows run the card's width, on the options' own
+   paper fill so they read as the same kind of key. */
+html[data-theme] .mm.lp .lp-try .lp-desk .mm-drill__readout { padding: 0; border: 0; border-radius: 0; background: none; }
+html[data-theme] .mm.lp .lp-try .lp-desk .mm-drill__readout li.mm-drill__miss { background: var(--paper); }
+.mm.lp .lp-try .lp-desk .mm-drill__readout-head { margin-bottom: 8px; }
+/* The open row: "Your answer" and "Correct answer" side by side where the row is wide enough (from a 300 px card), the
+   way the 9 Nov pass meant them, "beside" each other. */
+@container (min-width: 300px) {
+  .mm.lp .lp-try .lp-desk .mm-drill__miss-answers { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
+}
+/* "Try the five again" and "Try another subject" were bold words with no edge or line: they did not look pressable.
+   They are now the card's quiet keys in the same style as "Not your subject?": underlined, 44 px tall, 24 px apart. */
+.mm.lp .lp-try .lp-desk .mm-drill__more { column-gap: 24px; margin-top: 2px; }
+.mm.lp .lp-try .lp-desk .mm-drill__replay {
+  min-height: 44px;
+  padding: 0 2px;
+  border-radius: 6px;
+  color: var(--ink);
+  font: 650 0.9375rem/1.2 var(--font-body);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--ink-3);
+  text-underline-offset: 4px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mm.lp .lp-try .lp-desk .mm-drill__replay:active { color: var(--ink-2); }
+.mm.lp .lp-try .lp-desk .mm-drill__replay:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-try .lp-desk .mm-drill__replay:hover { color: var(--ink); text-decoration-color: currentColor; }
+}
+
+/* ==========================================================================
+   The statement (Statement.jsx) on wide screens (761 px up; phones already had this).
+   ========================================================================== */
+@media (min-width: 761px) {
+  /* Each name hung 40 to 70 px under its object's box, at the height of the next object in the stagger, so "Accountancy"
+     read as the scale's label and "Business Studies" floated alone. Each name now sits 10 px under its own object's
+     contact shadow (--base, page.js, where the shadow ends in the square box), the phone's rule. */
+  .mm.lp .lp-statement .lp-shelf__link { gap: 0; }
+  .mm.lp .lp-statement .lp-shelf__float { margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj) + 10px); }
+}
+/* The shelf's note was a 14 px ink-3 caption that read as fine print under the objects, though it is the section's proof.
+   It is set in ink-2 at 15 px on wide screens (the phone's held story keeps its own 13 px, hero-depth.css), and its two
+   figures' phrases in ink 650 (Statement.jsx noteParts). */
+.mm.lp .lp-statement .lp-shelf__note { color: var(--ink-2); }
+.mm.lp .lp-statement .lp-shelf__note b { color: var(--ink); font-weight: 650; }
+@media (min-width: 761px) {
+  .mm.lp .lp-statement .lp-shelf__note { max-width: 46ch; margin-top: 4px; font-size: 0.9375rem; line-height: 1.45; text-wrap: balance; }
+}
+
+/* A live subject's long stem (over 110 characters, DemoDrill data-long) ran seven lines of 20 px serif over the options at
+   390 and four lines of 26 px at 1440. It steps down one size (18 px on phones, 22 px on desktop) with a calmer leading. */
+.mm.lp .lp-try .lp-desk .mm-drill__q[data-long] { font-size: 1.125rem; line-height: 1.38; }
+@media (min-width: 960px) {
+  .mm.lp .lp-try .lp-desk .mm-drill__q[data-long] { font-size: 1.375rem; line-height: 1.34; }
+}

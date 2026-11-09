@@ -26,6 +26,8 @@ import { sendDemoState } from './demoSignal.mjs';
 const TARGET = 'try-practice';
 const CARD = '.lp-desk__card';
 const GAP = 12;
+/** The most space left between the nav and the section's head when the arrival frames the whole section (round 10). */
+const HEAD_ROOM = 40;
 const ARRIVE_MS = 700;
 
 function navBottom() {
@@ -44,9 +46,18 @@ function topFor(stage, card, { always = false } = {}) {
   const box = card.getBoundingClientRect();
   const nav = navBottom();
   if (!always && box.top >= nav + GAP - 1 && box.bottom <= window.innerHeight) return null;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  // Round 10 (10 Nov 2026): where the section's head, Mobi's room and the whole card fit under the nav together (a
+  // 390 x 844 phone, any desktop), the arrival frames all three, the head at most HEAD_ROOM under the nav, instead of
+  // cutting "Try five CUET questions." off above the screen. A short phone (360 x 640) keeps the card-first frame below.
+  const head = stage.closest('section')?.querySelector('.lp-try__head');
+  if (head) {
+    const top = head.getBoundingClientRect().top;
+    const free = window.innerHeight - nav - (Math.max(box.bottom, stage.getBoundingClientRect().bottom) - top);
+    if (free >= 2 * GAP) return Math.round(Math.max(0, Math.min(max, window.scrollY + top - nav - Math.min(free / 2, HEAD_ROOM))));
+  }
   const room = Math.max(0, box.top - stage.getBoundingClientRect().top);
   const above = Math.max(GAP, Math.min(room, (window.innerHeight - nav - box.height) / 2));
-  const max = document.documentElement.scrollHeight - window.innerHeight;
   return Math.round(Math.max(0, Math.min(max, window.scrollY + box.top - nav - above)));
 }
 

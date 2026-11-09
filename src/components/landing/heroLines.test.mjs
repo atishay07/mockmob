@@ -107,10 +107,18 @@ test('HeroTyped: no timer under reduced motion; pauses off screen and in a hidde
   assert.match(TYPED, /new IntersectionObserver/);
   assert.match(TYPED, /visibilitychange/);
   assert.doesNotMatch(TYPED, /setInterval|requestAnimationFrame/, 'one timer at a time, nothing per frame');
-  // It starts at the opening's hand-off, or 600 ms after paint when there was none.
+  // It starts a beat after the opening's hand-off, or 2.2 s into the load when there was none. Round 10 (10 Nov 2026): it
+  // used to start 600 ms in, so the first select-back emptied the line about 1.4 s in and a student's first read was
+  // "CUET 2027. One mock." with no third line; now the whole sentence holds for the first read (about 3 s) and only then
+  // types, the same pass as before.
   assert.match(TYPED, /window\.addEventListener\('mm:opening', onOpening\)/);
+  assert.match(TYPED, /if \(event\.detail\?\.phase === 'done'\) start\(TYPING\.afterOpening\);/);
   assert.match(TYPED, /start\(TYPING\.startAfterPaint - performance\.now\(\)\)/);
-  assert.equal(TYPING.startAfterPaint, 600);
+  assert.equal(TYPING.startAfterPaint, 2200);
+  assert.equal(TYPING.afterOpening, 1000);
+  const firstClear = typingPlan().find((s) => s.kind === 'clear').at;
+  assert.ok(TYPING.startAfterPaint + firstClear >= 2900, `the line is whole for the first ~3 s (${TYPING.startAfterPaint + firstClear} ms)`);
+  assert.ok(TYPING.afterOpening + firstClear >= 1700, 'after an opening, the sentence is read before it clears');
 });
 
 test('round 4 (owner LK120): the line types on every visit, signed in or not, and never waits for ever on the opening', () => {

@@ -38,8 +38,10 @@ export const HERO_LEAD = Object.freeze({ strong: 'CUET UG mocks', rest: ' that t
 export const STATEMENT = 'Your marks slipped somewhere. *MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 
 // ------------------------------------------------------------------ section heads (h2 and the one sub under it)
-// The head over the five sample questions (round 7, 7 Nov 2026: the desk's own section under the college strip).
-export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Free, no sign-up. Every answer shows its reason.' });
+// The head over the five sample questions (round 7, 7 Nov 2026: the desk's own section under the college strip). Round 10:
+// its sub repeated the card's own note word for word in one screen; it now says what the end of the five gives, in one
+// line at 360 px so the head, the room and the card share a 390 x 844 screen.
+export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Get your score, with every miss explained.' });
 export const LAB_HEAD = Object.freeze({
   h2: 'Every mark, traced back to a moment.',
   sub: 'Every mock opens in the Lab: time, changed answers and the reason behind each miss.',
@@ -285,7 +287,7 @@ export function buildTour({ studyLive = false, studyLessons = 0, studySubjects =
       body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, all written from the official key.',
       lede: 'Why your pick was tempting, where it breaks, and the rule to keep. From the official key, or not at all.',
       points: ['If the AI and the key disagree, you pay nothing', 'A 10-minute next step, then 5 fresh questions'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' }),
-    ...(studyLive && studyLessons ? [slide('learn', { label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea behind the mark, then keep it.',
+    ...(studyLive && studyLessons ? [slide('learn', { label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea. Then make it stick.',
       body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you forget.',
       lede: 'Short lessons with worked examples, then recall cards that come back before you forget.',
       points: [`${studyLessons} lessons across ${studySubjects} subjects`, 'Lessons and recall are free, no credits'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' })] : []),

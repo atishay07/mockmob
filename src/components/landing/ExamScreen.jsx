@@ -35,7 +35,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Clock3, Eye, FileText, Flag, Lock, Maximize2, RotateCw, ShieldCheck, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -435,8 +435,14 @@ export function ExamScreen() {
           {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
         </ExamDevice>
 
-        <p className="xs-gate"><b>{EXAM.gateTitle}.</b> {EXAM.gate} <span>{EXAM.warnings}.</span>{' '}
-          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
+        {/* R10: NTA mode's own gate (ExamIntegrityGuard's words), set as a small card: a mark, the words, the warnings
+            counter as the pill the runner shows (its eye and count) and the way to it. It read as a stray line of small text. */}
+        <div className="xs-gate">
+          <span className="xs-gate__mark" aria-hidden="true"><ShieldCheck /></span>
+          <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate}</p>
+          <p className="xs-gate__foot"><span className="xs-gate__warn"><Eye aria-hidden="true" />{EXAM.warnings}</span>
+            <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
+        </div>
         {/* Phones only (exam-screen.css): the readable way into the same screen. */}
         <button ref={fullOpener} type="button" className="mm-btn mm-btn--secondary xs-full-open" aria-haspopup="dialog" aria-expanded={full} onClick={openFull}>
           <Maximize2 aria-hidden="true" />{EXAM.full.open}

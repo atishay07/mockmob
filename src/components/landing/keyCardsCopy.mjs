@@ -11,6 +11,17 @@ export const KEY_CARDS_HEAD = Object.freeze({
   sub: 'Say the answer in your head, turn the card, then rate it. Your rating sets when it comes back.',
 });
 
+/**
+ * The heading as its two phrases, "Turn it. Rate it." and "It comes back on time.", each drawn as its own run (page.js,
+ * r10-tools.css), so a line never ends on "Rate" or on a lone "It" (R10, 10 Nov 2026: it wrapped "Turn it. Rate it. It /
+ * comes back on time." on phones and "Turn it. Rate / it. It comes / back on time." on desktop). Splits before the last
+ * sentence; a heading of one sentence stays whole.
+ */
+export const headPhrases = (h2) => {
+  const at = h2.lastIndexOf('. ', h2.length - 2);
+  return at < 0 ? [h2] : [h2.slice(0, at + 1), h2.slice(at + 2)];
+};
+
 /** The card's own words, the app's (data/learn/words.js WORDS) where the app has one. */
 export const KEY_CARDS_WORDS = Object.freeze({
   turnOver: WORDS.turnOver, // 'Turn over'

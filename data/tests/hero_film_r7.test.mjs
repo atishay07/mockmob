@@ -255,7 +255,9 @@ test('the desk keeps id="try-practice" and sits in section#try, right after the 
   const tryBlock = afterHero.slice(section, statement);
   assert.match(tryBlock, /<h2 className="lp-h2" id="try-title">\{TRY_HEAD\.h2\}<\/h2>\s*<p className="lp-sub">\{TRY_HEAD\.sub\}<\/p>/);
   assert.match(tryBlock, /<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=\{DESK_NOTE\} \/>/);
-  assert.match(read('src/components/landing/homeCopy.mjs'), /export const TRY_HEAD = Object\.freeze\(\{ h2: 'Try five CUET questions\.', sub: 'Free, no sign-up\. Every answer shows its reason\.' \}\);/);
+  // Round 10 (10 Nov 2026): the sub no longer repeats the card's own note word for word ("Free, no sign-up. Every answer
+  // shows its reason." sits under the options); it says what the five give instead.
+  assert.match(read('src/components/landing/homeCopy.mjs'), /export const TRY_HEAD = Object\.freeze\(\{ h2: 'Try five CUET questions\.', sub: 'Get your score, with every miss explained\.' \}\);/);
   // It is always drawn (every "Try 5 questions first" jump measures its card) and centred at 560 px on desktop.
   assert.match(SCENE_CSS, /\.lp main > #try \{ content-visibility: visible; \}/);
   assert.match(SCENE_CSS, /\.mm\.lp \.lp-try \.lp-desk \{ max-width: 560px; margin: 0 auto; \}/);
