@@ -8,7 +8,7 @@ export { FILM };
 
 // The home hero's film. Round 7 (owner, 7 Nov 2026: "the promo video playing as the main hero", like klayprep.com) put the
 // launch teaser here; round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting")
-// plays the walkthrough with a hook (Hero16): muted first, ten chapters: the hook, the study loop, the plan, friends and what Pro holds.
+// plays the narrated walkthrough (Hero16 r4): muted first, nine chapters: the opening, seven numbered features, sign up.
 //   - The poster (the film's "Preparing for CUET 2027?" frame) is drawn first in a fixed 16:9 frame, so nothing shifts;
 //     it is the hero's largest paint on desktop, so it asks for high priority.
 //   - The film's file is picked on mount by the frame's rendered width in device pixels (heroFilmConfig pickSource; Data

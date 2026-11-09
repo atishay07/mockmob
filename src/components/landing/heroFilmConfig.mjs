@@ -1,28 +1,27 @@
 // The hero film's files and chapters (round 9, 9 Nov 2026; HeroFilm.jsx, hero-film.css). Plain data and two pure helpers,
 // so the tests can run them. The film is the walkthrough with a hook (Hero16 in the promo-film project): muted first,
-// looped, ten player chapters: the hook, then the study loop (fix, learn, ask, revise, test again), the plan, friends and
-// what Pro holds (owner, 9 Nov ~4 am: visitors half-trust us already; build trust, show all we offer).
+// looped, nine player chapters. r4 (owner, 9 Nov ~10:40 am): a short narrated walkthrough, straight to the point, seven
+// numbered features after klayprep's grammar, each readable muted.
 
-// The ten player chapters. `start` is the first frame of the chapter's picture in seconds, copied from the film's
-// out/hero/chapters.json (Hero16 plan of 9 Nov, 66.967 s; no runtime fetch).
+// The nine player chapters. `start` is the first frame of the chapter's picture in seconds, copied from the film's
+// out/hero/chapters.json (Hero16 r4 of 9 Nov, 52.367 s; no runtime fetch).
 export const FILM_CHAPTERS = Object.freeze([
-  Object.freeze({ id: 'score', name: 'Your score', start: 0 }),
-  Object.freeze({ id: 'repair', name: 'Mistake Repair', start: 23.033 }),
-  Object.freeze({ id: 'learn', name: 'Learn', start: 30 }),
-  Object.freeze({ id: 'askmobi', name: 'Ask Mobi', start: 36.967 }),
-  Object.freeze({ id: 'keycards', name: 'Key cards', start: 42.85 }),
-  Object.freeze({ id: 'mocks', name: 'Mocks', start: 50.9 }),
-  Object.freeze({ id: 'exam', name: 'Exam screen', start: 59.467 }),
-  Object.freeze({ id: 'plan', name: 'Plan and colleges', start: 65.9 }),
-  Object.freeze({ id: 'mob', name: 'The Mob', start: 73.933 }),
-  Object.freeze({ id: 'value', name: 'What you get', start: 81.433 }),
+  Object.freeze({ id: 'start', name: 'Start', start: 0 }),
+  Object.freeze({ id: 'mocks', name: 'Mocks', start: 10.567 }),
+  Object.freeze({ id: 'repair', name: 'Mistake Repair', start: 16.983 }),
+  Object.freeze({ id: 'learn', name: 'Learn', start: 23.683 }),
+  Object.freeze({ id: 'keycards', name: 'Key cards', start: 28.883 }),
+  Object.freeze({ id: 'askmobi', name: 'Ask Mobi', start: 32.567 }),
+  Object.freeze({ id: 'plan', name: 'Plan and colleges', start: 37.133 }),
+  Object.freeze({ id: 'mob', name: 'The Mob', start: 41.267 }),
+  Object.freeze({ id: 'signup', name: 'Sign up', start: 44.883 }),
 ]);
 
 export const FILM = Object.freeze({
-  label: 'MockMob walkthrough, 101 seconds',
-  poster: '/video/hero-v3-poster.webp',
+  label: 'MockMob walkthrough, 52 seconds',
+  poster: '/video/hero-v4-poster.webp',
   // 30 fps H.264 + AAC, faststart; new names so no cache keeps the launch teaser.
-  sources: Object.freeze({ 480: '/video/hero-v3-480.mp4', 720: '/video/hero-v3-720.mp4', 1080: '/video/hero-v3-1080.mp4' }),
+  sources: Object.freeze({ 480: '/video/hero-v4-480.mp4', 720: '/video/hero-v4-720.mp4', 1080: '/video/hero-v4-1080.mp4' }),
   width: 1280,
   height: 720,
   visibleShare: 0.5,
