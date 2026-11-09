@@ -5,6 +5,18 @@
 // between. A step is chosen only by the gesture's NET travel, never its speed: that is what makes a hard flick and
 // a slow drag give the same one step, however far the browser would have carried the page.
 
+// FLOW (10 Nov 2026, owner LK190; settles LK179). On a touch screen a story never holds the page: the finger's scroll and
+// its momentum are the browser's own from the hero to the footer, and a story shows the step the page has reached (the
+// beat under the window's middle, ScrollStory.jsx). Only the settle is kept: a scroll that comes to rest inside a story
+// goes to the nearest resting place, which is invisible because the stage is sticky, so from any rest the next step is
+// always half a gap away and a gentle swipe moves one step while a flick passes several or leaves. A story also costs
+// less scroll there: its hold is FLOW_SHARE of the mouse's (scroll-story.css --ss-run).
+// One thing is asked of the reader, once per story: the first fling that brings a story on from above LANDS on its first
+// step (storyController.mjs), so no story is flown past unseen. A finger's own drag is never stopped, the way back up is
+// free, and after that first arrival the story never stops a fling again.
+export const FLOW_QUERY = '(hover: none), (pointer: coarse)';
+export const FLOW_SHARE = 0.6;
+
 export const SLOP = 6;            // px of finger travel before a direction is chosen (under it the page waits)
 export const COMMIT_PX = 40;      // net travel that commits a step at touchend
 export const FLICK_PX = 12;       // a shorter flick still commits when it leaves the glass fast enough:

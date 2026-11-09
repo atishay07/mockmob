@@ -19,7 +19,7 @@ import {
   claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPushes, wheelPx,
 } from './storyGesture.mjs';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
-import { benchAvailable, openBench, runJump, runMatrix, runPerf, runWheel } from './oneGestureBench.mjs';
+import { benchAvailable, openBench, runFlow, runJump, runLanding, runPerf, runWheel } from './oneGestureBench.mjs';
 
 // ---------------------------------------------------------------- part 1: the rules
 
@@ -143,17 +143,29 @@ const URL_UNDER_TEST = process.env.ONE_GESTURE_URL || 'http://localhost:3467/';
 const RUN = process.env.MM_ONE_GESTURE === '1' && benchAvailable();
 const why = process.env.MM_ONE_GESTURE === '1' ? 'no real Chrome on this machine' : 'set MM_ONE_GESTURE=1 to run the matrix in real Chrome';
 
-test('the gesture matrix in real Chrome: every cell is one step on a resting place', { skip: RUN ? false : why, timeout: 3_600_000 }, async () => {
-  const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test matrix' });
+// FLOW (10 Nov 2026, owner LK190): a touch screen is never held, so at phone width the matrix is the flow's own. The
+// old touch matrix (runMatrix: one gesture, one step by touch) describes only a touch on a mouse-first device now and
+// is kept in the bench for that; it is no longer run here.
+test('FLOW in real Chrome at 390x844: free, settled, gentle, every step shown, a fling passes', { skip: RUN ? false : why, timeout: 3_600_000 }, async () => {
+  const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test flow' });
   try {
     const failures = [];
     for (const name of (process.env.ONE_GESTURE_STORIES || 'ft-story,lc').split(',')) {
-      const rows = await runMatrix(bench, name, { log: (line) => console.log(line) });
+      const rows = await runFlow(bench, name, { log: (line) => console.log(line) });
       for (const row of rows) if (!row.ok) failures.push(`${name} ${row.id}: step ${row.start}->${row.step}, y ${row.y}, off ${row.off}`);
-      assert.ok(rows.length >= 30, `${name} ran ${rows.length} cells`);
+      assert.ok(rows.length >= 15, `${name} ran ${rows.length} cells`);
     }
     assert.deepEqual(failures, []);
     assert.deepEqual(bench.errors.filter((e) => /pageerror/.test(e)), [], 'no page errors');
+  } finally { await bench.close(); }
+});
+
+test('FLOW landing in real Chrome: the first fling that brings a story on lands on its first step, the second runs on; the statement never lands one', { skip: RUN ? false : why, timeout: 3_600_000 }, async () => {
+  const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test landing' });
+  try {
+    const rows = await runLanding(bench, { log: (line) => console.log(line) });
+    assert.ok(rows.length >= 6, `${rows.length} cells`);
+    assert.deepEqual(rows.filter((r) => !r.ok).map((r) => `${r.id}: y ${r.start}->${r.y}, step ${r.step}`), []);
   } finally { await bench.close(); }
 });
 

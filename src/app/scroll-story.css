@@ -12,17 +12,26 @@
    Everything that shows the step is driven by the step (--ss-step, data-step), never by the scroll position, so
    no stop can leave a half bar or a half tilt. Nothing here animates layout; consumers move only opacity and
    transform.
+   FLOW (10 Nov 2026, owner LK190; ScrollStory.jsx, storyController.mjs): on a touch screen nothing is held. The
+   stage is still sticky and still shows every step, but the scroll is the browser's own: the step under the window's
+   middle shows as the page passes, and a scroll that rests inside a story settles on the nearest resting place. The
+   hold is shorter there too: --ss-run, the scroll one step costs, is 0.6 of the story's --ss-beat (storyGesture.mjs
+   FLOW_SHARE), so a gentle swipe moves one step and the whole page is a third shorter to travel.
    ========================================================================== */
 
 .ss {
   --ss-beat: 72svh;
-  --ss-gap: calc(var(--ss-steps) * var(--ss-beat) / max(1, var(--ss-steps) - 1));
+  /* What one step costs in scroll: the story's beat for a mouse or trackpad, 0.6 of it on a touch screen (FLOW). A story
+     sets --ss-beat as before; nothing else reads --ss-run. */
+  --ss-run: var(--ss-beat);
+  --ss-gap: calc(var(--ss-steps) * var(--ss-run) / max(1, var(--ss-steps) - 1));
   /* Clear the sticky site bar (61 px on phones) with a little air. */
   --ss-top: calc(61px + env(safe-area-inset-top, 0px) + 0.75rem);
   --ss-bottom: 0.9rem;
   position: relative;
 }
 @media (min-width: 900px) { .ss { --ss-top: calc(72px + 1.25rem); --ss-bottom: 1.5rem; } }
+@media (hover: none), (pointer: coarse) { .ss { --ss-run: calc(var(--ss-beat) * 0.6); } }
 /* Phones: the held card stops above the bottom band (R3-D4, owner LK103, 5 Nov 2026: "Why does the card ... snap to
    the entire bottom of the phone? ... below, like 10-20%, ... some sort of a blur"). The band is 11% of the window,
    80 to 104 px (93 px on a 390 x 844 phone), 64 px on a window 700 px tall or less, plus the safe area; the bottom bar
@@ -39,7 +48,7 @@
 
 .ss[data-pinned='true'] .ss__track {
   position: relative;
-  height: calc(100svh + var(--ss-steps) * var(--ss-beat));
+  height: calc(100svh + var(--ss-steps) * var(--ss-run));
   /* Still named for lab-cinema.css's object tilt; nothing else reads it. Delete once that is step-driven. */
   view-timeline: --ss-track block;
 }
@@ -73,6 +82,8 @@
    could not stop it and the page flew through 2-3 steps; touch-action holds whatever the page can cancel. pan-up is a
    finger moving down (the page moving toward its top). Pinch zoom stays. Browsers without directional pans (Safari) keep
    the script's rules alone; a mouse or trackpad (pointer: fine) is never affected. */
+/* FLOW: a story on a touch-first device is never marked (storyController.mjs syncHeld), so these rules now meet only a
+   touch screen whose main pointer is a mouse (a laptop with a touch display), where a touch still steps. */
 @supports (touch-action: pan-up) {
   @media (pointer: coarse) {
     .ss__track.held-mid { touch-action: pinch-zoom; }
