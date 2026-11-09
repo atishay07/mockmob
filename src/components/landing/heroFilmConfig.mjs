@@ -4,7 +4,7 @@
 // numbered features after klayprep's grammar, each readable muted.
 
 // The nine player chapters. `start` is the first frame of the chapter's picture in seconds, copied from the film's
-// out/hero/chapters.json (Hero16 r4 of 9 Nov, 52.367 s; no runtime fetch).
+// out/hero/chapters.json (Hero16 r5 of 9 Nov, 53.033 s; no runtime fetch).
 export const FILM_CHAPTERS = Object.freeze([
   Object.freeze({ id: 'start', name: 'Start', start: 0 }),
   Object.freeze({ id: 'mocks', name: 'Mocks', start: 10.567 }),
@@ -18,10 +18,10 @@ export const FILM_CHAPTERS = Object.freeze([
 ]);
 
 export const FILM = Object.freeze({
-  label: 'MockMob walkthrough, 52 seconds',
-  poster: '/video/hero-v4-poster.webp',
+  label: 'MockMob walkthrough, 53 seconds',
+  poster: '/video/hero-v5-poster.webp',
   // 30 fps H.264 + AAC, faststart; new names so no cache keeps the launch teaser.
-  sources: Object.freeze({ 480: '/video/hero-v4-480.mp4', 720: '/video/hero-v4-720.mp4', 1080: '/video/hero-v4-1080.mp4' }),
+  sources: Object.freeze({ 480: '/video/hero-v5-480.mp4', 720: '/video/hero-v5-720.mp4', 1080: '/video/hero-v5-1080.mp4' }),
   width: 1280,
   height: 720,
   visibleShare: 0.5,
