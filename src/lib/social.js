@@ -9,35 +9,54 @@
 // creator did not write. Every number below was read from the creator's public profile or
 // reel page on STATS_AS_OF; refresh them together, never edit one in isolation. `about` is a
 // paraphrase of the creator's own public bio. Leave a stat out rather than estimate it.
+// Where Instagram shows a rounded figure ("208K"), store its floor (208000): igCount prints it back
+// as Instagram showed it, never with more precision than was read. Under 10,000 Instagram shows the
+// exact count ("8,814"), and so does the page.
+// `featured`: the creators the page counts (the summary's followers figure, the hero's proof line and its
+// three pictures). A reel without it is still shown in the strip, after the featured ones.
+// `photo`: the creator's own Instagram profile picture (150x150, read from the public profile on
+// STATS_AS_OF), in public/brand/creators/<handle>.jpg with a .webp copy; the page draws the webp.
 export const INSTAGRAM = Object.freeze({ handle: 'mockmob.in', url: 'https://www.instagram.com/mockmob.in/' });
 
-export const STATS_AS_OF = '3 October 2026';
+export const STATS_AS_OF = '10 November 2026';
 
 export const CREATOR_REELS = Object.freeze([
   {
     code: 'DX4Buebt9xI', kind: 'reel', creator: 'Garima Jain', handle: 'du__club', date: '2026-05-03',
-    followers: 161411, also: { handle: 'garima.again', followers: 25273 },
+    followers: 208000, also: { handle: 'garima.again', followers: 28000 },
     attribution: 'Collaboration with @garima.again and @mockmob.in',
     about: 'CUET, DU admissions and career guidance from your DU senior.',
-    title: 'CUET Mocks + 10 Days Strategy', likes: 695,
+    // Likes read on 3 October 2026 and not re-read (a floor: a reel's likes only grow).
+    title: 'CUET Mocks + 10 Days Strategy', likes: 695, views: 77400,
+    featured: true, photo: '/brand/creators/du__club.webp',
+  },
+  {
+    code: 'DX11ggsyKFf', kind: 'reel', creator: 'Radhika Gaur', handle: 'radhikagaur_055', date: '2026-05-02',
+    followers: 8814,
+    about: 'English faculty at Exampur for CBSE 10th, 12th and CUET UG, from Hansraj College, DU.',
+    likes: 229, views: 17100,
+    featured: true, photo: '/brand/creators/radhikagaur_055.webp',
   },
   {
     code: 'DXuRQXwkvJT', kind: 'reel', creator: 'Rahul Thapa', handle: 'rahul.guides', date: '2026-04-29',
-    followers: 12662,
+    followers: 12000,
     about: 'Education creator on CUET and college admissions, helping students make better choices.',
-    partnership: true,
+    partnership: true, views: 5749,
+    featured: true, photo: '/brand/creators/rahul.guides.webp',
   },
   {
     code: 'DYMzTYsyU3W', kind: 'reel', creator: 'Prathna Jain', handle: 'prathnajains23', date: '2026-05-11',
-    followers: 188,
+    followers: 180,
     about: 'Hansraj College student and creator at @boostprep.cuet, sharing last-minute CUET tips.',
+    views: 1364,
+    photo: '/brand/creators/prathnajains23.webp',
   },
 ]);
 
-// Owner-reported on 5 October 2026: the featured reels have roughly 100K+ views in total. Instagram
-// does not expose a single sum we can read, so this is a floor the owner stated, not a computed value.
-export const REEL_VIEWS_FLOOR = 100000;
-export const REEL_VIEWS_AS_OF = '5 October 2026';
+// Each reel's `views`: the owner's screenshot of the MockMob reels tab on Instagram, 10 November 2026 (Instagram
+// shows them there; a reel page does not). The summary's "Reel views" is their sum (viewsFigure), no longer a floor
+// the owner stated.
+export const REEL_VIEWS_AS_OF = '10 November 2026';
 
 export const MOCKMOB_POSTS = Object.freeze([
   { code: 'DXsBiyhkz6V', kind: 'p', creator: 'MockMob', handle: 'mockmob.in', date: '2026-04-28' },
@@ -55,8 +74,14 @@ export const rankedReels = (creators = CREATOR_REELS, posts = MOCKMOB_POSTS) =>
 /** Combined audience of the featured creators, for the summary line. */
 export const combinedReach = (creators = CREATOR_REELS) => creators.reduce((sum, c) => sum + creatorReach(c), 0);
 
-/** The creators the summary counts: the reels that carry a follower count, in the order given. */
-export const featuredCreators = (items = rankedReels()) => items.filter((item) => item.kind === 'reel' && item.followers);
+/** The creators the summary counts: the reels marked `featured` that carry a follower count, in the order given. */
+export const featuredCreators = (items = rankedReels()) => items.filter((item) => item.kind === 'reel' && item.featured === true && item.followers);
+
+/** A total rounded down to the thousand, then "+", so the "+" stays true (199,534 is "199K+"); null under a thousand. */
+function thousandsPlus(total) {
+  const floor = Math.floor(total / 1000) * 1000;
+  return floor > 0 ? `${compactCount(floor)}+` : null;
+}
 
 /**
  * The summary's "Combined followers" figure: the combined reach rounded down to the thousand, so the "+" stays true
@@ -64,8 +89,15 @@ export const featuredCreators = (items = rankedReels()) => items.filter((item) =
  * the two never disagree. null when the rounded reach is under a thousand.
  */
 export function followersFigure(creators = featuredCreators()) {
-  const floor = Math.floor(combinedReach(creators) / 1000) * 1000;
-  return floor > 0 ? `${compactCount(floor)}+` : null;
+  return thousandsPlus(combinedReach(creators));
+}
+
+/** The views recorded on the reels (REEL_VIEWS_AS_OF), added up. */
+export const reelViews = (items = CREATOR_REELS) => items.reduce((sum, item) => sum + (item.views || 0), 0);
+
+/** The summary's "Reel views" figure: the reels' views added up, rounded down to the thousand the way the followers are. */
+export function viewsFigure(items = CREATOR_REELS) {
+  return thousandsPlus(reelViews(items));
 }
 
 /**
@@ -87,6 +119,15 @@ export function compactCount(n) {
   if (n < 1000) return String(n);
   const k = n / 1000;
   return `${k >= 100 ? Math.round(k) : Math.round(k * 10) / 10}K`;
+}
+
+/**
+ * A count the way Instagram prints it, so a figure is never shown with more precision than was read: exact under 10,000
+ * (8814 -> "8,814", 180 -> "180"), from 10,000 the rounded "K" Instagram shows (12000 -> "12K", 77400 -> "77.4K", 208000 -> "208K").
+ */
+export function igCount(n) {
+  if (!Number.isFinite(n)) return '';
+  return n < 10000 ? n.toLocaleString('en-IN') : compactCount(n);
 }
 
 export const permalink = (item) => `https://www.instagram.com/${item.kind === 'reel' ? 'reel' : 'p'}/${item.code}/`;

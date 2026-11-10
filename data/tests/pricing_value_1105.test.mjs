@@ -344,16 +344,23 @@ test('7 Nov: under Pro\'s price, everything that one price holds, as the feature
   assert.equal(VALUE_COPY.allIn(usualWay(monthly(), 5)), 'All in the same ₹99');
   assert.equal(VALUE_COPY.allIn(usualWay(monthly(149), 5)), 'All in the same ₹149', 'the price follows the offer');
   // R11 (owner, 10 Nov 2026): Score Recovery is no longer presented as a product of its own; the Mistake Lab tells it.
-  const all = ['Unlimited mocks', 'Mistake Lab', 'Ask Mobi', 'Key cards', 'DU Compass'];
+  // R12 (owner, 10 Nov 2026: "five icons ... make it six in total"): NTA mode, Pro's own, beside the mocks, so a phone's two
+  // columns are three full rows while Key cards are live.
+  const all = ['Unlimited mocks', 'NTA mode', 'Mistake Lab', 'Ask Mobi', 'Key cards', 'DU Compass'];
   assert.deepEqual(VALUE_COPY.features({ keyCards: true }).map((f) => f.name), all);
+  assert.equal(VALUE_COPY.features({ keyCards: true }).length, 6, 'six: three rows of two on a phone');
   assert.deepEqual(VALUE_COPY.features().map((f) => f.name), all.filter((name) => name !== 'Key cards'), 'Key cards only while they are live');
+  assert.ok(proPlan().some((item) => /\bNTA mode\b/.test(item)), 'NTA mode is Pro\'s (proPlan)');
   // Each object is the hero strip's own for the same feature (heroFeatures), so a feature looks the same wherever it is named.
+  // NTA mode is the strip's "Exam-day screen" (rehearse it in NTA style): the same clipboard paper.
   const hero = Object.fromEntries(heroFeatures({ keyCards: true }).map((f) => [f.name, f.icon]));
+  const heroName = (name) => (name === 'NTA mode' ? 'Exam-day screen' : name);
   for (const f of VALUE_COPY.features({ keyCards: true })) {
     assert.ok(STRIP_OBJECTS[f.icon], `${f.icon} has a cut object`);
-    assert.equal(hero[f.name], f.icon, `${f.name}: the hero's object`);
+    assert.equal(hero[heroName(f.name)], f.icon, `${f.name}: the hero's object`);
     if (f.em) assert.ok(f.name.includes(f.em));
   }
+  assert.equal(new Set(VALUE_COPY.features({ keyCards: true }).map((f) => f.icon)).size, 6, 'no two features share an object');
   assert.deepEqual(VALUE_COPY.features().filter((f) => f.em).map((f) => f.em), ['Unlimited']);
   const value = stripComments(read('src/components/landing/PlanValue.jsx'));
   assert.match(value, /VALUE_COPY\.features\(\{ keyCards \}\)\.map/);

@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Pause, Play, Volume2, VolumeX } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { Maximize2, Minimize2, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { FILM, chapterAt, pickSource } from './heroFilmConfig.mjs';
 
 export { FILM };
@@ -18,7 +18,19 @@ export { FILM };
 //     Saver: then a round Play key sits on the poster.
 //   - Nothing else is drawn on the picture: a tap or click on it pauses or plays (pointer; keyboards use the keys). Under
 //     the frame, one row: the pause/play key, the chapter bar (one segment per chapter: it seeks to that chapter and
-//     plays; the current one fills as it plays; arrow keys move between them), the current chapter's name, the sound key.
+//     plays; the current one fills as it plays; arrow keys move between them), the current chapter's name, the sound key,
+//     the full-screen key.
+//   - The first time sound comes on (the corner "Sound on", the sound key, or full screen), the film starts again from its
+//     first frame, so the narrator is heard from his first line (round 12, owner 10 Nov 2026: "Whenever someone turns the
+//     sound on for the first time, it should play from the start"). After that the sound key only mutes and unmutes.
+//   - Full screen (owner, 9 Nov 2026, the share-link prototype; round 12, 10 Nov 2026: "Implement that also right now"): the
+//     key after the sound key puts the film's frame full screen (the Fullscreen API, webkit-prefixed where needed; an iPhone,
+//     where only a video can go full screen, opens its own player), letterboxed on black, with the browser's own controls
+//     (sound, time) while it lasts and a "Leave full screen" key in its corner; a phone may turn sideways. Asking for full
+//     screen means "I'm watching": the first time with sound still off, sound comes on from the start, as above. Leaving it
+//     (the key, Escape, a phone's back gesture) returns to the page as it was, the film playing as it was set; what is drawn
+//     follows the browser's fullscreenchange event. Where neither API exists the key is not drawn. On phones the row has no
+//     room for a fourth 44 px key beside nine 24 px chapters (hero-film.css), so there it sits in the picture's top corner.
 //   - The fill moves only while the film plays and is on screen (one animation frame at a time; under Reduce motion it
 //     steps with the film's own time updates). Paused, nothing runs.
 
@@ -42,6 +54,23 @@ function reducedMotion() {
   }
 }
 
+// Full screen: the element API where there is one (desktop, Android, iPad); an iPhone has only the video's own player.
+function fullscreenNow() {
+  return document.fullscreenElement || document.webkitFullscreenElement || null;
+}
+function canFullscreen() {
+  try {
+    const element = Boolean((document.fullscreenEnabled || document.webkitFullscreenEnabled)
+      && (Element.prototype.requestFullscreen || Element.prototype.webkitRequestFullscreen));
+    return element || typeof HTMLVideoElement.prototype.webkitEnterFullscreen === 'function';
+  } catch {
+    return false;
+  }
+}
+const noSubscribe = () => () => {};
+// Drawn on the server (nearly every browser has one or the other, so nothing shifts there); gone after hydration where not.
+const drawnOnServer = () => true;
+
 const COUNT = FILM.chapters.length;
 
 export default function HeroFilm() {
@@ -64,6 +93,9 @@ export default function HeroFilm() {
   // The film is narrated: until sound has come on once, a small "Sound on" key sits in the picture's corner.
   const heardOnce = useRef(false);
   const [heard, setHeard] = useState(false);
+  // Full screen: whether the frame (or an iPhone's player) is full screen now, as the browser's events say.
+  const [full, setFull] = useState(false);
+  const canFull = useSyncExternalStore(noSubscribe, canFullscreen, drawnOnServer);
 
   const start = useCallback(() => {
     const video = videoRef.current;
@@ -188,28 +220,6 @@ export default function HeroFilm() {
       video.pause();
     }
   };
-  // Sound on unmutes and plays; sound off only mutes. The first time sound comes on, the film goes back to the start of
-  // the chapter on screen, so the narrator's line is heard whole rather than from its middle.
-  const toggleSound = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.muted) {
-      video.muted = false;
-      setSoundOn(true);
-      if (!heardOnce.current) {
-        heardOnce.current = true;
-        setHeard(true);
-        if (video.readyState >= 1) {
-          const { index } = chapterAt(video.currentTime, video.duration, FILM.chapters);
-          video.currentTime = FILM.chapters[index].start;
-        }
-      }
-      if (video.paused) play();
-    } else {
-      video.muted = true;
-      setSoundOn(false);
-    }
-  };
   // A chapter's segment: to its first frame, and play.
   const seek = (index) => {
     const video = videoRef.current;
@@ -224,6 +234,87 @@ export default function HeroFilm() {
     } else pendingSeek.current = at;
     play();
   };
+  // Sound on unmutes and plays. The first time sound comes on, the film starts again from its first frame (time 0, the
+  // first chapter), so the narrator is heard from his first line; after that it only unmutes where the film is.
+  const soundUp = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    setSoundOn(true);
+    if (!heardOnce.current) {
+      heardOnce.current = true;
+      setHeard(true);
+      seek(0);
+      return;
+    }
+    if (video.paused) play();
+  };
+  // Sound off only mutes, where the film is.
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.muted) soundUp();
+    else {
+      video.muted = true;
+      setSoundOn(false);
+    }
+  };
+  // Full screen on, or off. Asking for it means "I'm watching": the first time with sound still off, sound comes on and the
+  // film starts from its first frame (soundUp); otherwise sound stays as it was set and the film plays.
+  const toggleFull = () => {
+    const frame = frameRef.current;
+    const video = videoRef.current;
+    if (!frame || !video) return;
+    if (fullscreenNow()) {
+      const leave = document.exitFullscreen || document.webkitExitFullscreen;
+      try { Promise.resolve(leave?.call(document)).catch(() => {}); } catch { /* already out */ }
+      return;
+    }
+    const watch = () => { if (!heardOnce.current) soundUp(); else if (video.paused) play(); };
+    const enter = frame.requestFullscreen || frame.webkitRequestFullscreen;
+    if (enter && (document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+      let asked;
+      try { asked = enter.call(frame, { navigationUI: 'hide' }); } catch { asked = Promise.reject(); }
+      Promise.resolve(asked)
+        .then(() => {
+          // A phone turns sideways for the film where the browser allows it (Android in full screen); never a failure.
+          if (!window.matchMedia('(pointer: coarse)').matches) return;
+          try { screen.orientation?.lock?.('landscape')?.catch?.(() => {}); } catch { /* not allowed here */ }
+        })
+        .catch(() => {});
+      watch();
+    } else if (typeof video.webkitEnterFullscreen === 'function') {
+      // iPhone: its own player (its own controls; it turns with the phone).
+      watch();
+      try { video.webkitEnterFullscreen(); } catch { /* not ready yet: the film plays in place, with sound */ }
+    }
+  };
+  // What is drawn follows the browser: the frame is full screen or it is not (the key, Escape or a back gesture left it).
+  useEffect(() => {
+    const frame = frameRef.current;
+    const video = videoRef.current;
+    if (!frame || !video) return undefined;
+    const onChange = () => {
+      const on = fullscreenNow() === frame;
+      // The browser's own controls (sound, time) only while the frame is full screen; without a full-screen button of their
+      // own (controlsList="nofullscreen"), since the frame already is.
+      // (A sideways lock ends by itself when the document leaves full screen: the Screen Orientation spec.)
+      video.controls = on;
+      setFull(on);
+    };
+    const onBegin = () => setFull(true);
+    const onEnd = () => setFull(false);
+    document.addEventListener('fullscreenchange', onChange);
+    document.addEventListener('webkitfullscreenchange', onChange);
+    video.addEventListener('webkitbeginfullscreen', onBegin);
+    video.addEventListener('webkitendfullscreen', onEnd);
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange);
+      document.removeEventListener('webkitfullscreenchange', onChange);
+      video.removeEventListener('webkitbeginfullscreen', onBegin);
+      video.removeEventListener('webkitendfullscreen', onEnd);
+    };
+  }, []);
   // The chapter bar is one stop for Tab; the arrow keys, Home and End move between its segments.
   const onBarKey = (event) => {
     const from = Number(event.target?.dataset?.index);
@@ -237,8 +328,9 @@ export default function HeroFilm() {
   const current = FILM.chapters[chapter];
   return (
     <figure className="lp-film" aria-label={FILM.label} data-playing={playing ? 'true' : 'false'}>
-      {/* A tap or click on the picture pauses or plays (a pointer's shortcut; the keys under it do the same for keyboards). */}
-      <div ref={frameRef} className="lp-film__frame" onClick={togglePlay}>
+      {/* A tap or click on the picture pauses or plays (a pointer's shortcut; the keys under it do the same for keyboards).
+          In full screen the browser's own controls take taps on the film, so the frame leaves them alone. */}
+      <div ref={frameRef} className="lp-film__frame" onClick={full ? undefined : togglePlay}>
         {/* The film's own first frame, the same file as the video's poster, so it is fetched once. */}
         {/* eslint-disable-next-line @next/next/no-img-element -- one fixed poster under 60 KB, shared with the video's poster attribute */}
         <img className="lp-film__poster" src={FILM.poster} width={FILM.width} height={FILM.height} alt="" fetchPriority="high" decoding="async" draggable={false} />
@@ -252,6 +344,7 @@ export default function HeroFilm() {
           poster={FILM.poster}
           width={FILM.width}
           height={FILM.height}
+          controlsList="nofullscreen"
           onPlay={() => { setPlaying(true); setNeedsTap(false); }}
           onPause={() => setPlaying(false)}
           onVolumeChange={(event) => setSoundOn(!event.currentTarget.muted)}
@@ -268,6 +361,13 @@ export default function HeroFilm() {
           <button type="button" className="lp-film__unmute" onClick={(event) => { event.stopPropagation(); toggleSound(); }} tabIndex={-1} aria-hidden="true">
             <VolumeX size={16} strokeWidth={2.25} aria-hidden="true" />
             <span>Sound on</span>
+          </button>
+        ) : null}
+        {full ? (
+          // In full screen the row under the frame is out of sight: the way back is a key in the picture's corner (Escape and
+          // a phone's back gesture work too).
+          <button type="button" className="lp-film__leave" onClick={(event) => { event.stopPropagation(); toggleFull(); }} aria-label="Leave full screen">
+            <Minimize2 size={18} strokeWidth={2.25} aria-hidden="true" />
           </button>
         ) : null}
       </div>
@@ -299,6 +399,13 @@ export default function HeroFilm() {
         <button type="button" className="lp-film__key" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? 'Turn sound off' : 'Turn sound on'}>
           {soundOn ? <Volume2 size={20} strokeWidth={2} aria-hidden="true" /> : <VolumeX size={20} strokeWidth={2} aria-hidden="true" />}
         </button>
+        {canFull ? (
+          // Not drawn where the browser has no full screen at all. On phones it sits in the picture's corner (hero-film.css);
+          // in the tab order it stays after the sound key.
+          <button type="button" className="lp-film__key lp-film__full" onClick={toggleFull} aria-label={full ? 'Leave full screen' : 'Play full screen'}>
+            {full ? <Minimize2 size={20} strokeWidth={2} aria-hidden="true" /> : <Maximize2 size={20} strokeWidth={2} aria-hidden="true" />}
+          </button>
+        ) : null}
       </div>
     </figure>
   );

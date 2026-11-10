@@ -18,6 +18,10 @@
 .rl__card::before { content: ''; position: absolute; z-index: -1; inset: 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='108' viewBox='0 0 72 108'%3E%3Cg fill='none' stroke='%23f4f0e6' stroke-opacity='.1' stroke-width='1.2'%3E%3Ccircle cx='12' cy='9' r='5'/%3E%3Ccircle cx='44' cy='9' r='5'/%3E%3Ccircle cx='60' cy='9' r='5'/%3E%3Ccircle cx='12' cy='27' r='5'/%3E%3Ccircle cx='28' cy='27' r='5'/%3E%3Ccircle cx='44' cy='27' r='5'/%3E%3Ccircle cx='28' cy='45' r='5'/%3E%3Ccircle cx='44' cy='45' r='5'/%3E%3Ccircle cx='60' cy='45' r='5'/%3E%3Ccircle cx='12' cy='63' r='5'/%3E%3Ccircle cx='28' cy='63' r='5'/%3E%3Ccircle cx='60' cy='63' r='5'/%3E%3Ccircle cx='12' cy='81' r='5'/%3E%3Ccircle cx='44' cy='81' r='5'/%3E%3Ccircle cx='60' cy='81' r='5'/%3E%3Ccircle cx='12' cy='99' r='5'/%3E%3Ccircle cx='28' cy='99' r='5'/%3E%3Ccircle cx='44' cy='99' r='5'/%3E%3C/g%3E%3Cg fill='%23d2f000' fill-opacity='.3'%3E%3Ccircle cx='28' cy='9' r='5'/%3E%3Ccircle cx='60' cy='27' r='5'/%3E%3Ccircle cx='12' cy='45' r='5'/%3E%3Ccircle cx='44' cy='63' r='5'/%3E%3Ccircle cx='28' cy='81' r='5'/%3E%3Ccircle cx='60' cy='99' r='5'/%3E%3C/g%3E%3C/svg%3E") right -4px top 6px / 72px 108px repeat; -webkit-mask-image: radial-gradient(115% 52% at 100% 0%, #000 0%, rgba(0,0,0,.45) 45%, transparent 78%); mask-image: radial-gradient(115% 52% at 100% 0%, #000 0%, rgba(0,0,0,.45) 45%, transparent 78%); pointer-events: none; }
 .rl__cover-mark { position: absolute; z-index: -1; top: 3.4rem; right: 1rem; display: grid; place-items: center; width: 3.4rem; aspect-ratio: 1; border: 1px solid rgba(210,240,0,.45); border-radius: 50%; background: #13110d; color: #d2f000; font: 800 0.9rem var(--font-display); letter-spacing: 0.01em; }
 .rl__cover-orbit { position: absolute; inset: 0.32rem; border: 1px dashed rgba(210,240,0,.4); border-radius: 50%; }
+/* Round 12 (owner, 10 Nov 2026): a creator's mark holds the creator's own Instagram profile picture, a circle inside the dashed
+   orbit (about 3 px of the card's dark between them), so the ring reads as a story ring in the brand's volt. MockMob's own posts
+   keep the monogram. */
+.rl__cover-photo { display: block; width: calc(100% - 1rem); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; background: #26231c; }
 /* The reel's kind is a plain caption over the picture (no pill, W-076); a soft shadow keeps it legible on any frame. */
 .rl__kind { display: inline-flex; align-items: center; gap: 0.4rem; align-self: flex-start; max-width: 100%; padding: 0; color: #efedea; font: 700 0.75rem var(--font-body); letter-spacing: 0; text-shadow: 0 1px 2px rgba(0,0,0,.85), 0 0 8px rgba(0,0,0,.6); }
 .rl__top { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
@@ -49,7 +53,9 @@
 .rl__summary > div { padding: 0.85rem 0.8rem; }
 .rl__summary dd { font-size: clamp(1.2rem, 5.2vw, 1.9rem); }
 .rl__who { display: grid; gap: 0.25rem; min-width: 0; }
-.rl__who b { font: 700 clamp(1.2rem, 5vw, 1.65rem)/1.05 var(--font-display); letter-spacing: -0.035em; overflow-wrap: anywhere; }
+/* Round 12: at most 24 px (was 26.4), so a first and last name of 12 letters ("Radhika Gaur") holds one line beside the play key on
+   the 248 px desktop card, and the four creators' feet line up. */
+.rl__who b { font: 700 clamp(1.2rem, 5vw, 1.5rem)/1.05 var(--font-display); letter-spacing: -0.035em; overflow-wrap: anywhere; }
 .rl__who i { min-width: 0; color: #cbc7c0; font: normal 0.76rem/1.35 var(--font-body); overflow-wrap: anywhere; }
 .rl__play { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding-left: 2px; border-radius: 50%; background: #d2f000; color: #0b1000; box-shadow: 0 4px 0 #9db400; transition: transform 100ms ease-out, box-shadow 100ms ease-out; }
 .rl__load-label { display: flex; justify-content: space-between; gap: 0.5rem; color: #d2f000; font: 700 0.8rem var(--font-body); }

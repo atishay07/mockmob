@@ -5,7 +5,7 @@
 // figure is typed in the component). Round 4 removed a loose fact line under the keys: this one is a designed element.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { CREATOR_REELS, combinedReach, compactCount, creatorInitials, featuredCreators, followersFigure, rankedReels } from '../../lib/social.js';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -44,8 +44,29 @@ test('its figure is the creators section\'s own, from src/lib/social.js; no numb
   assert.ok(creators.length >= 1 && creators.every((c) => c.kind === 'reel' && c.followers));
   assert.equal(followersFigure(creators), `${compactCount(Math.floor(combinedReach(creators) / 1000) * 1000)}+`);
   assert.match(followersFigure(creators), /^\d+(\.\d)?K\+$/);
-  assert.equal(followersFigure([{ kind: 'reel', followers: 400 }]), null, 'under a thousand: no figure (words alone)');
-  assert.deepEqual(featuredCreators(rankedReels()).map((c) => c.handle), [...CREATOR_REELS].sort((a, b) => (b.followers + (b.also?.followers || 0)) - (a.followers + (a.also?.followers || 0))).map((c) => c.handle), 'biggest audience first');
+  assert.equal(followersFigure([{ kind: 'reel', featured: true, followers: 400 }]), null, 'under a thousand: no figure (words alone)');
+  // Round 12 (owner, 10 Nov 2026: "remove Prathna ... mainly keep the other three big creators"): the featured creators are a
+  // field in the data (`featured: true`), not a follower threshold in code; biggest audience first.
+  const featured = [...CREATOR_REELS].filter((c) => c.featured === true);
+  assert.deepEqual(featuredCreators(rankedReels()).map((c) => c.handle), featured.sort((a, b) => (b.followers + (b.also?.followers || 0)) - (a.followers + (a.also?.followers || 0))).map((c) => c.handle), 'biggest audience first');
+  assert.deepEqual(featuredCreators(rankedReels()).map((c) => c.creator).sort(), ['Garima Jain', 'Radhika Gaur', 'Rahul Thapa']);
+  assert.equal(featuredCreators([{ kind: 'reel', followers: 500000 }]).length, 0, 'a big audience alone does not make a creator featured');
+  assert.doesNotMatch(read('../../lib/social.js').replace(/^\s*\/\/.*$/gm, ''), /followers\s*[><]=?\s*\d/, 'no follower threshold typed in code');
+  // Prathna Jain stays in the strip as a reel, after the three, but is not counted.
+  const strip = rankedReels().filter((i) => i.kind === 'reel').map((i) => i.creator);
+  assert.ok(strip.includes('Prathna Jain') && strip.indexOf('Prathna Jain') === strip.length - 1, 'Prathna last among the creators');
+  assert.ok(!featuredCreators(rankedReels()).some((c) => c.creator === 'Prathna Jain'));
+});
+
+test('round 12: every featured creator has a profile picture, a real file in public/, small', () => {
+  for (const c of featuredCreators(rankedReels())) {
+    assert.match(c.photo || '', /^\/brand\/creators\/[a-z0-9._]+\.(webp|jpg)$/, `${c.creator}: a photo path`);
+    const file = new URL(`../../../public${c.photo}`, import.meta.url);
+    assert.ok(existsSync(file), `${c.creator}: ${c.photo} exists in public/`);
+    assert.ok(statSync(file).size > 1000 && statSync(file).size < 20000, `${c.creator}: a real, small picture`);
+    // The JPEG read from Instagram sits beside the webp the page draws.
+    assert.ok(existsSync(new URL(`../../../public/brand/creators/${c.handle}.jpg`, import.meta.url)), `${c.handle}.jpg`);
+  }
 });
 
 test('its words: one sentence for screen readers; on a narrow phone two short lines, the figure never without its unit', () => {
@@ -53,13 +74,17 @@ test('its words: one sentence for screen readers; on a narrow phone two short li
   assert.match(CODE, /`Featured by CUET creators with \$\{figure\} followers\. See the reels\.`/);
   assert.match(CODE, /'Featured by CUET creators\. See the reels\.'/);
   assert.match(CODE, /<span className="lp-featured__marks" aria-hidden="true">/);
-  // The marks: the first letter of each featured creator's name (the section's covers show the same names), at most three.
+  // The marks (round 12): each featured creator's own Instagram profile picture, the one on the section's cards, at most
+  // three; decorative (the sentence names nobody), eager and sized so nothing shifts. No initials any more.
   assert.match(CODE, /creators\.slice\(0, 3\)\.map/);
-  assert.match(CODE, /creatorInitials\(creator\.creator, 1\)/);
+  assert.match(CODE, /<img key=\{creator\.handle\} className="lp-featured__mark" src=\{creator\.photo\} width=\{24\} height=\{24\} alt="" loading="eager"/);
+  assert.doesNotMatch(CODE, /creatorInitials/);
+  assert.match(REELS, /src=\{item\.photo\}/, 'the cards draw the same pictures');
+  // MockMob's own posts keep the monogram (the initials).
   assert.equal(creatorInitials('Garima Jain'), 'GJ');
   assert.equal(creatorInitials('Garima Jain', 1), 'G');
   assert.equal(creatorInitials('prathna'), 'P');
-  assert.match(REELS, /creatorInitials as initials/, 'the covers read the same initials');
+  assert.match(REELS, /creatorInitials as initials/, 'the posts\' covers keep their initials');
   // No middle dot, exclamation, arrow or em dash in anything it says.
   const said = [...CODE.matchAll(/(['"`])((?:\\.|(?!\1)[^\\])*)\1/g)].map((m) => m[2]).concat([...CODE.matchAll(/>([^<>{}]+)</g)].map((m) => m[1]));
   for (const s of said) assert.doesNotMatch(s, /·|!|→|—/, s);
@@ -74,6 +99,10 @@ test('its look: quiet 13 px muted ink, the figure in ink, no border, pill or fil
   assert.match(rule('.mm.lp .lp-featured__fig'), /color: var\(--ink\);/);
   // The visible box is the 24 px marks; the target grows 20 px down (24 + 20 = 44), never up into the login link's.
   assert.match(rule('.mm.lp .lp-featured__mark'), /width: 24px;\s*height: 24px;/);
+  // Round 12: pictures, cut round, a 1.5 px ring in the page's paper so the overlapping three separate.
+  assert.match(rule('.mm.lp .lp-featured__mark'), /border-radius: 50%;\s*object-fit: cover;/);
+  assert.match(rule('.mm.lp .lp-featured__mark'), /box-shadow: 0 0 0 1\.5px var\(--paper\);/);
+  assert.match(CSS, /\.mm\.lp \.lp-featured__mark \+ \.lp-featured__mark \{ margin-left: -8px; \}/, 'the same overlap');
   assert.match(rule('.mm.lp .lp-hero .lp-featured::before'), /inset: 0 -6px -20px;/);
   assert.ok(24 + 20 >= 44);
   assert.match(rule('.mm.lp .lp-hero .lp-featured:focus-visible'), /outline: 2px solid var\(--focus-ring, var\(--ink\)\);/);

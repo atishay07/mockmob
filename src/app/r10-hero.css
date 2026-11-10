@@ -153,11 +153,11 @@
    Round 11 (10 Nov 2026): the proof line under the hero's ways in (HeroProof.jsx)
    ========================================================================== */
 /* A student from a reel half-trusts us and the first key had no proof near it. One quiet link to the creators section:
-   three small overlapping marks (each featured creator's first letter on raised paper, ringed in the page's paper so they
-   read as a stack), then "Featured by CUET creators with 199K+ followers" at 13 px in the login line's muted ink, the figure in
-   ink. No border, no pill, no icon but the marks; nothing moves but a colour on press. The link's visible box hugs the
-   marks (so its focus ring does too); its touch target grows 20 px down into the gap above the film (::before), to a
-   44 px target that never reaches the login link's target above it or the film's frame below it. */
+   three small overlapping marks (round 12: each featured creator's own Instagram profile picture, a 24 px circle ringed
+   1.5 px in the page's paper so they read as a stack), then "Featured by CUET creators with 256K+ followers" at 13 px in the
+   login line's muted ink, the figure in ink. No border, no pill, no icon but the marks; nothing moves but a colour on press.
+   The link's visible box hugs the marks (so its focus ring does too); its touch target grows 20 px down into the gap above
+   the film (::before), to a 44 px target that never reaches the login link's target above it or the film's frame below it. */
 .mm.lp .lp-hero .lp-featured {
   position: relative;
   display: flex;
@@ -178,19 +178,17 @@
 .mm.lp .lp-hero .lp-featured:active { color: var(--ink-2); }
 .mm.lp .lp-featured__marks { display: flex; flex: none; }
 .mm.lp .lp-featured__mark {
-  display: grid;
-  place-items: center;
+  display: block;
+  flex: none;
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  object-fit: cover;
   background: var(--paper-raised);
-  box-shadow: 0 0 0 2px var(--paper), inset 0 0 0 1px var(--line-strong);
-  color: var(--ink-2);
-  font: 700 0.6875rem/1 var(--font-body);
+  box-shadow: 0 0 0 1.5px var(--paper);
 }
-/* Each next mark covers the one before by 8 px (a third), so a covered mark centres its letter in the part that shows. */
+/* Each next picture covers the one before by 8 px (a third); the later one sits on top, its paper ring cutting the edge. */
 .mm.lp .lp-featured__mark + .lp-featured__mark { margin-left: -8px; }
-.mm.lp .lp-featured__mark:not(:last-child) { padding-right: 8px; }
 .mm.lp .lp-featured__words { white-space: nowrap; }
 .mm.lp .lp-featured__fig { font-weight: 650; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 @media (hover: hover) and (pointer: fine) {
@@ -218,7 +216,7 @@
 /* Desktop: a step up with the login line (16 px there), still under it in the words' column. */
 @media (min-width: 960px) {
   .mm.lp .lp-hero .lp-featured { margin-top: 16px; gap: 10px; font-size: 0.875rem; }
-  .mm.lp .lp-featured__mark { width: 26px; height: 26px; font-size: 0.75rem; }
+  .mm.lp .lp-featured__mark { width: 26px; height: 26px; }
   /* At 14 px the line is 378 px: the narrowest desktop column (376 px at 960) takes the two-line form too. */
   @container (max-width: 377.98px) {
     .mm.lp .lp-featured__with { display: none; }
@@ -226,5 +224,5 @@
   }
 }
 @media (forced-colors: active) {
-  .mm.lp .lp-featured__mark { border: 1px solid CanvasText; }
+  .mm.lp .lp-featured__mark { outline: 1px solid CanvasText; }
 }

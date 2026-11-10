@@ -203,3 +203,89 @@
   .mm.lp .lp-film__keys { column-gap: 14px; margin-top: 14px; }
   .mm.lp .lp-film__now { font-size: 0.875rem; }
 }
+
+/* ==========================================================================
+   Full screen (owner, 9 Nov 2026, the share-link prototype; round 12, 10 Nov 2026; HeroFilm.jsx).
+   The key: a fourth round 44 px paper key in the row, after the sound key, wherever the row holds it beside nine chapters of
+   at least 24 px (the film 380 px wide and up: tablets, desktops). On phones it does not (a 390 px phone's 350 px film
+   would leave 194 px, 21.6 px a chapter), so there the same key sits in the picture's top-right corner: a 34 px paper
+   disc in a 44 px target, the weight of the "Sound on" pill in the opposite corner (the prototype's phone key). In the
+   tab order it is after the sound key either way. The film is the container: .lp-film, named "film".
+   Full screen: the frame alone, letterboxed on black (contain), the poster set aside, the browser's own controls along
+   the foot, and a "Leave full screen" key, a 44 px paper key in the top-right corner, clear of the notch.
+   ========================================================================== */
+.mm.lp .lp-film { position: relative; container: film / inline-size; }
+@container film (min-width: 380px) {
+  .mm.lp .lp-film__keys:has(> .lp-film__full) { grid-template-columns: 44px minmax(0, 1fr) 44px 44px; }
+}
+@container film (max-width: 379.98px) {
+  .mm.lp .lp-film__full {
+    position: absolute;
+    z-index: 2;
+    top: 4px;
+    right: 4px;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .mm.lp .lp-film__full::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 5px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: var(--sh-1);
+    transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .mm.lp .lp-film__full svg { width: 16px; height: 16px; }
+  .mm.lp .lp-film__full:active { background: none; transform: none; }
+  .mm.lp .lp-film__full:active::before { background: var(--paper-raised); transform: scale(0.94); transition-duration: 100ms; }
+  .mm.lp .lp-film__full:focus-visible { outline-offset: -3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .mm.lp .lp-film__full:hover { background: none; }
+    .mm.lp .lp-film__full:hover::before { background: var(--paper-raised); border-color: var(--ink-3); }
+  }
+}
+
+/* In full screen. Each selector on its own: a browser that does not know one prefix drops only that rule. */
+.mm.lp .lp-film__frame:fullscreen { border: 0; border-radius: 0; background: black; box-shadow: none; cursor: auto; }
+.mm.lp .lp-film__frame:-webkit-full-screen { border: 0; border-radius: 0; background: black; box-shadow: none; cursor: auto; }
+.mm.lp .lp-film__frame:fullscreen .lp-film__poster { display: none; }
+.mm.lp .lp-film__frame:-webkit-full-screen .lp-film__poster { display: none; }
+.mm.lp .lp-film__frame:fullscreen .lp-film__video { object-fit: contain; background: black; }
+.mm.lp .lp-film__frame:-webkit-full-screen .lp-film__video { object-fit: contain; background: black; }
+/* The controls' own full-screen button (greyed by controlsList="nofullscreen": the frame already is) is not drawn. */
+.mm.lp .lp-film__video::-webkit-media-controls-fullscreen-button { display: none; }
+.mm.lp .lp-film__leave {
+  position: absolute;
+  z-index: 3;
+  top: max(16px, env(safe-area-inset-top, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--sh-1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms cubic-bezier(0.23, 1, 0.32, 1), transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-film__leave:active { background: var(--paper-raised); transform: scale(0.94); transition-duration: 100ms; }
+.mm.lp .lp-film__leave:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-film__leave:hover { background: var(--paper-raised); border-color: var(--ink-3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .lp-film__full::before, .mm.lp .lp-film__leave { transition: none; }
+  .mm.lp :is(.lp-film__full, .lp-film__leave):active, .mm.lp .lp-film__full:active::before { transform: none; }
+}
+:root[data-motion='reduced'] .mm.lp .lp-film__full::before, :root[data-motion='reduced'] .mm.lp .lp-film__leave { transition: none; }
+:root[data-motion='reduced'] .mm.lp :is(.lp-film__full, .lp-film__leave):active, :root[data-motion='reduced'] .mm.lp .lp-film__full:active::before { transform: none; }

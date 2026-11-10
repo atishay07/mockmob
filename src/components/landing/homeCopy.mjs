@@ -198,9 +198,13 @@ export const VALUE_COPY = Object.freeze({
   // Owner, 7 Nov 2026 ("you can follow a maximalist approach, adding more things"): under Pro's price, what that one price
   // holds, as the features' own desk objects and names. `icon` keys the hero strip's objects (stripObjects.mjs; the names of
   // heroTaps.mjs heroFeatures), `em` is the word drawn like a count. Key cards only while they are live.
+  // R12 (owner, 10 Nov 2026: "There are five icons there. One is missing ... make it six in total"): NTA mode (Pro's own,
+  // proPlan "Smart practice and NTA mode"), with the clipboard paper the hero's "Exam-day screen" uses, beside the mocks, so
+  // a phone's two columns read mocks and the exam screen, then fixing and help, then revision and colleges.
   allIn: (u) => `All in the same ${u.pro}`,
   features: ({ keyCards = false } = {}) => [
     { icon: 'questions', name: 'Unlimited mocks', em: 'Unlimited' },
+    { icon: 'papers', name: 'NTA mode', em: null },
     { icon: 'mistakes', name: 'Mistake Lab', em: null },
     { icon: 'mobi', name: 'Ask Mobi', em: null },
     ...(keyCards ? [{ icon: 'keycards', name: 'Key cards', em: null }] : []),

@@ -1,14 +1,15 @@
 "use client";
 
-// A curated strip of Instagram links. Covers are authored local typography and pattern,
-// never a stand-in for a creator photo or a fabricated post thumbnail. The embed is mounted
+// A curated strip of Instagram links. Covers are authored local typography and pattern, never a fabricated post
+// thumbnail; a creator's cover carries the creator's own Instagram profile picture in its ringed mark (round 12, owner
+// 10 Nov 2026: "pick up their profiles from Instagram"), MockMob's own posts keep the monogram. The embed is mounted
 // only after activation, and the original link remains available if Instagram blocks it.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, ExternalLink, Heart, MessageCircle, Play, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Eye, Heart, MessageCircle, Play } from 'lucide-react';
 import { undrawn } from './undrawn';
 // The summary's followers figure and the covers' initials come from @/lib/social, the same functions the hero's proof line
-// (HeroProof) reads, so the hero and this section never disagree.
-import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, compactCount, creatorInitials as initials, embedSrc, featuredCreators, floorForPlus, followersFigure, permalink, recordedEngagement } from '@/lib/social';
+// (HeroProof) reads, so the hero and this section never disagree. Every count is printed the way Instagram showed it (igCount).
+import { REEL_VIEWS_AS_OF, creatorInitials as initials, embedSrc, featuredCreators, floorForPlus, followersFigure, igCount, permalink, recordedEngagement, viewsFigure } from '@/lib/social';
 
 function IgGlyph({ size = 16 }) {
   return (
@@ -61,21 +62,29 @@ function Card({ item, active, onPlay }) {
         </div>
       ) : (
         <button type="button" className="rl__card" data-kind={item.kind} onClick={onPlay} aria-label={`Load ${label} from Instagram`}>
-          <span className="rl__cover-mark" aria-hidden="true"><span className="rl__cover-orbit" /><span>{initials(item.creator)}</span></span>
+          <span className="rl__cover-mark" aria-hidden="true">
+            <span className="rl__cover-orbit" />
+            {item.photo ? (
+              // The creator's own Instagram profile picture inside the ring (150 px file for a 38 px circle, so 2x and 3x stay sharp).
+              // eslint-disable-next-line @next/next/no-img-element -- a 150 px webp, no optimizer round trip
+              <img className="rl__cover-photo" src={item.photo} width={150} height={150} alt="" loading="lazy" decoding="async" draggable={false} />
+            ) : <span>{initials(item.creator)}</span>}
+          </span>
           <span className="rl__top">
             <span className="rl__kind"><IgGlyph size={14} />{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
             {item.partnership ? <span className="rl__partner">Paid partner</span> : null}
           </span>
           {item.followers ? (
             <span className="rl__reach">
-              <b className="mm-measure">{compactCount(item.followers)}</b>
-              <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({compactCount(item.also.followers)})</> : null}</span>
+              <b className="mm-measure">{igCount(item.followers)}</b>
+              <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({igCount(item.also.followers)})</> : null}</span>
             </span>
           ) : null}
           {item.about ? <span className="rl__about">{item.about}</span> : null}
           {item.attribution ? <span className="rl__attribution">{item.attribution}</span> : null}
-          {item.likes || item.comments ? (
+          {item.views || item.likes || item.comments ? (
             <span className="rl__engage">
+              {item.views ? <span><Eye size={13} aria-hidden="true" />{igCount(item.views)} views</span> : null}
               {item.likes ? <span><Heart size={13} aria-hidden="true" />{item.likes.toLocaleString('en-IN')} likes</span> : null}
               {item.comments ? <span><MessageCircle size={13} aria-hidden="true" />{item.comments.toLocaleString('en-IN')} comments</span> : null}
             </span>
@@ -103,6 +112,7 @@ function countsDate(a, b) {
 
 export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   const creators = featuredCreators(items);
+  const views = viewsFigure(items);
   const engagement = floorForPlus(recordedEngagement(items));
   const trackRef = useRef(null);
   const [activeCode, setActiveCode] = useState(null);
@@ -145,7 +155,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
       {creators.length ? (
         <dl className="rl__summary">
           <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
-          <div><dt>Reel views</dt><dd className="mm-measure">{compactCount(REEL_VIEWS_FLOOR)}+</dd></div>
+          {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
           {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
         </dl>
       ) : null}

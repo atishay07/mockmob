@@ -114,13 +114,14 @@ test('HeroFilm: plays only while half on screen, pauses when it leaves, never by
 
 test('round 9 nothing on the picture: a pointer tap on it pauses or plays; the keys sit in one row under the frame', () => {
   const frame = FILM_CODE.slice(FILM_CODE.indexOf('<div ref={frameRef}'), FILM_CODE.indexOf('<div className="lp-film__keys">'));
-  assert.match(frame, /<div ref=\{frameRef\} className="lp-film__frame" onClick=\{togglePlay\}>/, 'a tap or click on the picture');
+  // Round 12: in full screen the browser's own controls take taps on the film, so the frame leaves them alone.
+  assert.match(frame, /<div ref=\{frameRef\} className="lp-film__frame" onClick=\{full \? undefined : togglePlay\}>/, 'a tap or click on the picture');
   assert.doesNotMatch(frame, /lp-film__key\b|lp-film__chapters|lp-film__now/, 'no key, bar or name over the picture');
   // The only thing ever on the poster is the round Play key when the film does not play by itself; it keeps its tap.
   assert.match(frame, /onClick=\{\(event\) => \{ event\.stopPropagation\(\); play\(\); \}\}/);
-  // The row: play/pause, the chapter bar with the name, sound.
+  // The row: play/pause, the chapter bar with the name, sound, full screen (round 12).
   const keys = FILM_CODE.slice(FILM_CODE.indexOf('<div className="lp-film__keys">'));
-  const order = ["aria-label={playing ? 'Pause film' : 'Play film'}", '<div className="lp-film__track">', '<p className="lp-film__now">', 'role="toolbar" aria-label="Chapters"', "aria-label={soundOn ? 'Turn sound off' : 'Turn sound on'}"];
+  const order = ["aria-label={playing ? 'Pause film' : 'Play film'}", '<div className="lp-film__track">', '<p className="lp-film__now">', 'role="toolbar" aria-label="Chapters"', "aria-label={soundOn ? 'Turn sound off' : 'Turn sound on'}", "aria-label={full ? 'Leave full screen' : 'Play full screen'}"];
   let at = -1;
   for (const mark of order) { const i = keys.indexOf(mark); assert.ok(i > at, mark); at = i; }
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__keys \{[^}]*display: grid;[^}]*grid-template-columns: 44px minmax\(0, 1fr\) 44px;[^}]*margin-top: 12px;/, 'one row under the frame');
@@ -168,19 +169,74 @@ test('round 9 progress runs only while the film plays and is on screen; Reduce m
   assert.match(FILM_CODE, /if \(raf\) cancelAnimationFrame\(raf\);/, 'cleaned up on unmount');
 });
 
-test('HeroFilm: two 44 px round keys, pause/play and sound, named, with a visible focus ring; sound is never on at the start', () => {
+test('HeroFilm: three 44 px round keys, pause/play, sound and full screen, named, with a visible focus ring; sound is never on at the start', () => {
   assert.match(FILM_CODE, /aria-pressed=\{soundOn\} aria-label=\{soundOn \? 'Turn sound off' : 'Turn sound on'\}/);
   assert.match(FILM_CODE, /aria-label=\{playing \? 'Pause film' : 'Play film'\}/);
-  assert.match(FILM_CODE, /import \{ Pause, Play, Volume2, VolumeX \} from 'lucide-react';/);
+  assert.match(FILM_CODE, /import \{ Maximize2, Minimize2, Pause, Play, Volume2, VolumeX \} from 'lucide-react';/);
   assert.match(FILM_CODE, /const \[soundOn, setSoundOn\] = useState\(false\);/);
-  // Turning sound on unmutes and plays; the first time, back to the start of the chapter on screen (the narrator's whole line).
-  assert.match(FILM_CODE, /if \(video\.muted\) \{\s*video\.muted = false;\s*setSoundOn\(true\);\s*if \(!heardOnce\.current\) \{[\s\S]*?video\.currentTime = FILM\.chapters\[index\]\.start;[\s\S]*?if \(video\.paused\) play\(\);/);
+  // Turning sound on unmutes and plays. Round 12 (owner, 10 Nov 2026: "Whenever someone turns the sound on for the first
+  // time, it should play from the start"): the first time, back to the film's first frame (seek(0): time 0 and play), no
+  // longer the start of the chapter on screen; after that sound only unmutes and mutes where the film is.
+  assert.match(FILM_CODE, /const soundUp = \(\) => \{[\s\S]*?video\.muted = false;\s*setSoundOn\(true\);\s*if \(!heardOnce\.current\) \{\s*heardOnce\.current = true;\s*setHeard\(true\);\s*seek\(0\);\s*return;\s*\}\s*if \(video\.paused\) play\(\);/);
+  assert.match(FILM_CODE, /if \(video\.muted\) soundUp\(\);\s*else \{\s*video\.muted = true;\s*setSoundOn\(false\);\s*\}/, 'sound off only mutes');
+  const sound = FILM_CODE.slice(FILM_CODE.indexOf('const soundUp = () =>'), FILM_CODE.indexOf('const toggleFull = () =>'));
+  assert.doesNotMatch(sound, /chapterAt|FILM\.chapters\[index\]\.start|currentTime/, 'the first sound-on no longer goes to the chapter\'s start');
+  assert.ok(FILM_CODE.indexOf('const seek = (index) =>') < FILM_CODE.indexOf('const soundUp = () =>'), 'seek is defined before the sound code uses it');
   // Until sound has come on once, a "Sound on" key in the picture's corner (a pointer shortcut; it does not stop the tap reaching only itself).
   assert.match(FILM_CODE, /\{!heard && !needsTap \? \([\s\S]*?className="lp-film__unmute" onClick=\{\(event\) => \{ event\.stopPropagation\(\); toggleSound\(\); \}\}[\s\S]*?<span>Sound on<\/span>/);
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__unmute \{[^}]*height: 44px;/);
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__key,\n\.mm\.lp \.lp-film__start \{[^}]*width: 44px;[^}]*height: 44px;[^}]*border: 1px solid var\(--line-strong\);[^}]*border-radius: 50%;[^}]*background: var\(--paper\);/);
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__key:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\); outline-offset: 2px; \}/);
   assert.match(FILM_CODE, /aria-label=\{FILM\.label\}/);
+});
+
+// Round 12 (owner, 10 Nov 2026: "You have removed the full-screen mode ... I meant the video for the hero section. Implement
+// that also right now"), ported from the share-link prototype (e02b823dc) without its other experiments.
+test('round 12 full screen: one key after the sound key, named, drawn only where the browser can; the frame goes full screen', () => {
+  // The key: a round paper key in the row, last, in the tab order after the sound key; its name follows the state.
+  const keys = FILM_CODE.slice(FILM_CODE.indexOf('<div className="lp-film__keys">'));
+  assert.match(keys, /\{canFull \? \(\s*<button type="button" className="lp-film__key lp-film__full" onClick=\{toggleFull\} aria-label=\{full \? 'Leave full screen' : 'Play full screen'\}>/);
+  assert.match(keys, /\{full \? <Minimize2 size=\{20\} strokeWidth=\{2\} aria-hidden="true" \/> : <Maximize2 size=\{20\} strokeWidth=\{2\} aria-hidden="true" \/>\}/);
+  assert.ok(keys.indexOf("'Turn sound on'") < keys.indexOf('lp-film__full'), 'after the sound key');
+  assert.doesNotMatch(keys.slice(keys.indexOf('lp-film__full')), /tabIndex/, 'a normal button in the tab order');
+  // Not drawn where neither the element API nor an iPhone's video player exists (drawn by the server, so nothing shifts).
+  assert.match(FILM_CODE, /const canFull = useSyncExternalStore\(noSubscribe, canFullscreen, drawnOnServer\);/);
+  const can = FILM_CODE.slice(FILM_CODE.indexOf('function canFullscreen()'), FILM_CODE.indexOf('const noSubscribe'));
+  assert.match(can, /document\.fullscreenEnabled \|\| document\.webkitFullscreenEnabled/);
+  assert.match(can, /Element\.prototype\.requestFullscreen \|\| Element\.prototype\.webkitRequestFullscreen/);
+  assert.match(can, /typeof HTMLVideoElement\.prototype\.webkitEnterFullscreen === 'function'/);
+  // The frame goes full screen (webkit where needed); an iPhone opens its own player; a phone turns sideways where allowed.
+  const toggle = FILM_CODE.slice(FILM_CODE.indexOf('const toggleFull = () =>'), FILM_CODE.indexOf('useEffect(', FILM_CODE.indexOf('const toggleFull = () =>')));
+  assert.match(toggle, /const enter = frame\.requestFullscreen \|\| frame\.webkitRequestFullscreen;/);
+  assert.match(toggle, /enter\.call\(frame, \{ navigationUI: 'hide' \}\)/);
+  assert.match(toggle, /video\.webkitEnterFullscreen\(\)/);
+  assert.match(toggle, /try \{ screen\.orientation\?\.lock\?\.\('landscape'\)\?\.catch\?\.\(\(\) => \{\}\); \} catch/, 'never fails on the lock');
+  assert.match(toggle, /document\.exitFullscreen \|\| document\.webkitExitFullscreen/, 'the same key leaves');
+  // Asking for full screen means watching: the first time, sound on from the film's start (soundUp); else it plays as set.
+  assert.match(toggle, /const watch = \(\) => \{ if \(!heardOnce\.current\) soundUp\(\); else if \(video\.paused\) play\(\); \};/);
+  // What is drawn follows the browser's own event (the key, Escape, a back gesture), never a guess.
+  assert.match(FILM_CODE, /const on = fullscreenNow\(\) === frame;\s*[\s\S]*?video\.controls = on;\s*setFull\(on\);/);
+  for (const ev of ['fullscreenchange', 'webkitfullscreenchange']) assert.match(FILM_CODE, new RegExp(`document\\.addEventListener\\('${ev}', onChange\\);`));
+  for (const ev of ['webkitbeginfullscreen', 'webkitendfullscreen']) assert.match(FILM_CODE, new RegExp(`video\\.addEventListener\\('${ev}', on(Begin|End)\\);`));
+  // In full screen: the way back in the picture's corner; the browser's controls without a full-screen button of their own.
+  assert.match(FILM_CODE, /\{full \? \(\s*<button type="button" className="lp-film__leave" onClick=\{\(event\) => \{ event\.stopPropagation\(\); toggleFull\(\); \}\} aria-label="Leave full screen">/);
+  assert.match(FILM_CODE, /controlsList="nofullscreen"/);
+  // The look: letterboxed on black, the poster set aside; the corner key on phones, the fourth row key where it fits.
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame:fullscreen \{[^}]*border-radius: 0;[^}]*background: black;/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame:-webkit-full-screen \{[^}]*background: black;/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame:fullscreen \.lp-film__video \{ object-fit: contain; background: black; \}/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame:fullscreen \.lp-film__poster \{ display: none; \}/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film \{ position: relative; container: film \/ inline-size; \}/);
+  assert.match(FILM_CSS, /@container film \(min-width: 380px\) \{\s*\.mm\.lp \.lp-film__keys:has\(> \.lp-film__full\) \{ grid-template-columns: 44px minmax\(0, 1fr\) 44px 44px; \}/);
+  // 380 = three 44 px keys, nine 24 px chapters and three 8 px gaps, rounded up: under it the chapters would drop below 24 px.
+  assert.ok(3 * 44 + 9 * 24 + 3 * 8 <= 380);
+  assert.match(FILM_CSS, /@container film \(max-width: 379\.98px\) \{\s*\.mm\.lp \.lp-film__full \{[^}]*position: absolute;[^}]*top: 4px;[^}]*right: 4px;/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__leave \{[^}]*width: 44px;[^}]*height: 44px;[^}]*border-radius: 50%;[^}]*background: var\(--paper\);/);
+  assert.match(FILM_CSS, /\.mm\.lp \.lp-film__leave:focus-visible \{ outline: 2px solid var\(--focus-ring, var\(--ink\)\); outline-offset: 2px; \}/);
+  assert.match(FILM_CSS, /:root\[data-motion='reduced'\] \.mm\.lp \.lp-film__full::before, :root\[data-motion='reduced'\] \.mm\.lp \.lp-film__leave \{ transition: none; \}/);
+  // Nothing from the prototype's other experiments came along.
+  assert.doesNotMatch(read('src/app/page.js'), /DesktopHint|TestBar/);
+  assert.doesNotMatch(FILM_CSS, /lp-deskhint|lp-testbar/);
 });
 
 test('the film card: raised paper, a hairline, the large-card radius, a soft shadow; no glow, gradient or glass; tokens only', () => {

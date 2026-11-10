@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildCompassShowcase } from '../../src/lib/du/showcase.js';
-import { CREATOR_REELS, MOCKMOB_POSTS, embedSrc, permalink } from '../../src/lib/social.js';
+import { CREATOR_REELS, MOCKMOB_POSTS, REEL_VIEWS_AS_OF, STATS_AS_OF, compactCount, embedSrc, igCount, permalink, reelViews, viewsFigure } from '../../src/lib/social.js';
 import { VOICES, publishedVoices } from '../../src/lib/voices.js';
 import { computePrepOSInsights, answerFromInsights } from '../prepos_insights.js';
 
@@ -38,6 +38,31 @@ test('Instagram entries are well-formed, unique and link to the official embed',
     assert.ok(item.creator && item.handle);
   }
   assert.ok(CREATOR_REELS.every((r) => r.kind === 'reel'));
+});
+
+test('round 12: creator counts print as Instagram showed them; the summary\'s reel views are the reels\' own sum, not a stated floor', () => {
+  // A rounded figure is stored as its floor and printed back the way Instagram showed it, never with more precision.
+  assert.equal(igCount(208000), '208K');
+  assert.equal(igCount(28000), '28K');
+  assert.equal(igCount(12000), '12K');
+  assert.equal(igCount(77400), '77.4K');
+  assert.equal(igCount(17100), '17.1K');
+  // Under 10,000 Instagram shows the exact count, and so does the page.
+  assert.equal(igCount(8814), '8,814');
+  assert.equal(igCount(5749), '5,749');
+  assert.equal(igCount(180), '180');
+  const card = readFileSync(new URL('../../src/components/landing/CreatorReels.jsx', import.meta.url), 'utf8');
+  assert.match(card, /\{igCount\(item\.followers\)\}/);
+  assert.match(card, /\(\{igCount\(item\.also\.followers\)\}\)/);
+  assert.match(card, /\{igCount\(item\.views\)\} views/);
+  assert.doesNotMatch(card, /compactCount\(item\./, 'no card count bypasses igCount');
+  // Every reel carries its views (the owner's screenshot of the reels tab); the summary adds them up and rounds down.
+  assert.ok(CREATOR_REELS.every((r) => Number.isInteger(r.views) && r.views > 0));
+  assert.equal(reelViews(), CREATOR_REELS.reduce((sum, r) => sum + r.views, 0));
+  assert.equal(viewsFigure(), `${compactCount(Math.floor(reelViews() / 1000) * 1000)}+`);
+  assert.match(card, /const views = viewsFigure\(items\);/);
+  assert.doesNotMatch(card, /REEL_VIEWS_FLOOR/);
+  assert.equal(REEL_VIEWS_AS_OF, STATS_AS_OF, 'one date for every count');
 });
 
 test('the Wall of love shows only consented, complete voices, and nothing by default', () => {
