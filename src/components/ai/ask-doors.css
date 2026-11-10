@@ -32,6 +32,8 @@
   animation: amd-rise 360ms var(--a-ease, ease-out) both;
 }
 .amd-door--record { animation-delay: 60ms; }
+/* 10 Nov (design rules 2 and 5): Day's doors are paper on paper: the soft shadow carries the edge, not a drawn line. */
+html[data-theme='light'] .amd-door { border-color: transparent; box-shadow: var(--a-shadow-2); }
 @media (min-width: 640px) { .amd-door { padding: 26px 26px 20px; } }
 .amd-door__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .amd-door__head h2 { margin: 0; font: 800 clamp(28px, 4vw, 34px)/1.05 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); }
@@ -66,12 +68,13 @@
 .amd-note { margin: 10px 4px 0; min-height: 18px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); }
 .amd-tip { margin: 16px 2px 10px; font: 600 13.5px/1.4 var(--font-body, inherit); color: var(--a-ink-3); }
 
-/* Rows that ask on one tap, with the price said first */
+/* Rows that ask on one tap, with the price said first. 10 Nov (design rule 2): a row inside a door is a filled tile, not a box
+   in a box: a quiet ink tint (the same in Night and Day, so Day's rows are not white on white), no drawn line. */
 .amd-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .amd-list li { animation: amd-rise 300ms var(--a-ease, ease-out) both; animation-delay: calc(var(--i, 0) * 40ms + 120ms); }
 .amd-row {
   display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; min-height: 56px; padding: 11px 16px;
-  border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised-2); color: var(--a-ink); text-align: left; cursor: pointer;
+  border: 1px solid transparent; border-radius: 16px; background: color-mix(in srgb, var(--a-ink) 5%, transparent); color: var(--a-ink); text-align: left; cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease, transform 140ms var(--a-ease, ease-out);
 }
 .amd-row:active { transform: scale(0.98); }

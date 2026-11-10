@@ -22,7 +22,7 @@ test('Escape and a press outside close it, focus is held inside and returns to t
   assert.match(pop, /dialog\[open\]/, 'the sign-out question is its own modal and keeps its own Escape');
 });
 
-test('content follows the app sheet: plan, credits, Appearance, account rows, Write to us, a quiet Sign out', () => {
+test('content follows the app sheet: plan, credits, Appearance, account rows, Write to us, Sign out as a clear row', () => {
   assert.match(pop, /<AppearanceSwitch/);
   assert.match(pop, /links\.wallet \|\| '\/wallet'/);
   assert.match(pop, /<SignOutButton className="acct-pop__out">/);
@@ -53,7 +53,7 @@ test('LK141: on a phone the door opens the same panel as a sheet under the top b
 });
 
 test('LK141: the sheet carries Show me around, which closes it and starts the tour', () => {
-  assert.match(pop, /\{onTour \? <button type="button" onClick=\{tour\}>\{TOUR_LABEL\}<\/button> : null\}/);
+  assert.match(pop, /\{onTour \? <button type="button" onClick=\{tour\}><span>\{TOUR_LABEL\}<\/span>\{chev\}<\/button> : null\}/);
   assert.match(pop, /const tour = \(\) => \{ close\(false\); onTour\?\.\(\); \};/);
 });
 

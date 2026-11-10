@@ -282,11 +282,15 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
         </div>
       ) : null}
 
-      {/* With a thread open, its own footer already shows the balance just above: the page keeps only the free-versus-written note (R8 TOOLS-13). */}
-      <div className="amd-credit">
-        {idle ? <Link href="/wallet" className="amd-credit__first">{credits.first}</Link> : null}
-        <p>{credits.second}</p>
-      </div>
+      {/* With a thread open, its own footer already shows the balance just above: the page keeps only the free-versus-written note (R8 TOOLS-13).
+          10 Nov: while written answers are paused, the line under the field already says so in the same words' sense; the foot does not
+          repeat it (two "paused" notices on one screen read as a broken page). */}
+      {idle && wallet?.state === 'paused' ? null : (
+        <div className="amd-credit">
+          {idle ? <Link href="/wallet" className="amd-credit__first">{credits.first}</Link> : null}
+          <p>{credits.second}</p>
+        </div>
+      )}
 
       {recent && recent.length ? (
         <section className="amd-recent" aria-labelledby="amd-recent-title">

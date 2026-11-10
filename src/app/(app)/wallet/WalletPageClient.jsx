@@ -202,6 +202,9 @@ export default function WalletPageClient({ proOffer = null }) {
             <div className="wl-packs__head">
               <h2 className="wl-h" id="wl-packs-h">{packsHead.heading}</h2>
               <p className="wl-note">{packsHead.lead}</p>
+              {/* 10 Nov app pass: while selling is closed the packs say so once, here, above their prices; the three greyed-out
+                  "Top-ups open soon" keys under them read as broken buttons. Open, every pack has its Add key as before. */}
+              {!data.commerce.open ? <p className="wl-note wl-note--soon">{WALLET_COPY.openSoonNote}</p> : null}
             </div>
             <ul className="wl-packgrid">
               {cards.map((card) => (
@@ -215,21 +218,22 @@ export default function WalletPageClient({ proOffer = null }) {
                     <span className="wl-pack__rupees">{card.price}</span>
                     <span className="wl-pack__per">{card.perCredit}{card.save ? <span className="wl-pack__save">{card.save}</span> : null}</span>
                   </p>
-                  <button
-                    type="button"
-                    className="wl-key wl-pack__key"
-                    data-solid={card.best || undefined}
-                    disabled={card.disabled}
-                    onClick={() => buy(data.packs.find((p) => p.packId === card.packId))}
-                  >
-                    {card.status === 'working' ? <span className="wl-spin" aria-hidden="true" /> : null}
-                    {card.key}
-                  </button>
+                  {data.commerce.open ? (
+                    <button
+                      type="button"
+                      className="wl-key wl-pack__key"
+                      data-solid={card.best || undefined}
+                      disabled={card.disabled}
+                      onClick={() => buy(data.packs.find((p) => p.packId === card.packId))}
+                    >
+                      {card.status === 'working' ? <span className="wl-spin" aria-hidden="true" /> : null}
+                      {card.key}
+                    </button>
+                  ) : null}
                   {card.message ? <p className="wl-pack__msg" data-tone={card.status === 'paid' ? 'good' : card.status === 'failed' ? 'bad' : 'plain'} role="status">{card.message}</p> : null}
                 </li>
               ))}
             </ul>
-            {!data.commerce.open ? <p className="wl-note">{WALLET_COPY.openSoonNote}</p> : null}
           </section>
 
           {bridge ? (

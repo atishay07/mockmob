@@ -193,6 +193,8 @@ export default function ProfilePageClient() {
   const [draftName, setDraftName] = useState(null);
   const [saveState, setSaveState] = useState({ type: null, message: '' });
   const [isSaving, setIsSaving] = useState(false);
+  const [editingName, setEditingName] = useState(false);
+  const nameKeyRef = useRef(null);
   const [mobi, setMobi] = useState({ act: 'idle', n: 0 });
   const greeted = useRef(false);
   const waitTimer = useRef(0);
@@ -248,6 +250,7 @@ export default function ProfilePageClient() {
       await apiPatch(`/api/users/${user.id}`, { name: trimmed });
       await refreshSession({ silent: true });
       setDraftName(null);
+      setEditingName(false);
       setSaveState({ type: 'success', message: 'Saved. Your name is updated.' });
       toast.success('Saved. Your name is updated.');
       setMobi((m) => ({ act: mobiMoment('saveConfirmed'), n: m.n + 1 }));
@@ -295,39 +298,55 @@ export default function ProfilePageClient() {
           {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
               the colleges it names (TODAY-1017 section 7). */}
           {/* On a phone the column dissolves into an ordered list (account.css): the line sits with Your colleges (4). */}
-          <div className="acct-moved acct-moved--colleges"><TodayCompass /></div>
+          <div className="acct-moved acct-moved--colleges"><TodayCompass withList /></div>
           <AccountColleges userId={user?.id} picker={<CollegePicker userId={user?.id} compact />} />
           {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser
               offers it, at the end of the list on a phone (8), never above the account sheet. */}
           <div className="acct-moved acct-moved--end"><InstallPractice /></div>
 
+          {/* Your name and email (10 Nov app pass): two plain lines, not a form. The name has its own Change key that opens the
+              field under it; the email is read-only, so it is text, never a greyed-out input. */}
           <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
             <h2 className="acct-h2" id="acct-name-h">Your name and email</h2>
-            <label className="acct-field">
-              <span>Display name</span>
-              <input
-                className="input"
-                value={currentName}
-                onChange={(e) => setDraftName(e.target.value)}
-                placeholder={shownOwn ? 'Enter your display name' : 'Your first name'}
-                autoComplete="name"
-                maxLength={NAME_MAX}
-                aria-describedby="profile-name-help"
-              />
-              <span id="profile-name-help" className="acct-field__help">{shownOwn ? 'Your initials are your avatar. They update when you save your name.' : 'Add your first name. Mobi uses it on Today, and your initial becomes your avatar.'}</span>
-            </label>
-            <label className="acct-field">
-              <span>Email</span>
-              <input className="input" value={user?.email || ''} disabled aria-describedby="profile-email-help" />
-              <span id="profile-email-help" className="acct-field__help">You sign in with this address. It cannot be changed here.</span>
-            </label>
-            <div className="acct-card__keys">
-              <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
-                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across MockMob.'}
+            <div className="acct-lines">
+              <div className="acct-line">
+                <p className="acct-line__text"><span className="acct-line__label">Name</span><b className="acct-line__value" data-none={shownOwn ? undefined : 'true'}>{shownOwn || 'Not added yet'}</b></p>
+                {!editingName ? (
+                  <button ref={nameKeyRef} type="button" className="acct-key acct-line__key" aria-expanded="false" aria-controls="acct-name-edit" onClick={() => { setEditingName(true); setSaveState({ type: null, message: '' }); }}>
+                    {shownOwn ? 'Change' : 'Add your name'}
+                  </button>
+                ) : null}
               </div>
-              <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
-                {isSaving ? 'Saving' : 'Save name'}
-              </Button>
+              {editingName ? (
+                <form id="acct-name-edit" className="acct-line__edit" onSubmit={(e) => { e.preventDefault(); if (dirty && !isSaving) saveName(); }}>
+                  <label className="acct-field">
+                    <span>Display name</span>
+                    <input
+                      className="input"
+                      value={currentName}
+                      onChange={(e) => setDraftName(e.target.value)}
+                      placeholder={shownOwn ? 'Enter your display name' : 'Your first name'}
+                      autoComplete="name"
+                      maxLength={NAME_MAX}
+                      aria-describedby="profile-name-help"
+                      autoFocus
+                    />
+                    <span id="profile-name-help" className="acct-field__help">{shownOwn ? 'Your initials are your avatar. They update when you save your name.' : 'Add your first name. Mobi uses it on Today, and your initial becomes your avatar.'}</span>
+                  </label>
+                  <div className="acct-act__keys">
+                    <Button type="submit" variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty}>
+                      {isSaving ? 'Saving' : 'Save name'}
+                    </Button>
+                    <button type="button" className="acct-key" disabled={isSaving} onClick={() => { setEditingName(false); setDraftName(null); setSaveState({ type: null, message: '' }); window.requestAnimationFrame(() => nameKeyRef.current?.focus()); }}>Cancel</button>
+                  </div>
+                </form>
+              ) : null}
+              <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
+                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : ''}
+              </div>
+              <div className="acct-line">
+                <p className="acct-line__text"><span className="acct-line__label">Email</span><b className="acct-line__value">{user?.email || ''}</b><span id="profile-email-help" className="acct-line__note">You sign in with this address. It cannot be changed here.</span></p>
+              </div>
             </div>
           </section>
 

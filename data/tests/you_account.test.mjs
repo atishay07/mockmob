@@ -174,7 +174,9 @@ test('G29 account actions: Sign out leads the group, then Sign out of other devi
   assert.match(read('src/components/profile/SignOutControl.jsx'), /<SignOutButton className="acct-key">/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   // Owner LK141 (5 Nov 2026): the phone's account menu is the top bar person's sheet now (AccountPopover), which says Sign out in words.
-  assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 1, 'the top bar says Sign out in words');
+  // Owner, 10 Nov 2026 ("the sign-out button is repeated"): the top bar's own key is gone; the account sheet's labelled row is the one.
+  assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 0, 'the top bar no longer repeats Sign out');
+  assert.match(read('src/components/account/AccountPopover.jsx'), /<SignOutButton className="acct-pop__out"><AppIcon name="signout" \/><span>\{COPY\.signOut\}<\/span><\/SignOutButton>/, 'the account sheet says Sign out in words, with its icon');
   assert.match(read('src/components/account/accountPopoverCopy.mjs'), /signOut: 'Sign out'/, 'and so does the account sheet');
   assert.ok(!/aria-label="Sign out"/.test(shell), 'no icon-only Sign out left');
   assert.ok(ACCOUNT_ANCHORS.includes('account-actions') && ACCOUNT_ANCHORS.includes('sign-out') && ACCOUNT_ANCHORS.includes('sign-in') && ACCOUNT_ANCHORS.includes('delete'));

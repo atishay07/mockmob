@@ -103,7 +103,7 @@ export function UploadForm() {
       <div className="con-pair"><Field name="difficulty" label="Difficulty"><Listbox {...listProps('difficulty', 'Difficulty')} disabled={busy} options={DIFFICULTIES} /></Field><Field name="tags" label="Tags (optional)"><input className="input" {...props('tags')} placeholder="ratio, partnership" /></Field></div>
       <Field name="explanation" label="Why this is the answer (recommended)"><textarea className="textarea" {...props('explanation')} rows={4} placeholder="Explain the rule, show the working and name your source where possible." /></Field>
       {message && <div className="con-message" data-state={state} role={state === 'error' ? 'alert' : 'status'}><b>{message}</b>{warnings.map((warning, index) => <p key={index}>{warning}</p>)}</div>}
-      <button type="submit" className="btn-volt lg" disabled={busy || catalogState !== 'ready'}>{busy ? 'Sending…' : 'Send for checking'}</button>
+      <button type="submit" className="btn-volt lg" data-page-primary="" disabled={busy || catalogState !== 'ready'}>{busy ? 'Sending…' : 'Send for checking'}</button>
       <p className="con-fine">We check every question first. If we’re not sure it’s right, it isn’t published.</p>
     </form>
   </div>;

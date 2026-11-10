@@ -16,4 +16,12 @@ export function BrandTexture({ variant = 'hero' }) {
   return <div className={`mm-texture mm-texture--${variant}`} aria-hidden="true" />;
 }
 
+/**
+ * The page's hairline grid (owner, 10 Nov 2026: the landing's texture "a bit more defined"; the Arena's warm hairline grid is
+ * the one he likes). One fixed layer behind the whole page, a child of the page root (brand-texture.css).
+ */
+export function PageGrid() {
+  return <div className="mm-grid" aria-hidden="true" />;
+}
+
 export default BrandTexture;

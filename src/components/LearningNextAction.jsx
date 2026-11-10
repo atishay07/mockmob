@@ -91,8 +91,10 @@ function heroTitle(plan, top, planned) {
   return review ? `${count} questions, then a look at what you missed.` : `${count} questions against the clock.`;
 }
 
-// Compact: the shell's Start key is the volt on every page that shows this card (Progress, Review, Radar), so the card's
-// key is always the outline one, and it names the step ("Start 10 practice questions"), not a bare "Start" (AGENT_RULES 7).
+// Compact (Progress only now): the card's key is the page's one action, so it is the volt key and marks data-page-primary;
+// while it is on screen the dock's Start key steps back to its quiet look (W-075), so a phone never shows two lime fills
+// (10 Nov app pass: an outline key in a volt-bordered card read as weaker than the card around it). It names the step
+// ("Start 10 practice questions"), not a bare "Start" (AGENT_RULES 7).
 // `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
 // `moment` (Today): a real moment the page saw, { act, title, line }, e.g. the week's study-day goal met (lib/mobiScreens.js).
 // It takes the companion's idle slot once the plan is on screen; a failure, the wait and a time choice still come first.
@@ -155,7 +157,9 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
         ) : (
           <>
             <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{firstSentence(plan.primary.reason)}</b></div>
-            <Link className="btn-outline md na__cta mk-press" href={plan.primary.href}>{plan.primary.title}</Link>
+            {quiet
+              ? <Link className="btn-outline md na__cta mk-press" href={plan.primary.href}>{plan.primary.title}</Link>
+              : <Link className="btn-volt md na__cta mk-press" href={plan.primary.href} data-page-primary="">{plan.primary.title}</Link>}
           </>
         )}
       </section>

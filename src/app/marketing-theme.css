@@ -118,10 +118,15 @@ html[data-theme='dark'] .mm-theme-hint { background: #f4f0e6; color: #1b1914; }
 /* Floating UI never covers controls (A-001): the first-visit theme hint stays away from pages with a sticky summary bar,
    and the bottom dock steps aside while the menu sheet is open. */
 body:has(.du-sum) .mm-theme-hint, body:has(.cp-sum) .mm-theme-hint { display: none; }
-/* Nor a page's first words (10 Nov 2026 live walk): on a phone the site bar sits right on the page, so the note hung over
-   "CUET 2027." for a first visit's opening nine seconds, and over Mobi's desk after "Try 5 questions first". Below 960 px
-   the switch's own soft pulse is the whole prompt; from 960 px the note hangs over empty paper beside the bar, as before. */
-@media (max-width: 959px) { .mm-theme-hint { display: none; } }
+/* Nor a page's first words (10 Nov 2026 live walk): on a phone the site bar sits right on the page, so the two-line note hung
+   over "CUET 2027." for a first visit's opening nine seconds, and over Mobi's desk after "Try 5 questions first". It was hidden
+   below 960 px, and the owner missed it (10 Nov 2026: "the first-visit theme pop-up no longer shows on phones"). Below 960 px the
+   note is now one short line, a pill tucked right under the switch in the strip of paper between the bar and the page's first
+   words, and the first scroll or press puts it away (ThemeToggle.jsx); from 960 px it hangs beside the bar, as before. */
+@media (max-width: 959px) {
+  .mm-theme-hint { display: block; top: calc(100% + 1px); right: 0; max-width: none; padding: 0 0.7rem; border-radius: 999px; font-size: 0.75rem; line-height: 24px; white-space: nowrap; }
+  .mm-theme-hint::before { top: -3px; right: 28px; width: 8px; height: 8px; }
+}
 body:has(#mm-nav-sheet) .mm-dock { opacity: 0; pointer-events: none; }
 
 /* Brand words read --brand-word: the brand volt #D2F000 in Night, the app's #526700 in Day (owner LK82/LK86, then R3-D1, LK101:

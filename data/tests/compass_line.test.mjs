@@ -101,3 +101,22 @@ test('with several rows for one college, the entry programme wins', () => {
   assert.equal(roundOneCutoff(data, { college: 'Hindu College', programme: 'B.A. Programme (Economics + Maths)' }, 'UR').cutoff, 700);
   assert.equal(roundOneCutoff(data, { college: 'Hindu College', programme: 'unlisted' }, 'UR').cutoff, 610);
 });
+
+// 10 Nov app pass: on a phone the signed-in Colleges page folds the long subjects pane to a summary with an Edit key, so a
+// student whose subjects are ticked reaches the courses at once. Nothing is removed, and the public calculator does not fold.
+test('Colleges folds the subjects pane on phones, keeps the whole pane, and View courses lands on the list', () => {
+  const read = (rel) => fs.readFileSync(path.resolve(import.meta.dirname, '../..', rel), 'utf8');
+  const page = read('src/app/(app)/admission-compass/AdmissionCompassPageClient.jsx');
+  const calc = read('src/components/du/CutoffCalculator.jsx');
+  const css = read('src/components/du/du.css');
+  assert.match(page, /<CutoffCalculator seedSubjects=\{seed\} foldSubjects \/>/);
+  assert.match(page, /every Delhi University course your CUET subjects open, with 2026 cutoffs at each college\. A score is optional\./);
+  assert.match(calc, /export function CutoffCalculator\(\{ seedSubjects = null, foldSubjects = false \} = \{\}\)/, 'the public calculator does not fold');
+  assert.match(calc, /className="du-fold__key" aria-expanded=\{!isFolded\} aria-controls="du-side-body"/);
+  assert.match(calc, /<div className="du-side__body" id="du-side-body">/, 'the whole pane is still in the page');
+  assert.match(calc, /ref === resultsRef && filtersRef\.current \? filtersRef\.current : ref\.current/, 'View courses shows a course');
+  assert.match(calc, /2026 Round 1 \(\{category\}\)/, 'a cutoff range carries its year');
+  const phone = css.slice(css.indexOf('@media (max-width: 1099.98px) {', css.indexOf('Subjects fold')));
+  assert.match(phone, /\.du-side\[data-folded\] \.du-count,\s*\.du-side\[data-folded\] \.du-side__body \{\s*display: none;/);
+  assert.match(css, /\.du-side__body \{\s*display: contents;\s*\}/, 'from 1100px the pane is always open');
+});

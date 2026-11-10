@@ -79,7 +79,7 @@ test('G29: one Sign out confirm everywhere, a plain Sign out under the Account t
   assert.match(confirm, /stay\.current\?\.focus\(\)/, 'and takes the focus');
   assert.match(confirm, /<p className="so-dialog__note" role="status" aria-live="polite"[^>]*>\{note\.text\}<\/p>/, 'the message line is always mounted');
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.equal((shell.match(/<SignOutButton className="arena-signout/g) || []).length, 1, 'the top bar asks first (the You sheet is gone, LK141)');
+  assert.equal((shell.match(/<SignOutButton className="arena-signout/g) || []).length, 0, 'Sign out is shown once: the account pop-up, not the top bar (owner, 10 Nov 2026)');
   assert.match(read('src/components/account/AccountPopover.jsx'), /<SignOutButton className="acct-pop__out">/, 'and so does the account sheet, at every width');
   assert.doesNotMatch(shell, /await signOut\(\)/, 'nothing in the shell signs out on the first tap');
   const page = read('src/app/(app)/profile/ProfilePageClient.jsx');

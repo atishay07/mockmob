@@ -141,6 +141,23 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 .app-shell .acct-field > span:first-child { font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
 .app-shell .acct-field__help { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .acct-card__keys { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+/* 10 Nov app pass: settings read as lines, not a form. A label over its value, a Change key on the right that opens the field
+   under it; read-only values (the email) are text. Hairlines between lines, no boxes. */
+.app-shell .acct-lines { display: grid; min-width: 0; }
+.app-shell .acct-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 0; border-top: 1px solid var(--a-line); min-width: 0; }
+.app-shell .acct-lines > .acct-line:first-child { padding-top: 0; border-top: 0; }
+.app-shell .acct-line__text { flex: 1 1 150px; display: grid; gap: 3px; min-width: 0; margin: 0; }
+.app-shell .acct-line__label { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+.app-shell .acct-line__value { font: 700 16px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .acct-line__value[data-none] { font-weight: 600; color: var(--a-ink-3); }
+.app-shell .acct-line__note { margin-top: 2px; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .acct-line__key { flex: none; }
+.app-shell .acct-line__edit { display: grid; gap: 14px; min-width: 0; padding: 2px 0 16px; animation: acct-open 220ms var(--a-ease) both; }
+.app-shell .acct-lines > .profile-save-note { display: flex; padding: 0 0 12px; }
+.app-shell .acct-lines > .profile-save-note:empty { padding: 0; }
+@keyframes acct-open { from { opacity: 0; transform: translate3d(0, -4px, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .acct-line__edit { animation: none; } }
+:root[data-motion='reduced'] .app-shell .acct-line__edit { animation: none; }
 
 /* ---------- Account actions (owner G29, 19 Oct): Sign out, Sign out of other devices, Delete account ----------
    One card, three hairline-ruled rows. Each row: its name and one plain sentence, its key on the right from 640 px (under

@@ -28,7 +28,8 @@ html:has(.app-shell) {
   --a-ink-2: #bdb6a6;
   --a-ink-3: #a09989;
   --a-ink-4: #938c7d;
-  --a-volt-line: rgba(210, 240, 0, 0.5);
+  /* A lit card keeps its wash; its edge is a tinted hairline, not a neon line (owner, 10 Nov 2026: Night read as "neon edges"). */
+  --a-volt-line: rgba(210, 240, 0, 0.28);
   --a-volt-wash: rgba(210, 240, 0, 0.07);
   --a-accent-text: #d2f000;  /* volt as text; a darker lime in light mode */
   --a-select: #d2f000;       /* selected border/ring */
@@ -70,7 +71,7 @@ html[data-theme='light']:has(.app-shell) {
   --a-ink-2: #454036;
   --a-ink-3: #655f53;
   --a-ink-4: #6b6558;
-  --a-volt-line: rgba(111, 135, 0, 0.5);
+  --a-volt-line: rgba(111, 135, 0, 0.38);
   --a-volt-wash: rgba(124, 150, 20, 0.08);
   --a-accent-text: #526700;
   --a-select: #6f8700;
@@ -138,6 +139,13 @@ html[data-theme='light'] .app-shell :is(.q-option, .q-chip, .subject-card, .coun
 html[data-theme='light'] .app-shell .btn-outline:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
 html[data-theme='light'] .app-shell .q-chip.skipped { color: var(--a-warn-text); }
 html[data-theme='light'] .app-shell .logo .dot { color: var(--a-accent-text); }
+/* Day's own corrections (10 Nov 2026: the owner called Day the weaker theme). Night's sunken tiles read as depth; the same
+   role in Day was a grey-beige slab inside a white card, and a 38% select fill on it was too pale to read as a bar. The
+   result's four figures sit on warm raised paper, and a study week's fill is strong enough to be read at a glance. */
+html[data-theme='light'] .app-shell .rp-stats div { background: var(--a-raised-2); border-color: var(--a-line); }
+html[data-theme='light'] .app-shell .rc-wk { background: var(--a-raised-2); }
+html[data-theme='light'] .app-shell .rc-wk__fill { background: color-mix(in srgb, var(--a-select) 64%, transparent); }
+html[data-theme='light'] .app-shell .rc-wk[data-met='true'] .rc-wk__fill { background: var(--volt); }
 /* The NTA-style console is its own conventional skin: restore Tailwind defaults inside it. */
 html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .arena-dark-island) {
   --color-zinc-50: oklch(98.5% 0 0); --color-zinc-100: oklch(96.7% 0.001 286.375); --color-zinc-200: oklch(92% 0.004 286.32);
@@ -575,7 +583,7 @@ html[data-motion='reduced'] .app-shell .arena-acct > a { transition: none; }
 .app-shell .select:focus,
 .app-shell .input:focus,
 .app-shell .textarea:focus {
-  border-color: var(--a-volt-line);
+  border-color: var(--a-focus);
   box-shadow: 0 0 0 3px rgba(210, 240, 0, 0.12);
 }
 .app-shell .count-btn {
@@ -1140,7 +1148,7 @@ html[data-theme='light'] .arena-dark-island {
   --a-bg: #12110e; --a-raised: #1b1a16; --a-raised-2: #25231e; --a-sunken: #0d0c0a;
   --a-line: #312e27; --a-line-strong: #4a453b; --a-line-hover: rgba(244, 240, 230, 0.32);
   --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989; --a-ink-4: #938c7d;
-  --a-volt-line: rgba(210, 240, 0, 0.5); --a-volt-wash: rgba(210, 240, 0, 0.07);
+  --a-volt-line: rgba(210, 240, 0, 0.28); --a-volt-wash: rgba(210, 240, 0, 0.07);
   --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04); --a-option-hover: #2c2a24;
   --text-primary: #f4f0e6; --text-muted: #bdb6a6; --text-subtle: #a09989; --text-faint: #938c7d; --focus-ring: #d2f000;
   color-scheme: dark;

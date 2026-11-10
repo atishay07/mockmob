@@ -289,7 +289,9 @@ html[data-theme='light'] .app-shell .pr {
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, scale 120ms var(--mm-ease-out);
 }
 .app-shell .pr .pr-tile__act svg { flex: none; }
-.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
+/* One selection ring, not two (10 Nov 2026: the chosen tile wore its own ring and a second one on this key, which read as
+   neon edges in Night): the tile's rim is the mark; the key is a quiet fill with its tick. */
+.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act { border-color: transparent; background: var(--a-volt-wash); color: var(--a-ink); }
 .app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act svg { color: var(--a-accent-text); }
 .app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__act svg { animation: pr-tick-pop var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both; }
 @keyframes pr-tick-pop { from { opacity: 0; scale: 0.6; } }

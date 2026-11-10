@@ -74,9 +74,36 @@
   .app-shell .cmp .cmp-tools li { border-bottom: 0; }
 }
 
+/* 10 Nov app pass: the sticky count bar is a raised, blurred strip with a neutral hairline. Its volt edge drew a volt box
+   round the whole bar while its View courses key is already the page's one volt fill (design rule 1). Day keeps the soft
+   shadow from du.css and loses the volt edge the same way. */
+.app-shell .cmp .du-sum { border-color: var(--a-line); }
+.app-shell .cmp .du-sum button[data-primary] { border-color: transparent; }
+
+/* 10 Nov app pass, one level deeper. Volt is the page's one key (View courses) and its small marks (the count, the ring, a tick).
+   Three places spent it on plain text, row after row:
+   - the "Option 1" label on every course row (35 volt words down the list) is ink, the same weight as before;
+   - the five source links are ink with a hairline underline, as the tools row above already is;
+   - in the practice card the sentence link is ink; "Practise <subject>" stays the card's one accent link. */
+.app-shell .cmp .du-card__match b { color: var(--a-ink); }
+/* A course row's cutoff range is the figure the page exists for: one step heavier than the labels beside it. */
+.app-shell .cmp .du-card__meta .mm-measure { font-weight: 600; color: var(--a-ink-2); }
+.app-shell .cmp .cmp-sources ul { gap: 0; margin-top: 2px; }
+.app-shell .cmp .cmp-sources li + li { border-top: 1px solid var(--a-line); }
+.app-shell .cmp .cmp-sources a { display: grid; gap: 1px; align-content: center; min-height: 52px; padding: 8px 0; color: inherit; text-decoration: none; border-radius: 4px; }
+.app-shell .cmp .cmp-sources a b { font-weight: 600; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--a-line-strong); }
+.app-shell .cmp .cmp-sources a span { font-size: 13px; line-height: 1.4; color: var(--a-ink-3); }
+.app-shell .cmp .cmp-sources a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .cmp .cmp-bridge p a { font-weight: 600; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; text-decoration-color: var(--a-line-strong); }
+
 /* In-page jumps (Pro): plain links, 44 px tall. */
 .app-shell .cmp .cmp-jump { display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .app-shell .cmp .cmp-jump a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: var(--a-line-strong); }
+/* Two rows of underlined links sat one under the other at the same weight (the tools, then these). The jumps say what they
+   are and step back: a quiet label, regular weight. */
+.app-shell .cmp .cmp-jump { align-items: center; margin-top: -10px; }
+.app-shell .cmp .cmp-jump__label { flex-basis: 100%; font-size: 12.5px; line-height: 1.3; color: var(--a-ink-3); }
+.app-shell .cmp .cmp-jump a { font-weight: 500; color: var(--a-ink-2); }
 .app-shell .cmp .cmp-anchor { scroll-margin-top: calc(var(--arena-topbar-h, 63px) + 16px); min-width: 0; }
 /* Phones: the tools are one line of three short links, so the controls stay near the top. */
 @media (max-width: 759px) {

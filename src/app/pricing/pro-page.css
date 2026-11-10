@@ -55,7 +55,9 @@ html[data-theme='dark'] .mm-pro {
 
 /* ---- The hero ------------------------------------------------------------------------------------------------------------ */
 .mm-pro .pro-hero { padding-block: 0.5rem 1rem; overflow: hidden; }
-.mm-pro .pro-hero__grid { display: grid; gap: 0.75rem; justify-items: center; }
+/* One column that can never grow past the page's gutters: without the explicit track the 360-unit art widened the column on
+   360 and 390 px phones, so the copy sat off centre and the lede ran under the screen's right edge (10 Nov 2026). */
+.mm-pro .pro-hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.75rem; justify-items: center; }
 .mm-pro .pro-hero__copy { display: grid; gap: 0.75rem; justify-items: center; text-align: center; min-width: 0; }
 .mm-pro .pro-hero__title {
   margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(2.25rem, 9.4vw, 4.25rem);
@@ -68,6 +70,13 @@ html[data-theme='dark'] .mm-pro {
 
 /* The art: one scene in its own units (--pro-u), so it is the same picture at any size. */
 .mm-pro .pro-art { position: relative; width: calc(360 * var(--pro-u)); max-width: 100%; height: calc(282 * var(--pro-u)); }
+/* Short phones (a 360 x 640 screen, or a taller phone with the browser's bars showing): the same picture a little smaller,
+   so the Get Pro key and the price under it both sit on the first screen. Full size again from about 690 px of height. */
+@supports (height: 100svh) {
+  @media (max-width: 959px) {
+    .mm-pro .pro-art { --pro-u: clamp(0.7px, calc((100svh - 404px) / 282), 1px); }
+  }
+}
 .mm-pro .pro-art__scene { position: absolute; inset: 0 0 calc(16 * var(--pro-u)); }
 .mm-pro .pro-art__lamp {
   position: absolute; inset: -20% -30% -10%;
@@ -256,10 +265,36 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
 .mm-pro .pro-plan__go .mm-checkout__submit { width: 100%; min-height: 56px; font-size: 1.0625rem; }
 .mm-pro .pro-plan__manage { margin-top: 1.25rem; width: 100%; }
 
+/* ---- What happens when you get Pro (10 Nov 2026; src/components/pricing/payCopy.mjs) -----------------------------------------
+   The payment in the order it happens, right under the two cards: three numbered steps on hairlines (a list, never a row of
+   cards), each a heavy numeral, a title and one or two plain sentences, then the line that says who to write to. It belongs
+   to the choice above, so its title is a step smaller than the page's section titles and the section adds no top space. */
+.mm-pro .pro-pay { padding-top: 0; }
+.mm-pro .pro-pay__title {
+  margin: 0; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--ink); text-wrap: balance;
+}
+.mm-pro .pro-pay__steps { display: grid; margin: 0.25rem 0 0; padding: 0; list-style: none; }
+.mm-pro .pro-pay__step { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; padding-block: 1rem; }
+.mm-pro .pro-pay__step + .pro-pay__step { border-top: 1px solid var(--line); }
+.mm-pro .pro-pay__n {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.1; color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.mm-pro .pro-pay__step h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; line-height: 1.3; color: var(--ink); }
+.mm-pro .pro-pay__step p { margin: 0.25rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.mm-pro .pro-pay__help {
+  margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2);
+  text-wrap: pretty;
+}
+/* A link inside a sentence on this page is 44 px tall to the finger (its padding adds no line height): the support address
+   here and "Email us" under the questions, which measured 42 px. */
+.mm.mm-pro .mm-link.mm-link--inline { padding-block: 14px; }
+
 /* ---- Wider screens --------------------------------------------------------------------------------------------------------- */
 @media (min-width: 600px) and (max-width: 959px) {
   .mm-pro .pro-shows, .mm-pro .pro-also, .mm-pro .pro-cmp__grid, .mm-pro .pro-choice__grid, .mm-pro .pro-sec .pro-h2,
-  .mm-pro .pro-choice__line { max-width: 36rem; margin-inline: auto; }
+  .mm-pro .pro-choice__line, .mm-pro .pro-pay__title, .mm-pro .pro-pay__steps, .mm-pro .pro-pay__help { max-width: 36rem; margin-inline: auto; }
 }
 @media (min-width: 960px) {
   .mm-pro { --pro-u: 1.4px; }
@@ -289,6 +324,18 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
   .mm-pro .pro-choice__head { justify-items: center; text-align: center; }
   .mm-pro .pro-choice__line { max-width: none; }
   .mm-pro .pro-choice__free .mm-plan { padding: 1.375rem 1.75rem 1.5rem; }
+  /* What happens when you get Pro: three columns as wide as the two cards above, each under its own hairline. It sits close
+     under the cards it belongs to (4rem), and keeps the gap the cards had to the value section (7rem) below it. */
+  .mm-pro .pro-choice:has(+ .pro-pay) { padding-bottom: 2.5rem; }
+  .mm-pro .pro-pay { padding-top: 1.5rem; }
+  .mm-pro .pro-pay + .pro-val { padding-top: 2.5rem; }
+  .mm-pro .pro-pay__title { font-size: 1.5rem; text-align: center; }
+  .mm-pro .pro-pay__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem);
+    max-width: calc(60rem + clamp(2rem, 4vw, 4rem)); margin: 1.5rem auto 0;
+  }
+  .mm-pro .pro-pay__step { grid-template-columns: minmax(0, 1fr); row-gap: 0.5rem; align-content: start; padding-block: 1.25rem 0; border-top: 1px solid var(--line); }
+  .mm-pro .pro-pay__help { margin-top: 2rem; padding-top: 0; border-top: 0; text-align: center; }
 }
 
 /* ---- Motion ---------------------------------------------------------------------------------------------------------------- */

@@ -625,3 +625,12 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
 :is(.den-format__pick, .den-pill, .den-covers__change, .den-row__link):focus-visible { outline: 2px solid var(--a-focus, var(--volt)); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .den-format__chips, .den-format[data-on] .den-format__radio::after { animation: none; } .den-format { transition: none; } }
 :root[data-motion='reduced'] :is(.den-format__chips, .den-format[data-on] .den-format__radio::after) { animation: none; }
+
+/* ---------- The first screen on a phone (owner, 10 Nov 2026: one obvious next action on each screen) ----------
+   The page title said "Your Mob" right under the tab that says "Your Mob", and the room carries the Mob's own name, so on
+   a phone the title stays for screen readers and for focus only. The game card's key follows its one line, with the runs so
+   far as a quiet line under it. Together the Play key is on the first screen at 390 x 844; it sat under the dock. */
+@media (max-width: 639px) {
+  .mob-page:has(.den) > .pr-head { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .den-card__runs { order: 1; }
+}

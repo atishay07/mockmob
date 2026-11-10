@@ -62,7 +62,7 @@
   .app-shell .arena-mobi-door .arena-sheet__lead-name { font-size: 15px; }
   .app-shell .arena-mobi-door .arena-sheet__lead-note { font-size: 12.5px; white-space: nowrap; }
   .app-shell .arena-mobi-door:active { transform: scale(0.98); }
-  .app-shell .arena-mobi-door[aria-current='page'] { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+  .app-shell .arena-mobi-door[aria-current='page'] { border-color: var(--a-line-strong); background: var(--a-hover); }
   .app-shell .arena-mobi-door:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
   .app-shell .arena-sidebar:has(.arena-mobi-door) .arena-sidebar__foot { margin-top: 0; }
 }
@@ -88,7 +88,7 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
 .app-shell .arena-askkey__face { flex: none; width: 22px; height: auto; }
 .app-shell .arena-askkey__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .app-shell .arena-askkey:active { transform: scale(0.96); background: var(--a-sunken); }
-.app-shell .arena-askkey[aria-current='page'] { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.app-shell .arena-askkey[aria-current='page'] { border-color: var(--a-line-strong); background: var(--a-raised-2); }
 .app-shell .arena-askkey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .arena-askkey:hover { background: var(--a-hover); } }
 @media (min-width: 640px) {
@@ -119,11 +119,26 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
   .app-shell .arena-acct__credits { gap: 4px; padding: 0 10px 0 11px; }
 }
 @media (max-width: 349px) { .app-shell .arena-askkey { display: none; } }
-/* The bar never runs past its gutter (fix stage, 6 Nov; measured from 320 to 1366 px, Free and Pro, 108 and 1,250 credits, the
-   moderator chip and a long name). Below 440 px a Pro student's "Pro" word steps out of the bar: with Mobi's key there it pushed the
-   avatar 12 to 34 px off a 360 to 412 px screen. The plan is one tap away, the first line of the account sheet ("Pro, until ..."), and
-   the door's name still says it ("Account, ..., Pro"). From 1024 px a long name gives way first (it ends in an ellipsis); the page's
-   title, the moderator chip, the switch, the balance and Sign out keep their size. */
+/* ---------- Night or Day in the top bar, at every width (owner, 10 Nov 2026) ----------
+   The switch is back in the bar on a phone: it had gone into the account pop-up, "where nobody finds it". The bar holds four things
+   on a phone (the mark, Ask Mobi, the switch, the account), so below 640 px the wordmark gives way to the "mo" mark, the brand's own
+   icon (the second m and Mobi, cut from the same drawing), and the switch is drawn a little smaller inside its 44 px target. The
+   switch reads the site's --tint and --focus-ring, which only the public pages define; the arena gives it its own. The first-visit
+   note stays on the public pages: here the switch's one soft pulse is the whole prompt, so nothing covers a student's Today. */
+.app-shell .arena-theme { --focus-ring: var(--a-focus); --tint: 244 240 230; }
+html[data-theme='light'] .app-shell .arena-theme { --tint: 23 21 15; }
+.app-shell .mm-theme-hint { display: none; }
+@media (max-width: 639px) {
+  .app-shell .arena-theme .mm-theme-toggle { width: 52px; }
+  .app-shell .arena-theme .mm-theme-toggle__sky { flex: none; transform: scale(0.86); }
+  .app-shell .arena-topbar .arena-topbar__logo .logo { --logo-h: 26px; width: calc(var(--logo-h) * 6.7544 * 0.2963); overflow: hidden; justify-content: flex-start; }
+  .app-shell .arena-topbar .arena-topbar__logo .logo-b { flex: none; margin-left: calc(var(--logo-h) * 6.7544 * -0.5345); }
+}
+/* The bar never runs past its gutter (fix stage, 6 Nov; measured again 10 Nov with the switch in it, from 320 to 1366 px, Free and
+   Pro, 108 and 1,250 credits, the moderator chip and a long name). Below 440 px a Pro student's "Pro" word steps out of the bar: with
+   Mobi's key there it pushed the avatar 12 to 34 px off a 360 to 412 px screen. The plan is one tap away, the first line of the
+   account sheet ("Pro, until ..."), and the door's name still says it ("Account, ..., Pro"). From 1024 px a long name gives way first
+   (it ends in an ellipsis); the page's title, the moderator chip, the switch and the balance keep their size. */
 @media (max-width: 439px) {
   .app-shell .arena-acct > .arena-acct__you .arena-acct__plan { display: none; }
   .app-shell .arena-acct > .arena-acct__you:has(.arena-acct__plan) { padding-right: 5px; }

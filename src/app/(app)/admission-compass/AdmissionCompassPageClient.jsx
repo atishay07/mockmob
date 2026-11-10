@@ -55,9 +55,10 @@ export default function AdmissionCompassPageClient() {
               itself is DU Compass, as the website stamps it, named once in the lede (R8 TOOLS-06). */}
           <h1 className="display-md">Colleges</h1>
           <p className="cmp-lede">
+            {/* What it is for first, in the student's words (10 Nov): which university, what they get, which year. */}
             {seed.length > 0
-              ? 'DU Compass: your subjects are ticked. A score is optional. See every course they open, with 2026 cutoffs.'
-              : 'DU Compass: tick your CUET subjects. A score is optional. See every course they open, with 2026 cutoffs.'}
+              ? 'DU Compass: every Delhi University course your CUET subjects open, with 2026 cutoffs at each college. A score is optional.'
+              : 'DU Compass: tick your CUET subjects to see every Delhi University course they open, with 2026 cutoffs at each college. A score is optional.'}
           </p>
         </div>
       </header>
@@ -75,6 +76,7 @@ export default function AdmissionCompassPageClient() {
       {/* The Pro page is long: one row of in-page jumps to its three parts. */}
       {pro ? (
         <nav className="cmp-jump" aria-label="On this page">
+          <span className="cmp-jump__label">On this page</span>
           <a href="#cmp-pro">Your projection</a><a href="#cmp-courses">Courses and cutoffs</a><a href="#cmp-sources">Sources</a>
         </nav>
       ) : null}
@@ -83,14 +85,17 @@ export default function AdmissionCompassPageClient() {
           quiet line about Compass Pro after the results (CompassPro renders the locked row). */}
       {pro ? <div id="cmp-pro" className="cmp-anchor"><CompassPro userId={user.id} seedSubjects={seed} /></div> : null}
 
-      <div id="cmp-courses" className="cmp-anchor"><CutoffCalculator seedSubjects={seed} /></div>
+      {/* foldSubjects: on a phone a student whose subjects are already ticked sees them as one summary with an Edit key,
+          so the long subjects pane no longer stands between them and their courses. */}
+      <div id="cmp-courses" className="cmp-anchor"><CutoffCalculator seedSubjects={seed} foldSubjects /></div>
 
       {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
       {user?.id && !user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
 
       <div id="cmp-sources" className="cmp-anchor">
         <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
-          <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>. {s.use}</li>)}</ul>
+          {/* One ruled row per document: its title is the link, what the page takes from it sits under it (10 Nov). */}
+          <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer"><b>{s.title}</b><span>{s.use}</span></a></li>)}</ul>
         </SmoothDetails>
       </div>
 

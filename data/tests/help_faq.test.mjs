@@ -70,5 +70,6 @@ test('the arena menu offers Night, Daylight and Match device, tied to the same s
   assert.match(pop, /<AppearanceSwitch className="acct-pop__switch" \/>/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<AccountPopover /);
-  assert.match(shell, /<span className="arena-theme arena-sm-up"><ThemeToggle \/><\/span>/);
+  // Owner, 10 Nov 2026: the Night and Day switch is in the top bar at every width again (it had gone into the pop-up on a phone).
+  assert.match(shell, /<span className="arena-theme"><ThemeToggle hint \/><\/span>/);
 });

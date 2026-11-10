@@ -195,6 +195,97 @@
   border-top: 1px solid var(--line);
 }
 
+/* Subjects fold (10 Nov app pass). Only where the page asks for it (foldSubjects: the signed-in Colleges page) and only in the
+   one-column layout: a student whose subjects are already ticked sees them as one summary with an Edit key, and the courses
+   come straight after. Edit opens the whole pane; Done, or the bar's View courses, closes it. Nothing is removed. From 1100px
+   the pane sits beside the results and is always open. */
+.du-side__body {
+  display: contents;
+}
+.du-fold,
+.du-fold__key,
+.du-sub__next {
+  display: none;
+}
+@media (max-width: 1099.98px) {
+  /* Under the count, the folded page says the next step; the category and score it used to repeat are in the summary card. */
+  .du-sub__next {
+    display: inline;
+  }
+  .du-sub__live {
+    display: none;
+  }
+  .du-side[data-fold] .du-side__head {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.15rem 0.75rem;
+  }
+  .du-side[data-fold] .du-side__head .du-h2 {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .du-side[data-fold] .du-count {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .du-fold__key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    min-width: 4rem;
+    min-height: 44px;
+    padding: 0.3rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-2);
+    background: transparent;
+    font: 700 0.8125rem var(--font-body);
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .du-fold__key:focus-visible {
+    outline: 2px solid var(--focus-ring, var(--ink));
+    outline-offset: 2px;
+  }
+  .du-side[data-folded] {
+    gap: 0.45rem;
+  }
+  .du-side[data-folded] .du-count,
+  .du-side[data-folded] .du-side__body {
+    display: none;
+  }
+  .du-fold {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .du-fold p {
+    margin: 0;
+  }
+  .du-fold__list {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .du-fold__meta {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--ink-3);
+  }
+  /* The summary names the subjects, so the removable chips under the count would say them a second time on the same screen.
+     They are back the moment the pane is open. */
+  .du-app[data-folded] .du-tray {
+    display: none;
+  }
+}
+@media (hover: hover) {
+  .du-fold__key:hover {
+    border-color: var(--ink-3);
+  }
+}
+
 .du-presets {
   display: flex;
   flex-wrap: wrap;
@@ -641,6 +732,8 @@
 .du-filters {
   display: grid;
   gap: 0.75rem;
+  /* View courses lands here: clear of the nav and the sticky count bar. */
+  scroll-margin-top: 8.75rem;
 }
 .du-streams {
   display: flex;
@@ -843,6 +936,14 @@
   font-weight: 800;
   letter-spacing: -0.01em;
   color: var(--ink);
+}
+/* One quiet line under a section title: what the figures below are and where they come from. */
+.du-sec__note {
+  margin: -0.4rem 0 0;
+  max-width: 62ch;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--ink-3);
 }
 
 /* The Bulletin's rules, with what is met and what is missing */

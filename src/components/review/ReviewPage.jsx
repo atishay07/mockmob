@@ -75,14 +75,15 @@ function Empty({ wallet, dailySet }) {
       <SceneVignette scene="nothingYet" interactive />
       <h2 id="rvw-empty-h">Your first paper lands here</h2>
       <p>Every paper you sit shows up here with its marks. Each wrong answer is kept by chapter, with the marks it cost you, ready to repair.</p>
+      {/* 10 Nov: the key comes before the example row, so on a 360 x 640 phone the one action sits above the dock. */}
+      <Link className="btn-volt rvw-state__key mk-press" data-page-primary="" href={href}>Start 10 questions</Link>
+      <p className="rvw-state__fine">About 10 minutes, {first?.name || 'your subject'}. {practiceCostLine({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits ?? null, dailySet })}</p>
       <div className="rvw-sample" aria-label="An example of a row">
         <span className="rvw-badge" data-k="open">4</span>
         <b>Admission of a partner</b>
         <em>Example</em>
         <span>Mock 1, 12 Oct, 8:40 PM. Cost you 6 marks</span>
       </div>
-      <Link className="btn-volt rvw-state__key mk-press" data-page-primary="" href={href}>Start 10 questions</Link>
-      <p className="rvw-state__fine">About 10 minutes, {first?.name || 'your subject'}. {practiceCostLine({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits ?? null, dailySet })}</p>
     </section>
   );
 }

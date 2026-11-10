@@ -14,7 +14,6 @@ import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { SignOutButton } from '@/components/profile/SignOutConfirm';
 import AccountPopover from '@/components/account/AccountPopover';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
@@ -27,7 +26,6 @@ import './student-pages.css';
 import './explore/explore.css';
 import './arena-support.css';
 import './nav-badge.css';
-import './signout.css';
 // study.css (26 KB) loads with the study components that draw it (StudyWorkspace, StudyRun, StudyChapterSummary, StudyProgress,
 // ReviseRun), not on every app page (speed.md item 8).
 import { arenaNavigation, ASK_MOBI_NAV, YOU_DOCK, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
@@ -441,7 +439,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <Image className="arena-askkey__face" src={MOBI_FACE.src} width={22} height={30} sizes="22px" alt="" />
               <span className="arena-askkey__label">Ask<span className="arena-askkey__name"> Mobi</span></span>
             </Link>
-            <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
+            {/* Night or Day, one press away on every signed-in page and at every width (owner, 10 Nov 2026: the switch had gone into
+                the account pop-up, "where nobody finds it"). On a phone the bar makes room with the "mo" mark for the wordmark
+                (nav-places.css). A first visit that has never chosen sees the switch pulse once. */}
+            <span className="arena-theme"><ThemeToggle hint /></span>
             {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
                 One capsule, two doors: the balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
                 free this month + bought/held, and until it answers the account's own total stands in), and the person opens Account,
@@ -457,12 +458,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 {user?.isPremium ? <span className="arena-acct__plan">Pro</span> : null}
               </AccountPopover>
             </div>
-            {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. It asks first, with
-                the same confirm as the Account page (release 11 walk). */}
-            <SignOutButton className="arena-signout arena-desktop-only">
-              <AppIcon name="signout" />
-              <span>Sign out</span>
-            </SignOutButton>
+            {/* Sign out is shown once (owner, 10 Nov 2026: "the sign-out button is repeated"): the account pop-up's own row, in
+                words with its symbol (G29), and the You page. The bar's second key beside it is gone. */}
           </div>
         </div>
 
@@ -527,7 +524,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           )}
           {tourTarget && (
             <div
-              className="arena-tour-ring pointer-events-none fixed rounded-2xl border-2 border-volt"
+              className="arena-tour-ring pointer-events-none fixed rounded-2xl border-2 border-[var(--a-select)]"
               style={{
                 left: tourTarget.left,
                 top: tourTarget.top,
@@ -537,32 +534,32 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             />
           )}
           <div
-            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-volt/25 bg-[var(--a-raised)] p-5 shadow-[var(--a-shadow-2)]"
+            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-[var(--a-line-strong)] bg-[var(--a-raised)] p-5 shadow-[var(--a-shadow-2)]"
             style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
           >
             <div className="mb-4 flex items-center justify-between gap-3">
               <span className="arena-tour-pip"><PipActor pose={TOUR_POSES[tourStep] || 'greeting'} blink={tourStep + 1} motion={tourStep ? `nod-${tourStep % 2}` : 'land-0'} /></span>
               <div className="flex-1">
-                <div className="mono-label text-volt">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
-                <h2 className="mt-1 font-display text-[22px] font-extrabold text-white">{TOUR_STEPS[tourStep].title}</h2>
+                <div className="mono-label text-[var(--a-accent-text)]">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
+                <h2 className="mt-1 font-display text-[22px] font-extrabold text-[var(--a-ink)]">{TOUR_STEPS[tourStep].title}</h2>
               </div>
               <button
                 type="button"
-                className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-white/10 text-zinc-400"
+                className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-[var(--a-line)] text-[var(--a-ink-3)]"
                 onClick={closeTour}
                 aria-label="Close guide"
               >
                 <span className="text-2xl leading-none">&times;</span>
               </button>
             </div>
-            <p className="text-sm leading-6 text-zinc-300">{TOUR_STEPS[tourStep].bodies?.[tourTarget?.via] || TOUR_STEPS[tourStep].body}</p>
-            <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full rounded-full bg-volt" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
+            <p className="text-sm leading-6 text-[var(--a-ink-2)]">{TOUR_STEPS[tourStep].bodies?.[tourTarget?.via] || TOUR_STEPS[tourStep].body}</p>
+            <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[var(--a-line)]">
+              <div className="h-full rounded-full bg-[var(--a-select)]" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
             </div>
             <div className="mt-5 flex items-center justify-between gap-3">
               <button
                 type="button"
-                className="inline-flex min-h-11 items-center rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
+                className="inline-flex min-h-11 items-center rounded-full border border-[var(--a-line)] px-4 py-2 text-xs font-semibold text-[var(--a-ink-3)] transition hover:border-[var(--a-line-strong)] hover:text-[var(--a-ink)] disabled:opacity-35"
                 disabled={tourStep === 0}
                 onClick={() => setTourStep((step) => Math.max(0, step - 1))}
               >

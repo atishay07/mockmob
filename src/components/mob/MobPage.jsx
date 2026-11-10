@@ -14,7 +14,7 @@
 //   - The effect of the loop is a hypothesis [I] to measure (rules 37 and 38): SOCIAL-SPEC section 13.
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
+import { Check, ChevronRight, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { InviteRewardLine } from '@/components/referrals/InviteFriendCard';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
@@ -430,8 +430,10 @@ function InMob({ data, mob, user, warm = false }) {
   const cost = week.paper.cost;
   const afford = canAfford(cost);
   const freeUsed = week.paper.blocked === 'free_used';
-  const primary = (extra = '') => `${alone ? 'mob-key' : 'btn-volt md'} mob-primary${extra}`;
-  const pageProps = alone ? {} : { 'data-page-primary': '' };
+  // A Mob of one: the invite is the one volt key and it sits in the ring card, above the paper key (rule 7: one primary).
+  const inviteFirst = alone && !v3 && data.seatsLeft > 0 && !data.invitesPaused;
+  const primary = (extra = '') => `${inviteFirst ? 'mob-key' : 'btn-volt md'} mob-primary${extra}`;
+  const pageProps = inviteFirst ? {} : { 'data-page-primary': '' };
 
   if (sbs) {
     return (
@@ -451,18 +453,28 @@ function InMob({ data, mob, user, warm = false }) {
         <h2 id="mob-ring-h" className="sr-only">This week</h2>
         <MobRing size={week.size} sat={week.sat} week={week.start} members={members} />
         <div className="mob-ringcard__text">
-          <p className="mob-ringcard__subject">{data.subjectName} paper, 10 questions</p>
+          <p className="mob-ringcard__subject">{week.closed ? `${data.subjectName} paper` : <>This week&apos;s {data.subjectName} paper</>}</p>
           <p className="mob-note">{week.closed ? CLOSED_LINE : CLOSES_LINE}</p>
+          {/* A friend's note, not an alert: one quiet line with a dot, no box (Night stays subtle). */}
           {nudge.received ? (
             <p className="mob-nudge">{nudgeLine(nudge.received.fromName)} <button type="button" className="mob-link" onClick={seenNudge}>Got it</button></p>
           ) : null}
           <div className="mob-actions">
+            {inviteFirst ? (
+              <>
+                <button type="button" className="btn-volt md mob-primary" data-page-primary="" onClick={() => setInviteOpen(true)}>
+                  <UserPlus size={16} aria-hidden="true" />Invite a friend
+                </button>
+                <p className="mob-cost">{seatsLine(data.seatsLeft)}. They join with a link you send.</p>
+              </>
+            ) : null}
             {!week.youSat && !week.closed && !freeUsed ? (
               <>
+                {/* One line on the key; what it is and what it costs sit under it, before the tap (T006, T008). */}
                 {afford
-                  ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper ({paperLine()})</Link>
+                  ? <Link className={primary()} {...pageProps} href={paperHref(data)}>Sit this week&apos;s paper</Link>
                   : <Link className={primary()} {...pageProps} href="/wallet" data-pro-direct="">See your credits</Link>}
-                <p className="mob-cost">{costLine(cost)}</p>
+                <p className="mob-cost">{afford ? `${paperLine()}. ` : null}{costLine(cost)}</p>
               </>
             ) : null}
             {!week.youSat && freeUsed ? (
@@ -503,7 +515,7 @@ function InMob({ data, mob, user, warm = false }) {
       <section className="mob-card mob-plain" aria-labelledby="mob-members-h">
         <header className="mob-head">
           <h2 id="mob-members-h" className="mob-h2">Members</h2>
-          <span className="mob-count">{week.size} of {MAX_MEMBERS}</span>
+          <span className="mob-count mob-count--quiet">{week.size} of {MAX_MEMBERS}</span>
         </header>
         <ol className="mob-members">
           {members.map((m) => (
@@ -517,9 +529,13 @@ function InMob({ data, mob, user, warm = false }) {
           ))}
         </ol>
         {data.seatsLeft > 0 && data.invitesPaused ? <p className="mob-note">New invites are paused for now. Your Mob works as before.</p> : null}
-        {data.seatsLeft > 0 && !data.invitesPaused && !(v3 && alone) ? (
-          <button type="button" className={alone && !v3 ? 'btn-volt md mob-invite-row' : 'mob-key mob-invite-row'} data-page-primary={alone && !v3 ? '' : undefined} onClick={() => setInviteOpen(true)}>
-            <UserPlus size={16} aria-hidden="true" />Invite a friend ({seatsLine(data.seatsLeft)})
+        {/* The open seat is the last row of the roster: the same shape as a member, so the invite reads as "who is next",
+            not as a form button. A Mob of one has its invite key above (the ring card, or the den's invite card). */}
+        {data.seatsLeft > 0 && !data.invitesPaused && !alone ? (
+          <button type="button" className="mob-seat-row" onClick={() => setInviteOpen(true)}>
+            <span className="mob-seat-row__disc" aria-hidden="true"><UserPlus size={16} /></span>
+            <span className="mob-member__name"><b>Invite a friend</b><span>{seatsLine(data.seatsLeft)}</span></span>
+            <span className="mob-seat-row__go" aria-hidden="true"><ChevronRight size={18} /></span>
           </button>
         ) : null}
         {data.seatsLeft <= 0 ? <p className="mob-note">Your Mob is full: 5 of 5.</p> : null}
@@ -530,7 +546,8 @@ function InMob({ data, mob, user, warm = false }) {
       <ProNote data={data} />
       </> : null}
 
-      <section className="mob-card mob-plain" aria-labelledby="mob-settings-h">
+      {/* Settings come last and stay calm: a quiet heading, plain rows on one hairline each, leaving set apart at the end. */}
+      <section className="mob-card mob-plain mob-settingscard" aria-labelledby="mob-settings-h">
         <h2 id="mob-settings-h" className="mob-h2" tabIndex={-1} ref={settingsRef}>{v3 ? 'Mob settings' : 'Settings'}</h2>
         <div className="mob-settings">
           {v3 ? <DenSettingsRows data={data} v3={v3} run={run} busy={mob.busy} mobName={v3.name?.text || data.subjectName} onNotice={setNotice} /> : null}
@@ -545,7 +562,11 @@ function InMob({ data, mob, user, warm = false }) {
             {!v3 ? <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label={SHARE_LABEL} hint={SHARE_HINT} /> : null}
             <ToggleRow checked={you.nudgesMuted} onChange={(v) => toggle('nudgesMuted', v)} disabled={Boolean(mob.busy)} label="Mute nudges" hint="You will not see Sit it with me notes." />
           </> : null}
-          <button type="button" className="mob-row-btn" onClick={() => setRenameOpen(true)}>Change name or colour</button>
+          <button type="button" className="mob-row-btn mob-row-btn--go" onClick={() => setRenameOpen(true)}>
+            <span className="mob-disc" data-colour={you.colour} aria-hidden="true">{initialOf(you.name)}</span>
+            <span className="mob-row-btn__text">Change name or colour</span>
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
           <button type="button" className="mob-row-btn mob-row-btn--bad" onClick={() => setLeaveOpen(true)}>Leave Mob</button>
         </div>
         <p className="mob-notice" role="status" aria-live="polite">{notice || ''}</p>
@@ -616,9 +637,9 @@ export default function MobPage({ user, billingOn = false }) {
   }, [mob.status, data, mob.v3Available]);
   // The h1 never changes after focus lands on it (WA-01): "Your Mob" in every state, the state's phrase in the lede.
   const lede = data?.v3 || (!data && mob.v3Available) ? null : data
-    ? (data.week.size === 1 ? 'Invite a friend to start your ring. Same 10 questions for everyone, fresh each week.'
-      : data.week.closed ? 'The ring shows who sat this week\'s paper. It never shows who did not.'
-        : 'The ring fills as your Mob sits this week\'s paper. It shows who sat, never who has not.')
+    ? (data.week.size === 1 ? 'A Mob is you and up to 4 friends on the same 10-question paper each week. Invite one to start your ring.'
+      : data.week.closed ? 'You and your friends sit the same 10-question paper each week. The ring shows who sat this one, never who did not.'
+        : 'You and your friends sit the same 10-question paper each week. The ring shows who sat, never who has not.')
     : 'Sit one 10-question paper a week with up to 4 friends. A small private group nobody else can find.';
   return (
     <div className="student-page student-page--mob">

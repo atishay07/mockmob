@@ -35,6 +35,25 @@ function applyTheme(theme) {
   window.dispatchEvent(new Event('mm-theme'));
 }
 
+export const REVEAL_MS = 680;
+export const REVEAL_EASE = 'cubic-bezier(0.45, 0, 0.15, 1)';
+
+/**
+ * Where the reveal starts. From the switch, it is where the thumb is going (the moon's place by night, the sun's by day:
+ * the thumb's own place mirrored across its track), so the new theme spreads out of the sun or the moon as it arrives and
+ * the change reads as caused by the switch. From anything else (a tile of the account sheet's Appearance), its middle.
+ */
+export function revealOrigin(origin) {
+  const box = origin?.getBoundingClientRect?.();
+  if (!box) return { x: window.innerWidth, y: 0 };
+  const thumb = origin.querySelector?.('.mm-theme-toggle__thumb')?.getBoundingClientRect?.();
+  const track = origin.querySelector?.('.mm-theme-toggle__sky')?.getBoundingClientRect?.();
+  if (thumb?.width && track?.width) {
+    return { x: track.left + track.right - (thumb.left + thumb.width / 2), y: thumb.top + thumb.height / 2 };
+  }
+  return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+}
+
 /**
  * Changes the theme with the reveal that spreads from `origin` (an element; the switch or a tile).
  * `mode` is 'dark' (Night), 'light' (Daylight) or 'system' (Match device). Match device is stored
@@ -53,16 +72,17 @@ export function setThemeMode(mode, origin) {
     applyTheme(theme);
     return;
   }
-  const box = origin?.getBoundingClientRect?.();
-  const x = box ? box.left + box.width / 2 : window.innerWidth;
-  const y = box ? box.top + box.height / 2 : 0;
+  const { x, y } = revealOrigin(origin);
   const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
   document.documentElement.dataset.themeSwitching = 'true';
   const transition = document.startViewTransition(() => applyTheme(theme));
   transition.ready.then(() => {
+    // The moment of switching (owner, 10 Nov 2026: "can be refined"): the reveal used to jump out of the switch (half the
+    // screen in the first tenth of a second) and read as a flash. It now leaves the thumb slowly enough to be seen leaving,
+    // sweeps the page, and settles: 680 ms on a curve that starts and ends gently.
     document.documentElement.animate(
       { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-      { duration: 560, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' },
+      { duration: REVEAL_MS, easing: REVEAL_EASE, pseudoElement: '::view-transition-new(root)' },
     );
   }).catch(() => {});
   transition.finished.finally(() => { delete document.documentElement.dataset.themeSwitching; });
@@ -94,7 +114,7 @@ export function useDeviceThemeSync() {
 }
 
 // Light is the default. A first-time visitor gets one quiet prompt pointing at the switch; it goes
-// away on its own, on any press of the switch, and never returns once seen.
+// away on its own, on the first scroll or press, and never returns once seen.
 export function ThemeToggle({ hint = false }) {
   const dark = useSyncExternalStore(subscribe, snapshot, () => false);
   const buttonRef = useRef(null);
@@ -111,6 +131,16 @@ export function ThemeToggle({ hint = false }) {
     const close = window.setTimeout(() => dismissHint(), 9000);
     return () => { window.clearTimeout(open); window.clearTimeout(close); };
   }, [hint]);
+
+  // The note steps aside the moment the visitor starts using the page: the first scroll or press anywhere closes it for good,
+  // so on a phone it never rides down over the page under the fixed bar (owner, 10 Nov 2026: the prompt is back on phones).
+  useEffect(() => {
+    if (!showHint) return undefined;
+    const away = () => dismissHint();
+    const signs = ['scroll', 'wheel', 'pointerdown'];
+    for (const sign of signs) window.addEventListener(sign, away, { passive: true, once: true });
+    return () => { for (const sign of signs) window.removeEventListener(sign, away); };
+  }, [showHint]);
 
   function dismissHint() {
     setShowHint(false);

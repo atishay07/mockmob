@@ -165,31 +165,40 @@ html:has(.pn-sheet[open]) { overflow: hidden; }
 }
 
 /* ---------- The inline nudge ---------- */
+/* One quiet line (owner D79; 10 Nov 2026): the sentence, its action as an ink text link that ends the same line, and a close.
+   No box, no rule down its side, no outlined key. The link is 44 px tall to the finger; its negative margins give that height
+   back, so the line it sits in is no taller than the others. The sentence's own padding centres a one-line nudge on the close. */
 .pn-inline {
   display: flex;
-  align-items: center;
-  gap: 4px 10px;
-  margin: 12px 0 0;
-  padding: 4px 0 4px 12px;
-  border-left: 1px solid var(--a-volt-line);
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 0;
   color: var(--a-ink-2);
   animation: pn-inline-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
-.pn-inline-box .pn-inline .pn-inline__text { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.pn-inline-box .pn-inline .pn-inline__text { flex: 1 1 auto; min-width: 0; margin: 0; padding: 12px 0; font-size: 14px; line-height: 1.45; text-wrap: pretty; }
 .pn-inline-box .pn-inline .pn-inline__go {
-  flex: none;
+  display: inline-block;
+  min-width: 0;
   min-height: 44px;
-  padding: 0 14px;
-  border: 1px solid var(--a-line-strong);
-  border-radius: 10px;
+  margin: -12px 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
   background: transparent;
   color: var(--a-ink);
-  font: 700 14px/1 var(--font-display);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--a-line-strong);
   white-space: nowrap;
+  vertical-align: baseline;
   cursor: pointer;
-  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+  transition: text-decoration-color 150ms ease-out;
 }
-.pn-inline-box .pn-inline .pn-inline__go:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.pn-inline-box .pn-inline .pn-inline__go:hover { text-decoration-color: currentColor; }
 .pn-inline-box .pn-inline .pn-inline__x {
   flex: none;
   display: inline-grid;
@@ -206,15 +215,7 @@ html:has(.pn-sheet[open]) { overflow: hidden; }
 }
 .pn-inline-box .pn-inline .pn-inline__x:hover { background: var(--a-hover); color: var(--a-ink-2); }
 @keyframes pn-inline-in { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
-.pn-inline-box { container: pn-inline / inline-size; }
-/* Under 460 px of room (a phone, or Practice's session card): the line takes the width beside the close, and the action
-   sits under it, so the line never wraps a word to a row. */
-@container pn-inline (max-width: 459px) {
-  .pn-inline { flex-wrap: wrap; }
-  .pn-inline-box .pn-inline .pn-inline__text { flex-basis: calc(100% - 54px); }
-  .pn-inline-box .pn-inline .pn-inline__x { order: 2; }
-  .pn-inline-box .pn-inline .pn-inline__go { order: 3; }
-}
+/* No narrow-column rule is needed: the action is part of the sentence and wraps with it, whole (white-space: nowrap). */
 
 @media (prefers-reduced-motion: reduce) {
   .pn-inline { animation: pn-fade 150ms ease-out both; }

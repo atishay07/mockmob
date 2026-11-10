@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/Button';
 import { PASSWORD_COPY, PASSWORD_RULE, checkPassword, passwordProblem } from '@/lib/passwordRules.mjs';
 import './account.css';
 
+const OPEN_LABEL = 'Set a password';
+
 async function postPassword(password) {
   let res;
   try {
@@ -37,7 +39,9 @@ export default function SetPasswordCard({ email = '' }) {
   const [tried, setTried] = useState(false);
   const [problem, setProblem] = useState('');
   const [saved, setSaved] = useState(false);
+  const [open, setOpen] = useState(false);
   const busyRef = useRef(false);
+  const openKeyRef = useRef(null);
 
   const ruleMet = checkPassword(password).ok;
 
@@ -75,11 +79,28 @@ export default function SetPasswordCard({ email = '' }) {
 
   const tone = problem ? 'err' : saved ? 'ok' : undefined;
 
+  // 10 Nov app pass: the card opens on its one sentence and a Set a password key; the field, Show, the rule and Save open under
+  // it on a tap, so the account page does not read as a form. Cancel folds it again and forgets what was typed.
+  function close() {
+    if (busyRef.current) return;
+    setOpen(false);
+    setPassword('');
+    setShown(false);
+    setTried(false);
+    setProblem('');
+    window.requestAnimationFrame(() => openKeyRef.current?.focus());
+  }
+
   return (
     <section className="glass acct-card" id="password" aria-labelledby="acct-password-h">
       <h2 className="acct-h2" id="acct-password-h">{PASSWORD_COPY.title}</h2>
       <p className="acct-lead">{PASSWORD_COPY.lead}</p>
-      <form className="acct-pw" onSubmit={save} noValidate aria-busy={busy || undefined}>
+      {!open ? (
+        <div className="acct-act__keys">
+          <button ref={openKeyRef} type="button" className="acct-key" aria-expanded="false" aria-controls="acct-pw-form" onClick={() => setOpen(true)}>{OPEN_LABEL}</button>
+        </div>
+      ) : (
+      <form id="acct-pw-form" className="acct-pw acct-line__edit" onSubmit={save} noValidate aria-busy={busy || undefined}>
         {/* The account this password is for, so the browser's password manager files it under the right email. */}
         <input className="acct-pw__user" type="text" name="username" autoComplete="username" value={email} readOnly tabIndex={-1} aria-hidden="true" />
         <label className="acct-field">
@@ -95,6 +116,7 @@ export default function SetPasswordCard({ email = '' }) {
               autoCapitalize="none"
               autoCorrect="off"
               spellCheck={false}
+              autoFocus
               disabled={busy}
               aria-invalid={problem ? 'true' : undefined}
               aria-describedby="acct-pw-rule acct-pw-note"
@@ -116,11 +138,15 @@ export default function SetPasswordCard({ email = '' }) {
                 ? <><DrawnCheck size={16} /><span>{PASSWORD_COPY.savedFor(email)} {PASSWORD_COPY.othersLead} <a className="acct-link acct-link--inline" href="#sign-in">{PASSWORD_COPY.othersLink}</a>.</span></>
                 : busy ? PASSWORD_COPY.saving : PASSWORD_COPY.idle}
           </p>
-          <Button type="submit" variant={ruleMet ? 'volt' : 'outline'} size="md" disabled={busy || !password}>
-            {busy ? PASSWORD_COPY.saving : PASSWORD_COPY.save}
-          </Button>
+          <div className="acct-act__keys">
+            <Button type="submit" variant={ruleMet ? 'volt' : 'outline'} size="md" disabled={busy || !password}>
+              {busy ? PASSWORD_COPY.saving : PASSWORD_COPY.save}
+            </Button>
+            <button type="button" className="acct-key" disabled={busy} onClick={close}>{saved ? 'Done' : 'Cancel'}</button>
+          </div>
         </div>
       </form>
+      )}
     </section>
   );
 }

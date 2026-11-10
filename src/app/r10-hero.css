@@ -187,8 +187,12 @@
   background: var(--paper-raised);
   box-shadow: 0 0 0 1.5px var(--paper);
 }
-/* Each next picture covers the one before by 8 px (a third); the later one sits on top, its paper ring cutting the edge. */
+/* Each next picture tucks 8 px (a third) under the one before: the first is drawn whole, on top, its paper ring cutting the
+   edge of the next (owner, 10 Nov 2026: the first circle is the one that is not cut, so the best-known creator goes there). */
 .mm.lp .lp-featured__mark + .lp-featured__mark { margin-left: -8px; }
+.mm.lp .lp-featured__mark { position: relative; z-index: 1; }
+.mm.lp .lp-featured__mark:first-child { z-index: 3; }
+.mm.lp .lp-featured__mark:nth-child(2) { z-index: 2; }
 .mm.lp .lp-featured__words { white-space: nowrap; }
 .mm.lp .lp-featured__fig { font-weight: 650; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
 @media (hover: hover) and (pointer: fine) {

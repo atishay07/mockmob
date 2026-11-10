@@ -55,7 +55,9 @@ test('Up next: the module is the page\'s one recommendation and starts nothing o
   assert.match(hero, /Suggested/);
   assert.doesNotMatch(hero, /lh-or__row/, 'no list rows competing with the roadmap');
   const css = src('../learn-home.css');
-  assert.match(css, /\.lh-up \{[^}]*border: 1px solid var\(--a-volt-line\)/, 'the next-step card of Today, its volt line');
+  // 10 Nov (design rule 1): a hairline on the raised card, never a volt rim or wash around the whole card; the volt is the key's.
+  assert.match(css, /\.lh-up \{[^}]*border: 1px solid var\(--a-line\)/, 'the next-step card keeps one hairline');
+  assert.doesNotMatch(css.match(/\.lh-up \{[^}]*\}/)[0], /volt/, 'no volt rim or wash around the whole card');
   assert.doesNotMatch(css.match(/\.lh-up \{[^}]*\}/)[0], /0 0 \d+px|glow/, 'no halo in Night');
 });
 

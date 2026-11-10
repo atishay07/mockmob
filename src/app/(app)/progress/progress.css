@@ -39,3 +39,35 @@
 .app-shell .student-page--progress .rc-wk[data-picked='true'] { transform: none; border-color: var(--a-ink-2); }
 /* One to three weeks: columns of a set width, not one bar across the page */
 .app-shell .student-page--progress .rc-ribbon[data-few='true'] { grid-template-columns: repeat(var(--rc-weeks, 1), minmax(0, 104px)); }
+
+/* ---------- 10 Nov app pass ----------
+   The first week (RhythmCard): until a week has finished, the week is its goal in parts, one per study day, filling as the
+   days are counted. One empty week bar read as an unfinished box. No outline: a sunken track and a filled part. */
+.app-shell .student-page--progress .rc-first { display: grid; gap: 8px; max-width: 460px; }
+.app-shell .student-page--progress .rc-first__parts { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; }
+.app-shell .student-page--progress .rc-first__part { position: relative; flex: 1 1 0; height: 12px; border-radius: 999px; background: var(--a-line); overflow: hidden; }
+.app-shell .student-page--progress .rc-first__part::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--a-select);
+  transform-origin: 0 50%; transform: scaleX(0);
+  transition: transform 520ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) calc(var(--rc-i, 0) * 110ms);
+}
+.app-shell .student-page--progress .rc-first__part[data-on='true'][data-armed='true']::after { transform: scaleX(1); }
+.app-shell .student-page--progress .rc-first__part[data-met='true']::after { background: var(--volt); }
+.app-shell .student-page--progress .rc-first__legend { display: flex; justify-content: space-between; gap: 12px; margin: 0; font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .student-page--progress .rc-first__legend b { font: 800 15px/1 var(--font-display); color: var(--a-ink); }
+.app-shell .student-page--progress .rc-first + .rc-chip { font-weight: 500; color: var(--a-ink-3); }
+html[data-motion='reduced'] .app-shell .student-page--progress .rc-first__part::after { transition: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .student-page--progress .rc-first__part::after { transition: none; } }
+
+/* The next step under this week (LearningNextAction compact): the page's one action. It carries the volt key, so the card
+   loses its volt border and wash and sits as a plain raised panel (Day: paper with a soft shadow, no outline). */
+.app-shell .student-page--progress .na--compact { border-color: transparent; background: var(--a-raised); box-shadow: none; }
+html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-shadow: var(--a-shadow-1); }
+.app-shell .student-page--progress .na--compact .na__title { font-size: 16px; }
+
+/* Your study record (StudyProgress) reads as one of this page's open sections, not a boxed card among them. */
+.app-shell .student-page--progress .study-record { margin-block: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+.app-shell .student-page--progress .study-record h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .student-page--progress .study-record .study-facts { padding-block: 14px 4px; }
+.app-shell .student-page--progress .study-record > p { margin: 8px 0 14px; max-width: 56ch; font-size: 14px; }
+@media (max-width: 639px) { .app-shell .student-page--progress .study-record h2 { font-size: 19px; } }

@@ -20,6 +20,7 @@ import { plainTerms, valueShown } from '@/components/pricing/pricingValueCopy.mj
 import { PlanCounts } from '@/components/landing/PlanCounts';
 import { planGroups } from '@/components/landing/homeCopy.mjs';
 import { PLAN_COPY, choiceLine, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
+import { PAY_COPY, paySteps, refundFaq } from '@/components/pricing/payCopy.mjs';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
@@ -185,6 +186,9 @@ const buildFaqs = (offer, bankSize = null) => [
       ? 'Renewals stop. Pro stays active until the end of the month you already paid for, then your account moves to Free. Your history, saved questions and credits stay.'
       : `There is nothing to cancel. Pro is one payment with no renewal. It stays active until ${String(offer.oneTime.expires).replace(/ /g, ' ')}, then your account moves to Free. Your history, saved questions and credits stay.`,
   },
+  // The refund question, asked before paying (10 Nov 2026): the published policy (/refunds) in two plain sentences, then what
+  // to do when a payment itself went wrong (src/components/pricing/payCopy.mjs).
+  refundFaq(offer),
   pricingBankFaq(bankSize),
   ...(offer.purchasable === 'monthly' ? [
     {
@@ -397,6 +401,35 @@ export default async function PricingPage({ searchParams }) {
             </PlanChoice>
           </div>
         </section>
+
+        {/* What happens when you get Pro (10 Nov 2026, owner: "add the few things a student deciding to pay would want to
+            see"): right under the two cards, the payment in the order it happens (what is paid today, when Pro turns on, the
+            renewal and how to stop it), then who to write to when a payment goes wrong. A numbered list on hairlines, not
+            cards. It is a section of its own, so the dock's Get Pro comes back while it is read; a Pro student does not see it.
+            Words and their sources: src/components/pricing/payCopy.mjs. */}
+        {isCurrentUserPremium ? null : (
+          <section className="pro-sec pro-pay" aria-labelledby="pro-pay-h">
+            <div className="pro-wrap">
+              <h2 className="pro-pay__title" id="pro-pay-h">{PAY_COPY.title}</h2>
+              <ol className="pro-pay__steps">
+                {paySteps(offer, { signedIn: Boolean(session?.user?.id) }).map((step, index) => (
+                  <li key={step.key} className="pro-pay__step">
+                    <span className="pro-pay__n" aria-hidden="true">{index + 1}</span>
+                    <div>
+                      <h3>{step.title}</h3>
+                      <p>{step.line}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <p className="pro-pay__help">
+                {PAY_COPY.help[0]}{' '}
+                <a className="mm-link mm-link--inline" href={PAY_COPY.mailto}>{PAY_COPY.email}</a>{' '}
+                {PAY_COPY.help[1]}
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* What students usually pay, and what you pay (round 6, owner 7 Nov 2026: "below that, keep a more detailed value
             indicator than the homepage one ... and then we can have the comparison table"): CUET subjects (5 first) and full mocks a

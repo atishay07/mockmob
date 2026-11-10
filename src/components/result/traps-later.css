@@ -35,9 +35,16 @@
 
 /* ---------- Traps you meet ---------- */
 .tm { display: grid; min-width: 0; }
+/* Today's lead card is also class "tm" (today.css `.app-shell .tm`: a volt line, a volt wash, 28 px corners and its rise), and
+   it reached this disclosure on the Rule book as a volt-ringed bar (10 Nov). The disclosure always carries data-surface, so
+   it takes back its own plain look wherever it sits; the result keeps its own reset (result-1017.css `.rx .tm`). */
+.app-shell .tm[data-surface] {
+  position: static; display: grid; min-width: 0; padding: 0; overflow: visible;
+  border: 0; border-radius: 0; background: transparent; box-shadow: none; animation: none;
+}
 .tm :is(p, ul) { margin: 0; }
-.tm[data-surface='inset'] { padding-top: 6px; border-top: 1px solid var(--a-line, #253026); }
-.tm[data-surface='card'] {
+.tm[data-surface='inset'], .app-shell .tm[data-surface='inset'] { padding-top: 6px; border-top: 1px solid var(--a-line, #253026); }
+.tm[data-surface='card'], .app-shell .tm[data-surface='card'] {
   padding: 8px clamp(10px, 2vw, 16px) clamp(12px, 2vw, 18px); border-radius: var(--a-radius, 18px);
   border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }

@@ -92,6 +92,17 @@
 .ex-question[data-closed] .ex-passage { display: none; }
 .ex-question[data-closed] .ex-question__actions { margin-top: 16px; padding-top: 12px; }
 .ex-action--open { border-color: var(--a-line-strong); color: var(--a-ink); }
+/* 10 Nov (learn; design rules 2 and 5): three single questions read as three heavy boxes, each with two more boxes inside. Each
+   question is now one quiet card (Night: a hairline on the raised fill; Day: the soft paper shadow, no line), with no rule above its
+   keys, and the keys are filled tiles, not outlines: "Answer it" in full ink, Save quieter. A saved question keeps its tick colour. */
+.ex-page--v2 .ex-question { border-color: var(--a-line); }
+html[data-theme='light'] .ex-page--v2 .ex-question { border-color: transparent; box-shadow: var(--a-shadow-1); }
+.ex-page--v2 .ex-question[data-closed] .ex-question__actions { border-top: 0; margin-top: 14px; padding-top: 0; }
+.ex-page--v2 .ex-action { border-color: transparent; background: color-mix(in srgb, var(--a-ink) 6%, transparent); padding-inline: 14px; }
+.ex-page--v2 .ex-action--open { color: var(--a-ink); background: color-mix(in srgb, var(--a-ink) 10%, transparent); }
+.ex-page--v2 .ex-action[aria-pressed="true"] { border-color: transparent; color: var(--a-accent-text); }
+@media (hover: hover) { .ex-page--v2 .ex-action:not(:disabled):hover { background: color-mix(in srgb, var(--a-ink) 12%, transparent); color: var(--a-ink); } }
+.ex-page--v2 .ex-more--quiet { border-color: var(--a-line); }
 .ex-more--quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: auto; min-width: 200px; background: transparent; }
 .ex-singles .ex-footnote { margin-top: 20px; font-size: 12px; color: var(--a-ink-3); }
 @media (max-width: 899px) {

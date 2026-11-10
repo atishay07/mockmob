@@ -6,6 +6,7 @@ import { apiGet } from '@/lib/fetcher';
 import ArenaHead, { ArenaStats } from '@/components/arena/ArenaHead';
 import { EmptyState, ErrorState, SkeletonCard } from '@/components/ui/Skeleton';
 import { contributionState } from '@/../data/contribution_ui';
+import { subjectName } from '@/components/profile/accountModel.mjs';
 
 const STATES = { pending: { label: 'Awaiting checks', detail: 'This question is held until the required checks pass.' }, live: { label: 'Live', detail: 'The contribution API reports this question as live.' }, held: { label: 'Held', detail: 'This question has not passed its checks. It is not ready for practice.' } };
 
@@ -35,7 +36,7 @@ export default function MyUploadsPageClient() {
     {state === 'ready' && !filtered.length && <EmptyState scene={filter === 'all' ? 'nothingYet' : 'noResults'} title={filter === 'all' ? 'No contributions yet.' : 'No questions in this group.'} message={filter === 'all' ? 'Start with one original question and the reasoning behind it.' : 'Try All to see your other submissions.'} actionLabel={filter === 'all' ? undefined : 'Show all'} onAction={() => setFilter('all')} />}
     {state === 'ready' && <div className="con-list">{filtered.map((question) => {
       const status = contributionState(question.status);
-      return <details key={question.id} className="con-upload" data-state={status}><summary><span><b>{question.question || question.body || 'Question text unavailable'}</b><small>{question.subject?.replaceAll('_', ' ')} · {question.chapter || 'Chapter unavailable'}</small></span><em>{STATES[status].label}</em></summary><div className="con-upload__detail"><p>{STATES[status].detail}</p><dl><div><dt>Submitted</dt><dd>{question.createdAt ? new Date(question.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Date unavailable'}</dd></div><div><dt>Question ID</dt><dd>{question.id}</dd></div></dl></div></details>;
+      return <details key={question.id} className="con-upload" data-state={status}><summary><span><b>{question.question || question.body || 'Question text unavailable'}</b><small>{subjectName(question.subject)}, {question.chapter || 'Chapter unavailable'}</small></span><em>{STATES[status].label}</em></summary><div className="con-upload__detail"><p>{STATES[status].detail}</p><dl><div><dt>Submitted</dt><dd>{question.createdAt ? new Date(question.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Date unavailable'}</dd></div><div><dt>Question ID</dt><dd>{question.id}</dd></div></dl></div></details>;
     })}</div>}
   </div>;
 }

@@ -146,8 +146,9 @@ h4.mr-title { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.
 .mr-fold__toggle:hover { border-color: var(--a-ink-3, #93a08f); }
 .mr-fold__toggle:focus-visible, .mr-copy:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
-/* The rule: the one raised card, with Copy, and the memory hook under the rule in muted type. */
-.mr-rule { position: relative; display: grid; gap: 6px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-raised, #131a16); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .45); }
+/* The rule: the one raised card, with Copy, and the memory hook under the rule in muted type. 10 Nov: no volt ring; it sits
+   inside the repair panel, so the raised fill alone lifts it, and the volt "Keep this" label is its one accent mark. */
+.mr-rule { position: relative; display: grid; gap: 6px; padding: 14px 16px; border-radius: 14px; border: 1px solid transparent; background: var(--a-raised, #131a16); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .45); }
 .mr-rule__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .mr-rule__head > span { font: 700 13px/1.4 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
 .mr-rule > p { margin: 0; font: 650 16px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }

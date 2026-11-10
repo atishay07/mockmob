@@ -50,6 +50,8 @@
 
 .app-shell .rv8-mkhead { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 10px 0 2px; border-top: 1px solid var(--a-line); font: 680 15px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .rv8-mkhead small { font: 500 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+/* What a repair is, for a student with no saved repair yet: one quiet line under the head, before the first Repair key. */
+.app-shell .rvw .rv8-mkwhat { margin: 6px 0 2px; max-width: 62ch; font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
 /* AR-S3: focus lands here when the last mistake of a chapter is repaired and its sheet closes. */
 .app-shell .rv8-mkhead:focus { outline: none; }
 .app-shell .rv8-mkhead:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }

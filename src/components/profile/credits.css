@@ -44,6 +44,13 @@
 .app-shell .cr-line__num[data-sign='up'] b { color: var(--a-good-text); }
 .app-shell .cr-line__after { font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
 .app-shell .cr-more { display: grid; gap: 8px; justify-items: start; }
+/* 10 Nov app pass: the history folds under its heading (CreditsSection.jsx). The summary is the whole 44 px row. */
+.app-shell .cr-fold { display: block; }
+.app-shell .cr-fold > .cr-history__sum { display: flex; align-items: center; gap: 12px; min-height: 44px; list-style: none; cursor: pointer; touch-action: manipulation; border-radius: 8px; }
+.app-shell .cr-fold > .cr-history__sum::-webkit-details-marker { display: none; }
+.app-shell .cr-fold > .cr-history__sum h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .cr-fold > .cr-history__sum:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .cr-fold > .ctl-details__body { display: grid; gap: 12px; padding-top: 8px; }
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell .cr-chip { transition: none !important; }

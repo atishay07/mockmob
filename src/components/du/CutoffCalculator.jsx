@@ -246,7 +246,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
             {group.offerings > 0 ? <span>{group.colleges} {group.colleges === 1 ? 'college' : 'colleges'}</span> : <span>No CUET cutoff list published</span>}
             {hasCutoffs ? (
               <span className="mm-measure">
-                Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
+                2026 Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
               </span>
             ) : null}
           </span>
@@ -271,6 +271,8 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
           </section>
           <section className="du-sec">
             <h4>{group.offerings > 0 ? 'College cutoffs, 2026' : 'Cutoffs'}</h4>
+            {/* What the three figures are, whose they are and where they come from, once, above the rows (10 Nov). */}
+            {group.offerings > 0 ? <p className="du-sec__note">The lowest score that got a seat in each round, category {category}. A dash means DU listed none for that round. From DU’s 2026 allocation lists.</p> : null}
             {group.offerings > 0 ? (
               <CutoffTable group={group} catIndex={catIndex} category={category} score={score} />
             ) : (
@@ -292,7 +294,9 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
 
 // ---------------------------------------------------------------------------------------
 
-export function CutoffCalculator({ seedSubjects = null } = {}) {
+// foldSubjects (the signed-in Colleges page, 10 Nov): in the one-column layout a student whose subjects are already ticked sees
+// them as one summary with an Edit key, and the courses come straight after. Nothing is removed: Edit opens the whole pane.
+export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } = {}) {
   useAboveKeyboard();
   const { isAuthenticated } = useAuth();
   const [data, setData] = useState(null);
@@ -310,6 +314,9 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const [message, setMessage] = useState('');
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
+  const filtersRef = useRef(null);
+  const landOnList = useRef(false);
+  const [folded, setFolded] = useState(false);
   // W-075 (release 9): one lime key per viewport. The sticky "View courses" key steps back to outlined while the page's own
   // closing key is on screen (signed out: "Sign up free", night 1105); signed in, that closing key is not lime at all (the app's
   // Start key is the one lime action there).
@@ -340,11 +347,14 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         setSelection(sel);
         setCategory(cat);
         setScoreText(String(scoreRaw));
+        setFolded(foldSubjects && (sel.languages.length + sel.domains.length > 0 || sel.gat));
         setData(index);
         const linkedCourse = index.groups.find((group) => group.id === params.get('course'));
         if (linkedCourse) {
           setQuery(linkedCourse.name);
           setOpenIds(new Set([linkedCourse.id]));
+          // Arriving from Today's college card with a course in the link: land on that course, already open, not at the page top.
+          landOnList.current = foldSubjects;
         }
         if (fromLink) {
           writeSaved({ s: encodeSelection(sel), c: cat, score: String(scoreRaw) });
@@ -365,6 +375,15 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     if (!data) return;
     writeSaved({ s: encodeSelection(selection), c: category, score: scoreText });
   }, [data, selection, category, scoreText]);
+
+  useEffect(() => {
+    if (!data || !landOnList.current) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      landOnList.current = false;
+      filtersRef.current?.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [data]);
 
   const score = parseScore(scoreText);
   const catIndex = data ? data.meta.categories.indexOf(category) : 0;
@@ -449,10 +468,11 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     const el = sideRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return undefined;
     // In view below the top bar and the sticky summary (about 8rem): the student is inside the subjects card.
-    const io = new IntersectionObserver(([entry]) => setInSubjects(entry.isIntersecting), { rootMargin: '-128px 0px -35% 0px', threshold: 0 });
+    // With the fold the card carries its own Edit key, so the bar's steps aside whenever the card shows above the dock (about 6rem).
+    const io = new IntersectionObserver(([entry]) => setInSubjects(entry.isIntersecting), { rootMargin: foldSubjects ? '-128px 0px -96px 0px' : '-128px 0px -35% 0px', threshold: 0 });
     io.observe(el);
     return () => io.disconnect();
-  }, [data]);
+  }, [data, foldSubjects]);
 
   useEffect(() => {
     const el = ctaRef.current;
@@ -462,7 +482,16 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     return () => io.disconnect();
   }, [data]);
 
-  const goTo = (ref) => ref.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+  // View courses lands on the list itself (the stream filter with the first course under it), not on the count above it: the key
+  // has to show a course. With the fold it also closes the subjects pane, and the bar's Edit opens it again.
+  const goTo = (ref) => {
+    const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+    if (foldSubjects) setFolded(ref === resultsRef);
+    window.requestAnimationFrame(() => {
+      const target = ref === resultsRef && filtersRef.current ? filtersRef.current : ref.current;
+      target?.scrollIntoView({ behavior, block: 'start' });
+    });
+  };
 
   if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setLoadAttempt((value) => value + 1); }}>Try again</button></div>;
   if (!data) {
@@ -483,9 +512,10 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
     ...selection.domains.map((id) => ({ id, kind: 'domain', label: subjectLabel(id), title: subjectName(id) })),
     ...(selection.gat ? [{ id: 'gat', kind: 'gat', label: 'General Aptitude Test', title: 'General Aptitude Test' }] : []),
   ];
+  const isFolded = Boolean(foldSubjects && folded && hasSelection);
 
   return (
-    <div className="du-app">
+    <div className="du-app" data-folded={isFolded ? '' : undefined}>
       {hasSelection ? (
         <div className="du-sum" role="region" aria-label="Your selection" data-editing={inSubjects ? '' : undefined}>
           <p>
@@ -501,11 +531,23 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
 
       <div className="du-layout">
         {/* --------------------------- Your subjects --------------------------- */}
-        <aside className="du-side" ref={sideRef} aria-labelledby="du-side-title">
+        <aside className="du-side" ref={sideRef} aria-labelledby="du-side-title" data-fold={foldSubjects && hasSelection ? '' : undefined} data-folded={isFolded ? '' : undefined}>
           <div className="du-side__head">
             <h2 id="du-side-title" className="du-h2">Your CUET subjects</h2>
             <span className="du-count mm-measure" aria-live="polite">{subjectCount} selected</span>
+            {foldSubjects && hasSelection ? (
+              <button type="button" className="du-fold__key" aria-expanded={!isFolded} aria-controls="du-side-body" onClick={() => setFolded((v) => !v)}>
+                {isFolded ? 'Edit' : 'Done'}<span className="du-sr"> {isFolded ? 'your subjects, category and score' : 'editing'}</span>
+              </button>
+            ) : null}
           </div>
+          {isFolded ? (
+            <div className="du-fold">
+              <p className="du-fold__list">{selectedList.map((s) => s.label).join(', ')}</p>
+              <p className="du-fold__meta">Category {category}{score != null ? `, target score ${ownScore(score)}` : ', no target score'}</p>
+            </div>
+          ) : null}
+          <div className="du-side__body" id="du-side-body">
           <div className="du-presets" role="group" aria-label="Quick start">
             <span>Quick start</span>
             {PRESETS.map((p) => (
@@ -552,6 +594,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               </small>
             </label>
           </div>
+          </div>
         </aside>
 
         {/* ------------------------------ Results ------------------------------ */}
@@ -570,7 +613,9 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 )}
               </h2>
               <p className="du-sub">
-                {hasSelection ? `Category ${category}${score != null ? `, score ${ownScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
+                {/* Folded, the summary card just above already names the category and the score, so this line says the next step instead. */}
+                {isFolded ? <span className="du-sub__next">Open a course for its colleges and 2026 cutoffs.</span> : null}
+                <span className={isFolded ? 'du-sub__live' : undefined}>{hasSelection ? `Category ${category}${score != null ? `, score ${ownScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}</span>
               </p>
               </div>
             </div>
@@ -627,7 +672,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                   </p>
                 </div>
               ) : (
-                <div className="du-filters">
+                <div className="du-filters" ref={filtersRef}>
                   <div className="du-streams" role="group" aria-label="Filter by stream">
                     {['All', ...streams].map((s) => (
                       <button key={s} type="button" aria-pressed={stream === s} onClick={() => setStream(s)}>{s}</button>

@@ -149,7 +149,11 @@ function ChapterFoot({ row, byUid, wallet, openUid, setOpenUid, onChanged }) {
   );
 }
 
-function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, onChanged, pending, onRepaired, onClosed }) {
+// What a repair is, said once where the first "Repair" keys appear, until the student has a saved repair of their own (10 Nov:
+// a first-timer met the word only as a key and a price). The words are the job's own (recovery/fixForGood.mjs startLine).
+const REPAIR_WHAT = 'A repair is Mobi’s fix for one mistake: why your answer looked right, why the key is right and one rule to keep, then new questions on the same idea to check it held.';
+
+function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, onChanged, pending, onRepaired, onClosed, firstRepair = false }) {
   const panel = `rv8-ch-${row.id.replace(/[^A-Za-z0-9_-]/g, '-')}`;
   const href = `/dashboard?${new URLSearchParams({ subject: subjectId(row.subject), mode: 'quick', count: String(NEXT_MOVE_RULES.setSize), chapter: row.name })}`;
   // AR-S3: a mistake repaired on this visit keeps its row (and its receipt) until Review reads again, but is no longer counted here.
@@ -174,6 +178,7 @@ function ChapterRow({ row, open, onToggle, wallet, byUid, openUid, setOpenUid, o
             {wallet?.isPremium ? null : <InlineNudge placement="review_chapter" facts={{ focusChapter: row.name }} />}
           </div>
           <div className="rv8-mkhead" tabIndex={-1}><span>{left ? `${plural(left, 'mistake')} to repair` : 'Nothing left to repair'}</span>{left ? <small>Newest first</small> : null}</div>
+          {left && firstRepair ? <p className="rv8-mkwhat">{REPAIR_WHAT}</p> : null}
           {row.open.length ? (
             <ul className="rv8-mks" aria-label={`Mistakes to repair in ${row.name}`}>
               {row.open.map((m, i) => (
@@ -206,7 +211,7 @@ function WeakChapters({ rows, line: given, savedCount = 0, scopeName, hasPapers,
           <ul className="rv8-chs">
             {shown.map((row) => (
               <ChapterRow key={row.id} row={row} open={openId === row.id} wallet={wallet} byUid={byUid} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged}
-                pending={pending} onRepaired={onRepaired} onClosed={onClosed}
+                pending={pending} onRepaired={onRepaired} onClosed={onClosed} firstRepair={savedCount === 0}
                 onToggle={() => { setOpenUid(null); setOpenId(openId === row.id ? null : row.id); }} />
             ))}
           </ul>

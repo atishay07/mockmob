@@ -245,9 +245,23 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
   .rp-next__go { justify-self: stretch; justify-content: center; }
 }
 
-.rp-links { display: flex; flex-wrap: wrap; gap: 8px; }
-.rp-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line, #253026); color: var(--a-ink-2, #bcc5b9); font-size: 14px; font-weight: 600; text-decoration: none; }
-.rp-links a:hover { border-color: var(--a-line-hover); color: var(--a-ink); }
+/* The way on from the record (10 Nov): a ruled list, not four outlined pills. The page's end had six equal outlined boxes
+   (the next paper, the Pro line and these four); the next paper keeps the one outlined key and these read as plain rows,
+   the whole row the link, a quiet icon and a chevron. One column on phones, two from 561 px. */
+.rp-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; border-top: 1px solid var(--a-line); }
+.rp .rp-links a {
+  display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 2px; border: 0; border-bottom: 1px solid var(--a-line); border-radius: 0;
+  color: var(--a-ink); font: 600 14.5px/1.3 var(--font-body, inherit); text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+.rp .rp-links a svg { flex: none; color: var(--a-ink-3); }
+.rp .rp-links a::after {
+  content: ''; flex: none; width: 7px; height: 7px; margin: 0 4px 0 auto; transform: rotate(45deg);
+  border-top: 1.75px solid var(--a-ink-3); border-right: 1.75px solid var(--a-ink-3);
+}
+.rp .rp-links a:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .rp .rp-links a:hover { background: var(--a-hover); } }
+.rp .rp-links a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (max-width: 560px) { .rp-links { grid-template-columns: minmax(0, 1fr); } }
 
 @media (max-width: 640px) {
   .rp-hero { grid-template-columns: 64px 1fr; gap: 12px 14px; }
@@ -274,7 +288,7 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
   .srl-find-toggle { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 10px 0; background: none; border: 0; border-top: 1px solid var(--a-line); text-align: left; font: 600 14px/1.4 var(--font-body); color: var(--a-accent-text); cursor: pointer; }
   .srl-find-toggle span { font-size: 20px; flex: none; }
   .srl-find-toggle:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 4px; }
-  .rp-report, .rp-links a { min-height: 44px; }
+  .rp-report { min-height: 44px; }
 }
 @media (prefers-reduced-motion: reduce) { .rp-q__chev, .srl-progress__track span { transition: none; } }
 

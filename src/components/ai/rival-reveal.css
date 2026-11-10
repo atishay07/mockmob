@@ -100,4 +100,12 @@ html[data-motion='reduced'] :is(.rv-part, .rv-score)[data-in='false'] { opacity:
 .rvl-chip--num { font-variant-numeric: tabular-nums; }
 .rvl-go { display: grid; gap: 10px; justify-items: start; margin-top: 4px; }
 .rvl-start { min-height: 52px; gap: 8px; }
+/* The start row under the heading (10 Nov 2026), under 900 px only: there the rival list is two screens long, so the page's
+   one key would open off screen. It is the same key as the one that closes the set-up; the line under it says what it starts
+   with, two facts set apart by space like the wallet line (no middle dot to dangle at a line's end). */
+.rvl-go--top { margin-top: -8px; }
+.rvl-go__with { display: flex; flex-wrap: wrap; gap: 2px 16px; margin: 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.rvl-go__add { display: inline-flex; align-items: center; min-height: 44px; margin-block: -8px; font-size: 14px; font-weight: 600; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+.rvl-go__add:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (min-width: 900px) { .rvl-go--top { display: none; } }
 @media (prefers-reduced-motion: reduce) { .rvl-row, .rvl-row__mark, .rvl-chip { transition: none; } }

@@ -18,16 +18,17 @@
   /* The noise: fractal, about one CSS pixel a grain, tiled seamlessly; its high half as one mask, its low half as the other. */
   --grain-hi-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3.5 0 0 0 -1.75'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
   --grain-lo-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3.5 0 0 0 1.75'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23g)'/%3E%3C/svg%3E");
-  /* Day: raised paper specks and ink specks around the cream ground (+9 and -9 levels at the most, measured to cancel:
-     the raised paper sits about 14 levels above the ground, the ink about 220 below, so 0.63 against 0.04). */
-  --grain-hi: color-mix(in srgb, var(--paper-raised, #fffdf8) 63%, transparent);
-  --grain-lo: rgb(var(--tint, 23 21 15) / 0.04);
+  /* Day: raised paper specks and ink specks around the cream ground (+12 and -12 levels at the most since 10 Nov 2026, when
+     the owner asked for a more defined texture; it was 9; measured to cancel:
+     the raised paper sits about 14 levels above the ground, the ink about 220 below, so 0.84 against 0.053). */
+  --grain-hi: color-mix(in srgb, var(--paper-raised, #fffdf8) 84%, transparent);
+  --grain-lo: rgb(var(--tint, 23 21 15) / 0.053);
   /* Phones: the lamp's pool from the top right, over the headline's open paper, fading down the page past the desk. */
   --grain-falloff: radial-gradient(ellipse 160% 46% at 85% 4%, #000 35%, transparent 100%);
 }
-/* Night: chalk specks and shade specks around the charcoal ground (+16 and -16 levels at the most: chalk is about 226
-   levels above the ground, black 18 below, so 0.07 against 0.88). */
-:root[data-theme='dark'] .mm-texture { --grain-hi: rgb(var(--tint, 244 240 230) / 0.07); --grain-lo: rgb(0 0 0 / 0.88); }
+/* Night: chalk specks and shade specks around the charcoal ground (+18 and -17 levels at the most, 16 before 10 Nov: chalk is about 226
+   levels above the ground, black 18 below, so 0.08 against 1). */
+:root[data-theme='dark'] .mm-texture { --grain-hi: rgb(var(--tint, 244 240 230) / 0.08); --grain-lo: rgb(0 0 0 / 1); }
 
 .mm-texture::before,
 .mm-texture::after {
@@ -56,3 +57,28 @@
 /* More contrast asked for: the grain steps back further; forced colours: none at all. */
 @media (prefers-contrast: more) { .mm-texture { opacity: 0.5; } }
 @media (forced-colors: active) { .mm-texture { display: none; } }
+
+/* ==========================================================================
+   The page's hairline grid (owner, 10 Nov 2026, LK204: the texture of the hero and the whole landing page "can be made a bit
+   more defined"; he likes the warm hairline grid of the signed-in Arena, restored there on 8 Nov). The same grid in this
+   page's own warm ink: 48 px squares of one-pixel hairlines, fixed behind the whole page and fading out down the screen, so
+   the hero and every section's open paper carry it and the cards sit on it. Neutral ink in both themes, no dots, no
+   spotlight; it does not move and does not follow the pointer. One layer, painted once: scrolling never repaints it.
+   The page root becomes its own stacking context, so z-index -1 sits in front of the paper and behind everything else.
+   ========================================================================== */
+.mm.lp:has(> .mm-grid) { isolation: isolate; }
+.mm-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --grid-ink: rgb(var(--tint, 23 21 15) / 0.055);
+  background-image: linear-gradient(to right, var(--grid-ink) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-ink) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 78%);
+  mask-image: linear-gradient(180deg, #000, transparent 78%);
+}
+:root[data-theme='dark'] .mm-grid { --grid-ink: rgb(var(--tint, 244 240 230) / 0.04); }
+@media (prefers-contrast: more) { .mm-grid { opacity: 0.5; } }
+@media (forced-colors: active) { .mm-grid { display: none; } }
+@media print { .mm-grid { display: none; } }

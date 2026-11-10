@@ -134,7 +134,12 @@
 }
 .app-shell .rd .pp-week + .pp-note { margin-top: 14px; }
 
-/* Review 1018: the ranked chapters live in Review; one row links there (REVIEW-RESULT-1018 4.6). */
+/* Review 1018: the ranked chapters live in Review; one row links there (REVIEW-RESULT-1018 4.6).
+   The row is ruled above and below by itself, so on this page its section adds no rule and no padding of its own (10 Nov 2026:
+   two hairlines stood 28 px apart with nothing between them under the header), and the marks ledger that follows shares the
+   row's lower rule instead of drawing a second one a gap below it. */
+.app-shell .rd .pp-record > section.pp-inreview { padding-top: 0; border-top: 0; }
+.app-shell .rd .pp-record > .pp-inreview + .pp-ledger { margin-top: -36px; border-top: 0; }
 .pp-inreview__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 14px; align-items: center; min-height: 64px; padding: 14px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); color: var(--a-ink); text-decoration: none; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
 .pp-inreview__row:active { transform: scale(0.98); }
 .pp-inreview__row b { font: 700 16px/1.3 var(--font-body); }

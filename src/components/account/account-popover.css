@@ -47,7 +47,7 @@ html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
 .app-shell .acct-pop__rows small { font-size: 12px; font-weight: 500; color: var(--a-ink-3); }
 /* Rows that act look pressable (owner F5; R8 PRAC-17, TOOLS-19): one grouped card in the same raised surface and hairline as the
    Credits row above, 48 px rows split by straight hairlines, a trailing chevron, and an immediate pressed fill (60 ms in, 150 ms
-   out). Sign out stays the quiet text line below it. */
+   out). Sign out is its own row below the card, in the same surface with its icon: easy to see (owner G29) and said once. */
 .app-shell .acct-pop .acct-pop__rows { padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-raised); overflow: hidden; }
 .app-shell .acct-pop .acct-pop__rows :is(a, button) {
   min-height: 48px; margin: 0; padding: 0 12px 0 14px; border-radius: 0;
@@ -60,9 +60,19 @@ html[data-motion='reduced'] .app-shell .acct-pop { animation: none; }
 .app-shell .acct-pop__two { display: grid; gap: 1px; min-width: 0; padding: 6px 0; }
 html[data-motion='reduced'] .app-shell .acct-pop .acct-pop__rows :is(a, button) { transition: none; }
 .app-shell .acct-pop__out {
-  min-height: 44px; border: 0; border-radius: 10px; background: none; cursor: pointer;
-  color: var(--a-ink-3); font: inherit; font-size: 13.5px; font-weight: 600; text-align: left; padding: 0 8px; margin: 0 -8px;
+  display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 14px; margin: 0;
+  border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-raised); cursor: pointer;
+  color: var(--a-ink); font: inherit; font-size: 14px; font-weight: 600; text-align: left;
+  transition: background-color 150ms var(--a-ease, ease-out); -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
+.app-shell .acct-pop__out svg { flex: none; width: 17px; height: 17px; color: var(--a-ink-3); }
+.app-shell .acct-pop__out:active { background: var(--a-hover); transition-duration: 60ms; }
+html[data-motion='reduced'] .app-shell .acct-pop__out { transition: none; }
+/* While "Sign out here?" is asked, the panel behind it steps back: the question's own Sign out key is then the only one on the
+   screen (owner, 10 Nov 2026: "the sign-out button is repeated"). The question is a child of the panel, drawn in the top layer,
+   so the panel's other children are hidden rather than the panel itself. */
+.app-shell .acct-pop:has(.so-dialog[open]) > :not(.so-dialog) { visibility: hidden; }
+.app-shell .acct-pop:has(.so-dialog[open]) { border-color: transparent; background: transparent; box-shadow: none; }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .acct-pop__rows :is(a, button):hover, .app-shell .acct-pop__out:hover, .app-shell .acct-pop__credits:hover { background: var(--a-hover); color: var(--a-ink); }
 }

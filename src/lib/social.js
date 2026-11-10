@@ -77,6 +77,18 @@ export const combinedReach = (creators = CREATOR_REELS) => creators.reduce((sum,
 /** The creators the summary counts: the reels marked `featured` that carry a follower count, in the order given. */
 export const featuredCreators = (items = rankedReels()) => items.filter((item) => item.kind === 'reel' && item.featured === true && item.followers);
 
+/**
+ * The hero's three pictures, in the owner's order (10 Nov 2026: "Garima first, Radhika second, Rahul third ... the first
+ * circle is the most recognisable and it's not cut out"): the first picture is the one drawn whole, on top of the stack, so
+ * it is the creator a student is most likely to know. Only the hero's line reads this; the creators section keeps its own
+ * order (biggest audience first). A featured creator not named here follows, in the order given.
+ */
+export const HERO_CREATOR_ORDER = Object.freeze(['du__club', 'radhikagaur_055', 'rahul.guides']);
+export function heroCreators(creators = featuredCreators()) {
+  const place = (c) => { const i = HERO_CREATOR_ORDER.indexOf(c.handle); return i < 0 ? HERO_CREATOR_ORDER.length : i; };
+  return creators.map((c, i) => [c, i]).sort((a, b) => place(a[0]) - place(b[0]) || a[1] - b[1]).map(([c]) => c);
+}
+
 /** A total rounded down to the thousand, then "+", so the "+" stays true (199,534 is "199K+"); null under a thousand. */
 function thousandsPlus(total) {
   const floor = Math.floor(total / 1000) * 1000;

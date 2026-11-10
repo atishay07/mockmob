@@ -132,9 +132,11 @@ test('the home page sends its funnel steps: names only, once each, guests only, 
   assert.equal(sent[0][1], JSON.stringify({ step: 'landing_view' }).length, 'the body is the step name only');
 });
 
-test('on a phone the first-visit theme note is not drawn over the page; the switch still pulses', () => {
+test('on a phone the first-visit theme note is one short line under the switch, never over the page; the switch still pulses', () => {
   const css = read('../../app/marketing-theme.css');
-  assert.match(css, /@media \(max-width: 959px\) \{ \.mm-theme-hint \{ display: none; \} \}/);
+  // Owner, 10 Nov 2026: the note is back on phones, as a one-line pill that the first scroll or press puts away.
+  assert.match(css, /@media \(max-width: 959px\) \{\s*\.mm-theme-hint \{ display: block; top: calc\(100% \+ 1px\);[^}]*white-space: nowrap; \}/);
+  assert.match(read('../ThemeToggle.jsx'), /const signs = \['scroll', 'wheel', 'pointerdown'\];/);
   assert.match(css, /\.mm-theme-toggle\[data-hint='true'\] \.mm-theme-toggle__sky \{ animation: mm-theme-nudge/, 'the pulse is the prompt there');
   // The note's timing and its once-only key are untouched: the switch is still marked for the same nine seconds.
   const toggle = code(read('../ThemeToggle.jsx'));

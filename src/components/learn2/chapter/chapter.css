@@ -343,6 +343,13 @@ html[data-theme='light'] .lc-pile:not([data-left]) .lc-sw__knob { background: #f
   .lc-go__key { min-height: 48px; }
 }
 
+/* 10 Nov (learn): a 360 x 740 or 360 x 780 phone sat between the two cases: the sticky Start bar covered the In/Out row under the
+   piles on landing, so the switches looked cut off. Below 800 px tall the row gives way to the tick on each face, as on the short
+   phone above (the pile stays the switch, its face says "Left out", and "Tap a pile to leave it out" says how). */
+@media (max-width: 599px) and (max-height: 799px) {
+  .lc-pile .lc-sw { display: none; }
+}
+
 /* A short laptop window (1366 x 650 and the like): the fans go landscape and the head sits closer, so Start stays on screen. */
 @media (min-width: 1024px) and (max-height: 700px) {
   .lc-board .lc-main { gap: 20px; }

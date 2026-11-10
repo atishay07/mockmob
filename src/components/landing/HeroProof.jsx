@@ -1,9 +1,11 @@
-import { featuredCreators, followersFigure, rankedReels } from '@/lib/social';
+import { featuredCreators, followersFigure, heroCreators, rankedReels } from '@/lib/social';
 
 // The hero's proof line (round 11, 10 Nov 2026): a student who came from a reel half-trusts us, and the first key had no
 // proof near it. The proof the page owns is its creators section (#on-instagram), so this is one quiet link to it, under the
 // hero's three ways in: the featured creators (src/lib/social.js, the reels marked `featured`) as three small overlapping
-// pictures, biggest audience first, each the creator's own Instagram profile picture, the one on the section's cards (round
+// pictures in the owner's order (10 Nov 2026: Garima, Radhika, Rahul; the first is drawn whole, on top, so it is the face a
+// student is most likely to know; src/lib/social.js heroCreators; the section below keeps biggest audience first), each the
+// creator's own Instagram profile picture, the one on the section's cards (round
 // 12, owner 10 Nov 2026: "you have left their profiles blank ... pick up their profiles from Instagram"); decorative
 // (alt="", the sentence names nobody), eager and sized, so nothing shifts. Then "Featured by CUET creators with N followers",
 // where N is the section's own "Combined followers" figure (src/lib/social.js followersFigure, the one function both read,
@@ -21,7 +23,7 @@ export function HeroProof() {
   return (
     <a href="#on-instagram" className="lp-featured" data-page-jump="" aria-label={sentence}>
       <span className="lp-featured__marks" aria-hidden="true">
-        {creators.slice(0, 3).map((creator) => (
+        {heroCreators(creators).slice(0, 3).map((creator) => (
           // eslint-disable-next-line @next/next/no-img-element -- a 150 px webp drawn at 24 px; no optimizer round trip in the hero
           <img key={creator.handle} className="lp-featured__mark" src={creator.photo} width={24} height={24} alt="" loading="eager" decoding="async" draggable={false} />
         ))}

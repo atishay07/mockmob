@@ -2,7 +2,8 @@
 
 // The account door of the signed-in top bar (D8, owner LK97, 5 Nov 2026): the avatar and name are a button that opens a small
 // pop-over under it, modelled on the app's Account sheet (name and plan, credits, Appearance, the account links, Show me around,
-// Write to us, a quiet Sign out). On a phone (owner LK141, 5 Nov 2026) the same door opens the same panel as a sheet under the
+// Write to us, Sign out as its own labelled row: the only Sign out in the shell since 10 Nov 2026, when the owner saw it twice
+// here; the You page keeps its own). On a phone (owner LK141, 5 Nov 2026) the same door opens the same panel as a sheet under the
 // top bar, over a scrim: the dock's You opens the You page, and the person here is the quick account sheet. It used to be the
 // other way round, which he called "the opposite of what I think a UI should do".
 // A real button (aria-haspopup, aria-expanded); the panel is a dialog with its focus held inside, Escape and a press outside
@@ -12,6 +13,7 @@ import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
+import { AppIcon } from '@/components/ui/Glyph';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { SignOutButton } from '@/components/profile/SignOutConfirm';
 import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
@@ -142,7 +144,7 @@ export default function AccountPopover({ user, accountName, credits, links = {},
         </a>
       </nav>
 
-      <SignOutButton className="acct-pop__out">{COPY.signOut}</SignOutButton>
+      <SignOutButton className="acct-pop__out"><AppIcon name="signout" /><span>{COPY.signOut}</span></SignOutButton>
     </div>
   );
   return (

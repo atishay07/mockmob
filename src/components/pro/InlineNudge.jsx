@@ -3,8 +3,8 @@
 // One quiet line with one action (owner D79): "Get unlimited mocks". It stands at a natural moment (credits low, a set's
 // cost, a scored result, Review's chapter practice, the Start sheet), never for Pro, never on a paper, at most one per
 // screen, a dismissed one stays quiet for 7 days, and all of them rest for a day after a "Not now" on the Upgrade sheet
-// (src/lib/proNudge.mjs). The action opens the Upgrade sheet; it is outlined text,
-// never lime, so the page's own key stays the one lime in view.
+// (src/lib/proNudge.mjs). The action opens the Upgrade sheet; it is an ink text link at the end of the line (10 Nov 2026:
+// no box, no rule down the side, no outlined key), never lime, so the page's own key stays the one lime in view.
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
@@ -44,11 +44,11 @@ export default function InlineNudge({ placement, facts = {}, screen = null, clas
 
   if (!visible) return null;
   return (
-    // The outer box is a size container: in a narrow column (Practice's session card) the action drops under the line.
+    // The outer box only carries the page's class and the selectors' weight (pro-nudge.css). The action is the last words of
+    // the line itself, so in a narrow column (a phone, Practice's session card) it wraps with the sentence, as one whole phrase.
     <div className={`pn-inline-box ${className}`}>
     <div className="pn-inline" data-placement={placement} role="note">
-      <p className="pn-inline__text">{copy.text}</p>
-      <button type="button" className="pn-inline__go mk-press" onClick={(event) => openUpgrade({ trigger: copy.trigger, facts, opener: event.currentTarget })}>{copy.action}</button>
+      <p className="pn-inline__text">{copy.text}{' '}<button type="button" className="pn-inline__go" onClick={(event) => openUpgrade({ trigger: copy.trigger, facts, opener: event.currentTarget })}>{copy.action}</button></p>
       <button type="button" className="pn-inline__x mk-press" aria-label="Hide this for a week" onClick={() => { quietNudge(userId, placement); setShown(false); }}>
         <X size={16} strokeWidth={2} aria-hidden="true" />
       </button>

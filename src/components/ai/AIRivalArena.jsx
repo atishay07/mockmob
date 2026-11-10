@@ -265,6 +265,22 @@ export default function AIRivalArena() {
   // The lobby (W-072, W-076, W-078): one heading, the rivals as a list to pick from (no icon tiles, no pills), the
   // setup, and one volt action. The day's recommended benchmark is the first row and the default pick, so its old
   // separate card and second Start button fold into the list and the one Start below it.
+  // 10 Nov 2026: under 900 px the list and the set-up are two screens long, so that one Start opened off screen. The same key
+  // now also stands under the heading there (rival-reveal.css hides it from 900 px), with what it will start said under it. It
+  // marks data-phone-primary, so it quiets the dock's key only while it is in view and never the sidebar's.
+  const startKey = (mark) => (
+    <button
+      type="button"
+      {...mark}
+      onClick={() => startBattle(selectedRival)}
+      disabled={!access.allowed || starting || !activeSubjects.length}
+      className="btn-volt md mk-press rvl-start"
+    >
+      <Play size={17} aria-hidden="true" /> {starting ? 'Starting benchmark' : `Start ${selectedProfile.name}`}
+    </button>
+  );
+  // A locked pick is already said by the strip above the row, so the row does not say it a second time.
+  const lockSaid = Boolean(error) && !access.allowed && error === lockMessage(access);
   return (
     <RivalShell usage={usage}>
       <div className="rvl">
@@ -274,6 +290,19 @@ export default function AIRivalArena() {
         </header>
 
         {error ? <ErrorStrip message={error} /> : null}
+
+        <div className="rvl-go rvl-go--top">
+          {!access.allowed && !lockSaid ? <LockHint access={access} /> : null}
+          {startKey({ 'data-phone-primary': '' })}
+          {activeSubjects.length ? (
+            <p className="rvl-go__with">
+              <span>{activeSubjects.map(displaySubject).join(', ')}</span>
+              <span>{questionCount} questions</span>
+            </p>
+          ) : (
+            <Link href="/profile" className="rvl-go__add">Add subjects in Account</Link>
+          )}
+        </div>
 
         <section className="rvl-pick" aria-labelledby="rvl-pick-title">
           <h2 id="rvl-pick-title" className="rvl-h2">Choose a rival</h2>
@@ -341,15 +370,7 @@ export default function AIRivalArena() {
           </div>
           <div className="rvl-go">
             {!access.allowed ? <LockHint access={access} /> : null}
-            <button
-              type="button"
-              data-page-primary
-              onClick={() => startBattle(selectedRival)}
-              disabled={!access.allowed || starting || !activeSubjects.length}
-              className="btn-volt md mk-press rvl-start"
-            >
-              <Play size={17} aria-hidden="true" /> {starting ? 'Starting benchmark' : `Start ${selectedProfile.name}`}
-            </button>
+            {startKey({ 'data-page-primary': '' })}
           </div>
         </section>
       </div>
@@ -639,15 +660,17 @@ function useWide() {
 function LockHint({ access }) {
   const href = access.kind === 'credits' || access.kind === 'paused' ? '/wallet' : '/pricing?reason=benchmark';
   return (
-    <Link href={href} className="inline-flex min-h-11 items-center rounded-xl border border-red-400/25 bg-red-400/[0.08] px-3 py-2 text-xs font-bold leading-5 text-red-100 no-underline">
+    <Link href={href} className="inline-flex min-h-11 items-center rounded-xl border border-red-400/25 bg-red-400/[0.08] px-3 py-2 text-xs font-bold leading-5 text-[var(--a-bad-text)] no-underline">
       {lockMessage(access)}
     </Link>
   );
 }
 
+// The words take the arena's own bad-state ink (10 Nov 2026): the red-100 they had is near white, and Day does not re-map it,
+// so on paper "This benchmark needs Pro." could not be read.
 function ErrorStrip({ message }) {
   return (
-    <div className="rounded-2xl border border-red-400/25 bg-red-400/[0.08] px-4 py-3 text-sm font-semibold text-red-100">
+    <div className="rounded-2xl border border-red-400/25 bg-red-400/[0.08] px-4 py-3 text-sm font-semibold text-[var(--a-bad-text)]">
       {message}
     </div>
   );

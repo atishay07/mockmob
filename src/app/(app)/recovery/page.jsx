@@ -33,15 +33,20 @@ export default function RecoveryJourney() {
     if (!subject) {setError('The pathway is currently unavailable. Your credits have not been used.');return;}
     window.location.assign(`/test?${new URLSearchParams({subject,mode:'quick',count:'5',generationKey:crypto.randomUUID(),episodeId:episode.id})}`);
   }
-  // Until a pathway is released the page says so plainly: one action, and a real empty state for a new student.
+  // Until a pathway is released the page sends the student to where the work is, with one action, and a real empty state for a
+  // new student. 10 Nov: the title no longer reads as an unfinished page ("Recovery steps open soon." over a second heading that
+  // said the same thing); the heading is the place the mistakes are, said once.
   const blocked = plan ? plan.pathwayState !== 'available' : false;
   const noRecord = plan ? (plan.ordinaryAttemptCount ?? 1) === 0 : false;
-  return <section className="recovery-lab learning-journey">{!plan && error ? <ArenaHead title="This page did not load." lede="Your saved sessions and mistakes are safe." /> : blocked ? <ArenaHead title="Recovery steps open soon." lede="Until then, review your mistakes or keep practising. Nothing you do now is lost." /> : <ArenaHead title="Check one reasoning gap." lede="Practise the missing step, then check it on a fresh question later." />}
+  const blockedHead = noRecord
+    ? <ArenaHead title="Nothing to review yet." lede="Finish a practice session first. Every miss lands in Your papers with its explanation." />
+    : <ArenaHead title="Your mistakes are in Your papers." lede="Each miss there has its explanation, a free try again and a way to practise the chapter." />;
+  return <section className="recovery-lab learning-journey">{!plan && error ? <ArenaHead title="This page did not load." lede="Your saved sessions and mistakes are safe." /> : blocked ? blockedHead : <ArenaHead title="Check one reasoning gap." lede="Practise the missing step, then check it on a fresh question later." />}
     {error && <p role="alert">{error}</p>}{!plan&&!error&&<p role="status">Loading your learning record…</p>}{!plan&&error&&<div className="recovery-next"><FailedMobi size={72} /><button type="button" className="btn-volt md recovery-action" data-page-primary="" onClick={()=>{setError('');setPlanRetry(n=>n+1);}}>Try again</button><Link href="/review">Open Your papers</Link></div>}
     {plan && !episode && <>
       {blocked ? (noRecord
-        ? <div className="recovery-next"><EmptyMobi act={screenAct('recovery', 'noRecordYet')} size={72} /><h2>Nothing to review yet</h2><p>Finish a practice session first. Every miss lands in Your papers with its explanation.</p><Link className="btn-volt md recovery-action" data-page-primary="" href="/dashboard">Start practice</Link></div>
-        : <div className="recovery-next"><h2>Your mistakes wait in Your papers</h2><p>Each miss there has its explanation and a way to practise the chapter again.</p><Link className="btn-volt md recovery-action" data-page-primary="" href="/review">Review your mistakes</Link><Link href="/dashboard">Start practice</Link></div>) : <>
+        ? <div className="recovery-next" data-plain=""><EmptyMobi act={screenAct('recovery', 'noRecordYet')} size={72} /><Link className="btn-volt md recovery-action" data-page-primary="" href="/dashboard">Start practice</Link></div>
+        : <div className="recovery-next" data-plain=""><Link className="btn-volt md recovery-action" data-page-primary="" href="/review">Review your mistakes</Link><Link href="/dashboard">Start practice</Link></div>) : <>
         <h2>Start with an initial signal</h2><p>Five questions cannot diagnose a whole subject. Your mistakes can identify a distinction worth investigating.</p>
         <div className="learning-alternatives">{LAUNCH_SUBJECTS.map(s => <Link key={s.id} href={`/test?${new URLSearchParams({subject:s.id,count:'5',mode:'quick',purpose:'baseline',generationKey:crypto.randomUUID()})}`}>{s.label} baseline</Link>)}</div>
         <h2>Investigate a concept</h2>{plan.supportedConcepts.map(c => <button className="recovery-record" key={c.id} type="button" disabled={busy} onClick={()=>start(c.id)}>{c.title}</button>)}

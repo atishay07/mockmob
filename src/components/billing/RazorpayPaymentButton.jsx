@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { setCheckoutStatus } from '@/lib/payments/checkoutStatus';
+import { loginPathFor } from '@/lib/auth-redirect';
 import { shownName } from '@/lib/displayName.mjs';
 
 const REF_STORAGE_KEY = 'mm_ref';
@@ -156,7 +157,9 @@ export function RazorpayPaymentButton({
         // Preserve the code the user entered so they don't have to retype
         // it after sign-in.
         if (code) persistRef(normalizeCodeInput(code));
-        window.location.href = '/login';
+        // They come back to the plan they were about to buy, not into the app (10 Nov 2026): the sign-in pages
+        // validate and keep ?next= (src/lib/auth-redirect.js).
+        window.location.href = loginPathFor('/pricing#plans');
         return;
       }
 

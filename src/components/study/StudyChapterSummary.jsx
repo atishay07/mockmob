@@ -11,8 +11,11 @@ import './study.css';
 export default function StudyChapterSummary({subject,chapter}) {
   const [data,setData]=useState(null),[error,setError]=useState(false);
   useEffect(()=>{let alive=true;apiGet(`/api/study/summary?${new URLSearchParams({subject,chapter})}`).then(d=>{if(alive)setData(d);}).catch(()=>{if(alive)setError(true);});return()=>{alive=false;};},[subject,chapter]);
-  return <div className="sx sx-summary pm-sheet"><PrintMark /><PrintHead /><Link className="sx-back" href={`/learn?subject=${subject}`}><ArrowLeft size={16} aria-hidden="true" />Back to Concepts</Link>
-    <h1>{chapter || 'Chapter summary'}</h1><p className="sx-lede">{subjectName(subject)}. Published lessons in one place.</p>
+  // The subject leads the line only when there is one: an empty subject printed ". Published lessons in one place." and a
+  // back link to "/learn?subject=" (10 Nov 2026).
+  const name = subject ? subjectName(subject) : '';
+  return <div className="sx sx-summary pm-sheet"><PrintMark /><PrintHead /><Link className="sx-back" href={subject ? `/learn?subject=${subject}` : '/learn'}><ArrowLeft size={16} aria-hidden="true" />Back to Concepts</Link>
+    <h1>{chapter || 'Chapter summary'}</h1><p className="sx-lede">{name ? `${name}. ` : ''}Published lessons in one place.</p>
     {error ? <p className="sx-alert" role="alert">This summary could not be loaded. Return to Concepts and open a published chapter.</p> : !data ? <p role="status">Preparing your summary…</p> : <>
       <p className="sx-small">This covers {data.units.length} published {data.units.length===1?'lesson':'lessons'}, not the complete chapter. Reading a summary does not mark a lesson or scored check as complete.</p>
       <button type="button" className="sx-secondary sx-summary__print" onClick={()=>window.print()}><Printer size={18} aria-hidden="true" />Print or save as PDF</button>

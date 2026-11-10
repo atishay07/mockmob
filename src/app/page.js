@@ -21,7 +21,7 @@ import { MobiPoster } from '@/components/landing/MobiPoster';
 import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/components/landing/heroTaps.mjs';
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
-import { BrandTexture } from '@/components/landing/BrandTexture';
+import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
 import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
@@ -151,6 +151,8 @@ export default function LandingPage() {
     <div className="mm lp">
       {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
       <OpeningMo />
+      {/* The page's hairline grid, behind everything (10 Nov 2026; brand-texture.css). */}
+      <PageGrid />
       <HomeFonts />
       {/* The landing's steps of the aggregate funnel (FunnelBeacon): step names only, counted while FUNNEL_ENABLED is on. */}
       <FunnelBeacon />

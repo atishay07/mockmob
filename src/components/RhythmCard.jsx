@@ -150,6 +150,26 @@ function Ribbon({ ribbon, armed }) {
   const metClosed = closed.filter((w) => w.met).length;
   const title = closed.length === 0 ? 'Your first week'
     : `Goal met in ${metClosed} of ${ribbon.length >= 12 ? `the last ${closed.length}` : `your ${closed.length}`} finished week${closed.length === 1 ? '' : 's'}`;
+  // The first week (10 Nov app pass): one empty week bar read as an unfinished box. Until a week has finished, the week is
+  // its goal in parts, one per study day, that fill as days are counted; the weeks' bars take over once one has finished.
+  const first = closed.length === 0 ? ribbon[ribbon.length - 1] : null;
+  if (first) {
+    const parts = Math.min(7, Math.max(1, first.goal || 1));
+    return (
+      <div className="rc-block">
+        <h3 className="rc-h">{title}</h3>
+        <div className="rc-first" role="img" aria-label={first.words}>
+          <ol className="rc-first__parts" aria-hidden="true">
+            {Array.from({ length: parts }, (_, i) => (
+              <li key={i} className="rc-first__part" data-on={i < first.days ? 'true' : 'false'} data-met={first.met ? 'true' : 'false'} data-armed={armed ? 'true' : 'false'} style={{ '--rc-i': i }} />
+            ))}
+          </ol>
+          <p className="rc-first__legend" aria-hidden="true"><span>This week</span><span><b>{first.days}</b> of {first.goal} days</span></p>
+        </div>
+        <p className="rc-chip">Each part fills on a study day. Finished weeks line up here, one bar a week.</p>
+      </div>
+    );
+  }
   return (
     <div className="rc-block">
       <h3 className="rc-h">{title}</h3>

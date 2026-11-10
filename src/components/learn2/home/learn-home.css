@@ -312,14 +312,16 @@ html[data-theme='light'] .lh-row[data-here] .lh-row__bar > span { background: #7
 
 /* ---------- Up next (R7 W, LK59): the one module that recommends, in Today's material and anatomy (today.css .tm): one move on the
    card, one line saying why, the length, the page's one volt key; the other moves as cells in its footer (a tap makes one the move).
-   The card is the lit next-step card of Today, a little smaller: its volt line and the wash from its top edge over the raised
-   surface. Night stays subtle: no glow, no halo, the soft offset shadow only. ---------- */
+   The card is the raised next-step card, a little smaller than Today's. 10 Nov (design rule 1): the volt rim and the volt wash
+   are gone, they read as Night's "AI look"; the volt is the key's alone. Night keeps one hairline on the raised fill; Day drops the
+   line for the soft paper shadow. No glow, no halo. ---------- */
 .lh-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; margin: 6px 0 22px; animation: lh-rise 260ms var(--lh-ease) both; }
 .lh-up {
-  position: relative; padding: 20px 20px 0; border: 1px solid var(--a-volt-line); border-radius: 24px; overflow: hidden;
-  background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), linear-gradient(180deg, var(--a-glass-top), transparent 160px), var(--a-raised);
+  position: relative; padding: 20px 20px 0; border: 1px solid var(--a-line); border-radius: 24px; overflow: hidden;
+  background: linear-gradient(180deg, var(--a-glass-top), transparent 160px), var(--a-raised);
   box-shadow: var(--a-shadow-1);
 }
+html[data-theme='light'] .lh-up { border-color: transparent; box-shadow: var(--a-shadow-2); }
 .lh-up__move { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; min-width: 0; padding-bottom: 20px; animation: lh-fade 200ms var(--lh-ease) both; }
 .lh-hero__title { font: 750 26px/1.14 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; overflow-wrap: break-word; }
 .lh-hero__line { padding-top: 8px; font: 500 15.5px/1.45 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }

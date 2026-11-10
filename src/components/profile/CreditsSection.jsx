@@ -14,6 +14,7 @@ import {
   CREDITS_COPY, CREDITS_URL, FILTERS, appendPage, creditTiles, creditsFromResponse, filterHistory, historyLine,
 } from './creditsModel.mjs';
 import { InlineNudge, ProFacts } from '@/components/pro';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import './credits.css';
 
 const EMPTY = { status: 'loading', data: null, history: [], next: null, moreStatus: 'idle' };
@@ -77,7 +78,8 @@ export default function CreditsSection({ userId }) {
   return (
     <section className="glass acct-card cr" id="credits" aria-labelledby="cr-h" aria-busy={state.status === 'loading' || undefined}>
       <h2 className="acct-h2" id="cr-h">{CREDITS_COPY.heading}</h2>
-      <Link href="/wallet" className="acct-key" style={{ justifySelf: 'start' }}>Open your wallet</Link>
+      {/* 10 Nov app pass: the wallet is a quiet link under the balance, not a second "Open your wallet" key above it. The plan
+          card right above already ends with that key (PlanCard.jsx), and a key before the balance read as this card's main action. */}
 
       {state.status === 'loading' ? (
         <div className="cr-tiles" role="status" aria-label={CREDITS_COPY.loading}>
@@ -103,6 +105,7 @@ export default function CreditsSection({ userId }) {
               </div>
             ))}
           </div>
+          <Link href="/wallet" className="acct-link">See credit packs in your wallet</Link>
 
           {/* Free only, when practice credits run under a Full mock's price (D79). */}
           {state.data.plan?.name === 'Free' ? (
@@ -112,9 +115,10 @@ export default function CreditsSection({ userId }) {
             </>
           ) : null}
 
-          <div className="cr-history">
+          {/* 10 Nov app pass: the history is folded under its heading on the You page (one tap opens it). Open, it was the
+              longest part of a long page, and the Wallet's Recent activity shows the same lines. */}
+          <SmoothDetails className="cr-history cr-fold" summaryClassName="cr-history__sum" chevron summary={<h3>{CREDITS_COPY.history}</h3>}>
             <div className="cr-history__head">
-              <h3>{CREDITS_COPY.history}</h3>
               <div className="cr-filter" role="group" aria-label="Show history for">
                 {FILTERS.map((f) => (
                   <button type="button" key={f.id} className="cr-chip" aria-pressed={filter === f.id} onClick={() => pick(f.id)}>{f.label}</button>
@@ -150,7 +154,7 @@ export default function CreditsSection({ userId }) {
                 {state.moreStatus === 'failed' ? <p className="acct-note" data-tone="err" role="alert">{CREDITS_COPY.moreFailed}</p> : null}
               </div>
             ) : null}
-          </div>
+          </SmoothDetails>
         </>
       ) : null}
     </section>

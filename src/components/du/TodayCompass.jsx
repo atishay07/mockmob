@@ -15,7 +15,9 @@ import {
 } from '@/lib/du/compassLine.mjs';
 import './today-compass.css';
 
-export default function TodayCompass() {
+// `withList` (the You page, 10 Nov app pass): Your colleges is drawn right under this line with every college and the score
+// each needed, so the line leaves out "Your top choice" rather than say the first college and its cutoff twice in a row.
+export default function TodayCompass({ withList = false }) {
   const { user } = useAuth();
   const userId = user?.id;
   const mine = useMyColleges(userId);
@@ -39,7 +41,7 @@ export default function TodayCompass() {
   const firstKey = first ? `${first.programmeId}::${first.college}` : '';
   const [offer, setOffer] = useState({ key: '', data: null });
   useEffect(() => {
-    if (!first) return undefined;
+    if (!first || withList) return undefined;
     let alive = true;
     loadOfferings(first.programmeId)
       .then((data) => alive && setOffer({ key: firstKey, data }))
@@ -67,7 +69,7 @@ export default function TodayCompass() {
         ) : null}
         {askForSubjects ? <p className="tcp__line">{NO_SUBJECTS_LINE}</p> : null}
         {!loading && !ready && !askForSubjects ? <p className="tcp__line">See which DU programmes your subjects open, and DU&rsquo;s 2026 cutoffs.</p> : null}
-        {ready && first ? (
+        {ready && first && !withList ? (
           <p className="tcp__near">
             Your top choice: <b>{first.college}</b>
             {cut ? <span>{cutoffLine(cut)}{first.programme ? ` in ${first.programme}` : ''}</span> : null}

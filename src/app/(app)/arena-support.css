@@ -33,7 +33,8 @@
 .app-shell .account-edit { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; text-decoration: none; }
 .app-shell .student-page--profile .flex-1 { min-width: 0; }
 .app-shell .con-page { max-width: 780px; }
-.app-shell .con-note { padding: 16px 18px; border-inline-start: 3px solid var(--a-accent-text); margin-bottom: 26px; background: var(--a-raised); font-size: 14px; line-height: 1.7; color: var(--a-ink-2); }
+/* The credits note is one soft raised panel: no accent bar down its side (10 Nov 2026). */
+.app-shell .con-note { padding: 14px 16px; border-radius: 12px; margin: 16px 0 26px; background: var(--a-raised); font-size: 14px; line-height: 1.7; color: var(--a-ink-2); }
 .app-shell .con-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); text-underline-offset: 3px; }
 .app-shell .con-form { display: grid; gap: 24px; }
 .app-shell .con-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
@@ -51,6 +52,11 @@
 .app-shell .con-message[data-state='error'] { color: var(--a-bad-text); }
 .app-shell .con-form .btn-volt { justify-content: center; }
 .app-shell .con-fine { font-size: 13px; line-height: 1.6; color: var(--a-ink-3); }
+/* My uploads: its three counts stand in one even, ruled row at every width (10 Nov 2026: the shared strip's two columns
+   wrapped them 2 + 1 on a phone and left an empty fourth column on a laptop). */
+.app-shell .con-page .pr-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; }
+.app-shell .con-page .pr-stats > div { align-content: start; }
+.app-shell .con-page .pr-stats > div + div { padding-left: 14px; border-left: 1px solid var(--a-line); }
 .app-shell .con-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-block: 24px; }
 .app-shell .con-list { display: grid; gap: 12px; }
 .app-shell .con-upload { border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised); }
@@ -126,6 +132,10 @@
 .app-shell .learning-journey h2 { margin: 0 0 6px; font: 700 20px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
 .app-shell .learning-journey p { margin: 0 0 4px; max-width: 62ch; color: var(--a-ink-2); font-size: 15px; line-height: 1.6; }
 .app-shell .learning-journey .recovery-next { margin: 8px 0 0; padding-top: 20px; border-top: 1px solid var(--a-line); }
+/* The pathway is closed (10 Nov): the title and lede say where the mistakes are, so the key follows them with no rule between. */
+.app-shell .learning-journey .recovery-next[data-plain] { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 4px; padding-top: 0; border-top: 0; }
+.app-shell .learning-journey .recovery-next[data-plain] > :first-child:not(a) { flex-basis: 100%; }
+.app-shell .learning-journey .recovery-next[data-plain] .recovery-action { margin: 0; }
 .app-shell .learning-journey .recovery-action { margin: 12px 16px 0 0; }
 .app-shell .learning-journey .recovery-next a:not(.recovery-action) { color: var(--a-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
 .app-shell .recovery-lab > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
