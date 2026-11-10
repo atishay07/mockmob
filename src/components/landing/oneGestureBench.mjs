@@ -122,16 +122,23 @@ class Bench {
     const y0 = fromY ?? (dist > 0 ? this.height - 84 : 110);
     const total = (Math.abs(dist) / speed) * 1000;
     const n = Math.max(3, Math.round(total / 8));
-    const dt = total / n;
-    let t = Date.now() / 1000;
-    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y: y0 }], timestamp: t });
+    // Paced on the real clock, each event stamped when it is sent, and never waiting for the page to answer one before
+    // the next goes (a finger does not wait either): the page reads a swipe's speed from where the page is frame by
+    // frame (FLOW v2), and a move that waits for a busy page's answer takes 20 to 40 ms, so a "3000 px/s" flick reached
+    // the page at 1200 while its evenly spaced stamps told Chrome to fling at 3000 (measured, 10 Nov 2026).
+    const stamp = () => Date.now() / 1000;
+    const until = async (at) => { while (performance.now() < at) await new Promise((resolve) => setImmediate(resolve)); };
+    const sent = [];
+    const send = (type, touchPoints) => { sent.push(this.cdp.send('Input.dispatchTouchEvent', { type, touchPoints, timestamp: stamp() })); };
+    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y: y0 }], timestamp: stamp() });
+    const t0 = performance.now();
     for (let i = 1; i <= n; i += 1) {
-      t += dt / 1000;
-      await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: Math.round(y0 - (dist * i) / n) }], timestamp: t });
-      await sleep(dt);
+      await until(t0 + (total * i) / n);
+      send('touchMove', [{ x, y: Math.round(y0 - (dist * i) / n) }]);
     }
-    if (!fling) { await sleep(300); t = Date.now() / 1000; }
-    await this.cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [], timestamp: t + 0.001 });
+    if (!fling) await sleep(300);
+    send('touchEnd', []);
+    await Promise.all(sent);
   }
 
   async drag(dist, { stepPx = 2, everyMs = 25, holdMs = 250 } = {}) {
@@ -294,12 +301,21 @@ export async function runMatrix(bench, name, { log = () => {}, reduced = false }
 
 // ---------------------------------------------------------------- FLOW: the touch screen's matrix (10 Nov 2026, LK190)
 /**
- * On a touch screen a story never holds the page (ScrollStory.jsx FLOW). What must hold instead, cell by cell:
- *   free      every gesture moves the page the way the finger went; a flick is never caught on a story's edge
- *   settled   a scroll that rests inside a story rests exactly on a resting place, and the story shows that step
+ * On a touch screen a story never takes a touch (ScrollStory.jsx FLOW). What must hold instead, cell by cell.
+ *
+ * A story with slides is STEERED (FLOW v2, 10 Nov 2026, owner LK192: a normal swipe "skips too much or too little"):
+ *   swipe     any swipe released slower than 2.5 px/ms, short or long, slow or brisk, moves exactly one step and the
+ *             page rests on that step's resting place; two swipes are two steps (nothing is locked)
+ *   small     20 px, or 100 px out and back, moves nothing
+ *   flick     a flick (3 px/ms and up) is free: the page goes the way the finger went, further the harder it is
+ *   arriving  a swipe that brings the story on lands on its first step from above, its last from below; a flick runs on
+ *   leaving   by the last step going down, or the first going up, the page scrolls on
+ * A passage (the statement, never steered) keeps the first rule: the page's position chooses the step.
  *   gentle    from a rest, a drag of 0.6 of a gap moves one step, 0.3 of a gap none, and back the same way
  *   shown     walking the story with gentle drags shows every step once, in order
- *   passing   a fling from above the story runs on into it (or through it); the steps it passes show in order
+ * For both:
+ *   settled   a scroll that rests inside a story rests exactly on a resting place, and the story shows that step
+ *   passing   a flick from above runs on into the story (or through it); the steps it passes show in order
  * Returns rows { id, ok, ... } like runMatrix.
  */
 export async function runFlow(bench, name, { log = () => {} } = {}) {
@@ -331,45 +347,83 @@ export async function runFlow(bench, name, { log = () => {} } = {}) {
   };
   const s0 = await refresh();
   const gap = s0.gap;
+  const last = s0.steps - 1;
   const reach = bench.height - 170; // the longest drag one finger can make on this screen
-  // gentle: the distances are shares of this story's own gap.
-  await check('drag-0.3-gap-stays', 1, () => bench.drag(Math.round(gap * 0.3)), (r) => r.delta === 0);
-  if (gap * 0.6 <= reach) await check('drag-0.6-gap-one-step', 1, () => bench.drag(Math.round(gap * 0.6)), (r) => r.delta === 1);
-  if (gap * 0.6 <= reach) await check('drag-back-0.6-gap-one-step', 2, () => bench.drag(-Math.round(gap * 0.6)), (r) => r.delta === -1);
-  if (gap * 1.6 <= reach && s0.steps > 3) await check('drag-1.6-gap-two-steps', 1, () => bench.drag(Math.round(gap * 1.6)), (r) => r.delta === 2);
-  await check('nudge-20-stays', 1, () => bench.drag(20), (r) => r.delta === 0);
-  await check('reverse-100-back-100-stays', 1, () => bench.dragReverse(100, 100), (r) => r.delta === 0);
-  // free: a flick always moves the page down, by more the harder it is; where it ends is consistent.
-  let lastTravel = 0;
-  for (const [d, v] of [[150, 1200], [300, 1200], [300, 3000], [600, 3000], [600, 6000]]) {
-    const row = await check(`flick-${d}-${v}`, 1, () => bench.flick(d, v), (r) => r.y > r.y0 + Math.min(d, gap / 2) - 2 || r.delta >= 1);
-    row.travel = row.y - row.y0;
-    lastTravel = Math.max(lastTravel, row.travel);
+  const steered = await bench.page.evaluate((n) => document.querySelector(`.ss.${n}`)?.closest('.lp-statement') === null, name);
+  const one = (r) => r.delta === 1 && r.inHold;
+  if (steered) {
+    // swipe: one step, whatever the swipe. Distances in px of finger travel, speeds in px/s at the lift.
+    for (const [d, v] of [[60, 400], [150, 1200], [300, 1200], [300, 2000], [600, 1200], [600, 2000]]) {
+      if (d > reach) continue;
+      await check(`swipe-${d}-${v}-one-step`, 1, () => bench.flick(d, v), one);
+    }
+    await check('slow-drag-60-one-step', 1, () => bench.drag(60), one);
+    await check('slow-drag-300-one-step', 1, () => bench.drag(300), one);
+    await check(`slow-drag-${reach}-one-step`, 1, () => bench.drag(reach, { stepPx: 6 }), one);
+    await check('swipe-up-300-1200-one-step-back', Math.min(2, last), () => bench.flick(-300, 1200, { fromY: 120 }), (r) => r.delta === -1 && r.inHold);
+    await check('swipe-300-2000-onto-the-last-step-stays-in', last - 1, () => bench.flick(300, 2000), one);
+    await check('swipe-up-300-2000-onto-the-first-step-stays-in', 1, () => bench.flick(-300, 2000, { fromY: 120 }), (r) => r.delta === -1 && r.inHold);
+    // small: nothing moves.
+    await check('nudge-20-stays', 1, () => bench.drag(20), (r) => r.delta === 0);
+    await check('reverse-100-back-100-stays', 1, () => bench.dragReverse(100, 100), (r) => r.delta === 0);
+    // Two quick swipes are two steps: nothing is swallowed by a lock, and the first one's momentum does not carry a third.
+    if (s0.steps > 2) await check('two-swipes-150ms-two-steps', 0, async () => { await bench.flick(200, 2000); await sleep(150); await bench.flick(200, 2000); }, (r) => r.delta === 2 && r.inHold);
+    // flick: free, and further the harder it is.
+    for (const [d, v] of [[300, 3200], [600, 6000]]) {
+      await check(`flick-${d}-${v}-runs-on`, 1, () => bench.flick(d, v), (r) => r.delta >= 1 || !r.inHold);
+    }
+    await check('flick-up-300-3200-runs-on', Math.min(2, last), () => bench.flick(-300, 3200, { fromY: 120 }), (r) => r.y < r.y0);
+    // shown: ordinary swipes walk every step once, in order.
+    {
+      const id = 'walk-every-step';
+      const row = await steady(bench, log, id, async () => {
+        let s = await at(0);
+        const seen = [await bench.step(name)];
+        for (let i = 1; i < s.steps; i += 1) { await bench.flick(180, 1200); await bench.settle(500); seen.push(await bench.step(name)); }
+        s = await refresh();
+        const y = await bench.y();
+        const want = Array.from({ length: s.steps }, (_, k) => k);
+        return { id, start: 0, step: seen[seen.length - 1], delta: seen.length - 1, y, y0: s.rests[0], off: y - s.rests[s.steps - 1], nearest: s.steps - 1, inHold: true, seen, ok: JSON.stringify(seen) === JSON.stringify(want) && Math.abs(y - s.rests[s.steps - 1]) <= 2 };
+      });
+      rows.push(row);
+      log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} steps shown ${row.seen.join(' ')}, y ${row.y} (off ${row.off})`);
+    }
+  } else {
+    // gentle: the distances are shares of this story's own gap.
+    await check('drag-0.3-gap-stays', 1, () => bench.drag(Math.round(gap * 0.3)), (r) => r.delta === 0);
+    if (gap * 0.6 <= reach) await check('drag-0.6-gap-one-step', 1, () => bench.drag(Math.round(gap * 0.6)), (r) => r.delta === 1);
+    if (gap * 0.6 <= reach) await check('drag-back-0.6-gap-one-step', 2, () => bench.drag(-Math.round(gap * 0.6)), (r) => r.delta === -1);
+    if (gap * 1.6 <= reach && s0.steps > 3) await check('drag-1.6-gap-two-steps', 1, () => bench.drag(Math.round(gap * 1.6)), (r) => r.delta === 2);
+    await check('nudge-20-stays', 1, () => bench.drag(20), (r) => r.delta === 0);
+    await check('reverse-100-back-100-stays', 1, () => bench.dragReverse(100, 100), (r) => r.delta === 0);
+    // free: a flick always moves the page down, by more the harder it is; where it ends is consistent.
+    for (const [d, v] of [[150, 1200], [300, 1200], [300, 3000], [600, 3000], [600, 6000]]) {
+      await check(`flick-${d}-${v}`, 1, () => bench.flick(d, v), (r) => r.y > r.y0 + Math.min(d, gap / 2) - 2 || r.delta >= 1);
+    }
+    await check('flick-up-300-3000', Math.min(2, last), () => bench.flick(-300, 3000, { fromY: 120 }), (r) => r.y < r.y0);
+    await check('two-flicks-150ms', 0, async () => { await bench.flick(200, 2000); await sleep(150); await bench.flick(200, 2000); }, (r) => r.delta >= 1 || !r.inHold);
+    {
+      const id = 'walk-every-step';
+      const row = await steady(bench, log, id, async () => {
+        let s = await at(0);
+        const seen = [await bench.step(name)];
+        const dragPx = Math.min(reach, Math.round(s.gap * 0.62));
+        for (let i = 1; i < s.steps; i += 1) { await bench.drag(dragPx); await bench.settle(500); seen.push(await bench.step(name)); }
+        s = await refresh();
+        const y = await bench.y();
+        const want = Array.from({ length: s.steps }, (_, k) => k);
+        return { id, start: 0, step: seen[seen.length - 1], delta: seen.length - 1, y, y0: s.rests[0], off: y - s.rests[s.steps - 1], nearest: s.steps - 1, inHold: true, seen, ok: dragPx >= s.gap * 0.55 ? JSON.stringify(seen) === JSON.stringify(want) : seen.every((k, i) => i === 0 || k >= seen[i - 1]) };
+      });
+      rows.push(row);
+      log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} steps shown ${row.seen.join(' ')}`);
+    }
   }
-  await check('flick-up-300-3000', Math.min(2, s0.steps - 1), () => bench.flick(-300, 3000, { fromY: 120 }), (r) => r.y < r.y0);
-  // Two quick flicks are two flicks: nothing is swallowed by a lock.
-  await check('two-flicks-150ms', 0, async () => { await bench.flick(200, 2000); await sleep(150); await bench.flick(200, 2000); }, (r) => r.delta >= 1 || !r.inHold);
-  // shown: gentle drags walk every step once, in order.
-  {
-    const id = 'walk-every-step';
-    const row = await steady(bench, log, id, async () => {
-      let s = await at(0);
-      const seen = [await bench.step(name)];
-      const dragPx = Math.min(reach, Math.round(s.gap * 0.62));
-      for (let i = 1; i < s.steps; i += 1) { await bench.drag(dragPx); await bench.settle(500); seen.push(await bench.step(name)); }
-      s = await refresh();
-      const y = await bench.y();
-      const want = Array.from({ length: s.steps }, (_, k) => k);
-      return { id, start: 0, step: seen[seen.length - 1], delta: seen.length - 1, y, y0: s.rests[0], off: y - s.rests[s.steps - 1], nearest: s.steps - 1, inHold: true, seen, ok: dragPx >= s.gap * 0.55 ? JSON.stringify(seen) === JSON.stringify(want) : seen.every((k, i) => i === 0 || k >= seen[i - 1]) };
-    });
-    rows.push(row);
-    log(`${row.ok ? 'ok  ' : 'FAIL'} ${name} ${id} steps shown ${row.seen.join(' ')}`);
-  }
-  // passing: a fling from above is not caught on the first rest; the steps it passes show in order (never backwards).
+  // The story's edges: the page is put outside (or on an end rest), one gesture is made, and the steps shown on the way are kept.
   const edge = async (id, from, gesture, rule) => {
     const row = await steady(bench, log, id, async () => {
       let s = await refresh();
       const y0 = from(s);
+      await sleep(3200); // past the fling window of the gesture before, so the jump below is not read as its momentum
       await bench.jump(y0);
       for (let tries = 0; tries < 3 && Math.abs((await bench.y()) - y0) > 2; tries += 1) await bench.jump(y0);
       await bench.page.evaluate((n) => {
@@ -391,13 +445,20 @@ export async function runFlow(bench, name, { log = () => {} } = {}) {
   };
   const rising = (seen) => seen.every((k, i) => i === 0 || k > seen[i - 1]);
   const falling = (seen) => seen.every((k, i) => i === 0 || k < seen[i - 1]);
+  if (steered) {
+    // arriving: a swipe lands on the step at the door, whether its momentum or its finger crossed the edge.
+    await edge('arrive-swipe-300-2000-from-500-above-lands-on-the-first-step', (s) => s.top - 500, () => bench.flick(300, 2000), (r, s) => Math.abs(r.y - s.rests[0]) <= 2 && r.step === 0);
+    await edge('arrive-swipe-600-1200-finger-crosses-the-edge-lands-on-the-first-step', (s) => s.top - 360, () => bench.flick(600, 1200), (r, s) => Math.abs(r.y - s.rests[0]) <= 2 && r.step === 0);
+    await edge('arrive-swipe-up-300-2000-from-below-lands-on-the-last-step', (s) => s.top + s.hold + 500, () => bench.flick(-300, 2000, { fromY: 120 }), (r, s) => Math.abs(r.y - s.rests[s.steps - 1]) <= 2 && r.step === s.steps - 1);
+    await edge('exit-swipe-300-1200-down', (s) => s.rests[s.steps - 1], () => bench.flick(300, 1200), (r, s) => r.y > s.top + s.hold + 2);
+    await edge('exit-swipe-300-1200-up', (s) => s.rests[0], () => bench.flick(-300, 1200, { fromY: 120 }), (r, s) => r.y < s.top - 2);
+  }
+  // passing: a flick from above is not caught on the first rest again; the steps it passes show in order (never backwards).
   await edge('pass-flick-600-6000-from-500-above', (s) => s.top - 500, () => bench.flick(600, 6000), (r, s) => r.y > s.rests[0] + s.gap / 2 && rising(r.seen));
-  await edge('pass-flick-600-2500-from-360-above', (s) => s.top - 360, () => bench.flick(600, 2500), (r, s) => r.y > s.rests[0] + 2 && rising(r.seen));
   await edge('pass-flick-600-6000-from-below', (s) => s.top + s.hold + 500, () => bench.flick(-600, 6000, { fromY: 120 }), (r, s) => r.y < s.rests[s.steps - 1] - s.gap / 2 && falling(r.seen));
-  await edge('exit-flick-300-3000-down', (s) => s.rests[s.steps - 1], () => bench.flick(300, 3000), (r, s) => r.y > s.top + s.hold + 2);
-  await edge('exit-flick-300-3000-up', (s) => s.rests[0], () => bench.flick(-300, 3000, { fromY: 120 }), (r, s) => r.y < s.top - 2);
+  await edge('exit-flick-300-3200-down', (s) => s.rests[s.steps - 1], () => bench.flick(300, 3200), (r, s) => r.y > s.top + s.hold + 2);
+  await edge('exit-flick-300-3200-up', (s) => s.rests[0], () => bench.flick(-300, 3200, { fromY: 120 }), (r, s) => r.y < s.top - 2);
   await edge('slow-drag-300-short-of-the-story-is-free', (s) => s.top - 500, () => bench.drag(300), (r, s) => r.y > s.top - 500 + 200 && r.y < s.top);
-  void lastTravel;
   return rows;
 }
 

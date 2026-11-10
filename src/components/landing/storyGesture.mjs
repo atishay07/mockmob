@@ -15,7 +15,27 @@
 // step (storyController.mjs), so no story is flown past unseen. A finger's own drag is never stopped, the way back up is
 // free, and after that first arrival the story never stops a fling again.
 export const FLOW_QUERY = '(hover: none), (pointer: coarse)';
-export const FLOW_SHARE = 0.6;
+export const FLOW_SHARE = 0.85;
+// FLOW v2 (10 Nov 2026, owner LK192, on his phone: "even in normal scrolling ... it skips too much or too little of the
+// content and unevenly skips the slides"; a flick that keeps scrolling is "expected behavior"; "not making it properly
+// held because that takes away the smoothness, but finding a balance"). Position alone chose the step, and the stage is
+// sticky, so the reader could not see how far a swipe had gone: one thumb swipe moved none, one, two or three slides.
+// In a story with slides (the Lab, the tour) the GESTURE now chooses, storyController.mjs:
+//   a swipe (released slower than FLOW_FLICK_V) is exactly one step. The next step shows as soon as the page has gone
+//     FLOW_COMMIT_PX under the finger (back inside FLOW_CANCEL_PX takes it back) and its momentum runs out unseen on
+//     that step's rest. Nothing is locked and no gesture is refused: the next swipe steps at once.
+//   a flick (FLOW_FLICK_V or faster) is free: the steps follow the page as it flies, shown FLOW_PASS_DEBOUNCE_MS late so
+//     slides do not strobe past, and the scroll settles on the nearest rest.
+//   arriving: a swipe that brings a story on lands on the step at its door, the first from above, the last from below.
+// The speeds are read from the page (one read per frame while a finger is down), not from touchmove: once the browser
+// is scrolling, Chrome hands the page a touchmove only every 200 ms.
+export const FLOW_COMMIT_PX = 32;
+export const FLOW_CANCEL_PX = 16;
+export const FLOW_FLICK_V = 2.5;
+export const FLOW_EDGE_PX = 64;          // momentum that points out of a story is kept this far inside its end until it stops
+export const FLOW_STILL_MS = 100;        // a finger that has not moved the page for this long has stopped
+export const FLOW_PASS_MS = 1500;        // how long after a flick the steps it passes are shown late
+export const FLOW_PASS_DEBOUNCE_MS = 120;
 
 export const SLOP = 6;            // px of finger travel before a direction is chosen (under it the page waits)
 export const COMMIT_PX = 40;      // net travel that commits a step at touchend
@@ -54,6 +74,17 @@ export function velocity(samples) {
   if (!samples || samples.length < 2) return 0;
   const last = samples[samples.length - 1];
   const from = samples.find((p) => last.t - p.t <= FLICK_WINDOW_MS) || samples[0];
+  const dt = last.t - from.t;
+  return dt > 0 ? (last.y - from.y) / dt : 0;
+}
+
+/** px/ms the page moved under a finger over its last 100 ms of frame reads [{ t, y }] (0 if it had stopped by `at`). */
+export function pageVelocity(pages, at) {
+  if (!pages || pages.length < 2) return 0;
+  const last = pages[pages.length - 1];
+  if (at - last.t > FLOW_STILL_MS) return 0;
+  let from = pages[pages.length - 2];
+  for (let i = pages.length - 3; i >= 0 && last.t - pages[i].t <= FLOW_STILL_MS; i -= 1) from = pages[i];
   const dt = last.t - from.t;
   return dt > 0 ? (last.y - from.y) / dt : 0;
 }

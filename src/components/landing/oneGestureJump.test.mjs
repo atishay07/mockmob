@@ -61,10 +61,14 @@ const win = Object.assign(new Listeners(), {
   cancelAnimationFrame(id) { frameQueue = frameQueue.filter((f) => f.id !== id); },
   setTimeout(fn, ms = 0) { const id = nextId++; timers.push({ id, at: clock.t + ms, fn }); return id; },
   clearTimeout(id) { const i = timers.findIndex((x) => x.id === id); if (i >= 0) timers.splice(i, 1); },
-  matchMedia: () => ({ matches: false, addEventListener() {}, removeEventListener() {} }),
+  // (pointer: coarse) is read live by the controller (touchPans): off for every test but the ones that turn it on.
+  matchMedia: () => ({ get matches() { return coarse; }, addEventListener() {}, removeEventListener() {} }),
 });
+let coarse = false;
+// The root's style counts how often the page was made unscrollable for a frame (stopFling).
+const rootStyle = { value: '', hides: 0, get overflowY() { return this.value; }, set overflowY(v) { this.value = v; if (v === 'hidden') this.hides += 1; } };
 const doc = Object.assign(new Listeners(), {
-  documentElement: { dataset: {} },
+  documentElement: { dataset: {}, style: rootStyle },
   elements: new Map(),
   getElementById(id) { return doc.elements.get(id) || null; },
 });
@@ -73,6 +77,7 @@ const MAX_Y = 12000;
 globalThis.window = win;
 globalThis.document = doc;
 globalThis.Element = FakeElement;
+globalThis.CSS = { supports: () => true };
 globalThis.getComputedStyle = () => ({ overflowY: 'visible', scrollMarginTop: '0px' });
 win.getComputedStyle = globalThis.getComputedStyle;
 Object.defineProperty(globalThis, 'performance', { value: { now: () => clock.t }, configurable: true });
@@ -340,131 +345,268 @@ test('a glide from inside a hold (Top tapped on a rest) leaves the story: the ta
 // ---------------------------------------------------------------- FLOW: a touch screen is never held (10 Nov 2026, LK190)
 // The owner: held stories feel "very locked in" on a phone and "people will just not scroll to the end"; a page that
 // scrolls past them "isn't able to really show the features". On a touch screen the story's handle says flow(): no
-// finger is held, the track is never marked, and a scroll that has come to rest inside the story is settled on the
-// nearest resting place (invisible: the stage is sticky). One stop is left, once per story: the first fling that
-// brings a story on from above lands on its first step (handle.land), so no story is flown past unseen.
+// finger is owned and the track is never marked, so the browser pans the page under the finger everywhere.
+//
+// FLOW v2 (10 Nov 2026, LK192, after he had used it on his phone): "even in normal scrolling ... it skips too much or too
+// little of the content and unevenly skips the slides"; a flick that keeps scrolling is "expected behavior"; "not making
+// it properly held". In a story with slides (handle.land) the gesture chooses the step: a swipe is exactly one step, a
+// flick is the reader's, and a swipe that brings the story on lands on the step at its door. A passage (land off, the
+// statement) keeps the first rule: the page's position chooses and only a scroll at rest is settled.
 handle.land = true;
-function flowTest(name, fn, { landed = true } = {}) {
+
+/** A declared move (never a gesture): no fling is left behind it, so the next test starts clean. */
+function putAt(y) {
+  bus.instantTo(y);
+  frames(30);
+  moves.length = 0;
+}
+
+function flowTest(name, fn, { landed = true, hold = true } = {}) {
   test(name, () => {
     flowOn = true;
+    coarse = hold; // Chromium on a touch screen: a put page stays put while a fling runs. Off: nothing is put before rest.
     handle.landed = landed; // most tests are about a story the reader has already arrived in
-    try { fn(); } finally { flowOn = false; shown = 0; handle.landed = false; handle.land = true; placeAt(STORY_TOP - 2000); }
+    rootStyle.hides = 0;
+    try { fn(); } finally {
+      win.dispatch('touchend', { touches: [], target: new FakeElement() }); // no finger is left down by a failed test
+      frames(30);
+      flowOn = false; coarse = false; shown = 0; handle.landed = false; handle.land = true;
+      putAt(STORY_TOP - 2000);
+    }
   });
 }
-const flingFromAbove = (ys) => {
-  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 600 }], target: new FakeElement() });
+
+// One swipe as the browser runs it: `perFrame` px of finger travel per 16 ms frame with the page panning under it (20 is
+// 1.25 px/ms, a normal swipe; 48 is 3 px/ms, a flick), then the momentum, a frame at a time, added to wherever the page
+// is after the controller has acted. Returns the page's position after each frame of momentum.
+function swipe(perFrame, frameCount, momentum = []) {
+  const at = { clientX: 195, clientY: 600 };
+  win.dispatch('touchstart', { touches: [at], target: new FakeElement() });
+  for (let i = 0; i < frameCount; i += 1) {
+    at.clientY -= perFrame;
+    win.dispatch('touchmove', { touches: [at], target: new FakeElement(), cancelable: false });
+    win.scrollTo({ top: win.scrollY + perFrame });
+    frame();
+  }
   win.dispatch('touchend', { touches: [], target: new FakeElement() });
   const seen = [];
-  for (const y of ys) { win.scrollTo({ top: y }); frame(); seen.push(win.scrollY); }
+  for (const step of momentum) { win.scrollTo({ top: win.scrollY + step }); frame(); seen.push(win.scrollY); }
   return seen;
+}
+const tap = () => {
+  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 600 }], target: new FakeElement() });
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
 };
-const INTO = [STORY_TOP - 200, STORY_TOP + 100, STORY_TOP + 500, STORY_TOP + 800, STORY_TOP + 900];
 
-flowTest('FLOW landing: the first fling that brings a story on from above lands on its first step, and the story never stops a fling again', () => {
-  placeAt(STORY_TOP - 360);
-  shown = 0;
-  const first = flingFromAbove(INTO);
-  assert.deepEqual(first.slice(1), [rests[0], rests[0], rests[0], rests[0]], 'held on the first rest for as long as the fling runs');
+flowTest('FLOW v2: a swipe inside a story is exactly one step, however far the finger and its momentum go', () => {
+  // A short swipe with a long tail, a drag longer than the gap between two rests (719 px), and a 40 px nudge.
+  for (const [perFrame, count, momentum] of [[20, 4, [30, 25, 20, 15, 10, 5]], [30, 30, [20, 10]], [8, 5, []]]) {
+    putAt(rests[1]);
+    assert.equal(shown, 1);
+    const seen = swipe(perFrame, count, momentum);
+    assert.ok(seen.every((y) => y === rests[2]), `the momentum runs out on the next rest (${rests[2]}): ${seen.join(' ')}`);
+    assert.equal(controller.governs(handle), true, 'and the step is the gesture\'s while it does: the observer stands by');
+    frames(30);
+    assert.equal(win.scrollY, rests[2], `${perFrame * count} px of finger: one step, not none and not two`);
+    assert.equal(shown, 2);
+    assert.equal(controller.governs(handle), false, 'at rest the page position speaks again');
+  }
+  // The same the other way.
+  putAt(rests[2]);
+  swipe(-20, 4, [-30, -20, -10]);
+  frames(30);
+  assert.equal(win.scrollY, rests[1]);
+  assert.equal(shown, 1);
+  assert.equal(rootStyle.hides, 0, 'momentum between two steps is never stopped (a stop restyles the page): it runs out unseen');
+});
+
+flowTest('FLOW v2: the next step shows while the finger is still down, going back takes it back, and nothing is held under the finger', () => {
+  putAt(rests[1]);
+  const at = { clientX: 195, clientY: 600 };
+  const move = (px) => { at.clientY -= px; win.dispatch('touchmove', { touches: [at], target: new FakeElement(), cancelable: false }); win.scrollTo({ top: win.scrollY + px }); frame(); };
+  win.dispatch('touchstart', { touches: [at], target: new FakeElement() });
+  move(10); move(10); move(10);
+  assert.equal(shown, 1, '30 px: not yet');
+  move(10);
+  assert.equal(shown, 2, '40 px of page under the finger: the next step is on');
+  assert.equal(win.scrollY, rests[1] + 40, 'the page went where the finger took it');
+  move(-10); move(-10);
+  assert.equal(shown, 2, 'back to 20 px: it stays');
+  move(-10);
+  assert.equal(shown, 1, 'back inside 16 px: taken back');
+  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+  frames(30);
+  assert.equal(win.scrollY, rests[1], 'and the page is put back on the rest of the step that shows');
+  assert.equal(shown, 1);
+});
+
+flowTest('FLOW v2: a flick is the reader\'s: nothing is put while it flies, and it never settles behind the step its swipe had shown', () => {
+  putAt(rests[0]);
+  const seen = swipe(48, 4, [200, 200, 200, 150, 100, 50]);
+  const free = [192 + 200, 192 + 400, 192 + 600, 192 + 750, 192 + 850, 192 + 900].map((d) => rests[0] + d);
+  assert.deepEqual(seen, free, 'the momentum ran where the browser took it');
+  assert.equal(controller.governs(handle), false, 'the steps follow the page as it passes');
+  assert.equal(controller.passing(handle), true, 'shown a moment late, so slides do not strobe');
+  frames(30);
+  assert.equal(win.scrollY, rests[2], 'and it settles on the rest nearest to where it stopped');
+  assert.equal(shown, 2);
+  frames(100);
+  assert.equal(controller.passing(handle), false);
+  // A short, fast flick whose momentum dies inside the first step's band still moves the step its first 32 px showed.
+  putAt(rests[1]);
+  swipe(48, 3, [20, 10]);
+  assert.equal(shown, 2, 'shown under the finger');
+  frames(30);
+  assert.equal(win.scrollY, rests[2], 'never back to the step it left');
+  assert.equal(shown, 2);
+});
+
+flowTest('FLOW v2: leaving by the last step going down, or the first going up, is the browser\'s own scroll', () => {
+  putAt(rests[3]);
+  assert.equal(shown, 3);
+  const down = swipe(20, 10, [30, 20, 10]);
+  assert.deepEqual(down, [END + 230, END + 250, END + 260]);
+  frames(30);
+  assert.equal(win.scrollY, END + 260, 'and nothing pulls it back');
+  assert.equal(shown, 3);
+  putAt(rests[0]);
+  const up = swipe(-20, 10, [-30, -20]);
+  assert.deepEqual(up, [STORY_TOP - 230, STORY_TOP - 250]);
+  frames(30);
+  assert.equal(win.scrollY, STORY_TOP - 250);
+  assert.equal(shown, 0);
+});
+
+flowTest('FLOW v2: a swipe onto the last step: its momentum points out of the story, so it is kept inside the end, stopped once, and the page is then put on the rest', () => {
+  putAt(rests[2]);
+  const seen = swipe(20, 4, [30, 30, 20]);
+  assert.equal(shown, 3);
+  assert.ok(seen.every((y) => y === END - 64), `kept 64 px inside the end, where a frame of momentum moves nothing on screen: ${seen.join(' ')}`);
+  assert.equal(rootStyle.hides, 1, 'stopped, once');
+  frames(30);
+  assert.equal(win.scrollY, END, 'on the last rest once it is still');
+  assert.equal(shown, 3);
+  // And onto the first step going up.
+  putAt(rests[1]);
+  const up = swipe(-20, 4, [-30, -30]);
+  assert.ok(up.every((y) => y === STORY_TOP + 64), up.join(' '));
+  frames(30);
+  assert.equal(win.scrollY, STORY_TOP);
+  assert.equal(shown, 0);
+});
+
+flowTest('FLOW v2 arriving: a swipe that brings a story on lands on its first step, every time, whether its momentum or its finger crossed the edge', () => {
+  for (const round of [1, 2]) {
+    putAt(STORY_TOP - 360);
+    shown = 0;
+    const seen = swipe(20, 6, [60, 60, 50, 50, 40, 30, 20]); // lifted 240 px above the story; the momentum carries it in
+    assert.deepEqual(seen, [STORY_TOP - 180, STORY_TOP - 120, STORY_TOP - 70, STORY_TOP - 20, rests[0], rests[0], rests[0]], `round ${round}`);
+    frames(30);
+    assert.equal(win.scrollY, rests[0]);
+    assert.equal(shown, 0);
+  }
+  assert.equal(rootStyle.hides, 0, 'momentum that points into the story runs out unseen: never stopped');
+  // The finger itself crosses the edge (120 px in) and lifts moving.
+  putAt(STORY_TOP - 360);
+  shown = 2; // whatever it showed before
+  swipe(20, 24, [30, 20, 10]);
+  assert.equal(shown, 0, 'the door\'s step');
   frames(30);
   assert.equal(win.scrollY, rests[0]);
-  assert.equal(shown, 0, 'showing its first step');
-  assert.equal(handle.landed, true);
   assert.deepEqual([...marks], [], 'and still not marked: the next touch pans freely');
-  // The same fling again: the story is free now.
-  placeAt(STORY_TOP - 360);
-  const again = flingFromAbove(INTO);
-  assert.deepEqual(again, INTO, 'never put back while it runs');
+});
+
+flowTest('FLOW v2 arriving: from below a swipe lands on the last step', () => {
+  putAt(END + 360);
+  shown = 3;
+  const seen = swipe(-20, 6, [-60, -60, -50, -50, -40, -30]);
+  assert.deepEqual(seen.slice(-2), [END, END]);
   frames(30);
-  assert.equal(win.scrollY, rests[1], `settled on the nearest rest (${rests[1]}) once it stopped`);
-  assert.equal(shown, 1, 'and the story shows that step');
-}, { landed: false });
+  assert.equal(win.scrollY, END);
+  assert.equal(shown, 3);
+});
 
-flowTest('FLOW landing: a swipe that crosses the edge with the finger down and lifts moving lands too, once', () => {
-  placeAt(STORY_TOP - 360);
-  shown = 0;
-  drag(40, 12, { fling: [200, 200, 200, 100] }); // 480 px under the finger (120 px into the story), then 700 px of momentum
-  assert.equal(win.scrollY, rests[0], 'the momentum landed on the first rest');
-  assert.equal(shown, 0);
-  placeAt(STORY_TOP - 360);
-  drag(40, 12, { fling: [200, 200, 200, 100] });
-  assert.equal(win.scrollY, rests[1], 'the second time the same swipe runs on (820 px in: the second rest)');
-}, { landed: false });
-
-flowTest('FLOW landing: a finger that walks the page in is never stopped, first arrival or not', () => {
-  placeAt(STORY_TOP - 360);
-  shown = 0;
-  drag(40, 15, { lift: false });
+flowTest('FLOW v2 arriving: a finger that walks the page in is never held; the door\'s step shows under it and it lands there when it lifts', () => {
+  putAt(STORY_TOP - 360);
+  shown = 2;
+  drag(20, 30, { lift: false });
   assert.equal(win.scrollY, STORY_TOP + 240, 'the page went where the finger took it');
+  assert.equal(shown, 0);
   frames(20); // the finger rests: nothing moves under it
   assert.equal(win.scrollY, STORY_TOP + 240);
   win.dispatch('touchend', { touches: [], target: new FakeElement() });
   frames(30);
-  assert.equal(win.scrollY, rests[0], 'lifted with no fling, it settles on the nearest rest');
-  assert.equal(handle.landed, true, 'and that was the arrival: no fling is stopped after it');
-  // A finger that walked two steps in before lifting keeps what it reached: nothing is taken back to the first step.
-  handle.landed = false;
-  placeAt(STORY_TOP - 200);
-  drag(40, 30, { fling: [60, 40, 20] });
-  assert.ok(win.scrollY > rests[0], `not pulled back to the first rest (y ${win.scrollY})`);
+  assert.equal(win.scrollY, rests[0]);
+  assert.equal(shown, 0);
+  assert.equal(handle.landed, true, 'and that was the arrival');
 }, { landed: false });
 
-flowTest('FLOW landing: never on the way back up, and never for a story that did not ask (the statement)', () => {
-  placeAt(END + 360);
+flowTest('FLOW landing: a flick lands on the first step on its first arrival from above, is stopped once, and is never stopped again', () => {
+  putAt(STORY_TOP - 360);
+  shown = 0;
+  const first = swipe(48, 4, [200, 200, 200, 100]);
+  assert.deepEqual(first, [rests[0], rests[0], rests[0], rests[0]], 'held on the first rest for as long as the fling runs');
+  assert.equal(rootStyle.hides, 1);
+  frames(30);
+  assert.equal(win.scrollY, rests[0]);
+  assert.equal(shown, 0);
+  assert.equal(handle.landed, true);
+  // The same flick again: the story is free now.
+  putAt(STORY_TOP - 360);
+  const again = swipe(48, 4, [200, 200, 200, 100]);
+  assert.deepEqual(again, [32, 232, 432, 532].map((d) => STORY_TOP + d), 'never put back while it runs');
+  frames(30);
+  assert.equal(win.scrollY, rests[1], `settled on the nearest rest (${rests[1]}) once it stopped`);
+  assert.equal(shown, 1);
+}, { landed: false });
+
+flowTest('FLOW landing: never on the way back up', () => {
+  putAt(END + 360);
   shown = 3;
-  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 300 }], target: new FakeElement() });
-  win.dispatch('touchend', { touches: [], target: new FakeElement() });
-  const up = [END + 200, END - 100, END - 500, END - 800];
-  const seen = [];
-  for (const y of up) { win.scrollTo({ top: y }); frame(); seen.push(win.scrollY); }
-  assert.deepEqual(seen, up, 'a fling up into the story from below is free');
+  const up = swipe(-48, 4, [-200, -200, -200]);
+  assert.deepEqual(up, [392, 592, 792].map((d) => END + 360 - d), 'a flick up into the story from below is free');
   frames(30);
-  handle.landed = false;
-  handle.land = false;
-  placeAt(STORY_TOP - 360);
-  assert.deepEqual(flingFromAbove(INTO), INTO, 'a passage (land off) never stops a fling');
+  assert.equal(win.scrollY, rests[2]);
 }, { landed: false });
 
-flowTest('FLOW: a fling carries through the whole story and out the other side', () => {
-  placeAt(STORY_TOP - 360);
-  win.dispatch('touchstart', { touches: [{ clientX: 195, clientY: 600 }], target: new FakeElement() });
-  win.dispatch('touchend', { touches: [], target: new FakeElement() });
-  for (let y = STORY_TOP - 200; y <= END + 700; y += 300) { win.scrollTo({ top: y }); frame(); }
-  const out = win.scrollY;
-  assert.ok(out > END + 400, `left the story (y ${out}, end ${END})`);
+flowTest('FLOW: a passage (land off, the statement) is never steered: the page\'s position chooses its step and only a scroll at rest is settled', () => {
+  handle.land = false;
+  putAt(rests[1]);
+  const seen = swipe(20, 20, [40, 30, 20, 10]);
+  assert.deepEqual(seen, [440, 470, 490, 500].map((d) => rests[1] + d), 'nothing is put while it moves');
+  assert.equal(controller.governs(handle), false);
   frames(30);
-  assert.equal(win.scrollY, out, 'and nothing pulls it back');
-});
-
-flowTest('FLOW: from a rest, a drag of more than half a gap moves one step, less than half goes back, more than one and a half moves two', () => {
-  const gap = rests[1] - rests[0]; // 719 px in this story
-  for (const [travel, want] of [[Math.round(gap * 0.3), 1], [Math.round(gap * 0.6), 2], [Math.round(gap * 1.6), 3]]) {
-    placeAt(rests[1]);
-    shown = 1;
-    drag(travel / 10, 10);
-    assert.equal(win.scrollY, rests[want], `${travel} px from rest 1 ends on rest ${want}`);
-    assert.equal(shown, want);
-  }
-  // And back up the same way.
-  placeAt(rests[2]);
-  shown = 2;
-  drag(-Math.round(gap * 0.6) / 10, 10);
+  assert.equal(win.scrollY, rests[2], '500 px from rest 1 is nearest to rest 2');
+  assert.equal(shown, 2);
+  // Less than half a gap goes back; a flick from above is never stopped.
+  putAt(rests[1]);
+  swipe(20, 10, []);
+  frames(30);
   assert.equal(win.scrollY, rests[1]);
-});
+  putAt(STORY_TOP - 360);
+  assert.deepEqual(swipe(48, 4, [200, 200, 200, 100]), [32, 232, 432, 532].map((d) => STORY_TOP + d));
+}, { landed: false });
 
-flowTest('FLOW: a finger lifted without a fling after a small move still settles (no scroll frame follows the lift)', () => {
-  placeAt(rests[2]);
-  shown = 2;
-  drag(10, 6, { lift: false }); // 60 px, finger still down
-  frames(20);                   // it rests there: the settle timer has fired and found a finger down
-  assert.equal(win.scrollY, rests[2] + 60);
-  win.dispatch('touchend', { touches: [], target: new FakeElement() });
+flowTest('FLOW v2: a tap changes nothing, a picked step (a tab, an arrow) wins over it, and a page caught mid-flight keeps the step it shows', () => {
+  putAt(rests[0]);
+  tap();
+  controller.goTo(handle, 2); // the tap's click picks a step
   frames(30);
-  assert.equal(win.scrollY, rests[2], 'back on the rest it was nearest to');
+  assert.equal(shown, 2);
+  assert.equal(win.scrollY, rests[2]);
+  // The page has flown on to 400 px past rest 1 while slide 1 is still the one on screen; a finger stops it there.
+  putAt(rests[1]);
+  win.scrollTo({ top: rests[1] + 400 });
+  frame();
+  tap();
+  frames(30);
+  assert.equal(shown, 1, 'what the reader sees is what stays');
+  assert.equal(win.scrollY, rests[1], 'and the page is put under it');
 });
 
 flowTest('FLOW: the track is never marked, so the browser may pan both ways at every step', () => {
   for (const k of [0, 1, 3]) {
-    placeAt(rests[k]);
+    putAt(rests[k]);
     frames(20);
     assert.deepEqual([...marks], [], `no held mark on rest ${k}`);
   }
@@ -480,21 +622,41 @@ test('held (a mouse or trackpad device): the same rests are marked, as before', 
   assert.deepEqual([...marks], []);
 });
 
-flowTest('FLOW: a picked step (a tab, an arrow) still goes to its rest at once', () => {
-  placeAt(rests[0]);
-  shown = 0;
-  controller.goTo(handle, 2);
+flowTest('FLOW: a scroll that stops just outside the story is left alone', () => {
+  putAt(STORY_TOP - 40);
+  swipe(2, 5, []);
   frames(30);
-  assert.equal(shown, 2);
-  assert.equal(win.scrollY, rests[2]);
-});
-
-flowTest('FLOW: leaving by the last rest is free, and a scroll that stops just outside the story is left alone', () => {
-  placeAt(rests[3]);
-  shown = 3;
-  drag(30, 10);
-  assert.equal(win.scrollY, END + 300);
-  placeAt(STORY_TOP - 40);
-  drag(2, 5);
   assert.equal(win.scrollY, STORY_TOP - 30, 'outside the hold: not pulled in');
 });
+
+// Where a put page is not known to stay put under a fling (Safari, Firefox): the same one step, shown the same way, but
+// nothing is put before the scroll has come to rest.
+flowTest('FLOW v2 without a hold: a swipe is still exactly one step; the page is put on its rest only once it has stopped', () => {
+  putAt(rests[1]);
+  const seen = swipe(20, 4, [200, 200, 150, 100]);
+  assert.deepEqual(seen, [280, 480, 630, 730].map((d) => rests[1] + d), 'the momentum runs under the sticky stage, untouched');
+  assert.equal(shown, 2, 'one step, though the page is past the next rest');
+  assert.equal(controller.governs(handle), true);
+  frames(30);
+  assert.equal(win.scrollY, rests[2]);
+  assert.equal(shown, 2);
+  assert.equal(rootStyle.hides, 0);
+  // Arriving: the door's step shows, the momentum runs on inside, the settle puts the page on the first rest.
+  putAt(STORY_TOP - 360);
+  shown = 0;
+  const into = swipe(20, 6, [60, 60, 50, 50, 40, 30, 20]);
+  assert.deepEqual(into.slice(-3), [STORY_TOP + 20, STORY_TOP + 50, STORY_TOP + 70]);
+  frames(30);
+  assert.equal(win.scrollY, rests[0]);
+  assert.equal(shown, 0);
+}, { hold: false });
+
+flowTest('FLOW v2 without a hold: momentum that carries the page out of the story lets it go', () => {
+  putAt(rests[2]);
+  const seen = swipe(20, 4, [300, 300, 300]);
+  assert.deepEqual(seen, [380, 680, 980].map((d) => rests[2] + d));
+  assert.equal(shown, 3, 'the story is left on its last step');
+  assert.equal(controller.governs(handle), false);
+  frames(30);
+  assert.equal(win.scrollY, rests[2] + 980, 'and nothing pulls the page back');
+}, { hold: false });

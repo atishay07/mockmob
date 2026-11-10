@@ -31,7 +31,7 @@
   position: relative;
 }
 @media (min-width: 900px) { .ss { --ss-top: calc(72px + 1.25rem); --ss-bottom: 1.5rem; } }
-@media (hover: none), (pointer: coarse) { .ss { --ss-run: calc(var(--ss-beat) * 0.6); } }
+@media (hover: none), (pointer: coarse) { .ss { --ss-run: calc(var(--ss-beat) * 0.85); } }
 /* Phones: the held card stops above the bottom band (R3-D4, owner LK103, 5 Nov 2026: "Why does the card ... snap to
    the entire bottom of the phone? ... below, like 10-20%, ... some sort of a blur"). The band is 11% of the window,
    80 to 104 px (93 px on a 390 x 844 phone), 64 px on a window 700 px tall or less, plus the safe area; the bottom bar

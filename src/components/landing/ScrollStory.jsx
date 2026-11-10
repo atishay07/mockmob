@@ -52,7 +52,7 @@ import * as bus from './scrollBus.mjs';
 import * as controller from './storyController.mjs';
 import { drawnAncestor, undrawn } from './undrawn';
 import { predraw } from './storyPredraw.mjs';
-import { FLOW_QUERY } from './storyGesture.mjs';
+import { FLOW_PASS_DEBOUNCE_MS, FLOW_QUERY } from './storyGesture.mjs';
 
 // --ss-fit and --ss-slack are registered as non-inherited (ship gate, 4 Nov 2026). A plain custom property inherits, so
 // writing one restyles every element under the node it is written on: --ss-fit on the Lab's four scenes cost 650
@@ -243,8 +243,17 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       landing = 0;
       if (!bus.jumping() && held.size > 0 && !held.has(stepRef.current)) applyStep(Math.min(...held));
     };
+    // FLOW v2: while the controller decides the step (a finger on the story, a swipe's momentum) the observer stands by;
+    // while a flick's momentum runs, the steps it passes show a moment late (the last one wins), so slides do not strobe.
+    let passTimer = 0;
+    const fromScroll = (i) => {
+      if (controller.governs(handleRef.current)) return;
+      window.clearTimeout(passTimer);
+      if (!controller.passing(handleRef.current)) { applyStep(i); return; }
+      passTimer = window.setTimeout(() => { if (!controller.governs(handleRef.current)) applyStep(i); }, FLOW_PASS_DEBOUNCE_MS);
+    };
     const fromSide = (y = window.scrollY, vh = window.innerHeight, landed = false) => {
-      if (!track) return;
+      if (!track || controller.governs(handleRef.current)) return;
       if (held.size > 0) {
         if (landed && !landing) landing = window.requestAnimationFrame(() => { landing = window.requestAnimationFrame(readLanding); });
         return;
@@ -259,7 +268,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       for (const entry of entries) {
         const i = Number(entry.target.dataset.beat);
         // A declared jump (a nav link's glide) passes the beats on its way: they do not show; the settle at its end does.
-        if (entry.isIntersecting) { held.add(i); if (!bus.jumping()) applyStep(i); } else held.delete(i);
+        if (entry.isIntersecting) { held.add(i); if (!bus.jumping()) fromScroll(i); } else held.delete(i);
       }
       setLive(held.size > 0);
       bus.hold(id, held.size > 0);
@@ -277,6 +286,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       io.disconnect();
       near?.disconnect();
       listen(false);
+      window.clearTimeout(passTimer);
       window.cancelAnimationFrame(landing);
       if (handleRef.current) controller.near(handleRef.current, false);
       held.clear();

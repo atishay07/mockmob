@@ -13,15 +13,28 @@
 //   no glide: steps commit instantly. The stage's content moves with a 180-240 ms CSS transform (scroll-story.css).
 //
 // FLOW (10 Nov 2026, owner LK190: held stories felt "very locked in" on phones, and a page that scrolls past them shows
-// no features). A story whose handle says flow() (a touch screen, storyGesture.mjs FLOW_QUERY) is never held: no touch is
-// owned, no fling is clamped at its edge or put back on a rest while it runs, and its track is never marked, so the
-// browser pans freely through it. The story shows the step under the window's middle as the page passes (ScrollStory's
-// own observer) and only `settle` remains: a scroll that comes to REST inside it goes to the nearest resting place. A
-// mouse wheel or a key on such a device still moves one step, and a picked step (a tab, an arrow) is unchanged.
-//   landing  the one stop a flowing story makes (handle.land): the FIRST fling that brings it on from above is held on
-//            its first rest, so a hard flick from the hero cannot fly past a story unseen. Only a fling: a finger's own
-//            drag is never held. Only once: `landed` is set by that stop, or by the reader coming to rest inside the
-//            story any other way, and from then on the story never stops a fling. Never on the way back up.
+// no features). A story whose handle says flow() (a touch screen, storyGesture.mjs FLOW_QUERY) never takes a touch: no
+// finger is owned, nothing is cancelled and its track is never marked, so the browser pans the page under the finger
+// everywhere. A mouse wheel or a key on such a device still moves one step, and a picked step (a tab, an arrow) is
+// unchanged. A passage (handle.land off: the statement) has only the `settle`: it shows the step under the window's
+// middle as the page passes (ScrollStory's observer) and a scroll that comes to REST inside it goes to the nearest rest.
+//
+// FLOW v2, the steered story (10 Nov 2026, owner LK192: with the step chosen by position alone a normal swipe "skips
+// too much or too little"; a flick that runs on is expected; not held). In a story with slides (handle.land) the
+// GESTURE chooses the step and the page follows it:
+//   a swipe   released slower than FLOW_FLICK_V is exactly one step. The next step shows as soon as the page has gone
+//             FLOW_COMMIT_PX under the finger (back inside FLOW_CANCEL_PX takes it back); when the finger lifts the
+//             page is put on that step's rest and kept there while the momentum runs out, which nobody sees because
+//             the stage is sticky. No lock follows and no gesture is refused: the next swipe steps at once.
+//   a flick   (FLOW_FLICK_V or faster) is the reader's: the steps follow the page as it flies (ScrollStory shows them
+//             a moment late so they do not strobe) and the scroll settles on the nearest rest, never behind the step
+//             the swipe had shown.
+//   arriving  a swipe that brings the story on lands on the step at the door it came by (the first from above, the
+//             last from below), every time. A flick lands only on its first arrival from above (`landed`).
+//   leaving   by the last step going down, or the first going up, is the browser's own scroll.
+//   the hold  is a put per frame, measured to stay put on Chromium (Android Chrome, 6 Nov 2026). Where that is not
+//             known (canHold: Safari, Firefox) nothing is put while the page still moves: the step is shown, and the
+//             settle puts the page on its rest once the scroll has ended, or lets it go if the momentum left the story.
 //
 // THE WINDOW RULE (design C's guard, LK47: "no glide"): the only non-passive listeners on the page, `touchmove` and
 // `wheel`, exist ONLY while a held story is within one screen of the viewport (nearSet). Everywhere else scrolling is
@@ -32,8 +45,8 @@
 import * as bus from './scrollBus.mjs';
 import { drawnAncestor, undrawn } from './undrawn.js';
 import {
-  SETTLE_QUIET_MS, SLOP, WHEEL_MIN_PX, WHEEL_QUIET_MS,
-  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, restY, velocity, wheelBurst, wheelPushes, wheelPx,
+  FLOW_CANCEL_PX, FLOW_COMMIT_PX, FLOW_EDGE_PX, FLOW_FLICK_V, FLOW_PASS_MS, FLOW_STILL_MS, SETTLE_QUIET_MS, SLOP, WHEEL_MIN_PX, WHEEL_QUIET_MS,
+  claimTouch, commitDirection, insideHold, keyDirection, leanFor, lockMs, nearestStep, pageVelocity, restY, velocity, wheelBurst, wheelPushes, wheelPx,
 } from './storyGesture.mjs';
 
 const stories = new Set();   // every mounted story handle
@@ -47,6 +60,10 @@ let wb = null;               // the wheel burst in progress
 let keepY = null;            // where a clamp holds the page (until the reader touches, wheels or presses a key)
 let keepStory = null;
 let keepDir = 0;             // how the clamped page came in: +1 from above, -1 from below (a finger may turn back out)
+let governed = null;         // FLOW v2: the steered story whose step the reader's gesture decides right now (its observer stands by)
+let aim = null;              // FLOW v2: { s, k, dir }: the step a settle inside s goes to (dir 0: exactly k; +1 or -1: k or further that way)
+let lastFlick = false;       // FLOW v2: the last touch moved the page and left the glass as a flick (its momentum is the reader's)
+let lastSwipe = false;       // FLOW v2: ... or as a normal swipe (its momentum lands on the step it chose)
 let busyUntil = 0;           // the lock after a step
 let lastRelease = -Infinity; // when the last finger left the glass (a fling's momentum runs on after it)
 let lastY = 0;
@@ -86,6 +103,58 @@ const gripping = (y = window.scrollY) => { const s = holding(y); return s && !fl
 const lands = (s) => s.land === true && !s.landed;
 const gapOf = (s) => s.hold / Math.max(1, s.steps - 1);
 
+/** FLOW v2: a story with slides on a touch screen. The gesture chooses its step (a passage, land off, only settles). */
+const steered = (s) => flowing(s) && s.land === true;
+/** FLOW v2: can the page be kept where it is put while a fling runs? Measured on Chromium; elsewhere only the settle puts. */
+const canHold = () => touchPans();
+
+/** FLOW v2: the controller is deciding this story's step (a finger on it, a swipe's momentum): its observer stands by. */
+export const governs = (s) => !!s && governed === s;
+/** FLOW v2: a flick's momentum may be running through this story: it shows the steps it passes a moment late. */
+export const passing = (s) => steered(s) && lastFlick && touches === 0 && now() - lastRelease < FLOW_PASS_MS;
+
+/** FLOW v2, a finger inside a steered story: the next step shows as soon as the page has gone FLOW_COMMIT_PX under it. */
+function steer(gest, y) {
+  const s = gest.flow;
+  const travel = y - gest.pageY;
+  const dir = travel >= FLOW_COMMIT_PX ? 1 : travel <= -FLOW_COMMIT_PX ? -1 : Math.abs(travel) <= FLOW_CANCEL_PX ? 0 : gest.flowDir;
+  if (dir === gest.flowDir) return;
+  gest.flowDir = dir;
+  const goal = gest.k0 + dir;
+  gest.flowOut = goal < 0 || goal > s.steps - 1; // no step that way: the finger is on its way out of the story
+  governed = gest.flowOut ? null : s;
+  if (!gest.flowOut && s.step() !== goal) s.show(goal);
+}
+
+/**
+ * FLOW v2: step k is the one, and the page belongs on its rest. Where the page can be held it is put there now and kept
+ * there while the momentum runs out (dir: the way that momentum points); elsewhere the settle puts it once it has stopped.
+ */
+function flowHold(s, k, dir, stop = false) {
+  governed = s;
+  aim = { s, k, dir: 0 };
+  if (s.step() !== k) s.show(k);
+  if (!canHold()) return;
+  // Momentum that points out of the story (the last step going down, the first going up) has no pinned room to run in:
+  // it is kept a little inside the edge, where a frame of it still moves nothing on screen, and stopped. The settle then
+  // puts the page on the rest itself.
+  const out = dir > 0 ? k >= s.steps - 1 : dir < 0 ? k <= 0 : false;
+  keepStory = s;
+  keepDir = dir || 1;
+  keepY = restOf(s, k) - (out ? dir * Math.min(FLOW_EDGE_PX, Math.round(gapOf(s) / 4)) : 0);
+  // A stop restyles the page, so only a flick's landing and momentum that points out get one: the rest runs out unseen.
+  stoppedAt = stop || out ? null : keepY;
+  if (Math.abs(window.scrollY - keepY) > 1) put(keepY);
+}
+
+/** FLOW v2: the page has left a story the gesture was deciding (momentum nothing held, a finger dragging on). */
+function letGo(s, y) {
+  governed = null;
+  aim = null;
+  const k = y > s.top + s.hold ? s.steps - 1 : 0;
+  if (s.step() !== k) s.show(k);
+}
+
 // ---------------------------------------------------------------- touch screens: what the browser may pan (R5, LK161)
 
 // Measured on Android Chrome (6 Nov 2026): a swipe that starts while the last fling still runs reaches the page
@@ -124,9 +193,12 @@ function stopFling() {
   flingStopped = window.requestAnimationFrame(() => { html.style.overflowY = before; flingStopped = 0; });
 }
 let pans = null;
+let panList = null;
 function touchPans() {
-  if (pans === null) pans = typeof CSS !== 'undefined' && !!CSS.supports?.('touch-action', 'pan-up') && !!window.matchMedia?.('(pointer: coarse)').matches;
-  return pans;
+  if (pans === null) pans = typeof CSS !== 'undefined' && !!CSS.supports?.('touch-action', 'pan-up') && typeof window.matchMedia === 'function';
+  if (!pans) return false;
+  panList ??= window.matchMedia('(pointer: coarse)'); // kept: asked inside gestures, and a tablet may gain or lose its mouse
+  return panList.matches === true;
 }
 
 // A class, not a data attribute: an attribute write restyled the whole story (40-80 ms at 4x CPU, measured); a class
@@ -204,6 +276,8 @@ function commit(s, goal, { source }) {
   if (next === from) return false;
   s.show(next);
   keepY = null;
+  governed = null; // a step from a wheel, a key or a pick is its own decision: no swipe's choice outlives it
+  aim = null;
   if (s.ok) put(restOf(s, next));
   // The held mark follows at rest (settle, 150 ms on): marked here it restyled the whole story inside the step's own
   // frame, ~90 ms at 4x CPU (measured, LK169).
@@ -243,14 +317,20 @@ function scrollsInside(target, dir, boundary) {
 function onTouchStart(e) {
   touches = e.touches.length;
   keepY = null;
+  governed = null;
+  aim = null;
   stoppedAt = null;
   bus.clearJump();
   if (touches !== 1) { g = null; return; }
   const p = e.touches[0];
   const story = gripping() ?? adoptEdge(e.target);
+  const here = holding();
+  const flow = steered(here) ? here : null;
   lastY = window.scrollY;
+  // FLOW v2: from the moment a finger is on a steered story, the step it shows is the reader's, not the page position's.
+  if (flow) governed = flow;
   // Outside a hold, the compositor can scroll before the first touchmove reaches the controller.
-  g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target, pageY: lastY };
+  g = { x: p.clientX, y: p.clientY, story, claim: story ? undefined : 'native', dir: 0, samples: [{ t: e.timeStamp, y: p.clientY }], target: e.target, pageY: lastY, pages: [{ t: now(), y: lastY }], flow, k0: flow ? flow.step() : 0, flowDir: 0, flowOut: false };
 }
 
 function onTouchMove(e) {
@@ -280,6 +360,14 @@ function onTouchEnd(e) {
   lastRelease = now();
   const done = g;
   g = null;
+  // FLOW v2: how the finger left, and only if the page moved under it. The finger's own speed over its last 80 ms, the
+  // one the browser flings by. Where its samples are too far apart to give one (a browser may hand a scrolling page a
+  // touchmove only every 200 ms), the page's travel under it, frame by frame: never both, because a page that starts
+  // scrolling late catches up in a jump that reads faster than the finger ever moved (measured: 2 px/ms read as 3).
+  const moved = !!done && Math.abs(window.scrollY - done.pageY) > 2;
+  const finger = moved && e.timeStamp - done.samples[done.samples.length - 1].t <= FLOW_STILL_MS ? Math.abs(velocity(done.samples)) : 0;
+  lastFlick = moved && (finger || Math.abs(pageVelocity(done.pages, now()))) >= FLOW_FLICK_V;
+  lastSwipe = moved && !lastFlick;
   if (!done) { afterNativeTouch(null); return; }
   if (done.claim === 'own') {
     const last = done.samples[done.samples.length - 1];
@@ -299,20 +387,41 @@ function onTouchCancel() {
   if (g?.story) release(g.story);
   g = null;
   touches = 0;
+  governed = null;
+  aim = null;
+}
+
+/** FLOW v2: a finger has left the glass with the page inside a steered story. */
+function afterSwipe(s, done) {
+  if (done && done.flow === s) {
+    // The touch began inside the story, on step k0.
+    const goal = done.flowDir && !done.flowOut ? done.k0 + done.flowDir : null;
+    if (lastFlick) {
+      // A flick: the momentum is the reader's. It never settles behind the step the swipe had shown.
+      governed = null;
+      aim = goal === null ? null : { s, k: goal, dir: done.flowDir };
+    } else if (goal !== null) flowHold(s, goal, done.flowDir); // a swipe: exactly that one step
+    else if (done.flowOut) { governed = null; aim = null; }    // on its way out by the story's own edge
+    else aim = { s, k: done.k0, dir: 0 };                      // no swipe at all (a tap, a nudge): the step shown stays
+    return;
+  }
+  // The finger began outside and brought the story on: a swipe lands on the step at the door it came by, every time; a
+  // flick only on its first arrival from above.
+  const began = done && typeof done.pageY === 'number' ? done.pageY : null;
+  const door = began === null ? 0 : began < s.top ? 1 : began > s.top + s.hold ? -1 : 0;
+  if (door && (lastSwipe || (lastFlick && door > 0 && lands(s)))) flowHold(s, door > 0 ? 0 : s.steps - 1, door, lastFlick);
+  else { governed = null; aim = null; }
 }
 
 // A native touch ended with the page inside a hold: its momentum may not run through the steps. Hold the nearest rest.
 function afterNativeTouch(done) {
   if (keepY !== null) return;
   const s = holding();
-  if (!s) return;
-  // FLOW: the momentum is the reader's; the page is only settled once it has come to rest (a finger lifted without a
-  // fling makes no more scroll frames, so the settle is asked for here as well).
+  if (!s) { governed = null; aim = null; return; }
+  // FLOW: the page is settled once it has come to rest (a finger lifted without a fling makes no more scroll frames, so
+  // the settle is asked for here as well). A steered story also takes the swipe's one step (v2).
   if (flowing(s)) {
-    // The landing, for a swipe that crossed into the story with the finger still down: lifted inside the first step's
-    // band on its first arrival, its momentum lands on the first rest like a fling that crossed the edge on its own.
-    // Further in, the reader has walked the steps under the finger: nothing is taken back.
-    if (lands(s) && done && typeof done.pageY === 'number' && done.pageY < s.top && window.scrollY < s.top + gapOf(s) / 2) { keepStory = s; keepY = restOf(s, 0); keepDir = 1; }
+    if (steered(s)) afterSwipe(s, done);
     s.landed = true;
     window.clearTimeout(settleTimer);
     settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
@@ -441,14 +550,30 @@ function edgeAhead(y, dir, px) {
 
 function onFrame({ y }) {
   const drag = dragging();
+  // FLOW v2: where the page is under the finger, frame by frame (the swipe's travel and its speed are read from this).
+  if (g && touches === 1) { g.pages.push({ t: now(), y }); if (g.pages.length > 12) g.pages.shift(); }
+  if (drag && g.flow) steer(g, y);
+  // FLOW v2: the page has left a story the gesture was deciding, with nothing holding it there: the reader is past it.
+  if (governed && keepY === null && !(drag && g.flow === governed) && !insideHold(governed.top, governed.hold, y)) letGo(governed, y);
   if (keepY === null && !bus.jumping() && (drag || (touches === 0 && flinging()))) {
     for (const s of nearSet) {
       if (!s.ok || (drag && s === g.story)) continue;
-      // FLOW: nothing is caught at a flowing story's edge, but for its landing: the first fling in from above, never a drag.
+      // FLOW: a passage is never caught. A steered story is: by the swipe that brings it on, and by its first flick from above.
       if (flowing(s)) {
-        if (drag || !lands(s) || !(lastY < s.top && y >= s.top)) continue;
+        if (!steered(s)) continue;
+        const endOf = s.top + s.hold;
+        if (drag) {
+          // A finger that began outside is inside now: the door's step is shown under it. Never a hold: the finger walks on.
+          if (g.flow !== s && governed !== s && y >= s.top && y <= endOf) { governed = s; const k = g.pageY < s.top ? 0 : s.steps - 1; if (s.step() !== k) s.show(k); }
+          continue;
+        }
+        const down = lastY < s.top && y >= s.top;
+        const up = lastY > endOf && y <= endOf;
+        if (!down && !up) continue;
+        const swipe = lastSwipe && now() - lastRelease < FLING_MS; // a swipe's momentum lands on the door's step, every time
+        if (!swipe && (!down || !lands(s))) continue;                // a flick (or a wheel) only on its first arrival from above
         s.landed = true;
-        keepStory = s; keepY = restOf(s, 0); keepDir = 1;
+        flowHold(s, down ? 0 : s.steps - 1, down ? 1 : -1, !swipe);
         break;
       }
       const end = s.top + s.hold;
@@ -480,11 +605,16 @@ function settle() {
   stoppedAt = null; // the next catch may stop its own fling
   keepStory = null;
   if (touches > 0 || (wb && now() - wb.last < WHEEL_QUIET_MS)) return;
+  const want = aim;
+  governed = null;
+  aim = null;
   const y = window.scrollY;
   const s = holding(y);
   if (!s) { syncHeld(y); return; }
   s.landed = true; // FLOW: the reader has come to rest inside this story, however they got here: it never lands a fling now
-  const k = nearestStep(s.top, s.hold, s.steps, y);
+  let k = nearestStep(s.top, s.hold, s.steps, y);
+  // FLOW v2: the step the gesture chose, not the rest its momentum happened to stop nearest to.
+  if (want && want.s === s) k = want.dir > 0 ? Math.max(k, want.k) : want.dir < 0 ? Math.min(k, want.k) : want.k;
   const target = restOf(s, k);
   if (Math.abs(y - target) > 1) put(target);
   const from = s.step();
@@ -501,6 +631,8 @@ function settle() {
 function standDown() {
   keepY = null;
   keepStory = null;
+  governed = null;
+  aim = null;
   lastRelease = -Infinity;
 }
 
@@ -585,6 +717,8 @@ function detach() {
   heldEdge = '';
   keepY = null;
   keepStory = null;
+  governed = null;
+  aim = null;
   g = null;
   wb = null;
   delete document.documentElement.dataset.storyWindow;

@@ -308,40 +308,90 @@ test('touch screens: inside a held story the browser may pan only the way out, a
   assert.match(body(code, 'onFrame'), /if \(touches === 0 && now\(\) - lastRelease < FLING_MS && stoppedAt !== keepY\) \{ stoppedAt = keepY; stopFling\(\); \}/, 'only a touch fling the clamp has caught; the mark waits for rest (a mid-fling mark cost a 100 ms frame)');
 });
 
-test('FLOW: on a touch screen a story never holds the page; it shows the step the page has reached and only settles a scroll at rest (10 Nov 2026, owner LK190)', () => {
+test('FLOW: on a touch screen a story never takes a touch; a passage shows the step the page has reached and only a scroll at rest is settled (10 Nov 2026, owner LK190)', () => {
   // He found the held stories "very locked in" on a phone, and a page that scrolls past them "isn't able to really show
   // the features". The balance: the stage stays sticky and shows every step, the scroll and its momentum are the
-  // browser's own, and the hold costs 0.6 of the mouse's. The behaviour is run in oneGestureJump.test.mjs (simulated)
+  // browser's own, and the hold costs 0.85 of the mouse's. The behaviour is run in oneGestureJump.test.mjs (simulated)
   // and in real Chrome by oneGestureBench.mjs (mode flow).
   const gesture = strip(read('src/components/landing/storyGesture.mjs'));
   assert.match(gesture, /export const FLOW_QUERY = '\(hover: none\), \(pointer: coarse\)';/);
-  assert.match(gesture, /export const FLOW_SHARE = 0\.6;/);
+  assert.match(gesture, /export const FLOW_SHARE = 0\.85;/);
   const code = strip(CONTROLLER);
   assert.match(code, /const flowing = \(s\) => !!s && typeof s\.flow === 'function' && s\.flow\(\) === true;/);
   assert.match(code, /const gripping = \(y = window\.scrollY\) => \{ const s = holding\(y\); return s && !flowing\(s\) \? s : null; \};/);
-  // No touch is owned, no edge is adopted, nothing is caught on the way in, the track is never marked.
+  // No touch is owned, no edge is adopted, the track is never marked.
   assert.match(body(code, 'syncHeld'), /const s = gripping\(y\);/);
   assert.match(body(code, 'adoptEdge'), /flowing\(s\)/);
-  // One stop is left, once per story: the first fling in from above lands on the first rest. Never a drag, never twice.
+  // A passage (land off) is never caught on the way in; a story with slides is steered (the next test).
   const frame = body(code, 'onFrame');
-  assert.match(frame, /if \(flowing\(s\)\) \{\s*if \(drag \|\| !lands\(s\) \|\| !\(lastY < s\.top && y >= s\.top\)\) continue;\s*s\.landed = true;\s*keepStory = s; keepY = restOf\(s, 0\); keepDir = 1;\s*break;\s*\}/);
+  assert.match(frame, /if \(flowing\(s\)\) \{\s*if \(!steered\(s\)\) continue;/);
   assert.ok(frame.indexOf('if (flowing(s))') < frame.indexOf('const end = s.top + s.hold;'), 'decided before the held story\'s own clamp');
   assert.match(code, /const lands = \(s\) => s\.land === true && !s\.landed;/);
   assert.match(body(code, 'settle'), /s\.landed = true;/, 'coming to rest inside a story is an arrival too');
-  // The momentum is the reader's: a touch that ends inside a flowing story sets no hold, it only asks for the settle.
+  // A touch that ends inside a flowing story asks for the settle; only a steered story takes more from it.
   const after = body(code, 'afterNativeTouch');
-  assert.match(after, /if \(lands\(s\) && done && typeof done\.pageY === 'number' && done\.pageY < s\.top && window\.scrollY < s\.top \+ gapOf\(s\) \/ 2\) \{ keepStory = s; keepY = restOf\(s, 0\); keepDir = 1; \}/, 'a swipe that crossed the edge finger-down lands once too, only from inside the first step\'s band');
-  assert.match(after, /s\.landed = true;\s*window\.clearTimeout\(settleTimer\);\s*settleTimer = window\.setTimeout\(settle, SETTLE_QUIET_MS\);\s*return;/);
+  assert.match(after, /if \(flowing\(s\)\) \{\s*if \(steered\(s\)\) afterSwipe\(s, done\);\s*s\.landed = true;\s*window\.clearTimeout\(settleTimer\);\s*settleTimer = window\.setTimeout\(settle, SETTLE_QUIET_MS\);\s*return;/);
   assert.ok(after.indexOf('if (flowing(s))') < after.indexOf('keepY = restOf(s, nearestStep'), 'decided before the held story\'s hold is set');
-  // The settle itself is every story's: a scroll that rests inside a hold goes to the nearest rest.
+  // The settle itself is every story's: a scroll that rests inside a hold goes to a rest.
   assert.match(body(code, 'settle'), /const s = holding\(y\);/);
   // The story tells the controller, and the stylesheet shortens the hold with its own media query (no layout from script).
   const story = strip(STORY);
-  assert.match(story, /import \{ FLOW_QUERY \} from '\.\/storyGesture\.mjs';/);
-  assert.match(story, /reduced: reducedNow, flow: flowNow, land: land \?\? !quiet \};/, 'a quiet story (the statement) is a passage: it never lands a fling');
+  assert.match(story, /import \{ FLOW_PASS_DEBOUNCE_MS, FLOW_QUERY \} from '\.\/storyGesture\.mjs';/);
+  assert.match(story, /reduced: reducedNow, flow: flowNow, land: land \?\? !quiet \};/, 'a quiet story (the statement) is a passage: never steered, never landed on');
   const css = read('src/app/scroll-story.css');
   assert.match(css, /--ss-run: var\(--ss-beat\);/);
   assert.match(css, /--ss-gap: calc\(var\(--ss-steps\) \* var\(--ss-run\) \/ max\(1, var\(--ss-steps\) - 1\)\);/);
-  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{ \.ss \{ --ss-run: calc\(var\(--ss-beat\) \* 0\.6\); \} \}/);
+  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{ \.ss \{ --ss-run: calc\(var\(--ss-beat\) \* 0\.85\); \} \}/);
   assert.match(css, /height: calc\(100svh \+ var\(--ss-steps\) \* var\(--ss-run\)\);/);
+});
+
+test('FLOW v2: in a story with slides the gesture chooses the step: a swipe is exactly one, a flick is the reader\'s (10 Nov 2026, owner LK192)', () => {
+  // On his phone, after FLOW went live: "even in normal scrolling ... it skips too much or too little of the content and
+  // unevenly skips the slides"; a flick that keeps scrolling is "expected behavior"; "not making it properly held because
+  // that takes away the smoothness, but finding a balance". The behaviour is run in oneGestureJump.test.mjs and by the
+  // bench's `flow` mode; this locks the rules that make it so.
+  const gesture = strip(read('src/components/landing/storyGesture.mjs'));
+  for (const [name, value] of [['FLOW_COMMIT_PX', '32'], ['FLOW_CANCEL_PX', '16'], ['FLOW_FLICK_V', '2\\.5'], ['FLOW_EDGE_PX', '64'], ['FLOW_PASS_DEBOUNCE_MS', '120']]) {
+    assert.match(gesture, new RegExp(`export const ${name} = ${value};`));
+  }
+  const code = strip(CONTROLLER);
+  assert.match(code, /const steered = \(s\) => flowing\(s\) && s\.land === true;/, 'a passage (the statement) is not steered');
+  assert.match(code, /const canHold = \(\) => touchPans\(\);/, 'a page is only held under a fling where that is measured to stay put (Chromium)');
+  // Still no touch is taken: nothing here cancels a scroll, and the track is not marked.
+  assert.doesNotMatch(body(code, 'onTouchMove'), /flow|steer/, 'the travel and the speed are read from the page, frame by frame: Chrome hands a scrolling page a touchmove only every 200 ms');
+  const start = body(code, 'onTouchStart');
+  assert.match(start, /const flow = steered\(here\) \? here : null;/);
+  assert.match(start, /if \(flow\) governed = flow;/, 'from the moment a finger is on the story, the step shown is the reader\'s');
+  assert.match(start, /governed = null;\s*aim = null;/, 'every touch starts clean: no lock outlives the last swipe');
+  const frame = body(code, 'onFrame');
+  assert.match(frame, /if \(g && touches === 1\) \{ g\.pages\.push\(\{ t: now\(\), y \}\);/);
+  assert.match(frame, /if \(drag && g\.flow\) steer\(g, y\);/);
+  assert.match(body(code, 'steer'), /const dir = travel >= FLOW_COMMIT_PX \? 1 : travel <= -FLOW_COMMIT_PX \? -1 : Math\.abs\(travel\) <= FLOW_CANCEL_PX \? 0 : gest\.flowDir;/);
+  // How the finger left: a flick or a swipe, and only if the page moved under it.
+  const end = body(code, 'onTouchEnd');
+  assert.match(end, /const moved = !!done && Math\.abs\(window\.scrollY - done\.pageY\) > 2;/);
+  assert.match(end, /lastFlick = moved && \(finger \|\| Math\.abs\(pageVelocity\(done\.pages, now\(\)\)\)\) >= FLOW_FLICK_V;\s*lastSwipe = moved && !lastFlick;/, 'by the speed of the finger itself; by the travel of the page only where the samples of the finger are too far apart to give one');
+  // A swipe: exactly its one step, held on that step's rest. A flick: free, never settling behind the step it showed.
+  const swipe = body(code, 'afterSwipe');
+  assert.match(swipe, /aim = goal === null \? null : \{ s, k: goal, dir: done\.flowDir \};/);
+  assert.match(swipe, /else if \(goal !== null\) flowHold\(s, goal, done\.flowDir\);/);
+  assert.match(swipe, /if \(door && \(lastSwipe \|\| \(lastFlick && door > 0 && lands\(s\)\)\)\) flowHold\(s, door > 0 \? 0 : s\.steps - 1, door, lastFlick\);/);
+  // Arriving by momentum: a swipe lands on the door's step every time, a flick (or a wheel) only on its first arrival from above.
+  assert.match(frame, /const swipe = lastSwipe && now\(\) - lastRelease < FLING_MS;/);
+  assert.match(frame, /if \(!swipe && \(!down \|\| !lands\(s\)\)\) continue;/);
+  assert.match(frame, /flowHold\(s, down \? 0 : s\.steps - 1, down \? 1 : -1, !swipe\);/);
+  // The hold: only where the page can be held; momentum between two steps runs out unseen, never stopped.
+  const hold = body(code, 'flowHold');
+  assert.ok(hold.indexOf('if (!canHold()) return;') > 0 && hold.indexOf('if (!canHold()) return;') < hold.indexOf('keepY ='), 'elsewhere nothing is put while the page still moves');
+  assert.match(hold, /keepY = restOf\(s, k\) - \(out \? dir \* Math\.min\(FLOW_EDGE_PX, Math\.round\(gapOf\(s\) \/ 4\)\) : 0\);/);
+  assert.match(hold, /stoppedAt = stop \|\| out \? null : keepY;/, 'a stop restyles the page: only a flick\'s landing and momentum that points out of the story get one');
+  // The step the gesture chose is where the settle goes, and any other decision (a wheel, a key, a pick, a jump) ends it.
+  assert.match(body(code, 'settle'), /if \(want && want\.s === s\) k = want\.dir > 0 \? Math\.max\(k, want\.k\) : want\.dir < 0 \? Math\.min\(k, want\.k\) : want\.k;/);
+  assert.match(body(code, 'commit'), /governed = null;[^\n]*\s*aim = null;/);
+  assert.match(body(code, 'standDown'), /governed = null;\s*aim = null;/);
+  // The story's own observer stands by while the gesture decides, and shows a flick's steps a moment late.
+  const story = strip(STORY);
+  assert.match(story, /if \(controller\.governs\(handleRef\.current\)\) return;\s*window\.clearTimeout\(passTimer\);\s*if \(!controller\.passing\(handleRef\.current\)\) \{ applyStep\(i\); return; \}/);
+  assert.match(story, /if \(!track \|\| controller\.governs\(handleRef\.current\)\) return;/);
+  assert.match(story, /if \(entry\.isIntersecting\) \{ held\.add\(i\); if \(!bus\.jumping\(\)\) fromScroll\(i\); \} else held\.delete\(i\);/);
 });
