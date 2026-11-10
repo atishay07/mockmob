@@ -20,7 +20,7 @@ import { plainTerms, valueShown } from '@/components/pricing/pricingValueCopy.mj
 import { PlanCounts } from '@/components/landing/PlanCounts';
 import { planGroups } from '@/components/landing/homeCopy.mjs';
 import { PLAN_COPY, choiceLine, compareRows, planTerms } from '@/components/pricing/planOffer.mjs';
-import { PAY_COPY, paySteps, refundFaq } from '@/components/pricing/payCopy.mjs';
+import { PAY_COPY, paySteps } from '@/components/pricing/payCopy.mjs';
 import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
@@ -102,6 +102,10 @@ const PRO_COPY = Object.freeze({
     { key: 'difficulty', title: 'Easy, Medium and Hard', line: 'Choose how hard each set is, then step up.', art: '/art/pro/hybrid-metronome.webp', w: 126, h: 176 },
     { key: 'insights', title: 'Insights in detail', line: 'Your answer-change habit and pace across every paper.', art: '/art/pro/mobi-read.webp', w: 131, h: 176 },
   ],
+  // The fourth tile (owner, 10 Nov 2026: "there is space for one more ... you can add key cards"): Key cards while they are
+  // live (KEY_CARDS_ENABLED), else Compass Pro. Both lines are the value section's own (pricingValueCopy.mjs valueTiles).
+  alsoKeyCards: { key: 'keycards', title: 'Key cards', line: 'Every Key card, with no daily review cap. Your rating sets when it comes back.', art: '/art/icons/keycards-192.webp', w: 192, h: 192 },
+  alsoCompass: { key: 'compass', title: 'DU Compass', line: 'Your practice, mapped to the colleges you want.', art: '/art/icons/compass-192.webp', w: 192, h: 192 },
   alsoMob: { key: 'mob', title: 'Host your Mob', line: 'Start as many games as you like, and up to 3 Mobs of your own.', art: '/art/pro/group-desk.webp', w: 240, h: 160 },
   onPro: 'You are on Pro',
   onProLine: 'Everything Pro includes is open.',
@@ -186,9 +190,8 @@ const buildFaqs = (offer, bankSize = null) => [
       ? 'Renewals stop. Pro stays active until the end of the month you already paid for, then your account moves to Free. Your history, saved questions and credits stay.'
       : `There is nothing to cancel. Pro is one payment with no renewal. It stays active until ${String(offer.oneTime.expires).replace(/ /g, ' ')}, then your account moves to Free. Your history, saved questions and credits stay.`,
   },
-  // The refund question, asked before paying (10 Nov 2026): the published policy (/refunds) in two plain sentences, then what
-  // to do when a payment itself went wrong (src/components/pricing/payCopy.mjs).
-  refundFaq(offer),
+  // Refunds are not a question here (owner, 10 Nov 2026, evening): the position is said once, in the support line under
+  // "What happens when you get Pro" (PAY_COPY.help), with the link to /refunds.
   pricingBankFaq(bankSize),
   ...(offer.purchasable === 'monthly' ? [
     {
@@ -238,6 +241,24 @@ function AlsoTile({ tile, wide = false }) {
   );
 }
 
+// The drawn mark of one moment on the "What happens when you get Pro" rail: a ring with the payment (a rupee), Pro turning on
+// (a switch, on), the renewal (a turning arrow) or the end of one-time access (a calendar page). A step whose mark is not
+// drawn here shows its number in the ring, so payCopy.mjs can add a step without touching this file.
+const PAY_MARKS = {
+  pay: <path d="M17 15h10M17 19.5h10M17 15h3.5a4.5 4.5 0 0 1 0 9H17l7 7" />,
+  on: <><rect x="12" y="16.5" width="20" height="11" rx="5.5" /><circle cx="26.5" cy="22" r="2.6" fill="currentColor" stroke="none" /></>,
+  renew: <path d="M30 22a8 8 0 1 1-2.4-5.7M30 13.5v5h-5" />,
+  ends: <><rect x="14" y="15" width="16" height="15" rx="2.5" /><path d="M14 20h16M18 12.5v4M26 12.5v4M19.5 25l1.8 1.8 3.4-3.6" /></>,
+};
+function PayMark({ mark, n }) {
+  return (
+    <svg className="pro-pay__mark" viewBox="0 0 44 44" width="44" height="44" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <circle className="pro-pay__ring" cx="22" cy="22" r="21" strokeWidth="1" />
+      {PAY_MARKS[mark] || <text className="pro-pay__n" x="22" y="28" textAnchor="middle" stroke="none" fill="currentColor">{n}</text>}
+    </svg>
+  );
+}
+
 // Development only: /pricing?offer=monthly shows the page as the live site sells it (pro_monthly_99), and &pro=1 a signed-in Pro
 // student, with no sign-in and no plan env. Production ignores both.
 function previewOverrides(params) {
@@ -268,6 +289,7 @@ export default async function PricingPage({ searchParams }) {
   const mob = mobRows();
   const rows = mob ? [...COMPARE_ROWS, ...mob] : COMPARE_ROWS;
   const [moment1, moment2, moment3] = PRO_COPY.moments;
+  const alsoTiles = [...PRO_COPY.alsoTiles, process.env.KEY_CARDS_ENABLED === 'true' ? PRO_COPY.alsoKeyCards : PRO_COPY.alsoCompass];
   // The value section's plain offer (no plan ids), drawn only while the offer gives a price and the new offer is not released.
   const valueTerms = plainTerms(offer);
   const showValue = valueShown(valueTerms, { newOffer: newOfferReleased() });
@@ -340,8 +362,8 @@ export default async function PricingPage({ searchParams }) {
             </ul>
 
             <h2 className="pro-h2 pro-h2--also" id="pro-also-h">{PRO_COPY.also}</h2>
-            <ul className="pro-also" aria-labelledby="pro-also-h">
-              {PRO_COPY.alsoTiles.map((tile) => <AlsoTile key={tile.key} tile={tile} />)}
+            <ul className="pro-also" aria-labelledby="pro-also-h" data-count={alsoTiles.length + (mob ? 1 : 0)}>
+              {alsoTiles.map((tile) => <AlsoTile key={tile.key} tile={tile} />)}
               {mob ? <AlsoTile tile={PRO_COPY.alsoMob} wide /> : null}
             </ul>
           </div>
@@ -411,13 +433,22 @@ export default async function PricingPage({ searchParams }) {
           <section className="pro-sec pro-pay" aria-labelledby="pro-pay-h">
             <div className="pro-wrap">
               <h2 className="pro-pay__title" id="pro-pay-h">{PAY_COPY.title}</h2>
-              <ol className="pro-pay__steps">
+              {/* A rail of marked moments (owner, 10 Nov 2026, evening: "it's just a wall of text ... replace it with some sort
+                  of a graphic"): a drawn mark, the label, one short line, and the detail folded under "More". Down the side on
+                  phones, across on desktop; one column a step, however many steps payCopy.mjs gives. */}
+              <ol className="pro-pay__steps" style={{ '--pay-n': paySteps(offer).length }}>
                 {paySteps(offer, { signedIn: Boolean(session?.user?.id) }).map((step, index) => (
                   <li key={step.key} className="pro-pay__step">
-                    <span className="pro-pay__n" aria-hidden="true">{index + 1}</span>
-                    <div>
+                    <PayMark mark={step.mark} n={index + 1} />
+                    <div className="pro-pay__words">
                       <h3>{step.title}</h3>
-                      <p>{step.line}</p>
+                      <p>{step.short}</p>
+                      {step.more ? (
+                        <details className="pro-pay__more">
+                          <summary>{PAY_COPY.more}</summary>
+                          <p>{step.more}</p>
+                        </details>
+                      ) : null}
                     </div>
                   </li>
                 ))}
@@ -425,7 +456,8 @@ export default async function PricingPage({ searchParams }) {
               <p className="pro-pay__help">
                 {PAY_COPY.help[0]}{' '}
                 <a className="mm-link mm-link--inline" href={PAY_COPY.mailto}>{PAY_COPY.email}</a>{' '}
-                {PAY_COPY.help[1]}
+                {PAY_COPY.help[1]}{' '}
+                <Link className="mm-link mm-link--inline" href={PAY_COPY.refunds.href}>{PAY_COPY.refunds.label}</Link>
               </p>
             </div>
           </section>

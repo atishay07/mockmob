@@ -22,12 +22,12 @@ export default function RefundsPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Refund Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 20 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 10 November 2026</p>
 
         <div className="legal-copy">
           <section>
-            <h2>No refunds on the website</h2>
-            <p>For payments made on the MockMob website (mockmob.in), MockMob does not allow refunds for completed payments, monthly Pro renewals, one-time Pro access, credit packs, or billing periods you have already used. Please review the plan, price, and feature details before you pay.</p>
+            <h2>Refunds on the website</h2>
+            <p>For payments made on the MockMob website (mockmob.in), a payment is normally not refunded once it has gone through. That covers completed payments, monthly Pro renewals, one-time Pro access, credit packs, and billing periods you have already used. Please review the plan, price, and feature details before you pay. If you were charged twice or a payment went wrong, write to support@mockmob.in and we will look at it.</p>
           </section>
           <section>
             <h2>Buying in the Android app (Google Play)</h2>
@@ -62,7 +62,7 @@ export default function RefundsPage() {
           )}
           <section>
             <h2>Failed or duplicate payments on the website</h2>
-            <p>Failed, duplicate, or gateway-side settlement issues are not treated as voluntary refunds. We will check Razorpay records and help resolve payment-provider errors according to their timeline.</p>
+            <p>If a payment failed, was taken twice, or did not settle on the gateway side, write to support@mockmob.in. We will check Razorpay records and help resolve payment-provider errors according to their timeline. These are handled as payment errors, not as voluntary refunds.</p>
           </section>
           <section>
             <h2>Support details</h2>

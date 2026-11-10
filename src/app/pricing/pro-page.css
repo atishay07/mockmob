@@ -266,23 +266,44 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
 .mm-pro .pro-plan__manage { margin-top: 1.25rem; width: 100%; }
 
 /* ---- What happens when you get Pro (10 Nov 2026; src/components/pricing/payCopy.mjs) -----------------------------------------
-   The payment in the order it happens, right under the two cards: three numbered steps on hairlines (a list, never a row of
-   cards), each a heavy numeral, a title and one or two plain sentences, then the line that says who to write to. It belongs
-   to the choice above, so its title is a step smaller than the page's section titles and the section adds no top space. */
+   The payment in the order it happens, right under the two cards, drawn as a rail of marked moments (owner, 10 Nov 2026,
+   evening: "it's just a wall of text ... replace it with some sort of a graphic"): a ringed mark for each moment, its label,
+   one short line, and the detail folded under "More"; then the line that says who to write to and where refunds stand. The
+   rail runs down the side on phones and across on desktop. Still a list, never a row of cards: no fill, no volt, nothing
+   moves. It belongs to the choice above, so its title is a step smaller than the page's section titles. */
 .mm-pro .pro-pay { padding-top: 0; }
 .mm-pro .pro-pay__title {
   margin: 0; font-family: var(--font-display); font-weight: 750; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.01em;
   color: var(--ink); text-wrap: balance;
 }
-.mm-pro .pro-pay__steps { display: grid; margin: 0.25rem 0 0; padding: 0; list-style: none; }
-.mm-pro .pro-pay__step { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; padding-block: 1rem; }
-.mm-pro .pro-pay__step + .pro-pay__step { border-top: 1px solid var(--line); }
+.mm-pro .pro-pay__steps { display: grid; margin: 1.125rem 0 0; padding: 0; list-style: none; }
+.mm-pro .pro-pay__step { position: relative; display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); column-gap: 0.875rem; align-items: start; padding-bottom: 1.125rem; }
+/* The rail: one hairline from each mark to the next. */
+.mm-pro .pro-pay__step:not(:last-child)::before {
+  content: ''; position: absolute; left: calc(1.375rem - 0.5px); top: 3.125rem; bottom: 0.375rem; border-left: 1px solid var(--line-strong);
+}
+.mm-pro .pro-pay__mark { display: block; width: 2.75rem; height: 2.75rem; color: var(--ink); }
+.mm-pro .pro-pay__ring { stroke: var(--line-strong); }
 .mm-pro .pro-pay__n {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.1; color: var(--ink-3);
+  font-family: var(--font-display); font-weight: 800; font-size: 17px; color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
+.mm-pro .pro-pay__words { min-width: 0; padding-top: 0.1875rem; }
 .mm-pro .pro-pay__step h3 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 1.0625rem; line-height: 1.3; color: var(--ink); }
-.mm-pro .pro-pay__step p { margin: 0.25rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+.mm-pro .pro-pay__step p { margin: 0.125rem 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+/* The fold: a quiet word with a small chevron, 44 px to the finger (its negative margins give the height back). */
+.mm-pro .pro-pay__more summary {
+  display: inline-flex; align-items: center; gap: 0.4375rem; min-height: 44px; margin-block: -0.375rem -0.625rem; padding-right: 0.75rem;
+  font-size: 0.875rem; font-weight: 600; color: var(--ink-3); cursor: pointer; list-style: none;
+}
+.mm-pro .pro-pay__more summary::-webkit-details-marker { display: none; }
+.mm-pro .pro-pay__more summary::after {
+  content: ''; width: 0.375rem; height: 0.375rem; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: translateY(-0.125rem) rotate(45deg);
+}
+.mm-pro .pro-pay__more[open] summary::after { transform: translateY(0.0625rem) rotate(-135deg); }
+.mm-pro .pro-pay__more summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.mm-pro .pro-pay__more p { margin: 0 0 0.25rem; font-size: 0.875rem; }
 .mm-pro .pro-pay__help {
   margin: 0; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2);
   text-wrap: pretty;
@@ -331,11 +352,17 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
   .mm-pro .pro-pay + .pro-val { padding-top: 2.5rem; }
   .mm-pro .pro-pay__title { font-size: 1.5rem; text-align: center; }
   .mm-pro .pro-pay__steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem);
-    max-width: calc(60rem + clamp(2rem, 4vw, 4rem)); margin: 1.5rem auto 0;
+    grid-template-columns: repeat(var(--pay-n, 3), minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem);
+    max-width: calc(60rem + clamp(2rem, 4vw, 4rem)); margin: 1.75rem auto 0;
   }
-  .mm-pro .pro-pay__step { grid-template-columns: minmax(0, 1fr); row-gap: 0.5rem; align-content: start; padding-block: 1.25rem 0; border-top: 1px solid var(--line); }
-  .mm-pro .pro-pay__help { margin-top: 2rem; padding-top: 0; border-top: 0; text-align: center; }
+  .mm-pro .pro-pay__step { grid-template-columns: minmax(0, 1fr); row-gap: 0.75rem; align-content: start; padding-bottom: 0; }
+  /* The rail runs across: from each mark to the next column's mark. */
+  .mm-pro .pro-pay__step:not(:last-child)::before {
+    left: 3.25rem; right: calc(0.5rem - clamp(2rem, 4vw, 4rem)); top: calc(1.375rem - 0.5px); bottom: auto;
+    border-left: 0; border-top: 1px solid var(--line-strong);
+  }
+  .mm-pro .pro-pay__words { padding-top: 0; }
+  .mm-pro .pro-pay__help { max-width: 52rem; margin: 2rem auto 0; padding-top: 0; border-top: 0; text-align: center; }
 }
 
 /* ---- Motion ---------------------------------------------------------------------------------------------------------------- */
@@ -434,4 +461,18 @@ html[data-theme='dark'] .mm-pro .pro-choice__free .mm-plan { background: var(--p
 @media (max-width: 759px) {
   :root[data-motion='reduced'] .mm-pro .pro-switch::before, :root[data-motion='reduced'] .mm-pro .pro-switch__key { transition: none; }
   html[data-theme='light'][data-motion='reduced'] .mm-pro .pro-switch__key[aria-pressed='true']::after { animation: none; }
+}
+
+/* ---- Also in Pro: four tiles (owner, 10 Nov 2026, evening: "there is space for one more without creating clutter") --------------
+   The list says how many tiles it holds (data-count). Phones keep one full-width row a tile. From 520 px four tiles are an even
+   two by two, so the Mob's tile no longer spans the row; on desktop the four share one row, and three (the Mob off) share it
+   in thirds. */
+@media (min-width: 520px) {
+  .mm-pro .pro-also[data-count='4'] .pro-also__tile[data-wide] { grid-column: auto; grid-template-columns: none; align-items: start; gap: 0.625rem; }
+  .mm-pro .pro-also[data-count='4'] .pro-also__tile[data-wide] .pro-also__art { width: auto; height: 64px; }
+}
+@media (min-width: 960px) {
+  .mm-pro .pro-also[data-count='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .mm-pro .pro-also[data-count='3']:not(:has([data-wide])) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mm-pro .pro-also[data-count='3']:not(:has([data-wide])) .pro-also__tile { grid-template-columns: none; align-items: start; gap: 0.625rem; padding: 1rem; }
 }

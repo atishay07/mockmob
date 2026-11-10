@@ -174,6 +174,8 @@ export const WALLET_V13_COPY = Object.freeze({
   proTitle: 'Pro makes practice unlimited',
   proBody: 'Practise as much as you like without spending credits, with Smart practice and the exam-day screen.',
   proKey: 'See Pro',
+  // The first screen's key while selling is open: "Add 300 credits for ₹49", from the pack's own title and price.
+  addPack: (title, price) => `Add ${title} for ${price}`,
 });
 
 const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
@@ -200,7 +202,7 @@ export function balanceSplit(data) {
   const held = whole(c.held);
   const refill = refillLine(c.resetAt);
   const free = left !== null && of !== null
-    ? { left, of, text: fmt(left), note: `${fmt(left)} of ${fmt(of)} free credits left this month.${refill ? ` ${refill}.` : ''}` }
+    ? { left, of, text: fmt(left), ofText: `of ${fmt(of)}`, refill, note: `${fmt(left)} of ${fmt(of)} free credits left this month.${refill ? ` ${refill}.` : ''}` }
     : null;
   const kept = held !== null ? { held, text: fmt(held), note: WALLET_V13_COPY.keptNote } : null;
   const shares = free && kept && free.left + kept.held > 0

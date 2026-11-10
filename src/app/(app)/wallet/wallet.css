@@ -19,7 +19,7 @@
   animation: wl-rise 420ms var(--a-ease, cubic-bezier(.2, .8, .2, 1)) both;
 }
 @media (max-width: 599px) { .app-shell .wl-hero { padding: 22px 18px 20px; border-radius: 18px; } }
-.app-shell .wl-hero__name { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 14px/1.3 var(--font-display); color: var(--a-ink-2); }
+.app-shell .wl-hero__name { display: flex; align-items: center; gap: 8px; margin: 0; font: 600 14px/1.3 var(--font-display); color: var(--a-ink-3); }
 .app-shell .wl-hero__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0; min-width: 0; }
 .app-shell .wl-hero__num { font: 800 clamp(56px, 9vw, 84px)/0.95 var(--font-display); letter-spacing: -0.045em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-hero__unit { font: 650 16px/1.3 var(--font-display); color: var(--a-ink-3); }
@@ -34,15 +34,26 @@
 .app-shell .wl-bar__free { background: var(--a-good-text); }
 .app-shell .wl-bar__kept { background: var(--a-ink-2); animation-delay: 220ms !important; }
 .app-shell .wl-parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 32px; margin: 4px 0 0; }
-@media (max-width: 479px) { .app-shell .wl-parts { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 479px) { .app-shell .wl-parts { gap: 12px 16px; } }
 .app-shell .wl-part { display: grid; gap: 2px; min-width: 0; align-content: start; }
-.app-shell .wl-part dt { display: flex; align-items: center; gap: 8px; font: 700 13.5px/1.3 var(--font-display); color: var(--a-ink-2); }
+.app-shell .wl-part dt { display: flex; align-items: center; gap: 8px; font: 600 13px/1.3 var(--font-display); color: var(--a-ink-3); }
 .app-shell .wl-part__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
 .app-shell .wl-part[data-part='free'] .wl-part__dot { background: var(--a-good-text); }
 .app-shell .wl-part[data-part='kept'] .wl-part__dot { background: var(--a-ink-2); }
 .app-shell .wl-part dd { margin: 0; }
-.app-shell .wl-part__num { font: 800 30px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .wl-part__note { max-width: 44ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .wl-part__num { display: flex; align-items: baseline; gap: 6px; font: 800 26px/1.15 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-part__of { font: 600 14px/1.2 var(--font-display); letter-spacing: 0; color: var(--a-ink-3); }
+.app-shell .wl-part__note { max-width: 44ch; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+/* The one next action, on the first screen: one hairline above it, the key full width on a phone. */
+.app-shell .wl-next { display: grid; gap: 8px; min-width: 0; margin-top: 4px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.app-shell .wl-next__key { width: 100%; min-height: 50px; gap: 8px; font-size: 15px; }
+@media (min-width: 600px) { .app-shell .wl-next__key { width: auto; justify-self: start; padding: 0 26px; } }
+.app-shell .wl-next__note { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 0; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .wl-next__soon { margin: 0; max-width: 60ch; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .wl-next__pro { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .wl-next__pro > span { min-width: 0; }
+.app-shell .wl-next__pro .wl-key { flex: none; }
 
 /* ---- what credits buy: a price list, five cells across on a wide screen ------------------------------------------------- */
 .app-shell .wl-costs { display: grid; gap: 12px; min-width: 0; }
@@ -55,7 +66,7 @@
 .app-shell .wl-cost__num { flex: none; font: 800 16px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-cost[data-included] .wl-cost__num { color: var(--a-good-text); }
 @media (min-width: 900px) {
-  .app-shell .wl-costlist { grid-template-columns: repeat(5, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
+  .app-shell .wl-costlist { grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
   .app-shell .wl-cost { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 16px 20px 18px; }
   .app-shell .wl-cost:first-child { padding-left: 0; }
   .app-shell .wl-cost + .wl-cost { border-top: 0; border-left: 1px solid var(--a-line); }
@@ -75,10 +86,24 @@
 }
 .app-shell .wl-pack {
   position: relative; display: grid; gap: 6px; align-content: start; min-width: 0; padding: 20px 20px 18px;
-  border: 1px solid var(--a-line); border-radius: 18px; background: var(--a-raised);
+  border: 1px solid var(--a-line); border-radius: 18px; background: transparent;
   transition: border-color 160ms var(--a-ease), transform 160ms var(--a-ease);
 }
-.app-shell .wl-pack[data-best] { border: 2px solid var(--a-ink); padding: 19px 19px 17px; }
+/* The best value is marked by fill (10 Nov app pass): a raised card among hairline ones, never a bright edge. */
+.app-shell .wl-pack[data-best] { background: var(--a-raised); border-color: var(--a-line-strong); }
+@media (max-width: 759px) {
+  /* A phone compares the three at a glance: size and what it comes to on the left, the price on the right, the key under both. */
+  .app-shell .wl-packgrid { gap: 10px; }
+  .app-shell .wl-pack { grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 4px; padding: 16px 16px 14px; border-radius: 16px; }
+  .app-shell .wl-pack__top { grid-column: 1; grid-row: 1; justify-content: flex-start; }
+  .app-shell .wl-pack__value { grid-column: 1; grid-row: 2; font-size: 13.5px; }
+  .app-shell .wl-pack__price { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; align-items: flex-end; align-self: start; gap: 4px; margin: 0; text-align: right; }
+  .app-shell .wl-pack__per { flex-direction: column; align-items: flex-end; gap: 0; }
+  .app-shell .wl-pack__credits { font-size: 22px; }
+  .app-shell .wl-pack__rupees { font-size: 28px; }
+  .app-shell .wl-pack__key, .app-shell .wl-pack__msg { grid-column: 1 / -1; }
+  .app-shell .wl-pack__key { margin-top: 10px; }
+}
 .app-shell .wl-pack__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
 .app-shell .wl-pack__credits { font: 800 26px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-pack__tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--a-ink); color: var(--a-bg); font: 700 12.5px/1 var(--font-display); }
@@ -91,7 +116,7 @@
 .app-shell .wl-pack__msg { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .wl-pack__msg[data-tone='good'] { color: var(--a-good-text); }
 .app-shell .wl-pack__msg[data-tone='bad'] { color: var(--a-bad-text); }
-@media (hover: hover) and (pointer: fine) { .app-shell .wl-pack:hover { border-color: var(--a-line-hover); } .app-shell .wl-pack[data-best]:hover { border-color: var(--a-ink); } }
+@media (hover: hover) and (pointer: fine) { .app-shell .wl-pack:hover { border-color: var(--a-line-hover); } .app-shell .wl-pack[data-best]:hover { border-color: var(--a-line-hover); } }
 
 /* Keys: flat, outlined, 44 px. The best-value pack and the Pro key are solid (ink, never lime). Closed top-ups read as a quiet label. */
 .app-shell .wl-key {

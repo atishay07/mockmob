@@ -77,7 +77,9 @@ test('the Mobi job jargon is gone from /privacy, and the date is 20 October 2026
   assert.doesNotMatch(body('src/app/privacy/page.js'), /Mobi job/);
   assert.match(read('src/app/privacy/page.js'), /A doubt with its follow-up, or a mistake fixed for good, uses 1 credit/);
   for (const f of ['src/app/privacy/page.js', 'src/app/refunds/page.js', 'src/app/terms/page.js', 'src/app/account-deletion/page.js']) {
-    assert.match(read(f), /Last updated: (\{[^}]*\} )?20 October 2026|Last updated: 20 October 2026/, f);
+    // /refunds was reworded on 10 November 2026 (owner: never a flat "no refunds"; payments are normally not refunded), so it carries that date.
+    const date = f === 'src/app/refunds/page.js' ? '10 November 2026' : '20 October 2026';
+    assert.match(read(f), new RegExp(`Last updated: (\{[^}]*\} )?${date}`), f);
   }
 });
 

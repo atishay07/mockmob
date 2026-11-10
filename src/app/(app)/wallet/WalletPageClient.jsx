@@ -110,6 +110,8 @@ export default function WalletPageClient({ proOffer = null }) {
   const bridge = data ? proBridge(data, proOffer) : null;
   const cards = data ? packCards(data, phases) : [];
   const packsHead = data ? packsIntro(data) : null;
+  // The pack the first screen offers: the best value by the real maths, else the first one.
+  const lead = cards.find((c) => c.best) || cards[0] || null;
   const costs = data ? priceRows(data, PRICES) : [];
   const lines = data?.history ? data.history.map(historyRow) : null;
   const isPro = data?.plan?.name === 'Pro';
@@ -162,8 +164,8 @@ export default function WalletPageClient({ proOffer = null }) {
                   {split.free ? (
                     <div className="wl-part" data-part="free">
                       <dt><span className="wl-part__dot" aria-hidden="true" />{WALLET_V13_COPY.freePart}</dt>
-                      <dd className="wl-part__num">{split.free.text}</dd>
-                      <dd className="wl-part__note">{split.free.note}</dd>
+                      <dd className="wl-part__num">{split.free.text}<span className="wl-part__of">{split.free.ofText}</span></dd>
+                      <dd className="wl-part__note">{split.free.refill || split.free.note}</dd>
                     </div>
                   ) : null}
                   {split.kept ? (
@@ -177,6 +179,29 @@ export default function WalletPageClient({ proOffer = null }) {
                 <p className="wl-hero__foot">{WALLET_V13_COPY.freeFirst}</p>
               </>
             ) : null}
+
+            {/* 10 Nov app pass: the one next action sits on the first screen, above the dock. Open: the best pack's key (the same
+                purchase as its card below). Closed: the honest line, once on the page, and for a Free student the way to practise
+                without credits as a quiet second key. */}
+            <div className="wl-next">
+              {data.commerce.open && lead ? (
+                <>
+                  <button type="button" className="wl-key wl-next__key" data-solid="" disabled={lead.disabled} onClick={() => buy(data.packs.find((p) => p.packId === lead.packId))}>
+                    {lead.status === 'working' ? <span className="wl-spin" aria-hidden="true" /> : null}
+                    {lead.status === 'working' ? lead.key : WALLET_V13_COPY.addPack(lead.title, lead.price)}
+                  </button>
+                  <p className="wl-next__note">{lead.perCredit}{lead.save ? <span className="wl-pack__save">{lead.save}</span> : null}</p>
+                  {lead.message ? <p className="wl-pack__msg" data-tone={lead.status === 'paid' ? 'good' : lead.status === 'failed' ? 'bad' : 'plain'} role="status">{lead.message}</p> : null}
+                </>
+              ) : null}
+              {!data.commerce.open ? <p className="wl-next__soon">{WALLET_COPY.openSoonNote}</p> : null}
+              {!data.commerce.open && bridge ? (
+                <p className="wl-next__pro">
+                  <span>{WALLET_V13_COPY.practiceUnlimited}</span>
+                  <Link href={bridge.href} className="wl-key">{bridge.key}</Link>
+                </p>
+              ) : null}
+            </div>
           </section>
 
           <section className="wl-costs" aria-labelledby="wl-costs-h">
@@ -202,9 +227,8 @@ export default function WalletPageClient({ proOffer = null }) {
             <div className="wl-packs__head">
               <h2 className="wl-h" id="wl-packs-h">{packsHead.heading}</h2>
               <p className="wl-note">{packsHead.lead}</p>
-              {/* 10 Nov app pass: while selling is closed the packs say so once, here, above their prices; the three greyed-out
-                  "Top-ups open soon" keys under them read as broken buttons. Open, every pack has its Add key as before. */}
-              {!data.commerce.open ? <p className="wl-note wl-note--soon">{WALLET_COPY.openSoonNote}</p> : null}
+              {/* 10 Nov app pass: while selling is closed the page says so once, under the balance on the first screen, and the
+                  packs carry no key (three greyed-out "Top-ups open soon" keys read as broken buttons). Open, every pack has its key. */}
             </div>
             <ul className="wl-packgrid">
               {cards.map((card) => (

@@ -10,7 +10,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { PAY_COPY, paySteps, refundFaq } from '../../src/components/pricing/payCopy.mjs';
+import { PAY_COPY, paySteps } from '../../src/components/pricing/payCopy.mjs';
 import { SUPPORT_EMAIL } from '../../src/lib/helpFaq.mjs';
 
 const read = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -73,7 +73,7 @@ test('pay steps: the owner’s money and copy rules hold on both offers', () => 
     }
   }
   assert.equal(PAY_COPY.title, 'What happens when you get Pro');
-  assert.deepEqual([...PAY_COPY.help], ['Money left your account but Pro is not on? Do not pay again. Email', 'and we reply within a day.']);
+  assert.deepEqual([...PAY_COPY.help], ['A payment is normally not refunded once it has gone through. If you were charged twice, or money left your account and Pro is not on, do not pay again. Email', 'and we check it against Razorpay’s records and help sort it out on Razorpay’s timeline. We reply within a day.']);
   assert.doesNotMatch(`${PAY_COPY.title} ${PAY_COPY.help.join(' ')}`, /[!—·₹]/);
   assert.equal(PAY_COPY.email, SUPPORT_EMAIL);
   assert.equal(PAY_COPY.mailto, `mailto:${SUPPORT_EMAIL}?subject=Payment%20help`);
@@ -110,39 +110,63 @@ test('pay steps: each sentence restates what the site already does or publishes'
 });
 
 // ------------------------------------------------------------------------------------------------ the refund question
-test('refund question: the published policy in plain words, for the offer on sale', () => {
-  const m = refundFaq(monthly());
-  const o = refundFaq(oneTime());
-  for (const faq of [m, o]) {
-    assert.equal(faq.q, 'Can I get a refund?');
-    assert.equal(typeof faq.a, 'string', 'a plain string: the page feeds it to its FAQ data');
-    assert.match(faq.a, /^No\. A payment that has gone through is not refunded/);
-    assert.ok(faq.a.includes('Free needs no card, so you can try MockMob before you pay.'));
-    assert.ok(faq.a.includes(`email ${SUPPORT_EMAIL} with your account email, the payment date, the amount and the Razorpay payment ID.`));
-    assert.ok(faq.a.endsWith('We check Razorpay’s records and help resolve it on Razorpay’s timeline.'));
-    assert.doesNotMatch(faq.a, /[!—·₹]/, 'no price is typed in the answer');
-    assert.doesNotMatch(faq.a, /money back|guarantee|within \d+ days/i, 'nothing the policy does not promise');
-  }
-  assert.ok(m.a.includes('and that includes a month you have already been charged for.'));
-  assert.ok(m.a.includes('To avoid the next charge, cancel before the paid-through date shown in Account, under Plan.'));
-  assert.ok(o.a.includes('Pro is one payment with no renewal, so nothing more is charged.'));
-  assert.doesNotMatch(o.a, /a month|next charge|cancel/i);
+test('refund position: said once in the support line, never opened with a no, never absolute, never a promise', () => {
+  // Owner, 10 Nov 2026 (evening): "don't start it with a 'no' ... we can't just straight up say, 'No, in any circumstance'".
+  const line = PAY_COPY.help.join(' ');
+  assert.match(line, /^A payment is normally not refunded once it has gone through\./);
+  assert.doesNotMatch(line, /^No\b|\bNo\. /, 'never opened with a no');
+  assert.doesNotMatch(line, /any circumstance|never refund|no refunds/i, 'never absolute');
+  assert.doesNotMatch(line, /money back|guarantee|within \d+ days|will refund|we refund|you get a refund/i, 'nothing the policy does not promise');
+  assert.ok(line.includes('If you were charged twice, or money left your account and Pro is not on, do not pay again.'));
+  assert.ok(line.endsWith('we check it against Razorpay’s records and help sort it out on Razorpay’s timeline. We reply within a day.'));
+  assert.doesNotMatch(line, /[!—·₹]/, 'no price is typed in the line');
+  assert.deepEqual({ ...PAY_COPY.refunds }, { label: 'Refund policy', href: '/refunds' });
 
-  // Its sources: /refunds (no refunds for completed payments, the paid-through date, Razorpay's records and timeline, what to
-  // send), /contact (the Razorpay payment ID) and the Free plan's own line on this page (no card).
+  // Its source, /refunds, says the same thing in the same spirit and keeps every legal detail it had.
   const refunds = read('src/app/refunds/page.js');
-  assert.ok(refunds.includes('MockMob does not allow refunds for completed payments, monthly Pro renewals, one-time Pro access'));
+  assert.ok(refunds.includes('<h2>Refunds on the website</h2>'));
+  assert.ok(refunds.includes('a payment is normally not refunded once it has gone through. That covers completed payments, monthly Pro renewals, one-time Pro access, credit packs, and billing periods you have already used.'));
+  assert.ok(refunds.includes('If you were charged twice or a payment went wrong, write to support@mockmob.in and we will look at it.'));
   assert.ok(refunds.includes('A month that has been charged is not refunded when you cancel. To avoid the next charge, cancel before the paid-through date shown in Account, under Plan.'));
   assert.ok(refunds.includes('We will check Razorpay records and help resolve payment-provider errors according to their timeline.'));
+  assert.ok(refunds.includes('These are handled as payment errors, not as voluntary refunds.'));
   assert.ok(refunds.includes('include your registered email, payment date, amount, and transaction reference'));
+  assert.doesNotMatch(refunds, /No refunds on the website|does not allow refunds/, 'the flat no is gone');
   assert.ok(read('src/app/contact/page.js').includes('Include your Razorpay payment ID if you have it.'));
   assert.ok(read(PAGE).includes('Enough to see whether MockMob suits you. No card needed.'));
+});
+
+test('pay steps: each moment has a mark, a short line and a fold, and together they say exactly what the step says', () => {
+  const sentences = (text) => text.split(/(?<=\.) /).map((t) => t.trim()).filter(Boolean);
+  for (const offer of [monthly(), monthly(149), oneTime(), oneTime(199, '31 March 2028')]) {
+    for (const signedIn of [false, true]) {
+      const steps = paySteps(offer, { signedIn });
+      assert.deepEqual(steps.map((st) => st.mark), offer.purchasable === 'monthly' ? ['pay', 'on', 'renew'] : ['pay', 'on', 'ends']);
+      for (const step of steps) {
+        assert.ok(step.title.split(' ').length <= 5, `${step.title}: a label of at most five words`);
+        assert.match(step.short, /^[^.]+\.$/, `${step.short}: one sentence`);
+        assert.doesNotMatch(`${step.short} ${step.more}`, /[!—·]/);
+        if (step.key === 'on') {
+          // The one sentence the rail splits in two: where Pro turns on, and when.
+          assert.equal(step.short, 'As soon as the payment is verified.');
+          assert.ok(step.line.startsWith('On the account you are signed in to, as soon as the payment is verified.'));
+          assert.ok(step.more.startsWith('On the account you are signed in to.'));
+          assert.equal(sentences(step.more).slice(1).join(' '), sentences(step.line).slice(1).join(' '));
+        } else {
+          assert.deepEqual([...sentences(step.short), ...sentences(step.more)].sort(), sentences(step.line).sort(), step.key);
+        }
+      }
+    }
+  }
+  assert.equal(PAY_COPY.more, 'More');
+  // No trial is sold or named; the rail simply takes as many steps as the data gives.
+  assert.doesNotMatch(JSON.stringify([paySteps(monthly()), paySteps(oneTime()), PAY_COPY]), /trial/i);
 });
 
 // ------------------------------------------------------------------------------------------------ where it sits, who sees it
 test('/pricing: the steps sit right under the two plans, before the value section, and a Pro student does not see them', () => {
   const page = stripComments(read(PAGE));
-  assert.ok(page.includes("import { PAY_COPY, paySteps, refundFaq } from '@/components/pricing/payCopy.mjs';"));
+  assert.ok(page.includes("import { PAY_COPY, paySteps } from '@/components/pricing/payCopy.mjs';"));
   // The page's order is unchanged (LK173: Also in Pro, Free or Pro, the detailed value, the comparison table); the new block
   // is one more section between the plans and the value section.
   const order = ['className="pro-hero"', 'id="pro-also-h"', 'id="pro-choice-h"', '<PlanChoice ', 'id="plan-free"', 'className="pro-sec pro-pay"', '<PricingValue', 'id="compare"', 'Questions people actually ask.'];
@@ -155,25 +179,44 @@ test('/pricing: the steps sit right under the two plans, before the value sectio
   assert.doesNotMatch(page, /pro-pay"[^>]*data-dock-yield/);
   // Every word comes from payCopy.mjs, for the offer on sale and the student's sign-in state; the steps are an ordered list.
   assert.ok(page.includes('<h2 className="pro-pay__title" id="pro-pay-h">{PAY_COPY.title}</h2>'));
-  assert.ok(page.includes('<ol className="pro-pay__steps">'));
+  assert.ok(page.includes('<ol className="pro-pay__steps" style={{ \'--pay-n\': paySteps(offer).length }}>'), 'an ordered list, one column a step');
   assert.ok(page.includes('paySteps(offer, { signedIn: Boolean(session?.user?.id) })'));
-  assert.ok(page.includes('<h3>{step.title}</h3>') && page.includes('<p>{step.line}</p>'));
+  assert.ok(page.includes('<h3>{step.title}</h3>') && page.includes('<p>{step.short}</p>'));
+  assert.ok(page.includes('<PayMark mark={step.mark} n={index + 1} />'), 'a drawn mark for each moment');
+  assert.match(page, /<details className="pro-pay__more">\s*<summary>\{PAY_COPY\.more\}<\/summary>\s*<p>\{step\.more\}<\/p>/, 'the detail is folded, never dropped');
+  assert.ok(page.includes('<Link className="mm-link mm-link--inline" href={PAY_COPY.refunds.href}>{PAY_COPY.refunds.label}</Link>'), 'the support line keeps the link to /refunds');
   assert.ok(page.includes('<a className="mm-link mm-link--inline" href={PAY_COPY.mailto}>{PAY_COPY.email}</a>'));
   // No second way to pay: the page still has its one pay key.
   assert.equal(page.split('<RazorpayPaymentButton').length - 1, 1);
 });
 
-test('/pricing: the refund question follows the cancel question, and its answer reaches the FAQ data as a string', () => {
+test('/pricing: refunds are not a question in the list; the bank question follows the cancel question', () => {
   const page = stripComments(read(PAGE));
   const cancel = page.indexOf("q: 'What happens when I cancel?'");
-  const refund = page.indexOf('refundFaq(offer),');
   const bank = page.indexOf('pricingBankFaq(bankSize),');
-  assert.ok(cancel > -1 && refund > cancel && bank > refund, 'cancel, then refund, then the bank');
-  assert.equal(page.split('refundFaq(').length - 1, 1, 'asked once');
+  assert.ok(cancel > -1 && bank > cancel, 'cancel, then the bank');
+  assert.equal(page.split('refundFaq(').length - 1, 0, 'not asked in the list');
+  assert.doesNotMatch(page, /Can I get a refund\?/);
+  assert.equal(page.split('PAY_COPY.refunds.href').length - 1, 1, 'the position and its link, once');
+});
+
+test('/pricing: Also in Pro has a fourth tile, Key cards while live and Compass otherwise, in lines the page already ships', () => {
+  const page = read(PAGE);
+  const code = stripComments(page);
+  assert.ok(code.includes("const alsoTiles = [...PRO_COPY.alsoTiles, process.env.KEY_CARDS_ENABLED === 'true' ? PRO_COPY.alsoKeyCards : PRO_COPY.alsoCompass];"));
+  assert.ok(code.includes('data-count={alsoTiles.length + (mob ? 1 : 0)}'));
+  const value = read('src/components/pricing/pricingValueCopy.mjs');
+  for (const line of ['Every Key card, with no daily review cap. Your rating sets when it comes back.', 'Your practice, mapped to the colleges you want.']) {
+    assert.ok(page.includes(`line: '${line}'`), line);
+    assert.ok(value.includes(`line: '${line}'`), `${line}: the value section's own line`);
+  }
+  const css = read(SHEET);
+  assert.ok(css.includes(".mm-pro .pro-also[data-count='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }"), 'four in a row on desktop');
+  assert.match(css, /@media \(max-width: 519px\) \{\s*\.mm-pro \.pro-also \{ grid-template-columns: minmax\(0, 1fr\); \}/, 'one row a tile on phones');
 });
 
 // ------------------------------------------------------------------------------------------------ how it is drawn
-test('/pricing: the steps are a list on hairlines in the page’s tokens, never a row of cards, and inline links are 44 px tall', () => {
+test('/pricing: the steps are a rail of marks in the page’s tokens, never a row of cards, and inline links are 44 px tall', () => {
   const css = read(SHEET);
   const rules = stripComments(css).split('\n').filter((line) => line.includes('.pro-pay'));
   assert.ok(rules.length >= 12, 'the block has its rules');
@@ -190,15 +233,18 @@ test('/pricing: the steps are a list on hairlines in the page’s tokens, never 
     assert.doesNotMatch(rule, /background|box-shadow|border-radius|var\(--volt\)|var\(--accent-text/, `a list, not a card, and no volt: ${rule}`);
     assert.doesNotMatch(rule, /transition|animation/, `nothing moves: ${rule}`);
   }
-  assert.ok(css.includes('.mm-pro .pro-pay__step + .pro-pay__step { border-top: 1px solid var(--line); }'), 'one hairline between steps');
+  assert.match(css, /\.mm-pro \.pro-pay__step:not\(:last-child\)::before \{\s*content: ''; position: absolute;[^}]*border-left: 1px solid var\(--line-strong\);/, 'one hairline from each mark to the next');
+  assert.ok(css.includes('.mm-pro .pro-pay__mark { display: block; width: 2.75rem; height: 2.75rem; color: var(--ink); }'), 'a 44 px mark in ink');
+  assert.match(css, /\.mm-pro \.pro-pay__more summary \{[^}]*min-height: 44px;/, 'the fold is 44 px to the finger');
   assert.match(css, /\.mm-pro \.pro-pay__n \{[^}]*font-weight: 800;[^}]*color: var\(--ink-3\);/, 'a heavy, quiet numeral');
   assert.match(css, /\.mm-pro \.pro-pay__step h3 \{[^}]*color: var\(--ink\);/);
   assert.match(css, /\.mm-pro \.pro-pay__step p \{[^}]*font-size: 0\.9375rem;[^}]*color: var\(--ink-2\);/, '15 px body text');
   // Phones: the number beside the words. Desktop: three columns under the two cards, and the spacing the cards had to the value
   // section is kept (pricing-value.css sets it on .pro-choice + .pro-val, which no longer matches).
-  assert.ok(css.includes('.mm-pro .pro-pay__step { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr);'));
+  assert.ok(css.includes('.mm-pro .pro-pay__step { position: relative; display: grid; grid-template-columns: 2.75rem minmax(0, 1fr);'));
   const wide = css.slice(css.indexOf('@media (min-width: 960px)'));
-  assert.match(wide, /\.mm-pro \.pro-pay__steps \{\s*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/);
+  assert.match(wide, /\.mm-pro \.pro-pay__steps \{\s*grid-template-columns: repeat\(var\(--pay-n, 3\), minmax\(0, 1fr\)\);/, 'one column a step, however many');
+  assert.match(wide, /\.mm-pro \.pro-pay__step:not\(:last-child\)::before \{[^}]*border-left: 0; border-top: 1px solid var\(--line-strong\);/, 'the rail runs across');
   assert.ok(wide.includes('.mm-pro .pro-choice:has(+ .pro-pay) { padding-bottom: 2.5rem; }'));
   assert.ok(wide.includes('.mm-pro .pro-pay + .pro-val { padding-top: 2.5rem; }'));
   assert.ok(read('src/components/pricing/pricing-value.css').includes('.mm-pro .pro-choice + .pro-val { padding-top: 2.5rem; }'), 'the rule this one stands in for');

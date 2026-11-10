@@ -20,8 +20,13 @@ const unbroken = (text) => String(text).replace(/ /g, ' ');
 
 export const PAY_COPY = Object.freeze({
   title: 'What happens when you get Pro',
-  // The one thing that goes wrong with a payment, and what to do about it.
-  help: ['Money left your account but Pro is not on? Do not pay again. Email', 'and we reply within a day.'],
+  // The refund position, said once and here (owner, 10 Nov 2026: never opened with a no, never 'no refunds under any
+  // circumstance', never a promise): a payment is normally not refunded once it has gone through; a double charge or a payment
+  // that went wrong is looked at with Razorpay's records, on Razorpay's timeline. Then the one thing to do: do not pay again.
+  help: ['A payment is normally not refunded once it has gone through. If you were charged twice, or money left your account and Pro is not on, do not pay again. Email', 'and we check it against Razorpay’s records and help sort it out on Razorpay’s timeline. We reply within a day.'],
+  refunds: Object.freeze({ label: 'Refund policy', href: '/refunds' }),
+  // The fold under each step.
+  more: 'More',
   email: SUPPORT_EMAIL,
   mailto: `mailto:${SUPPORT_EMAIL}?subject=Payment%20help`,
 });
@@ -29,6 +34,10 @@ export const PAY_COPY = Object.freeze({
 /**
  * The three steps, in the order they happen: the payment, Pro turning on, and what comes after (the renewal and how to stop
  * it on the monthly plan; nothing at all on one-time access).
+ * Each step is drawn as a moment on a rail (owner, 10 Nov 2026: "it's just a wall of text ... replace it with some sort of a
+ * graphic"): `mark` names its drawn mark, `title` is its label on the rail, `short` the one line under it, `more` the detail
+ * folded behind it. `line` stays the whole statement (short and more are its sentences, and a test holds them to it).
+ * The rail takes any number of steps, so a new first step is one more object in this array (with its own `mark`).
  */
 export function paySteps(offer, { signedIn = false } = {}) {
   const monthly = offer.purchasable === 'monthly';
@@ -37,11 +46,19 @@ export function paySteps(offer, { signedIn = false } = {}) {
   return [
     {
       key: 'pay',
+      mark: 'pay',
+      short: 'You pay in Razorpay’s checkout.',
+      more: `${signIn}MockMob does not store your full card number, UPI PIN or bank password.`,
       title: monthly ? `Pay ₹${rupees} today` : `Pay ₹${rupees} once`,
       line: `${signIn}You pay in Razorpay’s checkout. MockMob does not store your full card number, UPI PIN or bank password.`,
     },
     {
       key: 'on',
+      mark: 'on',
+      short: 'As soon as the payment is verified.',
+      more: monthly
+        ? 'On the account you are signed in to. If it is still being confirmed, Pro turns on within a few minutes.'
+        : 'On the account you are signed in to.',
       title: 'Pro turns on',
       line: monthly
         ? 'On the account you are signed in to, as soon as the payment is verified. If it is still being confirmed, Pro turns on within a few minutes.'
@@ -50,24 +67,19 @@ export function paySteps(offer, { signedIn = false } = {}) {
     monthly
       ? {
         key: 'renew',
+        mark: 'renew',
+        short: `₹${rupees} on the same date each month, until you cancel.`,
+        more: 'To cancel, open Account, then Plan, and tap Cancel renewal. You keep Pro to the end of the month you paid for.',
         title: 'Next month, it renews',
         line: `₹${rupees} on the same date each month, until you cancel. To cancel, open Account, then Plan, and tap Cancel renewal. You keep Pro to the end of the month you paid for.`,
       }
       : {
         key: 'ends',
+        mark: 'ends',
+        short: `One payment covers Pro through ${unbroken(offer.oneTime.expires)}.`,
+        more: 'After that your account moves to Free. Your history, saved questions and credits stay.',
         title: 'Nothing renews',
         line: `One payment covers Pro through ${unbroken(offer.oneTime.expires)}. After that your account moves to Free. Your history, saved questions and credits stay.`,
       },
   ];
-}
-
-/** The refund question, in the published policy's own terms (/refunds), for the page's questions and its FAQ data. */
-export function refundFaq(offer) {
-  const tail = `If a payment failed or was taken twice, email ${SUPPORT_EMAIL} with your account email, the payment date, the amount and the Razorpay payment ID. We check Razorpay’s records and help resolve it on Razorpay’s timeline.`;
-  return {
-    q: 'Can I get a refund?',
-    a: offer.purchasable === 'monthly'
-      ? `No. A payment that has gone through is not refunded, and that includes a month you have already been charged for. Free needs no card, so you can try MockMob before you pay. To avoid the next charge, cancel before the paid-through date shown in Account, under Plan. ${tail}`
-      : `No. A payment that has gone through is not refunded. Free needs no card, so you can try MockMob before you pay. Pro is one payment with no renewal, so nothing more is charged. ${tail}`,
-  };
 }
