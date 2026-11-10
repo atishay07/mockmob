@@ -14,6 +14,7 @@ import getAlone from '@/../data/tests/fixtures/mob/get_alone_v1.json';
 import lookupV1 from '@/../data/tests/fixtures/mob/lookup_v1.json';
 import errorsV1 from '@/../data/tests/fixtures/mob/errors_v1.json';
 import getProV2 from '@/../data/tests/fixtures/mob/get_pro_v2.json';
+import denGet from '@/../data/tests/fixtures/mob_v3/den_get.json';
 import compareV2 from '@/../data/tests/fixtures/mob/compare_v2.json';
 import historyV2 from '@/../data/tests/fixtures/mob/history_v2.json';
 
@@ -21,6 +22,7 @@ const clone = (v) => JSON.parse(JSON.stringify(v));
 
 function initial(kind) {
   if (kind === 'none') return { mob: null };
+  if (kind === 'den') return clone(denGet);
   if (kind === 'pro') return clone(getProV2);
   if (kind === 'sample' || kind === 'locked' || kind === 'partial') {
     const m = clone(getV1);

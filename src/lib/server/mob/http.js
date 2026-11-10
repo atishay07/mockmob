@@ -66,7 +66,7 @@ export function limitMessage(name, wait) {
 
 // action -> [method, limits, service call, success status]
 export const ACTIONS = Object.freeze({
-  get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob })],
+  get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob, ...(p.query?.view === 'identity' ? { identity: true } : {}) })],
   // write first: it counts every try, so the plan gate (before create) is never an uncounted read.
   create: ['POST', ['write', 'create'], (s, u, b) => s.create(u, b), 201, { gate: (s, u) => s.createGate?.(u), gateBefore: 'create' }],
   invite: ['POST', ['invite', 'write'], (s, u, b) => s.invite(u, b)],

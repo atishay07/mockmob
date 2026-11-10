@@ -7,8 +7,7 @@
    one authored moment when the page opens (the subject tiles settle in). All still under reduced motion.
    ========================================================================== */
 
-.app-shell .student-page.acct { width: min(100%, 1080px); display: grid; gap: 28px; align-content: start; --acct-lamp: rgba(226, 255, 92, 0.085); }
-html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 226, 30, 0.2); }
+.app-shell .student-page.acct { width: min(100%, 1080px); display: grid; gap: 28px; align-content: start; }
 /* The cards are the arena's .glass again (restored 19 Oct, owner G28, from 06285f1a^): a faint wash from the top edge
    and a hairline of light along it, as on every other arena card. */
 .app-shell .acct-grid { display: grid; gap: 20px; align-items: start; min-width: 0; }
@@ -70,56 +69,39 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 .app-shell .acct-sk--days { height: 44px; width: min(100%, 460px); border-radius: 999px; }
 
 /* ---------- Your sheet ---------- */
-.app-shell .acct-sheet { position: relative; display: grid; gap: 28px; padding: clamp(18px, 3vw, 28px); min-width: 0; isolation: isolate; }
-/* A lamp over the sheet (restored 19 Oct, owner G28): a soft pool of volt light behind your name. It stays inside the
-   card (it fades out before the edge), so nothing is clipped and Mobi can still hop above it. */
-.app-shell .acct-sheet::after {
-  content: ''; position: absolute; z-index: -1; pointer-events: none;
-  top: 0; right: 0; width: 76%; height: 70%; border-radius: inherit;
-  background: radial-gradient(closest-side, var(--acct-lamp), transparent);
-}
-.app-shell .acct-sheet__who { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.app-shell .acct-sheet__mobi { flex: none; display: grid; place-items: center; width: 72px; min-height: 72px; }
+.app-shell .acct-sheet { display: grid; gap: 14px; padding: clamp(18px, 3vw, 28px); min-width: 0; }
+.app-shell .acct-sheet__who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.app-shell .acct-sheet__mobi { flex: none; display: grid; place-items: center; width: 52px; min-height: 52px; }
 .app-shell .acct-sheet__id { flex: 1; min-width: 0; display: grid; gap: 4px; }
-.app-shell .acct-sheet__id h2 { margin: 0; font: 800 clamp(24px, 3vw, 30px)/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); overflow-wrap: anywhere; }
-.app-shell .acct-sheet__tags { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--a-ink-2); }
-.app-shell .acct-sheet__tags > span + span { margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--a-line-strong); }
-.app-shell .acct-sheet__tags > [data-tone='pro'] { color: var(--a-accent-text); }
-.app-shell .acct-sheet__avatar { flex: none; align-self: flex-start; }
+.app-shell .acct-sheet__id h2 { margin: 0; font: 800 clamp(22px, 3vw, 30px)/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .acct-sheet__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 2px 0 0; font-size: 12px; font-weight: 600; color: var(--a-ink-2); }
+.app-shell .acct-sheet__tags > span + span { padding: 3px 7px; border-radius: 5px; background: var(--a-sunken); }
+.app-shell .acct-sheet__tags > [data-tone='pro'] { color: var(--a-accent-text); background: var(--a-raised-2); font-weight: 800; }
+.app-shell .acct-sheet__avatar { background: var(--a-raised-2); color: var(--a-ink); }
 
-.app-shell .acct-sheet__subjects { display: grid; gap: 12px; min-width: 0; }
+.app-shell .acct-sheet__subjects, .app-shell .acct-mob { display: grid; gap: 6px; min-width: 0; padding-top: 12px; border-top: 1px solid var(--a-line); }
 .app-shell .acct-sheet__row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
-.app-shell .acct-sheet__row h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .acct-sheet__row h3, .app-shell .acct-mob h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
 .app-shell .acct-sheet__count { margin: 0; font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .app-shell .acct-sheet__none { display: grid; gap: 12px; justify-items: start; }
 .app-shell .acct-sheet__none p { margin: 0; max-width: 46ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
 
-/* The subjects stand as the app's objects on the card itself (no tile around each), the name always printed under them. */
-.app-shell .acct-objects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px 8px; }
+/* The last subject in an odd list uses the whole row and keeps the same left edge. */
+.app-shell .acct-objects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 8px; }
 .app-shell .acct-object {
-  display: grid; justify-items: center; align-content: end; gap: 6px; min-height: 120px; min-width: 0; padding: 0 4px; text-align: center;
-  animation: acct-settle 340ms var(--a-ease) both; animation-delay: calc(var(--i, 0) * 50ms + 80ms);
+  display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: center; gap: 6px; min-height: 44px; min-width: 0;
+  animation: acct-settle 220ms var(--a-ease) both; animation-delay: calc(var(--i, 0) * 25ms);
 }
+.app-shell .acct-object:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .app-shell .acct-object__name { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--a-ink); overflow-wrap: anywhere; }
-.app-shell .acct-object__add {
-  display: grid; justify-items: center; align-content: end; gap: 6px; width: 100%; min-height: 120px; padding: 0 4px;
-  border-radius: 12px; color: var(--a-ink-2); text-decoration: none; transition: color 150ms var(--a-ease);
-}
-.app-shell .acct-object__add .acct-object__name { color: inherit; }
-.app-shell .acct-object__add:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .acct-object__stage { display: grid; place-items: center; width: 76px; height: 76px; }
-.app-shell .acct-object__plus {
-  position: relative; display: block; width: 44px; height: 44px; border-radius: 999px; border: 1.5px dashed var(--a-line-strong);
-  color: var(--a-accent-text); transition: transform 220ms var(--a-ease), border-color 150ms var(--a-ease);
-}
-.app-shell .acct-object__plus::before, .app-shell .acct-object__plus::after { content: ''; position: absolute; inset: 50% auto auto 50%; width: 16px; height: 2px; margin: -1px 0 0 -8px; border-radius: 1px; background: currentColor; }
-.app-shell .acct-object__plus::after { transform: rotate(90deg); }
-@media (hover: hover) and (pointer: fine) {
-  .app-shell .acct-object__add:hover { color: var(--a-ink); }
-  .app-shell .acct-object__add:hover .acct-object__plus { transform: rotate(90deg); border-color: var(--a-select); }
-}
+.app-shell .acct-sheet__subject-actions { display: flex; flex-wrap: wrap; gap: 0 20px; }
 @keyframes acct-settle { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.97); } to { opacity: 1; transform: none; } }
 
+.app-shell .acct-mob__row { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; min-height: 44px; }
+.app-shell .acct-mob__name, .app-shell .acct-mob__note { flex: 1; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.app-shell .acct-mob__name { display: grid; color: var(--a-ink); font-size: 14px; }
+.app-shell .acct-mob__name span, .app-shell .acct-mob__note { color: var(--a-ink-3); font-size: 13px; }
+.app-shell .acct-mob > .acct-mob__note { display: flex; align-items: center; min-height: 44px; }
 /* Your mocks at a glance: a ruled strip, the same voice as Practice's stats. */
 .app-shell .acct-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--a-line); }
 .app-shell .acct-stats__item { display: grid; gap: 2px; align-content: start; padding: 14px 12px 0 0; min-width: 0; }
@@ -258,17 +240,12 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 /* ---------- Motion: still under reduced motion (the device's or the student's own choice) ---------- */
 @media (prefers-reduced-motion: reduce) {
   .app-shell .acct-object { animation: none; }
-  .app-shell .acct-key, .app-shell .acct-day, .app-shell .acct-row__label,
-  .app-shell .acct-object__add, .app-shell .acct-object__plus { transition: none !important; transition-delay: 0ms !important; }
-  .app-shell .acct-object__add:hover .acct-object__plus { transform: none; }
+  .app-shell .acct-key, .app-shell .acct-day, .app-shell .acct-row__label { transition: none !important; transition-delay: 0ms !important; }
 }
 :root[data-motion='reduced'] .app-shell .acct-object { animation: none; }
 :root[data-motion='reduced'] .app-shell .acct-key,
 :root[data-motion='reduced'] .app-shell .acct-day,
-:root[data-motion='reduced'] .app-shell .acct-row__label,
-:root[data-motion='reduced'] .app-shell .acct-object__add,
-:root[data-motion='reduced'] .app-shell .acct-object__plus { transition: none !important; transition-delay: 0ms !important; }
-:root[data-motion='reduced'] .app-shell .acct-object__add:hover .acct-object__plus { transform: none; }
+:root[data-motion='reduced'] .app-shell .acct-row__label { transition: none !important; transition-delay: 0ms !important; }
 
 /* ---------- 17 Oct (W-052, W-053): balances at a glance, then Your progress; plan and billing lower ---------- */
 @media (max-width: 1023px) {
@@ -290,13 +267,13 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 10; }
 }
 
-/* The two balances under your name: two pressable figures, no pill fills, 44 px targets. */
-.app-shell .acct-credits { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 12px; }
-.app-shell .acct-credits__item { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 2px; color: var(--a-ink); text-decoration: none; border-radius: 10px; }
+/* The Wallet link reads as one balance. */
+.app-shell .acct-credits__item { display: flex; align-items: center; gap: 6px; min-height: 44px; color: var(--a-ink); text-decoration: none; border-radius: 8px; }
 .app-shell .acct-credits__item .credit-amount__value { font-size: 20px; }
 .app-shell .acct-credits__label { font-size: 13px; color: var(--a-ink-3); }
+.app-shell .acct-credits__door { margin-left: auto; color: var(--a-accent-text); font-size: 14px; font-weight: 700; }
 .app-shell .acct-credits__item:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-@media (hover: hover) and (pointer: fine) { .app-shell .acct-credits__item:hover .acct-credits__label { color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; } }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-credits__item:hover .acct-credits__door { text-decoration: underline; text-underline-offset: 3px; } }
 .app-shell .acct-sk--chip { display: inline-block; width: 44px; height: 20px; border-radius: 6px; }
 
 /* Your progress: one card, three ruled cells (week ring, badges, best). No nested cards. */

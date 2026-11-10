@@ -822,15 +822,18 @@ function PreviewInner({ candidatePathway }) {
   const learnV2 = process.env.NEXT_PUBLIC_LEARN2 === 'on' || params.get('decks') === 'real';
   const allLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), learn: previewHref('learn2'), explore: previewHref('explore'), ...(params.get('study') === 'on' && !learnV2 ? { learn: '/preview/study' } : {}) };
   const previewLinks = params.get('mob') === 'off' ? Object.fromEntries(Object.entries(allLinks).filter(([key]) => key !== 'mob')) : allLinks;
+  const profileSubjects = params.get('profileSubjects') || '';
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : params.get('name') === 'none' ? '' : params.get('name') === 'riya' ? 'Riya Sharma' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
-      subjects: params.get('fresh') === '1' ? [] : params.get('student') === 'science' ? ['biology', 'political_science'] : ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
+      subjects: params.get('fresh') === '1' ? [] : view === 'profile' && /^[1-5]$/.test(profileSubjects)
+        ? ['accountancy', 'economics', 'business_studies', 'english', 'computer_science'].slice(0, Number(profileSubjects))
+        : params.get('student') === 'science' ? ['biology', 'political_science'] : ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
       isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : (previewOneTotal(params) ?? previewBalancePart(params)), credits: pro ? null : { total: previewOneTotal(params) }, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
-  }), [pro, params, MONTHLY]);
+  }), [pro, params, MONTHLY, view, profileSubjects]);
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>

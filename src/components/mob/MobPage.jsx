@@ -20,11 +20,12 @@ import { InviteRewardLine } from '@/components/referrals/InviteFriendCard';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import { resolveSubject } from '@/../data/subject_registry';
 import {
-  CLOSED_LINE, CLOSES_LINE, COLOUR_COUNT, MAX_MEMBERS, canAfford, checkName, cleanName, costLine, initialOf, suggestName,
+  CLOSED_LINE, CLOSES_LINE, MAX_MEMBERS, canAfford, checkName, costLine, initialOf, suggestName,
   inviteExpiryLine, nudgeLine, paperHref, paperLine, resultHref, seatsLine, togetherLine, trapLine,
 } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
 import { MobDialog } from './MobDialog';
+import RenameDialog, { ColourPicker, NAME_RULE, NameField } from './MobIdentityDialog';
 import { CompareCard, SHARE_HINT, SHARE_LABEL, SideBySide } from './MobCompare';
 import { ExtrasCard } from './MobExtras';
 import { HistoryCard } from './MobHistory';
@@ -42,8 +43,6 @@ import { MobFlow } from './v3/explainer/MobFlow';
 import { EXPLAINER_COPY } from './v3/explainer/explainerModel.mjs';
 import './mob.css';
 
-const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
-const NAME_RULE = 'Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.';
 // Choosing subjects comes back here when it is saved (onboarding honours back=/mob only).
 const SUBJECTS_HREF = '/onboarding?edit=true&back=/mob';
 
@@ -57,34 +56,6 @@ function subjectsFrom(user) {
     out.push({ id: s.id, name: s.officialName });
   }
   return out;
-}
-
-function ColourPicker({ value, onChange, name }) {
-  return (
-    <fieldset className="mob-colours">
-      <legend className="mob-label">Colour</legend>
-      <div className="mob-colours__row">
-        {Array.from({ length: COLOUR_COUNT }, (_, i) => (
-          <label key={i} className="mob-colour" title={COLOUR_NAMES[i]}>
-            <input type="radio" name={name} value={i} checked={value === i} onChange={() => onChange(i)} />
-            <span className="mob-disc mob-disc--pick" data-colour={i} aria-hidden="true">{value === i ? <Check size={16} strokeWidth={2.5} /> : null}</span>
-            <span className="sr-only">{COLOUR_NAMES[i]}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
-function NameField({ value, onChange, error, id }) {
-  return (
-    <div className="mob-field">
-      <label className="mob-label" htmlFor={id}>Your name in the Mob</label>
-      <input id={id} className="mob-input" value={value} maxLength={18} autoComplete="given-name" onChange={(e) => onChange(e.target.value)}
-        aria-invalid={error ? true : undefined} aria-describedby={`${id}-hint`} />
-      <p id={`${id}-hint`} className={error ? 'mob-hint mob-hint--bad' : 'mob-hint'}>{error || 'Only your Mob sees it. 2 to 18 letters.'}</p>
-    </div>
-  );
 }
 
 /** The fields and the one key that start a Mob: subject, name, colour. Used on the empty page and in "Start another Mob". */
@@ -297,28 +268,6 @@ function MemberDialog({ member, you, onClose, run, busy, onLeft }) {
         </div>
       ) : null}
       <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
-    </MobDialog>
-  );
-}
-
-function RenameDialog({ open, onClose, you, run, busy }) {
-  const [name, setName] = useState(you.name);
-  const [colour, setColour] = useState(you.colour);
-  const [error, setError] = useState(null);
-  const id = useId();
-  const save = async () => {
-    const checked = checkName(name);
-    if (!checked.ok) { setError(NAME_RULE); return; }
-    const r = await run('/api/mob/me', { name: checked.name, colour }, { method: 'PATCH', name: 'rename' });
-    if (!r.ok) setError(r.message); else onClose();
-  };
-  return (
-    <MobDialog open={open} onClose={onClose} title="Change name or colour" labelId="mob-rename-h">
-      <div className="mob-form mob-form--plain">
-        <NameField id={id} value={name} onChange={setName} error={error} />
-        <ColourPicker value={colour} onChange={setColour} name="mob-colour-edit" />
-        <button type="button" className="btn-volt md" onClick={save} disabled={busy === 'rename'}>{busy === 'rename' ? 'Saving' : 'Save'}</button>
-      </div>
     </MobDialog>
   );
 }

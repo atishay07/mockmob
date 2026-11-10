@@ -247,14 +247,14 @@ test('walk 15: the new student is greeted without a name until a real first name
   assert.equal(shownFirstName('Asha Rao', email), 'Asha');
   assert.equal(greeting({ hour: 9, name: 'walk-r11-web-1019a', email }), 'Good morning');
   assert.equal(greeting({ hour: 9, name: 'Asha Rao', email }), 'Good morning, Asha');
-  // Every screen that greets or labels the account reads the rule: Practice's heading, Account's "Hi", the shell's account labels.
+  // The profile title and the shell's account labels both respect the display-name rule.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   // R3 X5: Practice's hero is one line, "What are we practising?", with no greeting name (the avatar carries it).
   assert.match(practice, /<h1 className="display-md">What are we practising\?<\/h1>/);
   assert.doesNotMatch(practice, /greetFirst/);
   assert.doesNotMatch(practice, /user\.name\.split/);
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
-  assert.match(profile, /const hi = shownFirstName\(user\?\.name, user\?\.email\);/);
+  assert.match(profile, /const shownOwn = nameFieldValue\(user\);[\s\S]*<YourSheet[\s\S]*name=\{shownOwn\}/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /const accountName = shownName\(user\?\.name, user\?\.email\);/);
   assert.doesNotMatch(shell, /user\?\.name \?\? /, 'no label prints the raw name');

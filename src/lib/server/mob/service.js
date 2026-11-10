@@ -224,11 +224,26 @@ export function createMobService(deps) {
     });
   }
 
-  async function view(userId, { mobId = null, sync = true } = {}) {
+  async function view(userId, { mobId = null, sync = true, identity = false } = {}) {
     const week = mobWeek(now());
     const wanted = validMobId(mobId) ? mobId : null;
     let state = await readState(userId, week, wanted);
     if (!state && wanted) state = await readState(userId, week, null); // a Mob you have since left: show the one you have
+    // You needs only the selected membership. Reading it never syncs sittings or checks for Fold unlocks.
+    if (identity) {
+      const member = state?.members?.find((m) => m.user_id === userId);
+      if (!member) return { mob: null };
+      const subject = subjectName(state.mob.subject);
+      return {
+        mob: {
+          id: state.mob.id,
+          subjectName: subject,
+          mobs: (state.mobs || []).map(({ id }) => ({ id })),
+          you: { name: member.display_name, colour: member.colour },
+          ...(v3On() ? { v3: { name: mobName(state.mob.name_key, subject), members: [{ you: true, fold: member.fold }] } } : {}),
+        },
+      };
+    }
     // v3Available: the capability flag the app reads to switch the new Mob on (also with no Mob). Absent while v3 is off.
     if (!state) return v3On() ? { mob: null, v3Available: true } : { mob: null };
     if (sync) state = await syncSittings(state, userId);

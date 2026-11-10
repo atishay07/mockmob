@@ -41,7 +41,6 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import YouPlaces from '@/components/nav/YouPlaces';
 import InstallPractice from '@/components/InstallPractice';
 import TodayCompass from '@/components/du/TodayCompass';
-import { shownFirstName } from '@/lib/displayName.mjs';
 import { NAME_MAX, nameFieldValue } from '@/lib/nameAsk.mjs';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
@@ -183,8 +182,6 @@ function DeleteAccountSection() {
   );
 }
 
-// The greeting's name follows the app's rule (src/lib/displayName.mjs): a handle or the email's prefix is not a name.
-
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
   const toast = useToast();
@@ -238,7 +235,6 @@ export default function ProfilePageClient() {
   const currentName = draftName ?? shownOwn;
   const trimmed = currentName.trim();
   const dirty = trimmed.length > 0 && trimmed !== shownOwn;
-  const hi = shownFirstName(user?.name, user?.email);
 
   async function saveName() {
     setIsSaving(true);
@@ -268,7 +264,7 @@ export default function ProfilePageClient() {
   // While the Appearance card is on screen its Mobi is the one; this one steps aside and keeps his space.
   const sheetMobi = (
     <span style={{ visibility: lookMobi ? 'hidden' : 'visible' }}>
-      <MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} />
+      <MobiReact key={mobi.n} act={mobi.act} size={52} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} />
     </span>
   );
 
@@ -283,7 +279,7 @@ export default function ProfilePageClient() {
         <div className="acct-col">
           <YourSheet
             user={user}
-            greeting={hi ? `Hi, ${hi}.` : 'Hi.'}
+            name={shownOwn}
             mobi={sheetMobi}
             plan={user?.isPremium ? 'Pro' : 'Free'}
             mocks={mocks}

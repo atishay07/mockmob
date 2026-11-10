@@ -624,6 +624,40 @@ test('routes: MOB_ENABLED off is 404 everywhere; signed out is 401 except the pu
   }
 });
 
+test('the You profile reads only the current membership without syncing papers or granting unlocks', async () => {
+  const id = '7b0c5d8e-1f2a-4b3c-9d4e-5f6a7b8c9d0e';
+  const service = createMobService({
+    now: () => NOW,
+    v3Enabled: () => true,
+    subjectInfo: () => ({ name: 'Accountancy' }),
+    rpc: async (name, params) => {
+      assert.equal(name, 'mob_state');
+      if (params.p_user_id !== 'u1') return null;
+      assert.equal(params.p_mob_id, id);
+      return {
+        mob: { id, subject: 'accountancy' },
+        mobs: [{ id, subject: 'accountancy' }],
+        members: [
+          { user_id: 'u1', display_name: 'Asha', colour: 1, fold: 'hexa' },
+          { user_id: 'u2', display_name: 'Meera', colour: 2 },
+        ],
+      };
+    },
+  });
+  const request = new Request(`http://localhost/api/mob?view=identity&mob=${id}`);
+  const result = await handleMob(httpDeps({ service }), 'get', request);
+  assert.equal(result.status, 200);
+  const { mob } = await result.json();
+  assert.deepEqual(mob.you, { name: 'Asha', colour: 1 });
+  assert.deepEqual(mob.v3.members, [{ you: true, fold: 'hexa' }]);
+  assert.deepEqual(mob.mobs, [{ id }]);
+  assert.equal(mob.members, undefined);
+  assert.equal(mob.week, undefined);
+  const outsider = await handleMob(httpDeps({ service, user: 'u2' }), 'get', request);
+  assert.equal(outsider.status, 200);
+  assert.deepEqual(await outsider.json(), { mob: null });
+});
+
 test('routes: rate limits answer 429 with Retry-After, on the limits P11 names', async () => {
   assert.deepEqual([LIMITS.invite.limit, LIMITS.lookup.limit, LIMITS.join.limit, LIMITS.report.limit, LIMITS.write.limit], [5, 120, 10, 10, 60]);
   assert.equal(LIMITS.lookup.by, 'ip');

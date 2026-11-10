@@ -41,11 +41,12 @@ const UNSCOPED = new Set(['/api/mob', '/api/mob/join']);
  * run(path, body, { method, name }) -> the reply; a reply in the GET shape replaces the view and becomes the Mob on screen.
  * select(id) shows another of your Mobs. { mobId } pins the first read to one Mob (a Mob paper's result). compare({ week, extra }) and history() read the Pro views for the Mob on screen.
  */
-export function useMob(userId, { mobId: pinned = null } = {}) {
+export function useMob(userId, { mobId: pinned = null, identity = false } = {}) {
   const [state, setState] = useState({ status: 'idle', mob: null, error: null, v3Available: false });
   const [busy, setBusy] = useState(null);
   const alive = useRef(true);
   const pinnedId = typeof pinned === 'string' && UUID_RE.test(pinned) ? pinned : null;
+  const view = identity ? 'identity' : null;
   const current = useRef(pinnedId);
   const pin = useRef(pinnedId !== null); // a pinned Mob (a result's) is shown, never remembered as the choice
   // Set on every mount: React's development double mount runs the cleanup once, and a ref left false would drop every
@@ -61,13 +62,13 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
   const load = useCallback(async (mobId) => {
     const wanted = typeof mobId === 'string' ? mobId : current.current || readSelected();
     setState((s) => ({ ...s, status: s.status === 'ready' ? 'ready' : 'loading', error: null }));
-    const r = await mobFetch(`/api/mob${query({ mob: wanted })}`);
+    const r = await mobFetch(`/api/mob${query({ mob: wanted, view })}`);
     if (!alive.current) return r;
     // v3Available: the server offers Mob v3 (MOB_V3_ENABLED) even with no Mob yet, so the empty page can show the den's start.
     if (r.ok) { adopt(r.data?.mob); setState({ status: 'ready', mob: r.data?.mob || null, error: null, v3Available: Boolean(r.data?.v3Available || r.data?.mob?.v3) }); }
     else setState((s) => ({ ...s, status: r.code === 'MOB_DISABLED' ? 'disabled' : 'error', error: r.message }));
     return r;
-  }, [adopt]);
+  }, [adopt, view]);
 
   useEffect(() => {
     if (!userId) return undefined;
@@ -96,11 +97,11 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
     const id = current.current;
     if (!id) return null;
     const seq = writes.current;
-    const r = await mobFetch(`/api/mob${query({ mob: id })}`);
+    const r = await mobFetch(`/api/mob${query({ mob: id, view })}`);
     if (!alive.current || !r.ok || current.current !== id || r.data?.mob?.id !== id || writes.current !== seq) return r;
     setState((s) => (s.status === 'ready' ? { status: 'ready', mob: r.data.mob, error: null, v3Available: Boolean(r.data?.v3Available || r.data?.mob?.v3 || s.v3Available) } : s));
     return r;
-  }, []);
+  }, [view]);
 
   const select = useCallback((id) => { current.current = id; writeSelected(id); return load(id); }, [load]);
   const compare = useCallback(({ week, extra } = {}) => mobFetch(`/api/mob/compare${query({ mob: current.current, week, extra })}`), []);

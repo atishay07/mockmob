@@ -7,10 +7,12 @@
 // roll to their real values. A subject the art does not know keeps its icon. Nothing here invents a
 // number: a count that has not loaded shows a quiet bar, and one that failed says so with a retry.
 import Link from 'next/link';
+import { Plus, UserRound } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useCountUp } from '@/lib/motion';
 import { EXAM_LABEL, SUBJECT_LIMIT, SUBJECTS_EDIT_HREF, sheetSubjects, subjectCountLine } from './accountModel.mjs';
+import AccountMobIdentity from './AccountMobIdentity';
 import './account.css';
 
 // The first view climbs from 0; after that the figure is remembered and only a real change rolls (WA-02).
@@ -22,7 +24,7 @@ function Roll({ id, value, suffix = '' }) {
 function SheetSubject({ subject, index }) {
   return (
     <li className="acct-object subj-obj-host" style={{ '--i': index }}>
-      <SubjectObject id={subject.id} size={76} lit className="acct-object__art" />
+      <SubjectObject id={subject.id} size={40} className="acct-object__art" />
       <span className="acct-object__name">{subject.name}</span>
     </li>
   );
@@ -41,26 +43,28 @@ function Stat({ label, children }) {
  * user: the signed-in user. mobi: the greeting Mobi (or null). mocks: { status: 'loading' | 'ready' | 'error',
  * count, average }. onRetry: reloads the mocks after a failure.
  */
-export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', mocks, onRetry, credits = null }) {
+export default function YourSheet({ user, name, mobi = null, plan = 'Free', mocks, onRetry, credits = null }) {
   const subjects = sheetSubjects(user?.subjects);
   const room = subjects.length < SUBJECT_LIMIT;
 
   return (
     <section className="glass acct-sheet" id="sheet" aria-labelledby="acct-sheet-h">
       <div className="acct-sheet__who">
-        {mobi ? <span className="acct-sheet__mobi">{mobi}</span> : null}
+        <div aria-hidden="true">
+          {name ? <Avatar name={name} size="xl" className="acct-sheet__avatar" /> : <span className="avatar xl acct-sheet__avatar"><UserRound size={24} /></span>}
+        </div>
         <div className="acct-sheet__id">
-          <h2 id="acct-sheet-h">{greeting}</h2>
-          {/* The email that is signed in sits just above this card, beside its Sign out key (SignedInLine, release 11 walk). */}
+          <h2 id="acct-sheet-h">{name || 'Your profile'}</h2>
           <p className="acct-sheet__tags">
             <span>{EXAM_LABEL}</span>
             <span data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro plan' : 'Free plan'}</span>
           </p>
-          {credits}
         </div>
-        {/* The header already shows your initials; with Mobi greeting here, a second avatar would only repeat it. */}
-        {mobi ? null : <Avatar name={user?.name || user?.email} size="lg" className="acct-sheet__avatar" />}
+        {mobi ? <span className="acct-sheet__mobi">{mobi}</span> : null}
       </div>
+      {credits}
+
+      <AccountMobIdentity key={user?.id} userId={user?.id} />
 
       <div className="acct-sheet__subjects">
         <div className="acct-sheet__row">
@@ -70,22 +74,19 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
         {subjects.length ? (
           <ul className="acct-objects" aria-label="Your subjects">
             {subjects.map((subject, index) => <SheetSubject key={subject.id} subject={subject} index={index} />)}
-            {room ? (
-              <li className="acct-object acct-object--add" style={{ '--i': subjects.length }}>
-                <Link href={SUBJECTS_EDIT_HREF} className="acct-object__add">
-                  <span className="acct-object__stage" aria-hidden="true"><span className="acct-object__plus" /></span>
-                  <span className="acct-object__name">Add a subject</span>
-                </Link>
-              </li>
-            ) : null}
           </ul>
         ) : (
           <div className="acct-sheet__none">
             <p>Pick up to {SUBJECT_LIMIT} subjects. Practice and Today use them to choose your questions.</p>
-            <Link href={SUBJECTS_EDIT_HREF} className="acct-key acct-key--volt">Pick subjects</Link>
+            <Link href={SUBJECTS_EDIT_HREF} className="acct-key acct-key--volt" data-page-primary="">Pick subjects</Link>
           </div>
         )}
-        {subjects.length ? <Link href={SUBJECTS_EDIT_HREF} className="acct-link">Edit subjects</Link> : null}
+        {subjects.length ? (
+          <div className="acct-sheet__subject-actions">
+            {room ? <Link href={SUBJECTS_EDIT_HREF} className="acct-link"><Plus size={16} aria-hidden="true" />Add a subject</Link> : null}
+            <Link href={SUBJECTS_EDIT_HREF} className="acct-link">Edit subjects</Link>
+          </div>
+        ) : null}
       </div>
 
       <dl className="acct-stats" aria-label="Your mocks at a glance" aria-busy={mocks.status === 'loading' || undefined}>
