@@ -6,7 +6,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink, Heart, MessageCircle, Play, Users } from 'lucide-react';
 import { undrawn } from './undrawn';
-import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
+// The summary's followers figure and the covers' initials come from @/lib/social, the same functions the hero's proof line
+// (HeroProof) reads, so the hero and this section never disagree.
+import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, compactCount, creatorInitials as initials, embedSrc, featuredCreators, floorForPlus, followersFigure, permalink, recordedEngagement } from '@/lib/social';
 
 function IgGlyph({ size = 16 }) {
   return (
@@ -14,15 +16,6 @@ function IgGlyph({ size = 16 }) {
       <rect x="3" y="3" width="18" height="18" rx="5.5" /><circle cx="12" cy="12" r="4.2" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
     </svg>
   );
-}
-
-function initials(name) {
-  const words = String(name || '').trim().split(/\s+/u).filter(Boolean);
-  const segment = (word) => {
-    if (typeof Intl.Segmenter === 'function') return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(word)][0]?.segment || '';
-    return Array.from(word)[0] || '';
-  };
-  return (words.length > 1 ? segment(words[0]) + segment(words.at(-1)) : segment(words[0] || '?')).toLocaleUpperCase();
 }
 
 function Card({ item, active, onPlay }) {
@@ -109,8 +102,7 @@ function countsDate(a, b) {
 }
 
 export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
-  const creators = items.filter((item) => item.kind === 'reel' && item.followers);
-  const reach = combinedReach(creators);
+  const creators = featuredCreators(items);
   const engagement = floorForPlus(recordedEngagement(items));
   const trackRef = useRef(null);
   const [activeCode, setActiveCode] = useState(null);
@@ -152,7 +144,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
     <div className="rl">
       {creators.length ? (
         <dl className="rl__summary">
-          <div><dt>Combined followers</dt><dd className="mm-measure">{compactCount(Math.floor(reach / 1000) * 1000)}+</dd></div>
+          <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
           <div><dt>Reel views</dt><dd className="mm-measure">{compactCount(REEL_VIEWS_FLOOR)}+</dd></div>
           {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
         </dl>

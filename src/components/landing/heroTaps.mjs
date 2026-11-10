@@ -120,13 +120,16 @@ export const HERO_FEATURES_LABEL = 'What MockMob gives you';
  * 5 / 73 / 2 / 60): the main features, each with its desk object (stripObjects.mjs; round 5, LK160) and one plain line, each a link
  * to where it lives on this page. The Compass link falls back to the free DU calculator when the page has no Compass section; Key
  * cards appear only while their section does (KEY_CARDS_ENABLED). Every line says only what its own section says (homeHero.test.mjs
- * HERO_STRINGS). `icon` names the object: the one that stamps the linked section, the answer sheet for mocks, Mobi for Ask Mobi.
+ * HERO_STRINGS). `icon` names the object: the one that stamps the linked section, the answer sheet for mocks, Mobi for Ask Mobi,
+ * the clipboard paper for the exam-day screen.
  */
 export function heroFeatures({ compass = true, keyCards = false } = {}) {
   return [
     { href: '#pricing', icon: 'questions', name: 'Unlimited mocks', line: 'On Pro, every one fresh' },
     { href: '#inside-the-lab', icon: 'mistakes', name: 'Mistake Lab', line: 'Every lost mark, traced' },
-    { href: '#score-recovery-lab', icon: 'revise', name: 'Score Recovery', line: 'Fix it once, check it holds' },
+    // Round 11 (10 Nov 2026): the Score Recovery section left the page; its place in the strip opens the exam section
+    // (ExamScreen.jsx, id exam-experience), with the clipboard paper and a line in that section's own words (EXAM_HEAD.sub).
+    { href: '#exam-experience', icon: 'papers', name: 'Exam-day screen', line: 'Rehearse it in NTA style' },
     { href: compass ? '#compass' : '#du-eligibility', icon: 'compass', name: 'DU Compass', line: 'Check your DU shortlist' },
     { href: '#your-prep', icon: 'mobi', name: 'Ask Mobi', line: 'One clear step for tonight' },
     ...(keyCards ? [{ href: '#key-cards', icon: 'keycards', name: 'Key cards', line: 'Turn it, rate it, keep it' }] : []),

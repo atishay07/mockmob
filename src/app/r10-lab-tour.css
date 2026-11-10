@@ -1,6 +1,6 @@
 /* Round 10 (10 Nov 2026, owner LK189: a deeper UI/UX and taste refinement of the landing page). Refinements for this
    group of sections only, loaded after every older layer (page.js). Each rule says what it fixes and why.
-   Group lab-tour: section#inside-the-lab (the Mistake Lab's four held scenes), section#your-prep (the feature tour) and the
+   Group lab-tour: section#inside-the-lab (the Mistake Lab's held scenes, five since round 11), section#your-prep (the feature tour) and the
    phone bottom bar the held stories show. Visual only: nothing here touches the scroll model (track heights, the
    gesture, the step logic); every rule is scoped by the section's id so it wins over the older layers without !important. */
 

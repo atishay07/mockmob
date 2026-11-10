@@ -148,3 +148,83 @@
 @media (min-width: 640px) {
   .mm.lp .lp-colleges__note { max-width: none; }
 }
+
+/* ==========================================================================
+   Round 11 (10 Nov 2026): the proof line under the hero's ways in (HeroProof.jsx)
+   ========================================================================== */
+/* A student from a reel half-trusts us and the first key had no proof near it. One quiet link to the creators section:
+   three small overlapping marks (each featured creator's first letter on raised paper, ringed in the page's paper so they
+   read as a stack), then "Featured by CUET creators with 199K+ followers" at 13 px in the login line's muted ink, the figure in
+   ink. No border, no pill, no icon but the marks; nothing moves but a colour on press. The link's visible box hugs the
+   marks (so its focus ring does too); its touch target grows 20 px down into the gap above the film (::before), to a
+   44 px target that never reaches the login link's target above it or the film's frame below it. */
+.mm.lp .lp-hero .lp-featured {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 12px auto 0;
+  border-radius: 999px;
+  color: var(--ink-3);
+  font: 400 0.8125rem/1.25 var(--font-body);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 150ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-hero .lp-featured::before { content: ''; position: absolute; inset: 0 -6px -20px; }
+.mm.lp .lp-hero .lp-featured:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 4px; }
+.mm.lp .lp-hero .lp-featured:active { color: var(--ink-2); }
+.mm.lp .lp-featured__marks { display: flex; flex: none; }
+.mm.lp .lp-featured__mark {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--paper-raised);
+  box-shadow: 0 0 0 2px var(--paper), inset 0 0 0 1px var(--line-strong);
+  color: var(--ink-2);
+  font: 700 0.6875rem/1 var(--font-body);
+}
+/* Each next mark covers the one before by 8 px (a third), so a covered mark centres its letter in the part that shows. */
+.mm.lp .lp-featured__mark + .lp-featured__mark { margin-left: -8px; }
+.mm.lp .lp-featured__mark:not(:last-child) { padding-right: 8px; }
+.mm.lp .lp-featured__words { white-space: nowrap; }
+.mm.lp .lp-featured__fig { font-weight: 650; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-hero .lp-featured:hover { color: var(--ink-2); }
+  .mm.lp .lp-hero .lp-featured:hover .lp-featured__words { text-decoration: underline; text-decoration-color: var(--line-strong); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+}
+/* One line from a 348 px column up (376 px phones and wider; measured in Chrome: 56 of marks, 8 of gap, 284 of words). Below
+   that (375 px phones and under, down to 320) the words sit on two short lines beside the marks, centred against them:
+   "Featured by CUET creators" over "199K+ followers" (the word "with" is not shown, the figure keeps its stronger ink), so
+   the figure is never shown without "followers" and is never dropped; the link's accessible name keeps the whole sentence.
+   The words' column (.lp-hero__copy, an inline-size container) is the container. */
+@container (max-width: 347.98px) {
+  .mm.lp .lp-featured__with { display: none; }
+  .mm.lp .lp-featured__more { display: block; }
+}
+/* Phones and tablets: the space comes from the gap under the ways in, not the headline. The film followed the login line
+   by 24 px; it follows the proof's target by nothing now (20 px under the marks), so the film moves down 32 px, not 68. */
+@media (max-width: 959px) {
+  .mm.lp .lp-hero__copy:has(.lp-featured) ~ .lp-film { margin-top: 20px; }
+}
+/* From 640 px the keys and the login line sit on the column's left edge: the proof does too. */
+@media (min-width: 640px) {
+  .mm.lp .lp-hero .lp-featured { margin-inline: 0; }
+}
+/* Desktop: a step up with the login line (16 px there), still under it in the words' column. */
+@media (min-width: 960px) {
+  .mm.lp .lp-hero .lp-featured { margin-top: 16px; gap: 10px; font-size: 0.875rem; }
+  .mm.lp .lp-featured__mark { width: 26px; height: 26px; font-size: 0.75rem; }
+  /* At 14 px the line is 378 px: the narrowest desktop column (376 px at 960) takes the two-line form too. */
+  @container (max-width: 377.98px) {
+    .mm.lp .lp-featured__with { display: none; }
+    .mm.lp .lp-featured__more { display: block; }
+  }
+}
+@media (forced-colors: active) {
+  .mm.lp .lp-featured__mark { border: 1px solid CanvasText; }
+}

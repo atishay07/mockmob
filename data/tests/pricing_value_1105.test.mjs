@@ -343,7 +343,8 @@ test('7 Nov: each Pro line marks its quantity or scope word like the counted num
 test('7 Nov: under Pro\'s price, everything that one price holds, as the features\' own desk objects and names', () => {
   assert.equal(VALUE_COPY.allIn(usualWay(monthly(), 5)), 'All in the same ₹99');
   assert.equal(VALUE_COPY.allIn(usualWay(monthly(149), 5)), 'All in the same ₹149', 'the price follows the offer');
-  const all = ['Unlimited mocks', 'Mistake Lab', 'Score Recovery', 'Ask Mobi', 'Key cards', 'DU Compass'];
+  // R11 (owner, 10 Nov 2026): Score Recovery is no longer presented as a product of its own; the Mistake Lab tells it.
+  const all = ['Unlimited mocks', 'Mistake Lab', 'Ask Mobi', 'Key cards', 'DU Compass'];
   assert.deepEqual(VALUE_COPY.features({ keyCards: true }).map((f) => f.name), all);
   assert.deepEqual(VALUE_COPY.features().map((f) => f.name), all.filter((name) => name !== 'Key cards'), 'Key cards only while they are live');
   // Each object is the hero strip's own for the same feature (heroFeatures), so a feature looks the same wherever it is named.

@@ -97,8 +97,12 @@ test('the runner\'s NTA style is the preview\'s NTA screen: the same header, sec
 test('the gate line is the integrity guard\'s own words', () => {
   assert.ok(INTEGRITY.includes(EXAM.gateTitle), 'Enter your exam space');
   assert.ok(INTEGRITY.includes(EXAM.gate), EXAM.gate);
-  assert.ok(INTEGRITY.includes('Warnings {strikes}/{INTEGRITY_STRIKES}'));
-  assert.equal(EXAM.warnings, 'Warnings 0/3');
+  // R11: the page's pill is gone; its one-sentence rule is the page's own words, so it is held to what the guard does, not
+  // matched string for string: leaving fullscreen or switching tabs counts, and the third warning submits the answers.
+  assert.equal(EXAM.warnings, undefined, 'the "Warnings 0/3" pill is gone');
+  assert.match(EXAM.warningRule, /^Leaving fullscreen or switching tabs counts as a warning\. The third one submits your answers\.$/);
+  assert.ok(INTEGRITY.includes('Leaving fullscreen or switching tabs or apps is a warning. Warning 3 submits your answers.'));
+  assert.match(read('../../../data/exam_integrity.mjs'), /INTEGRITY_STRIKES\s*=\s*3/);
   assert.match(read('../arena/ExamIntegrityGuard.jsx'), /INTEGRITY_STRIKES\s*=\s*3|from '[^']*'/);
 });
 

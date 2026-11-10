@@ -143,7 +143,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 .ts__reading[data-in='true'] .ts__mobi i { animation: ts-read 560ms ease-in-out 120ms both; }
 /* Mobi, as small as he gets: the logo's volt face with two eyes that blink now and then. */
 .ts__mobi { display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex: 0 0 20px; width: 20px; height: 20px; border-radius: 7px; background: var(--ts-volt); }
-.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; animation: ts-eyes 4.2s ease-in-out infinite; }
+.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; animation: ts-eyes 4.2s ease-in-out 3; /* a few blinks, then still: nothing in the tour loops for ever (R11) */ }
 /* The steps and the quick replies arrive on a shorter rise than the tour's default. */
 .ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }

@@ -5,17 +5,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { LAB_SCENES } from './homeCopy.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const CINEMA = read('LabCinema.jsx');
 const CSS = read('../../app/lab-cinema.css');
 const LAB = read('MistakeLab.jsx');
 
-test('the Time scene waits for the lab to be in view, then plays; other scenes keep their own trigger', () => {
+// R11 (10 Nov 2026): Chapters is the Lab's first scene now, so the wait belongs to it; Time plays when it comes on stage, like
+// the scenes after it.
+test('the first scene (Chapters since R11) waits for the lab to be in view, then plays; the other scenes play when they come on', () => {
+  assert.equal(LAB_SCENES[0].key, 'chapters');
+  assert.ok(LAB_SCENES.findIndex((s) => s.key === 'time') > 0, 'Time is not the first scene any more');
   assert.match(CINEMA, /data-armed=\{i === 0 && !armed \? 'false' : 'true'\}/);
   assert.match(CINEMA, /intersectionRatio >= 0\.5\) setArmed\(true\)/);
   assert.match(CINEMA, /else if \(!entry\.isIntersecting\) setArmed\(false\)/);
-  // Collapsed state is shared with the off state, and resets at once (no delayed reset on an undrawn section).
+  // Collapsed state is shared with the off state, and resets at once (no delayed reset on an undrawn section): the Chapters
+  // bars wait at zero while armed is false, and Time's pace line still waits while its scene is off.
+  assert.match(CSS, /\.lc-scene:is\(\[data-on='false'\], \[data-armed='false'\]\) \.lcp-ch__bar \{ transform: scaleX\(0\)/);
   assert.match(CSS, /\.lc-scene:is\(\[data-on='false'\], \[data-armed='false'\]\) \.lct__pace \{ transform: scaleY\(0\)/);
   assert.match(CSS, /\.lc-scene\[data-armed='false'\] :is\(\*, \*::after\) \{ transition: none !important; \}/);
 });

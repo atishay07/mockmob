@@ -55,6 +55,32 @@ export const rankedReels = (creators = CREATOR_REELS, posts = MOCKMOB_POSTS) =>
 /** Combined audience of the featured creators, for the summary line. */
 export const combinedReach = (creators = CREATOR_REELS) => creators.reduce((sum, c) => sum + creatorReach(c), 0);
 
+/** The creators the summary counts: the reels that carry a follower count, in the order given. */
+export const featuredCreators = (items = rankedReels()) => items.filter((item) => item.kind === 'reel' && item.followers);
+
+/**
+ * The summary's "Combined followers" figure: the combined reach rounded down to the thousand, so the "+" stays true
+ * (199,534 is "199K+"). The creators section (CreatorReels) and the hero's proof line (HeroProof) both draw it from here, so
+ * the two never disagree. null when the rounded reach is under a thousand.
+ */
+export function followersFigure(creators = featuredCreators()) {
+  const floor = Math.floor(combinedReach(creators) / 1000) * 1000;
+  return floor > 0 ? `${compactCount(floor)}+` : null;
+}
+
+/**
+ * A creator's initials: the first letter of the first and the last word ("Garima Jain" is "GJ"), one grapheme each. `count`
+ * 1 gives the first name's letter alone ("G"), for a mark too small to hold two.
+ */
+export function creatorInitials(name, count = 2) {
+  const words = String(name || '').trim().split(/\s+/u).filter(Boolean);
+  const segment = (word) => {
+    if (typeof Intl.Segmenter === 'function') return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(word)][0]?.segment || '';
+    return Array.from(word)[0] || '';
+  };
+  return (words.length > 1 && count > 1 ? segment(words[0]) + segment(words.at(-1)) : segment(words[0] || '?')).toLocaleUpperCase();
+}
+
 /** 25200 -> "25.2K", 161000 -> "161K", 188 -> "188". */
 export function compactCount(n) {
   if (!Number.isFinite(n)) return '';

@@ -6,6 +6,10 @@
 //     `papers`, a lined pad under a clip, which reads as a notepad and sat beside three other cream rectangles.)
 //   Mistake Lab: mistakes, a paper strip torn and mended with lime tape (the Mistake Lab's stamp).
 //   Score Recovery: revise, index cards held tight by a lime band: fix it once, check it holds (the Recovery Lab's stamp).
+//     Round 11 (10 Nov 2026): the Recovery section left the page; the strip's third item is the exam-day screen. The file
+//     stays for VALUE_COPY.features until that list drops it.
+//   Exam-day screen: papers, a question paper on a brass clipboard (the brand's own `papers` object, public/art/icons),
+//     cut from R7 sheet B the same way as the others (round 11; no new art).
 //   DU Compass: compass, a brass pocket compass with a lime needle (the Compass section's stamp).
 //   Ask Mobi: Mobi himself, the 3D figure the app's own Ask doors use (greeting), not the flat face mark.
 //   Key cards: keycards, a short stack of index cards with a lime felt tab (the Key cards section's stamp).
@@ -27,6 +31,7 @@ export const STRIP_OBJECTS = Object.freeze({
   compass: Object.freeze({ object: 'a brass pocket compass with a lime needle', source: 'R7 sheet B' }),
   mobi: Object.freeze({ object: 'Mobi, waving (his greeting render)', source: 'public/brand/mascot/greeting.webp' }),
   keycards: Object.freeze({ object: 'index cards with a lime felt tab', source: 'R7 sheet A' }),
+  papers: Object.freeze({ object: 'a question paper on a brass clipboard', source: 'R7 sheet B' }),
 });
 
 /** The file for one width, or null for a key the strip has no object for. */

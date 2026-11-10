@@ -19,7 +19,7 @@ import { fileURLToPath } from 'node:url';
 import { HERO_LINES, HERO_SENTENCE, HERO_TYPED } from './heroLines.mjs';
 import { DESK_LINES, DESK_NOTE, heroFeatures, heroPriceHook } from './heroTaps.mjs';
 import { STRIP_OBJECTS, STRIP_OBJECT_BASE, STRIP_OBJECT_BOX, STRIP_OBJECT_SIZES, STRIP_OBJECT_WIDTHS, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
-import { HERO_LEAD, buildFaqs, buildTour, LAB_HEAD, RECOVERY_HEAD, COMPASS_HEAD, BRAND_STAMPS, TOUR_ICON, proPlan } from './homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, LAB_SCENES, buildFaqs, buildTour, LAB_HEAD, EXAM_HEAD, COMPASS_HEAD, BRAND_STAMPS, TOUR_ICON, proPlan } from './homeCopy.mjs';
 import { KEY_CARDS_HEAD } from './keyCardsCopy.mjs';
 import { MOCK_PACES, perMock } from '../../lib/payments/value.mjs';
 import { BLINK_EVERY_MS, GAZE_MAX_PX, GAZE_MEDIA, GLANCE, gazeOffset, glanceOffset } from '../brand/mobiGaze.mjs';
@@ -57,10 +57,10 @@ const FAQ = buildFaqs({ offer: OFFER }).map((f) => f.answer).join(' ');
 const TOUR = buildTour({}).map((s) => `${s.title} ${s.body} ${s.lede}`).join(' ');
 export const HERO_STRINGS = [
   { text: HERO_SENTENCE, source: 'heroLines.mjs HERO_LINES: the owner-approved sentence (L-016)', holds: () => HERO_SENTENCE === 'CUET 2027. One mock. Know what to fix.' },
-  { text: 'Know what to fix.', source: 'chapter review names the chapter to fix first (homeCopy buildTour radar)', holds: () => /Know the chapter to fix first\./.test(TOUR) },
+  { text: 'Know what to fix.', source: 'the Lab SWOT gives the exact sets to do next, and the statement picks the chapter for tonight (homeCopy LAB_SCENES, STATEMENT; R11 moved this off the tour)', holds: () => LAB_SCENES.some((s) => /exact sets to do next/.test(s.body)) && /picks the chapter for \*tonight/.test(STATEMENT) },
   { text: 'Fresh every time.', source: 'the FAQ: every mock is built fresh from one live question bank (homeCopy buildFaqs)', holds: () => /every mock is built fresh from one live question bank/.test(FAQ) },
   { text: 'Every mark traced.', source: 'the Mistake Lab head (homeCopy LAB_HEAD)', holds: () => LAB_HEAD.h2 === 'Every mark, traced back to a moment.' },
-  { text: `${HERO_LEAD.strong}${HERO_LEAD.rest}`, source: 'the Lab traces every miss to its chapter (homeCopy buildTour radar)', holds: () => /traces every miss to its chapter/.test(TOUR) },
+  { text: `${HERO_LEAD.strong}${HERO_LEAD.rest}`, source: 'the Pro plan Mistake Lab line ranks every chapter, and the statement picks the chapter for tonight (homeCopy proPlan, STATEMENT; R11 moved this off the tour)', holds: () => proPlan({}).some((item) => /^Mistake Lab across all your mocks: every chapter/.test(item)) && /picks the chapter for \*tonight/.test(STATEMENT) },
   { text: DESK_LINES.load, source: 'the sample is on the desk: CUET-pattern questions, no signup (DemoDrill DRILL, L-015)', holds: () => /DRILL\.length/.test(read('./DemoDrill.jsx')) },
   { text: DESK_NOTE, source: 'the sample needs no sign-up and opens the reason under every answer (DemoDrill mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
   { text: DESK_LINES.right, source: 'DemoDrill opens the reason under a right answer (mm-drill__why)', holds: () => /mm-drill__why/.test(read('./DemoDrill.jsx')) },
@@ -74,14 +74,14 @@ export const HERO_STRINGS = [
   ...heroFeatures({ compass: true, keyCards: true }).map((f) => ({ text: `${f.name}. ${f.line}`, source: {
     'Unlimited mocks': 'Pro: unlimited Quick and Full (homeCopy proPlan); every mock built fresh from one live bank (the FAQ)',
     'Mistake Lab': 'the Mistake Lab head (homeCopy LAB_HEAD)',
-    'Score Recovery': 'the Score Recovery Lab head (homeCopy RECOVERY_HEAD)',
+    'Exam-day screen': 'the exam section\'s sub (homeCopy EXAM_HEAD): switch to NTA style to rehearse (round 11)',
     'DU Compass': 'the Compass head (homeCopy COMPASS_HEAD)',
     'Ask Mobi': 'the tour\'s Ask Mobi slide (homeCopy buildTour prepos)',
     'Key cards': 'the Key cards head (keyCardsCopy KEY_CARDS_HEAD)',
   }[f.name], holds: () => ({
     'Unlimited mocks': () => proPlan({}).some((item) => /^Unlimited Quick practice and Full mock/.test(item)) && /every mock is built fresh from one live question bank/.test(FAQ),
     'Mistake Lab': () => /traced/.test(LAB_HEAD.h2),
-    'Score Recovery': () => RECOVERY_HEAD.h2 === 'Fix it once. Check it holds.',
+    'Exam-day screen': () => /Switch to NTA style to rehearse/.test(EXAM_HEAD.sub),
     'DU Compass': () => /shortlist/.test(COMPASS_HEAD.h2),
     'Ask Mobi': () => /Ask what to do tonight\. Get one clear step\./.test(buildTour({}).map((t) => t.title).join(' ')),
     'Key cards': () => /^Turn it\. Rate it\./.test(KEY_CARDS_HEAD.h2),
@@ -203,12 +203,15 @@ test('round 5 (owner, 6 Nov 2026, LK160): the strip draws the brand\'s 3D desk o
   // object (BRAND_STAMPS), the mocks are the tour's Practice object (an answer sheet and a pencil), Ask Mobi is Mobi.
   const features = heroFeatures({ compass: true, keyCards: true });
   const keys = features.map((f) => f.icon);
-  assert.deepEqual(keys, ['questions', 'mistakes', 'revise', 'compass', 'mobi', 'keycards']);
+  // Round 11 (10 Nov 2026): the third object is the exam-day screen's clipboard paper (the brand's `papers`, cut from R7 sheet
+  // B like the others), where the Score Recovery Lab's index cards stood.
+  assert.deepEqual(keys, ['questions', 'mistakes', 'papers', 'compass', 'mobi', 'keycards']);
   assert.equal(new Set(keys).size, keys.length, 'no two features share an object');
-  const stampFor = { '#inside-the-lab': BRAND_STAMPS.lab.icon, '#score-recovery-lab': BRAND_STAMPS.recovery.icon, '#compass': BRAND_STAMPS.compass.icon, '#key-cards': BRAND_STAMPS.keycards.icon };
+  const stampFor = { '#inside-the-lab': BRAND_STAMPS.lab.icon, '#compass': BRAND_STAMPS.compass.icon, '#key-cards': BRAND_STAMPS.keycards.icon };
   for (const f of features) if (stampFor[f.href]) assert.equal(f.icon, stampFor[f.href], `${f.name}: the object its section is stamped with`);
   assert.equal(features[0].icon, TOUR_ICON.arena, 'Unlimited mocks: the tour\'s Practice object');
   assert.equal(features.find((f) => f.name === 'Ask Mobi').icon, 'mobi', 'Ask Mobi is Mobi himself');
+  assert.equal(features.find((f) => f.href === '#exam-experience').icon, 'papers', 'the exam-day screen: a question paper on a clipboard');
   // The files: every width, one 12:11 box, true alpha, small; the srcset names them all, the sizes say the drawn box.
   for (const key of keys) {
     assert.ok(STRIP_OBJECTS[key], `${key} is a strip object`);
@@ -289,9 +292,13 @@ test('round 5 (owner, 6 Nov 2026, LK159): "CUET 2027." is the headline\'s anchor
   assert.doesNotMatch(all, /@keyframes lp-mark|lp-mark-(in|late)/, 'the highlighter\'s draw-in is gone');
 });
 
-test('decision 3: the two hero links stay, as ink underlined text links', () => {
+test('decision 3: the hero link stays, as an ink underlined text link (round 11: the exam-day screen moved into the strip)', () => {
   assert.match(HERO, /<Link href="\/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator<\/Link>/);
-  assert.match(HERO, /<a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen<\/a>/);
+  // Round 11 (10 Nov 2026): the strip's third item opens the exam section, so the tray holds the DU calculator alone.
+  const tray = HERO.slice(HERO.indexOf('<div className="lp-hero__links">'), HERO.indexOf('</section>'));
+  assert.equal((tray.match(/<(?:Link|a) /g) || []).length, 1, 'one link in the tray');
+  assert.doesNotMatch(HERO, /lp-hero__exam-link|Try the exam-day screen/);
+  assert.ok(heroFeatures({ compass: true, keyCards: true }).some((f) => f.href === '#exam-experience' && f.name === 'Exam-day screen'), 'the strip carries the exam-day screen');
   assert.match(CSS, /\.mm\.lp \.lp-hero__links > a \{[^}]*color: var\(--ink\);[^}]*text-decoration: underline;/);
   assert.match(CSS, /\.mm\.lp \.lp-hero__links > a \{[^}]*min-height: 44px;/);
 });

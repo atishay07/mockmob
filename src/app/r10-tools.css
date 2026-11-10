@@ -162,8 +162,6 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
 #exam-experience .xs-gate__mark svg { width: 18px; height: 18px; }
 #exam-experience .xs-gate__text { grid-area: text; margin: 0; }
 #exam-experience .xs-gate__foot { grid-area: foot; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 0.75rem; margin: 0; }
-#exam-experience .xs-gate__warn { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 1.625rem; padding: 0 0.625rem; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 0.75rem; font-weight: 650; color: var(--ink-2); }
-#exam-experience .xs-gate__warn svg { width: 13px; height: 13px; flex: none; }
 #exam-experience .xs-gate .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
 /* A tablet's full-width card keeps the pill and its link together rather than 600 px apart. */
 @media (min-width: 761px) and (max-width: 1023px) { #exam-experience .xs-gate__foot { justify-content: flex-start; column-gap: 1.25rem; } }
@@ -174,3 +172,7 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
   #exam-experience .xs-layout > .xs-switch { justify-self: stretch; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #exam-experience .xs-layout > .xs-switch button { justify-content: center; }
 }
+
+/* Round 11: the DU section's one quiet line to the Combo Planner, centred under the eligibility tool. The link is a 44 px target. */
+#du-eligibility .lp-combo-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 0.35rem; margin: 0.5rem 0 0; text-align: center; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; }
+#du-eligibility .lp-combo-line .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }

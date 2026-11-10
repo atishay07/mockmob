@@ -2,17 +2,19 @@
 
 // The landing's signature scene: the Mistake Lab, told as one held scroll story on every screen.
 // The product screen holds still (ScrollStory: position sticky, IntersectionObserver beats) while the
-// reader's scroll walks it through four scenes: time per question, every answer change on the clock,
-// the repair, and the SWOT with the sets to do next. Phones get the same hold as desktop: step rail on
+// reader's scroll walks it through five scenes: the chapters the marks went to, time per question, every
+// answer change on the clock, the repair, and the SWOT with the sets to do next (round 11, 10 Nov 2026: the
+// Score Recovery Lab told the same feature again, so it is one Lab now). Phones get the same hold as desktop: step rail on
 // top, the scene's words, then the screen, scaled once per resize to fit short and landscape windows.
 // The screen is a Night device in both themes, like every product screen on the page.
-// Each screen tells its story in order when its scene comes on (the pace line, then the bars past it;
-// the first pick, the arrow, the final pick; the wrong option, then the key), and reduced motion shows
+// Each screen tells its story in order when its scene comes on (the chapters' bars, worst first; the pace
+// line, then the bars past it; the first pick, the arrow, the final pick; the wrong option, then the key), and reduced motion shows
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
 import { useEffect, useRef, useState } from 'react';
-import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeftRight, BookOpen, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { LAB_SCENES } from './homeCopy.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -24,10 +26,74 @@ const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 // The scenes' words (title, body and take) live in homeCopy.mjs, held to their word budget by landingCopy.test.mjs; only the
 // icon each tab wears is chosen here.
-const ICON = { time: Timer, changes: ArrowLeftRight, repair: Wrench, swot: LayoutGrid };
+const ICON = { chapters: BookOpen, time: Timer, changes: ArrowLeftRight, repair: Wrench, swot: LayoutGrid };
 const SCENES = LAB_SCENES.map((scene) => ({ ...scene, Icon: ICON[scene.key] }));
 
 const verdictIcon = (v, size = 12) => (v === 'right' ? <Check size={size} aria-hidden="true" /> : v === 'wrong' ? <X size={size} aria-hidden="true" /> : <Minus size={size} aria-hidden="true" />);
+
+// ---------- 0. Chapters: where the marks went, chapter by chapter ----------
+// One row per chapter, worst first: its name, how many it got right, a bar as long as its share of every lost mark, and
+// the marks it lost. The bar is drawn question by question (a wrong answer's 6 solid, a blank's 5 dashed, the way the Time
+// screen draws a blank), each labelled with its question. The worst chapter wears the tag the tour's Chapter review used,
+// "Fix first"; the foot is that chapter's record in the mocks before this one (labStory earlierLostLine). Wide screens,
+// where the device has the room (as Changes draws its clock there), also draw that record as columns, oldest first, this
+// mock last: the marks the chapter lost in each (labStory swotRead partnershipLost, the SWOT's own threat figures).
+function chapterWords(c, i) {
+  const lost = c.lost ? `${c.lost} marks lost` : 'no marks lost';
+  return `${c.chapter}: ${c.right} of ${c.of} right, ${lost}${i === 0 && c.lost ? ', fix this first' : ''}.`;
+}
+
+const HISTORY = S.earlierLine ? S.swot.partnershipLost.map((lost, i, all) => {
+  const ago = all.length - 1 - i;
+  return { lost, now: ago === 0, label: ago === 0 ? 'This mock' : ago === 1 ? 'Last mock' : `${ago} mocks ago` };
+}) : [];
+const HISTORY_MAX = Math.max(1, ...HISTORY.map((h) => h.lost));
+
+function ChaptersPanel() {
+  const foot = S.earlierLine ? S.earlierLine.split(/(\d+)/) : null;
+  const blanks = S.chapters.some((c) => c.misses.some((m) => m.verdict === 'blank'));
+  return (
+    <div className="lcp lcp--chapters">
+      <p className="lcp__h">Where your marks went</p>
+      <p className="lcp__lead">You lost {S.lostMarks} marks in this mock. Here is where, by chapter.</p>
+      <ol className="lcp-ch">
+        {S.chapters.map((c, i) => (
+          <li key={c.chapter} className="lcp-ch__row" data-worst={i === 0 && c.lost ? 'true' : undefined} data-clear={c.lost ? undefined : 'true'} style={{ '--i': i, '--share': c.share }}>
+            <span className="lcp-ch__name" aria-hidden="true">
+              <b>{c.chapter}</b>
+              <small>{c.right} of {c.of} right</small>
+              {i === 0 && c.lost ? <em className="lcp-ch__flag">Fix first</em> : null}
+            </span>
+            <b className="lcp-ch__lost" aria-hidden="true">{signed(-c.lost)}</b>
+            <span className="lcp-ch__track" aria-hidden="true">
+              <span className="lcp-ch__bar">{c.misses.map((m) => <i key={m.n} data-verdict={m.verdict} style={{ flexGrow: m.marks }} />)}</span>
+              <span className="lcp-ch__qs">{c.misses.map((m) => <small key={m.n} data-verdict={m.verdict} style={{ flexGrow: m.marks }}>Q{m.n}</small>)}</span>
+            </span>
+            <span className="sr-only">{chapterWords(c, i)}</span>
+          </li>
+        ))}
+      </ol>
+      <ul className="lct__key lcp-ch__key" aria-hidden="true">
+        <li><i data-k="wrong" />Wrong answer</li>
+        {blanks ? <li><i data-k="blank" />Left blank</li> : null}
+      </ul>
+      {foot ? (
+        <div className="lcp-ch__was">
+          <p className="lcp__foot lcp-ch__foot">{foot.map((part, i) => (i % 2 ? <b key={i} data-tone="bad">{part}</b> : part))}</p>
+          <ol className="lcp-ch__mocks" aria-hidden="true">
+            {HISTORY.map((h, j) => (
+              <li key={h.label} data-now={h.now ? 'true' : undefined} style={{ '--v': h.lost / HISTORY_MAX, '--j': j }}>
+                <b>{signed(-h.lost)}</b>
+                <span className="lcp-ch__col"><i /></span>
+                <small>{h.label}</small>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ) : null}
+    </div>
+  );
+}
 
 // ---------- 1. Time: every question against the pace line ----------
 function timeWords(r) {
@@ -245,7 +311,7 @@ function SwotPanel() {
   );
 }
 
-const PANELS = { time: TimePanel, changes: ChangesPanel, repair: RepairPanel, swot: SwotPanel };
+const PANELS = { chapters: ChaptersPanel, time: TimePanel, changes: ChangesPanel, repair: RepairPanel, swot: SwotPanel };
 
 function ScreenBar({ label }) {
   return (
@@ -264,10 +330,11 @@ function ScreenBar({ label }) {
 function Stage({ step, pinned, reduced, goTo }) {
   const ready = pinned && !reduced;
   // The first scene opens on step one, so its screen was already "on" while the lab was still far below
-  // the reader and its story played unseen: the Time screen met the reader finished and still. It waits
-  // in its first frame (data-armed) while the lab is out of the window and plays when half of it is in,
-  // each time the lab comes back. It resets only once the lab is wholly out of view, so nothing visibly
-  // rewinds. Without script, or before hydration, the screen is shown finished.
+  // the reader and its story played unseen: the first screen (Time until round 11, Chapters now) met the
+  // reader finished and still. It waits in its first frame (data-armed) while the lab is out of the window
+  // and plays when half of it is in, each time the lab comes back; the scenes after it play when they come
+  // on stage. It resets only once the lab is wholly out of view, so nothing visibly rewinds. Without
+  // script, or before hydration, the screen is shown finished.
   const gridRef = useRef(null);
   const [armed, setArmed] = useState(true);
   useEffect(() => {
@@ -311,7 +378,7 @@ function Stage({ step, pinned, reduced, goTo }) {
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
-      {SCENES.map(({ key, tab, title, body, short, take }, i) => {
+      {SCENES.map(({ key, tab, title, body, short, take, link }, i) => {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
@@ -322,6 +389,9 @@ function Stage({ step, pinned, reduced, goTo }) {
               <p className="lc-scene__body">{body}</p>
               {short ? <p className="lc-scene__body lc-scene__body--short" aria-hidden="true">{short}</p> : null}
               <p className="lc-scene__take">{take}</p>
+              {/* The last scene's one quiet way in (round 11): only that scene carries it, and it takes taps only while
+                  its scene is on stage (lab-cinema.css). */}
+              {link ? <Link href={link.href} className="lp-link lc-scene__cta">{link.label}</Link> : null}
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
@@ -336,6 +406,6 @@ function Stage({ step, pinned, reduced, goTo }) {
 
 export default function LabCinema() {
   return (
-    <ScrollStory steps={SCENES.length} className="lc" label="Mistake Lab, four scenes" Content={Stage} />
+    <ScrollStory steps={SCENES.length} className="lc" label="Mistake Lab, five scenes" Content={Stage} />
   );
 }

@@ -44,11 +44,11 @@ export const STATEMENT = 'Your marks slipped somewhere. *MockMob shows you *wher
 export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Get your score, with every miss explained.' });
 export const LAB_HEAD = Object.freeze({
   h2: 'Every mark, traced back to a moment.',
-  sub: 'Every mock opens in the Lab: time, changed answers and the reason behind each miss.',
+  sub: 'After every mock: the chapter, the minutes and the changed answers that cost you, then the fix.',
 });
 export const TOUR_HEAD = Object.freeze({
-  h2: 'What’s inside MockMob.',
-  sub: 'Practise. Replay. Repair. Then one plan ties it together.',
+  h2: 'More inside MockMob.',
+  sub: 'The rest of your prep, one tool at a time.',
 });
 export const RECOVERY_HEAD = Object.freeze({
   h2: 'Fix it once. Check it holds.',
@@ -202,7 +202,6 @@ export const VALUE_COPY = Object.freeze({
   features: ({ keyCards = false } = {}) => [
     { icon: 'questions', name: 'Unlimited mocks', em: 'Unlimited' },
     { icon: 'mistakes', name: 'Mistake Lab', em: null },
-    { icon: 'revise', name: 'Score Recovery', em: null },
     { icon: 'mobi', name: 'Ask Mobi', em: null },
     ...(keyCards ? [{ icon: 'keycards', name: 'Key cards', em: null }] : []),
     { icon: 'compass', name: 'DU Compass', em: null },
@@ -228,12 +227,8 @@ export const COMPASS_PRO = Object.freeze({
   ]),
   fine: 'Comparing cutoffs is free, always.',
 });
-export const COMBO = Object.freeze({
-  badge: 'Combo Planner',
-  title: 'Five CUET subjects. Pick them right.',
-  body: 'Set your DU goals and subjects, then compare five-paper combinations against the published 2026 rules.',
-  cta: 'Plan my subjects',
-});
+// R11: the Combo Planner is one quiet line under the DU tool, not a card (the tour no longer carries it either).
+export const COMBO = Object.freeze({ ask: 'Choosing your five CUET subjects?', cta: 'Plan my subjects' });
 
 // ------------------------------------------------------------------ pricing lists
 /** What the free plan holds. `firstFullMockItem` is FIRST_FULL_MOCK_COPY.planItem while that switch is on, else null. */
@@ -275,7 +270,8 @@ export const planEm = (text) => PLAN_EM.find((em) => String(text).includes(em)) 
 // (public/brand/mascot/ask-deskbell.webp). `lede` is the one sentence phones show in place of body and points.
 export const TOUR_ICON = Object.freeze({ arena: 'questions', repair: 'mistakes', learn: 'lesson', replay: 'revise', radar: 'today', prepos: 'bell', compass: 'compass', combo: 'papers', rival: 'you', mob: 'mob' });
 
-/** The tour's slides. Study and the Mob appear only while they are live (the same switches the pages read). */
+/** The tour's slides: only the tools with no section of their own (the Lab, DU Compass and the DU section tell the rest).
+ * Study and the Mob appear only while they are live (the same switches the pages read). */
 export function buildTour({ studyLive = false, studyLessons = 0, studySubjects = 0, mobLive = false } = {}) {
   const slide = (id, rest) => ({ id, icon: TOUR_ICON[id], ...rest });
   return [
@@ -283,34 +279,14 @@ export function buildTour({ studyLive = false, studyLessons = 0, studySubjects =
       body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette.',
       lede: 'A quick drill on a free evening, or a full 50-question, 60-minute mock on the real clock.',
       points: ['Quick drills and full mocks', 'Close the tab mid-test and pick up later'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' }),
-    slide('repair', { label: 'Mistake Repair', line: 'Fix why you got it wrong, not the answer alone', title: 'Fix why you missed it.',
-      body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, all written from the official key.',
-      lede: 'Why your pick was tempting, where it breaks, and the rule to keep. From the official key, or not at all.',
-      points: ['If the AI and the key disagree, you pay nothing', 'A 10-minute next step, then 5 fresh questions'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' }),
     ...(studyLive && studyLessons ? [slide('learn', { label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea. Then make it stick.',
       body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you forget.',
       lede: 'Short lessons with worked examples, then recall cards that come back before you forget.',
       points: [`${studyLessons} lessons across ${studySubjects} subjects`, 'Lessons and recall are free, no credits'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' })] : []),
-    slide('replay', { label: 'Replay', line: 'See where the marks actually went', title: 'Replay your mock, move by move.',
-      body: 'Every answer you changed, every question that ate your time, every skip, in order. Then turn the costly ones into a short drill.',
-      lede: 'Every changed answer, every slow question and every skip, in the order it happened.',
-      points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' }),
-    slide('radar', { label: 'Chapter review', line: 'The chapter to fix first', title: 'Know the chapter to fix first.',
-      body: 'A score is just a number. Chapter review traces every miss to its chapter, so tonight has a target.',
-      lede: 'Every miss traced back to its chapter, so tonight has one clear target.',
-      points: ['Your top three chapters free, ranked across your mocks', 'Pro ranks every chapter, with pace and changed answers'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' }),
     slide('prepos', { label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
       body: 'Mobi reads your practice record and answers with the leak, the pace problem and one next step, the same one Today shows.',
       lede: 'Ask about your own record and get one next step, the same one Today shows you.',
       points: ['Questions about your own record are free', 'One credit buys a whole Mobi job'], chip: 'Every plan gets 50 free credits a month.', href: '/mentor', cta: 'Ask Mobi' }),
-    slide('compass', { label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
-      body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass maps your practice to your shortlist.',
-      lede: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
-      points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' }),
-    slide('combo', { label: 'Combo Planner', line: 'Choose your five CUET papers', title: 'Picking five papers? Test the combination first.',
-      body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
-      lede: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
-      points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' }),
     slide('rival', { label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
       body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level.',
       lede: 'A short timed run against a fixed target for accuracy and pace.',
@@ -331,17 +307,23 @@ export function buildFaqs({ offer, mobLive = false } = {}) {
     { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
     { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake and one next step for tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, and every mock is built fresh from one live question bank. Pro has no cap.' },
     ...(mobLive ? [{ question: 'What is the Mob?', answer: 'Your study group inside MockMob. Share a Mob’s code and everyone gets the same five questions for 24 hours. Fix it together then gives you a fresh question like the one that caught you. You can keep your marks private.' }] : []),
-    { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning.' },
+    { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the chapter behind each miss, time on each question, every answer you changed, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning.' },
     { question: 'What does Pro cost?', answer: price },
   ];
 }
 
-// ------------------------------------------------------------------ Mistake Lab: four scenes on one sample session
+// ------------------------------------------------------------------ Mistake Lab: five scenes on one sample session
 const S = labStory();
-/** The four Lab scenes (title, body, take). Numbers come from the sample session (labStory.mjs), never typed here.
+/** The five Lab scenes (title, body, take). Numbers come from the sample session (labStory.mjs), never typed here.
  *  `short` is the body for a short held window (700-740 px tall phones, R8 SEC-09): a whole sentence that fits two lines at
- *  360 px, in place of the long body cut off mid-promise by a line clamp. */
+ *  360 px, in place of the long body cut off mid-promise by a line clamp.
+ *  Round 11 (owner, 10 Nov 2026: the Mistake Lab and the Score Recovery Lab were "the same feature"): one Lab, and its first
+ *  scene is the hero's promise, every lost mark traced to its chapter (the words the tour's Chapter review slide used). */
 export const LAB_SCENES = Object.freeze([
+  { key: 'chapters', tab: 'Chapters', title: 'Know the chapter to fix first.',
+    body: 'A score is just a number. The Lab traces every lost mark to its chapter, so tonight has one clear target.',
+    short: 'Every lost mark traced to its chapter, so tonight has one target.',
+    take: `${S.chapters[0].lost} of your ${S.lostMarks} lost marks sat in one chapter: ${S.chapters[0].chapter}.` },
   { key: 'time', tab: 'Time', title: 'Find the minutes that cost you.',
     body: `Every question against CUET’s pace of ${S.pace}. Overruns light up, and so does what they bought you.`,
     short: `Every question against CUET’s ${S.pace} pace, and what each overrun bought.`,
@@ -358,7 +340,10 @@ export const LAB_SCENES = Object.freeze([
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
     short: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
-    take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That set goes first.` },
+    // The plan's first set, in the plan's own words (labStory swotRead), then the check the next mock gives.
+    take: `${S.swot.plan[0].label} first. Your next mock shows whether it held.`,
+    // The one quiet way in, under the take in this scene only (LabCinema.jsx).
+    link: Object.freeze({ href: '/signup', label: 'Sign up free and open yours' }) },
 ]);
 
 // ------------------------------------------------------------------ Score Recovery Lab: four held steps
@@ -440,7 +425,9 @@ export const EXAM = Object.freeze({
   address: Object.freeze({ host: 'mockmob.in', mockmob: '/test?subject=accountancy&mode=quick', nta: '/test?subject=accountancy&mode=nta&interface=nta' }),
   gate: 'NTA mode uses the entire screen.',
   gateTitle: 'Enter your exam space',
-  warnings: 'Warnings 0/3',
+  // The page's own one-line rule (R11: the old "Warnings 0/3" pill was not interactive). Not a runner string: it states what
+  // ExamIntegrityGuard does (leaving fullscreen or switching tabs or apps counts; INTEGRITY_STRIKES = 3 submits). Held by examPreviewParity.test.mjs.
+  warningRule: 'Leaving fullscreen or switching tabs counts as a warning. The third one submits your answers.',
   ctaFree: 'See Pro',
   ctaPro: 'Set up an NTA mock',
   // Phones (R4-H6, owner LK129, 6 Nov 2026): the monitor stays a scaled picture of the real screen, and one key opens the same

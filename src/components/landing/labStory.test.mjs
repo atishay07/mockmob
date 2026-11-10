@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SESSION, REPAIR, labStory, clock, signed, PAPER_PACE_SEC, marksLedger, repairRecordLine } from './labStory.mjs';
+import { SESSION, REPAIR, EARLIER, GAP, labStory, clock, signed, PAPER_PACE_SEC, marksLedger, repairRecordLine, chapterLedger, earlierLostLine } from './labStory.mjs';
 
 const story = labStory();
 
@@ -35,6 +35,34 @@ test('the ledger sorts every missed mark once, in the product groups', () => {
     ['other_blank', 10, [6, 10]],
   ]);
   assert.equal(ledger.headline, '2 answers were right until you changed them. That cost 12 of the 28 marks you missed.');
+});
+
+test('the Chapters scene (R11): one row per chapter, worst first, adding up to every mark the paper lost', () => {
+  const rows = chapterLedger();
+  assert.deepEqual(rows.map((r) => r.chapter).sort(), [...new Set(SESSION.map((r) => r.chapter))].sort(), 'every chapter of the session, once');
+  assert.equal(rows.reduce((t, r) => t + r.lost, 0), story.facts.outOf - story.facts.marks, 'the rows add up to the marks the paper lost');
+  assert.equal(story.lostMarks, story.facts.outOf - story.facts.marks);
+  assert.ok(rows.every((r, i) => i === 0 || rows[i - 1].lost >= r.lost), 'worst first');
+  assert.ok(Math.abs(rows.reduce((t, r) => t + r.share, 0) - 1) < 1e-9, 'the shares make up the whole');
+  for (const r of rows) {
+    assert.equal(r.of, SESSION.filter((q) => q.chapter === r.chapter).length, `${r.chapter} counts its questions`);
+    assert.equal(r.right, SESSION.filter((q) => q.chapter === r.chapter && q.verdict === 'right').length, `${r.chapter} counts its right answers`);
+    assert.equal(r.misses.reduce((t, m) => t + m.marks, 0), r.lost, `${r.chapter}: its questions make up its bar`);
+    assert.ok(r.misses.every((m) => m.marks === GAP[m.verdict]), 'a wrong answer loses 6, a blank 5');
+  }
+  // The first row is the chapter the SWOT's plan sends the student to first.
+  assert.ok(story.swot.plan[0].label.endsWith(` ${rows[0].chapter}`), `${story.swot.plan[0].label} names ${rows[0].chapter}`);
+  assert.deepEqual(story.chapters, rows);
+  assert.deepEqual(rows.map((r) => [r.chapter, r.right, r.of, r.lost]), [['Partnership', 1, 4, 18], ['Cash flow', 1, 3, 10], ['Ratios', 3, 3, 0]]);
+});
+
+test('the Chapters foot is worded from the earlier record: the count and the values, never typed', () => {
+  assert.equal(earlierLostLine(), 'Partnership also cost you 12 and 12 marks in your two mocks before this one.');
+  assert.equal(story.earlierLine, earlierLostLine(EARLIER.partnershipLost));
+  assert.equal(earlierLostLine([9]), 'Partnership also cost you 9 marks in your mock before this one.');
+  assert.equal(earlierLostLine([6, 12, 18]), 'Partnership also cost you 6, 12 and 18 marks in your three mocks before this one.');
+  assert.equal(earlierLostLine([]), null);
+  assert.equal(earlierLostLine([9], 'Ratios'), 'Ratios also cost you 9 marks in your mock before this one.');
 });
 
 test('every change happens inside the session clock and after its first pick', () => {

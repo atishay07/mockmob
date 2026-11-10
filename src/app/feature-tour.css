@@ -223,3 +223,5 @@
 /* The next section's heading takes focus from the tour's last key (FeatureTour.jsx); the page glide shows where it is. */
 .lp-sec h2[tabindex='-1']:focus { outline: none; }
 a.ft__next { text-decoration: none; }
+/* R11: held, the chrome row holds only the tool's name (no play key, no status), so it is a compact title strip, not a 44 px key row. */
+.ft-story[data-pinned='true'] .ft__chrome { padding-block: .85rem .3rem; }

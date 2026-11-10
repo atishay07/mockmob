@@ -152,10 +152,12 @@ test('R3-D2: the brand stamps are product names only, each with a desk object, s
     assert.doesNotMatch(name, /[·•.:]|^[A-Z ]+$/, `${name} is sentence case with no dots`);
   }
   const page = read('src/app/page.js');
-  for (const [key, h2] of [['lab', 'LAB_HEAD'], ['recovery', 'RECOVERY_HEAD'], ['compass', 'COMPASS_HEAD'], ['instagram', 'INSTAGRAM_HEAD'], ['wall', 'WALL_HEAD']]) {
+  // R11 (owner, 10 Nov 2026): the Score Recovery Lab merged into the Mistake Lab, so its stamp (kept in BRAND_STAMPS) is not drawn.
+  for (const [key, h2] of [['lab', 'LAB_HEAD'], ['compass', 'COMPASS_HEAD'], ['instagram', 'INSTAGRAM_HEAD'], ['wall', 'WALL_HEAD']]) {
     assert.match(page, new RegExp(`<BrandStamp \\{\\.\\.\\.BRAND_STAMPS\\.${key}\\} />\\n\\s*<h2 className="lp-h2"[^>]*>\\{${h2}\\.h2\\}`), `${key}: the stamp sits right above its h2`);
   }
-  assert.equal((page.match(/<BrandStamp /g) || []).length, 5, 'five stamps on the page (Key cards stamps its own section when it lands)');
+  assert.doesNotMatch(page, /BRAND_STAMPS\.recovery/);
+  assert.equal((page.match(/<BrandStamp /g) || []).length, 4, 'four stamps on the page (Key cards stamps its own section when it lands)');
   const stamp = css('src/app/brand-stamp.css');
   const body = rule(stamp, '.mm.lp .lp-stamp');
   assert.match(body, /color: var\(--brand-word\);/);
@@ -228,9 +230,9 @@ test('R3-D2: the creator cards’ texture is the brand’s answer sheet (OMR bub
 
 test('R3-D2: the two-beat voice where it is true (LK114)', () => {
   assert.equal(RECOVERY_HEAD.h2, 'Fix it once. Check it holds.');
-  assert.match(TOUR_HEAD.sub, /^Practise\. Replay\. Repair\. /);
+  assert.equal(TOUR_HEAD.sub, 'The rest of your prep, one tool at a time.'); // R11: the tour's new head
   assert.equal(LAB_SCENES.find((s) => s.key === 'repair').title, 'Fix why you missed it.');
-  assert.equal(buildTour().find((s) => s.id === 'repair').title, 'Fix why you missed it.');
+  assert.equal(buildTour().find((s) => s.id === 'repair'), undefined, 'R11: Repair is told by the Lab, not the tour');
 });
 
 // ------------------------------------------------------------------------------------------------ R3-D11 Accountancy Part B

@@ -139,7 +139,8 @@ test('no baked photo-real Mobi pose is named by a home-page source; only the des
 test('every seat has its pose and its job: think, read, encourage, point, cheer, attentive', () => {
   assert.match(read('MistakeLab.jsx'), /<MascotSeat station="lab-inline" pose="thinking"/, 'Mistake Lab thinks');
   assert.match(read('ExamScreen.jsx'), /<MascotSeat station="demo" pose="reading"/, 'the exam section reads the answer sheet');
-  assert.match(PAGE_SRC, /<MascotSeat station="lab" pose="encouraging"/, 'Score Recovery encourages');
+  // R11 (owner, 10 Nov 2026): the Score Recovery section merged into the Mistake Lab, and its encouraging seat left with it.
+  assert.doesNotMatch(PAGE_SRC, /<MascotSeat station="lab"/, 'no seat for a section that is gone');
   assert.match(PAGE_SRC, /<MascotSeat station="compass" pose="pointing"/, 'the Compass points');
   assert.match(PAGE_SRC, /<MascotSeat station="eligibility" pose="pointing"/, 'the DU calculator points');
   assert.match(PAGE_SRC, /<MascotSeat station="close" pose="celebrating"/, 'the close band cheers');
@@ -154,7 +155,7 @@ test('the tour rail draws desk objects, and only the control glyphs stay line ic
   // R3-D5 (5 Nov 2026, LK105): the rail's objects load eagerly at low priority (a lazy image in a sideways scroller arrived
   // after its chip was on screen); this line used to pin the bare <BrandIcon name={name} size={RAIL_ICON} />.
   assert.match(tour, /<BrandIcon name=\{name\} size=\{RAIL_ICON\} loading="eager" fetchPriority="low" \/>/);
-  assert.deepEqual(Object.values(buildTour({ studyLive: true, studyLessons: 1, studySubjects: 1, mobLive: true }).reduce((acc, s) => ({ ...acc, [s.id]: s.icon }), {})), ['questions', 'mistakes', 'lesson', 'revise', 'today', 'bell', 'compass', 'papers', 'you', 'mob']);
+  assert.deepEqual(Object.values(buildTour({ studyLive: true, studyLessons: 1, studySubjects: 1, mobLive: true }).reduce((acc, s) => ({ ...acc, [s.id]: s.icon }), {})), ['questions', 'lesson', 'bell', 'you', 'mob']);
 });
 
 test('the Mob screen shows each Fold at 48 px, not a 20 px chip', () => {

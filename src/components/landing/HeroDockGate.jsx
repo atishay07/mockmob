@@ -86,7 +86,6 @@ const SECTION_ACTS = {
   'lp-statement': ['nod'],
   'inside-the-lab': ['tilt'],
   'your-prep': ['nod'],
-  'score-recovery-lab': ['read', 1600],
   compass: ['point', 1400],
   'du-eligibility': ['point', 1400],
   'exam-experience': ['tilt'],

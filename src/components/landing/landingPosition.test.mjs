@@ -22,7 +22,8 @@ test('the band is mounted once, right under the site bar, with the page\'s held 
   assert.match(PAGE, /import \{ SectionPosition \} from '@\/components\/landing\/SectionPosition';/);
   assert.equal((PAGE.match(/<SectionPosition /g) || []).length, 1);
   assert.match(PAGE, /<NavBar \/>\s*<SectionPosition sections=\{POSITION\} \/>/);
-  assert.deepEqual(IDS, ['inside-the-lab', 'your-prep', 'score-recovery-lab']);
+  // R11 (owner, 10 Nov 2026): the Score Recovery Lab told the Mistake Lab's feature again; it is one Lab now.
+  assert.deepEqual(IDS, ['inside-the-lab', 'your-prep']);
 });
 
 test('every name is a real section on the page, in page order, and a host for the stage offset', () => {
@@ -37,14 +38,14 @@ test('every name is a real section on the page, in page order, and a host for th
 
 test('the names are the product\'s own words for each held story; the headings now come from homeCopy.mjs (no kickers)', () => {
   assert.match(POSITION, /name: 'Inside the Mistake Lab'/);
-  assert.match(POSITION, /name: <>What’s inside <em>MockMob<\/em><\/>/);
-  assert.match(POSITION, /name: 'Score Recovery Lab'/);
+  assert.match(POSITION, /name: <>More inside <em>MockMob<\/em><\/>/);
+  assert.doesNotMatch(POSITION, /Score Recovery Lab/, 'R11: no Recovery story on the page');
   // 1104 P5 moved the headings into homeCopy.mjs and dropped the kickers above every h2: each held section still opens
   // with its own h2, and the tour's band name is that h2's words.
   assert.match(PAGE, /<h2 className="lp-h2" id="inside-the-lab-title">\{LAB_HEAD\.h2\}<\/h2>/);
   assert.match(PAGE, /<h2 className="lp-h2">\{TOUR_HEAD\.h2\}<\/h2>/);
-  assert.match(PAGE, /<h2 className="lp-h2">\{RECOVERY_HEAD\.h2\}<\/h2>/);
-  assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'What’s inside MockMob\.'/);
+  assert.doesNotMatch(PAGE, /RECOVERY_HEAD/, 'R11: the Recovery section and its head are gone from the page');
+  assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'More inside MockMob\.'/);
 });
 
 // The top band (wide windows) and the bottom bar (phones, R3-D4) live in one component and one stylesheet. The band's own

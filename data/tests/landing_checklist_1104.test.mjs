@@ -101,14 +101,17 @@ test.todo('L-003 at 390 px every section is composed for the phone first and is 
 
 // ================================================================================================ L-004 / L-005 nothing cut
 test('L-004 the full feature showcase is still there: every section, the tour, the Lab, the exam screen, the shelf, Compass, DU, pricing, FAQ', () => {
-  for (const id of ['try-practice', 'inside-the-lab', 'your-prep', 'score-recovery-lab', 'compass', 'du-eligibility', 'pricing', 'faq', 'on-instagram']) {
+  // R11 (owner, 10 Nov 2026: "it's the same feature"): the Score Recovery Lab merged into the Mistake Lab (#inside-the-lab).
+  for (const id of ['try-practice', 'inside-the-lab', 'your-prep', 'compass', 'du-eligibility', 'pricing', 'faq', 'on-instagram']) {
     assert.match(PAGE_CODE, new RegExp(`id="${id}"`), `section #${id} is on the page`);
   }
+  assert.doesNotMatch(PAGE_CODE, /id="score-recovery-lab"/, 'one Lab, not two');
   assert.match(PAGE_CODE, /<ExamScreen\s*\/>/, 'the exam-day screen section is rendered');
   assert.match(read('src/components/landing/ExamScreen.jsx'), /id="exam-experience"/, 'it keeps its anchor');
   // R3-D7 (owner LK107, 5 Nov 2026) supersedes the numbers band here: its true counts are lines of the one plan in #pricing
   // (HomePricing, PlanCounts), so the plan is what must be rendered, with the counts inside it.
-  for (const part of ['FeatureTour', 'LabCinema', 'MistakeLab', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
+  // R11: MistakeLab (the Recovery Lab's replay) left with its section; LabCinema tells the Lab once, in five scenes.
+  for (const part of ['FeatureTour', 'LabCinema', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
     assert.match(PAGE_CODE, new RegExp(`<${part}[\\s/>]`), `<${part} /> is rendered`);
   }
   assert.match(code(read('src/components/landing/HomePricing.jsx')), /<PlanCounts groups=/, 'the bank and subject counts live in the plan card');
@@ -443,23 +446,25 @@ test('L-027 one gesture advances one slide: the gesture model commits at most on
 test('L-028 "What\'s inside MockMob" is a held story that moves one slide per gesture (paced by the shared gesture lock, not by scroll distance)', () => {
   const tour = code(read('src/components/landing/FeatureTour.jsx'));
   assert.match(tour, /ScrollStory/);
-  assert.ok(homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).length >= 6, 'its slides are all still there');
+  assert.ok(homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).length >= 5, 'its slides are all still there (R11: five tools; the rest have their own sections)');
   const g = readFileSync(join(ROOT, 'src/components/landing/storyGesture.mjs'), 'utf8');
   assert.match(g, /LOCK_MS\s*=\s*(4\d\d|[5-9]\d\d)/, 'a step swallows the next 400 ms or more of input');
 });
 test.todo('L-028 a readable dwell per slide on the tour ("much slower than before"): a felt-speed judgement in real Chrome (scroll/RESULTS.md has the bench)');
 
-test('L-029 the statement, the Mistake Lab, the tour and the Recovery Lab hold the screen and step their content, so one fast flick cannot skip them', () => {
-  for (const f of ['Statement', 'LabCinema', 'FeatureTour', 'MistakeLab']) assert.match(code(read(`src/components/landing/${f}.jsx`)), /ScrollStory/, `${f} is a held story`);
+test('L-029 the statement, the Mistake Lab and the tour hold the screen and step their content, so one fast flick cannot skip them', () => {
+  for (const f of ['Statement', 'LabCinema', 'FeatureTour']) assert.match(code(read(`src/components/landing/${f}.jsx`)), /ScrollStory/, `${f} is a held story`);
   assert.match(PAGE_CODE, /<Statement\b/);
-  assert.match(PAGE_CODE, /<MistakeLab\b/);
+  // R11: the Recovery Lab's held story (MistakeLab) left the page with its section; the Mistake Lab tells the feature once.
+  assert.match(PAGE_CODE, /<LabCinema\b/);
+  assert.doesNotMatch(PAGE_CODE, /<MistakeLab\b/);
   assert.match(stripComments(read('src/app/scroll-story.css')), /position:\s*sticky/, 'held by a sticky stage');
 });
 
 test('L-030 the tour\'s name carries "MockMob" in the brand colour (green in Night, olive in Day), the heading is the tour\'s own and attaches to the next section', () => {
-  assert.match(PAGE_CODE, /name: <>What’s inside <em>MockMob<\/em><\/>/, 'the position band names it with MockMob emphasised');
+  assert.match(PAGE_CODE, /name: <>More inside <em>MockMob<\/em><\/>/, 'the position band names it with MockMob emphasised');
   assert.match(cssAll, /\.lp-pos__name em\s*\{[^}]*color:\s*var\(--brand-word\)/);
-  assert.match(homeCopy.TOUR_HEAD.h2, /^What’s inside MockMob\.?$/);
+  assert.match(homeCopy.TOUR_HEAD.h2, /^More inside MockMob\.?$/);
   assert.match(PAGE_CODE, /id="your-prep"[\s\S]{0,400}<FeatureTour/, 'heading and tour are one section');
 });
 

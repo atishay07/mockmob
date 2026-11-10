@@ -133,8 +133,8 @@ export function valueTiles({ keyCards = false, mob = false, recovery = false } =
   return [
     // src/app/pricing/page.js PRO_COPY.moments[0].line, its first sentence.
     { key: 'mocks', icon: 'papers', name: 'Unlimited mocks', line: 'Each Full mock is built fresh from one central question bank, so every paper is new.' },
-    // homeCopy.mjs LAB_HEAD.sub.
-    { key: 'lab', icon: 'mistakes', name: 'Mistake Lab', line: 'Every mock opens in the Lab: time, changed answers and the reason behind each miss.' },
+    // homeCopy.mjs LAB_HEAD.sub (round 11 rewrote it with the Lab's new Chapters scene; this line follows it).
+    { key: 'lab', icon: 'mistakes', name: 'Mistake Lab', line: 'After every mock: the chapter, the minutes and the changed answers that cost you, then the fix.' },
     // Score Recovery only once it is live (data/capabilities.js recoveryReleased(): its fresh checks "open soon" until then); homeCopy.mjs
     // RECOVERY_HEAD.sub. Until then the slot holds Smart practice, live in Pro today: src/app/pricing/page.js PRO_COPY.moments[1].line
     // (planOffer.mjs compareRows: Smart practice, Free no, Pro yes).

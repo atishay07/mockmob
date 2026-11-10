@@ -290,10 +290,14 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
           <div className="ft__chrome">
             <div className="ft__chapter"><span className="lp-sr">{`Feature ${active + 1} of ${slides.length}`}</span><b>{slides[active]?.label}</b></div>
-            <span className="ft__status"><i aria-hidden="true" />{status}</span>
-            <button type="button" className="ft__play" aria-label={paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
-              {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
-            </button>
+            {/* Held (every real browser) the demos play once per tool and rest, so there is nothing to pause: the name stands alone (R11).
+                The timed fallback carousel keeps its Pause key and its Autoplay status. */}
+            {pinned ? null : <>
+              <span className="ft__status"><i aria-hidden="true" />{status}</span>
+              <button type="button" className="ft__play" aria-label={paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
+                {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
+              </button>
+            </>}
           </div>
           <div className="ft__progress" aria-hidden="true" style={{ gridTemplateColumns: 'repeat(' + slides.length + ', minmax(0, 1fr))' }}>
             {slides.map((slide, i) => <span key={slide.id} data-done={i < active ? 'true' : 'false'}>

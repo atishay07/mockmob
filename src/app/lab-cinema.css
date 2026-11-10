@@ -1,6 +1,7 @@
 /* ==========================================================================
    MISTAKE LAB CINEMA (landing only): .lc, built on ScrollStory (.ss, scroll-story.css)
-   One held scroll story in four scenes, on phones exactly as on desktop: the stage sticks, the
+   One held scroll story in five scenes (Chapters, Time, Changes, Repair, SWOT; round 11 added Chapters
+   and merged the Score Recovery Lab into this one), on phones exactly as on desktop: the stage sticks, the
    reader's scroll changes the scene. Phones stack rail, words and screen in one frame; wide or
    landscape windows put the words beside the screen. Only opacity and transform move.
    The product screen is a Night device in both themes (every product screen on the page is), with a
@@ -68,9 +69,17 @@ html[data-theme='light'] .lc {
   color: var(--ink); font-weight: 650; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums;
 }
 .lc-scene__take::before { content: ''; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--ink-3); }
+/* The SWOT scene's one quiet way in (round 11): the page's text link (.lp-link, a 44 px target) on its own line under the
+   take. Held, the scenes take no taps (they share one cell), so only the link of the scene on stage does. The scenes'
+   words share one row, so the link's tall target would push every scene's screen down: the target keeps its 44 px but
+   reaches into the air above and below the words (negative margins), so the row grows by the line alone. */
+.lc-scene__cta { display: flex; width: fit-content; margin: -0.4rem 0 -0.7rem; }
+.lc[data-pinned='true'] .lc-scene[data-on='true'] .lc-scene__cta { pointer-events: auto; }
 
-/* ---------- Rail: the step indicator (a row of four on phones, a column on desktop) ---------- */
-.lc__rail { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+/* ---------- Rail: the step indicator (a row of five on phones, a column on desktop) ----------
+   Five tabs share a 320-350 px phone row: the gaps are 0.2rem, so "Chapters", the longest name, keeps its 13 px (12 px
+   under 380 px) on one line with no sideways scroll. */
+.lc__rail { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.2rem; margin: 0; padding: 0; list-style: none; }
 .lc__rail button {
   position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem;
   width: 100%; min-height: 48px; padding: 0.35rem 0.2rem 0.6rem;
@@ -117,11 +126,11 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 .lcd-bar__title b { color: var(--s-ink); font: 800 1.35rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .lcd-bar__title b small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
 .lcd-bar__tab { margin: 0; color: var(--s-ink); font: 750 1rem/1.2 var(--font-body); }
-.lcd__tabs { position: relative; display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.2rem 1.1rem 0; padding: 0.25rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+.lcd__tabs { position: relative; display: none; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0.2rem 1.1rem 0; padding: 0.25rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
 .lcd__tabs span { position: relative; z-index: 1; display: grid; place-items: center; min-height: 2rem; color: var(--s-ink-3); font-size: 0.8125rem; font-weight: 700; transition: color 0.25s ease; }
 .lcd__tabs span[data-on='true'] { color: var(--s-accent-ink); }
 .lcd__tab-ink {
-  position: absolute; z-index: 0; top: 0.25rem; bottom: 0.25rem; left: 0.25rem; width: calc((100% - 0.5rem) / 4);
+  position: absolute; z-index: 0; top: 0.25rem; bottom: 0.25rem; left: 0.25rem; width: calc((100% - 0.5rem) / 5);
   border-radius: 9px; background: var(--s-accent);
   transform: translate3d(calc(var(--ss-step) * 100%), 0, 0); transition: transform 0.45s var(--lc-ease);
 }
@@ -136,6 +145,67 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 .lcp :is(.lcp__lead, .lcp__foot) b[data-tone='good'] { color: var(--s-good); }
 .lcp__fine { margin: 0; color: var(--s-ink-3); font-size: 0.75rem; line-height: 1.4; }
 .lcd-bar__title b { font-variant-numeric: tabular-nums; }
+
+/* ---------- 0. Chapters: where the marks went (round 11) ----------
+   The Time screen's language: its header, lead and foot, its sunken track and 4 px radius, its key, coral for marks lost
+   and green for a chapter that lost none, tabular numerals. One row per chapter, worst first: the name, right of its
+   questions and (the worst only) the "Fix first" tag on one line, the marks it lost at the right edge; under them the bar,
+   as long as the chapter's share of every lost mark, one piece per lost question with its number on it: solid for a wrong
+   answer, dashed for a blank (the Time screen's blank). The tag is a small volt mark like the Time screen's pace label. */
+.lcp-ch { display: grid; gap: 0.95rem; margin: 0.1rem 0 0; padding: 0; list-style: none; }
+.lcp-ch__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 0.75rem; row-gap: 0.45rem; }
+.lcp-ch__name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.55rem; min-width: 0; }
+.lcp-ch__name b { color: var(--s-ink); font-size: 0.875rem; font-weight: 750; line-height: 1.25; }
+.lcp-ch__name small { color: var(--s-ink-2); font-size: 0.75rem; font-weight: 650; }
+.lcp-ch__flag { align-self: center; padding: 0 0.4rem; border-radius: 6px; background: color-mix(in srgb, var(--s-accent) 13%, transparent); color: var(--s-accent); font-size: 0.6875rem; font-style: normal; font-weight: 800; line-height: 1.15rem; white-space: nowrap; }
+.lcp-ch__lost { color: var(--s-bad); font: 800 0.95rem/1 var(--font-display); letter-spacing: -0.01em; text-align: right; font-variant-numeric: tabular-nums; }
+.lcp-ch__row[data-clear='true'] .lcp-ch__lost { color: var(--s-good); }
+.lcp-ch__track { grid-column: 1 / -1; position: relative; height: 1.15rem; border-radius: 4px; background: var(--s-sunken); }
+.lcp-ch__bar, .lcp-ch__qs { position: absolute; top: 0; bottom: 0; left: 0; display: flex; gap: 2px; width: calc(var(--share, 0) * 100%); }
+.lcp-ch__bar { transform-origin: left center; }
+.lcp-ch__bar i { flex: 1 1 0; min-width: 0; border-radius: 4px; background: var(--s-bad-fill); }
+.lcp-ch__bar i[data-verdict='blank'] { background: color-mix(in srgb, var(--s-bad-fill) 14%, transparent); border: 1px dashed color-mix(in srgb, var(--s-bad-fill) 85%, transparent); }
+.lcp-ch__qs small { flex: 1 1 0; min-width: 0; display: grid; place-items: center; color: #1a0703; font-size: 0.6875rem; font-weight: 800; line-height: 1; }
+.lcp-ch__qs small[data-verdict='blank'] { color: var(--s-bad); }
+.lcp-ch__key i[data-k='wrong'] { background: var(--s-bad-fill); }
+.lcp-ch__key i[data-k='blank'] { box-sizing: border-box; background: color-mix(in srgb, var(--s-bad-fill) 14%, transparent); border: 1px dashed var(--s-bad-fill); }
+/* The wide device is sized for Changes, the longest scene: three chapters at the phone's rhythm filled its top third. The
+   rows take the room the way Time's do there (r10-lab-tour.css): larger names and marks, thicker bars, wider air. */
+@media (min-width: 960px) and (min-height: 600px) {
+  .lcp--chapters { gap: 1.05rem; }
+  .lcp-ch { gap: 1.6rem; margin-top: 0.45rem; }
+  .lcp-ch__row { row-gap: 0.6rem; }
+  .lcp-ch__name b { font-size: 1rem; }
+  .lcp-ch__name small { font-size: 0.8125rem; }
+  .lcp-ch__flag { padding: 0 0.5rem; font-size: 0.75rem; line-height: 1.35rem; }
+  .lcp-ch__lost { font-size: 1.25rem; }
+  .lcp-ch__track { height: 1.6rem; border-radius: 6px; }
+  .lcp-ch__bar i { border-radius: 6px; }
+  .lcp-ch__qs small { font-size: 0.8125rem; }
+}
+@media (min-width: 960px) and (min-height: 860px) {
+  .lcp--chapters { gap: 1.2rem; }
+  .lcp-ch { gap: 1.75rem; }
+  .lcp-ch__track { height: 1.75rem; }
+}
+/* Wide only: the worst chapter's record as columns, oldest mock first, this one last and in full coral; the foot sentence
+   heads the box (a sunken box like Changes' score line). Each column stands in a full-height well, so its height reads
+   against the largest loss. Phones keep the sentence alone. */
+.lcp-ch__mocks { display: none; }
+@media (min-width: 960px) and (min-height: 600px) {
+  .lcp-ch__was { display: grid; gap: 0.85rem; padding: 0.9rem 1.1rem 0.95rem; border-radius: 16px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+  .lcp-ch__mocks { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+  .lcp-ch__mocks li { display: grid; justify-items: center; gap: 0.4rem; }
+  .lcp-ch__mocks b { color: var(--s-ink-2); font: 800 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .lcp-ch__mocks li[data-now='true'] b { color: var(--s-bad); }
+  .lcp-ch__col { display: flex; align-items: flex-end; width: min(100%, 2.75rem); height: 4rem; border-radius: 6px; background: rgb(255 255 255 / 0.04); }
+  /* The earlier mocks in the Time screen's past-the-line grey, this mock in coral: the eye lands on tonight's number. */
+  .lcp-ch__col i { width: 100%; height: calc(var(--v, 0) * 100%); border-radius: 6px; background: rgba(242, 244, 236, 0.26); transform-origin: center bottom; }
+  .lcp-ch__mocks li[data-now='true'] .lcp-ch__col i { background: var(--s-bad-fill); }
+  .lcp-ch__mocks small { color: var(--s-ink-3); font-size: 0.75rem; font-weight: 650; }
+  .lcp-ch__mocks li[data-now='true'] small { color: var(--s-ink-2); }
+}
+@media (min-width: 960px) and (min-height: 860px) { .lcp-ch__col { height: 4.75rem; } }
 
 /* ---------- 1. Time: every question against the pace line ----------
    One row per question in paper order. The dashed pace line runs through every track; inside it a bar
@@ -316,8 +386,18 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
    the time over the pace is written beside them. Changes: one change after another, the first pick and
    its check or cross, the arrow, the cross on an arrow that threw away a right answer, the final pick and
    its marks, then the sum. Repair: the pick is crossed out, the key checked, then the blocks. SWOT: the
-   plan, then the four groups. Every screen is whole within about two seconds of its scene coming on.
-   Turning off waits for the screen to fade (--lc-reset), then resets at once, so nothing visibly rewinds. */
+   plan, then the four groups. Chapters (round 11): each chapter's bar grows from zero in turn, worst first, then its
+   question numbers and its marks; the tag, the key and the foot follow, then (wide) the record's columns rise in turn.
+   Every screen is whole within about two seconds
+   of its scene coming on. Turning off waits for the screen to fade (--lc-reset), then resets at once, so nothing visibly
+   rewinds. */
+.lc .lcp-ch__row { --t: calc(240ms + var(--i, 0) * 170ms); }
+.lc .lcp-ch__bar { transition: transform 460ms var(--lc-ease) var(--t); }
+.lc :is(.lcp-ch__qs, .lcp-ch__lost) { transition: opacity 220ms ease calc(var(--t) + 320ms); }
+.lc .lcp-ch__flag { transition: opacity 220ms ease 820ms, transform 320ms var(--lc-ease) 820ms; }
+.lc .lcp-ch__key { transition: opacity 300ms ease 1000ms; }
+.lc .lcp-ch__was { transition: opacity 320ms ease 1080ms, transform 420ms var(--lc-ease) 1080ms; }
+.lc .lcp-ch__col i { transition: transform 420ms var(--lc-ease) calc(1300ms + var(--j, 0) * 110ms); }
 .lc .lct__pace { transition: transform 420ms var(--lc-ease) 40ms; }
 .lc .lct__pace-label { transition: opacity 240ms ease 160ms; }
 .lc .lct__row { --t: calc(300ms + var(--i, 0) * 42ms); }
@@ -385,8 +465,17 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 .lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-clock__dot { opacity: 0; transform: scale(0.6); }
 .lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-net__mark { opacity: 0; transform: translate3d(-50%, 0.4rem, 0); }
 .lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; }
-/* The Time screen waiting for the lab to come into view resets at once (it is out of the window, and a delayed
-   reset would never run on a section the browser has not drawn). */
+/* Chapters (round 11): the same first frame and the same reset. */
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lcp-ch__bar, .lcp-ch__qs, .lcp-ch__lost, .lcp-ch__flag, .lcp-ch__key, .lcp-ch__was, .lcp-ch__col i) {
+  transition-duration: 0s; transition-delay: var(--lc-reset);
+}
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-ch__bar { transform: scaleX(0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lcp-ch__qs, .lcp-ch__lost, .lcp-ch__key) { opacity: 0; }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-ch__flag { opacity: 0; transform: translate3d(-0.3rem, 0, 0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-ch__was { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-ch__col i { transform: scaleY(0); }
+/* The first screen (Chapters since round 11, Time before it) waiting for the lab to come into view resets at once (it is
+   out of the window, and a delayed reset would never run on a section the browser has not drawn). */
 .lc__grid[data-ready='true'] .lc-scene[data-armed='false'] :is(*, *::after) { transition: none !important; }
 /* The clock sweep plays once each time the Changes screen comes on. */
 .lc__grid[data-ready='true'] .lc-scene[data-on='true'][data-armed='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
@@ -425,7 +514,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 .lc[data-reduced='true'] .lc-scene .lc-scene__copy,
 .lc[data-reduced='true'] .lc-scene .lc-scene__screen { transform: none !important; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
 @media (max-width: 380px) {
-  .lc .lc__rail button { font-size: 0.75rem; }
+  .lc .lc__rail button { font-size: 0.75rem; padding-inline: 0.1rem; }
   .lc-scene__body { font-size: 0.875rem; }
 }
 @media (max-width: 520px) {
@@ -478,6 +567,13 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.45rem) 0.85rem 0.6rem; }
   .lc .lc__rail button { flex-direction: row; gap: 0.35rem; min-height: 44px; padding: 0.25rem 0.15rem 0.45rem; font-size: 0.75rem; }
   .lc .lc__rail-ico { width: 1.45rem; height: 1.45rem; border-radius: 8px; }
+  /* Five tabs (round 11): an icon beside "Chapters" needs about 82 px, more than a fifth of a phone row under 440 px, so
+     there the icon sits over its name again, smaller, and the tab stays as low as the row form (48 px against 44). */
+  @media (max-width: 439px) {
+    .lc .lc__rail button { flex-direction: column; gap: 0.15rem; padding: 0.2rem 0.1rem 0.4rem; }
+    .lc .lc__rail-ico { width: 1.3rem; height: 1.3rem; border-radius: 7px; }
+    .lc .lc__rail-ico svg { width: 14px; height: 14px; }
+  }
   .lc[data-pinned='true'] .lc-scene__body { -webkit-line-clamp: 2; line-clamp: 2; margin-top: 0.35rem; }
   .lc-scene__title { font-size: clamp(1.25rem, 5.4vw, 1.6rem); }
 }
@@ -499,6 +595,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
   .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
   .lc-scene__take { display: inline-flex; }
+  .lc-scene__cta { margin-top: 0.5rem; }
   .lc-scene__body { margin-top: 1rem; }
   .lcd__frame { border-radius: 28px; }
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }
@@ -535,11 +632,16 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
   .lc .lc__rail button { min-height: 44px; flex-direction: row; gap: 0.3rem; font-size: 0.75rem; }
   .lc .lc__rail-ico { width: 1.5rem; height: 1.5rem; }
+  /* Five tabs (round 11) share the left column's 300-340 px: an icon beside "Chapters" ran into the next tab, so the icon
+     sits over its name, small, as on a short portrait phone. */
+  .lc .lc__rail button { flex-direction: column; gap: 0.15rem; padding: 0.2rem 0.1rem 0.4rem; }
+  .lc .lc__rail-ico { width: 1.3rem; height: 1.3rem; border-radius: 7px; }
+  .lc .lc__rail-ico svg { width: 14px; height: 14px; }
   .lc-scene__title { font-size: 1.3rem; }
   .lc-scene__body { font-size: 0.8125rem; }
 }
 
-/* ---------- Not held (no IntersectionObserver): the four scenes stack ---------- */
+/* ---------- Not held (no IntersectionObserver): the five scenes stack ---------- */
 .lc[data-pinned='false'] .lc__rail,
 .lc[data-pinned='false'] :is(.lcd, .lc__prop) { display: none; }
 .lc[data-pinned='false'] .lc__grid { display: grid; gap: clamp(3rem, 9vw, 5.5rem); }

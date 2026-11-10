@@ -37,8 +37,8 @@ test('decision 18: every typed phrase traces to a claim the page already makes',
   assert.match(COPY + PAGE, /every mock is built fresh from one live question bank/);
   // "Every mark traced.": the Mistake Lab's head and its first step.
   assert.match(COPY + PAGE, /Every mark, traced back to a moment\.|Every mark you missed, sorted by how it went/);
-  // "Know what to fix.": chapter review names the chapter to fix first, and the free SWOT gives the sets to do next.
-  assert.match(COPY + PAGE, /title: 'Know the chapter to fix first\.'/);
+  // "Know what to fix.": the Lab's SWOT gives the exact sets to do next, free (R11: the tour's chapter review slide went, the Lab says it).
+  assert.match(COPY + PAGE, /exact sets to do next/);
   assert.match(read('../../../data/mock_swot.js'), /free: no model and no credit/);
   const ledger = marksLedger();
   const story = labStory();

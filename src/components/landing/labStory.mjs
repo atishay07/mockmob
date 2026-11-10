@@ -1,6 +1,6 @@
-// The landing's Mistake Lab story: ONE illustrative 10-question Accountancy session, told in four
-// scenes (time per question, every answer change, the repair, the SWOT) and replayed step by step in
-// the interactive replay further down the page (MistakeLab.jsx imports SESSION from here). Same
+// The landing's Mistake Lab story: ONE illustrative 10-question Accountancy session, told in five
+// scenes (the chapters the marks went to, time per question, every answer change, the repair, the SWOT;
+// round 11, 10 Nov 2026) and replayed step by step in the replay (MistakeLab.jsx imports SESSION from here). Same
 // verdicts, same 22 marks, same three changes netting -6, same clock times everywhere. Every figure
 // below is derived here from the rows, never typed twice, so no scene can disagree with another.
 // Clock times count from the start of the paper, as they do in the product.
@@ -105,6 +105,32 @@ export function chapterRecord(chapter, session = SESSION) {
   return Object.freeze({ chapter, right: rows.filter((r) => r.verdict === 'right').length, of: rows.length, answered: rows.filter((r) => r.verdict !== 'blank').length, blank: rows.filter((r) => r.verdict === 'blank').length, lost, qs: rows.filter((r) => r.verdict !== 'right').map((r) => r.n) });
 }
 
+// The Chapters scene (round 11): one row per chapter of the session, worst first (most marks lost; a tie keeps the order the
+// paper first meets the chapters). Each row: right of its questions, the marks it lost by the module's own rule (GAP: a wrong
+// answer loses 6, a blank 5), its share of every mark the paper lost, and `misses`, its lost questions in paper order with
+// what each cost, so the bar can be drawn question by question. The rows' lost marks add up to the marks the paper missed.
+export function chapterLedger(session = SESSION) {
+  const names = [...new Set(session.map((r) => r.chapter))];
+  const rows = names.map((chapter, order) => {
+    const record = chapterRecord(chapter, session);
+    const misses = session.filter((r) => r.chapter === chapter && r.verdict !== 'right').map((r) => Object.freeze({ n: r.n, verdict: r.verdict, marks: GAP[r.verdict] }));
+    return { order, chapter, right: record.right, of: record.of, lost: record.lost, misses: Object.freeze(misses) };
+  });
+  const lost = sum(rows, (r) => r.lost);
+  return Object.freeze(rows
+    .sort((a, b) => b.lost - a.lost || a.order - b.order)
+    .map(({ order, ...r }) => Object.freeze({ ...r, share: lost ? r.lost / lost : 0 })));
+}
+
+// The Chapters scene's foot: what the worst chapter (Partnership) cost in the mocks before this one, from EARLIER, worded
+// from the count and the values ("Partnership also cost you 12 and 12 marks in your two mocks before this one."). Null with no record.
+const COUNT_WORDS = ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+export function earlierLostLine(lost = EARLIER.partnershipLost, chapter = 'Partnership') {
+  if (!lost?.length) return null;
+  const where = lost.length === 1 ? 'your mock before this one' : `your ${COUNT_WORDS[lost.length] ?? lost.length} mocks before this one`;
+  return `${chapter} also cost you ${list(lost.map(String))} marks in ${where}.`;
+}
+
 // The Mistake Lab ledger of this session, in the product's groups and words (data/mistake_lab.copy.json):
 // every lost question sits in one group, so the groups add up to the marks missed.
 export function marksLedger(session = SESSION) {
@@ -155,9 +181,10 @@ function swotRead(session, changes) {
   return { plan, quadrants, partnershipLost: lost, record: { Ratios: { right: ratios.right, of: ratios.of }, 'Cash flow': { right: cash.right, of: cash.of } } };
 }
 
-// The four scenes' numbers, ready to print.
+// The five scenes' numbers, ready to print.
 export function labStory(session = SESSION) {
   const facts = sessionFacts(session);
+  const chapters = chapterLedger(session);
   const changes = answerChanges(session);
   const net = sum(changes, (c) => c.net);
   const lost = changes.filter((c) => c.net < 0);
@@ -171,6 +198,11 @@ export function labStory(session = SESSION) {
   const swot = swotRead(session, changes);
   return Object.freeze({
     facts,
+    // The Chapters scene: the rows worst first, every mark the paper lost, and the worst chapter's record before this mock
+    // (only Partnership has one in EARLIER).
+    chapters,
+    lostMarks: sum(chapters, (c) => c.lost),
+    earlierLine: chapters[0]?.chapter === 'Partnership' ? earlierLostLine(EARLIER.partnershipLost, chapters[0].chapter) : null,
     pace: clock(PAPER_PACE_SEC),
     paceShare: Math.min(1, PAPER_PACE_SEC / Math.max(...session.map((r) => r.sec))),
     median: clock(facts.medianSec),

@@ -120,18 +120,21 @@ test('the stamp (R3-D2): the Key cards desk object at 28 px and the product\'s n
 });
 
 // ------------------------------------------------------------------------------------------------ placement and size
-test('the section sits right after the Score Recovery Lab and before Compass, with its own reserved height on both widths', () => {
-  const recovery = PAGE.indexOf('id="score-recovery-lab"');
+test('the section sits right after the tour and before Compass, with its own reserved height on both widths', () => {
+  // R11 (owner, 10 Nov 2026): the Score Recovery Lab, which stood between the tour and Key cards, merged into the Mistake Lab.
+  const tour = PAGE.indexOf('id="your-prep"');
   const cards = PAGE.indexOf('id="key-cards"');
   const compass = PAGE.indexOf('id="compass"');
-  assert.ok(recovery > 0 && cards > recovery && compass > cards);
+  assert.ok(tour > 0 && cards > tour && compass > cards);
+  assert.equal((PAGE.slice(tour, cards).match(/<section /g) || []).length, 1, 'no section between the tour and Key cards');
+  assert.doesNotMatch(PAGE, /id="score-recovery-lab"/);
   assert.equal((PAGE.match(/id="key-cards"/g) || []).length, 1, 'one section block');
   const wide = LANDING_CSS.indexOf('@media (min-width: 960px) {\n  .lp main > #inside-the-lab');
   assert.ok(wide > 0, 'the reserved heights block is found');
   const phone = LANDING_CSS.slice(LANDING_CSS.indexOf('.lp main > :is(.lp-sec, .lp-close)'), wide);
   const desktop = LANDING_CSS.slice(wide, LANDING_CSS.indexOf('\n}', wide));
-  assert.match(phone, /\.lp main > #score-recovery-lab \{[^}]*\}\n\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
-  assert.match(desktop, /\.lp main > #score-recovery-lab \{[^}]*\}\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
+  assert.match(phone, /\.lp main > #your-prep \{[^}]*\}\n(?:\.lp main > #try \{[^}]*\}[^\n]*\n)?\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
+  assert.match(desktop, /\.lp main > #your-prep \{[^}]*\}\n {2}\.lp main > #try \{[^}]*\}[^\n]*\n {2}\.lp main > #key-cards \{ contain-intrinsic-size: auto \d+px; \}/);
 });
 
 test('the reserved height is measured for each width band the section changes in (review fix, 5 Nov; re-measured R4, 6 Nov)', () => {

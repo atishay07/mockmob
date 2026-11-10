@@ -46,7 +46,12 @@ const OBJECTS = [
   { name: 'mobi', src: 'public/brand/mascot/greeting.webp', rect: null, k: 0.93 },
   // Key cards: a short stack of index cards with a lime felt tab (the Key cards section's stamp).
   { name: 'keycards', src: `${SHEETS}/sheet-a.webp`, rect: [21, 109, 501, 480], k: 0.95 },
+  // Exam-day screen (round 11, 10 Nov 2026): a question paper on a brass clipboard, the brand's own `papers` object (its
+  // BrandIcon, public/art/icons/papers-*), cut the same way. Its left edge stops 6 px short of the book beside it on the sheet.
+  { name: 'papers', src: `${SHEETS}/sheet-b.webp`, rect: [782, 54, 1158, 499], k: 0.95 },
 ];
+// `node scripts/brand/build-strip-objects.mjs papers` builds only the named objects; with no names, all of them.
+const ONLY = process.argv.slice(2);
 
 /** The object's pixels, cleaned: the sheet's webp noise (alpha up to 14) dropped, its near-opaque 253 lifted to 255. */
 async function cut({ src, rect }) {
@@ -107,6 +112,7 @@ async function draw(obj, cutout, outWidth) {
 
 mkdirSync(OUT, { recursive: true });
 for (const obj of OBJECTS) {
+  if (ONLY.length && !ONLY.includes(obj.name)) continue;
   const cutout = await cut(obj);
   const made = [];
   for (const w of WIDTHS) made.push(await draw(obj, cutout, w));

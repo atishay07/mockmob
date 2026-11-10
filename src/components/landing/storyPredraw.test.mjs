@@ -37,7 +37,7 @@ test('LK81 pausing the tour restyles only the elements that animate, never the w
 
 test('LK93 the DU eligibility section is there when the reader arrives: no reveal in front of the calculator, drawn while idle', () => {
   const page = read('../../app/page.js');
-  const du = page.slice(page.indexOf('id="du-eligibility"'), page.indexOf('<ExamScreen'));
+  const du = page.slice(page.indexOf('id="du-eligibility"'), page.indexOf('</section>', page.indexOf('id="du-eligibility"')));
   assert.match(du, /<EligibilityTeaser \/>/);
   assert.doesNotMatch(du, /<Reveal>\s*<EligibilityTeaser/, 'the calculator is not behind a reveal fade');
   const teaser = read('../du/EligibilityTeaser.jsx');

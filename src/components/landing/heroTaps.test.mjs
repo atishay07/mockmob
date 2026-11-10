@@ -139,8 +139,10 @@ test('R3-D3 (LK99) then round 4 (LK121): the fact line builder is kept, and the 
 
 test('round 4 (owner LK124): the features strip names the main features, each a link to its own section on the page', () => {
   const all = heroFeatures({ compass: true, keyCards: true });
-  assert.deepEqual(all.map((f) => f.name), ['Unlimited mocks', 'Mistake Lab', 'Score Recovery', 'DU Compass', 'Ask Mobi', 'Key cards']);
-  assert.deepEqual(all.map((f) => f.href), ['#pricing', '#inside-the-lab', '#score-recovery-lab', '#compass', '#your-prep', '#key-cards']);
+  // Round 11 (10 Nov 2026): the Score Recovery section left the page; its place in the strip (same count, same order) opens
+  // the exam section.
+  assert.deepEqual(all.map((f) => f.name), ['Unlimited mocks', 'Mistake Lab', 'Exam-day screen', 'DU Compass', 'Ask Mobi', 'Key cards']);
+  assert.deepEqual(all.map((f) => f.href), ['#pricing', '#inside-the-lab', '#exam-experience', '#compass', '#your-prep', '#key-cards']);
   for (const f of all) {
     assert.deepEqual(Object.keys(f).sort(), ['href', 'icon', 'line', 'name'], 'only what the strip draws');
     // Round 5 (LK160): its desk object, cut for the strip (stripObjects.mjs) from the brand's own library (Mobi is Mobi).
@@ -158,7 +160,10 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   const page = read('../../app/page.js');
   assert.match(page, /const FEATURES = heroFeatures\(\{ compass: SHOWCASE\.programmes\.length > 0, keyCards: Boolean\(KEY_CARDS\) \}\);/);
   // Every anchor it links to is drawn on the page (Compass and Key cards only when they are).
-  for (const id of ['inside-the-lab', 'score-recovery-lab', 'your-prep', 'pricing', 'compass', 'du-eligibility', 'key-cards']) assert.match(page, new RegExp(`id="${id}"`), id);
+  for (const id of ['inside-the-lab', 'your-prep', 'pricing', 'compass', 'du-eligibility', 'key-cards']) assert.match(page, new RegExp(`id="${id}"`), id);
+  // The exam section is drawn by ExamScreen, which carries its own id.
+  assert.match(page, /<ExamScreen \/>/);
+  assert.match(read('./ExamScreen.jsx'), /id="exam-experience"/);
   assert.doesNotMatch(page, /heroBeat\(|className="lp-proof"|className="lp-beat"/, 'the number strip and its facts are gone');
 });
 

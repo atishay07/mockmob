@@ -1,7 +1,7 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
+import { recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
@@ -20,8 +20,9 @@ import HeroMobi from '@/components/landing/HeroMobi';
 import { MobiPoster } from '@/components/landing/MobiPoster';
 import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/components/landing/heroTaps.mjs';
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
+import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, RECOVERY_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
@@ -30,7 +31,6 @@ import { Reveal } from '@/components/landing/Reveal';
 import { HomePricing } from '@/components/landing/HomePricing';
 import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
-import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamScreen } from '@/components/landing/ExamScreen';
 import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
@@ -38,7 +38,6 @@ import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
 import { MobiPoseSprite } from '@/components/brand/MobiPoseSprite';
 import FeatureTour from '@/components/landing/FeatureTour';
-import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
@@ -60,7 +59,7 @@ import { BrandIcon } from '@/components/brand/BrandIcon';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
 import './home-refinements.css';
-import './mistake-lab.css';
+import './mistake-lab.css'; // R11: the Recovery section is gone, but every left-aligned section head's .lp-head--left base rule lives here
 import './compass-ladder.css';
 import './social-proof.css';
 import './hero-depth.css';
@@ -94,11 +93,11 @@ const INVITES_LIVE = referralsLive();
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 // The held stories, as the position band under the site bar names them while one runs (SectionPosition). Each name is
-// the words of its section's own heading: the Mistake Lab's kicker, the tour's title, the Recovery Lab's kicker.
+// the words of its section's own heading: the Mistake Lab's kicker, the tour's title. Round 11 (owner, 10 Nov 2026): the
+// Score Recovery Lab told the Mistake Lab's feature a second time, so it is one Lab now (#inside-the-lab).
 const POSITION = [
   { id: 'inside-the-lab', name: 'Inside the Mistake Lab' },
-  { id: 'your-prep', name: <>What’s inside <em>MockMob</em></> },
-  { id: 'score-recovery-lab', name: 'Score Recovery Lab' },
+  { id: 'your-prep', name: <>More inside <em>MockMob</em></> },
 ];
 
 // The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
@@ -197,6 +196,8 @@ export default function LandingPage() {
               <div className="lp-cta">
                 <LandingActions />
               </div>
+              {/* Round 11 (10 Nov 2026): one quiet proof link under the ways in, to the creators section (HeroProof). */}
+              <HeroProof />
             </div>
 
             {/* The film (round 7, owner 7 Nov 2026): the launch teaser plays muted as the hero's picture (HeroFilm). */}
@@ -205,9 +206,9 @@ export default function LandingPage() {
             {/* The features strip (LK124): the main features, each a link, then "As low as ₹X a mock" from the live offer. */}
             <HeroBeatStrip items={FEATURES} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
 
+            {/* Round 11: the exam-day screen moved into the strip, so the tray holds the DU calculator alone. */}
             <div className="lp-hero__links">
               <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
-              <a href="#exam-experience" className="lp-hero__exam-link">Try the exam-day screen</a>
             </div>
           </div>
         </section>
@@ -268,18 +269,6 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
-        <section className="lp-sec lp-pos-host" id="score-recovery-lab">
-          <div className="mm-wrap">
-            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <BrandStamp {...BRAND_STAMPS.recovery} />
-              <h2 className="lp-h2">{RECOVERY_HEAD.h2}</h2>
-              <p className="lp-sub">{RECOVERY_HEAD.sub}</p>
-            </Reveal><MascotSeat station="lab" pose="encouraging" label="Let’s find the lost marks." /></div>
-            <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
-          </div>
-        </section>
-
         {/* ------------------------------ KEY CARDS ------------------------------ */}
         {/* R3-D10 (owner LK112, 5 Nov 2026): a real card that turns over in 3D, glass over its subject object, rated with the
             app's keys; the bank's true numbers count up once (LoadingKit). The stamp is the product's name (R3-D2). */}
@@ -295,6 +284,9 @@ export default function LandingPage() {
             </div>
           </section>
         ) : null}
+
+        {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
+        <ExamScreen />
 
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
@@ -333,19 +325,9 @@ export default function LandingPage() {
             {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
                 the section read as loading slowly). Its section is also drawn ahead while the page is idle (EligibilityTeaser). */}
             <EligibilityTeaser />
-            <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
-              <div>
-                <p className="lp-cpro__badge">{COMBO.badge}</p>
-                <h3 className="lp-h3">{COMBO.title}</h3>
-                <p>{COMBO.body}</p>
-              </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">{COMBO.cta}</Link>
-            </Reveal>
-            <CollegeDestinations compact />
+            <p className="lp-combo-line">{COMBO.ask} <Link href="/cuet-subject-combination" className="lp-link">{COMBO.cta}</Link></p>
           </div>
         </section>
-
-        <ExamScreen />
 
         {/* The numbers band (bank size, subjects, the price) went in R3-D7 (owner LK107): its true counts are lines of the one
             plan in #pricing now, with their count-up (PlanCounts), and the price is the plan's own. */}

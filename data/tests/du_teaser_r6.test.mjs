@@ -26,8 +26,8 @@ test('result lists up to six programme names then "and n more"', () => {
   assert.match(teaser, /and \$\{moreCount\} more/);
 });
 
-test('compact college row keeps the same hrefs', () => {
-  assert.match(page, /<CollegeDestinations compact \/>/);
+test('the component keeps its hrefs; the landing page no longer draws the compact row (R11: it repeated DU Compass)', () => {
+  assert.doesNotMatch(page, /<CollegeDestinations/);
   assert.match(colleges, /compact = false/);
   assert.match(colleges, /\/cuet-cutoff-calculator\?course=\$\{college\.course\}/);
   for (const c of ['b-com-hons', 'b-a-hons-economics', 'b-a-hons-english']) assert.ok(colleges.includes(`course: '${c}'`));

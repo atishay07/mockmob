@@ -97,8 +97,10 @@ test('a tour slide has a body of at most 25 words and at most 2 points of at mos
     assert.ok(slide.icon, `${slide.id} names a desk object for its rail icon`);
     assert.ok(slide.lede, `${slide.id} has the one sentence phones show`);
   }
-  assert.deepEqual(TOURS[1].map((s) => s.id), ['arena', 'repair', 'learn', 'replay', 'radar', 'prepos', 'compass', 'combo', 'rival', 'mob'], 'no tool was cut');
-  assert.deepEqual(TOURS[0].map((s) => s.id), ['arena', 'repair', 'replay', 'radar', 'prepos', 'compass', 'combo', 'rival'], 'Learn and the Mob appear only while they are live');
+  // R11: the tour holds only the tools with no section of their own; the Lab, DU Compass and the DU section tell Repair, Replay,
+  // Chapter review, Compass and the Combo Planner.
+  assert.deepEqual(TOURS[1].map((s) => s.id), ['arena', 'learn', 'prepos', 'rival', 'mob'], 'five tools, no more');
+  assert.deepEqual(TOURS[0].map((s) => s.id), ['arena', 'prepos', 'rival'], 'Learn and the Mob appear only while they are live');
 });
 
 test('a Lab or Recovery step is at most 45 words, with its numbers inside the mock screen', () => {
@@ -107,8 +109,17 @@ test('a Lab or Recovery step is at most 45 words, with its numbers inside the mo
     assert.ok(words <= COPY_BUDGET.step, `${scene.key}: ${words} words`);
   }
   for (const step of RECOVERY_STEPS) assert.ok(wordCount(`${step.title} ${step.body}`) <= COPY_BUDGET.step, step.key);
-  assert.equal(LAB_SCENES.length, 4);
+  // R11 (owner, 10 Nov 2026): one Lab of five scenes; the Recovery steps stay in the module, no longer drawn on the page.
+  assert.deepEqual(LAB_SCENES.map((s) => s.key), ['chapters', 'time', 'changes', 'repair', 'swot']);
   assert.equal(RECOVERY_STEPS.length, 4);
+  // The new first scene's take and the SWOT's are worked out from labStory, never typed.
+  assert.equal(LAB_SCENES[0].take, '18 of your 28 lost marks sat in one chapter: Partnership.');
+  assert.doesNotMatch(COPY, /take: '18 of your/, 'the Chapters take is built, not typed');
+  assert.equal(LAB_SCENES[4].take, 'Practise 10 on Partnership first. Your next mock shows whether it held.');
+  assert.match(COPY, /take: `\$\{S\.swot\.plan\[0\]\.label\} first\. Your next mock shows whether it held\.`/);
+  // One quiet link, in the SWOT scene only.
+  assert.deepEqual(LAB_SCENES.filter((s) => s.link).map((s) => [s.key, s.link.href, s.link.label]), [['swot', '/signup', 'Sign up free and open yours']]);
+  assert.doesNotMatch(PAGE, /RECOVERY_HEAD|<MistakeLab /, 'R11: the Recovery section is not drawn');
 });
 
 test('every FAQ answer is at most 45 words, in every branch', () => {
@@ -130,7 +141,7 @@ test('no middle dots, at most one "not just" contrast, no exclamation marks, no 
   // R3-D2 (LK114): the two-beat brand voice where it is true.
   assert.match(COPY, /Fix why you missed it\./);
   assert.match(COPY, /'Fix it once\. Check it holds\.'/);
-  assert.match(COPY, /'Practise\. Replay\. Repair\. /);
+  assert.match(COPY, /'The rest of your prep, one tool at a time\.'/); // R11: the tour's new sub replaces the old three-beat one
 });
 
 test('the hero lead names the product in ink and ends with the chapter promise (LK70)', () => {
