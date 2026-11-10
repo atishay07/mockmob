@@ -203,6 +203,8 @@
 .ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'] { background: var(--ctl-seg-pick-bg); box-shadow: inset 0 0 0 1.5px var(--ctl-seg-pick-line); }
 .ctl-seg__opt:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
 .ctl-seg__opt:disabled { opacity: 0.45; cursor: not-allowed; }
+/* Locked, not dead: it reads as unavailable, and a press still answers (the caller opens what unlocks it). */
+.ctl-seg__opt[data-locked] { opacity: 0.55; cursor: pointer; }
 .ctl-seg[aria-disabled='true'] .ctl-seg__opt { cursor: progress; }
 .ctl-seg[aria-disabled='true'] .ctl-seg__opt:not([aria-checked='true']) { opacity: 0.7; }
 

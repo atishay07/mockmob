@@ -125,7 +125,13 @@ html[data-motion='reduced'] .app-shell .arena-mobi-door { transition: none; }
    icon (the second m and Mobi, cut from the same drawing), and the switch is drawn a little smaller inside its 44 px target. The
    switch reads the site's --tint and --focus-ring, which only the public pages define; the arena gives it its own. The first-visit
    note stays on the public pages: here the switch's one soft pulse is the whole prompt, so nothing covers a student's Today. */
-.app-shell .arena-theme { --focus-ring: var(--a-focus); --tint: 244 240 230; }
+.app-shell .arena-theme { --focus-ring: var(--a-focus); --tint: 244 240 230; flex: none; }
+/* Its place: beside the mark on the bar's left below 1024 px (the right side keeps Ask Mobi and the account together); from
+   1024 px, where the bar has neither the mark nor Ask Mobi's key, on the right before the account. */
+@media (min-width: 1024px) {
+  .app-shell .arena-topbar__row > .arena-theme { margin-left: auto; }
+  .app-shell .arena-topbar__row > .arena-theme + .arena-topbar__end { margin-left: 0; }
+}
 html[data-theme='light'] .app-shell .arena-theme { --tint: 23 21 15; }
 .app-shell .mm-theme-hint { display: none; }
 @media (max-width: 639px) {

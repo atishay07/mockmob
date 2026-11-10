@@ -238,7 +238,9 @@ test('R3-D2: the two-beat voice where it is true (LK114)', () => {
 // ------------------------------------------------------------------------------------------------ R3-D11 Accountancy Part B
 test('R3-D11: the Accountancy ask says the 2025 paper asked AFS only, and AFS stays the default', () => {
   assert.equal(OPTION_ASKS.accountancy.default, 'AFS');
-  assert.equal(OPTION_ASKS.accountancy.note, 'The 2025 CUET paper asked Analysis of Financial Statements only.');
+  // Owner, 10 Nov 2026: the 2026 syllabus offers both parts ("Optional to Unit V"); the line about the 2025 paper is gone.
+  assert.equal(OPTION_ASKS.accountancy.note, 'The CUET syllabus gives Unit V two ways. Pick the one your school teaches.');
+  assert.doesNotMatch(JSON.stringify(OPTION_ASKS), /2025 CUET paper/);
   for (const id of ['mathematics', 'computer_science']) assert.equal(OPTION_ASKS[id].note, undefined, `${id} carries no note`);
   const picker = read('src/app/onboarding/OptionPicker.jsx');
   assert.match(picker, /\{ask\.note \? <p className="ob-opt__note">\{ask\.note\}<\/p> : null\}/);

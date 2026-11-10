@@ -35,6 +35,7 @@ export function SegmentedControl({
   label,
   labelledBy,
   disabledValues = [],
+  onLockedPress,
   busy = false,
   size = 'md',
   wrap = false,
@@ -101,9 +102,13 @@ export function SegmentedControl({
           role="radio"
           aria-checked={index === checkedIndex}
           tabIndex={index === tabStop ? 0 : -1}
-          disabled={option.disabled}
+          // A locked option (onLockedPress given) still takes a press: it cannot be chosen, and the press goes to the caller
+          // (a Free student tapping a Pro level gets the Pro sheet, never a dead key; owner, 10 Nov 2026).
+          disabled={option.disabled && !onLockedPress}
+          aria-disabled={option.disabled && onLockedPress ? 'true' : undefined}
+          data-locked={option.disabled && onLockedPress ? '' : undefined}
           className={`ctl-seg__opt ${optionClassName}`.trim()}
-          onClick={() => choose(index)}
+          onClick={(event) => (option.disabled && onLockedPress ? onLockedPress(option.value, event.currentTarget) : choose(index))}
         >
           <span className="ctl-seg__label">{option.label}</span>
           {option.hint ? <small className="ctl-seg__hint">{option.hint}</small> : null}

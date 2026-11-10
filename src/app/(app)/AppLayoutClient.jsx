@@ -425,6 +425,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         <div className="arena-topbar__row">
           <span className="arena-topbar__logo"><Logo /></span>
           {currentTitle ? <span className="arena-topbar__title">{currentTitle}</span> : null}
+          {/* Night or Day, one press away on every signed-in page and at every width (owner, 10 Nov 2026: the switch had gone into
+              the account pop-up, "where nobody finds it"). Its place (owner, 10 Nov evening: between Ask Mobi and the account it
+              "feels a bit weird"): on a phone it sits with the mark, on the bar's left, so the right side is the two things a
+              student opens (Ask Mobi, their account) and how the app looks is beside the brand. On a desktop, where the bar has
+              no mark and no Ask Mobi key, it stays on the right before the account (nav-places.css). A first visit that has never
+              chosen sees the switch pulse once. */}
+          <span className="arena-theme"><ThemeToggle hint /></span>
 
           <div className="arena-topbar__end">
             {isModerator && (
@@ -439,10 +446,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <Image className="arena-askkey__face" src={MOBI_FACE.src} width={22} height={30} sizes="22px" alt="" />
               <span className="arena-askkey__label">Ask<span className="arena-askkey__name"> Mobi</span></span>
             </Link>
-            {/* Night or Day, one press away on every signed-in page and at every width (owner, 10 Nov 2026: the switch had gone into
-                the account pop-up, "where nobody finds it"). On a phone the bar makes room with the "mo" mark for the wordmark
-                (nav-places.css). A first visit that has never chosen sees the switch pulse once. */}
-            <span className="arena-theme"><ThemeToggle hint /></span>
             {/* The account, as one piece (owner LK42, 2 Nov 2026: the Pro badge, the credits and the wallet symbol read as low quality).
                 One capsule, two doors: the balance in words opens the Wallet (D76; one balance, D78: the wallet read is the live total,
                 free this month + bought/held, and until it answers the account's own total stands in), and the person opens Account,
