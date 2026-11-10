@@ -12,7 +12,7 @@ import { walletBody, unifyHistory, creditsBuyLine } from '../../src/lib/server/w
 import { buildHistory } from '../../src/lib/server/credits.js';
 import { startWalletPurchase, PURCHASE_COPY } from '../../src/lib/wallet/startWalletPurchase.js';
 import {
-  WALLET_COPY, balanceTile, packRows, historyRow, proRow, walletFromResponse, resetLabel, whenParts,
+  WALLET_COPY, balanceTile, packRows, historyRow, lowBalanceLine, proRow, walletFromResponse, resetLabel, whenParts,
 } from '../../src/components/wallet/walletModel.mjs';
 
 const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -381,8 +381,17 @@ test('history rows: date, 12-hour time, what, signed change and balance after', 
   const rows = [{ at: '2026-10-18T10:10:00.000Z', what: 'Practice set', delta: -10, balanceAfter: 108 }, { at: '2026-10-15T18:00:00.000Z', what: 'Credits added', delta: 150, balanceAfter: 118 }].map(historyRow);
   assert.deepEqual([rows[0].date, rows[0].time, rows[0].what, rows[0].changeText, rows[0].after], ['18 Oct', '3:40 PM', 'Practice set', '−10', 'Balance 108']);
   assert.equal(rows[1].changeText, '+150');
-  assert.equal(historyRow({ delta: 'x' }).changeText, '0');
+  assert.equal(historyRow({ delta: 'x' }).changeText, 'Unknown');
+  assert.equal(historyRow({ delta: 0 }).changeText, '0');
   assert.equal(historyRow({ delta: 5, balanceAfter: null }).after, null);
+});
+
+test('low Wallet balance shows the actual shortfall for a priced full mock and does not prompt Pro students', () => {
+  const wallet = { credits: { total: 8 }, plan: { name: 'Free' } };
+  assert.match(lowBalanceLine(wallet, 50), /costs 50 credits needs 42 more/);
+  assert.equal(lowBalanceLine({ ...wallet, plan: { name: 'Pro' } }, 50), null);
+  assert.equal(lowBalanceLine({ ...wallet, credits: { total: null } }, 50), null);
+  assert.equal(lowBalanceLine({ ...wallet, credits: { total: 50 } }, 50), null);
 });
 
 test('copy rules: sentence case, no exclamation mark, no em dash, no middle dot, no emoji, no hype, one name', () => {
@@ -457,4 +466,19 @@ test('startWalletPurchase never throws: a network failure and a signed-out sessi
   assert.equal((await startWalletPurchase({ packId: 'x' }, { fetchImpl: async () => { throw new Error('offline'); } })).status, 'failed');
   assert.equal((await startWalletPurchase({ packId: 'x' }, { fetchImpl: async () => res(401, {}) })).status, 'signin');
   assert.equal((await startWalletPurchase({})).status, 'failed');
+});
+
+test('a close during verification waits for the grant and a malformed receipt cannot claim success', async () => {
+  const order = { order: { id: 'order_1', amount: 2900 }, pack: { credits: 150 } };
+  const run = (receipt) => startWalletPurchase({ packId: 'credits_29_150' }, {
+    fetchImpl: async (url) => res(200, url.endsWith('/order') ? order : receipt),
+    loadCheckout: async () => true,
+    openCheckout(config) {
+      config.handler({ razorpay_order_id: 'order_1' });
+      config.modal.ondismiss();
+    },
+  });
+  assert.deepEqual(await run({ ok: true, granted: 150, balance: 258 }), { status: 'paid', granted: 150, balance: 258, message: '150 credits added.' });
+  assert.equal((await run({ ok: true, granted: 0 })).message, PURCHASE_COPY.verifyFailed);
+  assert.equal((await run({})).status, 'failed');
 });

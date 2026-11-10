@@ -36,8 +36,10 @@ export const WALLET_COPY = Object.freeze({
   openSoon: 'Top-ups open soon',
   openSoonNote: 'Top-ups open soon. Your free credits keep working until then.',
   historyHeading: 'Recent activity',
-  historyEmpty: 'No credit activity yet. Your first question or written answer from Mobi shows up here.',
-  historyFailed: 'Your activity did not load. Your balances above are current.',
+  historyEmpty: 'No credit activity yet. Credit changes will appear here.',
+  historyFailed: 'Your activity did not load.',
+  refreshFailed: 'The balance could not refresh. The amount shown is from your last check.',
+  refreshing: 'Refreshing your balance',
   heading: 'Credits',
   packsHeading: 'Top up and keep going',
   packsHeadingClosed: 'Credit packs',
@@ -135,7 +137,7 @@ export function packRows(data, phases = {}) {
 
 /** One history line, ready to print. */
 export function historyRow(line, index = 0) {
-  const delta = whole(line?.delta) ?? 0;
+  const delta = whole(line?.delta);
   const after = whole(line?.balanceAfter);
   const when = whenParts(line?.at);
   return {
@@ -144,10 +146,18 @@ export function historyRow(line, index = 0) {
     date: when?.date || null,
     time: when?.time || null,
     change: delta,
-    changeText: `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${fmt(Math.abs(delta))}`,
-    spokenChange: delta < 0 ? `${fmt(-delta)} used` : delta > 0 ? `${fmt(delta)} added` : 'no change',
+    changeText: delta === null ? 'Unknown' : `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${fmt(Math.abs(delta))}`,
+    spokenChange: delta === null ? 'Change unavailable' : delta < 0 ? `${fmt(-delta)} credits used` : delta > 0 ? `${fmt(delta)} credits added` : 'No change',
     after: after === null ? null : `Balance ${fmt(after)}`,
   };
+}
+
+/** A useful shortfall for Free students, based on the actual standard full-mock cost. */
+export function lowBalanceLine(data, fullMockCost) {
+  const balance = whole(data?.credits?.total);
+  const cost = whole(fullMockCost);
+  if (data?.plan?.name === 'Pro' || cost === null || balance === null || balance <= 0 || balance >= cost) return null;
+  return `A full mock that costs ${fmt(cost)} credits needs ${fmt(cost - balance)} more. Check the cost before starting.`;
 }
 
 /** The Pro row: Free students only. Null for Pro or when there is nothing to show. */

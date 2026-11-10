@@ -10,6 +10,7 @@
 // No lime key on this page, so the shell's Start key stays the viewport's one lime key.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import InviteFriendCard from '@/components/referrals/InviteFriendCard';
 import { CreditMark } from '@/components/ui/Glyph';
@@ -23,11 +24,12 @@ import { PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
-  WALLET_COPY, WALLET_V13_COPY, WALLET_URL, balanceSplit, balanceTile, historyRow, packCards, packsIntro, priceRows, proBridge, walletFromResponse,
+  WALLET_COPY, WALLET_V13_COPY, WALLET_URL, balanceSplit, balanceTile, historyRow, lowBalanceLine, packCards, packsIntro, priceRows, proBridge, walletFromResponse,
 } from '@/components/wallet/walletModel.mjs';
 import './wallet.css';
 
 const EMPTY = { status: 'loading', data: null };
+const VISIBLE_HISTORY = 4;
 const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
 
 function reducedMotion() {
@@ -36,7 +38,7 @@ function reducedMotion() {
   return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
 }
 
-// The balance counts to its value (600 ms, ease-out) when it first arrives and whenever it changes, e.g. after a top-up.
+// The balance counts to its value (300 ms, ease-out) when it first arrives and whenever it changes, e.g. after a top-up.
 // It renders the true number at once with reduced motion, and always ends on the true number.
 function useCountTo(target) {
   const [shown, setShown] = useState(target);
@@ -49,7 +51,7 @@ function useCountTo(target) {
     let raf = 0;
     const t0 = performance.now();
     const step = (now) => {
-      const p = Math.min(1, (now - t0) / 600);
+      const p = Math.min(1, (now - t0) / 300);
       const eased = 1 - (1 - p) ** 3;
       setShown(Math.round(start + (target - start) * eased));
       if (p < 1) raf = requestAnimationFrame(step);
@@ -60,23 +62,50 @@ function useCountTo(target) {
   return target === null ? null : shown;
 }
 
-export default function WalletPageClient({ proOffer = null }) {
+function ActivityRows({ lines, start }) {
+  return (
+    <ol className="wl-list" start={start}>
+      {lines.map((l) => (
+        <li className="wl-line" key={l.key}>
+          <div className="wl-line__what">
+            <b>{l.what}</b>
+            <span className="wl-line__meta">
+              {l.date ? <span>{l.date}</span> : null}
+              {l.time ? <span>{l.time}</span> : null}
+            </span>
+          </div>
+          <div className="wl-line__num" data-sign={l.change > 0 ? 'up' : l.change < 0 ? 'down' : 'flat'}>
+            <b aria-hidden="true">{l.changeText}</b>
+            <span className="sr-only">{l.spokenChange}</span>
+            {l.after ? <span className="wl-line__after">{l.after}</span> : null}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export default function WalletPageClient({ proOffer = null, previewCheckout = null }) {
   const { user, refreshSession } = useAuth();
   const userId = user?.id;
   const [state, setState] = useState(EMPTY);
-  const [phases, setPhases] = useState({});
+  const [purchase, setPurchase] = useState(null);
+  const buying = useRef(false);
   const sequence = useRef(0);
 
   const load = useCallback(() => {
     const mine = ++sequence.current;
-    setState((prev) => (prev.data ? prev : EMPTY));
+    setState((prev) => (prev.data ? { status: 'refreshing', data: prev.data } : EMPTY));
     return apiGet(WALLET_URL)
       .then((body) => {
         if (mine !== sequence.current) return;
         const data = walletFromResponse(body);
-        setState(data ? { status: 'ready', data } : { status: 'failed', data: null });
+        if (!data) throw new Error('Wallet unavailable');
+        setState({ status: 'ready', data });
       })
-      .catch(() => { if (mine === sequence.current) setState((prev) => (prev.data ? prev : { status: 'failed', data: null })); });
+      .catch(() => {
+        if (mine === sequence.current) setState((prev) => ({ status: prev.data ? 'refresh-failed' : 'failed', data: prev.data }));
+      });
   }, []);
 
   useEffect(() => {
@@ -85,21 +114,23 @@ export default function WalletPageClient({ proOffer = null }) {
     return () => { window.clearTimeout(timer); sequence.current += 1; };
   }, [userId, load]);
 
-  const setPhase = (packId, phase) => setPhases((prev) => ({ ...prev, [packId]: phase }));
-
   async function buy(pack) {
-    setPhase(pack.packId, { status: 'working', message: '' });
-    const result = await startWalletPurchase(pack, { prefill: { name: shownName(user?.name, user?.email) || '', email: user?.email } });
-    setPhase(pack.packId, { status: result.status === 'paid' ? 'paid' : result.status === 'dismissed' ? 'idle' : result.status, message: result.message });
-    if (result.status === 'paid') {
-      // Both balances come from the server again, and the top bar chips take them at once.
-      await load();
-      refreshSession?.({ silent: true });
-      try {
-        const body = await apiGet('/api/ai/credits');
-        const wallet = aiWalletFromResponse(body);
-        if (wallet.known) announceWallet(userId, wallet);
-      } catch { /* the chip catches up on its next read */ }
+    if (!pack || buying.current) return;
+    buying.current = true;
+    setPurchase({ packId: pack.packId, status: 'working', message: '' });
+    try {
+      const result = await startWalletPurchase(pack, { ...previewCheckout, prefill: { name: shownName(user?.name, user?.email) || '', email: user?.email } });
+      setPurchase({ packId: pack.packId, ...result });
+      if (result.status === 'paid') {
+        await load();
+        Promise.resolve(refreshSession?.({ silent: true })).catch(() => {});
+        apiGet('/api/ai/credits').then((body) => {
+          const wallet = aiWalletFromResponse(body);
+          if (wallet.known) announceWallet(userId, wallet);
+        }).catch(() => {});
+      }
+    } finally {
+      buying.current = false;
     }
   }
 
@@ -108,7 +139,7 @@ export default function WalletPageClient({ proOffer = null }) {
   const split = data ? balanceSplit(data) : null;
   const shown = useCountTo(split?.total ?? null);
   const bridge = data ? proBridge(data, proOffer) : null;
-  const cards = data ? packCards(data, phases) : [];
+  const cards = data ? packCards(data, purchase ? { [purchase.packId]: purchase } : {}) : [];
   const packsHead = data ? packsIntro(data) : null;
   // The pack the first screen offers: the best value by the real maths, else the first one.
   const lead = cards.find((c) => c.best) || cards[0] || null;
@@ -116,21 +147,27 @@ export default function WalletPageClient({ proOffer = null }) {
   const lines = data?.history ? data.history.map(historyRow) : null;
   const isPro = data?.plan?.name === 'Pro';
   // The sentences under the figure that the split does not already say: out of credits, unknown, or Pro.
-  const leadLine = tile && (tile.state === 'zero' || tile.state === 'unknown') ? tile.lines[0] : null;
+  const low = data ? lowBalanceLine(data, PRICES.fullMock) : null;
+  const leadLine = tile && (tile.state === 'zero' || tile.state === 'unknown') ? tile.lines[0] : low;
+  const busy = purchase?.status === 'working' || state.status === 'refreshing';
+  const paid = purchase?.status === 'paid';
 
   return (
     <div className="student-page wl" aria-busy={state.status === 'loading' || undefined}>
       <ArenaHead title={WALLET_COPY.title} lede={WALLET_COPY.lede} />
 
       {state.status === 'loading' ? (
-        <div className="wl-loading" role="status" aria-label={WALLET_COPY.loading}>
-          <span className="wl-sk wl-sk--hero skeleton" aria-hidden="true" />
-          <span className="wl-sk skeleton" aria-hidden="true" />
-        </div>
+        <section className="wl-hero wl-loading" role="status">
+          <p className="wl-hero__name"><CreditMark kind="practice" size={18} />{WALLET_COPY.loading}</p>
+          <span className="wl-sk wl-sk--hero" aria-hidden="true" />
+          <div className="wl-parts" aria-hidden="true">
+            <span className="wl-sk" /><span className="wl-sk" />
+          </div>
+        </section>
       ) : null}
 
       {state.status === 'failed' ? (
-        <div className="wl-failed" role="alert">
+        <div className="wl-hero wl-failed" role="alert">
           <p>{WALLET_COPY.failed}</p>
           <button type="button" className="wl-key" onClick={load}>{WALLET_COPY.retry}</button>
         </div>
@@ -138,7 +175,7 @@ export default function WalletPageClient({ proOffer = null }) {
 
       {data ? (
         <>
-          <section className="wl-hero" data-state={split.state} aria-labelledby="wl-balance-h">
+          <section className="wl-hero" data-state={low ? 'low' : split.state} aria-labelledby="wl-balance-h">
             <h2 className="wl-hero__name" id="wl-balance-h"><CreditMark kind="practice" size={18} />{WALLET_COPY.heading}</h2>
             <p className="wl-hero__figure">
               {split.figure !== null ? (
@@ -149,15 +186,21 @@ export default function WalletPageClient({ proOffer = null }) {
                 </>
               ) : <span className="wl-hero__unknown">{WALLET_COPY.unknown}</span>}
             </p>
+            {paid ? <p className="wl-paid" role="status">{purchase.message}</p> : null}
+            {state.status === 'refreshing' ? <p className="wl-note" role="status">{WALLET_COPY.refreshing}</p> : null}
+            {state.status === 'refresh-failed' ? (
+              <div className="wl-balance-note"><p className="wl-note" role="status">{WALLET_COPY.refreshFailed}</p><button type="button" className="wl-key" onClick={load}>{WALLET_COPY.retry}</button></div>
+            ) : null}
             {leadLine ? <p className="wl-hero__lead">{leadLine}</p> : null}
+            {split.state === 'unknown' && state.status === 'ready' ? <button type="button" className="wl-key wl-retry" onClick={load}>{WALLET_COPY.retry}</button> : null}
             {isPro ? <p className="wl-hero__lead">{WALLET_COPY.proNow(data.plan.until)}</p> : null}
 
             {split.free || split.kept ? (
               <>
                 {split.shares ? (
                   <div className="wl-bar" aria-hidden="true">
-                    <span className="wl-bar__free" style={{ '--share': split.shares.free }} />
-                    <span className="wl-bar__kept" style={{ '--share': split.shares.kept }} />
+                    {split.shares.free > 0 ? <span className="wl-bar__free" style={{ '--share': split.shares.free }} /> : null}
+                    {split.shares.kept > 0 ? <span className="wl-bar__kept" style={{ '--share': split.shares.kept }} /> : null}
                   </div>
                 ) : null}
                 <dl className="wl-parts">
@@ -186,12 +229,12 @@ export default function WalletPageClient({ proOffer = null }) {
             <div className="wl-next">
               {data.commerce.open && lead ? (
                 <>
-                  <button type="button" className="wl-key wl-next__key" data-solid="" disabled={lead.disabled} onClick={() => buy(data.packs.find((p) => p.packId === lead.packId))}>
+                  <button type="button" className="wl-key wl-next__key" data-solid="" disabled={lead.disabled || busy} onClick={() => buy(data.packs.find((p) => p.packId === lead.packId))}>
                     {lead.status === 'working' ? <span className="wl-spin" aria-hidden="true" /> : null}
                     {lead.status === 'working' ? lead.key : WALLET_V13_COPY.addPack(lead.title, lead.price)}
                   </button>
                   <p className="wl-next__note">{lead.perCredit}{lead.save ? <span className="wl-pack__save">{lead.save}</span> : null}</p>
-                  {lead.message ? <p className="wl-pack__msg" data-tone={lead.status === 'paid' ? 'good' : lead.status === 'failed' ? 'bad' : 'plain'} role="status">{lead.message}</p> : null}
+                  {lead.message && !paid ? <p className="wl-pack__msg" data-tone={lead.status === 'failed' ? 'bad' : 'plain'} role="status">{lead.message}</p> : null}
                 </>
               ) : null}
               {!data.commerce.open ? <p className="wl-next__soon">{WALLET_COPY.openSoonNote}</p> : null}
@@ -247,14 +290,14 @@ export default function WalletPageClient({ proOffer = null }) {
                       type="button"
                       className="wl-key wl-pack__key"
                       data-solid={card.best || undefined}
-                      disabled={card.disabled}
+                      disabled={card.disabled || busy}
                       onClick={() => buy(data.packs.find((p) => p.packId === card.packId))}
                     >
                       {card.status === 'working' ? <span className="wl-spin" aria-hidden="true" /> : null}
                       {card.key}
                     </button>
                   ) : null}
-                  {card.message ? <p className="wl-pack__msg" data-tone={card.status === 'paid' ? 'good' : card.status === 'failed' ? 'bad' : 'plain'} role="status">{card.message}</p> : null}
+                  {card.status === 'paid' ? <a className="wl-pack__msg wl-balance-link" href="#wl-balance-h">See balance</a> : card.message ? <p className="wl-pack__msg" data-tone={card.status === 'failed' ? 'bad' : 'plain'} role="status">{card.message}</p> : null}
                 </li>
               ))}
             </ul>
@@ -279,24 +322,19 @@ export default function WalletPageClient({ proOffer = null }) {
                 <button type="button" className="wl-key" onClick={load}>{WALLET_COPY.retry}</button>
               </div>
             ) : lines.length ? (
-              <ol className="wl-list">
-                {lines.map((l) => (
-                  <li className="wl-line" key={l.key}>
-                    <div className="wl-line__what">
-                      <b>{l.what}</b>
-                      <span className="wl-line__meta">
-                        {l.date ? <span>{l.date}</span> : null}
-                        {l.time ? <span>{l.time}</span> : null}
-                      </span>
-                    </div>
-                    <div className="wl-line__num" data-sign={l.change > 0 ? 'up' : l.change < 0 ? 'down' : 'flat'}>
-                      <b aria-hidden="true">{l.changeText}</b>
-                      <span className="sr-only">{l.spokenChange}</span>
-                      {l.after ? <span className="wl-line__after">{l.after}</span> : null}
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <>
+                <ActivityRows lines={lines.slice(0, VISIBLE_HISTORY)} />
+                {lines.length > VISIBLE_HISTORY ? (
+                  <details className="wl-history__more">
+                    <summary>
+                      <span>Show {lines.length - VISIBLE_HISTORY} older {lines.length - VISIBLE_HISTORY === 1 ? 'entry' : 'entries'}</span>
+                      <span>Hide older entries</span>
+                      <ChevronDown size={18} aria-hidden="true" />
+                    </summary>
+                    <ActivityRows lines={lines.slice(VISIBLE_HISTORY)} start={VISIBLE_HISTORY + 1} />
+                  </details>
+                ) : null}
+              </>
             ) : (
               <p className="wl-note">{WALLET_COPY.historyEmpty}</p>
             )}

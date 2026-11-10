@@ -66,6 +66,7 @@ export async function startWalletPurchase(pack, options = {}) {
 
     return await new Promise((resolve) => {
       let settled = false;
+      let verifying = false;
       const done = (result) => { if (!settled) { settled = true; resolve(result); } };
       open({
         key: keyId,
@@ -77,26 +78,32 @@ export async function startWalletPurchase(pack, options = {}) {
         prefill: { name: options.prefill?.name || '', email: options.prefill?.email || '' },
         theme: { color: '#d2f000' },
         handler: async (response) => {
+          if (settled || verifying) return;
+          verifying = true;
           try {
             const verified = await postJson(fetchImpl, '/api/wallet/verify', {
               razorpay_order_id: response?.razorpay_order_id,
               razorpay_payment_id: response?.razorpay_payment_id,
               razorpay_signature: response?.razorpay_signature,
             });
-            if (!verified.ok) { done({ status: 'failed', message: PURCHASE_COPY.verifyFailed }); return; }
+            const alreadyAdded = verified.data?.idempotent === true || verified.data?.alreadyCaptured === true;
             const granted = Number(verified.data?.granted) || 0;
+            if (!verified.ok || verified.data?.ok !== true || (!alreadyAdded && !(Number.isSafeInteger(granted) && granted > 0))) {
+              done({ status: 'failed', message: PURCHASE_COPY.verifyFailed });
+              return;
+            }
             done({
               status: 'paid',
               granted,
               balance: verified.data?.balance ?? null,
-              message: verified.data?.idempotent || verified.data?.alreadyCaptured ? 'Credits already added.' : creditsAdded(granted || served?.credits || 0),
+              message: alreadyAdded ? 'Credits already added.' : creditsAdded(granted),
             });
           } catch {
             done({ status: 'failed', message: PURCHASE_COPY.verifyFailed });
           }
         },
-        modal: { ondismiss: () => done({ status: 'dismissed', message: PURCHASE_COPY.dismissed }) },
-      }, { failed: (description) => done({ status: 'failed', message: description || 'The payment did not go through. Nothing was charged.' }) });
+        modal: { ondismiss: () => { if (!verifying) done({ status: 'dismissed', message: PURCHASE_COPY.dismissed }); } },
+      }, { failed: (description) => { if (!verifying) done({ status: 'failed', message: description || 'The payment did not go through. Nothing was charged.' }); } });
     });
   } catch (error) {
     return { status: 'failed', message: error?.message || PURCHASE_COPY.failed };
