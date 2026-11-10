@@ -9,7 +9,7 @@ import {
 
 // GET /api/sample?subject=<slug>&set=<0..5>: five live questions of one CUET subject for the home page's sample card
 // ("Not your subject?", round 4 H3, LK123). Public, no sign-in. It returns only what the card shows (the stem, four
-// options, the right one's place, the reason, the chapter); the rules, the bounded window and the egress are in
+// options, the right one's place, the reason, the chapter and any verified past-paper year and relationship). The rules, bounded window and egress are in
 // src/lib/server/demoSample.js.
 //
 // Caching: the answer for a subject and set is the same for everyone and changes only when the bank does, so the CDN keeps

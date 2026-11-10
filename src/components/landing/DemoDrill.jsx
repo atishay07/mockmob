@@ -81,6 +81,7 @@ const DRILL = [
 const KEYS = ['A', 'B', 'C', 'D'];
 /** A live subject that has not answered in this long is called slow and can be tapped again (R8 HERO-02, patchy 4G). */
 const SLOW_MS = 8000;
+const SAMPLE_CACHE_MS = 5 * 60 * 1000;
 /** A stem longer than this many characters is set a step smaller (round 10; the card's own five are all shorter). */
 const LONG_STEM = 110;
 
@@ -135,14 +136,17 @@ export function DemoDrill({ note = null }) {
   // Why the failed subject failed: 'offline', 'slow' (no answer in SLOW_MS) or 'error' (R8 HERO-02, HERO-06).
   const [failure, setFailure] = useState(null);
   const [fresh, setFresh] = useState(false);
+  const [heldHeight, setHeldHeight] = useState(0);
   const rootRef = useRef(null);
   const footRef = useRef(null);
   const optionsRef = useRef(null);
   const resultRef = useRef(null);
   const panelRef = useRef(null);
+  const loadingRef = useRef(null);
   const switchRef = useRef(null);
   const request = useRef(null);
   const lastSet = useRef({});
+  const sets = useRef(new Map());
   // The bubble's line for the card as it stands, so closing the subject list puts it back (R8 HERO-03).
   const deskNow = useRef({ state: 'load', answered: 0, subject: null });
   const leadId = useId();
@@ -164,11 +168,12 @@ export function DemoDrill({ note = null }) {
     // A pointer pick or "Next" keeps focus in the card without drawing a ring on its volt key (R8 HERO-11).
     else if (target === 'card') rootRef.current?.focus({ preventScroll: true });
     else if (target === 'switch') switchRef.current?.focus({ preventScroll: true });
+    else if (target === 'loading') loadingRef.current?.focus({ preventScroll: true });
     else if (target === 'panel') {
       const list = panelRef.current;
-      (list?.querySelector('[aria-pressed="true"]') || list?.querySelector('button'))?.focus({ preventScroll: true });
+      (list?.querySelector('[data-state="failed"]') || list?.querySelector('[aria-pressed="true"]') || list?.querySelector('button'))?.focus({ preventScroll: true });
     }
-  }, [answered, index, done, picking, live]);
+  }, [answered, index, done, picking, live, loading]);
 
   // The subject list and a new set start at the card's head: when the head is above the screen (the key that opened them
   // sits on the card's last line), bring it back at once, never with a glide (LK47, LK89).
@@ -181,7 +186,7 @@ export function DemoDrill({ note = null }) {
   }, [picking, fresh, live, done]);
 
   // A request still running when the card goes away is dropped.
-  useEffect(() => () => request.current?.abort(), []);
+  useEffect(() => () => { request.current?.abort(); request.current = null; }, []);
 
   // Answering grows the panel by the reason plus the forward key, which on a
   // 360x800 phone pushes that key under the sticky action bar. Bring it back
@@ -227,6 +232,7 @@ export function DemoDrill({ note = null }) {
   }
 
   function next(event) {
+    setHeldHeight(0);
     if (index + 1 >= DRILL.length) {
       focusNext.current = 'result';
       setOpenMiss(null);
@@ -251,6 +257,7 @@ export function DemoDrill({ note = null }) {
     // Hand focus to the restarted card (keyboard: answer A; tap: the card) and let the head scroll back into view (R8 sweep LH-01).
     focusNext.current = event?.detail === 0 ? 'options' : 'card';
     setFresh(true);
+    setHeldHeight(0);
     tellDesk('load', 0);
     setIndex(0);
     setPicked(null);
@@ -265,16 +272,23 @@ export function DemoDrill({ note = null }) {
     setFailed(null);
     setFailure(null);
     setFresh(true);
+    setHeldHeight(0);
     setPicking(true);
     tellDesk('pick', 0);
   }
 
-  function closeSubjects() {
+  function cancelSubject() {
     request.current?.abort();
     request.current = null;
     setLoading(null);
     setFailed(null);
     setFailure(null);
+    setHeldHeight(0);
+    focusNext.current = 'panel';
+  }
+
+  function closeSubjects() {
+    cancelSubject();
     focusNext.current = 'switch';
     setPicking(false);
     // Back on the card, Mobi says what he said before the list opened. It is a restore, not a new answer, so he
@@ -283,45 +297,60 @@ export function DemoDrill({ note = null }) {
     tellDesk(state, count, subject, true);
   }
 
+  function showSample(next) {
+    lastSet.current[next.slug] = next.set;
+    request.current = null;
+    trackFunnel('sample_subject_chosen');
+    tellDesk('live', 0, next.name);
+    focusNext.current = 'options';
+    setLive(next);
+    setFresh(true);
+    setIndex(0);
+    setPicked(null);
+    setScore(0);
+    setMissed([]);
+    setOpenMiss(null);
+    setDone(false);
+    setLoading(null);
+    setPicking(false);
+  }
+
   // A subject's five: the route's answer is checked whole (acceptDemoSet) before the card plays it. A failure keeps the
   // list open with one line that says so; the card underneath is untouched. Picking another subject while one loads
   // drops the first request.
   // R8 HERO-02: a request that has not answered in SLOW_MS is dropped (a plain timer, not AbortSignal.timeout, which older
   // Android WebViews lack) and the key can be tapped again; offline says so (HERO-06).
-  async function chooseSubject(slug) {
+  async function chooseSubject(slug, startedAt) {
     request.current?.abort();
-    const controller = new AbortController();
-    request.current = controller;
-    setLoading(slug);
+    setHeldHeight(rootRef.current?.offsetHeight || 0);
     setFailed(null);
     setFailure(null);
+    const previous = lastSet.current[slug] ?? null;
+    const available = (sets.current.get(slug) || []).filter((item) => item.expires > startedAt);
+    const cached = available.find(({ sample }) => sample.set !== previous);
+    if (cached) {
+      showSample(cached.sample);
+      return;
+    }
+    const controller = new AbortController();
+    request.current = controller;
+    focusNext.current = 'loading';
+    setLoading(slug);
     let slow = false;
     const timer = window.setTimeout(() => { slow = true; controller.abort(); }, SLOW_MS);
     try {
-      const response = await fetch(demoSetUrl(slug, pickDemoSet(lastSet.current[slug] ?? null)), { signal: controller.signal });
+      const response = await fetch(demoSetUrl(slug, pickDemoSet(previous)), { signal: controller.signal });
       const next = acceptDemoSet(response.ok ? await response.json() : null, slug);
       window.clearTimeout(timer);
       if (request.current !== controller) return;
       if (!next) throw new Error('unavailable');
-      lastSet.current[slug] = next.set;
-      request.current = null;
-      trackFunnel('sample_subject_chosen');
-      tellDesk('live', 0, next.name);
-      focusNext.current = 'options';
-      setLive(next);
-      setFresh(true);
-      setIndex(0);
-      setPicked(null);
-      setScore(0);
-      setMissed([]);
-      setOpenMiss(null);
-      setDone(false);
-      setLoading(null);
-      setPicking(false);
+      sets.current.set(slug, [...available.filter(({ sample }) => sample.set !== next.set), { sample: next, expires: startedAt + SAMPLE_CACHE_MS }]);
+      showSample(next);
     } catch {
       window.clearTimeout(timer);
       if (request.current !== controller) return;
       request.current = null;
+      focusNext.current = 'panel';
       setLoading(null);
       setFailed(slug);
       setFailure(typeof navigator !== 'undefined' && navigator.onLine === false ? 'offline' : slow ? 'slow' : 'error');
@@ -331,7 +360,8 @@ export function DemoDrill({ note = null }) {
   function onPanelKey(event) {
     if (event.key === 'Escape') {
       event.stopPropagation();
-      closeSubjects();
+      if (loading) cancelSubject();
+      else closeSubjects();
     }
   }
 
@@ -427,14 +457,17 @@ export function DemoDrill({ note = null }) {
   const failedName = failed ? demoSubject(failed)?.name : null;
 
   return (
-    <div className="lp-card mm-drill" data-answered={answeredCount} data-mode={picking ? 'subjects' : 'drill'} tabIndex={-1} role="group" aria-label={picking ? 'Pick a subject for the sample' : 'Five sample questions'} ref={rootRef}>
+    <div className="lp-card mm-drill" data-answered={answeredCount} data-mode={picking ? 'subjects' : 'drill'} tabIndex={-1} role="group" aria-label={picking ? 'Pick a subject for the sample' : 'Five sample questions'} ref={rootRef} style={heldHeight ? { minHeight: heldHeight } : undefined}>
       {picking ? (
         <div className="mm-drill__subjects-panel" onKeyDown={onPanelKey}>
           <div className="lp-card__head">
-            <span className="lp-card__sub"><b>Pick your subject</b></span>
-            <button type="button" className="mm-drill__close" onClick={closeSubjects} aria-label="Back to the question">
-              <Icon name="x" aria-hidden="true" />
-            </button>
+            <span className="lp-card__sub"><b>{loadingName || 'Pick your subject'}</b></span>
+            <div className="mm-drill__pick-actions">
+              {loadingName ? <button type="button" className="mm-drill__switch" ref={loadingRef} onClick={cancelSubject} aria-describedby={leadId}>Change subject</button> : null}
+              <button type="button" className="mm-drill__close" onClick={closeSubjects} aria-label="Back to the question">
+                <Icon name="x" aria-hidden="true" />
+              </button>
+            </div>
           </div>
           <div className="lp-card__body">
             {/* One line under the head: what a pick gives, and while it loads or if it fails, that instead (in place, so the
@@ -450,31 +483,41 @@ export function DemoDrill({ note = null }) {
                   ? `Loading five ${loadingName} questions.`
                   : 'Five questions from the MockMob bank, each with its answer explained.'}
             </p>
-            <div className="mm-drill__subjects" role="group" aria-label="CUET subjects" aria-busy={loading ? 'true' : 'false'} ref={panelRef}>
-              {DEMO_SUBJECTS.map((subject) => {
-                const isCurrent = current?.slug === subject.slug;
-                // The key being fetched (or that could not load) carries its own state: busy while it loads, and the line
-                // above ("Loading five ...", "Couldn't load ...") as its description, so a screen reader hears it on the key.
-                const isLoading = loading === subject.slug;
-                const isFailed = failed === subject.slug;
-                const speaks = isLoading || isFailed;
-                return (
-                  <button
-                    key={subject.slug}
-                    type="button"
-                    className="mm-drill__subject"
-                    aria-pressed={isCurrent ? 'true' : 'false'}
-                    aria-busy={isLoading ? 'true' : undefined}
-                    aria-describedby={speaks ? leadId : undefined}
-                    data-state={isLoading ? 'loading' : isFailed ? 'failed' : null}
-                    onClick={() => chooseSubject(subject.slug)}
-                  >
-                    <span>{subject.name}</span>
-                    {/* The key that failed carries a red rim and a turn-back mark (R8 HERO-06); the one playing, its tick. */}
-                    {isFailed ? <RetryMark /> : isCurrent && !isLoading ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
-                  </button>
-                );
-              })}
+            <div className="mm-drill__pick-stage">
+              <div className="mm-drill__subjects" role="group" aria-label="CUET subjects" inert={Boolean(loading)} ref={panelRef}>
+                {DEMO_SUBJECTS.map((subject) => {
+                  const isCurrent = current?.slug === subject.slug;
+                  const isFailed = failed === subject.slug;
+                  return (
+                    <button
+                      key={subject.slug}
+                      type="button"
+                      className="mm-drill__subject"
+                      aria-pressed={isCurrent ? 'true' : 'false'}
+                      aria-describedby={isFailed ? leadId : undefined}
+                      data-state={isFailed ? 'failed' : null}
+                      onClick={(event) => chooseSubject(subject.slug, event.timeStamp)}
+                    >
+                      <span>{subject.name}</span>
+                      {isFailed ? <RetryMark /> : isCurrent ? <Icon name="check" className="mm-drill__subject-mark" aria-hidden="true" /> : null}
+                    </button>
+                  );
+                })}
+              </div>
+              {loadingName ? (
+                <div className="mm-drill__loading">
+                  <div aria-hidden="true" className="mm-drill__loading-paper">
+                    <div className="mm-drill__loading-stem"><i /><i /></div>
+                    <div className="mm-drill__options">
+                      {KEYS.map((letter) => (
+                        <div className="mm-drill__option mm-drill__loading-option" key={letter}>
+                          <span className="mm-drill__key">{letter}</span><i />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
@@ -505,6 +548,7 @@ export function DemoDrill({ note = null }) {
             {/* Round 10: a long bank stem (a live subject's, often 150+ characters) is set a step smaller, so it is not
                 seven lines over the options on a phone. The words are the bank's, unchanged. */}
             <p className="mm-drill__q" data-long={question.q.length > LONG_STEM ? 'true' : undefined}>{question.q}</p>
+            {question.pastPaper ? <p className="mm-drill__past-paper">{question.pastPaper}</p> : null}
 
             <div className="mm-drill__options" role="group" aria-label="Answer options" ref={optionsRef}>
               {question.options.map((option, optionIndex) => {

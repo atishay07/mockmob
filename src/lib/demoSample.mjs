@@ -63,9 +63,17 @@ export function pickDemoSet(previous = null, random = Math.random) {
 
 const text = (v, max) => (typeof v === 'string' && v.trim() && v.length <= max ? v.trim() : null);
 
+export function demoPastPaperLabel(pastPaper) {
+  const year = pastPaper?.year;
+  if (!Number.isInteger(year) || year < 2022 || year > new Date().getUTCFullYear()) return null;
+  if (pastPaper.kind === 'asked') return `Asked in CUET ${year}`;
+  if (pastPaper.kind === 'adapted') return `Adapted from CUET ${year}`;
+  return null;
+}
+
 /**
  * The route's answer as the card plays it, or null when it is not one: exactly DEMO_SET_SIZE questions, each a stem,
- * four option texts, the right option's place (0 to 3), the reason and the chapter. Only those fields are kept, and each
+ * four option texts, the right option's place (0 to 3), the reason and the chapter. A verified past-paper reference is optional. Each
  * question carries the subject's name for the card's head. Anything else (a short set, a fifth option, a missing
  * reason) is refused whole, so the card never plays half a set.
  */
@@ -82,7 +90,8 @@ export function acceptDemoSet(body, slug) {
     const options = Array.isArray(item?.options) && item.options.length === 4 ? item.options.map((o) => text(o, 300)) : [];
     const correct = item?.correct;
     if (!q || !why || options.length !== 4 || options.some((o) => !o) || !Number.isInteger(correct) || correct < 0 || correct > 3) return null;
-    questions.push({ subject: subject.name, q, options, correct, why, chapter });
+    const pastPaper = demoPastPaperLabel(item?.pastPaper);
+    questions.push({ subject: subject.name, q, options, correct, why, chapter, ...(pastPaper ? { pastPaper } : {}) });
   }
   const set = Number.isInteger(body.set) && body.set >= 0 && body.set < DEMO_SETS ? body.set : null;
   return { slug: subject.slug, name: subject.name, set, questions };

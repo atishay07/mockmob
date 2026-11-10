@@ -57,15 +57,13 @@ html[data-theme='light'] .mm.lp .lp-try .lp-desk .mm-drill__pip[data-result='rig
 .mm.lp .lp-try .lp-desk .mm-drill__base { align-items: baseline; margin: 14px 0 -12px; padding-top: 2px; border-top: 1px solid var(--line); row-gap: 0; }
 .mm.lp .lp-try .lp-desk .mm-drill__base > .lp-card__note { flex: 0 0 auto; max-width: 100%; padding-top: 10px; text-wrap: balance; }
 
-/* The subject keys: the loading ring, the retry mark and the playing tick sat in the name's line and pushed "Business
+/* The subject keys: the retry mark and the playing tick sat in the name's line and pushed "Business
    Studies" to two lines the moment it was tapped, so the key and the whole list under it jumped 10 px. The mark now sits
    in the key's right padding, centred, and a key that carries one sets its name in 3 px of block padding: a name that
    needs two lines beside the mark still fits the same 44 px key, and nothing moves. */
 .mm.lp .lp-try .lp-desk .mm-drill__subject { position: relative; }
 .mm.lp .lp-try .lp-desk .mm-drill__subject:is([aria-pressed='true'], [data-state]) { padding-block: 3px; padding-right: 32px; }
-.mm.lp .lp-try .lp-desk .mm-drill__subject > .mm-drill__subject-mark,
-.mm.lp .lp-try .lp-desk .mm-drill__subject[data-state='loading']::after { position: absolute; top: 50%; right: 11px; margin-top: -8px; }
-.mm.lp .lp-try .lp-desk .mm-drill__subject[data-state='loading']::after { box-sizing: border-box; width: 16px; height: 16px; }
+.mm.lp .lp-try .lp-desk .mm-drill__subject > .mm-drill__subject-mark { position: absolute; top: 50%; right: 11px; margin-top: -8px; }
 
 /* ---------- The result ---------- */
 /* The score's lockup: "/5" was glued to the figure by the figure's -0.05em tracking and read as a subscript. Now the

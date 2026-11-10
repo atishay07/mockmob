@@ -13,7 +13,7 @@ import {
 } from '../../src/lib/demoSample.mjs';
 import {
   DEMO_BATCH, DEMO_CHAPTER_CAP, DEMO_FULL_SELECT, DEMO_LIGHT_SELECT, DEMO_MAX_FULL_ROWS, DEMO_POOL_TTL_MS,
-  createDemoSample, demoQuestionOut, demoSetFrom, demoShape, parseDemoQuery, readDemoPool,
+  createDemoSample, demoPastPaper, demoQuestionOut, demoSetFrom, demoShape, parseDemoQuery, readDemoCandidates, readDemoPool,
 } from '../../src/lib/server/demoSample.js';
 
 const restore = setFixtureSecret();
@@ -97,7 +97,18 @@ test('what does not read well on the card never enters the window: passages, for
   for (const item of pool) assert.ok(!stems.has(item.q) || !mutated.find((r) => spoiled.has(r.id) && r.body === item.q), item.q);
 });
 
-test('egress: one read of seven small columns, then full rows only by id, 40 at a time, stopping as soon as the window can fill', async () => {
+test('candidates prefer recorded quality within chapters, spread chapters and leave unscored rows available', async () => {
+  const row = { subject: 'accountancy', chapter: 'Ratios', status: 'live', is_deleted: false };
+  const rows = [
+    { ...row, id: 'unknown' },
+    { ...row, id: 'best', quality_score: 0.9 },
+    { ...row, id: 'other', chapter: 'Cash Flow', quality_score: 0.5 },
+    { ...row, id: 'off-syllabus', quality_score: 1, is_cuet_syllabus: false },
+  ];
+  assert.deepEqual(await readDemoCandidates(fakeDb(tablesOf(rows)), 'accountancy'), ['best', 'other', 'unknown']);
+});
+
+test('egress: one read of seven small columns, then full rows only by id, in bounded batches, stopping when the window can fill', async () => {
   // A subject the size of a real one (about 800 rows here, 1,000 to 1,500 on production), 120 of them evidence-managed.
   const rows = bank(23, { legacy: 2400, managed: 120 });
   const db = fakeDb(tablesOf(rows)); // strict: reading any column outside a select throws
@@ -107,6 +118,8 @@ test('egress: one read of seven small columns, then full rows only by id, 40 at 
   assert.equal(reads[0].select, DEMO_LIGHT_SELECT);
   assert.equal(DEMO_LIGHT_SELECT.split(',').length, 7);
   assert.doesNotMatch(DEMO_LIGHT_SELECT, /body|question\b|options|explanation|evidence|provenance/);
+  assert.match(DEMO_LIGHT_SELECT, /\bquality_score\b/);
+  assert.doesNotMatch(DEMO_FULL_SELECT, /\btopic\b/, 'the full read leaves out metadata the card and its checks do not use');
   assert.deepEqual(reads[0].filters, ['eq:subject', 'eq:is_deleted']);
   for (const call of reads.slice(1)) {
     assert.equal(call.select, DEMO_FULL_SELECT);
@@ -138,6 +151,23 @@ test('the answer carries only what the card shows: no id, family, evidence, sour
     assert.doesNotMatch(json, /"id"|family|evidence|provenance|signature|difficulty|score|source|"(?:q|m)-\d{4}"/);
     assert.ok(acceptDemoSet(answer, 'accountancy'), 'and the card accepts it as it is');
   }
+});
+
+test('only signed and authenticated past-paper provenance can produce a label, with exact and adapted kept distinct', () => {
+  const anchor = { id: 'a1', subject: 'accountancy', source_kind: 'authentic_pyq', final_key_matched: true, year: 2024 };
+  const registry = { examples: [anchor] };
+  const row = { subject: anchor.subject, selection_evidence_tier: 3, provenance: { kind: 'authentic_pyq', anchor_id: anchor.id } };
+  assert.deepEqual(demoPastPaper(row, registry), { kind: 'asked', year: 2024 });
+  const adapted = { ...row, provenance: { ...row.provenance, kind: 'pyq_adapted' } };
+  assert.equal(demoPastPaper(adapted, registry), null, 'an adaptation needs an explicit relationship on the row');
+  const pastPaper = demoPastPaper({ ...adapted, provenance: { ...adapted.provenance, adaptation_type: 'new_values' } }, registry);
+  assert.deepEqual(pastPaper, { kind: 'adapted', year: 2024 });
+  assert.equal(demoPastPaper({ ...row, selection_evidence_tier: 1 }, registry), null, 'legacy anchor metadata is insufficient');
+  assert.equal(demoPastPaper(row, { examples: [{ ...anchor, final_key_matched: false }] }), null);
+  assert.equal(demoPastPaper(row, { examples: [{ ...anchor, year: null }] }), null);
+  const questions = Array.from({ length: 5 }, () => ({ q: 'Stem', options: ['a', 'b', 'c', 'd'], correct: 0, why: 'Reason.', pastPaper }));
+  assert.equal(acceptDemoSet({ subject: 'accountancy', set: 0, questions }, 'accountancy').questions[0].pastPaper, 'Adapted from CUET 2024');
+  assert.equal(acceptDemoSet({ subject: 'accountancy', set: 0, questions: questions.map((question) => ({ ...question, pastPaper: { kind: 'guess', year: 2024 } })) }, 'accountancy').questions[0].pastPaper, undefined);
 });
 
 test('sets: six disjoint fives of the window; a set past a short window wraps; under five is no answer', () => {
@@ -243,9 +273,10 @@ test('the card: its own five first, a picked set accepted whole, the request onl
   // subject, so it never claims a random draw from the bank. Its two-line hold is at every size, so nothing moves.
   assert.match(drill, /'Five questions from the MockMob bank, each with its answer explained\.'/);
   assert.doesNotMatch(code(drill), /at random|randomly|random five|random 5/i);
-  // The key being fetched carries its own state for a screen reader, not only the ring and the group's aria-busy.
-  assert.match(drill, /aria-busy=\{isLoading \? 'true' : undefined\}/);
-  assert.match(drill, /aria-describedby=\{speaks \? leadId : undefined\}/);
+  // The picker is inert during the skeleton. The retry key and Change subject both describe the live status line.
+  assert.match(drill, /className="mm-drill__subjects"[^>]*inert=\{Boolean\(loading\)\}/);
+  assert.match(drill, /aria-describedby=\{isFailed \? leadId : undefined\}/);
+  assert.match(drill, /onClick=\{cancelSubject\} aria-describedby=\{leadId\}>Change subject/);
   assert.match(drill, /className="mm-drill__pick-lead" id=\{leadId\} aria-live="polite"/);
   assert.match(drill, /if \(event\.key === 'Escape'\)/);
   // R8 HERO-03 (8 Nov 2026): a new set gives Mobi a line that names the subject ("Physics it is. Your move.").

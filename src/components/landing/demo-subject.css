@@ -41,6 +41,8 @@
 
 /* ---------- The subject list (the card turns to it; the head says what to do and closes it) ---------- */
 .mm.lp .lp-desk .mm-drill[data-mode='subjects'] .lp-card__head { min-height: 32px; }
+.mm.lp .lp-desk .mm-drill__pick-actions { display: flex; flex: none; align-items: center; gap: 6px; }
+.mm.lp .lp-desk .mm-drill__pick-actions .mm-drill__switch { margin-block: -6px; }
 .mm.lp .lp-desk .mm-drill__close {
   display: inline-grid;
   place-items: center;
@@ -98,6 +100,8 @@
    the first row whole instead of Sociology standing alone at the end. Three columns hold the 15 as five even rows. */
 .mm.lp .lp-desk .mm-drill__subject:first-child { grid-column: 1 / -1; }
 @container (min-width: 420px) {
+  /* Five desktop picker rows are shorter than a question, its source line and the footer. */
+  .mm.lp .lp-desk .mm-drill__subjects-panel { min-height: 27rem; }
   .mm.lp .lp-desk .mm-drill__subjects { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .mm.lp .lp-desk .mm-drill__subject:first-child { grid-column: auto; }
   /* "Computer Science" and "Political Science" stay on one line in a third of a 468 px card (a 768 px tablet). */
@@ -106,18 +110,17 @@
 /* At every size the line under the head holds two lines whatever it says (what a pick gives and a failure take two from
    360 px to 1920 px; loading takes one), so the list never moves while a subject loads or fails. */
 .mm.lp .lp-desk .mm-drill__pick-lead { min-height: calc(2 * 1.45em); }
-/* Loading: a small ring turns beside the name until the five arrive (the status line says it in words too). */
-.mm.lp .lp-desk .mm-drill__subject[data-state='loading'] { border-color: var(--ink-3); }
-.mm.lp .lp-desk .mm-drill__subject[data-state='loading']::after {
-  content: '';
-  flex: none;
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--line-strong);
-  border-top-color: var(--ink);
-  border-radius: 50%;
-  animation: mm-demo-spin 700ms linear infinite;
-}
+/* The picker reserves its height while its keys are hidden. The preview uses the card's own answer rows. */
+.mm.lp .lp-desk .mm-drill__pick-stage { display: grid; }
+.mm.lp .lp-desk .mm-drill__pick-stage > * { grid-area: 1 / 1; }
+.mm.lp .lp-desk .mm-drill__subjects[inert] { visibility: hidden; }
+.mm.lp .lp-desk .mm-drill__loading { align-self: start; padding-top: 14px; }
+.mm.lp .lp-desk .mm-drill__loading-stem { display: grid; gap: 8px; min-height: 36px; }
+.mm.lp .lp-desk .mm-drill__loading i { display: block; height: 11px; width: 72%; border-radius: 4px; background: var(--line-strong); }
+.mm.lp .lp-desk .mm-drill__loading-stem i:last-child { width: 46%; }
+.mm.lp .lp-desk .mm-drill__loading-option i { width: 62%; }
+.mm.lp .lp-desk .mm-drill__loading-option:nth-child(even) i { width: 45%; }
+.mm.lp .lp-desk .mm-drill__past-paper { margin: 6px 0 0; color: var(--ink-2); font-size: 0.8125rem; line-height: 1.35; }
 
 /* The end state's readout in Day: the box kept Night's slate fill (marketing.css --slate-2) under Day's ink, so its
    heading and chapters were dark on dark. Day draws it on paper; Night is unchanged. */
@@ -129,16 +132,12 @@ html[data-theme='light'] .mm.lp .lp-desk .mm-drill__readout { background: var(--
 /* ---------- Motion: the list and the returning question ease in; reduced motion shows them at once ---------- */
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .mm.lp .lp-desk .mm-drill__subjects-panel,
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .mm-drill__loading-paper,
   :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-fresh='true'] {
     animation: mm-demo-in 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .mm.lp .lp-desk .mm-drill__subject[data-state='loading']::after { animation: none; border-color: var(--ink-3); }
-}
-:root[data-motion='reduced'] .mm.lp .lp-desk .mm-drill__subject[data-state='loading']::after { animation: none; border-color: var(--ink-3); }
 @keyframes mm-demo-in { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
-@keyframes mm-demo-spin { to { transform: rotate(360deg); } }
 
 /* ==========================================================================
    R8 visible-craft pass (8 Nov 2026). Kept in this file, not hero-scene.css, so the hero's own sheet stays as it is.
