@@ -171,13 +171,17 @@ test('a sentence about one paper names it: a mock by its name, any other paper a
 
 // ---- the tour reads as sentences ---------------------------------------------------------------------------------------------
 
-test('the tour’s stops read as full sentences, and Colleges promises what Today draws', () => {
+test('the tour’s stops read as full sentences, and the You stop names Colleges', () => {
   const words = TOUR_STEPS_ALL.flatMap((s) => [s.body, ...Object.values(s.bodies || {})]);
   for (const line of words) {
     assert.doesNotMatch(line, /^(Opens|Your study days|Which DU|Every paper you sit and)/, line);
     assert.doesNotMatch(line, /[!—·]/, line);
     assert.match(line, /[.?]$/, line);
   }
-  const colleges = TOUR_STEPS_ALL.find((s) => s.title === 'Colleges');
-  assert.match(colleges.body, /Your first choice of college shows on Today\.$/);
+  // 10 Nov 2026: the guide is the map only, one line a stop. Colleges is named on the You stop, where it lives; the long
+  // paragraph about it (and "shows on Today") left the tour with the other per-feature paragraphs.
+  assert.equal(TOUR_STEPS_ALL.find((s) => s.title === 'Colleges'), undefined);
+  const you = TOUR_STEPS_ALL.find((s) => s.title === 'You');
+  assert.match(you.body, /Colleges/);
+  assert.ok(words.length >= TOUR_STEPS_ALL.length);
 });

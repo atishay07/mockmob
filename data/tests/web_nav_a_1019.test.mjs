@@ -248,22 +248,28 @@ test('the sidebar compaction follows the new rail: 38 px rows only where 44 woul
   assert.doesNotMatch(arena, /max-height: 869px|max-height: 915px/);
 });
 
-test('the guide tour follows the new map: every stop has a target on the bar or in the sidebar, and says where to look on a phone', () => {
+test('the guide tour follows the new map: every stop has a target on the bar or in the sidebar', () => {
   const all = tourSteps({ mob: true, study: true });
   assert.equal(all.length, TOUR_STEPS_ALL.length);
   // The targets a phone has: the bar's places, the You button (data-tour nav-more) and Mobi's key in the top bar (nav-mentor-top, owner
   // LK143); the sidebar adds each page's own row.
   const phone = new Set(['nav-today', 'nav-dashboard', 'nav-mob', 'nav-more', 'nav-start', 'nav-mentor-top']);
-  const sidebar = new Set(['nav-today', 'nav-dashboard', 'nav-review', 'nav-learn', 'nav-explore', 'nav-saved', 'nav-mob', 'nav-leaderboard', 'nav-profile', 'nav-progress', 'nav-analytics', 'nav-admission-compass', 'nav-wallet', 'nav-help', 'nav-mentor']);
+  // The Start key carries nav-start in the sidebar and in the dock (StartKey.jsx), so the Start stop has a target at every width.
+  assert.match(read('src/components/start/StartKey.jsx'), /data-tour="nav-start"/);
+  const sidebar = new Set(['nav-today', 'nav-dashboard', 'nav-review', 'nav-learn', 'nav-explore', 'nav-saved', 'nav-mob', 'nav-leaderboard', 'nav-profile', 'nav-progress', 'nav-analytics', 'nav-admission-compass', 'nav-wallet', 'nav-help', 'nav-mentor', 'nav-start']);
   for (const step of all) {
     const targets = [].concat(step.target);
     assert.ok(targets.some((target) => sidebar.has(target)), `${step.title}: a sidebar target`);
     assert.ok(targets.some((target) => phone.has(target)), `${step.title}: a phone target (${targets})`);
-    if (targets.length > 1) assert.ok(step.bodies && Object.keys(step.bodies).every((key) => phone.has(key)), `${step.title}: its phone wording is for a target the phone has`);
+    // 10 Nov 2026: one line a stop, true wherever the ring lands, so no stop carries separate phone wording any more.
+    assert.equal(step.bodies, undefined, `${step.title}: one line, the same on a phone and a desktop`);
+    assert.equal(typeof step.body, 'string');
   }
   // Nothing says "More" any more: the phone's last place is You.
   assert.doesNotMatch(JSON.stringify(TOUR_STEPS_ALL), /under More|first place under More/);
-  assert.ok(all.some((step) => step.title === 'Your papers'), 'Review is named Your papers, as in the app (D106)');
+  // Your papers is a page inside Practice (D106), reached from the Practice stop; the guide's stops are the map itself.
+  assert.deepEqual(all.map((step) => step.title), ['Today', 'Practice', 'Start', 'Ask Mobi', 'Your Mob', 'You']);
+  assert.equal(PRACTICE_PAGES.find((tab) => tab.id === 'review').label, 'Your papers', 'Review is named Your papers, as in the app (D106)');
   assert.ok(!all.some((step) => step.title === 'Review'));
 });
 

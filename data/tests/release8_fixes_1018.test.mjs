@@ -74,15 +74,17 @@ test('W-089: the six 18 Oct design notes are in the repo, as written', () => {
 test('W-093: the Help tour row counts the tour that will run, in every combination of Learn and the Mob', async () => {
   const { tourSteps } = await import('../../src/lib/appTour.mjs');
   const { tourNote } = await import('../../src/lib/helpDoor.mjs');
-  const words = { 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten' };
+  // 10 Nov 2026: the guide is five stops, six while the Mob is on (the lessons no longer add one).
+  const words = { 5: 'Five', 6: 'Six' };
   for (const study of [false, true]) {
     for (const mob of [false, true]) {
       const n = tourSteps({ study, mob }).length;
       assert.equal(tourNote(n), `${words[n]} stops, about a minute`, `study ${study}, mob ${mob}`);
     }
   }
-  assert.equal(tourSteps({ study: true }).length, 8, 'the live set (Learn on, the Mob off) is eight stops');
-  assert.doesNotMatch(read('src/lib/helpDoor.mjs'), /Five stops/);
+  assert.equal(tourSteps({ study: true }).length, 5, 'the live set (Learn on, the Mob off) is five stops');
+  assert.equal(tourSteps({ study: true, mob: true }).length, 6, 'and six while the Mob is on');
+  assert.doesNotMatch(read('src/lib/helpDoor.mjs'), /(Five|Six|Eight) stops/, 'the number is never typed into the sentence');
 });
 
 test('W-093: the shell runs the tour from appTour.mjs and tells Help how many stops there are', () => {

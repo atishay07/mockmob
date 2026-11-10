@@ -31,9 +31,9 @@ test('D11: the nav row, the phone More sheet and the page all say Guide; the pag
   assert.match(read('src/app/(app)/help/HelpPageClient.jsx'), /<ArenaHead title=\{GUIDE_PAGE_TITLE\}/);
   assert.match(read('src/app/(app)/help/page.js'), /title: 'Guide and questions \| MockMob'/);
   assert.ok(read('src/app/(app)/help/page.js').length > 0 && !/Help and FAQ/.test(read('src/app/(app)/help/page.js')));
-  // The tour's last stop names the same place.
+  // The tour's last stop is You, where the Guide row lives, and its line says so (10 Nov 2026: the guide is the map only).
   const tour = read('src/lib/appTour.mjs');
-  assert.match(tour, /title: 'Guide', target: \['nav-help', 'nav-more'\]/);
+  assert.match(tour, /title: 'You', target: \['nav-profile', 'nav-more'\], group: true, body: 'Progress, Colleges, Wallet and this guide are here\.'/);
   assert.doesNotMatch(tour, /Help and FAQ has|Help and FAQ is under/);
 });
 
@@ -48,7 +48,10 @@ test('D11: "Help" and "Help and FAQ" are no longer a nav label or page title in 
 test('N17: "Show me around" opens the tour from the You page, the account sheet and under the sidebar’s You place', () => {
   assert.equal(TOUR_LABEL, 'Show me around');
   assert.equal(HELP_DOOR_ROWS[0].label, TOUR_LABEL, 'the Guide page keeps the same first row');
-  assert.match(layout, /function startTour\(\) \{[\s\S]{0,80}setTourStep\(0\);[\s\S]{0,60}setTourOpen\(true\);/);
+  // 10 Nov 2026: the guide is its own component and always starts at its first stop; the shell remembers the key that opened it
+  // (focus goes back there) and opens it.
+  assert.match(layout, /function startTour\(\) \{[\s\S]{0,140}setTourOpener\([\s\S]{0,80}\);[\s\S]{0,60}setTourOpen\(true\);/);
+  assert.match(read('src/components/guide/AppGuide.jsx'), /const \[at, setAt\] = useState\(0\);/, 'a guide that opens starts at the first stop');
   // Owner LK141 (5 Nov 2026): the You sheet is gone. On a phone the tour is a row of the You page (beside Guide) and of the account sheet.
   const places = read('src/components/nav/YouPlaces.jsx');
   assert.ok(places.indexOf("label: HELP_DOOR.label") < places.indexOf('onClick={onTour}'), 'Guide, then Show me around, in the You page’s Help group');

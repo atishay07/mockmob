@@ -108,8 +108,11 @@ test('Learn has its own row and tab inside Practice and its own guide stop (D20)
   assert.match(layout, /const keepLearn = \(tab\) => showStudy \|\| tab\.id !== 'learn'/);
   assert.match(layout, /placeTabs\(activePath, \{ mob: mobOn, study: showStudy, learn2 \}\)/);
   const tour = read('src/lib/appTour.mjs');
-  assert.match(tour, /title: 'Learn', target: \['nav-learn', 'nav-dashboard'\], study: true/);
-  assert.match(tour, /\(!step\.study \|\| study\)/, 'the stop shows only while Learn exists');
+  // The guide rebuilt on 10 Nov 2026 is the map only (six short stops): Learn has no stop of its own any more, it is reached
+  // inside Practice, whose stop the tour keeps. A stop marked `study` would still show only while Learn exists.
+  assert.doesNotMatch(tour, /title: 'Learn'/, 'Learn is inside Practice, not a stop');
+  assert.match(tour, /title: 'Practice', target: 'nav-dashboard'/);
+  assert.match(tour, /\(!step\.study \|\| study\)/, 'a study stop shows only while Learn exists');
   assert.match(layout, /tourSteps\(\{ mob: mobOn, study: studyOn \}\)/, 'the shell runs the tour from appTour.mjs');
 });
 

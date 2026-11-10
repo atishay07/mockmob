@@ -806,6 +806,15 @@ function PreviewInner({ candidatePathway }) {
     const t = window.setTimeout(() => openUpgrade({ trigger: nudgeTrigger }), 900);
     return () => window.clearTimeout(t);
   }, [nudge, nudgeTrigger]);
+  // The guide's own start (10 Nov 2026): &guide=auto makes this browser a student who finished onboarding five minutes ago and has
+  // never seen the guide, so "Show me around" starts by itself a beat after Today (or Practice) has drawn. Every load with the
+  // parameter starts it again; without it nothing here is touched. Storage in this browser only.
+  const guideAuto = params.get('guide') === 'auto';
+  useLayoutEffect(() => {
+    if (!guideAuto) return;
+    try { window.localStorage.removeItem('mockmob_app_tour_seen_preview-user'); } catch { /* storage blocked: the guide stays by hand */ }
+    saveRecord('preview-user', { ...loadRecord('preview-user'), onboardedAt: Date.now() - 5 * 60_000, session: browserSession() });
+  }, [guideAuto]);
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);

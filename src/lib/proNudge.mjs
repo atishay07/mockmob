@@ -97,6 +97,16 @@ export function inFirstSession(record, { now, session }) {
 }
 
 /**
+ * True when this student finished onboarding on this device within `windowMs` before `now` (the guide's own start, 10 Nov
+ * 2026; src/lib/appTour.mjs guideAutoStart). Unlike inFirstSession it does not ask for the same browser session and does not
+ * end when the first-session sheet has shown: it only asks when onboarding ended here. No record, no answer: false.
+ */
+export function onboardedRecently(record, { now, windowMs = 86_400_000 } = {}) {
+  const at = readRecord(record).onboardedAt;
+  return Number.isFinite(at) && Number.isFinite(now) && now >= at && now - at <= windowMs;
+}
+
+/**
  * Whether the student's first real action opens the sheet. `action` is { kind, at }: kind 'paper' (a scored practice set or
  * mock submitted, which is also how a Today move finishes) or 'move' (a Today move started and finished on its own page).
  * Never for Pro, never on onboarding, never for an action older than onboarding, and only once.

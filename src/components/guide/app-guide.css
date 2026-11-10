@@ -1,0 +1,135 @@
+/* The guide ("Show me around", AppGuide.jsx). Tokens only. One spotlight, one raised card, one filled key. */
+
+/* The dialog is the whole screen and draws nothing itself: it holds the taps, and the spotlight's shadow does the dimming. */
+.app-shell .gd {
+  --gd-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --gd-travel: 260ms;
+  --gd-dim: color-mix(in srgb, var(--a-sunken) 72%, transparent);
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--a-ink);
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+html[data-theme='light'] .app-shell .gd { --gd-dim: color-mix(in srgb, var(--a-ink) 44%, transparent); }
+.app-shell .gd::backdrop { background: transparent; }
+.app-shell .gd:focus { outline: none; }
+
+/* The spotlight: the ring on the key, in the key's own corner radius, and everything else dimmed by its shadow. */
+.app-shell .gd-spot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  border: 2px solid var(--a-select);
+  box-shadow: 0 0 0 200vmax var(--gd-dim);
+  pointer-events: none;
+  animation: gd-in 220ms ease-out both;
+}
+.app-shell .gd[data-settled] .gd-spot {
+  transition: transform var(--gd-travel) var(--gd-ease), width var(--gd-travel) var(--gd-ease), height var(--gd-travel) var(--gd-ease), border-radius var(--gd-travel) var(--gd-ease);
+}
+.app-shell .gd-veil { position: fixed; inset: 0; background: var(--gd-dim); animation: gd-in 220ms ease-out both; }
+
+/* The card: a raised surface with a soft shadow and no outline of its own. */
+.app-shell .gd-card {
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  width: min(380px, calc(100vw - 32px));
+  visibility: hidden;
+}
+.app-shell .gd-card[data-placed] { visibility: visible; }
+.app-shell .gd[data-settled] .gd-card { transition: transform var(--gd-travel) var(--gd-ease); }
+.app-shell .gd-card__in {
+  position: relative;
+  padding: 16px 16px 14px;
+  border-radius: 20px;
+  background: var(--a-raised);
+  box-shadow: var(--a-shadow-2), inset 0 0 0 1px var(--a-line);
+  animation: gd-rise 260ms var(--gd-ease) both;
+}
+
+/* The nub: a small corner of the card that points at the key. */
+.app-shell .gd-nub {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--a-raised);
+  box-shadow: inset 0 0 0 1px var(--a-line);
+  transform: rotate(45deg);
+  animation: gd-in 260ms ease-out both;
+}
+.app-shell .gd[data-settled] .gd-nub { transition: transform var(--gd-travel) var(--gd-ease); }
+.app-shell .gd-card[data-side='above'] .gd-nub { left: -7px; bottom: -6px; transform: translateX(var(--gd-nub)) rotate(45deg); }
+.app-shell .gd-card[data-side='below'] .gd-nub { left: -7px; top: -6px; transform: translateX(var(--gd-nub)) rotate(45deg); }
+.app-shell .gd-card[data-side='right'] .gd-nub { top: -7px; left: -6px; transform: translateY(var(--gd-nub)) rotate(45deg); }
+.app-shell .gd-card[data-side='left'] .gd-nub { top: -7px; right: -6px; transform: translateY(var(--gd-nub)) rotate(45deg); }
+.app-shell .gd-card[data-side='none'] .gd-nub { display: none; }
+
+.app-shell .gd-head { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 12px; align-items: start; }
+.app-shell .gd-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-shell .gd-pip { flex: none; width: 44px; height: 52px; margin-top: 2px; }
+.app-shell .gd-count { margin: 0; font: 500 13px/18px var(--font-body, inherit); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .gd-title { margin: 2px 0 0; font: 700 19px/1.25 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); }
+.app-shell .gd-line { margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
+
+/* Progress: small dots beside the count. The one for this stop is the only volt mark besides the key. */
+.app-shell .gd-dots { display: inline-flex; align-items: center; gap: 5px; height: 18px; }
+.app-shell .gd-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--a-line-strong); transition: background-color 200ms ease, transform 200ms var(--gd-ease); }
+.app-shell .gd-dots i[data-done] { background: var(--a-ink-3); }
+.app-shell .gd-dots i[data-on] { background: var(--a-select); transform: scale(1.34); }
+
+.app-shell .gd-foot { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+.app-shell .gd-foot__gap { flex: 1 1 auto; }
+.app-shell .gd-skip,
+.app-shell .gd-back {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--a-ink-3);
+  font: 600 14px/1 var(--font-body, inherit);
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+/* Skip is a text link: it lines up with the card's own text, with no box. */
+.app-shell .gd-skip { margin-left: -12px; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+.app-shell .gd-skip[hidden] { display: none; }
+.app-shell .gd-back { color: var(--a-ink-2); }
+.app-shell .gd-back[data-off] { visibility: hidden; }
+@media (hover: hover) {
+  .app-shell .gd-skip:hover { color: var(--a-ink); }
+  .app-shell .gd-back:hover { color: var(--a-ink); background: var(--a-hover); }
+}
+.app-shell .gd-card:focus { outline: none; }
+.app-shell .gd-skip:focus-visible,
+.app-shell .gd-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+/* The filled key's focus ring is ink, not volt: a volt ring round a volt key reads as a glowing edge. */
+.app-shell .gd-next:focus-visible { outline: 2px solid var(--a-ink); outline-offset: 2px; }
+.app-shell .gd-next { min-height: 44px; min-width: 88px; padding: 0 20px; border-radius: 13px; font-size: 15px; }
+
+@keyframes gd-in { from { opacity: 0; } }
+@keyframes gd-rise { from { opacity: 0; transform: translateY(8px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .gd-spot,
+  .app-shell .gd-veil,
+  .app-shell .gd-card,
+  .app-shell .gd-card__in,
+  .app-shell .gd-nub,
+  .app-shell .gd-dots i { animation: none; transition: none; }
+}

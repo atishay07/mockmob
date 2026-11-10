@@ -11,7 +11,8 @@ export default function OptionPicker({ subjectId, value, onChange, disabled, lat
   return (
     <div className="ob-opt" role="radiogroup" aria-labelledby={`${name}-h`} aria-disabled={disabled || undefined}>
       <p className="ob-opt__legend" id={`${name}-h`}>Your {ask.name} {ask.label.toLowerCase()}</p>
-      <p className="ob-opt__ask">Pick the one your school teaches.</p>
+      {/* A note already ends with the ask (Accountancy), so the same sentence is never printed twice. */}
+      {ask.note && ask.note.endsWith('Pick the one your school teaches.') ? null : <p className="ob-opt__ask">Pick the one your school teaches.</p>}
       {ask.note ? <p className="ob-opt__note">{ask.note}</p> : null}
       <div className="ob-opt__choices">
         {ask.choices.map((c) => (

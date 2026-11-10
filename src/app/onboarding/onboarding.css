@@ -15,6 +15,7 @@
   --ob-groove: rgba(244, 240, 230, 0.07);
   --ob-volt: var(--volt, #d2f000);
   --ob-on-volt: #0b1000;
+  --ob-picked: color-mix(in srgb, var(--ob-volt) 14%, var(--a-raised));
   min-height: 100dvh; display: flex; flex-direction: column;
 }
 html[data-theme='light'] .ob {
@@ -23,6 +24,7 @@ html[data-theme='light'] .ob {
   --ob-plate-hi: #ffffff;
   --ob-groove: rgba(23, 21, 15, 0.08);
   --ob-volt: #c9e600;
+  --ob-picked: color-mix(in srgb, var(--ob-volt) 24%, var(--a-raised));
 }
 
 /* Header: logo, where you are, theme. */
@@ -104,25 +106,25 @@ html[data-theme='light'] .ob {
 @media (min-width: 640px) { .ob-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
 .ob-tile {
   position: relative; display: grid; align-content: start; justify-items: start; gap: 4px; min-height: 136px;
-  padding: 16px 44px 16px 16px; text-align: left; border-radius: var(--a-radius, 18px);
+  padding: 14px; text-align: left; border-radius: var(--a-radius, 18px);
   border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink);
   box-shadow: inset 0 1px 0 var(--a-glass-top); font: inherit; cursor: pointer;
   transition: border-color 160ms ease, background-color 160ms ease, box-shadow 200ms ease, transform var(--mm-spring-release-dur) var(--mk-spring);
   animation: ob-tile-in 360ms var(--a-ease) calc(var(--i, 0) * 32ms) backwards;
 }
 @keyframes ob-tile-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
-@media (hover: hover) { .ob-tile:hover:not(:disabled) { border-color: var(--a-line-hover); } }
+@media (hover: hover) { .ob-tile:hover:not(:disabled):not([data-selected]) { border-color: var(--a-line-hover); } }
 .ob-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .ob-tile[data-selected] {
-  border-color: var(--a-select); background: var(--a-raised);
-  background: color-mix(in srgb, var(--a-select) 8%, var(--a-raised)); box-shadow: var(--a-shadow-1);
+  border-color: transparent; background: var(--a-raised);
+  background: var(--ob-picked); box-shadow: var(--a-shadow-1);
 }
 .ob-tile[aria-disabled='true'] { opacity: 0.6; }
 .ob-tile:disabled { cursor: default; }
 /* The subject's lamp-lit object (src/components/brand/SubjectObject.jsx). Its lamp is off until the
    subject is picked; a pick turns the lamp on and the object settles with a small spring, the same
    moment the tick inks. A subject without an object keeps its line icon on a small plate. */
-.ob-tile__art { display: block; margin: -6px 0 6px -8px; transform-origin: 40% 85%; }
+.ob-tile__art { display: block; margin: -6px 0 4px -8px; transform-origin: 40% 85%; }
 .ob-tile .subj-obj__light { opacity: 0; }
 .ob-tile[data-selected] .subj-obj__light { opacity: 1; }
 .ob-tile[data-selected] .ob-tile__art { animation: ob-art var(--mm-spring-release-dur) var(--mk-spring); }
@@ -132,9 +134,9 @@ html[data-theme='light'] .ob {
   transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
 }
 .ob-tile[data-selected] .ob-tile__art .subj-obj--glyph { background: var(--ob-volt); color: var(--ob-on-volt); box-shadow: none; }
-.ob-tile__name { font-family: var(--font-display); font-size: 17px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+.ob-tile__name { font-family: var(--font-display); font-size: 16px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
 .ob-tile__meta { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.ob-tile .ob-tick { position: absolute; top: 16px; right: 14px; }
+.ob-tile .ob-tick { position: absolute; top: 14px; right: 14px; }
 
 /* Picked tick: the volt disc grows from its corner, then the tick draws over it. */
 .ob-tick {
@@ -205,7 +207,7 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 
 .ob-tile__need { color: var(--a-accent-text); font-weight: 600; }
 
-/* Common sets, one tap: up to three short rows. The chosen set is marked by the same outline a picked tile has. */
+/* Common sets, one tap: up to three short rows. The chosen set is marked by the same fill a picked tile has. */
 .ob-sets { display: grid; gap: 10px; }
 .ob-sets h2 { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--a-ink-2); }
 .ob-sets__list { display: grid; gap: 8px; }
@@ -217,7 +219,7 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 }
 .ob-set b { font: 700 15px/1.3 var(--font-display); }
 .ob-set span { font-size: 13px; line-height: 1.4; color: var(--a-ink-3); }
-.ob-set[data-on] { border-color: var(--a-select); background: color-mix(in srgb, var(--a-select) 8%, var(--a-raised)); }
+.ob-set[data-on] { border-color: transparent; background: var(--ob-picked); }
 .ob-set:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .ob-set:disabled { opacity: 0.6; cursor: default; }
 @media (hover: hover) { .ob-set:hover:not(:disabled):not([data-on]) { border-color: var(--a-line-hover); } }
@@ -245,7 +247,7 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 
 /* The five-subject reason: it rises inside the fixed bar, beside the key the student is about to press, so it is on screen
    wherever on the long list the sixth tile was. One quiet swap key; the other way is to take one out. */
-.ob-capnote { flex: 1 0 100%; display: grid; gap: 4px; padding: 10px 14px 8px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised); animation: ob-cap-in 240ms var(--a-ease) both; }
+.ob-capnote { flex: 1 0 100%; display: grid; gap: 4px; padding: 2px 0 10px; border-bottom: 1px solid var(--a-line); animation: ob-cap-in 240ms var(--a-ease) both; }
 .ob-capnote__title { margin: 0; font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
 .ob-capnote__body { margin: 0; max-width: 64ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
 .ob-capnote__keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 4px; }
@@ -261,7 +263,7 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 .ob[data-cap] .ob-main { padding-bottom: calc(320px + env(safe-area-inset-bottom)); }
 @media (min-width: 768px) { .ob[data-cap] .ob-main { padding-bottom: calc(250px + env(safe-area-inset-bottom)); } }
 /* While a phone's keyboard is up for a search, the bar steps aside so it never sits on the results. */
-@media (max-width: 767px) { .ob:has(input[data-du-search]:focus) .ob-bar { display: none; } }
+@media (max-width: 767px) { .ob:has(:is(.ob-course, .ob-colleges) input[data-du-search]:focus) .ob-bar { display: none; } }
 
 /* ---------- Step 2: study days a week ---------- */
 .ob-days { display: grid; gap: 14px; justify-items: stretch; max-width: 680px; }
@@ -279,7 +281,7 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 html[data-theme='light'] .ob-track { box-shadow: inset 0 1px 2px rgba(42, 32, 16, 0.08); }
 .ob-track__thumb {
   position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc((100% - 10px) / 7); border-radius: 15px; pointer-events: none;
-  background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 18px -10px rgba(158, 182, 0, 0.9);
+  background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transform: translate3d(calc(var(--ob-pick, 3) * 100%), 0, 0);
   transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); /* no overshoot (owner N5) */
 }
@@ -407,16 +409,15 @@ html[data-theme='light'] .ob-slot[data-on] { box-shadow: inset 0 0 0 1px #9db400
 
 /* ---------- The first screen's preset (W4): Commerce ticked, one big key, the grid one quiet link away ---------- */
 .ob-preset {
-  display: grid; gap: 14px; max-width: 600px; padding: 20px 16px 8px; border: 1px solid var(--a-line); border-radius: 20px;
-  background: var(--a-raised); box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-1);
+  display: grid; gap: 14px; max-width: 600px;
 }
-@media (min-width: 640px) { .ob-preset { padding: 24px 24px 12px; gap: 16px; } }
-.ob-preset__title { margin: 0; font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
+@media (min-width: 640px) { .ob-preset { gap: 16px; } }
+.ob-preset__title { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 700; line-height: 1.25; letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
 .ob-preset__lead { margin: -6px 0 0; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
 .ob-preset__chips { display: flex; flex-wrap: wrap; gap: 8px 6px; margin: 0; padding: 0; list-style: none; }
 .ob-preset__chip {
   display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 0 14px 0 8px; border-radius: 999px;
-  border: 1px solid var(--a-select); background: color-mix(in srgb, var(--a-select) 8%, var(--a-raised));
+  background: var(--a-raised); background: var(--ob-picked);
   font-size: 14.5px; font-weight: 600; line-height: 1.2; color: var(--a-ink);
 }
 .ob-preset__adds { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -428,8 +429,13 @@ html[data-theme='light'] .ob-slot[data-on] { box-shadow: inset 0 0 0 1px #9db400
 .ob-preset__add:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .ob-preset__add:disabled { opacity: 0.6; cursor: default; }
 @media (hover: hover) and (pointer: fine) { .ob-preset__add:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); color: var(--a-ink); } }
-.ob-preset__key { width: 100%; min-height: 52px; margin-top: 4px; font-size: 17px; }
-.ob-preset__own { justify-self: center; margin-bottom: 4px; }
+.ob-preset__key { width: 100%; min-height: 52px; font-size: 17px; }
+/* The key and the way to the full grid stay at the bottom edge of the screen while the choices scroll under them, and settle in place at the end. */
+.ob-preset__keys {
+  position: sticky; bottom: 0; z-index: 2; display: grid; gap: 2px; margin: 0 -16px; padding: 12px 16px calc(6px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--a-line); background: var(--a-bg);
+}
+.ob-preset__own { justify-self: center; }
 .ob-preset__after { max-width: 600px; }
 .ob-preset__after .ob-lead { margin-top: 0; font-size: 15px; }
 .ob-preset__chip .ob-tick { width: 20px; height: 20px; }
@@ -453,18 +459,18 @@ html[data-motion='reduced'] :is(.ob-track__thumb, .ob-track__n, .ob-progress__ba
 .ob-grid { grid-auto-flow: dense; }
 .ob-opts { grid-column: 1 / -1; display: grid; gap: 10px; }
 .ob-opt__later { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); text-wrap: balance; }
-.ob-opt { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 14px; border-radius: var(--a-radius, 18px); border: 1px solid var(--a-line-strong); background: var(--a-raised); animation: ob-tile-in 280ms var(--a-ease) backwards; }
+.ob-opt { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 14px; border-radius: var(--a-radius, 18px); background: var(--a-sunken); animation: ob-tile-in 280ms var(--a-ease) backwards; }
 .ob-opt__legend { margin: 0; padding: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--a-ink); }
 .ob-opt__ask { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; }
 /* A fact about the real paper under the ask (R3-D11: Accountancy's 2025 paper asked AFS only): ink, set apart by weight, not colour. */
 .ob-opt__note { margin: 0; font-size: 14px; line-height: 1.45; font-weight: 650; color: var(--a-ink); text-wrap: pretty; }
 .ob-opt__choices { display: grid; gap: 8px; }
 @media (min-width: 640px) { .ob-opt__choices { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.ob-opt__choice { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 12px; min-height: 56px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--a-line); cursor: pointer; transition: border-color 150ms ease, background-color 150ms ease; }
+.ob-opt__choice { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 12px; min-height: 56px; padding: 12px 14px; border-radius: 14px; background: var(--a-raised); cursor: pointer; transition: background-color 150ms ease; }
 .ob-opt__choice input { position: absolute; opacity: 0; inset: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
 .ob-opt__dot { width: 22px; height: 22px; margin-top: 1px; border-radius: 50%; border: 2px solid var(--a-line-strong); display: grid; place-items: center; transition: border-color 150ms ease, background-color 150ms ease; }
 .ob-opt__dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ob-on-volt, #0b1000); opacity: 0; transform: scale(0.6); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), opacity 160ms ease; }
-.ob-opt__choice[data-on] { border-color: var(--ob-volt); background: color-mix(in srgb, var(--ob-volt) 9%, transparent); }
+.ob-opt__choice[data-on] { background: var(--ob-picked); }
 .ob-opt__choice[data-on] .ob-opt__dot { border-color: transparent; background: var(--ob-volt); }
 .ob-opt__choice[data-on] .ob-opt__dot::after { opacity: 1; transform: scale(1); }
 .ob-opt__choice:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
@@ -475,3 +481,39 @@ html[data-motion='reduced'] :is(.ob-track__thumb, .ob-track__n, .ob-progress__ba
 @media (prefers-reduced-motion: reduce) { .ob-opt { animation: none; } .ob-opt__choice, .ob-opt__dot, .ob-opt__dot::after { transition: none; } }
 html[data-motion='reduced'] .ob-opt { animation: none; }
 html[data-motion='reduced'] :is(.ob-opt__choice, .ob-opt__dot, .ob-opt__dot::after) { transition: none; }
+
+/* ---------- Finish pass, 10 Nov 2026: even tiles, a calmer days stage on a phone, Next within reach while searching ---------- */
+/* Nothing found: the empty grid takes no room under the line that says so. */
+.ob-grid:empty { display: none; }
+/* An odd last tile (17 papers, or one search result) fills its row instead of leaving a hole beside it. */
+@media (max-width: 639px) {
+  .ob-grid > .ob-tile:nth-of-type(odd):last-of-type {
+    grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr); align-content: center; align-items: center; column-gap: 10px; min-height: 0; padding-right: 48px;
+  }
+  .ob-grid > .ob-tile:nth-of-type(odd):last-of-type .ob-tile__art { grid-row: 1 / span 2; margin: -6px 0 -6px -8px; }
+  .ob-grid > .ob-tile:nth-of-type(odd):last-of-type .ob-tile__name { align-self: end; }
+  .ob-grid > .ob-tile:nth-of-type(odd):last-of-type .ob-tile__meta { align-self: start; }
+  .ob-grid > .ob-tile:nth-of-type(odd):last-of-type .ob-tick { top: 50%; margin-top: -11px; }
+}
+/* Study days on a phone: the ring sits beside the rhythm it draws, so both are in view above the bar. */
+@media (max-width: 599px) {
+  .ob-stage { grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; gap: 14px 16px; margin-top: 4px; padding: 18px 16px 16px; }
+  .ob-stage__dial { gap: 10px; }
+  .ob-stage__dial figcaption { max-width: 136px; text-align: center; line-height: 1.35; }
+  .ob-dial { width: 136px; height: 136px; }
+  .ob-dial__plate { inset: 7px; }
+  .ob-dial__count b { font-size: 40px; }
+  .ob-dial__count small { margin-top: 2px; font-size: 12px; }
+  .ob-stage__copy { display: contents; }
+  .ob-stage__name { font-size: 22px; }
+  .ob-stage__line { margin-top: 6px; font-size: 14.5px; line-height: 1.5; }
+  .ob-stage__rule { grid-column: 1 / -1; margin: 0; padding-top: 14px; }
+}
+/* While a subject is searched on a phone the bar shrinks to one row (the count and Next) and rides above the keyboard:
+   --du-vv-h is the part of the screen the keyboard leaves (useAboveKeyboard), so the gap under the bar is the keyboard's height. */
+@media (max-width: 767px) {
+  .ob:has(.ob-body > .ob-search input:focus) .ob-bar { bottom: max(0px, calc(100dvh - var(--du-vv-h, 100dvh))); padding-top: 8px; padding-bottom: 8px; }
+  .ob:has(.ob-body > .ob-search input:focus) .ob-bar__inner { grid-template-columns: minmax(0, 1fr) auto; }
+  .ob:has(.ob-body > .ob-search input:focus) :is(.ob-slots, .ob-capnote) { display: none; }
+  .ob:has(.ob-body > .ob-search input:focus) .ob-primary { min-height: 44px; min-width: 120px; }
+}

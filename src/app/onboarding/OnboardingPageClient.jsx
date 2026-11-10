@@ -568,10 +568,13 @@ export default function OnboardingPageClient({ preview = false }) {
                       ))}
                     </div>
                   ) : null}
+                  {/* The key rides the bottom edge of the screen while the choices scroll (it was under the fold on every phone). */}
+                  <div className="ob-preset__keys">
                   <Button variant="volt" size="lg" className="ob-primary ob-preset__key" disabled={busy} onClick={() => saveSubjects(presetPicks)}>
                     {saving ? 'Saving subjects…' : finishing ? 'Saved' : PRESET_KEY}
                   </Button>
                   <button type="button" className="ob-quiet ob-preset__own" disabled={busy} onClick={pickOwn}>{PRESET_OWN}</button>
+                  </div>
                 </section>
               ) : null}
               {presetMode ? (
@@ -773,7 +776,7 @@ export default function OnboardingPageClient({ preview = false }) {
             )}
             {step === 'colleges' ? (
               <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges}>
-                {finishing ? 'Saved' : 'Finish'}
+                {finishing ? 'Opening Practice…' : 'Finish and open Practice'}
               </Button>
             ) : step === 'subjects' ? (
               <Button variant="volt" size="lg" className="ob-primary" disabled={selected.length === 0 || busy} onClick={saveSubjects}>

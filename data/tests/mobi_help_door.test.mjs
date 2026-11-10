@@ -56,7 +56,8 @@ test('the floating orb is retired; Mobi lives in the shell and opens in place', 
   assert.doesNotMatch(shell, /PrepOSOrb/, 'no orb under the theme switch');
   assert.doesNotMatch(read('src/components/help/HelpMenu.jsx'), /PrepOSOrb|onAsk/, 'the Help menu no longer opens Mobi');
   assert.match(shell, /data-tour="nav-more"/);
-  assert.match(read('src/lib/appTour.mjs'), /target: \['nav-help', 'nav-more'\]/, 'the tour ends on the Guide link, or More on a phone');
+  // 10 Nov 2026: the tour ends on You (the sidebar's You group, or the dock's You on a phone), whose line names the guide.
+  assert.match(read('src/lib/appTour.mjs'), /title: 'You', target: \['nav-profile', 'nav-more'\], group: true, body: '[^']*this guide[^']*'/, 'the tour ends on You, where the guide lives');
   assert.doesNotMatch(shell, /shadow-\[0_0_/, 'no glow in the tour');
   assert.match(read('src/components/recovery/RepairAsk.jsx'), /openAskMobi\(/);
   const orb = read('src/components/ui/prepos-orb.css');

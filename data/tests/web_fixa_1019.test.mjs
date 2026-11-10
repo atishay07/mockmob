@@ -221,10 +221,12 @@ test('L6, L7, L8: "50 credits", full stops on the pricing rows, and the tour poi
   // row of the You page; the tour says where it lands.
   const { TOUR_STEPS_ALL } = await import('../../src/lib/appTour.mjs');
   const step = TOUR_STEPS_ALL.find((s) => s.title === 'Ask Mobi');
-  assert.deepEqual(step.target, ['nav-mentor', 'nav-mentor-top', 'nav-more']);
-  assert.match(step.bodies['nav-mentor-top'], /^Mobi’s face at the top of every page opens Ask Mobi\. /);
-  assert.match(step.bodies['nav-more'], /^Ask Mobi is the first row of the You page, and Mobi’s face at the top of every page\. /);
-  for (const body of Object.values(step.bodies)) assert.doesNotMatch(body, /You sheet|below your name/);
+  // 10 Nov 2026: the stop stands on Mobi's own door (the rail's door on a desktop, the top bar's key on a phone) and says one line;
+  // it no longer needs words for where to look, because the ring is on the door itself.
+  assert.deepEqual(step.target, ['nav-mentor', 'nav-mentor-top']);
+  assert.equal(step.body, 'Ask any CUET doubt, or ask what your papers say.');
+  assert.equal(step.bodies, undefined);
+  assert.doesNotMatch(step.body, /You sheet|below your name/);
   const places = read('src/components/nav/YouPlaces.jsx');
   assert.ok(places.indexOf('you-places__ask') < places.indexOf('{groups.map'), 'Ask Mobi leads the You page’s places');
 });

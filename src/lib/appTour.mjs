@@ -1,38 +1,59 @@
-// The Guide (W-064, F18): one stop per place a student uses, each saying what it is for and when it helps. Started by the
-// student only (a pressed Guide, never a popup on first open). Colleges, Ask Mobi and the Mob joined on 17 Oct so every
-// feature has a way in; the Mob stop shows only while the Mob is on.
+// The Guide ("Show me around"; W-064, F18, rebuilt 10 Nov 2026 on the owner's word that it was "so, so, so bad" and should start by
+// itself for a first-time student). One stop per place on the map a student uses every day, each with one line of 16 words at most
+// that is true of the product. The long per-feature paragraphs left the tour (each feature explains itself on its own page, and
+// the Guide page keeps the common questions); nothing else left the product.
 //
 // The steps live here, not in the shell, so that the Guide page can say how many stops the tour has by counting these (W-093):
-// the number in "Show me around" is read from the tour that will run, never typed into a sentence. Pure data and one filter,
-// so a test can hold both.
-// The map is the five places (WEB-NAV-1019 option A, owner D114). On a phone a page inside Practice is shown on the Practice
-// tab (its row of tabs holds Your papers, Learn, Explore and Saved), and a page inside You on the You tab (it opens the You page,
-// which lists them; owner LK141), so every stop has something to point at on every screen; `bodies` says where to look when the
-// stop lands on that tab. The dock's You keeps the id nav-more. Ask Mobi is the rail's door under Start from 1024 px and the top
-// bar's key below it (nav-mentor-top; owner LK143).
+// the number in "Show me around" is read from the tour that will run, never typed into a sentence. Pure data and pure rules,
+// so tests can hold them.
+// The map is the five places (WEB-NAV-1019 option A, owner D114): Today, Practice, the Start key, the Mob and You, plus Ask Mobi's
+// door (the rail's door under Start from 1024 px, the top bar's key below it; owner LK143). `target` lists the data-tour ids a stop
+// may stand on, the first one on screen wins: the sidebar's own row on a desktop, the dock's or the top bar's key on a phone. The
+// dock's You keeps the id nav-more. `group` puts the ring round the whole sidebar group the row heads (You and the pages under it).
 export const TOUR_STEPS_ALL = Object.freeze([
-  { title: 'Today', target: 'nav-today', body: 'Your next useful step, and why: what to practise now and what is due for review.' },
-  { title: 'Practice', target: 'nav-dashboard', body: 'Choose a subject, a mode and how many questions, then start a timed session. Every answer is scored on the server.' },
-  { title: 'Learn', target: ['nav-learn', 'nav-dashboard'], study: true, body: 'Short lessons on a concept, a recall check to lock it in, then practice questions on it.',
-    bodies: { 'nav-dashboard': 'Learn is a tab inside Practice. It has short lessons on a concept, a recall check to lock it in, then practice questions on it.' } },
-  { title: 'Your papers', target: ['nav-review', 'nav-dashboard'], body: 'Every paper you sit lands here with its marks, and every mistake with its explanation. Repair a mistake to find the reason behind it, and Revise brings it back until the fix holds.',
-    bodies: { 'nav-dashboard': 'Your papers is a tab inside Practice. Every paper you sit lands there with its marks, and every mistake with its explanation. Repair a mistake to find the reason behind it, and Revise brings it back until the fix holds.' } },
-  { title: 'Progress', target: ['nav-progress', 'nav-more'], body: 'See your study days, badges and personal bests, week by week.',
-    bodies: { 'nav-more': 'Progress is under You. It shows your study days, badges and personal bests, week by week.' } },
-  { title: 'Colleges', target: ['nav-admission-compass', 'nav-more'], body: 'See which DU courses your subjects open and each college’s 2026 cutoff. Your first choice of college shows on Today.',
-    bodies: { 'nav-more': 'Colleges is under You. See which DU courses your subjects open and each college’s 2026 cutoff. Your first choice of college shows on Today.' } },
-  { title: 'Ask Mobi', target: ['nav-mentor', 'nav-mentor-top', 'nav-more'], body: 'Ask Mobi is his own page: ask any CUET doubt, or ask what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
-    bodies: {
-      'nav-mentor-top': 'Mobi’s face at the top of every page opens Ask Mobi. His own page takes any CUET doubt, or what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
-      'nav-more': 'Ask Mobi is the first row of the You page, and Mobi’s face at the top of every page. His own page takes any CUET doubt, or what your papers say. He also opens beside the question, the result, Practice or Today, already knowing what you are looking at. Answers from your own record are free. A written reply costs 1 credit, and you see the cost before you ask.',
-    } },
-  { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same 10-question paper each week. You see who has sat it, and your own result. Your standing, where your mocks place you among MockMob students, is right beside it.', mob: true },
-  // The last stop is the standalone Guide page (D11, renamed from Help and FAQ): a link in the sidebar's You place, on the You page on a phone.
-  { title: 'Guide', target: ['nav-help', 'nav-more'], body: 'Stuck anywhere? Guide has the common questions, this tour to take again and a way to write to us.',
-    bodies: { 'nav-more': 'Stuck anywhere? Guide is under You. It has the common questions, this tour to take again and a way to write to us.' } },
+  { title: 'Today', target: 'nav-today', body: 'Your next step and the reason for it. Start here each day.' },
+  { title: 'Practice', target: 'nav-dashboard', body: 'Pick a subject and a way to practise. Every set is timed and marked like CUET.' },
+  { title: 'Start', target: 'nav-start', body: 'Tap Start on any page to begin a session.' },
+  { title: 'Ask Mobi', target: ['nav-mentor', 'nav-mentor-top'], body: 'Ask any CUET doubt, or ask what your papers say.' },
+  { title: 'Your Mob', target: 'nav-mob', body: 'You and up to four friends sit the same paper each week.', mob: true },
+  { title: 'You', target: ['nav-profile', 'nav-more'], group: true, body: 'Progress, Colleges, Wallet and this guide are here.' },
 ]);
 
-/** The stops this session runs: Learn only while the lessons are on, the Mob only while the Mob is on. */
+/** A stop's line never runs past this many words. */
+export const TOUR_LINE_WORDS = 16;
+
+/** The stops this session runs: the Mob only while the Mob is on (and any stop marked `study` only while the lessons are on). */
 export function tourSteps({ mob = false, study = false } = {}) {
   return TOUR_STEPS_ALL.filter((step) => (!step.mob || mob) && (!step.study || study));
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Starting by itself, once (owner, 10 Nov 2026: "It should automatically start when someone is first-time entering the platform").
+//
+// The guide starts on its own only for a student who finished onboarding on this device in the last 24 hours (the record
+// src/lib/proNudge.mjs keeps: onboardedRecently), who has never seen it, on the first page of the product they reach: Today, or
+// Practice, where the first run ends (src/app/onboarding/firstRun.js DONE_PATH). Never over a paper or onboarding, and never over
+// an open dialog or sheet (the Pro sheet included): it waits for that to close. A returning student and a second device never get
+// it by itself; "Show me around" starts it by hand anywhere.
+
+/** How long after onboarding the guide may still start by itself. */
+export const GUIDE_AUTO_WINDOW_MS = 24 * 3_600_000;
+/** How long after the page has drawn it starts. */
+export const GUIDE_AUTO_DELAY_MS = 900;
+/** The pages it may start on by itself. */
+export const GUIDE_AUTO_PAGES = Object.freeze(['/today', '/dashboard']);
+// A paper being sat (the runner, a Mob game), a focus player and onboarding: nothing starts unprompted there.
+const GUIDE_QUIET = Object.freeze(['/test', '/onboarding', '/mob/game', '/learn/run', '/explore/run']);
+
+/**
+ * Whether the guide starts by itself now: 'start', 'wait' (everything holds but a dialog or sheet is open, so ask again
+ * shortly) or 'no'. `onboarded` is proNudge.mjs onboardedRecently for this student on this device (GUIDE_AUTO_WINDOW_MS); `seen` is the guide's own seen mark;
+ * `open` is the guide already running; `sheetOpen` is any dialog, sheet or the Pro sheet on screen.
+ */
+export function guideAutoStart({ onboarded = false, seen = true, path = '', open = false, sheetOpen = false } = {}) {
+  const route = String(path || '').split(/[?#]/)[0];
+  if (!onboarded || seen || open) return 'no';
+  if (GUIDE_QUIET.some((p) => route === p || route.startsWith(`${p}/`))) return 'no';
+  if (!GUIDE_AUTO_PAGES.includes(route)) return 'no';
+  return sheetOpen ? 'wait' : 'start';
 }

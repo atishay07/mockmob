@@ -7,7 +7,7 @@
 import { SUPPORT_ROW } from './helpFaq.mjs';
 import { tourSteps } from './appTour.mjs';
 
-/** The first row everywhere the Guide appears (the More sheet, the sidebar's Account group, the Guide page): the 8-stop tour. */
+/** The first row everywhere the Guide appears (the You page, the sidebar's You group, the account sheet, the Guide page): the tour. */
 export const TOUR_LABEL = 'Show me around';
 /** The page's own title. The route stays /help. */
 export const GUIDE_PAGE_TITLE = 'Guide and questions';

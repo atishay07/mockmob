@@ -15,12 +15,14 @@ import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import AccountPopover from '@/components/account/AccountPopover';
-import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
 import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
 import { setStartQuiet } from '@/components/start/startQuietStore';
 import AskMobiHost from '@/components/ai/AskMobiHost';
 import { ProNudgeHost } from '@/components/pro';
+import { loadRecord, upgradeState } from '@/components/pro/proNudgeStore';
+import { onboardedRecently } from '@/lib/proNudge.mjs';
+import AppGuide from '@/components/guide/AppGuide';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -41,7 +43,7 @@ import { useLearnDue } from '@/components/learn2/api';
 import { LEARN_DOT_LABEL, REVISE_DOT_LABEL, dotName } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition';
-import { tourSteps } from '@/lib/appTour.mjs';
+import { GUIDE_AUTO_DELAY_MS, GUIDE_AUTO_WINDOW_MS, guideAutoStart, tourSteps } from '@/lib/appTour.mjs';
 import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 
@@ -59,8 +61,7 @@ const MOBI_FACE = mascot.greeting;
 // walk: three taglines for one door). It fits one line at 232 px. What he does, so the line under "Ask Mobi" never starts with "Ask".
 
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
-// Pip guides the tour only (rare, so it may have character); it nods on each step.
-const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
+// The guide itself (the spotlight, the card, Mobi) is src/components/guide/AppGuide.jsx; the shell holds only open and closed.
 
 // The balance as a screen reader says it: "108 credits", "1 credit".
 const creditsWords = (n) => `${Number(n).toLocaleString('en-IN')} ${n === 1 ? 'credit' : 'credits'}`;
@@ -71,8 +72,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const { user, status, refreshSession } = useAuth();
   const { isModerator } = useRole();
   const [tourOpen, setTourOpen] = useState(false);
-  const [tourStep, setTourStep] = useState(0);
-  const [tourTarget, setTourTarget] = useState(null);
+  // The key that opened the guide, so focus goes back to it; null when the guide started by itself.
+  const [tourOpener, setTourOpener] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
   const activePath = previewRoute || pathname;
   // A Mob game (/mob/game/<id>) is a focus place like the paper runner: no top bar, no dock (MOB-BUILD-SPEC-V3 R1).
@@ -209,63 +210,39 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   }, [status, pathname, isModerator, router]);
 
 
+  // The guide starts by itself once (owner, 10 Nov 2026: "It should automatically start when someone is first-time entering
+  // the platform"): for a student who finished onboarding on this device in the last 24 hours and has never seen it, a beat
+  // after their first page (Today, or Practice where the first run ends) has drawn. The rule is guideAutoStart in
+  // src/lib/appTour.mjs. It never opens over a dialog, a sheet or the Pro sheet: it asks again shortly, a few times, and gives
+  // up for this page. It is marked as seen the moment it starts, so a second tab or a reload never starts it again.
   useEffect(() => {
-    if (!tourOpen || typeof window === 'undefined') {
-      return;
-    }
-
-    const updateTarget = () => {
-      const current = TOUR_STEPS[tourStep];
-      const node = [].concat(current.target).flatMap((target) => [...document.querySelectorAll(`[data-tour="${target}"]`)])
-        .find((candidate) => {
-          const rect = candidate.getBoundingClientRect();
-          const style = window.getComputedStyle(candidate);
-          return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-        });
-      if (!node) {
-        setTourTarget(null);
-        return;
-      }
-      node.scrollIntoView({ block: 'center', inline: 'center', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-      window.setTimeout(() => {
-        const rect = node.getBoundingClientRect();
-        const padding = 8;
-        const cardWidth = Math.min(380, window.innerWidth - 32);
-        const cardHeight = 260;
-        const left = Math.min(
-          Math.max(16, rect.left),
-          Math.max(16, window.innerWidth - cardWidth - 16),
-        );
-        const placeBelow = rect.bottom + 18 + cardHeight < window.innerHeight;
-        const top = placeBelow
-          ? rect.bottom + 18
-          : Math.max(16, rect.top - cardHeight - 18);
-
-        setTourTarget({
-          via: node.dataset.tour,
-          left: Math.max(8, rect.left - padding),
-          top: Math.max(8, rect.top - padding),
-          width: rect.width + padding * 2,
-          height: rect.height + padding * 2,
-          cardLeft: left,
-          cardTop: top,
-        });
-      }, 220);
+    if (status !== 'authenticated' || chromeless || tourOpen || !user?.id) return undefined;
+    if (guideAutoStart({ onboarded: true, seen: false, path: activePath }) === 'no') return undefined;
+    let timer = 0;
+    let tries = 0;
+    const ask = () => {
+      let seen = true;
+      try { seen = window.localStorage.getItem(tourSeenKey) === 'true'; } catch { /* storage blocked: it never starts by itself */ }
+      const verdict = guideAutoStart({
+        onboarded: onboardedRecently(loadRecord(user.id), { now: Date.now(), windowMs: GUIDE_AUTO_WINDOW_MS }),
+        seen,
+        path: activePath,
+        sheetOpen: upgradeState().open || Boolean(document.querySelector('dialog[open], [role="dialog"], [aria-modal="true"]')),
+      });
+      if (verdict === 'wait') { if ((tries += 1) < 8) timer = window.setTimeout(ask, 1200); return; }
+      if (verdict !== 'start') return;
+      try { window.localStorage.setItem(tourSeenKey, 'true'); } catch { return; }
+      setTourOpener(null);
+      setTourOpen(true);
     };
-
-    updateTarget();
-    window.addEventListener('resize', updateTarget);
-    window.addEventListener('scroll', updateTarget, { passive: true });
-    return () => {
-      window.removeEventListener('resize', updateTarget);
-      window.removeEventListener('scroll', updateTarget);
-    };
-  }, [tourOpen, tourStep, TOUR_STEPS]);
+    timer = window.setTimeout(ask, GUIDE_AUTO_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [status, chromeless, tourOpen, user?.id, activePath, tourSeenKey]);
 
   // Account's "Show me around" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
     if (chromeless) return undefined;
-    const openGuide = (event) => { event.preventDefault(); setTourStep(0); setTourOpen(true); };
+    const openGuide = (event) => { event.preventDefault(); setTourOpener(document.activeElement); setTourOpen(true); };
     window.addEventListener('mockmob:open-guide', openGuide);
     return () => window.removeEventListener('mockmob:open-guide', openGuide);
   }, [chromeless]);
@@ -369,16 +346,14 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   // The tour, from any row that offers it ("Show me around": the You page's places, the sidebar's You group, the account sheet).
   function startTour() {
-    setTourStep(0);
+    setTourOpener(typeof document !== 'undefined' ? document.activeElement : null);
     setTourOpen(true);
   }
 
+  // Skip, Escape and Done all end here: the guide is recorded as seen on this device.
   function closeTour() {
     setTourOpen(false);
-    setTourStep(0);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(tourSeenKey, 'true');
-    }
+    try { window.localStorage.setItem(tourSeenKey, 'true'); } catch { /* storage blocked: nothing to record */ }
   }
 
   return (
@@ -513,78 +488,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       {!isTestRoute && <AskMobiHost />}
       {/* Pro nudges (D79 to D81): the Upgrade sheet for a Free student's Pro taps and the one first-session sheet. Nothing for Pro. */}
       {!isTestRoute && <ProNudgeHost offer={offer} previewLinks={previewLinks} />}
-      {!isTestRoute && tourOpen && (
-        <div className="pointer-events-none fixed inset-0 z-[80]">
-          {tourTarget ? (
-            <>
-              <div className="fixed left-0 right-0 top-0 bg-black/62 backdrop-blur-[2px]" style={{ height: tourTarget.top }} />
-              <div className="fixed left-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top, width: tourTarget.left, height: tourTarget.height }} />
-              <div className="fixed bg-black/62 backdrop-blur-[2px]" style={{ left: tourTarget.left + tourTarget.width, right: 0, top: tourTarget.top, height: tourTarget.height }} />
-              <div className="fixed bottom-0 left-0 right-0 bg-black/62 backdrop-blur-[2px]" style={{ top: tourTarget.top + tourTarget.height }} />
-            </>
-          ) : (
-            <div className="fixed inset-0 bg-black/62 backdrop-blur-[2px]" />
-          )}
-          {tourTarget && (
-            <div
-              className="arena-tour-ring pointer-events-none fixed rounded-2xl border-2 border-[var(--a-select)]"
-              style={{
-                left: tourTarget.left,
-                top: tourTarget.top,
-                width: tourTarget.width,
-                height: tourTarget.height,
-              }}
-            />
-          )}
-          <div
-            className="pointer-events-auto fixed w-[min(380px,calc(100vw-32px))] rounded-2xl border border-[var(--a-line-strong)] bg-[var(--a-raised)] p-5 shadow-[var(--a-shadow-2)]"
-            style={tourTarget ? { left: tourTarget.cardLeft, top: tourTarget.cardTop } : { left: '16px', bottom: '16px' }}
-          >
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <span className="arena-tour-pip"><PipActor pose={TOUR_POSES[tourStep] || 'greeting'} blink={tourStep + 1} motion={tourStep ? `nod-${tourStep % 2}` : 'land-0'} /></span>
-              <div className="flex-1">
-                <div className="mono-label text-[var(--a-accent-text)]">Step {tourStep + 1} of {TOUR_STEPS.length}</div>
-                <h2 className="mt-1 font-display text-[22px] font-extrabold text-[var(--a-ink)]">{TOUR_STEPS[tourStep].title}</h2>
-              </div>
-              <button
-                type="button"
-                className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-[var(--a-line)] text-[var(--a-ink-3)]"
-                onClick={closeTour}
-                aria-label="Close guide"
-              >
-                <span className="text-2xl leading-none">&times;</span>
-              </button>
-            </div>
-            <p className="text-sm leading-6 text-[var(--a-ink-2)]">{TOUR_STEPS[tourStep].bodies?.[tourTarget?.via] || TOUR_STEPS[tourStep].body}</p>
-            <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[var(--a-line)]">
-              <div className="h-full rounded-full bg-[var(--a-select)]" style={{ width: `${((tourStep + 1) / TOUR_STEPS.length) * 100}%` }} />
-            </div>
-            <div className="mt-5 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                className="inline-flex min-h-11 items-center rounded-full border border-[var(--a-line)] px-4 py-2 text-xs font-semibold text-[var(--a-ink-3)] transition hover:border-[var(--a-line-strong)] hover:text-[var(--a-ink)] disabled:opacity-35"
-                disabled={tourStep === 0}
-                onClick={() => setTourStep((step) => Math.max(0, step - 1))}
-              >
-                Back
-              </button>
-              {tourStep === TOUR_STEPS.length - 1 ? (
-                <button type="button" className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-105" onClick={closeTour}>
-                  Finish
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="inline-flex min-h-11 items-center rounded-full bg-volt px-5 py-2 text-sm font-extrabold text-black transition hover:brightness-105"
-                  onClick={() => setTourStep((step) => Math.min(TOUR_STEPS.length - 1, step + 1))}
-                >
-                  Next
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* The guide ("Show me around"): a spotlight on each place and one card beside it (src/components/guide/AppGuide.jsx). */}
+      {!isTestRoute && tourOpen && <AppGuide steps={TOUR_STEPS} opener={tourOpener} onClose={closeTour} />}
       <style>{`
         .app-shell--test .app-main--test {
           padding: 0;
