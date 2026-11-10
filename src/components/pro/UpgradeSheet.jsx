@@ -10,9 +10,24 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react';
 import { Check, X } from 'lucide-react';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 import { CHECKOUT_HREF, benefitLines, keyLabel, sheetHead, sheetPrice } from '@/lib/proNudge.mjs';
 
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+const FEATURES = {
+  nta: ['NTA mode', 'papers'],
+  smart: ['Smart practice', 'questions'],
+  difficulty: ['Difficulty', 'questions'],
+  review: ['Chapter review', 'mistakes'],
+  compass: ['DU Compass', 'compass'],
+  saves: ['Saved questions', 'saved'],
+  credits: ['Practice credits', 'papers'],
+  mob: ['The Mob', 'mob'],
+  mob_limit: ['The Mob', 'mob'],
+  study: ['Weekly plan and revision', 'today'],
+  benchmark: ['Benchmarks', 'papers'],
+  keycards: ['Key cards', 'keycards'],
+};
 
 function reducedMotion() {
   try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
@@ -43,6 +58,8 @@ export default function UpgradeSheet({ open = false, trigger = 'generic', facts 
   const dialog = useRef(null);
   const closing = useRef(false);
   const titleId = useId();
+  const benefitsId = useId();
+  const [feature, icon] = FEATURES[trigger] || ['MockMob Pro', 'papers'];
   const head = sheetHead(trigger);
   const lines = benefitLines(trigger, facts);
   const price = sheetPrice(offer);
@@ -105,11 +122,18 @@ export default function UpgradeSheet({ open = false, trigger = 'generic', facts 
   return (
     <dialog ref={dialog} className="pn-sheet" aria-labelledby={titleId} data-trigger={trigger} onClick={onDialogClick}>
       <span className="pn-handle" aria-hidden="true" />
-      <button type="button" className="pn-close mk-press" aria-label="Close" onClick={requestClose}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
       <div className="pn-body">
-        <h2 id={titleId} className="pn-title">{head.title}</h2>
+        <div className="pn-top">
+          <p className="pn-feature">{feature}</p>
+          <button type="button" className="pn-close mk-press" aria-label="Close" onClick={requestClose}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
+        </div>
+        <div className="pn-heading">
+          <h2 id={titleId} className="pn-title">{head.title}</h2>
+          <BrandIcon name={icon} size={60} loading="eager" />
+        </div>
         <p className="pn-lede">{head.lede}</p>
-        <ul className="pn-benefits" aria-label="What Pro adds">
+        <h3 id={benefitsId} className="pn-benefits-title">What Pro adds</h3>
+        <ul className="pn-benefits" aria-labelledby={benefitsId}>
           {lines.map((line) => (
             <li key={line.id} data-personal={line.personal || undefined}>
               <Check size={16} strokeWidth={2.4} aria-hidden="true" />
@@ -117,16 +141,16 @@ export default function UpgradeSheet({ open = false, trigger = 'generic', facts 
             </li>
           ))}
         </ul>
-        <div className="pn-foot">
-          {price ? (
-            <p className="pn-price"><b>{price.figure}</b> <span className="pn-price__cycle">{price.cycle}</span><span className="pn-price__terms">{price.terms}</span></p>
-          ) : (
-            <p className="pn-price"><span className="pn-price__terms">The price shows on the next page, before any payment.</span></p>
-          )}
-          <div className="pn-actions">
-            <Link className="btn-volt pn-go mk-press" href={linkFor(CHECKOUT_HREF)} data-pro-checkout="" data-autofocus="" onClick={() => { onGetPro(); requestClose(); }}>{keyLabel(offer)}</Link>
-            <button type="button" className="pn-later mk-press" onClick={requestClose}>Not now</button>
-          </div>
+      </div>
+      <div className="pn-foot">
+        {price ? (
+          <p className="pn-price"><b>{price.figure}</b> <span className="pn-price__cycle">{price.cycle}</span><span className="pn-price__terms">{price.terms}</span></p>
+        ) : (
+          <p className="pn-price"><span className="pn-price__terms">The price shows on the next page, before any payment.</span></p>
+        )}
+        <div className="pn-actions">
+          <Link className="btn-volt pn-go mk-press" href={linkFor(CHECKOUT_HREF)} data-pro-checkout="" data-autofocus="" onClick={() => { onGetPro(); requestClose(); }}>{keyLabel(offer)}</Link>
+          <button type="button" className="pn-later mk-press" onClick={requestClose}>Not now</button>
         </div>
       </div>
     </dialog>
