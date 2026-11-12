@@ -56,6 +56,12 @@ class MmBarInsets extends InheritedWidget {
 /// under a 50% tint left content at about 14% of its light; the scrim is now 12 to 22%.
 /// Legibility is the glass's job: its luminosity step keeps the labels at 4.5:1 or better even
 /// over a solid volt key under this scrim (`BarGlass`, test/unit/a11y/bar_guidelines_test.dart).
+///
+/// Final pass (12 Nov 2026): the band UNDER the bar (its lift and the gesture inset) now closes to
+/// [underBar] ground within the first [underShare] of its height and to [atScreenBottom] at the
+/// screen's edge (it was a straight run from 22% to 80%). At 22 to 50% a row scrolling past was
+/// still readable there as a line of text cut in half beside the gesture bar, on every tab. What
+/// shows through the glass itself is unchanged.
 class BarScrim extends StatelessWidget {
   const BarScrim({super.key, required this.bottomInset, this.capsule = false});
 
@@ -63,6 +69,12 @@ class BarScrim extends StatelessWidget {
   /// over).
   static const double atBarTop = 0.12;
   static const double atBarBottom = 0.22;
+
+  /// The ground under the bar: [underBar] by [underShare] of the way from the bar's bottom edge to
+  /// the screen's, [atScreenBottom] at the edge itself.
+  static const double underBar = 0.92;
+  static const double underShare = 0.25;
+  static const double atScreenBottom = 0.96;
 
   /// The gesture inset under the bar.
   final double bottomInset;
@@ -80,6 +92,7 @@ class BarScrim extends StatelessWidget {
     const surfaceTop = 40.0;
     final top = surfaceTop / height;
     final bottom = ((height - bottomInset - MmBar.lift) / height).clamp(top, 1.0);
+    final under = (bottom + (1 - bottom) * underShare).clamp(bottom, 1.0);
     if (capsule) {
       // With the live capsule up, the page fades under it instead of showing half a row in the
       // 8 dp between the capsule and the bar: 50% ground at the capsule's top (v13 clutter fix),
@@ -91,13 +104,14 @@ class BarScrim extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0, top, barTop, bottom, 1],
+            stops: [0, top, barTop, bottom, under, 1],
             colors: [
               ground.withValues(alpha: 0),
               ground.withValues(alpha: 0.5),
               ground.withValues(alpha: 0.3),
               ground.withValues(alpha: atBarBottom),
-              ground.withValues(alpha: 0.8),
+              ground.withValues(alpha: underBar),
+              ground.withValues(alpha: atScreenBottom),
             ],
           ),
         ),
@@ -108,8 +122,14 @@ class BarScrim extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: [0, top, bottom, 1],
-          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: atBarTop), ground.withValues(alpha: atBarBottom), ground.withValues(alpha: 0.8)],
+          stops: [0, top, bottom, under, 1],
+          colors: [
+            ground.withValues(alpha: 0),
+            ground.withValues(alpha: atBarTop),
+            ground.withValues(alpha: atBarBottom),
+            ground.withValues(alpha: underBar),
+            ground.withValues(alpha: atScreenBottom),
+          ],
         ),
       ),
     );

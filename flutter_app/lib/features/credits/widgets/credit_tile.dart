@@ -14,7 +14,7 @@ import '../data/credits_models.dart';
 /// each with its name, the balance, what it pays for and when it renews. A balance that is not known reads
 /// "Not loaded", never 0.
 class CreditTiles extends StatelessWidget {
-  const CreditTiles({super.key, required this.figures, required this.onOpen, this.mobi = false, this.keyPrefix = 'credits', this.flat = false});
+  const CreditTiles({super.key, required this.figures, required this.onOpen, this.mobi = false, this.keyPrefix = 'credits', this.flat = false, this.showName = true});
 
   final CreditFigures figures;
 
@@ -31,6 +31,11 @@ class CreditTiles extends StatelessWidget {
   /// a box (critic 16 Oct, finding 24).
   final bool flat;
 
+  /// False where a caption above already says "Credits" (the account sheet): the one balance then leads its tile and
+  /// lines up with that caption, instead of the word standing twice, one inset from the other (final pass, 12 Nov
+  /// 2026). The two older pools keep their names; they differ.
+  final bool showName;
+
   @override
   Widget build(BuildContext context) {
     if (figures.oneBalance) {
@@ -40,6 +45,7 @@ class CreditTiles extends StatelessWidget {
           : (figures.freeRenews != null ? CreditsCopy.freeRenews(figures.freeRenews!) : null);
       return CreditTile(
         flat: flat,
+        showName: showName,
         key: ValueKey('$keyPrefix-credits'),
         name: CreditsCopy.oneName,
         figure: total != null ? '$total' : (figures.loading ? CreditsCopy.checking : CreditsCopy.notLoaded),
@@ -117,6 +123,7 @@ class CreditTile extends StatelessWidget {
     this.footnote,
     this.mobi = false,
     this.flat = false,
+    this.showName = true,
   });
 
   /// "Credits", or on an older server "Practice credits" or "AI credits".
@@ -133,33 +140,46 @@ class CreditTile extends StatelessWidget {
   /// No surface of its own: the tile is a pressable row of text on whatever it stands on.
   final bool flat;
 
+  /// False leaves the name to a caption above the tile: the figure leads, with the chevron at its line's end, and
+  /// the text starts at the tile's own left edge so it lines up with that caption.
+  final bool showName;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final numeric = known && int.tryParse(figure) != null;
-    const padding = EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12);
+    final padding = showName
+        ? const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12)
+        : const EdgeInsets.fromLTRB(0, MmSpace.s4, MmSpace.s4, MmSpace.s8);
     final semanticsLabel = '$name, $figure. $meaning. Opens Credits';
+    final trailing = [
+      if (mobi) ...[
+        const MobiCharacter(size: 22, head: true, still: true, shadow: false, entrance: MobiAct.idle),
+        const SizedBox(width: MmSpace.s4),
+      ],
+      Icon(LucideIcons.chevronRight, size: 14, color: colors.ink3),
+    ];
+    final figureText = Text(
+      figure,
+      style: numeric ? type.figureCompact.copyWith(color: colors.ink) : (known ? type.title : type.body.copyWith(color: colors.ink3)),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
     final content = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(child: Text(name, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis)),
-              if (mobi) ...[
-                const MobiCharacter(size: 22, head: true, still: true, shadow: false, entrance: MobiAct.idle),
-                const SizedBox(width: MmSpace.s4),
+          if (showName) ...[
+            Row(
+              children: [
+                Expanded(child: Text(name, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                ...trailing,
               ],
-              Icon(LucideIcons.chevronRight, size: 14, color: colors.ink3),
-            ],
-          ),
-          const SizedBox(height: MmSpace.s8),
-          Text(
-            figure,
-            style: numeric ? type.figureCompact.copyWith(color: colors.ink) : (known ? type.title : type.body.copyWith(color: colors.ink3)),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+            ),
+            const SizedBox(height: MmSpace.s8),
+            figureText,
+          ] else
+            Row(children: [Expanded(child: figureText), ...trailing]),
           const SizedBox(height: MmSpace.s4),
           Text(meaning, style: type.small.copyWith(color: colors.ink2), maxLines: 3, overflow: TextOverflow.ellipsis),
           if (footnote != null) ...[

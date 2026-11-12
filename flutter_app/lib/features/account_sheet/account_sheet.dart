@@ -103,9 +103,9 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
         children: [
           _Identity(auth: auth, proUntil: figures.isPro ? figures.proUntil : null),
           const SizedBox(height: MmSpace.s24),
-          _Caption(AccountCopy.credits),
-          const SizedBox(height: MmSpace.s12),
-          CreditTiles(figures: figures, mobi: true, flat: true, keyPrefix: 'account', onOpen: () => _open(AccountSheetPaths.credits)),
+          const _CreditsHead(),
+          const SizedBox(height: MmSpace.s8),
+          CreditTiles(figures: figures, mobi: true, flat: true, showName: false, keyPrefix: 'account', onOpen: () => _open(AccountSheetPaths.credits)),
           const _CreditsStatus(),
           const SizedBox(height: MmSpace.s24),
           _Caption(AccountCopy.appearance),
@@ -170,40 +170,49 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
 /// Under the tiles: "Saved 9:14 PM" while they show the figures kept from the last time the phone
 /// was online, and a quiet Try again when the read failed and nothing is kept (the tiles then read
 /// "Not loaded"). Nothing at all while the figures are fresh.
+/// The caption over the balance, with "Saved 9:14 PM" at the end of its line when the balance shown is a kept copy.
+///
+/// The saved line arrives a moment after the sheet opens (the read comes back stale). It used to have a line of its
+/// own reserved under the balance from the first frame, so the controls below never dropped for it (v13 walk, finding
+/// 8); that left an empty band under the credits on every open. It now fades in on the caption's own line: nothing
+/// below moves for it and no empty line waits (final pass, 12 Nov 2026).
+class _CreditsHead extends ConsumerWidget {
+  const _CreditsHead();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mine = ref.watch(meCreditsProvider);
+    final saved = !mine.isFailedEmpty && mine.isStale && mine.fetchedAt != null;
+    return Row(
+      children: [
+        const Expanded(child: _Caption(AccountCopy.credits)),
+        MmOverlapSwitcher.fade(
+          alignment: Alignment.centerRight,
+          child: saved
+              ? Text(
+                  AccountCopy.savedAt(mine.fetchedAt!.toLocal()),
+                  key: const ValueKey('saved'),
+                  style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
+                )
+              : const SizedBox.shrink(key: ValueKey('none')),
+        ),
+      ],
+    );
+  }
+}
+
+/// Under the balance: the way to read it again when it could not be read at all. Otherwise nothing.
 class _CreditsStatus extends ConsumerWidget {
   const _CreditsStatus();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final mine = ref.watch(meCreditsProvider);
-    final colors = context.mmColors;
-    final Widget? line;
-    final style = context.mmType.caption.copyWith(color: colors.ink2);
-    if (mine.isFailedEmpty) {
-      line = Align(
-        alignment: Alignment.centerLeft,
-        child: KeyButton.quiet(label: CreditsCopy.tryAgain, onPressed: () => unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true))),
-      );
-    } else {
-      // The "Saved 9:14 PM" line arrives a moment after the sheet opens (the read comes back
-      // stale). Its room is reserved from the first frame (one caption line, 18 dp at the text
-      // scale in use), so the controls below never drop to make space for it (v13 walk, finding 8);
-      // the words fade in inside it.
-      final saved = mine.isStale && mine.fetchedAt != null;
-      line = Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s8),
-        child: SizedBox(
-          height: MediaQuery.textScalerOf(context).scale(18),
-          child: MmOverlapSwitcher.fade(
-            alignment: Alignment.centerLeft,
-            child: saved
-                ? Text(AccountCopy.savedAt(mine.fetchedAt!.toLocal()), key: const ValueKey('saved'), style: style)
-                : const SizedBox.shrink(key: ValueKey('none')),
-          ),
-        ),
-      );
-    }
-    return line;
+    if (!mine.isFailedEmpty) return const SizedBox.shrink();
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: KeyButton.quiet(label: CreditsCopy.tryAgain, onPressed: () => unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true))),
+    );
   }
 }
 

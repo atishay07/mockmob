@@ -257,7 +257,10 @@ abstract final class YouCopy {
       done == goal ? 'Goal met. ${_word(done)} of ${_word(goal).toLowerCase()}.' : 'Goal met. ${_word(done)} days against ${_word(goal).toLowerCase()}.';
 
   // Privacy and usage data.
-  static const privacyTitle = 'Usage data';
+  // The page carries the name of the row that opens it ("Privacy" in the account sheet and on You). It was "Usage
+  // data", so a tap on Privacy landed on a page with another name (device walk, 12 Nov 2026). The switch under it still
+  // says what it is: "Allow usage data to improve MockMob".
+  static const privacyTitle = 'Privacy';
   static const consentExplanation =
       'We count which parts of the app are used, such as starting a mock or finishing a repair, '
       'along with the app version. We do not collect your answers, marks, questions, contacts, '

@@ -65,8 +65,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    // A clear tint: the opening is one lamp-lit ground from the top edge down. The solid dark ground it used to ask
+    // for was painted over the status bar's height only, so the lamp's light began under it at a hard edge (a flat
+    // band about 60 dp tall on a phone with a tall status bar; device walk, 12 Nov 2026). A tint, not null: with none
+    // the app's scrim would fade the THEME's ground in here, which is cream in Day.
     return StatusTint(
-      color: MmColors.dark.ground,
+      color: const Color(0x00000000),
       child: _content(),
     );
   }
