@@ -57,7 +57,8 @@ export default function CompassLadder({ data }) {
       if (!document.hidden) {
         phaseRef.current = (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
         const eased = (1 - Math.cos(phaseRef.current * 2 * Math.PI)) / 2;
-        const next = Math.round(SWEEP_LOW + (SWEEP_HIGH - SWEEP_LOW) * eased);
+        // Steps of 5 points (round 13, audit F10): the ladder re-rendered on nearly every frame; the bars ease between steps.
+        const next = Math.round((SWEEP_LOW + (SWEEP_HIGH - SWEEP_LOW) * eased) / 5) * 5;
         if (next !== shown) { shown = next; setScore(next); }
       }
       frame = window.requestAnimationFrame(tick);

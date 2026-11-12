@@ -127,6 +127,10 @@ export default function HeroMobi({ poster = null }) {
     let done = 0;
     const onTyped = (event) => {
       if (!node) return;
+      // The desk sits below the hero since round 7: while it is off screen there is nothing to glance from, and a nod
+      // set now would replace his wave when the reader arrives (round 13, audit F5).
+      const box = node.getBoundingClientRect();
+      if (box.bottom <= 0 || box.top >= window.innerHeight) return;
       const h1 = document.querySelector('.lp-hero .lp-title');
       const fig = node.querySelector('.lp-desk__figure');
       if (!h1 || !fig) return;

@@ -28,6 +28,7 @@ export const DESK_LINES = Object.freeze({
   three: 'Three of five. Open a miss to see why.',
   two: 'Two of five. Open a miss to see why.',
   tough: 'Every miss has a reason. Open one.',
+  ask: 'One step for tonight. It’s just below.',
   pick: 'Pick a subject. I’ll pull five more.',
   live: 'Your subject it is. Your move.',
   here: 'Here it is. Pick an answer.',
@@ -67,7 +68,7 @@ export function deskEndState(score, total = 5) {
  * encourages a low one.
  */
 export function deskAct(state) {
-  return { right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage' }[state] || null;
+  return { right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage', ask: 'nod' }[state] || null;
 }
 
 const n = (count) => Number(count).toLocaleString('en-IN');

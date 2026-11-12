@@ -41,7 +41,7 @@ export const STATEMENT = 'Your marks slipped somewhere. *MockMob shows you *wher
 // The head over the five sample questions (round 7, 7 Nov 2026: the desk's own section under the college strip). Round 10:
 // its sub repeated the card's own note word for word in one screen; it now says what the end of the five gives, in one
 // line at 360 px so the head, the room and the card share a 390 x 844 screen.
-export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Get your score, with every miss explained.' });
+export const TRY_HEAD = Object.freeze({ h2: 'Try five CUET questions.', sub: 'Get your score, with every miss explained. Then ask Mobi what to do tonight.' });
 export const LAB_HEAD = Object.freeze({
   h2: 'Every mark, traced back to a moment.',
   sub: 'After every mock: the chapter, the minutes and the changed answers that cost you, then the fix.',

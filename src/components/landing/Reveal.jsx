@@ -7,7 +7,9 @@ import { useEffect, useRef, useState } from 'react';
 // attribute, and only ever animates opacity and transform so nothing reflows.
 // Reduced motion shows everything immediately. A <noscript> rule in the page
 // keeps content visible without JavaScript.
-export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold = 0.12, children, ...rest }) {
+// threshold 0 (round 13): a tall block (a ladder, the reels, the close band) used to wait until 12 % of its own height
+// was on screen, so a flick showed a blank band at the foot; now every block starts when its top edge passes the margin.
+export function Reveal({ as: Tag = 'div', className = '', delay = 0, threshold = 0, children, ...rest }) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
 

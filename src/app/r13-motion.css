@@ -1,0 +1,225 @@
+/* Round 13 (13 Nov 2026, owner: "a controlled pass on the entire animations and UX part of the landing page ... integrating
+   the Mobi using scroll-craft properly"). One file for the round, loaded after every older layer (page.js).
+
+   What scroll-craft asks of a page, kept to what this page needs: the scroll is the timeline, depth comes from planes
+   that move differently, and one character threads the journey. Nothing here adds a section or hides one.
+
+   1. Mobi walks the held stories' steps (phones): the logo's Mobi stands on the step the story shows and hops to the next.
+   2. The desk has depth as it arrives: the painted room settles back while Mobi comes forward, driven by the scroll
+      itself (a view timeline, so it costs no script and no frame work). Browsers without view timelines, and Reduce
+      motion, get the scene as it always stood.
+   3. The motion tune from the round's audit (tmp/1113-motion/AUDIT.md): see each block's note. */
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   1. Mobi walks the steps (SectionPosition.jsx, .lp-bar__mobi). He is the logo's second "o" at 18 px: the same shape and
+   colours as the mark in the site bar above, so the page's two bars carry one character. Driven by the story's step (the
+   bar's own state), never the scroll position: a 320 ms glide to the step's segment and one hop on arrival. Decoration:
+   the count beside the name says the step in words, and the segments still fill.
+   --------------------------------------------------------------------------------------------------------------------- */
+.mm.lp .lp-bar__mobi { display: none; }
+@media (max-width: 899px) and (min-height: 521px) {
+  @supports (width: 1cqw) {
+    .mm.lp .lp-bar__where { row-gap: 10px; }
+    .mm.lp .lp-bar__steps { position: relative; container-type: inline-size; }
+    .mm.lp .lp-bar__mobi {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      margin: -9px 0 0 -9px;
+      pointer-events: none;
+      transform: translate3d(calc((var(--at, 0) + 0.5) / var(--n, 4) * 100cqw), 0, 0);
+      transition: transform 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+    }
+    .mm.lp .lp-bar__mobi-art {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      transform-origin: 50% 100%;
+      filter: drop-shadow(0 1px 1.5px rgb(18 17 14 / 0.3));
+      animation: lp-bar-mobi-hop 380ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    }
+  }
+}
+/* Anticipation, the hop, the landing's squash, rest: from his feet. */
+@keyframes lp-bar-mobi-hop {
+  0% { transform: translateY(0) scale(1.08, 0.88); }
+  42% { transform: translateY(-5px) scale(0.95, 1.07); }
+  76% { transform: translateY(0) scale(1.06, 0.92); }
+  100% { transform: none; }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   2. The desk's depth (section#try: HeroRoom's painting, HeroMobi, his bubble). Three planes on the stage's own view
+   timeline: the painting starts 8 % large and settles back from the floor line (so the floor under his feet never slides),
+   Mobi starts 8 % small and comes forward from his feet, and his bubble arrives last, once he has. On a phone it is done
+   when the stage has come 30 % of the way up the screen after entering whole; where the stage stands beside the card
+   (from 1024 px) it is done the moment the stage is whole on screen. So nothing is still moving where a reader rests,
+   and a jump straight to the card (DemoJump) lands on the finished scene. Transform, scale, translate and opacity only.
+   --------------------------------------------------------------------------------------------------------------------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html:not([data-motion='reduced']) .mm.lp .lp-try .lp-desk__stage { view-timeline: --lp-desk block; }
+    html:not([data-motion='reduced']) .mm.lp .lp-try .lp-room__paint {
+      transform-origin: 50% 100%;
+      animation: lp-desk-room linear both;
+      animation-timeline: --lp-desk;
+      animation-range: entry 0% contain 30%;
+    }
+    html:not([data-motion='reduced']) .mm.lp .lp-try .lp-desk__figure {
+      transform-origin: 50% 96%;
+      animation: lp-desk-mobi linear both;
+      animation-timeline: --lp-desk;
+      animation-range: entry 0% contain 30%;
+    }
+    html:not([data-motion='reduced']) .mm.lp .lp-try .lp-desk__bubble {
+      animation: lp-desk-bubble linear both;
+      animation-timeline: --lp-desk;
+      animation-range: contain 4% contain 30%;
+    }
+    @media (min-width: 1024px) {
+      html:not([data-motion='reduced']) .mm.lp .lp-try :is(.lp-room__paint, .lp-desk__figure) { animation-range: entry 0% entry 100%; }
+      html:not([data-motion='reduced']) .mm.lp .lp-try .lp-desk__bubble { animation-range: entry 72% entry 100%; }
+    }
+  }
+}
+@keyframes lp-desk-room { from { transform: scale(1.08); } to { transform: none; } }
+@keyframes lp-desk-mobi { from { scale: 0.92; } to { scale: 1; } }
+@keyframes lp-desk-bubble { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   3. The motion tune.
+
+   3a. Sections arrive; they do not develop. A head used to come in through a 6 px blur over 800 ms from 24 px below
+   (feature-tour.css, landing.css): on a phone the reader was already reading the next thing while the heading was still
+   sharpening, and a blur-in on every head is the mark of a generated page. Now a head rises 10 px over 320 ms with no
+   blur, a block 12 px over 300 ms, and a list's rows follow 50 ms apart from the moment their block is seen (they waited
+   160 ms and then took 700 ms each). Same curve as before (--ease). Reduce motion: nothing moves (landing.css).
+   --------------------------------------------------------------------------------------------------------------------- */
+.mm.lp .rv {
+  transform: translate3d(0, 0.75rem, 0);
+  transition: opacity 300ms var(--ease) var(--d, 0ms), transform 420ms var(--ease) var(--d, 0ms);
+}
+.mm.lp .rv.lp-head {
+  filter: none;
+  transform: translate3d(0, 0.625rem, 0);
+  transition: opacity 260ms var(--ease) var(--d, 0ms), transform 320ms var(--ease) var(--d, 0ms);
+}
+.mm.lp .rv[data-in='true'], .mm.lp .rv.lp-head[data-in='true'] { transform: none; }
+.mm.lp .rv-item {
+  transform: translate3d(0, 0.5rem, 0);
+  transition: opacity 260ms var(--ease) calc(var(--i, 0) * 50ms), transform 360ms var(--ease) calc(var(--i, 0) * 50ms);
+}
+.mm.lp .rv[data-in='true'] .rv-item { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .rv, .mm.lp .rv.lp-head, .mm.lp .rv-item { transform: none; transition: none; }
+}
+html[data-motion='reduced'] .mm.lp :is(.rv, .rv.lp-head, .rv-item) { transform: none; transition: none; }
+/* Phones: a block starts the moment it is seen (its 100 ms stagger behind the head is a desktop side-by-side idea). */
+@media (max-width: 899px) {
+  .mm.lp .rv:not(.lp-head) { transition-delay: 0ms; }
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   3b. The Mistake Lab's scenes change like the tour's (audit F4). They crossed through each other: the leaving scene
+   faded out over 420 ms sliding 20 px up while the next faded in sliding 20 px up, two titles and two screens showing
+   at once on every swipe. Now the leaving scene goes in 120 ms where it stands, and the next arrives 90 ms later over
+   220 ms from 10 px below, the tour's own grammar (feature-tour.css). The step logic is untouched; reduced motion keeps
+   its plain fade.
+   --------------------------------------------------------------------------------------------------------------------- */
+.mm.lp .lc[data-pinned='true'] .lc-scene__copy,
+.mm.lp .lc[data-pinned='true'] .lc-scene__screen {
+  transition: opacity 220ms var(--mm-ease-glide, ease-out) 90ms, transform 320ms var(--lc-ease) 90ms;
+}
+.mm.lp .lc[data-pinned='true'] .lc-scene[data-on='false'] :is(.lc-scene__copy, .lc-scene__screen) {
+  transition: opacity 120ms var(--mm-ease-exit, ease-in), transform 0s linear 120ms;
+}
+.mm.lp .lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__copy { transform: translate3d(0, 0.6rem, 0); }
+.mm.lp .lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__screen { transform: translate3d(0, 0.4rem, 0) scale(0.99); }
+.mm.lp .lc[data-pinned='true'] .lc-scene[data-past='true'] .lc-scene__copy { transform: translate3d(0, -0.6rem, 0); }
+.mm.lp .lc[data-pinned='true'] .lc-scene[data-past='true'] .lc-scene__screen { transform: translate3d(0, -0.4rem, 0) scale(0.99); }
+.mm.lp .lc[data-reduced='true'] .lc-scene[data-on] :is(.lc-scene__copy, .lc-scene__screen) {
+  transform: none !important;
+  transition: opacity var(--mm-dur-reduced-fade, 120ms) linear;
+}
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   3c. The sample card, the first tap on the page (audit F6, F7, F8, and its first missed opportunity).
+   - A press answers at once: the option dips to 0.985 in 100 ms, as the exam screen options do (it was a 200 ms
+     colour fade a quick tap never saw).
+   - The answer lands without a jump: the right option swells 1.5 % and settles, a wrong one shakes 3 px sideways. The old
+     keyframes were drawn for a keycap that stood 3 px up, so the answer hopped 3 px before settling.
+   - The bubble beside Mobi never shows two lines at once: the old line goes in 100 ms, the new one comes once it has gone.
+   - "Next question" reads as the next of five: the stem and the four options rise 6 px, 30 ms apart (DemoDrill.jsx
+     data-seq, from the second question on; the first is there on arrival).
+   --------------------------------------------------------------------------------------------------------------------- */
+.mm.lp .lp-desk .mm-drill__option {
+  transition: background-color 120ms ease-out, border-color 150ms ease, opacity 200ms ease, transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-desk .mm-drill__option:active:not(:disabled) { transform: scale(0.985); transition-duration: 60ms, 150ms, 200ms, 100ms; }
+.mm.lp .lp-desk .mm-drill__option[data-state='correct'] { animation: lp-desk-settle 340ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.mm.lp .lp-desk .mm-drill__option[data-state='wrong'] { animation: lp-desk-knock 360ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes lp-desk-settle { 45% { transform: scale(1.015); } }
+@keyframes lp-desk-knock { 35% { transform: translateX(-3px); } 65% { transform: translateX(2px); } }
+
+.mm.lp .lp-desk__line {
+  transition: opacity 100ms var(--mm-ease-exit, ease-in), transform 0s linear 100ms, visibility 0s linear 100ms;
+}
+.mm.lp .lp-desk__line[data-on] {
+  transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1) 110ms, transform 220ms cubic-bezier(0.23, 1, 0.32, 1) 110ms, visibility 0s;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__q,
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__option[data-state='idle'] {
+    animation: lp-desk-next 240ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__option[data-state='idle']:nth-child(1) { animation-delay: 40ms; }
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__option[data-state='idle']:nth-child(2) { animation-delay: 70ms; }
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__option[data-state='idle']:nth-child(3) { animation-delay: 100ms; }
+  :root:not([data-motion='reduced']) .mm.lp .lp-desk .lp-card__body[data-seq='true'] .mm-drill__option[data-state='idle']:nth-child(4) { animation-delay: 130ms; }
+}
+@keyframes lp-desk-next { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
+
+/* The answer sheet in the Night room: a bubble fills from half its size, not from a point (audit F20). */
+.mm.lp .lp-room__dot { transform: scale(0.5); }
+.mm.lp .lp-room__dot[data-on] { transform: none; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   3d. Every tap answers (audit F14, F15, F16, F17). Press states where there were none, presses that snapped now ease,
+   and two hovers that stuck on a touch screen.
+   --------------------------------------------------------------------------------------------------------------------- */
+.mm.lp .ft__row:active { background: var(--paper-sunken); transition-duration: 60ms; }
+.mm.lp .ft :is(.ft__play, .ft__arrow, .ft__next) { transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease; }
+.mm.lp .ft :is(.ft__play, .ft__arrow, .ft__next):active { transition-duration: 100ms, 60ms; }
+.mm.lp .lp-usual__step {
+  transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-usual__step:active { transform: scale(0.97); }
+.mm.lp .cl__group button { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 100ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp .cl__demo { transition: background-color 150ms ease, color 150ms ease, transform 100ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp #faq .mm-faq summary:active { color: var(--ink-2); }
+.mm.lp .wl__pause:active { background: var(--paper-sunken); }
+.mm.lp .lp-hero__links > a:active { text-decoration-color: currentColor; }
+.mm.lp .lp-shelf__link:active { background: rgb(var(--tint) / 0.06); }
+/* On a touch screen :hover sticks after a tap: the Compass demo key kept its hover face and the college rows stayed
+   paused until the next tap elsewhere. Hover is for a mouse. */
+@media (hover: none) {
+  .mm.lp .cl__demo:hover { color: var(--ink-2); background: transparent; }
+  .mm.lp .lp-colleges__rows:hover:not(:focus-within) .lp-colleges__track { animation-play-state: running; }
+}
+/* The Key card turns on the drawer curve in 480 ms (it was 600 ms on a curve that starts slowly, so a tap felt late). */
+.mm.lp .kc-demo__card { transition: transform 480ms cubic-bezier(0.32, 0.72, 0, 1); }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   3e. Two costs and one pop (audit F11, F12). The phone bar in Night blurred 20 px at 1.6x saturation while it slid in
+   and out; 14 px at 1.2x reads the same over the 66 % paper tint and is the blur the site bar uses. On a desktop the
+   guide Mobi blinked in and out in one frame; he fades over 160 ms.
+   --------------------------------------------------------------------------------------------------------------------- */
+@media (max-width: 899px) {
+  html[data-theme='dark'] .mm.lp .mm-dock { -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); }
+}
+body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out); }

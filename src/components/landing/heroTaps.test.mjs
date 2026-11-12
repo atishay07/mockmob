@@ -17,7 +17,7 @@ const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replac
 test('the bubble has four lines, one per sample state, word for word; the first says his name (R3-D3)', () => {
   // R8 HERO-03, HERO-08 (8 Nov 2026): the fifth answer gets its own right or miss line, the end of the five a line for the
   // score, and the subject list, a loaded subject and a "Try 5 questions first" tap with the card on screen each a line.
-  assert.deepEqual(DESK_STATES, ['load', 'right', 'miss', 'all', 'four', 'three', 'two', 'tough', 'pick', 'live', 'here']);
+  assert.deepEqual(DESK_STATES, ['load', 'right', 'miss', 'all', 'four', 'three', 'two', 'tough', 'ask', 'pick', 'live', 'here']);
   // R3-D3 (brandloss B5): "Hi, I'm Mobi." comes first. Round 4 (owner LK122, 5 Nov 2026: "Your first question. Go. What kind
   // of English is this? ... think from a marketing angle"): complete, plain sentences that invite; no "Go.". Decision 13 is
   // unchanged: lines change with the sample, never a tap. The questions are original CUET-pattern questions (DemoDrill:
@@ -31,6 +31,7 @@ test('the bubble has four lines, one per sample state, word for word; the first 
     three: 'Three of five. Open a miss to see why.',
     two: 'Two of five. Open a miss to see why.',
     tough: 'Every miss has a reason. Open one.',
+    ask: 'One step for tonight. It’s just below.',
     pick: 'Pick a subject. I’ll pull five more.',
     live: 'Your subject it is. Your move.',
     here: 'Here it is. Pick an answer.',
@@ -69,6 +70,7 @@ test('the sample state after an answer: right or miss, the fifth too (R8 HERO-03
   assert.equal(deskAct('tough'), 'encourage');
   assert.equal(deskAct('load'), null);
   assert.equal(deskAct('pick'), null);
+  assert.equal(deskAct('ask'), 'nod');
 });
 
 test('the lines change only with the sample: DemoDrill sends the state, HeroMobi never sets it from a tap', () => {

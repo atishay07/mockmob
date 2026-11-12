@@ -32,9 +32,14 @@ import { ArrowUpToLine } from 'lucide-react';
 import { positionAt, stepCount, stepLabel } from './sectionPositionPhase.mjs';
 import { installPageJumps, toTop } from './pageJump.mjs';
 import * as bus from './scrollBus.mjs';
+import { LOGO_B_MOBI } from '@/components/brand/logoB';
 import '@/app/section-position.css';
 
 const PHONE = '(max-width: 899px)';
+// The logo's Mobi (Logo B, the second "o"), its small master: the bar's step marker. The box is his own, with a
+// little air for the hop's squash.
+const MOBI = LOGO_B_MOBI.small;
+const MOBI_BOX = '3400 -545 592 596';
 
 // The next section with an id after a held section: where its Skip goes (the tour after the Lab, the Recovery Lab after
 // the tour, then Compass or the DU calculator), with its heading's words for the link's accessible name.
@@ -196,6 +201,17 @@ export function SectionPosition({ sections }) {
             <p className="lp-bar__count">{stepLabel(bar.step, bar.steps)}</p>
             <span className="lp-bar__steps" aria-hidden="true" style={{ '--n': bar.steps || 1 }}>
               {segments.map((i) => <i key={i} data-on={i <= bar.step ? 'true' : 'false'} />)}
+              {/* Round 13: the logo's Mobi stands on the step the story shows and hops to the next (r13-motion.css). The
+                  drawing is keyed by the step, so each arrival plays its one hop. Decoration: the count says it in words. */}
+              {bar.steps > 0 ? (
+                <b className="lp-bar__mobi" style={{ '--at': bar.step }}>
+                  <svg key={bar.step} className="lp-bar__mobi-art" viewBox={MOBI_BOX} focusable="false">
+                    <path fill="#D2F000" d={MOBI.body} />
+                    <path fill="#12110E" d={MOBI.visor} />
+                    <path fill="#F3EFE4" fillRule="evenodd" d={MOBI.eyes} />
+                  </svg>
+                </b>
+              ) : null}
             </span>
           </div>
           {bar.next ? (

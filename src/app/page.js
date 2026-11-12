@@ -81,6 +81,8 @@ import './r10-sample.css';
 import './r10-lab-tour.css';
 import './r10-tools.css';
 import './r10-close.css';
+// Round 13 (13 Nov 2026): the motion pass and Mobi on the scroll, after every older layer.
+import './r13-motion.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).

@@ -41,7 +41,7 @@ test('a sample answer makes the hero Mobi react (right: correct, miss: encourage
   assert.match(DRILL, /pipReact\('hero', mobiMoment\(optionIndex === question\.correct \? 'rightAnswer' : 'wrongAnswer'\)\)/);
   assert.match(HERO, /window\.addEventListener\(DEMO_STATE_EVENT, onState\)/, 'the sample\'s state, not a tap, moves him');
   // R8 HERO-03 (8 Nov 2026): the end of the five cheers a good score and encourages a low one.
-  assert.match(read('heroTaps.mjs'), /\{ right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage' \}\[state\]/);
+  assert.match(read('heroTaps.mjs'), /\{ right: 'correct', miss: 'encourage', all: 'cheer', four: 'cheer', three: 'cheer', two: 'encourage', tough: 'encourage', ask: 'nod' \}\[state\]/);
   assert.match(read('../../lib/mobiMoments.js'), /rightAnswer: 'correct',[\s\S]*wrongAnswer: 'encourage',/);
   assert.doesNotMatch(GUIDE, /addEventListener\('pip:glance'/, 'a line every 2.3 s would fight his tap acts');
   assert.match(GUIDE, /encourage: \{ pose: 'encouraging', motion: 'tilt'/);
