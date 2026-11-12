@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Ask Mobi for guests (AskMobiSheet.jsx, round 14). A paper bottom sheet on phones, a 420 px panel anchored bottom-right
+   from 900 px. Tokens only, so Night and Day both follow. The thread wears the sample result's chat look (the visitor's
+   line in a small sunken bubble on the right, Mobi's plain text on the left, his mark and name once), one chat look per page.
+   ========================================================================== */
+html[data-ask-mobi='open'],
+html[data-ask-mobi='open'] body { overflow: hidden; }
+
+.mm-ask { position: fixed; inset: 0; z-index: 1200; pointer-events: none; }
+.mm-ask__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgb(12 11 8 / 0.42);
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+.mm-ask__sheet {
+  --ask-kb: 0px;
+  --ask-vh: 100svh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--ask-kb);
+  display: flex;
+  flex-direction: column;
+  max-height: min(78svh, calc(var(--ask-vh) - 12px));
+  border-radius: 22px 22px 0 0;
+  background: var(--paper-raised);
+  color: var(--ink);
+  box-shadow: 0 -1px 0 var(--line), 0 -12px 40px rgb(12 11 8 / 0.18);
+  pointer-events: auto;
+  transform: translate3d(0, 100%, 0);
+  transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  outline: none;
+  overscroll-behavior: contain;
+}
+.mm-ask[data-phase='open'] .mm-ask__scrim { opacity: 1; }
+.mm-ask[data-phase='open'] .mm-ask__sheet { transform: none; }
+.mm-ask[data-phase='closing'] .mm-ask__sheet { transition-duration: 200ms; }
+
+.mm-ask__grab { flex: none; width: 36px; height: 4px; margin: 8px auto 0; border-radius: 999px; background: var(--line-strong); }
+
+/* Head: Mobi's mark, "Ask Mobi" in the display face and the count line under it, the close key at the right. */
+.mm-ask__head { flex: none; display: flex; align-items: center; gap: 10px; padding: 6px 8px 10px 16px; border-bottom: 1px solid var(--line); }
+.mm-ask__head > .mm-ask__mark { width: 30px; }
+.mm-ask__titles { flex: 1; min-width: 0; }
+.mm-ask__title { margin: 0; font: 600 1.25rem/1.15 var(--font-display); letter-spacing: -0.01em; color: var(--ink); }
+.mm-ask__left { margin: 2px 0 0; color: var(--ink-2); font-size: 0.8125rem; line-height: 1.3; }
+.mm-ask__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.mm-ask__close:active { background: var(--paper-sunken); }
+@media (hover: hover) and (pointer: fine) { .mm-ask__close:hover { background: var(--paper-sunken); } }
+.mm-ask__mark { flex: none; display: block; width: 20px; height: auto; }
+
+/* The thread: scrolls inside the sheet. */
+.mm-ask__thread {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 16px 16px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.mm-ask__intro { display: grid; gap: 14px; }
+.mm-ask__you {
+  justify-self: end;
+  max-width: 80%;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 14px 14px 4px 14px;
+  background: var(--paper-sunken);
+  color: var(--ink);
+  font: 600 0.9375rem/1.35 var(--font-body);
+  overflow-wrap: anywhere;
+}
+.mm-ask__mobi { display: grid; gap: 6px; justify-self: start; max-width: 100%; min-width: 0; }
+.mm-ask__mobi > p {
+  margin: 0;
+  max-width: 38ch;
+  color: var(--ink-2);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.mm-ask__mobi > .mm-ask__who { display: flex; align-items: center; gap: 6px; color: var(--ink); font-size: 0.8125rem; font-weight: 650; line-height: 1.2; }
+.mm-ask__mobi > .mm-ask__step { color: var(--ink); font-size: 1.0625rem; font-weight: 650; line-height: 1.3; }
+
+.mm-ask__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mm-ask__chip {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 600 0.9375rem/1.2 var(--font-body);
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm-ask__chip:active { background: var(--paper-sunken); transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) { .mm-ask__chip:hover { border-color: var(--ink-3); } }
+
+/* Waiting on the network: three small dots, a real wait. */
+.mm-ask__dots { display: flex; gap: 5px; align-items: center; height: 22px; }
+.mm-ask__dots i { width: 6px; height: 6px; border-radius: 999px; background: var(--ink-3); opacity: 0.35; }
+
+.mm-ask__notice { flex: none; margin: 0; padding: 8px 16px 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.4; text-wrap: pretty; }
+.mm-ask__notice a { color: var(--ink); font-weight: 650; text-decoration: underline; text-underline-offset: 2px; }
+
+/* The foot: one field and the volt send key, above the home indicator. */
+.mm-ask__form {
+  flex: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)) 16px;
+}
+.mm-ask__input {
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.2 var(--font-body);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.mm-ask__input::placeholder { color: var(--ink-3); }
+.mm-ask__input[aria-disabled='true'] { color: var(--ink-3); }
+/* marketing.css squares every focus ring (border-radius: 4px); the sheet's round controls keep their shape. */
+.mm .mm-ask__input:focus-visible { outline: none; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); border-radius: 999px; }
+.mm :is(.mm-ask__chip, .mm-ask__close, .mm-ask__send):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 999px; }
+.mm .mm-ask__sheet:focus-visible { outline: none; }
+.mm-ask__send {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--volt);
+  color: var(--volt-ink);
+  box-shadow: var(--key-hairline, none);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 150ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm-ask__send:active:not(:disabled) { transform: scale(0.94); }
+.mm-ask__send:disabled { opacity: 0.4; cursor: default; }
+
+/* Three used: the sign-up key in place of the field. */
+.mm-ask__spent { flex: none; display: grid; gap: 10px; padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+.mm-ask__spent-line { margin: 0; color: var(--ink); font-weight: 650; font-size: 0.9375rem; line-height: 1.35; }
+.mm-ask__spent .mm-btn { width: 100%; }
+.mm-ask__fine { margin: 0; color: var(--ink-2); font-size: 0.8125rem; line-height: 1.45; text-align: center; }
+
+/* From 900 px: the same content as a 420 px panel anchored bottom-right. */
+@media (min-width: 900px) {
+  .mm-ask__sheet {
+    left: auto;
+    right: 24px;
+    bottom: calc(24px + var(--ask-kb));
+    width: 420px;
+    max-height: min(640px, calc(var(--ask-vh) - 48px));
+    border-radius: 22px;
+    box-shadow: 0 0 0 1px var(--line), 0 24px 60px rgb(12 11 8 / 0.22);
+    transform: translate3d(0, 16px, 0);
+    opacity: 0;
+    transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1), opacity 200ms ease;
+  }
+  .mm-ask[data-phase='open'] .mm-ask__sheet { opacity: 1; }
+  .mm-ask__scrim { background: rgb(12 11 8 / 0.22); }
+  .mm-ask__grab { display: none; }
+  .mm-ask__head { padding-top: 12px; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm-ask__you,
+  :root:not([data-motion='reduced']) .mm-ask__mobi:not(.mm-ask__wait) { animation: mm-ask-sheet-in 200ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+  :root:not([data-motion='reduced']) .mm-ask__dots i { animation: mm-ask-dot 1.2s ease-in-out infinite; }
+  :root:not([data-motion='reduced']) .mm-ask__dots i:nth-child(2) { animation-delay: 160ms; }
+  :root:not([data-motion='reduced']) .mm-ask__dots i:nth-child(3) { animation-delay: 320ms; }
+}
+@keyframes mm-ask-sheet-in { from { opacity: 0; transform: translate3d(0, 6px, 0); } }
+@keyframes mm-ask-dot { 0%, 100% { opacity: 0.3; } 45% { opacity: 1; } }
+
+/* Reduced motion: no slide, a 120 ms fade. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-ask__sheet, .mm-ask[data-phase] .mm-ask__sheet { transform: none; opacity: 0; transition: opacity 120ms linear; }
+  .mm-ask[data-phase='open'] .mm-ask__sheet { opacity: 1; }
+  .mm-ask__scrim { transition-duration: 120ms; }
+  .mm-ask__chip, .mm-ask__send { transition: none; transform: none; }
+  .mm-ask__dots i { opacity: 0.6; }
+}
+:root[data-motion='reduced'] .mm-ask .mm-ask__sheet { transform: none; opacity: 0; transition: opacity 120ms linear; }
+:root[data-motion='reduced'] .mm-ask[data-phase='open'] .mm-ask__sheet { opacity: 1; }
+:root[data-motion='reduced'] .mm-ask__dots i { opacity: 0.6; }

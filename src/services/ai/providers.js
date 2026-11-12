@@ -66,5 +66,12 @@ const runtime = createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
  */
 export const generateAIResponse = runtime.generateAIResponse;
 
+/**
+ * One physical call, plain text or JSON, through the same allowlist, runtime reservation and receipt as every call above, with
+ * no retry and no fallback (the ladder lives in generateAIResponse). For callers whose budget allows exactly one attempt
+ * (Ask Mobi for guests, src/lib/server/guestMobi.js). Returns callOnce's result; `dispatched: true` once a request left.
+ */
+export const callProviderOnce = runtime.callOnce;
+
 export { LUNA_MODEL, DEFAULT_EFFORT, isReasoningModel, outputBound, validateAgainstSchema };
 export const __testing = { safeParseJson, estimateCostUsd, pickModelForTier };

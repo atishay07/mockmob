@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -9,7 +9,7 @@ import { DEMO_SUBJECTS, acceptDemoSet, demoSetUrl, demoSubject, pickDemoSet } fr
 import { trackFunnel } from '@/lib/funnel';
 import { markDemoAnswered, sendDemoState } from './demoSignal.mjs';
 import { deskEndState, deskStateAfter } from './heroTaps.mjs';
-import { ASK_BUTTON, ASK_CLOSING, ASK_FIRST, askPlan } from './askMobiSample.mjs';
+import { ASK_BUTTON, ASK_FIRST } from './askMobiSample.mjs';
 import { stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
 import { saveSample } from './sampleCarry.mjs';
 import './demo-subject.css';
@@ -128,9 +128,6 @@ export function DemoDrill({ note = null }) {
   const [missed, setMissed] = useState([]);
   // The readout's open row (R8 HERO-05): one missed question at a time shows its question, answer and reason.
   const [openMiss, setOpenMiss] = useState(null);
-  // Ask Mobi on the result (askMobiSample.mjs): whether the visitor asked, and which follow-ups they tapped, in order.
-  const [asked, setAsked] = useState(false);
-  const [answeredFollowUps, setAnsweredFollowUps] = useState([]);
   // The subject sample: `live` is the picked subject's set ({ slug, name, set, questions }), null while the card plays its
   // own five; `picking` shows the subject list in the card; `loading` and `failed` are the slug being fetched or that could
   // not load; `fresh` (set once the list has been opened) lets the question ease back in, never on the first paint.
@@ -149,7 +146,6 @@ export function DemoDrill({ note = null }) {
   const panelRef = useRef(null);
   const loadingRef = useRef(null);
   const switchRef = useRef(null);
-  const askRef = useRef(null);
   const request = useRef(null);
   const lastSet = useRef({});
   const sets = useRef(new Map());
@@ -164,7 +160,6 @@ export function DemoDrill({ note = null }) {
   const question = questions[index];
   const answered = picked !== null;
   const answeredCount = index + (answered ? 1 : 0);
-  const plan = useMemo(() => askPlan({ missed }), [missed]);
 
   useEffect(() => {
     const target = focusNext.current;
@@ -174,15 +169,13 @@ export function DemoDrill({ note = null }) {
     else if (target === 'result') resultRef.current?.focus({ preventScroll: true });
     // A pointer pick or "Next" keeps focus in the card without drawing a ring on its volt key (R8 HERO-11).
     else if (target === 'card') rootRef.current?.focus({ preventScroll: true });
-    else if (target === 'ask') askRef.current?.focus({ preventScroll: true });
-    else if (target === 'chip') askRef.current?.querySelector('.mm-drill__ask-chip')?.focus({ preventScroll: true });
     else if (target === 'switch') switchRef.current?.focus({ preventScroll: true });
     else if (target === 'loading') loadingRef.current?.focus({ preventScroll: true });
     else if (target === 'panel') {
       const list = panelRef.current;
       (list?.querySelector('[data-state="failed"]') || list?.querySelector('[aria-pressed="true"]') || list?.querySelector('button'))?.focus({ preventScroll: true });
     }
-  }, [answered, index, done, picking, live, loading, asked, answeredFollowUps]);
+  }, [answered, index, done, picking, live, loading]);
 
   // The subject list and a new set start at the card's head: when the head is above the screen (the key that opened them
   // sits on the card's last line), bring it back at once, never with a glide (LK47, LK89).
@@ -240,18 +233,14 @@ export function DemoDrill({ note = null }) {
     }
   }
 
+  // Round 14: the key opens Ask Mobi for guests (AskMobiSheet.jsx), which sends this question with the five's result to the real
+  // model; if the model cannot answer, the sheet falls back to the local step (askMobiSample.mjs askPlan).
   function ask() {
-    focusNext.current = 'ask';
-    setAsked(true);
-    setAnsweredFollowUps([]);
+    window.dispatchEvent(new CustomEvent('mm:ask-mobi', {
+      detail: { question: ASK_FIRST, sample: { score, total: 5, subject: live ? live.name : null, misses: missed.map(({ n, chapter }) => ({ n, chapter })) }, source: 'result' },
+    }));
     // Mobi in the room nods and his bubble points at the answer (heroTaps.mjs 'ask'); no new event kind.
     tellDesk('ask', DRILL.length);
-  }
-
-  function followUp(id) {
-    const left = plan.followUps.filter((f) => f.id !== id && !answeredFollowUps.includes(f.id)).length;
-    focusNext.current = left > 0 ? 'chip' : 'ask';
-    setAnsweredFollowUps((list) => (list.includes(id) ? list : [...list, id]));
   }
 
   function next(event) {
@@ -287,8 +276,6 @@ export function DemoDrill({ note = null }) {
     setScore(0);
     setMissed([]);
     setOpenMiss(null);
-    setAsked(false);
-    setAnsweredFollowUps([]);
     setDone(false);
   }
 
@@ -335,8 +322,6 @@ export function DemoDrill({ note = null }) {
     setScore(0);
     setMissed([]);
     setOpenMiss(null);
-    setAsked(false);
-    setAnsweredFollowUps([]);
     setDone(false);
     setLoading(null);
     setPicking(false);
@@ -458,56 +443,19 @@ export function DemoDrill({ note = null }) {
             </div>
           )}
 
-          <div className="mm-drill__ask" data-open={asked ? 'true' : 'false'}>
-            {!asked ? (
-              <button type="button" className="mm-drill__ask-key" onClick={ask}>
-                {stripObjectSrc('mobi') ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- the hero strip's pre-cut Mobi object, 28 px here
-                  <img className="mm-drill__ask-mobi-icon" src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes="30px" width={30} height={27} alt="" decoding="async" draggable={false} />
-                ) : null}
-                <span>{ASK_BUTTON}</span>
-              </button>
-            ) : (
-              <div className="mm-drill__ask-thread" role="log" aria-live="polite" aria-label="Ask Mobi" tabIndex={-1} ref={askRef}>
-                <p className="mm-drill__ask-you">{ASK_FIRST}</p>
-                <div className="mm-drill__ask-mobi">
-                  {/* Who is answering, once: his desk icon and his name over the first reply. */}
-                  <p className="mm-drill__ask-who">
-                    {stripObjectSrc('mobi') ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- the hero strip's pre-cut Mobi object, 20 px here
-                      <img src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes="22px" width={22} height={20} alt="" decoding="async" draggable={false} />
-                    ) : null}
-                    Mobi
-                  </p>
-                  <p className="mm-drill__ask-step">{plan.step}</p>
-                  {plan.lines.map((line) => <p key={line}>{line}</p>)}
-                </div>
-                {answeredFollowUps.map((id) => {
-                  const f = plan.followUps.find((x) => x.id === id);
-                  if (!f) return null;
-                  return (
-                    <Fragment key={id}>
-                      <p className="mm-drill__ask-you">{f.ask}</p>
-                      <div className="mm-drill__ask-mobi"><p>{f.reply}</p></div>
-                    </Fragment>
-                  );
-                })}
-                {plan.followUps.some((f) => !answeredFollowUps.includes(f.id)) ? (
-                  <div className="mm-drill__ask-more">
-                    {plan.followUps.filter((f) => !answeredFollowUps.includes(f.id)).map((f) => (
-                      <button type="button" key={f.id} className="mm-drill__ask-chip" onClick={() => followUp(f.id)}>{f.ask}</button>
-                    ))}
-                  </div>
-                ) : null}
-                <p className="mm-drill__ask-fine">{ASK_CLOSING}</p>
-              </div>
-            )}
+          <div className="mm-drill__ask">
+            <button type="button" className="mm-drill__ask-key" onClick={ask}>
+              {stripObjectSrc('mobi') ? (
+                // eslint-disable-next-line @next/next/no-img-element -- the hero strip's pre-cut Mobi object, 28 px here
+                <img className="mm-drill__ask-mobi-icon" src={stripObjectSrc('mobi')} srcSet={stripObjectSrcSet('mobi')} sizes="30px" width={30} height={27} alt="" decoding="async" draggable={false} />
+              ) : null}
+              <span>{ASK_BUTTON}</span>
+            </button>
           </div>
 
           <div className="mm-drill__actions">
             {/* What a full mock adds over these five, said once above the way in (a perfect five already says it in its note). */}
-            {/* Once Mobi has been asked, his own answer says it ("Take a full mock ..."), so the line steps out. */}
-            {missed.length > 0 && !asked ? <p className="mm-drill__actions-lead">A full mock gives you a broader chapter review.</p> : null}
+            {missed.length > 0 ? <p className="mm-drill__actions-lead">A full mock gives you a broader chapter review.</p> : null}
             {/* One name for the way in on the whole page (R8 HERO-04, SEC-15): the hero's "Sign up free". */}
             <Link href="/signup" className="mm-btn mm-btn--primary">
               Sign up free

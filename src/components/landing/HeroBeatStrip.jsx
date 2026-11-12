@@ -16,7 +16,8 @@ export default function HeroBeatStrip({ items, label, hook = null }) {
       <ul className="lp-strip__list">
         {items.map((item) => (
           <li key={item.href + item.name} className="lp-strip__item">
-            <a href={item.href} className="lp-strip__fact">
+            {/* `data-ask-mobi` (the Ask Mobi row): AskMobiSheet takes the tap and opens; the href stays for no JavaScript. */}
+            <a href={item.href} className="lp-strip__fact" data-ask-mobi={item.ask || undefined}>
               <StripObject name={item.icon} />
               {/* The space keeps the link's spoken name in words ("Mistake Lab. Every lost mark, traced"); the grid ignores it. */}
               <span className="lp-strip__name">{item.name}<span className="sr-only">.</span></span>{' '}

@@ -1,1 +1,190 @@
 /* Round 14 (13 Nov 2026): the visual pass. Loaded after r13-motion.css. */
+
+/* ==========================================================================
+   Subtraction pass (owner, 13 Nov 2026: "the entire landing page looks the same to me", a "visual AI-slop pass" that is
+   "thoughtful and elegant", "don't make it cluttered"). Nothing added, moved or hidden: boxes that only repeated what
+   spacing and type already say are taken away, so the one real surface on each screen (the film, the sample, the lab's
+   screen, the tour's stage, the plan card) reads as the surface, and the rest sits on the page's own paper.
+   Tokens only; Night and Day share every rule.
+   ========================================================================== */
+
+/* 1. The hero's features strip on phones and tablets.
+   Was: one raised, bordered, shadowed card holding six equal rows between hairlines, the price hook as a seventh row and,
+   under it, a second bordered tray for the DU link: about 600 px of stacked boxes that read as a generated feature list
+   and pushed the sample a screen further down.
+   Now: the desktop's own treatment (hero-scene.css, 960 px up) on the page's paper: one hairline over the list, six
+   unboxed rows a little tighter (the 3D objects carry the rhythm), one hairline setting the price hook off as its own beat,
+   and the DU link as a plain link under it. Each row keeps its 44 px target, its hover/press tint now bleeding 8 px past
+   the text instead of filling a card. */
+@media (max-width: 959px) {
+  .mm.lp .lp-hero .lp-strip {
+    margin-top: 28px;
+    overflow: visible;
+    border: 0;
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  :root[data-theme='dark'] .mm.lp .lp-hero .lp-strip { box-shadow: none; }
+  .mm.lp .lp-strip__list { padding-top: 8px; }
+  .mm.lp .lp-strip__item,
+  .mm.lp .lp-strip__item:nth-child(odd) { border: 0; }
+  .mm.lp .lp-strip__fact { padding: 8px; margin-inline: -8px; border-radius: 14px; }
+  .mm.lp .lp-strip__obj { width: 2.625rem; translate: 0 -0.1875rem; }
+  .mm.lp .lp-strip__hook { margin-top: 8px; padding: 18px 0 14px; border-top: 1px solid var(--line); border-radius: 0; }
+
+  /* 2. The DU link's tray. Was: a second bordered, shadowed box hung under the card's squared-off foot. Now: the link
+     alone, on the page's left edge under the price, still ink, underlined and a 44 px target. */
+  .mm.lp .lp-hero__links { margin-top: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  :root[data-theme='dark'] .mm.lp .lp-hero__links { box-shadow: none; }
+}
+
+/* 3. Compass Pro, under the DU ladder.
+   Was: a raised, bordered, shadowed card straight after the ladder's own dark card: two boxes in a row at the same radius.
+   Now: the ladder is the section's one surface; Compass Pro follows it on the paper, set off by a hairline and space. */
+.mm.lp #compass .lp-cpro {
+  margin-top: 2rem;
+  padding: 1.5rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* 4. The exam screen's NTA-mode note.
+   Was: a bordered raised card (with its own shield tile) under the "Try it full screen" key, a third box under the switch
+   and the monitor. Now: the shield, the words and "See Pro" on the paper under a hairline; the monitor stays the surface. */
+.mm.lp #exam-experience .xs-gate {
+  padding: 0.875rem 0 0.125rem;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+}
+
+/* 5. Key cards' bank line and sign-up key.
+   Was: a raised, bordered, shadowed card under the card demo and its volt key, the same weight as the demo above it.
+   Now: the bank's numbers and "Sign up free to keep going" sit on the paper under the demo; the card is the one surface. */
+.mm.lp #key-cards .kc-foot {
+  padding: 0.5rem 0 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* 6. "All in the same ₹99" in the value card.
+   Was: six identical outlined tiles (an outline each, inside the card's own outline: boxes in a box).
+   Now: the same two columns of desk objects and names, unboxed, so the set reads as one list. */
+.mm.lp #pricing .lp-usual__feats { row-gap: 0.125rem; }
+.mm.lp #pricing .lp-usual__feat { padding-left: 0; border: 0; border-radius: 0; }
+
+/* 7. The Instagram numbers.
+   Was: a raised, outlined, shadowed panel of three numbers, sitting between the head and a row of reel cards.
+   Now: the three numbers between two hairlines on the paper, their dividers kept, the first on the column's left edge
+   (as is the "Counts as of" line under them); the reels stay the section's surface. */
+.mm.lp #on-instagram .rl__summary {
+  overflow: visible;
+  border: 0;
+  border-block: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.mm.lp #on-instagram .rl__summary > div:first-child { padding-left: 0; }
+.mm.lp #on-instagram .rl__summary + .rl__note { margin-top: -0.25rem; padding-inline: 0; }
+
+/* ==========================================================================
+   Second pass (coordinator, 13 Nov 2026: "still too quiet"). Same rules: subtraction and hierarchy, nothing hidden or
+   moved.
+   ========================================================================== */
+
+/* 8. The hero's features on phones (below 640 px).
+   Was (after change 1): six full-width rows, one feature a line, about 330 px.
+   Now: two columns of compact items, three short rows (the two items of a row always level): the object beside the name, the one-line sub under
+   both (balanced, so a longer line such as "Ask a question. No sign-up." breaks into two even halves). No dividers. Each
+   item stays one link with a 44 px+ target; the price hook under them stays the one emphasised line. */
+@media (max-width: 639px) {
+  .mm.lp .lp-strip__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Rows size to their content: the two items of a row share its height, so a sub-line that breaks in two (360 px)
+       grows only its own row instead of every row. */
+    column-gap: 8px;
+    row-gap: 2px;
+    margin-inline: -6px;
+    padding-top: 10px;
+  }
+  .mm.lp .lp-strip__fact {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 7px;
+    row-gap: 3px;
+    padding: 8px 6px 9px;
+    margin-inline: 0;
+    border-radius: 12px;
+  }
+  .mm.lp .lp-strip__obj { grid-row: 1; grid-column: 1; align-self: center; width: 1.625rem; translate: 0 -0.0625rem; }
+  .mm.lp .lp-strip__name { grid-row: 1; grid-column: 2; align-self: center; font-size: 0.875rem; }
+  .mm.lp .lp-strip__line { grid-row: 2; grid-column: 1 / -1; margin-top: 0; font-size: 0.8125rem; }
+  .mm.lp .lp-strip__hook { margin-top: 10px; }
+}
+
+/* 9. The hero's foot on phones. Was: 40 px of hero padding under the DU link's 44 px target, then the college strip's
+   hairline: about 83 px of empty paper. Now about the section rhythm of every other section on a phone. */
+@media (max-width: 959px) {
+  .mm.lp .lp-hero { padding-bottom: 24px; }
+}
+
+/* 10. Mobi's seat captions (DU tool, pricing, the close).
+   Was: a raised, outlined speech pill with a drawn tail beside him, which read as a sticker on the page.
+   Now: his line as plain ink-2 words beside him, at the same size and place: a character with a line. Only the caption's
+   look changes; his art, rig, motion and visibility rules are untouched. */
+.mm.lp .pip-seat.pip-seat--eyebrow figcaption,
+.mm.lp .lp-close .pip-seat figcaption {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink-2);
+}
+.mm.lp .pip-seat.pip-seat--eyebrow figcaption b,
+.mm.lp .lp-close .pip-seat figcaption b { color: var(--ink-2); }
+.mm.lp .pip-seat.pip-seat--eyebrow figcaption::before,
+.mm.lp .lp-close .pip-seat figcaption::before { content: none; }
+
+/* 11. The tour's "Up next" control.
+   Was: an outlined raised box inside the tour's outlined raised stage (a card in a card), beside the outlined back key.
+   Now: the words on the stage's paper at its right, the next feature's name underlined like every link on the page; the
+   back key keeps its outline as the row's one control box. Same size, so nothing shifts; still a 44 px target. */
+.mm.lp #your-prep .ft__next { justify-content: flex-end; border-color: transparent; background: none; }
+.mm.lp #your-prep .ft__next b { text-decoration: underline; text-decoration-color: var(--line-strong); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+
+/* 12. DU Compass's score box.
+   Was: an outlined raised card (the score, its slider and three quick scores) right above the ladder's dark card: two
+   boxes stacked. Now: the same controls between two hairlines on the paper; the ladder is the section's surface. */
+.mm.lp #compass .cl__score { padding-inline: 0; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; }
+
+/* 13. "The usual way" in the pricing value card.
+   Was: a filled inner panel inside the value card (a box in a box). Now: the same receipt between two hairlines on the
+   card's own paper, so the card is one surface and the receipt still reads as its own group. */
+.mm.lp #pricing .lp-usual__way { padding-inline: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; }
+
+/* 14. The FAQ band.
+   Was: a decorative top-to-bottom tint gradient behind the questions, between two hairlines. Now: the page's paper; the
+   two hairlines still set the section apart and the rows keep their own. */
+.mm.lp main > .lp-sec--band { background: none; }
+
+/* 15. Heading rhythm on phones.
+   Was: every section's h2 at one size (28 px) with the same space above it, so the page read as even beats.
+   Now: the three sections that carry the page (the sample, the Mistake Lab, pricing) open with a larger, tighter heading
+   and more space above it; the rest keep 28 px. Three lines at most at 360 px. */
+@media (max-width: 639px) {
+  .mm.lp main > #try.lp-sec,
+  .mm.lp main > #inside-the-lab.lp-sec,
+  .mm.lp main > #pricing.lp-sec { padding-top: 3rem; }
+  .mm.lp .lp-try__head > .lp-h2,
+  .mm.lp .lp-cinema-head > .lp-h2,
+  .mm.lp #pricing .lp-h2 { font-size: 2.125rem; line-height: 1.02; letter-spacing: -0.035em; }
+}

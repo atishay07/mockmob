@@ -1,1 +1,153 @@
-/* Round 14 (13 Nov 2026): Mobi as the phone scroll companion (MobiCompanion.jsx). */
+/* Round 14 (13 Nov 2026): Mobi as the phone scroll companion (MobiCompanion.jsx).
+   One small Mobi on the right, his feet on the top edge of whatever bar is at the foot of the screen: the dock when it is
+   up (--mc-lift, its height less his own gap), else 14 px above the edge. He rides the bar (240 ms), leans from his feet
+   with the scroll (--mc-lean, up to 5 degrees, written by the shared scroll read), stretches a little on a flick
+   (--mc-stretch, up to 1.06, settling over 420 ms), hops in when he comes back (pip-arrive, brand-pip.css) and hops 6 px
+   when the section changes his pose (a 140 ms crossfade). At rest only his breath runs. Transform and opacity only.
+   Layer: just above the dock (70), under the Ask Mobi sheet and every modal; the nav sheet hides him (as it hides the
+   dock). Only the button takes a pointer. Phones only. */
+
+.mc { display: none; }
+
+@media (max-width: 899px) {
+  .mc {
+    --mc-ride: cubic-bezier(0.32, 0.72, 0, 1);
+    --mc-arrive: cubic-bezier(0.23, 1, 0.32, 1);
+    display: block;
+    position: fixed;
+    right: 16px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    z-index: 71;
+    width: 48px;
+    height: 56px;
+    pointer-events: none;
+    /* --mc-lift: up onto the dock's top edge; --mc-inset: in to 16 px from the floating dock's right end; --mc-tuck: down
+       behind the bar's edge (or the screen's foot) while a control is under him. All three written by MobiCompanion. */
+    translate: calc(var(--mc-inset, 0px) * -1) calc(var(--mc-tuck, 0px) - var(--mc-lift, 0px));
+    transition: translate 240ms var(--mc-ride);
+  }
+  /* Tucked: only his head (the top 26 px) shows; the clip below moves with him, so the cut stays on the bar's edge. */
+
+  .mc__vis {
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    translate: 0 0;
+    transition: opacity 200ms var(--mc-arrive), translate 0s, visibility 0s;
+  }
+  /* Out: a fade and an 8 px drop, then gone from the tab order and from every tap. */
+  .mc[data-state='out'] .mc__vis {
+    opacity: 0;
+    translate: 0 8px;
+    visibility: hidden;
+    transition: opacity 160ms ease-in, translate 160ms ease-in, visibility 0s linear 160ms;
+  }
+  body:has(#mm-nav-sheet) .mc .mc__vis { opacity: 0; visibility: hidden; transition: opacity 120ms ease-in, visibility 0s linear 120ms; }
+
+  /* The button is his whole figure: 48 x 56, a plain surface, a visible ring for the keyboard. */
+  .mc__btn {
+    all: unset;
+    position: absolute;
+    inset: 0;
+    display: block;
+    box-sizing: border-box;
+    width: 48px;
+    height: 56px;
+    border-radius: 14px;
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    clip-path: polygon(-40px -40px, calc(100% + 40px) -40px, calc(100% + 40px) calc(100% + 4px), -40px calc(100% + 4px));
+    transition: clip-path 240ms var(--mc-ride);
+  }
+  .mc[data-tuck='true'] .mc__btn { clip-path: polygon(-40px -40px, calc(100% + 40px) -40px, calc(100% + 40px) calc(100% - 30px), -40px calc(100% - 30px)); }
+  .mc__btn:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+
+  .mc__lean, .mc__press, .mc__hop, .mc__breath { position: absolute; inset: 0; display: block; transform-origin: 50% 100%; }
+
+  /* The scroll's lean and a flick's stretch, from his feet. While the page moves the lean follows closely; at rest it eases home. */
+  .mc__lean {
+    rotate: var(--mc-lean, 0deg);
+    scale: 1 var(--mc-stretch, 1);
+    transition: rotate 180ms cubic-bezier(0.25, 1, 0.5, 1), scale 420ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .mc__lean[data-rest='true'] { transition: rotate 420ms cubic-bezier(0.23, 1, 0.32, 1), scale 420ms cubic-bezier(0.23, 1, 0.32, 1); }
+
+  /* The press: a squash from his feet (100 ms in, 160 ms out). */
+  .mc__press { transition: scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .mc__btn:active .mc__press { scale: 0.96 0.92; transition-duration: 100ms; }
+
+  /* Back on screen: the seats' own arrival, quicker. A pose change: a 6 px hop. Two names each, so a repeat restarts. */
+  .mc__hop[data-hop^='arrive'] { animation: pip-arrive 560ms both; }
+  .mc__hop[data-hop='arrive-1'] { animation-name: mc-arrive-b; }
+  .mc__hop[data-hop='pose-0'] { animation: mc-hop-a 300ms var(--mc-arrive); }
+  .mc__hop[data-hop='pose-1'] { animation: mc-hop-b 300ms var(--mc-arrive); }
+  .mc[data-state='out'] .mc__hop { animation: none; }
+
+  .mc__breath { animation: pip-breathe 4.6s ease-in-out infinite; }
+  html[data-lit-in-view] .mc__breath { animation-play-state: paused; }
+
+  .mc__pose { position: absolute; inset: 0; display: block; }
+  .mc__pose .pip-image { width: 100%; height: 100%; }
+  .mc__pose[data-entering='true'] { animation: mc-in 140ms ease-out both; }
+  .mc__pose[data-leaving='true'] { animation: mc-out 140ms ease-in both; pointer-events: none; }
+
+  /* The hello: one line on paper to his left, its small corner toward him. Not a control (the button's label says it). */
+  .mc__bubble {
+    position: absolute;
+    right: calc(100% + 6px);
+    bottom: 24px;
+    margin: 0;
+    padding: 8px 12px;
+    max-width: calc(100vw - 96px);
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid var(--line-strong);
+    border-radius: 16px 16px 4px 16px;
+    background: var(--paper-raised);
+    color: var(--ink);
+    font: 600 0.84375rem/1.3 var(--font-body, system-ui, sans-serif);
+    letter-spacing: -0.003em;
+    box-shadow: 0 10px 24px -16px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    translate: 4px 4px;
+    transition: opacity 220ms cubic-bezier(0.23, 1, 0.32, 1), translate 220ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 220ms;
+  }
+  .mc__bubble[data-on='true'] { opacity: 1; visibility: visible; translate: 0 0; transition-delay: 0s; }
+}
+
+@keyframes mc-arrive-b {
+  0% { opacity: 0; translate: 0 22%; scale: 0.7 0.55; animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+  18% { opacity: 1; translate: 0 6%; scale: 1.12 0.84; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+  46% { translate: 0 -15%; scale: 0.93 1.09; animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.4); }
+  66% { translate: 0 0; scale: 1.09 0.9; animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+  82% { scale: 0.975 1.03; }
+  100% { opacity: 1; translate: 0 0; scale: 1 1; }
+}
+@keyframes mc-hop-a { 0%, 100% { translate: 0 0; } 40% { translate: 0 -6px; } }
+@keyframes mc-hop-b { 0%, 100% { translate: 0 0; } 40% { translate: 0 -6px; } }
+@keyframes mc-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mc-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* Reduce motion: he still shows (he is a control), still; no hop, no lean, no breath, no squash, no ride. */
+@media (prefers-reduced-motion: reduce) {
+  .mc, .mc__btn, .mc__lean, .mc__press { transition: none !important; }
+  .mc__lean { rotate: none !important; scale: none !important; }
+  .mc__hop, .mc__breath, .mc__pose { animation: none !important; }
+  .mc__btn:active .mc__press { scale: none; }
+  .mc[data-state='out'] .mc__vis { translate: 0 0; }
+  .mc__bubble { translate: 0 0; }
+}
+html[data-motion='reduced'] :is(.mc, .mc__btn, .mc__lean, .mc__press) { transition: none !important; }
+html[data-motion='reduced'] .mc__lean { rotate: none !important; scale: none !important; }
+html[data-motion='reduced'] :is(.mc__hop, .mc__breath, .mc__pose) { animation: none !important; }
+html[data-motion='reduced'] .mc__btn:active .mc__press { scale: none; }
+html[data-motion='reduced'] .mc[data-state='out'] .mc__vis { translate: 0 0; }
+html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
+
+@media print { .mc { display: none !important; } }

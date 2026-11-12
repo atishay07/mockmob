@@ -37,7 +37,10 @@ const STUDENT_CALLERS = {
   'src/services/recovery/mistakeRepair.js': /spendUser: spendUserFor/,
 };
 // Not student-facing: the content-moderation worker (its route answers 503 and spends nothing), and the router itself.
-const USER_LESS_BY_DESIGN = new Set(['src/lib/moderation/ai.js', 'src/services/ai/providers.js', 'src/services/ai/providerCore.js']);
+// Round 14 (owner, 13 Nov 2026: real Ask Mobi for visitors who have not signed up, Rs 0.5 a visitor, Rs 1 at most): the
+// guest route has no student to pass. Its guard is the runtime reservation without a user plus three persistent limits
+// (visitor, network, whole site), src/lib/server/guestMobi.js; data/tests/guest_mobi.test.mjs holds it to that.
+const USER_LESS_BY_DESIGN = new Set(['src/lib/moderation/ai.js', 'src/services/ai/providers.js', 'src/services/ai/providerCore.js', 'src/app/api/mobi/guest/route.js']);
 
 test('every call to the model router in src passes the student and plan, or is a declared user-less caller', () => {
   const callers = walk(join(ROOT, 'src')).filter((p) => /\bgenerateAIResponse\s*\(/.test(readFileSync(p, 'utf8')) || /from '@\/services\/ai\/providers'/.test(readFileSync(p, 'utf8')));

@@ -146,7 +146,9 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   assert.deepEqual(all.map((f) => f.name), ['Unlimited mocks', 'Mistake Lab', 'Exam-day screen', 'DU Compass', 'Ask Mobi', 'Key cards']);
   assert.deepEqual(all.map((f) => f.href), ['#pricing', '#inside-the-lab', '#exam-experience', '#compass', '#your-prep', '#key-cards']);
   for (const f of all) {
-    assert.deepEqual(Object.keys(f).sort(), ['href', 'icon', 'line', 'name'], 'only what the strip draws');
+    assert.deepEqual(Object.keys(f).filter((k) => k !== 'ask').sort(), ['href', 'icon', 'line', 'name'], 'only what the strip draws');
+    // Round 14: only Ask Mobi's row is marked for the guest sheet (AskMobiSheet.jsx takes its tap; the href stays for no JavaScript).
+    assert.equal(f.ask, f.name === 'Ask Mobi' ? 'strip' : undefined, f.name);
     // Round 5 (LK160): its desk object, cut for the strip (stripObjects.mjs) from the brand's own library (Mobi is Mobi).
     assert.ok(STRIP_OBJECTS[f.icon], `${f.icon} has a strip object`);
     assert.ok(f.icon === 'mobi' || BRAND_ICONS[f.icon], `${f.icon} is one of the brand's desk objects`);

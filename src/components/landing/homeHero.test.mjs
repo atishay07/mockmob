@@ -76,14 +76,14 @@ export const HERO_STRINGS = [
     'Mistake Lab': 'the Mistake Lab head (homeCopy LAB_HEAD)',
     'Exam-day screen': 'the exam section\'s sub (homeCopy EXAM_HEAD): switch to NTA style to rehearse (round 11)',
     'DU Compass': 'the Compass head (homeCopy COMPASS_HEAD)',
-    'Ask Mobi': 'the tour\'s Ask Mobi slide (homeCopy buildTour prepos)',
+    'Ask Mobi': 'Ask Mobi for guests (AskMobiSheet.jsx, round 14): three free questions, no sign-up, the count the route enforces (guestMobi.js GUEST_QUESTIONS)',
     'Key cards': 'the Key cards head (keyCardsCopy KEY_CARDS_HEAD)',
   }[f.name], holds: () => ({
     'Unlimited mocks': () => proPlan({}).some((item) => /^Unlimited Quick practice and Full mock/.test(item)) && /every mock is built fresh from one live question bank/.test(FAQ),
     'Mistake Lab': () => /traced/.test(LAB_HEAD.h2),
     'Exam-day screen': () => /Switch to NTA style to rehearse/.test(EXAM_HEAD.sub),
     'DU Compass': () => /shortlist/.test(COMPASS_HEAD.h2),
-    'Ask Mobi': () => /Ask what to do tonight\. Get one clear step\./.test(buildTour({}).map((t) => t.title).join(' ')),
+    'Ask Mobi': () => /3 free questions\. No sign-up\./.test(read('./AskMobiSheet.jsx')) && /export const GUEST_QUESTIONS = 3;/.test(read('../../lib/server/guestMobi.js')),
     'Key cards': () => /^Turn it\. Rate it\./.test(KEY_CARDS_HEAD.h2),
   }[f.name])() })),
   { text: `${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).lead} ${heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure}`, source: 'perMock(offer) at the pricing slider\'s top pace (value.mjs MOCK_PACES), the nearest rupee from 1 up (owner, 7 Nov), never typed', holds: () => { const m = perMock(OFFER, Math.max(...MOCK_PACES), { from: new Date(Date.UTC(2026, 10, 6)) }); return heroPriceHook(OFFER, { from: new Date(Date.UTC(2026, 10, 6)) }).figure === (m.exactPaise >= 100 ? `₹${Math.round(m.exactPaise / 100)}` : m.about); } },
@@ -176,7 +176,8 @@ test('round 4 (LK124): the features strip, each feature a link to its section, t
   assert.ok(stripCss.length > 500, 'the strip block');
   assert.doesNotMatch(stripCss, /backdrop-filter|radial-gradient|box-shadow: 0 0 |animation/);
   assert.match(BEAT_STRIP, /<nav className="lp-strip" aria-label=\{label\}>/);
-  assert.match(BEAT_STRIP, /<a href=\{item\.href\} className="lp-strip__fact">/);
+  // Round 14: the Ask Mobi row carries data-ask-mobi, so the guest sheet (AskMobiSheet.jsx) takes its tap.
+  assert.match(BEAT_STRIP, /<a href=\{item\.href\} className="lp-strip__fact" data-ask-mobi=\{item\.ask \|\| undefined\}>/);
   // Round 5 (owner, 6 Nov 2026, LK160): each feature's 3D desk object (the next test), beside the words, no tile.
   assert.match(BEAT_STRIP, /<StripObject name=\{item\.icon\} \/>/);
   assert.match(BEAT_STRIP, /<a href=\{hook\.href\} className="lp-strip__hook">/, 'the hook is one link to the slider');
