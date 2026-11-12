@@ -50,6 +50,8 @@ import CompassLadder from '@/components/landing/CompassLadder';
 import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
+import AskMobiSheet from '@/components/landing/AskMobiSheet';
+import MobiCompanion from '@/components/landing/MobiCompanion';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
@@ -83,6 +85,9 @@ import './r10-tools.css';
 import './r10-close.css';
 // Round 13 (13 Nov 2026): the motion pass and Mobi on the scroll, after every older layer.
 import './r13-motion.css';
+// Round 14 (13 Nov 2026): the visual pass, then the phone companion.
+import './r14-look.css';
+import './r14-companion.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -407,6 +412,10 @@ export default function LandingPage() {
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <MobiPoseSprite />
       <PipGuide />
+      {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
+          window event mm:ask-mobi). */}
+      <MobiCompanion />
+      <AskMobiSheet />
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
