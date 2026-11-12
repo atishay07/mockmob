@@ -8,8 +8,8 @@ import { COOKIE_NAME, SITE_LIMIT_DEFAULT, buildFactSheet, createGuestMobi, limit
 // visitor, one model call each, behind the runtime guard and three persistent buckets. The rules, the prompt and the worst-case
 // cost arithmetic are in src/lib/server/guestMobi.js. Never cached. No visitor text is logged.
 //
-// Off when: GUEST_MOBI_ENABLED=false (the kill switch), signed-in model replies are closed (modelRepliesOpen), production runs
-// without the database limiter (PERSISTENT_LIMITS_ENABLED), or there is no secret to sign the visitor cookie with.
+// Off when: GUEST_MOBI_ENABLED=false (the kill switch), signed-in model replies are closed (modelRepliesOpen)
+// (in production its limits are always the database limiter, rateLimit.js `persistent`), or there is no secret to sign the visitor cookie with.
 
 export const dynamic = 'force-dynamic';
 
@@ -20,10 +20,11 @@ const CALL_TIMEOUT_MS = 15_000;
 // The app's auth secret (the same one the preview cookie and the Mob ids fall back to), else the server-only service key.
 const cookieSecret = () => process.env.NEXTAUTH_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
+const PROD = process.env.NODE_ENV === 'production';
+
 function guestState() {
   if (process.env.GUEST_MOBI_ENABLED === 'false') return 'off';
   if (!modelRepliesOpen()) return 'off';
-  if (process.env.NODE_ENV === 'production' && process.env.PERSISTENT_LIMITS_ENABLED !== 'true') return 'off';
   if (!cookieSecret()) return 'off';
   return 'on';
 }
@@ -50,8 +51,10 @@ export async function POST(request) {
     secret: cookieSecret(),
     secure: process.env.NODE_ENV === 'production',
     // No `fallback: 'memory'`: when the database cannot answer, the call is refused (a paid model sits behind these).
-    take: (scope, visitorId) => checkPersistentRateLimit(request, options(scope, visitorId)),
-    giveBack: (scope, visitorId) => giveBackRateLimit(request, options(scope, visitorId)),
+    // In production the limits are the database's whatever PERSISTENT_LIMITS_ENABLED says (rateLimit.js `persistent`);
+    // a development server keeps the in-memory counter unless that switch is on.
+    take: (scope, visitorId) => checkPersistentRateLimit(request, { ...options(scope, visitorId), persistent: PROD }),
+    giveBack: (scope, visitorId) => giveBackRateLimit(request, { ...options(scope, visitorId), persistent: PROD }),
     callModel: async ({ requestKey, systemPrompt, userMessage, maxTokens }) => {
       const result = await callProviderOnce({
         requestKey, provider: 'openai', model: LUNA_MODEL, systemPrompt, userMessage, context: null,
