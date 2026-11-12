@@ -160,10 +160,26 @@ class _WelcomeViewState extends State<WelcomeView> {
   /// room in daylight, so a Day student's first impression is their own theme, not a dark room
   /// that then turns pale.
   @override
-  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-        value: context.mmColors.isNight ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
-        child: Builder(builder: _room),
-      );
+  Widget build(BuildContext context) {
+    // Only the icons' brightness changes with the room; both bars stay clear, as everywhere else in the app (app.dart
+    // _systemBars). The presets SystemUiOverlayStyle.light and .dark that stood here also carry an opaque BLACK
+    // navigation bar, so the first screen a student sees ended in a black strip under "I already have an account",
+    // by night and (under a cream room) by day (release build on the emulator, 12 Nov 2026).
+    final icons = context.mmColors.isNight ? Brightness.light : Brightness.dark;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        statusBarColor: const Color(0x00000000),
+        statusBarIconBrightness: icons,
+        statusBarBrightness: icons == Brightness.light ? Brightness.dark : Brightness.light,
+        systemStatusBarContrastEnforced: false,
+        systemNavigationBarColor: const Color(0x00000000),
+        systemNavigationBarDividerColor: const Color(0x00000000),
+        systemNavigationBarIconBrightness: icons,
+        systemNavigationBarContrastEnforced: false,
+      ),
+      child: Builder(builder: _room),
+    );
+  }
 
   Widget _room(BuildContext context) {
     final colors = context.mmColors;
