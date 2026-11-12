@@ -166,6 +166,12 @@ export default function AskMobiSheet() {
     return undefined;
   }, [phase]);
   useEffect(() => () => { delete document.documentElement.dataset.askMobi; }, []);
+  // Escape closes the sheet wherever focus is (a tap on a chip can leave it on the page behind).
+  useEffect(() => {
+    const onKey = (event) => { if (event.key === 'Escape' && document.documentElement.dataset.askMobi === 'open') close(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [close]);
 
   // Focus into the sheet once it is up: the field where a keyboard is (a fine pointer), the dialog itself on a phone, so the
   // on-screen keyboard does not cover the suggestions before the visitor has read them.
