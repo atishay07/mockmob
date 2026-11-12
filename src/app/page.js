@@ -275,7 +275,7 @@ export default function LandingPage() {
         {/* R3-D10 (owner LK112, 5 Nov 2026): a real card that turns over in 3D, glass over its subject object, rated with the
             app's keys; the bank's true numbers count up once (LoadingKit). The stamp is the product's name (R3-D2). */}
         {KEY_CARDS ? (
-          <section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title">
+          <section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title" data-section-name={KEY_CARDS_HEAD.stamp}>
             <div className="mm-wrap lp-kc__grid">
               <Reveal className="lp-head lp-head--left lp-kc__head">
                 <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>

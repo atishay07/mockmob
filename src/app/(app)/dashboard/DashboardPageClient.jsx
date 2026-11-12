@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/Button';
 import { ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
-import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
 import { PipActor } from '@/components/brand/PipActor';
@@ -141,7 +140,6 @@ function PracticeSkeleton() {
 export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
   const learn2 = useLearn2On();
-  const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   // CONTRIBUTE_ENABLED: the Add a question panel and the submissions read are part of the paused contribution side.
@@ -508,8 +506,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
     forgetDailySet(user?.id); // starting a set may use today's included one: the next read asks the server again
     forgetFirstFullMock(user?.id); // and a full mock may take the subject's free first one
+    // One message, in the page (the status line above and the key's own "Starting…"): the toast that used to come with it
+    // was a third, drew a success tick before any session existed and sat over the Start key on a desktop (12 Nov 2026).
     setLaunchSuccess(`Launching ${mode.label}…`);
-    toast.success('Starting your session…');
     const tonight = new URLSearchParams();
     for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
     // A full mock this quote called free says so to the server (firstFree=1): if it is not free by the time it starts (another

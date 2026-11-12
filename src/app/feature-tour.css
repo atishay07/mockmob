@@ -1,5 +1,7 @@
 /* A guided product story: chapter rail, one live demo, and the next chapter in view. */
-.ft { min-width: 0; display: grid; gap: .75rem; }
+/* One column that may shrink (12 Nov 2026): an implicit `auto` column grew to its widest slide's own width, so the last
+   tool (the Mob, with the longest "Up next") ran 43 px past a 390 px screen and its text was cut at the edge. */
+.ft { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
 .ft__list { position: relative; display: flex; gap: .4rem; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 2px; }
 .ft__list::-webkit-scrollbar, .ft__track::-webkit-scrollbar { display: none; }
 /* The chip row fades only at an edge with more chips beyond it, so a half-shown chip reads as "more". */

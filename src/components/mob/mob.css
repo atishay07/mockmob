@@ -147,6 +147,16 @@ html[data-theme='light'] {
 /* Settings: last on the page and calm. A quiet heading, then plain rows on one hairline each; the switches keep their
    44 px target but lose the box and the volt edge the shared control draws (a box inside a section read as a form). */
 .mob-settingscard .mob-h2 { font: 700 15px/1.3 var(--font-display); letter-spacing: 0; color: var(--a-ink-2); }
+/* Desktop (12 Nov 2026): under the den the roster and the settings are two short lists. Side by side, a member's name and
+   its key are no longer 900 px apart and the page is a screen shorter. Only where the settings follow the roster directly
+   (the den); a browser without :has keeps the one column. */
+@media (min-width: 1100px) {
+  /* The page is the shell's flex column (.pr); a grid here keeps its row gap and adds the second column. */
+  .app-shell .mob-page:has(> .mob-plain + .mob-settingscard) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-content: start; align-items: start; column-gap: 48px; }
+  .app-shell .mob-page:has(> .mob-plain + .mob-settingscard) > * { grid-column: 1 / -1; }
+  .app-shell .mob-page:has(> .mob-plain + .mob-settingscard) > .mob-plain:has(+ .mob-settingscard) { grid-column: 1; }
+  .app-shell .mob-page:has(> .mob-plain + .mob-settingscard) > .mob-plain + .mob-settingscard { grid-column: 2; }
+}
 .mob-settings { display: grid; gap: 0; }
 .mob-page .mob-settings .ctl-toggle, .mob-page .mob-settings .ctl-toggle[data-on='true'] {
   padding: 10px 0 10px 2px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none;

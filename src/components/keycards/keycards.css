@@ -8,7 +8,8 @@
   --kc-ease: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   --kc-dur: var(--dur-ui, 200ms);
   --kc-read: var(--font-ncert), Georgia, 'Times New Roman', serif;
-  display: flex; flex-direction: column; gap: 24px; min-width: 0; width: 100%; margin-inline: auto; padding-bottom: 96px;
+  /* margin-inline 0 auto: the shell's one left edge (student-pages.css); centred, the 880 px home sat 100 px right of it. */
+  display: flex; flex-direction: column; gap: 24px; min-width: 0; width: 100%; margin-inline: 0 auto; padding-bottom: 96px;
 }
 /* The lit card surface Practice uses (owner W-013): a soft cool light from the top edge and a fine still grain, inside the card. */
 .kc, .kc-line {

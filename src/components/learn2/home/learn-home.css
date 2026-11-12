@@ -16,7 +16,9 @@
   align-content: start;
   width: min(100%, 1040px);
   min-width: 0;
-  margin-inline: auto;
+  /* The shell's one left edge (student-pages.css, R8 TOOLS-18): Learn was centred, so on a desktop its title sat 65 px to
+     the right of every other page's and jumped sideways when the rail's Learn row was chosen (12 Nov 2026). */
+  margin-inline: 0 auto;
   /* The shell's main already clears the dock (108 px); a little air under the last row is all this adds. */
   padding-bottom: 16px;
 }

@@ -235,7 +235,8 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     const host = rootRef.current?.closest('section[id]');
     for (let node = host?.nextElementSibling; node; node = node.nextElementSibling) {
       if (!node.id || node.hidden) continue;
-      const name = (node.querySelector('.lp-stamp__name') || node.querySelector('h2'))?.textContent?.trim().replace(/\.$/, '');
+      // A section may name itself (data-section-name): Key cards' heading is a whole sentence, too long for the key.
+      const name = node.dataset.sectionName || (node.querySelector('.lp-stamp__name') || node.querySelector('h2'))?.textContent?.trim().replace(/\.$/, '');
       if (name) setAfter({ id: node.id, name });
       return;
     }
