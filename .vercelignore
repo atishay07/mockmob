@@ -1,0 +1,31 @@
+# Files the build and the running app never read (checked 15 Nov 2026: no import, readFile or outputFileTracingIncludes
+# path points into any of these). Kept in: src, public, data, shared, db, scripts (src imports scripts/pipeline and
+# scripts/learning libraries), supabase, next.config.mjs.
+
+# Root one-off scripts and notes
+/check_*.js
+/fix_*.js
+/test_*.js
+/seed_chapters.js
+/split.js
+/process_jobs.js
+/queue_audit.js
+/finalize_queue.js
+/generate_and_upload.js
+/refix_comp_acc.js
+/mockmob.html
+
+# Work folders
+/mobile/
+/scratch/
+/skills/
+/scrollcraft/
+/logs/
+/artifacts/
+/tmp/
+/docs/
+
+# Logs and pid files
+*.log
+*.pid
+*.pid.txt
