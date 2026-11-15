@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import crypto from 'node:crypto';
-import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAccessPlan } from '@/lib/payments/plans';
+import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, getRazorpayPlanId, isOneTimeAccessPlan } from '@/lib/payments/plans';
+import { cancelMonthlyRenewal } from '@/lib/payments/cancel';
 import { getRazorpayClient, verifyRazorpayWebhookSignature } from '@/lib/payments/razorpay';
 import {
   amountMatchesPaymentRecord,
@@ -8,6 +9,7 @@ import {
   isCapturedRazorpayPayment,
   isFutureIso,
   referralAttributionFromCheckout,
+  REFUND_REVOKED_PREMIUM_ACTION,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
 import { settleUserEntitlement, shrinkPremiumToOtherPaidAccess } from '@/lib/payments/settle';
@@ -33,6 +35,12 @@ const HANDLED_EVENTS = new Set([
   'payment.failed',
 ]);
 
+// M4 (audit 15 Nov 2026): refunds made in the Razorpay dashboard and bank disputes. Only a processed refund changes access;
+// a dispute is recorded for the owner and changes nothing by itself.
+const REFUND_EVENTS = new Set(['refund.processed']);
+const isDisputeEvent = (eventType) => typeof eventType === 'string' && eventType.startsWith('payment.dispute.');
+const isMoneyBackEvent = (eventType) => REFUND_EVENTS.has(eventType) || isDisputeEvent(eventType);
+
 export async function POST(request) {
   let eventId = null;
 
@@ -55,8 +63,11 @@ export async function POST(request) {
     let invoice = null;
     let subscriptionId = subscription?.id || payment?.subscription_id || null;
     const orderId = payment?.order_id || null;
+    const moneyBackPaymentId = isMoneyBackEvent(eventType)
+      ? (event?.payload?.refund?.entity?.payment_id || event?.payload?.dispute?.entity?.payment_id || payment?.id || null)
+      : null;
 
-    if (!HANDLED_EVENTS.has(eventType) || (!subscriptionId && !orderId && !payment?.invoice_id)) {
+    if (isMoneyBackEvent(eventType) ? !moneyBackPaymentId : (!HANDLED_EVENTS.has(eventType) || (!subscriptionId && !orderId && !payment?.invoice_id))) {
       return NextResponse.json({ ok: true, ignored: true });
     }
 
@@ -78,6 +89,12 @@ export async function POST(request) {
 
     if (!shouldProcess) {
       return NextResponse.json({ ok: true, deduped: true });
+    }
+
+    if (moneyBackPaymentId) {
+      const outcome = await processMoneyBackEvent({ eventId, eventType, event, paymentId: moneyBackPaymentId });
+      await Database.markWebhookEventProcessed(eventId, outcome.note || null);
+      return NextResponse.json({ ok: true, ...(outcome.ignored ? { ignored: true } : {}), ...(outcome.result ? { result: outcome.result } : {}) });
     }
 
     if (payment?.invoice_id) {
@@ -213,21 +230,33 @@ export async function POST(request) {
 }
 
 async function createMissingSubscriptionPaymentRecord({ payment, subscription, invoice, subscriptionId }) {
-  const notes = {
-    ...(subscription?.notes || {}),
-    ...(invoice?.notes || {}),
-    ...(payment?.notes || {}),
-  };
-  const userId = notes.userId;
-  const planId = notes.planId;
-  const plan = getPaymentPlan(planId);
+  // M8 (audit 15 Nov 2026): who and what is paid for comes only from the subscription's notes, which our server wrote when
+  // it created the subscription. Checkout lets the payer set the payment's own notes, so those are never read here.
+  const notes = subscription?.id === subscriptionId ? (subscription.notes || {}) : {};
+  const userId = typeof notes.userId === 'string' ? notes.userId : null;
+  const plan = getPaymentPlan(notes.planId);
+  const razorpayPlanId = getRazorpayPlanId(plan);
 
-  if (!userId || !plan || payment.amount <= 0 || payment.amount > plan.amount) {
+  let reason = null;
+  if (!userId) reason = 'no user in the subscription notes';
+  else if (plan?.billingType !== 'subscription') reason = 'not a known monthly plan';
+  else if (!razorpayPlanId || subscription.plan_id !== razorpayPlanId) reason = 'Razorpay plan does not match the configured plan';
+  else if (payment.amount !== plan.amount) reason = 'amount does not match the plan';
+
+  const user = reason ? null : await Database.getUserById(userId);
+  if (!reason && !user) reason = 'user not found';
+  if (reason) {
+    // Grants nothing. Kept for the owner to look at, once per payment.
+    console.warn('[webhook] unattributed subscription payment', { subscriptionId, paymentId: payment?.id, reason });
+    await Database.recordPaymentEvent({
+      action: 'billing.unattributed_subscription_payment',
+      targetType: 'subscription',
+      targetId: subscriptionId,
+      key: `unattributed:${payment?.id || subscriptionId}`,
+      metadata: { subscriptionId, paymentId: payment?.id || null, amount: payment?.amount ?? null, razorpayPlanId: subscription?.plan_id || null, reason },
+    });
     return null;
   }
-
-  const user = await Database.getUserById(userId);
-  if (!user) return null;
 
   const accessUntil = resolvePaidThrough({ subscription, invoice, payment });
 
@@ -532,7 +561,134 @@ async function keepRefundRevokedOrder({ orderId, payment, paymentRecord }) {
   });
 }
 
+/**
+ * M4 (audit 15 Nov 2026): a refund or a bank dispute made outside the site. Each one is recorded once against our payment
+ * row (audit_logs, keyed by the refund or dispute id). A refund of the whole payment that grants the current access ends
+ * that access now, through the same refund revocation every later verify and webhook already honours; a monthly plan is
+ * also cancelled at Razorpay, so the family is not charged again. Credits a refunded pack bought are taken back only from
+ * what is still unspent, never below zero, and the shortfall is kept. A partial refund, the refund of an earlier month and
+ * a dispute are recorded and change no access.
+ */
+async function processMoneyBackEvent({ eventId, eventType, event, paymentId }) {
+  const refund = event?.payload?.refund?.entity || null;
+  const dispute = event?.payload?.dispute?.entity || null;
+  let payment = event?.payload?.payment?.entity || null;
+  if (!payment || payment.id !== paymentId) payment = await getRazorpayClient().payments.fetch(paymentId);
+
+  const record = await findRecordForPayment({ paymentId, payment });
+  if (!record) {
+    console.warn('[webhook] refund or dispute for a payment with no row of ours', { eventType, paymentId });
+    return { ignored: true, note: 'no matching payment record' };
+  }
+
+  const isRefund = REFUND_EVENTS.has(eventType);
+  const amountRefunded = Number(payment?.amount_refunded) || 0;
+  const fullRefund = isRefund && (payment?.refund_status === 'full' ||
+    (Number.isInteger(payment?.amount) && payment.amount > 0 && amountRefunded >= payment.amount));
+  // A subscription row keeps only its latest charge: the refund covers the current access only when it is that charge,
+  // and only when that charge granted something (cancelled: an earlier delivery of this refund already ended it).
+  const coversCurrentAccess = record.paymentId === paymentId && (hasPaidPaymentEvidence(record) || record.status === 'cancelled');
+
+  await Database.recordPaymentEvent({
+    action: isRefund ? 'billing.refund_processed' : 'billing.dispute',
+    targetType: 'payment',
+    targetId: record.id,
+    key: refund?.id ? `refund:${refund.id}` : dispute?.id ? `${eventType}:${dispute.id}` : `${eventType}:${eventId}`,
+    metadata: {
+      event: eventType,
+      eventId,
+      userId: record.userId,
+      paymentId,
+      orderId: record.orderId || null,
+      subscriptionId: record.subscriptionId || null,
+      planId: record.planId,
+      refundId: refund?.id || null,
+      disputeId: dispute?.id || null,
+      amount: refund?.amount ?? dispute?.amount ?? null,
+      paymentAmount: payment?.amount ?? null,
+      amountRefunded,
+      fullRefund,
+      coversCurrentAccess,
+      disputeStatus: dispute?.status || null,
+      reasonCode: dispute?.reason_code || null,
+    },
+  });
+
+  if (!isRefund) return { note: `dispute recorded (${dispute?.status || eventType})`, result: 'dispute_recorded' };
+  if (!fullRefund) return { note: 'partial refund recorded; access unchanged', result: 'partial_refund_recorded' };
+  if (!coversCurrentAccess) return { note: 'refund of an earlier payment recorded; current access unchanged', result: 'refund_recorded' };
+
+  const creditPack = getAICreditPack(record.planId);
+  if (creditPack) {
+    const takeBack = await Database.takeBackRefundedCredits({
+      userId: record.userId,
+      credits: creditPack.credits,
+      reference: record.orderId || paymentId,
+      idempotencyKey: `razorpay_refund:${paymentId}`,
+      metadata: { source: 'razorpay_refund', paymentId, orderId: record.orderId || null, refundId: refund?.id || null, packKey: creditPack.key || null },
+    });
+    if (!takeBack.ok && takeBack.error !== 'rpc_missing') throw new Error(`credit take-back failed: ${takeBack.error}`);
+    if (record.orderId) await Database.updatePaymentByOrderId(record.orderId, { status: 'cancelled', amountPaid: 0 });
+    if (!takeBack.ok) {
+      // Migration 20261115120000 is not applied yet: the owner takes the credits back by hand (REFUND-RUNBOOK.md).
+      await Database.recordPaymentEvent({
+        action: 'billing.refund_credits_manual',
+        targetType: 'user',
+        targetId: record.userId,
+        key: `credits_manual:${paymentId}`,
+        metadata: { paymentId, orderId: record.orderId || null, credits: creditPack.credits, runbook: 'REFUND-RUNBOOK.md' },
+      });
+      return { note: 'refund recorded; credit take-back needs the manual step (migration 20261115120000 not applied)', result: 'credits_manual' };
+    }
+    return { note: `refund took back ${takeBack.clawedBack} credits, shortfall ${takeBack.shortfall}`, result: 'credits_taken_back' };
+  }
+
+  const plan = getPaymentPlan(record.planId);
+  if (!isOneTimeAccessPlan(plan) && plan?.billingType !== 'subscription') {
+    return { note: 'refund recorded; not a Pro or credit payment', result: 'refund_recorded' };
+  }
+
+  // The revocation every verify and webhook reads (Database.hasRefundPremiumRevocation), for this payment only: a later
+  // renewal the family pays for still grants its month.
+  await Database.recordPaymentEvent({
+    action: REFUND_REVOKED_PREMIUM_ACTION,
+    targetType: 'user',
+    targetId: record.userId,
+    key: `revoked:${paymentId}`,
+    metadata: { paymentId, refundId: refund?.id || null, source: 'razorpay_refund_webhook' },
+  });
+
+  if (isOneTimeAccessPlan(plan)) {
+    await keepRefundRevokedOrder({ orderId: record.orderId, payment, paymentRecord: record });
+    return { note: 'full refund: one-time access ended', result: 'access_ended' };
+  }
+
+  await keepRefundRevoked({ subscriptionId: record.subscriptionId, payment, subscription: null, paymentRecord: record });
+  const subscriptions = getRazorpayClient().subscriptions;
+  const current = await subscriptions.fetch(record.subscriptionId);
+  if (!['cancelled', 'completed', 'expired'].includes(current?.status)) {
+    await cancelMonthlyRenewal(subscriptions, record.subscriptionId, { atCycleEnd: false });
+  }
+  return { note: 'full refund: this month ended and the subscription cancelled', result: 'access_ended' };
+}
+
+async function findRecordForPayment({ paymentId, payment }) {
+  const byPayment = await Database.getPaymentByPaymentId(paymentId);
+  if (byPayment) return byPayment;
+  // An earlier charge of a subscription: its row now holds a later payment id, so go through the invoice.
+  if (payment?.invoice_id) {
+    const invoice = await getRazorpayClient().invoices.fetch(payment.invoice_id);
+    if (invoice?.subscription_id) {
+      const bySubscription = await Database.getPaymentBySubscriptionId(invoice.subscription_id);
+      if (bySubscription) return bySubscription;
+    }
+  }
+  return payment?.order_id ? Database.getPaymentByOrderId(payment.order_id) : null;
+}
+
 async function processCreditPackWebhook({ eventType, payment, orderId, paymentRecord, creditPack }) {
+  // M4: a refunded pack (marked cancelled by processMoneyBackEvent) is never marked paid again by a late event.
+  if (paymentRecord?.status === 'cancelled') return;
   const hasCapturedPayment = isCapturedRazorpayPayment(payment);
   // A row already captured is never downgraded to 'failed' by a replayed or late event (same rule as both verify paths).
   const settled = paymentRecord?.status === 'captured';

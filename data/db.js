@@ -815,6 +815,89 @@ export const Database = {
     return (data || []).some((row) => refundRevocationMatchesPayment(row.metadata, { subscriptionId, paymentId }));
   },
 
+  /** The payments row that holds this Razorpay payment id (a subscription row holds only its latest charge). */
+  async getPaymentByPaymentId(paymentId) {
+    if (!paymentId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('*')
+      .eq('payment_id', paymentId)
+      .limit(1);
+    if (error) throw error;
+    return paymentOut((data || [])[0] || null);
+  },
+
+  /**
+   * One student's Razorpay subscription rows, newest first (M3, audit 15 Nov 2026): the open checkouts a second tap on
+   * Get Pro reuses, and every subscription Account's cancel must stop. sinceIso limits to rows created after it.
+   */
+  async listSubscriptionPayments({ userId, sinceIso = null, statuses = null, limit = 20 } = {}) {
+    if (!userId) return [];
+    let query = supabaseAdmin()
+      .from('payments')
+      .select('*')
+      .eq('user_id', userId)
+      .not('subscription_id', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(limit);
+    if (sinceIso) query = query.gte('created_at', sinceIso);
+    if (Array.isArray(statuses) && statuses.length) query = query.in('status', statuses);
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data || []).map(paymentOut);
+  },
+
+  /**
+   * Records a money event once (M4 refunds and disputes, M8 unattributed payments, audit 15 Nov 2026) as an audit_logs
+   * row keyed by metadata.key. A refund revocation (REFUND_REVOKED_PREMIUM_ACTION, target user) is what
+   * hasRefundPremiumRevocation reads, so unlike writeAudit this throws: the webhook must retry rather than lose it.
+   * Returns { recorded: true } for a new row, { recorded: false } when that key was already recorded.
+   */
+  async recordPaymentEvent({ action, targetType, targetId, key, metadata = {} }) {
+    if (!action || !key) throw new Error('payment_event_needs_action_and_key');
+    const { data: existing, error: readError } = await supabaseAdmin()
+      .from('audit_logs')
+      .select('id')
+      .eq('action', action)
+      .eq('metadata->>key', String(key))
+      .limit(1);
+    if (readError) throw readError;
+    if ((existing || []).length) return { recorded: false };
+    const { error } = await supabaseAdmin().from('audit_logs').insert({
+      actor_id: null,
+      actor_role: 'system',
+      action,
+      target_type: targetType || null,
+      target_id: targetId || null,
+      metadata: { ...(metadata || {}), key: String(key) },
+    });
+    if (error) throw error;
+    return { recorded: true };
+  },
+
+  /**
+   * M4: takes back the credits a refunded Razorpay pack bought, never below zero, recording the shortfall
+   * (mm_ai_take_back_refunded_credits, migration 20261115120000, NOT applied yet). Until that migration is applied this
+   * answers { ok: false, error: 'rpc_missing' } and the caller leaves the manual step in the refund runbook (REFUND-RUNBOOK.md).
+   */
+  async takeBackRefundedCredits({ userId, credits, reference, idempotencyKey, metadata = {} }) {
+    const { data, error } = await supabaseAdmin().rpc('mm_ai_take_back_refunded_credits', {
+      p_user_id: userId,
+      p_credits: credits,
+      p_reference: reference || null,
+      p_idempotency_key: idempotencyKey,
+      p_metadata: metadata || {},
+    });
+    if (error) {
+      if (error.code === 'PGRST202' || error.code === '42883' || /could not find the function|function .* does not exist/i.test(error.message || '')) {
+        return { ok: false, error: 'rpc_missing' };
+      }
+      throw error;
+    }
+    if (!data?.ok) return { ok: false, error: data?.error || 'take_back_failed' };
+    return { ok: true, clawedBack: Number(data.clawedBack || 0), shortfall: Number(data.shortfall || 0), idempotent: Boolean(data.idempotent) };
+  },
+
   // =====================================================================
   // CREATORS / PAYOUTS / ATTRIBUTION
   // =====================================================================
