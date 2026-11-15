@@ -170,7 +170,8 @@ export async function resolveMobReport(id, { remove = false } = {}) {
   if (error) throw error;
   if (!row) return 'not_found';
   let removed = null;
-  if (remove && row.mob_id && row.reported_id) removed = await rpc('mob_remove', { p_actor: null, p_mob_id: row.mob_id, p_target: row.reported_id });
+  // S1 (15 Nov): through the service, so the removed member is also kept out of the link they came in by.
+  if (remove && row.mob_id && row.reported_id) removed = await mobService().removeByModerator(row.mob_id, row.reported_id);
   const { error: e2 } = await db.from('mob_reports').update({ resolved_at: new Date().toISOString() }).eq('id', id);
   if (e2) throw e2;
   return removed === 'removed' ? 'removed' : 'resolved';
