@@ -35,11 +35,11 @@ const store = createSundayStore(() => supabaseAdmin());
 /**
  * The week's paper from the central bank (./draw.js): the Full mock selector with a seeded order (an HMAC of the Sunday and the
  * subject under the server secret), no personal exclusions, and the subject's last 8 Sunday papers left out. `exclude`: ids that
- * must not be drawn (the frozen ones, when a withdrawn question is replaced).
+ * must not be drawn (the frozen ones, when a withdrawn question is replaced); `count`: how many (the paper, or the missing few).
  */
-async function pickPaper(subject, week, { exclude = [] } = {}) {
+async function pickPaper(subject, week, { exclude = [], count } = {}) {
   return drawPaper({
-    secret: secret(), subject, week, extraExclude: exclude, readPaper: (period) => store.readPaper(period),
+    secret: secret(), subject, week, extraExclude: exclude, ...(Number.isInteger(count) && count > 0 ? { count } : {}), readPaper: (period) => store.readPaper(period),
     getQuestions: (s, n, opts) => Database.getQuestions(s, n, { mode: 'full', count: n, requestedCount: n, returnMeta: true, requireEvidence: false, ...opts }),
   });
 }

@@ -39,7 +39,7 @@ import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
 import { duMatchRank, duSearch } from '@/lib/du/collegeSearch.mjs';
-import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
+import { DU_SEARCH_ATTR, useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import { AddToMyColleges } from '@/components/colleges/MyColleges';
 import '@/components/du/du-flat.css';
 
@@ -325,6 +325,9 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
   // R8 TOOLS-15: while the subjects card fills the screen under the sticky bar, the bar's Edit key would scroll to where the
   // student already is. The bar marks it (data-editing) and steps that key aside; the live count and View courses stay.
   const [inSubjects, setInSubjects] = useState(false);
+  // A course in the link (a cutoff page, the landing's college pills) and no subjects yet: the course is named over the subject
+  // picker, which takes the focus, so the page never sits blank waiting for a tick (15 Nov).
+  const [linkedCourse, setLinkedCourse] = useState(null);
 
   // Load the data, then take the starting selection from the link (teaser, chapter review, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
@@ -350,6 +353,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
         setFolded(foldSubjects && (sel.languages.length + sel.domains.length > 0 || sel.gat));
         setData(index);
         const linkedCourse = index.groups.find((group) => group.id === params.get('course'));
+        setLinkedCourse(linkedCourse ? { id: linkedCourse.id, name: linkedCourse.name } : null);
         if (linkedCourse) {
           setQuery(linkedCourse.name);
           setOpenIds(new Set([linkedCourse.id]));
@@ -388,6 +392,26 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
   const score = parseScore(scoreText);
   const catIndex = data ? data.meta.categories.indexOf(category) : 0;
   const hasSelection = selection.languages.length + selection.domains.length > 0 || selection.gat;
+  const pickFor = !hasSelection && linkedCourse ? linkedCourse : null;
+
+  // Once, when the data lands with a linked course and nothing ticked: the subject finder takes the focus.
+  const focusedFor = useRef(null);
+  useEffect(() => {
+    if (!data || !pickFor || focusedFor.current === pickFor.id) return undefined;
+    focusedFor.current = pickFor.id;
+    const side = sideRef.current;
+    const finder = side?.querySelector('.du-finder input');
+    if (!side || !finder) return undefined;
+    // The finder's keyboard rule (useAboveKeyboard) lifts a focused finder to the top of the screen, which would hide the card's
+    // head and the line naming the course. For this one focus it is set aside (the student's own tap, and the keyboard it
+    // opens, get the rule as always); the card's head comes into view under the top bar instead, the finder below it.
+    finder.removeAttribute(DU_SEARCH_ATTR);
+    finder.focus({ preventScroll: true });
+    const top = side.getBoundingClientRect().top;
+    if (top < 56 || top > window.innerHeight * 0.4) window.scrollTo({ top: Math.max(0, top + window.scrollY - 76), behavior: 'instant' });
+    const restore = window.setTimeout(() => finder.setAttribute(DU_SEARCH_ATTR, ''), 600);
+    return () => { window.clearTimeout(restore); finder.setAttribute(DU_SEARCH_ATTR, ''); };
+  }, [data, pickFor]);
   const subjectCount = selection.languages.length + selection.domains.length + (selection.gat ? 1 : 0);
 
   const toggle = useCallback((kind, id) => {
@@ -548,6 +572,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
             </div>
           ) : null}
           <div className="du-side__body" id="du-side-body">
+          {pickFor ? <p className="du-sub du-linked">Pick your subjects to check <b>{pickFor.name}</b>.</p> : null}
           <div className="du-presets" role="group" aria-label="Quick start">
             <span>Quick start</span>
             {PRESETS.map((p) => (
