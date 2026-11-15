@@ -45,6 +45,10 @@ export default function AccountDeletionPage() {
             <p>If you pay for Pro every month through Google Play, we cancel its renewal with Google Play before we delete your account, so no further payment is taken. You can also cancel it yourself at any time in the Play Store, under Payments and subscriptions.</p>
           </section>
           <section>
+            <h2>A website subscription</h2>
+            <p>If you pay for Pro every month on the website, we cancel that subscription before we delete your account, so no further payment is taken, and you can also cancel it yourself first in Account.</p>
+          </section>
+          <section>
             <h2>How long it takes</h2>
             <p>We delete your account and study records within 30 days of your request. Deletion cannot be undone once complete. To cancel a pending request, email support@mockmob.in before it finishes.</p>
           </section>

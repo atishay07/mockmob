@@ -98,14 +98,16 @@ export function decodeInviteCookie(value) {
 /**
  * Where GET /r/<code> sends a visitor. { code, to: 'play' | 'join' | 'signup', url } where url is the Play listing for 'play'
  * and null otherwise (the route builds the same-origin urls). 'play': an Android browser with a valid friend code while
- * invites are on. 'join': a Mob invite code pasted here (while on). 'signup': everyone else, as before. code is the
- * normalised code or null; nothing but it ever reaches a url.
+ * invites are on and the Play listing is public. 'join': a Mob invite code pasted here (while on). 'signup': everyone else,
+ * as before. code is the normalised code or null; nothing but it ever reaches a url.
+ * P1 (audit 15 Nov 2026): the listing for in.mockmob.app is not public yet and answers 404, so Android goes to Play only
+ * once PLAY_LISTING_PUBLIC is exactly 'true'; until then it gets web sign-up with the invite kept, like everyone else.
  */
-export function inviteLanding({ rawCode, userAgent = '', live = false } = {}) {
+export function inviteLanding({ rawCode, userAgent = '', live = false, env = process.env } = {}) {
   const code = normaliseInviteCode(String(rawCode || '').slice(0, 16));
   if (!live || !code) return { code, to: 'signup', url: null };
   if (inviteKind(code) === 'mob_invite') return { code, to: 'join', url: null };
-  const url = isAndroidUserAgent(userAgent) ? playInviteUrl(code) : null;
+  const url = env?.PLAY_LISTING_PUBLIC === 'true' && isAndroidUserAgent(userAgent) ? playInviteUrl(code) : null;
   return url ? { code, to: 'play', url } : { code, to: 'signup', url: null };
 }
 

@@ -14,13 +14,16 @@
 //        MOCKMOB_STAGING_SUPABASE_URL and MOCKMOB_PRODUCTION_SUPABASE_URL (the URLs --target is checked against),
 //        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON (and PLAY_PACKAGE_NAME) when an account has a Google Play subscription: its
 //        renewal is cancelled with Google first; without the key such a request is refused and stays pending.
+//        RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET (the live keys) when an account has a website subscription on record: any
+//        that may still charge is cancelled at Razorpay first; without them such a request is refused and stays pending.
 // Needs migration 20261013120000_deletion_processor.sql applied on the target first.
 
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
+import Razorpay from 'razorpay';
 import {
   checkRunGuards, formatPlan, parseGraceDays, processRequests,
-  selectDueRequests, stopPlayRenewals, supabaseAdapter, supabaseAuthDeleter,
+  selectDueRequests, stopPlayRenewals, stopRazorpayRenewals, supabaseAdapter, supabaseAuthDeleter,
 } from '../../src/lib/server/accountDeletion.js';
 import { createPlayClient } from '../../src/lib/payments/playGoogle.js';
 
@@ -66,12 +69,18 @@ async function main() {
   // Google Play renewals are stopped before anything is deleted (accountDeletion.js stopPlayRenewals).
   const google = guard.apply && env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON ? createPlayClient({ env }) : null;
   const playRenewals = guard.apply ? (userId) => stopPlayRenewals({ adapter, google, userId }) : null;
+  // Website subscriptions too (audit M2, 15 Nov 2026): cancelled at Razorpay before anything is deleted.
+  const razorpay = guard.apply && env.RAZORPAY_KEY_ID && env.RAZORPAY_KEY_SECRET
+    ? new Razorpay({ key_id: env.RAZORPAY_KEY_ID, key_secret: env.RAZORPAY_KEY_SECRET })
+    : null;
+  const razorpayRenewals = guard.apply ? (userId) => stopRazorpayRenewals({ adapter, razorpay, userId }) : null;
 
   const run = await processRequests({
-    adapter, due, apply: guard.apply, deleteAuthUser, playRenewals,
+    adapter, due, apply: guard.apply, deleteAuthUser, playRenewals, razorpayRenewals,
     onPlan: (plan) => say(formatPlan(plan)),
     onDone: (done) => {
       for (const p of done.play || []) say(`  Google Play subscription ${p.token}: ${p.outcome}${p.state ? ` (was ${p.state})` : ''}`);
+      for (const r of done.razorpay || []) say(`  Website subscription ${r.id}: ${r.outcome}${r.state ? ` (was ${r.state})` : ''}`);
       say(`  completed; auth user ${done.auth.deleted ? `removed (${done.auth.ids.join(', ')})` : 'not found (nothing to remove)'}`);
     },
     onFail: (request, message) => console.error(`  request ${request.id} FAILED, left pending: ${message}`),

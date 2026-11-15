@@ -12,7 +12,8 @@ export const runtime = 'nodejs';
 // attached when it signs in (POST /api/referrals/claim) and only if it is new. The first friend's link is kept; a later one
 // does not replace it. A Mob invite code pasted here goes to its Mob page, which leaves its own pending invite. While invites
 // are off (REFERRALS_ENABLED) the link still lands on sign-up, with no cookie.
-// An Android browser (D182) is sent to the Play Store listing with the code in the Install Referrer (referrer=invite%3D<code>),
+// Only while PLAY_LISTING_PUBLIC is 'true' (P1, audit 15 Nov 2026: the listing answers 404 until it is public):
+// an Android browser (D182) is sent to the Play Store listing with the code in the Install Referrer (referrer=invite%3D<code>),
 // so the app reads it on its first launch and claims it after sign-in; the pending-invite cookie is still left, in case the
 // friend signs up on the web instead. Only a valid, normalised friend code is put in that URL. Everyone else, and every
 // Android visit with the switch off or no valid code, keeps the sign-up redirect.

@@ -8,6 +8,7 @@ import {
 import {
   amountMatchesPaymentRecord,
   hasPaidPaymentEvidence,
+  isFutureIso,
   referralAttributionFromCheckout,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
@@ -19,6 +20,21 @@ import { countStepOnce } from '@/lib/server/funnelOnceStore';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+
+// Razorpay subscription states after which no payment of it may grant Pro again (M1).
+const ENDED_SUBSCRIPTION_STATUSES = new Set(['cancelled', 'completed', 'expired', 'halted']);
+
+/**
+ * M1: whether this subscription has already used this payment, or a later one. Its row keeps the latest charge, so the
+ * same payment id, or a payment made before that charge, can only be a replay of an old verify body.
+ */
+function paymentAlreadyUsed({ paymentRecord, payment, paymentId }) {
+  if (!hasPaidPaymentEvidence(paymentRecord)) return false;
+  if (paymentRecord.paymentId === paymentId) return true;
+  const latestAt = Number(paymentRecord.rawPayment?.created_at);
+  const thisAt = Number(payment?.created_at);
+  return Number.isFinite(latestAt) && latestAt > 0 && Number.isFinite(thisAt) && thisAt > 0 && thisAt < latestAt;
+}
 
 export async function POST(request) {
   try {
@@ -200,6 +216,37 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
   const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
   const razorpaySubscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
 
+  // M1 (audit 15 Nov 2026): a verify body never expires (the signature stays valid), so replaying an old one must not
+  // grant again. An ended subscription grants nothing, and a payment this subscription has already used grants nothing new.
+  if (razorpaySubscription?.id === subscriptionId && ENDED_SUBSCRIPTION_STATUSES.has(razorpaySubscription.status)) {
+    return NextResponse.json({
+      error: 'This monthly plan has ended, so this payment cannot turn Pro on again. Nothing was changed.',
+      code: 'subscription_ended',
+    }, { status: 409 });
+  }
+  if (paymentAlreadyUsed({ paymentRecord, payment: razorpayPayment, paymentId })) {
+    const current = await Database.getUserById(userId);
+    if (current?.isPremium) {
+      // The webhook got here first (or this is a second tap): Pro is already on, so say so and write nothing.
+      return NextResponse.json({
+        ok: true,
+        alreadyApplied: true,
+        user: current,
+        payment: {
+          subscriptionId,
+          paymentId,
+          amount: paymentRecord.amount,
+          planId: paymentRecord.planId,
+          status: razorpaySubscription.status,
+        },
+      });
+    }
+    return NextResponse.json({
+      error: 'This payment was already used, and the month it paid for has ended. Nothing was changed.',
+      code: 'payment_already_used',
+    }, { status: 409 });
+  }
+
   // A payment the bank has authorised but Razorpay has not captured yet is not a failure. The
   // subscription.charged webhook turns Pro on once it is captured, so say so and write nothing.
   if (
@@ -242,6 +289,14 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
     payment: razorpayPayment,
     existingPremiumUntil: paymentRecord.accessUntil,
   });
+
+  // M1: Pro is never stored as active without an end date in the future.
+  if (!isFutureIso(premiumUntil)) {
+    return NextResponse.json({
+      error: 'The month this payment paid for has already ended. Nothing was changed.',
+      code: 'period_ended',
+    }, { status: 409 });
+  }
 
   await Database.updatePaymentBySubscriptionId(subscriptionId, {
     paymentId,

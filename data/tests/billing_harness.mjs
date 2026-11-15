@@ -31,7 +31,7 @@ const STUBS = {
   '@/lib/auth': 'export async function auth() { return globalThis.__mmSession; }',
   '@/lib/server/rateLimit': 'export async function checkPersistentRateLimit() { return { allowed: true }; }',
   '@/lib/referrals/offers': 'export async function resolveCreatorCode() { return null; }',
-  '@/services/credits/aiCreditWallet': 'export const getAICreditPack = () => null; export async function grantPurchasedAICredits() { return { ok: true }; }',
+  '@/services/credits/aiCreditWallet': 'export const getAICreditPack = (id) => (globalThis.__mmPacks || {})[id] || null; export async function grantPurchasedAICredits(x) { (globalThis.__mmGrants ||= []).push(x); return { ok: true }; }',
 };
 const ours = (url) => typeof url === 'string' && url.startsWith(ROOT) && !url.includes('/node_modules/');
 const isFile = (url) => { try { return statSync(fileURLToPath(url)).isFile(); } catch { return false; } };
@@ -147,6 +147,35 @@ export function createFakeDatabase() {
     },
     async getCreatorById() { return null; },
     async setPaymentEarning() {},
+    // Money events (security audit 15 Nov 2026, M3, M4, M8), with data/db.js semantics.
+    _audits: [],
+    // Credits a refunded pack can still give back, per user (the bonus credits the take-back RPC reads), and its ledger.
+    _bonus: new Map(),
+    _takeBacks: [],
+    takeBackRpcMissing: false,
+    async getPaymentByPaymentId(id) { return copy(payments.find((p) => p.paymentId === id)) || null; },
+    async listSubscriptionPayments({ userId, sinceIso = null, statuses = null, limit = 20 } = {}) {
+      return payments
+        .filter((p) => p.userId === userId && p.subscriptionId && (!sinceIso || p.createdAt >= new Date(sinceIso).getTime()) && (!statuses || statuses.includes(p.status)))
+        .sort((a, b) => b.createdAt - a.createdAt).slice(0, limit).map(copy);
+    },
+    async recordPaymentEvent({ action, targetType, targetId, key, metadata = {} }) {
+      if (db._audits.some((a) => a.action === action && a.metadata.key === String(key))) return { recorded: false };
+      const row = { action, targetType, targetId, metadata: { ...metadata, key: String(key) } };
+      db._audits.push(row);
+      if (action === 'billing.refund_revoked_premium' && targetType === 'user') revocations.push({ userId: targetId, metadata: row.metadata });
+      return { recorded: true };
+    },
+    async takeBackRefundedCredits({ userId, credits, idempotencyKey, metadata = {} }) {
+      if (db.takeBackRpcMissing) return { ok: false, error: 'rpc_missing' };
+      const done = db._takeBacks.find((t) => t.idempotencyKey === idempotencyKey);
+      if (done) return { ok: true, clawedBack: done.clawedBack, shortfall: done.shortfall, idempotent: true };
+      const have = db._bonus.get(userId) || 0;
+      const clawedBack = Math.min(have, credits);
+      db._bonus.set(userId, have - clawedBack);
+      db._takeBacks.push({ userId, idempotencyKey, clawedBack, shortfall: credits - clawedBack, metadata });
+      return { ok: true, clawedBack, shortfall: credits - clawedBack, idempotent: false };
+    },
     // The real claim decision (src/lib/server/webhookClaim.js) over an in-memory table, so the lease behaves as in production.
     // db.clock() is the time the claim sees; a test moves it to expire a lease.
     clock: () => Date.now(),
@@ -204,6 +233,7 @@ export async function loadBilling() {
     payments: new Map(),
     failNextInvoiceFetch: false,
     rejectCancel: null,
+    rejectCancelIds: new Set(),
     created: [],
   };
   client.invoices.fetch = async (id) => {
@@ -220,7 +250,9 @@ export async function loadBilling() {
   client.subscriptions.cancel = async (id, atCycleEnd) => {
     rz.calls.push(['subscriptions.cancel', id, atCycleEnd]);
     if (rz.rejectCancel) throw rz.rejectCancel;
-    return { id, status: 'active', has_scheduled_changes: true };
+    if (rz.rejectCancelIds?.has(id)) throw new Error(`simulated refusal for ${id}`);
+    if (!atCycleEnd && rz.subscriptions.has(id)) rz.subscriptions.set(id, { ...rz.subscriptions.get(id), status: 'cancelled' });
+    return { id, status: atCycleEnd ? 'active' : 'cancelled', has_scheduled_changes: Boolean(atCycleEnd) };
   };
   client.subscriptions.create = async (payload) => {
     rz.calls.push(['subscriptions.create', payload]);
@@ -242,6 +274,8 @@ export function resetWorld() {
   const db = createFakeDatabase();
   globalThis.__mmDb = db;
   globalThis.__mmSession = null;
+  globalThis.__mmPacks = {};
+  globalThis.__mmGrants = [];
   return db;
 }
 
