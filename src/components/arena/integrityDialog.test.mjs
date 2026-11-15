@@ -10,3 +10,6 @@ test('nothing reopens once the warning is resumed, or while the dialog is open',
   assert.equal(shouldReopenIntegrityDialog({ alert: null, open: false }), false);
   assert.equal(shouldReopenIntegrityDialog({ alert: { phase: 'warning' }, open: true }), false);
 });
+test('an ended session is not reopened, so a failed submission still leaves a way out', () => {
+  assert.equal(shouldReopenIntegrityDialog({ alert: { phase: 'terminated', count: 3 }, open: false }), false);
+});
