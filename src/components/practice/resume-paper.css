@@ -1,0 +1,28 @@
+/* "Resume your paper" (src/components/practice/ResumePaper.jsx): one quiet row per open paper, drawn as Today's Ask Mobi row
+   is (today.css .tmask): raised paper, a strong hairline, 20px corners, the whole row the door. Its key is a quiet outlined
+   pill, never volt (the page's Start is its one volt key). */
+.rsp { display: grid; gap: 10px; max-width: 640px; margin: 0 0 20px; }
+.rsp__row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px;
+  min-height: 64px; padding: 12px 12px 12px 16px;
+  border: 1px solid var(--a-line-strong, rgba(255, 255, 255, .16)); border-radius: 20px; background: var(--a-raised, #141714);
+  color: var(--a-ink, #f2f4ec); text-decoration: none; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--t-out, ease-out), border-color 160ms ease-out;
+  animation: rsp-in 240ms var(--t-out, ease-out) both;
+}
+.rsp__text { display: grid; gap: 3px; min-width: 0; }
+.rsp__text b { font: 650 16px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.rsp__text span { font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3, #a1a1aa); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.rsp__key {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  border: 1px solid var(--a-line-strong, rgba(255, 255, 255, .2)); color: var(--a-ink, #f2f4ec);
+  font: 700 14px/1 var(--font-display); white-space: nowrap;
+}
+.rsp__row:active { transform: scale(0.985); }
+.rsp__row:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .rsp__row:hover { border-color: var(--a-line-hover, rgba(255, 255, 255, .28)); }
+}
+@keyframes rsp-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+html[data-motion='reduced'] .rsp__row { animation: none; transition: none; }
+@media (prefers-reduced-motion: reduce) { .rsp__row { animation: none; transition: none; } }

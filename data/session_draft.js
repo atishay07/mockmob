@@ -1,8 +1,17 @@
 export const SUBMISSION_GRACE_MS = 120000;
-export function resumableDraft(saved, {generationKey, sessionId, now=Date.now()}={}) {
+/** Is this saved draft the paper the address names (by its session id, else its generation key)? */
+export function draftMatches(saved, {generationKey, sessionId}={}) {
   if(!saved?.selectionMeta?.sessionId || !Array.isArray(saved.questions) || !saved.questions.length || saved.questions.length>50 || !Number.isFinite(saved.endsAt))return false;
-  if(sessionId ? saved.selectionMeta.sessionId!==sessionId : saved.generationKey!==generationKey)return false;
-  return saved.endsAt>now || (saved.pendingSubmission===true && saved.endsAt+SUBMISSION_GRACE_MS>now);
+  return sessionId ? saved.selectionMeta.sessionId===sessionId : !!generationKey && saved.generationKey===generationKey;
+}
+/**
+ * A draft reopens while its paper can still be sent: before the deadline and through the server's upload grace after it,
+ * whether or not a submit was already tried (15 Nov B1). Reopened past the deadline, the runner's time-up submits these
+ * answers; before this rule a reload just after time-up threw them away and the paper was submitted empty.
+ */
+export function resumableDraft(saved, {generationKey, sessionId, now=Date.now()}={}) {
+  if(!draftMatches(saved,{generationKey,sessionId}))return false;
+  return saved.endsAt+SUBMISSION_GRACE_MS>now;
 }
 export function clearStudyDrafts(storage, userId) {
   if(!userId)return;

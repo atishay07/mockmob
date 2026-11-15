@@ -227,7 +227,35 @@ define('self', globalThis);
 define('document', document);
 define('navigator', { onLine: true, userAgent: 'node', language: 'en-IN', vibrate() { return true; } });
 define('location', location);
-define('history', { replaceState(state, title, url) { if (url) location.url = new URL(String(url), location.url); }, pushState() {} });
+// The session history: entries with their state, push and replace as a browser does them, and back() as a popstate on the
+// next timer turn (advance() runs it), so a test can press the phone's Back.
+export const historyStack = { entries: [{ state: null, url: location.url.href }], index: 0 };
+define('history', {
+  get state() { return historyStack.entries[historyStack.index]?.state ?? null; },
+  get length() { return historyStack.entries.length; },
+  replaceState(state, title, url) {
+    if (url) location.url = new URL(String(url), location.url);
+    historyStack.entries[historyStack.index] = { state, url: location.url.href };
+  },
+  pushState(state, title, url) {
+    if (url) location.url = new URL(String(url), location.url);
+    historyStack.entries.splice(historyStack.index + 1);
+    historyStack.entries.push({ state, url: location.url.href });
+    historyStack.index += 1;
+  },
+  back() { this.go(-1); },
+  go(delta) {
+    globalThis.setTimeout(() => {
+      const to = historyStack.index + delta;
+      if (to < 0 || to >= historyStack.entries.length) return;
+      historyStack.index = to;
+      location.url = new URL(historyStack.entries[to].url);
+      dispatch(windowTarget, new FakeEvent('popstate', { state: historyStack.entries[to].state }));
+    }, 0);
+  },
+});
+/** The phone's Back: one step back in history, delivered on the next timer turn. */
+export async function pressBack() { globalThis.history.back(); await advance(0); }
 define('localStorage', new FakeStorage());
 define('sessionStorage', new FakeStorage());
 define('matchMedia', (query) => ({ matches: /reduce|min-width/.test(query), media: query, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} }));
@@ -263,7 +291,7 @@ const STUBS = {
   '@/components/brand/ArenaCompanion': none,
   '@/components/brand/MobiReact': none,
   '@/components/questions/VoteControls': 'export function VoteControls() { return null; }',
-  '@/components/ui/Skeleton': "import React from '" + REACT + "'; const s = (name) => (props) => React.createElement('div', { 'data-stub': name }, props.message || props.label || props.title || null); export const PageSpinner = s('spinner'); export const ErrorState = s('error'); export const NoticeState = s('notice'); export const Skeleton = s('skeleton');",
+  '@/components/ui/Skeleton': "import React from '" + REACT + "'; const s = (name) => (props) => React.createElement('div', { 'data-stub': name }, props.title ? React.createElement('b', null, props.title) : null, props.message || props.label || null, props.actions || null); export const PageSpinner = s('spinner'); export const ErrorState = s('error'); export const NoticeState = s('notice'); export const Skeleton = s('skeleton');",
   '@/components/ui/Button': "import React from '" + REACT + "'; export function Button({ variant, ...props }) { return React.createElement('button', { type: 'button', ...props }); }",
   // Capture off: only what the runner recorded before slice 2. Visits carry no via; nothing else is recorded.
   'capture-off': 'export function nextEvent(events, clock, qid, type, value) { if (!clock || !clock.startedAt || events.length >= 5000 || !["answer", "visit", "mark"].includes(type)) return null; const prior = events.at(-1); return { seq: ((prior && prior.seq) || 0) + 1, qid, type, at: Math.max((prior && prior.at) || 0, clock.now - clock.startedAt), ...(type === "answer" ? { answer: value } : {}), ...(type === "mark" ? { marked: value === true } : {}) }; } export function onScreenQid(events, fallback) { return fallback; } export function endReason() { return null; } export function captureMeta() { return {}; } export function usePresenceCapture() {}',
@@ -398,21 +426,30 @@ export function paper(count = 6, { subject = 'accountancy' } = {}) {
  * Mount the runner for one session. `server` held sessions sync events with PUT /api/sessions; device-held sessions
  * (the default) carry a session ticket and send everything with the submit. Every request lands in `requests`.
  */
-export async function mount({ mode = 'nta', questions = paper(), capture = 'on', storage = 'device', durationMs = 3600000, events = [], params = {} } = {}) {
-  const startedAt = clock.now;
+export async function mount({ mode = 'nta', questions = paper(), capture = 'on', storage = 'device', durationMs = 3600000, events = [], params = {}, user = { id: 'student-1', isPremium: true }, replies = null, startedAt: served = null } = {}) {
+  const startedAt = served ?? clock.now;
   const requests = [];
-  const router = { pushed: [], push(url) { this.pushed.push(url); }, replace(url) { this.pushed.push(url); } };
+  // push and replace both land in pushed (as before); replaced holds the replaces only.
+  const router = { pushed: [], replaced: [], push(url) { this.pushed.push(url); }, replace(url) { this.pushed.push(url); this.replaced.push(url); } };
   const search = new URLSearchParams({ subject: 'accountancy', mode, count: String(questions.length), generationKey: `generation-${capture}-${mode}-${startedAt}`, ...params });
+  for (const [name, value] of Object.entries(params)) if (value === null) search.delete(name);
   location.url = new URL(`https://mockmob.test/test?${search}`);
+  historyStack.entries = [{ state: null, url: 'https://mockmob.test/dashboard' }, { state: null, url: location.url.href }];
+  historyStack.index = 1;
   globalThis.__runner = {
     params: search, router,
-    auth: { user: { id: 'student-1', isPremium: true }, status: 'authenticated', refreshSession: refresh },
-    // Every reply crosses the network as JSON, so the runner never holds the test's own objects.
-    net: async (url, init = {}) => JSON.parse(JSON.stringify(await reply(url, init))),
+    auth: { user, status: 'authenticated', refreshSession: refresh },
+    // Every reply crosses the network as JSON, so the runner never holds the test's own objects. A test's own `replies`
+    // answers first (it may throw, as the fetcher does); undefined falls through to the default.
+    net: async (url, init = {}) => {
+      const body = init.body ? JSON.parse(init.body) : null;
+      requests.push({ url, method: init.method || 'GET', body, keepalive: init.keepalive === true });
+      const own = replies ? await replies(url, { ...init, body }) : undefined;
+      return JSON.parse(JSON.stringify(own !== undefined ? own : await reply(url, init)));
+    },
   };
   async function reply(url, init) {
     const body = init.body ? JSON.parse(init.body) : null;
-    requests.push({ url, method: init.method || 'GET', body, keepalive: init.keepalive === true });
     if (url === '/api/sessions' && init.method === 'POST') {
       const view = questions.map(({ correctIndex, ...q }) => q);
       const meta = { sessionId: 'session-1', mode, requestedCount: questions.length, ...(storage === 'device' ? { sessionTicket: 'ticket-1', storage: 'device' } : {}), ...(mode === 'nta' ? { ntaPaper: { status: 'closest', items: [] } } : {}) };
