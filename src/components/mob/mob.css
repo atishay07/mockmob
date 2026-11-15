@@ -162,6 +162,9 @@ html[data-theme='light'] {
   padding: 10px 0 10px 2px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none;
 }
 .mob-page .mob-settings .ctl-toggle:hover { border-color: var(--a-line); }
+/* Tablet walk (16 Nov 2026): at 768 and 1024 px a switch's note ran 85 characters a line across the row; it keeps a reading
+   measure, the switch stays at the row's end. A phone's row is narrower than the cap. */
+.mob-page .mob-settings .ctl-toggle__text small { max-width: 64ch; }
 /* The den's own rows (the Mob's name, the explainer again) take the same hairline and the same left edge. */
 .mob-page .mob-settings > :is(.den-setting, .mx-replayrow) { border-top: 1px solid var(--a-line); border-radius: 0; }
 .mob-page .mob-settings > .den-setting { padding: 10px 0 10px 2px; }

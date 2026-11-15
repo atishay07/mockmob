@@ -19,6 +19,7 @@ import { MobTodayCard } from './mob/MobTodayCard';
 import { useMobEnabled } from './mob/MobFlag';
 import { useAuth } from './AuthProvider';
 import { SUBJECTS } from '@/../data/subjects';
+import { observeSideHeight } from '@/lib/stickySide.mjs';
 import './recovery/overview.css';
 
 // Counts in words up to ten, the way the app says them ("Two sessions saved.").
@@ -113,9 +114,15 @@ function ProgressOverview({ view }) {
   const noteList = notes.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{notes.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null;
 
   // Progress: this week (the anchor, out of the goal), the next step that earns a study day, then the evidence.
+  // Desk lane (16 Nov 2026, progress.css): from 1100 px the page is two columns under its header. The left (.pr-side) holds the
+  // trend and the headline numbers: the weeks, the next step, the Mob and Your record so far; it stays in view
+  // (src/lib/stickySide.mjs). The right (.pr-main) holds the breakdown: the study record, badges, bests by mock type, checks
+  // and playbook, then Your standing (page.jsx). Below 1100 px both wrappers are `display: contents`: the same items, the
+  // same order, the same page as before.
   return (
     <section className="pr ov rv rv--progress"><OneMobi>
       <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions and checks show." />
+      <div className="pr-side" ref={observeSideHeight}>
       {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
       {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
       {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} onLoad={setRhythm} between={<LearningNextAction compact onError={partFail} />} /> : null}
@@ -137,6 +144,8 @@ function ProgressOverview({ view }) {
           {noteList}
         </section>
       ) : null}
+      </div>
+      <div className="pr-main">
       {data ? <StudyProgress /> : null}
       {/* The badges and the personal bests: their own section, right after the record (BADGES-REFINE-1018). */}
       {data ? <StudyBadges key={`badges-${retryCount}`} rhythm={rhythm} rhythmFailed={partFailed} /> : null}
@@ -157,6 +166,7 @@ function ProgressOverview({ view }) {
           {data.note ? <p className="rv-foot">{data.note}</p> : null}
         </>
       ) : null}
+      </div>
     </OneMobi></section>
   );
 }

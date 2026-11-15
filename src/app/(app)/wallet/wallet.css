@@ -193,6 +193,43 @@
 .app-shell .wl-history__more[open] summary svg { transform: rotate(180deg); }
 .app-shell .wl-history__more .wl-list { border-top: 1px solid var(--a-line); }
 
+/* ---- desk lane (16 Nov 2026): two columns from 1100 px ---------------------------------------------------------------------
+   Under the header, the left column is what you hold: the balance with its free and kept parts, the refill date and the one
+   next action, then what credits buy. It stays in view below the top bar; a column taller than the window scrolls with the
+   page until its foot shows, then stays (src/lib/stickySide.mjs writes --side-h). The right column is how to get more and
+   where they went: the friend invite, the packs, Pro, the activity. Below 1100 px the wrappers are `display: contents`, so a
+   phone and a tablet get the same page as before; while the balance loads or has failed there are no wrappers at all. */
+.app-shell .wl-side, .app-shell .wl-main { display: contents; }
+@media (min-width: 1100px) {
+  :root:not([data-mobi-form='dock']) .app-shell .wl:has(> .wl-main) { grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); column-gap: 40px; align-items: start; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl:has(> .wl-main) > .pr-head { grid-column: 1 / -1; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl > .wl-side {
+    display: grid; gap: 36px; min-width: 0; grid-column: 1; align-self: start;
+    position: sticky; top: min(calc(var(--arena-topbar-h, 63px) + 20px), calc(100dvh - var(--side-h, 0px) - 20px));
+  }
+  :root:not([data-mobi-form='dock']) .app-shell .wl > .wl-main { display: grid; gap: 36px; min-width: 0; grid-column: 2; align-content: start; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-hero { padding: 24px 24px 22px; }
+
+  /* What credits buy, in the left column: the price list's rows (the phone's form), not four cells of 80 px. */
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-costlist { grid-template-columns: minmax(0, 1fr); border-block: 0; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost + .wl-cost { border-left: 0; border-top: 1px solid var(--a-line); }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost__num { font-size: 16px; letter-spacing: 0; }
+
+  /* The packs, in the right column: one row each (the phone's form), so the three compare down one edge: the size and what it
+     comes to on the left, the price on the right, the key under both when top-ups are open. */
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-packgrid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack { grid-row: auto; grid-template-rows: none; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; row-gap: 4px; padding: 16px 18px 14px; border-radius: 16px; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__top { grid-column: 1; grid-row: 1; justify-content: flex-start; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__value { grid-column: 1; grid-row: 2; font-size: 13.5px; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__price { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; align-items: flex-end; align-self: start; gap: 4px; margin: 0; text-align: right; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__per { flex-direction: column; align-items: flex-end; gap: 0; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__credits { font-size: 22px; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__rupees { font-size: 28px; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main :is(.wl-pack__key, .wl-pack__msg) { grid-column: 1 / -1; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-main .wl-pack__key { margin-top: 10px; }
+}
+
 @keyframes wl-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes wl-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes wl-spin { to { transform: rotate(360deg); } }
