@@ -315,6 +315,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      // 15 Nov (B10): &result=missing is a result that is not on this account (the server's 404); &result=down a failed read (503).
+      if (fixture.get('result') === 'missing') return json({ error: 'Attempt not found' }, 404);
+      if (fixture.get('result') === 'down') return json({ error: 'Failed to load attempt' }, 503);
       // &mobhold=1: a Mob paper the Mob is still sitting, as the server sends it (src/lib/mob/paperHold.mjs): marks only, the hold.
       if (fixture.get('mobhold') === '1') {
         const tag = { mobId: '00000000-0000-4000-8000-000000000001', weekStart: mobWeek(Date.now()) };
@@ -379,7 +382,16 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });
-    if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/interact')) return json({ ok: true });
+    // 15 Nov (T4): &report=fail refuses the report (500), &report=limit is the hourly limit (429), &report=dup a repeat the server
+    // already holds, &report=slow answers after 2.5 s so the sending state can be seen. Otherwise the server's yes (201).
+    if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/interact')) {
+      const report = fixture.get('report');
+      if (report === 'fail') return json({ error: 'Failed to record the report.' }, 500);
+      if (report === 'limit') return json({ error: 'Too many reports. Try again later.' }, 429);
+      if (report === 'dup') return json({ interaction_id: null, duplicate: true });
+      if (report === 'slow') return new Promise((resolve) => { setTimeout(() => resolve(json({ interaction_id: 'preview-report' }, 201)), 2500); });
+      return json({ interaction_id: 'preview-report' }, 201);
+    }
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/vote')) return state === 'vote-error' ? json({ error: 'Fixture vote failure' }, 503) : json({ score: 1, userVote: JSON.parse(init.body || '{}').vote_type });
     if (url.pathname === '/api/questions/upload') return json({ error: 'Preview only: no question was submitted. Your draft is still here.' }, 418);
     if (url.pathname === '/api/ai/usage') return json({ ok: true, isPaid: fixture.get('plan') === 'pro', freeRivalUsedToday: false, aiWallet: unreadableWallet('paid_ai_paused') });
@@ -414,7 +426,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json({ ...buildPracticeQuote({
         user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
-        inventory, allowance: { enabled: page.get('allowance') === 'on', used: false }, token: `preview-${Date.now()}`,
+        // ?allowance=on: today's included set is still free; ?allowance=used: it was used today (either way one opens tomorrow).
+        inventory, allowance: { enabled: page.get('allowance') === 'on' || page.get('allowance') === 'used', used: page.get('allowance') === 'used' }, token: `preview-${Date.now()}`,
         // ?firstmock=free: the first full mock in this subject is free (a fresh account); ?firstmock=used: it was taken.
         firstFullMock: page.get('firstmock') === 'free' ? 'available' : page.get('firstmock') === 'used' ? 'used' : null,
       }), offer });
@@ -806,6 +819,22 @@ function PreviewInner({ candidatePathway }) {
     const t = window.setTimeout(() => openUpgrade({ trigger: nudgeTrigger }), 900);
     return () => window.clearTimeout(t);
   }, [nudge, nudgeTrigger]);
+  // The result's install card (O6, 15 Nov 2026): &install=prompt plays the browser's install offer (a stand-in beforeinstallprompt
+  // whose dialog answers after 600 ms; &install=prompt-no answers no) and forgets this browser's earlier Not now, so the card
+  // shows on a phone-sized result. &install=fresh only forgets. No real install happens.
+  const installFixture = params.get('install');
+  useLayoutEffect(() => {
+    if (!installFixture) return undefined;
+    try { window.localStorage.removeItem('mm:install-offer:v1'); } catch { /* storage blocked */ }
+    if (!installFixture.startsWith('prompt')) return undefined;
+    const t = window.setTimeout(() => {
+      const event = new Event('beforeinstallprompt', { cancelable: true });
+      event.prompt = () => Promise.resolve();
+      event.userChoice = new Promise((resolve) => { setTimeout(() => resolve({ outcome: installFixture === 'prompt-no' ? 'dismissed' : 'accepted', platform: 'web' }), 600); });
+      window.dispatchEvent(event);
+    }, 400);
+    return () => window.clearTimeout(t);
+  }, [installFixture]);
   // The guide's own start (10 Nov 2026): &guide=auto makes this browser a student who finished onboarding five minutes ago and has
   // never seen the guide, so "Show me around" starts by itself a beat after Today (or Practice) has drawn. Every load with the
   // parameter starts it again; without it nothing here is touched. Storage in this browser only.
