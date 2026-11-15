@@ -74,7 +74,7 @@ export function parentLinkExpireBy(nowMs = Date.now()) {
 /**
  * Whether an open checkout's link may be sent to a parent: it must stop taking payments inside the day its checkout is handed
  * back for (so no late payment can land on a subscription the student has already replaced), and still have a while to run.
- * A Get Pro checkout has no expiry today, so its link is never sent out; a fresh, expiring one is made instead.
+ * A Get Pro checkout made before 15 Nov 2026 has no expiry, so its link is never sent out; a fresh, expiring one is made instead.
  */
 export function shareableOpenCheckout(subscription, { rowCreatedAt, reuseWindowMs, nowMs = Date.now() } = {}) {
   const expiresMs = Number(subscription?.expire_by) * 1000;

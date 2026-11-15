@@ -2,7 +2,7 @@ import { getRazorpayClient } from '@/lib/payments/razorpay';
 import { getRazorpayPlanId } from '@/lib/payments/plans';
 import { resolveCreatorCode } from '@/lib/referrals/offers';
 import { Database } from '@/../data/db';
-import { parentLinkExpireBy, shareableOpenCheckout } from '@/lib/payments/parentPay';
+import { PARENT_LINK_MIN_LEFT_MS, parentLinkExpireBy, shareableOpenCheckout } from '@/lib/payments/parentPay';
 
 // One way to open a monthly Pro checkout for a signed-in student, shared by Get Pro (/create-monthly-subscription) and
 // "Ask a parent to pay" (/api/billing/parent-link), so both make the same subscription with the same server-set notes and the
@@ -18,14 +18,22 @@ function razorpayMessage(err) {
 
 const refuse = (status, error, code) => ({ ok: false, status, error, ...(code ? { code } : {}) });
 
+// True when Razorpay's expire_by on an open checkout is near or past. A checkout with no expire_by (made before 15 Nov 2026)
+// never closes, so it is never "about to".
+function closesSoon(subscription, nowMs = Date.now()) {
+  const seconds = Number(subscription?.expire_by);
+  if (!Number.isFinite(seconds) || seconds <= 0) return false;
+  return seconds * 1000 - nowMs < PARENT_LINK_MIN_LEFT_MS;
+}
+
 /**
  * @param {object} input
  * @param {object} input.user        the signed-in student's row (Database.getUserById), never one named by the client
  * @param {object} input.plan        a live monthly plan (isLiveMonthlyPlan), chosen by the caller
  * @param {string|null} input.rawCode a referral code: tracked for creator attribution, never a discount on monthly
  * @param {boolean} input.parentLink  true for a link sent to a parent: an open checkout is handed back only when its own link
- *                                   stops taking payments inside the day it is handed back for, and a new one is made with
- *                                   Razorpay's expire_by set to that (src/lib/payments/parentPay.js)
+ *                                   stops taking payments inside the day it is handed back for (src/lib/payments/parentPay.js).
+ *                                   Every new checkout, Get Pro's too, is made with Razorpay's expire_by set to that.
  * @returns {Promise<{ ok: false, status: number, error: string, code?: string }
  *   | { ok: true, reused: boolean, subscriptionId: string, subscription: object, referral: object|null }>}
  *   `subscription` is Razorpay's own entity (a fresh fetch when handed back), so it carries `short_url` and `expire_by`.
@@ -69,10 +77,12 @@ export async function openMonthlyCheckout({ user, plan, rawCode = null, parentLi
       return refuse(503, 'We could not check your earlier checkout. Try again in a minute. Nothing was charged.', 'check_failed');
     }
     if (earlier?.status === 'created') {
-      // A parent may pay hours later, outside our page. A checkout whose link never expires (Get Pro's today) is not sent out:
-      // a day on, the next tap would start a second subscription while that link could still be paid. Get Pro's next tap
-      // hands back the newer, expiring one instead, so there is still one checkout to pay.
+      // A parent may pay hours later, outside our page. A checkout whose link never expires (Get Pro's before 15 Nov 2026) is
+      // not sent out: a day on, the next tap would start a second subscription while that link could still be paid. Get Pro's
+      // next tap hands back the newer, expiring one instead, so there is still one checkout to pay.
       if (parentLink && !shareableOpenCheckout(earlier, { rowCreatedAt: row.createdAt, reuseWindowMs: OPEN_CHECKOUT_REUSE_MS })) continue;
+      // Get Pro does not hand back a checkout about to stop taking payments; a fresh one is made instead.
+      if (!parentLink && closesSoon(earlier)) continue;
       return {
         ok: true,
         reused: true,
@@ -101,7 +111,9 @@ export async function openMonthlyCheckout({ user, plan, rawCode = null, parentLi
     total_count: plan.totalCount || 24,
     quantity: 1,
     customer_notify: 1,
-    ...(parentLink ? { expire_by: parentLinkExpireBy() } : {}),
+    // Every checkout stops taking its first payment inside the day it is handed back for (audit 15 Nov 2026): an abandoned
+    // Get Pro checkout used to stay open at Razorpay for ever. The parent link has always done this (src/lib/payments/parentPay.js).
+    expire_by: parentLinkExpireBy(),
     notes: {
       kind: plan.checkoutKind,
       userId,

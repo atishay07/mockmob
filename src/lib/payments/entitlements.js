@@ -104,14 +104,15 @@ export function referralAttributionFromCheckout({
   subscription = null,
   invoice = null,
 } = {}) {
-  const rawPayment = paymentRecord?.rawPayment || paymentRecord?.raw_payment || {};
   const rawSubscription = paymentRecord?.rawSubscription || paymentRecord?.raw_subscription || {};
+  const rawOrder = paymentRecord?.rawOrder || paymentRecord?.raw_order || {};
+  // Audit 15 Nov 2026: a referral or creator code comes only from notes our server wrote (the order or subscription it
+  // created) or from our own row. Checkout lets the payer set the payment's notes, so a stored or live payment's notes, and
+  // an invoice's, are never read: a payer-edited creatorId would otherwise credit a creator with an earning.
   const notes = {
+    ...(rawOrder?.notes || {}),
     ...(rawSubscription?.notes || {}),
-    ...(rawPayment?.notes || {}),
     ...(subscription?.notes || {}),
-    ...(invoice?.notes || {}),
-    ...(payment?.notes || {}),
   };
 
   const offerId = firstString(
