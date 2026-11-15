@@ -255,6 +255,7 @@ function pgClient(pg, hooks = {}) {
       eq(name, value) { params.push(value); where.push(`${column(name)} = $${params.length}`); return query; },
       in(name, list) { params.push(list); where.push(`${column(name)} = any($${params.length})`); return query; },
       insert(value) { op = 'insert'; row = value; return query; },
+      delete() { op = 'delete'; return query; },
       maybeSingle() { single = true; return query; },
       then(resolve, reject) { return run().then(resolve, reject); },
     };
@@ -269,6 +270,11 @@ function pgClient(pg, hooks = {}) {
           return { data: null, error: null };
         }
         const filter = where.length ? ` where ${where.join(' and ')}` : '';
+        if (op === 'delete') {
+          if (!where.length) throw new Error('stand-in client: a delete needs a filter');
+          await pg.query(`delete from public.${table}${filter}`, params);
+          return { data: null, error: null };
+        }
         if (options.head && options.count) {
           const { rows: [r] } = await pg.query(`select count(*)::int n from public.${table}${filter}`, params);
           return { data: null, count: r.n, error: null };
@@ -661,7 +667,7 @@ test('durable sessions: the free row is taken once; the next start pays; a paral
   }
 });
 
-test('STATUS.md 622 (15 Nov): durable start quoted free (firstFree=1) that loses the race is refused and charged nothing; a failed session start keeps the free paper for its retry', async () => {
+test('STATUS.md 622 (15 Nov): durable start quoted free (firstFree=1) that loses the race is refused and charged nothing; a failed session start gives the free paper back (SESS-FOLLOWUP 4)', async () => {
   process.env.LEARNING_SESSIONS_ENABLED = 'true';
   let reads = 0; let release; const bothRead = new Promise((r) => { release = r; });
   let gate = true; let failRpc = false;
@@ -694,17 +700,34 @@ test('STATUS.md 622 (15 Nov): durable start quoted free (firstFree=1) that loses
     assert.equal((await start('race', { key: key('r3') })).status, 200);
     assert.equal(await balanceOf(d, 'race'), 70);
 
-    // The session start fails after this start took the free row (accountancy): nothing is charged, and reopening the same
-    // paper (same key) finds the row its own and starts it free; a different key would pay, as an abandoned free start does.
+    // The session start fails after this start took the free row (accountancy): nothing is charged, and the row is given back
+    // (SESS-FOLLOWUP 4: before, it stayed with a paper that never started, so any other accountancy full mock was charged 50).
     failRpc = true;
     const broken = await start('race', { key: key('acc1'), subject: 'accountancy', firstFree: true });
     assert.equal(broken.status >= 500, true, JSON.stringify(broken.body));
     failRpc = false;
     assert.equal(await balanceOf(d, 'race'), 70);
-    const retried = await start('race', { key: key('acc1'), subject: 'accountancy', firstFree: true });
-    assert.equal(retried.status, 200, JSON.stringify(retried.body));
-    assert.equal(await balanceOf(d, 'race'), 70, 'the retry is the free paper');
-    assert.equal((await claims(d, 'race')).find((c) => c.kind === 'first_full_mock:accountancy').reference, retried.body.id);
+    assert.equal((await claims(d, 'race')).find((c) => c.kind === 'first_full_mock:accountancy'), undefined, 'the free row is given back');
+    assert.equal((await getQuote('race', { subject: 'accountancy' })).body.freeReason, 'first_full_mock_free', 'and the quote says free again');
+    // A different paper (another key) is now the free one; reopening it is the same free paper.
+    const other = await start('race', { key: key('acc2'), subject: 'accountancy', firstFree: true });
+    assert.equal(other.status, 200, JSON.stringify(other.body));
+    assert.equal(await balanceOf(d, 'race'), 70, 'the other paper is the free one');
+    assert.equal((await claims(d, 'race')).find((c) => c.kind === 'first_full_mock:accountancy').reference, other.body.id);
+    assert.equal((await start('race', { key: key('acc2'), subject: 'accountancy', firstFree: true })).body.id, other.body.id);
+    assert.equal(await balanceOf(d, 'race'), 70);
+
+    // The release keeps the row while a session with that id exists (a replay of the same start that did make it).
+    const { releaseFirstFullMock } = await import(pathToFileURL(path.join(ROOT, 'src', 'lib', 'server', 'firstFullMock.js')).href);
+    assert.equal(await releaseFirstFullMock(globalThis.__ffm.client, { userId: 'race', subject: 'accountancy', sessionId: other.body.id }), false);
+    assert.equal((await claims(d, 'race')).find((c) => c.kind === 'first_full_mock:accountancy').reference, other.body.id, 'kept');
+    // Another subject's row and another student's row are never touched; a failed read keeps the row.
+    await student(d, 'other');
+    await rows(d, "insert into learning_allowances(user_id,kind,period,reference) values('race','first_full_mock:economics','ever','gone1'),('other','first_full_mock:economics','ever','gone1')");
+    assert.equal(await releaseFirstFullMock(pgClient(d, { fail: ({ table }) => (table === 'recovery_sessions' ? { code: '57014', message: 'timeout' } : null) }), { userId: 'race', subject: 'economics', sessionId: 'gone1' }), false);
+    assert.equal((await rows(d, "select count(*)::int n from learning_allowances where reference='gone1'"))[0].n, 2, 'a failed read keeps it');
+    assert.equal(await releaseFirstFullMock(globalThis.__ffm.client, { userId: 'race', subject: 'economics', sessionId: 'gone1' }), true);
+    assert.deepEqual(await rows(d, "select user_id from learning_allowances where reference='gone1'"), [{ user_id: 'other' }]);
   } finally {
     delete process.env.LEARNING_SESSIONS_ENABLED;
     await d.close();

@@ -83,6 +83,23 @@ export async function claimFirstFullMock(db, { userId, subject, sessionId }) {
 }
 
 /**
+ * Gives the free row back after a durable start that took it and then failed to make its session (SESS-FOLLOWUP 4, 15 Nov
+ * 2026): the row is taken outside start_learning_session's transaction, so a failed session start would otherwise leave the
+ * subject's free full mock spent on a paper that never existed. Deleted only while no recovery_sessions row has this id (a
+ * parallel replay of the same start that did make the session keeps it). Never throws; true when the row was given back. A read
+ * or delete that fails keeps the row, as before this rule: reopening the same paper then still starts it free.
+ */
+export async function releaseFirstFullMock(db, { userId, subject, sessionId }) {
+  const kind = firstFullMockKind(subject);
+  if (!db || !kind || !userId || !sessionId) return false;
+  const session = await settle(db.from('recovery_sessions').select('id').eq('id', String(sessionId)).maybeSingle());
+  if (session?.error || session?.data) return false;
+  const gone = await settle(db.from('learning_allowances').delete()
+    .eq('user_id', userId).eq('kind', kind).eq('period', FIRST_FULL_MOCK_PERIOD).eq('reference', String(sessionId)));
+  return !gone?.error;
+}
+
+/**
  * Was this start already paid for? A device-held start charged on the code before this rule (same generation key, so the same
  * `practice_<id>` reference) keeps its charge and does not spend the free row on a paper that was paid. Throws on a failed read.
  */
