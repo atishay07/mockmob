@@ -343,5 +343,5 @@ test('L-01 the chat route replays a retried doubt without storing it again; free
   assert.match(chat, /if \(existing\?\.metadata\?\.thread\) keepMeta = true;/);
   const local = read('src/app/api/ai/mentor/local/route.js');
   assert.match(local, /keepThread = Boolean\(existing\?\.metadata\?\.thread\);/);
-  assert.match(local, /\.\.\.\(keepThread \? \{\} : \{ metadata: \{ mode: body\.mode \|\| 'guide' \} \}\)/);
+  assert.match(local, /\.\.\.\(keepThread \? \{\} : \{ metadata: \{ mode: savedModeOf\(body\.mode\) \} \}\)/); // L10: a known mode only
 });

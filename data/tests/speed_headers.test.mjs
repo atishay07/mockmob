@@ -36,5 +36,5 @@ test('small server cuts: the summary reads the user beside its other reads; the 
   assert.match(kc, /if \(publishedMemo\.off === off && publishedMemo\.value\) return publishedMemo\.value;/);
   assert.match(kc, /publishedMemo = \{ off, value \};/);
   // The suspended set is a new Set only when it is re-read, so the memo follows every refresh.
-  assert.match(kc, /reports = \{ at: now\(\), set: new Set\(rows\.map\(\(r\) => r\.card_id\)\) \};/);
+  assert.match(kc, /reports = \{ at: now\(\), set \};/); // L2: the set is built once per refresh (countedSuspensions)
 });
