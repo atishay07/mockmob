@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth';
 import { standingFor } from '@/lib/server/standing';
 import { createBoardCache } from '@/../data/ttl_memo';
 import { supabaseAdmin } from '@/lib/supabase';
-import { ownWithoutLate, readLatePapers, withoutLatePapers } from '@/lib/server/latePapers';
+import { ownWithoutLate, readLatePapersSoft, withoutLatePapers } from '@/lib/server/latePapers';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,11 +23,12 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
     }
     const rows = await board.rowsFor(session.user.id, {
-      // B8 (15 Nov 2026): a late paper counts for its student's own record only, never for a place on the board.
-      loadRows: async () => withoutLatePapers(await Database.getLeaderboard({ withProfile: false }), await readLatePapers(supabaseAdmin())),
+      // B8 (15 Nov 2026): a late paper counts for its student's own record only, never for a place on the board. A failed late read
+      // is logged and the board is served without the subtraction (SESS-FOLLOWUP 3): late papers are rare, a 500 is not.
+      loadRows: async () => withoutLatePapers(await Database.getLeaderboard({ withProfile: false }), await readLatePapersSoft(supabaseAdmin())),
       loadOwn: async (id) => {
         const own = await Database.getAttempts(id, { columns: ['score'] });
-        return ownWithoutLate({ tests: own.length, totalScore: own.reduce((sum, a) => sum + (Number(a.score) || 0), 0) }, await readLatePapers(supabaseAdmin(), { userId: id }));
+        return ownWithoutLate({ tests: own.length, totalScore: own.reduce((sum, a) => sum + (Number(a.score) || 0), 0) }, await readLatePapersSoft(supabaseAdmin(), { userId: id }));
       },
     });
     return NextResponse.json(standingFor(rows, session.user.id), { headers: { 'Cache-Control': 'private, no-store' } });

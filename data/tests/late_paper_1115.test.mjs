@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { PGlite } from '@electric-sql/pglite';
 import { LATE_WINDOW_MS, SUBMISSION_GRACE_MS, isLatePaper, lateSubmission, submitTiming } from '../late_paper.js';
 import { sealPractice } from '../practice_ticket.js';
-import { ownWithoutLate, readLatePapers, withoutLatePapers } from '../../src/lib/server/latePapers.js';
+import { ownWithoutLate, readLatePapers, readLatePapersSoft, withoutLatePapers } from '../../src/lib/server/latePapers.js';
 import { KEEP_AFTER_END_MS } from '../../src/lib/paper/draft.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -243,14 +243,13 @@ test('the board loses each student\'s late papers; a student with only late pape
   assert.deepEqual(ownWithoutLate({ tests: 3, totalScore: 210 }, [{ score: 90 }]), { tests: 2, totalScore: 120 });
   assert.deepEqual(ownWithoutLate({ tests: 3, totalScore: 210 }, []), { tests: 3, totalScore: 210 });
 
-  // The read: only attempts whose selection_meta holds late: true, paged, and only the caller's when asked.
+  // The read: only attempts whose selection_meta->>'late' is 'true' (the partial index's own predicate), paged, and only the caller's when asked.
   const calls = [];
   const db = { from(table) {
     const call = { table, filters: [] };
     calls.push(call);
     const q = {
       select(cols) { call.cols = cols; return q; },
-      contains(col, v) { call.filters.push(['cs', col, v]); return q; },
       eq(col, v) { call.filters.push(['eq', col, v]); return q; },
       order() { return q; },
       range(from, to) { call.range = [from, to]; return q; },
@@ -259,19 +258,28 @@ test('the board loses each student\'s late papers; a student with only late pape
     return q;
   } };
   assert.equal((await readLatePapers(db)).length, 1001);
+  const COLS = 'id,user_id,score,total,unattempted,completed_at,mode:selection_meta->>mode';
   assert.deepEqual(calls.map((c) => [c.table, c.cols, c.filters, c.range]), [
-    ['attempts', 'id,user_id,score', [['cs', 'selection_meta', { late: true }]], [0, 999]],
-    ['attempts', 'id,user_id,score', [['cs', 'selection_meta', { late: true }]], [1000, 1999]],
+    ['attempts', COLS, [['eq', 'selection_meta->>late', 'true']], [0, 999]],
+    ['attempts', COLS, [['eq', 'selection_meta->>late', 'true']], [1000, 1999]],
   ]);
   calls.length = 0;
   await readLatePapers(db, { userId: 'a' });
-  assert.deepEqual(calls[0].filters, [['cs', 'selection_meta', { late: true }], ['eq', 'user_id', 'a']]);
-  const failing = { from: () => { const q = { select: () => q, contains: () => q, order: () => q, range: () => q, then: (res, rej) => Promise.resolve({ data: null, error: new Error('boom') }).then(res, rej) }; return q; } };
+  assert.deepEqual(calls[0].filters, [['eq', 'selection_meta->>late', 'true'], ['eq', 'user_id', 'a']]);
+  const failing = { from: () => { const q = { select: () => q, eq: () => q, order: () => q, range: () => q, then: (res, rej) => Promise.resolve({ data: null, error: Object.assign(new Error('boom'), { code: '57014' }) }).then(res, rej) }; return q; } };
   await assert.rejects(readLatePapers(failing), /boom/);
-  // The route applies both.
+  // SESS-FOLLOWUP 3: the board's read fails soft: logged with the code only, null, and the board is served without the subtraction.
+  const logged = [];
+  assert.equal(await readLatePapersSoft(failing, {}, (...a) => logged.push(a)), null);
+  assert.deepEqual(logged, [['late_papers_read_failed', '57014']]);
+  assert.equal((await readLatePapersSoft(db, { userId: 'a' }, () => assert.fail('no log on success'))).length, 1001);
+  assert.deepEqual(withoutLatePapers(rows, null), rows);
+  assert.deepEqual(ownWithoutLate({ tests: 3, totalScore: 210 }, null), { tests: 3, totalScore: 210 });
+  // The route applies both, through the soft read (before this it used the throwing read, so a failed late read made the board 500).
   const route = file('src/app/api/leaderboard/route.js');
-  assert.match(route, /withoutLatePapers\(await Database\.getLeaderboard\(\{ withProfile: false \}\), await readLatePapers\(supabaseAdmin\(\)\)\)/);
-  assert.match(route, /ownWithoutLate\(.*readLatePapers\(supabaseAdmin\(\), \{ userId: id \}\)\)/);
+  assert.match(route, /withoutLatePapers\(await Database\.getLeaderboard\(\{ withProfile: false \}\), await readLatePapersSoft\(supabaseAdmin\(\)\)\)/);
+  assert.match(route, /ownWithoutLate\(.*readLatePapersSoft\(supabaseAdmin\(\), \{ userId: id \}\)\)/);
+  assert.doesNotMatch(route, /readLatePapers\(/);
 });
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -306,11 +314,21 @@ test('the cohort refresh with the late filter counts the same answers as v2, les
     const answered = async () => (await db.query("select n_answered from public.question_option_stats where qid='cq1'")).rows[0]?.n_answered;
     await db.query('select public.refresh_question_option_stats()');
     assert.equal(await answered(), 12, 'v2 (today on production) counts the 2 late papers');
+    const lateIndex = async () => (await db.query("select indexdef from pg_indexes where indexname = 'attempts_late_idx'")).rows[0]?.indexdef || null;
+    assert.equal(await lateIndex(), null);
     await db.exec(file(MIGRATION));
+    await db.exec(file(MIGRATION)); // idempotent
     await db.query('select public.refresh_question_option_stats()');
     assert.equal(await answered(), 10, 'with the migration they are out');
+    // SESS-FOLLOWUP 3: the late papers' partial index, whose predicate is the board's own late read, so the planner can use it.
+    assert.match(await lateIndex(), /WHERE \(\(selection_meta ->> 'late'::text\) = 'true'::text\)/);
+    await db.exec('set enable_seqscan = off');
+    const plan = (await db.query("explain select id, user_id, score from public.attempts where selection_meta->>'late' = 'true' order by id")).rows.map((r) => r['QUERY PLAN']).join(' | ');
+    assert.match(plan, /attempts_late_idx/, plan);
+    await db.exec('reset enable_seqscan');
     await db.exec(file(UNDO));
     await db.query('select public.refresh_question_option_stats()');
     assert.equal(await answered(), 12);
+    assert.equal(await lateIndex(), null, 'the undo drops it');
   } finally { await db.close(); }
 });

@@ -7,6 +7,12 @@
 -- Safe to apply in any order with the code: until it is applied, a late paper is one more answer among at least 10.
 -- NOT APPLIED to any remote database by this change.
 -- Undo: supabase/undo/20261115200000_late_papers_out_of_cohort_stats.undo.sql (restores the v2 body).
+--
+-- Also (SESS-FOLLOWUP 3): a partial index of the late papers. src/lib/server/latePapers.js readLatePapers reads every late paper
+-- for the points board about every 2 minutes on each server; without it that read scans all attempts. Few rows, so it is small;
+-- its predicate is the read's own filter (selection_meta->>'late' = 'true'). Building it reads the attempts table once.
+create index if not exists attempts_late_idx on public.attempts ((selection_meta->>'late')) where selection_meta->>'late' = 'true';
+
 create or replace function public.refresh_question_option_stats()
 returns jsonb
 language plpgsql

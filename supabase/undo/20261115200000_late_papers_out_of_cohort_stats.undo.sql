@@ -2,6 +2,8 @@
 -- supabase/migrations on purpose, so the Supabase CLI never applies it by itself.
 -- Restores the v2 body of public.refresh_question_option_stats() (20261016130000_question_option_stats_refresh_v2.sql): late
 -- papers count in the cohort table again. The table is untouched; the next refresh rewrites its rows.
+-- And drops the late papers' partial index (the points board's late read then scans attempts again, as before).
+drop index if exists public.attempts_late_idx;
 create or replace function public.refresh_question_option_stats()
 returns jsonb
 language plpgsql
