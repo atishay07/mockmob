@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { SignupCard } from '@/components/ui/SignupCard';
+import GoogleOneTap from '@/components/auth/GoogleOneTap';
 import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
 
@@ -43,6 +44,8 @@ export default function LoginPageClient({ invite = false }) {
       ]}
     >
       <SignupCard mode="login" />
+      {/* O7: off until NEXT_PUBLIC_GOOGLE_CLIENT_ID is set; draws nothing and loads nothing until then. */}
+      <GoogleOneTap context="signin" />
     </AuthShell>
   );
 }

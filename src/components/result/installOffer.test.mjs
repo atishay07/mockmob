@@ -18,9 +18,12 @@ const fresh = { offeredOn: null, dismissedAt: null };
 const phone = { attemptId: 'a1', desktop: false, standalone: false, installed: false, remembered: fresh };
 
 test('the in-app test is the sign-up card\'s own', () => {
+  // W3-A (15 Nov): the card keeps no copy; it reads this one through src/lib/auth/inAppBrowser.mjs.
   const card = readFileSync(`${root}src/components/ui/SignupCard.jsx`, 'utf8');
-  const theirs = card.match(/const IN_APP_BROWSER_RE = (\/.+\/[a-z]*);/)[1];
-  assert.equal(String(IN_APP_BROWSER_RE), theirs, 'same pattern as SignupCard.jsx');
+  const helper = readFileSync(`${root}src/lib/auth/inAppBrowser.mjs`, 'utf8');
+  assert.doesNotMatch(card, /IN_APP_BROWSER_RE = /, 'no second copy in the card');
+  assert.match(card, /from '@\/lib\/auth\/inAppBrowser\.mjs'/);
+  assert.match(helper, /import \{ IN_APP_BROWSER_RE \} from '\.\.\/\.\.\/components\/result\/installOffer\.mjs';/);
   for (const ua of [INSTAGRAM_ANDROID, INSTAGRAM_IPHONE, FACEBOOK_IPHONE]) assert.equal(isInAppBrowser(ua), true, ua);
   for (const ua of [ANDROID_CHROME, IPHONE_SAFARI, IPHONE_CHROME, DESKTOP_CHROME]) assert.equal(isInAppBrowser(ua), false, ua);
 });

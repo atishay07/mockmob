@@ -41,6 +41,13 @@ export async function signInWithGoogle(redirectTo) {
   });
 }
 
+// O7, Google One Tap (src/components/auth/GoogleOneTap.jsx): Google's ID token signs in here without leaving the page.
+// `nonce` is the raw value; Google was given its SHA-256 hex (src/lib/auth/oneTap.mjs).
+export async function signInWithGoogleIdToken(token, nonce) {
+  const supabase = getSupabaseBrowserClient();
+  return supabase.auth.signInWithIdToken({ provider: 'google', token, nonce });
+}
+
 export async function signInWithEmailOtp(email, redirectTo) {
   const res = await fetch('/api/auth/email-login', {
     method: 'POST',

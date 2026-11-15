@@ -264,3 +264,20 @@ html[data-theme] .mm.auth .auth__card .mm-btn--secondary:is(:active, [disabled])
 @media (hover: hover) {
   html[data-theme] .mm.auth .auth__card .mm-btn--secondary:not([disabled]):hover { box-shadow: inset 0 0 0 1px var(--ink-3), 0 var(--btn-edge) 0 var(--ink-3), var(--sh-2); }
 }
+
+/* ---------- W3-A (15 Nov 2026): sign-in for cold visitors ---------- */
+/* O8: "Last time you used Google. Not you?" on /login, a quiet line above the way it names. */
+.auth-card__last { margin: -0.25rem 0 -0.25rem; font-size: 0.9375rem; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+.auth-card__last-who { white-space: nowrap; color: var(--ink); font-weight: 600; }
+/* "Not you?" sits in the sentence: an inline key whose padding gives the 44 px target without stretching the line. */
+.auth-card__last .auth-card__textbtn { display: inline; min-height: 0; padding: 0.75rem 0.25rem; margin: -0.75rem 0; font-size: inherit; }
+/* F1: in an in-app browser, the line under the email key and the iPhone's Google line: quiet facts, centred like the fine print. */
+.auth-card__inapp { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); text-align: center; text-wrap: balance; }
+/* F1: the Android key that reopens the page in Chrome is a link drawn as the quiet key, so it takes the card's key ring too. */
+.auth-card a.mm-btn { text-decoration: none; }
+html[data-theme] .mm.auth .auth__card a.mm-btn--secondary.auth-card__chrome { color: var(--ink); }
+/* O8: a returning Google user's key is the volt one; the G keeps its own colours on a white disc, as Google's mark asks. */
+.auth-card__google-key--primary .auth-card__google { box-sizing: content-box; padding: 3px; border-radius: 999px; background: #fff; }
+/* O9: "Did you mean asha@gmail.com?" under the field, with its two text keys on the next line. */
+.auth-card__typo { display: grid; gap: 0.125rem; margin-top: -0.5rem; font-size: 0.9375rem; font-weight: 600; line-height: 1.45; color: var(--ink); overflow-wrap: anywhere; }
+.auth-card__typo-keys { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin-left: -0.25rem; }
