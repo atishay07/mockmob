@@ -13,6 +13,8 @@ import { firstMockNotice, isFirstMockRefusal } from '@/lib/firstMockNotice.mjs';
 import { forgetFirstFullMock } from '@/lib/useFirstFullMock';
 import { useAuth } from '@/components/AuthProvider';
 import { startMobPaper } from '@/components/mob/useMob';
+import { startSundayMock } from '@/components/sunday/useSunday';
+import { RUNNER_CODES, runnerProblem as sundayProblem } from '@/lib/sundayMock.mjs';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { fineTuneScope, getMode, isValidModeId, practiceCreditCost, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
@@ -542,12 +544,16 @@ function TestRunner() {
         const receipt = new URLSearchParams(window.location.search).get('startReceipt');
         if (receipt) qs.set('startReceipt', receipt);
         // A Mob paper (/test?mob=1) starts on the Mob's route: the server picks the frozen weekly questions and the key.
-        const payload = launch.get('mob') === '1' ? await startMobPaper(receipt, { mobId: launch.get('mobId'), extraId: launch.get('extra'), gameId: launch.get('game') }) : await apiPost('/api/sessions', Object.fromEntries(qs));
+        // A Sunday Mock (/test?sunday=1) starts on its own: the server picks this week's paper and the key; only the subject goes.
+        const payload = launch.get('mob') === '1' ? await startMobPaper(receipt, { mobId: launch.get('mobId'), extraId: launch.get('extra'), gameId: launch.get('game') })
+          : launch.get('sunday') === '1' ? await startSundayMock(subjectId, receipt)
+            : await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
         const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);
         setSelectionMeta(meta);
-        const back = launch.get('mob') === '1' ? { label: 'Back to your Mob', href: '/mob', primary: true } : { label: 'Back to Practice', href: practiceLink, primary: true };
+        const back = launch.get('mob') === '1' ? { label: 'Back to your Mob', href: '/mob', primary: true }
+          : launch.get('sunday') === '1' ? { label: 'Back to Sunday Mock', href: '/sunday', primary: true } : { label: 'Back to Practice', href: practiceLink, primary: true };
         if (!loadedQuestions.length) {
           setProblem({ kind: 'content', title: 'This paper did not open', message: meta?.message || 'No checked questions are available for this selection. Nothing was charged.', keys: [back] });
           setLoading(false);
@@ -638,6 +644,12 @@ function TestRunner() {
         if (e?.message === 'SESSION_ALREADY_SUBMITTED' && e?.body?.detail?.attemptId) {
           // Back from a result to its paper's address: the result again, never a code (B5).
           router.replace(`/result/${encodeURIComponent(e.body.detail.attemptId)}`);
+          return;
+        }
+        if (launch.get('sunday') === '1' && RUNNER_CODES.has(e?.message)) {
+          // A Sunday Mock the server would not open (not open yet, closed, not your subject, time over): the reason in plain words.
+          setProblem(sundayProblem(e));
+          setLoading(false);
           return;
         }
         if (isNtaMode && e?.body?.message) {
@@ -1316,6 +1328,8 @@ function TestRunner() {
     : error;
   // A Mob paper (/test?mob=1) is the Mob's weekly paper, not Quick practice, whatever the mode in the address says.
   const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : mode.label;
+  // A Sunday Mock (/test?sunday=1) is this week's Sunday paper, not a Full mock, in the header.
+  const headerLabel = searchParams.get('sunday') === '1' ? 'Sunday Mock' : attemptLabel;
   const subjectLabel = displayLabel(subjectId);
 
   const chipStateFor = (qid) => {
@@ -1888,7 +1902,7 @@ function TestRunner() {
             <Icon name="x" />
           </button>}
           <div className="nta-title-stack">
-            <span>{attemptLabel}</span>
+            <span>{headerLabel}</span>
             <strong>{subjectLabel}</strong>
           </div>
         </div>

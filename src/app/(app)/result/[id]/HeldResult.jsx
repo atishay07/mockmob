@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import ResultHero from '@/components/result/ResultHero';
 import { MobResultRow } from '@/components/mob/MobResultRow';
+import { SundayResultRow } from '@/components/sunday/SundayResultRow';
 import { AppIcon } from '@/components/ui/Glyph';
 import { receiptLine } from '@/../data/result_next_move.mjs';
 import { practiceSubjectId } from '@/lib/paperCopy.mjs';
@@ -38,7 +39,9 @@ export default function HeldResult({ attempt, subjectName, celebrations = 'full'
   const max = n(attempt.total) * 5;
   const scored = right * 5 - wrong;
   const marks = { scored, max, gap: max - scored, gapWrong: wrong * GAP.wrong, gapBlank: blank * GAP.blank, right, wrong, blank };
-  const finding = { line: "Your marks are in. Which answers were right, and why, opens when your Mob's paper closes." };
+  // A Sunday Mock is held for everyone, not for a Mob (src/lib/sundayMock.mjs): its own line and row.
+  const sunday = hold.kind === 'sunday';
+  const finding = { line: sunday ? 'Your marks are in. Which answers were right, and why, opens at 10:00 PM, when the Sunday Mock closes.' : "Your marks are in. Which answers were right, and why, opens when your Mob's paper closes." };
   const receipt = receiptLine({ subjectName, mode: attempt.mode || 'quick', completedAt: attempt.completedAt });
   const reaction = mobiReaction(attempt, { celebrations });
   const tag = attempt.selectionMeta?.mobPaper || { mobId: hold.mobId, weekStart: hold.weekStart, ...(hold.extraId ? { extraId: hold.extraId } : {}) };
@@ -57,7 +60,7 @@ export default function HeldResult({ attempt, subjectName, celebrations = 'full'
           </p>
         </div>
       </section>
-      <MobResultRow mobPaper={tag} />
+      {sunday ? <SundayResultRow attempt={attempt} /> : <MobResultRow mobPaper={tag} />}
       <nav className="rp-links" aria-label="While you wait">
         <Link href={`/dashboard?${new URLSearchParams({ subject: practiceSubjectId(attempt.subject), mode: 'quick' })}`}><AppIcon name="practice" size={16} />Practise {subjectName || 'this subject'} while you wait</Link>
         <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>

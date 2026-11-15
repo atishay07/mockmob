@@ -29,6 +29,7 @@ import { DenMoments } from './DenMoments';
 import { CHAIN_HREF, MOB_CHAIN_HREF, SHELF_HREF, gameCardHref, gameHref, podiumHref } from './denRoutes';
 import { FORMAT_COPY, isMock, isRace } from '../v3/play/formats.mjs';
 import DailyFiveStrip from '@/components/daily/DailyFiveStrip';
+import SundayDenBlock from '@/components/sunday/SundayDenBlock';
 import './den.css';
 
 const SEEN_KEY = 'mm:den:seen-notices';
@@ -388,6 +389,8 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings, war
 
       <QuestStrip quest={v3.quest} href={MOB_CHAIN_HREF} />
       <DailyFiveStrip mobId={data.id} size={size} />
+      {/* The Sunday Mock sat together (15 Nov 2026): who in the Mob sat this week's paper, by the Mob's own privacy. */}
+      <SundayDenBlock mobId={data.id} />
       <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
       {toast ? <p className="den-toast" role="status" aria-live="polite">{toast}</p> : null}
       {toolsSlot}
