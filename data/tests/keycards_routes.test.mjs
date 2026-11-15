@@ -29,11 +29,12 @@ const decks = (cards = CARDS) => ({
   disabled: [],
 });
 
-function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'], cards = CARDS, syllabus = syllabusFrom(null) } = {}) {
+function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'], cards = CARDS, syllabus = syllabusFrom(null), created = {} } = {}) {
   const db = fakeDb(tables);
   const kc = createKeycards({
     db, decks: decks(cards), syllabus, now: () => clock.t,
-    getUser: async (id) => ({ id, isPremium: typeof isPro === 'function' ? isPro(id) : isPro, subjects }),
+    // Accounts are 30 days old unless the test says otherwise (L2 counts a reporter's account age).
+    getUser: async (id) => ({ id, isPremium: typeof isPro === 'function' ? isPro(id) : isPro, subjects, createdAt: created[id] ?? T0 - 30 * DAY }),
     inventory: async () => ({ chapterCounts: { business_studies: { Planning: 120, Staffing: 40 } } }),
     reviewRecord: async () => ({ fake: true }),
     marksLostRows: () => [{ subject: 'business_studies', name: 'Staffing', lost: 18 }, { subject: 'economics', name: 'Money & Banking', lost: 6 }],
@@ -187,8 +188,11 @@ test('GET /api/keycards/line: linked first, matched next; Free gets 3 questions 
   for (const id of ['q-linked', 'q-match', 'q-3', 'q-4']) assert.equal((await pro.kc.line('u1', id)).http, 200);
 });
 
-test('POST /api/keycards/report: three distinct students suspend a card for everyone', async () => {
-  const tables = {};
+const attemptsOf = (users) => users.map((u, i) => ({ id: `att-${u}-${i}`, user_id: u, completed_at: new Date(T0 - 2 * DAY).toISOString() }));
+const inDeck = async (f, id) => (await f.kc.deck('u9', 'business_studies.planning')).body.cards.some((c) => c.id === id);
+
+test('POST /api/keycards/report (L2): five established students suspend a card for everyone; four do not', async () => {
+  const tables = { attempts: attemptsOf(['u1', 'u2', 'u3', 'u4', 'u5']) };
   const f = setup({ tables, isPro: true });
   const id = PLANNING[0].id;
   assert.equal((await f.kc.report('u1', { cardId: id, reason: '' })).http, 422);
@@ -196,12 +200,38 @@ test('POST /api/keycards/report: three distinct students suspend a card for ever
   assert.equal((await f.kc.report('u1', { cardId: 'kc.none', reason: 'typo' })).http, 404);
   await f.kc.report('u1', { cardId: id, reason: 'The page number is wrong' });
   await f.kc.report('u1', { cardId: id, reason: 'Again from the same student' });
-  await f.kc.report('u2', { cardId: id, reason: 'Typo' });
-  assert.ok((await f.kc.deck('u9', 'business_studies.planning')).body.cards.some((c) => c.id === id), 'two students are not enough');
-  await f.kc.report('u3', { cardId: id, reason: 'Not in my book' });
-  const deck = await f.kc.deck('u9', 'business_studies.planning');
-  assert.equal(deck.body.cards.some((c) => c.id === id), false);
+  for (const u of ['u2', 'u3', 'u4']) await f.kc.report(u, { cardId: id, reason: 'Typo' });
+  assert.ok(await inDeck(f, id), 'four students are not enough');
+  await f.kc.report('u5', { cardId: id, reason: 'Not in my book' });
+  assert.equal(await inDeck(f, id), false);
   assert.equal((await f.kc.review('u9', { cardId: id, rating: 3, mode: 'study' })).http, 404);
+});
+
+test('L2: throwaway accounts (under a day old, or with no finished attempt) never take a card off another student\'s deck, but their reports are stored', async () => {
+  const fresh = ['n1', 'n2', 'n3'];
+  const noAttempt = ['z1', 'z2'];
+  const f = setup({ isPro: true, tables: { attempts: attemptsOf([...fresh, 'u1', 'u2']) }, created: Object.fromEntries(fresh.map((u) => [u, T0 - 60 * 60 * 1000])) });
+  const id = PLANNING[1].id;
+  for (const u of [...fresh, ...noAttempt, 'u1', 'u2']) assert.equal((await f.kc.report(u, { cardId: id, reason: 'Wrong' })).http, 200);
+  assert.ok(await inDeck(f, id), 'seven reports, only two from established students');
+  assert.equal(f.db.tables.key_card_reports.filter((r) => r.card_id === id).length, 7, 'every report is recorded');
+});
+
+test('L2: one reporter counts toward suspension for only 3 cards a day; the route\'s daily cap refuses before anything is stored', async () => {
+  const many = ['u1', 'u2', 'u3', 'u4', 'u5'];
+  const f = setup({ isPro: true, tables: { attempts: attemptsOf(many) } });
+  // Five established students each report the same four cards in one day: the first three count, the fourth does not.
+  for (const u of many) for (const c of PLANNING.slice(2, 6)) { f.clock.t += 1000; await f.kc.report(u, { cardId: c.id, reason: 'Wrong' }); }
+  for (const c of PLANNING.slice(2, 5)) assert.equal(await inDeck(f, c.id), false, c.id);
+  assert.ok(await inDeck(f, PLANNING[5].id), 'a fourth card the same day does not count');
+  const before = f.db.tables.key_card_reports.length;
+  assert.deepEqual(await f.kc.report('u1', { cardId: PLANNING[7].id, reason: 'Wrong' }, { take: async () => false }), { http: 429, body: { error: 'REPORT_LIMIT', message: 'You have sent a lot of reports today. Try again tomorrow.' } });
+  assert.equal(f.db.tables.key_card_reports.length, before);
+  let took = 0;
+  assert.equal((await f.kc.report('u1', { cardId: 'kc.none', reason: 'x' }, { take: async () => { took += 1; return true; } })).http, 404);
+  assert.equal(took, 0, 'a malformed report uses none of the cap');
+  const route = (await import('node:fs')).readFileSync(new URL('../../src/app/api/keycards/report/route.js', import.meta.url), 'utf8');
+  assert.match(route, /route: '\/api\/keycards\/report:day', limit: REPORTS_A_DAY, windowMs: DAY_MS, identityOnly: true, keyParts: \[userId\],\s+persistent: process\.env\.NODE_ENV === 'production', fallback: 'memory'/);
 });
 
 test('PUT /api/me/subject-options and GET /api/me/chapters: options validated; Pro detail only for Pro', async () => {
@@ -446,16 +476,27 @@ test('L5: the lexical match needs 3 shared content words, so a one-word English 
   assert.deepEqual(longer.cards.map((c) => c.id), ['kc.english.vocabulary.word-long']);
 });
 
-test('L8: suspension reads only the cards with 3 or more reports, so one past the first 1,000 report rows is still suspended', async () => {
+test('L8: suspension reads only the candidate cards\' reports, so one past the first 1,000 report rows is still suspended', async () => {
   const id = PLANNING[0].id;
-  // The three reports of the suspended card come first; then 1,200 single reports of other cards.
-  const reports = [...['a', 'b', 'c'].map((u) => ({ user_id: u, card_id: id, reason: 'Wrong page', created_at: new Date(T0).toISOString() })),
+  const five = ['a', 'b', 'c', 'd', 'e'];
+  // The five reports of the suspended card come first; then 1,200 single reports of other cards.
+  const reports = [...five.map((u) => ({ user_id: u, card_id: id, reason: 'Wrong page', created_at: new Date(T0).toISOString() })),
     ...Array.from({ length: 1200 }, (_, i) => ({ user_id: `r${i}`, card_id: `kc.other.card-${i}`, reason: 'x', created_at: new Date(T0).toISOString() }))];
-  const f = setup({ isPro: true, tables: { key_card_reports: reports } });
+  const f = setup({ isPro: true, tables: { key_card_reports: reports, attempts: attemptsOf(five) } });
+  const reads = [];
+  const from = f.db.from;
+  f.db.from = (t) => {
+    const q = from(t);
+    const inner = q.in.bind(q);
+    q.in = (k, list) => { if (t === 'key_card_reports') reads.push([k, list]); return inner(k, list); };
+    return q;
+  };
   const deck = await f.kc.deck('u9', 'business_studies.planning');
   assert.equal(deck.body.cards.some((c) => c.id === id), false);
   assert.ok(f.db.log.some((l) => l.table === 'key_card_suspended'));
-  assert.equal(f.db.log.some((l) => l.table === 'key_card_reports' && l.op === 'select'), false, 'no report rows are read');
+  const unfiltered = f.db.log.filter((l) => l.table === 'key_card_reports' && l.op === 'select' && !l.eqs.user_id);
+  assert.equal(unfiltered.length, reads.length, 'every read of report rows names its cards or its reporter');
+  assert.deepEqual(reads, [['card_id', [id]]], 'only the candidate card\'s reports are read');
 });
 
 test('the Free rules match the spec constants', () => {

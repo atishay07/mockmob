@@ -7,6 +7,8 @@ import { walletDeps } from '@/lib/server/walletDeps';
 import { getAICreditPack } from '@/services/credits/aiCreditWallet';
 import { CAPABILITIES } from '@/../data/capabilities';
 import { walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '@/lib/wallet/walletPacks.mjs';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { aiLimit } from '@/services/ai/mentorModes';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -18,6 +20,8 @@ export async function POST(request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
+    // L7, L10 (15 Nov 2026): the per-student limit before any database read (src/services/ai/mentorModes.js).
+    if (!(await checkPersistentRateLimit(request, aiLimit('creditsOrder', session.user.id))).allowed) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
     // One switch for selling: this older route honours the same WALLET_COMMERCE_OPEN gate as POST /api/wallet/order.
     if (!walletCommerceOpen()) {
       return NextResponse.json({ error: 'WALLET_COMMERCE_CLOSED', message: WALLET_COMMERCE_CLOSED_MESSAGE }, { status: 503 });

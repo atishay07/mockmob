@@ -15,7 +15,8 @@ export function sourceOf(response) {
   const origin = originOf(response);
   if (origin === 'model') return 'Written reply';
   if (origin === 'record') return 'From your record';
-  if (origin === 'status') return null;
+  // The support reply (L1) and a service status carry no source line.
+  if (origin === 'status' || origin === 'safety') return null;
   return 'Earlier reply, source not recorded';
 }
 

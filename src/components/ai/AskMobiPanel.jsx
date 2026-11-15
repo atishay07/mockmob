@@ -20,6 +20,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { walletFromResponse, isPaidUser } from '@/services/credits/aiWalletState';
 import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
+import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
 import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
 import { creditLine } from './askDoors.mjs';
@@ -37,6 +38,9 @@ import {
 // screen still work.
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
 const onlineNow = () => navigator.onLine !== false;
+
+// L1: the support reply as a turn of the thread (src/services/ai/supportCheck.js), for offline or a server out of reach.
+const supportTurn = () => ({ id: `a_${Date.now()}`, role: 'assistant', response: { reply: SUPPORT_REPLY, actions: [], origin: 'safety' } });
 
 const X = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" /></svg>
@@ -178,6 +182,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   function submit() {
     const text = input.trim();
     if (!text || inFlight.current || opening || retry) return;
+    // L1: words that sound like distress always reach the support reply, free: before a follow-up, a record or product
+    // answer, and whatever the wallet says (src/services/ai/supportCheck.js).
+    if (needsSupport(text)) { setInput(''); sendSupport(text); return; }
     // An open doubt: the words are its free follow-up, never a record answer (talk inside a job is included).
     if (!questionTyping && followUpOpen(doubtThread)) {
       if (offline) return;
@@ -233,6 +240,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     await deliver();
   }
 
+  // L1: the server answers it with the support reply and saves the turn; offline, or if the server cannot be reached, the
+  // same reply is shown here (supportTurn), so it never waits on a connection or a credit.
+  function sendSupport(text) {
+    if (offline) { setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text }, supportTurn()]); return; }
+    sendFree(text, 'support');
+  }
+
   function takeAnchor() {
     const anchor = anchorRef.current;
     anchorRef.current = null;
@@ -241,7 +255,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
   async function deliver() {
     const sent = pendingRef.current;
-    setPending({ question: Boolean(sent.questionRef), free: sent.kind === 'followup' || sent.kind === 'tonight', kind: sent.kind });
+    setPending({ question: Boolean(sent.questionRef), free: sent.kind === 'followup' || sent.kind === 'tonight' || sent.kind === 'support', kind: sent.kind });
     try {
       const res = await fetch('/api/ai/mentor/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
         message: sent.message, mode: sent.mode, replyKind: replyKindOf(sent), sessionId, requestId: sent.id,
@@ -263,6 +277,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           // The reply that opened the doubt carries its 2 questions; a follow-up keeps the thread's own.
           if (!sent.threadId) Object.assign(response, { thread: job.thread, checks: job.checks, checksNote: job.checksNote });
         }
+      } else if (sent.kind === 'support') {
+        response = supportTurn().response;
       } else {
         const failure = chatFailure(res.status, data);
         if (failure.full) setDoubtThread((t) => (t ? { ...t, followUpsLeft: 0 } : t));
@@ -275,7 +291,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
     } catch {
-      setRetry({ ...pendingRef.current });
+      if (sent.kind === 'support') { pendingRef.current = null; setTurns((prev) => [...prev, supportTurn()]); }
+      else setRetry({ ...pendingRef.current });
     } finally {
       setPending(null);
       inFlight.current = false;
@@ -312,6 +329,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         setTurns((prev) => [...prev, { id: turnId, role: 'user', text: plan.text }]);
         setFailedStart({ reply: plan.reply, turnId });
       } else if (plan.kind === 'say') ask(plan.reply, plan.actions);
+      else if (plan.kind === 'support') sendSupport(plan.text);
       else if (plan.kind === 'tonight') sendFree(plan.text, 'tonight');
       else sendPaid(plan.text);
     };
@@ -338,7 +356,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const threadDone = !questionTyping && Boolean(doubtThread) && !threadOpen;
   const price = threadOpen && input.trim() ? 'followup' : !questionTyping && isTonightAsk(input) ? 'free' : priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
   const busy = Boolean(pending) || Boolean(retry);
-  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (price === 'followup' && !offline) || (paid.open && !offline));
+  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (price === 'followup' && !offline) || (paid.open && !offline) || needsSupport(input));
   // The credit line is the page's own words (askDoors.mjs creditLine), docked or on /mentor, so one balance reads one way
   // everywhere: "38 of your 50 free credits left · they refill on 1 Nov".
   const creditWords = creditLine(wallet).first;
@@ -556,7 +574,7 @@ function Answer({ response, qName = 'this question', wallet = null, onNavigate, 
     const what = response.about ? `Written reply on ${qName} and its key` : 'Written reply';
     const spent = response.charged ? usedLine({ cost: response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No credit used.';
     source = response.followUp && !response.charged ? JOB_COPY.followUpSource : `${what}. ${spent}`;
-  } else if (response.origin === 'status') source = null;
+  } else if (response.origin === 'status' || response.origin === 'safety') source = null;
   else if (tonight) source = JOB_COPY.tonightSource;
   else if (!source) source = 'From your record';
   if (response.origin === 'status') {

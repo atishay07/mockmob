@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { aiLimit } from '@/services/ai/mentorModes';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -12,6 +14,8 @@ export async function GET(request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
+  // L7, L10 (15 Nov 2026): the per-student limit before any database read (src/services/ai/mentorModes.js).
+  if (!(await checkPersistentRateLimit(request, aiLimit('usage', session.user.id))).allowed) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
   const dbUser = await Database.getUserById(session.user.id);
   if (!dbUser) {

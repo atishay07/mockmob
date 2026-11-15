@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { localExchangeRow, sanitiseLocalReply } from '@/lib/server/mentorLocal';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { aiLimit, savedModeOf } from '@/services/ai/mentorModes';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -19,6 +21,8 @@ export async function POST(request) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
+  // L7, L10 (15 Nov 2026): the per-student limit before any database read (src/services/ai/mentorModes.js).
+  if (!(await checkPersistentRateLimit(request, aiLimit('local', session.user.id))).allowed) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
   const dbUser = await Database.getUserById(session.user.id);
   if (!dbUser) {
@@ -55,7 +59,7 @@ export async function POST(request) {
         .insert({
           user_id: session.user.id,
           title: message.slice(0, 56),
-          metadata: { mode: body.mode || 'guide', source: 'local_assistant' },
+          metadata: { mode: savedModeOf(body.mode), source: 'local_assistant' },
         })
         .select('id')
         .single();
@@ -64,7 +68,8 @@ export async function POST(request) {
     } else {
       await sb
         .from('mentor_sessions')
-        .update({ updated_at: new Date().toISOString(), ...(keepThread ? {} : { metadata: { mode: body.mode || 'guide' } }) })
+        // L10: the mode from the known set only ('guide' otherwise), never the client's value as sent.
+        .update({ updated_at: new Date().toISOString(), ...(keepThread ? {} : { metadata: { mode: savedModeOf(body.mode) } }) })
         .eq('id', effectiveSessionId)
         .eq('user_id', session.user.id);
     }

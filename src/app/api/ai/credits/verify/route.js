@@ -3,6 +3,8 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getRazorpayClient, verifyRazorpayPaymentSignature } from '@/lib/payments/razorpay';
 import { getAICreditPack, getAIWallet, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { aiLimit } from '@/services/ai/mentorModes';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -14,6 +16,8 @@ export async function POST(request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
+    // L7, L10 (15 Nov 2026): the per-student limit before any database read (src/services/ai/mentorModes.js).
+    if (!(await checkPersistentRateLimit(request, aiLimit('creditsVerify', session.user.id))).allowed) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
     const body = await request.json().catch(() => ({}));
     const {
