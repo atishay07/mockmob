@@ -567,7 +567,7 @@ export default function DailyFive() {
   }
 
   // ---------- Start ----------
-  if (phase !== 'playing' || !run) {
+  if (phase !== 'playing' || (!run && !result)) {
     const days = signedIn && accountReady ? account.played : record ? record.played : [];
     const streak = today ? streakOf(days, today.date) : { count: 0 };
     return (

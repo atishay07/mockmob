@@ -10,6 +10,7 @@ import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
 import '@/app/nav-motion.css';
 import './new-tag.css';
+import './nav-daily.css';
 
 const LINKS = [
   { label: 'Free mock test', href: '/cuet-mock-test-free' },
