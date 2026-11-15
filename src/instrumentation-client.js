@@ -5,6 +5,10 @@
 // drawn in motion-kit.css (PAGE TRANSITIONS) and played by the <ViewTransition> in AppLayoutClient.
 import * as React from 'react';
 import { navigationTypesFor } from '@/lib/motion/placeTransition';
+import { routerTransitionStarted, wireRouterProgress } from '@/components/progress/routeProgressBus.mjs';
+
+// The route bar (RouteProgress) hears every navigation from here, router.push and the back button included.
+wireRouterProgress();
 
 // Read from a copy of the module at run time: a named read (React.addTransitionType) is checked against the stable
 // React's export list by the production build and fails it, although the app's React carries one of the two names.
@@ -19,6 +23,7 @@ if (typeof window !== 'undefined') {
 }
 
 export function onRouterTransitionStart(url, navigationType) {
+  try { routerTransitionStarted(url, navigationType); } catch { /* the bar is decoration */ }
   try {
     // Before a push the address bar still shows where the student is; on traverse it already shows where they go.
     const from = navigationType === 'traverse' ? lastHref : window.location.href;

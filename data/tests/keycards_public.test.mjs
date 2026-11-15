@@ -13,7 +13,7 @@ import { SUBJECT_PAGES } from '../../src/lib/subjectPages.mjs';
 import * as cuetSyllabus from '../cuet_syllabus.js';
 
 const ROOT = new URL('../../', import.meta.url);
-const read = (path) => readFileSync(new URL(path, ROOT), 'utf8');
+const read = (path) => readFileSync(new URL(path, ROOT), 'utf8').replace(/\r\n/g, '\n'); // a Windows checkout has CRLF
 const DAY = 86_400_000;
 const T0 = Date.parse('2026-11-16T12:00:00+05:30');
 const DECKS = loadDecks({ log: () => {} });

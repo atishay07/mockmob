@@ -83,6 +83,10 @@ const nextConfig = {
     // Key cards: the bundled decks, their manifest and the question links (src/lib/server/keycards.js loadDecks).
     '/api/keycards': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
     '/api/keycards/*': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
+    // The public Key card pages and the subject pages' Key cards block rebuild hourly from the bundled decks.
+    '/key-cards': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
+    '/key-cards/**': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
+    '/cuet/*': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
     '/api/me/chapters': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
     '/api/me/subject-options': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
     '/api/me/revise': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
