@@ -26,7 +26,7 @@ import { attachRouteProgress, finishRouteProgress, resetRouteProgress, routerHoo
 import './route-progress.css';
 
 const OPEN_LAYERS = 'dialog[open], [role="dialog"], [aria-modal="true"], .amb-panel';
-const SHEETS = 'dialog, [role="dialog"], [aria-modal="true"], .mm-nav__sheet, [role="menu"]';
+const SHEETS = 'dialog, [role="dialog"], [aria-modal="true"], #mm-nav-sheet, [role="menu"]';
 
 // The page on screen, so the back button can tell a page change from a #fragment.
 let landedKey = '';
