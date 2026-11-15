@@ -212,7 +212,7 @@ test('feature tour: from 900 px the chips wrap with no mask (none clipped); belo
 // LOW: the lime "aurora" wash behind the hero and the close (the glow L-019 forbids).
 // ---------------------------------------------------------------------------------------------------------------------
 
-test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambient pattern, the close band draws the neutral answer sheet', () => {
+test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambient pattern, the close band draws the paper grain, never the answer sheet', () => {
   const src = fileURLToPath(new URL('src/', root));
   for (const file of walk(src, ['.css', '.jsx', '.js'])) {
     assert.doesNotMatch(stripComments(readFileSync(file, 'utf8')), /lp-bg__aurora|lp-depth-far/, file);
@@ -227,18 +227,16 @@ test('landing backdrop: no aurora layer or rule anywhere; the hero draws no ambi
   const pattern = landing.slice(landing.indexOf('.lp-bg__grid {'), landing.indexOf('.lp-bg__fade {'));
   assert.ok(pattern.length > 40, 'the grid and dots rules are kept for the tool pages');
   assert.doesNotMatch(pattern, /d2f000|210, ?240, ?0/i, 'the pattern is neutral hairlines, never volt');
-  // R3-D9 / R3-D2 (owner LK108, LK110, 5 Nov 2026) supersede the home close band's grid and dots: its texture is the brand's own
-  // answer sheet (CloseActions.jsx CloseSheet: rings, four options a question, one pencil mark a row), still neutral, never volt.
-  const page = read('src/app/page.js');
-  assert.match(page, /<section className="lp-close">\s*<CloseSheet \/>/);
-  assert.doesNotMatch(page, /lp-bg__grid|lp-bg__dots/, 'no generic grid or dot matrix on the home page');
-  const sheet = read('src/components/landing/CloseActions.jsx');
-  assert.match(sheet, /<pattern id="lp-omr"/);
-  assert.match(sheet, /className=\{col === mark \? 'lp-close__mark' : 'lp-close__ring'\}/);
+  // R3-D9 (owner LK110, 5 Nov 2026) replaced the close band's grid and dots with an answer-sheet texture; the owner rejected the
+  // answer-sheet bubble pattern (LK208, 10 Nov), so since 15 Nov 2026 the band carries the hero's approved paper grain instead.
+  const page = stripComments(read('src/app/page.js'));
+  assert.match(page, /<section className="lp-close">\s*<BrandTexture variant="close" \/>/);
+  assert.doesNotMatch(page, /CloseSheet|lp-bg__grid|lp-bg__dots/, 'no answer sheet, generic grid or dot matrix on the home page');
   const close = stripComments(read('src/app/landing-close.css'));
-  const omr = close.slice(close.indexOf('.lp-close {'), close.indexOf('.lp-close__mark {') + 120);
-  assert.ok(omr.length > 120, 'the answer sheet rules are found');
-  assert.doesNotMatch(omr, /d2f000|210, ?240, ?0|var\(--volt|blur\(|infinite/i, 'neutral, sharp and still');
+  assert.doesNotMatch(close, /lp-close__sheet|lp-close__ring|lp-close__mark|--omr-/, 'no answer-sheet rules left');
+  const grain = close.slice(close.indexOf('.lp-close > .mm-texture--close {'), close.indexOf('}', close.indexOf('.lp-close > .mm-texture--close {')) + 1);
+  assert.match(grain, /--grain-falloff: radial-gradient\([^;]*at 50% 100%/, 'the grain rises from the band\'s foot');
+  assert.doesNotMatch(grain, /d2f000|210, ?240, ?0|var\(--volt|blur\(|infinite|animation/i, 'neutral, sharp and still');
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

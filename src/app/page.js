@@ -10,7 +10,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
-import { CloseActions, CloseSheet } from '@/components/landing/CloseActions';
+import { CloseActions } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
@@ -391,11 +391,11 @@ export default function LandingPage() {
         </section>
 
         {/* ------------------------------- CLOSE ---------------------------- */}
-        {/* The final card (R3-D9, owner LK110): Mobi and the brand's own answer sheet (the OMR texture, neutral rings with a few
-            pencil marks, CloseActions.jsx) in place of the generic grid and dots; Sign up free and Log in as before; while invites
-            are on, one line on where a friend's invite code goes (never a code on this page). */}
+        {/* The final card (R3-D9, owner LK110): Mobi on the paper's own grain (BrandTexture, the hero's texture; the answer-sheet
+            bubbles were rejected, LK208, and removed 15 Nov 2026); Sign up free and Log in as before; while invites are on, one
+            line on where a friend's invite code goes (never a code on this page). */}
         <section className="lp-close">
-          <CloseSheet />
+          <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="celebrating" label={CLOSE.mobi} />
             <h2 className="lp-h2 lp-h2--xl">{CLOSE.h2}</h2>
