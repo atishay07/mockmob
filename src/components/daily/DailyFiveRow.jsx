@@ -4,18 +4,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import {
-  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
+  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, leafOf, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
 } from '@/lib/dailyFive.mjs';
 import { DAILY_FIVE_ME_ROUTE, acceptAccount, runDays } from '@/lib/dailyFiveAccount.mjs';
-import { DailyBoard, DailyClock, DailyLeaf, boardLabel, useDailyNow, useOnScreen } from './DailyParts';
+import { DailyBoard, DailyClock, boardLabel, useDailyNow, useOnScreen } from './DailyParts';
 import './daily-row.css';
 
 // The doors to the Daily Five.
 //   where="home"   the home page's block, under the sample card (16 Nov 2026; the owner: "It's not placed correctly as a
 //                  proper clock. How do other websites do it?"). A daily puzzle's own entry, as the daily games draw it: the
-//                  day (a calendar leaf, the weekday, the number), the board of five tiles, a real clock counting down to
-//                  12:00 am IST, and one key. The whole block is the link to /daily. Its key is ink, never volt: the home
-//                  page's volt key is the dock's Sign up free.
+//                  day on an ink page of a tear-off desk calendar (open or done, the date large, a real clock counting down to
+//                  12:00 am IST), then the name and number, the board of five tiles and one full-width key (owner, 16 Nov,
+//                  second note: bolder, its own identity, more room). The whole block is the link to /daily.
 //                  It reads this device's record only (localStorage, nothing sent): not played (the clock reads "Closes in"),
 //                  begun (the tiles answered so far, "Continue"), played (the day's tiles, the score, "Next five in").
 //   where="today"  on Today for a signed-in student, under the lead card's rows, drawn as Today's Ask Mobi row (today.css
@@ -75,7 +75,7 @@ function HomeBlock() {
         ? `${streak === 1 ? 'You played yesterday.' : `You’re on a ${streak}-day run.`} Play today’s five to keep it going.`
         : 'Five CUET questions, the same for everyone today. Free, no sign-up.';
   const key = result ? 'See today’s result' : begun ? 'Continue today’s five' : 'Play today’s five';
-  const when = today ? `${dayLabel(today.date)} · No. ${today.day}` : ' ';
+  const leaf = today ? leafOf(today.date) : null;
 
   return (
     <Link
@@ -85,20 +85,29 @@ function HomeBlock() {
       ref={ref}
       aria-label={today ? `Daily Five, ${dayLabel(today.date)}, number ${today.day}. ${line} ${key}.` : 'Daily Five. Play today’s five.'}
     >
-      <div className="dfh__info" aria-hidden="true">
-        <div className="dfh__top">
-          <DailyLeaf date={today?.date} />
-          <div className="dfh__title">
-            <p className="dfh__name">Daily Five</p>
-            <p className="dfh__when">{when}</p>
-          </div>
+      {/* The day: an ink page of a tear-off desk calendar. Whether today's five is open, the date large, the clock. */}
+      <div className="dfh__day" aria-hidden="true">
+        <p className="dfh__live" data-on={result ? 'false' : 'true'}><i />{result ? 'Done for today' : begun ? 'In progress' : 'Open now'}</p>
+        <div className="dfh__date">
+          <b>{leaf ? leaf.day : '\u00a0'}</b>
+          <span><em>{leaf ? leaf.month : '\u00a0'}</em><small>{today ? dayLabel(today.date).split(',')[0] : '\u00a0'}</small></span>
+        </div>
+        <DailyClock ms={now === null ? null : msUntilNextDay(now)} label={result ? 'Next five in' : 'Closes in'} size="l" />
+      </div>
+      {/* The five: the name and number, what it is, the board, the one key. */}
+      <div className="dfh__body" aria-hidden="true">
+        <div className="dfh__head">
+          <p className="dfh__name">Daily Five</p>
+          <span className="dfh__no">{today ? `No. ${today.day}` : '\u00a0'}</span>
         </div>
         <p className="dfh__line">{line}</p>
-      </div>
-      <div className="dfh__board" aria-hidden="true"><DailyBoard marks={marks} label={boardLabel(marks)} /></div>
-      <div className="dfh__foot" aria-hidden="true">
-        <DailyClock ms={now === null ? null : msUntilNextDay(now)} label={result ? 'Next five in' : 'Closes in'} />
-        <span className="dfh__key">{key}</span>
+        <ul className="dfh__chips">
+          <li>5 questions</li>
+          <li>English and General Test</li>
+          <li>One go a day</li>
+        </ul>
+        <DailyBoard marks={marks} size="l" label={boardLabel(marks)} />
+        <span className={`mm-btn ${result ? 'mm-btn--secondary' : 'mm-btn--primary'} dfh__key`}>{key}</span>
       </div>
     </Link>
   );
