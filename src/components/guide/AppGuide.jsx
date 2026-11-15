@@ -8,8 +8,21 @@
 // It is a modal <dialog>, so the page behind is inert (no taps, no focus, hidden from a screen reader), Escape closes it, and
 // focus stays inside the card. The dialog itself is the whole screen and transparent: the dimming is the spotlight's own
 // shadow, so the lit key is the real key, not a picture of it. The page does not scroll while it is open.
+//
+// A student with no finished set (15 Nov 2026, F2): as it opens, the guide asks the server whether any paper is saved (one
+// row of /api/attempts/summary). With none, the same stops run but Start comes last, on the page's own Start key, and the last
+// key reads "Start your first set" and starts it (src/lib/appTour.mjs firstSetTour): on Practice it presses the page's key when
+// the set there is today's free one, the very launch the page makes; elsewhere it reads the same quote Practice reads and opens
+// the free set, or Practice when it is not free. The order is settled before the stops part, so no stop moves under the student;
+// a read that fails or lands late leaves the guide as it always was.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { PipActor } from '@/components/brand/PipActor';
+import { useAuth } from '@/components/AuthProvider';
+import { firstSetOrderOpen, firstSetTour } from '@/lib/appTour.mjs';
+import { FIRST_SET_GUIDE_BUSY, FIRST_SET_GUIDE_KEY, firstSetOffer, readFirstSetQuote } from '@/lib/firstSet.mjs';
+import { forgetDailySet } from '@/lib/useDailySet';
+import { previewFinish } from '@/app/onboarding/firstRun';
 import { GUIDE_RING_PAD, guideCardWidth, placeGuideCard } from './guidePlace.mjs';
 import './app-guide.css';
 
@@ -45,17 +58,35 @@ function safeBand() {
 }
 
 export default function AppGuide({ steps, opener = null, onClose }) {
+  const router = useRouter();
+  const { user } = useAuth() || {};
   const [at, setAt] = useState(0);
   // spot: the ring's box and corner radius; card: where the card stands. null until the first measure.
   const [spot, setSpot] = useState(null);
   const [card, setCard] = useState(null);
   const [settled, setSettled] = useState(false);
+  // No finished set yet (true), some (false), or not known (null: still reading, or the read failed). `order` is settled
+  // ('first' or 'plain') once the student passes the last stop the two orders share.
+  const [noSets, setNoSets] = useState(null);
+  const [order, setOrder] = useState(null);
+  const [starting, setStarting] = useState(false);
   const dialog = useRef(null);
   const cardBox = useRef(null);
   const nextKey = useRef(null);
-  const last = steps.length - 1;
+  const firstOrder = order ? order === 'first' : noSets === true;
+  const shown = firstOrder ? firstSetTour(steps) : steps;
+  const last = shown.length - 1;
   const index = Math.min(at, last);
-  const step = steps[index];
+  const step = shown[index];
+
+  useEffect(() => {
+    let live = true;
+    fetch('/api/attempts/summary?limit=1', { cache: 'no-store', credentials: 'same-origin' })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body) => { if (live && Array.isArray(body?.items)) setNoSets(body.items.length === 0); })
+      .catch(() => { /* not known: the guide runs as it always did */ });
+    return () => { live = false; };
+  }, []);
 
   const measure = useCallback(() => {
     const panel = cardBox.current;
@@ -134,9 +165,29 @@ export default function AppGuide({ steps, opener = null, onClose }) {
     const next = Math.min(last, Math.max(0, index + by));
     // Back hides on the first stop, so focus never rests on a key that is gone.
     if (next === 0) nextKey.current?.focus({ preventScroll: true });
+    // Past the stops both orders share, the order is settled for this guide.
+    if (!order && !firstSetOrderOpen(steps, next)) setOrder(firstOrder ? 'first' : 'plain');
     setAt(next);
   };
-  const onward = () => (index === last ? onClose() : go(1));
+
+  // The first set's last key. On Practice: the page's own Start key, pressed, when the set on it is today's free one; if it is
+  // priced or still being checked, the guide closes on the key and the student decides. Anywhere else: the same quote Practice
+  // reads, in the first subject; today's free set opens, else Practice (which shows any price before a set starts).
+  const startFirst = async () => {
+    if (starting) return;
+    const free = [...document.querySelectorAll('[data-first-set="free"]')].find((node) => onScreen(node) && !node.disabled);
+    if (free) { onClose(); free.click(); return; }
+    if (document.querySelector('[data-tour="first-set"], [data-tour="practice-start"]')) { onClose(); return; }
+    setStarting(true);
+    const subject = Array.isArray(user?.subjects) ? user.subjects[0] || null : null;
+    const offer = firstSetOffer(await readFirstSetQuote(subject), { subject });
+    if (offer) forgetDailySet(user?.id);
+    const to = offer ? offer.path : '/dashboard';
+    router.push(window.location.pathname.startsWith('/preview/') ? previewFinish(to, window.location.search) : to);
+    onClose();
+  };
+  const finishFirst = index === last && step?.firstSet;
+  const onward = () => (finishFirst ? startFirst() : index === last ? onClose() : go(1));
 
   const onKeyDown = (event) => {
     if (event.key === 'ArrowRight') { event.preventDefault(); if (index < last) go(1); }
@@ -181,9 +232,9 @@ export default function AppGuide({ steps, opener = null, onClose }) {
             <span className="arena-tour-pip gd-pip"><PipActor pose={POSES[index] || 'greeting'} blink={index + 1} motion={index ? `nod-${index % 2}` : 'land-0'} /></span>
             <div className="gd-text">
               <div className="gd-top">
-                <p className="gd-count">{index + 1} of {steps.length}</p>
+                <p className="gd-count">{index + 1} of {shown.length}</p>
                 <span className="gd-dots" aria-hidden="true">
-                  {steps.map((stop, i) => <i key={stop.title} data-on={i === index ? '' : undefined} data-done={i < index ? '' : undefined} />)}
+                  {shown.map((stop, i) => <i key={stop.title} data-on={i === index ? '' : undefined} data-done={i < index ? '' : undefined} />)}
                 </span>
               </div>
               {/* A screen reader hears the stop's name and its line each time the stop changes. */}
@@ -197,7 +248,7 @@ export default function AppGuide({ steps, opener = null, onClose }) {
             <button type="button" className="gd-skip" hidden={index === last} onClick={onClose}>Skip</button>
             <span className="gd-foot__gap" />
             <button type="button" className="gd-back" data-off={index === 0 ? '' : undefined} tabIndex={index === 0 ? -1 : undefined} aria-hidden={index === 0 ? 'true' : undefined} onClick={() => go(-1)}>Back</button>
-            <button type="button" ref={nextKey} className="btn-volt gd-next" onClick={onward}>{index === last ? 'Done' : 'Next'}</button>
+            <button type="button" ref={nextKey} className="btn-volt gd-next" onClick={onward} disabled={starting} aria-busy={starting || undefined}>{finishFirst ? (starting ? FIRST_SET_GUIDE_BUSY : FIRST_SET_GUIDE_KEY) : index === last ? 'Done' : 'Next'}</button>
           </div>
         </div>
       </div>
