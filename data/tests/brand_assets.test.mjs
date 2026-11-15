@@ -127,7 +127,7 @@ test('icons, manifest and the share image use logo B files that exist', () => {
   for (const [, name] of og.matchAll(/name: '([a-z]+)'/g)) assert.ok(existsSync(path.join(ROOT, `public/art/subjects/og/obj-${name}.png`)), name);
   assert.ok(existsSync(path.join(ROOT, 'public/brand/fonts/BricolageHeadline-SemiBold.ttf')));
   assert.ok(existsSync(path.join(ROOT, 'public/brand/fonts/BricolageGrotesque-OFL.txt')));
-  assert.match(text('public/sw.js'), /mockmob-public-fallback-v2/);
+  assert.match(text('public/sw.js'), /mockmob-public-fallback-v3/);
 });
 
 // ---------- Object life (M2): the app's ObjectLife numbers on the website ----------
