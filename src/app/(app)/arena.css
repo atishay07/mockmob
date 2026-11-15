@@ -1320,7 +1320,7 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .plan-card__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .app-shell .plan-card__head h2 { margin: 0; font: 700 16px var(--font-display); }
 .app-shell .plan-card__meta { font-size: 13.5px; line-height: 1.3; font-weight: 600; color: var(--a-ink-2); }
-.app-shell .plan-card__lead { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .plan-card__lead { margin: 0; max-width: 64ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
 .app-shell .plan-card__lead strong { color: var(--a-ink); }
 .app-shell .plan-card__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 13px; color: var(--a-ink-3); }
 .app-shell .plan-card__row .credit-amount__value { font-size: 20px; color: var(--a-ink); }
