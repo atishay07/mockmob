@@ -1,18 +1,20 @@
 // The Daily Five on the account, server half (15 Nov 2026, lane daily). The rules and the row shape are in the pure model
-// (src/lib/dailyFiveAccount.mjs); the routes are thin (src/app/api/daily/me, /stats, /mob). No 'server-only' and no alias
-// imports: node:test drives the store with an in-memory database and the handlers with a fake session
+// (src/lib/dailyFiveAccount.mjs); the routes are thin (src/app/api/daily/check, /me, /stats, /mob). No 'server-only' and no
+// alias imports: node:test drives the store with an in-memory database and the handlers with a fake session
 // (data/tests/daily_five_account_1115.test.mjs).
 //
-//   GET  /api/daily/me     signed in: today's record on the account (or null) and the days played
-//   POST /api/daily/me     signed in, same origin, a persistent limit: save today's finished five (first run stands)
+//   POST /api/daily/check  anyone, same origin, a limit: { token, pick } -> right or wrong, the right option and the reason.
+//                          Signed in, the FIRST check of each question is recorded and stands (a retry or another tab gets
+//                          it back). The account's five is built from those first checks alone: no route writes a pick.
+//   GET  /api/daily/me     signed in: today's record on the account (or null), its review once all five are in, the days
 //   GET  /api/daily/stats  public: how everyone did on today's five, per question, from 30 signed-in students up; cached
 //   GET  /api/daily/mob    signed in, a member of that Mob: who played today's five, in the den's order
 import { CROSS_SITE_BODY } from './sameOriginWrite.js';
 import { createTtlMemo } from '../../../data/ttl_memo.js';
 import { msUntilNextDay, todayDaily } from '../dailyFive.mjs';
 import {
-  DAILY_FIVE_INTERACTION, DAILY_FIVE_RUN_DAYS, checkItems, checkSave, crowdShare, dailySessionId, memberStrip, playedDates, questionRef,
-  recordFromRows, saveRows,
+  DAILY_FIVE_INTERACTION, DAILY_FIVE_RUN_DAYS, checkAnswer, checkOpened, checkRequest, checkRow, crowdShare, dailyRowId, dailySessionId,
+  memberStrip, playedDates, questionRef, recordFromRows, reviewFrom,
 } from '../dailyFiveAccount.mjs';
 import { openDailyToken, parseDailyQuery } from './dailyFive.js';
 
@@ -23,8 +25,9 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const CROWD_TTL_MS = 5 * 60 * 1000;
 
 export const DAILY_LIMITS = Object.freeze({
-  // The save: a student finishes one five a day; retries after a dropped connection stay far under this.
-  save: { route: '/api/daily/me:save', limit: 20, windowMs: 60 * 60 * 1000 },
+  // A check per answer: five a day, retries after a dropped connection, a reload's re-checks, a second tab. Far under these.
+  checkUser: { route: '/api/daily/check:user', limit: 120, windowMs: 60 * 60 * 1000 },
+  checkNet: { route: '/api/daily/check:net', limit: 60, windowMs: 10 * 60 * 1000 },
   read: { route: '/api/daily/me:read', limit: 120, windowMs: 10 * 60 * 1000 },
   mob: { route: '/api/daily/mob', limit: 120, windowMs: 10 * 60 * 1000 },
   // Public, per network: the Daily Five's own limit (30 a minute).
@@ -42,30 +45,41 @@ class StoreError extends Error {
  */
 export function createDailyStore({ db, now = Date.now }) {
   const qi = () => db().from('question_interactions');
-  const mine = (userId) => qi().select('question_id,metadata,session_id,created_at').eq('user_id', userId).is('flow_context', null).eq('interaction_type', DAILY_FIVE_INTERACTION);
 
-  async function record(userId, date) {
-    const { data, error } = await mine(userId).eq('session_id', dailySessionId(date)).limit(10);
+  async function rows(userId, date) {
+    const { data, error } = await qi().select('question_id,metadata,created_at').eq('user_id', userId).is('flow_context', null)
+      .eq('interaction_type', DAILY_FIVE_INTERACTION).eq('session_id', dailySessionId(date)).limit(10);
     if (error) throw new StoreError('READ_FAILED', error);
-    return recordFromRows(data || [], date);
+    return data || [];
   }
 
+  async function record(userId, date) {
+    return recordFromRows(await rows(userId, date), date);
+  }
+
+  /** The days with a whole five (all five places checked), from the account. */
   async function played(userId) {
     const since = new Date(now() - (DAILY_FIVE_RUN_DAYS + 1) * DAY_MS).toISOString();
-    const { data, error } = await qi().select('session_id').eq('user_id', userId).is('flow_context', null).eq('interaction_type', DAILY_FIVE_INTERACTION)
-      .eq('metadata->>n', '1').gte('created_at', since).order('created_at', { ascending: false }).limit(DAILY_FIVE_RUN_DAYS + 5);
+    const { data, error } = await qi().select('session_id,metadata').eq('user_id', userId).is('flow_context', null).eq('interaction_type', DAILY_FIVE_INTERACTION)
+      .gte('created_at', since).order('created_at', { ascending: false }).limit(DAILY_FIVE_RUN_DAYS * 5 + 10);
     if (error) throw new StoreError('READ_FAILED', error);
     return playedDates(data || []);
   }
 
-  /** All five rows in one statement, ON CONFLICT (id) DO NOTHING; then the stored record, whichever run it was. */
-  async function save(userId, { date, day, items, picks, ms }) {
-    const rows = saveRows({ userId, date, day, items, picks, ms, at: new Date(now()).toISOString() });
-    const { error } = await qi().upsert(rows, { onConflict: 'id', ignoreDuplicates: true });
+  /**
+   * One checked answer, INSERT ... ON CONFLICT (id) DO NOTHING; then the row that stands for that place, whichever check
+   * wrote it. Answers { n, pick, right, correct, sameQuestion } from the stored row.
+   */
+  async function recordCheck(userId, { date, day, item, pick, ms }) {
+    const row = checkRow({ userId, date, day, n: item.n, id: item.id, pick, correct: item.correct, ms, at: new Date(now()).toISOString() });
+    const { error } = await qi().upsert([row], { onConflict: 'id', ignoreDuplicates: true });
     if (error) throw new StoreError(error.code === '23503' ? 'QUESTION_GONE' : 'WRITE_FAILED', error);
-    const stored = await record(userId, date);
-    if (!stored) throw new StoreError('UNCONFIRMED');
-    return stored;
+    const { data, error: readError } = await qi().select('question_id,metadata').eq('id', dailyRowId(date, userId, item.n)).eq('interaction_type', DAILY_FIVE_INTERACTION).limit(1);
+    if (readError) throw new StoreError('READ_FAILED', readError);
+    const stored = (data || [])[0];
+    const answer = stored ? checkAnswer(stored) : null;
+    if (!answer) throw new StoreError('UNCONFIRMED');
+    return { ...answer, sameQuestion: stored.question_id === item.id };
   }
 
   /** Per question of the day: how many signed-in students saved an answer, and how many were right. Head counts only. */
@@ -98,23 +112,23 @@ export function createDailyStore({ db, now = Date.now }) {
     if (error) throw new StoreError('READ_FAILED', error);
     const ids = (members || []).map((m) => m.user_id);
     if (!ids.length) return [];
-    const { data: rows, error: rowsError } = await client.from('question_interactions').select('user_id,metadata').in('user_id', ids).is('flow_context', null)
+    const { data: found, error: rowsError } = await client.from('question_interactions').select('user_id,metadata').in('user_id', ids).is('flow_context', null)
       .eq('interaction_type', DAILY_FIVE_INTERACTION).eq('session_id', dailySessionId(date)).limit(ids.length * 5 + 5);
     if (rowsError) throw new StoreError('READ_FAILED', rowsError);
-    return memberStrip(members, rows || [], { userId, date });
+    return memberStrip(members, found || [], { userId, date });
   }
 
-  return { record, played, save, crowd, mobStrip };
+  return { rows, record, played, recordCheck, crowd, mobStrip };
 }
 
 /**
  * The four handlers. deps: {
- *   auth(request) -> session | null      the signed-in student (session.user.id)
+ *   auth(request) -> session | null      the signed-in student (session.user.id); none for a guest
  *   rateLimit(request, opts) -> { allowed, retryAfterSeconds? }   checkPersistentRateLimit
  *   originOk(request) -> boolean          the same-origin rule every API write follows (src/lib/server/sameOriginWrite.js)
  *   store                                 createDailyStore
  *   key                                   the token key (dailyTokenKey), or null
- *   five({ day, date }) -> [{ id, q, options, ... }] | null   today's five with ids (createDailyFive.five), for the stats
+ *   five({ day, date }) -> [{ id, q, options, correct, why, ... }] | null   today's five with ids (createDailyFive.five)
  *   mobEnabled() -> boolean               MOB_ENABLED
  *   now() -> ms
  * }
@@ -130,6 +144,37 @@ export function createDailyHandlers(deps) {
   const crowdMemo = createTtlMemo({ ttlMs: CROWD_TTL_MS, max: 4, now });
 
   return {
+    async postCheck(request) {
+      if (!deps.originOk(request)) return reply(403, CROSS_SITE_BODY);
+      const userId = await userOf(request);
+      // Signed in: per student, kept in the database across every server. A guest: per network.
+      const limit = userId ? await take(request, 'checkUser', userId, { persistent: true }) : await take(request, 'checkNet', null);
+      if (!limit.allowed) return limited(limit);
+      const text = await request.text().catch(() => '');
+      if (text.length > MAX_BODY) return reply(400, { error: 'bad_body' });
+      let body = null;
+      try { body = JSON.parse(text); } catch { body = null; }
+      const asked = checkRequest(body);
+      if (!asked.ok) return reply(400, { error: asked.error });
+      if (!deps.key) return reply(503, { error: 'unavailable' });
+      const today = todayDaily(now());
+      const opened = checkOpened(openDailyToken(deps.key, asked.token), today.date);
+      // A question of another day (the page was left open past 12:00 am IST) is answered nowhere: the page loads today's.
+      if (!opened.ok) return reply(opened.error === 'not_today' ? 409 : 400, { error: opened.error, day: today.day, date: today.date });
+      const { item } = opened;
+      if (!userId) {
+        return reply(200, { n: item.n, pick: asked.pick, right: asked.pick === item.correct, correct: item.correct, why: item.why, recorded: false });
+      }
+      try {
+        // Recorded before it is answered: the key never reaches a signed-in student whose first pick is not on the account.
+        const stood = await deps.store.recordCheck(userId, { date: today.date, day: today.day, item, pick: asked.pick, ms: asked.ms });
+        return reply(200, { n: item.n, pick: stood.pick, right: stood.right, correct: stood.correct, why: stood.sameQuestion ? item.why : '', recorded: true });
+      } catch (error) {
+        if (error?.code === 'QUESTION_GONE') return reply(409, { error: 'changed', day: today.day, date: today.date });
+        return reply(503, { error: 'unavailable' });
+      }
+    },
+
     async getMe(request) {
       const userId = await userOf(request);
       if (!userId) return reply(401, { error: 'unauthorized' });
@@ -137,38 +182,12 @@ export function createDailyHandlers(deps) {
       if (!limit.allowed) return limited(limit);
       const today = todayDaily(now());
       try {
-        const [record, played] = await Promise.all([deps.store.record(userId, today.date), deps.store.played(userId)]);
-        return reply(200, { day: today.day, date: today.date, record, played });
+        const [found, played] = await Promise.all([deps.store.rows(userId, today.date), deps.store.played(userId)]);
+        const record = recordFromRows(found, today.date);
+        // The keys and reasons only with a whole five: the student has answered every question already.
+        const review = record ? reviewFrom(found, await Promise.resolve(deps.five(today)).catch(() => null)) : null;
+        return reply(200, { day: today.day, date: today.date, record, review, played });
       } catch {
-        return reply(503, { error: 'unavailable' });
-      }
-    },
-
-    async postMe(request) {
-      if (!deps.originOk(request)) return reply(403, CROSS_SITE_BODY);
-      const userId = await userOf(request);
-      if (!userId) return reply(401, { error: 'unauthorized' });
-      // Persistent: kept in the database across every server, whatever the site-wide switch says.
-      const limit = await take(request, 'save', userId, { persistent: true });
-      if (!limit.allowed) return limited(limit);
-      const text = await request.text().catch(() => '');
-      if (text.length > MAX_BODY) return reply(400, { error: 'bad_body' });
-      let body = null;
-      try { body = JSON.parse(text); } catch { body = null; }
-      const checked = checkSave(body);
-      if (!checked.ok) return reply(400, { error: checked.error });
-      const today = todayDaily(now());
-      // Only today: a five finished just before midnight and sent after it stays on the device.
-      if (checked.day !== today.day || checked.date !== today.date) return reply(409, { error: 'not_today', day: today.day, date: today.date });
-      if (!deps.key) return reply(503, { error: 'unavailable' });
-      const items = checkItems(checked.tokens.map((t) => openDailyToken(deps.key, t)), today.date);
-      if (!items.ok) return reply(400, { error: items.error });
-      try {
-        const record = await deps.store.save(userId, { date: today.date, day: today.day, items: items.items, picks: checked.picks, ms: checked.ms });
-        const played = await deps.store.played(userId).catch(() => null);
-        return reply(200, { day: today.day, date: today.date, record, ...(played ? { played } : {}) });
-      } catch (error) {
-        if (error?.code === 'QUESTION_GONE') return reply(409, { error: 'changed', day: today.day, date: today.date });
         return reply(503, { error: 'unavailable' });
       }
     },

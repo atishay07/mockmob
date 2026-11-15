@@ -9,7 +9,10 @@
 //   &dailymob=ready (default) | loading | error   the den's strip (with &view=mob&mob=den)
 //   &crowd=some (default)   three of today's five have 30 or more answers (64%, 41%, 88%); two do not
 //          none             fewer than 30 on every question: no lines
-//   &save=ok (default) | fail   POST /api/daily/me answers with the saved record, or 503 (the result says so, Try again)
+//   &check=ok (default) | slow | fail   POST /api/daily/check answers at once, after 1.5 s, or with 503 (Try again)
+//   &auth=out               /preview/daily as a guest: checks answer and nothing is recorded
+// The checks of a signed-in fixture student are kept in this tab (window.__previewDaily): the first pick of each question
+// stands, and GET /api/daily/me builds today's record from them once all five are checked, as the server does.
 import { computeRhythm } from '@/lib/server/rhythm';
 import { DAILY_FIVE_SIZE, addDays, todayDaily } from '@/lib/dailyFive.mjs';
 import { ANSWER_LETTERS, questionRef } from '@/lib/dailyFiveAccount.mjs';
@@ -33,17 +36,29 @@ const recordOf = (date, day, { picks, ms }) => {
   return { date, day, score: marks.filter(Boolean).length, ms, marks, picks };
 };
 
-/** The fixture five as GET /api/daily answers it, with tokens shaped like the server's (they open nowhere). */
+/** The fixture five as GET /api/daily answers it: no key and no reason, tokens shaped like the server's (they open nowhere). */
 export function previewFiveBody(now = Date.now()) {
   const { day, date } = todayDaily(now);
-  return { day, date, questions: PREVIEW_FIVE.map((q, i) => ({ ...q, options: [...q.options], token: `d1.preview-${day}-${i + 1}.fixture-token-not-a-seal` })) };
+  return { day, date, questions: PREVIEW_FIVE.map(({ correct: _key, why: _why, ...q }, i) => ({ ...q, options: [...q.options], token: `d1.preview-${day}-${i + 1}.fixture-token-not-a-seal` })) };
+}
+
+const REVIEW = PREVIEW_FIVE.map((q) => ({ correct: q.correct, why: q.why }));
+/** This tab's checked picks for a signed-in fixture student: the first of each question stands. */
+const memory = () => (typeof window === 'undefined' ? { picks: {} } : (window.__previewDaily ||= { picks: {} }));
+
+function heldPicks(kind) {
+  if (kind === 'played') return PLAYED.picks;
+  if (kind === 'other') return OTHER.picks;
+  return [0, 1, 2, 3, 4].map((i) => memory().picks[i + 1] ?? null);
 }
 
 function accountBody(kind, now) {
   const { day, date } = todayDaily(now);
-  if (kind === 'played') return { day, date, record: recordOf(date, day, PLAYED), played: [addDays(date, -2), addDays(date, -1), date] };
-  if (kind === 'other') return { day, date, record: recordOf(date, day, OTHER), played: [date] };
-  return { day, date, record: null, played: [] };
+  const picks = heldPicks(kind);
+  const whole = picks.every((p) => Number.isInteger(p));
+  const record = whole ? recordOf(date, day, { picks, ms: kind === 'other' ? OTHER.ms : kind === 'played' ? PLAYED.ms : memory().ms ?? 60_000 }) : null;
+  const before = kind === 'played' ? [addDays(date, -2), addDays(date, -1)] : [];
+  return { day, date, record, review: record ? REVIEW : null, played: [...before, ...(record ? [date] : [])] };
 }
 
 function crowdBody(kind, now) {
@@ -78,14 +93,23 @@ export function previewDaily(url, method, init, fixture, json) {
     if (kind === 'error') return json({ error: 'unavailable' }, 503);
     return json(accountBody(kind, now));
   }
-  if (url.pathname === '/api/daily/me' && method === 'POST') {
-    if (fixture.get('save') === 'fail') return json({ error: 'unavailable' }, 503);
+  if (url.pathname === '/api/daily/check' && method === 'POST') {
+    const mode = fixture.get('check') || 'ok';
+    if (mode === 'fail') return json({ error: 'unavailable' }, 503);
     const body = JSON.parse(init?.body || '{}');
-    const { day, date } = todayDaily(now);
-    const held = kind === 'other' ? recordOf(date, day, OTHER) : null;
-    const picks = Array.isArray(body.answers) ? body.answers.map((a) => ANSWER_LETTERS.indexOf(a)) : [];
-    if (!held && (picks.length !== DAILY_FIVE_SIZE || picks.some((p) => p < 0))) return json({ error: 'bad_answers' }, 400);
-    return json({ day, date, record: held || recordOf(date, day, { picks, ms: Math.max(0, Number(body.ms) || 0) }), played: [...(kind === 'played' ? [addDays(date, -2), addDays(date, -1)] : []), date] });
+    const n = Number(/^d1\.preview-\d+-(\d)\./.exec(String(body.token || ''))?.[1]);
+    const asked = ANSWER_LETTERS.indexOf(body.pick);
+    if (!Number.isInteger(n) || n < 1 || n > DAILY_FIVE_SIZE || asked < 0) return json({ error: 'bad_question' }, 400);
+    const guest = fixture.get('auth') === 'out';
+    let pick = asked;
+    if (!guest) {
+      const held = heldPicks(kind)[n - 1];
+      if (Number.isInteger(held)) pick = held; // the first pick stands
+      else { memory().picks[n] = asked; if (n === DAILY_FIVE_SIZE && Number.isFinite(Number(body.ms))) memory().ms = Number(body.ms); }
+    }
+    const { correct, why } = PREVIEW_FIVE[n - 1];
+    const answer = { n, pick, right: pick === correct, correct, why, recorded: !guest };
+    return mode === 'slow' ? new Promise((resolve) => setTimeout(() => resolve(json(answer)), 1500)) : json(answer);
   }
   if (url.pathname === '/api/daily/stats' && method === 'GET') return json(crowdBody(fixture.get('crowd') || 'some', now));
   if (url.pathname === '/api/daily/mob' && method === 'GET') {

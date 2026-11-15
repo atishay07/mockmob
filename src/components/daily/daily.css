@@ -33,6 +33,15 @@
 }
 .mm.lp .dly .dly__time-icon { width: 16px; height: 16px; stroke-width: 2.2; flex: none; }
 
+/* The answer on its way to the server (POST /api/daily/check): the pick is marked at once with an ink edge and a filled key,
+   the others wait; a quiet line only if the check takes longer than 400 ms. A failed check reads in the error tone above its
+   Try again. No motion of its own: the card's reveal opens when the answer comes, as before. */
+.mm.lp .lp-try.dly .mm-drill__option[data-state='picked'] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.mm.lp .lp-try.dly .mm-drill__option[data-state='picked'] .mm-drill__key { background: var(--ink); color: var(--paper); }
+.mm.lp .lp-try.dly .mm-drill__option[data-state='picked']:disabled { opacity: 1; }
+.mm.lp .dly__checking { margin: 10px 0 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; }
+.mm.lp .lp-try.dly .dly__check-failed { color: var(--bad-text, #b0291f); }
+
 /* The start: what the five are and the two rules, then the one key. */
 .mm.lp .lp-try.dly .dly__start-q { font-size: 1.25rem; }
 .mm.lp .dly__rules { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }

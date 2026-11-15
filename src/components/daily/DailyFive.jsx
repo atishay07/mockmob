@@ -8,11 +8,12 @@ import { useAuth } from '@/components/AuthProvider';
 import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
 import {
   DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
-  formatClock, keepAnswer, markSaved, msUntilNextDay, nextIndex, readRecord, resultFor, scoreRun, shareText, shortDate, streakLine, streakOf,
-  todayDaily, untilWords,
+  formatClock, keepAnswer, keepCheck, msUntilNextDay, nextOpen, readRecord, resultFor, scoreRun, shareText, shortDate, streakLine, streakOf,
+  todayDaily, untilWords, withChecks,
 } from '@/lib/dailyFive.mjs';
 import {
-  ANSWER_LETTERS, DAILY_FIVE_ME_ROUTE, DAILY_FIVE_STATS_ROUTE, acceptAccount, acceptCrowd, crowdLineFor, runDays, runNote,
+  ANSWER_LETTERS, DAILY_FIVE_CHECK_ROUTE, DAILY_FIVE_ME_ROUTE, DAILY_FIVE_STATS_ROUTE, acceptAccount, acceptCheck, acceptCrowd, crowdLineFor, runDays,
+  runNote,
 } from '@/lib/dailyFiveAccount.mjs';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
@@ -27,9 +28,13 @@ import './daily.css';
 // volt Share, the run of days, the five questions one by one with how everyone did, one quiet key on), and played (today's
 // result again with the wait for the next five). A day is played once on a device: a reload resumes the run where it stood,
 // with the clock still running, and an answer is never asked again (DAILY_FIVE_STORE in localStorage).
-// Signed in: the finished five is saved to the account (POST /api/daily/me, scored by the server), and the account's record
-// wins over the device's: a five finished on another phone shows here as played, and the run of days is the account's. A
-// save that fails says so under the run, with Try again; nothing says "saved" before the server has it. Guests: unchanged.
+// The page never holds the key (review 15 Nov): each answer is checked on the server (POST /api/daily/check with the
+// question's sealed token). The pick is kept on the device before it is sent, shows as picked at once, and turns right or
+// wrong when the answer comes (one short request; after 400 ms a quiet "Checking your answer."); a failed check says so and
+// offers Try again with the same pick, which is never lost. Signed in, the first check of each question is the answer the
+// account keeps, so the account's five is built from the checks alone, and the account's record wins over the device's: a
+// five finished on another phone shows here as played, and the run of days is the account's. Nothing says "on your account"
+// before the server has it. Guests get the same checks; nothing is kept for them anywhere but this device.
 
 const KEYS = ['A', 'B', 'C', 'D'];
 /** A request that has not answered in this long is dropped and the page offers Try again (the sample's patchy-4G rule). */
@@ -84,8 +89,8 @@ export default function DailyFive() {
   const [justFinished, setJustFinished] = useState(false);
   // The account (signed in only): { state: 'loading' | 'ready' | 'failed', date, record, played }.
   const [account, setAccount] = useState(null);
-  // The save of today's five: 'idle' | 'saving' | 'saved' | 'failed' | 'device'.
-  const [saving, setSaving] = useState('idle');
+  // The check of the answer on screen: 'idle' | 'checking' | 'slow' (still checking after 400 ms) | 'failed'.
+  const [checking, setChecking] = useState('idle');
   const [crowd, setCrowd] = useState(null);
   const rootRef = useRef(null);
   const footRef = useRef(null);
@@ -93,7 +98,9 @@ export default function DailyFive() {
   const resultRef = useRef(null);
   const focusNext = useRef(null);
   const request = useRef(null);
-  const saveFor = useRef(null);
+  const inFlight = useRef(null);
+  const checkRef = useRef(null);
+  const keyboardPick = useRef(false);
   const fiveRef = useRef(null);
   const accountRef = useRef(null);
   const leadId = useId();
@@ -108,7 +115,7 @@ export default function DailyFive() {
   const applyAccount = useCallback((acc, uid) => {
     if (!acc?.record || !uid) return;
     const stored = readStore();
-    const adopted = adoptAccount(stored, acc.record, { userId: uid, questions: fiveRef.current });
+    const adopted = adoptAccount(stored, acc.record, { userId: uid, questions: fiveRef.current ? withChecks(fiveRef.current, acc.review) : null });
     if (!same(adopted, stored)) { writeStore(adopted); setRecord(adopted); }
   }, []);
 
@@ -150,19 +157,21 @@ export default function DailyFive() {
       if (resultFor(stored, day.date, null)) { setPhase('result'); return; }
       const begun = stored.run && stored.run.date === day.date ? stored.run : null;
       if (begun) {
-        const at = nextIndex(begun.picks);
+        const at = nextOpen(begun);
         if (at >= DAILY_FIVE_SIZE) {
-          // All five were answered before the page closed: the day is finished as it stood.
-          const scored = scoreRun(begun.picks, accepted.questions);
+          // All five were checked before the page closed: the day is finished as it stood.
+          const scored = scoreRun(begun.picks, withChecks(accepted.questions, begun.checks));
           const done = finishDay(stored, { date: day.date, ...scored, ms: clockNow() - begun.startedAt });
           writeStore(done);
           setRecord(done);
           setPhase('result');
           return;
         }
+        // A pick whose check never answered (a closed tab, a dropped connection) is checked again, as it was picked.
         setIndex(at);
-        setPicked(null);
+        setPicked(begun.picks[at]);
         setPhase('playing');
+        if (Number.isInteger(begun.picks[at])) checkRef.current?.(at, begun.picks[at], accepted.questions);
         return;
       }
       setPhase('start');
@@ -214,52 +223,57 @@ export default function DailyFive() {
     return () => window.clearTimeout(t);
   }, [userId, todayDate, readAccount]);
 
-  // The save: a finished five of this student's, not on the account yet, with the server's tokens. Once per day per visit
-  // (Try again clears the mark); the server keeps the first run whatever is sent after it.
-  const save = useCallback(async (date) => {
+  // The check: one answer to the server with its token. The pick is already kept on the device; the answer that comes back
+  // is kept beside it (the server's pick stands: for a signed-in student, the first check of the question, perhaps from
+  // another tab). After the fifth, the day finishes and a signed-in student's account is read again.
+  const check = useCallback(async (at, choice, questions) => {
+    const list = questions || fiveRef.current;
     const stored = readStore();
-    const last = resultFor(stored, date, userId);
-    const tokens = Array.isArray(five) ? five.map((q) => q.token) : [];
-    if (!last || !last.picks || tokens.length !== DAILY_FIVE_SIZE || tokens.some((t) => !t)) { setSaving('device'); return; }
-    setSaving('saving');
+    const date = stored.run?.date;
+    if (!list?.[at]?.token || !date || inFlight.current === at) return;
+    inFlight.current = at;
+    setChecking('checking');
+    const slowTimer = window.setTimeout(() => setChecking((c) => (c === 'checking' ? 'slow' : c)), 400);
+    const controller = new AbortController();
+    const giveUp = window.setTimeout(() => controller.abort(), SLOW_MS);
     try {
-      const response = await fetch(DAILY_FIVE_ME_ROUTE, {
+      const last = at === DAILY_FIVE_SIZE - 1 ? { ms: Math.max(0, clockNow() - stored.run.startedAt) } : {};
+      const response = await fetch(DAILY_FIVE_CHECK_ROUTE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ day: last.day, date, tokens, answers: last.picks.map((p) => ANSWER_LETTERS[p]), ms: last.ms }),
+        body: JSON.stringify({ token: list[at].token, pick: ANSWER_LETTERS[choice], ...last }),
+        signal: controller.signal,
       });
-      const body = await response.json().catch(() => null);
-      if (response.status === 409) { setSaving('device'); return; }
-      const answer = response.ok ? acceptAccount(body) : null;
-      if (!answer?.record) throw new Error('unsaved');
-      const marked = markSaved(readStore(), date, userId);
-      writeStore(marked);
-      setRecord(marked);
-      // The stored record is the first run's, wherever it was finished: it is the one shown.
-      const next = { state: 'ready', userId, day: answer.day, date: answer.date, record: answer.record, played: answer.played.length ? answer.played : runDays(accountRef.current?.played, date, true) };
-      holdAccount(next);
-      applyAccount(next, userId);
-      setSaving('saved');
+      // The day closed while the question was open: today's five load instead.
+      if (response.status === 409) { inFlight.current = null; load(); return; }
+      const answer = response.ok ? acceptCheck(await response.json(), at + 1) : null;
+      if (!answer) throw new Error('unchecked');
+      let next = keepCheck(readStore(), { date, index: at, check: answer });
+      if (nextOpen(next.run) >= DAILY_FIVE_SIZE) {
+        // The fifth answer stops the clock and finishes the day at once; "See my score" only opens it.
+        const scored = scoreRun(next.run.picks, withChecks(list, next.run.checks));
+        next = finishDay(next, { date, ...scored, ms: clockNow() - next.run.startedAt, ...(userId ? { by: userId } : {}) });
+        if (userId) readAccount(date, userId);
+      }
+      writeStore(next);
+      setRecord(next);
+      setPicked(answer.pick);
+      setNow(clockNow());
+      if (keyboardPick.current) focusNext.current = 'next';
+      setChecking('idle');
     } catch {
-      setSaving('failed');
+      if (keyboardPick.current) focusNext.current = 'next';
+      setChecking('failed');
+    } finally {
+      window.clearTimeout(slowTimer);
+      window.clearTimeout(giveUp);
+      if (inFlight.current === at) inFlight.current = null;
     }
-  }, [five, userId, applyAccount, holdAccount]);
+  }, [userId, readAccount, load]);
+  useEffect(() => { checkRef.current = check; }, [check]);
 
-  useEffect(() => {
-    if (!signedIn || !today || !result || accountRecord || result.saved) return undefined;
-    if (!account || account.state === 'loading' || !five) return undefined;
-    if (saveFor.current === today.date) return undefined;
-    saveFor.current = today.date;
-    const t = window.setTimeout(() => save(today.date), 0);
-    return () => window.clearTimeout(t);
-  }, [signedIn, today, result, accountRecord, account, five, save]);
-
-  const retrySave = () => {
-    if (!today) return;
-    saveFor.current = null;
-    setSaving('idle');
-    if (account?.state === 'failed' && userId) readAccount(today.date, userId);
-    else save(today.date);
+  const retryAccount = () => {
+    if (today && userId) readAccount(today.date, userId);
   };
 
   // The clock: it only counts up, from the moment Start was pressed, and stops at the fifth answer.
@@ -278,9 +292,8 @@ export default function DailyFive() {
       const t = clockNow();
       setNow(t);
       if (todayDaily(t).date !== today.date) {
-        saveFor.current = null;
         holdAccount(null);
-        setSaving('idle');
+        setChecking('idle');
         setCrowd(null);
         load();
       }
@@ -306,12 +319,12 @@ export default function DailyFive() {
     else if (target === 'options') optionsRef.current?.querySelector('button')?.focus({ preventScroll: true });
     else if (target === 'card') rootRef.current?.focus({ preventScroll: true });
     else if (target === 'result') resultRef.current?.focus({ preventScroll: true });
-  }, [phase, index, picked]);
+  }, [phase, index, picked, checking]);
 
   // After an answer the reason opens and the forward key can fall under the window's foot: bring only the key into reach, at
   // once (the sample's rule: never a glide, nothing moves when it is already in reach).
   useEffect(() => {
-    if (picked === null) return undefined;
+    if (picked === null || checking === 'checking' || checking === 'slow') return undefined;
     const id = window.setTimeout(() => {
       const key = footRef.current?.querySelector('.mm-btn');
       if (!key) return;
@@ -319,7 +332,7 @@ export default function DailyFive() {
       if (over > 0) window.scrollBy({ top: Math.ceil(over), behavior: 'instant' });
     }, 320);
     return () => window.clearTimeout(id);
-  }, [picked, index]);
+  }, [picked, index, checking]);
 
   function start(event) {
     const next = beginRun(dropForeign(readStore(), today.date, userId), { date: today.date, startedAt: clockNow() });
@@ -334,19 +347,22 @@ export default function DailyFive() {
 
   function pick(optionIndex, event) {
     if (picked !== null || !run) return;
-    focusNext.current = event.detail === 0 ? 'next' : 'card';
-    // Kept before it is shown: a reload after this answer resumes on the next question, never this one again.
-    let next = keepAnswer(readStore(), { date: today.date, index, pick: optionIndex });
-    if (nextIndex(next.run?.picks) >= DAILY_FIVE_SIZE) {
-      // The fifth answer stops the clock and finishes the day at once (and a signed-in student's save starts); "See my
-      // score" only opens it.
-      const scored = scoreRun(next.run.picks, five);
-      next = finishDay(next, { date: today.date, ...scored, ms: clockNow() - next.run.startedAt, ...(userId ? { by: userId } : {}) });
-    }
+    // A keyboard pick moves on to the forward key once the answer is in; a tap keeps focus on the card.
+    keyboardPick.current = event.detail === 0;
+    focusNext.current = 'card';
+    // Kept before it is sent: a reload after this pick resumes on this question with this pick, checked again, never asked.
+    const next = keepAnswer(readStore(), { date: today.date, index, pick: optionIndex });
     writeStore(next);
     setRecord(next);
     setNow(clockNow());
     setPicked(optionIndex);
+    check(index, optionIndex);
+  }
+
+  function retryCheck(event) {
+    if (picked === null) return;
+    keyboardPick.current = event.detail === 0;
+    check(index, picked);
   }
 
   function forward(event) {
@@ -360,6 +376,7 @@ export default function DailyFive() {
     focusNext.current = event.detail === 0 ? 'options' : 'card';
     setIndex((i) => i + 1);
     setPicked(null);
+    setChecking('idle');
   }
 
   async function shareScore() {
@@ -393,8 +410,9 @@ export default function DailyFive() {
   // ---------- Result: just finished, or played earlier today (here or, signed in, on another phone) ----------
   if (showResult) {
     // Signed in: the run is the account's (with today while its save is on the way); a guest's is this device's.
-    const saveState = !signedIn ? 'guest' : accountRecord || result.saved || saving === 'saved' ? 'saved'
-      : saving === 'failed' || account?.state === 'failed' ? 'failed' : saving === 'device' ? 'device' : 'saving';
+    // Signed in, the account holds the five once all five checks were recorded: read again after the fifth.
+    const saveState = !signedIn ? 'guest' : accountRecord || result.saved ? 'saved'
+      : account?.state === 'failed' ? 'failed' : accountReady ? 'device' : 'saving';
     const days = signedIn && accountReady ? runDays(account.played, today.date, true) : record.played;
     const streak = streakOf(days, today.date);
     const line = streakLine(streak);
@@ -405,8 +423,9 @@ export default function DailyFive() {
       const n = i + 1;
       const miss = missedAt.get(n) || null;
       const q = five?.[i] || null;
-      // A right answer opens to its question and reason when the page holds the five; a miss always opens.
-      const body = miss || (right && q ? { n, chapter: q.chapter, q: q.q, picked: q.options[q.correct], answer: null, why: q.why } : null);
+      const told = result.review?.[i] || null;
+      // A right answer opens to its question and reason when the page holds the five and its check; a miss always opens.
+      const body = miss || (right && q && told ? { n, chapter: q.chapter, q: q.q, picked: q.options[told.correct], answer: null, why: told.why } : null);
       return { n, right, chapter: chapters?.[i] || miss?.chapter || `Question ${n}`, body, crowd: crowdLineFor(crowd, five, i) };
     });
     return (
@@ -440,7 +459,7 @@ export default function DailyFive() {
                   <div className="dly__streak">
                     {line ? <p className="dly__streak-line">{line.head}</p> : null}
                     <p className="dly__streak-note" aria-live="polite">{line?.more ? `${line.more} ` : ''}{runNote(saveState)}</p>
-                    {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retrySave}>Try again</button> : null}
+                    {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retryAccount}>Try again</button> : null}
                   </div>
                 ) : null}
 
@@ -600,10 +619,11 @@ export default function DailyFive() {
 
   // ---------- Playing ----------
   const question = five[index];
-  const answered = picked !== null;
-  // Once the fifth answer is in, the day is finished: the clock and the dashes read from the result.
+  // Once the fifth answer is checked, the day is finished: the clock, the dashes and the last answer read from the result.
+  const told = result ? (result.review?.[index] ? { ...result.review[index], right: result.marks[index] } : null) : run?.checks?.[index] || null;
+  const answered = Boolean(told);
   const shownMs = result ? result.ms : run ? Math.max(0, now - run.startedAt) : 0;
-  const marks = result ? result.marks : run ? run.picks.map((p, i) => (Number.isInteger(p) ? p === five[i].correct : null)) : [];
+  const marks = result ? result.marks : run ? run.checks.map((c) => (c ? c.right : null)) : [];
   return (
     <>
       {over}
@@ -636,14 +656,15 @@ export default function DailyFive() {
 
               <div className="mm-drill__options" role="group" aria-label="Answer options" ref={optionsRef}>
                 {question.options.map((option, optionIndex) => {
-                  const isCorrect = optionIndex === question.correct;
+                  const isCorrect = answered && optionIndex === told.correct;
                   const isPicked = picked === optionIndex;
                   let state = 'idle';
-                  if (answered && isCorrect) state = 'correct';
-                  else if (isPicked) state = 'wrong';
+                  if (isCorrect) state = 'correct';
+                  else if (answered && isPicked) state = 'wrong';
                   else if (answered) state = 'muted';
+                  else if (isPicked) state = 'picked';
                   return (
-                    <button key={`${index}-${optionIndex}`} type="button" className="mm-drill__option" data-state={state} onClick={(event) => pick(optionIndex, event)} disabled={answered}>
+                    <button key={`${index}-${optionIndex}`} type="button" className="mm-drill__option" data-state={state} onClick={(event) => pick(optionIndex, event)} disabled={picked !== null} aria-pressed={isPicked || undefined}>
                       <span className="mm-drill__key" aria-hidden="true">{KEYS[optionIndex]}</span>
                       <span className="mm-drill__label">{option}</span>
                       {answered && isCorrect ? <Icon name="check" className="mm-drill__verdict-icon" /> : null}
@@ -653,19 +674,28 @@ export default function DailyFive() {
                 })}
               </div>
 
-              <div className="mm-drill__reveal" data-open={answered ? 'true' : 'false'}>
+              {!answered && picked !== null && checking === 'slow' ? <p className="dly__checking" role="status">Checking your answer.</p> : null}
+
+              <div className="mm-drill__reveal" data-open={answered || (picked !== null && checking === 'failed') ? 'true' : 'false'}>
                 <div className="mm-drill__foot" aria-live="polite" ref={footRef}>
                   {answered ? (
                     <>
-                      <p className="mm-drill__why" data-verdict={picked === question.correct ? 'right' : 'wrong'}>
+                      <p className="mm-drill__why" data-verdict={told.right ? 'right' : 'wrong'}>
                         <span>
-                          <strong data-ok={picked === question.correct ? 'true' : 'false'}>{picked === question.correct ? 'Correct.' : 'Not quite.'}</strong>{' '}
-                          {question.why}
+                          <strong data-ok={told.right ? 'true' : 'false'}>{told.right ? 'Correct.' : 'Not quite.'}</strong>{' '}
+                          {told.why}
                         </span>
                       </p>
                       <button type="button" className="mm-btn mm-btn--primary" onClick={forward}>
                         {index + 1 >= DAILY_FIVE_SIZE ? 'See my score' : 'Next question'}
                       </button>
+                    </>
+                  ) : picked !== null && checking === 'failed' ? (
+                    <>
+                      <p className="mm-drill__why dly__check-failed" data-tone="error">
+                        <span>Couldn’t check your answer. Your pick {ANSWER_LETTERS[picked]} is kept; try again when you’re connected.</span>
+                      </p>
+                      <button type="button" className="mm-btn mm-btn--primary" onClick={retryCheck}>Try again</button>
                     </>
                   ) : null}
                 </div>
