@@ -82,13 +82,13 @@ test('invalid input is refused before anything else, and the kill switch before 
   assert.equal(off.calls.take.length + off.calls.model.length, 0);
 });
 
-test('an answer takes site, network, visitor in that order, then calls the model once with the caps', async () => {
+test('an answer takes network, visitor, site in that order (M9: the site bucket last), then calls the model once with the caps', async () => {
   const { guest, calls } = harness();
   const res = await guest.handle({ body: { message: 'What should I do tonight?', sample: SAMPLE } });
   assert.equal(res.status, 200);
   assert.equal(res.body.state, 'answered');
   assert.equal(res.body.left, GUEST_QUESTIONS - 1);
-  assert.deepEqual(calls.take.map(([s]) => s), ['site', 'network', 'visitor']);
+  assert.deepEqual(calls.take.map(([s]) => s), ['network', 'visitor', 'site']);
   assert.equal(calls.model.length, 1);
   assert.equal(calls.model[0].maxTokens, MAX_OUTPUT_TOKENS);
   assert.match(calls.model[0].requestKey, /^[a-zA-Z0-9_:-]{12,180}$/);
@@ -96,7 +96,8 @@ test('an answer takes site, network, visitor in that order, then calls the model
   assert.equal(readVisitor(cookieValue(res.setCookie), SECRET, NOW).count, 1);
 });
 
-for (const [scope, takenBefore] of [['site', []], ['network', ['site']], ['visitor', ['site', 'network']]]) {
+// M9: a network or a visitor over its limit never touches the shared site bucket.
+for (const [scope, takenBefore] of [['network', []], ['visitor', ['network']], ['site', ['network', 'visitor']]]) {
   test(`the ${scope} limit refuses with 429, takes nothing after it, gives back what it took and never calls the model`, async () => {
     const { guest, calls } = harness({ refuse: scope });
     const res = await guest.handle({ body: { message: 'hi' } });
