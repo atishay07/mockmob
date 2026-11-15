@@ -64,7 +64,7 @@ export function startProblem(error, ctx = {}) {
   const primary = (key) => ({ ...key, primary: true });
 
   if (code === 'SESSION_ALREADY_SUBMITTED') {
-    return { kind: 'sent', title: 'You already sent this paper', message: 'Its result is saved with your other papers in Review.', keys: [primary({ label: 'Go to Review', href: '/review' })] };
+    return { kind: 'sent', title: 'You already sent this paper', message: 'Its result is saved in Your papers.', keys: [primary({ label: 'Go to Your papers', href: '/review' })] };
   }
   if (status === 401 || /^unauthori[sz]ed$/i.test(code)) {
     return { kind: 'signedOut', title: 'You are signed out', message: 'Sign in again to open this paper.', keys: [primary({ label: 'Sign in', href: ctx.loginHref || '/login' })] };
