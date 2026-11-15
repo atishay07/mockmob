@@ -3,6 +3,7 @@ import { StatusIcon } from './Glyph';
 import { WaitingMobi, FailedMobi, RefusedMobi, EmptyMobi } from './StateMobi';
 import StateRoom from '@/components/scenes/StateRoom';
 import { sceneForState } from '@/components/scenes/sceneModel.mjs';
+import './wait.css';
 
 /**
  * Minimal skeleton primitives. All use a single shimmer animation defined in globals.css.
@@ -33,14 +34,16 @@ export function SkeletonCard({ className = '', lines = 3 }) {
   );
 }
 
-/** Centered full-page spinner — use when a full page is waiting on data. */
+/**
+ * A whole page waiting on one answer (the paper runner opening, onboarding checking the account): Mobi at the size of a
+ * line of text, after the app's 300 ms grace, and the words beside him in the page's own small type. Lane "load", 16 Nov
+ * 2026: it was a 74 px Mobi and a spaced-out mono label in 192 px of padding.
+ */
 export function PageSpinner({ label = 'Loading…' }) {
   return (
-    <div className="flex items-center justify-center py-24 text-zinc-500">
-      <div className="flex items-center gap-3">
-        <WaitingMobi />
-        <span className="mono-label" role="status">{label}</span>
-      </div>
+    <div className="ui-page-wait" role="status" aria-busy="true">
+      <WaitingMobi size={40} />
+      <span className="ui-page-wait__label">{label}</span>
     </div>
   );
 }

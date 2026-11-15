@@ -1,0 +1,35 @@
+/* The small "working" mark (lane "load", 16 Nov 2026): one 14 px ring in the text's own colour, beside the words that say
+   what is loading. For a wait on an action (signing in, opening a page); content that is on its way gets a skeleton
+   shaped like it instead (.skeleton, globals.css). One turn in 800 ms, linear; still under Reduce motion. */
+.mm-wait {
+  display: inline-block;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0.7;
+  vertical-align: -2px;
+  animation: mm-wait-turn 800ms linear infinite;
+}
+@keyframes mm-wait-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .mm-wait { animation: none; }
+}
+html[data-motion='reduced'] .mm-wait { animation: none; }
+
+/* A whole page waiting on one answer (Skeleton.jsx PageSpinner): Mobi at 40 px and the words beside him, centred in the
+   space the page's first card will take, in the page's small type (no mono, no caps). */
+.ui-page-wait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 240px;
+  padding: 24px 16px;
+  color: var(--a-ink-3, #a09989);
+}
+.ui-page-wait .pip-state { width: 40px; height: 52px; }
+.ui-page-wait__label { font-size: 15px; line-height: 1.5; }
+
