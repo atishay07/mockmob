@@ -17,7 +17,7 @@ function nowLine(d) {
   const st = { phase: d.phase, dow: d.dow, week: d.week, opensAt: Date.parse(d.opensAt), closesAt: Date.parse(d.closesAt) };
   if (d.phase === 'open') return { title: `${openUntilLine(st)} today`, line: `${dateLabel(d.week)}. Each paper is 50 questions in 60 minutes, and one started by ${timeLabel(st.closesAt)} keeps all 60.` };
   if (d.phase === 'closed') return { title: `Closed at ${timeLabel(st.closesAt)}`, line: `The next one: ${windowLine(d.next)}.` };
-  return { title: opensLine(st), line: `${windowLine(d.week)}.` };
+  return { title: opensLine(st), line: `It stays open until ${timeLabel(st.closesAt)}. A paper started by then keeps its full 60 minutes.` };
 }
 
 function Rows({ d }) {

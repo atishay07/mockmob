@@ -364,8 +364,8 @@ export function subjectRow(s, sub) {
     case 'started': return { line: `You started it. Your time runs until ${timeLabel(Date.parse(sub.resumeUntil))}.`, key: { label: SUNDAY_COPY.resume, href: subjectHref(s, sub) } };
     case 'unsent': return { line: 'You started it, and its 60 minutes ran out before it was sent.' };
     case 'open': return { line: 'Not sat yet.', key: { label: SUNDAY_COPY.sitIt, href: subjectHref(s, sub) } };
-    case 'soon': return { line: `${opensLine(st)}.` };
-    default: return { line: `You did not sit it this week. The next one is on ${dateLabel(s.next)}.` };
+    case 'soon': return { line: 'Not open yet.' };
+    default: return { line: 'You did not sit it this week.' };
   }
 }
 

@@ -216,7 +216,8 @@ test('Practice\'s chip, the page\'s rows and the runner\'s refusals', () => {
   assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).link.href, '/result/a1');
   assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 31 })).line, 'You sat it: 160/250. 31 students sat this paper.');
   assert.equal(subjectRow(s, acc('unsent')).key, undefined);
-  assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('closed')).line, 'You did not sit it this week. The next one is on Sunday 29 Nov.');
+  assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('closed')).line, 'You did not sit it this week.');
+  assert.equal(subjectRow(statusAt('2026-11-21T23:00:00', []), acc('soon')).line, 'Not open yet.');
   const p = runnerProblem(Object.assign(new Error('CLOSED'), { body: { error: 'CLOSED', detail: { week: '2026-11-22', next: '2026-11-29', opensAt: '2026-11-22T04:30:00.000Z', closesAt: '2026-11-22T16:30:00.000Z' } } }));
   assert.equal(p.title, 'This Sunday’s paper has closed');
   assert.equal(p.message, 'The last start was at 10:00 PM. The next one opens on Sunday 29 Nov at 10:00 AM.');

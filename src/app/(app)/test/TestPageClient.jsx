@@ -1327,7 +1327,9 @@ function TestRunner() {
     ? waitingCopy({ ticket: !!selectionMeta?.sessionTicket, msLeft: endsAt - now, msToGraceEnd: endsAt + SUBMISSION_GRACE_MS - now, place: placeNow() })
     : error;
   // A Mob paper (/test?mob=1) is the Mob's weekly paper, not Quick practice, whatever the mode in the address says.
-  const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : searchParams.get('sunday') === '1' ? 'Sunday Mock' : mode.label;
+  const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : mode.label;
+  // A Sunday Mock (/test?sunday=1) is this week's Sunday paper, not a Full mock, in the header.
+  const headerLabel = searchParams.get('sunday') === '1' ? 'Sunday Mock' : attemptLabel;
   const subjectLabel = displayLabel(subjectId);
 
   const chipStateFor = (qid) => {
@@ -1900,7 +1902,7 @@ function TestRunner() {
             <Icon name="x" />
           </button>}
           <div className="nta-title-stack">
-            <span>{attemptLabel}</span>
+            <span>{headerLabel}</span>
             <strong>{subjectLabel}</strong>
           </div>
         </div>
