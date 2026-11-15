@@ -82,16 +82,33 @@ export async function claimFirstFullMock(db, { userId, subject, sessionId }) {
   return String(held.data.reference) === String(sessionId) ? 'mine' : 'taken';
 }
 
+// The release as one statement under the users row lock (supabase/migrations/20261116120000_release_unstarted_allowance.sql).
+const RELEASE_FUNCTION = 'release_unstarted_allowance';
+// A function the database does not have yet (PostgREST PGRST202, Postgres 42883). Nothing else counts as missing.
+const functionMissing = (error) => error?.code === 'PGRST202' || error?.code === '42883';
+
 /**
  * Gives the free row back after a durable start that took it and then failed to make its session (SESS-FOLLOWUP 4, 15 Nov
  * 2026): the row is taken outside start_learning_session's transaction, so a failed session start would otherwise leave the
  * subject's free full mock spent on a paper that never existed. Deleted only while no recovery_sessions row has this id (a
  * parallel replay of the same start that did make the session keeps it). Never throws; true when the row was given back. A read
  * or delete that fails keeps the row, as before this rule: reopening the same paper then still starts it free.
+ * Release race (16 Nov 2026, durable-sessions-ready.md): the read and the delete below ran outside the start's lock, so on a
+ * double tap whose other start held the users lock and had not yet committed its free session, the read saw no session and the
+ * row was deleted. release_unstarted_allowance takes that same users row lock first, then reads and deletes in one statement.
  */
 export async function releaseFirstFullMock(db, { userId, subject, sessionId }) {
   const kind = firstFullMockKind(subject);
   if (!db || !kind || !userId || !sessionId) return false;
+  if (typeof db.rpc === 'function') {
+    const released = await settle(Promise.resolve().then(() => db.rpc(RELEASE_FUNCTION,
+      { p_user_id: String(userId), p_kind: kind, p_period: FIRST_FULL_MOCK_PERIOD, p_session_id: String(sessionId) })));
+    if (!released?.error) return released?.data === true;
+    // Any other failure (a timeout, a dropped connection) may have run or may still run: keep the row, never delete beside it.
+    if (!functionMissing(released.error)) return false;
+  }
+  // Fallback while the migration is not applied (production until the owner or the CTO applies it): exactly the release as it
+  // was before the race fix, a read then a delete, with the window described above still open.
   const session = await settle(db.from('recovery_sessions').select('id').eq('id', String(sessionId)).maybeSingle());
   if (session?.error || session?.data) return false;
   const gone = await settle(db.from('learning_allowances').delete()
