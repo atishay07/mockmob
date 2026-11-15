@@ -1,0 +1,94 @@
+/* The session screen (AuthSessionScreen.jsx): the plain wait while a page checks for a session (Log in, Sign up, the sign-in
+   hand-off) and the card for a question or an error. A real stylesheet, not styled-jsx (lane "load", 16 Nov 2026): the
+   styled-jsx block only arrived with the page's scripts, so on a slow phone the server's first paint of Log in and Sign up
+   was an unstyled dark screen, in Day too. */
+.auth-session-bg {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* The page's own ground: the warm glow that sat behind the card is gone (no decorative glows). */
+  background: #12110e;
+}
+.auth-session-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: none;
+}
+.auth-session-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  display: none;
+}
+.auth-session-card {
+  position: relative;
+  border: 1px solid #312e27;
+  border-radius: 16px;
+  background: #1b1a16;
+  box-shadow: 0 24px 90px rgba(0,0,0,0.42);
+  padding: 32px;
+}
+/* Daylight variant: this screen precedes the Arena shell, so it must not flash dark. */
+html[data-theme='light'] .auth-session-bg { background: #f3efe6; }
+html[data-theme='light'] .auth-session-card { border-color: #d8d1c2; background: #fff; box-shadow: 0 24px 60px -30px rgba(42,32,16,0.25); }
+html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #17150f; }
+html[data-theme='light'] .auth-session-card .logo .dot { color: #526700; }
+html[data-theme='light'] .auth-session-card p { color: #655f53; }
+html[data-theme='light'] .auth-session-card .bg-white\/10 { background: #e9e4d8; }
+.auth-session-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  position: relative;
+}
+.auth-session-mark--error {
+  background: rgba(248, 113, 113, 0.16);
+  border: 1px solid rgba(248, 113, 113, 0.55);
+}
+.auth-session-mark--ask {
+  background: rgba(210, 240, 0, 0.14);
+  border: 1px solid rgba(210, 240, 0, 0.55);
+}
+.auth-session-mark--ask::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--volt);
+  transform: translate(-50%, -50%);
+}
+html[data-theme='light'] .auth-session-mark--ask::before { background: #526700; }
+html[data-theme='light'] .auth-session-quiet { border-color: #cfc7b6; color: #17150f; }
+.auth-session-mark--error::before,
+.auth-session-mark--error::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 2px;
+  border-radius: 999px;
+  background: #f87171;
+}
+.auth-session-mark--error::before { transform: translate(-50%, -50%) rotate(45deg); }
+.auth-session-mark--error::after { transform: translate(-50%, -50%) rotate(-45deg); }
+/* The plain wait: no card, the logo and one line with the small working mark (wait.css). */
+.auth-session-card.auth-session-card--wait,
+html[data-theme='light'] .auth-session-card.auth-session-card--wait { border-color: transparent; background: transparent; box-shadow: none; padding: 24px; }
+.auth-session-wait {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #bdb6a6;
+}

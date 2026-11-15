@@ -12,6 +12,7 @@ import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
 import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
+import ArenaShellSkeleton from '@/components/arena/ArenaShellSkeleton';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import AccountPopover from '@/components/account/AccountPopover';
@@ -276,12 +277,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     );
   }
 
+  // While the session resolves (and while a moderator page checks access): the shell itself with quiet shapes in it, so the
+  // student sees the frame they are about to use, not a different screen first (lane "load", 16 Nov 2026).
   if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
-    return (
-      <AuthSessionScreen
-        message={status === 'authenticated' ? 'Checking your access…' : 'Loading your session…'}
-      />
-    );
+    return <ArenaShellSkeleton chromeless={chromeless} />;
   }
 
   // A focus route: only the page, no navigation of any kind. Its overlay is the whole screen, and the shell is not drawn under it, so

@@ -1304,6 +1304,26 @@
     background-position: -200% 0;
   }
 }
+/* The cutoff calculator while its courses load (CutoffCalculator.jsx), on a wide window: the subjects panel on the left
+   and the results' heading on the right, as .du-layout draws them from 1100 px, so the page under it (its notes) stays
+   where it will be (it moved 0.008 when the panel arrived). Phones keep the three blocks: the notes are below the fold. */
+@media (min-width: 1100px) {
+  .du-skeleton:not(.du-skeleton--planner) { grid-template-columns: minmax(0, 26rem) minmax(0, 1fr); align-items: start; gap: 0.75rem 2rem; }
+  .du-skeleton:not(.du-skeleton--planner) span:nth-child(1) { grid-row: span 3; height: 60rem; }
+  .du-skeleton:not(.du-skeleton--planner) span:nth-child(2) { height: 1.75rem; width: min(60%, 22rem); border-radius: 8px; }
+  .du-skeleton:not(.du-skeleton--planner) span:nth-child(3) { height: 1rem; width: min(80%, 30rem); border-radius: 6px; }
+}
+/* The subject-combination planner while its courses load (ComboPlanner.jsx): its first step (the heading, its line, the
+   course chips, the search) and the start of the second (the heading and the subject chips), so the page under it stays
+   where it will be. */
+.du-skeleton--planner { gap: 0.875rem; }
+.du-skeleton--planner span:nth-child(1),
+.du-skeleton--planner span:nth-child(5) { height: 1.75rem; width: min(78%, 26rem); border-radius: 8px; }
+.du-skeleton--planner span:nth-child(2) { height: 1rem; width: min(62%, 22rem); border-radius: 6px; margin-bottom: 0.375rem; }
+.du-skeleton--planner span:nth-child(3) { height: 12.5rem; }
+.du-skeleton--planner span:nth-child(4) { height: 3.25rem; border-radius: 16px; margin-bottom: 2.5rem; }
+.du-skeleton--planner span:nth-child(6) { height: 2.75rem; width: min(90%, 30rem); border-radius: 8px; }
+.du-skeleton--planner span:nth-child(7) { height: 34rem; }
 @media (prefers-reduced-motion: reduce) {
   .du-skeleton span {
     animation: none;

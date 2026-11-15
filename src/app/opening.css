@@ -7,13 +7,30 @@
 
 .mo-open { display: none; }
 
+/* The beats are custom properties, one set per mode (owner, 16 Nov 2026: "it can be improved a bit and smaller"):
+     first  the first visit ever: the whole character (blink, the eye inks, pull-back, unfold, dot) at the mock-up's
+            size, 1,200 ms in all (was 1,600: the 320 ms hold with its breath, glance back and second blink is gone,
+            and the pull-back and the unfold are 80 and 20 ms quicker);
+     short  every new session: half the size (min(40vw, 170px)) and 700 ms in all (was 1,280). It opens on the first
+            visit's 500 ms rest pose (the eye already inked), so it is the pull-back, the unfold and the dot, then the
+            same hand-off onto the bar logo.
+   Every beat ends by --mo-hand, so nothing is cut mid-motion by the hand-off (opening.test.mjs checks it). */
 html[data-opening='first'] .mo-open,
 html[data-opening='short'] .mo-open {
-  /* The hand-off starts at --mo-hand and the layer is gone at --mo-end (OPENING_SHORT_MS / OPENING_FIRST_MS). */
-  --mo-hand: 1000ms;
-  --mo-end: 1280ms;
+  /* The hand-off starts at --mo-hand and the layer is gone at --mo-end (OPENING_FIRST_MS / OPENING_SHORT_MS). */
+  --mo-hand: 920ms;
+  --mo-end: 1200ms;
   /* The composed word: the mock-up's size (78vw, at most 330 px), the bar logo's shape. */
   --mo-w: min(78vw, 330px);
+  --mo-cam-at: 500ms;
+  --mo-cam: 420ms;
+  --mo-unfold-at: 520ms;
+  --mo-unfold-step: 40ms;
+  --mo-unfold: 280ms;
+  --mo-swap-at: 660ms;
+  --mo-glance-at: 780ms;
+  --mo-dot-at: 780ms;
+  --mo-dot: 140ms;
   display: block;
   position: fixed;
   inset: 0;
@@ -23,7 +40,20 @@ html[data-opening='short'] .mo-open {
   pointer-events: auto;
   animation: mo-gone 1ms linear var(--mo-end) forwards;
 }
-html[data-opening='first'] .mo-open { --mo-hand: 1320ms; --mo-end: 1600ms; }
+html[data-opening='short'] .mo-open {
+  --mo-hand: 420ms;
+  --mo-end: 700ms;
+  --mo-w: min(40vw, 170px);
+  --mo-cam-at: 40ms;
+  --mo-cam: 380ms;
+  --mo-unfold-at: 60ms;
+  --mo-unfold-step: 35ms;
+  --mo-unfold: 250ms;
+  --mo-swap-at: 185ms;
+  --mo-glance-at: 300ms;
+  --mo-dot-at: 290ms;
+  --mo-dot: 130ms;
+}
 html[data-opening-phase='out'] .mo-open,
 html[data-opening-cut] .mo-open { pointer-events: none; }
 
@@ -97,12 +127,13 @@ html[data-theme='light'][data-opening-flip] .mo-word {
 }
 .mo-part { display: block; overflow: visible; }
 
-/* ---- the camera: the "mo" at 2.2x pulls back to the word, 500 to 1000 ms. The zoom is interpolated on a log scale
-   (scale = 2.2^(1 - c)) and the focus moves from the "mo" to the word linearly in c, c = cubic-bezier(.5,0,.15,1)(t),
-   sampled every 25 ms (opening.test.mjs recomputes these numbers). --mo-dx/--mo-dy: the "mo" centre's offset. ---- */
+/* ---- the camera: the "mo" at 2.2x pulls back to the word (first 500 to 920 ms, short 40 to 420 ms). The zoom is
+   interpolated on a log scale (scale = 2.2^(1 - c)) and the focus moves from the "mo" to the word linearly in c,
+   c = cubic-bezier(.5,0,.15,1)(t), sampled every 5 % of the pull-back (opening.test.mjs recomputes these numbers).
+   --mo-dx/--mo-dy: the "mo" centre's offset. ---- */
 .mo-cam {
   transform-origin: 50% 50%;
-  animation: mo-camera 500ms linear 500ms both;
+  animation: mo-camera var(--mo-cam) linear var(--mo-cam-at) both;
 }
 @keyframes mo-camera {
   0% { transform: scale(2.2000) translate(calc(var(--mo-dx) * 1.0000), calc(var(--mo-dy) * 1.0000)); }
@@ -128,28 +159,30 @@ html[data-theme='light'][data-opening-flip] .mo-word {
   100% { transform: scale(1.0000) translate(calc(var(--mo-dx) * 0.0000), calc(var(--mo-dy) * 0.0000)); }
 }
 
-/* ---- the unfold: from 520 ms, nearest the "mo" first, 40 ms apart, each 300 ms on the logo's own spring (an
-   overshoot that belongs to the paper character, not to chrome). A letter opens about its hinge (scaleX 0 to 1) and
-   rides on the slides of the slots between it and the "mo"; it stays invisible until 12 % open (9 ms into its 300)
-   and is whole at 45 % (40 ms), as in the app. ---- */
+/* ---- the unfold: nearest the "mo" first (first from 520 ms, 40 ms apart, each 280 ms; short from 60 ms, 35 ms apart,
+   each 250 ms), on the logo's own spring (an overshoot that belongs to the paper character, not to chrome). A letter
+   opens about its hinge (scaleX 0 to 1) and rides on the slides of the slots between it and the "mo"; it stays
+   invisible until 12 % open and is whole at 45 %, as in the app. ---- */
 .mo-l {
   transform-origin: var(--hinge) 50%;
   animation:
-    mo-unfold 300ms cubic-bezier(0.34, 1.36, 0.64, 1) calc(520ms + var(--k) * 40ms) both,
-    mo-show 300ms linear calc(520ms + var(--k) * 40ms) both;
+    mo-unfold var(--mo-unfold) cubic-bezier(0.34, 1.36, 0.64, 1) calc(var(--mo-unfold-at) + var(--k) * var(--mo-unfold-step)) both,
+    mo-show var(--mo-unfold) linear calc(var(--mo-unfold-at) + var(--k) * var(--mo-unfold-step)) both;
 }
-.mo-slide { animation: mo-slide 300ms cubic-bezier(0.34, 1.36, 0.64, 1) calc(520ms + var(--k) * 40ms) both; }
+.mo-slide { animation: mo-slide var(--mo-unfold) cubic-bezier(0.34, 1.36, 0.64, 1) calc(var(--mo-unfold-at) + var(--k) * var(--mo-unfold-step)) both; }
 @keyframes mo-unfold { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes mo-slide { from { transform: translateX(var(--slot)); } to { transform: translateX(0); } }
 @keyframes mo-show { 0%, 3% { opacity: 0; } 13%, 100% { opacity: 1; } }
 
-/* ---- Mobi: a blink at 150 ms, the empty bubble eye inks 320 to 520 ms, and he glances toward the word at 860 ms.
-   The full master (flap cut, ring eye) shows while he is drawn large; it gives way to the small master (the bar
-   logo's) as the camera passes about 96 physical px, ~710 ms (detailSwapMs 60). ---- */
+/* ---- Mobi: on a first visit a blink at 150 ms and the empty bubble eye inks 320 to 520 ms; in either mode he glances
+   toward the word as the unfold ends (first 780 ms, short 300 ms). The full master (flap cut, ring eye) shows while he
+   is drawn large; it gives way to the small master (the bar logo's) 38 % into the pull-back (first 660 ms, short
+   185 ms), as the camera passes about 96 physical px (detailSwapMs 60). The short opening starts with the eye already
+   inked: no blink, no ink. ---- */
 .mo-mobi__body--full,
 .mo-eyes__full,
-.mo-eyes__ink { animation: mo-fade-out 60ms linear 690ms forwards; }
-.mo-eyes__small { opacity: 0; animation: mo-fade-in 60ms linear 690ms forwards; }
+.mo-eyes__ink { animation: mo-fade-out 60ms linear var(--mo-swap-at) forwards; }
+.mo-eyes__small { opacity: 0; animation: mo-fade-in 60ms linear var(--mo-swap-at) forwards; }
 @keyframes mo-fade-out { to { opacity: 0; } }
 @keyframes mo-fade-in { to { opacity: 1; } }
 
@@ -157,42 +190,28 @@ html[data-theme='light'][data-opening-flip] .mo-word {
   transform-origin: var(--ink);
   animation:
     mo-ink 200ms cubic-bezier(0.23, 1, 0.32, 1) 320ms both,
-    mo-fade-out 60ms linear 690ms forwards;
+    mo-fade-out 60ms linear var(--mo-swap-at) forwards;
 }
+html[data-opening='short'] .mo-eyes__ink { animation: mo-fade-out 60ms linear var(--mo-swap-at) forwards; }
 @keyframes mo-ink { from { transform: scale(0); } to { transform: scale(1); } }
 
 .mo-eyes__lid {
   transform-origin: var(--eyes);
   animation: mo-blink 160ms cubic-bezier(0.45, 0, 0.55, 1) 150ms;
 }
+html[data-opening='short'] .mo-eyes__lid { animation: none; }
 @keyframes mo-blink { 0% { transform: scaleY(1); } 37.5% { transform: scaleY(0.1); } 100% { transform: scaleY(1); } }
 
-.mo-eyes { animation: mo-glance 120ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both; }
+.mo-eyes { animation: mo-glance 120ms cubic-bezier(0.23, 1, 0.32, 1) var(--mo-glance-at) both; }
 @keyframes mo-glance { from { transform: translateX(0); } to { transform: translateX(-0.32%); } }
 
-/* ---- the dot: the unfold's last beat, scale .6 to 1 with its opacity, 160 ms from 860 ms (decision 1) ---- */
+/* ---- the dot: the unfold's last beat, scale .6 to 1 with its opacity (decision 1): first 140 ms from 780 ms, short
+   130 ms from 290 ms, landing with the composed word on --mo-hand ---- */
 .mo-dot {
   transform-origin: var(--dot);
-  animation: mo-dot 160ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both;
+  animation: mo-dot var(--mo-dot) cubic-bezier(0.23, 1, 0.32, 1) var(--mo-dot-at) both;
 }
 @keyframes mo-dot { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
-
-/* ---- a first-ever visit: the word holds 320 ms more with a 3 % breath, Mobi glances back and blinks ---- */
-html[data-opening='first'] .mo-breath { animation: mo-breath 320ms cubic-bezier(0.37, 0, 0.63, 1) 1000ms; }
-@keyframes mo-breath { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
-html[data-opening='first'] .mo-eyes { animation: mo-glance-first 420ms cubic-bezier(0.23, 1, 0.32, 1) 860ms both; }
-@keyframes mo-glance-first {
-  0% { transform: translateX(0); }
-  29% { transform: translateX(-0.32%); }
-  72% { transform: translateX(-0.32%); }
-  100% { transform: translateX(0); }
-}
-html[data-opening='first'] .mo-eyes__lid {
-  animation:
-    mo-blink 160ms cubic-bezier(0.45, 0, 0.55, 1) 150ms,
-    mo-blink-2 160ms cubic-bezier(0.45, 0, 0.55, 1) 1140ms;
-}
-@keyframes mo-blink-2 { 0% { transform: scaleY(1); } 37.5% { transform: scaleY(0.1); } 100% { transform: scaleY(1); } }
 
 /* ---- a skip (any pointerdown, touchstart, wheel or keydown while it runs): every part jumps to the composed word
    and the hand-off starts now. New animation names, so each starts from the moment of the skip. ---- */

@@ -1,0 +1,42 @@
+/* The home page's reading line (NavReadLine.jsx): how far down the page the reader is, as a 2 px ink hairline on the site
+   bar's bottom edge (over its own hairline), filling from the left. It is the page's progress; a held story's own position
+   is something else (the phone's bottom bar with Mobi on the step, the wide window's band and its rule under the bar:
+   section-position.css), so while that band is showing this line steps back. Only transform and opacity change. */
+
+.mm-nav .mm-nav__read {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px; /* on the bar's 1 px bottom hairline, not under it */
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+.mm-nav .mm-nav__read-line {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+/* Scroll-driven where the browser has it: the root scroller's whole range, 0 at the top, 1 at the end. The shorthand first,
+   then the timeline (the shorthand resets it). The duration stays auto even under the site's reduced-motion rule (which
+   shortens every timed animation): the line follows the finger, it does not animate by itself. */
+@keyframes mm-nav-read { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) {
+  .mm-nav .mm-nav__read-line {
+    animation: mm-nav-read linear both;
+    animation-timeline: scroll(root block);
+  }
+  .mm .mm-nav .mm-nav__read-line { animation-duration: auto !important; }
+}
+
+/* A held story's band is showing (wide windows): the page line steps back, so the band's own rule reads as the story's. */
+.mm.lp:has(.lp-pos[data-on='true']) .mm-nav .mm-nav__read { opacity: 0.35; }
+
+@media print {
+  .mm-nav .mm-nav__read { display: none; }
+}

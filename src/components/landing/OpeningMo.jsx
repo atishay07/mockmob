@@ -2,17 +2,21 @@
 // (flutter_app/lib/core/widgets/brand/brand_opening.dart, OpeningTimeline), ported to CSS. A server component: it renders
 // the inline gate script and the layer, and nothing of it waits for React.
 //
+// A first-ever visit (1,200 ms; the word at min(78vw, 330px)):
 //   0       the "mo" (the m and Mobi) centred at 2.2x, the other letters folded shut on their hinges
 //   150     Mobi blinks (160 ms)
 //   320     the empty answer-bubble right eye inks from its centre (200 ms)
-//   500     the camera pulls back to the whole word (500 ms, log-scale zoom, cubic-bezier(.5,0,.15,1))
-//   520     "mock" unfolds leftwards from the m and the b rightwards from Mobi, nearest first, 40 ms apart, each 300 ms
-//   860     Mobi glances toward the word; the volt dot comes in (scale .6 to 1, 160 ms): the last beat of the unfold
-//   1000    the composed word: logo B and its dot, exactly the bar logo (Logo.jsx's viewBox)
-//   1000    hand-off: the word FLIPs onto the bar logo (280 ms) while the ground fades and lifts 4vh; the hero has been
+//   500     the camera pulls back to the whole word (420 ms, log-scale zoom, cubic-bezier(.5,0,.15,1))
+//   520     "mock" unfolds leftwards from the m and the b rightwards from Mobi, nearest first, 40 ms apart, each 280 ms
+//   780     Mobi glances toward the word; the volt dot comes in (scale .6 to 1, 140 ms): the last beat of the unfold
+//   920     the composed word: logo B and its dot, exactly the bar logo (Logo.jsx's viewBox)
+//   920     hand-off: the word FLIPs onto the bar logo (280 ms) while the ground fades and lifts 4vh; the hero has been
 //           painted underneath since 0 (the h1 is the LCP)
-//   1280    gone (visibility hidden, then display none). A first-ever visit holds the word 320 ms more (a 3 % breath,
-//           a glance back and a blink): 1,600 ms in all.
+//   1200    gone (visibility hidden, then display none).
+// Every new session after that (700 ms; owner, 16 Nov 2026: "smaller"): the word at half the size, min(40vw, 170px),
+// opening on the first visit's 500 ms pose (the eye already inked): the pull-back 40 to 420 ms, the unfold from 60 ms
+// (35 ms apart, 250 ms each), the glance and the dot by 420 ms, then the same 280 ms hand-off. The beats are custom
+// properties per mode in opening.css.
 //
 // When it plays at all is openingGate.mjs (first / short / skip). Placed by page.js as the first child of `.mm.lp`.
 // The layer is aria-hidden and never focusable; it takes pointer input only until the hand-off starts, and any input
