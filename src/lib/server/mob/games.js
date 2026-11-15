@@ -738,7 +738,7 @@ export function createMobV3Service(deps, helpers = {}) {
   // ------------------------------------------------------------------ Folds and unlocks
 
   /** Grants every Fold the facts earn, once (mob_fold_grant is idempotent). Returns the facts and the unlock rows. */
-  async function checkUnlocks(userId, { daily = null, chainBest = null } = {}) {
+  async function checkUnlocks(userId, { daily = null, chainBest = null, lateUnread = false } = {}) {
     const [counted, late] = await Promise.all([call('mob_unlock_facts', { p_user_id: userId }), latePapersOf(userId)]);
     // mob_unlock_facts (applied SQL) counts every attempt: a late paper's first full mock and beaten best come off here
     // (src/lib/server/latePapers.js unlockFactsWithoutLate). Only a student with a late mock pays the extra read.
@@ -747,9 +747,16 @@ export function createMobV3Service(deps, helpers = {}) {
     const facts = unlockFactsWithoutLate(counted, late, mocks);
     const mobs = facts?.mobs || [];
     const best = (pick) => mobs.reduce((b, m) => (pick(m) > b.v ? { v: pick(m), mob: m } : b), { v: 0, mob: null });
-    const days = daily || (await chains.read(userId).catch(() => ({ daily: [] }))).daily;
-    // The late read failed: no Fold is granted this time (a grant is for good); the next read grants what is earned.
-    if (late === null) return { facts, unlocks: [...(facts?.unlocks || [])], daily: days };
+    let days = daily;
+    let chainLateUnread = Boolean(lateUnread);
+    if (!days) {
+      const read = await chains.read(userId).catch(() => ({ daily: [], lateUnread: true }));
+      days = read.daily;
+      chainLateUnread = Boolean(read.lateUnread);
+    }
+    // A late read failed (here or in the chain's own read): no Fold is granted this time (a grant is for good, and the
+    // chain's days might still hold a late paper's day); the next read grants what is earned.
+    if (late === null || chainLateUnread) return { facts, unlocks: [...(facts?.unlocks || [])], daily: days };
     const chainBestDays = chainBest ?? Number(facts?.chain_best) ?? 0;
     const grants = [];
     const questMob = mobs.find((m) => m.quest_done);
@@ -796,8 +803,8 @@ export function createMobV3Service(deps, helpers = {}) {
   }
 
   async function shelf(userId) {
-    const { body: chain, daily } = await chains.read(userId);
-    const { facts, unlocks } = await checkUnlocks(userId, { daily, chainBest: chain.best });
+    const { body: chain, daily, lateUnread } = await chains.read(userId);
+    const { facts, unlocks } = await checkUnlocks(userId, { daily, chainBest: chain.best, lateUnread });
     const mobs = facts?.mobs || [];
     const nameFor = (m) => mobName(m.name_key, subjectName(m.subject)).text;
     const bestMob = (pick) => mobs.reduce((b, m) => (pick(m) > b.v ? { v: pick(m), mob: m } : b), { v: 0, mob: mobs[0] || null });
@@ -884,8 +891,8 @@ export function createMobV3Service(deps, helpers = {}) {
     const factsBefore = await call('mob_unlock_facts', { p_user_id: userId });
     const thisMob = (factsBefore?.mobs || []).find((m) => m.mob_id === state.mob.id);
     const { chain: mobChain } = await mobChainFor(state.mob.id, Number(thisMob?.best_weeks) || 0);
-    const { body: chain, daily } = await chains.read(userId);
-    const { facts, unlocks } = await checkUnlocks(userId, { daily, chainBest: chain.best });
+    const { body: chain, daily, lateUnread } = await chains.read(userId);
+    const { facts, unlocks } = await checkUnlocks(userId, { daily, chainBest: chain.best, lateUnread });
     const startStatus = await call('mob_start_status', { p_user_id: userId, p_mob_id: state.mob.id, p_week: week });
     const games = new Map((state.games || []).map((g) => [String(g.id), { hostName: members.get(g.created_by)?.name, format: g.format, hostIsYou: g.created_by === userId }]));
     const extras = new Map((state.extras || []).map((x) => [String(x.id), x.chapter]));

@@ -127,7 +127,9 @@ test('the Mob wiring: deps pass the soft late read and the mock scores; games.js
   const games = file('src/lib/server/mob/games.js');
   assert.match(games, /createChainService\(\{ rpc: deps\.rpc, now, latePapers: deps\.latePapers \? latePapersOf : undefined \}\)/);
   assert.match(games, /const facts = unlockFactsWithoutLate\(counted, late, mocks\);/);
-  assert.match(games, /if \(late === null\) return \{ facts, unlocks: \[\.\.\.\(facts\?\.unlocks \|\| \[\]\)\], daily: days \};/);
+  assert.match(games, /if \(late === null \|\| chainLateUnread\) return \{ facts, unlocks: \[\.\.\.\(facts\?\.unlocks \|\| \[\]\)\], daily: days \};/);
+  // The chain's own failed late read also holds every grant (review, 15 Nov): both callers pass it on.
+  assert.equal((games.match(/checkUnlocks\(userId, \{ daily, chainBest: chain\.best, lateUnread \}\)/g) || []).length, 2);
   // readMockScores asks for the Full mock and NTA papers with their late flag.
   const calls = [];
   const db = { from(t) { const q = { select(c) { calls.push(['select', t, c]); return q; }, eq(k, v) { calls.push(['eq', k, v]); return q; }, in(k, v) { calls.push(['in', k, v]); return q; },
