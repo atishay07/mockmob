@@ -22,12 +22,49 @@ import { runModelReply, operationKeyFor } from '../prepos/modelReply.js';
 import { needsSupport, SUPPORT_REPLY } from '../ai/supportCheck.js';
 import { LUNA_MODEL } from '../ai/providerCore.js';
 import {
-  MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_EFFORT, MISTAKE_MAX_TOKENS, MISTAKE_TIMEOUT_MS, mistakeReplyText, mistakeSystemPrompt,
+  MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_EFFORT, MISTAKE_MAX_TOKENS, MISTAKE_TIMEOUT_MS, cleanText, mistakeReplyText, mistakeSystemPrompt,
   mistakeUserMessage, readMistakeReply, readMistakeRequest, readStoredMistake, refusalFor, studyCheck,
 } from './bringMistake.mjs';
 
 export const MISTAKE_MODE = 'mistake';
 const NO_CHARGE = Object.freeze({ kind: 'included', creditUnits: 0, amount: 0 });
+
+// ---- The saved turn and its replay: one pair ---------------------------------------------------------------------------------
+// The student's own history (Your recent questions): the paste and Mobi's answer, owner-bound, deleted with the account. The 2
+// checks live only inside this saved answer: never in the question bank, never shown to anyone else, never a paper.
+// persistMistakeTurn writes the answer's payload with kind 'answer' and charge.reference = the operation key; findMistakeReplay
+// reads it back by exactly those fields (REPLAY_FIELDS), so a lost answer is shown again instead of charged again.
+// `db` is a Supabase client (supabaseAdmin() in mistakeDeps and the route; a fake in the tests).
+export const REPLAY_FIELDS = Object.freeze({ kind: 'structured_payload->>kind', reference: 'structured_payload->charge->>reference' });
+
+/** Saves the turn. -> the session id, or null after logging why (a failed write is never silent; no student words logged). */
+export async function persistMistakeTurn({ db, userId, question, response, log = (line) => console.error(line) }) {
+  const failed = (stage, error) => {
+    try { log(JSON.stringify({ route: 'mentor_mistake', outcome: 'persist_failed', stage, code: error?.code || null, message: String(error?.message || error || '').slice(0, 160) })); } catch { /* logging never breaks the reply */ }
+    return null;
+  };
+  try {
+    const { data, error } = await db.from('mentor_sessions').insert({ user_id: userId, title: String(question || '').slice(0, 56), metadata: { mode: MISTAKE_MODE } }).select('id').single();
+    if (error || !data?.id) return failed('session', error || 'no_session_id');
+    const { error: messagesError } = await db.from('mentor_messages').insert([
+      { session_id: data.id, user_id: userId, role: 'user', content: question },
+      { session_id: data.id, user_id: userId, role: 'assistant', content: response?.reply || '', structured_payload: { ...response, mode: MISTAKE_MODE } },
+    ]);
+    if (messagesError) return failed('messages', messagesError);
+    return data.id;
+  } catch (err) {
+    return failed('exception', err);
+  }
+}
+
+/** The stored answer of an ask already charged under `operationKey`, or null. A failed read throws (the caller says so). */
+export async function findMistakeReplay({ db, userId, operationKey }) {
+  const { data, error } = await db.from('mentor_messages').select('structured_payload')
+    .eq('user_id', userId).eq('role', 'assistant').eq(REPLAY_FIELDS.kind, 'answer').eq(REPLAY_FIELDS.reference, operationKey)
+    .limit(1).maybeSingle();
+  if (error) throw Object.assign(new Error('replay_read_failed'), { code: error.code || null });
+  return data?.structured_payload || null;
+}
 
 /**
  * The model step for runModelReply: ONE call through the guarded provider runtime (`callOnce`, src/services/ai/providerCore.js),
@@ -73,9 +110,10 @@ const REFUSED = (reason, extra = {}) => ({ http: 200, kind: 'refused', body: { o
  * -> { http, kind, body, value? }   kind: 'support' | 'refused' | 'answer' | 'error'
  */
 export async function runMistakeAsk({ user, body, gateOpen, deps }) {
-  // 1. Distress first, on whatever words came, before the request is even checked (a long paste still reaches it).
+  // 1. Distress first, on whatever words came, before the request is even checked (a long paste still reaches it). Both the
+  //    words as sent and the words as the model would get them (cleanText), so an invisible character cannot split a phrase.
   const words = body && typeof body === 'object' ? [body.question, body.chosen, body.key].filter((t) => typeof t === 'string') : [];
-  if (words.some((t) => needsSupport(t))) return SUPPORT();
+  if (words.some((t) => needsSupport(t) || needsSupport(cleanText(t)))) return SUPPORT();
 
   // 2. The request.
   const read = readMistakeRequest(body, { subjects: user?.subjects });
@@ -121,11 +159,15 @@ export async function runMistakeAsk({ user, body, gateOpen, deps }) {
   if (out.status === 'duplicate') {
     const key = operationKeyFor(user?.id, body?.requestId);
     let saved = null;
-    try { saved = key && deps.findReplay ? await deps.findReplay(key) : null; } catch { saved = null; }
+    let readFailed = false;
+    try { saved = key && deps.findReplay ? await deps.findReplay(key) : null; } catch { readFailed = true; }
     const mistake = readStoredMistake(saved?.mistake);
     if (mistake) {
       return { http: 200, kind: 'answer', value, replayed: true, body: { ok: true, kind: 'answer', origin: 'model', replayed: true, mistake, reply: mistakeReplyText(mistake), subject: saved.subject || value.subject, charge: { ...NO_CHARGE }, charged: 0 } };
     }
+    // Review of 16 Nov: answered and charged once, but nothing to show again. Its own state, never a "Try again" (a new
+    // request would take a second credit): where the answer may be, or that it was not saved and a new ask is a new credit.
+    return { http: 409, kind: 'error', body: { ok: false, error: 'duplicate', status: 'duplicate', message: readFailed ? MISTAKE_COPY.duplicateSaved : MISTAKE_COPY.duplicateLost, charged: 0 } };
   }
   // Everything else is runModelReply's honest failure (paused, no credits, this month's AI limit, in progress, released), with
   // Mobi's words for an answer that could not be written.

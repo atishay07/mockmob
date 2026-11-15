@@ -7,6 +7,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { callProviderOnce } from '@/services/ai/providers';
 import { buildReplyDeps, spendUserFor } from '@/services/prepos/replyDeps';
+import { findMistakeReplay } from '@/services/mobi/mistakeAsk';
 
 export function buildMistakeDeps({ user }) {
   const reply = buildReplyDeps({ user });
@@ -15,13 +16,8 @@ export function buildMistakeDeps({ user }) {
     callOnce: callProviderOnce,
     spendUser: spendUserFor(user),
     now: () => Date.now(),
-    // An ask already charged under this operation key: its stored answer, from the student's own saved turn (owner-bound).
-    findReplay: async (operationKey) => {
-      const { data, error } = await supabaseAdmin().from('mentor_messages').select('structured_payload')
-        .eq('user_id', user.id).eq('role', 'assistant').eq('structured_payload->>kind', 'answer')
-        .eq('structured_payload->charge->>reference', operationKey).limit(1).maybeSingle();
-      if (error) return null;
-      return data?.structured_payload || null;
-    },
+    // An ask already charged under this operation key: its stored answer, from the student's own saved turn (owner-bound). The
+    // read and the route's write (persistMistakeTurn) are one pair in mistakeAsk.js. A failed read throws.
+    findReplay: (operationKey) => findMistakeReplay({ db: supabaseAdmin(), userId: user.id, operationKey }),
   };
 }

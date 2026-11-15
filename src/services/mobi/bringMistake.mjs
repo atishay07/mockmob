@@ -82,6 +82,9 @@ export const MISTAKE_COPY = Object.freeze({
   failed: 'Mobi could not write a reliable answer this time.',
   tryAgain: 'Try again',
   lost: 'The answer could not be confirmed. Try again sends the same request, so you will not be charged twice.',
+  // The same request came back after it was answered and charged, and its answer cannot be shown again here (review, 16 Nov).
+  duplicateSaved: 'Mobi already answered this question, and its 1 credit was used once. The answer could not be loaded here just now. Look for it in Your recent questions on Ask Mobi’s page.',
+  duplicateLost: 'Mobi already answered this question, and its 1 credit was used once, but the answer was not saved. Ask again only if you want a new answer, for 1 credit.',
   offline: 'You are offline. This needs a connection, so nothing is sent and nothing is charged.',
   tooMany: 'Too many questions in a short time. Wait a minute and try again. Nothing was charged.',
   seeCredits: 'See your credits',
@@ -124,7 +127,7 @@ export function cleanText(value) {
     .replace(/\r\n?/g, '\n')
     .replace(/\t/g, ' ')
     // Zero-width joiners (U+200C, U+200D) stay: Devanagari half forms and emoji need them.
-    .replace(/[\u0000-\u0008\u000B-\u001F\u007F\u200B\u200E\u200F\u2028-\u202E\u2060-\u206F\uFEFF]/g, '')
+    .replace(/[\u0000-\u0008\u000B-\u001F\u007F\u00AD\u200B\u200E\u200F\u2028-\u202E\u2060-\u206F\uFEFF]/g, '')
     .replace(/[ \u00A0]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
@@ -440,5 +443,11 @@ export function mistakeOutcome(outcome) {
   if (status === 402) return { state: 'blocked', message: withCharge(body?.message, MISTAKE_COPY.failed) };
   if (status === 503 && body?.status === 'paused') return { state: 'paused', message: withCharge(body?.message, MISTAKE_COPY.failed) };
   if (status === 409 && body?.status === 'in_progress') return { state: 'unknown', message: withCharge(body?.message, MISTAKE_COPY.lost) };
+  // Answered and charged once already, nothing to show again: its own state with no Try again, since a new request would take a
+  // second credit. The student may ask again on purpose; the words say what that costs.
+  if (status === 409 && (error === 'duplicate' || body?.status === 'duplicate')) {
+    const said = typeof body?.message === 'string' && body.message.trim() ? body.message.trim() : MISTAKE_COPY.duplicateLost;
+    return { state: 'duplicate', message: said };
+  }
   return { state: 'failed', message: withCharge(body?.message, MISTAKE_COPY.failed) };
 }

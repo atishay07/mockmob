@@ -66,6 +66,7 @@ test('cleaning: control characters, bidi overrides and lone surrogates go; line 
   assert.equal(cleanText(nasty), 'Line one\nLine two reversed\n\nLine three  ok');
   assert.equal(cleanText('क्\u200Dष'), 'क्\u200Dष', 'a Devanagari half form keeps its joiner');
   assert.equal(cleanText(42), '');
+  assert.equal(cleanText('su\u00ADicide de\u200Eath'), 'suicide death', 'soft hyphens and direction marks cannot split a word');
 });
 
 // ---- Is it a study question? ---------------------------------------------------------------------------------------------
@@ -237,7 +238,14 @@ test('panel: every server answer maps to one designed state; every failure says 
   const failed = mistakeOutcome({ kind: 'response', res: res(502), body: { error: 'unusable_output', message: 'Mobi could not write a reliable answer this time. No credits were used.' } });
   assert.deepEqual(failed, { state: 'failed', message: 'Mobi could not write a reliable answer this time. No credits were used.' });
   assert.equal(mistakeOutcome({ kind: 'response', res: res(500), body: null }).message, 'Mobi could not write a reliable answer this time. Nothing was charged.');
-  assert.equal(mistakeOutcome({ kind: 'response', res: res(409), body: { status: 'duplicate', message: 'That question was already answered. Nothing more was charged.' } }).message, 'That question was already answered. Nothing more was charged.');
+  // Review, 16 Nov: answered and charged once, nothing to show again. Its own state: no Try again (a new request would take a
+  // second credit), and the words say where the answer may be or that a new ask is a new credit.
+  for (const message of [MISTAKE_COPY.duplicateLost, MISTAKE_COPY.duplicateSaved]) {
+    assert.deepEqual(mistakeOutcome({ kind: 'response', res: res(409), body: { ok: false, error: 'duplicate', status: 'duplicate', message } }), { state: 'duplicate', message });
+  }
+  assert.equal(mistakeOutcome({ kind: 'response', res: res(409), body: { status: 'duplicate' } }).message, MISTAKE_COPY.duplicateLost);
+  assert.match(MISTAKE_COPY.duplicateLost, /used once/);
+  assert.match(MISTAKE_COPY.duplicateSaved, /Your recent questions/);
 });
 
 test('copy: plain, sentence case, no exclamation marks, arrows or emoji', () => {

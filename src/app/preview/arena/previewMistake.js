@@ -12,7 +12,7 @@
 //   &mistake=lost      the first send's answer is lost on the way; Try again sends the same request and gets it
 // A paid answer spends one credit from the preview wallet, once per request id, like the server's receipt.
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { MISTAKE_COPY, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
+import { MISTAKE_COPY, cleanText, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
 
 const opts = (right, texts) => texts.map((text, i) => ({ text, right: i === right }));
 
@@ -49,7 +49,7 @@ export function previewMistake(url, method, init, fixture, json) {
   try { body = JSON.parse(init?.body || '{}'); } catch { return json({ ok: false, error: 'invalid_json_body', message: MISTAKE_COPY.badRequest, charged: 0 }, 400); }
   const later = (reply, status = 200, ms = 900) => new Promise((resolve) => setTimeout(() => resolve(json(reply, status)), ms));
   // The free steps, as the route runs them.
-  if ([body.question, body.chosen, body.key].some((t) => typeof t === 'string' && needsSupport(t))) return later({ ok: true, kind: 'support', reply: SUPPORT_REPLY, charged: 0 }, 200, 300);
+  if ([body.question, body.chosen, body.key].some((t) => typeof t === 'string' && (needsSupport(t) || needsSupport(cleanText(t))))) return later({ ok: true, kind: 'support', reply: SUPPORT_REPLY, charged: 0 }, 200, 300);
   const read = readMistakeRequest(body, { subjects: SUBJECTS });
   if (!read.ok) return later({ ok: false, error: read.error, message: read.message, charged: 0 }, read.http, 200);
   const study = studyCheck(read.value);

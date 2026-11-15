@@ -21,7 +21,7 @@ import MobiMark from './MobiMark';
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
 import { usedLine } from '@/lib/creditCopy.mjs';
 import {
-  MISTAKE_COPY, MISTAKE_LIMITS, checksTally, countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, priceLine,
+  MISTAKE_COPY, MISTAKE_LIMITS, checksTally, cleanText, countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, priceLine,
   verdictLine,
 } from '@/services/mobi/bringMistake.mjs';
 import './bring-mistake.css';
@@ -218,7 +218,8 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
   }, [answer, form]);
 
   const typed = question.trim();
-  const distress = [question, chosen, key].some((t) => needsSupport(t));
+  // As the server checks: the words as typed and as cleaned, so an invisible character cannot split a phrase.
+  const distress = [question, chosen, key].some((t) => needsSupport(t) || needsSupport(cleanText(t)));
   const held = notice?.state === 'unknown'; // a request whose outcome is not known: only Try again (the same request) goes out
   const stopped = notice?.state === 'over';
   const canSend = Boolean(typed) && question.length <= MISTAKE_LIMITS.question && !sending && !held && !stopped

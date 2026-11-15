@@ -7,7 +7,7 @@ import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { storeReport } from '@/lib/server/aiReplyReport';
 import { SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { runMistakeAsk, MISTAKE_MODE } from '@/services/mobi/mistakeAsk';
+import { runMistakeAsk, persistMistakeTurn } from '@/services/mobi/mistakeAsk';
 import { buildMistakeDeps } from '@/services/mobi/mistakeDeps';
 import { MISTAKE_LIMITS, MISTAKE_COPY } from '@/services/mobi/bringMistake.mjs';
 
@@ -22,7 +22,9 @@ export const runtime = 'nodejs';
 export async function POST(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  // A paid model sits behind this route, so no in-memory fallback when the persistent limiter is on (rateLimit.js).
+  // 6 asks a minute per student. Production does not set PERSISTENT_LIMITS_ENABLED, so this is the in-memory limit: per server
+  // instance, a speed bump, not a shared limit. What bounds spend is the credit per ask and the student's monthly AI cap in the
+  // database. Were the persistent limiter on, a database blip would refuse here (no 'memory' fallback: a paid model is behind it).
   if (!(await checkPersistentRateLimit(request, { route: '/api/ai/mentor/mistake', limit: 6, keyParts: [session.user.id] })).allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited', message: MISTAKE_COPY.tooMany, charged: 0 }, { status: 429 });
   }
@@ -49,15 +51,15 @@ export async function POST(request) {
   }
   // A replayed answer was saved the first time; it is not saved twice.
   const sessionId = out.replayed ? null : await persist({ userId: dbUser.id, question: out.value?.question || question, response: out.body });
-  return reply(sessionId, out.body, dbUser);
+  return reply(sessionId, out.body, dbUser, out.replayed ? true : Boolean(sessionId));
 }
 
-async function reply(sessionId, body, dbUser) {
+async function reply(sessionId, body, dbUser, saved = Boolean(sessionId)) {
   // A fresh read after any charge, so the wallet shown is the wallet stored.
   const latest = await Database.getUserById(dbUser.id).catch(() => dbUser);
   const snapshot = await getUsageSnapshot(latest || dbUser);
   return NextResponse.json({
-    sessionId, ...body,
+    sessionId, saved, ...body,
     usageSnapshot: { tier: snapshot.tier, isPaid: snapshot.isPaid, aiWallet: snapshot.aiWallet, normalCreditBalance: snapshot.normalCreditBalance },
   });
 }
@@ -73,21 +75,8 @@ async function recordSupport({ userId, sessionId, requestId }) {
   console.info(JSON.stringify({ route: 'mentor_mistake', outcome: 'support_reply' }));
 }
 
-// The student's own history (Your recent questions): the paste and Mobi's answer, owner-bound, deleted with the account. The
-// 2 checks live only inside this saved answer: never in the question bank, never shown to anyone else, never a paper.
-async function persist({ userId, question, response }) {
-  try {
-    const sb = supabaseAdmin();
-    const { data } = await sb.from('mentor_sessions').insert({ user_id: userId, title: question.slice(0, 56), metadata: { mode: MISTAKE_MODE } }).select('id').single();
-    const sessionId = data?.id || null;
-    if (!sessionId) return null;
-    await sb.from('mentor_messages').insert([
-      { session_id: sessionId, user_id: userId, role: 'user', content: question },
-      { session_id: sessionId, user_id: userId, role: 'assistant', content: response.reply || '', structured_payload: { ...response, mode: MISTAKE_MODE } },
-    ]);
-    return sessionId;
-  } catch (err) {
-    console.warn('[mistake] message persistence skipped:', err?.message || err);
-    return null;
-  }
+// The saved turn (Your recent questions, and the replay of a lost answer): persistMistakeTurn in mistakeAsk.js, which logs a
+// failed write. The answer still reaches the student when the save fails; `saved: false` says it is not in the history.
+function persist({ userId, question, response }) {
+  return persistMistakeTurn({ db: supabaseAdmin(), userId, question, response });
 }

@@ -12,9 +12,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createProviderRuntime, outputBound } from '../../src/services/ai/providerCore.js';
-import { SUPPORT_REPLY } from '../../src/services/ai/supportCheck.js';
-import { runMistakeAsk, mistakeGenerate } from '../../src/services/mobi/mistakeAsk.js';
-import { MISTAKE_COPY, MISTAKE_LIMITS, mistakeSystemPrompt, mistakeUserMessage, readMistakeRequest } from '../../src/services/mobi/bringMistake.mjs';
+import { SUPPORT_REPLY, needsSupport } from '../../src/services/ai/supportCheck.js';
+import { runMistakeAsk, mistakeGenerate, persistMistakeTurn, findMistakeReplay, REPLAY_FIELDS } from '../../src/services/mobi/mistakeAsk.js';
+import { MISTAKE_COPY, MISTAKE_LIMITS, mistakeOutcome, mistakeSystemPrompt, mistakeUserMessage, readMistakeRequest } from '../../src/services/mobi/bringMistake.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const read = (rel) => readFileSync(join(ROOT, rel), 'utf8');
@@ -170,6 +170,93 @@ test('distress runs first: the fixed support reply, free, for words in the paste
   }
 });
 
+test('distress split by an invisible character is still caught: the check runs on the cleaned words too (review, 16 Nov)', async () => {
+  for (const question of ['I want to d\u200Eie, which is right? (a) 1 (b) 2', 'I keep thinking about su\u00ADicide. (a) 1 (b) 2']) {
+    assert.equal(needsSupport(question), false, 'the raw words alone would slip past');
+    const { out, log } = await ask({ body: { question } });
+    assert.deepEqual(log.steps, [], 'no credit, no guard, no model');
+    assert.equal(out.body.reply, SUPPORT_REPLY);
+  }
+});
+
+// ---- The saved turn and the replay: one pair ----------------------------------------------------------------------------
+
+// A Supabase-shaped fake: insert (with .select().single(), or awaited), and select().eq()...limit().maybeSingle(), where a filter
+// field may be a JSON path ('structured_payload->charge->>reference').
+function fakeDb({ fail = null } = {}) {
+  const tables = { mentor_sessions: [], mentor_messages: [] };
+  const at = (row, field) => field.split(/->>|->/).reduce((v, k) => (v == null ? v : v[k]), row);
+  return {
+    tables,
+    from(table) {
+      return {
+        insert(rows) {
+          if (fail === 'exception') throw new Error('socket hang up');
+          const list = Array.isArray(rows) ? rows : [rows];
+          const error = (fail === 'session' && table === 'mentor_sessions') || (fail === 'messages' && table === 'mentor_messages') ? { code: '42501', message: 'permission denied' } : null;
+          if (!error) for (const r of list) tables[table].push({ id: `${table}-${tables[table].length + 1}`, ...r });
+          return {
+            select: () => ({ single: async () => ({ data: error ? null : { id: tables[table].at(-1).id }, error }) }),
+            then: (resolve, reject) => Promise.resolve({ data: error ? null : list, error }).then(resolve, reject),
+          };
+        },
+        select() {
+          const filters = [];
+          const q = {
+            eq: (field, value) => { filters.push([field, value]); return q; },
+            limit: () => q,
+            maybeSingle: async () => {
+              if (fail === 'read') return { data: null, error: { code: 'PGRST000', message: 'read failed' } };
+              const row = tables[table].find((r) => filters.every(([f, v]) => String(at(r, f)) === String(v)));
+              return { data: row ? { structured_payload: row.structured_payload } : null, error: null };
+            },
+          };
+          return q;
+        },
+      };
+    },
+  };
+}
+
+test('the saved turn is what the replay finds: an answer lost on the way is shown again, never charged again', async () => {
+  const db = fakeDb();
+  const first = await ask();
+  const sessionId = await persistMistakeTurn({ db, userId: USER.id, question: PASTE, response: first.out.body, log: () => assert.fail('nothing to log') });
+  assert.ok(sessionId);
+  const [userRow, answerRow] = db.tables.mentor_messages;
+  assert.equal(userRow.content, PASTE);
+  assert.equal(answerRow.structured_payload.kind, 'answer');
+  assert.equal(answerRow.structured_payload.charge.reference, OP_KEY, 'stored under the operation key the replay reads');
+  assert.deepEqual(REPLAY_FIELDS, { kind: 'structured_payload->>kind', reference: 'structured_payload->charge->>reference' });
+  // The same request again: the wallet says it was committed, the replay reads the saved turn.
+  const again = await ask({ wallet: { reserve: () => ({ ok: true, idempotent: true, state: 'committed' }) }, findReplay: (key) => findMistakeReplay({ db, userId: USER.id, operationKey: key }) });
+  assert.equal(again.out.http, 200);
+  assert.equal(again.out.body.replayed, true);
+  assert.deepEqual(again.out.body.mistake, first.out.body.mistake);
+  assert.equal(again.log.client.length, 0);
+  // Another student's key finds nothing.
+  assert.equal(await findMistakeReplay({ db, userId: 'someone_else', operationKey: OP_KEY }), null);
+  // A failed read throws, and the ask says the answer may be in Your recent questions.
+  await assert.rejects(findMistakeReplay({ db: fakeDb({ fail: 'read' }), userId: USER.id, operationKey: OP_KEY }), /replay_read_failed/);
+});
+
+test('a failed save is logged (no student words) and never silent; the answer still goes back', async () => {
+  for (const stage of ['session', 'messages', 'exception']) {
+    const lines = [];
+    const id = await persistMistakeTurn({ db: fakeDb({ fail: stage }), userId: USER.id, question: 'I want my question private', response: (await ask()).out.body, log: (line) => lines.push(line) });
+    assert.equal(id, null, stage);
+    assert.equal(lines.length, 1, `${stage}: logged once`);
+    const logged = JSON.parse(lines[0]);
+    assert.equal(logged.outcome, 'persist_failed');
+    assert.equal(logged.stage, stage);
+    assert.doesNotMatch(lines[0], /private/, 'the student\'s words are never logged');
+  }
+  const route = read('src/app/api/ai/mentor/mistake/route.js');
+  assert.match(route, /persistMistakeTurn\(\{ db: supabaseAdmin\(\)/);
+  assert.match(route, /saved, \.\.\.body/, 'the reply says whether the answer is in the history');
+  assert.match(read('src/services/mobi/mistakeDeps.js'), /findReplay: \(operationKey\) => findMistakeReplay\(\{ db: supabaseAdmin\(\), userId: user\.id, operationKey \}\)/);
+});
+
 test('not a study question: a short plain refusal before anything is reserved', async () => {
   for (const [question, reply] of [
     ['hello mobi how are you doing today my friend', MISTAKE_COPY.notStudy],
@@ -214,9 +301,15 @@ test('the same ask sent again after its answer was lost: the stored answer, neve
   assert.equal(again.out.http, 200);
   assert.equal(again.out.body.replayed, true);
   assert.equal(again.out.body.charge.amount, 0);
+  // Review, 16 Nov: nothing to replay is its own answer, never a failure the panel would retry with a new request (a second
+  // credit). Not saved: a new ask is a new credit. The read failed: the answer may be in Your recent questions.
   const gone = await ask({ wallet: { reserve: () => ({ ok: true, idempotent: true, state: 'committed' }) }, findReplay: () => null });
   assert.equal(gone.out.http, 409);
   assert.equal(gone.log.client.length, 0);
+  assert.deepEqual([gone.out.body.error, gone.out.body.status, gone.out.body.message], ['duplicate', 'duplicate', MISTAKE_COPY.duplicateLost]);
+  const unread = await ask({ wallet: { reserve: () => ({ ok: true, idempotent: true, state: 'committed' }) }, findReplay: () => { throw new Error('read failed'); } });
+  assert.equal(unread.out.body.message, MISTAKE_COPY.duplicateSaved);
+  assert.equal(mistakeOutcome({ kind: 'response', res: { ok: false, status: gone.out.http }, body: gone.out.body }).state, 'duplicate', 'the panel offers no Try again');
   const inflight = await ask({ wallet: { reserve: () => ({ ok: true, idempotent: true, state: 'executing' }) } });
   assert.equal(inflight.out.body.status, 'in_progress');
 });
