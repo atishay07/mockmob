@@ -107,5 +107,7 @@ test('the Mob page is behind MOB_ENABLED and the join page is not indexed', () =
   assert.match(read('src/app/(app)/mob/page.jsx'), /MOB_ENABLED !== 'true'\) notFound\(\)/);
   const join = read('src/app/join/[code]/page.jsx');
   assert.match(join, /MOB_ENABLED !== 'true'\) notFound\(\)/);
-  assert.match(join, /robots:\s*\{\s*index:\s*false/);
+  // Since 15 Nov 2026 (P8) its metadata comes from mobInviteMetadata (src/lib/seo.js): a friend's invite, never indexed.
+  assert.match(join, /return mobInviteMetadata\(/);
+  assert.match(read('src/lib/seo.js'), /export function mobInviteMetadata[\s\S]*?robots: \{ index: false, follow: false/);
 });

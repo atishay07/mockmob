@@ -122,7 +122,7 @@ test('icons, manifest and the share image use logo B files that exist', () => {
   }
   assert.match(manifest, /purpose: 'maskable'/);
   assert.doesNotMatch(manifest, /—/);
-  const og = text('src/app/opengraph-image.jsx');
+  const og = text('src/lib/og/shareCards.mjs'); // the share cards are drawn here since 15 Nov 2026 (P8)
   assert.match(og, /LOGO_B_LETTERS/);
   for (const [, name] of og.matchAll(/name: '([a-z]+)'/g)) assert.ok(existsSync(path.join(ROOT, `public/art/subjects/og/obj-${name}.png`)), name);
   assert.ok(existsSync(path.join(ROOT, 'public/brand/fonts/BricolageHeadline-SemiBold.ttf')));
