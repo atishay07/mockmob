@@ -145,7 +145,7 @@ export const placeWords = (coarse) => (coarse ? 'on this phone' : 'in this brows
 /**
  * What a failed submit means. kind:
  *   'offline'    no connection: the runner holds the paper and sends it when the connection is back
- *   'late'       past the deadline and the upload grace (B8): the full-page notice, never "try again"
+ *   'late'       refused as too late: more than 7 days after the timer (B8), the full-page notice, never "try again"
  *   'foreign'    the paper belongs to another account (B10): the full-page notice
  *   'signedOut'  401: sign in, then come back; link holds the sign-in key
  *   'retry'      anything else: the banner's message and its "Try sending again" key
@@ -169,14 +169,14 @@ export function submitProblem(error, ctx = {}) {
 
 /**
  * The banner while a sent paper waits for a connection. ctx: { ticket (device-held), msLeft (to the deadline),
- * msToGraceEnd (to the end of the upload grace), place }. It changes only between these states, never every second, so a
- * screen reader is not read a clock.
+ * msToLateEnd (to the end of the 7 days the server takes a late paper, B8), place }. It changes only between these states,
+ * never every second, so a screen reader is not read a clock. While a send can still succeed the runner keeps trying.
  */
-export function waitingCopy({ ticket = true, msLeft = 0, msToGraceEnd = 0, place = 'on this device' } = {}) {
+export function waitingCopy({ ticket = true, msLeft = 0, msToLateEnd = 0, place = 'on this device' } = {}) {
   if (!ticket) return 'Waiting for connection. After the deadline, only answers already saved to your account can be scored. Reconnect before time runs out.';
   if (msLeft > 0) return `You are offline, so the paper was not sent yet. Your answers are kept ${place} and it sends itself when you are back online.`;
-  if (msToGraceEnd > 0) return `Time is up and you are offline. Your answers are kept ${place}. Connect within 2 minutes of the timer ending and they are sent.`;
-  return `Time is up and you are still offline. Your answers are kept ${place}. When you are back online we try once more, but a paper sent more than 2 minutes after its timer ends cannot be scored.`;
+  if (msToLateEnd > 0) return `Time is up and you are offline. Your paper is saved ${place} and sends itself when you are back online, up to 7 days after its timer ended.`;
+  return 'This paper could not be saved. It was not sent within 7 days of its timer ending, so it has no result. Start a new paper on Practice.';
 }
 
 /**
@@ -208,13 +208,13 @@ export function foreignNotice({ practiceHref: practice = '/dashboard' } = {}) {
   return { kind: 'foreign', title: 'This paper belongs to another account', message: 'It was started on a different account from the one signed in now, so it cannot be sent from here.', keys: [{ label: 'Go to Practice', href: practice, primary: true }] };
 }
 
-/** The full-page notice for a paper that reached the server too late (B8). */
+/** The full-page notice for a paper the server refused as too late: more than 7 days after its timer ended (B8). */
 export function lateNotice({ answered = 0, place = 'on this device', practiceHref: practice = '/dashboard' } = {}) {
   const kept = answered > 0 ? ` Your ${answered} ${answered === 1 ? 'answer is' : 'answers are'} still ${place}, but they cannot be scored.` : '';
   return {
     kind: 'late',
-    title: 'This paper reached us too late',
-    message: `A paper has to be sent within 2 minutes of its timer ending, and this one was not, so it has no result.${kept}`,
-    keys: [{ label: 'Set up a new paper', href: practice, primary: true }],
+    title: 'This paper could not be saved',
+    message: `A paper has to be sent within 7 days of its timer ending, and this one was not, so it has no result.${kept}`,
+    keys: [{ label: 'Start a new paper', href: practice, primary: true }],
   };
 }

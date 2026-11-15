@@ -22,11 +22,13 @@ test('one key per paper: two starts of the same set never share a draft (B2c)', 
   assert.equal(isPaperDraftKey(a, 'u2'), false);
 });
 
-test('a draft is live before the deadline, sendable through the grace, kept a day when its answers never left, then dead', () => {
+test('a draft is live before the deadline, sendable through the grace, kept 7 days when its answers never left (B8: still sendable), then dead', () => {
+  assert.equal(KEEP_AFTER_END_MS, 7 * 24 * 60 * 60 * 1000, 'the server takes a late paper for 7 days (data/late_paper.js)');
+  assert.equal(draftFate(draft({ endsAt: now - 6 * 24 * 60 * 60 * 1000 }), now), 'late', 'six days later it is still kept');
   assert.equal(draftFate(draft(), now), 'live');
   assert.equal(draftFate(draft({ endsAt: now - 1000 }), now), 'grace');
   assert.equal(draftFate(draft({ endsAt: now - SUBMISSION_GRACE_MS + 1 }), now), 'grace');
-  assert.equal(draftFate(draft({ endsAt: now - SUBMISSION_GRACE_MS }), now), 'late', 'exactly at the end of the grace the server refuses');
+  assert.equal(draftFate(draft({ endsAt: now - SUBMISSION_GRACE_MS }), now), 'late', 'from the end of the grace the server takes it as a late paper');
   assert.equal(draftFate(draft({ endsAt: now - SUBMISSION_GRACE_MS, answers: {} }), now), 'dead', 'nothing answered: nothing to keep');
   assert.equal(draftFate(draft({ endsAt: now - KEEP_AFTER_END_MS }), now), 'dead');
   assert.equal(draftFate(sentMark({ attemptId: 'a1', endsAt: now - 1000, now }), now), 'sent');

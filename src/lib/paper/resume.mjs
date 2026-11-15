@@ -9,7 +9,8 @@ const safeHref = (href) => typeof href === 'string' && /^\/test\?[^\s<>"']*$/.te
 /**
  * The papers this user can still go back to, soonest deadline first. `entries` is [key, value] pairs from storage (see
  * storedDrafts in draft.mjs). Each: { key, href, subject, mode, answered, total, endsAt, state, msLeft }, where state is
- * 'running' (time left) or 'sending' (time is up, inside the upload grace: opening it sends the answers).
+ * 'running' (time left) or 'sending' (time is up and the answers are not sent: opening it sends them, inside the upload grace or,
+ * B8, as a late paper for 7 days after the timer).
  */
 export function livePapers(entries, userId, now) {
   const out = [];
@@ -18,7 +19,7 @@ export function livePapers(entries, userId, now) {
     let saved = null;
     try { saved = JSON.parse(raw); } catch { continue; }
     const fate = draftFate(saved, now);
-    if (fate !== 'live' && fate !== 'grace') continue;
+    if (fate !== 'live' && fate !== 'grace' && fate !== 'late') continue;
     const paper = saved.paper;
     if (!paper || !safeHref(paper.href)) continue;
     out.push({

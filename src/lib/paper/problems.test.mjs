@@ -100,15 +100,19 @@ test('a failed submit is held, explained or retried, never a code; past the grac
   assert.equal(submitProblem(err('The paper could not be checked just now'), { place }).message, 'The paper could not be checked just now. Your answers are kept on this phone.');
 });
 
-test('waiting for a connection says what happens next, with the minutes left to send', () => {
-  assert.match(waitingCopy({ msLeft: 5000, msToGraceEnd: 125000, place: 'on this phone' }), /sends itself when you are back online/);
-  assert.equal(waitingCopy({ msLeft: 0, msToGraceEnd: 102000, place: 'on this phone' }), 'Time is up and you are offline. Your answers are kept on this phone. Connect within 2 minutes of the timer ending and they are sent.');
-  assert.equal(waitingCopy({ msLeft: 0, msToGraceEnd: 101000 }), waitingCopy({ msLeft: 0, msToGraceEnd: 1000 }), 'never a ticking clock in a live region');
-  assert.match(waitingCopy({ msLeft: 0, msToGraceEnd: 0, place: 'on this phone' }), /cannot be scored\.$/);
+test('waiting for a connection says what happens next: it keeps sending for 7 days after the timer (B8), then says the paper could not be saved', () => {
+  const DAY = 24 * 60 * 60 * 1000;
+  assert.match(waitingCopy({ msLeft: 5000, msToLateEnd: 7 * DAY + 5000, place: 'on this phone' }), /sends itself when you are back online/);
+  // B8 (15 Nov 2026): past the timer the server takes the paper, late, for 7 days, so the runner keeps trying and says so.
+  assert.equal(waitingCopy({ msLeft: 0, msToLateEnd: 7 * DAY - 60000, place: 'on this phone' }), 'Time is up and you are offline. Your paper is saved on this phone and sends itself when you are back online, up to 7 days after its timer ended.');
+  assert.equal(waitingCopy({ msLeft: 0, msToLateEnd: 6 * DAY }), waitingCopy({ msLeft: 0, msToLateEnd: 1000 }), 'never a ticking clock in a live region');
+  assert.equal(waitingCopy({ msLeft: 0, msToLateEnd: 0, place: 'on this phone' }), 'This paper could not be saved. It was not sent within 7 days of its timer ending, so it has no result. Start a new paper on Practice.');
   assert.match(waitingCopy({ ticket: false }), /saved to your account/);
+  for (const words of [waitingCopy({ msLeft: 0, msToLateEnd: 1000 }), waitingCopy({ msLeft: 0, msToLateEnd: 0 })]) assert.doesNotMatch(words, /!|2 minutes/);
   const late = lateNotice({ answered: 7, place: 'on this phone', practiceHref: '/dashboard?subject=economics' });
-  assert.equal(late.message, 'A paper has to be sent within 2 minutes of its timer ending, and this one was not, so it has no result. Your 7 answers are still on this phone, but they cannot be scored.');
-  assert.deepEqual(late.keys, [{ label: 'Set up a new paper', href: '/dashboard?subject=economics', primary: true }]);
+  assert.equal(late.title, 'This paper could not be saved');
+  assert.equal(late.message, 'A paper has to be sent within 7 days of its timer ending, and this one was not, so it has no result. Your 7 answers are still on this phone, but they cannot be scored.');
+  assert.deepEqual(late.keys, [{ label: 'Start a new paper', href: '/dashboard?subject=economics', primary: true }]);
   assert.doesNotMatch(lateNotice({ answered: 0 }).message, /answers are still/);
 });
 
