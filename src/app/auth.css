@@ -272,6 +272,8 @@ html[data-theme] .mm.auth .auth__card .mm-btn--secondary:is(:active, [disabled])
 /* "Not you?" sits in the sentence: an inline key whose padding gives the 44 px target without stretching the line. */
 .auth-card__last .auth-card__textbtn { display: inline; min-height: 0; padding: 0.75rem 0.25rem; margin: -0.75rem 0; font-size: inherit; }
 /* F1: in an in-app browser, the line under the email key and the iPhone's Google line: quiet facts, centred like the fine print. */
+.auth__chrome-note { margin: 0 0 0.75rem; font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); }
+.auth__chrome-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .auth-card__inapp { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); text-align: center; text-wrap: balance; }
 /* F1: the Android key that reopens the page in Chrome is a link drawn as the quiet key, so it takes the card's key ring too. */
 .auth-card a.mm-btn { text-decoration: none; }

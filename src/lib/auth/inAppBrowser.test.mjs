@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { chromeIntentUrl, inAppBrowserKind, IN_APP_COPY } from './inAppBrowser.mjs';
+import { signupChromeNote, chromeIntentUrl, inAppBrowserKind, IN_APP_COPY } from './inAppBrowser.mjs';
 import { IN_APP_BROWSER_RE } from '../../components/result/installOffer.mjs';
 
 const UA = {
@@ -47,4 +47,14 @@ test('F1: the in-app words are plain, with no exclamation marks or arrows', () =
   assert.equal(IN_APP_COPY.iosGoogle, 'Using Google? Tap the menu, then Open in browser.');
   assert.equal(IN_APP_COPY.staysHere, 'You will stay signed in inside this app’s browser only.');
   for (const line of Object.values(IN_APP_COPY)) assert.doesNotMatch(line, /[!→]/);
+});
+
+test('the /signup top line shows only in Android in-app browsers', () => {
+  const href = 'https://www.mockmob.in/signup';
+  const note = signupChromeNote(href, UA.instagramAndroid);
+  assert.equal(note.href, chromeIntentUrl(href, UA.instagramAndroid));
+  assert.match(note.href, /^intent:\/\/www\.mockmob\.in\/signup#Intent/);
+  for (const ua of [UA.facebookAndroid, UA.whatsappAndroid]) assert.ok(signupChromeNote(href, ua));
+  for (const ua of [UA.instagramIphone, UA.instagramIpad, UA.chromeAndroid, UA.safariIphone, UA.chromeDesktop, '']) assert.equal(signupChromeNote(href, ua), null);
+  assert.equal(signupChromeNote('not a url', UA.instagramAndroid), null);
 });

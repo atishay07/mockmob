@@ -1,5 +1,6 @@
 "use client";
 
+import { averageMarksPercent } from './averageMarks.mjs';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, ChevronRight, Play, SlidersHorizontal, Target } from 'lucide-react';
@@ -347,7 +348,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     [subjects, user],
   );
   // Only the student's own standing comes from the server: { rank, of, tests, average } or null.
-  const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
+  const avg = averageMarksPercent(attempts); // signed marks, a paper below zero counts below zero
   const rank = Number.isFinite(Number(standing?.rank)) ? Number(standing.rank) : null;
   const rankedOf = Number.isFinite(Number(standing?.of)) ? Number(standing.of) : 0;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);

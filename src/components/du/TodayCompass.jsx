@@ -64,11 +64,11 @@ export default function TodayCompass({ withList = false }) {
         {loading ? <span className="tcp__bar" aria-hidden="true" /> : null}
         {ready ? (
           <p className="tcp__line">
-            <b className="tcp__n">{state.open} of {state.total}</b> DU programmes open to your subjects
+            <b className="tcp__n">{state.open} of {state.total}</b> DU courses open to your subjects
           </p>
         ) : null}
         {askForSubjects ? <p className="tcp__line">{NO_SUBJECTS_LINE}</p> : null}
-        {!loading && !ready && !askForSubjects ? <p className="tcp__line">See which DU programmes your subjects open, and DU&rsquo;s 2026 cutoffs.</p> : null}
+        {!loading && !ready && !askForSubjects ? <p className="tcp__line">See which DU courses your subjects open, and DU&rsquo;s 2026 cutoffs.</p> : null}
         {ready && first && !withList ? (
           <p className="tcp__near">
             Your top choice: <b>{first.college}</b>

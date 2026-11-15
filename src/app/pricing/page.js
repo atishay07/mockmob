@@ -207,7 +207,7 @@ const buildFaqs = (offer, bankSize = null) => [
   ] : []),
   {
     q: 'What does Admission Compass compare?',
-    a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',
+    a: 'Compass uses official DU course rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',
   },
   {
     q: 'Is Compass the same as chapter review?',

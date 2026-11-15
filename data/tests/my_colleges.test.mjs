@@ -53,7 +53,7 @@ function fixtureBody() {
     },
     errors: [
       { status: 401, body: { error: 'Unauthorized' } },
-      { status: 422, body: { error: 'invalid_request', message: 'Send the programme and the college.' } },
+      { status: 422, body: { error: 'invalid_request', message: 'Send the course and the college.' } },
       { status: 503, body: { error: 'unavailable' } },
     ],
   };
@@ -110,7 +110,7 @@ test('a whole list is at most 8, has no repeats and keeps its order', () => {
   assert.equal(parseList({ colleges: [] }).ok, true);
   assert.equal(parseList({ colleges: Array.from({ length: 8 }, (_, i) => COM(`College ${i}`)) }).ok, true);
   assert.equal(parseList({ colleges: Array.from({ length: 9 }, (_, i) => COM(`College ${i}`)) }).message, 'Keep up to 8 colleges.');
-  assert.match(parseList({ colleges: [COM('Hindu College'), COM('Hindu College')] }).message, /once for each programme/);
+  assert.match(parseList({ colleges: [COM('Hindu College'), COM('Hindu College')] }).message, /once for each course/);
   assert.equal(parseList({ colleges: [COM('Hindu College'), { college: 'x' }] }).ok, false);
   for (const body of [null, {}, { colleges: 'x' }, []]) assert.equal(parseList(body).ok, false);
 });

@@ -54,7 +54,7 @@ const PARTS = [
   },
   {
     title: 'DU cutoff calculator',
-    body: 'Which DU programmes your CUET subjects open under the 2026 Bulletin rules, and the published 2026 cutoffs by category and round. Free for everyone, no account needed.',
+    body: 'Which DU courses your CUET subjects open under the 2026 Bulletin rules, and the published 2026 cutoffs by category and round. Free for everyone, no account needed.',
     href: '/cuet-cutoff-calculator', link: 'Open the calculator',
   },
   {

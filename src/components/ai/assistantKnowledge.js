@@ -47,7 +47,7 @@ export const FEATURE_GUIDE = [
     name: 'DU eligibility and cutoffs',
     route: '/admission-compass',
     description: 'Checks your subjects against DU’s published 2026 eligibility rules and shows the 2026 Round 1–III minimum allocation scores by category. Historical figures only: it does not predict admission or turn mock marks into a CUET score.',
-    whenToUse: 'Use it to check which programmes your subject combination allows.',
+    whenToUse: 'Use it to check which courses your subject combination allows.',
     actionLabel: 'Open Compass',
   },
   {

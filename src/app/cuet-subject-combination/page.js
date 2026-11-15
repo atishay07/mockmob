@@ -15,7 +15,7 @@ import './combo-planner.css';
 export const metadata = seoMetadata({
   title: 'CUET Subject Combination Planner for DU | MockMob',
   description:
-    'Free planner: choose the DU programmes you want and the subjects you could take. See which CUET subject combination unlocks the most, checked against DU’s published eligibility rules.',
+    'Free planner: choose the DU courses you want and the subjects you could take. See which CUET subject combination unlocks the most, checked against DU’s published eligibility rules.',
   path: '/cuet-subject-combination',
 });
 
@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     question: 'How does the planner choose the best combination?',
-    answer: 'It tries every combination of the subjects you ticked, up to your paper limit, and checks each one against the subject rules in the University of Delhi UG Bulletin 2026-27. Combinations are ranked by how many of your target programmes they meet, then by how many DU programmes they open in total, then by fewer papers.',
+    answer: 'It tries every combination of the subjects you ticked, up to your paper limit, and checks each one against the subject rules in the University of Delhi UG Bulletin 2026-27. Combinations are ranked by how many of your target courses they meet, then by how many DU courses they open in total, then by fewer papers.',
   },
   {
     question: 'Does meeting the subject rules mean I will get admission?',
@@ -55,7 +55,7 @@ export default function ComboPlannerPage() {
               Pick the CUET subjects that open the most DU doors, before you fill the form.
             </h1>
             <p className="lp-lead">
-              Choose the programmes you want and the subjects you could take. We check every possible combination against
+              Choose the courses you want and the subjects you could take. We check every possible combination against
               DU’s published subject rules and show the ones that get you there.
             </p>
             <ul className="lp-trust du-hero__facts">

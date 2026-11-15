@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ShieldAlert, Maximize, Eye } from 'lucide-react';
 import { INTEGRITY_STRIKES, createIntegrityMonitor, readStoredStrikes, VIOLATION_LABEL } from '@/../data/exam_integrity.mjs';
+import { shouldReopenIntegrityDialog } from './integrityDialog.mjs';
 import './exam-integrity.css';
 
 export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerminate }) {
@@ -91,7 +92,7 @@ export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, 
   }, [alert]);
   if (!alert) return null;
   const entry = alert.phase === 'entry'; const ended = alert.phase === 'terminated';
-  return <dialog ref={dialog} className="ei-dialog" onCancel={event => event.preventDefault()} aria-labelledby="ei-title" aria-describedby="ei-body" data-phase={alert.phase}>
+  return <dialog ref={dialog} className="ei-dialog" onCancel={event => event.preventDefault()} onClose={() => { if (shouldReopenIntegrityDialog({ alert, open: dialog.current?.open })) dialog.current.showModal(); }} aria-labelledby="ei-title" aria-describedby="ei-body" data-phase={alert.phase}>
     <div className="ei-card" key={alert.count}>
       {entry ? <Maximize size={28} aria-hidden="true" /> : <ShieldAlert size={28} aria-hidden="true" />}
       <h2 id="ei-title">{entry ? 'Enter your exam space' : ended ? 'Session ended' : `Warning ${alert.count} of ${INTEGRITY_STRIKES}`}</h2>

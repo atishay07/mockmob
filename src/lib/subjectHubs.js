@@ -50,7 +50,7 @@ const HUB_WORDS = {
       {
         question: 'Do I need the CUET General Test?',
         answer:
-          'Only if a programme you want asks for it. Some do, and many students add it to keep more courses open. The DU cutoff calculator on MockMob shows which programmes your subject choice opens.',
+          'Only if a course you want asks for it. Some do, and many students add it to keep more courses open. The DU cutoff calculator on MockMob shows which courses your subject choice opens.',
       },
       {
         question: 'What level of maths is in the General Test?',

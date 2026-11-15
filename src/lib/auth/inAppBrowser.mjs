@@ -32,7 +32,18 @@ export function chromeIntentUrl(href, ua = '') {
   return `intent://${rest}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${fallback};end`;
 }
 
+/**
+ * The quiet line at the top of /signup: only in an Android in-app browser (Instagram, Facebook, WhatsApp, a WebView), where a
+ * student lands from a link and Google sign-in would be refused. Anywhere else (iPhone, Chrome, desktop) it is null.
+ */
+export function signupChromeNote(href, ua = '') {
+  const link = chromeIntentUrl(href, ua);
+  return link ? { href: link, text: IN_APP_COPY.signupTop, action: IN_APP_COPY.signupTopAction } : null;
+}
+
 export const IN_APP_COPY = Object.freeze({
+  signupTop: 'Want to sign up with Google?',
+  signupTopAction: 'Open in Chrome',
   openInChrome: 'Open in Chrome to use Google',
   iosGoogle: 'Using Google? Tap the menu, then Open in browser.',
   staysHere: 'You will stay signed in inside this app’s browser only.',

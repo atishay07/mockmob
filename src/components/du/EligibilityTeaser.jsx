@@ -180,11 +180,11 @@ export function EligibilityTeaser() {
           <>
             <p className="du-teaser__big" data-early={early ? 'true' : undefined}>
               <span className="mm-measure">{counted ? eligible.length : total}</span>
-              <small>{early ? `of ${total} DU programmes so far` : counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
+              <small>{early ? `of ${total} DU courses so far` : counted ? `of ${total} DU courses` : 'DU courses.'}</small>
             </p>
             <p className="du-teaser__lead">
               {early
-                ? 'Keep ticking: most DU programmes count one language and three subjects, or two languages and two subjects.'
+                ? 'Keep ticking: most DU courses count one language and three subjects, or two languages and two subjects.'
                 : counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains
@@ -213,7 +213,7 @@ export function EligibilityTeaser() {
           </>
         )}
         <Link href={href} className="mm-btn mm-btn--primary">
-          See programmes and past cutoffs
+          See courses and past cutoffs
         </Link>
         <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
       </div>

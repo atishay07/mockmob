@@ -113,7 +113,7 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
       {showGat ? (
         <fieldset className="du-group">
           <legend>
-            General test <small>needed by some programmes</small>
+            General test <small>needed by some courses</small>
           </legend>
           <div className="du-chips">
             <Chip pressed={selection.gat} onClick={() => onToggle('gat', 'gat')}>

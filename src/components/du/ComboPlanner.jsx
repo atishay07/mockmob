@@ -62,7 +62,7 @@ export default function ComboPlanner() {
   const stale = dPool !== pool || dTargets !== targets || dMax !== maxPapers;
 
   if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setAttempt((n) => n + 1); }}>Try again</button></div>;
-  if (!index) return <div className="du-state" role="status"><p>Loading DU programmes</p></div>;
+  if (!index) return <div className="du-state" role="status"><p>Loading DU courses</p></div>;
 
   const nameOf = (item) => item.kind === 'gat' ? 'General Aptitude Test' : (item.kind === 'language' ? index.languages : index.domains).find((s) => s.id === item.id)?.name || item.id;
   const inPool = (item) => pool.some((p) => key(p) === key(item));
@@ -97,7 +97,7 @@ export default function ComboPlanner() {
       </div>
       <section className="cp-step" aria-labelledby="cp-s1">
         <h2 id="cp-s1" className="cp-step__title">Where do you want to go?</h2>
-        <p className="cp-step__hint">Pick up to {MAX_TARGETS} DU programmes. {targets.length} chosen.</p>
+        <p className="cp-step__hint">Pick up to {MAX_TARGETS} DU courses. {targets.length} chosen.</p>
         <div className="du-chips">
           {QUICK_TARGETS.map((name) => { const g = groupByName(name); return g ? (
             <button key={g.id} type="button" className="du-chip" aria-pressed={targets.includes(g.id)} onClick={() => toggleTarget(g.id)} disabled={!targets.includes(g.id) && targets.length >= MAX_TARGETS}>
@@ -106,8 +106,8 @@ export default function ComboPlanner() {
         </div>
         <label className="du-finder cp-search">
           <Search size={18} aria-hidden="true" />
-          <span className="du-sr">Search DU programmes</span>
-          <input data-du-search type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" />
+          <span className="du-sr">Search DU courses</span>
+          <input data-du-search type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 courses" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" />
         </label>
         {matches.length ? (
           <ul className="cp-results">{matches.map((g) => (
@@ -116,7 +116,7 @@ export default function ComboPlanner() {
             </button></li>))}</ul>
         ) : null}
         {targets.length ? (
-          <ul className="du-tray cp-tray" aria-label="Your target programmes">{targets.map((id) => {
+          <ul className="du-tray cp-tray" aria-label="Your target courses">{targets.map((id) => {
             const g = index.groups.find((x) => x.id === id);
             return <li key={id}><button type="button" onClick={() => toggleTarget(id)} title="Remove">{g?.name || id}<X size={14} aria-hidden="true" /></button></li>;
           })}</ul>
@@ -145,7 +145,7 @@ export default function ComboPlanner() {
       <section className="cp-step cp-out" aria-labelledby="cp-s3" aria-busy={stale} ref={resultsRef}>
         <h2 id="cp-s3" className="cp-step__title">Your best combinations</h2>
         {!pool.length ? <p className="cp-step__hint">Tick a few subjects, or use a quick start, to see combinations.</p> : null}
-        {pool.length && ranked.length && !shown.length ? <p className="cp-step__hint">None of these combinations opens a DU programme yet. Tick another domain subject.</p> : null}
+        {pool.length && ranked.length && !shown.length ? <p className="cp-step__hint">None of these combinations opens a DU course yet. Tick another domain subject.</p> : null}
         {keep.length ? <p className="cp-keep"><b>Do not drop:</b> {keep.map(nameOf).join(', ')}. Every combination that reaches all your targets uses {keep.length === 1 ? 'it' : 'them'}.</p> : null}
         <ol className="cp-list" aria-live="polite">
           {shown.map((r, i) => (
@@ -157,14 +157,14 @@ export default function ComboPlanner() {
               <ul className="cp-combo__subjects">{r.items.map((item) => <li key={key(item)}>{nameOf(item)}</li>)}</ul>
               <dl className="cp-combo__stats">
                 {targets.length ? <div><dt>Your targets</dt><dd><b>{r.met.length}</b> of {targets.length}</dd></div> : null}
-                <div><dt>All DU programmes</dt><dd><b>{r.unlocked}</b> of {index.groups.length}</dd></div>
+                <div><dt>All DU courses</dt><dd><b>{r.unlocked}</b> of {index.groups.length}</dd></div>
               </dl>
               {r.missed.length ? (
                 <ul className="cp-combo__missed">{r.missed.map((m) => (
                   <li key={m.id}><X size={14} aria-hidden="true" /><span><b>{m.name}</b>{m.nearest ? ` needs: ${m.nearest.gaps.map((g) => describeGap(g, index).replace(/^Add /, '')).join(', ')}` : ''}</span></li>
                 ))}</ul>
               ) : targets.length ? <p className="cp-combo__ok"><Check size={14} aria-hidden="true" />Meets every target’s subject rules.</p> : null}
-              <Link className="du-link cp-combo__go" href={`/cuet-cutoff-calculator?s=${encodeURIComponent(encodeSelection(r.selection))}`}>See the programmes and cutoffs for this combination</Link>
+              <Link className="du-link cp-combo__go" href={`/cuet-cutoff-calculator?s=${encodeURIComponent(encodeSelection(r.selection))}`}>See the courses and cutoffs for this combination</Link>
             </li>
           ))}
         </ol>
