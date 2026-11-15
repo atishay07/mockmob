@@ -47,12 +47,6 @@ export function parentPayOffered(offer, env = process.env) {
   return parentPayEnabled(env) && offer?.purchasable === 'monthly' && offer?.monthly?.ready === true;
 }
 
-/** The offer as the signed-in shell passes it to the Pro sheet, with whether the parent key shows. */
-export function offerWithParentPay(offer, env = process.env) {
-  if (!offer) return offer;
-  return Object.freeze({ ...offer, parentPay: parentPayOffered(offer, env) });
-}
-
 const RAZORPAY_LINK_HOSTS = ['rzp.io', 'razorpay.com'];
 
 /** Razorpay's own hosted page for this subscription, or null when it is missing or not on a Razorpay host. */

@@ -8,9 +8,10 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { loadBilling, resetWorld, TEST_ENV, subscriptionEntity, paymentEntity, signedWebhook, webhookEvent, DAY, FAR_ONE_TIME_UNTIL, iso } from './billing_harness.mjs';
 import {
-  PARENT_LINK_LIFETIME_MS, PARENT_LINK_LIMIT, PARENT_PAY_DEFAULT, hostedLinkOf, linkExpiresAt, offerWithParentPay, parentPayEnabled,
+  PARENT_LINK_LIFETIME_MS, PARENT_LINK_LIMIT, PARENT_PAY_DEFAULT, hostedLinkOf, linkExpiresAt, parentPayEnabled,
   parentPayOffered, shareableOpenCheckout,
 } from '../../src/lib/payments/parentPay.js';
+import { publicOffer } from '../../src/lib/payments/offer.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const sec = (ms) => Math.floor(ms / 1000);
@@ -292,9 +293,20 @@ test('PARENT_PAY_ENABLED: unset is the default, "true" is on, any other value is
   assert.equal(parentPayOffered(monthly, { PARENT_PAY_ENABLED: 'true' }), true);
   assert.equal(parentPayOffered(once, { PARENT_PAY_ENABLED: 'true' }), false);
   assert.equal(parentPayOffered(monthly, { PARENT_PAY_ENABLED: 'false' }), false);
-  assert.equal(offerWithParentPay(monthly, { PARENT_PAY_ENABLED: 'true' }).parentPay, true);
-  assert.equal(offerWithParentPay(once, { PARENT_PAY_ENABLED: 'true' }).parentPay, false);
-  assert.equal(offerWithParentPay(null), null);
+  // The offer every page reads carries it, so the signed-in shell's Pro sheet knows without a second switch.
+  const before = process.env.PARENT_PAY_ENABLED;
+  try {
+    process.env.PARENT_PAY_ENABLED = 'true';
+    assert.equal(publicOffer().parentPay, true, 'monthly is on sale in this suite');
+    process.env.PARENT_PAY_ENABLED = 'false';
+    assert.equal(publicOffer().parentPay, false);
+    process.env.PARENT_PAY_ENABLED = 'true';
+    delete process.env.RAZORPAY_PLAN_ID_PRO_MONTHLY_99;
+    assert.equal(publicOffer().parentPay, false, 'never while monthly Pro is not on sale');
+  } finally {
+    process.env.RAZORPAY_PLAN_ID_PRO_MONTHLY_99 = TEST_ENV.RAZORPAY_PLAN_ID_PRO_MONTHLY_99;
+    if (before === undefined) delete process.env.PARENT_PAY_ENABLED; else process.env.PARENT_PAY_ENABLED = before;
+  }
 });
 
 test('the limit is per student, kept in the database, with the in-memory limit only when the database cannot answer', () => {

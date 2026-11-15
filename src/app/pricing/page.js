@@ -11,6 +11,8 @@ import { AppViewNotice } from '@/components/AppViewNotice';
 import { JsonLd } from '@/components/JsonLd';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
+import { ParentPayKey } from '@/components/billing/ParentPayKey';
+import { parentPayOffered } from '@/lib/payments/parentPay';
 import { NtaArt, PapersArt, ProHeroArt, ProSealStrip, SmartArt, Tick } from '@/components/pricing/ProShowcase';
 import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
@@ -260,14 +262,17 @@ function PayMark({ mark, n }) {
 }
 
 // Development only: /pricing?offer=monthly shows the page as the live site sells it (pro_monthly_99), and &pro=1 a signed-in Pro
-// student, with no sign-in and no plan env. Production ignores both.
+// student, with no sign-in and no plan env. &parent=ready|noname|making|fail|pro|held|off shows "Ask a parent to pay" as a
+// signed-in student sees it, its sheet answered by that fixture (src/components/billing/parentPayModel.mjs), never the server.
+// Production ignores all of them.
+const PARENT_FIXTURES = new Set(['ready', 'noname', 'making', 'fail', 'pro', 'held', 'off']);
 function previewOverrides(params) {
   if (process.env.NODE_ENV === 'production' || !params) return {};
   const base = publicOffer();
   const offer = params.offer === 'monthly'
     ? Object.freeze({ ...base, monthly: Object.freeze({ ...base.monthly, ready: true }), oneTime: Object.freeze({ ...base.oneTime, onSale: false }), purchasable: 'monthly' })
     : null;
-  return { offer, pro: params.pro === '1' };
+  return { offer, pro: params.pro === '1', parent: PARENT_FIXTURES.has(params.parent) ? params.parent : null };
 }
 
 export default async function PricingPage({ searchParams }) {
@@ -293,6 +298,9 @@ export default async function PricingPage({ searchParams }) {
   // The value section's plain offer (no plan ids), drawn only while the offer gives a price and the new offer is not released.
   const valueTerms = plainTerms(offer);
   const showValue = valueShown(valueTerms, { newOffer: newOfferReleased() });
+  // "Ask a parent to pay" (lane F-B): only for a signed-in Free student, while monthly Pro is on sale and PARENT_PAY_ENABLED is
+  // on (src/lib/payments/parentPay.js). A signed-out visitor sees nothing new.
+  const parentPay = !isCurrentUserPremium && parentPayOffered(offer) && (Boolean(session?.user?.id) || Boolean(preview.parent));
 
   return (
     <div className="mm mm-pro">
@@ -403,6 +411,7 @@ export default async function PricingPage({ searchParams }) {
                         label={PRO_PLAN.ctaLabel}
                         billing={PRO_PLAN.billing}
                         initialIsPremium={isCurrentUserPremium}
+                        aside={parentPay ? <ParentPayKey rupees={offer.monthly.rupees} fixture={preview.parent || null} /> : null}
                       />
                     </div>
                   </PlanCard>
