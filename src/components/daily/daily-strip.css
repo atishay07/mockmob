@@ -1,0 +1,31 @@
+/* The Mob den's Daily Five strip (DailyFiveStrip.jsx): one quiet card in the den's own surface (the quest strip's raised
+   paper, edge and radius), a head with one quiet link, and one 44 px row per member. Den tokens only (--a-*). */
+
+.dfs {
+  display: grid; gap: 4px; padding: 12px 16px 8px; border-radius: 16px;
+  background: var(--a-raised); border: 1px solid var(--a-line); color: var(--a-ink);
+}
+.dfs__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-top: -6px; }
+.dfs__title { margin: 0; font: 700 14px/1.2 var(--font-display); color: var(--a-ink); }
+.dfs__go { flex: none; justify-content: flex-end; }
+
+.dfs__list { display: grid; margin: 0; padding: 0; list-style: none; }
+.dfs__row { display: flex; align-items: center; gap: 12px; min-height: 44px; border-top: 1px solid var(--a-line); }
+.dfs__disc.mob-disc { width: 28px; height: 28px; font-size: 13px; }
+.dfs__name { flex: 1 1 auto; min-width: 0; font: 650 14px/1.3 var(--font-body); color: var(--a-ink); overflow-wrap: anywhere; }
+.dfs__you { color: var(--a-ink-3); font-weight: 500; }
+.dfs__state { flex: none; display: inline-flex; align-items: center; }
+.dfs__word { font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
+.dfs__word[data-state='played'] { color: var(--a-ink-2); }
+
+/* The five squares: filled for right, hollow for a miss, in question order. The share line's squares, smaller. */
+.dfs__squares { display: inline-flex; gap: 4px; }
+.dfs__squares i { display: block; width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--a-ink); background: transparent; }
+.dfs__squares i[data-right='true'] { background: var(--a-ink); }
+
+/* Loading: the rows' own shape, so nothing moves when the names arrive. */
+.dfs__row[data-loading] .dfs__disc { background: var(--a-line); }
+.dfs__row[data-loading] .dfs__name i { display: block; width: 40%; height: 12px; border-radius: 6px; background: var(--a-line); }
+
+.dfs__note { margin: 0; padding: 4px 0 6px; font-size: 13px; line-height: 1.45; color: var(--a-ink-2); }
+.dfs__note .dfs__again { display: inline-flex; min-height: 44px; margin: -12px 0; vertical-align: middle; }

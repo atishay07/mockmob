@@ -67,6 +67,7 @@ import { withActiveRule } from '@/components/result/labLoop';
 import MobPage from '@/components/mob/MobPage';
 import JoinMob from '@/components/mob/JoinMob';
 import { previewMob } from './previewMob';
+import { previewDaily } from './previewDaily';
 import { attemptHold, heldAttemptView } from '@/lib/mob/paperHold.mjs';
 import { mobWeek } from '@/lib/mob/model.mjs';
 import { previewFirstWeek } from './previewFirstWeek';
@@ -214,6 +215,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/study/summary') return real(input, init);
     const fixture = new URLSearchParams(window.location.search);
     if (url.pathname === '/api/mob' || url.pathname.startsWith('/api/mob/')) return previewMob(url, method, init, fixture, json);
+    const daily = previewDaily(url, method, init, fixture, json); // the Daily Five on the account (&daily=, previewDaily.js)
+    if (daily) return daily;
     // GET /api/today (speed.md item 4): the eight Today reads in one answer, each part { status, body } from this preview's own answers.
     if (url.pathname === '/api/today' && method === 'GET') {
       const parts = { plan: '/api/learning/plan', papers: '/api/attempts/summary?limit=20', rhythm: '/api/me/rhythm', goal: '/api/me/goal', road: '/api/me/road', revise: '/api/me/revise', facts: '/api/me/timed-mock', record: '/api/me/repair-record?limit=100' };

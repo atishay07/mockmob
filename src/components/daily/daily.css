@@ -64,9 +64,25 @@
 .mm.lp .dly__streak-line { margin: 0; color: var(--ink); font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
 .mm.lp .dly__streak-note { margin: 4px 0 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; }
 
-/* The misses sit under the run, a hairline above them; the reason closes the open row (no sign-up line inside it). */
+/* The run's own Try again (a save that did not reach the account): a quiet text key, 44 px tall. */
+.mm.lp .dly .dly__again {
+  display: inline-flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; padding: 0; border: 0; background: none;
+  color: var(--ink); font: 650 0.875rem/1.3 var(--font-body); text-decoration: underline; text-decoration-thickness: 1px;
+  text-decoration-color: var(--ink-3); text-underline-offset: 4px; cursor: pointer;
+}
+.mm.lp .dly .dly__again:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
+
+/* The five, question by question, under the run, a hairline above them; the reason closes the open row (no sign-up line
+   inside it). Each row ends with its own square (filled for right), the squares above read one by one. */
 .mm.lp .lp-try.dly .mm-drill__readout { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
 .mm.lp .lp-try.dly .mm-drill__miss-body > .dly__miss-why { padding-bottom: 12px; }
+.mm.lp .lp-try.dly .dly__list .mm-drill__miss-chapter { display: grid; gap: 2px; }
+.mm.lp .lp-try.dly .dly__crowd { color: var(--ink-3); font: 500 0.8125rem/1.35 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .lp-try.dly .dly__mark { flex: none; width: 14px; height: 14px; border-radius: 3px; border: 2px solid var(--ink); background: transparent; }
+.mm.lp .lp-try.dly .dly__mark[data-right='true'] { background: var(--ink); }
+.mm.lp .lp-try.dly .dly__chev-space { flex: none; width: 16px; }
+.mm.lp .lp-try.dly .dly__row-still { cursor: default; }
+.mm.lp .lp-try.dly .dly__row-still:active { background: none; }
 
 /* One quiet key on, centred under the card's content, 44 px tall. */
 .mm.lp .dly__on { display: flex; justify-content: center; min-height: 44px; margin-top: 16px; }

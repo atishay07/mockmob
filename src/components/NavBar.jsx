@@ -13,6 +13,9 @@ import './new-tag.css';
 
 const LINKS = [
   { label: 'Free mock test', href: '/cuet-mock-test-free' },
+  // The same five questions for everyone each day (lane daily, 15 Nov 2026). The public bar and its menu only: the signed-in
+  // dock and sidebar keep the item count the owner approved.
+  { label: 'Daily Five', href: '/daily' },
   // The calculator is the newest tool, so it keeps its New tag (owner, 15 Oct).
   { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator', isNew: true },
   { label: 'Your prep tools', href: '/#your-prep' },
