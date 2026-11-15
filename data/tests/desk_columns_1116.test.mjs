@@ -106,3 +106,14 @@ test('wallet: what you hold on the left, how to get more and where it went on th
   for (const piece of ['<InviteFriendCard id="wl-invite" />', 'className="wl-packs"', 'className="wl-pro"', 'className="wl-history"']) assert.ok(page.indexOf(piece) > main, piece);
   assert.equal((page.match(/startWalletPurchase\(/g) || []).length, 1, 'one purchase call, as before');
 });
+
+test('with Ask Mobi docked (its panel takes 420 px from the page at 1280 px and up) the three pages keep their one column', () => {
+  for (const file of ['src/components/result/result-desk.css', 'src/app/(app)/progress/progress.css', 'src/app/(app)/wallet/wallet.css']) {
+    const css = read(file);
+    const block = css.slice(css.indexOf('@media (min-width: 1100px)'));
+    const desk = block.slice(0, block.indexOf('\n}\n'));
+    const rules = desk.split('\n').filter((line) => /^\s{2}[.:]/.test(line));
+    assert.ok(rules.length > 8, file);
+    for (const line of rules) assert.match(line, /^\s{2}:root:not\(\[data-mobi-form='dock'\]\) /, `${file}: ${line.trim().slice(0, 60)}`);
+  }
+});
