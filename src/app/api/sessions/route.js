@@ -7,6 +7,7 @@ import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { funnelStepsForSession } from '@/lib/server/funnelOnce';
 import { forgetBadges } from '@/lib/server/badgesStore';
 import { attemptForClient } from '@/lib/server/answerHold';
+import { isRecoveryStart } from '@/lib/server/recoveryStartGate';
 
 const ORIGINS = new Set(['capacitor://localhost', 'https://localhost']);
 function cors(request) {
@@ -43,6 +44,8 @@ async function handle(request, operation, funnelKind = null) {
     return Response.json({ error: message, ...extra }, { status, headers });
   }
 }
-export const POST = request => handle(request, (userId, body) => body.sessionId ? startPractice(userId, body) : body.episodeId ? startSession(userId, body) : body.experience === 'practice' && !body.recoveryFrom ? startPractice(userId, body) : startSession(userId, body), 'start');
+// L4 (15 Nov 2026): only a real recovery (an episode check, or a replay of a chapter the student's own attempt missed) takes
+// the recovery path and its free Quick 5; every other start is a Practice start, whatever `experience` says.
+export const POST = request => handle(request, async (userId, body) => body.sessionId ? startPractice(userId, body) : (await isRecoveryStart(userId, body)) ? startSession(userId, body) : startPractice(userId, body), 'start');
 export const PATCH = request => handle(request, (userId, body) => body.sessionTicket ? finishPractice(userId, body) : finishSession(userId, body), 'finish');
 export const PUT = request => handle(request, recordEvents);
