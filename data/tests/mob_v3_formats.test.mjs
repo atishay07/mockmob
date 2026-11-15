@@ -7,6 +7,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
+import { pinDbClock } from './helpers/pgliteClock.mjs';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -49,8 +50,8 @@ grant usage on schema auth to authenticated;
 grant execute on function auth.uid() to authenticated;
 `;
 
-async function database({ formats = true } = {}) {
-  const db = new PGlite();
+async function database({ formats = true, clock = { now: NOW } } = {}) {
+  const db = pinDbClock(new PGlite(), clock); // T3: one clock for the service and SQL now()
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
   await db.exec("create table public.users (id text primary key); insert into public.users(id) select 'u'||g from generate_series(1,12) g;");
   await db.exec(`create table public.attempts (id text primary key, user_id text references public.users(id), subject text, score int, correct int, wrong int,
@@ -318,8 +319,8 @@ test('migration 140000 security: new and replaced functions are security invoker
 // ---------------------------------------------------------------------------------------------------------------
 
 test('race: one frozen pool, the same order for all, served one question at a time; CUET marks; the clock is the server\'s', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -363,8 +364,8 @@ test('race: one frozen pool, the same order for all, served one question at a ti
 });
 
 test('race timing abuse: an answer after the end plus 2 s is refused and the run sealed; time never passes the minutes; the client sends no time', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2']);
@@ -401,8 +402,8 @@ test('race timing abuse: an answer after the end plus 2 s is refused and the run
 });
 
 test('race ghosts: per-answer server times, variable length, answered; no picks, no right or wrong', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2']);
@@ -423,8 +424,8 @@ test('race ghosts: per-answer server times, variable length, answered; no picks,
 });
 
 test('race podium: places by CUET marks with shared places, answered per place, the together line over answered questions', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -450,8 +451,8 @@ test('race podium: places by CUET marks with shared places, answered per place, 
 });
 
 test('live race: nothing is served before Go; the run starts at the room start and ends minutes later; progress says how many are answered', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2']);
@@ -480,8 +481,8 @@ test('live race: nothing is served before Go; the run starts at the room start a
 // ---------------------------------------------------------------------------------------------------------------
 
 test('answers stay hidden until close: a run never ends after the close, an answer at the close is refused, open runs are sealed before the review', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -507,8 +508,8 @@ test('answers stay hidden until close: a run never ends after the close, an answ
 });
 
 test('keys across games: a new game never draws an open game\'s questions; a review holds a key that sits in another open game', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -539,8 +540,8 @@ const attemptFor = (userId, gameId, ids, plan, at, id = `att_${userId}`) => ({
 const planOf = (pattern) => Array.from({ length: 50 }, (_, i) => pattern(i));
 
 test('full mock: Pro starts it (Free is refused MOCK_PRO_REQUIRED with the price); one 50-question paper; never live; a race or round still Free', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock, billing: true, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2']);
@@ -569,8 +570,8 @@ test('full mock: Pro starts it (Free is refused MOCK_PRO_REQUIRED with the price
 });
 
 test('full mock sitting: the practice runner in mode full, Free pays 50 credits and Pro sits free (D174), the same paper, held until close; the hand-in goes on the game', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   const practice = [];
   const attempts = [];
   try {
@@ -623,8 +624,8 @@ test('full mock sitting: the practice runner in mode full, Free pays 50 credits 
 });
 
 test('full mock mark sheets: counts and sections so far, never which question; private sheets hidden; after close the most-missed question is Fix it together', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -661,8 +662,8 @@ test('full mock mark sheets: counts and sections so far, never which question; p
 });
 
 test('full mock: a member who opened it and never handed it in leaves no run at the close; nobody is counted as not having played', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2']);
@@ -681,8 +682,8 @@ test('full mock: a member who opened it and never handed it in leaves no run at 
 // ---------------------------------------------------------------------------------------------------------------
 
 test('L-55 live presence: no client can write to a room channel; presence goes through the API with a ticket, broadcasts only { m, st } on a change, and drops after 45 s', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);

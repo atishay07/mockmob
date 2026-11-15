@@ -6,6 +6,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
+import { pinDbClock } from './helpers/pgliteClock.mjs';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -50,8 +51,8 @@ grant usage on schema auth to authenticated;
 grant execute on function auth.uid() to authenticated;
 `;
 
-async function database({ users = 12, live = true } = {}) {
-  const db = new PGlite();
+async function database({ users = 12, live = true, clock = { now: NOW } } = {}) {
+  const db = pinDbClock(new PGlite(), clock); // T3: one clock for the service and SQL now()
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
   await db.exec(`create table public.users (id text primary key); insert into public.users(id) select 'u'||g from generate_series(1,${users}) g;`);
   await db.exec(`create table public.attempts (id text primary key, user_id text references public.users(id), subject text, score int, correct int, wrong int,
@@ -253,8 +254,8 @@ test('migration 100400 security: every new or replaced function is security invo
 // ---------------------------------------------------------------------------------------------------------------
 
 test('SV-16 the 30-room cap: room 31 gives LIVE_BUSY, claims nothing, and a closed or stale room frees its seat', async () => {
-  const db = await database({ users: 12 });
   const clock = { now: NOW };
+  const db = await database({ users: 12, clock });
   let rooms = 2;
   try {
     const svc = serviceFor(db, { clock, rooms: () => rooms });
@@ -294,8 +295,8 @@ test('SV-16 the 30-room cap: room 31 gives LIVE_BUSY, claims nothing, and a clos
 });
 
 test('the cap counts across MockMob under one lock: two opens racing for the last seat give one room', async () => {
-  const db = await database({ users: 12 });
   const clock = { now: NOW };
+  const db = await database({ users: 12, clock });
   try {
     const svc = serviceFor(db, { clock, rooms: 1 });
     const a = await mobOf(svc, 'u1', ['u2']);
@@ -309,8 +310,8 @@ test('the cap counts across MockMob under one lock: two opens racing for the las
 });
 
 test('Pro and the passed mic on the server: a busy refusal keeps the mic, a live open by mic uses it, the Free start stays', async () => {
-  const db = await database({ users: 12 });
   const clock = { now: NOW };
+  const db = await database({ users: 12, clock });
   let rooms = 0;
   const pros = new Set(['u1']);
   try {
@@ -342,8 +343,8 @@ test('Pro and the passed mic on the server: a busy refusal keeps the mic, a live
 });
 
 test('ticket: needs the session authUid and membership; a live game only; lobby tickets last 50 minutes, running ones end + 5', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -385,8 +386,8 @@ test('ticket: needs the session authUid and membership; a live game only; lobby 
 });
 
 test('start and cancel: host only, lobby only; start lands 4 s ahead and says only startsAt; cancel keeps the 24-hour game', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
@@ -441,8 +442,8 @@ test('start and cancel: host only, lobby only; start lands 4 s ahead and says on
 });
 
 test('SV-16 the live run: within 30 s of the start it is live from startsAt, later it is anytime; the last finish says room.done', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3', 'u4']);
@@ -485,8 +486,8 @@ test('SV-16 the live run: within 30 s of the start it is live from startsAt, lat
 });
 
 test('leaving or a block revokes the room ticket at once (mob_room_ok goes false)', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3', 'u4']);
@@ -507,8 +508,8 @@ test('leaving or a block revokes the room ticket at once (mob_room_ok goes false
 });
 
 test('the den: a stale lobby is closed on the first read, never shown as joinable; live says enabled and the hours', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   let live = true;
   try {
     const svc = serviceFor(db, { clock, live: () => live });

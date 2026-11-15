@@ -5,6 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
+import { pinDbClock } from './helpers/pgliteClock.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -51,8 +52,8 @@ grant usage on schema auth to authenticated;
 grant execute on function auth.uid() to authenticated;
 `;
 
-async function database({ users = 8, attempts = true } = {}) {
-  const db = new PGlite();
+async function database({ users = 8, attempts = true, clock = { now: NOW } } = {}) {
+  const db = pinDbClock(new PGlite(), clock); // T3: one clock for the service and SQL now()
   await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
   await db.exec(`create table public.users (id text primary key); insert into public.users(id) select 'u'||g from generate_series(1,${users}) g;`);
   if (attempts) {
@@ -441,8 +442,8 @@ async function play(svc, clock, user, gameId, plan, gap = 20) {
 }
 
 test('SV-5, SV-6, SV-7, SV-8, SV-9: the Chai Circle game, server-graded, no leak before close, a podium with ties', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -543,8 +544,8 @@ test('SV-5, SV-6, SV-7, SV-8, SV-9: the Chai Circle game, server-graded, no leak
 });
 
 test('rematch, open limit, Finish now, private marks and the podium switch', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -591,8 +592,8 @@ test('rematch, open limit, Finish now, private marks and the podium switch', asy
 });
 
 test('SV-3 and SV-4 Free and Pro starts on the server: billing flag, the weekly start, races, rejoin, Pass the mic', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const pros = new Set(['u1']);
     // Billing off: a Free member opens a live game (via open) when live is on.
@@ -650,8 +651,8 @@ test('SV-3 and SV-4 Free and Pro starts on the server: billing flag, the weekly 
 });
 
 test('SV-10, SV-11 the weekly quest: ticks with no user id, true past the goal, leave never lowers it, step-out, done once', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -716,8 +717,8 @@ test('SV-10, SV-11 the weekly quest: ticks with no user id, true past the goal, 
 });
 
 test('SV-17 unlocks: Hop from the first quest (members then, and a later joiner on a later quest), shelf counts, seat Folds', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -775,8 +776,8 @@ test('SV-17 unlocks: Hop from the first quest (members then, and a later joiner 
 });
 
 test('Fix it together: after close only, the Wednesday check, fixed when 2 pass, Crane at 3, quest ticks', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -828,8 +829,8 @@ test('Fix it together: after close only, the Wednesday check, fixed when 2 pass,
 });
 
 test('stickers: 8 preset kinds only, shown in the den; seen keys; the view keeps every old key for build 9', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
@@ -870,8 +871,8 @@ test('SV-14 every realtime send carries only m, q, done, k or startsAt (static s
       assert.ok(keys.length > 0);
     }
   }
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock, live: true });
     const mobId = await chaiCircle(db, svc);
@@ -892,8 +893,8 @@ test('SV-14 every realtime send carries only m, q, done, k or startsAt (static s
 });
 
 test('SV-15 room auth: a ticket passes, a non-member, an expired or a revoked ticket fails; clients send presence only', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock, live: true });
     const mobId = await chaiCircle(db, svc);
@@ -1092,8 +1093,8 @@ test('L-10 a private run: only "finished", out of the together line and out of g
 });
 
 test('L-10 the service: 2 finishers, one private: podium, moments, together line and ghosts give nothing away', async () => {
-  const db = await database();
   const clock = { now: NOW };
+  const db = await database({ clock });
   try {
     const svc = serviceFor(db, { clock });
     const mobId = await chaiCircle(db, svc);
