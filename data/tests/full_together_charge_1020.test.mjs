@@ -52,7 +52,11 @@ test('practiceCharge: a Free sitting of a Mob game is charged as a Full mock; Pr
 test('the practice start charges the Mob sitting on the solo path: after the paper is built, under practice_<id> or inside start_learning_session', () => {
   const src = read('src/lib/server/practiceSessions.js');
   assert.match(src, /practiceCharge\(\{ isPremium: user\?\.isPremium, mobPaper, modeId: mode\.id, creditAction: practiceCreditAction\(mode\.id, count\)/);
-  assert.match(src, /start_learning_session', \{ p_row: \{ \.\.\.row, request_key: input\.generationKey, state: 'active' \}, p_credit_action: charge\.creditAction/);
+  // The durable start passes the charge's action; only the free first full mock (never a Mob paper: practiceCharge gives a Mob
+  // paper no firstFullMock) clears it, once this start holds the free row (STATUS.md 622, 15 Nov 2026).
+  assert.match(src, /let \{ creditAction, quota \} = charge;\r?\n\s+\/\/ STATUS\.md 622/);
+  assert.match(src, /if \(charge\.firstFullMock === true\) \{/);
+  assert.match(src, /start_learning_session', \{ p_row: \{ \.\.\.row, request_key: input\.generationKey, state: 'active' \}, p_credit_action: creditAction/);
   assert.match(src, /spendWithLegacyFallback\(\(u, a, r\) => Database\.spendCredits\(u, a, r\), userId, charge\.creditAction, `practice_\$\{id\}`\)/);
   // The device-held charge is the last step: after the set is built and sealed.
   assert.ok(src.indexOf('const ticket = sealPractice(row, secret());') < src.indexOf('if (charge.creditAction) {'));

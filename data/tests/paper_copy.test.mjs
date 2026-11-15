@@ -112,7 +112,8 @@ test('the prices the copy names are the prices the code charges', () => {
   assert.equal(TEST_MODES.full.fixedDurationSec, 3600);
   // Pro spends nothing on any mode; Free pays the mode's credit action per paper.
   const sessions = read('src/lib/server/practiceSessions.js');
-  assert.match(sessions, /p_credit_action: charge\.creditAction/);
+  // The durable start passes the charge's action, cleared only once it holds the free first full mock (STATUS.md 622).
+  assert.match(sessions, /let \{ creditAction, quota \} = charge;[\s\S]*p_credit_action: creditAction/);
   assert.match(sessions, /creditAction: practiceCreditAction\(mode\.id, count\)/);
   assert.match(read('data/practice_charge.js'), /if \(isPremium\) return \{ creditAction: null, quota: null \}/);
   assert.match(read('data/practice_charge.js'), /creditAction: creditAction \|\| null/);

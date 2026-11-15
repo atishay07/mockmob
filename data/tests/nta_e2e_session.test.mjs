@@ -330,19 +330,30 @@ for (const mode of ['asis', 'promoted']) {
         if (overlap) assert.ok(next.body.meta.ntaPaper.items.some((item) => item.startsWith(`${overlap} question`) && /earlier NTA papers|answered before/.test(item)), JSON.stringify(next.body.meta.ntaPaper.items));
       });
 
-      // time-up on a ticket session: the deadline is 60 minutes; the server allows a 2 minute upload grace.
+      // time-up on a ticket session: the deadline is 60 minutes; the server allows a 2 minute upload grace, and after it takes a
+      // late paper for 7 days (B8, 15 Nov 2026), scored only from the events stamped by the deadline and marked late.
       const late = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('late') }, 'late');
-      await step('time-up: a submit 61 minutes in (inside the grace) is scored; 63 minutes in is refused', async () => {
+      const graceful = await h.call('POST', { subject, mode: 'nta', count: 50, experience: 'practice', generationKey: h.generationKey('late2') }, 'late');
+      await step('time-up: 61 minutes in (inside the grace) is scored as sent; 63 minutes in is a late paper scored from its events by the deadline; past 7 days is refused', async () => {
         assert.equal(late.status, 200, JSON.stringify(late.body).slice(0, 300));
-        const lateAnswers = { [late.body.questions[0].id]: 0 };
-        const refused = await atOffset(63 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'late', { route: 'attempts', path: '/api/attempts' }));
+        assert.equal(graceful.status, 200, JSON.stringify(graceful.body).slice(0, 300));
+        const [qa, qb] = late.body.questions.map((q) => q.id);
+        const body = { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: { [qa]: 0, [qb]: 0 },
+          events: [{ seq: 1, qid: qa, at: 1000, type: 'answer', answer: 0 }, { seq: 2, qid: qb, at: 60 * 60000 + 1000, type: 'answer', answer: 0 }] };
+        const before = fake.table('attempts').length;
+        const refused = await atOffset(60 * 60000 + 7 * 86400000 + 60000, () => h.call('POST', body, 'late', { route: 'attempts', path: '/api/attempts' }));
         assert.equal(refused.status, 422);
         assert.equal(refused.body.error, 'SESSION_EXPIRED');
-        const before = fake.table('attempts').length;
-        const graced = await atOffset(61 * 60000, () => h.call('POST', { sessionId: late.body.id, sessionTicket: late.body.meta.sessionTicket, answers: lateAnswers, events: [] }, 'late', { route: 'attempts', path: '/api/attempts' }));
+        assert.equal(fake.table('attempts').length, before, 'nothing written');
+        const lateSent = await atOffset(63 * 60000, () => h.call('POST', body, 'late', { route: 'attempts', path: '/api/attempts' }));
+        assert.equal(lateSent.status, 200, JSON.stringify(lateSent.body).slice(0, 300));
+        assert.equal(lateSent.body.correct + lateSent.body.wrong, 1, 'only the answer stamped before the deadline');
+        assert.equal(fake.table('attempts').length, before + 1);
+        assert.equal(fake.table('attempts').at(-1).selection_meta.late, true);
+        const graced = await atOffset(61 * 60000, () => h.call('POST', { sessionId: graceful.body.id, sessionTicket: graceful.body.meta.sessionTicket, answers: { [graceful.body.questions[0].id]: 0 }, events: [] }, 'late', { route: 'attempts', path: '/api/attempts' }));
         assert.equal(graced.status, 200);
         assert.equal(graced.body.correct + graced.body.wrong, 1);
-        assert.equal(fake.table('attempts').length, before + 1);
+        assert.equal(fake.table('attempts').at(-1).selection_meta.late, undefined, 'inside the grace a paper is on time');
         rec.ticketGraceCountsLateAnswers = true;
       });
 

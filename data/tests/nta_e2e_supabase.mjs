@@ -97,7 +97,7 @@ class Query {
     this.mode = 'many';
     this.signal = null;
   }
-  select(columns = '*') { if (this.op === 'select') this.columns = columns; else this.returning = columns; return this; }
+  select(columns = '*', options = {}) { if (this.op === 'select') { this.columns = columns; this.countHead = Boolean(options?.head && options?.count); } else this.returning = columns; return this; }
   insert(rows, options = {}) { this.op = 'insert'; this.payload = rows; this.options = options; return this; }
   upsert(rows, options = {}) { this.op = 'upsert'; this.payload = rows; this.options = options; return this; }
   update(values) { this.op = 'update'; this.payload = values; return this; }
@@ -146,6 +146,8 @@ class Query {
     const selected = rows.filter((row) => this.filters.every((filter) => matches(row, filter)) && this.predicates.every((predicate) => predicate(row)));
     if (this.op === 'select') {
       store.calls.select += 1;
+      // { count: 'exact', head: true }: the count only (the free first full mock reads its students' saved full papers so).
+      if (this.countHead) return { data: null, count: selected.length, error: null };
       let out = selected;
       if (this.orders.length) out = [...out].sort((a, b) => { for (const [column, ascending] of this.orders) { const c = compare(a[column], b[column]); if (c) return ascending ? c : -c; } return 0; });
       if (this.rangeTo) out = out.slice(this.rangeTo[0], this.rangeTo[1] + 1);
@@ -158,6 +160,8 @@ class Query {
       const list = Array.isArray(this.payload) ? this.payload : [this.payload];
       const keyed = this.name === 'attempts' || this.name === 'recovery_sessions';
       for (const row of list) if (keyed && rows.some((existing) => existing.id === row.id)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
+      // learning_allowances' primary key (user_id, kind, period) is the free first full mock's lock.
+      if (this.name === 'learning_allowances') for (const row of list) if (rows.some((e) => e.user_id === row.user_id && e.kind === row.kind && e.period === row.period)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
       const created = list.map((row) => ({ ...(this.name === 'attempts' ? { completed_at: new Date().toISOString() } : {}), ...clone(row) }));
       rows.push(...created);
       return this.returning ? this.finish(created.map((row) => this.project(row))) : { data: null, error: null };
