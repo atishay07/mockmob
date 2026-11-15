@@ -4,11 +4,13 @@
 // sheet on a phone. One layer, never a modal page: Escape and a tap outside close it, focus moves in and goes
 // back to the medal that opened it. The body is plain words from lib/badgeShelf.js detailOf(): the condition,
 // when it was earned and the paper it came from, or the count so far, and the next step on the same path.
-import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { ArrowLeft, X } from 'lucide-react';
-import { Medal } from '@/components/Medal';
+import { ArrowLeft, Share2, X } from 'lucide-react';
+import { BadgeStamp } from '@/components/Medal';
+import { badgeCardBlob } from '@/components/badgeShare';
+import { shareFact, shareFileName, shareLine } from '@/lib/badgeMoment';
 
 const CLOSE_MS = 160;
 const POPOVER_W = 340;
@@ -123,19 +125,63 @@ export function BadgeLayer({ anchor, wide, label, onClose, children, tall = fals
   );
 }
 
-/** The words of one badge (lib/badgeShelf.js detailOf), as the layer's body. */
+function pageTheme() {
+  try { return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'; } catch { return 'dark'; }
+}
+
+/**
+ * Share, from an earned badge's own sheet: one quiet key. The picture (badgeShare.js) is drawn as the sheet opens, so the tap
+ * hands it straight to the phone's share sheet; where files cannot be shared the line of text goes; where nothing can be
+ * shared the line is copied. Closing the share sheet is the student's choice, never an error.
+ */
+function ShareBadge({ detail }) {
+  const blob = useRef(null);
+  const [note, setNote] = useState('');
+  const card = useMemo(() => ({ id: detail.id, name: detail.name, fact: shareFact(detail.id), date: detail.shortDate || '' }), [detail.id, detail.name, detail.shortDate]);
+  const text = `${shareLine({ id: detail.id, name: detail.name }, detail.shortDate || '')} https://www.mockmob.in`;
+  useEffect(() => {
+    let alive = true;
+    const t = window.setTimeout(() => {
+      badgeCardBlob(card, pageTheme()).then((b) => { if (alive) blob.current = b; }).catch(() => {});
+    }, 120);
+    return () => { alive = false; window.clearTimeout(t); };
+  }, [card]);
+  const share = async () => {
+    setNote('');
+    const b = blob.current;
+    const file = b && typeof File === 'function' ? new File([b], shareFileName(detail).replace(/\.png$/, b.type === 'image/jpeg' ? '.jpg' : '.png'), { type: b.type }) : null;
+    try {
+      if (file && typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; }
+      if (typeof navigator.share === 'function') { await navigator.share({ text }); return; }
+      await navigator.clipboard.writeText(text);
+      setNote('Copied. Paste it wherever you like.');
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      setNote('This could not be shared just now.');
+    }
+  };
+  return (
+    <>
+      <button type="button" className="sb-share" onClick={share}><Share2 size={17} strokeWidth={2} aria-hidden="true" />Share</button>
+      {note ? <p className="sb-detail__note" role="status">{note}</p> : <span className="sr-only" role="status" />}
+    </>
+  );
+}
+
+/** The words of one badge (lib/badgeShelf.js detailOf), as the layer's body: the mark on its own at the top, then its words. */
 export function BadgeDetailBody({ detail, onClose, onBack, backLabel }) {
   const d = detail;
-  const status = d.earned ? 'earned' : d.unknown ? 'later' : 'next';
+  // The same three states as everywhere else: inked, drawn in ink (the next one), or blind (the rest, and one not readable).
+  const status = d.earned ? 'earned' : d.status === 'next' ? 'next' : 'later';
   return (
-    <div className="sb-detail">
+    <div className="sb-detail" data-status={status}>
       <div className="sb-detail__top">
-        <Medal id={d.id} status={status} size="xl" />
+        <button type="button" className="sb-detail__close" onClick={onClose} aria-label="Close" data-first=""><X size={18} strokeWidth={2} aria-hidden="true" /></button>
+        <BadgeStamp id={d.id} status={status} size="xl" fraction={d.fraction} />
         <div className="sb-detail__title">
           <p className="sb-detail__path">{d.pathTitle}</p>
           <h3>{d.name}</h3>
         </div>
-        <button type="button" className="sb-detail__close" onClick={onClose} aria-label="Close" data-first=""><X size={18} strokeWidth={2} aria-hidden="true" /></button>
       </div>
 
       <p className="sb-detail__condition">{d.condition}</p>
@@ -170,7 +216,12 @@ export function BadgeDetailBody({ detail, onClose, onBack, backLabel }) {
         <div className="sb-detail__block"><p>Every badge on {d.pathTitle} is earned.</p></div>
       ) : null}
 
-      {!d.unknown && (d.next || !d.earned) ? <Link className="sb-btn" href={d.action.href}>{d.action.label}</Link> : null}
+      {(!d.unknown && (d.next || !d.earned)) || d.earned ? (
+        <div className="sb-detail__acts">
+          {!d.unknown && (d.next || !d.earned) ? <Link className="sb-btn" href={d.action.href}>{d.action.label}</Link> : null}
+          {d.earned ? <ShareBadge detail={d} /> : null}
+        </div>
+      ) : null}
       {onBack ? <button type="button" className="sb-detail__back" onClick={onBack}><ArrowLeft size={16} strokeWidth={2} aria-hidden="true" />{backLabel}</button> : null}
     </div>
   );

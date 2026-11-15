@@ -361,14 +361,20 @@ test('the shelf, the sheet and the earned row exist, and the result shows the ro
   assert.equal(result.split('<EarnedBadges ').length - 1, 1);
 });
 
-test('the earned row is never a modal and its motion is the specified one', () => {
-  const row = read('src/components/EarnedBadges.jsx');
-  assert.doesNotMatch(row, /role="dialog"|aria-modal|showModal/);
+test('the earned moment is never a modal and its motion is the specified one', () => {
+  // Lane "badges" (16 Nov 2026) replaced the 600 ms medal reveal with the mark coming down onto the page in 300 ms (the owner's
+  // 150 to 350 ms), a still frame under Reduce motion or Celebrations off, a 150 ms fade under Quiet.
+  for (const file of ['src/components/EarnedBadges.jsx', 'src/components/BadgeMoment.jsx']) assert.doesNotMatch(read(file), /role="dialog"|aria-modal|showModal/);
   const css = read('src/components/study-badges.css');
-  assert.match(css, /600ms cubic-bezier\(0\.23, 1, 0\.32, 1\)/);
-  assert.match(css, /scale\(0\.85\)/);
-  assert.match(css, /150ms/);
+  assert.match(css, /animation: sb-stamp-down 300ms cubic-bezier\(0\.22, 1, 0\.36, 1\)/);
+  assert.match(css, /html\[data-celebrations='quiet'\][^{]*\{ animation: sb-fade 150ms ease-out both; \}/);
+  assert.match(css, /\.sb-moment\[data-still='true'\] \.sb-stamp\[data-land\][^{]*\{ animation: none !important; opacity: 1; transform: none; \}/);
   assert.match(css, /prefers-reduced-motion: reduce/);
+  // Every animation the moment plays lasts between 150 and 350 ms.
+  const moment = css.slice(css.indexOf('/* ----- The moment a badge lands'), css.indexOf('/* Reduced motion:'));
+  const durations = [...moment.matchAll(/animation: sb-[a-z-]+ (\d+)ms/g)].map((m) => Number(m[1]));
+  assert.ok(durations.length >= 4);
+  for (const ms of durations) assert.ok(ms >= 150 && ms <= 350, `${ms} ms is outside 150 to 350`);
 });
 
 test('Progress rows carry their status as quiet text, not as pills', () => {

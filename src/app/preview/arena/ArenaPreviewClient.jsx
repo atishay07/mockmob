@@ -16,7 +16,7 @@ import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/s
 import { previewAnalytics, previewCompass, previewInsights, previewRecordAttempt } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
-import { previewStudyRecord, previewBadgesBody } from './previewStudy';
+import { previewStudyRecord, previewBadgesBody, repairAt } from './previewStudy';
 import { buildStudyRecord } from '@/lib/studyBadges';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MentorRecordPage from '@/components/ai/MentorRecordPage';
@@ -757,7 +757,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         const backs = kind === 'first' ? [0] : kind === 'returning' ? [9, 10, 11, 16, 17, 23, 24, 30, 31, 32, 38, 45] : kind === 'met' ? [0, 1, 2, 3, 8, 9, 10, 11, 15, 16, 17, 22, 23, 24, 29, 30, 36, 44, 51] : [0, 1, 3, 8, 9, 10, 12, 16, 17, 18, 24, 25, 31, 38, 45];
         activities = backs.map((back, i) => ({ id: `fx${i}`, at: at(back, back === 0 ? 0 : 9 + (i % 5)), kind: i % 4 === 3 ? 'repair' : 'session', answered: 12, fullMock: i === 9 }));
       }
-      return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
+      const body = computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() });
+      // &earned=repair (lane "badges"): the week's read dates the 5th repair two hours ago, as the server's would.
+      if (fixture.get('earned') === 'repair' && Array.isArray(body.milestones)) {
+        body.milestones = body.milestones.map((m) => (m.id === 'repairs_5' ? { ...m, achievedAt: new Date(repairAt()).toISOString() } : m));
+      }
+      return json(body);
     }
     // Progress's study record (D20): with ?study=on the fixture has Learn on, 5 cards due, 3 of 24 lessons read; ?study=on&due=0 has none due.
     if (url.pathname === '/api/study/catalog' && fixture.get('study') === 'on') {
@@ -772,6 +777,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (fixture.get('badges') === 'error') return json({ error: 'unavailable' }, 503);
       const earned = fixture.get('earned');
       if (earned === 'one' || earned === 'two') return window.fetch('/api/attempts/fixture-attempt').then((r) => r.json()).then((a) => json(previewBadgesBody(fixture.get('badges'), { attemptAt: new Date(a.completedAt).getTime(), earned })));
+      if (earned === 'repair') return json(previewBadgesBody(fixture.get('badges'), { earned }));
       return json(state === 'empty' ? previewBadgesBody('none') : previewBadgesBody(fixture.get('badges')));
     }
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.

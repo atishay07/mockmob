@@ -49,6 +49,7 @@ import TodayMob from '@/components/today/TodayMob';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
 import SundayTodayCard from '@/components/sunday/SundayTodayCard';
 import NameAsk from '@/components/profile/NameAsk';
+import { TodayBadgeMoment } from '@/components/BadgeMoment';
 import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
 import ResumePaper from '@/components/practice/ResumePaper';
@@ -350,6 +351,9 @@ export default function Today() {
               />
             )}
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
+            {/* A badge earned away from a result (a repair, a week met, a check that held): its moment, once, under the lead card
+                so the lead's key stays first. Draws nothing otherwise (BadgeMoment.jsx). */}
+            <TodayBadgeMoment rhythm={data.rhythm} papers={data.papers} hold={landing} />
             {/* Ask Mobi, right under the lead card (owner LK143): his own page, one tap from Today. */}
             <TodayAsk />
             {/* The Daily Five (15 Nov 2026): one quiet row under Ask Mobi, not played today or today's score (this device's record). */}

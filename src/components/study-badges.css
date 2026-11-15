@@ -1,7 +1,8 @@
-/* Badges and Personal bests on Progress (StudyBadges), the badge detail (BadgeDetail) and the "Badge earned" row on the
-   result (EarnedBadges). Open sections on the page ground, ruled rather than boxed: a medal is a circle, the figures are
-   plain tabular numerals, no glow. Colours are the arena tokens, so Night and Day come from the theme. The only motion is
-   the ring filling, the layer arriving and the medal's one reveal; each has a still equivalent under reduced motion. */
+/* Badges and Personal bests on Progress (StudyBadges), the badge detail (BadgeDetail) and the moment a badge lands on the result
+   or on Today (BadgeMoment, EarnedBadges). Open sections on the page ground, ruled rather than boxed. Each badge is a mark pressed
+   onto the desk paper (Medal.jsx); the figures are plain tabular numerals; no glow, no gradient. Colours are the arena tokens, so
+   Night and Day come from the theme. The only motion is a count running round a mark, the layer arriving and the mark coming
+   down once; each has a still equivalent under reduced motion. */
 
 .app-shell .sb-wrap { display: grid; gap: 32px; min-width: 0; }
 .app-shell .sb-sec { display: grid; gap: 4px; min-width: 0; align-content: start; scroll-margin-top: 84px; }
@@ -18,51 +19,85 @@
 .app-shell .sb-link--tap, .sb-layer .sb-link--tap { position: relative; z-index: 1; display: inline-block; padding-block: 13px; margin-block: -13px; }
 .app-shell .sb-foot { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--a-ink-3); max-width: 62ch; }
 
-/* ----- The medal: one circle, three sizes. Earned is the volt medal; no glow in either theme. ----- */
-.sb-medal, .app-shell .sb-medal { --sb-m: 38px; position: relative; overflow: hidden; display: grid; place-items: center; box-sizing: border-box; width: var(--sb-m); height: var(--sb-m); border-radius: 50%; border: 1.5px solid var(--a-line-strong); color: var(--a-ink-3); background: transparent; font: 800 calc(var(--sb-m) * 0.37)/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; flex: none; }
-.sb-medal[data-size='row'] { --sb-m: 48px; }
-.sb-medal[data-size='lg'] { --sb-m: 56px; border-width: 2px; }
-.sb-medal[data-size='xl'] { --sb-m: 80px; border-width: 2px; }
-.sb-medal b { font: inherit; }
-.sb-medal svg { width: 1.2em; height: 1.2em; }
-.sb-medal[data-status='later'] { border-style: dashed; border-color: var(--a-line-strong); }
-.sb-medal[data-status='next'] { border-color: var(--a-ink-2); color: var(--a-ink-2); }
-.sb-medal[data-status='earned'] { background: var(--volt); border-color: var(--volt); color: #0b1000; }
-/* Night (D7, release 9): solid lime on six medals at once was "very in-your-face". In Night an earned medal is a charcoal disc
-   with a thin lime ring and a lime glyph (the subtle Night accent: the tokens' wash and line, no fill, no glow); the medal's art
-   (its numeral or icon, size and ring) is unchanged. Day keeps the solid medal. */
-html:not([data-theme='light']) .sb-medal[data-status='earned'] { background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); border-color: var(--a-volt-line, rgba(210, 240, 0, 0.5)); color: var(--a-accent-text, #d2f000); }
+/* ----- The badge's mark (Medal.jsx, lib/badgeArt.js): a stamp pressed onto the desk paper, one silhouette per path -----
+   Earned is inked: the silhouette in the page's ink with a fine inner rule and the sign in volt (Day), or a charcoal mark with a
+   thin lime rule and a lime sign (Night; D7: never a slab of lime). Next is drawn in ink over the blind mark, with the exact
+   count running round its edge. Later is a blind emboss: no ink, a light edge above and a shadow edge below. No glow, no
+   gradient; the only depth is the emboss's two offset edges. */
+.sb-stamp {
+  --sb-px: 40px;
+  --sb-fill: #17150f; --sb-fill-2: #38342b; --sb-rule: rgba(243, 239, 230, 0.34); --sb-sign: #d2f000;
+  --sb-press: rgba(42, 32, 16, 0.035); --sb-shade: rgba(42, 32, 16, 0.26); --sb-lit: rgba(255, 255, 255, 0.95); --sb-blind: rgba(42, 32, 16, 0.075);
+  --sb-line: var(--a-ink-3, #655f53); --sb-pencil: var(--a-ink-2, #454036); --sb-prog: var(--a-select, #6f8700);
+  position: relative; display: inline-block; flex: none; width: var(--sb-px); height: var(--sb-px); vertical-align: middle;
+}
+html:not([data-theme='light']) .sb-stamp {
+  --sb-fill: #2a2822; --sb-fill-2: #36332b; --sb-rule: rgba(210, 240, 0, 0.46); --sb-sign: #d2f000;
+  --sb-press: rgba(0, 0, 0, 0.2); --sb-shade: rgba(0, 0, 0, 0.62); --sb-lit: rgba(244, 240, 230, 0.12); --sb-blind: rgba(244, 240, 230, 0.05);
+  --sb-line: var(--a-ink-3, #a09989); --sb-pencil: var(--a-ink-2, #bdb6a6); --sb-prog: var(--a-select, #d2f000);
+}
+.sb-stamp[data-size='row'] { --sb-px: 48px; }
+.sb-stamp[data-size='lg'] { --sb-px: 56px; }
+.sb-stamp[data-size='hero'] { --sb-px: 112px; }
+.sb-stamp[data-size='xl'] { --sb-px: 152px; }
+.sb-stamp svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.sb-s__body { fill: var(--sb-fill); }
+.sb-s__extra { fill: var(--sb-fill-2); }
+.sb-s__rule { fill: none; stroke: var(--sb-rule); stroke-width: 1.2; stroke-linecap: round; }
+.sb-s__press { fill: var(--sb-press); }
+.sb-s__shade, .sb-s__lit, .sb-s__line { fill: none; stroke-width: 1.3; stroke-linejoin: round; }
+.sb-s__shade { stroke: var(--sb-shade); }
+.sb-s__lit { stroke: var(--sb-lit); }
+.sb-s__line { stroke: var(--sb-line); stroke-width: 1.6; }
+.sb-s__prog { fill: none; stroke: var(--sb-prog); stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: calc(1 - var(--sb-share, 0)); animation: sb-prog-in 350ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes sb-prog-in { from { stroke-dashoffset: 1; } }
+.sb-s__num, .sb-s__glyph { color: var(--sb-sign); }
+.sb-s__num { fill: currentColor; font-family: var(--font-display); font-weight: 800; letter-spacing: -0.045em; }
+.sb-s__gs { fill: none; stroke: currentColor; stroke-width: 3.1; stroke-linecap: round; stroke-linejoin: round; }
+.sb-s__gt { fill: none; stroke: currentColor; stroke-width: 1.6; }
+.sb-s__gf { fill: currentColor; }
+.sb-stamp [data-tone='pencil'] { color: var(--sb-pencil); }
+.sb-stamp [data-tone='shade'] { color: var(--sb-shade); }
+.sb-stamp [data-tone='lit'] { color: var(--sb-lit); }
+.sb-stamp [data-tone='blind'] { color: var(--sb-blind); }
+/* You's glance: the latest three stand side by side, a hair apart. */
+.app-shell .acct-glance__medals .sb-stamp + .sb-stamp { margin-left: 4px; }
 
-/* ----- Badges section: the shelf, the next badge, then (desktop) the four paths ----- */
-/* The shelf: earned medals, newest first. It scrolls sideways on a phone (the next medal peeks), wraps on a desktop. */
-.app-shell .sb-shelf { list-style: none; display: flex; gap: 4px; margin: 0 -16px; padding: 0 16px 4px; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: 16px; scrollbar-width: none; overscroll-behavior-x: contain; }
-.app-shell .sb-shelf::-webkit-scrollbar { display: none; }
-.app-shell .sb-shelf > li { flex: none; scroll-snap-align: start; }
-.app-shell .sb-shelf__item { display: grid; justify-items: center; align-content: start; gap: 8px; box-sizing: border-box; width: 80px; min-height: 44px; padding: 10px 2px 8px; border: 0; border-radius: 14px; background: none; color: var(--a-ink); text-align: center; cursor: pointer; transition: background-color 150ms ease-out; }
-.app-shell .sb-shelf__item:active { background: var(--a-hover); }
-@media (hover: hover) and (pointer: fine) { .app-shell .sb-shelf__item:hover { background: var(--a-hover); } }
-.app-shell .sb-shelf__item:focus-visible, .app-shell .sb-next__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
-.app-shell .sb-shelf__name { font: 650 13px/1.3 var(--font-body); color: var(--a-ink); overflow-wrap: anywhere; }
-.app-shell .sb-shelf__date { font-size: 12px; line-height: 1.2; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+/* ----- Badges section: the next badge, then the four paths as four rows of marks ----- */
+.app-shell .sb-lead { margin: 0 0 4px; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); max-width: 60ch; }
+.app-shell .sb-rows { display: grid; min-width: 0; }
+.app-shell .sb-row { display: grid; gap: 8px; min-width: 0; padding: 16px 0 18px; border-top: 1px solid var(--a-line); }
+.app-shell .sb-sec > .rv-sec__head + .sb-rows > .sb-row:first-child { border-top: 0; padding-top: 4px; }
+.app-shell .sb-row__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.app-shell .sb-row__head h3 { margin: 0; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .sb-row__head span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+/* Five columns on every row, so a path of three keeps the same rhythm as a path of five. */
+.app-shell .sb-row__marks { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 0 -6px; padding: 0; }
+.app-shell .sb-cell { min-width: 0; }
+.app-shell .sb-cell__btn { display: grid; justify-items: center; align-content: start; gap: 6px; box-sizing: border-box; width: 100%; min-height: 44px; padding: 6px 3px 8px; border: 0; border-radius: 12px; background: none; color: var(--a-ink); font: inherit; text-align: center; cursor: pointer; transition: background-color 150ms ease-out; }
+.app-shell .sb-cell__btn:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .app-shell .sb-cell__btn:hover { background: var(--a-hover); } }
+.app-shell .sb-cell__btn:focus-visible, .app-shell .sb-next__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+.app-shell .sb-cell__name { font: 650 12.5px/1.3 var(--font-body); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .sb-cell[data-mark='later'] .sb-cell__name { font-weight: 550; color: var(--a-ink-3); }
+.app-shell .sb-cell__note { display: none; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .sb-cell[data-mark='later'] .sb-cell__note { color: var(--a-ink-3); }
+.app-shell .sb-row__line { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); max-width: 62ch; font-variant-numeric: tabular-nums; }
 @media (min-width: 761px) {
-  .app-shell .sb-shelf { flex-wrap: wrap; margin: 0 -4px; padding: 0; overflow: visible; scroll-padding-inline: 0; }
-  .app-shell .sb-shelf__item { width: 112px; padding: 10px 4px 8px; }
+  .app-shell .sb-row__marks { max-width: 820px; }
+  .app-shell .sb-cell__btn { padding: 8px 8px 10px; }
+  .app-shell .sb-cell__name { font-size: 13.5px; }
+  .app-shell .sb-cell__note { display: block; }
+  .app-shell .sb-cell .sb-stamp[data-size='lg'] { --sb-px: 64px; }
 }
 
-/* The next badge: a ghost medal (dashed, never a padlock) in a thin ring that fills with the exact count, and one line. */
+/* The next badge: the one closest to done, drawn in ink with its exact count round its own edge, and one line. */
 .app-shell .sb-next { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--a-line); }
-.app-shell .sb-shelf + .sb-next { margin-top: 4px; }
 .app-shell .sb-next:first-child, .app-shell .sb-sec > .rv-sec__head + .sb-next { border-top: 0; margin-top: 0; padding-top: 0; }
 .app-shell .sb-next__btn { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 16px; align-items: center; box-sizing: border-box; width: calc(100% + 24px); margin-inline: -12px; min-height: 68px; padding: 10px 12px; border: 0; border-radius: 14px; background: none; color: var(--a-ink); text-align: left; cursor: pointer; transition: background-color 150ms ease-out; }
 .app-shell .sb-next__btn:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .app-shell .sb-next__btn:hover { background: var(--a-hover); } }
 .app-shell .sb-ghost { position: relative; display: grid; place-items: center; width: 68px; height: 68px; }
-.app-shell .sb-ghost .sb-medal { opacity: 0.9; }
-.app-shell .sb-ghost__ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
-.app-shell .sb-ghost__track, .app-shell .sb-ghost__arc { fill: none; stroke-width: 2; }
-.app-shell .sb-ghost__track { stroke: var(--a-line); }
-.app-shell .sb-ghost__arc { stroke: var(--a-select); stroke-linecap: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset 720ms cubic-bezier(0.23, 1, 0.32, 1); }
-.app-shell .sb-ghost__arc[data-armed='true'] { stroke-dashoffset: calc(1 - var(--sb-fill, 0)); }
 .app-shell .sb-next__text { display: grid; gap: 2px; min-width: 0; }
 .app-shell .sb-next__lead { font-size: 13px; line-height: 1.3; color: var(--a-ink-3); }
 .app-shell .sb-next__text b { font: 700 16px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
@@ -87,9 +122,9 @@ html:not([data-theme='light']) .sb-medal[data-status='earned'] { background: var
   .app-shell .sb-path:first-child { padding-top: 4px; border-top: 0; }
 }
 
-/* One badge: the medal, its name, and one line that is true of it. The whole row opens the badge's detail
+/* One badge: its mark, its name, and one line that is true of it. The whole row opens the badge's detail
    (a stretched button on the name); the links inside the row sit above it and stay their own. */
-.app-shell .sb-badge, .sb-layer .sb-badge { position: relative; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; min-height: 48px; }
+.app-shell .sb-badge, .sb-layer .sb-badge { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; min-height: 48px; }
 .app-shell .sb-badge__body, .sb-layer .sb-badge__body { display: grid; gap: 3px; min-width: 0; }
 .app-shell .sb-badge__name, .sb-layer .sb-badge__name { display: block; font: 650 15px/1.35 var(--font-body); color: var(--a-ink); }
 .app-shell .sb-badge[data-status='later'] .sb-badge__name, .sb-layer .sb-badge[data-status='later'] .sb-badge__name { color: var(--a-ink-2); }
@@ -150,8 +185,11 @@ html[data-theme='light'] .sb-scrim { background: rgba(23, 21, 15, 0.34); }
 @keyframes sb-fade-out { from { opacity: 1; } to { opacity: 0; } }
 
 .sb-detail { display: grid; gap: 14px; }
-.sb-detail__top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 16px; align-items: center; }
-.sb-detail__title { display: grid; gap: 2px; min-width: 0; }
+/* The badge on its own at the top: its mark at 152 px (96 px in the desktop popover), then its path and name. */
+.sb-detail__top { position: relative; display: grid; justify-items: center; gap: 12px; padding-top: 6px; text-align: center; }
+.sb-detail__top .sb-detail__close { position: absolute; top: 0; right: 0; margin: -8px -10px 0 0; }
+.sb-layer[data-mode='popover'] .sb-detail__top .sb-stamp[data-size='xl'] { --sb-px: 96px; }
+.sb-detail__title { display: grid; justify-items: center; gap: 2px; min-width: 0; }
 .sb-detail__path { margin: 0; font-size: 13px; line-height: 1.3; color: var(--a-ink-3); }
 .sb-detail__title h3 { margin: 0; font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); overflow-wrap: anywhere; }
 .sb-detail__close { align-self: start; display: grid; place-items: center; width: 44px; height: 44px; margin: -8px -10px 0 0; padding: 0; border: 0; border-radius: 12px; background: none; color: var(--a-ink-2); cursor: pointer; transition: background-color 150ms ease-out; }
@@ -170,6 +208,15 @@ html[data-theme='light'] .sb-scrim { background: rgba(23, 21, 15, 0.34); }
 .sb-btn:active { background: var(--a-hover); }
 @media (hover: hover) and (pointer: fine) { .sb-btn:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
 .sb-layer[data-mode='popover'] .sb-btn { justify-self: start; }
+.sb-detail__acts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.sb-detail__acts .sb-btn { flex: 1 1 auto; }
+.sb-layer[data-mode='popover'] .sb-detail__acts .sb-btn { flex: 0 1 auto; }
+/* Share: one quiet key, never the view's volt. */
+.sb-share { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 14px; border: 0; border-radius: 12px; background: none; color: var(--a-ink); font: 650 15px/1.2 var(--font-body); cursor: pointer; transition: background-color 150ms ease-out; }
+.sb-share:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .sb-share:hover { background: var(--a-hover); } }
+.sb-share:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.sb-detail .sb-detail__note { flex-basis: 100%; font-size: 13.5px; color: var(--a-ink-2); }
 .sb-detail__back { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 6px 0 0; border: 0; background: none; color: var(--a-ink-2); font: 650 14px/1.2 var(--font-body); cursor: pointer; }
 
 .sb-all-sheet { display: grid; gap: 8px; }
@@ -178,39 +225,58 @@ html[data-theme='light'] .sb-scrim { background: rgba(23, 21, 15, 0.34); }
 .sb-all-sheet__head p { margin: 2px 0 0; font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .sb-all-sheet .sb-detail__close { margin: -8px -10px 0 0; }
 
-/* ----- The earned moment on the result: one compact row, one reveal, never a modal ----- */
-.app-shell .sb-earned { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: center; margin: 4px 0; padding: 14px 0; border-block: 1px solid var(--a-line); }
-.app-shell .sb-earned__medals { display: flex; gap: 8px; }
-.app-shell .sb-earned__text { display: grid; gap: 2px; min-width: 0; }
-.app-shell .sb-earned__text b { font: 700 16px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
-.app-shell .sb-earned__text span { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
-/* On a phone the link sits under the words as a line of text with a 44 px hit area (the row stays compact). */
-.app-shell .sb-earned__link { grid-column: 2; justify-self: start; display: inline-flex; align-items: center; min-height: 0; padding-block: 13px; margin-block: -9px -13px; font-size: 14px; }
+/* ----- The moment a badge lands (BadgeMoment.jsx), on the result or on Today: part of the page, never a layer over it -----
+   The mark comes down onto the page (300 ms, ease-out, a slight press at the end), the words rise in after it, and the path's
+   row shows the new mark taking its place. Each step is 200 to 300 ms and the whole is done by 520 ms. Reduce motion and
+   Celebrations off draw one still frame; Celebrations quiet is a 150 ms fade. */
+.app-shell .sb-earned { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px 18px; align-items: start; margin: 4px 0; padding: 18px 0 16px; border-block: 1px solid var(--a-line); }
+.app-shell .sb-moment[data-count]:not([data-count='1']) { grid-template-columns: minmax(0, 1fr); }
+/* On a phone Today orders its blocks itself (today.css): the moment sits right under the lead card, so the lead's key stays first. */
+.app-shell .today-grid .sb-moment { order: 2; margin: 0; }
+.app-shell .sb-moment__stamps { display: flex; align-items: flex-start; padding: 2px 0 0 2px; }
+.app-shell .sb-moment__stamp { display: inline-block; transform: rotate(var(--sb-tilt, -3deg)); }
+.app-shell .sb-moment__stamp + .sb-moment__stamp { margin-left: -22px; }
+.app-shell .sb-moment__stamp .sb-stamp[data-size='hero'] { --sb-px: 104px; }
+.app-shell .sb-moment[data-count]:not([data-count='1']) .sb-moment__stamp .sb-stamp[data-size='hero'] { --sb-px: 88px; }
+.app-shell .sb-moment__words { display: grid; gap: 5px; min-width: 0; align-content: start; padding-right: 34px; }
+.app-shell .sb-moment__title { margin: 4px 0 0; font: 800 22px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .sb-moment__did, .app-shell .sb-moment__next, .app-shell .sb-moment__list li { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); max-width: 52ch; }
+.app-shell .sb-moment__did b, .app-shell .sb-moment__list b { font-weight: 700; color: var(--a-ink); }
+.app-shell .sb-moment__next { font-size: 14px; font-variant-numeric: tabular-nums; }
+.app-shell .sb-moment__list { list-style: none; display: grid; gap: 4px; margin: 0; padding: 0; }
+.app-shell .sb-moment__acts { margin: 2px 0 0; font-size: 14px; line-height: 1.5; }
+.app-shell .sb-moment__close { position: absolute; top: 8px; right: -10px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px; background: none; color: var(--a-ink-3); cursor: pointer; transition: background-color 150ms ease-out, color 150ms ease-out; }
+.app-shell .sb-moment__close:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .app-shell .sb-moment__close:hover { background: var(--a-hover); color: var(--a-ink); } }
+.app-shell .sb-moment__close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+.app-shell .sb-moment__strip { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding-top: 12px; border-top: 1px solid var(--a-line); }
+.app-shell .sb-moment__path { font-size: 13px; line-height: 1.3; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .sb-moment__marks { display: flex; gap: 6px; }
 @media (min-width: 640px) {
-  .app-shell .sb-earned { grid-template-columns: auto minmax(0, 1fr) auto; }
-  .app-shell .sb-earned__link { grid-column: 3; justify-self: end; min-height: 44px; padding-block: 0; margin-block: 0; }
+  .app-shell .sb-moment__stamp .sb-stamp[data-size='hero'] { --sb-px: 120px; }
+  .app-shell .sb-moment__title { font-size: 24px; }
+  .app-shell .sb-moment__marks { gap: 10px; }
+  .app-shell .sb-moment__strip { justify-content: flex-start; gap: 8px 24px; }
 }
-/* The reveal: the medal grows from 0.85 to full size and one light band crosses the metal, 600 ms ease-out. */
-.app-shell .sb-medal[data-reveal='true'] { opacity: 0; transform: scale(0.85); }
-.app-shell .sb-medal[data-reveal='true']::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.55) 50%, transparent 62%); transform: translateX(-110%); pointer-events: none; }
-.app-shell [data-armed='true'] .sb-medal[data-reveal='true'] { animation: sb-reveal 600ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-.app-shell [data-armed='true'] .sb-medal[data-reveal='true']::after { animation: sb-sweep 600ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-@keyframes sb-reveal { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
-@keyframes sb-sweep { from { transform: translateX(-110%); } to { transform: translateX(110%); } }
+.app-shell .sb-moment[data-armed='false'] .sb-stamp[data-land], .app-shell .sb-moment[data-armed='false'] .sb-moment__words, .app-shell .sb-moment[data-armed='false'] .sb-moment__strip { opacity: 0; }
+.app-shell .sb-moment[data-armed='true'] .sb-stamp[data-land] { transform-origin: 50% 70%; animation: sb-stamp-down 300ms cubic-bezier(0.22, 1, 0.36, 1) var(--sb-delay, 0ms) both; }
+.app-shell .sb-moment[data-armed='true'] .sb-moment__words { animation: sb-rise 220ms ease-out 140ms both; }
+.app-shell .sb-moment[data-armed='true'] .sb-moment__strip { animation: sb-rise 220ms ease-out 200ms both; }
+.app-shell .sb-moment[data-armed='true'] .sb-moment__slot[data-new] .sb-stamp { animation: sb-slot 200ms cubic-bezier(0.22, 1, 0.36, 1) 320ms both; }
+@keyframes sb-stamp-down { 0% { opacity: 0; transform: translateY(-14px) scale(1.22) rotate(-6deg); } 55% { opacity: 1; } 80% { transform: translateY(0) scale(0.97) rotate(0deg); } 100% { opacity: 1; transform: none; } }
+@keyframes sb-rise { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes sb-slot { from { opacity: 0; transform: scale(1.25); } to { opacity: 1; transform: none; } }
+html[data-celebrations='quiet'] .app-shell .sb-moment[data-armed='true'] .sb-stamp[data-land] { animation: sb-fade 150ms ease-out both; }
+.app-shell .sb-moment[data-still='true'] .sb-stamp[data-land], .app-shell .sb-moment[data-still='true'] .sb-moment__words, .app-shell .sb-moment[data-still='true'] .sb-moment__strip, .app-shell .sb-moment[data-still='true'] .sb-moment__slot .sb-stamp { animation: none !important; opacity: 1; transform: none; }
 
-/* Reduced motion: the layer, the ring and the bars appear in place; the medal takes a 150 ms fade and no sweep. */
+/* Reduced motion: the layer, the counts and the moment appear in place (the moment's still frame is above). */
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .sb-bar__fill, .sb-layer .sb-bar__fill, .app-shell .sb-ghost__arc { transition: none !important; }
+  .app-shell .sb-bar__fill, .sb-layer .sb-bar__fill { transition: none !important; }
+  .sb-s__prog { animation: none !important; }
   .sb-layer[data-mode='sheet'], .sb-layer[data-mode='popover'] { animation: sb-fade 150ms ease-out both !important; }
   .sb-layer[data-closing], .sb-scrim { animation-duration: 1ms !important; }
-  .app-shell .sb-medal[data-reveal='true'] { transform: none; }
-  /* The app's blanket reduced-motion rule makes every animation instant; this one fade is the specified exception. */
-  .app-shell [data-armed='true'] .sb-medal[data-reveal='true'] { animation: sb-fade 150ms ease-out both; animation-duration: 150ms !important; }
-  .app-shell .sb-medal[data-reveal='true']::after { display: none; }
 }
-html[data-motion='reduced'] .app-shell .sb-bar__fill, html[data-motion='reduced'] .sb-layer .sb-bar__fill, html[data-motion='reduced'] .app-shell .sb-ghost__arc { transition: none !important; }
+html[data-motion='reduced'] .app-shell .sb-bar__fill, html[data-motion='reduced'] .sb-layer .sb-bar__fill { transition: none !important; }
+html[data-motion='reduced'] .sb-s__prog { animation: none !important; }
 html[data-motion='reduced'] .sb-layer[data-mode='sheet'], html[data-motion='reduced'] .sb-layer[data-mode='popover'] { animation: sb-fade 150ms ease-out both !important; }
 html[data-motion='reduced'] .sb-layer[data-closing], html[data-motion='reduced'] .sb-scrim { animation-duration: 1ms !important; }
-html[data-motion='reduced'] .app-shell .sb-medal[data-reveal='true'] { transform: none; }
-html[data-motion='reduced'] .app-shell [data-armed='true'] .sb-medal[data-reveal='true'] { animation: sb-fade 150ms ease-out both; animation-duration: 150ms !important; }
-html[data-motion='reduced'] .app-shell .sb-medal[data-reveal='true']::after { display: none; }

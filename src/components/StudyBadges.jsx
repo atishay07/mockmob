@@ -1,11 +1,13 @@
 "use client";
 
 // Badges and Personal bests on Progress: the website's half of the app's You tab (same names, same
-// rules: lib/studyBadges.js). BADGES-REFINE-1018: the badges are a section of Progress of their own (after the
-// record, no longer inside the week card): the earned medals on a shelf, newest first, then the next one to earn
-// as a ghost medal with its count; on a desktop the four paths follow inline, on a phone "All badges" opens them
-// as a sheet. A tap on any medal opens its detail (BadgeDetail.jsx). Nothing is removed: all sixteen, the four
-// paths and the Medal art stay.
+// rules: lib/studyBadges.js). BADGES-REFINE-1018 gave the badges a section of Progress of their own (after the
+// record, no longer inside the week card). Lane "badges" (16 Nov 2026) redrew them as one family of marks pressed
+// onto the desk paper (Medal.jsx, lib/badgeArt.js) and laid the collection out as the four paths in four rows:
+// earned first, the next one drawn in ink with its exact count round its edge, the rest blind, each row ending
+// with what its next badge needs. Above them, once something is earned, the one badge closest to done. A fresh
+// account is told what the badges are, never "0 of 16". On a phone "All badges" opens every badge with its words
+// as a sheet. A tap on any mark opens its detail (BadgeDetail.jsx), where an earned badge can be shared.
 // The server's own badge list (/api/me/badges, contract docs/design-decisions/badges-api-1016.md) is the
 // authority for the badges: its dates, counts and papers. Where that route is not there yet, the badges are
 // worked out from the papers (/api/me/study-record, the same rules the app uses) and the rhythm from
@@ -19,30 +21,42 @@ import { apiGet } from '@/lib/fetcher';
 import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { useMedia } from '@/lib/useMedia';
-import { Medal } from '@/components/Medal';
+import { BadgeStamp, Medal } from '@/components/Medal';
 import { BadgeDetailBody, BadgeLayer, useLayerClose } from '@/components/BadgeDetail';
 import {
   badgePaths, badgePathsFromApi, bestsRows, countEntries, dayMonth, earnedLine, formatLines, fractionOf, mergeDerived,
   milestoneProgress, recordLine, soFarLine,
 } from '@/lib/studyBadges';
 import { DEFAULT_ZONE, countLeft, detailOf, earnedShelf, ghostLine, headLine, pickNext, shortDay } from '@/lib/badgeShelf';
+import { NEEDS } from '@/lib/badgeMoment';
 import './study-badges.css';
 
 export { Medal };
 
 const WIDE = '(min-width: 761px)';
 
-function BadgeRow({ step, path, record, progress, zone, armed, linkShown, onOpen }) {
+/** A path's badges, earned first (in path order), then the one to earn next (`lead`), then the rest in path order. */
+const earnedFirst = (steps, lead = null) => {
+  const leadId = lead || steps.find((s) => s.status === 'next')?.id;
+  return [...steps.filter((s) => s.status === 'earned'), ...steps.filter((s) => s.id === leadId && s.status !== 'earned'), ...steps.filter((s) => s.status !== 'earned' && s.id !== leadId)];
+};
+
+/** How a mark is drawn: on "Your best work" every badge not earned is "next" in the rules, but only the closest one is inked. */
+const markOf = (step, path, lead) => (step.status === 'earned' ? 'earned' : step.status === 'next' && (path.id !== 'best' || step.id === lead) ? 'next' : 'later');
+
+function BadgeRow({ step, path, record, progress, zone, armed, linkShown, onOpen, lead }) {
   const earned = step.status === 'earned';
   const unknown = step.status === 'unknown';
   const sequence = path.id !== 'best';
-  const lead = earned || unknown ? null : step.status === 'next' && sequence ? 'Next.' : 'Not yet.';
-  const fraction = !earned ? fractionOf(step.id, progress) : null;
-  const so = !earned ? soFarLine(step.id, progress) : null;
+  const leadWord = earned || unknown ? null : step.status === 'next' && sequence ? 'Next.' : 'Not yet.';
+  // A count is shown once there is one: "0 of 10 so far" is never drawn (a fresh account meets what earns it, not zeros).
+  const counted = !earned && fractionOf(step.id, progress) > 0;
+  const fraction = counted ? fractionOf(step.id, progress) : null;
+  const so = counted ? soFarLine(step.id, progress) : null;
   const paper = earned && record ? recordLine(record, zone) : '';
   return (
     <li className="sb-badge" data-status={step.status} data-sequence={sequence ? 'true' : 'false'}>
-      <Medal id={step.id} status={step.status === 'next' && sequence ? 'next' : step.status === 'earned' ? 'earned' : 'later'} />
+      <BadgeStamp id={step.id} status={markOf(step, path, lead)} fraction={fraction} />
       <div className="sb-badge__body">
         {/* The whole row is the control (a stretched button on the name); the links inside stay their own. */}
         <b className="sb-badge__name"><button type="button" className="sb-badge__open" aria-haspopup="dialog" onClick={(event) => onOpen(step.id, event.currentTarget)}>{step.name}</button></b>
@@ -51,7 +65,7 @@ function BadgeRow({ step, path, record, progress, zone, armed, linkShown, onOpen
         ) : unknown ? (
           <p className="sb-badge__state">This one could not be checked just now. {step.condition}</p>
         ) : (
-          <p className="sb-badge__state"><span className="sb-badge__lead">{lead}</span> {step.condition}</p>
+          <p className="sb-badge__state"><span className="sb-badge__lead">{leadWord}</span> {NEEDS[step.id] || step.condition}</p>
         )}
         {paper ? (
           <p className="sb-badge__paper">{paper}{record.attemptId ? <> <Link className="sb-link sb-link--tap" href={`/result/${record.attemptId}`}>Open that paper</Link></> : null}</p>
@@ -78,10 +92,11 @@ function Paths({ paths, records, progress, zone, armed, onOpen, hideEarned = fal
     <div className="sb-paths" data-earned-hidden={hideEarned ? 'true' : undefined}>
       {paths.map((path) => {
         const firstNext = path.steps.find((s) => s.status === 'next');
-        const steps = hideEarned ? path.steps.filter((s) => s.status !== 'earned') : path.steps;
+        const lead = pathLead(path, progress)?.id;
+        const steps = hideEarned ? path.steps.filter((s) => s.status !== 'earned') : earnedFirst(path.steps, lead);
         return (
           <section key={path.id} className="sb-path" aria-label={`${path.title} badges`}>
-            <header><b>{path.title}</b><span>{path.earned} of {path.total}</span></header>
+            <header><b>{path.title}</b><span>{path.earned ? `${path.earned} of ${path.total}` : `${path.total} badges`}</span></header>
             {steps.length === 0 ? <p className="sb-path__done">All {path.total} earned.</p> : (
             <ol className="sb-list">
               {steps.map((step) => (
@@ -95,6 +110,7 @@ function Paths({ paths, records, progress, zone, armed, onOpen, hideEarned = fal
                   armed={armed}
                   linkShown={firstNext?.id === step.id}
                   onOpen={onOpen}
+                  lead={lead}
                 />
               ))}
             </ol>
@@ -106,8 +122,71 @@ function Paths({ paths, records, progress, zone, armed, onOpen, hideEarned = fal
   );
 }
 
-/** The next badge: a ghost medal (dashed, never a padlock) with a thin ring for the exact count, and one line. */
-function NextBadge({ pick, entries, armed, onOpen }) {
+/** The path's own next badge: the closest one where an exact count exists, else the first not earned (pickNext on one path). */
+const pathLead = (path, entries) => pickNext([path], entries)?.step || null;
+
+/** The line under a path's marks: what its next badge needs, with the exact count where one exists. */
+function rowLine(path, entries) {
+  const lead = pathLead(path, entries);
+  if (!lead) return path.steps.every((s) => s.status === 'earned') ? 'Every badge on this path is earned.' : '';
+  const c = countLeft(lead.id, entries);
+  return `Next: ${lead.name}. ${c ? `${c.short} so far.` : NEEDS[lead.id] || lead.condition}`;
+}
+
+/** What a mark's cell says under its name (shown from tablets up): the day it was earned, the count, or what it needs. */
+function cellNote(step, entries, zone, mark) {
+  if (step.status === 'earned') return step.earnedAt != null && !step.undated ? shortDay(step.earnedAt, zone) : 'Earned';
+  if (step.status === 'unknown') return 'Could not be checked just now';
+  const c = mark === 'next' ? countLeft(step.id, entries) : null;
+  return c ? `${c.so} so far` : NEEDS[step.id] || step.condition;
+}
+
+/**
+ * The collection: the four paths as four rows of marks, earned first, then the next one (drawn in ink, its exact count running
+ * round its edge), then the rest as blind marks. Each mark opens its own sheet. Under each row, what its next badge needs.
+ */
+function PathRows({ paths, entries, zone, onOpen }) {
+  return (
+    <div className="sb-rows">
+      {paths.map((path) => {
+        const lead = pathLead(path, entries)?.id;
+        const line = rowLine(path, entries);
+        return (
+          <section key={path.id} className="sb-row" aria-labelledby={`sb-row-${path.id}`}>
+            <header className="sb-row__head">
+              <h3 id={`sb-row-${path.id}`}>{path.title}</h3>
+              <span>{path.earned ? `${path.earned} of ${path.total}` : `${path.total} badges`}</span>
+            </header>
+            <ol className="sb-row__marks" style={{ '--sb-n': path.steps.length }}>
+              {earnedFirst(path.steps, lead).map((step) => {
+                const mark = markOf(step, path, lead);
+                const note = cellNote(step, entries, zone, mark);
+                return (
+                  <li key={step.id} className="sb-cell" data-mark={mark}>
+                    <button type="button" className="sb-cell__btn" aria-haspopup="dialog" aria-label={`${step.name}. ${mark === 'earned' ? `Earned${note && note !== 'Earned' ? ` ${note}` : ''}` : mark === 'next' ? `Next. ${note}` : `Not yet. ${note}`}`} onClick={(event) => onOpen(step.id, event.currentTarget)}>
+                      <BadgeStamp id={step.id} status={mark} size="lg" fraction={mark === 'next' ? fractionOf(step.id, entries) : null} />
+                      <span className="sb-cell__name" aria-hidden="true">{step.name}</span>
+                      <span className="sb-cell__note" aria-hidden="true">{note}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            {line ? (
+              <p className="sb-row__line">
+                {line}
+                {lead && path.link ? <> <Link className="sb-link sb-link--tap" href={path.link.href}>{path.link.label}</Link></> : null}
+              </p>
+            ) : null}
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+/** The next badge: the one closest to done, drawn in ink with its exact count running round its own edge, and one line. */
+function NextBadge({ pick, entries, onOpen }) {
   const { step, path } = pick;
   const count = countLeft(step.id, entries);
   const fraction = count && count.current > 0 ? count.fraction : null;
@@ -115,13 +194,7 @@ function NextBadge({ pick, entries, armed, onOpen }) {
     <div className="sb-next">
       <button type="button" className="sb-next__btn" aria-haspopup="dialog" onClick={(event) => onOpen(step.id, event.currentTarget)}>
         <span className="sb-ghost" aria-hidden="true">
-          <Medal id={step.id} status="later" size="lg" />
-          {fraction != null ? (
-            <svg className="sb-ghost__ring" viewBox="0 0 68 68" focusable="false">
-              <circle className="sb-ghost__track" cx="34" cy="34" r="32" />
-              <circle className="sb-ghost__arc" cx="34" cy="34" r="32" pathLength="1" data-armed={armed ? 'true' : 'false'} style={{ '--sb-fill': fraction }} />
-            </svg>
-          ) : null}
+          <BadgeStamp id={step.id} status="next" size={68} fraction={fraction} />
         </span>
         <span className="sb-next__text">
           <span className="sb-next__lead">Next badge</span>
@@ -130,22 +203,6 @@ function NextBadge({ pick, entries, armed, onOpen }) {
         </span>
       </button>
     </div>
-  );
-}
-
-function Shelf({ shelf, zone, onOpen }) {
-  return (
-    <ul className="sb-shelf" aria-label="Badges you have earned, newest first">
-      {shelf.map(({ step }) => (
-        <li key={step.id}>
-          <button type="button" className="sb-shelf__item" aria-haspopup="dialog" onClick={(event) => onOpen(step.id, event.currentTarget)}>
-            <Medal id={step.id} status="earned" size="lg" />
-            <span className="sb-shelf__name">{step.name}</span>
-            <span className="sb-shelf__date">{step.earnedAt != null && !step.undated ? shortDay(step.earnedAt, zone) : 'Date not recorded'}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
   );
 }
 
@@ -163,7 +220,7 @@ function AllSheet({ paths, records, progress, zone, onOpen }) {
       <div className="sb-all-sheet__head">
         <div>
           <h3>All badges</h3>
-          <p>{earnedLine(paths)}</p>
+          <p>{earnedLine(paths) === 'None earned yet' ? `${paths.reduce((n, p) => n + p.total, 0)} badges on four paths` : earnedLine(paths)}</p>
         </div>
         <button type="button" className="sb-detail__close" onClick={close} aria-label="Close" data-first="">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -181,6 +238,7 @@ function BadgesSection({ board, zone, armed }) {
   const entries = useMemo(() => countEntries(progress), [progress]);
   const shelf = useMemo(() => earnedShelf(paths), [paths]);
   const pick = useMemo(() => pickNext(paths, entries), [paths, entries]);
+  const fresh = shelf.length === 0;
   const unknown = useMemo(() => paths.flatMap((p) => p.steps).filter((s) => s.status === 'unknown').length, [paths]);
   const total = paths.reduce((n, p) => n + p.total, 0);
   const openDetail = useCallback((id, anchor) => setOverlay({ kind: 'detail', id, anchor, from: 'page' }), []);
@@ -195,15 +253,16 @@ function BadgesSection({ board, zone, armed }) {
   return (
     <section className="rv-sec sb-sec" id="badges" aria-labelledby="sb-h">
       <div className="rv-sec__head">
-        <h2 id="sb-h">{headLine(paths)}</h2>
+        {/* A fresh account is never greeted with "0 of 16": the head is the word, and the line under it says what the badges are. */}
+        <h2 id="sb-h">{fresh ? 'Badges' : headLine(paths)}</h2>
         {wide ? null : <button type="button" className="sb-all" onClick={openAll} aria-haspopup="dialog">All badges</button>}
       </div>
+      {fresh ? <p className="sb-lead">{total} badges on four paths, each for something you did: papers, repairs, weeks at your goal and your best work.</p> : null}
 
-      {shelf.length ? <Shelf shelf={shelf} zone={zone} onOpen={openDetail} /> : null}
-      {pick ? <NextBadge pick={pick} entries={entries} armed={armed} onOpen={openDetail} /> : shelf.length === total ? <p className="sb-note">You have earned every badge.</p> : null}
+      {fresh ? null : pick ? <NextBadge pick={pick} entries={entries} onOpen={openDetail} /> : shelf.length === total ? <p className="sb-note">You have earned every badge.</p> : null}
       {unknown ? <p className="sb-note">{unknown === 1 ? 'One badge' : `${unknown} badges`} could not be checked just now, so {unknown === 1 ? 'it is' : 'they are'} not counted above.</p> : null}
 
-      {wide ? <Paths paths={paths} records={records} progress={progress} zone={zone} armed={armed} onOpen={openDetail} hideEarned /> : null}
+      <PathRows paths={paths} entries={entries} zone={zone} onOpen={openDetail} />
 
       {showLayer ? (
         <BadgeLayer

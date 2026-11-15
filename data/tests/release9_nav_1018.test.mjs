@@ -176,25 +176,30 @@ test('the plan card names the plan in quiet meta text, not a pr-badge pill (BADG
   assert.match(plan, /On Free, you pay with credits\. \$\{PRACTICE_PRICE_LINE\} Your balance is under Credits\./, 'one price sentence, which already says the first full mock in each subject is free');
 });
 
-test('Progress at 1440: the path lists under the shelf drop the earned rows (nothing shown twice) and keep next, locked and the counts', () => {
+test('Progress: the four paths are four rows of marks on every width, nothing shown twice, the counts keep their denominator', () => {
+  // Lane "badges" (16 Nov 2026): the shelf and the inline lists became the four paths as four rows (earned first, then the next,
+  // then the rest), on a phone and a desktop alike, so no badge is drawn twice on the page.
   const badges = read('src/components/StudyBadges.jsx');
-  assert.match(badges, /<Paths paths=\{paths\} records=\{records\} progress=\{progress\} zone=\{zone\} armed=\{armed\} onOpen=\{openDetail\} hideEarned \/>/, 'the inline copy hides earned rows');
-  assert.match(badges, /const steps = hideEarned \? path\.steps\.filter\(\(s\) => s\.status !== 'earned'\) : path\.steps;/);
-  assert.match(badges, /<span>\{path\.earned\} of \{path\.total\}<\/span>/, 'the header keeps the count with its denominator');
+  assert.match(badges, /<PathRows paths=\{paths\} entries=\{entries\} zone=\{zone\} onOpen=\{openDetail\} \/>/);
+  assert.doesNotMatch(badges, /hideEarned \/>/, 'no second inline copy of the paths');
+  assert.match(badges, /\{path\.earned \? `\$\{path\.earned\} of \$\{path\.total\}` : `\$\{path\.total\} badges`\}/, 'the header keeps the count with its denominator, and a path with none says how many it holds');
   // The All badges sheet is the full view and still lists everything.
   assert.match(badges, /<Paths paths=\{paths\} records=\{records\} progress=\{progress\} zone=\{zone\} armed onOpen=\{onOpen\} \/>/);
 });
 
-test('D7: in Night an earned medal is a charcoal disc with a thin lime ring and a lime glyph; Day keeps the solid medal; no glow', () => {
+test('D7 kept by the new marks: in Night an earned mark is charcoal with a thin lime rule and a lime sign, never a slab of lime; no glow', () => {
   const css = stripComments(read('src/components/study-badges.css'));
-  assert.match(css, /\.sb-medal\[data-status='earned'\]\s*\{\s*background:\s*var\(--volt\)/, 'the base (Day) medal is unchanged');
-  const night = css.match(/html:not\(\[data-theme='light'\]\) \.sb-medal\[data-status='earned'\]\s*\{([^}]*)\}/);
+  const day = css.match(/\n\.sb-stamp \{([^}]*)\}/);
+  assert.ok(day, 'the Day mark');
+  assert.match(day[1], /--sb-fill: #17150f;/, 'Day: inked in the page ink');
+  assert.match(day[1], /--sb-sign: #d2f000;/, 'Day: the sign in volt, on the ink');
+  const night = css.match(/html:not\(\[data-theme='light'\]\) \.sb-stamp \{([^}]*)\}/);
   assert.ok(night, 'a Night-only rule');
-  assert.match(night[1], /background:\s*var\(--a-volt-wash/);
-  assert.match(night[1], /border-color:\s*var\(--a-volt-line/);
-  assert.match(night[1], /color:\s*var\(--a-accent-text/);
+  assert.match(night[1], /--sb-fill: #2a2822;/, 'Night: a charcoal mark');
+  assert.match(night[1], /--sb-rule: rgba\(210, 240, 0, 0\.46\);/, 'Night: a thin lime rule');
+  assert.match(night[1], /--sb-sign: #d2f000;/, 'Night: a lime sign');
   assert.doesNotMatch(night[1], /shadow|filter|gradient/);
-  assert.doesNotMatch(css, /\.sb-medal[^{]*\{[^}]*box-shadow/, 'no glow on any medal');
+  assert.doesNotMatch(css, /\.sb-(stamp|s__)[^{]*\{[^}]*(box-shadow|filter:|gradient)/, 'no glow, filter or gradient on any mark');
 });
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -88,12 +88,13 @@ export default function AccountGlance({ userId }) {
         <div className="acct-glance__cell">
           {view ? (
             view.known ? (
-              <Link className="acct-glance__badges" href="/progress#badges" aria-label={`${view.earned} of ${view.total} badges earned${view.latest.length ? `, latest ${view.latest.map((b) => b.name).join(', ')}` : ''}. Open your badges.`}>
+              <Link className="acct-glance__badges" href="/progress#badges" aria-label={`${view.earned ? `${view.earned} of ${view.total} badges earned` : `${view.total} badges to earn`}${view.latest.length ? `, latest ${view.latest.map((b) => b.name).join(', ')}` : ''}. Open your badges.`}>
                 <span className="acct-glance__medals" aria-hidden="true">
                   {view.latest.length ? view.latest.map((b) => <Medal key={b.id} id={b.id} status="earned" />) : <Medal id={view.next?.id || 'first_scored_session'} status="next" />}
                 </span>
                 <span className="acct-glance__text" aria-hidden="true">
-                  <b>{view.earned} of {view.total} badges</b>
+                  {/* A fresh account is never shown "0 of 16" (lane "badges", 16 Nov 2026): it reads what there is to earn. */}
+                  <b>{view.earned ? `${view.earned} of ${view.total} badges` : `${view.total} badges to earn`}</b>
                   <span>{view.latest[0] ? `Latest: ${view.latest[0].name}${view.latest[0].earnedAt ? `, ${dayMonth(view.latest[0].earnedAt, view.zone)}` : ''}` : view.next ? `Next: ${view.next.name}` : 'Every badge earned'}</span>
                 </span>
               </Link>
