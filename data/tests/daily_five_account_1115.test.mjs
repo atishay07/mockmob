@@ -11,7 +11,7 @@ import { createDailyFive, createDailyWindows, dailyFiveSecret, dailyTokenKey, op
 import { CROWD_TTL_MS, DAILY_LIMITS, createDailyHandlers, createDailyStore } from '../../src/lib/server/dailyFiveAccount.js';
 import { computeRhythm } from '../../src/lib/server/rhythm.js';
 import { acceptDailyFive, dateOfDay } from '../../src/lib/dailyFive.mjs';
-import { acceptAccount, dailyRowId } from '../../src/lib/dailyFiveAccount.mjs';
+import { checkRow, dailyRowId } from '../../src/lib/dailyFiveAccount.mjs';
 
 const restore = setFixtureSecret();
 after(restore);
@@ -116,34 +116,39 @@ test('the windows: readDailyWindow is the public sample\'s window question for q
   assert.deepEqual((await readDailyWindow(fakeDb(tablesOf(thin)), 'gat')).map(({ id, ...card }) => card), await readDemoPool(fakeDb(tablesOf(thin)), 'gat'));
 });
 
-test('the tokens: every question leaves sealed with its date, place, id and key; no id leaves; a changed token opens to nothing', async () => {
+test('the tokens: GET /api/daily sends no key and no reason; each question leaves sealed with its date, place, id, key and reason', async () => {
   const rows = bank();
   const service = createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }), key: KEY });
   const answer = await service.get({ day: 1, date: DATE });
   const accepted = acceptDailyFive(answer);
   assert.ok(accepted, 'the page accepts it');
-  assert.ok(accepted.questions.every((q) => typeof q.token === 'string'), 'the page keeps each token');
-  const ids = (await service.five({ day: 1, date: DATE })).map((q) => q.id);
-  assert.doesNotMatch(JSON.stringify(answer), new RegExp(ids.join('|')), 'no question id in what leaves');
-  answer.questions.forEach((q, i) => assert.deepEqual(openDailyToken(KEY, q.token), { date: DATE, n: i + 1, id: ids[i], correct: q.correct }));
+  const five = await service.five({ day: 1, date: DATE });
+  for (const q of answer.questions) {
+    assert.ok(!('correct' in q) && !('why' in q), 'no key and no reason in the body');
+    assert.ok(typeof q.token === 'string');
+  }
+  const text = JSON.stringify(answer);
+  for (const q of five) {
+    assert.ok(!text.includes(q.id), 'no question id in what leaves');
+    assert.ok(!text.includes(q.why), 'no reason in what leaves');
+  }
+  answer.questions.forEach((q, i) => assert.deepEqual(openDailyToken(KEY, q.token), { date: DATE, n: i + 1, id: five[i].id, correct: five[i].correct, why: five[i].why }));
   const t = answer.questions[0].token;
   const flipped = `${t.slice(0, -3)}${t.at(-3) === 'A' ? 'B' : 'A'}${t.slice(-2)}`;
   assert.equal(openDailyToken(KEY, flipped), null, 'tampered');
   assert.equal(openDailyToken(dailyTokenKey('another-secret-of-enough-length'), t), null, 'another server\'s secret');
   assert.equal(openDailyToken(KEY, 'd1.x.y'), null);
   assert.equal(openDailyToken(null, t), null);
-  assert.equal(dailyTokenKey('short'), null, 'no usable secret: no tokens (the page keeps the five on the device)');
+  assert.equal(dailyTokenKey('short'), null);
   assert.equal(dailyFiveSecret({ PRACTICE_SESSION_SECRET: 'p', SUPABASE_SERVICE_ROLE_KEY: 's' }), 'p');
   assert.equal(dailyFiveSecret({ DAILY_FIVE_SECRET: 'd', PRACTICE_SESSION_SECRET: 'p' }), 'd');
-  const plain = await createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }) }).get({ day: 1, date: DATE });
-  assert.ok(plain.questions.every((q) => !('token' in q)));
 });
 
 // The handlers against the in-memory database, a fake session and a counting limiter.
-function harness({ userId = 'u-1', now = NOW, members = [], failOn = null, allowed = true, originOk = true } = {}) {
+function harness({ userId = 'u-1', now = NOW, members = [], failOn = null, allowed = true, originOk = true, db: shared = null } = {}) {
   const ids = ['q-1', 'q-2', 'q-3', 'q-4', 'q-5'];
   const keys = [1, 0, 3, 2, 1];
-  const db = memoryDb({ questions: ids, members, failOn });
+  const db = shared || memoryDb({ questions: ids, members, failOn });
   const limits = [];
   const store = createDailyStore({ db: () => db.client, now: () => now });
   const handlers = createDailyHandlers({
@@ -152,92 +157,121 @@ function harness({ userId = 'u-1', now = NOW, members = [], failOn = null, allow
     originOk: () => originOk,
     store,
     key: KEY,
-    five: async () => ids.map((id, i) => ({ id, q: `Stem ${i}`, options: ['a', 'b', 'c', 'd'], correct: keys[i] })),
+    five: async () => ids.map((id, i) => ({ id, q: `Stem ${i}`, options: ['a', 'b', 'c', 'd'], correct: keys[i], why: `Reason ${i}.` })),
     mobEnabled: () => true,
     now: () => now,
   });
-  const tokens = ids.map((id, i) => sealDailyToken(KEY, { date: DATE, n: i + 1, id, correct: keys[i] }));
-  const post = (body) => handlers.postMe(new Request('https://www.mockmob.in/api/daily/me', { method: 'POST', body: typeof body === 'string' ? body : JSON.stringify(body) }));
-  const saveBody = (answers, change = {}) => ({ day: 1, date: DATE, tokens, answers, ms: 90_000, ...change });
-  return { db, limits, store, handlers, tokens, post, saveBody, ids, keys };
+  const tokens = ids.map((id, i) => sealDailyToken(KEY, { date: DATE, n: i + 1, id, correct: keys[i], why: `Reason ${i}.` }));
+  const check = (body) => handlers.postCheck(new Request('https://www.mockmob.in/api/daily/check', { method: 'POST', body: typeof body === 'string' ? body : JSON.stringify(body) }));
+  const answer = async (n, pick, extra = {}) => check({ token: tokens[n - 1], pick, ...extra });
+  const playAll = async (picks, ms = 90_000) => { for (let i = 0; i < 5; i += 1) await answer(i + 1, picks[i], i === 4 ? { ms } : {}); };
+  const me = async () => (await handlers.getMe(new Request('https://www.mockmob.in/api/daily/me'))).json();
+  return { db, limits, store, handlers, tokens, check, answer, playAll, me, ids, keys };
 }
 
-test('the save: signed in, same origin, a persistent limit, today only, today\'s tokens only, answers A to D only', async () => {
+test('the check: a sign-in lookup that failed for a moment answers 503, never a guest\'s unrecorded answer', async () => {
   const h = harness();
-  let r = await h.post(h.saveBody(['B', 'A', 'D', 'C', 'B']));
-  assert.equal(r.status, 200);
-  assert.equal(r.headers.get('cache-control'), 'no-store');
-  const saved = acceptAccount(await r.json());
-  assert.deepEqual(saved.record.marks, [true, true, true, true, true]);
-  assert.deepEqual(saved.played, [DATE]);
-  const limit = h.limits.find((l) => l.route === DAILY_LIMITS.save.route);
-  assert.equal(limit.persistent, true, 'kept in the database across servers');
-  assert.deepEqual(limit.keyParts, ['u-1']);
-  assert.equal(limit.identityOnly, true);
+  const make = (authStatus) => createDailyHandlers({ auth: async () => null, authStatus, rateLimit: async () => ({ allowed: true }), originOk: () => true, store: h.store, key: KEY, five: async () => null, mobEnabled: () => true, now: () => NOW });
+  const post = (handlers) => handlers.postCheck(new Request('https://www.mockmob.in/api/daily/check', { method: 'POST', body: JSON.stringify({ token: h.tokens[0], pick: 'B' }) }));
+  const blip = await post(make(async () => ({ session: null, transient: true })));
+  assert.equal(blip.status, 503);
+  assert.doesNotMatch(JSON.stringify(await blip.json()), /correct|why/, 'no key on a 503');
+  assert.equal((await post(make(async () => { throw new Error('down'); }))).status, 503, 'a thrown lookup is treated as a blip');
+  const signedIn = await (await post(make(async () => ({ session: { user: { id: 'u-1' } }, transient: false })))).json();
+  assert.equal(signedIn.recorded, true, 'a resolved session records as before');
+  const guest = await (await post(make(async () => ({ session: null, transient: false })))).json();
+  assert.equal(guest.recorded, false, 'signed out: a guest, as before');
+});
 
-  assert.equal((await harness({ userId: null }).post(h.saveBody(['A', 'A', 'A', 'A', 'A']))).status, 401, 'sign-in required');
-  assert.equal((await harness({ originOk: false }).post(h.saveBody(['A', 'A', 'A', 'A', 'A']))).status, 403, 'another site\'s form');
-  assert.equal((await harness({ allowed: false }).post(h.saveBody(['A', 'A', 'A', 'A', 'A']))).status, 429);
-  const fresh = harness();
+test('the check: guests get right or wrong, the right option and the reason, and nothing is stored for them', async () => {
+  const h = harness({ userId: null });
+  const res = await h.answer(1, 'A');
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('cache-control'), 'no-store');
+  assert.deepEqual(await res.json(), { n: 1, pick: 0, right: false, correct: 1, why: 'Reason 0.', recorded: false });
+  assert.deepEqual(await (await h.answer(1, 'B')).json(), { n: 1, pick: 1, right: true, correct: 1, why: 'Reason 0.', recorded: false }, 'a guest\'s page keeps its own first pick');
+  assert.equal(h.db.tables.question_interactions.length, 0, 'nothing written for a guest');
+  const limit = h.limits.find((l) => l.route === DAILY_LIMITS.checkNet.route);
+  assert.ok(limit && !limit.persistent && !limit.keyParts, 'a guest is limited per network');
+});
+
+test('the check: same origin, a limit, today\'s tokens only, answers A to D only', async () => {
+  const h = harness();
+  assert.equal((await harness({ originOk: false }).answer(1, 'A')).status, 403, 'another site\'s form');
+  assert.equal((await harness({ allowed: false }).answer(1, 'A')).status, 429);
   for (const [body, status, error] of [
-    [fresh.saveBody(['A', 'B', 'C', 'D', 'E']), 400, 'bad_answers'],
-    [fresh.saveBody(['A', 'B', 'C', 'D']), 400, 'bad_answers'],
-    [fresh.saveBody(['A', 'B', 'C', 'D', 'A'], { day: 2, date: dateOfDay(2) }), 409, 'not_today'],
-    [fresh.saveBody(['A', 'B', 'C', 'D', 'A'], { tokens: [...fresh.tokens].reverse() }), 400, 'bad_questions'],
-    [fresh.saveBody(['A', 'B', 'C', 'D', 'A'], { tokens: fresh.tokens.map((t, i) => (i ? t : sealDailyToken(KEY, { date: '2026-11-14', n: 1, id: 'q-1', correct: 1 }))) }), 400, 'bad_questions'],
-    [fresh.saveBody(['A', 'B', 'C', 'D', 'A'], { tokens: fresh.tokens.map((t, i) => (i ? t : sealDailyToken(dailyTokenKey('a-forger-with-a-long-secret'), { date: DATE, n: 1, id: 'q-9', correct: 0 }))) }), 400, 'bad_questions'],
+    [{ token: h.tokens[0], pick: 'E' }, 400, 'bad_answer'],
+    [{ token: h.tokens[0], pick: 1 }, 400, 'bad_answer'],
+    [{ token: 'x'.repeat(30), pick: 'A' }, 400, 'bad_question'],
+    [{ token: sealDailyToken(dailyTokenKey('a-forger-with-a-long-secret'), { date: DATE, n: 1, id: 'q-9', correct: 0, why: '' }), pick: 'A' }, 400, 'bad_question'],
+    [{ token: sealDailyToken(KEY, { date: '2026-11-14', n: 1, id: 'q-1', correct: 1, why: '' }), pick: 'B' }, 409, 'not_today'],
     ['not json', 400, 'bad_body'],
     [`{"pad":"${'x'.repeat(5000)}"}`, 400, 'bad_body'],
   ]) {
-    const res = await fresh.post(body);
+    const res = await h.check(body);
     assert.equal(res.status, status, error);
     assert.equal((await res.json()).error, error);
   }
-  assert.equal(fresh.db.tables.question_interactions.length, 0, 'nothing refused was written');
-  // The day ends at 12:00 am IST: a five sent a minute after is refused (the page keeps it on the device).
+  assert.equal(h.db.tables.question_interactions.length, 0, 'nothing refused was written');
+  const limit = h.limits.find((l) => l.route === DAILY_LIMITS.checkUser.route);
+  assert.equal(limit.persistent, true, 'signed in: kept in the database across servers');
+  assert.deepEqual(limit.keyParts, ['u-1']);
+  // The day ends at 12:00 am IST: a question of the day before is answered nowhere.
   const late = harness({ now: Date.parse('2026-11-15T18:31:00Z') });
-  assert.equal((await late.post(late.saveBody(['A', 'A', 'A', 'A', 'A']))).status, 409);
+  assert.equal((await late.answer(1, 'B')).status, 409);
 });
 
-test('the save is scored by the server and the first finished run stands: a reload, a second tab or a second phone changes nothing', async () => {
+test('signed in, the first check of each question stands: a retry, a second tab or a second phone gets that pick back', async () => {
   const h = harness();
-  // Three wrong of five by the server's key, whatever the page might claim.
-  const first = await (await h.post({ ...h.saveBody(['B', 'B', 'D', 'A', 'A']), marks: [true, true, true, true, true], score: 5 })).json();
-  assert.deepEqual(first.record.marks, [true, false, true, false, false]);
-  assert.equal(first.record.score, 2);
-  assert.equal(h.db.tables.question_interactions.length, 5);
-  assert.deepEqual(h.db.tables.question_interactions.map((r) => r.id), [1, 2, 3, 4, 5].map((n) => dailyRowId(DATE, 'u-1', n)));
-  assert.ok(h.db.tables.question_interactions.every((r) => r.flow_context === null && r.interaction_type === 'daily_five'));
-  // The same request again (a reload), a better run (a second phone) and both at once: still the first.
-  const again = await Promise.all([h.post(h.saveBody(['B', 'B', 'D', 'A', 'A'])), h.post(h.saveBody(['B', 'A', 'D', 'C', 'B'])), h.post(h.saveBody(['B', 'A', 'D', 'C', 'B'], { ms: 1 }))]);
-  for (const res of again) {
-    assert.equal(res.status, 200);
-    const body = await res.json();
-    assert.deepEqual(body.record, first.record, 'the first run, every time');
-  }
-  assert.equal(h.db.tables.question_interactions.length, 5, 'never a sixth row');
-  // GET: the record and the run of days.
-  const me = await (await h.handlers.getMe(new Request('https://www.mockmob.in/api/daily/me'))).json();
-  assert.deepEqual(me.record, first.record);
-  assert.deepEqual(me.played, [DATE]);
-  assert.equal((await harness({ userId: null }).handlers.getMe(new Request('https://www.mockmob.in/api/daily/me'))).status, 401);
-  // A question pulled since the five were served: nothing is written, and the page is told.
-  const gone = harness();
-  const res = await gone.handlers.postMe(new Request('https://x/api/daily/me', { method: 'POST', body: JSON.stringify({ ...gone.saveBody(['A', 'A', 'A', 'A', 'A']), tokens: gone.tokens.map((t, i) => (i ? t : sealDailyToken(KEY, { date: DATE, n: 1, id: 'q-pulled', correct: 1 }))) }) }));
-  assert.equal(res.status, 409);
-  assert.equal(gone.db.tables.question_interactions.length, 0, 'all five or none');
-  // A database failure is a 503 the page can retry, never a success.
+  const first = await (await h.answer(2, 'B')).json();
+  assert.deepEqual(first, { n: 2, pick: 1, right: false, correct: 0, why: 'Reason 1.', recorded: true });
+  // A retry with the same pick, and another tab trying the right answer: the first pick, every time.
+  const again = await Promise.all([h.answer(2, 'B'), h.answer(2, 'A'), h.answer(2, 'A')]);
+  for (const res of again) assert.deepEqual(await res.json(), first);
+  assert.equal(h.db.tables.question_interactions.length, 1, 'one row for that question, ever');
+  // A second phone: its own handlers, the same account and database.
+  const phone = harness({ db: h.db });
+  assert.deepEqual(await (await phone.answer(2, 'A')).json(), first);
+  // A database failure: no answer at all (the key never reaches a student whose pick is not on the account).
   const down = harness({ failOn: (name, st) => name === 'question_interactions' && st.op === 'upsert' });
-  assert.equal((await down.post(down.saveBody(['A', 'A', 'A', 'A', 'A']))).status, 503);
+  const res = await down.answer(1, 'B');
+  assert.equal(res.status, 503);
+  assert.ok(!('correct' in await res.json()));
 });
 
-test('the run of days on the account: one per day, from the first question\'s row, read back across days', async () => {
+test('the account\'s five is built from the recorded first picks alone; there is no save that could add one', async () => {
   const h = harness();
-  const rows = (date, user) => [1, 2, 3, 4, 5].map((n) => ({ id: dailyRowId(date, user, n), question_id: `q-${n}`, user_id: user, interaction_type: 'daily_five', session_id: `daily:${date}`, flow_context: null, created_at: `${date}T06:00:00.000Z`, metadata: { n, day: 1, pick: 'A', right: true, score: 5 } }));
-  h.db.tables.question_interactions.push(...rows('2026-11-13', 'u-1'), ...rows('2026-11-14', 'u-1'), ...rows('2026-11-14', 'u-2'));
+  await h.answer(1, 'B'); // right
+  await h.answer(2, 'B'); // wrong
+  let me = await h.me();
+  assert.equal(me.record, null, 'two answers are not a five');
+  assert.equal(me.review, null, 'and no keys before all five are answered');
+  // Trying the right answers afterwards changes nothing.
+  await h.answer(2, 'A');
+  await h.playAll(['A', 'A', 'D', 'C', 'B'], 101_000);
+  me = await h.me();
+  assert.deepEqual(me.record.picks, [1, 1, 3, 2, 1], 'the first pick of each question');
+  assert.deepEqual(me.record.marks, [true, false, true, true, true]);
+  assert.equal(me.record.score, 4);
+  assert.equal(me.record.ms, 101_000, 'the time the fifth answer carried');
+  assert.deepEqual(me.review, h.keys.map((correct, i) => ({ correct, why: `Reason ${i}.` })), 'the keys and reasons once all five are answered');
+  assert.deepEqual(me.played, [DATE]);
+  assert.equal(h.db.tables.question_interactions.length, 5);
+  assert.ok(h.db.tables.question_interactions.every((r) => r.flow_context === null && r.interaction_type === 'daily_five'));
+  // No route writes a five: GET only on /api/daily/me, and no save handler.
+  assert.equal(typeof h.handlers.postMe, 'undefined');
+  const meRoute = code(read('src/app/api/daily/me/route.js'));
+  assert.doesNotMatch(meRoute, /export const (POST|PUT|PATCH|DELETE)/);
+  assert.equal((await harness({ userId: null }).handlers.getMe(new Request('https://www.mockmob.in/api/daily/me'))).status, 401);
+});
+
+test('the run of days on the account: a day counts with a whole five, read back across days', async () => {
+  const h = harness();
+  const rows = (date, user, ns = [1, 2, 3, 4, 5]) => ns.map((n) => ({ id: dailyRowId(date, user, n), question_id: `q-${n}`, user_id: user, interaction_type: 'daily_five', session_id: `daily:${date}`, flow_context: null, created_at: `${date}T06:00:00.000Z`, metadata: { n, day: 1, pick: 'A', right: true, correct: 0 } }));
+  h.db.tables.question_interactions.push(...rows('2026-11-12', 'u-1', [1, 2]), ...rows('2026-11-13', 'u-1'), ...rows('2026-11-14', 'u-1'), ...rows('2026-11-14', 'u-2'));
   // A row of another feature with the same user is never read as a day.
-  h.db.tables.question_interactions.push({ id: 'x', question_id: 'q-1', user_id: 'u-1', interaction_type: 'attempted', flow_context: 'learn', session_id: 'daily:2026-11-12', created_at: '2026-11-12T06:00:00.000Z', metadata: { n: 1 } });
-  assert.deepEqual(await h.store.played('u-1'), ['2026-11-13', '2026-11-14']);
+  h.db.tables.question_interactions.push({ id: 'x', question_id: 'q-1', user_id: 'u-1', interaction_type: 'attempted', flow_context: 'learn', session_id: 'daily:2026-11-11', created_at: '2026-11-11T06:00:00.000Z', metadata: { n: 1 } });
+  assert.deepEqual(await h.store.played('u-1'), ['2026-11-13', '2026-11-14'], 'two answers on the 12th are not a day');
 });
 
 test('how everyone did: counted per question on the server, nothing under 30, cached five minutes, public and aggregate', async () => {
@@ -246,9 +280,11 @@ test('how everyone did: counted per question on the server, nothing under 30, ca
   const handlers = createDailyHandlers({ auth: async () => null, rateLimit: async () => ({ allowed: true }), originOk: () => true, store: h.store, key: KEY, five: async () => h.ids.map((id, i) => ({ id, q: `Stem ${i}`, options: ['a', 'b', 'c', 'd'], correct: h.keys[i] })), mobEnabled: () => true, now: () => now });
   // 30 students on question 1 (19 right), 29 on question 2.
   for (let s = 0; s < 30; s += 1) {
-    const picks = h.keys.map((k, i) => (i === 0 ? (s < 19 ? k : (k + 1) % 4) : k));
-    const rows = h.ids.map((id, i) => ({ id: dailyRowId(DATE, `s${s}`, i + 1), question_id: id, user_id: `s${s}`, interaction_type: 'daily_five', session_id: `daily:${DATE}`, flow_context: null, created_at: 'x', metadata: { n: i + 1, pick: 'ABCD'[picks[i]], right: picks[i] === h.keys[i] } }));
-    h.db.tables.question_interactions.push(...(s === 29 ? rows.filter((r) => r.metadata.n !== 2) : rows));
+    for (let i = 0; i < 5; i += 1) {
+      if (s === 29 && i === 1) continue;
+      const pick = i === 0 && s >= 19 ? (h.keys[0] + 1) % 4 : h.keys[i];
+      h.db.tables.question_interactions.push(checkRow({ userId: `s${s}`, date: DATE, day: 1, n: i + 1, id: h.ids[i], pick, correct: h.keys[i], at: 'x' }));
+    }
   }
   const ask = (day = 1) => handlers.getStats(new Request(`https://www.mockmob.in/api/daily/stats?day=${day}`));
   const res = await ask();
@@ -276,7 +312,7 @@ test('the Mob strip: members only, through the den\'s membership; a removed memb
     { mob_id: mob, user_id: 'u-riya', display_name: 'Riya', colour: 3, show_score: true, joined_at: '2026-11-01T00:00:00Z' },
   ];
   const h = harness({ members });
-  await h.post(h.saveBody(['B', 'A', 'D', 'C', 'B']));
+  await h.playAll(['B', 'A', 'D', 'C', 'B']);
   const get = (handlers, id = mob) => handlers.getMob(new Request(`https://www.mockmob.in/api/daily/mob?mob=${id}`));
   const body = await (await get(h.handlers)).json();
   assert.deepEqual(body.members.map((m) => [m.name, m.state]), [['Aarav', 'marks']], 'members who have not played are not named (F2)');
@@ -304,11 +340,12 @@ test('a saved Daily Five is a study day: the week and the run count it; it is ne
   assert.equal(r.milestones.find((m) => m.id === 'first_scored_session').achievedAt, null);
   const dup = computeRhythm({ activities: [daily('2026-11-19'), daily('2026-11-19')], now });
   assert.equal(dup.studyDays, 1, 'one day, once');
-  // The reader: one row per day, Daily Five rows only, a failed read leaves the rhythm whole.
+  // The reader: Daily Five rows only, a day only with all five places answered, a failed read leaves the rhythm whole.
   const prefs = code(read('src/lib/server/appPrefs.js'));
   const reader = prefs.slice(prefs.indexOf('export async function loadDailyFiveDays'));
-  assert.match(reader, /\.from\('question_interactions'\)\.select\('session_id,created_at'\)\.eq\('user_id', userId\)\.is\('flow_context', null\)\s*\.eq\('interaction_type', 'daily_five'\)\.eq\('metadata->>n', '1'\)\.gte\('created_at', since\)/);
+  assert.match(reader, /\.from\('question_interactions'\)\.select\('session_id,created_at,n:metadata->>n'\)\.eq\('user_id', userId\)\.is\('flow_context', null\)\s*\.eq\('interaction_type', 'daily_five'\)\.gte\('created_at', since\)/);
   assert.match(reader, /if \(error\) return \[\];/);
+  assert.match(reader, /d\.places\.size === 5/, 'a whole five, not a first answer');
   assert.match(reader, /kind: 'daily'/);
   assert.match(prefs.slice(prefs.indexOf('export async function loadActivity')), /\.\.\.daily\]/);
 });
@@ -319,7 +356,7 @@ test('the rows stay out of every other reader: the routes, the store and the tab
   // The interact route cannot write a Daily Five row (its own types only), and the mock count reads the mock flow only.
   const interact = read('src/app/api/questions/[id]/interact/route.js');
   assert.doesNotMatch(interact, /daily_five/);
-  for (const route of ['me', 'stats', 'mob']) {
+  for (const route of ['check', 'me', 'stats', 'mob']) {
     const src = code(read(`src/app/api/daily/${route}/route.js`));
     assert.match(src, /import \{ dailyHandlers \} from '@\/lib\/server\/dailyFiveDeps';/);
     assert.doesNotMatch(src, /\.from\(|\.rpc\(|supabase/, `${route}: the route reads no table itself`);

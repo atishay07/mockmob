@@ -1,8 +1,9 @@
 // /preview/arena: the Sunday Mock against fixtures, in the shapes its routes answer (src/lib/server/sunday/service.js). Development
 // only; nothing is written. Each state is drawn at a fixed instant, so it looks the same whatever day it is opened.
 //   &sunday=  sat (Saturday evening) | sunmorning (Sunday 8:00 AM) | open (Sunday 11:00 AM, three subjects) | open1 (one subject)
-//             | some (one sat, two open) | started (a paper running) | waiting (all sat, answers at 10:00 PM) | closed (Sunday
-//             10:30 PM, one sat, 1,240 sat it) | none (closed, not sat) | monday (yesterday's result) | weekday (Wednesday)
+//             | some (one sat, two open) | started (a paper running) | waiting (all sat, answers at 11:05 PM) | closing (Sunday
+//             10:30 PM: closed for starts, one sat, answers at 11:05 PM) | late (10:30 PM, a paper still running) | closed (11:30 PM,
+//             one sat, 1,240 sat it) | none (closed, not sat) | monday (yesterday's result) | weekday (Wednesday)
 //             | nosubjects | off | error | loading. Without it: the real clock, nothing sat.
 //   &sundayden=  before | open (default on a real Sunday) | closed | notyours | off — the den's block (?view=mob&mob=den)
 //   &sundaystart= closed | notopen | expired | notyours | unavailable — the runner's refusals (?view=test&sunday=1...)
@@ -15,7 +16,7 @@ const IST = (s) => Date.parse(`${s}+05:30`);
 const SUBJECTS = [['accountancy', 'Accountancy'], ['economics', 'Economics'], ['business_studies', 'Business Studies']];
 const AT = {
   sat: '2026-11-21T18:00:00', sunmorning: '2026-11-22T08:00:00', open: '2026-11-22T11:00:00', open1: '2026-11-22T11:00:00', some: '2026-11-22T14:00:00',
-  started: '2026-11-22T11:20:00', waiting: '2026-11-22T17:30:00', closed: '2026-11-22T22:30:00', none: '2026-11-22T22:30:00',
+  started: '2026-11-22T11:20:00', waiting: '2026-11-22T17:30:00', closing: '2026-11-22T22:30:00', late: '2026-11-22T22:30:00', closed: '2026-11-22T23:30:00', none: '2026-11-22T22:30:00',
   monday: '2026-11-23T08:30:00', weekday: '2026-11-18T12:00:00', nosubjects: '2026-11-22T11:00:00',
 };
 const iso = (ms) => new Date(ms).toISOString();
@@ -24,7 +25,7 @@ const marks = (correct, wrong) => ({ scored: correct * 5 - wrong, max: 250 });
 function status(kind) {
   const t = AT[kind] ? IST(AT[kind]) : Date.now();
   const st = sundayState(t);
-  const base = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), next: st.next, previous: null };
+  const base = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), answersAt: iso(st.answersAt), next: st.next, previous: null };
   const list = kind === 'open1' ? SUBJECTS.slice(0, 1) : kind === 'nosubjects' ? [] : SUBJECTS;
   const plain = st.phase === 'open' ? 'open' : st.phase === 'before' ? 'soon' : 'closed';
   const subjects = list.map(([id, name], i) => {
@@ -33,6 +34,8 @@ function status(kind) {
     if (kind === 'started' && i === 0) Object.assign(s, { state: 'started', resumeUntil: iso(IST('2026-11-22T11:02:00') + 60 * 60_000) });
     if (kind === 'waiting') Object.assign(s, { state: 'sat', resultId: 'fixture-sunday', marks: marks(30 + i * 4, 9 - i) });
     if (kind === 'closed' && i === 0) Object.assign(s, { state: 'sat', resultId: 'fixture-sunday', marks: marks(34, 10), sat: 1240 });
+    if (kind === 'closing' && i === 0) Object.assign(s, { state: 'sat', resultId: 'fixture-sunday', marks: marks(34, 10) });
+    if (kind === 'late' && i === 0) Object.assign(s, { state: 'started', resumeUntil: iso(IST('2026-11-22T22:52:00')) });
     return s;
   });
   if (kind === 'monday') base.previous = { week: st.previous, subjects: [{ id: 'accountancy', name: 'Accountancy', state: 'sat', resultId: 'fixture-sunday', marks: marks(34, 10), sat: 1240 }] };
@@ -44,17 +47,17 @@ const DEN_MEMBERS = [['Riya', 3, false], ['Aarav', 1, true], ['Kabir', 1, false]
 function den(kind) {
   const t = { before: IST('2026-11-21T18:00:00'), open: IST('2026-11-22T15:00:00'), notyours: IST('2026-11-22T15:00:00'), closed: IST('2026-11-22T22:30:00') }[kind] ?? Date.now();
   const st = sundayState(t);
-  const out = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), next: st.next, available: true, subject: 'accountancy', subjectName: 'Accountancy' };
+  const out = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), answersAt: iso(st.answersAt), next: st.next, available: true, subject: 'accountancy', subjectName: 'Accountancy' };
   if (st.phase === 'before') return { ...out, members: [], you: { state: 'soon' } };
-  // Kabir sat and shows his score; Meera sat and keeps it private; Ravi has not sat. You sat only after the close.
+  // As the server answers (rule F2): only members who sat, and you. Riya sat and shows her score; Kabir sat and keeps his
+  // private; Zoya has not sat, so she is not in the answer at all. You sat only after the close.
   const youSat = st.phase === 'closed';
   const members = DEN_MEMBERS.map(([name, colour, you], i) => {
-    // Riya sat and shows her score; Kabir sat and keeps his private; Zoya has not sat.
     const sat = you ? youSat : i === 0 || i === 2;
     const m = { name, colour, you, sat };
     if (sat && (you || i === 0)) m.marks = you ? marks(34, 10) : marks(38, 6);
     return m;
-  });
+  }).filter((m) => m.sat || m.you);
   return { ...out, members, you: youSat ? { state: 'sat', resultId: 'fixture-sunday' } : { state: kind === 'notyours' ? 'not_yours' : 'open' } };
 }
 
@@ -69,8 +72,8 @@ function sundayAttempt(kind) {
     // Held until tonight's 10:00 PM on the real clock (the hold's timer reads the result again at that moment).
     const now = Date.now();
     const week = sundayOf(now);
-    // The next 10:00 PM IST from now, so the held page reads as it does on a Sunday afternoon.
-    const tonight = Date.parse(`${new Date(now + 330 * 60_000).toISOString().slice(0, 10)}T22:00:00+05:30`);
+    // The next 11:05 PM IST from now (answersAt), so the held page reads as it does on a Sunday afternoon.
+    const tonight = Date.parse(`${new Date(now + 330 * 60_000).toISOString().slice(0, 10)}T23:05:00+05:30`);
     const until = tonight > now ? tonight : tonight + 86_400_000;
     attempt.selectionMeta = { ...(attempt.selectionMeta || {}), mobPaper: sundayTag(week) };
     const hold = { until: iso(until), kind: 'sunday', mobId: attempt.selectionMeta.mobPaper.mobId, weekStart: week, ...sundayHoldCopy(until) };

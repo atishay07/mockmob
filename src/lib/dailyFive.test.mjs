@@ -141,21 +141,23 @@ test('the run of days: today counts once played, a run that ended yesterday is a
   assert.deepEqual(streakLine({ count: 4, playedToday: false }), { head: '4 days in a row', more: 'Play today to make it 5.' });
 });
 
-test('the page accepts the route\'s answer whole: a real day, five questions from the Daily Five subjects', () => {
+test('the page accepts the route\'s answer whole: a real day, five questions from the Daily Five subjects, each with its token', () => {
   const five = dailyFiveFor(3, WINDOWS);
-  const body = { day: 3, date: dateOfDay(3), questions: five.map((q) => ({ ...q, id: 'leak' })) };
+  const token = (i) => `d1.${'a'.repeat(16)}.${'b'.repeat(40)}${i}.${'c'.repeat(22)}`;
+  const body = { day: 3, date: dateOfDay(3), questions: five.map((q, i) => ({ ...q, id: 'leak', token: token(i) })) };
   const ok = acceptDailyFive(body);
   assert.equal(ok.day, 3);
   assert.equal(ok.questions.length, 5);
-  assert.deepEqual(Object.keys(ok.questions[0]), ['slug', 'subject', 'q', 'options', 'correct', 'why', 'chapter'], 'extra fields are dropped');
+  assert.deepEqual(Object.keys(ok.questions[0]), ['slug', 'subject', 'q', 'options', 'chapter', 'token'], 'extra fields are dropped, a key or a reason sent anyway too');
   assert.ok(['English', 'General Test'].includes(ok.questions[0].subject));
   const bad = (change) => acceptDailyFive({ ...body, ...change });
+  function bad0(edit) { return bad({ questions: body.questions.map((q, i) => (i ? q : edit(q))) }); }
+  assert.equal(bad0((q) => ({ ...q, token: undefined })), null, 'no token: nothing to check an answer with');
   assert.equal(bad({ date: '2026-11-16' }), null, 'the date must be the day\'s');
   assert.equal(bad({ day: 0, date: dateOfDay(0) }), null);
   assert.equal(bad({ questions: body.questions.slice(0, 4) }), null);
   assert.equal(bad({ questions: body.questions.map((q, i) => (i ? q : { ...q, subject: 'accountancy' })) }), null, 'only a Daily Five subject');
-  assert.equal(bad({ questions: body.questions.map((q, i) => (i ? q : { ...q, correct: 4 })) }), null);
-  assert.equal(bad({ questions: body.questions.map((q, i) => (i ? q : { ...q, why: '' })) }), null);
+  assert.equal(bad({ questions: body.questions.map((q, i) => (i ? q : { ...q, options: ['a', 'b', 'c'] })) }), null);
   assert.equal(acceptDailyFive(null), null);
   assert.equal(dailyFiveUrl(3), '/api/daily?day=3');
 });

@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { fakeDb, legacyRow, setFixtureSecret } from './helpers/egress_fixtures.mjs';
 import { DEMO_POOL_SIZE } from '../../src/lib/demoSample.mjs';
 import { readDemoPool } from '../../src/lib/server/demoSample.js';
-import { createDailyFive, createDailyWindows, parseDailyQuery } from '../../src/lib/server/dailyFive.js';
+import { createDailyFive, createDailyWindows, dailyTokenKey, openDailyToken, parseDailyQuery } from '../../src/lib/server/dailyFive.js';
 import { DAILY_FIVE_CYCLE_DAYS, DAILY_FIVE_MAX, acceptDailyFive, dateOfDay } from '../../src/lib/dailyFive.mjs';
 
 const restore = setFixtureSecret();
@@ -36,6 +36,7 @@ function bank(seed = 7) {
 const tablesOf = (rows) => ({ questions: rows, recovery_family_holds: [] });
 const at = (iso) => Date.parse(iso);
 const day = (n) => ({ ok: true, day: n, date: dateOfDay(n) });
+const KEY = dailyTokenKey('a-software-fixture-secret-of-some-length');
 
 test('only today is served: the query is a day number, checked against the IST day before anything is read', () => {
   const now = at('2026-11-15T12:00:00Z'); // 5:30 pm IST, day 1
@@ -59,9 +60,12 @@ test('the service: the day\'s five come from the public windows of English and t
   const gat = await readDemoPool(fakeDb(tablesOf(rows)), 'gat');
   assert.equal(english.length, DEMO_POOL_SIZE);
   assert.equal(gat.length, DEMO_POOL_SIZE);
-  const windows = new Map([...english.map((x) => ['english', x]), ...gat.map((x) => ['general-test', x])].map(([slug, x]) => [JSON.stringify({ subject: slug, ...x }), slug]));
+  // What the page sees of a window question: everything the sample shows before an answer, never the key or the reason.
+  const shown = ({ correct: _key, why: _why, ...card }) => card;
+  const byStem = new Map([...english.map((x) => ({ subject: 'english', ...x })), ...gat.map((x) => ({ subject: 'general-test', ...x }))].map((x) => [x.q, x]));
+  const windows = new Map([...byStem.values()].map((x) => [JSON.stringify(shown(x)), x.subject]));
   let reads = 0;
-  const service = createDailyFive({ windows: createDailyWindows({ db: () => { reads += 1; return fakeDb(tablesOf(rows)); } }) });
+  const service = createDailyFive({ windows: createDailyWindows({ db: () => { reads += 1; return fakeDb(tablesOf(rows)); } }), key: KEY });
   const seen = new Map();
   for (let d = 1; d <= DAILY_FIVE_CYCLE_DAYS * 3; d += 1) {
     const answer = await service.get(day(d));
@@ -69,10 +73,15 @@ test('the service: the day\'s five come from the public windows of English and t
     assert.equal(answer.date, dateOfDay(d));
     assert.equal(answer.questions.length, 5);
     assert.ok(acceptDailyFive(answer), 'the page accepts it whole');
-    for (const item of answer.questions) {
+    for (const [i, item] of answer.questions.entries()) {
       const keys = Object.keys(item);
-      assert.deepEqual(keys.filter((k) => k !== 'pastPaper'), ['subject', 'q', 'options', 'correct', 'why', 'chapter'], 'the sample\'s fields and nothing more');
-      assert.ok(windows.has(JSON.stringify(item)), `day ${d}: "${item.q}" is a question of the public windows, exactly as the sample serves it`);
+      assert.deepEqual(keys.filter((k) => k !== 'pastPaper'), ['subject', 'q', 'options', 'chapter', 'token'], 'the card\'s fields and its token: no key, no reason');
+      const { token, ...card } = item;
+      assert.ok(windows.has(JSON.stringify(card)), `day ${d}: "${item.q}" is a question of the public windows, exactly as the sample serves it`);
+      const sealed = openDailyToken(KEY, token);
+      assert.equal(sealed.n, i + 1);
+      assert.equal(sealed.correct, byStem.get(item.q).correct, 'the key travels sealed');
+      assert.equal(sealed.why, byStem.get(item.q).why, 'and the reason');
       assert.doesNotMatch(item.q, /^accountancy:/);
       seen.set(item.q, (seen.get(item.q) || 0) + 1);
     }
@@ -84,11 +93,12 @@ test('the service: the day\'s five come from the public windows of English and t
 
 test('a thin or empty subject: the day still fills from what the windows hold, or answers nothing', async () => {
   const rows = bank().filter((r) => r.subject !== 'gat');
-  const service = createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }) });
+  const service = createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }), key: KEY });
   const answer = await service.get(day(4));
   assert.equal(answer.questions.length, 5);
   assert.ok(answer.questions.every((x) => x.subject === 'english'));
-  assert.equal(await createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf([])) }) }).get(day(1)), null);
+  assert.equal(await createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf([])) }), key: KEY }).get(day(1)), null);
+  assert.equal(await createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }) }).get(day(4)), null, 'no sealing key: no five, never one that cannot be answered');
 });
 
 test('the route: public and rate-limited; the query first, then the limit, then the service; cached by day until IST midnight, tagged; nothing else cached', () => {

@@ -16,8 +16,8 @@
 //     the counts take only sittings finished inside the window's last legal minute (countsFor).
 import { createHmac } from 'node:crypto';
 import {
-  MIN_FROZEN, PAPER_COUNT, SHARE_FLOOR, claimPeriod, claimReference, countsFor, isWeekKey, marksOf, startRefusal,
-  subjectState, sundayState, sundayStats, sundayTag, sundayWindow,
+  LAUNCH_WEEK, MIN_FROZEN, PAPER_COUNT, SHARE_FLOOR, claimPeriod, claimReference, countsFor, isWeekKey, marksOf, startRefusal,
+  subjectState, sundayOf, sundayState, sundayStats, sundayTag, sundayWindow,
 } from '../../sundayMock.mjs';
 import { subjectSpellings } from './store.js';
 
@@ -53,7 +53,8 @@ const same = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.le
  *   store                                    ./store.js (or an in-memory one in tests)
  *   loadUser(userId) -> { subjects } | null  the student's goal subjects
  *   subjectInfo(raw) -> { ok, id, publicId, name }   a launchable subject: its stored id, public id and official name
- *   pickPaper(subject, week, { exclude }) -> ids     the Full mock selector over the central bank, no personal exclusions
+ *   pickPaper(subject, week, { exclude }) -> ids     the week's seeded draw (./draw.js): the Full mock selector in a secret seeded
+ *                                                    order, the subject's last 8 Sunday papers left out, no personal exclusions
  *   loadQuestions(ids) -> questions in that order (withdrawn ones left out)
  *   serve(question) -> question              the stable option order every surface serves (data/option_order.js servedOut)
  *   startPractice(userId, input, server)     src/lib/server/practiceSessions.js
@@ -97,11 +98,13 @@ export function createSundayService(deps) {
     try { return await fn(); } catch (cause) { throw cause instanceof SundayError ? cause : new SundayError('UNAVAILABLE', { cause }); }
   };
 
-  /** How many sat a closed week's paper in a subject (cached; null when the read failed). */
+  /**
+   * How many sat a week's paper in a subject, from 11:05 PM (answersAt: the last possible paper is in, so the number is final);
+   * null before then or when the read failed. Cached six hours.
+   */
   async function satCount(week, subject) {
-    const win = sundayWindow(week);
-    const ttl = now() < win.lastFinishAt + 5 * MINUTE ? 5 * MINUTE : 6 * 60 * MINUTE;
-    try { return await cached(`count:${week}:${subject}`, ttl, () => store.countSat(week, subject)); } catch { return null; }
+    if (now() < sundayWindow(week).answersAt) return null;
+    try { return await cached(`count:${week}:${subject}`, 6 * 60 * MINUTE, () => store.countSat(week, subject)); } catch { return null; }
   }
 
   async function pick(subject, week, exclude = []) {
@@ -159,7 +162,7 @@ export function createSundayService(deps) {
         const out = { id: s.publicId, name: s.name, state };
         if (attempt) Object.assign(out, { resultId: attempt.id, marks: marksOf(attempt) });
         if (state === 'started') out.resumeUntil = iso(claim.startedAt + 62 * MINUTE);
-        if (attempt && st.phase === 'closed') { const n = await satCount(st.week, s.id); if (n !== null) out.sat = n; }
+        if (attempt && st.answersOpen) { const n = await satCount(st.week, s.id); if (n !== null) out.sat = n; }
         return out;
       }));
       const previous = (await Promise.all(subjects.map(async (s) => {
@@ -169,8 +172,8 @@ export function createSundayService(deps) {
         return { id: s.publicId, name: s.name, state: 'sat', resultId: attempt.id, marks: marksOf(attempt), ...(n !== null ? { sat: n } : {}) };
       }))).filter(Boolean);
       return {
-        week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), next: st.next,
-        subjects: current, previous: previous.length ? { week: st.previous, subjects: previous } : null,
+        week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), answersAt: iso(st.answersAt),
+        next: st.next, subjects: current, previous: previous.length ? { week: st.previous, subjects: previous } : null,
       };
     },
 
@@ -233,25 +236,28 @@ export function createSundayService(deps) {
     },
 
     /**
-     * GET /api/sunday/stats?week=&subject=: after the close, how many sat and, once SHARE_FLOOR or more did, the share who got
-     * each question right. { week, subject, sat, shares, floor, final }. Never a rank, a percentile or a place.
+     * GET /api/sunday/stats?week=&subject=: from 11:05 PM (answersAt, when the last possible paper is in), how many sat and, once
+     * SHARE_FLOOR or more did, the share who got each question right. { week, subject, sat, shares, floor, final }. Never a rank,
+     * a percentile or a place.
      */
     async stats(userId, query = {}) {
       const week = String(query.week || '');
-      if (!isWeekKey(week)) throw new SundayError('BODY_INVALID');
+      const t = now();
+      // Only a Sunday from the launch to this week's: anything else is refused before any read (review, 15 Nov 2026).
+      if (!isWeekKey(week) || week < LAUNCH_WEEK || week > sundayOf(t)) throw new SundayError('BODY_INVALID');
       const info = deps.subjectInfo(query.subject);
       if (!info?.ok) throw new SundayError('SUBJECT_NOT_SUPPORTED');
-      const t = now();
       const win = sundayWindow(week);
-      if (t < win.closesAt) throw new SundayError('NOT_CLOSED', { detail: { closesAt: iso(win.closesAt) } });
-      const ttl = t < win.lastFinishAt + 5 * MINUTE ? 5 * MINUTE : 6 * 60 * MINUTE;
-      const value = await store_(() => cached(`stats:${week}:${info.id}`, ttl, async () => sundayStats(await store.findSittings(week, info.id), { week })));
+      if (t < win.answersAt) throw new SundayError('NOT_CLOSED', { detail: { answersAt: iso(win.answersAt) } });
+      // Every send that can count is in by now (lastFinishAt is before answersAt), so the counts are final: kept six hours.
+      const value = await store_(() => cached(`stats:${week}:${info.id}`, 6 * 60 * MINUTE, async () => sundayStats(await store.findSittings(week, info.id), { week })));
       return { week, subject: info.publicId, sat: value.sat, shares: value.shares, floor: SHARE_FLOOR, final: t >= win.lastFinishAt };
     },
 
     /**
-     * GET /api/sunday/mob?mob=: this week's Sunday Mock in the Mob's subject, for the den. The Mob's own privacy: every member
-     * sees who sat, and a member's marks only when that member shows their score (show_score); your own always. No user ids.
+     * GET /api/sunday/mob?mob=: this week's Sunday Mock in the Mob's subject, for the den. The den's rule F2 (src/lib/mob/games.mjs:
+     * nothing counts or names a member who has not played): only the members who sat it, and your own row whatever your state.
+     * A member's marks only when that member shows their score (show_score); your own always. No user ids, no Mob size.
      */
     async mob(userId, query = {}) {
       const mobId = String(query.mob || '');
@@ -261,7 +267,7 @@ export function createSundayService(deps) {
       const t = now();
       const st = sundayState(t);
       const info = deps.subjectInfo(mob.subject);
-      const base = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), next: st.next };
+      const base = { week: st.week, phase: st.phase, dow: st.dow, serverNow: t, opensAt: iso(st.opensAt), closesAt: iso(st.closesAt), answersAt: iso(st.answersAt), next: st.next };
       if (!info?.ok) return { ...base, available: false, members: [], you: { state: 'closed' } };
       const out = { ...base, available: true, subject: info.publicId, subjectName: info.name };
       if (st.phase === 'before') return { ...out, members: [], you: { state: 'soon' } };
@@ -271,7 +277,7 @@ export function createSundayService(deps) {
         loadUser(userId),
       ]);
       const sat = new Map(sittings.filter((s) => countsFor(st.week, s.completedAt)).map((s) => [s.userId, s]));
-      const members = mob.members.map((m) => {
+      const members = mob.members.filter((m) => sat.has(m.userId) || m.userId === userId).map((m) => {
         const s = sat.get(m.userId);
         const you = m.userId === userId;
         return { name: m.name, colour: m.colour, you, sat: Boolean(s), ...(s && (m.showScore || you) ? { marks: marksOf(s) } : {}) };

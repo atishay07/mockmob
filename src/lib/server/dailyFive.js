@@ -6,13 +6,14 @@
 // the chapter cap), keeping one thing the sample drops before it leaves: each question's id, which stays on this server.
 // data/tests/daily_five_account_1115.test.mjs proves the two windows are the same questions in the same order. So the Daily
 // Five can never show a question the sample does not already show, in a shape it does not already have: the stem, four
-// options, the right one's place, the reason, the chapter and any verified past-paper reference, plus the subject's public
-// slug, plus `token`.
+// options, the chapter and any verified past-paper reference, plus the subject's public slug, plus `token`. The key and the
+// reason do NOT leave here (review 15 Nov: a page that holds the key can post a perfect five): they are inside the token.
 //
-// The token. Each question leaves with a seal (AES-256-GCM, a server secret): its date, its place, its id and its key. A
-// signed-in student's save sends the five tokens back (src/lib/server/dailyFiveAccount.js), so the server records the very
-// questions it served that day and scores them against its own key, and no id ever reaches the page. The answer is cached
-// by the CDN for the day: the tokens are the same for everyone until 12:00 am IST.
+// The token. Each question leaves with a seal (AES-256-GCM, a server secret): its date, its place, its id, its key and its
+// reason. The page sends a token and the student's pick to POST /api/daily/check (src/lib/server/dailyFiveAccount.js), which
+// answers right or wrong with the right option and the reason; for a signed-in student the first check of each question is
+// the answer that stands. No id ever reaches the page. The answer is cached by the CDN for the day: the tokens are the same
+// for everyone until 12:00 am IST.
 //
 // No 'server-only' and no alias imports, so node:test loads it (data/tests/daily_five_1115.test.mjs).
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:crypto';
@@ -109,27 +110,29 @@ export function createDailyWindows({ db, ttlMs = DEMO_POOL_TTL_MS, now = Date.no
 // The token: a question's date, place, id and key, sealed so the page can carry it and never read it.
 
 const TOKEN_AAD = Buffer.from('mockmob-daily-five-token-v1');
+/** The longest token this server seals (a reason of up to 420 characters, sealed and base64url). */
+export const DAILY_TOKEN_MAX = 2000;
 
 /** The secret the tokens are sealed with: its own, else the practice session's, else the service key (always set). */
 export const dailyFiveSecret = (env = process.env) => env.DAILY_FIVE_SECRET || env.PRACTICE_SESSION_SECRET || env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-/** The sealing key from a secret, or null when there is no usable secret (the five then leave without tokens). */
+/** The sealing key from a secret, or null when there is no usable secret (then no five is served). */
 export function dailyTokenKey(secret) {
   if (typeof secret !== 'string' || secret.length < 16) return null;
   return createHash('sha256').update(`mockmob-daily-five-v1:${secret}`).digest();
 }
 
-export function sealDailyToken(key, { date, n, id, correct }) {
+export function sealDailyToken(key, { date, n, id, correct, why = '' }) {
   const iv = randomBytes(12);
   const cipher = createCipheriv('aes-256-gcm', key, iv);
   cipher.setAAD(TOKEN_AAD);
-  const bytes = Buffer.concat([cipher.update(JSON.stringify([date, n, id, correct]), 'utf8'), cipher.final()]);
+  const bytes = Buffer.concat([cipher.update(JSON.stringify([date, n, id, correct, why]), 'utf8'), cipher.final()]);
   return ['d1', iv.toString('base64url'), bytes.toString('base64url'), cipher.getAuthTag().toString('base64url')].join('.');
 }
 
-/** { date, n, id, correct } from a token this server sealed, or null for anything else. */
+/** { date, n, id, correct, why } from a token this server sealed, or null for anything else. */
 export function openDailyToken(key, token) {
-  if (!key || typeof token !== 'string' || token.length > 600) return null;
+  if (!key || typeof token !== 'string' || token.length > DAILY_TOKEN_MAX) return null;
   try {
     const [version, iv, ciphertext, tag, extra] = token.split('.');
     if (version !== 'd1' || extra !== undefined || !iv || !ciphertext || !tag) return null;
@@ -137,18 +140,18 @@ export function openDailyToken(key, token) {
     decipher.setAAD(TOKEN_AAD);
     decipher.setAuthTag(Buffer.from(tag, 'base64url'));
     const text = Buffer.concat([decipher.update(Buffer.from(ciphertext, 'base64url')), decipher.final()]).toString('utf8');
-    const [date, n, id, correct] = JSON.parse(text);
-    return { date, n, id, correct };
+    const [date, n, id, correct, why] = JSON.parse(text);
+    return { date, n, id, correct, why: typeof why === 'string' ? why : '' };
   } catch {
     return null;
   }
 }
 
-/** One question as it leaves: the sample's fields, its token, nothing more (never its id). */
-const out = ({ subject, q, options, correct, why, chapter, pastPaper }) => ({ subject, q, options: [...options], correct, why, chapter, ...(pastPaper ? { pastPaper: { ...pastPaper } } : {}) });
+/** One question as it leaves: the stem, the options, the chapter, its token; never its id, its key or its reason. */
+const out = ({ subject, q, options, chapter, pastPaper }) => ({ subject, q, options: [...options], chapter, ...(pastPaper ? { pastPaper: { ...pastPaper } } : {}) });
 
 /**
- * The route's service. `windows` is a createDailyWindows service; `key` the sealing key (or null: no tokens).
+ * The route's service. `windows` is a createDailyWindows service; `key` the sealing key (null: no five can be served).
  *   get({ day, date })   { day, date, questions } for the page, or null when the windows cannot fill a five today
  *   five({ day, date })  the same five with their ids, for the server only (the stats route), or null
  */
@@ -160,12 +163,14 @@ export function createDailyFive({ windows, key = null }) {
   return {
     five,
     async get({ day, date }) {
+      // Without a sealing key the five could not be answered (the key is only in the tokens): no five rather than a dead one.
+      if (!key) return null;
       const picked = await five({ day, date });
       if (!picked) return null;
       return {
         day,
         date,
-        questions: picked.map((q, i) => ({ ...out(q), ...(key ? { token: sealDailyToken(key, { date, n: i + 1, id: q.id, correct: q.correct }) } : {}) })),
+        questions: picked.map((q, i) => ({ ...out(q), token: sealDailyToken(key, { date, n: i + 1, id: q.id, correct: q.correct, why: q.why }) })),
       };
     },
   };

@@ -175,16 +175,32 @@ export async function loadActivity(userId, now = Date.now()) {
 }
 
 /**
- * The Daily Fives saved to the account in the window (src/lib/dailyFiveAccount.mjs): one row per day (the first question's),
- * two short columns, as kind 'daily'. A failed read leaves them out (the rhythm is never lost over its newest source).
+ * The Daily Fives on the account in the window (src/lib/dailyFiveAccount.mjs): a day counts once all five of its answers are
+ * checked (a whole five, not a first question), at the time of its last answer, as kind 'daily'. Three short columns, five
+ * rows a day at most. A failed read leaves them out (the rhythm is never lost over its newest source).
  */
 export async function loadDailyFiveDays(db, userId, since) {
   try {
-    const { data, error } = await db.from('question_interactions').select('session_id,created_at').eq('user_id', userId).is('flow_context', null)
-      .eq('interaction_type', 'daily_five').eq('metadata->>n', '1').gte('created_at', since).order('created_at', { ascending: false }).limit(200);
+    const { data, error } = await db.from('question_interactions').select('session_id,created_at,n:metadata->>n').eq('user_id', userId).is('flow_context', null)
+      .eq('interaction_type', 'daily_five').gte('created_at', since).order('created_at', { ascending: false }).limit(1000);
     if (error) return [];
-    return (data || []).filter(r => /^daily:\d{4}-\d{2}-\d{2}$/.test(String(r.session_id || ''))).map(r => ({ id: `d:${r.session_id}`, at: r.created_at, kind: 'daily' }));
+    return dailyFiveDays(data || []);
   } catch { return []; }
+}
+
+/** Whole fives from their rows: one activity a day with all five places, at its last answer. */
+export function dailyFiveDays(rows) {
+  const days = new Map();
+  for (const r of rows) {
+    const sid = String(r.session_id || '');
+    const n = Number(r.n);
+    if (!/^daily:\d{4}-\d{2}-\d{2}$/.test(sid) || !Number.isInteger(n) || n < 1 || n > 5) continue;
+    const day = days.get(sid) || { places: new Set(), at: r.created_at };
+    day.places.add(n);
+    if (Date.parse(r.created_at) > Date.parse(day.at)) day.at = r.created_at;
+    days.set(sid, day);
+  }
+  return [...days].filter(([, d]) => d.places.size === 5).map(([sid, d]) => ({ id: `d:${sid}`, at: d.at, kind: 'daily' }));
 }
 
 /**

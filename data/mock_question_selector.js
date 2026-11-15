@@ -35,9 +35,31 @@ function legacyRankCandidates(rows, { mode, progress, weakConcepts }) {
     .map((entry) => entry.row);
 }
 
-export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts = new Set() } = {}) {
+/**
+ * A 32-bit key for one row in a seeded draw: FNV-1a over `seed:id`, then a murmur3 finaliser so near seeds and ids spread.
+ * Pure and the same on every server; the seed carries a server secret, so the order cannot be worked out ahead.
+ */
+export function seededKey(seed, id) {
+  const text = `${seed}:${id}`;
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i += 1) { h ^= text.charCodeAt(i); h = Math.imul(h, 0x01000193); }
+  h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+  return h >>> 0;
+}
+
+/** The rows in the seed's order (ties, which need equal 32-bit keys, by id). */
+export function seededOrder(rows, seed) {
+  return rows.map((row) => ({ row, k: seededKey(seed, String(row?.id ?? '')) }))
+    .sort((a, b) => a.k - b.k || String(a.row?.id ?? '').localeCompare(String(b.row?.id ?? '')))
+    .map((entry) => entry.row);
+}
+
+// `seed` (a string, the Sunday Mock's weekly draw, data/practice_pick.js seededDrawOf): the servable rows in the seed's order
+// instead of the evidence, recency and score order. Without it nothing here changes.
+export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts = new Set(), seed = null } = {}) {
   // Syllabus v2: a retired-chapter or is_cuet_syllabus=false row is never ranked, so never served.
   const safeRows = filterServable(rows);
+  if (typeof seed === 'string' && seed) return seededOrder(safeRows, seed);
   if (mode?.id === 'nta') return legacyRankCandidates(safeRows, { mode, progress, weakConcepts });
 
   return safeRows
@@ -90,7 +112,9 @@ export function shapeKey(row) {
     .trim();
 }
 
-export function pickWithConstraints(orderedRows, count, mode) {
+// `singleTier` (the seeded draw only): every row is one tier, so the order alone decides, under the same difficulty targets,
+// concept, family and shape caps. Without it the tiers are taken best first, as always.
+export function pickWithConstraints(orderedRows, count, mode, { singleTier = false } = {}) {
   const targets = computeDifficultyTargets(count, mode.difficulty);
   const taken = { easy: 0, medium: 0, hard: 0 };
   const conceptCount = new Map();
@@ -104,9 +128,9 @@ export function pickWithConstraints(orderedRows, count, mode) {
   const shapeFull = (row) => { const k = shapeKey(row); return Boolean(k) && (shapes.get(k) || 0) >= shapeCap; };
   const countShape = (row) => { const k = shapeKey(row); if (k) shapes.set(k, (shapes.get(k) || 0) + 1); };
 
-  const tiers = [...new Set(orderedRows.map(row => Number(row.selection_evidence_tier || 0)))].sort((a,b)=>b-a);
+  const tiers = singleTier ? [null] : [...new Set(orderedRows.map(row => Number(row.selection_evidence_tier || 0)))].sort((a,b)=>b-a);
   for (const tier of tiers) {
-  const tierRows = orderedRows.filter(row => Number(row.selection_evidence_tier || 0) === tier);
+  const tierRows = tier === null ? orderedRows : orderedRows.filter(row => Number(row.selection_evidence_tier || 0) === tier);
   for (const row of tierRows) {
     if (out.length >= count) break;
     if (familyOf(row) && families.has(familyOf(row))) continue;

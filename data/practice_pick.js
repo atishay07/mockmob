@@ -66,10 +66,23 @@ function applyExclusions(pool, opts) {
     && !families.has(row.family_id || row.template_id || row.evidence?.record?.family_id));
 }
 
-function rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount }) {
-  const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
-  const selected = pickWithConstraints(ranked, targetCount, mode);
-  const selectionUsage = buildSelectionUsageMeta({ selectedRows: selected, candidatePool: pool, progress, mode, targetCount, recencyFilteredCount });
+/**
+ * The Sunday Mock's weekly draw (src/lib/server/sunday/draw.js), or null: opts.seededDraw = { seed, excludeIds }. Only a server
+ * module sets it (startPractice builds its own opts and never passes it). With it the pool loses `excludeIds` (the questions of
+ * the subject's recent Sunday papers), is put in the seed's order and is picked as one tier under the same difficulty targets
+ * and concept, family and shape caps. Without it, every mode picks exactly as before.
+ */
+export function seededDrawOf(opts) {
+  const draw = opts?.seededDraw;
+  if (!draw || typeof draw.seed !== 'string' || draw.seed.length < 16) return null;
+  return { seed: draw.seed, exclude: new Set(Array.isArray(draw.excludeIds) ? draw.excludeIds.map(String) : []) };
+}
+
+function rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount, draw = null }) {
+  const candidates = draw && draw.exclude.size ? pool.filter((row) => !draw.exclude.has(String(row.id))) : pool;
+  const ranked = rankCandidates(candidates, { mode, progress, weakConcepts, ...(draw ? { seed: draw.seed } : {}) });
+  const selected = pickWithConstraints(ranked, targetCount, mode, draw ? { singleTier: true } : undefined);
+  const selectionUsage = buildSelectionUsageMeta({ selectedRows: selected, candidatePool: candidates, progress, mode, targetCount, recencyFilteredCount });
   return { selected, selectionUsage, ranked };
 }
 
@@ -121,7 +134,7 @@ export async function pickFromFullPool(source, ctx) {
   const weakConcepts = (mode.useWeakTopics && opts.userId)
     ? await source.weakConcepts(mode.weakAccuracyThreshold || 0.6)
     : new Set();
-  return finished(rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount }), targetCount, ctx.warn);
+  return finished(rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount, draw: seededDrawOf(opts) }), targetCount, ctx.warn);
 }
 
 /**
@@ -205,7 +218,7 @@ export async function pickFromLightPool(source, ctx) {
       return FALLBACK; // the pool grew between rounds; this should not happen
     }
 
-    const picked = rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount });
+    const picked = rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount, draw: seededDrawOf(opts) });
     const windowSize = Math.max(picked.selected.length, Number(targetCount) || 0);
     const window = pool.slice().sort((a, b) => questionCreatedTime(b) - questionCreatedTime(a)).slice(0, windowSize);
     const need = new Set();
