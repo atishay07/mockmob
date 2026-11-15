@@ -5,12 +5,18 @@
 import { MobError } from '../mob/model.mjs';
 import { checkPause, computeChain } from '../chain/chain.mjs';
 import { localDay } from './rhythm.js';
+import { dailyWithoutLate } from './latePapers.js';
 
 const DAY_MS = 86_400_000;
 export const CHAIN_HISTORY_DAYS = 730;
 const missingSchema = (e) => /PGRST20[25]|42883|42P01|does not exist|schema cache|Could not find the function/i.test(`${e?.code || ''} ${e?.message || ''}`);
 
-/** deps: { rpc(name, params), now() -> ms } */
+/**
+ * deps: { rpc(name, params), now() -> ms, latePapers?(userId) -> [{ completed_at, total, unattempted }] | null }. latePapers is
+ * the student's late papers (B8: sent after their time; src/lib/server/latePapers.js), which never make a chain day: chain_daily
+ * (applied SQL) counts every attempt, so they come off here. null means that read failed: the chain is shown with them counted,
+ * and the best is not stored from it.
+ */
 export function createChainService(deps) {
   const now = () => (deps.now ? deps.now() : Date.now());
   const call = async (name, params) => {
@@ -25,13 +31,17 @@ export function createChainService(deps) {
   async function read(userId) {
     const t = today();
     const from = localDay(now() - CHAIN_HISTORY_DAYS * DAY_MS, 'Asia/Kolkata');
-    const s = await call('chain_state', { p_user_id: userId, p_from: from });
+    const [s, late] = await Promise.all([
+      call('chain_state', { p_user_id: userId, p_from: from }),
+      deps.latePapers ? Promise.resolve().then(() => deps.latePapers(userId)).catch(() => null) : [],
+    ]);
+    const daily = dailyWithoutLate(s?.daily || [], late);
     const body = computeChain({
-      daily: s?.daily || [], pauses: s?.pauses || [], fixesHeld: s?.fixes || [], today: t,
+      daily, pauses: s?.pauses || [], fixesHeld: s?.fixes || [], today: t,
       hidden: s?.hidden === true, storedBest: Number(s?.best_days) || 0, seen: new Set(s?.seen || []),
     });
-    if (body.best > (Number(s?.best_days) || 0)) await call('chain_best_bump', { p_user_id: userId, p_days: body.best }).catch(() => null);
-    return { body, daily: s?.daily || [] };
+    if (late !== null && body.best > (Number(s?.best_days) || 0)) await call('chain_best_bump', { p_user_id: userId, p_days: body.best }).catch(() => null);
+    return { body, daily, lateUnread: late === null };
   }
 
   return {

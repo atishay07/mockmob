@@ -57,6 +57,8 @@ export function funnelStepsForSession({ kind, body, result } = {}) {
   if (kind === 'finish') {
     const meta = result?.selectionMeta;
     if (!result || result.error || !result.id || meta?.episodeId) return [];
+    // A late paper (B8, sent days after its time; data/late_paper.js) is the student's own record only: no funnel step.
+    if (meta?.late === true) return [];
     const steps = ['first_practice_finished'];
     if (['full', 'nta'].includes(result.mode || meta?.mode)) steps.push('first_mock_finished');
     return steps;

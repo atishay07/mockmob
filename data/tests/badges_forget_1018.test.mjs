@@ -58,7 +58,7 @@ export async function load(url, context, next) {
 const NOW = Date.parse('2026-10-16T10:00:00+05:30');
 // The one slim read of the student's attempts: the same chain badgesStore calls, answering with no rows.
 const chain = () => {
-  const q = { select: () => q, eq: () => q, in: () => q, order: () => q, limit: async () => ({ data: [], error: null }) };
+  const q = { select: () => q, eq: () => q, in: () => q, not: () => q, order: () => q, limit: async () => ({ data: [], error: null }) };
   return q;
 };
 globalThis.__bf = {

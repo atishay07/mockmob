@@ -94,6 +94,9 @@ const subjectName = (s) => String(s || '').replace(/[_-]+/g, ' ').replace(/\b\w/
 const reducedMotion = () => {
   try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
 };
+// The quiet line on a late paper (B8: sent after its time ended; data/late_paper.js).
+const LATE_PAPER_LINE = 'This paper was sent after its time ended, so it is kept for your own practice. It does not count toward your week or your Mob.';
+
 // The arrival sequence plays on a result's first open in this browser session only; a return visit never replays it.
 function firstOpen(id) {
   try {
@@ -367,7 +370,8 @@ export default function ResultPageClient({ previewId = null }) {
   }, []);
   // D81: a scored set has landed. In the first usage session after onboarding this is the student's first real action, and
   // the shell may then open the Upgrade sheet once (src/components/pro/ProNudgeHost.jsx decides; Pro never sees it).
-  const firstActionAttempt = attempt?.id && Number(attempt.total) > 0 && !user?.isPremium ? attempt.id : null;
+  // A late paper (B8: sent after its time) is the student's own record only, so it is never a "first" anything.
+  const firstActionAttempt = attempt?.id && Number(attempt.total) > 0 && !user?.isPremium && attempt?.selectionMeta?.late !== true ? attempt.id : null;
   useEffect(() => {
     if (!firstActionAttempt) return;
     reportFirstAction({ kind: 'paper', at: Date.parse(attempt?.completedAt) || Date.now() });
@@ -422,6 +426,9 @@ export default function ResultPageClient({ previewId = null }) {
   // Mobi's reveal follows the server's recap tone (the app's table); none in NTA mode, never sleepy.
   const reaction = mobiReaction(attempt, { celebrations: prefs.celebrations });
   const receipt = receiptLine({ subjectName: subject, mode, completedAt: attempt.completedAt, durationMs: timing?.totalMs ?? null });
+  // B8 (SESS-FOLLOWUP 2): a paper sent after its time keeps its result, Review and repairs, and says once, quietly, why it is not
+  // in the week, the badges or the Mob.
+  const lateLine = attempt.selectionMeta?.late === true ? LATE_PAPER_LINE : null;
   const keyReviews = analysis.rows.filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
   const correctedRows = analysis.rows.filter(r => answerReviews[r.q.id]?.state === 'corrected');
   const correctionAdjustment = correctedRows.reduce((sum, r) => sum + answerReviews[r.q.id].adjustment, 0);
@@ -835,7 +842,7 @@ export default function ResultPageClient({ previewId = null }) {
     <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
       {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
-        notice={notice} onNotice={(n) => jumpTo(n, { fromFront: true })} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} legend={legend} repairReceipt={repairsDid}
+        notice={notice} lateLine={lateLine} onNotice={(n) => jumpTo(n, { fromFront: true })} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} legend={legend} repairReceipt={repairsDid}
         next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} tomorrow={tomorrow} />} />
 
       {/* O6: the home-screen card, once, on the first result this phone shows (src/components/result/installOffer.mjs). Draws
@@ -844,7 +851,7 @@ export default function ResultPageClient({ previewId = null }) {
 
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).
            Draws nothing otherwise. */}
-      <EarnedBadges attempt={attempt} />
+      {lateLine ? null : <EarnedBadges attempt={attempt} />}
 
       {/* D29: the paper played back, about 20 s, from the record (sheet, real moments, costliest chapter, the one next move).
            A quiet row under the front, never inside it. */}

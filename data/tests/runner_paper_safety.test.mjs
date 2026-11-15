@@ -51,25 +51,47 @@ test('B1: a paper served again after its time with no draft here is never sent e
   assert.match(page(s), /Go to Practice/);
 });
 
-test('B8: past the grace the one try is refused, and the page says so plainly, keeps the answers and never offers a retry', async (t) => {
+test('B8: reopened days after the grace, the paper is sent as a late paper and its result opens', async (t) => {
+  const first = await h.mount(quick());
+  let open = first;
+  t.after(() => open.unmount());
+  await answer(2);
+  await first.unmount({ keepStorage: true });
+  // Offline at the hostel; back online three days later, the student opens the paper again (Practice's Send row links it).
+  h.clock.now = first.startedAt + 300000 + 3 * 24 * 60 * 60 * 1000;
+  const second = await h.mount(quick());
+  open = second;
+  await h.advance(500);
+  assert.equal(second.requests.filter((r) => r.url === '/api/sessions').length, 0, 'the draft reopened, kept on the device');
+  const [sent] = second.submitted();
+  assert.ok(sent, 'sent once');
+  assert.equal(Object.keys(sent.body.answers).length, 2);
+  assert.ok(sent.body.events.every((e) => e.at <= 300000), 'only what happened before the timer ended');
+  assert.deepEqual(second.router.replaced, ['/result/attempt-1']);
+});
+
+test('B8: a late paper the server still refuses (more than 7 days after its timer) says plainly it could not be saved and never offers a retry', async (t) => {
   const replies = (url) => { if (url === '/api/attempts') throw fail('SESSION_EXPIRED', { status: 422 }); };
   const first = await h.mount(quick());
   let open = first;
   t.after(() => open.unmount());
   await answer(2);
   await first.unmount({ keepStorage: true });
-  h.clock.now = first.startedAt + 300000 + 180000;
+  // The device's clock says 6 days; the server's says more than 7.
+  h.clock.now = first.startedAt + 300000 + 6 * 24 * 60 * 60 * 1000;
   const second = await h.mount(quick({ replies }));
   open = second;
   await h.advance(500);
   assert.equal(second.submitted().length, 1, 'tried once');
-  assert.match(page(second), /This paper reached us too late/);
+  assert.match(page(second), /This paper could not be saved/);
+  assert.match(page(second), /within 7 days of its timer ending/);
   assert.match(page(second), /Your 2 answers are still/);
-  assert.doesNotMatch(page(second), /Try sending again|Try again|SESSION_EXPIRED/);
+  assert.match(page(second), /Start a new paper/);
+  assert.doesNotMatch(page(second), /Try sending again|Try again|SESSION_EXPIRED|!/);
   assert.equal(Object.keys(draftOf().answers).length, 2, 'the answers stay on the device');
 });
 
-test('B8: offline at time-up the paper is held, sends itself on reconnect, and past the grace the banner has no retry key', async (t) => {
+test('B8: offline at time-up the paper is held and sends itself on reconnect, also past the grace', async (t) => {
   let offline = true;
   const replies = (url) => { if (url === '/api/attempts' && offline) throw fail('Network error — check your connection', { kind: 'network' }); };
   const s = await h.mount(quick({ replies }));
@@ -80,14 +102,30 @@ test('B8: offline at time-up the paper is held, sends itself on reconnect, and p
   assert.match(page(s), /Time is up and you are offline/);
   assert.match(page(s), /Try sending again/);
   assert.equal(draftOf().pendingSubmission, true);
+  // Past the 2-minute grace the paper is still held and still sent when the connection is back (B8: late, for 7 days).
   await h.advance(130000, { coarse: true });
-  assert.match(page(s), /When you are back online we try once more/);
-  assert.doesNotMatch(page(s), /Try sending again/);
+  assert.match(page(s), /Your paper is saved (on this phone|in this browser) and sends itself when you are back online, up to 7 days after its timer ended\./);
+  assert.match(page(s), /Try sending again/);
   offline = false; navigator.onLine = true;
   await h.fire(h.document.body, 'online', { bubbles: true });
   await h.advance(500);
   assert.equal(s.submitted().length, 2, 'the time-up try, then the one on reconnect (none while offline)');
   assert.equal(Object.keys(s.submitted().at(-1).body.answers).length, 2);
+});
+
+test('B8: still offline 7 days after the timer, the banner says the paper could not be saved and offers a new one, no retry', async (t) => {
+  const replies = (url) => { if (url === '/api/attempts') throw fail('Network error — check your connection', { kind: 'network' }); };
+  const s = await h.mount(quick({ replies }));
+  t.after(() => { navigator.onLine = true; return s.unmount(); });
+  await answer(2);
+  navigator.onLine = false;
+  await h.advance(300000 + 7 * 24 * 60 * 60 * 1000 + 1000, { coarse: true });
+  assert.match(page(s), /This paper could not be saved\. It was not sent within 7 days of its timer ending, so it has no result\./);
+  assert.match(page(s), /Start a new paper/);
+  assert.doesNotMatch(page(s), /Try sending again/);
+  const banner = h.text(h.find('.runner-submit-error')[0]);
+  assert.doesNotMatch(banner, /!/);
+  assert.match(banner, /Start a new paper$/);
 });
 
 test('B2: the phone\'s Back opens the Leave sheet; Keep answering stays; the result replaces the paper and Back never traps', async (t) => {

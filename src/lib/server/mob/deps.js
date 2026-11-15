@@ -22,6 +22,7 @@ import blocklist from '@/../data/mob_name_blocklist.json';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
 import { createReportAlert } from './reportAlert';
+import { readLatePapersSoft, readMockScores } from '@/lib/server/latePapers';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
 // The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
@@ -123,8 +124,10 @@ async function findAttempts(userIds, { mobId, week, extraId = null, gameId = nul
   const { data, error } = await supabaseAdmin().from('attempts').select('id,user_id,correct,total,details,selection_meta,completed_at')
     .in('user_id', userIds).contains('selection_meta', tag).limit(20);
   if (error) throw error;
-  // A weekly paper is neither an extra paper nor a Mob game's full mock (both carry the week too).
+  // A weekly paper is neither an extra paper nor a Mob game's full mock (both carry the week too). A late paper (B8, 15 Nov
+  // 2026: sent after its upload grace) counts for its student only, never for the Mob's marks.
   return (data || [])
+    .filter((r) => r.selection_meta?.late !== true)
     .filter((r) => Boolean(r.selection_meta?.mobPaper?.extraId) === Boolean(extraId) && Boolean(r.selection_meta?.mobPaper?.gameId) === Boolean(gameId))
     .map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], selectionMeta: r.selection_meta || {}, completedAt: Date.parse(r.completed_at) }));
 }
@@ -164,6 +167,9 @@ export function mobService() {
     validChapter, pickQuestionIds, loadQuestions, loadQuestionsLight, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
     v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, formatsEnabled: mobFormatsEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
     onReport: onMobReport,
+    // B8 (15 Nov 2026): a late paper makes no chain day and no Fold (games.js and chain.js take them off the applied SQL's counts).
+    latePapers: (userId) => readLatePapersSoft(supabaseAdmin(), { userId }),
+    mockScores: (userId) => readMockScores(supabaseAdmin(), userId),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });

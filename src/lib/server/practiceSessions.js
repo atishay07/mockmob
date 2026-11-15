@@ -15,9 +15,10 @@ import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { lateMeta, lateSubmission, submitTiming } from '@/../data/late_paper';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
 import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
-import { firstFullMockFor, takeFirstFullMock } from './firstFullMock';
+import { firstFullMockFor, releaseFirstFullMock, takeFirstFullMock } from './firstFullMock';
 import { claimPracticeStart, paperOf, releasePracticeStart } from './practiceStart';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -136,9 +137,25 @@ export async function startPractice(userId, input, server = {}) {
     throw firstFullMockTakenError(firstFullMock === 'used' ? 'taken' : 'off');
   }
   if (durableLearningEnabled()) {
-    const { quota } = charge;
-    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
-    if (error) throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
+    let { creditAction, quota } = charge;
+    // STATUS.md 622 (15 Nov 2026): start_learning_session took the free row itself and, when another start had just taken it,
+    // charged attempt_full without a warning. The free first full mock is now taken here, before the session, exactly as the
+    // device-held start takes it (takeFirstFullMock): the row's primary key lets one start have it, a start whose own read said
+    // free that finds it taken is refused with FIRST_FULL_MOCK_TAKEN and charged nothing, and the start holding it passes no
+    // charge and no quota. SESS-FOLLOWUP 4: the row is taken outside start_learning_session's transaction, so a session that then
+    // fails to start gives the row back (releaseFirstFullMock; kept while a session with this id exists), and the subject's free
+    // full mock is not spent on a paper that never started.
+    let tookFree = false;
+    if (charge.firstFullMock === true) {
+      const free = await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `recovery:${id}`, state: firstFullMock });
+      quota = null;
+      if (free) { creditAction = null; tookFree = true; }
+    }
+    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
+    if (error) {
+      if (tookFree) await releaseFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id });
+      throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
+    }
     return publicSessionView(data);
   }
   // Past the deadline and the upload grace there is nothing left to resume, and nothing may restart.
@@ -170,19 +187,27 @@ export async function finishPractice(userId, input) {
     if (existing.userId !== userId) throw new Error('SESSION_NOT_FOUND');
     return existing;
   }
-  if (Date.now() > Date.parse(row.expires_at) + 120000) throw new Error('SESSION_EXPIRED');
-  const duration = Math.min(Date.parse(row.expires_at) - Date.parse(row.created_at), Date.now() - Date.parse(row.created_at) + 2000);
+  // B8 (15 Nov 2026): a send after the upload grace is a late paper, accepted for 7 days (data/late_paper.js); after that it is
+  // refused as before. The ticket proves the start, and a late paper scores only what its events say by the deadline.
+  const now = Date.now();
+  const timing = submitTiming(Date.parse(row.expires_at), now);
+  if (timing === 'expired') throw new Error('SESSION_EXPIRED');
+  const late = timing === 'late';
+  const limit = Date.parse(row.expires_at) - Date.parse(row.created_at);
+  const duration = late ? limit : Math.min(limit, now - Date.parse(row.created_at) + 2000);
+  const sent = late ? lateSubmission(row.questions, input.events, limit) : { answers: input.answers || {}, events: input.events || [] };
   // A per-answer check (B13) makes that answer final, whatever the client submits for it now.
   const checked = await checkedAnswersForSubmit(supabaseAdmin(), row.id, userId);
-  const result = scorePracticeSubmission(row.questions, applyCheckedAnswers(input.answers || {}, checked), input.events || [], duration);
+  const result = scorePracticeSubmission(row.questions, applyCheckedAnswers(sent.answers, checked), sent.events, duration);
   // Observations from device-held telemetry are not certified recovery evidence.
   const score = result;
   try {
     const saved = await Database.addAttempt({ ...score, id: row.id, userId, subject: row.subject,
-      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, input.events) } });
+      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, sent.events), ...(late ? lateMeta(now) : {}) } });
     // A finished Mob paper counts for the Mob's ring (never throws; a sitting after Sunday 11:59 PM IST is not recorded).
     // The durable path (finishSession) is credited when a member next reads the Mob (mob/service.js syncSittings).
-    if (row.selection_meta?.mobPaper) await (await import('./mob/deps')).recordMobSitting(userId, saved).catch(() => null);
+    // A late paper never does (B8): the Mob's marks compare members.
+    if (row.selection_meta?.mobPaper && !late) await (await import('./mob/deps')).recordMobSitting(userId, saved).catch(() => null);
     return saved;
   } catch (error) {
     if (error.code !== '23505') throw error;

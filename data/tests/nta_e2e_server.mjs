@@ -36,6 +36,8 @@ http.createServer(async (request, response) => {
       attempts: h.fake.table('attempts').map(({ questions_snapshot, details, ...rest }) => ({ ...rest, snapshot: questions_snapshot?.length, details: details?.length })),
       sessions: h.fake.table('recovery_sessions').map((row) => ({ id: row.id, state: row.state, events: row.events?.length })),
       progress: h.fake.table('user_question_progress').length, writes: h.fake.store.calls.writes.length,
+      credits: Object.fromEntries(h.fake.table('users').map((row) => [row.id, row.credit_balance])),
+      allowances: h.fake.table('learning_allowances').map(({ user_id, kind, period, reference }) => ({ user_id, kind, period, reference })),
     });
   }
   if (url.pathname === '/__driver.js') {

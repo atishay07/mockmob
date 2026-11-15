@@ -100,8 +100,11 @@ export function toneFor({ held, firstMock, current, previousComparable }) {
 export function buildRecap(attempt, allAttempts, answerReviews, answerReviewState = 'ready') {
   const previousComparable = findPreviousComparable(attempt, allAttempts);
   const cur = attemptMarks(attempt);
+  // A late paper (B8: sent after its time, its answers may have been looked up) is never celebrated as a first mock or a jump on
+  // the last one: its tone is plain (or held), and the previous paper is still named for the student's own reading.
+  const late = attempt?.selectionMeta?.late === true;
   return {
-    tone: toneFor({ held: answerReviewState !== 'ready' || isHeld(answerReviews),firstMock: isFirstMockInSubject(attempt, allAttempts), current: cur, previousComparable }),
+    tone: toneFor({ held: answerReviewState !== 'ready' || isHeld(answerReviews), firstMock: !late && isFirstMockInSubject(attempt, allAttempts), current: cur, previousComparable: late ? null : previousComparable }),
     previousComparable,
     timingReliable: timingReliable(attempt),
     formatId: formatIdFor(attempt),

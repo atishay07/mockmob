@@ -25,14 +25,18 @@ test('a live paper gives the row its set, answered of total, time left and the f
   });
 });
 
-test('inside the upload grace the row offers to send the answers; past it the row is gone', () => {
+test('after the timer the row offers to send the answers, inside the grace and (B8) as a late paper for 7 days; then it is gone', () => {
   const grace = draft('gen-key-000002', { endsAt: now - 30000 });
   const [paper] = livePapers([entry('gen-key-000002', grace)], 'u1', now);
   assert.equal(paper.state, 'sending');
   assert.equal(resumeCopy(paper).key, 'Send');
   assert.equal(resumeCopy(paper).line, '3 of 10 answered. Time is up: open it to send your answers.');
-  assert.deepEqual(livePapers([entry('gen-key-000002', grace)], 'u1', now + SUBMISSION_GRACE_MS), []);
-  assert.deepEqual(livePapers([entry('gen-key-000003', draft('gen-key-000003', { endsAt: now - KEEP_AFTER_END_MS + 1000 }))], 'u1', now), [], 'a late paper is kept, never offered');
+  // B8 (15 Nov 2026): past the grace the server still takes the paper, late, for 7 days, so the row stays and sends it.
+  assert.equal(livePapers([entry('gen-key-000002', grace)], 'u1', now + SUBMISSION_GRACE_MS)[0].state, 'sending');
+  const late = livePapers([entry('gen-key-000003', draft('gen-key-000003', { endsAt: now - KEEP_AFTER_END_MS + 1000 }))], 'u1', now);
+  assert.equal(late.length, 1, 'a late paper is offered until its 7 days are over');
+  assert.equal(resumeCopy(late[0]).key, 'Send');
+  assert.deepEqual(livePapers([entry('gen-key-000003', draft('gen-key-000003', { endsAt: now - KEEP_AFTER_END_MS }))], 'u1', now), [], 'after 7 days it is gone');
 });
 
 test('only this user\'s papers, never a sent one, a broken one, an old-format one or one without the runner\'s own address', () => {

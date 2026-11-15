@@ -5,14 +5,16 @@
 //
 // The rule every part keeps: a submit never carries fewer answers than the newest draft on this device for this paper.
 import { SUBMISSION_GRACE_MS, draftMatches } from '../../../data/session_draft.js';
+import { LATE_WINDOW_MS } from '../../../data/late_paper.js';
 
-export { SUBMISSION_GRACE_MS };
+export { SUBMISSION_GRACE_MS, LATE_WINDOW_MS };
 export const DRAFT_VERSION = 2;
 /**
- * How long a paper that could not be sent (time and upload grace over, answers still on the device: B8) and the small
- * "sent" mark that replaces a submitted draft are kept. After this the sweep removes them.
+ * How long a paper that was not sent by the end of its upload grace (answers still on the device: B8) and the small "sent"
+ * mark that replaces a submitted draft are kept: the server takes a late paper for 7 days after its timer ends
+ * (data/late_paper.js), so the draft is kept exactly that long. After this the sweep removes them.
  */
-export const KEEP_AFTER_END_MS = 24 * 60 * 60 * 1000;
+export const KEEP_AFTER_END_MS = LATE_WINDOW_MS;
 
 export const draftPrefix = (userId) => `mm:test:${userId || 'anon'}:`;
 const PAPER_PART = 'paper:';
@@ -39,7 +41,7 @@ export const answeredCount = (answers) => Object.values(answers && typeof answer
 
 /**
  * What a sent paper leaves in its draft's place: enough for a Back to the paper's address to open its result at once
- * (B5), and for another tab of the same paper to say it was sent there (B12). Small, and swept a day after the deadline.
+ * (B5), and for another tab of the same paper to say it was sent there (B12). Small, and swept KEEP_AFTER_END_MS after the deadline.
  */
 export function sentMark({ attemptId, endsAt, generationKey = null, sessionId = null, now }) {
   return { v: DRAFT_VERSION, submitted: true, attemptId: String(attemptId), endsAt, generationKey, sessionId, savedAt: now };
@@ -57,8 +59,9 @@ export function sentMarkMatches(saved, { generationKey, sessionId } = {}) {
  * Where a stored draft is in its life:
  *   'live'   before the deadline: it can be resumed
  *   'grace'  past the deadline, inside the upload grace: reopening it sends these answers
- *   'late'   past the grace with answers that never reached the server (B8): kept a day on the device, never resumed
- *   'sent'   the paper was submitted; a small mark remains for a day
+ *   'late'   past the grace with answers that never reached the server (B8): kept 7 days on the device, never answered
+ *            again; reopening it sends it, and the server takes it as a late paper for those 7 days
+ *   'sent'   the paper was submitted; a small mark remains for KEEP_AFTER_END_MS
  *   'dead'   nothing worth keeping: removed by the sweep
  */
 export function draftFate(saved, now) {
@@ -71,7 +74,7 @@ export function draftFate(saved, now) {
   return 'dead';
 }
 
-/** A draft of this paper whose time and grace are over but whose answers never reached the server (B8). */
+/** A draft of this paper whose time and grace are over but whose answers never reached the server (B8): it can still be sent. */
 export function lateDraft(saved, match, now) {
   return draftMatches(saved, match) && draftFate(saved, now) === 'late';
 }

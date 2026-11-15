@@ -4,6 +4,8 @@ import { auth } from '@/lib/auth';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { computeBests } from '@/lib/server/recap';
 import { buildStudyRecord } from '@/lib/studyBadges';
+import { supabaseAdmin } from '@/lib/supabase';
+import { lateIds, readLatePapersSoft } from '@/lib/server/latePapers';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -18,7 +20,14 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: NO_STORE });
   }
   try {
-    const attempts = await Database.getAttempts(session.user.id, { slim: 'insights' }); // the summary function: ids, details, timings and recovery stay
+    const [all, late] = await Promise.all([
+      Database.getAttempts(session.user.id, { slim: 'insights' }), // the summary function: ids, details, timings and recovery stay
+      readLatePapersSoft(supabaseAdmin(), { userId: session.user.id }),
+    ]);
+    // A late paper (B8: sent after its time; the slim read drops selection_meta.late, so its ids are read apart) earns no badge,
+    // no best and no fastest answer. A failed late read is logged and the record is served as before.
+    const skip = lateIds(late);
+    const attempts = skip.size ? all.filter((a) => !skip.has(String(a.id))) : all;
     return NextResponse.json(buildStudyRecord(attempts, computeBests(attempts)), { headers: NO_STORE });
   } catch (e) {
     console.error('[api/me/study-record] GET failed:', e);

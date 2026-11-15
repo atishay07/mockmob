@@ -10,6 +10,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getRhythm } from './appPrefs';
 import { buildBadges, etagOf, ATTEMPT_LIMIT, SERVER_SCORING } from './badges';
+import { LATE_JSON } from './latePapers';
 
 export const CACHE_MS = 5 * 60 * 1000;
 const CACHE_MAX = 500;
@@ -21,6 +22,8 @@ async function loadAttemptRows(userId) {
   const { data, error } = await supabaseAdmin().from('attempts')
     .select('id,subject,correct,wrong,total,completed_at,mode:selection_meta->>mode,scoringVersion:selection_meta->>scoringVersion')
     .eq('user_id', userId).in('selection_meta->>scoringVersion', SERVER_SCORING)
+    // A late paper (B8: sent after its time, its answers may have been looked up) earns no badge: Clean set, New best and the rest.
+    .not('selection_meta', 'cs', LATE_JSON)
     .order('completed_at', { ascending: true }).limit(ATTEMPT_LIMIT);
   if (error) throw fail('BADGES_UNAVAILABLE', error);
   return data || [];

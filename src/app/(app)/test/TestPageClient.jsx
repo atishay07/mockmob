@@ -17,8 +17,8 @@ import { startSundayMock } from '@/components/sunday/useSunday';
 import { RUNNER_CODES, runnerProblem as sundayProblem } from '@/lib/sundayMock.mjs';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { fineTuneScope, getMode, isValidModeId, practiceCreditCost, resolveCount, resolveDurationSec } from '@/../data/test_modes';
-import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
-import { answeredCount, claimedElsewhere, draftsToSweep, isSentMark, lateDraft, legacyDraftKey, newestProgress, paperDraftKey, sentMark, sentMarkMatches, storedDrafts } from '@/lib/paper/draft.mjs';
+import { progressFromEvents, resumableDraft } from '@/../data/session_draft';
+import { LATE_WINDOW_MS, answeredCount, claimedElsewhere, draftsToSweep, isSentMark, lateDraft, legacyDraftKey, newestProgress, paperDraftKey, sentMark, sentMarkMatches, storedDrafts } from '@/lib/paper/draft.mjs';
 import { canOpenPaper, creditsProblem, elsewhereNotice, foreignNotice, lateNotice, placeWords, practiceHref, practiceHrefFromTest, startProblem, submitProblem, timeUpNotice, waitingCopy } from '@/lib/paper/problems.mjs';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { plainOptionTexts } from '@/../data/option_text';
@@ -493,8 +493,8 @@ function TestRunner() {
             return;
           }
           // A draft of this paper that can still be sent reopens with its answers; past the deadline the time-up submit
-          // sends them (B1). One whose time and grace are over but whose answers never left is reopened too, and its one
-          // submit tells the student plainly whether it could be scored (B8). The server's view never replaces it.
+          // sends them (B1). One whose time and grace are over but whose answers never left is reopened too and sent: the
+          // server takes it as a late paper for 7 days after the timer (B8). The server's view never replaces it.
           const late = !!saved && lateDraft(saved, match, Date.now());
           if (saved && (late || resumableDraft(saved, match))) {
             if (!alive) return;
@@ -1324,7 +1324,7 @@ function TestRunner() {
   // The submit banner's words: a paper held for a connection says what happens next (waitingCopy); any other failed send,
   // its sentence (submitProblem). Never a code.
   const submitNote = pendingSubmission
-    ? waitingCopy({ ticket: !!selectionMeta?.sessionTicket, msLeft: endsAt - now, msToGraceEnd: endsAt + SUBMISSION_GRACE_MS - now, place: placeNow() })
+    ? waitingCopy({ ticket: !!selectionMeta?.sessionTicket, msLeft: endsAt - now, msToLateEnd: endsAt + LATE_WINDOW_MS - now, place: placeNow() })
     : error;
   // A Mob paper (/test?mob=1) is the Mob's weekly paper, not Quick practice, whatever the mode in the address says.
   const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : mode.label;
@@ -1850,14 +1850,14 @@ function TestRunner() {
       {/* R8 PRAC-16: while all is well (online, saving) the note is for screen readers only; it shows when offline, waiting or held. */}
       <div role="status" className={`runner-sync-state${!pendingSubmission && online && syncStatus !== 'pending' ? ' is-quiet' : ''}`}>{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Saved on this device. Stay online to submit.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
       {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={() => submitTest()} submitting={submitting} error={submitNote} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
-      {/* A paper not sent yet: what happened and the one way forward. Held for a connection, it sends itself; past the upload
-          grace there is no retry key (B8). */}
+      {/* A paper not sent yet: what happened and the one way forward. Held for a connection, it sends itself, and the server
+          takes it late for 7 days after the timer (B8); after that there is no retry key, only a new paper. */}
       {submitNote && integrity.alert?.phase !== 'terminated' && (
         <div role="alert" className="runner-submit-error">
           <p>{submitNote}</p>
           {errorLink
             ? <Link href={errorLink.href}>{errorLink.label}</Link>
-            : !pendingSubmission || now < endsAt + SUBMISSION_GRACE_MS ? <button type="button" onClick={() => submitTest()} disabled={submitting}>Try sending again</button> : null}
+            : !pendingSubmission || now < endsAt + LATE_WINDOW_MS ? <button type="button" onClick={() => submitTest()} disabled={submitting}>Try sending again</button> : <Link href={practiceLink}>Start a new paper</Link>}
         </div>
       )}
       {showVoteCoach && (

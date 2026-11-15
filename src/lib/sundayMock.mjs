@@ -31,7 +31,8 @@ export const PAPER_COUNT = 50; // data/test_modes.js full.fixedCount
 export const PAPER_MINUTES = 60; // data/test_modes.js full.fixedDurationSec / 60
 export const MARK_RIGHT = 5;
 export const MARK_WRONG = 1;
-// The finish paths' own grace after a paper's deadline (finishPractice and finishSession refuse a send later than this).
+// The finish paths' own grace after a paper's deadline. A device-held paper sent later than this is still kept for its student
+// as a late paper (data/late_paper.js, up to 7 days), but the store leaves every late paper out of the counts, shares and den.
 export const FINISH_GRACE_MS = 2 * 60_000;
 // The share of sitters who got a question right is shown only once this many sat the paper (owner decision).
 export const SHARE_FLOOR = 30;

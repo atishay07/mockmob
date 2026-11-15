@@ -46,12 +46,13 @@ function Score({ value, negative, tone, run, ring }) {
  * reaction  mobiReaction(...) or null (NTA, Celebrations off)
  * still     Mobi holds still once the student is reading or repairing
  * notice    { text, number } a key under re-check or a correction, or null
+ * lateLine  the one quiet line on a paper sent after its time (B8), or null
  * strip     the answer map (rendered by the page; it owns the jumps)
  * legend    one line under the map naming its markers (ARC-10), or null
  * repairReceipt  { lead, strong } what the repairs made before this paper did on it (data/repair_receipt.mjs), or null
  * next      the next-move panel (rendered by the page)
  */
-export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, onNotice, arrive = false, strip = null, legend = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
+export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, lateLine = null, onNotice, arrive = false, strip = null, legend = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : null;
   const tone = marks.scored < 0 ? 'bad' : marks.max && marks.scored / marks.max >= 0.4 ? 'good' : 'mid';
@@ -72,6 +73,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
         <p className="rh-verdict">{verdict}</p>
         {finding?.detail && marks.gap ? <p className="rp-hero__line">{finding.detail}{reaction?.line ? ` ${reaction.line}` : ''}</p> : reaction?.line ? <p className="rp-hero__line">{reaction.line}</p> : null}
         {repairReceipt ? <p className="rh-receipt">{repairReceipt.lead} <b>{repairReceipt.strong}</b></p> : null}
+        {lateLine ? <p className="rh-receipt" data-late="">{lateLine}</p> : null}
         {notice ? (
           <p className="rx-notice" role="status">
             <AlertTriangle size={15} strokeWidth={2.2} aria-hidden="true" />
