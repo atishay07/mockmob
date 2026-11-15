@@ -17,8 +17,15 @@ function Action({ action, onAct, className, primary = false }) {
  * lesson   an optional tertiary link (the chapter lesson) for a practise move
  * paperHref the "Take another fresh paper" link for the harder move's alternative
  * flat     drawn inside the result's summary card (N12): no panel of its own, so no card sits in a card
+ * tomorrow one quiet line at the foot: the real reason to come back tomorrow (src/components/result/tomorrowLine.mjs), or null
  */
-export default function NextMove({ move, onAct, lesson = null, paperHref = null, arrive = false, flat = false }) {
+// "Tomorrow: these 3 mistakes come back in Revise. About 5 minutes." The day before the colon is set in ink.
+function TomorrowLine({ line }) {
+  const at = line.indexOf(': ');
+  return <p className="rx-next__tomorrow">{at > 0 ? <><b>{line.slice(0, at + 1)}</b>{line.slice(at + 1)}</> : line}</p>;
+}
+
+export default function NextMove({ move, onAct, lesson = null, paperHref = null, arrive = false, flat = false, tomorrow = null }) {
   if (!move) return null;
   const key = { kind: move.kind, target: move.target, label: move.label, href: move.kind === 'practise' || move.kind === 'harder' ? move.target?.href : null };
   const alt = move.alt ? {
@@ -44,6 +51,7 @@ export default function NextMove({ move, onAct, lesson = null, paperHref = null,
           {lesson}
         </div>
       ) : null}
+      {tomorrow ? <TomorrowLine line={tomorrow} /> : null}
     </section>
   );
 }
