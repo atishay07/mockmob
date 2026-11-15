@@ -47,7 +47,11 @@ export async function POST(request) {
     if (!user) return reply({ error: 'We could not find your account. Sign in again.', code: 'no_user' }, 404);
 
     const opened = await openMonthlyCheckout({ user, plan, parentLink: true });
-    if (!opened.ok) return reply({ error: opened.error, ...(opened.code ? { code: opened.code } : {}) }, opened.status);
+    if (!opened.ok) {
+      // Razorpay's own refusal text is for us (it is logged), not for a 16-year-old.
+      const error = opened.code === 'razorpay_rejected' ? 'Razorpay could not make the link just now. Try again in a minute. Nothing was charged.' : opened.error;
+      return reply({ error, ...(opened.code ? { code: opened.code } : {}) }, opened.status);
+    }
     // Aggregate funnel: a checkout was opened for this student (once per person; no-op while FUNNEL_ENABLED is off).
     if (!opened.reused) countStepOnce(userId, 'checkout_opened', request.headers);
 

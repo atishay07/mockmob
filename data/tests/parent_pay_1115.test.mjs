@@ -206,6 +206,7 @@ test('Razorpay refusing the subscription writes nothing and says nothing was cha
   try {
     const res = await ask();
     assert.deepEqual([res.status, res.json.code], [400, 'razorpay_rejected']);
+    assert.equal(res.json.error, 'Razorpay could not make the link just now. Try again in a minute. Nothing was charged.', 'Razorpay\'s own text is not shown to the student');
     assert.equal(db._payments.length, 0);
   } finally {
     client.subscriptions.create = create;
