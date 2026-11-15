@@ -30,6 +30,6 @@ html[data-motion='reduced'] .mm-wait { animation: none; }
   padding: 24px 16px;
   color: var(--a-ink-3, #a09989);
 }
-.ui-page-wait .pip-state { width: 40px; height: 52px; }
+.ui-page-wait .pip-state { width: 40px; height: 56px; min-height: 0; margin: 0; }
 .ui-page-wait__label { font-size: 15px; line-height: 1.5; }
 
