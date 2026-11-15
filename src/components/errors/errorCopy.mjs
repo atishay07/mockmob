@@ -11,7 +11,7 @@ export const ERROR_COPY = Object.freeze({
   // The test runner keeps a draft of the paper in this browser's storage after every change (TestPageClient.jsx, the draft
   // effect), so every answer the student saw on screen was saved before a later render could crash; "Reopen your paper"
   // mounts the runner again and it reads that draft back (data/session_draft.js resumableDraft).
-  paperLine: 'Your answers so far are saved on this phone.',
+  paperLine: 'Your answers so far are saved on this device.',
   paperRetry: 'Reopen your paper',
   toPractice: 'Go to Practice',
   referenceLabel: 'Reference',

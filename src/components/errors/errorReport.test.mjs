@@ -133,6 +133,6 @@ test('the words are plain: no exclamation mark, no emoji, no arrows, no codes', 
   }
   assert.equal(ERROR_COPY.heading, 'Something broke on our side.');
   assert.equal(ERROR_COPY.line, 'Your account and your answers are safe. Try again, and if it keeps happening, tell us at support@mockmob.in.');
-  assert.equal(ERROR_COPY.paperLine, 'Your answers so far are saved on this phone.');
+  assert.equal(ERROR_COPY.paperLine, 'Your answers so far are saved on this device.');
   assert.deepEqual([ERROR_COPY.retry, ERROR_COPY.paperRetry, ERROR_COPY.toToday, ERROR_COPY.toHome, ERROR_COPY.toPractice], ['Try again', 'Reopen your paper', 'Go to Today', 'Go to the home page', 'Go to Practice']);
 });
