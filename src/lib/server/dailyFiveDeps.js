@@ -2,7 +2,7 @@ import 'server-only';
 // Production wiring for the Daily Five's account routes (src/lib/server/dailyFiveAccount.js has the rules): Supabase (service
 // role), the session, the database limiter, the same-origin rule and the token key. The routes under src/app/api/daily import
 // dailyHandlers() and nothing else.
-import { auth } from '@/lib/auth';
+import { auth, authWithStatus } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { mobileOptions } from '@/lib/server/mobileCors';
@@ -18,6 +18,8 @@ export function dailyHandlers() {
   const daily = createDailyFive({ windows: createDailyWindows({ db: () => supabaseAdmin() }), key });
   cached = createDailyHandlers({
     auth: (request) => auth(request),
+    // The answer check tells a transient lookup failure from a signed-out visitor (dailyFiveAccount.js postCheck).
+    authStatus: (request) => authWithStatus(request),
     rateLimit: checkPersistentRateLimit,
     // The proxy already refuses a cross-site write (src/proxy.js); the route checks it again with the same rule.
     originOk: (request) => allowedWriteOrigin({

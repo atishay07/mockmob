@@ -148,7 +148,11 @@ export function createDailyHandlers(deps) {
   return {
     async postCheck(request) {
       if (!deps.originOk(request)) return reply(403, CROSS_SITE_BODY);
-      const userId = await userOf(request);
+      // A sign-in lookup that failed for a moment (Supabase unreachable) must not make a signed-in student a guest: the
+      // answer would arrive unrecorded and the account would miss that day's five. 503, and the page asks again.
+      const status = deps.authStatus ? await Promise.resolve(deps.authStatus(request)).catch(() => ({ session: null, transient: true })) : null;
+      if (status?.transient) return reply(503, { error: 'unavailable' });
+      const userId = status ? (status.session?.user?.id || null) : await userOf(request);
       // Signed in: per student, kept in the database across every server. A guest: per network.
       const limit = userId ? await take(request, 'checkUser', userId, { persistent: true }) : await take(request, 'checkNet', null);
       if (!limit.allowed) return limited(limit);

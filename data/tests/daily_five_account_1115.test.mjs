@@ -169,6 +169,20 @@ function harness({ userId = 'u-1', now = NOW, members = [], failOn = null, allow
   return { db, limits, store, handlers, tokens, check, answer, playAll, me, ids, keys };
 }
 
+test('the check: a sign-in lookup that failed for a moment answers 503, never a guest\'s unrecorded answer', async () => {
+  const h = harness();
+  const make = (authStatus) => createDailyHandlers({ auth: async () => null, authStatus, rateLimit: async () => ({ allowed: true }), originOk: () => true, store: h.store, key: KEY, five: async () => null, mobEnabled: () => true, now: () => NOW });
+  const post = (handlers) => handlers.postCheck(new Request('https://www.mockmob.in/api/daily/check', { method: 'POST', body: JSON.stringify({ token: h.tokens[0], pick: 'B' }) }));
+  const blip = await post(make(async () => ({ session: null, transient: true })));
+  assert.equal(blip.status, 503);
+  assert.doesNotMatch(JSON.stringify(await blip.json()), /correct|why/, 'no key on a 503');
+  assert.equal((await post(make(async () => { throw new Error('down'); }))).status, 503, 'a thrown lookup is treated as a blip');
+  const signedIn = await (await post(make(async () => ({ session: { user: { id: 'u-1' } }, transient: false })))).json();
+  assert.equal(signedIn.recorded, true, 'a resolved session records as before');
+  const guest = await (await post(make(async () => ({ session: null, transient: false })))).json();
+  assert.equal(guest.recorded, false, 'signed out: a guest, as before');
+});
+
 test('the check: guests get right or wrong, the right option and the reason, and nothing is stored for them', async () => {
   const h = harness({ userId: null });
   const res = await h.answer(1, 'A');

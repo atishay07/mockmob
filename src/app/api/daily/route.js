@@ -11,7 +11,9 @@ import {
 // GET /api/daily?day=<n>: today's Daily Five (src/lib/dailyFive.mjs), the same five CUET questions for every visitor, for the
 // public page /daily. Public, no sign-in. Every question comes from the public sample's windows (readDailyWindow, the sample's
 // own window step for step; the rules in src/lib/server/dailyFive.js and src/lib/server/demoSample.js), in the sample's shape,
-// each with its sealed token for a signed-in student's save (POST /api/daily/me). No question id leaves.
+// each with its sealed token, which POST /api/daily/check opens to answer one pick (and, signed in, records the first). No
+// question id and no key leaves. The questions are the public sample's, whose own route shows their answers: the Daily Five
+// is an honour system, not a contest.
 //
 // Caching: the day is in the address and only today is served, so the CDN keeps one answer per day, until 12:00 am IST and no
 // longer (no stale serving: after midnight the old day is refused here and the page asks for the new one). Browsers keep it
