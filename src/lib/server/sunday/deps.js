@@ -12,10 +12,11 @@ import { normalizeSubjectSelection, toPublicSubjectId } from '@/../data/cuet_con
 import { servedOut } from '@/../data/option_order';
 import { createSundayService } from './service';
 import { createSundayStore } from './store';
+import { sundayMockEnabled } from '@/lib/sundayFlag.mjs';
 
-// The kill switch: SUNDAY_MOCK_ENABLED=false turns every /api/sunday route, the Today card, the Practice row, the den block and
-// the public page off. Anything else (unset included) leaves the Sunday Mock on: it needs no migration.
-export const sundayMockEnabled = () => process.env.SUNDAY_MOCK_ENABLED !== 'false';
+// The kill switch (src/lib/sundayFlag.mjs): SUNDAY_MOCK_ENABLED=false turns the Sunday Mock off; unset leaves it on.
+export { sundayMockEnabled };
+// The generation key's secret (service.js sundayGenerationKey): any of these server secrets; each student's key stays unguessable.
 const secret = () => process.env.SUNDAY_MOCK_SECRET || process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 /** A launchable CUET subject: the stored id the practice engine uses, its public id (the runner's address) and official name. */

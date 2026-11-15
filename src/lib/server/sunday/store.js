@@ -72,11 +72,11 @@ export function createSundayStore(db) {
 
     /** This student's sent Sunday papers since `sinceMs`: [{ id, subject, week, correct, wrong, unattempted, total, completedAt }]. */
     async findMine(userId, sinceMs) {
-      const { data, error } = await c().from('attempts').select('id,subject,correct,wrong,unattempted,total,completed_at,selection_meta')
+      const { data, error } = await c().from('attempts').select('id,subject,correct,wrong,unattempted,total,completed_at,mobPaper:selection_meta->mobPaper')
         .eq('user_id', userId).contains('selection_meta', tagOf(null)).gte('completed_at', iso(sinceMs)).limit(60);
       if (error) fail(error);
       return (data || []).map((r) => ({
-        id: r.id, subject: r.subject, week: r.selection_meta?.mobPaper?.weekStart || null,
+        id: r.id, subject: r.subject, week: r.mobPaper?.weekStart || null,
         correct: r.correct, wrong: r.wrong, unattempted: r.unattempted, total: r.total, completedAt: ms(r.completed_at),
       }));
     },

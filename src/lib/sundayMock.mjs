@@ -257,6 +257,7 @@ export function startRefusalCopy(code, ctx = {}) {
     case 'PAPER_UNAVAILABLE': return { title: 'This paper could not be put together', message: `There are not enough checked ${name} questions for a full paper this week. Try another of your subjects.` };
     case 'PAPER_EXPIRED': return { title: 'Your time on this paper is over', message: 'You started it earlier and its 60 minutes have passed. One sitting a subject each Sunday.' };
     case 'SUBJECT_NOT_SUPPORTED': return { title: 'This subject has no Sunday Mock', message: 'Choose one of your subjects on the Sunday Mock page.' };
+    case 'SUNDAY_OFF': return { title: 'The Sunday Mock is paused', message: 'It is switched off for now. Practice is open as usual.' };
     default: return { title: 'The paper did not open', message: 'Something went wrong on our side. Try again in a moment.' };
   }
 }
@@ -285,3 +286,97 @@ export function subjectState({ state, attempt = null, claim = null, now }) {
   if (!state) return 'soon';
   return state.phase === 'open' ? 'open' : state.phase === 'before' ? 'soon' : 'closed';
 }
+
+// ---------- What each surface draws, from GET /api/sunday (the status) ----------
+
+const stateOf = (s) => ({ phase: s.phase, dow: s.dow, week: s.week, opensAt: Date.parse(s.opensAt), closesAt: Date.parse(s.closesAt) });
+const named = (list) => list.map((x) => `${x.name}: ${marksLine(x.marks)}`).join('. ');
+const subjectHref = (s, sub) => sundayPaperHref(s.week, sub.id);
+
+/**
+ * Today's card, or null for a day it has nothing to say. Saturday: it opens tomorrow. Sunday before 10:00 AM: it opens today.
+ * Sunday in the window: open until 10:00 PM, with the start key (or Resume, or the marks once sat). Sunday night: the result or
+ * the next Sunday. Monday: yesterday's result, only for a student who sat it. Tuesday to Friday: nothing.
+ * { title, line, key?: { label, href }, href? } — `key` is a quiet key (Today's volt stays the lead card's); `href` makes the
+ * whole card the link instead.
+ */
+export function todayCard(s) {
+  if (!s || !Array.isArray(s.subjects) || !s.subjects.length) return null;
+  const st = stateOf(s);
+  const subs = s.subjects;
+  const sat = subs.filter((x) => x.state === 'sat');
+  if (st.phase === 'before') {
+    if (st.dow === 6 || st.dow === 0) {
+      return { title: st.dow === 6 ? 'Sunday Mock tomorrow' : 'Sunday Mock today', line: `${timeLabel(st.opensAt)} to ${timeLabel(st.closesAt)}. One full paper in each of your subjects, the same for everyone. Free.`, href: '/sunday' };
+    }
+    const prev = s.previous?.subjects || [];
+    if (st.dow === 1 && prev.length) {
+      const n = prev.length === 1 ? satLine(prev[0].sat) : '';
+      return { title: 'Your Sunday Mock', line: `${named(prev)}.${n ? ` ${n}` : ''} The answers are open.`, href: prev.length === 1 ? resultHref(prev[0].resultId) : '/sunday' };
+    }
+    return null;
+  }
+  if (st.phase === 'closed') {
+    if (sat.length) {
+      const n = sat.length === 1 ? satLine(sat[0].sat) : '';
+      return { title: 'Your Sunday Mock', line: `${named(sat)}.${n ? ` ${n}` : ''} The answers are open now.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
+    }
+    return { title: 'Next Sunday Mock', line: `${windowLine(s.next)}. One full paper in each of your subjects, free.`, href: '/sunday' };
+  }
+  // Open.
+  const started = subs.find((x) => x.state === 'started');
+  if (started) {
+    return { title: 'Sunday Mock is open', line: `You started ${started.name}. Your time runs until ${timeLabel(Date.parse(started.resumeUntil))}.`, key: { label: SUNDAY_COPY.resume, href: subjectHref(s, started) } };
+  }
+  const open = subs.filter((x) => x.state === 'open');
+  if (open.length) {
+    const before = sat.length ? `${named(sat)}. ` : '';
+    const line = sat.length ? `${before}${open.length === 1 ? `${open[0].name} is open` : 'Your other subjects are open'} until ${timeLabel(st.closesAt)}.` : `${openUntilLine(st)}. 50 questions, 60 minutes, free. Everyone sits the same paper.`;
+    const key = open.length === 1
+      ? { label: sat.length ? `Sit ${open[0].name}` : SUNDAY_COPY.sitIt, href: subjectHref(s, open[0]) }
+      : { label: SUNDAY_COPY.chooseSubject, href: '/sunday' };
+    return { title: 'Sunday Mock is open', line, key };
+  }
+  if (sat.length) {
+    return { title: 'You sat the Sunday Mock', line: `${named(sat)}. The answers open at ${timeLabel(st.closesAt)}.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
+  }
+  return { title: 'Sunday Mock is open', line: `Your time on today's paper is over. The answers open at ${timeLabel(st.closesAt)}.`, href: '/sunday' };
+}
+
+/** Practice's one quiet row: { title, line } for every day (it opens /sunday). Null without subjects. */
+export function practiceLine(s) {
+  if (!s || !Array.isArray(s.subjects) || !s.subjects.length) return null;
+  const st = stateOf(s);
+  const when = st.phase === 'open' ? `Open now until ${timeLabel(st.closesAt)}` : st.phase === 'closed' ? `Next: ${windowLine(s.next)}` : windowLine(s.week);
+  return { title: SUNDAY_NAME, line: `${when}. Free.` };
+}
+
+/**
+ * One subject's row on the Sunday Mock page: { line, key?: { label, href }, link?: { label, href } }.
+ */
+export function subjectRow(s, sub) {
+  const st = stateOf(s);
+  switch (sub.state) {
+    case 'sat': {
+      const after = st.phase === 'closed' ? (satLine(sub.sat) || 'The answers are open.') : `The answers open at ${timeLabel(st.closesAt)}.`;
+      return { line: `You sat it: ${marksLine(sub.marks)}. ${after}`, link: { label: SUNDAY_COPY.seeResult, href: resultHref(sub.resultId) } };
+    }
+    case 'started': return { line: `You started it. Your time runs until ${timeLabel(Date.parse(sub.resumeUntil))}.`, key: { label: SUNDAY_COPY.resume, href: subjectHref(s, sub) } };
+    case 'unsent': return { line: 'You started it, and its 60 minutes ran out before it was sent.' };
+    case 'open': return { line: 'Not sat yet.', key: { label: SUNDAY_COPY.sitIt, href: subjectHref(s, sub) } };
+    case 'soon': return { line: `${opensLine(st)}.` };
+    default: return { line: `You did not sit it this week. The next one is on ${dateLabel(s.next)}.` };
+  }
+}
+
+/** The runner's page for a refused Sunday start: { kind, title, message, keys }. `error` is the fetch error (message = code, body). */
+export function runnerProblem(error) {
+  const code = String(error?.message || '');
+  const d = error?.body?.detail || {};
+  const ctx = { week: d.week, next: d.next, opensAt: Date.parse(d.opensAt || ''), closesAt: Date.parse(d.closesAt || ''), subjectName: d.subjectName };
+  const { title, message } = startRefusalCopy(code, ctx);
+  return { kind: 'sunday', title, message, keys: [{ label: 'Back to Sunday Mock', href: '/sunday', primary: true }] };
+}
+
+/** The codes the runner shows with runnerProblem (anything else goes to the runner's own start problems). */
+export const RUNNER_CODES = new Set(['NOT_OPEN', 'CLOSED', 'NOT_YOUR_SUBJECT', 'PAPER_UNAVAILABLE', 'PAPER_EXPIRED', 'SUBJECT_NOT_SUPPORTED', 'UNAVAILABLE', 'SUNDAY_OFF']);

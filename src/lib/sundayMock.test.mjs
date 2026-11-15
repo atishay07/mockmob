@@ -162,3 +162,64 @@ test('a subject\'s state this week, from the student\'s own facts', () => {
   const late = IST('2026-11-22T22:30:00');
   assert.equal(subjectState({ state: sundayState(late), claim: { startedAt: IST('2026-11-22T21:50:00') }, now: late }), 'started');
 });
+
+import { practiceLine, runnerProblem, subjectRow, todayCard } from './sundayMock.mjs';
+
+/** A status as GET /api/sunday answers it, at an IST instant, with the subjects given. */
+function statusAt(s, subjects, previous = null) {
+  const st = sundayState(IST(s));
+  return { week: st.week, phase: st.phase, dow: st.dow, serverNow: IST(s), opensAt: new Date(st.opensAt).toISOString(), closesAt: new Date(st.closesAt).toISOString(), next: st.next, subjects, previous };
+}
+const acc = (state, extra = {}) => ({ id: 'accountancy', name: 'Accountancy', state, ...extra });
+const eco = (state, extra = {}) => ({ id: 'economics', name: 'Economics', state, ...extra });
+
+test('Today\'s card: Saturday, Sunday morning, open, sat and waiting, closed, Monday; nothing midweek or without subjects', () => {
+  const sat = todayCard(statusAt('2026-11-21T18:00:00', [acc('soon')]));
+  assert.deepEqual(sat, { title: 'Sunday Mock tomorrow', line: '10:00 AM to 10:00 PM. One full paper in each of your subjects, the same for everyone. Free.', href: '/sunday' });
+  assert.equal(todayCard(statusAt('2026-11-22T08:00:00', [acc('soon')])).title, 'Sunday Mock today');
+  assert.equal(todayCard(statusAt('2026-11-18T12:00:00', [acc('soon')])), null, 'Wednesday says nothing');
+  assert.equal(todayCard(statusAt('2026-11-22T11:00:00', [])), null);
+  assert.equal(todayCard(null), null);
+  const one = todayCard(statusAt('2026-11-22T11:00:00', [acc('open')]));
+  assert.equal(one.key.label, 'Sit it');
+  assert.equal(one.key.href, sundayPaperHref('2026-11-22', 'accountancy'));
+  assert.match(one.line, /^Open until 10:00 PM\./);
+  assert.deepEqual(todayCard(statusAt('2026-11-22T11:00:00', [acc('open'), eco('open')])).key, { label: 'Choose a subject', href: '/sunday' });
+  const some = todayCard(statusAt('2026-11-22T14:00:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } }), eco('open')]));
+  assert.equal(some.line, 'Accountancy: 160/250. Economics is open until 10:00 PM.');
+  assert.equal(some.key.label, 'Sit Economics');
+  const running = todayCard(statusAt('2026-11-22T11:20:00', [acc('started', { resumeUntil: new Date(IST('2026-11-22T12:02:00')).toISOString() }), eco('open')]));
+  assert.deepEqual(running.key.label, 'Resume');
+  assert.match(running.line, /until 12:02 PM/);
+  const waiting = todayCard(statusAt('2026-11-22T17:30:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })]));
+  assert.deepEqual(waiting, { title: 'You sat the Sunday Mock', line: 'Accountancy: 160/250. The answers open at 10:00 PM.', href: '/result/a1' });
+  const closed = todayCard(statusAt('2026-11-22T22:30:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 1240 }), eco('closed')]));
+  assert.equal(closed.line, 'Accountancy: 160/250. 1,240 students sat this paper. The answers are open now.');
+  assert.equal(closed.href, '/result/a1');
+  const none = todayCard(statusAt('2026-11-22T22:30:00', [acc('closed')]));
+  assert.equal(none.title, 'Next Sunday Mock');
+  assert.match(none.line, /^Sunday 29 Nov, 10:00 AM to 10:00 PM\./);
+  const monday = todayCard(statusAt('2026-11-23T08:30:00', [acc('soon')], { week: '2026-11-22', subjects: [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 1240 })] }));
+  assert.equal(monday.title, 'Your Sunday Mock');
+  assert.equal(todayCard(statusAt('2026-11-23T08:30:00', [acc('soon')])), null, 'Monday without a sitting says nothing');
+  assert.equal(todayCard(statusAt('2026-11-24T08:30:00', [acc('soon')], { week: '2026-11-22', subjects: [acc('sat', { resultId: 'a1', marks: { scored: 1, max: 250 } })] })), null, 'Tuesday says nothing');
+});
+
+test('Practice\'s chip, the page\'s rows and the runner\'s refusals', () => {
+  assert.equal(practiceLine(statusAt('2026-11-18T12:00:00', [acc('soon')])).line, 'Sunday 22 Nov, 10:00 AM to 10:00 PM. Free.');
+  assert.match(practiceLine(statusAt('2026-11-22T12:00:00', [acc('open')])).line, /^Open now until 10:00 PM\./);
+  assert.match(practiceLine(statusAt('2026-11-22T23:00:00', [acc('closed')])).line, /^Next: Sunday 29 Nov/);
+  assert.equal(practiceLine(statusAt('2026-11-22T12:00:00', [])), null);
+  const s = statusAt('2026-11-22T12:00:00', []);
+  assert.equal(subjectRow(s, acc('open')).key.label, 'Sit it');
+  assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).line, 'You sat it: 160/250. The answers open at 10:00 PM.');
+  assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).link.href, '/result/a1');
+  assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 31 })).line, 'You sat it: 160/250. 31 students sat this paper.');
+  assert.equal(subjectRow(s, acc('unsent')).key, undefined);
+  assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('closed')).line, 'You did not sit it this week. The next one is on Sunday 29 Nov.');
+  const p = runnerProblem(Object.assign(new Error('CLOSED'), { body: { error: 'CLOSED', detail: { week: '2026-11-22', next: '2026-11-29', opensAt: '2026-11-22T04:30:00.000Z', closesAt: '2026-11-22T16:30:00.000Z' } } }));
+  assert.equal(p.title, 'This Sunday’s paper has closed');
+  assert.equal(p.message, 'The last start was at 10:00 PM. The next one opens on Sunday 29 Nov at 10:00 AM.');
+  assert.deepEqual(p.keys, [{ label: 'Back to Sunday Mock', href: '/sunday', primary: true }]);
+  assert.match(runnerProblem(Object.assign(new Error('NOT_YOUR_SUBJECT'), { body: { detail: { subjectName: 'Economics' } } })).title, /^Economics is not one of your subjects/);
+});

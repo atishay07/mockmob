@@ -50,6 +50,9 @@ import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data
 import { attemptMode, costliestLine, leadMistake, nextMove, receiptLine } from '@/../data/result_next_move.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { MobResultRow } from '@/components/mob/MobResultRow';
+import { SundayResultRow } from '@/components/sunday/SundayResultRow';
+import { useSundayStats } from '@/components/sunday/useSunday';
+import { isSundayTag, shareLine } from '@/lib/sundayMock.mjs';
 import '@/components/recovery/result.css';
 import '@/components/result/result-1017.css';
 import { plainOptionTexts } from '@/../data/option_text';
@@ -380,6 +383,8 @@ export default function ResultPageClient({ previewId = null }) {
   // A Mob paper still open for the Mob (C-dec 2 item 1): the server sent the marks and when the answers open, nothing more.
   // At that moment the page reads the result again and the full result takes this one's place.
   const reopen = useCallback(() => setRetry((count) => count + 1), []);
+  // A Sunday Mock after its close: how many sat it and, from 30 sitters, the share who got each question right (null otherwise).
+  const sundayStats = useSundayStats(attempt);
   if (attempt?.mobHold && !error) return <HeldResult attempt={attempt} subjectName={subjectName(attempt.subject)} celebrations={prefs.celebrations} onOpened={reopen} />;
   // B10: the server answers 404 for a result that is not on this account and for one that does not exist (it never says which,
   // so another account's papers cannot be probed). Retrying cannot change that, so the page says it plainly and leads to Your papers.
@@ -809,6 +814,7 @@ export default function ResultPageClient({ previewId = null }) {
                       <span>{row.chapter}</span>
                       {Number.isFinite(rowMs) ? <span>{timeRow ? spentLabel(rowMs / 1000) : formatDuration(rowMs)}</span> : null}
                       {row.changed ? <span>Answer changed</span> : null}
+                      {Number.isInteger(sundayStats?.shares?.[q.id]) ? <span>{shareLine(sundayStats.shares[q.id])}</span> : null}
                       {earlierMisses(attempt, q.id).length ? <span data-kind="twice">{RUN_COPY.missedTimes(earlierMisses(attempt, q.id).length + 1)}</span> : null}
                       {progress ? <span data-verdict={progress.tone}>{progress.label}</span> : null}
                       {elsewhere ? <span>{verdict === 'wrong' ? 'Opens in your mistakes' : 'Opens in your blanks'}</span> : null}
@@ -853,7 +859,9 @@ export default function ResultPageClient({ previewId = null }) {
       <AnalysisParts parts={parts} open={part} onOpen={openPart} />
 
       {/* The Mob's weekly paper: one quiet row with the ring and the way back to /mob (draws nothing otherwise). */}
-      {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
+      {/* A Sunday Mock (tagged as a Mob paper is, for the hold) gets its own row: how many sat it and the next Sunday. */}
+      {isSundayTag(attempt.selectionMeta?.mobPaper) ? <SundayResultRow attempt={attempt} stats={sundayStats} />
+        : attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
 
       {ending ? (
         <RepairEnding ids={runIds} numbers={runNumbers} model={runModel} ackedAt={ackedAt}

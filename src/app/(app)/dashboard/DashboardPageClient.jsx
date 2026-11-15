@@ -33,6 +33,7 @@ import { useLearn2On } from '@/components/learn2/flag';
 import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
 import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import PracticeMobChip from '@/components/mob/PracticeMobChip';
+import SundayPracticeRow from '@/components/sunday/SundayPracticeRow';
 import PracticeRepairs from './PracticeRepairs';
 import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
@@ -602,6 +603,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
               width, so the pill printed the same number twice in the first fold, in the slot where the next action leads. The
               price stays on every mode tile and the card's Cost line. */}
           <PracticeMobChip userId={user?.id} />
+          <SundayPracticeRow />
         </div>
       </header>
       {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
