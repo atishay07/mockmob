@@ -77,39 +77,79 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
-function loginEmailHtml({ link, code, forApp = false }) {
+// F8 (15 Nov 2026): the code first and largest, the button second ("Signing in on this phone?"), because a button opened from
+// an in-app browser's mail lands in another browser. The subject carries the code so it can be read from the notification (it
+// also shows on a lock screen; the owner accepted that). A new account (generateLink answered verification_type 'signup') is
+// never told it is a "login". Plain light HTML: black on white survives Gmail's dark-mode colour inversion on Android, and
+// clients that honour prefers-color-scheme get the dark version from the <style> below. The plain-text part says the same.
+function signInEmailWords({ code, forApp = false, newAccount = false }) {
+  const digits = String(code).length;
+  return {
+    subject: `Your MockMob code: ${code}`,
+    label: newAccount ? `Your ${digits}-digit sign-up code` : `Your ${digits}-digit login code`,
+    how: 'Type it on the page where you asked for it. If you asked more than once, only the newest code works.',
+    second: 'Signing in on this phone?',
+    button: 'Tap here to sign in',
+    hint: forApp
+      ? 'Tap the button on this phone to open the MockMob app, or type the code in the app.'
+      : 'Using the MockMob app? Type this code in the app. The button opens the website.',
+    footer: 'This code is one-time use. If you did not request it, you can ignore this email.',
+  };
+}
+
+function signInEmail({ link, code, forApp = false, newAccount = false }) {
+  const words = signInEmailWords({ code, forApp, newAccount });
   const safeLink = escapeHtml(link);
   const safeCode = escapeHtml(code);
-  const digits = String(code).length;
+  const e = (key) => escapeHtml(words[key]);
 
-  return `<!doctype html>
+  const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Log in to MockMob</title>
+    <meta name="color-scheme" content="light dark" />
+    <meta name="supported-color-schemes" content="light dark" />
+    <title>${e('subject')}</title>
+    <style>
+      @media (prefers-color-scheme: dark) {
+        .mm-page { background:#10120d !important; }
+        .mm-ink { color:#f4f5ef !important; }
+        .mm-ink2 { color:#b9bdb0 !important; }
+        .mm-codebox { background:#1b1e16 !important; border-color:#3b4033 !important; }
+        .mm-code { color:#ffffff !important; }
+        .mm-rule { border-color:#2c3026 !important; }
+        .mm-btn { background:#d2f000 !important; color:#0b0c09 !important; }
+      }
+    </style>
   </head>
-  <body style="margin:0;background:#080907;color:#f4f5ef;font-family:Arial,Helvetica,sans-serif;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#080907;padding:28px 12px;">
+  <body class="mm-page" style="margin:0;padding:0;background:#ffffff;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${e('how')}</div>
+    <table role="presentation" class="mm-page" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
       <tr>
-        <td align="center">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;border:1px solid rgba(255,255,255,0.12);border-radius:22px;background:#10120d;padding:28px;">
+        <td align="center" style="padding:28px 16px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;font-family:Arial,Helvetica,sans-serif;">
             <tr>
               <td>
-                <p style="margin:0 0 8px;color:#d2f000;font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;">MockMob login</p>
-                <h1 style="margin:0;color:#f8faf2;font-size:28px;line-height:1.15;">Use the button or enter this code.</h1>
-                <p style="margin:14px 0 22px;color:#a1a1aa;font-size:15px;line-height:1.7;">Reading this on another phone? Type the ${digits}-digit code below on the device where you are signing in. If you asked more than once, only the newest code works.</p>
-                <p style="margin:0 0 22px;">
-                  <a href="${safeLink}" style="display:inline-block;border-radius:999px;background:#d2f000;color:#090a08;font-size:15px;font-weight:800;text-decoration:none;padding:14px 20px;">Log in to MockMob</a>
+                <p class="mm-ink" style="margin:0 0 20px;color:#111311;font-size:17px;font-weight:800;letter-spacing:-0.01em;">MockMob</p>
+                <p class="mm-ink2" style="margin:0 0 10px;color:#4a4e44;font-size:15px;line-height:1.4;">${e('label')}</p>
+                <table role="presentation" class="mm-codebox" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4ef;border:1px solid #d9dcd1;border-radius:14px;">
+                  <tr>
+                    <td align="center" style="padding:18px 12px;">
+                      <p class="mm-code" style="margin:0;color:#111311;font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.1;font-weight:700;letter-spacing:0.14em;">${safeCode}</p>
+                    </td>
+                  </tr>
+                </table>
+                <p class="mm-ink2" style="margin:14px 0 0;color:#4a4e44;font-size:15px;line-height:1.6;">${e('how')}</p>
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;">
+                  <tr><td class="mm-rule" style="border-top:1px solid #e3e5dc;font-size:0;line-height:0;">&nbsp;</td></tr>
+                </table>
+                <p class="mm-ink" style="margin:22px 0 12px;color:#111311;font-size:16px;font-weight:700;line-height:1.4;">${e('second')}</p>
+                <p style="margin:0;">
+                  <a class="mm-btn" href="${safeLink}" style="display:inline-block;border-radius:999px;background:#111311;color:#ffffff;font-size:15px;font-weight:700;line-height:20px;text-decoration:none;padding:13px 22px;">${e('button')}</a>
                 </p>
-                <div style="border:1px solid rgba(210,240,0,0.28);border-radius:18px;background:rgba(210,240,0,0.08);padding:18px;text-align:center;">
-                  <p style="margin:0 0 8px;color:#a1a1aa;font-size:13px;">Your ${digits}-digit login code</p>
-                  <p style="margin:0;color:#d2f000;font-size:34px;line-height:1;font-weight:900;letter-spacing:0.28em;">${safeCode}</p>
-                </div>
-                <p style="margin:18px 0 0;color:#a1a1aa;font-size:13px;line-height:1.6;">${forApp
-                  ? 'Tap the button on this phone to open the MockMob app, or type the code in the app.'
-                  : 'Using the MockMob app? Type this code in the app. The button opens the website.'}</p>
-                <p style="margin:12px 0 0;color:#71717a;font-size:12px;line-height:1.6;">This login is one-time use. If you did not request it, you can ignore this email.</p>
+                <p class="mm-ink2" style="margin:22px 0 0;color:#4a4e44;font-size:13px;line-height:1.6;">${e('hint')}</p>
+                <p class="mm-ink2" style="margin:10px 0 0;color:#6b6f64;font-size:12px;line-height:1.6;">${e('footer')}</p>
               </td>
             </tr>
           </table>
@@ -118,6 +158,22 @@ function loginEmailHtml({ link, code, forApp = false }) {
     </table>
   </body>
 </html>`;
+
+  const text = [
+    words.subject,
+    '',
+    `${words.label}: ${code}`,
+    words.how,
+    '',
+    `${words.second} Open this link:`,
+    link,
+    '',
+    words.hint,
+    '',
+    words.footer,
+  ].join('\n');
+
+  return { subject: words.subject, html, text };
 }
 
 // The three limits, then the site-wide daily ceiling (emailLoginPolicy.js). A refusal carries its scope and the real wait
@@ -213,11 +269,13 @@ export async function POST(request) {
       if (invite) loginUrl.searchParams.set('invite', invite);
     }
 
+    const mail = signInEmail({ link: loginUrl.toString(), code, forApp: isAppClient(body), newAccount: verificationType === 'signup' });
     const sendResult = await resend.emails.send({
       from: process.env.AUTH_EMAIL_FROM || 'MockMob <support@mockmob.in>',
       to: email,
-      subject: 'Your MockMob login link and code',
-      html: loginEmailHtml({ link: loginUrl.toString(), code, forApp: isAppClient(body) }),
+      subject: mail.subject,
+      html: mail.html,
+      text: mail.text,
     });
 
     if (sendResult?.error) {
