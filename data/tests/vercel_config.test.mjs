@@ -10,10 +10,14 @@ test('functions run in Singapore (sin1, AWS ap-southeast-1), next to the Supabas
   assert.equal('functionFailoverRegions' in config, false, 'failover regions are Enterprise only');
 });
 
-test('the two daily crons stay unchanged and point at existing routes; the NTA index safety rebuild rides on the inventory cron, not on a third entry', () => {
+test('the daily crons point at existing routes; the NTA index safety rebuild rides on the inventory cron; the day-2 email runs at 12:30 UTC', () => {
+  // Hobby allows 100 cron jobs a project, each at most once a day, fired within the hour (Vercel docs, read 15 Nov 2026).
+  // The day-2 email (src/app/api/email/day-two) is the third: about 6:00 pm India time, and the job itself sends only
+  // between 5:00 pm and 9:00 pm India time.
   assert.deepEqual(config.crons, [
     { path: '/api/internal/finalise-sessions', schedule: '45 21 * * *' },
     { path: '/api/internal/refresh-inventory', schedule: '30 21 * * *' },
+    { path: '/api/email/day-two', schedule: '30 12 * * *' },
   ]);
   for (const cron of config.crons) {
     assert.match(cron.schedule, /^\d+ \d+ \* \* \*$/, 'Hobby crons run at most once a day');
