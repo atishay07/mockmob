@@ -3,14 +3,6 @@ import { fileURLToPath } from 'node:url';
 
 const appRoot = dirname(fileURLToPath(import.meta.url));
 
-// The home page's joined stylesheet (src/app/home-sheets.css, built from its 23 sheets by src/lib/homeCss.mjs): under
-// `next dev` it follows the sheets as they are edited, so a change shows at once. Builds never run this; they read the
-// committed file, which the tests keep current (css_split.test.mjs).
-if (process.env.NODE_ENV === 'development') {
-  const { watchHomeCss } = await import('./src/lib/homeCss.mjs');
-  watchHomeCss({ log: (line) => console.log(`[home-sheets] ${line}`) });
-}
-
 // A3 (15 Nov): security headers on every route (production builds, like the cache headers below).
 //  - Framing: only our own pages may frame ours (X-Frame-Options for older browsers, frame-ancestors for current ones).
 //    Nothing frames MockMob pages; the app opens them in a WebView, which is not a frame.

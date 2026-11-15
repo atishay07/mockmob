@@ -6,33 +6,31 @@
 // University of Delhi and the bottom from SRCC ... show the top colleges and universities first"): the universities on top,
 // moving left and a little quicker, the Delhi University colleges under them, moving right. Only aspirational institutions
 // that admit through CUET UG, the best known first (Pondicherry and Allahabad left out at his word; no private colleges).
-// To add one: put its transparent emblem (192 px tall WebP, the master) in public/art/colleges/, make the copy the page loads,
-// <file>@96.webp (96 px tall: twice the largest 48 px seal, for sharp screens; sharp: resize to height 96 with lanczos3, WebP
-// quality 90, alpha quality 100), and add a row with the copy's pixel size.
+// To add one: put its transparent emblem (192 px tall WebP) in public/art/colleges/ and add a row with the file's pixel size.
 // A server component; the motion is CSS only (college-strip.css).
 export const COLLEGE_HEAD = 'Get into the college you want.';
 export const COLLEGE_NOTE = 'College names and logos belong to their owners. MockMob is not affiliated with them.';
 
 // name: the full name (the emblem's text alternative is empty because this name is beside it, so the full name is kept
-// for a screen reader when the short one differs); short: what the chip shows; file: public/art/colleges/<file>.webp (the
-// 192 px master) and <file>@96.webp (what the page loads); w, h: the @96 copy's pixel size, so the browser reserves its box.
+// for a screen reader when the short one differs); short: what the chip shows; file: public/art/colleges/<file>.webp;
+// w, h: the file's pixel size, so the browser reserves its box.
 export const UNIVERSITIES = Object.freeze([
-  { name: 'University of Delhi', short: 'University of Delhi', file: 'du', w: 98, h: 96 },
-  { name: 'Jawaharlal Nehru University', short: 'JNU', file: 'jnu', w: 60, h: 96 },
-  { name: 'Banaras Hindu University', short: 'BHU', file: 'bhu', w: 66, h: 96 },
-  { name: 'Jamia Millia Islamia', short: 'Jamia Millia Islamia', file: 'jamia', w: 88, h: 96 },
-  { name: 'University of Hyderabad', short: 'University of Hyderabad', file: 'uoh', w: 96, h: 96 },
-  { name: 'Aligarh Muslim University', short: 'AMU', file: 'amu', w: 96, h: 96 },
+  { name: 'University of Delhi', short: 'University of Delhi', file: 'du', w: 195, h: 192 },
+  { name: 'Jawaharlal Nehru University', short: 'JNU', file: 'jnu', w: 120, h: 192 },
+  { name: 'Banaras Hindu University', short: 'BHU', file: 'bhu', w: 132, h: 192 },
+  { name: 'Jamia Millia Islamia', short: 'Jamia Millia Islamia', file: 'jamia', w: 176, h: 192 },
+  { name: 'University of Hyderabad', short: 'University of Hyderabad', file: 'uoh', w: 192, h: 192 },
+  { name: 'Aligarh Muslim University', short: 'AMU', file: 'amu', w: 193, h: 192 },
 ]);
 export const COLLEGES = Object.freeze([
-  { name: 'Shri Ram College of Commerce', short: 'SRCC', file: 'srcc', w: 104, h: 96 },
-  { name: "St. Stephen's College", short: "St. Stephen's College", file: 'ststephens', w: 90, h: 96 },
-  { name: 'Hindu College', short: 'Hindu College', file: 'hindu', w: 82, h: 96 },
-  { name: 'Lady Shri Ram College for Women', short: 'LSR', file: 'lsr', w: 52, h: 96 },
-  { name: 'Miranda House', short: 'Miranda House', file: 'miranda', w: 96, h: 96 },
-  { name: 'Hansraj College', short: 'Hansraj College', file: 'hansraj', w: 69, h: 96 },
-  { name: 'Kirori Mal College', short: 'Kirori Mal College', file: 'kmc', w: 96, h: 96 },
-  { name: 'Ramjas College', short: 'Ramjas College', file: 'ramjas', w: 96, h: 96 },
+  { name: 'Shri Ram College of Commerce', short: 'SRCC', file: 'srcc', w: 207, h: 192 },
+  { name: "St. Stephen's College", short: "St. Stephen's College", file: 'ststephens', w: 179, h: 192 },
+  { name: 'Hindu College', short: 'Hindu College', file: 'hindu', w: 163, h: 192 },
+  { name: 'Lady Shri Ram College for Women', short: 'LSR', file: 'lsr', w: 105, h: 192 },
+  { name: 'Miranda House', short: 'Miranda House', file: 'miranda', w: 192, h: 192 },
+  { name: 'Hansraj College', short: 'Hansraj College', file: 'hansraj', w: 138, h: 192 },
+  { name: 'Kirori Mal College', short: 'Kirori Mal College', file: 'kmc', w: 192, h: 192 },
+  { name: 'Ramjas College', short: 'Ramjas College', file: 'ramjas', w: 192, h: 192 },
 ]);
 export const COLLEGE_ROWS = Object.freeze([
   { key: 'universities', label: 'Universities', items: UNIVERSITIES },
@@ -43,9 +41,7 @@ export const COLLEGE_ROWS = Object.freeze([
 // always wider than a 1440 px window even for the six universities. Only the first copy is read out.
 const COPIES = [0, 1, 2, 3];
 
-// The emblems are drawn 25 to 38 px tall in a seal of at most 48 px (college-strip.css), so the page loads the 96 px copies
-// (2x for sharp screens; paint pass, 15 Nov 2026), not the 192 px masters: a quarter of the pixels, 89 KB for all 14, not 262 KB.
-export const collegeSrc = (file) => `/art/colleges/${file}@96.webp`;
+export const collegeSrc = (file) => `/art/colleges/${file}.webp`;
 
 function Chip({ college, copy }) {
   return (
