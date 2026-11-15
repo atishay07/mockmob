@@ -171,7 +171,8 @@ function ShareBadge({ detail }) {
 /** The words of one badge (lib/badgeShelf.js detailOf), as the layer's body: the mark on its own at the top, then its words. */
 export function BadgeDetailBody({ detail, onClose, onBack, backLabel }) {
   const d = detail;
-  const status = d.earned ? 'earned' : d.unknown ? 'later' : 'next';
+  // The same three states as everywhere else: inked, drawn in ink (the next one), or blind (the rest, and one not readable).
+  const status = d.earned ? 'earned' : d.status === 'next' ? 'next' : 'later';
   return (
     <div className="sb-detail" data-status={status}>
       <div className="sb-detail__top">
