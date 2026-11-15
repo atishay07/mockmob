@@ -1,0 +1,522 @@
+{
+ "seed": 20261115,
+ "documents": {
+  "boi": {
+   "file": "boi.pdf",
+   "pages": 71,
+   "metadata": {
+    "Producer": "iLovePDF",
+    "ModDate": "D:20260106111107Z"
+   },
+   "first_lines": [
+    "B U L L E T I N  O F",
+    "I N F O R M A T I O N",
+    "U N D E R G R A D U A T E",
+    "P R O G R A M M E S",
+    "A C A D E M I C  S E S S I O N"
+   ],
+   "sha256": "75cf271b3fbcc96ea64d1584b571c93fffc5fcd513fb9f123c7a866651842531",
+   "bytes": 3698187,
+   "sha256_matches_index": true
+  },
+  "round-1": {
+   "file": "cutoff-r1.pdf",
+   "pages": 58,
+   "metadata": {
+    "CreationDate": "D:20260716183750Z00'00'",
+    "Producer": "iLovePDF",
+    "ModDate": "D:20260717070226Z"
+   },
+   "first_lines": [
+    "UNIVERSITY OF DELHI",
+    "ADMISSION BRANCH",
+    "UNDERGRADUATE ADMISSIONS 2026-27",
+    "FIRST ROUND OF ALLOCATION AND ADMISSIONS - MINIMUM ALLOCATION SCORE*",
+    "*Disclaimer:"
+   ],
+   "sha256": "72cda4997ed60c5ae1cfa58ceefaddd47084db6cf0b147e011994a6f414c8f5f",
+   "bytes": 1454896,
+   "sha256_matches_index": true
+  },
+  "round-2": {
+   "file": "cutoff-r2.pdf",
+   "pages": 48,
+   "metadata": {
+    "CreationDate": "D:20260725151607Z00'00'",
+    "Producer": "iLovePDF",
+    "ModDate": "D:20260725155222Z"
+   },
+   "first_lines": [
+    "UNIVERSITY OF DELHI",
+    "ADMISSION BRANCH",
+    "UNDERGRADUATE ADMISSIONS 2026-27",
+    "SECOND ROUND OF ALLOCATION AND ADMISSIONS - MINIMUM ALLOCATION SCORE*",
+    "*Disclaimer:"
+   ],
+   "sha256": "d92443d8d1a125a59b1dc5b48097d1eae40797f358e5026bd10e2e63b0f73173",
+   "bytes": 1385677,
+   "sha256_matches_index": true
+  },
+  "round-3": {
+   "file": "minscore-r3.pdf",
+   "pages": 38,
+   "metadata": {
+    "CreationDate": "D:20260809062554Z00'00'",
+    "Producer": "macOS Version 26.5.2 (Build 25F84) Quartz PDFContext",
+    "ModDate": "D:20260809062554Z00'00'"
+   },
+   "first_lines": [
+    "UNIVERSITY OF DELHI",
+    "ADMISSION BRANCH",
+    "UNDERGRADUATE ADMISSIONS 2026-27",
+    "THIRD ROUND OF ALLOCATION AND ADMISSIONS - MINIMUM ALLOCATION SCORE*",
+    "*Disclaimer:"
+   ],
+   "sha256": "7e8b9964b62e67fb1e9c7ff9a522bf678ff17614b60ba68c76c566051bd23fd8",
+   "bytes": 1656402,
+   "sha256_matches_index": true
+  }
+ },
+ "rounds": {
+  "round-1": {
+   "pdf_rows": 1393,
+   "sno_first_last": [
+    1,
+    1393
+   ],
+   "sno_contiguous": true,
+   "pdf_cells": 8209,
+   "pdf_colleges": 67,
+   "pdf_programme_names": 221,
+   "pdf_categories": 11,
+   "last_row": {
+    "sno": 1393,
+    "page": 58,
+    "college": "Zakir Husain Delhi College (Evening)",
+    "programme": "B.Com. (Hons.)"
+   },
+   "pages_without_rows": [],
+   "names_continued_over_page_break": 1,
+   "method_a_problems": [],
+   "method_b_problems": [],
+   "method_b_numbers": 8207,
+   "pdfplumber_decimal_words": 8207,
+   "pypdf_decimal_runs": 8207,
+   "a_equals_b": false,
+   "reading_order_rows_checked": 1393,
+   "reading_order_rows_differing": 0,
+   "parsed_rows": 1393,
+   "parsed_cells": 8209,
+   "parsed_colleges": 67,
+   "parsed_programme_names": 221,
+   "pdf_vs_parsed_name_mismatches": 0,
+   "pdf_vs_parsed_cell_mismatches": 0,
+   "served_rows": 1393,
+   "served_cells": 8209,
+   "served_null_cells": 7114,
+   "pdf_vs_served_mismatches": 0
+  },
+  "round-2": {
+   "pdf_rows": 1393,
+   "sno_first_last": [
+    1,
+    1393
+   ],
+   "sno_contiguous": true,
+   "pdf_cells": 6953,
+   "pdf_colleges": 67,
+   "pdf_programme_names": 221,
+   "pdf_categories": 11,
+   "last_row": {
+    "sno": 1393,
+    "page": 48,
+    "college": "Zakir Husain Delhi College (Evening)",
+    "programme": "B.Com. (Hons.)"
+   },
+   "pages_without_rows": [],
+   "names_continued_over_page_break": 1,
+   "method_a_problems": [],
+   "method_b_problems": [],
+   "method_b_numbers": 6953,
+   "pdfplumber_decimal_words": 6953,
+   "pypdf_decimal_runs": 6953,
+   "a_equals_b": true,
+   "reading_order_rows_checked": 1393,
+   "reading_order_rows_differing": 0,
+   "parsed_rows": 1393,
+   "parsed_cells": 6953,
+   "parsed_colleges": 67,
+   "parsed_programme_names": 221,
+   "pdf_vs_parsed_name_mismatches": 0,
+   "pdf_vs_parsed_cell_mismatches": 0,
+   "served_rows": 1393,
+   "served_cells": 6953,
+   "served_null_cells": 8370,
+   "pdf_vs_served_mismatches": 0
+  },
+  "round-3": {
+   "pdf_rows": 956,
+   "sno_first_last": [
+    1,
+    956
+   ],
+   "sno_contiguous": true,
+   "pdf_cells": 2154,
+   "pdf_colleges": 65,
+   "pdf_programme_names": 185,
+   "pdf_categories": 11,
+   "last_row": {
+    "sno": 956,
+    "page": 37,
+    "college": "Zakir Husain Delhi College (Evening)",
+    "programme": "B.Com."
+   },
+   "pages_without_rows": [
+    38
+   ],
+   "names_continued_over_page_break": 0,
+   "method_a_problems": [],
+   "method_b_problems": [],
+   "method_b_numbers": 2154,
+   "pdfplumber_decimal_words": 2154,
+   "pypdf_decimal_runs": 2154,
+   "a_equals_b": true,
+   "reading_order_rows_checked": 956,
+   "reading_order_rows_differing": 0,
+   "parsed_rows": 956,
+   "parsed_cells": 2154,
+   "parsed_colleges": 65,
+   "parsed_programme_names": 185,
+   "pdf_vs_parsed_name_mismatches": 0,
+   "pdf_vs_parsed_cell_mismatches": 0,
+   "served_rows": 956,
+   "served_cells": 2154,
+   "served_null_cells": 8362,
+   "pdf_vs_served_mismatches": 0
+  }
+ },
+ "totals": {
+  "served_offerings_meta": 1393,
+  "served_offerings_rows": 1393,
+  "served_colleges_meta": 67,
+  "served_colleges_rows": 67,
+  "served_groups": 73,
+  "served_groups_with_cutoffs": 68,
+  "served_programme_names": 221,
+  "served_categories": [
+   "UR",
+   "OBC-NCL",
+   "SC",
+   "ST",
+   "EWS",
+   "SIKH",
+   "PwBD",
+   "KM",
+   "SGC",
+   "ORPHAN-FEMALE",
+   "ORPHAN-MALE"
+  ],
+  "served_cells_all_rounds": 17316,
+  "pdf_cells_all_rounds": 17316,
+  "cells_compared_all_rounds": 41162,
+  "union_pdf_rows": 1393,
+  "round3_rows_subset_of_round1": true,
+  "round1_and_round2_same_rows": true
+ },
+ "checks": {
+  "five_colleges": {
+   "combinations": 25,
+   "offered": 20,
+   "cells": 539,
+   "non_null_cells": 327,
+   "mismatches": 0,
+   "not_offered": [
+    "Shri Ram College of Commerce / B.A. (Hons.) English",
+    "Shri Ram College of Commerce / B.A. (Hons.) Political Science",
+    "Shri Ram College of Commerce / B.Sc. (Hons.) Mathematics",
+    "Miranda House (W) / B.Com. (Hons.)",
+    "Hansraj College / B.A. (Hons.) Political Science"
+   ],
+   "rows": [
+    {
+     "college": "Shri Ram College of Commerce",
+     "programme": "B.Com. (Hons.)",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Shri Ram College of Commerce",
+     "programme": "B.A. (Hons.) Economics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Hindu College",
+     "programme": "B.Com. (Hons.)",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Hindu College",
+     "programme": "B.A. (Hons.) Economics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Hindu College",
+     "programme": "B.A. (Hons.) English",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Hindu College",
+     "programme": "B.A. (Hons.) Political Science",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Hindu College",
+     "programme": "B.Sc. (Hons.) Mathematics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Miranda House (W)",
+     "programme": "B.A. (Hons.) Economics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Miranda House (W)",
+     "programme": "B.A. (Hons.) English",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Miranda House (W)",
+     "programme": "B.A. (Hons.) Political Science",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Miranda House (W)",
+     "programme": "B.Sc. (Hons.) Mathematics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Hansraj College",
+     "programme": "B.Com. (Hons.)",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Hansraj College",
+     "programme": "B.A. (Hons.) Economics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Hansraj College",
+     "programme": "B.A. (Hons.) English",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Hansraj College",
+     "programme": "B.Sc. (Hons.) Mathematics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Lady Shri Ram College for Women (W)",
+     "programme": "B.Com. (Hons.)",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Lady Shri Ram College for Women (W)",
+     "programme": "B.A. (Hons.) Economics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Lady Shri Ram College for Women (W)",
+     "programme": "B.A. (Hons.) English",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    },
+    {
+     "college": "Lady Shri Ram College for Women (W)",
+     "programme": "B.A. (Hons.) Political Science",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": true
+     },
+     "cells": 33,
+     "mismatches": 0
+    },
+    {
+     "college": "Lady Shri Ram College for Women (W)",
+     "programme": "B.Sc. (Hons.) Mathematics",
+     "served": true,
+     "rounds": {
+      "round-1": true,
+      "round-2": true,
+      "round-3": false
+     },
+     "cells": 22,
+     "mismatches": 0
+    }
+   ]
+  },
+  "sample": {
+   "seed": 20261115,
+   "cells": 360,
+   "non_null": 300,
+   "null": 60,
+   "mismatches": 0,
+   "same_cells_as_saved_file": null
+  },
+  "flags": {
+   "served_null_cells_in_listed_rows": {
+    "round-1": 7114,
+    "round-2": 8370,
+    "round-3": 8362
+   },
+   "served_null_cells_blank_in_pdf": 23846,
+   "rows_not_listed_in_round": {
+    "round-1": 0,
+    "round-2": 0,
+    "round-3": 437
+   },
+   "by_type": {
+    "round 3 above round 2": 920,
+    "round 2 above round 1": 272,
+    "round 3 above round 1 (no round 2 value)": 96
+   },
+   "programme_paper_counts": {
+    "4": 46,
+    "3": 26,
+    "2": 1
+   }
+  }
+ },
+ "mismatches": 2,
+ "verdict_inputs": {
+  "all_pdf_engines_agree": false,
+  "reading_order_all_rows": true,
+  "pdf_equals_parsed": true,
+  "pdf_equals_served": true
+ }
+}

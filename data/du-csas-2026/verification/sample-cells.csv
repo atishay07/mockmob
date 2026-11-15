@@ -1,0 +1,361 @@
+round,page,sno,college,programme,category,pdf,served,match
+round-1,17,401,Hindu College,B.A. Program (History + Political Science),ORPHAN-FEMALE,762.656,762.656,yes
+round-1,2,32,Aryabhatta College,B.A. (Hons.) English,ST,471.4749,471.4749,yes
+round-1,27,660,Lakshmibai College (W),B.A. Program (Commerce + Psychology),SGC,697.4508,697.4508,yes
+round-1,40,980,Satyawati College,B.A. Program (Mathematics + Political Science),OBC-NCL,414.7194,414.7194,yes
+round-1,44,1066,Shivaji College,B.A. Program (History + Political Science),SC,475.8816,475.8816,yes
+round-1,41,1004,Satyawati College (Evening),B.A. Program (Hindi + Political Science),SGC,312.3019,312.3019,yes
+round-1,39,945,Ramjas College,B.A. (Hons.) Political Science,SC,797.5251,797.5251,yes
+round-1,48,1161,Sri Aurobindo College (Day),B.A. Program (Sanskrit + History),SC,297.2307,297.2307,yes
+round-1,35,855,P.G.D.A.V. College,B.Sc. (Prog.) Mathematical Sciences,OBC-NCL,357.3699,357.3699,yes
+round-1,10,207,Deshbandhu College,B.A. (Hons.) Sanskrit,EWS,159.7784,159.7784,yes
+round-1,20,468,Janki Devi Memorial College (W),B.A. Program (English + Mathematics),SGC,486.3926,486.3926,yes
+round-1,11,236,Deshbandhu College,B.Com. (Hons.),OBC-NCL,639.0912,639.0912,yes
+round-1,40,974,Satyawati College,B.A. Program (English + History),ST,427.0388,427.0388,yes
+round-1,40,979,Satyawati College,B.A. Program (History + Political Science),UR,610.0279,610.0279,yes
+round-1,46,1113,Shyama Prasad Mukherji College For Women (W),B.A. (Hons.) Geography,SGC,555.1104,555.1104,yes
+round-1,48,1149,Shyama Prasad Mukherji College For Women (W),B.Com. (Hons.),SC,412.6422,412.6422,yes
+round-1,26,627,Lady Irwin College (W),B.Sc. (Hons.) Food Technology,UR,595.4844,595.4844,yes
+round-1,37,888,Rajdhani College,B.A. Program (History + Political Science),ST,426.8259,426.8259,yes
+round-1,12,255,Dr. Bhim Rao Ambedkar College,B.A. Program (Commerce + Economics),ST,241.8527,241.8527,yes
+round-1,55,1303,Swami Shardhanand College,B.Sc. (Hons.) Microbiology,ORPHAN-FEMALE,318.3568,318.3568,yes
+round-1,56,1347,Zakir Husain Delhi College,B.A. Program (Commerce + Economics),EWS,528.2928,528.2928,yes
+round-1,43,1032,Shaheed Rajguru College of Applied Sciences for Women (W),B.A. (Hons.) Psychology,EWS,633.9757,633.9757,yes
+round-1,6,126,College of Vocational Studies,B.A. (Hons.) History,EWS,584.1125,584.1125,yes
+round-1,53,1251,Sri Venketeswara College,B.A. Program (Economics + Statistics),EWS,799.6302,799.6302,yes
+round-1,3,57,Atma Ram Sanatan Dharma College,B.Com. (Hons.),ST,584.6259,584.6259,yes
+round-1,14,322,Dyal Singh College (Evening),B.A. Program (Economics + History),SGC,455.7256,455.7256,yes
+round-1,30,718,Maitreyi College (W),B.A. Program (History + Political Science),OBC-NCL,658.3431,658.3431,yes
+round-1,38,908,Ram Lal Anand College,B.A. Program (History + Political Science),OBC-NCL,590.3201,590.3201,yes
+round-1,11,248,Dr. Bhim Rao Ambedkar College,B.A. (Hons.) Business Economics,OBC-NCL,382.0178,382.0178,yes
+round-1,9,194,Delhi College of Arts and Commerce,B.Com.,ST,503.8705,503.8705,yes
+round-1,6,107,Bharati College (W),B.Com. (Hons.),EWS,587.0731,587.0731,yes
+round-1,32,772,Miranda House (W),B.A. (Hons.) Sociology,EWS,784.9101,784.9101,yes
+round-1,55,1301,Swami Shardhanand College,B.Sc. (Hons.) Botany,SGC,511.3065,511.3065,yes
+round-1,29,689,Maharaja Agrasen College,B.A. Program (Computer Applications + Mathematics),UR,632.7296,632.7296,yes
+round-1,10,204,Deshbandhu College,B.A. (Hons.) Hindi,SC,233.3891,233.3891,yes
+round-1,52,1241,Sri Guru Tegh Bahadur Khalsa College,B.Sc. (Prog.) Physical Science with Chemistry,UR,367.5387,367.5387,yes
+round-1,29,714,Maitreyi College (W),B.A. Program (English + Economics),PwBD,436.2335,436.2335,yes
+round-1,48,1156,Sri Aurobindo College (Day),B.A. Program (Commerce + Economics),EWS,531.6784,531.6784,yes
+round-1,46,1113,Shyama Prasad Mukherji College For Women (W),B.A. (Hons.) Geography,UR,598.9438,598.9438,yes
+round-1,41,1004,Satyawati College (Evening),B.A. Program (Hindi + Political Science),ST,345.5503,345.5503,yes
+round-1,41,995,Satyawati College (Evening),B.A. Program (Commerce + Economics),EWS,478.0547,478.0547,yes
+round-1,19,445,Institute of Home Economics (W),B.Sc. (Hons.) Home Science,ORPHAN-FEMALE,101.9228,101.9228,yes
+round-1,19,452,Janki Devi Memorial College (W),B.A. (Hons.) History,OBC-NCL,452.9064,452.9064,yes
+round-1,50,1193,Sri Guru Gobind Singh College of Commerce,B.Com. (Hons.),SIKH,699.076,699.076,yes
+round-1,55,1323,Vivekananda College (W),B.A. Program (English + French),SGC,546.9409,546.9409,yes
+round-1,44,1075,Shivaji College,B.Sc. (Prog.) Life Science,UR,547.1893,547.1893,yes
+round-1,8,180,Delhi College of Arts and Commerce,B.A. (Hons.) History,EWS,664.0874,664.0874,yes
+round-1,21,495,Jesus & Mary College (W),B.A. Program (Computer Applications + Economics),UR,749.2855,749.2855,yes
+round-1,26,638,Lady Shri Ram College for Women (W),B.A. (Hons.) Sanskrit,SC,194.7389,194.7389,yes
+round-1,21,500,Jesus & Mary College (W),B.A. Program (English + Philosophy),KM,380.0865,380.0865,yes
+round-1,56,1342,Zakir Husain Delhi College,B.A. (Hons.) Philosophy,SC,421.4326,421.4326,yes
+round-1,37,888,Rajdhani College,B.A. Program (History + Political Science),EWS,473.8956,473.8956,yes
+round-1,11,231,Deshbandhu College,B.A. Program (Sanskrit + Economics),OBC-NCL,389.1671,389.1671,yes
+round-1,32,773,Miranda House (W),B.A. Program (Bengali/Tamil/Punjabi + Geography/History/Political Science),EWS,513.9698,513.9698,yes
+round-1,3,54,Atma Ram Sanatan Dharma College,B.A. Program (Mathematics + Any other discipline subject from (English/Hindi/Sanskrit/Political Sc./Economics/Mathematics/Comp. App./History)),ST,352.78,352.78,yes
+round-1,36,863,P.G.D.A.V. College (Evening),B.A. Program (English + Economics),SGC,581.6446,581.6446,yes
+round-1,25,594,Keshav Mahavidyalaya,B.Sc. (Prog.) Mathematical Sciences,ST,192.2328,192.2328,yes
+round-1,1,10,Acharya Narendra Dev College,B.Sc. (Prog.) Life Science,UR,569.8905,569.8905,yes
+round-1,20,483,Janki Devi Memorial College (W),B.Com. (Hons.),ST,252.1237,252.1237,yes
+round-1,55,1313,Vivekananda College (W),B.A. (Hons.) Political Science,PwBD,220.9702,220.9702,yes
+round-1,33,784,Miranda House (W),B.Sc. (Hons.) Chemistry,PwBD,140.0695,140.0695,yes
+round-1,17,400,Hindu College,B.A. Program (Hindi + Philosophy),ST,636.2453,636.2453,yes
+round-1,44,1072,Shivaji College,B.Sc. (Hons.) Mathematics,UR,523.4616,523.4616,yes
+round-1,44,1059,Shivaji College,B.A. Program (English + Economics),ST,452.6462,452.6462,yes
+round-1,18,432,Indraprastha College for Women (W),B.A. Program (Geography + Political Science),SC,625.8354,625.8354,yes
+round-1,53,1270,St. Stephen's College,B.A. (Hons.) Economics,SGC,889.6047,889.6047,yes
+round-1,35,840,P.G.D.A.V. College,B.A. (Hons.) Political Science,SGC,671.9474,671.9474,yes
+round-1,20,471,Janki Devi Memorial College (W),B.A. Program (Hindi + Music),SC,293.3299,293.3299,yes
+round-1,22,527,Kalindi College (W),B.A. Program (Commerce + Political Science),EWS,437.7362,437.7362,yes
+round-1,56,1340,Zakir Husain Delhi College,B.A. (Hons.) History,UR,651.8579,651.8579,yes
+round-1,54,1285,Swami Shardhanand College,B.A. (Hons.) History,EWS,393.879,393.879,yes
+round-1,45,1089,Shyam Lal College,B.A. Program (Hindi + History),OBC-NCL,407.0568,407.0568,yes
+round-1,18,432,Indraprastha College for Women (W),B.A. Program (Geography + Political Science),PwBD,399.0134,399.0134,yes
+round-1,6,117,Bhaskaracharya College of Applied Sciences,B.Sc. (Hons.) Physics,EWS,260.2142,260.2142,yes
+round-1,42,1031,Shaheed Bhagat Singh College (Evening),B.Com. (Hons.),EWS,716.6771,716.6771,yes
+round-1,13,279,Dyal Singh College,B.A. (Hons.) Political Science,EWS,664.1147,664.1147,yes
+round-1,45,1101,Shyam Lal College (Evening),B.A. Program (Computer Applications + Mathematics),EWS,453.8781,453.8781,yes
+round-1,44,1069,Shivaji College,B.Sc. (Hons.) Bio-Chemistry,KM,303.5464,303.5464,yes
+round-1,7,129,College of Vocational Studies,B.A. Program (Commerce + Economics),OBC-NCL,567.2049,567.2049,yes
+round-1,2,42,Aryabhatta College,B.Sc. (Hons.) Computer Science,EWS,532.1074,532.1074,yes
+round-1,24,571,Kamala Nehru College (W),B.A. Program (Economics + Mathematics),SGC,684.2277,684.2277,yes
+round-1,38,917,Ramanujan College,B.A. (Hons.) Applied Psychology,SGC,802.5933,802.5933,yes
+round-1,6,126,College of Vocational Studies,B.A. (Hons.) History,SC,488.8312,488.8312,yes
+round-1,25,617,Kirori Mal College,B.Sc. (Hons.) Botany,PwBD,295.9593,295.9593,yes
+round-1,37,899,Rajdhani College,B.Sc. (Prog.) Physical Science with Computer Science/ Informatics Practices,SC,163.6034,163.6034,yes
+round-1,57,1367,Zakir Husain Delhi College,B.Sc. (Hons.) Chemistry,SC,158.6573,158.6573,yes
+round-1,26,622,Kirori Mal College,B.Sc. (Hons.) Zoology,ST,537.3467,537.3467,yes
+round-1,57,1370,Zakir Husain Delhi College,B.Sc. (Hons.) Zoology,ST,385.2231,385.2231,yes
+round-1,20,462,Janki Devi Memorial College (W),B.A. Program (Economics + Mathematics),EWS,528.8707,528.8707,yes
+round-1,43,1033,Shaheed Rajguru College of Applied Sciences for Women (W),B.Sc. (Hons.) Bio-Chemistry,OBC-NCL,535.1603,535.1603,yes
+round-1,33,790,Miranda House (W),Bachelor of Elementary Education (B.El.Ed.),PwBD,509.0555,509.0555,yes
+round-1,50,1201,Sri Guru Nanak Dev Khalsa College,B.Com.,UR,715.4934,715.4934,yes
+round-1,8,161,Deen Dayal Upadhyaya College,B.A. (Hons.) English,SGC,680.2111,680.2111,yes
+round-1,14,316,Dyal Singh College (Evening),B.A. (Hons.) English,SGC,584.4229,584.4229,yes
+round-1,53,1256,Sri Venketeswara College,B.A. Program (Tamil + Political Science/History),EWS,269.0863,269.0863,yes
+round-1,7,150,Daulat Ram College (W),B.A. Program (Philosophy + Psychology),OBC-NCL,690.5076,690.5076,yes
+round-1,7,149,Daulat Ram College (W),B.A. Program (History + Political Science),PwBD,494.44,494.44,yes
+round-1,17,412,Indraprastha College for Women (W),B.A. (Hons.) Economics,ST,306.936,306.936,yes
+round-1,55,1303,Swami Shardhanand College,B.Sc. (Hons.) Microbiology,SGC,567.4436,567.4436,yes
+round-1,36,874,P.G.D.A.V. College (Evening),B.Sc. (Hons.) Mathematics,SGC,451.4545,451.4545,yes
+round-1,19,451,Janki Devi Memorial College (W),B.A. (Hons.) Hindi,PwBD,,,yes
+round-1,54,1299,Swami Shardhanand College,B.Com.,ORPHAN-MALE,,,yes
+round-1,42,1012,Shaheed Bhagat Singh College,B.A. (Hons.) Geography,KM,,,yes
+round-1,24,576,Kamala Nehru College (W),B.A. Program (Hindi + History),ORPHAN-FEMALE,,,yes
+round-1,46,1117,Shyama Prasad Mukherji College For Women (W),B.A. (Hons.) Political Science,ORPHAN-MALE,,,yes
+round-1,1,4,Acharya Narendra Dev College,B.Sc. (Hons.) Chemistry,PwBD,,,yes
+round-1,2,39,Aryabhatta College,B.A. Program (History + Political Science),ORPHAN-MALE,,,yes
+round-1,20,466,Janki Devi Memorial College (W),B.A. Program (English + Economics),KM,,,yes
+round-1,11,230,Deshbandhu College,B.A. Program (Punjabi + Political Science),ORPHAN-FEMALE,,,yes
+round-1,22,522,Kalindi College (W),B.A. Program (Commerce + Computer Applications),SIKH,,,yes
+round-1,48,1148,Shyama Prasad Mukherji College For Women (W),B.Com.,ORPHAN-FEMALE,,,yes
+round-1,21,496,Jesus & Mary College (W),B.A. Program (Computer Applications + Mathematics),ORPHAN-FEMALE,,,yes
+round-1,57,1358,Zakir Husain Delhi College,B.A. Program (Hindi + Political Science),ORPHAN-FEMALE,,,yes
+round-1,44,1061,Shivaji College,B.A. Program (Geography + History),KM,,,yes
+round-1,12,256,Dr. Bhim Rao Ambedkar College,B.A. Program (Commerce + Mathematics),ORPHAN-MALE,,,yes
+round-1,40,963,Satyawati College,B.A. (Hons.) Hindi,ORPHAN-FEMALE,,,yes
+round-1,46,1122,Shyama Prasad Mukherji College For Women (W),B.A. Program (Computer Applications + Mathematics),SIKH,,,yes
+round-1,45,1097,Shyam Lal College,B.Sc. (Prog.) Physical Science with Electronics,SIKH,,,yes
+round-1,12,264,Dr. Bhim Rao Ambedkar College,B.A. Program (Hindi + History),ORPHAN-FEMALE,,,yes
+round-1,22,525,Kalindi College (W),B.A. Program (Commerce + History),ORPHAN-MALE,,,yes
+round-2,9,240,Deshbandhu College,B.Sc. (Hons.) Mathematics,SGC,424.8,424.8,yes
+round-2,34,1032,Shaheed Rajguru College of Applied Sciences for Women (W),B.A. (Hons.) Psychology,UR,771.0145,771.0145,yes
+round-2,45,1309,Vivekananda College (W),B.A. (Hons.) Applied Psychology,ST,376.5877,376.5877,yes
+round-2,30,898,Rajdhani College,B.Sc. (Prog.) Physical Science with Chemistry,EWS,92.3037,92.3037,yes
+round-2,31,918,Ramanujan College,B.A. (Hons.) Economics,UR,708.8143,708.8143,yes
+round-2,9,256,Dr. Bhim Rao Ambedkar College,B.A. Program (Commerce + Mathematics),SC,209.3191,209.3191,yes
+round-2,19,544,Kalindi College (W),B.A. Program (Sanskrit + Music),UR,310.35,310.35,yes
+round-2,30,881,Rajdhani College,B.A. Program (Economics + History),UR,589.0302,589.0302,yes
+round-2,21,611,Kirori Mal College,B.A. Program (Hindi + Political Science),ST,681.7067,681.7067,yes
+round-2,7,188,Delhi College of Arts and Commerce,B.A. Program (English + Spanish),SC,382.2216,382.2216,yes
+round-2,28,840,P.G.D.A.V. College,B.A. (Hons.) Political Science,OBC-NCL,481.9024,481.9024,yes
+round-2,47,1382,Zakir Husain Delhi College (Evening),B.A. Program (Economics + History),SGC,354.6106,354.6106,yes
+round-2,26,768,Miranda House (W),B.A. (Hons.) History,SC,766.2297,766.2297,yes
+round-2,21,607,Kirori Mal College,B.A. Program (Economics + History),EWS,800.9525,800.9525,yes
+round-2,33,999,Satyawati College (Evening),B.A. Program (English + Economics),EWS,427.0444,427.0444,yes
+round-2,16,456,Janki Devi Memorial College (W),B.A. (Hons.) Sociology,SC,334.3057,334.3057,yes
+round-2,31,923,Ramanujan College,B.A. Program (Commerce + Economics),SGC,712.7124,712.7124,yes
+round-2,32,958,Ramjas College,B.Sc. (Prog.) Life Science,ST,394.2742,394.2742,yes
+round-2,6,170,Deen Dayal Upadhyaya College,B.Sc. (Hons.) Mathematics,EWS,437.3109,437.3109,yes
+round-2,38,1120,Shyama Prasad Mukherji College For Women (W),B.A. Program (Computer Applications + Economics),UR,531.3928,531.3928,yes
+round-2,45,1310,Vivekananda College (W),B.A. (Hons.) English,OBC-NCL,390.7682,390.7682,yes
+round-2,40,1180,Sri Aurobindo College (Evening),B.A. Program (English + Political Science),ST,303.0705,303.0705,yes
+round-2,32,976,Satyawati College,B.A. Program (Hindi + History),SC,309.2751,309.2751,yes
+round-2,21,629,Lady Irwin College (W),B.Sc. (Pass) Home Science,UR,531.7852,531.7852,yes
+round-2,33,993,Satyawati College (Evening),B.A. Program (Buddhist Studies + Economics),UR,479.1397,479.1397,yes
+round-2,7,182,Delhi College of Arts and Commerce,B.A. (Hons.) Political Science,SGC,754.3374,754.3374,yes
+round-2,46,1364,Zakir Husain Delhi College,B.Com.,ST,108.8599,108.8599,yes
+round-2,4,89,Bharati College (W),B.A. (Hons.) English,SGC,588.0661,588.0661,yes
+round-2,23,675,Lakshmibai College (W),B.Com. (Hons.),PwBD,286.8849,286.8849,yes
+round-2,25,729,Maitreyi College (W),B.Sc. (Hons.) Physics,SC,65.1879,65.1879,yes
+round-2,10,290,Dyal Singh College,B.A. Program (English + History),ST,468.6934,468.6934,yes
+round-2,8,225,Deshbandhu College,B.A. Program (History + Political Science),SC,473.3227,473.3227,yes
+round-2,11,334,Gargi College (W),B.A. (Hons.) Economics,SGC,759.1627,759.1627,yes
+round-2,10,295,Dyal Singh College,B.A. Program (Hindi + Economics),SC,350.9904,350.9904,yes
+round-2,32,946,Ramjas College,B.A. (Hons.) Sanskrit,UR,287.1821,287.1821,yes
+round-2,45,1320,Vivekananda College (W),B.A. Program (Economics + Mathematics),OBC-NCL,269.3535,269.3535,yes
+round-2,45,1313,Vivekananda College (W),B.A. (Hons.) Political Science,SC,455.7791,455.7791,yes
+round-2,13,409,Hindu College,B.Sc. (Hons.) Zoology,SC,584.0165,584.0165,yes
+round-2,44,1271,St. Stephen's College,B.A. (Hons.) English,SGC,898.9396,898.9396,yes
+round-2,23,677,Lakshmibai College (W),B.Sc. (Hons.) Mathematics,EWS,254.8454,254.8454,yes
+round-2,2,42,Aryabhatta College,B.Sc. (Hons.) Computer Science,UR,571.2006,571.2006,yes
+round-2,24,694,Maharaja Agrasen College,B.A. Program (English + Political Science),EWS,432.3147,432.3147,yes
+round-2,7,182,Delhi College of Arts and Commerce,B.A. (Hons.) Political Science,UR,776.3391,776.3391,yes
+round-2,15,438,Indraprastha College for Women (W),B.A. Program (Sanskrit + Philosophy),UR,570.8613,570.8613,yes
+round-2,11,306,Dyal Singh College,B.Com. (Hons.),PwBD,258.6858,258.6858,yes
+round-2,44,1265,Sri Venketeswara College,B.Sc. (Hons.) Mathematics,SGC,678.6887,678.6887,yes
+round-2,22,650,Lakshmibai College (W),B.A. (Hons.) Economics,EWS,401.75,401.75,yes
+round-2,2,36,Aryabhatta College,B.A. (Hons.) Psychology,SC,697.6366,697.6366,yes
+round-2,40,1179,Sri Aurobindo College (Evening),B.A. Program (English + Physical Education),UR,552.123,552.123,yes
+round-2,38,1133,Shyama Prasad Mukherji College For Women (W),B.A. Program (Hindi + Geography),SGC,448.0246,448.0246,yes
+round-2,6,161,Deen Dayal Upadhyaya College,B.A. (Hons.) English,UR,647.3307,647.3307,yes
+round-2,31,941,Ramjas College,B.A. (Hons.) Economics,EWS,726.7496,726.7496,yes
+round-2,5,124,College of Vocational Studies,B.A. (Hons.) English,ST,348.7381,348.7381,yes
+round-2,31,926,Ramanujan College,B.A. Program (Hindi + History),SC,436.8996,436.8996,yes
+round-2,12,339,Gargi College (W),B.A. (Hons.) Political Science,OBC-NCL,725.1397,725.1397,yes
+round-2,33,995,Satyawati College (Evening),B.A. Program (Commerce + Economics),EWS,392.1109,392.1109,yes
+round-2,13,388,Hansraj College,B.Sc. (Prog.) Life Science,SGC,626.3742,626.3742,yes
+round-2,33,995,Satyawati College (Evening),B.A. Program (Commerce + Economics),UR,558.5795,558.5795,yes
+round-2,1,28,Aditi Mahavidyalaya (W),B.Com. (Hons.),UR,612.4887,612.4887,yes
+round-2,13,395,Hindu College,B.A. (Hons.) Philosophy,SC,754.4535,754.4535,yes
+round-2,8,210,Deshbandhu College,B.A. Program (Economics + History),OBC-NCL,531.5321,531.5321,yes
+round-2,24,714,Maitreyi College (W),B.A. Program (English + Economics),SGC,707.9187,707.9187,yes
+round-2,46,1355,Zakir Husain Delhi College,B.A. Program (English + Psychology),EWS,505.0894,505.0894,yes
+round-2,20,597,Kirori Mal College,B.A. (Hons.) Economics,SC,628.3679,628.3679,yes
+round-2,24,716,Maitreyi College (W),B.A. Program (Hindi + History),ST,308.3231,308.3231,yes
+round-2,6,150,Daulat Ram College (W),B.A. Program (Philosophy + Psychology),SC,633.4932,633.4932,yes
+round-2,9,244,Deshbandhu College,B.Sc. (Prog.) Life Science,ST,290.9353,290.9353,yes
+round-2,23,659,Lakshmibai College (W),B.A. Program (Commerce + Economics),OBC-NCL,368.3517,368.3517,yes
+round-2,34,1014,Shaheed Bhagat Singh College,B.A. (Hons.) History,EWS,663.1049,663.1049,yes
+round-2,28,815,Motilal Nehru College,B.Sc. (Prog.) Physical Science with Computer Science/ Informatics Practices,SGC,221.9325,221.9325,yes
+round-2,2,35,Aryabhatta College,B.A. (Hons.) Political Science,ST,583.2511,583.2511,yes
+round-2,19,554,Kalindi College (W),B.Sc. (Prog.) Life Science,SGC,501.4466,501.4466,yes
+round-2,12,372,Hansraj College,B.A. (Hons.) Sanskrit,EWS,354.7277,354.7277,yes
+round-2,7,183,Delhi College of Arts and Commerce,B.A. Program (Commerce + Computer Applications),OBC-NCL,488.7339,488.7339,yes
+round-2,41,1200,Sri Guru Nanak Dev Khalsa College,B.A. (Hons.) Business Economics,SIKH,394.4672,394.4672,yes
+round-2,2,42,Aryabhatta College,B.Sc. (Hons.) Computer Science,SC,410.0754,410.0754,yes
+round-2,29,872,P.G.D.A.V. College (Evening),B.Com.,OBC-NCL,372.2771,372.2771,yes
+round-2,7,185,Delhi College of Arts and Commerce,B.A. Program (Computer Applications + Mathematics),EWS,567.1518,567.1518,yes
+round-2,28,825,Motilal Nehru College (Evening),B.A. Program (English + Mathematics),OBC-NCL,294.5374,294.5374,yes
+round-2,20,598,Kirori Mal College,B.A. (Hons.) English,OBC-NCL,732.0432,732.0432,yes
+round-2,36,1058,Shivaji College,B.A. Program (Economics + Political Science),EWS,507.0762,507.0762,yes
+round-2,12,354,Gargi College (W),B.A. Program (Philosophy + Political Science),OBC-NCL,641.059,641.059,yes
+round-2,30,894,Rajdhani College,B.Sc. (Hons.) Electronics,OBC-NCL,162.8728,162.8728,yes
+round-2,36,1064,Shivaji College,B.A. Program (Hindi + History),UR,502.119,502.119,yes
+round-2,34,1021,Shaheed Bhagat Singh College (Evening),B.A. (Hons.) Geography,EWS,344.9878,344.9878,yes
+round-2,20,575,Kamala Nehru College (W),B.A. Program (Geography + Political Science),SC,545.3354,545.3354,yes
+round-2,36,1085,Shyam Lal College,B.A. Program (Commerce + Economics),UR,619.5493,619.5493,yes
+round-2,28,830,Motilal Nehru College (Evening),B.A. Program (History + Political Science),SC,313.4523,313.4523,yes
+round-2,1,2,Acharya Narendra Dev College,B.Sc. (Hons.) Biomedical Science,SC,466.5354,466.5354,yes
+round-2,43,1253,Sri Venketeswara College,B.A. Program (Hindi + Sociology),UR,710.4172,710.4172,yes
+round-2,45,1317,Vivekananda College (W),B.A. Program (Computer Applications + Economics),SC,206.4614,206.4614,yes
+round-2,33,978,Satyawati College,B.A. Program (History + Mathematics),OBC-NCL,241.109,241.109,yes
+round-2,12,370,Hansraj College,B.A. (Hons.) History,ST,752.0537,752.0537,yes
+round-2,23,666,Lakshmibai College (W),B.A. Program (Hindi + History),SC,270.856,270.856,yes
+round-2,13,395,Hindu College,B.A. (Hons.) Philosophy,OBC-NCL,791.0417,791.0417,yes
+round-2,44,1282,Swami Shardhanand College,B.A. (Hons.) English,SC,370.6384,370.6384,yes
+round-2,1,13,Acharya Narendra Dev College,B.Sc. (Prog.) Physical Science with Electronics,SGC,193.1396,193.1396,yes
+round-2,28,821,Motilal Nehru College (Evening),B.A. Program (Economics + Mathematics),OBC-NCL,295.6266,295.6266,yes
+round-2,19,551,Kalindi College (W),B.Sc. (Hons.) Mathematics,SGC,406.514,406.514,yes
+round-2,43,1262,Sri Venketeswara College,B.Sc. (Hons.) Botany,UR,571.2302,571.2302,yes
+round-2,10,280,Dyal Singh College,B.A. (Hons.) Punjabi,SIKH,,,yes
+round-2,43,1237,Sri Guru Tegh Bahadur Khalsa College,B.Sc. (Hons.) Mathematics,SC,,,yes
+round-2,25,738,Mata Sundri College for Women (W),B.A. (Hons.) Political Science,KM,,,yes
+round-2,19,545,Kalindi College (W),B.A. Program (Sanskrit + Political Science),PwBD,,,yes
+round-2,6,146,Daulat Ram College (W),B.A. Program (Economics + Mathematics),PwBD,,,yes
+round-2,23,673,Lakshmibai College (W),B.A. Program (Sanskrit + Sociology),ORPHAN-FEMALE,,,yes
+round-2,23,687,Maharaja Agrasen College,B.A. Program (Computer Applications + Economics),SIKH,,,yes
+round-2,26,759,Mata Sundri College for Women (W),B.Sc. (Hons.) Computer Science,KM,,,yes
+round-2,9,253,Dr. Bhim Rao Ambedkar College,B.A. (Hons.) History,SIKH,,,yes
+round-2,27,779,Miranda House (W),B.A. Program (Geography + Political Science),ORPHAN-MALE,,,yes
+round-2,33,997,Satyawati College (Evening),B.A. Program (Economics + Mathematics),KM,,,yes
+round-2,28,835,Motilal Nehru College (Evening),B.Com. (Hons.),PwBD,,,yes
+round-2,17,477,Janki Devi Memorial College (W),B.A. Program (Music + Political Science),EWS,,,yes
+round-2,18,518,Kalindi College (W),B.A. (Hons.) History,SIKH,,,yes
+round-2,9,233,Deshbandhu College,B.A. Program (Sanskrit + Philosophy),PwBD,,,yes
+round-2,33,981,Satyawati College,B.A. Program (Sanskrit + History),SIKH,,,yes
+round-2,17,483,Janki Devi Memorial College (W),B.Com. (Hons.),ORPHAN-FEMALE,,,yes
+round-2,28,818,Motilal Nehru College (Evening),B.A. (Hons.) History,KM,,,yes
+round-2,7,191,Delhi College of Arts and Commerce,B.A. Program (Hindi + Political Science),PwBD,,,yes
+round-2,46,1362,Zakir Husain Delhi College,B.A. Program (Philosophy + Arabic/Bengali/Persian/Sanskrit/Urdu ),ORPHAN-FEMALE,,,yes
+round-3,16,416,Lakshmibai College (W),B.Sc. (Hons.) Mathematics,SGC,466.6666,466.6666,yes
+round-3,35,896,Vivekananda College (W),B.A. Program (English + Computer Applications),OBC-NCL,226.7348,226.7348,yes
+round-3,4,97,Bhaskaracharya College of Applied Sciences,B.Sc. (Hons.) Electronics,SC,40.5493,40.5493,yes
+round-3,34,864,Swami Shardhanand College,B.A. Program (Computer Applications + Economics),EWS,216.7448,216.7448,yes
+round-3,31,798,Sri Aurobindo College (Evening),B.A. Program (Economics + History),SGC,280.6751,280.6751,yes
+round-3,35,894,Vivekananda College (W),B.A. Program (English + French),SC,330.9855,330.9855,yes
+round-3,11,290,Janki Devi Memorial College (W),B.A. Program (English + Mathematics),SGC,640.7529,640.7529,yes
+round-3,13,343,Kalindi College (W),B.A. (Hons.) Economics,EWS,250.8268,250.8268,yes
+round-3,25,663,Shaheed Bhagat Singh College,B.A. (Hons.) Hindi,SC,226.1283,226.1283,yes
+round-3,33,846,Sri Venketeswara College,B.Sc. (Hons.) Bio-Chemistry,EWS,572.4404,572.4404,yes
+round-3,25,660,Shaheed Bhagat Singh College,B.A. (Hons.) English,PwBD,220.5323,220.5323,yes
+round-3,4,86,Bharati College (W),B.Com.,OBC-NCL,366.9548,366.9548,yes
+round-3,4,92,Bhaskaracharya College of Applied Sciences,B.Sc. (Hons.) Instrumentation,UR,262.0973,262.0973,yes
+round-3,25,643,Satyawati College (Evening),B.A. Program (Buddhist Studies + Economics),OBC-NCL,212.3598,212.3598,yes
+round-3,16,421,Maharaja Agrasen College,B.A. Program (Commerce + History),SGC,533.2308,533.2308,yes
+round-3,12,305,Janki Devi Memorial College (W),B.A. Program (Economics + Music),SC,239.8154,239.8154,yes
+round-3,29,748,Shyama Prasad Mukherji College For Women (W),B.A. Program (Computer Applications + Economics),OBC-NCL,320.4093,320.4093,yes
+round-3,35,881,Swami Shardhanand College,B.Com.,EWS,458.458,458.458,yes
+round-3,23,607,Ramjas College,B.Sc. (Hons.) Mathematics,OBC-NCL,553.6456,553.6456,yes
+round-3,23,610,Ramjas College,B.Sc. (Hons.) Zoology,OBC-NCL,570.2722,570.2722,yes
+round-3,7,173,Dr. Bhim Rao Ambedkar College,B.A. Program (Hindi + Political Science),SGC,448.9858,448.9858,yes
+round-3,4,84,Bharati College (W),B.A. (Hons.) History,SC,345.8047,345.8047,yes
+round-3,19,497,Motilal Nehru College,B.A. (Hons.) Hindi,SC,182.1443,182.1443,yes
+round-3,36,937,Zakir Husain Delhi College,B.Sc. (Prog.) Life Science,SC,355.9246,355.9246,yes
+round-3,34,859,Swami Shardhanand College,B.A. Program (Sanskrit + Economics),SC,196.3676,196.3676,yes
+round-3,5,104,College of Vocational Studies,B.A. (Vocational Studies) Tourism Management,ST,334.8837,334.8837,yes
+round-3,33,838,Sri Venketeswara College,B.A. (Hons.) Hindi,ST,238.268,238.268,yes
+round-3,24,636,Satyawati College (Evening),B.A. Program (English + Political Science),SGC,416.6962,416.6962,yes
+round-3,5,117,Daulat Ram College (W),B.A. (Hons.) Hindi,EWS,418.3751,418.3751,yes
+round-3,21,550,P.G.D.A.V. College (Evening),B.Sc. (Hons.) Mathematics,OBC-NCL,249.9703,249.9703,yes
+round-3,19,489,Miranda House (W),B.Sc. (Hons.) Physics,SGC,425.6963,425.6963,yes
+round-3,36,926,Zakir Husain Delhi College,B.A. Program (History + Philosophy),ST,380.3118,380.3118,yes
+round-3,12,315,Kalindi College (W),B.A. Program (Computer Applications + Geography),SGC,305.2811,305.2811,yes
+round-3,7,160,Deshbandhu College,B.Sc. (Hons.) Botany,ST,259.2137,259.2137,yes
+round-3,28,729,Shyam Lal College (Evening),B.A. Program (Computer Applications + Mathematics),SC,147.6851,147.6851,yes
+round-3,25,664,Shaheed Bhagat Singh College,B.Com. (Hons.),EWS,738.3878,738.3878,yes
+round-3,3,66,Bhagini Nivedita College (W),B.Sc. (Hons.) Home Science,OBC-NCL,275.7335,275.7335,yes
+round-3,8,183,Dr. Bhim Rao Ambedkar College,B.A. (Hons.) Hindi Patrakarita,OBC-NCL,134.4854,134.4854,yes
+round-3,19,495,Motilal Nehru College,B.Sc. (Hons.) Mathematics,SC,441.8975,441.8975,yes
+round-3,13,341,Kalindi College (W),B.A. (Hons.) Journalism,OBC-NCL,527.8781,527.8781,yes
+round-3,27,694,Shivaji College,B.A. (Hons.) Hindi,OBC-NCL,392.5944,392.5944,yes
+round-3,4,84,Bharati College (W),B.A. (Hons.) History,OBC-NCL,264.0044,264.0044,yes
+round-3,16,429,Maharaja Agrasen College,B.A. (Hons.) Hindi,EWS,797.8407,797.8407,yes
+round-3,16,412,Lakshmibai College (W),B.A. Program (Commerce + Economics),EWS,370.2332,370.2332,yes
+round-3,24,624,Satyawati College,B.A. Program (English + History),OBC-NCL,526.6342,526.6342,yes
+round-3,4,78,Bharati College (W),B.A. Program (Community Science + Political Science),OBC-NCL,196.9025,196.9025,yes
+round-3,9,236,Hansraj College,B.A. (Hons.) History,UR,851.7365,851.7365,yes
+round-3,16,407,Lakshmibai College (W),B.A. (Hons.) History,EWS,278.7907,278.7907,yes
+round-3,12,303,Janki Devi Memorial College (W),B.A. (Hons.) Economics,SC,273.2534,273.2534,yes
+round-3,34,873,Swami Shardhanand College,B.A. (Hons.) History,SC,334.1426,334.1426,yes
+round-3,8,179,Dr. Bhim Rao Ambedkar College,B.A. Program (History + Political Science),ST,521.1053,521.1053,yes
+round-3,16,415,Lakshmibai College (W),B.A. Program (Hindi + History),SC,210.7634,210.7634,yes
+round-3,22,571,Rajdhani College,B.Sc. (Hons.) Mathematics,EWS,290.2386,290.2386,yes
+round-3,16,420,Lakshmibai College (W),B.Sc. (Hons.) Home Science,EWS,192.7875,192.7875,yes
+round-3,8,205,Dyal Singh College,B.A. (Hons.) Hindi,OBC-NCL,191.425,191.425,yes
+round-3,7,177,Dr. Bhim Rao Ambedkar College,B.A. Program (Geography + Psychology),OBC-NCL,675.9919,675.9919,yes
+round-3,21,534,P.G.D.A.V. College,B.Sc. (Prog.) Mathematical Sciences,EWS,261.6608,261.6608,yes
+round-3,30,763,Shyama Prasad Mukherji College For Women (W),B.Sc. (Hons.) Computer Science,ST,149.7947,149.7947,yes
+round-3,28,729,Shyam Lal College (Evening),B.A. Program (Computer Applications + Mathematics),OBC-NCL,301.7032,301.7032,yes
+round-3,12,302,Janki Devi Memorial College (W),B.A. Program (Community Science + Sanskrit),SC,226.9424,226.9424,yes
+round-3,27,699,Shivaji College,B.A. (Hons.) Sanskrit,SC,201.0337,201.0337,yes
+round-3,36,917,Zakir Husain Delhi College,B.A. (Hons.) History,SGC,543.8228,543.8228,yes
+round-3,16,407,Lakshmibai College (W),B.A. (Hons.) History,OBC-NCL,544.0435,544.0435,yes
+round-3,24,623,Satyawati College,B.A. Program (Urdu + Political Science),SC,235.8759,235.8759,yes
+round-3,8,196,Dyal Singh College,B.A. (Hons.) Philosophy,ST,195.5917,195.5917,yes
+round-3,10,247,Hansraj College,B.Sc. (Hons.) Anthropology,ORPHAN-FEMALE,199.1815,199.1815,yes
+round-3,19,474,Mata Sundri College for Women (W),B.Sc. (Hons.) Mathematics,UR,449.0873,449.0873,yes
+round-3,33,844,Sri Venketeswara College,B.Sc. (Hons.) Electronics,UR,423.6175,423.6175,yes
+round-3,11,285,Janki Devi Memorial College (W),B.A. Program (Economics + Political Science),SGC,567.4532,567.4532,yes
+round-3,31,782,Sri Aurobindo College (Evening),B.A. Program (Economics + Music),OBC-NCL,270.5153,270.5153,yes
+round-3,8,197,Dyal Singh College,B.A. Program (Punjabi + Political Science),OBC-NCL,167.4616,167.4616,yes
+round-3,7,157,Deshbandhu College,B.Sc. (Prog.) Physical Science with Chemistry,UR,337.2838,337.2838,yes
+round-3,23,610,Ramjas College,B.Sc. (Hons.) Zoology,PwBD,74.7419,74.7419,yes
+round-3,9,221,Dyal Singh College (Evening),B.A. Program (Commerce + History),ST,141.8198,141.8198,yes
+round-3,33,845,Sri Venketeswara College,B.Sc. (Hons.) Statistics,UR,772.7046,772.7046,yes
+round-3,36,924,Zakir Husain Delhi College,B.A. Program (Hindi + Economics),OBC-NCL,297.9238,297.9238,yes
+round-3,35,895,Vivekananda College (W),B.A. Program (Economics + Political Science),OBC-NCL,283.717,283.717,yes
+round-3,30,765,Shyama Prasad Mukherji College For Women (W),B.A. (Hons.) History,SGC,440.5064,440.5064,yes
+round-3,19,495,Motilal Nehru College,B.Sc. (Hons.) Mathematics,SGC,434.7603,434.7603,yes
+round-3,16,417,Lakshmibai College (W),B.A. (Hons.) Sociology,EWS,214.4376,214.4376,yes
+round-3,25,664,Shaheed Bhagat Singh College,B.Com. (Hons.),UR,868.5173,868.5173,yes
+round-3,2,37,Aryabhatta College,B.A. (Hons.) Political Science,UR,791.9761,791.9761,yes
+round-3,14,356,Kamala Nehru College (W),B.A. Program (Sanskrit + Philosophy),OBC-NCL,462.707,462.707,yes
+round-3,1,24,Aditi Mahavidyalaya (W),B.A. (Hons.) Social Work,SGC,436.9917,436.9917,yes
+round-3,8,179,Dr. Bhim Rao Ambedkar College,B.A. Program (History + Political Science),SGC,667.9641,667.9641,yes
+round-3,31,796,Sri Aurobindo College (Evening),B.A. Program (Hindi + History),SC,255.5522,255.5522,yes
+round-3,34,867,Swami Shardhanand College,B.Sc. (Hons.) Zoology,SGC,485.6685,485.6685,yes
+round-3,3,72,Bharati College (W),B.A. Program (Sanskrit + History),UR,408.3088,408.3088,yes
+round-3,25,665,Shaheed Bhagat Singh College (Evening),B.A. Program (English + Economics),ST,253.4065,253.4065,yes
+round-3,37,947,Zakir Husain Delhi College (Evening),B.A. Program (Hindi + Economics/History/Political Science),SC,284.5064,284.5064,yes
+round-3,14,348,Kalindi College (W),B.A. (Hons.) Hindi,OBC-NCL,164.5937,164.5937,yes
+round-3,29,752,Shyama Prasad Mukherji College For Women (W),B.A. Program (Community Science + Political Science),SC,151.361,151.361,yes
+round-3,37,956,Zakir Husain Delhi College (Evening),B.Com.,SGC,560.0091,560.0091,yes
+round-3,26,673,Shaheed Rajguru College of Applied Sciences for Women (W),Bachelor of Management Studies (BMS),PwBD,647.3651,647.3651,yes
+round-3,12,308,Janki Devi Memorial College (W),B.A. (Hons.) Sociology,ST,489.0272,489.0272,yes
+round-3,12,309,Janki Devi Memorial College (W),B.A. (Hons.) English,EWS,477.0454,477.0454,yes
+round-3,26,681,Shaheed Rajguru College of Applied Sciences for Women (W),B.Sc. (Hons.) Physics,SGC,141.9238,141.9238,yes
+round-3,3,62,Bhagini Nivedita College (W),B.Sc. (Hons.) Physics,OBC-NCL,54.0129,54.0129,yes
+round-3,35,885,Vivekananda College (W),B.A. Program (Community Science + Political Science),OBC-NCL,358.7587,358.7587,yes
+round-3,20,514,Motilal Nehru College (Evening),B.A. (Hons.) History,SGC,387.4832,387.4832,yes
+round-3,6,140,Deshbandhu College,B.A. Program (Economics + Mathematics),EWS,,,yes
+round-3,2,51,Bhagini Nivedita College (W),B.A. Program (Sanskrit + Political Science),OBC-NCL,,,yes
+round-3,10,240,Hansraj College,B.A. (Hons.) Philosophy,SGC,,,yes
+round-3,7,166,Dr. Bhim Rao Ambedkar College,B.A. Program (Commerce + Economics),KM,,,yes
+round-3,36,926,Zakir Husain Delhi College,B.A. Program (History + Philosophy),UR,,,yes
+round-3,4,91,Bhaskaracharya College of Applied Sciences,B.Sc. (Hons.) Zoology,ORPHAN-FEMALE,,,yes
+round-3,18,464,Mata Sundri College for Women (W),B.A. Program (English + Punjabi),ORPHAN-FEMALE,,,yes
+round-3,11,289,Janki Devi Memorial College (W),B.A. Program (English + Economics),EWS,,,yes
+round-3,31,797,Sri Aurobindo College (Evening),B.A. Program (English + History),ORPHAN-FEMALE,,,yes
+round-3,11,290,Janki Devi Memorial College (W),B.A. Program (English + Mathematics),PwBD,,,yes
+round-3,8,204,Dyal Singh College,B.Sc. (Prog.) Life Science,SIKH,,,yes
+round-3,30,776,Sri Aurobindo College (Day),B.A. Program (Economics + History),PwBD,,,yes
+round-3,10,260,Hindu College,B.Sc. (Prog.) Physical Science with Chemistry,KM,,,yes
+round-3,22,574,Rajdhani College,B.Sc. (Hons.) Chemistry,PwBD,,,yes
+round-3,12,292,Janki Devi Memorial College (W),B.A. Program (Music + Philosophy),PwBD,,,yes
+round-3,33,828,Sri Guru Tegh Bahadur Khalsa College,B.A. (Hons.) Punjabi,OBC-NCL,,,yes
+round-3,9,211,Dyal Singh College (Evening),B.A. Program (Commerce + Economics),KM,,,yes
+round-3,3,52,Bhagini Nivedita College (W),B.A. Program (Community Science + Sanskrit),ORPHAN-FEMALE,,,yes
+round-3,23,590,Ramanujan College,B.A. (Hons.) Hindi,EWS,,,yes
+round-3,13,340,Kalindi College (W),B.Sc. (Hons.) Physics,ST,,,yes
