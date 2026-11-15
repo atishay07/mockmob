@@ -85,7 +85,8 @@ export async function startPractice(userId, input, server = {}) {
   const ntaVariant = mode.id !== 'nta' ? '' : /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : (variantForOption(selection.internalSubject, syllabusOption) || '');
   const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : []), ...(mobPaper.gameId ? ['game', mobPaper.gameId] : [])] : [])]);
   const previous = await Database.getAttemptById(id);
-  if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
+  // B5 (15 Nov 2026): the runner sends the student to this result instead of printing the code (Back from a result).
+  if (previous) throw Object.assign(new Error('SESSION_ALREADY_SUBMITTED'), { publicMessage: 'You already sent this paper.', publicDetail: { attemptId: id } });
   const { questions, meta } = mobPaper
     ? { questions: mobPaper.questions, meta: { mode: mode.id, requestedCount: count, finalCount: mobPaper.questions.length, selectedCount: mobPaper.questions.length, selectionStrategy: 'mob_paper' } }
     : await Database.getQuestions(selection.internalSubject, count, {
