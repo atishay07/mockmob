@@ -134,9 +134,10 @@ test('no served deck, no public page; the empty model has nothing', () => {
 test('the words: real numbers with their unit, sentence case, no exclamation marks, no arrows', () => {
   assert.equal(freeCount(5, 38), '5 of 38 cards free');
   assert.equal(freeCount(3, 3), 'All 3 cards free');
-  assert.equal(freeLine(5, 38), '5 of this chapter’s 38 cards are free to read here, with no account.');
-  assert.equal(freeLine(3, 3), 'All 3 cards in this chapter are free to read here, with no account.');
-  assert.equal(freeLine(1, 1), 'This chapter’s one card is free to read here, with no account.');
+  assert.equal(freeLine(5, 38, 'Accountancy'), 'CUET Accountancy Key cards: 5 of this chapter’s 38 are free to read, with no account.');
+  assert.equal(freeLine(3, 3, 'Physics'), 'CUET Physics Key cards: all 3 in this chapter are free to read, with no account.');
+  assert.equal(freeLine(1, 1, 'English'), 'CUET English Key cards: this chapter’s one card is free to read, with no account.');
+  assert.equal(freeLine(5, 1127, 'History'), 'CUET History Key cards: 5 of this chapter’s 1,127 are free to read, with no account.');
   assert.equal(cardOf(2, 5), 'Card 2 of 5');
   assert.equal(endTitle(5), 'That’s the five.');
   assert.equal(endTitle(3), 'That’s all 3 free cards.');
@@ -148,7 +149,7 @@ test('the words: real numbers with their unit, sentence case, no exclamation mar
   assert.equal(endLead({ open: 3, total: 3 }), 'A free account keeps these 3 in Revise, and your rating sets when each comes back.');
   assert.equal(endLead({ open: 5, total: 38, signedIn: true }), 'In Key cards, these 5 go into Revise, and your rating sets when each comes back.');
   assert.equal(indexFacts({ cards: 911, chapters: 183, subjects: 14 }), '911 cards free to read, from 183 chapters in 14 subjects.');
-  const all = [...Object.values(DECK_WORDS), freeLine(5, 38), endLead({ open: 5, total: 38 }), endTitle(5), indexFacts({ cards: 2, chapters: 1, subjects: 1 })];
+  const all = [...Object.values(DECK_WORDS), freeLine(5, 38, 'Accountancy'), endLead({ open: 5, total: 38 }), endTitle(5), indexFacts({ cards: 2, chapters: 1, subjects: 1 })];
   for (const line of all) {
     assert.doesNotMatch(line, /[!→←⟶]|->|—|\p{Extended_Pictographic}/u, line);
     assert.equal(line[0], line[0].toUpperCase(), `sentence case: ${line}`);

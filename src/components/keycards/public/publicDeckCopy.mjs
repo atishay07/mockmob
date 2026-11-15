@@ -17,10 +17,11 @@ export function freeCount(open, total) {
   return open >= total ? `All ${cardsWord(total)} free` : `${fmt(open)} of ${cardsWord(total)} free`;
 }
 
-/** The chapter page's line under its title: what is free here, counted from the deck. */
-export function freeLine(open, total) {
-  if (open >= total) return total === 1 ? 'This chapter’s one card is free to read here, with no account.' : `All ${fmt(total)} cards in this chapter are free to read here, with no account.`;
-  return `${fmt(open)} of this chapter’s ${cardsWord(total)} are free to read here, with no account.`;
+/** The chapter page's line under its title: whose cards these are and what is free here, counted from the deck. */
+export function freeLine(open, total, subject) {
+  const lead = `CUET ${subject} Key cards: `;
+  if (open >= total) return total === 1 ? `${lead}this chapter’s one card is free to read, with no account.` : `${lead}all ${fmt(total)} in this chapter are free to read, with no account.`;
+  return `${lead}${fmt(open)} of this chapter’s ${fmt(total)} are free to read, with no account.`;
 }
 
 /** "Card 2 of 5": what a screen reader hears where the eye reads "2 of 5". */

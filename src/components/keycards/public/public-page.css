@@ -1,0 +1,55 @@
+/* The public Key card pages (/key-cards and /key-cards/<subject>/<chapter>) around the deck: marketing paper (.mm tokens), the
+   read-mode article head, hairline lists (the DU cutoff pages' rows), no boxes. The chapter's head is compact on a phone, so the
+   first card is on screen with the title. One volt key per view: the deck's, or the index's closing key. */
+
+/* ---------- The chapter page ---------- */
+.kcp-stage { display: grid; grid-template-columns: minmax(0, 1fr); padding-block: 1rem 0; }
+.kcp-head { padding-bottom: 1.25rem; }
+.kcp-head .mm-crumbs { margin-bottom: 0.75rem; flex-wrap: wrap; row-gap: 0; }
+.kcp-head .mm-article__title { font-size: clamp(1.5rem, 6.6vw, 2.75rem); line-height: 1.08; letter-spacing: -0.03em; }
+.kcp-head .mm-article__intro { margin-top: 0.75rem; font-size: clamp(1rem, 3.4vw, 1.125rem); line-height: 1.5; color: var(--ink); }
+.kcp-cue { margin: 0.5rem 0 0; max-width: 62ch; font-size: 0.875rem; line-height: 1.5; color: var(--ink-3); text-wrap: pretty; }
+@media (min-width: 768px) {
+  .kcp-stage { padding-top: 2.5rem; }
+  .kcp-head { padding-bottom: 1.75rem; max-width: 760px; }
+  .kcp-head .mm-article__intro { margin-top: 1rem; }
+}
+/* Wide screens: the head beside the deck, the deck at the app's own card width. */
+@media (min-width: 1080px) {
+  .kcp-stage { grid-template-columns: minmax(300px, 1fr) minmax(0, 640px); column-gap: clamp(48px, 5vw, 96px); align-items: start; padding-top: 3.5rem; }
+  .kcp-head { padding: 3.5rem 0 0; }
+  .kcp-head .mm-article__title { font-size: clamp(2.25rem, 3.2vw, 3rem); }
+}
+
+/* More chapters of the subject, under the deck. */
+.kcp-more { margin-top: 3.5rem; padding-bottom: 3.5rem; }
+@media (min-width: 768px) { .kcp-more { margin-top: 4.5rem; padding-bottom: 5rem; } }
+.kcp-more .mm-h2 { font-size: clamp(1.375rem, 5vw, 1.75rem); }
+.kcp-more__all { margin: 1.25rem 0 0; }
+@media (min-width: 900px) {
+  .kcp-more .kcp-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+}
+
+/* ---------- Hairline rows (a chapter, its free count) ---------- */
+.kcp-list { margin: 1rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.kcp-list li { border-bottom: 1px solid var(--line); }
+.kcp-list__link {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 1rem; min-height: 56px; padding: 0.625rem 0.25rem;
+  color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) { .kcp-list__link:hover { background: var(--surface-hover, var(--paper-raised)); } .kcp-list__link:hover .kcp-list__name { text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; } }
+.kcp-list__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.kcp-list__name { min-width: 0; font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--ink); text-wrap: pretty; overflow-wrap: anywhere; }
+.kcp-list__meta { font-size: 0.875rem; color: var(--ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ---------- The index ---------- */
+.kcp-index .mm-article__intro + .mm-article__intro { margin-top: 0.75rem; }
+.kcp-facts { color: var(--ink); font-weight: 600; }
+.kcp-jump { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.kcp-subject { scroll-margin-top: 84px; }
+.kcp-subject + .kcp-subject { margin-top: 3rem; }
+.kcp-subject .mm-h2 { font-size: clamp(1.5rem, 5.2vw, 2rem); }
+.kcp-subject__meta { margin: 0.5rem 0 0; font-size: 0.9375rem; color: var(--ink-3); }
+@media (min-width: 900px) {
+  .kcp-index .kcp-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+}
