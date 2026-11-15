@@ -1,10 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { preload } from 'react-dom';
 import { Maximize2, Minimize2, Pause, Play, Volume2, VolumeX } from 'lucide-react';
 import { FILM, chapterAt, pickSource } from './heroFilmConfig.mjs';
 
 export { FILM };
+
+// The poster for phones (P7, 15 Nov 2026): a 640 px WebP of the same frame (16 KB; the 1280 px one is 60 KB), made with sharp
+// from FILM.poster. On a budget Android the 1280 px poster drawn at about 318 px was the page's largest paint and took 3.5 s
+// on Slow 4G. Phones (the site's 639 px breakpoint) take this one whatever their pixel ratio, since the film they then play is
+// 480p; wider screens keep the 1280 px poster. Each is preloaded at high priority for its own screens only, and the video's
+// own poster attribute (seen only in full screen before the first frame) is this small file, so a phone fetches one poster.
+const PHONE_POSTER = '/video/hero-v5-poster-640.webp';
+const PHONE_MEDIA = '(max-width: 639px)';
+const WIDE_MEDIA = '(min-width: 640px)';
 
 // The home hero's film. Round 7 (owner, 7 Nov 2026: "the promo video playing as the main hero", like klayprep.com) put the
 // launch teaser here; round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting")
@@ -325,15 +335,21 @@ export default function HeroFilm() {
     segRefs.current[Math.min(COUNT - 1, Math.max(0, to))]?.focus();
   };
 
+  // The poster each screen needs, fetched early at high priority (React writes these into the page's head).
+  preload(PHONE_POSTER, { as: 'image', fetchPriority: 'high', media: PHONE_MEDIA });
+  preload(FILM.poster, { as: 'image', fetchPriority: 'high', media: WIDE_MEDIA });
+
   const current = FILM.chapters[chapter];
   return (
     <figure className="lp-film" aria-label={FILM.label} data-playing={playing ? 'true' : 'false'}>
       {/* A tap or click on the picture pauses or plays (a pointer's shortcut; the keys under it do the same for keyboards).
           In full screen the browser's own controls take taps on the film, so the frame leaves them alone. */}
       <div ref={frameRef} className="lp-film__frame" onClick={full ? undefined : togglePlay}>
-        {/* The film's own first frame, the same file as the video's poster, so it is fetched once. */}
-        {/* eslint-disable-next-line @next/next/no-img-element -- one fixed poster under 60 KB, shared with the video's poster attribute */}
-        <img className="lp-film__poster" src={FILM.poster} width={FILM.width} height={FILM.height} alt="" fetchPriority="high" decoding="async" draggable={false} />
+        {/* The film's own first frame: 640 px on phones, 1280 px wider (PHONE_POSTER above). */}
+        <picture>
+          <source media={PHONE_MEDIA} srcSet={PHONE_POSTER} width={640} height={360} />
+          <img className="lp-film__poster" src={FILM.poster} width={FILM.width} height={FILM.height} alt="" fetchPriority="high" decoding="async" draggable={false} />
+        </picture>
         <video
           ref={videoRef}
           className="lp-film__video"
@@ -341,7 +357,7 @@ export default function HeroFilm() {
           playsInline
           loop
           preload="none"
-          poster={FILM.poster}
+          poster={PHONE_POSTER}
           width={FILM.width}
           height={FILM.height}
           controlsList="nofullscreen"
