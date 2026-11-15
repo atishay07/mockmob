@@ -334,8 +334,9 @@ export default function Today() {
         <NameAsk />
         <div className="today-grid">
           <div className="today-grid__main">
-            {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
-            <ResumePaper />
+            {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. On day one
+                its key is the view's volt and the start card's key goes quiet (visual check F2): the paper is the next step. */}
+            <ResumePaper primary={lead?.id === 'dayOne'} />
             {reelPaper ? (
               <TodayReel paper={reelPaper} loadAttempt={data.loadAttempt} subjectName={subjectName} user={user} onDone={() => setReelOver(true)} />
             ) : (
