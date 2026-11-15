@@ -50,6 +50,8 @@ const SOME = {
   first_week_met: { back: 8 },
   new_best: { back: 12, record: paperRecord('p5', 'accountancy', 'full', 165, 126) },
 };
+/** Two hours: when the fixture's 5th repair was finished (&earned=repair). */
+export const REPAIR_AGO = 2 * 60 * 60 * 1000;
 const COUNTS = { sessions_10: 7, full_mocks_5: 3, four_subjects: 3, repairs_5: 3, repairs_10: 3, repairs_25: 3, weeks_met_4: 1, run_weeks_3: 1 };
 
 export function previewBadgesBody(kind, { now = Date.now(), attemptAt = null, earned = null } = {}) {
@@ -63,12 +65,18 @@ export function previewBadgesBody(kind, { now = Date.now(), attemptAt = null, ea
     plan.first_full_mock = { at: attemptAt };
     plan.full_mocks_5 = { at: attemptAt + 1000, record: paperRecord('fixture-attempt', 'accountancy', 'full', 150) };
   }
+  // Today (lane "badges", 16 Nov 2026): &earned=repair is a 5th repair finished two hours ago, away from any result.
+  if (earned === 'repair') {
+    plan.first_repair = plan.first_repair || { back: 25 };
+    plan.repairs_5 = { at: now - REPAIR_AGO };
+  }
+  const counts = earned === 'repair' ? { ...COUNTS, repairs_10: 5, repairs_25: 5 } : COUNTS;
   const unavailable = kind === 'unknown' ? ['first_hold'] : [];
   const badges = BADGE_STEPS.map((s) => {
     const p = plan[s.id];
     const target = TARGET[s.id] || 1;
     const at = p ? (p.at != null ? p.at : now - p.back * 86400000) : null;
-    const current = p ? target : Math.min(target - 1, kind === 'none' ? 0 : COUNTS[s.id] || 0);
+    const current = p ? target : Math.min(target - 1, kind === 'none' ? 0 : counts[s.id] || 0);
     return { id: s.id, path: s.path, name: s.name, condition: s.condition, earned: !!p, earnedAt: at == null ? null : new Date(at).toISOString(), progress: { current, target }, record: p?.record || null };
   });
   return { version: 1, generatedAt: new Date(now).toISOString(), total: badges.length, earnedCount: badges.filter((b) => b.earned).length, bestRunEndedWeek: kind === 'none' ? null : '2026-10-05', unavailable, badges };

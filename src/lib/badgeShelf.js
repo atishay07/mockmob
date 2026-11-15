@@ -36,6 +36,16 @@ export function whenLine(ms, zone = DEFAULT_ZONE) {
   return `${get('weekday')} ${get('day')} ${get('month')}, ${get('hour')}:${get('minute')} ${get('dayPeriod').toUpperCase()}`;
 }
 
+/** "17 Nov 2026": the day, month and year in the student's own time zone (the share picture's date). */
+export function dayYear(ms, zone = DEFAULT_ZONE) {
+  const t = toMs(ms);
+  if (t == null) return '';
+  let parts;
+  try { parts = new Intl.DateTimeFormat('en-US', { timeZone: zone || DEFAULT_ZONE, day: 'numeric', month: 'short', year: 'numeric' }).formatToParts(new Date(t)); } catch { parts = new Intl.DateTimeFormat('en-US', { timeZone: DEFAULT_ZONE, day: 'numeric', month: 'short', year: 'numeric' }).formatToParts(new Date(t)); }
+  const get = (type) => parts.find((p) => p.type === type)?.value || '';
+  return `${get('day')} ${get('month')} ${get('year')}`;
+}
+
 /** "3 Sep": a short day and month, for a shelf label. */
 export function shortDay(ms, zone = DEFAULT_ZONE) {
   const t = toMs(ms);
@@ -182,9 +192,11 @@ export function detailOf(paths, stepId, { entries = {}, records = {}, zone } = {
   const { step, path } = found;
   const earned = step.status === 'earned';
   const unknown = step.status === 'unknown';
-  const count = earned || unknown ? null : countLeft(step.id, entries);
+  // A count is said once there is one: "0 of 5" is never shown (a fresh account meets what earns a badge, not zeros).
+  const counted = (id) => { const c = countLeft(id, entries); return c && c.current > 0 ? c : null; };
+  const count = earned || unknown ? null : counted(step.id);
   const next = nextOnPath(paths, step.id);
-  const nextCount = next ? countLeft(next.step.id, entries) : null;
+  const nextCount = next ? counted(next.step.id) : null;
   return {
     id: step.id,
     name: step.name,
@@ -199,6 +211,9 @@ export function detailOf(paths, stepId, { entries = {}, records = {}, zone } = {
     // Not earned: it says so, with the count so far where one exists (never a count that is not exact).
     notYet: !earned && !unknown,
     soFar: earned || unknown || !count ? '' : count.so,
+    // The exact count's share, for the mark's edge (only with a count; never a guess), and the day for the share picture.
+    fraction: earned || unknown || !count ? null : count.fraction,
+    shortDate: earned && step.earnedAt != null && !step.undated ? dayYear(step.earnedAt, zone) : '',
     unknownLine: unknown ? 'This one could not be checked just now.' : '',
     next: next ? { kind: next.kind, id: next.step.id, name: next.step.name, condition: next.step.condition, more: nextCount ? nextCount.more : '', short: nextCount ? nextCount.short : '' } : null,
     action: actionFor(path.id),
