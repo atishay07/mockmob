@@ -540,6 +540,8 @@ export default function DailyFive() {
   const waiting = !result && phase !== 'playing' && phase !== 'failed' && (!authKnown || (signedIn && (!account || account.state === 'loading')));
   if (phase === 'loading' || phase === 'failed' || !five || waiting) {
     const failed = phase === 'failed';
+    // Loading is the start card itself (its lines need nothing from the server) with a quiet, disabled key in Start's place, so
+    // the card keeps its height when the five arrive (15 Nov: the question skeleton was taller, a layout shift of 0.05 to 0.08).
     return (
       <>
         {over}
@@ -550,32 +552,31 @@ export default function DailyFive() {
                 <span className="lp-card__sub"><b>Today’s five</b></span>
               </div>
               <div className="lp-card__body">
-                <p className="mm-drill__pick-lead" aria-live="polite" data-tone={failed ? 'error' : null}>
-                  {failed
-                    ? failure === 'offline'
-                      ? 'You’re offline. Reconnect, then try again.'
-                      : failure === 'slow'
-                        ? 'Today’s five are taking too long to load.'
-                        : 'Couldn’t load today’s five just now.'
-                    : 'Loading today’s five.'}
-                </p>
                 {failed ? (
-                  <div className="dly__retry">
-                    <button type="button" className="mm-btn mm-btn--primary" onClick={load}>Try again</button>
-                  </div>
-                ) : (
-                  <div className="mm-drill__loading" aria-hidden="true">
-                    <div className="mm-drill__loading-paper">
-                      <div className="mm-drill__loading-stem"><i /><i /></div>
-                      <div className="mm-drill__options">
-                        {KEYS.map((letter) => (
-                          <div className="mm-drill__option mm-drill__loading-option" key={letter}>
-                            <span className="mm-drill__key">{letter}</span><i />
-                          </div>
-                        ))}
-                      </div>
+                  <>
+                    <p className="mm-drill__pick-lead" aria-live="polite" data-tone="error">
+                      {failure === 'offline'
+                        ? 'You’re offline. Reconnect, then try again.'
+                        : failure === 'slow'
+                          ? 'Today’s five are taking too long to load.'
+                          : 'Couldn’t load today’s five just now.'}
+                    </p>
+                    <div className="dly__retry">
+                      <button type="button" className="mm-btn mm-btn--primary" onClick={load}>Try again</button>
                     </div>
-                  </div>
+                  </>
+                ) : (
+                  <>
+                    <p className="mm-drill__q dly__start-q">Five questions, one at a time, each with its answer explained.</p>
+                    <ul className="dly__rules">
+                      <li>The clock starts when you press Start.</li>
+                      <li>One go a day. An answer can’t be changed.</li>
+                      {signedIn ? <li>Your score is saved to your account and counts as a study day.</li> : null}
+                    </ul>
+                    <div className="dly__go">
+                      <button type="button" className="mm-btn mm-btn--secondary dly__wait" disabled aria-live="polite">Loading today’s five</button>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
