@@ -256,6 +256,7 @@ html[data-theme='light'] .sb-scrim { background: rgba(23, 21, 15, 0.34); }
   .app-shell .sb-moment__stamp .sb-stamp[data-size='hero'] { --sb-px: 120px; }
   .app-shell .sb-moment__title { font-size: 24px; }
   .app-shell .sb-moment__marks { gap: 10px; }
+  .app-shell .sb-moment__strip { justify-content: flex-start; gap: 8px 24px; }
 }
 .app-shell .sb-moment[data-armed='false'] .sb-stamp[data-land], .app-shell .sb-moment[data-armed='false'] .sb-moment__words, .app-shell .sb-moment[data-armed='false'] .sb-moment__strip { opacity: 0; }
 .app-shell .sb-moment[data-armed='true'] .sb-stamp[data-land] { transform-origin: 50% 70%; animation: sb-stamp-down 300ms cubic-bezier(0.22, 1, 0.36, 1) var(--sb-delay, 0ms) both; }

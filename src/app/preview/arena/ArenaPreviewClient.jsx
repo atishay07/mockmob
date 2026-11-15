@@ -16,7 +16,7 @@ import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/s
 import { previewAnalytics, previewCompass, previewInsights, previewRecordAttempt } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
-import { previewStudyRecord, previewBadgesBody, REPAIR_AGO } from './previewStudy';
+import { previewStudyRecord, previewBadgesBody, repairAt } from './previewStudy';
 import { buildStudyRecord } from '@/lib/studyBadges';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MentorRecordPage from '@/components/ai/MentorRecordPage';
@@ -760,7 +760,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const body = computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() });
       // &earned=repair (lane "badges"): the week's read dates the 5th repair two hours ago, as the server's would.
       if (fixture.get('earned') === 'repair' && Array.isArray(body.milestones)) {
-        body.milestones = body.milestones.map((m) => (m.id === 'repairs_5' ? { ...m, achievedAt: new Date(Date.now() - REPAIR_AGO).toISOString() } : m));
+        body.milestones = body.milestones.map((m) => (m.id === 'repairs_5' ? { ...m, achievedAt: new Date(repairAt()).toISOString() } : m));
       }
       return json(body);
     }
