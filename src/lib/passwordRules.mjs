@@ -28,7 +28,7 @@ export const PASSWORD_PROBLEMS = Object.freeze({
   too_long: 'That password is too long. Use 72 characters or fewer.',
   invalid: 'Type the password you want to use, at least 8 characters.',
   same_password: 'That is already your password. Choose a different one.',
-  reauth_required: 'For safety, sign out, sign in with an email code again, then set your password.',
+  reauth_required: 'For your safety, sign out and sign in again. Then set your password within 15 minutes.',
   signed_out: 'Your session here has ended. Sign in again, then set your password.',
   rate_limited: 'Too many tries. Wait a few minutes, then try again.',
   unavailable: 'MockMob is busy right now. Nothing was changed. Try again in a minute.',

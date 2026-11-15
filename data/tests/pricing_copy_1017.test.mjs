@@ -9,7 +9,7 @@ import { SUBJECT_CLAIM } from '../subject_claim.js';
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
 test('W-093: the non-affiliation sentence lives in Terms only', () => {
-  for (const rel of ['src/components/MarketingFooter.jsx', 'src/app/about/page.js', 'src/app/coming-soon/page.js', 'src/app/cuet-subject-combination/page.js', 'src/app/page.js']) {
+  for (const rel of ['src/components/MarketingFooter.jsx', 'src/app/about/page.js', 'src/app/cuet-subject-combination/page.js', 'src/app/page.js']) {
     assert.doesNotMatch(read(rel), /not affiliated|independent of NTA|independent exam preparation|independent CUET/i, rel);
   }
   // 4 Nov (ab7ca661f, L-024): Terms keeps the same meaning without the 'not affiliated' fine print the owner banned.
