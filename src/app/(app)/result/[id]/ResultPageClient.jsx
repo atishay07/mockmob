@@ -75,6 +75,7 @@ import { REPORT_COPY, reportRequest } from '@/components/result/reportModel.mjs'
 import { needsDailyRead, tomorrowLine } from '@/components/result/tomorrowLine.mjs';
 import { useDailyTomorrow } from '@/components/result/useDailyTomorrow';
 import InstallPractice from '@/components/InstallPractice';
+import ShareResult from '@/components/result/ShareResult';
 import '@/components/result/result-1115.css';
 
 function displayValue(value, fallback = '') {
@@ -842,6 +843,10 @@ export default function ResultPageClient({ previewId = null }) {
       {/* D29: the paper played back, about 20 s, from the record (sheet, real moments, costliest chapter, the one next move).
            A quiet row under the front, never inside it. */}
       <ReelEntry analysis={analysis} attempt={attempt} timeRead={timeRead} finding={finding} move={move} onAct={onAct} />
+
+      {/* F-C: Share your result, one quiet key; the picture is drawn in the browser (ShareResult.jsx). Nothing for a blank paper. */}
+      <ShareResult subjectName={subject} mode={mode} total={attempt.total} marks={marks} durationMs={timing?.totalMs ?? null}
+        completedAt={attempt.completedAt} finding={finding} tomorrow={tomorrow} />
 
       {/* ---------- 2. Your full analysis (pass 1018, REVIEW-RESULT-1018 5.2 and 5.3): one index of six named parts, each
            saying what it found, exactly one open. Every R4 block lives in exactly one part, moved and not rewritten. ---------- */}
