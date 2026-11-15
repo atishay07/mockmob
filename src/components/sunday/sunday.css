@@ -70,6 +70,8 @@
 
 /* ---------- The den: this week's Sunday Mock in the Mob's subject (under the quest strip) ---------- */
 .sun-den { display: grid; gap: 10px; min-width: 0; padding: 16px 0 4px; border-top: 1px solid var(--a-line); }
+/* On a wide den the names and marks stay within reading distance of each other. */
+@media (min-width: 900px) { .sun-den > * { max-width: 600px; } }
 .sun-den__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .sun-den__head h3 { margin: 0; font: 800 17px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .sun-den__when { margin: 0; font-size: 13.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
@@ -92,7 +94,7 @@
 .sun-den--wait i:first-child { width: 36%; height: 16px; }
 
 /* ---------- The Sunday Mock page (/sunday) ---------- */
-.sun-page { display: grid; gap: 28px; min-width: 0; }
+.sun-page { display: grid; gap: 28px; min-width: 0; max-width: 760px; }
 .sun-now { display: grid; gap: 6px; margin: 0; padding: 16px 0; border-block: 1px solid var(--a-line); }
 .sun-now b { font: 700 18px/1.3 var(--font-display); color: var(--a-ink); letter-spacing: -0.01em; }
 .sun-now span { font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
@@ -118,8 +120,13 @@
 .sun-skel i { display: block; height: 56px; border-radius: 12px; background: var(--a-raised-2); }
 
 /* ---------- The result: one quiet row under the analysis ---------- */
-.sun-res { display: flex; align-items: center; gap: 14px; margin: 20px 0 4px; padding: 14px 0; border-block: 1px solid var(--a-line); }
-.sun-res__text { display: grid; gap: 3px; flex: 1; min-width: 0; }
+.sun-res { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 6px 14px; margin: 8px 0 4px; padding: 16px 0; border-bottom: 1px solid var(--a-line); }
+.sun-res > .sun-key, .sun-res > .sun-link { grid-column: 2; justify-self: start; }
+@media (min-width: 560px) {
+  .sun-res { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
+  .sun-res > .sun-key, .sun-res > .sun-link { grid-column: auto; }
+}
+.sun-res__text { display: grid; gap: 3px; min-width: 0; }
 .sun-res__text b { font: 650 16px/1.3 var(--font-display); color: var(--a-ink); }
 .sun-res__text span { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 
