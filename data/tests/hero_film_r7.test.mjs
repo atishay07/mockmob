@@ -24,11 +24,14 @@ const SCENE_CSS = stripCss(read('src/app/hero-scene.css'));
 const PAGE = code(read('src/app/page.js'));
 const HERO = PAGE.slice(PAGE.indexOf('<section className="lp-hero">'), PAGE.indexOf('<CollegeStrip'));
 
-test('the launch teaser\'s files stay in the repo until the walkthrough ships (round 9 replaces them with hero-v2)', () => {
-  for (const f of ['public/video/hero-480.mp4', 'public/video/hero-720.mp4', 'public/video/hero-poster.webp']) {
+// The launch teaser's three files (hero-480.mp4, hero-720.mp4, hero-poster.webp; 12.5 MB) left the repo on 15 Nov 2026: the
+// walkthrough (hero-v5-*) has been the hero since 9 Nov and nothing referenced them (audit T8). The film that is served:
+test('the walkthrough\'s three files and its poster are in the repo', () => {
+  for (const f of ['public/video/hero-v5-480.mp4', 'public/video/hero-v5-720.mp4', 'public/video/hero-v5-1080.mp4', 'public/video/hero-v5-poster.webp']) {
     assert.ok(existsSync(join(ROOT, f)), f);
     assert.ok(statSync(join(ROOT, f)).size > 10_000, `${f} is a real file`);
   }
+  for (const gone of ['hero-480.mp4', 'hero-720.mp4', 'hero-poster.webp']) assert.ok(!existsSync(join(ROOT, 'public/video', gone)), `${gone} removed`);
 });
 
 // Round 9 (owner, 9 Nov 2026: "the main walkthrough video of the platform ... highly converting"): the walkthrough film,
