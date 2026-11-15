@@ -408,7 +408,9 @@ export function createMobService(deps) {
       if (!invitesOn()) throw new MobError('INVITES_PAUSED');
       const expires = new Date(now() + INVITE_DAYS * DAY_MS).toISOString();
       for (let attempt = 0; attempt < 3; attempt += 1) {
-        const code = v3On() ? codeFromBytes(deps.randomBytes(4), 6) : codeFromBytes(deps.randomBytes(5));
+        // S2 (15 Nov): every new code is 8 characters again (40 bits). The 6-character codes of v3 (D127) were 30 bits, 1,000
+        // times easier to hit by guessing through the public preview; the ones already shared keep working until they expire.
+        const code = codeFromBytes(deps.randomBytes(5), 8);
         let r;
         try {
           r = await deps.rpc('mob_invite_new', { p_user_id: userId, p_mob_id: state.mob.id, p_code: code, p_expires_at: expires });

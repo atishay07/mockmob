@@ -38,8 +38,8 @@ export const COLOUR_COUNT = 8;
 export const NAME_MAX = 18;
 export const TIMEZONE = 'Asia/Kolkata';
 export const SITE = 'https://www.mockmob.in';
-// Crockford base32 without I, L, O and U. New codes are 6 characters (30 bits, Mob v3, D127) when MOB_V3_ENABLED is on;
-// old 8-character codes (40 bits) keep working until they expire.
+// Crockford base32 without I, L, O and U. New codes are 8 characters (40 bits) again since 15 Nov (S2); the 6-character
+// codes Mob v3 made (30 bits, D127) keep working until they expire.
 export const CODE_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 export const CODE_RE = /^(?:[0-9A-HJKMNP-TV-Z]{6}|[0-9A-HJKMNP-TV-Z]{8})$/;
 // SOCIAL-SPEC P3 reads ^[\p{L}][\p{L} .'-]{1,17}$; combining marks (\p{M}) are added after the first letter, because

@@ -6,6 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
 import { pinDbClock } from './helpers/pgliteClock.mjs';
+import { randomBytes } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -227,4 +228,41 @@ test('S1 a mark that cannot be read refuses the join (UNAVAILABLE); a database w
     await svc.remove('u1', { mob, memberId: memberOf(mob, 'u3') });
     assert.deepEqual(await names(svc, 'u1', mob), ['Asha', 'Riya']);
   } finally { await bare.close(); }
+});
+
+// ---------------------------------------------------------------------------------------------------------------
+// S2: 40-bit codes, and database-backed limits on the ways into a Mob
+// ---------------------------------------------------------------------------------------------------------------
+
+test('S2 new invite codes are 8 characters (40 bits) with v3 on or off', async () => {
+  const db = await database();
+  try {
+    for (const v3 of [true, false]) {
+      const svc = serviceFor(db, { v3, randomBytes: (n) => randomBytes(n) }); // a seeded draw per service would repeat codes
+      const owner = v3 ? 'u1' : 'u5';
+      const mob = (await svc.create(owner, { subject: 'accountancy', name: 'Riya', colour: 0 })).mob.id;
+      for (let i = 0; i < 3; i += 1) assert.match((await svc.invite(owner, { mob })).code, /^[0-9A-HJKMNP-TV-Z]{8}$/, `v3 ${v3}`);
+    }
+  } finally { await db.close(); }
+});
+
+test('S2 join, the public preview and invite creation use the database limiter per network and per signed-in student', async () => {
+  const { ACTIONS, LIMITS, handleMob, limitMessage } = await import('../../src/lib/server/mob/http.js');
+  const taken = [];
+  const deps = (user) => ({
+    enabled: () => true, auth: async () => (user ? { user: { id: user } } : null), cors: () => ({}),
+    rateLimit: async (_r, opts) => { taken.push(opts); return { allowed: true }; },
+    service: { join: async () => ({ ok: true }), lookup: async () => ({ ok: true }), invite: async () => ({ ok: true }) },
+  });
+  const req = (method) => new Request('http://localhost/api/mob', { method, ...(method === 'POST' ? { body: '{}' } : {}) });
+  const run = async (action, user) => { taken.length = 0; await handleMob(deps(user), action, req(ACTIONS[action][0]), { code: 'K7P2M9QX' }); return taken.map((o) => ({ ...o })); };
+  const shape = (o) => [o.route.split(':')[1], o.keyParts.length ? 'user' : 'ip', o.persistent === true, o.fallback];
+  assert.deepEqual((await run('join', 'u1')).map(shape), [['join', 'user', true, 'memory'], ['joinNet', 'ip', true, 'memory'], ['write', 'user', false, undefined]]);
+  assert.deepEqual((await run('invite', 'u1')).map(shape), [['invite', 'user', true, 'memory'], ['inviteNet', 'ip', true, 'memory'], ['write', 'user', false, undefined]]);
+  assert.deepEqual((await run('lookup', 'u1')).map(shape), [['lookup', 'ip', true, 'memory'], ['lookupUser', 'user', true, 'memory']]);
+  assert.deepEqual((await run('lookup', null)).map(shape), [['lookup', 'ip', true, 'memory']], 'signed out: per network only');
+  // Numbers an honest student never meets.
+  assert.deepEqual(['join', 'joinNet', 'invite', 'inviteNet', 'lookup', 'lookupUser'].map((n) => [n, LIMITS[n].limit, LIMITS[n].windowMs / 60_000]),
+    [['join', 10, 60], ['joinNet', 120, 60], ['invite', 5, 1440], ['inviteNet', 100, 1440], ['lookup', 120, 10], ['lookupUser', 60, 60]]);
+  for (const n of ['joinNet', 'inviteNet', 'lookupUser']) assert.match(limitMessage(n, 'in 25 minutes'), /in 25 minutes\.$/);
 });

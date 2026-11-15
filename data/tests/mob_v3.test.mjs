@@ -368,7 +368,7 @@ test('SV-1 the 8-character check is found by its definition (staging names it mo
   } finally { await db.close(); }
 });
 
-test('SV-1 old 8-character codes still look up, join and expire; 6-character codes work beside them', async () => {
+test('SV-1 8-character codes look up, join and expire; 6-character codes already shared work beside them', async () => {
   const db = await database();
   try {
     const old = serviceFor(db, { v3: false });
@@ -379,9 +379,12 @@ test('SV-1 old 8-character codes still look up, join and expire; 6-character cod
     const svc = serviceFor(db);
     assert.equal((await svc.lookup(inv8.code)).valid, true);
     await svc.join('u2', { code: inv8.code.toLowerCase(), name: 'Aarav', colour: 1 });
-    const inv6 = await svc.invite('u1', { mob });
-    assert.match(inv6.code, /^[0-9A-HJKMNP-TV-Z]{6}$/);
-    assert.equal(inv6.display, `${inv6.code.slice(0, 3)} ${inv6.code.slice(3)}`);
+    // S2 (15 Nov): with v3 on, new invites are 8 characters again (40 bits); a 6-character link already shared still works.
+    const inv = await svc.invite('u1', { mob });
+    assert.match(inv.code, /^[0-9A-HJKMNP-TV-Z]{8}$/);
+    assert.equal(inv.display, inv.code);
+    await db.query("insert into mob_invites (code, mob_id, created_by, expires_at, max_uses) values ('K7P2M9', $1::uuid, 'u1', now() + interval '7 days', 3)", [mob]);
+    const inv6 = { code: 'K7P2M9' };
     const look = await svc.lookup(`${inv6.code.slice(0, 3)}-${inv6.code.slice(3)}`);
     assert.equal(look.status, 'valid');
     assert.equal(look.name, 'Accountancy', 'no name key: the subject');

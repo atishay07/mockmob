@@ -8,8 +8,12 @@
 //     in the name, a thin chapter, any error) gives its count back, so mistakes never lock a student out. Joining counts
 //     only joins that happen too (18 Oct go/no-go: a failed join used to count toward the 10 an hour, so a student who
 //     mistyped a code was locked out). Guessing codes stays bounded: every join try still counts toward write (60 an
-//     hour per student) and every invite read toward lookup (per network), against a 40-bit code. A wrong code and a
-//     block give the count back alike, so the count says nothing about a block (P10).
+//     hour per student) and joinNet (per network), and every invite read toward lookup (per network) and lookupUser
+//     (per signed-in student). New codes are 40 bits again (S2, 15 Nov); a 6-character code from before is 30 bits and
+//     lives 7 days at most. A wrong code and a block give the count back alike, so the count says nothing about a block (P10).
+//   - S2 (15 Nov): the limits on the ways into a stranger's Mob (invite, join, the public preview) are kept in the
+//     database (persistent), so they hold across every server instance; production does not set
+//     PERSISTENT_LIMITS_ENABLED. If the database cannot answer, that call keeps the in-memory limit (fallback 'memory').
 //   - A gate can answer before a limit is taken (create: the plan's own cap of Mobs runs before the weekly create
 //     limit, so a student at the cap hears that, never the limit's wait; write is taken first, so the gate is counted).
 import { MobError, errorBody, errorStatus, waitPhrase } from '../../mob/model.mjs';
@@ -21,11 +25,17 @@ const WEEK = 7 * DAY;
 export const LIMITS = Object.freeze({
   read: { limit: 120, windowMs: 10 * MIN, by: 'user' },
   write: { limit: 60, windowMs: HOUR, by: 'user' },
-  invite: { limit: 5, windowMs: DAY, by: 'user' },
+  invite: { limit: 5, windowMs: DAY, by: 'user', persistent: true },
+  // S2: per network as well. A class on one connection making links stays far under 100 a day.
+  inviteNet: { limit: 100, windowMs: DAY, by: 'ip', persistent: true },
   // Per network, not per student: a class sharing one connection opens one link (30 a window ran out at 30 students).
-  // 120 tries in 10 minutes from one network is still nowhere near guessing a 40-bit code.
-  lookup: { limit: 120, windowMs: 10 * MIN, by: 'ip' },
-  join: { limit: 10, windowMs: HOUR, by: 'user', success: true },
+  // 120 tries in 10 minutes from one network, counted across every server since S2, is nowhere near guessing a 40-bit code.
+  lookup: { limit: 120, windowMs: 10 * MIN, by: 'ip', persistent: true },
+  // S2: and per signed-in student, wherever they connect from. Nobody opens 60 invites in an hour.
+  lookupUser: { limit: 60, windowMs: HOUR, by: 'user', persistent: true },
+  join: { limit: 10, windowMs: HOUR, by: 'user', success: true, persistent: true },
+  // S2: every try from one network, joined or not (a guesser with many accounts). A class joining at once stays far under.
+  joinNet: { limit: 120, windowMs: HOUR, by: 'ip', persistent: true },
   report: { limit: 10, windowMs: DAY, by: 'user' },
   // Starting Mobs is rare. A cap here is what stops leave-and-start-again from being a way to a fresh weekly paper.
   // Both count successful actions only (success: true).
@@ -55,6 +65,9 @@ export function limitMessage(name, wait) {
     case 'join': return `That was a lot of tries to join in an hour. You can try again ${wait}.`;
     case 'report': return `You sent ${l.limit} reports today, the most a day allows. You can send another ${wait}. To stop sharing a Mob with someone now, use Leave and block.`;
     case 'lookup': return `This invite was checked too many times from your network. Try again ${wait}.`;
+    case 'lookupUser': return `You checked a lot of invites in an hour. You can check again ${wait}.`;
+    case 'joinNet': return `There were a lot of tries to join from your network in an hour. You can try again ${wait}.`;
+    case 'inviteNet': return `A lot of invite links were made from your network today. You can make a new one ${wait}.`;
     case 'gameOpen': return `You started ${l.limit} games today, the most a day allows. You can start another ${wait}.`;
     case 'sticker': return `You sent ${l.limit} stickers in an hour, the most an hour allows. You can send another ${wait}.`;
     case 'mic': return `You tried to pass the mic ${l.limit} times today. You can try again ${wait}.`;
@@ -69,9 +82,10 @@ export const ACTIONS = Object.freeze({
   get: ['GET', ['read'], (s, u, _b, p) => s.view(u, { mobId: p.query?.mob, ...(p.query?.view === 'identity' ? { identity: true } : {}) })],
   // write first: it counts every try, so the plan gate (before create) is never an uncounted read.
   create: ['POST', ['write', 'create'], (s, u, b) => s.create(u, b), 201, { gate: (s, u) => s.createGate?.(u), gateBefore: 'create' }],
-  invite: ['POST', ['invite', 'write'], (s, u, b) => s.invite(u, b)],
-  lookup: ['GET', ['lookup'], (s, u, _b, p) => s.lookup(p.code, { viewerId: u }), 200, { public: true }],
-  join: ['POST', ['join', 'write'], (s, u, b) => s.join(u, b)],
+  invite: ['POST', ['invite', 'inviteNet', 'write'], (s, u, b) => s.invite(u, b)],
+  // lookupUser counts only a signed-in caller (a 'user' limit is skipped without one).
+  lookup: ['GET', ['lookup', 'lookupUser'], (s, u, _b, p) => s.lookup(p.code, { viewerId: u }), 200, { public: true }],
+  join: ['POST', ['join', 'joinNet', 'write'], (s, u, b) => s.join(u, b)],
   patchMe: ['PATCH', ['write'], (s, u, b) => s.patchMe(u, b)],
   leave: ['POST', ['write'], (s, u, b) => s.leave(u, b)],
   remove: ['POST', ['write'], (s, u, b) => s.remove(u, b)],
@@ -145,7 +159,10 @@ export async function handleMob(deps, action, request, params = {}) {
   }
   const optsFor = (name) => {
     const l = LIMITS[name];
-    return { route: `/api/mob:${name}`, limit: l.limit, windowMs: l.windowMs, keyParts: l.by === 'user' ? [userId] : [], identityOnly: l.by === 'user' };
+    return {
+      route: `/api/mob:${name}`, limit: l.limit, windowMs: l.windowMs, keyParts: l.by === 'user' ? [userId] : [], identityOnly: l.by === 'user',
+      ...(l.persistent ? { persistent: true, fallback: 'memory' } : {}),
+    };
   };
   const taken = [];
   // A request that fails, for any reason, gives back every success-only count it took.
@@ -154,6 +171,7 @@ export async function handleMob(deps, action, request, params = {}) {
   };
   for (const name of limits) {
     const l = LIMITS[name];
+    if (l.by === 'user' && !userId) continue; // a public route's per-student limit counts signed-in callers only
     // The plan's own answer comes before the limit it would otherwise meet (a gate throws a MobError, or says nothing and
     // the request goes on). The limits before it still count, so a gated request is never a free read.
     if (flags.gate && flags.gateBefore === name) {
