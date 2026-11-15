@@ -60,7 +60,7 @@ export const COMPASS_HEAD = Object.freeze({
 });
 export const DU_HEAD = Object.freeze({
   h2: 'Which DU courses are open to you?',
-  sub: 'Tick your subjects to see every DU programme they open under the 2026 rules. Free, no signup.',
+  sub: 'Tick your subjects to see every DU course they open under the 2026 rules. Free, no signup.',
 });
 export const EXAM_HEAD = Object.freeze({
   h2: 'Practise calm, then rehearse exam day.',

@@ -85,7 +85,7 @@ export default function CompassLadder({ data }) {
   return (
     <div className="cl" ref={rootRef}>
       <div className="cl__controls">
-        <div className="cl__group" role="group" aria-label="Programme">
+        <div className="cl__group" role="group" aria-label="Course">
           {data.programmes.map((p, i) => (
             <button key={p.id} type="button" aria-pressed={programme === i} onClick={() => setProgramme(i)}>{p.label}</button>
           ))}

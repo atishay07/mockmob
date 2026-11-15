@@ -13,7 +13,7 @@ import { decodeSelection, formatScore } from './client.js';
 export const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
 
 export const COMPASS_HREF = '/admission-compass';
-export const NO_SUBJECTS_LINE = 'Add your subjects to see which DU programmes they open.';
+export const NO_SUBJECTS_LINE = 'Add your subjects to see which DU courses they open.';
 export const NO_SUBJECTS_KEY = 'Add subjects';
 export const OPEN_KEY = 'Open Colleges'; // One name for the place on every surface (W-067).
 
@@ -41,7 +41,7 @@ export function compassState({ rules, saved = null, profile = [] } = {}) {
   return { status: 'ready', open, total: groups.length, category };
 }
 
-export const countLine = (open, total) => `${open} of ${total} DU programmes open to your subjects`;
+export const countLine = (open, total) => `${open} of ${total} DU courses open to your subjects`;
 
 const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 

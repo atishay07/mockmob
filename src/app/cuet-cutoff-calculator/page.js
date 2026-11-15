@@ -13,7 +13,7 @@ import '@/app/landing.css';
 export const metadata = seoMetadata({
   title: 'DU Eligibility & Cutoff Calculator for CUET | MockMob',
   description:
-    'Free tool: pick your CUET subjects, see every Delhi University programme you are eligible for, and compare the previous year’s college-wise cutoffs for your category.',
+    'Free tool: pick your CUET subjects, see every Delhi University course you are eligible for, and compare the previous year’s college-wise cutoffs for your category.',
   path: '/cuet-cutoff-calculator',
 });
 
@@ -35,7 +35,7 @@ const faqs = [
   {
     question: 'What score should I enter?',
     answer:
-      'DU ranks candidates on a separate CUET score for each programme and shows it to you after results. Before results, enter the score you are aiming for. A MockMob mock score uses a different scale.',
+      'DU ranks candidates on a separate CUET score for each course and shows it to you after results. Before results, enter the score you are aiming for. A MockMob mock score uses a different scale.',
   },
   {
     question: 'Why does a reserved-category candidate see the lower of two cutoffs?',
@@ -45,7 +45,7 @@ const faqs = [
   {
     question: 'What does "considered only if seats remain" mean?',
     answer:
-      'For some language Honours programmes the Bulletin ranks candidates who use the general combinations after candidates who meet the language-specific ones. You are eligible, but you are considered only if seats are left.',
+      'For some language Honours courses the Bulletin ranks candidates who use the general combinations after candidates who meet the language-specific ones. You are eligible, but you are considered only if seats are left.',
   },
   {
     question: 'Does MockMob guarantee admission?',
@@ -72,7 +72,7 @@ export default function CutoffCalculatorPage() {
               <span> Check eligibility and published 2026 cutoffs.</span>
             </h1>
             <p className="lp-lead">
-              Pick your CUET subjects. See every Delhi University programme you can apply to, then open any one for the
+              Pick your CUET subjects. See every Delhi University course you can apply to, then open any one for the
               previous year’s college-wise cutoffs in your category.
             </p>
             <ul className="lp-trust du-hero__facts">
@@ -101,7 +101,7 @@ export default function CutoffCalculatorPage() {
               <li>
                 <h3 className="lp-h4">Eligibility is exact</h3>
                 <p>
-                  Each programme lists the subject combinations DU accepts. You are eligible if any combination fits the
+                  Each course lists the subject combinations DU accepts. You are eligible if any combination fits the
                   subjects you tick. Taking extra subjects never hurts.
                 </p>
               </li>

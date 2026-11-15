@@ -30,7 +30,7 @@ const BELIEFS = [
   },
   {
     title: 'A score should tell you what to do next',
-    body: 'Every mock ends with a next move. Chapter review ranks the chapters costing you marks, and Admission Compass checks your DU programmes against sourced eligibility rules and historical cutoffs.',
+    body: 'Every mock ends with a next move. Chapter review ranks the chapters costing you marks, and Admission Compass checks your DU courses against sourced eligibility rules and historical cutoffs.',
   },
 ];
 

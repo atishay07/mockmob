@@ -57,7 +57,7 @@ export function ArenaScreen() {
 }
 
 const FITS = [
-  ['Eligibility', 'Programme rules', 'likely'],
+  ['Eligibility', 'Course rules', 'likely'],
   ['Cutoffs', 'Year and round', 'stretch'],
   ['Category', 'Published scores', 'likely'],
 ];
@@ -73,7 +73,7 @@ export function CompassScreen() {
         <p className="mm-compass__score mm-measure">
           DU<span>historical comparison</span>
         </p>
-        <p className="mm-compass__band">Programme eligibility · category · allocation round.</p>
+        <p className="mm-compass__band">Course eligibility · category · allocation round.</p>
         <ul className="mm-compass__rows">
           {FITS.map(([course, label, fit], i) => (
             <li key={course} style={{ '--i': i }}>

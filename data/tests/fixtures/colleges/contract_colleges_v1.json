@@ -294,7 +294,7 @@
       "status": 422,
       "body": {
         "error": "invalid_request",
-        "message": "Send the programme and the college."
+        "message": "Send the course and the college."
       }
     },
     {

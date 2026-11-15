@@ -41,8 +41,8 @@ const page = {
       heading: 'Choosing your five subjects',
       body: [
         'The most you can take is five. The CUET UG 2026 information bulletin lets a candidate choose up to five subjects in all, and a language or the General Aptitude Test uses one of the five. The 2025 bulletin said the same. NTA has not said what 2027 will allow, and press reports say a lower limit is being discussed, so plan with five and check the bulletin when it is out.',
-        'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements can differ, and the 2027 rules may change when institutions publish their bulletins.',
-        'MockMob Admission Compass checks your DU programmes against sourced eligibility rules and historical cutoffs, so you see where past cutoffs fell. It does not predict admission.',
+        'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Course requirements can differ, and the 2027 rules may change when institutions publish their bulletins.',
+        'MockMob Admission Compass checks your DU courses against sourced eligibility rules and historical cutoffs, so you see where past cutoffs fell. It does not predict admission.',
       ],
       links: [
         { href: '/cuet-subject-combination', label: 'Plan your CUET subject combination' },
@@ -84,7 +84,7 @@ const page = {
     {
       question: 'How many subjects can I take in CUET 2027?',
       answer:
-        'The 2027 subject-selection rules have not been published. Check the official bulletin when it is released and confirm programme-specific requirements with each university.',
+        'The 2027 subject-selection rules have not been published. Check the official bulletin when it is released and confirm course-specific requirements with each university.',
     },
     {
       question: 'Is CUET 2027 online or offline?',
@@ -99,7 +99,7 @@ const page = {
     {
       question: 'When should I start preparing for CUET 2027?',
       answer:
-        'Start with the subjects and syllabus that apply to your target programmes. Add timed practice as you cover topics, then update your plan when NTA and universities publish the 2027 details.',
+        'Start with the subjects and syllabus that apply to your target courses. Add timed practice as you cover topics, then update your plan when NTA and universities publish the 2027 details.',
     },
   ],
 };

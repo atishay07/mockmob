@@ -26,7 +26,7 @@ test('the count is the eligibility engine over all 73 programmes', () => {
   assert.equal(s.total, 73);
   assert.equal(s.open, countFor(COMMERCE.join(',')));
   assert.ok(s.open > 0 && s.open < 73);
-  assert.equal(countLine(s.open, s.total), `${s.open} of 73 DU programmes open to your subjects`);
+  assert.equal(countLine(s.open, s.total), `${s.open} of 73 DU courses open to your subjects`);
 });
 
 test('rules.json and index.json give the same count (Today uses whichever is cached)', () => {

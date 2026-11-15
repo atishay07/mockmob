@@ -38,9 +38,9 @@ export function parseList(body) {
   const seen = new Set();
   for (const raw of rows) {
     const entry = normalizeEntry(raw);
-    if (!entry) return bad('One of the colleges is missing its programme or name.');
+    if (!entry) return bad('One of the colleges is missing its course or name.');
     const key = entryKey(entry);
-    if (seen.has(key)) return bad('A college can be on the list once for each programme.');
+    if (seen.has(key)) return bad('A college can be on the list once for each course.');
     seen.add(key);
     list.push(entry);
   }
@@ -50,7 +50,7 @@ export function parseList(body) {
 /** One entry from a POST body or a DELETE query. */
 export function parseEntry(raw) {
   const entry = normalizeEntry(raw);
-  return entry ? { ok: true, entry } : bad('Send the programme and the college.');
+  return entry ? { ok: true, entry } : bad('Send the course and the college.');
 }
 
 /** The response every route sends: positions from 1, the count and the cap. */

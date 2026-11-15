@@ -66,14 +66,14 @@ export const publicRoutes = [
     path: '/cuet-cutoff-calculator',
     title: 'DU Eligibility & Cutoff Calculator for CUET | MockMob',
     description:
-      'Free tool: pick your CUET subjects, see every Delhi University programme you are eligible for, and compare the previous year’s college-wise cutoffs for your category.',
+      'Free tool: pick your CUET subjects, see every Delhi University course you are eligible for, and compare the previous year’s college-wise cutoffs for your category.',
     priority: 0.95,
   },
   {
     path: '/cuet-subject-combination',
     title: 'CUET Subject Combination Planner for DU | MockMob',
     description:
-      'Free planner: choose the DU programmes you want and the subjects you could take. See which CUET subject combination unlocks the most, checked against DU’s published eligibility rules.',
+      'Free planner: choose the DU courses you want and the subjects you could take. See which CUET subject combination unlocks the most, checked against DU’s published eligibility rules.',
     priority: 0.95,
   },
   {
