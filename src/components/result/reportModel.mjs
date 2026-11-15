@@ -28,7 +28,7 @@ export const REPORT_COPY = Object.freeze({
   send: 'Send report',
   sending: 'Sending…',
   cancel: 'Cancel',
-  sentTitle: 'Thanks. We will check this question.',
+  sentTitle: 'Thanks. Your report is saved.',
   sentDuplicate: 'You have already reported this question. We will check it.',
   done: 'Done',
   pickReason: 'Pick what looks wrong.',

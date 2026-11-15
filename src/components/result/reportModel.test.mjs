@@ -54,7 +54,7 @@ test('a reason is needed; Something else needs a few words; the note is tidied a
 });
 
 test('confirmed only on the server yes; a repeat says so; every failure says what to do and keeps the form', () => {
-  assert.equal(sentLine({ interaction_id: 'i1' }), 'Thanks. We will check this question.');
+  assert.equal(sentLine({ interaction_id: 'i1' }), 'Thanks. Your report is saved.');
   assert.equal(sentLine({ interaction_id: null, duplicate: true }), REPORT_COPY.sentDuplicate);
   assert.match(reportErrorLine({ kind: 'network' }), /No connection/);
   assert.match(reportErrorLine({ status: 429 }), /later/);
