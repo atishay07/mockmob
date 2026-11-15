@@ -30,6 +30,7 @@ import { useMobiGate } from '@/lib/mobiHooks';
 import { greeting as mobiGreeting } from '@/lib/mobiRation';
 import { analyseSession } from '../../../data/session_recovery.js';
 import AskMobiPanel from './AskMobiPanel';
+import { MistakeDoor } from './BringMistake';
 import { WhereYouStand } from './MobiJobParts';
 import { JOB_COPY, doubtStarters } from './mobiJobs.mjs';
 import {
@@ -156,6 +157,13 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
     window.requestAnimationFrame(() => threadRef.current?.scrollIntoView?.({ block: 'start', behavior: 'smooth' }));
   }
 
+  // "Bring a mistake from any test" (16 Nov 2026): the same conversation panel, opened straight into its form.
+  function bringMistake() {
+    threadCount.current += 1;
+    setThread({ key: threadCount.current, text: '', mistake: true, record: null, answer: null, free: false, doubt: null });
+    window.requestAnimationFrame(() => threadRef.current?.scrollIntoView?.({ block: 'start', behavior: 'smooth' }));
+  }
+
   function askRecord(ask, event) {
     if (ask.locked) {
       // Pro is sold on the web: the existing Upgrade sheet (D80), never a dead tap. Without a host (a Pro student) it is the plan page.
@@ -187,6 +195,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
             context={{ kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] }}
             initial={{ text: thread.text, answer: thread.answer, free: thread.free, record: thread.record }}
             doubt={thread.doubt}
+            mistake={thread.mistake === true}
             onClose={() => { setThread(null); setWaiting(false); }}
             onPending={setWaiting}
           />
@@ -234,6 +243,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
                 {moreOpen ? <ChevronUp size={18} aria-hidden="true" /> : <ChevronDown size={18} aria-hidden="true" />}
               </button>
             ) : null}
+            {userId ? <MistakeDoor variant="page" onOpen={bringMistake} /> : null}
           </article>
 
           <article id="ask-record" className="amd-door amd-door--record" aria-labelledby="amd-record-title">

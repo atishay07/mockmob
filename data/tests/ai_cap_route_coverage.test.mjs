@@ -35,6 +35,9 @@ const STUDENT_CALLERS = {
   // Ask Mobi (the mentor chat route reaches the model only through these deps), and Mistake Repair through its deps.
   'src/services/prepos/replyDeps.js': /requestKey, tier, \.\.\.spendUserFor\(user\)/,
   'src/services/recovery/mistakeRepair.js': /spendUser: spendUserFor/,
+  // "Bring a mistake from any test" (16 Nov 2026): one guarded call (callProviderOnce) with the student and plan; mistakeAsk.js
+  // spreads them into it (data/tests/bring_mistake_1116.test.mjs holds that).
+  'src/services/mobi/mistakeDeps.js': /spendUser: spendUserFor\(user\)/,
 };
 // Not student-facing: the content-moderation worker (its route answers 503 and spends nothing), and the router itself.
 // Round 14 (owner, 13 Nov 2026: real Ask Mobi for visitors who have not signed up, Rs 0.5 a visitor, Rs 1 at most): the

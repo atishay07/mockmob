@@ -1,0 +1,163 @@
+/* "Bring a mistake from any test" inside Ask Mobi (BringMistake.jsx, 16 Nov 2026). The Arena's own Night and Day roles (--a-*)
+   and Ask Mobi's own classes (amb-body, amb-quote, amb-notice, amb-btn, amb-src) carry it, so it is the panel's surface, not a
+   card on it. The send key is the view's one volt (btn-volt, the arena keycap); after the answer nothing new is volt. The two
+   checks use the home sample's option grammar (the mm-drill states correct, wrong and muted) in the panel's good and bad text
+   roles, never a fill. Targets 44 px or more, fields 48, options 48. Motion answers a tap only: the picked option settles or
+   knocks, the reason rises (220 to 300 ms, ease-out); reduced motion has none. */
+
+.bm { display: flex; flex-direction: column; min-height: 0; flex: 1; }
+.bm-form { display: flex; flex-direction: column; min-height: 0; flex: 1; margin: 0; }
+.bm .bm-body { gap: 16px; }
+
+/* ---- The door: one quiet line under the asks, its price said before the tap ---- */
+.bm-door {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 52px; padding: 12px 2px;
+  border: 0; border-top: 1px solid var(--a-line); background: none; color: var(--a-ink-2); text-align: left; cursor: pointer;
+  font: 600 14.5px/1.4 var(--font-body, inherit);
+  transition: color 150ms ease, transform 140ms var(--a-ease, ease-out);
+}
+.bm-door__text { min-width: 0; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+.bm-door__price {
+  flex: none; font-style: normal; font-size: 12.5px; font-weight: 600; white-space: nowrap;
+  padding: 5px 9px; border-radius: 8px; background: var(--a-sunken); color: var(--a-ink-3);
+}
+@media (hover: hover) {
+  .bm-door:hover { color: var(--a-ink); }
+  .bm-door:hover .bm-door__text { text-decoration-color: currentColor; }
+}
+.bm-door:active { transform: scale(0.99); }
+.bm-door:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+/* On the /mentor page it closes the Ask now door, priced like the rows above it. */
+.bm-door[data-variant='page'] { margin-top: 14px; padding: 14px 2px 2px; font-size: 15px; }
+.bm-door[data-variant='page'] .bm-door__price { padding: 0; background: none; font: 600 13px/18px var(--font-body, inherit); color: var(--a-ink-3); }
+
+/* ---- The form ---- */
+.bm-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-bottom: -6px; }
+.bm-title { margin: 0; font: 700 18px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.bm :is(.bm-title, h3):focus { outline: none; }
+.bm-back {
+  flex: none; min-height: 44px; padding: 0 4px; border: 0; background: none; cursor: pointer;
+  color: var(--a-ink-2); font: 600 14px/1 var(--font-body, inherit);
+  text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px;
+}
+@media (hover: hover) { .bm-back:hover { color: var(--a-ink); text-decoration-color: currentColor; } }
+.bm-lead { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+
+.bm-field { display: grid; gap: 6px; min-width: 0; }
+.bm-label { font: 650 13.5px/1.35 var(--font-body, inherit); color: var(--a-ink); }
+.bm-label span { font-weight: 500; color: var(--a-ink-3); }
+.bm .bm-input {
+  display: block; width: 100%; min-width: 0; min-height: 48px; margin: 0; padding: 11px 14px;
+  border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); color: var(--a-ink);
+  font: inherit; font-size: 16px; line-height: 1.45; /* 16 px: no zoom on focus */
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+@media (min-width: 768px) { .bm .bm-input { font-size: 15px; } }
+.bm .bm-input::placeholder { color: var(--a-ink-4); }
+.bm .bm-input:focus-visible,
+.app-shell .student-page .bm .bm-input:focus-visible { outline: none; border-color: var(--a-focus); box-shadow: 0 0 0 1px var(--a-focus); }
+.bm .bm-input:disabled { opacity: 0.6; cursor: not-allowed; }
+.bm .bm-input--q { min-height: 148px; max-height: 42vh; resize: vertical; }
+.bm .bm-select {
+  appearance: none; -webkit-appearance: none; padding-right: 42px; cursor: pointer;
+  /* The chevron, drawn from two halves so it takes the ink colour of the theme. */
+  background-image: linear-gradient(45deg, transparent 50%, var(--a-ink-2) 50%), linear-gradient(135deg, var(--a-ink-2) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%;
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+.bm .bm-select option { background: var(--a-raised); color: var(--a-ink); }
+.bm-under { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2px 12px; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
+.bm-count { margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bm-count[data-full] { color: var(--a-bad-text); font-weight: 650; }
+.bm-pair { display: grid; gap: 14px; }
+@media (min-width: 640px) { .bm[data-form='page'] .bm-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+.bm-notice span { overflow-wrap: anywhere; }
+.bm-notice[data-state='over'], .bm-notice[data-state='failed'], .bm-notice[data-state='unknown'] { border-color: var(--a-line-strong); }
+
+/* ---- The foot: the price before sending, then the one key (where the panel's composer sits) ---- */
+.bm-foot { flex: none; display: grid; gap: 10px; padding: 12px 18px 14px; border-top: 1px solid var(--a-line); background: var(--a-raised); }
+.amb-panel--sheet .bm-foot { padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+.bm-price { margin: 0; min-height: 18px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); }
+.bm-price__link {
+  display: inline-flex; align-items: center; min-height: 44px; margin-block: -13px; color: var(--a-ink); font-weight: 600;
+  text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px;
+}
+.bm-reading { min-height: 18px; }
+.app-shell .bm .bm-send, .bm .bm-send { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 50px; }
+.bm-send[aria-busy='true'] { cursor: progress; }
+
+/* On the /mentor page the form is part of the page: no bar, the key under the fields. */
+.bm[data-form='page'] .bm-body { padding-top: 6px; }
+.bm[data-form='page'] .bm-foot { padding: 4px 24px 24px; border-top: 0; background: none; }
+@media (min-width: 640px) {
+  .bm[data-form='page'] .bm-foot { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+  .app-shell .bm[data-form='page'] .bm-send { width: auto; min-width: 168px; order: 2; }
+}
+
+/* The phone's keyboard: the sheet rests on the visible part of the screen while it is open (BringMistake sets these). */
+@media (max-width: 767px) {
+  .amb-panel--sheet[data-keyboard] { bottom: var(--amb-kb, 0px); max-height: calc(var(--amb-vh, 100dvh) - 12px); }
+  .amb-panel--sheet[data-keyboard] .amb-grab { display: none; }
+  /* With the keyboard up the lead line gives its room to the field being typed in. */
+  .amb-panel--sheet[data-keyboard] .bm-lead { display: none; }
+}
+
+/* ---- The answer ---- */
+.bm-answer { display: grid; gap: 18px; min-width: 0; scroll-margin-top: 84px; }
+.bm-quote figcaption { display: block; margin: 0 0 6px; font: 600 12.5px/1.4 var(--font-body, inherit); color: var(--a-ink-3); }
+.bm-quote p { margin: 0; -webkit-line-clamp: 4; }
+.bm-quote__pick { display: block; margin-top: 8px; font-size: 13px; color: var(--a-ink-2); }
+.bm-quote__pick b { color: var(--a-bad-text); font-weight: 650; }
+.bm-part { display: grid; gap: 6px; min-width: 0; }
+.bm-part h3, .bm-checks h3 { margin: 0; font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
+.bm-part p { margin: 0; font-size: 15px; line-height: 1.62; color: var(--a-ink); overflow-wrap: anywhere; white-space: pre-line; }
+.bm-part .bm-key { font-weight: 650; }
+.bm-part .bm-unsure { color: var(--a-ink-2); font-weight: 600; }
+
+.bm-checks { display: grid; gap: 14px; min-width: 0; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.bm-honest { margin: -6px 0 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); }
+.bm-q { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.bm-q + .bm-q { padding-top: 14px; border-top: 1px dashed var(--a-line); }
+.bm-q__n { padding: 0; font: 650 12.5px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
+.bm-q__stem { margin: 0; font-size: 15px; line-height: 1.6; color: var(--a-ink); overflow-wrap: anywhere; white-space: pre-line; }
+.bm-opts { display: grid; gap: 6px; }
+.bm .bm-opt {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr) 18px; align-items: center; gap: 10px; width: 100%; min-height: 48px;
+  padding: 8px 12px; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-raised); color: var(--a-ink);
+  font: inherit; font-size: 14.5px; line-height: 1.45; text-align: left; cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease, opacity 220ms ease-out, transform 140ms var(--a-ease, ease-out);
+}
+@media (hover: hover) { .bm .bm-opt:not(:disabled):hover { border-color: var(--a-line-hover); background: var(--a-option-hover); } }
+.bm .bm-opt:active:not(:disabled) { transform: scale(0.98); }
+.bm .bm-opt:disabled { cursor: default; opacity: 1; }
+.bm-opt__key {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--a-line-strong);
+  font: 700 13px/1 var(--font-display); color: var(--a-ink-2);
+}
+.bm-opt__text { min-width: 0; overflow-wrap: anywhere; }
+.bm-opt__mark { grid-column: 3; }
+.bm .bm-opt[data-state='correct'] { border-color: var(--a-good-text); box-shadow: inset 0 0 0 1px var(--a-good-text); animation: bm-settle 300ms var(--a-ease, ease-out); }
+.bm .bm-opt[data-state='correct'] :is(.bm-opt__key, .bm-opt__mark) { border-color: var(--a-good-text); color: var(--a-good-text); }
+.bm .bm-opt[data-state='wrong'] { border-color: var(--a-bad-text); animation: bm-knock 300ms ease-out; }
+.bm .bm-opt[data-state='wrong'] :is(.bm-opt__key, .bm-opt__mark) { border-color: var(--a-bad-text); color: var(--a-bad-text); }
+.bm .bm-opt[data-state='muted'] { opacity: 0.5; }
+.bm-q__foot:empty { display: none; }
+.bm-why { display: grid; gap: 4px; animation: bm-rise 220ms var(--a-ease, ease-out) both; }
+.bm-verdict { margin: 0; font: 700 15px/1.4 var(--font-display); color: var(--a-bad-text); }
+.bm-verdict[data-right] { color: var(--a-good-text); }
+.bm-reason { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.bm-tally { margin: 0; font: 650 14.5px/1.5 var(--font-body, inherit); color: var(--a-ink); }
+.bm-next { margin: 0; }
+.bm-next .bm-next__link { margin: 0; }
+.bm-another { justify-self: start; }
+
+@keyframes bm-rise { from { opacity: 0; transform: translateY(4px); } }
+@keyframes bm-settle { 0% { transform: scale(0.985); } 60% { transform: scale(1.006); } 100% { transform: scale(1); } }
+@keyframes bm-knock { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-3px); } 60% { transform: translateX(3px); } }
+html[data-motion='reduced'] .bm :is(.bm-why, .bm-opt) { animation: none; }
+html[data-motion='reduced'] .bm :is(.bm-opt, .bm-door, .bm-send):active { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .bm :is(.bm-why, .bm-opt) { animation: none; }
+  .bm :is(.bm-opt, .bm-door):active { transform: none; }
+}
