@@ -182,10 +182,13 @@ test('home.css applies the ladder to the section heads, and stems use Literata 6
   }
 });
 
-test('Literata is declared where only "/" imports it, with preload on (decision 16: preloaded on / only)', () => {
+test('Literata is declared where only "/" imports it, not preloaded (paint pass, 15 Nov 2026: no stem on the first screen)', () => {
   const fonts = read('src/components/landing/HomeFonts.jsx');
   assert.match(fonts, /Literata-Variable\.woff2/);
-  assert.match(fonts, /preload: true/);
+  // Decision 16 preloaded it on / only; the paint pass stopped that too: the first screen sets no stem at any width, and the
+  // preload competed with the stylesheets and the headline's face for a slow phone's first paint.
+  assert.match(fonts, /preload: false/);
+  assert.doesNotMatch(fonts, /preload: true/);
   assert.match(fonts, /weight: '200 900'/);
   assert.doesNotMatch(read('src/app/layout.js'), /Literata-Variable|literata = localFont/, 'the root layout never preloads Literata for every route');
   assert.match(read('src/components/landing/HeroBackdrop.jsx'), /import \{ HomeFonts \} from '\.\/HomeFonts'/);
