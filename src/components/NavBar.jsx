@@ -8,6 +8,7 @@ import { Logo } from './Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
+import NavReadLine from './progress/NavReadLine';
 import '@/app/nav-motion.css';
 import './new-tag.css';
 import './nav-daily.css';
@@ -200,6 +201,8 @@ export function NavBar() {
           </button>
         </div>
       </div>
+      {/* The home page's reading line on the bar's bottom edge (owner, 16 Nov 2026): how far down the page you are. */}
+      {pathname === '/' ? <NavReadLine /> : null}
 
       {/* R8 HERO-13: the open sheet is a layer over the page: a scrim under it dims the page, and a tap on it closes the menu. */}
       {menuOpen ? <div className="mm-nav__scrim" aria-hidden="true" onClick={closeMenu} /> : null}
