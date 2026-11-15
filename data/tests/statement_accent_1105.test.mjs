@@ -44,14 +44,8 @@ test('Night draws them in true volt #D2F000, Day in the app’s #526700 that hol
   assert.ok(contrast('#d2f000', nightPaper) >= 7, `volt on the Night paper ${contrast('#d2f000', nightPaper).toFixed(2)}`);
   assert.ok(contrast('#526700', dayPaper) >= 4.5, `#526700 on the Day paper ${contrast('#526700', dayPaper).toFixed(2)} (AA)`);
   // The token belongs to the statement: no other stylesheet reads it, so no other text can turn volt through it.
-  for (const file of readdirSync(new URL('src/app/', root)).filter((f) => f.endsWith('.css') && f !== 'hero-depth.css' && f !== 'home-sheets.css')) {
+  for (const file of readdirSync(new URL('src/app/', root)).filter((f) => f.endsWith('.css') && f !== 'hero-depth.css')) {
     assert.doesNotMatch(read(`src/app/${file}`), /--statement-accent/, `${file} leaves the statement's token alone`);
-  }
-  // home-sheets.css is the home page's sheets joined (src/lib/homeCss.mjs): the token appears there only in hero-depth.css's part.
-  const joined = read('src/app/home-sheets.css').replace(/\r\n/g, '\n');
-  const parts = joined.split(/^\/\* ==== (src\/app\/[\w-]+\.css) ==== \*\/$/m);
-  for (let i = 1; i < parts.length; i += 2) {
-    if (parts[i] !== 'src/app/hero-depth.css') assert.doesNotMatch(parts[i + 1], /--statement-accent/, `${parts[i]} (joined) leaves the statement's token alone`);
   }
 });
 

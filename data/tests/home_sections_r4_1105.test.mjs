@@ -10,7 +10,6 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { STATEMENT } from '../../src/components/landing/homeCopy.mjs';
 import { BRAND_WORD, statementWords } from '../../src/components/landing/statementSteps.mjs';
-import { HOME_SHEETS } from '../../src/lib/homeCss.mjs';
 
 const root = new URL('../../', import.meta.url);
 const read = (rel) => readFileSync(new URL(rel, root), 'utf8').replace(/\r\n/g, '\n');
@@ -52,22 +51,18 @@ test('H1: one fluid column from 1100 px: a 3.5vw gutter, at most 1680 px, the ri
   assert.match(SECTIONS, /\.mm\.mm\.lp :is\(\.mm-nav, \.mm-foot\) > \.mm-wrap\.mm-wrap \{\s*max-width: none;\s*padding-left: max\(var\(--sec-gutter\), \(100% - var\(--sec-max\)\) \/ 2\);/);
   // The hero's own column and #pricing are other packets': never touched here.
   assert.doesNotMatch(SECTIONS, /\.lp-hero\s*[{.>]|#pricing\s*[{.]/);
-  // Paint pass (15 Nov 2026): page.js imports the home's sheets as one joined file (src/app/home-sheets.css), in the order
-  // listed in src/lib/homeCss.mjs, so the order is checked there. Round 7 (7 Nov 2026): the hero film's and the college
-  // strip's own sheets come after home-sections.css. Round 10 (10 Nov 2026, owner LK189): the refinement pass's sheets, one
-  // per group of sections, come after them. Rounds 13 and 14 (13 Nov 2026) add their motion and look sheets after round 10's.
-  // r10-sample.css and r13-motion.css are the exception: /daily shares them with hero-scene.css, and since /daily (15 Nov 2026)
-  // both bundlers have applied the three together right after home.css; the list keeps that order, the one production served.
-  assert.match(PAGE, /^import '\.\/home-sheets\.css';$/m);
-  assert.doesNotMatch(PAGE, /^import '\.\/(home-sections|hero-film|college-strip|r1\d-[\w-]+)\.css';$/m, 'no home sheet is imported on its own');
-  const names = HOME_SHEETS.map((rel) => rel.replace('src/app/', ''));
-  const from = names.indexOf('home-sections.css');
-  assert.ok(from > names.indexOf('desktop-scale.css') && names.indexOf('desktop-scale.css') > names.indexOf('hero-scene.css'), 'sections load after the hero sizing layer');
-  assert.deepEqual(names.slice(from, from + 7), [
-    'home-sections.css', 'hero-film.css', 'college-strip.css', 'r10-hero.css', 'r10-lab-tour.css', 'r10-tools.css', 'r10-close.css',
-  ], 'sections load after the hero sizing layer, the round 10 refinements after them');
-  assert.ok(names.slice(from + 7).every((name) => /^r1[3-9]-[\w-]+\.css$/.test(name)), 'only later rounds\' sheets follow round 10');
-  assert.deepEqual(names.slice(names.indexOf('hero-scene.css'), from), ['hero-scene.css', 'r10-sample.css', 'r13-motion.css', 'desktop-scale.css']);
+  const imports = PAGE.match(/^import .*\.css';.*$/gm);
+  // Round 7 (7 Nov 2026): the hero film's and the college strip's own sheets come after it. Round 10 (10 Nov 2026, owner
+  // LK189): the refinement pass's five sheets, one per group of sections, come last of all; nothing else does.
+  // Rounds 13 and 14 (13 Nov 2026) add their motion and look sheets after round 10's, so the order is checked from
+  // home-sections.css onwards rather than as the last eight.
+  const from = imports.indexOf("import './home-sections.css';");
+  assert.ok(from >= 0, 'home-sections.css is imported');
+  assert.deepEqual(imports.slice(from, from + 8), [
+    "import './home-sections.css';", "import './hero-film.css';", "import './college-strip.css';",
+    "import './r10-hero.css';", "import './r10-sample.css';", "import './r10-lab-tour.css';", "import './r10-tools.css';", "import './r10-close.css';",
+  ], 'sections load after the hero sizing layer, the round 10 refinements after every older layer');
+  assert.ok(imports.slice(from + 8).every((line) => /\.\/r1[3-9]-[\w-]+\.css'/.test(line)), 'only later rounds\' sheets follow round 10');
 });
 
 test('H1: a head\'s heading and its line stand side by side from 1100 px; Mobi\'s seats leave the flow while he guides; the FAQ sits beside its heading', () => {

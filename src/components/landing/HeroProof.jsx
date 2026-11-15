@@ -7,9 +7,7 @@ import { featuredCreators, followersFigure, heroCreators, rankedReels } from '@/
 // student is most likely to know; src/lib/social.js heroCreators; the section below keeps biggest audience first), each the
 // creator's own Instagram profile picture, the one on the section's cards (round
 // 12, owner 10 Nov 2026: "you have left their profiles blank ... pick up their profiles from Instagram"); decorative
-// (alt="", the sentence names nobody), lazy and sized, so nothing shifts (paint pass, 15 Nov 2026: eager, React listed the three in
-// the page head as image preloads, competing with the first paint's stylesheets and fonts on a slow phone; lazy, they load
-// when the hero is laid out, onto the paper circle the CSS already draws behind them). Then "Featured by CUET creators with N followers",
+// (alt="", the sentence names nobody), eager and sized, so nothing shifts. Then "Featured by CUET creators with N followers",
 // where N is the section's own "Combined followers" figure (src/lib/social.js followersFigure, the one function both read,
 // so they never disagree; nothing is typed here).
 // Below a 348 px column (phones of 375 px and under) the words sit on two short lines beside the marks, "Featured by CUET
@@ -27,7 +25,7 @@ export function HeroProof() {
       <span className="lp-featured__marks" aria-hidden="true">
         {heroCreators(creators).slice(0, 3).map((creator) => (
           // eslint-disable-next-line @next/next/no-img-element -- a 150 px webp drawn at 24 px; no optimizer round trip in the hero
-          <img key={creator.handle} className="lp-featured__mark" src={creator.photo} width={24} height={24} alt="" loading="lazy" decoding="async" draggable={false} />
+          <img key={creator.handle} className="lp-featured__mark" src={creator.photo} width={24} height={24} alt="" loading="eager" decoding="async" draggable={false} />
         ))}
       </span>
       <span className="lp-featured__words">
