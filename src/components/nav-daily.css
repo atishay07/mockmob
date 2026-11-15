@@ -1,0 +1,15 @@
+/* Six links in the public bar (lane daily, 15 Nov 2026: Daily Five joined the five). Measured in Chrome on /daily, whose bar
+   row is the 1200 px column (1120 px inside its gutters): the logo, the six links at the old size, the theme switch, Log in
+   and the key need 1210 px, so the key was pushed past the row. Two refinements, nothing else:
+     1120 to 1279 px  the links live in the menu, as they do below 1120 (there is no room for six at any size)
+     from 1280 px     the links sit in the bar at the size the bar already uses from 1120 to 1199 (marketing-theme.css):
+                      14 px type and 8 px sides, which brings the six to 647 px and the row to 1113 px.
+   The home page's wide bar (desktop-scale.css, from 1440 px) keeps its own larger links; it has the room. */
+@media (min-width: 1120px) and (max-width: 1279.98px) {
+  .mm-nav .mm-nav__links { display: none; }
+  .mm-nav .mm-nav__toggle { display: inline-flex; }
+}
+@media (min-width: 1280px) {
+  .mm-nav .mm-nav__links { gap: 0.125rem; }
+  .mm-nav .mm-nav__links .mm-nav__link { padding-inline: 0.5rem; font-size: 0.875rem; }
+}
