@@ -3,7 +3,7 @@ import { createServerClient } from '@supabase/ssr';
 import { applyInviteCapture, applyRefCapture, refreshSupabaseSession } from '@/lib/server/sessionProxy';
 import { mobPageOff } from '@/lib/mob/flag.mjs';
 import { mobileOptions } from '@/lib/server/mobileCors';
-import { CROSS_SITE_BODY, allowedWriteOrigin } from '@/lib/server/sameOriginWrite';
+import { CROSS_SITE_BODY, ROOT_WRITE_PATHS, allowedWriteOrigin } from '@/lib/server/sameOriginWrite';
 import { supabaseCookieOptions } from '@/lib/supabaseCookieOptions';
 
 // Next 16 Proxy (formerly middleware). It must live in src/ because the app does: the old
@@ -22,18 +22,28 @@ import { supabaseCookieOptions } from '@/lib/supabaseCookieOptions';
 // 15 Nov): a POST, PUT, PATCH or DELETE whose Origin is another site is refused with 403 (sameOriginWrite.js). Nothing
 // else happens for /api: no session refresh, no cookies. Webhooks, cron, the Android app and server calls send no Origin,
 // so they never reach it.
+//
+// The payment writes outside /api/ (ROOT_WRITE_PATHS: Get Pro's checkout and /verify-payment, audit 15 Nov 2026) already
+// reach this proxy through the page matcher, Origin or not. They get the same check, and then go on exactly as before.
+function crossSiteWrite(request) {
+  const allowed = allowedWriteOrigin({
+    method: request.method,
+    pathname: request.nextUrl.pathname,
+    origin: request.headers.get('origin'),
+    host: request.headers.get('host') || request.nextUrl.host,
+    appOrigin: Object.keys(mobileOptions(request)).length > 0,
+  });
+  return allowed ? null : NextResponse.json(CROSS_SITE_BODY, { status: 403, headers: { 'Cache-Control': 'no-store' } });
+}
+
 export async function proxy(request) {
   if (mobPageOff(request.nextUrl.pathname)) return NextResponse.rewrite(new URL('/not-found-mob-off', request.url));
   if (request.nextUrl.pathname.startsWith('/api/')) {
-    const allowed = allowedWriteOrigin({
-      method: request.method,
-      pathname: request.nextUrl.pathname,
-      origin: request.headers.get('origin'),
-      host: request.headers.get('host') || request.nextUrl.host,
-      appOrigin: Object.keys(mobileOptions(request)).length > 0,
-    });
-    if (!allowed) return NextResponse.json(CROSS_SITE_BODY, { status: 403, headers: { 'Cache-Control': 'no-store' } });
-    return NextResponse.next();
+    return crossSiteWrite(request) || NextResponse.next();
+  }
+  if (ROOT_WRITE_PATHS.includes(request.nextUrl.pathname)) {
+    const refused = crossSiteWrite(request);
+    if (refused) return refused;
   }
   const { response } = await refreshSupabaseSession(request, {
     NextResponse,
