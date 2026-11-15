@@ -86,7 +86,7 @@ test('the free start opens this week\'s Sunday paper and nothing else, whatever 
   assert.deepEqual(Object.keys(server.mobPaper).sort(), ['holdUntil', 'mobId', 'questions', 'weekStart']);
   assert.equal(server.mobPaper.mobId, SUNDAY_TAG);
   assert.equal(server.mobPaper.weekStart, WEEK);
-  assert.equal(server.mobPaper.holdUntil, '2026-11-22T16:30:00.000Z');
+  assert.equal(server.mobPaper.holdUntil, '2026-11-22T17:35:00.000Z', 'held until 11:05 PM IST');
   assert.deepEqual(server.mobPaper.questions.map((q) => q.id), ids('a'));
   assert.ok(server.mobPaper.questions.every((q) => q.served), 'served in the stable option order');
   // The engine's charge for exactly this start: nothing, for Free and Pro; never the free first full mock.
@@ -234,25 +234,32 @@ test('a withdrawn question is replaced from the bank while 45 of 50 still serve;
   assert.equal(claimsOf(broken.db).length, 0);
 });
 
-test('the counts open at the close; a late send is not counted; the share per question needs 30 sitters', async () => {
+test('the counts open at 11:05 PM, when the last paper is in; a late send is not counted; the share per question needs 30 sitters', async () => {
   const w = world();
   await rejects(w.service.stats('u1', { week: WEEK, subject: 'accountancy' }), 'NOT_CLOSED');
   await rejects(w.service.stats('u1', { week: '2026-11-23', subject: 'accountancy' }), 'BODY_INVALID');
   const win = sundayWindow(WEEK);
   for (let i = 0; i < 29; i += 1) w.attempts.push({ userId: `s${i}`, week: WEEK, subject: 'accountancy', completedAt: win.opensAt + i * MIN, details: [{ qid: 'q1', isCorrect: i < 10 }] });
+  // A paper started at 9:59 PM and sent at 10:59 PM counts; a send past the last legal minute does not.
+  w.attempts.push({ userId: 's29', week: WEEK, subject: 'accountancy', completedAt: IST('2026-11-22T22:59:00'), details: [{ qid: 'q1', isCorrect: true }] });
   w.attempts.push({ userId: 'late', week: WEEK, subject: 'accountancy', completedAt: win.lastFinishAt + 1, details: [{ qid: 'q1', isCorrect: true }] });
-  w.clock.t = win.closesAt;
-  const under = await w.service.stats('u1', { week: WEEK, subject: 'accountancy' });
-  assert.deepEqual({ sat: under.sat, shares: under.shares, floor: under.floor, final: under.final }, { sat: 29, shares: null, floor: 30, final: false });
-  // Cached for five minutes while sends can still arrive, then read again.
-  w.attempts.push({ userId: 's29', week: WEEK, subject: 'accountancy', completedAt: win.closesAt + 30 * MIN, details: [{ qid: 'q1', isCorrect: true }] });
-  assert.equal((await w.service.stats('u1', { week: WEEK, subject: 'accountancy' })).sat, 29);
-  w.clock.t = win.lastFinishAt + 6 * MIN;
+  for (const s of ['2026-11-22T22:00:00', '2026-11-22T22:59:00', '2026-11-22T23:04:59']) {
+    w.clock.t = IST(s);
+    const e = await w.service.stats('u1', { week: WEEK, subject: 'accountancy' }).catch((x) => x);
+    assert.equal(e.code, 'NOT_CLOSED', s);
+    assert.deepEqual(e.detail, { answersAt: '2026-11-22T17:35:00.000Z' });
+  }
+  w.clock.t = IST('2026-11-22T23:05:00');
   const over = await w.service.stats('u1', { week: WEEK, subject: 'accountancy' });
   assert.equal(over.sat, 30);
   assert.deepEqual(over.shares, { q1: Math.round((100 * 11) / 30) });
   assert.equal(over.final, true);
   assert.equal(JSON.stringify(over).match(/rank|percentile|place/i), null);
+  // Under the floor: the count, never a share.
+  const few = world();
+  for (let i = 0; i < 29; i += 1) few.attempts.push({ userId: `s${i}`, week: WEEK, subject: 'accountancy', completedAt: win.opensAt + i * MIN, details: [{ qid: 'q1', isCorrect: true }] });
+  few.clock.t = win.answersAt;
+  assert.deepEqual((({ sat, shares }) => ({ sat, shares }))(await few.service.stats('u1', { week: WEEK, subject: 'accountancy' })), { sat: 29, shares: null });
 });
 
 test('status: each of the student\'s subjects with its state, marks and, after the close, how many sat', async () => {
@@ -270,11 +277,18 @@ test('status: each of the student\'s subjects with its state, marks and, after t
   w.send('u3', 'accountancy', { correct: 34, wrong: 10 });
   s = await w.service.status('u3');
   assert.deepEqual(s.subjects[0], { id: 'accountancy', name: 'Accountancy', state: 'sat', resultId: 'att_1', marks: { scored: 160, max: 250 } });
-  w.clock.t = IST('2026-11-22T22:30:00');
+  // 10:00 to 11:05 PM: closed for new starts, and how many sat waits for the last paper.
+  for (const at of ['2026-11-22T22:30:00', '2026-11-22T22:59:00', '2026-11-22T23:04:00']) {
+    w.clock.t = IST(at);
+    s = await w.service.status('u3');
+    assert.equal(s.phase, 'closed');
+    assert.equal(s.answersAt, '2026-11-22T17:35:00.000Z');
+    assert.equal('sat' in s.subjects[0], false, at);
+    assert.equal(s.subjects[1].state, 'closed');
+  }
+  w.clock.t = IST('2026-11-22T23:05:00');
   s = await w.service.status('u3');
-  assert.equal(s.phase, 'closed');
   assert.equal(s.subjects[0].sat, 1);
-  assert.equal(s.subjects[1].state, 'closed');
   // Monday: this week's paper is next Sunday's; yesterday's result stays in `previous`.
   w.clock.t = IST('2026-11-23T09:00:00');
   s = await w.service.status('u3');
@@ -283,7 +297,7 @@ test('status: each of the student\'s subjects with its state, marks and, after t
   assert.deepEqual((await w.service.status('nobody')).subjects, []);
 });
 
-test('the den: who sat, marks only as each member shares them, "Not yet" for the rest, never a user id', async () => {
+test('the den (rule F2): only the members who sat, marks only as each shares them, your own row whatever your state, never a user id', async () => {
   const w = world({ at: IST('2026-11-21T12:00:00'), users: { u1: ['accountancy'], u2: ['accountancy'], u3: ['economics'], u4: ['accountancy'] } });
   const before = await w.service.mob('u1', { mob: MOB });
   assert.deepEqual([before.phase, before.members, before.you.state], ['before', [], 'soon']);
@@ -294,16 +308,19 @@ test('the den: who sat, marks only as each member shares them, "Not yet" for the
   w.send('u2', 'accountancy', { correct: 30, wrong: 8 });
   const den = await w.service.mob('u2', { mob: MOB });
   assert.equal(den.subjectName, 'Accountancy');
+  // Meera and Ravi have not sat: they are not in the answer at all (no row, no count, no Mob size).
   assert.deepEqual(den.members, [
     { name: 'Asha', colour: 1, you: false, sat: true, marks: { scored: 195, max: 250 } },
     { name: 'Kabir', colour: 2, you: true, sat: true, marks: { scored: 142, max: 250 } },
-    { name: 'Meera', colour: 3, you: false, sat: false },
-    { name: 'Ravi', colour: 4, you: false, sat: false },
   ]);
+  assert.equal(JSON.stringify(den).includes('Meera') || JSON.stringify(den).includes('Ravi'), false);
   assert.deepEqual(den.you, { state: 'sat', resultId: 'att_2' });
   const asha = await w.service.mob('u1', { mob: MOB });
   assert.deepEqual(asha.members[1], { name: 'Kabir', colour: 2, you: false, sat: true }, 'Kabir keeps his score private');
-  assert.equal((await w.service.mob('u4', { mob: MOB })).you.state, 'open');
+  // Ravi, who has not sat, sees his own row ("Not yet" and his key), and the two who sat; never Meera.
+  const ravi = await w.service.mob('u4', { mob: MOB });
+  assert.equal(ravi.you.state, 'open');
+  assert.deepEqual(ravi.members.map((m) => [m.name, m.you, m.sat]), [['Asha', false, true], ['Kabir', false, true], ['Ravi', true, false]]);
   assert.equal((await w.service.mob('u3', { mob: MOB })).you.state, 'not_yours');
   assert.equal(JSON.stringify(den).includes('u1'), false);
   await rejects(w.service.mob('stranger', { mob: MOB }), 'NOT_IN_MOB');
