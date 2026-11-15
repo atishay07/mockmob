@@ -19,6 +19,7 @@ import { apiGet } from '@/lib/fetcher';
 import { shownName } from '@/lib/displayName.mjs';
 import { startWalletPurchase } from '@/lib/wallet/startWalletPurchase';
 import { announceWallet } from '@/components/useWalletSummary';
+import { observeSideHeight } from '@/lib/stickySide.mjs';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
 import { PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
@@ -175,6 +176,10 @@ export default function WalletPageClient({ proOffer = null, previewCheckout = nu
 
       {data ? (
         <>
+          {/* Desk lane (16 Nov 2026, wallet.css): from 1100 px the balance and what credits buy are the left column, staying in view
+              (src/lib/stickySide.mjs), and the friend invite, the packs, Pro and the activity are the right. Below 1100 px both
+              wrappers are `display: contents`: the same page as before. */}
+          <div className="wl-side" ref={observeSideHeight}>
           <section className="wl-hero" data-state={low ? 'low' : split.state} aria-labelledby="wl-balance-h">
             <h2 className="wl-hero__name" id="wl-balance-h"><CreditMark kind="practice" size={18} />{WALLET_COPY.heading}</h2>
             <p className="wl-hero__figure">
@@ -262,7 +267,9 @@ export default function WalletPageClient({ proOffer = null, previewCheckout = nu
             </ul>
             <p className="wl-note">{WALLET_V13_COPY.costShows}</p>
           </section>
+          </div>
 
+          <div className="wl-main">
           {/* Earn before you buy (owner D165): invite a friend and you both get 100 credits. Renders nothing while invites are off. */}
           <InviteFriendCard id="wl-invite" />
 
@@ -339,6 +346,7 @@ export default function WalletPageClient({ proOffer = null, previewCheckout = nu
               <p className="wl-note">{WALLET_COPY.historyEmpty}</p>
             )}
           </section>
+          </div>
         </>
       ) : null}
     </div>
