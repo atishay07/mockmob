@@ -22,6 +22,7 @@ import blocklist from '@/../data/mob_name_blocklist.json';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
 import { createReportAlert } from './reportAlert';
+import { readLatePapersSoft, readMockScores } from '@/lib/server/latePapers';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
 // The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
@@ -166,6 +167,9 @@ export function mobService() {
     validChapter, pickQuestionIds, loadQuestions, loadQuestionsLight, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
     v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, formatsEnabled: mobFormatsEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
     onReport: onMobReport,
+    // B8 (15 Nov 2026): a late paper makes no chain day and no Fold (games.js and chain.js take them off the applied SQL's counts).
+    latePapers: (userId) => readLatePapersSoft(supabaseAdmin(), { userId }),
+    mockScores: (userId) => readMockScores(supabaseAdmin(), userId),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
 import { computeBests } from '@/lib/server/recap';
+import { supabaseAdmin } from '@/lib/supabase';
+import { lateIds, readLatePapersSoft } from '@/lib/server/latePapers';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -14,7 +16,13 @@ export async function GET(request) {
     // Bests read marks, mode, scoring version and the question ids of the snapshot (retakes), never the answers.
     // Through the summary function: the snapshot ids, the marks and the meta stay, the rest of each question does not travel. Where the
     // function is not there, the read is the narrowed column read this route always made.
-    const attempts = await Database.getAttempts(session.user.id, { slim: 'insights', columns: ['id', 'user_id', 'subject', 'score', 'correct', 'wrong', 'unattempted', 'total', 'questions_snapshot', 'completed_at', 'selection_meta'] });
+    const [all, late] = await Promise.all([
+      Database.getAttempts(session.user.id, { slim: 'insights', columns: ['id', 'user_id', 'subject', 'score', 'correct', 'wrong', 'unattempted', 'total', 'questions_snapshot', 'completed_at', 'selection_meta'] }),
+      readLatePapersSoft(supabaseAdmin(), { userId: session.user.id }),
+    ]);
+    // A late paper (B8: sent after its time) is never a best. A failed late read is logged and the bests are served as before.
+    const skip = lateIds(late);
+    const attempts = skip.size ? all.filter((a) => !skip.has(String(a.id))) : all;
     return NextResponse.json({ bests: computeBests(attempts) }, { headers: NO_STORE });
   } catch (e) {
     console.error('[api/me/bests] GET failed:', e);

@@ -519,6 +519,33 @@ test('studying now: a paper just submitted and the per-answer check count; a tic
   assert.match(read('docs/brain/APP-API-CONTRACT.md'), /device-ticket/);
 });
 
+test('B8 late papers (SESS-FOLLOWUP 1): the migration, not applied, keeps a late paper out of the minutes, the goal days and studying now; its undo restores the applied body', async () => {
+  const LATE = '20261115210000_late_papers_out_of_mob_hours';
+  const lateSql = read(`supabase/migrations/${LATE}.sql`);
+  const lateUndo = read(`supabase/undo/${LATE}.undo.sql`);
+  assert.match(lateSql, /NOT APPLIED/);
+  const rowsFn = (sql) => sql.slice(sql.indexOf('create or replace function public.mob_hours_rows('), sql.indexOf('end $$;', sql.indexOf('create or replace function public.mob_hours_rows(')));
+  const LINE = "coalesce(a.selection_meta->>'late', '') <> 'true'";
+  assert.equal(rowsFn(lateSql).split(LINE).length - 1, 2, 'one line in each of the two attempt reads');
+  assert.equal(rowsFn(lateSql).replace(`\n          and ${LINE}`, '').replace(`            and ${LINE}\n`, ''), rowsFn(hoursSql), 'the applied body plus the two lines');
+  assert.equal(rowsFn(lateUndo), rowsFn(hoursSql), 'the undo is the applied body');
+
+  const db = await database();
+  const svc = serviceFor(db);
+  const mob = await mobOf(svc, 'u1', ['u2']);
+  await share(svc, 'u1', mob); await share(svc, 'u2', mob);
+  // Riya: 40 minutes on time on Wednesday. Aarav: a 40-minute paper sat offline, sent late 3 minutes ago (it would show him studying).
+  await addAttempt(db, 'u1', 'ontime', '2026-10-21T14:30:00Z', questionsOf(16));
+  await addAttempt(db, 'u2', 'late1', iso(NOW - 3 * MIN), questionsOf(16));
+  await db.query(`update public.attempts set selection_meta = selection_meta || jsonb_build_object('late', true, 'lateArrivedAt', $1::text) where id = 'late1'`, [iso(NOW - 3 * MIN)]);
+  const view = async () => { const h = await hoursOf(svc, 'u1', mob); return { members: h.members.map((m) => [m.first_name, m.minutes, m.goal_days]), studying: h.studying_now.map((s) => s.first_name) }; };
+  assert.deepEqual(await view(), { members: [['Riya', 40, 1], ['Aarav', 40, 1]], studying: ['Aarav'] }, 'applied SQL today: the late paper counts');
+  await db.exec(lateSql); await db.exec(lateSql); // idempotent
+  assert.deepEqual(await view(), { members: [['Riya', 40, 1]], studying: [] }, 'with the migration it is out');
+  await db.exec(lateUndo);
+  assert.deepEqual(await view(), { members: [['Riya', 40, 1], ['Aarav', 40, 1]], studying: ['Aarav'] });
+});
+
 // ---- the time rule against data/paper_trace.js readTrace, on random records ----
 
 function prng(seed) {

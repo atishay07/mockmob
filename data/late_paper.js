@@ -8,9 +8,10 @@
 //               event past it is dropped), and the answers scored are the ones those events hold, never the answer map the
 //               device sent beside them. The attempt carries selection_meta.late = true and lateArrivedAt.
 //   * expired   later than that: refused with SESSION_EXPIRED, as every send past the grace was before.
-// A late paper counts for the student's own record (result, Review, repairs, study day) and is kept out of everything that
-// compares students (src/lib/server/latePapers.js), because its answer times are the device's word only and its answers could
-// have been looked up in the days between.
+// A late paper keeps its result, Review and repairs, and earns nothing that rewards or compares (SESS-FOLLOWUP 1): no place on
+// the board, no badge or best, no study day or streak week, no chain day, no Fold, no Mob marks or hours, no funnel step, no
+// "first" (src/lib/server/latePapers.js), because its answer times are the device's word only and its answers could have been
+// looked up in the days between. The result page says so in one quiet line.
 import { SUBMISSION_GRACE_MS } from './session_draft.js';
 import { MAX_SESSION_EVENTS } from './recovery.js';
 

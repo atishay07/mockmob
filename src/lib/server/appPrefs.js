@@ -1,6 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { computeRhythm, localDay, weekStart, planGoalHistoryWrites, DEFAULT_TIMEZONE } from './rhythm';
+import { LATE_JSON } from './latePapers';
 import { maskToStore, weekdaysOut } from '@/lib/studyWeekdays.mjs';
 import { isGoalMinutes } from '@/../data/goal_minutes';
 
@@ -158,7 +159,8 @@ export async function loadActivity(userId, now = Date.now()) {
   const db = supabaseAdmin();
   const since = new Date(now - 26 * 7 * 86400000).toISOString();
   const cols = 'id,completed_at,correct,wrong,mode:selection_meta->>mode';
-  const sessions = () => db.from('attempts').select(cols).eq('user_id', userId).in('selection_meta->>scoringVersion', SERVER_SCORING);
+  // A late paper (B8, sent after its time: data/late_paper.js) is never a study day, a streak week or a first: it is left out here.
+  const sessions = () => db.from('attempts').select(cols).eq('user_id', userId).in('selection_meta->>scoringVersion', SERVER_SCORING).not('selection_meta', 'cs', LATE_JSON);
   const repairs = () => db.from('ai_credit_reservations').select('id,updated_at').eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair').not('receipt->repair', 'is', null);
   const [recentS, earlyS, fullS, recentR, earlyR] = await Promise.all([
     sessions().gte('completed_at', since).order('completed_at', { ascending: false }).limit(1000),
