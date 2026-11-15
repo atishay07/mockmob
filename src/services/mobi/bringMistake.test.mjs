@@ -241,8 +241,8 @@ test('panel: every server answer maps to one designed state; every failure says 
 });
 
 test('copy: plain, sentence case, no exclamation marks, arrows or emoji', () => {
-  // 'optional' is the word inside a label's brackets, "(optional)".
-  const words = Object.entries(MISTAKE_COPY).filter(([k]) => k !== 'optional').map(([, v]) => (typeof v === 'function' ? v('A', 2) : v));
+  // 'optional' is the word inside a label's brackets, "(optional)"; 'full' follows the count, "1,500 / 1,500, the most it takes".
+  const words = Object.entries(MISTAKE_COPY).filter(([k]) => k !== 'optional' && k !== 'full').map(([, v]) => (typeof v === 'function' ? v('A', 2) : v));
   for (const w of words) {
     assert.doesNotMatch(w, /!|→|->|\p{Extended_Pictographic}/u, w);
     assert.match(w, /^[A-Z0-9(]/, `sentence case: ${w}`);

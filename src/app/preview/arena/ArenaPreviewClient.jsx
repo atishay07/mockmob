@@ -78,6 +78,7 @@ import { previewWallet, previewWalletAdded, previewWalletCheckout, previewWallet
 import { previewBalancePart, previewFreshWallet, previewOneTotal } from './previewChip';
 import { previewConcepts } from './previewConcepts';
 import { previewReferrals } from './previewReferrals';
+import { previewMistake } from './previewMistake';
 import IconShowcase from '@/components/brand/IconShowcase';
 import { browserSession, loadRecord, openUpgrade, saveRecord } from '@/components/pro/proNudgeStore';
 import { emptyRecord, noteOnboarded } from '@/lib/proNudge.mjs';
@@ -261,6 +262,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // Concepts (P-LR3): the record behind the Review badge and Practice's Concepts panel, and the lesson catalog (previewConcepts.js).
     const concepts = previewConcepts(url, method, fixture, json);
     if (concepts) return concepts;
+    // "Bring a mistake from any test" (POST /api/ai/mentor/mistake, &mistake=, previewMistake.js): never the real route here.
+    const mistaken = previewMistake(url, method, init, fixture, json);
+    if (mistaken) return mistaken;
     if (fixture.get('recovery') === 'candidate' && window.__previewPathway) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;

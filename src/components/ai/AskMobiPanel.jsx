@@ -28,6 +28,7 @@ import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 import { planStart } from './startPlan.mjs';
 import MobiMark from './MobiMark';
 import { DoubtChecks, TonightBlock } from './MobiJobParts';
+import BringMistake, { MistakeDoor } from './BringMistake';
 import { JOB_COPY, chatFailure, followUpOpen, isTonightAsk, threadFromReply } from './mobiJobs.mjs';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
@@ -53,7 +54,7 @@ export default function AskMobiPanel(props) {
   return <Panel key={user?.id || 'guest'} {...props} />;
 }
 
-function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial: given = null, doubt = null, onPending = null }) {
+function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial: given = null, doubt = null, onPending = null, mistake: startMistake = false }) {
   const router = useRouter();
   const { user } = useAuth();
   // An Ask now starter hands over its chapter with the words, so the doubt's 2 questions come from that chapter.
@@ -132,6 +133,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const [sessionId, setSessionId] = useState(null);
   // The open doubt: { id, followUpsLeft, subject, chapter }. Its one follow-up is free; after it, a new doubt is 1 credit.
   const [doubtThread, setDoubtThread] = useState(null);
+  // "Bring a mistake from any test" (16 Nov 2026, BringMistake.jsx): the form takes the panel's body and composer while it is
+  // open. The /mentor page's door opens the panel straight into it (`mistake`).
+  const [mistakeOpen, setMistakeOpen] = useState(Boolean(startMistake) && Boolean(userId));
   const anchorRef = useRef(null);
   const inFlight = useRef(false);
   const pendingRef = useRef(null);
@@ -379,17 +383,28 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     setDoubtThread(null);
     fieldRef.current?.focus();
   };
+  // The quiet door to "bring a mistake": signed in, nothing asked yet, not about one question of a MockMob paper. On the page
+  // the door is the page's own (AskMobiDoors), so the conversation there does not repeat it.
+  const mistakeDoor = Boolean(userId) && !onPage && !withQuestion && !opening && !questionFailed && !turns.length && !pending && !retry && !failedStart;
+  const [mistakeBusy, setMistakeBusy] = useState(false);
+  useEffect(() => { if (mistakeOpen) onPending?.(mistakeBusy); }, [mistakeOpen, mistakeBusy, onPending]);
 
   return (
-    <div className="amb" data-form={form}>
+    <div className="amb" data-form={form} data-mistake={mistakeOpen || undefined}>
       <header className="amb-head">
         <MobiMark size={24} />
         <h2 id={titleId}>Ask Mobi</h2>
         {onPage
-          ? <button type="button" className="amb-btn amb-btn--line amb-newask" onClick={onClose} disabled={Boolean(pending)}>Ask something new</button>
+          ? <button type="button" className="amb-btn amb-btn--line amb-newask" onClick={onClose} disabled={Boolean(pending) || mistakeBusy}>Ask something new</button>
           : <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>}
       </header>
 
+      {mistakeOpen ? (
+        <BringMistake
+          user={user} wallet={wallet} paid={paid} offline={offline} form={form}
+          onBack={onPage ? null : () => setMistakeOpen(false)} onSpent={readWallet} onPending={setMistakeBusy} onLeave={leave}
+        />
+      ) : <>
       <div className="amb-ctx">
         {subjectChip ? (
           <span className="amb-chip">
@@ -521,6 +536,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </section>
         ) : null}
 
+        {mistakeDoor ? <MistakeDoor onOpen={() => setMistakeOpen(true)} /> : null}
       </div>
 
       <form className="amb-compose" onSubmit={(event) => { event.preventDefault(); submit(); }}>
@@ -549,6 +565,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </span>
         </div>
       </form>
+      </>}
     </div>
   );
 }

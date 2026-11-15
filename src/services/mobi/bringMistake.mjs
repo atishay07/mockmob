@@ -53,11 +53,14 @@ export const MISTAKE_COPY = Object.freeze({
   questionLabel: 'The question and its options',
   questionHint: 'Paste or type the question, then its options',
   photos: 'Text only for now. Mobi does not read photos yet.',
+  full: 'the most it takes',
   chosenLabel: 'The answer I chose',
   keyLabel: 'The right answer, if you know it',
   optional: 'optional',
   subjectLabel: 'Subject',
   send: 'Ask Mobi',
+  free: 'This one is free. Nothing is charged.',
+  recordFree: 'Questions about your record stay free.',
   sending: 'Mobi is reading your question',
   back: 'Back',
   // The answer
@@ -73,6 +76,8 @@ export const MISTAKE_COPY = Object.freeze({
   right: 'Right.',
   wrong: (letter) => `Not this one. The answer is ${letter}.`,
   another: 'Bring another mistake',
+  // An answer shown again after its first answer was lost on the way: its credit was taken once, never twice.
+  replayedCharge: 'It used 1 credit once, when you first sent it.',
   // States
   failed: 'Mobi could not write a reliable answer this time.',
   tryAgain: 'Try again',
