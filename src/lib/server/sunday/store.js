@@ -20,6 +20,8 @@ export const subjectSpellings = (subject) => [...new Set([subject, toPublicSubje
 const tagOf = (week) => ({ mobPaper: { mobId: SUNDAY_TAG, ...(week ? { weekStart: week } : {}) } });
 const ms = (v) => { const t = Date.parse(v || ''); return Number.isFinite(t) ? t : null; };
 
+const LATE = JSON.stringify({ late: true });
+
 export function createSundayStore(db) {
   const c = () => (typeof db === 'function' ? db() : db);
   const fail = (error) => { throw Object.assign(new Error('SUNDAY_STORE_FAILED'), { cause: error }); };
@@ -81,11 +83,13 @@ export function createSundayStore(db) {
       }));
     },
 
+    // A paper sent late (finished offline, uploaded after its deadline; data/late_paper.js) counts for its student only: never in
+    // the counts, the shares or the den.
     /** How many sent the week's paper in a subject inside its window (one attempt a student: the attempt id is per student). */
     async countSat(week, subject) {
       const win = sundayWindow(week);
       const { count, error } = await c().from('attempts').select('id', { count: 'exact', head: true })
-        .in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week))
+        .in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week)).not('selection_meta', 'cs', LATE)
         .gte('completed_at', iso(win.opensAt)).lte('completed_at', iso(win.lastFinishAt));
       if (error) fail(error);
       return Number.isInteger(count) ? count : 0;
@@ -97,7 +101,7 @@ export function createSundayStore(db) {
       const rows = [];
       for (let from = 0; from < 200 * PAGE; from += PAGE) {
         const { data, error } = await c().from('attempts').select('id,user_id,completed_at,details')
-          .in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week))
+          .in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week)).not('selection_meta', 'cs', LATE)
           .gte('completed_at', iso(win.opensAt)).lte('completed_at', iso(win.lastFinishAt))
           .order('id', { ascending: true }).range(from, from + PAGE - 1);
         if (error) fail(error);
@@ -126,7 +130,7 @@ export function createSundayStore(db) {
     async membersSittings(userIds, week, subject) {
       if (!userIds.length) return [];
       const { data, error } = await c().from('attempts').select('id,user_id,correct,wrong,unattempted,total,completed_at')
-        .in('user_id', userIds).in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week)).limit(40);
+        .in('user_id', userIds).in('subject', subjectSpellings(subject)).contains('selection_meta', tagOf(week)).not('selection_meta', 'cs', LATE).limit(40);
       if (error) fail(error);
       return (data || []).map((r) => ({ userId: r.user_id, id: r.id, correct: r.correct, wrong: r.wrong, unattempted: r.unattempted, total: r.total, completedAt: ms(r.completed_at) }));
     },
