@@ -242,7 +242,7 @@ export const DenCopy = Object.freeze({
 
   // J1 Join
   joinTitle: 'Join a Mob',
-  joinLine: 'Type the 6-character code your friend sent.',
+  joinLine: 'Type the 8-character code your friend sent.',
   joinCodeLabel: 'Mob code',
   joinChecking: 'Checking the code',
   joinPreviewName: (p) => `${p.name || p.subjectName}, ${p.subjectName}`,

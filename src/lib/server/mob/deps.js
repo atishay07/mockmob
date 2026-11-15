@@ -2,6 +2,7 @@ import 'server-only';
 // Production wiring for the Mob (src/lib/server/mob/service.js and http.js): Supabase, the central bank, the practice
 // session engine and the trap atlas. The routes under src/app/api/mob import mobDeps() and nothing else.
 import { randomBytes } from 'node:crypto';
+import { after } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit, giveBackRateLimit, rateLimitWait } from '@/lib/server/rateLimit';
@@ -20,6 +21,7 @@ import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
+import { createReportAlert } from './reportAlert';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
 // The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
@@ -127,6 +129,32 @@ async function findAttempts(userIds, { mobId, week, extraId = null, gameId = nul
     .map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], selectionMeta: r.selection_meta || {}, completedAt: Date.parse(r.completed_at) }));
 }
 
+// S2 (15 Nov): each new Mob report emails the support inbox (src/lib/server/mob/reportAlert.js has the rules). Off when
+// RESEND_API_KEY is not set; site-wide database limits; the report id is read here and never leaves the server otherwise.
+const resendReady = () => { const k = process.env.RESEND_API_KEY?.trim(); return Boolean(k && k !== 're_xxxxxxxxx'); };
+const alertMobReport = createReportAlert({
+  enabled: resendReady,
+  take: async (bucket, limit, windowMs) => {
+    const { data, error } = await supabaseAdmin().rpc('take_rate_limit', { p_bucket: bucket, p_limit: limit, p_window_ms: windowMs });
+    if (error) throw error;
+    return data === true;
+  },
+  findId: async ({ mobId, reporterId, reason }) => {
+    const { data } = await supabaseAdmin().from('mob_reports').select('id').eq('mob_id', mobId).eq('reporter_id', reporterId).eq('reason', reason)
+      .order('id', { ascending: false }).limit(1).maybeSingle();
+    return data?.id ?? null;
+  },
+  send: async (msg) => {
+    const { resend } = await import('@/lib/resend');
+    return resend.emails.send({ from: process.env.AUTH_EMAIL_FROM || 'MockMob <support@mockmob.in>', ...msg });
+  },
+});
+// After the response (next/server after), so the student's report never waits for the email.
+function onMobReport(info) {
+  const job = () => alertMobReport(info);
+  try { after(job); } catch { job(); }
+}
+
 let cached = null;
 export function mobService() {
   if (cached) return cached;
@@ -135,6 +163,7 @@ export function mobService() {
     loadUser: (id) => Database.getUserById(id),
     validChapter, pickQuestionIds, loadQuestions, loadQuestionsLight, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
     v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, formatsEnabled: mobFormatsEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
+    onReport: onMobReport,
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });
@@ -170,7 +199,8 @@ export async function resolveMobReport(id, { remove = false } = {}) {
   if (error) throw error;
   if (!row) return 'not_found';
   let removed = null;
-  if (remove && row.mob_id && row.reported_id) removed = await rpc('mob_remove', { p_actor: null, p_mob_id: row.mob_id, p_target: row.reported_id });
+  // S1 (15 Nov): through the service, so the removed member is also kept out of the link they came in by.
+  if (remove && row.mob_id && row.reported_id) removed = await mobService().removeByModerator(row.mob_id, row.reported_id);
   const { error: e2 } = await db.from('mob_reports').update({ resolved_at: new Date().toISOString() }).eq('id', id);
   if (e2) throw e2;
   return removed === 'removed' ? 'removed' : 'resolved';

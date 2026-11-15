@@ -87,7 +87,7 @@ export const JoinCopy = Object.freeze({
   tryAgain: 'Try again',
   codeLabel: 'Have a different code?',
   codeCheck: 'Check the code',
-  codeBad: 'A code has 6 characters, or 8 on an older invite. Letters and numbers only.',
+  codeBad: 'A code has 8 characters, or 6 on an older invite. Letters and numbers only.',
   startOwn: DenCopy.joinStartOwn,
   openMobs: 'Open your Mobs',
   home: 'Go to MockMob',

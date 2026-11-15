@@ -1,11 +1,11 @@
 {
   "question": {
-    "stem": "Goodwill question 31",
+    "stem": "Goodwill question 33",
     "options": [
-      "Option A of question 31",
-      "Option B of question 31",
-      "Option C of question 31",
-      "Option D of question 31"
+      "Option A of question 33",
+      "Option B of question 33",
+      "Option C of question 33",
+      "Option D of question 33"
     ],
     "passage": null,
     "answered": false
@@ -13,8 +13,8 @@
   "trap": {
     "q": 3,
     "number": 4,
-    "why": "Why answer B is right for question 10.",
-    "yourPick": 2,
-    "correctIndex": 1
+    "why": "Why answer C is right for question 31.",
+    "yourPick": 3,
+    "correctIndex": 2
   }
 }

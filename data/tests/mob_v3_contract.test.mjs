@@ -289,7 +289,7 @@ test('the shapes spec section 3 names are all there', async () => {
   has(f['shelf.json'], ['seat', 'folds', 'mobItems'], 'shelf');
   has(f['chain.json'], ['hidden', 'days', 'practised', 'rested', 'madeUp', 'best', 'today', 'passes', 'week', 'calendar', 'milestones', 'makeUp', 'pause', 'notices', 'due'], 'chain');
   has(f['invite.json'], ['code', 'display', 'url', 'expiresAt'], 'invite');
-  assert.match(f['invite.json'].code, /^[0-9A-HJKMNP-TV-Z]{6}$/);
+  assert.match(f['invite.json'].code, /^[0-9A-HJKMNP-TV-Z]{8}$/, 'S2 (15 Nov): new codes are 8 characters, 40 bits');
   has(f['lookup.json'], ['status', 'subject', 'subjectName', 'name', 'size', 'seatsLeft'], 'lookup');
   assert.equal(f['lookup.json'].name, 'Chai Circle');
   assert.deepEqual(f['starts_used.json'], { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0,

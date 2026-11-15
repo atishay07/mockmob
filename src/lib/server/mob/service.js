@@ -29,6 +29,8 @@ import { memberIdFor } from './memberId.js';
 import { createMobV3Service } from './games.js';
 import { attemptHold, heldCompare, holdStamp } from '../../mob/paperHold.mjs';
 import { mockGamePrice, mockSitAction } from '../../mob/mockPrice.mjs';
+import { createKeepOut } from './keepOut.js';
+import { mobNameBlocklist } from '../../mob/nameTerms.mjs';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -100,6 +102,26 @@ export function createMobService(deps) {
     return (state.members || []).find((m) => ids(m.user_id) === memberId) || null;
   };
   const nameIn = (state) => (u) => (state.members || []).find((m) => m.user_id === u)?.display_name || null;
+
+  // S1 (15 Nov): a member the owner removed stays out through every link that existed then (keepOut.js). A database
+  // without the limiter table (an old test harness) has no mark to read, and that alone is not a refusal; any other
+  // failure to read is (UNAVAILABLE).
+  const keepOut = deps.keepOut || createKeepOut({ rpc: deps.rpc, secret: deps.secret });
+  async function keptOut(code, userId) {
+    try { return await keepOut.has(code, userId); } catch (error) {
+      if (missingSchema(error)) return false;
+      throw new MobError('UNAVAILABLE', { cause: error });
+    }
+  }
+  // Written before the removal, so there is no moment when the member is out and the link still lets them in. A mark
+  // that fails never stops the removal: getting the member out is the owner's first need.
+  async function keepOutOfLink(state, userId) {
+    const code = state?.invite?.code;
+    if (typeof code !== 'string' || !code) return;
+    try { await keepOut.mark(code, userId); } catch (error) {
+      if (!missingSchema(error)) console.warn('[mob] keep-out mark failed:', error?.code || error?.message || 'unknown');
+    }
+  }
 
   // The plan. A failed read is Free: the safe side for every gate below.
   const loadUser = async (userId) => (deps.loadUser ? deps.loadUser(userId).catch(() => null) : null);
@@ -322,10 +344,12 @@ export function createMobService(deps) {
     return separated;
   }
 
+  // S3 (15 Nov): the JSON list plus the Devanagari and missing Latin terms (nameTerms.mjs).
+  const nameList = deps.blocklist ? mobNameBlocklist(deps.blocklist) : null;
   const nameAndColour = (body, { required }) => {
     const out = {};
     if (body.name !== undefined || required) {
-      const checked = checkName(body.name, deps.blocklist);
+      const checked = checkName(body.name, nameList);
       if (!checked.ok) throw new MobError(checked.code);
       out.name = checked.name;
     }
@@ -387,7 +411,9 @@ export function createMobService(deps) {
       if (!invitesOn()) throw new MobError('INVITES_PAUSED');
       const expires = new Date(now() + INVITE_DAYS * DAY_MS).toISOString();
       for (let attempt = 0; attempt < 3; attempt += 1) {
-        const code = v3On() ? codeFromBytes(deps.randomBytes(4), 6) : codeFromBytes(deps.randomBytes(5));
+        // S2 (15 Nov): every new code is 8 characters again (40 bits). The 6-character codes of v3 (D127) were 30 bits, 1,000
+        // times easier to hit by guessing through the public preview; the ones already shared keep working until they expire.
+        const code = codeFromBytes(deps.randomBytes(5), 8);
         let r;
         try {
           r = await deps.rpc('mob_invite_new', { p_user_id: userId, p_mob_id: state.mob.id, p_code: code, p_expires_at: expires });
@@ -409,6 +435,8 @@ export function createMobService(deps) {
       const code = normalizeCode(rawCode);
       if (!code) throw new MobError('INVITE_INVALID');
       if (!invitesOn()) throw new MobError('JOIN_PAUSED');
+      // S1: a removed member's preview of the old link reads like a bad code (the join refuses it either way).
+      if (viewerId && (await keptOut(code, viewerId).catch(() => false))) throw new MobError('INVITE_INVALID');
       const r = await call('mob_invite_lookup', { p_code: code, p_now: new Date(now()).toISOString() });
       if (r?.status === 'expired') throw new MobError('INVITE_EXPIRED');
       if (r?.status === 'full') throw new MobError('MOB_FULL');
@@ -424,6 +452,8 @@ export function createMobService(deps) {
       if (!invitesOn()) throw new MobError('JOIN_PAUSED');
       const { name, colour } = nameAndColour(body, { required: true });
       const fold = v3On() ? await v3.checkFold(userId, body.fold) : null;
+      // S1: removed from this link's Mob while the link existed. Like a block, it reads exactly like a bad code (P10).
+      if (await keptOut(code, userId)) throw new MobError('INVITE_INVALID');
       // Joining is not a plan limit: every plan joins up to the safety ceiling (the migration counts every membership).
       const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour, p_max_mobs: MAX_MEMBERSHIPS, p_now: new Date(now()).toISOString() });
       const status = r?.status;
@@ -433,6 +463,16 @@ export function createMobService(deps) {
       if (status === 'full') throw new MobError('MOB_FULL');
       if (status === 'limit') throw new MobError('MOB_CEILING');
       if (status !== 'joined' && status !== 'already') throw new MobError('UNAVAILABLE');
+      // S1: read the mark again after joining. It is written before the removal, so a join that raced the removal (checked
+      // before the mark, joined after the removal) is seen here and undone. A failed read undoes the join too.
+      if (status === 'joined') {
+        let out = false; let failed = null;
+        try { out = await keptOut(code, userId); } catch (error) { failed = error; }
+        if (out || failed) {
+          await call('mob_remove', { p_actor: null, p_mob_id: r.mob_id, p_target: userId }).catch(() => null);
+          throw failed || new MobError('INVITE_INVALID');
+        }
+      }
       if (fold) await v3.sitAs(userId, fold).catch(() => null);
       // Opening the link of a Mob you are already in just takes you there.
       return viewAfterWrite(userId, { mobId: r?.mob_id, sync: false });
@@ -489,10 +529,24 @@ export function createMobService(deps) {
       const state = await mustState(userId, body.mob);
       const target = memberByMemberId(state, body.memberId);
       if (!target) throw new MobError('NOT_FOUND');
+      // S1: only the owner's removal marks the link (mob_remove refuses anyone else, and removing yourself, the same way).
+      const owner = (state.members || []).find((m) => m.user_id === userId)?.role === 'owner';
+      if (owner && target.user_id !== userId) await keepOutOfLink(state, target.user_id);
       const r = await call('mob_remove', { p_actor: userId, p_mob_id: state.mob.id, p_target: target.user_id });
       if (r === 'not_owner') throw new MobError('NOT_OWNER');
       if (r !== 'removed') throw new MobError(r === 'not_member' ? 'NOT_IN_MOB' : 'NOT_FOUND');
       return view(userId, { mobId: state.mob.id, sync: false });
+    },
+
+    /**
+     * The /moderation "Remove" (deps.js resolveMobReport): mob_remove with no actor, after the same keep-out mark as an
+     * owner's removal (S1), so a member a moderator took out cannot come back by the old link either. Returns mob_remove's word.
+     */
+    async removeByModerator(mobId, targetId) {
+      if (!validMobId(mobId) || typeof targetId !== 'string' || !targetId) return 'not_found';
+      const state = await readState(targetId, mobWeek(now()), mobId).catch(() => null);
+      if (state?.mob?.id === mobId) await keepOutOfLink(state, targetId);
+      return call('mob_remove', { p_actor: null, p_mob_id: mobId, p_target: targetId });
     },
 
     async report(userId, body = {}) {
@@ -503,6 +557,11 @@ export function createMobService(deps) {
       if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
       const r = await call('mob_report', { p_reporter: userId, p_mob_id: state.mob.id, p_reported: target.user_id, p_reason: body.reason });
       if (r !== 'reported') throw new MobError('NOT_FOUND');
+      // S2 (15 Nov): one email to the support inbox (reportAlert.js), handed over after the write and never awaited, so it
+      // can neither fail nor slow the report.
+      if (deps.onReport) {
+        try { Promise.resolve(deps.onReport({ mobId: state.mob.id, reporterId: userId, reason: body.reason, at: now() })).catch(() => null); } catch { /* never the student's problem */ }
+      }
       let separated = 0;
       if (body.block === true) {
         await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
@@ -553,7 +612,12 @@ export function createMobService(deps) {
       try {
         let ids = state.paper?.question_ids;
         if (!Array.isArray(ids)) {
-          const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count: PAPER_COUNT }).catch(() => []);
+          // S3 (15 Nov): not a question of the Mob's open games or of its games of the last 7 days (members saw those keys in a
+          // review, or will) when the bank has enough others; else the draw of before. Never fails the draw by itself.
+          const recent = [...new Set((state.games || []).flatMap((g) => g?.question_ids || []))];
+          const draw = (exclude) => deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count: PAPER_COUNT, ...(exclude.length ? { exclude } : {}) }).catch(() => []);
+          let picked = recent.length ? (await draw(recent)).filter((id) => !recent.includes(id)) : [];
+          if (!Array.isArray(picked) || picked.length < PAPER_COUNT) picked = await draw([]);
           if (!Array.isArray(picked) || picked.length < PAPER_COUNT) throw new MobError('PAPER_UNAVAILABLE');
           ids = await call('mob_paper_put', { p_mob_id: state.mob.id, p_week: state.week, p_subject: state.mob.subject, p_ids: picked.slice(0, PAPER_COUNT) });
         }
