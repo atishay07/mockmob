@@ -15,7 +15,7 @@ import {
   ANSWER_LETTERS, DAILY_FIVE_CHECK_ROUTE, DAILY_FIVE_ME_ROUTE, DAILY_FIVE_STATS_ROUTE, acceptAccount, acceptCheck, acceptCrowd, crowdLineFor, runDays,
   runNote,
 } from '@/lib/dailyFiveAccount.mjs';
-import { DailyBoard, DailyLeaf, DailyWeek, NextFiveClock, boardLabel } from './DailyParts';
+import { CalendarDay, DailyBoard, DailyWeek, NextFiveClock, boardLabel } from './DailyParts';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
 
@@ -424,21 +424,20 @@ export default function DailyFive() {
     }
   }
 
-  // The head: the calendar leaf, the name, the weekday and the day's number. Before a five is played, one line of what it is.
+  // The head: the name and the day's number; under it the page itself, the day on ink (CalendarDay) joined to the card.
   const head = (
     <div className="dly__head">
-      <DailyLeaf date={today?.date} size="l" />
-      <div className="dly__head-text">
-        <h1 className="lp-h2 dly__title">Daily Five</h1>
-        <p className="dly__over">{today ? <>{dayLabel(today.date)}<span aria-hidden="true"> · </span><span className="sr-only">, </span>No. {today.day}</> : ' '}</p>
-      </div>
+      <h1 className="dly__title">Daily Five</h1>
+      <span className="dly__no">{today ? <><span className="sr-only">{dayLabel(today.date)}, </span>No. {today.day}</> : '\u00a0'}</span>
     </div>
   );
-  const over = (
-    <>
-      {head}
-      <p className="lp-sub dly__lead">The same five CUET questions for everyone today. One go a day, no sign-up.</p>
-    </>
+  const band = (done) => (
+    <CalendarDay
+      on={!done}
+      status={done ? 'Done for today' : 'Open now'}
+      date={today?.date}
+      clock={<NextFiveClock date={today?.date} label={done ? 'Next five in' : 'Closes in'} size="l" onNewDay={newDay} />}
+    />
   );
   // The days played, as this viewer's run: the account's once it has answered, else this device's.
   const runOf = (playedToday) => (signedIn && accountReady ? runDays(account.played, today.date, playedToday) : record ? record.played : []);
@@ -464,7 +463,8 @@ export default function DailyFive() {
     return (
       <>
         {head}
-        <div className="lp-desk dly__desk">
+        <div className="lp-desk dly__desk" data-band="true">
+          {band(true)}
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" aria-live="polite" role="group" aria-label="Today’s Daily Five result">
               <div className="lp-card__head">
@@ -485,12 +485,6 @@ export default function DailyFive() {
                     {share === 'copied' ? 'Your score is copied. Paste it in WhatsApp.' : share === 'failed' ? 'Couldn’t copy. Press and hold the lines below to copy them.' : 'Your score and squares only. No questions.'}
                   </p>
                   {share === 'failed' ? <p className="dly__share-text">{shareText(result)}</p> : null}
-                </div>
-
-                {/* The clock to the next five: a real countdown to 12:00 am IST; the page loads the new day when it turns. */}
-                <div className="dly__next">
-                  <NextFiveClock date={today.date} label="Next five in" size="l" units onNewDay={newDay} />
-                  <p className="dly__next-note">A new five opens at 12:00 am, the same for everyone.</p>
                 </div>
 
                 <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>
@@ -578,8 +572,9 @@ export default function DailyFive() {
     // the card keeps its height when the five arrive (15 Nov: the question skeleton was taller, a layout shift of 0.05 to 0.08).
     return (
       <>
-        {over}
-        <div className="lp-desk dly__desk">
+        {head}
+        <div className="lp-desk dly__desk" data-band="true">
+          {band(false)}
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" role="group" aria-label="Today’s Daily Five" aria-busy={failed ? undefined : 'true'}>
               <div className="lp-card__head">
@@ -611,7 +606,6 @@ export default function DailyFive() {
                     <div className="dly__go">
                       <button type="button" className="mm-btn mm-btn--secondary dly__wait" disabled aria-live="polite">Loading today’s five</button>
                     </div>
-                    <div className="dly__closes"><NextFiveClock date={today?.date} label="Today’s five closes in" size="s" /></div>
                     <RunBlock days={today ? runOf(false) : []} today={today?.date || null} />
                   </>
                 )}
@@ -627,8 +621,9 @@ export default function DailyFive() {
   if (phase !== 'playing' || (!run && !result)) {
     return (
       <>
-        {over}
-        <div className="lp-desk dly__desk">
+        {head}
+        <div className="lp-desk dly__desk" data-band="true">
+          {band(false)}
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" role="group" aria-label="Today’s Daily Five" tabIndex={-1} ref={rootRef}>
               <div className="lp-card__head">
@@ -645,7 +640,6 @@ export default function DailyFive() {
                 <div className="dly__go">
                   <button type="button" className="mm-btn mm-btn--primary" onClick={start}>Start today’s five</button>
                 </div>
-                <div className="dly__closes"><NextFiveClock date={today.date} label="Today’s five closes in" size="s" onNewDay={newDay} /></div>
                 <RunBlock days={runOf(false)} today={today.date} />
               </div>
             </div>

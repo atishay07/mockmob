@@ -8,7 +8,7 @@ import {
   acceptDailyFive, addDays, beginRun, clockWords, cycleDays, cycleOrder, dailyFiveFor, dailyFiveUrl, dateOfDay, dayLabel,
   dayNumber, finishDay, formatClock, istDateKey, keepAnswer, msUntilNextDay, nextIndex, readRecord, resultOn, scoreRun,
   shareSquares, shareText, shortDate, streakLine, streakOf, todayDaily, untilWords,
-  countdownParts, leafOf, runStats, untilShort, weekOf,
+  countdownDays, countdownParts, leafOf, runStats, untilShort, weekOf,
 } from './dailyFive.mjs';
 
 // Two full public windows as the sample route serves them (30 each), stems unique so a question can be traced.
@@ -248,4 +248,10 @@ test('the week strip is the seven days that end today, oldest first, and never s
   assert.deepEqual(week.map((d) => Boolean(d.before)), [true, true, true, true, true, false, false], `days before ${DAILY_FIVE_EPOCH} had no five`);
   assert.ok(weekOf([], '2026-12-01').every((d) => !d.before && !d.played));
   assert.deepEqual(weekOf([], 'junk'), []);
+});
+
+test('a wait of days reads as days, hours, minutes and seconds', () => {
+  assert.deepEqual(countdownDays(((5 * 24 + 8) * 3600 + 41 * 60 + 12) * 1000 + 900), { d: '5', h: '08', m: '41', s: '12' });
+  assert.deepEqual(countdownDays((23 * 3600 + 59 * 60 + 59) * 1000), { d: '0', h: '23', m: '59', s: '59' });
+  assert.deepEqual(countdownDays(-1), { d: '0', h: '00', m: '00', s: '00' });
 });

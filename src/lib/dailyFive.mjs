@@ -110,6 +110,12 @@ export function countdownParts(ms) {
   return { h: pad(Math.floor(total / 3600)), m: pad(Math.floor((total % 3600) / 60)), s: pad(total % 60) };
 }
 
+/** A wait of days as a clock: { d, h, m, s } ("5", "08", "41", "12"); d is "0" under a day. Whole seconds, never rounded up. */
+export function countdownDays(ms) {
+  const total = Math.max(0, Math.floor((Number(ms) || 0) / 1000));
+  return { d: String(Math.floor(total / 86400)), h: pad(Math.floor((total % 86400) / 3600)), m: pad(Math.floor((total % 3600) / 60)), s: pad(total % 60) };
+}
+
 /** "7 h 42 min", "42 min", "under a minute": a wait short enough for a row. Never rounded up. */
 export function untilShort(ms) {
   const total = Math.max(0, Number(ms) || 0);

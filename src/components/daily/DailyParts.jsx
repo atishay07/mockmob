@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/ui/Icons';
-import { DAILY_FIVE_SIZE, countdownParts, leafOf, msUntilNextDay, todayDaily, untilWords, weekOf } from '@/lib/dailyFive.mjs';
+import { DAILY_FIVE_SIZE, countdownDays, countdownParts, dayLabel, leafOf, msUntilNextDay, todayDaily, untilWords, weekOf } from '@/lib/dailyFive.mjs';
 import './daily-parts.css';
 
 // The Daily Five's own parts (16 Nov 2026; the owner: "It's not placed correctly as a proper clock. How do other websites do
@@ -38,15 +38,15 @@ export function useDailyNow(active = true) {
 }
 
 /** True while the element is on screen (or near it), so a clock far down a long page does not tick for nobody. */
-export function useOnScreen(ref) {
+export function useOnScreen(ref, margin = '200px 0px') {
   const [on, setOn] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el || typeof IntersectionObserver !== 'function') { const t = window.setTimeout(() => setOn(true), 0); return () => window.clearTimeout(t); }
-    const io = new IntersectionObserver(([entry]) => setOn(entry.isIntersecting), { rootMargin: '200px 0px' });
+    const io = new IntersectionObserver(([entry]) => setOn(entry.isIntersecting), { rootMargin: margin });
     io.observe(el);
     return () => io.disconnect();
-  }, [ref]);
+  }, [ref, margin]);
   return on;
 }
 
@@ -89,22 +89,47 @@ export function boardLabel(marks) {
   return marks.map((m, i) => `question ${i + 1} ${m === true ? 'right' : m === false ? 'missed' : 'not answered'}`).join(', ');
 }
 
-/** The clock's face: a label and HH:MM:SS. `ms` null draws the face without digits (before the first tick), same size. */
-export function DailyClock({ ms, label, size = 'm', units = false }) {
-  const parts = ms === null || ms === undefined ? null : countdownParts(ms);
+/**
+ * The clock's face: a label and HH:MM:SS. `ms` null draws the face without digits (before the first tick), same size.
+ * `days` is for a wait longer than a day (the Sunday Mock): the days lead, and every pair carries its unit.
+ */
+export function DailyClock({ ms, label, size = 'm', units = false, days = false }) {
+  const known = ms !== null && ms !== undefined;
+  const parts = !known ? null : days ? countdownDays(ms) : countdownParts(ms);
+  const named = units || days;
   const pair = (value, unit) => (
     <span className="df-clock__pair">
       <b>{parts ? value : '--'}</b>
-      {units ? <small>{unit}</small> : null}
+      {named ? <small>{unit}</small> : null}
     </span>
   );
+  const withDays = days && (!parts || parts.d !== '0');
   return (
-    <p className="df-clock" data-size={size} role="timer" aria-label={parts ? `${label} ${untilWords(ms)}` : label}>
+    <p className="df-clock" data-size={size} data-days={days ? 'true' : undefined} role="timer" aria-label={known ? `${label} ${untilWords(ms)}` : label}>
       <span className="df-clock__label" aria-hidden="true">{label}</span>
       <span className="df-clock__digits" aria-hidden="true">
+        {withDays ? <>{pair(parts?.d, parts?.d === '1' ? 'day' : 'days')}<i>:</i></> : null}
         {pair(parts?.h, 'hr')}<i>:</i>{pair(parts?.m, 'min')}<i>:</i>{pair(parts?.s, 'sec')}
       </span>
     </p>
+  );
+}
+
+/**
+ * The day, as the ink top of a tear-off desk calendar page: whether it is open (a lit dot and two words), the date large (the
+ * day's number, the month in volt, the weekday) and a clock. The home page's blocks and /daily wear the same page.
+ */
+export function CalendarDay({ on = false, status, date, clock }) {
+  const leaf = date ? leafOf(date) : null;
+  return (
+    <div className="df-day" aria-hidden="true">
+      <p className="df-day__live" data-on={on ? 'true' : 'false'}><i />{status}</p>
+      <div className="df-day__date">
+        <b>{leaf ? leaf.day : '\u00a0'}</b>
+        <span><em>{leaf ? leaf.month : '\u00a0'}</em><small>{date ? dayLabel(date).split(',')[0] : '\u00a0'}</small></span>
+      </div>
+      {clock}
+    </div>
   );
 }
 

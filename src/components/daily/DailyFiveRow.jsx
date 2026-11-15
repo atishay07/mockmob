@@ -4,10 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import {
-  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, leafOf, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
+  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
 } from '@/lib/dailyFive.mjs';
 import { DAILY_FIVE_ME_ROUTE, acceptAccount, runDays } from '@/lib/dailyFiveAccount.mjs';
-import { DailyBoard, DailyClock, boardLabel, useDailyNow, useOnScreen } from './DailyParts';
+import { PAPER_COUNT, PAPER_MINUTES, sundayState, sundayWindow } from '@/lib/sundayMock.mjs';
+import { CalendarDay, DailyBoard, DailyClock, boardLabel, useDailyNow, useOnScreen } from './DailyParts';
 import './daily-row.css';
 
 // The doors to the Daily Five.
@@ -56,7 +57,8 @@ function Mark({ marks }) {
 function HomeBlock() {
   const ref = useRef(null);
   const record = useDeviceRecord();
-  const on = useOnScreen(ref);
+  // Both pages tick from one clock, while either is near the screen.
+  const on = useOnScreen(ref, '700px 0px');
   const now = useDailyNow(on);
   const today = now === null ? null : todayDaily(now);
   const ready = Boolean(today && record);
@@ -75,7 +77,6 @@ function HomeBlock() {
         ? `${streak === 1 ? 'You played yesterday.' : `You’re on a ${streak}-day run.`} Play today’s five to keep it going.`
         : 'Five CUET questions, the same for everyone today. Free, no sign-up.';
   const key = result ? 'See today’s result' : begun ? 'Continue today’s five' : 'Play today’s five';
-  const leaf = today ? leafOf(today.date) : null;
 
   return (
     <>
@@ -86,15 +87,12 @@ function HomeBlock() {
       ref={ref}
       aria-label={today ? `Daily Five, ${dayLabel(today.date)}, number ${today.day}. ${line} ${key}.` : 'Daily Five. Play today’s five.'}
     >
-      {/* The day: an ink page of a tear-off desk calendar. Whether today's five is open, the date large, the clock. */}
-      <div className="dfh__day" aria-hidden="true">
-        <p className="dfh__live" data-on={result ? 'false' : 'true'}><i />{result ? 'Done for today' : begun ? 'In progress' : 'Open now'}</p>
-        <div className="dfh__date">
-          <b>{leaf ? leaf.day : '\u00a0'}</b>
-          <span><em>{leaf ? leaf.month : '\u00a0'}</em><small>{today ? dayLabel(today.date).split(',')[0] : '\u00a0'}</small></span>
-        </div>
-        <DailyClock ms={now === null ? null : msUntilNextDay(now)} label={result ? 'Next five in' : 'Closes in'} size="l" />
-      </div>
+      <CalendarDay
+        on={!result}
+        status={result ? 'Done for today' : begun ? 'In progress' : 'Open now'}
+        date={today?.date}
+        clock={<DailyClock ms={now === null ? null : msUntilNextDay(now)} label={result ? 'Next five in' : 'Closes in'} size="l" />}
+      />
       {/* The five: the name and number, what it is, the board, the one key. */}
       <div className="dfh__body" aria-hidden="true">
         <div className="dfh__head">
@@ -111,12 +109,43 @@ function HomeBlock() {
         <span className="dfh__key" data-quiet={result ? 'true' : 'false'}>{key}</span>
       </div>
     </Link>
-    {/* The week's other fixed date, said once and plainly: the daily five, and the Sunday Mock. */}
-    <p className="dfh__also">
-      Every Sunday, 10:00 am to 10:00 pm: one full CUET paper in each of your subjects, free with an account.{' '}
-      <Link href="/sunday-mock">See the Sunday Mock</Link>
-    </p>
+    <SundayPage now={now} />
     </>
+  );
+}
+
+/**
+ * The week's other fixed date, as the second page: the Sunday Mock. The coming Sunday's date, a clock to 10:00 am IST (or,
+ * on a Sunday while it is open, to 10:00 pm), what the paper is, and one quiet key to its page.
+ */
+function SundayPage({ now }) {
+  const state = now === null ? null : sundayState(now);
+  const open = state?.phase === 'open';
+  const date = !state ? null : state.phase === 'closed' ? state.next : state.week;
+  const wait = !state ? null : open ? state.closesAt - now : sundayWindow(date).opensAt - now;
+  const line = 'One full CUET paper in each of your subjects, the same for everyone that Sunday.';
+  return (
+    <Link href="/sunday-mock" className="dfh" data-page="sunday" aria-label={`Sunday Mock${date ? `, ${dayLabel(date)}` : ''}. ${line} See how the Sunday Mock works.`}>
+      <CalendarDay
+        on={open}
+        status={open ? 'Open now' : 'Next one'}
+        date={date}
+        clock={<DailyClock ms={wait} label={open ? 'Closes in' : 'Opens in'} size="l" days />}
+      />
+      <div className="dfh__body" aria-hidden="true">
+        <div className="dfh__head">
+          <p className="dfh__name">Sunday Mock</p>
+          <span className="dfh__no" data-quiet="true">Weekly</span>
+        </div>
+        <p className="dfh__line">{line}</p>
+        <ul className="dfh__chips">
+          <li>{PAPER_COUNT} questions, {PAPER_MINUTES} minutes</li>
+          <li>Every Sunday, 10:00 am to 10:00 pm</li>
+          <li>Free with an account</li>
+        </ul>
+        <span className="dfh__key" data-quiet="true">See how the Sunday Mock works</span>
+      </div>
+    </Link>
   );
 }
 
