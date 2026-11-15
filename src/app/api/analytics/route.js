@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
 import { SUBJECTS } from '@/../data/subjects';
 import { attemptScoring } from '@/../data/attempt_scoring';
+import { supabaseAdmin } from '@/lib/supabase';
+import { openAttemptsOnly, readHeldMobPapers } from '@/lib/server/answerHold';
 
 export async function GET(request) {
   try {
@@ -11,12 +13,20 @@ export async function GET(request) {
     const userId=session.user.id;
     // The owner's own history: server-scored practice plus earlier browser-scored attempts,
     // which are labelled as such. Recovery evidence is computed separately (/api/recovery).
-    const attempts=await Database.getAttempts(userId, { slim: 'insights' }); // snapshot id and chapter, details and scoring version stay
+    const [attempts, held] = await Promise.all([
+      Database.getAttempts(userId, { slim: 'insights' }), // snapshot id and chapter, details and scoring version stay
+      readHeldMobPapers(supabaseAdmin(), userId),
+    ]);
     const deviceScored=attempts.filter(a=>attemptScoring(a)==='device').length;
+    // L5 cross-lane (15 Nov 2026): a Mob paper still open for the Mob keeps its per-question right and wrong
+    // (src/lib/mob/paperHold.mjs). Its marks and counts may show (the timeline, subjects and totals below), but a chapter's
+    // right count would name it for a chapter with one question in the paper, so chapters are counted without held papers.
+    // Held by tag and by id (the summary-function tier of an 'insights' read drops the tag).
+    const openAttempts = openAttemptsOnly(attempts).filter((a) => !held.byId.has(a.id));
 
     // -------- Chapter-wise accuracy --------
     const byChapter = {};
-    attempts.forEach(a => {
+    openAttempts.forEach(a => {
       (a.questionsSnapshot || []).forEach(q => {
         const d = a.details?.find(x => x.qid === q.id);
         if (!d) return;
