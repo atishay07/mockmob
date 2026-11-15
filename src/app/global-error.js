@@ -47,6 +47,10 @@ const STYLES = `
 
 export default function GlobalError({ error, reset, unstable_retry: retry }) {
   const [theme] = useState(storedTheme);
+  // The theme script matters only when the server drew this page (the root layout failed there): it sets the theme before
+  // paint. Drawn in the browser, the state above already has the theme, and React would only warn about a script it never
+  // runs; so the script is kept exactly when the server's copy is in the document (hydration then matches).
+  const [serverDrawn] = useState(() => typeof document === 'undefined' || Boolean(document.getElementById('ge-theme')));
   const headingRef = useRef(null);
   const reference = referenceOf(error);
 
@@ -64,7 +68,7 @@ export default function GlobalError({ error, reset, unstable_retry: retry }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <title>Something broke | MockMob</title>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        {serverDrawn ? <script id="ge-theme" dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /> : null}
         <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       </head>
       <body className="ge-body" style={{ background: 'var(--ge-bg)', color: 'var(--ge-ink)' }}>
