@@ -122,7 +122,24 @@ export function firstActionOpens(record, { now, session, user, route = '', actio
   const at = Number(action.at);
   // An action finished before onboarding ended is not this session's first action (60 s of clock slack).
   if (Number.isFinite(at) && at < r.onboardedAt - 60_000) return false;
+  // A paper with nothing answered is not a first real action (15 Nov 2026, ux-fresh U1: the sheet covered a blank paper). The
+  // record stays unmarked, so the next real paper in the same session may open it. An unknown count changes nothing.
+  if (blankPaper(action)) return false;
   return true;
+}
+
+/** True only when the action says how many questions were answered and the answer is none. */
+export function blankPaper(action) {
+  const answered = action?.answered;
+  return answered !== null && answered !== undefined && answered !== '' && Number.isFinite(Number(answered)) && Number(answered) <= 0;
+}
+
+/** Questions answered in a paper as GET /api/attempts/summary lists it (right + wrong), or null when the row does not say. */
+export function answeredIn(row) {
+  if (!row || typeof row !== 'object') return null;
+  const right = Number(row.correct);
+  const wrong = Number(row.wrong);
+  return Number.isFinite(right) && Number.isFinite(wrong) ? Math.max(0, right) + Math.max(0, wrong) : null;
 }
 
 /**
@@ -133,6 +150,18 @@ export function firstActionOpens(record, { now, session, user, route = '', actio
 export function firstSheetMayOpen(record, { user, route = '', otherSheetOpen = false }) {
   if (!nudgesAllowed(user) || quietRoute(route) || otherSheetOpen) return false;
   return !readRecord(record).firstShownAt;
+}
+
+/**
+ * Whether Practice's "What Pro adds" credits modal (src/components/CreditsRemainingModal.jsx, opened after a Free student's set)
+ * may open now (15 Nov 2026, F4). Never in the browser session in which the first-session Upgrade sheet already showed: the
+ * sheet opens over the first result, and the modal would be a second pitch on the same first set. The record says both when the
+ * sheet showed (firstShownAt) and in which browser session (the sheet only opens in the session that finished onboarding,
+ * inFirstSession). Every other case is as before.
+ */
+export function creditsModalAllowed(record, { session } = {}) {
+  const r = readRecord(record);
+  return !(Number.isFinite(r.firstShownAt) && r.session && session && r.session === session);
 }
 
 /** "Not now" (or the close) on the sheet: inline nudges rest for a day. */

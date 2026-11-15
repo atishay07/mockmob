@@ -36,7 +36,11 @@ import PracticeMobChip from '@/components/mob/PracticeMobChip';
 import PracticeRepairs from './PracticeRepairs';
 import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
-import { fullMocksIn } from '@/lib/proNudge.mjs';
+import { browserSession, loadRecord } from '@/components/pro/proNudgeStore';
+import { creditsModalAllowed, fullMocksIn } from '@/lib/proNudge.mjs';
+import { firstSetLine, launchPath, quotePath, startPath } from '@/lib/firstSet.mjs';
+import { clearSample, readSample, sampleChapters, sampleSubject } from '@/components/landing/sampleCarry.mjs';
+import { resolveChapter } from '@/../data/cuet_syllabus';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -199,17 +203,22 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const fineRef = useRef(null);
   const chapterButtonRef = useRef(null);
   const shelfRef = useRef(null);
+  // The home page's sample, for a student with no finished set (F3, 15 Nov 2026): { subject, chapters } once read, null when there
+  // is nothing to use. Read once, when the papers first land; the note is deleted then (the first run is over; sampleCarry.mjs).
+  const sampleFor = useRef(undefined);
 
   // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
   // before redirecting. When the user lands back here (Arena), pop the modal
   // once and clear the flag so it doesn't re-trigger on a refresh.
+  // Never in the browser session in which the first-result Upgrade sheet already showed (F4, 15 Nov 2026; proNudge.mjs
+  // creditsModalAllowed): two Pro pitches on one first set. The flag is still cleared.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (authStatus !== 'authenticated' || !user) return;
     try {
       if (window.sessionStorage.getItem('mm:postTest') === '1') {
         window.sessionStorage.removeItem('mm:postTest');
-        if (!user?.isPremium) {
+        if (!user?.isPremium && creditsModalAllowed(loadRecord(user.id), { session: browserSession() })) {
           const id = window.setTimeout(() => setShowCreditsModal(true), 0);
           return () => window.clearTimeout(id);
         }
@@ -239,6 +248,16 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         setSubjects(subs);
         setAttempts(atts);
         const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id) && subject.practice === 'supported');
+        // The sample's missed chapters, preselected for a first set when they name a chapter of the bank (sampleCarry.mjs
+        // sampleChapters; a live set's labels through the syllabus resolver). Read and deleted once, by a student with subjects.
+        if (sampleFor.current === undefined && mySubs.length > 0) {
+          const note = readSample();
+          const subject = note && Array.isArray(atts) && atts.length === 0 ? sampleSubject(note) : null;
+          const internal = subs.find((entry) => entry.id === subject)?.internalId || subject;
+          const bankName = (label) => { const hit = resolveChapter(internal, label); return hit && !hit.retired ? hit.name : null; };
+          sampleFor.current = subject ? { subject, chapters: sampleChapters(note, subject, { resolve: bankName }) } : null;
+          if (note) clearSample();
+        }
         const linkedSubject=searchParams.get('subject');
         if (mySubs.length > 0) setSelSubj(current => mySubs.some(subject => subject.id === linkedSubject) ? linkedSubject : mySubs.some(subject => subject.id === current) ? current : mySubs[0].id);
         setStatus('ready');
@@ -288,11 +307,13 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           ? [...(searchParams.get('chapters') || '').split(','), searchParams.get('chapter') || ''].map((name) => name.trim()).filter(Boolean)
           : [];
         const linkMode = MODE_LIST.includes(searchParams.get('mode')) ? searchParams.get('mode') : 'quick';
-        const kept = chaptersForMode(fineTuneScope(linkMode).chapters, linked, known);
+        // No link's chapters: a first set takes the sample's missed chapters for this subject, the ones the bank knows by name.
+        const fromSample = !linked.length && sampleFor.current?.subject === selSubj ? sampleFor.current.chapters : [];
+        const kept = chaptersForMode(fineTuneScope(linkMode).chapters, linked.length ? linked : fromSample, known);
         setSelectedChapters(kept.chapters);
         setChapterNote(linked.length && !kept.chapters.length && !fineTuneScope(linkMode).chapters
           ? `${LINK_DROP[linkMode] || 'This mode covers every chapter'}, so the chapter from your link was not used.`
-          : null);
+          : fromSample.length && kept.chapters.length ? `From your sample: ${kept.chapters.join(', ')}.` : null);
       })
       .catch(() => { if (alive) setChapterData({ state: 'error', units: [], count: 0, flat: true }); });
     return () => { alive = false; };
@@ -351,10 +372,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   useEffect(() => {
     if (status !== 'ready' || !selSubj) return;
     let alive = true;
-    const params = new URLSearchParams({ subject: selSubj, mode: effectiveModeId, count: String(quoteCount) });
+    // The one quote address for every door (src/lib/firstSet.mjs): onboarding's first set and the guide ask it the same way.
+    const address = quotePath({ subject: selSubj, mode: effectiveModeId, count: quoteCount });
     const id = window.setTimeout(() => {
       setQuoteStatus('loading');
-      fetch(`/api/practice/quote?${params}`, { cache: 'no-store' })
+      fetch(address, { cache: 'no-store' })
         .then(async (response) => {
           const body = await response.json().catch(() => null);
           if (!alive) return;
@@ -400,6 +422,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   function chooseSubject(event, subject) {
     answerPick(event);
     if (subject.id === selSubj) return;
+    sampleFor.current = null; // the sample's chapters are offered once, on the subject it was in
+
     // R3 C3: no chapter count from the static subject list (it disagrees with the syllabus and with Learn); the picker has the live one.
     setChapterNote(selectedChapters.length ? `Chapters reset to all chapters for ${subject.name}.` : null);
     setSelSubj(subject.id);
@@ -430,15 +454,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   // What this session sends: chapters only for a mode that takes them, a level only where the mode allows one and the
   // student has Pro (the server refuses anything else; data/test_modes.js fineTuneScope).
   const sentChapters = scope.chapters ? selectedChapters : [];
-  const chapterParam = sentChapters.length > 0
-    ? `&chapters=${encodeURIComponent(sentChapters.join(','))}`
-    : '';
-  const difficultyParam = scope.difficulty && isPremium && difficultyMode !== 'auto'
-    ? `&difficulty=${encodeURIComponent(difficultyMode)}`
-    : '';
-  const modeParam = `&mode=${encodeURIComponent(mode.id)}`;
-  const interfaceParam = effectiveModeId === 'nta' && ntaScreen === 'nta' ? '&interface=nta' : '';
-  const launchHref = `/test?subject=${selSubj}&count=${count}${modeParam}${chapterParam}${difficultyParam}${interfaceParam}`;
+  // The runner's address, built by the one builder onboarding's first set and the guide use too (src/lib/firstSet.mjs).
+  const launchHref = launchPath({
+    subject: selSubj, count, mode: mode.id, chapters: sentChapters,
+    difficulty: scope.difficulty && isPremium && difficultyMode !== 'auto' ? difficultyMode : '',
+    ntaScreen: effectiveModeId === 'nta' && ntaScreen === 'nta',
+  });
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
   const subjectLabel = selectedSubject?.name || '';
   const statsAvailable = stats?.state !== 'unavailable' && stats?.bankSize != null;
@@ -514,7 +535,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     // A full mock this quote called free says so to the server (firstFree=1): if it is not free by the time it starts (another
     // device or tab took it), the start is refused and nothing is charged, never charged without a warning (verifier L1).
     if (quoteFirstFree) tonight.set('firstFree', '1');
-    const target = `${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`;
+    const target = startPath(launchHref, launchingKeyRef.current, tonight);
     // A Full mock or NTA paper opens on its start moment: the clock turns once, then the paper loads. Short sessions go now.
     if (mode.id === 'full' || mode.id === 'nta') {
       setLaunchMoment('turn');
@@ -540,12 +561,20 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const keyNamesCount = !['full', 'nta'].includes(effectiveModeId) && !blocked && quoteStatus !== 'error';
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
   const examPair = effectiveModeId === 'full' || effectiveModeId === 'nta';
-  const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
-    <Link href={quote.upgradeHref} data-pro-feature={quote.reasonCode === 'access_required' ? effectiveModeId : 'credits'} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
-  ) : quoteStatus === 'error' && short ? (
-    <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
+  // A student with no finished set (F2, 15 Nov 2026): the server says so (no saved paper), and it stays so until the first one is
+  // saved, so the first-set line goes away for good after it.
+  const firstRun = status === 'ready' && attempts.length === 0;
+  // The set on the Start key is today's included one, and the quote says it is free: the guide's last key may start it directly.
+  const firstSetFree = firstRun && !isPremium && quoteStatus === 'ready' && quoteMatches && quote.launchable === true && quote.creditCost === 0
+    && isDailySet(mode.id, quoteCount) && dailySetFromQuote(quote) === 'free';
+  // `tour`: the guide's stop for a first set stands on this key (src/lib/appTour.mjs FIRST_SET_STOP).
+  const startKey = (className, short = false, tour = null) => (blocked && quote.upgradeHref ? (
+    <Link href={quote.upgradeHref} data-pro-feature={quote.reasonCode === 'access_required' ? effectiveModeId : 'credits'} data-tour={tour || undefined} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
+  ) : quoteStatus === 'error' && (short || tour === 'first-set') ? (
+    <button type="button" className={`btn-outline md ${className}`} data-tour={tour || undefined} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
   ) : (
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
+      data-tour={tour || undefined} data-first-set={tour && firstSetFree ? 'free' : undefined}
       disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? `${barStartLabel}${inSubject}` : undefined} onClick={launch}>
       {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
           never cut to "Quick pr…" (W-068). The subject is the key's second line ("in Accountancy", owner G26). */}
@@ -592,6 +621,20 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           </div>
         </div>
       )}
+
+      {/* A student with no finished set (F2, 15 Nov 2026): the way to start, on the first screen of a phone. One line over the shelf
+          with the page's own Start key under it (the one volt key there; from 1024 px the session card's key is in view and this
+          one steps aside). It follows the set on the key, and it is gone for good once the first set is saved. */}
+      {firstRun && mySubs.length > 0 ? (
+        <section className="pr-first" aria-labelledby="pr-first-line">
+          <p id="pr-first-line" className="pr-first__line">{firstSetLine({
+            mode: effectiveModeId, count: quoteCount, subjectName: subjectLabel, minutes, chapters: sentChapters,
+            price: !(quoteStatus === 'ready' && quoteMatches && quote.launchable) || isPremium ? null
+              : quote.creditCost === 0 ? (quoteFirstFree ? 'first-full' : firstSetFree ? 'free' : null) : quote.creditCost,
+          })}</p>
+          {startKey('pr-first__go', false, 'first-set')}
+        </section>
+      ) : null}
 
       {mySubs.length === 0 ? (
         <EmptyState
@@ -793,7 +836,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </div>
             {/* The key's own row: from 1024 px it rides the window's foot inside the card until the card's end is in view (owner
                 LK142: the main job in sight; practice.css). */}
-            <div className="pr-ticket__go-row">{startKey('pr-summary__cta')}</div>
+            <div className="pr-ticket__go-row">{startKey('pr-summary__cta', false, firstRun ? 'practice-start' : null)}</div>
           </aside>
 
           {/* Phones and tablets: the session bar, sticky inside the setup (practice.css). It rides above the tab bar while

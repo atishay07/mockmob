@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const read = (f) => readFileSync(new URL(`../../${f}`, import.meta.url), 'utf8');
+const read = (f) => readFileSync(new URL(`../../${f}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 
 test('U5: Marks trend for a fresh account: one line, the first-set key, no empty rules count, the record kept in the account', () => {
   const page = read('src/app/(app)/analytics/AnalyticsPageClient.jsx');

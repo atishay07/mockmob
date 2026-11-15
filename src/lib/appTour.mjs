@@ -28,6 +28,35 @@ export function tourSteps({ mob = false, study = false } = {}) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
+// A student with no finished set (15 Nov 2026, F2): the same stops, none dropped, but the tour ends on Start, and its last key
+// starts the first set ("Start your first set") instead of "Done" on You. On Practice the stop stands on the page's own Start key
+// (data-tour="first-set" on a phone, "practice-start" on the session card from 1024 px); elsewhere on the Start key every page
+// has. Everyone else gets the tour as it was.
+export const FIRST_SET_STOP = Object.freeze({
+  title: 'Start',
+  target: Object.freeze(['first-set', 'practice-start', 'nav-start']),
+  body: 'Your first set: 10 questions, about 10 minutes. Start it now, or any time later.',
+  firstSet: true,
+});
+
+/** The stops for a student with no finished set: Start moves to the end and becomes the first set's stop. Same count. */
+export function firstSetTour(steps = []) {
+  const list = Array.isArray(steps) ? steps : [];
+  const start = list.findIndex((step) => step.title === 'Start');
+  if (start < 0) return [...list, FIRST_SET_STOP];
+  return [...list.slice(0, start), ...list.slice(start + 1), FIRST_SET_STOP];
+}
+
+/**
+ * Whether a guide that is open may still take the first-set order: only while the two orders show the same stops, so the
+ * student never sees a stop move under them. Both orders start with Today and Practice; they part at the Start stop.
+ */
+export function firstSetOrderOpen(steps = [], index = 0) {
+  const start = (Array.isArray(steps) ? steps : []).findIndex((step) => step.title === 'Start');
+  return start < 0 ? index < (Array.isArray(steps) ? steps.length - 1 : 0) : index < start;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 // Starting by itself, once (owner, 10 Nov 2026: "It should automatically start when someone is first-time entering the platform").
 //
 // The guide starts on its own only for a student who finished onboarding on this device in the last 24 hours (the record
@@ -35,6 +64,8 @@ export function tourSteps({ mob = false, study = false } = {}) {
 // Practice, where the first run ends (src/app/onboarding/firstRun.js DONE_PATH). Never over a paper or onboarding, and never over
 // an open dialog or sheet (the Pro sheet included): it waits for that to close. A returning student and a second device never get
 // it by itself; "Show me around" starts it by hand anywhere.
+// When the first run ends on a question (15 Nov 2026, O1: the last key opens today's free set), the paper (/test) and its result
+// (/result/<id>) are not pages it starts on, so it first starts on the Practice or Today visit after that first result.
 
 /** How long after onboarding the guide may still start by itself. */
 export const GUIDE_AUTO_WINDOW_MS = 24 * 3_600_000;

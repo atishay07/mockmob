@@ -717,7 +717,8 @@ test('L1: the client side: Practice sends firstFree=1 only from a free quote, th
   const unchecked = firstMockNotice(Object.assign(new Error('FIRST_FULL_MOCK_UNCHECKED'), { body: {} }), null);
   assert.deepEqual([unchecked.title, unchecked.retry, unchecked.price], ['This full mock did not start', true, '']);
   const practice = file('src/app/(app)/dashboard/DashboardPageClient.jsx').replace(/\r\n/g, '\n');
-  assert.match(practice, /if \(quoteFirstFree\) tonight\.set\('firstFree', '1'\);\n\s+const target = `\$\{launchHref\}&generationKey=/);
+  // 15 Nov 2026: Practice builds the address with the shared builder (src/lib/firstSet.mjs startPath; its own test holds the output).
+  assert.match(practice, /if \(quoteFirstFree\) tonight\.set\('firstFree', '1'\);\n\s+const target = startPath\(launchHref, launchingKeyRef\.current, tonight\);/);
   const runner = file('src/app/(app)/test/TestPageClient.jsx');
   assert.match(runner, /\['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant','firstFree'\]/);
   assert.match(runner, /if \(isFirstMockRefusal\(e\)\) \{[\s\S]{0,400}forgetFirstFullMock\(\);[\s\S]{0,400}apiGet\(`\/api\/practice\/quote\?\$\{new URLSearchParams\(\{ subject: subjectId, mode: 'full', count: '50' \}\)\}`\)/);

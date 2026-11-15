@@ -9,7 +9,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
 import InviteCodeField from '@/components/referrals/InviteCodeField';
 import { REFERRAL_COPY } from '@/lib/referrals/friendInvite.mjs';
-import { clearSample, rawSample, readSample, signupWords } from '@/components/landing/sampleCarry.mjs';
+import { rawSample, readSample, signupWords } from '@/components/landing/sampleCarry.mjs';
 
 // The home page's sample leaves its result in this browser (sampleCarry.mjs). The stored text is the snapshot (a string
 // compares by value); another tab finishing a sample updates this page through the storage event. The server knows of none.
@@ -30,8 +30,9 @@ export default function SignupPageClient({ invite = false, invitesLive = false, 
 
   useEffect(() => {
     if (status !== 'authenticated') return;
-    // The account exists: the sample's note has done its job, and it must not greet the next person on this device.
-    clearSample();
+    // The account exists. The sample's note is not cleared here any more (15 Nov 2026, F3): it goes on into the first run, which
+    // puts the sampled subject first, and the first run deletes it as it ends (sampleCarry.mjs says when). It still lasts at most
+    // a day, and this page shows it only to a signed-out visitor.
     // Read the saved return page once (it is cleared on read).
     destinationRef.current ??= postSignInPath({ needsOnboarding });
     router.replace(destinationRef.current);

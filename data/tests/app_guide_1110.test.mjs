@@ -245,14 +245,16 @@ test('the guide is its own component: a labelled dialog, focus held and returned
   assert.match(guide, /aria-labelledby="gd-title"\s+aria-describedby="gd-line"/);
   assert.match(guide, /<h2 id="gd-title" className="gd-title">\{step\.title\}<\/h2>\s*<p id="gd-line" className="gd-line">\{step\.body\}<\/p>/);
   assert.match(guide, /aria-live="polite" aria-atomic="true"/, 'a screen reader hears each stop');
-  assert.match(guide, /<p className="gd-count">\{index \+ 1\} of \{steps\.length\}<\/p>/, '"1 of 5", sentence case');
+  // `shown`: the stops as they run (the same count in both orders, src/lib/appTour.mjs firstSetTour).
+  assert.match(guide, /<p className="gd-count">\{index \+ 1\} of \{shown\.length\}<\/p>/, '"1 of 5", sentence case');
   assert.match(guide, /onCancel=\{\(event\) => \{ event\.preventDefault\(\); onClose\(\); \}\}/, 'Escape closes');
   assert.match(guide, /event\.key === 'ArrowRight'[\s\S]{0,80}go\(1\)/);
   assert.match(guide, /event\.key === 'ArrowLeft'[\s\S]{0,60}go\(-1\)/);
   assert.match(guide, /event\.key === 'Tab'/, 'Tab goes round the card’s keys');
   assert.match(guide, /className="gd-skip" hidden=\{index === last\} onClick=\{onClose\}>Skip<\/button>/);
   assert.match(guide, />Back<\/button>/);
-  assert.match(guide, /className="btn-volt gd-next" onClick=\{onward\}>\{index === last \? 'Done' : 'Next'\}<\/button>/);
+  // 15 Nov 2026 (F2): for a student with no finished set the last stop is Start and its key starts the first set; else "Done".
+  assert.match(guide, /className="btn-volt gd-next" onClick=\{onward\}[^>]*>\{finishFirst \? \(starting \? FIRST_SET_GUIDE_BUSY : FIRST_SET_GUIDE_KEY\) : index === last \? 'Done' : 'Next'\}<\/button>/);
   assert.equal((code(guide).match(/btn-volt/g) || []).length, 1, 'one filled key');
   assert.match(guide, /opener && opener\.isConnected && onScreen\(opener\) \? opener/, 'focus returns to the key that opened it');
   assert.match(guide, /PipActor pose=/, 'Mobi is on the card');

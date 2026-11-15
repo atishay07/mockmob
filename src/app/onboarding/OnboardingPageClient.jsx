@@ -5,16 +5,22 @@
 // search that shows the subjects the course takes (CourseFinder), a subject search with the CUET papers MockMob cannot practise
 // listed and never hidden, and a sixth pick answered with the reason and one tap to swap (subjectPick.mjs).
 // One primary per screen. Subjects save on Next and the server confirms before the page moves on;
-// the days step saves the weekly goal Today's week ring is drawn from. Then the student lands on
-// Practice, as before. /onboarding?edit=true (Edit subjects on Practice and You) is subjects only.
-// The auth and redirect rules are the live ones (firstRun.js onboardingEntry).
+// the days step saves the weekly goal Today's week ring is drawn from. /onboarding?edit=true (Edit subjects on Practice and You)
+// is subjects only. The auth and redirect rules are the live ones (firstRun.js onboardingEntry).
+//
+// The first run ends on a question (15 Nov 2026, O1; src/lib/firstSet.mjs): on the colleges step the page reads the server quote
+// for today's included Quick 10 set in the first subject, with a short time limit. When it says the set is free, the last key reads
+// "Finish and start 10 Accountancy questions" and opens that paper, the way Practice opens it; otherwise (priced, failed, slow) it
+// stays "Finish and open Practice" and lands on Practice, as before. The key is never held up by the read.
+// The home page's sample travels in (F3, O2; sampleCarry.mjs): its subject is put first in the Commerce four, or, when it is
+// another subject, the grid opens with it ticked; the first set is in that subject when the student kept it.
 //
 // Motion answers the student: a picked subject inks its tick and drops into the bar's five slots,
 // a sixth pick shakes the slots, the step slides in the way the student is going, the volt thumb
 // slides to the chosen day and the week ring redraws with one arc per day. Mobi is here once,
 // beside the title, never over it. Reduced motion (device or MockMob setting) drops all of it.
 import { SubjectIcon } from '@/components/ui/Glyph';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, useSyncExternalStore } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -47,8 +53,11 @@ import { SUBJECT_RULE_NOTE } from '@/lib/cuetRules.mjs';
 import { ONBOARDING_HOW_MOCKS, ONBOARDING_HOW_MOCKS_TITLE, ONBOARDING_STEPS, ONBOARDING_SUBJECTS_TASK, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
-  cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, stepFromQuery, thumbIndex,
+  cleanDays, dayRhythm, daysLine, firstSetSubject, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, previewFinish, practiceAfter, resolveStep, ringArcs, stepFromQuery, thumbIndex,
 } from './firstRun';
+import { clearSample, rawSample, readSample, sampleFirst, sampleLine, samplePlan, sampleSubject } from '@/components/landing/sampleCarry.mjs';
+import { FINISH_TO_PRACTICE, FIRST_SET_OPENING, firstSetKey, firstSetNote, firstSetOffer, quoteExpired, readFirstSetQuote } from '@/lib/firstSet.mjs';
+import { forgetDailySet } from '@/lib/useDailySet';
 import '@/app/(app)/arena.css';
 import '@/app/(app)/arena-support.css';
 import './onboarding.css';
@@ -60,6 +69,13 @@ const reducedMotion = () => getMobiPrefs().reduced;
 const COURSE_KEY = 'mm:ob:course:v1';
 const readCourse = () => { try { return window.sessionStorage.getItem(COURSE_KEY) || null; } catch { return null; } };
 const writeCourse = (id) => { try { if (id) window.sessionStorage.setItem(COURSE_KEY, id); else window.sessionStorage.removeItem(COURSE_KEY); } catch { /* private window: the choice lasts this page only */ } };
+// The home page's sample note (sampleCarry.mjs), read from this browser only. The stored text is the snapshot, so the server render
+// (no note) and the first client render agree; the page shows a spinner until the subjects load, so the note is known by then.
+const subscribeSample = (notify) => {
+  window.addEventListener('storage', notify);
+  return () => window.removeEventListener('storage', notify);
+};
+const noSample = () => null;
 const SUBJECTS_FAILED = 'Your subjects did not save. Your choices are still selected. Try again.';
 const DAYS_FAILED = 'Your days did not save. Try again, or skip for now.';
 
@@ -150,6 +166,14 @@ export default function OnboardingPageClient({ preview = false }) {
   // A search field is never left under the on-screen keyboard (the colleges step's course and college searches too).
   useAboveKeyboard();
   const shownCount = useCountUp(selected.length, { duration: 420 });
+
+  // The home page's sample (sampleCarry.mjs): its subject, for the first run only (never for Edit subjects).
+  const sampleText = useSyncExternalStore(subscribeSample, rawSample, noSample);
+  const sampleNote = useMemo(() => (sampleText && !edit ? readSample() : null), [sampleText, edit]);
+  const sampled = sampleSubject(sampleNote);
+  const gridSeeded = useRef(false);
+  // Today's included set, read on the colleges step (src/lib/firstSet.mjs): { subject, state: 'idle' | 'loading' | 'free' | 'none', offer }.
+  const [firstSet, setFirstSet] = useState({ subject: null, state: 'idle', offer: null });
 
   const savedSubjects = user?.subjects?.length || 0;
   const step = resolveStep({ wanted, edit, hasSubjects: savedThisVisit || savedSubjects > 0 });
@@ -307,14 +331,19 @@ export default function OnboardingPageClient({ preview = false }) {
     try { window.history.replaceState(null, '', path); } catch { /* history blocked; the step still shows */ }
   };
 
-  // Leaves once every save has been confirmed. Mobi answers first unless motion is reduced.
-  const finish = useCallback(async (act) => {
+  // Leaves once every save has been confirmed. Mobi answers first unless motion is reduced. `to` is where the first run ends (the
+  // first set's paper, or Practice on the sampled subject); without it the page goes where it always did.
+  const finish = useCallback(async (act, to = null) => {
     setFinishing(true);
     mobiAct(SCOPE, act);
     // The first run is done: the first usage session starts now (D81). Editing subjects later never starts one.
     if (!edit && !preview) noteOnboardedNow(user?.id);
     try { await refreshing.current; } catch { /* the next page checks the session itself */ }
-    window.setTimeout(() => { if (!preview) router.push(back || DONE_PATH); }, reducedMotion() ? 0 : 700);
+    window.setTimeout(() => {
+      if (preview) { if (to) router.push(previewFinish(to, window.location.search)); return; }
+      if (to) router.push(to);
+      else router.push(back || DONE_PATH);
+    }, reducedMotion() ? 0 : 700);
   }, [preview, router, back, edit, user?.id]);
 
   // Each picked subject's section or part goes to Learn once the subjects are saved. It never holds the first run up: a write that
@@ -430,10 +459,23 @@ export default function OnboardingPageClient({ preview = false }) {
     setUrl('/onboarding?step=days');
   };
 
-  const finishColleges = () => {
+  // The last key. A free first set opens its paper (a quote that has run out is read again, briefly; if it is no longer free the
+  // student lands on Practice, which shows the price before anything starts). Otherwise Practice, on the sampled subject when kept.
+  // The sample's note ends with the first run: deleted as the paper opens; on the way to Practice, Practice uses it and deletes it.
+  const finishColleges = async () => {
     if (saveLock.current) return;
-    if (preview) { setNotice('Preview only: the first run ends here and Practice opens.'); mobiAct(SCOPE, 'cheer'); return; }
-    finish('cheer');
+    saveLock.current = true;
+    setFinishing(true);
+    const picks = selected.length ? selected : (user?.subjects || []);
+    let offer = firstOffer;
+    if (offer && quoteExpired({ expiresAt: offer.expiresAt })) offer = firstSetOffer(await readFirstSetQuote(offer.subject), { subject: offer.subject });
+    saveLock.current = false;
+    if (offer) {
+      forgetDailySet(user?.id); // the set may take today's included one: the next read asks the server again
+      clearSample();
+    }
+    if (preview) setNotice('Preview only: no account was changed. The first run ends here.');
+    finish('cheer', offer ? offer.path : practiceAfter({ picks, sampled }));
   };
 
   const backToSubjects = () => {
@@ -448,15 +490,47 @@ export default function OnboardingPageClient({ preview = false }) {
   // A student with no stored choice sees Commerce ticked and one key to accept it. A stored choice (editing, or coming back from
   // the days step) sees the grid as before, and so does a catalog that cannot practise all four.
   const available = subjects.filter((x) => x.practice === 'supported').map((x) => x.id);
-  const presetMode = !edit && !ownPick && !savedThisVisit && savedSubjects === 0 && step === 'subjects' && catalogState === 'ready' && presetAvailable(available);
+  // The sample's subject (F3): one of the Commerce four is put first in them; another subject MockMob practises opens the grid
+  // with it ticked, under "From your sample: Physics" (sampleCarry.mjs samplePlan).
+  const fromSample = samplePlan(sampled, { preset: PRESET_BASE, available });
+  const sampleLead = fromSample?.mode === 'first' ? fromSample.subject : null;
+  const sampleOpensGrid = fromSample?.mode === 'grid';
+  const presetMode = !edit && !ownPick && !savedThisVisit && savedSubjects === 0 && step === 'subjects' && catalogState === 'ready' && presetAvailable(available) && !sampleOpensGrid;
   const presetNow = presetMode && entry === 'stay';
+  const sampleGrid = !edit && !savedThisVisit && savedSubjects === 0 && step === 'subjects' && catalogState === 'ready' && fromSample?.mode === 'grid';
+  const sampleGridNow = sampleGrid && entry === 'stay';
   useEffect(() => {
     if (!presetNow || presetSeeded.current) return undefined;
     presetSeeded.current = true;
     // After the seed above has run, so a student's stored picks (none, here) are never overwritten.
-    const id = window.setTimeout(() => setSelected((now) => (now.length ? now : [...PRESET_BASE])), 0);
+    const id = window.setTimeout(() => setSelected((now) => (now.length ? now : sampleFirst([...PRESET_BASE], sampleLead))), 0);
     return () => { window.clearTimeout(id); presetSeeded.current = false; };
-  }, [presetNow]);
+  }, [presetNow, sampleLead]);
+  // The grid the sample opened starts with its subject ticked, once; the student adds the rest (or unticks it).
+  useEffect(() => {
+    if (!sampleGridNow || gridSeeded.current || !fromSample?.subject) return undefined;
+    gridSeeded.current = true;
+    const id = window.setTimeout(() => setSelected((now) => (now.length ? now : [fromSample.subject])), 0);
+    return () => { window.clearTimeout(id); gridSeeded.current = false; };
+  }, [sampleGridNow, fromSample?.subject]);
+
+  // The first set (O1): on the colleges step, the quote for today's included Quick 10 in the first set's subject, read once with a
+  // short time limit. Until it lands the key reads "Finish and open Practice" and works; a slow, failed or priced read leaves it so.
+  const firstSubject = !edit ? firstSetSubject({ picks: selected.length ? selected : (user?.subjects || []), sampled }) : null;
+  const onColleges = !edit && step === 'colleges' && entry === 'stay';
+  useEffect(() => {
+    if (!onColleges || !firstSubject) return undefined;
+    let live = true;
+    readFirstSetQuote(firstSubject).then((quote) => {
+      if (!live) return;
+      const offer = firstSetOffer(quote, { subject: firstSubject });
+      setFirstSet({ subject: firstSubject, state: offer ? 'free' : 'none', offer });
+    });
+    return () => { live = false; };
+  }, [onColleges, firstSubject]);
+  // A read for another subject (or none yet) counts as still loading: the key reads "Finish and open Practice" meanwhile.
+  const firstNow = firstSet.subject === firstSubject ? firstSet : { subject: firstSubject, state: 'loading', offer: null };
+  const firstOffer = firstNow.state === 'free' ? firstNow.offer : null;
 
   if (entry !== 'stay' || (catalogState === 'loading' && step === 'subjects')) {
     return <div className="app-shell onboarding-shell"><PageSpinner label={entry === 'stay' ? 'Loading your subject choices…' : 'Checking your account…'} /></div>;
@@ -479,7 +553,7 @@ export default function OnboardingPageClient({ preview = false }) {
   const stale = selected.filter((id) => find(id)?.practice !== 'supported');
   const stepIndex = step === 'colleges' ? 3 : step === 'days' ? 2 : 1;
   // The Commerce four show from the first frame; the seed above puts them in `selected` a moment later.
-  const presetPicks = selected.length ? selected : [...PRESET_BASE];
+  const presetPicks = selected.length ? selected : sampleFirst([...PRESET_BASE], sampleLead);
   const rhythm = dayRhythm(days);
   // The picker for one subject; each card ends with the line that it can change later (inside the card, so it never floats between tiles).
   const asking = subjectsAsking(presetMode ? presetPicks : selected);
@@ -585,6 +659,8 @@ export default function OnboardingPageClient({ preview = false }) {
               ) : null}
 
               {!presetMode ? (<>
+              {/* The sample opened the grid with its subject ticked (F3): one quiet line says where the tick came from. */}
+              {sampleGrid ? <p className="ob-sample" role="note">{sampleLine(shortSubjectName(find(fromSample.subject)))}</p> : null}
               <label className="ob-search">
                 <span className="sr-only">Search subjects</span>
                 <Search size={18} aria-hidden="true" />
@@ -775,8 +851,8 @@ export default function OnboardingPageClient({ preview = false }) {
               <button type="button" className="ob-quiet" onClick={skipDays} disabled={busy}>Skip for now</button>
             )}
             {step === 'colleges' ? (
-              <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges}>
-                {finishing ? 'Opening Practice…' : 'Finish and open Practice'}
+              <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges} data-first-set={firstOffer ? 'free' : undefined}>
+                {finishing ? (firstOffer ? FIRST_SET_OPENING : 'Opening Practice…') : firstOffer ? firstSetKey(shortSubjectName(find(firstOffer.subject)) || null) : FINISH_TO_PRACTICE}
               </Button>
             ) : step === 'subjects' ? (
               <Button variant="volt" size="lg" className="ob-primary" disabled={selected.length === 0 || busy} onClick={saveSubjects}>
@@ -789,6 +865,8 @@ export default function OnboardingPageClient({ preview = false }) {
             )}
           </div>
           )}
+          {/* Under the key, once the quote has said today's set is free: one quiet line (src/lib/firstSet.mjs firstSetNote). */}
+          {step === 'colleges' && firstOffer ? <p className="ob-bar__note" role="status">{firstSetNote(firstOffer.minutes)}</p> : null}
         </div>
       </footer>
       )}

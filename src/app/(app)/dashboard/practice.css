@@ -30,6 +30,15 @@ html[data-theme='light'] .app-shell .pr {
   --pr-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .12 0 0 0 0 .1 0 0 0 .55 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.12'/%3E%3C/svg%3E");
 }
 
+/* The first set (F2, 15 Nov 2026): for a student with no finished set, one line over the shelf and the page's Start key under it,
+   so the way to start is on a phone's first screen. No box: a line and a key, close under the title. From 1024 px the session
+   card's own key is in view, so this key steps aside and the line stays (one volt key per view). */
+.app-shell .pr .pr-first { display: grid; gap: 12px; margin-top: -12px; }
+.app-shell .pr .pr-first__line { margin: 0; max-width: 46ch; font-size: 16px; line-height: 1.45; font-weight: 600; color: var(--a-ink); text-wrap: pretty; }
+.app-shell .pr .pr-first__go { width: 100%; min-height: 52px; height: auto; padding-block: 10px; justify-content: center; gap: 10px; white-space: normal; line-height: 1.2; }
+@media (min-width: 640px) { .app-shell .pr .pr-first__go { width: auto; justify-self: start; padding-inline: 22px; } }
+@media (min-width: 1024px) { .app-shell .pr .pr-first__go { display: none; } }
+
 /* Plain step headings (no numbered badges: slop list item 12), a little larger than before. */
 .app-shell .pr .pr-layout--1017 .pr-step__head h2 { font-size: 20px; font-weight: 750; letter-spacing: -0.02em; }
 .app-shell .pr .pr-layout--1017 { gap: 30px; }

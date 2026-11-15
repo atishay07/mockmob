@@ -14,7 +14,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { CURRENT_OFFER } from '@/../data/capabilities';
-import { FIRST_ACTION_DELAY_MS, firstActionOpens, firstSheetMayOpen, markDeclined, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
+import { FIRST_ACTION_DELAY_MS, answeredIn, blankPaper, firstActionOpens, firstSheetMayOpen, markDeclined, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
 import UpgradeSheet from './UpgradeSheet';
 import { FIRST_ACTION_EVENT, browserSession, closeUpgrade, loadRecord, openUpgrade, saveRecord, setUpgradeHost, shareProFacts, useUpgradeState } from './proNudgeStore';
 import './pro-nudge.css';
@@ -81,7 +81,18 @@ export default function ProNudgeHost({ offer = null, previewLinks = null }) {
       if (!firstActionOpens(record, { now, session, user, route: window.location.pathname, action: event.detail })) return;
       const from = window.location.pathname;
       window.clearTimeout(timer.current);
-      timer.current = window.setTimeout(() => {
+      timer.current = window.setTimeout(async () => {
+        // Never over a paper with nothing answered (ux-fresh U1). When the report does not carry the count, the result's own row
+        // (its id is in the address) says it: right + wrong. A read that fails, or a row it cannot find, changes nothing.
+        const paperId = from.startsWith('/result/') ? decodeURIComponent(from.slice('/result/'.length).split('/')[0]) : null;
+        let answered = event.detail?.answered;
+        if ((answered === undefined || answered === null) && paperId) {
+          answered = await fetch('/api/attempts/summary?limit=5', { cache: 'no-store', credentials: 'same-origin' })
+            .then((response) => (response.ok ? response.json() : null))
+            .then((body) => answeredIn((Array.isArray(body?.items) ? body.items : []).find((row) => row?.id === paperId)))
+            .catch(() => null);
+        }
+        if (blankPaper({ answered })) return;
         const latest = loadRecord(userId);
         const otherSheetOpen = Boolean(document.querySelector('dialog[open]'));
         // Still on the page that reported it, nothing else open, never on a paper, and still not shown.

@@ -63,6 +63,9 @@ const MOBI_FACE = mascot.greeting;
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // The guide itself (the spotlight, the card, Mobi) is src/components/guide/AppGuide.jsx; the shell holds only open and closed.
 
+// The service worker is asked for once per page load (the shell can mount more than once: preview, focus routes).
+let swAsked = false;
+
 // The balance as a screen reader says it: "108 credits", "1 credit".
 const creditsWords = (n) => `${Number(n).toLocaleString('en-IN')} ${n === 1 ? 'credit' : 'credits'}`;
 
@@ -238,6 +241,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     timer = window.setTimeout(ask, GUIDE_AUTO_DELAY_MS);
     return () => window.clearTimeout(timer);
   }, [status, chromeless, tourOpen, user?.id, activePath, tourSeenKey]);
+
+  // The offline page (public/sw.js) installs for every signed-in student, not only those who open Profile (15 Nov 2026; the
+  // install offer in InstallPractice.jsx registers the same worker the same way). Production only, once per page load, and a
+  // browser that refuses it (private window, blocked) is simply left without it.
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production' || status !== 'authenticated' || swAsked) return;
+    swAsked = true;
+    try {
+      if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' }).catch(() => {});
+    } catch { /* no service worker here: nothing to install */ }
+  }, [status]);
 
   // Account's "Show me around" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {

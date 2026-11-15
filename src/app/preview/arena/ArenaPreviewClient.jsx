@@ -422,6 +422,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/practice/quote') {
       // The real pure quote builder with fixture facts; ?inventory=down simulates a failed read.
       const page = new URLSearchParams(window.location.search);
+      // ?quote=fail answers 503; ?quote=slow answers after 6 s (the first run's key waits 2.5 s at most; src/lib/firstSet.mjs).
+      if (page.get('quote') === 'fail') return json({ state: 'unavailable', reasonCode: 'fixture', reason: 'Illustrative failure' }, 503);
+      const quoteLag = page.get('quote') === 'slow' ? 6000 : 0;
       const pro = page.get('plan') === 'pro';
       const inventory = page.get('inventory') === 'down' ? { state: 'unavailable' }
         : { state: 'available', checkedAt: new Date().toISOString(), subjectCounts: { accountancy: 640, economics: 720, business_studies: 580, english: 12 } };
@@ -432,7 +435,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         oneTime: { planId: CURRENT_OFFER.planId, rupees: CURRENT_OFFER.rupees, expires: CURRENT_OFFER.expires, onSale: !monthlyOffer },
         purchasable: monthlyOffer ? 'monthly' : 'one_time',
       };
-      return json({ ...buildPracticeQuote({
+      const quoted = () => json({ ...buildPracticeQuote({
         user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
         // ?allowance=on: today's included set is still free; ?allowance=used: it was used today (either way one opens tomorrow).
@@ -440,6 +443,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         // ?firstmock=free: the first full mock in this subject is free (a fresh account); ?firstmock=used: it was taken.
         firstFullMock: page.get('firstmock') === 'free' ? 'available' : page.get('firstmock') === 'used' ? 'used' : null,
       }), offer });
+      return quoteLag ? new Promise((resolve) => setTimeout(resolve, quoteLag)).then(quoted) : quoted();
     }
     if (url.pathname === '/api/me/credits') {
       // Account > Credits from the shared contract fixture (data/tests/fixtures/credits/contract_credits_v1.json);

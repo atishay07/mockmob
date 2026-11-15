@@ -1,7 +1,8 @@
 // The first run on the website, in three steps (ported from the restructure the owner kept, 15 Oct; the colleges step
 // added 17 Oct from the owner's 16 Oct ask that picking colleges happen inside onboarding):
 //
-//   sign up  ->  1: which subjects (up to 5)  ->  2: how many study days a week  ->  3: target colleges (optional)  ->  Practice
+//   sign up  ->  1: which subjects (up to 5)  ->  2: how many study days a week  ->  3: target colleges (optional)
+//     ->  today's free 10-question set, when the quote says it is free (15 Nov 2026), else Practice
 //
 // Pure helpers only, so the page stays thin and node tests can check the rules. The live auth and
 // redirect rules are unchanged: signed out goes to /signup, a member who already has subjects goes
@@ -126,6 +127,36 @@ export function ringArcs(days) {
 /** Where the volt thumb sits on the 1 to 7 track, as a 0-based index. */
 export function thumbIndex(days) {
   return cleanDays(days) - 1;
+}
+
+// ---------- Where the first run ends (15 Nov 2026, O1 and F3) ----------
+// The last key opens today's free set (src/lib/firstSet.mjs) or, when it is not free, Practice. Both go to the same subject:
+// the one the home page's sample was in, when the student kept it ticked, else their first subject.
+
+/** The subject of the first set: the sampled one when it is among the picks, else the first pick, else null. */
+export function firstSetSubject({ picks = [], sampled = null } = {}) {
+  const list = Array.isArray(picks) ? picks.filter(Boolean) : [];
+  if (sampled && list.includes(sampled)) return sampled;
+  return list[0] || null;
+}
+
+/** Practice, when the first set is not free: open on the sampled subject when the student kept it, else as before. */
+export function practiceAfter({ picks = [], sampled = null } = {}) {
+  const list = Array.isArray(picks) ? picks : [];
+  return sampled && list.includes(sampled) ? `${DONE_PATH}?${new URLSearchParams({ subject: sampled })}` : DONE_PATH;
+}
+
+/**
+ * The development preview's version of the same ending (/preview/arena, no account): the runner or Practice as preview views,
+ * keeping the fixture settings that shape them (the plan, the data state, the allowance, the quote) and the path's own query.
+ */
+export function previewFinish(path, search = '') {
+  const [route, query = ''] = String(path || DONE_PATH).split('?');
+  const out = new URLSearchParams({ view: route === '/test' ? 'test' : 'dashboard' });
+  const kept = new URLSearchParams(search);
+  for (const key of ['plan', 'data', 'allowance', 'quote', 'inventory', 'study', 'decks']) if (kept.get(key)) out.set(key, kept.get(key));
+  for (const [key, value] of new URLSearchParams(query)) out.set(key, value);
+  return `/preview/arena?${out}`;
 }
 
 /** The five slots in the bar: each picked subject in order, then empty slots up to the cap. */
