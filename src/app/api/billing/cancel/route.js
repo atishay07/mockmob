@@ -29,8 +29,11 @@ async function otherRenewingSubscriptions({ userId, exceptId }) {
     try {
       const subscription = await getRazorpayClient().subscriptions.fetch(id);
       if (MAY_CHARGE.has(subscription?.status)) live.push(id);
-    } catch {
-      unknown += 1;
+    } catch (error) {
+      // An id Razorpay does not know (400 or 404: a stale or test-mode row) can never charge, so it is not "unknown":
+      // counting it would answer 502 on every cancel for ever (review, 15 Nov 2026).
+      const status = Number(error?.statusCode ?? error?.status ?? error?.error?.statusCode);
+      if (status !== 400 && status !== 404) unknown += 1;
     }
   }
   return { ids: live, unknown };

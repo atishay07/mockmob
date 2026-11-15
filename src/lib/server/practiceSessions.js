@@ -113,7 +113,9 @@ export async function startPractice(userId, input, server = {}) {
   // (src/lib/server/practiceStart.js). A rebuild that is not that paper is refused: the copy says to start a new test.
   const paper = durableLearningEnabled() ? null : paperOf(questions);
   const first = paper ? await claimPracticeStart(db, { userId, id, at: created, paper }) : null;
-  if (first && first.paper !== paper) throw new Error('INVALID_START_RECEIPT');
+  // A restart whose rebuilt paper differs (the bank moved since the first start) is served with the first start's clock: the
+  // charge is the same one and the attempt can be scored once, so refusing it would only charge an honest student twice
+  // (review, 15 Nov 2026).
   if (first) created = first.at;
   const unclaim = async () => { if (first?.inserted) await releasePracticeStart(db, { userId, id }); };
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,

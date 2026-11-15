@@ -130,7 +130,7 @@ test('A1: in production every sign-in email limit is the database limiter with P
     const buckets = state.takes.map((t) => t.p_bucket);
     assert.equal(buckets[2], sha(['/api/auth/email-login#email', '', 'a@example.com']), 'the inbox bucket has no IP in it');
     assert.equal(buckets[3], sha(['/api/auth/email-login#site', '', 'all']), 'one site-wide bucket');
-    assert.deepEqual(state.takes.map((t) => t.p_limit), [20, 5, 15, 2000]);
+    assert.deepEqual(state.takes.map((t) => t.p_limit), [60, 5, 15, 2000]);
     assert.equal(state.takes[3].p_window_ms, 24 * 60 * 60 * 1000);
   });
 });
@@ -224,15 +224,15 @@ test('F5: the inbox limit says a code was already sent, with the real minutes le
 
 test('F5: the network limit says nothing was sent and does not use the code the card opens the field for', async () => {
   await withRoute({}, async ({ POST, state, advance }) => {
-    for (let i = 0; i < 20; i += 1) assert.equal((await POST(post(`p${i}@example.com`, '198.51.100.50'))).status, 200);
+    for (let i = 0; i < 60; i += 1) assert.equal((await POST(post(`p${i}@example.com`, '198.51.100.50'))).status, 200);
     advance(30 * 60_000);
-    const res = await POST(post('p20@example.com', '198.51.100.50'));
+    const res = await POST(post('p60@example.com', '198.51.100.50'));
     assert.equal(res.status, 429);
     const body = await res.json();
     assert.equal(body.code, 'rate_limited_network');
     assert.equal(body.scope, 'network');
     assert.equal(body.message, 'Too many sign-in emails from this network just now. Try again in 30 minutes, or use Google.');
-    assert.equal(state.sent.length, 20);
+    assert.equal(state.sent.length, 60);
   });
 });
 

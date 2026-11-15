@@ -39,7 +39,9 @@ test('startPractice: the claim comes before the row is built, a different paper 
   const claim = src.indexOf('await claimPracticeStart(db, { userId, id, at: created, paper })');
   assert.ok(claim > 0 && claim < src.indexOf('const row = { id, user_id: userId'), 'the clock is settled before the row');
   assert.match(src, /const paper = durableLearningEnabled\(\) \? null : paperOf\(questions\);/, 'device-held only; the durable row already does this');
-  assert.match(src, /if \(first && first\.paper !== paper\) throw new Error\('INVALID_START_RECEIPT'\);\r?\n\s+if \(first\) created = first\.at;/);
+  // Review of 15 Nov 2026: a rebuilt paper that differs is served with the first clock, never refused (one charge, one attempt).
+  assert.doesNotMatch(src, /first\.paper !== paper\) throw/);
+  assert.match(src, /if \(first\) created = first\.at;/);
   assert.match(src, /\} catch \(error\) \{ await unclaim\(\); throw error; \}/);
   assert.match(src, /await unclaim\(\);\r?\n\s+if \(firstFullMock === 'unknown'\)/, 'a refused free full mock un-claims too');
 });

@@ -252,14 +252,14 @@ test('email-login limit: one address and one email gets 5 an hour, one minute ap
   });
 });
 
-test('email-login limit: one address mailing many inboxes stops at 20 an hour', async () => {
+test('email-login limit: one address mailing many inboxes stops at 60 an hour', async () => {
   await withRoute({}, async ({ POST, state }) => {
-    for (let i = 0; i < 20; i += 1) {
+    for (let i = 0; i < 60; i += 1) {
       assert.equal((await POST(post(`victim${i}@example.com`, '198.51.100.30'))).status, 200, `inbox ${i}`);
     }
-    assert.equal((await POST(post('victim20@example.com', '198.51.100.30'))).status, 429);
-    assert.equal(state.sent.length, 20);
-    assert.equal((await POST(post('victim20@example.com', '198.51.100.31'))).status, 200, 'another address is unaffected');
+    assert.equal((await POST(post('victim60@example.com', '198.51.100.30'))).status, 429);
+    assert.equal(state.sent.length, 60);
+    assert.equal((await POST(post('victim60@example.com', '198.51.100.31'))).status, 200, 'another address is unaffected');
   });
 });
 

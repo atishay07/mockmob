@@ -45,6 +45,13 @@ const ENGLISH = [
   /\bsewer ?slide\b/,
   /\bunalive\b/,
   /\b(?:want to|wanna|gonna|going to|will|ill|should|just|gotta) kms\b/,
+  // Review of 15 Nov 2026: plain phrases the first list missed. A kind reply to a light remark costs nothing.
+  /^ ?kms ?$/,
+  /\bend(?:ing)? it all\b/,
+  /\b(?:feel|feels|felt|feeling) like dying\b/,
+  /\b(?:dont|do not|didnt|did not) (?:want|wanna) to be here any ?more\b/,
+  /\bwish i (?:could|would|can) (?:just )?die\b/,
+  /\bwish i (?:was|were) dead\b/,
   /\bkil+(?:ing)? ?my ?self\b/,
   /\bend(?:ing)? (?:my|this) (?:own )?life\b/,
   /\bend it all\b/,

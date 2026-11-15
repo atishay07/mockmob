@@ -11,12 +11,12 @@ export const EXTRA_NAME_TERMS = Object.freeze({
     'लौडा', 'लौडे', 'लवडा', 'लवडे', 'रंडी', 'रण्डी', 'छिनाल', 'चुदाई',
     // Latin transliterations the JSON list does not cover.
     'chutiy', 'chutye', 'bhosdike', 'bhosda', 'bhosri', 'madarjat', 'madarjaat', 'haramzad', 'haramkhor', 'behnchod', 'bahenchod',
-    'bahanchod', 'betichod', 'bakchod', 'lavde', 'lawde', 'lawda', 'bhadwe', 'bhadve', 'chinaal', 'chhinal', 'jhaant', 'jhantu', 'randwa',
+    'bahanchod', 'betichod', 'bakchod', 'lawde', 'lawda', 'bhadwe', 'bhadve', 'chinaal', 'chhinal', 'jhaant', 'jhantu', 'randwa',
     'shitty', 'shithead', 'bullshit',
   ],
   words: [
     'चूत', 'गांड', 'लंड', 'लण्ड', 'चोद', 'चोदू', 'कुत्ता', 'कुत्ती', 'कुतिया', 'कुत्ते', 'सूअर', 'सुअर', 'टट्टी', 'रांड', 'लोडा',
-    'chut', 'choot', 'gaand', 'gand', 'loda', 'lodu', 'laude', 'lavdu', 'chod', 'kamine', 'kaminey', 'kutte', 'kuttey', 'kutiya', 'kuttiya',
+    'chut', 'choot', 'gaand', 'gand', 'loda', 'lodu', 'laude', 'lavdu', 'lavde', 'chod', 'kamine', 'kaminey', 'kutte', 'kuttey', 'kutiya', 'kuttiya',
     'suwar', 'raand', 'shit', 'shits',
   ],
 });

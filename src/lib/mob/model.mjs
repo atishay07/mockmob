@@ -238,16 +238,25 @@ export function nameBlocked(name, { contains = [], words = [] } = {}) {
   const parts = nameForMatch(cleanName(name)).split(/[\s.'-]+/).filter(Boolean);
   const folded = parts.join('');
   const forms = [folded, toTwo(folded), toOne(folded)];
+  // Review of 15 Nov 2026: the one-letter form is read against a short term only when the name was stretched (a letter three
+  // times or more, "fuuuck"). A name with an ordinary double letter is a name: "Poornima" must not read as "pornima".
+  const stretched = (s) => /(.)\1{2,}/u.test(s);
+  // Doubled a, e and o are how Indian names are spelt (Poornima, Deepak, Aarav); other doubles ("fuuck") still collapse.
+  const lite = (s) => s.replace(/([^aeo])\1+/gu, '$1');
+  const read = stretched(folded) ? forms : [folded, lite(folded)];
   const blockedIn = (t) => {
     const term = nameForMatch(t);
     if (!term) return false;
-    return forms.some((f) => f.includes(term)) || (len(toOne(term)) >= 5 && forms[2].includes(toOne(term)));
+    return read.some((f) => f.includes(term)) || (len(toOne(term)) >= 5 && forms[2].includes(toOne(term)));
   };
   if (contains.some(blockedIn)) return true;
   const wordTerms = words.map(nameForMatch).filter(Boolean);
   return parts.some((p) => {
-    const pf = [p, toTwo(p), toOne(p)];
-    return wordTerms.some((w) => pf.includes(w) || (len(toOne(w)) >= 4 && pf[2] === toOne(w)));
+    // A whole word matches as written or with its stretch cut to two; its one-letter form only when the part was stretched
+    // or had a doubled consonant cut ("Kute" and "Kaminee" are names; "kutteee" and "shiit" are not).
+    const st = stretched(p);
+    const cut = st ? toOne(p) : lite(p);
+    return wordTerms.some((w) => p === w || toTwo(p) === w || ((st || cut !== p) && len(toOne(w)) >= 4 && cut === toOne(w)));
   });
 }
 

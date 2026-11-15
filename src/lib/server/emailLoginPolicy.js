@@ -41,7 +41,9 @@ const DAY_MS = 24 * HOUR_MS;
 // `scope` says which reply a refusal gets (F5, 15 Nov): 'email' means codes already went to this inbox, so the code field
 // opens; 'network' means nothing was sent now, so it does not.
 export const EMAIL_LOGIN_LIMITS = [
-  { route: '/api/auth/email-login#ip', limit: 20, windowMs: HOUR_MS, identityOnly: false, perEmail: false, scope: 'network' },
+  // 60 an hour a network (was 20): now that the count is shared by every server, 20 would lock out a school lab or a
+  // coaching centre's Wi-Fi, where many students sign up behind one address (review, 15 Nov 2026).
+  { route: '/api/auth/email-login#ip', limit: 60, windowMs: HOUR_MS, identityOnly: false, perEmail: false, scope: 'network' },
   { route: '/api/auth/email-login#ip-email', limit: 5, windowMs: HOUR_MS, identityOnly: false, perEmail: true, scope: 'email' },
   { route: '/api/auth/email-login#email', limit: 15, windowMs: HOUR_MS, identityOnly: true, perEmail: true, scope: 'email' },
 ];
