@@ -4,7 +4,12 @@
    draws the three things the sample has no place for: the clock, the five squares and the share. Tokens only. */
 
 .mm.lp .dly { padding-block: 24px 72px; }
-.mm.lp .dly__wrap { max-width: 640px; margin-inline: auto; }
+.mm.lp .dly__col { max-width: 640px; margin-inline: auto; }
+/* Mobi's desktop lane (brand-pip.css) is the home page's: this page gives it up, as the DU tools do (R8 PUB-13), so its header,
+   column and footer sit where every other page's do. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp.dly-page { --pip-lane: 0px; }
+}
 
 /* The head: the date and the day's number, the name, one line of what it is. */
 .mm.lp .dly__head { display: grid; gap: 8px; }

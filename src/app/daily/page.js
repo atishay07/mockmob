@@ -22,13 +22,15 @@ export const metadata = seoMetadata({
 
 export default function DailyFivePage() {
   return (
-    <div className="mm lp">
+    <div className="mm lp dly-page">
       <JsonLd id="daily-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Daily Five', path: '/daily' }])} />
       <NavBar />
       <main id="main-content">
         <section className="lp-try dly" aria-label="Daily Five">
-          <div className="mm-wrap dly__wrap">
-            <DailyFive />
+          <div className="mm-wrap">
+            <div className="dly__col">
+              <DailyFive />
+            </div>
           </div>
         </section>
       </main>

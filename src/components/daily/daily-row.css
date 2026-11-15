@@ -1,0 +1,39 @@
+/* The Daily Five's doors (DailyFiveRow.jsx). A quiet row, the whole row the link, never volt.
+   Home: under the sample card, on the card's own paper and hairline, 12 px below it, in the card's column on wide screens.
+   Today: Today's Ask Mobi row as it is (today.css .tmask); this file only draws the five small squares in its face slot. */
+
+.dfr__mark { display: inline-flex; gap: 2px; min-width: 34px; justify-content: center; }
+.dfr__mark i { display: block; width: 6px; height: 6px; border-radius: 1.5px; border: 1.5px solid currentColor; opacity: 0.5; }
+.dfr__mark i[data-right='true'] { background: currentColor; opacity: 1; }
+.dfr[data-played='true'] .dfr__mark i { opacity: 1; }
+
+/* ---------- Home ---------- */
+.mm.lp .dfr--home {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  min-height: 64px; margin-top: 12px; padding: 12px 14px 12px 14px;
+  border: 1px solid var(--line); border-radius: 18px; background: var(--paper-raised);
+  color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease-out;
+}
+.mm.lp .dfr--home .dfr__mark { color: var(--ink); }
+.mm.lp .dfr__text { display: grid; gap: 3px; min-width: 0; }
+.mm.lp .dfr__text b { font: 650 1rem/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--ink); }
+.mm.lp .dfr__date { font-variant-numeric: tabular-nums; color: var(--ink-2); font-weight: 600; }
+.mm.lp .dfr__text > span { font-size: 0.875rem; line-height: 1.4; color: var(--ink-2); text-wrap: pretty; }
+.mm.lp .dfr__go { color: var(--ink-3); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp .dfr--home:active { transform: scale(0.985); }
+.mm.lp .dfr--home:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .dfr--home:hover { border-color: var(--line-strong); }
+  .mm.lp .dfr--home:hover .dfr__go { transform: translateX(2px); }
+}
+/* On wide screens the desk is the room and the card side by side (r10-sample.css): the row sits in the card's column. */
+@media (min-width: 1024px) {
+  .mm.lp .lp-try .lp-desk > .dfr--home { grid-column: 2; margin-top: 12px; }
+  .mm.lp .dfr--home { border-radius: 22px; }
+}
+html[data-motion='reduced'] .mm.lp .dfr--home, html[data-motion='reduced'] .mm.lp .dfr__go { transition: none; }
+@media (prefers-reduced-motion: reduce) { .mm.lp .dfr--home, .mm.lp .dfr__go { transition: none; } .mm.lp .dfr--home:hover .dfr__go { transform: none; } }
+
+/* ---------- Today ---------- */
+.app-shell .dfr--today .dfr__mark { color: var(--a-ink); }
