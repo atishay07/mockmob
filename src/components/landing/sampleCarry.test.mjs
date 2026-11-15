@@ -4,7 +4,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SAMPLE_MAX_AGE_MS, clearSample, packSample, rawSample, readSample, saveSample, signupWords } from './sampleCarry.mjs';
+import { BUILT_IN_CHAPTERS, SAMPLE_MAX_AGE_MS, clearSample, packSample, rawSample, readSample, sampleChapters, sampleFirst, sampleLine, samplePlan, sampleSubject, saveSample, signupWords, subjectIdForSlug } from './sampleCarry.mjs';
+import { resolveChapter } from '../../../data/cuet_syllabus.js';
 import { FUNNEL_STEPS, SERVER_ONLY_STEPS } from '../../lib/funnelSteps.js';
 import { createFunnelTracker } from '../../lib/funnel.js';
 
@@ -22,7 +23,7 @@ const MISSES = [
 
 test('a finished sample is kept as its score and the missed chapters, named once each, and nothing else', () => {
   const note = packSample({ score: 3, subject: null, misses: MISSES }, NOW);
-  assert.deepEqual(note, { score: 3, total: 5, subject: null, chapters: ['Accounting equation', 'Partnership: admission of a partner'], at: NOW });
+  assert.deepEqual(note, { score: 3, total: 5, subject: null, slug: null, chapters: ['Accounting equation', 'Partnership: admission of a partner'], at: NOW });
   // Two misses in one chapter name it once; a live subject keeps its name; long or odd text is cut and cleaned.
   const same = packSample({ score: 2, subject: ' Accountancy ', misses: [{ chapter: 'Ratios' }, { chapter: 'Ratios' }, { chapter: `Cash\nflow ${'x'.repeat(200)}` }] }, NOW);
   assert.deepEqual(same.chapters.slice(0, 1), ['Ratios']);
@@ -90,18 +91,88 @@ test('/signup greets a sample finisher with their own result, in the card’s ow
   assert.equal(signupWords({ score: 3, total: 5, chapters: [] }), null, 'no chapter to name: say nothing');
 });
 
-test('the card saves its result when the score appears; /signup reads it, keeps invites first and forgets it once signed in', () => {
+test('the card saves its result when the score appears; /signup reads it and keeps invites first; the first run forgets it', () => {
   const drill = code(read('./DemoDrill.jsx'));
   assert.match(drill, /import \{ saveSample \} from '\.\/sampleCarry\.mjs';/);
-  assert.match(drill, /setDone\(true\);\s*saveSample\(\{ score, subject: live \? live\.name : null, misses: missed \}\);/);
+  assert.match(drill, /setDone\(true\);\s*saveSample\(\{ score, subject: live \? live\.name : null, slug: live \? live\.slug : null, misses: missed \}\);/);
   const signup = code(read('../../app/signup/SignupPageClient.jsx'));
   assert.match(signup, /useSyncExternalStore\(subscribeSample, rawSample, noSample\)/, 'no result on the server render: no mismatch');
   assert.match(signup, /const carried = invite \|\| friendInvited \? null : sample;/);
   assert.match(signup, /carried \? carried\.title : 'Start your CUET 2027 practice\.'/);
   assert.match(signup, /carried \? carried\.lead : 'Keep your recorded mocks, chapter mistakes and saved questions together\.'/);
-  assert.match(signup, /if \(status !== 'authenticated'\) return;\s*clearSample\(\);/);
+  // 15 Nov 2026 (F3): /signup no longer forgets it; the first run does, as it ends (onboarding as the first set opens, or Practice).
+  assert.doesNotMatch(signup, /clearSample/);
+  assert.match(code(read('../../app/onboarding/OnboardingPageClient.jsx')), /clearSample\(\);/);
+  assert.match(code(read('../../app/(app)/dashboard/DashboardPageClient.jsx')), /if \(note\) clearSample\(\);/);
   // Nothing sends the note anywhere: the module makes no request.
   assert.ok(!/fetch\(|sendBeacon|XMLHttpRequest/.test(code(read('./sampleCarry.mjs'))));
+  // The privacy note says how long it lives and that it never leaves the browser.
+  const head = read('./sampleCarry.mjs');
+  assert.match(head, /for at most 24 hours/);
+  assert.match(head, /It never leaves the browser: no request carries it, and the server never sees it\./);
+});
+
+test('into the first run: the slug is kept, the subject is found, and only chapters that map cleanly are preselected', () => {
+  // A live set keeps its slug; a note from before (name only) is given it; a slug the card does not offer is dropped.
+  assert.equal(packSample({ score: 2, subject: 'Physics', slug: 'physics', misses: [{ chapter: 'Electrostatics' }] }, NOW).slug, 'physics');
+  assert.equal(packSample({ score: 2, subject: 'Business Studies', misses: [{ chapter: 'Controlling' }] }, NOW).slug, 'business-studies');
+  assert.equal(packSample({ score: 2, subject: 'X', slug: 'nope', misses: [{ chapter: 'A' }] }, NOW).slug, null);
+  const store = memory();
+  saveSample({ score: 2, subject: 'General Test', slug: 'general-test', misses: [{ chapter: 'Number Series' }] }, { store, now: NOW });
+  const live = readSample({ store, now: NOW + 1000 });
+  assert.equal(live.slug, 'general-test');
+  assert.equal(subjectIdForSlug('general-test'), 'general_test');
+  assert.equal(subjectIdForSlug('computer-science'), 'computer_science');
+  assert.equal(subjectIdForSlug('x'), null);
+  assert.equal(sampleSubject(live), 'general_test');
+  // The card's own five: the subject of the first miss.
+  const mixed = packSample({ score: 3, misses: [{ chapter: 'Money and banking' }, { chapter: 'Accounting equation' }] }, NOW);
+  assert.equal(sampleSubject(mixed), 'economics');
+  assert.equal(sampleSubject(packSample({ score: 5 }, NOW)), null, 'five of five names no subject');
+  assert.equal(sampleSubject(null), null);
+  // Chapters: the built-in map for the card's own five, the resolver for a live set, nothing when unsure.
+  assert.deepEqual(sampleChapters(mixed, 'economics'), ['Money & Banking']);
+  assert.deepEqual(sampleChapters(mixed, 'accountancy'), [], 'another subject than the sample’s: none');
+  assert.deepEqual(sampleChapters(packSample({ score: 4, misses: [{ chapter: 'Accounting equation' }] }, NOW), 'accountancy'), [], 'Class 11: no CUET chapter, none sent');
+  const physics = packSample({ score: 2, subject: 'Physics', slug: 'physics', misses: [{ chapter: 'Electrostatic Potential and Capacitance' }, { chapter: 'Not a chapter' }] }, NOW);
+  const resolve = (label) => { const hit = resolveChapter('physics', label); return hit && !hit.retired ? hit.name : null; };
+  const chapters = sampleChapters(physics, 'physics', { resolve });
+  assert.ok(chapters.length <= 1 && !chapters.includes('Not a chapter'), JSON.stringify(chapters));
+  assert.deepEqual(sampleChapters(physics, 'physics', { resolve: () => { throw new Error('x'); } }), [], 'a resolver that fails sends nothing');
+});
+
+test('the card’s own five: every label is mapped, and every mapped chapter is a live chapter of the bank under its own name', () => {
+  const drill = read('./DemoDrill.jsx');
+  const labels = [...drill.slice(drill.indexOf('const DRILL = ['), drill.indexOf('];', drill.indexOf('const DRILL = ['))).matchAll(/chapter: '([^']+)'/g)].map((m) => m[1]);
+  assert.equal(labels.length, 5);
+  assert.deepEqual([...labels].sort(), Object.keys(BUILT_IN_CHAPTERS).sort());
+  for (const [label, { subject, chapter }] of Object.entries(BUILT_IN_CHAPTERS)) {
+    if (chapter === null) { assert.equal(resolveChapter(subject, label), null, `${label}: no clean chapter, so none`); continue; }
+    const hit = resolveChapter(subject, chapter);
+    assert.ok(hit && !hit.retired && hit.name === chapter, `${label} -> ${subject} / ${chapter}`);
+  }
+  // The two the audit named: the card's labels are not the bank's names, so the map carries them.
+  assert.equal(resolveChapter('accountancy', 'Partnership: admission of a partner'), null);
+  assert.equal(BUILT_IN_CHAPTERS['Partnership: admission of a partner'].chapter, 'Admission of Partner');
+  assert.equal(BUILT_IN_CHAPTERS['Money and banking'].chapter, 'Money & Banking');
+});
+
+test('onboarding: a sampled Commerce subject goes first in the four; another opens the grid with it ticked', () => {
+  const preset = ['accountancy', 'business_studies', 'economics', 'english'];
+  const available = [...preset, 'physics', 'mathematics'];
+  assert.deepEqual(samplePlan('economics', { preset, available }), { subject: 'economics', mode: 'first' });
+  assert.deepEqual(samplePlan('physics', { preset, available }), { subject: 'physics', mode: 'grid' });
+  assert.equal(samplePlan('chemistry', { preset, available }), null, 'not offered for practice: nothing changes');
+  assert.equal(samplePlan(null, { preset, available }), null);
+  assert.deepEqual(sampleFirst(preset, 'economics'), ['economics', 'accountancy', 'business_studies', 'english']);
+  assert.deepEqual(sampleFirst(preset, 'physics'), preset);
+  assert.equal(sampleLine('Physics'), 'From your sample: Physics');
+  const page = code(read('../../app/onboarding/OnboardingPageClient.jsx'));
+  assert.match(page, /const sampleOpensGrid = fromSample\?\.mode === 'grid';/);
+  assert.match(page, /presetAvailable\(available\) && !sampleOpensGrid;/);
+  assert.match(page, /sampleFirst\(\[\.\.\.PRESET_BASE\], sampleLead\)/);
+  assert.match(page, /setSelected\(\(now\) => \(now\.length \? now : \[fromSample\.subject\]\)\)/);
+  assert.match(page, /sampleLine\(shortSubjectName\(find\(fromSample\.subject\)\)\)/);
 });
 
 test('the home page sends its funnel steps: names only, once each, guests only, and only steps the browser may send', () => {

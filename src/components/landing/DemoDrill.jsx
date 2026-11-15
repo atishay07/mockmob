@@ -249,9 +249,10 @@ export function DemoDrill({ note = null }) {
       focusNext.current = 'result';
       setOpenMiss(null);
       setDone(true);
-      // The result goes with the reader to sign-up (sampleCarry.mjs): the score and the missed chapters' names, kept in
-      // this browser only, so /signup opens on what these five showed and not on a stranger's greeting.
-      saveSample({ score, subject: live ? live.name : null, misses: missed });
+      // The result goes with the reader to sign-up and the first run (sampleCarry.mjs): the score, a live set's subject (its
+      // name and page slug) and the missed chapters' names, kept in this browser only, so /signup opens on what these five
+      // showed and the first run starts in the subject the reader tried.
+      saveSample({ score, subject: live ? live.name : null, slug: live ? live.slug : null, misses: missed });
       trackFunnel('sample_done');
       // Mobi's line for the score (R8 HERO-03): the readout is what he points at, never a sign-up push.
       tellDesk(deskEndState(score, DRILL.length), DRILL.length);
