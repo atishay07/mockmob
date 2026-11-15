@@ -12,6 +12,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react';
 import { Check, X } from 'lucide-react';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { CHECKOUT_HREF, benefitLines, keyLabel, sheetHead, sheetPrice } from '@/lib/proNudge.mjs';
+import { PARENT_PAY_COPY } from '@/components/billing/parentPayModel.mjs';
 
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const FEATURES = {
@@ -54,7 +55,9 @@ function animateOut(el) {
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-export default function UpgradeSheet({ open = false, trigger = 'generic', facts = {}, offer = null, onClose = () => {}, onGetPro = () => {}, returnFocus = null, linkFor = (href) => href }) {
+// "Ask a parent to pay" (lane F-B, 15 Nov 2026): when the offer says the parent link is on (offer.parentPay, set on the server
+// from PARENT_PAY_ENABLED while monthly Pro is on sale), a quiet key under Get Pro hands over to the parent sheet (onAskParent).
+export default function UpgradeSheet({ open = false, trigger = 'generic', facts = {}, offer = null, onClose = () => {}, onGetPro = () => {}, onAskParent = null, returnFocus = null, linkFor = (href) => href }) {
   const dialog = useRef(null);
   const closing = useRef(false);
   const titleId = useId();
@@ -63,12 +66,16 @@ export default function UpgradeSheet({ open = false, trigger = 'generic', facts 
   const head = sheetHead(trigger);
   const lines = benefitLines(trigger, facts);
   const price = sheetPrice(offer);
+  const askParent = Boolean(offer?.parentPay && onAskParent);
+  // Set by "Ask a parent to pay": this sheet closes first, then the parent sheet opens (one sheet at a time).
+  const askParentAfterClose = useRef(false);
 
   const finish = useCallback(() => {
     const el = dialog.current;
     if (el?.open) { try { el.close(); } catch { el.removeAttribute('open'); } }
     onClose();
-  }, [onClose]);
+    if (askParentAfterClose.current) { askParentAfterClose.current = false; onAskParent?.(); }
+  }, [onClose, onAskParent]);
 
   const requestClose = useCallback(() => {
     const el = dialog.current;
@@ -148,8 +155,11 @@ export default function UpgradeSheet({ open = false, trigger = 'generic', facts 
         ) : (
           <p className="pn-price"><span className="pn-price__terms">The price shows on the next page, before any payment.</span></p>
         )}
-        <div className="pn-actions">
+        <div className="pn-actions" data-parent={askParent ? '' : undefined}>
           <Link className="btn-volt pn-go mk-press" href={linkFor(CHECKOUT_HREF)} data-pro-checkout="" data-autofocus="" onClick={() => { onGetPro(); requestClose(); }}>{keyLabel(offer)}</Link>
+          {askParent ? (
+            <button type="button" className="pn-ask mk-press" aria-haspopup="dialog" onClick={() => { onGetPro(); askParentAfterClose.current = true; requestClose(); }}>{PARENT_PAY_COPY.key}</button>
+          ) : null}
           <button type="button" className="pn-later mk-press" onClick={requestClose}>Not now</button>
         </div>
       </div>

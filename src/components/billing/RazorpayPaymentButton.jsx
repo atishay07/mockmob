@@ -104,6 +104,9 @@ export function RazorpayPaymentButton({
   label = 'Get Pro',
   initialIsPremium = false,
   billing = 'once',
+  // A second, quiet way to pay drawn right under the key ("Ask a parent to pay", ParentPayKey). Hidden once this checkout has
+  // taken a payment, so a payment being confirmed is never doubled from beside it.
+  aside = null,
 }) {
   const { refreshSession } = useAuth();
   const [status, setStatus] = useState('idle');
@@ -377,6 +380,8 @@ export function RazorpayPaymentButton({
         {isLoading ? <Loader2 className="mm-checkout__spin" aria-hidden="true" /> : null}
         {isLoading ? 'Opening secure checkout' : isConfirming ? 'Confirming your payment' : label}
       </button>
+
+      {aside && !isConfirming && !afterPayment ? aside : null}
 
       {codeOpen || code ? null : (
         <button type="button" className="mm-checkout__codelink" onClick={() => setCodeOpen(true)} disabled={isLoading || isConfirming}>

@@ -10,9 +10,10 @@
 //     for the next real action in that session instead;
 //   - remembers a "Not now" (any close without Get Pro), so inline nudges rest for a day after it.
 // For a Pro student it renders nothing and listens to nothing.
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import ParentPaySheet from '@/components/billing/ParentPaySheet';
 import { CURRENT_OFFER } from '@/../data/capabilities';
 import { FIRST_ACTION_DELAY_MS, answeredIn, blankPaper, firstActionOpens, firstSheetMayOpen, markDeclined, markFirstShown, nudgesAllowed, triggerForReason } from '@/lib/proNudge.mjs';
 import UpgradeSheet from './UpgradeSheet';
@@ -33,7 +34,7 @@ function pricingLink(target) {
 }
 
 export default function ProNudgeHost({ offer = null, previewLinks = null }) {
-  const { user } = useAuth();
+  const { user, refreshSession } = useAuth();
   const pathname = usePathname();
   const state = useUpgradeState();
   const allowed = nudgesAllowed(user);
@@ -115,7 +116,8 @@ export default function ProNudgeHost({ offer = null, previewLinks = null }) {
     closeUpgrade();
   }, [pathname]);
 
-  // Any close without Get Pro is a "Not now": inline nudges rest for a day (src/lib/proNudge.mjs DECLINE_QUIET_MS).
+  // Any close without Get Pro is a "Not now": inline nudges rest for a day (src/lib/proNudge.mjs DECLINE_QUIET_MS). Asking a
+  // parent to pay is not a "Not now" either.
   const tookPro = useRef(false);
   const onGetPro = useCallback(() => { tookPro.current = true; }, []);
   const onClose = useCallback(() => {
@@ -124,7 +126,23 @@ export default function ProNudgeHost({ offer = null, previewLinks = null }) {
     closeUpgrade();
   }, [userId]);
 
+  // "Ask a parent to pay" (lane F-B): the Upgrade sheet closes, then the parent sheet opens in its place, focus going back to
+  // whatever opened the Upgrade sheet. A route change closes it like the Upgrade sheet.
+  const [parentSheet, setParentSheet] = useState(null);
+  const opener = state.opener;
+  const onAskParent = useCallback(() => setParentSheet({ at: Date.now(), returnFocus: opener || null }), [opener]);
+  const onParentClose = useCallback((kind) => {
+    setParentSheet(null);
+    // The account turned out to have Pro (a parent already paid): read the session again, so the shell shows Pro.
+    if (kind === 'pro') refreshSession?.({ silent: true });
+  }, [refreshSession]);
+  const [parentPath, setParentPath] = useState(pathname);
+  if (parentPath !== pathname) { setParentPath(pathname); if (parentSheet) setParentSheet(null); }
+
   const linkFor = useCallback((href) => previewLinks?.pricing || href, [previewLinks]);
+  const sheetOffer = offer || FALLBACK_OFFER;
+  // The parent sheet replaces the Upgrade sheet, which has already closed: one sheet at a time.
+  if (allowed && parentSheet) return <ParentPaySheet key={parentSheet.at} open rupees={sheetOffer.monthly?.rupees || 99} goClass="btn-volt mk-press" returnFocus={parentSheet.returnFocus} onClose={onParentClose} />;
   if (!allowed || !state.open) return null;
-  return <UpgradeSheet key={state.at} open trigger={state.trigger} facts={state.facts} offer={offer || FALLBACK_OFFER} onClose={onClose} onGetPro={onGetPro} returnFocus={state.opener} linkFor={linkFor} />;
+  return <UpgradeSheet key={state.at} open trigger={state.trigger} facts={state.facts} offer={sheetOffer} onClose={onClose} onGetPro={onGetPro} onAskParent={sheetOffer.parentPay ? onAskParent : null} returnFocus={state.opener} linkFor={linkFor} />;
 }
