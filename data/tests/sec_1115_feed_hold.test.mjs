@@ -281,26 +281,36 @@ test('feed: the page is never read with every column; only rows that carry a rec
 // ---------------------------------------------------------------- the feed: search
 test('feed: search is limited per reader in the database limiter; a refused search reads nothing', async () => {
   let f = reset();
+  // Every page costs one call: the reader's daily page count (the L3 follow-up). A search adds its two windows.
+  const isSearch = (o) => String(o.route).includes(':search');
   await feed.GET(feedRequest('subject=accountancy', app));
-  assert.equal(f.limitCalls.length, 0, 'a plain page costs no limiter call');
+  assert.deepEqual(f.limitCalls.map((o) => [o.route, o.limit, o.windowMs]), [['/api/questions/feed:pages:day', 120, 86_400_000]], 'a plain page costs only the daily page count');
   await feed.GET(feedRequest('subject=accountancy&search=a', app));
-  assert.equal(f.limitCalls.length, 0, 'a one-letter search is no search');
+  assert.equal(f.limitCalls.filter(isSearch).length, 0, 'a one-letter search is no search');
+  f = reset();
   const ok = await feed.GET(feedRequest('subject=accountancy&search=ratio%20analysis', app));
   assert.equal(ok.status, 200);
-  assert.equal(f.limitCalls.length, 2);
+  assert.equal(f.limitCalls.length, 3);
   for (const options of f.limitCalls) {
     assert.deepEqual(options.keyParts, ['u-app']);
     assert.equal(options.identityOnly, true);
     assert.equal(options.fallback, 'memory');
     assert.equal(options.persistent, process.env.NODE_ENV === 'production');
   }
-  assert.deepEqual(f.limitCalls.map((o) => [o.limit, o.windowMs]), [[20, 600_000], [60, 86_400_000]]);
-  f = reset({ limit: (o) => ({ allowed: o.windowMs !== 86_400_000, limit: o.limit, remaining: 0, retryAfterSeconds: 3600 }) });
+  assert.deepEqual(f.limitCalls.filter(isSearch).map((o) => [o.limit, o.windowMs]), [[20, 600_000], [60, 86_400_000]]);
+  f = reset({ limit: (o) => ({ allowed: !(isSearch(o) && o.windowMs === 86_400_000), limit: o.limit, remaining: 0, retryAfterSeconds: 3600 }) });
   const refused = await feed.GET(feedRequest('subject=accountancy&search=ratio%20analysis', app));
   assert.equal(refused.status, 429);
   assert.match((await refused.json()).error, /Too many searches/);
   noSharedCache(refused);
   assert.equal(f.db.calls.filter((c) => c.table === 'questions').length, 0, 'no question read after a refusal');
+  // The daily page count refuses on its own, with its own words, before any read.
+  f = reset({ limit: (o) => ({ allowed: isSearch(o), limit: o.limit, remaining: 0, retryAfterSeconds: 3600 }) });
+  const full = await feed.GET(feedRequest('subject=accountancy', app));
+  assert.equal(full.status, 429);
+  assert.match((await full.json()).error, /all of Explore for today/);
+  noSharedCache(full);
+  assert.equal(f.db.calls.filter((c) => c.table === 'questions').length, 0, 'no question read once the day is full');
 });
 
 test('feed source: auth first, no CDN header, no signed-out branch', () => {
