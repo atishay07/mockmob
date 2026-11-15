@@ -91,7 +91,7 @@ test('HeroFilm: muted, inline, looped, nothing fetched before it plays, the post
   assert.match(FILM_CODE, /export \{ FILM \};/, 'the config is still reachable from the component');
 });
 
-test('HeroFilm: plays only while half on screen, pauses when it leaves, never by itself under Reduce motion or Data Saver', () => {
+test('HeroFilm: plays only while half on screen, pauses when it leaves, never by itself under Reduce motion, Data Saver or a slow link', async () => {
   assert.match(CONFIG, /visibleShare: 0\.5/);
   assert.match(FILM_CODE, /new IntersectionObserver\(/);
   assert.match(FILM_CODE, /inView\.current = entry\.isIntersecting && entry\.intersectionRatio >= FILM\.visibleShare;/);
