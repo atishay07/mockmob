@@ -35,7 +35,13 @@ const PAGE = 1000;
 const MAX_PAGES = 100;
 const PROGRESS_COLUMNS = 'question_id,subject,chapter,attempt_count,last_correct,last_attempted_at';
 const REPORT_TTL_MS = 5 * 60 * 1000;
-export const REPORT_SUSPEND_AT = 3; // the view key_card_suspended (migration 20261031140000) uses the same 3
+// L2 (15 Nov 2026): a card leaves every deck only when REPORT_SUSPEND_AT distinct reporters count for it. A reporter counts
+// when their account was at least a day old at the report, they had finished an attempt before it, and the report is one of
+// their first REPORTS_COUNTED_A_DAY of that IST day. Every report is still stored. The view key_card_suspended (migration
+// 20261031140000) lists cards with 3 or more reports of any kind: the candidates (so this must stay at 3 or more).
+export const REPORT_SUSPEND_AT = 5;
+export const REPORTS_COUNTED_A_DAY = 3;
+export const REPORTER_MIN_AGE_MS = 24 * 60 * 60 * 1000;
 const PRO_NEW_COUNT_ONLY = 100000;
 
 // ---------------------------------------------------------------- decks
@@ -133,14 +139,53 @@ export function createKeycards(deps) {
   }
 
   /**
-   * Cards suspended for everyone: 3 or more distinct reports, until the orchestrator reviews them. Read from the view
-   * key_card_suspended, which returns only those card ids (code review L8: reading every report row stopped at 1,000).
+   * Cards suspended for everyone until the orchestrator reviews them (L2 rule above). The candidates come from the view
+   * key_card_suspended (code review L8: never every report row); then only their reports and their reporters are read.
    */
   async function suspendedForAll() {
     if (now() - reports.at < REPORT_TTL_MS) return reports.set;
-    const rows = await readPages(() => db.from('key_card_suspended').select('card_id').order('card_id'));
-    reports = { at: now(), set: new Set(rows.map((r) => r.card_id)) };
+    const candidates = (await readPages(() => db.from('key_card_suspended').select('card_id').order('card_id'))).map((r) => r.card_id);
+    const set = candidates.length ? await countedSuspensions(candidates) : new Set();
+    reports = { at: now(), set };
     return reports.set;
+  }
+
+  async function countedSuspensions(cardIds) {
+    const rows = [];
+    for (let i = 0; i < cardIds.length; i += 100) {
+      const ids = cardIds.slice(i, i + 100);
+      rows.push(...await readPages(() => db.from('key_card_reports').select('user_id,card_id,created_at').in('card_id', ids).order('card_id').order('user_id')));
+    }
+    const reporters = [...new Set(rows.map((r) => r.user_id))];
+    const counted = new Map();
+    for (let i = 0; i < reporters.length; i += 10) {
+      await Promise.all(reporters.slice(i, i + 10).map(async (id) => { counted.set(id, await countedReports(id)); }));
+    }
+    const per = new Map();
+    for (const r of rows) if (counted.get(r.user_id)?.has(r.card_id)) per.set(r.card_id, (per.get(r.card_id) || 0) + 1);
+    return new Set([...per].filter(([, n]) => n >= REPORT_SUSPEND_AT).map(([id]) => id));
+  }
+
+  /** The cards one reporter's reports count toward (L2): an account a day old, a finished attempt first, 3 a day. */
+  async function countedReports(userId) {
+    const user = await Promise.resolve(getUser(userId)).catch(() => null);
+    const createdAt = Number(user?.createdAt);
+    if (!Number.isFinite(createdAt)) return new Set();
+    const first = await q(db.from('attempts').select('completed_at').eq('user_id', userId).order('completed_at', { ascending: true }).limit(1));
+    const firstAt = Date.parse(first.data?.[0]?.completed_at);
+    if (!Number.isFinite(firstAt)) return new Set();
+    const own = await readPages(() => db.from('key_card_reports').select('card_id,created_at').eq('user_id', userId).order('created_at').order('card_id'));
+    const perDay = new Map();
+    const out = new Set();
+    for (const r of own) {
+      const at = Date.parse(r.created_at);
+      if (!Number.isFinite(at) || at - createdAt < REPORTER_MIN_AGE_MS || at < firstAt) continue;
+      const day = istDay(at);
+      if ((perDay.get(day) || 0) >= REPORTS_COUNTED_A_DAY) continue;
+      perDay.set(day, (perDay.get(day) || 0) + 1);
+      out.add(r.card_id);
+    }
+    return out;
   }
 
   /**
@@ -485,10 +530,12 @@ export function createKeycards(deps) {
   }
 
   // ---------------------------------------------------------------- POST /api/keycards/report
-  async function report(userId, body) {
+  // `take` (the route's daily per-student cap, L2) runs after the checks, so a malformed report never uses it.
+  async function report(userId, body, { take = null } = {}) {
     const reason = typeof body?.reason === 'string' ? body.reason.trim() : '';
     if (typeof body?.cardId !== 'string' || !decks.byId.has(body.cardId)) return bad('CARD_NOT_FOUND', 404);
     if (!reason || reason.length > 300) return bad('REASON_REQUIRED');
+    if (take && !(await take())) return { http: 429, body: { error: 'REPORT_LIMIT', message: 'You have sent a lot of reports today. Try again tomorrow.' } };
     await q(db.from('key_card_reports').upsert([{ user_id: userId, card_id: body.cardId, reason, created_at: new Date(now()).toISOString() }], { onConflict: 'user_id,card_id' }));
     reports = { at: -Infinity, set: reports.set }; // read again on the next request
     return ok({ ok: true });
