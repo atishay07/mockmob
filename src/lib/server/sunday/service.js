@@ -16,8 +16,8 @@
 //     the counts take only sittings finished inside the window's last legal minute (countsFor).
 import { createHmac } from 'node:crypto';
 import {
-  MIN_FROZEN, PAPER_COUNT, SHARE_FLOOR, claimPeriod, claimReference, countsFor, isWeekKey, marksOf, startRefusal,
-  subjectState, sundayState, sundayStats, sundayTag, sundayWindow,
+  LAUNCH_WEEK, MIN_FROZEN, PAPER_COUNT, SHARE_FLOOR, claimPeriod, claimReference, countsFor, isWeekKey, marksOf, startRefusal,
+  subjectState, sundayOf, sundayState, sundayStats, sundayTag, sundayWindow,
 } from '../../sundayMock.mjs';
 import { subjectSpellings } from './store.js';
 
@@ -53,7 +53,8 @@ const same = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.le
  *   store                                    ./store.js (or an in-memory one in tests)
  *   loadUser(userId) -> { subjects } | null  the student's goal subjects
  *   subjectInfo(raw) -> { ok, id, publicId, name }   a launchable subject: its stored id, public id and official name
- *   pickPaper(subject, week, { exclude }) -> ids     the Full mock selector over the central bank, no personal exclusions
+ *   pickPaper(subject, week, { exclude }) -> ids     the week's seeded draw (./draw.js): the Full mock selector in a secret seeded
+ *                                                    order, the subject's last 8 Sunday papers left out, no personal exclusions
  *   loadQuestions(ids) -> questions in that order (withdrawn ones left out)
  *   serve(question) -> question              the stable option order every surface serves (data/option_order.js servedOut)
  *   startPractice(userId, input, server)     src/lib/server/practiceSessions.js
@@ -241,10 +242,11 @@ export function createSundayService(deps) {
      */
     async stats(userId, query = {}) {
       const week = String(query.week || '');
-      if (!isWeekKey(week)) throw new SundayError('BODY_INVALID');
+      const t = now();
+      // Only a Sunday from the launch to this week's: anything else is refused before any read (review, 15 Nov 2026).
+      if (!isWeekKey(week) || week < LAUNCH_WEEK || week > sundayOf(t)) throw new SundayError('BODY_INVALID');
       const info = deps.subjectInfo(query.subject);
       if (!info?.ok) throw new SundayError('SUBJECT_NOT_SUPPORTED');
-      const t = now();
       const win = sundayWindow(week);
       if (t < win.answersAt) throw new SundayError('NOT_CLOSED', { detail: { answersAt: iso(win.answersAt) } });
       // Every send that can count is in by now (lastFinishAt is before answersAt), so the counts are final: kept six hours.

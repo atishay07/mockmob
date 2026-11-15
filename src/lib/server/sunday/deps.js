@@ -12,6 +12,7 @@ import { normalizeSubjectSelection, toPublicSubjectId } from '@/../data/cuet_con
 import { servedOut } from '@/../data/option_order';
 import { createSundayService } from './service';
 import { createSundayStore } from './store';
+import { drawPaper } from './draw';
 import { sundayMockEnabled } from '@/lib/sundayFlag.mjs';
 
 // The kill switch (src/lib/sundayFlag.mjs): SUNDAY_MOCK_ENABLED=false turns the Sunday Mock off; unset leaves it on.
@@ -28,18 +29,19 @@ function subjectInfo(raw) {
   return { ok: true, id: selection.internalSubject, publicId: toPublicSubjectId(selection.internalSubject), name: resolved.officialName };
 }
 
+// The paper rows live in learning_allowances (./store.js); the draw reads the subject's past Sunday papers from it.
+const store = createSundayStore(() => supabaseAdmin());
+
 /**
- * The week's paper from the central bank: the Full mock selector (the CUET pattern, 50 questions), with no personal exclusions
- * and a key fixed by the Sunday and subject, so the draw is the same for everyone. `exclude`: ids that must not be drawn (the
- * frozen ones, when a withdrawn question is replaced).
+ * The week's paper from the central bank (./draw.js): the Full mock selector with a seeded order (an HMAC of the Sunday and the
+ * subject under the server secret), no personal exclusions, and the subject's last 8 Sunday papers left out. `exclude`: ids that
+ * must not be drawn (the frozen ones, when a withdrawn question is replaced).
  */
 async function pickPaper(subject, week, { exclude = [] } = {}) {
-  const skip = new Set(Array.isArray(exclude) ? exclude : []);
-  const ask = Math.min(100, 50 + Math.min(skip.size, 40));
-  const { questions } = await Database.getQuestions(subject, ask, {
-    mode: 'full', count: ask, requestedCount: ask, returnMeta: true, requireEvidence: false, generationKey: `sunday_${week}_${subject}`,
+  return drawPaper({
+    secret: secret(), subject, week, extraExclude: exclude, readPaper: (period) => store.readPaper(period),
+    getQuestions: (s, n, opts) => Database.getQuestions(s, n, { mode: 'full', count: n, requestedCount: n, returnMeta: true, requireEvidence: false, ...opts }),
   });
-  return (questions || []).map((q) => q.id).filter((id) => !skip.has(id));
 }
 
 // The frozen paper's full rows through the stamp cache (data/mob_question_reads.js loadFull): withdrawn questions are left out.
@@ -50,7 +52,7 @@ export function sundayService() {
   if (cached) return cached;
   cached = createSundayService({
     secret: secret(),
-    store: createSundayStore(() => supabaseAdmin()),
+    store,
     loadUser: (id) => Database.getUserById(id),
     subjectInfo,
     pickPaper,

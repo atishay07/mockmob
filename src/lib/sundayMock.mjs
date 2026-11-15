@@ -24,6 +24,9 @@ export const OPEN_HOUR = 10; // 10:00 AM IST
 export const CLOSE_HOUR = 22; // 10:00 PM IST: the last start
 // The answers and the counts open when the last possible paper is in: the last start, its 60 minutes and 5 more (11:05 PM IST).
 export const ANSWERS_AFTER_MINUTES = 5;
+// The first Sunday the Sunday Mock runs. The counts route answers only for weeks from this one to the current one, so an old or
+// made-up week never starts a scan of a subject's attempts.
+export const LAUNCH_WEEK = '2026-11-22';
 export const PAPER_COUNT = 50; // data/test_modes.js full.fixedCount
 export const PAPER_MINUTES = 60; // data/test_modes.js full.fixedDurationSec / 60
 export const MARK_RIGHT = 5;

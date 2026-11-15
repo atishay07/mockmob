@@ -376,3 +376,68 @@ test('the claim rows on the real table keys: one per student and period, the ear
   assert.deepEqual(await store.readPaper(p), ids('a'));
   assert.equal(db.tables.learning_allowances.length, 1);
 });
+
+import { firstFullMockFor, readFirstFullMockFacts } from '../../src/lib/server/firstFullMock.js';
+
+/** attempts and learning_allowances with the query shapes readFirstFullMockFacts uses (eq, in on a json path, contains, head counts). */
+function factsDb({ attempts = [], allowances = [], containsFails = false } = {}) {
+  const value = (row, key) => (key.includes('->>') ? key.split('->>').reduce((node, k, i) => (i === 0 ? row[k] : node?.[k]), null) : row[key]);
+  const covers = (whole, part) => Object.entries(part).every(([k, v]) => (v && typeof v === 'object' ? whole?.[k] && covers(whole[k], v) : whole?.[k] === v));
+  return {
+    from(table) {
+      const filters = [];
+      let head = false;
+      const q = {
+        select(_cols, opts = {}) { head = opts.head === true; return q; },
+        eq(k, v) { filters.push((r) => value(r, k) === v); return q; },
+        in(k, list) { filters.push((r) => list.includes(value(r, k))); return q; },
+        contains(k, part) { if (containsFails) throw new TypeError('contains is not a function'); filters.push((r) => covers(r[k], part)); return q; },
+        then(res, rej) {
+          const rows = (table === 'attempts' ? attempts : allowances).filter((r) => filters.every((f) => f(r)));
+          return Promise.resolve(head ? { data: null, count: rows.length, error: null } : { data: rows, error: null }).then(res, rej);
+        },
+      };
+      return q;
+    },
+  };
+}
+
+test('a Sunday Mock never uses up the free first Full mock; any other Full mock or NTA paper still does', async () => {
+  const sundayPaper = (id) => ({ id, user_id: 'u1', subject: 'accountancy', selection_meta: { mode: 'full', mobPaper: { mobId: SUNDAY_TAG, weekStart: WEEK, holdUntil: 'x' } } });
+  const ownFull = (id, mode = 'full') => ({ id, user_id: 'u1', subject: 'accountancy', selection_meta: { mode } });
+  const mobGame = (id) => ({ id, user_id: 'u1', subject: 'accountancy', selection_meta: { mode: 'full', mobPaper: { mobId: MOB, weekStart: '2026-11-16', gameId: 'g1' } } });
+  // Only Sunday papers: the free first Full mock is still available.
+  let db = factsDb({ attempts: [sundayPaper('s1'), sundayPaper('s2')] });
+  assert.equal((await readFirstFullMockFacts(db, { userId: 'u1', subject: 'accountancy' })).fullPapers, 0);
+  assert.equal(await firstFullMockFor(db, { userId: 'u1', subject: 'accountancy' }), 'available');
+  // A Full mock of the student's own, an NTA paper or a Mob game's full mock: used, as before.
+  for (const other of [ownFull('f1'), ownFull('n1', 'nta'), mobGame('g1')]) {
+    db = factsDb({ attempts: [sundayPaper('s1'), other] });
+    assert.equal((await readFirstFullMockFacts(db, { userId: 'u1', subject: 'accountancy' })).fullPapers, 1, other.id);
+    assert.equal(await firstFullMockFor(db, { userId: 'u1', subject: 'accountancy' }), 'used', other.id);
+  }
+  // Another student's Sunday paper or another subject's never counts either way.
+  db = factsDb({ attempts: [{ ...sundayPaper('x1'), user_id: 'u2' }, { ...ownFull('x2'), subject: 'economics' }] });
+  assert.equal(await firstFullMockFor(db, { userId: 'u1', subject: 'accountancy' }), 'available');
+  // The Sunday read failing keeps the count as before (the free mock treated as used, never given twice).
+  db = factsDb({ attempts: [sundayPaper('s1')], containsFails: true });
+  assert.equal((await readFirstFullMockFacts(db, { userId: 'u1', subject: 'accountancy' })).fullPapers, 1);
+  assert.equal(await firstFullMockFor(db, { userId: 'u1', subject: 'accountancy' }), 'used');
+});
+
+test('the counts route takes only a Sunday from the launch to this week, and refuses any other before a single read', async () => {
+  const w = world({ at: IST('2026-11-29T23:30:00') });
+  let reads = 0;
+  w.store.findSittings = async () => { reads += 1; return []; };
+  const service = createSundayService({ ...w.deps, store: w.store });
+  for (const week of ['2026-11-15', '2026-11-08', '2025-11-23', '2026-12-06', '2027-01-03', '2026-11-23', 'not-a-week', '']) {
+    const e = await service.stats('u1', { week, subject: 'accountancy' }).catch((x) => x);
+    assert.equal(e.code, 'BODY_INVALID', week);
+    assert.equal(e.status, 400);
+  }
+  assert.equal(reads, 0, 'no refused week read the attempts');
+  // The launch week and this week (after 11:05 PM) are read.
+  assert.equal((await service.stats('u1', { week: '2026-11-22', subject: 'accountancy' })).week, '2026-11-22');
+  assert.equal((await service.stats('u1', { week: '2026-11-29', subject: 'accountancy' })).week, '2026-11-29');
+  assert.equal(reads, 2);
+});
