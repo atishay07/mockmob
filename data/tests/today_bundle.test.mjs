@@ -87,5 +87,6 @@ test('ruling 12: a brand-new student is shown no history and no marks, and the r
   const preview = read('src/app/preview/arena/ArenaPreviewClient.jsx');
   assert.match(preview, /fixture\.get\('student'\) === 'new' && fixture\.get\('view'\) === 'today' \? 'empty' : null/, 'no papers');
   assert.match(preview, /const state = fixture\.get\('data'\) \|\| \(newOnToday \? 'empty' : null\);/, 'no papers, sessions or chapters');
-  assert.match(preview, /if \(kind === 'down' \|\| \(state === 'empty' && !newOnToday\)\)/, 'and Revise is empty, not unavailable');
+  // U16 (15 Nov 2026): ?data=empty is an account with no attempts too, so Revise answers it empty as the route does.
+  assert.match(preview, /const kind = fixture\.get\('revise'\) \|\| \(fixture\.get\('student'\) === 'new' \|\| state === 'empty' \? 'empty' : 'ready'\);\s+if \(kind === 'down'\) return/, 'and Revise is empty, not unavailable');
 });

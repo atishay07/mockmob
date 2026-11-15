@@ -142,6 +142,6 @@ test("E6: the preview's first-time student (student=new) has nothing to revise",
   const concepts = read('src/app/preview/arena/previewConcepts.js');
   assert.match(concepts, /: fixture\.get\('student'\) === 'new' \? 'empty' : 'student';/, 'the Review badge reads the empty record');
   const arena = read('src/app/preview/arena/ArenaPreviewClient.jsx');
-  assert.match(arena, /fixture\.get\('revise'\) \|\| \(fixture\.get\('student'\) === 'new' \? 'empty' : 'ready'\)/, 'the dock and Today read an empty Revise');
+  assert.match(arena, /fixture\.get\('revise'\) \|\| \(fixture\.get\('student'\) === 'new' \|\| state === 'empty' \? 'empty' : 'ready'\)/, 'the dock and Today read an empty Revise (and ?data=empty too, U16)');
   assert.match(read('src/app/preview/arena/previewReview.js'), /q\.get\('student'\) === 'new' \? 'empty' : 'student1018'/, 'Review itself reads no papers');
 });
