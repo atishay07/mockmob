@@ -590,9 +590,9 @@ test('L-042 what he approved is still there: Mobi, the time section, the approve
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/, 'the logo opening');
 });
 
-test('L-043 the logo opening uses logo B and lasts about 1.3 s per session (1.6 s on a first visit), is skippable, and never holds a student', () => {
-  assert.ok(openingGate.OPENING_SHORT_MS >= 1200 && openingGate.OPENING_SHORT_MS <= 1400, `session opening ${openingGate.OPENING_SHORT_MS} ms`);
-  assert.ok(openingGate.OPENING_FIRST_MS >= 1500 && openingGate.OPENING_FIRST_MS <= 1700, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms`);
+test('L-043 the logo opening uses logo B and lasts at most 0.7 s per session (1.2 s on a first visit; owner, 16 Nov 2026: "smaller"), is skippable, and never holds a student', () => {
+  assert.ok(openingGate.OPENING_SHORT_MS >= 500 && openingGate.OPENING_SHORT_MS <= 700, `session opening ${openingGate.OPENING_SHORT_MS} ms`);
+  assert.ok(openingGate.OPENING_FIRST_MS >= 900 && openingGate.OPENING_FIRST_MS <= 1200, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms`);
   assert.ok(openingGate.OPENING_FIRST_MS > openingGate.OPENING_SHORT_MS);
   for (const e of ['pointerdown', 'touchstart', 'wheel', 'keydown']) assert.ok(openingGate.OPENING_SKIP_EVENTS.includes(e), `${e} skips it`);
   const gate = openingGate.openingGate.toString();

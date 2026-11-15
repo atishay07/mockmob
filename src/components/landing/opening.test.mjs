@@ -42,9 +42,9 @@ test('decision 1: the opening draws Logo.jsx\'s own volt dot, and the bar logo k
   assert.equal(LOGO_DOT.cy, -LOGO_DOT.r);
   assert.equal(LOGO_OPEN_VIEWBOX, `${x} ${y} ${Math.round((w + LOGO_DOT.gap + LOGO_DOT.r * 2) * 100) / 100} ${h}`, 'the opening box is Logo.jsx\'s VIEWBOX');
   assert.deepEqual([LOGO_OPEN_BOX.x, LOGO_OPEN_BOX.y, LOGO_OPEN_BOX.h], [x, y, h]);
-  // In the opening SVG: a volt circle at the dot, the unfold's last beat (scale .6 to 1 with its opacity, 160 ms, ~860 ms).
+  // In the opening SVG: a volt circle at the dot, the unfold's last beat (scale .6 to 1 with its opacity, on each mode's clock).
   assert.match(OPENING, /<Part className="mo-dot"[^>]*>\s*<circle fill=\{LOGO_B_COLORS\.volt\} cx=\{LOGO_DOT\.cx\} cy=\{LOGO_DOT\.cy\} r=\{LOGO_DOT\.r\} \/>/);
-  assert.match(rules(CSS), /\.mo-dot \{\s*transform-origin: var\(--dot\);\s*animation: mo-dot 160ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 860ms both;/);
+  assert.match(rules(CSS), /\.mo-dot \{\s*transform-origin: var\(--dot\);\s*animation: mo-dot var\(--mo-dot\) cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-dot-at\) both;/);
   assert.match(rules(CSS), /@keyframes mo-dot \{ from \{ opacity: 0; transform: scale\(0\.6\); \} to \{ opacity: 1; transform: scale\(1\); \} \}/);
   // In the bar logo (LogoMark, which the site bar draws).
   assert.match(LOGO, /<circle className="dot logo-b__dot" cx=\{DOT_CX\} cy=\{DOT_CY\} r=\{DOT_R\}/);
@@ -66,15 +66,32 @@ test('the unfold: "mock" leftwards from the m, nearest first, the b rightwards f
 
 // ---------- the timeline (opening.css) ----------
 
-test('L-043 and decision 6: one constant each, about 1.3 to 1.6 s, the hand-off is the last 280 ms', () => {
-  assert.equal(OPENING_FIRST_MS, 1600);
-  assert.equal(OPENING_SHORT_MS, 1280);
+// The beats of each mode: the base rule is the first visit's, the short rule overrides it (opening.css).
+const modeProps = () => {
+  const css = rules(CSS);
+  const grab = (head) => {
+    const at = css.indexOf(head);
+    assert.ok(at >= 0, head);
+    const body = css.slice(at, css.indexOf('}', at));
+    return Object.fromEntries([...body.matchAll(/(--mo-[\w-]+): (\d+)ms;/g)].map((m) => [m[1], Number(m[2])]));
+  };
+  const first = grab("html[data-opening='first'] .mo-open,\nhtml[data-opening='short'] .mo-open {");
+  const short = { ...first, ...grab("html[data-opening='short'] .mo-open {\n  --mo-hand") };
+  return { first, short };
+};
+
+test('L-043 and decision 6, refined 16 Nov 2026 ("smaller"): 1,200 ms on a first visit, 700 ms and half the size every session; the hand-off is the last 280 ms', () => {
+  assert.equal(OPENING_FIRST_MS, 1200);
+  assert.equal(OPENING_SHORT_MS, 700);
   assert.equal(OPENING_HAND_MS, 280);
   const css = rules(CSS);
-  assert.match(css, /html\[data-opening='short'\] \.mo-open \{\s*--mo-hand: 1000ms;\s*--mo-end: 1280ms;/);
-  assert.match(css, /html\[data-opening='first'\] \.mo-open \{ --mo-hand: 1320ms; --mo-end: 1600ms; \}/);
-  assert.equal(1000 + OPENING_HAND_MS, OPENING_SHORT_MS);
-  assert.equal(1320 + OPENING_HAND_MS, OPENING_FIRST_MS);
+  assert.match(css, /html\[data-opening='first'\] \.mo-open,\s*html\[data-opening='short'\] \.mo-open \{\s*--mo-hand: 920ms;\s*--mo-end: 1200ms;\s*--mo-w: min\(78vw, 330px\);/);
+  assert.match(css, /html\[data-opening='short'\] \.mo-open \{\s*--mo-hand: 420ms;\s*--mo-end: 700ms;\s*--mo-w: min\(40vw, 170px\);/, 'the short opening\'s mark is about half the size');
+  const { first, short } = modeProps();
+  assert.equal(first['--mo-hand'] + OPENING_HAND_MS, OPENING_FIRST_MS);
+  assert.equal(first['--mo-end'], OPENING_FIRST_MS);
+  assert.equal(short['--mo-hand'] + OPENING_HAND_MS, OPENING_SHORT_MS);
+  assert.equal(short['--mo-end'], OPENING_SHORT_MS);
   // It ends hidden on its own (fill-mode forwards) and only 'first' and 'short' ever draw it.
   assert.match(css, /\.mo-open \{ display: none; \}/);
   assert.match(css, /animation: mo-gone 1ms linear var\(--mo-end\) forwards;/);
@@ -86,23 +103,55 @@ test('L-043 and decision 6: one constant each, about 1.3 to 1.6 s, the hand-off 
   assert.match(css, /z-index: 95;/);
 });
 
-test('the beats keep the app\'s timeline (brand_opening.dart OpeningTimeline)', () => {
+test('the beats keep the app\'s timeline (brand_opening.dart OpeningTimeline), on each mode\'s clock', () => {
   const css = rules(CSS);
   assert.match(css, /animation: mo-blink 160ms [^;]* 150ms;/, 'blink at 150 ms, 160 ms');
   assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 320ms both/, 'the bubble eye inks 320 to 520');
-  assert.match(css, /animation: mo-camera 500ms linear 500ms both;/, 'the camera 500 to 1000');
-  assert.match(css, /mo-unfold 300ms cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(520ms \+ var\(--k\) \* 40ms\) both/, 'letters from 520, 40 ms apart');
-  assert.match(css, /mo-slide 300ms cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(520ms \+ var\(--k\) \* 40ms\) both/);
+  assert.match(css, /animation: mo-camera var\(--mo-cam\) linear var\(--mo-cam-at\) both;/, 'the camera on the mode\'s clock');
+  assert.match(css, /mo-unfold var\(--mo-unfold\) cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(var\(--mo-unfold-at\) \+ var\(--k\) \* var\(--mo-unfold-step\)\) both/, 'letters nearest first, on the logo\'s spring');
+  assert.match(css, /mo-slide var\(--mo-unfold\) cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(var\(--mo-unfold-at\) \+ var\(--k\) \* var\(--mo-unfold-step\)\) both/);
   assert.match(css, /@keyframes mo-show \{ 0%, 3% \{ opacity: 0; \} 13%, 100% \{ opacity: 1; \} \}/, 'hidden until 12 % open, whole at 45 %');
-  assert.match(css, /mo-glance 120ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 860ms both/, 'Mobi glances toward the word at 860');
+  assert.match(css, /mo-glance 120ms cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-glance-at\) both/, 'Mobi glances toward the word');
+  assert.match(css, /animation: mo-dot var\(--mo-dot\) cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-dot-at\) both;/);
+  // The short opening starts on the first visit's 500 ms pose: the eye already inked, no blink.
+  assert.match(css, /html\[data-opening='short'\] \.mo-eyes__ink \{ animation: mo-fade-out 60ms linear var\(--mo-swap-at\) forwards; \}/);
+  assert.match(css, /html\[data-opening='short'\] \.mo-eyes__lid \{ animation: none; \}/);
+  // The first visit no longer holds the word (the 320 ms breath, glance back and second blink went with the 1,600 ms).
+  assert.doesNotMatch(css, /@keyframes (mo-breath|mo-blink-2|mo-glance-first)|animation: mo-breath/);
   // LK87 (5 Nov 2026, D5): the FLIP keeps its 280 ms on a gentler start and a long soft landing, and the ground clears once
   // the word is all but home (from 120 ms, 150 ms), so the word never crosses the headline on a half-clear ground.
   assert.match(css, /mo-word-flip 280ms cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards/, 'the FLIP is 280 ms');
   assert.match(css, /mo-ground-out 150ms cubic-bezier\(0\.23, 1, 0\.32, 1\) calc\(var\(--mo-hand\) \+ 120ms\) forwards/);
   assert.ok(120 + 150 <= OPENING_HAND_MS, 'the ground is clear by the landing');
   assert.match(css, /@keyframes mo-ground-out \{ to \{ opacity: 0; transform: translateY\(-4vh\); \} \}/);
-  assert.match(css, /html\[data-opening='first'\] \.mo-breath \{ animation: mo-breath 320ms [^;]* 1000ms; \}/, 'first visit: the 320 ms hold breathes');
-  assert.match(css, /50% \{ transform: scale\(1\.03\); \}/, 'a 3 % breath');
+});
+
+test('16 Nov 2026: nothing is cut mid-motion: in each mode every beat has ended when the hand-off starts', () => {
+  const { first, short } = modeProps();
+  const kMax = Math.max(...LOGO_UNFOLD.map((u) => u.k));
+  for (const [name, p] of [['first', first], ['short', short]]) {
+    const hand = p['--mo-hand'];
+    const ends = {
+      camera: p['--mo-cam-at'] + p['--mo-cam'],
+      unfold: p['--mo-unfold-at'] + kMax * p['--mo-unfold-step'] + p['--mo-unfold'],
+      swap: p['--mo-swap-at'] + 60,
+      glance: p['--mo-glance-at'] + 120,
+      dot: p['--mo-dot-at'] + p['--mo-dot'],
+    };
+    if (name === 'first') Object.assign(ends, { blink: 150 + 160, ink: 320 + 200 });
+    for (const [beat, end] of Object.entries(ends)) assert.ok(end <= hand, `${name}: ${beat} ends at ${end}, the hand-off starts at ${hand}`);
+    // The detail swap stays where the app puts it: 38 % into the pull-back (the camera passing about 96 physical px).
+    assert.ok(Math.abs(p['--mo-swap-at'] - (p['--mo-cam-at'] + 0.38 * p['--mo-cam'])) <= 10, `${name}: detail swap`);
+    // The unfold starts just after the pull-back does, so letters never open on a still camera.
+    assert.ok(p['--mo-unfold-at'] >= p['--mo-cam-at'] && p['--mo-unfold-at'] - p['--mo-cam-at'] <= 40, `${name}: unfold with the camera`);
+    // Motion within the brief: each beat 120 to 440 ms.
+    assert.ok(p['--mo-cam'] >= 300 && p['--mo-cam'] <= 440 && p['--mo-unfold'] >= 200 && p['--mo-unfold'] <= 300, `${name}: beat lengths`);
+  }
+  // The first visit keeps the app's opening beats up to the pull-back (blink 150, ink 320, the camera from 500 ms).
+  assert.equal(first['--mo-cam-at'], 500);
+  assert.equal(first['--mo-unfold-at'], 520);
+  // The short one holds its first pose a moment before the pull-back starts.
+  assert.ok(short['--mo-cam-at'] > 0);
 });
 
 test('the camera keyframes are the app\'s log-scale pull-back, 2.2x to 1, recomputed', () => {
@@ -116,7 +165,7 @@ test('the camera keyframes are the app\'s log-scale pull-back, 2.2x to 1, recomp
   };
   const camera = bez(0.5, 0, 0.15, 1);
   const frames = [...rules(CSS).matchAll(/(\d+)% \{ transform: scale\(([\d.]+)\) translate\(calc\(var\(--mo-dx\) \* ([\d.]+)\), calc\(var\(--mo-dy\) \* ([\d.]+)\)\); \}/g)];
-  assert.equal(frames.length, 21, 'every 25 ms of the 500 ms pull-back');
+  assert.equal(frames.length, 21, 'every 5 % of the pull-back');
   for (const [, at, s, fx, fy] of frames) {
     const c = camera(Number(at) / 100);
     assert.ok(Math.abs(Number(s) - 2.2 ** (1 - c)) < 1e-3, `scale at ${at}%`);
@@ -193,7 +242,7 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
   const paint = (at) => observers.filter((o) => o.on).forEach((o) => o.cb({ getEntriesByName: (n) => (n === 'first-contentful-paint' ? [{ name: n, startTime: at }] : []) }));
   return { w, d, attrs, listeners, timers, layerAttrs, clock, observers, paint };
 }
-const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((x) => [...x]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
+const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: { first: OPENING_SNAPS.first.map((x) => [...x]), short: OPENING_SNAPS.short.map((x) => [...x]) }, wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
 const run = (opts) => { const env = fakeEnv(opts); const mode = openingGate(env.w, env.d, cfg); return { mode, ...env }; };
 
 test('the gate: first ever, then short once per session, then skip; never twice in a session', () => {
@@ -202,11 +251,11 @@ test('the gate: first ever, then short once per session, then skip; never twice 
   assert.equal(first.attrs['data-opening'], 'first');
   assert.equal(first.w.localStorage.m.get(OPENING_KEYS.ever), '1');
   assert.equal(first.w.sessionStorage.m.get(OPENING_KEYS.session), '1');
-  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [1320, 1600]);
+  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [920, 1200]);
   const short = run({ local: { [OPENING_KEYS.ever]: '1' } });
   assert.equal(short.mode, 'short');
-  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [1000, 1280]);
-  assert.ok(short.timers.some((t) => t.delay === 1000) && short.timers.some((t) => t.delay === 1320), 'hand-off at 1000, done just after 1280');
+  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [420, 700]);
+  assert.ok(short.timers.some((t) => t.delay === 420) && short.timers.some((t) => t.delay === 740), 'hand-off at 420, done just after 700');
   assert.equal(run({ local: { [OPENING_KEYS.ever]: '1' }, session: { [OPENING_KEYS.session]: '1' } }).mode, 'skip', 'a reload in the same session');
   assert.equal(run({ storageThrows: true }).mode, 'skip', 'no storage: it could not tell, so it never risks running twice');
 });
@@ -249,7 +298,7 @@ test('the inline script is self-contained and placed before the layer', () => {
   assert.doesNotThrow(() => new Function(script), 'it parses');
   assert.doesNotMatch(script, /\bimport\b|\brequire\(|\bexport\b/);
   assert.ok(script.length < 6000, `small enough to inline (${script.length} chars)`);
-  assert.match(script, /"first":1600,"short":1280,"hand":280/);
+  assert.match(script, /"first":1200,"short":700,"hand":280/);
   assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'), 'the gate runs before the layer is parsed');
   // A server component: no client hooks, no 'use client'.
   assert.doesNotMatch(OPENING, /'use client'|useEffect|useState/);
@@ -275,32 +324,48 @@ test('LK87 the layer holds its first pose until the first paint is reported, the
   assert.equal(r.w.__mmOpening.from, 0, 'a prompt paint plays every beat');
   assert.equal(r.w.__mmOpening.base, 120, 'the timeline starts when it can first move');
   assert.equal(r.w.__mmOpening.paint, 110);
-  assert.ok(liveDelays(r).includes(1000) && liveDelays(r).includes(1320), `hand-off 1000 ms and done just after 1280 ms from there (${liveDelays(r)})`);
+  assert.ok(liveDelays(r).includes(420) && liveDelays(r).includes(740), `hand-off 420 ms and done just after 700 ms from there (${liveDelays(r)})`);
   const before = r.timers.length;
   r.paint(400);
   assert.equal(r.timers.length, before, 'it starts once');
 });
 
-test('LK87 a late paint starts from a rest pose (0, 310 or 500 ms in) and never adds the skipped beats to the wait; past the last snap the held splash dissolves', () => {
-  assert.deepEqual(OPENING_SNAPS.map((x) => [...x]), [[200, 0], [450, 310], [1100, 500]]);
-  // The rest poses: 0 before the blink (150 ms), 310 once the 160 ms blink is over and before the eye inks (320 ms), 500 the
-  // eye inked (it ends at 520) and the camera about to pull back (500 ms).
+test('LK87 a late paint starts from a rest pose (first visit 0, 310 or 500 ms in; short only its start) and never adds the skipped beats to the wait; past the last snap the held splash dissolves', () => {
+  assert.deepEqual(OPENING_SNAPS.first.map((x) => [...x]), [[200, 0], [450, 310], [1100, 500]]);
+  assert.deepEqual(OPENING_SNAPS.short.map((x) => [...x]), [[1100, 0]]);
+  // The first visit's rest poses: 0 before the blink (150 ms), 310 once the 160 ms blink is over and before the eye inks
+  // (320 ms), 500 the eye inked (it ends at 520) and the camera about to pull back (500 ms).
   const css = rules(CSS);
   assert.match(css, /animation: mo-blink 160ms [^;]* 150ms;/);
   assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 320ms both/);
-  assert.match(css, /animation: mo-camera 500ms linear 500ms both;/);
+  assert.equal(modeProps().first['--mo-cam-at'], 500);
   for (const [late, from] of [[0, 0], [200, 0], [201, 310], [450, 310], [451, 500], [800, 500], [1100, 500]]) {
     const anims = [{ currentTime: 0 }, { currentTime: 0 }, { currentTime: 0 }];
-    const r = run({ local: SESSION, paintTiming: true, anims });
+    const r = run({ paintTiming: true, anims });
+    assert.equal(r.mode, 'first');
     r.clock.now = late;
     r.paint(Math.max(0, late - 30));
     const st = r.w.__mmOpening;
     assert.equal(st.from, from, `${late} ms late starts at ${from}`);
     assert.ok(anims.every((a) => a.currentTime === from), `${late}: every part of the layer jumps to ${from}`);
     assert.equal(st.base, late - from);
-    assert.ok(liveDelays(r).includes(1000 - from), `${late}: the hand-off comes ${1000 - from} ms after the start (${liveDelays(r)})`);
+    assert.ok(liveDelays(r).includes(920 - from), `${late}: the hand-off comes ${920 - from} ms after the start (${liveDelays(r)})`);
     assert.ok(!('data-opening-cut' in r.attrs) && !('data-opening-hold' in r.attrs));
   }
+  // The short opening already opens on the first visit's last rest pose: a paint up to 1,100 ms late plays all of it from
+  // its start (the first visit's own last threshold, as before 16 Nov), a later one dissolves.
+  for (const late of [0, 300, 700, 1100]) {
+    const r = run({ local: SESSION, paintTiming: true });
+    assert.equal(r.mode, 'short');
+    r.clock.now = late;
+    r.paint(Math.max(0, late - 30));
+    assert.equal(r.w.__mmOpening.from, 0, `short, ${late} ms late`);
+    assert.ok(liveDelays(r).includes(420) && !('data-opening-late' in r.attrs));
+  }
+  const late = run({ paintTiming: true });
+  late.clock.now = 1101;
+  late.paint(1000);
+  assert.ok('data-opening-late' in late.attrs, 'a first visit past 1,100 ms dissolves');
   const r = run({ local: SESSION, paintTiming: true });
   r.clock.now = 1101;
   r.paint(1000);
@@ -326,7 +391,7 @@ test('LK87 a tap while the layer holds skips to the hand-off; without paint timi
   assert.equal(r.w.__mmOpening.phase, 'handoff', 'a paint after the skip changes nothing');
   const plain = run({ local: SESSION });
   assert.ok(!('data-opening-hold' in plain.attrs), 'no paint timing: no hold');
-  assert.ok(liveDelays(plain).includes(1000) && liveDelays(plain).includes(1320));
+  assert.ok(liveDelays(plain).includes(420) && liveDelays(plain).includes(740));
   // No paint report within OPENING_WAIT_MS: it starts from the top anyway.
   const quiet = run({ local: SESSION, paintTiming: true });
   quiet.clock.now = OPENING_WAIT_MS;
@@ -351,5 +416,5 @@ test('LK87 CSS: the hold pauses every part; the word lands whole in Night and th
   assert.match(css, new RegExp(String.raw`${bar}\[data-theme='light'\]\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 130ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 150ms\) both; \}`), 'Day: the ink logo comes up with the cream, ending on the landing');
   assert.match(css, new RegExp(String.raw`${bar}\[data-opening-cut\] \.mm-nav \.logo-b \{ animation: mo-bar-in-cut 1ms linear 280ms both; \}`));
   assert.match(css, /@keyframes mo-bar-in \{ from \{ opacity: 0; \} to \{ opacity: 1; \} \}/);
-  assert.match(openingGateScript(), /"snaps":\[\[200,0\],\[450,310\],\[1100,500\]\],"wait":3000/);
+  assert.match(openingGateScript(), /"snaps":\{"first":\[\[200,0\],\[450,310\],\[1100,500\]\],"short":\[\[1100,0\]\]\},"wait":3000/);
 });

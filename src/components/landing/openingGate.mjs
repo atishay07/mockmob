@@ -3,8 +3,9 @@
 // before React), and opening.test.mjs calls it with a fake window and document.
 //
 // Modes, written to <html data-opening>:
-//   'first'  the first visit ever on this device (localStorage has no mark): OPENING_FIRST_MS in all;
-//   'short'  the first load of a new browser session (sessionStorage has no mark): OPENING_SHORT_MS;
+//   'first'  the first visit ever on this device (localStorage has no mark): OPENING_FIRST_MS in all (1,200 ms);
+//   'short'  the first load of a new browser session (sessionStorage has no mark): OPENING_SHORT_MS (700 ms), the mark
+//            at half the size (owner, 16 Nov 2026: "it can be improved a bit and smaller");
 //   'skip'   everything else: a load later in the same session, reduced motion (the device setting or the site's own
 //            data-motion switch), a hash or deep entry (a #section link, a back/forward load, a page already scrolled,
 //            the app's own web view), a same-origin referrer (coming back to / from inside the site), a signed-in
@@ -24,17 +25,18 @@
 // first painted about 600 ms after the script on a fast desktop (the page's scripts hold the first frame), so the
 // blink, the inked eye and the start of the pull-back used to play unseen and a phone joined the opening half way.
 // Now the layer waits on its first pose ("mo" at 2.2x, html[data-opening-hold] pauses every part) until the browser
-// reports the first contentful paint, then starts from a rest pose chosen by how long the paint took (OPENING_SNAPS):
-// at once from 0, from 310 ms (after the first blink, before the eye inks) or from 500 ms (the camera's start), so a
-// slow first paint never adds the skipped beats to the wait. A paint later than the last snap dissolves the held
+// reports the first contentful paint, then starts from a rest pose chosen by how long the paint took (OPENING_SNAPS, per
+// mode): a first visit at once from 0, from 310 ms (after the first blink, before the eye inks) or from 500 ms (the
+// camera's start); the short opening has one rest pose, its start, so a paint up to 1,100 ms late plays it from 0. A slow
+// first paint never adds the skipped beats to the wait. A paint later than the mode's last snap dissolves the held
 // splash in OPENING_LATE_MS: a student who has already waited is not held for a brand moment (before, a page that painted
 // after the opening's end showed no opening at all). Without paint timing (or if no paint is reported within
 // OPENING_WAIT_MS) it starts at once, as before.
 
-/** The whole opening on a first-ever visit, ms from first paint (L-043: logo B, about 1.3 to 1.6 s, skippable). */
-export const OPENING_FIRST_MS = 1600;
-/** The whole opening on the first load of a new session. */
-export const OPENING_SHORT_MS = 1280;
+/** The whole opening on a first-ever visit, ms from first paint (L-043 logo B, skippable; 1,200 ms from 16 Nov 2026). */
+export const OPENING_FIRST_MS = 1200;
+/** The whole opening on the first load of a new session (700 ms and half the size from 16 Nov 2026). */
+export const OPENING_SHORT_MS = 700;
 /** The hand-off at the end of either: the FLIP onto the bar logo and the ground's lift. */
 export const OPENING_HAND_MS = 280;
 /** Storage marks (the site's mm:*:v1 convention). */
@@ -42,12 +44,16 @@ export const OPENING_KEYS = Object.freeze({ ever: 'mm:opened:v1', session: 'mm:o
 /** The inputs that skip to the hand-off. */
 export const OPENING_SKIP_EVENTS = Object.freeze(['pointerdown', 'touchstart', 'wheel', 'keydown']);
 /**
- * Where the clock starts when the first paint came late: [paint later than this many ms after the script, start the
- * timeline at this ms]. Each start is a rest pose (nothing is mid-motion there): 0 the "mo" before the blink, 310 the
- * blink done and the eye still empty, 500 the eye inked and the camera about to pull back. Past the last row the
- * held splash dissolves (OPENING_LATE_MS).
+ * Where the clock starts when the first paint came late, per mode: [paint later than this many ms after the script,
+ * start the timeline at this ms]. Each start is a rest pose (nothing is mid-motion there). First visit: 0 the "mo"
+ * before the blink, 310 the blink done and the eye still empty, 500 the eye inked and the camera about to pull back.
+ * Short: it already opens on that last pose, so only its own start, for a paint up to 1,100 ms late (the first visit's
+ * last threshold, as before). Past a mode's last row the held splash dissolves (OPENING_LATE_MS).
  */
-export const OPENING_SNAPS = Object.freeze([[200, 0], [450, 310], [1100, 500]]);
+export const OPENING_SNAPS = Object.freeze({
+  first: Object.freeze([[200, 0], [450, 310], [1100, 500]]),
+  short: Object.freeze([[1100, 0]]),
+});
 /** The longest the layer waits on its first pose for a paint report before it starts anyway. */
 export const OPENING_WAIT_MS = 3000;
 /** A first paint past the last snap: the held splash dissolves this fast (opening.css html[data-opening-late]). */
@@ -174,7 +180,7 @@ export function openingGate(w, d, cfg) {
     var late = paintAt == null ? 0 : Math.max(0, w.performance.now() - t0);
     var from = 0;
     if (late > 0) {
-      var snaps = cfg.snaps || [[Infinity, 0]];
+      var snaps = (cfg.snaps && cfg.snaps[mode]) || [[Infinity, 0]];
       from = -1;
       for (var k = 0; k < snaps.length; k++) if (late <= snaps[k][0]) { from = snaps[k][1]; break; }
     }
@@ -213,7 +219,7 @@ export function openingGate(w, d, cfg) {
 
 /** The inline script OpeningMo.jsx renders (before its layer). */
 export function openingGateScript() {
-  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: OPENING_SNAPS.map((s) => [...s]), wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
+  const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: { first: OPENING_SNAPS.first.map((s) => [...s]), short: OPENING_SNAPS.short.map((s) => [...s]) }, wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
   // Every visitor downloads it in the HTML: whole-line comments and indentation stay in this file, not in the page.
   const source = openingGate.toString().replace(/^[ \t]*\/\/.*\r?\n/gm, '').replace(/^[ \t]+/gm, '');
   return `(${source})(window,document,${JSON.stringify(cfg)})`;
