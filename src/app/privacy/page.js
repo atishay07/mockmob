@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 20 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 15 November 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -29,6 +29,35 @@ export default function PrivacyPage() {
           <section>
             <h2>How we use it</h2>
             <p>We use your data to deliver mocks, track progress, power chapter review, provide sourced DU eligibility and historical comparisons, prevent abuse, moderate community questions, process payments, and improve the product.</p>
+          </section>
+          {/* 15 Nov 2026 (P11): what the code sets and sends, each line checked against it (cookie names in
+              src/lib/referrals/friendInvite.mjs, src/lib/server/sessionProxy.js and src/lib/server/guestMobi.js; the AI services in
+              src/services/ai/providers.js). Locked by data/tests/privacy_facts_1115.test.mjs. */}
+          <section>
+            <h2>Cookies and your browser&apos;s storage</h2>
+            <p>Signing in sets cookies from Supabase, the service that runs our sign-in. They keep you signed in, and the site needs them to work.</p>
+            <p style={{ marginTop: '0.75rem' }}>Your Day or Night theme and your Reduce motion choice are kept in your browser&apos;s own storage on that device.</p>
+            <p style={{ marginTop: '0.75rem' }}>If you use Ask Mobi on the home page without an account, we set a cookie called mm_gm. It holds a random visitor id and how many questions you have asked, is sent only to Ask Mobi, and ends after 30 days.</p>
+            <p style={{ marginTop: '0.75rem' }}>When you open a friend&apos;s invite link, we set a cookie called mm_invite that remembers the invite for 30 days, so it can be added when you sign up. Friend invites also use a cookie called mm_dev that holds a random device id for up to 400 days. If a pricing link carries a creator code, a cookie called mm_ref keeps that code for 30 days, so checkout can fill it in.</p>
+            <p style={{ marginTop: '0.75rem' }}>We set no advertising cookies.</p>
+          </section>
+          <section>
+            <h2>Stopping abuse</h2>
+            <p>To stop one person collecting many friend-invite rewards, when an invite is claimed we keep a keyed hash of the device id and a keyed hash of your network address. The check keeps only these hashes, never the address itself.</p>
+            <p style={{ marginTop: '0.75rem' }}>Ask Mobi for visitors without an account is limited the same way: by the visitor id in the mm_gm cookie and a hashed network address, to 3 questions for each visitor and 12 a day for each network.</p>
+          </section>
+          <section>
+            <h2>Ask Mobi and AI services</h2>
+            <p>When Ask Mobi needs an AI service to write a reply, your question is sent to OpenAI or Anthropic, which write it for MockMob. If you ask on the home page without an account, only the question you typed is sent, with your result on the page&apos;s five sample questions if you tried them. We do not use what you type to identify you.</p>
+          </section>
+          <section>
+            <h2>Companies that process data for MockMob</h2>
+            <p><b>Supabase</b> runs our database and sign-in. It holds your account, your email address and your study records.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>Vercel</b> hosts the website. Every page you open passes through it, with your network address.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>Razorpay</b> takes payments on the website. It receives the payment, and your name and email address to fill in its checkout.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>Resend</b> sends the sign-in email. It receives your email address and the sign-in link and code in that email.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>OpenAI</b> and <b>Anthropic</b> write Ask Mobi&apos;s replies and mistake fixes. They receive the question and what is sent with it, as described above.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>Google</b> runs Google sign-in, if you choose it, and confirms your Google account&apos;s email address to us. In the Android app, Google Play takes payments, as described under Payments.</p>
           </section>
           <section>
             <h2>Optional usage data (updated 20 October 2026)</h2>
