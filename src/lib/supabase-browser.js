@@ -2,6 +2,7 @@
 
 import { createBrowserClient } from '@supabase/ssr';
 import { authSafeFetch, isTransientAuthError } from '@/lib/supabase-auth-errors';
+import { supabaseCookieOptions } from '@/lib/supabaseCookieOptions';
 
 let browserClient = null;
 
@@ -20,6 +21,8 @@ export function getSupabaseBrowserClient() {
   browserClient = createBrowserClient(url, anonKey, {
     // A 429 or 5xx on a token refresh must not delete the session (supabase-auth-errors.js).
     global: { fetch: authSafeFetch },
+    // A7: Secure on https pages (src/lib/supabaseCookieOptions.js).
+    cookieOptions: supabaseCookieOptions(),
     auth: {
       // Google sign-in uses PKCE: the code verifier stays in this browser and /auth/callback
       // exchanges the code. The callback page owns that exchange, so no auto-detection.
