@@ -78,6 +78,7 @@ function HomeBlock() {
   const leaf = today ? leafOf(today.date) : null;
 
   return (
+    <>
     <Link
       href={DAILY_FIVE_PATH}
       className="dfh"
@@ -102,14 +103,20 @@ function HomeBlock() {
         </div>
         <p className="dfh__line">{line}</p>
         <ul className="dfh__chips">
-          <li>5 questions</li>
+          <li>A new five every day at 12:00 am</li>
           <li>English and General Test</li>
-          <li>One go a day</li>
+          <li>Every answer explained</li>
         </ul>
         <DailyBoard marks={marks} size="l" label={boardLabel(marks)} />
-        <span className={`mm-btn ${result ? 'mm-btn--secondary' : 'mm-btn--primary'} dfh__key`}>{key}</span>
+        <span className="dfh__key" data-quiet={result ? 'true' : 'false'}>{key}</span>
       </div>
     </Link>
+    {/* The week's other fixed date, said once and plainly: the daily five, and the Sunday Mock. */}
+    <p className="dfh__also">
+      Every Sunday, 10:00 am to 10:00 pm: one full CUET paper in each of your subjects, free with an account.{' '}
+      <Link href="/sunday-mock">See the Sunday Mock</Link>
+    </p>
+    </>
   );
 }
 

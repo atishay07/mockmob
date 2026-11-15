@@ -48,7 +48,21 @@
 .mm.lp .dfh[data-state='played'] .dfh__line { color: var(--ink); }
 .mm.lp .dfh__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .mm.lp .dfh__chips li { padding: 5px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink); font: 650 0.8125rem/1.2 var(--font-body); }
-.mm.lp .dfh .dfh__key { width: 100%; min-height: 58px; margin-top: 4px; font-size: 1.0625rem; }
+/* The key, drawn here as the system's primary key is (marketing.css .mm-btn--primary): this file also serves Today in the
+   app, which never loads the marketing sheet. Once the day is played it steps back to the secondary key. */
+.mm.lp .dfh__key {
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 58px; margin-top: 4px; padding: 0.75rem 1.25rem;
+  border-radius: var(--r-2); background: var(--volt); color: var(--volt-ink);
+  font: 800 1.0625rem/1.1 var(--font-display); letter-spacing: -0.01em; text-align: center;
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
+  transform: translateY(calc(var(--btn-edge) * -1));
+}
+.mm.lp .dfh__key[data-quiet='true'] { background: var(--paper-raised); color: var(--ink); box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1); }
+.mm.lp .dfh__also { margin: 14px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.5; text-wrap: pretty; }
+.mm.lp .dfh__also a { color: var(--ink); font-weight: 700; text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--ink-3); text-underline-offset: 4px; white-space: nowrap; }
+.mm.lp .dfh__also a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
+@media (min-width: 960px) { .mm.lp .dfh__also { max-width: 560px; margin-inline: auto; text-align: center; } }
+@media (min-width: 1024px) { .mm.lp .dfh__also { max-width: 1120px; margin-top: 16px; } }
 .mm.lp .dfh:active { transform: scale(0.992); }
 .mm.lp .dfh:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 /* From 720 px the page lies on its side: the day on the left, the five on the right. */
@@ -78,7 +92,7 @@
   .mm.lp .dfh__body { gap: 16px; padding: 32px 36px 34px; }
   .mm.lp .dfh__name { font-size: 2.75rem; }
   .mm.lp .dfh__line { font-size: 1.0625rem; }
-  .mm.lp .dfh .dfh__key { min-height: 62px; }
+  .mm.lp .dfh__key { min-height: 62px; }
 }
 html[data-motion='reduced'] .mm.lp .dfh { transition: none; }
 @media (prefers-reduced-motion: reduce) { .mm.lp .dfh { transition: none; } }
