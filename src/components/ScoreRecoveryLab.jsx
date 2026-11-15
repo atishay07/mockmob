@@ -32,6 +32,7 @@ import { useFirstTimedMock } from './timed/useFirstTimedMock';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
+import { LAB_PRICE_LINE, labPracticeLink } from './result/labPractice.mjs';
 import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
 // The repair total in the one spend line: each repair is 1 credit, so the ones left cost that many together.
@@ -184,8 +185,11 @@ function Prove({ attempt, topChapter, ruleCheck = null, later = null }) {
     return () => { alive = false; };
   }, [attempt.id]);
   const fresh = replay?.chapters?.find(c => c.state === 'available' && (!topChapter || c.chapter === topChapter)) || replay?.chapters?.find(c => c.state === 'available');
+  // Five fresh questions are a recovery set of 5, which starts free (src/lib/server/recoverySessions.js charges nothing for a
+  // Quick 5), so it opens the paper at once.
   const go = (href) => router.push(`${href}${href.includes('?') ? '&' : '?'}generationKey=${crypto.randomUUID()}`);
-  const ordinary = `/test?${new URLSearchParams({ subject: attempt.subject, mode: 'quick', count: '10', ...(topChapter ? { chapter: topChapter } : {}) })}`;
+  // B7: the regular set is priced, so it opens Practice set up for it, where the price shows before anything starts.
+  const ordinary = labPracticeLink({ subject: attempt.subject, chapter: topChapter });
   return (
     <div className="srl-step__body">
       <RuleCheck check={ruleCheck} />
@@ -197,7 +201,8 @@ function Prove({ attempt, topChapter, ruleCheck = null, later = null }) {
           </>
         : <>
             <p>{topChapter ? <>We don’t have five unseen, verified questions for <b>{topChapter}</b> yet, so this is a regular set on that chapter.</> : 'We don’t have five unseen, verified questions yet, so this is a regular set in the same subject.'} Questions you have seen before don’t count as proof.</p>
-            <button type="button" className="srl-cta srl-cta--quiet" onClick={() => go(ordinary)}>{topChapter ? `Practise ${topChapter}` : 'Practise 10 more'}</button>
+            <Link className="srl-cta srl-cta--quiet" href={ordinary.href}>{ordinary.label}</Link>
+            <p className="srl-fine">{LAB_PRICE_LINE}</p>
           </>}
     </div>
   );

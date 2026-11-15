@@ -116,6 +116,12 @@ export function withNumbers(text) {
   return String(text ?? '').split(NUMBER).map((part, i) => (i % 2 ? <b key={i} className="ml-num">{part}</b> : part));
 }
 
+/** A bar segment's spoken name (T12): its group and the marks it holds, "Wrong answers: 6 marks missed". */
+export function segLabel(group) {
+  const m = Number(group?.marks) || 0;
+  return `${group?.label || 'Group'}: ${m} ${m === 1 ? 'mark' : 'marks'} missed`;
+}
+
 /** Q chips: the first eight, then "Show {k} more". Each opens that answer with the page's own jump. */
 export function LabChips({ numbers, onJump, showMore }) {
   const [all, setAll] = useState(false);
@@ -154,8 +160,8 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
     setOpen((s) => { const next = new Set(s); if (opening) next.add(id); else next.delete(id); return next; });
     setPicked((p) => (opening ? id : p === id ? null : p));
   };
-  // A bar segment: open its row (never close it), lift the segment, and glide to the row. The row's button is the
-  // keyboard and screen-reader way to the same place, so the segment itself stays a pointer shortcut.
+  // A bar segment: open its row (never close it), lift the segment, and glide to the row. The segment is a button too (T12),
+  // so a keyboard reaches the row the same way; the row's own button still opens and closes it.
   const rowRefs = useRef(new Map());
   const [methodOpen, setMethodOpen] = useState(false);
   const goToGroup = (id) => {
@@ -191,14 +197,17 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         </p>
       ) : null}
 
-      <div className="ml-bar" ref={barRef} role="img" aria-label={lab.barLabel || undefined}>
+      {/* T12 (15 Nov 2026): each segment is a real button, named for its group, so a keyboard or a screen reader reaches the
+           same row a pointer does; it looks as before, with a focus ring when reached by keyboard. */}
+      <div className="ml-bar" ref={barRef} role="group" aria-label={lab.barLabel || labels.barLabel || 'Where the marks went'}>
         {groups.map((g, i) => (
-          <span key={g.id} className="ml-seg" data-g={g.id}
+          <button type="button" key={g.id} className="ml-seg" data-g={g.id}
             data-dim={active && active !== g.id ? '' : undefined} data-lift={active === g.id ? '' : undefined}
+            aria-label={segLabel(g)} aria-controls={`${uid}-${g.id}`} aria-expanded={open.has(g.id)}
             onClick={() => goToGroup(g.id)}
             style={{ flexGrow: Math.max(g.marks, 1), '--n': Math.max(g.count, 1), '--d': i }}>
             {g.count > 1 ? <i className="ml-seg__ticks" aria-hidden="true" /> : null}
-          </span>
+          </button>
         ))}
       </div>
 
