@@ -106,20 +106,19 @@ test('F8: a new account is never told it is a "login"; an existing one keeps its
 test('F8: plain light HTML that survives dark mode: black on white inline, a dark version only by media query', async () => {
   const { html } = await sendOne();
   assert.match(html, /<meta name="color-scheme" content="light dark" \/>/);
-  assert.match(html, /<body class="mm-page" style="margin:0;padding:0;background:#ffffff;">/);
-  assert.match(html, /class="mm-code" style="[^"]*color:#111311;/);
-  assert.match(html, /@media \(prefers-color-scheme: dark\) \{[\s\S]*\.mm-code \{ color:#ffffff !important; \}/);
+  assert.match(html, /<body class="em-page" style="margin:0;padding:0;background:#ffffff;">/);
+  assert.match(html, /class="em-code" style="[^"]*color:#111311;/);
+  assert.match(html, /@media \(prefers-color-scheme: dark\) \{[\s\S]*\.em-code \{ color:#ffffff !important; \}/);
   assert.doesNotMatch(html, /rgba\(|gradient|<img/i, 'no translucent colours, gradients or images for a client to mangle');
   assert.doesNotMatch(visible(html), /[!→]/);
 });
 
 test('F8: a plain-text part says the same, with the link spelled out', async () => {
   const { text } = await sendOne();
-  const lines = text.split('\n');
-  assert.equal(lines[0], 'Your MockMob code: 48213907');
-  assert.match(text, /Your 8-digit login code: 48213907\nType it on the page where you asked for it\./);
+  assert.match(text, /^Your 8-digit login code: 48213907\nType it on the page where you asked for it\./, 'the code is the first line');
   assert.match(text, /Signing in on this phone\? Open this link:\nhttps:\/\/www\.mockmob\.in\/auth\/callback\?token_hash=hash_abc&type=magiclink\n/);
-  assert.match(text, /Using the MockMob app\? Type this code in the app\. The button opens the website\./);
+  assert.match(text, /Using the MockMob app\? Type this code in the app\. The link opens the website\./, 'text has a link, not a button');
+  assert.doesNotMatch(text, /button/);
   assert.doesNotMatch(text, /<|&amp;/);
 });
 
@@ -127,6 +126,6 @@ test('F8: the app keeps its own hint and its /app/login link', async () => {
   const { html, text } = await sendOne({ client: 'app' });
   assert.match(html, /href="https:\/\/www\.mockmob\.in\/app\/login\?token_hash=hash_abc&amp;type=magiclink"/);
   assert.match(html, /Tap the button on this phone to open the MockMob app, or type the code in the app\./);
-  assert.match(text, /Tap the button on this phone to open the MockMob app/);
+  assert.match(text, /Open the link on this phone to open the MockMob app, or type the code in the app\./);
   assert.doesNotMatch(html, /The button opens the website\./);
 });

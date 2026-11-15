@@ -93,6 +93,10 @@ function signInEmailWords({ code, forApp = false, newAccount = false }) {
     hint: forApp
       ? 'Tap the button on this phone to open the MockMob app, or type the code in the app.'
       : 'Using the MockMob app? Type this code in the app. The button opens the website.',
+    // The plain-text part has a link, not a button.
+    hintText: forApp
+      ? 'Open the link on this phone to open the MockMob app, or type the code in the app.'
+      : 'Using the MockMob app? Type this code in the app. The link opens the website.',
     footer: 'This code is one-time use. If you did not request it, you can ignore this email.',
   };
 }
@@ -113,43 +117,43 @@ function signInEmail({ link, code, forApp = false, newAccount = false }) {
     <title>${e('subject')}</title>
     <style>
       @media (prefers-color-scheme: dark) {
-        .mm-page { background:#10120d !important; }
-        .mm-ink { color:#f4f5ef !important; }
-        .mm-ink2 { color:#b9bdb0 !important; }
-        .mm-codebox { background:#1b1e16 !important; border-color:#3b4033 !important; }
-        .mm-code { color:#ffffff !important; }
-        .mm-rule { border-color:#2c3026 !important; }
-        .mm-btn { background:#d2f000 !important; color:#0b0c09 !important; }
+        .em-page { background:#10120d !important; }
+        .em-ink { color:#f4f5ef !important; }
+        .em-ink2 { color:#b9bdb0 !important; }
+        .em-codebox { background:#1b1e16 !important; border-color:#3b4033 !important; }
+        .em-code { color:#ffffff !important; }
+        .em-rule { border-color:#2c3026 !important; }
+        .em-btn { background:#d2f000 !important; color:#0b0c09 !important; }
       }
     </style>
   </head>
-  <body class="mm-page" style="margin:0;padding:0;background:#ffffff;">
+  <body class="em-page" style="margin:0;padding:0;background:#ffffff;">
     <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${e('how')}</div>
-    <table role="presentation" class="mm-page" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
+    <table role="presentation" class="em-page" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
       <tr>
         <td align="center" style="padding:28px 16px;">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;font-family:Arial,Helvetica,sans-serif;">
             <tr>
               <td>
-                <p class="mm-ink" style="margin:0 0 20px;color:#111311;font-size:17px;font-weight:800;letter-spacing:-0.01em;">MockMob</p>
-                <p class="mm-ink2" style="margin:0 0 10px;color:#4a4e44;font-size:15px;line-height:1.4;">${e('label')}</p>
-                <table role="presentation" class="mm-codebox" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4ef;border:1px solid #d9dcd1;border-radius:14px;">
+                <p class="em-ink" style="margin:0 0 20px;color:#111311;font-size:17px;font-weight:800;letter-spacing:-0.01em;">MockMob</p>
+                <p class="em-ink2" style="margin:0 0 10px;color:#4a4e44;font-size:15px;line-height:1.4;">${e('label')}</p>
+                <table role="presentation" class="em-codebox" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4ef;border:1px solid #d9dcd1;border-radius:14px;">
                   <tr>
                     <td align="center" style="padding:18px 12px;">
-                      <p class="mm-code" style="margin:0;color:#111311;font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.1;font-weight:700;letter-spacing:0.14em;">${safeCode}</p>
+                      <p class="em-code" style="margin:0;color:#111311;font-family:'Courier New',Courier,monospace;font-size:38px;line-height:1.1;font-weight:700;letter-spacing:0.14em;">${safeCode}</p>
                     </td>
                   </tr>
                 </table>
-                <p class="mm-ink2" style="margin:14px 0 0;color:#4a4e44;font-size:15px;line-height:1.6;">${e('how')}</p>
+                <p class="em-ink2" style="margin:14px 0 0;color:#4a4e44;font-size:15px;line-height:1.6;">${e('how')}</p>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;">
-                  <tr><td class="mm-rule" style="border-top:1px solid #e3e5dc;font-size:0;line-height:0;">&nbsp;</td></tr>
+                  <tr><td class="em-rule" style="border-top:1px solid #e3e5dc;font-size:0;line-height:0;">&nbsp;</td></tr>
                 </table>
-                <p class="mm-ink" style="margin:22px 0 12px;color:#111311;font-size:16px;font-weight:700;line-height:1.4;">${e('second')}</p>
+                <p class="em-ink" style="margin:22px 0 12px;color:#111311;font-size:16px;font-weight:700;line-height:1.4;">${e('second')}</p>
                 <p style="margin:0;">
-                  <a class="mm-btn" href="${safeLink}" style="display:inline-block;border-radius:999px;background:#111311;color:#ffffff;font-size:15px;font-weight:700;line-height:20px;text-decoration:none;padding:13px 22px;">${e('button')}</a>
+                  <a class="em-btn" href="${safeLink}" style="display:inline-block;border-radius:999px;background:#111311;color:#ffffff;font-size:15px;font-weight:700;line-height:20px;text-decoration:none;padding:13px 22px;">${e('button')}</a>
                 </p>
-                <p class="mm-ink2" style="margin:22px 0 0;color:#4a4e44;font-size:13px;line-height:1.6;">${e('hint')}</p>
-                <p class="mm-ink2" style="margin:10px 0 0;color:#6b6f64;font-size:12px;line-height:1.6;">${e('footer')}</p>
+                <p class="em-ink2" style="margin:22px 0 0;color:#4a4e44;font-size:13px;line-height:1.6;">${e('hint')}</p>
+                <p class="em-ink2" style="margin:10px 0 0;color:#6b6f64;font-size:12px;line-height:1.6;">${e('footer')}</p>
               </td>
             </tr>
           </table>
@@ -160,15 +164,13 @@ function signInEmail({ link, code, forApp = false, newAccount = false }) {
 </html>`;
 
   const text = [
-    words.subject,
-    '',
     `${words.label}: ${code}`,
     words.how,
     '',
     `${words.second} Open this link:`,
     link,
     '',
-    words.hint,
+    words.hintText,
     '',
     words.footer,
   ].join('\n');
