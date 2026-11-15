@@ -60,35 +60,12 @@ import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
 import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
-import './landing.css';
-import './home-refinements.css';
-import './mistake-lab.css'; // R11: the Recovery section is gone, but every left-aligned section head's .lp-head--left base rule lives here
-import './compass-ladder.css';
-import './social-proof.css';
-import './hero-depth.css';
-import './feature-tour.css';
-import './tour-screens.css';
-import './lab-cinema.css';
-import './home.css';
+// Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
-import './hero-scene.css';
-import './desktop-scale.css';
-// Round 4 (6 Nov 2026): every section under the hero laid out again for desktop and phones; loaded last (home-sections.css).
-import './home-sections.css';
-// Round 7 (7 Nov 2026): the hero's film and the college strip, after every older layer.
-import './hero-film.css';
-import './college-strip.css';
-// Round 10 (10 Nov 2026, owner LK189): the deeper taste refinement, one file per group of sections, after every older layer.
-import './r10-hero.css';
-import './r10-sample.css';
-import './r10-lab-tour.css';
-import './r10-tools.css';
-import './r10-close.css';
-// Round 13 (13 Nov 2026): the motion pass and Mobi on the scroll, after every older layer.
-import './r13-motion.css';
-// Round 14 (13 Nov 2026): the visual pass, then the phone companion.
-import './r14-look.css';
-import './r14-companion.css';
+// The home page's own 23 sheets (landing.css ... r14-companion.css), joined in their cascade order into one file, so a phone
+// makes one render-blocking request for them instead of seven (paint pass, 15 Nov 2026). The list, its order and why are in
+// src/lib/homeCss.mjs. Edit those sheets, never home-sheets.css: node scripts/gen-home-css.mjs rewrites it (next dev does too).
+import './home-sheets.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).

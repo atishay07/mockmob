@@ -209,7 +209,8 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   html[data-theme] .mm.lp .lp-dockgate .mm-dock {
     transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
-  html[data-theme] .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
+  /* `body` here and below: one type more than landing-close.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  html[data-theme] body .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
   html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));

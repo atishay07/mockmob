@@ -17,7 +17,8 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 /* data-ts-step, not data-step: an attribute named in a rule that ends in * restyles the whole subtree of every element
    whose attribute of that name changes, and data-step is also every scroll story's step (ScrollStory, 850 elements a step
    at 4x CPU, ship gate 4 Nov). */
-.ts[data-ts-step='0'] *, .ts[data-ts-step='0'] *::before, .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
+/* `body` here and below: one type more than marketing.css's and globals.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
 .ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
@@ -220,7 +221,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
   .ts__body { padding: 1.05rem; gap: .7rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ts *, .ts *::before, .ts *::after { transition: none !important; animation: none !important; }
+  body .ts *, body .ts *::before, body .ts *::after { transition: none !important; animation: none !important; }
 }
 
 /* Compass rows: name and verdict on one line, a full-width track under them. */

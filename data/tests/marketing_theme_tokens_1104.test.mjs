@@ -115,7 +115,7 @@ test('the landing fallback tokens (no theme attribute) equal the Night tokens, s
   for (const key of ['paper', 'paper-raised', 'paper-raised-2', 'paper-sunken', 'ink', 'ink-2', 'ink-3', 'line', 'line-strong', 'accent-text', 'accent-line', 'accent-wash', 'brand-word', 'volt-edge', 'key-hairline', 'tint', 'surface-hover']) {
     assert.equal(fallback[key], night[key], `--${key} fallback equals Night`);
   }
-  assert.match(landing, /html:has\(\.lp\) \{[^}]*background: #12110e;/);
+  assert.match(landing, /html:has\((body )?\.lp\) \{[^}]*background: #12110e;/); // body: cascade order, src/lib/cssCascade.mjs
   assert.match(landing, /body:has\(\.mm\.lp\) \{\s*background: #12110e;/);
   const marketing = props(block(stripComments(read('src/app/marketing.css')), '.mm'));
   assert.equal(marketing.paper, day.paper, 'the base .mm tokens are the Day cream');
@@ -182,10 +182,13 @@ test('home.css applies the ladder to the section heads, and stems use Literata 6
   }
 });
 
-test('Literata is declared where only "/" imports it, with preload on (decision 16: preloaded on / only)', () => {
+test('Literata is declared where only "/" imports it, not preloaded (paint pass, 15 Nov 2026: no stem on the first screen)', () => {
   const fonts = read('src/components/landing/HomeFonts.jsx');
   assert.match(fonts, /Literata-Variable\.woff2/);
-  assert.match(fonts, /preload: true/);
+  // Decision 16 preloaded it on / only; the paint pass stopped that too: the first screen sets no stem at any width, and the
+  // preload competed with the stylesheets and the headline's face for a slow phone's first paint.
+  assert.match(fonts, /preload: false/);
+  assert.doesNotMatch(fonts, /preload: true/);
   assert.match(fonts, /weight: '200 900'/);
   assert.doesNotMatch(read('src/app/layout.js'), /Literata-Variable|literata = localFont/, 'the root layout never preloads Literata for every route');
   assert.match(read('src/components/landing/HeroBackdrop.jsx'), /import \{ HomeFonts \} from '\.\/HomeFonts'/);

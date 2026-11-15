@@ -87,7 +87,8 @@
    specificity on purpose (:where): a section's own text-wrap rule always wins. Checked at 360, 375, 390, 412 and 1440. */
 :where(.mm.lp) :where(p, li, dd, blockquote, .mm-faq__body) { text-wrap-style: pretty; }
 :where(.mm.lp) :where(h1, h2, h3, h4, summary, figcaption, .lp-sub, .lp-card__note, .lp-shelf__note, .lp-cpro__fine, .xs-saved, .lcp-block > p) { text-wrap-style: balance; }
-html:has(.lp) {
+/* `body` here and below: one type more than marketing.css's and exam-screen.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+html:has(body .lp) {
   font-size: 16px;
   color-scheme: dark;
   background: #12110e;
@@ -98,17 +99,17 @@ body:has(.mm.lp) {
 /* The whole page scales with the display: rem-based type, spacing and
    container widths grow on large and ultrawide screens. */
 @media (min-width: 1920px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 18px;
   }
 }
 @media (min-width: 2560px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 22px;
   }
 }
 @media (min-width: 3400px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 28px;
   }
 }
@@ -150,7 +151,7 @@ html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
 .lp .mm-dock {
   background: rgba(13, 12, 10, 0.94);
 }
-.lp .mm-btn--secondary {
+body .lp .mm-btn--secondary {
   background: var(--paper-raised);
   color: var(--ink);
   box-shadow: 0 var(--btn-edge) 0 rgb(var(--tint) / 0.22), var(--sh-1);
@@ -234,7 +235,7 @@ html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
   /* A section's one sub breaks into even lines (D3, LK84): balanced, never one word trailing on its own line. */
   text-wrap: balance;
 }
-.lp-head {
+body .lp-head {
   display: grid;
   gap: 1rem;
   margin-bottom: clamp(2rem, 4vw, 3.5rem);

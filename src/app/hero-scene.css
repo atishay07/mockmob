@@ -280,7 +280,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 .lp-desk .lp-card__sub b { color: var(--ink); font-weight: 650; }
 .lp-desk .lp-card__sub span { font-variant-numeric: tabular-nums; }
 .lp-desk .mm-drill__progress { display: flex; gap: 5px; margin: 0; }
-.lp-desk .mm-drill__pip { width: 22px; height: 4px; border-radius: 3px; background: var(--line-strong); transition: background-color 200ms ease; }
+/* `body` here and below: one type more than marketing.css's drill pips equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-desk .mm-drill__pip { width: 22px; height: 4px; border-radius: 3px; background: var(--line-strong); transition: background-color 200ms ease; }
 .lp-desk .mm-drill__pip[data-state='past'] { background: var(--ink-3); }
 .lp-desk .mm-drill__pip[data-state='now'] { background: var(--ink); }
 .lp-desk .lp-card__body { padding: 0; }

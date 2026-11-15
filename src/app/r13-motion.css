@@ -19,7 +19,8 @@
 .mm.lp .lp-bar__mobi { display: none; }
 @media (max-width: 899px) and (min-height: 521px) {
   @supports (width: 1cqw) {
-    .mm.lp .lp-bar__where { row-gap: 10px; }
+    /* `body` here and below: one type more than section-position.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+    body .mm.lp .lp-bar__where { row-gap: 10px; }
     .mm.lp .lp-bar__steps { position: relative; container-type: inline-size; }
     .mm.lp .lp-bar__mobi {
       display: block;
@@ -220,6 +221,6 @@ html[data-motion='reduced'] .mm.lp :is(.rv, .rv.lp-head, .rv-item) { transform: 
    guide Mobi blinked in and out in one frame; he fades over 160 ms.
    --------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 899px) {
-  html[data-theme='dark'] .mm.lp .mm-dock { -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); }
+  html[data-theme='dark'] body .mm.lp .mm-dock { -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); } /* body: still above feature-tour.css's raised dock */
 }
 body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out); }

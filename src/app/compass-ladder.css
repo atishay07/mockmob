@@ -26,7 +26,8 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .cl__try { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
 .cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
 .cl__demo:hover { color: var(--ink); background: var(--paper-raised-2); }
-.cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
+/* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
 .cl__demo:active, .cl__group button:active { transform: translateY(1px); }
 .cl__summary { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
 .cl__summary b { color: var(--ink); font-variant-numeric: tabular-nums; }

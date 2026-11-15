@@ -138,7 +138,8 @@
   .ml__leaks em { transform: none !important; }
 }
 
-.lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
+/* `body` here and below: one type more than exam-screen.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
 .lp-kicker { margin: 0 0 0.6rem; font: 600 0.875rem var(--font-body); letter-spacing: 0; text-transform: none; color: var(--ink-3); }
 
 .ml__short { display: none; }

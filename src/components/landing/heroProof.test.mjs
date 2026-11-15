@@ -75,14 +75,16 @@ test('its words: one sentence for screen readers; on a narrow phone two short li
   assert.match(CODE, /'Featured by CUET creators\. See the reels\.'/);
   assert.match(CODE, /<span className="lp-featured__marks" aria-hidden="true">/);
   // The marks (round 12): each featured creator's own Instagram profile picture, the one on the section's cards, at most
-  // three; decorative (the sentence names nobody), eager and sized so nothing shifts. No initials any more.
+  // three; decorative (the sentence names nobody), sized so nothing shifts, and lazy (paint pass, 15 Nov 2026: eager, React
+  // listed them in the page head as image preloads, ahead of the first paint's stylesheets). No initials any more.
   assert.match(CODE, /heroCreators\(creators\)\.slice\(0, 3\)\.map/);
   // Owner, 10 Nov 2026: in the hero only, Garima first, Radhika second, Rahul third; the first circle is the one drawn
   // whole (on top of the stack). The creators section keeps biggest audience first (the assertion above).
   assert.deepEqual(heroCreators(featuredCreators(rankedReels())).map((c) => c.creator), ['Garima Jain', 'Radhika Gaur', 'Rahul Thapa']);
   assert.deepEqual(heroCreators([{ handle: 'x' }, { handle: 'rahul.guides' }, { handle: 'du__club' }]).map((c) => c.handle), ['du__club', 'rahul.guides', 'x'], 'a creator not named follows, in the order given');
   assert.match(CSS, /\.mm\.lp \.lp-featured__mark:first-child \{ z-index: 3; \}/, 'the first picture is on top, never cut');
-  assert.match(CODE, /<img key=\{creator\.handle\} className="lp-featured__mark" src=\{creator\.photo\} width=\{24\} height=\{24\} alt="" loading="eager"/);
+  assert.match(CODE, /<img key=\{creator\.handle\} className="lp-featured__mark" src=\{creator\.photo\} width=\{24\} height=\{24\} alt="" loading="lazy"/);
+  assert.doesNotMatch(CODE, /loading="eager"/, 'never an image preload in the page head');
   assert.doesNotMatch(CODE, /creatorInitials/);
   assert.match(REELS, /src=\{item\.photo\}/, 'the cards draw the same pictures');
   // MockMob's own posts keep the monogram (the initials).
