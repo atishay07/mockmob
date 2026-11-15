@@ -26,6 +26,8 @@ export default function sitemap() {
 
   // The Daily Five (src/app/daily/page.js): a new five every day at 12:00 am IST.
   const daily = { url: absoluteUrl('/daily'), lastModified: now, changeFrequency: 'daily', priority: 0.8 };
+  // The Sunday Mock's public page (src/app/sunday-mock/page.js): the next Sunday's date changes each week.
+  const sundayMock = { url: absoluteUrl('/sunday-mock'), lastModified: now, changeFrequency: 'weekly', priority: 0.8 };
 
   // The DU cutoff pages (src/app/du-cutoffs): the index, a page per course and per college, from the 2026 files
   // (read when the sitemap is built, as the pages are). A failed read leaves them out rather than failing the sitemap.
@@ -42,5 +44,5 @@ export default function sitemap() {
     duRoutes = [];
   }
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, ...duRoutes];
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...duRoutes];
 }
