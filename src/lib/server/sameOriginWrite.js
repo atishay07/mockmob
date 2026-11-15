@@ -11,7 +11,8 @@ const SITE_HOSTS = Object.freeze(['www.mockmob.in', 'mockmob.in']);
 const DEV_HOSTNAMES = Object.freeze(['localhost', '127.0.0.1']);
 
 /**
- * True when the request may go on. Refused only when it is a write under /api/ whose Origin names another site.
+ * True when the request may go on. Refused only when it is a write under /api/ (or to ROOT_WRITE_PATHS) whose Origin names
+ * another site.
  *  - `origin`: the Origin header (null or '' when absent). "null" (a sandboxed frame, a file) is refused like any foreign origin.
  *  - `host`: the request's own Host header.
  *  - `appOrigin`: true when Origin is one of the app shells' fixed origins (src/lib/server/mobileCors.js), which the CORS
@@ -22,9 +23,14 @@ const DEV_HOSTNAMES = Object.freeze(['localhost', '127.0.0.1']);
 // for one student, so another site cannot forge it, and all it can do is turn those emails off. Exact path, POST only.
 export const SIGNED_CROSS_SITE_POSTS = Object.freeze(['/api/email/unsubscribe']);
 
+// The payment writes that live outside /api/ (audit 15 Nov 2026) are held to the same rule: Razorpay's Checkout runs in our
+// page and our page posts these, so a browser always sends our Origin. Razorpay's webhook (/webhook) is not listed: it is a
+// server call with no Origin, checked by its signature. The Android app does not call these (it sells through Google Play).
+export const ROOT_WRITE_PATHS = Object.freeze(['/create-monthly-subscription', '/verify-payment', '/create-order', '/create-subscription']);
+
 export function allowedWriteOrigin({ method, pathname, origin, host, appOrigin = false, env = process.env }) {
   if (!WRITE_METHODS.includes(String(method || '').toUpperCase())) return true;
-  if (!String(pathname || '').startsWith('/api/')) return true;
+  if (!String(pathname || '').startsWith('/api/') && !ROOT_WRITE_PATHS.includes(pathname)) return true;
   if (String(method).toUpperCase() === 'POST' && SIGNED_CROSS_SITE_POSTS.includes(pathname)) return true;
   if (origin === null || origin === undefined || origin === '') return true;
   if (appOrigin) return true;

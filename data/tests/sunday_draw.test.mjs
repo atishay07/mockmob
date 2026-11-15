@@ -10,6 +10,7 @@ import { createPracticeSource } from '../practice_source.js';
 import { computeDifficultyTargets, getMode } from '../test_modes.js';
 import { legacyRow, managedRows, rng, setFixtureSecret } from './helpers/egress_fixtures.mjs';
 import { practiceFakeDb } from './helpers/practice_fake_db.mjs';
+import { seededOrder } from '../mock_question_selector.js';
 import { HISTORY_WEEKS, drawPaper, drawSeed, forgetDrawHistory, previousSundays } from '../../src/lib/server/sunday/draw.js';
 import { addDays, claimPeriod } from '../../src/lib/sundayMock.mjs';
 
@@ -138,4 +139,57 @@ test('the last 8 Sunday papers are left out; a bank too thin for that lets the o
   const frozen = drawn[0];
   const more = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-22', extraExclude: frozen });
   assert.equal(more.filter((id) => frozen.includes(id)).length, 0);
+});
+
+test('a withdrawn question\'s replacement asks for the missing count: one selector run, never last week\'s question while a fresh one exists', async () => {
+  // A bank that fills two Sundays but not a third 50 with both left out: asking for 50 again ran the selector 5 times (every
+  // exclusion step) and took its first replacement from the relaxed run, which holds last Sunday's questions.
+  const bank = wideBank(33, 120);
+  const papers = new Map();
+  const readPaper = async (period) => papers.get(period) || null;
+  const lastWeek = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-22' });
+  papers.set(claimPeriod('2026-11-22', SUBJECT), lastWeek);
+  const frozen = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29' });
+  assert.equal(frozen.length, 50);
+  assert.equal(frozen.filter((id) => lastWeek.includes(id)).length, 0);
+  const asWas = [];
+  const whole = await drawPaper({ getQuestions: getQuestionsOver(bank, asWas), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29', extraExclude: frozen });
+  assert.equal(asWas.length, 5, 'the 50 ask walks every exclusion step on this bank');
+  assert.ok(lastWeek.includes(whole[0]), 'and its first id is one of last Sunday\'s');
+  for (const missing of [1, 3]) {
+    const calls = [];
+    const ids = await drawPaper({ getQuestions: getQuestionsOver(bank, calls), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29', extraExclude: frozen, count: missing });
+    assert.equal(ids.length, missing);
+    assert.equal(calls.length, 1, `one selector run for ${missing}`);
+    assert.ok(calls[0].seededDraw.excludeIds.length >= 100, 'last Sunday\'s paper and the frozen one both left out');
+    assert.equal(ids.filter((id) => lastWeek.includes(id) || frozen.includes(id)).length, 0);
+  }
+});
+
+test('the seeded draw prefers verified questions the way the Full mock does: best tier first, the seed\'s order inside a tier', async () => {
+  const bank = wideBank();
+  const verified = (rows) => rows.filter((r) => Number(r.selection_evidence_tier) >= 2).length;
+  const full = (await select(bank, { opts: { generationKey: 'fresh-account-key-1' } })).selected;
+  for (const slim of [true, false]) {
+    const paper = (await select(bank, { opts: { generationKey: 'k', seededDraw: { seed: drawSeed(SECRET, '2026-11-22', SUBJECT), excludeIds: [] } }, slim })).selected;
+    assert.equal(paper.length, 50);
+    // Every verified question the Full mock's caps let in (one a family) is in the paper, as in the Full mock's own.
+    assert.equal(verified(paper), verified(full), `slim=${slim}`);
+    assert.ok(verified(paper) >= 20);
+  }
+  // Two seeds: the same tier order, different questions inside the tiers.
+  const rows = [
+    ...Array.from({ length: 30 }, (_, i) => ({ id: `legacy-${i}`, selection_evidence_tier: 1 })),
+    ...Array.from({ length: 10 }, (_, i) => ({ id: `verified-${i}`, selection_evidence_tier: 2 })),
+    ...Array.from({ length: 5 }, (_, i) => ({ id: `factory-${i}`, selection_evidence_tier: 3 })),
+  ];
+  const one = seededOrder(rows, 'a'.repeat(64)).map((r) => r.id);
+  const two = seededOrder(rows, 'b'.repeat(64)).map((r) => r.id);
+  for (const order of [one, two]) {
+    assert.ok(order.slice(0, 5).every((id) => id.startsWith('factory-')));
+    assert.ok(order.slice(5, 15).every((id) => id.startsWith('verified-')));
+    assert.ok(order.slice(15).every((id) => id.startsWith('legacy-')));
+  }
+  assert.notDeepEqual(one.slice(15), two.slice(15), 'the seed decides the order inside a tier');
+  assert.deepEqual(seededOrder(rows, 'a'.repeat(64)).map((r) => r.id), one, 'the same seed, the same order');
 });

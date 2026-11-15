@@ -14,7 +14,7 @@
 //     an abandoned sitting past its 60 minutes answers SESSION_EXPIRED. The claim row (learning_allowances) records the start.
 //   - The send: finishPractice and finishSession refuse a paper more than 2 minutes past its deadline (SESSION_EXPIRED), and
 //     the counts take only sittings finished inside the window's last legal minute (countsFor).
-import { createHmac } from 'node:crypto';
+import { createHash, createHmac } from 'node:crypto';
 import {
   LAUNCH_WEEK, MIN_FROZEN, PAPER_COUNT, SHARE_FLOOR, claimPeriod, claimReference, countsFor, isWeekKey, marksOf, startRefusal,
   subjectState, sundayOf, sundayState, sundayStats, sundayTag, sundayWindow,
@@ -53,8 +53,9 @@ const same = (a, b) => Array.isArray(a) && Array.isArray(b) && a.length === b.le
  *   store                                    ./store.js (or an in-memory one in tests)
  *   loadUser(userId) -> { subjects } | null  the student's goal subjects
  *   subjectInfo(raw) -> { ok, id, publicId, name }   a launchable subject: its stored id, public id and official name
- *   pickPaper(subject, week, { exclude }) -> ids     the week's seeded draw (./draw.js): the Full mock selector in a secret seeded
- *                                                    order, the subject's last 8 Sunday papers left out, no personal exclusions
+ *   pickPaper(subject, week, { exclude, count }) -> ids   the week's seeded draw (./draw.js): the Full mock selector in a secret
+ *                                                    seeded order, the subject's last 8 Sunday papers left out, no personal
+ *                                                    exclusions; `count` ids at most (PAPER_COUNT, or the missing few)
  *   loadQuestions(ids) -> questions in that order (withdrawn ones left out)
  *   serve(question) -> question              the stable option order every surface serves (data/option_order.js servedOut)
  *   startPractice(userId, input, server)     src/lib/server/practiceSessions.js
@@ -107,24 +108,36 @@ export function createSundayService(deps) {
     try { return await cached(`count:${week}:${subject}`, 6 * 60 * MINUTE, () => store.countSat(week, subject)); } catch { return null; }
   }
 
-  async function pick(subject, week, exclude = []) {
+  async function pick(subject, week, exclude = [], count = PAPER_COUNT) {
     let ids;
-    try { ids = await deps.pickPaper(subject, week, { exclude }); } catch (cause) { throw new SundayError('PAPER_UNAVAILABLE', { cause }); }
-    return [...new Set((Array.isArray(ids) ? ids : []).filter((id) => typeof id === 'string' && id && !exclude.includes(id)))];
+    try { ids = await deps.pickPaper(subject, week, { exclude, count }); } catch (cause) { throw new SundayError('PAPER_UNAVAILABLE', { cause }); }
+    return [...new Set((Array.isArray(ids) ? ids : []).filter((id) => typeof id === 'string' && id && !exclude.includes(id)))].slice(0, count);
   }
 
-  /** The questions of the frozen paper, with withdrawn ones replaced from the bank while MIN_FROZEN or more still serve. */
+  // The replacements drawn for a frozen paper's withdrawn questions, per server: `${week}:${subject}:${hash of the frozen ids}:${how
+  // many}` -> ids. Every start that week meets the same withdrawn questions, so the draw runs once a server, not on every start.
+  const replacements = new Map();
+  const paperKey = (week, subject, ids, missing) => `${week}:${subject}:${createHash('sha256').update(ids.join(',')).digest('hex').slice(0, 24)}:${missing}`;
+
+  /**
+   * The questions of the frozen paper, with withdrawn ones replaced from the bank while MIN_FROZEN or more still serve. The
+   * replacement draw asks only for the missing count, so it stops at the first exclusion step that has enough (the 8 weeks of
+   * past papers left out first) and never takes a past week's question while a fresh one exists.
+   */
   async function paperQuestions(subject, week, ids) {
     let questions = [];
     try { questions = await deps.loadQuestions(ids); } catch (cause) { throw new SundayError('UNAVAILABLE', { cause }); }
     questions = (questions || []).filter(Boolean);
     if (questions.length >= ids.length) return questions.slice(0, PAPER_COUNT);
     if (questions.length < MIN_FROZEN) throw new SundayError('PAPER_UNAVAILABLE');
-    const extra = (await pick(subject, week, ids)).slice(0, PAPER_COUNT - questions.length);
+    const missing = PAPER_COUNT - questions.length;
+    const key = paperKey(week, subject, ids, missing);
+    const extra = replacements.get(key) || await pick(subject, week, ids, missing);
     const more = extra.length ? await deps.loadQuestions(extra).catch(() => []) : [];
     const have = new Set(questions.map((q) => q.id));
     for (const q of more || []) if (q && !have.has(q.id) && questions.length < PAPER_COUNT) { have.add(q.id); questions.push(q); }
-    if (questions.length < PAPER_COUNT) throw new SundayError('PAPER_UNAVAILABLE');
+    if (questions.length < PAPER_COUNT) { replacements.delete(key); throw new SundayError('PAPER_UNAVAILABLE'); }
+    remember(replacements, key, extra);
     return questions;
   }
 

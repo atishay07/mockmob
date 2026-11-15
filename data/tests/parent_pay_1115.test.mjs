@@ -73,14 +73,16 @@ test('a signed-in Free student gets Razorpay\'s own hosted link for a new monthl
   assert.ok(expires >= before + PARENT_LINK_LIFETIME_MS - 2000 && expires <= Date.now() + PARENT_LINK_LIFETIME_MS, 'it stops taking payments before the day ends');
   assert.ok(expires < before + 24 * 3600_000);
 
-  // The same subscription Get Pro makes, plus only the link's expiry.
+  // The same subscription Get Pro makes, its expiry included (Get Pro's carries one too since 15 Nov 2026).
   const [, parentPayload] = creates()[0];
   db = resetWorld(); db.addUser('u1'); signIn('u1');
   await getPro();
   const [, getProPayload] = creates()[1];
   const { expire_by: expireBy, ...rest } = parentPayload;
+  const { expire_by: getProExpireBy, ...getProRest } = getProPayload;
   assert.ok(Number.isInteger(expireBy));
-  assert.deepEqual(rest, getProPayload);
+  assert.ok(Number.isInteger(getProExpireBy) && Math.abs(getProExpireBy - expireBy) <= 5);
+  assert.deepEqual(rest, getProRest);
   assert.deepEqual(rest.notes, { kind: 'monthly_subscription', userId: 'u1', planId: 'pro_monthly_99' });
 });
 
@@ -123,12 +125,14 @@ test('a second ask hands back the same link, and Get Pro then hands back that sa
   assert.equal(db._payments.length, 1);
 });
 
-test('an open Get Pro checkout, whose link never expires, is not sent to a parent: a fresh expiring one is, and Get Pro moves to it', async () => {
+test('an open Get Pro checkout whose link never expires (made before 15 Nov 2026) is not sent to a parent: a fresh expiring one is, and Get Pro moves to it', async () => {
   db.addUser('u1');
   signIn('u1');
   const pro = await getPro();
   assert.equal(pro.json.subscription.id, 'sub_new_1');
-  assert.equal(b.rz.subscriptions.get('sub_new_1').expire_by, undefined);
+  // Get Pro's checkouts expire now (pay_hardening_1115.test.mjs); one made before that had no expire_by.
+  const { expire_by: _dropped, ...noExpiry } = b.rz.subscriptions.get('sub_new_1');
+  b.rz.subscriptions.set('sub_new_1', noExpiry);
   const res = await ask();
   assert.equal(res.status, 200);
   assert.equal(res.json.url, 'https://rzp.io/i/sub_new_2');
@@ -276,7 +280,7 @@ test('Get Pro\'s own route keeps its answers after the move to the shared checko
   assert.deepEqual(Object.keys(first.json).sort(), ['keyId', 'plan', 'referral', 'subscription']);
   assert.deepEqual(first.json.subscription, { id: 'sub_new_1', status: 'created' });
   assert.equal(first.json.referral, null);
-  assert.equal(creates()[0][1].expire_by, undefined, 'Get Pro\'s subscription is unchanged: no expiry');
+  assert.ok(Number.isInteger(creates()[0][1].expire_by), 'Get Pro\'s subscription stops taking its first payment within the day');
   const second = await getPro();
   assert.deepEqual(Object.keys(second.json).sort(), ['keyId', 'plan', 'referral', 'reused', 'subscription']);
 });

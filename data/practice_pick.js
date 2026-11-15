@@ -69,8 +69,9 @@ function applyExclusions(pool, opts) {
 /**
  * The Sunday Mock's weekly draw (src/lib/server/sunday/draw.js), or null: opts.seededDraw = { seed, excludeIds }. Only a server
  * module sets it (startPractice builds its own opts and never passes it). With it the pool loses `excludeIds` (the questions of
- * the subject's recent Sunday papers), is put in the seed's order and is picked as one tier under the same difficulty targets
- * and concept, family and shape caps. Without it, every mode picks exactly as before.
+ * the subject's recent Sunday papers), is put in evidence-tier order with the seed's order inside each tier, and is picked
+ * like the Full mock: the best tier first, under the same difficulty targets and concept, family and shape caps. Without it,
+ * every mode picks exactly as before.
  */
 export function seededDrawOf(opts) {
   const draw = opts?.seededDraw;
@@ -81,7 +82,7 @@ export function seededDrawOf(opts) {
 function rankPickMeta({ pool, mode, targetCount, progress, weakConcepts, recencyFilteredCount, draw = null }) {
   const candidates = draw && draw.exclude.size ? pool.filter((row) => !draw.exclude.has(String(row.id))) : pool;
   const ranked = rankCandidates(candidates, { mode, progress, weakConcepts, ...(draw ? { seed: draw.seed } : {}) });
-  const selected = pickWithConstraints(ranked, targetCount, mode, draw ? { singleTier: true } : undefined);
+  const selected = pickWithConstraints(ranked, targetCount, mode);
   const selectionUsage = buildSelectionUsageMeta({ selectedRows: selected, candidatePool: candidates, progress, mode, targetCount, recencyFilteredCount });
   return { selected, selectionUsage, ranked };
 }

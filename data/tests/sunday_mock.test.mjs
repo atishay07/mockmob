@@ -30,7 +30,7 @@ function world({ at = OPEN, users = { u1: ['accountancy'], u2: ['accountancy'], 
   const clock = { t: at };
   const db = fakeDb({}, { now: () => clock.t });
   const attempts = []; // { id, userId, subject, week, correct, wrong, unattempted, total, completedAt, details }
-  const state = { bank, withdrawn: new Set(), picks: 0, starts: [], sessions: new Map() };
+  const state = { bank, withdrawn: new Set(), picks: 0, pickCounts: [], starts: [], sessions: new Map() };
   const base = createSundayStore(db);
   const store = {
     ...base,
@@ -48,7 +48,11 @@ function world({ at = OPEN, users = { u1: ['accountancy'], u2: ['accountancy'], 
   const deps = {
     now: () => clock.t, secret: SECRET, store, subjectInfo,
     loadUser: async (id) => (users[id] ? { subjects: users[id] } : null),
-    pickPaper: async (subject, week, { exclude = [] } = {}) => { state.picks += 1; return state.bank.filter((id) => !exclude.includes(id)); },
+    pickPaper: async (subject, week, { exclude = [], count = PAPER_COUNT } = {}) => {
+      state.picks += 1;
+      state.pickCounts.push(count);
+      return state.bank.filter((id) => !exclude.includes(id)).slice(0, count);
+    },
     loadQuestions: async (list) => list.filter((id) => !state.withdrawn.has(id)).map((id) => ({ id, stem: `Q ${id}`, correctIndex: 0, options: ['a', 'b', 'c', 'd'] })),
     serve: (q) => ({ ...q, served: true }),
     // The engine: one session per generation key; a sent one answers SESSION_ALREADY_SUBMITTED, one past its deadline SESSION_EXPIRED.
@@ -211,7 +215,7 @@ test('two first starts at the same moment: the later one serves the earliest row
 });
 
 test('a withdrawn question is replaced from the bank while 45 of 50 still serve; a thin bank or a failed start leaves no row', async () => {
-  const w = world({ bank: [...ids('a'), ...ids('z', 10)] });
+  const w = world({ bank: [...ids('a'), ...ids('z', 10)], users: { u1: ['accountancy'], u2: ['accountancy'], u3: ['accountancy'], u4: ['accountancy'] } });
   w.state.bank = ids('a'); // the first draw is 50 questions
   await w.service.start('u1', { subject: 'accountancy' });
   w.state.withdrawn = new Set(ids('a').slice(0, 3));
@@ -222,9 +226,21 @@ test('a withdrawn question is replaced from the bank while 45 of 50 still serve;
   assert.equal(served.length, PAPER_COUNT);
   assert.deepEqual(served.slice(0, 47), ids('a').slice(3));
   assert.deepEqual(served.slice(47), ids('z', 3));
+  assert.deepEqual(w.state.pickCounts, [PAPER_COUNT, 3], 'the replacement draw asks only for the 3 missing');
+  // The next start meets the same withdrawn questions: the same replacements, from memory, with no new draw.
+  w.state.bank = [...ids('a'), ...ids('y', 10)];
+  await w.service.start('u3', { subject: 'accountancy' });
+  assert.deepEqual(w.state.starts.at(-1).server.mobPaper.questions.map((q) => q.id), served);
+  assert.equal(w.state.picks, 2);
+  // One more withdrawn: a new draw for the 4 now missing (u3 resumes its sitting).
+  w.state.withdrawn = new Set(ids('a').slice(0, 4));
+  await w.service.start('u3', { subject: 'accountancy' });
+  assert.deepEqual(w.state.pickCounts, [PAPER_COUNT, 3, 4]);
+  assert.deepEqual(w.state.starts.at(-1).server.mobPaper.questions.map((q) => q.id).slice(46), ids('y', 4));
+  w.state.bank = [...ids('a'), ...ids('z', 10)];
   w.state.withdrawn = new Set(ids('a').slice(0, 6));
-  await rejects(w.service.start('u3', { subject: 'accountancy' }), 'PAPER_UNAVAILABLE');
-  assert.equal(claimsOf(w.db).filter((r) => r.user_id === 'u3').length, 0, 'nothing kept for a paper never served');
+  await rejects(w.service.start('u4', { subject: 'accountancy' }), 'PAPER_UNAVAILABLE');
+  assert.equal(claimsOf(w.db).filter((r) => r.user_id === 'u4').length, 0, 'nothing kept for a paper never served');
   const thin = world({ bank: ids('a', 49) });
   await rejects(thin.service.start('u1', { subject: 'accountancy' }), 'PAPER_UNAVAILABLE');
   assert.equal(claimsOf(thin.db).length, 0);
