@@ -3,7 +3,7 @@
 // router's own start hook (src/instrumentation-client.js, onRouterTransitionStart, when it is wired: see wireRouterProgress).
 // A start that comes before the bar has mounted is kept and played when it does.
 
-import { ROUTE_PROGRESS, createRouteProgress } from './routeProgressModel.mjs';
+import { ROUTE_PROGRESS, createRouteProgress, pageKey } from './routeProgressModel.mjs';
 
 const KEY = '__mmRouteProgress';
 
@@ -68,10 +68,20 @@ export function wireRouterProgress(w) {
   if (b) b.hooked = true;
 }
 export function routerTransitionStarted(url, navigationType, w) {
-  const b = bus(w);
+  const win = w || (typeof window === 'undefined' ? null : window);
+  const b = bus(win);
   if (!b) return;
   b.hooked = true;
-  startRouteProgress({}, w);
+  // Only a move to another page: the same address again (a refresh-like replace) would never change the path or the
+  // query, and the back and forward buttons have already moved the address (RouteProgress.jsx's popstate starts those).
+  let here = '';
+  let to = '';
+  try {
+    here = pageKey(win.location.href);
+    to = pageKey(new URL(url, win.location.href).href);
+  } catch { return; }
+  if (navigationType === 'traverse' || !to || to === here) return;
+  startRouteProgress({}, win);
 }
 /** Is the router's start hook wired (so a link click the page took over can be told from a navigation)? */
 export function routerHooked(w) {

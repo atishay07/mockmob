@@ -194,7 +194,7 @@ test('mounted once, in the root layout, and finished by the path or the query ch
 // ---------- the bus ----------
 function fakeWindow() {
   const c = clock();
-  return { c, w: { setTimeout: c.setTimer, clearTimeout: c.clearTimer } };
+  return { c, w: { setTimeout: c.setTimer, clearTimeout: c.clearTimer, location: { href: 'https://www.mockmob.in/dashboard' } } };
 }
 
 test('the bus: a start before the bar mounts plays when it mounts; the router hook marks itself wired', () => {
@@ -210,6 +210,11 @@ test('the bus: a start before the bar mounts plays when it mounts; the router ho
   assert.equal(routerHooked(w), false);
   wireRouterProgress(w);
   assert.equal(routerHooked(w), true);
+  // The router hook ignores the same page again (a refresh-like replace) and back/forward (the popstate path starts those).
+  routerTransitionStarted('/dashboard#plans', 'replace', w);
+  routerTransitionStarted('/today', 'traverse', w);
+  c.advance(500);
+  assert.equal(drawn.at(-1), 'idle', 'nothing started');
   routerTransitionStarted('/today', 'push', w);
   c.advance(120);
   assert.equal(drawn.at(-1), 'run');
