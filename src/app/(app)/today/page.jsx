@@ -49,6 +49,7 @@ import TodayMob from '@/components/today/TodayMob';
 import NameAsk from '@/components/profile/NameAsk';
 import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
+import ResumePaper from '@/components/practice/ResumePaper';
 
 const noSubscribe = () => () => {};
 // From 1100 px the greeting's header is two columns and the colleges strip sits in its right one (today.css); on a phone a brand-new student
@@ -325,6 +326,8 @@ export default function Today() {
         <NameAsk />
         <div className="today-grid">
           <div className="today-grid__main">
+            {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
+            <ResumePaper />
             {reelPaper ? (
               <TodayReel paper={reelPaper} loadAttempt={data.loadAttempt} subjectName={subjectName} user={user} onDone={() => setReelOver(true)} />
             ) : (
