@@ -884,6 +884,15 @@ function PreviewInner({ candidatePathway }) {
     try { window.localStorage.removeItem('mockmob_app_tour_seen_preview-user'); } catch { /* storage blocked: the guide stays by hand */ }
     saveRecord('preview-user', { ...loadRecord('preview-user'), onboardedAt: Date.now() - 5 * 60_000, session: browserSession() });
   }, [guideAuto]);
+  // The shell while the session resolves (lane "load", 16 Nov 2026): &session=loading holds it, &session=slow resolves it
+  // after 1.5 s (a hard load on a slow phone), so the swap from the skeleton to the page can be measured.
+  const sessionParam = params.get('session');
+  const [sessionLate, setSessionLate] = useState(sessionParam === 'slow');
+  useLayoutEffect(() => {
+    if (!sessionLate) return undefined;
+    const t = window.setTimeout(() => setSessionLate(false), 1500);
+    return () => window.clearTimeout(t);
+  }, [sessionLate]);
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
@@ -910,10 +919,12 @@ function PreviewInner({ candidatePathway }) {
         : params.get('student') === 'science' ? ['biology', 'political_science'] : ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
       isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : (previewOneTotal(params) ?? previewBalancePart(params)), credits: pro ? null : { total: previewOneTotal(params) }, ...(MONTHLY || {}) },
-    status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
+    // &session=loading (or slow, for its first 1.5 s): the shell while the session resolves (ArenaShellSkeleton); &session=down:
+    // the account could not load.
+    status: sessionParam === 'loading' || sessionLate ? 'loading' : sessionParam === 'down' ? 'unavailable' : 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
-  }), [pro, params, MONTHLY, view, profileSubjects]);
+  }), [pro, params, MONTHLY, view, profileSubjects, sessionParam, sessionLate]);
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>

@@ -1,0 +1,52 @@
+/* The signed-in shell while the session resolves (ArenaShellSkeleton.jsx). The bars, the rail and the dock are the shell's
+   own (arena.css); these are only the quiet shapes inside them, sized like what replaces them so nothing jumps when the
+   page arrives. The shapes are the shared .skeleton (globals.css). */
+
+.app-shell.ass .skeleton { display: block; border-radius: 10px; }
+
+/* The rail (from 1024 px): Start, Ask Mobi's door, then the places. The rail's ground is the sunken tone the shared shape
+   uses, so here the shapes take the hairline's tone instead. */
+.app-shell.ass .arena-sidebar .skeleton { background: color-mix(in srgb, var(--a-line) 85%, transparent); }
+.app-shell.ass .ass-rail__key { height: 48px; margin-top: 6px; border-radius: 14px; }
+.app-shell.ass .ass-rail__door { height: 52px; border-radius: 14px; }
+.app-shell.ass .ass-rail__places { display: grid; gap: 4px; margin-top: 8px; }
+.app-shell.ass .ass-rail__row { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 10px; }
+.app-shell.ass .ass-rail__icon { flex: none; width: 20px; height: 20px; border-radius: 6px; }
+.app-shell.ass .ass-rail__label { height: 12px; border-radius: 6px; }
+
+/* The top bar's end: Ask Mobi's key and the account capsule. */
+.app-shell.ass .ass-top__theme { width: 46px; height: 26px; border-radius: 999px; }
+.app-shell.ass .ass-top__end { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.app-shell.ass .ass-top__ask { width: 92px; height: 40px; border-radius: 999px; }
+.app-shell.ass .ass-top__acct { width: 104px; height: 40px; border-radius: 999px; }
+@media (min-width: 1024px) {
+  /* A wide window's bar has no Ask Mobi key (the rail has his door) and a wider account capsule. */
+  .app-shell.ass .ass-top__ask { display: none; }
+  .app-shell.ass .ass-top__acct { width: 188px; }
+}
+
+/* The page, shaped like Today (where a signed-in student lands): the date line, the greeting, the colleges strip, then the
+   lead card (and, on a wide window, the column beside it). */
+.app-shell.ass .ass-page { display: grid; gap: 12px; }
+.app-shell.ass .ass-page__kicker { width: min(36%, 160px); height: 12px; border-radius: 6px; }
+.app-shell.ass .ass-page__title { width: min(52%, 280px); height: 28px; border-radius: 8px; margin-bottom: 8px; }
+.app-shell.ass .ass-page__strip { height: 72px; border-radius: 16px; }
+.app-shell.ass .ass-page__pair { display: grid; gap: 14px; }
+.app-shell.ass .ass-page__hero { height: 420px; border-radius: 20px; }
+.app-shell.ass .ass-page__card { display: none; }
+@media (min-width: 1024px) {
+  .app-shell.ass .ass-page__strip { display: none; }
+  .app-shell.ass .ass-page__pair { grid-template-columns: minmax(0, 1fr) 270px; align-items: start; }
+  .app-shell.ass .ass-page__card { display: block; height: 260px; border-radius: 20px; }
+}
+
+/* The dock (below 1024 px): the five slots, the round Start key in the middle. */
+.app-shell.ass .ass-dock__slot { display: grid; justify-items: center; align-content: center; gap: 7px; height: 64px; }
+.app-shell.ass .ass-dock__icon { width: 24px; height: 24px; border-radius: 8px; }
+.app-shell.ass .ass-dock__label { width: 34px; height: 8px; border-radius: 4px; }
+.app-shell.ass .ass-dock__slot--start .ass-dock__icon { width: 48px; height: 48px; border-radius: 999px; }
+
+/* A focus route (the paper runner, a Learn run): no chrome, a heading line and the question's card. */
+.app-shell.ass .ass-focus { display: grid; align-content: start; gap: 18px; padding: 20px 16px !important; max-width: 720px; width: 100%; margin-inline: auto; }
+.app-shell.ass .ass-focus__top { height: 40px; border-radius: 12px; }
+.app-shell.ass .ass-focus__card { height: 320px; border-radius: 20px; }
