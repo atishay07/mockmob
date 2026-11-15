@@ -18,7 +18,7 @@ export function ParentPayKey({ rupees = 99, fixture = null, disabled = false }) 
   }, [router]);
   return (
     <>
-      <button type="button" className="mm-btn mm-btn--quiet pp-ask" onClick={(event) => setOpener(event.currentTarget)} disabled={disabled} aria-haspopup="dialog">
+      <button type="button" className="mm-btn mm-btn--quiet ppay-ask" onClick={(event) => setOpener(event.currentTarget)} disabled={disabled} aria-haspopup="dialog">
         {PARENT_PAY_COPY.key}
       </button>
       {opener ? <ParentPaySheet open rupees={rupees} goClass="mm-btn mm-btn--primary" fixture={fixture} returnFocus={opener} onClose={onClose} /> : null}

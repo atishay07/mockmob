@@ -103,7 +103,7 @@ export default function ParentPaySheet({ open = false, onClose = () => {}, retur
     closing.current = false;
     el.dataset.state = 'open';
     if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
-    el.querySelector('.pp-close')?.focus({ preventScroll: true });
+    el.querySelector('.ppay-close')?.focus({ preventScroll: true });
     animateIn(el);
     return () => { if (back?.isConnected && back.getClientRects().length) back.focus?.({ preventScroll: true }); };
   }, [open, returnFocus]);
@@ -167,21 +167,21 @@ export default function ParentPaySheet({ open = false, onClose = () => {}, retur
     : null;
 
   return (
-    <dialog ref={dialog} className="pp-sheet" aria-labelledby={titleId} aria-describedby={lineId} data-kind={state.kind} onClick={onDialogClick}>
-      <span className="pp-handle" aria-hidden="true" />
-      <div className="pp-body">
-        <div className="pp-top">
-          <h2 id={titleId} className="pp-title">{title}</h2>
-          <button type="button" className="pp-close" aria-label={COPY.close} onClick={requestClose}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
+    <dialog ref={dialog} className="ppay-sheet" aria-labelledby={titleId} aria-describedby={lineId} data-kind={state.kind} onClick={onDialogClick}>
+      <span className="ppay-handle" aria-hidden="true" />
+      <div className="ppay-body">
+        <div className="ppay-top">
+          <h2 id={titleId} className="ppay-title">{title}</h2>
+          <button type="button" className="ppay-close" aria-label={COPY.close} onClick={requestClose}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
         </div>
 
         {state.kind === 'making' || state.kind === 'ready' ? (
           <>
-            <p id={lineId} className="pp-line">{COPY.line(price)}</p>
+            <p id={lineId} className="ppay-line">{COPY.line(price)}</p>
             {state.kind === 'ready' ? (
               <input
                 ref={linkField}
-                className="pp-link"
+                className="ppay-link"
                 type="text"
                 readOnly
                 value={state.url}
@@ -189,47 +189,45 @@ export default function ParentPaySheet({ open = false, onClose = () => {}, retur
                 onFocus={(event) => event.currentTarget.select()}
               />
             ) : (
-              <span className="pp-link" data-pending="" aria-hidden="true">{COPY.making}</span>
+              <span className="ppay-link" data-pending="" aria-hidden="true"><Loader2 className="ppay-spin" />{COPY.making}</span>
             )}
-            <p className="pp-until">{until ? COPY.until(until) : ''}</p>
+            <p className="ppay-until">{until ? COPY.until(until) : ''}</p>
           </>
         ) : (
           <>
-            <p id={lineId} className="pp-msg" data-tone={state.kind === 'failed' ? 'bad' : 'good'} role={state.kind === 'failed' ? 'alert' : 'status'}>
+            <p id={lineId} className="ppay-msg" data-tone={state.kind === 'failed' ? 'bad' : 'good'} role={state.kind === 'failed' ? 'alert' : 'status'}>
               {state.kind === 'failed' ? <AlertCircle aria-hidden="true" /> : <ShieldCheck aria-hidden="true" />}
               <span>{state.message}</span>
             </p>
           </>
         )}
-        <p className="pp-sr" role="status" aria-live="polite">
+        <p className="ppay-sr" role="status" aria-live="polite">
           {state.kind === 'making' ? COPY.making : state.kind === 'ready' ? (copied === 'done' ? COPY.copied : copied === 'failed' ? COPY.copyFailed : '') : ''}
         </p>
-        {state.kind === 'ready' && copied === 'failed' ? <p className="pp-msg" data-tone="bad"><AlertCircle aria-hidden="true" /><span>{COPY.copyFailed}</span></p> : null}
+        {state.kind === 'ready' && copied === 'failed' ? <p className="ppay-msg" data-tone="bad"><AlertCircle aria-hidden="true" /><span>{COPY.copyFailed}</span></p> : null}
       </div>
 
-      <div className="pp-foot">
+      <div className="ppay-foot">
         {state.kind === 'making' ? (
           <>
-            <button type="button" className={`${goClass} pp-go`} disabled aria-disabled="true">
-              <Loader2 className="pp-spin" aria-hidden="true" />{COPY.making}
-            </button>
-            <button type="button" className="pp-quiet" disabled><Copy aria-hidden="true" />{COPY.copy}</button>
+            <button type="button" className={`${goClass} ppay-go`} disabled aria-disabled="true">{COPY.whatsapp}</button>
+            <button type="button" className="ppay-quiet" disabled><Copy aria-hidden="true" />{COPY.copy}</button>
           </>
         ) : state.kind === 'ready' ? (
           <>
-            <a className={`${goClass} pp-go`} href={message} target="_blank" rel="noopener noreferrer">{COPY.whatsapp}</a>
-            <button type="button" className="pp-quiet" onClick={copyLink} data-done={copied === 'done' ? '' : undefined}>
+            <a className={`${goClass} ppay-go`} href={message} target="_blank" rel="noopener noreferrer">{COPY.whatsapp}</a>
+            <button type="button" className="ppay-quiet" onClick={copyLink} data-done={copied === 'done' ? '' : undefined}>
               {copied === 'done' ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
               {copied === 'done' ? COPY.copied : COPY.copy}
             </button>
           </>
         ) : state.kind === 'failed' && state.retry ? (
           <>
-            <button type="button" className={`${goClass} pp-go`} onClick={load}>{COPY.retry}</button>
-            <button type="button" className="pp-quiet" onClick={requestClose}>{COPY.close}</button>
+            <button type="button" className={`${goClass} ppay-go`} onClick={load}>{COPY.retry}</button>
+            <button type="button" className="ppay-quiet" onClick={requestClose}>{COPY.close}</button>
           </>
         ) : (
-          <button type="button" className={`${goClass} pp-go`} onClick={requestClose}>{state.kind === 'pro' ? COPY.done : COPY.close}</button>
+          <button type="button" className={`${goClass} ppay-go`} onClick={requestClose}>{state.kind === 'pro' ? COPY.done : COPY.close}</button>
         )}
       </div>
     </dialog>
