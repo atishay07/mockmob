@@ -214,8 +214,9 @@ const text = (v, max) => (typeof v === 'string' && v.trim() && v.length <= max ?
 
 /**
  * GET /api/daily's answer as the page plays it, or null: a real day with its own date and exactly five questions, each from a
- * Daily Five subject with a stem, four options, the right one's place, the reason and the chapter (a verified past-paper
- * reference is optional). Anything else is refused whole, so the page never plays half a day.
+ * Daily Five subject with a stem, four options, the chapter and its sealed token (a verified past-paper reference is
+ * optional). The key and the reason are not in it (review 15 Nov): each answer is checked on the server with the token
+ * (POST /api/daily/check). Anything else is refused whole, so the page never plays half a day; a key sent anyway is dropped.
  */
 export function acceptDailyFive(body) {
   if (!body || typeof body !== 'object') return null;
@@ -227,15 +228,12 @@ export function acceptDailyFive(body) {
   for (const item of list) {
     const subject = DAILY_FIVE_SUBJECTS.includes(item?.subject) ? demoSubject(item.subject) : null;
     const q = text(item?.q, 600);
-    const why = text(item?.why, 900);
     const options = Array.isArray(item?.options) && item.options.length === 4 ? item.options.map((o) => text(o, 300)) : [];
-    const correct = item?.correct;
-    if (!subject || !q || !why || options.length !== 4 || options.some((o) => !o) || !Number.isInteger(correct) || correct < 0 || correct > 3) return null;
+    // The server's seal for this question in this place today (src/lib/server/dailyFive.js): what each check sends back.
+    const token = typeof item?.token === 'string' && /^[A-Za-z0-9_.-]{20,2000}$/.test(item.token) ? item.token : null;
+    if (!subject || !q || !token || options.length !== 4 || options.some((o) => !o)) return null;
     const pastPaper = demoPastPaperLabel(item?.pastPaper);
-    // The server's seal for this question in this place today (src/lib/server/dailyFive.js): what a signed-in student's save
-    // sends back. Opaque here; a page without it still plays, and keeps the result on the device only.
-    const token = typeof item?.token === 'string' && /^[A-Za-z0-9_.-]{20,600}$/.test(item.token) ? item.token : null;
-    questions.push({ slug: subject.slug, subject: subject.name, q, options, correct, why, chapter: text(item?.chapter, 160) || subject.name, ...(pastPaper ? { pastPaper } : {}), ...(token ? { token } : {}) });
+    questions.push({ slug: subject.slug, subject: subject.name, q, options, chapter: text(item?.chapter, 160) || subject.name, ...(pastPaper ? { pastPaper } : {}), token });
   }
   return { day, date, questions };
 }
@@ -291,7 +289,9 @@ export function streakLine({ count, playedToday }) {
 //   last:   { date, day, score, ms, marks: [bool x5], missed: [{ n, chapter, q, picked, answer, why }] }  the latest result,
 //           with, when known: picks [0..3 x5] (what a save sends), chapters [x5] (the list on the result), by (the account
 //           that finished it on this device, its user id) and saved (true once the account holds it)
-//   run:    { date, day, startedAt, picks: [0..3 | null x5] }  a day begun and not finished: a reload resumes it, never restarts it
+//           and review [{ correct, why } x5] (the checks' answers, for the list on the result)
+//   run:    { date, day, startedAt, picks: [0..3 | null x5], checks: [{ right, correct, why, recorded } | null x5] }  a day begun
+//           and not finished: a reload resumes it, never restarts it; a pick whose check has not answered is checked again
 
 const EMPTY = Object.freeze({ played: [], last: null, run: null });
 
@@ -306,10 +306,22 @@ function cleanLast(last) {
   const picks = Array.isArray(last.picks) && last.picks.length === DAILY_FIVE_SIZE && last.picks.every((p) => Number.isInteger(p) && p >= 0 && p <= 3) ? [...last.picks] : null;
   const chapters = Array.isArray(last.chapters) && last.chapters.length === DAILY_FIVE_SIZE && last.chapters.every((c) => typeof c === 'string' && c.length <= 160) ? [...last.chapters] : null;
   const by = typeof last.by === 'string' && last.by && last.by.length <= 200 ? last.by : null;
+  const review = Array.isArray(last.review) && last.review.length === DAILY_FIVE_SIZE ? last.review.map(cleanKey) : null;
   return {
     date: last.date, day: dayNumber(last.date), score, ms: Math.max(0, Number(last.ms) || 0), marks, missed,
-    ...(picks ? { picks } : {}), ...(chapters ? { chapters } : {}), ...(by ? { by } : {}), ...(last.saved === true ? { saved: true } : {}),
+    ...(picks ? { picks } : {}), ...(chapters ? { chapters } : {}), ...(review ? { review } : {}), ...(by ? { by } : {}), ...(last.saved === true ? { saved: true } : {}),
   };
+}
+
+/** A question's key and reason as the result keeps them: { correct, why }, or null. */
+function cleanKey(r) {
+  return r && Number.isInteger(r.correct) && r.correct >= 0 && r.correct <= 3 ? { correct: r.correct, why: typeof r.why === 'string' ? r.why.slice(0, 900) : '' } : null;
+}
+
+/** A check's answer as the device keeps it: { right, correct, why, recorded? }, or null. */
+function cleanCheckAnswer(c) {
+  if (!c || typeof c !== 'object' || typeof c.right !== 'boolean' || !Number.isInteger(c.correct) || c.correct < 0 || c.correct > 3) return null;
+  return { right: c.right, correct: c.correct, why: typeof c.why === 'string' ? c.why.slice(0, 900) : '', ...(c.recorded === true ? { recorded: true } : {}) };
 }
 
 function cleanRun(run) {
@@ -318,7 +330,9 @@ function cleanRun(run) {
     const p = Array.isArray(run.picks) ? run.picks[i] : null;
     return Number.isInteger(p) && p >= 0 && p <= 3 ? p : null;
   });
-  return { date: run.date, day: dayNumber(run.date), startedAt: Number(run.startedAt), picks };
+  // A check without its pick is not kept: the pick comes first, always.
+  const checks = Array.from({ length: DAILY_FIVE_SIZE }, (_, i) => (picks[i] === null ? null : cleanCheckAnswer(Array.isArray(run.checks) ? run.checks[i] : null)));
+  return { date: run.date, day: dayNumber(run.date), startedAt: Number(run.startedAt), picks, checks };
 }
 
 /** The stored text as a record; anything unreadable is an empty record. */
@@ -339,7 +353,7 @@ export function resultOn(record, date) {
 export function beginRun(record, { date, startedAt }) {
   if (resultOn(record, date)) return record;
   if (record.run && record.run.date === date) return record;
-  return { ...record, run: { date, day: dayNumber(date), startedAt: Number(startedAt), picks: Array(DAILY_FIVE_SIZE).fill(null) } };
+  return { ...record, run: { date, day: dayNumber(date), startedAt: Number(startedAt), picks: Array(DAILY_FIVE_SIZE).fill(null), checks: Array(DAILY_FIVE_SIZE).fill(null) } };
 }
 
 /** The record with one answer kept. An answer already given is never changed (no second try for a better score). */
@@ -352,6 +366,37 @@ export function keepAnswer(record, { date, index, pick }) {
   return { ...record, run: { ...run, picks } };
 }
 
+/**
+ * The record with a check's answer kept for question `index`. The server's pick is the one that stands (for a signed-in
+ * student, the first check of that question, perhaps from another tab), so it replaces the device's if they differ.
+ */
+export function keepCheck(record, { date, index, check }) {
+  const run = record.run;
+  const answer = cleanCheckAnswer(check);
+  if (!run || run.date !== date || !answer || !Number.isInteger(index) || index < 0 || index >= DAILY_FIVE_SIZE) return record;
+  if (!Number.isInteger(check.pick) || check.pick < 0 || check.pick > 3 || (check.pick === answer.correct) !== answer.right) return record;
+  const picks = [...run.picks];
+  const checks = [...(run.checks || Array(DAILY_FIVE_SIZE).fill(null))];
+  picks[index] = check.pick;
+  checks[index] = answer;
+  return { ...record, run: { ...run, picks, checks } };
+}
+
+/** The first question whose answer the server has not checked yet (0 to 5; 5 means all five are checked). */
+export function nextOpen(run) {
+  const checks = Array.isArray(run?.checks) ? run.checks : [];
+  for (let i = 0; i < DAILY_FIVE_SIZE; i += 1) if (!checks[i]) return i;
+  return DAILY_FIVE_SIZE;
+}
+
+/** The day's five with what the checks told (the key and the reason) where they told it. */
+export function withChecks(questions, checks) {
+  return (Array.isArray(questions) ? questions : []).map((q, i) => {
+    const c = Array.isArray(checks) ? checks[i] : null;
+    return c ? { ...q, correct: c.correct, why: c.why } : q;
+  });
+}
+
 /** The record with today finished: the day joins `played`, the result is kept, the run is closed. A day finishes once. */
 export function finishDay(record, result) {
   const last = cleanLast(result);
@@ -361,15 +406,20 @@ export function finishDay(record, result) {
 }
 
 /**
- * The result of a run from its five picks and the day's questions: { score, marks, missed }, or null while a pick is missing.
- * Each miss keeps its question, the student's answer, the right one and the reason (as the sample's readout shows them).
+ * The result of a run from its five picks and the day's questions with their keys (withChecks): { score, marks, missed,
+ * picks, chapters, review }, or null while a pick or a key is missing. Each miss keeps its question, the student's answer,
+ * the right one and the reason (as the sample's readout shows them).
  */
 export function scoreRun(picks, questions) {
   if (!Array.isArray(picks) || !Array.isArray(questions) || questions.length !== DAILY_FIVE_SIZE) return null;
   if (picks.length !== DAILY_FIVE_SIZE || picks.some((p) => !Number.isInteger(p))) return null;
+  if (questions.some((q) => !Number.isInteger(q?.correct))) return null;
   const marks = questions.map((q, i) => picks[i] === q.correct);
   const missed = questions.flatMap((q, i) => (marks[i] ? [] : [{ n: i + 1, chapter: q.chapter, q: q.q, picked: q.options[picks[i]], answer: q.options[q.correct], why: q.why }]));
-  return { score: marks.filter(Boolean).length, marks, missed, picks: [...picks], chapters: questions.map((q) => String(q.chapter ?? '')) };
+  return {
+    score: marks.filter(Boolean).length, marks, missed, picks: [...picks], chapters: questions.map((q) => String(q.chapter ?? '')),
+    review: questions.map((q) => ({ correct: q.correct, why: String(q.why ?? '') })),
+  };
 }
 
 /** The first question still to answer in a run (0 to 5; 5 means all five are answered). */
@@ -411,22 +461,24 @@ export function markSaved(record, date, userId) {
 
 /**
  * The record with the account's result for its day in place of whatever the device held (the account wins): the day joins
- * `played`, the result is the account's, any run of that day is closed. `questions` (the day's five, when the page has them)
- * rebuild the misses and the chapters from the account's own answers; without them a device result with the same marks keeps
- * its misses.
+ * `played`, the result is the account's, any run of that day is closed. `questions` (the day's five with their keys from the
+ * account's review, when the page has them) rebuild the misses and the chapters from the account's own answers; without
+ * them a device result with the same marks keeps its misses.
  */
 export function adoptAccount(record, account, { userId = null, questions = null } = {}) {
   if (!account || !isDateKey(account.date) || !Array.isArray(account.marks) || !Array.isArray(account.picks)) return record;
   const five = Array.isArray(questions) && questions.length === DAILY_FIVE_SIZE ? questions : null;
   const before = resultOn(record, account.date);
   const sameMarks = before && before.marks.every((m, i) => m === account.marks[i]);
-  const missed = five
-    ? account.marks.flatMap((right, i) => (right ? [] : [{ n: i + 1, chapter: five[i].chapter, q: five[i].q, picked: five[i].options[account.picks[i]] ?? '', answer: five[i].options[five[i].correct] ?? '', why: five[i].why }]))
+  const keyed = five && five.every((q) => Number.isInteger(q.correct));
+  const missed = keyed
+    ? account.marks.flatMap((right, i) => (right ? [] : [{ n: i + 1, chapter: five[i].chapter, q: five[i].q, picked: five[i].options[account.picks[i]] ?? '', answer: five[i].options[five[i].correct] ?? '', why: five[i].why ?? '' }]))
     : sameMarks ? before.missed : [];
   const chapters = five ? five.map((q) => String(q.chapter ?? '')) : before?.chapters;
+  const review = keyed ? five.map((q) => ({ correct: q.correct, why: String(q.why ?? '') })) : sameMarks ? before.review : null;
   const last = cleanLast({
     date: account.date, score: account.score, ms: account.ms, marks: account.marks, missed, picks: account.picks,
-    ...(chapters ? { chapters } : {}), ...(userId ? { by: userId } : {}), saved: true,
+    ...(chapters ? { chapters } : {}), ...(review ? { review } : {}), ...(userId ? { by: userId } : {}), saved: true,
   });
   if (!last) return record;
   const played = [...new Set([...record.played, account.date])].sort().slice(-KEEP_DAYS);

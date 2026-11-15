@@ -1,24 +1,29 @@
-// The Daily Five on the account (15 Nov 2026, lane daily): the record a signed-in student's finished five leaves on the
-// server, read back as their result, their run of days, a study day for the rhythm, their Mob's strip and everyone's share
-// of right answers. Pure and browser-safe (no server import, no alias import): the server half is
-// src/lib/server/dailyFiveAccount.js, the device half src/lib/dailyFive.mjs; tests in src/lib/dailyFiveAccount.test.mjs.
+// The Daily Five on the account (15 Nov 2026, lane daily): the record a signed-in student's five leaves on the server, read
+// back as their result, their run of days, a study day for the rhythm, their Mob's strip and everyone's share of right
+// answers. Pure and browser-safe (no server import, no alias import): the server half is src/lib/server/dailyFiveAccount.js,
+// the device half src/lib/dailyFive.mjs; tests in src/lib/dailyFiveAccount.test.mjs.
 //
-// Storage: the existing table question_interactions, one row per answer, no migration.
-//   id               'daily5:<IST date>:<user id>:<n>'   the primary key: a student has at most one row per question of a day,
-//                                                        so a second tab, a reload or a second phone can never add or change one
-//   question_id      the question (the five are server-minted tokens, so the id never travels as itself)
+// The check (review 15 Nov): the page never holds the key. Each answer goes to POST /api/daily/check with the question's
+// sealed token and the pick; the server answers right or wrong, the right option and the reason. For a signed-in student
+// the FIRST check of each question is recorded and stands: a retry, a second tab or a second phone gets that first pick
+// back, never a new one. The account's five is built from those recorded first picks alone; nothing else writes a pick.
+//
+// Storage: the existing table question_interactions, one row per checked answer, no migration.
+//   id               'daily5:<IST date>:<user id>:<n>'   the primary key: at most one row per question place per day
+//   question_id      the question (from the sealed token, so the id never travels as itself)
 //   user_id          the student
 //   interaction_type 'daily_five'                         no other writer uses it (the interact route refuses unknown types)
 //   flow_context     null                                 the table's check allows only mock, review, explore, shadow, learn or
 //                                                        null; null keeps every flow-filtered reader (count_distinct_mock_sessions,
 //                                                        the explore and learn counts) blind to these rows
 //   session_id       'daily:<IST date>'
-//   metadata         { n, day, pick: 'A'..'D', right, score, ms }
-// The five rows are written by one INSERT ... ON CONFLICT (id) DO NOTHING: all or none, and the first finished run stands.
+//   metadata         { n, day, pick: 'A'..'D', right, correct: 0..3, ms? }   ms only on the fifth (the page's clock, clamped)
+// Each row is written by INSERT ... ON CONFLICT (id) DO NOTHING: the first check stands.
 import { DAILY_FIVE_SIZE, dateOfDay, dayNumber, isDateKey } from './dailyFive.mjs';
 
 export const DAILY_FIVE_INTERACTION = 'daily_five';
 export const DAILY_FIVE_ME_ROUTE = '/api/daily/me';
+export const DAILY_FIVE_CHECK_ROUTE = '/api/daily/check';
 export const DAILY_FIVE_STATS_ROUTE = '/api/daily/stats';
 export const DAILY_FIVE_MOB_ROUTE = '/api/daily/mob';
 /** Under this many signed-in students with a saved answer to a question today, nobody sees how everyone did on it. */
@@ -28,7 +33,7 @@ export const DAILY_FIVE_RUN_DAYS = 400;
 /** A stored time is never more than this (a phone left open overnight is not a 14-hour five). */
 export const DAILY_FIVE_MAX_MS = 6 * 60 * 60 * 1000;
 export const ANSWER_LETTERS = Object.freeze(['A', 'B', 'C', 'D']);
-const TOKEN = /^[A-Za-z0-9_.-]{20,600}$/;
+const TOKEN = /^[A-Za-z0-9_.-]{20,2000}$/;
 const SESSION = /^daily:(\d{4}-\d{2}-\d{2})$/;
 
 export const dailySessionId = (date) => `daily:${date}`;
@@ -43,92 +48,116 @@ export const dailyRowId = (date, userId, n) => `daily5:${date}:${userId}:${n}`;
 const refuse = (error) => ({ ok: false, error });
 
 /**
- * The save request's body, checked before anything is opened or written: { ok, day, date, tokens, picks, ms } or
- * { ok: false, error }. `answers` are the letters A to D only, five of them, in question order; `tokens` are the five the
- * route served (opened and checked on the server); `ms` is the time the page measured (clamped, never trusted for a score).
+ * The check request's body, checked before anything is opened: { ok, token, pick, ms } or { ok: false, error }. `pick` is a
+ * letter from A to D; `ms` is the time the page measured (sent with the fifth answer; clamped, never trusted for a score).
  */
-export function checkSave(body) {
+export function checkRequest(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return refuse('bad_body');
-  const { day, date } = body;
-  if (!Number.isInteger(day) || day < 1 || dateOfDay(day) !== date) return refuse('bad_day');
-  const { tokens, answers } = body;
-  if (!Array.isArray(tokens) || tokens.length !== DAILY_FIVE_SIZE || tokens.some((t) => typeof t !== 'string' || !TOKEN.test(t))) return refuse('bad_questions');
-  if (new Set(tokens).size !== DAILY_FIVE_SIZE) return refuse('bad_questions');
-  if (!Array.isArray(answers) || answers.length !== DAILY_FIVE_SIZE || answers.some((a) => !ANSWER_LETTERS.includes(a))) return refuse('bad_answers');
+  if (typeof body.token !== 'string' || !TOKEN.test(body.token)) return refuse('bad_question');
+  if (!ANSWER_LETTERS.includes(body.pick)) return refuse('bad_answer');
   const raw = Number(body.ms);
-  const ms = Number.isFinite(raw) && raw >= 0 ? Math.min(Math.round(raw), DAILY_FIVE_MAX_MS) : null;
-  return { ok: true, day, date, tokens: [...tokens], picks: answers.map((a) => ANSWER_LETTERS.indexOf(a)), ms };
+  const ms = body.ms !== undefined && Number.isFinite(raw) && raw >= 0 ? Math.min(Math.round(raw), DAILY_FIVE_MAX_MS) : null;
+  return { ok: true, token: body.token, pick: ANSWER_LETTERS.indexOf(body.pick), ms };
 }
 
-/**
- * The five opened tokens, checked against today: each must be today's, in its own place (1 to 5), a real question id, a key
- * from A to D, and the five ids distinct. { ok, items: [{ id, correct }] } or { ok: false, error }.
- */
-export function checkItems(opened, date) {
-  if (!Array.isArray(opened) || opened.length !== DAILY_FIVE_SIZE) return refuse('bad_questions');
-  const items = [];
-  for (let i = 0; i < DAILY_FIVE_SIZE; i += 1) {
-    const t = opened[i];
-    if (!t || t.date !== date || t.n !== i + 1) return refuse('bad_questions');
-    if (typeof t.id !== 'string' || !t.id || t.id.length > 120) return refuse('bad_questions');
-    if (!Number.isInteger(t.correct) || t.correct < 0 || t.correct > 3) return refuse('bad_questions');
-    items.push({ id: t.id, correct: t.correct });
-  }
-  if (new Set(items.map((x) => x.id)).size !== DAILY_FIVE_SIZE) return refuse('bad_questions');
-  return { ok: true, items };
+/** An opened token, checked: today's, a place from 1 to 5, a question id, a key from A to D. { ok, item } or refused. */
+export function checkOpened(opened, date) {
+  if (!opened) return refuse('bad_question');
+  if (opened.date !== date) return refuse('not_today');
+  const { n, id, correct, why } = opened;
+  if (!Number.isInteger(n) || n < 1 || n > DAILY_FIVE_SIZE || typeof id !== 'string' || !id || id.length > 120) return refuse('bad_question');
+  if (!Number.isInteger(correct) || correct < 0 || correct > 3) return refuse('bad_question');
+  return { ok: true, item: { n, id, correct, why: typeof why === 'string' ? why : '' } };
 }
 
-/** The five rows of a finished five, scored against the server's own key (`items[i].correct`), never the page's marks. */
-export function saveRows({ userId, date, day, items, picks, ms = null, at }) {
-  const marks = items.map((item, i) => picks[i] === item.correct);
-  const score = marks.filter(Boolean).length;
-  return items.map((item, i) => ({
-    id: dailyRowId(date, userId, i + 1),
-    question_id: item.id,
+/** The row of a checked answer, scored against the server's own key (from the sealed token), never the page's. */
+export function checkRow({ userId, date, day, n, id, pick, correct, ms = null, at }) {
+  const timed = ms !== null && n === DAILY_FIVE_SIZE;
+  return {
+    id: dailyRowId(date, userId, n),
+    question_id: id,
     user_id: userId,
     interaction_type: DAILY_FIVE_INTERACTION,
     session_id: dailySessionId(date),
     flow_context: null,
     created_at: at,
-    metadata: { n: i + 1, day, pick: ANSWER_LETTERS[picks[i]], right: marks[i], score, ...(ms === null ? {} : { ms }) },
-  }));
+    metadata: { n, day, pick: ANSWER_LETTERS[pick], right: pick === correct, correct, ...(timed ? { ms } : {}) },
+  };
+}
+
+/** The answer a check gives back, from the row that stands: { n, pick, right, correct }, or null. */
+export function checkAnswer(row) {
+  const m = row?.metadata;
+  const pick = ANSWER_LETTERS.indexOf(m?.pick);
+  if (!m || pick < 0 || typeof m.right !== 'boolean' || !Number.isInteger(m.correct)) return null;
+  return { n: Number(m.n), pick, right: m.right, correct: m.correct };
+}
+
+/** The page's reading of a check's answer for question place `n`: { pick, right, correct, why, recorded }, or null. */
+export function acceptCheck(body, n) {
+  if (!body || typeof body !== 'object' || body.n !== n) return null;
+  const { pick, right, correct } = body;
+  if (!Number.isInteger(pick) || pick < 0 || pick > 3 || !Number.isInteger(correct) || correct < 0 || correct > 3) return null;
+  if (typeof right !== 'boolean' || right !== (pick === correct)) return null;
+  const why = typeof body.why === 'string' ? body.why.trim().slice(0, 900) : '';
+  return { pick, right, correct, why, recorded: body.recorded === true };
 }
 
 /**
  * A day's stored record from its rows: { date, day, score, ms, marks, picks }, or null unless there is exactly one row for
- * each of the five places, each with a letter and a right or wrong. The score is counted from the rows, never read.
+ * each of the five places, each with a letter and a right or wrong. The score is counted from the rows, never read; the
+ * time is the fifth answer's (the page's clock, clamped), else the span between the first and the last check.
  */
 export function recordFromRows(rows, date) {
   if (!isDateKey(date)) return null;
   const at = new Array(DAILY_FIVE_SIZE).fill(null);
+  const times = new Array(DAILY_FIVE_SIZE).fill(NaN);
   for (const row of Array.isArray(rows) ? rows : []) {
     const m = row?.metadata;
     const n = Number(m?.n);
     if (!Number.isInteger(n) || n < 1 || n > DAILY_FIVE_SIZE || at[n - 1]) return null;
     if (!ANSWER_LETTERS.includes(m.pick) || typeof m.right !== 'boolean') return null;
     at[n - 1] = m;
+    times[n - 1] = Date.parse(row?.created_at);
   }
   if (at.some((m) => !m)) return null;
   const marks = at.map((m) => m.right);
-  const raw = Number(at[0].ms);
+  const told = Number(at[DAILY_FIVE_SIZE - 1].ms ?? at[0].ms);
+  const span = Math.max(...times) - Math.min(...times);
+  const ms = Number.isFinite(told) && told >= 0 ? told : Number.isFinite(span) ? span : 0;
   return {
     date,
     day: dayNumber(date),
     score: marks.filter(Boolean).length,
-    ms: Number.isFinite(raw) && raw >= 0 ? Math.min(raw, DAILY_FIVE_MAX_MS) : 0,
+    ms: Math.min(Math.max(0, ms), DAILY_FIVE_MAX_MS),
     marks,
     picks: at.map((m) => ANSWER_LETTERS.indexOf(m.pick)),
   };
 }
 
-/** The days played, from stored session ids, oldest first, each once. */
+/** The keys and reasons of a finished five, for its review on another phone: [{ correct, why } | null] x5. */
+export function reviewFrom(rows, five) {
+  const whyOf = new Map((Array.isArray(five) ? five : []).map((q) => [q.id, q.why]));
+  const out = new Array(DAILY_FIVE_SIZE).fill(null);
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const n = Number(row?.metadata?.n);
+    const correct = row?.metadata?.correct;
+    if (Number.isInteger(n) && n >= 1 && n <= DAILY_FIVE_SIZE && Number.isInteger(correct)) out[n - 1] = { correct, why: String(whyOf.get(row.question_id) ?? '') };
+  }
+  return out;
+}
+
+/** The days played, oldest first, each once: only days with all five places answered (a five, not a first question). */
 export function playedDates(rows) {
-  const dates = new Set();
+  const places = new Map();
   for (const row of Array.isArray(rows) ? rows : []) {
     const d = dateOfSession(row?.session_id);
-    if (d) dates.add(d);
+    const n = Number(row?.metadata?.n);
+    if (!d || !Number.isInteger(n) || n < 1 || n > DAILY_FIVE_SIZE) continue;
+    if (!places.has(d)) places.set(d, new Set());
+    places.get(d).add(n);
   }
-  return [...dates].sort();
+  return [...places].filter(([, ns]) => ns.size === DAILY_FIVE_SIZE).map(([d]) => d).sort();
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -192,9 +221,15 @@ function cleanAccountRecord(record, date) {
   return { date, day: dayNumber(date), score, ms: Math.max(0, Number(record.ms) || 0), marks: [...marks], picks: [...picks] };
 }
 
+function cleanReview(review) {
+  if (!Array.isArray(review) || review.length !== DAILY_FIVE_SIZE) return null;
+  return review.map((r) => (r && Number.isInteger(r.correct) && r.correct >= 0 && r.correct <= 3 ? { correct: r.correct, why: typeof r.why === 'string' ? r.why.slice(0, 900) : '' } : null));
+}
+
 /**
- * GET or POST /api/daily/me's answer: { day, date, record | null, played: [dates] }, or null when it is not one. `record`
- * is today's finished five on the account; `played` every day on the account (today included once saved).
+ * GET /api/daily/me's answer: { day, date, record | null, review | null, played: [dates] }, or null when it is not one.
+ * `record` is today's five on the account (all five checked); `review` its keys and reasons, sent only with a record (the
+ * student has answered all five); `played` every day on the account with a whole five.
  */
 export function acceptAccount(body) {
   if (!body || typeof body !== 'object') return null;
@@ -202,10 +237,11 @@ export function acceptAccount(body) {
   if (!Number.isInteger(day) || day < 1 || dateOfDay(day) !== date) return null;
   if (body.record !== null && body.record !== undefined && !cleanAccountRecord(body.record, date)) return null;
   const played = [...new Set((Array.isArray(body.played) ? body.played : []).filter(isDateKey))].sort();
-  return { day, date, record: body.record ? cleanAccountRecord(body.record, date) : null, played };
+  const record = body.record ? cleanAccountRecord(body.record, date) : null;
+  return { day, date, record, review: record ? cleanReview(body.review) : null, played };
 }
 
-/** The account's days with today's, when today is played on this device and only waits for the save. */
+/** The account's days with today's, when today is finished on this device and only waits for the account's read. */
 export function runDays(accountDays, today, playedToday) {
   const days = new Set(Array.isArray(accountDays) ? accountDays.filter(isDateKey) : []);
   if (playedToday && isDateKey(today)) days.add(today);
@@ -216,9 +252,9 @@ export function runDays(accountDays, today, playedToday) {
  * The line under the run of days, true for each case:
  *   guest      kept on this device
  *   saved      kept on the account
- *   saving     on its way to the account
- *   failed     not on the account yet (the page offers Try again)
- *   device     this five can only be kept on this device (the day closed, or the page was older than the save)
+ *   saving     the account is being read after the fifth answer
+ *   failed     the account could not be read (the page offers Try again)
+ *   device     the account does not hold all five (some were answered signed out): it stays on this device
  */
 export function runNote(state) {
   switch (state) {

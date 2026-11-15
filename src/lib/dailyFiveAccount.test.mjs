@@ -1,70 +1,69 @@
-// The Daily Five on the account, the pure half (lane daily, 15 Nov 2026): the save request, the rows and the record read back,
-// the run of days, the 30-student floor, the Mob strip, and the device record beside the account. Software fixtures only.
+// The Daily Five on the account, the pure half (lane daily, 15 Nov 2026): the check request, the rows a check leaves and the
+// record read back, the run of days, the 30-student floor, the Mob strip, and the device record beside the account.
+// Software fixtures only.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  ANSWER_LETTERS, DAILY_FIVE_CROWD_FLOOR, DAILY_FIVE_INTERACTION, DAILY_FIVE_MAX_MS, acceptAccount, acceptCrowd, acceptStrip, checkItems, checkSave,
-  crowdLine, crowdLineFor, crowdShare, dailyRowId, dailySessionId, dateOfSession, memberStrip, playedDates, questionRef, recordFromRows, runDays,
-  runNote, saveRows,
+  ANSWER_LETTERS, DAILY_FIVE_CROWD_FLOOR, DAILY_FIVE_INTERACTION, DAILY_FIVE_MAX_MS, acceptAccount, acceptCheck, acceptCrowd, acceptStrip, checkAnswer,
+  checkOpened, checkRequest, checkRow, crowdLine, crowdLineFor, crowdShare, dailyRowId, dailySessionId, dateOfSession, memberStrip, playedDates,
+  questionRef, recordFromRows, reviewFrom, runDays, runNote,
 } from './dailyFiveAccount.mjs';
-import { adoptAccount, beginRun, dateOfDay, dropForeign, finishDay, keepAnswer, markSaved, readRecord, resultFor, resultOn, scoreRun } from './dailyFive.mjs';
+import {
+  adoptAccount, beginRun, dropForeign, finishDay, keepAnswer, keepCheck, markSaved, nextOpen, readRecord, resultFor, resultOn, scoreRun, withChecks,
+} from './dailyFive.mjs';
 
 const DATE = '2026-11-15';
 const DAY = 1;
-const token = (i) => `d1.${'a'.repeat(16)}.${'b'.repeat(40)}${i}.${'c'.repeat(22)}`;
-const TOKENS = [0, 1, 2, 3, 4].map(token);
-const body = (change = {}) => ({ day: DAY, date: DATE, tokens: TOKENS, answers: ['A', 'B', 'C', 'D', 'A'], ms: 102_000, ...change });
+const TOKEN = `d1.${'a'.repeat(16)}.${'b'.repeat(40)}.${'c'.repeat(22)}`;
 const ITEMS = [{ id: 'q1', correct: 0 }, { id: 'q2', correct: 1 }, { id: 'q3', correct: 3 }, { id: 'q4', correct: 3 }, { id: 'q5', correct: 2 }];
 const FIVE = [0, 1, 2, 3, 4].map((i) => ({ subject: 'English', chapter: `Chapter ${i}`, q: `Stem ${i}`, options: ['a', 'b', 'c', 'd'], correct: ITEMS[i].correct, why: `Reason ${i}.` }));
+const rowsOf = (userId, picks, { ms = 102_000, at = '2026-11-15T10:00:00.000Z' } = {}) => ITEMS.map((x, i) => checkRow({ userId, date: DATE, day: DAY, n: i + 1, id: x.id, pick: picks[i], correct: x.correct, ms, at }));
 
-test('the save request: today\'s day and date, five distinct tokens, five answers A to D only; the time is clamped', () => {
-  const ok = checkSave(body());
-  assert.equal(ok.ok, true);
-  assert.deepEqual(ok.picks, [0, 1, 2, 3, 0]);
-  assert.equal(ok.ms, 102_000);
-  assert.equal(checkSave(body({ ms: 99 * 60 * 60 * 1000 })).ms, DAILY_FIVE_MAX_MS, 'a phone left open overnight is not a 99-hour five');
-  assert.equal(checkSave(body({ ms: 'soon' })).ms, null);
-  for (const [change, error] of [
-    [{ day: 2 }, 'bad_day'], [{ date: '2026-11-16' }, 'bad_day'], [{ day: 0, date: dateOfDay(0) }, 'bad_day'],
-    [{ tokens: TOKENS.slice(0, 4) }, 'bad_questions'], [{ tokens: [TOKENS[0], TOKENS[0], TOKENS[2], TOKENS[3], TOKENS[4]] }, 'bad_questions'],
-    [{ tokens: TOKENS.map((t, i) => (i ? t : 'short')) }, 'bad_questions'], [{ tokens: TOKENS.map((t, i) => (i ? t : `${t}<script>`)) }, 'bad_questions'],
-    [{ answers: ['A', 'B', 'C', 'D'] }, 'bad_answers'], [{ answers: ['A', 'B', 'C', 'D', 'E'] }, 'bad_answers'],
-    [{ answers: ['a', 'B', 'C', 'D', 'A'] }, 'bad_answers'], [{ answers: [0, 1, 2, 3, 0] }, 'bad_answers'], [{ answers: ['A', 'B', 'C', 'D', null] }, 'bad_answers'],
-  ]) assert.equal(checkSave(body(change)).error, error, JSON.stringify(change));
-  assert.equal(checkSave(null).ok, false);
-  assert.equal(checkSave([]).ok, false);
+test('the check request: a sealed token and one answer from A to D; the time is clamped and only the fifth keeps it', () => {
+  assert.deepEqual(checkRequest({ token: TOKEN, pick: 'C' }), { ok: true, token: TOKEN, pick: 2, ms: null });
+  assert.equal(checkRequest({ token: TOKEN, pick: 'A', ms: 99 * 60 * 60 * 1000 }).ms, DAILY_FIVE_MAX_MS, 'a phone left open overnight is not a 99-hour five');
+  for (const [body, error] of [
+    [{ token: TOKEN, pick: 'E' }, 'bad_answer'], [{ token: TOKEN, pick: 'a' }, 'bad_answer'], [{ token: TOKEN, pick: 0 }, 'bad_answer'], [{ token: TOKEN }, 'bad_answer'],
+    [{ token: 'short', pick: 'A' }, 'bad_question'], [{ token: `${TOKEN}<script>`, pick: 'A' }, 'bad_question'], [{ pick: 'A' }, 'bad_question'],
+    [null, 'bad_body'], [[], 'bad_body'],
+  ]) assert.equal(checkRequest(body).error, error, JSON.stringify(body));
+  const opened = { date: DATE, n: 3, id: 'q3', correct: 3, why: 'Because.' };
+  assert.deepEqual(checkOpened(opened, DATE), { ok: true, item: { n: 3, id: 'q3', correct: 3, why: 'Because.' } });
+  assert.equal(checkOpened(null, DATE).error, 'bad_question', 'a token that did not open');
+  assert.equal(checkOpened({ ...opened, date: '2026-11-14' }, DATE).error, 'not_today', 'yesterday\'s five');
+  for (const change of [{ n: 0 }, { n: 6 }, { id: '' }, { correct: 4 }, { correct: '1' }]) assert.equal(checkOpened({ ...opened, ...change }, DATE).ok, false, JSON.stringify(change));
 });
 
-test('the opened tokens: today\'s, each in its own place, five distinct questions, a key from A to D', () => {
-  const opened = ITEMS.map((x, i) => ({ date: DATE, n: i + 1, id: x.id, correct: x.correct }));
-  assert.deepEqual(checkItems(opened, DATE), { ok: true, items: ITEMS });
-  assert.equal(checkItems(opened.map((x, i) => (i ? x : null)), DATE).ok, false, 'a token that did not open');
-  assert.equal(checkItems(opened.map((x) => ({ ...x, date: '2026-11-14' })), DATE).ok, false, 'yesterday\'s five');
-  assert.equal(checkItems([opened[1], opened[0], ...opened.slice(2)], DATE).ok, false, 'a question moved to another place');
-  assert.equal(checkItems(opened.map((x, i) => ({ ...x, id: i < 2 ? 'same' : x.id })), DATE).ok, false, 'one question twice');
-  assert.equal(checkItems(opened.map((x, i) => (i ? x : { ...x, correct: 4 })), DATE).ok, false);
-  assert.equal(checkItems(opened.slice(0, 4), DATE).ok, false);
-});
-
-test('the rows: one per question, keyed by day, student and place; scored against the server\'s key; read back whole or not at all', () => {
-  const rows = saveRows({ userId: 'u1', date: DATE, day: DAY, items: ITEMS, picks: [0, 1, 2, 3, 0], ms: 102_000, at: '2026-11-15T10:00:00.000Z' });
-  assert.equal(rows.length, 5);
+test('a check\'s row: keyed by day, student and place; scored against the sealed key; the record only from all five, counted', () => {
+  const rows = rowsOf('u1', [0, 1, 2, 3, 0]);
   assert.deepEqual(rows.map((r) => r.id), [1, 2, 3, 4, 5].map((n) => dailyRowId(DATE, 'u1', n)));
   assert.ok(rows.every((r) => r.interaction_type === DAILY_FIVE_INTERACTION && r.flow_context === null && r.session_id === dailySessionId(DATE) && r.user_id === 'u1'));
-  assert.deepEqual(rows.map((r) => r.question_id), ['q1', 'q2', 'q3', 'q4', 'q5']);
   assert.deepEqual(rows.map((r) => r.metadata.right), [true, true, false, true, false], 'the server\'s key decides');
-  assert.deepEqual(rows.map((r) => r.metadata.pick), ['A', 'B', 'C', 'D', 'A']);
+  assert.deepEqual(rows.map((r) => 'ms' in r.metadata), [false, false, false, false, true], 'the time rides on the fifth answer only');
+  assert.deepEqual(checkAnswer(rows[2]), { n: 3, pick: 2, right: false, correct: 3 });
+  assert.equal(checkAnswer({ metadata: { n: 1, pick: 'Z' } }), null);
   const rec = recordFromRows(rows, DATE);
   assert.deepEqual(rec, { date: DATE, day: DAY, score: 3, ms: 102_000, marks: [true, true, false, true, false], picks: [0, 1, 2, 3, 0] });
-  assert.equal(recordFromRows(rows.slice(0, 4), DATE), null, 'four rows are not a day');
+  assert.equal(recordFromRows(rows.slice(0, 4), DATE), null, 'four answers are not a five');
   assert.equal(recordFromRows([...rows, rows[0]], DATE), null, 'a place twice is not a day');
-  assert.equal(recordFromRows(rows.map((r, i) => (i ? r : { ...r, metadata: { ...r.metadata, pick: 'E' } })), DATE), null);
   assert.equal(recordFromRows(rows.map((r) => ({ ...r, metadata: { ...r.metadata, score: 5 } })), DATE).score, 3, 'the score is counted, never read');
+  // Without the page's time, the span between the first and the last check.
+  const untimed = rowsOf('u1', [0, 1, 2, 3, 0], { ms: null }).map((r, i) => ({ ...r, created_at: new Date(Date.parse('2026-11-15T10:00:00Z') + i * 20_000).toISOString() }));
+  assert.equal(recordFromRows(untimed, DATE).ms, 80_000);
+  assert.deepEqual(reviewFrom(rows, ITEMS.map((x, i) => ({ id: x.id, why: `Reason ${i}.` }))), ITEMS.map((x, i) => ({ correct: x.correct, why: `Reason ${i}.` })));
   assert.equal(dateOfSession('daily:2026-11-15'), DATE);
   assert.equal(dateOfSession('daily:2026-02-30'), null);
-  assert.equal(dateOfSession('att_123'), null);
-  assert.deepEqual(playedDates([{ session_id: 'daily:2026-11-16' }, { session_id: 'daily:2026-11-15' }, { session_id: 'daily:2026-11-16' }, { session_id: 'x' }]), ['2026-11-15', '2026-11-16']);
+  const day = (date, ns) => ns.map((n) => ({ session_id: `daily:${date}`, metadata: { n } }));
+  assert.deepEqual(playedDates([...day('2026-11-16', [1, 2, 3, 4, 5]), ...day('2026-11-15', [1, 2, 3, 4, 5]), ...day('2026-11-14', [1, 2, 3])]), ['2026-11-15', '2026-11-16'], 'a day counts with a whole five, not a first answer');
   assert.ok(ANSWER_LETTERS.length === 4);
+});
+
+test('the page reads a check\'s answer only when it adds up: its own place, a pick, the key, right exactly when they match', () => {
+  assert.deepEqual(acceptCheck({ n: 2, pick: 1, right: true, correct: 1, why: ' Because. ', recorded: true }, 2), { pick: 1, right: true, correct: 1, why: 'Because.', recorded: true });
+  assert.equal(acceptCheck({ n: 2, pick: 1, right: true, correct: 1 }, 3), null, 'another question\'s answer');
+  assert.equal(acceptCheck({ n: 2, pick: 1, right: true, correct: 2 }, 2), null, 'right with another key');
+  assert.equal(acceptCheck({ n: 2, pick: 4, right: false, correct: 1 }, 2), null);
+  assert.equal(acceptCheck(null, 2), null);
 });
 
 test('how everyone did: nothing under 30 students, then a whole percent; a line only about the question on screen', () => {
@@ -94,7 +93,10 @@ test('how everyone did: nothing under 30 students, then a whole percent; a line 
 
 test('the account\'s answer, the run of days and the line under it', () => {
   const record = { date: DATE, day: DAY, score: 3, ms: 9000, marks: [true, true, false, true, false], picks: [0, 1, 2, 3, 0] };
-  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, played: ['2026-11-15', 'junk', '2026-11-14', '2026-11-15'] }), { day: DAY, date: DATE, record, played: ['2026-11-14', '2026-11-15'] });
+  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, played: ['2026-11-15', 'junk', '2026-11-14', '2026-11-15'] }), { day: DAY, date: DATE, record, review: null, played: ['2026-11-14', '2026-11-15'] });
+  const review = ITEMS.map((x) => ({ correct: x.correct, why: 'Why.' }));
+  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, review, played: [] }).review, review);
+  assert.equal(acceptAccount({ day: DAY, date: DATE, record: null, review, played: [] }).review, null, 'no keys without a whole five');
   assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record: null }).record, null);
   assert.equal(acceptAccount({ day: DAY, date: DATE, record: { ...record, score: 5 } }), null, 'a record whose score is not its marks');
   assert.equal(acceptAccount({ day: DAY, date: DATE, record: { ...record, date: '2026-11-14' } }), null);
@@ -116,7 +118,6 @@ test('the Mob strip: members only, in the den\'s order, never sorted by score; a
     { user_id: 'u-kabir', display_name: 'Kabir', colour: 1, show_score: true },
     { user_id: 'u-zoya', display_name: 'Zoya', colour: 2, show_score: false },
   ];
-  const rowsOf = (userId, picks) => saveRows({ userId, date: DATE, day: DAY, items: ITEMS, picks, at: 'x' });
   const rows = [...rowsOf('u-zoya', [0, 1, 3, 3, 2]), ...rowsOf('u-riya', [1, 1, 2, 3, 0]), ...rowsOf('u-me', [0, 1, 3, 3, 2]), ...rowsOf('u-stranger', [0, 1, 3, 3, 2])];
   const strip = memberStrip(members, rows, { userId: 'u-me', date: DATE });
   assert.deepEqual(strip.map((m) => m.name), ['Riya', 'Aarav', 'Zoya'], 'the den\'s order, not the best score first; Kabir has not played and is not named (F2)');
@@ -169,4 +170,30 @@ test('the device beside the account: the account wins, another account\'s day is
   const withoutFive = adoptAccount(fresh, account, { userId: 'u-me' });
   assert.deepEqual(resultOn(withoutFive, DATE).missed, [], 'without the five the misses wait for them');
   assert.deepEqual(readRecord(JSON.stringify(adopted)), adopted);
+});
+
+test('the device keeps each pick before its check and each check beside it; the server\'s first pick stands; nothing scores without the checks', () => {
+  const keyless = FIVE.map(({ correct: _c, why: _w, ...q }) => q);
+  let rec = beginRun(readRecord(null), { date: DATE, startedAt: 1000 });
+  rec = keepAnswer(rec, { date: DATE, index: 0, pick: 2 });
+  assert.equal(nextOpen(rec.run), 0, 'picked, not yet checked: a reload checks it again');
+  assert.deepEqual(readRecord(JSON.stringify(rec)).run.picks.slice(0, 1), [2], 'an offline pick survives a reload');
+  // The server answers with the pick that stands (another tab picked B first).
+  rec = keepCheck(rec, { date: DATE, index: 0, check: { pick: 1, right: false, correct: 0, why: 'Reason 0.', recorded: true } });
+  assert.equal(rec.run.picks[0], 1, 'the first pick on the account replaces this device\'s');
+  assert.equal(nextOpen(rec.run), 1);
+  assert.equal(keepCheck(rec, { date: DATE, index: 1, check: { pick: 1, right: false, correct: 1, why: '' } }), rec, 'an answer that does not add up is not kept');
+  assert.equal(scoreRun([1, 1, 3, 3, 2], keyless), null, 'the page cannot score without the server\'s answers');
+  for (let i = 1; i < 5; i += 1) {
+    rec = keepAnswer(rec, { date: DATE, index: i, pick: ITEMS[i].correct });
+    rec = keepCheck(rec, { date: DATE, index: i, check: { pick: ITEMS[i].correct, right: true, correct: ITEMS[i].correct, why: `Reason ${i}.` } });
+  }
+  assert.equal(nextOpen(rec.run), 5);
+  assert.deepEqual(readRecord(JSON.stringify(rec)), rec, 'the checks read back unchanged');
+  const scored = scoreRun(rec.run.picks, withChecks(keyless, rec.run.checks));
+  assert.deepEqual(scored.marks, [false, true, true, true, true]);
+  assert.deepEqual(scored.review, ITEMS.map((x, i) => ({ correct: x.correct, why: `Reason ${i}.` })));
+  const done = finishDay(rec, { date: DATE, ...scored, ms: 5000 });
+  assert.deepEqual(resultOn(done, DATE).review, scored.review, 'the result keeps the keys for its list');
+  assert.deepEqual(readRecord(JSON.stringify(done)), done);
 });
