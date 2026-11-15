@@ -289,6 +289,12 @@ def served_index():
     return out, groups
 
 
+def js_string(v):
+    """A float as JavaScript's String(n) writes it for these scores: 570.0 -> '570', 426.45 -> '426.45'."""
+    r = repr(v)
+    return r[:-2] if r.endswith(".0") else r
+
+
 def fmt(v):
     return "" if v is None else (f"{v:.4f}".rstrip("0").rstrip(".") if isinstance(v, float) else str(v))
 
@@ -333,6 +339,9 @@ def main():
             "sno_contiguous": snos == list(range(1, len(snos) + 1)),
             "pdf_cells": len(a_cells),
             "pdf_cells_printed_without_decimals": sorted(f"S.NO {k[0]} {k[1]} = {v}" for k, v in a_cells.items() if "." not in v),
+            # The pages print a score as the shortest decimal that is the number (String(n) in JavaScript), so the
+            # served float shows exactly the printed text. Any cell where that is not so is listed here.
+            "pdf_cells_not_in_shortest_form": sorted(f"S.NO {k[0]} {k[1]} = {v}" for k, v in a_cells.items() if js_string(float(v)) != v),
             "pdf_colleges": len({norm(r["college"]) for r in a_rows}),
             "pdf_programme_names": len({norm(r["programme"]) for r in a_rows}),
             "pdf_categories": len(CATEGORIES),

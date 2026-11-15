@@ -99,6 +99,18 @@ test('verified cells: rows with blank columns between filled ones keep each scor
   assert.equal(cell(rowOf('b-sc-hons-chemistry', 'Rajdhani College', 'B.Sc. (Hons.) Chemistry'), 2, 'SC'), 9.9016);
 });
 
+test('verified cells: the two scores DU printed as whole numbers (REPORT.md, settled from pages 46 and 49)', () => {
+  // Round 1 p46 S.NO 1120: "570" under UR, then 338.9697 under OBC-NCL.
+  const spm = rowOf('b-a-programme', 'Shyama Prasad Mukherji College For Women (W)', 'Computer Applications + Economics');
+  assert.deepEqual(spm[2], [570, 338.9697, 87.8977, null, 393.3227, null, null, null, 543.3441, null, null]);
+  // Round 1 p49 S.NO 1191: "448" under OBC-NCL, between 616.0655 (UR) and 342.3809 (SC).
+  const aurobindo = rowOf('b-com', 'Sri Aurobindo College (Evening)', 'B.Com.');
+  assert.deepEqual(aurobindo[2], [616.0655, 448, 342.3809, 266.9668, 514.3405, null, null, null, 615.8551, null, null]);
+  // The pages print each score as String(n) does, so 570 must read "570", never "570.0".
+  assert.equal(String(cell(spm, 1, 'UR')), '570');
+  assert.equal(String(cell(aurobindo, 1, 'OBC-NCL')), '448');
+});
+
 test('the verification run on file found no mismatch and covers the served data', () => {
   const dir = path.resolve(import.meta.dirname, '../du-csas-2026/verification');
   const results = JSON.parse(fs.readFileSync(path.join(dir, 'results.json'), 'utf8'));
@@ -107,6 +119,15 @@ test('the verification run on file found no mismatch and covers the served data'
   for (const s of index.meta.sources) assert.equal(results.documents[s.id].sha256, s.sha256, `${s.id} is the file that was checked`);
   assert.equal(results.totals.cells_compared_all_rounds, (1393 + 1393 + 956) * 11);
   assert.equal(results.totals.served_cells_all_rounds, 8209 + 6953 + 2154);
+  for (const round of ['round-1', 'round-2', 'round-3']) {
+    const r = results.rounds[round];
+    assert.equal(r.a_equals_b, true, `${round}: both PDF engines read the same scores`);
+    assert.equal(r.reading_order_rows_differing, 0, round);
+    assert.equal(r.pdf_vs_served_mismatches, 0, round);
+    // Every printed score is the shortest decimal for its number, so String(served value) is the printed text.
+    assert.deepEqual(r.pdf_cells_not_in_shortest_form, [], round);
+  }
+  assert.deepEqual(results.rounds['round-1'].pdf_cells_printed_without_decimals, ['S.NO 1120 UR = 570', 'S.NO 1191 OBC-NCL = 448']);
 });
 
 test('every source records what it is and when it was checked; the cutoff line reads from it', () => {

@@ -86,6 +86,11 @@
    ],
    "sno_contiguous": true,
    "pdf_cells": 8209,
+   "pdf_cells_printed_without_decimals": [
+    "S.NO 1120 UR = 570",
+    "S.NO 1191 OBC-NCL = 448"
+   ],
+   "pdf_cells_not_in_shortest_form": [],
    "pdf_colleges": 67,
    "pdf_programme_names": 221,
    "pdf_categories": 11,
@@ -99,10 +104,10 @@
    "names_continued_over_page_break": 1,
    "method_a_problems": [],
    "method_b_problems": [],
-   "method_b_numbers": 8207,
+   "method_b_numbers": 8209,
    "pdfplumber_decimal_words": 8207,
    "pypdf_decimal_runs": 8207,
-   "a_equals_b": false,
+   "a_equals_b": true,
    "reading_order_rows_checked": 1393,
    "reading_order_rows_differing": 0,
    "parsed_rows": 1393,
@@ -124,6 +129,8 @@
    ],
    "sno_contiguous": true,
    "pdf_cells": 6953,
+   "pdf_cells_printed_without_decimals": [],
+   "pdf_cells_not_in_shortest_form": [],
    "pdf_colleges": 67,
    "pdf_programme_names": 221,
    "pdf_categories": 11,
@@ -162,6 +169,8 @@
    ],
    "sno_contiguous": true,
    "pdf_cells": 2154,
+   "pdf_cells_printed_without_decimals": [],
+   "pdf_cells_not_in_shortest_form": [],
    "pdf_colleges": 65,
    "pdf_programme_names": 185,
    "pdf_categories": 11,
@@ -486,7 +495,7 @@
    "non_null": 300,
    "null": 60,
    "mismatches": 0,
-   "same_cells_as_saved_file": null
+   "same_cells_as_saved_file": true
   },
   "flags": {
    "served_null_cells_in_listed_rows": {
@@ -512,9 +521,9 @@
    }
   }
  },
- "mismatches": 2,
+ "mismatches": 0,
  "verdict_inputs": {
-  "all_pdf_engines_agree": false,
+  "all_pdf_engines_agree": true,
   "reading_order_all_rows": true,
   "pdf_equals_parsed": true,
   "pdf_equals_served": true
