@@ -1,0 +1,138 @@
+/* The public Key card deck (PublicDeck.jsx) on the marketing paper. The card is the app's own (stage.css .st-cardbox, .st-card,
+   .st-face and keycards.css), so this sheet only gives it what the app shell would: the Arena roles (--a-*, the values of
+   src/app/(app)/arena.css), the index card's paper (keycards.css .st.kc) and the stage's own values (stage.css .st.kc). Those
+   copies are pinned to their sources by data/tests/keycards_public.test.mjs. Night first, then Day. One volt key in view.
+   Only transform and opacity move, 220 ms ease-out, and only after the visitor's own step; reduced motion lands at once. */
+
+.kcp.kc {
+  /* The Arena roles the card, its keys and its ticks read (arena.css html:has(.app-shell)). */
+  --a-bg: #12110e; --a-raised: #1b1a16; --a-sunken: #0d0c0a;
+  --a-line: #312e27; --a-line-strong: #4a453b; --a-line-hover: rgba(244, 240, 230, 0.32);
+  --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989;
+  --a-volt-line: rgba(210, 240, 0, 0.28); --a-volt-wash: rgba(210, 240, 0, 0.07);
+  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04);
+  --a-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 32px -18px rgba(0, 0, 0, 0.6);
+  --a-shadow-2: 0 1px 2px rgba(0, 0, 0, 0.35), 0 24px 56px -28px rgba(0, 0, 0, 0.7);
+  --a-bad-text: #ffa396; --a-warn-text: #edb75a; --a-good-text: #c6e86e; --a-purple-text: #c4b5fd;
+  /* The index card's paper (keycards.css .st.kc, .lr.kc). */
+  --kc-paper: #1e1f1c;
+  --kc-paper-line: rgb(255 255 255 / 0.075);
+  --kc-paper-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 16px 36px -22px rgb(0 0 0 / 0.75);
+  --kc-band-mix: 12%;
+  --kc-rule: rgb(255 255 255 / 0.045);
+  --kc-surface: var(--kc-grain), var(--kc-paper);
+  /* The stage's values the card reads (stage.css .st.kc). The card's least height uses the small viewport, so a phone's
+     collapsing address bar never resizes it (the stage's dvh would). */
+  --st-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --st-out: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  --st-tick-ahead: color-mix(in srgb, var(--a-ink) 34%, transparent);
+  --st-card-min: clamp(300px, 46svh, 380px);
+
+  /* keycards.css .kc is the app's page column; here the deck is one block of the page. */
+  display: grid; gap: 12px; width: 100%; max-width: 760px; margin: 0; padding: 0; color: var(--a-ink);
+}
+html[data-theme='light'] .kcp.kc {
+  --a-bg: #f3efe6; --a-raised: #fffdf8; --a-sunken: #eae5da;
+  --a-line: #d8d1c2; --a-line-strong: #bdb4a2; --a-line-hover: #9a917f;
+  --a-ink: #17150f; --a-ink-2: #454036; --a-ink-3: #655f53;
+  --a-volt-line: rgba(111, 135, 0, 0.38); --a-volt-wash: rgba(124, 150, 20, 0.08);
+  --a-accent-text: #526700; --a-select: #6f8700; --a-focus: #526700; --a-hover: rgba(23, 21, 15, 0.05);
+  --a-shadow-1: 0 1px 2px rgba(42, 32, 16, 0.06), 0 12px 32px -18px rgba(42, 32, 16, 0.18);
+  --a-shadow-2: 0 1px 2px rgba(42, 32, 16, 0.06), 0 24px 56px -28px rgba(42, 32, 16, 0.22);
+  --a-bad-text: #b0291f; --a-warn-text: #845400; --a-good-text: #3d6600; --a-purple-text: #5b3a9a;
+  --kc-paper: #faf6ec;
+  --kc-paper-line: #e2dbc9;
+  --kc-paper-shadow: 0 1px 2px rgb(60 48 20 / 0.08), 0 14px 30px -18px rgb(60 48 20 / 0.24);
+  --kc-band-mix: 13%;
+  --kc-rule: rgb(110 90 50 / 0.085);
+  --st-tick-ahead: color-mix(in srgb, var(--a-ink) 42%, transparent);
+}
+/* The kind's band on the paper (keycards.css :is(.st.kc, .lr.kc) [data-family]). */
+.kcp [data-family] {
+  --kc-band: color-mix(in srgb, var(--kc-fam) var(--kc-band-mix), var(--kc-paper));
+  --kc-band-line: color-mix(in srgb, var(--kc-fam) 26%, var(--kc-paper));
+}
+.kcp :where(h2, h3, p, ul, ol) { margin: 0; }
+.kcp :where(ul, ol) { list-style: none; padding: 0; }
+
+/* ---------- Where you are ---------- */
+.kcp-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
+.kcp-pos { font: 600 15px/1.2 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.kcp-pos b { font-weight: 750; color: var(--a-ink); }
+.kcp-prev.kc-btn--quiet { margin-right: -12px; }
+.kcp-prev[data-hide] { visibility: hidden; }
+.kcp-ticks { margin: -8px 0 4px; }
+
+/* ---------- The deck: every free card in one cell, the current one shown ---------- */
+.kcp-slot { display: grid; grid-template-columns: minmax(0, 1fr); }
+.kcp-slot > * { grid-area: 1 / 1; min-width: 0; }
+.kcp-card { display: flex; flex-direction: column; visibility: hidden; }
+.kcp-card[data-now] { visibility: visible; }
+.kcp-card > .st-cardbox { flex: 1 1 auto; display: flex; flex-direction: column; }
+.kcp-card .st-card { flex: 1 1 auto; }
+/* The deck is as tall as its tallest card, up to a cap that keeps the card and its key on one screen (560 px at most, so a
+   short front never floats in a tall empty card); a longer face scrolls inside its card with the app's fade, as on the stage.
+   The cap uses the small viewport, so a phone's collapsing address bar never resizes the deck. */
+.kcp-card .st-face { max-height: max(var(--st-card-min), min(calc(100svh - 230px), 560px)); }
+/* An unturned card's back is not drawn (CardFace already makes it inert and hidden from screen readers), so its typeset
+   formulas settling as their fonts arrive move nothing anyone sees. It shows the moment the card turns and hides half way
+   through a turn back, when the front has come round (stage.css: the turn is 340 ms; reduced motion cross-fades). */
+.kcp-card .st-face--back { visibility: hidden; transition: visibility 0s linear 170ms; }
+.kcp-card[data-now] .st-card[data-turned] .st-face--back { visibility: visible; transition-delay: 0s; }
+/* Nothing is saved here, so the card has no stamp line under it. */
+.kcp-card .st-stamp { display: none; }
+.kcp[data-moved] .kcp-card[data-now] { animation: kcp-in 220ms var(--st-out) both; }
+
+/* ---------- The key ---------- */
+.kcp-keys { display: grid; padding-top: 6px; }
+.kcp-primary.kc-btn { min-height: 52px; width: 100%; font-size: 16px; }
+/* On a phone the key stays in reach while a card is on screen and the key under it is not (the site's thumb-zone dock, DESIGN.md):
+   the same key on a bar at the screen's foot, on the page's own paper. It appears by opacity only (fixed, so nothing moves) and
+   goes once the key under the card scrolls into view. (A sticky key cannot work here: globals.css gives body overflow-x: hidden,
+   which makes body the scroll box for every sticky element.) */
+.kcp-float { display: none; }
+@media (max-width: 899px) {
+  .kcp-float {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 65;
+    padding: 10px max(var(--gutter, 20px), env(safe-area-inset-left, 0px)) calc(10px + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--paper, var(--a-bg)) 96%, transparent); border-top: 1px solid var(--line, var(--a-line));
+    opacity: 0; visibility: hidden; transform: translateY(8px);
+    transition: opacity 160ms var(--st-out), transform 160ms var(--st-out), visibility 0s linear 160ms;
+  }
+  .kcp-float[data-show] { opacity: 1; visibility: visible; transform: none; transition: opacity 160ms var(--st-out), transform 160ms var(--st-out), visibility 0s; }
+}
+@media (min-width: 640px) {
+  .kcp-keys { justify-items: start; }
+  .kcp-primary.kc-btn { width: auto; min-width: 240px; }
+}
+
+/* ---------- The end: what the chapter still holds, and the one key ---------- */
+.kcp-end {
+  display: grid; align-content: start; gap: 16px; min-width: 0; padding: 22px 20px 20px; border-radius: 24px;
+  border: 1px solid var(--kc-paper-line); background: var(--kc-surface); box-shadow: var(--kc-paper-shadow);
+  animation: kcp-in 220ms var(--st-out) both;
+}
+.kcp-end__title { font: 750 clamp(24px, 6vw, 30px)/1.15 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; }
+.kcp-end__title:focus { outline: none; }
+.kcp-end__title:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
+.kcp-end__locked { display: grid; gap: 8px; }
+.kcp-end__head { display: flex; align-items: center; gap: 8px; font: 650 15px/1.4 var(--font-body); color: var(--a-ink); }
+.kcp-end__head svg { flex: none; color: var(--a-ink-3); }
+.kcp-kinds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+.kcp-kinds li { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-height: 36px; padding: 8px 0; border-top: 1px solid var(--kc-paper-line); font: 500 14.5px/1.3 var(--font-body); color: var(--a-ink-2); }
+.kcp-kinds b { font-weight: 700; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.kcp-end__lead { font: 500 15px/1.55 var(--font-body); color: var(--a-ink-2); max-width: 58ch; text-wrap: pretty; }
+.kcp-end__keys { display: grid; gap: 6px; justify-items: stretch; }
+.kcp-end__go.kc-btn { min-height: 52px; font-size: 16px; white-space: normal; text-align: center; }
+@media (min-width: 640px) {
+  .kcp-end { padding: 28px 32px 26px; }
+  .kcp-kinds { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kcp-end__keys { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+}
+@media (min-width: 1360px) { .kcp-end { padding: 32px 44px 30px; } }
+
+@keyframes kcp-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .kcp[data-moved] .kcp-card[data-now], .kcp-end { animation: none; }
+}
+:root[data-motion='reduced'] :is(.kcp[data-moved] .kcp-card[data-now], .kcp-end) { animation: none; }

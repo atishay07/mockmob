@@ -4,6 +4,8 @@ import { seoMetadata } from '@/lib/seo';
 import { SUBJECT_HUBS, getSubjectHub } from '@/lib/subjectHubs';
 import { subjectBank, syllabusUnits } from '@/lib/subjectPages.mjs';
 import { publicInventory } from '@/lib/server/inventory';
+import { publicKeyCards } from '@/lib/server/keycardsPublic';
+import { subjectAnchor } from '@/lib/keycardsPublic.mjs';
 
 // The 15 CUET subject pages. Prerendered, then refreshed at most hourly (Next 16.2.4, the previous caching model:
 // node_modules/next/dist/docs/01-app/02-guides/caching-without-cache-components.md, "Route segment config revalidate";
@@ -29,6 +31,17 @@ export async function generateMetadata({ params }) {
   });
 }
 
+// The subject's free Key card chapters (src/app/key-cards), for the one link block under the syllabus; null leaves the block
+// out (Key cards off, no deck for the subject, or the decks unreadable on this rebuild).
+async function keyCardsFor(subjectId) {
+  try {
+    const subject = (await publicKeyCards()).subjects.find((s) => s.id === subjectId);
+    return subject ? { chapters: subject.chapters.length, href: subjectAnchor(subject.slug) } : null;
+  } catch {
+    return null;
+  }
+}
+
 export default async function SubjectPage({ params }) {
   const { subject } = await params;
   const hub = getSubjectHub(subject);
@@ -38,6 +51,7 @@ export default async function SubjectPage({ params }) {
   const inventory = await publicInventory().catch(() => null);
   const bank = subjectBank(inventory, hub.id, units);
   const others = SUBJECT_HUBS.filter((other) => other.slug !== hub.slug);
+  const keyCards = await keyCardsFor(hub.id);
 
-  return <SubjectLandingPage hub={hub} units={units} bank={bank} others={others} />;
+  return <SubjectLandingPage hub={hub} units={units} bank={bank} others={others} keyCards={keyCards} />;
 }
