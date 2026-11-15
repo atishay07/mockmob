@@ -5,6 +5,7 @@ import { claimPendingInvite, rememberInviteFromUrl } from '@/lib/referrals/claim
 import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
 import { clearCachedMe, readCachedMe, sessionUserIdFromCookies, writeCachedMe } from '@/lib/auth/meCache.mjs';
+import { commitPendingSignIn, notePendingSignIn } from '@/lib/auth/lastSignIn.mjs';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
 export const AuthContext = createContext(null);
@@ -171,6 +172,9 @@ export function AuthProvider({ children }) {
   const applyAuthenticated = useCallback((me, supabaseUserId, { keep = true } = {}) => {
     if (!mountedRef.current) return;
     if (keep) writeCachedMe(deviceStorage(), me);
+    // O8: a sign-in that was under way on this device (Google's redirect, an emailed code or link, One Tap) has worked; /login
+    // remembers that way (masked address only, src/lib/auth/lastSignIn.mjs). Only on a live answer, never the kept profile.
+    if (keep) commitPendingSignIn(deviceStorage());
     supabaseUserIdRef.current = supabaseUserId || supabaseUserIdRef.current || null;
     userRef.current = me.user;
     setUser(me.user);
@@ -401,6 +405,18 @@ export function AuthProvider({ children }) {
   const verifyEmailOtp = useCallback(async (email, token) => {
     const result = await (await loadAuthClient()).verifyEmailOtp(email, token);
     if (!result.error) {
+      notePendingSignIn(deviceStorage(), 'email', email); // O8: remembered once the session is confirmed below
+      await refreshSession({ silent: false });
+    }
+    return result;
+  }, [refreshSession]);
+
+  // O7, Google One Tap: the ID token signs in on this page; then the same path as the email code (the page sends the student on
+  // once the profile is confirmed). Resolves to { error } like the other sign-ins.
+  const signInWithGoogleIdToken = useCallback(async (token, nonce) => {
+    const result = await (await loadAuthClient()).signInWithGoogleIdToken(token, nonce);
+    if (!result?.error) {
+      notePendingSignIn(deviceStorage(), 'google');
       await refreshSession({ silent: false });
     }
     return result;
@@ -438,13 +454,14 @@ export function AuthProvider({ children }) {
       needsOnboarding,
       isAuthenticated: status === 'authenticated',
       signInWithGoogle,
+      signInWithGoogleIdToken,
       signInWithEmail,
       verifyEmailOtp,
       signOut,
       signOutOtherDevices,
       refreshSession,
     }),
-    [user, status, needsOnboarding, signInWithGoogle, signInWithEmail, verifyEmailOtp, signOut, signOutOtherDevices, refreshSession],
+    [user, status, needsOnboarding, signInWithGoogle, signInWithGoogleIdToken, signInWithEmail, verifyEmailOtp, signOut, signOutOtherDevices, refreshSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
