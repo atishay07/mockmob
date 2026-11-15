@@ -212,12 +212,43 @@ export function suggestName(raw, email = '') {
   return checkName(run).ok ? run : '';
 }
 
+// S3 (15 Nov): the filter compared the raw lower case, so look-alike letters ("Ѕех" in Cyrillic), full-width or styled
+// letters, zero-width characters, accents and stretched spellings ("Fuuuck") all passed. A name and every list term are
+// now read the same way before matching: NFKC, zero-width characters out, accents on Latin, Greek and Cyrillic letters
+// out, Cyrillic and Greek look-alikes read as the Latin letter, and in Devanagari the nukta dropped and candrabindu read
+// as anusvara. The stored name is never changed.
+const ZERO_WIDTH = /[­͏᠎​-‏‪-‮⁠-⁤﻿]/g;
+const LOOKALIKE = {
+  а: 'a', в: 'b', г: 'r', е: 'e', и: 'u', к: 'k', м: 'm', н: 'h', о: 'o', п: 'n', р: 'p', с: 'c', т: 't', у: 'y', х: 'x', ц: 'u', ш: 'w', ь: 'b',
+  ѕ: 's', і: 'i', ј: 'j', ԁ: 'd', һ: 'h', ӏ: 'l', ԛ: 'q', ԝ: 'w', ү: 'y',
+  α: 'a', β: 'b', γ: 'y', ε: 'e', ζ: 'z', η: 'n', ι: 'i', κ: 'k', μ: 'm', ν: 'v', ο: 'o', ρ: 'p', ς: 'c', τ: 't', υ: 'u', χ: 'x', ω: 'w',
+};
+export function nameForMatch(raw) {
+  const s = String(raw ?? '').normalize('NFKC').replace(ZERO_WIDTH, '').toLowerCase()
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '').normalize('NFC');
+  return [...s].map((c) => LOOKALIKE[c] || c).join('').replace(/़/g, '').replace(/ँ/g, 'ं');
+}
+// A run of one letter cut to two ("fuuuck" -> "fuuck") and to one ("fuck"). A term is compared with the one-letter form
+// of a name by its own one-letter form only when that is long enough not to sit inside real names (nig, fag, as).
+const toTwo = (s) => s.replace(/(.)\1{2,}/gu, '$1$1');
+const toOne = (s) => s.replace(/(.)\1+/gu, '$1');
+const len = (s) => [...s].length;
+
 export function nameBlocked(name, { contains = [], words = [] } = {}) {
-  const lower = cleanName(name).toLowerCase();
-  const folded = lower.replace(/[\s.'-]+/g, '');
-  if (contains.some((t) => t && folded.includes(t))) return true;
-  const parts = lower.split(/[\s.'-]+/).filter(Boolean);
-  return parts.some((p) => words.includes(p));
+  const parts = nameForMatch(cleanName(name)).split(/[\s.'-]+/).filter(Boolean);
+  const folded = parts.join('');
+  const forms = [folded, toTwo(folded), toOne(folded)];
+  const blockedIn = (t) => {
+    const term = nameForMatch(t);
+    if (!term) return false;
+    return forms.some((f) => f.includes(term)) || (len(toOne(term)) >= 5 && forms[2].includes(toOne(term)));
+  };
+  if (contains.some(blockedIn)) return true;
+  const wordTerms = words.map(nameForMatch).filter(Boolean);
+  return parts.some((p) => {
+    const pf = [p, toTwo(p), toOne(p)];
+    return wordTerms.some((w) => pf.includes(w) || (len(toOne(w)) >= 4 && pf[2] === toOne(w)));
+  });
 }
 
 export const checkColour = (v) => Number.isInteger(v) && v >= 0 && v < COLOUR_COUNT;

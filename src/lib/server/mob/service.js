@@ -30,6 +30,7 @@ import { createMobV3Service } from './games.js';
 import { attemptHold, heldCompare, holdStamp } from '../../mob/paperHold.mjs';
 import { mockGamePrice, mockSitAction } from '../../mob/mockPrice.mjs';
 import { createKeepOut } from './keepOut.js';
+import { mobNameBlocklist } from '../../mob/nameTerms.mjs';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -343,10 +344,12 @@ export function createMobService(deps) {
     return separated;
   }
 
+  // S3 (15 Nov): the JSON list plus the Devanagari and missing Latin terms (nameTerms.mjs).
+  const nameList = deps.blocklist ? mobNameBlocklist(deps.blocklist) : null;
   const nameAndColour = (body, { required }) => {
     const out = {};
     if (body.name !== undefined || required) {
-      const checked = checkName(body.name, deps.blocklist);
+      const checked = checkName(body.name, nameList);
       if (!checked.ok) throw new MobError(checked.code);
       out.name = checked.name;
     }
