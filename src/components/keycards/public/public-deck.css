@@ -70,8 +70,15 @@ html[data-theme='light'] .kcp.kc {
 .kcp-card[data-now] { visibility: visible; }
 .kcp-card > .st-cardbox { flex: 1 1 auto; display: flex; flex-direction: column; }
 .kcp-card .st-card { flex: 1 1 auto; }
-/* A long back scrolls inside its card, as in the app; the cap uses the small viewport so it never moves while scrolling. */
-.kcp-card .st-face { max-height: max(var(--st-card-min), calc(100svh - 150px)); }
+/* The deck is as tall as its tallest card, up to a cap that keeps the card and its key on one screen (560 px at most, so a
+   short front never floats in a tall empty card); a longer face scrolls inside its card with the app's fade, as on the stage.
+   The cap uses the small viewport, so a phone's collapsing address bar never resizes the deck. */
+.kcp-card .st-face { max-height: max(var(--st-card-min), min(calc(100svh - 230px), 560px)); }
+/* An unturned card's back is not drawn (CardFace already makes it inert and hidden from screen readers), so its typeset
+   formulas settling as their fonts arrive move nothing anyone sees. It shows the moment the card turns and hides half way
+   through a turn back, when the front has come round (stage.css: the turn is 340 ms; reduced motion cross-fades). */
+.kcp-card .st-face--back { visibility: hidden; transition: visibility 0s linear 170ms; }
+.kcp-card[data-now] .st-card[data-turned] .st-face--back { visibility: visible; transition-delay: 0s; }
 /* Nothing is saved here, so the card has no stamp line under it. */
 .kcp-card .st-stamp { display: none; }
 .kcp[data-moved] .kcp-card[data-now] { animation: kcp-in 220ms var(--st-out) both; }

@@ -206,7 +206,10 @@ test('one key under the demo: guest "Sign up free to keep going" (secondary, vol
   assert.match(DEMO, /<Link href=\{isAuthenticated \? '\/cards' : KEEP_GOING_HREF\} className=\{done \? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'\}>/);
   assert.match(DEMO, /\{isAuthenticated \? W\.openCards : W\.keepGoing\}/);
   assert.match(DEMO, /\{isAuthenticated \? null : <p className="kc-foot__free">/, 'no Pro line for a signed-in student');
-  assert.equal((DEMO.match(/href=/g) || []).length, 1, 'the demo itself links nowhere else');
+  // 16 Nov 2026: beside the key, one quiet text link to the public decks (/key-cards, any chapter's free cards); nothing else.
+  assert.equal((DEMO.match(/href=/g) || []).length, 2, 'the key and the one quiet link to the public decks');
+  assert.match(DEMO, /<Link href=\{PUBLIC_DECKS_HREF\} className="mm-link">\{W\.seeChapter\}<\/Link>/, 'a text link, never a second key');
+  assert.match(DEMO, /const PUBLIC_DECKS_HREF = '\/key-cards';/);
 });
 
 test('"Sign up free to keep going" leads back to Key cards: the guest key carries next=/cards (review fix, 5 Nov)', async () => {
