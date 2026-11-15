@@ -54,18 +54,6 @@ const geistMono = localFont({
   preload: false,
 });
 
-// The direction contract for this build. Kept as real markup so it survives
-// the production build and can be audited against the rendered result.
-const DIRECTION_CONTRACT = `<!--
-IMPECCABLE DIRECTION CONTRACT
-THESIS: Find the mistaken reasoning, practise the missing step and check it on fresh questions. Recovery stays unavailable until sources, independent calibration and the authenticated journey pass their gates. Ordinary practice remains the pre-release primary action.
-OWN-WORLD: Retain Night Arena, volt green, Bricolage Grotesque display (the app's face), Hanken Grotesk text, Geist Mono measurement, logo B (Mobi as the second o) and the app's photo-real subject objects. The theme switch retains the optional daylight palette. Preserve the playable sample and current product identity.
-STORY: Promise, playable example, connected recovery demonstration, actual coverage and evidence, price, FAQ. CUET UG 2027: English, Accountancy, Business Studies and Economics. Illustrative outcomes never become observed student gains.
-FIRST VIEWPORT (320px): clear promise and Start free practice before release. After release, Find my first gap starts an available functional baseline. No unavailable feature is advertised as live.
-FORM: The owner's approved roadmap of 2026-10-02 supersedes the earlier paper-only pilot direction. Keep existing purchased tools accessible.
-FINISH: Record actual source changes, tests, exercised browser flows and unresolved content/deployment gates in docs/brain/STATUS.md. A compiled build is not a complete recovery release.
--->`;
-
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
   applicationName: siteConfig.name,
@@ -107,7 +95,6 @@ export default function RootLayout({ children }) {
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">
-        <div hidden data-impeccable-contract dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <Providers>
           {children}
         </Providers>
