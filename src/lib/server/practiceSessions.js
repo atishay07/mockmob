@@ -18,7 +18,7 @@ import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { lateMeta, lateSubmission, submitTiming } from '@/../data/late_paper';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
 import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
-import { firstFullMockFor, releaseFirstFullMock, takeFirstFullMock } from './firstFullMock';
+import { firstFullMockFor, keepFirstFullMock, releaseFirstFullMock, takeFirstFullMock } from './firstFullMock';
 import { claimPracticeStart, paperOf, releasePracticeStart } from './practiceStart';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -156,6 +156,9 @@ export async function startPractice(userId, input, server = {}) {
       if (tookFree) await releaseFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id });
       throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
     }
+    // Release race (16 Nov 2026): a double tap's failed twin may have given the free row back just before this start took the
+    // users lock, leaving this free session with no row; it is taken again here (keepFirstFullMock; never throws).
+    if (tookFree && data?.id === id) await keepFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id });
     return publicSessionView(data);
   }
   // Past the deadline and the upload grace there is nothing left to resume, and nothing may restart.

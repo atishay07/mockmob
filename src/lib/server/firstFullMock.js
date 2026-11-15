@@ -117,6 +117,25 @@ export async function releaseFirstFullMock(db, { userId, subject, sessionId }) {
 }
 
 /**
+ * After a durable start that took the free row has made its session: takes the row again if it is gone (release race, 16 Nov
+ * 2026). The users lock in release_unstarted_allowance covers a release that runs while this start holds the lock; it cannot
+ * cover one that ran just before this start reached it: a double tap whose other start failed and gave the row back while this
+ * start, already holding it as 'mine', was on its way to start_learning_session, which then made a free session with no row.
+ * Returns 'mine' (still held), 'claimed' (taken again), 'taken' (another start took it in that moment: left alone) or 'unknown'
+ * (could not read or write; nothing is written on a failed read). Never throws: the session is already made.
+ */
+export async function keepFirstFullMock(db, { userId, subject, sessionId }) {
+  const kind = firstFullMockKind(subject);
+  if (!db || !kind || !userId || !sessionId) return 'unknown';
+  try {
+    const held = await settle(claimRow(db, userId, kind));
+    if (held?.error) return 'unknown';
+    if (held?.data) return String(held.data.reference) === String(sessionId) ? 'mine' : 'taken';
+    return await claimFirstFullMock(db, { userId, subject, sessionId });
+  } catch { return 'unknown'; }
+}
+
+/**
  * Was this start already paid for? A device-held start charged on the code before this rule (same generation key, so the same
  * `practice_<id>` reference) keeps its charge and does not spend the free row on a paper that was paid. Throws on a failed read.
  */

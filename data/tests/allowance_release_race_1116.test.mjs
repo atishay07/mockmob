@@ -102,7 +102,10 @@ function pgClient(pg, hooks = {}) {
     };
     async function run() {
       try {
+        const failure = hooks.fail?.({ table, op, columns });
+        if (failure) return { data: null, error: failure };
         if (op === 'insert') {
+          await hooks.beforeInsert?.({ table });
           const keys = Object.keys(row);
           await pg.query(`insert into public.${table}(${keys.map(column).join(',')}) values(${keys.map((_, i) => `$${i + 1}`).join(',')})`, keys.map((k) => row[k]));
           return { data: null, error: null };
@@ -359,6 +362,63 @@ test('the note\'s interleaving: a double tap, A\'s session start fails while B h
       assert.equal(await balanceOf(d, 'tap'), 50);
     } finally { await d.close(); }
   });
+});
+
+test('the other order: A\'s release runs before B reaches the lock; B\'s start puts the free row back on its session', async () => {
+  await durable(async () => {
+    // The lock cannot help here: A's release finds no session and gives the row back, and only then does B's start take the
+    // users lock and commit a free session. B's start, once its session is made, checks the row and takes it again.
+    // A's session start fails only once B holds the row too ('mine') and is on its way to its own session start; B then waits
+    // there until A's request (its failure and its release) has finished.
+    let calls = 0;
+    const bOnItsWay = deferred();
+    const aDone = deferred();
+    const d = await routes({
+      beforeRpc: async (name) => {
+        if (name !== 'start_learning_session') return null;
+        calls += 1;
+        if (calls === 1) { await within(bOnItsWay.promise); throw connectionReset(); }
+        if (calls === 2) { bOnItsWay.resolve(); await within(aDone.promise); }
+        return null;
+      },
+    });
+    try {
+      await student(d, 'late', { balance: 100 });
+      const pair = [start('late', { key: key('lt') }), start('late', { key: key('lt') })];
+      Promise.race(pair).then(aDone.resolve); // B waits at its session start until A's request has finished
+      const [a, b] = await Promise.all(pair);
+      const [won, lost] = a.status === 200 ? [a, b] : [b, a];
+      assert.equal(won.status, 200, JSON.stringify([a.body, b.body]).slice(0, 400));
+      assert.equal(lost.status, 503);
+      assert.deepEqual(await sessions(d, 'late'), [{ id: won.body.id }]);
+      assert.equal(await balanceOf(d, 'late'), 100);
+      assert.deepEqual(await freeRows(d, 'late'), [{ kind: 'first_full_mock:english', reference: won.body.id }], 'the free row is back with the free session');
+      assert.equal((await getQuote('late')).body.creditCost, 50, 'so the next full mock in English is 50');
+    } finally { await d.close(); }
+  });
+});
+
+test('keepFirstFullMock: puts a missing free row back, leaves its own row and another session\'s row alone, and never writes on a failed read', async () => {
+  const { keepFirstFullMock } = await import(pathToFileURL(path.join(ROOT, 'src', 'lib', 'server', 'firstFullMock.js')).href);
+  const d = await database();
+  try {
+    await student(d, 'keep');
+    const db = pgClient(d);
+    assert.equal(await keepFirstFullMock(db, { userId: 'keep', subject: 'english', sessionId: 'mine1' }), 'claimed');
+    assert.deepEqual(await freeRows(d, 'keep'), [{ kind: 'first_full_mock:english', reference: 'mine1' }]);
+    assert.equal(await keepFirstFullMock(db, { userId: 'keep', subject: 'english', sessionId: 'mine1' }), 'mine');
+    assert.equal(await keepFirstFullMock(db, { userId: 'keep', subject: 'english', sessionId: 'other1' }), 'taken');
+    assert.deepEqual(await freeRows(d, 'keep'), [{ kind: 'first_full_mock:english', reference: 'mine1' }], 'unchanged');
+    let wrote = false;
+    const broken = pgClient(d, {
+      fail: ({ op }) => (op === 'select' ? { code: '57014', message: 'canceling statement due to statement timeout' } : null),
+      beforeInsert: async () => { wrote = true; },
+    });
+    assert.equal(await keepFirstFullMock(broken, { userId: 'keep', subject: 'accountancy', sessionId: 'a1' }), 'unknown');
+    assert.equal(wrote, false, 'a row it could not read is never written');
+    assert.equal(await keepFirstFullMock(null, { userId: 'keep', subject: 'english', sessionId: 'x' }), 'unknown');
+    assert.equal(await keepFirstFullMock(db, { userId: 'keep', subject: 'English', sessionId: 'x' }), 'unknown');
+  } finally { await d.close(); }
 });
 
 test('a genuine failed start still gives the free row back (through the function), and the next start of that subject is the free one', async () => {
