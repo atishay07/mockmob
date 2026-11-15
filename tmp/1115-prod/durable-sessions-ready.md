@@ -16,3 +16,11 @@ Backend `data/tests/nta_e2e_server.mjs --durable` over the read-only 13 Oct fixt
 2. The switch also makes the daily included set and baseline sets free (quota): an owner pricing call.
 3. Offline in durable mode, answers not synced by the deadline are lost (no late path there, unlike device-held papers).
 4. The fixtures cannot build a Full mock (`INSUFFICIENT_PRACTICE_CONTENT`), so the free Full mock was checked on PGlite only.
+
+## Still to fix before LEARNING_SESSIONS_ENABLED=true (review, 15 Nov night)
+
+`releaseFirstFullMock` (`src/lib/server/firstFullMock.js` ~L92, called from `practiceSessions.js` ~L156) reads, then deletes,
+outside the start RPC's lock. A double tap (two starts, same generationKey, same id): A's RPC fails with a connection error
+while B's holds the users lock and has not committed; A's release sees no `recovery_sessions` row and deletes the free row;
+B then commits a free session, and the student can start a second free first Full mock. Fix: do the release in SQL under the
+same `users` row lock, deleting only where no session with that id exists. Small (one 50-credit mock), narrow window.
