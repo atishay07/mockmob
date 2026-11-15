@@ -60,7 +60,12 @@
 .sv-empty__link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; }
 .sv-empty__link[data-lit='true'] { animation: sv-nudge 900ms var(--mk-spring) 1 both; }
 @keyframes sv-nudge { 0% { transform: translateX(-10px); } 55% { transform: translateX(3px); } 100% { transform: none; } }
-@media (max-width: 520px) { .sv-empty { flex-direction: column; text-align: left; align-items: flex-start; } }
+@media (max-width: 520px) {
+  .sv-empty { flex-direction: column; text-align: left; align-items: flex-start; }
+  /* U9 (15 Nov 2026): in a column the room's flex basis (its 372 px width) became its height, so a 350 px picture pushed the
+     words and the key under the dock. On a phone it is the compact room (150 px tall, SceneVignette compact), 3:2, whole. */
+  .sv-empty .scene-room { flex: none; width: min(100%, 225px); }
+}
 
 .sv-fail { display: flex; align-items: center; gap: 18px; padding: 20px; border: 1px solid var(--a-bad-text); border-radius: var(--a-radius); background: var(--a-bad-wash); }
 .sv-fail b { display: block; font: 800 17px var(--font-display); color: var(--a-ink); }

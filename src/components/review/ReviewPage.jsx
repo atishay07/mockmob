@@ -58,11 +58,14 @@ function Failed({ cause, at, onRetry, retrying }) {
   return (
     <section className="rvw-state" aria-labelledby="rvw-fail-h">
       <SceneVignette scene="unreachable" entrance="oops" />
-      <h2 id="rvw-fail-h">Your mistakes did not load</h2>
-      <p>{cause}. Your papers and repairs are safe.</p>
-      <button type="button" className="btn-volt rvw-state__key mk-press" data-page-primary="" onClick={onRetry} disabled={retrying}>{retrying ? 'Trying again' : 'Try again'}</button>
-      {at ? <p className="rvw-state__fine">Tried at {clockTime(at)}.</p> : null}
-      <Link className="rvw-textkey" href="/dashboard">Practise anyway</Link>
+      {/* U8: the words sit beside the room from 1024 px (review-1017.css); on a phone the wrapper is not drawn. */}
+      <div className="rvw-state__copy">
+        <h2 id="rvw-fail-h">Your mistakes did not load</h2>
+        <p>{cause}. Your papers and repairs are safe.</p>
+        <button type="button" className="btn-volt rvw-state__key mk-press" data-page-primary="" onClick={onRetry} disabled={retrying}>{retrying ? 'Trying again' : 'Try again'}</button>
+        {at ? <p className="rvw-state__fine">Tried at {clockTime(at)}.</p> : null}
+        <Link className="rvw-textkey" href="/dashboard">Practise anyway</Link>
+      </div>
     </section>
   );
 }
@@ -74,6 +77,7 @@ function Empty({ wallet, dailySet }) {
   return (
     <section className="rvw-state" aria-labelledby="rvw-empty-h">
       <SceneVignette scene="nothingYet" interactive />
+      <div className="rvw-state__copy">
       <h2 id="rvw-empty-h">Your first paper lands here</h2>
       <p>Every paper you sit shows up here with its marks. Each wrong answer is kept by chapter, with the marks it cost you, ready to repair.</p>
       {/* 10 Nov: the key comes before the example row, so on a 360 x 640 phone the one action sits above the dock. */}
@@ -84,6 +88,7 @@ function Empty({ wallet, dailySet }) {
         <b>Admission of a partner</b>
         <em>Example</em>
         <span>Mock 1, 12 Oct, 8:40 PM. Cost you 6 marks</span>
+      </div>
       </div>
     </section>
   );
