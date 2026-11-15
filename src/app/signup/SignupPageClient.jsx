@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { SignupCard } from '@/components/ui/SignupCard';
+import GoogleOneTap from '@/components/auth/GoogleOneTap';
 import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
 import InviteCodeField from '@/components/referrals/InviteCodeField';
@@ -67,6 +68,8 @@ export default function SignupPageClient({ invite = false, invitesLive = false, 
       ]}
     >
       <SignupCard />
+      {/* O7: off until NEXT_PUBLIC_GOOGLE_CLIENT_ID is set; draws nothing and loads nothing until then. */}
+      <GoogleOneTap context="signup" />
       {invitesLive ? <InviteCodeField pending={pendingInvite?.code || null} /> : null}
     </AuthShell>
   );
