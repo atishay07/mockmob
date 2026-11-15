@@ -13,6 +13,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { TEST_MODES } from '@/../data/test_modes';
+import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 import './leaderboard.css';
 
 const count = (n) => Number(n).toLocaleString('en-IN');
@@ -209,7 +210,8 @@ export default function LeaderboardPageClient() {
       <section className="lb-stand" aria-labelledby="lb-empty">
         <p className="lb-stand__place lb-stand__place--empty" id="lb-empty">You have no recorded mocks yet.</p>
         <p className="lb-note">Your place, the top 10 places and where averages sit appear here after your first recorded mock. Nobody else is named here.</p>
-        <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
+        {/* U2: the first step has one name and one door on every screen (src/lib/firstSet.mjs). */}
+        <Link href={FIRST_SET_HREF} className="lb-go" data-page-primary="">{FIRST_SET_LABEL}</Link>
       </section>
     )}
   </div>;

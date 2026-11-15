@@ -12,6 +12,7 @@ import AnswerSheet from './AnswerSheet';
 import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
 import { MIN_CHAPTER_SAMPLE } from '../../../data/prepos_insights';
+import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 
 const sec = (s) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`);
 const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
@@ -74,8 +75,8 @@ function ProLock({ what }) {
 }
 
 // Radar passes `afterLedger` (its trend and subjects on narrow screens, right under the marks), `afterFindings`
-// (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `emptyAction={false}`
-// (its page already offers the next step) and `chaptersFirst` (the ranked chapters straight under the next step). The Mentor record tab passes none of them and is unchanged.
+// (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `chaptersFirst` (the ranked chapters
+// straight under the next step). `emptyAction={false}` leaves the empty record's key out for a page that offers its own. The Mentor record tab passes none of them and is unchanged.
 export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false, chaptersInReview = false }) {
   const [showThin, setShowThin] = useState(false);
   // R8 PRICE-02 revision: Pro ranks every chapter, as /pricing says. The first eight show; the rest open with one key.
@@ -101,7 +102,8 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       <div className="pp-empty pp-empty--room">
         <SceneVignette scene="nothingYet" compact />
         <div><b>Nothing to analyse yet.</b><p>Finish one practice session. Your record will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
-        {emptyAction ? <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button> : null}
+        {/* The first step's one name and door (U2, src/lib/firstSet.mjs); the page's one volt key, so the shell's Start steps back. */}
+        {emptyAction ? <button type="button" className="btn-volt sm mk-press" data-page-primary="" onClick={() => onNavigate(FIRST_SET_HREF)}>{FIRST_SET_LABEL}</button> : null}
       </div>
     );
   }

@@ -278,7 +278,7 @@ export default function SavedPageClient() {
           <div>
             <b>Your saved questions did not load</b>
             <p>Check your connection and try again. Nothing was removed.</p>
-            <button type="button" className="ui-state__action ui-state__action--primary mk-press" onClick={loadSaved}>Try again</button>
+            <button type="button" className="ui-state__action ui-state__action--primary mk-press" data-page-primary="" onClick={loadSaved}>Try again</button>
           </div>
         </div>
       </div>
@@ -304,11 +304,12 @@ export default function SavedPageClient() {
 
       {questions.length === 0 ? (
         <div className="sv-empty">
+          {/* U9: on a phone the room is the compact one (saved.css), so the words and the key sit on the first screen. */}
           <SceneVignette scene="saved" act={emptyAct === 'read' ? 'rest' : emptyAct} />
           <div>
             <b>Nothing saved yet</b>
             <p>Tap Save on any question in Explore and it waits for you here.</p>
-            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open Explore</Link>
+            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-page-primary="" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open Explore</Link>
           </div>
         </div>
       ) : (

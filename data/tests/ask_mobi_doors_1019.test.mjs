@@ -146,7 +146,8 @@ test('the revise ask says tonight in the evening and today before it (the app\'s
 test('the empty record says plainly that it needs a paper, with one key, in the app\'s words', () => {
   assert.equal(DOOR_COPY.emptySay, 'Your record is empty for now.');
   assert.equal(DOOR_COPY.emptyBody, 'Finish one practice paper and Mobi can show you where every mark went.');
-  assert.equal(DOOR_COPY.emptyKey, 'Practise 10 questions first');
+  // U2 (15 Nov 2026): the first step's one name on every screen (src/lib/firstSet.mjs). The app's twin still says the old words.
+  assert.equal(DOOR_COPY.emptyKey, 'Start 10 questions');
   assert.equal(DOOR_COPY.emptyAfter, 'After that, you can ask where you lose marks, which chapter to practise and what to revise tonight.');
 });
 
@@ -232,7 +233,7 @@ test('every line the doors say is read aloud: no exclamation marks, arrows or sh
   if (!existsSync(dartUrl)) return;
   const dart = readFileSync(dartUrl, 'utf8');
   // Shared lines, held word for word against the app's source when it is beside this worktree (the main session's checkout has it).
-  for (const shared of [DOOR_COPY.nowLine, DOOR_COPY.nowHint, DOOR_COPY.nowTip, DOOR_COPY.recordTip, DOOR_COPY.emptySay, DOOR_COPY.emptyBody, DOOR_COPY.emptyKey, DOOR_COPY.emptyAfter, DOOR_COPY.howItCosts, DOOR_COPY.writingNote, DOOR_COPY.startOver, DOOR_COPY.followUp, DOOR_COPY.offline, DOOR_COPY.readFailed, DOOR_COPY.readOffline]) {
+  for (const shared of [DOOR_COPY.nowLine, DOOR_COPY.nowHint, DOOR_COPY.nowTip, DOOR_COPY.recordTip, DOOR_COPY.emptySay, DOOR_COPY.emptyBody, DOOR_COPY.emptyAfter, DOOR_COPY.howItCosts, DOOR_COPY.writingNote, DOOR_COPY.startOver, DOOR_COPY.followUp, DOOR_COPY.offline, DOOR_COPY.readFailed, DOOR_COPY.readOffline]) {
     assert.ok(dart.includes(shared), `the app says: ${shared}`);
   }
 });

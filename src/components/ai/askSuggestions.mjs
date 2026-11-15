@@ -7,6 +7,7 @@
 import { answerFromInsights, readout } from '../../../data/prepos_insights.js';
 import { FAQ_ITEMS } from '../../lib/helpFaq.mjs';
 import { todayAnswer } from './askContexts.mjs';
+import { FIRST_SET_HREF, FIRST_SET_LABEL } from '../../lib/firstSet.mjs';
 
 export const ASK_COST = 1;
 
@@ -150,7 +151,7 @@ export function answerFree(id, { context = {}, insights = null, pro = false } = 
   }
   if (!ready(insights)) {
     if (['chapter_history', 'marks_leak', 'pace', 'week'].includes(id)) {
-      return { reply: 'There is nothing to read yet. After one session Mobi can show where your marks went.', actions: [{ label: 'Take a 10-question check', route: '/dashboard?mode=quick&count=10' }], source: 'From your record, no sessions yet' };
+      return { reply: 'There is nothing to read yet. After one session Mobi can show where your marks went.', actions: [{ label: FIRST_SET_LABEL, route: FIRST_SET_HREF }], source: 'From your record, no sessions yet' };
     }
     return null;
   }

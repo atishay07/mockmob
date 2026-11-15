@@ -23,6 +23,7 @@ import { answerFromInsights } from '../../../data/prepos_insights';
 import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
 import { creditLine } from './askDoors.mjs';
+import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 import { planStart } from './startPlan.mjs';
 import MobiMark from './MobiMark';
 import { DoubtChecks, TonightBlock } from './MobiJobParts';
@@ -426,7 +427,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/mascot/attentive.webp" alt="" width="104" height="118" />
             <p>Mobi answers from your own practice. After one session it can show where your marks went.</p>
-            <button type="button" className="amb-btn amb-btn--line" onClick={() => navigate('/dashboard?mode=quick&count=10')}>Take a 10-question check</button>
+            <button type="button" className="amb-btn amb-btn--line" onClick={() => navigate(FIRST_SET_HREF)}>{FIRST_SET_LABEL}</button>
           </div>
         ) : null}
 

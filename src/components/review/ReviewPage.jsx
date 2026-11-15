@@ -25,6 +25,7 @@ import ChapterRows, { ItemList } from './ChapterRows';
 import PapersView from './PapersView';
 import ReviewChapters from './ReviewChapters';
 import { useMyDailySet } from '@/components/useMyDailySet';
+import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
 import './review-1017.css';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -69,14 +70,14 @@ function Failed({ cause, at, onRetry, retrying }) {
 function Empty({ wallet, dailySet }) {
   const { user } = useAuth();
   const first = SUBJECTS.find((s) => s.id === (user?.subjects || [])[0]) || SUBJECTS.find((s) => s.id === 'accountancy');
-  const href = `/dashboard?${new URLSearchParams({ subject: first?.id || '', mode: 'quick', count: '10' })}`;
+  const href = firstSetHref(first?.id);
   return (
     <section className="rvw-state" aria-labelledby="rvw-empty-h">
       <SceneVignette scene="nothingYet" interactive />
       <h2 id="rvw-empty-h">Your first paper lands here</h2>
       <p>Every paper you sit shows up here with its marks. Each wrong answer is kept by chapter, with the marks it cost you, ready to repair.</p>
       {/* 10 Nov: the key comes before the example row, so on a 360 x 640 phone the one action sits above the dock. */}
-      <Link className="btn-volt rvw-state__key mk-press" data-page-primary="" href={href}>Start 10 questions</Link>
+      <Link className="btn-volt rvw-state__key mk-press" data-page-primary="" href={href}>{FIRST_SET_LABEL}</Link>
       <p className="rvw-state__fine">About 10 minutes, {first?.name || 'your subject'}. {practiceCostLine({ isPremium: Boolean(wallet?.isPremium), practiceCredits: wallet?.practiceCredits ?? null, dailySet })}</p>
       <div className="rvw-sample" aria-label="An example of a row">
         <span className="rvw-badge" data-k="open">4</span>
