@@ -266,3 +266,76 @@ test('S2 join, the public preview and invite creation use the database limiter p
     [['join', 10, 60], ['joinNet', 120, 60], ['invite', 5, 1440], ['inviteNet', 100, 1440], ['lookup', 120, 10], ['lookupUser', 60, 60]]);
   for (const n of ['joinNet', 'inviteNet', 'lookupUser']) assert.match(limitMessage(n, 'in 25 minutes'), /in 25 minutes\.$/);
 });
+
+// ---------------------------------------------------------------------------------------------------------------
+// S2: a Mob report alerts the support inbox (the sender is injected; nothing is ever sent)
+// ---------------------------------------------------------------------------------------------------------------
+
+test('S2 a new report emails support@mockmob.in once: ids, reason, time, where to review; no name, email or text; Urgent for safety', async () => {
+  const { ALERT_LIMITS, ALERT_TO, createReportAlert, reportAlertEmail } = await import('../../src/lib/server/mob/reportAlert.js');
+  const db = await database();
+  try {
+    const sent = [];
+    const lines = [];
+    const take = async (bucket, limit, windowMs) => (await db.query('select public.take_rate_limit($1, $2, $3) r', [bucket, limit, windowMs])).rows[0].r;
+    const alert = createReportAlert({
+      enabled: () => true, take, log: (l) => lines.push(l),
+      findId: async ({ mobId, reporterId, reason }) => one(db, 'select max(id)::int r from mob_reports where mob_id = $1::uuid and reporter_id = $2 and reason = $3', [mobId, reporterId, reason]),
+      send: async (msg) => { sent.push(msg); return { data: { id: 'x' } }; },
+    });
+    const jobs = [];
+    const svc = serviceFor(db, { onReport: (info) => { const j = alert(info); jobs.push(j); return j; } });
+    const { mob } = await classLink(svc);
+    await svc.patchMe('u3', { mob, name: 'Stranger' });
+    const out = await svc.report('u2', { mob, memberId: memberOf(mob, 'u3'), reason: 'safety' });
+    assert.deepEqual(out, { reported: true, left: false }, 'the report answers as before');
+    assert.deepEqual(await Promise.all(jobs), ['sent']);
+    const reportId = await one(db, 'select max(id)::int r from mob_reports');
+    assert.equal(sent[0].to, ALERT_TO);
+    assert.match(sent[0].subject, /^Urgent: /);
+    assert.match(sent[0].text, new RegExp(`Report: ${reportId}\n`));
+    assert.match(sent[0].text, new RegExp(`Mob: ${mob}\n`));
+    assert.match(sent[0].text, /Reason: I do not feel safe \(safety\)/);
+    assert.match(sent[0].text, /Time: Tue 17 Nov, 1:30 PM IST \(2026-11-17T08:00:00\.000Z\)/);
+    assert.match(sent[0].text, /\/moderation/);
+    assert.doesNotMatch(JSON.stringify(sent), /Stranger|Asha|Riya|u1|u2|u3|@(?!mockmob\.in)/, 'no name, user id or student email');
+    assert.deepEqual(Object.keys(sent[0]).sort(), ['subject', 'text', 'to']);
+    // A name report is not urgent.
+    assert.doesNotMatch(reportAlertEmail({ reportId: 9, mobId: mob, reason: 'name', at: NOW }).subject, /Urgent/);
+    // Flood: 3 an hour per kind, site-wide in the database; the urgent ones are never used up by the others.
+    for (let i = 0; i < 4; i += 1) await alert({ mobId: mob, reporterId: 'u2', reason: 'name', at: NOW });
+    assert.equal(sent.filter((m) => !/^Urgent/.test(m.subject)).length, ALERT_LIMITS.routine.limit);
+    assert.equal(await alert({ mobId: mob, reporterId: 'u2', reason: 'safety', at: NOW }), 'sent');
+    assert.equal(await alert({ mobId: mob, reporterId: 'u2', reason: 'safety', at: NOW }), 'sent');
+    assert.equal(await alert({ mobId: mob, reporterId: 'u2', reason: 'safety', at: NOW }), 'limited');
+    assert.ok(lines.length >= 2 && lines.every((l) => !l.includes('\n')), 'one line each');
+  } finally { await db.close(); }
+});
+
+test('S2 the alert is off without RESEND_API_KEY, never fails or slows the report, and deps.js wires it after the response', async () => {
+  const { createReportAlert } = await import('../../src/lib/server/mob/reportAlert.js');
+  let sends = 0;
+  const off = createReportAlert({ enabled: () => false, take: async () => true, findId: async () => 1, send: async () => { sends += 1; } });
+  assert.equal(await off({ mobId: 'm', reporterId: 'u', reason: 'safety', at: NOW }), 'off');
+  const lines = [];
+  const broken = createReportAlert({ enabled: () => true, take: async () => true, findId: async () => 1, send: async () => ({ error: { message: 'rejected' } }), log: (l) => lines.push(l) });
+  assert.equal(await broken({ mobId: 'm', reporterId: 'u', reason: 'name', at: NOW }), 'failed');
+  const down = createReportAlert({ enabled: () => true, take: async () => { throw new Error('db down'); }, findId: async () => 1, send: async () => { sends += 1; }, log: (l) => lines.push(l) });
+  assert.equal(await down({ mobId: 'm', reporterId: 'u', reason: 'name', at: NOW }), 'failed', 'no limiter, no email');
+  assert.equal(sends, 0);
+  assert.equal(lines.length, 2);
+  // The service never waits for it and never fails because of it.
+  const db = await database();
+  try {
+    const svc = serviceFor(db, { onReport: () => new Promise(() => {}) });
+    const { mob } = await classLink(svc);
+    assert.deepEqual(await svc.report('u2', { mob, memberId: memberOf(mob, 'u3'), reason: 'name' }), { reported: true, left: false });
+    const throws = serviceFor(db, { onReport: () => { throw new Error('boom'); } });
+    assert.deepEqual(await throws.report('u2', { mob, memberId: memberOf(mob, 'u3'), reason: 'nudge' }), { reported: true, left: false });
+    assert.equal(await one(db, 'select count(*)::int r from mob_reports'), 2);
+  } finally { await db.close(); }
+  const deps = read('src/lib/server/mob/deps.js');
+  assert.match(deps, /onReport: onMobReport/);
+  assert.match(deps, /after\(job\)/);
+  assert.match(deps, /RESEND_API_KEY/);
+});

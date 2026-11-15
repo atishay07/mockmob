@@ -554,6 +554,11 @@ export function createMobService(deps) {
       if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
       const r = await call('mob_report', { p_reporter: userId, p_mob_id: state.mob.id, p_reported: target.user_id, p_reason: body.reason });
       if (r !== 'reported') throw new MobError('NOT_FOUND');
+      // S2 (15 Nov): one email to the support inbox (reportAlert.js), handed over after the write and never awaited, so it
+      // can neither fail nor slow the report.
+      if (deps.onReport) {
+        try { Promise.resolve(deps.onReport({ mobId: state.mob.id, reporterId: userId, reason: body.reason, at: now() })).catch(() => null); } catch { /* never the student's problem */ }
+      }
       let separated = 0;
       if (body.block === true) {
         await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
