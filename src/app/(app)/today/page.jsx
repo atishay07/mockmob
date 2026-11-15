@@ -46,6 +46,7 @@ import TodayCollegesStrip from '@/components/today/TodayCollegesStrip';
 import TodayCue from '@/components/today/TodayCue';
 import TodayAsk from '@/components/today/TodayAsk';
 import TodayMob from '@/components/today/TodayMob';
+import DailyFiveRow from '@/components/daily/DailyFiveRow';
 import NameAsk from '@/components/profile/NameAsk';
 import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
@@ -350,6 +351,8 @@ export default function Today() {
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
             {/* Ask Mobi, right under the lead card (owner LK143): his own page, one tap from Today. */}
             <TodayAsk />
+            {/* The Daily Five (15 Nov 2026): one quiet row under Ask Mobi, not played today or today's score (this device's record). */}
+            <DailyFiveRow where="today" />
             {stripBelow ? <div className="today__colleges">{strip}</div> : null}
             {allFailed ? null : <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />}
             {dayOne || allFailed ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}

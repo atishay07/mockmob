@@ -22,5 +22,8 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes];
+  // The Daily Five (src/app/daily/page.js): a new five every day at 12:00 am IST.
+  const daily = { url: absoluteUrl('/daily'), lastModified: now, changeFrequency: 'daily', priority: 0.8 };
+
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily];
 }

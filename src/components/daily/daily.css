@@ -1,0 +1,78 @@
+/* The Daily Five at /daily (DailyFive.jsx). The card is the home page sample card itself: the same classes inside the same
+   .lp-try .lp-desk frame, drawn by the sample's own sheets. This file only frees the card from Mobi's room (no room above it,
+   so its own top edge and four corners, as r10-sample.css does beside the room on wide screens), sets the page's head, and
+   draws the three things the sample has no place for: the clock, the five squares and the share. Tokens only. */
+
+.mm.lp .dly { padding-block: 24px 72px; }
+.mm.lp .dly__col { max-width: 640px; margin-inline: auto; }
+/* Mobi's desktop lane (brand-pip.css) is the home page's: this page gives it up, as the DU tools do (R8 PUB-13), so its header,
+   column and footer sit where every other page's do. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp.dly-page { --pip-lane: 0px; }
+}
+
+/* The head: the date and the day's number, the name, one line of what it is. */
+.mm.lp .dly__head { display: grid; gap: 8px; }
+.mm.lp .dly__over { margin: 0; min-height: 1.4em; color: var(--ink-2); font: 600 0.875rem/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .dly__title { max-width: none; }
+.mm.lp .dly__lead { max-width: 40ch; }
+
+/* The card, standing alone: a whole card with its own top edge. The desk's two-column grid (r10-sample.css) needs the room;
+   here there is none, so the card takes the column. */
+.mm.lp .lp-try.dly .lp-desk { display: block; max-width: none; margin: 20px 0 0; }
+.mm.lp .lp-try.dly .lp-desk__card { margin-top: 0; border-top: 1px solid var(--line); border-radius: 22px; }
+@media (min-width: 960px) {
+  .mm.lp .lp-try.dly .lp-desk__card { border-radius: 28px; }
+}
+
+/* The clock, over the card's right edge while the five are played. It only counts up. */
+.mm.lp .dly__clock-row { display: flex; justify-content: flex-end; margin: 16px 0 -8px; }
+.mm.lp .dly__clock {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0; min-height: 24px;
+  color: var(--ink-2); font: 650 0.9375rem/1 var(--font-body); font-variant-numeric: tabular-nums;
+}
+.mm.lp .dly .dly__time-icon { width: 16px; height: 16px; stroke-width: 2.2; flex: none; }
+
+/* The start: what the five are and the two rules, then the one key. */
+.mm.lp .lp-try.dly .dly__start-q { font-size: 1.25rem; }
+.mm.lp .dly__rules { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+.mm.lp .dly :is(.dly__go, .dly__retry, .dly__share) .mm-btn { width: 100%; }
+.mm.lp .dly__go { margin-top: 18px; }
+.mm.lp .dly__retry { margin-top: 16px; }
+
+/* The result: the score with its time beside it, the five squares, the wait for the next five. */
+.mm.lp .dly__score-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 12px; }
+.mm.lp .lp-try.dly .dly__score-row .mm-drill__score { margin: 0; }
+.mm.lp .dly__time { display: inline-flex; align-items: center; gap: 6px; margin: 0; color: var(--ink-2); font: 700 1.25rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.mm.lp .dly__squares { display: flex; gap: 6px; margin: 16px 0 0; }
+.mm.lp .dly__square { width: 22px; height: 22px; border-radius: 4px; border: 2px solid var(--ink); background: transparent; }
+.mm.lp .dly__square[data-right='true'] { background: var(--ink); }
+.mm.lp .dly__next { margin: 12px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+
+/* The share: the volt key, then one line that says what goes out (and, once it has, that it did). */
+.mm.lp .dly__share { margin-top: 18px; }
+.mm.lp .dly__share .mm-btn { gap: 8px; }
+.mm.lp .dly .dly__share-icon { width: 18px; height: 18px; stroke-width: 2.6; }
+.mm.lp .dly__share-note { margin: 10px 0 0; min-height: 1.45em; color: var(--ink-3); font-size: 0.875rem; line-height: 1.45; text-align: center; }
+.mm.lp .dly__share-text {
+  margin: 8px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper);
+  color: var(--ink); font-size: 0.875rem; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all;
+}
+
+/* The run of days: one line, and where it is kept. */
+.mm.lp .dly__streak { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
+.mm.lp .dly__streak-line { margin: 0; color: var(--ink); font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+.mm.lp .dly__streak-note { margin: 4px 0 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; }
+
+/* The misses sit under the run, a hairline above them; the reason closes the open row (no sign-up line inside it). */
+.mm.lp .lp-try.dly .mm-drill__readout { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+.mm.lp .lp-try.dly .mm-drill__miss-body > .dly__miss-why { padding-bottom: 12px; }
+
+/* One quiet key on, centred under the card's content, 44 px tall. */
+.mm.lp .dly__on { display: flex; justify-content: center; min-height: 44px; margin-top: 16px; }
+.mm.lp .dly__on .mm-drill__replay { display: inline-flex; align-items: center; }
+
+@media (min-width: 960px) {
+  .mm.lp .dly { padding-block: 40px 96px; }
+  .mm.lp .lp-try.dly .dly__start-q { font-size: 1.4375rem; }
+}

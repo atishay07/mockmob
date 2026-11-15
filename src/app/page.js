@@ -10,6 +10,7 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
+import DailyFiveRow from '@/components/daily/DailyFiveRow';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -246,6 +247,8 @@ export default function LandingPage() {
                 {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
                     end state offers it after the fifth answer. */}
               </div>
+              {/* The Daily Five's door (15 Nov 2026): one quiet row right under the card, in its column on wide screens. */}
+              <DailyFiveRow where="home" />
             </div>
           </div>
         </section>
