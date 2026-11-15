@@ -587,7 +587,8 @@ test('D182 the Android visitor goes to the Play listing with the code in the Ins
   assert.equal(isAndroidUserAgent('mozilla android'), true);
   for (const ua of [DESKTOP, IPHONE, '', null, undefined, 7]) assert.equal(isAndroidUserAgent(ua), false, String(ua));
 
-  assert.deepEqual(inviteLanding({ rawCode: 'k7p2m9x', userAgent: ANDROID, live: true }), { code: 'K7P2M9X', to: 'play', url });
+  // P1 (15 Nov 2026): Play only once the listing is public; data/tests/referral_device_1115.test.mjs covers the switch.
+  assert.deepEqual(inviteLanding({ rawCode: 'k7p2m9x', userAgent: ANDROID, live: true, env: { PLAY_LISTING_PUBLIC: 'true' } }), { code: 'K7P2M9X', to: 'play', url });
   // Desktop and iPhone: today's behaviour (sign-up with the invite banner).
   assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', userAgent: DESKTOP, live: true }), { code: 'K7P2M9X', to: 'signup', url: null });
   assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', userAgent: IPHONE, live: true }), { code: 'K7P2M9X', to: 'signup', url: null });

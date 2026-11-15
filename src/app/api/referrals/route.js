@@ -9,16 +9,16 @@ export const runtime = 'nodejs';
 const NO_STORE = { 'Cache-Control': 'no-store' };
 
 // GET /api/referrals: the signed-in student's invite (owner D165): their link and code, and what happened so far in counts
-// only (joined, practised, rewarded, earned; never a friend's name). Cookie or bearer, for the website and the app. The app
-// sends its install id as ?device= so the same-device check knows the inviter's phone. live:false (and nothing else) while
+// only (joined, practised, rewarded, earned; never a friend's name). Cookie or bearer, for the website and the app. The
+// same-device check knows the inviter's browser from the mm_dev cookie set here; a ?device= is ignored (M6). live:false (and nothing else) while
 // REFERRALS_ENABLED is off or the database cannot answer, so no surface ever shows a guess. Makes the student's code on first
 // use; writes nothing else.
 export async function GET(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized', message: 'Please sign in.' }, { status: 401, headers: NO_STORE });
   if (!referralsLive()) return NextResponse.json({ ok: true, live: false }, { headers: NO_STORE });
-  const cookieDevice = deviceIdOf(request.cookies.get(DEVICE_COOKIE)?.value);
-  const deviceId = deviceIdOf(new URL(request.url).searchParams.get('device')) || cookieDevice;
+  // M6 (audit 15 Nov 2026): the inviter's device is the server-set cookie only; a ?device= the caller chose is ignored.
+  const deviceId = deviceIdOf(request.cookies.get(DEVICE_COOKIE)?.value);
   const status = await readReferralStatus({
     rpc: (name, args) => supabaseAdmin().rpc(name, args),
     userId: session.user.id,

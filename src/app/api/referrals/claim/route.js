@@ -10,7 +10,7 @@ export const runtime = 'nodejs';
 const NO_STORE = { 'Cache-Control': 'no-store' };
 
 // POST /api/referrals/claim: attach the signed-in account to the invite it came with (owner D165). Cookie or bearer.
-// Body (all optional): { code, source: 'link' | 'code' | 'mob_invite', linkAgeSeconds, device }. Without a code the pending
+// Body (all optional): { code, source: 'link' | 'code' | 'mob_invite', linkAgeSeconds }; a `device` is ignored. Without a code the pending
 // invite cookie (mm_invite, left by /r/<code>, ?ref=, /join/<code> or a code typed at sign-up) is used. The database decides
 // (mm_referral_attach): only a new account that has not practised yet, never the inviter's own, one inviter per account.
 // Credits move later, when the friend finishes a practice. Answers { ok, state, reason, done }; done means the invite is
@@ -32,7 +32,9 @@ export async function POST(request) {
     rpc: (name, args) => supabaseAdmin().rpc(name, args),
     userId: session.user.id,
     input,
-    deviceId: deviceIdOf(typeof body?.device === 'string' ? body.device : '') || deviceIdOf(request.cookies.get(DEVICE_COOKIE)?.value),
+    // M6 (audit 15 Nov 2026): the device is the server-set cookie only. A device in the body was the caller's choice, so a
+    // fresh one per throwaway account slipped past the same-device and reused-device holds.
+    deviceId: deviceIdOf(request.cookies.get(DEVICE_COOKIE)?.value),
     network: networkOf(request.headers),
   });
   const response = NextResponse.json({ ok: result.ok, state: result.state, reason: result.reason, done: result.done }, { headers: NO_STORE });
