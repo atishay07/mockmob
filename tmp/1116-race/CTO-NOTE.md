@@ -42,3 +42,19 @@ Undo: run the undo file (drops the function; the code falls back by itself, no d
 - Still open: A's own session start reaching the database after A's own release (its request held up past the client's
   error) makes a free session with no row; and a third start of the same subject inside the gap in the second order. Closing
   both needs `start_learning_session` to check the free row under its lock, a change to that function not made here.
+
+## Independent review, 16 Nov 2026 (verdict: nothing blocking; safe to merge with the switch off; merged into web/1115-prod)
+
+Still to do before `LEARNING_SESSIONS_ENABLED=true`, in order of weight:
+
+1. A free session can still end up with no free row: A's release runs before B reaches the lock, B's session commits, but
+   B's call returns an error (or B's server process dies) before `keepFirstFullMock` runs (`practiceSessions.js` 154-161);
+   the retry goes through the replay return (76-78), which never calls keep. Needs two failures inside one double tap; the
+   harm is one extra free mock. Real fix: check the free row inside `start_learning_session` under its own lock. Stopgap:
+   call keep on the durable replay path too.
+2. `keepFirstFullMock` can tie the free row to a paid session when a twin start with the same key read "used" and made the
+   session paid (three or more starts with the same key). Fix: skip the claim when `startAlreadyPaid('recovery:' + id)`.
+3. With the switch on and this migration not applied, a call error with no code keeps the row (`firstFullMock.js` 108):
+   the safe direction, but apply the migration before the switch.
+4. Not shown by any test: a real lock wait across two connections (PGlite has one), and PostgREST's error codes on the live
+   service.
