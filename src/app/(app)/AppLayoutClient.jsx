@@ -360,7 +360,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     || allTabs.find((tab) => isActive(tab.id))?.title
     || allTabs.find((tab) => isActive(tab.id))?.label
     || (activePath.startsWith('/result') ? 'Result' : '')
-    || (activePath.startsWith('/rival') ? 'Rival' : '');
+    || (activePath.startsWith('/rival') ? 'Rival' : '')
+    // The Sunday Mock has no place of its own in the navigation (it is reached from Today and Practice), so it names itself.
+    || (/^\/sunday(\/|$)/.test(activePath) ? 'Sunday Mock' : '');
 
   // The tour, from any row that offers it ("Show me around": the You page's places, the sidebar's You group, the account sheet).
   function startTour() {
