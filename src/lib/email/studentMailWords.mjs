@@ -65,12 +65,11 @@ export function studentEmailWords(kind, state = {}) {
     const n = Math.max(1, Math.trunc(Number(state.open)) || 1);
     const what = plural(n, 'question', 'questions');
     return {
-      subject: `${what} from yesterday ${n === 1 ? 'is' : 'are'} still open`,
-      preheader: 'Each one is explained on your result.',
-      heading: `${what} ${n === 1 ? 'is' : 'are'} still open`,
+      subject: `${what} from yesterday to fix`,
+      preheader: `${n === 1 ? 'It is' : 'Each one is'} explained on your result.`,
+      heading: `${what} left to fix`,
       paras: [
         `Your ${name ? `${name} ` : ''}set yesterday left ${what} wrong or blank. ${n === 1 ? 'It is' : 'Each one is'} explained on your result.`,
-        n === 1 ? 'The button opens your result at that question.' : 'The button opens your result at the first of them.',
       ],
       button: n === 1 ? 'Go over your mistake' : 'Go over your mistakes',
       path: resultPath(state.attemptId, state.position),
@@ -232,7 +231,7 @@ export function unsubscribePage(state, { retry = '', origin = `https://${SITE_NA
       button: ['Go to MockMob', home],
     },
     error: {
-      title: 'We could not turn them off just now',
+      title: 'We could not turn these emails off just now',
       paras: ['Nothing changed yet. Try again in a minute.'],
       button: ['Try again', retry || home],
     },

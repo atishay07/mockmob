@@ -390,7 +390,7 @@ test('the day-2 job end to end: who gets it, and each one\'s single action from 
   assert.ok(to('never').text.includes(`${ORIGIN}/dashboard?subject=accountancy&mode=quick&count=10`));
   assert.match(to('never').text, /Start 10 Accountancy questions/);
   // b was repaired yesterday: one question is still open, at number 3 on the paper.
-  assert.equal(to('mistakes').subject, '1 question from yesterday is still open');
+  assert.equal(to('mistakes').subject, '1 question from yesterday to fix');
   assert.ok(to('mistakes').text.includes(`${ORIGIN}/result/m1?q=3`));
   assert.match(to('mistakes').text, /Your Accountancy set yesterday left 1 question wrong or blank/);
   assert.equal(to('perfect').subject, 'Ready for today’s set?');
@@ -447,7 +447,7 @@ test('the words: plain and short, sentence case, no exclamation marks, emoji, ar
   assert.equal(studentEmailWords('welcome').path, FIRST_SET_HREF);
   assert.equal(studentEmailWords('welcome').button, 'Start 10 questions');
   assert.equal(studentEmailWords('day2', SAMPLES[3][1]).path, '/result/a%20b?q=2');
-  assert.equal(studentEmailWords('day2', SAMPLES[3][1]).subject, '4 questions from yesterday are still open');
+  assert.equal(studentEmailWords('day2', SAMPLES[3][1]).subject, '4 questions from yesterday to fix');
   assert.equal(studentEmailWords('day2', SAMPLES[4][1]).button, 'Go over your mistake');
   assert.throws(() => studentEmailWords('weekly'));
 });
@@ -467,7 +467,7 @@ test('the unsubscribe page: done, a bad link with a way out, and an error with T
   assert.match(bad, /This link did not work/);
   assert.match(bad, /support@mockmob\.in/);
   const error = unsubscribePage('error', { retry: `${ORIGIN}/api/email/unsubscribe?u=1&t=2` });
-  assert.match(error, /We could not turn them off just now/);
+  assert.match(error, /We could not turn these emails off just now/);
   assert.match(error, /href="https:\/\/www\.mockmob\.in\/api\/email\/unsubscribe\?u=1&amp;t=2"[^>]*>Try again</);
   for (const page of [done, bad, visible(error)]) assert.doesNotMatch(page, /!/);
   assert.match(unsubscribePage('done'), /<meta name="robots" content="noindex" \/>/);

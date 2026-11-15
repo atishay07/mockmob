@@ -84,7 +84,7 @@ test('unsubscribe: the signed link turns the emails off and says so; a bad signa
     const down = await GET(new Request(url));
     assert.equal(down.status, 503);
     const page = await down.text();
-    assert.match(page, /We could not turn them off just now/);
+    assert.match(page, /We could not turn these emails off just now/);
     assert.ok(page.includes(`href="${url.replace(/&/g, '&amp;')}"`), 'Try again opens the same signed link');
   });
 });
@@ -195,7 +195,7 @@ test('the email preview is development only and sends nothing', async () => {
     const res = await GET(new Request('http://127.0.0.1:3586/preview/email?kind=day2&state=repair&n=4&subject=accountancy&theme=dark'));
     assert.equal(res.status, 200);
     const html = await res.text();
-    assert.match(html, /4 questions are still open/);
+    assert.match(html, /4 questions left to fix/);
     assert.match(html, /@media all/, 'the dark version is forced');
     const text = await (await GET(new Request('http://127.0.0.1:3586/preview/email?kind=welcome&part=text'))).text();
     assert.match(text, /^Subject: Welcome to MockMob\n/);
