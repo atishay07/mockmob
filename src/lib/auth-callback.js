@@ -21,6 +21,17 @@ const ERROR_COPY = {
 };
 const GENERIC_ERROR = 'Sign-in did not finish. Go back to login and try again, or use the email code.';
 
+// F10 (15 Nov): a sign-in that started on the sign-up card goes back there, not to the log-in page's "Welcome back".
+// The same fixed copy, with the page it names changed; never text from the URL.
+export function callbackCopyFor(message, mode) {
+  if (mode !== 'signup' || typeof message !== 'string') return message;
+  return message.replace(/\b([Gg])o back to login\b/g, '$1o back to sign-up');
+}
+
+export function callbackBackKey(mode) {
+  return mode === 'signup' ? { href: '/signup', label: 'Back to sign-up' } : { href: '/login', label: 'Back to login' };
+}
+
 function paramsFrom(raw, prefix) {
   const text = String(raw || '');
   return new URLSearchParams(text.startsWith(prefix) ? text.slice(prefix.length) : text);

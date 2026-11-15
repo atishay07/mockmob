@@ -58,13 +58,15 @@ test('Supabase errors map to the app\'s failures (only code, name and status are
   }
 });
 
-// A fake @supabase/ssr: records the updateUser call and can hand back new cookies.
+// A fake @supabase/ssr: records the updateUser call and can hand back new cookies. Its session signed in with an email code
+// a minute ago (A5, 15 Nov: a password needs a recent sign-in; data/tests/security_auth_1115.test.mjs covers the rule).
 function fakeServer({ result = { error: null }, throws = null, newCookies = null } = {}) {
   const calls = { update: [], clientOptions: null };
   const createServerClient = (url, key, options) => {
     calls.clientOptions = options;
     return {
       auth: {
+        getClaims: async () => ({ data: { claims: { sub: 'u1', amr: [{ method: 'otp', timestamp: Math.floor(Date.now() / 1000) - 60 }] } }, error: null }),
         updateUser: async (attrs) => {
           calls.update.push(attrs);
           if (throws) throw throws;

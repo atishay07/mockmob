@@ -9,6 +9,7 @@ import {
   mayWriteAuthCookies,
 } from '../supabase-auth-errors.js';
 import { checkSupabaseClaims } from './verifiedIdentity.js';
+import { supabaseCookieOptions } from '../supabaseCookieOptions.js';
 
 /**
  * Reads the signed-in Supabase user from the request cookies.
@@ -49,6 +50,8 @@ export async function readCookieUser({
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
     ...clientOptions,
     global: { ...clientOptions.global, fetch: createAuthSafeFetch(clientOptions.global?.fetch) },
+    // A7: Secure in production, like the other three clients (src/lib/supabaseCookieOptions.js).
+    cookieOptions: { ...supabaseCookieOptions(), ...clientOptions.cookieOptions },
     cookies: {
       getAll: () => cookieStore.getAll().map(({ name, value }) => ({ name, value })),
       setAll: (cookiesToSet) => {

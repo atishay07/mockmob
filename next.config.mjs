@@ -3,6 +3,43 @@ import { fileURLToPath } from 'node:url';
 
 const appRoot = dirname(fileURLToPath(import.meta.url));
 
+// A3 (15 Nov): security headers on every route (production builds, like the cache headers below).
+//  - Framing: only our own pages may frame ours (X-Frame-Options for older browsers, frame-ancestors for current ones).
+//    Nothing frames MockMob pages; the app opens them in a WebView, which is not a frame.
+//  - Permissions-Policy turns off what the product never uses. Payment stays (Razorpay); fullscreen stays for our pages
+//    (the NTA-style test runner and the hero film) and for the Instagram embeds, which already ask for it (CreatorReels).
+//  - The full content policy is report-only until a clean walk (landing, Google sign-in, email code, Razorpay checkout,
+//    Mob live, Instagram reels) shows no violation. Inline scripts are needed (the root layout has some; nonces would make
+//    every page dynamic). upgrade-insecure-requests is left out here: browsers ignore it in a report-only policy and warn.
+//  - HSTS stays as Vercel sends it (includeSubDomains is the owner's call).
+const supabaseOrigin = (() => {
+  try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL || '').origin; } catch { return 'https://isrxrxzjocewrdureyhp.supabase.co'; }
+})();
+const CONTENT_POLICY_REPORT_ONLY = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://accounts.google.com/gsi/client",
+  "style-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/style",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data:",
+  "media-src 'self' blob:",
+  `connect-src 'self' ${supabaseOrigin} ${supabaseOrigin.replace(/^https:/, 'wss:')} https://api.razorpay.com https://lumberjack.razorpay.com https://accounts.google.com/gsi/`,
+  'frame-src https://api.razorpay.com https://checkout.razorpay.com https://www.instagram.com https://accounts.google.com',
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+].join('; ');
+const SECURITY_HEADERS = [
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+  { key: 'Content-Security-Policy', value: "frame-ancestors 'self'" },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), browsing-topics=(), fullscreen=(self "https://www.instagram.com")' },
+  { key: 'Content-Security-Policy-Report-Only', value: CONTENT_POLICY_REPORT_ONLY },
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Production builds clean their output. Keep the live preview's chunks separate.
@@ -66,6 +103,7 @@ const nextConfig = {
       return [];
     }
     return [
+      { source: '/:path*', headers: SECURITY_HEADERS },
       {
         source: '/:all*(svg|jpg|jpeg|png|webp|avif|ico|css|js)',
         headers: [
@@ -74,6 +112,12 @@ const nextConfig = {
             value: 'public, max-age=31536000, immutable',
           },
         ],
+      },
+      // P14 (15 Nov): the hero film files carry their version in the name (hero-v5-720.mp4), so they are cached like the
+      // other fingerprinted assets. The older unversioned names keep the default revalidation.
+      {
+        source: '/video/:file(hero-v\\d+-[^/]+\\.mp4)',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
       },
       {
         source: '/sw.js',

@@ -4,8 +4,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AUTH_SESSION_PRIMARY_CLASS, AUTH_SESSION_QUIET_CLASS, AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { getSupabaseBrowserClient } from '@/lib/supabase-browser';
-import { postSignInPath } from '@/lib/auth-redirect';
-import { readCallbackParams } from '@/lib/auth-callback';
+import { forgetAuthStart, markAuthStartFailed, postSignInPath } from '@/lib/auth-redirect';
+import { callbackBackKey, callbackCopyFor, readCallbackParams } from '@/lib/auth-callback';
 
 const SESSION_RETRY_DELAYS = [0, 250, 600, 1000, 1600, 2400, 3200, 4500];
 const RETRYABLE_PROFILE_STATUSES = [401, 429, 500, 502, 503, 504];
@@ -16,6 +16,8 @@ const NOTHING_TO_FINISH_MESSAGE =
   'This page finishes a sign-in, and there is none in progress. Go back to login to sign in.';
 const LINK_FAILED_MESSAGE =
   'This login link has expired or was already used. Go back to login and ask for a new code.';
+// A9: how long the account's email stays on screen at least, so it can be read before MockMob opens.
+const NAME_HOLD_MS = 1200;
 
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -93,14 +95,21 @@ async function startAuth() {
 }
 
 // After the student tapped Continue: spends the email link, then loads the profile.
-async function finishEmailLink(params) {
+// A9 (15 Nov): the link's account is known only once it is spent, so its email is shown then ("Signing you in as ..."),
+// with "Not you? Sign out", before MockMob opens. A link someone else forwarded would otherwise sign this browser into
+// their account without a word.
+async function finishEmailLink(params, onSignedIn) {
   const supabase = getSupabaseBrowserClient();
-  const { error: verifyError } = await supabase.auth.verifyOtp({
+  const { data, error: verifyError } = await supabase.auth.verifyOtp({
     token_hash: params.tokenHash,
     type: params.type,
   });
   if (verifyError) throw new Error(LINK_FAILED_MESSAGE);
-  return loadProfileDestination(supabase);
+  const email = data?.user?.email || data?.session?.user?.email || '';
+  if (!email) return loadProfileDestination(supabase);
+  onSignedIn(email);
+  const [destination] = await Promise.all([loadProfileDestination(supabase), sleep(NAME_HOLD_MS)]);
+  return destination;
 }
 
 // Waits for the session and the MockMob profile, then names the page to open.
@@ -153,22 +162,37 @@ export default function AuthCallbackPageClient() {
   // { params, signedInAs } while waiting for the student's tap on an email link.
   const [question, setQuestion] = useState(null);
   const [working, setWorking] = useState(false);
+  // A9: the account an email link signed into, shown until MockMob opens. F10: the card the sign-in started from.
+  const [signingInAs, setSigningInAs] = useState('');
+  const [leaving, setLeaving] = useState(false);
+  const [backMode, setBackMode] = useState('login');
   const mountedRef = useRef(false);
   const finishingRef = useRef(false);
+  const leftRef = useRef(false);
+
+  const fail = useCallback((authError) => {
+    setBackMode(markAuthStartFailed()?.mode || 'login');
+    setError(authError?.message || 'We could not complete the login. Please try again.');
+  }, []);
+
+  const open = useCallback((destination) => {
+    if (!mountedRef.current || leftRef.current) return;
+    forgetAuthStart();
+    window.location.replace(destination);
+  }, []);
 
   const follow = useCallback((promise) => {
     promise.then(
-      (destination) => {
-        if (mountedRef.current) window.location.replace(destination);
-      },
+      open,
       (authError) => {
         if (!mountedRef.current) return;
         setQuestion(null);
         setWorking(false);
-        setError(authError?.message || 'We could not complete the login. Please try again.');
+        setSigningInAs('');
+        fail(authError);
       },
     );
-  }, []);
+  }, [fail, open]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -181,10 +205,10 @@ export default function AuthCallbackPageClient() {
       (step) => {
         if (!mountedRef.current) return;
         if (step.kind === 'confirm') setQuestion({ params: step.params, signedInAs: step.signedInAs });
-        else window.location.replace(step.destination);
+        else open(step.destination);
       },
       (authError) => {
-        if (mountedRef.current) setError(authError?.message || 'We could not complete the login. Please try again.');
+        if (mountedRef.current) fail(authError);
       },
     );
 
@@ -192,15 +216,41 @@ export default function AuthCallbackPageClient() {
       mountedRef.current = false;
       clearInterval(phaseTimer);
     };
-  }, []);
+  }, [fail, open]);
 
   const continueWithLink = useCallback(() => {
     if (!question || finishingRef.current) return;
     finishingRef.current = true;
     setWorking(true);
     setPhase(0);
-    follow(finishEmailLink(question.params));
+    follow(finishEmailLink(question.params, (email) => {
+      if (mountedRef.current) setSigningInAs(email);
+    }));
   }, [follow, question]);
+
+  // A9: "Not you?" ends the session this link just made, on this browser only, and goes to the log-in page.
+  const notYou = useCallback(async () => {
+    if (leftRef.current) return;
+    leftRef.current = true;
+    setLeaving(true);
+    const supabase = getSupabaseBrowserClient();
+    try {
+      await supabase.auth.signOut({ scope: 'local' });
+    } catch {
+      // The local session is removed even when Supabase cannot be reached.
+    }
+    window.location.replace('/login');
+  }, []);
+
+  if (working && signingInAs && !error) {
+    return (
+      <AuthSessionScreen message={`Signing you in as ${signingInAs}`}>
+        <button type="button" onClick={notYou} className={AUTH_SESSION_QUIET_CLASS} disabled={leaving}>
+          {leaving ? 'Signing out…' : 'Not you? Sign out'}
+        </button>
+      </AuthSessionScreen>
+    );
+  }
 
   if (question && !working) {
     const switching = Boolean(question.signedInAs);
@@ -221,12 +271,13 @@ export default function AuthCallbackPageClient() {
     );
   }
 
+  const back = callbackBackKey(backMode);
   return (
     <AuthSessionScreen
       message={PHASES[phase]}
-      error={error}
-      actionHref="/login"
-      actionLabel="Back to login"
+      error={callbackCopyFor(error, backMode)}
+      actionHref={back.href}
+      actionLabel={back.label}
     />
   );
 }
