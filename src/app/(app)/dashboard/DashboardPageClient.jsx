@@ -43,6 +43,7 @@ import { clearSample, readSample, sampleChapters, sampleSubject } from '@/compon
 import { resolveChapter } from '@/../data/cuet_syllabus';
 import './practice.css';
 import './chapter-picker.css';
+import ResumePaper from '@/components/practice/ResumePaper';
 
 // The four modes, as a 2 x 2 grid of pressable tiles (START-1017 D4, owner F5).
 const MODE_LIST = ['quick', 'full', 'smart', 'nta'];
@@ -603,6 +604,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
           <PracticeMobChip userId={user?.id} />
         </div>
       </header>
+      {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
+      <ResumePaper />
 
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}

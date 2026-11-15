@@ -46,6 +46,7 @@ import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition
 import { GUIDE_AUTO_DELAY_MS, GUIDE_AUTO_WINDOW_MS, guideAutoStart, tourSteps } from '@/lib/appTour.mjs';
 import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
+import { captureInstallPrompt } from '@/lib/installPrompt';
 
 // React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
 // of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
@@ -245,6 +246,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The offline page (public/sw.js) installs for every signed-in student, not only those who open Profile (15 Nov 2026; the
   // install offer in InstallPractice.jsx registers the same worker the same way). Production only, once per page load, and a
   // browser that refuses it (private window, blocked) is simply left without it.
+  // The browser's install offer fires once per page load, often on the first signed-in screen: keep it for the install card
+  // on the result (src/lib/installPrompt.js), wherever the student is when it fires.
+  useEffect(() => { captureInstallPrompt(); }, []);
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production' || status !== 'authenticated' || swAsked) return;
     swAsked = true;
