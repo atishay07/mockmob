@@ -85,11 +85,17 @@ test('round 9 chapterAt: the chapter at a time and the share of it played', asyn
 test('HeroFilm: muted, inline, looped, nothing fetched before it plays, the poster first, no native controls', () => {
   assert.match(FILM, /^'use client';/);
   const video = FILM_CODE.slice(FILM_CODE.indexOf('<video'), FILM_CODE.indexOf('/>', FILM_CODE.indexOf('<video')));
-  for (const attr of [/\bmuted\b/, /\bplaysInline\b/, /\bloop\b/, /preload="none"/, /poster=\{FILM\.poster\}/]) assert.match(video, attr);
+  for (const attr of [/\bmuted\b/, /\bplaysInline\b/, /\bloop\b/, /preload="none"/, /poster=\{PHONE_POSTER\}/]) assert.match(video, attr);
   assert.doesNotMatch(video, /\bcontrols\b|\bautoPlay\b|\bsrc=/, 'no controls, no autoplay attribute, no src until mount');
   assert.match(FILM_CODE, /video\.muted = true;/, 'muted as a property too (React does not render the attribute)');
-  // The poster: the same file as the video's poster, with its size, at high priority (the hero's largest paint on desktop).
-  assert.match(FILM_CODE, /<img className="lp-film__poster" src=\{FILM\.poster\} width=\{FILM\.width\} height=\{FILM\.height\} alt="" fetchPriority="high"/);
+  // The poster, with its size, at high priority (the hero's largest paint). P7 (15 Nov 2026): phones take a 640 px file of the
+  // same frame (16 KB, not 60 KB), wider screens the 1280 px one; each is preloaded high for its own screens only, and the
+  // video's own poster is the small file, so a phone fetches one poster.
+  assert.match(FILM_CODE, /const PHONE_POSTER = '\/video\/hero-v5-poster-640\.webp';\nconst PHONE_MEDIA = '\(max-width: 639px\)';\nconst WIDE_MEDIA = '\(min-width: 640px\)';/);
+  assert.match(FILM_CODE, /<picture>\s*<source media=\{PHONE_MEDIA\} srcSet=\{PHONE_POSTER\} width=\{640\} height=\{360\} \/>\s*<img className="lp-film__poster" src=\{FILM\.poster\} width=\{FILM\.width\} height=\{FILM\.height\} alt="" fetchPriority="high"/);
+  assert.match(FILM_CODE, /preload\(PHONE_POSTER, \{ as: 'image', fetchPriority: 'high', media: PHONE_MEDIA \}\);\s*preload\(FILM\.poster, \{ as: 'image', fetchPriority: 'high', media: WIDE_MEDIA \}\);/);
+  assert.ok(statSync(join(ROOT, 'public/video/hero-v5-poster-640.webp')).size < 25_000, 'the phone poster stays small');
+  assert.ok(statSync(join(ROOT, 'public/video/hero-v5-poster.webp')).size > 25_000, 'the wide poster is kept');
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__frame \{[^}]*aspect-ratio: 16 \/ 9;/, 'a fixed 16:9 frame: no layout shift');
   assert.match(FILM_CODE, /export \{ FILM \};/, 'the config is still reachable from the component');
 });

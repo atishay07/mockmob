@@ -619,7 +619,7 @@ test('round 5: the questions are real sliders: labelled native ranges, 44 px tal
 });
 
 // ------------------------------------------------------------------------------------------------ the close band
-test('R3-D9: the final card keeps Sign up free and Log in, wears the answer sheet, and gives a guest one invite line only while invites are on', () => {
+test('R3-D9: the final card keeps Sign up free and Log in, and gives a guest one invite line only while invites are on', () => {
   const page = stripComments(read('src/app/page.js'));
   assert.match(page, /const INVITES_LIVE = referralsLive\(\);/, 'the server switch /signup reads');
   assert.match(page, /<CloseActions invites=\{INVITES_LIVE\} \/>/);

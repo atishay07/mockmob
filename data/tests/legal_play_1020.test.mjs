@@ -78,7 +78,8 @@ test('the Mobi job jargon is gone from /privacy, and the date is 20 October 2026
   assert.match(read('src/app/privacy/page.js'), /A doubt with its follow-up, or a mistake fixed for good, uses 1 credit/);
   for (const f of ['src/app/privacy/page.js', 'src/app/refunds/page.js', 'src/app/terms/page.js', 'src/app/account-deletion/page.js']) {
     // /refunds was reworded on 10 November 2026 (owner: never a flat "no refunds"; payments are normally not refunded), so it carries that date.
-    const date = f === 'src/app/refunds/page.js' ? '10 November 2026' : '20 October 2026';
+    // /privacy gained its cookies, abuse checks, AI services and processors on 15 November 2026 (P11), so it carries that date.
+    const date = f === 'src/app/refunds/page.js' ? '10 November 2026' : f === 'src/app/privacy/page.js' ? '15 November 2026' : '20 October 2026';
     assert.match(read(f), new RegExp(`Last updated: (\{[^}]*\} )?${date}`), f);
   }
 });

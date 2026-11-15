@@ -38,7 +38,7 @@ test('SEO: every page built with seoMetadata shares with a picture, and a page m
 });
 
 test('SEO: the share card speaks for the whole site (no "Commerce" only, no middle-dot meta) and says the USP truthfully', () => {
-  const og = stripComments(read('src/app/opengraph-image.jsx'));
+  const og = stripComments(read('src/lib/og/shareCards.mjs')); // the home card is drawn here since 15 Nov 2026 (P8)
   assert.doesNotMatch(og, /·/);
   assert.doesNotMatch(og, /CUET UG 2027 · Commerce|Commerce practice/);
   assert.match(og, /Unlimited mocks on Pro, from one central question bank\./);

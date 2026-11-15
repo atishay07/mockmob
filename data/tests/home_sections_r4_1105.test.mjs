@@ -96,17 +96,13 @@ test('H5 (LK127): Key cards tighter on phones (one 20 px step), the demo larger 
 });
 
 // ------------------------------------------------------------------------------------------------ the texture
-test('H1: the brand texture is the answer sheet (rings and one mark a row) under the shelf, neutral, masked off the words, still', () => {
-  const rule = SECTIONS.match(/\.mm\.lp \.lp-shelf::after \{([^}]*)\}/)[1];
-  assert.match(rule, /url\("data:image\/svg\+xml,%3Csvg[^"]*%3Cpattern id='p'[^"]*r='5\.5'[^"]*"\) 0 0 \/ 104px 128px repeat;/);
-  assert.match(rule, /mask-image: radial-gradient\(ellipse 48% 46% at 50% 54%, #000 18%, transparent 74%\);/);
-  assert.match(rule, /z-index: -2;[^;]*;\s*pointer-events: none;|pointer-events: none;/);
-  const tiles = [...SECTIONS.matchAll(/data:image\/svg\+xml,([^"]*)"/g)].map((x) => decodeURIComponent(x[1]));
-  assert.equal(tiles.length, 2, 'one tile for Night, one for Day');
-  for (const tile of tiles) {
-    assert.doesNotMatch(tile, /d2f000|210[ ,]+240|9db400/i, 'never volt');
-    assert.equal((tile.match(/<circle cx='\d+' cy='\d+' r='6'\/>/g) || []).length, 8, 'one pencil mark in each of the eight rows');
-  }
-  assert.match(SECTIONS, /@media \(prefers-contrast: more\) \{ \.mm\.lp \.lp-shelf::after \{ display: none; \} \}/);
+// 15 Nov 2026 (owner LK208, 10 Nov: "I rejected the answer-sheet bubble pattern, and I liked the warm hairline grid"): the
+// answer sheet under the shelf is gone; the papers keep their lamp's pool on the page's hairline grid.
+test('LK208: no answer-sheet texture under the statement\'s shelf (no ::after layer, no bubble tile); the lamp and the grid stay', () => {
+  assert.doesNotMatch(SECTIONS, /\.lp-shelf::after/, 'no texture layer under the shelf');
+  assert.doesNotMatch(SECTIONS, /data:image\/svg\+xml/, 'no pattern tile in the section layer');
+  assert.match(strip(read('src/app/home.css')), /\.lp-shelf::before \{/, 'the lamp\'s pool under the papers stays');
+  assert.match(strip(read('src/app/brand-texture.css')), /\.mm-grid \{[^}]*background-size: 48px 48px;/, 'the page\'s hairline grid stays');
+  assert.match(PAGE, /<PageGrid \/>/);
   assert.doesNotMatch(SECTIONS, /animation|transition/, 'nothing in this layer moves');
 });

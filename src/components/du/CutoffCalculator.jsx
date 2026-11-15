@@ -182,7 +182,7 @@ function CutoffTable({ group, catIndex, category, score }) {
   if (state.status === 'error') {
     return (
       <div className="du-state du-state--error">
-        <p>We could not load the cutoffs for this programme.</p>
+        <p>We could not load the cutoffs for this course.</p>
         <button type="button" className="du-link" onClick={() => { setState({ status: 'loading', rows: [] }); setAttempt((n) => n + 1); }}>
           <RotateCcw size={14} aria-hidden="true" /> Try again
         </button>
@@ -276,7 +276,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
             {group.offerings > 0 ? (
               <CutoffTable group={group} catIndex={catIndex} category={category} score={score} />
             ) : (
-              <p className="du-state">DU did not publish a CUET cutoff list for this programme in 2026. Its merit combines your CUET score with a separate test.</p>
+              <p className="du-state">DU did not publish a CUET cutoff list for this course in 2026. Its merit combines your CUET score with a separate test.</p>
             )}
           </section>
           {group.eligibility.notes.length > 0 ? (
@@ -454,7 +454,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
     const q = buildQuery({ selection, category, score: scoreText });
     const url = `${window.location.origin}${window.location.pathname}${q ? `?${q}` : ''}`;
     try {
-      if (navigator.share) await navigator.share({ title: 'My DU programme options', url });
+      if (navigator.share) await navigator.share({ title: 'My DU course options', url });
       else {
         await navigator.clipboard.writeText(url);
         flash('Link copied. Anyone can open it with your subjects pre-filled.');
@@ -589,7 +589,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
                 aria-describedby="du-score-help"
               />
               <small id="du-score-help">
-                Before results, enter the score you are aiming for. Once results are out, DU shows your actual score for each programme. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
+                Before results, enter the score you are aiming for. Once results are out, DU shows your actual score for each course. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
                 {scoreText && score == null ? ' Enter a number between 0 and 1000.' : ''}
               </small>
             </label>
@@ -606,10 +606,10 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
               <h2 className="du-h2" aria-live="polite">
                 {hasSelection ? (
                   <>
-                    <span className="du-sr">{eligible.length} </span>of {total} DU programmes open to you
+                    <span className="du-sr">{eligible.length} </span>of {total} DU courses open to you
                   </>
                 ) : (
-                  'Your DU programmes appear here'
+                  'Your DU courses appear here'
                 )}
               </h2>
               <p className="du-sub">
@@ -647,7 +647,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
 
               {unlocks.length > 0 ? (
                 <div className="du-unlocks">
-                  <p>Add one subject to open more programmes</p>
+                  <p>Add one subject to open more courses</p>
                   <ul>
                     {unlocks.map((u) => (
                       <li key={u.id}>
@@ -666,9 +666,9 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
 
               {eligible.length === 0 ? (
                 <div className="du-empty">
-                  <h3>No programme is open to these subjects yet.</h3>
+                  <h3>No course is open to these subjects yet.</h3>
                   <p>
-                    Most DU programmes need <b>one language and three domain subjects</b>, or <b>one language, one domain subject and the General Aptitude Test</b>. You have {selection.languages.length} {selection.languages.length === 1 ? 'language' : 'languages'}, {selection.domains.length} domain {selection.domains.length === 1 ? 'subject' : 'subjects'}{selection.gat ? ' and the General Aptitude Test' : ''} so far.
+                    Most DU courses need <b>one language and three domain subjects</b>, or <b>one language, one domain subject and the General Aptitude Test</b>. You have {selection.languages.length} {selection.languages.length === 1 ? 'language' : 'languages'}, {selection.domains.length} domain {selection.domains.length === 1 ? 'subject' : 'subjects'}{selection.gat ? ' and the General Aptitude Test' : ''} so far.
                   </p>
                 </div>
               ) : (
@@ -681,16 +681,16 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
                   <div className="du-tools">
                     <label className="du-search">
                       <Search size={16} aria-hidden="true" />
-                      <span className="du-sr">Search programmes</span>
-                      <input data-du-search type="search" value={query} placeholder="Search programmes" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" onChange={(e) => setQuery(e.target.value)} />
+                      <span className="du-sr">Search courses</span>
+                      <input data-du-search type="search" value={query} placeholder="Search courses" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" onChange={(e) => setQuery(e.target.value)} />
                     </label>
                     <div className="du-select">
-                      <Listbox aria-label="Sort programmes" sheetTitle="Sort programmes" size="sm" value={sort} onChange={setSort}
+                      <Listbox aria-label="Sort courses" sheetTitle="Sort courses" size="sm" value={sort} onChange={setSort}
                         options={[{ value: 'colleges', label: 'Most colleges' }, { value: 'cutoff', label: 'Highest cutoff' }, { value: 'name', label: 'A to Z' }]} />
                     </div>
                   </div>
                   {score != null ? (
-                    <ToggleRow checked={onlyClearing} onChange={setOnlyClearing} label="Only programmes where my score clears a cutoff" />
+                    <ToggleRow checked={onlyClearing} onChange={setOnlyClearing} label="Only courses where my score clears a cutoff" />
                   ) : null}
                 </div>
               )}

@@ -1,4 +1,5 @@
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
+import { INSTAGRAM } from './social.js';
 
 // The canonical origin. Vercel serves the site on www and redirects the bare domain there with a 307, so a canonical,
 // og:url, sitemap or robots line on https://mockmob.in pointed search engines and link previews at a redirect (Google
@@ -24,6 +25,7 @@ export const DEFAULT_SHARE_IMAGE = Object.freeze({
   url: '/opengraph-image',
   width: 1200,
   height: 630,
+  type: 'image/jpeg',
   alt: 'mockmob. One mock tonight. A clearer next step. For CUET UG 2027.',
 });
 
@@ -34,7 +36,8 @@ export const siteConfig = {
   description:
     `${SUBJECT_CLAIM.meta}, with mistake review, weak-chapter tracking and DU admission planning.`,
   email: 'support@mockmob.in',
-  socialLinks: [],
+  // The Organization's sameAs: the brand's own Instagram (src/lib/social.js), the profile the home page links to.
+  socialLinks: [INSTAGRAM.url],
 };
 
 export const publicRoutes = [
@@ -193,6 +196,49 @@ export function seoMetadata({ title, description, path = '/', images }) {
   };
 }
 
+// ------------------------------------------------------------------------------------------------ invite link previews
+// A friend's invite must preview as what it is in WhatsApp or Instagram (P8, 15 Nov 2026): its own title and description,
+// the site's share card, never a name, a Mob's name or anything read from the database (SOCIAL-SPEC P1).
+export const INVITE_SHARE = Object.freeze({
+  // /join/<code>: a Mob invite. The second sentence is the Mob's own lead (src/lib/mob/v3/denCopy.mjs d0Lead).
+  mob: Object.freeze({
+    title: 'A friend invited you to their CUET Mob',
+    description: 'Sit papers and play quick games with up to 4 friends on MockMob. Your friends see your marks in games, never your answers. Sign up free to join.',
+  }),
+  // /r/<code> lands on /signup?invite=1: a friend invite (both get the credits once the new student finishes one practice).
+  friend: Object.freeze({
+    title: 'A friend invited you to MockMob',
+    description: 'Create your free MockMob account for CUET UG 2027 practice. You both get 100 credits once you finish one practice.',
+  }),
+});
+
+/** A Mob invite page's metadata: never indexed, its own canonical (the invite's own URL), the invite's words and the card. */
+export function mobInviteMetadata(path) {
+  const { title, description } = INVITE_SHARE.mob;
+  const url = absoluteUrl(path);
+  const images = [DEFAULT_SHARE_IMAGE];
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+    openGraph: { type: 'website', siteName: siteConfig.name, title, description, url, images },
+    twitter: { card: 'summary_large_image', title, description, images },
+  };
+}
+
+/** The sign-up page's metadata when a friend's link brought the visitor (?invite=1): the same page, the invite's words. */
+export function friendInviteMetadata(base) {
+  const { title, description } = INVITE_SHARE.friend;
+  return {
+    ...base,
+    title,
+    description,
+    openGraph: { ...base.openGraph, title, description },
+    twitter: { ...base.twitter, title, description },
+  };
+}
+
 export function breadcrumbJsonLd(items) {
   return {
     '@context': 'https://schema.org',
@@ -270,11 +316,8 @@ export function globalJsonLd() {
       publisher: {
         '@id': `${siteConfig.url}/#organization`,
       },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: `${siteConfig.url}/explore?q={search_term_string}`,
-        'query-input': 'required name=search_term_string',
-      },
+      // No SearchAction: the site has no public search page (/explore is signed-in and noindex), so a sitelinks search box
+      // would have sent searchers to a sign-in wall (removed 15 Nov 2026).
     },
     {
       '@context': 'https://schema.org',

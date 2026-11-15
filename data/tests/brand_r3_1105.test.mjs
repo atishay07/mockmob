@@ -218,14 +218,15 @@ test('R3-D2: "Featured by CUET creators" is branded again: volt reach, the dashe
   assert.doesNotMatch(sp, /backdrop-filter|radial-gradient\(closest-side, rgba\(210/);
 });
 
-test('R3-D2: the creator cards’ texture is the brand’s answer sheet (OMR bubbles, some marked volt), never a generic grid or a glow', () => {
-  const card = rule(css('src/app/social-proof.css'), '.rl__card::before');
-  assert.match(card, /data:image\/svg\+xml/);
-  assert.ok((card.match(/%3Ccircle/g) || []).length >= 20, 'rows of answer bubbles');
-  assert.match(card, /fill='%23d2f000'/, 'a marked bubble per row is volt');
-  assert.doesNotMatch(card, /linear-gradient\(90deg|linear-gradient\(0deg/, 'no hairline grid');
-  assert.match(card, /mask-image: radial-gradient/, 'it fades out before the words');
-  assert.match(card, /pointer-events: none/);
+// 15 Nov 2026 (owner LK208, 10 Nov: "I rejected the answer-sheet bubble pattern"): the creator cards' OMR texture is gone.
+test('LK208: the creator cards carry no answer-sheet texture (no bubble tile, no texture layer), and no generic grid or glow', () => {
+  const sp = css('src/app/social-proof.css');
+  assert.doesNotMatch(sp, /\.rl__card::before/, 'no texture layer on the card');
+  assert.doesNotMatch(sp, /data:image\/svg\+xml[^"]*%3Ccircle/, 'no bubble tile anywhere in the creator styles');
+  assert.doesNotMatch(sp, /\.rl__card[^{]*\{[^}]*linear-gradient\((90|0)deg/, 'no hairline grid on the card');
+  // The card's brand marks stay: the volt reach number and the monogram's dashed orbit.
+  assert.match(sp, /\.rl__reach b \{[^}]*color: #d2f000;/);
+  assert.match(sp, /\.rl__cover-orbit \{[^}]*border: 1px dashed rgba\(210,240,0,\.4\);/);
 });
 
 test('R3-D2: the two-beat voice where it is true (LK114)', () => {
