@@ -229,7 +229,7 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 .rp-expl--open span { font: 600 12.5px/1.4 var(--font-body, inherit); color: var(--a-ink-3); }
 .rp-q__foot { display: flex; justify-content: flex-end; }
 .rp-report { min-height: 36px; padding: 0 4px; border: 0; background: transparent; color: var(--a-ink-3, #93a08f); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.rp-report:disabled { text-decoration: none; cursor: default; }
+.rp-report:disabled, .rp-report[aria-disabled="true"] { text-decoration: none; cursor: default; }
 
 /* ---------- 5. The next paper ----------
    Not a card: a hairline rule, the sentence on the left and one outline action on the right, so it reads as the

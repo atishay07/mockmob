@@ -202,9 +202,12 @@ html[data-motion='reduced'] .ml-seg[data-lift] { transform: none; }
 .ml-remark { padding: 14px 0; border-radius: 0; background: transparent; border-block: 1px solid var(--a-line, #253026); }
 
 /* ---------- Pass 1016e (WC-01 to WC-03) ---------- */
-/* A bar segment is a pointer shortcut to its row: a 32 px tall hit area that stays inside the 14 px gaps around the bar. */
-.ml-seg { cursor: pointer; }
+/* A bar segment is a shortcut to its row: a 32 px tall hit area that stays inside the 14 px gaps around the bar. Since T12
+   (15 Nov 2026) it is a <button>: the reset below keeps the look exactly as the span was; keyboard focus draws a ring. */
+.ml-seg { display: block; appearance: none; margin: 0; padding: 0; border: 0; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ml-seg::before { content: ''; position: absolute; inset: -10px 0; }
+.ml-seg:focus { outline: none; }
+.ml-seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; z-index: 1; }
 .ml-row { scroll-margin-top: 96px; }
 /* The re-mark: the net line, then the two figures over one denominator, in the same ink and size (no small print). */
 .ml-remark__scores { font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; font-variant-numeric: tabular-nums; }

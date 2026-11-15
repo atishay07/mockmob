@@ -17,7 +17,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ErrorState } from '@/components/ui/Skeleton';
+import { ErrorState, NoticeState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import { LabLedger, LabTime, LabProof, RepairTotal, ledgerOf } from '@/components/ScoreRecoveryLab';
 import SwotPanel from '@/components/result/SwotPanel';
@@ -70,6 +70,12 @@ import { questionFromSearch } from '@/components/result/questionParam.mjs';
 import '@/components/result/result-parts.css';
 import AskMobiLink from '@/components/ai/AskMobiLink';
 import { canAskAboutQuestion, mockContext, mockEntryLabel, mockLabel, questionContext, questionEntryLabel } from '@/components/ai/askContexts.mjs';
+import ReportSheet from '@/components/result/ReportSheet';
+import { REPORT_COPY, reportRequest } from '@/components/result/reportModel.mjs';
+import { needsDailyRead, tomorrowLine } from '@/components/result/tomorrowLine.mjs';
+import { useDailyTomorrow } from '@/components/result/useDailyTomorrow';
+import InstallPractice from '@/components/InstallPractice';
+import '@/components/result/result-1115.css';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -128,9 +134,9 @@ export default function ResultPageClient({ previewId = null }) {
   const [savedRepairs, setSavedRepairs] = useState({}); // qid -> { repairedAt }: wrong answers that already hold a saved repair (F17)
   const [repairs, setRepairs] = useState(null); // the repair record's rows for the receipt line; null while unread or when it did not load
   const [autoRepair, setAutoRepair] = useState(null);
-  const [reporting, setReporting] = useState({});
+  // T4: the question the report sheet is open for ({ qid, number, chapter, row }), and the ones the server took a report on.
+  const [reportFor, setReportFor] = useState(null);
   const [reported, setReported] = useState({});
-  const [reportError, setReportError] = useState(null);
   const [retry, setRetry] = useState(0);
   const [hour] = useState(() => new Date().getHours()); // the late-night line in the next-move panel
   const [arrived, setArrived] = useState(null); // { number, n }: focus ring after a jump
@@ -174,7 +180,7 @@ export default function ResultPageClient({ previewId = null }) {
 
   useEffect(() => {
     let alive = true;
-    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReporting({}); setReported({}); setReportError(null); setRepairOutcomes({}); setSavedRepairs({}); setRepairs(null); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setRetried({}); setOpen(new Set()); setVisited(new Set()); } });
+    queueMicrotask(() => { if (alive) { setAttempt(null); setError(null); setFilter('all'); setReportFor(null); setReported({}); setRepairOutcomes({}); setSavedRepairs({}); setRepairs(null); setAutoRepair(null); setStarted(new Set()); setRunCurrent(null); setHandover(null); setEnding(false); setAckedAt(null); setEpochs({}); setChecks({}); setCheer(null); setShowAll(false); setBlanksOpen(false); setRetried({}); setOpen(new Set()); setVisited(new Set()); } });
     // The repair record (the read Today makes) rides along for the receipt line. The first paint waits for it a moment, so the line is
     // in the first paint and never pushes the page down; a slow or failed read leaves the line out (or draws it when it arrives).
     const record = apiGet('/api/me/repair-record?limit=100').then((body) => (Array.isArray(body?.repairs) ? body.repairs : null)).catch(() => null);
@@ -193,11 +199,17 @@ export default function ResultPageClient({ previewId = null }) {
         setArrive(firstOpen(data.id || id));
         setAttempt(data);
       })
-      .catch(e => { if (alive) setError(e.message); });
+      // B10: the status is kept, so a result that is not on this account (404) says so instead of offering a retry that cannot work.
+      .catch(e => { if (alive) setError({ status: Number(e?.status) || null, message: e?.message || '' }); });
     return () => { alive = false; };
   }, [id, retry]);
 
   const analysis = useMemo(() => attempt ? analyseSession(attempt) : null, [attempt]);
+  // O5: a paper with no wrong answers, on Free, reads whether a new included set opens tomorrow (the quote; read-only).
+  const dailyTomorrow = useDailyTomorrow({
+    need: Boolean(attempt && analysis) && needsDailyRead({ later: attempt?.lab?.prove?.later || null, wrong: analysis?.marks?.wrong, isPremium: Boolean(user?.isPremium) }),
+    userId: user?.id || null, subject: practiceSubjectId(attempt?.subject),
+  });
   // The after-the-mock receipt (FEATURE-ADOPTION item 5): what the repairs made before this paper did on it, or null (data/repair_receipt.mjs).
   const repairsDid = useMemo(() => (attempt ? repairReceipt({ attempt, repairs }) : null), [attempt, repairs]);
   // Time and decisions: the time fold and each answer's "Your time and picks" read the same object. The server's
@@ -368,7 +380,18 @@ export default function ResultPageClient({ previewId = null }) {
   // At that moment the page reads the result again and the full result takes this one's place.
   const reopen = useCallback(() => setRetry((count) => count + 1), []);
   if (attempt?.mobHold && !error) return <HeldResult attempt={attempt} subjectName={subjectName(attempt.subject)} celebrations={prefs.celebrations} onOpened={reopen} />;
-  if (error) return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This session did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
+  // B10: the server answers 404 for a result that is not on this account and for one that does not exist (it never says which,
+  // so another account's papers cannot be probed). Retrying cannot change that, so the page says it plainly and leads to Your papers.
+  if (error?.status === 404) {
+    return (
+      <div className="container-narrow student-page student-page--result pt-8">
+        <NoticeState headingLevel={1} title="We could not find this result"
+          message="It is not on your account, or the link is incomplete. Every set you have finished is in Your papers."
+          actions={<Link href="/review" className="ui-state__action ui-state__action--primary">Go to Your papers</Link>} />
+      </div>
+    );
+  }
+  if (error) return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This result did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
   if (!attempt || !analysis) return <ResultSkeleton />;
 
   const { marks, timing } = analysis;
@@ -388,6 +411,8 @@ export default function ResultPageClient({ previewId = null }) {
     labReady: Boolean(attempt.lab) && attempt.answerReviewState !== 'unavailable', hour,
   });
   const finding = costliestLine(analysis, { answerReviews });
+  // O5: one quiet line under the next move with the real reason to come back, or nothing (src/components/result/tomorrowLine.mjs).
+  const tomorrow = tomorrowLine({ later: attempt.lab?.prove?.later || null, wrong: analysis.marks.wrong, isPremium: Boolean(user?.isPremium), dailyTomorrow });
   // Mobi's reveal follows the server's recap tone (the app's table); none in NTA mode, never sleepy.
   const reaction = mobiReaction(attempt, { celebrations: prefs.celebrations });
   const receipt = receiptLine({ subjectName: subject, mode, completedAt: attempt.completedAt, durationMs: timing?.totalMs ?? null });
@@ -420,40 +445,19 @@ export default function ResultPageClient({ previewId = null }) {
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
   const rippleStep = firstWrong > 0 ? Math.min(35, Math.round(700 / firstWrong)) : 0;
 
-  async function handleReport(row) {
+  // T4: "Report a problem" opens the report sheet (src/components/result/ReportSheet.jsx), never window.prompt, which some
+  // in-app browsers and installed web apps suppress (the report was then dropped without a word). The row says Reported only
+  // once the server has taken it.
+  const handleReport = (row) => {
     const qid = row?.q?.id;
-    if (!qid || reporting[qid] || reported[qid]) return;
-    const note = window.prompt('What looks wrong? Example: answer key, option text, explanation, or unclear wording.');
-    if (note === null) return;
-
-    setReportError(null);
-    setReporting((current) => ({ ...current, [qid]: true }));
-    try {
-      await apiPost(`/api/questions/${encodeURIComponent(qid)}/interact`, {
-        interaction_type: 'report',
-        flow_context: 'review',
-        session_id: attempt.id,
-        metadata: {
-          source: 'result_analysis',
-          attempt_id: attempt.id,
-          subject: attempt.subject,
-          verdict: row.verdict,
-          note: note.trim(),
-          given_index: row.d?.givenIndex ?? null,
-          correct_index: row.q?.correctIndex ?? null,
-        },
-      });
-      setReported((current) => ({ ...current, [qid]: true }));
-    } catch (e) {
-      setReportError(e.message || 'Could not send your report. Try again.');
-    } finally {
-      setReporting((current) => {
-        const next = { ...current };
-        delete next[qid];
-        return next;
-      });
-    }
-  }
+    if (!qid || reported[qid]) return;
+    setReportFor({ qid, number: row.number, chapter: row.chapter || null, row });
+  };
+  const sendReport = ({ reason, note }) => {
+    const target = reportFor;
+    return apiPost(`/api/questions/${encodeURIComponent(target.qid)}/interact`, reportRequest({ reason, note, attempt, row: target.row }));
+  };
+  const reportSent = (qid) => setReported((current) => ({ ...current, [qid]: true }));
 
   // W-032, "Repair lets the student retry before seeing the key": a wrong answer or a blank that holds no repair opens sealed.
   // Its key, its book explanation, its option shares and its repair are not on screen (and the key is not in the row's markup
@@ -493,8 +497,8 @@ export default function ResultPageClient({ previewId = null }) {
       <>
         {askAbout(row)}
         <div className="rp-q__foot">
-          <button type="button" className="rp-report" disabled={!!reporting[q.id] || !!reported[q.id]} onClick={() => handleReport(row)}>
-            {reported[q.id] ? 'Reported. Thank you.' : reporting[q.id] ? 'Sending…' : 'Report a problem with this question'}
+          <button type="button" className="rp-report" aria-disabled={reported[q.id] || undefined} aria-haspopup={reported[q.id] ? undefined : 'dialog'} onClick={() => handleReport(row)}>
+            {reported[q.id] ? REPORT_COPY.rowSent : REPORT_COPY.rowOpen}
           </button>
         </div>
       </>
@@ -566,7 +570,7 @@ export default function ResultPageClient({ previewId = null }) {
   // ARC-07: the chapter set a failed repair offers beside Try again (Practice's own setup, which shows the price before it starts).
   const practiceOf = (row) => {
     if (!row.chapter) return null;
-    const p = new URLSearchParams({ subject: attempt.subject || '', mode: 'quick', count: '5', chapter: row.chapter });
+    const p = new URLSearchParams({ subject: practiceSubjectId(attempt.subject) || '', mode: 'quick', count: '5', chapter: row.chapter });
     return { href: `/dashboard?${p}`, label: `Practise 5 on ${row.chapter}` };
   };
 
@@ -737,7 +741,6 @@ export default function ResultPageClient({ previewId = null }) {
               </div>
             ) : null}
             after={<>
-              {reportError ? <div role="alert" className="rp-alert">{reportError}</div> : null}
               <RepairTotal remaining={repairsLeft} waiting={orderedMistakes.filter(r => HELD_STATES.has(answerReviews[r.q.id]?.state)).map(r => r.number)} />
               {analysis.mistakes.length ? <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p> : null}
               {move?.kind === 'practise' && move.rule === 2 ? null : lesson}
@@ -826,7 +829,11 @@ export default function ResultPageClient({ previewId = null }) {
       {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
         notice={notice} onNotice={(n) => jumpTo(n, { fromFront: true })} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} legend={legend} repairReceipt={repairsDid}
-        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} />} />
+        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} tomorrow={tomorrow} />} />
+
+      {/* O6: the home-screen card, once, on the first result this phone shows (src/components/result/installOffer.mjs). Draws
+           nothing on a desktop, inside an in-app browser, once installed, or after Not now. */}
+      <InstallPractice placement="result" attemptId={attempt.id} />
 
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).
            Draws nothing otherwise. */}
@@ -848,6 +855,8 @@ export default function ResultPageClient({ previewId = null }) {
           chapter={retryChapter} onClose={() => setEnding(false)} onRetry={tryAgain} withMobi={!isNtaAttempt} />
       ) : null}
 
+      <ReportSheet key={reportFor?.qid || 'closed'} target={reportFor} onSend={sendReport} onSent={reportSent} onClose={() => setReportFor(null)} />
+
       {/* ---------- The next paper: after the repair work, never above it. No fixed set of mocks: the next one is built
            fresh from this subject's bank (src/lib/paperCopy.mjs holds the words and the code facts behind them). ---------- */}
       <section className="rp-next" aria-labelledby="rp-next-title">
@@ -860,7 +869,8 @@ export default function ResultPageClient({ previewId = null }) {
       </section>
       {/* Free only, after a scored set (D79): one quiet line beside the next paper's price. */}
       <ProFacts facts={{ weakChapter: weakestChapter(chapterCounts), balance: oneBalance, subjects: user?.subjects || [] }} />
-      {attempt.total > 0 ? <InlineNudge placement="result" facts={{ weakChapter: weakestChapter(chapterCounts) }} className="rp-nudge" /> : null}
+      {/* U4: never after a paper with nothing answered ("Keep the momentum" would praise a non-start). */}
+      {attempt.total > 0 && marks.right + marks.wrong > 0 ? <InlineNudge placement="result" facts={{ weakChapter: weakestChapter(chapterCounts) }} className="rp-nudge" /> : null}
 
       <nav className="rp-links" aria-label="More from your record">
         <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>

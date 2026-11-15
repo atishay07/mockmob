@@ -224,7 +224,12 @@ export async function fixtureReplayMock(paperName = 'full', { cohortTime = null,
 // Accountancy practice answered in 58 seconds, 5 right and 5 wrong (20 of 50), Q1 and Q3 among the mistakes, Q3 changed
 // from the key to a wrong option. It is how the replay looks on a short paper.
 // practice10slow (preview only, pass 1018 D17): the same ten questions taken in about 15 minutes, so the replay draws its ten slots.
-const PREVIEW_PAPERS = Object.freeze({ practice10: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']], practice10slow: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']] });
+// first10 and first10clean (preview only, 15 Nov 2026, lane W1-C): a new student's first finished set, a 10-question Accountancy
+// practice taken in about 9 minutes: 6 right and 3 wrong with one blank, or every one right (the tomorrow line's two cases).
+const PREVIEW_PAPERS = Object.freeze({
+  practice10: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']], practice10slow: [['Admission of a Partner', 'WRWRR'], ['Goodwill', 'WRWWR']],
+  first10: [['Admission of a Partner', 'RWRRB'], ['Goodwill', 'RRWRW']], first10clean: [['Admission of a Partner', 'RRRRR'], ['Goodwill', 'RRRRR']],
+});
 const PRACTICE10_SECONDS = [4, 7, 5, 6, 8, 5, 6, 4, 7, 6];
 export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), ...Object.keys(PREVIEW_PAPERS)]);
 
@@ -237,19 +242,24 @@ export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), 
  */
 export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
   const now = Date.now();
-  const practice = name === 'practice5' || name === 'practice10' || name === 'practice10slow';
-  const short = name === 'practice10' || name === 'practice10slow';
-  const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - 3_600_000, blocks: RESULT_PAPERS[name] || PREVIEW_PAPERS[name] || RESULT_PAPERS.avg,
-    ...(short ? { secondsAt: (i) => (PRACTICE10_SECONDS[i] ?? 6) * (name === 'practice10slow' ? 16 : 1), firstPicks: { 3: 'key' } } : {}) });
+  const first = name === 'first10' || name === 'first10clean';
+  const practice = name === 'practice5' || name === 'practice10' || name === 'practice10slow' || first;
+  const short = name === 'practice10' || name === 'practice10slow' || first;
+  const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - (first ? 5 * 60_000 : 3_600_000), blocks: RESULT_PAPERS[name] || PREVIEW_PAPERS[name] || RESULT_PAPERS.avg,
+    ...(short ? { secondsAt: (i) => (PRACTICE10_SECONDS[i] ?? 6) * (name === 'practice10slow' || first ? 9 : 1), ...(first ? {} : { firstPicks: { 3: 'key' } }) } : {}) });
   if (practice && !short) attempt.subject = 'business_studies';
   attempt.mode = attempt.selectionMeta.mode;
   if (practice) attempt.selectionMeta = { ...attempt.selectionMeta, scoringVersion: 'server_practice_v1' };
   const answerReviews = held ? { [`paper-${name}-q42`]: { state: 'under_review', originalIndex: 42 % 4 } } : {};
-  const earlier = earlierPapers(now);
+  // A first set has no earlier papers: no history lines, no rule to check, nothing across mocks.
+  const earlier = first ? [] : earlierPapers(now);
   const built = buildMistakeLab({ attempt, answerReviews, cohort: null });
   const order = paperRepairOrder(name);
   const live = order ? { ...order, items: order.items.filter((x) => !answerReviews[x.qid]), qids: order.qids.filter((q) => !answerReviews[q]) } : null;
-  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : repaired && short ? mistakeIds(attempt, answerReviews).slice(0, 2) : [] } : null;
+  const looped = built ? (first ? { ...built, acrossMocks: null, rules: null, prove: { ruleCheck: null } } : fixtureLabLoop({ lab: built, attempt, answerReviews })) : null;
+  // The first set's wrong answers come back in Revise as the server says it (data/revise.js buildLater, no cards yet).
+  if (looped && first) looped.prove = { ...looped.prove, later: buildLater({ attempt, allAttempts: [], answerReviews, cards: null, now }) };
+  const lab = looped ? { ...looped, repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : repaired && short ? mistakeIds(attempt, answerReviews).slice(0, 2) : [] } : null;
   const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
