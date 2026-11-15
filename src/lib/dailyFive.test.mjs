@@ -8,6 +8,7 @@ import {
   acceptDailyFive, addDays, beginRun, clockWords, cycleDays, cycleOrder, dailyFiveFor, dailyFiveUrl, dateOfDay, dayLabel,
   dayNumber, finishDay, formatClock, istDateKey, keepAnswer, msUntilNextDay, nextIndex, readRecord, resultOn, scoreRun,
   shareSquares, shareText, shortDate, streakLine, streakOf, todayDaily, untilWords,
+  countdownParts, leafOf, runStats, untilShort, weekOf,
 } from './dailyFive.mjs';
 
 // Two full public windows as the sample route serves them (30 each), stems unique so a question can be traced.
@@ -191,4 +192,60 @@ test('the device record: a run resumes and never restarts, an answer is never ch
   assert.deepEqual(round, rec, 'stored and read back unchanged');
   assert.equal(readRecord(JSON.stringify({ ...rec, last: { ...rec.last, score: 5 } })).last, null, 'a tampered score does not read');
   assert.equal(resultOn(rec, '2026-11-16'), null, 'tomorrow is a new day');
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The look of the day (16 Nov 2026): the clock to 12:00 am IST, the calendar leaf, the run in numbers and the week strip.
+
+test('the countdown is a clock of whole seconds to 12:00 am IST, never rounded up', () => {
+  assert.deepEqual(countdownParts((7 * 3600 + 42 * 60 + 15) * 1000), { h: '07', m: '42', s: '15' });
+  assert.deepEqual(countdownParts((7 * 3600 + 42 * 60 + 15) * 1000 + 999), { h: '07', m: '42', s: '15' }, 'never rounded up');
+  assert.deepEqual(countdownParts(999), { h: '00', m: '00', s: '00' });
+  assert.deepEqual(countdownParts(-5), { h: '00', m: '00', s: '00' });
+  assert.deepEqual(countdownParts(undefined), { h: '00', m: '00', s: '00' });
+  // One second after midnight IST (18:30:01 UTC) the clock reads 23:59:59; one second before, 00:00:01.
+  const midnight = Date.UTC(2026, 10, 15, 18, 30, 0);
+  assert.deepEqual(countdownParts(msUntilNextDay(midnight + 1000)), { h: '23', m: '59', s: '59' });
+  assert.deepEqual(countdownParts(msUntilNextDay(midnight - 1000)), { h: '00', m: '00', s: '01' });
+  assert.deepEqual(countdownParts(msUntilNextDay(midnight)), { h: '24', m: '00', s: '00' }, 'the instant the day turns, a whole day is left');
+});
+
+test('a short wait for a row: hours and minutes, never rounded up', () => {
+  assert.equal(untilShort((7 * 60 + 42) * 60 * 1000 + 59 * 1000), '7 h 42 min');
+  assert.equal(untilShort(60 * 60 * 1000), '1 h');
+  assert.equal(untilShort(42 * 60 * 1000), '42 min');
+  assert.equal(untilShort(59 * 1000), 'under a minute');
+  assert.equal(untilShort(-1), 'under a minute');
+});
+
+test('the calendar leaf names the IST date: weekday, day and month, short', () => {
+  assert.deepEqual(leafOf('2026-11-16'), { weekday: 'Mon', day: '16', month: 'Nov' });
+  assert.deepEqual(leafOf('2027-01-03'), { weekday: 'Sun', day: '3', month: 'Jan' });
+  assert.equal(leafOf('2026-02-30'), null);
+  assert.equal(leafOf(null), null);
+});
+
+test('the run in numbers: days played, the run now, the best run', () => {
+  assert.deepEqual(runStats([], '2026-11-20'), { played: 0, current: 0, best: 0 });
+  assert.deepEqual(runStats(['2026-11-20'], '2026-11-20'), { played: 1, current: 1, best: 1 });
+  // 15, 16, 17 in a row, a gap, then 19 and 20.
+  const days = ['2026-11-15', '2026-11-16', '2026-11-17', '2026-11-19', '2026-11-20'];
+  assert.deepEqual(runStats(days, '2026-11-20'), { played: 5, current: 2, best: 3 });
+  assert.deepEqual(runStats(days, '2026-11-21'), { played: 5, current: 2, best: 3 }, 'yesterday keeps the run alive today');
+  assert.deepEqual(runStats(days, '2026-11-22'), { played: 5, current: 0, best: 3 }, 'a missed day ends the run, the best stands');
+  assert.deepEqual(runStats([...days, '2026-11-20', 'junk', '2026-12-25'], '2026-11-20'), { played: 5, current: 2, best: 3 }, 'repeats, junk and days after today do not count');
+  assert.deepEqual(runStats(days, 'not a date'), { played: 0, current: 0, best: 0 });
+});
+
+test('the week strip is the seven days that end today, oldest first, and never shows a miss before the Daily Five began', () => {
+  const week = weekOf(['2026-11-15', '2026-11-16'], '2026-11-16');
+  assert.equal(week.length, 7);
+  assert.deepEqual(week.map((d) => d.date), ['2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13', '2026-11-14', '2026-11-15', '2026-11-16']);
+  assert.deepEqual(week.map((d) => d.letter).join(''), 'TWTFSSM');
+  assert.equal(week[6].name, 'Monday');
+  assert.deepEqual(week.map((d) => d.played), [false, false, false, false, false, true, true]);
+  assert.deepEqual(week.map((d) => Boolean(d.today)), [false, false, false, false, false, false, true]);
+  assert.deepEqual(week.map((d) => Boolean(d.before)), [true, true, true, true, true, false, false], `days before ${DAILY_FIVE_EPOCH} had no five`);
+  assert.ok(weekOf([], '2026-12-01').every((d) => !d.before && !d.played));
+  assert.deepEqual(weekOf([], 'junk'), []);
 });

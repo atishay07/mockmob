@@ -224,9 +224,11 @@ export default function LandingPage() {
                 {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
                     end state offers it after the fifth answer. */}
               </div>
-              {/* The Daily Five's door (15 Nov 2026): one quiet row right under the card, in its column on wide screens. */}
-              <DailyFiveRow where="home" />
             </div>
+            {/* The Daily Five's own block (16 Nov 2026, owner: "not placed correctly as a proper clock"): the day, the board of
+                five, a real clock to 12:00 am IST and one ink key, under the desk and as wide as it. It stands outside the desk's
+                grid so the room, which stays in view beside a growing card, can never slide over it. */}
+            <DailyFiveRow where="home" />
           </div>
         </section>
 

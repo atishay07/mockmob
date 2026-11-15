@@ -101,6 +101,33 @@ export function untilWords(ms) {
   return parts.join(' and ');
 }
 
+/**
+ * A wait as a clock's three pairs: { h, m, s }, two digits each ("07", "42", "15"). Whole seconds, never rounded up, so the
+ * clock reads 00:00:00 only in the last second before 12:00 am IST.
+ */
+export function countdownParts(ms) {
+  const total = Math.max(0, Math.floor((Number(ms) || 0) / 1000));
+  return { h: pad(Math.floor(total / 3600)), m: pad(Math.floor((total % 3600) / 60)), s: pad(total % 60) };
+}
+
+/** "7 h 42 min", "42 min", "under a minute": a wait short enough for a row. Never rounded up. */
+export function untilShort(ms) {
+  const total = Math.max(0, Number(ms) || 0);
+  if (total < 60 * 1000) return 'under a minute';
+  const minutes = Math.floor(total / (60 * 1000));
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return [h ? `${h} h` : '', m ? `${m} min` : ''].filter(Boolean).join(' ');
+}
+
+/** The calendar leaf of an IST date: { weekday: 'Mon', day: '16', month: 'Nov' }, or null. */
+export function leafOf(key) {
+  const t = utcOf(key);
+  if (!Number.isFinite(t)) return null;
+  const d = new Date(t);
+  return { weekday: WEEKDAYS[d.getUTCDay()].slice(0, 3), day: String(d.getUTCDate()), month: MONTHS[d.getUTCMonth()].slice(0, 3) };
+}
+
 /** "Sunday, 15 November". */
 export function dayLabel(key) {
   const t = utcOf(key);
@@ -281,6 +308,39 @@ export function streakLine({ count, playedToday }) {
   if (!count) return null;
   if (count === 1) return playedToday ? { head: 'Day 1', more: 'Play tomorrow to make it 2 in a row.' } : { head: 'You played yesterday', more: 'Play today to make it 2 in a row.' };
   return playedToday ? { head: `Day ${count} in a row`, more: null } : { head: `${count} days in a row`, more: `Play today to make it ${count + 1}.` };
+}
+
+/**
+ * The run in numbers, from the dates played: { played, current, best }. `played` counts the days up to today; `current` is
+ * streakOf's count (alive through yesterday while today is not played yet); `best` is the longest run of days in a row.
+ */
+export function runStats(dates, today) {
+  if (!isDateKey(today)) return { played: 0, current: 0, best: 0 };
+  const days = [...new Set((Array.isArray(dates) ? dates : []).filter((d) => isDateKey(d) && d <= today))].sort();
+  let best = 0;
+  let run = 0;
+  let before = null;
+  for (const d of days) {
+    run = before && addDays(before, 1) === d ? run + 1 : 1;
+    if (run > best) best = run;
+    before = d;
+  }
+  return { played: days.length, current: streakOf(days, today).count, best };
+}
+
+/**
+ * The seven days that end today, oldest first, for the week strip: [{ date, letter: 'M', name: 'Monday', played, today }].
+ * A day before the Daily Five began (DAILY_FIVE_EPOCH) is marked `before`, so the strip never shows a miss on a day that had
+ * no five.
+ */
+export function weekOf(dates, today) {
+  if (!isDateKey(today)) return [];
+  const played = new Set((Array.isArray(dates) ? dates : []).filter(isDateKey));
+  return Array.from({ length: 7 }, (_, i) => {
+    const date = addDays(today, i - 6);
+    const name = WEEKDAYS[new Date(utcOf(date)).getUTCDay()];
+    return { date, letter: name[0], name, played: played.has(date), today: date === today, ...(date < DAILY_FIVE_EPOCH ? { before: true } : {}) };
+  });
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

@@ -8,13 +8,14 @@ import { useAuth } from '@/components/AuthProvider';
 import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
 import {
   DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
-  formatClock, keepAnswer, keepCheck, msUntilNextDay, nextOpen, readRecord, resultFor, scoreRun, shareText, shortDate, streakLine, streakOf,
-  todayDaily, untilWords, withChecks,
+  formatClock, keepAnswer, keepCheck, nextOpen, readRecord, resultFor, runStats, scoreRun, shareText, shortDate, streakLine, streakOf,
+  todayDaily, withChecks,
 } from '@/lib/dailyFive.mjs';
 import {
   ANSWER_LETTERS, DAILY_FIVE_CHECK_ROUTE, DAILY_FIVE_ME_ROUTE, DAILY_FIVE_STATS_ROUTE, acceptAccount, acceptCheck, acceptCrowd, crowdLineFor, runDays,
   runNote,
 } from '@/lib/dailyFiveAccount.mjs';
+import { DailyBoard, DailyLeaf, DailyWeek, NextFiveClock, boardLabel } from './DailyParts';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
 
@@ -22,7 +23,13 @@ import './daily.css';
 // src/lib/dailyFiveAccount.mjs). The same five CUET questions for everyone today, one at a time, in the home page sample card's
 // own look and behaviour: the same classes (lp-card, mm-drill__*) inside the same .lp-try .lp-desk frame, so every rule of the
 // sample (marketing.css, hero-scene.css, r10-sample.css, r13-motion.css, demo-subject.css) draws it; daily.css only frees the
-// card from Mobi's room and adds the clock, the squares, the share and the question list.
+// card from Mobi's room and lays out the page around it.
+// The look of the day (16 Nov 2026; the owner: "the entire UI and flow around it is very bad"): the page is a daily puzzle's
+// own, as the daily games draw one (DailyParts.jsx). The head is the calendar leaf, the name, the weekday and the number. The
+// start shows the board of five open tiles, the one volt key, a real clock to 12:00 am IST and the run (the last seven days
+// and three numbers). While the five are played the head folds to one line with the clock, so the question sits high on a
+// phone. The result is the score, the board arriving tile by tile, the volt Share, the clock to the next five, the run, then
+// the five question by question.
 // States: loading (the sample's own skeleton), failed (one line and Try again), start (what the five are, one volt Start),
 // playing (the clock counts up; each answer shows its reason, as the sample does), result (score, time, the five squares, the
 // volt Share, the run of days, the five questions one by one with how everyone did, one quiet key on), and played (today's
@@ -59,16 +66,36 @@ function mixLine(questions) {
   return [...counts].map(([name, n]) => `${n} ${name}`).join(', ');
 }
 
-/** The five squares on screen: what the share line sends, drawn. */
-function Squares({ marks, label }) {
+/**
+ * The run: the last seven days and one line of where it stands; on the result (`numbers`), also three numbers (days played,
+ * days in a row now, the best run) and where the run is kept. Before the five it is the same block while the page loads and
+ * once it has, so nothing moves.
+ */
+function RunBlock({ days, today, numbers = false, note = null, children = null }) {
+  const stats = runStats(days, today);
+  const streak = streakOf(days, today);
+  const told = streakLine(streak);
+  // Before the page knows the day (the first paint), the block holds its place with no words.
+  const line = !today ? ' ' : !told ? 'Play today’s five to start a run.' : told.more ? `${told.head}. ${told.more}` : `${told.head}.`;
   return (
-    <p className="dly__squares" role="img" aria-label={label}>
-      {marks.map((right, i) => <span key={i} className="dly__square" data-right={right ? 'true' : 'false'} />)}
-    </p>
+    <div className="dly__run">
+      <div className="dly__run-head">
+        <h2 className="dly__run-title">Your run</h2>
+        <p className="dly__run-line" aria-live="polite">{line}</p>
+      </div>
+      <DailyWeek days={days} today={today} />
+      {numbers && stats.played > 0 ? (
+        <dl className="dly__stats">
+          <div><dt>{stats.played === 1 ? 'day played' : 'days played'}</dt><dd>{stats.played}</dd></div>
+          <div><dt>in a row now</dt><dd>{stats.current}</dd></div>
+          <div><dt>best run</dt><dd>{stats.best}</dd></div>
+        </dl>
+      ) : null}
+      {note ? <p className="dly__streak-note" aria-live="polite">{note}</p> : null}
+      {children}
+    </div>
   );
 }
-
-const squaresLabel = (marks) => marks.map((right, i) => `question ${i + 1} ${right ? 'right' : 'missed'}`).join(', ');
 
 export default function DailyFive() {
   const { isAuthenticated, status, user } = useAuth();
@@ -285,21 +312,19 @@ export default function DailyFive() {
     return () => window.clearInterval(id);
   }, [ticking]);
 
-  // The wait for the next five, in words, kept current; at 12:00 am IST the new day loads.
+  // At 12:00 am IST the new day loads: the page's clock (NextFiveClock) says so the second it turns, and a slow watch stands
+  // behind it for a tab whose clock is off screen.
+  const newDay = useCallback(() => {
+    holdAccount(null);
+    setChecking('idle');
+    setCrowd(null);
+    load();
+  }, [holdAccount, load]);
   useEffect(() => {
     if (!showResult || !today) return undefined;
-    const id = window.setInterval(() => {
-      const t = clockNow();
-      setNow(t);
-      if (todayDaily(t).date !== today.date) {
-        holdAccount(null);
-        setChecking('idle');
-        setCrowd(null);
-        load();
-      }
-    }, 30 * 1000);
+    const id = window.setInterval(() => { if (todayDaily(clockNow()).date !== today.date) newDay(); }, 30 * 1000);
     return () => window.clearInterval(id);
-  }, [showResult, today, load, holdAccount]);
+  }, [showResult, today, newDay]);
 
   // How everyone did: read once the result is on screen (guests too). A failed read shows nothing extra.
   useEffect(() => {
@@ -399,13 +424,24 @@ export default function DailyFive() {
     }
   }
 
-  const over = (
+  // The head: the calendar leaf, the name, the weekday and the day's number. Before a five is played, one line of what it is.
+  const head = (
     <div className="dly__head">
-      <p className="dly__over">{today ? <>{dayLabel(today.date)}<span aria-hidden="true"> · </span><span className="sr-only">, </span>No. {today.day}</> : ' '}</p>
-      <h1 className="lp-h2 dly__title">Daily Five</h1>
-      <p className="lp-sub dly__lead">The same five CUET questions for everyone today. One go a day, no sign-up.</p>
+      <DailyLeaf date={today?.date} size="l" />
+      <div className="dly__head-text">
+        <h1 className="lp-h2 dly__title">Daily Five</h1>
+        <p className="dly__over">{today ? <>{dayLabel(today.date)}<span aria-hidden="true"> · </span><span className="sr-only">, </span>No. {today.day}</> : ' '}</p>
+      </div>
     </div>
   );
+  const over = (
+    <>
+      {head}
+      <p className="lp-sub dly__lead">The same five CUET questions for everyone today. One go a day, no sign-up.</p>
+    </>
+  );
+  // The days played, as this viewer's run: the account's once it has answered, else this device's.
+  const runOf = (playedToday) => (signedIn && accountReady ? runDays(account.played, today.date, playedToday) : record ? record.played : []);
 
   // ---------- Result: just finished, or played earlier today (here or, signed in, on another phone) ----------
   if (showResult) {
@@ -413,10 +449,7 @@ export default function DailyFive() {
     // Signed in, the account holds the five once all five checks were recorded: read again after the fifth.
     const saveState = !signedIn ? 'guest' : accountRecord || result.saved ? 'saved'
       : account?.state === 'failed' ? 'failed' : accountReady ? 'device' : 'saving';
-    const days = signedIn && accountReady ? runDays(account.played, today.date, true) : record.played;
-    const streak = streakOf(days, today.date);
-    const line = streakLine(streak);
-    const wait = untilWords(msUntilNextDay(now));
+    const days = runOf(true);
     const missedAt = new Map(result.missed.map((m) => [m.n, m]));
     const chapters = result.chapters || (five ? five.map((q) => q.chapter) : null);
     const rows = result.marks.map((right, i) => {
@@ -430,7 +463,7 @@ export default function DailyFive() {
     });
     return (
       <>
-        {over}
+        {head}
         <div className="lp-desk dly__desk">
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" aria-live="polite" role="group" aria-label="Today’s Daily Five result">
@@ -442,8 +475,7 @@ export default function DailyFive() {
                   <p className="mm-drill__score">{result.score}<span>/5</span></p>
                   <p className="dly__time"><Icon name="clock" className="dly__time-icon" /><span className="sr-only">Time </span>{formatClock(result.ms)}</p>
                 </div>
-                <Squares marks={result.marks} label={squaresLabel(result.marks)} />
-                <p className="dly__next">Come back tomorrow for a new five. It opens in {wait}.</p>
+                <DailyBoard marks={result.marks} size="l" reveal={justFinished} label={boardLabel(result.marks)} />
 
                 <div className="dly__share">
                   <button type="button" className="mm-btn mm-btn--primary" onClick={shareScore} data-state={share}>
@@ -455,13 +487,15 @@ export default function DailyFive() {
                   {share === 'failed' ? <p className="dly__share-text">{shareText(result)}</p> : null}
                 </div>
 
-                {line || signedIn ? (
-                  <div className="dly__streak">
-                    {line ? <p className="dly__streak-line">{line.head}</p> : null}
-                    <p className="dly__streak-note" aria-live="polite">{line?.more ? `${line.more} ` : ''}{runNote(saveState)}</p>
-                    {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retryAccount}>Try again</button> : null}
-                  </div>
-                ) : null}
+                {/* The clock to the next five: a real countdown to 12:00 am IST; the page loads the new day when it turns. */}
+                <div className="dly__next">
+                  <NextFiveClock date={today.date} label="Next five in" size="l" units onNewDay={newDay} />
+                  <p className="dly__next-note">A new five opens at 12:00 am, the same for everyone.</p>
+                </div>
+
+                <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>
+                  {saveState === 'failed' ? <button type="button" className="dly__again" onClick={retryAccount}>Try again</button> : null}
+                </RunBlock>
 
                 <div className="mm-drill__readout dly__list">
                   <p className="mm-drill__readout-head">{result.score === DAILY_FIVE_SIZE ? 'All five right today.' : 'Question by question'}</p>
@@ -476,7 +510,7 @@ export default function DailyFive() {
                             {row.chapter}
                             {row.crowd ? <span className="dly__crowd">{row.crowd}</span> : null}
                           </span>
-                          <span className="dly__mark" data-right={row.right ? 'true' : 'false'} aria-hidden="true" />
+                          <span className="dly__mark" data-right={row.right ? 'true' : 'false'} aria-hidden="true"><Icon name={row.right ? 'check' : 'x'} className="dly__mark-icon" /></span>
                           <span className="sr-only">{row.right ? ', right' : ', missed'}</span>
                           {row.body ? <Icon name="chevR" className="mm-drill__miss-chev" /> : <span className="dly__chev-space" aria-hidden="true" />}
                         </>
@@ -525,7 +559,7 @@ export default function DailyFive() {
                 <div className="dly__on">
                   {status === 'loading' ? null : isAuthenticated
                     ? <Link href={firstSetHref()} className="mm-drill__replay">{FIRST_SET_LABEL}</Link>
-                    : <Link href="/signup" className="mm-drill__replay">Sign up free to keep your papers</Link>}
+                    : <Link href="/signup" className="mm-drill__replay">Sign up free to keep your run on your account</Link>}
                 </div>
               </div>
             </div>
@@ -567,6 +601,7 @@ export default function DailyFive() {
                   </>
                 ) : (
                   <>
+                    <DailyBoard size="l" label={boardLabel(null)} />
                     <p className="mm-drill__q dly__start-q">Five questions, one at a time, each with its answer explained.</p>
                     <ul className="dly__rules">
                       <li>The clock starts when you press Start.</li>
@@ -576,6 +611,8 @@ export default function DailyFive() {
                     <div className="dly__go">
                       <button type="button" className="mm-btn mm-btn--secondary dly__wait" disabled aria-live="polite">Loading today’s five</button>
                     </div>
+                    <div className="dly__closes"><NextFiveClock date={today?.date} label="Today’s five closes in" size="s" /></div>
+                    <RunBlock days={today ? runOf(false) : []} today={today?.date || null} />
                   </>
                 )}
               </div>
@@ -588,8 +625,6 @@ export default function DailyFive() {
 
   // ---------- Start ----------
   if (phase !== 'playing' || (!run && !result)) {
-    const days = signedIn && accountReady ? account.played : record ? record.played : [];
-    const streak = today ? streakOf(days, today.date) : { count: 0 };
     return (
       <>
         {over}
@@ -600,16 +635,18 @@ export default function DailyFive() {
                 <span className="lp-card__sub"><b>Today’s five</b><span>{mixLine(five)}</span></span>
               </div>
               <div className="lp-card__body">
+                <DailyBoard size="l" label={boardLabel(null)} />
                 <p className="mm-drill__q dly__start-q">Five questions, one at a time, each with its answer explained.</p>
                 <ul className="dly__rules">
                   <li>The clock starts when you press Start.</li>
                   <li>One go a day. An answer can’t be changed.</li>
                   {signedIn ? <li>Your score is saved to your account and counts as a study day.</li> : null}
-                  {streak.count > 0 ? <li>{streak.count === 1 ? 'You played yesterday.' : `You’ve played ${streak.count} days in a row.`} Play today to keep it going.</li> : null}
                 </ul>
                 <div className="dly__go">
                   <button type="button" className="mm-btn mm-btn--primary" onClick={start}>Start today’s five</button>
                 </div>
+                <div className="dly__closes"><NextFiveClock date={today.date} label="Today’s five closes in" size="s" onNewDay={newDay} /></div>
+                <RunBlock days={runOf(false)} today={today.date} />
               </div>
             </div>
           </div>
@@ -627,14 +664,14 @@ export default function DailyFive() {
   const marks = result ? result.marks : run ? run.checks.map((c) => (c ? c.right : null)) : [];
   return (
     <>
-      {over}
-      <div className="dly__clock-row">
+      <div className="dly__bar">
+        <h1 className="dly__bar-name">Daily Five<span>{dayLabel(today.date).split(',')[0]}<span aria-hidden="true"> · </span><span className="sr-only">, </span>No. {today.day}</span></h1>
         <p className="dly__clock" role="timer" aria-label={`Time ${clockWords(shownMs)}`}>
           <Icon name="clock" className="dly__time-icon" />
           <span aria-hidden="true">{formatClock(shownMs)}</span>
         </p>
       </div>
-      <div className="lp-desk dly__desk">
+      <div className="lp-desk dly__desk" data-phase="playing">
         <div className="lp-desk__card">
           <div className="lp-card mm-drill" data-answered={index + (answered ? 1 : 0)} data-mode="drill" tabIndex={-1} role="group" aria-label="Today’s Daily Five" ref={rootRef}>
             <div className="lp-card__head">

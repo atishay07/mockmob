@@ -12,10 +12,18 @@
 }
 
 /* The head: the date and the day's number, the name, one line of what it is. */
-.mm.lp .dly__head { display: grid; gap: 8px; }
-.mm.lp .dly__over { margin: 0; min-height: 1.4em; color: var(--ink-2); font: 600 0.875rem/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
-.mm.lp .dly__title { max-width: none; }
-.mm.lp .dly__lead { max-width: 40ch; }
+.mm.lp .dly__head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; }
+.mm.lp .dly__head-text { display: grid; gap: 4px; min-width: 0; }
+.mm.lp .dly__over { margin: 0; min-height: 1.4em; color: var(--ink-2); font: 600 0.9375rem/1.4 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .dly__title { max-width: none; margin: 0; }
+.mm.lp .dly__lead { max-width: 40ch; margin-top: 14px; }
+
+/* While the five are played the head is one line: the name and the day on the left, the clock on the right, so the question
+   sits high on a phone. */
+.mm.lp .dly__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 32px; }
+.mm.lp .dly__bar-name { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; margin: 0; color: var(--ink); font: 750 1.1875rem/1.2 var(--font-display); letter-spacing: -0.015em; }
+.mm.lp .dly__bar-name > span { color: var(--ink-2); font: 600 0.875rem/1.2 var(--font-body); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.mm.lp .lp-try.dly .lp-desk[data-phase='playing'] { margin-top: 12px; }
 
 /* The card, standing alone: a whole card with its own top edge. The desk's two-column grid (r10-sample.css) needs the room;
    here there is none, so the card takes the column. */
@@ -25,8 +33,7 @@
   .mm.lp .lp-try.dly .lp-desk__card { border-radius: 28px; }
 }
 
-/* The clock, over the card's right edge while the five are played. It only counts up. */
-.mm.lp .dly__clock-row { display: flex; justify-content: flex-end; margin: 16px 0 -8px; }
+/* The clock in the playing bar. It only counts up. */
 .mm.lp .dly__clock {
   display: inline-flex; align-items: center; gap: 6px; margin: 0; min-height: 24px;
   color: var(--ink-2); font: 650 0.9375rem/1 var(--font-body); font-variant-numeric: tabular-nums;
@@ -42,21 +49,23 @@
 .mm.lp .dly__checking { margin: 10px 0 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; }
 .mm.lp .lp-try.dly .dly__check-failed { color: var(--bad-text, #b0291f); }
 
-/* The start: what the five are and the two rules, then the one key. */
-.mm.lp .lp-try.dly .dly__start-q { font-size: 1.25rem; }
+/* The start: the board of five open tiles, what the five are and the two rules, the one key, the clock to 12:00 am. */
+.mm.lp .dly .lp-card__body > .df-board { margin-top: 14px; }
+.mm.lp .lp-try.dly .dly__start-q { margin-top: 18px; font-size: 1.25rem; }
+.mm.lp .dly__closes { display: flex; justify-content: center; min-height: 24px; margin-top: 14px; }
 .mm.lp .dly__rules { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
 .mm.lp .dly :is(.dly__go, .dly__retry, .dly__share) .mm-btn { width: 100%; }
 .mm.lp .dly__go { margin-top: 18px; }
 .mm.lp .dly__retry { margin-top: 16px; }
 
-/* The result: the score with its time beside it, the five squares, the wait for the next five. */
+/* The result: the score with its time beside it, the board, the share, the clock to the next five, the run. */
 .mm.lp .dly__score-row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 12px; }
 .mm.lp .lp-try.dly .dly__score-row .mm-drill__score { margin: 0; }
 .mm.lp .dly__time { display: inline-flex; align-items: center; gap: 6px; margin: 0; color: var(--ink-2); font: 700 1.25rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
-.mm.lp .dly__squares { display: flex; gap: 6px; margin: 16px 0 0; }
-.mm.lp .dly__square { width: 22px; height: 22px; border-radius: 4px; border: 2px solid var(--ink); background: transparent; }
-.mm.lp .dly__square[data-right='true'] { background: var(--ink); }
-.mm.lp .dly__next { margin: 12px 0 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+.mm.lp .dly .mm-drill__result > .df-board { margin-top: 16px; }
+.mm.lp .dly__next { display: grid; justify-items: center; gap: 8px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); text-align: center; }
+.mm.lp .dly__next .df-clock { justify-items: center; gap: 6px; }
+.mm.lp .dly__next-note { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }
 
 /* The share: the volt key, then one line that says what goes out (and, once it has, that it did). */
 .mm.lp .dly__share { margin-top: 18px; }
@@ -68,27 +77,35 @@
   color: var(--ink); font-size: 0.875rem; line-height: 1.5; white-space: pre-line; overflow-wrap: anywhere; user-select: all; -webkit-user-select: all;
 }
 
-/* The run of days: one line, and where it is kept. */
-.mm.lp .dly__streak { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid var(--line); }
-.mm.lp .dly__streak-line { margin: 0; color: var(--ink); font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
-.mm.lp .dly__streak-note { margin: 4px 0 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; }
+/* The run: its name and where it stands, the last seven days, three numbers once a day is played, where it is kept. */
+.mm.lp .dly__run { display: grid; gap: 14px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+.mm.lp .dly__run-head { display: grid; gap: 2px; }
+.mm.lp .dly__run-title { margin: 0; color: var(--ink); font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; }
+.mm.lp .dly__run-line { margin: 0; min-height: 1.4em; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+.mm.lp .dly__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 2px 0 0; }
+.mm.lp .dly__stats > div { display: flex; flex-direction: column-reverse; align-items: center; gap: 2px; text-align: center; }
+.mm.lp .dly__stats dd { margin: 0; color: var(--ink); font: 800 1.625rem/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.mm.lp .dly__stats dt { color: var(--ink-2); font-size: 0.8125rem; line-height: 1.3; }
+.mm.lp .dly__streak-note { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.4; text-align: center; }
 
 /* The run's own Try again (a save that did not reach the account): a quiet text key, 44 px tall. */
 .mm.lp .dly .dly__again {
-  display: inline-flex; align-items: center; min-height: 44px; margin: 2px 0 -10px; padding: 0; border: 0; background: none;
+  display: inline-flex; align-items: center; justify-self: center; min-height: 44px; margin: -10px 0; padding: 0; border: 0; background: none;
   color: var(--ink); font: 650 0.875rem/1.3 var(--font-body); text-decoration: underline; text-decoration-thickness: 1px;
   text-decoration-color: var(--ink-3); text-underline-offset: 4px; cursor: pointer;
 }
 .mm.lp .dly .dly__again:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 4px; }
 
 /* The five, question by question, under the run, a hairline above them; the reason closes the open row (no sign-up line
-   inside it). Each row ends with its own square (filled for right), the squares above read one by one. */
-.mm.lp .lp-try.dly .mm-drill__readout { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); }
+   inside it). Each row ends with its own square (filled for right), the board above reads one by one. */
+.mm.lp .lp-try.dly .mm-drill__readout { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--line); }
 .mm.lp .lp-try.dly .mm-drill__miss-body > .dly__miss-why { padding-bottom: 12px; }
 .mm.lp .lp-try.dly .dly__list .mm-drill__miss-chapter { display: grid; gap: 2px; }
 .mm.lp .lp-try.dly .dly__crowd { color: var(--ink-3); font: 500 0.8125rem/1.35 var(--font-body); font-variant-numeric: tabular-nums; }
-.mm.lp .lp-try.dly .dly__mark { flex: none; width: 14px; height: 14px; border-radius: 3px; border: 2px solid var(--ink); background: transparent; }
-.mm.lp .lp-try.dly .dly__mark[data-right='true'] { background: var(--ink); }
+.mm.lp .lp-try.dly .dly__mark { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--ink-2); background: transparent; color: var(--ink-2); }
+.mm.lp .lp-try.dly .dly__mark[data-right='true'] { border-color: var(--volt-edge); background: var(--volt); color: var(--volt-ink); }
+/* The mark's own ink: the readout tints every icon in a row with the good tone (.mm-drill__readout li svg). */
+.mm.lp .lp-try.dly .mm-drill__readout li .dly__mark .dly__mark-icon { width: 13px; height: 13px; stroke-width: 3.2; color: inherit; }
 .mm.lp .lp-try.dly .dly__chev-space { flex: none; width: 16px; }
 .mm.lp .lp-try.dly .dly__row-still { cursor: default; }
 .mm.lp .lp-try.dly .dly__row-still:active { background: none; }

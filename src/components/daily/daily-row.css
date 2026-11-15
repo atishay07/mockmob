@@ -1,5 +1,6 @@
-/* The Daily Five's doors (DailyFiveRow.jsx). A quiet row, the whole row the link, never volt.
-   Home: under the sample card, on the card's own paper and hairline, 12 px below it, in the card's column on wide screens.
+/* The Daily Five's doors (DailyFiveRow.jsx).
+   Home: the Daily Five's own block under the sample card (16 Nov 2026): the day, the board, the clock and one ink key, the
+   whole block the link. On the card's paper and hairline; full width of the desk on wide screens.
    Today: Today's Ask Mobi row as it is (today.css .tmask); this file only draws the five small squares in its face slot. */
 
 .dfr__mark { display: inline-flex; gap: 2px; min-width: 34px; justify-content: center; }
@@ -7,33 +8,62 @@
 .dfr__mark i[data-right='true'] { background: currentColor; opacity: 1; }
 .dfr[data-played='true'] .dfr__mark i { opacity: 1; }
 
-/* ---------- Home ---------- */
-.mm.lp .dfr--home {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px;
-  min-height: 64px; margin-top: 12px; padding: 12px 14px 12px 14px;
-  border: 1px solid var(--line); border-radius: 18px; background: var(--paper-raised);
+/* ---------- Home: the block ---------- */
+/* As wide as the desk above it at every size (hero-scene.css and r10-sample.css give the desk its width). */
+.mm.lp .dfh {
+  display: grid; gap: 16px; margin: 14px -4px 0; padding: 16px 16px 18px;
+  border: 1px solid var(--line); border-radius: 22px; background: var(--paper-raised);
   color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent;
   transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease-out;
 }
-.mm.lp .dfr--home .dfr__mark { color: var(--ink); }
-.mm.lp .dfr__text { display: grid; gap: 3px; min-width: 0; }
-.mm.lp .dfr__text b { font: 650 1rem/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--ink); }
-.mm.lp .dfr__date { font-variant-numeric: tabular-nums; color: var(--ink-2); font-weight: 600; }
-.mm.lp .dfr__text > span { font-size: 0.875rem; line-height: 1.4; color: var(--ink-2); text-wrap: pretty; }
-.mm.lp .dfr__go { color: var(--ink-3); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
-.mm.lp .dfr--home:active { transform: scale(0.985); }
-.mm.lp .dfr--home:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.mm.lp .dfh__info { display: grid; gap: 12px; min-width: 0; }
+.mm.lp .dfh__top { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; }
+.mm.lp .dfh__title { display: grid; gap: 4px; min-width: 0; }
+.mm.lp .dfh__name { margin: 0; color: var(--ink); font: 750 1.4375rem/1.1 var(--font-display); letter-spacing: -0.02em; }
+.mm.lp .dfh__when { margin: 0; min-height: 1.3em; color: var(--ink-2); font: 600 0.875rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
+/* Two lines are held, so the line a played day writes never moves the board under it. */
+.mm.lp .dfh__line { margin: 0; min-height: 2.9em; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
+.mm.lp .dfh[data-state='played'] .dfh__line { color: var(--ink); }
+.mm.lp .dfh__board { min-width: 0; }
+.mm.lp .dfh__foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
+/* The key: ink, not volt (the page's volt key is Sign up free). Once the day is played it steps back to an outline. */
+.mm.lp .dfh__key {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 18px; border-radius: var(--r-2);
+  background: var(--ink); color: var(--paper-raised); font: 800 1rem/1.1 var(--font-display); letter-spacing: -0.01em; white-space: nowrap;
+  transition: background-color 160ms ease-out;
+}
+.mm.lp .dfh[data-state='played'] .dfh__key { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line-strong); }
+.mm.lp .dfh:active { transform: scale(0.99); }
+.mm.lp .dfh:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
-  .mm.lp .dfr--home:hover { border-color: var(--line-strong); }
-  .mm.lp .dfr--home:hover .dfr__go { transform: translateX(2px); }
+  .mm.lp .dfh:hover { border-color: var(--line-strong); }
 }
-/* On wide screens the desk is the room and the card side by side (r10-sample.css): the row sits in the card's column. */
+@media (max-width: 359.98px) {
+  .mm.lp .dfh__foot { grid-template-columns: minmax(0, 1fr); }
+  .mm.lp .dfh__key { width: 100%; }
+}
+/* From 640 px the block is one row: the day and its line, the board, then the clock and the key. */
+@media (min-width: 640px) {
+  .mm.lp .dfh { grid-template-columns: minmax(0, 1fr) 236px; align-items: center; column-gap: 24px; padding: 20px 22px; }
+  .mm.lp .dfh__foot { grid-column: 1 / -1; }
+}
+@media (min-width: 960px) {
+  .mm.lp .dfh { max-width: 560px; margin-inline: auto; }
+}
+/* On wide screens the desk is the room and the card side by side (r10-sample.css): the block runs under both. */
 @media (min-width: 1024px) {
-  .mm.lp .lp-try .lp-desk > .dfr--home { grid-column: 2; margin-top: 12px; }
-  .mm.lp .dfr--home { border-radius: 22px; }
+  .mm.lp .dfh { grid-template-columns: minmax(0, 1fr) 268px auto; column-gap: 36px; max-width: 1120px; margin-top: 16px; padding: 20px 28px; border-radius: 28px; }
+  /* The leaf stands beside the name and the line, both rows of them. */
+  .mm.lp .dfh__info { grid-template-columns: auto minmax(0, 1fr); column-gap: 16px; row-gap: 6px; align-items: center; }
+  .mm.lp .dfh__top { display: contents; }
+  .mm.lp .dfh__info .df-leaf { grid-row: 1 / span 2; }
+  .mm.lp .dfh__title { align-self: end; }
+  .mm.lp .dfh__line { grid-column: 2; align-self: start; min-height: 1.45em; }
+  .mm.lp .dfh__foot { grid-column: auto; grid-template-columns: auto auto; align-items: center; gap: 28px; }
 }
-html[data-motion='reduced'] .mm.lp .dfr--home, html[data-motion='reduced'] .mm.lp .dfr__go { transition: none; }
-@media (prefers-reduced-motion: reduce) { .mm.lp .dfr--home, .mm.lp .dfr__go { transition: none; } .mm.lp .dfr--home:hover .dfr__go { transform: none; } }
+html[data-motion='reduced'] .mm.lp .dfh, html[data-motion='reduced'] .mm.lp .dfh__key { transition: none; }
+@media (prefers-reduced-motion: reduce) { .mm.lp .dfh, .mm.lp .dfh__key { transition: none; } }
 
 /* ---------- Today ---------- */
 .app-shell .dfr--today .dfr__mark { color: var(--a-ink); }
+.app-shell .dfr--today .dfr__no { font-weight: 600; font-variant-numeric: tabular-nums; opacity: 0.72; }
