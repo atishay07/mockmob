@@ -136,8 +136,18 @@ export async function startPractice(userId, input, server = {}) {
     throw firstFullMockTakenError(firstFullMock === 'used' ? 'taken' : 'off');
   }
   if (durableLearningEnabled()) {
-    const { quota } = charge;
-    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
+    let { creditAction, quota } = charge;
+    // STATUS.md 622 (15 Nov 2026): start_learning_session took the free row itself and, when another start had just taken it,
+    // charged attempt_full without a warning. The free first full mock is now taken here, before the session, exactly as the
+    // device-held start takes it (takeFirstFullMock): the row's primary key lets one start have it, a start whose own read said
+    // free that finds it taken is refused with FIRST_FULL_MOCK_TAKEN and charged nothing, and the start holding it passes no
+    // charge and no quota. A session that then fails to start keeps the row, so reopening the same paper starts it free.
+    if (charge.firstFullMock === true) {
+      const free = await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `recovery:${id}`, state: firstFullMock });
+      quota = null;
+      if (free) creditAction = null;
+    }
+    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
     if (error) throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
     return publicSessionView(data);
   }

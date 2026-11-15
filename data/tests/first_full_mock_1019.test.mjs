@@ -607,11 +607,15 @@ test('Quick practice and its prices are untouched (the device path charges 1 a q
   } finally { await d.close(); }
 });
 
-test('durable sessions: start_learning_session takes the free row under the user lock; the next and the parallel start pay; the full sample is the same free one', async () => {
+test('durable sessions: the free row is taken once; the next start pays; a parallel start that loses it is refused, never charged; the full sample is the same free one', async () => {
   process.env.LEARNING_SESSIONS_ENABLED = 'true';
-  let rpcs = 0; let release; const bothIn = new Promise((r) => { release = r; });
+  // The gate holds the free-row writes until both starts have read the rule, so the race below is the real one.
+  let reads = 0; let release; const bothRead = new Promise((r) => { release = r; });
   let gate = false;
-  const d = await routes({ beforeRpc: async (name) => { if (gate && name === 'start_learning_session') { if (++rpcs === 2) release(); await Promise.race([bothIn, new Promise((r) => setTimeout(r, 5000))]); } } });
+  const d = await routes({
+    afterRead: (table) => { if (gate && table === 'learning_allowances' && ++reads === 2) release(); },
+    beforeInsert: async (table) => { if (gate && table === 'learning_allowances') await Promise.race([bothRead, new Promise((r) => setTimeout(r, 5000))]); },
+  });
   try {
     await student(d, 'dur', { balance: 100 });
     const q = await getQuote('dur');
@@ -632,14 +636,17 @@ test('durable sessions: start_learning_session takes the free row under the user
     assert.equal(await balanceOf(d, 'dur'), 50);
     assert.equal((await claims(d, 'dur')).some((c) => c.kind.startsWith('full_sample:')), false);
 
-    // Two parallel first starts in another subject: both read 'available', start_learning_session lets one take the row.
+    // Two parallel first starts in another subject: both read 'available'; the free row's primary key lets one take it, and
+    // the other (its own read said free) is refused with FIRST_FULL_MOCK_TAKEN and charged nothing, as on the device-held path
+    // (STATUS.md 622, 15 Nov 2026: start_learning_session used to charge it 50 without a word).
     gate = true;
     await rows(d, "update users set credit_balance=100 where id='dur'");
     const [a, b] = await Promise.all([start('dur', { key: key('d4'), subject: 'accountancy' }), start('dur', { key: key('d5'), subject: 'accountancy' })]);
     gate = false;
-    assert.deepEqual([a.status, b.status], [200, 200]);
-    assert.equal(rpcs, 2);
-    assert.equal(await balanceOf(d, 'dur'), 50, 'one free, one paid');
+    assert.equal(reads >= 2, true, 'both starts read the rule before either wrote');
+    assert.deepEqual([a.status, b.status].sort(), [200, 409]);
+    assert.equal((a.status === 409 ? a : b).body.error, 'FIRST_FULL_MOCK_TAKEN');
+    assert.equal(await balanceOf(d, 'dur'), 100, 'one free, the other refused: nothing charged');
     assert.equal((await claims(d, 'dur')).filter((c) => c.kind === 'first_full_mock:accountancy').length, 1);
 
     // A full sample taken before this rule (a durable-only allowance) means that subject's free full mock was given.
@@ -648,6 +655,56 @@ test('durable sessions: start_learning_session takes the free row under the user
     assert.equal((await getQuote('sampled', { subject: 'economics' })).body.creditCost, 50);
     assert.equal((await start('sampled', { key: key('s1'), subject: 'economics' })).status, 200);
     assert.equal(await balanceOf(d, 'sampled'), 50);
+  } finally {
+    delete process.env.LEARNING_SESSIONS_ENABLED;
+    await d.close();
+  }
+});
+
+test('STATUS.md 622 (15 Nov): durable start quoted free (firstFree=1) that loses the race is refused and charged nothing; a failed session start keeps the free paper for its retry', async () => {
+  process.env.LEARNING_SESSIONS_ENABLED = 'true';
+  let reads = 0; let release; const bothRead = new Promise((r) => { release = r; });
+  let gate = true; let failRpc = false;
+  const d = await routes({
+    afterRead: (table) => { if (gate && table === 'learning_allowances' && ++reads === 2) release(); },
+    beforeInsert: async (table) => { if (gate && table === 'learning_allowances') await Promise.race([bothRead, new Promise((r) => setTimeout(r, 5000))]); },
+    beforeRpc: async (name) => { if (failRpc && name === 'start_learning_session') throw Object.assign(new Error('connection reset'), { code: '08006' }); },
+  });
+  try {
+    await student(d, 'race', { balance: 120 });
+    // Phone and laptop both quoted the English full mock free, and both start it at the same moment.
+    for (const device of ['phone', 'laptop']) assert.equal((await getQuote('race')).body.freeReason, 'first_full_mock_free', device);
+    const [a, b] = await Promise.all([start('race', { key: key('r1'), firstFree: true }), start('race', { key: key('r2'), firstFree: true })]);
+    gate = false;
+    assert.deepEqual([a.status, b.status].sort(), [200, 409]);
+    const [won, lost] = a.status === 200 ? [a, b] : [b, a];
+    assert.equal(lost.body.error, 'FIRST_FULL_MOCK_TAKEN');
+    assert.equal(lost.body.detail.requote, true);
+    assert.equal(won.body.meta.sessionTicket, undefined, 'a durable session: no ticket');
+    assert.equal(await balanceOf(d, 'race'), 120, 'the loser was quoted free and is never charged 50 without a warning');
+    assert.deepEqual(await spends(d, 'race'), []);
+    assert.deepEqual(await claims(d, 'race'), [{ kind: 'first_full_mock:english', period: 'ever', reference: won.body.id }]);
+    assert.equal((await one(d, "select count(*)::int n from recovery_sessions where user_id='race'")).n, 1, 'the refused start made no session');
+    // The winner's replay is the same free paper; the refused page reloaded is refused again, never charged.
+    assert.equal((await start('race', { key: key(won === a ? 'r1' : 'r2'), firstFree: true })).body.id, won.body.id);
+    assert.equal((await start('race', { key: key(won === a ? 'r2' : 'r1'), firstFree: true })).status, 409);
+    assert.equal(await balanceOf(d, 'race'), 120);
+    // The re-quote says 50, and a start from it is charged exactly that, once.
+    assert.equal((await getQuote('race')).body.creditCost, 50);
+    assert.equal((await start('race', { key: key('r3') })).status, 200);
+    assert.equal(await balanceOf(d, 'race'), 70);
+
+    // The session start fails after this start took the free row (accountancy): nothing is charged, and reopening the same
+    // paper (same key) finds the row its own and starts it free; a different key would pay, as an abandoned free start does.
+    failRpc = true;
+    const broken = await start('race', { key: key('acc1'), subject: 'accountancy', firstFree: true });
+    assert.equal(broken.status >= 500, true, JSON.stringify(broken.body));
+    failRpc = false;
+    assert.equal(await balanceOf(d, 'race'), 70);
+    const retried = await start('race', { key: key('acc1'), subject: 'accountancy', firstFree: true });
+    assert.equal(retried.status, 200, JSON.stringify(retried.body));
+    assert.equal(await balanceOf(d, 'race'), 70, 'the retry is the free paper');
+    assert.equal((await claims(d, 'race')).find((c) => c.kind === 'first_full_mock:accountancy').reference, retried.body.id);
   } finally {
     delete process.env.LEARNING_SESSIONS_ENABLED;
     await d.close();
