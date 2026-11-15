@@ -14,8 +14,11 @@ import { forgetFirstFullMock } from '@/lib/useFirstFullMock';
 import { useAuth } from '@/components/AuthProvider';
 import { startMobPaper } from '@/components/mob/useMob';
 import { VoteControls } from '@/components/questions/VoteControls';
-import { fineTuneScope, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneScope, getMode, isValidModeId, practiceCreditCost, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { answeredCount, claimedElsewhere, draftsToSweep, isSentMark, lateDraft, legacyDraftKey, newestProgress, paperDraftKey, sentMark, sentMarkMatches, storedDrafts } from '@/lib/paper/draft.mjs';
+import { canOpenPaper, creditsProblem, elsewhereNotice, foreignNotice, lateNotice, placeWords, practiceHref, practiceHrefFromTest, startProblem, submitProblem, timeUpNotice, waitingCopy } from '@/lib/paper/problems.mjs';
+import { loginPathFor } from '@/lib/auth-redirect';
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
 import './practice-run.css';
@@ -89,14 +92,31 @@ const subscribeConnection = callback => {
 };
 const connectionSnapshot = () => navigator.onLine;
 
-// A /test address without its paper key (a stale or shared link): it can never load, so the page says so in the nav's own
-// place names and offers the one way forward, never a retry that repeats the same check (R8 CONT-08).
-const EXPIRED_LINK = 'This paper link has expired. Start a fresh paper from Practice.';
+// A Mob paper address without its paper key (a stale link): it can never load, so the page says so and offers the one way
+// forward, never a retry that repeats the same check (R8 CONT-08). Any other /test address without a key (Repair's "Do this
+// next", Saved, Ask Mobi) opens Practice with its set chosen, where the price shows before anything starts (15 Nov B3).
+const MOB_LINK_EXPIRED = { kind: 'expired', title: 'This paper link has expired', message: 'Open this week’s paper from your Mob.', keys: [{ label: 'Back to your Mob', href: '/mob', primary: true }] };
 
 const CHIP_LABELS = { answered: 'Answered', marked: 'Marked', 'marked-answered': 'Answered and marked', visited: 'Not answered', notvisited: 'Not visited' };
 
-const storageKey = (uid, subject, chapter, count, difficulty = 'auto', modeId = 'quick') =>
-  `mm:test:${uid || 'anon'}:${subject}:${chapter || '*'}:${count}:${difficulty || 'auto'}:${modeId}`;
+// Where a device-held paper's answers are, in the words of the device in hand (a touch screen is a phone).
+const placeNow = () => placeWords(typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches);
+const newTabId = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
+// A page's keys from a notice model (src/lib/paper/problems.mjs): links, or "open the paper again". The first primary one is
+// the volt key; a link to /pricing names its Pro sheet trigger.
+function NoticeKeys({ keys }) {
+  return <>{keys.map((key) => key.action === 'reload'
+    ? <button key={key.label} type="button" onClick={() => window.location.reload()} className={`ui-state__action${key.primary ? ' ui-state__action--primary' : ''}`}>{key.label}</button>
+    : <Link key={key.label} href={key.href} className={`ui-state__action${key.primary ? ' ui-state__action--primary' : ''}`} data-pro-feature={key.proFeature}>{key.label}</Link>)}</>;
+}
+function PaperNotice({ notice }) {
+  return (
+    <div className="container-narrow max-w-3xl px-4 pt-10">
+      <NoticeState headingLevel={1} title={notice.title} message={notice.message} actions={<NoticeKeys keys={notice.keys} />} />
+    </div>
+  );
+}
 
 function optionLabel(option) {
   return typeof option === 'string' ? option : option?.text ?? String(option ?? '');
@@ -275,7 +295,13 @@ function TestRunner() {
   const [endsAt, setEndsAt] = useState(null);
   const [now, setNow] = useState(() => Date.now());
   const [loading, setLoading] = useState(true);
+  // The submit banner's sentence (a failed submit; the paper stays on screen). errorLink: its key when it is not a retry.
   const [error, setError] = useState(null);
+  const [errorLink, setErrorLink] = useState(null);
+  // A paper that cannot open, or can no longer be sent: a notice from src/lib/paper/problems.mjs drawn instead of the paper.
+  const [problem, setProblem] = useState(null);
+  // The same paper open in a newer tab ({ open: true }) or sent from one ({ sentId }) (B12): this tab stops.
+  const [elsewhere, setElsewhere] = useState(null);
   // An NTA paper the bank cannot supply: { message, fullMockKey }.
   const [refusal, setRefusal] = useState(null);
   // A full mock quoted free that is not free now (release 11 verifier L1): { title, message, price, retry }. Nothing was charged.
@@ -342,10 +368,31 @@ function TestRunner() {
   const launchKey = useMemo(() => { const p = new URLSearchParams(searchParams.toString()); p.delete('startReceipt'); return p.toString(); }, [searchParams]);
 
   const userId = user?.id;
-  const key = useMemo(
-    () => storageKey(userId, subjectId, chapters || chapter, count, difficulty || 'auto', modeId),
+  const sessionIdParam = searchParams.get('sessionId');
+  const launchMob = searchParams.get('mob') === '1';
+  // One draft per paper, keyed by its generation key (or the session a resume link names), so a second paper never
+  // overwrites a live one (15 Nov B2c). The key drafts had before is read once for the same paper, never written.
+  const legacyKey = useMemo(
+    () => legacyDraftKey(userId, { subject: subjectId, chapter: chapters || chapter, count, difficulty: difficulty || 'auto', modeId }),
     [userId, subjectId, chapter, chapters, count, difficulty, modeId],
   );
+  const key = useMemo(
+    () => paperDraftKey(userId, { generationKey, sessionId: sessionIdParam }) || legacyKey,
+    [userId, generationKey, sessionIdParam, legacyKey],
+  );
+  // This tab's claim on the paper (B12): the newest tab to open a paper owns its draft.
+  const tabIdRef = useRef(null);
+  if (tabIdRef.current == null) tabIdRef.current = newTabId();
+  const claimRef = useRef(null);
+  // Set once the paper is sent: nothing may write its draft again.
+  const sentRef = useRef(false);
+  const elsewhereRef = useRef(null);
+  useEffect(() => { elsewhereRef.current = elsewhere; }, [elsewhere]);
+  // The balance the page last had, for the "not enough credits" sentence when the price cannot be read again.
+  const balanceRef = useRef(null);
+  useEffect(() => { balanceRef.current = Number.isFinite(user?.creditBalance) ? user.creditBalance : null; }, [user?.creditBalance]);
+  // Where Practice sets this paper up again, and where sign-in brings the student back.
+  const practiceLink = useMemo(() => practiceHrefFromTest(new URLSearchParams(launchKey)), [launchKey]);
 
   const answersRef = useRef(answers);
   const markedRef = useRef(marked);
@@ -401,6 +448,9 @@ function TestRunner() {
     async function load() {
       setLoading(true);
       setError(null);
+      setErrorLink(null);
+      setProblem(null);
+      setElsewhere(null);
       setRefusal(null);
       setNotFree(null);
       setMobShort(null);
@@ -408,47 +458,70 @@ function TestRunner() {
       setPendingSubmission(false);
       autoSubmitTried.current = false;
       submittedRef.current = false;
-      if ((!generationKey || generationKey.length < 12) && !launch.get('sessionId')) {
+      sentRef.current = false;
+      claimRef.current = null;
+      if (!canOpenPaper(launch)) {
         if (!alive) return;
-        setError(EXPIRED_LINK);
-        setLoading(false);
+        // A practise-this-chapter link (Repair, Saved, Ask Mobi) carries no paper key: Practice sets it up, price first (B3).
+        if (launch.get('mob') === '1') { setProblem(MOB_LINK_EXPIRED); setLoading(false); }
+        else router.replace(practiceHrefFromTest(launch));
         return;
       }
+      const match = { generationKey, sessionId: launch.get('sessionId') };
+      const claim = () => { claimRef.current = { tab: tabIdRef.current, at: Date.now() }; };
 
       if (typeof window !== 'undefined') {
         try {
-          const raw = window.localStorage.getItem(key);
-          if (raw) {
-            const saved = JSON.parse(raw);
-            if (resumableDraft(saved,{generationKey,sessionId:launch.get('sessionId')})) {
-              if (!alive) return;
-              setQuestions(saved.questions);
-              eventsRef.current = saved.events || [];
-              startedRef.current = saved.startedAt;
-              setAnswers(saved.answers || {});
-              setVisited(saved.visited || {});
-              setMarked(saved.marked || {});
-              markedRef.current = saved.marked || {};
-              const resumeIdx = typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0;
-              // Marks saved before they were recorded as events are added to the event log now, so the
-              // server learns them too.
-              if (!saved.pendingSubmission && Date.now() < saved.endsAt) {
-                const recorded = progressFromEvents(eventsRef.current, saved.questions).marked;
-                for (const qid of Object.keys(saved.marked || {})) if (!recorded[qid]) recordEvent(qid, 'mark', true);
-                // The paper reopened on this device, on the question it was left on (last, so the time from here
-                // is credited to that question).
-                recordPage(saved.questions, resumeIdx, 'resume');
-              }
-              rememberStart(saved.selectionMeta?.startReceipt);
-              setSelectionMeta(saved.selectionMeta || null);
-              setEndsAt(saved.endsAt);
-              setIdx(resumeIdx);
-              setPendingSubmission(saved.pendingSubmission === true);
-              setLoading(false);
-              return;
+          // Drafts whose time and keep are over go first, so storage never fills with old papers (this one is kept).
+          for (const gone of draftsToSweep(storedDrafts(window.localStorage, userId), userId, Date.now(), { keep: key })) window.localStorage.removeItem(gone);
+        } catch { /* storage blocked: nothing to sweep */ }
+        try {
+          let raw = window.localStorage.getItem(key);
+          let saved = raw ? JSON.parse(raw) : null;
+          // A paper started before drafts had one key each is still read from its old key, once, for the same paper.
+          if (!saved && legacyKey !== key) {
+            raw = window.localStorage.getItem(legacyKey);
+            const old = raw ? JSON.parse(raw) : null;
+            if (old && (resumableDraft(old, match) || lateDraft(old, match, Date.now()))) saved = old;
+          }
+          // Sent already (Back from the result, or another tab sent it): its result, never an error (B5).
+          if (isSentMark(saved) && sentMarkMatches(saved, match)) {
+            if (!alive) return;
+            router.replace(`/result/${encodeURIComponent(saved.attemptId)}`);
+            return;
+          }
+          // A draft of this paper that can still be sent reopens with its answers; past the deadline the time-up submit
+          // sends them (B1). One whose time and grace are over but whose answers never left is reopened too, and its one
+          // submit tells the student plainly whether it could be scored (B8). The server's view never replaces it.
+          const late = !!saved && lateDraft(saved, match, Date.now());
+          if (saved && (late || resumableDraft(saved, match))) {
+            if (!alive) return;
+            setQuestions(saved.questions);
+            eventsRef.current = saved.events || [];
+            startedRef.current = saved.startedAt;
+            answersRef.current = saved.answers || {};
+            setAnswers(saved.answers || {});
+            setVisited(saved.visited || {});
+            setMarked(saved.marked || {});
+            markedRef.current = saved.marked || {};
+            const resumeIdx = typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0;
+            // Marks saved before they were recorded as events are added to the event log now, so the
+            // server learns them too.
+            if (!saved.pendingSubmission && Date.now() < saved.endsAt) {
+              const recorded = progressFromEvents(eventsRef.current, saved.questions).marked;
+              for (const qid of Object.keys(saved.marked || {})) if (!recorded[qid]) recordEvent(qid, 'mark', true);
+              // The paper reopened on this device, on the question it was left on (last, so the time from here
+              // is credited to that question).
+              recordPage(saved.questions, resumeIdx, 'resume');
             }
-            // Keep a pending submission for reconnect diagnostics; never restart it as a new test.
-            if(!saved.pendingSubmission)window.localStorage.removeItem(key);
+            rememberStart(saved.selectionMeta?.startReceipt);
+            setSelectionMeta(saved.selectionMeta || null);
+            setEndsAt(saved.endsAt);
+            setIdx(resumeIdx);
+            setPendingSubmission(saved.pendingSubmission === true);
+            claim();
+            setLoading(false);
+            return;
           }
         } catch {
           // Corrupted local progress should not block a fresh test load.
@@ -474,15 +547,16 @@ function TestRunner() {
 
         const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);
         setSelectionMeta(meta);
+        const back = launch.get('mob') === '1' ? { label: 'Back to your Mob', href: '/mob', primary: true } : { label: 'Back to Practice', href: practiceLink, primary: true };
         if (!loadedQuestions.length) {
-          setError(meta?.message || 'No verified questions are available for this selection.');
+          setProblem({ kind: 'content', title: 'This paper did not open', message: meta?.message || 'No checked questions are available for this selection. Nothing was charged.', keys: [back] });
           setLoading(false);
           return;
         }
 
         // A 'closest' NTA paper may be a little short; the server has already said why.
         if (isNtaMode && loadedQuestions.length !== 50 && meta?.ntaPaper?.status !== 'closest') {
-          setError(meta?.message || `The database returned ${loadedQuestions.length} usable NTA questions for this subject; 50 are required.`);
+          setProblem({ kind: 'content', title: 'This paper did not open', message: meta?.message || `Only ${loadedQuestions.length} usable NTA questions are ready for this subject, and an NTA paper needs 50.`, keys: [back] });
           setLoading(false);
           return;
         }
@@ -494,6 +568,14 @@ function TestRunner() {
         const durationMs = Date.parse(payload.expiresAt) - Date.parse(payload.startedAt);
         const serverNow = Number.isFinite(payload.serverNow) ? payload.serverNow : Date.parse(payload.startedAt);
         const remainingMs = Date.parse(payload.expiresAt) - serverNow;
+        // A device-held paper served again after its time (inside the upload grace) with no draft of it here: its answers
+        // are on another device or gone. Submitting this empty copy would make an empty result final and shut out the
+        // device that has them, so nothing is sent (B1).
+        if (meta?.sessionTicket && Number.isFinite(remainingMs) && remainingMs <= 0) {
+          setProblem(timeUpNotice({ place: placeNow(), practiceHref: practiceLink }));
+          setLoading(false);
+          return;
+        }
         const ends = receivedAt + (Number.isFinite(remainingMs) ? Math.max(0, remainingMs) : resolveRunnerDurationSec(mode, loadedQuestions) * 1000);
         startedRef.current = receivedAt - Math.max(0, serverNow - Date.parse(payload.startedAt));
         eventsRef.current = payload.events || [];
@@ -516,6 +598,7 @@ function TestRunner() {
         rememberStart(meta?.startReceipt);
         setIdx(0);
         setEndsAt(ends);
+        claim();
         setLoading(false);
         if (false) {
           setShowVoteCoach(true);
@@ -541,11 +624,20 @@ function TestRunner() {
           setLoading(false);
           return;
         }
-        if (e?.status === 402 && e?.body?.upgrade) {
-          try { await refreshSession({ silent: true }); } catch {}
-          setError('Not enough credits. Upgrade to Pro for unlimited mocks.');
+        if (e?.message === 'INSUFFICIENT_CREDITS' || (e?.status === 402 && !/PREMIUM/.test(String(e?.message)))) {
+          // Credits ran out between Practice's price and this start (another tab, another device): nothing was charged. The
+          // price is read again so the page says it in Practice's words, with today's or tomorrow's included set and Pro (B6).
+          const read = (params) => apiGet(`/api/practice/quote?${new URLSearchParams(params)}`).catch(() => null);
+          const set = { subject: subjectId, mode: modeId, count: String(count), ...(chapters ? { chapters } : chapter ? { chapters: chapter } : {}) };
+          const [quote, daily] = await Promise.all([read(set), read({ subject: subjectId, mode: 'quick', count: '10' })]);
+          if (!alive) return;
+          setProblem(creditsProblem({ quote, daily, ctx: { subject: subjectId, modeLabel: mode.label, cost: practiceCreditCost(modeId, count), balance: balanceRef.current, practiceHref: practiceLink } }));
           setLoading(false);
-          router.replace('/pricing?reason=insufficient_credits');
+          return;
+        }
+        if (e?.message === 'SESSION_ALREADY_SUBMITTED' && e?.body?.detail?.attemptId) {
+          // Back from a result to its paper's address: the result again, never a code (B5).
+          router.replace(`/result/${encodeURIComponent(e.body.detail.attemptId)}`);
           return;
         }
         if (isNtaMode && e?.body?.message) {
@@ -554,23 +646,49 @@ function TestRunner() {
           // the same on every retry, so it gets a way forward instead of "Try again"; a build that ran out of
           // time may still succeed on a retry.
           if (e.body.detail?.retryable === false) setRefusal({ message: e.body.message, fullMockKey: newGenerationKey() });
-          else setError(e.body.message);
+          else setProblem(startProblem(new Error(e.body.message), { practiceHref: practiceLink }));
           setLoading(false);
           return;
         }
-        setError(e.message === 'PREMIUM_REQUIRED' ? `${mode.label} is part of Pro. Upgrade to start it, or go back and pick another mode.` : e.message === 'INSUFFICIENT_VERIFIED_CONTENT' ? 'Verified questions are not ready for this selection yet. No credits were charged.' : e.message === 'INSUFFICIENT_PRACTICE_CONTENT' ? (isNtaMode ? 'An NTA mode paper needs 50 checked questions laid out like the real CUET paper, and this subject does not have enough yet. Try a full mock instead. No credits were charged.' : 'There are not enough questions for this selection. Try fewer questions or another chapter. No credits were charged.') : e.message === 'RECOVERY_MIGRATION_REQUIRED' ? 'Recovery content is being prepared. Return to Practice to use the existing question library.' : e.message === 'SESSION_EXPIRED' ? 'The time for this test is over, so it cannot be reopened or restarted. Start a new test from the dashboard.' : e.message === 'INVALID_START_RECEIPT' ? 'This test link no longer matches its session. Start a new test from the dashboard.' : e.message || 'Could not load the questions. Try again.');
+        // Every other refusal is a sentence and a way forward, never the server's code (B6, B10).
+        setProblem(startProblem(e, {
+          practiceHref: practiceLink, modeLabel: mode.label, isNta: isNtaMode, isMob: launch.get('mob') === '1',
+          loginHref: loginPathFor(`${window.location.pathname}${window.location.search}`),
+        }));
         setLoading(false);
       }
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, legacyKey, userId, practiceLink, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey]);
 
   // The saved draft is also kept here, so an away can be written at once: a tab being closed may never render again.
   const draftRef = useRef(null);
+  // Every write of the draft goes through here: never after the paper is sent, never over a newer tab's claim on the same
+  // paper (that tab owns it now, B12), and on a full storage the old papers are swept and the write tried once more.
+  const writeDraft = useCallback((draftKey, draft) => {
+    if (sentRef.current || elsewhereRef.current || !claimRef.current || typeof window === 'undefined') return;
+    try {
+      const raw = window.localStorage.getItem(draftKey);
+      const stored = raw ? JSON.parse(raw) : null;
+      if (claimedElsewhere(stored, claimRef.current)) {
+        setElsewhere(isSentMark(stored) ? { sentId: stored.attemptId } : { open: true });
+        return;
+      }
+    } catch { /* an unreadable draft is replaced */ }
+    const value = JSON.stringify({ ...draft, owner: claimRef.current.tab, claimedAt: claimRef.current.at, savedAt: Date.now() });
+    try { window.localStorage.setItem(draftKey, value); }
+    catch {
+      try {
+        for (const gone of draftsToSweep(storedDrafts(window.localStorage, userId), userId, Date.now(), { keep: draftKey })) window.localStorage.removeItem(gone);
+        window.localStorage.setItem(draftKey, value);
+      } catch { /* private mode or a full storage: the paper goes on, held in this page */ }
+    }
+  }, [userId]);
   useEffect(() => {
     if (loading || !endsAt || typeof window === 'undefined') return;
     const draft = {
+      v: 2,
       questions,
       answers,
       visited,
@@ -582,19 +700,35 @@ function TestRunner() {
       endsAt,
       idx,
       pendingSubmission,
+      // What "Resume your paper" on Practice and Today needs (src/lib/paper/resume.mjs): the address with its key and receipt.
+      paper: {
+        href: `/test${window.location.search}`,
+        subject: displayLabel(subjectId),
+        mode: isNtaMode ? 'NTA mode' : launchMob ? 'Mob paper' : mode.label,
+      },
     };
     draftRef.current = { key, draft };
-    try {
-      window.localStorage.setItem(key, JSON.stringify(draft));
-    } catch {
-      // Private mode or quota pressure should not interrupt the attempt.
-    }
-  }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey,pendingSubmission]);
+    writeDraft(key, draft);
+  }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey, pendingSubmission, writeDraft, subjectId, isNtaMode, launchMob, mode.label]);
   const saveEventsNow = useCallback(() => {
     const saved = draftRef.current;
     if (!saved || typeof window === 'undefined') return;
-    try { window.localStorage.setItem(saved.key, JSON.stringify({ ...saved.draft, events: eventsRef.current })); } catch { /* the next save keeps it */ }
-  }, []);
+    writeDraft(saved.key, { ...saved.draft, events: eventsRef.current });
+  }, [writeDraft]);
+
+  // Another tab of this paper (B12): a newer claim, or a send, written to the same draft stops this tab at once.
+  useEffect(() => {
+    if (loading || typeof window === 'undefined') return undefined;
+    const onStorage = (event) => {
+      if (event.key !== key || !event.newValue || sentRef.current) return;
+      try {
+        const stored = JSON.parse(event.newValue);
+        if (claimedElsewhere(stored, claimRef.current)) setElsewhere(isSentMark(stored) ? { sentId: stored.attemptId } : { open: true });
+      } catch { /* not a draft */ }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, [key, loading]);
 
   useEffect(() => {
     if (!selectionMeta?.sessionId || selectionMeta.sessionTicket || loading) return;
@@ -676,11 +810,35 @@ function TestRunner() {
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
   }, [loading]);
 
+  // The phone's Back during a running paper (15 Nov B2a). On the first tap or key inside the paper (a user gesture, so
+  // Android Chrome keeps the entry) one guard entry is pushed on top of the paper's own; Back then lands on the paper's
+  // entry, the guard goes back on and the Leave sheet opens. It comes off before the result replaces the paper, on a
+  // confirmed Leave, and when the paper can no longer be sent, so it never traps anyone.
+  const guardRef = useRef(false);
+  const armGuard = useCallback(() => {
+    if (guardRef.current || submittedRef.current || sentRef.current || typeof window === 'undefined') return;
+    try {
+      if (!window.history.state?.mmPaperGuard) window.history.pushState({ mmPaperGuard: true }, '');
+      guardRef.current = true;
+    } catch { /* no history: Back leaves as before, and the paper can be resumed */ }
+  }, []);
+  const releaseGuard = useCallback(() => new Promise((resolve) => {
+    const onGuard = typeof window !== 'undefined' && !!window.history.state?.mmPaperGuard;
+    guardRef.current = false;
+    if (!onGuard) { resolve(); return; }
+    let done = false;
+    let timer = null;
+    const finish = () => { if (done) return; done = true; window.removeEventListener('popstate', finish); clearTimeout(timer); resolve(); };
+    window.addEventListener('popstate', finish);
+    timer = setTimeout(finish, 400);
+    try { window.history.back(); } catch { finish(); }
+  }), []);
+
   const integrityKey = `${key}:integrity:${selectionMeta?.sessionId || generationKey || endsAt}`;
   // reason: 'submit' (the student), 'time_up' (the timer) or 'nta_strikes' (the third NTA warning). A retry passes
   // none (or a click event) and keeps the reason of the end already recorded.
   const submitTest = useCallback(async (reason) => {
-    if (submittedRef.current) return;
+    if (submittedRef.current || sentRef.current || elsewhereRef.current) return;
     if (!user) return;
     submittedRef.current = true;
     setSubmitting(true);
@@ -698,39 +856,62 @@ function TestRunner() {
       // The submit goes ahead without the end event; the server stores no end and the Lab says "at least".
     }
 
+    // The newest progress on this device for this paper: this tab's, unless the stored draft went further (a submit never
+    // carries fewer answers than the newest draft here).
+    let progress = { answers: answersRef.current, events: eventsRef.current };
+    try {
+      const raw = window.localStorage.getItem(key);
+      progress = newestProgress({ sessionId: selectionMeta?.sessionId, answers: answersRef.current, events: eventsRef.current }, raw ? JSON.parse(raw) : null);
+    } catch { /* storage unreadable: this tab's own progress */ }
+
     try {
       const data = await apiPost('/api/attempts', {
         sessionId: selectionMeta?.sessionId,
         sessionTicket: selectionMeta?.sessionTicket,
-        answers: answersRef.current,
-        events: eventsRef.current.filter(e => e.at <= endsAt - startedRef.current),
+        answers: progress.answers,
+        events: progress.events.filter(e => e.at <= endsAt - startedRef.current),
         ...captureMeta({ startedAt: startedRef.current, endedBy }),
       });
+      sentRef.current = true;
       await finishExamRef.current?.();
-      try { window.localStorage.removeItem(key); window.localStorage.removeItem(integrityKey); window.localStorage.removeItem(`${key}:integrity`); } catch {}
+      // The draft becomes a small sent mark, so Back to this address opens the result (B5) and another tab knows (B12).
+      try {
+        window.localStorage.setItem(key, JSON.stringify(sentMark({ attemptId: data.id, endsAt, generationKey, sessionId: sessionIdParam, now: Date.now() })));
+        window.localStorage.removeItem(integrityKey); window.localStorage.removeItem(`${key}:integrity`);
+        if (legacyKey !== key) window.localStorage.removeItem(legacyKey);
+      } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
       try { await refreshSession({ silent: true }); } catch {}
-      router.push(`/result/${data.id}`);
+      // The Back guard comes off first, then the result takes the paper's place in history: Back from the result goes to
+      // where the paper was started, never to the paper again.
+      await releaseGuard();
+      router.replace(`/result/${data.id}`);
     } catch (e) {
       submittedRef.current = false;
       setSubmitting(false);
-      // A server sentence the student can act on is shown as written; a code (PREVIEW_ONLY, Request failed (500)) is logged,
-      // never printed (R8 PRAC-03). The banner's one key says what it does: Try submitting again.
-      const said = String(e?.message || '');
-      const human = said && !/^[A-Z][A-Z0-9_]{2,}(?![a-z])/.test(said) && !/^Request failed/.test(said) && !/^Network error/.test(said);
-      if (!human) console.warn('[runner] submit failed:', said || e);
-      setError(human ? `${said.replace(/[.\s]+$/, '')}. Your answers are saved.` : 'Submitting did not go through. Your answers are saved.');
-      if(e.kind === 'network' || !navigator.onLine){
+      setErrorLink(null);
+      const place = placeNow();
+      const said = submitProblem(e, { place, offline: !navigator.onLine, loginHref: loginPathFor(`${window.location.pathname}${window.location.search}`) });
+      if (said.kind !== 'offline') console.warn('[runner] submit failed:', e?.message || e);
+      if (said.kind === 'offline') {
+        // Held on the device; it sends itself when the connection is back. The banner's words follow the clock (waitingCopy).
         setPendingSubmission(true);
-        setError(selectionMeta?.sessionTicket
-          ? 'Waiting for connection. Answers are held on this device. Reconnect before the two-minute submission window ends.'
-          : 'Waiting for connection. After the deadline, the server can score only answers it already received. Reconnect before time runs out.');
+        setError(null);
+      } else if (said.kind === 'late' || said.kind === 'foreign') {
+        // Past the deadline and the upload grace (B8), or another account's paper (B10): this paper cannot be sent from
+        // here, so the page says so plainly, keeps the answers on the device and offers a new paper. Never "try again".
+        setPendingSubmission(false);
+        await releaseGuard();
+        setProblem(said.kind === 'late'
+          ? lateNotice({ answered: answeredCount(progress.answers), place, practiceHref: practiceLink })
+          : foreignNotice({ practiceHref: practiceLink }));
       } else {
         setPendingSubmission(false);
-        if(e.message === 'SESSION_EXPIRED')setError('The server’s submission window has ended. This session cannot be recorded.');
+        setError(said.message);
+        if (said.link) setErrorLink(said.link);
       }
     }
-  }, [user, key, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent]);
+  }, [user, key, legacyKey, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent, generationKey, sessionIdParam, practiceLink, releaseGuard]);
   const submitForStrikes = useCallback(() => submitTest('nta_strikes'), [submitTest]);
 
   // NTA mode only: leaving the tab is a strike; the third submits the session.
@@ -835,12 +1016,57 @@ function TestRunner() {
     return () => document.removeEventListener('click', onClick, true);
   }, [paperRunning]);
 
-  const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
-  useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
+  // The Back guard while the paper runs (B2a; armGuard and releaseGuard above). An NTA warning on screen is a modal of its
+  // own, so Back then only keeps the student on the paper.
+  const integrityAlertRef = useRef(null);
+  useEffect(() => { integrityAlertRef.current = integrity.alert; }, [integrity.alert]);
+  const guardLive = paperRunning && !problem && !elsewhere;
   useEffect(() => {
-    if (!endsAt) return;
+    if (!guardLive || typeof window === 'undefined') return undefined;
+    if (window.history.state?.mmPaperGuard) guardRef.current = true; // reopened on its own guard entry (a reload)
+    const path = window.location.pathname;
+    const arm = () => armGuard();
+    const onPop = () => {
+      if (!guardRef.current) return;
+      // Back went past the paper (the browser skipped entries): nothing to hold.
+      if (window.location.pathname !== path || new URLSearchParams(window.location.search).get('generationKey') !== generationKey) { guardRef.current = false; return; }
+      try { window.history.pushState({ mmPaperGuard: true }, ''); } catch { guardRef.current = false; return; }
+      if (submittedRef.current || (isNtaMode && integrityAlertRef.current)) return;
+      setExitTo((open) => open || '/dashboard');
+    };
+    document.addEventListener('click', arm, true);
+    document.addEventListener('keydown', arm, true);
+    window.addEventListener('popstate', onPop);
+    return () => {
+      document.removeEventListener('click', arm, true);
+      document.removeEventListener('keydown', arm, true);
+      window.removeEventListener('popstate', onPop);
+    };
+  }, [guardLive, armGuard, generationKey, isNtaMode]);
+  // A notice in the paper's place (it cannot be sent from here, or it is open in another tab): the guard comes off.
+  useEffect(() => { if (problem || elsewhere) releaseGuard(); }, [problem, elsewhere, releaseGuard]);
+  const leavePaper = useCallback(async () => {
+    const to = exitTo;
+    setExitTo(null);
+    await releaseGuard();
+    router.push(to);
+  }, [exitTo, releaseGuard, router]);
+
+  const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
+  // A paper held for a connection sends itself when the connection is back, and once at once when it reopens online. Past the
+  // upload grace it is still tried once: the server decides, and a refusal ends in the plain notice, never a retry loop (B8).
+  const pendingTriedRef = useRef(false);
+  useEffect(() => {
+    if (!pendingSubmission) { pendingTriedRef.current = false; return undefined; }
+    const reconnect = () => submitTest();
+    if (!pendingTriedRef.current && navigator.onLine && !loading) { pendingTriedRef.current = true; submitTest(); }
+    window.addEventListener('online', reconnect);
+    return () => window.removeEventListener('online', reconnect);
+  }, [pendingSubmission, submitTest, loading]);
+  useEffect(() => {
+    if (!endsAt || elsewhere || problem) return;
     if (timeLeft <= 0 && !submittedRef.current && !loading && !autoSubmitTried.current){autoSubmitTried.current=true;submitTest('time_up');}
-  }, [timeLeft, endsAt, loading, submitTest]);
+  }, [timeLeft, endsAt, loading, submitTest, elsewhere, problem]);
 
   useEffect(() => {
     if (loading || !questions.length) return;
@@ -1065,20 +1291,12 @@ function TestRunner() {
     </div>
   );
 
-  if (error && !questions.length) return (
-    <div className="container-narrow max-w-3xl px-4 pt-10">
-      {error === EXPIRED_LINK
-        ? <ErrorState mascot title="This paper link has expired" message="Start a fresh paper from Practice." />
-        : <ErrorState mascot message={error} onRetry={() => window.location.reload()} />}
-      <div className="mt-4">
-        <Button variant={error === EXPIRED_LINK ? 'volt' : 'outline'} onClick={() => router.push('/dashboard')}>
-          <Icon name="home" /> Go to Practice
-        </Button>
-      </div>
-    </div>
-  );
+  // A paper that cannot open or can no longer be sent (B3, B5, B6, B8, B10), and a paper open in a newer tab (B12): a
+  // sentence and a way forward in the paper's place.
+  if (problem) return <PaperNotice notice={problem} />;
+  if (elsewhere) return <PaperNotice notice={elsewhereNotice({ sentId: elsewhere.sentId })} />;
 
-  if (!questions.length) return <ErrorState message="No questions available." />;
+  if (!questions.length) return <PaperNotice notice={{ title: 'This paper did not open', message: 'No questions came back for it. Nothing was charged.', keys: [{ label: 'Back to Practice', href: practiceLink, primary: true }] }} />;
 
   const q = questions[idx];
   const block = getQuestionBlock(questions, idx);
@@ -1091,6 +1309,11 @@ function TestRunner() {
   const pendingCount = questions.length - answered;
   const lowTime = timeLeft < 60;
   const isLastBlock = block.endIdx >= questions.length - 1;
+  // The submit banner's words: a paper held for a connection says what happens next (waitingCopy); any other failed send,
+  // its sentence (submitProblem). Never a code.
+  const submitNote = pendingSubmission
+    ? waitingCopy({ ticket: !!selectionMeta?.sessionTicket, msLeft: endsAt - now, msToGraceEnd: endsAt + SUBMISSION_GRACE_MS - now, place: placeNow() })
+    : error;
   // A Mob paper (/test?mob=1) is the Mob's weekly paper, not Quick practice, whatever the mode in the address says.
   const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : mode.label;
   const subjectLabel = displayLabel(subjectId);
@@ -1612,8 +1835,17 @@ function TestRunner() {
     <div ref={fullscreenTarget} className={practiceRun ? 'nta-runner pr-run' : 'nta-runner'} data-interface={classicInterface ? 'nta' : 'mockmob'}>
       {/* R8 PRAC-16: while all is well (online, saving) the note is for screen readers only; it shows when offline, waiting or held. */}
       <div role="status" className={`runner-sync-state${!pendingSubmission && online && syncStatus !== 'pending' ? ' is-quiet' : ''}`}>{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Saved on this device. Stay online to submit.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
-      {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={submitTest} submitting={submitting} error={error} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
-      {error && integrity.alert?.phase !== 'terminated' && <div role="alert" className="runner-submit-error"><p>{error}</p><button type="button" onClick={submitTest} disabled={submitting}>Try submitting again</button></div>}
+      {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.resume} onRetry={() => submitTest()} submitting={submitting} error={submitNote} supported={integrity.supported} entering={integrity.entering} fullscreenError={integrity.fullscreenError} /> : null}
+      {/* A paper not sent yet: what happened and the one way forward. Held for a connection, it sends itself; past the upload
+          grace there is no retry key (B8). */}
+      {submitNote && integrity.alert?.phase !== 'terminated' && (
+        <div role="alert" className="runner-submit-error">
+          <p>{submitNote}</p>
+          {errorLink
+            ? <Link href={errorLink.href}>{errorLink.label}</Link>
+            : !pendingSubmission || now < endsAt + SUBMISSION_GRACE_MS ? <button type="button" onClick={() => submitTest()} disabled={submitting}>Try sending again</button> : null}
+        </div>
+      )}
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
           <div className="glass volt-soft max-w-lg w-full p-5 md:p-6 relative overflow-hidden">
@@ -1848,9 +2080,11 @@ function TestRunner() {
           <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Keep answering" onClick={closeExit} />
           <div className="pr-sheet__panel">
             <h2 id="pr-exit-title">{isMockMode ? 'Leave this mock?' : 'Leave this practice?'}</h2>
-            <p id="pr-exit-line" className="pr-sheet__line">{answered > 0 ? `Your ${answered} answer${answered === 1 ? ' is' : 's are'} kept.` : 'Nothing is lost.'} The timer keeps running while you are away.</p>
+            {/* 15 Nov B2d: true in this build: the draft stays on the device until the timer and its upload grace end, and
+                Practice's "Resume your paper" row (src/components/practice/ResumePaper.jsx) opens it again. */}
+            <p id="pr-exit-line" className="pr-sheet__line">{answered > 0 ? `Your ${answered === 1 ? 'answer stays' : `${answered} answers stay`} ${placeNow()} until the timer ends.` : 'Nothing is answered yet.'} The timer keeps running while you are away. You can resume from Practice.</p>
             <div className="pr-sheet__actions">
-              <button type="button" onClick={() => { const to = exitTo; setExitTo(null); router.push(to); }}>Leave</button>
+              <button type="button" onClick={leavePaper}>Leave</button>
               <button type="button" className="is-primary" data-autofocus onClick={closeExit}>Keep answering</button>
             </div>
           </div>

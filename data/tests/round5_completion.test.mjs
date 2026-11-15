@@ -47,9 +47,16 @@ test('offline restore keeps the original session and deadline, with bounded pend
   assert.equal(resumableDraft(saved, { generationKey: 'other', now }), false);
   assert.equal(resumableDraft(saved, { sessionId: 's2', now }), false);
   assert.equal(resumableDraft(saved, { sessionId: 's1', now }), true);
-  assert.equal(resumableDraft({ ...saved, endsAt: now - 1000 }, { generationKey: 'key1', now }), false);
+  // 15 Nov B1: a draft reopens through the upload grace whether or not a submit was tried, so a reload just after time-up
+  // sends these answers instead of an empty paper. Exactly at deadline + grace the server refuses, so it no longer reopens.
+  assert.equal(resumableDraft({ ...saved, endsAt: now - 1000 }, { generationKey: 'key1', now }), true);
+  assert.equal(resumableDraft({ ...saved, endsAt: now }, { generationKey: 'key1', now }), true);
+  assert.equal(resumableDraft({ ...saved, endsAt: now - SUBMISSION_GRACE_MS + 1 }, { generationKey: 'key1', now }), true);
+  assert.equal(resumableDraft({ ...saved, endsAt: now - SUBMISSION_GRACE_MS }, { generationKey: 'key1', now }), false);
   assert.equal(resumableDraft({ ...saved, pendingSubmission: true, endsAt: now - 1000 }, { generationKey: 'key1', now }), true);
   assert.equal(resumableDraft({ ...saved, pendingSubmission: true, endsAt: now - SUBMISSION_GRACE_MS }, { generationKey: 'key1', now }), false);
+  assert.equal(resumableDraft({ ...saved, endsAt: now - 1000 }, { generationKey: 'other', now }), false, 'never another paper');
+  assert.equal(resumableDraft({ ...saved, generationKey: undefined }, { now }), false, 'a draft without a key never matches an address without one');
 });
 test('sign out removes only that account’s session drafts', () => {
   const keys = ['mm:test:u1:economics', 'mm:test:u1:english', 'mm:test:u2:english', 'mm:theme:v1'];
