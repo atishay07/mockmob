@@ -612,7 +612,12 @@ export function createMobService(deps) {
       try {
         let ids = state.paper?.question_ids;
         if (!Array.isArray(ids)) {
-          const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count: PAPER_COUNT }).catch(() => []);
+          // S3 (15 Nov): not a question of the Mob's open games or of its games of the last 7 days (members saw those keys in a
+          // review, or will) when the bank has enough others; else the draw of before. Never fails the draw by itself.
+          const recent = [...new Set((state.games || []).flatMap((g) => g?.question_ids || []))];
+          const draw = (exclude) => deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count: PAPER_COUNT, ...(exclude.length ? { exclude } : {}) }).catch(() => []);
+          let picked = recent.length ? (await draw(recent)).filter((id) => !recent.includes(id)) : [];
+          if (!Array.isArray(picked) || picked.length < PAPER_COUNT) picked = await draw([]);
           if (!Array.isArray(picked) || picked.length < PAPER_COUNT) throw new MobError('PAPER_UNAVAILABLE');
           ids = await call('mob_paper_put', { p_mob_id: state.mob.id, p_week: state.week, p_subject: state.mob.subject, p_ids: picked.slice(0, PAPER_COUNT) });
         }

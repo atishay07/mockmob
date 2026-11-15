@@ -339,3 +339,72 @@ test('S2 the alert is off without RESEND_API_KEY, never fails or slows the repor
   assert.match(deps, /after\(job\)/);
   assert.match(deps, /RESEND_API_KEY/);
 });
+
+// ---------------------------------------------------------------------------------------------------------------
+// S3: Fix it together never shows a key the Mob still holds; the weekly paper avoids recent game questions
+// ---------------------------------------------------------------------------------------------------------------
+
+const keyOf = (id) => BANK.find((q) => q.id === id).correctIndex;
+async function playAll(svc, clock, users, gameId, plan) {
+  for (const u of users) {
+    const run = await svc.v3.startRun(u, gameId);
+    const ids = run.questions.map((q) => BANK.find((b) => b.question === q.stem).id);
+    for (let q = 0; q < plan.length; q += 1) { clock.now += 5000; await svc.v3.answer(u, gameId, { q, pick: plan[q] === 'r' ? keyOf(ids[q]) : (keyOf(ids[q]) + 1) % 4 }); }
+  }
+}
+
+test('S3 Fix it together hides the trap key and why while that question sits in another open game, and shows them after', async () => {
+  const clock = { now: NOW };
+  const db = await database({ clock });
+  try {
+    const svc = serviceFor(db, { clock });
+    const { mob } = await classLink(svc);
+    const g = (await svc.v3.openGame('u1', { mob, format: 'sprint' })).game;
+    await playAll(svc, clock, ['u1', 'u2', 'u3'], g.id, ['r', 'r', 'r', 'w', 'r']);
+    clock.now += 25 * HOUR;
+    const review = await svc.v3.review('u1', g.id);
+    const trapId = (await one(db, 'select question_ids r from mob_games where id = $1::uuid', [g.id]))[review.trap.q];
+    // A thin bank: a new open game drew the closed game's trap question.
+    await db.query("update mob_games set question_ids = jsonb_set(question_ids, '{0}', to_jsonb($2::text)) where id = (select id from mob_games where id <> $1::uuid order by opened_at desc limit 1)", [g.id, trapId]).catch(() => null);
+    const g2 = (await svc.v3.openGame('u2', { mob, format: 'sprint' })).game;
+    await db.query("update mob_games set question_ids = jsonb_set(question_ids, '{0}', to_jsonb($2::text)) where id = $1::uuid", [g2.id, trapId]);
+    const held = await svc.v3.fixStart('u2', { game: g.id, q: review.trap.q, stage: 'now' });
+    assert.equal(held.trap.correctIndex, null);
+    assert.equal(held.trap.why, null);
+    assert.equal(held.trap.held, true);
+    assert.doesNotMatch(JSON.stringify(held), new RegExp(`EXPLAIN-${trapId}"`));
+    // Once that game closes, the key shows.
+    clock.now += 25 * HOUR;
+    const open = await svc.v3.fixStart('u2', { game: g.id, q: review.trap.q, stage: 'now' });
+    assert.equal(open.trap.correctIndex, review.questions[review.trap.q].correctIndex);
+    assert.equal(open.trap.why, review.questions[review.trap.q].explanation);
+    assert.ok(Number.isInteger(open.trap.correctIndex) && open.trap.why);
+    assert.equal(open.trap.held, undefined);
+  } finally { await db.close(); }
+});
+
+test('S3 the weekly paper leaves out the questions of the Mob\'s recent games when the bank allows, and still draws when it does not', async () => {
+  const clock = { now: NOW };
+  const db = await database({ clock });
+  try {
+    const asked = [];
+    const svc = serviceFor(db, { clock, pickQuestionIds: async (_s, { count = 10, exclude = [] } = {}) => { asked.push(exclude); const skip = new Set(exclude); return BANK.map((q) => q.id).filter((id) => !skip.has(id)).slice(0, count); } });
+    const { mob } = await classLink(svc);
+    const g = (await svc.v3.openGame('u1', { mob, format: 'round', count: 10 })).game;
+    const gameIds = await one(db, 'select question_ids r from mob_games where id = $1::uuid', [g.id]);
+    await svc.startPaper('u1', { mob });
+    const paper = await one(db, 'select question_ids r from mob_papers where mob_id = $1::uuid', [mob]);
+    assert.equal(paper.length, 10);
+    assert.deepEqual(paper.filter((id) => gameIds.includes(id)), [], 'no question of the open game');
+    // A bank that cannot fill a paper without them: today's draw, never a failure.
+    const db2 = await database({ clock });
+    try {
+      const small = BANK.slice(0, 12).map((q) => q.id);
+      const thin = serviceFor(db2, { clock, pickQuestionIds: async (_s, { count = 10, exclude = [] } = {}) => small.filter((id) => !exclude.includes(id)).slice(0, count) });
+      const { mob: m2 } = await classLink(thin);
+      await thin.v3.openGame('u1', { mob: m2, format: 'sprint' });
+      await thin.startPaper('u1', { mob: m2 });
+      assert.equal((await one(db2, 'select question_ids r from mob_papers where mob_id = $1::uuid', [m2])).length, 10);
+    } finally { await db2.close(); }
+  } finally { await db.close(); }
+});
