@@ -145,8 +145,9 @@ export async function saveGoal(userId, { daysPerWeek, pausedUntil, weekdays, dai
 }
 
 /**
- * Real activity for the rhythm: server-scored sessions submitted (attempts) and completed
- * Mistake Repairs (committed score_recovery_repair reservations holding a stored repair).
+ * Real activity for the rhythm: server-scored sessions submitted (attempts), completed
+ * Mistake Repairs (committed score_recovery_repair reservations holding a stored repair) and
+ * Daily Fives saved to the account (loadDailyFiveDays, one per day).
  * A session counts only with at least MIN_ANSWERED answered (correct + wrong) questions; that
  * floor is applied in computeRhythm from the `answered` field loaded here.
  * Reads only id/time/count columns, bounded to the last 26 weeks, plus the earliest few rows so
@@ -169,7 +170,21 @@ export async function loadActivity(userId, now = Date.now()) {
   for (const r of [recentS, earlyS, fullS, recentR, earlyR]) if (r.error) throw fail('ACTIVITY_UNAVAILABLE', r.error);
   const s = r => ({ id: `a:${r.id}`, at: r.completed_at, kind: 'session', answered: (Number(r.correct) || 0) + (Number(r.wrong) || 0), fullMock: r.mode === 'full', mock: r.mode === 'full' || r.mode === 'nta' });
   const rep = r => ({ id: `r:${r.id}`, at: r.updated_at, kind: 'repair' });
-  return [...(recentS.data || []).map(s), ...(earlyS.data || []).map(s), ...(fullS.data || []).map(s), ...(recentR.data || []).map(rep), ...(earlyR.data || []).map(rep)];
+  const daily = await loadDailyFiveDays(db, userId, since);
+  return [...(recentS.data || []).map(s), ...(earlyS.data || []).map(s), ...(fullS.data || []).map(s), ...(recentR.data || []).map(rep), ...(earlyR.data || []).map(rep), ...daily];
+}
+
+/**
+ * The Daily Fives saved to the account in the window (src/lib/dailyFiveAccount.mjs): one row per day (the first question's),
+ * two short columns, as kind 'daily'. A failed read leaves them out (the rhythm is never lost over its newest source).
+ */
+export async function loadDailyFiveDays(db, userId, since) {
+  try {
+    const { data, error } = await db.from('question_interactions').select('session_id,created_at').eq('user_id', userId).is('flow_context', null)
+      .eq('interaction_type', 'daily_five').eq('metadata->>n', '1').gte('created_at', since).order('created_at', { ascending: false }).limit(200);
+    if (error) return [];
+    return (data || []).filter(r => /^daily:\d{4}-\d{2}-\d{2}$/.test(String(r.session_id || ''))).map(r => ({ id: `d:${r.session_id}`, at: r.created_at, kind: 'daily' }));
+  } catch { return []; }
 }
 
 /**

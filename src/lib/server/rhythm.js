@@ -2,7 +2,9 @@
 //
 // A "study day" is a local calendar day (user's timezone, IST default) with at least one
 // qualifying activity: a server-scored session with at least MIN_ANSWERED answered questions,
-// or a completed Mistake Repair (one per acknowledged explained repair).
+// a completed Mistake Repair (one per acknowledged explained repair), or a Daily Five saved to
+// the account (kind 'daily', 15 Nov 2026: five server-scored answers; it makes the day a study
+// day and is never counted as a session, a repair or a mock).
 // Weeks run Monday to Sunday in the user's timezone. Nothing here deletes or lowers stored
 // history: bestRun and milestones only ever come from what really happened.
 //
@@ -104,11 +106,11 @@ function normalise(activities) {
     const at = toMs(e.at);
     if (!Number.isFinite(at)) continue;
     if (e.id != null) { if (seen.has(e.id)) continue; seen.add(e.id); }
-    const kind = e.kind === 'repair' ? 'repair' : 'session';
+    const kind = e.kind === 'repair' ? 'repair' : e.kind === 'daily' ? 'daily' : 'session';
     // Floor: a server-scored session counts only with enough answered questions. Callers that
     // do not know the count (answered null/undefined) are trusted.
     if (kind === 'session' && e.answered != null && !(Number(e.answered) >= MIN_ANSWERED)) continue;
-    out.push({ at, kind, fullMock: !!e.fullMock, mock: !!(e.fullMock || e.mock) });
+    out.push({ at, kind, fullMock: kind === 'session' && !!e.fullMock, mock: kind === 'session' && !!(e.fullMock || e.mock) });
   }
   return out.sort((a, b) => a.at - b.at);
 }
