@@ -469,6 +469,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr .pr-ticket__go:hover { text-decoration-color: var(--a-ink-2); }
 .app-shell .pr .pr-ticket__go:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell .pr .pr-ticket__fresh { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+/* Tablet walk (16 Nov 2026): at 768 px the ticket spans the page and this line ran 93 characters; it keeps a reading measure.
+   A phone (under 68ch wide) and the desktop's side ticket are narrower than the cap, so neither moves. */
+.app-shell .pr .pr-ticket__fresh { max-width: 68ch; }
 .app-shell .pr .pr-ticket.pr-summary .pr-summary__reason { min-height: 0; margin: -4px 0 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .pr .pr-ticket.pr-summary .pr-summary__reason:empty { display: none; }
 .app-shell .pr .pr-ticket.pr-summary .pr-summary__cta { width: 100%; min-height: 52px; justify-content: center; gap: 10px; }
