@@ -43,6 +43,7 @@ import {
 import COPY from '../../../data/mistake_lab.copy.json';
 import { practiceCostLine } from '../../../data/result_next_move.mjs';
 import { useMyDailySet } from '@/components/useMyDailySet';
+import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
 import { SUBJECTS } from '../../../data/subjects';
 import { readCap, saveCap, useRevise } from './useRevise';
 import {
@@ -373,7 +374,7 @@ function EmptyRevise() {
   const { user } = useAuth() || {};
   const dailySet = useMyDailySet();
   const first = SUBJECTS.find((s) => s.id === (user?.subjects || [])[0]) || SUBJECTS.find((s) => s.id === 'accountancy');
-  const href = `/dashboard?${new URLSearchParams({ subject: first?.id || '', mode: 'quick', count: '10' })}`;
+  const href = firstSetHref(first?.id);
   const E = RUN.empty;
   return (
     <div className="rvs-empty" aria-labelledby="rvs-empty-h">
@@ -384,7 +385,7 @@ function EmptyRevise() {
         <p className="rvs-kind"><b>{E.sampleKind}</b><span>{E.sampleSource}</span></p>
         <em>{E.example}</em>
       </div>
-      <Link className="rvs-next rvs-next--link rvs-next--wide" href={href}>{E.key}</Link>
+      <Link className="rvs-next rvs-next--link rvs-next--wide" data-page-primary="" href={href}>{FIRST_SET_LABEL}</Link>
       <p className="rvs-fine">{fill(E.time, { subject: first?.name || 'your subject' })} {practiceCostLine({ isPremium: user?.isPremium === true, practiceCredits: null, dailySet })}</p>
     </div>
   );

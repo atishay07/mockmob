@@ -74,7 +74,12 @@ const kind = () => { const q = new URLSearchParams(window.location.search); retu
 function record() {
   const k = kind();
   const base = RECORDS[k] || student1018;
-  if (base.state === 'unavailable' || base.state === 'empty') return base;
+  if (base.state === 'unavailable') return base;
+  // A new account's empty record reads the account's one total too (U14: a fresh wallet holds 50), never the fixture file's own figure.
+  if (base.state === 'empty') {
+    const total = previewOneTotal(new URLSearchParams(window.location.search));
+    return base.wallet && total !== null ? { ...base, wallet: { ...base.wallet, aiCredits: total, practiceCredits: total } } : base;
+  }
   const mem = (window.__previewReview ||= { key: null, repaired: new Map(), spent: 0 });
   if (mem.key !== k) Object.assign(mem, { key: k, repaired: new Map(), spent: 0 });
   const items = base.items.map((i) => (mem.repaired.has(`${i.paper}:${i.q}`) ? { ...i, state: 'repaired', repairedAt: mem.repaired.get(`${i.paper}:${i.q}`) } : i));

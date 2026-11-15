@@ -33,8 +33,13 @@ export function Pennant({ weeks = 0, size = 64 }) {
           return <path key={i} d={`M${x - 2} 82 l4 4 M${x + 2} 82 l-4 4`} className="den-pennant__stitch" />;
         })}
       </svg>
-      <span className="den-pennant__fig">{weeks}</span>
-      <span className="den-pennant__word">{DenCopy.pennantWord(weeks)}</span>
+      {/* U7 (15 Nov 2026): a brand-new Mob's pennant says New until its first week is stitched, never a big 0. */}
+      {weeks > 0 ? (
+        <>
+          <span className="den-pennant__fig">{weeks}</span>
+          <span className="den-pennant__word">{DenCopy.pennantWord(weeks)}</span>
+        </>
+      ) : <span className="den-pennant__fig" style={{ top: '36%', fontSize: Math.round(size * 0.25) }}>New</span>}
     </span>
   );
 }

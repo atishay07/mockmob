@@ -114,18 +114,18 @@ export function useToday(userId) {
   const [planKey, setPlanKey] = useState(0);
   const [minutes, setMinutes] = useState(null);
   const [rhythmKey, setRhythmKey] = useState(0);
-  const [all, setAll] = useState(0); // a retry of the failed card reads everything again
+  const [all, setAll] = useState(0); // a retry of the failed card reads everything again (every read below, U11)
   const bundle = useTodayBundle(userId);
   const from = (name, seedPath) => ({ seed: seedFor(bundle, name), seedPath });
   const plan = useRead(`/api/learning/plan${minutes ? `?minutes=${minutes}` : ''}`, userId, { key: planKey * 1000 + all, ...from('plan', '/api/learning/plan') });
   const papers = useRead('/api/attempts/summary?limit=20', userId, { map: papersOf, key: all, ...from('papers', '/api/attempts/summary?limit=20') });
   const rhythm = useRead('/api/me/rhythm', userId, { key: rhythmKey * 1000 + all, ...from('rhythm', '/api/me/rhythm') });
-  const goal = useRead('/api/me/goal', userId, { key: rhythmKey, ...from('goal', '/api/me/goal') });
-  const road = useRead('/api/me/road', userId, from('road', '/api/me/road'));
-  const revise = useRead('/api/me/revise', userId, { map: reviseDue, ...from('revise', '/api/me/revise') });
+  const goal = useRead('/api/me/goal', userId, { key: rhythmKey * 1000 + all, ...from('goal', '/api/me/goal') });
+  const road = useRead('/api/me/road', userId, { key: all, ...from('road', '/api/me/road') });
+  const revise = useRead('/api/me/revise', userId, { map: reviseDue, key: all, ...from('revise', '/api/me/revise') });
   const facts = useRead('/api/me/timed-mock', userId, { key: all, ...from('facts', '/api/me/timed-mock') });
   // One read: repairs per paper for the move (F17), and the rows with their times for the weekly receipt.
-  const record = useRead('/api/me/repair-record?limit=100', userId, { map: recordOf, ...from('record', '/api/me/repair-record?limit=100') });
+  const record = useRead('/api/me/repair-record?limit=100', userId, { map: recordOf, key: all, ...from('record', '/api/me/repair-record?limit=100') });
   const repaired = { ...record, data: record.data?.byAttempt ?? null };
   const repairRows = record.status === 'ready' ? record.data.rows : null;
   const retryPlan = useCallback(() => setPlanKey((n) => n + 1), []);

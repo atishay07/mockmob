@@ -226,14 +226,20 @@ export default function KeycardsHome() {
   const today = data.today || {};
   const due = Number(today.due) || 0;
   const minutes = Math.max(1, Number(today.minutes) || Math.ceil(due / 4));
+  // U10 (15 Nov 2026): with nothing due and no card added anywhere yet (a fresh student), the box offers the real next step, the
+  // chosen subject's first chapter, whose deck has Add chapter to Revise. Outlined, so the dock's Start stays the page's one volt.
+  const noneAdded = !due && subjects.every((s) => (s.units || []).every((u) => (u.chapters || []).every((c) => !(Number(c.added) > 0))));
+  const firstChapter = noneAdded ? blocks[0]?.chapters?.[0] || null : null;
+  const firstTitle = firstChapter ? chapterTitle(subject?.subject || String(firstChapter.key || '').split('.')[0], firstChapter.title) : null;
   return frame(
     <>
       <section className="kc-today" aria-labelledby="kc-today-h" data-due={due ? '' : undefined}>
         <div className="kc-today__copy">
           <h2 id="kc-today-h" className="kc-today__line">{due ? <><b>{due}</b> {due === 1 ? 'card' : 'cards'} due today</> : 'Nothing due today'}</h2>
-          <p>{due ? `Across your subjects. About ${plural(minutes, 'minute')} in Revise, with the rest of today’s work.` : 'Open a chapter and add it to Revise. Its cards come back there when they are due.'}</p>
+          <p>{due ? `Across your subjects. About ${plural(minutes, 'minute')} in Revise, with the rest of today’s work.` : firstChapter ? `Start with ${firstTitle}. Open it and add it to Revise, and its cards come back there when they are due.` : 'Open a chapter and add it to Revise. Its cards come back there when they are due.'}</p>
         </div>
-        {due ? <Link className="kc-btn kc-btn--volt kc-today__key" href={links.revise()} data-page-primary="">Revise now</Link> : null}
+        {due ? <Link className="kc-btn kc-btn--volt kc-today__key" href={links.revise()} data-page-primary="">Revise now</Link>
+          : firstChapter ? <Link className="kc-btn kc-btn--line kc-today__key" href={links.deck(firstChapter.key)}>Open the chapter</Link> : null}
       </section>
       {!isPro ? <InlineNudge placement="keycards" className="kc-nudge" /> : null}
 

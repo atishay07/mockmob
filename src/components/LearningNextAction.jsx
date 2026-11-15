@@ -15,6 +15,7 @@ import { useInView } from '@/lib/motion/useInView';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { practiceForMinutes } from '@/../data/learning_engine';
+import { FIRST_SET_COUNT, FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 
 const TIMES = [10, 20, 30];
 const TIME_OPTIONS = TIMES.map((n) => ({ value: n, label: `${n} min` }));
@@ -94,7 +95,7 @@ function heroTitle(plan, top, planned) {
 // Compact (Progress only now): the card's key is the page's one action, so it is the volt key and marks data-page-primary;
 // while it is on screen the dock's Start key steps back to its quiet look (W-075), so a phone never shows two lime fills
 // (10 Nov app pass: an outline key in a volt-bordered card read as weaker than the card around it). It names the step
-// ("Start 10 practice questions"), not a bare "Start" (AGENT_RULES 7).
+// ("Start 10 practice questions"; a fresh student's first set reads "Start 10 questions", src/lib/firstSet.mjs), not a bare "Start" (AGENT_RULES 7).
 // `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
 // `moment` (Today): a real moment the page saw, { act, title, line }, e.g. the week's study-day goal met (lib/mobiScreens.js).
 // It takes the companion's idle slot once the plan is on screen; a failure, the wait and a time choice still come first.
@@ -148,6 +149,12 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
     : plan?.primary.href;
 
   if (compact) {
+    // U2 (15 Nov 2026): a student with no finished set meets the first step under its one name and door (src/lib/firstSet.mjs),
+    // as on Today and Your papers, whatever time the plan was asked for. Practice states the subject and price before it starts.
+    const firstSet = plan?.primary.kind === 'ordinary_practice' && plan.ordinaryAttemptCount === 0 && !plan.sequence?.length;
+    const step = !plan ? null : firstSet
+      ? { title: FIRST_SET_LABEL, href: FIRST_SET_HREF, reason: `${FIRST_SET_COUNT} questions, about ${FIRST_SET_COUNT} minutes.` }
+      : { title: plan.primary.title, href: plan.primary.href, reason: firstSentence(plan.primary.reason) };
     return (
       failed && onError ? null : <section className={`na na--compact${quiet ? ' na--quiet' : ''}`} aria-label="Your next step">
         {error ? (
@@ -156,10 +163,10 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
           <div className="na__body"><p className="na__reason" role="status">Loading your next step…</p></div>
         ) : (
           <>
-            <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{firstSentence(plan.primary.reason)}</b></div>
+            <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{step.reason}</b></div>
             {quiet
-              ? <Link className="btn-outline md na__cta mk-press" href={plan.primary.href}>{plan.primary.title}</Link>
-              : <Link className="btn-volt md na__cta mk-press" href={plan.primary.href} data-page-primary="">{plan.primary.title}</Link>}
+              ? <Link className="btn-outline md na__cta mk-press" href={step.href}>{step.title}</Link>
+              : <Link className="btn-volt md na__cta mk-press" href={step.href} data-page-primary="">{step.title}</Link>}
           </>
         )}
       </section>

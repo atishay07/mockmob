@@ -59,7 +59,8 @@ export function ErrorState({ message = 'Check your connection and try again.', o
         <div className="ui-state__copy">
           <b>{title}</b>
           <p>{message}</p>
-          {onRetry ? <button type="button" onClick={onRetry} className="ui-state__action ui-state__action--primary">Try again</button> : null}
+          {/* The failed page's one volt key: data-page-primary steps the shell's Start key back (U3, W-075). */}
+          {onRetry ? <button type="button" onClick={onRetry} className="ui-state__action ui-state__action--primary" data-page-primary="">Try again</button> : null}
         </div>
       </div>
     );

@@ -37,6 +37,7 @@ import {
   priceOfTyped, priceWord, recordDoorAsks, recordLine, seeAll, seeFewer, clockStamp, costOf,
 } from './askDoors.mjs';
 import { exchangesFrom } from './mentorHistory.mjs';
+import { FIRST_SET_HREF } from '@/lib/firstSet.mjs';
 import './ask-doors.css';
 
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
@@ -254,7 +255,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
               <div className="amd-empty">
                 <p className="amd-empty__say">{DOOR_COPY.emptySay}</p>
                 <p className="amd-quiet amd-quiet--body">{DOOR_COPY.emptyBody}</p>
-                <Link href="/dashboard?mode=quick&count=10" className="amd-key">{DOOR_COPY.emptyKey}</Link>
+                <Link href={FIRST_SET_HREF} className="amd-key">{DOOR_COPY.emptyKey}</Link>
                 <p className="amd-quiet">{DOOR_COPY.emptyAfter}</p>
               </div>
             ) : null}

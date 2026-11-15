@@ -14,6 +14,7 @@ import { compareToCutoff } from '@/../data/compass_projection';
 import { Listbox } from '@/components/ui/controls/Listbox';
 import { useMyColleges } from '@/components/colleges/useMyColleges';
 import { MAX_COLLEGES, entryKey } from '@/lib/colleges/model.mjs';
+import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 
 const SHORTLIST_LIMIT = MAX_COLLEGES;
 const ROUNDS = ['Round 1', 'Round 2', 'Round 3'];
@@ -180,7 +181,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             </>
           ) : <p className="cpro-muted">Practise at least {projection.minSample} questions in a subject to project its paper.</p>}
           <ul className="cpro-papers">{papers.map((p) => <PaperRow key={p.subject} paper={p} max={paperMax} />)}</ul>
-          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session</Link> : null}
+          {!papers.length ? <Link href={FIRST_SET_HREF} className="pr-link">{FIRST_SET_LABEL}</Link> : null}
         </article>
 
         <article className="cpro-card cpro-next">

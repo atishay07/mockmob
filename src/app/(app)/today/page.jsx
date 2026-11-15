@@ -90,7 +90,9 @@ export default function Today() {
   const day = useSyncExternalStore(noSubscribe, dayLine, () => null);
   const hour = useSyncExternalStore(noSubscribe, hourNow, () => null);
   const data = useToday(userId);
-  const insights = useInsights(userId);
+  // U11: the page's one "Try again" (when Today's reads all failed) reads everything again, the record and colleges included.
+  const [again, setAgain] = useState(0);
+  const insights = useInsights(userId, again);
   const mobOn = useMobEnabled();
   const mob = useMob(mobOn ? userId : null);
 
@@ -104,7 +106,7 @@ export default function Today() {
   }, [planLoading]);
   const [triedAt, setTriedAt] = useState('');
   const [retried, setRetried] = useState(false);
-  const retry = useCallback(() => { setRetried(true); data.retryAll(); }, [data]);
+  const retry = useCallback(() => { setRetried(true); data.retryAll(); setAgain((n) => n + 1); }, [data]);
   useEffect(() => {
     if (data.plan.status !== 'error' || !retried) return undefined;
     const t = window.setTimeout(() => setTriedAt(clock(Date.now())), 0);
@@ -287,6 +289,10 @@ export default function Today() {
   // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
   const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
   const phase = holdForStep || holdForPage ? 'loading' : rec && rec.id !== 'failed' ? 'ready' : rec?.id === 'failed' || settled ? 'failed' : 'loading';
+  // U11 (15 Nov 2026): when Today's main read failed as a whole (every account read Today makes came back failed, as on a dropped
+  // connection), the page is ONE failure: the move's card with its one Try again, which reads the whole page again. The sections that
+  // would each say "did not load" with their own key stay out until it answers. A part that fails alone keeps its own small retry.
+  const allFailed = phase === 'failed' && [data.plan, data.papers, data.rhythm, data.goal, data.road, data.revise, data.facts, data.repaired].every((r) => r.status === 'error');
   // D29: after a fresh submission the paper's reel takes the lead's place once ("Play your paper back"), then Up next returns. The
   // paper is latched when the lead is ready, so the card stays for the visit (its own seen mark is written once it is on screen).
   const [reelId, setReelId] = useState(null);
@@ -308,6 +314,8 @@ export default function Today() {
   // The strip waits for the one fact that places it (R4 client-code#2): while everSessions is unknown nothing is drawn in the header, so a
   // brand-new student's start card never jumps up when the strip leaves it. Once known it mounts once, in its one slot.
   const wideHead = useSyncExternalStore(subscribeWide, wideNow, () => false);
+  // With every read failed the session count is unknown, so no strip is drawn; the colleges block waits with the page (U11) and
+  // reads again when it comes back.
   const strip = everSessions !== null ? <TodayCollegesStrip userId={userId} hold={landing} /> : null;
   const stripBelow = dayOne && !wideHead;
   const word = hour != null && (hour >= 17 || hour < 4) ? 'Tonight’s move' : 'Today’s move';
@@ -342,10 +350,10 @@ export default function Today() {
             {/* Ask Mobi, right under the lead card (owner LK143): his own page, one tap from Today. */}
             <TodayAsk />
             {stripBelow ? <div className="today__colleges">{strip}</div> : null}
-            <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
-            {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
+            {allFailed ? null : <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />}
+            {dayOne || allFailed ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
           </div>
-          <div className="today-grid__side">
+          {allFailed ? null : <div className="today-grid__side">
             <TodayWeek
               hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions}
               mobiFree={!(lead?.art === 'mobi' || lead?.id === 'done') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
@@ -359,7 +367,7 @@ export default function Today() {
             />
             <TodayQueue papers={data.papers} repaired={data.repaired} repairRows={data.repairRows} revise={data.revise} dayOne={dayOne} hold={landing} />
             <TodayColleges userId={userId} subjects={user?.subjects || []} hold={landing} />
-          </div>
+          </div>}
         </div>
       </section>
     </div>

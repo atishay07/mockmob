@@ -199,8 +199,12 @@ test('personal bests: a set stands in before the first mock; nothing true means 
   assert.equal(rows[0].label, 'Best set');
   assert.deepEqual(bestsRows({}), []);
   const none = bestsRows({ rhythm: { bestRun: 0, weeksMetStreak: 0, daysGoal: 4 } });
-  assert.equal(none[0].value, '0 weeks');
+  // U7 (15 Nov 2026): never a big zero; a student with no session yet sees the day they are on.
+  assert.equal(none[0].value, 'Not yet');
   assert.equal(none[0].note, 'Your first week at your goal starts the count.');
+  const dayOne = bestsRows({ rhythm: { bestRun: 0, weeksMetStreak: 0, daysGoal: 4, counts: { sessions: 0, repairs: 0, weeksMet: 0 } } });
+  assert.deepEqual([dayOne[0].value, dayOne[0].label, dayOne[0].note], ['Day 1', 'Your first week at your goal', 'Weeks at your goal are counted from your first set.']);
+  assert.equal(bestsRows({ rhythm: { bestRun: 2, weeksMetStreak: 0, daysGoal: 4, counts: { sessions: 9 } } })[0].value, '2 weeks');
   assert.equal(longestRun({ bestRun: 1, weeksMetStreak: 3 }), 3);
 });
 

@@ -11,6 +11,7 @@ import { creditCount } from '../../lib/creditCopy.mjs';
 import { productAskFor, shortDate } from './askSuggestions.mjs';
 import { shownFirstName } from '../../lib/displayName.mjs';
 import { isTonightAsk } from './mobiJobs.mjs';
+import { FIRST_SET_LABEL } from '../../lib/firstSet.mjs';
 
 // ---- Words (read aloud, D84: whole sentences, no exclamation marks, arrows or emoji) -----------------------------------
 
@@ -24,7 +25,8 @@ export const DOOR_COPY = Object.freeze({
   recordTip: 'Tap a question and Mobi answers at once.',
   emptySay: 'Your record is empty for now.',
   emptyBody: 'Finish one practice paper and Mobi can show you where every mark went.',
-  emptyKey: 'Practise 10 questions first',
+  // The first step's one name on every screen (U2, src/lib/firstSet.mjs); the app's twin (ask_doors.dart) still says the old words.
+  emptyKey: FIRST_SET_LABEL,
   emptyAfter: 'After that, you can ask where you lose marks, which chapter to practise and what to revise tonight.',
   reading: 'Mobi is reading your record.',
   readFailed: 'Your record could not be read just now. Ask now still works.',

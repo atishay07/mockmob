@@ -29,6 +29,7 @@
 import { openMistakes, firstWeekDay } from './move.mjs';
 import { choiceMoves, leadOf } from './lead.mjs';
 import { roadFigures } from './road.mjs';
+import { FIRST_SET_COUNT, FIRST_SET_HREF, FIRST_SET_LABEL } from '../firstSet.mjs';
 import { todayKeyIn } from './week.mjs';
 import { FIRST_TIMED_COPY, firstTimedMockHref, shortestTimedPaper } from '../../../data/first_timed_mock.js';
 
@@ -195,9 +196,9 @@ function aimLead(c) {
   const weakest = pick(choiceMoves({ papers: c.papers, facts: c.facts, repaired: c.repaired, top: c.top, subjectName: c.subjectName, firstSubject: c.firstSubject, length: c.length || 10, now: c.now }), 'weakest');
   if (weakest) return weakest;
   return leadOf({
-    id: 'practice', overline: 'Up next', number: 10, label: 'practice questions',
+    id: 'practice', overline: 'Up next', number: FIRST_SET_COUNT, label: 'practice questions',
     why: 'Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.',
-    key: { label: 'Start 10 questions', href: '/dashboard?mode=quick&count=10', minutes: 10 },
+    key: { label: FIRST_SET_LABEL, href: FIRST_SET_HREF, minutes: FIRST_SET_COUNT },
     pills: pills(), art: 'object', subject,
   }, { now: c.now });
 }

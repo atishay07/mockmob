@@ -415,7 +415,7 @@
       "one": "From your device's record of 1 timed mock, marked as it was scored.",
       "many": "From your device's record of {n} timed mocks, marked as each paper was scored."
     },
-    "none": "Across your mocks starts with your first Full or NTA mock that your device records.",
+    "none": "Across your mocks starts with your first Full or NTA mock. Your account keeps its record.",
     "belowGate": {
       "one": "Across your mocks opens at 2 timed mocks with a device record. You have 1.",
       "many": "Across your mocks opens at 2 timed mocks with a device record. You have {n}."

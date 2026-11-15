@@ -240,7 +240,7 @@ export const RESULT_PAPER_NAMES = Object.freeze([...Object.keys(RESULT_PAPERS), 
  * re-check on avg), repaired (a return visit: true, the first mistake in repair order already has a written repair; 'all', every
  * mistake repair could open has one).
  */
-export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
+export function fixtureResultPaper(name = 'avg', { held = false, repaired = false, rules = 'ready' } = {}) {
   const now = Date.now();
   const first = name === 'first10' || name === 'first10clean';
   const practice = name === 'practice5' || name === 'practice10' || name === 'practice10slow' || first;
@@ -256,7 +256,8 @@ export function fixtureResultPaper(name = 'avg', { held = false, repaired = fals
   const built = buildMistakeLab({ attempt, answerReviews, cohort: null });
   const order = paperRepairOrder(name);
   const live = order ? { ...order, items: order.items.filter((x) => !answerReviews[x.qid]), qids: order.qids.filter((q) => !answerReviews[q]) } : null;
-  const looped = built ? (first ? { ...built, acrossMocks: null, rules: null, prove: { ruleCheck: null } } : fixtureLabLoop({ lab: built, attempt, answerReviews })) : null;
+  // rules 'new' (U16, for U13): the student's first paper, so no rule is kept yet, the Rule book is empty and no timed mock is on record.
+  const looped = built ? (first ? { ...built, acrossMocks: null, rules: null, prove: { ruleCheck: null } } : fixtureLabLoop({ lab: built, attempt, answerReviews, ...(rules === 'new' ? { across: 'none', ruleCheck: 'none', rules: 'new' } : {}) })) : null;
   // The first set's wrong answers come back in Revise as the server says it (data/revise.js buildLater, no cards yet).
   if (looped && first) looped.prove = { ...looped.prove, later: buildLater({ attempt, allAttempts: [], answerReviews, cards: null, now }) };
   const lab = looped ? { ...looped, repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : repaired && short ? mistakeIds(attempt, answerReviews).slice(0, 2) : [] } : null;
@@ -377,14 +378,14 @@ export function fixtureRuleBook(state = 'ready') {
 export const FIXTURE_PLAYBOOK = RULES.playbook;
 
 /** The lab with the slice 3 parts the route adds (data/lab_loop.js), for the preview's Full mock. */
-export function fixtureLabLoop({ lab, attempt, answerReviews = {}, across = 'ready', ruleCheck = 'kept', order = 'cohort' } = {}) {
+export function fixtureLabLoop({ lab, attempt, answerReviews = {}, across = 'ready', ruleCheck = 'kept', order = 'cohort', rules = 'ready' } = {}) {
   if (!lab) return lab;
   const repairOrder = buildRepairOrder({ lab: order === 'paper' ? { ...lab, byQuestion: {} } : lab, attempt, answerReviews });
   return {
     ...lab,
     acrossMocks: fixtureAcross(across),
     repairOrder,
-    rules: JSON.parse(JSON.stringify(RULES.summary)),
+    rules: rules === 'new' ? (({ count, countLabel, active }) => ({ count, countLabel, active }))(fixtureRuleBook('new')) : JSON.parse(JSON.stringify(RULES.summary)),
     prove: { ...(lab.prove || {}), ruleCheck: ruleCheck === 'none' ? null : JSON.parse(JSON.stringify(RULECHECK[ruleCheck] || RULECHECK.kept)) },
   };
 }

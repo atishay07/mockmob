@@ -423,9 +423,13 @@ export function bestsRows({ bests = [], fastest = null, rhythm = null, timeZone,
     const run = longestRun(rhythm);
     const now = Number(rhythm.weeksMetStreak) || 0;
     const goal = Number(rhythm.daysGoal) || 0;
+    // U7 (15 Nov 2026): a zero is never the largest figure on a first-day screen. With no session yet the row leads with the day
+    // the student is on; with sessions and no week met yet it says so in words. The count shows once there is one.
+    const firstDay = run === 0 && Number.isInteger(rhythm.counts?.sessions) && rhythm.counts.sessions === 0;
     rows.push({
-      key: 'run', value: plural(run, 'week'), label: 'Longest run at your goal',
-      note: run === 0
+      key: 'run', value: run > 0 ? plural(run, 'week') : firstDay ? 'Day 1' : 'Not yet', label: firstDay ? 'Your first week at your goal' : 'Longest run at your goal',
+      note: firstDay ? 'Weeks at your goal are counted from your first set.'
+        : run === 0
         ? 'Your first week at your goal starts the count.'
         : `${now === 0 ? 'Not in a run right now' : `Now: ${plural(now, 'week')} in a row`}.${goal ? ` Goal: ${plural(goal, 'study day')} a week.` : ''}${bestRunEndedWeek && now < run ? ` Ended the week of ${weekDate(bestRunEndedWeek)}.` : ''}`,
       href: null,

@@ -4,7 +4,8 @@
 //   open: trap and side-by-side) | locked (free, the sample went to another week: teaser and the Pro line) | pro (two Mobs,
 //   extra papers, past weeks) | blocked (free, you already sat this week in another Mob) | extras (free, extra papers waiting)
 //   | partial (the sample week, a fourth sitter keeps answers private: the counts are over you and the members who share)
-//   ?mob=ready (default, you sat) | notsat (a nudge waiting, cost line) | alone | none | full | closed | error | loading
+//   ?mob=ready (default, you sat) | notsat (a nudge waiting, cost line) | alone | none (the den's start, as production) | none-v2
+//   | full | closed | error | loading
 //   | complete (4 of 4 sat: the ring settles, Today's Mobi moment) | two (a Mob of two who both sat and show their score:
 //   the Together card) | private (a Mob of two, both sat, your score private: the hint to compare)
 //   ?view=join&invite=valid (default) | invalid, &auth=out for the signed-out join page
@@ -21,7 +22,10 @@ import historyV2 from '@/../data/tests/fixtures/mob/history_v2.json';
 const clone = (v) => JSON.parse(JSON.stringify(v));
 
 function initial(kind) {
-  if (kind === 'none') return { mob: null };
+  // none: no Mob yet, as production answers with Mob v3 on (src/lib/server/mob/service.js: v3Available), so the page draws the
+  // den's start (DenStart), not the older page (U17). none-v2 keeps the older NoMob page for anyone checking it.
+  if (kind === 'none') return { mob: null, v3Available: true };
+  if (kind === 'none-v2') return { mob: null };
   if (kind === 'den') return clone(denGet);
   if (kind === 'pro') return clone(getProV2);
   if (kind === 'sample' || kind === 'locked' || kind === 'partial') {

@@ -71,9 +71,10 @@ import { attemptHold, heldAttemptView } from '@/lib/mob/paperHold.mjs';
 import { mobWeek } from '@/lib/mob/model.mjs';
 import { previewFirstWeek } from './previewFirstWeek';
 import { previewReview } from './previewReview';
-import { previewWallet, previewWalletAdded, previewWalletCheckout } from './previewWallet';
-import { previewBalancePart, previewOneTotal } from './previewChip';
+import { previewWallet, previewWalletAdded, previewWalletCheckout, previewWalletWindow } from './previewWallet';
+import { previewBalancePart, previewFreshWallet, previewOneTotal } from './previewChip';
 import { previewConcepts } from './previewConcepts';
+import { previewReferrals } from './previewReferrals';
 import IconShowcase from '@/components/brand/IconShowcase';
 import { browserSession, loadRecord, openUpgrade, saveRecord } from '@/components/pro/proNudgeStore';
 import { emptyRecord, noteOnboarded } from '@/lib/proNudge.mjs';
@@ -243,6 +244,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // Wallet (D76): GET /api/wallet from the real pack catalog; ?commerce=open|closed, ?wallet=down|zero|unknown, ?history=down|empty (previewWallet.js).
     const walleted = previewWallet(url, method, init, fixture, json);
     if (walleted) return walleted;
+    // Friend invites (U15): GET /api/referrals in the live route's shape; ?referrals=fresh (default)|some|cap|paused|invited|off|down.
+    const referred = previewReferrals(url, method, fixture, json);
+    if (referred) return referred;
     // Review (LEARN-REVIEW-1017 P-LR1): GET /api/me/review and the papers, lessons and repairs it opens (?review=, previewReview.js).
     const reviewed = previewReview(url, method, init, fixture, json);
     if (reviewed) return reviewed;
@@ -260,7 +264,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/questions/feed') {
       const limit = Number(url.searchParams.get('limit')) || 12;
       const offset = Number(url.searchParams.get('offset')) || 0;
-      const rows = state === 'empty' ? [] : fixtureFeed(url.searchParams.get('subject'), state === 'long').filter((question) => (!url.searchParams.get('chapter') || question.chapter === url.searchParams.get('chapter')) && (!url.searchParams.get('difficulty') || question.difficulty === url.searchParams.get('difficulty')));
+      // The feed is the public question bank, not the account, so ?data=empty keeps it (U16); ?feed=empty shows an empty bank.
+      const rows = fixture.get('feed') === 'empty' ? [] : fixtureFeed(url.searchParams.get('subject'), state === 'long').filter((question) => (!url.searchParams.get('chapter') || question.chapter === url.searchParams.get('chapter')) && (!url.searchParams.get('difficulty') || question.difficulty === url.searchParams.get('difficulty')));
       const raw = rows.slice(offset, offset + limit);
       return json({ questions: state === 'held' && offset === 0 ? [] : raw, total: null, nextOffset: offset + raw.length, hasMore: raw.length === limit });
     }
@@ -351,7 +356,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // under re-check), &return=1 (the first mistake already repaired: it opens free, never offered as paid) and &return=all
       // (every mistake repaired). &wallet=zero is a known balance of 0 AI credits.
       if (RESULT_PAPER_NAMES.includes(fixture.get('paper'))) {
-        const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1' });
+        // &rules=new: the student's first paper (no rule kept, an empty Rule book), so the result's first-paper lines can be seen (U13, U16).
+        const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1', rules: fixture.get('rules') === 'new' ? 'new' : 'ready' });
         return json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       if (mock === 'full' && !todayNewest && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
@@ -444,8 +450,17 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
       const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
       // The AI balance is the same wallet the top bar and Ask Mobi read, so the page never shows two numbers for one pool.
-      const ai = projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size + repairReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid, includedMonthlyCredits: 50, paidAiOpen: true });
-      return json({ ...creditsContract, ai: { ...creditsContract.ai, balance: ai.known ? ai.total : creditsContract.ai.balance }, plan: { name: paid ? 'Pro' : 'Free', until } });
+      // U16: the body carries the one total as the live route does (creditsBody's `total`, src/lib/server/credits.js), built from the
+      // same parts as the Wallet fixture, so You never shows two figures for one balance. A fresh account (previewChip.js) has 50
+      // free credits, nothing held and no history; its month's window is today's.
+      const fresh = previewFreshWallet(page);
+      const held = previewBalancePart(page);
+      const spent = replyReceipts.size + repairReceipts.size;
+      const ai = projectWallet({ included_monthly_credits: 50, included_credits_used: (fresh ? 0 : 12) + spent, bonus_credits: fresh ? 0 : 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid, includedMonthlyCredits: 50, paidAiOpen: true });
+      const { renewsOn } = previewWalletWindow();
+      const freeLeft = ai.known ? ai.includedRemaining : null;
+      const total = { balance: ai.known ? ai.total + held : null, freeLeft, freeAllowance: 50, held: ai.known ? ai.total - freeLeft + held : null, renewsOn, label: 'Credits' };
+      return json({ ...creditsContract, practice: { ...creditsContract.practice, balance: held }, ai: { ...creditsContract.ai, balance: ai.known ? ai.total : creditsContract.ai.balance, renewsOn }, ...(fresh ? { history: [] } : {}), total, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
       const page = new URLSearchParams(window.location.search);
@@ -554,14 +569,16 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     // Traps you meet (GET /api/me/traps; ?traps=empty|down) and Revise (GET /api/me/revise; ?revise=empty|down, POST .../answer).
     if (url.pathname === '/api/me/traps' && method === 'GET') {
-      const kind = fixture.get('traps') || 'ready';
-      if (kind === 'down' || state === 'empty') return json({ error: 'unavailable', message: 'Your traps could not be loaded. Try again shortly.' }, 503);
+      // U16: an account with no attempts gets the route's empty body (src/app/api/me/traps/route.js), not a failure.
+      const kind = fixture.get('traps') || (state === 'empty' ? 'empty' : 'ready');
+      if (kind === 'down') return json({ error: 'unavailable', message: 'Your traps could not be loaded. Try again shortly.' }, 503);
       return json(fixtureTrapsMeet(kind === 'empty' ? 'empty' : 'ready'));
     }
     if (url.pathname === '/api/me/revise' && method === 'GET') {
       // student=new (E6): nothing done yet, so nothing is due (an explicit ?revise= still wins).
-      const kind = fixture.get('revise') || (fixture.get('student') === 'new' ? 'empty' : 'ready');
-      if (kind === 'down' || (state === 'empty' && !newOnToday)) return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
+      // U16: ?data=empty is an account with no attempts too, and the route answers it empty (src/app/api/me/revise/route.js).
+      const kind = fixture.get('revise') || (fixture.get('student') === 'new' || state === 'empty' ? 'empty' : 'ready');
+      if (kind === 'down') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
       if (kind === 'empty') return json(fixtureRevise('empty'));
       if (kind === 'legacy') return json(fixtureReviseLegacy());
       // ?revise=keycards: the design student's queue with three due Key cards as the third source, shaped as the kc-server
@@ -627,8 +644,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
         : page.get('wallet') === 'zero' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 50, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: false, includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: previewBalancePart(page) })
         : page.get('wallet') === 'low' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 42, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: false, practiceBalance: 0 })
+        // A brand-new account (U14): this month's 50 free credits and nothing else (previewChip.js previewFreshWallet).
+        : previewFreshWallet(page) ? projectWallet({ included_monthly_credits: 50, included_credits_used: replyReceipts.size + repairReceipts.size, bonus_credits: added, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: previewBalancePart(page) })
         : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size + repairReceipts.size, bonus_credits: 30 + added, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: page.get('plan') === 'pro' ? 0 : previewBalancePart(page) });
-      return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
+      return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: previewBalancePart(page), label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
     // Ask Mobi's page lists the earlier questions with what each cost and when (ASK-MOBI-1019): two saved exchanges, one written reply
     // (1 credit) and one answered from the record, unless the account is new (?data=empty or ?record=empty). ?history=none has none.

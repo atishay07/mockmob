@@ -3,11 +3,15 @@
 //   ?commerce=open        the keys say "Add for" (the checkout itself is a preview-only 418, nothing is ordered)
 //   ?wallet=down          the whole read fails (Try again)    ?wallet=zero      the balance is 0
 //   ?wallet=unknown|low|loading                               ?history=down|empty
+//   ?wallet=fresh         a brand-new account (U14): this month's 50 free credits, nothing bought or held, no history yet;
+//                         the default under ?data=empty and &student=new (previewChip.js previewFreshWallet)
 //   ?wallet=after&commerce=open                              in-memory checkout and verification only
 //   ?plan=pro             Pro: one line says practice is included, no Pro row
 //   ?offer=monthly        the bridge to Pro names the monthly price (pro_monthly_99), as the live site sells it
 import { packViews } from '@/lib/wallet/walletPacks.mjs';
 import { ONE_CREDIT_LINE } from '@/lib/creditCopy.mjs';
+import { walletWindow } from '@/services/credits/aiWalletState';
+import { PREVIEW_FREE_ALLOWANCE, previewFreshWallet } from './previewChip';
 
 const at = (daysAgo, h, m) => new Date(Date.UTC(2026, 9, 18 - daysAgo, h, m)).toISOString();
 
@@ -20,6 +24,13 @@ export const previewWalletCheckout = {
     }, 350);
   },
 };
+
+/** This month's free-credit window as the wallet states it: resetAt (ISO) and renewsOn (the IST date it comes back). */
+export function previewWalletWindow(now = new Date()) {
+  const { periodStart, resetAt } = walletWindow(now);
+  const renewsOn = new Date(Date.parse(resetAt) + (5 * 60 + 30) * 60000).toISOString().slice(0, 10);
+  return { periodStart, resetAt, renewsOn };
+}
 
 export function previewWalletAdded(fixture) {
   return fixture.get('wallet') === 'after' ? window.__previewWalletAdded || 0 : 0;
@@ -51,15 +62,18 @@ export function previewWallet(url, method, init, fixture, json) {
   const zero = fixture.get('wallet') === 'zero';
   const low = fixture.get('wallet') === 'low';
   const unknown = fixture.get('wallet') === 'unknown';
+  const fresh = previewFreshWallet(fixture);
   const added = previewWalletAdded(fixture);
-  const freeLeft = zero ? 0 : low ? 8 : 38;
-  const balance = zero || low || pro ? 0 : 40;
-  const bonus = zero || low ? 0 : 30 + added;
+  const freeLeft = zero ? 0 : low ? 8 : fresh ? PREVIEW_FREE_ALLOWANCE : 38;
+  const balance = zero || low || pro || fresh ? 0 : 40;
+  const bonus = zero || low || fresh ? 0 : 30 + added;
   const held = balance + bonus;
   const total = freeLeft + held;
+  // The month's window is today's, so "Refills on" is never a date already gone.
+  const { resetAt, renewsOn } = previewWalletWindow();
   const credits = unknown
     ? { total: null, freeLeft: null, freeAllowance: null, held: null, resetAt: null, renewsOn: null, parts: { included: null, bonus: null, balance: null }, label: 'Credits', buys: ONE_CREDIT_LINE }
-    : { total, freeLeft, freeAllowance: 50, held, resetAt: '2026-10-31T18:30:00.000Z', renewsOn: '2026-11-01', parts: { included: freeLeft, bonus, balance }, label: 'Credits', buys: ONE_CREDIT_LINE };
+    : { total, freeLeft, freeAllowance: PREVIEW_FREE_ALLOWANCE, held, resetAt, renewsOn, parts: { included: freeLeft, bonus, balance }, label: 'Credits', buys: ONE_CREDIT_LINE };
   const fullRows = [
     ...(added ? [{ at: at(0, 10, 30), pool: 'ai', what: 'Credits added', delta: added }] : []),
     { at: at(0, 9, 40), pool: 'practice', what: 'Practice set', delta: -10 },
@@ -70,7 +84,8 @@ export function previewWallet(url, method, init, fixture, json) {
     { at: at(9, 0, 0), pool: 'ai', what: 'Free credits for the month', delta: 50 },
   ];
   // A balance of 0 reads back to a believable start: the free credits came in and a full mock spent them.
-  const rows = zero || low
+  const rows = fresh ? []
+    : zero || low
     ? [{ at: at(0, 9, 40), pool: 'practice', what: zero ? 'Full mock' : 'Practice sets', delta: freeLeft - 50 }, { at: at(9, 0, 0), pool: 'ai', what: 'Free credits for the month', delta: 50 }]
     : fullRows;
   let running = total;
