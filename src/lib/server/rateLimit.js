@@ -6,12 +6,14 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { takeFromMemory, takePersistent } from './rateLimitCore';
 
 const buckets = new Map();
-const memoryKey = (request, { route, keyParts = [] }) => [route, getClientIp(request), ...keyParts.map((part) => String(part || '').slice(0, 80))].join(':');
+// `identityOnly` drops the client IP from the key, in memory as in the database (A1, 15 Nov): the memory key kept the IP, so
+// a per-inbox or site-wide cap was really a per-inbox-and-IP cap whenever the in-memory limit answered.
+const memoryKey = (request, { route, keyParts = [], identityOnly = false }) => [route, identityOnly ? '' : getClientIp(request), ...keyParts.map((part) => String(part || '').slice(0, 80))].join(':');
 const persistentBucket = (request, options) => createHash('sha256').update([options.route, options.identityOnly ? '' : getClientIp(request), ...(options.keyParts || [])].join(':')).digest('hex');
 
 // In-memory limit: counts per server instance, so it is a speed bump rather than a shared budget.
-export function checkRateLimit(request, { route, limit, windowMs = 60_000, keyParts = [] }) {
-  return takeFromMemory(buckets, memoryKey(request, { route, keyParts }), { limit, windowMs });
+export function checkRateLimit(request, { route, limit, windowMs = 60_000, keyParts = [], identityOnly = false }) {
+  return takeFromMemory(buckets, memoryKey(request, { route, keyParts, identityOnly }), { limit, windowMs });
 }
 
 // Shared limit kept in the database (take_rate_limit) when PERSISTENT_LIMITS_ENABLED=true; the in-memory limit otherwise.

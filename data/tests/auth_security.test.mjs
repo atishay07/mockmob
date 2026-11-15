@@ -296,13 +296,15 @@ test('email-login limit: the hourly window reopens', async () => {
   });
 });
 
-test('email-login limit: if the limiter database errors, requests are refused and nothing is mailed', async () => {
+// A1 (15 Nov, owner decision): a student is never locked out because the limiter is down. The in-memory limits decide for
+// that call (security_auth_1115.test.mjs checks they still cap an inbox and an address).
+test('email-login limit: if the limiter database errors, the in-memory limits decide and the code is still mailed', quietly(async () => {
   await withRoute({ rpcError: true }, async ({ POST, state }) => {
-    assert.equal((await POST(post('a@example.com', '198.51.100.70'))).status, 429);
-    assert.equal(state.sent.length, 0);
-    assert.equal(state.events.includes('generateLink'), false);
+    assert.equal((await POST(post('a@example.com', '198.51.100.70'))).status, 200);
+    assert.equal(state.sent.length, 1);
+    assert.ok(state.events.includes('rpc:take_rate_limit'), 'the database limiter was asked first');
   });
-});
+}));
 
 test('email-login limit: without persistent limits the per-address limits still hold', async () => {
   await withRoute({ persistent: false }, async ({ POST, state, advance }) => {

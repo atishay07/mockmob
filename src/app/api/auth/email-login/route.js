@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit, rateLimitWait } from '@/lib/server/rateLimit';
 import { resend } from '@/lib/resend';
-import { EMAIL_LOGIN_LIMITS, getSiteOrigin, isAppClient, loginLinkPath, pruneLocalBuckets } from '@/lib/server/emailLoginPolicy';
+import {
+  EMAIL_LOGIN_LIMITS, emailLimitOptions, emailLimitReply, emailLoginSiteLimit, getSiteOrigin, isAppClient, loginLinkPath, pruneLocalBuckets,
+} from '@/lib/server/emailLoginPolicy';
 import { INVITE_COOKIE, decodeInviteCookie, normaliseInviteCode, referralsLive } from '@/lib/referrals/friendInvite.mjs';
 
 export const runtime = 'nodejs';
@@ -45,15 +47,25 @@ function checkRateLimit(request, email) {
   return 0;
 }
 
-function rateLimited(retryAfterSeconds) {
-  const seconds = Math.max(1, Math.min(3600, Number(retryAfterSeconds) || 60));
-  const message = seconds > 90
-    ? `Too many codes for this email. Try again in about ${Math.ceil(seconds / 60)} minutes, or use the latest code you already have.`
-    : `A code was sent a moment ago. You can ask for a new one in ${seconds} seconds.`;
+// F5 (15 Nov): the reply names the limit that refused (emailLimitReply), so the card opens the code field only when a code
+// really went to this inbox.
+function rateLimited(scope, retryAfterSeconds) {
+  const reply = emailLimitReply(scope, retryAfterSeconds);
   return NextResponse.json(
-    { ok: false, code: 'rate_limited', message, retryAfterSeconds: seconds },
-    { status: 429, headers: { 'Retry-After': String(seconds) } },
+    { ok: false, ...reply },
+    { status: 429, headers: { 'Retry-After': String(reply.retryAfterSeconds) } },
   );
+}
+
+// One error line when the site-wide ceiling refuses (A1), at most every 5 minutes per server instance, so a flood is seen
+// without filling the log.
+const CEILING_LOG_EVERY_MS = 5 * 60_000;
+let ceilingLoggedAt = 0;
+function noteCeiling(limit) {
+  const now = Date.now();
+  if (now - ceilingLoggedAt < CEILING_LOG_EVERY_MS) return;
+  ceilingLoggedAt = now;
+  console.error(`[api/auth/email-login] the daily ceiling of ${limit} sign-in emails is reached; email sign-in is refused until it resets (AUTH_EMAIL_DAILY_CEILING)`);
 }
 
 function escapeHtml(value) {
@@ -108,10 +120,17 @@ function loginEmailHtml({ link, code, forApp = false }) {
 </html>`;
 }
 
+// The three limits, then the site-wide daily ceiling (emailLoginPolicy.js). A refusal carries its scope and the real wait
+// from the limiter (the database's reset time when it can be read, else the limiter's own answer).
 async function checkEmailLoginLimits(request, email) {
-  for (const { perEmail, ...options } of EMAIL_LOGIN_LIMITS) {
-    const result = await checkPersistentRateLimit(request, { ...options, keyParts: perEmail ? [email] : [] });
-    if (!result.allowed) return result;
+  for (const limit of [...EMAIL_LOGIN_LIMITS, emailLoginSiteLimit()]) {
+    const options = emailLimitOptions(limit, email);
+    const result = await checkPersistentRateLimit(request, options);
+    if (!result.allowed) {
+      if (limit.scope === 'site') noteCeiling(limit.limit);
+      const wait = await rateLimitWait(request, options);
+      return { allowed: false, scope: limit.scope, retryAfterSeconds: wait ?? result.retryAfterSeconds };
+    }
   }
   return { allowed: true };
 }
@@ -144,9 +163,9 @@ export async function POST(request) {
     }
 
     const waitSeconds = checkRateLimit(request, email);
-    if (waitSeconds > 0) return rateLimited(waitSeconds);
+    if (waitSeconds > 0) return rateLimited('email', waitSeconds);
     const persistent = await checkEmailLoginLimits(request, email);
-    if (!persistent.allowed) return rateLimited(persistent.retryAfterSeconds);
+    if (!persistent.allowed) return rateLimited(persistent.scope, persistent.retryAfterSeconds);
 
     // The isolated staging app (scripts/pipeline/tools/stagingLocalApp.mjs) cannot send email.
     // It reports success without a code; scripts/dev/staging-otp.mjs prints one for test accounts.

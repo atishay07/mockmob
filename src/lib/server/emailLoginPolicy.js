@@ -31,17 +31,71 @@ export function loginLinkPath(body) {
 }
 
 const HOUR_MS = 60 * 60 * 1000;
+const DAY_MS = 24 * HOUR_MS;
 
-// Three limits, all persistent when PERSISTENT_LIMITS_ENABLED=true (Vercel):
+// Three limits, taken in this order (the network first, so one address cannot spend other inboxes' budgets):
 //   one address, any emails: 20 an hour (stops one sender mailing many inboxes)
 //   one address and one email: 5 an hour (the normal resend budget)
 //   one email, any address: 15 an hour (caps mail to one inbox; one address alone cannot use
 //   it up and lock the student out, because it stops at 5 for that email)
+// `scope` says which reply a refusal gets (F5, 15 Nov): 'email' means codes already went to this inbox, so the code field
+// opens; 'network' means nothing was sent now, so it does not.
 export const EMAIL_LOGIN_LIMITS = [
-  { route: '/api/auth/email-login#ip', limit: 20, windowMs: HOUR_MS, identityOnly: false, perEmail: false },
-  { route: '/api/auth/email-login#ip-email', limit: 5, windowMs: HOUR_MS, identityOnly: false, perEmail: true },
-  { route: '/api/auth/email-login#email', limit: 15, windowMs: HOUR_MS, identityOnly: true, perEmail: true },
+  { route: '/api/auth/email-login#ip', limit: 20, windowMs: HOUR_MS, identityOnly: false, perEmail: false, scope: 'network' },
+  { route: '/api/auth/email-login#ip-email', limit: 5, windowMs: HOUR_MS, identityOnly: false, perEmail: true, scope: 'email' },
+  { route: '/api/auth/email-login#email', limit: 15, windowMs: HOUR_MS, identityOnly: true, perEmail: true, scope: 'email' },
 ];
+
+// A1 (15 Nov): one site-wide daily ceiling on sign-in emails, taken after the three above, so a flood from many addresses
+// cannot spend the whole Resend allowance without anyone noticing. AUTH_EMAIL_DAILY_CEILING sets it.
+export const AUTH_EMAIL_DAILY_CEILING_DEFAULT = 2000;
+
+export function emailDailyCeiling(env = process.env) {
+  const value = Number.parseInt(String(env.AUTH_EMAIL_DAILY_CEILING ?? ''), 10);
+  return Number.isFinite(value) && value > 0 ? value : AUTH_EMAIL_DAILY_CEILING_DEFAULT;
+}
+
+export function emailLoginSiteLimit(env = process.env) {
+  return { route: '/api/auth/email-login#site', limit: emailDailyCeiling(env), windowMs: DAY_MS, identityOnly: true, perEmail: false, scope: 'site', keyParts: ['all'] };
+}
+
+/**
+ * The limiter options for one of the limits above and one email (A1, 15 Nov). In production these are always the
+ * database's counts, whatever PERSISTENT_LIMITS_ENABLED says (a per-instance count let anyone mail-bomb an inbox). If the
+ * database cannot answer, the in-memory limits decide for that call: a student is never locked out because a limiter is down.
+ */
+export function emailLimitOptions(limit, email, env = process.env) {
+  const { perEmail, scope, keyParts, ...options } = limit;
+  return { ...options, keyParts: keyParts || (perEmail ? [email] : []), persistent: env.NODE_ENV === 'production', fallback: 'memory' };
+}
+
+const MAX_WAIT_SECONDS = 24 * 60 * 60;
+const minutesText = (seconds) => {
+  const minutes = Math.max(1, Math.ceil(seconds / 60));
+  return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
+};
+
+/**
+ * The 429 body for a refused sign-in email (F5, 15 Nov): each limit says what really happened. Only `rate_limited` (this
+ * inbox) means a code is already on its way; the sign-in card opens the code field for that code alone.
+ */
+export function emailLimitReply(scope, retryAfterSeconds) {
+  const seconds = Math.max(1, Math.min(MAX_WAIT_SECONDS, Math.ceil(Number(retryAfterSeconds)) || 60));
+  if (scope === 'site') {
+    return { code: 'email_busy', scope, retryAfterSeconds: seconds, message: 'Email sign-in is busy right now. Google sign-in still works, or try again later.' };
+  }
+  if (scope === 'network') {
+    return { code: 'rate_limited_network', scope, retryAfterSeconds: seconds, message: `Too many sign-in emails from this network just now. Try again in ${minutesText(seconds)}, or use Google.` };
+  }
+  return {
+    code: 'rate_limited',
+    scope: 'email',
+    retryAfterSeconds: seconds,
+    message: seconds > 90
+      ? `We already sent a code to this email. Check your inbox and spam, or try again in ${minutesText(seconds)}.`
+      : `A code was sent a moment ago. You can ask for a new one in ${seconds} seconds.`,
+  };
+}
 
 
 // The per-instance bucket map (the fallback limiter in the route) must not grow forever on a
