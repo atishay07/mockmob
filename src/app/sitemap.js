@@ -1,5 +1,7 @@
 import { absoluteUrl, publicRoutes } from '@/lib/seo';
 import { SUBJECT_HUBS } from '@/lib/subjectHubs';
+import { duCutoffCatalog } from '@/lib/du/cutoffData.server';
+import { CUTOFFS_PATH, collegePath, coursePath } from '@/lib/du/cutoffPages.mjs';
 
 export default function sitemap() {
   const now = new Date();
@@ -25,5 +27,20 @@ export default function sitemap() {
   // The Daily Five (src/app/daily/page.js): a new five every day at 12:00 am IST.
   const daily = { url: absoluteUrl('/daily'), lastModified: now, changeFrequency: 'daily', priority: 0.8 };
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily];
+  // The DU cutoff pages (src/app/du-cutoffs): the index, a page per course and per college, from the 2026 files
+  // (read when the sitemap is built, as the pages are). A failed read leaves them out rather than failing the sitemap.
+  const duPage = (path, priority) => ({ url: absoluteUrl(path), lastModified: now, changeFrequency: 'monthly', priority });
+  let duRoutes = [];
+  try {
+    const du = duCutoffCatalog();
+    duRoutes = [
+      duPage(CUTOFFS_PATH, 0.85),
+      ...du.courses.map((course) => duPage(coursePath(course.id), 0.8)),
+      ...du.colleges.map((college) => duPage(collegePath(college.slug), 0.75)),
+    ];
+  } catch {
+    duRoutes = [];
+  }
+
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, ...duRoutes];
 }
