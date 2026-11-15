@@ -2,8 +2,10 @@ import { absoluteUrl, publicRoutes } from '@/lib/seo';
 import { SUBJECT_HUBS } from '@/lib/subjectHubs';
 import { duCutoffCatalog } from '@/lib/du/cutoffData.server';
 import { CUTOFFS_PATH, collegePath, coursePath } from '@/lib/du/cutoffPages.mjs';
+import { KEY_CARDS_PATH } from '@/lib/keycardsPublic.mjs';
+import { publicKeyCards } from '@/lib/server/keycardsPublic';
 
-export default function sitemap() {
+export default async function sitemap() {
   const now = new Date();
 
   const staticRoutes = publicRoutes
@@ -44,5 +46,20 @@ export default function sitemap() {
     duRoutes = [];
   }
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...duRoutes];
+  // The public Key card decks (src/app/key-cards): the index and each chapter with a free card, the same list the pages are
+  // built from (src/lib/keycardsPublic.mjs). A failed read leaves them out rather than failing the sitemap.
+  let keyCardRoutes = [];
+  try {
+    const decks = await publicKeyCards();
+    if (decks.subjects.length) {
+      keyCardRoutes = [
+        { url: absoluteUrl(KEY_CARDS_PATH), lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+        ...decks.subjects.flatMap((s) => s.chapters.map((c) => ({ url: absoluteUrl(c.path), lastModified: now, changeFrequency: 'monthly', priority: 0.7 }))),
+      ];
+    }
+  } catch {
+    keyCardRoutes = [];
+  }
+
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...duRoutes, ...keyCardRoutes];
 }

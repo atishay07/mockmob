@@ -18,7 +18,8 @@ import './subject-page.css';
 // then how MockMob turns practice into marks, then the questions students ask. One action: the free first mock.
 // Every number comes from src/lib/subjectPages.mjs; an unknown count is left out, never shown as 0. Drawn copy goes through
 // keepTogether, so "CUET UG 2026" never parts at a line end (night 1105); the JSON-LD keeps plain spaces.
-export function SubjectLandingPage({ hub, units, bank, others }) {
+// `keyCards` ({ chapters, href } or null): the subject's free Key card chapters on /key-cards, one link block under the syllabus.
+export function SubjectLandingPage({ hub, units, bank, others, keyCards = null }) {
   const name = hub.name;
   const code = paperCode(hub);
   const chapterTotal = syllabusChapterCount(units);
@@ -147,6 +148,16 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
               </ol>
               {bank?.units && bank.countedOn ? <p className="sj-note">Counted {bank.countedOn} from the live bank. The count is refreshed every day.</p> : null}
             </section>
+
+            {keyCards?.chapters ? (
+              <section className="mm-article__section" aria-labelledby="key-cards-title">
+                <h2 className="mm-h2" id="key-cards-title">{name} Key cards, free to read</h2>
+                <p>
+                  {`Short recall cards for ${keyCards.chapters} ${name} ${keyCards.chapters === 1 ? 'chapter' : 'chapters'}. Read the front, say the answer in your head, then turn the card over. The first Must-know cards of each chapter are free, with no account.`}
+                </p>
+                <p><Link href={keyCards.href} className="mm-link">See the {name} Key cards</Link></p>
+              </section>
+            ) : null}
 
             <section className="mm-article__section">
               <h2 className="mm-h2">{keepTogether(hub.essay.heading)}</h2>

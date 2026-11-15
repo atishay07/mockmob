@@ -25,6 +25,8 @@ const CARDS_ART = '/art/icons/keycards-192.webp'; // the Key cards desk object, 
 // has an account lands on /cards). Today a brand-new account still goes through onboarding first and the saved path is
 // dropped there (postSignInPath keeps only a Mob invite through it); carrying /cards through onboarding is an auth change.
 const KEEP_GOING_HREF = signupPathFor('/cards');
+// The public decks (src/app/key-cards): every subject's chapters, each with its free cards to turn, no account.
+const PUBLIC_DECKS_HREF = '/key-cards';
 
 // Is the keyboard (or a screen reader) inside the demo? Then focus follows the card; a pointer user's focus stays put.
 const holdsFocus = (node) => typeof document !== 'undefined' && Boolean(node?.contains(document.activeElement));
@@ -207,6 +209,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
         <Link href={isAuthenticated ? '/cards' : KEEP_GOING_HREF} className={done ? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'}>
           {isAuthenticated ? W.openCards : W.keepGoing}
         </Link>
+        <Link href={PUBLIC_DECKS_HREF} className="mm-link">{W.seeChapter}</Link>
       </div>
     </>
   );

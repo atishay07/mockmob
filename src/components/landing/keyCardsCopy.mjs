@@ -34,6 +34,8 @@ export const KEY_CARDS_WORDS = Object.freeze({
   keepGoing: 'Sign up free to keep going',
   openCards: 'Open Key cards',
   mustKnow: 'Must-know',
+  // The quiet way to the public decks (/key-cards): any chapter's free cards, no account.
+  seeChapter: 'See a chapter’s cards',
 });
 
 /** "Card 2 of 5": what a screen reader hears where the eye reads "2 / 5". */
