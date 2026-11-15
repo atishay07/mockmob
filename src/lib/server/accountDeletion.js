@@ -86,6 +86,10 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'notification_outbox', action: 'delete', match: own(), why: 'queued notifications' },
   { table: 'push_devices', action: 'delete', match: own(), why: 'push tokens' },
   { table: 'notification_prefs', action: 'delete', match: own(), why: 'notification settings' },
+  // The welcome and day-2 emails (migration 20261115180000_student_emails.sql). Listed before the tables exist: a missing
+  // table is skipped. Once they exist, a row in either would otherwise block the deletion as unclassified user data.
+  { table: 'email_sends', action: 'delete', match: own(), why: 'record of the welcome and day-2 emails' },
+  { table: 'email_optouts', action: 'delete', match: own(), why: 'email opt-out' },
   { table: 'study_goal_history', action: 'delete', match: own(), why: 'goal history' },
   { table: 'study_goals', action: 'delete', match: own(), why: 'weekly goal' },
   { table: 'my_colleges', action: 'delete', match: own(), why: 'saved college list' },

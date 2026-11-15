@@ -6,6 +6,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { AUTH_STALE_HEADER, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import { ensureDbUser, hasConfirmedEmail, readCookieUser } from '@/lib/server/cookieSession';
 import { countSignup } from '@/lib/server/funnelStore';
+import { scheduleWelcomeEmail } from '@/lib/email/welcome';
 import { rowMatchesIdentity, verifyBearerIdentity } from '@/lib/server/verifiedIdentity';
 
 // Live sign-in is Supabase only (Google OAuth with PKCE and the emailed code). The old
@@ -113,9 +114,11 @@ export async function authWithStatus(request?: Request): Promise<{ session: any;
     email: supabaseUser.email,
     image: supabaseUser.user_metadata?.avatar_url || null,
   }, Database, {
-    // Aggregate funnel only: one count for the platform category of this request, nothing about the
-    // person. Runs once, when the account row is first created.
+    // Runs once, when the account row is first created. The funnel count is aggregate only: one count for the platform
+    // category of this request, nothing about the person. The welcome email is only scheduled here (src/lib/email/welcome.js):
+    // it is sent after the response, never waits or throws, and does nothing unless EMAILS_ENABLED is "true".
     onCreated: async () => {
+      scheduleWelcomeEmail({ id: supabaseUser.id, email: supabaseUser.email });
       let requestHeaders: Headers | null = request?.headers || null;
       if (!requestHeaders) {
         try { requestHeaders = await headers(); } catch { requestHeaders = null; }

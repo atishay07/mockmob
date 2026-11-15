@@ -17,9 +17,15 @@ const DEV_HOSTNAMES = Object.freeze(['localhost', '127.0.0.1']);
  *  - `appOrigin`: true when Origin is one of the app shells' fixed origins (src/lib/server/mobileCors.js), which the CORS
  *    rules already trust.
  */
+// The one exemption (15 Nov 2026): the signed unsubscribe of the student emails (src/app/api/email/unsubscribe). A mail app's
+// own Unsubscribe button posts it (RFC 8058 one-click), possibly from the mail app's web origin. The route checks an HMAC made
+// for one student, so another site cannot forge it, and all it can do is turn those emails off. Exact path, POST only.
+export const SIGNED_CROSS_SITE_POSTS = Object.freeze(['/api/email/unsubscribe']);
+
 export function allowedWriteOrigin({ method, pathname, origin, host, appOrigin = false, env = process.env }) {
   if (!WRITE_METHODS.includes(String(method || '').toUpperCase())) return true;
   if (!String(pathname || '').startsWith('/api/')) return true;
+  if (String(method).toUpperCase() === 'POST' && SIGNED_CROSS_SITE_POSTS.includes(pathname)) return true;
   if (origin === null || origin === undefined || origin === '') return true;
   if (appOrigin) return true;
   let url;
