@@ -131,7 +131,8 @@ export const DenCopy = Object.freeze({
   chainChip: (days) => (days === 1 ? '1 day' : `${days} days`),
   chainChipLabel: (days) => `Your chain, ${days === 1 ? '1 day' : `${days} days`} in a row. Opens your chain.`,
   pennantWord: (w) => (w === 1 ? 'week' : 'weeks'),
-  pennantLabel: (w) => `${w === 1 ? '1 week' : `${w} weeks`} in a row. Opens your Mob's chain.`,
+  // A Mob with no week yet says so (U7, 15 Nov 2026): "0 weeks in a row" read as a failure on day one.
+  pennantLabel: (w) => (w > 0 ? `${w === 1 ? '1 week' : `${w} weeks`} in a row. Opens your Mob's chain.` : "New Mob. Opens your Mob's chain."),
   shelfLabel(mob, items, next) {
     const have = items.length ? `${joinNames(items.map(itemName))}.` : 'Nothing on it yet.';
     const coming = next ? ` Next: ${itemName(next.item).toLowerCase()} at ${next.at} weeks.` : '';
