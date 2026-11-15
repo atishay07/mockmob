@@ -232,7 +232,10 @@ export function acceptDailyFive(body) {
     const correct = item?.correct;
     if (!subject || !q || !why || options.length !== 4 || options.some((o) => !o) || !Number.isInteger(correct) || correct < 0 || correct > 3) return null;
     const pastPaper = demoPastPaperLabel(item?.pastPaper);
-    questions.push({ slug: subject.slug, subject: subject.name, q, options, correct, why, chapter: text(item?.chapter, 160) || subject.name, ...(pastPaper ? { pastPaper } : {}) });
+    // The server's seal for this question in this place today (src/lib/server/dailyFive.js): what a signed-in student's save
+    // sends back. Opaque here; a page without it still plays, and keeps the result on the device only.
+    const token = typeof item?.token === 'string' && /^[A-Za-z0-9_.-]{20,600}$/.test(item.token) ? item.token : null;
+    questions.push({ slug: subject.slug, subject: subject.name, q, options, correct, why, chapter: text(item?.chapter, 160) || subject.name, ...(pastPaper ? { pastPaper } : {}), ...(token ? { token } : {}) });
   }
   return { day, date, questions };
 }
@@ -285,7 +288,9 @@ export function streakLine({ count, playedToday }) {
 // ---------------------------------------------------------------------------------------------------------------------
 // The device's record (localStorage, DAILY_FIVE_STORE), as plain data in and out. Every reader tolerates any stored text.
 //   played: ['YYYY-MM-DD', ...]  the days finished, newest kept
-//   last:   { date, day, score, ms, marks: [bool x5], missed: [{ n, chapter, q, picked, answer, why }] }  the latest result
+//   last:   { date, day, score, ms, marks: [bool x5], missed: [{ n, chapter, q, picked, answer, why }] }  the latest result,
+//           with, when known: picks [0..3 x5] (what a save sends), chapters [x5] (the list on the result), by (the account
+//           that finished it on this device, its user id) and saved (true once the account holds it)
 //   run:    { date, day, startedAt, picks: [0..3 | null x5] }  a day begun and not finished: a reload resumes it, never restarts it
 
 const EMPTY = Object.freeze({ played: [], last: null, run: null });
@@ -298,7 +303,13 @@ function cleanLast(last) {
   const missed = (Array.isArray(last.missed) ? last.missed : [])
     .filter((m) => m && Number.isInteger(m.n) && m.n >= 1 && m.n <= DAILY_FIVE_SIZE && typeof m.q === 'string')
     .map(({ n, chapter, q, picked, answer, why }) => ({ n, chapter: String(chapter ?? ''), q, picked: String(picked ?? ''), answer: String(answer ?? ''), why: String(why ?? '') }));
-  return { date: last.date, day: dayNumber(last.date), score, ms: Math.max(0, Number(last.ms) || 0), marks, missed };
+  const picks = Array.isArray(last.picks) && last.picks.length === DAILY_FIVE_SIZE && last.picks.every((p) => Number.isInteger(p) && p >= 0 && p <= 3) ? [...last.picks] : null;
+  const chapters = Array.isArray(last.chapters) && last.chapters.length === DAILY_FIVE_SIZE && last.chapters.every((c) => typeof c === 'string' && c.length <= 160) ? [...last.chapters] : null;
+  const by = typeof last.by === 'string' && last.by && last.by.length <= 200 ? last.by : null;
+  return {
+    date: last.date, day: dayNumber(last.date), score, ms: Math.max(0, Number(last.ms) || 0), marks, missed,
+    ...(picks ? { picks } : {}), ...(chapters ? { chapters } : {}), ...(by ? { by } : {}), ...(last.saved === true ? { saved: true } : {}),
+  };
 }
 
 function cleanRun(run) {
@@ -358,11 +369,66 @@ export function scoreRun(picks, questions) {
   if (picks.length !== DAILY_FIVE_SIZE || picks.some((p) => !Number.isInteger(p))) return null;
   const marks = questions.map((q, i) => picks[i] === q.correct);
   const missed = questions.flatMap((q, i) => (marks[i] ? [] : [{ n: i + 1, chapter: q.chapter, q: q.q, picked: q.options[picks[i]], answer: q.options[q.correct], why: q.why }]));
-  return { score: marks.filter(Boolean).length, marks, missed };
+  return { score: marks.filter(Boolean).length, marks, missed, picks: [...picks], chapters: questions.map((q) => String(q.chapter ?? '')) };
 }
 
 /** The first question still to answer in a run (0 to 5; 5 means all five are answered). */
 export function nextIndex(picks) {
   const at = (Array.isArray(picks) ? picks : []).findIndex((p) => !Number.isInteger(p));
   return at < 0 ? DAILY_FIVE_SIZE : at;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The device record beside the account (lane daily, 15 Nov 2026; the account half is src/lib/dailyFiveAccount.mjs). On a
+// signed-in visit the account's record wins over the device's; a guest's page is unchanged.
+
+/**
+ * Today's finished result on this device as this viewer may see it: a guest sees the device's (as before); a signed-in
+ * student sees it unless another account finished it on this device (`by` names someone else).
+ */
+export function resultFor(record, date, userId = null) {
+  const last = resultOn(record, date);
+  if (!last || !userId) return last;
+  return last.by && last.by !== userId ? null : last;
+}
+
+/**
+ * The record with today's result taken off when it belongs to another account on this device, so this student can play
+ * their own five here. Anything else is left as it is.
+ */
+export function dropForeign(record, date, userId) {
+  const last = resultOn(record, date);
+  if (!userId || !last || !last.by || last.by === userId) return record;
+  return { played: record.played.filter((d) => d !== date), last: null, run: record.run && record.run.date === date ? null : record.run };
+}
+
+/** The record with today's result marked as held by the account. */
+export function markSaved(record, date, userId) {
+  const last = resultOn(record, date);
+  if (!last || (last.by && last.by !== userId)) return record;
+  return { ...record, last: cleanLast({ ...last, by: userId, saved: true }) };
+}
+
+/**
+ * The record with the account's result for its day in place of whatever the device held (the account wins): the day joins
+ * `played`, the result is the account's, any run of that day is closed. `questions` (the day's five, when the page has them)
+ * rebuild the misses and the chapters from the account's own answers; without them a device result with the same marks keeps
+ * its misses.
+ */
+export function adoptAccount(record, account, { userId = null, questions = null } = {}) {
+  if (!account || !isDateKey(account.date) || !Array.isArray(account.marks) || !Array.isArray(account.picks)) return record;
+  const five = Array.isArray(questions) && questions.length === DAILY_FIVE_SIZE ? questions : null;
+  const before = resultOn(record, account.date);
+  const sameMarks = before && before.marks.every((m, i) => m === account.marks[i]);
+  const missed = five
+    ? account.marks.flatMap((right, i) => (right ? [] : [{ n: i + 1, chapter: five[i].chapter, q: five[i].q, picked: five[i].options[account.picks[i]] ?? '', answer: five[i].options[five[i].correct] ?? '', why: five[i].why }]))
+    : sameMarks ? before.missed : [];
+  const chapters = five ? five.map((q) => String(q.chapter ?? '')) : before?.chapters;
+  const last = cleanLast({
+    date: account.date, score: account.score, ms: account.ms, marks: account.marks, missed, picks: account.picks,
+    ...(chapters ? { chapters } : {}), ...(userId ? { by: userId } : {}), saved: true,
+  });
+  if (!last) return record;
+  const played = [...new Set([...record.played, account.date])].sort().slice(-KEEP_DAYS);
+  return { played, last, run: record.run && record.run.date === account.date ? null : record.run };
 }

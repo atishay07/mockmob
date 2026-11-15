@@ -1,7 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
-import { createDemoSample } from '@/lib/server/demoSample';
-import { createDailyFive, parseDailyQuery } from '@/lib/server/dailyFive';
+import { createDailyFive, createDailyWindows, dailyFiveSecret, dailyTokenKey, parseDailyQuery } from '@/lib/server/dailyFive';
 import { msUntilNextDay } from '@/lib/dailyFive.mjs';
 import {
   failRequestDiagnostics,
@@ -10,8 +9,9 @@ import {
 } from '@/lib/server/requestDiagnostics';
 
 // GET /api/daily?day=<n>: today's Daily Five (src/lib/dailyFive.mjs), the same five CUET questions for every visitor, for the
-// public page /daily. Public, no sign-in. Every question comes from the public sample's windows through the sample route's own
-// service (createDemoSample; the rules in src/lib/server/dailyFive.js and src/lib/server/demoSample.js), in the sample's shape.
+// public page /daily. Public, no sign-in. Every question comes from the public sample's windows (readDailyWindow, the sample's
+// own window step for step; the rules in src/lib/server/dailyFive.js and src/lib/server/demoSample.js), in the sample's shape,
+// each with its sealed token for a signed-in student's save (POST /api/daily/me). No question id leaves.
 //
 // Caching: the day is in the address and only today is served, so the CDN keeps one answer per day, until 12:00 am IST and no
 // longer (no stale serving: after midnight the old day is refused here and the page asks for the new one). Browsers keep it
@@ -32,7 +32,7 @@ function untilMidnight(now) {
   return { 'Cache-Control': `public, max-age=${Math.min(300, seconds)}`, 'CDN-Cache-Control': `public, s-maxage=${seconds}` };
 }
 
-const daily = createDailyFive({ sample: createDemoSample({ db: () => supabaseAdmin() }) });
+const daily = createDailyFive({ windows: createDailyWindows({ db: () => supabaseAdmin() }), key: dailyTokenKey(dailyFiveSecret()) });
 
 function reply(context, status, body, headers) {
   const response = Response.json(body, { status, headers });

@@ -6,8 +6,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fakeDb, legacyRow, setFixtureSecret } from './helpers/egress_fixtures.mjs';
 import { DEMO_POOL_SIZE } from '../../src/lib/demoSample.mjs';
-import { createDemoSample, readDemoPool } from '../../src/lib/server/demoSample.js';
-import { createDailyFive, parseDailyQuery } from '../../src/lib/server/dailyFive.js';
+import { readDemoPool } from '../../src/lib/server/demoSample.js';
+import { createDailyFive, createDailyWindows, parseDailyQuery } from '../../src/lib/server/dailyFive.js';
 import { DAILY_FIVE_CYCLE_DAYS, DAILY_FIVE_MAX, acceptDailyFive, dateOfDay } from '../../src/lib/dailyFive.mjs';
 
 const restore = setFixtureSecret();
@@ -61,7 +61,7 @@ test('the service: the day\'s five come from the public windows of English and t
   assert.equal(gat.length, DEMO_POOL_SIZE);
   const windows = new Map([...english.map((x) => ['english', x]), ...gat.map((x) => ['general-test', x])].map(([slug, x]) => [JSON.stringify({ subject: slug, ...x }), slug]));
   let reads = 0;
-  const service = createDailyFive({ sample: createDemoSample({ db: () => { reads += 1; return fakeDb(tablesOf(rows)); } }) });
+  const service = createDailyFive({ windows: createDailyWindows({ db: () => { reads += 1; return fakeDb(tablesOf(rows)); } }) });
   const seen = new Map();
   for (let d = 1; d <= DAILY_FIVE_CYCLE_DAYS * 3; d += 1) {
     const answer = await service.get(day(d));
@@ -84,11 +84,11 @@ test('the service: the day\'s five come from the public windows of English and t
 
 test('a thin or empty subject: the day still fills from what the windows hold, or answers nothing', async () => {
   const rows = bank().filter((r) => r.subject !== 'gat');
-  const service = createDailyFive({ sample: createDemoSample({ db: () => fakeDb(tablesOf(rows)) }) });
+  const service = createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf(rows)) }) });
   const answer = await service.get(day(4));
   assert.equal(answer.questions.length, 5);
   assert.ok(answer.questions.every((x) => x.subject === 'english'));
-  assert.equal(await createDailyFive({ sample: createDemoSample({ db: () => fakeDb(tablesOf([])) }) }).get(day(1)), null);
+  assert.equal(await createDailyFive({ windows: createDailyWindows({ db: () => fakeDb(tablesOf([])) }) }).get(day(1)), null);
 });
 
 test('the route: public and rate-limited; the query first, then the limit, then the service; cached by day until IST midnight, tagged; nothing else cached', () => {
@@ -99,9 +99,14 @@ test('the route: public and rate-limited; the query first, then the limit, then 
   assert.ok(pos('parseDailyQuery(') > 0 && pos('parseDailyQuery(') < pos('checkPersistentRateLimit(') && pos('checkPersistentRateLimit(') < pos('daily.get('));
   assert.match(route, /checkPersistentRateLimit\(request, \{ route: ROUTE, limit: DAILY_RATE_LIMIT, fallback: 'memory' \}\)/);
   assert.match(route, /const DAILY_RATE_LIMIT = 30;/, 'the sample\'s limit');
-  assert.match(route, /createDailyFive\(\{ sample: createDemoSample\(\{ db: \(\) => supabaseAdmin\(\) \}\) \}\)/, 'the sample\'s own service, nothing else reads');
+  // Lane daily (15 Nov): the windows are the sample's own, read with their ids kept on the server (readDailyWindow, proved the
+  // same as readDemoPool in data/tests/daily_five_account_1115.test.mjs), and each question leaves with its sealed token.
+  assert.match(route, /createDailyFive\(\{ windows: createDailyWindows\(\{ db: \(\) => supabaseAdmin\(\) \}\), key: dailyTokenKey\(dailyFiveSecret\(\)\) \}\)/, 'the sample\'s own windows, nothing else reads');
   assert.doesNotMatch(route, /\.from\(|\.rpc\(|\.select\(/, 'the route reads no table itself');
-  assert.doesNotMatch(code(read('src/lib/server/dailyFive.js')), /\.from\(|\.rpc\(|\.select\(|supabase/, 'the service reads no table itself');
+  const service = code(read('src/lib/server/dailyFive.js'));
+  assert.deepEqual([...service.matchAll(/(?<!Buffer)\.from\('([^']+)'\)/g)].map((m) => m[1]), ['questions'], 'the service reads the questions table only, as the sample does');
+  assert.match(service, /\.select\(DEMO_FULL_SELECT\)/, 'with the sample\'s own columns');
+  assert.doesNotMatch(service, /\.rpc\(|\.insert\(|\.upsert\(|\.update\(\{|\.delete\(\)|supabase/, 'and writes nothing');
   assert.match(route, /reply\(diagnostics, 200, answer, \{ \.\.\.untilMidnight\(Date\.now\(\)\), \.\.\.CACHE_TAGS \}\)/);
   assert.match(route, /'CDN-Cache-Control': `public, s-maxage=\$\{seconds\}`/);
   assert.doesNotMatch(route, /stale-while-revalidate/, 'a day is never served after its midnight');
