@@ -472,3 +472,12 @@ test('the unsubscribe page: done, a bad link with a way out, and an error with T
   for (const page of [done, bad, visible(error)]) assert.doesNotMatch(page, /!/);
   assert.match(unsubscribePage('done'), /<meta name="robots" content="noindex" \/>/);
 });
+
+test('the unsubscribe link\'s first page: one button that posts the signed address, and nothing to post without one', () => {
+  const html = unsubscribePage('confirm', { action: '/api/email/unsubscribe?u=1&t="x"' });
+  assert.match(visible(html), /Turn off these emails\? You will stop getting MockMob’s welcome and reminder emails\. Sign-in codes still come when you ask for one\./);
+  assert.match(html, /<form method="post" action="\/api\/email\/unsubscribe\?u=1&amp;t=&quot;x&quot;"/);
+  assert.equal((html.match(/<button type="submit"/g) || []).length, 1);
+  assert.equal((html.match(/<a /g) || []).length, 0, 'no link to follow by accident');
+  assert.match(unsubscribePage('confirm'), /This link did not work/, 'no address, no button');
+});

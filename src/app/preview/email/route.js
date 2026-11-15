@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 //   /preview/email                                   an index of every view
 //   ?kind=welcome
 //   ?kind=day2&state=first|repair|next&subject=accountancy&n=4
-//   ?kind=unsubscribe&state=done|invalid|error
+//   ?kind=unsubscribe&state=confirm|done|invalid|error   (confirm: the button posts to this preview, which shows the done page)
 //   &theme=dark   the dark version (as a mail app that honours prefers-color-scheme shows it)
 //   &part=text    the plain-text part
 const ORIGIN = 'https://www.mockmob.in';
@@ -22,6 +22,7 @@ const VIEWS = [
   ['kind=day2&state=repair&n=4&subject=accountancy', 'Day 2, 4 open'],
   ['kind=day2&state=repair&n=1&subject=economics', 'Day 2, 1 open'],
   ['kind=day2&state=next&subject=business_studies', 'Day 2, nothing open'],
+  ['kind=unsubscribe&state=confirm', 'Unsubscribe link, first page'],
   ['kind=unsubscribe&state=done', 'Unsubscribed'],
   ['kind=unsubscribe&state=invalid', 'Bad link'],
   ['kind=unsubscribe&state=error', 'Could not save'],
@@ -39,7 +40,7 @@ export async function GET(request) {
   const dark = q.get('theme') === 'dark';
   const html = (body) => new Response(dark ? forceDark(body) : body, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
   if (!kind) return html(index());
-  if (kind === 'unsubscribe') return html(unsubscribePage(q.get('state') || 'done', { retry: '#', origin: ORIGIN }));
+  if (kind === 'unsubscribe') return html(unsubscribePage(q.get('state') || 'confirm', { retry: '#', origin: ORIGIN, action: '/preview/email?kind=unsubscribe&state=done' }));
   const subject = q.get('subject') || null;
   const state = kind === 'day2'
     ? { kind: q.get('state') || 'first', subject, subjectName: NAMES[subject] || '', attemptId: 'att_sample_1', open: Number(q.get('n')) || 4, position: 3 }
@@ -49,4 +50,10 @@ export async function GET(request) {
     return new Response(`Subject: ${mail.subject}\n\n${mail.text}`, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
   }
   return html(mail.html);
+}
+
+/** The confirm page's button lands here in the preview: the done page, nothing written. */
+export async function POST() {
+  if (process.env.NODE_ENV === 'production') return new Response('Not found', { status: 404 });
+  return new Response(unsubscribePage('done', { origin: ORIGIN }), { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }

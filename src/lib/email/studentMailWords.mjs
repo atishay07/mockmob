@@ -210,10 +210,29 @@ export function buildStudentEmail({ kind, state = {}, origin, unsubscribe }) {
 }
 
 // --------------------------------------------------------------------------------------------------- the unsubscribe page
-/** The page the unsubscribe link shows. state: 'done' | 'invalid' | 'error'. `retry` is the same signed link (for 'error'). */
-export function unsubscribePage(state, { retry = '', origin = `https://${SITE_NAME}` } = {}) {
+// The form's one button: the email button's look, as a real <button> that posts.
+const SUBMIT = (action, label) => `                <form method="post" action="${escapeHtml(action)}" style="margin:26px 0 0;">
+                  <input type="hidden" name="page" value="1" />
+                  <button type="submit" class="em-btn" style="display:inline-block;border:0;border-radius:999px;background:#111311;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:700;line-height:20px;padding:14px 24px;cursor:pointer;">${escapeHtml(label)}</button>
+                </form>`;
+
+/**
+ * The pages of the unsubscribe link. state:
+ *   'confirm'  what opening the link shows: nothing is changed until the one button posts `action` (the same signed address),
+ *              because mail scanners open links on their own
+ *   'done' | 'invalid' | 'error'   after the post (or a bad link); `retry` is the signed link again (for 'error')
+ */
+export function unsubscribePage(state, { retry = '', origin = `https://${SITE_NAME}`, action = '' } = {}) {
   const home = String(origin || `https://${SITE_NAME}`).replace(/\/+$/, '');
   const pages = {
+    confirm: {
+      title: 'Turn off these emails?',
+      paras: [
+        'You will stop getting MockMob’s welcome and reminder emails.',
+        'Sign-in codes still come when you ask for one.',
+      ],
+      submit: ['Turn off these emails', action],
+    },
     done: {
       title: 'These emails are off',
       paras: [
@@ -236,12 +255,12 @@ export function unsubscribePage(state, { retry = '', origin = `https://${SITE_NA
       button: ['Try again', retry || home],
     },
   };
-  const page = pages[state] || pages.invalid;
+  const page = (state === 'confirm' && !action ? null : pages[state]) || pages.invalid;
   const body = [
     WORDMARK,
     H1(page.title),
     ...page.paras.map((text, i) => BODY_P(text, i === 0)),
-    BUTTON(page.button[1], page.button[0]),
+    page.submit ? SUBMIT(page.submit[1], page.submit[0]) : BUTTON(page.button[1], page.button[0]),
   ].join('\n');
   return shell({ title: page.title, body })
     .replace('<meta name="viewport"', '<meta name="robots" content="noindex" />\n    <meta name="viewport"');
