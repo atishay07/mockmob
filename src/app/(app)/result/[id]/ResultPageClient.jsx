@@ -387,7 +387,7 @@ export default function ResultPageClient({ previewId = null }) {
       <div className="container-narrow student-page student-page--result pt-8">
         <NoticeState headingLevel={1} title="We could not find this result"
           message="It is not on your account, or the link is incomplete. Every set you have finished is in Your papers."
-          actions={<Link href="/review" className="ui-state__action ui-state__action--primary">Go to Your papers</Link>} />
+          actions={<Link href="/review" className="ui-state__action ui-state__action--primary" data-page-primary="">Go to Your papers</Link>} />
       </div>
     );
   }

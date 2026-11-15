@@ -40,7 +40,7 @@ export default function LoginPageClient({ invite = false }) {
       ] : [
         'Today opens on your next step, worked out from your own papers',
         'Your mocks, mistakes and repairs stay with your account',
-        'You stay signed in on this device until you sign out',
+        'You stay signed in in this browser until you sign out',
       ]}
     >
       <SignupCard mode="login" />

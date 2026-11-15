@@ -205,6 +205,9 @@ html[data-motion='reduced'] .ml-seg[data-lift] { transform: none; }
 /* A bar segment is a shortcut to its row: a 32 px tall hit area that stays inside the 14 px gaps around the bar. Since T12
    (15 Nov 2026) it is a <button>: the reset below keeps the look exactly as the span was; keyboard focus draws a ring. */
 .ml-seg { display: block; appearance: none; margin: 0; padding: 0; border: 0; font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+/* The signed-in shell gives every button a 44 px minimum (arena-support.css): a segment stays the bar's own 14 px, its
+   hit area is the pseudo-element below (visual check, 15 Nov 2026: the segments grew to 44 px and covered the legend). */
+.app-shell .ml-seg { min-height: 0; min-width: 0; }
 .ml-seg::before { content: ''; position: absolute; inset: -10px 0; }
 .ml-seg:focus { outline: none; }
 .ml-seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; z-index: 1; }

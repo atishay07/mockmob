@@ -274,7 +274,7 @@ test('auth: each thing is said once on /login and /signup', () => {
   assert.match(card, /\? 'Use Google, or get a one-time code by email\. No password to remember\.'\n\s+: 'Free to start\. No card needed\.'/);
   // "Stay signed in": /login says it once, as the ruled fact; the card's fine print drops it there and keeps it on /signup,
   // whose facts do not say it.
-  assert.match(login, /'You stay signed in on this device until you sign out'/);
+  assert.match(login, /'You stay signed in in this browser until you sign out'/);
   assert.doesNotMatch(signup, /stay signed in/i);
   assert.match(card, /\{isLogin \? 'Your email is how you sign in\.' : 'Your email is how you sign in, and you stay signed in on this device until you sign out\.'\}/);
 });

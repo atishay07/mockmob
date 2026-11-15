@@ -34,6 +34,9 @@ html[data-theme='light'] .app-shell .pr {
    so the way to start is on a phone's first screen. No box: a line and a key, close under the title. From 1024 px the session
    card's own key is in view, so this key steps aside and the line stays (one volt key per view). */
 .app-shell .pr .pr-first { display: grid; gap: 12px; margin-top: -12px; }
+/* A paper left running on this device (the Resume row, .rsp) is the next step: the first-set line steps aside while it shows
+   (visual check, 15 Nov 2026: a new student saw Resume and "Your first set" together, with the volt key on the new set). */
+.app-shell .pr:has(.rsp) .pr-first { display: none; }
 .app-shell .pr .pr-first__line { margin: 0; max-width: 46ch; font-size: 16px; line-height: 1.45; font-weight: 600; color: var(--a-ink); text-wrap: pretty; }
 .app-shell .pr .pr-first__go { width: 100%; min-height: 52px; height: auto; padding-block: 10px; justify-content: center; gap: 10px; white-space: normal; line-height: 1.2; }
 @media (min-width: 640px) { .app-shell .pr .pr-first__go { width: auto; justify-self: start; padding-inline: 22px; } }
@@ -564,7 +567,9 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-bar__text i { font-style: normal; font-weight: 700; color: var(--a-accent-text); }
   .app-shell .pr .pr-bar__text i[data-tone='locked'] { color: var(--a-ink-3); }
   /* Under 380 px the length in minutes gives way, so the price is never cut. */
-  @media (max-width: 379px) { .app-shell .pr .pr-bar__min { display: none; } .app-shell .pr .pr-bar__qword { display: none; } }
+  @media (max-width: 379px) { .app-shell .pr .pr-bar__min { display: none; } }
+  /* The word after the count goes first, from 399 px down (visual check, 15 Nov 2026: at 390 the price read "Free tod..."). */
+  @media (max-width: 399px) { .app-shell .pr .pr-bar__qword { display: none; } }
   /* A blocked session's bar carries the wider outlined action ("Need 10 more", "See Pro"), so the minutes give way to the
      price there too; the card above still says the time. */
   .app-shell .pr .pr-bar__text[data-blocked] .pr-bar__min { display: none; }
