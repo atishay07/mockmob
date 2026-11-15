@@ -62,7 +62,16 @@ export default function ComboPlanner() {
   const stale = dPool !== pool || dTargets !== targets || dMax !== maxPapers;
 
   if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setAttempt((n) => n + 1); }}>Try again</button></div>;
-  if (!index) return <div className="du-state" role="status"><p>Loading DU courses</p></div>;
+  // Loading (lane "load", 16 Nov 2026): the planner's own shape (its first step and the start of the second), not one line of
+  // text. The line was 47 px and the planner over 1,100, so everything under it jumped a whole screen when the courses came
+  // (CLS 0.35 on a phone over slow 4G).
+  if (!index) {
+    return (
+      <div className="du-skeleton du-skeleton--planner" role="status" aria-busy="true" aria-label="Loading DU courses">
+        <span /><span /><span /><span /><span /><span /><span />
+      </div>
+    );
+  }
 
   const nameOf = (item) => item.kind === 'gat' ? 'General Aptitude Test' : (item.kind === 'language' ? index.languages : index.domains).find((s) => s.id === item.id)?.name || item.id;
   const inPool = (item) => pool.some((p) => key(p) === key(item));
