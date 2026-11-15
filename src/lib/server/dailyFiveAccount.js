@@ -27,7 +27,9 @@ export const CROWD_TTL_MS = 5 * 60 * 1000;
 export const DAILY_LIMITS = Object.freeze({
   // A check per answer: five a day, retries after a dropped connection, a reload's re-checks, a second tab. Far under these.
   checkUser: { route: '/api/daily/check:user', limit: 120, windowMs: 60 * 60 * 1000 },
-  checkNet: { route: '/api/daily/check:net', limit: 60, windowMs: 10 * 60 * 1000 },
+  // Guests, per network address: Indian mobile data puts thousands of phones behind one carrier address, so this is set for
+  // a crowd, not a person. A guest check reads no database (the key is in the sealed token), so a high ceiling costs little.
+  checkNet: { route: '/api/daily/check:net', limit: 600, windowMs: 10 * 60 * 1000 },
   read: { route: '/api/daily/me:read', limit: 120, windowMs: 10 * 60 * 1000 },
   mob: { route: '/api/daily/mob', limit: 120, windowMs: 10 * 60 * 1000 },
   // Public, per network: the Daily Five's own limit (30 a minute).
