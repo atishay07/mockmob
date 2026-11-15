@@ -15,6 +15,7 @@ import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { lateMeta, lateSubmission, submitTiming } from '@/../data/late_paper';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
 import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
 import { firstFullMockFor, takeFirstFullMock } from './firstFullMock';
@@ -180,19 +181,27 @@ export async function finishPractice(userId, input) {
     if (existing.userId !== userId) throw new Error('SESSION_NOT_FOUND');
     return existing;
   }
-  if (Date.now() > Date.parse(row.expires_at) + 120000) throw new Error('SESSION_EXPIRED');
-  const duration = Math.min(Date.parse(row.expires_at) - Date.parse(row.created_at), Date.now() - Date.parse(row.created_at) + 2000);
+  // B8 (15 Nov 2026): a send after the upload grace is a late paper, accepted for 7 days (data/late_paper.js); after that it is
+  // refused as before. The ticket proves the start, and a late paper scores only what its events say by the deadline.
+  const now = Date.now();
+  const timing = submitTiming(Date.parse(row.expires_at), now);
+  if (timing === 'expired') throw new Error('SESSION_EXPIRED');
+  const late = timing === 'late';
+  const limit = Date.parse(row.expires_at) - Date.parse(row.created_at);
+  const duration = late ? limit : Math.min(limit, now - Date.parse(row.created_at) + 2000);
+  const sent = late ? lateSubmission(row.questions, input.events, limit) : { answers: input.answers || {}, events: input.events || [] };
   // A per-answer check (B13) makes that answer final, whatever the client submits for it now.
   const checked = await checkedAnswersForSubmit(supabaseAdmin(), row.id, userId);
-  const result = scorePracticeSubmission(row.questions, applyCheckedAnswers(input.answers || {}, checked), input.events || [], duration);
+  const result = scorePracticeSubmission(row.questions, applyCheckedAnswers(sent.answers, checked), sent.events, duration);
   // Observations from device-held telemetry are not certified recovery evidence.
   const score = result;
   try {
     const saved = await Database.addAttempt({ ...score, id: row.id, userId, subject: row.subject,
-      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, input.events) } });
+      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, sent.events), ...(late ? lateMeta(now) : {}) } });
     // A finished Mob paper counts for the Mob's ring (never throws; a sitting after Sunday 11:59 PM IST is not recorded).
     // The durable path (finishSession) is credited when a member next reads the Mob (mob/service.js syncSittings).
-    if (row.selection_meta?.mobPaper) await (await import('./mob/deps')).recordMobSitting(userId, saved).catch(() => null);
+    // A late paper never does (B8): the Mob's marks compare members.
+    if (row.selection_meta?.mobPaper && !late) await (await import('./mob/deps')).recordMobSitting(userId, saved).catch(() => null);
     return saved;
   } catch (error) {
     if (error.code !== '23505') throw error;

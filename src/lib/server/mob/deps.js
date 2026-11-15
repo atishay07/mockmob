@@ -123,8 +123,10 @@ async function findAttempts(userIds, { mobId, week, extraId = null, gameId = nul
   const { data, error } = await supabaseAdmin().from('attempts').select('id,user_id,correct,total,details,selection_meta,completed_at')
     .in('user_id', userIds).contains('selection_meta', tag).limit(20);
   if (error) throw error;
-  // A weekly paper is neither an extra paper nor a Mob game's full mock (both carry the week too).
+  // A weekly paper is neither an extra paper nor a Mob game's full mock (both carry the week too). A late paper (B8, 15 Nov
+  // 2026: sent after its upload grace) counts for its student only, never for the Mob's marks.
   return (data || [])
+    .filter((r) => r.selection_meta?.late !== true)
     .filter((r) => Boolean(r.selection_meta?.mobPaper?.extraId) === Boolean(extraId) && Boolean(r.selection_meta?.mobPaper?.gameId) === Boolean(gameId))
     .map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], selectionMeta: r.selection_meta || {}, completedAt: Date.parse(r.completed_at) }));
 }

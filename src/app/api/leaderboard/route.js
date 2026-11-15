@@ -3,6 +3,8 @@ import { Database } from '@/../data/db';
 import { auth } from '@/lib/auth';
 import { standingFor } from '@/lib/server/standing';
 import { createBoardCache } from '@/../data/ttl_memo';
+import { supabaseAdmin } from '@/lib/supabase';
+import { ownWithoutLate, readLatePapers, withoutLatePapers } from '@/lib/server/latePapers';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,10 +23,11 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
     }
     const rows = await board.rowsFor(session.user.id, {
-      loadRows: () => Database.getLeaderboard({ withProfile: false }),
+      // B8 (15 Nov 2026): a late paper counts for its student's own record only, never for a place on the board.
+      loadRows: async () => withoutLatePapers(await Database.getLeaderboard({ withProfile: false }), await readLatePapers(supabaseAdmin())),
       loadOwn: async (id) => {
         const own = await Database.getAttempts(id, { columns: ['score'] });
-        return { tests: own.length, totalScore: own.reduce((sum, a) => sum + (Number(a.score) || 0), 0) };
+        return ownWithoutLate({ tests: own.length, totalScore: own.reduce((sum, a) => sum + (Number(a.score) || 0), 0) }, await readLatePapers(supabaseAdmin(), { userId: id }));
       },
     });
     return NextResponse.json(standingFor(rows, session.user.id), { headers: { 'Cache-Control': 'private, no-store' } });

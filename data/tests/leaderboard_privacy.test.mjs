@@ -27,7 +27,12 @@ registerHooks({
     if (specifier === 'next/server') return next('next/server.js', context);
     if (specifier === '@/lib/auth') return { url: stub('export const auth = async () => globalThis.__lb.session;'), shortCircuit: true };
     if (specifier === '@/../data/db') {
-      return { url: stub('export const Database = { getLeaderboard: async () => { if (globalThis.__lb.failBoard) throw new Error("boom"); return structuredClone(globalThis.__lb.rows); } };'), shortCircuit: true };
+      return { url: stub('export const Database = { getLeaderboard: async () => { if (globalThis.__lb.failBoard) throw new Error("boom"); return structuredClone(globalThis.__lb.rows); }, getAttempts: async (id) => { if (!globalThis.__lb.own) throw new Error("no own read"); return structuredClone(globalThis.__lb.own[id] || []); } };'), shortCircuit: true };
+    }
+    // B8 (15 Nov 2026): the late papers the route takes out of the board (src/lib/server/latePapers.js), from __lb.late.
+    if (specifier === '@/lib/supabase') {
+      return { url: stub(`export const supabaseAdmin = () => ({ from: () => { const f = {}; const q = { select: () => q, contains: () => q, eq: (c, v) => { f[c] = v; return q; }, order: () => q, range: () => q,
+        then: (res, rej) => Promise.resolve({ data: (globalThis.__lb.late || []).filter((r) => !f.user_id || r.user_id === f.user_id), error: null }).then(res, rej) }; return q; } });`), shortCircuit: true };
     }
     if (specifier.startsWith('@/')) {
       const url = probe(path.join(ROOT, 'src', specifier.slice(2)));
@@ -114,6 +119,21 @@ test('a signed-in student with no mocks gets you: null, and still no list', asyn
   assert.deepEqual(await response.json(), { you: null, window: 'all time' });
   assert.deepEqual(standingFor([], 'u-me'), { you: null, window: 'all time' });
   assert.deepEqual(standingFor(null, 'u-me'), { you: null, window: 'all time' });
+});
+
+test('B8: a late paper (sent after its upload grace) counts for its student only: never for a rank, a place or the board total', async () => {
+  // u-low's only paper and one of u-me's four arrived late. A fresh copy of the route: the board rows are kept two minutes.
+  const { GET: freshGET } = await import(`${pathToFileURL(path.join(ROOT, 'src/app/api/leaderboard/route.js')).href}?late-papers`);
+  globalThis.__lb = {
+    session: { user: { id: 'u-me' } }, rows: ROWS, failBoard: false,
+    own: { 'u-me': [{ score: 65 }, { score: 65 }, { score: 65 }, { score: 65 }] },
+    late: [{ user_id: 'u-low', score: 40 }, { user_id: 'u-me', score: 65 }],
+  };
+  const body = await (await freshGET(request())).json();
+  assert.deepEqual(body.you, { rank: 3, of: 4, tests: 3, average: 65, points: 195 }, 'u-me has 195 points from 3 papers, behind the 260 tie; u-low leaves the board');
+  globalThis.__lb.late = [];
+  const { GET: plainGET } = await import(`${pathToFileURL(path.join(ROOT, 'src/app/api/leaderboard/route.js')).href}?no-late-papers`);
+  assert.deepEqual((await (await plainGET(request())).json()).you, { rank: 2, of: 5, tests: 4, average: 65, points: 260 });
 });
 
 test('a database failure is a 500 with a plain message and no student data', async () => {
