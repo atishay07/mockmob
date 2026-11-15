@@ -494,3 +494,16 @@ test('record readers source: each filters held papers by tag and by id', () => {
     assert.match(src, /openAttemptsOnly\(\w+\)\.filter\(\(a\) => !held\.byId\.has\(a\.id\)\)/, file);
   }
 });
+
+// L3 follow-up (15 Nov 2026): a signed-in account cannot page the whole bank by offset in minutes. The daily page count is
+// kept per reader in the database limiter and is checked after sign-in and before any question is read.
+test('L3 follow-up: the feed counts pages per reader per day before it reads any question', async () => {
+  const { readFileSync } = await import('node:fs');
+  const source = readFileSync(new URL('../../src/app/api/questions/feed/route.js', import.meta.url), 'utf8');
+  assert.match(source, /const PAGE_DAY_LIMIT = \{ route: '\/api\/questions\/feed:pages:day', limit: 120, windowMs: 86_400_000 \};/);
+  const signedIn = source.indexOf("{ error: 'Unauthorized' }");
+  const pageCheck = source.indexOf('...PAGE_DAY_LIMIT, keyParts: [userId], identityOnly: true');
+  const firstRead = source.indexOf('const db = supabaseAdmin();');
+  assert.ok(signedIn > 0 && pageCheck > signedIn && firstRead > pageCheck, 'sign-in, then the page count, then the first read');
+  assert.match(source, /persistent: process\.env\.NODE_ENV === 'production'/);
+});

@@ -31,6 +31,7 @@ const SEARCH_LIMITS = [
   { route: '/api/questions/feed:search', limit: 20, windowMs: 10 * 60_000 },
   { route: '/api/questions/feed:search:day', limit: 60, windowMs: 86_400_000 },
 ];
+const PAGE_DAY_LIMIT = { route: '/api/questions/feed:pages:day', limit: 120, windowMs: 86_400_000 };
 // L3: never every column. The page is read without the signed evidence and provenance records (the shared light list,
 // data/practice_pick.js); only the rows that carry one are then read whole, through the stamp cache, because the publication
 // gate checks the signature over the whole record. The same rows and fields as the old read of every column.
@@ -111,6 +112,19 @@ export async function GET(request) {
     const difficulty = searchParams.get('difficulty') || null;
     const search = (searchParams.get('search') || '').trim();
     const { limit, offset } = feedWindow(searchParams.get('limit'), searchParams.get('offset'));
+
+    // L3 follow-up: a signed-in account could still page the whole bank by offset in minutes. Counted per reader in the
+    // database: 120 pages a day is 2,400 questions at the feed's 20 a page, far above a student's longest day in Explore.
+    const paged = await checkPersistentRateLimit(request, {
+      ...PAGE_DAY_LIMIT, keyParts: [userId], identityOnly: true, fallback: 'memory', persistent: process.env.NODE_ENV === 'production',
+    });
+    if (!paged.allowed) {
+      return jsonWithDiagnostics(
+        diagnostics,
+        { error: 'That is all of Explore for today. Come back tomorrow, or start a set in Practice.' },
+        { status: 429, headers: rateLimitHeaders({ ...paged, retryAfterSeconds: paged.retryAfterSeconds || 3600 }) },
+      );
+    }
 
     if (search.length >= 2) {
       for (const window of SEARCH_LIMITS) {
