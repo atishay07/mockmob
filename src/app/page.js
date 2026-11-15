@@ -271,7 +271,7 @@ export default function LandingPage() {
                 <h2 className="lp-h2" id="key-cards-title">{headPhrases(KEY_CARDS_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
                 <p className="lp-sub">{KEY_CARDS_HEAD.sub}</p>
               </Reveal>
-              <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} />
+              <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} subjects={KEY_CARDS.subjects} />
             </div>
           </section>
         ) : null}

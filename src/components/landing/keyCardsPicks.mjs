@@ -9,6 +9,7 @@ import { loadDecks } from '../../lib/server/keycards.js';
 import { KEYCARD_RULES, KIND_LABELS, schedule, tasteIds } from '../../../data/keycards.js';
 import { backLine, returnWords, WORDS } from '../../../data/learn/words.js';
 import { subjectArt, subjectArtSrc, subjectArtSrcSet } from '../../../data/subject_art.mjs';
+import { SUBJECT_PAGES } from '../../lib/subjectPages.mjs';
 
 /**
  * The five, in the order they play: three Accountancy (commerce first, L-023; Part B's Analysis of Financial Statements among
@@ -89,6 +90,14 @@ export function bankOf(decks) {
   return { cards, subjects: decks?.bySubject?.size || 0, taste: KEYCARD_RULES.free.tastePerChapter };
 }
 
+/**
+ * The subjects that have a served deck, in the site's own subject order, as the public decks name them (/key-cards#<slug>):
+ * [{ slug, name }]. The home page's "pick your subject" row; a subject with no deck is never listed.
+ */
+export function deckSubjects(decks, pages = SUBJECT_PAGES) {
+  return (Array.isArray(pages) ? pages : []).filter((page) => decks?.bySubject?.has?.(page.id)).map((page) => ({ slug: page.slug, name: page.name }));
+}
+
 /** Is every pick a Free taste card in its served deck? (The test's check, here so it reads the same decks the page does.) */
 export function picksAreFree(decks, picks = KEY_CARD_PICKS) {
   return picks.every((id) => {
@@ -100,7 +109,7 @@ export function picksAreFree(decks, picks = KEY_CARD_PICKS) {
 }
 
 /**
- * What page.js renders: { cards, keys, bank } or null (no section) when no pick could be read. Reads the decks once, at build.
+ * What page.js renders: { cards, keys, bank, subjects } or null (no section) when no pick could be read. Reads the decks once, at build.
  * `decks` is for tests; `at` is the moment the keys' words are worked out for (their days do not depend on it until the horizon).
  */
 export function keyCardsDemo({ decks, at = Date.now(), log = console.warn } = {}) {
@@ -113,5 +122,5 @@ export function keyCardsDemo({ decks, at = Date.now(), log = console.warn } = {}
   }
   const cards = pickKeyCards(served);
   if (!cards.length) return null;
-  return { cards, keys: ratingKeys(at), bank: bankOf(served) };
+  return { cards, keys: ratingKeys(at), bank: bankOf(served), subjects: deckSubjects(served) };
 }

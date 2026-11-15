@@ -158,6 +158,19 @@ html[data-theme='light'] .kc-demo__pips li[data-state='now']::after { content: '
 .kc-foot__bank b { font: 700 1.25em/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--brand-word); }
 .kc-foot__free { margin: 0; max-width: 40ch; font: 400 0.9375rem/1.5 var(--font-body); color: var(--ink-2); }
 .kc-foot .mm-btn { margin-top: 0.5rem; }
+/* Pick your subject (16 Nov 2026): every subject with a deck, each a 44 px link to its chapters on /key-cards. */
+.kc-open { display: grid; gap: 0.625rem; width: 100%; margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.kc-open__title { margin: 0; max-width: 34ch; color: var(--ink); font: 700 1.0625rem/1.3 var(--font-display); letter-spacing: -0.01em; text-wrap: pretty; }
+.kc-open__list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+.kc-open__list a {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.875rem; border: 1px solid var(--line-strong); border-radius: 12px;
+  background: var(--paper-raised); color: var(--ink); font: 650 0.9375rem/1.2 var(--font-body); text-decoration: none;
+  -webkit-tap-highlight-color: transparent; transition: border-color 160ms ease-out;
+}
+.kc-open__list a:active { background: var(--paper); }
+.kc-open__list a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .kc-open__list a:hover { border-color: var(--ink); } }
+@media (prefers-reduced-motion: reduce) { .kc-open__list a { transition: none; } }
 
 /* ---------- Round 4 (R4-H5, owner LK127, 6 Nov 2026): tighter on phones, larger on desktop ----------
    Phones: one 20 px step between the head, the demo and the foot (it was 28-40 px), the dots closer to the card and the key,

@@ -47,7 +47,7 @@ function Art({ art, className = 'kc-demo__art', sizes = '(max-width: 959px) 62vw
   );
 }
 
-export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
+export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subjects = null }) {
   const total = cards.length;
   const [at, setAt] = useState(0);
   const [turned, setTurned] = useState(false);
@@ -209,6 +209,14 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null }) {
         <Link href={isAuthenticated ? '/cards' : KEEP_GOING_HREF} className={done ? 'mm-btn mm-btn--primary' : 'mm-btn mm-btn--secondary'}>
           {isAuthenticated ? W.openCards : W.keepGoing}
         </Link>
+        {subjects?.length ? (
+          <div className="kc-open">
+            <p className="kc-open__title">{W.openTitle}</p>
+            <ul className="kc-open__list">
+              {subjects.map((s) => <li key={s.slug}><Link href={`${PUBLIC_DECKS_HREF}#${s.slug}`}>{s.name}</Link></li>)}
+            </ul>
+          </div>
+        ) : null}
         <Link href={PUBLIC_DECKS_HREF} className="mm-link">{W.seeChapter}</Link>
       </div>
     </>

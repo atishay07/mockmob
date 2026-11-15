@@ -36,6 +36,8 @@ export const KEY_CARDS_WORDS = Object.freeze({
   mustKnow: 'Must-know',
   // The quiet way to the public decks (/key-cards): any chapter's free cards, no account.
   seeChapter: 'See a chapter’s cards',
+  // Over the row of subjects (16 Nov 2026): each opens that subject's chapters on /key-cards, where a chapter's free cards turn with no account.
+  openTitle: 'Pick your subject and turn a real chapter’s cards. No account.',
 });
 
 /** "Card 2 of 5": what a screen reader hears where the eye reads "2 / 5". */

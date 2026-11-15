@@ -207,7 +207,10 @@ test('one key under the demo: guest "Sign up free to keep going" (secondary, vol
   assert.match(DEMO, /\{isAuthenticated \? W\.openCards : W\.keepGoing\}/);
   assert.match(DEMO, /\{isAuthenticated \? null : <p className="kc-foot__free">/, 'no Pro line for a signed-in student');
   // 16 Nov 2026: beside the key, one quiet text link to the public decks (/key-cards, any chapter's free cards); nothing else.
-  assert.equal((DEMO.match(/href=/g) || []).length, 2, 'the key and the one quiet link to the public decks');
+  // 16 Nov 2026, later: plus the row of subjects, each a link into the same public decks (owner: every feature presented with
+  // more care, not the safest approach). Still one key.
+  assert.equal((DEMO.match(/href=/g) || []).length, 3, 'the key, the subjects row and the one quiet link to the public decks');
+  assert.match(DEMO, /subjects\.map\(\(s\) => <li key=\{s\.slug\}><Link href=\{`\$\{PUBLIC_DECKS_HREF\}#\$\{s\.slug\}`\}>\{s\.name\}<\/Link><\/li>\)/);
   assert.match(DEMO, /<Link href=\{PUBLIC_DECKS_HREF\} className="mm-link">\{W\.seeChapter\}<\/Link>/, 'a text link, never a second key');
   assert.match(DEMO, /const PUBLIC_DECKS_HREF = '\/key-cards';/);
 });
