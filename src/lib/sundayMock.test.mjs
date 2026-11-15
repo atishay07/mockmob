@@ -45,8 +45,18 @@ test('the window opens at 10:00 AM and takes its last first start at 9:59 PM IST
   const win = sundayWindow('2026-11-22');
   assert.equal(new Date(win.opensAt).toISOString(), '2026-11-22T04:30:00.000Z');
   assert.equal(new Date(win.closesAt).toISOString(), '2026-11-22T16:30:00.000Z');
-  assert.equal(win.answersAt, win.closesAt, 'the answers open at the close');
+  assert.equal(new Date(win.answersAt).toISOString(), '2026-11-22T17:35:00.000Z', 'the answers open at 11:05 PM IST');
+  assert.equal(win.answersAt, win.closesAt + 65 * MIN, 'the last start, its 60 minutes and 5 more');
   assert.equal(win.lastFinishAt, win.closesAt + 60 * MIN + FINISH_GRACE_MS);
+  assert.ok(win.lastFinishAt < win.answersAt, 'every send that can count is in before the answers open');
+  // Starts end at 10:00 PM; the answers open at 11:05 PM, not a minute before.
+  for (const [s, open] of [['2026-11-22T22:59:00', false], ['2026-11-22T23:04:59', false], ['2026-11-22T23:05:00', true]]) {
+    const st = at(s);
+    assert.equal(st.phase, 'closed');
+    assert.equal(startRefusal(st), 'CLOSED');
+    assert.equal(st.answersOpen, open, s);
+  }
+  assert.equal(at('2026-11-22T21:59:59').answersOpen, false);
 });
 
 test('a paper started by 10:00 PM keeps its 60 minutes; a send past them and the grace is refused and never counted', () => {
@@ -64,9 +74,9 @@ test('a paper started by 10:00 PM keeps its 60 minutes; a send past them and the
   assert.equal(countsFor('not-a-week', win.opensAt), false);
 });
 
-test('the tag holds the answers until 10:00 PM, as a Mob paper is held, with its own words', () => {
+test('the tag holds the answers until 11:05 PM, as a Mob paper is held, with its own words', () => {
   const tag = sundayTag('2026-11-22');
-  assert.deepEqual(tag, { mobId: SUNDAY_TAG, weekStart: '2026-11-22', holdUntil: '2026-11-22T16:30:00.000Z' });
+  assert.deepEqual(tag, { mobId: SUNDAY_TAG, weekStart: '2026-11-22', holdUntil: '2026-11-22T17:35:00.000Z' });
   assert.equal(isSundayTag(tag), true);
   assert.equal(isSundayTag({ mobId: '6f0a0a2c-1111-4111-8111-111111111111', weekStart: '2026-11-16' }), false);
   assert.equal(isSundayTag({ mobId: SUNDAY_TAG, weekStart: '2026-11-23' }), false);
@@ -75,20 +85,27 @@ test('the tag holds the answers until 10:00 PM, as a Mob paper is held, with its
     selectionMeta: { mode: 'full', mobPaper: tag }, completedAt: IST('2026-11-22T11:00:00') };
   const during = attemptHold(attempt, IST('2026-11-22T21:59:59'));
   assert.equal(during.kind, 'sunday');
-  assert.equal(during.until, '2026-11-22T16:30:00.000Z');
-  assert.equal(during.title, 'The answers open at 10:00 PM');
-  assert.match(during.line, /open for everyone until 10:00 PM/);
+  assert.equal(during.until, '2026-11-22T17:35:00.000Z');
+  assert.equal(during.title, 'The answers open at 11:05 PM');
+  assert.match(during.line, /started by 10:00 PM are still being sat until 11:00 PM, so the answers and explanations stay closed until 11:05 PM/);
   assert.doesNotMatch(during.line, /Mob/);
+  // The boundary minutes: still held at 10:59 PM and 11:04 PM, open at 11:05 PM.
+  assert.equal(isHeld(attempt, IST('2026-11-22T22:00:00')), true);
+  assert.equal(isHeld(attempt, IST('2026-11-22T22:59:00')), true);
+  assert.equal(isHeld(attempt, IST('2026-11-22T23:04:59')), true);
+  assert.equal(isHeld(attempt, IST('2026-11-22T23:05:00')), false);
+  assert.match(SUNDAY_COPY.held, /open at 11:05 PM, once every paper started by 10:00 PM is in/);
   const view = attemptForClient(attempt, IST('2026-11-22T21:00:00'));
   assert.deepEqual(view.details, []);
   assert.deepEqual(view.questionsSnapshot, []);
   assert.equal(view.correct, 34);
   assert.equal(view.mobHold.kind, 'sunday');
-  assert.equal(isHeld(attempt, IST('2026-11-22T22:00:00')), false, 'open at 10:00 PM');
-  assert.equal(attemptForClient(attempt, IST('2026-11-22T22:00:00')), attempt);
-  // A tag carrying a later stamp still opens at that Sunday's 10:00 PM: the window decides, never the stamp.
+  assert.equal(attemptForClient(attempt, IST('2026-11-22T23:05:00')), attempt);
+  // A tag carrying another stamp still opens at that Sunday's 11:05 PM: the window decides, never the stamp.
   const stretched = { ...attempt, selectionMeta: { mobPaper: { ...tag, holdUntil: '2026-12-31T00:00:00.000Z' } } };
-  assert.equal(isHeld(stretched, IST('2026-11-22T22:00:01')), false);
+  assert.equal(isHeld(stretched, IST('2026-11-22T23:05:01')), false);
+  const early = { ...attempt, selectionMeta: { mobPaper: { ...tag, holdUntil: '2026-11-22T10:00:00.000Z' } } };
+  assert.equal(isHeld(early, IST('2026-11-22T22:30:00')), true);
   assert.equal(sundayWeekOf(attempt), '2026-11-22');
   assert.equal(sundayWeekOf({ selectionMeta: { mobPaper: { mobId: 'x', weekStart: '2026-11-16' } } }), null);
 });
@@ -192,10 +209,19 @@ test('Today\'s card: Saturday, Sunday morning, open, sat and waiting, closed, Mo
   assert.deepEqual(running.key.label, 'Resume');
   assert.match(running.line, /until 12:02 PM/);
   const waiting = todayCard(statusAt('2026-11-22T17:30:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })]));
-  assert.deepEqual(waiting, { title: 'You sat the Sunday Mock', line: 'Accountancy: 160/250. The answers open at 10:00 PM.', href: '/result/a1' });
-  const closed = todayCard(statusAt('2026-11-22T22:30:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 1240 }), eco('closed')]));
+  assert.deepEqual(waiting, { title: 'You sat the Sunday Mock', line: 'Accountancy: 160/250. The answers open at 11:05 PM.', href: '/result/a1' });
+  // 10:00 to 11:05 PM: closed for new starts, the answers at 11:05 PM; a paper still running keeps Resume.
+  for (const s of ['2026-11-22T22:30:00', '2026-11-22T22:59:00', '2026-11-22T23:04:00']) {
+    const closing = todayCard(statusAt(s, [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } }), eco('closed')]));
+    assert.deepEqual(closing, { title: 'You sat the Sunday Mock', line: 'Accountancy: 160/250. Closed for new starts. The answers open at 11:05 PM.', href: '/result/a1' });
+  }
+  const late = todayCard(statusAt('2026-11-22T22:30:00', [acc('started', { resumeUntil: new Date(IST('2026-11-22T22:52:00')).toISOString() })]));
+  assert.equal(late.key.label, 'Resume');
+  assert.equal(late.line, 'You started Accountancy. Your time runs until 10:52 PM. The answers open at 11:05 PM.');
+  const closed = todayCard(statusAt('2026-11-22T23:05:00', [acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 1240 }), eco('closed')]));
   assert.equal(closed.line, 'Accountancy: 160/250. 1,240 students sat this paper. The answers are open now.');
   assert.equal(closed.href, '/result/a1');
+  assert.match(waiting.line, /The answers open at 11:05 PM\.$/);
   const none = todayCard(statusAt('2026-11-22T22:30:00', [acc('closed')]));
   assert.equal(none.title, 'Next Sunday Mock');
   assert.match(none.line, /^Sunday 29 Nov, 10:00 AM to 10:00 PM\./);
@@ -212,9 +238,10 @@ test('Practice\'s chip, the page\'s rows and the runner\'s refusals', () => {
   assert.equal(practiceLine(statusAt('2026-11-22T12:00:00', [])), null);
   const s = statusAt('2026-11-22T12:00:00', []);
   assert.equal(subjectRow(s, acc('open')).key.label, 'Sit it');
-  assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).line, 'You sat it: 160/250. The answers open at 10:00 PM.');
+  assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).line, 'You sat it: 160/250. The answers open at 11:05 PM.');
+  assert.equal(subjectRow(statusAt('2026-11-22T23:04:00', []), acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).line, 'You sat it: 160/250. The answers open at 11:05 PM.');
   assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).link.href, '/result/a1');
-  assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 31 })).line, 'You sat it: 160/250. 31 students sat this paper.');
+  assert.equal(subjectRow(statusAt('2026-11-22T23:05:00', []), acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 }, sat: 31 })).line, 'You sat it: 160/250. 31 students sat this paper.');
   assert.equal(subjectRow(s, acc('unsent')).key, undefined);
   assert.equal(subjectRow(statusAt('2026-11-22T23:00:00', []), acc('closed')).line, 'You did not sit it this week.');
   assert.equal(subjectRow(statusAt('2026-11-21T23:00:00', []), acc('soon')).line, 'Not open yet.');
@@ -223,4 +250,31 @@ test('Practice\'s chip, the page\'s rows and the runner\'s refusals', () => {
   assert.equal(p.message, 'The last start was at 10:00 PM. The next one opens on Sunday 29 Nov at 10:00 AM.');
   assert.deepEqual(p.keys, [{ label: 'Back to Sunday Mock', href: '/sunday', primary: true }]);
   assert.match(runnerProblem(Object.assign(new Error('NOT_YOUR_SUBJECT'), { body: { detail: { subjectName: 'Economics' } } })).title, /^Economics is not one of your subjects/);
+});
+
+import { denStrip } from './sundayMock.mjs';
+
+test('the den strip (rule F2): only members who sat, and your own row; another member\'s not-yet row is refused', () => {
+  const den = (s, members) => ({ ...statusAt(s, []), available: true, subject: 'accountancy', subjectName: 'Accountancy', members });
+  const riya = { name: 'Riya', colour: 3, you: false, sat: true, marks: { scored: 184, max: 250 } };
+  const kabir = { name: 'Kabir', colour: 1, you: false, sat: true };
+  const zoya = { name: 'Zoya', colour: 1, you: false, sat: false }; // must never be drawn
+  const me = (sat) => ({ name: 'Aarav', colour: 1, you: true, sat, ...(sat ? { marks: { scored: 160, max: 250 } } : {}) });
+  const open = denStrip(den('2026-11-22T15:00:00', [riya, me(false), kabir, zoya]));
+  assert.deepEqual(open.rows.map((m) => m.name), ['Riya', 'Aarav', 'Kabir']);
+  assert.equal(open.line, '2 of you have sat this week\'s Accountancy paper.');
+  assert.doesNotMatch(open.line, /of 4|of 3|Zoya/);
+  assert.equal(denStrip(den('2026-11-22T15:00:00', [me(false)])).line, 'This week\'s Accountancy paper is open until 10:00 PM.');
+  assert.equal(denStrip(den('2026-11-22T15:00:00', [riya, me(false)])).line, '1 of you has sat this week\'s Accountancy paper.');
+  const closed = denStrip(den('2026-11-22T23:30:00', [riya, me(true), kabir, zoya]));
+  assert.deepEqual(closed.rows.map((m) => m.name), ['Riya', 'Aarav', 'Kabir']);
+  assert.equal(closed.line, '3 of you sat it. The next one is on Sunday 29 Nov.');
+  // After the close your own not-yet row goes too: only sitters remain.
+  assert.deepEqual(denStrip(den('2026-11-22T23:30:00', [riya, me(false), zoya])).rows.map((m) => m.name), ['Riya']);
+  assert.equal(denStrip(den('2026-11-22T23:30:00', [me(false)])).line, 'The next one is on Sunday 29 Nov.');
+  const before = denStrip(den('2026-11-21T18:00:00', [riya]));
+  assert.deepEqual(before.rows, []);
+  assert.match(before.line, /^Opens tomorrow at 10:00 AM\./);
+  assert.equal(denStrip(null), null);
+  assert.equal(denStrip({ available: false }), null);
 });

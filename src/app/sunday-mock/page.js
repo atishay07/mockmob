@@ -24,8 +24,8 @@ const HOW = [
   { title: 'A full paper, as CUET sets it', body: '50 questions in 60 minutes, marked +5 for right and −1 for wrong, in each subject you study.' },
   { title: 'The same paper for everyone', body: 'Every student sitting a subject that Sunday gets the same questions, so you can talk it over with friends after it closes.' },
   { title: 'Open all day Sunday', body: 'Start any time from 10:00 AM to 10:00 PM IST. A paper started by 10:00 PM keeps its full 60 minutes. One sitting a subject.' },
-  { title: 'Marks at once, answers at 10:00 PM', body: 'Your marks show as soon as you send it. The answers and explanations open at 10:00 PM, when the paper closes for everyone.' },
-  { title: 'See how it went for everyone', body: 'After the close, see how many sat the paper and, once 30 or more have, how many got each question right.' },
+  { title: 'Marks at once, answers at 11:05 PM', body: 'Your marks show as soon as you send it. The answers and explanations open at 11:05 PM, once every paper started by 10:00 PM is in.' },
+  { title: 'See how it went for everyone', body: 'From 11:05 PM, see how many sat the paper and, once 30 or more have, how many got each question right.' },
   { title: 'Sit it with your Mob', body: 'In a Mob, see which of your friends have sat it, and their marks if they share them.' },
 ];
 

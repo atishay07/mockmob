@@ -9,6 +9,7 @@ import Link from 'next/link';
 import ResultHero from '@/components/result/ResultHero';
 import { MobResultRow } from '@/components/mob/MobResultRow';
 import { SundayResultRow } from '@/components/sunday/SundayResultRow';
+import { timeLabel } from '@/lib/sundayMock.mjs';
 import { AppIcon } from '@/components/ui/Glyph';
 import { receiptLine } from '@/../data/result_next_move.mjs';
 import { practiceSubjectId } from '@/lib/paperCopy.mjs';
@@ -41,7 +42,7 @@ export default function HeldResult({ attempt, subjectName, celebrations = 'full'
   const marks = { scored, max, gap: max - scored, gapWrong: wrong * GAP.wrong, gapBlank: blank * GAP.blank, right, wrong, blank };
   // A Sunday Mock is held for everyone, not for a Mob (src/lib/sundayMock.mjs): its own line and row.
   const sunday = hold.kind === 'sunday';
-  const finding = { line: sunday ? 'Your marks are in. Which answers were right, and why, opens at 10:00 PM, when the Sunday Mock closes.' : "Your marks are in. Which answers were right, and why, opens when your Mob's paper closes." };
+  const finding = { line: sunday ? `Your marks are in. Which answers were right, and why, opens at ${timeLabel(until)}, once every Sunday Mock paper is in.` : "Your marks are in. Which answers were right, and why, opens when your Mob's paper closes." };
   const receipt = receiptLine({ subjectName, mode: attempt.mode || 'quick', completedAt: attempt.completedAt });
   const reaction = mobiReaction(attempt, { celebrations });
   const tag = attempt.selectionMeta?.mobPaper || { mobId: hold.mobId, weekStart: hold.weekStart, ...(hold.extraId ? { extraId: hold.extraId } : {}) };

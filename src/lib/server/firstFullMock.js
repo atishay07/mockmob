@@ -3,6 +3,7 @@
 // two tables production already has, attempts (read) and learning_allowances (one row per free start, its primary key is the lock).
 import { toPublicSubjectId } from '../../../data/cuet_controls.js';
 import { FIRST_FULL_MOCK_PERIOD, FULL_PAPER_MODES, firstFullMockKind, firstFullMockState, firstFullMockTakenError, fullSampleKind } from '../../../data/first_full_mock.js';
+import { SUNDAY_TAG } from '../sundayMock.mjs';
 
 const UNIQUE_VIOLATION = '23505';
 const failed = (cause) => Object.assign(new Error('SESSION_CREATE_FAILED'), { cause });
@@ -21,6 +22,9 @@ const claimRow = (db, userId, kind) => db.from('learning_allowances').select('re
  * mode attempts in the subject (null when the read failed); claim is { reference } when the free row exists, null when it does
  * not, undefined when the read failed; sample is true when a full-sample row exists for the subject (the durable-only free
  * full mock this rule folds in). Two reads, in parallel, both on indexed keys. Never throws.
+ * A Sunday Mock (src/lib/sundayMock.mjs; saved in Full mock mode, tagged selection_meta.mobPaper.mobId = SUNDAY_TAG) is not the
+ * student's own Full mock and never uses up the free one: when the count is not 0 a third read counts the Sunday papers among
+ * them and takes them off. If that read fails the count stays as it was (the free mock is then treated as used, as before).
  */
 export async function readFirstFullMockFacts(db, { userId, subject }) {
   const kind = firstFullMockKind(subject);
@@ -33,11 +37,26 @@ export async function readFirstFullMockFacts(db, { userId, subject }) {
   ]);
   const list = rows?.error || !Array.isArray(rows?.data) ? null : rows.data;
   const held = list?.find((row) => row.kind === kind && row.period === FIRST_FULL_MOCK_PERIOD) || null;
+  let fullPapers = papers?.error || !Number.isInteger(papers?.count) ? null : papers.count;
+  if (fullPapers > 0) {
+    const sunday = await sundayFullPapers(db, { userId, subject });
+    if (Number.isInteger(sunday)) fullPapers = Math.max(0, fullPapers - sunday);
+  }
   return {
-    fullPapers: papers?.error || !Number.isInteger(papers?.count) ? null : papers.count,
+    fullPapers,
     claim: list === null ? undefined : held ? { reference: String(held.reference) } : null,
     sample: Boolean(list?.some((row) => row.kind === sample)),
   };
+}
+
+/** How many of the student's saved Full mock and NTA papers in the subject are Sunday Mock papers, or null when unread. */
+async function sundayFullPapers(db, { userId, subject }) {
+  try {
+    const r = await db.from('attempts').select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).in('subject', subjectSpellings(subject)).in('selection_meta->>mode', FULL_PAPER_MODES)
+      .contains('selection_meta', { mobPaper: { mobId: SUNDAY_TAG } });
+    return r?.error || !Number.isInteger(r?.count) ? null : r.count;
+  } catch { return null; }
 }
 
 /** The state for a quote (no session yet) or a start (its session id): 'available' | 'mine' | 'used' | 'unknown'. */

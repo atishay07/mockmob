@@ -13,14 +13,20 @@
 //                 with the frozen questions and a key derived on the server, so it opens this week's paper and no other.
 //   the hold      the attempt is tagged selection_meta.mobPaper = { mobId: SUNDAY_TAG, weekStart: <sunday>, holdUntil: 10 PM },
 //                 so every place that already holds a Mob paper's key (the result, Review, Revise, repairs, checks, Ask
-//                 Mobi, the lean attempt reads) holds this one until 10:00 PM too (src/lib/mob/paperHold.mjs, kind 'sunday').
+//                 Mobi, the lean attempt reads) holds this one too (src/lib/mob/paperHold.mjs, kind 'sunday'), until 11:05 PM:
+//                 starts end at 10:00 PM, a paper started then runs to 11:00 PM, and the answers and the counts wait for it.
 //   the counts    attempts carrying that tag for the week and subject, finished inside the window's last legal minute.
 
 export const SUNDAY_TAG = 'sunday-mock';
 export const SUNDAY_KIND = 'sunday_mock';
 export const SUNDAY_NAME = 'Sunday Mock';
 export const OPEN_HOUR = 10; // 10:00 AM IST
-export const CLOSE_HOUR = 22; // 10:00 PM IST: the last start, and the moment the answers open
+export const CLOSE_HOUR = 22; // 10:00 PM IST: the last start
+// The answers and the counts open when the last possible paper is in: the last start, its 60 minutes and 5 more (11:05 PM IST).
+export const ANSWERS_AFTER_MINUTES = 5;
+// The first Sunday the Sunday Mock runs. The counts route answers only for weeks from this one to the current one, so an old or
+// made-up week never starts a scan of a subject's attempts.
+export const LAUNCH_WEEK = '2026-11-22';
 export const PAPER_COUNT = 50; // data/test_modes.js full.fixedCount
 export const PAPER_MINUTES = 60; // data/test_modes.js full.fixedDurationSec / 60
 export const MARK_RIGHT = 5;
@@ -50,13 +56,18 @@ export const addDays = (key, n) => new Date(Date.parse(`${key}T00:00:00Z`) + n *
 const at = (key, hour) => Date.parse(`${key}T${String(hour).padStart(2, '0')}:00:00+05:30`);
 
 /**
- * One Sunday's window: opensAt (10:00 AM), closesAt (10:00 PM: the last start and the moment the answers open) and
- * lastFinishAt (a paper started at the last moment, its 60 minutes and the finish grace: nothing later is ever counted).
+ * One Sunday's window: opensAt (10:00 AM), closesAt (10:00 PM: the last start), lastFinishAt (a paper started at the last
+ * moment, its 60 minutes and the finish grace: nothing later is ever counted) and answersAt (11:05 PM: the key, the explanations,
+ * how many sat and the share per question open, once the last possible paper is in).
  */
 export function sundayWindow(week) {
   const opensAt = at(week, OPEN_HOUR);
   const closesAt = at(week, CLOSE_HOUR);
-  return { week, opensAt, closesAt, answersAt: closesAt, lastFinishAt: closesAt + PAPER_MINUTES * MINUTE + FINISH_GRACE_MS };
+  return {
+    week, opensAt, closesAt,
+    lastFinishAt: closesAt + PAPER_MINUTES * MINUTE + FINISH_GRACE_MS,
+    answersAt: closesAt + (PAPER_MINUTES + ANSWERS_AFTER_MINUTES) * MINUTE,
+  };
 }
 
 /** This week's Sunday: today on a Sunday, else the coming one. Monday to Saturday all point at the same Sunday. */
@@ -67,17 +78,18 @@ export function sundayOf(now) {
 }
 
 /**
- * Where the clock stands: { week, phase, opensAt, closesAt, lastFinishAt, dow, previous, next }.
+ * Where the clock stands: { week, phase, answersOpen, opensAt, closesAt, lastFinishAt, answersAt, dow, previous, next }.
  *   phase 'before'  this week's paper has not opened (Monday to Saturday, and Sunday before 10:00 AM)
  *         'open'    Sunday 10:00 AM to 9:59 PM: a first start is allowed
- *         'closed'  Sunday from 10:00 PM: no first start; the answers and the counts are open
+ *         'closed'  Sunday from 10:00 PM: no first start; papers already started run on, and answersOpen turns true at
+ *                   11:05 PM (the answers and the counts)
  * previous is the Sunday before `week` (always closed); next is the Sunday after it.
  */
 export function sundayState(now) {
   const week = sundayOf(now);
   const win = sundayWindow(week);
   const phase = now < win.opensAt ? 'before' : now < win.closesAt ? 'open' : 'closed';
-  return { ...win, phase, dow: istDow(now), previous: addDays(week, -7), next: addDays(week, 7) };
+  return { ...win, phase, answersOpen: now >= win.answersAt, dow: istDow(now), previous: addDays(week, -7), next: addDays(week, 7) };
 }
 
 /**
@@ -101,9 +113,9 @@ export function countsFor(week, completedAt) {
   return completedAt >= win.opensAt && completedAt <= win.lastFinishAt;
 }
 
-/** The attempt's tag (selection_meta.mobPaper): held by paperHold.mjs until 10:00 PM on the paper's Sunday. */
+/** The attempt's tag (selection_meta.mobPaper): held by paperHold.mjs until 11:05 PM on the paper's Sunday (answersAt). */
 export function sundayTag(week) {
-  return { mobId: SUNDAY_TAG, weekStart: week, holdUntil: new Date(sundayWindow(week).closesAt).toISOString() };
+  return { mobId: SUNDAY_TAG, weekStart: week, holdUntil: new Date(sundayWindow(week).answersAt).toISOString() };
 }
 
 /** A tag (selection_meta.mobPaper or the held view's) that names a Sunday Mock. */
@@ -188,13 +200,15 @@ export function dateLabel(week) {
 }
 
 const count = (n, one, many) => `${n.toLocaleString('en-IN')} ${n === 1 ? one : many}`;
+/** "11:05 PM": when the answers open on any Sunday (the window's answersAt as a wall clock). */
+export const ANSWERS_LABEL = timeLabel(sundayWindow('2026-11-22').answersAt);
 
 export const SUNDAY_COPY = Object.freeze({
   name: SUNDAY_NAME,
   what: 'One full paper in each of your subjects, the same paper for everyone, every Sunday from 10:00 AM to 10:00 PM. 50 questions, 60 minutes, marked +5 and −1, free.',
   format: '50 questions · 60 minutes · +5 / −1 · free',
   once: 'One sitting a subject each Sunday. A paper started by 10:00 PM keeps its full 60 minutes.',
-  held: 'Your marks show as soon as you send it. The answers and explanations open at 10:00 PM, when the paper closes for everyone.',
+  held: `Your marks show as soon as you send it. The answers and explanations open at ${ANSWERS_LABEL}, once every paper started by 10:00 PM is in.`,
   sitIt: 'Sit it',
   resume: 'Resume',
   chooseSubject: 'Choose a subject',
@@ -267,7 +281,7 @@ export function sundayHoldCopy(untilMs) {
   const when = timeLabel(untilMs);
   return {
     title: `The answers open at ${when}`,
-    line: `The Sunday Mock is open for everyone until ${when}, so its answers and explanations stay closed until then and nobody can pass them on. Then you can see every answer and fix your mistakes.`,
+    line: `Papers started by 10:00 PM are still being sat until 11:00 PM, so the answers and explanations stay closed until ${when} and nobody can pass them on. Then you can see every answer and fix your mistakes.`,
     short: `The answers open at ${when}.`,
   };
 }
@@ -289,14 +303,23 @@ export function subjectState({ state, attempt = null, claim = null, now }) {
 
 // ---------- What each surface draws, from GET /api/sunday (the status) ----------
 
-const stateOf = (s) => ({ phase: s.phase, dow: s.dow, week: s.week, opensAt: Date.parse(s.opensAt), closesAt: Date.parse(s.closesAt) });
+/** The clock as a status or den answer states it. answersAt: the server's, else the window's own (closesAt + 65 minutes). */
+export function stateOf(s) {
+  const opensAt = Date.parse(s?.opensAt || '');
+  const closesAt = Date.parse(s?.closesAt || '');
+  const given = Date.parse(s?.answersAt || '');
+  const answersAt = Number.isFinite(given) ? given : closesAt + (PAPER_MINUTES + ANSWERS_AFTER_MINUTES) * MINUTE;
+  const now = Number(s?.serverNow);
+  return { phase: s?.phase, dow: s?.dow, week: s?.week, opensAt, closesAt, answersAt, answersOpen: s?.phase === 'closed' && Number.isFinite(now) && now >= answersAt };
+}
 const named = (list) => list.map((x) => `${x.name}: ${marksLine(x.marks)}`).join('. ');
 const subjectHref = (s, sub) => sundayPaperHref(s.week, sub.id);
 
 /**
  * Today's card, or null for a day it has nothing to say. Saturday: it opens tomorrow. Sunday before 10:00 AM: it opens today.
- * Sunday in the window: open until 10:00 PM, with the start key (or Resume, or the marks once sat). Sunday night: the result or
- * the next Sunday. Monday: yesterday's result, only for a student who sat it. Tuesday to Friday: nothing.
+ * Sunday in the window: open until 10:00 PM, with the start key (or Resume, or the marks once sat). From 10:00 PM: closed for new
+ * starts (a paper already running keeps its Resume) and the answers open at 11:05 PM; from 11:05 PM the result with how many sat,
+ * or the next Sunday. Monday: yesterday's result, only for a student who sat it. Tuesday to Friday: nothing.
  * { title, line, key?: { label, href }, href? } — `key` is a quiet key (Today's volt stays the lead card's); `href` makes the
  * whole card the link instead.
  */
@@ -317,6 +340,13 @@ export function todayCard(s) {
     return null;
   }
   if (st.phase === 'closed') {
+    const running = subs.find((x) => x.state === 'started');
+    if (running) {
+      return { title: 'Your paper is still running', line: `You started ${running.name}. Your time runs until ${timeLabel(Date.parse(running.resumeUntil))}. The answers open at ${timeLabel(st.answersAt)}.`, key: { label: SUNDAY_COPY.resume, href: subjectHref(s, running) } };
+    }
+    if (sat.length && !st.answersOpen) {
+      return { title: 'You sat the Sunday Mock', line: `${named(sat)}. Closed for new starts. The answers open at ${timeLabel(st.answersAt)}.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
+    }
     if (sat.length) {
       const n = sat.length === 1 ? satLine(sat[0].sat) : '';
       return { title: 'Your Sunday Mock', line: `${named(sat)}.${n ? ` ${n}` : ''} The answers are open now.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
@@ -338,9 +368,9 @@ export function todayCard(s) {
     return { title: 'Sunday Mock is open', line, key };
   }
   if (sat.length) {
-    return { title: 'You sat the Sunday Mock', line: `${named(sat)}. The answers open at ${timeLabel(st.closesAt)}.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
+    return { title: 'You sat the Sunday Mock', line: `${named(sat)}. The answers open at ${timeLabel(st.answersAt)}.`, href: sat.length === 1 ? resultHref(sat[0].resultId) : '/sunday' };
   }
-  return { title: 'Sunday Mock is open', line: `Your time on today's paper is over. The answers open at ${timeLabel(st.closesAt)}.`, href: '/sunday' };
+  return { title: 'Sunday Mock is open', line: `Your time on today's paper is over. The answers open at ${timeLabel(st.answersAt)}.`, href: '/sunday' };
 }
 
 /** Practice's one quiet row: { title, line } for every day (it opens /sunday). Null without subjects. */
@@ -358,7 +388,7 @@ export function subjectRow(s, sub) {
   const st = stateOf(s);
   switch (sub.state) {
     case 'sat': {
-      const after = st.phase === 'closed' ? (satLine(sub.sat) || 'The answers are open.') : `The answers open at ${timeLabel(st.closesAt)}.`;
+      const after = st.answersOpen ? (satLine(sub.sat) || 'The answers are open.') : `The answers open at ${timeLabel(st.answersAt)}.`;
       return { line: `You sat it: ${marksLine(sub.marks)}. ${after}`, link: { label: SUNDAY_COPY.seeResult, href: resultHref(sub.resultId) } };
     }
     case 'started': return { line: `You started it. Your time runs until ${timeLabel(Date.parse(sub.resumeUntil))}.`, key: { label: SUNDAY_COPY.resume, href: subjectHref(s, sub) } };
@@ -376,6 +406,25 @@ export function runnerProblem(error) {
   const ctx = { week: d.week, next: d.next, opensAt: Date.parse(d.opensAt || ''), closesAt: Date.parse(d.closesAt || ''), subjectName: d.subjectName };
   const { title, message } = startRefusalCopy(code, ctx);
   return { kind: 'sunday', title, message, keys: [{ label: 'Back to Sunday Mock', href: '/sunday', primary: true }] };
+}
+
+/**
+ * The den's strip from GET /api/sunday/mob (the Mob's rule F2, src/lib/mob/games.mjs: nothing counts or names a member who has
+ * not played): the members who sat it, and your own row whatever your state. Another member's row that did not sit is refused
+ * here even if a server sent it. { rows: [{ name, colour, you, sat, marks? }], line }.
+ */
+export function denStrip(d) {
+  if (!d || !d.available) return null;
+  const st = stateOf(d);
+  const rows = (Array.isArray(d.members) ? d.members : []).filter((m) => m && (m.sat === true || m.you === true));
+  const others = rows.filter((m) => !m.you && m.sat).length;
+  const youSat = rows.some((m) => m.you && m.sat);
+  const n = others + (youSat ? 1 : 0);
+  let line;
+  if (st.phase === 'before') line = `${opensLine(st)}. Everyone in your Mob sits the same ${d.subjectName} paper: 50 questions, 60 minutes, free.`;
+  else if (st.phase === 'open') line = n ? `${n === 1 ? '1 of you has' : `${n} of you have`} sat this week's ${d.subjectName} paper.` : `This week's ${d.subjectName} paper is open until ${timeLabel(st.closesAt)}.`;
+  else line = `${n ? `${n === 1 ? '1 of you' : `${n} of you`} sat it. ` : ''}The next one is on ${dateLabel(d.next)}.`;
+  return { rows: st.phase === 'before' ? [] : st.phase === 'closed' ? rows.filter((m) => m.sat) : rows, line };
 }
 
 /** The codes the runner shows with runnerProblem (anything else goes to the runner's own start problems). */

@@ -6,7 +6,7 @@
 import Link from 'next/link';
 import ArenaHead from '@/components/arena/ArenaHead';
 import {
-  SUNDAY_COPY, dateLabel, marksLine, openUntilLine, opensLine, resultHref, satLine, subjectRow, timeLabel, windowLine,
+  ANSWERS_LABEL, SUNDAY_COPY, dateLabel, marksLine, openUntilLine, opensLine, resultHref, satLine, stateOf, subjectRow, timeLabel, windowLine,
 } from '@/lib/sundayMock.mjs';
 import { useSunday } from './useSunday';
 import './sunday.css';
@@ -14,9 +14,11 @@ import './sunday.css';
 const LEDE = 'One full paper in each of your subjects, the same paper for everyone, every Sunday from 10:00 AM to 10:00 PM. Free.';
 
 function nowLine(d) {
-  const st = { phase: d.phase, dow: d.dow, week: d.week, opensAt: Date.parse(d.opensAt), closesAt: Date.parse(d.closesAt) };
+  const st = stateOf(d);
   if (d.phase === 'open') return { title: `${openUntilLine(st)} today`, line: `${dateLabel(d.week)}. Each paper is 50 questions in 60 minutes, and one started by ${timeLabel(st.closesAt)} keeps all 60.` };
-  if (d.phase === 'closed') return { title: `Closed at ${timeLabel(st.closesAt)}`, line: `The next one: ${windowLine(d.next)}.` };
+  // 10:00 to 11:05 PM: closed for new starts, papers already started run on, and the answers wait for the last of them.
+  if (d.phase === 'closed' && !st.answersOpen) return { title: `Closed for new starts at ${timeLabel(st.closesAt)}`, line: `Papers already started run to the end of their 60 minutes. The answers open at ${timeLabel(st.answersAt)}.` };
+  if (d.phase === 'closed') return { title: `Closed at ${timeLabel(st.closesAt)}`, line: `The answers are open. The next one: ${windowLine(d.next)}.` };
   return { title: opensLine(st), line: `It stays open until ${timeLabel(st.closesAt)}. A paper started by then keeps its full 60 minutes.` };
 }
 
@@ -94,7 +96,7 @@ export default function SundayPage() {
             <li>Everyone sitting a subject gets the same paper that Sunday.</li>
             <li>{SUNDAY_COPY.once}</li>
             <li>{SUNDAY_COPY.held}</li>
-            <li>After 10:00 PM you see how many sat the paper, and how many got each question right once 30 or more have sat it.</li>
+            <li>{`From ${ANSWERS_LABEL} you see how many sat the paper, and how many got each question right once 30 or more have sat it.`}</li>
             <li>In a Mob, your Mob sees whether you sat it, and your marks if you show your score.</li>
           </ul>
         </section>
