@@ -139,3 +139,28 @@ test('the last 8 Sunday papers are left out; a bank too thin for that lets the o
   const more = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-22', extraExclude: frozen });
   assert.equal(more.filter((id) => frozen.includes(id)).length, 0);
 });
+
+test('a withdrawn question\'s replacement asks for the missing count: one selector run, never last week\'s question while a fresh one exists', async () => {
+  // A bank that fills two Sundays but not a third 50 with both left out: asking for 50 again ran the selector 5 times (every
+  // exclusion step) and took its first replacement from the relaxed run, which holds last Sunday's questions.
+  const bank = wideBank(33, 120);
+  const papers = new Map();
+  const readPaper = async (period) => papers.get(period) || null;
+  const lastWeek = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-22' });
+  papers.set(claimPeriod('2026-11-22', SUBJECT), lastWeek);
+  const frozen = await drawPaper({ getQuestions: getQuestionsOver(bank), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29' });
+  assert.equal(frozen.length, 50);
+  assert.equal(frozen.filter((id) => lastWeek.includes(id)).length, 0);
+  const asWas = [];
+  const whole = await drawPaper({ getQuestions: getQuestionsOver(bank, asWas), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29', extraExclude: frozen });
+  assert.equal(asWas.length, 5, 'the 50 ask walks every exclusion step on this bank');
+  assert.ok(lastWeek.includes(whole[0]), 'and its first id is one of last Sunday\'s');
+  for (const missing of [1, 3]) {
+    const calls = [];
+    const ids = await drawPaper({ getQuestions: getQuestionsOver(bank, calls), readPaper, secret: SECRET, subject: SUBJECT, week: '2026-11-29', extraExclude: frozen, count: missing });
+    assert.equal(ids.length, missing);
+    assert.equal(calls.length, 1, `one selector run for ${missing}`);
+    assert.ok(calls[0].seededDraw.excludeIds.length >= 100, 'last Sunday\'s paper and the frozen one both left out');
+    assert.equal(ids.filter((id) => lastWeek.includes(id) || frozen.includes(id)).length, 0);
+  }
+});

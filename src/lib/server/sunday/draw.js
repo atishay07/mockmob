@@ -31,8 +31,13 @@ export const forgetDrawHistory = () => history.clear();
  *   getQuestions(subject, count, opts) -> { questions }   Database.getQuestions in Full mock mode (deps.js); opts carries seededDraw
  *   readPaper(period) -> ids | null                        a past Sunday's frozen paper (store.js readPaper)
  *   extraExclude                                           ids that must not be drawn (a frozen paper's own, when replacing one)
+ *   count                                                  how many: the paper's PAPER_COUNT, or only the missing few when a
+ *                                                          frozen paper's withdrawn questions are replaced (service.js), so the
+ *                                                          first exclusion step that has that many answers and no past week's
+ *                                                          question comes back while a fresh one exists
  */
 export async function drawPaper({ getQuestions, readPaper, secret, subject, week, extraExclude = [], count = PAPER_COUNT }) {
+  count = Math.max(1, Math.min(PAPER_COUNT, Math.floor(Number(count)) || PAPER_COUNT));
   const weeks = previousSundays(week);
   const past = await Promise.all(weeks.map(async (w) => {
     const key = claimPeriod(w, subject);
