@@ -428,10 +428,11 @@ const attempt = (id, items, extra = {}) => ({
   selectionMeta: { mode: 'quick', scoringVersion: 'server_practice_v1' }, ...extra,
 });
 const heldTag = { mode: 'quick', scoringVersion: 'server_practice_v1', mobPaper: { mobId: 'mob-a', weekStart: WEEK, holdUntil: nextOpensAt(WEEK) } };
-// An open paper on Ratios (many questions), a held Mob paper by its tag (Partnership chapter, all wrong) and a held Mob paper whose
-// tag the summary-function tier dropped (Goodwill chapter): only the attempts table still knows it is held.
+// An open paper on Ratios (30 questions, 10 wrong), a held Mob paper by its tag (Admission chapter, 12 wrong: it would rank first
+// with the most marks open) and a held Mob paper whose tag the summary-function tier dropped (Goodwill chapter): only the attempts
+// table still knows it is held.
 const OPEN = attempt('att-open', Array.from({ length: 30 }, (_, i) => [`r${i}`, 'Accounting Ratios', i % 3 === 0 ? false : true]));
-const HELD = attempt('att-held-tag', Array.from({ length: 5 }, (_, i) => [`p${i}`, 'Admission of a Partner', false]), { selectionMeta: heldTag, completedAt: NOW - HOUR });
+const HELD = attempt('att-held-tag', Array.from({ length: 12 }, (_, i) => [`p${i}`, 'Admission of a Partner', false]), { selectionMeta: heldTag, completedAt: NOW - HOUR });
 const UNTAGGED = attempt('att-held-id', Array.from({ length: 5 }, (_, i) => [`g${i}`, 'Goodwill Valuation', false]), { completedAt: NOW - 30 * 60_000 });
 const recordTables = () => ({
   ...appTables(),
@@ -471,7 +472,7 @@ test('/api/analytics: chapters are counted without held papers; their marks and 
   assert.deepEqual(body.weakChapters.map((c) => c.chapter), ['Accounting Ratios']);
   assert.equal(body.totalAttempts, 3, 'the timeline keeps every paper\'s marks');
   assert.equal(body.timeline.length, 3);
-  assert.deepEqual(body.totals, { correct: 20, wrong: 20, unattempted: 0 }, 'the counts a held result shows anyway');
+  assert.deepEqual(body.totals, { correct: 20, wrong: 27, unattempted: 0 }, 'the counts a held result shows anyway');
 });
 
 test('/api/compass/pro: the next move is ranked without held papers; the projection keeps subject totals', async () => {
@@ -480,9 +481,10 @@ test('/api/compass/pro: the next move is ranked without held papers; the project
   assert.equal(response.status, 200);
   const body = await response.json();
   assert.equal(body.locked, false);
-  assert.equal(body.projection.next.chapter.name, 'Accounting Ratios');
+  assert.equal(body.projection.next.chapter.name, 'Accounting Ratios', 'the held chapter (more marks open) is not named');
+  assert.deepEqual([body.projection.next.chapter.wrong, body.projection.next.chapter.n], [10, 30]);
   assert.doesNotMatch(JSON.stringify(body), /Admission of a Partner|Goodwill Valuation/);
-  assert.equal(body.projection.papers[0].n, 40, 'subject totals: the held papers\' counts are part of the paper projection');
+  assert.equal(body.projection.papers[0].n, 47, 'subject totals: the held papers\' counts are part of the paper projection');
 });
 
 test('record readers source: each filters held papers by tag and by id', () => {
