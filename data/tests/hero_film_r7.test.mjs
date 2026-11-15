@@ -23,6 +23,14 @@ const STRIP_CSS = stripCss(read('src/app/college-strip.css'));
 const SCENE_CSS = stripCss(read('src/app/hero-scene.css'));
 const PAGE = code(read('src/app/page.js'));
 const HERO = PAGE.slice(PAGE.indexOf('<section className="lp-hero">'), PAGE.indexOf('<CollegeStrip'));
+// A WebP file's pixel size from its header (VP8X canvas, lossy VP8 frame or lossless VP8L).
+function webpSize(b) {
+  const kind = b.toString('ascii', 12, 16);
+  if (kind === 'VP8X') return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (kind === 'VP8 ') return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+  if (kind === 'VP8L') { const v = b.readUInt32LE(21); return [1 + (v & 0x3fff), 1 + ((v >> 14) & 0x3fff)]; }
+  throw new Error(`not a WebP: ${kind}`);
+}
 
 // The launch teaser's three files (hero-480.mp4, hero-720.mp4, hero-poster.webp; 12.5 MB) left the repo on 15 Nov 2026: the
 // walkthrough (hero-v5-*) has been the hero since 9 Nov and nothing referenced them (audit T8). The film that is served:
@@ -287,6 +295,18 @@ test('CollegeStrip: two marquees, universities on top from University of Delhi, 
   assert.deepEqual([...block('UNIVERSITIES').matchAll(/file: '([a-z]+)'/g)].map((m) => m[1]), universities, 'the universities, University of Delhi first');
   assert.deepEqual([...block('COLLEGES').matchAll(/file: '([a-z]+)'/g)].map((m) => m[1]), colleges, 'the colleges, SRCC first');
   for (const file of [...universities, ...colleges]) assert.ok(existsSync(join(ROOT, `public/art/colleges/${file}.webp`)), `${file}.webp`);
+  // Paint pass (15 Nov 2026): the page loads 96 px copies (2x the largest 48 px seal), not the 192 px masters, and each row
+  // reserves the copy's own pixel size.
+  assert.match(STRIP, /export const collegeSrc = \(file\) => `\/art\/colleges\/\$\{file\}@96\.webp`;/);
+  let copies = 0;
+  for (const [, file, w, h] of STRIP.matchAll(/file: '([a-z]+)', w: (\d+), h: (\d+) \}/g)) {
+    const bytes = readFileSync(join(ROOT, `public/art/colleges/${file}@96.webp`));
+    assert.deepEqual(webpSize(bytes), [Number(w), Number(h)], `${file}@96.webp is ${w}x${h}`);
+    assert.equal(Number(h), 96, `${file}: 96 px tall`);
+    assert.ok(bytes.length < 12_000 && bytes.length < statSync(join(ROOT, `public/art/colleges/${file}.webp`)).size / 2, `${file}@96.webp stays small`);
+    copies += 1;
+  }
+  assert.equal(copies, universities.length + colleges.length);
   for (const gone of ['pondicherry', 'allahabad']) {
     assert.doesNotMatch(STRIP, new RegExp(`file: '${gone}'`), `${gone} left out (owner: not aspirational)`);
     assert.ok(!existsSync(join(ROOT, `public/art/colleges/${gone}.webp`)), `${gone}.webp removed`);
