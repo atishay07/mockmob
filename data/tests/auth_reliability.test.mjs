@@ -501,7 +501,7 @@ test('email login: link origin is pinned in production; three rate limits', asyn
   assert.equal(getSiteOrigin(req, { NODE_ENV: 'production', NEXT_PUBLIC_SITE_URL: 'https://mockmob.in/' }), 'https://mockmob.in');
   assert.equal(getSiteOrigin(req, { NODE_ENV: 'production', NEXT_PUBLIC_SITE_URL: 'https://evil.example' }), 'https://www.mockmob.in');
   assert.equal(getSiteOrigin({ url: 'http://localhost:3000/api/auth/email-login' }, { NODE_ENV: 'development' }), 'http://localhost:3000');
-  assert.deepEqual(EMAIL_LOGIN_LIMITS.map(({ limit, identityOnly, perEmail }) => [limit, identityOnly, perEmail]), [[20, false, false], [5, false, true], [15, true, true]]);
+  assert.deepEqual(EMAIL_LOGIN_LIMITS.map(({ limit, identityOnly, perEmail }) => [limit, identityOnly, perEmail]), [[60, false, false], [5, false, true], [15, true, true]]);
   assert.equal(new Set(EMAIL_LOGIN_LIMITS.map((l) => l.route)).size, 3, 'separate buckets');
   const route = read('src/app/api/auth/email-login/route.js');
   const cleared = route.indexOf('await clearUnconfirmedPassword(email)');

@@ -7,6 +7,7 @@
 import { answerFromInsights } from '../../../data/prepos_insights.js';
 import { productAskFor, recordSource } from './askSuggestions.mjs';
 import { JOB_COPY, isTonightAsk } from './mobiJobs.mjs';
+import { needsSupport } from '../../services/ai/supportCheck.js';
 
 export const RECORD_NOT_READ = 'Your record could not be read just now. Nothing was charged.';
 export const RECORD_NO_ANSWER = 'Mobi could not answer that from your record just now. Nothing was charged.';
@@ -21,7 +22,7 @@ export const RECORD_NO_ANSWER = 'Mobi could not answer that from your record jus
  * @param {object|null} a.wallet
  * @param {boolean} a.offline
  * @param {{open: boolean, why: string|null}} a.paid paidState(wallet)
- * @returns {{kind: 'none'|'wait'|'page'|'product'|'record'|'tonight'|'say'|'record-failed'|'paid', ...}}
+ * @returns {{kind: 'none'|'wait'|'page'|'support'|'product'|'record'|'tonight'|'say'|'record-failed'|'paid', ...}}
  *
  * v13 (C-dec 3, D157): "What should I revise tonight?" is read from the record by the server, free ('tonight'; offline it
  * says so and that nothing was charged). An Ask now starter is a doubt: it skips the record's keyword answers (the "1 credit"
@@ -31,6 +32,9 @@ export function planStart({ initial, status, insights, pro = false, wallet = nul
   if (!initial?.text) return { kind: 'none' };
   const text = String(initial.text).trim();
   if (initial.answer) return { kind: 'page', text, answer: initial.answer };
+  // L1 (15 Nov 2026): words that sound like a student in distress get the support reply, free, whatever the door, the
+  // record or the wallet says (src/services/ai/supportCheck.js). The panel sends it, or shows it offline.
+  if (needsSupport(text)) return { kind: 'support', text };
   const doubt = initial.doubt && typeof initial.doubt === 'object' && typeof initial.doubt.subject === 'string' ? initial.doubt : null;
   const product = doubt ? null : productAskFor(text);
   if (product) return { kind: 'product', text, product };

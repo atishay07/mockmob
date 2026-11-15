@@ -73,6 +73,61 @@ export function takeNextPath({ store, now = Date.now() } = {}) {
   return safeNextPath(saved.path);
 }
 
+// F10 (15 Nov): which card a sign-in started from (sign-up or log-in) and the email typed there, kept for 30 minutes in
+// this browser. A sign-in that fails at /auth/callback sends the student back to the card they came from, with the email
+// they typed, instead of always to the log-in page's "Welcome back".
+const START_KEY = 'mm_auth_from';
+const START_MODES = new Set(['signup', 'login']);
+const EMAIL_SHAPE = /^[^\s@]{1,64}@[^\s@]{1,190}\.[^\s@]{1,63}$/;
+
+export function rememberAuthStart(mode, email, { store, now = Date.now() } = {}) {
+  const target = storage(store);
+  if (!target || !START_MODES.has(mode)) return;
+  const typed = typeof email === 'string' ? email.trim() : '';
+  try {
+    target.setItem(START_KEY, JSON.stringify({ mode, email: EMAIL_SHAPE.test(typed) ? typed : null, at: now }));
+  } catch {
+    // Storage blocked: the callback falls back to the log-in page, as before.
+  }
+}
+
+/** { mode, email, failed } for a sign-in started here in the last 30 minutes, or null. Never throws. */
+export function readAuthStart({ store, now = Date.now() } = {}) {
+  const target = storage(store);
+  if (!target) return null;
+  try {
+    const saved = JSON.parse(target.getItem(START_KEY) || 'null');
+    if (!saved || !START_MODES.has(saved.mode) || typeof saved.at !== 'number') return null;
+    if (now - saved.at > MAX_AGE_MS || now < saved.at - 60_000) return null;
+    const email = typeof saved.email === 'string' && EMAIL_SHAPE.test(saved.email) ? saved.email : null;
+    return { mode: saved.mode, email, failed: saved.failed === true };
+  } catch {
+    return null;
+  }
+}
+
+/** The callback could not finish: mark it, so the sign-up card fills the email back in once. Returns the saved start. */
+export function markAuthStartFailed({ store, now = Date.now() } = {}) {
+  const start = readAuthStart({ store, now });
+  const target = storage(store);
+  if (!start || !target) return start;
+  try { target.setItem(START_KEY, JSON.stringify({ mode: start.mode, email: start.email, failed: true, at: now })); } catch { /* best effort */ }
+  return start;
+}
+
+/** The email to fill back in on the card after a failed callback (once), or ''. */
+export function takeFailedAuthEmail(mode, { store, now = Date.now() } = {}) {
+  const start = readAuthStart({ store, now });
+  if (!start?.failed || start.mode !== mode || !start.email) return '';
+  forgetAuthStart({ store });
+  return start.email;
+}
+
+export function forgetAuthStart({ store } = {}) {
+  const target = storage(store);
+  try { target?.removeItem(START_KEY); } catch { /* best effort */ }
+}
+
 /** The arena's front door: onboarding until subjects are chosen, then Today (which fits new and returning students, free and paid). */
 export function arenaHomePath({ needsOnboarding } = {}) {
   return needsOnboarding ? '/onboarding' : '/today';

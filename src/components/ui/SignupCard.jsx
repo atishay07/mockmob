@@ -4,7 +4,7 @@ import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only 
 import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
-import { rememberNextPath } from '@/lib/auth-redirect';
+import { rememberAuthStart, rememberNextPath, takeFailedAuthEmail } from '@/lib/auth-redirect';
 
 const RESEND_WAIT_SECONDS = 60;
 const MIN_CODE_LENGTH = 6;
@@ -45,6 +45,17 @@ export function SignupCard({ mode = 'signup' }) {
   useEffect(() => {
     // Remember where the student was going (validated; cleared when absent).
     rememberNextPath(new URLSearchParams(window.location.search).get('next'));
+    // F10: back from a sign-in that failed at /auth/callback, the email typed here before is filled back in (once).
+    const kept = takeFailedAuthEmail(mode);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the kept address is read on the client only
+    if (kept) setEmail(kept);
+  }, [mode]);
+
+  useEffect(() => {
+    // F9: Back from Google can restore this page from the back-forward cache with the Google key still busy.
+    const reset = (event) => { if (event.persisted) setGoogleLoading(false); };
+    window.addEventListener('pageshow', reset);
+    return () => window.removeEventListener('pageshow', reset);
   }, []);
 
   useEffect(() => {
@@ -61,6 +72,7 @@ export function SignupCard({ mode = 'signup' }) {
     setError('');
     setNotice('');
     setGoogleLoading(true);
+    rememberAuthStart(mode, email); // F10: a failed callback comes back to this card
     try {
       const { error: oauthError } = await signInWithGoogle();
       if (oauthError) {
@@ -81,11 +93,13 @@ export function SignupCard({ mode = 'signup' }) {
     setError('');
     setNotice('');
     setEmailLoading(true);
+    rememberAuthStart(mode, cleanEmail); // F10: the emailed link's callback comes back to this card if it fails
     try {
       const { error: sendError } = await signInWithEmail(cleanEmail);
       if (sendError) {
         if (sendError.retryAfterSeconds) setResendIn(Math.min(sendError.retryAfterSeconds, 3600));
-        // A code may already be on its way: let the student type it.
+        // A code is already on its way only when this inbox's limit refused (F5): open the field for it. The network limit
+        // ('rate_limited_network') and the site's daily ceiling ('email_busy') sent nothing, so the field stays as it was.
         if (sendError.code === 'rate_limited') setOtpSent(true);
         setError(sendError.message || 'Could not send the code. Please try again.');
         return;

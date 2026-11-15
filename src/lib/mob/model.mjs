@@ -38,8 +38,8 @@ export const COLOUR_COUNT = 8;
 export const NAME_MAX = 18;
 export const TIMEZONE = 'Asia/Kolkata';
 export const SITE = 'https://www.mockmob.in';
-// Crockford base32 without I, L, O and U. New codes are 6 characters (30 bits, Mob v3, D127) when MOB_V3_ENABLED is on;
-// old 8-character codes (40 bits) keep working until they expire.
+// Crockford base32 without I, L, O and U. New codes are 8 characters (40 bits) again since 15 Nov (S2); the 6-character
+// codes Mob v3 made (30 bits, D127) keep working until they expire.
 export const CODE_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 export const CODE_RE = /^(?:[0-9A-HJKMNP-TV-Z]{6}|[0-9A-HJKMNP-TV-Z]{8})$/;
 // SOCIAL-SPEC P3 reads ^[\p{L}][\p{L} .'-]{1,17}$; combining marks (\p{M}) are added after the first letter, because
@@ -212,12 +212,52 @@ export function suggestName(raw, email = '') {
   return checkName(run).ok ? run : '';
 }
 
+// S3 (15 Nov): the filter compared the raw lower case, so look-alike letters ("Ѕех" in Cyrillic), full-width or styled
+// letters, zero-width characters, accents and stretched spellings ("Fuuuck") all passed. A name and every list term are
+// now read the same way before matching: NFKC, zero-width characters out, accents on Latin, Greek and Cyrillic letters
+// out, Cyrillic and Greek look-alikes read as the Latin letter, and in Devanagari the nukta dropped and candrabindu read
+// as anusvara. The stored name is never changed.
+const ZERO_WIDTH = /[­͏᠎​-‏‪-‮⁠-⁤﻿]/g;
+const LOOKALIKE = {
+  а: 'a', в: 'b', г: 'r', е: 'e', и: 'u', к: 'k', м: 'm', н: 'h', о: 'o', п: 'n', р: 'p', с: 'c', т: 't', у: 'y', х: 'x', ц: 'u', ш: 'w', ь: 'b',
+  ѕ: 's', і: 'i', ј: 'j', ԁ: 'd', һ: 'h', ӏ: 'l', ԛ: 'q', ԝ: 'w', ү: 'y',
+  α: 'a', β: 'b', γ: 'y', ε: 'e', ζ: 'z', η: 'n', ι: 'i', κ: 'k', μ: 'm', ν: 'v', ο: 'o', ρ: 'p', ς: 'c', τ: 't', υ: 'u', χ: 'x', ω: 'w',
+};
+export function nameForMatch(raw) {
+  const s = String(raw ?? '').normalize('NFKC').replace(ZERO_WIDTH, '').toLowerCase()
+    .normalize('NFKD').replace(/[̀-ͯ]/g, '').normalize('NFC');
+  return [...s].map((c) => LOOKALIKE[c] || c).join('').replace(/़/g, '').replace(/ँ/g, 'ं');
+}
+// A run of one letter cut to two ("fuuuck" -> "fuuck") and to one ("fuck"). A term is compared with the one-letter form
+// of a name by its own one-letter form only when that is long enough not to sit inside real names (nig, fag, as).
+const toTwo = (s) => s.replace(/(.)\1{2,}/gu, '$1$1');
+const toOne = (s) => s.replace(/(.)\1+/gu, '$1');
+const len = (s) => [...s].length;
+
 export function nameBlocked(name, { contains = [], words = [] } = {}) {
-  const lower = cleanName(name).toLowerCase();
-  const folded = lower.replace(/[\s.'-]+/g, '');
-  if (contains.some((t) => t && folded.includes(t))) return true;
-  const parts = lower.split(/[\s.'-]+/).filter(Boolean);
-  return parts.some((p) => words.includes(p));
+  const parts = nameForMatch(cleanName(name)).split(/[\s.'-]+/).filter(Boolean);
+  const folded = parts.join('');
+  const forms = [folded, toTwo(folded), toOne(folded)];
+  // Review of 15 Nov 2026: the one-letter form is read against a short term only when the name was stretched (a letter three
+  // times or more, "fuuuck"). A name with an ordinary double letter is a name: "Poornima" must not read as "pornima".
+  const stretched = (s) => /(.)\1{2,}/u.test(s);
+  // Doubled a, e and o are how Indian names are spelt (Poornima, Deepak, Aarav); other doubles ("fuuck") still collapse.
+  const lite = (s) => s.replace(/([^aeo])\1+/gu, '$1');
+  const read = stretched(folded) ? forms : [folded, lite(folded)];
+  const blockedIn = (t) => {
+    const term = nameForMatch(t);
+    if (!term) return false;
+    return read.some((f) => f.includes(term)) || (len(toOne(term)) >= 5 && forms[2].includes(toOne(term)));
+  };
+  if (contains.some(blockedIn)) return true;
+  const wordTerms = words.map(nameForMatch).filter(Boolean);
+  return parts.some((p) => {
+    // A whole word matches as written or with its stretch cut to two; its one-letter form only when the part was stretched
+    // or had a doubled consonant cut ("Kute" and "Kaminee" are names; "kutteee" and "shiit" are not).
+    const st = stretched(p);
+    const cut = st ? toOne(p) : lite(p);
+    return wordTerms.some((w) => p === w || toTwo(p) === w || ((st || cut !== p) && len(toOne(w)) >= 4 && cut === toOne(w)));
+  });
 }
 
 export const checkColour = (v) => Number.isInteger(v) && v >= 0 && v < COLOUR_COUNT;

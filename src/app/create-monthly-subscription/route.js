@@ -10,6 +10,9 @@ import { countStepOnce } from '@/lib/server/funnelOnceStore';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
+// M3: an unpaid checkout from the last day is handed back on the next tap instead of starting a second subscription.
+const OPEN_CHECKOUT_REUSE_MS = 24 * 60 * 60 * 1000;
+
 function razorpayMessage(err) {
   return err?.error?.description || err?.response?.data?.error?.description || err?.message || null;
 }
@@ -60,13 +63,55 @@ export async function POST(request) {
       }
     }
 
+    const razorpayPlanId = getRazorpayPlanId(plan);
+
+    // M3 (audit 15 Nov 2026): the account's subscription id is only set once a payment is granted, so a second tap on Get
+    // Pro while the first checkout was open, or its payment was still being confirmed, made a second Rs 99 subscription.
+    // This student's own recent checkouts are read first: one still open is handed back, one that went through is never doubled.
+    const recent = await Database.listSubscriptionPayments({
+      userId,
+      sinceIso: new Date(Date.now() - OPEN_CHECKOUT_REUSE_MS).toISOString(),
+      statuses: ['created', 'authenticated', 'active', 'failed'],
+      limit: 5,
+    });
+    for (const row of recent) {
+      if (row.planId !== plan.id || (row.razorpayPlanId && row.razorpayPlanId !== razorpayPlanId)) continue;
+      let earlier;
+      try {
+        earlier = await getRazorpayClient().subscriptions.fetch(row.subscriptionId);
+      } catch {
+        return NextResponse.json({ error: 'We could not check your earlier checkout. Try again in a minute. Nothing was charged.', code: 'check_failed' }, { status: 503 });
+      }
+      if (earlier?.status === 'created') {
+        return NextResponse.json({
+          keyId: getRazorpayKeyId(),
+          subscription: { id: row.subscriptionId, status: earlier.status },
+          plan: { id: plan.id, name: plan.name, amount: plan.amount, currency: plan.currency, interval: 'month' },
+          referral: row.referralCodeAttempted ? { code: row.referralCodeAttempted, status: row.referralStatus, reason: row.referralReason || null } : null,
+          reused: true,
+        });
+      }
+      if (['active', 'authenticated'].includes(earlier?.status)) {
+        return NextResponse.json({
+          error: 'Your earlier payment for monthly Pro is being confirmed, so a second plan was not started. Pro turns on within a few minutes, and you do not need to pay again.',
+          code: 'subscription_open',
+        }, { status: 409 });
+      }
+      if (earlier?.status === 'pending') {
+        return NextResponse.json({
+          error: 'Your earlier monthly plan is still open with Razorpay, so a second one was not started. Cancel it in Account first, or wait for it to end.',
+          code: 'subscription_open',
+        }, { status: 409 });
+      }
+      // Cancelled, completed, expired or halted: that checkout can no longer be paid, so look further.
+    }
+
     // Referral codes are tracked for creator attribution. They never change the monthly price.
     const referral = rawCode ? await resolveCreatorCode(rawCode) : null;
     const tracked = referral && ['offer_attached', 'tracked_no_offer'].includes(referral.status)
       ? { ...referral, offerId: null, status: 'tracked_no_offer', reason: 'Referral tracked for the monthly plan' }
       : null;
 
-    const razorpayPlanId = getRazorpayPlanId(plan);
     const payload = {
       plan_id: razorpayPlanId,
       total_count: plan.totalCount || 24,

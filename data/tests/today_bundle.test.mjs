@@ -22,9 +22,10 @@ const PARTS = {
   record: '/api/me/repair-record?limit=100',
 };
 
-test('one route: one auth, the rate limit beside the reads, every part in one Promise.all', () => {
+test('one route: one auth, the rate limit answered before any read (L7), every part in one Promise.all', () => {
   assert.equal((route.match(/await auth\(request\)/g) || []).length, 1);
-  assert.match(route, /await Promise\.all\(\[\s+checkPersistentRateLimit\(request, \{ route: '\/api\/today', limit: 60, keyParts: \[userId\] \}\),\s+todayReads\(userId\),\s+\]\)/);
+  assert.match(route, /const limit = await checkPersistentRateLimit\(request, \{ route: '\/api\/today', limit: 60, keyParts: \[userId\] \}\);\r?\n\s+if \(!limit\.allowed\) return NextResponse\.json\(\{ error: 'Too many requests' \}, \{ status: 429, headers: NO_STORE \}\);\r?\n\s+const parts = await todayReads\(userId\);/);
+  assert.equal((route.match(/todayReads\(/g) || []).length, 1, 'no read starts beside the limit');
   assert.match(route, /status: 401/);
   assert.match(route, /status: 429/);
   assert.match(route, /'Cache-Control': 'no-store'/);

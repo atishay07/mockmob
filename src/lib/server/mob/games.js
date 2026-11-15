@@ -699,10 +699,16 @@ export function createMobV3Service(deps, helpers = {}) {
     const mine = (g.mine || []).find((a) => a.q === body.q);
     const fresh = publicQuestion(servedView(g, question), 0);
     const trapServed = servedView(g, trapQ);
-    return {
-      question: { stem: fresh.stem, options: fresh.options, passage: fresh.passage, answered: issued.answered === true },
-      trap: { q: body.q, number: body.q + 1, why: trapServed.explanation || null, yourPick: mine && mine.pick >= 0 ? toServed(g, trapQ, mine.pick) : null, correctIndex: Number.isInteger(trapServed.correctIndex) && trapServed.correctIndex >= 0 ? trapServed.correctIndex : null },
-    };
+    const trap = { q: body.q, number: body.q + 1, why: trapServed.explanation || null, yourPick: mine && mine.pick >= 0 ? toServed(g, trapQ, mine.pick) : null, correctIndex: Number.isInteger(trapServed.correctIndex) && trapServed.correctIndex >= 0 ? trapServed.correctIndex : null };
+    // S3 (15 Nov): like review, the trap's key and why wait while the same question sits in another open game or a held
+    // paper of this Mob (a thin bank can draw a closed game's trap into a new game). A state that cannot be read holds them too.
+    if (await heldElsewhere(g, g.question_ids[body.q], userId)) Object.assign(trap, { why: null, correctIndex: null, held: true });
+    return { question: { stem: fresh.stem, options: fresh.options, passage: fresh.passage, answered: issued.answered === true }, trap };
+  }
+
+  async function heldElsewhere(g, questionId, userId) {
+    const state = await readState(userId, g.mob_id).catch(() => null);
+    return !state || heldIds(state, { exceptGameId: g.id }).has(questionId);
   }
 
   async function fixAnswer(userId, body = {}) {
@@ -717,8 +723,10 @@ export function createMobV3Service(deps, helpers = {}) {
     if (r?.status === 'closed') throw new MobError('FIX_CLOSED');
     if (r?.status !== 'ok' && r?.status !== 'exists') throw new MobError('UNAVAILABLE');
     await checkUnlocks(userId).catch(() => null);
+    // S3: the fresh question was clear of every open game when issued; if one has drawn it since, its key waits too.
+    const held = await heldElsewhere(g, issued.question_id, userId);
     return {
-      correct: r.correct === true, correctIndex: served.correctIndex, explanation: served.explanation || null,
+      correct: r.correct === true, correctIndex: held ? null : served.correctIndex, explanation: held ? null : served.explanation || null, ...(held ? { held: true } : {}),
       fixedTogether: r.fixed_now === true, fixed: { count: Number(r.fixed_count) || 0, of: FIXED_FOR_CRANE },
     };
   }

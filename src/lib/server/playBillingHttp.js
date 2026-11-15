@@ -46,7 +46,9 @@ export async function handlePlayVerify(deps, request) {
   if (!userId) return json({ error: 'Authentication required', code: 'unauthenticated' }, 401);
 
   // Money route: the persistent limiter, no in-memory fallback. A database that cannot answer refuses the call.
-  const limited = await deps.rateLimit(request, { ...VERIFY_LIMIT, keyParts: [userId], identityOnly: true }).catch(() => ({ allowed: false }));
+  // `persistent` (A1 cross-lane note, 15 Nov): in production always the database's count, whatever PERSISTENT_LIMITS_ENABLED
+  // says. Without it this was a per-instance memory count that could never fail closed.
+  const limited = await deps.rateLimit(request, { ...VERIFY_LIMIT, keyParts: [userId], identityOnly: true, persistent: process.env.NODE_ENV === 'production' }).catch(() => ({ allowed: false }));
   if (!limited?.allowed) {
     return json({ error: 'Too many attempts. Wait a few minutes and try again.', code: 'rate_limited' }, 429, { 'Retry-After': String(limited?.retryAfterSeconds || 600) });
   }

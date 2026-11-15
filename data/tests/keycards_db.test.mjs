@@ -150,9 +150,10 @@ test('the undo removes the function and the tables, and the migration applies ag
   await db.close();
 });
 
-test('the view key_card_suspended returns only cards with 3 or more reports, at the server\'s threshold, for the service role only', async () => {
+test('the view key_card_suspended returns only cards with 3 or more reports, the server\'s candidates, for the service role only', async () => {
   const { REPORT_SUSPEND_AT } = await import('../../src/lib/server/keycards.js');
-  assert.ok(MIGRATION.includes(`having count(*) >= ${REPORT_SUSPEND_AT};`), 'the view and REPORT_SUSPEND_AT agree');
+  // L2: the view lists candidates; the server suspends at REPORT_SUSPEND_AT counted reporters, never below the view's 3.
+  assert.ok(MIGRATION.includes('having count(*) >= 3;') && REPORT_SUSPEND_AT >= 3, 'every card the server can suspend is a candidate');
   const db = await freshDb();
   await db.exec(`insert into public.key_card_reports (user_id, card_id, reason) values
     ('a', 'c1', 'x'), ('b', 'c1', 'x'), ('c', 'c1', 'x'), ('a', 'c2', 'x'), ('b', 'c2', 'x'), ('a', 'c3', 'x')`);

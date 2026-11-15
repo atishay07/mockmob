@@ -234,7 +234,8 @@ async function student(d, id, { balance = 40, free = 0, premium = false } = {}) 
 }
 const balanceOf = async (d, id) => (await one(d, 'select credit_balance b from users where id=$1', [id])).b;
 const spends = (d, id) => rows(d, "select reference, action, credit_delta, parts from credit_transactions where user_id=$1 and type='spend' order by reference", [id]);
-const claims = (d, id) => rows(d, 'select kind, period, reference from learning_allowances where user_id=$1 order by kind', [id]);
+// The free-mock rows only: since L8 (15 Nov 2026) every device-held start also records itself there (kind 'practice_start').
+const claims = (d, id) => rows(d, "select kind, period, reference from learning_allowances where user_id=$1 and kind <> 'practice_start' order by kind", [id]);
 const savePaper = (d, id, user, subject, mode) => rows(d, 'insert into attempts(id,user_id,subject,total,selection_meta) values($1,$2,$3,50,$4)', [id, user, subject, { mode }]);
 
 // ---- the stand-in Supabase client: the query shapes these routes use, translated onto PGlite ----------------------------

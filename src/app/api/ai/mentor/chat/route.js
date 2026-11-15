@@ -21,6 +21,8 @@ import { buildThreadDeps, chapterCatalog } from '@/services/mobi/doubtThreadDeps
 import { asksTonight } from '@/../data/mobi_tonight';
 import { readTonight } from '@/services/mobi/tonight';
 import { openAttemptsOnly } from '@/lib/server/answerHold';
+import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
+import { storeReport } from '@/lib/server/aiReplyReport';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -54,6 +56,14 @@ export async function POST(request) {
   const dbUser = await Database.getUserById(session.user.id);
   if (!dbUser) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
   const userId = session.user.id;
+  // L1 (15 Nov 2026): a student in distress gets the fixed support reply before anything reads their record, takes a credit
+  // or calls a model (src/services/ai/supportCheck.js). The turn is saved like any free one, plus one safety row.
+  if (needsSupport(message)) {
+    const response = { reply: SUPPORT_REPLY, origin: 'safety', confidence: 0, reason: 'No credits used.', cards: [], actions: [], mode, charge: NO_CHARGE, usage: NO_USAGE };
+    const savedId = await persist({ userId, sessionId: typeof payload.sessionId === 'string' ? payload.sessionId : null, message, response, mode });
+    await recordSupport({ userId, sessionId: savedId, requestId: payload.requestId });
+    return reply(savedId, response, dbUser, 'safety');
+  }
   let studyLesson=null;
   if(payload.studyRunId !== undefined) {
     if(typeof payload.studyRunId!=='string' || payload.studyRunId.length>100 || !Number.isInteger(payload.studyRevision) || typeof payload.studyItemId!=='string' || payload.studyItemId.length>150) return NextResponse.json({error:'invalid_run'}, {status:400});
@@ -208,6 +218,18 @@ async function reply(sessionId, response, dbUser, runtimeState) {
     sessionId, ok: true, ...response, response, runtimeState,
     usageSnapshot: { tier: snapshot.tier, isPaid: snapshot.isPaid, aiWallet: snapshot.aiWallet, normalCreditBalance: snapshot.normalCreditBalance },
   });
+}
+
+// L1: the support reply is recorded where reply reports are (ai_reply_reports, write-only, deleted with the account): reason
+// 'support_reply' and the fixed reply, never the student's words (those stay only in the saved turn, as for any turn).
+async function recordSupport({ userId, sessionId, requestId }) {
+  const id = typeof requestId === 'string' && /^[A-Za-z0-9_-]{16,64}$/.test(requestId) ? requestId : null;
+  try {
+    await storeReport(supabaseAdmin(), userId, { reason: 'support_reply', replyExcerpt: SUPPORT_REPLY, sessionId: typeof sessionId === 'string' ? sessionId.slice(0, 100) : null, requestId: id, dedupeKey: id ? `ai-support-${id}` : null });
+  } catch (err) {
+    console.warn('[mentor] support record skipped:', err?.message || err);
+  }
+  console.info(JSON.stringify({ route: 'mentor_chat', outcome: 'support_reply' }));
 }
 
 async function persist({ userId, sessionId, message, response, mode, keepMeta = false }) {

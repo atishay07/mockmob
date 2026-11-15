@@ -18,6 +18,7 @@ import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
 import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
 import { firstFullMockFor, takeFirstFullMock } from './firstFullMock';
+import { claimPracticeStart, paperOf, releasePracticeStart } from './practiceStart';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -84,7 +85,8 @@ export async function startPractice(userId, input, server = {}) {
   const ntaVariant = mode.id !== 'nta' ? '' : /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : (variantForOption(selection.internalSubject, syllabusOption) || '');
   const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : []), ...(mobPaper.gameId ? ['game', mobPaper.gameId] : [])] : [])]);
   const previous = await Database.getAttemptById(id);
-  if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
+  // B5 (15 Nov 2026): the runner sends the student to this result instead of printing the code (Back from a result).
+  if (previous) throw Object.assign(new Error('SESSION_ALREADY_SUBMITTED'), { publicMessage: 'You already sent this paper.', publicDetail: { attemptId: id } });
   const { questions, meta } = mobPaper
     ? { questions: mobPaper.questions, meta: { mode: mode.id, requestedCount: count, finalCount: mobPaper.questions.length, selectedCount: mobPaper.questions.length, selectionStrategy: 'mob_paper' } }
     : await Database.getQuestions(selection.internalSubject, count, {
@@ -107,6 +109,15 @@ export async function startPractice(userId, input, server = {}) {
     if (proven === null) throw new Error('INVALID_START_RECEIPT');
     created = Math.min(proven, created);
   }
+  // L8 (15 Nov 2026): the same device-held session started again keeps its first start's clock, and only its first paper
+  // (src/lib/server/practiceStart.js). A rebuild that is not that paper is refused: the copy says to start a new test.
+  const paper = durableLearningEnabled() ? null : paperOf(questions);
+  const first = paper ? await claimPracticeStart(db, { userId, id, at: created, paper }) : null;
+  // A restart whose rebuilt paper differs (the bank moved since the first start) is served with the first start's clock: the
+  // charge is the same one and the attempt can be scored once, so refusing it would only charge an honest student twice
+  // (review, 15 Nov 2026).
+  if (first) created = first.at;
+  const unclaim = async () => { if (first?.inserted) await releasePracticeStart(db, { userId, id }); };
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
     questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}), ...(mobPaper.gameId ? { gameId: mobPaper.gameId } : {}), ...(typeof mobPaper.holdUntil === 'string' ? { holdUntil: mobPaper.holdUntil } : {}), ...mobOptionOrders(questions) } } : {}) } };
@@ -120,6 +131,7 @@ export async function startPractice(userId, input, server = {}) {
   // or tab took the subject's free one since, or the rule was switched off. Refused, nothing charged, so the student sees the
   // price before paying it (release 11 verifier L1); a replay of the free start is 'mine' and stays free.
   if (quotedFirstFree(input) && charge.creditAction && charge.firstFullMock !== true) {
+    await unclaim();
     if (firstFullMock === 'unknown') throw firstFullMockUncheckedError();
     throw firstFullMockTakenError(firstFullMock === 'used' ? 'taken' : 'off');
   }
@@ -134,13 +146,16 @@ export async function startPractice(userId, input, server = {}) {
   const ticket = sealPractice(row, secret());
   // Existing atomic ledger makes retries free; charge only after a complete usable set exists.
   if (charge.creditAction) {
-    // The free first full mock: free when this start takes the free row (its primary key lets only one start have it); a start
-    // that finds the row taken, or that was paid before this rule shipped, is charged exactly as before.
-    const free = charge.firstFullMock === true
-      && await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `practice_${id}`, state: firstFullMock });
-    // A set paid on the pre-release-9 code ('attempt') and restarted after it keeps its charge instead of failing (spendWithLegacyFallback).
-    const paid = free || await spendWithLegacyFallback((u, a, r) => Database.spendCredits(u, a, r), userId, charge.creditAction, `practice_${id}`);
-    if (!paid) throw new Error('INSUFFICIENT_CREDITS');
+    // L8: a start whose charge fails leaves no start record, so starting again after topping up is a first start.
+    try {
+      // The free first full mock: free when this start takes the free row (its primary key lets only one start have it); a start
+      // that finds the row taken, or that was paid before this rule shipped, is charged exactly as before.
+      const free = charge.firstFullMock === true
+        && await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `practice_${id}`, state: firstFullMock });
+      // A set paid on the pre-release-9 code ('attempt') and restarted after it keeps its charge instead of failing (spendWithLegacyFallback).
+      const paid = free || await spendWithLegacyFallback((u, a, r) => Database.spendCredits(u, a, r), userId, charge.creditAction, `practice_${id}`);
+      if (!paid) throw new Error('INSUFFICIENT_CREDITS');
+    } catch (error) { await unclaim(); throw error; }
   }
   const view = publicSessionView(row);
   view.meta = { ...view.meta, sessionTicket: ticket, startReceipt: sealStart(secret(), userId, id, created), storage: 'device', contentEvidence: 'legacy_bank' };

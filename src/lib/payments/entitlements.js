@@ -177,11 +177,30 @@ function hasDiscountEvidence(paymentRecord, context = {}) {
   );
 }
 
+function isSubscriptionRecord(paymentRecord, context = {}) {
+  return Boolean(paymentRecord?.subscriptionId || paymentRecord?.subscription_id || context.subscription);
+}
+
 export function amountMatchesPaymentRecord(payment, paymentRecord, context = {}) {
   if (!isCapturedRazorpayPayment(payment) || !paymentRecord?.amount) return false;
 
   const nominalAmount = Number(paymentRecord.amount);
   if (!Number.isInteger(nominalAmount) || nominalAmount <= 0) return false;
+
+  if (isSubscriptionRecord(paymentRecord, context)) {
+    // M7 (audit 15 Nov 2026): a creator code or a checkout note never lowers a monthly charge. Only an offer that our server
+    // attached to the subscription at Razorpay can (the legacy Rs 69 plan still renews one at Rs 68 that way).
+    const rawSubscription = paymentRecord.rawSubscription || paymentRecord.raw_subscription || {};
+    const offerOnSubscription = firstString(
+      paymentRecord.offerId,
+      paymentRecord.offer_id,
+      rawSubscription.offer_id,
+      context.subscription?.offer_id,
+    );
+    return offerOnSubscription
+      ? payment.amount > 0 && payment.amount <= nominalAmount
+      : payment.amount === nominalAmount;
+  }
 
   if (hasDiscountEvidence(paymentRecord, { payment, ...context })) {
     return payment.amount > 0 && payment.amount <= nominalAmount;
@@ -266,6 +285,9 @@ export function resolveUserEntitlement({
 
   let subscriptionStatus = ownStatus;
   if (ownStatus !== 'active' && otherCovers) subscriptionStatus = 'active';
+  // M1 (audit 15 Nov 2026): 'active' with no date reads as Pro for ever (effectivePremiumFromRow keeps that rule for
+  // legacy rows), so a grant whose paid-through date has already passed must never be stored as 'active'.
+  if (subscriptionStatus === 'active' && !isPremium) subscriptionStatus = ownMs !== null ? 'past_due' : 'free';
 
   return {
     subscriptionStatus,

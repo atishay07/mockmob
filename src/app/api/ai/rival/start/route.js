@@ -8,11 +8,14 @@ import { spendUserFor } from '@/services/prepos/replyDeps';
 import { buildRivalIntroPrompt } from '@/services/ai/systemPrompt';
 import { logAIUsage } from '@/services/ai/usageLogger';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
+import { rivalEnabled } from '@/services/ai-rival/rivalGate';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function POST(request) {
+  // L6, L9: Rival is off unless RIVAL_ENABLED=true: nothing is read, charged or asked of a model.
+  if (!rivalEnabled()) return NextResponse.json({ error: 'not_found' }, { status: 404 });
   let body;
   try {
     body = await request.json();

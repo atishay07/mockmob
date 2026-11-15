@@ -13,19 +13,16 @@ test('/api/stats: the CDN keeps the daily counts for an hour; the 503 is never c
   assert.doesNotMatch(stats.slice(stats.indexOf('} catch (error) {')), /s-maxage/);
 });
 
-test('/api/questions/feed: auth starts first, votes and bookmarks together, CDN cache only for a reader with no session', () => {
+// Security pass 15 Nov 2026 (L3): the feed sends keys, so it is signed-in only and never cacheable; the signed-out CDN copy
+// (speed.md item 7) is gone. Behaviour is locked in data/tests/sec_1115_feed_hold.test.mjs.
+test('/api/questions/feed: auth before any read, votes and bookmarks together, no CDN cache', () => {
   const feed = read('src/app/api/questions/feed/route.js');
-  assert.ok(feed.indexOf('const sessionRead = auth(request).catch(() => null);') < feed.indexOf('await buildQuery(true)'), 'who is reading starts before the question read');
+  assert.ok(feed.indexOf('const session = await auth(request).catch(() => null);') < feed.indexOf('await buildQuery(true)'), 'who is reading is known before the question read');
   assert.equal((feed.match(/auth\(request\)/g) || []).length, 1);
-  assert.match(feed, /userId \? await Promise\.all\(\[\s+Database\.getUserVotes\(userId, questionIds\),/);
-  assert.match(feed, /const cacheable = !userId && signedOutReader\(request\);/);
-  assert.match(feed, /if \(request\.headers\.get\('authorization'\)\) return false;/);
-  assert.match(feed, /return !hasSupabaseSessionCookie\(cookies\);/);
-  assert.match(feed, /'CDN-Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600', Vary: 'Cookie, Authorization'/);
-  assert.match(feed, /cacheable \? \{ headers: SIGNED_OUT_CACHE \} : undefined/);
-  // A cached answer carries no per-user field.
+  assert.match(feed, /await Promise\.all\(\[\s+Database\.getUserVotes\(userId, questionIds\),/);
+  assert.doesNotMatch(feed, /CDN-Cache-Control|s-maxage|signedOutReader|SIGNED_OUT_CACHE/);
+  assert.match(feed, /'Cache-Control': 'private, no-store'/);
   assert.match(feed, /userVote: voteMap\.get\(r\.id\) \|\| null,/);
-  assert.match(feed, /\[new Map\(\), new Set\(\)\]/);
 });
 
 test('small server cuts: the summary reads the user beside its other reads; the published cards are built once per suspended set', () => {
@@ -36,5 +33,5 @@ test('small server cuts: the summary reads the user beside its other reads; the 
   assert.match(kc, /if \(publishedMemo\.off === off && publishedMemo\.value\) return publishedMemo\.value;/);
   assert.match(kc, /publishedMemo = \{ off, value \};/);
   // The suspended set is a new Set only when it is re-read, so the memo follows every refresh.
-  assert.match(kc, /reports = \{ at: now\(\), set: new Set\(rows\.map\(\(r\) => r\.card_id\)\) \};/);
+  assert.match(kc, /reports = \{ at: now\(\), set \};/); // L2: the set is built once per refresh (countedSuspensions)
 });
