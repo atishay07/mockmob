@@ -105,7 +105,8 @@ export default function AnalyticsPageClient() {
       <header className="rd-head">
         <div>
           <h1 className="display-md">Where your marks are going</h1>
-          <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
+          {/* U5: a fresh account reads one plain line, not "0 sessions, 0 questions answered." */}
+          <p>{totalAttempts === 0 ? 'No sessions yet.' : `${totalAttempts} session${totalAttempts === 1 ? '' : 's'}, ${totalQ} question${totalQ === 1 ? '' : 's'} answered.`}{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
         </div>
         <Link href="/mentor?tab=ask" className="rd-ask" onClick={(event) => { if (isPlainClick(event) && openAskMobi({ tab: 'ask', from: event.currentTarget })) event.preventDefault(); }}>Ask Mobi</Link>
       </header>
@@ -114,7 +115,9 @@ export default function AnalyticsPageClient() {
         const across = rules.state === 'ready' && rules.data?.acrossMocks ? (
           <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={<>
             {rules.data.acrossMocks.state === 'none' ? <FirstTimedMock prompt={firstTimed} /> : null}
-            {rules.data.book?.countLabel ? <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link> : null}
+            {/* U5: the way into the Rule book waits for its first rule; an empty book is not a feature to visit ("Your rules (0)").
+                Your papers keeps its own entry to it. */}
+            {rules.data.book?.countLabel && rules.data.book.count > 0 ? <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link> : null}
           </>} />
         ) : rules.state === 'error' ? (
           <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>
@@ -155,7 +158,8 @@ export default function AnalyticsPageClient() {
         return (
           <div className="rd-cols">
             <div className="pp-arena rd-main">
-              <RecordView state={record} pro={pro} oneLock chaptersFirst chaptersInReview emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
+              {/* U5: an empty record carries the page's one key, the first set (RecordView, src/lib/firstSet.mjs). */}
+              <RecordView state={record} pro={pro} oneLock chaptersFirst chaptersInReview afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
               {record.status !== 'ready' ? across : null}
             </div>
             {!inline ? <aside className="rd-side" aria-label="Score by session and by subject">{side}</aside> : null}
