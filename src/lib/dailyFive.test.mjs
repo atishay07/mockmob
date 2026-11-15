@@ -135,10 +135,10 @@ test('the run of days: today counts once played, a run that ended yesterday is a
   assert.deepEqual(streakOf(['2026-11-15', '2026-11-17', '2026-11-19', '2026-11-20', '2026-11-20'], today), { count: 2, playedToday: true, alive: true });
   assert.equal(streakOf(['2026-11-21'], today).count, 0, 'a date ahead of today does not count');
   assert.equal(streakOf(['2026-12-31', '2027-01-01'], '2027-01-01').count, 2, 'across a year');
-  assert.equal(streakLine({ count: 3, playedToday: true }), 'Day 3 in a row');
-  assert.equal(streakLine({ count: 1, playedToday: true }), 'Day 1. Play tomorrow to make it 2 in a row.');
+  assert.deepEqual(streakLine({ count: 3, playedToday: true }), { head: 'Day 3 in a row', more: null });
+  assert.deepEqual(streakLine({ count: 1, playedToday: true }), { head: 'Day 1', more: 'Play tomorrow to make it 2 in a row.' });
   assert.equal(streakLine({ count: 0, playedToday: false }), null);
-  assert.equal(streakLine({ count: 4, playedToday: false }), '4 days in a row. Play today to make it 5.');
+  assert.deepEqual(streakLine({ count: 4, playedToday: false }), { head: '4 days in a row', more: 'Play today to make it 5.' });
 });
 
 test('the page accepts the route\'s answer whole: a real day, five questions from the Daily Five subjects', () => {

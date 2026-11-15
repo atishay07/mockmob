@@ -289,8 +289,8 @@ export default function DailyFive() {
 
                 {line ? (
                   <div className="dly__streak">
-                    <p className="dly__streak-line">{line}</p>
-                    <p className="dly__streak-note">Your run is kept on this device.</p>
+                    <p className="dly__streak-line">{line.head}</p>
+                    <p className="dly__streak-note">{line.more ? `${line.more} ` : ''}Your run is kept on this device.</p>
                   </div>
                 ) : null}
 

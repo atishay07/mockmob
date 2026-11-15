@@ -272,11 +272,14 @@ export function streakOf(dates, today) {
   return { count, playedToday, alive: count > 0 };
 }
 
-/** The run in words for the result: "Day 3 in a row", or the first day's line. Null with no run. */
+/**
+ * The run in words for the result: { head, more } ("Day 3 in a row"; the first day's head with what tomorrow brings), or null
+ * with no run.
+ */
 export function streakLine({ count, playedToday }) {
   if (!count) return null;
-  if (count === 1) return playedToday ? 'Day 1. Play tomorrow to make it 2 in a row.' : 'You played yesterday. Play today to make it 2 in a row.';
-  return playedToday ? `Day ${count} in a row` : `${count} days in a row. Play today to make it ${count + 1}.`;
+  if (count === 1) return playedToday ? { head: 'Day 1', more: 'Play tomorrow to make it 2 in a row.' } : { head: 'You played yesterday', more: 'Play today to make it 2 in a row.' };
+  return playedToday ? { head: `Day ${count} in a row`, more: null } : { head: `${count} days in a row`, more: `Play today to make it ${count + 1}.` };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
