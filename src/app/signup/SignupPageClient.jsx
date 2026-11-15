@@ -10,6 +10,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
 import InviteCodeField from '@/components/referrals/InviteCodeField';
 import { REFERRAL_COPY } from '@/lib/referrals/friendInvite.mjs';
+import { IN_APP_COPY, signupChromeNote } from '@/lib/auth/inAppBrowser.mjs';
 import { rawSample, readSample, signupWords } from '@/components/landing/sampleCarry.mjs';
 
 // The home page's sample leaves its result in this browser (sampleCarry.mjs). The stored text is the snapshot (a string
@@ -19,6 +20,9 @@ const subscribeSample = (notify) => {
   return () => window.removeEventListener('storage', notify);
 };
 const noSample = () => null;
+// Android in-app browsers only (Instagram and others): the link that reopens this page in Chrome, where Google sign-in works.
+const noSubscribe = () => () => {};
+const readChromeLink = () => signupChromeNote(window.location.href, window.navigator.userAgent || '')?.href ?? null;
 
 export default function SignupPageClient({ invite = false, invitesLive = false, pendingInvite = null }) {
   const router = useRouter();
@@ -27,6 +31,7 @@ export default function SignupPageClient({ invite = false, invitesLive = false, 
   // A visitor who has just finished the five sample questions is met with their own result (10 Nov 2026): the score in
   // the headline and the chapters they missed in the sentence under it, so the card's promise survives the click.
   const sampleText = useSyncExternalStore(subscribeSample, rawSample, noSample);
+  const chromeHref = useSyncExternalStore(noSubscribe, readChromeLink, noSample);
   const sample = useMemo(() => (sampleText ? signupWords(readSample()) : null), [sampleText]);
 
   useEffect(() => {
@@ -57,6 +62,9 @@ export default function SignupPageClient({ invite = false, invitesLive = false, 
       title={invite ? 'Create your account, then take your seat.' : carried ? carried.title : 'Start your CUET 2027 practice.'}
       lead={invite ? 'Your friend saved you a seat in a Mob. Sign up with Google or an email code, and you come straight back to the invite to pick your Fold.'
         : friendInvited ? REFERRAL_COPY.invitedBanner() : carried ? carried.lead : 'Keep your recorded mocks, chapter mistakes and saved questions together.'}
+      topNote={chromeHref ? (
+        <p className="auth__chrome-note">{IN_APP_COPY.signupTop} <a href={chromeHref}>{IN_APP_COPY.signupTopAction}</a></p>
+      ) : null}
       points={invite ? [
         'Joining a Mob is free',
         'Only your Mob sees your name',

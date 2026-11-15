@@ -14,12 +14,13 @@ const DESK = ['accountancy', 'economics', 'business_studies', 'english'];
 // Shared frame for /login and /signup (W-057, redesigned 17 Oct). Phone: the headline, then the form, then the desk.
 // Wide: the headline and the desk on the left, the form on the right. The desk is the product's own art (Mobi and the
 // subject objects settling in once), not a stock picture; the points under it are plain facts, ruled, not badges.
-export function AuthShell({ title, lead, points = [], children }) {
+export function AuthShell({ title, lead, points = [], topNote = null, children }) {
   return (
     <div className="mm auth">
       <NavBar />
       <main id="main-content" className="mm-wrap auth__grid">
         <div className="auth__copy">
+          {topNote}
           {/* "CUET 2027" never parts at a line end (it split at 360, 390 and 1440 before, night 1105). */}
           <h1 className="mm-h1 auth__title">{keepTogether(title)}</h1>
           <p className="mm-lead auth__lead">{keepTogether(lead)}</p>
