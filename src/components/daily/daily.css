@@ -30,8 +30,7 @@
 
 /* The start: what the five are and the two rules, then the one key. */
 .mm.lp .lp-try.dly .dly__start-q { font-size: 1.25rem; }
-.mm.lp .dly__rules { display: grid; gap: 6px; margin: 14px 0 0; padding: 0 0 0 18px; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
-.mm.lp .dly__rules li::marker { color: var(--ink-3); }
+.mm.lp .dly__rules { display: grid; gap: 6px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
 .mm.lp .dly :is(.dly__go, .dly__retry, .dly__share) .mm-btn { width: 100%; }
 .mm.lp .dly__go { margin-top: 18px; }
 .mm.lp .dly__retry { margin-top: 16px; }

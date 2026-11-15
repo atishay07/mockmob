@@ -106,8 +106,8 @@ export default function DailyFive() {
       const accepted = acceptDailyFive(response.ok ? await response.json() : null);
       window.clearTimeout(timer);
       if (request.current !== controller) return;
-      request.current = null;
       if (!accepted) throw new Error('unavailable');
+      request.current = null;
       const day = { day: accepted.day, date: accepted.date };
       setToday(day);
       setFive(accepted.questions);
