@@ -61,9 +61,10 @@ test('each page says the right thing and offers one volt key and one quiet way o
 
 test('the paper page only promises what the runner keeps: a draft written after every change', () => {
   const runner = read('src/app/(app)/test/TestPageClient.jsx');
-  assert.match(runner, /window\.localStorage\.setItem\(key, JSON\.stringify\(draft\)\)/, 'the draft is written');
-  assert.match(runner, /\}, \[questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey,pendingSubmission\]\);/, 'after every answer, mark and move');
-  assert.match(runner, /resumableDraft\(saved,\{generationKey,sessionId:launch\.get\('sessionId'\)\}\)/, 'and read back when the runner mounts');
+  // The runner's draft code as the test-screen lane left it (W1-A, 15 Nov 2026): one writer, called after every change.
+  assert.match(runner, /window\.localStorage\.setItem\(draftKey, value\)/, 'the draft is written');
+  assert.match(runner, /writeDraft\(key, draft\);\s*\}, \[questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey, pendingSubmission, writeDraft/, 'after every answer, mark and move');
+  assert.match(runner, /if \(saved && \(late \|\| resumableDraft\(saved, match\)\)\) \{/, 'and read back when the runner mounts');
   assert.match(runner, /setAnswers\(saved\.answers \|\| \{\}\)/);
 });
 
