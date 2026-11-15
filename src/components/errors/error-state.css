@@ -1,0 +1,23 @@
+/* The error pages (ErrorState.jsx). Colours are the arena tokens, Night by default and Day when chosen; the type and the keys
+   are the not-found page's (student-pages.css .ui-state__action, arena.css .pr-head). This file only spaces the message:
+   the headline, its line and the keys keep the not-found page's rhythm (site-not-found.css). */
+.app-shell .mm-err .pr-head h1 { text-wrap: balance; }
+.app-shell .mm-err .mm-err__title:focus { outline: none; }
+.app-shell .mm-err .pr-head p.mm-err__line { margin-top: 12px; max-width: 46ch; text-wrap: pretty; }
+.app-shell .mm-err .mm-err__mail { color: inherit; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.app-shell .mm-err .mm-err__mail:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .mm-err .mm-err__mail:hover { text-decoration-color: currentColor; } }
+.app-shell .mm-err .mm-err__actions { margin: 28px 0 0; gap: 12px; }
+.app-shell .mm-err .mm-err__actions .ui-state__action { min-height: 48px; margin-top: 0; padding-inline: 20px; font-size: 15px; }
+.app-shell .mm-err .mm-err__ref { margin: 20px 0 0; color: var(--a-ink-3); font-size: 13px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+/* Inside the signed-in shell the message sits where a page's headline sits, with the same air above it. */
+.app-shell .mm-err--app { padding-top: clamp(8px, 4vh, 40px); }
+
+/* The paper runner draws no navigation, so its error page carries the wordmark like the not-found page does, and reads in
+   the same narrow column. */
+.app-shell .mm-err-paper { min-height: 100dvh; display: flex; flex-direction: column; }
+.app-shell .mm-err-paper__bar { padding: 14px clamp(16px, 4vw, 40px); }
+.app-shell .mm-err-paper__bar .logo { --logo-h: 26px; display: inline-flex; align-items: center; min-height: 44px; color: var(--a-ink); }
+.app-shell .mm-err-paper__main { flex: 1; width: 100%; max-width: 680px; margin: 0 auto; padding: clamp(28px, 10vh, 112px) clamp(16px, 4vw, 40px) 56px; }
+.app-shell .mm-err-paper .student-page { padding: 0; }
