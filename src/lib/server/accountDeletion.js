@@ -13,7 +13,10 @@
 // before anything is deleted, every subscription of the account that Google may still charge is cancelled with
 // purchases.subscriptionsv2.cancel (stopPlayRenewals). If that cannot be done, nothing is deleted and the request stays
 // pending, so a family is never charged every month for an account that no longer exists.
+// The same rule for a website (Razorpay) subscription (audit M2, 15 Nov 2026): stopRazorpayRenewals cancels it through
+// the cancel Account uses (cancelMonthlyRenewal), before anything is deleted, or the request stays pending.
 import { RENEWING as PLAY_RENEWING } from '../payments/playSubscriptions.js';
+import { cancelMonthlyRenewal } from '../payments/cancel.js';
 
 const DAY_MS = 86_400_000;
 
@@ -329,6 +332,48 @@ export async function stopPlayRenewals({ adapter, google, userId }) {
   return outcomes;
 }
 
+// ---------------------------------------------------------------------------------------------
+// Website (Razorpay) subscriptions: stop the renewal before the account goes (M2)
+// ---------------------------------------------------------------------------------------------
+
+// Razorpay states in which no payment can be taken any more ('created' never had a mandate approved), so nothing is cancelled.
+const RAZORPAY_NO_CHARGE_STATES = new Set(['cancelled', 'completed', 'expired', 'created']);
+
+/**
+ * Cancels, at Razorpay, every subscription of this account that Razorpay may still charge (every subscription id on the
+ * users row or a payments row; Razorpay is asked about each, since our rows can be behind). The cancel is the one Account
+ * uses, but at once rather than at the end of the paid month: the account and its access are going, and Razorpay can refuse
+ * a cycle-end cancel while a renewal is being retried. Returns one outcome per subscription: cancelled or
+ * renewal_already_off. Throws a DeletionError when Razorpay cannot be asked or does not confirm, so the caller deletes
+ * nothing and the request stays pending.
+ */
+export async function stopRazorpayRenewals({ adapter, razorpay, userId }) {
+  if (!adapter?.listRazorpaySubscriptions) return [];
+  const ids = [...new Set(((await adapter.listRazorpaySubscriptions(userId)) || []).filter(Boolean))];
+  if (!ids.length) return [];
+  if (!razorpay?.subscriptions?.fetch || !razorpay?.subscriptions?.cancel) {
+    throw new DeletionError('razorpay_not_configured', `This account has ${ids.length} website subscription(s) on record. Set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET so any that may still renew can be cancelled first; nothing was deleted.`);
+  }
+  const outcomes = [];
+  for (const id of ids) {
+    let sub;
+    try {
+      sub = await razorpay.subscriptions.fetch(id);
+    } catch (e) {
+      throw new DeletionError('razorpay_cancel_failed', `Razorpay could not be asked about subscription ${id}: ${e?.error?.description || e?.message || e}. Nothing was deleted.`);
+    }
+    const state = sub?.status || null;
+    if (RAZORPAY_NO_CHARGE_STATES.has(state)) { outcomes.push({ id, state, outcome: 'renewal_already_off' }); continue; }
+    try {
+      await cancelMonthlyRenewal(razorpay.subscriptions, id, { atCycleEnd: false });
+    } catch (e) {
+      throw new DeletionError('razorpay_cancel_failed', `Razorpay did not cancel subscription ${id} (${state}): ${e?.error?.description || e?.message || e}. Nothing was deleted.`);
+    }
+    outcomes.push({ id, state, outcome: 'cancelled' });
+  }
+  return outcomes;
+}
+
 export function summarisePlan(steps) {
   const totals = { delete: 0, anonymise: 0, keep: 0 };
   for (const s of steps) if (s.present) totals[s.action] += Number(s.rows) || 0;
@@ -348,9 +393,10 @@ export async function planDeletion(adapter, request) {
   });
   const unclassified = raw.unclassified || [];
   const playToStop = adapter.listPlaySubscriptions ? playRenewalCandidates(await adapter.listPlaySubscriptions(request.user_id)).length : 0;
+  const razorpayToCheck = adapter.listRazorpaySubscriptions ? new Set(((await adapter.listRazorpaySubscriptions(request.user_id)) || []).filter(Boolean)).size : 0;
   return {
     requestId: request.id, userId: request.user_id, requestedAt: request.requested_at,
-    steps, unclassified, totals: summarisePlan(steps), blocked: unclassified.length > 0, playToStop,
+    steps, unclassified, totals: summarisePlan(steps), blocked: unclassified.length > 0, playToStop, razorpayToCheck,
   };
 }
 
@@ -363,7 +409,7 @@ export async function planDeletion(adapter, request) {
  * would let the person recreate an empty profile and leave the request unfinishable.
  * Refuses to touch anything when the plan is blocked by unclassified user data.
  */
-export async function executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals = null }) {
+export async function executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals = null, razorpayRenewals = null }) {
   const p = plan || await planDeletion(adapter, request);
   if (p.blocked) {
     throw new DeletionError('unclassified_user_data', `Refusing: user data found in unclassified tables (${p.unclassified.map((u) => u.table).join(', ')}). Add them to DELETION_STEPS.`);
@@ -371,13 +417,17 @@ export async function executeDeletion({ adapter, request, deleteAuthUser, plan, 
   if (!playRenewals && p.playToStop > 0) {
     throw new DeletionError('play_not_configured', `This account has ${p.playToStop} Google Play subscription(s) that may still renew and no way to cancel them was given; nothing was deleted.`);
   }
+  if (!razorpayRenewals && p.razorpayToCheck > 0) {
+    throw new DeletionError('razorpay_not_configured', `This account has ${p.razorpayToCheck} website subscription(s) on record and no way to cancel them was given; nothing was deleted.`);
+  }
   // First, so a failure leaves everything (the login included) in place and the request pending.
   const play = playRenewals ? await playRenewals(request.user_id) : [];
+  const razorpay = razorpayRenewals ? await razorpayRenewals(request.user_id) : [];
   const user = await adapter.getUser(request.user_id);
   let auth = { deleted: false, skipped: true };
   if (deleteAuthUser) auth = { skipped: false, ...(await deleteAuthUser({ userId: request.user_id, email: user?.email || null })) };
   const result = await adapter.run(request, DELETION_STEPS, true);
-  return { requestId: request.id, userId: request.user_id, auth, play, steps: result.steps, totals: summarisePlan(result.steps) };
+  return { requestId: request.id, userId: request.user_id, auth, play, razorpay, steps: result.steps, totals: summarisePlan(result.steps) };
 }
 
 /**
@@ -386,7 +436,7 @@ export async function executeDeletion({ adapter, request, deleteAuthUser, plan, 
  * deterministic failure (missing grant, foreign key) would otherwise strip the login of every pending user
  * while their requests stay pending.
  */
-export async function processRequests({ adapter, due, apply, deleteAuthUser, playRenewals = null, onPlan, onDone, onFail }) {
+export async function processRequests({ adapter, due, apply, deleteAuthUser, playRenewals = null, razorpayRenewals = null, onPlan, onDone, onFail }) {
   const results = [];
   let failed = 0;
   let aborted = false;
@@ -395,9 +445,9 @@ export async function processRequests({ adapter, due, apply, deleteAuthUser, pla
       const plan = await planDeletion(adapter, request);
       if (onPlan) onPlan(plan);
       if (!apply) { results.push({ ...plan, status: plan.blocked ? 'blocked' : 'planned' }); continue; }
-      const done = await executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals });
+      const done = await executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals, razorpayRenewals });
       if (onDone) onDone(done);
-      results.push({ ...plan, status: 'completed', auth: done.auth, play: done.play });
+      results.push({ ...plan, status: 'completed', auth: done.auth, play: done.play, razorpay: done.razorpay });
     } catch (e) {
       failed += 1;
       const message = e instanceof DeletionError ? `${e.code}: ${e.message}` : String(e?.message || e);
@@ -418,6 +468,7 @@ export function formatPlan(plan) {
   }
   lines.push(`  totals: delete ${plan.totals.delete}, anonymise ${plan.totals.anonymise}, keep ${plan.totals.keep}`);
   if (plan.playToStop) lines.push(`  Google Play: ${plan.playToStop} subscription(s) may still renew; their renewal is cancelled with Google before anything is deleted`);
+  if (plan.razorpayToCheck) lines.push(`  Website: ${plan.razorpayToCheck} Razorpay subscription(s) on record; each is checked with Razorpay and any that may still charge is cancelled before anything is deleted`);
   if (plan.blocked) lines.push(`  BLOCKED: unclassified tables hold this user's data: ${plan.unclassified.map((u) => `${u.table} (${u.rows})`).join(', ')}`);
   return lines.join('\n');
 }
@@ -449,6 +500,19 @@ export function supabaseAdapter(client) {
         throw new DeletionError('play_lookup_failed', error.message);
       }
       return data || [];
+    },
+    /** Every Razorpay subscription id the account holds: the users row's current one and every payments row's (M2). */
+    async listRazorpaySubscriptions(userId) {
+      const ids = new Set();
+      const { data: user, error: userError } = await client.from('users').select('razorpay_subscription_id').eq('id', userId).maybeSingle();
+      if (userError && !(userError.code === '42703' || /razorpay_subscription_id/i.test(userError.message || ''))) {
+        throw new DeletionError('razorpay_lookup_failed', userError.message);
+      }
+      if (user?.razorpay_subscription_id) ids.add(user.razorpay_subscription_id);
+      const { data, error } = await client.from('payments').select('subscription_id').eq('user_id', userId).not('subscription_id', 'is', null);
+      if (error) throw new DeletionError('razorpay_lookup_failed', error.message);
+      for (const row of data || []) if (row.subscription_id) ids.add(row.subscription_id);
+      return [...ids];
     },
     async run(request, steps, apply) {
       const { data, error } = await client.rpc('account_deletion_run', {
