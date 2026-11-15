@@ -5,7 +5,8 @@
 .lp .lp-bg__grid { opacity: .35; }
 .lp .lp-bg__dots { opacity: .3; }
 .lp .du-teaser { border-radius: 1rem; box-shadow: none; background: var(--paper-raised); }
-.lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--line); border-radius: .75rem; }
+/* `body` here and below: one type more than du.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--line); border-radius: .75rem; }
 .lp-colleges { margin-top: 2rem; }
 .lp-colleges__intro { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .lp-colleges__intro > div { display: flex; align-items: center; gap: .5rem; }

@@ -6,6 +6,8 @@
 // So the home page imports one file, src/app/home-sheets.css: the 23 sheets joined, byte for byte, in the order the live
 // site applied them (checked against www.mockmob.in on 15 Nov 2026), so every rule still wins or loses exactly as before.
 // The sheets stay the source: edit them, never the joined file. Other pages keep importing the sheets they use.
+// Where the joined file lands against the components' own sheets (scroll-story.css, du.css ...) is the bundler's choice, so
+// no home rule may win over one of them by order alone: src/lib/cssCascade.mjs and data/tests/home_cascade_order.test.mjs.
 //
 //   node scripts/gen-home-css.mjs           write src/app/home-sheets.css
 //   node scripts/gen-home-css.mjs --check   exit 1 when it is stale

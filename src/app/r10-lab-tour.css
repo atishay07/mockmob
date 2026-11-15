@@ -131,12 +131,13 @@
    the phone dock's (the Log in / Sign up free bar it takes over from), so the hand-over read as a drop. The row is now
    centred in its band: equal air above and below, and its centre line within 4 px of the dock keys'. */
 @media (max-width: 899px) and (min-height: 521px) {
-  .mm.lp .lp-bar__row { column-gap: 10px; bottom: calc((var(--ss-band, 92px) - 44px) / 2 + env(safe-area-inset-bottom, 0px)); }
-  .mm.lp .lp-bar__where { column-gap: 6px; }
+  /* `body` here and below: one type more than section-position.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  body .mm.lp .lp-bar__row { column-gap: 10px; bottom: calc((var(--ss-band, 92px) - 44px) / 2 + env(safe-area-inset-bottom, 0px)); }
+  body .mm.lp .lp-bar__where { column-gap: 6px; }
 }
 /* At 360 px the count's widest form ("10 of 10") still cut the name by 2 px; small phones close the row's gaps to 8 px
    and Skip's sides by a hair (it stays 58 px wide). */
 @media (max-width: 380px) and (min-height: 521px) {
-  .mm.lp .lp-bar__row { column-gap: 8px; }
-  .mm.lp .lp-bar__skip { padding: 0 0.8rem; }
+  body .mm.lp .lp-bar__row { column-gap: 8px; }
+  body .mm.lp .lp-bar__skip { padding: 0 0.8rem; }
 }

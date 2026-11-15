@@ -113,7 +113,8 @@
   -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
-.lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+/* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .lp-shelf__link:hover { color: var(--ink); background: rgb(var(--tint) / 0.04); }
 }

@@ -92,7 +92,8 @@
    specificity on purpose (:where): a section's own text-wrap rule always wins. Checked at 360, 375, 390, 412 and 1440. */
 :where(.mm.lp) :where(p, li, dd, blockquote, .mm-faq__body) { text-wrap-style: pretty; }
 :where(.mm.lp) :where(h1, h2, h3, h4, summary, figcaption, .lp-sub, .lp-card__note, .lp-shelf__note, .lp-cpro__fine, .xs-saved, .lcp-block > p) { text-wrap-style: balance; }
-html:has(.lp) {
+/* `body` here and below: one type more than marketing.css's and exam-screen.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+html:has(body .lp) {
   font-size: 16px;
   color-scheme: dark;
   background: #12110e;
@@ -103,17 +104,17 @@ body:has(.mm.lp) {
 /* The whole page scales with the display: rem-based type, spacing and
    container widths grow on large and ultrawide screens. */
 @media (min-width: 1920px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 18px;
   }
 }
 @media (min-width: 2560px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 22px;
   }
 }
 @media (min-width: 3400px) {
-  html:has(.lp) {
+  html:has(body .lp) {
     font-size: 28px;
   }
 }
@@ -155,7 +156,7 @@ html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
 .lp .mm-dock {
   background: rgba(13, 12, 10, 0.94);
 }
-.lp .mm-btn--secondary {
+body .lp .mm-btn--secondary {
   background: var(--paper-raised);
   color: var(--ink);
   box-shadow: 0 var(--btn-edge) 0 rgb(var(--tint) / 0.22), var(--sh-1);
@@ -239,7 +240,7 @@ html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
   /* A section's one sub breaks into even lines (D3, LK84): balanced, never one word trailing on its own line. */
   text-wrap: balance;
 }
-.lp-head {
+body .lp-head {
   display: grid;
   gap: 1rem;
   margin-bottom: clamp(2rem, 4vw, 3.5rem);
@@ -1348,7 +1349,8 @@ body:has(.mm.lp) {
 .lp .lp-bg__grid { opacity: .35; }
 .lp .lp-bg__dots { opacity: .3; }
 .lp .du-teaser { border-radius: 1rem; box-shadow: none; background: var(--paper-raised); }
-.lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--line); border-radius: .75rem; }
+/* `body` here and below: one type more than du.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--line); border-radius: .75rem; }
 .lp-colleges { margin-top: 2rem; }
 .lp-colleges__intro { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
 .lp-colleges__intro > div { display: flex; align-items: center; gap: .5rem; }
@@ -1541,7 +1543,8 @@ body:has(.mm.lp) {
   .ml__leaks em { transform: none !important; }
 }
 
-.lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
+/* `body` here and below: one type more than exam-screen.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-head--left { text-align: left; justify-items: start; margin-inline: 0; max-width: 46rem; }
 .lp-kicker { margin: 0 0 0.6rem; font: 600 0.875rem var(--font-body); letter-spacing: 0; text-transform: none; color: var(--ink-3); }
 
 .ml__short { display: none; }
@@ -1637,7 +1640,8 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .cl__try { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
 .cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
 .cl__demo:hover { color: var(--ink); background: var(--paper-raised-2); }
-.cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
+/* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
 .cl__demo:active, .cl__group button:active { transform: translateY(1px); }
 .cl__summary { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
 .cl__summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
@@ -1699,7 +1703,8 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .rl__arrows { display: inline-flex; gap: 0.5rem; }
 .rl__arrows button { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink); cursor: pointer; touch-action: manipulation; }
 .rl__arrows button[aria-disabled='true'] { opacity: 0.42; cursor: default; }
-.rl__follow:focus-visible, .rl__arrows button:focus-visible, .rl__card:focus-visible, .rl__open:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
+/* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .rl__follow:focus-visible, .rl__arrows button:focus-visible, body .rl__card:focus-visible, .rl__open:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
 .rl__track { list-style: none; margin: 0 calc(var(--gutter, 1.25rem) * -1); padding: 0.25rem var(--gutter, 1.25rem) 0.75rem; display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding-inline: var(--gutter, 1.25rem); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .rl__track::-webkit-scrollbar { display: none; }
 .rl__item { flex: 0 0 min(70vw, 16rem); min-width: 0; scroll-snap-align: start; aspect-ratio: 9 / 16; }
@@ -2023,7 +2028,8 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   html[data-theme] .mm.lp .lp-dockgate .mm-dock {
     transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
-  html[data-theme] .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
+  /* `body` here and below: one type more than landing-close.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  html[data-theme] body .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
   html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
@@ -2204,7 +2210,8 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
   /* Ship gate, 4 Nov 2026: the bar is near-opaque paper with no saturation boost (it was 62% with saturate 1.5, so a lime key scrolling under it smeared the bar lime). */
   html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 96%, transparent); -webkit-backdrop-filter: blur(14px) saturate(1); backdrop-filter: blur(14px) saturate(1); }
   .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
-  html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(27,25,20,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
+  /* `body` here and below: one type more than dock.css's and scroll-story.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  html[data-theme] body .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(27,25,20,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
   /* Phones (5 Nov 2026, LK93): only a section's heading comes in through the 6 px blur. A big block (a ladder, a plan
      grid, the reels) arrives as a 300 ms fade and rise without it: blurring a block a screen tall costs a slow phone a
      full-size filter layer on every frame of the fade, and an 800 ms fade read as the section loading slowly. */
@@ -2215,7 +2222,7 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 @media (max-width: 700px) { .lp-cpro__list { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .ft__slide[data-active='true'] { animation: none; }
-  .mm.lp .mm-dock { transition: none; }
+  body .mm.lp .mm-dock { transition: none; }
   /* 5 Nov 2026 (R3 cards fix): the phone head blur above is 0,3,0; Reveal never sets data-in under reduced motion, so the
      lift must match that weight or every section head stays blurred for good. */
   .lp .rv, .lp .rv.lp-head { filter: none; }
@@ -2229,7 +2236,7 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 /* ---------- Held tour (ScrollStory): the stage stays, the scroll changes the tool ----------
    Phones first: chips on top, then the card scaled once per resize to fit what is left of the
    window. All tools share one grid cell, so changing tool never changes the card's height. */
-.ft-story { --ss-beat: 58svh; }
+body .ft-story { --ss-beat: 58svh; }
 .ft-story[data-pinned='true'] .ft { height: 100%; grid-template-rows: auto minmax(0, 1fr); align-content: start; }
 .ft-story[data-pinned='true'] .ft__room { min-height: 0; }
 .ft-story[data-pinned='true'] .ft__track { display: grid; overflow: hidden; scroll-snap-type: none; touch-action: auto; }
@@ -2265,7 +2272,7 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 }
 /* Landscape phones: the chips scroll away into the card's own chapter line. */
 @media (orientation: landscape) and (max-height: 520px) {
-  .ft-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
+  body .ft-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
   .ft-story[data-pinned='true'] .ft__list { display: none; }
   .ft-story[data-pinned='true'] .ft { grid-template-rows: minmax(0, 1fr); }
   .ft-story[data-pinned='true'] .ft__stage { --ss-fit-min: 0.5; }
@@ -2340,7 +2347,8 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 /* data-ts-step, not data-step: an attribute named in a rule that ends in * restyles the whole subtree of every element
    whose attribute of that name changes, and data-step is also every scroll story's step (ScrollStory, 850 elements a step
    at 4x CPU, ship gate 4 Nov). */
-.ts[data-ts-step='0'] *, .ts[data-ts-step='0'] *::before, .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
+/* `body` here and below: one type more than marketing.css's and globals.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
 .ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
@@ -2543,7 +2551,7 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
   .ts__body { padding: 1.05rem; gap: .7rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ts *, .ts *::before, .ts *::after { transition: none !important; animation: none !important; }
+  body .ts *, body .ts *::before, body .ts *::after { transition: none !important; animation: none !important; }
 }
 
 /* Compass rows: name and verdict on one line, a full-width track under them. */
@@ -2566,7 +2574,8 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
    bezel; the words and the rail around it follow the theme.
    ========================================================================== */
 
-.lc {
+/* `body` here and below: one type more than scroll-story.css's (and subject-object.css's) equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lc {
   /* The product screen's own palette (Night). */
   --s-bg: #161410;
   --s-raised: #1f1d18;
@@ -2672,7 +2681,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
    Phones: 88 px in the corner. Wide windows: 72 px, centred on the title row. The title bar leaves it
    room (--lc-obj-clear), so it never covers the score, and the guide's lane beside the device stays clear. */
 .lc__prop { position: relative; z-index: 3; min-width: 0; min-height: 0; pointer-events: none; }
-.lc__obj.subj-obj {
+body .lc__obj.subj-obj {
   position: absolute; top: -1rem; right: 0.15rem;
   --obj-shade: 0, 0, 0; --obj-occl: 0.62; --obj-contact: 0.8;
 }
@@ -3149,7 +3158,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 @media (min-width: 960px) and (min-height: 600px) {
   /* The object sits in the header (72 px) beside the score, so the title row is as tall as it and the
      chrome (title row plus tabs) grows to match; the screen starts a clear 1rem under the tabs. */
-  .lc { --lc-obj: 4.5rem; --lc-obj-clear: 6.5rem; --lcd-chrome: calc(var(--lc-obj) + 3.6rem); --ss-beat: 78svh; }
+  body .lc { --lc-obj: 4.5rem; --lc-obj-clear: 6.5rem; --lcd-chrome: calc(var(--lc-obj) + 3.6rem); --ss-beat: 78svh; }
   .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
   .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
   .lc-scene__take { display: inline-flex; }
@@ -3158,7 +3167,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lcd__frame { border-radius: 28px; }
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }
   .lcd-bar__title { min-height: var(--lc-obj); }
-  .lc__obj.subj-obj { top: 0.5rem; right: 1.1rem; }
+  body .lc__obj.subj-obj { top: 0.5rem; right: 1.1rem; } /* body: still above the raised base rule up the file */
   /* The wide device has room for the clock, the score line and the word "pace" on every slow bar. */
   .lcp-net, .lcp-clock { display: grid; }
   .lct { --c-d: 6.1rem; --c-q: 1.9rem; }
@@ -3176,8 +3185,8 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   .lc__rail button { flex-direction: row; justify-content: flex-start; gap: 0.65rem; min-height: 44px; padding: 0 0.85rem 0 0.35rem; font-size: 0.9375rem; }
   .lc__rail-ico { width: 1.9rem; height: 1.9rem; border-radius: 10px; }
   .lc__rail-meter { left: -1.1rem; right: auto; top: 0.15rem; bottom: 0.15rem; width: 2px; height: auto; background: transparent; }
-  .lc__rail-meter .ss-fill { width: 100%; height: 100%; transform-origin: center top; transform: scaleY(0); }
-  .lc__rail-meter .ss-fill:is([data-state='done'], [data-state='on']) { transform: scaleY(1); }
+  body .lc__rail-meter .ss-fill { width: 100%; height: 100%; transform-origin: center top; transform: scaleY(0); }
+  body .lc__rail-meter .ss-fill:is([data-state='done'], [data-state='on']) { transform: scaleY(1); }
   .lc[data-pinned='true'] .lc__rail-meter .ss-fill { animation-name: ss-fill-y; }
 }
 /* Short desktop windows: the change rows already carry their clock times, so the clock lanes step aside
@@ -3185,7 +3194,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 @media (min-width: 960px) and (max-height: 760px) { .lc .lcp-clock { display: none; } }
 /* Landscape phones: the rail sits above the words in the left column. */
 @media (orientation: landscape) and (max-height: 520px) {
-  .lc { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
+  body .lc { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
   .lc .lc-scene__fit { --ss-fit-min: 0.45; }
   .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
   .lc .lc__rail button { min-height: 44px; flex-direction: row; gap: 0.3rem; font-size: 0.75rem; }
@@ -3218,7 +3227,7 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
 @media (min-width: 960px) and (min-height: 600px) { .lc[data-pinned='true'] .lc__obj { animation-name: lc-object-held; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lc .lc__obj { animation: none !important; }
+  body .lc .lc__obj { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }
 
@@ -3360,7 +3369,8 @@ html[data-theme='light'] .lc__rail button[data-on='true'] .lc__rail-ico::after {
   -webkit-tap-highlight-color: transparent;
   transition: color 0.2s ease, background-color 0.2s ease;
 }
-.lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+/* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .lp-shelf__link:hover { color: var(--ink); background: rgb(var(--tint) / 0.04); }
 }
@@ -3748,7 +3758,8 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 .lp-desk .lp-card__sub b { color: var(--ink); font-weight: 650; }
 .lp-desk .lp-card__sub span { font-variant-numeric: tabular-nums; }
 .lp-desk .mm-drill__progress { display: flex; gap: 5px; margin: 0; }
-.lp-desk .mm-drill__pip { width: 22px; height: 4px; border-radius: 3px; background: var(--line-strong); transition: background-color 200ms ease; }
+/* `body` here and below: one type more than marketing.css's drill pips equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+body .lp-desk .mm-drill__pip { width: 22px; height: 4px; border-radius: 3px; background: var(--line-strong); transition: background-color 200ms ease; }
 .lp-desk .mm-drill__pip[data-state='past'] { background: var(--ink-3); }
 .lp-desk .mm-drill__pip[data-state='now'] { background: var(--ink); }
 .lp-desk .lp-card__body { padding: 0; }
@@ -4201,7 +4212,8 @@ html[data-theme] .mm.lp .lp-try .lp-desk .mm-drill__readout li.mm-drill__miss { 
 .mm.lp .lp-bar__mobi { display: none; }
 @media (max-width: 899px) and (min-height: 521px) {
   @supports (width: 1cqw) {
-    .mm.lp .lp-bar__where { row-gap: 10px; }
+    /* `body` here and below: one type more than section-position.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+    body .mm.lp .lp-bar__where { row-gap: 10px; }
     .mm.lp .lp-bar__steps { position: relative; container-type: inline-size; }
     .mm.lp .lp-bar__mobi {
       display: block;
@@ -4402,7 +4414,7 @@ html[data-motion='reduced'] .mm.lp :is(.rv, .rv.lp-head, .rv-item) { transform: 
    guide Mobi blinked in and out in one frame; he fades over 160 ms.
    --------------------------------------------------------------------------------------------------------------------- */
 @media (max-width: 899px) {
-  html[data-theme='dark'] .mm.lp .mm-dock { -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); }
+  html[data-theme='dark'] body .mm.lp .mm-dock { -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); } /* body: still above feature-tour.css's raised dock */
 }
 body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out); }
 
@@ -5345,14 +5357,15 @@ html[data-theme='dark'] .mm.lp .lp-colleges__seal { background: var(--ink); }
    the phone dock's (the Log in / Sign up free bar it takes over from), so the hand-over read as a drop. The row is now
    centred in its band: equal air above and below, and its centre line within 4 px of the dock keys'. */
 @media (max-width: 899px) and (min-height: 521px) {
-  .mm.lp .lp-bar__row { column-gap: 10px; bottom: calc((var(--ss-band, 92px) - 44px) / 2 + env(safe-area-inset-bottom, 0px)); }
-  .mm.lp .lp-bar__where { column-gap: 6px; }
+  /* `body` here and below: one type more than section-position.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  body .mm.lp .lp-bar__row { column-gap: 10px; bottom: calc((var(--ss-band, 92px) - 44px) / 2 + env(safe-area-inset-bottom, 0px)); }
+  body .mm.lp .lp-bar__where { column-gap: 6px; }
 }
 /* At 360 px the count's widest form ("10 of 10") still cut the name by 2 px; small phones close the row's gaps to 8 px
    and Skip's sides by a hair (it stays 58 px wide). */
 @media (max-width: 380px) and (min-height: 521px) {
-  .mm.lp .lp-bar__row { column-gap: 8px; }
-  .mm.lp .lp-bar__skip { padding: 0 0.8rem; }
+  body .mm.lp .lp-bar__row { column-gap: 8px; }
+  body .mm.lp .lp-bar__skip { padding: 0 0.8rem; }
 }
 
 /* ==== src/app/r10-tools.css ==== */
@@ -5950,7 +5963,8 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
     transition: clip-path 240ms var(--mc-ride);
   }
   .mc[data-tuck='true'] .mc__btn { clip-path: polygon(-40px -40px, calc(100% + 40px) -40px, calc(100% + 40px) calc(100% - 30px), -40px calc(100% - 30px)); }
-  .mc__btn:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+  /* `body` here and below: one type more than marketing.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  body .mc__btn:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
 
   .mc__lean, .mc__press, .mc__hop, .mc__breath { position: absolute; inset: 0; display: block; transform-origin: 50% 100%; }
 
@@ -6024,9 +6038,9 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
 
 /* Reduce motion: he still shows (he is a control), still; no hop, no lean, no breath, no squash, no ride. */
 @media (prefers-reduced-motion: reduce) {
-  .mc, .mc__btn, .mc__lean, .mc__press { transition: none !important; }
+  body .mc, body .mc__btn, body .mc__lean, body .mc__press { transition: none !important; }
   .mc__lean { rotate: none !important; scale: none !important; }
-  .mc__hop, .mc__breath, .mc__pose { animation: none !important; }
+  body .mc__hop, body .mc__breath, body .mc__pose { animation: none !important; }
   .mc__btn:active .mc__press { scale: none; }
   .mc[data-state='out'] .mc__vis { translate: 0 0; }
   .mc__bubble { translate: 0 0; }

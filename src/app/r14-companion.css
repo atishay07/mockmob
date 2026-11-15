@@ -62,7 +62,8 @@
     transition: clip-path 240ms var(--mc-ride);
   }
   .mc[data-tuck='true'] .mc__btn { clip-path: polygon(-40px -40px, calc(100% + 40px) -40px, calc(100% + 40px) calc(100% - 30px), -40px calc(100% - 30px)); }
-  .mc__btn:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+  /* `body` here and below: one type more than marketing.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
+  body .mc__btn:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
 
   .mc__lean, .mc__press, .mc__hop, .mc__breath { position: absolute; inset: 0; display: block; transform-origin: 50% 100%; }
 
@@ -136,9 +137,9 @@
 
 /* Reduce motion: he still shows (he is a control), still; no hop, no lean, no breath, no squash, no ride. */
 @media (prefers-reduced-motion: reduce) {
-  .mc, .mc__btn, .mc__lean, .mc__press { transition: none !important; }
+  body .mc, body .mc__btn, body .mc__lean, body .mc__press { transition: none !important; }
   .mc__lean { rotate: none !important; scale: none !important; }
-  .mc__hop, .mc__breath, .mc__pose { animation: none !important; }
+  body .mc__hop, body .mc__breath, body .mc__pose { animation: none !important; }
   .mc__btn:active .mc__press { scale: none; }
   .mc[data-state='out'] .mc__vis { translate: 0 0; }
   .mc__bubble { translate: 0 0; }

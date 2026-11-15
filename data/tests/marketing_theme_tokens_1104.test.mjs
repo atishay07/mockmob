@@ -115,7 +115,7 @@ test('the landing fallback tokens (no theme attribute) equal the Night tokens, s
   for (const key of ['paper', 'paper-raised', 'paper-raised-2', 'paper-sunken', 'ink', 'ink-2', 'ink-3', 'line', 'line-strong', 'accent-text', 'accent-line', 'accent-wash', 'brand-word', 'volt-edge', 'key-hairline', 'tint', 'surface-hover']) {
     assert.equal(fallback[key], night[key], `--${key} fallback equals Night`);
   }
-  assert.match(landing, /html:has\(\.lp\) \{[^}]*background: #12110e;/);
+  assert.match(landing, /html:has\((body )?\.lp\) \{[^}]*background: #12110e;/); // body: cascade order, src/lib/cssCascade.mjs
   assert.match(landing, /body:has\(\.mm\.lp\) \{\s*background: #12110e;/);
   const marketing = props(block(stripComments(read('src/app/marketing.css')), '.mm'));
   assert.equal(marketing.paper, day.paper, 'the base .mm tokens are the Day cream');
