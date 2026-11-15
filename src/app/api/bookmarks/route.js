@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { readRowsCached } from '@/../data/question_row_cache';
 import { feedServed } from '@/../data/explore_served';
+import { readHeldQuestionIds } from '@/lib/server/heldQuestions';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,12 +42,18 @@ export async function GET(request) {
     const ids = (data || []).map((row) => row.question_id);
     let questions = [];
     if (ids.length > 0) {
+      // Saved finding (15 Nov 2026): a saved question that is held for this student (in their Mob's open paper or game, a held
+      // Mob paper of theirs, or their running session: src/lib/server/heldQuestions.js) is left out until the hold ends, as
+      // Revise leaves it out, so saving the questions of a running paper never opens its key. A failed read fails the list.
+      const heldRead = readHeldQuestionIds(supabaseAdmin(), session.user.id).then((held) => ({ held }), (error) => ({ error }));
       // Every saved question is read in full (the signed record decides what may be shown), but a row whose updated_at has not
       // moved is not read again: opening the Saved list twice costs a stamp, not 35 KB a managed question (egress F7).
       const { data: questionRows, error: questionError } = await readRowsCached(supabaseAdmin(), ids);
       if (questionError) throw questionError;
       const allowedRows=await readablePracticeQuestions(questionRows || [],supabaseAdmin());
-      const byId = new Map(allowedRows.map((row) => [row.id, row]));
+      const { held, error: heldError } = await heldRead;
+      if (heldError) throw heldError;
+      const byId = new Map(allowedRows.filter((row) => !held.has(row.id)).map((row) => [row.id, row]));
       questions = ids
         .map((id) => byId.get(id))
         .filter(Boolean)
