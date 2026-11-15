@@ -18,8 +18,11 @@
 //                 latest any extra paper made in that week can close.
 //   Mob full mock the game's closes_at (opened + 24 hours; Full mock together, D167), stamped the same way, with the
 //                 game's id in mobPaper.gameId.
+//   Sunday Mock   (15 Nov 2026, src/lib/sundayMock.mjs) tagged with mobId SUNDAY_TAG and the Sunday as weekStart: its answers
+//                 open at 10:00 PM that Sunday, when the paper closes for everyone (kind 'sunday', its own words).
 // No I/O and no clock reads except through `now`: data/tests/mob_paper_hold.test.mjs drives it.
 import { nextOpensAt } from './model.mjs';
+import { isSundayTag, sundayHoldCopy, sundayWindow } from '../sundayMock.mjs';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -41,6 +44,8 @@ export function mobTagOf(record) {
 /** When a tagged paper's answers open (ms), or null when the tag names no Mob paper. */
 export function holdUntilFor(tag) {
   if (!isObject(tag) || typeof tag.weekStart !== 'string' || !WEEK_RE.test(tag.weekStart)) return null;
+  // A Sunday Mock opens at that Sunday's 10:00 PM, whatever else the tag says.
+  if (isSundayTag(tag)) return sundayWindow(tag.weekStart).closesAt;
   const stamped = typeof tag.holdUntil === 'string' ? Date.parse(tag.holdUntil) : NaN;
   if (Number.isFinite(stamped)) return stamped;
   if (tag.extraId || tag.gameId) return Date.parse(nextOpensAt(addDays(tag.weekStart, 7)));
@@ -94,15 +99,15 @@ export function holdCopy(untilMs, kind = 'weekly') {
 
 /**
  * The hold on one attempt (or raw row), or null when it is not a Mob paper or its paper has closed.
- * { until: ISO, kind: 'weekly' | 'extra' | 'mock', mobId, weekStart, extraId?, gameId?, title, line, short }
+ * { until: ISO, kind: 'weekly' | 'extra' | 'mock' | 'sunday', mobId, weekStart, extraId?, gameId?, title, line, short }
  */
 export function attemptHold(record, now = Date.now()) {
   const tag = mobTagOf(record);
   if (!tag) return null;
   const until = holdUntilFor(tag);
   if (!Number.isFinite(until) || now >= until) return null;
-  const kind = tag.gameId ? 'mock' : tag.extraId ? 'extra' : 'weekly';
-  return { until: new Date(until).toISOString(), kind, mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}), ...(tag.gameId ? { gameId: tag.gameId } : {}), ...holdCopy(until, kind) };
+  const kind = isSundayTag(tag) ? 'sunday' : tag.gameId ? 'mock' : tag.extraId ? 'extra' : 'weekly';
+  return { until: new Date(until).toISOString(), kind, mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}), ...(tag.gameId ? { gameId: tag.gameId } : {}), ...(kind === 'sunday' ? sundayHoldCopy(until) : holdCopy(until, kind)) };
 }
 
 /** True while a tagged paper (a Mob tag, or a hold) is held at `now`. */
