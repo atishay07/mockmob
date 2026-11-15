@@ -38,6 +38,12 @@ export function pickSource(cssWidth, dpr, saveData) {
   return FILM.sources[1080];
 }
 
+// A link the browser reports as 2G or 3G (Network Information API `effectiveType`; Chrome on Android has it, Safari and
+// Firefox do not, and an unknown value is never called slow). There the film does not start by itself.
+export function slowLink(effectiveType) {
+  return effectiveType === 'slow-2g' || effectiveType === '2g' || effectiveType === '3g';
+}
+
 // The chapter playing at `time` and how far through it the film is (0..1). `duration` ends the last chapter; before the
 // film's length is known the last chapter's share is 0.
 export function chapterAt(time, duration, chapters = FILM_CHAPTERS) {

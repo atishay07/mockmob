@@ -50,7 +50,7 @@ test('round 9 film config: the walkthrough\'s label, poster and three files; nin
   // Chapter names and the label: no exclamation marks, middle dots or arrows.
   for (const w of [CFG.label, ...FILM_CHAPTERS.map((c) => c.name)]) assert.doesNotMatch(w, /!|·|→|->/, w);
   // HeroFilm.jsx takes the config from the module (no runtime fetch of chapters.json).
-  assert.match(FILM_CODE, /import \{ FILM, chapterAt, pickSource \} from '\.\/heroFilmConfig\.mjs';/);
+  assert.match(FILM_CODE, /import \{ FILM, chapterAt, pickSource, slowLink \} from '\.\/heroFilmConfig\.mjs';/);
   assert.doesNotMatch(FILM_CODE, /fetch\(|chapters\.json/);
 });
 
@@ -103,6 +103,11 @@ test('HeroFilm: plays only while half on screen, pauses when it leaves, never by
   const still = FILM_CODE.slice(FILM_CODE.indexOf('function stillOnly'), FILM_CODE.indexOf('function reducedMotion'));
   assert.match(still, /getAttribute\('data-motion'\) === 'reduced'/, 'the site\'s own Reduce motion switch');
   assert.match(still, /navigator\.connection\?\.saveData === true/, 'Data Saver');
+  // 15 Nov 2026 (audit P3): a link the browser calls 2G or 3G gets the poster and its Play key, never the 3.6 MB file unasked.
+  assert.match(still, /if \(slowLink\(navigator\.connection\?\.effectiveType\)\) return true;/, 'a slow link');
+  const { slowLink } = await loadConfig();
+  for (const type of ['slow-2g', '2g', '3g']) assert.equal(slowLink(type), true, type);
+  for (const type of ['4g', undefined, null, '', '5g']) assert.equal(slowLink(type), false, `${type} is never called slow`);
   assert.match(still, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)\.matches/, 'the system\'s Reduce motion');
   assert.match(FILM_CODE, /let autoOff = stillOnly\(\);\s*wantPlay\.current = !autoOff;/, 'autoplay only when none of them is on');
   assert.match(FILM_CODE, /if \(autoOff && video\.paused\) setNeedsTap\(true\);/);

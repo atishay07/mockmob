@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Maximize2, Minimize2, Pause, Play, Volume2, VolumeX } from 'lucide-react';
-import { FILM, chapterAt, pickSource } from './heroFilmConfig.mjs';
+import { FILM, chapterAt, pickSource, slowLink } from './heroFilmConfig.mjs';
 
 export { FILM };
 
@@ -34,11 +34,14 @@ export { FILM };
 //   - The fill moves only while the film plays and is on screen (one animation frame at a time; under Reduce motion it
 //     steps with the film's own time updates). Paused, nothing runs.
 
-// No autoplay: Reduce motion (system or the site's switch) or Data Saver.
+// No autoplay: Reduce motion (system or the site's switch), Data Saver, or a slow link (15 Nov 2026, audit P3: the film
+// is 3.6 to 6.4 MB, most of a phone visit's bytes; on a link the browser itself calls 2G or 3G the poster and its Play key
+// stand instead, and the film downloads only if the reader taps it).
 function stillOnly() {
   try {
     if (document.documentElement.getAttribute('data-motion') === 'reduced') return true;
     if (navigator.connection?.saveData === true) return true;
+    if (slowLink(navigator.connection?.effectiveType)) return true;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   } catch {
     return true;
