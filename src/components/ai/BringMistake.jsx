@@ -307,20 +307,23 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
             </div>
           </div>
 
+          {/* tabIndex 0 on the inputs and the select: the overlay and sheet keep Tab inside the panel by the controls they list
+              (AssistantDrawer: links, enabled buttons, textareas, [tabindex="0"]), so with the send key still off, Tab from the
+              subject wraps to the top instead of leaving the dialog. */}
           <div className="bm-pair">
             <div className="bm-field">
               <label htmlFor={ids.chosen} className="bm-label">{MISTAKE_COPY.chosenLabel} <span>({MISTAKE_COPY.optional})</span></label>
-              <input id={ids.chosen} className="bm-input" type="text" maxLength={MISTAKE_LIMITS.answer} value={chosen} disabled={sending || held} autoComplete="off" enterKeyHint="next" onChange={(event) => setChosen(event.target.value)} />
+              <input id={ids.chosen} className="bm-input" type="text" tabIndex={0} maxLength={MISTAKE_LIMITS.answer} value={chosen} disabled={sending || held} autoComplete="off" enterKeyHint="next" onChange={(event) => setChosen(event.target.value)} />
             </div>
             <div className="bm-field">
               <label htmlFor={ids.key} className="bm-label">{MISTAKE_COPY.keyLabel} <span>({MISTAKE_COPY.optional})</span></label>
-              <input id={ids.key} className="bm-input" type="text" maxLength={MISTAKE_LIMITS.answer} value={key} disabled={sending || held} autoComplete="off" enterKeyHint="next" onChange={(event) => setKey(event.target.value)} />
+              <input id={ids.key} className="bm-input" type="text" tabIndex={0} maxLength={MISTAKE_LIMITS.answer} value={key} disabled={sending || held} autoComplete="off" enterKeyHint="next" onChange={(event) => setKey(event.target.value)} />
             </div>
           </div>
 
           <div className="bm-field bm-field--subject">
             <label htmlFor={ids.subject} className="bm-label">{MISTAKE_COPY.subjectLabel}</label>
-            <select id={ids.subject} className="bm-input bm-select" value={subject} disabled={sending || held} onChange={(event) => setSubject(event.target.value)}>
+            <select id={ids.subject} className="bm-input bm-select" tabIndex={0} value={subject} disabled={sending || held} onChange={(event) => setSubject(event.target.value)}>
               {subjects.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
           </div>
