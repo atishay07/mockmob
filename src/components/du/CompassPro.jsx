@@ -204,15 +204,15 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
         </div>
         {shortlist.length < SHORTLIST_LIMIT ? (
           <div className="cpro-add">
-            <label className="cpro-select"><span id="cpro-l-programme">Programme you are eligible for</span>
-              <Listbox labelledBy="cpro-l-programme" sheetTitle="Programme" size="sm" value={programme} disabled={!index}
-                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes'}
+            <label className="cpro-select"><span id="cpro-l-programme">Course you are eligible for</span>
+              <Listbox labelledBy="cpro-l-programme" sheetTitle="Course" size="sm" value={programme} disabled={!index}
+                placeholder={index ? (eligible.length ? 'Choose a course' : 'Tick your subjects in the calculator below') : 'Loading courses'}
                 options={eligible.map((g) => ({ value: g.id, label: g.name }))}
                 onChange={(value) => { setProgramme(value); setCollege(''); }} />
             </label>
             <label className="cpro-select"><span id="cpro-l-college">College</span>
               <Listbox labelledBy="cpro-l-college" sheetTitle="College" size="sm" value={college} disabled={!colleges.length}
-                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges') : 'Choose a programme first'}
+                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges') : 'Choose a course first'}
                 options={colleges.map((c) => ({ value: c, label: c }))}
                 onChange={setCollege} />
             </label>
@@ -240,7 +240,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
                   ) : loadingCutoffs ? (
                     <div className="cpro-target__rounds" role="status" aria-label="Loading cutoffs"><span className="skeleton cpro-skel" /><span className="skeleton cpro-skel" /><span className="skeleton cpro-skel" /></div>
                   ) : !row ? (
-                    <p className="cpro-target__verdict">This college is not in DU’s 2026 list for this programme.</p>
+                    <p className="cpro-target__verdict">This college is not in DU’s 2026 list for this course.</p>
                   ) : <>
                   <dl className="cpro-target__rounds">
                     {cutoffs.map((c, i) => <div key={ROUNDS[i]}><dt>{ROUNDS[i]}</dt><dd className="mm-measure">{c === null ? 'Not listed' : formatScore(c)}</dd></div>)}
