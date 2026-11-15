@@ -1,0 +1,58 @@
+/* Share your result (F-C, 15 Nov 2026): the quiet key under the result's front and its sheet. The sheet's frame is the
+   Report sheet's (pro-nudge.css .pn-sheet); this file holds only what is new: the preview, the two switches, the three keys.
+   Arena tokens, so Night and Day both follow. No glow, no gradient, no nested card; 44 px targets. */
+
+/* The key: one quiet outlined key, the reel row's own shape (paper-reel.css .pbk-open). */
+.shr-row { margin-top: 22px; padding: 14px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); display: flex; min-width: 0; }
+/* Straight after the reel row (or the badge row) the two share one hairline, as the reel row does after the badge row. */
+.pbk-row + .shr-row, .sb-earned + .shr-row { margin-top: calc(-1 * var(--rl-gap, 24px)); border-top: 0; }
+.shr-open {
+  min-height: 44px; padding: 0 16px 0 13px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: none;
+  color: var(--a-ink); display: inline-flex; align-items: center; gap: 8px; font: 650 14.5px/1 var(--font-body); cursor: pointer;
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease;
+}
+.shr-open svg { color: var(--a-ink-2); }
+.shr-open:active { transform: scale(0.97); }
+.shr-open:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .shr-open:hover { border-color: var(--a-ink-3); } }
+
+/* The sheet */
+.pn-sheet.shr-sheet { overflow: hidden; }
+.shr-body { flex: 1 1 auto; }
+.shr-title { font-size: 22px; }
+.shr-lead { margin: 2px 0 0; color: var(--a-ink-2); font-size: 14.5px; line-height: 1.45; text-wrap: pretty; }
+@media (min-width: 640px) { .shr-title { font-size: 24px; } }
+
+/* The preview: the card at its own 4:5, as tall as the sheet allows, never wider than the sheet. */
+.shr-preview {
+  position: relative; margin: 14px auto 0; width: min(100%, calc(44dvh * 0.8)); aspect-ratio: 4 / 5;
+  border-radius: 14px; overflow: hidden; border: 1px solid var(--a-line); background: var(--a-sunken);
+}
+.shr-preview canvas { display: block; width: 100%; height: 100%; transition: opacity 180ms ease-out; }
+.shr-preview[data-phase='drawing'] canvas, .shr-preview[data-phase='failed'] canvas { opacity: 0; }
+.shr-preview__wait { position: absolute; inset: 0; display: grid; place-items: center; color: var(--a-ink-3); font-size: 14px; font-weight: 600; }
+.shr-preview__fail { position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; gap: 12px; padding: 20px; text-align: center; }
+.shr-preview__fail p { margin: 0; color: var(--a-ink-2); font-size: 14px; line-height: 1.45; }
+
+/* The switches: two rows on the sheet's own surface, a hairline between. */
+.shr-switches { margin-top: 12px; }
+.shr-switch { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 6px 0; }
+.shr-switch + .shr-switch { border-top: 1px solid var(--a-line); }
+.shr-switch__text { display: grid; gap: 2px; min-width: 0; }
+.shr-switch__label { color: var(--a-ink); font-size: 15.5px; font-weight: 650; }
+.shr-switch__hint { color: var(--a-ink-3); font-size: 13px; line-height: 1.4; text-wrap: pretty; }
+.shr-switch .mk-switch { flex: none; }
+
+/* The keys: the volt Share, the outlined Save image, the quiet Cancel. */
+.shr-foot { padding-top: 10px; }
+.shr-note { margin: 0 0 8px; min-height: 0; color: var(--a-ink-2); font-size: 13.5px; line-height: 1.4; }
+.shr-note:empty { display: none; }
+.shr-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; }
+.shr-go { min-height: 52px; justify-content: center; }
+.shr-save { min-height: 52px; padding-inline: 16px; border-radius: 12px; }
+.shr-go:disabled, .shr-save:disabled { opacity: 0.55; cursor: default; }
+.shr-save:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (max-width: 359px) { .shr-actions .pn-later { padding: 0 10px; } .shr-save { padding-inline: 12px; } }
+
+@media (prefers-reduced-motion: reduce) { .shr-open, .shr-preview canvas { transition: none; } }
+html[data-motion='reduced'] .shr-open, html[data-motion='reduced'] .shr-preview canvas { transition: none; }
