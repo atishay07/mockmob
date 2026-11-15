@@ -7,6 +7,12 @@ import { consumeAIAllowance } from '@/services/credits/consumeAIAllowance';
 import { aiCommerceOpen, PREPOS_PAUSED_MESSAGE } from '@/services/credits/aiCreditWallet';
 import { withoutRetiredSubjects } from '@/../data/subject_claim';
 import { CUET_MAX_SUBJECTS } from '@/lib/cuetRules.mjs';
+import { readablePracticeQuestions } from '@/../data/practice_library';
+import { INVENTORY_COLUMNS, INVENTORY_VISIBLE_FILTER } from '@/../data/inventory_count';
+import { isPassageLinkedQuestion } from '@/../data/nta_question_selector';
+
+// Every column the publication checks read (data/inventory_count.js), and the difficulty the benchmark shows.
+const RIVAL_FULL_SELECT = [...INVENTORY_COLUMNS, 'difficulty'].join(',');
 
 /**
  * Creates a Shadow Benchmark battle. Question selection, benchmark scoring, and final
@@ -259,19 +265,23 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
     }
   }
 
+  // L6 (15 Nov 2026): the publication checks Practice uses. The visible filter (live, or verified and still active: never a
+  // withdrawn question) on a slim, ordered read of the subject's ids; a seeded pick from all of them (not the same first rows
+  // every time); then full rows for the picks only, through readablePracticeQuestions (syllabus v2, answer integrity,
+  // evidence and family holds). A failed check serves nothing, and the battle is refused.
   const collected = [];
   for (const subject of subjects) {
     const remaining = count - collected.length;
     if (remaining <= 0) break;
 
-    const limit = Math.min(perSubject * 3, remaining * 4, 60);
     let query = sb
       .from('questions')
-      .select('id, subject, chapter, body, question, options, correct_index, correct_answer, explanation, difficulty, score')
+      .select('id, subject, chapter, difficulty')
       .eq('subject', subject)
       .eq('is_deleted', false)
-      .or('status.eq.live,verification_state.eq.verified')
-      .limit(limit);
+      .or(INVENTORY_VISIBLE_FILTER)
+      .order('id')
+      .limit(1000);
 
     if (difficultyTarget && ['easy', 'medium', 'hard'].includes(difficultyTarget)) {
       query = query.eq('difficulty', difficultyTarget);
@@ -287,7 +297,20 @@ async function selectRivalQuestions({ userId, subjects, count, difficultyTarget,
     }
 
     pool.sort((a, b) => hashToUnit(`${seed}:${a.id}:pick`) - hashToUnit(`${seed}:${b.id}:pick`));
-    collected.push(...pool.slice(0, Math.min(perSubject, remaining)));
+    const want = Math.min(perSubject, remaining);
+    const picked = [];
+    try {
+      for (let at = 0; at < Math.min(pool.length, 180) && picked.length < want; at += 60) {
+        const ids = pool.slice(at, at + 60).map((q) => q.id);
+        const { data: full, error: fullError } = await sb.from('questions').select(RIVAL_FULL_SELECT).in('id', ids).eq('is_deleted', false).or(INVENTORY_VISIBLE_FILTER);
+        if (fullError) break;
+        const readable = new Map((await readablePracticeQuestions((full || []).filter((row) => !isPassageLinkedQuestion(row)), sb)).map((row) => [row.id, row]));
+        for (const id of ids) if (picked.length < want && readable.has(id)) picked.push(readable.get(id));
+      }
+    } catch {
+      continue;
+    }
+    collected.push(...picked);
   }
 
   return collected
