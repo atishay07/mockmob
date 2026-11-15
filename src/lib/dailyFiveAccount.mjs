@@ -237,7 +237,9 @@ export function runNote(state) {
  * members: the Mob's members as stored, in the den's order (joined_at, then user id): { user_id, display_name, colour,
  * show_score }. rows: today's Daily Five rows of those members ({ user_id, metadata }). Each member out is
  * { name, colour, you, state: 'marks' | 'played' | 'not_yet', marks? }. A member who keeps their score to themselves
- * (show_score false) shows as played, without the squares. No user id leaves.
+ * (show_score false) shows as played, without the squares. No user id leaves. The den's rule F2 (src/lib/mob/games.mjs):
+ * nothing counts or names a member who has not played, so another member without today's five is left out; only the
+ * student's own row may say 'not_yet'.
  */
 export function memberStrip(members, rows, { userId, date }) {
   const byUser = new Map();
@@ -245,13 +247,13 @@ export function memberStrip(members, rows, { userId, date }) {
     if (!byUser.has(row?.user_id)) byUser.set(row?.user_id, []);
     byUser.get(row?.user_id).push(row);
   }
-  return (Array.isArray(members) ? members : []).map((m) => {
+  return (Array.isArray(members) ? members : []).flatMap((m) => {
     const you = m.user_id === userId;
     const base = { name: String(m.display_name || '').trim() || 'A member', colour: Number.isInteger(m.colour) ? m.colour : 0, you };
     const record = byUser.has(m.user_id) ? recordFromRows(byUser.get(m.user_id), date) : null;
-    if (!record) return { ...base, state: 'not_yet' };
-    if (!you && m.show_score === false) return { ...base, state: 'played' };
-    return { ...base, state: 'marks', marks: record.marks };
+    if (!record) return you ? [{ ...base, state: 'not_yet' }] : [];
+    if (!you && m.show_score === false) return [{ ...base, state: 'played' }];
+    return [{ ...base, state: 'marks', marks: record.marks }];
   });
 }
 
@@ -262,6 +264,7 @@ export function acceptStrip(body) {
   for (const m of body.members) {
     if (!m || typeof m.name !== 'string' || !m.name.trim() || m.name.length > 60) return null;
     if (!['marks', 'played', 'not_yet'].includes(m.state)) return null;
+    if (m.state === 'not_yet' && m.you !== true) return null; // F2: only your own row can be 'not yet'
     const marks = m.state === 'marks' && Array.isArray(m.marks) && m.marks.length === DAILY_FIVE_SIZE && m.marks.every((x) => typeof x === 'boolean') ? [...m.marks] : null;
     if (m.state === 'marks' && !marks) return null;
     members.push({ name: m.name.trim(), colour: Number.isInteger(m.colour) ? m.colour : 0, you: m.you === true, state: m.state, ...(marks ? { marks } : {}) });

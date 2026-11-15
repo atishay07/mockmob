@@ -7,8 +7,8 @@ import { DAILY_FIVE_MOB_ROUTE, acceptStrip } from '@/lib/dailyFiveAccount.mjs';
 import './daily-strip.css';
 
 // The Mob den's Daily Five strip (15 Nov 2026, lane daily): one quiet card under the den's quest strip. Which members played
-// today's five, each as the five right or wrong squares (no question, no score line), "Not yet" for the others, "Played" for a
-// member who keeps their score to themselves. Members only (GET /api/daily/mob checks the membership, as the den does), in the
+// today's five, each as the five right or wrong squares (no question, no score line), "Played" for a member who keeps their
+// score to themselves. A member who has not played is not listed (the den's rule F2); only your own row can say "Not yet". Members only (GET /api/daily/mob checks the membership, as the den does), in the
 // den's own member order, never sorted by score. One quiet link to /daily, never volt (the den's game card holds the volt key).
 // States: loading (the rows' shape, one per member, so nothing moves when they arrive), error (one line and Try again), ready.
 // It reads again when the tab comes back, so a friend's five arrives without a reload.

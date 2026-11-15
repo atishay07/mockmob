@@ -61,7 +61,6 @@ function stripBody(kind, now) {
     members: [
       { name: 'Riya', colour: 3, you: false, state: 'marks', marks: [true, false, true, true, true] },
       { name: 'Aarav', colour: 1, you: true, ...(youPlayed ? { state: 'marks', marks: recordOf(date, 1, kind === 'other' ? OTHER : PLAYED).marks } : { state: 'not_yet' }) },
-      { name: 'Kabir', colour: 1, you: false, state: 'not_yet' },
       { name: 'Zoya', colour: 1, you: false, state: 'played' },
     ],
   };

@@ -279,11 +279,11 @@ test('the Mob strip: members only, through the den\'s membership; a removed memb
   await h.post(h.saveBody(['B', 'A', 'D', 'C', 'B']));
   const get = (handlers, id = mob) => handlers.getMob(new Request(`https://www.mockmob.in/api/daily/mob?mob=${id}`));
   const body = await (await get(h.handlers)).json();
-  assert.deepEqual(body.members.map((m) => [m.name, m.state]), [['Riya', 'not_yet'], ['Aarav', 'marks'], ['Zoya', 'not_yet']], 'joined order');
+  assert.deepEqual(body.members.map((m) => [m.name, m.state]), [['Aarav', 'marks']], 'members who have not played are not named (F2)');
   assert.doesNotMatch(JSON.stringify(body), /u-/);
   // Removed: the membership row is gone (mob_remove deletes it).
   h.db.tables.mob_members.splice(h.db.tables.mob_members.findIndex((m) => m.user_id === 'u-zoya'), 1);
-  assert.deepEqual((await (await get(h.handlers)).json()).members.map((m) => m.name), ['Riya', 'Aarav']);
+  assert.deepEqual((await (await get(h.handlers)).json()).members.map((m) => m.name), ['Aarav']);
   const outsider = createDailyHandlers({ auth: async () => ({ user: { id: 'u-zoya' } }), rateLimit: async () => ({ allowed: true }), originOk: () => true, store: h.store, key: KEY, five: async () => null, mobEnabled: () => true, now: () => NOW });
   assert.equal((await get(outsider)).status, 404, 'a removed member reads nothing');
   assert.equal((await get(h.handlers, 'not-a-uuid')).status, 400);
