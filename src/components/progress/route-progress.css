@@ -1,0 +1,68 @@
+/* The route progress bar (RouteProgress.jsx; timing in routeProgress.mjs). A 2 px line fixed at the very top of every
+   page, over the site bar and the arena's top bar, in the ink of the theme (the volt is too pale on Day paper): Day
+   #17150f, Night #f4f0e6, the same ink role as the home page's reading line. Only transform and opacity change; it never
+   takes a tap and never moves the page. */
+
+.mm-rp {
+  --mm-rp-ink: #17150f;
+  position: fixed;
+  top: env(safe-area-inset-top, 0px);
+  left: 0;
+  right: 0;
+  z-index: 1200; /* over the site bar (60), the arena bars and the sheets (1000): it is 2 px and takes no input */
+  height: 2px;
+  pointer-events: none;
+  contain: strict;
+}
+html[data-theme='dark'] .mm-rp { --mm-rp-ink: #f4f0e6; }
+
+.mm-rp__bar {
+  width: 100%;
+  height: 100%;
+  background: var(--mm-rp-ink);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+/* Pending past 120 ms: it shows and trickles toward 90 % (routeProgressModel.mjs trickleAt, sampled; it holds at its last value
+   until the page lands or the safety stop). */
+.mm-rp[data-phase='run'] .mm-rp__bar {
+  opacity: 1;
+  will-change: transform;
+  animation: mm-rp-trickle 8000ms linear both;
+}
+@keyframes mm-rp-trickle {
+  0% { transform: scaleX(0.080); }
+  3.125% { transform: scaleX(0.199); }
+  6.25% { transform: scaleX(0.300); }
+  12.5% { transform: scaleX(0.461); }
+  18.75% { transform: scaleX(0.579); }
+  25% { transform: scaleX(0.665); }
+  37.5% { transform: scaleX(0.774); }
+  50% { transform: scaleX(0.833); }
+  62.5% { transform: scaleX(0.864); }
+  81.25% { transform: scaleX(0.886); }
+  100% { transform: scaleX(0.894); }
+}
+
+/* Arrived: it runs to the full width (120 ms) and fades (from 80 ms, 120 ms): gone 200 ms after the page landed. The
+   script holds the trickle's present scale inline first, so the run starts where the bar is. */
+.mm-rp[data-phase='done'] .mm-rp__bar {
+  opacity: 0;
+  animation: none;
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), opacity 120ms ease-out 80ms;
+}
+
+/* Reduce motion (the device setting, or the site's own switch): no trickle and no run, a still full-width bar while the
+   page loads, and gone the moment it lands. */
+@media (prefers-reduced-motion: reduce) {
+  .mm-rp[data-phase] .mm-rp__bar { animation: none; transition: none; }
+  .mm-rp[data-phase='run'] .mm-rp__bar { transform: scaleX(1); }
+}
+html[data-motion='reduced'] .mm-rp[data-phase] .mm-rp__bar { animation: none; transition: none; }
+html[data-motion='reduced'] .mm-rp[data-phase='run'] .mm-rp__bar { transform: scaleX(1); }
+
+@media print {
+  .mm-rp { display: none; }
+}

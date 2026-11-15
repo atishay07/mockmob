@@ -6,6 +6,7 @@ import "./brand.css";
 import "./app-view.css";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
+import RouteProgress from "@/components/progress/RouteProgress";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
 import { BRAND_FLAGS } from "@/../data/brand_flags.mjs";
 
@@ -95,6 +96,7 @@ export default function RootLayout({ children }) {
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">
+        <RouteProgress />
         <Providers>
           {children}
         </Providers>
