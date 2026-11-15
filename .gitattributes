@@ -20,3 +20,7 @@ supabase/**/*.sql text eol=lf
 data/keycards/decks/*.json -text
 data/keycards/links/*.json -text
 data/keycards/manifest.json -text
+
+# The licence text is compared byte for byte with the licence string in wordnet-excerpts.json; keep LF on every checkout
+# (core.autocrlf=true gave Windows checkouts CRLF and failed the study content gate).
+data/study/sources/WORDNET-LICENSE.txt -text

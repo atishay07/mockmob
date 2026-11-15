@@ -45,28 +45,22 @@ export async function POST(request) {
   if (!contributeEnabled()) return contributionsPausedResponse()
   try {
     // ---- Auth: derive author_id from verified JWT ----
-    // In development, skip JWT validation and use a fixed test user.
     let author_id
-    if (false) {
-      author_id = null
-      console.log('[upload] 1a. dev mode — author_id:', author_id)
-    } else {
-      const session = await auth()
-      if (session?.user?.id) {
-        author_id = session.user.id
+    const session = await auth()
+    if (session?.user?.id) {
+      author_id = session.user.id
+    }
+    const authHeader = author_id ? null : request.headers.get('authorization')
+    if (!author_id && !authHeader?.startsWith('Bearer ')) {
+      return Response.json({ error: 'Authentication required.' }, { status: 401 })
+    }
+    const token = authHeader?.slice(7)
+    if (!author_id) {
+      const { data: { user }, error: authError } = await supabase.auth.getUser(token)
+      if (authError || !user) {
+        return Response.json({ error: 'Invalid or expired token.' }, { status: 401 })
       }
-      const authHeader = author_id ? null : request.headers.get('authorization')
-      if (!author_id && !authHeader?.startsWith('Bearer ')) {
-        return Response.json({ error: 'Authentication required.' }, { status: 401 })
-      }
-      const token = authHeader?.slice(7)
-      if (!author_id) {
-        const { data: { user }, error: authError } = await supabase.auth.getUser(token)
-        if (authError || !user) {
-          return Response.json({ error: 'Invalid or expired token.' }, { status: 401 })
-        }
-        author_id = user.id
-      }
+      author_id = user.id
     }
 
     // ---- Parse body ----

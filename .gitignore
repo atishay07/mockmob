@@ -70,3 +70,10 @@ mobile/android/**/*.keystore
 
 # dev server logs
 *.log
+
+# runtime logs and pid files
+*.log
+*.pid
+*.pid.txt
+/eslint-output*.txt
+*-start.txt
