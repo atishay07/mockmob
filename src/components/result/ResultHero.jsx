@@ -51,8 +51,9 @@ function Score({ value, negative, tone, run, ring }) {
  * legend    one line under the map naming its markers (ARC-10), or null
  * repairReceipt  { lead, strong } what the repairs made before this paper did on it (data/repair_receipt.mjs), or null
  * next      the next-move panel (rendered by the page)
+ * sideRef   from 1100 px the card is the page's left column and stays in view (src/lib/stickySide.mjs measures it)
  */
-export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, lateLine = null, onNotice, arrive = false, strip = null, legend = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false }) {
+export default function ResultHero({ receipt, marks, finding, reaction = null, holdStill = false, notice = null, lateLine = null, onNotice, arrive = false, strip = null, legend = null, next = null, unit = 'marks', repairReceipt = null, celebrations = 'full', nta = false, sideRef = null }) {
   const answered = marks.right + marks.wrong;
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : null;
   const tone = marks.scored < 0 ? 'bad' : marks.max && marks.scored / marks.max >= 0.4 ? 'good' : 'mid';
@@ -62,7 +63,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
       ? `${marks.wrong} wrong answer${marks.wrong === 1 ? '' : 's'} cost ${marks.gapWrong} of the ${marks.gap} marks you missed.`
       : `${marks.blank} blank${marks.blank === 1 ? '' : 's'} left ${marks.gapBlank} marks unearned.`);
   return (
-    <header className="rp-hero rh" data-mobi={reaction ? undefined : 'none'} data-arrive={arrive || undefined}>
+    <header ref={sideRef} className="rp-hero rh" data-mobi={reaction ? undefined : 'none'} data-arrive={arrive || undefined}>
       {reaction ? <div className="rp-hero__pip rh-pip"><MobiReact act={heroAct(reaction.act)} size={96} label={reaction.alt} still={holdStill} /></div> : null}
       <div className="rp-hero__main">
         <p className="rp-eyebrow">{keepTogether(receipt)}</p>

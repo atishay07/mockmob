@@ -16,7 +16,9 @@ import { practiceSubjectId } from '@/lib/paperCopy.mjs';
 import { GAP } from '@/../data/session_recovery';
 import { mobiReaction } from './reaction';
 import { opensIn } from '@/lib/mob/paperHold.mjs';
+import { observeSideHeight } from '@/lib/stickySide.mjs';
 import './held.css';
+import '@/components/result/result-desk.css';
 
 const n = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 export default function HeldResult({ attempt, subjectName, celebrations = 'full', onOpened }) {
@@ -48,8 +50,10 @@ export default function HeldResult({ attempt, subjectName, celebrations = 'full'
   const tag = attempt.selectionMeta?.mobPaper || { mobId: hold.mobId, weekStart: hold.weekStart, ...(hold.extraId ? { extraId: hold.extraId } : {}) };
 
   return (
-    <div className="container-narrow student-page student-page--result rp rx rl-page pb-20">
-      <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} />
+    <div className="container-narrow student-page student-page--result rp rx rl-page rl-split pb-20">
+      {/* From 1100 px: the marks on the left, staying in view; when the answers open and the ways on, on the right (result-desk.css). */}
+      <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} sideRef={observeSideHeight} />
+      <div className="rl-main">
       <section className="rh-hold mk-rise" aria-labelledby="rh-hold-title">
         <span className="rh-hold__icon" aria-hidden="true"><AppIcon name="lock" size={20} /></span>
         <div className="rh-hold__text">
@@ -66,6 +70,7 @@ export default function HeldResult({ attempt, subjectName, celebrations = 'full'
         <Link href={`/dashboard?${new URLSearchParams({ subject: practiceSubjectId(attempt.subject), mode: 'quick' })}`}><AppIcon name="practice" size={16} />Practise {subjectName || 'this subject'} while you wait</Link>
         <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>
       </nav>
+      </div>
     </div>
   );
 }

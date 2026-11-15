@@ -80,6 +80,8 @@ import { useDailyTomorrow } from '@/components/result/useDailyTomorrow';
 import InstallPractice from '@/components/InstallPractice';
 import ShareResult from '@/components/result/ShareResult';
 import '@/components/result/result-1115.css';
+import { observeSideHeight } from '@/lib/stickySide.mjs';
+import '@/components/result/result-desk.css';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -839,11 +841,20 @@ export default function ResultPageClient({ previewId = null }) {
   ];
 
   return (
-    <div className="container-narrow student-page student-page--result rp rx rl-page pb-20" data-arrive={arrive || undefined}>
-      {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ---------- */}
+    <div className="container-narrow student-page student-page--result rp rx rl-page rl-split pb-20" data-arrive={arrive || undefined}>
+      {/* ---------- 1. The summary: Mobi, the score, the finding, the counts, the answer map and the one next move ----------
+           Desk lane (16 Nov 2026, result-desk.css): from 1100 px the card is the left column and stays in view (how you did and
+           the one next move), and everything after it is the right column (.rl-main). Below 1100 px .rl-main is
+           `display: contents`, so a phone and a tablet lay the page out exactly as before. */}
       <ResultHero receipt={receipt} marks={marks} finding={finding} reaction={reaction} holdStill={engaged || reading != null}
         notice={notice} lateLine={lateLine} onNotice={(n) => jumpTo(n, { fromFront: true })} arrive={arrive} celebrations={prefs.celebrations} nta={attempt?.selectionMeta?.mode === 'nta'} strip={answerMap} legend={legend} repairReceipt={repairsDid}
-        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} tomorrow={tomorrow} />} />
+        next={<NextMove move={move} onAct={onAct} paperHref={next.href} arrive={arrive} flat lesson={move?.kind === 'practise' && move.rule === 2 ? lesson : null} tomorrow={tomorrow} />} sideRef={observeSideHeight} />
+
+      <div className="rl-main">
+      {/* The answer map heads the right column on a desktop, so the left card keeps to the score and the next move and fits the
+           window. The card's own copy is hidden there (display: none, out of the reading order); below 1100 px this copy is the
+           hidden one. Both are the same buttons with the same jumps. */}
+      <div className="rl-map">{answerMap}{legend}</div>
 
       {/* O6: the home-screen card, once, on the first result this phone shows (src/components/result/installOffer.mjs). Draws
            nothing on a desktop, inside an in-app browser, once installed, or after Not now. */}
@@ -898,6 +909,7 @@ export default function ResultPageClient({ previewId = null }) {
         <Link href="/analytics"><AppIcon name="radar" size={16} />See your marks trend</Link>
         <Link href="/dashboard"><AppIcon name="practice" size={16} />Back to Practice</Link>
       </nav>
+      </div>
     </div>
   );
 }

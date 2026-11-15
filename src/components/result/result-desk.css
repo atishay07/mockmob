@@ -1,0 +1,50 @@
+/* The result on a desktop (desk lane, 16 Nov 2026). From 1100 px wide (the breakpoint the Mob den uses) the page is two
+   columns inside the shell's content column, from its one left edge: the summary card on the left (the score, the marks lost
+   and the one next move, the page's volt key) staying in view below the top bar, and everything after it on the right (the
+   answer map, the paper played back, Your full analysis with the mistakes and every answer, the next paper, the links).
+   Below 1100 px nothing here applies: .rl-main is `display: contents`, so its children are the page's own grid items as
+   before, and the right column's copy of the answer map is not drawn. Arena tokens only; no new card, no decoration. The
+   selectors carry .rx.rl-split so they win over the card's phone and desktop rules whatever order the sheets load in. */
+
+.rl-main { display: contents; }
+.rl-map { display: none; }
+
+@media (min-width: 1100px) {
+  .rx.rl-split { grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); column-gap: 40px; align-items: start; }
+
+  /* The left column: the summary card. It stays below the top bar while it fits the window; a card taller than the window
+     scrolls with the page until its foot shows, then stays (src/lib/stickySide.mjs writes --side-h), so no line of it is
+     ever out of reach. */
+  .rx.rl-split > .rh {
+    position: sticky;
+    top: min(calc(var(--arena-topbar-h, 63px) + 20px), calc(100dvh - var(--side-h, 0px) - 20px));
+    align-self: start;
+    grid-column: 1;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 22px;
+  }
+  /* The card's narrow form is the phone's: Mobi at its top right beside the receipt and the score, the four counts two by
+     two, the next move's key across the card with its terms under it (not beside it). */
+  .rx.rl-split > .rh > .rh-pip { position: absolute; top: 18px; right: 16px; width: 68px; margin: 0; }
+  .rx.rl-split > .rh:not([data-mobi='none']) :is(.rp-eyebrow, .rp-hero__score) { padding-right: 76px; }
+  .rx.rl-split > .rh .rp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .rx.rl-split > .rh .rp-stats div { padding: 8px; }
+  .rx.rl-split > .rh .rp-stats dd { font-size: 19px; gap: 2px 4px; }
+  .rx.rl-split > .rh .rh-next { padding-top: 16px; }
+  .rx.rl-split > .rh .rx-next[data-flat] { grid-template-columns: minmax(0, 1fr); }
+  .rx.rl-split > .rh .rx-next[data-flat] > :is(.rx-next__label, .rx-next__key, .rx-next__why, .rx-next__terms, .rx-next__alt) { grid-column: 1; grid-row: auto; }
+  .rx.rl-split > .rh .rx-next[data-flat] > .rx-next__terms { padding: 12px 0 0; border-left: 0; border-top: 1px solid var(--a-line, #253026); }
+  .rx.rl-split > .rh .rx-next[data-flat] .rx-next__key { width: 100%; min-width: 0; justify-self: stretch; }
+  /* The answer map moves to the head of the right column (below). */
+  .rx.rl-split > .rh > :is(.rp-strip, .rp-legend) { display: none; }
+
+  /* The right column: the page's own order, the page's own gap. */
+  .rx.rl-split > .rl-main { display: grid; grid-column: 2; gap: var(--rl-gap, 24px); min-width: 0; align-content: start; }
+  .rx.rl-split > .rl-main > .rl-map { display: grid; gap: 12px; min-width: 0; }
+  .rx.rl-split > .rl-main > .rl-map > .rp-legend { margin: 0; }
+  /* Your full analysis opens straight under the paper's rows, not 36 px down: the column's gap is the space. */
+  .rx.rl-split > .rl-main > .ap { margin-top: 12px; }
+  /* A held paper (HeldResult.jsx): the panel's top rule lines up with the card's top edge. */
+  .rx.rl-split > .rl-main > .rh-hold:first-child { margin-top: 0; }
+}

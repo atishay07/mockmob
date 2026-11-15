@@ -370,7 +370,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (RESULT_PAPER_NAMES.includes(fixture.get('paper'))) {
         // &rules=new: the student's first paper (no rule kept, an empty Rule book), so the result's first-paper lines can be seen (U13, U16).
         const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1', rules: fixture.get('rules') === 'new' ? 'new' : 'ready' });
-        return json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
+        // 16 Nov (desk lane): &late=1 is a paper sent after its time ended (B8, data/late_paper.js), so the result's late line can be seen.
+        const lateMeta = fixture.get('late') === '1' ? { selectionMeta: { ...(built.attempt.selectionMeta || {}), late: true } } : {};
+        return json({ ...built.attempt, ...lateMeta, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       if (mock === 'full' && !todayNewest && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
         return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, ...tonePart, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
