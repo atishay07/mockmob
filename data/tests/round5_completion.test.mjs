@@ -14,7 +14,8 @@ const attempt = overrides => ({ id: 'a1', completedAt: now - 1000, selectionMeta
 test('Tonight metadata follows the shared 10/20/30 plan and the IST day', () => {
   assert.equal(studyDay(Date.parse('2026-10-03T18:30:00Z')), '2026-10-04');
   assert.equal(tonightMetadata(input, now).tonight.minutes, 30);
-  for (const invalid of [{ count: 50 }, { mode: 'nta' }, { tonightMinutes: 40 }, { tonightKey: 'bad' }]) {
+  // Goals run 5 to 999 minutes since 20 Oct (fa635fc5e), so 40 is valid now; 4 is not.
+  for (const invalid of [{ count: 50 }, { mode: 'nta' }, { tonightMinutes: 4 }, { tonightKey: 'bad' }]) {
     assert.deepEqual(tonightMetadata({ ...input, ...invalid }, now), {});
   }
   assert.ok(tonightMetadata({ ...input, tonightMinutes: 10, count: 10 }, now).tonight);

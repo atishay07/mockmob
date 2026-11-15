@@ -77,7 +77,8 @@ test('A4: Ask Mobi is a door on every screen: the rail under Start, the top bar 
 
 test('A5: the main jobs in sight: Practice’s key rides the window inside its card on a laptop; Today’s key clears the dock on a short phone', () => {
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  assert.match(practice, /<div className="pr-ticket__go-row">\{startKey\('pr-summary__cta'\)\}<\/div>\s*<\/aside>/);
+  // 15 Nov (F2): the key also takes the first-run flag and its anchor, still the last thing in the summary.
+  assert.match(practice, /<div className="pr-ticket__go-row">\{startKey\('pr-summary__cta'[^}]*\)\}<\/div>\s*<\/aside>/);
   const css = read('src/app/(app)/dashboard/practice.css');
   assert.match(css, /\.app-shell \.pr \.pr-ticket__go-row \{\s*position: sticky; bottom: 0; z-index: 1;/);
   assert.match(css, /\.app-shell \.pr \.pr-ticket__go-row \{ display: contents; \}/, 'phones keep their own bar');

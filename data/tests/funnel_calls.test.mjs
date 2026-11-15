@@ -195,7 +195,8 @@ test('wiring: each call sits at its real step, is fire-and-forget, and the funne
   // Never awaited: it must not block or fail the request.
   for (const [name, src] of Object.entries(files)) assert.doesNotMatch(src, /await countStepOnce|return countStepOnce/, name);
   assert.match(files.sessions, /funnelStepsForSession\(\{ kind: funnelKind, body, result \}\)/);
-  assert.match(files.sessions, /startSession\(userId, body\), 'start'\);/);
+  // L4 (15 Nov): the start picks recovery or practice, and the start step still counts as 'start'.
+  assert.match(files.sessions, /startSession\(userId, body\) : startPractice\(userId, body\), 'start'\);/);
   assert.match(files.sessions, /finishSession\(userId, body\), 'finish'\);/);
   assert.match(files.repair, /\['explained', 'stored'\]\.includes\(result\.status\)\) countStepOnce\(session\.user\.id, 'first_repair', request\.headers\)/);
   assert.match(files.order, /countStepOnce\(userId, 'checkout_opened', request\.headers\)/);

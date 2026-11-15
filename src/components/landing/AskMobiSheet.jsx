@@ -204,7 +204,7 @@ export default function AskMobiSheet() {
     };
     update();
     vv?.addEventListener('resize', update);
-    vv?.addEventListener('scroll', update);
+    vv?.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     return () => { vv?.removeEventListener('resize', update); vv?.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
   }, [phase]);

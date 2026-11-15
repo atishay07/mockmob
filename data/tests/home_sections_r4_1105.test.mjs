@@ -54,10 +54,15 @@ test('H1: one fluid column from 1100 px: a 3.5vw gutter, at most 1680 px, the ri
   const imports = PAGE.match(/^import .*\.css';.*$/gm);
   // Round 7 (7 Nov 2026): the hero film's and the college strip's own sheets come after it. Round 10 (10 Nov 2026, owner
   // LK189): the refinement pass's five sheets, one per group of sections, come last of all; nothing else does.
-  assert.deepEqual(imports.slice(-8), [
+  // Rounds 13 and 14 (13 Nov 2026) add their motion and look sheets after round 10's, so the order is checked from
+  // home-sections.css onwards rather than as the last eight.
+  const from = imports.indexOf("import './home-sections.css';");
+  assert.ok(from >= 0, 'home-sections.css is imported');
+  assert.deepEqual(imports.slice(from, from + 8), [
     "import './home-sections.css';", "import './hero-film.css';", "import './college-strip.css';",
     "import './r10-hero.css';", "import './r10-sample.css';", "import './r10-lab-tour.css';", "import './r10-tools.css';", "import './r10-close.css';",
   ], 'sections load after the hero sizing layer, the round 10 refinements after every older layer');
+  assert.ok(imports.slice(from + 8).every((line) => /\.\/r1[3-9]-[\w-]+\.css'/.test(line)), 'only later rounds\' sheets follow round 10');
 });
 
 test('H1: a head\'s heading and its line stand side by side from 1100 px; Mobi\'s seats leave the flow while he guides; the FAQ sits beside its heading', () => {
