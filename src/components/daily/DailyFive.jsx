@@ -1,7 +1,7 @@
 "use client";
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
 import { useAuth } from '@/components/AuthProvider';
@@ -16,7 +16,12 @@ import {
   ANSWER_LETTERS, DAILY_FIVE_CHECK_ROUTE, DAILY_FIVE_ME_ROUTE, DAILY_FIVE_STATS_ROUTE, acceptAccount, acceptCheck, acceptCrowd, crowdLineFor, runDays,
   runNote,
 } from '@/lib/dailyFiveAccount.mjs';
-import { CalendarDay, DailyBoard, DailyWeek, NextFiveClock, boardLabel } from './DailyParts';
+import { DailyWeek, NextFiveClock } from './DailyParts';
+import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
+import { useMyColleges } from '@/components/colleges/useMyColleges';
+import { teamIdOfName, teamName } from '@/lib/daily/colleges.mjs';
+import { editionName, seatWords } from '@/lib/daily/team.mjs';
+import { omrLabel } from './dailyStripCopy.mjs';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
 
@@ -25,6 +30,13 @@ import './daily.css';
 // own look and behaviour: the same classes (lp-card, mm-drill__*) inside the same .lp-try .lp-desk frame, so every rule of the
 // sample (marketing.css, hero-scene.css, r10-sample.css, r13-motion.css, demo-subject.css) draws it; daily.css only frees the
 // card from Mobi's room and lays out the page around it.
+// The admit card (17 Nov 2026, lane daily; owner LK293, "something different ... unique"): the day's head is no longer the ink
+// calendar band (it read as a rival's); it is an admit card on paper with an OMR sheet's timing marks: today's edition by name
+// ("Tuesday's five, 17 Nov"), the seat number (signed in; GET /api/daily/me, shown to its owner only), "Playing for" (the DU
+// college the five counts for: DailyTeam.jsx, src/lib/daily/team.mjs), the clock to 12:00 am and what the five hold. A first
+// Start with no college opens "Who are you playing for?" (the short list, the student's own colleges first and the first of
+// them marked, or a search over the 67; "Play without a college" skips it). Every check carries the college (`for`); the
+// server decides what it counts for. The college board follows the card (#board): today, the week, the Sunday Mock.
 // The look of the day (16 Nov 2026; the owner: "the entire UI and flow around it is very bad"): the page is a daily puzzle's
 // own, as the daily games draw one (DailyParts.jsx). The head is the calendar leaf, the name, the weekday and the number. The
 // start shows the board of five open tiles, the one volt key, a real clock to 12:00 am IST and the run (the last seven days
@@ -45,6 +57,10 @@ import './daily.css';
 // before the server has it. Guests get the same checks; nothing is kept for them anywhere but this device.
 
 const KEYS = ['A', 'B', 'C', 'D'];
+/** Set once a student plays without a college: the pick step is not asked again on this device (the card's field stays). */
+const SKIP_STORE = 'mm:daily-team-skip:v1';
+const skippedTeam = () => { try { return window.localStorage.getItem(SKIP_STORE) === '1'; } catch { return false; } };
+const skipTeam = () => { try { window.localStorage.setItem(SKIP_STORE, '1'); } catch { /* this visit only */ } };
 /** A request that has not answered in this long is dropped and the page offers Try again (the sample's patchy-4G rule). */
 const SLOW_MS = 8000;
 const LONG_STEM = 110;
@@ -120,6 +136,8 @@ export default function DailyFive() {
   // The check of the answer on screen: 'idle' | 'checking' | 'slow' (still checking after 400 ms) | 'failed'.
   const [checking, setChecking] = useState('idle');
   const [crowd, setCrowd] = useState(null);
+  // "Who are you playing for?": null, 'pick' (the card's field) or 'start' (a first Start with no college).
+  const [sheet, setSheet] = useState(null);
   const rootRef = useRef(null);
   const footRef = useRef(null);
   const optionsRef = useRef(null);
@@ -137,6 +155,22 @@ export default function DailyFive() {
   const result = record && today ? resultFor(record, today.date, userId) : null;
   const accountReady = account?.state === 'ready' && today && account.date === today.date;
   const accountRecord = accountReady ? account.record : null;
+  // The college: the account's once read (its latest five's), else this device's choice (team.mjs mergeTeam).
+  const team = useTeamChoice({ today: today?.date || null, account: accountReady ? account.team : null });
+  const teamRef = useRef(null);
+  useEffect(() => { teamRef.current = team.college; });
+  const seat = accountReady ? seatWords(account.seat) : '';
+  const mine = useMyColleges(userId);
+  const myFirst = useMemo(() => (mine.status === 'ready' ? mine.colleges.map((c) => teamIdOfName(c.college)).filter(Boolean) : []), [mine.status, mine.colleges]);
+  const board = useBoard(today?.date || null, phase !== 'loading' || Boolean(today));
+  // Arrived from the home page's "See all" (/daily#board): once the board is drawn, bring it into view (the card above it fills
+  // in after the first paint, so the browser's own jump lands short).
+  const jumped = useRef(false);
+  useEffect(() => {
+    if (jumped.current || board.state !== 'ready' || typeof window === 'undefined' || window.location.hash !== '#board') return;
+    jumped.current = true;
+    window.setTimeout(() => document.getElementById('board')?.scrollIntoView({ block: 'start' }), 60);
+  }, [board.state]);
 
   // The account wins: its record for its day replaces the device's, rebuilt from the account's own answers and, once the page
   // holds them, the five (the misses and the chapters).
@@ -268,7 +302,7 @@ export default function DailyFive() {
         const response = await fetch(DAILY_FIVE_CHECK_ROUTE, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ token: five[i].token, pick: ANSWER_LETTERS[result.picks[i]], ...last }),
+          body: JSON.stringify({ token: five[i].token, pick: ANSWER_LETTERS[result.picks[i]], ...last, ...(teamRef.current ? { for: teamRef.current } : {}) }),
         }).catch(() => null);
         if (!response?.ok) return; // it stays on this device, and the line under the run says so
       }
@@ -295,7 +329,7 @@ export default function DailyFive() {
       const response = await fetch(DAILY_FIVE_CHECK_ROUTE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: list[at].token, pick: ANSWER_LETTERS[choice], ...last }),
+        body: JSON.stringify({ token: list[at].token, pick: ANSWER_LETTERS[choice], ...last, ...(teamRef.current ? { for: teamRef.current } : {}) }),
         signal: controller.signal,
       });
       // The day closed while the question was open: today's five load instead.
@@ -387,14 +421,32 @@ export default function DailyFive() {
   }, [picked, index, checking]);
 
   function start(event) {
+    if (!team.college && team.ready && !skippedTeam()) { setSheet('start'); return; }
+    begin(event);
+  }
+
+  function begin(event) {
     const next = beginRun(dropForeign(readStore(), today.date, userId), { date: today.date, startedAt: clockNow() });
     writeStore(next);
     setRecord(next);
     setIndex(0);
     setPicked(null);
     setNow(clockNow());
-    focusNext.current = event.detail === 0 ? 'options' : 'card';
+    focusNext.current = event?.detail === 0 ? 'options' : 'card';
     setPhase('playing');
+  }
+
+  // The sheet's key: the college, then (from Start) the five. "Play without a college" starts it with none, once.
+  function chooseTeam(id) {
+    team.pick(id);
+    const from = sheet;
+    setSheet(null);
+    if (from === 'start') { teamRef.current = id; begin(null); }
+  }
+  function playWithout() {
+    skipTeam();
+    setSheet(null);
+    begin(null);
   }
 
   function pick(optionIndex, event) {
@@ -433,7 +485,7 @@ export default function DailyFive() {
 
   async function shareScore() {
     if (!result) return;
-    const text = shareText(result);
+    const text = shareText(result, team.college ? teamName(team.college) : '');
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({ text });
@@ -452,21 +504,54 @@ export default function DailyFive() {
   }
 
   // The head: the name, and in one line what the five are (16 Nov 2026, evening: the owner could not tell which subjects they
-  // come from, and the day's number, "No. 2", told him nothing; it is gone). Under it the page itself, the day on ink
-  // (CalendarDay) joined to the card.
+  // come from, and the day's number, "No. 2", told him nothing; it is gone). Under it the page itself: the admit card's head
+  // (17 Nov 2026) joined to the card.
   const head = (
     <div className="dly__head">
       <h1 className="dly__title">Daily Five{today ? <span className="sr-only">, {dayLabel(today.date)}</span> : null}</h1>
       <p className="dly__what">Five questions from English and the General Test. The same five for everyone, new at 12:00 am.</p>
     </div>
   );
+  // The admit card's head: the edition, the seat (signed in), "Playing for", the clock to 12:00 am and what the five hold.
   const band = (done) => (
-    <CalendarDay
-      on={!done}
-      status={done ? 'Done for today' : 'Open now'}
-      date={today?.date}
-      clock={<NextFiveClock date={today?.date} label={done ? 'Next five in' : 'Closes in'} size="l" onNewDay={newDay} />}
-    />
+    <div className="dly-admit">
+      <div className="dly-admit__top">
+        <div className="dly-admit__title">
+          <p className="dly-admit__edition">{today ? editionName(today.date) : '\u00a0'}</p>
+          <p className="dly-admit__state">{done ? 'Done for today' : 'Open now'}</p>
+        </div>
+        {seat ? <p className="dly-admit__seat"><span>Seat</span><b>{seat}</b></p> : null}
+      </div>
+      <PlayingFor team={team} onOpen={() => setSheet('pick')} />
+      <dl className="dly-admit__fields">
+        <div><dt>{done ? 'Next five in' : 'Closes in'}</dt><dd><NextFiveClock date={today?.date} label={done ? 'Next five in' : 'Closes in'} size="m" onNewDay={newDay} /></dd></div>
+        <div><dt>Today’s five</dt><dd className="dly-admit__mix">{five ? mixLine(five) : 'English and the General Test'}</dd></div>
+      </dl>
+    </div>
+  );
+  // The college board under the card, and the sheet. The board reads once the day is known.
+  const after = (
+    <>
+      <section className="dly-board" id="board" aria-label="College board">
+        <CollegeBoard load={board} mine={team.college} mode="full" title="College board" />
+      </section>
+      {board.board?.trap ? (
+        <section className="dly-trap" aria-labelledby={`${leadId}-trap`}>
+          <h2 className="dly-trap__title" id={`${leadId}-trap`}>Yesterday’s trap</h2>
+          <p className="dly-trap__q">{board.board.trap.q}</p>
+          <p className="dly-trap__line"><b>{board.board.trap.pct}%</b> of {board.board.trap.of} signed-in players picked {board.board.trap.letter ? `${board.board.trap.letter}, ` : ''}“{board.board.trap.wrong}”. The answer was “{board.board.trap.right}”.</p>
+        </section>
+      ) : null}
+      <CollegeSheet
+        open={Boolean(sheet)}
+        mode={sheet === 'start' ? 'start' : 'pick'}
+        current={team.college}
+        first={myFirst}
+        onClose={() => setSheet(null)}
+        onChoose={chooseTeam}
+        onSkip={sheet === 'start' ? playWithout : null}
+      />
+    </>
   );
   // The days played, as this viewer's run: the account's once it has answered, else this device's.
   const runOf = (playedToday) => (signedIn && accountReady ? runDays(account.played, today.date, playedToday) : record ? record.played : []);
@@ -478,6 +563,11 @@ export default function DailyFive() {
     const saveState = !signedIn ? 'guest' : accountRecord || result.saved ? 'saved'
       : account?.state === 'failed' ? 'failed' : accountReady ? 'device' : 'saving';
     const days = runOf(true);
+    // Which college today's five counts for: the account's (its rows say so), else nothing is claimed. A guest's is not counted.
+    const counted = accountReady && account.team && account.team.last === today.date ? account.team.college : null;
+    const countedLine = !signedIn ? ''
+      : counted ? `Today’s five counts for ${teamName(counted)} on the college board.`
+        : saveState === 'saved' && !team.college ? 'Today’s five counts for no college. Pick one for tomorrow’s.' : '';
     const missedAt = new Map(result.missed.map((m) => [m.n, m]));
     const chapters = result.chapters || (five ? five.map((q) => q.chapter) : null);
     const rows = result.marks.map((right, i) => {
@@ -504,7 +594,8 @@ export default function DailyFive() {
                   <p className="mm-drill__score">{result.score}<span>/5</span></p>
                   <p className="dly__time"><Icon name="clock" className="dly__time-icon" /><span className="sr-only">Time </span>{formatClock(result.ms)}</p>
                 </div>
-                <DailyBoard marks={result.marks} size="l" reveal={justFinished} label={boardLabel(result.marks)} />
+                <OmrFive marks={result.marks} size="l" label={omrLabel(result.marks)} />
+                {countedLine ? <p className="dly__counted">{countedLine}</p> : null}
 
                 <div className="dly__share">
                   <button type="button" className="mm-btn mm-btn--primary" onClick={shareScore} data-state={share}>
@@ -513,7 +604,7 @@ export default function DailyFive() {
                   <p className="dly__share-note" aria-live="polite">
                     {share === 'copied' ? 'Your score is copied. Paste it in WhatsApp.' : share === 'failed' ? 'Couldn’t copy. Press and hold the lines below to copy them.' : 'Your score and squares only. No questions.'}
                   </p>
-                  {share === 'failed' ? <p className="dly__share-text">{shareText(result)}</p> : null}
+                  {share === 'failed' ? <p className="dly__share-text">{shareText(result, team.college ? teamName(team.college) : '')}</p> : null}
                 </div>
 
                 <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>
@@ -578,16 +669,19 @@ export default function DailyFive() {
                   </ul>
                 </div>
 
-                {/* One quiet key on: a guest keeps their papers by signing up; a signed-in student starts a set in Practice. */}
+                {/* One quiet key on: a guest keeps their papers by signing up; a signed-in student starts a set in Practice. A guest
+                    has no seat (it is the account's, GET /api/daily/me) and no five of theirs counts on the board: this line says
+                    both, once. */}
                 <div className="dly__on">
                   {status === 'loading' ? null : isAuthenticated
                     ? <Link href={firstSetHref()} className="mm-drill__replay">{FIRST_SET_LABEL}</Link>
-                    : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">Sign up free to keep today’s five on your account</Link>}
+                    : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">{team.college ? `Sign up free to count for ${teamName(team.college)} and get your seat number` : 'Sign up free to keep today’s five and get your seat number'}</Link>}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {after}
       </>
     );
   }
@@ -625,7 +719,7 @@ export default function DailyFive() {
                   </>
                 ) : (
                   <>
-                    <DailyBoard size="l" label={boardLabel(null)} />
+                    <OmrFive size="l" label={omrLabel(null)} />
                     <p className="mm-drill__q dly__start-q">Five questions, one at a time, each with its answer explained.</p>
                     <ul className="dly__rules">
                       <li>The clock starts when you press Start.</li>
@@ -642,6 +736,7 @@ export default function DailyFive() {
             </div>
           </div>
         </div>
+        {after}
       </>
     );
   }
@@ -656,10 +751,10 @@ export default function DailyFive() {
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" role="group" aria-label="Today’s Daily Five" tabIndex={-1} ref={rootRef}>
               <div className="lp-card__head">
-                <span className="lp-card__sub"><b>Today’s five</b><span>{mixLine(five)}</span></span>
+                <span className="lp-card__sub"><b>Today’s five</b>{team.college ? <span>For {teamName(team.college)}</span> : null}</span>
               </div>
               <div className="lp-card__body">
-                <DailyBoard size="l" label={boardLabel(null)} />
+                <OmrFive size="l" label={omrLabel(null)} />
                 <p className="mm-drill__q dly__start-q">Five questions, one at a time, each with its answer explained.</p>
                 <ul className="dly__rules">
                   <li>The clock starts when you press Start.</li>
@@ -674,6 +769,7 @@ export default function DailyFive() {
             </div>
           </div>
         </div>
+        {after}
       </>
     );
   }

@@ -224,7 +224,7 @@ test('the check: same origin, a limit, today\'s tokens only, answers A to D only
 test('signed in, the first check of each question stands: a retry, a second tab or a second phone gets that pick back', async () => {
   const h = harness();
   const first = await (await h.answer(2, 'B')).json();
-  assert.deepEqual(first, { n: 2, pick: 1, right: false, correct: 0, why: 'Reason 1.', recorded: true });
+  assert.deepEqual(first, { n: 2, pick: 1, right: false, correct: 0, why: 'Reason 1.', recorded: true, for: null });
   // A retry with the same pick, and another tab trying the right answer: the first pick, every time.
   const again = await Promise.all([h.answer(2, 'B'), h.answer(2, 'A'), h.answer(2, 'A')]);
   for (const res of again) assert.deepEqual(await res.json(), first);

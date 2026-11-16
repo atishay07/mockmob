@@ -20,7 +20,11 @@ const FIVE = [0, 1, 2, 3, 4].map((i) => ({ subject: 'English', chapter: `Chapter
 const rowsOf = (userId, picks, { ms = 102_000, at = '2026-11-15T10:00:00.000Z' } = {}) => ITEMS.map((x, i) => checkRow({ userId, date: DATE, day: DAY, n: i + 1, id: x.id, pick: picks[i], correct: x.correct, ms, at }));
 
 test('the check request: a sealed token and one answer from A to D; the time is clamped and only the fifth keeps it', () => {
-  assert.deepEqual(checkRequest({ token: TOKEN, pick: 'C' }), { ok: true, token: TOKEN, pick: 2, ms: null });
+  assert.deepEqual(checkRequest({ token: TOKEN, pick: 'C' }), { ok: true, token: TOKEN, pick: 2, ms: null, team: null });
+  // The college the page plays for (17 Nov 2026): one of the 67, or not asked; an unknown one is not refused, only ignored.
+  assert.equal(checkRequest({ token: TOKEN, pick: 'C', for: 'hansraj-college' }).team, 'hansraj-college');
+  assert.equal(checkRequest({ token: TOKEN, pick: 'C', for: 'not-a-college' }).team, null);
+  assert.equal(checkRequest({ token: TOKEN, pick: 'C', for: { college: 'hansraj-college' } }).ok, true);
   assert.equal(checkRequest({ token: TOKEN, pick: 'A', ms: 99 * 60 * 60 * 1000 }).ms, DAILY_FIVE_MAX_MS, 'a phone left open overnight is not a 99-hour five');
   for (const [body, error] of [
     [{ token: TOKEN, pick: 'E' }, 'bad_answer'], [{ token: TOKEN, pick: 'a' }, 'bad_answer'], [{ token: TOKEN, pick: 0 }, 'bad_answer'], [{ token: TOKEN }, 'bad_answer'],
@@ -40,7 +44,12 @@ test('a check\'s row: keyed by day, student and place; scored against the sealed
   assert.ok(rows.every((r) => r.interaction_type === DAILY_FIVE_INTERACTION && r.flow_context === null && r.session_id === dailySessionId(DATE) && r.user_id === 'u1'));
   assert.deepEqual(rows.map((r) => r.metadata.right), [true, true, false, true, false], 'the server\'s key decides');
   assert.deepEqual(rows.map((r) => 'ms' in r.metadata), [false, false, false, false, true], 'the time rides on the fifth answer only');
-  assert.deepEqual(checkAnswer(rows[2]), { n: 3, pick: 2, right: false, correct: 3 });
+  assert.deepEqual(checkAnswer(rows[2]), { n: 3, pick: 2, right: false, correct: 3, team: null });
+  // The college the server decided rides in the row's metadata as `for`, only when it is one of the 67.
+  const played = checkRow({ userId: 'u1', date: DATE, day: DAY, n: 1, id: 'q1', pick: 0, correct: 0, at: '2026-11-15T10:00:00.000Z', team: 'miranda-house' });
+  assert.equal(played.metadata.for, 'miranda-house');
+  assert.equal(checkAnswer(played).team, 'miranda-house');
+  assert.ok(!('for' in checkRow({ userId: 'u1', date: DATE, day: DAY, n: 1, id: 'q1', pick: 0, correct: 0, at: 'x', team: 'nowhere' }).metadata));
   assert.equal(checkAnswer({ metadata: { n: 1, pick: 'Z' } }), null);
   const rec = recordFromRows(rows, DATE);
   assert.deepEqual(rec, { date: DATE, day: DAY, score: 3, ms: 102_000, marks: [true, true, false, true, false], picks: [0, 1, 2, 3, 0] });
@@ -59,7 +68,8 @@ test('a check\'s row: keyed by day, student and place; scored against the sealed
 });
 
 test('the page reads a check\'s answer only when it adds up: its own place, a pick, the key, right exactly when they match', () => {
-  assert.deepEqual(acceptCheck({ n: 2, pick: 1, right: true, correct: 1, why: ' Because. ', recorded: true }, 2), { pick: 1, right: true, correct: 1, why: 'Because.', recorded: true });
+  assert.deepEqual(acceptCheck({ n: 2, pick: 1, right: true, correct: 1, why: ' Because. ', recorded: true }, 2), { pick: 1, right: true, correct: 1, why: 'Because.', recorded: true, team: null });
+  assert.equal(acceptCheck({ n: 2, pick: 1, right: true, correct: 1, for: 'hindu-college' }, 2).team, 'hindu-college');
   assert.equal(acceptCheck({ n: 2, pick: 1, right: true, correct: 1 }, 3), null, 'another question\'s answer');
   assert.equal(acceptCheck({ n: 2, pick: 1, right: true, correct: 2 }, 2), null, 'right with another key');
   assert.equal(acceptCheck({ n: 2, pick: 4, right: false, correct: 1 }, 2), null);
@@ -93,7 +103,13 @@ test('how everyone did: nothing under 30 students, then a whole percent; a line 
 
 test('the account\'s answer, the run of days and the line under it', () => {
   const record = { date: DATE, day: DAY, score: 3, ms: 9000, marks: [true, true, false, true, false], picks: [0, 1, 2, 3, 0] };
-  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, played: ['2026-11-15', 'junk', '2026-11-14', '2026-11-15'] }), { day: DAY, date: DATE, record, review: null, played: ['2026-11-14', '2026-11-15'] });
+  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, played: ['2026-11-15', 'junk', '2026-11-14', '2026-11-15'] }), { day: DAY, date: DATE, record, review: null, played: ['2026-11-14', '2026-11-15'], team: null, seat: null });
+  // The account's college and seat (17 Nov 2026): read only when they are real.
+  const team = { college: 'hansraj-college', since: '2026-11-14', changedOn: null, last: DATE };
+  assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record: null, played: [], team, seat: 4127 }).team, team);
+  assert.equal(acceptAccount({ day: DAY, date: DATE, record: null, played: [], team, seat: 4127 }).seat, 4127);
+  assert.equal(acceptAccount({ day: DAY, date: DATE, record: null, team: { ...team, college: 'nowhere' }, seat: 12 }).team, null);
+  assert.equal(acceptAccount({ day: DAY, date: DATE, record: null, team, seat: 12 }).seat, null, 'a seat is four digits');
   const review = ITEMS.map((x) => ({ correct: x.correct, why: 'Why.' }));
   assert.deepEqual(acceptAccount({ day: DAY, date: DATE, record, review, played: [] }).review, review);
   assert.equal(acceptAccount({ day: DAY, date: DATE, record: null, review, played: [] }).review, null, 'no keys without a whole five');

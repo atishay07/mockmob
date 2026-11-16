@@ -34,7 +34,8 @@ test('the figures are the paper: its questions, its minutes, its marking', () =>
 });
 
 test('the day runs in order, each step short, and the floor of sitters is the rule’s own', () => {
-  assert.deepEqual(SUNDAY_STEPS.map((s) => s.when), [OPENS, 'When you send', LAST_START, ANSWERS_AT, 'After']);
+  assert.deepEqual(SUNDAY_STEPS.map((s) => s.when), [OPENS, 'When you send', LAST_START, ANSWERS_AT, 'Then', 'After']);
+  assert.match(SUNDAY_STEPS[4].line, /once 5 of a college/, 'the college board\'s floor is the rule\'s own');
   for (const step of SUNDAY_STEPS) {
     assert.ok(step.title.length <= 34, step.title);
     assert.ok(step.line.length <= 150, `${step.title}: ${step.line.length}`);

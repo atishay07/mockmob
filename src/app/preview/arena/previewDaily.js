@@ -11,6 +11,15 @@
 //          none             fewer than 30 on every question: no lines
 //   &check=ok (default) | slow | fail   POST /api/daily/check answers at once, after 1.5 s, or with 503 (Try again)
 //   &auth=out               /preview/daily as a guest: checks answer and nothing is recorded
+// Playing for a college (17 Nov 2026, src/lib/daily/team.mjs):
+//   &team=none (default)    the account's fives were played for no college; &team=<college id> (hansraj-college ...): the
+//                           account's latest five was played for it (yesterday, so today's can still carry it), and a check
+//                           of today answers with it; &changed=<date> the day it last changed
+//   &seat=4127 (default)    the account's seat number on the admit card (&seat=none: none sent)
+//   &mine=none (default)    My colleges (GET /api/me/colleges) is empty; &mine=hansraj: Hansraj College, then Miranda House
+//   &board=many (default)   GET /api/daily/board: twelve colleges today (the first nine with an average), the week, no
+//                           Sunday board yet (its first one opens 22 Nov), yesterday's trap
+//          few              three colleges, under every floor;  zero: nobody played for a college;  fail: 503
 // The checks of a signed-in fixture student are kept in this tab (window.__previewDaily): the first pick of each question
 // stands, and GET /api/daily/me builds today's record from them once all five are checked, as the server does.
 import { computeRhythm } from '@/lib/server/rhythm';
@@ -29,6 +38,7 @@ export const PREVIEW_FIVE = [
 ];
 
 const PLAYED = { picks: [1, 1, 0, 2, 1], ms: 102_000 };
+const BOARD_COLLEGES = ['hansraj-college', 'miranda-house', 'shri-ram-college-of-commerce', 'kirori-mal-college', 'hindu-college', 'lady-shri-ram-college-for-women', 'st-stephens-college', 'ramjas-college', 'gargi-college', 'daulat-ram-college', 'sri-guru-gobind-singh-college-of-commerce', 'shaheed-rajguru-college-of-applied-sciences-for-women'];
 const OTHER = { picks: [1, 0, 1, 2, 3], ms: 130_000 };
 
 const recordOf = (date, day, { picks, ms }) => {
@@ -52,13 +62,45 @@ function heldPicks(kind) {
   return [0, 1, 2, 3, 4].map((i) => memory().picks[i + 1] ?? null);
 }
 
-function accountBody(kind, now) {
+function teamBody(fixture, date, recorded) {
+  const college = fixture.get('team');
+  if (!college || college === 'none') return memory().team && recorded ? { college: memory().team, since: date, changedOn: null, last: date } : null;
+  const changedOn = fixture.get('changed') || null;
+  return { college, since: changedOn || addDays(date, -3), changedOn, last: recorded ? date : addDays(date, -1) };
+}
+
+function accountBody(kind, now, fixture) {
   const { day, date } = todayDaily(now);
   const picks = heldPicks(kind);
   const whole = picks.every((p) => Number.isInteger(p));
   const record = whole ? recordOf(date, day, { picks, ms: kind === 'other' ? OTHER.ms : kind === 'played' ? PLAYED.ms : memory().ms ?? 60_000 }) : null;
   const before = kind === 'played' ? [addDays(date, -2), addDays(date, -1)] : [];
-  return { day, date, record, review: record ? REVIEW : null, played: [...before, ...(record ? [date] : [])] };
+  const seat = fixture.get('seat') === 'none' ? null : Number(fixture.get('seat') || 4127);
+  return { day, date, record, review: record ? REVIEW : null, played: [...before, ...(record ? [date] : [])], team: teamBody(fixture, date, Boolean(record)), seat };
+}
+
+function boardBody(kind, now) {
+  const { day, date } = todayDaily(now);
+  const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
+  const from = addDays(date, -((dow + 6) % 7));
+  const sunday = { state: 'first', week: '2026-11-22', at: Date.parse('2026-11-22T23:05:00+05:30') };
+  if (kind === 'zero') return { day, date, today: { players: 0, counted: 0, colleges: [] }, week: { from, to: date, players: 0, colleges: [] }, sunday, trap: null };
+  if (kind === 'few') {
+    return {
+      day, date, sunday, trap: null,
+      today: { players: 5, counted: 4, colleges: [{ college: BOARD_COLLEGES[0], players: 2, avg: null }, { college: BOARD_COLLEGES[3], players: 1, avg: null }, { college: BOARD_COLLEGES[1], players: 1, avg: null }] },
+      week: { from, to: date, players: 6, colleges: [{ college: BOARD_COLLEGES[0], players: 3, days: 5, perPlayer: null }, { college: BOARD_COLLEGES[3], players: 1, days: 2, perPlayer: null }] },
+    };
+  }
+  const players = [38, 31, 24, 19, 14, 11, 9, 7, 6, 4, 3, 1];
+  const avg = [3.4, 3.1, 3.6, 2.9, 3.2, 3, 2.7, 3.3, 3.5, null, null, null];
+  const week = [[44, 2.6], [37, 2.4], [30, 2.3], [25, 2.1], [20, 2], [17, 1.9], [15, 1.8], [13, 1.6], [12, 1.5], [4, null], [3, null], [2, null]];
+  return {
+    day, date, sunday,
+    today: { players: 190, counted: 167, colleges: players.map((p, i) => ({ college: BOARD_COLLEGES[i], players: p, avg: avg[i] })) },
+    week: { from, to: date, players: 260, colleges: week.map(([p, per], i) => ({ college: BOARD_COLLEGES[(i + 2) % BOARD_COLLEGES.length], players: p, days: per ? Math.round(p * per) : p + 1, perPlayer: per })) },
+    trap: { date: addDays(date, -1), q: 'Choose the word nearest in meaning to CANDID.', letter: 'B', wrong: 'Careful', right: 'Frank', pct: 41, of: 212 },
+  };
 }
 
 function crowdBody(kind, now) {
@@ -91,7 +133,7 @@ export function previewDaily(url, method, init, fixture, json) {
   if (url.pathname === '/api/daily' && method === 'GET') return json(previewFiveBody(now));
   if (url.pathname === '/api/daily/me' && method === 'GET') {
     if (kind === 'error') return json({ error: 'unavailable' }, 503);
-    return json(accountBody(kind, now));
+    return json(accountBody(kind, now, fixture));
   }
   if (url.pathname === '/api/daily/check' && method === 'POST') {
     const mode = fixture.get('check') || 'ok';
@@ -108,10 +150,24 @@ export function previewDaily(url, method, init, fixture, json) {
       else { memory().picks[n] = asked; if (n === DAILY_FIVE_SIZE && Number.isFinite(Number(body.ms))) memory().ms = Number(body.ms); }
     }
     const { correct, why } = PREVIEW_FIVE[n - 1];
-    const answer = { n, pick, right: pick === correct, correct, why, recorded: !guest };
+    // The college the five counts for: the account's (&team=), else the one the page asked for, kept for this tab.
+    const fixed = fixture.get('team') && fixture.get('team') !== 'none' ? fixture.get('team') : null;
+    if (!guest && !memory().team) memory().team = fixed || (typeof body.for === 'string' ? body.for : null);
+    const answer = { n, pick, right: pick === correct, correct, why, recorded: !guest, ...(guest ? {} : { for: memory().team || null }) };
     return mode === 'slow' ? new Promise((resolve) => setTimeout(() => resolve(json(answer)), 1500)) : json(answer);
   }
   if (url.pathname === '/api/daily/stats' && method === 'GET') return json(crowdBody(fixture.get('crowd') || 'some', now));
+  if (url.pathname === '/api/daily/board' && method === 'GET') {
+    const kind = fixture.get('board') || 'many';
+    return kind === 'fail' ? json({ error: 'unavailable' }, 503) : json(boardBody(kind, now));
+  }
+  if (url.pathname === '/api/me/colleges' && method === 'GET') {
+    if (fixture.get('mine') !== 'hansraj') return json({ colleges: [] });
+    return json({ colleges: [
+      { programmeId: 'b-com-hons', programme: 'B.Com. (Hons.)', college: 'Hansraj College', position: 1 },
+      { programmeId: 'b-a-hons-economics', programme: 'B.A. (Hons.) Economics', college: 'Miranda House (W)', position: 2 },
+    ] });
+  }
   if (url.pathname === '/api/daily/mob' && method === 'GET') {
     const state = fixture.get('dailymob') || 'ready';
     if (state === 'loading') return new Promise(() => {});

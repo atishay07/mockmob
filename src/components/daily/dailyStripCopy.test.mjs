@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  DAILY_FIGURES, DAILY_LINE, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, dailyRow, railLabel, sundayRow, waitWords, weekRail,
+  DAILY_FIGURES, DAILY_LINE, STRIP_HEAD, SUNDAY_FIGURES, SUNDAY_LINE, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow, waitWords,
 } from './dailyStripCopy.mjs';
 import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE } from '../../lib/dailyFive.mjs';
 import { PAPER_COUNT, PAPER_MINUTES } from '../../lib/sundayMock.mjs';
@@ -73,19 +73,18 @@ test('the Sunday Mock\'s figures are the rule\'s own numbers, and its sentence s
   assert.match(SUNDAY_LINE, /Sign up to sit it\.$/);
 });
 
-test('the week rail: Monday to Sunday, today, the ticks from this device\'s record, the Sunday carries the Mock', () => {
-  const days = weekRail(['2026-11-16', '2026-11-17'], '2026-11-18');
-  assert.deepEqual(days.map((d) => d.carries), ['5', '5', '5', '5', '5', '5', 'Mock']);
-  assert.deepEqual(days.map((d) => d.played), [true, true, false, false, false, false, false]);
-  assert.equal(days.findIndex((d) => d.today), 2);
-  assert.equal(railLabel(days), 'This week, Monday, 16 November to Sunday, 22 November: a Daily Five every day and the Sunday Mock on Sunday. Played on this device: 2 days.');
-  assert.match(railLabel(weekRail([], '2026-11-18')), /None played on this device yet\.$/);
-  // A Sunday's own five, once played, ticks by its 5: a tick by "Mock" would say the paper was sat.
-  const sunday = weekRail(['2026-11-22'], '2026-11-22');
-  assert.deepEqual([sunday[6].carries, sunday[6].played], ['5', true]);
-  // No Mock on a Sunday before the first paper.
-  assert.equal(weekRail([], '2026-11-12')[6].carries, '5');
-  assert.equal(railLabel([]), 'This week');
+test('the five\'s bubbles in one sentence: today on this device, as it stands', () => {
+  assert.equal(omrLabel(null), 'Today’s 5 questions, none answered on this device yet.');
+  assert.equal(omrLabel([true, false, true, true, false]), 'Today on this device: 3 of 5 right.');
+  assert.equal(omrLabel([true, null, null, null, null], 1), 'Today on this device: on question 2 of 5.');
+  assert.equal(omrLabel([true, null, null, null, null], 9), 'Today’s 5 questions, none answered on this device yet.');
+});
+
+test('the head says the game in two beats; the Sunday card\'s short sentence keeps the account', () => {
+  assert.equal(STRIP_HEAD.h2, 'Five a day. Play for your college.');
+  assert.match(STRIP_HEAD.sub, /English and General Test/);
+  assert.match(STRIP_HEAD.sub, /DU college/);
+  assert.match(SUNDAY_LINE_SHORT, /^One full paper in each of your subjects\. Sign up to sit it\.$/);
 });
 
 test('no exclamation marks, arrows, upper-case times, ranks or day numbers in any state', () => {
@@ -93,7 +92,7 @@ test('no exclamation marks, arrows, upper-case times, ranks or day numbers in an
     dailyRow({ waitMs: HOUR }), dailyRow({ begun: true, at: 2, waitMs: HOUR }), dailyRow({ result: { score: 3, clock: '2:00' }, streak: 2, waitMs: HOUR }),
     ...['2026-11-18T14:00:00', '2026-11-21T18:00:00', '2026-11-22T08:00:00', '2026-11-22T11:00:00', '2026-11-22T22:30:00', '2026-11-22T23:30:00'].map((s) => sundayRow({ now: IST(s) })),
   ];
-  const all = JSON.stringify([STRIP_HEAD, ...rows, railLabel(weekRail([], '2026-11-18'))]);
+  const all = JSON.stringify([STRIP_HEAD, ...rows, SUNDAY_LINE_SHORT, omrLabel(null), omrLabel([true, false, true, true, true])]);
   assert.doesNotMatch(all, /!|→|->|\bNo\. \d|\b(rank|percentile)\b/i);
   assert.doesNotMatch(all, /\d:\d{2} (AM|PM)/, 'times in lower case');
 });
@@ -115,13 +114,28 @@ test('the block stands low on the home page, after the exam screen, and heads li
 
 test('the block carries one volt key: the Sunday Mock\'s while its paper is open, else the Daily Five\'s', () => {
   const jsx = read('./DailyFiveRow.jsx');
-  assert.match(jsx, /name="Daily Five" row=\{daily\} ink lead=\{!sunday\.open\}/);
-  assert.match(jsx, /name="Sunday Mock" row=\{sunday\} ink=\{sunday\.open\} lead=\{sunday\.open\}/);
-  assert.match(jsx, /className="dwk-key" data-lead=\{lead \? 'true' : 'false'\}/);
+  assert.match(jsx, /<Link href=\{daily\.href\} className="dwk-key" data-lead=\{!sunday\.open \? 'true' : 'false'\}>/);
+  assert.match(jsx, /<Link href=\{sunday\.href\} className="dwk-key" data-lead=\{sunday\.open \? 'true' : 'false'\}>/);
+  assert.equal((jsx.match(/className="dwk-key"/g) || []).length, 2);
   // Nothing in the block pulses, flashes or plays by itself.
   assert.doesNotMatch(read('./daily-row.css').split('---------- Today')[0], /@keyframes|animation:/);
 });
 
 test('the day’s number is shown nowhere: not on the block, not on Today’s row, not on /daily', () => {
   for (const file of ['./DailyFiveRow.jsx', './DailyFive.jsx']) assert.doesNotMatch(read(file), /No\. \{|`No\. \$\{/, file);
+});
+
+test('the admit card is ours: no ink band, no date slab; the edition by name, Playing for, the bubbles and the college board', () => {
+  const jsx = read('./DailyFiveRow.jsx');
+  for (const gone of ['CalendarDay', 'dwk-band', 'dwk-rail', 'df-day']) assert.doesNotMatch(jsx, new RegExp(gone), gone);
+  assert.match(jsx, /editionName\(today\.date\)/);
+  assert.match(jsx, /<PlayingFor team=\{team\} onOpen=\{\(\) => setSheet\(true\)\} \/>/);
+  assert.match(jsx, /<CollegeBoard[\s\S]*?mode="preview"/);
+  assert.match(jsx, /<CollegeSheet open=\{sheet\}/);
+  const page = read('./DailyFive.jsx');
+  for (const gone of ['<CalendarDay', 'DailyBoard']) assert.doesNotMatch(page, new RegExp(gone), gone);
+  assert.match(page, /<section className="dly-board" id="board"/);
+  assert.match(page, /\.\.\.\(teamRef\.current \? \{ for: teamRef\.current \} : \{\}\)/, 'every check carries the college');
+  const css = read('./daily-row.css') + read('./daily-team.css');
+  assert.doesNotMatch(css, /animation:\s*[a-z-]+ [^;]*infinite|@keyframes [a-z-]*pulse/i, 'nothing pulses or loops');
 });

@@ -17,6 +17,7 @@ import {
   memberStrip, playedDates, questionRef, recordFromRows, reviewFrom,
 } from '../dailyFiveAccount.mjs';
 import { openDailyToken, parseDailyQuery } from './dailyFive.js';
+import { accountTeam, teamForCheck, teamsByDay } from '../daily/team.mjs';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const MAX_BODY = 4096;
@@ -59,21 +60,26 @@ export function createDailyStore({ db, now = Date.now }) {
     return recordFromRows(await rows(userId, date), date);
   }
 
-  /** The days with a whole five (all five places checked), from the account. */
-  async function played(userId) {
+  /** The account's rows of the last DAILY_FIVE_RUN_DAYS days: [{ session_id, metadata }], newest first. */
+  async function history(userId) {
     const since = new Date(now() - (DAILY_FIVE_RUN_DAYS + 1) * DAY_MS).toISOString();
     const { data, error } = await qi().select('session_id,metadata').eq('user_id', userId).is('flow_context', null).eq('interaction_type', DAILY_FIVE_INTERACTION)
       .gte('created_at', since).order('created_at', { ascending: false }).limit(DAILY_FIVE_RUN_DAYS * 5 + 10);
     if (error) throw new StoreError('READ_FAILED', error);
-    return playedDates(data || []);
+    return data || [];
+  }
+
+  /** The days with a whole five (all five places checked), from the account. */
+  async function played(userId) {
+    return playedDates(await history(userId));
   }
 
   /**
    * One checked answer, INSERT ... ON CONFLICT (id) DO NOTHING; then the row that stands for that place, whichever check
    * wrote it. Answers { n, pick, right, correct, sameQuestion } from the stored row.
    */
-  async function recordCheck(userId, { date, day, item, pick, ms }) {
-    const row = checkRow({ userId, date, day, n: item.n, id: item.id, pick, correct: item.correct, ms, at: new Date(now()).toISOString() });
+  async function recordCheck(userId, { date, day, item, pick, ms, team = null }) {
+    const row = checkRow({ userId, date, day, n: item.n, id: item.id, pick, correct: item.correct, ms, team, at: new Date(now()).toISOString() });
     const { error } = await qi().upsert([row], { onConflict: 'id', ignoreDuplicates: true });
     if (error) throw new StoreError(error.code === '23503' ? 'QUESTION_GONE' : 'WRITE_FAILED', error);
     const { data, error: readError } = await qi().select('question_id,metadata').eq('id', dailyRowId(date, userId, item.n)).eq('interaction_type', DAILY_FIVE_INTERACTION).limit(1);
@@ -120,7 +126,7 @@ export function createDailyStore({ db, now = Date.now }) {
     return memberStrip(members, found || [], { userId, date });
   }
 
-  return { rows, record, played, recordCheck, crowd, mobStrip };
+  return { rows, record, history, played, recordCheck, crowd, mobStrip };
 }
 
 /**
@@ -144,6 +150,21 @@ export function createDailyHandlers(deps) {
     ...DAILY_LIMITS[name], ...(userId ? { keyParts: [userId], identityOnly: true } : {}), fallback: 'memory', ...extra,
   })).catch(() => ({ allowed: false }));
   const crowdMemo = createTtlMemo({ ttlMs: CROWD_TTL_MS, max: 4, now });
+
+  // The college a signed-in check counts for (src/lib/daily/team.mjs teamForCheck): today's own once a check of today carries
+  // one (a cheap read of today's rows), else the asked one by the change rule, else the account's from its earlier fives. A
+  // failed read writes no college rather than hold up the answer; a later check of the day can still carry it.
+  async function teamOfCheck(userId, today, asked) {
+    try {
+      const session = dailySessionId(today.date);
+      const todays = teamsByDay((await deps.store.rows(userId, today.date)).map((r) => ({ ...r, session_id: session }))).get(today.date);
+      if (todays) return todays;
+      if (typeof deps.store.history !== 'function') return asked || null;
+      return teamForCheck(await deps.store.history(userId), today.date, asked);
+    } catch {
+      return null;
+    }
+  }
 
   return {
     async postCheck(request) {
@@ -172,9 +193,10 @@ export function createDailyHandlers(deps) {
         return reply(200, { n: item.n, pick: asked.pick, right: asked.pick === item.correct, correct: item.correct, why: item.why, recorded: false });
       }
       try {
+        const team = await teamOfCheck(userId, today, asked.team);
         // Recorded before it is answered: the key never reaches a signed-in student whose first pick is not on the account.
-        const stood = await deps.store.recordCheck(userId, { date: today.date, day: today.day, item, pick: asked.pick, ms: asked.ms });
-        return reply(200, { n: item.n, pick: stood.pick, right: stood.right, correct: stood.correct, why: stood.sameQuestion ? item.why : '', recorded: true });
+        const stood = await deps.store.recordCheck(userId, { date: today.date, day: today.day, item, pick: asked.pick, ms: asked.ms, team });
+        return reply(200, { n: item.n, pick: stood.pick, right: stood.right, correct: stood.correct, why: stood.sameQuestion ? item.why : '', recorded: true, for: stood.team || null });
       } catch (error) {
         if (error?.code === 'QUESTION_GONE') return reply(409, { error: 'changed', day: today.day, date: today.date });
         return reply(503, { error: 'unavailable' });
@@ -188,11 +210,13 @@ export function createDailyHandlers(deps) {
       if (!limit.allowed) return limited(limit);
       const today = todayDaily(now());
       try {
-        const [found, played] = await Promise.all([deps.store.rows(userId, today.date), deps.store.played(userId)]);
+        const [found, rows] = await Promise.all([deps.store.rows(userId, today.date), deps.store.history(userId)]);
         const record = recordFromRows(found, today.date);
         // The keys and reasons only with a whole five: the student has answered every question already.
         const review = record ? reviewFrom(found, await Promise.resolve(deps.five(today)).catch(() => null)) : null;
-        return reply(200, { day: today.day, date: today.date, record, review, played });
+        // The college the account's fives are played for, and its seat (shown to this student only; src/lib/server/dailyTeam.js).
+        const seat = deps.seat ? deps.seat(userId) : null;
+        return reply(200, { day: today.day, date: today.date, record, review, played: playedDates(rows), team: accountTeam(rows), seat });
       } catch {
         return reply(503, { error: 'unavailable' });
       }

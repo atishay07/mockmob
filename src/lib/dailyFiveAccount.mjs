@@ -17,9 +17,13 @@
 //                                                        null; null keeps every flow-filtered reader (count_distinct_mock_sessions,
 //                                                        the explore and learn counts) blind to these rows
 //   session_id       'daily:<IST date>'
-//   metadata         { n, day, pick: 'A'..'D', right, correct: 0..3, ms? }   ms only on the fifth (the page's clock, clamped)
+//   metadata         { n, day, pick: 'A'..'D', right, correct: 0..3, ms?, for? }   ms only on the fifth (the page's clock,
+//                                                        clamped); for: the college the five was played for (17 Nov 2026,
+//                                                        src/lib/daily/team.mjs), one of the 67, decided by the server
 // Each row is written by INSERT ... ON CONFLICT (id) DO NOTHING: the first check stands.
 import { DAILY_FIVE_SIZE, dateOfDay, dayNumber, isDateKey } from './dailyFive.mjs';
+import { isTeamCollege } from './daily/colleges.mjs';
+import { SEAT_MAX, SEAT_MIN } from './daily/team.mjs';
 
 export const DAILY_FIVE_INTERACTION = 'daily_five';
 export const DAILY_FIVE_ME_ROUTE = '/api/daily/me';
@@ -48,8 +52,10 @@ export const dailyRowId = (date, userId, n) => `daily5:${date}:${userId}:${n}`;
 const refuse = (error) => ({ ok: false, error });
 
 /**
- * The check request's body, checked before anything is opened: { ok, token, pick, ms } or { ok: false, error }. `pick` is a
- * letter from A to D; `ms` is the time the page measured (sent with the fifth answer; clamped, never trusted for a score).
+ * The check request's body, checked before anything is opened: { ok, token, pick, ms, team } or { ok: false, error }. `pick`
+ * is a letter from A to D; `ms` is the time the page measured (sent with the fifth answer; clamped, never trusted for a
+ * score); `team` the college the page is playing for (`for`, one of the 67), or null: an unknown college is not refused, it
+ * is only not asked for (an older app sends none).
  */
 export function checkRequest(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return refuse('bad_body');
@@ -57,7 +63,7 @@ export function checkRequest(body) {
   if (!ANSWER_LETTERS.includes(body.pick)) return refuse('bad_answer');
   const raw = Number(body.ms);
   const ms = body.ms !== undefined && Number.isFinite(raw) && raw >= 0 ? Math.min(Math.round(raw), DAILY_FIVE_MAX_MS) : null;
-  return { ok: true, token: body.token, pick: ANSWER_LETTERS.indexOf(body.pick), ms };
+  return { ok: true, token: body.token, pick: ANSWER_LETTERS.indexOf(body.pick), ms, team: isTeamCollege(body.for) ? body.for : null };
 }
 
 /** An opened token, checked: today's, a place from 1 to 5, a question id, a key from A to D. { ok, item } or refused. */
@@ -70,8 +76,11 @@ export function checkOpened(opened, date) {
   return { ok: true, item: { n, id, correct, why: typeof why === 'string' ? why : '' } };
 }
 
-/** The row of a checked answer, scored against the server's own key (from the sealed token), never the page's. */
-export function checkRow({ userId, date, day, n, id, pick, correct, ms = null, at }) {
+/**
+ * The row of a checked answer, scored against the server's own key (from the sealed token), never the page's. `team` is the
+ * college the server decided this five counts for (team.mjs teamForCheck), or null.
+ */
+export function checkRow({ userId, date, day, n, id, pick, correct, ms = null, at, team = null }) {
   const timed = ms !== null && n === DAILY_FIVE_SIZE;
   return {
     id: dailyRowId(date, userId, n),
@@ -81,26 +90,29 @@ export function checkRow({ userId, date, day, n, id, pick, correct, ms = null, a
     session_id: dailySessionId(date),
     flow_context: null,
     created_at: at,
-    metadata: { n, day, pick: ANSWER_LETTERS[pick], right: pick === correct, correct, ...(timed ? { ms } : {}) },
+    metadata: { n, day, pick: ANSWER_LETTERS[pick], right: pick === correct, correct, ...(timed ? { ms } : {}), ...(isTeamCollege(team) ? { for: team } : {}) },
   };
 }
 
-/** The answer a check gives back, from the row that stands: { n, pick, right, correct }, or null. */
+/** The answer a check gives back, from the row that stands: { n, pick, right, correct, team }, or null. */
 export function checkAnswer(row) {
   const m = row?.metadata;
   const pick = ANSWER_LETTERS.indexOf(m?.pick);
   if (!m || pick < 0 || typeof m.right !== 'boolean' || !Number.isInteger(m.correct)) return null;
-  return { n: Number(m.n), pick, right: m.right, correct: m.correct };
+  return { n: Number(m.n), pick, right: m.right, correct: m.correct, team: isTeamCollege(m.for) ? m.for : null };
 }
 
-/** The page's reading of a check's answer for question place `n`: { pick, right, correct, why, recorded }, or null. */
+/**
+ * The page's reading of a check's answer for question place `n`: { pick, right, correct, why, recorded, team }, or null.
+ * `team` is the college the account's five counts for (signed in), or null.
+ */
 export function acceptCheck(body, n) {
   if (!body || typeof body !== 'object' || body.n !== n) return null;
   const { pick, right, correct } = body;
   if (!Number.isInteger(pick) || pick < 0 || pick > 3 || !Number.isInteger(correct) || correct < 0 || correct > 3) return null;
   if (typeof right !== 'boolean' || right !== (pick === correct)) return null;
   const why = typeof body.why === 'string' ? body.why.trim().slice(0, 900) : '';
-  return { pick, right, correct, why, recorded: body.recorded === true };
+  return { pick, right, correct, why, recorded: body.recorded === true, team: isTeamCollege(body.for) ? body.for : null };
 }
 
 /**
@@ -227,7 +239,8 @@ function cleanReview(review) {
 }
 
 /**
- * GET /api/daily/me's answer: { day, date, record | null, review | null, played: [dates] }, or null when it is not one.
+ * GET /api/daily/me's answer: { day, date, record | null, review | null, played: [dates], team | null, seat | null }, or null
+ * when it is not one. `team` is the college the account's fives are played for and `seat` its seat number (17 Nov 2026).
  * `record` is today's five on the account (all five checked); `review` its keys and reasons, sent only with a record (the
  * student has answered all five); `played` every day on the account with a whole five.
  */
@@ -238,8 +251,15 @@ export function acceptAccount(body) {
   if (body.record !== null && body.record !== undefined && !cleanAccountRecord(body.record, date)) return null;
   const played = [...new Set((Array.isArray(body.played) ? body.played : []).filter(isDateKey))].sort();
   const record = body.record ? cleanAccountRecord(body.record, date) : null;
-  return { day, date, record, review: record ? cleanReview(body.review) : null, played };
+  return { day, date, record, review: record ? cleanReview(body.review) : null, played, team: cleanTeam(body.team), seat: cleanSeat(body.seat) };
 }
+
+/** The account's college as /api/daily/me sends it (team.mjs accountTeam): { college, since, changedOn, last }, or null. */
+function cleanTeam(team) {
+  if (!team || typeof team !== 'object' || !isTeamCollege(team.college) || !isDateKey(team.last)) return null;
+  return { college: team.college, since: isDateKey(team.since) ? team.since : team.last, changedOn: isDateKey(team.changedOn) ? team.changedOn : null, last: team.last };
+}
+const cleanSeat = (seat) => (Number.isInteger(seat) && seat >= SEAT_MIN && seat <= SEAT_MAX ? seat : null);
 
 /** The account's days with today's, when today is finished on this device and only waits for the account's read. */
 export function runDays(accountDays, today, playedToday) {

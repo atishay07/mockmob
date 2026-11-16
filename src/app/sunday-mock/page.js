@@ -73,6 +73,15 @@ export default function SundayMockPublicPage() {
       <PublicDock />
       <style>{`${PUBLIC_HERO_CSS}
         .sm-page .sm-when { margin-top: 1.25rem; }
+        /* The next Sunday on paper, as the Daily Five's admit card is drawn (17 Nov 2026): an OMR sheet's timing marks along
+           its top, the state, the date large, its hours, the clock. Never the ink date slab. */
+        .sm-page .sm-ticket { position: relative; display: grid; gap: 4px; max-width: 26rem; padding: 26px 20px 18px; border: 1px solid var(--line-strong); border-radius: 22px; background: var(--paper-raised); box-shadow: 0 1px 2px rgb(42 32 16 / 0.05), 0 18px 40px -26px rgb(42 32 16 / 0.22); }
+        .sm-page .sm-ticket::before { content: ''; position: absolute; top: 0; left: 20px; right: 20px; height: 8px; opacity: 0.8; background: repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 13px); }
+        .sm-page .sm-ticket__state { margin: 0; color: var(--ink-2); font: 650 0.9375rem/1.3 var(--font-body); }
+        .sm-page .sm-ticket__date { margin: 0; color: var(--ink); font: 800 clamp(1.75rem, 7vw, 2.25rem)/1.05 var(--font-display); letter-spacing: -0.03em; }
+        .sm-page .sm-ticket__hours { margin: 0 0 10px; color: var(--ink-2); font: 650 1rem/1.3 var(--font-body); }
+        .sm-page .sm-ticket .df-clock { padding-top: 12px; border-top: 1px dashed var(--line-strong); }
+        html[data-theme='dark'] .sm-page .sm-ticket { box-shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 20px 44px -28px rgb(0 0 0 / 0.6); }
         .sm-page .sm-next { min-height: 1.5em; margin: 0.75rem 0 0; font: 650 1rem/1.5 var(--font-display); color: var(--brand-word, var(--ink)); font-variant-numeric: tabular-nums; }
         /* The paper in three figures: the number large, its unit under it, on one hairline. */
         .sm-page .sm-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 12px; margin: 1.5rem 0 0; padding: 0 0 1.25rem; list-style: none; border-bottom: 1px solid var(--line-strong); }
