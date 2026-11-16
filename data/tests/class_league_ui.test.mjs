@@ -5,7 +5,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 
-const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
+const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8').replace(/
+/g, '
+'); // a Windows checkout has CRLF
 const DIR = 'src/components/class/';
 const files = readdirSync(new URL(`../../${DIR}`, import.meta.url)).filter((f) => /\.jsx?$/.test(f));
 
