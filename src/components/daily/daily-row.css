@@ -48,8 +48,8 @@
   .mm.lp .dfs__name { font-size: 1.5rem; }
   .mm.lp .dfs__line { font-size: 1rem; }
 }
-/* The strip's own head: a small habit, said at a modest size and in one column at every width. */
-.mm.lp main > .lp-rhythm.lp-sec .lp-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; justify-items: start; margin-bottom: 1.25rem; }
+/* The strip's own head: a small habit, said at a modest size (the columns are the page's own, home-sections.css). */
+.mm.lp main > .lp-rhythm.lp-sec .lp-head { margin-bottom: 1.25rem; }
 .mm.lp main > .lp-rhythm.lp-sec .lp-head .lp-h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
 .mm.lp main > .lp-rhythm.lp-sec .lp-head > * { margin-inline: 0; text-align: left; }
 .mm.lp .lp-rhythm .lp-kc__phrase { display: inline-block; }
