@@ -84,7 +84,24 @@ test('the head says the game in two beats; the Sunday card\'s short sentence kee
   assert.equal(STRIP_HEAD.h2, 'Five a day. Play for your college.');
   assert.match(STRIP_HEAD.sub, /English and General Test/);
   assert.match(STRIP_HEAD.sub, /DU college/);
+  // A guest's five is kept on the device alone: only a signed-in five counts for a college (review, 17 Nov 2026).
+  assert.match(STRIP_HEAD.sub, /play signed in counts for/);
   assert.match(SUNDAY_LINE_SHORT, /^One full paper in each of your subjects\. Sign up to sit it\.$/);
+});
+
+test('the block\'s college words are what the server counted; See all says its own words to a screen reader (review)', () => {
+  const jsx = read('./DailyFiveRow.jsx');
+  // A link's spoken name holds the words on it (WCAG 2.5.3), so "See all" works by voice too.
+  for (const m of jsx.matchAll(/aria-label="([^"]+)"[^>]*>([^<{]+)</g)) assert.ok(m[1].toLowerCase().includes(m[2].trim().toLowerCase()), `${m[1]} / ${m[2]}`);
+  assert.match(jsx, /aria-label="See all of the college board">See all</);
+  // Today's row names the college today's five counted for (the account's), never a choice this phone made since.
+  assert.match(jsx, /const counted = fromAccount && account\.team && account\.team\.last === today\.date/);
+  assert.match(jsx, /\$\{counted \? ` for \$\{counted\}` : ''\}/);
+  // The choice is kept with its account on a shared phone: both doors that know the student pass who it is.
+  assert.match(jsx, /useTeamChoice\(\{ today: date, account: account\?\.team \|\| null, userId: /);
+  const page = read('./DailyFive.jsx');
+  assert.match(page, /useTeamChoice\(\{ today: today\?\.date \|\| null, account: accountReady \? account\.team : null, userId \}\)/);
+  assert.equal((page.match(/shareText\(result, shareCollege\)/g) || []).length, 2, 'the share line names the college today counted for');
 });
 
 test('no exclamation marks, arrows, upper-case times, ranks or day numbers in any state', () => {

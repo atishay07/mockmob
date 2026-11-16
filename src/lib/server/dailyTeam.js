@@ -18,9 +18,12 @@ import { LAUNCH_WEEK, SUNDAY_TAG, isWeekKey, marksOf, sundayState, sundayWindow 
 import { SEAT_MAX, SEAT_MIN, accountTeam, dayBoard, mondayOf, sundayBoard, weekBoard } from '../daily/team.mjs';
 import { parseDailyQuery } from './dailyFive.js';
 
+/** PostgREST answers at most 1,000 rows a request (its max-rows): every list read pages in steps of 1,000, ordered. */
 const PAGE = 1000;
 /** At most this many rows are read for one span (a week of a busy board is far under it). */
 const MAX_ROWS = 60 * PAGE;
+/** Account ids per .in() list (the URL stays short; learnStore.js keeps the same size). */
+const IN_CHUNK = 100;
 /** How far back a sitter's college is looked for, before their Sunday. */
 const TEAM_LOOKBACK_DAYS = 120;
 const LATE = JSON.stringify({ late: true });
@@ -49,7 +52,7 @@ class StoreError extends Error {
  * interaction_type 'daily_five' (the table's (interaction_type, created_at) index, or the user index), so it never meets
  * another feature's rows.
  */
-export function createTeamStore({ db }) {
+export function createTeamStore({ db, maxRows = MAX_ROWS }) {
   const qi = () => db().from('question_interactions');
   const flat = (r) => ({ user: r.user_id, date: String(r.session_id || '').slice(6), n: Number(r.n), right: r.right === true || r.right === 'true', team: typeof r.team === 'string' ? r.team : null });
 
@@ -61,14 +64,17 @@ export function createTeamStore({ db }) {
     return (data || []).map((r) => ({ session_id: r.session_id, metadata: { n: Number(r.n), for: typeof r.team === 'string' ? r.team : undefined } }));
   }
 
-  /** Every signed-in Daily Five row checked from `fromDate` to `toDate` (IST, both whole days), flat. */
+  /**
+   * Every signed-in Daily Five row checked from `fromDate` to `toDate` (IST, both whole days), flat. Newest day first (a row's
+   * id starts 'daily5:<date>:'), so if a week ever outgrows the cap it is Monday that is cut short, never today.
+   */
   async function spanRows(fromDate, toDate) {
     const out = [];
-    for (let from = 0; from < MAX_ROWS; from += PAGE) {
+    for (let from = 0; from < maxRows; from += PAGE) {
       const { data, error } = await qi().select('id,user_id,session_id,n:metadata->n,right:metadata->right,team:metadata->for')
         .eq('interaction_type', DAILY_FIVE_INTERACTION).is('flow_context', null)
         .gte('created_at', iso(istStart(fromDate))).lt('created_at', iso(istStart(addDays(toDate, 1))))
-        .order('id', { ascending: true }).range(from, from + PAGE - 1);
+        .order('id', { ascending: false }).range(from, from + PAGE - 1);
       if (error) throw new StoreError('READ_FAILED', error);
       for (const r of data || []) out.push(flat(r));
       if (!data || data.length < PAGE) break;
@@ -80,7 +86,7 @@ export function createTeamStore({ db }) {
   async function sundaySittings(week) {
     const win = sundayWindow(week);
     const out = [];
-    for (let from = 0; from < MAX_ROWS; from += PAGE) {
+    for (let from = 0; from < maxRows; from += PAGE) {
       const { data, error } = await db().from('attempts').select('id,user_id,correct,wrong,total')
         .contains('selection_meta', { mobPaper: { mobId: SUNDAY_TAG, weekStart: week } }).not('selection_meta', 'cs', LATE)
         .gte('completed_at', iso(win.opensAt)).lte('completed_at', iso(win.lastFinishAt))
@@ -92,20 +98,29 @@ export function createTeamStore({ db }) {
     return out;
   }
 
-  /** Each of these students' college on `date` (their latest five on or before it): Map(user -> college). */
+  /**
+   * Each of these students' college on `date` (their latest five on or before it): Map(user -> college). Only the rows that
+   * carry a college are read (the only ones accountTeam counts), in pages of 1,000 until a short page: a single request is
+   * cut at PostgREST's 1,000 rows, and an unordered cut could drop a sitter's latest fives and count their marks for the
+   * college they left. Newest day first, so a cap ever reached drops the oldest days, never the latest.
+   */
   async function teamsOn(userIds, date) {
     const out = new Map();
-    const ids = [...new Set(userIds)];
-    for (let i = 0; i < ids.length; i += 200) {
-      const chunk = ids.slice(i, i + 200);
-      const { data, error } = await qi().select('user_id,session_id,n:metadata->n,team:metadata->for').in('user_id', chunk).is('flow_context', null)
-        .eq('interaction_type', DAILY_FIVE_INTERACTION).gte('created_at', iso(istStart(addDays(date, -TEAM_LOOKBACK_DAYS))))
-        .lt('created_at', iso(istStart(addDays(date, 1)))).limit(chunk.length * 5 * 40);
-      if (error) throw new StoreError('READ_FAILED', error);
+    const ids = [...new Set(userIds)].filter((id) => typeof id === 'string' && id);
+    for (let i = 0; i < ids.length; i += IN_CHUNK) {
+      const chunk = ids.slice(i, i + IN_CHUNK);
       const rows = new Map();
-      for (const r of data || []) {
-        if (!rows.has(r.user_id)) rows.set(r.user_id, []);
-        rows.get(r.user_id).push({ session_id: r.session_id, metadata: { n: Number(r.n), for: typeof r.team === 'string' ? r.team : undefined } });
+      for (let from = 0; from < maxRows; from += PAGE) {
+        const { data, error } = await qi().select('id,user_id,session_id,n:metadata->n,team:metadata->for').in('user_id', chunk).is('flow_context', null)
+          .eq('interaction_type', DAILY_FIVE_INTERACTION).not('metadata->>for', 'is', null)
+          .gte('created_at', iso(istStart(addDays(date, -TEAM_LOOKBACK_DAYS)))).lt('created_at', iso(istStart(addDays(date, 1))))
+          .order('id', { ascending: false }).range(from, from + PAGE - 1);
+        if (error) throw new StoreError('READ_FAILED', error);
+        for (const r of data || []) {
+          if (!rows.has(r.user_id)) rows.set(r.user_id, []);
+          rows.get(r.user_id).push({ session_id: r.session_id, metadata: { n: Number(r.n), for: typeof r.team === 'string' ? r.team : undefined } });
+        }
+        if (!data || data.length < PAGE) break;
       }
       for (const [user, list] of rows) { const t = accountTeam(list, date); if (t) out.set(user, t.college); }
     }
@@ -115,7 +130,7 @@ export function createTeamStore({ db }) {
   /** A day's picks per question: Map(question id -> { of, picks: [A, B, C, D counts], correct }). */
   async function picksOn(date) {
     const out = new Map();
-    for (let from = 0; from < MAX_ROWS; from += PAGE) {
+    for (let from = 0; from < maxRows; from += PAGE) {
       const { data, error } = await qi().select('id,question_id,pick:metadata->pick,correct:metadata->correct')
         .eq('interaction_type', DAILY_FIVE_INTERACTION).eq('session_id', dailySessionId(date))
         .gte('created_at', iso(istStart(date))).lt('created_at', iso(istStart(addDays(date, 1))))

@@ -10,6 +10,7 @@ import { DAILY_FIVE_ME_ROUTE, acceptAccount, runDays } from '@/lib/dailyFiveAcco
 import { editionName } from '@/lib/daily/team.mjs';
 import { teamName } from '@/lib/daily/colleges.mjs';
 import { Icon } from '@/components/ui/Icons';
+import { useAuth } from '@/components/AuthProvider';
 import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
 import { SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow } from './dailyStripCopy.mjs';
@@ -132,7 +133,7 @@ function HomeBlock() {
             mine={team.college}
             mode="preview"
             title="College board"
-            aside={<Link href={`${DAILY_FIVE_PATH}#board`} className="dwk-more" aria-label="See the whole college board">See all<ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link>}
+            aside={<Link href={`${DAILY_FIVE_PATH}#board`} className="dwk-more" aria-label="See all of the college board">See all<ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link>}
           />
         </div>
       </article>
@@ -176,7 +177,8 @@ function TodayRow() {
       .catch(() => {});
     return () => { alive = false; };
   }, [date]);
-  const team = useTeamChoice({ today: date, account: account?.team || null });
+  const { isAuthenticated, user } = useAuth();
+  const team = useTeamChoice({ today: date, account: account?.team || null, userId: isAuthenticated && user?.id ? String(user.id) : null });
 
   const ready = Boolean(today && record);
   const fromAccount = ready && account && account.date === today.date;
@@ -186,8 +188,11 @@ function TodayRow() {
     : streakOf(record.played, today.date).count;
   const wait = now === null ? '' : untilShort(msUntilNextDay(now));
   const college = team.college ? teamName(team.college) : '';
+  // A played five names the college it counted for: the account's for today (its rows say so), never this device's choice,
+  // which may already be the next day's.
+  const counted = fromAccount && account.team && account.team.last === today.date ? teamName(account.team.college) : '';
   const line = !ready ? ' ' : result
-    ? `Played today: ${result.score}/5 in ${formatClock(result.ms)}${college ? ` for ${college}` : ''}.${streak >= 2 ? ` Day ${streak} in a row.` : ''} Next five in ${wait}.`
+    ? `Played today: ${result.score}/5 in ${formatClock(result.ms)}${counted ? ` for ${counted}` : ''}.${streak >= 2 ? ` Day ${streak} in a row.` : ''} Next five in ${wait}.`
     : `${streak >= 2 ? `${streak} days in a row so far.` : streak === 1 ? 'You played yesterday.' : college ? `Playing for ${college}.` : 'Five questions, the same for everyone.'} Today’s five closes in ${wait}.`;
   return (
     <Link href={DAILY_FIVE_PATH} className="tmask dfr dfr--today" data-played={result ? 'true' : 'false'}>

@@ -46,8 +46,9 @@ export function editionName(date) {
 export const playingFor = (id) => (isTeamCollege(id) ? `Playing for ${teamName(id)}` : '');
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The device's choice: { college, on, changedOn }. `on` is the IST date it was made; `changedOn` the date of the last change
-// (null for a first pick that was never changed).
+// The device's choice: { college, on, changedOn, by? }. `on` is the IST date it was made; `changedOn` the date of the last
+// change (null for a first pick that was never changed); `by` the account it was made or read under (none: a guest's pick,
+// which the account signed in next takes over).
 
 /** The stored text as a choice, or null. */
 export function readTeam(raw) {
@@ -56,7 +57,8 @@ export function readTeam(raw) {
     try { value = JSON.parse(raw); } catch { return null; }
   }
   if (!value || typeof value !== 'object' || !isTeamCollege(value.college) || !isDateKey(value.on)) return null;
-  return { college: value.college, on: value.on, changedOn: isDateKey(value.changedOn) ? value.changedOn : null };
+  const by = typeof value.by === 'string' && value.by ? value.by : null;
+  return { college: value.college, on: value.on, changedOn: isDateKey(value.changedOn) ? value.changedOn : null, ...(by ? { by } : {}) };
 }
 
 /** The first day a change is allowed again, or null when a change is allowed now (a first pick, or the first change). */
@@ -95,16 +97,21 @@ export const CHANGE_RULE = 'You can change it later, once a week.';
 /**
  * The device beside the account. `account` is /api/daily/me's team: { college, since, changedOn, last } (last: the latest
  * day a five was played for it). The account wins unless the device chose after the account's latest five (a change made
- * here and not yet played): then the device's choice stands, and the lock is the later of the two.
+ * here and not yet played) on a day the account's own rule allowed a change (the server writes the account's college
+ * otherwise, so the page must not say another): then the device's choice stands, and the lock is the later of the two.
+ * `userId` is the signed-in student: a choice this device holds for another account (a shared phone) is not theirs and is
+ * left out; a guest's pick (no `by`) is theirs to take over.
  */
-export function mergeTeam(device, account) {
+export function mergeTeam(device, account, userId = null) {
+  const own = device && !(typeof userId === 'string' && userId && device.by && device.by !== userId) ? device : null;
   const acc = account && isTeamCollege(account.college) ? account : null;
-  if (!acc) return device || null;
-  if (device && device.college !== acc.college && isDateKey(acc.last) && device.on >= acc.last) {
-    const changedOn = [device.changedOn, acc.changedOn].filter(isDateKey).sort().pop() || null;
-    return { college: device.college, on: device.on, changedOn };
+  if (!acc) return own || null;
+  const accountRule = { college: acc.college, on: acc.since, changedOn: isDateKey(acc.changedOn) ? acc.changedOn : null };
+  if (own && own.college !== acc.college && isDateKey(acc.last) && own.on >= acc.last && canChange(accountRule, own.on)) {
+    const changedOn = [own.changedOn, acc.changedOn].filter(isDateKey).sort().pop() || null;
+    return { college: own.college, on: own.on, changedOn };
   }
-  return { college: acc.college, on: isDateKey(acc.since) ? acc.since : (device?.on || acc.last), changedOn: isDateKey(acc.changedOn) ? acc.changedOn : null };
+  return { college: acc.college, on: isDateKey(acc.since) ? acc.since : (own?.on || acc.last), changedOn: accountRule.changedOn };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

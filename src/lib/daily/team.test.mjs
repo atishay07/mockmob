@@ -101,6 +101,31 @@ test('the device beside the account: the account wins, unless a change was made 
   assert.equal(mergeTeam(null, null), null);
 });
 
+test('the device never says a college the server will not count: a change the account\'s week refuses gives way (review)', () => {
+  // The account changed to Hansraj on the 14th: no change before the 21st, whatever this phone picked (the home block reads
+  // no account, so its sheet can offer one).
+  const locked = { college: H, since: '2026-11-14', changedOn: '2026-11-14', last: '2026-11-16' };
+  const picked = { college: M, on: '2026-11-17', changedOn: null };
+  assert.deepEqual(mergeTeam(picked, locked), { college: H, on: '2026-11-14', changedOn: '2026-11-14' });
+  assert.equal(teamForCheck([...rowsOf('2026-11-13', K), ...rowsOf('2026-11-14', H), ...rowsOf('2026-11-16', H)], '2026-11-17', M), H, 'the server agrees');
+  // From the 21st the same pick stands, as the server then writes it.
+  assert.equal(mergeTeam({ ...picked, on: '2026-11-21' }, locked).college, M);
+  assert.equal(teamForCheck([...rowsOf('2026-11-13', K), ...rowsOf('2026-11-14', H), ...rowsOf('2026-11-16', H)], '2026-11-21', M), M);
+});
+
+test('a shared phone: one account\'s college and its lock are never another\'s; a guest\'s pick moves to the account (review)', () => {
+  assert.deepEqual(readTeam(JSON.stringify({ college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' })), { college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' });
+  assert.deepEqual(readTeam({ college: H, on: '2026-11-17', by: '' }), { college: H, on: '2026-11-17', changedOn: null });
+  const asA = { college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' };
+  assert.equal(mergeTeam(asA, null, 'user-b'), null, 'another account signed in: no college, and no lock, from this phone');
+  assert.equal(mergeTeam(asA, null, 'user-a').college, H);
+  assert.equal(mergeTeam(asA, null).college, H, 'signed out: the phone\'s own choice shows');
+  const account = { college: K, since: '2026-11-10', changedOn: null, last: '2026-11-16' };
+  assert.equal(mergeTeam(asA, account, 'user-b').college, K, 'B\'s own college, never A\'s pending one');
+  const guest = { college: M, on: '2026-11-17', changedOn: null };
+  assert.equal(mergeTeam(guest, null, 'user-b').college, M, 'a guest\'s pick is the account\'s at sign-up');
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
 // The rule on the server, from the account's rows.
 
