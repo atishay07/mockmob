@@ -9,6 +9,7 @@ import {
   ANSWERS_LABEL, SUNDAY_COPY, dateLabel, marksLine, openUntilLine, opensLine, resultHref, satLine, stateOf, subjectRow, timeLabel, windowLine,
 } from '@/lib/sundayMock.mjs';
 import { useSunday } from './useSunday';
+import ArrivalLine, { useArrival } from '@/components/arrival/ArrivalLine';
 import './sunday.css';
 
 const LEDE = 'One full paper in each of your subjects, the same paper for everyone, every Sunday from 10:00 AM to 10:00 PM. Free.';
@@ -45,6 +46,8 @@ function Rows({ d }) {
 export default function SundayPage() {
   const sunday = useSunday(true);
   const d = sunday.status === 'ready' ? sunday.data : null;
+  // Arrived from the public Sunday Mock page through sign-up (16 Nov 2026): one line over this week's state, once on this device.
+  const arrived = useArrival('sunday');
   let body;
   if (sunday.status === 'loading') {
     body = <div className="sun-skel" aria-busy="true" aria-label="Loading the Sunday Mock"><i /><i /><i /></div>;
@@ -66,6 +69,7 @@ export default function SundayPage() {
     const now = nowLine(d);
     body = (
       <>
+        {d.subjects.length ? <ArrivalLine line={arrived} className="sun-arrive" /> : null}
         <p className="sun-now"><b>{now.title}</b><span>{now.line}</span></p>
         <section className="sun-subjects" aria-labelledby="sun-subjects-h">
           <h2 id="sun-subjects-h">Your subjects</h2>

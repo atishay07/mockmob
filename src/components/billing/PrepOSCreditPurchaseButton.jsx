@@ -1,6 +1,7 @@
 'use client';
 import { CAPABILITIES } from '@/../data/capabilities';
 import { shownName } from '@/lib/displayName.mjs';
+import { loginPathFor } from '@/lib/auth-redirect';
 
 import { useState } from 'react';
 import { CheckCircle2, Loader2, ShieldCheck, WalletCards } from 'lucide-react';
@@ -44,7 +45,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
-        window.location.href = `/login?callbackUrl=${encodeURIComponent('/pricing/ai-credits')}`;
+        window.location.href = loginPathFor('/pricing/ai-credits'); // the log-in page reads ?next= (never callbackUrl)
         return;
       }
 

@@ -10,6 +10,7 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { AppViewNotice } from '@/components/AppViewNotice';
 import { JsonLd } from '@/components/JsonLd';
+import { loginPathFor } from '@/lib/auth-redirect';
 import { PrepOSCreditPurchaseButton } from '@/components/billing/PrepOSCreditPurchaseButton';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
@@ -83,7 +84,7 @@ export default async function AICreditsPage() {
             ) : (
               <div className="aic-signin">
                 <p className="aic-line">Log in to see your credits. A {isPaid ? 'Pro' : 'free'} account includes {monthly} a month.</p>
-                <Link href="/login?callbackUrl=%2Fpricing%2Fai-credits" className="mm-btn mm-btn--primary">Log in</Link>
+                <Link href={loginPathFor('/pricing/ai-credits')} className="mm-btn mm-btn--primary">Log in</Link>
               </div>
             )}
           </div>

@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowUp, Check, Plus, Trash2 } from 'lucide-react';
+import { loginPathFor } from '@/lib/auth-redirect';
 import { useMyColleges } from './useMyColleges';
 import { useCollegeCutoffs } from './useCollegeCutoffs';
 import { cutoffFigure } from '@/lib/colleges/cutoffs.mjs';
@@ -162,7 +163,8 @@ export function AddToMyColleges({ userId, programmeId, programme, college }) {
   if (!programmeId) return null;
   // Signed out: the save is still visible, as a quiet way in. The calculator keeps the chosen subjects on this
   // device, so they are still there after sign-in (T003, T004).
-  if (!userId) return <Link className="mc-signin" href="/login?callbackUrl=%2Fcuet-cutoff-calculator">Sign in to save</Link>;
+  // The log-in page reads ?next= (callbackUrl was never read: the student landed on Today, 16 Nov 2026).
+  if (!userId) return <Link className="mc-signin" href={loginPathFor('/cuet-cutoff-calculator')}>Sign in to save</Link>;
   const entry = { programmeId, programme, college };
   const on = hasEntry(mine.colleges, entry);
   const full = !on && mine.colleges.length >= MAX_COLLEGES;

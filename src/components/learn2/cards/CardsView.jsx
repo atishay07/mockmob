@@ -20,6 +20,7 @@ import { chapterCards, useLearnRead } from '../api';
 import { useLearnLinks } from '../links';
 import CardList, { visibleSections } from './CardList';
 import AnswersKey from './AnswersKey';
+import ArrivalLine, { useArrival } from '@/components/arrival/ArrivalLine';
 import { RUN_CARDS_MAX, countWord, subjectLabel, theseKey, useAddToRevise, usePick, withParams } from './cardsShared';
 import '@/components/keycards/keycards.css';
 import './cards.css';
@@ -209,6 +210,8 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
   const data = read.data;
   const isPro = data?.plan === 'pro';
   const actions = useAddToRevise({ isPro, onAdded: () => read.refresh() });
+  // Arrived from this chapter's public deck through sign-up (16 Nov 2026): one line under the title, once on this device.
+  const arrived = useArrival('chapter', { chapter: chapterKey });
 
   const setFilter = useCallback((f) => {
     setFilterState(f);
@@ -260,6 +263,7 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
           <header className="l2c-head">
             <h1 className="l2c-title">Key cards</h1>
             <p className="l2c-ref">{headLine}</p>
+            <ArrivalLine line={arrived} />
           </header>
 
           <FilterChips value={filter} onChange={setFilter} options={options} />

@@ -1,0 +1,14 @@
+/* The arrival line (ArrivalLine.jsx): one plain line, the colour the app gives a confirmed state (Key cards' "Added to Revise",
+   .l2c-said), never a box. Its room is taken with the page's loaded content, so it moves nothing when it shows. */
+.arrive {
+  margin: 0;
+  max-width: 62ch;
+  font: 600 14.5px/1.5 var(--font-body);
+  color: var(--a-good-text);
+  text-wrap: pretty;
+}
+/* Where each page draws it: under the Key cards title's reference line, over Learn's subjects, over the Sunday week line. */
+.l2c-head > .arrive { margin-top: 4px; }
+.arrive.lh-arrive { margin-bottom: 14px; }
+/* After a full page load the Learn line waits for the loaded state and comes in over the map, inside its panel (LearnHome.jsx). */
+.arrive.lh-arrive--late { margin: 0 0 16px; }

@@ -28,6 +28,7 @@ import CardSets from './CardSets';
 import ChapterMap, { MapError, MapSkeleton } from './ChapterMap';
 import { displayTitle, findHints, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
 import './learn-home.css';
+import ArrivalLine, { useArrival } from '@/components/arrival/ArrivalLine';
 
 const STORE_SUBJECT = 'mm:learn:subject:v1';
 const STORE_RECENT = 'mm:learn:recent:v1';
@@ -106,6 +107,11 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const sentinel = useRef(null);
   const before = useRef(null); // the page's scroll before the field docked, restored on Cancel
   const fresh = useRef(false); // the next read skips the kept answer (a refresh after a change)
+  // Arrived from the home page's Key cards or /key-cards through sign-up (16 Nov 2026): one line, once. Known in the first render
+  // (the client navigation from onboarding) it sits over the subjects from the first frame; known only after a full page load's
+  // hydration, it waits for the loaded state and comes in with the map, inside the panel, so nothing already drawn moves.
+  const arrived = useArrival('cards');
+  const [arrivedFirst] = useState(() => Boolean(arrived));
 
   // The remembered subject (per device) when the link names none; the link's own subject always wins. The first read waits for it, so a
   // student who last chose Economics never sees the first subject flash by.
@@ -259,6 +265,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
 
       {mode === 'find' || mode === 'results' ? null : (
         <>
+          {arrivedFirst ? <ArrivalLine line={arrived} className="lh-arrive" /> : null}
           <SubjectPicker subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} />
           <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
         </>
@@ -290,8 +297,12 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
         ) : mode === 'find' ? (
           <FindHome subject={active} shelves={shelves} onShelf={openShelf} onSearch={(w) => { setText(w); field.current?.focus({ preventScroll: true }); }} />
         ) : (
-          <ChapterMap key={data.subject.id} id="lh-roadmap" parts={data.parts || []} subjectId={data.subject.id} links={links} refresh={refresh}
-            isPro={data.plan === 'pro'} position={data.roadmap?.position?.chapterKey || null} isNew={data.roadmap?.mode === 'new'} />
+          <>
+            {/* After a full page load the arrival line comes in with the map, inside the panel that held its skeleton. */}
+            {!arrivedFirst ? <ArrivalLine line={arrived} className="lh-arrive lh-arrive--late" /> : null}
+            <ChapterMap key={data.subject.id} id="lh-roadmap" parts={data.parts || []} subjectId={data.subject.id} links={links} refresh={refresh}
+              isPro={data.plan === 'pro'} position={data.roadmap?.position?.chapterKey || null} isNew={data.roadmap?.mode === 'new'} />
+          </>
         )}
       </div>
     </div>
