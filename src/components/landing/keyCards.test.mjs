@@ -209,8 +209,12 @@ test('one key under the demo: guest "Sign up free to keep going" (secondary, vol
   // 16 Nov 2026: beside the key, one quiet text link to the public decks (/key-cards, any chapter's free cards); nothing else.
   // 16 Nov 2026, later: plus the row of subjects, each a link into the same public decks (owner: every feature presented with
   // more care, not the safest approach). Still one key.
-  assert.equal((DEMO.match(/href=/g) || []).length, 3, 'the key, the subjects row and the one quiet link to the public decks');
-  assert.match(DEMO, /subjects\.map\(\(s\) => <li key=\{s\.slug\}><Link href=\{`\$\{PUBLIC_DECKS_HREF\}#\$\{s\.slug\}`\}>\{s\.name\}<\/Link><\/li>\)/);
+  // 16 Nov 2026, evening: on a phone fourteen chips stood as a wall, so the row shows six there and one chip that counts
+  // the rest and opens the same public decks (r16-phone.css hides the others below 720 px; wide screens show them all).
+  assert.equal((DEMO.match(/href=/g) || []).length, 4, 'the key, the subjects row, its chip for the rest, and the one quiet link to the public decks');
+  assert.match(DEMO, /subjects\.map\(\(s, i\) => <li key=\{s\.slug\} data-extra=\{i >= PHONE_SUBJECTS \? 'true' : undefined\}><Link href=\{`\$\{PUBLIC_DECKS_HREF\}#\$\{s\.slug\}`\}>\{s\.name\}<\/Link><\/li>\)/);
+  assert.match(DEMO, /<li className="kc-open__more"><Link href=\{PUBLIC_DECKS_HREF\}>/, 'the rest are one tap away, never dropped');
+  assert.match(DEMO, /const PHONE_SUBJECTS = 6;/);
   assert.match(DEMO, /<Link href=\{PUBLIC_DECKS_HREF\} className="mm-link">\{W\.seeChapter\}<\/Link>/, 'a text link, never a second key');
   assert.match(DEMO, /const PUBLIC_DECKS_HREF = '\/key-cards';/);
 });
