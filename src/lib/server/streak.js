@@ -13,7 +13,7 @@
 // auth(request) reads the web session or the app's Bearer token, like every other /api/me route.
 // No '@/' imports, so node:test drives it with a fake session and service (data/tests/streak_1117.test.mjs).
 import { MobError } from '../mob/model.mjs';
-import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES } from '../chain/chain.mjs';
+import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES, PAUSE_MAX } from '../chain/chain.mjs';
 
 const MIN = 60_000;
 export const STREAK_LIMITS = Object.freeze({
@@ -25,8 +25,9 @@ const MESSAGES = Object.freeze({
   UNAUTHENTICATED: [401, 'Sign in to see your streak.'],
   BODY_INVALID: [400, 'Something in the request was not right. Try again.'],
   PAUSE_PAST: [422, 'Pause days have to be after today.'],
-  PAUSE_LIMIT: [409, 'You have used the 14 pause days this season allows.'],
+  PAUSE_LIMIT: [409, `You have used the ${PAUSE_MAX} pause days this season allows.`],
   RATE_LIMITED: [429, 'You changed your pause days a lot today. Try again tomorrow.'],
+  READ_LIMITED: [429, 'Your streak was asked for many times just now. Try again in a few minutes.'],
   UNAVAILABLE: [503, 'Your streak did not load. Try again shortly.'],
 });
 
@@ -49,9 +50,11 @@ export const streakBody = (chain) => ({
  */
 export async function handleStreak(deps, action, request) {
   const headers = { ...(deps.cors ? deps.cors(request) : {}), 'Cache-Control': 'no-store' };
+  // READ_LIMITED answers with the code RATE_LIMITED (the contract's code) and its own words: a read is not a pause change.
   const fail = (code, extra = {}) => {
     const [status, message] = MESSAGES[code] || MESSAGES.UNAVAILABLE;
-    return Response.json({ error: { code: MESSAGES[code] ? code : 'UNAVAILABLE', message } }, { status, headers: { ...headers, ...extra } });
+    const sent = code === 'READ_LIMITED' ? 'RATE_LIMITED' : MESSAGES[code] ? code : 'UNAVAILABLE';
+    return Response.json({ error: { code: sent, message } }, { status, headers: { ...headers, ...extra } });
   };
   const spec = STREAK_ACTIONS[action];
   if (!spec || request.method !== spec[0]) return fail('BODY_INVALID');
@@ -61,9 +64,9 @@ export async function handleStreak(deps, action, request) {
   const [, limitName, run] = spec;
   if (deps.rateLimit) {
     const l = STREAK_LIMITS[limitName];
-    const r = await Promise.resolve().then(() => deps.rateLimit(request, { route: `/api/me/streak:${limitName}`, limit: l.limit, windowMs: l.windowMs, keyParts: [userId], identityOnly: true }))
+    const r = await Promise.resolve().then(() => deps.rateLimit(request, { route: `/api/me/streak:${limitName}`, limit: l.limit, windowMs: l.windowMs, keyParts: [userId], identityOnly: true, fallback: 'memory' }))
       .catch(() => ({ allowed: true }));
-    if (!r?.allowed) return fail('RATE_LIMITED', { 'Retry-After': String(Math.ceil(Number(r?.retryAfterSeconds) || l.windowMs / 1000)) });
+    if (!r?.allowed) return fail(limitName === 'read' ? 'READ_LIMITED' : 'RATE_LIMITED', { 'Retry-After': String(Math.ceil(Number(r?.retryAfterSeconds) || l.windowMs / 1000)) });
   }
   let body = {};
   if (request.method !== 'GET') {

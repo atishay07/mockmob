@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, Check, ChevronLeft, ChevronRight, Moon, Package } from 'lucide-react';
 import { DenCopy, MobTime, denError } from '@/lib/mob/v3/denCopy.mjs';
+import { ruleLine } from '@/lib/streak/streakCopy.mjs';
 import { questEach, questSegments } from '@/lib/mob/v3/denModel.mjs';
 import { MobDialog } from '../MobDialog';
 import { mobFetch, useMob } from '../useMob';
@@ -153,6 +154,7 @@ function YouTab({ chain, setChain }) {
         {(chain.week || []).map((d) => <Tick key={d.day} day={{ ...d, needed: chain.today?.needed }} today={d.state === 'today'} />)}
       </ol>
       {!chain.today?.done && left > 0 ? <p className="mob-hint">{DenCopy.answerMore(left)}</p> : null}
+      <p className="mob-hint">{ruleLine(chain.today?.needed ?? 5)}</p>
       <div className="den-pass">
         <span className="den-pass__icons" aria-hidden="true">{Array.from({ length: Math.max(1, chain.passes?.max ?? 2) }, (_, i) => <span key={i} className="den-pass__icon" data-held={i < (chain.passes?.held ?? 0) || undefined}><Moon size={14} /></span>)}</span>
         <span className="den-pass__text"><b>{DenCopy.passesHeld(chain.passes?.held ?? 0, chain.passes?.max ?? 2)}</b><span>{DenCopy.passesRule}</span></span>

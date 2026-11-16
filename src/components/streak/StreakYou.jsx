@@ -2,7 +2,7 @@
 // The daily streak on You (17 Nov 2026, LK296 S1 and S8): its cell in Your progress (the number in a bubble, ringed volt once today
 // counts, and the best), opening the streak sheet; and in Your goal, the exam pause offered in words, opening the sheet at its
 // pause days. Both read the one shared streak (useStreak); a failed read leaves them out.
-import { PAUSE_TITLE, daysWord, pauseLine, pauseSetLine } from '@/lib/streak/streakCopy.mjs';
+import { PAUSE_TITLE, STREAK_NAME, daysWord, pauseLine, pauseSetLine, statusLine } from '@/lib/streak/streakCopy.mjs';
 import { openStreakSheet, useStreak } from './useStreak';
 import './streak.css';
 
@@ -11,6 +11,16 @@ export function StreakGlanceCell({ userId }) {
   if (status === 'error') return null;
   if (!body) return <span className="acct-sk acct-sk--glance skeleton" aria-hidden="true" />;
   const done = Boolean(body.today?.done);
+  // Never a zero lead (R3 Z, 17 Nov review): with no run yet the bubble is empty and the line says how the streak starts.
+  if (!(body.days > 0)) {
+    const start = statusLine(body)?.text || 'Each day that counts adds one.';
+    return (
+      <button type="button" className="acct-streak" onClick={() => openStreakSheet()} aria-label={`${STREAK_NAME}. ${start} Opens your streak.`}>
+        <span className="acct-streak__n" data-empty aria-hidden="true" />
+        <span className="acct-glance__text" aria-hidden="true"><b>{STREAK_NAME}</b><span>{start}</span></span>
+      </button>
+    );
+  }
   const sub = body.best > body.days ? `Best: ${daysWord(body.best)}` : done ? 'Today counts' : body.days > 0 ? `Today: ${body.today?.answered ?? 0} of ${body.today?.needed ?? body.rule?.answers} answered` : 'Starts with one day';
   return (
     <button type="button" className="acct-streak" data-today={done || undefined} onClick={() => openStreakSheet()}

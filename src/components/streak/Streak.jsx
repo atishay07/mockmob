@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, Moon, X } from 'lucide-react';
 import {
-  PAUSE_TITLE, makeUpRule, passRule, STREAK_NAME, daysWord, milestoneLine, passLine, pauseKey, pauseLine, pauseSetLine, ruleLine, statusLine,
+  PAUSE_TITLE, makeUpRule, passRule, STREAK_NAME, daysWord, milestoneLine, passLine, pauseDoneLine, pauseKey, pauseLine, pauseSetLine, ruleLine, statusLine,
   streakWeek, weekLegend, weekdayOf,
 } from '@/lib/streak/streakCopy.mjs';
 import { closeStreakSheet, sendPause, useStreak, useStreakSheet } from './useStreak';
@@ -109,7 +109,7 @@ export function PausePicker({ body, userId, onDone }) {
     setBusy(false);
     if (!r.ok) { setNote(r.message); return; }
     setPicked([]);
-    setNote(method === 'POST' ? `${days.length === 1 ? '1 day' : `${days.length} days`} paused. Your streak holds on them.` : 'Those days are no longer paused.');
+    setNote(pauseDoneLine(days.length, method === 'POST'));
     onDone?.();
   };
   return (

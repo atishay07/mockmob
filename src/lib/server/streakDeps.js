@@ -6,7 +6,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { mobileOptions } from '@/lib/server/mobileCors';
 import { readLatePapersSoft } from '@/lib/server/latePapers';
-import { readStreakExtras } from '@/lib/server/streakDays';
+import { createStreakExtrasReader, readStreakExtras } from '@/lib/server/streakDays';
 import { createChainService } from '@/lib/server/chain';
 
 async function rpc(name, params) {
@@ -25,7 +25,8 @@ export function streakDeps() {
       service: createChainService({
         rpc,
         latePapers: (userId) => readLatePapersSoft(supabaseAdmin(), { userId }),
-        extraDays: (userId, fromDay) => readStreakExtras(supabaseAdmin(), userId, fromDay),
+        // The past days are kept per student for 10 minutes; only today's rows are read between (streakDays.js).
+        extraDays: createStreakExtrasReader({ read: (userId, fromDay) => readStreakExtras(supabaseAdmin(), userId, fromDay) }),
       }),
     };
   }

@@ -79,7 +79,7 @@ export function passLine(p) {
   const held = p?.held ?? 0;
   const max = p?.max ?? 2;
   const at = p?.next?.at;
-  if (held >= max) return { title: `${passes(held)}, the most you can hold`, next: 'A new pass comes once you use one.' };
+  if (held >= max) return { title: `${passes(held)}, the most you can hold`, next: 'Use one and the next can be earned.' };
   if (held === 0) return { title: 'No rest pass yet', next: at ? `Your next comes at day ${at}.` : null };
   return { title: passes(held), next: at ? `Next pass at day ${at}.` : null };
 }
@@ -115,7 +115,8 @@ export function milestoneLine(body) {
 }
 export function milestoneMoment(m) {
   if (!m?.at) return null;
-  return { title: `${m.at} days in a row`, text: `${qs(m.answered ?? 0)} answered since this streak began.` };
+  // Titled as the milestone, not the current run (17 Nov review): the block's head already says today's number.
+  return { title: `You reached ${daysWord(m.at)}`, text: `${qs(m.answered ?? 0)} answered since this streak began.` };
 }
 export const momentKey = (at) => `mm:streak-moment:${at}:v1`;
 
@@ -133,6 +134,8 @@ export function pauseSetLine(pause, today) {
   return days.length === 1 ? `1 pause day set: ${weekdayOf(first)} ${Number(first.slice(8))}.` : `${days.length} pause days set, from ${weekdayOf(first)} ${Number(first.slice(8))}.`;
 }
 export const pauseKey = (n) => (n === 1 ? 'Pause 1 day' : `Pause ${n} days`);
+/** After pause days are set or cleared. */
+export const pauseDoneLine = (n, set = true) => (set ? (n === 1 ? '1 day paused. Your streak holds on it.' : `${n} days paused. Your streak holds on them.`) : (n === 1 ? 'That day is no longer paused.' : 'Those days are no longer paused.'));
 
 /** The chip's words: the number in figures, the label for a screen reader. */
 export const chipLabel = (days, done) => `${STREAK_NAME}, ${daysWord(days)}${done ? ', today counted' : ''}. Opens your streak.`;
