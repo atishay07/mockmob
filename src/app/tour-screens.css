@@ -159,7 +159,7 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 /* The steps and the quick replies arrive on a shorter rise than the tour's default. */
 .ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
-.ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
+body .ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
 .ts__replies .ts__reply-key[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
 /* The pill reads at 36 px; its hit area is 44 px tall (nothing that takes a tap sits within 4 px above or below it). */
 .ts__reply-key::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }

@@ -2490,7 +2490,7 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 /* The steps and the quick replies arrive on a shorter rise than the tour's default. */
 .ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
-.ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
+body .ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
 .ts__replies .ts__reply-key[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
 /* The pill reads at 36 px; its hit area is 44 px tall (nothing that takes a tap sits within 4 px above or below it). */
 .ts__reply-key::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }
@@ -6125,7 +6125,7 @@ html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
   transition: background-color 150ms ease-out, transform 120ms var(--mm-ease-out, cubic-bezier(.23, 1, .32, 1));
 }
 .fts__jump:active { background: var(--paper-sunken); color: var(--ink); transform: scale(.97); }
-.fts__jump:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
+body .fts__jump:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
 .fts__label { display: block; max-width: 100%; white-space: nowrap; }
 .fts__ico { display: block; flex: none; width: 32px; height: 32px; }
 .fts__ico :is(img, svg) { display: block; width: 32px; height: auto; max-height: 32px; margin: 0 auto; }
@@ -6142,7 +6142,7 @@ html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
 .fts__title { margin: 20px 0 0; color: var(--ink); font: 800 clamp(1.25rem, 5.6vw, 1.55rem)/1.14 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
 .fts__lede { margin: 8px 0 0; max-width: 34rem; color: var(--ink-2); font: 400 .9375rem/1.45 var(--font-body); text-wrap: pretty; }
 .fts__cta { margin-top: 4px; font-size: .9375rem; touch-action: manipulation; }
-.fts__cta:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 2px; border-radius: 4px; }
+body .fts__cta:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 2px; border-radius: 4px; }
 
 /* A tablet held upright (768 px and up): the screen keeps a phone's width beside its words, so a dark screen never
    stretches 700 px wide with small type in it. The name, title, sentence and link stand in the left column, level with the
