@@ -130,11 +130,13 @@ test('the words: plain, no exclamation marks or arrows, and never a Pro claim ab
   for (const line of lines) assert.doesNotMatch(String(line), BANNED, String(line));
 });
 
-test('wiring: Where you stand leads the record door, reads its own route, and the old leak button is gone', () => {
-  const doors = read('src/components/ai/AskMobiDoors.jsx');
-  assert.match(doors, /\{ready \|\| status === 'unavailable' \? <WhereYouStand userId=\{userId\} \/> : null\}/);
-  assert.ok(doors.indexOf('<WhereYouStand') < doors.indexOf('DOOR_COPY.recordTip'), 'it leads the record questions');
-  assert.doesNotMatch(doors, /className="amd-lead"/);
+test('wiring: Where you stand leads Your record, reads its own route, and the old leak button is gone', () => {
+  const page = read('src/components/ai/MentorRecordPage.jsx');
+  assert.match(page, /\{ready \|\| status === 'unavailable' \? <StandingCard view=\{standingView\(standing\.read\)\} onRetry=\{standing\.retry\} \/> : null\}/);
+  assert.ok(page.indexOf('<StandingCard') < page.indexOf('CHAT_COPY.recordAsk'), 'it leads the record questions');
+  assert.doesNotMatch(page, /className="amd-lead"/);
+  // One read serves the card and the chat's own line of context (16 Nov 2026).
+  assert.match(read('src/components/ai/useMentorData.js'), /fetch\('\/api\/mobi\/standing', \{ cache: 'no-store' \}\)/);
   const parts = read('src/components/ai/MobiJobParts.jsx');
   assert.match(parts, /fetch\('\/api\/mobi\/standing', \{ cache: 'no-store' \}\)/);
   assert.match(parts, /<p className="mj-note">\{view\.note\}<\/p>/, 'the note is on every band');

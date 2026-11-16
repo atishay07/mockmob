@@ -236,7 +236,7 @@ test('the Ask panel: a handed-over question with written replies unavailable say
   assert.equal(paidState({ known: false, state: 'error' }).open, false, 'credits that cannot be read are never treated as open');
   const panel = read('src/components/ai/AskMobiPanel.jsx');
   assert.match(panel, /const questionTyping = withQuestion && \(!wallet \|\| paid\.open\);/, 'a typed ask is about the question only while written replies are open');
-  assert.match(panel, /const placeholder = onPage \? 'Ask a follow-up' : questionTyping \? `Ask about \$\{qName\}` :/, 'when they are not, the composer asks the record, not the question (the /mentor page has no question attached: it says follow-up)');
+  assert.match(panel, /const placeholder = questionTyping \? `Ask about \$\{qName\}` :/, 'when they are not, the composer asks the record, not the question (it keeps its own words)');
   assert.match(panel, /if \(!isRetry && !paid\.open\) return;/, 'no paid call is made');
   assert.match(panel, /<button type="button" className="amb-btn amb-btn--line" onClick=\{dropQuestion\}>Ask about my record<\/button>/, 'the way out drops the question');
   assert.match(panel, /disabled=\{off\}/, 'the written asks are disabled, not hidden');
@@ -247,7 +247,7 @@ test('the Ask panel with a handed-over question: no record claim, no Focus selec
   assert.doesNotMatch(panel, /Focus|Listbox|FOCUS_OPTIONS/, 'no Focus select');
   assert.match(panel, /<figure className="amb-quote" aria-label=\{`\$\{qName\}, the question you are asking about`\}>/, 'the question sits in its own quote, with the pick and the key');
   assert.match(panel, /The key is being re-checked, so Mobi will not name an answer\./, 'a key under re-check is never named');
-  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'the cost shows on every ask before it is sent');
+  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(MOBI_JOB_CREDITS\)/, 'the cost shows on every ask before it is sent');
   assert.doesNotMatch(panel, /verified answer key|Your record is the context/, 'no record claim about a written reply');
 });
 

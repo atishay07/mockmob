@@ -9,6 +9,8 @@
 //   &mistake=refuse    the model's own "not a question from a test"
 //   &mistake=none      no credits left (402)        &mistake=paused   written replies paused (503)
 //   &mistake=slow      the answer after 8 s, to see Sending
+//   &mistake=slower    the answer after 14 s, to see the second line of a long wait
+//   &charged=1         with &mistake=unreadable or refuse: the refusal says it used 1 credit (the words must follow the amount)
 //   &mistake=lost      the first send's answer is lost on the way; Try again sends the same request and gets it
 // A paid answer spends one credit from the preview wallet, once per request id, like the server's receipt (two for a photo).
 //
@@ -72,11 +74,19 @@ export function previewMistake(url, method, init, fixture, json) {
   if (!study.ok) return later({ ok: true, kind: 'refused', reply: refusalFor(study.reason), charged: 0 }, 200, 300);
 
   if (kind === 'none') return later({ ok: false, error: 'insufficient_ai_credits', status: 'blocked', balance: 0, message: `This uses ${credits} ${credits === 1 ? 'credit' : 'credits'}. You have 0. Questions about your record are free.`, charged: 0 }, 402);
-  if (kind === 'unreadable' && value.photo) return later({ ok: true, kind: 'refused', reason: 'unreadable', reply: MISTAKE_COPY.unreadable, charged: 0 }, 200, 1600);
+  // A refusal that used a credit (&charged=1): the amount is in the body, and the reply's own words claim nothing about it.
+  const used = Math.max(0, Math.trunc(Number(fixture.get('charged')) || 0));
+  const refusal = (reply, extra = {}) => {
+    if (!used) return { ok: true, kind: 'refused', reply, charged: 0, ...extra };
+    const receipts = (window.__previewRepairIds ||= new Set());
+    for (let i = 0; i < used; i += 1) receipts.add(`mistake-refused:${body.requestId}:${i}`);
+    return { ok: true, kind: 'refused', reply: reply.replace(/\s*Nothing was charged\.$/, ''), charged: used, charge: { kind: 'prepos_credit', amount: used }, ...extra };
+  };
+  if (kind === 'unreadable' && value.photo) return later(refusal(MISTAKE_COPY.unreadable, { reason: 'unreadable' }), 200, 1600);
   if (kind === 'paused') return later({ ok: false, status: 'paused', message: 'AI features are paused for now. Your credits have not been used.', charged: 0 }, 503);
   if (kind === 'cap') return later({ ok: false, error: 'user_limit_reached', status: 'failed', message: 'You’ve reached this month’s AI limit. It resets on 1 December. No credits were used.', charged: 0 }, 429, 1200);
   if (kind === 'fail') return later({ ok: false, error: 'unusable_output', status: 'failed', message: `${MISTAKE_COPY.failed} No credits were used.`, charged: 0 }, 502, 1500);
-  if (kind === 'refuse') return later({ ok: true, kind: 'refused', reply: MISTAKE_COPY.notStudy, charged: 0 }, 200, 1200);
+  if (kind === 'refuse') return later(refusal(MISTAKE_COPY.notStudy), 200, 1200);
 
   const modelReply = { ...(kind === 'unsure' ? UNSURE : SURE), ...(value.photo ? { read: READ } : {}) };
   const checked = readMistakeReply(JSON.stringify(modelReply), { request: value });
@@ -96,5 +106,5 @@ export function previewMistake(url, method, init, fixture, json) {
     lost.add(body.requestId);
     return new Promise((_, reject) => setTimeout(() => reject(new TypeError('Illustrative: the answer was lost on the way')), 1200));
   }
-  return later(reply, 200, kind === 'slow' ? 8000 : 1400);
+  return later(reply, 200, kind === 'slower' ? 14_000 : kind === 'slow' ? 8000 : 1400);
 }

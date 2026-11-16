@@ -171,18 +171,18 @@ test('the words: what a credit buys, said plainly; no exclamation marks or arrow
     ...Object.values(FRESH_DOUBTS).flat().map((d) => d.text),
   ];
   for (const line of lines) assert.doesNotMatch(String(line), BANNED, String(line));
-  for (const file of ['src/components/ai/mobiJobs.mjs', 'src/components/ai/MobiJobParts.jsx', 'src/components/ai/AskMobiDoors.jsx', 'src/components/ai/AskMobiPanel.jsx']) {
+  for (const file of ['src/components/ai/mobiJobs.mjs', 'src/components/ai/MobiJobParts.jsx', 'src/components/ai/ChatEmpty.jsx', 'src/components/ai/ChatComposer.jsx', 'src/components/ai/ChatThread.jsx', 'src/components/ai/chatCopy.mjs', 'src/components/ai/AskMobiPanel.jsx']) {
     assert.doesNotMatch(code(read(file)), /Included in Pro|fair use|no credits on Pro/i, file);
   }
 });
 
-test('wiring: the doors say what a credit buys and send each starter with its chapter; the panel runs the thread', () => {
-  const doors = code(read('src/components/ai/AskMobiDoors.jsx'));
-  assert.match(doors, /<p className="amd-buys">\{JOB_COPY\.creditBuys\}<\/p>/);
-  assert.match(doors, /start\(\{ text: s\.text, doubt: \{ subject: s\.subject, chapter: s\.chapter \} \}\)/);
-  assert.match(doors, /doubt=\{thread\.doubt\}/);
+test('wiring: the start says what a credit buys and sends each starter with its chapter; the chat runs the thread', () => {
+  const start = code(read('src/components/ai/ChatEmpty.jsx'));
+  assert.match(start, /<p className="ace-more__tip">\{doubtBuys\(\)\}<\/p>/);
+  assert.match(start, /onAsk\?\.\(\{ text: s\.text, doubt: \{ subject: s\.subject, chapter: s\.chapter \} \}\)/);
   const panel = code(read('src/components/ai/AskMobiPanel.jsx'));
-  assert.match(panel, /const initial = useMemo\(\(\) => \(given && doubt \? \{ \.\.\.given, doubt \} : given\), \[given, doubt\]\);/);
+  assert.match(panel, /onAsk=\{\(ask\) => run\(start\.adapt \? start\.adapt\(ask\) : ask\)\}/, 'the ask reaches the engine with its doubt');
+  assert.match(panel, /setInitial\(\{ \.\.\.ask \}\);/);
   assert.match(panel, /\.\.\.\(sent\.threadId \? \{ threadId: sent\.threadId \} : \{\}\)/, 'the follow-up carries the thread');
   assert.match(panel, /\.\.\.\(sent\.anchor\?\.subject \? \{ subject: sent\.anchor\.subject, \.\.\.\(sent\.anchor\.chapter \? \{ chapter: sent\.anchor\.chapter \} : \{\}\) \} : \{\}\)/, 'a starter carries subject and chapter');
   assert.match(panel, /replyKind: replyKindOf\(sent\)/);
@@ -190,7 +190,10 @@ test('wiring: the doors say what a credit buys and send each starter with its ch
   assert.match(panel, /if \(sent\.kind === 'followup' \|\| sent\.questionRef\) return 'model';\s*return 'doubt';/, 'a typed Ask now doubt is never answered from the record\'s keywords');
   assert.match(panel, /if \(!questionTyping && followUpOpen\(doubtThread\)\) \{/, 'in an open doubt, typed words are its free follow-up');
   assert.match(panel, /<DoubtChecks/);
-  assert.match(panel, /\{JOB_COPY\.newDoubt\}/);
+  // After the follow-up the composer is a new ask again, with its price (16 Nov 2026: the thread no longer carries a key for it).
+  assert.match(panel, /followUp=\{threadOpen\}/);
+  assert.match(panel, /placeholder=\{threadDone \? JOB_COPY\.newDoubtPlaceholder : placeholder\}/);
+  assert.match(code(read('src/components/ai/ChatComposer.jsx')), /\{followUp && !mistake \? <p className="ach-included">\{CHAT_COPY\.followUpIncluded\}<\/p> : null\}/);
   assert.match(panel, /const failure = chatFailure\(res\.status, data\);/);
   assert.match(panel, /else if \(plan\.kind === 'tonight'\) sendFree\(plan\.text, 'tonight'\);/);
   const parts = code(read('src/components/ai/MobiJobParts.jsx'));

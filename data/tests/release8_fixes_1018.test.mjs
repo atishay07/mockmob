@@ -127,10 +127,18 @@ test('D53: a tapped ask in Ask Mobi sends at once, with no confirmation step bet
   assert.doesNotMatch(read('src/app/api/ai/mentor/chat/route.js'), /acknowledg|payload\.consent|payload\.ack/i);
 });
 
-test('D53: one quiet inline line says an AI service writes the reply and that it uses 1 credit (the credit wording is still usesLine)', () => {
-  const panel = read('src/components/ai/AskMobiPanel.jsx');
-  assert.match(panel, /An AI service writes it\. \$\{usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)\}/);
-  assert.match(panel, /className="amb-cost__price" aria-live="polite"/);
+// 16 Nov 2026 (owner, 10:25 pm): no provider is named on the product's screens. The one quiet line still says what the send uses
+// (the credit wording is still usesLine) and that Mobi is AI and can be wrong.
+test('D53: one quiet inline line says what the send uses, with no provider named (the credit wording is still usesLine)', () => {
+  const copy = read('src/components/ai/chatCopy.mjs');
+  assert.match(copy, /usesLine\(\{ what: whatFor\(\{ kind, photo, question \}\), cost, pool: 'ai', balance: wallet\.total \}\)/);
+  assert.match(copy, /aiNote: 'Mobi is AI and can be wrong\.'/);
+  const composer = read('src/components/ai/ChatComposer.jsx');
+  assert.match(composer, /<p className="ach-line" id=\{ids\.line\} data-tone=\{line\.tone\} aria-live="polite">/);
+  for (const file of ['AskMobiPanel.jsx', 'ChatComposer.jsx', 'ChatThread.jsx', 'ChatEmpty.jsx', 'ChatHistory.jsx', 'MentorRecordPage.jsx', 'chatCopy.mjs', 'askDoors.mjs']) {
+    const src = read(`src/components/ai/${file}`).split('\n').filter((l) => !/^\s*(\/\/|\*|\/\*)/.test(l)).join('\n');
+    assert.doesNotMatch(src, /An AI service|OpenAI|MISTAKE_COPY\.photoPrivacy|priceLine\(/, `${file} names no provider and draws no line that does`);
+  }
 });
 
 test('W-079 (release 9): the desktop "Edit" on the Practice ticket is itself 44 px tall, not 36 px with an invisible layer', () => {

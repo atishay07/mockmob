@@ -240,19 +240,29 @@ test('every line the doors say is read aloud: no exclamation marks, arrows or sh
 
 // ---- Wiring ---------------------------------------------------------------------------------------------------------
 
-test('/mentor is Ask Mobi\'s front door: the doors first, then the credit line and recent questions, then the record in full', () => {
+// 16 Nov 2026: the two doors became a chat (the owner: "It should feel like a proper AI agent"). The page is the conversation;
+// the record moved to its own view, History holds the saved exchanges, and nothing the doors did is gone.
+test('/mentor is Ask Mobi\'s chat: the conversation first, History for the saved exchanges, and the record in full in its own view', () => {
   const page = read('src/components/ai/MentorRecordPage.jsx');
-  assert.match(page, /<AskMobiDoors/);
-  assert.match(page, /id="record"/, 'the record view is still on the page (R3), under the doors');
+  assert.match(page, /<AskMobiPanel\s[^>]*?form="page"/s, 'the page is the conversation, the same engine as the docked panel');
+  assert.match(page, /id="record"/, 'the record view is still on the page (R3), as Your record');
   assert.match(page, /<RecordView/);
+  assert.match(page, /<StandingCard view=\{standingView\(standing\.read\)\}/, 'Where you stand leads Your record');
   assert.match(page, /if \(tab === 'plan'\) \{ router\.replace\('\/today'\)/);
   assert.match(page, /if \(tab === 'tools'\) \{ router\.replace\('\/wallet'\)/);
-  assert.doesNotMatch(page, /Earlier questions/, 'the past questions are "Your recent questions" now');
-  const doors = read('src/components/ai/AskMobiDoors.jsx');
-  assert.match(doors, /DOOR_COPY\.recentTitle/);
-  assert.match(doors, /openUpgrade\(\{ trigger: 'review'/, 'a Pro ask opens the Upgrade sheet (D80), never a dead tap');
-  assert.match(doors, /fetch\('\/api\/ai\/mentor\/history'/);
-  assert.doesNotMatch(doors, /typewriter|setInterval|charAt\(/i, 'no fake streaming: an honest wait');
+  assert.match(page, /useState\(tab === 'record' \? 'record' : 'chat'\)/, '?tab=record opens Your record');
+  assert.match(page, /normalizeContext\(tab === 'ask' && q \? \{ kind: 'question', ref: q \} : \{ kind: 'page' \}\)/, '?tab=ask&q= opens the chat on that question');
+  assert.match(page, /<HistorySheet/);
+  assert.match(page, /<HistoryColumn/);
+  assert.match(page, /function newChat\(\) \{\s*setSaved\(null\);\s*setChatKey\(\(n\) => n \+ 1\);/, 'New chat clears the view; it deletes nothing');
+  assert.doesNotMatch(page, /method: 'DELETE'|Earlier questions/);
+  const start = read('src/components/ai/ChatEmpty.jsx');
+  assert.match(start, /openUpgrade\(\{ trigger: 'review'/, 'a Pro ask opens the Upgrade sheet (D80), never a dead tap');
+  assert.match(page, /openUpgrade\(\{ trigger: 'review'/, 'and from Your record too');
+  assert.match(read('src/components/ai/useMentorData.js'), /fetch\('\/api\/ai\/mentor\/history'/);
+  for (const file of ['src/components/ai/ChatEmpty.jsx', 'src/components/ai/ChatThread.jsx', 'src/components/ai/ChatComposer.jsx', 'src/components/ai/AskMobiPanel.jsx']) {
+    assert.doesNotMatch(read(file), /typewriter|setInterval|charAt\(/i, `${file}: no fake streaming, an honest wait`);
+  }
 });
 
 test('the navigation opens /mentor as a page; the docked panel stays for asks about one question or one mock', () => {

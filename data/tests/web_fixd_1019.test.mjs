@@ -60,19 +60,21 @@ test('money: the normal path stays free, answered from the record the page alrea
   assert.equal(plan({ initial: null }).kind, 'none');
 });
 
-test('money: the doors mark every Free ask, hand the panel the record they already read, and the panel offers Try again instead of sending', () => {
-  const doors = read('src/components/ai/AskMobiDoors.jsx');
-  assert.match(doors, /free: ask\.price === 'free'/, 'a record ask the door shows as Free is marked free');
-  assert.match(doors, /record: ready \? \{ status, insights \} : null/, 'the record the page read is handed over, not read a second time');
-  assert.match(doors, /initial=\{\{ text: thread\.text, answer: thread\.answer, free: thread\.free, record: thread\.record \}\}/);
-  assert.match(doors, /start\(\{ text, free: price === 'free' \}\)/, 'a typed question the record answers is marked free too');
-  assert.doesNotMatch(doors, /start\(\{ text: s, free/, 'a starter is a written reply, never marked free');
+test('money: the start marks every Free ask, the page hands the chat the record it already read, and the chat offers Try again instead of sending', () => {
+  const start = read('src/components/ai/ChatEmpty.jsx');
+  assert.match(start, /free: ask\.price === 'free'/, 'a record ask the start shows as Free is marked free');
+  assert.match(start, /onAsk\?\.\(\{ text: losing\?\.text \|\| 'Where am I losing marks\?', free: true \}\)/, 'the Free tiles are marked free');
+  assert.match(start, /onAsk\?\.\(\{ text: s\.text, doubt: \{ subject: s\.subject, chapter: s\.chapter \} \}\)/);
+  assert.doesNotMatch(start, /onAsk\?\.\(\{ text: s\.text, free/, 'a starter is a written reply, never marked free');
+  const page = read('src/components/ai/MentorRecordPage.jsx');
+  assert.match(page, /record=\{insightsState\}/, 'the record the page read is handed over, not read a second time');
+  assert.match(page, /chat\.current\?\.ask\(\{ text: ask\.text, answer: ask\.id === 'last' \? ask\.answer : null, free: ask\.price === 'free' \}\)/, 'a question from Your record is marked free too');
   const panel = code(read('src/components/ai/AskMobiPanel.jsx'));
-  assert.match(panel, /const handed = initial\?\.record && /);
+  assert.match(panel, /const handed = record \|\| null;/);
   assert.match(panel, /useInsights\(handed \? null : userId, recordTry\)/, 'no second read when the page handed the record over');
   assert.match(panel, /planStart\(\{ initial, status, insights, pro, wallet, offline, paid \}\)/);
   assert.match(panel, /plan\.kind === 'record-failed'/);
-  assert.match(panel, /onClick=\{tryStartAgain\}>Try again</);
+  assert.match(panel, /ways=\{\[\{ id: 'again', label: CHAT_COPY\.tryAgain \}\]\} onWay=\{tryStartAgain\}/);
   const effect = panel.slice(panel.indexOf('startNow.current = () =>'), panel.indexOf('function tryStartAgain'));
   assert.equal((effect.match(/sendPaid\(/g) || []).length, 1, 'one path to a written reply, and it is the plan\'s "paid"');
   assert.match(effect, /else sendPaid\(plan\.text\)/);
@@ -88,7 +90,7 @@ test('truth: the door\'s chapter and figure are the record\'s own top-ranked cha
   assert.equal(asks[0].preview, '30 marks lost in Partnership Fundamentals');
   assert.equal(leadFigureLine('Goodwill'), 'marks lost in Goodwill, your biggest leak');
   assert.match(read('src/components/ai/RecordView.jsx'), /<b>\{c\.open\}<\/b><small>marks lost<\/small>/, 'the record below prints the same figure in the same words');
-  assert.doesNotMatch(read('src/components/ai/AskMobiDoors.jsx'), /marks lost in/);
+  assert.doesNotMatch(read('src/components/ai/ChatEmpty.jsx'), /marks lost in/);
   assert.doesNotMatch(code(read('src/components/ai/askDoors.mjs')), /LOST_WRONG|LOST_BLANK/);
 });
 
@@ -107,13 +109,16 @@ test('copy: the credit line says "refill on 1 Nov", and the docked panel says it
   const dot = `${NB}·${NB}`;
   assert.equal(creditLine(WALLET).first, `38 of your 50 free credits left${dot}they refill${NB}on${NB}1${NB}Nov`);
   assert.equal(creditLine({ ...WALLET, total: 138, bonusCredits: 100 }).first, `138 credits left${dot}free ones refill${NB}on${NB}1${NB}Nov`);
+  // 16 Nov 2026: docked and on the page the composer is one component, so the balance is said one way in both: the spend
+  // line's own "You have N." (creditCopy.mjs haveLine), a link to the wallet.
   const panel = code(read('src/components/ai/AskMobiPanel.jsx'));
-  assert.match(panel, /const creditWords = creditLine\(wallet\)\.first;/);
-  assert.match(panel, /: creditWords\}/, 'the page\'s words are the fallback when the line has no leading number');
-  // Release 10's tick stays: the leading number is keyed, so .amb-num replays when a credit is spent.
-  assert.match(panel, /<b key=\{balanceTick\[1\]\} className="amb-num">\{balanceTick\[1\]\}<\/b>\{balanceTick\[2\]\}/);
+  const composer = code(read('src/components/ai/ChatComposer.jsx'));
+  assert.match(composer, /const have = line\.tone === 'cost' && wallet\?\.known \? haveLine\(wallet\.total\) : null;/);
+  assert.match(composer, /: have\}<\/Link>/, 'the line\'s own words are the fallback when it has no number');
+  // Release 10's tick stays: the number is keyed, so .amb-num replays when a credit is spent.
+  assert.match(composer, /<b key=\{balanceTick\[2\]\} className="amb-num">\{balanceTick\[2\]\}<\/b>\{balanceTick\[3\]\}/);
   // The tick's match must never shadow creditCount(), the "1 credit" label the record asks use.
   assert.doesNotMatch(panel, /const creditCount\b/);
-  assert.doesNotMatch(panel, /walletLine|free, back to/, 'the docked panel no longer has its own wording for the same balance');
+  assert.doesNotMatch(`${panel}${composer}`, /walletLine|free, back to/, 'the docked panel has no wording of its own for the same balance');
   assert.doesNotMatch(code(read('src/components/ai/askDoors.mjs')), /refill \$\{d\}|refill \$\{d\}/, 'no "refill 1 Nov" without "on"');
 });
