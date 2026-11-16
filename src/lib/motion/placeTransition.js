@@ -10,7 +10,7 @@
 //
 // Wiring (AppLayoutClient and the place links):
 //   <Link href={href} transitionTypes={transitionTypesFor(pathname, href)}>
-//   <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition>   (experimental.viewTransition)
+//   <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition>   (no Next flag since 16.3)
 
 export const VT = Object.freeze({
   placeFwd: 'mm-place-fwd',

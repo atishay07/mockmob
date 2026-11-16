@@ -60,10 +60,9 @@ const nextConfig = {
   experimental: {
     // Avoid restoring the stale Turbopack graph that crashed the local preview.
     turbopackFileSystemCacheForDev: false,
-    // React <ViewTransition> on route navigations: the arena's page transitions (AppLayoutClient,
-    // src/lib/motion/placeTransition.js, src/instrumentation-client.js). Documented for Next 16.2.4 in
-    // node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/viewTransition.md.
-    viewTransition: true,
+    // React <ViewTransition> on route navigations (the arena's page transitions: AppLayoutClient,
+    // src/lib/motion/placeTransition.js, src/instrumentation-client.js) needs no flag since Next 16.3, which
+    // dropped experimental.viewTransition and warns on it (node_modules/next/dist/docs/01-app/02-guides/view-transitions.md).
   },
   // The free first full mock's kill switch (data/first_full_mock.js, C-dec 1, release 11 verifier L4): ON when unset, "false"
   // turns it off. Passed into every bundle at build time, so the server's grant and every client line that says "free" read the
