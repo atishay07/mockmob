@@ -423,7 +423,7 @@ test('LK67 and LK70 on the running page, in real Chrome', { skip: !URL_ && 'set 
     const sizes = [[390, 844, 2, true], [375, 667, 2, true], [360, 640, 2, true], [412, 915, 2, true], [1280, 800, 1, false], [1440, 900, 1, false], [1920, 1080, 1, false]];
     for (const [width, height, dsf, touch] of sizes) {
       const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dsf, hasTouch: touch, isMobile: touch });
-      await ctx.addInitScript(() => { try { localStorage.setItem('mm:opened:v1', '1'); sessionStorage.setItem('mm:opening:v1', '1'); } catch { /* none */ } });
+      await ctx.addInitScript(() => { try { localStorage.setItem('mm:opened:v2', '1'); sessionStorage.setItem('mm:opening:v2', '1'); } catch { /* none */ } });
       const page = await ctx.newPage();
       await page.goto(`${URL_}/`, { waitUntil: 'load' });
       await page.evaluate(() => document.fonts.ready);

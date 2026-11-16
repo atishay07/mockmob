@@ -49,7 +49,7 @@ try {
   for (const [w, h, theme, reducedMotion] of [[390, 844, 'light', 'no-preference'], [390, 844, 'dark', 'no-preference'], [1440, 900, 'light', 'no-preference'], [1440, 900, 'dark', 'no-preference'], [390, 844, 'light', 'reduce']]) {
     {
       const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: w < 700, hasTouch: w < 700, reducedMotion });
-      await ctx.addInitScript((t) => { try { localStorage.setItem('mm:theme:v1', t); sessionStorage.setItem('mm:opening:v1', '1'); } catch { /* private mode */ } }, theme);
+      await ctx.addInitScript((t) => { try { localStorage.setItem('mm:theme:v1', t); sessionStorage.setItem('mm:opening:v2', '1'); } catch { /* private mode */ } }, theme);
       const page = await ctx.newPage();
       await page.goto(`${base}/`, { waitUntil: 'networkidle', timeout: 180000 }).catch(() => {});
       await page.waitForTimeout(2500);

@@ -1,20 +1,20 @@
 // node --test src/components/landing/opening.test.mjs
-// The home page's opening (LK74, SPEC-HOME-1104 decisions 1 and 6; L-043): the app's "mo" opening in CSS (OpeningMo.jsx,
-// opening.css), its run gate (openingGate.mjs) and the per-letter logo (logoLetters.mjs, generated). Source-level and
-// pure; the filmstrips, elementFromPoint and LCP/CLS are measured in a real browser (tmp/home-1104/build-p3/).
+// The home page's opening, "answer sheet rain" (LK74; LK299, 17 Nov 2026: "grand ... with even some animation falling
+// through it ... merge it into the MockMob logo at the top and animate the logo a little bit"): OpeningMo.jsx, opening.css,
+// its run gate (openingGate.mjs) and the logo's parts (logoLetters.mjs, generated). Source-level and pure; the frames,
+// the landing on the bar logo, LCP and CLS are measured in a real browser (wt-1117-opening/tmp/cap.mjs).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { LOGO_B_LETTERS, LOGO_B_MOBI, LOGO_B_VIEWBOX } from '../brand/logoB.js';
-import { LOGO_DOT, LOGO_LETTER_PARTS, LOGO_LETTER_X, LOGO_MO, LOGO_MOBI_INDEX, LOGO_MOBI_PARTS, LOGO_OPEN_BOX, LOGO_OPEN_VIEWBOX, LOGO_UNFOLD, LOGO_WORD } from '../brand/logoLetters.mjs';
-import { OPENING_FIRST_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, OPENING_LATE_MS, OPENING_SNAPS, OPENING_WAIT_MS, openingGate, openingGateScript } from './openingGate.mjs';
+import { LOGO_DOT, LOGO_LETTER_PARTS, LOGO_LETTER_X, LOGO_MO, LOGO_MOBI_INDEX, LOGO_MOBI_PARTS, LOGO_OPEN_BOX, LOGO_OPEN_VIEWBOX, LOGO_WORD } from '../brand/logoLetters.mjs';
+import { OPENING_FIRST_MS, OPENING_FLIP_MS, OPENING_HAND_MS, OPENING_KEYS, OPENING_LATE, OPENING_SETTLE_MS, OPENING_SHORT_MS, OPENING_SKIP_EVENTS, OPENING_LATE_MS, OPENING_WAIT_MS, openingGate, openingGateScript } from './openingGate.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const CSS = read('../../app/opening.css');
 const OPENING = read('./OpeningMo.jsx');
 const LOGO = read('../Logo.jsx');
 const rules = (css) => css.replace(/\/\*[\s\S]*?\*\//g, '');
-const ms = (name) => Number(rules(CSS).match(new RegExp(`${name}: (\\d+)ms`))[1]);
 
 // ---------- the letters (logoLetters.mjs) ----------
 
@@ -34,7 +34,7 @@ test('the letters rebuild logo B byte for byte, in order, and each sits in its o
   assert.ok(LOGO_B_MOBI.full.eyes.endsWith(LOGO_MOBI_PARTS.eyeRightRing));
 });
 
-test('decision 1: the opening draws Logo.jsx\'s own volt dot, and the bar logo keeps it', () => {
+test('decision 1, kept: the opening box is Logo.jsx\'s box, and the bar logo keeps its own volt dot, which drops in after the landing', () => {
   const [x, y, w, h] = LOGO_B_VIEWBOX.split(' ').map(Number);
   assert.equal(Number(LOGO.match(/const DOT_R = (\d+);/)[1]), LOGO_DOT.r);
   assert.equal(Number(LOGO.match(/const DOT_GAP = (\d+);/)[1]), LOGO_DOT.gap);
@@ -42,151 +42,64 @@ test('decision 1: the opening draws Logo.jsx\'s own volt dot, and the bar logo k
   assert.equal(LOGO_DOT.cy, -LOGO_DOT.r);
   assert.equal(LOGO_OPEN_VIEWBOX, `${x} ${y} ${Math.round((w + LOGO_DOT.gap + LOGO_DOT.r * 2) * 100) / 100} ${h}`, 'the opening box is Logo.jsx\'s VIEWBOX');
   assert.deepEqual([LOGO_OPEN_BOX.x, LOGO_OPEN_BOX.y, LOGO_OPEN_BOX.h], [x, y, h]);
-  // In the opening SVG: a volt circle at the dot, the unfold's last beat (scale .6 to 1 with its opacity, on each mode's clock).
-  assert.match(OPENING, /<Part className="mo-dot"[^>]*>\s*<circle fill=\{LOGO_B_COLORS\.volt\} cx=\{LOGO_DOT\.cx\} cy=\{LOGO_DOT\.cy\} r=\{LOGO_DOT\.r\} \/>/);
-  assert.match(rules(CSS), /\.mo-dot \{\s*transform-origin: var\(--dot\);\s*animation: mo-dot var\(--mo-dot\) cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-dot-at\) both;/);
-  assert.match(rules(CSS), /@keyframes mo-dot \{ from \{ opacity: 0; transform: scale\(0\.6\); \} to \{ opacity: 1; transform: scale\(1\); \} \}/);
+  // 17 Nov 2026: the opening draws no dot of its own; the bar logo's dot drops in as the last bubble once the word has landed.
+  assert.match(rules(CSS), /html\[data-opening='done'\]\[data-opening-flip\] \.mm-nav \.logo-b__dot \{ animation: mo-settle-dot 300ms /);
   // In the bar logo (LogoMark, which the site bar draws).
   assert.match(LOGO, /<circle className="dot logo-b__dot" cx=\{DOT_CX\} cy=\{DOT_CY\} r=\{DOT_R\}/);
 });
 
-test('the unfold: "mock" leftwards from the m, nearest first, the b rightwards from Mobi; hinges and slots tile the word', () => {
-  const left = LOGO_UNFOLD.filter((u) => u.side === 'left');
-  const right = LOGO_UNFOLD.filter((u) => u.side === 'right');
-  assert.deepEqual(left.map((u) => u.index), [3, 2, 1, 0]);
-  assert.deepEqual(left.map((u) => u.k), [0, 1, 2, 3]);
-  assert.deepEqual(right.map((u) => [u.index, u.k]), [[6, 0]]);
-  // Each left letter's hinge is the previous one's hinge minus its slot: the slots tile from the m's left edge to the word's.
-  const frac = (x) => (x - LOGO_OPEN_BOX.x) / LOGO_OPEN_BOX.w;
-  let edge = frac(2589);
-  for (const u of left) { assert.ok(Math.abs(u.hinge - edge) < 1e-4, `hinge of ${u.index}`); edge -= u.slot; }
-  assert.ok(Math.abs(edge - frac(40)) < 1e-4, 'the last slot ends at the word\'s left ink');
-  assert.ok(Math.abs(right[0].hinge - frac(3968.1)) < 1e-4 && Math.abs(right[0].hinge + right[0].slot - frac(4544.35)) < 1e-4);
-});
+// ---------- the timings (L-043 as of LK299) ----------
 
-// ---------- the timeline (opening.css) ----------
-
-// The beats of each mode: the base rule is the first visit's, the short rule overrides it (opening.css).
-const modeProps = () => {
-  const css = rules(CSS);
-  const grab = (head) => {
-    const at = css.indexOf(head);
-    assert.ok(at >= 0, head);
-    const body = css.slice(at, css.indexOf('}', at));
-    return Object.fromEntries([...body.matchAll(/(--mo-[\w-]+): (\d+)ms;/g)].map((m) => [m[1], Number(m[2])]));
-  };
-  const first = grab("html[data-opening='first'] .mo-open,\nhtml[data-opening='short'] .mo-open {");
-  const short = { ...first, ...grab("html[data-opening='short'] .mo-open {\n  --mo-hand") };
-  return { first, short };
-};
-
-test('L-043 and decision 6, refined 16 Nov 2026 ("smaller"): 1,200 ms on a first visit, 700 ms and half the size every session; the hand-off is the last 280 ms', () => {
+test('LK299: a first visit lands at 1,200 ms and is still by 1,500; a session lands at 800 and is still by 1,100', () => {
   assert.equal(OPENING_FIRST_MS, 1200);
-  assert.equal(OPENING_SHORT_MS, 700);
+  assert.equal(OPENING_SHORT_MS, 800);
+  assert.deepEqual({ ...OPENING_FLIP_MS }, { first: 500, short: 380 });
   assert.equal(OPENING_HAND_MS, 280);
+  assert.equal(OPENING_SETTLE_MS, 300);
+  assert.ok(OPENING_FIRST_MS + OPENING_SETTLE_MS <= 1500 && OPENING_SHORT_MS + OPENING_SETTLE_MS <= 1100);
+  assert.deepEqual({ ...OPENING_KEYS }, { ever: 'mm:opened:v2', session: 'mm:opening:v2' }, 'v2: the new first visit is seen once');
   const css = rules(CSS);
-  assert.match(css, /html\[data-opening='first'\] \.mo-open,\s*html\[data-opening='short'\] \.mo-open \{\s*--mo-hand: 920ms;\s*--mo-end: 1200ms;\s*--mo-w: min\(78vw, 330px\);/);
-  assert.match(css, /html\[data-opening='short'\] \.mo-open \{\s*--mo-hand: 420ms;\s*--mo-end: 700ms;\s*--mo-w: min\(40vw, 170px\);/, 'the short opening\'s mark is about half the size');
-  const { first, short } = modeProps();
-  assert.equal(first['--mo-hand'] + OPENING_HAND_MS, OPENING_FIRST_MS);
-  assert.equal(first['--mo-end'], OPENING_FIRST_MS);
-  assert.equal(short['--mo-hand'] + OPENING_HAND_MS, OPENING_SHORT_MS);
-  assert.equal(short['--mo-end'], OPENING_SHORT_MS);
-  // It ends hidden on its own (fill-mode forwards) and only 'first' and 'short' ever draw it.
-  assert.match(css, /\.mo-open \{ display: none; \}/);
-  assert.match(css, /animation: mo-gone 1ms linear var\(--mo-end\) forwards;/);
-  assert.match(css, /@keyframes mo-gone \{ to \{ visibility: hidden; pointer-events: none; \} \}/);
-  assert.match(css, /html\[data-opening-phase='out'\] \.mo-open,\s*html\[data-opening-cut\] \.mo-open \{ pointer-events: none; \}/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.mo-open \{ display: none !important; \}/);
-  assert.match(css, /html\[data-motion='reduced'\] \.mo-open \{ display: none !important; \}/);
-  // Above the site bar (z 60/70), below the site's dialogs (1000).
-  assert.match(css, /z-index: 95;/);
+  assert.match(css, /--mo-end: 1200ms;\s*--mo-flip: 500ms;/);
+  assert.match(css, /html\[data-opening='short'\] \.mo-open \{ --mo-end: 800ms; --mo-flip: 380ms; --mo-pace: 0\.62; \}/);
+  assert.match(css, /--mo-w: min\(88vw, 960px\);/, 'grand on every screen');
 });
 
-test('the beats keep the app\'s timeline (brand_opening.dart OpeningTimeline), on each mode\'s clock', () => {
+test('the ground is the page\'s own (paper in Day, charcoal in Night), so the word lands as the bar logo with no dark flash', () => {
   const css = rules(CSS);
-  assert.match(css, /animation: mo-blink 160ms [^;]* 150ms;/, 'blink at 150 ms, 160 ms');
-  assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 320ms both/, 'the bubble eye inks 320 to 520');
-  assert.match(css, /animation: mo-camera var\(--mo-cam\) linear var\(--mo-cam-at\) both;/, 'the camera on the mode\'s clock');
-  assert.match(css, /mo-unfold var\(--mo-unfold\) cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(var\(--mo-unfold-at\) \+ var\(--k\) \* var\(--mo-unfold-step\)\) both/, 'letters nearest first, on the logo\'s spring');
-  assert.match(css, /mo-slide var\(--mo-unfold\) cubic-bezier\(0\.34, 1\.36, 0\.64, 1\) calc\(var\(--mo-unfold-at\) \+ var\(--k\) \* var\(--mo-unfold-step\)\) both/);
-  assert.match(css, /@keyframes mo-show \{ 0%, 3% \{ opacity: 0; \} 13%, 100% \{ opacity: 1; \} \}/, 'hidden until 12 % open, whole at 45 %');
-  assert.match(css, /mo-glance 120ms cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-glance-at\) both/, 'Mobi glances toward the word');
-  assert.match(css, /animation: mo-dot var\(--mo-dot\) cubic-bezier\(0\.23, 1, 0\.32, 1\) var\(--mo-dot-at\) both;/);
-  // The short opening starts on the first visit's 500 ms pose: the eye already inked, no blink.
-  assert.match(css, /html\[data-opening='short'\] \.mo-eyes__ink \{ animation: mo-fade-out 60ms linear var\(--mo-swap-at\) forwards; \}/);
-  assert.match(css, /html\[data-opening='short'\] \.mo-eyes__lid \{ animation: none; \}/);
-  // The first visit no longer holds the word (the 320 ms breath, glance back and second blink went with the 1,600 ms).
-  assert.doesNotMatch(css, /@keyframes (mo-breath|mo-blink-2|mo-glance-first)|animation: mo-breath/);
-  // LK87 (5 Nov 2026, D5): the FLIP keeps its 280 ms on a gentler start and a long soft landing, and the ground clears once
-  // the word is all but home (from 120 ms, 150 ms), so the word never crosses the headline on a half-clear ground.
-  assert.match(css, /mo-word-flip 280ms cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards/, 'the FLIP is 280 ms');
-  assert.match(css, /mo-ground-out 150ms cubic-bezier\(0\.23, 1, 0\.32, 1\) calc\(var\(--mo-hand\) \+ 120ms\) forwards/);
-  assert.ok(120 + 150 <= OPENING_HAND_MS, 'the ground is clear by the landing');
-  assert.match(css, /@keyframes mo-ground-out \{ to \{ opacity: 0; transform: translateY\(-4vh\); \} \}/);
+  assert.match(css, /\.mo-open__ground \{[^}]*background: var\(--paper, #12110e\);/);
+  assert.match(css, /\.mo-word \{[^}]*color: var\(--ink, #f4f0e6\);/);
+  assert.match(OPENING, /<path fill="currentColor" d=\{LOGO_B_LETTERS\} \/>/, 'the letters take the page\'s ink');
+  assert.doesNotMatch(css, /mo-word-fade/, 'no faked cross-fade in Day');
+  assert.match(css, /html\[data-opening-flip\] \.mo-open__ground \{ animation: mo-curtain var\(--mo-flip\) cubic-bezier\(0\.7, 0, 0\.2, 1\) var\(--mo-flip-delay, 0ms\) forwards; \}/, 'the sheet rises like a curtain');
+  assert.match(css, /html\[data-opening-flip\] \.mo-word \{ animation: mo-word-flip var\(--mo-flip\) cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards; \}/);
 });
 
-test('16 Nov 2026: nothing is cut mid-motion: in each mode every beat has ended when the hand-off starts', () => {
-  const { first, short } = modeProps();
-  const kMax = Math.max(...LOGO_UNFOLD.map((u) => u.k));
-  for (const [name, p] of [['first', first], ['short', short]]) {
-    const hand = p['--mo-hand'];
-    const ends = {
-      camera: p['--mo-cam-at'] + p['--mo-cam'],
-      unfold: p['--mo-unfold-at'] + kMax * p['--mo-unfold-step'] + p['--mo-unfold'],
-      swap: p['--mo-swap-at'] + 60,
-      glance: p['--mo-glance-at'] + 120,
-      dot: p['--mo-dot-at'] + p['--mo-dot'],
-    };
-    if (name === 'first') Object.assign(ends, { blink: 150 + 160, ink: 320 + 200 });
-    for (const [beat, end] of Object.entries(ends)) assert.ok(end <= hand, `${name}: ${beat} ends at ${end}, the hand-off starts at ${hand}`);
-    // The detail swap stays where the app puts it: 38 % into the pull-back (the camera passing about 96 physical px).
-    assert.ok(Math.abs(p['--mo-swap-at'] - (p['--mo-cam-at'] + 0.38 * p['--mo-cam'])) <= 10, `${name}: detail swap`);
-    // The unfold starts just after the pull-back does, so letters never open on a still camera.
-    assert.ok(p['--mo-unfold-at'] >= p['--mo-cam-at'] && p['--mo-unfold-at'] - p['--mo-cam-at'] <= 40, `${name}: unfold with the camera`);
-    // Motion within the brief: each beat 120 to 440 ms.
-    assert.ok(p['--mo-cam'] >= 300 && p['--mo-cam'] <= 440 && p['--mo-unfold'] >= 200 && p['--mo-unfold'] <= 300, `${name}: beat lengths`);
-  }
-  // The first visit keeps the app's opening beats up to the pull-back (blink 150, ink 320, the camera from 500 ms).
-  assert.equal(first['--mo-cam-at'], 500);
-  assert.equal(first['--mo-unfold-at'], 520);
-  // The short one holds its first pose a moment before the pull-back starts.
-  assert.ok(short['--mo-cam-at'] > 0);
-});
-
-test('the camera keyframes are the app\'s log-scale pull-back, 2.2x to 1, recomputed', () => {
-  const bez = (x1, y1, x2, y2) => (x) => {
-    const cx = 3 * x1; const bx = 3 * (x2 - x1) - cx; const ax = 1 - cx - bx;
-    const cy = 3 * y1; const by = 3 * (y2 - y1) - cy; const ay = 1 - cy - by;
-    let lo = 0; let hi = 1;
-    for (let i = 0; i < 60; i += 1) { const m = (lo + hi) / 2; if (((ax * m + bx) * m + cx) * m < x) lo = m; else hi = m; }
-    const t = (lo + hi) / 2;
-    return ((ay * t + by) * t + cy) * t;
-  };
-  const camera = bez(0.5, 0, 0.15, 1);
-  const frames = [...rules(CSS).matchAll(/(\d+)% \{ transform: scale\(([\d.]+)\) translate\(calc\(var\(--mo-dx\) \* ([\d.]+)\), calc\(var\(--mo-dy\) \* ([\d.]+)\)\); \}/g)];
-  assert.equal(frames.length, 21, 'every 5 % of the pull-back');
-  for (const [, at, s, fx, fy] of frames) {
-    const c = camera(Number(at) / 100);
-    assert.ok(Math.abs(Number(s) - 2.2 ** (1 - c)) < 1e-3, `scale at ${at}%`);
-    assert.ok(Math.abs(Number(fx) - (1 - c)) < 1e-3 && fx === fy, `focus at ${at}%`);
-  }
-  // The "mo" offset the focus starts from is the generated one.
-  assert.match(OPENING, /'--mo-dx': pct\(-LOGO_MO\.dx\), '--mo-dy': pct\(-LOGO_MO\.dy\)/);
-  assert.ok(LOGO_MO.dx > 0.15 && LOGO_MO.dx < 0.2, 'the "mo" sits right of the word\'s centre');
-});
-
-test('only transform, opacity and the end state animate; nothing loops', () => {
+test('something falls through it: answer bubbles, rows and question tiles at three depths, more on a wide screen', () => {
+  assert.match(OPENING, /const PIECES = \[/);
+  for (const kind of ['ring', 'ink', 'dark', 'row', 'tile']) assert.match(OPENING, new RegExp(`${kind}: \\{\\s*box:`), kind);
   const css = rules(CSS);
-  for (const [, name, body] of css.matchAll(/@keyframes ([\w-]+) \{([^@]*?)\}\s*(?=@keyframes|\.|html|$|\/\*)/g)) {
+  assert.match(css, /animation: mo-fall calc\(var\(--dur\) \* var\(--mo-pace\)\) cubic-bezier\(0\.55, 0, 1, 0\.45\) calc\(var\(--at\) \* var\(--mo-pace\)\) forwards;/);
+  assert.match(css, /\.mo-p--wide \{ display: none; \}/);
+  assert.match(css, /\.mo-p \{ width: calc\(var\(--s\) \* 1\.5px\); \}\s*\.mo-p--wide \{ display: block; \}/);
+  // A first visit: one bubble drops into Mobi's empty bubble eye and inks it; a session: he blinks instead.
+  assert.match(css, /\.mo-drop \{[^}]*animation: mo-drop 360ms [^;]* 140ms both;/);
+  assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 500ms both/);
+  assert.match(css, /html\[data-opening='short'\] \.mo-drop \{ display: none; \}/);
+});
+
+test('only transform, opacity and the end state animate; nothing loops; the layer never takes a tap', () => {
+  const css = rules(CSS);
+  for (const [, name, body] of css.matchAll(/@keyframes ([\w-]+) \{([^@]*?)\}\s*(?=@keyframes|\.|html|$|@media)/g)) {
     const props = [...body.matchAll(/([a-z-]+):/g)].map((m) => m[1]);
     for (const p of props) assert.ok(['transform', 'opacity', 'visibility', 'pointer-events'].includes(p), `${name} animates ${p}`);
   }
   assert.doesNotMatch(css, /infinite/);
-  assert.doesNotMatch(css, /transition: all/);
-  // The layer has no text and no image: it can never be the LCP.
-  assert.doesNotMatch(OPENING, /<img|<text|<image/);
+  assert.match(css, /html\[data-opening='first'\] \.mo-open,\s*html\[data-opening='short'\] \.mo-open \{[^}]*pointer-events: none;/);
+  assert.match(css, /animation: mo-gone 1ms linear var\(--mo-end\) forwards;/, 'it ends hidden by itself, even if JS fails');
+  assert.doesNotMatch(OPENING, /<img|<text|<image/, 'no text and no image: it can never be the largest paint');
   assert.match(OPENING, /<div className="mo-open" aria-hidden="true"/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\s*\.mo-open \{ display: none !important; \}/);
+  assert.match(css, /html\[data-motion='reduced'\] \.mo-open \{ display: none !important; \}/);
 });
 
 // ---------- the gate (openingGate.mjs) ----------
@@ -242,22 +155,23 @@ function fakeEnv({ session = null, local = null, cookie = '', referrer = '', has
   const paint = (at) => observers.filter((o) => o.on).forEach((o) => o.cb({ getEntriesByName: (n) => (n === 'first-contentful-paint' ? [{ name: n, startTime: at }] : []) }));
   return { w, d, attrs, listeners, timers, layerAttrs, clock, observers, paint };
 }
-const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, hand: OPENING_HAND_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], snaps: { first: OPENING_SNAPS.first.map((x) => [...x]), short: OPENING_SNAPS.short.map((x) => [...x]) }, wait: OPENING_WAIT_MS, late: OPENING_LATE_MS };
+const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, flip: { ...OPENING_FLIP_MS }, hand: OPENING_HAND_MS, settle: OPENING_SETTLE_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], late: { ...OPENING_LATE }, wait: OPENING_WAIT_MS, out: OPENING_LATE_MS };
 const run = (opts) => { const env = fakeEnv(opts); const mode = openingGate(env.w, env.d, cfg); return { mode, ...env }; };
+const SESSION = { [OPENING_KEYS.ever]: '1' };
+const liveDelays = (r) => r.timers.filter((t) => !t.cleared).map((t) => t.delay);
 
 test('the gate: first ever, then short once per session, then skip; never twice in a session', () => {
   const first = run();
   assert.equal(first.mode, 'first');
-  assert.equal(first.attrs['data-opening'], 'first');
   assert.equal(first.w.localStorage.m.get(OPENING_KEYS.ever), '1');
   assert.equal(first.w.sessionStorage.m.get(OPENING_KEYS.session), '1');
-  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [920, 1200]);
-  const short = run({ local: { [OPENING_KEYS.ever]: '1' } });
+  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [700, 1200]);
+  const short = run({ local: SESSION });
   assert.equal(short.mode, 'short');
-  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [420, 700]);
-  assert.ok(short.timers.some((t) => t.delay === 420) && short.timers.some((t) => t.delay === 740), 'hand-off at 420, done just after 700');
-  assert.equal(run({ local: { [OPENING_KEYS.ever]: '1' }, session: { [OPENING_KEYS.session]: '1' } }).mode, 'skip', 'a reload in the same session');
-  assert.equal(run({ storageThrows: true }).mode, 'skip', 'no storage: it could not tell, so it never risks running twice');
+  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [420, 800]);
+  assert.ok(liveDelays(short).includes(420) && liveDelays(short).includes(840), `hand-off at 420, done just after 800 (${liveDelays(short)})`);
+  assert.equal(run({ local: SESSION, session: { [OPENING_KEYS.session]: '1' } }).mode, 'skip', 'a reload in the same session');
+  assert.equal(run({ storageThrows: true }).mode, 'skip');
 });
 
 test('the gate: always skip for reduced motion, deep entries, coming back from inside the site, a signed-in student and bots', () => {
@@ -279,18 +193,17 @@ test('the gate: always skip for reduced motion, deep entries, coming back from i
   assert.equal(run({ referrer: 'https://www.google.com/' }).mode, 'first');
 });
 
-test('the gate: any pointerdown, touchstart, wheel or keydown jumps to the hand-off, once', () => {
+test('the gate: any pointerdown, touchstart, wheel or keydown jumps to the hand-off; a tap begun under the sheet presses nothing', () => {
   for (const type of OPENING_SKIP_EVENTS) {
-    const r = run({ local: { [OPENING_KEYS.ever]: '1' } });
+    const r = run({ local: SESSION });
     assert.equal(typeof r.listeners[type], 'function', `${type} is listened for`);
-    r.listeners[type]();
+    r.listeners[type]({ type, preventDefault() {}, stopPropagation() {} });
     assert.ok('data-opening-cut' in r.attrs, `${type}: the opening is cut`);
-    assert.equal(r.attrs['data-opening-phase'], 'out', `${type}: it takes no more input`);
+    assert.equal(r.attrs['data-opening-phase'], 'out');
     assert.equal(Object.keys(r.layerAttrs).length, 0, 'the layer itself is never touched (React hydrates it as drawn)');
-    assert.equal(r.w.__mmOpening.phase, 'handoff');
     assert.ok(r.timers.filter((t) => !t.cleared).some((t) => t.delay === OPENING_HAND_MS + 40), 'done after the 280 ms hand-off');
-    assert.ok(r.timers.filter((t) => t.cleared).length >= 2, 'the planned hand-off and end are cancelled');
   }
+  assert.match(openingGate.toString(), /w\.addEventListener\('click', blind, true\)/);
 });
 
 test('the inline script is self-contained and placed before the layer', () => {
@@ -298,123 +211,46 @@ test('the inline script is self-contained and placed before the layer', () => {
   assert.doesNotThrow(() => new Function(script), 'it parses');
   assert.doesNotMatch(script, /\bimport\b|\brequire\(|\bexport\b/);
   assert.ok(script.length < 6000, `small enough to inline (${script.length} chars)`);
-  assert.match(script, /"first":1200,"short":700,"hand":280/);
-  assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'), 'the gate runs before the layer is parsed');
-  // A server component: no client hooks, no 'use client'.
+  assert.match(script, /"first":1200,"short":800,"flip":\{"first":500,"short":380\},"hand":280,"settle":300/);
+  assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'));
   assert.doesNotMatch(OPENING, /'use client'|useEffect|useState/);
 });
 
-// ---------- LK87 (5 Nov 2026, D5): the clock starts on the first painted frame ----------
-// The live site first painted about 600 ms after the gate ran (a 50 ms film of www.mockmob.in at 390x844), so the blink,
-// the inked eye and the start of the pull-back played behind a blank screen. The layer now holds its first pose until the
-// browser reports the first contentful paint and starts from a rest pose picked by how long that took.
-const SESSION = { [OPENING_KEYS.ever]: '1' };
-const liveDelays = (r) => r.timers.filter((t) => !t.cleared).map((t) => t.delay);
-
-test('LK87 the layer holds its first pose until the first paint is reported, then starts its clock there', () => {
+test('LK87 the layer holds its first (whole) pose until the first paint, then plays every beat from there', () => {
   const r = run({ local: SESSION, paintTiming: true });
-  assert.equal(r.mode, 'short');
-  assert.ok('data-opening-hold' in r.attrs, 'held on the first pose');
-  assert.equal(r.observers.length, 1);
-  assert.deepEqual(r.observers[0].opts, { type: 'paint', buffered: true }, 'a paint that came before the observer still counts');
-  assert.deepEqual(liveDelays(r), [OPENING_WAIT_MS], 'nothing but the fallback start waits before the paint');
+  assert.ok('data-opening-hold' in r.attrs);
+  assert.deepEqual(liveDelays(r), [OPENING_WAIT_MS]);
   r.clock.now = 120;
   r.paint(110);
   assert.ok(!('data-opening-hold' in r.attrs), 'released on the paint');
-  assert.equal(r.w.__mmOpening.from, 0, 'a prompt paint plays every beat');
-  assert.equal(r.w.__mmOpening.base, 120, 'the timeline starts when it can first move');
-  assert.equal(r.w.__mmOpening.paint, 110);
-  assert.ok(liveDelays(r).includes(420) && liveDelays(r).includes(740), `hand-off 420 ms and done just after 700 ms from there (${liveDelays(r)})`);
-  const before = r.timers.length;
-  r.paint(400);
-  assert.equal(r.timers.length, before, 'it starts once');
-});
-
-test('LK87 a late paint starts from a rest pose (first visit 0, 310 or 500 ms in; short only its start) and never adds the skipped beats to the wait; past the last snap the held splash dissolves', () => {
-  assert.deepEqual(OPENING_SNAPS.first.map((x) => [...x]), [[200, 0], [450, 310], [1100, 500]]);
-  assert.deepEqual(OPENING_SNAPS.short.map((x) => [...x]), [[1100, 0]]);
-  // The first visit's rest poses: 0 before the blink (150 ms), 310 once the 160 ms blink is over and before the eye inks
-  // (320 ms), 500 the eye inked (it ends at 520) and the camera about to pull back (500 ms).
-  const css = rules(CSS);
-  assert.match(css, /animation: mo-blink 160ms [^;]* 150ms;/);
-  assert.match(css, /mo-ink 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\) 320ms both/);
-  assert.equal(modeProps().first['--mo-cam-at'], 500);
-  for (const [late, from] of [[0, 0], [200, 0], [201, 310], [450, 310], [451, 500], [800, 500], [1100, 500]]) {
-    const anims = [{ currentTime: 0 }, { currentTime: 0 }, { currentTime: 0 }];
-    const r = run({ paintTiming: true, anims });
-    assert.equal(r.mode, 'first');
-    r.clock.now = late;
-    r.paint(Math.max(0, late - 30));
-    const st = r.w.__mmOpening;
-    assert.equal(st.from, from, `${late} ms late starts at ${from}`);
-    assert.ok(anims.every((a) => a.currentTime === from), `${late}: every part of the layer jumps to ${from}`);
-    assert.equal(st.base, late - from);
-    assert.ok(liveDelays(r).includes(920 - from), `${late}: the hand-off comes ${920 - from} ms after the start (${liveDelays(r)})`);
-    assert.ok(!('data-opening-cut' in r.attrs) && !('data-opening-hold' in r.attrs));
-  }
-  // The short opening already opens on the first visit's last rest pose: a paint up to 1,100 ms late plays all of it from
-  // its start (the first visit's own last threshold, as before 16 Nov), a later one dissolves.
-  for (const late of [0, 300, 700, 1100]) {
-    const r = run({ local: SESSION, paintTiming: true });
-    assert.equal(r.mode, 'short');
-    r.clock.now = late;
-    r.paint(Math.max(0, late - 30));
-    assert.equal(r.w.__mmOpening.from, 0, `short, ${late} ms late`);
-    assert.ok(liveDelays(r).includes(420) && !('data-opening-late' in r.attrs));
-  }
-  const late = run({ paintTiming: true });
-  late.clock.now = 1101;
-  late.paint(1000);
-  assert.ok('data-opening-late' in late.attrs, 'a first visit past 1,100 ms dissolves');
-  const r = run({ local: SESSION, paintTiming: true });
-  r.clock.now = 1101;
-  r.paint(1000);
-  // Before, a page that painted after the opening's end showed no opening at all; now the splash it paints dissolves in
-  // 160 ms where it stands (no flight from a pose the student never saw arrive, no jump).
-  assert.ok('data-opening-late' in r.attrs && !('data-opening-cut' in r.attrs), 'past the last snap: the splash dissolves');
-  assert.ok(!('data-opening-hold' in r.attrs));
-  assert.equal(r.w.__mmOpening.phase, 'handoff');
-  assert.equal(OPENING_LATE_MS, 160);
-  assert.deepEqual(liveDelays(r), [OPENING_LATE_MS + 40]);
-  const css2 = rules(CSS);
-  assert.match(css2, /html\[data-opening-late\] \.mo-open \{ pointer-events: none; animation: mo-late-out 160ms cubic-bezier\(0\.23, 1, 0\.32, 1\) forwards; \}/);
-  assert.match(css2, /html\[data-opening-late\] \.mo-open \* \{ animation-play-state: paused !important; \}/, 'every part stays still while it dissolves');
-  assert.match(css2, /\[data-opening-late\] \.mm-nav \.logo-b \{ animation: none; \}/, 'the bar logo is simply there under it');
-});
-
-test('LK87 a tap while the layer holds skips to the hand-off; without paint timing it starts at once, as before', () => {
-  const r = run({ local: SESSION, paintTiming: true });
-  r.listeners.pointerdown();
-  assert.ok('data-opening-cut' in r.attrs && !('data-opening-hold' in r.attrs));
-  assert.equal(r.w.__mmOpening.phase, 'handoff');
-  r.paint(100);
-  assert.equal(r.w.__mmOpening.phase, 'handoff', 'a paint after the skip changes nothing');
-  const plain = run({ local: SESSION });
-  assert.ok(!('data-opening-hold' in plain.attrs), 'no paint timing: no hold');
-  assert.ok(liveDelays(plain).includes(420) && liveDelays(plain).includes(740));
-  // No paint report within OPENING_WAIT_MS: it starts from the top anyway.
-  const quiet = run({ local: SESSION, paintTiming: true });
-  quiet.clock.now = OPENING_WAIT_MS;
-  quiet.timers.find((t) => t.delay === OPENING_WAIT_MS).fn();
-  assert.ok(!('data-opening-hold' in quiet.attrs));
-  assert.equal(quiet.w.__mmOpening.from, 0);
-});
-
-test('LK87 CSS: the hold pauses every part; the word lands whole in Night and the bar logo appears on its landing, on the word\'s own clock', () => {
+  assert.equal(r.w.__mmOpening.base, 120);
+  assert.ok(liveDelays(r).includes(420) && liveDelays(r).includes(840), `${liveDelays(r)}`);
   const css = rules(CSS);
   assert.match(css, /html\[data-opening-hold\] \.mo-open,\s*html\[data-opening-hold\] \.mo-open \* \{ animation-play-state: paused !important; \}/);
-  assert.match(css, /html\[data-opening-flip\] \.mo-word \{\s*animation: mo-word-flip 280ms cubic-bezier\(0\.32, 0\.72, 0, 1\) var\(--mo-flip-delay, 0ms\) forwards;\s*\}/, 'Night: no fade, it lands');
-  assert.match(css, /html\[data-theme='light'\]\[data-opening-flip\] \.mo-word \{[^}]*mo-word-fade 120ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 100ms\) forwards/, 'Day: the warm-white word dissolves on the dark ground before the cream shows');
-  assert.match(css, /html\[data-theme='light'\] \.mo-open__ground \{ animation-duration: 130ms; animation-delay: calc\(var\(--mo-hand\) \+ 150ms\); \}/, 'Day: the cream comes after the word has gone');
+});
+
+test('LK87 late: a first visit released after 900 ms plays the session pace; after 1,800 ms the still dissolves in 160 ms', () => {
+  const slow = run({ paintTiming: true });
+  slow.clock.now = 901;
+  slow.paint(850);
+  assert.equal(slow.attrs['data-opening'], 'short');
+  assert.ok(liveDelays(slow).includes(420));
+  const gone = run({ paintTiming: true });
+  gone.clock.now = 1801;
+  gone.paint(1700);
+  assert.ok('data-opening-late' in gone.attrs && !('data-opening-hold' in gone.attrs));
+  assert.deepEqual(liveDelays(gone), [OPENING_LATE_MS + 40]);
+  const css = rules(CSS);
+  assert.match(css, /html\[data-opening-late\] \.mo-open \{ animation: mo-late-out 160ms cubic-bezier\(0\.23, 1, 0\.32, 1\) forwards; \}/);
+  assert.match(css, /\[data-opening-late\] \.mm-nav \.logo-b \{ animation: none; \}/);
+});
+
+test('the bar logo is hidden while it runs, shown the frame the word lands, then settles: the dot drops in, Mobi hops and blinks', () => {
+  const css = rules(CSS);
   const bar = String.raw`html:is\(\[data-opening='first'\], \[data-opening='short'\]\)`;
-  assert.match(css, new RegExp(String.raw`${bar} \.mm-nav \.logo-b \{ animation: mo-bar-wait 1ms linear 6000ms both; \}`), 'hidden under the layer, shown by 6 s whatever happens');
-  // Every rule that times the landing has its own animation name, so its delay counts from when it applies (the flip or
-  // the skip), never from the gate: the 5 Nov replay of an 800 ms hold showed the bar logo early when the names were shared.
-  for (const name of ['mo-bar-wait', 'mo-bar-in', 'mo-bar-in-cut', 'mo-word-fade', 'mo-word-flip', 'mo-word-flip-cut', 'mo-word-fade-cut']) assert.ok(css.includes(`@keyframes ${name} {`), name);
-  assert.doesNotMatch(css.slice(css.indexOf("html[data-theme='light'][data-opening-flip] .mo-word")).split('}')[0], /mo-word-out/, 'the Day flip fade is not the no-script fade');
-  assert.match(css, new RegExp(String.raw`${bar}\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 1ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 280ms\) both; \}`), 'Night: on the landing');
-  assert.match(css, new RegExp(String.raw`${bar}\[data-theme='light'\]\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 130ms linear calc\(var\(--mo-flip-delay, 0ms\) \+ 150ms\) both; \}`), 'Day: the ink logo comes up with the cream, ending on the landing');
+  assert.match(css, new RegExp(String.raw`${bar} \.mm-nav \.logo-b \{ animation: mo-bar-wait 1ms linear 6000ms both; \}`));
+  assert.match(css, new RegExp(String.raw`${bar}\[data-opening-flip\] \.mm-nav \.logo-b \{ animation: mo-bar-in 1ms linear var\(--mo-land, 0ms\) both; \}`));
   assert.match(css, new RegExp(String.raw`${bar}\[data-opening-cut\] \.mm-nav \.logo-b \{ animation: mo-bar-in-cut 1ms linear 280ms both; \}`));
-  assert.match(css, /@keyframes mo-bar-in \{ from \{ opacity: 0; \} to \{ opacity: 1; \} \}/);
-  assert.match(openingGateScript(), /"snaps":\{"first":\[\[200,0\],\[450,310\],\[1100,500\]\],"short":\[\[1100,0\]\]\},"wait":3000/);
+  for (const part of ['logo-b__dot', 'logo-b__mobi', 'logo-b__eyes']) assert.match(css, new RegExp(String.raw`html\[data-opening='done'\]\[data-opening-flip\] \.mm-nav \.${part} \{ animation: mo-settle-`), part);
+  assert.match(openingGateScript(), /--mo-land/);
 });

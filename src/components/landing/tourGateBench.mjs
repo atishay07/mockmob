@@ -150,7 +150,7 @@ export async function runTourGate({ url, width, height, touch, cpu, theme = 'dar
   const bench = await openBench({ url: 'about:blank', width, height, touch, cpu: 1, theme, lock: false, label: 'tour gate' });
   try {
     await bench.page.context().addInitScript(() => {
-      try { localStorage.setItem('mm:opened:v1', '1'); sessionStorage.setItem('mm:opening:v1', '1'); } catch { /* none */ }
+      try { localStorage.setItem('mm:opened:v2', '1'); sessionStorage.setItem('mm:opening:v2', '1'); } catch { /* none */ }
     });
     await bench.page.goto(url, { waitUntil: 'load', timeout: 120000 });
     await sleep(2500);

@@ -125,7 +125,7 @@ test('round 4 (owner LK120): the line types on every visit, signed in or not, an
   // The cause of "sometimes there, sometimes gone": a Supabase session cookie (<html data-signed-in>) used to skip the pass.
   const still = TYPED.slice(TYPED.indexOf('function stillOnly()'), TYPED.indexOf('export default function HeroTyped'));
   assert.doesNotMatch(still, /data-signed-in/, 'a signed-in visitor sees the same pass as a guest');
-  // If the opening's hand-off is missed, the fallback starts the pass after the longest opening (1,600 ms) has ended.
+  // If the opening's hand-off is missed, the fallback starts the pass after the longest opening (still by 1,500 ms, 17 Nov 2026) has ended.
   assert.match(TYPED, /fallback = window\.setTimeout\(\(\) => start\(0\), TYPING\.openingFallback\);/);
   assert.match(TYPED, /window\.clearTimeout\(fallback\);/);
   assert.ok(TYPING.openingFallback > 1600 && TYPING.openingFallback <= 3000);

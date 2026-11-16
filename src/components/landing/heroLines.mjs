@@ -39,7 +39,7 @@ export const TYPING = Object.freeze({
    *  off, before the caret comes in (round 10: was 0, so the line cleared about 0.8 s after the page appeared). */
   afterOpening: 1000,
   /** While an opening plays, the pass starts at its hand-off, or this long after the hero mounts if the hand-off never
-   *  arrives (round 4, LK120: the line must type on every visit; the longest opening is 1,600 ms). */
+   *  arrives (round 4, LK120: the line must type on every visit; the longest opening is still by 1,500 ms since 17 Nov 2026). */
   openingFallback: 2400,
   /** The caret fades in at the end of the resting line when typing starts. */
   caretIn: 100,
