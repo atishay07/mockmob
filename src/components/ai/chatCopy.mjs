@@ -235,6 +235,7 @@ export function chargedOf(body) {
 // A sentence that only states that nothing was taken. The turn says what it used on its own line, from the amount, so a
 // server line that carries one of these is shown without it (and can never disagree with the amount).
 const NOTHING_USED = /nothing (?:extra |more )?(?:was|is|will be) charged|no credits? (?:was |were |is )?used|\bnot charged\b|credits? (?:have|has) not been used|uses none|you will not be charged twice/i;
+const SAYS_USED = /\bused [\d,]+ credits?\b/i;
 // A sentence that says credits are held and come back is information, not a zero: it stays.
 const HELD = /held|returns? automatically|restored/i;
 
@@ -246,6 +247,9 @@ export function refusalParts(message, charged = 0) {
   const text = String(message || '').trim();
   const sentences = text.match(/[^.?!]+[.?!]*\s*/g) || [];
   const kept = sentences.filter((s) => HELD.test(s) || !NOTHING_USED.test(s)).join('').trim();
+  // The server's own words win where they already say what was used (bringMistake.mjs unusableLine: "Reading it used 1 credit."):
+  // the amount is then said once, by them.
+  if (amount(charged) > 0 && SAYS_USED.test(kept)) return { said: kept, used: null };
   return { said: kept || text, used: usedWords(charged) };
 }
 

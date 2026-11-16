@@ -106,7 +106,7 @@ const ORDER = {
 };
 
 /**
- * The asks for this context: [{ id, label, line, price }]. `asked` holds ids already used, so "Ask next" never repeats.
+ * The asks for this context: [{ id, label, line, price }]. `asked` holds ids already used, so "Ask next" does not offer one twice.
  * A new student (no sessions) gets the product asks, which are free. With the record unreadable, record asks are left out.
  */
 export function suggestionsFor({ context, insights = null, status = 'loading', pro = false, asked = [], limit = 3 } = {}) {

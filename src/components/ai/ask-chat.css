@@ -143,6 +143,9 @@ html:has(.ach-main:not([hidden]) .ach[data-form='page']) { scroll-padding-bottom
 .ach-wait { display: grid; gap: 10px; justify-items: start; min-width: 0; }
 .ach-wait__line { display: flex; align-items: center; gap: 9px; font-size: 15px; line-height: 1.4; color: var(--a-ink-2); }
 .ach-wait__line svg { flex: none; }
+.ach-wait__mobi { flex: none; width: auto; height: 46px; }
+.ach-wait:has(.ach-wait__mobi) :is(.ach-wait__bar, .ach-wait__note) { margin-left: 40px; }
+.ach-wait:has(.ach-wait__mobi) { gap: 6px; }
 .ach-wait__bar { position: relative; display: block; width: 168px; max-width: 60%; height: 2px; margin-left: 29px; border-radius: 2px; background: var(--a-line); overflow: hidden; }
 .ach-wait__bar::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 42%; border-radius: 2px; background: var(--a-ink-3); animation: ach-sweep 1.8s ease-in-out infinite; }
 .ach-wait__note { margin-left: 29px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); animation: ach-fade 200ms ease-out both; }
@@ -334,13 +337,19 @@ html[data-theme='light'] .ach-send:not(:disabled) { box-shadow: inset 0 0 0 1px 
 @media (hover: hover) { .ach-under a.amb-cost__wallet:hover { text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px; } }
 .ach-line__link { padding-block: 13px; margin-block: -13px; color: var(--a-ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px; }
 .ach-under .amb-num { font-weight: 650; color: var(--a-ink-2); }
+.ach-rule { margin: 0; flex-basis: 100%; }
 .ach-ai { margin: 0; }
 
 /* ---- The start of a chat (ChatEmpty) --------------------------------------------------------------------------------------- */
 .ace { display: grid; gap: 14px; min-width: 0; }
 .ace :is(button, a):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .ace-hello { display: flex; align-items: flex-end; gap: 12px; min-width: 0; }
-.ace-hello__mobi { flex: none; width: auto; height: 84px; }
+/* Mobi's wave: one row of six 372 x 480 cells, shown at rest on its first frame and played once (steps(6), 0.66 s) when the
+   start appears or he is tapped. The box is fixed, so nothing moves around it; reduced motion shows the still. */
+.ace .ace-hello__mobi { flex: none; display: block; width: 68px; height: 88px; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 12px; background: none; cursor: pointer; }
+.ace-wave { display: block; width: 100%; height: 100%; background: url('/brand/mascot/mobi-wave-6.webp') 0 0 / 600% 100% no-repeat; animation: ace-wave 660ms steps(6, jump-none) 250ms 1 both; }
+@keyframes ace-wave { from { background-position-x: 0%; } 99.9% { background-position-x: 100%; } to { background-position-x: 0%; } }
+@media (min-width: 768px) { .ace .ace-hello__mobi { width: 81px; height: 104px; } }
 .ace-hello__words { display: grid; gap: 3px; min-width: 0; padding-bottom: 3px; }
 .ace-hi { margin: 0; font: 600 15.5px/1.3 var(--font-body, inherit); color: var(--a-ink-2); }
 .ace-q { margin: 0; font: 800 clamp(25px, 7vw, 34px)/1.06 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; }
@@ -463,9 +472,11 @@ html[data-theme='light'] .ahs--sheet { box-shadow: 0 -24px 56px -28px rgba(42, 3
 html[data-motion='reduced'] :is(.ach-rise, .ach-report, .ach-photomenu, .ach-wait__note, .ach-attach__thumb img, .ach-photoview, .ahs-scrim, .ahs--sheet, .ach-mistake .bm-opt, .ach-mistake .bm-why) { animation: none; }
 html[data-motion='reduced'] .ach-wait__bar::after { animation: none; width: 100%; opacity: 0.55; }
 html[data-motion='reduced'] .ach-kindrow { transition: none; }
+html[data-motion='reduced'] .ace-wave { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   :is(.ach-rise, .ach-report, .ach-photomenu, .ach-wait__note, .ach-attach__thumb img, .ach-photoview, .ahs-scrim, .ahs--sheet, .ach-mistake .bm-opt, .ach-mistake .bm-why) { animation: none; }
   .ach-wait__bar::after { animation: none; width: 100%; opacity: 0.55; }
   .ach-kindrow { transition: none; }
+  .ace-wave { animation: none; }
   :is(.ach-key, .ach-chipkey, .ach-next, .ach-send, .ach-photokey, .ach-headkey, .ace-tile):active { transform: none; }
 }

@@ -11,10 +11,8 @@
 // plainly that the record needs a paper, with the one first-set key.
 import { useId, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ChevronDown, ChevronRight, ChevronUp, Lock } from 'lucide-react';
-import mascot from '@/../public/brand/mascot/manifest.json';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { openUpgrade } from '@/components/pro';
 import { creditCount, MOBI_JOB_CREDITS } from '@/lib/creditCopy.mjs';
@@ -49,6 +47,8 @@ export default function ChatEmpty({ user, record, standing, asks = [], photoOn =
   const titleId = useId();
   const [moreOpen, setMoreOpen] = useState(false);
   const [allOpen, setAllOpen] = useState(false);
+  // Mobi waves once when the start appears, and once more for a tap (each wave is a fresh element, so the six frames replay).
+  const [wave, setWave] = useState(0);
   const status = record.status;
   const insights = record.insights;
   const ready = status === 'ready' && insights?.state === 'ready';
@@ -83,7 +83,9 @@ export default function ChatEmpty({ user, record, standing, asks = [], photoOn =
   return (
     <section className="ace" aria-labelledby={titleId}>
       <div className="ace-hello">
-        <Image className="ace-hello__mobi" src={mascot.greeting.src} width={mascot.greeting.width} height={mascot.greeting.height} sizes="96px" alt="" priority />
+        <button type="button" className="ace-hello__mobi" onClick={() => setWave((n) => n + 1)} aria-label="Mobi, waving hello">
+          <span key={wave} className="ace-wave" aria-hidden="true" />
+        </button>
         <div className="ace-hello__words">
           <p className="ace-hi">{hello(name)}</p>
           <h2 id={titleId} className="ace-q">{CHAT_COPY.headline}</h2>

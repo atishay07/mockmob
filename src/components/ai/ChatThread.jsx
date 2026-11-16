@@ -194,7 +194,12 @@ export function Waiting({ pending, qName }) {
   }, [ceiling]);
   return (
     <div className="ach-wait" role="status" data-last="" data-turn="wait">
-      <span className="ach-wait__line"><MobiMark size={20} blinking />{waitLine(pending, { qName })}</span>
+      <span className="ach-wait__line">
+        {/* Mobi at work, still: the magnifier over a photo, a book over typed words. Other waits keep his mark. */}
+        {/* eslint-disable-next-line @next/next/no-img-element -- a 46 px still from the brand's own art */}
+        {pending?.kind === 'mistake' || pending?.kind === 'paid' ? <img className="ach-wait__mobi" src={pending.kind === 'mistake' && pending.photo ? '/brand/mascot/mobi-magnifier.webp' : '/brand/mascot/mobi-reading.webp'} width={pending.kind === 'mistake' && pending.photo ? 31 : 29} height={46} alt="" /> : <MobiMark size={20} blinking />}
+        {waitLine(pending, { qName })}
+      </span>
       <span className="ach-wait__bar" aria-hidden="true" />
       {late && ceiling ? <span className="ach-wait__note">{ceiling}</span> : null}
     </div>
