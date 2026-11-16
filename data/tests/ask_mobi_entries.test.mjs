@@ -170,10 +170,12 @@ test('the Help door no longer carries Mobi, and Mobi’s door heads the rail und
 test('the panel has a designed state for empty, thinking, answer, error, out of credits and offline', () => {
   const panel = read('src/components/ai/AskMobiPanel.jsx');
   assert.match(panel, /Mobi answers from your own practice\. After one session it can show where your marks went\./, 'empty');
-  assert.match(panel, /Reading \$\{qName\}, your pick and the key/, 'thinking, with real words and no invented stages');
-  assert.match(panel, /<MobiMark size=\{20\} blinking \/>/, 'thinking: Mobi’s eyes, not a spinner');
+  assert.match(read('src/components/ai/chatCopy.mjs'), /Reading \$\{qName\}, your pick and the key/, 'thinking, with real words and no invented stages');
+  assert.match(read('src/components/ai/ChatThread.jsx'), /<MobiMark size=\{20\} blinking \/>/, 'thinking: Mobi’s eyes, not a spinner');
+  assert.doesNotMatch(read('src/components/ai/ChatThread.jsx'), /setInterval|percent/i, 'the wait is never drawn as progress');
   assert.match(panel, /function Answer\(/, 'answer');
-  assert.match(panel, /usedLine\(\{ cost: response\.charged, pool: 'ai', balance: wallet\?\.known \? wallet\.total : null \}\)/, 'the balance after the reply, in the one credit wording');
+  assert.match(panel, /const spent = usedWords\(response\.charged\);/, 'what a reply used is the amount the server charged');
+  assert.match(read('src/components/ai/chatCopy.mjs'), /return n > 0 \? usedLine\(\{ cost: n, pool: 'ai' \}\) : CHAT_COPY\.noCreditsUsed;/, 'in the one credit wording');
   assert.match(panel, /The reply could not be confirmed\./, 'error: not confirmed');
   assert.match(panel, /Retry sends the same request, so you will not be charged twice/);
   assert.match(panel, /Nothing is charged for a reply that fails\./, 'error: a failed reply');
@@ -189,14 +191,17 @@ test('the panel has a designed state for empty, thinking, answer, error, out of 
 
 test('the cost shows before each call and the balance updates after it (W-060)', () => {
   const panel = read('src/components/ai/AskMobiPanel.jsx');
-  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'every ask row names its price');
-  assert.match(panel, /usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)/, 'the composer names the price of what is typed, in the one credit wording');
-  assert.match(panel, /<Link href="\/wallet" className="amb-cost__wallet"/, 'the balance links to the wallet (D76)');
+  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(MOBI_JOB_CREDITS\)/, 'every ask row names its price, read from the constant');
+  const copy = read('src/components/ai/chatCopy.mjs');
+  assert.match(copy, /usesLine\(\{ what: whatFor\(\{ kind, photo, question \}\), cost, pool: 'ai', balance: wallet\.total \}\)/, 'the composer names the price of what is being sent, in the one credit wording');
+  assert.match(copy, /return question \? 'This reply' : 'This doubt';/);
+  assert.match(read('src/components/ai/ChatComposer.jsx'), /<Link href="\/wallet" className="amb-cost__wallet ach-line__have"/, 'the balance links to the wallet (D76)');
   assert.match(panel, /announceWallet\(userId, next\)/, 'the top bar takes the same number');
   assert.match(panel, /finally \{[^}]*readWallet\(\);/s, 'the balance is read again after every written reply, success or failure');
   const route = '/api/ai/mentor/chat';
   assert.ok(panel.includes(route), 'it uses the existing AI route and no other');
-  assert.doesNotMatch(panel, /fetch\('\/api\/ai\/(?!credits'|mentor\/(chat|local))/, 'no other AI route is called from the panel');
+  // 16 Nov 2026: a question brought from another test is sent from the same conversation (its own route, POST /api/ai/mentor/mistake).
+  assert.doesNotMatch(panel, /fetch\('\/api\/ai\/(?!credits'|mentor\/(chat|local|mistake)')/, 'no other AI route is called from the panel');
   assert.doesNotMatch(panel, /gpt-|claude-|haiku|luna|openai|anthropic/i, 'the panel never names or picks a model');
 });
 
@@ -223,15 +228,16 @@ test('earlier questions pair each question with its reply, newest first, with th
   assert.equal(clip('short'), 'short');
 });
 
-test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and the old deep links still land well', () => {
+test('/mentor is the chat and Your record, the old four-tab hub is gone, and the old deep links still land well', () => {
   const page = read('src/app/(app)/mentor/page.js');
   assert.match(page, /<MentorRecordPage \/>/);
   const view = read('src/components/ai/MentorRecordPage.jsx');
   assert.match(view, /if \(tab === 'plan'\) \{ router\.replace\('\/today'\)/, 'the next step lives on Today');
   assert.match(view, /if \(tab === 'tools'\) \{ router\.replace\('\/wallet'\)/, 'the old tools tab lands on the wallet (D76)');
-  assert.match(view, /<AskMobiDoors/, 'Ask Mobi’s two doors lead the page (1019 option B)');
+  assert.match(view, /<AskMobiPanel\s[^>]*?form="page"/s, 'the chat leads the page (16 Nov 2026)');
   assert.match(view, /DOOR_COPY\.recordInFull/, 'the record view is still on the page, as Your record in full (R3)');
-  assert.doesNotMatch(view, /role="tablist"|aria-pressed|SECTIONS/, 'no tabs');
+  assert.equal((view.match(/role="tab"/g) || []).length, 2, 'two views only, Chat and Your record: the old four-tab hub stays gone');
+  assert.doesNotMatch(view, /SECTIONS/);
   for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.match(shell, /<Link href=\{previewLinks\?\.wallet \|\| '\/wallet'\} className="arena-acct__credits"/, 'the top bar balance opens the wallet (D76)');
@@ -245,6 +251,7 @@ test('touch targets in the panel are 44 px: close, chips and their x, the ask ro
   assert.match(css, /\.amb \.amb-chip \{ min-height: 44px; \}/);
   assert.match(css, /\.amb \.amb-chip > button \{[^}]*width: 44px; height: 44px;/);
   assert.match(css, /\.amb-ask \{[^}]*min-height: 56px;/);
-  assert.match(css, /\.amb-send \{[^}]*min-height: 44px;/);
+  assert.match(read('src/components/ai/ask-chat.css'), /\.ach-send \{[^}]*width: 44px; height: 44px;/, 'the send key');
+  assert.match(read('src/components/ai/ask-chat.css'), /\.ach-photokey \{[^}]*min-height: 44px;/, 'the Photo key');
   assert.match(css, /\.amb-grab \{[^}]*user-select: none;/, 'a second drag on the sheet must not be cancelled by a selection the first one made');
 });

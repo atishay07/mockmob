@@ -163,16 +163,22 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   assert.match(panel, /fetch\(`\/api\/recovery\/ask-context\?q=\$\{encodeURIComponent\(questionRef\)\}`/, 'the question hand-off is kept');
   assert.match(panel, /\.\.\.\(pendingRef\.current\.questionRef \? \{ questionRef: pendingRef\.current\.questionRef \} : \{\}\)/, 'the request carries the reference, never the question text');
   assert.match(panel, /if \(!isRetry\) pendingRef\.current = \{ message: finalText, id: crypto\.randomUUID\(\)/, 'one request id per student action');
-  assert.match(panel, /onClick=\{\(\) => sendPaid\(retry\.message, true\)\}>Retry this question</, 'a retry reuses the same request');
+  assert.match(panel, /ways=\{\[\{ id: 'same', label: 'Retry this question' \}\]\} onWay=\{\(\) => sendPaid\(retry\.message, true\)\}/, 'a retry reuses the same request');
   assert.match(panel, /if \(!isRetry && !paid\.open\) return;/, 'no paid call when written replies cannot be bought');
   assert.match(panel, /announceWallet\(userId, next\)/, 'the top bar takes the same balance');
   assert.match(panel, /readWallet\(\);\r?\n    \}/, 'the balance is read again after every written reply');
   assert.match(panel, /const fromRecord = !questionTyping && /, 'no record answer to a question while written replies are open');
-  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(1\)/, 'every ask shows its price before it is sent');
+  assert.match(panel, /ask\.price === 'free' \? 'Free' : creditCount\(MOBI_JOB_CREDITS\)/, 'every ask shows its price before it is sent');
   const css = read('src/components/ai/ask-mobi.css');
   assert.doesNotMatch(css, /box-shadow:[^;]*0 0 \d+px[^;]*(210, ?240|d2f000)|text-shadow|backdrop-filter|linear-gradient|#d2f000/i, 'no glow, glass or volt fill in the panel');
   assert.match(css, /prefers-reduced-motion/);
   assert.match(css, /width: 400px/);
+  // The chat's own sheet (16 Nov 2026): volt is the send key alone (the view's one volt), never a glow or glass.
+  const chat = read('src/components/ai/ask-chat.css');
+  assert.doesNotMatch(chat, /box-shadow:[^;]*0 0 \d+px[^;]*(210, ?240|d2f000)|text-shadow|backdrop-filter/i, 'no glow or glass in the chat');
+  assert.equal((chat.match(/#d2f000/gi) || []).length, 1, 'one volt fill: the send key');
+  assert.match(chat, /\.ach-send \{[^}]*background: var\(--volt, #d2f000\)/);
+  assert.match(chat, /prefers-reduced-motion/);
   const drawer = read('src/components/ai/AssistantDrawer.jsx');
   assert.match(drawer, /if \(width >= 1280\) return 'dock';/);
   assert.match(drawer, /role=\{modal \? 'dialog' : 'complementary'\}/, 'docked it is a region, not a modal');

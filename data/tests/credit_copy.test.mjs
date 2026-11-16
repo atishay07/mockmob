@@ -62,8 +62,11 @@ test('a repair, a lesson explanation, a written reply and a benchmark each say t
   assert.match(read('src/components/ScoreRecoveryLab.jsx'), /usesLine\(\{ what, verb: .*cost: remaining, pool: 'ai'/);
   assert.match(read('src/components/study/StudyHelp.jsx'), /usesLine\(\{ what: 'This explanation', cost: 1, pool: 'ai'/);
   // Ask Mobi's panel: the price of a written reply names its pool before the call, and the reply names the credit used and the balance after.
-  assert.match(read('src/components/ai/AskMobiPanel.jsx'), /usesLine\(\{ what: 'This reply', cost: 1, pool: 'ai' \}\)/);
-  assert.match(read('src/components/ai/AskMobiPanel.jsx'), /usedLine\(\{ cost: response\.charged, pool: 'ai', balance: wallet\?\.known \? wallet\.total : null \}\)/);
+  // Ask Mobi's chat (chatCopy.mjs, 16 Nov 2026): before a send the line names what it uses and the balance; after a reply the turn
+  // names the credits the server said it used.
+  assert.match(read('src/components/ai/chatCopy.mjs'), /usesLine\(\{ what: whatFor\(\{ kind, photo, question \}\), cost, pool: 'ai', balance: wallet\.total \}\)/);
+  assert.match(read('src/components/ai/chatCopy.mjs'), /usedLine\(\{ cost: n, pool: 'ai' \}\)/);
+  assert.match(read('src/components/ai/AskMobiPanel.jsx'), /usedWords\(response\.charged\)/);
   assert.match(read('src/components/ai/AIRivalArena.jsx'), /usesLine\(\{ what: 'This benchmark'/);
   assert.match(read('src/services/recovery/repairFlow.js'), /usesLine\(\{ what: 'This repair', cost: REPAIR_CREDIT_COST/);
   assert.match(read('src/services/prepos/modelReply.js'), /usesLine\(\{ what: 'This reply'/);

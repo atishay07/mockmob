@@ -348,6 +348,11 @@ html[data-theme='light'] .ach-send:not(:disabled) { box-shadow: inset 0 0 0 1px 
 .ace-context > span:first-child { min-width: 0; }
 .ace-context svg { flex: none; color: var(--a-ink-3); }
 .ace-context--quiet { cursor: default; color: var(--a-ink-3); }
+.ace-context--line { cursor: default; }
+/* A key inside the line: its words underlined, its target 44 px tall without growing the line. */
+.ace-inline { display: inline; min-height: 0; min-width: 0; margin: -12px 0; padding: 12px 0; border: 0; background: none; cursor: pointer; color: var(--a-ink); font: inherit; font-weight: 650; text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+.ace .ace-inline { min-height: 0; min-width: 0; }
+@media (hover: hover) { .ace-inline:hover { text-decoration-color: currentColor; } }
 @media (hover: hover) { button.ace-context:hover { color: var(--a-ink); } button.ace-context:hover span:first-child { text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 3px; } }
 .ace-fresh { display: grid; justify-items: start; gap: 8px; }
 .ace-fresh__say { margin: 0; font: 700 17px/1.3 var(--font-display); color: var(--a-ink); }

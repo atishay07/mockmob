@@ -734,7 +734,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           <p className="amb-notice" role="status">{paid.why}</p>
         ) : null}
 
-        {!idle && !saved && !opening && !questionFailed && asks.length && !pending && !retry && !mistakeHold && !waitingStart && (!onPage || turns.length) ? (
+        {!idle && !saved && !opening && !questionFailed && asks.length && !pending && !retry && !mistakeHold && !waitingStart && (!onPage || turns.length || questionRef) ? (
           <section className="amb-asks" aria-label={turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}>
             <h3>{turns.length || first ? CHAT_COPY.askNext : withQuestion ? 'Ask about this question' : 'You can ask now'}</h3>
             <ul>

@@ -100,17 +100,16 @@ export default function ChatEmpty({ user, record, standing, asks = [], photoOn =
       ) : null}
       {status === 'loading' ? <p className="ace-context ace-context--quiet" role="status">{DOOR_COPY.reading}</p> : null}
       {status === 'unavailable' ? (
-        <div className="ace-fresh">
-          <p className="ace-fresh__body" role="status">{typeof navigator !== 'undefined' && navigator.onLine === false ? DOOR_COPY.readOffline : DOOR_COPY.readFailed}</p>
-          <button type="button" className="ach-key" onClick={onRetry}>{DOOR_COPY.tryAgain}</button>
-        </div>
+        <p className="ace-context ace-context--line" role="status">
+          <span>{typeof navigator !== 'undefined' && navigator.onLine === false ? DOOR_COPY.readOffline : DOOR_COPY.readFailed} <button type="button" className="ace-inline" onClick={onRetry}>{DOOR_COPY.tryAgain}</button></span>
+        </p>
       ) : null}
+      {/* A fresh account: the honest line and the one first-set key, on one line so the four starters stay in view. Your record
+          says the rest. */}
       {status === 'empty' ? (
-        <div className="ace-fresh">
-          <p className="ace-fresh__say">{DOOR_COPY.emptySay}</p>
-          <p className="ace-fresh__body">{DOOR_COPY.emptyBody}</p>
-          <Link href={FIRST_SET_HREF} className="ach-key">{DOOR_COPY.emptyKey}</Link>
-        </div>
+        <p className="ace-context ace-context--line">
+          <span>{DOOR_COPY.emptySay} <Link href={FIRST_SET_HREF} className="ace-inline">{DOOR_COPY.emptyKey}</Link></span>
+        </p>
       ) : null}
 
       <ul className="ace-tiles">

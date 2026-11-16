@@ -67,26 +67,30 @@ export function PhotoView({ url, onClose }) {
   const closeRef = useRef(null);
   const close = useRef(onClose);
   useEffect(() => { close.current = onClose; }, [onClose]);
+  // Back closes the photo: one history entry while it is open. A tap or Escape goes back through that entry, so the photo
+  // closes one way only and the phone's back never leaves the page instead.
+  const shut = () => {
+    let viaBack = false;
+    try { if (window.history.state?.mmPhoto) { window.history.back(); viaBack = true; } } catch { viaBack = false; }
+    if (!viaBack) close.current?.();
+  };
   useEffect(() => {
     const opener = document.activeElement;
     closeRef.current?.focus({ preventScroll: true });
-    // Back closes the photo: one history entry while it is open, taken back when it closes another way.
-    let pushed = false;
-    try { window.history.pushState({ ...(window.history.state || {}), mmPhoto: true }, ''); pushed = true; } catch { pushed = false; }
-    const onPop = () => { pushed = false; close.current?.(); };
-    const onKey = (event) => { if (event.key === 'Escape') { event.preventDefault(); close.current?.(); } };
+    try { if (!window.history.state?.mmPhoto) window.history.pushState({ ...(window.history.state || {}), mmPhoto: true }, ''); } catch { /* the photo still closes with a tap or Escape */ }
+    const onPop = () => close.current?.();
+    const onKey = (event) => { if (event.key === 'Escape') { event.preventDefault(); shut(); } };
     window.addEventListener('popstate', onPop);
     document.addEventListener('keydown', onKey);
     return () => {
       window.removeEventListener('popstate', onPop);
       document.removeEventListener('keydown', onKey);
-      if (pushed && window.history.state?.mmPhoto) { try { window.history.back(); } catch { /* nothing to take back */ } }
       if (opener?.isConnected) opener.focus({ preventScroll: true });
     };
   }, []);
   if (typeof document === 'undefined') return null;
   return createPortal(
-    <div className="ach-photoview" role="dialog" aria-modal="true" aria-label={CHAT_COPY.photoAlt} onClick={onClose}>
+    <div className="ach-photoview" role="dialog" aria-modal="true" aria-label={CHAT_COPY.photoAlt} onClick={shut}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={url} alt={CHAT_COPY.photoAlt} />
       <button type="button" ref={closeRef} className="ach-photoview__close" aria-label={CHAT_COPY.photoClose}><X size={22} aria-hidden="true" /></button>

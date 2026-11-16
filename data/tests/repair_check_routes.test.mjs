@@ -189,5 +189,7 @@ test('the Ask panel opened from a repair: reads the reference from its context, 
   assert.match(panel, /mode: modeFor\(scoped\.kind\)/, 'a question is a written reply about that question');
   assert.match(panel, /const dropQuestion = \(\) =>/, 'the student can drop the question and ask about the record');
   const page = read('src/components/ai/MentorRecordPage.jsx');
-  assert.match(page, /openAskMobi\(\{ context: q \? \{ kind: 'question', ref: q \} : \{ kind: 'page' \} \}\)/, '/mentor?tab=ask&q= opens the panel on that question');
+  // 16 Nov 2026: the page is the conversation, so the link opens the page's own chat on that question (the same engine).
+  assert.match(page, /normalizeContext\(tab === 'ask' && q \? \{ kind: 'question', ref: q \} : \{ kind: 'page' \}\)/, '/mentor?tab=ask&q= opens the chat on that question');
+  assert.match(page, /key=\{`\$\{chatKey\}:\$\{context\.ref \|\| 'page'\}`\}/, 'a new question is a new conversation');
 });
