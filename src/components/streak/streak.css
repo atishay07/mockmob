@@ -145,18 +145,11 @@ html[data-theme='light'] .stk-bubble[data-look='done'], html[data-theme='light']
 html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.45); }
 .stk-chip__unit { font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
 @media (hover: hover) and (pointer: fine) { .stk-chip:hover { background: var(--a-hover); } }
-@media (max-width: 639px) { .stk-chip__unit { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
-@media (max-width: 639px) { .stk-chip { padding: 0 5px 0 7px; } }
-/* A phone's bar was full (the mark, Night or Day, Ask Mobi, the account). With the streak door in the capsule, Mobi's key gives a
-   little: from 380 to 439 px it reads "Ask" beside his face (as it already did at 360), and under 380 px it is his face alone; his
-   name stays in the key's accessible name, and the You page's first row is the same door. Only while the streak door is shown. */
-@media (max-width: 439px) {
-  .app-shell .arena-topbar:has(.stk-chip) .arena-askkey__name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-}
-@media (max-width: 379px) {
-  .app-shell .arena-topbar:has(.stk-chip) .arena-askkey__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .app-shell .arena-topbar:has(.stk-chip) .arena-askkey { padding: 0 10px; }
-}
+/* Phones (under 640 px) leave the chip out (17 Nov review): a bare number beside the credits read as two unlabelled figures and
+   shortened Ask Mobi. StreakChip does not render or read there; this rule only backs it up. While the read is out on a wider
+   screen, an empty chip of the usual width holds the space so the bar does not shift when the number arrives. */
+@media (max-width: 639px) { .stk-chip, .stk-chip + .arena-acct__rule { display: none; } }
+.stk-chip--wait { width: 84px; height: 30px; padding: 0; pointer-events: none; }
 
 /* ---------- Today's block (on the ground, like This week) ---------- */
 .app-shell .today-grid .tsk { order: 3; }
@@ -187,7 +180,9 @@ html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px r
 .app-shell .tsk__stamp { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--a-ink); color: var(--a-bg); font: 750 17px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .app-shell .tsk__moment p { display: grid; gap: 2px; margin: 0; font-size: 14.5px; line-height: 1.4; color: var(--a-ink-2); }
 .app-shell .tsk__moment b { font: 650 15.5px/1.25 var(--font-display); color: var(--a-ink); }
-.app-shell .tsk--wait .tsk__panel { min-height: 150px; }
+.app-shell .tsk--wait .tsk__panel { min-height: 232px; align-content: start; }
+.app-shell .tsk--wait .tsk__rule { min-height: 39px; }
+.app-shell .tsk__fail { margin: 0; font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
 .app-shell .tsk--wait span { display: block; height: 16px; width: 70%; border-radius: 6px; background: var(--a-raised-2); }
 
 /* ---------- You: the streak cell and the pause offer ---------- */
@@ -195,6 +190,7 @@ html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px r
 .acct-streak { display: flex; align-items: center; gap: 14px; width: 100%; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; min-height: 44px; }
 .acct-streak__n { display: grid; place-items: center; flex: none; width: 64px; height: 64px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--a-line-strong); font: 750 24px/1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--a-ink); }
 .acct-streak[data-today] .acct-streak__n { box-shadow: inset 0 0 0 3px var(--stk-volt); }
+.acct-streak__n[data-empty] { box-shadow: inset 0 0 0 2px var(--a-line-strong); background: transparent; }
 .acct-streak:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 12px; }
 .stk-goal { display: grid; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--a-line); }
 .stk-goal h3 { margin: 0; font: 650 15.5px/1.25 var(--font-display); color: var(--a-ink); }

@@ -3,7 +3,7 @@
 // still open, a pause day, a covered day, today counted or what today needs), the rest passes and the rule, as one outlined
 // surface that opens the streak sheet (the whole surface is the button, F5). A milestone reached in the last two days shows once
 // on this device as a calm line with its real work (S6), never confetti; Celebrations Off leaves the moment out, Quiet keeps
-// it still. A failed read leaves the block out: the week below still says what was done.
+// it still. A failed read keeps a short block with Try again, so the week below does not jump.
 import { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
@@ -16,7 +16,7 @@ const seenMoment = (at) => { try { return window.localStorage.getItem(momentKey(
 const keepMoment = (at) => { try { window.localStorage.setItem(momentKey(at), '1'); } catch { /* shows again on this device */ } };
 
 export default function TodayStreak({ userId, hold = false }) {
-  const { status, data: body } = useStreak(userId);
+  const { status, data: body, reload } = useStreak(userId);
   const prefs = useMobiPrefs();
   const [moment, setMoment] = useState(null);
   const reached = body?.milestone && body.days - body.milestone.at <= 2 ? body.milestone : null;
@@ -30,12 +30,21 @@ export default function TodayStreak({ userId, hold = false }) {
     return () => window.clearTimeout(t);
   }, [reached, hold, prefs.celebrations, prefs.reduced]);
 
-  if (status === 'error' || (status === 'ready' && !body)) return null;
+  if (status === 'error' || (status === 'ready' && !body)) {
+    // A failed read keeps a short block (17 Nov review): the week below does not jump, and the student can ask again.
+    return (
+      <section className="tsk tsk--failed" aria-labelledby="tsk-h">
+        <header className="tsk__head"><h2 id="tsk-h" className="tsk__h">{STREAK_NAME}</h2></header>
+        <p className="tsk__fail" role="status">Your streak did not load. <button type="button" className="tsk__open" onClick={reload}>Try again</button></p>
+      </section>
+    );
+  }
   if (!body || hold) {
     return (
       <section className="tsk tsk--wait" aria-busy="true" aria-labelledby="tsk-h">
         <header className="tsk__head"><h2 id="tsk-h" className="tsk__h">{STREAK_NAME}</h2></header>
-        <div className="tsk__panel"><span /><span /></div>
+        <div className="tsk__panel"><span /><span /><span /><span /></div>
+        <p className="tsk__rule" aria-hidden="true">&nbsp;</p>
       </section>
     );
   }

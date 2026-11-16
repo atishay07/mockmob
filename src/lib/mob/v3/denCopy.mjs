@@ -5,7 +5,7 @@
 // data/tests/mob_v3_den_web.test.mjs holds the lint (C-1 to C-4) over this file and the den components.
 
 import { MOCK_SIT_CREDITS } from '../mockPrice.mjs';
-import { PASS_EVERY, PASS_FIRST_AT, PASS_MAX, PASS_PER_FIXES, PAUSE_MAX } from '../../chain/chain.mjs';
+import { MAKE_UP_EVERY, PASS_EVERY, PASS_FIRST_AT, PASS_MAX, PASS_PER_FIXES, PAUSE_MAX } from '../../chain/chain.mjs';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -376,7 +376,7 @@ export const DenCopy = Object.freeze({
   passesRule: `A rest pass covers a day without practice by itself. You earn one at day ${PASS_FIRST_AT}, one every ${PASS_EVERY} days, and one for every ${PASS_PER_FIXES} repairs that hold.`,
   makeUpOpen: (weekday, needed) => `${weekday} is still open. Answer ${needed} today to keep your streak.`,
   makeUpProgress: (answered, needed) => `You have answered ${answered} of ${needed} today.`,
-  makeUpOnce: 'A make-up can be used once every 14 days.',
+  makeUpOnce: `A make-up can be used once every ${MAKE_UP_EVERY} days.`,
   newChain: (best) => `A new streak starts with today. Your best is ${best} days.`,
   calendarCaption: 'Moon: a rest pass kept the day.',
   // Bug 6 (17 Nov): a rest-pass milestone never promises a pass the cap swallows; at the cap it says so.
@@ -384,7 +384,7 @@ export const DenCopy = Object.freeze({
   moreDays: (n) => (n === 1 ? '1 more day' : `${n} more days`),
   examPause: 'Exam pause days',
   hideChain: 'Hide my streak',
-  hiddenLine: 'Your streak is hidden from your Mob. It still counts, and you still see it on Today.',
+  hiddenLine: 'Your streak is hidden here and in the top bar. It still counts, nobody else ever sees it, and Today and You still show it to you.',
   showChain: 'Show my streak',
   dayInitials: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
   dayState: (s) => ({ practised: 'practised', rested: 'rested', made_up: 'made up', paused: 'set aside for exams', open: 'open', today: 'today' }[s] || 'not practised'),
@@ -411,7 +411,7 @@ export const DenCopy = Object.freeze({
   onTheWay: 'On the way',
 
   // P5 Exam pause
-  pauseLine: (left) => `Set days ahead for school exams. Your streak holds on them. You have ${PAUSE_MAX} a season, and ${left} are left.`,
+  pauseLine: (left) => `Set days ahead for school exams. Your streak holds on them. You have ${PAUSE_MAX} a season, and ${left} ${left === 1 ? 'is' : 'are'} left.`,
   pauseKey: (n) => (n === 1 ? 'Pause 1 day' : `Pause ${n} days`),
   clearDays: 'Clear these days',
   pickDays: 'Choose days to pause',
@@ -487,7 +487,7 @@ export const DEN_ERRORS = Object.freeze({
   FOLD_LOCKED: 'You have not earned that Fold yet. Its card says how.',
   STEP_OUT_DONE: "This week's quest is already done, so there is nothing to step out of.",
   PAUSE_PAST: 'Pause days have to be after today.',
-  PAUSE_LIMIT: 'You have used the 14 pause days this season allows.',
+  PAUSE_LIMIT: `You have used the ${PAUSE_MAX} pause days this season allows.`,
   LENGTH_INVALID: 'Choose 5, 10, 15 or 20 questions.',
   CHAPTER_INVALID: 'Choose a chapter of this subject.',
   BANK_THIN: 'There are not enough questions ready for that paper.',

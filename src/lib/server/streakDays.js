@@ -40,20 +40,50 @@ export function repairStreakDays(rows = []) {
  */
 export async function readStreakExtras(db, userId, fromDay) {
   const since = `${fromDay}T00:00:00+05:30`;
+  let ok = true;
   const fives = async () => {
     try {
       const { data, error } = await db.from('question_interactions').select('session_id,n:metadata->>n').eq('user_id', userId).is('flow_context', null)
         .eq('interaction_type', 'daily_five').gte('created_at', since).order('created_at', { ascending: false }).limit(4000);
-      return error ? [] : dailyFiveStreakDays(data || []);
-    } catch { return []; }
+      if (error) { ok = false; return []; }
+      return dailyFiveStreakDays(data || []);
+    } catch { ok = false; return []; }
   };
   const repairs = async () => {
     try {
       const { data, error } = await db.from('ai_credit_reservations').select('updated_at').eq('user_id', userId).eq('state', 'committed')
         .eq('action', 'score_recovery_repair').not('receipt->repair', 'is', null).gte('updated_at', since).order('updated_at', { ascending: false }).limit(2000);
-      return error ? [] : repairStreakDays(data || []);
-    } catch { return []; }
+      if (error) { ok = false; return []; }
+      return repairStreakDays(data || []);
+    } catch { ok = false; return []; }
   };
   const [a, b] = await Promise.all([fives(), repairs()]);
-  return [...a, ...b];
+  const out = [...a, ...b];
+  Object.defineProperty(out, 'ok', { value: ok }); // false when a source failed (the reader below never keeps such a read)
+  return out;
+}
+
+/**
+ * The extra days with the past kept (17 Nov review, egress): the streak is read on Today, You and the top bar, and the whole
+ * 730-day read of Daily Fives and repairs ran on each. Days before today do not change, so a whole read is kept per student for
+ * `ttlMs` (10 minutes) within one IST day; between whole reads only today's rows are read (at most 5 Daily Five rows and a few
+ * repairs). A read with a failed source is never kept. read(userId, fromDay) is readStreakExtras bound to the client.
+ */
+export function createStreakExtrasReader({ read, now = () => Date.now(), ttlMs = 10 * 60_000, max = 2000 }) {
+  const kept = new Map();
+  return async function extraDays(userId, fromDay) {
+    const today = localDay(now(), 'Asia/Kolkata');
+    const hit = kept.get(userId);
+    if (hit && hit.today === today && hit.from === fromDay && now() - hit.at < ttlMs) {
+      const fresh = await read(userId, today);
+      return [...hit.past, ...fresh.filter((d) => d.day >= today)];
+    }
+    const all = await read(userId, fromDay);
+    if (all.ok !== false) {
+      if (kept.size >= max) kept.delete(kept.keys().next().value);
+      kept.delete(userId);
+      kept.set(userId, { today, from: fromDay, at: now(), past: all.filter((d) => d.day < today) });
+    }
+    return [...all];
+  };
 }

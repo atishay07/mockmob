@@ -422,7 +422,7 @@ function b6(st, tl, { K, T }) {
   }
   heads.forEach((d, i) => K.pop(tl, d, T.heads + i * 45, 0.6));
   const c = h('div', { class: 'mx-card', style: 'left:16px;top:304px;width:328px;height:96px' }); st.append(c); K.rise(tl, c, T.quest + 100);
-  c.append(h('div', { class: 'mx-t-label mx-abs', style: 'left:16px;top:12px;font-size:15px', text: 'Your chain' }));
+  c.append(h('div', { class: 'mx-t-label mx-abs', style: 'left:16px;top:12px;font-size:15px', text: 'Your daily streak' }));
   c.append(h('div', { class: 'mx-abs', style: 'right:16px;top:6px;display:flex;align-items:baseline;gap:4px' }, [h('span', { class: 'mx-fig', text: '14', style: 'font-size:26px' }), h('span', { class: 'mx-t-cap', text: 'days in a row' })]));
   for (let i = 0; i < 7; i += 1) {
     const rested = i === 4; const x = 16 + i * 42;
@@ -432,7 +432,7 @@ function b6(st, tl, { K, T }) {
     if (K.rm) K.fadeIn(tl, box, T.days + i * 70);
     else tl.a(box, [{ opacity: 0, transform: 'translateY(-10px)' }, { opacity: 1, transform: 'translateY(0)' }], { d: i === 6 ? SP.celebrate.d : 300, at: T.days + i * 70, e: i === 6 ? SP.celebrate.e : E.out });
   }
-  const cap = h('div', { class: 'mx-t-cap mx-abs', style: 'left:16px;top:72px;font-size:12.5px', text: 'Moon: a rest pass kept the chain.' }); c.append(cap); K.fadeIn(tl, cap, T.moon, 240);
+  const cap = h('div', { class: 'mx-t-cap mx-abs', style: 'left:16px;top:72px;font-size:12.5px', text: 'Moon: a rest pass kept the day.' }); c.append(cap); K.fadeIn(tl, cap, T.moon, 240);
 }
 
 // 7. Earned, never bought: the parcel opens and Hop climbs out (M9); the shelf shows what is still to earn.

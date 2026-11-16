@@ -5,7 +5,7 @@
 //   A missed day takes a rest pass if one is held (it applies itself), else a free make-up (10 answered on either of
 //   the next two days, once in 14 days), else it is "open" while the make-up can still land, else missed.
 //   Passes: one at day 3 (once), one at every 7th day, one for every 3rd held fix (all time); at most 2 held.
-//   Pause days hold the chain and do not add. No warnings, no countdowns: a best run never drops.
+//   Pause days hold the chain and do not add (practice on one counts like any day). No warnings, no countdowns: a best run never drops.
 // The daily streak (17 Nov 2026, LK296): this chain is THE daily streak, shown on Today, You and the top bar for every signed-in
 // student (GET /api/me/streak, src/lib/server/streak.js), Mob or not. One rule for a day: 5 answered across practice, Mob games
 // and fix checks (chain_daily), plus a whole Daily Five (its 5 answers) and a finished Mistake Repair (a `counts` day: it makes
@@ -57,30 +57,41 @@ export function walkChain({ daily = [], pauses = [], fixesHeld = [], today }) {
   let practised = 0; let rested = 0; let madeUp = 0; let pausedN = 0; let open = null; let creditedThirds = 0;
   const first = [...answered.keys()].filter((d) => counts(d) && d < today).sort()[0];
   let runFrom = first || null; // the first day of the current run (after the last missed day)
-  const makeUpOk = (d) => (lastMakeUp === null || diffDays(d, lastMakeUp) >= MAKE_UP_EVERY)
+  const makeUpFree = (d) => lastMakeUp === null || diffDays(d, lastMakeUp) >= MAKE_UP_EVERY;
+  const makeUpOk = (d) => makeUpFree(d)
     && ((addDays(d, 1) <= today && a(addDays(d, 1)) >= MAKE_UP_GOAL) || (addDays(d, 2) <= today && a(addDays(d, 2)) >= MAKE_UP_GOAL));
+  // A day is "open" only while a make-up can still keep a run (17 Nov review): there is a run (chain > 0), the make-up is free
+  // (not used in the last 14 days), the window has not passed, and every day between it and today counted or was paused (a second
+  // uncovered day could not be made up too). Otherwise it is a plain day and the run is counted after it.
+  const keepable = (d) => { for (let x = addDays(d, 1); x < today; x = addDays(x, 1)) if (!counts(x) && !paused.has(x)) return false; return true; };
+  const fixesUpTo = (d) => fixes.filter((f) => f.day <= d).reduce((s, f) => s + f.n, 0);
   if (first) {
     for (let d = first; d < today; d = addDays(d, 1)) {
       let grew = false;
-      if (paused.has(d)) { states.set(d, 'paused'); pausedN += 1; }
-      else if (counts(d)) { states.set(d, 'practised'); chain += 1; practised += 1; grew = true; }
+      // A pause day the student practised on anyway counts like any other day (17 Nov review): today already showed it counted,
+      // so tomorrow's walk must not take that day back.
+      if (counts(d)) { states.set(d, 'practised'); chain += 1; practised += 1; grew = true; }
+      else if (paused.has(d)) { states.set(d, 'paused'); pausedN += 1; }
       else if (passes > 0) { states.set(d, 'rested'); passes -= 1; chain += 1; rested += 1; grew = true; }
       else if (makeUpOk(d)) { states.set(d, 'made_up'); chain += 1; madeUp += 1; lastMakeUp = d; grew = true; }
-      else if (addDays(d, 2) >= today) { states.set(d, 'open'); open = d; valueAt.set(d, chain); break; }
+      else if (open === null && chain > 0 && addDays(d, 2) >= today && makeUpFree(d) && keepable(d)) {
+        // The run is held while the day is open; the counted days after it are walked too (they count either way: in this run
+        // if it is made up, or as the start of the next). Day passes wait until the open day settles.
+        states.set(d, 'open'); open = d; valueAt.set(d, chain); continue;
+      }
       else { states.set(d, 'missed'); chain = 0; practised = 0; rested = 0; madeUp = 0; pausedN = 0; runFrom = null; }
       if (runFrom === null && grew) runFrom = d;
-      if (grew && chain === PASS_FIRST_AT && !gifted) { passes += 1; gifted = true; }
-      if (grew && chain > 0 && chain % PASS_EVERY === 0) passes += 1;
-      const held = fixes.filter((f) => f.day <= d).reduce((s, f) => s + f.n, 0);
-      const thirds = Math.floor(held / PASS_PER_FIXES);
+      if (open === null && grew && chain === PASS_FIRST_AT && !gifted) { passes += 1; gifted = true; }
+      if (open === null && grew && chain > 0 && chain % PASS_EVERY === 0) passes += 1;
+      const thirds = Math.floor(fixesUpTo(d) / PASS_PER_FIXES);
       if (thirds > creditedThirds) { passes += thirds - creditedThirds; creditedThirds = thirds; }
       passes = Math.min(passes, PASS_MAX);
       best = Math.max(best, chain);
       valueAt.set(d, chain);
     }
   }
-  const makeUpAvailable = open !== null && (lastMakeUp === null || diffDays(open, lastMakeUp) >= MAKE_UP_EVERY);
-  return { states, valueAt, chain, passes, best, practised, rested, madeUp, paused: pausedN, open, makeUpAvailable, lastMakeUp, gifted, answeredOn: a, countsOn: counts, pausedDays: paused, runFrom };
+  const makeUpAvailable = open !== null; // an open day is only ever one a make-up can still keep
+  return { states, valueAt, chain, passes, best, practised, rested, madeUp, paused: pausedN, open, makeUpAvailable, lastMakeUp, gifted, answeredOn: a, countsOn: counts, pausedDays: paused, runFrom, creditedThirds, fixesUpTo };
 }
 
 /** The next pass the days can bring: { kind: 'days', at }. */
@@ -128,7 +139,22 @@ export function computeChain({ daily = [], pauses = [], fixesHeld = [], today, h
   }
   // Bug 6 (17 Nov): a pass is never promised that the cap of 2 would swallow. A rest-pass milestone not reached yet while
   // the student already holds the most they can keep says so (`full`), and the next pass says it too (passes.full).
-  const full = w.passes >= PASS_MAX;
+  // Today's own grant (17 Nov review): the walk stops before today, so the pass a count reached today brings (day 3, every 7th
+  // day, a third repair that held) is added here, the way tomorrow's walk will add it, before the pass line is worded. Only once
+  // today counts: tomorrow's walk uses a held pass on an uncounted today before it credits today's fixes, so a pass from today's
+  // fixes cannot cover today and is not shown until it can cover a day.
+  let held = w.passes;
+  let gifted = w.gifted;
+  if (todayDone && w.open === null) {
+    if (days === PASS_FIRST_AT && !gifted) { held += 1; gifted = true; }
+    if (days > 0 && days % PASS_EVERY === 0) held += 1;
+  }
+  if (todayDone) {
+    const thirds = Math.floor(w.fixesUpTo(today) / PASS_PER_FIXES);
+    if (thirds > w.creditedThirds) held += thirds - w.creditedThirds;
+  }
+  held = Math.min(held, PASS_MAX);
+  const full = held >= PASS_MAX;
   const milestones = CHAIN_MILESTONES.map((m) => (best >= m.at ? { at: m.at, reward: m.reward, done: true } : { at: m.at, reward: m.reward, done: false, left: m.at - days, ...(m.reward === 'rest_pass' && full ? { full: true } : {}) }));
   const nextM = CHAIN_MILESTONES.find((m) => days < m.at) || null;
   const due = CHAIN_MILESTONES.filter((m) => days >= m.at && !seen.has(`chain:${m.at}`)).map((m) => `chain:${m.at}`);
@@ -148,11 +174,11 @@ export function computeChain({ daily = [], pauses = [], fixesHeld = [], today, h
   return {
     hidden: Boolean(hidden), days, practised: w.practised + (todayDone ? 1 : 0), rested: w.rested, madeUp: w.madeUp, paused: w.paused, best,
     today: { answered: answeredToday, needed: DAY_GOAL, done: todayDone, paused: w.pausedDays.has(today) },
-    passes: { held: w.passes, max: PASS_MAX, next: nextPass(days, w.gifted), full },
+    passes: { held, max: PASS_MAX, next: nextPass(days, gifted), full },
     week, calendar, milestones,
     next: nextM ? { at: nextM.at, reward: nextM.reward, left: nextM.at - days } : null,
-    // A make-up is offered only when there is a run to keep (17 Nov): a gap after nothing is just a day without practice.
-    makeUp: w.open && w.makeUpAvailable && w.chain > 0 ? { day: w.open, needed: MAKE_UP_GOAL, answeredToday } : null,
+    // A make-up is offered only when there is a run to keep (17 Nov): walkChain opens a day only then.
+    makeUp: w.open ? { day: w.open, needed: MAKE_UP_GOAL, answeredToday } : null,
     pause: { days: pauseDays, usedThisSeason, max: PAUSE_MAX },
     notices, due,
     run: { from: runFrom, answered: runAnswered },

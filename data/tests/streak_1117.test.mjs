@@ -56,11 +56,13 @@ test('a repair never makes a 10-answer make-up on its own', () => {
   const base = run(add(T, -3), 1); // one day, then a gap yesterday-but-one
   const withRepair = chain(mergeStreakDays(base, [{ day: add(T, -1), answered: 0, counts: true }]));
   // the repair makes yesterday count by itself (a normal day), but a make-up needs 10 real answers
-  const open = chain([...run(add(T, -3), 1)]);
+  const open = chain([...run(add(T, -2), 1)]);
   assert.equal(open.makeUp?.needed, MAKE_UP_GOAL);
-  const madeUp = chain([...run(add(T, -3), 1), { day: T, answered: 0, counts: true }]);
+  const madeUp = chain([...run(add(T, -2), 1), { day: T, answered: 0, counts: true }]);
   assert.ok(madeUp.makeUp, 'the open day stays open: the repair adds no answers toward the make-up');
-  assert.ok(withRepair.days >= 1);
+  // T-2 is open, and the repair day after it is walked and counted (the run is held while the day is open).
+  assert.equal(withRepair.makeUp?.day, add(T, -2));
+  assert.equal(withRepair.days, 2);
 });
 
 test('the chain service merges the extra days, keeps the SQL rows for the Mob, and survives a failed extra read', async () => {
@@ -149,7 +151,7 @@ test('milestones at 3, 7, 14, 30, 50, 100 with the questions answered in this ru
   const c = chain([...run(add(T, -30), 30, 12), { day: T, answered: 7 }]);
   assert.equal(c.days, 31);
   assert.deepEqual(c.milestone, { at: 30, answered: 30 * 12 + 7 });
-  assert.deepEqual(milestoneMoment(c.milestone), { title: '30 days in a row', text: '367 questions answered since this streak began.' });
+  assert.deepEqual(milestoneMoment(c.milestone), { title: 'You reached 30 days', text: '367 questions answered since this streak began.' });
   assert.equal(milestoneLine(c), 'Next milestone: 50 days, 19 days to go.');
   // the run starts again after a day that was not covered: older work is not counted in it
   const reset = chain([...run(add(T, -20), 5, 20), ...run(add(T, -8), 8, 6)]);
@@ -231,4 +233,205 @@ test('no guilt words in any streak line, in every state', () => {
   assert.equal(streakWeek(states[4]).at(-1).look, 'paused');
   assert.equal(statusLine(states[6]).text, 'A new streak starts with today. Your best is 6 days.');
   assert.equal(statusLine(states[0]).text, 'Answer 5 questions today to start your streak.');
+});
+
+// ---------- 17 Nov review fixes ----------
+
+test('review: the pass reached today is held today (day 3 and day 7), and the next one is named right', () => {
+  const d3 = chain([...run(add(T, -2), 2), { day: T, answered: 6 }]);
+  assert.equal(d3.days, 3);
+  assert.equal(d3.passes.held, 1, 'the day-3 pass is held on day 3');
+  assert.equal(d3.passes.next.at, 7);
+  assert.deepEqual(passLine(d3.passes), { title: '1 rest pass', next: 'Next pass at day 7.' });
+  // tomorrow's walk agrees
+  assert.equal(computeChain({ daily: [...run(add(T, -2), 2), { day: T, answered: 6 }], today: add(T, 1) }).passes.held, 1);
+  const d7 = chain([...run(add(T, -6), 6), { day: T, answered: 6 }]);
+  assert.equal(d7.days, 7);
+  assert.equal(d7.passes.held, PASS_MAX);
+  assert.equal(d7.passes.full, true);
+  assert.equal(computeChain({ daily: [...run(add(T, -6), 6), { day: T, answered: 6 }], today: add(T, 1) }).passes.held, PASS_MAX);
+  // before today counts, day 2 of 3 still says day 3
+  assert.equal(chain([...run(add(T, -2), 2), { day: T, answered: 1 }]).passes.next.at, 3);
+});
+
+test('review: a practised day after an open day is drawn and counted', () => {
+  const c = chain([...run(add(T, -4), 2), { day: add(T, -1), answered: 6 }, { day: T, answered: 6 }]);
+  // T-4 and T-3 practised (no pass yet), T-2 open, T-1 practised, today practised
+  assert.equal(c.makeUp?.day, add(T, -2));
+  assert.equal(c.week.find((d) => d.day === add(T, -1)).state, 'practised');
+  assert.equal(c.days, 4, 'the open day holds the run; the day after it counts either way');
+  const marks = streakWeek(c);
+  assert.equal(marks.find((m) => m.day === add(T, -1)).look, 'done');
+  assert.equal(marks.find((m) => m.day === add(T, -2)).look, 'open');
+});
+
+test('review: "still open" only when a make-up can still keep a run', () => {
+  // A pass used (T-6), a make-up used (T-5, by 12 on T-4), a pause day (T-3), then T-2 without practice: no make-up is left.
+  const daily = [...run(add(T, -9), 3), { day: add(T, -4), answered: 12 }, { day: add(T, -1), answered: 6 }, { day: T, answered: 6 }];
+  const c = chain(daily, { pauses: [add(T, -3)] });
+  assert.equal(c.week.find((d) => d.day === add(T, -6)).state, 'rested');
+  assert.equal(c.week.find((d) => d.day === add(T, -5)).state, 'made_up');
+  assert.equal(c.week.find((d) => d.day === add(T, -2)).state, 'missed');
+  assert.equal(c.makeUp, null);
+  assert.equal(c.days, 2, 'today shows the number tomorrow will show');
+  assert.equal(computeChain({ daily, pauses: [add(T, -3)], today: add(T, 1) }).days, 2);
+  assert.ok(!weekLegend(streakWeek(c)).includes('Dashed'));
+  // a returning student (no run to keep) sees no open day
+  const back = chain([...run(add(T, -40), 23), { day: add(T, -2), answered: 0 }], { storedBest: 23 });
+  assert.ok(!back.week.some((d) => d.state === 'open'));
+  assert.match(statusLine(back).text, /^A new streak starts with today\. Your best is \d+ days\.$/);
+  // two days without practice in a row: one make-up cannot keep both, so none is offered
+  const two = chain(run(add(T, -3), 1));
+  assert.equal(two.makeUp, null);
+  assert.ok(!two.week.some((d) => d.state === 'open'));
+});
+
+test('review: the milestone moment is titled as the milestone, and pause words fit one day', async () => {
+  const { pauseDoneLine } = await import('../../src/lib/streak/streakCopy.mjs');
+  assert.equal(milestoneMoment({ at: 30, answered: 409 }).title, 'You reached 30 days');
+  assert.equal(pauseDoneLine(1), '1 day paused. Your streak holds on it.');
+  assert.equal(pauseDoneLine(3), '3 days paused. Your streak holds on them.');
+  assert.equal(passLine({ held: 2, max: 2 }).next, 'Use one and the next can be earned.');
+  assert.match(DenCopy.hiddenLine, /nobody else ever sees it/);
+});
+
+test('review: a refused read says so in its own words, and a limiter outage falls back to memory', async () => {
+  let opts = null;
+  const deps = { auth: async () => ({ user: { id: 'u1' } }), service: fakeService(), rateLimit: async (_r, o) => { opts = o; return { allowed: false, retryAfterSeconds: 30 }; } };
+  const r = await handleStreak(deps, 'get', req());
+  assert.equal(r.status, 429);
+  const e = (await r.json()).error;
+  assert.equal(e.code, 'RATE_LIMITED');
+  assert.doesNotMatch(e.message, /pause/);
+  assert.equal(opts.fallback, 'memory');
+});
+
+test('review: the extra days keep the past for 10 minutes and read only today between; a failed read is never kept', async () => {
+  const { createStreakExtrasReader } = await import('../../src/lib/server/streakDays.js');
+  const calls = [];
+  let fail = false;
+  const read = async (userId, from) => {
+    calls.push(from);
+    const out = from === T ? [{ day: T, answered: 5 }] : [{ day: add(T, -3), answered: 5 }, { day: T, answered: 5 }];
+    Object.defineProperty(out, 'ok', { value: !fail });
+    return out;
+  };
+  let clock = NOW;
+  const extra = createStreakExtrasReader({ read, now: () => clock });
+  const from = add(T, -730);
+  assert.equal((await extra('u1', from)).length, 2);
+  assert.deepEqual(await extra('u1', from), [{ day: add(T, -3), answered: 5 }, { day: T, answered: 5 }]);
+  assert.deepEqual(calls, [from, T], 'the second read asks only for today');
+  clock += 11 * 60_000;
+  await extra('u1', from);
+  assert.equal(calls.at(-1), from, 'after 10 minutes the whole window is read again');
+  fail = true;
+  await extra('u2', from);
+  await extra('u2', from);
+  assert.deepEqual(calls.slice(-2), [from, from], 'a read with a failed source is not kept');
+});
+
+test('review: the top bar chip respects "Hide my streak" and stays off phones', () => {
+  const src = read('src/components/streak/StreakChip.jsx');
+  assert.match(src, /body\.hidden/);
+  assert.match(src, /CHIP_MIN_WIDTH = 640/);
+  assert.doesNotMatch(read('src/components/streak/streak.css'), /arena-askkey/);
+});
+
+// ---------- 17 Nov second review ----------
+
+test('review 2: practice on a pause day counts, and the number does not drop the next morning', () => {
+  const daily = [...run(add(T, -5), 5), { day: T, answered: 7 }];
+  const today = chain(daily, { pauses: [T] });
+  assert.equal(today.days, 6);
+  assert.equal(today.today.done, true);
+  assert.equal(statusLine(today).text, 'Today counts. See you tomorrow.');
+  const tomorrow = computeChain({ daily, pauses: [T], today: add(T, 1) });
+  assert.equal(tomorrow.days, 6, 'the day the student practised on stays counted');
+  assert.equal(tomorrow.week.at(-2).state, 'practised');
+  assert.equal(tomorrow.pause.usedThisSeason, 1, 'the pause day is still one of the 14');
+  // a pause day without practice still holds the run and adds nothing
+  const held = computeChain({ daily: run(add(T, -5), 5), pauses: [T], today: add(T, 1) });
+  assert.equal(held.days, 5);
+  assert.equal(held.week.at(-2).state, 'paused');
+  // the day-7 pass reached on a pause day the student practised on is held that day, as the next walk holds it
+  const d7 = chain([...run(add(T, -6), 6), { day: T, answered: 6 }], { pauses: [T] });
+  assert.equal(d7.days, 7);
+  assert.equal(computeChain({ daily: [...run(add(T, -6), 6), { day: T, answered: 6 }], pauses: [T], today: add(T, 1) }).passes.held, d7.passes.held);
+});
+
+test('review 2: a pass is never shown on a day it cannot cover (a third held fix on a day that has not counted yet)', () => {
+  const daily = [...run(add(T, -2), 2), { day: T, answered: 1 }];
+  const fixesHeld = [{ day: T, n: 3 }];
+  const c = chain(daily, { fixesHeld });
+  assert.equal(c.passes.held, 0, 'tomorrow the pass would come after today, so today does not show it');
+  assert.equal(passLine(c.passes).title, 'No rest pass yet');
+  // once today counts, the pass from today's fixes is held today, as tomorrow's walk holds it
+  const done = chain([...run(add(T, -2), 2), { day: T, answered: 5 }], { fixesHeld });
+  assert.equal(done.passes.held, PASS_MAX, 'day 3 and the third fix');
+  assert.equal(computeChain({ daily: [...run(add(T, -2), 2), { day: T, answered: 5 }], fixesHeld, today: add(T, 1) }).passes.held, PASS_MAX);
+});
+
+test('review 2: what today shows is what tomorrow says about today (seeded histories)', () => {
+  let seed = 20261117;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const tomorrow = add(T, 1);
+  for (let i = 0; i < 1500; i += 1) {
+    const daily = []; const pauses = []; const fixesHeld = [];
+    for (let k = 5 + Math.floor(rnd() * 35); k >= 0; k -= 1) {
+      const d = add(T, -k);
+      const r = rnd();
+      const n = r < 0.25 ? 0 : r < 0.35 ? Math.floor(rnd() * 5) : r < 0.85 ? 5 + Math.floor(rnd() * 5) : 10 + Math.floor(rnd() * 10);
+      if (n) daily.push({ day: d, answered: n });
+      if (rnd() < 0.05) daily.push({ day: d, answered: 0, counts: true });
+      if (rnd() < 0.08) pauses.push(d);
+      if (rnd() < 0.1) fixesHeld.push({ day: d, n: 1 + Math.floor(rnd() * 2) });
+    }
+    const input = { daily, pauses, fixesHeld };
+    const now = computeChain({ ...input, today: T });
+    const next = computeChain({ ...input, today: tomorrow });
+    const label = JSON.stringify(input);
+    if (now.today.done && !now.makeUp) {
+      assert.equal(next.days, now.days, `days overnight: ${label}`);
+      assert.equal(next.passes.held, now.passes.held, `passes overnight: ${label}`);
+    }
+    if (!now.today.done && !pauses.includes(T) && now.passes.held > 0) {
+      assert.equal(next.week.at(-2).state, 'rested', `a pass shown today covers today: ${label}`);
+    }
+    if (now.makeUp) {
+      const kept = computeChain({ ...input, daily: [...daily, { day: T, answered: MAKE_UP_GOAL }], today: tomorrow });
+      assert.equal(kept.calendar.find((d) => d.day === now.makeUp.day)?.state, 'made_up', `the make-up keeps the day: ${label}`);
+    } else {
+      assert.ok(!now.week.some((d) => d.state === 'open'), `an open day always comes with its make-up: ${label}`);
+    }
+    assert.ok(now.passes.held <= PASS_MAX);
+  }
+});
+
+test('review 2: the streak turns at IST midnight on a UTC server clock, and the extra-days cache does too', async () => {
+  const rpc = async (name) => (name === 'chain_state' ? { daily: [{ day: '2026-11-17', answered: 6 }], pauses: [], fixes: [], hidden: false, best_days: 0, seen: [] } : null);
+  const before = await createChainService({ rpc, now: () => Date.parse('2026-11-16T18:29:00Z') }).get('u1'); // 11:59 pm IST, the 16th
+  assert.equal(before.week.at(-1).day, '2026-11-16');
+  assert.equal(before.today.done, false);
+  const after = await createChainService({ rpc, now: () => Date.parse('2026-11-16T18:31:00Z') }).get('u1'); // 12:01 am IST, the 17th
+  assert.equal(after.week.at(-1).day, '2026-11-17');
+  assert.equal(after.today.done, true);
+  const { createStreakExtrasReader } = await import('../../src/lib/server/streakDays.js');
+  const calls = [];
+  const read = async (_u, from) => { calls.push(from); return []; };
+  let clock = Date.parse('2026-11-16T18:25:00Z'); // 11:55 pm IST
+  const extra = createStreakExtrasReader({ read, now: () => clock });
+  await extra('u1', '2024-11-17');
+  clock = Date.parse('2026-11-16T18:32:00Z'); // 12:02 am IST, seven minutes later
+  await extra('u1', '2024-11-17');
+  assert.deepEqual(calls, ['2024-11-17', '2024-11-17'], 'a new IST day reads the whole window again, never only "today"');
+});
+
+test('review 2: words that fit one day, the weekly goal names the Daily Five, and Hide says where it still shows', async () => {
+  const { GOAL_COPY } = await import('../../src/components/profile/accountModel.mjs');
+  assert.match(DenCopy.pauseLine(1), /and 1 is left\.$/);
+  assert.match(DenCopy.pauseLine(4), /and 4 are left\.$/);
+  assert.match(GOAL_COPY.counts, /a whole Daily Five/);
+  assert.match(DenCopy.hiddenLine, /Today and You still show it to you\.$/);
+  assert.doesNotMatch(read('src/app/preview/arena/previewStreak.js'), /used the 14 pause/);
 });
