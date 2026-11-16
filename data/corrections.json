@@ -1,0 +1,148 @@
+{
+  "note": [
+    "MockMob's public corrections log, drawn at /corrections (src/app/corrections/page.js) newest first, and read through data/corrections.mjs.",
+    "Add an entry only once the change is live on production: an answer key corrected, a question reworded or moved, a question taken out of practice, or one held back for a re-check.",
+    "date: the day in IST the change took effect, YYYY-MM-DD, never a day still to come. subject: one subject's name, 'All subjects', or 'N subjects' with bySubject (each subject's count, adding up to count).",
+    "count: how many questions changed (leave it out only when the change touched every question). action: fixed, pulled or held. found: check (our own check) or report (a student's report).",
+    "wrong and did: one plain sentence each, ending with a full stop, that a 16 year old understands. Never write the answer of a question students still see, and no exclamation marks.",
+    "source: the commit, migration or file that proves the entry. It is never shown on the page, and an entry without one fails the test.",
+    "id: a unique slug, the date then a few words. The test (data/tests/corrections.test.mjs) fails on any entry that breaks these rules."
+  ],
+  "entries": [
+    {
+      "id": "2026-11-02-answer-order",
+      "date": "2026-11-02",
+      "subject": "All subjects",
+      "action": "fixed",
+      "found": "check",
+      "wrong": "In practice, Learn and Explore, option A was the right answer in about two of every three questions.",
+      "did": "Each question now keeps one shuffled order of its options, so the right answer falls on A, B, C or D about equally.",
+      "source": "Commit bd14cddca (data/option_order.js). docs/brain/learn-1031/r5/A-OPTIONS.md: verified keys were 68% A (Accountancy A 1,206 of 1,405); after the change 27/25/24/24. mockmob-brain docs/STATUS.md, 2 Nov 2026 about 11 am (owner LK44: every Explore answer seemed to be A)."
+    },
+    {
+      "id": "2026-10-31-key-forfeit-premium",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 1,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "A Share Capital question on forfeiting shares issued at a premium had the wrong answer marked as right.",
+      "did": "Corrected the answer and its explanation to match the NCERT Accountancy textbook.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/VERDICTS.md and fix.sql, question b29a66fb (commit 10df97bdf); applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry, commit f3ebd6b9c)."
+    },
+    {
+      "id": "2026-10-31-key-forfeit-account",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 1,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "A Share Capital assertion and reason question on the share forfeiture account had the wrong answer marked as right.",
+      "did": "Corrected the answer and its explanation to match the NCERT Accountancy textbook.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/VERDICTS.md and fix.sql, question 01dc09dc (commit 10df97bdf); applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry, commit f3ebd6b9c)."
+    },
+    {
+      "id": "2026-10-31-key-retiring-partner",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 1,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "A question on how the other partners pay a retiring partner for goodwill had the wrong answer marked as right.",
+      "did": "Corrected the answer and rewrote its explanation from the NCERT Accountancy textbook.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/batch3/VERDICTS.md and fix.sql, question 3452e48e (commit e6038b4ac); applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry, commit f3ebd6b9c)."
+    },
+    {
+      "id": "2026-10-31-no-right-option",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 2,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "Two questions, one on debentures issued at a premium and one on a cash flow statement, had no right option among the four.",
+      "did": "Rewrote the option that was meant to be right so it matches the NCERT textbook.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/VERDICTS.md and fix.sql, questions 577f9005 and 2370d28b (commit 10df97bdf); applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry)."
+    },
+    {
+      "id": "2026-10-31-share-premium-numbers",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 10,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "Ten Share Capital questions said a premium of ₹4 was included in an allotment of ₹3, which cannot happen.",
+      "did": "Reworded all ten so the numbers add up. Their answers did not change.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/batch4-accountancy/VERDICTS.md rows 6-16 and fix.sql (commit a4f0b4e05); applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry)."
+    },
+    {
+      "id": "2026-10-31-reworded",
+      "date": "2026-10-31",
+      "subject": "5 subjects",
+      "count": 19,
+      "bySubject": { "Accountancy": 8, "Business Studies": 4, "Economics": 3, "Biology": 2, "English": 2 },
+      "action": "fixed",
+      "found": "check",
+      "wrong": "Nineteen questions were worded loosely: for example, two options said the same thing, or more than one answer could be argued.",
+      "did": "Reworded each one so exactly one option is right. None of their answers changed.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31: batch2 (5 rewords, commit 0cc426017), batch4-accountancy (8 rewords besides the 10 share-premium ones), batch4-other (6 rewords, commit a4f0b4e05); README totals 31 rewords with the key kept; applied 31 Oct 2026 (docs/brain/STATUS.md, 31 Oct 1:20 pm entry)."
+    },
+    {
+      "id": "2026-10-31-wrong-chapter",
+      "date": "2026-10-31",
+      "subject": "5 subjects",
+      "count": 476,
+      "bySubject": { "Accountancy": 319, "Business Studies": 80, "Economics": 29, "Biology": 24, "Political Science": 24 },
+      "action": "fixed",
+      "found": "check",
+      "wrong": "476 questions were filed under the wrong chapter, so chapter practice and chapter scores counted them in the wrong place.",
+      "did": "Moved each one to the chapter it tests.",
+      "source": "data/syllabus/retag-live-2026-10-31.json (476 rows, commit c47096ee0); docs/brain/STATUS.md, 31 Oct 1:20 pm entry: 476 of 476 moved through public.apply_syllabus_retag."
+    },
+    {
+      "id": "2026-10-31-debenture-discount",
+      "date": "2026-10-31",
+      "subject": "Accountancy",
+      "count": 5,
+      "action": "pulled",
+      "found": "check",
+      "wrong": "Five questions on writing off the discount on issue of debentures rest on a rule the NCERT textbook gives two different ways, on pages 81 and 106.",
+      "did": "Took all five out of practice.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31/batch3/VERDICTS.md and fix.sql (commit e6038b4ac); applied 31 Oct 2026 and frozen the same afternoon (docs/brain/intel-1031/off-syllabus-2026-10-31/README.md, commit 0149bf45b)."
+    },
+    {
+      "id": "2026-10-31-pulled-flawed",
+      "date": "2026-10-31",
+      "subject": "5 subjects",
+      "count": 20,
+      "bySubject": { "Accountancy": 10, "Political Science": 4, "Economics": 3, "Biology": 2, "Business Studies": 1 },
+      "action": "pulled",
+      "found": "check",
+      "wrong": "Twenty questions could not be fixed by rewording: for example, two answers were right, or the topic is not in the NCERT book.",
+      "did": "Took them out of practice.",
+      "source": "docs/brain/intel-1031/answer-keys-2026-10-31: batch2 (3 pulls), batch4-accountancy (10), batch4-other (7); README totals 25 pulls including the 5 debenture-discount ones; applied 31 Oct 2026 and frozen the same afternoon (off-syllabus-2026-10-31/README.md, commit 0149bf45b)."
+    },
+    {
+      "id": "2026-10-31-off-syllabus",
+      "date": "2026-10-31",
+      "subject": "5 subjects",
+      "count": 218,
+      "bySubject": { "Accountancy": 75, "Economics": 53, "Biology": 39, "Business Studies": 27, "Political Science": 24 },
+      "action": "pulled",
+      "found": "check",
+      "wrong": "218 questions tested topics outside the CUET 2026 syllabus, such as redemption of debentures, bonus shares and carbon tax.",
+      "did": "Took them out of practice.",
+      "source": "docs/brain/intel-1031/off-syllabus-2026-10-31/README.md, list.json (218 rows with reasons), pull.sql and undo.sql (commit 0149bf45b); docs/brain/STATUS.md, 31 Oct 4:50 pm entry: visible questions 8,571 to 8,328."
+    },
+    {
+      "id": "2026-10-06-circular-queue",
+      "date": "2026-10-06",
+      "subject": "Computer Science",
+      "count": 1,
+      "action": "fixed",
+      "found": "check",
+      "wrong": "An assertion and reason question on circular queues had shown the wrong answer as right.",
+      "did": "Checked the right answer against a published source. Results of papers that had this question now show the correction.",
+      "source": "data/answer_corrections.mjs CIRCULAR_QUEUE_CORRECTION (checkedAt 2026-10-06, commit 7db01c5b0); docs/brain/reports/KEY-REVIEW-NTA-CORRECTIVE-AUDIT-2026-10-06.md: the owner's screenshot showed the old key, production already held the right one; the day of the key change itself has no record, so this entry is dated by the check."
+    }
+  ]
+}
