@@ -15,6 +15,7 @@ import { TEST_MODES } from '../test_modes.js';
 import { PAPER } from '../../src/lib/subjectPages.mjs';
 import { launchPath } from '../../src/lib/firstSet.mjs';
 import { practiceHref } from '../../src/lib/paper/problems.mjs';
+import { MARKS_PER_CORRECT, MARKS_PER_WRONG } from '../../src/lib/server/attemptSummary.js';
 
 const KEY = 'generation-nta-saving-01';
 const nta = ({ params = {}, ...over } = {}) => ({ mode: 'nta', ...over, params: { generationKey: KEY, interface: 'nta', ...params } });
@@ -56,6 +57,10 @@ test('N1: the instructions page comes first; no paper is asked for and no clock 
   assert.match(text, /MockMob papers are in English only\./);
   // The warning rule in words (LK195), from the policy's numbers.
   assert.match(text, /switching tabs or apps is a warning at once\. Losing focus for under 3 seconds is not\. The third warning ends the test and submits your saved answers\./);
+  // The drawn keys are named for a screen reader (review, 17 Nov: a name on a plain span is not read out).
+  const drawn = h.find('.nta-ins__key, .nta-ins__round');
+  assert.equal(drawn.length, 4);
+  assert.ok(drawn.every((el) => el.getAttribute('role') === 'img' && el.getAttribute('aria-label')), 'each drawn key is an image with a name');
   assert.ok(h.one('.nta-ins__start').hasAttribute('disabled'), 'Start waits for the tick');
   assert.equal(h.text(h.one('.nta-ins__hint')), 'Tick the box above to start.');
   await h.advance(5 * 60000, { coarse: true });
@@ -193,12 +198,16 @@ test('N8: NTA\'s Exam Summary names a choice that is not saved; No keeps it on s
   await h.click(option(3));
   await h.click(h.one('.nta-n-palette .nta-submit-button', 'Submit'));
   assert.match(h.text(h.one('.nta-n-summary')), /Your choice on Question 2 is not saved\. Choose No, then Save & Next to keep it\./);
+  // A screen reader hears the warning with the question (review, 17 Nov): it is part of the dialog's description.
+  assert.equal(h.one('.nta-n-summary').getAttribute('aria-describedby'), 'nta-n-summary-held nta-n-summary-ask');
+  assert.equal(h.find('.nta-n-dialog__held')[0].getAttribute('id'), 'nta-n-summary-held');
   assert.deepEqual(h.find('.nta-n-table--wide td').map((td) => h.text(td)), ['6', '1', '1', '0', '0', '4']);
   await h.click(h.one('.nta-n-summary button', 'No'));
   assert.deepEqual(pressed(), [false, false, false, true], 'the choice is still on screen');
   await h.click(key('Save & Next'));
   await h.click(h.one('.nta-n-palette .nta-submit-button', 'Submit'));
   assert.doesNotMatch(h.text(h.one('.nta-n-summary')), /not saved/);
+  assert.equal(h.one('.nta-n-summary').getAttribute('aria-describedby'), 'nta-n-summary-ask');
   await h.click(h.one('.nta-n-summary button', 'Yes'));
   await h.advance(500);
   assert.equal(s.submitted().length, 1);
@@ -276,7 +285,8 @@ test('the clock: one tick a second, on the second, and right again when the tab 
   const clock = () => h.text(h.one('.nta-n-cand__time .nta-timer'));
   assert.equal(clock(), '01:00:00');
   await h.advance(1000); assert.equal(clock(), '00:59:59');
-  await h.advance(1); assert.equal(clock(), '00:59:58', 'the tick lands just after the second turns');
+  // Review, 17 Nov: the tick lands 20 ms after the turn (1 ms let it slide to just before the turn as the clocks drift).
+  await h.advance(20); assert.equal(clock(), '00:59:58', 'the tick lands just after the second turns');
   await h.advance(998); assert.equal(clock(), '00:59:58', 'a second lasts a second');
   await h.advance(2); assert.equal(clock(), '00:59:57');
   await h.visibility(true);
@@ -310,6 +320,125 @@ test('NTA style shows one question at a time, as the exam does: a passage questi
 test('the marking the instructions print is the marking every paper is scored with', () => {
   const { marking } = TEST_MODES.nta;
   assert.deepEqual({ right: marking.right, wrong: marking.wrong, blank: marking.blank }, { right: PAPER.right, wrong: PAPER.wrong, blank: PAPER.blank });
+  // The server's own scorer (review, 17 Nov): the numbers the result is computed with, not only the page that describes them.
+  assert.deepEqual({ right: marking.right, wrong: marking.wrong }, { right: MARKS_PER_CORRECT, wrong: -MARKS_PER_WRONG });
   assert.equal(TEST_MODES.nta.fixedCount, PAPER.questions);
   assert.equal(TEST_MODES.nta.fixedDurationSec / 60, PAPER.minutes);
+});
+
+// ---- independent review, 17 Nov 2026 ----------------------------------------------------------------------------------------
+// Every time string the NTA-style clock ever puts on the page, as it is drawn (a new text node or a changed one), so a test can
+// see a frame that the next tick would have put right before anyone could read the page.
+function watchTimes() {
+  const list = [];
+  const doc = h.document;
+  const proto = Object.getPrototypeOf(doc.createTextNode(''));
+  const own = Object.getOwnPropertyDescriptor(proto, 'nodeValue');
+  const create = doc.createTextNode;
+  const note = (value) => { if (/^\d\d:\d\d:\d\d$/.test(String(value))) list.push(String(value)); };
+  doc.createTextNode = function createTextNode(data) { note(data); return create.call(this, data); };
+  Object.defineProperty(proto, 'nodeValue', { configurable: true, get: own.get, set(value) { note(value); own.set.call(this, value); } });
+  return { list, stop() { delete doc.createTextNode; Object.defineProperty(proto, 'nodeValue', own); } };
+}
+const startingReplies = (url, init) => {
+  if (url !== '/api/sessions' || init.method !== 'POST') return undefined;
+  const questions = h.paper(6).map(({ correctIndex, ...q }) => q);
+  return { id: 'session-1', startedAt: new Date(h.clock.now).toISOString(), expiresAt: new Date(h.clock.now + 3600000).toISOString(), serverNow: h.clock.now, questions,
+    meta: { sessionId: 'session-1', mode: 'nta', requestedCount: 50, sessionTicket: 'ticket-1', storage: 'device', ntaPaper: { status: 'closest', items: [] } } };
+};
+
+test('review: the paper\'s first frame shows the hour, never the hour plus the minutes spent on the instructions page', async (t) => {
+  const s = await h.mount(nta({ instructions: 'stay', replies: startingReplies }));
+  t.after(() => s.unmount());
+  await h.advance(5 * 60000, { coarse: true });
+  const shown = watchTimes();
+  try { await h.startFromInstructions(); } finally { shown.stop(); }
+  assert.ok(shown.list.length > 0, 'the clock was drawn');
+  assert.deepEqual(shown.list.filter((v) => v > '01:00:00'), [], 'no frame showed more than the hour (it showed 01:05:00 before the fix)');
+  assert.equal(h.text(h.one('.nta-n-cand__time .nta-timer')), '01:00:00');
+});
+
+test('review: when the page\'s wall clock slides against the timers\' clock, every second still shows on time, none held for two', async (t) => {
+  const s = await open();
+  const wall = Date.now;
+  t.after(() => { Date.now = wall; return s.unmount(); });
+  const clock = () => h.text(h.one('.nta-n-cand__time .nta-timer'));
+  await h.advance(1500); assert.equal(clock(), '00:59:58');
+  // The wall clock now reads 30 ms behind the clock the timers run on (the two drift apart by milliseconds a minute).
+  Date.now = () => h.clock.now - 30;
+  const expected = () => { const left = Math.floor((s.startedAt + 3600000 - Date.now()) / 1000); return ['00', String(Math.floor(left / 60) % 60).padStart(2, '0'), String(left % 60).padStart(2, '0')].join(':'); };
+  for (let i = 0; i < 4; i += 1) {
+    await h.advance(1000);
+    assert.equal(clock(), expected(), 'mid-second, the page shows the second the wall clock is in');
+  }
+  Date.now = wall;
+});
+
+test('review: a press that does not leave the question keeps its unsaved choice (the left arrow on question 1, its own palette number)', async (t) => {
+  const s = await open();
+  t.after(() => s.unmount());
+  await h.click(option(2));
+  await h.key('ArrowLeft');
+  assert.equal(heading(), 'Question 1:');
+  assert.deepEqual(pressed(), [false, false, true, false], 'the left arrow on question 1 goes nowhere and drops nothing');
+  await h.click(chip(1));
+  assert.deepEqual(pressed(), [false, false, true, false], 'its own palette number keeps the choice');
+  await h.click(key('Save & Next'));
+  assert.equal(state(1), 'Answered');
+  assert.deepEqual(draft().answers, { q1: 2 });
+});
+
+test('review: offline at time-up, a choice never saved leaves the screen, so the paper held on the device shows only what it will send', async (t) => {
+  let offline = false;
+  const replies = (url) => { if (url === '/api/attempts' && offline) throw Object.assign(new Error('Network error'), { kind: 'network' }); };
+  const s = await open({ replies });
+  t.after(() => { navigator.onLine = true; return s.unmount(); });
+  await h.advance(20000); await h.click(option(0)); await h.click(key('Save & Next'));
+  await h.advance(20000); await h.click(option(3));
+  assert.deepEqual(pressed(), [false, false, false, true], 'held on question 2');
+  offline = true; navigator.onLine = false;
+  await h.advance(s.durationMs, { coarse: true });
+  assert.equal(s.submitted().length, 1, 'the time-up try');
+  assert.match(page(s), /Waiting for server confirmation/);
+  assert.deepEqual(pressed(), [false, false, false, false], 'the unsaved choice no longer looks chosen');
+  offline = false; navigator.onLine = true;
+  await h.fire(h.document.body, 'online', { bubbles: true });
+  await h.advance(500);
+  assert.equal(s.submitted().length, 2);
+  assert.deepEqual(s.submitted().at(-1).body.answers, { q1: 0 }, 'saved answers only');
+});
+
+test('review: a reload while the paper is being built goes back to its running clock, never to the instructions page again', async (t) => {
+  // Start pressed; the server is still building the paper when the page reloads. The server keeps that first start's clock for
+  // the same paper, so the instructions page would say the minutes start at Start while they are already running.
+  const building = (url, init) => (url === '/api/sessions' && init.method === 'POST' ? new Promise(() => {}) : undefined);
+  const first = await h.mount(nta({ instructions: 'stay', replies: building }));
+  let current = first;
+  t.after(() => current.unmount());
+  assert.ok(await h.startFromInstructions());
+  assert.equal(first.requests.filter((r) => r.url === '/api/sessions' && r.method === 'POST').length, 1);
+  await first.unmount({ keepStorage: true });
+  current = await h.mount(nta({ instructions: 'stay' }));
+  assert.equal(h.find('.nta-ins').length, 0, 'no instructions over a clock that already runs');
+  assert.equal(current.requests.filter((r) => r.url === '/api/sessions' && r.method === 'POST').length, 1, 'straight back to the paper');
+  await current.unmount();
+  // A new tab (nothing kept) on a paper never started still opens on the instructions page.
+  current = await h.mount(nta({ instructions: 'stay' }));
+  assert.equal(h.find('.nta-ins').length, 1);
+});
+
+test('review: Save & Next pressed twice in a row saves the choice once and moves on twice; Mark for Review & Next twice marks once', async (t) => {
+  const s = await open();
+  t.after(() => s.unmount());
+  await h.click(option(1));
+  await h.click(key('Save & Next')); await h.click(key('Save & Next'));
+  assert.equal(heading(), 'Question 3:');
+  assert.equal(state(1), 'Answered');
+  assert.equal(state(2), 'Not Answered', 'nothing was saved for a question only passed through');
+  await h.click(option(2));
+  await h.click(key('Mark for Review & Next')); await h.click(key('Mark for Review & Next'));
+  assert.equal(state(3), 'Answered & Marked for Review');
+  assert.equal(state(4), 'Marked for Review');
+  assert.deepEqual(answerEvents(draft().events), [['q1', 1], ['q3', 2]], 'one answer event a save');
+  assert.deepEqual(draft().events.filter((e) => e.type === 'mark').map((e) => [e.qid, e.marked]), [['q3', true], ['q4', true]]);
 });
