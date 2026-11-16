@@ -27,6 +27,8 @@ const BELIEFS = [
   {
     title: 'The question bank is engineered, not scraped',
     body: 'Every question passes schema, answer-key, duplicate and difficulty checks before it reaches you, and anything uncertain is held back. If a key looks wrong, report it from your result and we recheck it.',
+    // 16 Nov 2026: every mistake we have found and what we did, dated (src/app/corrections).
+    link: { href: '/corrections', label: 'See every correction we have made' },
   },
   {
     title: 'A score should tell you what to do next',
@@ -68,7 +70,15 @@ export default function AboutPage() {
               {BELIEFS.map((belief) => (
                 <div key={belief.title} className="mm-belief">
                   <dt>{belief.title}</dt>
-                  <dd>{belief.body}</dd>
+                  <dd>
+                    {belief.body}
+                    {belief.link ? (
+                      <>
+                        {' '}
+                        <Link href={belief.link.href} className="mm-link mm-link--inline">{belief.link.label}</Link>.
+                      </>
+                    ) : null}
+                  </dd>
                 </div>
               ))}
             </dl>

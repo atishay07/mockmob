@@ -30,8 +30,10 @@ const SUBJECT_LINKS = [
 ];
 
 // Help is chosen by sign-in (FooterHelpLink): /help for a student, the landing's public questions for a guest.
+// Corrections (16 Nov 2026): the public log of what we found wrong in our questions (src/app/corrections).
 const COMPANY_LINKS = [
   ['About', '/about'],
+  ['Corrections', '/corrections'],
   ['Help', '/help'],
   ['Contact', '/contact'],
   ['Privacy', '/privacy'],
