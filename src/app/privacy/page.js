@@ -19,7 +19,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: 15 November 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 16 November 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2>Ask Mobi and AI services</h2>
-            <p>When Ask Mobi needs an AI service to write a reply, your question is sent to OpenAI or Anthropic, which write it for MockMob. If you ask on the home page without an account, only the question you typed is sent, with your result on the page&apos;s five sample questions if you tried them. We do not use what you type to identify you. If you add a photo of a question you got wrong, the photo is sent to OpenAI to be read; MockMob does not save the photo, only the question Mobi read from it, with Mobi&apos;s answer, in your recent questions.</p>
+            <p>When Ask Mobi needs an AI service to write a reply, your question is sent to OpenAI or Anthropic, which write it for MockMob. If you ask on the home page without an account, only the question you typed is sent, with your result on the page&apos;s five sample questions if you tried them. We do not use what you type to identify you. If you add a photo of a question you got wrong, the photo is sent to OpenAI to be read. MockMob does not save the photo. It keeps the question Mobi read from it and Mobi&apos;s answer in your recent questions, and Mobi&apos;s reply in its record of AI use. Deleting your account deletes your recent questions and takes the reply out of that record, which keeps only what the reply cost.</p>
           </section>
           <section>
             <h2>Companies that process data for MockMob</h2>

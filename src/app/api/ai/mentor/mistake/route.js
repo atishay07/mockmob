@@ -7,9 +7,9 @@ import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { storeReport } from '@/lib/server/aiReplyReport';
 import { SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { runMistakeAsk, persistMistakeTurn } from '@/services/mobi/mistakeAsk';
+import { runMistakeAsk, persistMistakeTurn, mistakeTurn } from '@/services/mobi/mistakeAsk';
 import { buildMistakeDeps } from '@/services/mobi/mistakeDeps';
-import { MISTAKE_LIMITS, MISTAKE_COPY, mistakeBodyCheck } from '@/services/mobi/bringMistake.mjs';
+import { MISTAKE_COPY, readMistakeBody } from '@/services/mobi/bringMistake.mjs';
 
 // POST /api/ai/mentor/mistake: "Bring a mistake from any test" (16 Nov 2026). A signed-in student pastes a question they got
 // wrong elsewhere; Mobi explains it and sets 2 new questions on the same idea. One more Ask Mobi ask kind: 1 credit through the
@@ -17,8 +17,8 @@ import { MISTAKE_LIMITS, MISTAKE_COPY, mistakeBodyCheck } from '@/services/mobi/
 // monthly AI cap. The rules and their order are in src/services/mobi/mistakeAsk.js. Signed-out visitors get 401 (the guest
 // Ask Mobi is a different route and is unchanged).
 // A photo of the question (lane web/1116-photo): 2 credits, same lifecycle. The body cap rises only by the photo's own base64
-// and only when a photo is in the body (mistakeBodyCheck). The photo is never stored and never logged: nothing here logs the
-// body, and the saved turn keeps Mobi's reading of the photo, not the photo.
+// and only when a photo is in the body (readMistakeBody, mistakeBodyCheck). The photo is never stored and never logged:
+// nothing here logs the body, and the saved turn keeps Mobi's reading of the photo, not the photo.
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
@@ -31,17 +31,11 @@ export async function POST(request) {
   if (!(await checkPersistentRateLimit(request, { route: '/api/ai/mentor/mistake', limit: 6, keyParts: [session.user.id] })).allowed) {
     return NextResponse.json({ ok: false, error: 'rate_limited', message: MISTAKE_COPY.tooMany, charged: 0 }, { status: 429 });
   }
-  // The body: refused by its declared length before it is read, then by its length with and without a photo's base64.
-  const declared = mistakeBodyCheck({ declared: request.headers.get('content-length') });
-  if (!declared.ok) return NextResponse.json({ ok: false, error: declared.error, message: declared.message, charged: 0 }, { status: declared.http });
-  let payload;
-  try {
-    const checked = mistakeBodyCheck({ text: await request.text() });
-    if (!checked.ok) return NextResponse.json({ ok: false, error: checked.error, message: checked.message, charged: 0 }, { status: checked.http });
-    payload = checked.payload;
-  } catch {
-    return NextResponse.json({ ok: false, error: 'invalid_json_body', message: MISTAKE_COPY.badRequest, charged: 0 }, { status: 400 });
-  }
+  // The body (readMistakeBody): refused by its declared length before it is read, then by its length with and without a photo's
+  // base64. An oversized photo gets the photo's own words.
+  const checked = await readMistakeBody(request);
+  if (!checked.ok) return NextResponse.json({ ok: false, error: checked.error, message: checked.message, charged: 0 }, { status: checked.http });
+  const payload = checked.payload;
 
   const dbUser = await Database.getUserById(session.user.id);
   if (!dbUser) return NextResponse.json({ error: 'user_not_found' }, { status: 404 });
@@ -49,18 +43,15 @@ export async function POST(request) {
   const out = await runMistakeAsk({ user: dbUser, body: payload, gateOpen: modelRepliesOpen(), deps: buildMistakeDeps({ user: dbUser }) });
   if (out.kind === 'error') return NextResponse.json(out.body, { status: out.http });
 
-  // With a photo, the typed text is only a note: the saved turn's question is Mobi's reading of the photo (an answer), or the
-  // fixed words for a photo (the support reply, which comes before the photo is read).
-  const photo = payload?.photo !== undefined && payload?.photo !== null;
-  const typed = typeof payload?.question === 'string' ? payload.question.slice(0, MISTAKE_LIMITS.question) : '';
-  const question = photo ? MISTAKE_COPY.photoQuestion : typed;
+  // What is saved (mistakeTurn, from runMistakeAsk's `saved`): the typed words, Mobi's reading of a photo, or the fixed words for
+  // a photo that was read; marked as from a photo only when a checked photo was actually read. An answer shown again was saved
+  // the first time and is not saved twice.
+  const turn = mistakeTurn(out);
+  const sessionId = turn ? await persist({ userId: dbUser.id, question: turn.question, response: out.body, photo: turn.photo }) : null;
   if (out.kind === 'support') {
-    const savedId = await persist({ userId: dbUser.id, question, response: out.body, photo });
-    await recordSupport({ userId: dbUser.id, sessionId: savedId, requestId: payload?.requestId });
-    return reply(savedId, out.body, dbUser);
+    await recordSupport({ userId: dbUser.id, sessionId, requestId: payload?.requestId });
+    return reply(sessionId, out.body, dbUser);
   }
-  // A replayed answer was saved the first time; it is not saved twice.
-  const sessionId = out.replayed ? null : await persist({ userId: dbUser.id, question: out.saved?.question || question, response: out.body, photo: Boolean(out.saved?.photo) });
   return reply(sessionId, out.body, dbUser, out.replayed ? true : Boolean(sessionId));
 }
 

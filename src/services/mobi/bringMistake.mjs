@@ -116,13 +116,16 @@ export const MISTAKE_COPY = Object.freeze({
   photoKey: 'Add a photo of the question',
   photoChange: 'Change photo',
   photoRemove: 'Remove',
-  photoPrivacy: 'Your photo is sent to the AI service to be read and is not saved. Leave your name and roll number out of the frame.',
+  // Review, 16 Nov: 'not saved' is true of MockMob, not of the AI service, so the words say whose.
+  photoPrivacy: 'Your photo is sent to OpenAI to be read. MockMob does not save it. Leave your name and roll number out of the frame.',
   photoPreparing: 'Getting the photo ready',
   photoSize: (kb) => `Your photo, ${kb} KB`,
   photoAlt: 'Your photo of the question',
-  photoBadFile: 'That file could not be opened as a photo. Nothing was charged.',
+  photoBadFile: 'That file could not be opened as a photo. Take the photo again, or type the question. Nothing was charged.',
   photoTooBig: 'That photo is still too large after making it smaller. Take a closer photo of just the question. Nothing was charged.',
-  photoTooLarge: 'That photo is too large to send. Choose it again so it can be made smaller. Nothing was charged.',
+  photoTooLarge: 'That photo is too large to send. Nothing was charged.',
+  // A photo ask stopped by this month's AI limit: a typed question reserves less, so it may still fit (review, 16 Nov).
+  photoOverCap: 'The photo did not fit in what is left of this month’s AI limit. A typed question uses less, so it may still fit.',
   photoOff: 'Mobi does not read photos yet. Type or paste the question. Nothing was charged.',
   noteLabel: 'Anything the photo does not show',
   noteHint: 'If the photo has more than one question, say which one',
@@ -304,19 +307,45 @@ export function readMistakeRequest(body, { subjects = [], photoOn = MISTAKE_PHOT
  * The route's body cap, before and after parsing (lane web/1116-photo). Today's cap (12,000 characters) holds for everything
  * but a photo's own base64: a body may be longer only by the characters of `photo.data`, and never longer than
  * MISTAKE_PHOTO_BODY_MAX. `declared` is the Content-Length header (checked before the body is read), `text` the body.
+ * A body past the photo cap can only be an oversized photo, so it gets the photo's words (review, 16 Nov), and the panel shows
+ * them as a refusal with no Try again (mistakeOutcome, 'photo_too_large'); a paste too long for the old cap keeps its own.
  * -> { ok: true, payload } | { ok: false, http, error, message }
  */
 export function mistakeBodyCheck({ declared = null, text = null } = {}) {
-  const tooLarge = bad(413, 'payload_too_large', MISTAKE_COPY.questionTooLong);
+  const photoTooLarge = bad(413, 'photo_too_large', MISTAKE_COPY.photoTooLarge);
   const length = Number(declared);
-  if (declared !== null && declared !== undefined && declared !== '' && Number.isFinite(length) && length > MISTAKE_PHOTO_BODY_MAX) return tooLarge;
+  if (declared !== null && declared !== undefined && declared !== '' && Number.isFinite(length) && length > MISTAKE_PHOTO_BODY_MAX) return photoTooLarge;
   if (text === null) return { ok: true, payload: null };
-  if (typeof text !== 'string' || text.length > MISTAKE_PHOTO_BODY_MAX) return tooLarge;
+  if (typeof text !== 'string') return bad(400, 'invalid_json_body', MISTAKE_COPY.badRequest);
+  if (text.length > MISTAKE_PHOTO_BODY_MAX) return photoTooLarge;
   let payload;
   try { payload = JSON.parse(text); } catch { return bad(400, 'invalid_json_body', MISTAKE_COPY.badRequest); }
   const photoChars = payload && typeof payload === 'object' && payload.photo && typeof payload.photo === 'object' && typeof payload.photo.data === 'string' ? payload.photo.data.length : 0;
-  if (text.length - photoChars > TEXT_BODY_MAX) return tooLarge;
+  if (text.length - photoChars > TEXT_BODY_MAX) return bad(413, 'payload_too_large', MISTAKE_COPY.questionTooLong);
   return { ok: true, payload };
+}
+
+/**
+ * The route's whole body step: refused by its declared length BEFORE `request.text()` is called, then read and checked by
+ * mistakeBodyCheck. `request` is anything with headers.get and text() (the route's Request; a fake in the tests).
+ * -> { ok: true, payload } | { ok: false, http, error, message }
+ */
+export async function readMistakeBody(request) {
+  const declared = mistakeBodyCheck({ declared: request?.headers?.get?.('content-length') ?? null });
+  if (!declared.ok) return declared;
+  let text;
+  try { text = await request.text(); } catch { return bad(400, 'invalid_json_body', MISTAKE_COPY.badRequest); }
+  return mistakeBodyCheck({ text });
+}
+
+/**
+ * The words for a photo ask stopped by this month's AI limit (a 429 'user_limit_reached'): the photo did not fit, a typed
+ * question may, and what happened to the credits (the server's own words say whether they are held). Typed asks keep the
+ * server's words.
+ */
+export function photoOverCapLine(serverMessage = '') {
+  const held = /returns? automatically/i.test(String(serverMessage || ''));
+  return `${MISTAKE_COPY.photoOverCap} ${held ? 'Your credits are held briefly and return automatically.' : 'No credits were used.'}`;
 }
 
 // ---- Is it a study question? (before any model call; the model can still say "not_study") -----------------------------------

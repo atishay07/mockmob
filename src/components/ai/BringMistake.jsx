@@ -29,7 +29,7 @@ import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
 import { usedLine } from '@/lib/creditCopy.mjs';
 import {
   MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_LIMITS, MISTAKE_PHOTO_CREDITS, MISTAKE_PHOTO_LIMITS, MISTAKE_PHOTO_ON, checksTally, cleanText,
-  countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, priceLine, verdictLine,
+  countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, photoOverCapLine, priceLine, verdictLine,
 } from '@/services/mobi/bringMistake.mjs';
 import { preparePhoto, kilobytes } from './mistakePhoto';
 import './bring-mistake.css';
@@ -354,6 +354,14 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
       return;
     }
     if (plan.photoOff) { setPhotoOn(false); clearPhoto(); }
+    // A photo ask past this month's AI limit: a typed question reserves less, so it may still fit. The photo goes, the form stays
+    // usable, and the words say so (review, 16 Nov). A typed ask that meets the limit stops the form as before ('over').
+    if (plan.state === 'over' && sent.payload.photo) {
+      focusAfterPhoto.current = 'key';
+      clearPhoto();
+      setNotice({ state: 'photo_over', message: photoOverCapLine(plan.message) });
+      return;
+    }
     setNotice(plan);
   }
 

@@ -6,11 +6,12 @@ import {
   MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_LIMITS, MISTAKE_PHOTO_BODY_MAX, MISTAKE_PHOTO_CREDITS, MISTAKE_PHOTO_LIMITS, MISTAKE_PHOTO_ON,
   MISTAKE_PHOTO_REPLY_MAX_CHARS, MISTAKE_REPLY_MAX_CHARS, PROMPT_CANARY, checksTally, cleanText, countLine, mistakeBodyCheck, mistakeCredits,
   mistakeOutcome, mistakeReplyText, mistakeSubjects, mistakeSystemPrompt, mistakeUserMessage, nextStep, optionState, priceLine,
-  readMistakeReply, readMistakeRequest, readStoredMistake, refusalFor, studyCheck, verdictLine,
+  photoOverCapLine, readMistakeBody, readMistakeReply, readMistakeRequest, readStoredMistake, refusalFor, studyCheck, verdictLine,
 } from './bringMistake.mjs';
 import { MISTAKE_PHOTO_ON as SWITCH } from '../../../data/mistake_photo.mjs';
 import { mistakeChapters } from './mistakeChapters.mjs';
 import { base64Length, checkImage, imagePatches, imageTokenBound, jpegSize } from '../ai/imageInput.js';
+import { pictureSize, sendingSize } from '../../components/ai/mistakePhoto.js';
 
 const PASTE = 'A and B share profits in the ratio 3:2. C is admitted for 1/5th share. The new ratio of A, B and C will be:\n(a) 12:8:5\n(b) 3:2:1\n(c) 2:2:1\n(d) 12:8:4';
 const MINE = ['accountancy', 'economics', 'business_studies', 'english'];
@@ -295,8 +296,10 @@ test('copy: plain, sentence case, no exclamation marks, arrows or emoji', () => 
   assert.match(MISTAKE_COPY.photos, /does not read photos yet/);
   // The brief's own words, exactly.
   assert.equal(MISTAKE_COPY.photoKey, 'Add a photo of the question');
-  assert.equal(MISTAKE_COPY.photoPrivacy, 'Your photo is sent to the AI service to be read and is not saved. Leave your name and roll number out of the frame.');
-  assert.equal(MISTAKE_COPY.photoBadFile, 'That file could not be opened as a photo. Nothing was charged.');
+  // Review, 16 Nov: "not saved" is MockMob's promise, not the AI service's, so the words name whose.
+  assert.equal(MISTAKE_COPY.photoPrivacy, 'Your photo is sent to OpenAI to be read. MockMob does not save it. Leave your name and roll number out of the frame.');
+  assert.equal(MISTAKE_COPY.photoBadFile, 'That file could not be opened as a photo. Take the photo again, or type the question. Nothing was charged.');
+  assert.equal(MISTAKE_COPY.photoTooLarge, 'That photo is too large to send. Nothing was charged.');
   assert.equal(MISTAKE_COPY.noteLabel, 'Anything the photo does not show');
   assert.equal(MISTAKE_COPY.noteHint, 'If the photo has more than one question, say which one');
   assert.equal(MISTAKE_COPY.photoRead, 'Mobi read this from your photo');
@@ -402,12 +405,14 @@ test('photo switch off: a photo field is refused with a 400 before anything else
   assert.equal(readMistakeRequest({ question: PASTE }, { subjects: MINE, photoOn: false }).ok, true);
 });
 
+const pick = (r) => [r.http, r.error, r.message];
+
 test('body cap: the old 12,000 characters for everything but a photo’s own base64, and only when a photo is in the body', () => {
   const typed = JSON.stringify({ question: PASTE, requestId: 'req_0123456789abcdef' });
   assert.equal(mistakeBodyCheck({ text: typed }).ok, true);
   assert.deepEqual(mistakeBodyCheck({ text: typed }).payload.question, PASTE);
   const overTyped = JSON.stringify({ question: 'q'.repeat(12_001) });
-  assert.equal(mistakeBodyCheck({ text: overTyped }).http, 413, 'no photo: the old cap');
+  assert.deepEqual(pick(mistakeBodyCheck({ text: overTyped })), [413, 'payload_too_large', MISTAKE_COPY.questionTooLong], 'no photo: the old cap and the paste’s own words');
   const photo = fakeJpeg({ pad: MISTAKE_PHOTO_LIMITS.maxBytes - 400 });
   const withPhoto = JSON.stringify({ question: 'note', photo: { mime: 'image/jpeg', data: photo } });
   assert.ok(withPhoto.length > 12_000);
@@ -417,8 +422,10 @@ test('body cap: the old 12,000 characters for everything but a photo’s own bas
   assert.equal(mistakeBodyCheck({ text: smuggled }).http, 413);
   // Long text in a field that is not the photo's data does not count as a photo.
   assert.equal(mistakeBodyCheck({ text: JSON.stringify({ question: 'x', photo: { mime: 'image/jpeg', note: 'q'.repeat(20_000) } }) }).http, 413);
-  assert.equal(mistakeBodyCheck({ text: 'x'.repeat(MISTAKE_PHOTO_BODY_MAX + 1) }).http, 413, 'never past the photo cap');
-  assert.equal(mistakeBodyCheck({ declared: String(MISTAKE_PHOTO_BODY_MAX + 1) }).http, 413, 'refused by its declared length before it is read');
+  // Past the photo cap it can only be an oversized photo: the photo's own words, a refusal the panel never retries (review, 16 Nov).
+  assert.deepEqual(pick(mistakeBodyCheck({ text: 'x'.repeat(MISTAKE_PHOTO_BODY_MAX + 1) })), [413, 'photo_too_large', MISTAKE_COPY.photoTooLarge], 'never past the photo cap');
+  assert.deepEqual(pick(mistakeBodyCheck({ declared: String(MISTAKE_PHOTO_BODY_MAX + 1) })), [413, 'photo_too_large', MISTAKE_COPY.photoTooLarge], 'refused by its declared length before it is read');
+  assert.equal(mistakeOutcome({ kind: 'response', res: { ok: false, status: 413 }, body: { ok: false, ...mistakeBodyCheck({ declared: String(MISTAKE_PHOTO_BODY_MAX + 1) }) } }).state, 'refused', 'no Try again');
   assert.equal(mistakeBodyCheck({ declared: '900' }).ok, true);
   assert.equal(mistakeBodyCheck({ declared: null }).ok, true);
   assert.equal(mistakeBodyCheck({ text: '{not json' }).error, 'invalid_json_body');
@@ -528,4 +535,66 @@ test('image tokens: 32 px patches of the image as sent, times 2.5 (above every m
   // The guide's own worked example for gpt-6-astra at 1.2: a 1024 x 1024 image is 1,024 patches, 1,229 tokens.
   assert.equal(imageTokenBound({ width: 1024, height: 1024 }, 1.2), 1229);
   assert.equal(checkImage({ mime: 'image/jpeg', data: fakeJpeg({ width: 1600, height: 1600 }) }).ok, true);
+});
+
+// ---- Review fixes (16 Nov 2026) ----------------------------------------------------------------------------------------------
+
+test('the body is refused by its declared length BEFORE it is read, with the photo’s own words; a good body is read once', async () => {
+  const fakeRequest = ({ declared = null, text = '{}' } = {}) => {
+    const calls = { text: 0 };
+    return { calls, headers: { get: (name) => (name === 'content-length' ? declared : null) }, text: async () => { calls.text += 1; return text; } };
+  };
+  const huge = fakeRequest({ declared: String(MISTAKE_PHOTO_BODY_MAX + 1) });
+  assert.deepEqual(pick(await readMistakeBody(huge)), [413, 'photo_too_large', MISTAKE_COPY.photoTooLarge]);
+  assert.equal(huge.calls.text, 0, 'the body was never read');
+  const fine = fakeRequest({ declared: '120', text: JSON.stringify({ question: PASTE }) });
+  const read = await readMistakeBody(fine);
+  assert.equal(read.ok, true);
+  assert.equal(read.payload.question, PASTE);
+  assert.equal(fine.calls.text, 1);
+  // No header (chunked): read, then held to the caps by its length.
+  const lying = fakeRequest({ declared: null, text: 'x'.repeat(MISTAKE_PHOTO_BODY_MAX + 1) });
+  assert.deepEqual(pick(await readMistakeBody(lying)), [413, 'photo_too_large', MISTAKE_COPY.photoTooLarge]);
+  const broken = { headers: { get: () => null }, text: async () => { throw new Error('stream reset'); } };
+  assert.equal((await readMistakeBody(broken)).error, 'invalid_json_body');
+});
+
+test('a photo ask past this month’s AI limit: the photo did not fit, a typed question may; what happened to the credits', () => {
+  assert.equal(photoOverCapLine('You’ve reached this month’s AI limit. It resets on 1 December. No credits were used.'), 'The photo did not fit in what is left of this month’s AI limit. A typed question uses less, so it may still fit. No credits were used.');
+  assert.equal(photoOverCapLine('You’ve reached this month’s AI limit. It resets on 1 December. Your credit is held briefly and returns automatically.'), 'The photo did not fit in what is left of this month’s AI limit. A typed question uses less, so it may still fit. Your credits are held briefly and return automatically.');
+  // The server's answer stays the over-cap state; the panel turns it into this line only for a photo ask (BringMistake.jsx).
+  assert.equal(mistakeOutcome({ kind: 'response', res: { ok: false, status: 429 }, body: { error: 'user_limit_reached', message: 'You’ve reached this month’s AI limit. It resets on 1 December. No credits were used.' } }).state, 'over');
+});
+
+/** A JPEG header with an EXIF orientation (an APP1 'Exif' segment, little-endian TIFF, one IFD entry 0x0112). */
+function jpegWithOrientation({ width, height, orientation, bigEndian = false }) {
+  const w16 = (v) => (bigEndian ? [(v >> 8) & 255, v & 255] : [v & 255, (v >> 8) & 255]);
+  const w32 = (v) => (bigEndian ? [(v >>> 24) & 255, (v >> 16) & 255, (v >> 8) & 255, v & 255] : [v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255]);
+  const tiff = [...(bigEndian ? [0x4d, 0x4d] : [0x49, 0x49]), ...w16(42), ...w32(8), ...w16(1), ...w16(0x0112), ...w16(3), ...w32(1), ...w16(orientation), 0, 0, ...w32(0)];
+  const app1 = [0x45, 0x78, 0x69, 0x66, 0, 0, ...tiff];
+  const bytes = Buffer.from(fakeJpeg({ width, height, exif: false }), 'base64');
+  const seg = [0xff, 0xe1, ((app1.length + 2) >> 8) & 255, (app1.length + 2) & 255, ...app1];
+  return new Uint8Array([...bytes.subarray(0, 2), ...seg, ...bytes.subarray(2)]);
+}
+
+test('a photo’s size is read from its header, turned as shown, so a large photo is decoded straight to its sending size', () => {
+  assert.deepEqual(pictureSize(jpegWithOrientation({ width: 8000, height: 6000, orientation: 1 })), { width: 8000, height: 6000 });
+  for (const orientation of [5, 6, 7, 8]) assert.deepEqual(pictureSize(jpegWithOrientation({ width: 8000, height: 6000, orientation })), { width: 6000, height: 8000 }, `orientation ${orientation}: a quarter turn swaps the sides`);
+  for (const orientation of [2, 3, 4]) assert.deepEqual(pictureSize(jpegWithOrientation({ width: 8000, height: 6000, orientation })), { width: 8000, height: 6000 });
+  assert.deepEqual(pictureSize(jpegWithOrientation({ width: 16000, height: 12000, orientation: 6, bigEndian: true })), { width: 12000, height: 16000 }, 'a big-endian EXIF block');
+  // PNG (IHDR), GIF and WebP (VP8X) headers.
+  const png = new Uint8Array(32); png.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52]); png.set([0, 0, 0x1f, 0x40, 0, 0, 0x17, 0x70], 16);
+  assert.deepEqual(pictureSize(png), { width: 8000, height: 6000 });
+  const gif = new Uint8Array(32); gif.set([0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x40, 0x1f, 0x70, 0x17]);
+  assert.deepEqual(pictureSize(gif), { width: 8000, height: 6000 });
+  const webp = new Uint8Array(32); webp.set([0x52, 0x49, 0x46, 0x46, 0, 0, 0, 0, 0x57, 0x45, 0x42, 0x50, 0x56, 0x50, 0x38, 0x58]); webp.set([0x3f, 0x1f, 0, 0x6f, 0x17, 0], 24);
+  assert.deepEqual(pictureSize(webp), { width: 8000, height: 6000 });
+  assert.equal(pictureSize(new Uint8Array(64)), null, 'another format: the <img> reads its size instead');
+  assert.equal(pictureSize(jpegWithOrientation({ width: 800, height: 600, orientation: 1 }).subarray(0, 40)), null, 'a header cut off');
+  // The sending size: the long edge at most 1,600, never enlarged; 48 to 200 megapixels never decode past it.
+  assert.deepEqual(sendingSize({ width: 8000, height: 6000 }), { width: 1600, height: 1200 });
+  assert.deepEqual(sendingSize({ width: 12000, height: 16000 }), { width: 1200, height: 1600 });
+  assert.deepEqual(sendingSize({ width: 16320, height: 12240 }), { width: 1600, height: 1200 }, 'a 200 MP photo');
+  assert.deepEqual(sendingSize({ width: 900, height: 600 }), { width: 900, height: 600 });
+  assert.deepEqual(sendingSize({ width: 40000, height: 10 }), { width: 1600, height: 1 });
 });

@@ -111,7 +111,7 @@
 @media (min-width: 640px) { .bm[data-form='page'] .bm-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 .bm-notice span { overflow-wrap: anywhere; }
-.bm-notice[data-state='over'], .bm-notice[data-state='failed'], .bm-notice[data-state='unknown'] { border-color: var(--a-line-strong); }
+.bm-notice[data-state='over'], .bm-notice[data-state='photo_over'], .bm-notice[data-state='failed'], .bm-notice[data-state='unknown'] { border-color: var(--a-line-strong); }
 
 /* ---- The foot: the price before sending, then the one key (where the panel's composer sits) ---- */
 .bm-foot { flex: none; display: grid; gap: 10px; padding: 12px 18px 14px; border-top: 1px solid var(--a-line); background: var(--a-raised); }
