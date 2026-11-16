@@ -20,8 +20,10 @@ import { isTeamCollege, teamName } from './colleges.mjs';
 export const TEAM_STORE = 'mm:daily-team:v1';
 /** After a change, the next change opens this many days later. */
 export const TEAM_CHANGE_DAYS = 7;
-/** A college's average right answers today shows once this many signed-in students played for it today. */
-export const BOARD_AVG_FLOOR = 5;
+/** A college's average right answers today shows once this many signed-in students played for it today. Ten, and the average
+ *  rounded to the nearest half, so that one more player between two looks at the board never gives away that player's score
+ *  (the board refreshes through the day; students are 16-17). */
+export const BOARD_AVG_FLOOR = 10;
 /** A college's days a player this week shows once this many signed-in students played for it this week. */
 export const WEEK_FLOOR = 5;
 /** A college's Sunday Mock average shows once this many of its students sat the paper. */
@@ -211,12 +213,14 @@ function fivesOf(rows) {
 }
 
 const tenth = (v) => Math.round(v * 10) / 10;
+/** To the nearest half: 3.4 is 3.5, 3.2 is 3. */
+const half = (v) => Math.round(v * 2) / 2;
 const byName = (a, b) => teamName(a).localeCompare(teamName(b), 'en', { sensitivity: 'base' });
 
 /**
  * One day's board: { players, counted, colleges: [{ college, players, avg }] }. `players` is every signed-in student with a
  * whole five that day; `counted` those who played for a college. Colleges by players, most first; `avg` (right answers out
- * of 5, one decimal) only from BOARD_AVG_FLOOR players, else null. Ties: the higher average, then A to Z.
+ * of 5, to the nearest half) only from BOARD_AVG_FLOOR players, else null. Ties: the higher average, then A to Z.
  */
 export function dayBoard(rows, date, floor = BOARD_AVG_FLOOR) {
   const per = new Map();
@@ -233,7 +237,7 @@ export function dayBoard(rows, date, floor = BOARD_AVG_FLOOR) {
     c.right += five.score;
     per.set(five.team, c);
   }
-  const colleges = [...per].map(([college, c]) => ({ college, players: c.players, avg: c.players >= floor ? tenth(c.right / c.players) : null }));
+  const colleges = [...per].map(([college, c]) => ({ college, players: c.players, avg: c.players >= floor ? half(c.right / c.players) : null }));
   colleges.sort((a, b) => b.players - a.players || (b.avg ?? -1) - (a.avg ?? -1) || byName(a.college, b.college));
   return { players, counted, colleges };
 }

@@ -180,7 +180,7 @@ test('the board: public, aggregate and cached; colleges and counts only, never a
   assert.match(res.headers.get('Cache-Control'), /^public, max-age=\d+$/);
   assert.match(res.headers.get('CDN-Cache-Control'), /^public, s-maxage=\d+$/);
   const body = await res.json();
-  assert.deepEqual(body.today, { players: 7, counted: 7, colleges: [{ college: H, players: 5, avg: 4 }, { college: M, players: 2, avg: null }] });
+  assert.deepEqual(body.today, { players: 7, counted: 7, colleges: [{ college: H, players: 5, avg: null }, { college: M, players: 2, avg: null }] });
   assert.deepEqual(body.week.colleges[0], { college: H, players: 5, days: 6, perPlayer: 1.2 });
   assert.equal(body.week.from, '2026-11-16');
   assert.deepEqual(b.calls.span, [['2026-11-16', date]], 'one read for the week, today inside it');

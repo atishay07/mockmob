@@ -177,11 +177,13 @@ test('today\'s board: colleges by players, an average only from 5, whole fives o
   assert.equal(board.players, 10);
   assert.equal(board.counted, 9);
   assert.deepEqual(board.colleges, [
-    { college: H, players: 5, avg: 2 },
+    { college: H, players: 5, avg: null },
     { college: M, players: 3, avg: null },
     { college: K, players: 1, avg: null },
   ]);
-  assert.equal(BOARD_AVG_FLOOR, 5);
+  assert.equal(BOARD_AVG_FLOOR, 10);
+  // Under a lower floor the same rows show the average, to the nearest half.
+  assert.deepEqual(dayBoard(rows, date, 5).colleges[0], { college: H, players: 5, avg: 2 });
   const text = JSON.stringify(board);
   for (const id of ['h1', 'm1', 'k1', 'none1', 'half']) assert.ok(!text.includes(`"${id}"`), `no user id: ${id}`);
   // A place written twice keeps the first; the college of a day is its lowest place's.
@@ -292,4 +294,14 @@ test('every sentence is plain: the edition by its day, no bare number, no name, 
   assert.match(AVG_RULE, new RegExp(String(BOARD_AVG_FLOOR)));
   assert.match(WEEK_RULE, new RegExp(String(WEEK_FLOOR)));
   assert.match(SUNDAY_RULE, new RegExp(String(SUNDAY_BOARD_FLOOR)));
+});
+
+test('the day board average: from ten players, to the nearest half, so one more player never gives a score away', () => {
+  const date = '2026-11-18';
+  // Ten players with 34 right in all (3.4 each): 3.5. An eleventh with 5 right (39 of 55, 3.55): still 3.5.
+  const ten = [...Array(10).keys()].flatMap((i) => five(`p${i}`, date, H, i < 4 ? 4 : 3));
+  assert.deepEqual(dayBoard(ten, date).colleges, [{ college: H, players: 10, avg: 3.5 }]);
+  assert.deepEqual(dayBoard([...ten, ...five('p10', date, H, 5)], date).colleges, [{ college: H, players: 11, avg: 3.5 }]);
+  // Nine players: no average at all.
+  assert.deepEqual(dayBoard(ten.filter((r) => r.user !== 'p9'), date).colleges, [{ college: H, players: 9, avg: null }]);
 });
