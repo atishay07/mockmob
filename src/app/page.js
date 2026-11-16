@@ -56,6 +56,7 @@ import MobiCompanion from '@/components/landing/MobiCompanion';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
+import BringMistakeBlock from '@/components/landing/BringMistakeBlock';
 import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
 import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
@@ -275,6 +276,9 @@ export default function LandingPage() {
             </div>
           </section>
         ) : null}
+
+        {/* Bring a mistake (16 Nov 2026): Ask Mobi reads a question pasted from any other test; live in the app, shown here. */}
+        <BringMistakeBlock />
 
         {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
         <ExamScreen />
