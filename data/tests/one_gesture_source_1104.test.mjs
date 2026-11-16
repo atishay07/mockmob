@@ -337,7 +337,8 @@ test('FLOW: on a touch screen a story never takes a touch; a passage shows the s
   // The story tells the controller, and the stylesheet shortens the hold with its own media query (no layout from script).
   const story = strip(STORY);
   assert.match(story, /import \{ FLOW_PASS_DEBOUNCE_MS, FLOW_QUERY \} from '\.\/storyGesture\.mjs';/);
-  assert.match(story, /reduced: reducedNow, flow: flowNow, land: land \?\? !quiet \};/, 'a quiet story (the statement) is a passage: never steered, never landed on');
+  // 16 Nov 2026 night: a story may also be free (the tour on touch: the browser's own scroll; storyController's `free`).
+  assert.match(story, /reduced: reducedNow, flow: flowNow, land: land \?\? !quiet, free: Boolean\(free\) \};/, 'a quiet story (the statement) is a passage: never steered, never landed on');
   const css = read('src/app/scroll-story.css');
   assert.match(css, /--ss-run: var\(--ss-beat\);/);
   assert.match(css, /--ss-gap: calc\(var\(--ss-steps\) \* var\(--ss-run\) \/ max\(1, var\(--ss-steps\) - 1\)\);/);
@@ -355,7 +356,9 @@ test('FLOW v2: in a story with slides the gesture chooses the step: a swipe is e
     assert.match(gesture, new RegExp(`export const ${name} = ${value};`));
   }
   const code = strip(CONTROLLER);
-  assert.match(code, /const steered = \(s\) => flowing\(s\) && s\.land === true;/, 'a passage (the statement) is not steered');
+  // A free story (the tour on touch, 16 Nov 2026 night) is not steered either: only a picked tab puts the page.
+  assert.match(code, /const steered = \(s\) => flowing\(s\) && s\.land === true && !s\.free;/, 'a passage (the statement) is not steered');
+  assert.match(code, /const free = \(s\) => flowing\(s\) && s\.free === true;/);
   assert.match(code, /const canHold = \(\) => touchPans\(\);/, 'a page is only held under a fling where that is measured to stay put (Chromium)');
   // Still no touch is taken: nothing here cancels a scroll, and the track is not marked.
   assert.doesNotMatch(body(code, 'onTouchMove'), /flow|steer/, 'the travel and the speed are read from the page, frame by frame: Chrome hands a scrolling page a touchmove only every 200 ms');
