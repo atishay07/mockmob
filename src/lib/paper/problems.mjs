@@ -16,7 +16,7 @@ export function practiceHref({ subject, mode, count, chapters, chapter, screen, 
   // Practice reads both; one chapter keeps its own name whole (a name may hold a comma).
   if (chapters) params.set('chapters', chapters);
   else if (chapter) params.set('chapter', chapter);
-  if (screen === 'nta') params.set('interface', 'nta');
+  if (screen === 'nta' || screen === 'mockmob') params.set('interface', screen);
   if (tonightKey) params.set('tonightKey', tonightKey);
   if (tonightMinutes) params.set('tonightMinutes', String(tonightMinutes));
   const query = params.toString();

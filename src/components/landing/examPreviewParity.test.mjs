@@ -91,7 +91,13 @@ test('the runner\'s NTA style is the preview\'s NTA screen: the same header, sec
     assert.ok(new RegExp(`className=(?:"|\\{\`)[^"\`]*\\b${part}\\b`).test(RUNNER), `the runner draws ${part}`);
   }
   assert.ok(has('aria-expanded={ntaPaletteOpen}'), 'the fold is a real disclosure in the runner too');
-  assert.ok(has('if (selected) clearAnswer(question.id); else chooseAnswer(question.id, optionIndex);'), 'clicking the chosen option again clears it, as the preview promises');
+  // Clicking the chosen option again clears it, as the preview promises; any other option is held until Save & Next or Mark for
+  // Review & Next saves it (exam-true saving, LK297, 17 Nov 2026), in the runner and in the preview alike.
+  assert.ok(has('onClick={() => pickNta(question.id, optionIndex)}') && has('if (shown === option) clearChoice(qid);\n    else holdChoice(qid, option);'), 'clicking the chosen option again clears it; another is held');
+  const JSX = read('ExamScreen.jsx');
+  assert.ok(JSX.includes('const pick = (option) => (answers[index] === option ? clearAnswer() : choose(option));'), 'the preview\'s NTA option press');
+  assert.match(JSX, /<NtaScreen [^\n]*answers=\{shown\}[^\n]*\n[^\n]*\n\s*choose=\{hold\}/, 'the preview\'s NTA screen shows held choices and holds a press');
+  assert.match(JSX, /<PhoneNta [^\n]*answers=\{shown\}[^\n]*\n\s*readBack=\{readBack\} setReadBack=\{setReadBack\} choose=\{hold\}/, 'and so does its phone view');
 });
 
 test('the gate line is the integrity guard\'s own words', () => {
@@ -101,7 +107,11 @@ test('the gate line is the integrity guard\'s own words', () => {
   // matched string for string: leaving fullscreen or switching tabs counts, and the third warning submits the answers.
   assert.equal(EXAM.warnings, undefined, 'the "Warnings 0/3" pill is gone');
   assert.match(EXAM.warningRule, /^Leaving fullscreen or switching tabs counts as a warning\. The third one submits your answers\.$/);
-  assert.ok(INTEGRITY.includes('Leaving fullscreen or switching tabs or apps is a warning. Warning 3 submits your answers.'));
+  // LK195: the warnings counter left the runner; its rule is said in words (INTEGRITY_RULES, on the instructions page and in
+  // the warning dialog), built from the policy's numbers.
+  assert.ok(INTEGRITY.includes('Leaving fullscreen or switching tabs or apps is a warning at once.'));
+  assert.ok(INTEGRITY.includes('warning ends the test and submits your saved answers.'));
+  assert.ok(!INTEGRITY.includes('IntegrityPill') && !RUNNER.includes('IntegrityPill'), 'no warnings counter');
   assert.match(read('../../../data/exam_integrity.mjs'), /INTEGRITY_STRIKES\s*=\s*3/);
   assert.match(read('../arena/ExamIntegrityGuard.jsx'), /INTEGRITY_STRIKES\s*=\s*3|from '[^']*'/);
 });

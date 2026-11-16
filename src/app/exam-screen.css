@@ -225,8 +225,10 @@ button.xs-chip:active { transform: scale(.95); }
 .xs-frame[data-interface='nta'] .xs-chip::before, .xs-n-sym::before { content: ''; position: absolute; inset: 0; z-index: -1; }
 .xs-frame[data-interface='nta'] .xs-chip[data-state='notvisited'], .xs-n-sym[data-state='notvisited'] { color: #333; }
 .xs-frame[data-interface='nta'] .xs-chip[data-state='notvisited']::before, .xs-n-sym[data-state='notvisited']::before { border: 1px solid #b4b4b4; border-radius: calc(4 * var(--u)); background: var(--nta-grey); }
-.xs-frame[data-interface='nta'] .xs-chip[data-state='visited']::before, .xs-n-sym[data-state='visited']::before { background: var(--nta-red); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
-.xs-frame[data-interface='nta'] .xs-chip[data-state='answered']::before, .xs-n-sym[data-state='answered']::before { background: var(--nta-green); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
+/* N5 (17 Nov 2026), as the runner's NTA style (nta-classic.css): Not Answered and Answered are mirror images, so shape tells them
+   apart without colour. NTA's own mock draws both with one trapezoid. */
+.xs-frame[data-interface='nta'] .xs-chip[data-state='visited']::before, .xs-n-sym[data-state='visited']::before { background: var(--nta-red); clip-path: polygon(0 0, 100% 0, 100% 74%, 0 100%); }
+.xs-frame[data-interface='nta'] .xs-chip[data-state='answered']::before, .xs-n-sym[data-state='answered']::before { background: var(--nta-green); clip-path: polygon(0 0, 100% 26%, 100% 100%, 0 100%); }
 .xs-frame[data-interface='nta'] .xs-chip:is([data-state='marked'], [data-state='marked-answered']), .xs-n-sym:is([data-state='marked'], [data-state='marked-answered']) { justify-self: center; width: calc(30 * var(--u)); aspect-ratio: 1; }
 .xs-n-sym:is([data-state='marked'], [data-state='marked-answered']) { width: calc(24 * var(--u)); height: calc(24 * var(--u)); }
 .xs-frame[data-interface='nta'] .xs-chip:is([data-state='marked'], [data-state='marked-answered'])::before, .xs-n-sym:is([data-state='marked'], [data-state='marked-answered'])::before { border-radius: 50%; background: var(--nta-purple); }

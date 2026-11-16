@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ShieldAlert, Maximize, Eye } from 'lucide-react';
-import { INTEGRITY_STRIKES, createIntegrityMonitor, readStoredStrikes, VIOLATION_LABEL } from '@/../data/exam_integrity.mjs';
+import { ShieldAlert, Maximize } from 'lucide-react';
+import { INTEGRITY_STRIKES, BRIEF_INTERRUPTION_MS, createIntegrityMonitor, readStoredStrikes, VIOLATION_LABEL } from '@/../data/exam_integrity.mjs';
 import { shouldReopenIntegrityDialog } from './integrityDialog.mjs';
 import './exam-integrity.css';
 
@@ -31,8 +31,11 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
     queueMicrotask(() => {
       if (disposed) return;
       setSupported(fullscreenSupported); setStrikes(stored);
-      setAlert(stored >= INTEGRITY_STRIKES ? { phase: 'terminated', count: stored, reason: 'reload' } : { phase: 'entry', count: stored });
-      if (stored >= INTEGRITY_STRIKES) terminate.current?.();
+      if (stored >= INTEGRITY_STRIKES) { setAlert({ phase: 'terminated', count: stored, reason: 'reload' }); terminate.current?.(); return; }
+      // Already in the exam space: the instructions page's Start opened fullscreen (a press, so the browser allowed it) and the
+      // paper arrived in it. No second dialog asks for the same thing; the watch starts now.
+      if (fullscreenSupported && document.fullscreenElement === fullscreenTarget.current) { controller.enter(); blocked.current = false; setAlert(null); return; }
+      setAlert({ phase: 'entry', count: stored });
     });
     const back = () => {
       if (!document.hidden && document.hasFocus() && (!fullscreenSupported || document.fullscreenElement === fullscreenTarget.current)) controller.returned();
@@ -80,9 +83,14 @@ export function useExamIntegrity({ enabled, storageKey, fullscreenTarget, onTerm
   return { strikes, alert, resume, finish, canAnswer, supported, entering, fullscreenError };
 }
 
-export function IntegrityPill({ strikes }) {
-  return <span className="ei-pill" data-strikes={strikes} title="Leaving fullscreen or switching tabs or apps is a warning. Warning 3 submits your answers."><Eye size={14} aria-hidden="true" />Warnings {strikes}/{INTEGRITY_STRIKES}</span>;
-}
+// The rule in words (owner LK195, 10 Nov 2026: the warnings counter is gone; the rule is said instead). The NTA-mode instructions
+// page (NtaInstructions.jsx) and the warning dialog below print these same lines, built from the policy's own numbers.
+const ORDINAL = { 2: 'second', 3: 'third', 4: 'fourth', 5: 'fifth' };
+export const INTEGRITY_RULES = Object.freeze([
+  `Leaving fullscreen or switching tabs or apps is a warning at once. Losing focus for under ${Math.round(BRIEF_INTERRUPTION_MS / 1000)} seconds is not.`,
+  'Copy, paste and right-click are off.',
+  `The ${ORDINAL[INTEGRITY_STRIKES] || `number ${INTEGRITY_STRIKES}`} warning ends the test and submits your saved answers.`,
+]);
 
 export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, supported, entering, fullscreenError }) {
   const dialog = useRef(null);
@@ -97,7 +105,7 @@ export function IntegrityOverlay({ alert, onResume, onRetry, submitting, error, 
       {entry ? <Maximize size={28} aria-hidden="true" /> : <ShieldAlert size={28} aria-hidden="true" />}
       <h2 id="ei-title">{entry ? 'Enter your exam space' : ended ? 'Session ended' : `Warning ${alert.count} of ${INTEGRITY_STRIKES}`}</h2>
       <p id="ei-body">{entry ? supported ? 'NTA mode uses the entire screen. Enter fullscreen to answer. Your session timer is already running.' : 'This browser does not support fullscreen. Stay in this test window; leaving it still counts as a warning.' : ended ? 'You reached three warnings. Answering is locked. We will submit the answers you already saved.' : `${VIOLATION_LABEL[alert.reason] || 'You left the test'}. The timer keeps running. ${alert.remaining === 1 ? 'One more warning will end and submit your session.' : 'Two more warnings will end and submit your session.'}`}</p>
-      {!ended ? <ul className="ei-rules"><li>Leaving fullscreen or switching tabs or apps is a warning at once. Losing focus for under 3 seconds is not.</li><li>Copy, paste and right-click are off.</li><li>The third warning submits your current answers.</li></ul> : null}
+      {!ended ? <ul className="ei-rules">{INTEGRITY_RULES.map((rule) => <li key={rule}>{rule}</li>)}</ul> : null}
       <ol className="ei-strikes" aria-label={`${alert.count} of ${INTEGRITY_STRIKES} warnings`}>{Array.from({ length: INTEGRITY_STRIKES }, (_, i) => <li key={i} data-on={i < alert.count} aria-hidden="true" />)}</ol>
       {fullscreenError ? <p className="ei-error" role="alert">{fullscreenError}</p> : null}
       {ended ? <><p className="ei-submission" role="status">{submitting ? 'Submitting your saved answers…' : error || 'Confirming your result…'}</p>{!submitting && error ? <button type="button" className="ei-btn" onClick={onRetry}>Retry submission</button> : null}</> : <button type="button" className="ei-btn" disabled={entering} onClick={onResume}>{entering ? 'Opening fullscreen…' : supported ? entry ? 'Enter fullscreen' : 'Return to fullscreen' : 'Continue in this window'}</button>}

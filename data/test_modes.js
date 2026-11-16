@@ -71,6 +71,9 @@ export const TEST_MODES = {
     creditAction: null,
     fixedCount: 50,
     fixedDurationSec: 60 * 60,         // 60 minutes (corrected from 45)
+    // CUET UG marking, as the result page scores every paper (src/lib/subjectPages.mjs PAPER holds the same three numbers;
+    // data/tests/nta_instructions.test.mjs keeps the two equal). The NTA-mode instructions page prints these, never typed copy.
+    marking: Object.freeze({ right: 5, wrong: -1, blank: 0 }),
     difficulty: { easy: 0.30, medium: 0.45, hard: 0.25 },
     allowDifficultyOverride: false,
     useWeakTopics: false,

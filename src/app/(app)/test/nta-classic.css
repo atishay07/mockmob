@@ -57,11 +57,9 @@
 /* The profile image: NTA's grey card with a pale silhouette (its own welcome screen's). Hard-stop shapes, not a wash. */
 .nta-runner[data-interface='nta'] .nta-n-photo { display: block; flex: none; width: 46px; height: 56px; border: 1px solid #c8c8c8; background: radial-gradient(circle at 50% 36%, #f7f5f3 0 22%, transparent 23%), radial-gradient(ellipse 46% 34% at 50% 100%, #f7f5f3 0 99%, transparent 100%), #e2ddd9; }
 
-/* ---- the section on the top bar, highlighted; the warnings pill at its far end ---- */
+/* ---- the section on the top bar, highlighted (the warnings counter is gone, owner LK195: the rule is on the instructions page) ---- */
 .nta-runner[data-interface='nta'] .nta-n-sections { display: flex; align-items: stretch; gap: 12px; min-height: 36px; padding: 0 20px; border-bottom: 1px solid var(--nta-line); background: #f1f1f5; }
 .nta-runner[data-interface='nta'] .nta-n-tab { display: flex; align-items: center; padding: 0 18px; background: var(--nta-indigo); color: #fff; font-size: 14px; font-weight: 700; }
-.nta-runner[data-interface='nta'] .nta-n-sections .nta-integrity-status { display: flex; align-items: center; margin-left: auto; padding: 0; border: 0; background: transparent; }
-.nta-runner[data-interface='nta'] .ei-pill { padding: 3px 10px; background: #fff; }
 .nta-runner[data-interface='nta'] .nta-n-notices { padding: 8px 20px 0; }
 .nta-runner[data-interface='nta'] .nta-n-notices .nta-alert { margin: 0 0 8px; }
 .nta-runner[data-interface='nta'] .nta-alert { color: #6b4200; background: #fff6e0; border-color: #e5c27a; border-radius: 3px; }
@@ -134,7 +132,10 @@
 .nta-runner[data-interface='nta'] .nta-n-palette .nta-submit-button { flex: none; width: 100%; margin-top: auto; }
 
 /* The five symbols, on the palette's chips and in the section summary. The shape is a ::before behind the number, so a
-   clipped shape never clips the focus ring or the current-question ring. */
+   clipped shape never clips the focus ring or the current-question ring.
+   N5 (17 Nov 2026): NTA's own mock draws Not Answered and Answered with one trapezoid (its Logo2.png and Logo3.png share a
+   mask), so colour was the only cue. Here the two are mirror images in NTA's colours: Not Answered keeps a flat top and its
+   bottom edge rises to the right; Answered keeps a flat foot and its top edge falls to the right. Told apart without colour. */
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip, .nta-n-sym) { position: relative; isolation: isolate; display: grid; place-items: center; aspect-ratio: auto; border: 0; border-radius: 0; background: transparent; box-shadow: none; outline-offset: 2px; color: #fff; font: 700 14px/1 Arial, Helvetica, sans-serif; font-variant-numeric: tabular-nums; }
 /* NTA's symbols keep their size in a wide cell: a 52 px tab, never a stretched band. */
 .nta-runner[data-interface='nta'] .nta-palette-chip { justify-self: center; width: 100%; max-width: 52px; min-width: 0; min-height: 40px; cursor: pointer; }
@@ -142,8 +143,8 @@
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip, .nta-n-sym)::before { content: ''; position: absolute; inset: 0; z-index: -1; }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--notvisited, .nta-n-sym--notvisited) { color: #333; }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--notvisited, .nta-n-sym--notvisited)::before { border: 1px solid #b4b4b4; border-radius: 4px; background: var(--nta-grey); }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .nta-n-sym--visited)::before { background: var(--nta-red); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
-.nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .nta-n-sym--answered)::before { background: var(--nta-green); clip-path: polygon(0 0, 100% 14%, 100% 86%, 0 100%); }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--visited, .nta-n-sym--visited)::before { background: var(--nta-red); clip-path: polygon(0 0, 100% 0, 100% 74%, 0 100%); }
+.nta-runner[data-interface='nta'] :is(.nta-palette-chip--answered, .nta-n-sym--answered)::before { background: var(--nta-green); clip-path: polygon(0 0, 100% 26%, 100% 100%, 0 100%); }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered) { justify-self: center; width: 40px; height: 40px; }
 .nta-runner[data-interface='nta'] :is(.nta-n-sym--marked, .nta-n-sym--marked-answered) { width: 30px; height: 30px; }
 .nta-runner[data-interface='nta'] :is(.nta-palette-chip--marked, .nta-palette-chip--marked-answered, .nta-n-sym--marked, .nta-n-sym--marked-answered)::before { border-radius: 50%; background: var(--nta-purple); }
@@ -155,10 +156,38 @@
 /* ---- NTA style's dialogs: the submit summary and the Question Paper ---- */
 .nta-runner[data-interface='nta'] .nta-n-dialog { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 16px; }
 .nta-runner[data-interface='nta'] .nta-n-dialog__backdrop { position: absolute; inset: 0; background: rgba(20, 20, 40, .48); }
-.nta-runner[data-interface='nta'] .nta-n-dialog__panel { position: relative; width: min(520px, 100%); max-height: calc(100dvh - 32px); overflow: auto; padding: 18px 20px 20px; border: 1px solid #b9b9b9; border-radius: 4px; background: #fff; color: #222; box-shadow: 0 16px 48px rgba(0, 0, 0, .28); }
+.nta-runner[data-interface='nta'] .nta-n-dialog__panel { position: relative; width: min(520px, 100%); max-height: calc(100dvh - 32px); overflow: auto; padding: 18px 20px 20px; border: 1px solid #c4c4cc; border-radius: 4px; background: #fff; color: #222; box-shadow: 0 2px 6px rgba(20, 20, 40, .08), 0 24px 56px -12px rgba(20, 20, 40, .26); }
 .nta-runner[data-interface='nta'] .nta-n-dialog__title { margin: 0; color: #222; font: 700 19px/1.3 Arial, Helvetica, sans-serif; }
-.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-section { margin: 12px 0 12px; }
-.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-legend { padding-bottom: 14px; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-section { margin: 12px 0 0; }
+/* NTA's Exam Summary: one row of counts under their names (a phone gets it turned on its side), then "Are you sure", Yes and No. */
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__panel { width: min(820px, 100%); padding: 20px 22px 22px; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__title { text-align: center; font-size: 21px; }
+.nta-runner[data-interface='nta'] .nta-n-table { width: 100%; margin: 0; border-collapse: collapse; color: #222; font-size: 14px; line-height: 1.3; }
+.nta-runner[data-interface='nta'] .nta-n-table :is(th, td) { padding: 9px 10px; border: 1px solid var(--nta-line); }
+.nta-runner[data-interface='nta'] .nta-n-table--wide th { background: #f5f5f8; font-weight: 700; text-align: center; vertical-align: bottom; }
+.nta-runner[data-interface='nta'] .nta-n-table--wide td { text-align: center; font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.nta-runner[data-interface='nta'] .nta-n-table--wide .nta-n-sym--tiny { display: block; margin: 0 auto 6px; }
+.nta-runner[data-interface='nta'] .nta-n-table--tall { display: none; }
+.nta-runner[data-interface='nta'] .nta-n-table--tall th { background: #fff; font-weight: 400; text-align: left; }
+.nta-runner[data-interface='nta'] .nta-n-table--tall td { width: 4.5em; text-align: right; font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.nta-runner[data-interface='nta'] .nta-n-table--tall tr:first-child :is(th, td) { background: #f5f5f8; font-weight: 700; }
+.nta-runner[data-interface='nta'] .nta-n-sym.nta-n-sym--tiny { width: 22px; height: 18px; font-size: 0; }
+.nta-runner[data-interface='nta'] :is(.nta-n-sym--marked, .nta-n-sym--marked-answered).nta-n-sym--tiny { width: 18px; height: 18px; }
+.nta-runner[data-interface='nta'] .nta-n-sym--marked-answered.nta-n-sym--tiny::after { width: 8px; height: 8px; right: -3px; bottom: -2px; box-shadow: inset 0 0 0 1.5px #1f9a0b, inset 0 0 0 2.5px #fff; }
+.nta-runner[data-interface='nta'] .nta-n-table--tall th .nta-n-sym--tiny { display: inline-grid; vertical-align: -3px; margin-right: 10px; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__held { margin: 14px 0 0; padding: 10px 12px; border: 1px solid #e5c27a; border-radius: 3px; background: #fff6e0; color: #6b4200; font-size: 14px; line-height: 1.45; }
+.nta-runner[data-interface='nta'] .nta-n-dialog__ask { margin: 18px 0 0; color: #222; font-size: 16px; font-weight: 700; line-height: 1.45; text-align: center; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__keys { justify-content: center; margin-top: 14px; }
+.nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__keys button { min-width: 112px; }
+@media (max-width: 719px) {
+  .nta-runner[data-interface='nta'] .nta-n-table--wide { display: none; }
+  .nta-runner[data-interface='nta'] .nta-n-table--tall { display: table; margin-top: 12px; }
+  .nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__panel { padding: 16px 16px 18px; }
+  .nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__title { text-align: left; }
+  .nta-runner[data-interface='nta'] .nta-n-dialog__ask { text-align: left; font-size: 15px; }
+  .nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__keys { justify-content: stretch; }
+  .nta-runner[data-interface='nta'] .nta-n-summary .nta-n-dialog__keys button { flex: 1 1 0; }
+}
 .nta-runner[data-interface='nta'] .nta-n-dialog__note { margin: 12px 0 0; color: #333; font-size: 14px; line-height: 1.45; }
 .nta-runner[data-interface='nta'] .nta-n-dialog__keys { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .nta-runner[data-interface='nta'] .nta-n-dialog__head { position: sticky; top: -18px; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -18px -20px 0; padding: 10px 12px 10px 20px; border-bottom: 1px solid var(--nta-line); background: #fff; }
@@ -172,6 +201,84 @@
 .nta-runner[data-interface='nta'] .nta-n-paperview__q { margin: 0 0 8px; color: #111; font-size: 16px; line-height: 1.55; }
 .nta-runner[data-interface='nta'] .nta-n-paperview__options { display: grid; gap: 4px; margin: 0; padding: 0 0 0 4px; list-style: none; color: #222; font-size: 15px; line-height: 1.5; }
 .nta-runner[data-interface='nta'] .nta-n-paperview__options span { display: inline-block; min-width: 1.6em; font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================================================================
+   NTA mode's instructions page (N1, 17 Nov 2026; src/components/arena/NtaInstructions.jsx), drawn in the runner's NTA frame
+   before the clock starts, and the paper being built after Start. It follows NTA's own General Instructions page (its mock at
+   nta.ac.in/Quiz): a grey title strip, "Please read the instructions carefully", numbered points under underlined headings with
+   the five symbols drawn in place, then the declaration and one green key. The page scrolls; nothing on it moves by itself.
+   ========================================================================================================================== */
+.nta-runner[data-interface][data-phase] { display: block; height: auto; min-height: 100vh; min-height: 100dvh; overflow: visible; }
+.nta-runner[data-phase='building'] { padding-bottom: 32px; }
+.nta-runner[data-interface='nta'][data-phase] { background: #fff; }
+.nta-ins { color: #222; font-family: Arial, Helvetica, sans-serif; padding-bottom: 40px; }
+.nta-ins__bar { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; min-height: 64px; padding: 8px 20px; background: #f1f1f5; border-bottom: 1px solid var(--nta-line); }
+.nta-ins__back { justify-self: start; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 10px 0 2px; border-radius: 3px; color: #2f3b45; font-size: 14px; text-decoration: none; }
+.nta-ins__back svg { width: 18px; height: 18px; }
+@media (hover: hover) { .nta-ins__back:hover { background: #e4e4ec; } }
+.nta-ins__title { margin: 0; color: var(--nta-indigo); font: 700 21px/1.2 Arial, Helvetica, sans-serif; letter-spacing: 0; text-align: center; white-space: nowrap; }
+.nta-ins__lang { justify-self: end; display: grid; gap: 2px; margin: 0; color: #4f5d68; font-size: 12px; line-height: 1.2; text-align: right; }
+.nta-ins__lang b { color: #222; font-size: 15px; }
+.nta-ins__page { width: min(100% - 40px, 940px); margin: 0 auto; padding-top: 22px; }
+.nta-ins__lead { margin: 0 0 18px; color: #222; font-size: 18px; font-weight: 700; line-height: 1.3; }
+/* The cells sit on the line colour with a 1 px gap, so every divider is drawn once at any layout. */
+.nta-ins__facts { display: grid; grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, .7fr)) minmax(0, 1.6fr); gap: 1px; margin: 0 0 26px; overflow: hidden; border: 1px solid var(--nta-line); border-radius: 4px; background: var(--nta-line); box-shadow: 0 1px 2px rgba(31, 41, 51, .04), 0 6px 18px -10px rgba(31, 41, 51, .14); }
+.nta-ins__facts > div { min-width: 0; padding: 12px 16px; background: #fff; }
+.nta-ins__facts dt { color: #4f5d68; font-size: 13px; }
+.nta-ins__facts dd { margin: 4px 0 0; color: #1f2933; font-size: 22px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.nta-ins__marks dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; font-size: 14px; font-weight: 400; color: #2f3b45; }
+.nta-ins__marks b { margin-right: 3px; color: #1f2933; font-size: 22px; font-weight: 700; }
+.nta-ins__part { margin: 0 0 20px; }
+.nta-ins__part h2 { margin: 0 0 10px; color: #1f2933; font: 700 17px/1.3 Arial, Helvetica, sans-serif; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.nta-ins__list { display: grid; gap: 10px; margin: 0; padding-left: 30px; list-style: decimal outside; color: #222; font-size: 15.5px; line-height: 1.55; }
+.nta-ins__list > li::marker { color: #4f5d68; font-variant-numeric: tabular-nums; }
+.nta-ins__symbols { display: grid; gap: 10px; margin: 12px 0 10px; padding: 0; list-style: none; }
+.nta-ins__symbols > li { display: grid; grid-template-columns: 40px minmax(0, 1fr); align-items: center; gap: 12px; }
+.nta-ins__symbols .nta-n-sym { justify-self: center; }
+.nta-ins__symbols b { display: block; color: #1f2933; }
+.nta-ins__mind { margin: 4px 0 0; padding: 10px 12px; border: 1px solid #cdbfe8; border-radius: 4px; background: #f7f4fd; color: #2f2346; }
+.nta-ins__key, .nta-ins__round { display: inline-grid; place-items: center; vertical-align: -5px; margin: 0 2px; }
+.nta-ins__key { width: 20px; height: 26px; border: 1px solid #b9b9b9; border-radius: 3px; background: #ececec; color: #333; }
+.nta-ins__round { width: 24px; height: 24px; border-radius: 50%; background: #7a7a7a; color: #fff; }
+.nta-ins__key svg, .nta-ins__round svg { width: 14px; height: 14px; stroke-width: 3; }
+.nta-ins__k { display: inline-block; padding: 0 6px; border: 1px solid #b0b0b0; border-radius: 3px; background: #fff; color: #222; font-weight: 700; white-space: nowrap; }
+.nta-ins__k--save { border-color: #28712d; background: #348638; color: #fff; }
+.nta-ins__k--review { border-color: #68408d; background: #754b9c; color: #fff; }
+.nta-ins__must { padding: 8px 10px; margin-left: -10px; border-radius: 4px; background: #fff6e0; color: #3d2a00; }
+.nta-ins__must::marker { color: #6b4200; }
+.nta-ins__part--ours { margin-top: 26px; padding: 16px 18px; border: 1px solid #c4cfd6; border-radius: 4px; background: #f7f9fa; }
+.nta-ins__plain { display: grid; gap: 10px; margin: 0; padding-left: 20px; list-style: disc outside; color: #222; font-size: 15.5px; line-height: 1.55; }
+.nta-ins__plain b { color: #1f2933; }
+.nta-ins__declare { display: grid; justify-items: center; gap: 12px; margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--nta-line); }
+.nta-ins__tick { display: flex; align-items: flex-start; gap: 12px; max-width: 64ch; padding: 6px 4px; color: #222; font-size: 15.5px; line-height: 1.5; cursor: pointer; }
+.nta-ins__tick input { flex: none; appearance: auto; width: 22px; height: 22px; min-width: 0; min-height: 0; padding: 0; margin: 1px 0 0; accent-color: #348638; cursor: pointer; }
+.nta-ins__start { width: min(100%, 340px); min-height: 50px; padding: 0 20px; border: 1px solid #28712d; border-radius: 3px; background: #348638; color: #fff; font: 700 17px/1.2 Arial, Helvetica, sans-serif; cursor: pointer; box-shadow: 0 1px 2px rgba(20, 60, 24, .12), 0 8px 20px -12px rgba(20, 60, 24, .45); transition: background-color 160ms ease-out, transform 120ms ease-out; }
+.nta-ins__start:active:not(:disabled) { transform: translateY(1px); }
+.nta-ins__start:disabled { border-color: #c8ccd0; background: #e8eaec; color: #4f5d68; box-shadow: none; cursor: not-allowed; }
+@media (hover: hover) { .nta-ins__start:hover:not(:disabled) { background: #2c7330; } }
+.nta-ins__hint { margin: 0; color: #4f5d68; font-size: 13.5px; text-align: center; }
+@media (max-width: 760px) {
+  .nta-ins__bar { grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 6px 16px 12px; }
+  .nta-ins__back { margin-left: -2px; }
+  .nta-ins__title { grid-column: 1 / -1; grid-row: 2; font-size: 20px; text-align: left; }
+  .nta-ins__page { width: calc(100% - 32px); padding-top: 18px; }
+  .nta-ins__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nta-ins__facts > div { padding: 10px 12px; }
+  .nta-ins__facts > :is(div:first-child, .nta-ins__marks) { grid-column: 1 / -1; }
+  .nta-ins__facts dd { font-size: 19px; }
+  .nta-ins__list { padding-left: 24px; font-size: 15px; }
+  .nta-ins__plain { font-size: 15px; }
+  .nta-ins__part--ours { padding: 14px; }
+  .nta-ins__declare { justify-items: stretch; }
+  .nta-ins__start { width: 100%; }
+  .nta-ins__hint { text-align: left; }
+}
+@media (max-width: 380px) {
+  .nta-ins__facts dd { font-size: 17px; }
+  .nta-ins__marks b { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) { .nta-ins__start { transition: none; } .nta-ins__start:active:not(:disabled) { transform: none; } }
+:root[data-motion='reduced'] .nta-ins__start { transition: none; }
 
 /* ---- a wide screen: the screen is the viewport, as at the centre ---- */
 @media (min-width: 1024px) {

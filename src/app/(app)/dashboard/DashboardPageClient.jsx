@@ -182,7 +182,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     return TEST_MODES.quick.countOptions.includes(requested) ? requested : 10;
   });
   // Which console NTA mode opens in: MockMob's own layout, or the conventional exam-style screen.
-  const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob'));
+  // NTA mode opens in NTA style unless the student picks MockMob's screen (owner LK297, 17 Nov 2026).
+  const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'mockmob' ? 'mockmob' : 'nta'));
   const [isLaunching, setIsLaunching] = useState(false);
   // 'turn' while the exam pair's start moment plays (the stopwatch hand goes once round), then the paper opens.
   const [launchMoment, setLaunchMoment] = useState(null);
@@ -461,7 +462,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const launchHref = launchPath({
     subject: selSubj, count, mode: mode.id, chapters: sentChapters,
     difficulty: scope.difficulty && isPremium && difficultyMode !== 'auto' ? difficultyMode : '',
-    ntaScreen: effectiveModeId === 'nta' && ntaScreen === 'nta',
+    ntaScreen: effectiveModeId === 'nta' ? ntaScreen : false,
   });
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
   const subjectLabel = selectedSubject?.name || '';
@@ -734,7 +735,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                         <span className="pr-fine__label">Exam screen</span>
                         <Segmented label="Exam screen" value={ntaScreen} onChange={setNtaScreen}
                           options={[{ value: 'mockmob', label: 'MockMob style' }, { value: 'nta', label: 'NTA style' }]} />
-                        <span className="pr-hint">Same questions, timing and scoring. You can switch inside the test.</span>
+                        <span className="pr-hint">Same questions, timing and scoring. NTA style saves an answer only when you press Save &amp; Next, as the exam does. You can switch inside the test.</span>
                       </>
                     ) : (
                       <p className="pr-hint">NTA mode needs Pro. See how both screens look first: <Link href="/?stay=1#exam-experience" className="pr-link">Free exam-screen preview</Link></p>

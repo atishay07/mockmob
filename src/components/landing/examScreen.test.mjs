@@ -162,8 +162,10 @@ test('NTA style is NTA\'s CBT screen as its guidelines describe it (D6, LK91)', 
   // The five symbols: NTA's section-summary shapes and its colours (sampled from its own legend), on a ::before so a clipped
   // shape never clips the focus ring.
   assert.match(CSS, /--nta-red: #e34501;[^}]*--nta-purple: #5a2ca4;/);
-  assert.match(CSS, /\[data-state='visited'\]::before[^{]*\{[^}]*clip-path: polygon\(0 0, 100% 14%, 100% 86%, 0 100%\)/);
-  assert.match(CSS, /\[data-state='answered'\]::before[^{]*\{[^}]*clip-path: polygon\(0 0, 100% 14%, 100% 86%, 0 100%\)/);
+  // N5 (17 Nov 2026): Not Answered and Answered are mirror images (flat top, rising foot; flat foot, falling top), as in the
+  // runner's NTA style, so shape tells them apart without colour (NTA's own mock draws both with one trapezoid).
+  assert.match(CSS, /\[data-state='visited'\]::before[^{]*\{[^}]*clip-path: polygon\(0 0, 100% 0, 100% 74%, 0 100%\)/);
+  assert.match(CSS, /\[data-state='answered'\]::before[^{]*\{[^}]*clip-path: polygon\(0 0, 100% 26%, 100% 100%, 0 100%\)/);
   assert.match(CSS, /\[data-state='marked-answered'\]\)::before[^{]*\{[^}]*border-radius: 50%/);
   assert.match(CSS, /\.xs-chip\[data-state='marked-answered'\]::after/, 'the green badge on answered and marked');
 });
@@ -178,12 +180,13 @@ test('the monitor: drawn in CSS, scaled as a whole, with the address bar showing
   assert.match(CSS, /\.xs-frame \{\s*--u: calc\(100cqw \/ 880\);/);
   const sized = CSS.slice(CSS.indexOf('.xs-browser {'), CSS.indexOf('/* ---------------------------------------------------------------- the line under')) + CSS.slice(CSS.indexOf('NTA style: NTA'), CSS.indexOf('@keyframes xs-in'));
   assert.doesNotMatch(sized.replace(/\/\*[\s\S]*?\*\//g, ''), /(?:font-size|width|height|padding|gap|margin)[^;:]*:[^;]*\b(?:1[1-9]|[2-9]\d)px/, 'no fixed pixel sizes inside the screen');
-  // The address: the runner's own route, with interface=nta in NTA style (the runner reads it).
+  // The address: the runner's own route, with interface=nta in NTA style (the runner reads it; since 17 Nov an NTA paper opens in
+  // NTA style unless the address says interface=mockmob).
   assert.match(JSX, /const address = nta \? EXAM\.address\.nta : EXAM\.address\.mockmob;/);
   assert.match(JSX, /<b>\{EXAM\.address\.host\}<\/b>\{address\}/);
   assert.equal(EXAM.address.host, 'mockmob.in');
   assert.match(EXAM.address.nta, /^\/test\?.*\binterface=nta\b/);
-  assert.match(RUNNER, /searchParams\.get\('interface'\) === 'nta'/);
+  assert.match(RUNNER, /searchParams\.get\('interface'\) === 'mockmob' \? 'mockmob' : 'nta'/);
   assert.match(RUNNER, /searchParams\.get\('subject'\)/);
 });
 
