@@ -22,9 +22,10 @@
 //                  16 Nov 2026, 10:25 pm: a stream of random photos must cost something): the reservation is released as in
 //                  step 5, then, only once the release went through, MISTAKE_UNUSABLE_CREDITS (1) is taken with the one-step
 //                  consume (aiCreditWallet consumeAIWalletCredits, mm_ai_consume_credits) under a key derived only from the
-//                  operation key (unusableKey), so the same ask can never take it twice. If that consume fails for any reason
-//                  nothing is taken and the words say so. A release that failed (the credits are held and return by
-//                  themselves) takes nothing more. The same ask sent again finds that charge (findUnusableCharge) and shows the
+//                  operation key (unusableKey), so the same ask can never take it twice. A consume that refuses (no credits,
+//                  paused, a bad key) takes nothing and the words say so; any other failure reads the ledger once and says
+//                  what it finds (or, if that read fails, that it could not be confirmed). A release that failed (the
+//                  credits are held and return by themselves) takes nothing more. The same ask sent again finds that charge (findUnusableCharge) and shows the
 //                  same words, with no model call and no second charge.
 //
 // A photo of the question (lane web/1116-photo, 16 Nov 2026; switch data/mistake_photo.mjs): the same steps, in the same order,
@@ -138,23 +139,40 @@ export async function findUnusableCharge({ db, userId, operationKey }) {
   return { verdict: data?.metadata?.verdict === 'unreadable' ? 'unreadable' : 'not_study', charged };
 }
 
+// The consume's answers that say for certain nothing was taken. Anything else that is not ok (an RPC error, a throw, no answer)
+// may hide a charge whose answer was lost on the way, so the ledger is read once before the student is told anything.
+const CONSUME_REFUSED = new Set(['insufficient_ai_credits', 'prepos_paused', 'operation_key_required']);
+
 /**
  * Takes MISTAKE_UNUSABLE_CREDITS once for an ask the model read but could not use. `consume` is aiCreditWallet's
- * consumeAIWalletCredits bound to the student (mistakeDeps). -> { used, taken }: `used` is what the ask used in all (the words
- * say it), `taken` what THIS request took (0 when the key was already spent). Any failure or throw: { used: 0, taken: 0 }.
+ * consumeAIWalletCredits bound to the student (mistakeDeps); `findUnusable` reads the charge back (findUnusableCharge).
+ * -> { used, taken } | { unconfirmed: true }: `used` is what the ask used in all (the words say it), `taken` what THIS request
+ * took (0 when the key was already spent). A definite refusal: { used: 0, taken: 0 }. An unknown outcome: the ledger, read once:
+ * the charge found is the truth ({ used, taken } of it), no row is nothing taken, a failed read is { unconfirmed: true }.
  */
-async function takeUnusable({ consume, operationKey, verdict }) {
+async function takeUnusable({ consume, findUnusable, operationKey, verdict }) {
   const idempotencyKey = unusableKey(operationKey);
   if (typeof consume !== 'function' || !idempotencyKey) return { used: 0, taken: 0 };
+  let r = null;
   try {
-    const r = await consume({ amount: MISTAKE_UNUSABLE_CREDITS, action: UNUSABLE_ACTION, reference: operationKey, idempotencyKey, metadata: { verdict } });
-    if (!r?.ok) return { used: 0, taken: 0 };
+    r = await consume({ amount: MISTAKE_UNUSABLE_CREDITS, action: UNUSABLE_ACTION, reference: operationKey, idempotencyKey, metadata: { verdict } });
+  } catch {
+    r = null;
+  }
+  if (r?.ok) {
     const used = Math.max(0, Math.trunc(Number(r.charged) || 0));
     return { used, taken: r.idempotent ? 0 : used };
+  }
+  if (r && CONSUME_REFUSED.has(r.error)) return { used: 0, taken: 0 };
+  if (typeof findUnusable !== 'function') return { used: 0, taken: 0 };
+  try {
+    const found = await findUnusable(operationKey);
+    return found?.charged > 0 ? { used: found.charged, taken: found.charged } : { used: 0, taken: 0 };
   } catch {
-    return { used: 0, taken: 0 };
+    return { unconfirmed: true };
   }
 }
+const UNCONFIRMED = () => ({ http: 503, kind: 'error', body: { ok: false, error: 'unconfirmed', status: 'unconfirmed', message: MISTAKE_COPY.lost, charged: 0 } });
 
 /**
  * The model step for runModelReply: ONE call through the guarded provider runtime (`callOnce`, src/services/ai/providerCore.js),
@@ -299,7 +317,11 @@ export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MIST
     // Released (runModelReply's own failure path, with no error from the release): 1 credit, once, for reading it.
     const operationKey = operationKeyFor(user?.id, body?.requestId);
     const released = out.status === 'failed' && out.error === 'unusable_output';
-    const { used, taken } = released ? await takeUnusable({ consume: deps.consume, operationKey, verdict: kind }) : { used: 0, taken: 0 };
+    const took = released ? await takeUnusable({ consume: deps.consume, findUnusable: deps.findUnusable, operationKey, verdict: kind }) : { used: 0, taken: 0 };
+    // The consume's answer was lost and the ledger could not be read: whether the credit was taken is not known, so no words
+    // about it; Try again sends the same request, which reads the ledger again (the 'resend' path below).
+    if (took.unconfirmed) return UNCONFIRMED();
+    const { used, taken } = took;
     // Already taken under this key by an earlier send (taken 0, used 1): the same words, saved once, the first time.
     const replayed = used > 0 && taken === 0;
     return { ...UNUSABLE(kind, { used, taken, reference: operationKey, replayed }), ...(replayed ? {} : { saved: afterModel }) };
@@ -329,7 +351,7 @@ export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MIST
     try {
       found = key && deps.findUnusable ? await deps.findUnusable(key) : null;
     } catch {
-      return { http: 503, kind: 'error', body: { ok: false, error: 'unconfirmed', status: 'unconfirmed', message: MISTAKE_COPY.lost, charged: 0 } };
+      return UNCONFIRMED();
     }
     if (found) return UNUSABLE(found.verdict === 'unreadable' ? 'unreadable' : 'not_study', { used: found.charged, taken: 0, replayed: true });
   }

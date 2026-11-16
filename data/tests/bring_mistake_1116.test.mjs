@@ -1051,18 +1051,22 @@ test('a held reservation (the release failed) takes nothing more and keeps its w
 });
 
 test('when the consume fails (no credits left, paused, a bad key, the RPC down or throwing, no consume at all): nothing taken, and the words say so', async () => {
+  // A definite refusal is believed as it is; any other failure reads the ledger once (here it holds no row).
+  const refused = new Set(['insufficient', 'paused', 'badKey']);
   const failures = {
     insufficient: async () => ({ ok: false, error: 'insufficient_ai_credits', status: 402, required: 1, balance: 0 }),
     paused: async () => ({ ok: false, error: 'prepos_paused', status: 503 }),
     badKey: async () => ({ ok: false, error: 'operation_key_required', status: 400 }),
     rpcFailed: async () => ({ ok: false, error: 'ai_credit_rpc_failed', status: 500 }),
+    rpcMissing: async () => ({ ok: false, error: 'ai_credit_rpc_unavailable', status: 503 }),
     throws: async () => { throw new Error('socket hang up'); },
     nonsense: async () => null,
   };
   for (const [name, consume] of Object.entries(failures)) {
     for (const [verdict, run] of [['not_study', () => ask({ model: NOT_STUDY, consume })], ['unreadable', () => photoAsk({ model: UNREADABLE, consume })]]) {
       const { out, log } = await run();
-      assert.equal(log.steps.at(-1), 'consume', `${name}: tried once`);
+      assert.deepEqual(log.steps.slice(-2), refused.has(name) ? ['release', 'consume'] : ['consume', 'findUnusable'], `${name}: ${refused.has(name) ? 'no read' : 'the ledger read once'}`);
+      assert.equal((log.args.findUnusable || []).length, refused.has(name) ? 0 : 1, name);
       assert.equal(log.args.consume.length, 1, `${name}: never retried`);
       assert.equal(out.body.charged, 0, `${name} ${verdict}`);
       assert.deepEqual(out.body.charge, { kind: 'included', creditUnits: 0, amount: 0 }, `${name} ${verdict}`);
@@ -1073,6 +1077,46 @@ test('when the consume fails (no credits left, paused, a bad key, the RPC down o
   const none = await ask({ model: NOT_STUDY, consume: null, findUnusable: null });
   assert.equal(none.out.body.charged, 0);
   assert.equal(none.out.body.reply, MISTAKE_COPY.notStudy);
+});
+
+test('a consume whose answer is lost: the ledger, read once, decides: the row there is the truth (charged 1); a failed read is "could not be confirmed"; no row is nothing taken', async () => {
+  // The RPC wrote its row, then the answer was lost on the way (the call throws).
+  for (const [verdict, run] of [['not_study', (o) => ask({ model: NOT_STUDY, ...o })], ['unreadable', (o) => photoAsk({ model: UNREADABLE, ...o })]]) {
+    const ledger = fakeLedger();
+    const lost = async (args) => { await ledger.consumeFor(USER.id)(args); throw new Error('socket hang up'); };
+    const { out, log } = await run({ ledger, consume: lost });
+    assert.deepEqual(log.steps.slice(-3), ['release', 'consume', 'findUnusable'], verdict);
+    assert.equal(log.client.length, 1, 'no second model call');
+    assert.equal(ledger.rows.length, 1, 'one credit in all');
+    assert.equal(out.http, 200);
+    assert.equal(out.body.charged, 1, `${verdict}: the truth`);
+    assert.deepEqual(out.body.charge, { kind: 'prepos_credit', creditUnits: 1, amount: 1, reference: OP_KEY });
+    assert.equal(out.body.reply, unusableLine(verdict, 1));
+    assert.ok(mistakeTurn(out), 'saved, with its charge');
+    assert.equal(mistakeOutcome({ kind: 'response', res: { ok: true, status: 200 }, body: out.body }).message, unusableLine(verdict, 1));
+  }
+  // The answer is lost and the ledger read fails too: no words about the credit; Try again sends the same request.
+  const throws = async () => { throw new Error('socket hang up'); };
+  const unread = await ask({ model: NOT_STUDY, consume: throws, findUnusable: () => { throw new Error('read failed'); } });
+  assert.deepEqual(unread.log.steps.slice(-2), ['consume', 'findUnusable']);
+  assert.equal(unread.out.http, 503);
+  assert.equal(unread.out.kind, 'error');
+  assert.deepEqual([unread.out.body.error, unread.out.body.status, unread.out.body.message, unread.out.body.charged], ['unconfirmed', 'unconfirmed', MISTAKE_COPY.lost, 0]);
+  assert.equal(mistakeTurn(unread.out), null, 'nothing saved for an outcome not known');
+  assert.deepEqual(mistakeOutcome({ kind: 'response', res: { ok: false, status: 503 }, body: unread.out.body }), { state: 'unknown', message: MISTAKE_COPY.lost });
+  // Through the real reader over a failing ledger: the same.
+  const failing = fakeLedger({ readFails: true });
+  assert.equal((await ask({ model: NOT_STUDY, ledger: failing, consume: throws })).out.body.status, 'unconfirmed');
+  // The answer is lost and the ledger holds no row: nothing was taken, and the words say so.
+  const empty = fakeLedger();
+  const nothing = await ask({ model: NOT_STUDY, ledger: empty, consume: throws });
+  assert.deepEqual(nothing.log.steps.slice(-2), ['consume', 'findUnusable']);
+  assert.equal(empty.rows.length, 0);
+  assert.equal(nothing.out.http, 200);
+  assert.equal(nothing.out.body.charged, 0);
+  assert.deepEqual(nothing.out.body.charge, { kind: 'included', creditUnits: 0, amount: 0 });
+  assert.equal(nothing.out.body.reply, MISTAKE_COPY.notStudy);
+  assert.match(nothing.out.body.reply, /Nothing was charged\.$/);
 });
 
 test('the same request id is never charged twice: sent again, the same words, no model call, no second credit', async () => {
