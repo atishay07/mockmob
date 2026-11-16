@@ -231,11 +231,44 @@ test('Today\'s card: Saturday, Sunday morning, open, sat and waiting, closed, Mo
   assert.equal(todayCard(statusAt('2026-11-24T08:30:00', [acc('soon')], { week: '2026-11-22', subjects: [acc('sat', { resultId: 'a1', marks: { scored: 1, max: 250 } })] })), null, 'Tuesday says nothing');
 });
 
-test('Practice\'s chip, the page\'s rows and the runner\'s refusals', () => {
-  assert.equal(practiceLine(statusAt('2026-11-18T12:00:00', [acc('soon')])).line, 'Sunday 22 Nov, 10:00 AM to 10:00 PM. Free.');
-  assert.match(practiceLine(statusAt('2026-11-22T12:00:00', [acc('open')])).line, /^Open now until 10:00 PM\./);
-  assert.match(practiceLine(statusAt('2026-11-22T23:00:00', [acc('closed')])).line, /^Next: Sunday 29 Nov/);
-  assert.equal(practiceLine(statusAt('2026-11-22T12:00:00', [])), null);
+test('Practice\'s chip shows only near the paper: Saturday, and Sunday until the last start (owner, 16 Nov 2026)', () => {
+  const NB = ' ';
+  const line = (at, subjects = [acc('soon')], now = IST(at)) => {
+    const row = practiceLine(statusAt(at, subjects), now);
+    return row ? `${row.title} ${row.line}` : null;
+  };
+  // Each day of the launch week, at noon IST: Monday to Friday nothing, Saturday the reminder, Sunday open.
+  const week = ['2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20', '2026-11-21', '2026-11-22'].map((d) => line(`${d}T12:00:00`));
+  assert.deepEqual(week, [null, null, null, null, null, `Sunday Mock is tomorrow, 10:00${NB}am to 10:00${NB}pm. Free.`, `Sunday Mock is open until 10:00${NB}pm.`]);
+  // Saturday from its first minute (12:00 am IST) to its last.
+  assert.match(line('2026-11-21T00:00:00'), /is tomorrow/);
+  assert.equal(line('2026-11-20T23:59:00'), null, 'Friday night: not yet');
+  assert.match(line('2026-11-21T23:59:00'), /is tomorrow/);
+  // Sunday: before the open, the open, the last start, after it.
+  assert.equal(line('2026-11-22T00:00:00'), `Sunday Mock opens today at 10:00${NB}am.`);
+  assert.equal(line('2026-11-22T09:59:00'), `Sunday Mock opens today at 10:00${NB}am.`);
+  assert.equal(line('2026-11-22T10:00:00'), `Sunday Mock is open until 10:00${NB}pm.`);
+  assert.equal(line('2026-11-22T21:59:00'), `Sunday Mock is open until 10:00${NB}pm.`);
+  assert.equal(line('2026-11-22T22:00:00'), null, 'from the last start: nothing');
+  assert.equal(line('2026-11-22T23:30:00'), null);
+  assert.equal(line('2026-11-23T00:00:00'), null, 'Monday: nothing');
+  // Never before the launch week's own Saturday (the Saturday before the first paper is 21 Nov).
+  assert.equal(line('2026-11-14T12:00:00'), null, 'the Saturday a week before the first paper');
+  assert.equal(line('2026-11-15T11:00:00'), null, 'the Sunday before the launch week');
+  // The next week runs the same way.
+  assert.match(line('2026-11-28T08:00:00'), /is tomorrow/);
+  assert.equal(line('2026-11-25T12:00:00'), null);
+  // The clock is the one passed in, not the status's: a status read on Friday night turns into Saturday's line at midnight.
+  assert.match(line('2026-11-20T23:59:00', [acc('soon')], IST('2026-11-21T00:01:00')), /is tomorrow/);
+  // Without subjects, or without a status or a clock: nothing.
+  assert.equal(line('2026-11-21T12:00:00', []), null);
+  assert.equal(practiceLine(null, IST('2026-11-21T12:00:00')), null);
+  assert.equal(practiceLine({ subjects: [acc('soon')] }), null, 'no serverNow and no clock passed');
+  // Lower-case times, no exclamation marks.
+  for (const at of ['2026-11-21T12:00:00', '2026-11-22T08:00:00', '2026-11-22T12:00:00']) assert.doesNotMatch(line(at), /AM|PM|!/);
+});
+
+test('the page\'s rows and the runner\'s refusals', () => {
   const s = statusAt('2026-11-22T12:00:00', []);
   assert.equal(subjectRow(s, acc('open')).key.label, 'Sit it');
   assert.equal(subjectRow(s, acc('sat', { resultId: 'a1', marks: { scored: 160, max: 250 } })).line, 'You sat it: 160/250. The answers open at 11:05 PM.');

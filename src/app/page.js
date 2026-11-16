@@ -291,11 +291,14 @@ export default function LandingPage() {
 
         {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
         {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
-            space", "it should not be at the top. It can be somewhere else." Two short rows here, after the practice
-            features and before admissions (DailyFiveRow HomeStrip); each row is the link to its own page. */}
+            space", "it should not be at the top. It can be somewhere else." So they stay here, after the practice features and
+            before admissions. 10:25 pm, of the two short rows that followed: "a very small subsection, not something
+            important". So the section heads like every other product on the page (a stamp over a full-size h2) and the
+            block is the week rail and two cards in about one phone screen (DailyFiveRow HomeBlock). */}
         <section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
+              <BrandStamp {...BRAND_STAMPS.rhythm} />
               <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
               <p className="lp-sub">{STRIP_HEAD.sub}</p>
             </Reveal>

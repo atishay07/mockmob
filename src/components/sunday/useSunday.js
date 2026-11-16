@@ -15,7 +15,7 @@ async function read(path) {
   try { res = await fetch(path, { cache: 'no-store' }); } catch { return { ok: false, status: 0 }; }
   let data = null;
   try { data = await res.json(); } catch { data = null; }
-  return res.ok ? { ok: true, data } : { ok: false, status: res.status, code: data?.error || null };
+  return res.ok ? { ok: true, data, at: Date.now() } : { ok: false, status: res.status, code: data?.error || null };
 }
 
 /** Forget the shared status (a paper started or was sent). */
@@ -29,7 +29,8 @@ function readStatus(fresh = false) {
   return promise;
 }
 
-const outcome = (r) => (r.ok ? { status: 'ready', data: r.data } : r.status === 404 || r.status === 401 ? { status: 'off', data: null } : { status: 'error', data: null });
+// `at`: when this device received the status, so a surface can run the server's clock on from its serverNow.
+const outcome = (r) => (r.ok ? { status: 'ready', data: r.data, at: r.at } : r.status === 404 || r.status === 401 ? { status: 'off', data: null } : { status: 'error', data: null });
 
 /** This week's Sunday Mock for the signed-in student. `enabled` false reads nothing (status 'off'). */
 export function useSunday(enabled = true) {

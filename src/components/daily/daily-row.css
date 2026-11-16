@@ -7,55 +7,155 @@
 .dfr__mark i[data-right='true'] { background: currentColor; opacity: 1; }
 .dfr[data-played='true'] .dfr__mark i { opacity: 1; }
 
-/* ---------- Home: the strip ---------- */
-/* Two short rows low on the home page (16 Nov 2026, evening): each a small page of the tear-off desk calendar lying on its
-   side. The day on ink (the opening's and the footer's ground, the same in Day and Night), a tear line, then on paper the
-   name, one sentence, when, and where the tap goes. About 140 px a row on a phone; side by side from 720 px. */
-.mm.lp .dfs { display: grid; gap: 12px; }
-.mm.lp .dfs__row {
-  display: grid; grid-template-columns: 84px minmax(0, 1fr); min-height: 136px; overflow: hidden;
-  border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised);
-  color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent;
-  transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+/* ---------- Home: the week and its two fixed dates ---------- */
+/* 16 Nov 2026, 10:25 pm (the owner, of the two short rows before this: "a very small subsection, not something important ...
+   the visual hierarchy is not here"). One composition in about one phone screen, in the desk calendar's own materials:
+   - the week rail: Monday to Sunday as seven leaves of one tear-off strip, cut apart by perforations; today's leaf is the
+     calendar's ink (the opening's and the footer's ground, the same in Day and Night) and stands a little proud of the strip;
+     a day this device has finished carries a small volt tick; the Sunday carries the Mock;
+   - two cards, each a calendar page: the state and its time on the ink top (largest), a tear line, then on paper the name,
+     one sentence, three figures and one key. The Sunday Mock's top is ink only while its paper is open; otherwise it is the
+     paper's sunken band, so the open thing is the dark one. Side by side from 720 px, the Daily Five a little wider.
+   Nothing here moves by itself: the keys press, and that is all. */
+.mm.lp .dwk { --dwk-ink: #12110e; --dwk-paper: #fffdf8; display: grid; gap: 14px; }
+
+/* The rail. */
+.mm.lp .dwk-rail {
+  position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); margin: 0;
+  border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper-raised);
 }
-.mm.lp .dfs__leaf { position: relative; display: grid; align-content: center; justify-items: center; gap: 3px; padding: 12px 6px; background: #12110e; color: #fffdf8; }
-.mm.lp .dfs__leaf::after { content: ''; position: absolute; right: -1px; top: 12px; bottom: 12px; width: 2px; background: repeating-linear-gradient(180deg, var(--paper-raised) 0 6px, transparent 6px 12px); }
-.mm.lp .dfs__leaf b { min-height: 0.9em; font: 800 2.625rem/0.9 var(--font-display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
-.mm.lp .dfs__leaf em { min-height: 1em; color: var(--volt); font: 800 1rem/1 var(--font-display); font-style: normal; letter-spacing: -0.01em; }
-.mm.lp .dfs__leaf small { min-height: 1.2em; color: rgb(255 253 248 / 0.72); font: 600 0.75rem/1.2 var(--font-body); }
-.mm.lp .dfs__body { display: grid; align-content: space-between; gap: 6px; min-width: 0; padding: 14px 16px; }
-.mm.lp .dfs__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.mm.lp .dfs__name { color: var(--ink); font: 800 1.25rem/1.1 var(--font-display); letter-spacing: -0.02em; }
-.mm.lp .dfs__top .dfr__mark { color: var(--ink); min-width: 0; gap: 3px; }
-.mm.lp .dfs__top .dfr__mark i { width: 8px; height: 8px; border-radius: 2px; }
-.mm.lp .dfs__line { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
-.mm.lp .dfs__row[data-state='played'] .dfs__line { color: var(--ink); }
-/* Phones: when, then the tap, one under the other (both rows the same). Side by side from 720 px. */
-.mm.lp .dfs__foot { display: grid; gap: 3px; justify-items: start; }
-.mm.lp .dfs__when { color: var(--ink-2); font: 650 0.8125rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
-.mm.lp .dfs__go { color: var(--ink); font: 750 0.9375rem/1.3 var(--font-body); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
-.mm.lp .dfs__row:active { transform: scale(0.99); }
-.mm.lp .dfs__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-@media (hover: hover) { .mm.lp .dfs__row:hover .dfs__go { text-decoration-thickness: 2.5px; } }
+.mm.lp .dwk-leaf { position: relative; display: grid; justify-items: center; align-content: center; gap: 3px; min-width: 0; min-height: 64px; padding: 6px 2px 7px; color: var(--ink); }
+/* The perforation between two leaves. */
+.mm.lp .dwk-leaf + .dwk-leaf::before {
+  content: ''; position: absolute; left: -0.5px; top: 12px; bottom: 12px; width: 1px;
+  background: repeating-linear-gradient(180deg, var(--line-strong) 0 3px, transparent 3px 7px);
+}
+.mm.lp .dwk-leaf__wd { color: var(--ink-3); font: 600 0.75rem/1 var(--font-body); }
+.mm.lp .dwk-leaf__day { font: 800 1.3125rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.mm.lp .dwk-leaf__foot { display: inline-flex; align-items: center; justify-content: center; gap: 3px; min-height: 16px; color: var(--ink-2); font: 700 0.75rem/1 var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mm.lp .dwk-leaf[data-sunday='true'] .dwk-leaf__foot { color: var(--ink); font-weight: 800; }
+/* A day this device has finished: the app's selection tick, a small volt bubble with a dark check. */
+.mm.lp .dwk-leaf__tick { display: grid; place-items: center; flex: none; width: 15px; height: 15px; border-radius: 50%; background: var(--volt); color: var(--volt-ink); box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.55); }
+.mm.lp .dwk-leaf__tick .icon { width: 10px; height: 10px; stroke-width: 3.6; }
+/* Today: the calendar's ink, a little proud of the strip, same in Day and Night. */
+.mm.lp .dwk-leaf[data-today='true'] {
+  z-index: 1; margin-block: -7px; border-radius: 12px; background: var(--dwk-ink); color: var(--dwk-paper);
+  box-shadow: 0 2px 4px rgb(27 25 20 / 0.08), 0 10px 22px rgb(27 25 20 / 0.16);
+}
+.mm.lp .dwk-leaf[data-today='true'] .dwk-leaf__wd { color: rgb(255 253 248 / 0.72); font-weight: 700; }
+.mm.lp .dwk-leaf[data-today='true'] .dwk-leaf__foot { color: var(--volt); }
+.mm.lp .dwk-leaf[data-today='true']::before, .mm.lp .dwk-leaf[data-today='true'] + .dwk-leaf::before { display: none; }
+/* Night: the calendar's ink is the page itself, so today is the one light leaf, torn off the pad. */
+html[data-theme='dark'] .mm.lp .dwk-leaf[data-today='true'] { background: #f4f0e6; color: #17150f; box-shadow: 0 10px 22px rgb(0 0 0 / 0.4); }
+html[data-theme='dark'] .mm.lp .dwk-leaf[data-today='true'] .dwk-leaf__wd { color: #454036; }
+html[data-theme='dark'] .mm.lp .dwk-leaf[data-today='true'] .dwk-leaf__foot { color: #17150f; }
+/* Night: the waiting page's top is a step lighter than the card, the open one a step darker. */
+html[data-theme='dark'] .mm.lp .dwk-band { background: var(--paper-raised-2); }
+html[data-theme='dark'] .mm.lp .dwk-band[data-ink='true'] { background: #0b0a08; }
+
+/* The cards. */
+.mm.lp .dwk-cards { display: grid; gap: 12px; }
+.mm.lp .dwk-card {
+  display: grid; grid-template-rows: auto 1fr; overflow: hidden; min-width: 0;
+  border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised); box-shadow: var(--sh-1);
+}
+/* The page's top: the state and its time, the largest words after the section's own heading. */
+.mm.lp .dwk-band {
+  position: relative; display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: start; column-gap: 9px;
+  margin: 0; padding: 9px 16px 10px; background: var(--paper-sunken); color: var(--ink);
+}
+/* Phones: the state, then its time under it, on one left edge: always two lines, so a minute's change of the clock never
+   reflows the card. One line from 720 px. */
+.mm.lp .dwk-band__words { display: grid; gap: 1px; min-width: 0; }
+.mm.lp .dwk-band[data-ink='true'] { background: var(--dwk-ink); color: var(--dwk-paper); }
+/* The tear line, in the page's paper. */
+.mm.lp .dwk-band::after {
+  content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--paper-raised) 0 7px, transparent 7px 14px);
+}
+.mm.lp .dwk-status { min-width: 0; font: 800 1.25rem/1.2 var(--font-display); letter-spacing: -0.02em; }
+.mm.lp .dwk-when { font: 750 1.0625rem/1.25 var(--font-display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.mm.lp .dwk-band[data-ink='true'] .dwk-when { color: var(--volt); }
+/* The state's still mark, in an 18 px slot so the words of both cards start on one edge: a volt square while open, a check
+   once done, the calendar's clock while it waits. Never a dot that pulses. */
+.mm.lp .dwk-mark { display: grid; place-items: center; width: 18px; height: 1.2em; font-size: 1.25rem; }
+.mm.lp .dwk-mark::before { content: none; }
+.mm.lp .dwk-mark[data-mark='open']::before { content: ''; width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid var(--volt-edge); background: var(--volt); }
+.mm.lp .dwk-mark[data-mark='done'] .icon { box-sizing: content-box; width: 12px; height: 12px; padding: 3px; border-radius: 50%; background: var(--volt); color: var(--volt-ink); stroke-width: 3.4; }
+.mm.lp .dwk-mark[data-mark='soon'] svg { color: var(--ink-2); }
+.mm.lp .dwk-body { display: grid; align-content: start; gap: 3px; min-width: 0; padding: 9px 16px 12px; }
+.mm.lp .dwk-name { margin: 0; color: var(--ink); font: 800 1.6875rem/1.05 var(--font-display); letter-spacing: -0.03em; }
+/* The Sunday Mock is the second page: the same family, its name a step smaller. */
+.mm.lp .dwk-card[data-kind='sunday'] .dwk-name { font-size: 1.5rem; }
+.mm.lp .dwk-line { margin: 0; max-width: 44ch; color: var(--ink-2); font-size: 0.875rem; line-height: 1.42; text-wrap: pretty; }
+/* Three figures on one baseline: the number in the display face, its unit beside it. Second in size, after the state and the
+   name, before the sentence's words. */
+.mm.lp .dwk-figs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 18px; margin: 5px 0 0; padding: 0; list-style: none; }
+.mm.lp .dwk-figs li { display: inline-flex; align-items: baseline; gap: 5px; white-space: nowrap; }
+.mm.lp .dwk-figs b { color: var(--ink); font: 800 1.0625rem/1.2 var(--font-display); letter-spacing: -0.015em; font-variant-numeric: tabular-nums; }
+.mm.lp .dwk-figs span { color: var(--ink-2); font: 600 0.8125rem/1.2 var(--font-body); }
+/* The key: the system's keycap (a resting lift over a hard edge that collapses on press, marketing.css .mm-btn), drawn here
+   because this component also renders inside the app, which never loads the marketing sheet. The lead is volt; the other is
+   outlined paper. One lead in the block. */
+.mm.lp .dwk-key {
+  --btn-edge: 4px; position: relative; display: inline-flex; align-items: center; justify-content: center; width: 100%;
+  min-height: 48px; margin-top: 10px; padding: 0.5rem 1.25rem; border: 0; border-radius: var(--r-2, 14px);
+  font: 800 1rem/1.2 var(--font-display); letter-spacing: -0.01em; text-align: center; text-decoration: none; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transform: translateY(calc(var(--btn-edge) * -1));
+  transition: transform 120ms cubic-bezier(0.2, 0.8, 0.3, 1), box-shadow 120ms cubic-bezier(0.2, 0.8, 0.3, 1), background-color 150ms ease-out;
+}
+.mm.lp .dwk-key[data-lead='true'] {
+  background: var(--volt); color: var(--volt-ink);
+  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
+}
+.mm.lp .dwk-key[data-lead='false'] {
+  background: transparent; color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--line-strong), 0 var(--btn-edge) 0 var(--line-strong);
+}
+.mm.lp .dwk-key:active { transform: translateY(0); }
+.mm.lp .dwk-key[data-lead='true']:active { box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 0 0 var(--volt-edge), var(--sh-1); }
+.mm.lp .dwk-key[data-lead='false']:active { box-shadow: inset 0 0 0 1.5px var(--line-strong), 0 0 0 var(--line-strong); }
+.mm.lp .dwk-key:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+@media (hover: hover) {
+  .mm.lp .dwk-key[data-lead='true']:hover { background: #dbfb14; }
+  .mm.lp .dwk-key[data-lead='false']:hover { background: var(--surface-hover, var(--paper)); box-shadow: inset 0 0 0 1.5px var(--ink-3), 0 var(--btn-edge) 0 var(--ink-3); }
+}
+
 @media (min-width: 720px) {
-  .mm.lp .dfs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .mm.lp .dfs__row { grid-template-columns: 112px minmax(0, 1fr); min-height: 152px; border-radius: 24px; }
-  .mm.lp .dfs__leaf b { font-size: 3.5rem; }
-  .mm.lp .dfs__leaf em { font-size: 1.25rem; }
-  .mm.lp .dfs__leaf small { font-size: 0.8125rem; }
-  .mm.lp .dfs__body { padding: 18px 22px; }
-  .mm.lp .dfs__foot { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-  .mm.lp .dfs__name { font-size: 1.5rem; }
-  .mm.lp .dfs__line { font-size: 1rem; }
+  .mm.lp .dwk { gap: 28px; }
+  .mm.lp .dwk-rail { border-radius: 20px; }
+  .mm.lp .dwk-leaf { min-height: 96px; gap: 6px; }
+  .mm.lp .dwk-leaf__wd { font-size: 0.875rem; }
+  .mm.lp .dwk-leaf__day { font-size: 1.875rem; }
+  .mm.lp .dwk-leaf__foot { font-size: 0.875rem; }
+  /* Side by side, the two pages share their rows, so the names stand on one line even when one top wraps. */
+  .mm.lp .dwk-cards { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 0 20px; }
+  .mm.lp .dwk-card { grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; }
+  .mm.lp .dwk-band { padding: 16px 22px 17px; }
+  .mm.lp .dwk-band__words { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; }
+  .mm.lp .dwk-status, .mm.lp .dwk-mark { font-size: 1.375rem; }
+  .mm.lp .dwk-band { grid-template-columns: 20px minmax(0, 1fr); column-gap: 10px; }
+  .mm.lp .dwk-mark { width: 20px; }
+  .mm.lp .dwk-when { font-size: 1.1875rem; }
+  .mm.lp .dwk-body { padding: 20px 22px 22px; grid-template-rows: auto auto auto 1fr; }
+  .mm.lp .dwk-name { font-size: 2.125rem; }
+  .mm.lp .dwk-card[data-kind='sunday'] .dwk-name { font-size: 1.875rem; }
+  .mm.lp .dwk-line { font-size: 1rem; }
+  .mm.lp .dwk-figs b { font-size: 1.5rem; }
+  .mm.lp .dwk-figs span { font-size: 0.9375rem; }
+  .mm.lp .dwk-key { align-self: end; justify-self: start; width: auto; min-width: 16rem; }
 }
-/* The strip's own head: a small habit, said at a modest size (the columns are the page's own, home-sections.css). */
-.mm.lp main > .lp-rhythm.lp-sec .lp-head { margin-bottom: 1.25rem; }
-.mm.lp main > .lp-rhythm.lp-sec .lp-head .lp-h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
-.mm.lp main > .lp-rhythm.lp-sec .lp-head > * { margin-inline: 0; text-align: left; }
 .mm.lp .lp-rhythm .lp-kc__phrase { display: inline-block; }
-@media (min-width: 720px) { .mm.lp .lp-rhythm .dfs { max-width: 62rem; } }
-html[data-motion='reduced'] .mm.lp .dfs__row { transition: none; }
-@media (prefers-reduced-motion: reduce) { .mm.lp .dfs__row { transition: none; } }
+/* The head is the page's own (a stamp over a full-size h2, home-sections.css); on a phone the rail follows it a little closer. */
+@media (max-width: 719.98px) { .mm.lp main > .lp-rhythm.lp-sec .lp-head { margin-bottom: 0.875rem; } }
+/* Desktop: the h2's two phrases a line each ("Five a day." / "One paper a Sunday."), not three lines at the heads' 17ch in a
+   7 / 5 split: this head's heading takes 8 parts and its line 4. */
+.mm.lp main > .lp-rhythm.lp-sec:not(.lp-kc):not(.xs) .lp-head--left .lp-h2 { max-width: 20ch; }
+@media (min-width: 1100px) {
+  .mm.lp main > .lp-rhythm.lp-sec:not(.lp-kc):not(.xs) .lp-head--left { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+}
+html[data-motion='reduced'] .mm.lp .dwk-key { transition: none; }
+@media (prefers-reduced-motion: reduce) { .mm.lp .dwk-key { transition: none; } }
 
 /* ---------- Today ---------- */
 .app-shell .dfr--today .dfr__mark { color: var(--a-ink); }

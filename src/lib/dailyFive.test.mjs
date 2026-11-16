@@ -8,7 +8,7 @@ import {
   acceptDailyFive, addDays, beginRun, clockWords, cycleDays, cycleOrder, dailyFiveFor, dailyFiveUrl, dateOfDay, dayLabel,
   dayNumber, finishDay, formatClock, istDateKey, keepAnswer, msUntilNextDay, nextIndex, readRecord, resultOn, scoreRun,
   shareSquares, shareText, shortDate, streakLine, streakOf, todayDaily, untilWords,
-  countdownDays, countdownParts, leafOf, runStats, untilShort, weekOf,
+  calendarWeekOf, countdownDays, countdownParts, leafOf, runStats, untilShort, weekOf,
 } from './dailyFive.mjs';
 
 // Two full public windows as the sample route serves them (30 each), stems unique so a question can be traced.
@@ -248,6 +248,26 @@ test('the week strip is the seven days that end today, oldest first, and never s
   assert.deepEqual(week.map((d) => Boolean(d.before)), [true, true, true, true, true, false, false], `days before ${DAILY_FIVE_EPOCH} had no five`);
   assert.ok(weekOf([], '2026-12-01').every((d) => !d.before && !d.played));
   assert.deepEqual(weekOf([], 'junk'), []);
+});
+
+test('the home page\'s week is Monday to Sunday of today\'s week, from the same record; a day ahead is never played', () => {
+  // Wednesday 18 Nov 2026: Monday 16 to Sunday 22.
+  const week = calendarWeekOf(['2026-11-16', '2026-11-18', '2026-11-21'], '2026-11-18');
+  assert.deepEqual(week.map((d) => d.date), ['2026-11-16', '2026-11-17', '2026-11-18', '2026-11-19', '2026-11-20', '2026-11-21', '2026-11-22']);
+  assert.deepEqual(week.map((d) => d.short), ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']);
+  assert.deepEqual(week.map((d) => d.day), ['16', '17', '18', '19', '20', '21', '22']);
+  assert.deepEqual(week.map((d) => d.played), [true, false, true, false, false, false, false], 'a date after today in the record is not a tick');
+  assert.deepEqual(week.map((d) => Boolean(d.today)), [false, false, true, false, false, false, false]);
+  assert.deepEqual(week.map((d) => d.ahead), [false, false, false, true, true, true, true]);
+  // A Sunday is the last day of its own week, and a Monday the first.
+  assert.equal(calendarWeekOf([], '2026-11-22')[6].today, true);
+  assert.equal(calendarWeekOf([], '2026-11-22')[0].date, '2026-11-16');
+  assert.equal(calendarWeekOf([], '2026-11-23')[0].date, '2026-11-23');
+  // Across a month's end: "1" for 1 December, no leading zero.
+  assert.deepEqual(calendarWeekOf([], '2026-12-02').map((d) => d.day), ['30', '1', '2', '3', '4', '5', '6']);
+  // The days before the Daily Five began are marked, as on the week strip.
+  assert.deepEqual(calendarWeekOf([], '2026-11-12').map((d) => Boolean(d.before)), [true, true, true, true, true, true, false]);
+  assert.deepEqual(calendarWeekOf([], 'junk'), []);
 });
 
 test('a wait of days reads as days, hours, minutes and seconds', () => {
