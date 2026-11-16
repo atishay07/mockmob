@@ -471,7 +471,9 @@ export async function runLanding(bench, { log = () => {} } = {}) {
   const rows = [];
   const names = (await bench.stories()).map((s) => s.name);
   for (const name of names) {
-    const lands = await bench.page.evaluate((n) => document.querySelector(`.ss.${n}`)?.closest('.lp-statement') === null, name);
+    // A quiet story (the statement) never lands a fling, and neither does a free one (the tour, 16 Nov 2026 night: on a
+    // touch screen nothing puts the page for it).
+    const lands = await bench.page.evaluate((n) => { const el = document.querySelector(`.ss.${n}`); return el?.closest('.lp-statement') === null && !el.matches('[data-free="true"]'); }, name);
     // A page nobody has scrolled: a fling that lands on one story has usually flown through the one before it, so each
     // story is tried on its own fresh load, from the top (a reload restores the scroll, and a page restored inside a
     // story has come to rest there: that story would already count as arrived in).

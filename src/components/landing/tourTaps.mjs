@@ -1,15 +1,17 @@
 // What the feature tour's screens do when a reader taps them, and when the tour holds the page (16 Nov 2026, owner on his
 // phone: "It needs to be interactive"; the tour "is doing weird movements" from its second tool on). Pure, so the rules are
-// tested without React (tourTaps.test.mjs); TourScreens.jsx draws them, FeatureTour.jsx asks TOUR_HOLD.
+// tested without React (tourTaps.test.mjs); TourScreens.jsx draws them.
 //
-// Every screen still plays its short scripted demo (tourSequence.mjs). A tap takes over at once: the demo stops, the
+// For a mouse or a trackpad every screen still plays its short scripted demo (tourSequence.mjs); on a touch screen it
+// rests on its finished frame (FeatureTour.jsx `still`). A tap takes over at once: the demo stops, the
 // screen shows its finished frame with the reader's state on it, and from then on the screen is the reader's for the life
 // of the page (the demo never plays on it again, so nothing the reader did is undone by a restart). Every value here is
 // sample data on the page itself: no network, no storage.
 
-// The tour holds the page (ScrollStory: the stage pins and the scroll walks the tools) only where the main pointer is a
-// mouse or a trackpad. A finger gets a plain stack of the tools under one another, scrolled natively (FeatureTour
-// TourStack). Every device that storyGesture.mjs FLOW_QUERY calls touch-first fails this query.
+// A mouse or a trackpad: the main pointer is fine and hovers. Every device that storyGesture.mjs FLOW_QUERY calls
+// touch-first fails this query. Since 16 Nov 2026 night every device gets the one held stage (FeatureTour.jsx; for a few
+// hours that evening a finger got a stack of the five screens instead); this query now only picks the section's sub
+// (r16-tour-stack.css). On a touch screen no demo plays: each screen rests on its finished frame and waits for a tap.
 export const TOUR_HOLD = '(hover: hover) and (pointer: fine)';
 
 const LETTERS = 'ABCD';

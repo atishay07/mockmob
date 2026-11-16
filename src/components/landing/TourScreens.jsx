@@ -43,9 +43,10 @@ function useSequence(play, events, settled) {
   return shownValue({ held, active, reduced, paused, epoch, state, first, settled });
 }
 
-// Compact product screens for the feature tour. Each one plays a short scripted demo when its tool comes on (held: every
-// time its tool comes on stage; the phone stack: once, when half of it is on screen), in place within about 600 ms (see
-// STAGGER), then holds the finished state. Off-stage demos keep their current frame; reduced motion shows them finished.
+// Compact product screens for the feature tour. For a mouse or a trackpad each one plays a short scripted demo every time
+// its tool comes on stage, in place within about 600 ms (see STAGGER), then holds the finished state. Off-stage demos keep
+// their current frame; reduced motion, a touch screen and a stage that is not held show them finished, playing nothing
+// (FeatureTour.jsx hands those screens `reduced`).
 // Values are illustrative. Every screen carries two beats of real content (the moment, then what
 // follows from it) and they all come out about the same height, because the tour's tools share one
 // card and a short screen would leave an empty slab.
