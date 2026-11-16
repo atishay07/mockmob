@@ -49,7 +49,7 @@ import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 import { captureInstallPrompt } from '@/lib/installPrompt';
 
-// React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
+// React's <ViewTransition> (no Next flag since 16.3): the arena's page transitions. The type
 // of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
 // from src/lib/motion/placeTransition.js; a React without it renders the page as before, with no transition.
 const ViewTransition = React.ViewTransition;

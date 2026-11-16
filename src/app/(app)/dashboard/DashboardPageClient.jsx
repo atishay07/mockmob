@@ -787,6 +787,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                   <div className="pr-fine2__label"><span>Difficulty</span><small>{mixLine(mode)}</small></div>
                   <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
                     options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode}
+                    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- kept as it was before Next 16.3 added the rule: the fallback when no Upgrade sheet is mounted
                     onLockedPress={isPremium ? undefined : (level, key) => { if (!openUpgrade({ trigger: 'difficulty', opener: key })) window.location.assign('/pricing'); }} />
                   {/* One Pro ask in view (D79 restraint): while the session card's cost line asks, this line only informs. */}
                   {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro.{costNudgeShown ? null : <> <Link href="/pricing" className="pr-link" data-pro-feature="difficulty">See Pro</Link></>}</p> : null}

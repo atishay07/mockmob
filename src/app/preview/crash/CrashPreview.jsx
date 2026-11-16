@@ -30,6 +30,7 @@ export default function CrashPreview({ at }) {
       <p>Development preview of the error pages. Each link crashes once.</p>
       <ul>
         <li><a href="/preview/crash?at=page">Crash this page in the browser</a></li>
+        {/* eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a full request is the point: the server must render (and crash) it */}
         <li><a href="/preview/crash?at=server" onClick={(event) => { event.preventDefault(); window.location.href = `/preview/crash?at=server&n=${Date.now().toString(36)}`; }}>Crash it on the server</a></li>
         <li><a href="/preview/crash?at=global">Crash the root error page too (global error)</a></li>
         <li><Link href="/preview/arena?view=today&crash=app">A signed-in screen, inside the shell</Link></li>

@@ -71,17 +71,15 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/ssr": "^0.10.2",
     "@supabase/supabase-js": "^2.104.0",
-    "chart.js": "^4.5.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "katex": "0.19.0",
     "lucide-react": "^1.8.0",
     "motion": "^12.38.0",
-    "next": "16.2.12",
+    "next": "16.3.8",
     "openai": "^6.34.0",
     "razorpay": "^2.9.6",
     "react": "19.2.4",
-    "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.4",
     "resend": "^6.12.2",
     "tailwind-merge": "^3.5.0",
@@ -91,7 +89,7 @@
     "@electric-sql/pglite": "^0.5.8",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "16.2.12",
+    "eslint-config-next": "16.3.8",
     "tailwindcss": "^4"
   }
 }

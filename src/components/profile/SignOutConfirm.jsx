@@ -74,6 +74,7 @@ export function SignOutButton({ className = '', children, onOpen, ...rest }) {
     setWorking(true);
     try {
       await signOut();
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a full load after sign-out drops every signed-in client state
       window.location.assign('/');
     } catch {
       setWorking(false);

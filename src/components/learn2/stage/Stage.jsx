@@ -36,6 +36,7 @@ export const buzz = (pattern) => { try { if (typeof navigator !== 'undefined' &&
 /** "See Pro": the shell's Upgrade sheet, or /pricing where no sheet is mounted (a focus route, Pro). */
 export const seePro = (trigger, opener, navigate) => {
   const shown = openUpgrade({ trigger, opener });
+  // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- kept as it was before Next 16.3 added the rule: no router here unless the caller passes one
   if (!shown) { if (navigate) navigate('/pricing'); else window.location.assign('/pricing'); }
 };
 /** The first element of a list that is on screen (one of two copies of a key, one per band). */

@@ -45,6 +45,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- sign-in opens as a fresh page on purpose
         window.location.href = loginPathFor('/pricing/ai-credits'); // the log-in page reads ?next= (never callbackUrl)
         return;
       }
