@@ -146,7 +146,7 @@ test('R3-D2: "MockMob" in the statement is a green word (LK102), with where, ton
 });
 
 test('R3-D2: the brand stamps are product names only, each with a desk object, sentence case, no caps and no dots', () => {
-  assert.deepEqual(Object.values(BRAND_STAMPS).map((s) => s.name), ['Mistake Lab', 'Score Recovery Lab', 'DU Compass', 'MockMob on Instagram', 'Wall of love', 'Key cards']);
+  assert.deepEqual(Object.values(BRAND_STAMPS).map((s) => s.name), ['Mistake Lab', 'Score Recovery Lab', 'DU Compass', 'MockMob on Instagram', 'Wall of love', 'Key cards', 'Daily Five and Sunday Mock']);
   for (const { icon, name } of Object.values(BRAND_STAMPS)) {
     assert.ok(BRAND_ICONS[icon], `${name} draws a real desk object (${icon})`);
     assert.doesNotMatch(name, /[·•.:]|^[A-Z ]+$/, `${name} is sentence case with no dots`);
@@ -157,7 +157,9 @@ test('R3-D2: the brand stamps are product names only, each with a desk object, s
     assert.match(page, new RegExp(`<BrandStamp \\{\\.\\.\\.BRAND_STAMPS\\.${key}\\} />\\n\\s*<h2 className="lp-h2"[^>]*>\\{${h2}\\.h2\\}`), `${key}: the stamp sits right above its h2`);
   }
   assert.doesNotMatch(page, /BRAND_STAMPS\.recovery/);
-  assert.equal((page.match(/<BrandStamp /g) || []).length, 4, 'four stamps on the page (Key cards stamps its own section when it lands)');
+  // 16 Nov 2026 (lane rhythm): the Daily Five and Sunday Mock section stamps its head too (dailyStripCopy.test.mjs pins where).
+  assert.match(page, /<BrandStamp \{\.\.\.BRAND_STAMPS\.rhythm\} \/>\n\s*<h2 className="lp-h2" id="rhythm-title">/);
+  assert.equal((page.match(/<BrandStamp /g) || []).length, 5, 'five stamps on the page (Key cards stamps its own section when it lands)');
   const stamp = css('src/app/brand-stamp.css');
   const body = rule(stamp, '.mm.lp .lp-stamp');
   assert.match(body, /color: var\(--brand-word\);/);

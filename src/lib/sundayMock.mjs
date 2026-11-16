@@ -374,12 +374,30 @@ export function todayCard(s) {
   return { title: 'Sunday Mock is open', line: `Your time on today's paper is over. The answers open at ${timeLabel(st.answersAt)}.`, href: '/sunday' };
 }
 
-/** Practice's one quiet row: { title, line } for every day (it opens /sunday). Null without subjects. */
-export function practiceLine(s) {
-  if (!s || !Array.isArray(s.subjects) || !s.subjects.length) return null;
-  const st = stateOf(s);
-  const when = st.phase === 'open' ? `Open now until ${timeLabel(st.closesAt)}` : st.phase === 'closed' ? `Next: ${windowLine(s.next)}` : windowLine(s.week);
-  return { title: SUNDAY_NAME, line: `${when}. Free.` };
+/**
+ * "10:00 am": the site's own way of writing a time of day (Practice's line; the app's helpers print AM and PM), held together
+ * by a no-break space so a narrow chip never leaves "pm" alone on a line.
+ */
+const lowerTime = (ms) => timeLabel(ms).replace(/ (AM|PM)$/, (m, half) => ` ${half.toLowerCase()}`);
+
+/**
+ * Practice's one quiet row (it opens /sunday), only near the paper (owner, 16 Nov 2026: "That should only be done if the date
+ * is Saturday, just the Sunday before, marked as a reminder"). In IST at `now`:
+ *   Saturday, from 12:00 am                     "Sunday Mock is tomorrow, 10:00 am to 10:00 pm. Free."
+ *   Sunday before 10:00 am                      "Sunday Mock opens today at 10:00 am."
+ *   Sunday 10:00 am to the last start, 10:00 pm  "Sunday Mock is open until 10:00 pm."
+ * Every other day, Sunday from the last start, any day before the launch week's own Saturday, and a student without
+ * subjects: null (nothing is drawn). { title, line }: the name, then the rest of the sentence.
+ */
+export function practiceLine(s, now = Number(s?.serverNow)) {
+  if (!s || !Array.isArray(s.subjects) || !s.subjects.length || !Number.isFinite(now)) return null;
+  const st = sundayState(now);
+  if (st.week < LAUNCH_WEEK) return null;
+  if (st.dow === 6) return { title: SUNDAY_NAME, line: `is tomorrow, ${lowerTime(st.opensAt)} to ${lowerTime(st.closesAt)}. Free.` };
+  if (st.dow !== 0) return null;
+  if (st.phase === 'before') return { title: SUNDAY_NAME, line: `opens today at ${lowerTime(st.opensAt)}.` };
+  if (st.phase === 'open') return { title: SUNDAY_NAME, line: `is open until ${lowerTime(st.closesAt)}.` };
+  return null;
 }
 
 /**

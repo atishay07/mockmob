@@ -341,12 +341,27 @@ export function runStats(dates, today) {
  */
 export function weekOf(dates, today) {
   if (!isDateKey(today)) return [];
+  return sevenDays(dates, addDays(today, -6), today);
+}
+
+/** Seven days from `first`, each with what the record says of it (the one model behind both week strips). */
+function sevenDays(dates, first, today) {
   const played = new Set((Array.isArray(dates) ? dates : []).filter(isDateKey));
   return Array.from({ length: 7 }, (_, i) => {
-    const date = addDays(today, i - 6);
+    const date = addDays(first, i);
     const name = WEEKDAYS[new Date(utcOf(date)).getUTCDay()];
-    return { date, letter: name[0], name, played: played.has(date), today: date === today, ...(date < DAILY_FIVE_EPOCH ? { before: true } : {}) };
+    return { date, letter: name[0], name, played: played.has(date) && date <= today, today: date === today, ...(date < DAILY_FIVE_EPOCH ? { before: true } : {}) };
   });
+}
+
+/**
+ * Monday to Sunday of today's IST week, for the home page's week rail (16 Nov 2026, lane rhythm): weekOf's days, plus
+ * `short` ('Mon'), `day` ('16') and `ahead` (a day after today). A day ahead is never played, whatever the record holds.
+ */
+export function calendarWeekOf(dates, today) {
+  if (!isDateKey(today)) return [];
+  const monday = addDays(today, -((new Date(utcOf(today)).getUTCDay() + 6) % 7));
+  return sevenDays(dates, monday, today).map((d) => ({ ...d, short: d.name.slice(0, 3), day: String(Number(d.date.slice(8))), ahead: d.date > today }));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

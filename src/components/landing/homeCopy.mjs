@@ -88,6 +88,9 @@ export const BRAND_STAMPS = Object.freeze({
   instagram: Object.freeze({ icon: 'feeds', name: 'MockMob on Instagram' }),
   wall: Object.freeze({ icon: 'mob', name: 'Wall of love' }),
   keycards: Object.freeze({ icon: 'keycards', name: 'Key cards' }),
+  // 16 Nov 2026 (lane rhythm): the week's two fixed dates stamp their section like every other product on the page, with the
+  // desk calendar.
+  rhythm: Object.freeze({ icon: 'today', name: 'Daily Five and Sunday Mock' }),
 });
 
 export const FAQ_HEAD = Object.freeze({ h2: 'Before your first mock.' });
