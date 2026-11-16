@@ -1316,17 +1316,28 @@ body:has(.mm.lp) {
    at 900 to 1300 px, a touch screen from 960 px at 1024 wide, 768 to 900. Before this the page was 160 px shorter at 390x844 once drawn. */
 @media (hover: none), (pointer: coarse) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(232px + 381.6svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(144px + 380svh); }
 }
 /* A tablet held upright (820x1180) is a touch screen under 960 px with a window far taller than a phone's: the pinned
    story's card stops growing with the window there, so it has its own pair, fitted at 900 to 1300 px of height. */
 @media (hover: none) and (min-width: 700px) and (max-width: 959px), (pointer: coarse) and (min-width: 700px) and (max-width: 959px) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(65px + 406svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(809px + 306svh); }
 }
 @media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(210px + 406svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(537px + 348.2svh); }
+}
+/* The tour on a touch screen (16 Nov 2026) is a plain stack, not a held story: its height is its tools' and no longer
+   follows the window's. The split is the tour's own hold (tourTaps.mjs TOUR_HOLD). Measured drawn on 16 Nov at 360x740,
+   375x812, 390x844 and 412x915 (3656 to 3686 px of content), 768x1024 and 820x1180 (2697, 2701; the tools stand beside
+   their screens from 700 px) and 1024x768 (2769). */
+@media not all and (hover: hover) and (pointer: fine) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 3670px; }
+}
+/* Not held is no hover, or a coarse pointer, or none at all; each with the width it needs. */
+@media (hover: none) and (min-width: 700px), (pointer: coarse) and (min-width: 700px), (pointer: none) and (min-width: 700px) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 2700px; }
+}
+@media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px), (pointer: none) and (min-width: 960px) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 2770px; }
 }
 /* Key cards on wide screens (R4-H1: the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): measured 6 Nov
    at 1100x800, 1280x800, 1440x900, 1920x1080 (18 px root) and 2560x1440 (22 px root). */

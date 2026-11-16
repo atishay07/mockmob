@@ -129,6 +129,10 @@ export function SectionPosition({ sections }) {
       const vh = window.innerHeight;
       const reads = hosts.map((host, i) => {
         if (!near.has(i)) return null;
+        // A story that is not held (the tour on a touch screen, 16 Nov 2026: a plain stack) is a section like any other:
+        // the band stays quiet for it.
+        const story = host.querySelector('.ss');
+        if (story && story.dataset.pinned !== 'true') return null;
         const heading = host.querySelector('h2');
         const track = host.querySelector('.ss[data-pinned="true"] .ss__track');
         const box = (track || host).getBoundingClientRect();

@@ -2,19 +2,17 @@
 
 import { Fragment, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Pause, Play } from 'lucide-react';
-import { createDemoPlayback } from '@/../data/demo_playback.mjs';
+import { ArrowLeft } from 'lucide-react';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
+import { TOUR_HOLD } from './tourTaps.mjs';
 import { undrawn } from './undrawn';
-
-export const TOUR_ADVANCE_MS = 4800;
 
 // Phones show one sentence under each tool's title (wide screens show the paragraph and its points), so a phone never says
 // less than a laptop. The sentence is the slide's own `lede` (homeCopy.mjs).
 // The rail's icons are the lamp-lit desk objects (BrandIcon, LK73), 32 px so the object never turns to mush; Ask Mobi's is the
-// brass desk bell. The chevrons and the play control stay plain line icons: controls are the interface's verbs.
+// brass desk bell. The chevron stays a plain line icon: controls are the interface's verbs.
 // They load eagerly at low priority (R3-D5, LK105): lazy images inside a sideways scroller only start loading as the chip
 // row scrolls them in, so on a first visit an icon arrived 24-44 ms after its chip was on screen.
 const RAIL_ICON = 32;
@@ -50,37 +48,25 @@ function TourVideo({ slide, playing }) {
 // One tool's product screen. It stays mounted for the life of the tour and restarts its demo itself when its tool comes
 // back on stage (TourScreens useSequence), so a step changes a few attributes instead of rebuilding a screen (5 Nov
 // perf: the old remount cost about 100 ms a step at 4x CPU). Memoised with its own context value, so a step re-renders
-// only the two screens whose state changed. Unheld (the carousel without IntersectionObserver), the active screen is still
-// keyed by `visit`, as before, so a chip press restarts its demo. `epoch` is the activation the screen on stage belongs
-// to (ScrollStory's step count, R3-D5): off stage every screen gets the same -1, so a step still re-renders only two.
-const TourScreen = memo(function TourScreen({ Screen, active, reduced, paused, play, epoch, held }) {
-  const value = useMemo(() => ({ active, reduced, paused, epoch, held }), [active, reduced, paused, epoch, held]);
-  return <DemoPlaybackContext.Provider value={value}><Screen play={play} /></DemoPlaybackContext.Provider>;
+// only the two screens whose state changed. `epoch` is the activation the screen on stage belongs to (ScrollStory's step
+// count, R3-D5): off stage every screen gets the same -1, so a step still re-renders only two. `sample` is the public
+// question a screen may open (the Mob's Fix it together, read on the server by page.js).
+const TourScreen = memo(function TourScreen({ Screen, active, reduced, play, epoch, sample }) {
+  const value = useMemo(() => ({ active, reduced, paused: false, epoch, held: true }), [active, reduced, epoch]);
+  return <DemoPlaybackContext.Provider value={value}><Screen play={play} sample={sample} /></DemoPlaybackContext.Provider>;
 });
 
-// The feature tour holds the screen while the reader's scroll moves through the tools (ScrollStory):
-// one tool per beat, its live demo playing while it is on stage, the chapter chips and the progress
-// segments following the scroll. Chips, arrows and Next jump the page to that tool's beat, so the
-// scroll position and the tool on stage never disagree. Without IntersectionObserver the old
-// carousel returns: native swipes, timed autoplay with an explicit Pause, keyboard focus holds it.
-function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) {
+// HELD (a mouse or a trackpad, TOUR_HOLD): the feature tour holds the screen while the reader's scroll moves through the
+// tools (ScrollStory): one tool per beat, its live demo playing while it is on stage, the chapter chips and the progress
+// following the scroll. Chips, arrows and Next jump the page to that tool's beat, so the scroll position and the tool on
+// stage never disagree. The screens answer taps here too (TourScreens.jsx).
+function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) {
   const rootRef = useRef(null);
   const trackRef = useRef(null);
   const navRef = useRef(null);
-  const clockRef = useRef(null);
-  const progressRef = useRef(null);
-  const activeRef = useRef(0);
-  const programmaticRef = useRef(false);
-  const pointerRef = useRef(null);
-  const scrollTimer = useRef(null);
-  const [carousel, setCarousel] = useState(0);
-  const [visit, setVisit] = useState(0);
-  const [playing, setPlaying] = useState(true);
-  const [keyboardHold, setKeyboardHold] = useState(false);
-  const [interacting, setInteracting] = useState(false);
   const [onScreen, setOnScreen] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
-  const active = pinned ? Math.min(step, slides.length - 1) : carousel;
+  const active = Math.min(step, slides.length - 1);
 
   useEffect(() => {
     const sync = () => setPageVisible(document.visibilityState === 'visible');
@@ -88,14 +74,6 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     document.addEventListener('visibilitychange', sync);
     return () => document.removeEventListener('visibilitychange', sync);
   }, []);
-
-  const alignSlide = useCallback((index, smooth = false) => {
-    const track = trackRef.current;
-    const slide = track?.querySelector('[data-index="' + index + '"]');
-    if (!track || !slide || undrawn(track) || track.scrollWidth <= track.clientWidth + 2) return;
-    programmaticRef.current = true;
-    track.scrollTo({ left: slide.offsetLeft, behavior: smooth && !reduced ? 'smooth' : 'auto' });
-  }, [reduced]);
 
   // Keep the current chapter chip centred without moving the document's vertical scroll (the row scrolls
   // itself; instant under reduced motion). The row's edges fade only where more chips wait beyond them.
@@ -161,19 +139,11 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     };
   }, [readFade, measureChips, alignChapter]);
 
-  const goTo = useCallback((index, { scroll = true, keyboard = false } = {}) => {
-    if (!slides.length) return;
-    // Held, the tour never wraps (R8 SEC-05): a wrap threw the reader about 4,900 px back to the first tool, or on to the
-    // last. The first tool's Prev is disabled and the last tool's Next is a link to the next section (below).
-    if (pinned) { if (index >= 0 && index < slides.length) storyGoTo(index, { instant: keyboard }); return; }
-    const next = (index + slides.length) % slides.length;
-    const adjacent = Math.abs(next - activeRef.current) === 1;
-    activeRef.current = next;
-    setCarousel(next);
-    setVisit(value => value + 1);
-    setInteracting(false);
-    if (scroll) alignSlide(next, adjacent && !keyboard);
-  }, [slides.length, alignSlide, pinned, storyGoTo]);
+  // Held, the tour never wraps (R8 SEC-05): a wrap threw the reader about 4,900 px back to the first tool, or on to the
+  // last. The first tool's Prev is disabled and the last tool's Next is a link to the next section (below).
+  const goTo = useCallback((index, { keyboard = false } = {}) => {
+    if (index >= 0 && index < slides.length) storyGoTo(index, { instant: keyboard });
+  }, [slides.length, storyGoTo]);
 
   useEffect(() => {
     const media = trackRef.current?.querySelector('[data-index="' + active + '"] .ft__media');
@@ -183,53 +153,11 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     return () => observer.disconnect();
   }, [active]);
 
-  useEffect(() => {
-    const track = trackRef.current;
-    if (pinned || !track || typeof ResizeObserver === 'undefined') return;
-    let width = 0;
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry.contentRect.width !== width) {
-        width = entry.contentRect.width;
-        alignSlide(activeRef.current);
-      }
-    });
-    observer.observe(track);
-    return () => { observer.disconnect(); window.clearTimeout(scrollTimer.current); };
-  }, [alignSlide, pinned]);
-
-  const readSwipe = () => {
-    if (pinned || programmaticRef.current) return;
-    setInteracting(true);
-    window.clearTimeout(scrollTimer.current);
-    scrollTimer.current = window.setTimeout(() => {
-      setInteracting(false);
-      const track = trackRef.current;
-      if (!track || programmaticRef.current) return;
-      const items = [...track.querySelectorAll('[data-index]')];
-      const nearest = items.reduce((best, item) => Math.abs(item.offsetLeft - track.scrollLeft) < Math.abs(best.offsetLeft - track.scrollLeft) ? item : best, items[0]);
-      if (nearest && Number(nearest.dataset.index) !== activeRef.current) goTo(Number(nearest.dataset.index), { scroll: false });
-    }, 120);
-  };
-
-  // Demos play while their tool is on stage; held, the scroll (not a timer) moves to the next tool.
-  const running = playing && !keyboardHold && !interacting && onScreen && pageVisible && !reduced;
-
-  useEffect(() => {
-    if (pinned || slides.length < 2) return;
-    const clock = createDemoPlayback([{ at: TOUR_ADVANCE_MS, value: (active + 1) % slides.length }], next => goTo(next));
-    const progress = progressRef.current?.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: TOUR_ADVANCE_MS, fill: 'forwards', easing: 'linear' });
-    progress?.pause();
-    clockRef.current = { clock, progress };
-    return () => { clock.dispose(); progress?.cancel(); clockRef.current = null; };
-  }, [active, visit, goTo, slides.length, pinned]);
-
-  useEffect(() => {
-    if (running) { clockRef.current?.clock.resume(); clockRef.current?.progress?.play(); }
-    else { clockRef.current?.clock.pause(); clockRef.current?.progress?.pause(); }
-  }, [running, active, visit]);
+  // Demos play while their tool is on stage; the scroll (not a timer) moves to the next tool.
+  const running = onScreen && pageVisible && !reduced;
 
   // The section after the tour (the next section with an id, named by its stamp or heading): where the last tool's Next
-  // goes while the tour is held, the same place the bottom bar's Skip goes.
+  // goes, the same place the bottom bar's Skip goes.
   const [after, setAfter] = useState(null);
   useEffect(() => {
     const host = rootRef.current?.closest('section[id]');
@@ -241,8 +169,8 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
       return;
     }
   }, []);
-  const atStart = pinned && active === 0;
-  const atEnd = pinned && Boolean(after) && active === slides.length - 1;
+  const atStart = active === 0;
+  const atEnd = Boolean(after) && active === slides.length - 1;
   // R8 SEC-05 (revision): at the held tour's ends Next swaps between a button and a link. Keyboard focus follows the key
   // through the swap instead of dropping to <body>; activating the link hands focus to the next section's heading.
   const focusedNext = useRef(null);
@@ -270,15 +198,10 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
     rootRef.current?.querySelector('.ft__next')?.focus({ preventScroll: true });
   }, [atEnd]);
 
-  const paused = !playing || keyboardHold;
   const next = slides[(active + 1) % slides.length];
-  const status = reduced ? 'Explore' : paused ? 'Paused' : pinned ? 'Live demo' : 'Autoplay';
 
   return (
-    <div className="ft" ref={rootRef} role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'} data-keyboard={keyboardHold ? 'true' : 'false'}
-      onPointerDownCapture={event => { if (!event.target.closest('.ft__play')) setKeyboardHold(false); }}
-      onFocusCapture={event => { if (!pinned && !event.target.closest('.ft__play') && event.target.matches(':focus-visible')) setKeyboardHold(true); }}
-      onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardHold(false); }}>
+    <div className="ft" ref={rootRef} role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'}>
       <ul className="ft__list" ref={navRef} aria-label="Feature chapters" data-fade={fade} onScroll={readFade}>
         {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
@@ -289,35 +212,23 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
 
       <div className="ft__room">
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
+          {/* The demos play once per tool and rest, so there is nothing to pause: the name stands alone (R11). */}
           <div className="ft__chrome">
             <div className="ft__chapter"><span className="lp-sr">{`Feature ${active + 1} of ${slides.length}`}</span><b>{slides[active]?.label}</b></div>
-            {/* Held (every real browser) the demos play once per tool and rest, so there is nothing to pause: the name stands alone (R11).
-                The timed fallback carousel keeps its Pause key and its Autoplay status. */}
-            {pinned ? null : <>
-              <span className="ft__status"><i aria-hidden="true" />{status}</span>
-              <button type="button" className="ft__play" aria-label={paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
-                {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
-              </button>
-            </>}
           </div>
           <div className="ft__progress" aria-hidden="true" style={{ gridTemplateColumns: 'repeat(' + slides.length + ', minmax(0, 1fr))' }}>
             {slides.map((slide, i) => <span key={slide.id} data-done={i < active ? 'true' : 'false'}>
-              {pinned ? <i className="ss-fill" data-state={i < active ? 'done' : i === active ? 'on' : 'off'} style={{ '--ss-i': i }} /> : i === active ? <i ref={progressRef} key={visit} /> : null}
+              <i className="ss-fill" data-state={i < active ? 'done' : i === active ? 'on' : 'off'} style={{ '--ss-i': i }} />
             </span>)}
           </div>
 
-          <div className="ft__track" ref={trackRef} aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
-            onPointerDown={event => { programmaticRef.current = false; pointerRef.current = { x: event.clientX, y: event.clientY }; }}
-            onPointerMove={event => { const start = pointerRef.current; if (!pinned && start && Math.abs(event.clientX - start.x) > 10 && Math.abs(event.clientX - start.x) > Math.abs(event.clientY - start.y)) setInteracting(true); }}
-            onPointerUp={() => { pointerRef.current = null; setInteracting(false); }} onPointerCancel={() => { pointerRef.current = null; setInteracting(false); }}
-            onTouchStart={() => { programmaticRef.current = false; }}
-            onWheel={event => { if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) programmaticRef.current = false; }}>
+          <div className="ft__track" ref={trackRef} aria-label="MockMob features">
             {slides.map((slide, i) => { const Screen = TOUR_SCREENS[slide.id]; const on = active === i; return (
-              <div key={slide.id} className="ft__slide" role="group" aria-roledescription="slide" aria-label={(i + 1) + ' of ' + slides.length + ': ' + slide.label} aria-hidden={!on} inert={!on} data-index={i} data-active={on ? 'true' : 'false'} data-past={pinned && i < active ? 'true' : undefined}>
+              <div key={slide.id} className="ft__slide" role="group" aria-roledescription="slide" aria-label={(i + 1) + ' of ' + slides.length + ': ' + slide.label} aria-hidden={!on} inert={!on} data-index={i} data-active={on ? 'true' : 'false'} data-past={i < active ? 'true' : undefined}>
                 <article className="ft__card">
                   <div className="ft__media">
                     <div className="ft__shot">
-                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen key={pinned || !on ? 'still' : visit} Screen={Screen} active={on} reduced={reduced} paused={paused} play={on && running} epoch={on ? (pinned ? seq : visit) : -1} held={pinned} /> : slide.screen}
+                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen Screen={Screen} active={on} reduced={reduced} play={on && running} epoch={on ? seq : -1} sample={samples?.[slide.id] ?? null} /> : slide.screen}
                     </div>
                   </div>
                   <div className="ft__copy">
@@ -346,6 +257,93 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo }) 
   );
 }
 
-export default function FeatureTour({ slides = [] }) {
-  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" Content={TourStage} slides={slides} />;
+// THE STACK (a finger, 16 Nov 2026; owner on his phone: from the second tool the held tour was "doing weird movements").
+// On a touch screen nothing holds: the page scrolls natively through the tools, one under the other. An index row of the
+// tools' desk objects jumps down the page to each one (a plain in-page link: the page's own smooth scroll, instant under
+// reduced motion, landing under the site bar by the tool's scroll margin, r16-tour-stack.css). Each tool is its name, its
+// dark screen at its natural height, its title, one sentence and its link: no card, no tinted well, no autoplay, no
+// controls. A screen plays its short demo once, when at least half of it is on screen, and rests on its finished state;
+// off screen it does nothing (one IntersectionObserver for every screen). Under reduced motion it is simply finished.
+const STACK_CONTEXT_BASE = { active: true, paused: false, epoch: 0, held: true };
+const toolId = (id) => `prep-${id}`;
+const StackScreen = memo(function StackScreen({ Screen, play, sample }) {
+  return <Screen play={play} sample={sample} />;
+});
+
+function TourStack({ slides, reduced, samples }) {
+  const rootRef = useRef(null);
+  // Per screen: seen (half of it has been on screen once) and on (any of it is on screen now).
+  const [view, setView] = useState(() => slides.map(() => ({ seen: false, on: false })));
+  const count = slides.length;
+  // The stack is drawn only in the browser (the server draws the held tour), so this is never read during a server render.
+  // Without an IntersectionObserver every screen simply plays at once.
+  const watching = typeof IntersectionObserver === 'function';
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || !watching) return undefined;
+    const io = new IntersectionObserver((entries) => {
+      setView((was) => {
+        let next = was;
+        for (const entry of entries) {
+          const i = Number(entry.target.dataset.stackScreen);
+          const cur = was[i];
+          if (!cur) continue;
+          const on = entry.isIntersecting;
+          const seen = cur.seen || (on && entry.intersectionRatio >= 0.5);
+          if (seen === cur.seen && on === cur.on) continue;
+          if (next === was) next = [...was];
+          next[i] = { seen, on };
+        }
+        return next;
+      });
+    }, { threshold: [0, 0.5] });
+    root.querySelectorAll('[data-stack-screen]').forEach((node) => io.observe(node));
+    return () => io.disconnect();
+  }, [count, watching]);
+  const context = useMemo(() => ({ ...STACK_CONTEXT_BASE, reduced }), [reduced]);
+
+  return (
+    <div className="fts" ref={rootRef}>
+      <nav className="fts__index" aria-label="The tools in this section">
+        <ul style={{ '--fts-n': count }}>
+          {slides.map((slide) => (
+            <li key={slide.id}>
+              <a className="fts__jump" href={`#${toolId(slide.id)}`}>
+                <span className="fts__ico" aria-hidden="true"><RailIcon name={slide.icon} /></span>
+                <span className="fts__label">{slide.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <DemoPlaybackContext.Provider value={context}>
+        {slides.map((slide, i) => {
+          const Screen = TOUR_SCREENS[slide.id];
+          const play = !watching || Boolean(view[i]?.seen && view[i]?.on);
+          return (
+            <article key={slide.id} className="fts__tool" id={toolId(slide.id)} aria-labelledby={`${toolId(slide.id)}-title`}>
+              <p className="fts__name"><span className="fts__ico" aria-hidden="true"><RailIcon name={slide.icon} /></span>{slide.label}</p>
+              <div className="fts__screen" data-stack-screen={i}>
+                {slide.video ? <TourVideo slide={slide} playing={play} /> : Screen ? <StackScreen Screen={Screen} play={play} sample={samples?.[slide.id] ?? null} /> : slide.screen}
+              </div>
+              <h3 className="fts__title" id={`${toolId(slide.id)}-title`}><Sentences text={slide.title} /></h3>
+              <p className="fts__lede">{slide.lede || slide.line}</p>
+              <p className="lp-sr">{slide.chip}</p>
+              <Link href={slide.href} className="lp-link fts__cta">{slide.cta}</Link>
+            </article>
+          );
+        })}
+      </DemoPlaybackContext.Provider>
+    </div>
+  );
+}
+
+// The story is held only for a mouse or a trackpad (TOUR_HOLD); unheld (a finger, or a browser without
+// IntersectionObserver) the tools stack. No reader gets a timed carousel.
+function TourStage(props) {
+  return props.pinned ? <HeldTour {...props} /> : <TourStack {...props} />;
+}
+
+export default function FeatureTour({ slides = [], samples = null }) {
+  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" hold={TOUR_HOLD} Content={TourStage} slides={slides} samples={samples} />;
 }

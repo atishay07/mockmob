@@ -6,6 +6,7 @@ import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { labStory, signed } from './labStory.mjs';
 import { firstState, shownValue } from './tourSequence.mjs';
+import { BENCH_LEVELS, BENCH_RUN, START_REPLY, askView, benchView, learnView, letter, mobView, practiceView, whyReply } from './tourTaps.mjs';
 
 // What the tour tells each screen: on stage or not, the reader's motion setting, the Pause key, the activation epoch
 // (the story's step count when this screen came on stage) and whether the tour is held (ScrollStory) or a carousel.
@@ -42,13 +43,19 @@ function useSequence(play, events, settled) {
   return shownValue({ held, active, reduced, paused, epoch, state, first, settled });
 }
 
-// Compact product screens for the feature tour. Each one plays a short scripted demo every time its
-// slide becomes active (in place within about 600 ms, see STAGGER), then holds the finished state.
-// Paused and off-stage demos keep their current frame. Reduced-motion screens, and off-stage ones in the unheld
-// carousel, are finished.
+// Compact product screens for the feature tour. Each one plays a short scripted demo when its tool comes on (held: every
+// time its tool comes on stage; the phone stack: once, when half of it is on screen), in place within about 600 ms (see
+// STAGGER), then holds the finished state. Off-stage demos keep their current frame; reduced motion shows them finished.
 // Values are illustrative. Every screen carries two beats of real content (the moment, then what
 // follows from it) and they all come out about the same height, because the tour's tools share one
 // card and a short screen would leave an empty slab.
+//
+// The five tools' screens answer taps (16 Nov 2026, owner: "It needs to be interactive"). A tap takes over at once: the
+// demo stops, the screen shows its finished frame with the reader's state, and the screen stays the reader's (its demo
+// never plays on it again, so a restart can never undo a tap). The rules are tourTaps.mjs; every control is a real
+// button with a pressed state, the held choice is aria-pressed, and the result is read out from one polite live line
+// per screen. One quiet hint line sits in each screen's foot. Nothing here pulses, blinks or fakes a tap: the demo
+// simply shows its pick appear.
 
 /** Steps through `timeline` (ms offsets) while `play` is true; returns the current step. */
 function useSteps(play, timeline) {
@@ -63,42 +70,56 @@ function useCountdown(play, from) {
   return `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
 }
 
-function Frame({ title, right, step, className = '', children }) {
+// `foot` is the screen's one hint line; `said` the result a screen reader hears (empty until the reader acts).
+function Frame({ title, right, step, className = '', foot = null, said = '', children }) {
   return (
-    <figure className={`ts ${className}`} data-ts-step={step}>
+    <figure className={`ts ${className}`} data-ts-step={step} data-foot={foot ? 'true' : undefined}>
       <div className="ts__bar">
-        <span className="ts__live" aria-hidden="true" />
         <span className="ts__title">{title}</span>
         {right ?? null}
       </div>
       <div className="ts__body">{children}</div>
+      {foot ? <p className="ts__foot">{foot}</p> : null}
+      {foot ? <p className="lp-sr" aria-live="polite">{said}</p> : null}
     </figure>
   );
 }
 
 const on = (value) => (value ? 'true' : 'false');
 
+/** The demo's step until the reader acts, then the finished frame for good. `taken` stops the demo where it is. */
+function useDemo(play, timeline, taken) {
+  const step = useSteps(play && !taken, timeline);
+  return taken ? timeline.length : step;
+}
+
 // ---------- 1. Practice ----------
+// A tap picks an option and another moves the pick, as in a real mock. It never says right or wrong: a mock does not
+// tell you mid-paper. The demo picks A (step 5) and saves (step 6).
 const PRACTICE_T = [...lineUp(4), 520, 820];
 const PRACTICE_OPTS = ['Liabilities side', 'Assets side', 'Reserves and surplus', 'Not shown at all'];
 export function PracticeScreen({ play }) {
-  const step = useSteps(play, PRACTICE_T);
-  const clock = useCountdown(play, 38 * 60 + 12);
+  const [mine, setMine] = useState(null);
+  const taken = mine !== null;
+  const step = useDemo(play, PRACTICE_T, taken);
+  const clock = useCountdown(play && !taken, 38 * 60 + 12);
+  const view = practiceView({ step, mine });
   return (
-    <Frame title="Accountancy full mock" step={step} right={<span className="ts__timer">{clock}</span>}>
+    <Frame title="Accountancy full mock" step={step} right={<span className="ts__timer">{clock}</span>} foot="Tap an option" said={view.said}>
       <p className="ts__meta">Question 22 of 50</p>
       <p className="ts__q">A partner’s capital account shows a debit balance. Where does it go in the balance sheet?</p>
       <ul className="ts__opts">
         {PRACTICE_OPTS.map((text, i) => (
-          <li key={text} data-in={on(step > i)} data-picked={on(i === 0 && step >= 5)}>
-            <b>{'ABCD'[i]}</b><span>{text}</span>
-            {i === 0 ? <span className="ts__tap" data-on={on(step === 5)} aria-hidden="true" /> : null}
-            {i === 0 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+          <li key={text} data-in={on(step > i)} data-picked={on(view.picked === i)}>
+            <button type="button" className="ts__key ts__choice" aria-pressed={view.picked === i} onClick={() => setMine(i)}>
+              <b>{letter(i)}</b><span>{text}</span>
+              {view.picked === i ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+            </button>
           </li>
         ))}
       </ul>
-      <div className="ts__progress" aria-hidden="true"><i style={{ '--p': step >= 6 ? '44%' : '42%' }} /></div>
-      <p className="ts__meta ts__meta--row"><span>{step >= 6 ? 22 : 21} of 50 answered</span><span data-on={on(step >= 6)} className="ts__saved">Saved</span></p>
+      <div className="ts__progress" aria-hidden="true"><i style={{ '--p': view.saved ? '44%' : '42%' }} /></div>
+      <p className="ts__meta ts__meta--row"><span>{view.answered} of 50 answered</span><span data-on={on(view.saved)} className="ts__saved">Saved</span></p>
     </Frame>
   );
 }
@@ -133,23 +154,34 @@ export function RepairScreen({ play }) {
 // A real released recall card (WordNet 3.0 sense and example), shown as it appears after a lesson.
 const LEARN_T = [...lineUp(3), 380, 520, 600];
 const LEARN_OPTS = ['not eager', 'characterized by directness in manner or speech; without subtlety or evasion','easily tricked because of being too trusting'];
+// A tap answers the card. B is right: "Correct" and the card comes back in a few days. A miss is marked, B is shown as the
+// meaning and the line says what the app does with a missed card (tourTaps.mjs learnView, proved in tourTaps.test.mjs).
 export function LearnScreen({ play }) {
-  const step = useSteps(play, LEARN_T);
+  const [mine, setMine] = useState(null);
+  const taken = mine !== null;
+  const step = useDemo(play, LEARN_T, taken);
+  const view = learnView({ step, mine });
   return (
-    <Frame title="Vocabulary recall" step={step} right={<span className="ts__badge">Card 1 of 5</span>}>
+    <Frame title="Vocabulary recall" step={step} right={<span className="ts__badge">Card 1 of 5</span>} foot="Tap the meaning" said={view.said}>
       <p className="ts__meta">Meaning in context</p>
       <p className="ts__q">“I gave them my <b>candid</b> opinion.” What does candid mean here?</p>
       <ul className="ts__opts">
-        {LEARN_OPTS.map((text, i) => (
-          <li key={text} data-in={on(step > i)} data-picked={on(i === 1 && step >= 4)}>
-            <b>{'ABC'[i]}</b><span>{text}</span>
-            {i === 1 ? <span className="ts__tap" data-on={on(step === 4)} aria-hidden="true" /> : null}
-            {i === 1 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
-          </li>
-        ))}
+        {LEARN_OPTS.map((text, i) => {
+          const state = view.state(i);
+          const ticked = (state === 'picked' && view.verdict === 'right') || state === 'answer';
+          return (
+            <li key={text} data-in={on(step > i)} data-picked={on(state === 'picked' || state === 'answer')} data-miss={state === 'miss' ? 'true' : undefined}>
+              <button type="button" className="ts__key ts__choice" aria-pressed={view.picked === i} onClick={() => setMine(i)}>
+                <b>{letter(i)}</b><span>{text}</span>
+                {ticked ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+                {state === 'miss' ? <X size={15} className="ts__cross-mark" aria-hidden="true" /> : null}
+              </button>
+            </li>
+          );
+        })}
       </ul>
-      <p className="ts__meta ts__meta--row"><span data-on={on(step >= 5)} className="ts__saved">Correct</span><span>{step >= 6 ? 'Comes back in a few days' : ' '}</span></p>
-      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions</p>
+      <p className="ts__meta ts__meta--row ts__result"><span data-on={on(Boolean(view.lead))} data-tone={view.verdict === 'miss' ? 'plain' : undefined} className="ts__saved">{view.lead}</span><span>{view.next}</span></p>
+      <p className="ts__cta" data-in={on(view.then)}>Then: practise Vocabulary questions</p>
     </Frame>
   );
 }
@@ -229,10 +261,17 @@ export function RadarScreen({ play }) {
 const PREP_T = [60, 300, 860, 920, 975, 1030, 1140];
 // The plan is the Lab's own (R8 SEC-03): its first set (Practise 10 on Partnership) and the answers it changed.
 const PREP_PLAN = [['20 min', 'Partnership: 10 fresh questions'], ['10 min', `Re-read the ${['no', 'one', 'two', 'three', 'four'][STORY.changes.length] ?? STORY.changes.length} you changed`], ['Tomorrow', 'One timed half mock']];
+// The two quick replies are buttons (16 Nov 2026). "Why this?" adds Mobi's reason from the same sample record the Lab tells
+// (tourTaps.mjs whyReply: Partnership's lost marks in each of the last three mocks); "Start the 10" says the set is ready.
+// Both answers share one reserved slot under the reply, so the screen never grows when one appears.
+const PREP_ANSWERS = [['why', whyReply(STORY)], ['start', START_REPLY]];
 export function PrepOSScreen({ play }) {
-  const step = useSteps(play, PREP_T);
+  const [mine, setMine] = useState(null);
+  const taken = mine !== null;
+  const step = useDemo(play, PREP_T, taken);
+  const view = askView({ mine, story: STORY });
   return (
-    <Frame title="Ask Mobi" step={step} right={<span className="ts__badge">Your record</span>}>
+    <Frame title="Ask Mobi" step={step} right={<span className="ts__badge">Sample record</span>} foot="Tap a reply" said={view.said}>
       <p className="ts__bubble ts__bubble--me" data-in={on(step >= 1)}>What should I do tonight?</p>
       <div className="ts__reply">
         <p className="ts__reading" data-in={on(step === 2)} aria-hidden="true"><span className="ts__mobi" aria-hidden="true"><i /><i /></span>Reading your record for tonight</p>
@@ -242,8 +281,19 @@ export function PrepOSScreen({ play }) {
           <ol>
             {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
           </ol>
-          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10</span><span>Why this?</span></p>
+          <p className="ts__replies" data-in={on(step >= 7)}>
+            <button type="button" className="ts__key ts__reply-key" data-main="true" aria-pressed={mine === 'start'} onClick={() => setMine('start')}>Start the 10</button>
+            <button type="button" className="ts__key ts__reply-key" aria-pressed={mine === 'why'} onClick={() => setMine('why')}>Why this?</button>
+          </p>
         </div>
+      </div>
+      <div className="ts__more" aria-hidden="true">
+        {PREP_ANSWERS.map(([key, text]) => (
+          <div key={key} className="ts__bubble ts__bubble--ai" data-show={on(mine === key)}>
+            <span className="ts__mobi" aria-hidden="true"><i /><i /></span>
+            <p>{text}</p>
+          </div>
+        ))}
       </div>
     </Frame>
   );
@@ -298,25 +348,39 @@ export function ComboScreen({ play }) {
 }
 
 // ---------- 8. Benchmarks ----------
-// The two bars sweep in as the flourish; the facts and the ladder are already in place behind them.
+// The two bars sweep in as the flourish; the facts and the ladder are already in place behind them. The three levels are
+// buttons (16 Nov 2026): a tap makes that level today's target, and the Target bar, the points short, the top line and the
+// "Today's target" tag follow it (tourTaps.mjs benchView).
 const BENCH_T = lineUp(3);
-const BENCH_LADDER = [['DU level', '88%'], ['College level', '82%'], ['Daily', '78%', 'target'], ['You, today', '72%', 'you']];
 export function BenchmarkScreen({ play }) {
-  const step = useSteps(play, BENCH_T);
-  const clock = useCountdown(play, 4 * 60 + 30);
+  const [mine, setMine] = useState(null);
+  const taken = mine !== null;
+  const step = useDemo(play, BENCH_T, taken);
+  const clock = useCountdown(play && !taken, 4 * 60 + 30);
+  const view = benchView({ mine });
   return (
-    <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{clock}</span>}>
-      <p className="ts__meta">25 questions. Hold 78% accuracy at 55 seconds a question.</p>
+    <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{clock}</span>} foot="Tap a level to aim for it" said={view.said}>
+      <p className="ts__meta">{view.line}</p>
       <div className="ts__lanes">
-        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': '72%', '--t': '1.1s' }} /></i><em>72%</em></div>
-        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': '78%', '--t': '0.8s' }} /></i><em>78%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': `${BENCH_RUN}%`, '--t': '1.1s' }} /></i><em>{BENCH_RUN}%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': `${view.pct}%`, '--t': '0.8s' }} /></i><em>{view.pct}%</em></div>
       </div>
       <div className="ts__facts" data-in={on(step >= 2)}>
         <p><b>52s</b>a question</p>
-        <p><b>6 pts</b>short today</p>
+        <p><b>{view.short} pts</b>short today</p>
       </div>
       <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="Benchmark levels">
-        {BENCH_LADDER.map(([level, score, mark]) => <li key={level} data-mark={mark}><span>{level}</span>{mark === 'target' ? <small>Today’s target</small> : null}<b>{score}</b></li>)}
+        {BENCH_LEVELS.map((level) => {
+          const target = view.target === level.id;
+          return (
+            <li key={level.id} data-mark={target ? 'target' : undefined}>
+              <button type="button" className="ts__key ts__level" aria-pressed={target} onClick={() => setMine(level.id)}>
+                <span>{level.name}</span>{target ? <small>Today’s target</small> : null}<b>{level.pct}%</b>
+              </button>
+            </li>
+          );
+        })}
+        <li data-mark="you"><span>You, today</span><b>{BENCH_RUN}%</b></li>
       </ol>
     </Frame>
   );
@@ -334,28 +398,78 @@ const MOB_RUNS = [
   { fold: 'hexa', name: 'Hexa, Riya', marks: 15 },
   { fold: 'kandil', name: 'Kandil, Aman', marks: 14 },
 ];
-export function MobScreen({ play }) {
-  const step = useSteps(play, MOB_T);
+// Fix it together is a button (16 Nov 2026): it opens, inside the screen, one real Economics question with four options,
+// and a tap on an option shows right or wrong with its reason. The question is never written here: page.js reads it on the
+// server from the home sample's own five (sampleFive.mjs publicSample) and hands it down as `sample`. The sprint and the
+// question share one grid cell, so the screen keeps the taller one's height and nothing moves when it opens or closes.
+const FIX_ROW = 'Fix it together: Q3 caught you. Try a fresh one like it.';
+export function MobScreen({ play, sample = null }) {
+  const [open, setOpen] = useState(false);
+  const [mine, setMine] = useState(null);
+  const [moved, setMoved] = useState(0);
+  const fixRef = useRef(null);
+  const stemRef = useRef(null);
+  const taken = open || mine !== null;
+  const step = useDemo(play, MOB_T, taken);
+  const view = mobView({ sample, open, mine });
+  // Focus follows the reader into the question and back to the row, so a keyboard never drops to the page.
+  useEffect(() => {
+    if (!moved) return;
+    (open ? stemRef.current : fixRef.current)?.focus({ preventScroll: true });
+  }, [open, moved]);
+  const toggle = (next) => { setOpen(next); setMoved((n) => n + 1); };
+  const foot = !sample ? null : !open ? 'Tap Fix it together' : view.answered ? 'Back to the sprint any time' : 'Tap an option';
+  const said = !open ? '' : view.answered ? view.said : `Fix it together. ${sample?.subject} question: ${sample?.q}`;
   return (
-    <Frame title="Economics sprint" step={step} right={<span className="ts__timer">5 questions</span>}>
-      <p className="ts__meta">Everyone gets the same questions for 24 hours.</p>
-      <div className="ts__lanes">
-        {MOB_RUNS.map((run, i) => (
-          <div key={run.fold} className="ts__lane ts__lane--fold" data-run={on(step >= 1)} data-target={run.you ? undefined : 'true'} style={{ gridTemplateColumns: 'minmax(0, 9.5rem) 1fr 36px' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <span><img src={`/mob/folds/fold-${run.fold}-head@128.webp`} alt="" width={FOLD_HEAD} height={FOLD_HEAD} style={{ flex: `0 0 ${FOLD_HEAD}px`, width: FOLD_HEAD, height: FOLD_HEAD }} loading="lazy" decoding="async" />{run.name}</span>
-            <i><b style={{ '--w': `${Math.round((run.marks / 25) * 100)}%`, '--t': `${0.9 + i * 0.2}s` }} /></i>
-            <em>+{run.marks}</em>
+    <Frame title="Economics sprint" step={step} right={<span className="ts__timer">5 questions</span>} foot={foot} said={said}>
+      <div className="ts__panes">
+        <div className="ts__pane" data-show={on(!open)} inert={open || undefined} aria-hidden={open || undefined}>
+          <p className="ts__meta">Everyone gets the same questions for 24 hours.</p>
+          <div className="ts__lanes">
+            {MOB_RUNS.map((run, i) => (
+              <div key={run.fold} className="ts__lane ts__lane--fold" data-run={on(step >= 1)} data-target={run.you ? undefined : 'true'} style={{ gridTemplateColumns: 'minmax(0, 9.5rem) 1fr 36px' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <span><img src={`/mob/folds/fold-${run.fold}-head@128.webp`} alt="" width={FOLD_HEAD} height={FOLD_HEAD} style={{ flex: `0 0 ${FOLD_HEAD}px`, width: FOLD_HEAD, height: FOLD_HEAD }} loading="lazy" decoding="async" />{run.name}</span>
+                <i><b style={{ '--w': `${Math.round((run.marks / 25) * 100)}%`, '--t': `${0.9 + i * 0.2}s` }} /></i>
+                <em>+{run.marks}</em>
+              </div>
+            ))}
           </div>
-        ))}
+          <div className="ts__facts" data-in={on(step >= 2)}>
+            <p><b>38 of 60</b>questions in this week’s quest</p>
+            <p><b>4 weeks</b>in your Mob’s chain</p>
+          </div>
+          <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="After the sprint">
+            {sample ? (
+              <li data-mark="you">
+                <button type="button" ref={fixRef} className="ts__key ts__level ts__fix-key" aria-expanded={open} onClick={() => toggle(true)}>{FIX_ROW}</button>
+              </li>
+            ) : <li data-mark="you"><span>{FIX_ROW}</span></li>}
+          </ol>
+        </div>
+        {sample ? (
+          <div className="ts__pane ts__fix" data-show={on(open)} inert={!open || undefined} aria-hidden={!open || undefined}>
+            <p className="ts__meta ts__meta--row"><span>Fix it together</span><span>{sample.chapter}</span></p>
+            <p className="ts__q" ref={stemRef} tabIndex={-1}>{sample.q}</p>
+            <ul className="ts__opts">
+              {sample.options.map((text, i) => {
+                const state = view.state(i);
+                return (
+                  <li key={text} data-picked={on(state === 'right')} data-miss={state === 'wrong' ? 'true' : undefined}>
+                    <button type="button" className="ts__key ts__choice" aria-pressed={mine === i} aria-disabled={view.answered || undefined} onClick={() => { if (!view.answered) setMine(i); }}>
+                      <b>{letter(i)}</b><span>{text}</span>
+                      {state === 'right' ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+                      {state === 'wrong' ? <X size={15} className="ts__cross-mark" aria-hidden="true" /> : null}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="ts__why" data-in={on(view.answered)} data-tone={view.answered ? (view.right ? 'right' : 'miss') : undefined}><b>{view.mark}</b> {view.verdict}</p>
+            <button type="button" className="ts__key ts__back" onClick={() => toggle(false)}>Back to the sprint</button>
+          </div>
+        ) : null}
       </div>
-      <div className="ts__facts" data-in={on(step >= 2)}>
-        <p><b>38 of 60</b>questions in this week’s quest</p>
-        <p><b>4 weeks</b>in your Mob’s chain</p>
-      </div>
-      <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="After the sprint">
-        <li data-mark="you"><span>Fix it together: Q3 caught you. Try a fresh one like it.</span></li>
-      </ol>
     </Frame>
   );
 }

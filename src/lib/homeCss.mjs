@@ -55,6 +55,8 @@ export const HOME_SHEETS = Object.freeze([
   // Round 14 (13 Nov 2026): the visual pass, then the phone companion.
   'src/app/r14-look.css',
   'src/app/r14-companion.css',
+  // Round 16 (16 Nov 2026): the tour as a plain stack on touch screens, and its screens' taps.
+  'src/app/r16-tour-stack.css',
   // Round 16 (16 Nov 2026): the phone pass after the owner's look at the live page.
   'src/app/r16-phone.css',
 ]);

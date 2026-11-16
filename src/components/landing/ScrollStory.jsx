@@ -291,6 +291,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       if (handleRef.current) controller.near(handleRef.current, false);
       held.clear();
       bus.hold(id, false);
+      // A story let go (its hold query stopped matching: the tour on a touch screen, 16 Nov 2026) is never live: the phone
+      // dock and the bottom bar must not read a data-live left from its held first render.
+      setLive(false);
     };
   }, [pinned, steps, applyStep, id]);
 

@@ -10,8 +10,9 @@
 //   reduced motion              finished (no demo)
 //   on stage, playing           this activation's frame, or the first frame until the playback speaks
 //   held tour, off stage        frozen where it was: never settled, so a leaving screen does not pop to finished
-//   paused (Pause, keyboard)    frozen where it was
-//   carousel (unheld), off      finished (an unheld screen is remounted each time it comes on, see FeatureTour)
+//   paused                      frozen where it was (no caller pauses since the carousel went, 16 Nov 2026)
+//   unheld, off                 finished (no caller since 16 Nov 2026: the touch stack (FeatureTour TourStack) passes
+//                               active and held for every screen, one epoch, and plays each once with `play`)
 export function shownValue({ held, active, reduced, paused, epoch, state, first, settled }) {
   if (reduced) return settled;
   if (active && !paused) return state.epoch === epoch ? state.value : first;

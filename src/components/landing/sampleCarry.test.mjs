@@ -142,8 +142,9 @@ test('into the first run: the slug is kept, the subject is found, and only chapt
 });
 
 test('the card’s own five: every label is mapped, and every mapped chapter is a live chapter of the bank under its own name', () => {
-  const drill = read('./DemoDrill.jsx');
-  const labels = [...drill.slice(drill.indexOf('const DRILL = ['), drill.indexOf('];', drill.indexOf('const DRILL = ['))).matchAll(/chapter: '([^']+)'/g)].map((m) => m[1]);
+  // The card's own five live in sampleFive.mjs since 16 Nov 2026 (DemoDrill.jsx imports them).
+  const drill = read('./sampleFive.mjs');
+  const labels = [...drill.slice(drill.indexOf('export const DRILL = ['), drill.indexOf('];', drill.indexOf('export const DRILL = ['))).matchAll(/chapter: '([^']+)'/g)].map((m) => m[1]);
   assert.equal(labels.length, 5);
   assert.deepEqual([...labels].sort(), Object.keys(BUILT_IN_CHAPTERS).sort());
   for (const [label, { subject, chapter }] of Object.entries(BUILT_IN_CHAPTERS)) {

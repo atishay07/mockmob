@@ -20,7 +20,8 @@ test('LK81 held stories are drawn ahead of the reader while the page is idle, th
 test('LK81 the tour keeps every screen mounted: a step changes attributes, it does not rebuild a screen', () => {
   const tour = read('./FeatureTour.jsx');
   assert.doesNotMatch(tour, /':on:'/, 'no key that remounts the active screen on every step');
-  assert.match(tour, /key=\{pinned \|\| !on \? 'still' : visit\}/);
+  // 16 Nov 2026: no key on a screen at all (the carousel's per-visit key went with the carousel).
+  assert.doesNotMatch(tour, /<TourScreen key=/);
   // R3-D5 (5 Nov 2026, LK105): the restart is an activation epoch now, not the render-phase `if (active !== wasActive)`
   // setState this line used to pin (that reset, inside a startTransition render, was rebased to the finished screen).
   const screens = read('./TourScreens.jsx');
@@ -32,7 +33,8 @@ test('LK81 pausing the tour restyles only the elements that animate, never the w
   const css = read('../../app/feature-tour.css');
   assert.doesNotMatch(css, /\[data-playing='false'\] \.ts \*/);
   assert.doesNotMatch(css, /\[data-active='false'\] \.ts \*/);
-  assert.match(css, /\.ft\[data-playing='false'\] :is\(\.ts__tick, \.ts__tap, \.ts__marks, \.ts__opt, \.ts__chips li, \.ts__typing i, \.ts__mobi i\)/);
+  // 16 Nov 2026: .ts__tap (the demo's fake finger ripple) is gone, so the list no longer names it.
+  assert.match(css, /\.ft\[data-playing='false'\] :is\(\.ts__tick, \.ts__marks, \.ts__opt, \.ts__chips li, \.ts__typing i, \.ts__mobi i\)/);
 });
 
 test('LK93 the DU eligibility section is there when the reader arrives: no reveal in front of the calculator, drawn while idle', () => {

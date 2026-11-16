@@ -6,7 +6,7 @@
 
 export const SAMPLE_VERSION = 'landing-v1';
 
-// SOURCE: src/components/landing/DemoDrill.jsx, the DRILL array (five questions, lines 12-58).
+// SOURCE: src/components/landing/sampleFive.mjs, the DRILL array (five questions; DemoDrill.jsx plays them).
 // DemoDrill has no stable ids, so ids are q1..q5 in array order and keys are A..D by option
 // index (the same KEYS the component uses). correctKey is the key of DRILL[i].correct.
 // If DemoDrill's questions change order or content, bump SAMPLE_VERSION and update this list.

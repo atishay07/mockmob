@@ -402,9 +402,11 @@ test('a student with no subjects gets NO_SUBJECTS and a way to choose them that 
 test('the join page promises exactly as many sample questions as the guest sample has', () => {
   const join = read('src/components/mob/JoinMob.jsx');
   const count = Number(/export const SAMPLE_COUNT = (\d+);/.exec(join)?.[1]);
-  const drill = read('src/components/landing/DemoDrill.jsx');
-  const block = drill.slice(drill.indexOf('const DRILL = ['), drill.indexOf('\n];', drill.indexOf('const DRILL = [')));
-  assert.equal((block.match(/^ {4}subject:/gm) || []).length, count, 'DemoDrill.jsx DRILL and JoinMob SAMPLE_COUNT must agree');
+  // The guest sample's five live in sampleFive.mjs since 16 Nov 2026 (DemoDrill.jsx imports DRILL from there).
+  assert.match(read('src/components/landing/DemoDrill.jsx'), /import \{ DRILL as SAMPLE_FIVE \} from '\.\/sampleFive\.mjs';/);
+  const drill = read('src/components/landing/sampleFive.mjs').replace(/\r\n/g, '\n');
+  const block = drill.slice(drill.indexOf('export const DRILL = ['), drill.indexOf('\n];', drill.indexOf('export const DRILL = [')));
+  assert.equal((block.match(/^ {4}subject:/gm) || []).length, count, 'the sample five (sampleFive.mjs DRILL) and JoinMob SAMPLE_COUNT must agree');
   assert.match(join, /href="\/#try-practice"/);
   assert.doesNotMatch(join, /} of 5 seats are taken/);
 });

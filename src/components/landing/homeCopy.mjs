@@ -50,6 +50,13 @@ export const TOUR_HEAD = Object.freeze({
   h2: 'More inside MockMob.',
   sub: 'The rest of your prep, one tool at a time.',
 });
+// On a touch screen the tour is a plain stack of its tools, and every screen answers a tap (16 Nov 2026), so its sub says
+// that, with the number of tools actually shown (Learn and the Mob are on the page only while they are live).
+const TOOL_COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
+export function tourTouchSub(count) {
+  const n = Math.max(0, Math.round(Number(count) || 0));
+  return `${TOOL_COUNT[n] ?? n} ${n === 1 ? 'tool' : 'tools'}. Tap any screen to try it.`;
+}
 export const RECOVERY_HEAD = Object.freeze({
   h2: 'Fix it once. Check it holds.',
   sub: 'Replay the session, repair the leak, then prove it on fresh questions days later.',

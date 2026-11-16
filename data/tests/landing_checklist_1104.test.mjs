@@ -443,16 +443,20 @@ test('L-027 one gesture advances one slide: the gesture model commits at most on
   assert.match(ctrl, /goTo\(s,\s*(s\.\w+|[\w.]+)\s*[+-]\s*dir\)|step\s*\+\s*dir|\+ ?dir|dir \* 1/, 'a gesture moves the story by a direction, not by travelled distance');
 });
 
-test('L-028 "What\'s inside MockMob" is a held story that moves one slide per gesture (paced by the shared gesture lock, not by scroll distance)', () => {
+test('L-028 "What\'s inside MockMob" is a held story for a mouse or a trackpad that moves one slide per gesture (paced by the shared gesture lock, not by scroll distance); a touch screen gets the plain stack', () => {
   const tour = code(read('src/components/landing/FeatureTour.jsx'));
   assert.match(tour, /ScrollStory/);
+  // 16 Nov 2026 (owner, on his phone: from the second tool the held tour was "doing weird movements"): held only where the
+  // main pointer is fine and hovers; a finger scrolls a plain stack (FeatureTour TourStack).
+  assert.match(tour, /hold=\{TOUR_HOLD\}/);
+  assert.match(read('src/components/landing/tourTaps.mjs'), /export const TOUR_HOLD = '\(hover: hover\) and \(pointer: fine\)';/);
   assert.ok(homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).length >= 5, 'its slides are all still there (R11: five tools; the rest have their own sections)');
   const g = readFileSync(join(ROOT, 'src/components/landing/storyGesture.mjs'), 'utf8');
   assert.match(g, /LOCK_MS\s*=\s*(4\d\d|[5-9]\d\d)/, 'a step swallows the next 400 ms or more of input');
 });
 test.todo('L-028 a readable dwell per slide on the tour ("much slower than before"): a felt-speed judgement in real Chrome (scroll/RESULTS.md has the bench)');
 
-test('L-029 the statement, the Mistake Lab and the tour hold the screen and step their content, so one fast flick cannot skip them', () => {
+test('L-029 the statement, the Mistake Lab and the tour (for a mouse or a trackpad; the stack on touch, 16 Nov 2026) hold the screen and step their content, so one fast flick cannot skip them', () => {
   for (const f of ['Statement', 'LabCinema', 'FeatureTour']) assert.match(code(read(`src/components/landing/${f}.jsx`)), /ScrollStory/, `${f} is a held story`);
   assert.match(PAGE_CODE, /<Statement\b/);
   // R11: the Recovery Lab's held story (MistakeLab) left the page with its section; the Mistake Lab tells the feature once.
@@ -490,7 +494,8 @@ test('L-033 no demo question time above about 3 minutes and no 10 to 14 minute t
     assert.ok(r.change.toAt - r.change.at <= 120, `question ${r.n}: second thought within two minutes of the first pick`);
     assert.ok(r.change.toAt - r.change.at <= r.sec, `question ${r.n}: the change happens inside its own visit`);
   }
-  const typed = RENDERED.filter((s) => /\b1[0-4]:\d\d\b|\b1[0-4] min(ute)?s?\b/.test(s) && !/Exam|mock|paper|60/i.test(s));
+  // A time of day ("10:00 pm", the Sunday Mock's close) is not a time spent on a question.
+  const typed = RENDERED.filter((s) => /\b1[0-4]:\d\d\b|\b1[0-4] min(ute)?s?\b/.test(s) && !/Exam|mock|paper|60/i.test(s) && !/\b1[0-2]:\d\d (am|pm)\b/.test(s));
   assert.deepEqual(typed, [], 'no hand-typed 10 to 14 minute values in the landing text');
   const facts = labStory.labStory();
   for (const row of labStory.longestQuestions()) assert.ok(parseInt(row.time, 10) < 4, `longest list shows ${row.time}`);

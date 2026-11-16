@@ -150,7 +150,8 @@ test('every seat has its pose and its job: think, read, encourage, point, cheer,
 test('the tour rail draws desk objects, and only the control glyphs stay line icons', () => {
   const tour = read('FeatureTour.jsx');
   assert.match(tour, /import \{ BrandIcon \} from '@\/components\/brand\/BrandIcon';/);
-  assert.match(tour, /import \{ ArrowLeft, Pause, Play \} from 'lucide-react';/, 'chevron and play control only');
+  // 16 Nov 2026: the timed carousel and its Pause and Play keys are gone; the chevron is the one line icon left.
+  assert.match(tour, /import \{ ArrowLeft \} from 'lucide-react';/, 'the chevron only');
   assert.match(tour, /const RAIL_ICON = 32;/, 'BrandIcon draws the object from 32 px up');
   // R3-D5 (5 Nov 2026, LK105): the rail's objects load eagerly at low priority (a lazy image in a sideways scroller arrived
   // after its chip was on screen); this line used to pin the bare <BrandIcon name={name} size={RAIL_ICON} />.

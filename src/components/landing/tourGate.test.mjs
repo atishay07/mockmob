@@ -149,9 +149,12 @@ test('ScrollStory carries a step count in the same transition as the step; the t
   assert.match(story, /startTransition\(\(\) => setShown\(change\)\);/);
   assert.match(story, /const api = useMemo\(\(\) => \(\{ step, seq, pinned, reduced, live, goTo, steps \}\)/);
   const tour = strip(read('./FeatureTour.jsx'));
-  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo \}\)/);
-  assert.match(tour, /epoch=\{on \? \(pinned \? seq : visit\) : -1\} held=\{pinned\}/);
-  assert.match(tour, /key=\{pinned \|\| !on \? 'still' : visit\}/, 'screens stay mounted while held (LK81)');
+  // 16 Nov 2026: the timed carousel went (a touch screen gets the stack), so the held tour is the only one that steps, and
+  // its screen on stage takes the story's step count as its epoch. No key on a screen: they stay mounted (LK81).
+  assert.match(tour, /function HeldTour\(\{ slides, step, seq = 0, reduced, goTo: storyGoTo, samples \}\)/);
+  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced\} play=\{on && running\} epoch=\{on \? seq : -1\}/);
+  assert.match(tour, /\(\{ active, reduced, paused: false, epoch, held: true \}\)/);
+  assert.doesNotMatch(tour, /<TourScreen key=/, 'screens stay mounted while held (LK81)');
 });
 
 test('the rail icons load eagerly at low priority; the chip row moves the next frame from cached places', () => {
