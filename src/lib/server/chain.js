@@ -12,7 +12,22 @@ export const CHAIN_HISTORY_DAYS = 730;
 const missingSchema = (e) => /PGRST20[25]|42883|42P01|does not exist|schema cache|Could not find the function/i.test(`${e?.code || ''} ${e?.message || ''}`);
 
 /**
- * deps: { rpc(name, params), now() -> ms, latePapers?(userId) -> [{ completed_at, total, unattempted }] | null }. latePapers is
+ * The streak's other days (17 Nov 2026, S2): a whole Daily Five adds its 5 answers to its IST day, and a finished Mistake
+ * Repair makes its day count (`counts`, no answers). Merged here in JS before the walk, so no SQL changes; chain_daily still
+ * reads only attempts, Mob game answers and fix checks. `daily` stays the SQL's own rows (the Mob's unlock checks use it).
+ */
+export function mergeStreakDays(daily = [], extra = []) {
+  const out = (daily || []).map((d) => ({ ...d }));
+  for (const e of extra || []) {
+    if (!e?.day || !/^\d{4}-\d{2}-\d{2}$/.test(String(e.day).slice(0, 10))) continue;
+    out.push({ day: String(e.day).slice(0, 10), answered: Math.max(0, Number(e.answered) || 0), ...(e.counts === true ? { counts: true } : {}) });
+  }
+  return out;
+}
+
+/**
+ * deps: { rpc(name, params), now() -> ms, latePapers?(userId) -> [{ completed_at, total, unattempted }] | null,
+ *         extraDays?(userId, fromDay) -> [{ day, answered, counts? }] (the Daily Fives and repairs; a failed read is []) }. latePapers is
  * the student's late papers (B8: sent after their time; src/lib/server/latePapers.js), which never make a chain day: chain_daily
  * (applied SQL) counts every attempt, so they come off here. null means that read failed: the chain is shown with them counted,
  * and the best is not stored from it.
@@ -31,13 +46,14 @@ export function createChainService(deps) {
   async function read(userId) {
     const t = today();
     const from = localDay(now() - CHAIN_HISTORY_DAYS * DAY_MS, 'Asia/Kolkata');
-    const [s, late] = await Promise.all([
+    const [s, late, extra] = await Promise.all([
       call('chain_state', { p_user_id: userId, p_from: from }),
       deps.latePapers ? Promise.resolve().then(() => deps.latePapers(userId)).catch(() => null) : [],
+      deps.extraDays ? Promise.resolve().then(() => deps.extraDays(userId, from)).catch(() => []) : [],
     ]);
     const daily = dailyWithoutLate(s?.daily || [], late);
     const body = computeChain({
-      daily, pauses: s?.pauses || [], fixesHeld: s?.fixes || [], today: t,
+      daily: mergeStreakDays(daily, extra), pauses: s?.pauses || [], fixesHeld: s?.fixes || [], today: t,
       hidden: s?.hidden === true, storedBest: Number(s?.best_days) || 0, seen: new Set(s?.seen || []),
     });
     if (late !== null && body.best > (Number(s?.best_days) || 0)) await call('chain_best_bump', { p_user_id: userId, p_days: body.best }).catch(() => null);

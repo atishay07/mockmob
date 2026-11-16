@@ -48,6 +48,8 @@ import { GUIDE_AUTO_DELAY_MS, GUIDE_AUTO_WINDOW_MS, guideAutoStart, tourSteps } 
 import { TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
 import { captureInstallPrompt } from '@/lib/installPrompt';
+import StreakChip from '@/components/streak/StreakChip';
+import StreakSheet from '@/components/streak/Streak';
 
 // React's <ViewTransition> (no Next flag since 16.3): the arena's page transitions. The type
 // of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
@@ -445,6 +447,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 free this month + bought/held, and until it answers the account's own total stands in), and the person opens Account,
                 with the plan beside the name when it is Pro. No coin glyph: the unit is a word. Free shows no plan tag and no pitch. */}
             <div className="arena-acct" role="group" aria-label="Your account">
+              {/* The daily streak (17 Nov 2026, LK296): the capsule's first door, its number opening the streak sheet. Not on the
+                  pages that show the streak themselves (Today, You, the Mob den), and not while it is 0. */}
+              <StreakChip userId={user?.id || null} path={activePath} />
               <Link href={previewLinks?.wallet || '/wallet'} className="arena-acct__credits" data-tour="credits-pill" data-state={wallet.wallet?.state || 'unknown'} aria-label={`${creditsWords(barCredits)}. Open Wallet`}>
                 <b>{Number(barCredits).toLocaleString('en-IN')}</b><span>{barCredits === 1 ? 'credit' : 'credits'}</span>
               </Link>
@@ -467,6 +472,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         )}
       </header>
       )}
+      {/* The streak sheet, one per page: the top bar chip, Today, You and You > Goal open it (openStreakSheet). */}
+      {!chromeless && user?.id ? <StreakSheet userId={user.id} /> : null}
 
       <main id="app-main" tabIndex={-1} className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
         <div className="arena-backdrop" aria-hidden="true" />

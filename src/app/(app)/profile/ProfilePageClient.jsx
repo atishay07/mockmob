@@ -29,6 +29,7 @@ import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
 import InviteFriendCard from '@/components/referrals/InviteFriendCard';
 import GoalControl from '@/components/profile/GoalControl';
+import { StreakPauseOffer } from '@/components/streak/StreakYou';
 import SetPasswordCard from '@/components/profile/SetPasswordCard';
 import AccountLinks from '@/components/profile/AccountLinks';
 import SignOutControl, { SignedInLine } from '@/components/profile/SignOutControl';
@@ -359,6 +360,8 @@ export default function ProfilePageClient() {
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Your goal</h2>
             <GoalControl />
+            {/* Exam pause days for the daily streak (17 Nov 2026, S8): set ahead, in words; it opens the streak sheet's pause view. */}
+            <StreakPauseOffer userId={user?.id} />
           </section>
           <PlanCredits userId={user?.id} />
           <CreditsSection userId={user?.id} />

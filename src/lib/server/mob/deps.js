@@ -23,6 +23,7 @@ import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
 import { createReportAlert } from './reportAlert';
 import { readLatePapersSoft, readMockScores } from '@/lib/server/latePapers';
+import { readStreakExtras } from '@/lib/server/streakDays';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
 // The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
@@ -169,6 +170,8 @@ export function mobService() {
     onReport: onMobReport,
     // B8 (15 Nov 2026): a late paper makes no chain day and no Fold (games.js and chain.js take them off the applied SQL's counts).
     latePapers: (userId) => readLatePapersSoft(supabaseAdmin(), { userId }),
+    // The daily streak (17 Nov 2026, S2): a whole Daily Five and a finished repair make a streak day, in the den as on Today.
+    extraDays: (userId, fromDay) => readStreakExtras(supabaseAdmin(), userId, fromDay),
     mockScores: (userId) => readMockScores(supabaseAdmin(), userId),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),

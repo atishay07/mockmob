@@ -5,7 +5,7 @@
 // the days (240 ms, the N5 lesson), not seven boxes switching. The caption ties the week to tonight; its "Your weeks"
 // opens Progress. Today's readout says what the day holds, never the lead again (release 10, D15); once today is counted it
 // carries the week's one line itself ("Counted at 7:41 PM. 1 more study day meets your 4."). The week-goal Mobi cheer (once per week on this device, only when no other Mobi is on screen) and the
-// weekly repair receipt stay from R3.
+// weekly repair receipt stay from R3. 17 Nov 2026 (LK296): titled "This week's goal", under the daily streak (TodayStreak).
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
@@ -96,7 +96,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   if (rhythm.status === 'error') {
     return (
       <section className="tw" id="week" aria-labelledby="tw-h">
-        <header className="tg__row"><h2 id="tw-h" className="tg__h">This week</h2></header>
+        <header className="tg__row"><h2 id="tw-h" className="tg__h">This week’s goal</h2></header>
         <p className="tw__empty" role="status">Your study days did not load. <button type="button" className="tm__inline" onClick={onRetry}>Try again</button></p>
       </section>
     );
@@ -105,7 +105,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   if (!r || hold) {
     return (
       <section className="tw tw--wait" id="week" aria-labelledby="tw-h" aria-busy="true">
-        <header className="tg__row"><h2 id="tw-h" className="tg__h">This week</h2><span className="tw__fig--wait" /></header>
+        <header className="tg__row"><h2 id="tw-h" className="tg__h">This week’s goal</h2><span className="tw__fig--wait" /></header>
         <ol className="tw__days" aria-hidden="true">{['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((n) => <li key={n}><span className="tw__day" data-state="wait"><span className="tw__dot" /><span className="tw__name">{n}</span></span></li>)}</ol>
         <div className="tw__readout tw__readout--wait"><span /><span /></div>
       </section>
@@ -114,7 +114,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   return (
     <section className="tw" id="week" aria-labelledby="tw-h">
       <header className="tg__row">
-        <h2 id="tw-h" className="tg__h">This week</h2>
+        <h2 id="tw-h" className="tg__h">This week’s goal</h2>
         {/* The one count of the week's study days; Road to CUET's This week prints the same figure and words (weekDays). */}
         {count ? <p className="tg__fig"><b>{count.figure}</b>{count.of ? <span className="tg__of">{count.of}</span> : null}<span>{count.unit}</span></p> : null}
       </header>

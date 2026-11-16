@@ -5,6 +5,7 @@
 // data/tests/mob_v3_den_web.test.mjs holds the lint (C-1 to C-4) over this file and the den components.
 
 import { MOCK_SIT_CREDITS } from '../mockPrice.mjs';
+import { PASS_EVERY, PASS_FIRST_AT, PASS_MAX, PASS_PER_FIXES, PAUSE_MAX } from '../../chain/chain.mjs';
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -129,7 +130,8 @@ export const DenCopy = Object.freeze({
   denPreviewLabel: 'Your den, with four seats waiting for friends.',
   denSubtitle: (subject, size) => (size <= 1 ? `${subject}, just you` : `${subject}, ${size} of you`),
   chainChip: (days) => (days === 1 ? '1 day' : `${days} days`),
-  chainChipLabel: (days) => `Your chain, ${days === 1 ? '1 day' : `${days} days`} in a row. Opens your chain.`,
+  // 17 Nov 2026 (LK296): the personal chain is the daily streak, in one vocabulary on Today, You, the top bar and here.
+  chainChipLabel: (days) => `Your daily streak, ${days === 1 ? '1 day' : `${days} days`} in a row. Opens your streak.`,
   pennantWord: (w) => (w === 1 ? 'week' : 'weeks'),
   // A Mob with no week yet says so (U7, 15 Nov 2026): "0 weeks in a row" read as a failure on day one.
   pennantLabel: (w) => (w > 0 ? `${w === 1 ? '1 week' : `${w} weeks`} in a row. Opens your Mob's chain.` : "New Mob. Opens your Mob's chain."),
@@ -216,7 +218,7 @@ export const DenCopy = Object.freeze({
   // Quest strip
   questTitle: "This week's quest",
   questCount: (q) => (q.answered > q.target ? `${q.answered} answered. The quest needed ${q.target}.` : `${q.answered} of ${q.target} questions`),
-  passNotice: (weekday, days) => `${weekday} was covered by a rest pass. Your chain is still ${days}.`,
+  passNotice: (weekday, days) => `${weekday} was covered by a rest pass. Your streak is still ${days}.`,
   stickerSent: 'Sent to your Mob.',
   stickerRowLabel: 'Send your Mob a sticker',
   stickerLabel: (kind) => `Send the sticker ${STICKERS[kind] || ''}`,
@@ -328,7 +330,7 @@ export const DenCopy = Object.freeze({
     'Play every game your Mob starts, as often as you like.',
     'The weekly Mob paper, in every Mob you are in.',
     'One start a week in each Mob.',
-    'Your chain, rest passes and make-up days.',
+    'Your daily streak, rest passes and make-up days.',
     'The podium, your marks and Fix it together.',
     'Every Fold and sticker you earn.',
   ],
@@ -356,9 +358,9 @@ export const DenCopy = Object.freeze({
   yourFold: 'Your Fold',
 
   // C1 Chain, You
-  chainsTitle: 'Chains',
-  chainLoading: 'Loading your chain',
-  chainFailed: "Your chain didn't load.",
+  chainsTitle: 'Streaks',
+  chainLoading: 'Loading your streak',
+  chainFailed: "Your streak didn't load.",
   tabYou: 'You',
   daysInARow: (n) => (n === 1 ? 'day in a row' : 'days in a row'),
   chainBreakdown(c) {
@@ -371,18 +373,19 @@ export const DenCopy = Object.freeze({
   todayProgress: (a, n) => `${a} of ${n}`,
   answerMore: (left) => (left === 1 ? 'Answer 1 more question today to count it.' : `Answer ${left} more questions today to count it.`),
   passesHeld: (held, max) => (held >= max ? `${held} rest passes, the most you can hold` : held === 1 ? '1 rest pass' : `${held} rest passes`),
-  passesRule: 'Miss a day and one is used for you. You earn one every 7 days, and one for every 3 fixes that hold.',
-  makeUpOpen: (weekday, needed) => `${weekday} was missed and no pass was left. Answer ${needed} questions today or tomorrow and ${weekday} counts.`,
+  passesRule: `A rest pass covers a day without practice by itself. You earn one at day ${PASS_FIRST_AT}, one every ${PASS_EVERY} days, and one for every ${PASS_PER_FIXES} repairs that hold.`,
+  makeUpOpen: (weekday, needed) => `${weekday} is still open. Answer ${needed} today to keep your streak.`,
   makeUpProgress: (answered, needed) => `You have answered ${answered} of ${needed} today.`,
   makeUpOnce: 'A make-up can be used once every 14 days.',
-  newChain: (best) => `A new chain starts today. Your best is ${best} days.`,
-  calendarCaption: 'Moon: a rest pass kept the chain.',
-  milestone: (m) => (m.reward === 'rest_pass' ? `Rest pass at ${m.at}` : m.reward === 'foil' ? `Foil edge at ${m.at}` : m.reward === 'ribbon' ? `A ribbon at ${m.at}` : `${m.at} days`),
+  newChain: (best) => `A new streak starts with today. Your best is ${best} days.`,
+  calendarCaption: 'Moon: a rest pass kept the day.',
+  // Bug 6 (17 Nov): a rest-pass milestone never promises a pass the cap swallows; at the cap it says so.
+  milestone: (m) => (m.reward === 'rest_pass' ? (m.full ? `Rest pass at ${m.at}. You already hold ${PASS_MAX}, the most you can keep` : `Rest pass at ${m.at}`) : m.reward === 'foil' ? `Foil edge at ${m.at}` : m.reward === 'ribbon' ? `A ribbon at ${m.at}` : `${m.at} days`),
   moreDays: (n) => (n === 1 ? '1 more day' : `${n} more days`),
   examPause: 'Exam pause days',
-  hideChain: 'Hide my chain',
-  hiddenLine: 'Your chain is hidden. It still counts, and nobody else ever sees it.',
-  showChain: 'Show my chain',
+  hideChain: 'Hide my streak',
+  hiddenLine: 'Your streak is hidden from your Mob. It still counts, and you still see it on Today.',
+  showChain: 'Show my streak',
   dayInitials: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
   dayState: (s) => ({ practised: 'practised', rested: 'rested', made_up: 'made up', paused: 'set aside for exams', open: 'open', today: 'today' }[s] || 'not practised'),
 
@@ -408,7 +411,7 @@ export const DenCopy = Object.freeze({
   onTheWay: 'On the way',
 
   // P5 Exam pause
-  pauseLine: (left) => `Set days ahead for school exams. Your chain holds on those days. You have 14 a season, and ${left} are left.`,
+  pauseLine: (left) => `Set days ahead for school exams. Your streak holds on them. You have ${PAUSE_MAX} a season, and ${left} are left.`,
   pauseKey: (n) => (n === 1 ? 'Pause 1 day' : `Pause ${n} days`),
   clearDays: 'Clear these days',
   pickDays: 'Choose days to pause',

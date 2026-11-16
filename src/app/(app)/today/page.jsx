@@ -37,6 +37,7 @@ import { useToday } from '@/components/today/useToday';
 import TodayMove, { swapLearned } from '@/components/today/TodayMove';
 import TodayReel from '@/components/today/TodayReel';
 import TodayWeek from '@/components/today/TodayWeek';
+import TodayStreak from '@/components/streak/TodayStreak';
 import TodayRoad from '@/components/today/TodayRoad';
 import TodayWeak from '@/components/today/TodayWeak';
 import TodayPaper from '@/components/today/TodayPaper';
@@ -365,6 +366,8 @@ export default function Today() {
             {dayOne || allFailed ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
           </div>
           {allFailed ? null : <div className="today-grid__side">
+            {/* The daily streak (17 Nov 2026, LK296): its number, today's one line and the rest passes, above this week's goal. */}
+            <TodayStreak userId={userId} hold={landing} />
             <TodayWeek
               hold={landing} rhythm={data.rhythm} goal={data.goal} everSessions={everSessions}
               mobiFree={!(lead?.art === 'mobi' || lead?.id === 'done') && phase !== 'failed'} mob={mob} repairs={data.repairRows} papers={data.papers}
