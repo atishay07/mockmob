@@ -36,6 +36,7 @@ import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
 import DenV3 from './den/DenV3';
 import DenStart from './den/DenStart';
+import ClassMobEntry from '@/components/class/ClassMobEntry';
 import DenSkeleton from './den/DenSkeleton';
 import { readDenShape, rememberMobKind } from './den/denShape';
 import { DenSettingsRows } from './den/DenSheets';
@@ -461,6 +462,7 @@ function InMob({ data, mob, user, warm = false }) {
         onCompare={(x) => openCompare(x.id, { extra: x.id })} />
       </> : null}
 
+      <ClassMobEntry />
       <section className="mob-card mob-plain" aria-labelledby="mob-members-h">
         <header className="mob-head">
           <h2 id="mob-members-h" className="mob-h2">Members</h2>
@@ -602,6 +604,8 @@ export default function MobPage({ user, billingOn = false }) {
         {mob.status === 'ready' && !data ? (mob.v3Available ? <DenStart user={user} mob={mob} billingOn={billingOn} /> : <NoMob user={user} mob={mob} />) : null}
         {/* keyed by Mob: a different Mob starts clean, so no side-by-side of the one before stays open */}
         {data ? <InMob key={data.id} data={data} mob={mob} user={user} warm={warm} /> : null}
+        {/* Class leagues (16 Nov 2026): one entry, beside the Mob (in a Mob, above its members); nothing while it is off. */}
+        {mob.status === 'ready' && !data ? <ClassMobEntry /> : null}
       </section>
     </div>
   );

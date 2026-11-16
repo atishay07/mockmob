@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { CalendarClock } from 'lucide-react';
 import { addDays, satLine, sundayWeekOf, timeLabel, windowLine } from '@/lib/sundayMock.mjs';
 import { forgetSunday, useSunday } from './useSunday';
+import ClassResultLine from '@/components/class/ClassResultLine';
 import './sunday.css';
 
 export function SundayResultRow({ attempt, stats = null }) {
@@ -34,6 +35,7 @@ export function SundayResultRow({ attempt, stats = null }) {
   }
   const sat = stats && Number.isInteger(stats.sat) ? satLine(stats.sat) : '';
   return (
+    <>
     <section className="sun-res" aria-label="Sunday Mock">
       <span className="sun-mark" aria-hidden="true"><CalendarClock size={22} strokeWidth={1.6} /></span>
       <span className="sun-res__text">
@@ -42,5 +44,8 @@ export function SundayResultRow({ attempt, stats = null }) {
       </span>
       <Link className="sun-link" href="/sunday">Sunday Mock</Link>
     </section>
+    {/* Class leagues (16 Nov 2026): the class's line once the answers are open; nothing while CLASS_LEAGUES_ENABLED is off. */}
+    <ClassResultLine week={week} subject={attempt?.subject || null} />
+    </>
   );
 }

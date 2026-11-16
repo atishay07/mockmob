@@ -138,6 +138,15 @@ export const DELETION_STEPS = Object.freeze([
     why: 'reports keep the reason and the reported name for moderation, with no user link (purged after 180 days)',
     set: [{ column: 'reporter_id', value: 'null' }, { column: 'reported_id', value: 'null' }],
   },
+  // Class leagues (migration 20261116150000_class_leagues.sql, unapplied until the owner applies it). Listed before the tables
+  // exist: a missing table is skipped, so nothing here reads them on a database without them. The memberships go; a class the
+  // student started keeps no record of who started it and closes, since nobody is left who may end it (its members' seats
+  // free up on their next read). The stored weekly figures (class_league_weeks) hold counts only, no user, and stay as seen.
+  { table: 'class_league_members', action: 'delete', match: own(), why: 'class league memberships' },
+  {
+    table: 'class_leagues', action: 'anonymise', match: own('created_by'), why: 'a class keeps no record of who started it, and closes',
+    set: [{ column: 'created_by', value: 'null' }, { column: 'closed_at', value: 'now' }],
+  },
   // Friend invites (owner D165, migration 20261020130000): the code goes; the invite rows keep the two account links (the
   // credit ledger rows they paid point at them) but lose the hashed device and network.
   { table: 'referral_codes', action: 'delete', match: own(), why: 'the friend-invite code and the hashed devices it was opened on' },
