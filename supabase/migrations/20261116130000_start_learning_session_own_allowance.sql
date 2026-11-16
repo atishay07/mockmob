@@ -2,7 +2,7 @@
 -- apply only with the owner's or the CTO's word, after 20261116120000_release_unstarted_allowance.sql.
 -- Undo: supabase/undo/20261116130000_start_learning_session_own_allowance.undo.sql.
 --
--- Why: a free durable start takes its row in learning_allowances (kind 'first_full_mock:<subject>', period 'ever') before
+-- Why: a free durable start takes its row in learning_allowances (the subject's free first Full mock, period 'ever') before
 -- start_learning_session, outside the users row lock. The server now also names that row in the call (p_quota_kind, p_credit_action
 -- null), so the session and its row are made in one transaction under the lock: a row a failed twin gave back a moment before is
 -- taken again with the session (this already works with the old function). What the old function cannot do: when a start of the

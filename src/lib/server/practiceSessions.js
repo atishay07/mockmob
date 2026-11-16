@@ -17,7 +17,7 @@ import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { lateMeta, lateSubmission, submitTiming } from '@/../data/late_paper';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
-import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
+import { firstFullMockApplies, firstFullMockKind, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
 import { firstFullMockFor, keepFirstFullMock, releaseFirstFullMock, takeFirstFullMock } from './firstFullMock';
 import { claimPracticeStart, paperOf, releasePracticeStart } from './practiceStart';
 
@@ -142,22 +142,31 @@ export async function startPractice(userId, input, server = {}) {
     // charged attempt_full without a warning. The free first full mock is now taken here, before the session, exactly as the
     // device-held start takes it (takeFirstFullMock): the row's primary key lets one start have it, a start whose own read said
     // free that finds it taken is refused with FIRST_FULL_MOCK_TAKEN and charged nothing, and the start holding it passes no
-    // charge and no quota. SESS-FOLLOWUP 4: the row is taken outside start_learning_session's transaction, so a session that then
+    // charge. SESS-FOLLOWUP 4: the row is taken outside start_learning_session's transaction, so a session that then
     // fails to start gives the row back (releaseFirstFullMock; kept while a session with this id exists), and the subject's free
     // full mock is not spent on a paper that never started.
+    // Release race, case 1 (review, 16 Nov 2026, tmp/1116-race/CTO-NOTE.md): the free start also names its row in the session call
+    // (the quota, with no action to charge), so the session and the row are made together under the users lock. A row a failed
+    // twin gave back a moment before is taken again there, and a reply lost after the commit leaves nothing to repair. The
+    // function production has does this already (it inserts a missing allowance; a present one with no action charges nothing).
     let tookFree = false;
     if (charge.firstFullMock === true) {
       const free = await takeFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id, reference: `recovery:${id}`, state: firstFullMock });
       quota = null;
-      if (free) { creditAction = null; tookFree = true; }
+      if (free) { creditAction = null; tookFree = true; quota = firstFullMockKind(selection.internalSubject); }
     }
     const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
     if (error) {
       if (tookFree) await releaseFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id });
+      // supabase/migrations/20261116130000 (not applied): a start with another key took the free row in the moment between, so this
+      // start was refused with nothing written or charged, as a start that finds the row taken is.
+      if (tookFree && /allowance taken/.test(String(error.message || ''))) throw firstFullMockTakenError();
       throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
     }
     // Release race (16 Nov 2026): a double tap's failed twin may have given the free row back just before this start took the
-    // users lock, leaving this free session with no row; it is taken again here (keepFirstFullMock; never throws).
+    // users lock, leaving this free session with no row; it is taken again here (keepFirstFullMock; never throws). With the session
+    // call taking the row (above), this is left for the release that still reads then deletes (20261116120000 not applied). The
+    // session may also be a twin's paid one (case 2): keep then never gives it the free row, and gives back the row this start took.
     if (tookFree && data?.id === id) await keepFirstFullMock(db, { userId, subject: selection.internalSubject, sessionId: id });
     return publicSessionView(data);
   }
