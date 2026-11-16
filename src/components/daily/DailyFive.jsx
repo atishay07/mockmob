@@ -156,10 +156,14 @@ export default function DailyFive() {
   const accountReady = account?.state === 'ready' && today && account.date === today.date;
   const accountRecord = accountReady ? account.record : null;
   // The college: the account's once read (its latest five's), else this device's choice (team.mjs mergeTeam).
-  const team = useTeamChoice({ today: today?.date || null, account: accountReady ? account.team : null });
+  const team = useTeamChoice({ today: today?.date || null, account: accountReady ? account.team : null, userId });
   const teamRef = useRef(null);
   useEffect(() => { teamRef.current = team.college; });
   const seat = accountReady ? seatWords(account.seat) : '';
+  // The college today's five counted for (the account's rows say so), for the result and the share line; until the account
+  // names one, this device's choice. A later change on this device is tomorrow's and never renames today's five.
+  const countedToday = accountReady && account.team && account.team.last === today.date ? account.team.college : null;
+  const shareCollege = teamName(countedToday || team.college || '');
   const mine = useMyColleges(userId);
   const myFirst = useMemo(() => (mine.status === 'ready' ? mine.colleges.map((c) => teamIdOfName(c.college)).filter(Boolean) : []), [mine.status, mine.colleges]);
   const board = useBoard(today?.date || null, phase !== 'loading' || Boolean(today));
@@ -485,7 +489,7 @@ export default function DailyFive() {
 
   async function shareScore() {
     if (!result) return;
-    const text = shareText(result, team.college ? teamName(team.college) : '');
+    const text = shareText(result, shareCollege);
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({ text });
@@ -564,7 +568,7 @@ export default function DailyFive() {
       : account?.state === 'failed' ? 'failed' : accountReady ? 'device' : 'saving';
     const days = runOf(true);
     // Which college today's five counts for: the account's (its rows say so), else nothing is claimed. A guest's is not counted.
-    const counted = accountReady && account.team && account.team.last === today.date ? account.team.college : null;
+    const counted = countedToday;
     const countedLine = !signedIn ? ''
       : counted ? `Today’s five counts for ${teamName(counted)} on the college board.`
         : saveState === 'saved' && !team.college ? 'Today’s five counts for no college. Pick one for tomorrow’s.' : '';
@@ -604,7 +608,7 @@ export default function DailyFive() {
                   <p className="dly__share-note" aria-live="polite">
                     {share === 'copied' ? 'Your score is copied. Paste it in WhatsApp.' : share === 'failed' ? 'Couldn’t copy. Press and hold the lines below to copy them.' : 'Your score and squares only. No questions.'}
                   </p>
-                  {share === 'failed' ? <p className="dly__share-text">{shareText(result, team.college ? teamName(team.college) : '')}</p> : null}
+                  {share === 'failed' ? <p className="dly__share-text">{shareText(result, shareCollege)}</p> : null}
                 </div>
 
                 <RunBlock days={days} today={today.date} numbers note={runNote(saveState)}>

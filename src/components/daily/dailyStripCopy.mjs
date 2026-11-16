@@ -14,7 +14,8 @@ import { ANSWERS_AT, LAST_START, OPENS, PAPER_FIGURES } from '../../app/sunday-m
 
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',
-  sub: 'The same five English and General Test questions for everyone. Each five you play counts for the DU college you pick.',
+  // Only a signed-in five counts on the college board (a guest's is kept on the device alone): the line says so.
+  sub: 'The same five English and General Test questions for everyone. Each five you play signed in counts for the DU college you pick.',
 });
 
 // What the five are: the two papers nearly every CUET student sits, so one five can be the same for everyone. How many and

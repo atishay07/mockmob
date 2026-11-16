@@ -101,6 +101,31 @@ test('the device beside the account: the account wins, unless a change was made 
   assert.equal(mergeTeam(null, null), null);
 });
 
+test('the device never says a college the server will not count: a change the account\'s week refuses gives way (review)', () => {
+  // The account changed to Hansraj on the 14th: no change before the 21st, whatever this phone picked (the home block reads
+  // no account, so its sheet can offer one).
+  const locked = { college: H, since: '2026-11-14', changedOn: '2026-11-14', last: '2026-11-16' };
+  const picked = { college: M, on: '2026-11-17', changedOn: null };
+  assert.deepEqual(mergeTeam(picked, locked), { college: H, on: '2026-11-14', changedOn: '2026-11-14' });
+  assert.equal(teamForCheck([...rowsOf('2026-11-13', K), ...rowsOf('2026-11-14', H), ...rowsOf('2026-11-16', H)], '2026-11-17', M), H, 'the server agrees');
+  // From the 21st the same pick stands, as the server then writes it.
+  assert.equal(mergeTeam({ ...picked, on: '2026-11-21' }, locked).college, M);
+  assert.equal(teamForCheck([...rowsOf('2026-11-13', K), ...rowsOf('2026-11-14', H), ...rowsOf('2026-11-16', H)], '2026-11-21', M), M);
+});
+
+test('a shared phone: one account\'s college and its lock are never another\'s; a guest\'s pick moves to the account (review)', () => {
+  assert.deepEqual(readTeam(JSON.stringify({ college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' })), { college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' });
+  assert.deepEqual(readTeam({ college: H, on: '2026-11-17', by: '' }), { college: H, on: '2026-11-17', changedOn: null });
+  const asA = { college: H, on: '2026-11-17', changedOn: '2026-11-17', by: 'user-a' };
+  assert.equal(mergeTeam(asA, null, 'user-b'), null, 'another account signed in: no college, and no lock, from this phone');
+  assert.equal(mergeTeam(asA, null, 'user-a').college, H);
+  assert.equal(mergeTeam(asA, null).college, H, 'signed out: the phone\'s own choice shows');
+  const account = { college: K, since: '2026-11-10', changedOn: null, last: '2026-11-16' };
+  assert.equal(mergeTeam(asA, account, 'user-b').college, K, 'B\'s own college, never A\'s pending one');
+  const guest = { college: M, on: '2026-11-17', changedOn: null };
+  assert.equal(mergeTeam(guest, null, 'user-b').college, M, 'a guest\'s pick is the account\'s at sign-up');
+});
+
 // ---------------------------------------------------------------------------------------------------------------------
 // The rule on the server, from the account's rows.
 
@@ -152,11 +177,13 @@ test('today\'s board: colleges by players, an average only from 5, whole fives o
   assert.equal(board.players, 10);
   assert.equal(board.counted, 9);
   assert.deepEqual(board.colleges, [
-    { college: H, players: 5, avg: 2 },
+    { college: H, players: 5, avg: null },
     { college: M, players: 3, avg: null },
     { college: K, players: 1, avg: null },
   ]);
-  assert.equal(BOARD_AVG_FLOOR, 5);
+  assert.equal(BOARD_AVG_FLOOR, 10);
+  // Under a lower floor the same rows show the average, to the nearest half.
+  assert.deepEqual(dayBoard(rows, date, 5).colleges[0], { college: H, players: 5, avg: 2 });
   const text = JSON.stringify(board);
   for (const id of ['h1', 'm1', 'k1', 'none1', 'half']) assert.ok(!text.includes(`"${id}"`), `no user id: ${id}`);
   // A place written twice keeps the first; the college of a day is its lowest place's.
@@ -267,4 +294,14 @@ test('every sentence is plain: the edition by its day, no bare number, no name, 
   assert.match(AVG_RULE, new RegExp(String(BOARD_AVG_FLOOR)));
   assert.match(WEEK_RULE, new RegExp(String(WEEK_FLOOR)));
   assert.match(SUNDAY_RULE, new RegExp(String(SUNDAY_BOARD_FLOOR)));
+});
+
+test('the day board average: from ten players, to the nearest half, so one more player never gives a score away', () => {
+  const date = '2026-11-18';
+  // Ten players with 34 right in all (3.4 each): 3.5. An eleventh with 5 right (39 of 55, 3.55): still 3.5.
+  const ten = [...Array(10).keys()].flatMap((i) => five(`p${i}`, date, H, i < 4 ? 4 : 3));
+  assert.deepEqual(dayBoard(ten, date).colleges, [{ college: H, players: 10, avg: 3.5 }]);
+  assert.deepEqual(dayBoard([...ten, ...five('p10', date, H, 5)], date).colleges, [{ college: H, players: 11, avg: 3.5 }]);
+  // Nine players: no average at all.
+  assert.deepEqual(dayBoard(ten.filter((r) => r.user !== 'p9'), date).colleges, [{ college: H, players: 9, avg: null }]);
 });

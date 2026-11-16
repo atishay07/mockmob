@@ -20,8 +20,10 @@ import { isTeamCollege, teamName } from './colleges.mjs';
 export const TEAM_STORE = 'mm:daily-team:v1';
 /** After a change, the next change opens this many days later. */
 export const TEAM_CHANGE_DAYS = 7;
-/** A college's average right answers today shows once this many signed-in students played for it today. */
-export const BOARD_AVG_FLOOR = 5;
+/** A college's average right answers today shows once this many signed-in students played for it today. Ten, and the average
+ *  rounded to the nearest half, so that one more player between two looks at the board never gives away that player's score
+ *  (the board refreshes through the day; students are 16-17). */
+export const BOARD_AVG_FLOOR = 10;
 /** A college's days a player this week shows once this many signed-in students played for it this week. */
 export const WEEK_FLOOR = 5;
 /** A college's Sunday Mock average shows once this many of its students sat the paper. */
@@ -46,8 +48,9 @@ export function editionName(date) {
 export const playingFor = (id) => (isTeamCollege(id) ? `Playing for ${teamName(id)}` : '');
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The device's choice: { college, on, changedOn }. `on` is the IST date it was made; `changedOn` the date of the last change
-// (null for a first pick that was never changed).
+// The device's choice: { college, on, changedOn, by? }. `on` is the IST date it was made; `changedOn` the date of the last
+// change (null for a first pick that was never changed); `by` the account it was made or read under (none: a guest's pick,
+// which the account signed in next takes over).
 
 /** The stored text as a choice, or null. */
 export function readTeam(raw) {
@@ -56,7 +59,8 @@ export function readTeam(raw) {
     try { value = JSON.parse(raw); } catch { return null; }
   }
   if (!value || typeof value !== 'object' || !isTeamCollege(value.college) || !isDateKey(value.on)) return null;
-  return { college: value.college, on: value.on, changedOn: isDateKey(value.changedOn) ? value.changedOn : null };
+  const by = typeof value.by === 'string' && value.by ? value.by : null;
+  return { college: value.college, on: value.on, changedOn: isDateKey(value.changedOn) ? value.changedOn : null, ...(by ? { by } : {}) };
 }
 
 /** The first day a change is allowed again, or null when a change is allowed now (a first pick, or the first change). */
@@ -95,16 +99,21 @@ export const CHANGE_RULE = 'You can change it later, once a week.';
 /**
  * The device beside the account. `account` is /api/daily/me's team: { college, since, changedOn, last } (last: the latest
  * day a five was played for it). The account wins unless the device chose after the account's latest five (a change made
- * here and not yet played): then the device's choice stands, and the lock is the later of the two.
+ * here and not yet played) on a day the account's own rule allowed a change (the server writes the account's college
+ * otherwise, so the page must not say another): then the device's choice stands, and the lock is the later of the two.
+ * `userId` is the signed-in student: a choice this device holds for another account (a shared phone) is not theirs and is
+ * left out; a guest's pick (no `by`) is theirs to take over.
  */
-export function mergeTeam(device, account) {
+export function mergeTeam(device, account, userId = null) {
+  const own = device && !(typeof userId === 'string' && userId && device.by && device.by !== userId) ? device : null;
   const acc = account && isTeamCollege(account.college) ? account : null;
-  if (!acc) return device || null;
-  if (device && device.college !== acc.college && isDateKey(acc.last) && device.on >= acc.last) {
-    const changedOn = [device.changedOn, acc.changedOn].filter(isDateKey).sort().pop() || null;
-    return { college: device.college, on: device.on, changedOn };
+  if (!acc) return own || null;
+  const accountRule = { college: acc.college, on: acc.since, changedOn: isDateKey(acc.changedOn) ? acc.changedOn : null };
+  if (own && own.college !== acc.college && isDateKey(acc.last) && own.on >= acc.last && canChange(accountRule, own.on)) {
+    const changedOn = [own.changedOn, acc.changedOn].filter(isDateKey).sort().pop() || null;
+    return { college: own.college, on: own.on, changedOn };
   }
-  return { college: acc.college, on: isDateKey(acc.since) ? acc.since : (device?.on || acc.last), changedOn: isDateKey(acc.changedOn) ? acc.changedOn : null };
+  return { college: acc.college, on: isDateKey(acc.since) ? acc.since : (own?.on || acc.last), changedOn: accountRule.changedOn };
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -204,12 +213,14 @@ function fivesOf(rows) {
 }
 
 const tenth = (v) => Math.round(v * 10) / 10;
+/** To the nearest half: 3.4 is 3.5, 3.2 is 3. */
+const half = (v) => Math.round(v * 2) / 2;
 const byName = (a, b) => teamName(a).localeCompare(teamName(b), 'en', { sensitivity: 'base' });
 
 /**
  * One day's board: { players, counted, colleges: [{ college, players, avg }] }. `players` is every signed-in student with a
  * whole five that day; `counted` those who played for a college. Colleges by players, most first; `avg` (right answers out
- * of 5, one decimal) only from BOARD_AVG_FLOOR players, else null. Ties: the higher average, then A to Z.
+ * of 5, to the nearest half) only from BOARD_AVG_FLOOR players, else null. Ties: the higher average, then A to Z.
  */
 export function dayBoard(rows, date, floor = BOARD_AVG_FLOOR) {
   const per = new Map();
@@ -226,7 +237,7 @@ export function dayBoard(rows, date, floor = BOARD_AVG_FLOOR) {
     c.right += five.score;
     per.set(five.team, c);
   }
-  const colleges = [...per].map(([college, c]) => ({ college, players: c.players, avg: c.players >= floor ? tenth(c.right / c.players) : null }));
+  const colleges = [...per].map(([college, c]) => ({ college, players: c.players, avg: c.players >= floor ? half(c.right / c.players) : null }));
   colleges.sort((a, b) => b.players - a.players || (b.avg ?? -1) - (a.avg ?? -1) || byName(a.college, b.college));
   return { players, counted, colleges };
 }

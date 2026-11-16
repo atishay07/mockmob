@@ -8,7 +8,8 @@ import { readFileSync } from 'node:fs';
 import { dailyTokenKey, sealDailyToken } from '../../src/lib/server/dailyFive.js';
 import { createDailyHandlers, createDailyStore } from '../../src/lib/server/dailyFiveAccount.js';
 import { BOARD_LIMIT, BOARD_TTL_MS, createBoardHandler, createTeamStore, seatOf, trapOf } from '../../src/lib/server/dailyTeam.js';
-import { dayNumber } from '../../src/lib/dailyFive.mjs';
+import { addDays, dayNumber } from '../../src/lib/dailyFive.mjs';
+import { dayBoard } from '../../src/lib/daily/team.mjs';
 
 const read = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8');
 const code = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -179,7 +180,7 @@ test('the board: public, aggregate and cached; colleges and counts only, never a
   assert.match(res.headers.get('Cache-Control'), /^public, max-age=\d+$/);
   assert.match(res.headers.get('CDN-Cache-Control'), /^public, s-maxage=\d+$/);
   const body = await res.json();
-  assert.deepEqual(body.today, { players: 7, counted: 7, colleges: [{ college: H, players: 5, avg: 4 }, { college: M, players: 2, avg: null }] });
+  assert.deepEqual(body.today, { players: 7, counted: 7, colleges: [{ college: H, players: 5, avg: null }, { college: M, players: 2, avg: null }] });
   assert.deepEqual(body.week.colleges[0], { college: H, players: 5, days: 6, perPlayer: 1.2 });
   assert.equal(body.week.from, '2026-11-16');
   assert.deepEqual(b.calls.span, [['2026-11-16', date]], 'one read for the week, today inside it');
@@ -244,6 +245,87 @@ test('yesterday\'s trap: the most-picked wrong answer from 30 answers up, about 
   const body = await (await b.get(dayNumber('2026-11-18'))).json();
   assert.equal(body.trap.pct, 45);
   assert.deepEqual(b.calls.picks, ['2026-11-17']);
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The board's reads against a store that answers as PostgREST does: at most 1,000 rows a request, in the order asked (and in
+// the order the rows were written when none is asked). Review, 17 Nov 2026.
+
+function cappedDb() {
+  const rows = [];
+  const CAP = 1000;
+  const pick = (row, path) => {
+    const m = /^metadata->(>?)(\w+)$/.exec(path);
+    if (!m) return row[path] ?? null;
+    const v = row.metadata?.[m[2]];
+    if (v === undefined || v === null) return null;
+    return m[1] ? String(v) : v;
+  };
+  function from() {
+    const st = { cols: [], filters: [], order: [], range: null, limit: Infinity };
+    const run = () => {
+      let out = rows.filter((r) => st.filters.every((f) => f(r)));
+      for (const [column, asc] of [...st.order].reverse()) out.sort((a, b) => (pick(a, column) < pick(b, column) ? -1 : pick(a, column) > pick(b, column) ? 1 : 0) * (asc ? 1 : -1));
+      const start = st.range ? st.range[0] : 0;
+      const end = Math.min(st.range ? st.range[1] + 1 : Infinity, start + st.limit, start + CAP);
+      const data = out.slice(start, end).map((r) => Object.fromEntries(st.cols.map(([name, path]) => [name, pick(r, path)])));
+      return { data, error: null };
+    };
+    const q = {
+      select(cols) { st.cols = cols.split(',').map((c) => (c.includes(':') ? c.split(':') : [c, c])); return q; },
+      eq(c, v) { st.filters.push((r) => pick(r, c) === v); return q; },
+      is(c, v) { st.filters.push((r) => (pick(r, c) ?? null) === v); return q; },
+      not(c, op, v) { assert.equal(op, 'is'); st.filters.push((r) => (pick(r, c) ?? null) !== v); return q; },
+      in(c, list) { st.filters.push((r) => list.includes(pick(r, c))); return q; },
+      gte(c, v) { st.filters.push((r) => pick(r, c) >= v); return q; },
+      lt(c, v) { st.filters.push((r) => pick(r, c) < v); return q; },
+      order(c, o = {}) { st.order.push([c, o.ascending !== false]); return q; },
+      range(a, b) { st.range = [a, b]; return q; },
+      limit(n) { st.limit = n; return q; },
+      then(resolve, reject) { return Promise.resolve(run()).then(resolve, reject); },
+    };
+    return q;
+  }
+  const add = (user, date, team, { type = 'daily_five', right = true } = {}) => {
+    for (let n = 1; n <= 5; n += 1) {
+      rows.push({
+        id: `daily5:${date}:${user}:${n}`, user_id: user, interaction_type: type, flow_context: null, session_id: `daily:${date}`,
+        created_at: new Date(at(date)).toISOString(), metadata: { n, right, ...(team ? { for: team } : {}) },
+      });
+    }
+  };
+  return { rows, add, client: { from } };
+}
+
+test('a Sunday sitter counts for the college of their latest five, however long their history (PostgREST\'s 1,000-row cut)', async () => {
+  const db = cappedDb();
+  const sunday = '2026-11-22';
+  // a: Hansraj for 110 days, then Miranda House for the last 10. Their latest fives were written last.
+  for (let d = 119; d >= 10; d -= 1) db.add('a', addDays(sunday, -d), H);
+  // b: Kirori Mal for 100 days.
+  for (let d = 100; d >= 1; d -= 1) db.add('b', addDays(sunday, -d), K);
+  for (let d = 9; d >= 0; d -= 1) db.add('a', addDays(sunday, -d), M);
+  // c: a month of fives for no college, then one for Shri Ram College of Commerce; another feature's row is never read.
+  for (let d = 40; d >= 3; d -= 1) db.add('c', addDays(sunday, -d), null);
+  db.add('c', addDays(sunday, -2), 'shri-ram-college-of-commerce');
+  db.add('a', sunday, K, { type: 'practice' });
+  assert.ok(db.rows.length > 1000);
+  const store = createTeamStore({ db: () => db.client });
+  const teams = await store.teamsOn(['a', 'b', 'c', 'a', 'nobody'], sunday);
+  assert.deepEqual(Object.fromEntries(teams), { a: M, b: K, c: 'shri-ram-college-of-commerce' });
+  // As of a Sunday before the change, a was still Hansraj's.
+  assert.equal((await store.teamsOn(['a'], addDays(sunday, -14))).get('a'), H);
+});
+
+test('the week\'s read keeps today whole: a cap ever reached cuts Monday, never today', async () => {
+  const db = cappedDb();
+  const days = ['2026-11-16', '2026-11-17', '2026-11-18'];
+  for (const date of days) for (let i = 0; i < 150; i += 1) db.add(`u${String(i).padStart(3, '0')}`, date, H);
+  const store = createTeamStore({ db: () => db.client, maxRows: 2000 });
+  const rows = await store.spanRows(days[0], days[2]);
+  assert.equal(rows.length, 2000, 'the cap was reached');
+  assert.equal(dayBoard(rows, days[2]).players, 150, 'every one of today\'s players');
+  assert.equal(dayBoard(rows, days[1]).players, 150);
 });
 
 test('the reads stay on the Daily Five\'s rows; the routes read no table themselves; the board route needs no session', () => {

@@ -34,10 +34,12 @@ const writeDevice = (choice) => {
 
 /**
  * The college this device plays for. `today` is the IST date (null before the clock is read); `account` is /api/daily/me's
- * team (signed in), or null. { ready, choice, college, changeable, lock, pick(college) }. `ready` is false until the device
- * has been read after the first paint (the server has no device).
+ * team (signed in), or null; `userId` the signed-in student, or null. { ready, choice, college, changeable, lock,
+ * pick(college) }. `ready` is false until the device has been read after the first paint (the server has no device). A
+ * choice is kept with the account it belongs to (`by`), so on a shared phone one student's college and its weekly lock never
+ * become another's (team.mjs mergeTeam).
  */
-export function useTeamChoice({ today = null, account = null } = {}) {
+export function useTeamChoice({ today = null, account = null, userId = null } = {}) {
   const [device, setDevice] = useState(undefined);
   useEffect(() => {
     const read = () => setDevice(readDevice());
@@ -47,20 +49,23 @@ export function useTeamChoice({ today = null, account = null } = {}) {
     window.addEventListener(TEAM_EVENT, read);
     return () => { window.clearTimeout(t); window.removeEventListener('storage', onStorage); window.removeEventListener(TEAM_EVENT, read); };
   }, []);
-  const choice = device === undefined ? null : mergeTeam(device, account);
-  // The account's college, once read, is this device's too.
+  const by = typeof userId === 'string' && userId ? userId : null;
+  const choice = device === undefined ? null : mergeTeam(device, account, by);
+  // The account's college, once read, is this device's too, kept as this account's.
   useEffect(() => {
     if (device === undefined || !account || !choice) return;
-    if (!device || device.college !== choice.college || device.changedOn !== choice.changedOn || device.on !== choice.on) writeDevice(choice);
-  }, [device, account, choice]);
+    if (!device || device.college !== choice.college || device.changedOn !== choice.changedOn || device.on !== choice.on || (device.by || null) !== by) {
+      writeDevice({ ...choice, ...(by ? { by } : {}) });
+    }
+  }, [device, account, choice, by]);
   const held = useRef(null);
   useEffect(() => { held.current = choice; });
   const pick = useCallback((college) => {
     if (!today) return null;
     const next = pickTeam(held.current, college, today);
-    if (next && next !== held.current) writeDevice(next);
+    if (next && next !== held.current) writeDevice({ ...next, ...(by ? { by } : {}) });
     return next;
-  }, [today]);
+  }, [today, by]);
   return {
     ready: device !== undefined,
     choice,
