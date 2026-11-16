@@ -35,9 +35,6 @@
 //   the hold  is a put per frame, measured to stay put on Chromium (Android Chrome, 6 Nov 2026). Where that is not
 //             known (canHold: Safari, Firefox) nothing is put while the page still moves: the step is shown, and the
 //             settle puts the page on its rest once the scroll has ended, or lets it go if the momentum left the story.
-//   free      a story marked free (the tour, 16 Nov 2026 night: "nothing moves unless his finger moves") is none of the
-//             above on a touch screen: no landing, no steering, no settle. The browser scrolls it, the step follows the
-//             page's position, and only a picked step (a tab) puts the page, on that step's rest.
 //
 // THE WINDOW RULE (design C's guard, LK47: "no glide"): the only non-passive listeners on the page, `touchmove` and
 // `wheel`, exist ONLY while a held story is within one screen of the viewport (nearSet). Everywhere else scrolling is
@@ -106,22 +103,15 @@ const gripping = (y = window.scrollY) => { const s = holding(y); return s && !fl
 const lands = (s) => s.land === true && !s.landed;
 const gapOf = (s) => s.hold / Math.max(1, s.steps - 1);
 
-/**
- * FLOW, free (the tour, 16 Nov 2026 night; owner on his phone): on a touch screen this story is the browser's scroll and
- * nothing else. The controller never puts the page for it: no landing, no steering, no settle, no clamp. Its step is the
- * beat under the window's middle as the page passes (ScrollStory's observer), and only a pick (a tab) puts the page, on
- * that step's rest, because the reader asked for that step.
- */
-const free = (s) => flowing(s) && s.free === true;
 /** FLOW v2: a story with slides on a touch screen. The gesture chooses its step (a passage, land off, only settles). */
-const steered = (s) => flowing(s) && s.land === true && !s.free;
+const steered = (s) => flowing(s) && s.land === true;
 /** FLOW v2: can the page be kept where it is put while a fling runs? Measured on Chromium; elsewhere only the settle puts. */
 const canHold = () => touchPans();
 
 /** FLOW v2: the controller is deciding this story's step (a finger on it, a swipe's momentum): its observer stands by. */
 export const governs = (s) => !!s && governed === s;
 /** FLOW v2: a flick's momentum may be running through this story: it shows the steps it passes a moment late. */
-export const passing = (s) => (steered(s) || free(s)) && lastFlick && touches === 0 && now() - lastRelease < FLOW_PASS_MS;
+export const passing = (s) => steered(s) && lastFlick && touches === 0 && now() - lastRelease < FLOW_PASS_MS;
 
 /** FLOW v2, a finger inside a steered story: the next step shows as soon as the page has gone FLOW_COMMIT_PX under it. */
 function steer(gest, y) {
@@ -294,8 +284,7 @@ function commit(s, goal, { source }) {
   window.clearTimeout(settleTimer);
   settleTimer = window.setTimeout(settle, SETTLE_QUIET_MS);
   busyUntil = now() + lockMs(s.reduced());
-  // A free story's stage never moves on its own: the tab the finger just pressed stays where it was.
-  if (source !== 'touch' && !free(s)) nudge(s, next > from ? 1 : -1);
+  if (source !== 'touch') nudge(s, next > from ? 1 : -1);
   return true;
 }
 
@@ -621,8 +610,7 @@ function settle() {
   aim = null;
   const y = window.scrollY;
   const s = holding(y);
-  // A free story is never settled: where the reader's scroll stops is where the page stays.
-  if (!s || free(s)) { syncHeld(y); return; }
+  if (!s) { syncHeld(y); return; }
   s.landed = true; // FLOW: the reader has come to rest inside this story, however they got here: it never lands a fling now
   let k = nearestStep(s.top, s.hold, s.steps, y);
   // FLOW v2: the step the gesture chose, not the rest its momentum happened to stop nearest to.

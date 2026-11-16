@@ -27,7 +27,9 @@ body .lc {
   --s-accent-ink: #0b1000;
   --s-wash: rgba(244, 240, 230, 0.06);
   /* The brand's volt marks on the Night screen (R3-D2, LK108): the pace line, the clock sweep, the rule and the first plan step. */
-  --s-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  /* Soft and short (17 Nov 2026, LK291): the section's paint containment (content-visibility) clips anything that reaches
+     past its edge, 28 px under the last screen, so the shadow ends within about 24 px and never shows a cut. */
+  --s-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 28px -16px rgba(0, 0, 0, 0.55);
   --lc-ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* The Changes clock sweeps once on the shared sweep time; every dot is on it within about 700 ms. */
   --lc-sweep: var(--mm-dur-sweep, 700ms);
@@ -45,7 +47,7 @@ body .lc {
 }
 /* Day keeps the Night screen and gives it a paper-side bezel and a sepia drop shadow. */
 html[data-theme='light'] .lc {
-  --s-shadow: 0 40px 80px -44px rgba(32, 26, 14, 0.55), 0 14px 30px -20px rgba(32, 26, 14, 0.35);
+  --s-shadow: 0 1px 2px rgba(32, 26, 14, 0.08), 0 12px 28px -16px rgba(32, 26, 14, 0.26);
   --lcd-bezel: #2a2823;
   --lcd-bezel-edge: rgba(32, 26, 14, 0.28);
 }

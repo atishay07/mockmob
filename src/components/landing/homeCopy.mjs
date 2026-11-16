@@ -55,7 +55,7 @@ export const TOUR_HEAD = Object.freeze({
 const TOOL_COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
 export function tourTouchSub(count) {
   const n = Math.max(0, Math.round(Number(count) || 0));
-  return `${TOOL_COUNT[n] ?? n} ${n === 1 ? 'tool' : 'tools'}. Tap any screen to try it.`;
+  return `${TOOL_COUNT[n] ?? n} ${n === 1 ? 'tool' : 'tools'}. Swipe across them, and tap any screen to try it.`;
 }
 export const RECOVERY_HEAD = Object.freeze({
   h2: 'Fix it once. Check it holds.',
