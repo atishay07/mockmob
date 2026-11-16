@@ -1,4 +1,4 @@
-// Class leagues' server logic (./model.mjs has the rules and the words; ./store.js the two tables). No 'server-only' and no
+// Class leagues' server logic (./model.mjs has the rules and the words; ./store.js the three tables). No 'server-only' and no
 // alias imports, so node:test drives it on PGlite with the real migration and the real Sunday store
 // (data/tests/class_league_routes.test.mjs); ./deps.js wires production.
 //
@@ -8,14 +8,12 @@
 //     Sunday Mock's own counted sittings (late papers left out by the Sunday store, countsFor on top), and says nothing
 //     under 5 sitters, not even how many sat. Never a rank, a percentile or the highest mark.
 //   - The public lookup gives the class's name and subjects for a code, nothing else.
-import { LAUNCH_WEEK, countsFor, marksOf, sundayOf, sundayWindow } from '../sundayMock.mjs';
-import { subjectSpellings } from '../server/sunday/store.js';
+import { countsFor, marksOf, sundayWindow } from '../sundayMock.mjs';
 import {
   CLASS_MAX_MEMBERS, ClassError, REPORT_REASONS, checkClassName, classCodeFromBytes, classFigure, classUrl, figureWeek, membersAt,
-  nextFigure, normalizeClassCode, pickSubjects, weekAllowed,
+  nextFigure, normalizeClassCode, pickSubjects,
 } from './model.mjs';
 
-const HOUR = 3_600_000;
 const iso = (ms) => new Date(ms).toISOString();
 // The Sunday store's membersSittings answers 40 rows at most; one sitting a student, so 20 ids a read leaves room.
 const CHUNK = 20;
@@ -24,7 +22,7 @@ const CHUNK = 20;
  * deps: {
  *   now() -> ms
  *   store                       ./store.js
- *   sunday                      the Sunday Mock's store (src/lib/server/sunday/store.js): membersSittings, findMine
+ *   sunday                      the Sunday Mock's store (src/lib/server/sunday/store.js): membersSittings
  *   loadUser(userId) -> { subjects } | null
  *   subjectInfo(raw) -> { ok, id, publicId, name }      a launchable subject (the Sunday Mock's own rule)
  *   randomBytes(n) -> Uint8Array
@@ -35,7 +33,7 @@ const CHUNK = 20;
 export function createClassService(deps) {
   const now = () => (deps.now ? deps.now() : Date.now());
   const store = deps.store;
-  const figures = new Map(); // `${leagueId}:${week}:${subject}` -> { until, value }: a closed week's figure is final
+  const stored = new Map(); // `${leagueId}:${week}:${subject}` -> the stored figure (class_league_weeks): it never changes
 
   const guard = async (fn) => {
     try { return await fn(); } catch (cause) { throw cause instanceof ClassError ? cause : new ClassError('UNAVAILABLE', { cause }); }
@@ -66,11 +64,8 @@ export function createClassService(deps) {
     return null;
   }
 
-  /** One subject's figure for a closed week: final once the answers are open, so kept six hours per server. */
-  async function figureFor(league, week, subject) {
-    const key = `${league.id}:${week}:${subject}`;
-    const hit = figures.get(key);
-    if (hit && hit.until > now()) return hit.value;
+  /** The figure computed from the Sunday Mock's counted sittings of the members open at that Sunday's 11:05 PM. */
+  async function computeFigure(league, week, subject) {
     const rows = await guard(() => store.memberRows(league.id));
     const counted = [...membersAt(rows, sundayWindow(week).answersAt)];
     const sittings = [];
@@ -78,30 +73,49 @@ export function createClassService(deps) {
       const part = counted.slice(i, i + CHUNK);
       sittings.push(...await guard(() => deps.sunday.membersSittings(part, week, subject)));
     }
-    const value = classFigure({ week, rows, sittings });
-    figures.delete(key);
-    figures.set(key, { until: now() + 6 * HOUR, value });
-    while (figures.size > 500) figures.delete(figures.keys().next().value);
+    return classFigure({ week, rows, sittings });
+  }
+  const fromRow = (row) => (row.sat === null ? { enough: false } : { enough: true, sat: row.sat, average: row.average });
+
+  /**
+   * One subject's figure for a closed week. Stored once, the first time it is read after the answers open
+   * (class_league_weeks), and read from there ever after, so it never changes: not for a later join or leave, an account
+   * deletion or an answer-key rescoring (review, 16 Nov 2026). Two first reads at once both try to store; the first row
+   * stands and both answer it. `stored` keeps the stored rows on this server (they never change).
+   */
+  async function figureFor(league, week, subject) {
+    const key = `${league.id}:${week}:${subject}`;
+    if (stored.has(key)) return stored.get(key);
+    let row = await guard(() => store.readWeek(league.id, week, subject));
+    if (!row) {
+      const f = await computeFigure(league, week, subject);
+      await guard(() => store.storeWeek({ leagueId: league.id, week, subject, sat: f.enough ? f.sat : null, average: f.enough ? f.average : null, at: now() }));
+      row = await guard(() => store.readWeek(league.id, week, subject));
+      if (!row) throw new ClassError('UNAVAILABLE');
+    }
+    const value = fromRow(row);
+    stored.set(key, value);
+    while (stored.size > 2000) stored.delete(stored.keys().next().value);
     return value;
   }
 
-  /** The student's own marks in a week's Sunday Mock, per subject id (the rule the Sunday Mock's own page uses). */
-  async function ownMarks(userId, week) {
-    const mine = await guard(() => deps.sunday.findMine(userId, sundayWindow(week).opensAt));
-    return (subject) => {
-      const a = mine.find((x) => x.week === week && subjectSpellings(subject).includes(x.subject) && countsFor(week, x.completedAt));
-      return a ? marksOf(a) : null;
-    };
+  /**
+   * The student's own marks in a week's Sunday Mock, per subject id: the same counted sittings the class figure reads (the
+   * Sunday store's membersSittings: that Sunday's tag, late papers out), the earliest that counts (countsFor).
+   */
+  async function ownMarks(userId, week, subject) {
+    const mine = await guard(() => deps.sunday.membersSittings([userId], week, subject));
+    const a = [...mine].filter((x) => x.userId === userId && countsFor(week, x.completedAt)).sort((x, y) => x.completedAt - y.completedAt)[0];
+    return a ? marksOf(a) : null;
   }
 
   async function weekFigures(userId, league, week) {
-    const own = await ownMarks(userId, week);
     const out = [];
     for (const subject of league.subjects) {
       const s = subjectOut(subject);
       if (!s) continue;
       const f = await figureFor(league, week, subject);
-      out.push({ subject: s.id, name: s.name, ...f, you: own(subject) });
+      out.push({ subject: s.id, name: s.name, ...f, you: await ownMarks(userId, week, subject) });
     }
     return out;
   }
@@ -182,6 +196,10 @@ export function createClassService(deps) {
       if (seat === 'exists') {
         const again = await myClass(userId);
         if (!again || again.league.id !== league.id) throw new ClassError('ALREADY_IN_CLASS');
+      } else if (await guard(() => store.openBefore(league.id, seat.id)) >= CLASS_MAX_MEMBERS) {
+        // Joins at the same moment can all pass the count above: the cap holds by row order, and a row past it is taken back.
+        await guard(() => store.removeMember(seat.id));
+        throw new ClassError('CLASS_FULL');
       }
       try { return await status(userId); } catch (cause) { throw new ClassError('UNAVAILABLE', { committed: true, cause }); }
     },
@@ -235,14 +253,14 @@ export function createClassService(deps) {
     async week(userId, query = {}) {
       const week = String(query.week || '');
       const t = now();
-      if (week < LAUNCH_WEEK || week > sundayOf(t)) throw new ClassError('WEEK_INVALID');
       const mine = await myClass(userId);
       if (!mine) throw new ClassError('NOT_IN_CLASS');
-      if (!weekAllowed(week, t, mine.league.createdAt)) throw new ClassError('WEEK_INVALID');
+      // Only the class's latest figure week: the figure the class block shows, never an older Sunday (review, 16 Nov 2026).
+      if (!week || week !== figureWeek(t, mine.league.createdAt)) throw new ClassError('WEEK_INVALID');
       const info = deps.subjectInfo(query.subject);
       if (!info?.ok || !mine.league.subjects.includes(info.id)) return { week, figure: null, className: mine.league.name };
       const f = await figureFor(mine.league, week, info.id);
-      const own = (await ownMarks(userId, week))(info.id);
+      const own = await ownMarks(userId, week, info.id);
       return { week, className: mine.league.name, figure: { subject: info.publicId, name: info.name, ...f, you: own } };
     },
   };

@@ -6,9 +6,10 @@ import Link from 'next/link';
 import { School } from 'lucide-react';
 import { CLASS_COPY, CLASS_FULL_MARKS } from '@/lib/classLeague/model.mjs';
 import { useClassWeek } from './useClassLeague';
+import { useClassLeaguesOn } from './ClassSwitch';
 import './class.css';
 
-export default function ClassResultLine({ week, subject }) {
+function ClassResultLineOn({ week, subject }) {
   const out = useClassWeek(week, subject);
   const f = out?.figure;
   if (!f) return null;
@@ -23,4 +24,9 @@ export default function ClassResultLine({ week, subject }) {
       </span>
     </section>
   );
+}
+
+/** Mounts only while CLASS_LEAGUES_ENABLED is on (./ClassSwitch.jsx): off, nothing is read or drawn. */
+export default function ClassResultLine(props) {
+  return useClassLeaguesOn() ? <ClassResultLineOn {...props} /> : null;
 }

@@ -354,3 +354,74 @@ test('a report reaches support with the class\'s name and code, from a member or
   assert.ok(w.reports.every((r) => !JSON.stringify(r).includes('s1') && !JSON.stringify(r).includes('s9')), 'never the reporter');
   await w.pg.close();
 });
+
+// ------------------------------------------------------------------ review, 16 Nov 2026
+
+test('a closed week\'s figure is stored once and never changes: not for a deleted member, a rescored paper or a new server', async () => {
+  const w = await world();
+  await classOf(w, 6);
+  for (const [u, c] of [['s1', 40], ['s2', 30], ['s3', 20], ['s4', 35], ['s5', 25]]) await w.sat(u, { correct: c, wrong: 0 });
+  w.clock.t = IST('2026-11-23T09:00:00');
+  const first = (await w.call('week', { user: 's6', query: { week: WEEK, subject: 'accountancy' } })).data.figure;
+  assert.deepEqual([first.enough, first.sat, first.average], [true, 5, 150]);
+  assert.deepEqual((await w.pg.query(`select sat, average from public.class_league_weeks`)).rows, [{ sat: 5, average: 150 }], 'stored on first read');
+  // An account deleted (its membership and its papers gone) and a paper rescored, then a fresh server reads it.
+  await w.pg.query(`delete from public.class_league_members where user_id = 's1'`);
+  await w.pg.query(`delete from public.attempts where user_id = 's1'`);
+  await w.pg.query(`update public.attempts set correct = 50 where user_id = 's2'`);
+  const fresh = createClassService({
+    now: () => w.clock.t, store: createClassStore(pgRest(w.pg)), sunday: createSundayStore(pgRest(w.pg)),
+    loadUser: async () => ({ subjects: ['accountancy'] }), subjectInfo, randomBytes: () => new Uint8Array(4), blocklist,
+  });
+  const again = (await fresh.week('s6', { week: WEEK, subject: 'accountancy' })).figure;
+  assert.deepEqual([again.enough, again.sat, again.average], [true, 5, 150], 'the stored figure stands');
+  // Under the floor, the stored row carries no count either.
+  const st = (await w.call('get', { user: 's6' })).data.week.figures.find((f) => f.subject === 'economics');
+  assert.deepEqual(st, { subject: 'economics', name: 'Economics', enough: false, you: null });
+  const row = (await w.pg.query(`select sat, average from public.class_league_weeks where subject = 'economics'`)).rows[0];
+  assert.deepEqual(row, { sat: null, average: null });
+  await w.pg.close();
+});
+
+test('two first reads at once store one figure, and both answer it', async () => {
+  const w = await world();
+  await classOf(w, 6);
+  for (const u of ['s1', 's2', 's3', 's4', 's5']) await w.sat(u, { correct: 30, wrong: 0 });
+  w.clock.t = IST('2026-11-23T09:00:00');
+  const [a, b] = await Promise.all([w.call('week', { user: 's1', query: { week: WEEK, subject: 'accountancy' } }), w.call('week', { user: 's2', query: { week: WEEK, subject: 'accountancy' } })]);
+  assert.equal(a.data.figure.average, 150);
+  assert.equal(b.data.figure.average, 150);
+  assert.equal((await w.pg.query(`select count(*)::int n from public.class_league_weeks where subject = 'accountancy'`)).rows[0].n, 1);
+  await w.pg.close();
+});
+
+test('/api/class/week answers only the latest figure week; your marks are that Sunday\'s, never another\'s', async () => {
+  const w = await world();
+  await classOf(w, 5);
+  for (const u of ['s1', 's2', 's3', 's4', 's5']) await w.sat(u, { correct: 30, wrong: 0 });
+  await w.sat('s1', { correct: 10, wrong: 0, week: '2026-11-29', finished: IST('2026-11-29T12:00:00') });
+  w.clock.t = IST('2026-11-23T09:00:00');
+  const mine = (await w.call('week', { user: 's1', query: { week: WEEK, subject: 'accountancy' } })).data.figure.you;
+  assert.deepEqual(mine, { scored: 150, max: 250 }, 'the 22 Nov paper, not the 29 Nov one');
+  w.clock.t = IST('2026-11-30T09:00:00');
+  assert.equal((await w.call('week', { user: 's1', query: { week: WEEK, subject: 'accountancy' } })).data.error.code, 'WEEK_INVALID', 'an older Sunday');
+  assert.equal((await w.call('week', { user: 's1', query: { week: '2026-11-29', subject: 'accountancy' } })).data.figure.you.scored, 50);
+  await w.pg.close();
+});
+
+test('the 80-member cap holds when the last seats are taken at the same moment', async () => {
+  const w = await world();
+  const code = await classOf(w, 0);
+  const league = (await w.pg.query(`select id from public.class_leagues where code = $1`, [code])).rows[0].id;
+  await w.pg.query(`insert into public.users (id) select 'f' || g from generate_series(1, $1::int) g`, [CLASS_MAX_MEMBERS]);
+  await w.pg.query(`insert into public.class_league_members (league_id, user_id) select $1, 'f' || g from generate_series(1, $2::int) g`, [league, CLASS_MAX_MEMBERS - 2]);
+  const out = await Promise.all(['s1', 's2', 's3', 's4'].map((u) => w.call('join', { user: u, body: { code } })));
+  assert.equal(out.filter((r) => r.status === 200).length, 1, 'one seat was left');
+  assert.ok(out.filter((r) => r.status !== 200).every((r) => r.data.error.code === 'CLASS_FULL'));
+  assert.equal((await w.pg.query(`select count(*)::int n from public.class_league_members where league_id = $1 and left_at is null`, [league])).rows[0].n, CLASS_MAX_MEMBERS);
+  await w.pg.close();
+});
+
+test('the start and report limits are kept in the database (persistent), as the join and lookup limits are', () => {
+  for (const name of ['create', 'report', 'joinNet', 'joinMiss', 'lookup', 'lookupUser']) assert.equal(CLASS_LIMITS[name].persistent, true, name);
+});

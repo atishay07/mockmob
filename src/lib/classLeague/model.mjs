@@ -94,13 +94,17 @@ export { CODE_ALPHABET };
 
 // ---------- The name ----------
 
-/** NFC, spaces collapsed and trimmed. */
-export const cleanClassName = (raw) => (typeof raw === 'string' ? raw.normalize('NFC').replace(/\s+/g, ' ').trim() : '');
+/** NFKC (full-width, circled and styled characters read as the plain ones), spaces collapsed and trimmed. */
+export const cleanClassName = (raw) => (typeof raw === 'string' ? raw.normalize('NFKC').replace(/\s+/g, ' ').trim() : '');
 // Letters, marks (Indian scripts write vowel signs as marks), digits, spaces and the punctuation a class name uses:
 // "XII-C Commerce, DPS Rohini", "Batch 2027 (Morning)", "St. Mary's 12 B/Arts", "Commerce & Humanities".
 const NAME_CHARS = /^[\p{L}\p{N}][\p{L}\p{M}\p{N} .,'’()&/#-]*$/u;
-// A public page shows the name to anyone with the code, so it cannot carry a phone number or a link.
-const LONG_NUMBER = /\d{5,}/;
+// A public page shows the name to anyone with the code, so it cannot carry a phone number or a link. Digits of any script
+// count (\p{Nd}: Devanagari and the rest), however they are spaced or punctuated: 8 or more in all, or 5 in a row, is a
+// number, not a class (review, 16 Nov 2026: 987/654/3210 and 98'76'54'32'10 passed the first rule).
+export const CLASS_NAME_MAX_DIGITS = 7;
+const digitsIn = (s) => (s.match(/\p{Nd}/gu) || []).length;
+const LONG_NUMBER = /\p{Nd}{5,}/u;
 const LINK = /(?:www|https?|\.(?:com|in|net|org|co|io|me|xyz|app|ly|link|gg|info|site|online|shop)\b)/iu;
 
 /** { ok, name } or { ok: false, code } (NAME_INVALID or NAME_REFUSED). `blocklist` is data/mob_name_blocklist.json. */
@@ -108,7 +112,7 @@ export function checkClassName(raw, blocklist = null) {
   const name = cleanClassName(raw);
   const n = [...name].length;
   if (n < CLASS_NAME_MIN || n > CLASS_NAME_MAX || !NAME_CHARS.test(name) || !/\p{L}/u.test(name)) return { ok: false, code: 'NAME_INVALID' };
-  if (LONG_NUMBER.test(name.replace(/[\s.,-]/g, '')) || LINK.test(name)) return { ok: false, code: 'NAME_REFUSED' };
+  if (digitsIn(name) > CLASS_NAME_MAX_DIGITS || LONG_NUMBER.test(name) || LINK.test(name)) return { ok: false, code: 'NAME_REFUSED' };
   // The Mob's own screen (look-alike letters, stretched spellings, the moderators' list), read word by word.
   if (blocklist && nameBlocked(name.replace(/[,()&/#’]/g, ' '), blocklist)) return { ok: false, code: 'NAME_REFUSED' };
   return { ok: true, name };

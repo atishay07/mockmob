@@ -2,8 +2,8 @@
 // Class leagues on the website: the reads of GET /api/class (your class and its latest closed Sunday), /api/class/lookup (the
 // join page) and /api/class/week (a Sunday paper's result), and the writes (create, join, leave, close, report). One read of
 // the status is shared by every surface on the page for a minute and forgotten after any write.
-// status: loading | ready | off (CLASS_LEAGUES_ENABLED off: 404, or signed out: 401) | error. While it is off every surface
-// draws nothing, and the answer is kept for the page's life so no surface asks again.
+// status: loading | ready | off. Each surface mounts only while the switch is on (./ClassSwitch.jsx), so nothing here runs
+// while it is off; a 404 or 401 is still kept as off for the page's life, and a failed read draws nothing new.
 import { useCallback, useEffect, useState } from 'react';
 import { PENDING_CLASS_KEY, normalizeClassCode, readPendingCode } from '@/lib/classLeague/model.mjs';
 
@@ -36,10 +36,12 @@ function readStatus(fresh = false) {
   return promise;
 }
 
-const outcome = (r) => {
+// 404 (switched off) and 401 (signed out) are off for the page's life. A failed read (no network, a 5xx) is off too, unless
+// the block already drew: then it keeps what it drew (review, 16 Nov 2026: a failed read must not put a new error on a page).
+const outcome = (r, prev) => {
   if (r.ok) return { status: 'ready', data: r.data };
   if (r.status === 404 || r.status === 401) { off = true; return { status: 'off', data: null }; }
-  return { status: 'error', data: null };
+  return prev?.status === 'ready' ? prev : { status: 'off', data: null };
 };
 
 /** Your class for the signed-in student. `enabled` false reads nothing (status 'off'). */
@@ -49,7 +51,7 @@ export function useClassLeague(enabled = true) {
   useEffect(() => {
     if (!enabled || off) return undefined;
     let alive = true;
-    readStatus(tick > 0).then((r) => { if (alive) setState(outcome(r)); });
+    readStatus(tick > 0).then((r) => { if (alive) setState((prev) => outcome(r, prev)); });
     return () => { alive = false; };
   }, [enabled, tick]);
   const reload = useCallback(() => { setState((s) => ({ ...s, status: s.data ? s.status : 'loading' })); setTick((n) => n + 1); }, []);

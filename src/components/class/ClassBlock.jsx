@@ -6,7 +6,7 @@
 //   figure     after a Sunday's answers open: per subject, the class average and your marks on a ruler, how many sat;
 //              under 5 sitters, the floor's line only
 // Then the code to share (the class grows through its own group) and Class settings (leave, close, report: a dialog).
-// Every state is drawn: loading (the register's frame), error (Try again), off (nothing). One volt key per view: on this page
+// Every state is drawn: loading (the register's frame); a failed read or the switch off draws nothing (the page is as before). One volt key per view: on this page
 // the Sunday Mock's start key is the volt, so every key here is quiet; each dialog's own key is its volt.
 // Owner's direction, 16 Nov 2026: bold, in MockMob's identity, say plainly what it is and how it runs every week.
 import { useEffect, useId, useState } from 'react';
@@ -17,6 +17,7 @@ import {
 } from '@/lib/classLeague/model.mjs';
 import { ClassDialog, ClassFigure, CodeForm, ShareKeys } from './ClassParts';
 import { classWrite, useClassLeague } from './useClassLeague';
+import { useClassLeaguesOn } from './ClassSwitch';
 import './class.css';
 
 function Band({ title, meta = null, lede = null, as = 'h2', id }) {
@@ -226,7 +227,7 @@ function InClass({ data, onGone }) {
 }
 
 /** The block. `id` is the anchor the Mob page's entry and Today's card open (/sunday#class). */
-export default function ClassBlock() {
+function ClassBlockOn() {
   const league = useClassLeague(true);
   // The anchor: a link to /sunday#class lands here once the block has drawn (the page draws it after its read).
   const ready = league.status === 'ready';
@@ -243,19 +244,7 @@ export default function ClassBlock() {
       </section>
     );
   }
-  if (league.status === 'error' || !league.data) {
-    return (
-      <section className="cls" id="class" aria-labelledby="cls-h">
-        <Band id="cls-h" title={CLASS_COPY.blockTitle} />
-        <div className="cls-body">
-          <div className="cls-row" role="alert">
-            <p className="cls-note">{CLASS_COPY.loadFailed} Your class and its figures are safe.</p>
-            <div className="cls-keys"><button type="button" className="cls-key" onClick={league.reload}>{CLASS_COPY.tryAgain}</button></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  if (!league.data) return null;
   return (
     <section className="cls" id="class" aria-labelledby="cls-h">
       {league.data.class
@@ -263,4 +252,9 @@ export default function ClassBlock() {
         : <Fresh data={league.data} onJoined={league.accept} onCreated={league.accept} />}
     </section>
   );
+}
+
+/** Mounts only while CLASS_LEAGUES_ENABLED is on (./ClassSwitch.jsx): off, nothing is read or drawn. */
+export default function ClassBlock(props) {
+  return useClassLeaguesOn() ? <ClassBlockOn {...props} /> : null;
 }

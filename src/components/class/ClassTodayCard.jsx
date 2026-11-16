@@ -11,6 +11,7 @@ import { ChevronRight, School } from 'lucide-react';
 import { istDow, sundayWindow } from '@/lib/sundayMock.mjs';
 import { CLASS_COPY, CLASS_FULL_MARKS } from '@/lib/classLeague/model.mjs';
 import { classWrite, forgetClassCode, pendingClassCode, useClassLeague, useClassLookup } from './useClassLeague';
+import { useClassLeaguesOn } from './ClassSwitch';
 import './class.css';
 
 const Mark = () => <span className="tcls__mark" aria-hidden="true"><School size={20} strokeWidth={2} /></span>;
@@ -50,7 +51,7 @@ function PendingInvite({ code, onJoined }) {
   );
 }
 
-export default function ClassTodayCard({ hold = false }) {
+function ClassTodayCardOn({ hold = false }) {
   // Read only when the card can have something to say: Sunday or Monday on this device's IST clock (the server's clock then
   // decides), or a class code this tab kept through sign-up. Tuesday to Saturday Today asks for nothing.
   const [dow] = useState(() => istDow(Date.now()));
@@ -74,4 +75,9 @@ export default function ClassTodayCard({ hold = false }) {
       <ChevronRight className="tcls__go" size={18} strokeWidth={2} aria-hidden="true" />
     </Link>
   );
+}
+
+/** Mounts only while CLASS_LEAGUES_ENABLED is on (./ClassSwitch.jsx): off, nothing is read or drawn. */
+export default function ClassTodayCard(props) {
+  return useClassLeaguesOn() ? <ClassTodayCardOn {...props} /> : null;
 }

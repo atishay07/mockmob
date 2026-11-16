@@ -44,6 +44,12 @@ test('the name: 3 to 60 characters a class name uses, screened by the Mob\'s own
   assert.equal(checkClassName('12345', blocklist).code, 'NAME_INVALID', 'a name needs a letter');
   assert.equal(checkClassName('<b>class</b>', blocklist).code, 'NAME_INVALID');
   assert.equal(checkClassName('Call 98765 43210', blocklist).code, 'NAME_REFUSED', 'no phone number');
+  // Review, 16 Nov 2026: 8 or more digits of any script in all, however separated, or 5 in a row, is a number.
+  for (const phone of ['Batch 987/654/3210', "Batch 98'76'54'32'10", 'Class ९८७६५४३२१०', 'Class ९८७-६५४-३२१०', 'Class ９８７６５４３２１０', 'XII 9 8 7 6 5 4 3 2', 'Batch 98765']) {
+    assert.equal(checkClassName(phone, blocklist).code, 'NAME_REFUSED', phone);
+  }
+  assert.equal(checkClassName('Ｂａｔｃｈ Ａ', blocklist).name, 'Batch A', 'NFKC: full-width letters read as plain ones');
+  for (const ok of ['Session 2026-27', 'Class 12 B, 2027', 'XII 1234 batch']) assert.equal(checkClassName(ok, blocklist).ok, true, ok);
   assert.equal(checkClassName('Join www.example', blocklist).code, 'NAME_REFUSED', 'no link');
   assert.equal(checkClassName('bestnotes.in batch', blocklist).code, 'NAME_REFUSED');
   assert.equal(checkClassName('Sexy Commerce', blocklist).code, 'NAME_REFUSED', 'the Mob list');

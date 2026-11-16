@@ -2,14 +2,15 @@
 // The Mob page's one entry to class leagues: a row under the Mob that opens "Your class" on the Sunday Mock page
 // (/sunday#class), where a class is started, joined and read. A Mob is a few friends who see each other; a class is the whole
 // section, where nobody is named, so it lives beside the Mob, not in it. Quiet (the Mob page keeps its own volt). Nothing while
-// it is off or loading; a failed read still offers the row.
+// it is off, loading, or when the read failed.
 import Link from 'next/link';
 import { ChevronRight, School } from 'lucide-react';
 import { CLASS_COPY, membersLine } from '@/lib/classLeague/model.mjs';
 import { useClassLeague } from './useClassLeague';
+import { useClassLeaguesOn } from './ClassSwitch';
 import './class.css';
 
-export default function ClassMobEntry() {
+function ClassMobEntryOn() {
   const league = useClassLeague(true);
   if (league.status === 'off' || league.status === 'loading') return null;
   const cls = league.data?.class || null;
@@ -23,4 +24,9 @@ export default function ClassMobEntry() {
       <ChevronRight size={18} strokeWidth={2} aria-hidden="true" />
     </Link>
   );
+}
+
+/** Mounts only while CLASS_LEAGUES_ENABLED is on (./ClassSwitch.jsx): off, nothing is read or drawn. */
+export default function ClassMobEntry(props) {
+  return useClassLeaguesOn() ? <ClassMobEntryOn {...props} /> : null;
 }

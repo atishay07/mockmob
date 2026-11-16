@@ -16,14 +16,15 @@ const DAY = 24 * HOUR;
 export const CLASS_LIMITS = Object.freeze({
   read: { limit: 120, windowMs: 10 * MIN, by: 'user' },
   write: { limit: 60, windowMs: HOUR, by: 'user' },
-  create: { limit: 3, windowMs: 7 * DAY, by: 'user', success: true },
+  // Kept in the database (persistent), so they hold across every server instance (review, 16 Nov 2026).
+  create: { limit: 3, windowMs: 7 * DAY, by: 'user', success: true, persistent: true },
   // A class joining at once from one school connection stays far under 120 an hour.
   joinNet: { limit: 120, windowMs: HOUR, by: 'ip', persistent: true },
   // Counted only for a code that matched no class (`miss`): a mistyped code or two is fine, a run of guesses is not.
   joinMiss: { limit: 10, windowMs: HOUR, by: 'user', miss: true, persistent: true },
   lookup: { limit: 120, windowMs: 10 * MIN, by: 'ip', persistent: true },
   lookupUser: { limit: 60, windowMs: HOUR, by: 'user', persistent: true },
-  report: { limit: 5, windowMs: DAY, by: 'user' },
+  report: { limit: 5, windowMs: DAY, by: 'user', persistent: true },
 });
 
 const MISS = new Set(['CODE_INVALID', 'CLASS_NOT_FOUND']);
