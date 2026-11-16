@@ -297,11 +297,12 @@ export default function LandingPage() {
             board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
         <section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
           <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left">
+            {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
+            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.rhythm} />
               <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
               <p className="lp-sub">{STRIP_HEAD.sub}</p>
-            </Reveal>
+            </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             <DailyFiveRow where="home" />
           </div>
         </section>
