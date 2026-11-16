@@ -131,3 +131,16 @@ Only matters once `LEARNING_SESSIONS_ENABLED=true`. With it off nothing here run
 - `data/tests/allowance_release_race_1116.test.mjs` 19/19 (10 new; about 80 s), already in `test:billing`. test:billing 564/564,
   test:recovery 664 pass 3 todo, test:learning 408/408, test:least-privilege 12/12, test:health-egress 56/56, test:mob 369/369,
   test:app 1342 pass 2 skipped. eslint clean on the three changed files.
+
+## Independent review of the second fix, 16 Nov 2026 (nothing blocking; safe to merge with the switch off; merged)
+
+- Production today is unchanged: every change sits inside `if (durableLearningEnabled())` (`practiceSessions.js` 139-172).
+- `start_learning_session` checks only that a free row exists, not whose it is, so a row held by another session also gives a
+  free session (the two-tab gap): closed only by migration 20261116130000. Its insert has no `on conflict`: a twin's claim
+  landing between the check and the insert raises 23505, shown as a 503 with nothing charged; a retry works.
+- Still open with the switch on: a free start whose own call fails after a paid twin's commit, or whose ledger read fails in
+  `keepFirstFullMock` (`firstFullMock.js` 140, 147), leaves the free row on the paid session: the student loses that
+  subject's free mock, nobody is overcharged. Smallest fix: on the error path, call keep when a session with this id exists.
+- Migration 20261116130000 sits in `supabase/migrations`, so a routine push applies it; if the live function body differs from
+  the guarded md5 its DO block raises and changes nothing (a push would stop there).
+- Not shown by any test: the new-function-only state under random orderings, real lock waits across two connections.
