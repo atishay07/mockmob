@@ -443,14 +443,14 @@ test('L-027 one gesture advances one slide: the gesture model commits at most on
   assert.match(ctrl, /goTo\(s,\s*(s\.\w+|[\w.]+)\s*[+-]\s*dir\)|step\s*\+\s*dir|\+ ?dir|dir \* 1/, 'a gesture moves the story by a direction, not by travelled distance');
 });
 
-test('L-028 "What\'s inside MockMob" is a held story on every device: one gesture, one slide for a mouse or a trackpad (paced by the shared gesture lock); on a touch screen the slide follows the finger\'s own scroll', () => {
+test('L-028 "What\'s inside MockMob" is a held story for a mouse or a trackpad (one gesture, one slide, paced by the shared gesture lock); on a touch screen it is a deck the finger swipes', () => {
   const tour = code(read('src/components/landing/FeatureTour.jsx'));
   assert.match(tour, /ScrollStory/);
-  // 16 Nov 2026 night (owner, on his phone, of the stack of five screens a finger got that evening: "I think the older one
-  // was better"): held again wherever IntersectionObserver exists. On touch it is free (storyController.mjs: no landing,
-  // no steering, no settle; tourFree.test.mjs), and only reduced motion on a touch screen lets go of the hold.
-  assert.doesNotMatch(tour, /\bhold=\{/);
-  assert.match(tour, /holdCalm=\{FLOW_QUERY\} free /);
+  // 17 Nov 2026 (owner, on his phone, of the held stage a finger had: "the previous version ... was better than this"; of
+  // the stack before it: "a wastage of vertical space"): held only for a mouse or a trackpad (TOUR_HOLD); every other
+  // pointer gets the deck, a row of cards the browser scrolls sideways (FeatureTour.jsx, r16-tour-stack.css).
+  assert.match(tour, /hold=\{TOUR_HOLD\}/);
+  assert.doesNotMatch(tour, /holdCalm=|\sfree\s/);
   assert.match(read('src/components/landing/tourTaps.mjs'), /export const TOUR_HOLD = '\(hover: hover\) and \(pointer: fine\)';/);
   assert.ok(homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).length >= 5, 'its slides are all still there (R11: five tools; the rest have their own sections)');
   const g = readFileSync(join(ROOT, 'src/components/landing/storyGesture.mjs'), 'utf8');

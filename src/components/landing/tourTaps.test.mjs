@@ -25,8 +25,8 @@ function matches(query, { hover, pointer }) {
 }
 const DEVICES = ['hover', 'none'].flatMap((hover) => ['fine', 'coarse', 'none'].map((pointer) => ({ hover, pointer })));
 
-test('one held stage on every device: free on a touch screen, unheld only for reduced motion on touch, never a stack', () => {
-  // TOUR_HOLD now splits only the words: the section's sub (r16-tour-stack.css). Every touch-first device fails it.
+test('held for a mouse or a trackpad; a deck a finger swipes everywhere else (17 Nov 2026); never a stack', () => {
+  // TOUR_HOLD is the mouse split: every touch-first device fails it and gets the deck.
   assert.equal(TOUR_HOLD, '(hover: hover) and (pointer: fine)');
   for (const device of DEVICES) {
     const mouse = matches(TOUR_HOLD, device);
@@ -34,26 +34,27 @@ test('one held stage on every device: free on a touch screen, unheld only for re
     if (matches(FLOW_QUERY, device)) assert.equal(mouse, false, `a touch-first device is never a mouse: ${JSON.stringify(device)}`);
   }
   const tour = code(read('./FeatureTour.jsx'));
-  // Held wherever IntersectionObserver exists (no hold query); reduced motion lets go of the hold on touch screens only
-  // (holdCalm as a query); free: on touch the controller never moves the page for it.
-  assert.match(tour, /<ScrollStory [^>]*holdCalm=\{FLOW_QUERY\} free Content=\{TourStage\}/);
-  assert.doesNotMatch(tour, /\bhold=\{/);
-  assert.doesNotMatch(tour, /TourStack|StackScreen|fts__|HeldTour/, 'no stack of screens, one stage for everyone');
-  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, flow, reduced, goTo: storyGoTo, samples \}\)/);
-  // A finger, or a stage not held: the screens rest on their finished frames; nothing plays by itself.
-  assert.match(tour, /const still = Boolean\(flow\) \|\| !pinned;/);
-  assert.match(tour, /const running = onScreen && pageVisible && !reduced && !still;/);
-  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced \|\| still\} play=\{on && running\}/);
-  // The old timed carousel is gone: no autoplay clock, no progress timer, no Pause key, no sideways track to swipe. And the
-  // tab row never scrolls itself: no chip centring, no fades, no timers.
-  assert.doesNotMatch(tour, /TOUR_ADVANCE_MS|createDemoPlayback|setPlaying|keyboardHold|readSwipe|Pause|scrollTo\(|setTimeout|setInterval/);
+  assert.match(tour, /<ScrollStory [^>]*hold=\{TOUR_HOLD\} Content=\{TourStage\}/);
+  assert.doesNotMatch(tour, /holdCalm=|\sfree\s/);
+  assert.doesNotMatch(tour, /TourStack|StackScreen|fts__|HeldTour/, 'no stack of screens');
+  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo, samples \}\)/);
+  // Not held (the deck): the screens rest on their finished frames; nothing plays by itself.
+  assert.match(tour, /const deck = !pinned;/);
+  assert.match(tour, /const running = onScreen && pageVisible && !reduced && !deck;/);
+  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced \|\| deck\} play=\{on && running\}/);
+  // The tab on show follows the row (one observer rooted on the row, no scroll listener); a tab puts the row, never the page.
+  assert.match(tour, /new IntersectionObserver\([\s\S]*?\{ root: track, threshold: DECK_SHOWN \}\)/);
+  assert.match(tour, /const pick = useCallback\(\(index, keyboard\) => \{ if \(deck\) showCard\(index\); else goTo\(index, \{ keyboard \}\); \}/);
+  assert.doesNotMatch(tour, /addEventListener\('scroll'|behavior: 'smooth'/);
+  // No autoplay clock, no progress timer, no Pause key, no swipe reader of our own: the browser's snap does the swipe.
+  assert.doesNotMatch(tour, /TOUR_ADVANCE_MS|createDemoPlayback|setPlaying|keyboardHold|readSwipe|Pause|setTimeout|setInterval/);
   assert.doesNotMatch(tour, /alignChapter|measureChips|readFade|scrollLeft|data-fade/);
   // On a phone only the screen gives way to a short window: its own fit wrapper, under the stage's.
   assert.match(tour, /<div className="ft__shot">\s*<div className="ft__fit" data-ss-fit="0\.6">/);
   // The touch sub names the tools actually shown.
-  assert.equal(tourTouchSub(5), 'Five tools. Tap any screen to try it.');
-  assert.equal(tourTouchSub(3), 'Three tools. Tap any screen to try it.');
-  // The band under the site bar and the bottom bar stay quiet for a story that is not held.
+  assert.equal(tourTouchSub(5), 'Five tools. Swipe across them, and tap any screen to try it.');
+  assert.equal(tourTouchSub(3), 'Three tools. Swipe across them, and tap any screen to try it.');
+  // The band under the site bar and the bottom bar stay quiet for a story that is not held (the deck).
   assert.match(read('./SectionPosition.jsx'), /if \(story && story\.dataset\.pinned !== 'true'\) return null;/);
   assert.match(read('./SectionPosition.jsx'), /root\.dataset\.pinned === 'true' && root\.dataset\.live === 'true'/);
   assert.match(read('./ScrollStory.jsx'), /setLive\(false\);\n {4}\};\n {2}\}, \[pinned, steps, applyStep, id\]\);/, 'a story let go is never left live');
@@ -213,35 +214,29 @@ test('nothing in the tour pulses, blinks, pings or loops, and the demo never fak
   assert.doesNotMatch(read('./FeatureTour.jsx'), /ts__tap|ft__status|ft__play/);
 });
 
-test('the phone stage sheet: still tabs that fit 360 px, one tool per 500 px of scroll, only the screen gives way', () => {
+test('the touch sheet: still tabs that fit 360 px over a deck of cards the browser snaps sideways, about one screen tall', () => {
   const css = read('../../app/r16-tour-stack.css');
   assert.doesNotMatch(css, /\.fts/, 'nothing of the stack is left');
-  // The touch sub swaps by the mouse split (the screens rest and answer taps there).
   assert.match(css, /@media not all and \(hover: hover\) and \(pointer: fine\) \{\n {2}#your-prep \.ft-sub--hold \{ display: none; \}\n {2}#your-prep \.ft-sub--touch \{ display: inline; \}/);
   const phone = css.slice(css.indexOf('@media (max-width: 899px) and (min-height: 521px)'));
   assert.ok(phone.length > 200, 'the phone block is there');
-  // Five fixed tabs: equal columns, none narrower than its word, no sideways scroll, no fade, a 58 px target, the mark
-  // switched with no transition, and the short tab name (Mob) on a phone.
+  // Five fixed tabs: equal columns, none narrower than its word, no sideways scroll, a 58 px target, no transition.
   assert.match(phone, /\.ft__list \{[^}]*grid-template-columns: repeat\(var\(--ft-n, 5\), minmax\(min-content, 1fr\)\);[^}]*overflow: visible;[^}]*mask-image: none;/);
   assert.match(phone, /\.ft__row \{[^}]*min-height: 58px;[^}]*transition: none;/);
-  assert.match(phone, /\.ft__row::after \{[^}]*transition: none; \}/);
   assert.match(phone, /\.ft__word\[data-long\] \{ display: none; \}/);
-  assert.match(phone, /\.ft__chrome, body #your-prep \.ft__controls \{ display: none; \}/, 'no name strip and no Up next band under the card');
-  // One screen of height: the card never taller than its room; the screen's row gives way and its screen scales into it
-  // (down to 0.6), the words keep their size; from 900 px the screen never scales.
-  assert.match(phone, /\.ft-story\[data-pinned='true'\] \.ft__stage \{[^}]*max-height: 100%;/);
-  assert.match(phone, /\.ft-story\[data-pinned='true'\] \.ft__track \{[^}]*grid-template-rows: minmax\(0, 1fr\) auto;/);
-  assert.match(phone, /\.ft__fit \{ --ss-fit-min: 0\.6; \}/);
+  assert.match(phone, /\.ft__chrome, body #your-prep \.ft__controls \{ display: none; \}/);
+  // The deck: a row the browser scrolls sideways and snaps, one card a swipe, the page's vertical scroll left alone.
+  assert.match(css, /body \.ft-story\[data-pinned='false'\] \.ft__track \{[^}]*overflow-x: auto;[^}]*scroll-snap-type: x mandatory; overscroll-behavior-x: contain;[^}]*touch-action: pan-x pan-y;/);
+  assert.match(css, /body \.ft-story\[data-pinned='false'\] \.ft__slide \{[^}]*scroll-snap-align: start; scroll-snap-stop: always; \}/);
+  assert.match(css, /body \.ft-story\[data-pinned='false'\] \.ft__card \{[^}]*border-radius: 22px;/);
+  // The deck shows each tool's one sentence under its title.
+  assert.match(phone, /\.ft-story\[data-pinned='false'\] \.ft__lede \{ position: static;/);
+  // No held-touch pacing is left, and the only motion is the short fade when a tab puts the row (none for reduced motion).
+  assert.doesNotMatch(css, /--ft-gap|data-flow='true'/);
+  assert.doesNotMatch(css, /linear-gradient|box-shadow|backdrop-filter/, 'no glow, no glass');
+  for (const m of css.matchAll(/animation:\s*([^;]+);/g)) assert.match(m[1], /^(none|ft-deck-in 200ms cubic-bezier\(0\.23, 1, 0\.32, 1\))$/, m[0]);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ body \.ft-story\[data-pinned='false'\] \.ft__track\[data-jump\] > \.ft__slide \{ animation: none; \} \}/);
   assert.match(css, /@media \(min-width: 900px\) \{\n {2}body #your-prep \.ft__fit \{ --ss-fit-min: 1; \}/);
-  // One sentence: the title. The lede stays for screen readers only.
-  assert.match(phone, /\.ft__lede \{ position: absolute; width: 1px; height: 1px;[^}]*clip-path: inset\(50%\);/);
-  // On touch: 500 px of scroll a tool whatever the tool count, and a plain fade between tools (no rise).
-  assert.match(css, /@media \(hover: none\), \(pointer: coarse\) \{\n {2}body \.ft-story \{ --ft-gap: 500px; --ss-run: calc\(var\(--ft-gap\) \* \(var\(--ss-steps\) - 1\) \/ var\(--ss-steps\)\); \}/);
-  assert.match(css, /body \.ft-story\[data-flow='true'\]\[data-pinned='true'\] \.ft__slide :is\(\.ft__copy, \.ft__shot\) \{ transform: none; transition: none; \}/);
-  // Not held: one tool at a time in one cell, no sideways track.
-  assert.match(css, /body \.ft-story\[data-pinned='false'\] \.ft__track \{ display: grid; overflow: visible; scroll-snap-type: none; touch-action: auto; \}/);
-  assert.match(css, /body \.ft-story\[data-pinned='false'\] \.ft__slide\[data-active='true'\] \{ visibility: visible; \}/);
-  assert.doesNotMatch(css, /linear-gradient|box-shadow|backdrop-filter|animation/, 'no glow, no glass, nothing that plays');
   // The tab names come from the copy: only the Mob has a shorter one.
   const mob = buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).find((s) => s.id === 'mob');
   assert.equal(mob.tab, 'Mob');

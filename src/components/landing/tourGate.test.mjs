@@ -152,8 +152,8 @@ test('ScrollStory carries a step count in the same transition as the step; the t
   const tour = strip(read('./FeatureTour.jsx'));
   // The timed carousel and the touch stack are gone: one stage for every reader, and its screen on stage takes the
   // story's step count as its epoch. No key on a screen: they stay mounted (LK81), so a tap survives leaving a tool.
-  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, flow, reduced, goTo: storyGoTo, samples \}\)/);
-  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced \|\| still\} play=\{on && running\} epoch=\{on \? seq : -1\}/);
+  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo, samples \}\)/);
+  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced \|\| deck\} play=\{on && running\} epoch=\{on \? seq : -1\}/);
   assert.match(tour, /\(\{ active, reduced, paused: false, epoch, held: true \}\)/);
   assert.doesNotMatch(tour, /<TourScreen key=/, 'screens stay mounted while held (LK81)');
 });
@@ -169,7 +169,10 @@ test('the tab icons load eagerly at low priority; the tab row is still: nothing 
   // 16 Nov 2026 night: the row is five fixed tabs on a phone (r16-tour-stack.css) and a grid from 900 px (r10-lab-tour.css),
   // so it never scrolls: the code that centred the current chip (and read offsetLeft, scrollWidth) is gone with it.
   assert.doesNotMatch(tour, /querySelector\('\[data-chapter="' \+ active/);
-  assert.doesNotMatch(tour, /alignChapter|measureChips|chipsRef|railVisible|offsetLeft|scrollWidth|scrollTo\(/);
+  assert.doesNotMatch(tour, /alignChapter|measureChips|chipsRef|railVisible|scrollWidth/);
+  // 17 Nov 2026: the only sideways move is the deck's own row, put on a picked card at once (never the tab row, never the page).
+  assert.equal((tour.match(/scrollTo\(/g) || []).length, 1, 'one scrollTo: the deck row');
+  assert.match(tour, /track\.scrollTo\(\{ left: card\.offsetLeft - \(track\.clientWidth - card\.offsetWidth\) \/ 2, behavior: 'instant' \}\);/);
   assert.match(tour, /<ul className="ft__list" aria-label="Feature chapters" style=\{\{ '--ft-n': slides\.length \}\}>/);
 });
 

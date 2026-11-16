@@ -1,10 +1,11 @@
-/* Round 16 (16 Nov 2026): the tour on a phone, and screens a reader can touch. (The file keeps its first name: for a few
-   hours that evening the tour was a stack of five screens on touch; the owner, on his phone at 10:25 pm: "it's just a
-   wastage of vertical space. I think the older one was better".) The tour is ONE held stage again on every device
-   (FeatureTour.jsx): on a phone it holds one screen of height, a still row of five tabs over one card (the tool's screen,
-   its one-sentence title and its one key), and nothing in it moves unless the reader's finger does. The scroll through
-   it is the browser's own (ScrollStory `free`): no landing, no settle, no glide. Desktop keeps the held tour as it was.
-   Every rule here is scoped to #your-prep or to .ft-story, so nothing else on the page moves. */
+/* Round 16 (16 Nov 2026), rebuilt 17 Nov 2026: the tour on a touch screen, and screens a reader can touch. The file keeps
+   its first name. The owner on his phone: of a stack of five screens (16 Nov evening) "it's just a wastage of vertical
+   space"; of the held stage that replaced it (16 Nov night) "the previous version ... was better than this ... You have to
+   think about how you can better implement all this". So on touch the tour is a DECK (FeatureTour.jsx): the five still
+   tabs over one row of cards that the browser itself scrolls sideways and snaps. A sideways swipe moves the cards one to
+   one under the finger, a vertical swipe is the page's own scroll, nothing is held, nothing plays by itself, and the
+   whole section costs about one screen. A mouse or a trackpad keeps the held tour exactly as it was. Every rule here is
+   scoped to #your-prep or to .ft-story, so nothing else on the page moves. */
 
 /* The section's sub: the held tour's for a mouse, the touch screen's for a finger (page.js renders both words). Touch is
    every pointer that is not a fine one that hovers (tourTaps.mjs TOUR_HOLD), where the screens rest and wait for a tap. */
@@ -22,29 +23,29 @@
   body #your-prep .ft__fit { --ss-fit-min: 1; }
 }
 
-/* ---------- Not held (reduced motion on a touch screen, or no IntersectionObserver): the same stage in the page's flow.
-   One tool shows at a time in one grid cell (the tallest tool sets the height, so nothing below moves when a tab
-   switches the tool); no sideways track and no in-card progress row. */
-body .ft-story[data-pinned='false'] .ft__track { display: grid; overflow: visible; scroll-snap-type: none; touch-action: auto; }
-body .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1; visibility: hidden; }
-body .ft-story[data-pinned='false'] .ft__slide[data-active='true'] { visibility: visible; }
-body .ft-story[data-pinned='false'] .ft__progress { display: none; }
-
-/* ---------- Touch: how much scroll one tool takes. The page is the finger's own scroll here (no landing, no settle), so
-   the tool on stage changes where the page has gone, and one ordinary swipe should be one tool. Measured with real touch
-   drags in Chrome at 390 x 844 (tmp/lane-tools/tour.mjs, 16 Nov 2026 night): a calm thumb swipe (280 px in 250 ms) carries
-   the page 365 to 554 px, about 470 on average; a gentle one about 290, a brisk one 600 to 1,100. So one tool takes 470 px
-   of scroll (--ft-gap, the gap between two tools' resting places) on every touch screen, whatever its height: a thumb's
-   swipe is the same length on a tall phone and a short one. --ss-run is the gap times (tools - 1) / tools, so the gap is
-   470 px however many tools are live (scroll-story.css --ss-gap). With five, the hold from the first tool to the last is
-   four gaps, 1,880 px: four ordinary swipes. */
-@media (hover: none), (pointer: coarse) {
-  body .ft-story { --ft-gap: 500px; --ss-run: calc(var(--ft-gap) * (var(--ss-steps) - 1) / var(--ss-steps)); }
+/* ---------- THE DECK (not held: every pointer that is not a mouse or a trackpad, or no IntersectionObserver).
+   The stage is no longer a frame: each tool is its own card. The row runs edge to edge with the screen (it bleeds into the
+   page's side gutters and pads them back), so the first card starts on the page's left edge and about 30 px of the next
+   card shows at the right: that is the cue to swipe. Every card is the row's height (the tallest tool), so the words of
+   every tool start on one line and nothing below moves while the cards pass. */
+body .ft-story[data-pinned='false'] .ft__stage { border: 0; border-radius: 0; background: none; overflow: visible; }
+body .ft-story[data-pinned='false'] .ft__track {
+  display: flex; align-items: stretch; gap: 10px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; touch-action: pan-x pan-y;
+  margin-inline: calc((100% - 100vw) / 2); padding: 2px calc((100vw - 100%) / 2) 6px;
 }
-
-/* ---------- Touch: the change between tools is a plain fade (out 120 ms, in 200 ms), with no rise: on a touch screen
-   nothing on the stage moves that the finger did not move. */
-body .ft-story[data-flow='true'][data-pinned='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none; transition: none; }
+body .ft-story[data-pinned='false'] .ft__track::-webkit-scrollbar { display: none; }
+body .ft-story[data-pinned='false'] .ft__slide { display: grid; flex: 0 0 calc(100% - 22px); min-width: 0; visibility: visible; scroll-snap-align: start; scroll-snap-stop: always; }
+body .ft-story[data-pinned='false'] .ft__card {
+  height: 100%; grid-template-rows: minmax(0, 1fr) auto; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 22px; background: var(--paper-raised);
+}
+body .ft-story[data-pinned='false'] .ft__progress { display: none; }
+/* A tab puts the row on its card at once; the cards come in over the tour's short fade (none under reduced motion). */
+@keyframes ft-deck-in { from { opacity: 0.35; } to { opacity: 1; } }
+body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: ft-deck-in 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+@media (prefers-reduced-motion: reduce) { body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: none; } }
+html[data-motion='reduced'] body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: none; }
 
 /* ---------- Phones and upright tablets (under 900 px wide, 521 px tall or more; a phone on its side keeps the older
    two-column card of feature-tour.css).
@@ -97,12 +98,8 @@ body .ft-story[data-flow='true'][data-pinned='true'] .ft__slide :is(.ft__copy, .
   body #your-prep .ft-story[data-pinned='true'] .ft__track { flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr) auto; }
   body #your-prep .ft-story[data-pinned='true'] .ft__media { padding: 10px 10px 8px; }
 
-  /* Not held: the screen at its own height over its words. The tools share two rows (subgrid, as the held stage does in
-     r10-lab-tour.css), so the words start on one line for every tool and the card keeps the tallest tool's height. */
-  body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-template-rows: auto auto; }
-  @supports (grid-template-rows: subgrid) {
-    body #your-prep .ft-story[data-pinned='false'] .ft__track { grid-template-rows: auto auto; }
-    body #your-prep .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1 / 3 / 2; grid-template-rows: subgrid; }
-    body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-row: 1 / 3; grid-template-rows: subgrid; }
-  }
+  /* The deck on a phone: the screen at its own size in its well, then the tool's title, its one sentence and its key. */
+  body #your-prep .ft-story[data-pinned='false'] .ft__media { padding: 12px 12px 20px; }
+  body #your-prep .ft-story[data-pinned='false'] .ft__copy { gap: 6px; padding: 14px 16px 14px; }
+  body #your-prep .ft-story[data-pinned='false'] .ft__lede { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; white-space: normal; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
 }

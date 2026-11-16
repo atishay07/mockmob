@@ -115,7 +115,13 @@ function TourStage({ slides, step, seq = 0, pinned, reduced, goTo: storyGoTo, sa
       }
     }, { root: track, threshold: DECK_SHOWN });
     for (const card of track.children) observer.observe(card);
-    return () => observer.disconnect();
+    // The row bleeds to the screen's edges and pads the page's gutter back (r16-tour-stack.css); a card snaps to that padding,
+    // so it rests on the page's left edge. A percentage in scroll-padding would be of the row itself, so it is set from the
+    // row's own padding, now and whenever the window's width changes.
+    const pad = () => { track.style.scrollPaddingInline = getComputedStyle(track).paddingLeft; };
+    pad();
+    window.addEventListener('resize', pad, { passive: true });
+    return () => { observer.disconnect(); window.removeEventListener('resize', pad); };
   }, [deck, slides.length, storyGoTo]);
   // A tab in the deck: the row goes to that card at once (the row's own sideways position; the page never moves) and the
   // cards fade in over the tour's short fade (r16-tour-stack.css; none under reduced motion). The row's snap keeps it there.

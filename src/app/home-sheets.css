@@ -1330,19 +1330,17 @@ body:has(.mm.lp) {
 @media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(210px + 406svh); }
 }
-/* The tour on a touch screen is a held story again (16 Nov 2026 night, after a few hours as a stack). Its hold there is
-   fixed in px (r16-tour-stack.css: 500 px a tool, 2,000 px for five), so the section is that, the window and the head.
-   Measured drawn on 16 Nov: 390x844 2839, 360x740 2747, 360x640 2664 (2115 px + 85.8svh, within 4 px; 412x915 draws 2861,
-   39 under); upright tablets 2880 at 768x1024 and 2890 at 820x1180 (the stage centres in the taller window); from 960 px
-   2963 at 1024x768 and 2969 at 1280x800. */
+/* The tour on a touch screen is a deck (17 Nov 2026: five still tabs over one row of cards the browser scrolls sideways;
+   never held), so the section is about one screen whatever the window's height. Measured drawn on 17 Nov: 390x844 969,
+   360x740 965, 412x915 950, 768x1024 923. From 960 px on touch it is not measured; 'auto' keeps the last drawn size. */
 @media (hover: none), (pointer: coarse) {
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(2115px + 85.8svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto 965px; }
 }
 @media (hover: none) and (min-width: 700px) and (max-width: 959px), (pointer: coarse) and (min-width: 700px) and (max-width: 959px) {
-  .lp main > #your-prep { contain-intrinsic-size: auto 2885px; }
+  .lp main > #your-prep { contain-intrinsic-size: auto 923px; }
 }
 @media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px) {
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(2182px + 100svh); }
+  .lp main > #your-prep { contain-intrinsic-size: auto 923px; }
 }
 /* Key cards on wide screens (R4-H1: the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): measured 6 Nov
    at 1100x800, 1280x800, 1440x900, 1920x1080 (18 px root) and 2560x1440 (22 px root). */
@@ -2341,9 +2339,10 @@ a.ft__next { text-decoration: none; }
      under-glow, 4 Nov C3). Contrast of every ink on the screen is AA (ink2 on the darkest stop is about 7:1). */
   border: 6px solid var(--ts-bezel); border-radius: 24px;
   background: linear-gradient(180deg, #1f1d1a, #171511) padding-box;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(255,255,255,.10), 0 32px 64px -28px rgba(0,0,0,.85), 0 24px 48px -28px rgba(0,0,0,.5); }
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(255,255,255,.10), 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.55); }
 /* Day: the same device on paper, with a paper-side shadow. */
-html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(31,28,23,.14), 0 28px 50px -30px rgba(27,25,20,.5); }
+/* 17 Nov 2026 (LK291, "make it soft and diffused"): short, soft shadows that end inside the screen's well. */
+html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(31,28,23,.12), 0 1px 2px rgba(32,26,14,.08), 0 12px 28px -16px rgba(32,26,14,.24); }
 /* data-ts-step, not data-step: an attribute named in a rule that ends in * restyles the whole subtree of every element
    whose attribute of that name changes, and data-step is also every scroll story's step (ScrollStory, 850 elements a step
    at 4x CPU, ship gate 4 Nov). */
@@ -2647,7 +2646,9 @@ body .lc {
   --s-accent-ink: #0b1000;
   --s-wash: rgba(244, 240, 230, 0.06);
   /* The brand's volt marks on the Night screen (R3-D2, LK108): the pace line, the clock sweep, the rule and the first plan step. */
-  --s-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  /* Soft and short (17 Nov 2026, LK291): the section's paint containment (content-visibility) clips anything that reaches
+     past its edge, 28 px under the last screen, so the shadow ends within about 24 px and never shows a cut. */
+  --s-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 28px -16px rgba(0, 0, 0, 0.55);
   --lc-ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* The Changes clock sweeps once on the shared sweep time; every dot is on it within about 700 ms. */
   --lc-sweep: var(--mm-dur-sweep, 700ms);
@@ -2665,7 +2666,7 @@ body .lc {
 }
 /* Day keeps the Night screen and gives it a paper-side bezel and a sepia drop shadow. */
 html[data-theme='light'] .lc {
-  --s-shadow: 0 40px 80px -44px rgba(32, 26, 14, 0.55), 0 14px 30px -20px rgba(32, 26, 14, 0.35);
+  --s-shadow: 0 1px 2px rgba(32, 26, 14, 0.08), 0 12px 28px -16px rgba(32, 26, 14, 0.26);
   --lcd-bezel: #2a2823;
   --lcd-bezel-edge: rgba(32, 26, 14, 0.28);
 }
@@ -3802,10 +3803,10 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
   border-top: 0;
   border-radius: 0 0 22px 22px;
   background: var(--paper-raised);
-  box-shadow: 0 1px 2px rgba(40, 30, 10, 0.05), 0 18px 40px -24px rgba(40, 30, 10, 0.22);
+  box-shadow: 0 1px 2px rgba(40, 30, 10, 0.05), 0 12px 28px -16px rgba(40, 30, 10, 0.22); /* soft and inside its section (17 Nov, LK291) */
   color: var(--ink);
 }
-:root[data-theme='dark'] .mm.lp .lp-desk__card { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 22px 44px -28px rgba(0, 0, 0, 0.7); }
+:root[data-theme='dark'] .mm.lp .lp-desk__card { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 12px 28px -14px rgba(0, 0, 0, 0.6); }
 .lp-desk .lp-card { color: var(--ink); }
 .lp-desk .lp-card__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 22px; font: 600 0.875rem/1.2 var(--font-body); color: var(--ink-2); }
 .lp-desk .lp-card__sub { display: inline-flex; gap: 10px; }
@@ -6092,13 +6093,14 @@ html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
 @media print { .mc { display: none !important; } }
 
 /* ==== src/app/r16-tour-stack.css ==== */
-/* Round 16 (16 Nov 2026): the tour on a phone, and screens a reader can touch. (The file keeps its first name: for a few
-   hours that evening the tour was a stack of five screens on touch; the owner, on his phone at 10:25 pm: "it's just a
-   wastage of vertical space. I think the older one was better".) The tour is ONE held stage again on every device
-   (FeatureTour.jsx): on a phone it holds one screen of height, a still row of five tabs over one card (the tool's screen,
-   its one-sentence title and its one key), and nothing in it moves unless the reader's finger does. The scroll through
-   it is the browser's own (ScrollStory `free`): no landing, no settle, no glide. Desktop keeps the held tour as it was.
-   Every rule here is scoped to #your-prep or to .ft-story, so nothing else on the page moves. */
+/* Round 16 (16 Nov 2026), rebuilt 17 Nov 2026: the tour on a touch screen, and screens a reader can touch. The file keeps
+   its first name. The owner on his phone: of a stack of five screens (16 Nov evening) "it's just a wastage of vertical
+   space"; of the held stage that replaced it (16 Nov night) "the previous version ... was better than this ... You have to
+   think about how you can better implement all this". So on touch the tour is a DECK (FeatureTour.jsx): the five still
+   tabs over one row of cards that the browser itself scrolls sideways and snaps. A sideways swipe moves the cards one to
+   one under the finger, a vertical swipe is the page's own scroll, nothing is held, nothing plays by itself, and the
+   whole section costs about one screen. A mouse or a trackpad keeps the held tour exactly as it was. Every rule here is
+   scoped to #your-prep or to .ft-story, so nothing else on the page moves. */
 
 /* The section's sub: the held tour's for a mouse, the touch screen's for a finger (page.js renders both words). Touch is
    every pointer that is not a fine one that hovers (tourTaps.mjs TOUR_HOLD), where the screens rest and wait for a tap. */
@@ -6116,29 +6118,29 @@ html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
   body #your-prep .ft__fit { --ss-fit-min: 1; }
 }
 
-/* ---------- Not held (reduced motion on a touch screen, or no IntersectionObserver): the same stage in the page's flow.
-   One tool shows at a time in one grid cell (the tallest tool sets the height, so nothing below moves when a tab
-   switches the tool); no sideways track and no in-card progress row. */
-body .ft-story[data-pinned='false'] .ft__track { display: grid; overflow: visible; scroll-snap-type: none; touch-action: auto; }
-body .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1; visibility: hidden; }
-body .ft-story[data-pinned='false'] .ft__slide[data-active='true'] { visibility: visible; }
-body .ft-story[data-pinned='false'] .ft__progress { display: none; }
-
-/* ---------- Touch: how much scroll one tool takes. The page is the finger's own scroll here (no landing, no settle), so
-   the tool on stage changes where the page has gone, and one ordinary swipe should be one tool. Measured with real touch
-   drags in Chrome at 390 x 844 (tmp/lane-tools/tour.mjs, 16 Nov 2026 night): a calm thumb swipe (280 px in 250 ms) carries
-   the page 365 to 554 px, about 470 on average; a gentle one about 290, a brisk one 600 to 1,100. So one tool takes 470 px
-   of scroll (--ft-gap, the gap between two tools' resting places) on every touch screen, whatever its height: a thumb's
-   swipe is the same length on a tall phone and a short one. --ss-run is the gap times (tools - 1) / tools, so the gap is
-   470 px however many tools are live (scroll-story.css --ss-gap). With five, the hold from the first tool to the last is
-   four gaps, 1,880 px: four ordinary swipes. */
-@media (hover: none), (pointer: coarse) {
-  body .ft-story { --ft-gap: 500px; --ss-run: calc(var(--ft-gap) * (var(--ss-steps) - 1) / var(--ss-steps)); }
+/* ---------- THE DECK (not held: every pointer that is not a mouse or a trackpad, or no IntersectionObserver).
+   The stage is no longer a frame: each tool is its own card. The row runs edge to edge with the screen (it bleeds into the
+   page's side gutters and pads them back), so the first card starts on the page's left edge and about 30 px of the next
+   card shows at the right: that is the cue to swipe. Every card is the row's height (the tallest tool), so the words of
+   every tool start on one line and nothing below moves while the cards pass. */
+body .ft-story[data-pinned='false'] .ft__stage { border: 0; border-radius: 0; background: none; overflow: visible; }
+body .ft-story[data-pinned='false'] .ft__track {
+  display: flex; align-items: stretch; gap: 10px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; touch-action: pan-x pan-y;
+  margin-inline: calc((100% - 100vw) / 2); padding: 2px calc((100vw - 100%) / 2) 6px;
 }
-
-/* ---------- Touch: the change between tools is a plain fade (out 120 ms, in 200 ms), with no rise: on a touch screen
-   nothing on the stage moves that the finger did not move. */
-body .ft-story[data-flow='true'][data-pinned='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none; transition: none; }
+body .ft-story[data-pinned='false'] .ft__track::-webkit-scrollbar { display: none; }
+body .ft-story[data-pinned='false'] .ft__slide { display: grid; flex: 0 0 calc(100% - 22px); min-width: 0; visibility: visible; scroll-snap-align: start; scroll-snap-stop: always; }
+body .ft-story[data-pinned='false'] .ft__card {
+  height: 100%; grid-template-rows: minmax(0, 1fr) auto; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 22px; background: var(--paper-raised);
+}
+body .ft-story[data-pinned='false'] .ft__progress { display: none; }
+/* A tab puts the row on its card at once; the cards come in over the tour's short fade (none under reduced motion). */
+@keyframes ft-deck-in { from { opacity: 0.35; } to { opacity: 1; } }
+body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: ft-deck-in 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+@media (prefers-reduced-motion: reduce) { body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: none; } }
+html[data-motion='reduced'] body .ft-story[data-pinned='false'] .ft__track[data-jump] > .ft__slide { animation: none; }
 
 /* ---------- Phones and upright tablets (under 900 px wide, 521 px tall or more; a phone on its side keeps the older
    two-column card of feature-tour.css).
@@ -6191,14 +6193,10 @@ body .ft-story[data-flow='true'][data-pinned='true'] .ft__slide :is(.ft__copy, .
   body #your-prep .ft-story[data-pinned='true'] .ft__track { flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr) auto; }
   body #your-prep .ft-story[data-pinned='true'] .ft__media { padding: 10px 10px 8px; }
 
-  /* Not held: the screen at its own height over its words. The tools share two rows (subgrid, as the held stage does in
-     r10-lab-tour.css), so the words start on one line for every tool and the card keeps the tallest tool's height. */
-  body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-template-rows: auto auto; }
-  @supports (grid-template-rows: subgrid) {
-    body #your-prep .ft-story[data-pinned='false'] .ft__track { grid-template-rows: auto auto; }
-    body #your-prep .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1 / 3 / 2; grid-template-rows: subgrid; }
-    body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-row: 1 / 3; grid-template-rows: subgrid; }
-  }
+  /* The deck on a phone: the screen at its own size in its well, then the tool's title, its one sentence and its key. */
+  body #your-prep .ft-story[data-pinned='false'] .ft__media { padding: 12px 12px 20px; }
+  body #your-prep .ft-story[data-pinned='false'] .ft__copy { gap: 6px; padding: 14px 16px 14px; }
+  body #your-prep .ft-story[data-pinned='false'] .ft__lede { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; white-space: normal; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
 }
 
 /* ==== src/app/r16-phone.css ==== */
