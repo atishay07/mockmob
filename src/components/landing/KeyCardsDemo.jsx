@@ -22,8 +22,8 @@ import './key-cards.css';
 const LEAVE_MS = 180; // the rated card steps aside before the next one rises in
 const CARDS_ART = '/art/icons/keycards-192.webp'; // the Key cards desk object, beside the end card's title
 // "Sign up free to keep going" names Key cards as the way back (the signup page saves the path and a student who already
-// has an account lands on /cards). Today a brand-new account still goes through onboarding first and the saved path is
-// dropped there (postSignInPath keeps only a Mob invite through it); carrying /cards through onboarding is an auth change.
+// has an account lands on /cards). A brand-new account goes through onboarding first, and its last key, "Finish and open Key
+// cards", opens /cards (16 Nov 2026: src/lib/auth-redirect.js firstRunDestination keeps the path through onboarding).
 const KEEP_GOING_HREF = signupPathFor('/cards');
 // The public decks (src/app/key-cards): every subject's chapters, each with its free cards to turn, no account.
 const PUBLIC_DECKS_HREF = '/key-cards';

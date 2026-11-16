@@ -6,6 +6,7 @@ import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } fr
 import {clearStudyDrafts} from '@/../data/session_draft';
 import { clearCachedMe, readCachedMe, sessionUserIdFromCookies, writeCachedMe } from '@/lib/auth/meCache.mjs';
 import { commitPendingSignIn, notePendingSignIn } from '@/lib/auth/lastSignIn.mjs';
+import { forgetFirstRun } from '@/lib/auth-redirect';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
 export const AuthContext = createContext(null);
@@ -428,6 +429,7 @@ export function AuthProvider({ children }) {
     requestIdRef.current += 1;
     await signOutLocally(supabase);
     try{clearStudyDrafts(window.localStorage,userId);}catch{/* Storage is optional. */}
+    forgetFirstRun(); // a page a sign-up door promised this student never carries over to the next one on this device
     clearCachedMe(deviceStorage());
     applyUnauthenticated();
   }, [applyUnauthenticated]);

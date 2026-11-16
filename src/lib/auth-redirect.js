@@ -184,12 +184,20 @@ export function firstRunDestination(raw) {
   return CHAPTER_KEY.test(chapter) ? { kind: 'chapter', path: `/cards/${chapter}`, chapter } : null;
 }
 
-/** Keeps a new account's promised page while onboarding runs (an hour at most). Returns the destination kept, or null. */
+/**
+ * Keeps a new account's promised page while onboarding runs (an hour at most). Returns the destination kept, or null. A sign-in
+ * that promised no page drops any page an earlier sign-in on this device left behind, so it never carries over to this account.
+ */
 export function keepFirstRunPath(raw, { store, now = Date.now() } = {}) {
   const target = storage(store);
+  if (!target) return null;
   const dest = firstRunDestination(raw);
-  if (!target || !dest) return null;
-  try { target.setItem(FIRST_RUN_KEY, JSON.stringify({ path: dest.path, at: now })); } catch { return null; }
+  try {
+    if (dest) target.setItem(FIRST_RUN_KEY, JSON.stringify({ path: dest.path, at: now }));
+    else target.removeItem(FIRST_RUN_KEY);
+  } catch {
+    return null;
+  }
   return dest;
 }
 
@@ -211,6 +219,12 @@ export function peekFirstRunPath({ store, now = Date.now() } = {}) {
 export function forgetFirstRunPath({ store } = {}) {
   const target = storage(store);
   try { target?.removeItem(FIRST_RUN_KEY); } catch { /* best effort */ }
+}
+
+/** Sign-out: the promised page and the arrival line belong to the student who signed out, never to the next one here. */
+export function forgetFirstRun({ store } = {}) {
+  const target = storage(store);
+  try { target?.removeItem(FIRST_RUN_KEY); target?.removeItem(ARRIVAL_KEY); } catch { /* best effort */ }
 }
 
 /** Marks the promised page as reached, so it says its one line (once, within ten minutes). */

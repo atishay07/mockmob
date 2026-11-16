@@ -184,7 +184,11 @@ export default function OnboardingPageClient({ preview = false }) {
   // A sign-up door's page (16 Nov 2026): the first run still runs in full, and its last key opens that page instead of the first
   // set. The development preview can also take it from ?promise=<path>, through the same check.
   const promisedPath = useSyncExternalStore(noSubscribe, readPromised, noSample);
-  const promised = useMemo(() => (edit ? null : firstRunDestination((preview && query?.get('promise')) || promisedPath)), [edit, preview, query, promisedPath]);
+  const livePromise = useMemo(() => (edit ? null : firstRunDestination((preview && query?.get('promise')) || promisedPath)), [edit, preview, query, promisedPath]);
+  // Latched when the last key is pressed, so the key keeps naming the page through Mobi's beat until the page opens (the kept path is
+  // forgotten only as the page opens, and a read of it in between must not turn the key back into the first set's).
+  const [latchedPromise, setLatchedPromise] = useState(null);
+  const promised = latchedPromise || livePromise;
   const promisedKey = firstRunKey(promised);
   // Today's included set, read on the colleges step (src/lib/firstSet.mjs): { subject, state: 'idle' | 'loading' | 'free' | 'none', offer }.
   const [firstSet, setFirstSet] = useState({ subject: null, state: 'idle', offer: null });
@@ -346,14 +350,16 @@ export default function OnboardingPageClient({ preview = false }) {
   };
 
   // Leaves once every save has been confirmed. Mobi answers first unless motion is reduced. `to` is where the first run ends (the
-  // first set's paper, or Practice on the sampled subject); without it the page goes where it always did.
-  const finish = useCallback(async (act, to = null) => {
+  // first set's paper, or Practice on the sampled subject); without it the page goes where it always did. `leave` runs as the page
+  // opens, after Mobi's beat (the promised page's kept path is forgotten there).
+  const finish = useCallback(async (act, to = null, leave = null) => {
     setFinishing(true);
     mobiAct(SCOPE, act);
     // The first run is done: the first usage session starts now (D81). Editing subjects later never starts one.
     if (!edit && !preview) noteOnboardedNow(user?.id);
     try { await refreshing.current; } catch { /* the next page checks the session itself */ }
     window.setTimeout(() => {
+      leave?.();
       if (preview) { if (to) router.push(previewFinish(to, window.location.search)); return; }
       if (to) router.push(to);
       else router.push(back || DONE_PATH);
@@ -481,12 +487,14 @@ export default function OnboardingPageClient({ preview = false }) {
     saveLock.current = true;
     setFinishing(true);
     // The page the sign-up door promised is where the first run ends, once; the page says its one line as the student arrives.
+    // The promise is latched for the key's words; the kept path is forgotten, and the arrival marked, only as the page opens.
     if (promised) {
+      const dest = promised;
+      setLatchedPromise(dest);
       saveLock.current = false;
-      forgetFirstRunPath();
-      noteArrival(promised);
+      clearSample();
       if (preview) setNotice('Preview only: no account was changed. The first run ends here.');
-      finish('cheer', promised.path);
+      finish('cheer', dest.path, () => { forgetFirstRunPath(); noteArrival(dest); });
       return;
     }
     const picks = selected.length ? selected : (user?.subjects || []);

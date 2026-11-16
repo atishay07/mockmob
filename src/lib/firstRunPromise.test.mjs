@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  firstRunDestination, forgetFirstRunPath, keepFirstRunPath, loginPathFor, noteArrival, peekArrival, peekFirstRunPath, postSignInPath,
+  firstRunDestination, forgetFirstRun, forgetFirstRunPath, keepFirstRunPath, loginPathFor, noteArrival, peekArrival, peekFirstRunPath, postSignInPath,
   rememberNextPath, signupPathFor, takeArrival, takeNextPath,
 } from './auth-redirect.js';
 import { ARRIVAL_LINES, FIRST_RUN_KEYS, arrivalLine, firstRunKey } from './firstRunPromise.mjs';
@@ -206,13 +206,49 @@ test('the preview mirrors the ending: each promised page opens its view, or the 
 test('onboarding ends on the promised page, names it on its last key, and reads no quote for the first set then', () => {
   const page = read('src/app/onboarding/OnboardingPageClient.jsx');
   assert.match(page, /firstRunDestination\(\(preview && query\?\.get\('promise'\)\) \|\| promisedPath\)/, 'only the preview takes ?promise=, through the same check');
-  assert.match(page, /if \(promised\) \{\s*saveLock\.current = false;\s*forgetFirstRunPath\(\);\s*noteArrival\(promised\);/);
-  assert.match(page, /finish\('cheer', promised\.path\);\s*return;/);
+  assert.match(page, /if \(promised\) \{\s*const dest = promised;\s*setLatchedPromise\(dest\);/, 'the promise is latched as the key is pressed');
+  assert.match(page, /const promised = latchedPromise \|\| livePromise;/);
+  assert.match(page, /finish\('cheer', dest\.path, \(\) => \{ forgetFirstRunPath\(\); noteArrival\(dest\); \}\);\s*return;/);
+  assert.match(page, /window\.setTimeout\(\(\) => \{\s*leave\?\.\(\);\s*if \(preview\)/, 'the kept path is forgotten only as the page opens');
   assert.match(page, /const firstSubject = !edit && !promised \? firstSetSubject\(/);
   assert.match(page, /\{promisedKey \? \(finishing \? promisedKey\.opening : promisedKey\.key\)/);
   assert.match(page, /edit \? null : firstRunDestination/, 'Edit subjects never ends on a promised page');
   // The steps themselves are untouched: the same three, the same saves.
   assert.match(read('src/app/onboarding/firstRun.js'), /export const STEPS = Object\.freeze\(\['subjects', 'days', 'colleges'\]\);/);
+});
+
+// Review 16 Nov: the key read the kept path on every render, and the promise branch forgot it before Mobi's 700 ms beat, so the
+// re-render for "finishing" had no promise: the key said "Opening Practice…", lost data-promise, and the first set's quote was read.
+test('while the last key opens the page, nothing in the promise branch forgets the kept path before the page opens', () => {
+  const page = read('src/app/onboarding/OnboardingPageClient.jsx');
+  const branch = /if \(promised\) \{([\s\S]*?)\n {4}\}/.exec(page)?.[1];
+  assert.ok(branch, 'the promise branch of the last key');
+  const direct = branch.replace(/\(\) => \{[^}]*\}/g, ''); // what runs as the key is pressed, not in the callback run as the page opens
+  assert.doesNotMatch(direct, /forgetFirstRunPath\(\)/, 'not forgotten as the key is pressed');
+  assert.doesNotMatch(direct, /noteArrival\(/, 'not marked as arrived before the page opens');
+  assert.ok(branch.indexOf('setLatchedPromise(') < branch.indexOf('finish('), 'latched before the re-render for "finishing"');
+  assert.match(branch, /clearSample\(\);/, 'the sample’s note ends with the first run here too');
+  const finish = /const finish = useCallback\(async \(act, to = null, leave = null\) => \{([\s\S]*?)\n {2}\}, \[/.exec(page)?.[1] || '';
+  assert.ok(finish.indexOf('leave?.()') > finish.indexOf('window.setTimeout('), 'after Mobi’s beat');
+  assert.ok(finish.indexOf('leave?.()') < finish.indexOf('router.push('), 'just before the page opens');
+});
+
+test('a sign-in that promised no page, and a sign-out, leave nothing for the next account on this device', () => {
+  const store = memoryStore();
+  keepFirstRunPath('/sunday', { store, now: 0 });
+  assert.equal(keepFirstRunPath('/today', { store, now: 1 }), null);
+  assert.equal(peekFirstRunPath({ store, now: 2 }), null, 'an old page is dropped when this sign-in promised none');
+  keepFirstRunPath('/sunday', { store, now: 0 });
+  assert.equal(postSignInPath({ needsOnboarding: true, store, now: 1 }), '/onboarding');
+  assert.equal(peekFirstRunPath({ store, now: 2 }), null, 'a new account with no saved page starts clean');
+
+  keepFirstRunPath('/sunday', { store, now: 0 });
+  noteArrival({ kind: 'sunday' }, { store, now: 0 });
+  forgetFirstRun({ store });
+  assert.equal(store.map.size, 0, 'sign-out clears the kept page and the arrival line');
+  assert.doesNotThrow(() => forgetFirstRun({ store: { removeItem() { throw new Error('blocked'); } } }));
+  const auth = read('src/components/AuthProvider.jsx');
+  assert.match(auth, /const signOut = useCallback\(async \(\) => \{[\s\S]*?forgetFirstRun\(\);[\s\S]*?applyUnauthenticated\(\);/, 'signOut calls it');
 });
 
 test('the promised pages say their line, drawn with their loaded content', () => {
@@ -222,7 +258,12 @@ test('the promised pages say their line, drawn with their loaded content', () =>
   const sunday = read('src/components/sunday/SundayPage.jsx');
   assert.match(sunday, /useArrival\('sunday'\)/);
   assert.match(sunday, /\{d\.subjects\.length \? <ArrivalLine line=\{arrived\} className="sun-arrive" \/> : null\}/);
-  assert.match(read('src/components/learn2/home/LearnHome.jsx'), /useArrival\('cards'\)/);
+  const learn = read('src/components/learn2/home/LearnHome.jsx');
+  assert.match(learn, /useArrival\('cards'\)/);
+  assert.match(learn, /const \[arrivedFirst\] = useState\(\(\) => Boolean\(arrived\)\);/, 'known in the first render or not');
+  assert.match(learn, /\{arrivedFirst \? <ArrivalLine line=\{arrived\} className="lh-arrive" \/> : null\}/, 'over the subjects only from the first frame');
+  assert.match(learn, /\{!arrivedFirst \? <ArrivalLine line=\{arrived\} className="lh-arrive lh-arrive--late" \/> : null\}\s*<ChapterMap /, 'after a full load, inside the panel with the map');
+  assert.equal((learn.match(/<ArrivalLine /g) || []).length, 2, 'drawn in one place or the other, never both');
   const line = read('src/components/arrival/ArrivalLine.jsx');
   assert.match(line, /useSyncExternalStore\(noSubscribe, \(\) => peekArrival\(kind, \{ chapter \}\), serverNone\)/, 'the server draws no line');
   assert.match(line, /role="status"/);
@@ -234,4 +275,18 @@ test('the doors build the links the hand-off reads', () => {
   assert.match(read('src/components/landing/KeyCardsDemo.jsx'), /const KEEP_GOING_HREF = signupPathFor\('\/cards'\);/);
   assert.match(read('src/components/billing/RazorpayPaymentButton.jsx'), /loginPathFor\('\/pricing#plans'\)/);
   assert.match(read('src/components/mob/join/JoinV3.jsx'), /loginPathFor\('\/mob'\)/);
+  // The log-in page reads ?next=; these three sent callbackUrl, which nothing reads (the student landed on Today).
+  assert.match(read('src/components/colleges/MyColleges.jsx'), /href=\{loginPathFor\('\/cuet-cutoff-calculator'\)\}>Sign in to save/);
+  assert.match(read('src/app/pricing/ai-credits/page.js'), /href=\{loginPathFor\('\/pricing\/ai-credits'\)\}/);
+  assert.match(read('src/components/billing/PrepOSCreditPurchaseButton.jsx'), /window\.location\.href = loginPathFor\('\/pricing\/ai-credits'\);/);
+  for (const file of ['src/components/colleges/MyColleges.jsx', 'src/app/pricing/ai-credits/page.js', 'src/components/billing/PrepOSCreditPurchaseButton.jsx']) {
+    assert.doesNotMatch(read(file), /callbackUrl=/, file);
+  }
+  assert.equal(loginPathFor('/cuet-cutoff-calculator'), '/login?next=%2Fcuet-cutoff-calculator');
+  // The calculator is a sensible first landing (its colleges were just picked in onboarding); the AI credits top-up page is not,
+  // so a new account ends onboarding as usual and a returning student still goes back to it.
+  assert.equal(signUpThrough(loginPathFor('/cuet-cutoff-calculator')).kept?.path, '/cuet-cutoff-calculator');
+  assert.equal(firstRunDestination('/pricing/ai-credits'), null);
+  assert.equal(signUpThrough(loginPathFor('/pricing/ai-credits')).kept, null);
+  assert.equal(signUpThrough(loginPathFor('/pricing/ai-credits'), { needsOnboarding: false }).lands, '/pricing/ai-credits');
 });
