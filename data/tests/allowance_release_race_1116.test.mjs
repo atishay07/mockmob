@@ -634,6 +634,9 @@ function scheduledHooks(ctx) {
   };
 }
 const SESSION_CALL = 'start_learning_session';
+// A gate that never opens would hang the run: these tests stop instead (generous, for a loaded machine).
+const SCHEDULED = { timeout: 120000 };
+const EXPLORED = { timeout: 600000 };
 const spendsOf = (d, id) => rows(d, 'select reference, action from credit_transactions where user_id=$1 order by reference', [id]);
 
 /** Starts run under the scheduler; `starts` maps a tag to start()'s options for one student. */
@@ -641,7 +644,7 @@ function launchAll(sched, userId, starts) {
   for (const [tag, options] of Object.entries(starts)) sched.launch(tag, () => start(userId, options));
 }
 
-test('case 1: A\'s release runs before B reaches the lock, B\'s session commits and its reply is lost; the retry replays: one free session, its free row, the next full mock is 50', async () => {
+test('case 1: A\'s release runs before B reaches the lock, B\'s session commits and its reply is lost; the retry replays: one free session, its free row, the next full mock is 50', SCHEDULED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     const ctx = { sched: scheduler(), plan: { A: { P: 'before' }, B: { P: 'lost' } } };
     const d = await routes(scheduledHooks(ctx), { start: version });
@@ -668,7 +671,7 @@ test('case 1: A\'s release runs before B reaches the lock, B\'s session commits 
   });
 });
 
-test('case 1: the same, but B\'s server process dies after its session commits, before it can keep the row', async () => {
+test('case 1: the same, but B\'s server process dies after its session commits, before it can keep the row', SCHEDULED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     const ctx = { sched: scheduler(), plan: { A: { P: 'before' } } };
     const d = await routes(scheduledHooks(ctx), { start: version });
@@ -734,7 +737,7 @@ async function oneRun(d, ctx, seed) {
   return { userId, retry, answers, what: JSON.stringify({ seed, plan, dies, answers: answers.map((a) => a.status) }) };
 }
 
-test('case 1, every order: 200 random interleavings of two or three same-key starts (failures, lost replies, a dead process) leave one free session holding the one free row', async () => {
+test('case 1, every order: 200 random interleavings of two or three same-key starts (failures, lost replies, a dead process) leave one free session holding the one free row', EXPLORED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     const ctx = { sched: null, plan: {} };
     const d = await routes(scheduledHooks(ctx), { start: version });
@@ -752,7 +755,7 @@ test('case 1, every order: 200 random interleavings of two or three same-key sta
   });
 });
 
-test('without the release function (production today) the same runs still never charge or make a second session; the release\'s own window stays open there', async (t) => {
+test('without the release function (production today) the same runs still never charge or make a second session; the release\'s own window stays open there', EXPLORED, async (t) => {
   await durable(async () => {
     const ctx = { sched: null, plan: {} };
     const d = await routes(scheduledHooks(ctx), { release: false });
@@ -771,7 +774,7 @@ test('without the release function (production today) the same runs still never 
   });
 });
 
-test('case 2: keepFirstFullMock never ties the free row to a session a twin with the same key started paid', async () => {
+test('case 2: keepFirstFullMock never ties the free row to a session a twin with the same key started paid', SCHEDULED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     // S1 and S2 tap the free mock (key k); S1's session call fails and gives the row back. X (another tab, key k2) takes it. S3 (the
     // app, key k, no firstFree) reads 'used' and starts the session paid. X's call fails and gives the row back. S2's call then
@@ -803,7 +806,7 @@ test('case 2: keepFirstFullMock never ties the free row to a session a twin with
   });
 });
 
-test('case 2: a free tap that took the row, whose twin\'s read failed and started the session paid, gives the row back', async () => {
+test('case 2: a free tap that took the row, whose twin\'s read failed and started the session paid, gives the row back', SCHEDULED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     const ctx = { sched: scheduler(), plan: { P: { R: 'fail' } } };
     const d = await routes(scheduledHooks(ctx), { start: version });
@@ -822,7 +825,7 @@ test('case 2: a free tap that took the row, whose twin\'s read failed and starte
   });
 });
 
-test('another key in the moment between: the new function refuses the start that lost its row (409, nothing charged); the old one makes a second free session', async () => {
+test('another key in the moment between: the new function refuses the start that lost its row (409, nothing charged); the old one makes a second free session', SCHEDULED, async () => {
   for (const version of ['old', 'own']) await durable(async () => {
     // S1 and S2 tap (key k); S1 fails and gives the row back; X (another tab, key k2) takes it before S2 reaches the lock.
     const ctx = { sched: scheduler(), plan: { S1: { P: 'before' } } };
