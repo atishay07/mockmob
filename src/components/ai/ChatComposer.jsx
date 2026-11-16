@@ -296,6 +296,8 @@ const ChatComposer = forwardRef(function ChatComposer({
           {have ? <> <Link href="/wallet" className="amb-cost__wallet ach-line__have" onClick={onLeave}>{balanceTick ? <>{balanceTick[1]}<b key={balanceTick[2]} className="amb-num">{balanceTick[2]}</b>{balanceTick[3]}</> : have}</Link></> : null}
           {line.credits ? <> <Link href="/wallet" className="ach-line__link" onClick={onLeave}>{CHAT_COPY.seeCredits}</Link></> : null}
         </p>
+        {/* The rule for an ask Mobi cannot use, said before the send, only while the ask is "a question I got wrong". */}
+        {mistake ? <p className="ach-rule">{MISTAKE_COPY.unusableRule}</p> : null}
         <p className="ach-ai">{CHAT_COPY.aiNote}</p>
       </div>
     </div>

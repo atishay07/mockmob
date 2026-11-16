@@ -10,7 +10,7 @@
 //   &mistake=none      no credits left (402)        &mistake=paused   written replies paused (503)
 //   &mistake=slow      the answer after 8 s, to see Sending
 //   &mistake=slower    the answer after 14 s, to see the second line of a long wait
-//   &charged=1         with &mistake=unreadable or refuse: the refusal says it used 1 credit (the words must follow the amount)
+//   &charged=0         with &mistake=unreadable or refuse: the free variant (by default they use MISTAKE_UNUSABLE_CREDITS, as the server does)
 //   &mistake=lost      the first send's answer is lost on the way; Try again sends the same request and gets it
 // A paid answer spends one credit from the preview wallet, once per request id, like the server's receipt (two for a photo).
 //
@@ -23,7 +23,7 @@
 //   &mistake=photooff    the server with the photo switch off (a photo refused with a 400; the panel drops its photo key)
 //   &photo=off           the form with the photo switch off (no photo key; set by ArenaPreviewClient)
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { MISTAKE_COPY, cleanText, mistakeCredits, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
+import { MISTAKE_COPY, MISTAKE_UNUSABLE_CREDITS, unusableLine, cleanText, mistakeCredits, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
 import { mistakeChapters } from '@/services/mobi/mistakeChapters.mjs';
 
 const opts = (right, texts) => texts.map((text, i) => ({ text, right: i === right }));
@@ -74,19 +74,19 @@ export function previewMistake(url, method, init, fixture, json) {
   if (!study.ok) return later({ ok: true, kind: 'refused', reply: refusalFor(study.reason), charged: 0 }, 200, 300);
 
   if (kind === 'none') return later({ ok: false, error: 'insufficient_ai_credits', status: 'blocked', balance: 0, message: `This uses ${credits} ${credits === 1 ? 'credit' : 'credits'}. You have 0. Questions about your record are free.`, charged: 0 }, 402);
-  // A refusal that used a credit (&charged=1): the amount is in the body, and the reply's own words claim nothing about it.
-  const used = Math.max(0, Math.trunc(Number(fixture.get('charged')) || 0));
-  const refusal = (reply, extra = {}) => {
-    if (!used) return { ok: true, kind: 'refused', reply, charged: 0, ...extra };
+  // An ask the model itself judged unusable uses MISTAKE_UNUSABLE_CREDITS, as the server charges it (&charged=0: the free variant).
+  // The words are the server's own (unusableLine), the amount is in the body, and the preview wallet goes down by it.
+  const used = fixture.get('charged') === null ? MISTAKE_UNUSABLE_CREDITS : Math.max(0, Math.trunc(Number(fixture.get('charged')) || 0));
+  const refusal = (verdict, extra = {}) => {
     const receipts = (window.__previewRepairIds ||= new Set());
     for (let i = 0; i < used; i += 1) receipts.add(`mistake-refused:${body.requestId}:${i}`);
-    return { ok: true, kind: 'refused', reply: reply.replace(/\s*Nothing was charged\.$/, ''), charged: used, charge: { kind: 'prepos_credit', amount: used }, ...extra };
+    return { ok: true, kind: 'refused', reply: unusableLine(verdict, used), charged: used, charge: { kind: used ? 'prepos_credit' : 'none', creditUnits: used, amount: used }, ...extra };
   };
-  if (kind === 'unreadable' && value.photo) return later(refusal(MISTAKE_COPY.unreadable, { reason: 'unreadable' }), 200, 1600);
+  if (kind === 'unreadable' && value.photo) return later(refusal('unreadable', { reason: 'unreadable' }), 200, 1600);
   if (kind === 'paused') return later({ ok: false, status: 'paused', message: 'AI features are paused for now. Your credits have not been used.', charged: 0 }, 503);
   if (kind === 'cap') return later({ ok: false, error: 'user_limit_reached', status: 'failed', message: 'You’ve reached this month’s AI limit. It resets on 1 December. No credits were used.', charged: 0 }, 429, 1200);
   if (kind === 'fail') return later({ ok: false, error: 'unusable_output', status: 'failed', message: `${MISTAKE_COPY.failed} No credits were used.`, charged: 0 }, 502, 1500);
-  if (kind === 'refuse') return later(refusal(MISTAKE_COPY.notStudy), 200, 1200);
+  if (kind === 'refuse') return later(refusal('not_study'), 200, 1200);
 
   const modelReply = { ...(kind === 'unsure' ? UNSURE : SURE), ...(value.photo ? { read: READ } : {}) };
   const checked = readMistakeReply(JSON.stringify(modelReply), { request: value });

@@ -9,7 +9,7 @@ import {
 } from './chatCopy.mjs';
 import { inlineParts, proseBlocks } from './chatProse.mjs';
 import { MOBI_JOB_CREDITS, creditCount } from '../../lib/creditCopy.mjs';
-import { MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS, MISTAKE_TIMEOUT_MS, mistakeOutcome } from '../../services/mobi/bringMistake.mjs';
+import { MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS, MISTAKE_TIMEOUT_MS, MISTAKE_UNUSABLE_CREDITS, mistakeOutcome, unusableLine } from '../../services/mobi/bringMistake.mjs';
 import { REPORT_REASONS } from '../../lib/server/aiReplyReport.js';
 import { JOB_COPY } from './mobiJobs.mjs';
 import { exchangesFrom } from './mentorHistory.mjs';
@@ -109,6 +109,14 @@ test('a refusal or a failure is a turn: what happened, what it used, and the way
   assert.equal(one.used, '1 credit used.');
   assert.doesNotMatch(one.said, /Nothing was charged|No credits/);
   assert.deepEqual(refusalParts('It broke. No credits were used.', 2), { said: 'It broke.', used: '2 credits used.' });
+  // The server's own line for an ask Mobi could not use (unusableLine): said once when it names the amount, and free reads as free.
+  for (const verdict of ['unreadable', 'not_study']) {
+    assert.deepEqual(refusalParts(unusableLine(verdict, MISTAKE_UNUSABLE_CREDITS), MISTAKE_UNUSABLE_CREDITS), { said: unusableLine(verdict, MISTAKE_UNUSABLE_CREDITS), used: null });
+    const free = refusalParts(unusableLine(verdict, 0), 0);
+    assert.equal(free.used, 'No credits used.');
+    assert.doesNotMatch(free.said, /Nothing was charged/);
+  }
+  assert.match(read('./ChatComposer.jsx'), /\{mistake \? <p className="ach-rule">\{MISTAKE_COPY\.unusableRule\}<\/p> : null\}/, 'the rule is said before the send, in the server\'s own words');
   // Held credits are information, not a zero: the sentence stays.
   assert.match(refusalParts('The photo did not fit. Your credits are held briefly and return automatically.', 0).said, /held briefly and return automatically\.$/);
   assert.equal(refusalParts('', 0).said, '');
