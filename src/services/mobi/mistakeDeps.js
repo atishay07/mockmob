@@ -7,7 +7,8 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { callProviderOnce } from '@/services/ai/providers';
 import { buildReplyDeps, spendUserFor } from '@/services/prepos/replyDeps';
-import { findMistakeReplay } from '@/services/mobi/mistakeAsk';
+import { consumeAIWalletCredits } from '@/services/credits/aiCreditWallet';
+import { findMistakeReplay, findUnusableCharge } from '@/services/mobi/mistakeAsk';
 import { createLiveChapters, readLiveChapterNames } from '@/services/mobi/liveChapters.mjs';
 
 // The chapter names Practice keeps from a link (review, 16 Nov 2026): read-only, one select per subject, kept for 5 minutes in
@@ -18,6 +19,11 @@ export function buildMistakeDeps({ user }) {
   const reply = buildReplyDeps({ user });
   return {
     wallet: { reserve: reply.reserve, markExecuting: reply.markExecuting, commit: reply.commit, release: reply.release },
+    // An ask Mobi had to read but cannot use (lane web/1116n-price): 1 credit through the existing one-step consume
+    // (mm_ai_consume_credits; it fails closed and never charges twice under one key), for this stored student; and the read of
+    // that charge in the AI credit ledger for the same ask sent again (owner-bound). A failed read throws.
+    consume: ({ amount, action, reference, idempotencyKey, metadata }) => consumeAIWalletCredits({ user, amount, action, reference, idempotencyKey, metadata }),
+    findUnusable: (operationKey) => findUnusableCharge({ db: supabaseAdmin(), userId: user.id, operationKey }),
     callOnce: callProviderOnce,
     spendUser: spendUserFor(user),
     now: () => Date.now(),

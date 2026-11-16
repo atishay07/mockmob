@@ -16,21 +16,32 @@
 //                  reserve_runtime_ai with the student and plan, so the student's own monthly rupee cap in runtime_ai_budget
 //                  applies and a failed or invalid call still counts there), with no JSON retry and no fallback.
 //   5. the reply   readMistakeReply holds it to the contract. Invalid -> the credit is released and the student sees an honest
-//                  error with Try again. The model's own "not a study question" or "support" -> the credit is released too,
-//                  and the student sees the refusal or the fixed support reply (never model-written words).
+//                  error with Try again. The model's own "support" -> the credit is released too, and the student sees the
+//                  fixed support reply (never model-written words).
+//   6. unusable    The model's own "not a study question" (typed or photo) or "unreadable" (photo), lane web/1116n-price (owner,
+//                  16 Nov 2026, 10:25 pm: a stream of random photos must cost something): the reservation is released as in
+//                  step 5, then, only once the release went through, MISTAKE_UNUSABLE_CREDITS (1) is taken with the one-step
+//                  consume (aiCreditWallet consumeAIWalletCredits, mm_ai_consume_credits) under a key derived only from the
+//                  operation key (unusableKey), so the same ask can never take it twice. A consume that refuses (no credits,
+//                  paused, a bad key) takes nothing and the words say so; any other failure reads the ledger once and says
+//                  what it finds (or, if that read fails, that it could not be confirmed). A release that failed (the
+//                  credits are held and return by themselves) takes nothing more. The same ask sent again finds that charge (findUnusableCharge) and shows the
+//                  same words, with no model call and no second charge.
 //
 // A photo of the question (lane web/1116-photo, 16 Nov 2026; switch data/mistake_photo.mjs): the same steps, in the same order,
 // with MISTAKE_PHOTO_CREDITS (2) through the same one reserve, commit or release under the same one operation key. The photo
 // goes to the model as an image part (callOnce `image`, OpenAI only) and is never stored or logged. Its own verdicts: the
-// model's "unreadable" (blurred, cut off, no question) releases the credits with fixed words; and before anything is shown,
+// model's "unreadable" (blurred, cut off, no question) releases the 2 credits and then takes 1 (step 6), with fixed words; and
+// before anything is shown,
 // needsSupport runs on Mobi's reading of the photo ("read"): a match is the fixed support reply, the credits released.
+import { createHash } from 'node:crypto';
 import { runModelReply, operationKeyFor } from '../prepos/modelReply.js';
 import { needsSupport, SUPPORT_REPLY } from '../ai/supportCheck.js';
 import { LUNA_MODEL } from '../ai/providerCore.js';
 import {
-  MISTAKE_COPY, MISTAKE_EFFORT, MISTAKE_LIMITS, MISTAKE_MAX_TOKENS, MISTAKE_PHOTO_MAX_TOKENS, MISTAKE_PHOTO_ON, MISTAKE_TIMEOUT_MS, cleanText,
-  mistakeCredits, mistakeReplyText, mistakeSystemPrompt, mistakeUserMessage, readMistakeReply, readMistakeRequest, readStoredMistake,
-  refusalFor, studyCheck,
+  MISTAKE_COPY, MISTAKE_EFFORT, MISTAKE_LIMITS, MISTAKE_MAX_TOKENS, MISTAKE_PHOTO_MAX_TOKENS, MISTAKE_PHOTO_ON, MISTAKE_TIMEOUT_MS,
+  MISTAKE_UNUSABLE_CREDITS, cleanText, mistakeCredits, mistakeReplyText, mistakeSystemPrompt, mistakeUserMessage, readMistakeReply,
+  readMistakeRequest, readStoredMistake, refusalFor, studyCheck, unusableLine,
 } from './bringMistake.mjs';
 import { mistakeChapters } from './mistakeChapters.mjs';
 import { practiceKeeps } from './liveChapters.mjs';
@@ -91,6 +102,78 @@ export async function findMistakeReplay({ db, userId, operationKey }) {
   return data?.structured_payload || null;
 }
 
+// ---- An ask Mobi had to read but cannot use: its one credit, and the read of it for the same ask sent again -----------------
+export const UNUSABLE_ACTION = 'prepos_mistake_unusable';
+// consumeAIWalletCredits' own check on the key (src/services/credits/aiCreditWallet.js); a key that fails it is never sent.
+export const CONSUME_KEY_PATTERN = /^[A-Za-z0-9:_-]{8,200}$/;
+
+/**
+ * The consume's idempotency key, derived ONLY from the ask's operation key (operationKeyFor: 'prepos:' + the user id + ':' +
+ * the request id, at most 160 characters; the request id is [A-Za-z0-9_-]{16,64}). A Supabase user id is a UUID, so the key is
+ * '<operationKey>:unusable' (at most 169 characters). An older account's id may hold other characters (an email-keyed row):
+ * then the key is 'prepos_unusable:' + the operation key's SHA-256 in hex (80 characters). Either way it always passes
+ * CONSUME_KEY_PATTERN and the same operation key always gives the same key. Two operation keys do not share one: the first
+ * form keeps the whole operation key ('prepos:...'), the second starts 'prepos_unusable:' and is a SHA-256.
+ */
+export function unusableKey(operationKey) {
+  const key = typeof operationKey === 'string' ? operationKey : '';
+  if (!key) return null;
+  const plain = `${key}:unusable`;
+  if (CONSUME_KEY_PATTERN.test(plain)) return plain;
+  return `prepos_unusable:${createHash('sha256').update(key, 'utf8').digest('hex')}`;
+}
+
+/**
+ * The credit an unusable ask took, read from the AI credit ledger by unusableKey (the consume writes that row in the same
+ * transaction as the charge, so it is there exactly when the credit was taken). Owner-bound. -> { verdict, charged } | null.
+ * A failed read throws (the caller says the outcome could not be confirmed). `db` is a Supabase client (supabaseAdmin()).
+ */
+export async function findUnusableCharge({ db, userId, operationKey }) {
+  const key = unusableKey(operationKey);
+  if (!key || !userId) return null;
+  const { data, error } = await db.from('ai_credit_ledger').select('amount, metadata')
+    .eq('user_id', userId).eq('idempotency_key', key).limit(1).maybeSingle();
+  if (error) throw Object.assign(new Error('unusable_read_failed'), { code: error.code || null });
+  const charged = Math.abs(Math.trunc(Number(data?.amount) || 0));
+  if (!charged) return null;
+  return { verdict: data?.metadata?.verdict === 'unreadable' ? 'unreadable' : 'not_study', charged };
+}
+
+// The consume's answers that say for certain nothing was taken. Anything else that is not ok (an RPC error, a throw, no answer)
+// may hide a charge whose answer was lost on the way, so the ledger is read once before the student is told anything.
+const CONSUME_REFUSED = new Set(['insufficient_ai_credits', 'prepos_paused', 'operation_key_required']);
+
+/**
+ * Takes MISTAKE_UNUSABLE_CREDITS once for an ask the model read but could not use. `consume` is aiCreditWallet's
+ * consumeAIWalletCredits bound to the student (mistakeDeps); `findUnusable` reads the charge back (findUnusableCharge).
+ * -> { used, taken } | { unconfirmed: true }: `used` is what the ask used in all (the words say it), `taken` what THIS request
+ * took (0 when the key was already spent). A definite refusal: { used: 0, taken: 0 }. An unknown outcome: the ledger, read once:
+ * the charge found is the truth ({ used, taken } of it), no row is nothing taken, a failed read is { unconfirmed: true }.
+ */
+async function takeUnusable({ consume, findUnusable, operationKey, verdict }) {
+  const idempotencyKey = unusableKey(operationKey);
+  if (typeof consume !== 'function' || !idempotencyKey) return { used: 0, taken: 0 };
+  let r = null;
+  try {
+    r = await consume({ amount: MISTAKE_UNUSABLE_CREDITS, action: UNUSABLE_ACTION, reference: operationKey, idempotencyKey, metadata: { verdict } });
+  } catch {
+    r = null;
+  }
+  if (r?.ok) {
+    const used = Math.max(0, Math.trunc(Number(r.charged) || 0));
+    return { used, taken: r.idempotent ? 0 : used };
+  }
+  if (r && CONSUME_REFUSED.has(r.error)) return { used: 0, taken: 0 };
+  if (typeof findUnusable !== 'function') return { used: 0, taken: 0 };
+  try {
+    const found = await findUnusable(operationKey);
+    return found?.charged > 0 ? { used: found.charged, taken: found.charged } : { used: 0, taken: 0 };
+  } catch {
+    return { unconfirmed: true };
+  }
+}
+const UNCONFIRMED = () => ({ http: 503, kind: 'error', body: { ok: false, error: 'unconfirmed', status: 'unconfirmed', message: MISTAKE_COPY.lost, charged: 0 } });
+
 /**
  * The model step for runModelReply: ONE call through the guarded provider runtime (`callOnce`, src/services/ai/providerCore.js),
  * then the strict reply check. `spendUser` is { userId, userTier } (replyDeps spendUserFor), so the call counts against this
@@ -137,6 +220,18 @@ const creditWords = (message, credits = 1) => (held(message)
   : 'No credits were used.');
 const SUPPORT = (extra = {}) => ({ http: 200, kind: 'support', body: { ok: true, kind: 'support', reply: SUPPORT_REPLY, origin: 'safety', charge: NO_CHARGE, charged: 0, ...extra } });
 const REFUSED = (reason, extra = {}) => ({ http: 200, kind: 'refused', body: { ok: true, kind: 'refused', reply: refusalFor(reason), origin: 'status', charge: NO_CHARGE, charged: 0, ...extra } });
+/**
+ * The refusal for the model's own "not_study" / "unreadable". `used`: what the ask used in all (the words); `taken`: what this
+ * request took (charge and charged, as the answer path says them); `reply` overrides the words (the held case).
+ */
+const UNUSABLE = (verdict, { used = 0, taken = 0, reference = null, reply = null, replayed = false } = {}) => ({
+  http: 200, kind: 'refused', ...(replayed ? { replayed: true } : {}),
+  body: {
+    ok: true, kind: 'refused', reason: verdict, reply: reply || unusableLine(verdict, used), origin: 'status',
+    charge: taken > 0 ? { kind: 'prepos_credit', creditUnits: MISTAKE_UNUSABLE_CREDITS, amount: taken, reference } : NO_CHARGE,
+    charged: taken, ...(replayed ? { replayed: true } : {}),
+  },
+});
 
 /**
  * One "bring a mistake" ask. `user` is the STORED user (its plan sets the monthly cap). `deps`:
@@ -144,6 +239,10 @@ const REFUSED = (reason, extra = {}) => ({ http: 200, kind: 'refused', body: { o
  *   callOnce:   the guarded single provider call (providers.js callProviderOnce)
  *   spendUser:  spendUserFor(user)
  *   findReplay: async (operationKey) -> the stored answer payload of an ask already charged, or null
+ *   consume:    async ({ amount, action, reference, idempotencyKey, metadata }) -> consumeAIWalletCredits' result, for this
+ *               student (the one-step charge of an ask Mobi cannot use); optional: without it nothing is taken
+ *   findUnusable: async (operationKey) -> { verdict, charged } | null, the credit an unusable ask took (findUnusableCharge);
+ *               throws when the read fails; optional
  *   now:        () => ms
  *   liveChapters: async (subjectId) -> Set of the chapter names Practice keeps from a link (liveChapters.mjs); optional
  * `photoOn` is the photo switch (data/mistake_photo.mjs); off, a photo field is refused with a 400 before anything else.
@@ -208,14 +307,24 @@ export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MIST
       },
     };
   }
-  // The model's own verdicts: the credit was released by runModelReply; the student sees fixed words.
+  // The model's own verdicts: the reservation was released by runModelReply; the student sees fixed words. Support is never
+  // charged.
   if (verdict?.kind === 'support') return { ...SUPPORT(), saved: afterModel };
   if (verdict?.kind === 'not_study' || verdict?.kind === 'unreadable') {
-    const refused = verdict.kind === 'unreadable'
-      ? { http: 200, kind: 'refused', body: { ok: true, kind: 'refused', reason: 'unreadable', reply: MISTAKE_COPY.unreadable, origin: 'status', charge: NO_CHARGE, charged: 0 } }
-      : REFUSED('not_study');
-    if (held(out.message)) refused.body.reply = refused.body.reply.replace('Nothing was charged.', creditWords(out.message, credits));
-    return { ...refused, saved: afterModel };
+    const kind = verdict.kind;
+    // The release itself failed: the reservation is held and returns by itself. Nothing more is taken; the words say so.
+    if (held(out.message)) return { ...UNUSABLE(kind, { reply: unusableLine(kind, 0).replace('Nothing was charged.', creditWords(out.message, credits)) }), saved: afterModel };
+    // Released (runModelReply's own failure path, with no error from the release): 1 credit, once, for reading it.
+    const operationKey = operationKeyFor(user?.id, body?.requestId);
+    const released = out.status === 'failed' && out.error === 'unusable_output';
+    const took = released ? await takeUnusable({ consume: deps.consume, findUnusable: deps.findUnusable, operationKey, verdict: kind }) : { used: 0, taken: 0 };
+    // The consume's answer was lost and the ledger could not be read: whether the credit was taken is not known, so no words
+    // about it; Try again sends the same request, which reads the ledger again (the 'resend' path below).
+    if (took.unconfirmed) return UNCONFIRMED();
+    const { used, taken } = took;
+    // Already taken under this key by an earlier send (taken 0, used 1): the same words, saved once, the first time.
+    const replayed = used > 0 && taken === 0;
+    return { ...UNUSABLE(kind, { used, taken, reference: operationKey, replayed }), ...(replayed ? {} : { saved: afterModel }) };
   }
   // The same ask sent again after its answer was lost: the credit was taken once, so the stored answer is shown again. Never
   // a second model call, never a second charge.
@@ -232,6 +341,20 @@ export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MIST
     // request would take a second credit): where the answer may be, or that it was not saved and a new ask is a new credit.
     return { http: 409, kind: 'error', body: { ok: false, error: 'duplicate', status: 'duplicate', message: readFailed ? MISTAKE_COPY.duplicateSaved(credits) : MISTAKE_COPY.duplicateLost(credits), charged: 0 } };
   }
+  // The same ask sent again after its reservation was released (runModelReply: 'resend', reserve said 'operation_released';
+  // nothing reached the model). If Mobi's first look found nothing it could use and took its credit, the same words come back,
+  // with nothing more taken. No such charge: runModelReply's own words (nothing was charged, send it again), which are true.
+  // The read failed: whether a credit was taken is not known, so no words about it, and Try again sends the same request.
+  if (out.status === 'resend') {
+    const key = operationKeyFor(user?.id, body?.requestId);
+    let found = null;
+    try {
+      found = key && deps.findUnusable ? await deps.findUnusable(key) : null;
+    } catch {
+      return UNCONFIRMED();
+    }
+    if (found) return UNUSABLE(found.verdict === 'unreadable' ? 'unreadable' : 'not_study', { used: found.charged, taken: 0, replayed: true });
+  }
   // Everything else is runModelReply's honest failure (paused, no credits, this month's AI limit, in progress, released), with
   // Mobi's words for an answer that could not be written.
   const message = out.error === 'unusable_output' || out.error === 'provider_error' || out.error === 'empty_reply'
@@ -242,7 +365,8 @@ export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MIST
 
 /**
  * What the route saves for one ask's outcome (runMistakeAsk's return): { question, photo } for persistMistakeTurn, or null for
- * an error, and for an answer shown again (it was saved the first time).
+ * an error, and for an answer or a charged refusal shown again (it was saved the first time). A charged refusal is saved with
+ * its charge (charge.amount), so Your recent questions says what it used.
  */
 export function mistakeTurn(out) {
   if (!out || out.kind === 'error' || out.replayed) return null;
