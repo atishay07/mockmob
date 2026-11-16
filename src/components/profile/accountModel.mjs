@@ -105,8 +105,9 @@ export const GOAL_COPY = Object.freeze({
   title: 'Your goal',
   question: 'Which days do you want to study?',
   noDaysYet: 'Choose at least one day.',
-  // 17 Nov 2026 (LK296): told apart from the daily streak's own rule, which sits just below in the exam pause offer.
-  counts: 'For your weekly goal, a study day is a day you finish a scored session of at least 5 answers, or a Mistake Repair. Today and Progress plan around this number.',
+  // 17 Nov 2026 (LK296): named as the weekly goal's rule, so it is told apart from the daily streak's (streakCopy.mjs ruleLine,
+  // whose pause offer sits just below). The rhythm counts a whole Daily Five as a study day too (rhythm.js, since 15 Nov).
+  counts: 'For your weekly goal, a study day is a day you finish a scored session of at least 5 answers, a whole Daily Five or a Mistake Repair. Today and Progress plan around this number.',
   save: 'Save goal',
   saving: 'Saving',
   loadFailedTitle: 'We could not load your goal',

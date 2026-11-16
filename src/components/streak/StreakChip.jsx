@@ -1,8 +1,10 @@
 "use client";
-// The daily streak in the signed-in top bar (17 Nov 2026, LK296 S1): the account capsule's first door (the bar is full on a
-// 360 px phone, so it joins the capsule rather than adding a pill), one bubble and the number, opening the streak sheet. Filled volt once today counts, a ring until then (a real state, never a pulse). It steps aside where the page itself shows
-// the streak (Today and You, and the Mob den with its own chip), so the number is never on one screen twice, and while the
-// streak is 0 (Today says how it starts). A failed read draws nothing.
+// The daily streak in the signed-in top bar (17 Nov 2026, LK296 S1): the account capsule's first door (it joins the capsule
+// rather than adding a pill), one bubble, the number and "days", opening the streak sheet. Filled volt once today counts, a ring
+// until then (a real state, never a pulse). From CHIP_MIN_WIDTH up only: on a phone the bar has no room for a labelled number
+// beside the credits and Ask Mobi, and the streak leads Today and You. It steps aside where the page itself shows the streak
+// (Today and You, and the Mob den with its own chip), so the number is never on one screen twice, while the streak is 0 (Today
+// says how it starts), and when the student chose Hide my streak. A failed read draws nothing.
 import { useSyncExternalStore } from 'react';
 import { chipLabel } from '@/lib/streak/streakCopy.mjs';
 import { openStreakSheet, useStreak } from './useStreak';

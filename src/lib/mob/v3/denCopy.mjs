@@ -384,7 +384,7 @@ export const DenCopy = Object.freeze({
   moreDays: (n) => (n === 1 ? '1 more day' : `${n} more days`),
   examPause: 'Exam pause days',
   hideChain: 'Hide my streak',
-  hiddenLine: 'Your streak is hidden here and in the top bar. It still counts, nobody else ever sees it, and Today still shows it to you.',
+  hiddenLine: 'Your streak is hidden here and in the top bar. It still counts, nobody else ever sees it, and Today and You still show it to you.',
   showChain: 'Show my streak',
   dayInitials: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
   dayState: (s) => ({ practised: 'practised', rested: 'rested', made_up: 'made up', paused: 'set aside for exams', open: 'open', today: 'today' }[s] || 'not practised'),
@@ -411,7 +411,7 @@ export const DenCopy = Object.freeze({
   onTheWay: 'On the way',
 
   // P5 Exam pause
-  pauseLine: (left) => `Set days ahead for school exams. Your streak holds on them. You have ${PAUSE_MAX} a season, and ${left} are left.`,
+  pauseLine: (left) => `Set days ahead for school exams. Your streak holds on them. You have ${PAUSE_MAX} a season, and ${left} ${left === 1 ? 'is' : 'are'} left.`,
   pauseKey: (n) => (n === 1 ? 'Pause 1 day' : `Pause ${n} days`),
   clearDays: 'Clear these days',
   pickDays: 'Choose days to pause',

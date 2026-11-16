@@ -3,7 +3,7 @@
 // still open, a pause day, a covered day, today counted or what today needs), the rest passes and the rule, as one outlined
 // surface that opens the streak sheet (the whole surface is the button, F5). A milestone reached in the last two days shows once
 // on this device as a calm line with its real work (S6), never confetti; Celebrations Off leaves the moment out, Quiet keeps
-// it still. A failed read leaves the block out: the week below still says what was done.
+// it still. A failed read keeps a short block with Try again, so the week below does not jump.
 import { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useMobiPrefs } from '@/lib/mobiPrefs';

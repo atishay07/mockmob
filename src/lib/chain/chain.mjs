@@ -5,7 +5,7 @@
 //   A missed day takes a rest pass if one is held (it applies itself), else a free make-up (10 answered on either of
 //   the next two days, once in 14 days), else it is "open" while the make-up can still land, else missed.
 //   Passes: one at day 3 (once), one at every 7th day, one for every 3rd held fix (all time); at most 2 held.
-//   Pause days hold the chain and do not add. No warnings, no countdowns: a best run never drops.
+//   Pause days hold the chain and do not add (practice on one counts like any day). No warnings, no countdowns: a best run never drops.
 // The daily streak (17 Nov 2026, LK296): this chain is THE daily streak, shown on Today, You and the top bar for every signed-in
 // student (GET /api/me/streak, src/lib/server/streak.js), Mob or not. One rule for a day: 5 answered across practice, Mob games
 // and fix checks (chain_daily), plus a whole Daily Five (its 5 answers) and a finished Mistake Repair (a `counts` day: it makes
@@ -68,8 +68,10 @@ export function walkChain({ daily = [], pauses = [], fixesHeld = [], today }) {
   if (first) {
     for (let d = first; d < today; d = addDays(d, 1)) {
       let grew = false;
-      if (paused.has(d)) { states.set(d, 'paused'); pausedN += 1; }
-      else if (counts(d)) { states.set(d, 'practised'); chain += 1; practised += 1; grew = true; }
+      // A pause day the student practised on anyway counts like any other day (17 Nov review): today already showed it counted,
+      // so tomorrow's walk must not take that day back.
+      if (counts(d)) { states.set(d, 'practised'); chain += 1; practised += 1; grew = true; }
+      else if (paused.has(d)) { states.set(d, 'paused'); pausedN += 1; }
       else if (passes > 0) { states.set(d, 'rested'); passes -= 1; chain += 1; rested += 1; grew = true; }
       else if (makeUpOk(d)) { states.set(d, 'made_up'); chain += 1; madeUp += 1; lastMakeUp = d; grew = true; }
       else if (open === null && chain > 0 && addDays(d, 2) >= today && makeUpFree(d) && keepable(d)) {
@@ -89,7 +91,7 @@ export function walkChain({ daily = [], pauses = [], fixesHeld = [], today }) {
     }
   }
   const makeUpAvailable = open !== null; // an open day is only ever one a make-up can still keep
-  return { states, valueAt, chain, passes, best, practised, rested, madeUp, paused: pausedN, open, makeUpAvailable, lastMakeUp, gifted, answeredOn: a, countsOn: counts, pausedDays: paused, runFrom, walked: Boolean(first), creditedThirds, fixesUpTo };
+  return { states, valueAt, chain, passes, best, practised, rested, madeUp, paused: pausedN, open, makeUpAvailable, lastMakeUp, gifted, answeredOn: a, countsOn: counts, pausedDays: paused, runFrom, creditedThirds, fixesUpTo };
 }
 
 /** The next pass the days can bring: { kind: 'days', at }. */
@@ -138,14 +140,16 @@ export function computeChain({ daily = [], pauses = [], fixesHeld = [], today, h
   // Bug 6 (17 Nov): a pass is never promised that the cap of 2 would swallow. A rest-pass milestone not reached yet while
   // the student already holds the most they can keep says so (`full`), and the next pass says it too (passes.full).
   // Today's own grant (17 Nov review): the walk stops before today, so the pass a count reached today brings (day 3, every 7th
-  // day, a third repair that held) is added here, the way tomorrow's walk will add it, before the pass line is worded.
+  // day, a third repair that held) is added here, the way tomorrow's walk will add it, before the pass line is worded. Only once
+  // today counts: tomorrow's walk uses a held pass on an uncounted today before it credits today's fixes, so a pass from today's
+  // fixes cannot cover today and is not shown until it can cover a day.
   let held = w.passes;
   let gifted = w.gifted;
-  if (todayDone && !w.pausedDays.has(today) && w.open === null) {
+  if (todayDone && w.open === null) {
     if (days === PASS_FIRST_AT && !gifted) { held += 1; gifted = true; }
     if (days > 0 && days % PASS_EVERY === 0) held += 1;
   }
-  if (w.walked || todayDone) {
+  if (todayDone) {
     const thirds = Math.floor(w.fixesUpTo(today) / PASS_PER_FIXES);
     if (thirds > w.creditedThirds) held += thirds - w.creditedThirds;
   }

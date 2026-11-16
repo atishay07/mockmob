@@ -3,7 +3,7 @@
 //   new (no practice yet), day3 (3 days, the first rest pass), covered (yesterday kept by a rest pass, today counted),
 //   makeup (yesterday still open, 4 of 10 today), paused (exam pause days, today one of them), day30 (30 days, today counted),
 //   error (the read fails). Default: 12 days, one pass, 2 answered today. Pause days set here live in this tab only.
-import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES, checkPause, computeChain } from '@/lib/chain/chain.mjs';
+import { DAY_GOAL, MAKE_UP_EVERY, MAKE_UP_GOAL, PASS_EVERY, PASS_FIRST_AT, PASS_PER_FIXES, PAUSE_MAX, checkPause, computeChain } from '@/lib/chain/chain.mjs';
 
 const DAY = 86_400_000;
 const istToday = () => new Date(Date.now() + 330 * 60_000).toISOString().slice(0, 10);
@@ -44,7 +44,7 @@ export function previewStreak(url, method, init, fixture, json) {
     if (method === 'POST') {
       const future = input.pauses.filter((d) => d > T);
       const checked = checkPause({ days, today: T, existing: future });
-      if (!checked.ok) return json({ error: { code: checked.code, message: checked.code === 'PAUSE_LIMIT' ? 'You have used the 14 pause days this season allows.' : 'Pause days have to be after today.' } }, checked.code === 'PAUSE_LIMIT' ? 409 : 422);
+      if (!checked.ok) return json({ error: { code: checked.code, message: checked.code === 'PAUSE_LIMIT' ? `You have used the ${PAUSE_MAX} pause days this season allows.` : 'Pause days have to be after today.' } }, checked.code === 'PAUSE_LIMIT' ? 409 : 422);
       input.pauses = [...new Set([...input.pauses, ...checked.days])].sort();
     } else {
       input.pauses = input.pauses.filter((d) => d <= T || !days.includes(d));
