@@ -13,18 +13,30 @@
 // States: idle, typing (the count), sending, answered, failed (Try again, a new request), unknown (Try again, the SAME request,
 // so it can never be charged twice), over this month's AI limit, no credits, paused, offline, refused (not a test question)
 // and the fixed support reply. Nothing is shown as answered before the server says so.
+//
+// A photo of the question (lane web/1116-photo, 16 Nov 2026; switch data/mistake_photo.mjs): one key above the text box opens
+// the phone's camera or gallery (no `capture`). The photo is made ready here (mistakePhoto.js: upright, at most 1,600 px, a JPEG
+// of at most 900 KB; the original is never uploaded), then shown as a thumbnail with its size, Change photo and Remove; its row
+// is drawn as soon as a file is chosen, so nothing jumps when the thumbnail arrives. With a photo the text box is an optional
+// note (300) and the price line says a photo uses 2 credits. The answer shows what Mobi read from the photo under Your question.
+// Without a photo everything is as it was.
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { Check, X } from 'lucide-react';
+import { Camera, Check, X } from 'lucide-react';
 import MobiMark from './MobiMark';
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
 import { usedLine } from '@/lib/creditCopy.mjs';
 import {
-  MISTAKE_COPY, MISTAKE_LIMITS, checksTally, cleanText, countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, priceLine,
-  verdictLine,
+  MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_LIMITS, MISTAKE_PHOTO_CREDITS, MISTAKE_PHOTO_LIMITS, MISTAKE_PHOTO_ON, checksTally, cleanText,
+  countLine, mistakeOutcome, mistakeSubjects, nextStep, optionState, priceLine, verdictLine,
 } from '@/services/mobi/bringMistake.mjs';
+import { preparePhoto, kilobytes } from './mistakePhoto';
 import './bring-mistake.css';
+
+// The development preview (/preview/arena &photo=off) can show the form with the photo switch off. It can only turn photos
+// off, never on.
+const previewPhotoOff = () => typeof window !== 'undefined' && window.__mmPreviewMistakePhotoOff === true;
 
 const LETTERS = 'ABCD';
 // The model has 35 s; the route's own reads sit around it. A reply later than this is an unknown outcome: Try again sends the
@@ -93,17 +105,19 @@ function CheckBlock({ check, i, n, picked, onPick }) {
 }
 
 function Answer({ answer, wallet, onLeave, onAnother, headRef }) {
-  const { mistake, subject, question, chosen, charged, replayed } = answer;
+  const { mistake, subject, question, chosen, charged, replayed, credits } = answer;
   const [picks, setPicks] = useState([null, null]);
   const tally = checksTally(mistake.checks, picks);
-  const next = nextStep(subject);
-  const spent = replayed && !charged ? MISTAKE_COPY.replayedCharge
+  const next = nextStep(subject, mistake.chapter);
+  const spent = replayed && !charged ? MISTAKE_COPY.replayedCharge(credits)
     : charged ? usedLine({ cost: charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No credit used.';
   return (
     <article className="bm-answer amb-rise" aria-labelledby="bm-tests">
       <figure className="amb-quote bm-quote">
         <figcaption>{MISTAKE_COPY.yourQuestion}{subject?.name ? `, ${subject.name}` : ''}</figcaption>
-        <p>{question}</p>
+        {/* A photo: what Mobi read from it, so a misreading shows at once. */}
+        {mistake.read ? <span className="bm-quote__read">{MISTAKE_COPY.photoRead}</span> : null}
+        <p data-read={mistake.read ? '' : undefined}>{mistake.read || question}</p>
         {chosen ? <span className="bm-quote__pick">You chose <b>{chosen}</b></span> : null}
       </figure>
 
@@ -134,7 +148,10 @@ function Answer({ answer, wallet, onLeave, onAnother, headRef }) {
         {tally ? <p className="bm-tally" role="status">{tally}</p> : null}
       </section>
 
-      <p className="bm-next"><Link href={next.href} className="amb-link bm-next__link" onClick={onLeave}>{next.label}</Link></p>
+      <p className="bm-next">
+        <Link href={next.href} className="amb-link bm-next__link" onClick={onLeave}>{next.label}</Link>
+        <span className="bm-next__from">{MISTAKE_COPY.bank}</span>
+      </p>
       <span className="amb-src"><MobiMark size={15} />Written reply. {spent}</span>
       <button type="button" className="amb-btn amb-btn--line bm-another" onClick={onAnother}>{MISTAKE_COPY.another}</button>
     </article>
@@ -154,13 +171,25 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
   const [sending, setSending] = useState(false);
   const [notice, setNotice] = useState(null);
   const [answer, setAnswer] = useState(null);
+  // The switch, as this page was built; the server's own "photos are off" turns it off here too (a switch flipped since).
+  const [photoOn, setPhotoOn] = useState(() => MISTAKE_PHOTO_ON && !previewPhotoOff());
+  // The photo: null, { state: 'preparing' } while it is made ready, or { state: 'ready', data, bytes, width, height, url }.
+  const [photo, setPhoto] = useState(null);
+  const [sendingPhoto, setSendingPhoto] = useState(false);
+  const [photoError, setPhotoError] = useState(null);
+  const photoUrl = useRef(null);
+  const photoTurn = useRef(0);
+  const fileRef = useRef(null);
+  const photoKeyRef = useRef(null);
+  const changeRef = useRef(null);
+  const focusAfterPhoto = useRef(null);
   const pendingRef = useRef(null);
   const inFlight = useRef(false);
   const rootRef = useRef(null);
   const titleRef = useRef(null);
   const fieldRef = useRef(null);
   const headRef = useRef(null);
-  const ids = { q: useId(), count: useId(), photos: useId(), chosen: useId(), key: useId(), subject: useId(), price: useId() };
+  const ids = { q: useId(), count: useId(), photos: useId(), chosen: useId(), key: useId(), subject: useId(), price: useId(), privacy: useId(), photoMeta: useId(), photoError: useId() };
   // One volt key per view: the docked panel and the overlay sit outside the page (#app-main), beside the sidebar's lime Start
   // key. While the form's key is on screen, a marker in the page says the view owns its primary (the shell's own data-owns-start
   // contract, AppLayoutClient), so that Start key steps back. The phone sheet covers the dock itself; the page form marks its key.
@@ -205,6 +234,15 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
 
   useEffect(() => { onPending?.(sending); }, [sending, onPending]);
   useEffect(() => () => onPending?.(false), [onPending]);
+  // The thumbnail's object URL lives until the photo is removed or changed, or the form goes.
+  useEffect(() => () => { if (photoUrl.current) URL.revokeObjectURL(photoUrl.current); }, []);
+  // After a pick or a removal the key that started it has gone: focus goes to the photo's own next control.
+  useEffect(() => {
+    const target = focusAfterPhoto.current;
+    if (!target) return;
+    focusAfterPhoto.current = null;
+    (target === 'change' ? changeRef.current : photoKeyRef.current)?.focus({ preventScroll: true });
+  }, [photo]);
 
   useEffect(() => {
     if (!answer) return;
@@ -218,37 +256,90 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
   }, [answer, form]);
 
   const typed = question.trim();
+  const photoReady = photo?.state === 'ready';
+  const preparing = photo?.state === 'preparing';
+  // With a photo the box is a short note for what the photo does not show; without one it is the question, as before.
+  const boxMax = photo ? MISTAKE_PHOTO_LIMITS.note : MISTAKE_LIMITS.question;
   // As the server checks: the words as typed and as cleaned, so an invisible character cannot split a phrase.
   const distress = [question, chosen, key].some((t) => needsSupport(t) || needsSupport(cleanText(t)));
   const held = notice?.state === 'unknown'; // a request whose outcome is not known: only Try again (the same request) goes out
   const stopped = notice?.state === 'over';
-  const canSend = Boolean(typed) && question.length <= MISTAKE_LIMITS.question && !sending && !held && !stopped
+  const asked = photoReady || (!photo && Boolean(typed));
+  const canSend = asked && question.length <= boxMax && !preparing && !sending && !held && !stopped
     && (distress || (paid?.open && !offline));
   const balance = wallet?.known && Number.isFinite(wallet.total) ? wallet.total : null;
   // The line before sending says what sending does: free for the support reply, nothing at all past this month's AI limit (the
-  // notice above says why), else the price with the balance, or why written answers wait.
+  // notice above says why), else the price with the balance (both prices once a photo is chosen), or why written answers wait.
+  const price = priceLine(balance, { photo: Boolean(photo) });
   const priceWords = distress ? MISTAKE_COPY.free
     : stopped ? MISTAKE_COPY.recordFree
-      : offline ? MISTAKE_COPY.offline : paid?.open ? priceLine(balance) : paid?.why || priceLine(balance);
+      : offline ? MISTAKE_COPY.offline : paid?.open ? price : paid?.why || price;
   const noCredits = Boolean(wallet?.known) && Number.isFinite(wallet?.total) && wallet.total <= 0;
+  const locked = sending || held;
+
+  function clearPhoto() {
+    photoTurn.current += 1;
+    if (photoUrl.current) URL.revokeObjectURL(photoUrl.current);
+    photoUrl.current = null;
+    setPhoto(null);
+  }
+
+  // A chosen file: its row is drawn at once (reserved), then the photo is made ready in it. A file the browser cannot open, or
+  // one too large even made smaller, leaves no photo and says so; nothing has been sent or charged.
+  async function choosePhoto(event) {
+    const file = event.target.files?.[0] || null;
+    event.target.value = ''; // the same file can be chosen again
+    if (!file || locked) return;
+    const turn = photoTurn.current + 1;
+    photoTurn.current = turn;
+    if (photoUrl.current) URL.revokeObjectURL(photoUrl.current);
+    photoUrl.current = null;
+    setPhoto({ state: 'preparing' });
+    setPhotoError(null);
+    if (notice && notice.state !== 'unknown' && notice.state !== 'over') setNotice(null);
+    try {
+      const ready = await preparePhoto(file);
+      if (photoTurn.current !== turn) { URL.revokeObjectURL(ready.url); return; }
+      photoUrl.current = ready.url;
+      focusAfterPhoto.current = 'change';
+      setPhoto({ state: 'ready', ...ready });
+    } catch (err) {
+      if (photoTurn.current !== turn) return;
+      focusAfterPhoto.current = 'key';
+      setPhoto(null);
+      // Said under the photo key, where the student just was, not at the foot of the form.
+      setPhotoError(err?.reason === 'too_big' ? MISTAKE_COPY.photoTooBig : MISTAKE_COPY.photoBadFile);
+    }
+  }
+
+  function removePhoto() {
+    setPhotoError(null);
+    focusAfterPhoto.current = 'key';
+    clearPhoto();
+    if (notice && notice.state !== 'unknown' && notice.state !== 'over') setNotice(null);
+  }
 
   async function send({ again = false } = {}) {
     if (inFlight.current) return;
     if (!again) {
-      if (!typed) return;
+      if (!asked || preparing) return;
       // Words that sound like distress: the support reply, free, offline too (the server answers it too, before anything else).
       if (distress && offline) { setNotice({ state: 'support', reply: SUPPORT_REPLY }); return; }
       if (!distress && (!paid?.open || offline)) return;
-      pendingRef.current = { id: newRequestId(), payload: { question, chosen: chosen.trim() || null, key: key.trim() || null, subject } };
+      const payload = { question, chosen: chosen.trim() || null, key: key.trim() || null, subject };
+      // The prepared JPEG only (never the original file), and only with the switch on.
+      if (photoReady && photoOn) payload.photo = { mime: 'image/jpeg', data: photo.data };
+      pendingRef.current = { id: newRequestId(), payload, credits: payload.photo ? MISTAKE_PHOTO_CREDITS : MISTAKE_CREDITS };
     }
     if (!pendingRef.current) return;
     inFlight.current = true;
+    const sent = pendingRef.current;
+    setSendingPhoto(Boolean(sent.payload.photo));
     setSending(true);
     setNotice(null);
-    const sent = pendingRef.current;
     let plan;
     try {
-      plan = mistakeOutcome(await postMistake({ ...sent.payload, requestId: sent.id }));
+      plan = mistakeOutcome(await postMistake({ ...sent.payload, requestId: sent.id }), { credits: sent.credits });
     } finally {
       inFlight.current = false;
       setSending(false);
@@ -259,15 +350,17 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
     pendingRef.current = null;
     if (plan.state === 'answered') {
       const picked = subjects.find((s) => s.id === sent.payload.subject) || subjects[0] || null;
-      setAnswer({ mistake: plan.mistake, charged: plan.charged, replayed: plan.replayed, subject: picked, question: sent.payload.question.trim(), chosen: sent.payload.chosen });
+      setAnswer({ mistake: plan.mistake, charged: plan.charged, replayed: plan.replayed, credits: sent.credits, subject: picked, question: sent.payload.question.trim(), chosen: sent.payload.chosen });
       return;
     }
+    if (plan.photoOff) { setPhotoOn(false); clearPhoto(); }
     setNotice(plan);
   }
 
   function another() {
     setAnswer(null);
     setQuestion(''); setChosen(''); setKey('');
+    clearPhoto();
     setNotice(null);
     window.requestAnimationFrame(() => (titleRef.current || fieldRef.current)?.focus({ preventScroll: false }));
   }
@@ -294,17 +387,54 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
           </div>
           <p className="bm-lead">{MISTAKE_COPY.lead}</p>
 
+          {photoOn ? (
+            <div className="bm-field bm-photo-field">
+              {/* No `capture`: a phone offers its camera or its gallery. The input is drawn off screen; the key opens it. */}
+              <input ref={fileRef} type="file" accept="image/*" className="bm-file" tabIndex={-1} aria-hidden="true" onChange={choosePhoto} />
+              {photo ? (
+                <div className="bm-photo" data-state={photo.state} aria-busy={preparing || undefined}>
+                  <span className="bm-photo__thumb">
+                    {/* A blob: URL of the photo made ready in this browser; nothing for the image optimiser to fetch. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {photoReady ? <img src={photo.url} alt={MISTAKE_COPY.photoAlt} width={88} height={88} /> : <MobiMark size={22} blinking />}
+                  </span>
+                  <span className="bm-photo__side">
+                    <span className="bm-photo__meta" id={ids.photoMeta} role="status">{photoReady ? MISTAKE_COPY.photoSize(kilobytes(photo.bytes)) : MISTAKE_COPY.photoPreparing}</span>
+                    <span className="bm-photo__acts">
+                      <button type="button" ref={changeRef} className="amb-btn amb-btn--line bm-photo__act" disabled={locked || preparing} aria-describedby={ids.photoMeta} onClick={() => fileRef.current?.click()}>{MISTAKE_COPY.photoChange}</button>
+                      {/* The quieter of the two: a text key, 44 px tall, as the form's Back. */}
+                      <button type="button" className="bm-photo__act bm-photo__remove" disabled={locked || preparing} aria-describedby={ids.photoMeta} onClick={removePhoto}>{MISTAKE_COPY.photoRemove}</button>
+                    </span>
+                  </span>
+                </div>
+              ) : (
+                <button type="button" ref={photoKeyRef} className="bm-photo-key" disabled={locked} aria-describedby={photoError ? `${ids.photoError} ${ids.privacy}` : ids.privacy} onClick={() => fileRef.current?.click()}>
+                  <Camera size={18} strokeWidth={2.2} aria-hidden="true" />
+                  <span>{MISTAKE_COPY.photoKey}</span>
+                </button>
+              )}
+              {photoError ? <p className="bm-photo__error" id={ids.photoError} role="alert">{photoError}</p> : null}
+              <p className="bm-photo__privacy" id={ids.privacy}>{MISTAKE_COPY.photoPrivacy}</p>
+            </div>
+          ) : null}
+
           <div className="bm-field">
-            <label htmlFor={ids.q} className="bm-label">{MISTAKE_COPY.questionLabel}</label>
+            <label htmlFor={ids.q} className="bm-label">
+              {photo ? <>{MISTAKE_COPY.noteLabel} <span>({MISTAKE_COPY.optional})</span></> : MISTAKE_COPY.questionLabel}
+            </label>
             <textarea
-              id={ids.q} ref={fieldRef} className="bm-input bm-input--q" rows={6} maxLength={MISTAKE_LIMITS.question} value={question}
-              placeholder={MISTAKE_COPY.questionHint} disabled={sending || held} aria-describedby={`${ids.photos} ${ids.count}`}
+              id={ids.q} ref={fieldRef} className="bm-input bm-input--q" data-note={photo ? '' : undefined} rows={photo ? 3 : 6} maxLength={boxMax} value={question}
+              placeholder={photo ? MISTAKE_COPY.noteHint : MISTAKE_COPY.questionHint} disabled={sending || held}
+              aria-describedby={photoOn ? ids.count : `${ids.photos} ${ids.count}`}
               onChange={(event) => { setQuestion(event.target.value); if (notice && notice.state !== 'unknown' && notice.state !== 'over') setNotice(null); }}
             />
             <div className="bm-under">
-              <span id={ids.photos}>{MISTAKE_COPY.photos}</span>
-              {/* A paste past the limit is cut by the box itself; the count says the box is full. */}
-              <span id={ids.count} className="bm-count" data-full={question.length >= MISTAKE_LIMITS.question || undefined}>{countLine(question.length)}{question.length >= MISTAKE_LIMITS.question ? `, ${MISTAKE_COPY.full}` : ''}</span>
+              {photoOn ? null : <span id={ids.photos}>{MISTAKE_COPY.photos}</span>}
+              {/* A paste past the limit is cut by the box itself; the count says the box is full. With a photo the box is a
+                  300-character note: words typed before the photo was added may be longer, and the count says so. */}
+              <span id={ids.count} className="bm-count" data-full={question.length >= boxMax || undefined}>
+                {countLine(question.length, boxMax)}{question.length > boxMax ? `, ${MISTAKE_COPY.noteOver}` : question.length >= boxMax ? `, ${MISTAKE_COPY.full}` : ''}
+              </span>
             </div>
           </div>
 
@@ -334,7 +464,7 @@ export default function BringMistake({ user, wallet, paid, offline, form = 'dock
 
         <div className="bm-foot">
           {sending ? (
-            <p className="amb-reading bm-reading" role="status"><MobiMark size={20} blinking />{MISTAKE_COPY.sending}</p>
+            <p className="amb-reading bm-reading" role="status"><MobiMark size={20} blinking />{sendingPhoto ? MISTAKE_COPY.sendingPhoto : MISTAKE_COPY.sending}</p>
           ) : (
             <p className="bm-price" id={ids.price} aria-live="polite">
               {priceWords}
