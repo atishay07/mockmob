@@ -14,6 +14,9 @@
 // stays "Finish and open Practice" and lands on Practice, as before. The key is never held up by the read.
 // The home page's sample travels in (F3, O2; sampleCarry.mjs): its subject is put first in the Commerce four, or, when it is
 // another subject, the grid opens with it ticked; the first set is in that subject when the student kept it.
+// A sign-up door that named a page (16 Nov 2026: a chapter's Key cards, the Sunday Mock, the Pro plans; src/lib/auth-redirect.js
+// firstRunDestination) is kept through the three steps: the last key names that page ("Finish and open your Key cards") and opens
+// it, and the page says one line as the student arrives (src/lib/firstRunPromise.mjs). Nothing in the steps changes.
 //
 // Motion answers the student: a picked subject inks its tick and drops into the bar's five slots,
 // a sixth pick shakes the slots, the step slides in the way the student is going, the volt thumb
@@ -58,6 +61,8 @@ import {
 import { clearSample, rawSample, readSample, sampleFirst, sampleLine, samplePlan, sampleSubject } from '@/components/landing/sampleCarry.mjs';
 import { FINISH_TO_PRACTICE, FIRST_SET_OPENING, firstSetKey, firstSetNote, firstSetOffer, quoteExpired, readFirstSetQuote } from '@/lib/firstSet.mjs';
 import { forgetDailySet } from '@/lib/useDailySet';
+import { firstRunDestination, forgetFirstRunPath, noteArrival, peekFirstRunPath } from '@/lib/auth-redirect';
+import { firstRunKey } from '@/lib/firstRunPromise.mjs';
 import '@/app/(app)/arena.css';
 import '@/app/(app)/arena-support.css';
 import './onboarding.css';
@@ -76,6 +81,10 @@ const subscribeSample = (notify) => {
   return () => window.removeEventListener('storage', notify);
 };
 const noSample = () => null;
+// The page the student's sign-up door promised (src/lib/auth-redirect.js firstRunDestination), kept in this browser while the
+// first run goes on; read as its path (a string compares by value). The server render has none.
+const noSubscribe = () => () => {};
+const readPromised = () => peekFirstRunPath()?.path ?? null;
 const SUBJECTS_FAILED = 'Your subjects did not save. Your choices are still selected. Try again.';
 const DAYS_FAILED = 'Your days did not save. Try again, or skip for now.';
 
@@ -172,6 +181,11 @@ export default function OnboardingPageClient({ preview = false }) {
   const sampleNote = useMemo(() => (sampleText && !edit ? readSample() : null), [sampleText, edit]);
   const sampled = sampleSubject(sampleNote);
   const gridSeeded = useRef(false);
+  // A sign-up door's page (16 Nov 2026): the first run still runs in full, and its last key opens that page instead of the first
+  // set. The development preview takes it from ?promise=<path>, through the same check.
+  const promisedPath = useSyncExternalStore(noSubscribe, readPromised, noSample);
+  const promised = useMemo(() => (edit ? null : firstRunDestination(preview ? query?.get('promise') : promisedPath)), [edit, preview, query, promisedPath]);
+  const promisedKey = firstRunKey(promised);
   // Today's included set, read on the colleges step (src/lib/firstSet.mjs): { subject, state: 'idle' | 'loading' | 'free' | 'none', offer }.
   const [firstSet, setFirstSet] = useState({ subject: null, state: 'idle', offer: null });
 
@@ -466,6 +480,15 @@ export default function OnboardingPageClient({ preview = false }) {
     if (saveLock.current) return;
     saveLock.current = true;
     setFinishing(true);
+    // The page the sign-up door promised is where the first run ends, once; the page says its one line as the student arrives.
+    if (promised) {
+      saveLock.current = false;
+      forgetFirstRunPath();
+      noteArrival(promised);
+      if (preview) setNotice('Preview only: no account was changed. The first run ends here.');
+      finish('cheer', promised.path);
+      return;
+    }
     const picks = selected.length ? selected : (user?.subjects || []);
     let offer = firstOffer;
     if (offer && quoteExpired({ expiresAt: offer.expiresAt })) offer = firstSetOffer(await readFirstSetQuote(offer.subject), { subject: offer.subject });
@@ -516,7 +539,8 @@ export default function OnboardingPageClient({ preview = false }) {
 
   // The first set (O1): on the colleges step, the quote for today's included Quick 10 in the first set's subject, read once with a
   // short time limit. Until it lands the key reads "Finish and open Practice" and works; a slow, failed or priced read leaves it so.
-  const firstSubject = !edit ? firstSetSubject({ picks: selected.length ? selected : (user?.subjects || []), sampled }) : null;
+  // With a promised page the last key opens that page, so the quote is not read.
+  const firstSubject = !edit && !promised ? firstSetSubject({ picks: selected.length ? selected : (user?.subjects || []), sampled }) : null;
   const onColleges = !edit && step === 'colleges' && entry === 'stay';
   useEffect(() => {
     if (!onColleges || !firstSubject) return undefined;
@@ -851,8 +875,9 @@ export default function OnboardingPageClient({ preview = false }) {
               <button type="button" className="ob-quiet" onClick={skipDays} disabled={busy}>Skip for now</button>
             )}
             {step === 'colleges' ? (
-              <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges} data-first-set={firstOffer ? 'free' : undefined}>
-                {finishing ? (firstOffer ? FIRST_SET_OPENING : 'Opening Practice…') : firstOffer ? firstSetKey(shortSubjectName(find(firstOffer.subject)) || null) : FINISH_TO_PRACTICE}
+              <Button variant="volt" size="lg" className="ob-primary" disabled={busy} onClick={finishColleges} data-first-set={firstOffer ? 'free' : undefined} data-promise={promisedKey ? promised.kind : undefined}>
+                {promisedKey ? (finishing ? promisedKey.opening : promisedKey.key)
+                  : finishing ? (firstOffer ? FIRST_SET_OPENING : 'Opening Practice…') : firstOffer ? firstSetKey(shortSubjectName(find(firstOffer.subject)) || null) : FINISH_TO_PRACTICE}
               </Button>
             ) : step === 'subjects' ? (
               <Button variant="volt" size="lg" className="ob-primary" disabled={selected.length === 0 || busy} onClick={saveSubjects}>

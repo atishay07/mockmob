@@ -3,6 +3,7 @@
 //
 //   sign up  ->  1: which subjects (up to 5)  ->  2: how many study days a week  ->  3: target colleges (optional)
 //     ->  today's free 10-question set, when the quote says it is free (15 Nov 2026), else Practice
+//     (or, from 16 Nov 2026, the page the sign-up door promised: src/lib/auth-redirect.js firstRunDestination)
 //
 // Pure helpers only, so the page stays thin and node tests can check the rules. The live auth and
 // redirect rules are unchanged: signed out goes to /signup, a member who already has subjects goes
@@ -146,13 +147,23 @@ export function practiceAfter({ picks = [], sampled = null } = {}) {
   return sampled && list.includes(sampled) ? `${DONE_PATH}?${new URLSearchParams({ subject: sampled })}` : DONE_PATH;
 }
 
+// A page a sign-up door promised (16 Nov 2026), as its preview view; a chapter's Key cards is learn2-cards with the chapter.
+const PREVIEW_VIEWS = Object.freeze({ '/test': 'test', '/cards': 'learn2', '/sunday': 'sunday', '/mob': 'mob', '/recovery': 'recovery' });
+const PUBLIC_PAGES = Object.freeze(['/daily', '/pricing', '/cuet-cutoff-calculator']);
+
 /**
  * The development preview's version of the same ending (/preview/arena, no account): the runner or Practice as preview views,
  * keeping the fixture settings that shape them (the plan, the data state, the allowance, the quote) and the path's own query.
+ * A promised page with a preview view opens that view; a public one (the Daily Five, the plans, the calculator) opens itself.
  */
 export function previewFinish(path, search = '') {
-  const [route, query = ''] = String(path || DONE_PATH).split('?');
-  const out = new URLSearchParams({ view: route === '/test' ? 'test' : 'dashboard' });
+  const [whole, hash = ''] = String(path || DONE_PATH).split('#');
+  const [route, query = ''] = whole.split('?');
+  const deck = /^\/cards\/([^/]+)$/.exec(route);
+  if (PUBLIC_PAGES.includes(route)) return `${route}${hash ? `#${hash}` : ''}`;
+  const view = deck ? 'learn2-cards' : PREVIEW_VIEWS[route] || 'dashboard';
+  const out = new URLSearchParams({ view });
+  if (deck) out.set('chapter', deck[1]);
   const kept = new URLSearchParams(search);
   for (const key of ['plan', 'data', 'allowance', 'quote', 'inventory', 'study', 'decks']) if (kept.get(key)) out.set(key, kept.get(key));
   for (const [key, value] of new URLSearchParams(query)) out.set(key, value);

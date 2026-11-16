@@ -28,6 +28,7 @@ import CardSets from './CardSets';
 import ChapterMap, { MapError, MapSkeleton } from './ChapterMap';
 import { displayTitle, findHints, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
 import './learn-home.css';
+import ArrivalLine, { useArrival } from '@/components/arrival/ArrivalLine';
 
 const STORE_SUBJECT = 'mm:learn:subject:v1';
 const STORE_RECENT = 'mm:learn:recent:v1';
@@ -106,6 +107,8 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const sentinel = useRef(null);
   const before = useRef(null); // the page's scroll before the field docked, restored on Cancel
   const fresh = useRef(false); // the next read skips the kept answer (a refresh after a change)
+  // Arrived from the home page's Key cards or /key-cards through sign-up (16 Nov 2026): one line over the subjects, once.
+  const arrived = useArrival('cards');
 
   // The remembered subject (per device) when the link names none; the link's own subject always wins. The first read waits for it, so a
   // student who last chose Economics never sees the first subject flash by.
@@ -259,6 +262,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
 
       {mode === 'find' || mode === 'results' ? null : (
         <>
+          <ArrivalLine line={arrived} className="lh-arrive" />
           <SubjectPicker subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} />
           <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
         </>

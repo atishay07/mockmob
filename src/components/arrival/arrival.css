@@ -1,0 +1,9 @@
+/* The arrival line (ArrivalLine.jsx): one plain line, the colour the app gives a confirmed state (Key cards' "Added to Revise",
+   .l2c-said), never a box. Its room is taken with the page's loaded content, so it moves nothing when it shows. */
+.arrive {
+  margin: 0;
+  max-width: 62ch;
+  font: 600 14.5px/1.5 var(--font-body);
+  color: var(--a-good-text);
+  text-wrap: pretty;
+}
