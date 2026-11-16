@@ -104,7 +104,7 @@ test('moments play in the spec order, once each, with their facts', () => {
   assert.equal(DenCopy.revealFact('Chai Circle', 'hop'), 'Chai Circle finished its first weekly quest, so everyone in it gets Hop. Nobody can buy him.');
   assert.equal(DenCopy.rewardFor('desk_bell'), 'A desk bell for your den');
   assert.equal(DenCopy.milestoneLine({ days: 14, practised: 13, rested: 1, best: 14 }), 'You practised 13 of them and rested 1. It is your best run so far.');
-  assert.equal(DenCopy.passNotice('Friday', 12), 'Friday was covered by a rest pass. Your chain is still 12.');
+  assert.equal(DenCopy.passNotice('Friday', 12), 'Friday was covered by a rest pass. Your streak is still 12.');
   const chain = { notices: [{ key: 'rest:2026-10-16', kind: 'rested', day: '2026-10-16', days: 12 }] };
   assert.equal(passNotice(chain, []).key, 'rest:2026-10-16');
   assert.equal(passNotice(chain, ['rest:2026-10-16']), null);

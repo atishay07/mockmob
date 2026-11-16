@@ -23,7 +23,7 @@ const chain = (daily, more = {}) => computeChain({ daily, today: TODAY, ...more 
 test('no practice: a chain of 0, today waits for 5', () => {
   const c = chain([]);
   assert.equal(c.days, 0);
-  assert.deepEqual(c.today, { answered: 0, needed: 5, done: false });
+  assert.deepEqual(c.today, { answered: 0, needed: 5, done: false, paused: false });
   assert.equal(c.best, 0);
 });
 

@@ -76,7 +76,7 @@ export function createMobV3Service(deps, helpers = {}) {
   // A student's late papers (B8: sent after their time) make no chain day and no Fold. deps.latePapers(userId) -> rows | null
   // (null: the read failed); deps.mockScores(userId) -> the Full mock and NTA papers | null. Both optional (tests, dry runs).
   const latePapersOf = (userId) => (deps.latePapers ? Promise.resolve().then(() => deps.latePapers(userId)).catch(() => null) : Promise.resolve([]));
-  const chains = createChainService({ rpc: deps.rpc, now, latePapers: deps.latePapers ? latePapersOf : undefined });
+  const chains = createChainService({ rpc: deps.rpc, now, latePapers: deps.latePapers ? latePapersOf : undefined, extraDays: deps.extraDays });
   // Mob hours: the heavy aggregate is shared per Mob and week for about a minute (deps.hoursCacheMs: 0 turns it off, tests).
   const hoursReader = createHoursReader({ ttlMs: deps.hoursCacheMs ?? undefined, now });
   // A den function whose migration is not applied yet (mob_den_fix) is asked again only after five minutes, not on every den read.

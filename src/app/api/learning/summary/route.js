@@ -40,19 +40,6 @@ function startOfWeek() {
   return date;
 }
 
-function countStreak(days) {
-  const set = new Set(days);
-  let cursor = startOfToday();
-  let streak = 0;
-
-  while (set.has(cursor.toISOString().slice(0, 10))) {
-    streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
-  }
-
-  return streak;
-}
-
 function normalizeDay(value) {
   if (!value) return null;
   return new Date(value).toISOString().slice(0, 10);
@@ -126,12 +113,9 @@ export async function GET(request) {
     let correct = 0;
     let answered = 0;
     let weeklySolved = 0;
-    const activeDays = [];
 
     for (const attempt of scopedAttempts) {
       const completedAt = Number(attempt.completedAt || 0);
-      const day = normalizeDay(completedAt);
-      if (day) activeDays.push(day);
       for (const detail of attempt.details || []) {
         if (detail?.givenIndex === null || detail?.givenIndex === undefined) continue;
         answered += 1;
@@ -195,10 +179,8 @@ export async function GET(request) {
         totalMockQuestions: totalAttempts,
         feedAttempts: scopedProgress.reduce((sum, row) => sum + (row.attempt_count || 0), 0),
         skipped: scopedProgress.reduce((sum, row) => sum + (row.skip_count || 0), 0),
-        streakDays: countStreak([
-          ...activeDays,
-          ...scopedProgress.map((row) => normalizeDay(row.updated_at)).filter(Boolean),
-        ]),
+        // streakDays was removed on 17 Nov 2026: nothing read it, and its day turned at 5:30 am IST. The one daily streak is
+        // GET /api/me/streak.
         avgDwellMs,
       },
       bookmarks: {

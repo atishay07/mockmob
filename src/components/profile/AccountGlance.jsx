@@ -12,6 +12,7 @@ import {
 } from '@/lib/studyBadges';
 import '@/components/study-badges.css';
 import './account.css';
+import { StreakGlanceCell } from '@/components/streak/StreakYou';
 
 const R = 26;
 const C = 2 * Math.PI * R;
@@ -76,10 +77,12 @@ export default function AccountGlance({ userId }) {
         <h2 className="acct-h2" id="acct-glance-h">Your progress</h2>
         <Link className="acct-link" href="/progress">See all on Progress</Link>
       </header>
+      {/* The daily streak first (17 Nov 2026, LK296): the same number as Today and the top bar; it opens the streak sheet. */}
+      <div className="acct-glance__streak"><StreakGlanceCell userId={userId} /></div>
       <div className="acct-glance__grid">
         <div className="acct-glance__cell">
           {r ? (
-            <Link className="acct-glance__week" href="/progress" aria-label={`This week, ${r.studyDays} of ${r.daysGoal} study days. Open your weeks.`}>
+            <Link className="acct-glance__week" href="/progress" aria-label={`This week’s goal, ${r.studyDays} of ${r.daysGoal} study days. Open your weeks.`}>
               <span className="acct-glance__ring-wrap"><Ring done={r.studyDays} goal={r.daysGoal} /><b aria-hidden="true">{r.studyDays}</b></span>
               <span className="acct-glance__text" aria-hidden="true"><b>{r.studyDays} of {r.daysGoal}</b><span>study days this week</span></span>
             </Link>

@@ -125,7 +125,7 @@ test('the Mob wiring: deps pass the soft late read and the mock scores; games.js
   assert.match(deps, /latePapers: \(userId\) => readLatePapersSoft\(supabaseAdmin\(\), \{ userId \}\)/);
   assert.match(deps, /mockScores: \(userId\) => readMockScores\(supabaseAdmin\(\), userId\)/);
   const games = file('src/lib/server/mob/games.js');
-  assert.match(games, /createChainService\(\{ rpc: deps\.rpc, now, latePapers: deps\.latePapers \? latePapersOf : undefined \}\)/);
+  assert.match(games, /createChainService\(\{ rpc: deps\.rpc, now, latePapers: deps\.latePapers \? latePapersOf : undefined, extraDays: deps\.extraDays \}\)/);
   assert.match(games, /const facts = unlockFactsWithoutLate\(counted, late, mocks\);/);
   assert.match(games, /if \(late === null \|\| chainLateUnread\) return \{ facts, unlocks: \[\.\.\.\(facts\?\.unlocks \|\| \[\]\)\], daily: days \};/);
   // The chain's own failed late read also holds every grant (review, 15 Nov): both callers pass it on.

@@ -70,6 +70,7 @@ import ClassJoin from '@/components/class/ClassJoin';
 import { ClassLeagueSwitch } from '@/components/class/ClassSwitch';
 import { previewMob } from './previewMob';
 import { previewDaily } from './previewDaily';
+import { previewStreak } from './previewStreak';
 import { attemptHold, heldAttemptView } from '@/lib/mob/paperHold.mjs';
 import { mobWeek } from '@/lib/mob/model.mjs';
 import { previewSunday } from './previewSunday';
@@ -226,6 +227,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/mob' || url.pathname.startsWith('/api/mob/')) return previewMob(url, method, init, fixture, json);
     const daily = previewDaily(url, method, init, fixture, json); // the Daily Five on the account (&daily=, previewDaily.js)
     if (daily) return daily;
+    // The daily streak (17 Nov 2026, previewStreak.js: &streak=new|day3|covered|makeup|paused|day30|error).
+    const streak = previewStreak(url, method, init, fixture, json); if (streak) return streak;
     // The Sunday Mock (previewSunday.js: &sunday=, &sundayden=, &sundaystart=, &attempt=fixture-sunday&sundaypaper=).
     const sunday = previewSunday(url, method, init, fixture, json); if (sunday) return sunday;
     // Class leagues (previewClass.js: &class=, &classlookup=, &classjoin=; ?view=classjoin is the public join page).

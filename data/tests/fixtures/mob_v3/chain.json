@@ -9,7 +9,8 @@
   "today": {
     "answered": 4,
     "needed": 5,
-    "done": false
+    "done": false,
+    "paused": false
   },
   "passes": {
     "held": 0,
@@ -17,7 +18,8 @@
     "next": {
       "kind": "days",
       "at": 3
-    }
+    },
+    "full": false
   },
   "week": [
     {
@@ -364,5 +366,42 @@
     "max": 14
   },
   "notices": [],
-  "due": []
+  "due": [],
+  "run": {
+    "from": "2026-10-21",
+    "answered": 9
+  },
+  "streakMilestones": [
+    {
+      "at": 3,
+      "done": false,
+      "left": 2
+    },
+    {
+      "at": 7,
+      "done": false,
+      "left": 6
+    },
+    {
+      "at": 14,
+      "done": false,
+      "left": 13
+    },
+    {
+      "at": 30,
+      "done": false,
+      "left": 29
+    },
+    {
+      "at": 50,
+      "done": false,
+      "left": 49
+    },
+    {
+      "at": 100,
+      "done": false,
+      "left": 99
+    }
+  ],
+  "milestone": null
 }
