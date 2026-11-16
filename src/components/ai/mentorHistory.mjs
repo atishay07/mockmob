@@ -43,10 +43,12 @@ export function exchangesFrom(messages = [], { limit = 8 } = {}) {
     if (!ask) continue;
     const next = list[i + 1];
     const answer = next && next.role === 'assistant' ? next : null;
-    const reply = answer ? clip(answer.response?.reply ?? answer.text) : '';
-    // `at` (when it was asked), `origin` and `charged` (credits the reply used) feed the page's "Your recent questions" rows.
+    const whole = answer ? String(answer.response?.reply ?? answer.text ?? '').trim() : '';
+    const reply = answer ? clip(whole) : '';
+    // `at` (when it was asked), `origin` and `charged` (credits the reply used) feed the page's History rows. `replyFull` is the
+    // reply as it was saved, for the exchange opened in the thread; `reply` is its cut for a list.
     rows.push({
-      id: String(m.id ?? i), ask, reply: reply || null, source: answer ? sourceOf(answer.response) : null,
+      id: String(m.id ?? i), ask, askFull: String(m.text ?? '').trim() || ask, reply: reply || null, replyFull: whole || null, source: answer ? sourceOf(answer.response) : null,
       at: m.createdAt ?? null, origin: answer ? originOf(answer.response) : null, charged: Math.max(0, Number(answer?.response?.charge?.amount) || 0),
     });
   }

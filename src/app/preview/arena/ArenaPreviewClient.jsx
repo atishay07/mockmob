@@ -82,6 +82,7 @@ import { previewBalancePart, previewFreshWallet, previewOneTotal } from './previ
 import { previewConcepts } from './previewConcepts';
 import { previewReferrals } from './previewReferrals';
 import { previewMistake } from './previewMistake';
+import { previewChat } from './previewChat';
 import IconShowcase from '@/components/brand/IconShowcase';
 import { browserSession, loadRecord, openUpgrade, saveRecord } from '@/components/pro/proNudgeStore';
 import { emptyRecord, noteOnboarded } from '@/lib/proNudge.mjs';
@@ -272,6 +273,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // "Bring a mistake from any test" (POST /api/ai/mentor/mistake, &mistake=, previewMistake.js): never the real route here.
     const mistaken = previewMistake(url, method, init, fixture, json);
     if (mistaken) return mistaken;
+    // Ask Mobi as a chat (previewChat.js): the doubt thread and its 2 questions, tonight's set, the report of a reply (&chat=).
+    const chatted = previewChat(url, method, init, fixture, json);
+    if (chatted) return chatted;
     if (fixture.get('recovery') === 'candidate' && window.__previewPathway) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;

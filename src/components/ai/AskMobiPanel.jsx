@@ -1,19 +1,30 @@
 "use client";
 
-// Ask Mobi, one panel (ASK-MOBI-1018). Mobi answers one question about what is in front of the student, from their own
-// record, and ends with one next move. Top to bottom: header, context row (the subject chip and the record chip), the
-// opening (a question's quote and its priced asks, or the free answer already there for a mock, Today or Practice), the
-// answers, and the composer with the one wallet line. No tabs, switches or dropdowns before the first answer (D3, D6).
+// Ask Mobi, one conversation in two frames (ASK-MOBI-1018; a chat since 16 Nov 2026, the owner that evening: "It should feel
+// like a proper AI agent ... but even better than that"). The /mentor page (form 'page') and the panel that docks beside a
+// question, a mock, Today or Practice (forms 'dock', 'overlay', 'sheet') are this one engine and the same parts: the thread
+// (ChatThread.jsx), the composer with its Photo key (ChatComposer.jsx) and the words (chatCopy.mjs). The page adds its own head
+// and its start (ChatEmpty.jsx); the panel adds its header, its context row and the opening for what it was opened about.
 //
 // Kept from R4 as it was: free answers from the record (answerFromInsights), the question hand-off (questionRef and
 // /api/recovery/ask-context), the price shown before every paid reply (W-060), one request id per student action that is
 // reused only after an unknown outcome so a retry can never charge twice, and the wallet broadcast to the top bar.
 //
-// v13 (C-dec 3 and 3b, D157): a written reply that opens a doubt is a finished job for 1 credit: Mobi's answer, one free
-// follow-up (sent with the thread's id) and 2 new CUET-style questions answered right here (DoubtChecks). After the follow-up the
-// panel offers "Ask a new doubt (1 credit)". "What should I revise tonight?" is read from the record by the server, free
-// (replyKind 'tonight'). Every failure, and a full thread, says nothing was charged.
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+// v13 (C-dec 3 and 3b, D157): a written reply that opens a doubt is a finished job: Mobi's answer, one free follow-up (sent
+// with the thread's id) and 2 new CUET-style questions answered right here (DoubtChecks). The follow-up is offered in the
+// composer; after it, the composer is a new ask again, with its price. "What should I revise tonight?" is read from the record
+// by the server, free (replyKind 'tonight').
+//
+// "A question I got wrong" (bring a mistake, 16 Nov 2026; rules and words in src/services/mobi/bringMistake.mjs, the server
+// POST /api/ai/mentor/mistake): typed, pasted or a photo, sent from the composer and answered as a turn of the same thread:
+// what it tests, why the answer is what it is (or that Mobi is not sure), the likely slip, the chapter from MockMob's own list,
+// 2 checks answered in place and one next move. States: sending, answered, failed (Try again, a NEW request), unknown (Try
+// again, the SAME request, so it can never be charged twice), over this month's AI limit, no credits, paused, offline, refused
+// and the fixed support reply. Nothing is shown as answered before the server says so, and nothing is faked as streaming.
+//
+// A refusal or a failure is a turn: what happened, what it used (the server's amount, never assumed) and the way forward.
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
@@ -21,20 +32,30 @@ import { walletFromResponse, isPaidUser } from '@/services/credits/aiWalletState
 import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
+import { MOBI_JOB_CREDITS, creditCount } from '@/lib/creditCopy.mjs';
+import {
+  MISTAKE_COPY, MISTAKE_PHOTO_ON, cleanText, mistakeCredits, mistakeOutcome, mistakeSubjects, photoOverCapLine,
+} from '@/services/mobi/bringMistake.mjs';
 import { useInsights } from './useInsights';
-import { creditLine } from './askDoors.mjs';
 import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
 import { planStart } from './startPlan.mjs';
 import MobiMark from './MobiMark';
 import { DoubtChecks, TonightBlock } from './MobiJobParts';
-import BringMistake, { MistakeDoor } from './BringMistake';
+import ChatComposer from './ChatComposer';
+import ChatEmpty from './ChatEmpty';
+import {
+  MistakeAnswer, MobiTurn, NextMove, PhotoView, Prose, SavedExchange, StatusTurn, TurnMeta, UserTurn, Waiting, mistakeUsed, showTurn, turnAsText,
+} from './ChatThread';
+import { CHAT_COPY, canAfford, chargedOf, refusalParts, savedCost, usedWords, waysForward } from './chatCopy.mjs';
+import { clockStamp } from './askDoors.mjs';
 import { JOB_COPY, chatFailure, followUpOpen, isTonightAsk, threadFromReply } from './mobiJobs.mjs';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
   suggestionsFor,
   askIdForText,
 } from './askSuggestions.mjs';
+import './ask-mobi.css';
+import './ask-chat.css';
 
 // Offline: a written reply needs a connection, so nothing is sent and nothing is charged; answers from the record already on
 // screen still work.
@@ -42,7 +63,29 @@ const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.
 const onlineNow = () => navigator.onLine !== false;
 
 // L1: the support reply as a turn of the thread (src/services/ai/supportCheck.js), for offline or a server out of reach.
-const supportTurn = () => ({ id: `a_${Date.now()}`, role: 'assistant', response: { reply: SUPPORT_REPLY, actions: [], origin: 'safety' } });
+const supportTurn = (reply = SUPPORT_REPLY) => ({ id: `a_${Date.now()}`, role: 'assistant', response: { reply, actions: [], origin: 'safety' } });
+
+// The development preview (/preview/arena &photo=off) can show the composer with the photo switch off. It can only turn
+// photos off, never on.
+const previewPhotoOff = () => typeof window !== 'undefined' && window.__mmPreviewMistakePhotoOff === true;
+
+// A question brought from another test. The model has 35 s; the route's own reads sit around it. A reply later than this is an
+// unknown outcome: Try again sends the same request, which the server answers from what it stored (never a second charge).
+const SEND_TIMEOUT_MS = 60_000;
+const newRequestId = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID().replace(/-/g, '') : `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 14)}`);
+
+async function postMistake(payload) {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timer = setTimeout(() => { timedOut = true; controller.abort(); }, SEND_TIMEOUT_MS);
+  try {
+    const res = await fetch('/api/ai/mentor/mistake', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload), signal: controller.signal });
+    const body = await res.json().catch(() => null);
+    return timedOut ? { kind: 'timeout' } : { kind: 'response', res: { ok: res.ok, status: res.status }, body };
+  } catch {
+    return { kind: timedOut ? 'timeout' : 'network' };
+  } finally { clearTimeout(timer); }
+}
 
 const X = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" /></svg>
@@ -54,24 +97,32 @@ export default function AskMobiPanel(props) {
   return <Panel key={user?.id || 'guest'} {...props} />;
 }
 
-function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial: given = null, doubt = null, onPending = null, mistake: startMistake = false }) {
+/**
+ * `form`: 'page' (the /mentor chat) | 'dock' | 'overlay' | 'sheet'. `context`: what the panel was opened about.
+ * The page hands over what it has already read and what only it can draw:
+ *   `record`    its read of the record ({ status, insights }), so an ask never depends on a second read that can fail;
+ *   `start`     what the start of a chat draws from (ChatEmpty's props: the record's asks, where the student stands), drawn
+ *               while nothing has been asked; `start.adapt(ask)` may hand an ask its page-made answer;
+ *   `saved`     a saved exchange opened from History, shown read-only until `onLeaveSaved`;
+ *   `onExchange` is told when a new exchange has been answered (History reads again); `onBusy(bool)` while a reply is on its
+ *   way (New chat waits for it); `onApi({ ask })` hands the page the way to run a question from Your record in this chat.
+ */
+function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', record = null, onRecordRetry = null, start = null, saved = null, onLeaveSaved = null, onExchange = null, onBusy = null, onApi = null }) {
   const router = useRouter();
   const { user } = useAuth();
-  // An Ask now starter hands over its chapter with the words, so the doubt's 2 questions come from that chapter.
-  const initial = useMemo(() => (given && doubt ? { ...given, doubt } : given), [given, doubt]);
   const userId = user?.id || null;
   const pro = isPaidUser(user);
   const offline = !useSyncExternalStore(subscribeOnline, onlineNow, () => true);
 
-  // On the /mentor page (form 'page') the panel is the conversation under Mobi's greeting: closing it is "Ask something new", and
-  // leaving through a link never runs that reset.
+  // On the /mentor page (form 'page') the conversation is the page: there is no close, and leaving through a link is plain
+  // navigation.
   const onPage = form === 'page';
   const leave = () => { if (!onPage) onClose?.(); };
   const [context, setContext] = useState(opened);
   const [recordTry, setRecordTry] = useState(0);
-  // The page hands over the record it has already read, so a doors ask never depends on a second read that can fail. Without
+  // The page hands over the record it has already read, so a start's ask never depends on a second read that can fail. Without
   // one (the docked panel), the panel reads the record itself.
-  const handed = initial?.record && (initial.record.status === 'ready' || initial.record.status === 'empty') ? initial.record : null;
+  const handed = record || null;
   const fetched = useInsights(handed ? null : userId, recordTry);
   const insightsState = handed || fetched;
   const status = insightsState.status;
@@ -131,29 +182,39 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const [pending, setPending] = useState(null);
   const [retry, setRetry] = useState(null);
   const [sessionId, setSessionId] = useState(null);
-  // The open doubt: { id, followUpsLeft, subject, chapter }. Its one follow-up is free; after it, a new doubt is 1 credit.
+  // The open doubt: { id, followUpsLeft, subject, chapter }. Its one follow-up is free; after it, a new doubt is a new job.
   const [doubtThread, setDoubtThread] = useState(null);
-  // "Bring a mistake from any test" (16 Nov 2026, BringMistake.jsx): the form takes the panel's body and composer while it is
-  // open. The /mentor page's door opens the panel straight into it (`mistake`).
-  const [mistakeOpen, setMistakeOpen] = useState(Boolean(startMistake) && Boolean(userId));
+  // The ask the page's start handed over (a tile, a starter, a record question): { text, free?, doubt?, answer? }.
+  const [initial, setInitial] = useState(null);
+  const [startedFor, setStartedFor] = useState(null);
   const anchorRef = useRef(null);
   const inFlight = useRef(false);
   const pendingRef = useRef(null);
   const bodyRef = useRef(null);
-  const fieldRef = useRef(null);
+  const rootRef = useRef(null);
+  const composerRef = useRef(null);
+
+  // "A question I got wrong": the request on its way or held ({ id, payload, credits, photo }), the photo switch as this page
+  // was built (the server's own "photos are off" turns it off here too), and the photos this thread shows.
+  const mistakeRef = useRef(null);
+  const [mistakeHold, setMistakeHold] = useState(null);
+  const [stopped, setStopped] = useState(false);
+  const [photoOn, setPhotoOn] = useState(() => MISTAKE_PHOTO_ON && !previewPhotoOff());
+  const photoUrls = useRef([]);
+  const [viewing, setViewing] = useState(null);
+  const subjects = useMemo(() => mistakeSubjects(user?.subjects), [user?.subjects]);
+  useEffect(() => { const urls = photoUrls.current; return () => { for (const url of urls) URL.revokeObjectURL(url); }; }, []);
 
   // The free answer already there when Mobi opens from a mock, Today or Practice (no tap, no credit).
   const first = useMemo(() => openingFor({ context: scoped, insights, status, pro }), [scoped, insights, status, pro]);
   const asks = suggestionsFor({ context: scoped, insights, status, pro, asked, limit: turns.length || first ? 2 : 3 });
   const isNew = status === 'empty' && scoped.kind !== 'question';
 
+  // A new turn comes into view once, under the reader's control: the question it answers when that is short, else the
+  // answer's own top. Nothing scrolls again while they read.
   useEffect(() => {
     if (!turns.length && !pending) return;
-    const node = bodyRef.current?.querySelector('[data-last]') || null;
-    if (!node) return;
-    let reduced = false;
-    try { reduced = document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { reduced = true; }
-    node.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+    showTurn(bodyRef.current);
   }, [turns, pending]);
 
   function navigate(route) {
@@ -164,7 +225,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
   function logLocal(message, response) {
     fetch('/api/ai/mentor/local', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId, message, response: { reply: response.reply, actions: response.actions, cards: [], confidence: 0, deterministic: true }, mode: 'guide' }) })
-      .then((res) => res.json()).then((data) => { if (data?.sessionId) setSessionId(data.sessionId); }).catch(() => {});
+      .then((res) => res.json()).then((data) => { if (data?.sessionId) setSessionId(data.sessionId); onExchange?.(); }).catch(() => {});
   }
 
   function pushFree(label, answer) {
@@ -174,7 +235,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   }
 
   function askRow(ask) {
-    if (inFlight.current || pending || retry) return;
+    if (inFlight.current || pending || retry || mistakeHold) return;
     if (ask.price !== 'free' && offline) return;
     setAsked((prev) => [...prev, ask.id]);
     if (ask.price === 'free') {
@@ -186,7 +247,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
   function submit() {
     const text = input.trim();
-    if (!text || inFlight.current || opening || retry) return;
+    if (!text || inFlight.current || opening || retry || mistakeHold) return;
+    if (saved) onLeaveSaved?.();
     // L1: words that sound like distress always reach the support reply, free: before a follow-up, a record or product
     // answer, and whatever the wallet says (src/services/ai/supportCheck.js).
     if (needsSupport(text)) { setInput(''); sendSupport(text); return; }
@@ -290,11 +352,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         if (failure.gone) setDoubtThread(null);
         response = {
           reply: data.message || res.status === 429 || res.status === 402 ? failure.reply : 'Mobi could not answer just now. Nothing is charged for a reply that fails.',
-          origin: 'status', actions: failure.actions,
+          // What the failure used is the amount the server said (0 unless it says otherwise).
+          origin: 'status', actions: failure.actions, charged: chargedOf(data),
         };
       }
-      setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
+      setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response, requestId: sent.id }]);
       if (data.sessionId) setSessionId(data.sessionId);
+      if (res.ok) onExchange?.();
     } catch {
       if (sent.kind === 'support') { pendingRef.current = null; setTurns((prev) => [...prev, supportTurn()]); }
       else setRetry({ ...pendingRef.current });
@@ -305,15 +369,103 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     }
   }
 
-  // The /mentor doors hand the panel one ask to run as it opens: a starter, a typed doubt or a record question (the page's own
-  // answer for "my last paper" comes with it). The same checks as typing here: a record answer waits for the record, a written
-  // reply waits for the wallet, and nothing is sent unless the wallet is open and the connection is up. A reply that cannot go
+  // ---- "A question I got wrong": typed, pasted or a photo -----------------------------------------------------------------------
+  // The composer hands over what was composed; `true` back means it left (the composer clears). One request id per send; it is
+  // reused only after an unknown outcome.
+  function sendMistake(fields) {
+    if (inFlight.current || opening || retry || mistakeHold || stopped) return false;
+    const question = String(fields.question || '');
+    const chosen = String(fields.chosen || '').trim() || null;
+    const key = String(fields.key || '').trim() || null;
+    // As the server checks: the words as typed and as cleaned, so an invisible character cannot split a phrase.
+    const distress = [question, chosen, key].some((t) => needsSupport(t) || needsSupport(cleanText(t)));
+    const photo = fields.photo?.data && photoOn ? fields.photo : null;
+    if (!photo && !question.trim()) return false;
+    const userTurn = { id: `u_${newRequestId()}`, role: 'user', text: question.trim(), photo: photo ? { url: photo.url } : null, chosen };
+    if (saved) onLeaveSaved?.();
+    // Words that sound like distress: the support reply, free, offline too (the server answers it too, before anything else).
+    if (distress && offline) { setTurns((prev) => [...prev, userTurn, supportTurn()]); return true; }
+    if (!distress && (!paid.open || offline)) return false;
+    const payload = { question, chosen, key, subject: fields.subject };
+    // The prepared JPEG only (never the original file), and only with the switch on.
+    if (photo) payload.photo = { mime: 'image/jpeg', data: photo.data };
+    mistakeRef.current = { id: newRequestId(), payload, credits: mistakeCredits(payload), photo: Boolean(photo) };
+    if (photo?.url) photoUrls.current.push(photo.url);
+    setTurns((prev) => [...prev, userTurn]);
+    deliverMistake();
+    return true;
+  }
+
+  async function deliverMistake() {
+    const sent = mistakeRef.current;
+    if (!sent || inFlight.current) return;
+    inFlight.current = true;
+    setMistakeHold(null);
+    setPending({ kind: 'mistake', photo: sent.photo, free: false });
+    let plan;
+    let charged = 0;
+    try {
+      const outcome = await postMistake({ ...sent.payload, requestId: sent.id });
+      // What it used is the amount in the server's own answer, for a refusal as much as for an answer.
+      charged = outcome.kind === 'response' ? chargedOf(outcome.body) : 0;
+      plan = mistakeOutcome(outcome, { credits: sent.credits });
+    } catch {
+      plan = { state: 'unknown', message: MISTAKE_COPY.lost };
+    } finally {
+      inFlight.current = false;
+      setPending(null);
+      // The wallet is read again after every definite or unknown outcome, so the balance shown is the one stored.
+      readWallet();
+    }
+    const push = (turn) => setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', ...turn }]);
+    // An unknown outcome holds the conversation: only Try again (the same request) goes out.
+    if (plan.state === 'unknown') { setMistakeHold({ message: plan.message }); return; }
+    mistakeRef.current = null;
+    if (plan.state === 'answered') {
+      const subject = subjects.find((s) => s.id === sent.payload.subject) || subjects[0] || null;
+      push({ mistake: { mistake: plan.mistake, charged: plan.charged, replayed: plan.replayed, credits: sent.credits, subject, photo: sent.photo }, requestId: sent.id });
+      onExchange?.();
+      return;
+    }
+    if (plan.state === 'support') { push({ response: { reply: plan.reply, actions: [], origin: 'safety' } }); return; }
+    if (plan.photoOff) { setPhotoOn(false); composerRef.current?.photoOff(); }
+    let state = plan.state;
+    let message = plan.message;
+    // A photo ask past this month's AI limit: a typed question reserves less, so it may still fit, and the words say so
+    // (review, 16 Nov). A typed ask that meets the limit stops written asks for this conversation.
+    if (state === 'over' && sent.photo) { state = 'photo_over'; message = photoOverCapLine(plan.message); }
+    else if (state === 'over') setStopped(true);
+    const noCredits = Boolean(wallet?.known) && Number.isFinite(wallet?.total) && wallet.total <= 0;
+    push({
+      response: { reply: message, origin: 'status', actions: [], charged, state, photo: sent.photo, ways: waysForward({ state, photo: sent.photo, noCredits: noCredits || state === 'blocked' }) },
+      // A failed reply's Try again sends the same words as a NEW request.
+      again: state === 'failed' ? { payload: sent.payload, credits: sent.credits, photo: sent.photo } : null,
+    });
+  }
+
+  function onWay(id, turn) {
+    if (id === 'retake') composerRef.current?.photo();
+    else if (id === 'type') composerRef.current?.mistake();
+    else if (id === 'retry' && turn?.again && !inFlight.current) {
+      mistakeRef.current = { id: newRequestId(), ...turn.again };
+      setTurns((prev) => prev.filter((t) => t.id !== turn.id));
+      deliverMistake();
+    }
+  }
+
+  // The page's start hands the conversation one ask to run: a tile, a starter, or a record question (the page's own answer for
+  // "my last paper" comes with it). The same checks as typing here: a record answer waits for the record, a written reply
+  // waits for the wallet, and nothing is sent unless the wallet is open and the connection is up. A reply that cannot go
   // says why, in the thread, and says that nothing was charged.
-  // The page's Mobi thinks while a written reply is on its way.
-  useEffect(() => { onPending?.(Boolean(pending)); }, [pending, onPending]);
   const started = useRef(false);
   const startNow = useRef(null);
   const [failedStart, setFailedStart] = useState(null);
+  const run = useCallback((ask) => {
+    if (!ask?.text || inFlight.current) return;
+    started.current = false;
+    setFailedStart(null);
+    setInitial({ ...ask });
+  }, []);
   useEffect(() => {
     startNow.current = () => {
       if (!initial?.text || started.current) return;
@@ -322,7 +474,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       const ask = (reply, actions = []) => setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: plan.text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
       if (plan.kind === 'none' || plan.kind === 'wait') return;
       started.current = true;
-      // A door's ask that is also an "Ask next" row is marked asked, so Mobi never offers back what it just answered.
+      setStartedFor(initial);
+      // A start's ask that is also an "Ask next" row is marked asked, so Mobi never offers back what it just answered.
       const handedId = askIdForText(plan.text, scoped);
       if (handedId) setAsked((prev) => (prev.includes(handedId) ? prev : [...prev, handedId]));
       if (plan.kind === 'page') pushFree(plan.text, initial.answer);
@@ -350,9 +503,10 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     setFailedStart(null);
     setTurns((prev) => prev.filter((turn) => turn.id !== failed.turnId));
     started.current = false;
-    // Handed a record: there is nothing to read again, so the ask runs again now. Otherwise the panel reads the record again,
-    // and the ask runs when that read settles (its status changes, which re-runs the effect above).
-    if (handed) window.setTimeout(() => startNow.current?.(), 0);
+    // Handed a record that is read: there is nothing to read again, so the ask runs again now. Otherwise the record is read
+    // again (by the page that handed it, or here), and the ask runs when that read settles (its status re-runs the effect above).
+    if (handed && (handed.status === 'ready' || handed.status === 'empty')) window.setTimeout(() => startNow.current?.(), 0);
+    else if (handed) onRecordRetry?.();
     else setRecordTry((n) => n + 1);
   }
 
@@ -360,14 +514,11 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const threadOpen = !questionTyping && followUpOpen(doubtThread);
   const threadDone = !questionTyping && Boolean(doubtThread) && !threadOpen;
   const price = threadOpen && input.trim() ? 'followup' : !questionTyping && isTonightAsk(input) ? 'free' : priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
-  const busy = Boolean(pending) || Boolean(retry);
-  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (price === 'followup' && !offline) || (paid.open && !offline) || needsSupport(input));
-  // The credit line is the page's own words (askDoors.mjs creditLine), docked or on /mentor, so one balance reads one way
-  // everywhere: "38 of your 50 free credits left · they refill on 1 Nov".
-  const creditWords = creditLine(wallet).first;
-  // The balance keeps its tick: the leading number is keyed, so amb-num replays when a credit is spent (release 10's motion).
-  const balanceTick = /^(\d[\d,]*)([\s\S]*)$/.exec(creditWords || '');
-  const placeholder = onPage ? 'Ask a follow-up' : questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
+  const busy = Boolean(pending) || Boolean(retry) || Boolean(mistakeHold);
+  // A written reply must be affordable as well as open: the price is the constant the server charges by.
+  const affordable = canAfford({ kind: 'doubt', wallet });
+  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (price === 'followup' && !offline) || (paid.open && affordable && !offline) || needsSupport(input));
+  const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : null;
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
   const subjectChip = withQuestion || opening
@@ -377,54 +528,93 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         : scoped.kind === 'practice' ? { name: 'Practice', detail: chapter }
           : null;
   const lastIndex = turns.length - 1;
-  const fieldHint = threadOpen ? JOB_COPY.followUpPlaceholder : threadDone ? JOB_COPY.newDoubtPlaceholder : placeholder;
-  const newDoubt = () => {
-    if (onPage) { onClose?.(); return; }
-    setDoubtThread(null);
-    fieldRef.current?.focus();
-  };
-  // The quiet door to "bring a mistake": signed in, nothing asked yet, not about one question of a MockMob paper. On the page
-  // the door is the page's own (AskMobiDoors), so the conversation there does not repeat it.
-  const mistakeDoor = Boolean(userId) && !onPage && !withQuestion && !opening && !questionFailed && !turns.length && !pending && !retry && !failedStart;
-  const [mistakeBusy, setMistakeBusy] = useState(false);
-  useEffect(() => { if (mistakeOpen) onPending?.(mistakeBusy); }, [mistakeOpen, mistakeBusy, onPending]);
+  // The start's ask, waiting for the record or the wallet before it can run: shown at once as the student's own turn.
+  const waitingStart = Boolean(initial?.text) && startedFor !== initial && !failedStart;
+  const talking = turns.length > 0 || Boolean(pending) || Boolean(retry) || Boolean(failedStart) || Boolean(mistakeHold) || waitingStart;
+  // The page's start (ChatEmpty) is drawn while nothing has been asked and the page is not about one question.
+  const idle = onPage && !saved && !talking && !questionRef && Boolean(start);
+  // One volt key per view: the docked panel and the overlay sit outside the page (#app-main), beside the sidebar's lime Start
+  // key. While one is open its send key is the view's volt, so a marker in the page steps that Start key back (the shell's own
+  // data-owns-start contract, AppLayoutClient). The phone sheet covers the dock itself; the page's send key marks itself.
+  const [shellMain] = useState(() => (typeof document !== 'undefined' && (form === 'dock' || form === 'overlay') ? document.getElementById('app-main') : null));
+
+  // The phone's keyboard. The sheet rests on the visible part of the screen (the visual viewport), and the page's composer is
+  // pinned above the keyboard, so the send key is never under it and nothing jumps when it opens.
+  useLayoutEffect(() => {
+    const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+    const target = form === 'sheet' ? rootRef.current?.closest('.amb-panel--sheet') : onPage ? rootRef.current : null;
+    if (!target || !vv) return undefined;
+    const names = form === 'sheet' ? ['--amb-kb', '--amb-vh'] : ['--ach-kb', '--ach-vh'];
+    const update = () => {
+      const kb = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      target.style.setProperty(names[0], `${kb}px`);
+      target.style.setProperty(names[1], `${Math.round(vv.height)}px`);
+      target.toggleAttribute('data-keyboard', kb > 80);
+      // The field being typed in stays in view, above the keyboard.
+      const active = document.activeElement;
+      if (form === 'sheet' && kb > 80 && active && rootRef.current?.contains(active) && /^(TEXTAREA|INPUT|SELECT)$/.test(active.tagName)) {
+        window.requestAnimationFrame(() => active.scrollIntoView({ block: 'nearest' }));
+      }
+    };
+    update();
+    vv.addEventListener('resize', update);
+    vv.addEventListener('scroll', update);
+    return () => {
+      vv.removeEventListener('resize', update);
+      vv.removeEventListener('scroll', update);
+      for (const name of names) target.style.removeProperty(name);
+      target.removeAttribute('data-keyboard');
+    };
+  }, [form, onPage]);
+
+  // The composer's own height, so a turn scrolled into view never stops under it (the page's composer is pinned).
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const foot = root?.querySelector('.ach-foot');
+    if (!root || !foot || typeof ResizeObserver !== 'function') return undefined;
+    const ro = new ResizeObserver(() => root.style.setProperty('--ach-foot-h', `${Math.round(foot.getBoundingClientRect().height)}px`));
+    ro.observe(foot);
+    return () => ro.disconnect();
+  }, []);
+
+  const focusDoubt = useCallback(() => composerRef.current?.doubt(), []);
+  const openMistake = useCallback(() => composerRef.current?.mistake(), []);
+  useEffect(() => { onBusy?.(busy); }, [busy, onBusy]);
+  useEffect(() => { onApi?.({ ask: run }); }, [onApi, run]);
 
   return (
-    <div className="amb" data-form={form} data-mistake={mistakeOpen || undefined}>
-      <header className="amb-head">
-        <MobiMark size={24} />
-        <h2 id={titleId}>Ask Mobi</h2>
-        {onPage
-          ? <button type="button" className="amb-btn amb-btn--line amb-newask" onClick={onClose} disabled={Boolean(pending) || mistakeBusy}>Ask something new</button>
-          : <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>}
-      </header>
+    <div className="amb ach" data-form={form} data-idle={idle || undefined} ref={rootRef}>
+      {shellMain ? createPortal(<span hidden data-owns-start="" />, shellMain) : null}
+      {onPage ? null : (
+        <header className="amb-head">
+          <MobiMark size={24} />
+          <h2 id={titleId}>Ask Mobi</h2>
+          <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>
+        </header>
+      )}
 
-      {mistakeOpen ? (
-        <BringMistake
-          user={user} wallet={wallet} paid={paid} offline={offline} form={form}
-          onBack={onPage ? null : () => setMistakeOpen(false)} onSpent={readWallet} onPending={setMistakeBusy} onLeave={leave}
-        />
-      ) : <>
-      <div className="amb-ctx">
-        {subjectChip ? (
-          <span className="amb-chip">
-            <b>{subjectChip.name}</b>{subjectChip.detail ? <span><i aria-hidden="true">·</i> {subjectChip.detail}</span> : null}
-            <button type="button" onClick={() => (withQuestion || opening ? dropQuestion() : setContext((prev) => ({ ...prev, kind: 'page', lines: [] })))} aria-label={`Stop asking about ${subjectChip.name}`}><X /></button>
-          </span>
-        ) : null}
-        {status === 'unavailable' ? (
-          <button type="button" className="amb-chip amb-chip--rec" onClick={() => setRecordTry((n) => n + 1)}>
-            <b>Record not loaded</b><span><i aria-hidden="true">·</i> Retry</span>
-          </button>
-        ) : (
-          <button type="button" className="amb-chip amb-chip--rec" aria-expanded={showRecord} aria-controls="amb-record" onClick={() => setShowRecord((v) => !v)} disabled={status === 'loading'}>
-            <b>Your record</b><span><i aria-hidden="true">·</i> {status === 'loading' ? 'reading' : sessions}</span>
-          </button>
-        )}
-      </div>
+      {!onPage || subjectChip ? (
+        <div className="amb-ctx">
+          {subjectChip ? (
+            <span className="amb-chip">
+              <b>{subjectChip.name}</b>{subjectChip.detail ? <span><i aria-hidden="true">·</i> {subjectChip.detail}</span> : null}
+              <button type="button" onClick={() => (withQuestion || opening ? dropQuestion() : setContext((prev) => ({ ...prev, kind: 'page', lines: [] })))} aria-label={`Stop asking about ${subjectChip.name}`}><X /></button>
+            </span>
+          ) : null}
+          {onPage ? null : status === 'unavailable' ? (
+            <button type="button" className="amb-chip amb-chip--rec" onClick={() => setRecordTry((n) => n + 1)}>
+              <b>Record not loaded</b><span><i aria-hidden="true">·</i> Retry</span>
+            </button>
+          ) : (
+            <button type="button" className="amb-chip amb-chip--rec" aria-expanded={showRecord} aria-controls="amb-record" onClick={() => setShowRecord((v) => !v)} disabled={status === 'loading'}>
+              <b>Your record</b><span><i aria-hidden="true">·</i> {status === 'loading' ? 'reading' : sessions}</span>
+            </button>
+          )}
+        </div>
+      ) : null}
 
-      <div className="amb-body" ref={bodyRef}>
-        {showRecord && status !== 'loading' && status !== 'unavailable' ? (
+      <div className="amb-body ach-thread" ref={bodyRef}>
+        {!onPage && showRecord && status !== 'loading' && status !== 'unavailable' ? (
           <section id="amb-record" className="amb-record amb-rise" aria-label="Your record">
             {summary.length ? (
               <dl>{summary.map((row) => <div key={row.id}><dt>{row.label}</dt><dd>{row.text}</dd></div>)}</dl>
@@ -454,7 +644,24 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </figure>
         ) : null}
 
-        {isNew && !turns.length && !initial ? (
+        {idle ? (
+          <ChatEmpty
+            user={user} record={insightsState} standing={start.standing} asks={start.asks} photoOn={photoOn} busy={busy} now={start.now}
+            onAsk={(ask) => run(start.adapt ? start.adapt(ask) : ask)} onDoubt={focusDoubt} onMistake={openMistake} onRecord={start.onRecord} onRetry={onRecordRetry}
+          />
+        ) : null}
+
+        {saved ? (
+          <div className="ach-saved">
+            <SavedExchange row={saved} cost={savedCost(saved)} when={clockStamp(saved.at)} />
+            <div className="ach-saved__foot">
+              <p className="ach-fine">{CHAT_COPY.savedNote}</p>
+              <button type="button" className="ach-key" onClick={onLeaveSaved}>{CHAT_COPY.askNew}</button>
+            </div>
+          </div>
+        ) : null}
+
+        {!onPage && isNew && !talking ? (
           <div className="amb-new">
             {/* The real character, never cropped. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -464,61 +671,72 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </div>
         ) : null}
 
-        {first ? (
-          <>
-            <p className="amb-you">{first.ask}</p>
-            <Answer response={{ reply: first.reply, actions: first.actions, origin: 'record', source: first.source }} onNavigate={navigate} />
-          </>
-        ) : null}
+        {/* The thread: a log that says a new reply politely. Reading order is the head, the thread, then the composer. */}
+        {saved ? null : (
+          <div className="ach-log" role="log" aria-live="polite" aria-relevant="additions" aria-label={CHAT_COPY.log}>
+            {first ? (
+              <>
+                <UserTurn turn={{ text: first.ask }} />
+                <Answer response={{ reply: first.reply, actions: first.actions, origin: 'record', source: first.source }} onNavigate={navigate} />
+              </>
+            ) : null}
 
-        {turns.map((turn, index) => turn.role === 'user'
-          ? <p key={turn.id} className="amb-you amb-rise" data-last={index === lastIndex ? '' : undefined}>{turn.text}</p>
-          : <Answer key={turn.id} response={turn.response} qName={qName} wallet={wallet} onNavigate={navigate} last={index === lastIndex} insights={insights} subjects={user?.subjects || []} offline={offline} />)}
+            {turns.map((turn, index) => {
+              const last = index === lastIndex;
+              if (turn.role === 'user') return <UserTurn key={turn.id} turn={turn} last={last} onPhoto={(url) => setViewing(url)} />;
+              if (turn.mistake) {
+                return (
+                  <MobiTurn key={turn.id} last={last} origin="model" meta={<TurnMeta used={mistakeUsed(turn.mistake)} text={turnAsText(turn, MISTAKE_COPY)} report={turn.mistake.charged > 0 || turn.mistake.replayed ? { requestId: turn.requestId, sessionId } : null} />}>
+                    <MistakeAnswer answer={turn.mistake} onLeave={leave} />
+                  </MobiTurn>
+                );
+              }
+              return (
+                <Answer
+                  key={turn.id} response={turn.response} qName={qName} onNavigate={navigate} last={last} insights={insights} subjects={user?.subjects || []} offline={offline}
+                  requestId={turn.requestId} sessionId={sessionId} busy={busy} onWay={(id) => onWay(id, turn)} onLeave={leave}
+                />
+              );
+            })}
 
-        {failedStart ? (
-          <div className="amb-notice" role="status" data-last="">
-            <span>{failedStart.reply}</span>
-            <button type="button" className="amb-btn amb-btn--line" onClick={tryStartAgain}>Try again</button>
+            {waitingStart ? <UserTurn turn={{ text: initial.text }} provisional /> : null}
+
+            {failedStart ? (
+              <StatusTurn said={refusalParts(failedStart.reply, 0).said} used={usedWords(0)} last ways={[{ id: 'again', label: CHAT_COPY.tryAgain }]} onWay={tryStartAgain} />
+            ) : null}
+
+            {pending ? <Waiting pending={pending} qName={qName} /> : null}
+
+            {retry ? (
+              <StatusTurn
+                alert last busy={Boolean(pending)}
+                said={'The reply could not be confirmed.\n\nRetry sends the same request, so you will not be charged twice. Your credits page shows any credit used.'}
+                ways={[{ id: 'same', label: 'Retry this question' }]} onWay={() => sendPaid(retry.message, true)}
+              />
+            ) : null}
+
+            {/* A question brought from another test whose outcome is not known: only Try again (the same request) goes out. */}
+            {mistakeHold && !pending ? (
+              <StatusTurn alert last said={mistakeHold.message} ways={waysForward({ state: 'unknown' })} onWay={() => deliverMistake()} />
+            ) : null}
           </div>
-        ) : null}
-
-        {pending ? (
-          <p className="amb-reading" role="status" data-last="">
-            <MobiMark size={20} blinking />
-            {pending.question ? `Reading ${qName}, your pick and the key` : pending.kind === 'tonight' ? 'Reading your record for tonight' : onPage ? 'Writing a reply' : 'Reading your question and your record'}
-          </p>
-        ) : null}
-
-        {threadDone && !pending && !retry ? (
-          <div className="mj-next">
-            <p className="mj-quiet">{JOB_COPY.settled}</p>
-            <button type="button" className="amb-btn amb-btn--line" onClick={newDoubt}>{JOB_COPY.newDoubt}</button>
-          </div>
-        ) : null}
-
-        {retry ? (
-          <div className="amb-notice" role="alert" data-last="">
-            <b>The reply could not be confirmed.</b>
-            <span>Retry sends the same request, so you will not be charged twice. Your credits page shows any credit used.</span>
-            <button type="button" className="amb-btn amb-btn--line" disabled={Boolean(pending)} onClick={() => sendPaid(retry.message, true)}>Retry this question</button>
-          </div>
-        ) : null}
+        )}
 
         {/* Why the written asks wait (offline, paused or out of credits), in plain words, right above the rows it explains. */}
-        {offline ? (
+        {offline && !idle ? (
           <p className="amb-notice" role="status">
             <b>You are offline.</b>
             <span>Questions about your record still work. A written reply needs a connection, so nothing is sent and nothing is charged.</span>
           </p>
         ) : null}
 
-        {!offline && (withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
+        {!onPage && !offline && (withQuestion || questionRef === null) && !paid.open && wallet && asks.some((a) => a.price === 'paid') && !busy ? (
           <p className="amb-notice" role="status">{paid.why}</p>
         ) : null}
 
-        {!opening && !questionFailed && asks.length && !pending && !retry && !(initial && !turns.length) ? (
+        {!idle && !saved && !opening && !questionFailed && asks.length && !pending && !retry && !mistakeHold && !waitingStart && (!onPage || turns.length) ? (
           <section className="amb-asks" aria-label={turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}>
-            <h3>{turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}</h3>
+            <h3>{turns.length || first ? CHAT_COPY.askNext : withQuestion ? 'Ask about this question' : 'You can ask now'}</h3>
             <ul>
               {asks.map((ask, i) => {
                 const off = ask.price === 'paid' && (!paid.open || offline);
@@ -527,7 +745,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
                     <button type="button" className="amb-ask" disabled={off} onClick={() => askRow(ask)}>
                       <b>{ask.label}</b>
                       {off ? <span>{offline && paid.open ? 'Needs a connection' : 'Needs a written reply'}</span> : ask.line ? <span>{ask.line}</span> : null}
-                      <em data-price={ask.price}>{ask.price === 'free' ? 'Free' : creditCount(1)}</em>
+                      <em data-price={ask.price}>{ask.price === 'free' ? 'Free' : creditCount(MOBI_JOB_CREDITS)}</em>
                     </button>
                   </li>
                 );
@@ -535,37 +753,17 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             </ul>
           </section>
         ) : null}
-
-        {mistakeDoor ? <MistakeDoor onOpen={() => setMistakeOpen(true)} /> : null}
       </div>
 
-      <form className="amb-compose" onSubmit={(event) => { event.preventDefault(); submit(); }}>
-        <div className="amb-field">
-          <label htmlFor="amb-input" className="sr-only">{fieldHint}</label>
-          <textarea
-            id="amb-input"
-            ref={fieldRef}
-            value={input}
-            rows={1}
-            maxLength={1500}
-            placeholder={fieldHint}
-            disabled={busy || opening}
-            onChange={(event) => { setInput(event.target.value); grow(event.target); }}
-            onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); submit(); } }}
-          />
-          <button type="submit" className="amb-send" disabled={!canSend}>Ask</button>
-        </div>
-        <div className="amb-cost">
-          {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
-          <Link href="/wallet" className="amb-cost__wallet" onClick={leave}>
-            {balanceTick ? <><b key={balanceTick[1]} className="amb-num">{balanceTick[1]}</b>{balanceTick[2]}</> : creditWords}
-          </Link>
-          <span className="amb-cost__price" aria-live="polite">
-            {pending && onPage ? (pending.free ? 'This one is free. Nothing is charged.' : 'This reply uses 1 credit. A reply that fails uses none.') : threadOpen ? JOB_COPY.followUpFree : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
-          </span>
-        </div>
-      </form>
-      </>}
+      <ChatComposer
+        ref={composerRef} form={form} value={input} onChange={setInput} onSubmit={submit} onMistake={sendMistake}
+        canSendText={canSend} busy={busy} opening={opening} price={price} wallet={wallet} paid={paid} offline={offline}
+        followUp={threadOpen} question={questionTyping} placeholder={threadDone ? JOB_COPY.newDoubtPlaceholder : placeholder}
+        subjects={subjects} photoOn={photoOn} mistakeOn={Boolean(userId)} stopped={stopped} needsNet={!questionTyping && isTonightAsk(input)}
+        onLeave={leave}
+      />
+
+      {viewing ? <PhotoView url={viewing} onClose={() => setViewing(null)} /> : null}
     </div>
   );
 }
@@ -578,34 +776,35 @@ function replyKindOf(sent) {
   return 'doubt';
 }
 
-function grow(node) {
-  if (!node) return;
-  node.style.height = 'auto';
-  node.style.height = `${Math.min(node.scrollHeight, 120)}px`;
-}
-
-function Answer({ response, qName = 'this question', wallet = null, onNavigate, last = false, insights = null, subjects = [], offline = false }) {
+/** What one of Mobi's turns used, in words: the server's amount for a written reply, and that a record answer is free. */
+function usedFor(response, qName) {
   const tonight = Boolean(response.tonight);
-  const next = tonight ? null : response.actions?.[0];
   let source = response.source || null;
   if (response.origin === 'model') {
-    const what = response.about ? `Written reply on ${qName} and its key` : 'Written reply';
-    const spent = response.charged ? usedLine({ cost: response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No credit used.';
-    source = response.followUp && !response.charged ? JOB_COPY.followUpSource : `${what}. ${spent}`;
+    // What a written reply used is the amount the server said it charged (chatCopy.mjs usedWords), never an assumed one.
+    const spent = usedWords(response.charged);
+    source = response.followUp && !response.charged ? JOB_COPY.followUpSource : response.about ? `${spent} Written about ${qName} and its key.` : spent;
   } else if (response.origin === 'status' || response.origin === 'safety') source = null;
   else if (tonight) source = JOB_COPY.tonightSource;
-  else if (!source) source = 'From your record';
+  else source = `${CHAT_COPY.free}. ${source || 'From your record'}.`;
+  return source;
+}
+
+function Answer({ response, qName = 'this question', onNavigate, last = false, insights = null, subjects = [], offline = false, requestId = null, sessionId = null, busy = false, onWay = null, onLeave = null }) {
+  const tonight = Boolean(response.tonight);
+  const next = tonight ? null : response.actions?.[0];
   if (response.origin === 'status') {
-    return (
-      <div className="amb-notice amb-rise" role="status" data-origin="status" data-last={last ? '' : undefined}>
-        {String(response.reply || '').split(/\n{2,}/).map((para, i) => <span key={i}>{para}</span>)}
-        {next ? <button type="button" className="amb-btn amb-btn--line" onClick={() => onNavigate(next.route || next.target)}>{next.label}</button> : null}
-      </div>
-    );
+    // A refusal or a failure: what happened, what it used (the server's amount), and the way forward.
+    const parts = refusalParts(response.reply, response.charged);
+    const ways = response.ways?.length ? response.ways : next ? [{ id: 'go', label: next.label, href: next.route || next.target }] : [];
+    return <StatusTurn said={parts.said} used={parts.used} ways={ways} onWay={onWay} busy={busy} last={last} onLeave={onLeave} />;
   }
+  const source = usedFor(response, qName);
+  const text = turnAsText({ response });
+  const report = response.origin === 'model' && response.charged > 0 && requestId ? { requestId, sessionId } : null;
   return (
-    <div className="amb-ans amb-rise" data-origin={response.origin} data-last={last ? '' : undefined}>
-      {String(response.reply || '').split(/\n{2,}/).map((para, i) => <p key={i}>{para}</p>)}
+    <MobiTurn last={last} origin={response.origin} meta={<TurnMeta used={source} text={text} report={report} />}>
+      <Prose text={response.reply} />
       {tonight ? <TonightBlock tonight={response.tonight} actions={response.actions} onNavigate={onNavigate} /> : null}
       {response.thread ? (
         <DoubtChecks
@@ -613,9 +812,8 @@ function Answer({ response, qName = 'this question', wallet = null, onNavigate, 
           subject={response.thread.subject} chapter={response.thread.chapter} insights={insights} subjects={subjects} offline={offline}
         />
       ) : null}
-      {source ? <span className="amb-src"><MobiMark size={15} />{source}</span> : null}
-      {next ? <button type="button" className="amb-btn amb-btn--line" onClick={() => onNavigate(next.route || next.target)}>{next.label}</button> : null}
-    </div>
+      {next ? <NextMove label={next.label} onClick={() => onNavigate(next.route || next.target)} /> : null}
+    </MobiTurn>
   );
 }
 
