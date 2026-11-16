@@ -129,7 +129,8 @@ test('the component keeps the page contract: one scroll read, a real button, the
   assert.doesNotMatch(SRC, /hop\(/, 'no hops');
   assert.match(SRC, /matchMedia\('\(max-width: 899px\)'\)/);
   assert.match(SRC, /data-pip-static/);
-  assert.match(SRC, /getElementById\('mbp-/, 'nothing when the sprite is missing');
+  assert.doesNotMatch(SRC, /getElementById\('mbp-/, 'he draws the 3D art, so he no longer waits for the vector sprite (17 Nov 2026)');
+  assert.match(SRC, /sizes="56px"/, 'his 56 px figure never fetches a seat-sized image');
   assert.match(SRC, /sessionStorage/);
   assert.match(SRC, /elementsFromPoint/);
   for (const name of ['disconnect()', 'offScroll()']) assert.ok(SRC.includes(name), name);

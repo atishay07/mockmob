@@ -108,14 +108,16 @@ function tapped(station) {
  */
 export function MascotSeat({ pose: wanted, facing = 'left', label, note, className = '', eager = false, station }) {
   const { celebrations } = useMobiPrefs();
+  // Where he waves, a tap plays the six frames again (a fresh layer; the sheet is already decoded by then).
+  const [waves, setWaves] = useState(0);
   const pose = calmPose(wanted, celebrations);
   const faced = pose === 'pointing' ? facing : 'right';
   return (
     <figure className={`pip-seat ${className}`.trim()} data-pip-station={station} data-pip-pose={station ? pose : undefined}>
-      <div className="pip-seat__art" onClick={station ? () => tapped(station) : undefined}>
+      <div className="pip-seat__art" onClick={station ? () => { tapped(station); if (pose === 'wave') setWaves((n) => n + 1); } : undefined}>
         <span className="pip-rig" data-facing={faced} style={{ '--pip-ar': aspect(pose) }}>
           <span className="pip-rig__breath">
-            {pose === 'wave' ? <WaveCells /> : null}
+            {pose === 'wave' ? <WaveCells key={waves} /> : null}
             <Mascot pose={pose} facing={faced} eager={eager} alt={`Mobi, MockMob’s study companion, ${DOING[pose] || DOING.greeting}.`} />
             <PipEyes pose={pose} />
           </span>
