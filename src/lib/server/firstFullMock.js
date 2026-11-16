@@ -121,8 +121,13 @@ export async function releaseFirstFullMock(db, { userId, subject, sessionId }) {
  * 2026). The users lock in release_unstarted_allowance covers a release that runs while this start holds the lock; it cannot
  * cover one that ran just before this start reached it: a double tap whose other start failed and gave the row back while this
  * start, already holding it as 'mine', was on its way to start_learning_session, which then made a free session with no row.
- * Returns 'mine' (still held), 'claimed' (taken again), 'taken' (another start took it in that moment: left alone) or 'unknown'
- * (could not read or write; nothing is written on a failed read). Never throws: the session is already made.
+ * Case 2 (review, 16 Nov 2026, tmp/1116-race/CTO-NOTE.md): the session this start got back may be a twin's with the same key
+ * that read the free one as used (or could not read it) and was charged for it: the ledger then holds `recovery:<id>`. A paid
+ * session never takes the free row, and a row this start took before its call is given back: no start can make that paper free
+ * any more, so the row would only spend the student's free mock on a paper they paid for.
+ * Returns 'mine' (still held), 'claimed' (taken again), 'taken' (another start took it in that moment: left alone), 'paid' (the
+ * session was paid: not taken, or given back) or 'unknown' (could not read or write; nothing is written on a failed read). Never
+ * throws: the session is already made.
  */
 export async function keepFirstFullMock(db, { userId, subject, sessionId }) {
   const kind = firstFullMockKind(subject);
@@ -130,7 +135,14 @@ export async function keepFirstFullMock(db, { userId, subject, sessionId }) {
   try {
     const held = await settle(claimRow(db, userId, kind));
     if (held?.error) return 'unknown';
-    if (held?.data) return String(held.data.reference) === String(sessionId) ? 'mine' : 'taken';
+    if (held?.data && String(held.data.reference) !== String(sessionId)) return 'taken';
+    // Throws on a failed read (caught below: nothing written).
+    if (await startAlreadyPaid(db, { userId, reference: `recovery:${sessionId}` })) {
+      if (held?.data) await settle(db.from('learning_allowances').delete()
+        .eq('user_id', userId).eq('kind', kind).eq('period', FIRST_FULL_MOCK_PERIOD).eq('reference', String(sessionId)));
+      return 'paid';
+    }
+    if (held?.data) return 'mine';
     return await claimFirstFullMock(db, { userId, subject, sessionId });
   } catch { return 'unknown'; }
 }
