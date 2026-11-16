@@ -64,6 +64,10 @@ const ntaStateName = (state) => (NTA_LEGEND.find(([key]) => key === state)?.[1] 
 const NTA_SUMMARY = ['answered', 'visited', 'marked', 'marked-answered', 'notvisited'];
 const NTA_ASK = ['Are you sure you want to submit for final marking?', 'No changes will be allowed after submission.'];
 const two = (n) => String(n).padStart(2, '0');
+// The runner's clock ticks this long after each second of the countdown turns (the clock effect in TestRunner).
+const TICK_AFTER_MS = 20;
+// This tab pressed Start on this NTA paper's instructions page (sessionStorage: one tab, kept through a reload).
+const ntaStartKey = (generationKey) => `mm:nta:started:${generationKey}`;
 
 // A small modal (NTA style's Question Paper and its submit summary): focus moves in, Tab stays inside, Escape closes, and
 // focus goes back to what opened it.
@@ -556,6 +560,8 @@ function TestRunner() {
             }
             rememberStart(saved.selectionMeta?.startReceipt);
             setSelectionMeta(saved.selectionMeta || null);
+            // The clock is read with its deadline, so its first frame is right (freshClock).
+            setNow(Date.now());
             setEndsAt(saved.endsAt);
             setIdx(resumeIdx);
             setPendingSubmission(saved.pendingSubmission === true);
@@ -570,9 +576,13 @@ function TestRunner() {
 
       // NTA mode opens on its instructions page (N1): nothing is asked of the server, so no clock runs, until Start. A paper
       // already running goes straight back to its clock: one with a saved draft (above), a session id, or the start receipt a
-      // reload keeps in the address.
+      // reload keeps in the address. Review, 17 Nov: or a Start already pressed in this tab (ntaStartKey) whose paper had not
+      // arrived when the page reloaded: the server keeps that first start's clock for the same paper (practiceSessions.js, L8),
+      // so the instructions page again would say the minutes start at Start while they were already running.
       const runningReceipt = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('startReceipt');
-      if (isNtaMode && !startPressedRef.current && !launch.get('sessionId') && !runningReceipt) {
+      let startedHere = false;
+      try { startedHere = !!generationKey && window.sessionStorage.getItem(ntaStartKey(generationKey)) === '1'; } catch { /* storage blocked */ }
+      if (isNtaMode && !startPressedRef.current && !launch.get('sessionId') && !runningReceipt && !startedHere) {
         if (!alive) return;
         setAwaitingStart(true);
         setLoading(false);
@@ -652,6 +662,10 @@ function TestRunner() {
         setMarked(restored.marked);
         rememberStart(meta?.startReceipt);
         setIdx(0);
+        // freshClock: the time is read with the deadline. `now` was last read when the page opened, and an NTA paper's
+        // instructions page may have been open for minutes, so the paper's first frame showed that much more than the hour
+        // (01:05:00 after five minutes of reading) until the first tick put it right.
+        setNow(Date.now());
         setEndsAt(ends);
         claim();
         setLoading(false);
@@ -728,12 +742,14 @@ function TestRunner() {
   const startNtaPaper = useCallback(() => {
     if (startPressedRef.current) return;
     startPressedRef.current = true;
+    // Kept for this tab, so a reload before the paper arrives goes back to the running clock, not to the instructions page.
+    try { if (generationKey) window.sessionStorage.setItem(ntaStartKey(generationKey), '1'); } catch { /* storage blocked */ }
     const target = fullscreenTarget.current;
     try {
       if (target?.requestFullscreen && document.fullscreenEnabled !== false && !document.fullscreenElement) target.requestFullscreen().catch(() => {});
     } catch { /* no fullscreen here: the guard's own dialog asks to stay in this window */ }
     setStartTick((n) => n + 1);
-  }, []);
+  }, [generationKey]);
 
   // The saved draft is also kept here, so an away can be written at once: a tab being closed may never render again.
   const draftRef = useRef(null);
@@ -827,8 +843,9 @@ function TestRunner() {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
     const solo = classicRef.current;
     // NTA style: leaving a question by Previous, the palette or an arrow key does NOT save a choice made on it (NTA's own
-    // instructions, point 7a); the choice is let go and the question keeps what was saved.
-    if (solo) dropHeld();
+    // instructions, point 7a); the choice is let go and the question keeps what was saved. A press that stays on the question
+    // (its own palette number, the left arrow on question 1) leaves it, so nothing on screen goes for nothing.
+    if (solo && safe !== idxRef.current) dropHeld();
     const newPage = questionsRef.current.length > 0
       && blockFor(questionsRef.current, idxRef.current, solo).startIdx !== blockFor(questionsRef.current, safe, solo).startIdx;
     if (practiceRun && questionsRef.current.length) {
@@ -855,16 +872,25 @@ function TestRunner() {
   // just after each whole second of the countdown, so every second shows for a full second: no 250 ms beat that made some
   // seconds look short and others stall. Coming back to the tab (a background tab's timers are slowed) reads the clock at once
   // and lines the ticks up again.
+  // Review, 17 Nov: a tick lands TICK_AFTER_MS after the turn, not 1 ms. A timer may fire a little early, and the wall clock the
+  // page reads (Date.now) and the clock timers run on can drift apart by a few milliseconds a minute, so a tick 1 ms after the turn
+  // could slide to just before it, and that second then showed for two (a stall). Each tick also checks where it landed and lines
+  // up again when it has slid too early or too late, so no second is skipped or held.
   useEffect(() => {
     if (!endsAt) return undefined;
     let align = null;
     let every = null;
     const tick = () => setNow(Date.now());
+    const untilTurn = () => (((endsAt - Date.now()) % 1000) + 1000) % 1000;
     const start = () => {
       clearTimeout(align); clearInterval(every);
       tick();
-      const into = (((endsAt - Date.now()) % 1000) + 1000) % 1000;
-      align = setTimeout(() => { tick(); every = setInterval(tick, 1000); }, into + 1);
+      align = setTimeout(() => { tick(); every = setInterval(step, 1000); }, untilTurn() + TICK_AFTER_MS);
+    };
+    const step = () => {
+      tick();
+      const since = (1000 - untilTurn()) % 1000;
+      if (since < TICK_AFTER_MS / 2 || since > TICK_AFTER_MS * 5) start();
     };
     start();
     const onVis = () => { if (!document.hidden) start(); };
@@ -931,6 +957,9 @@ function TestRunner() {
     if (submittedRef.current || sentRef.current || elsewhereRef.current) return;
     if (!user) return;
     submittedRef.current = true;
+    // NTA style: a choice never saved is not sent (time-up, the third warning, or Yes on the summary that named it), so it leaves
+    // the screen now. Held offline, the paper on screen then shows only what will be sent, never a choice that looks counted.
+    dropHeld();
     setSubmitting(true);
     setMobilePaletteOpen(false);
     setNtaSummaryOpen(false); // NTA style: a time-up or third-warning submit closes its summary too
@@ -1001,7 +1030,7 @@ function TestRunner() {
         if (said.link) setErrorLink(said.link);
       }
     }
-  }, [user, key, legacyKey, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent, generationKey, sessionIdParam, practiceLink, releaseGuard]);
+  }, [user, key, legacyKey, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent, generationKey, sessionIdParam, practiceLink, releaseGuard, dropHeld]);
   const submitForStrikes = useCallback(() => submitTest('nta_strikes'), [submitTest]);
 
   // NTA mode only: leaving the tab is a strike; the third submits the session.
@@ -1943,7 +1972,8 @@ function TestRunner() {
     {ntaSummaryOpen && !submitting && (
       // NTA's Exam Summary (its own mock, seen 17 Nov 2026): the counts in a table, then "Are you sure" with Yes and No. Phones get
       // the same table turned on its side (one row a status), so nothing scrolls sideways.
-      <div ref={ntaSummaryRef} className="nta-n-dialog nta-n-summary" role="dialog" aria-modal="true" aria-labelledby="nta-n-summary-title" aria-describedby="nta-n-summary-ask">
+      // The unsaved-choice line is part of the dialog's description, so a screen reader says it with the question, not only on sight.
+      <div ref={ntaSummaryRef} className="nta-n-dialog nta-n-summary" role="dialog" aria-modal="true" aria-labelledby="nta-n-summary-title" aria-describedby={heldChoice && heldChoice.qid === q.id ? 'nta-n-summary-held nta-n-summary-ask' : 'nta-n-summary-ask'}>
         <div className="nta-n-dialog__backdrop" aria-hidden="true" />
         <div className="nta-n-dialog__panel">
           <h2 id="nta-n-summary-title" className="nta-n-dialog__title">Exam Summary</h2>
@@ -1971,7 +2001,7 @@ function TestRunner() {
             </tbody>
           </table>
           {/* MockMob's one addition: a choice on screen that was never saved is named, so Yes never drops it unseen. */}
-          {heldChoice && heldChoice.qid === q.id ? <p className="nta-n-dialog__held" role="note">Your choice on Question {idx + 1} is not saved. Choose No, then Save &amp; Next to keep it.</p> : null}
+          {heldChoice && heldChoice.qid === q.id ? <p id="nta-n-summary-held" className="nta-n-dialog__held" role="note">Your choice on Question {idx + 1} is not saved. Choose No, then Save &amp; Next to keep it.</p> : null}
           <p id="nta-n-summary-ask" className="nta-n-dialog__ask">{NTA_ASK[0]}<br />{NTA_ASK[1]}</p>
           <div className="nta-n-dialog__keys">
             <button type="button" className="nta-n-dialog__submit" onClick={() => { setNtaSummaryOpen(false); submitTest('submit'); }}>Yes</button>

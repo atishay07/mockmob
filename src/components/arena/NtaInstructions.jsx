@@ -81,10 +81,11 @@ export default function NtaInstructions({ subject, questions, minutes, marking, 
               <p className="nta-ins__mind">A question that is only <b>Marked for Review</b> is not evaluated. <b>Answered &amp; Marked for Review</b> is.</p>
             </li>
             <li>
-              Click <span className="nta-ins__key" aria-label="the right arrow"><ChevronRight aria-hidden="true" /></span> at the left of the Question Palette to fold it away and give the question more room, and <span className="nta-ins__key" aria-label="the left arrow"><ChevronLeft aria-hidden="true" /></span> to bring it back. On a phone, the Question Palette key at the foot of the screen opens it.
+              {/* role="img": a name on a plain span is not read out, so these keys were silent gaps to a screen reader. */}
+              Click <span className="nta-ins__key" role="img" aria-label="the right arrow"><ChevronRight aria-hidden="true" /></span> at the left of the Question Palette to fold it away and give the question more room, and <span className="nta-ins__key" role="img" aria-label="the left arrow"><ChevronLeft aria-hidden="true" /></span> to bring it back. On a phone, the Question Palette key at the foot of the screen opens it.
             </li>
             <li>
-              <span className="nta-ins__round" aria-label="The down arrow"><ArrowDown aria-hidden="true" /></span> takes you to the end of the question and <span className="nta-ins__round" aria-label="the up arrow"><ArrowUp aria-hidden="true" /></span> back to its top, without scrolling.
+              <span className="nta-ins__round" role="img" aria-label="The down arrow"><ArrowDown aria-hidden="true" /></span> takes you to the end of the question and <span className="nta-ins__round" role="img" aria-label="the up arrow"><ArrowUp aria-hidden="true" /></span> back to its top, without scrolling.
             </li>
           </ol>
         </section>
