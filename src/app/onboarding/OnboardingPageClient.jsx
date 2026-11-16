@@ -182,9 +182,9 @@ export default function OnboardingPageClient({ preview = false }) {
   const sampled = sampleSubject(sampleNote);
   const gridSeeded = useRef(false);
   // A sign-up door's page (16 Nov 2026): the first run still runs in full, and its last key opens that page instead of the first
-  // set. The development preview takes it from ?promise=<path>, through the same check.
+  // set. The development preview can also take it from ?promise=<path>, through the same check.
   const promisedPath = useSyncExternalStore(noSubscribe, readPromised, noSample);
-  const promised = useMemo(() => (edit ? null : firstRunDestination(preview ? query?.get('promise') : promisedPath)), [edit, preview, query, promisedPath]);
+  const promised = useMemo(() => (edit ? null : firstRunDestination((preview && query?.get('promise')) || promisedPath)), [edit, preview, query, promisedPath]);
   const promisedKey = firstRunKey(promised);
   // Today's included set, read on the colleges step (src/lib/firstSet.mjs): { subject, state: 'idle' | 'loading' | 'free' | 'none', offer }.
   const [firstSet, setFirstSet] = useState({ subject: null, state: 'idle', offer: null });

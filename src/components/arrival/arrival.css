@@ -7,3 +7,6 @@
   color: var(--a-good-text);
   text-wrap: pretty;
 }
+/* Where each page draws it: under the Key cards title's reference line, over Learn's subjects, over the Sunday week line. */
+.l2c-head > .arrive { margin-top: 4px; }
+.arrive.lh-arrive { margin-bottom: 14px; }

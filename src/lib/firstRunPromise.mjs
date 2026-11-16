@@ -14,7 +14,7 @@ export const FIRST_RUN_KEYS = Object.freeze({
   sunday: Object.freeze({ key: 'Finish and open the Sunday Mock', opening: 'Opening the Sunday Mock…' }),
   pricing: Object.freeze({ key: 'Finish and see the Pro plans', opening: 'Opening the plans…' }),
   mob: Object.freeze({ key: 'Finish and start your Mob', opening: 'Opening your Mob…' }),
-  cutoffs: Object.freeze({ key: 'Finish and open the cutoff calculator', opening: 'Opening the calculator…' }),
+  cutoffs: Object.freeze({ key: 'Finish and open the calculator', opening: 'Opening the calculator…' }),
   recovery: Object.freeze({ key: 'Finish and find your first gap', opening: 'Opening Score Recovery…' }),
 });
 

@@ -205,7 +205,7 @@ test('the preview mirrors the ending: each promised page opens its view, or the 
 
 test('onboarding ends on the promised page, names it on its last key, and reads no quote for the first set then', () => {
   const page = read('src/app/onboarding/OnboardingPageClient.jsx');
-  assert.match(page, /firstRunDestination\(preview \? query\?\.get\('promise'\) : promisedPath\)/, 'the preview takes ?promise= through the same check');
+  assert.match(page, /firstRunDestination\(\(preview && query\?\.get\('promise'\)\) \|\| promisedPath\)/, 'only the preview takes ?promise=, through the same check');
   assert.match(page, /if \(promised\) \{\s*saveLock\.current = false;\s*forgetFirstRunPath\(\);\s*noteArrival\(promised\);/);
   assert.match(page, /finish\('cheer', promised\.path\);\s*return;/);
   assert.match(page, /const firstSubject = !edit && !promised \? firstSetSubject\(/);
