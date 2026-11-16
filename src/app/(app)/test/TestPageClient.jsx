@@ -50,6 +50,8 @@ const NTA = {
   paletteTitle: 'Question Palette',
   hidePalette: 'Hide the Question Palette',
   showPalette: 'Show the Question Palette',
+  notSavedYet: 'Not saved yet',
+  savedState: 'Saved',
 };
 // The section summary above the palette: NTA's five symbols, in NTA's order and words.
 const NTA_LEGEND = [
@@ -1905,6 +1907,11 @@ function TestRunner() {
       <div className="nta-paper nta-n-main" ref={paperRef}>
         <div className="nta-n-qhead">
           <h1>{NTA.question(idx + 1)}</h1>
+          {/* On a phone the palette is folded away, so a chosen option and a saved answer would look the same: say which it
+              is, beside the question number (a status line the real exam does not need; its palette is always on show). */}
+          <span className="nta-n-saved" data-state={heldChoice?.qid === q.id ? 'held' : answers[q.id] !== undefined ? 'saved' : 'none'} role="status" aria-live="polite">
+            {heldChoice?.qid === q.id ? NTA.notSavedYet : answers[q.id] !== undefined ? NTA.savedState : ''}
+          </span>
           <button type="button" className="nta-n-arrow" onClick={() => scrollQuestion(true)} aria-label="Go to the end of the question"><ArrowDown aria-hidden="true" /></button>
         </div>
         <div className="nta-n-pane" ref={ntaPaneRef} data-passage={block.isPassage ? 'true' : undefined}>
