@@ -127,7 +127,7 @@
 .rx-chip[data-state='slipped'] { color: var(--a-warn-text, #e0b93f); }
 .rx-chip[data-state='recheck'] { color: var(--a-warn-text, #e0b93f); }
 .rx-chip[data-state='none'], .rx-chip[data-state='corrected'], .rx-chip[data-state='nocredit'] { color: var(--a-ink-3, #93a08f); }
-.rx-chip__ring { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--a-line-strong, #384736); border-top-color: var(--a-ink, #f2f4ec); }
+.rx-chip__ring { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--a-line-strong, #384736); border-top-color: var(--a-ink, #f2f4ec); }
 .rx-cheer { position: absolute; right: calc(100% + 6px); bottom: -8px; width: 40px; pointer-events: none; }
 .rx-row__wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 200ms var(--rx-ease); }
 .rx-row[data-open] > .rx-row__wrap, .rx-blanks[data-open] > .rx-row__wrap { grid-template-rows: 1fr; transition-duration: 260ms; }

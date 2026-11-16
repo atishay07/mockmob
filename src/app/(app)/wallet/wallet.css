@@ -149,7 +149,8 @@
   .app-shell .wl-key:hover:not(:disabled):not([data-solid]) { border-color: var(--a-line-hover); background: var(--a-hover); }
   .app-shell .wl-key[data-solid]:hover:not(:disabled) { opacity: 0.9; }
 }
-.app-shell .wl-spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: wl-spin 700ms linear infinite; }
+/* The small working mark, drawn as .mm-wait (components/ui/wait.css): 14 px ring, 2 px, one turn in 800 ms, still under Reduce motion. */
+.app-shell .wl-spin { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; opacity: 0.7; animation: wl-spin 800ms linear infinite; }
 
 .app-shell .wl-note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3); }
 
@@ -237,7 +238,8 @@
 @media (prefers-reduced-motion: reduce) {
   .app-shell .wl-key, .app-shell .wl-pack { transition: none !important; }
   .app-shell .wl-hero, .app-shell .wl-bar > span { animation: none !important; }
-  .app-shell .wl-spin { animation-duration: 2s; }
+  .app-shell .wl-spin { animation: none; }
 }
+:root[data-motion='reduced'] .app-shell .wl-spin { animation: none; }
 :root[data-motion='reduced'] .app-shell .wl-key, :root[data-motion='reduced'] .app-shell .wl-pack { transition: none !important; }
 :root[data-motion='reduced'] .app-shell .wl-hero, :root[data-motion='reduced'] .app-shell .wl-bar > span { animation: none !important; }

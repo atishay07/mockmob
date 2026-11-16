@@ -56,7 +56,11 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 }
 .kc-kbd { display: inline-grid; place-items: center; min-width: 22px; height: 20px; padding: 0 5px; border-radius: 5px; border: 1px solid currentColor; font: 600 11px/1 var(--font-body); opacity: 0.55; }
 @media (hover: none), (pointer: coarse) { .kc-kbd, .kc-keyhint { display: none; } }
-.kc-spin { animation: kc-spin 900ms linear infinite; }
+/* As .mm-wait (components/ui/wait.css): a 2 px line, one turn in 800 ms, still under Reduce motion; the size is the icon's (16 px in a key). */
+.kc-spin { opacity: 0.7; animation: kc-spin 800ms linear infinite; }
+.kc-spin * { vector-effect: non-scaling-stroke; stroke-width: 2px; }
+@media (prefers-reduced-motion: reduce) { .kc-spin { animation: none; } }
+html[data-motion='reduced'] .kc-spin { animation: none; }
 @keyframes kc-spin { to { transform: rotate(360deg); } }
 
 .kc-back {

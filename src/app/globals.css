@@ -575,24 +575,28 @@ canvas { max-width: 100%; }
 }
 
 /* ============== SKELETON SHIMMER ============== */
-.skeleton {
+.skeleton,
+.du-skeleton span { /* ONE shimmer: .skeleton and the DU loading blocks (du.css .du-skeleton) share every value below. */
+  --skel-base: var(--a-sunken, rgb(var(--tint, 244 245 240) / 0.06));
+  --skel-sheen: rgba(255, 255, 255, 0.09);
   position: relative;
   display: block;
   overflow: hidden;
   isolation: isolate;
-  background: var(--a-sunken, rgba(255, 255, 255, 0.05));
-  border-radius: 6px;
+  background: var(--skel-base);
 }
+.skeleton { border-radius: 6px; }
+html[data-theme='light'] :is(.skeleton, .du-skeleton span) { --skel-sheen: rgba(255, 255, 255, 0.75); }
 /* The sweep is a transform, so it runs on the compositor and never repaints the block. */
-.skeleton::after {
+.skeleton::after,
+.du-skeleton span::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 45%, rgba(255, 255, 255, 0.09) 55%, transparent);
+  background: linear-gradient(90deg, transparent, var(--skel-sheen) 45%, var(--skel-sheen) 55%, transparent);
   transform: translate3d(-100%, 0, 0);
-  animation: skeleton-sweep 1.4s var(--ease-in-out) infinite;
+  animation: skeleton-sweep 1.4s var(--ease-in-out, ease-in-out) infinite;
 }
-html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75) 45%, rgba(255, 255, 255, 0.75) 55%, transparent); }
 @keyframes skeleton-sweep { to { transform: translate3d(100%, 0, 0); } }
 @keyframes shimmer {
   from { background-position: 200% 0; }
@@ -611,6 +615,8 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
 @media (prefers-reduced-motion: reduce) {
   .skeleton,
   .skeleton::after,
+  .du-skeleton span,
+  .du-skeleton span::after,
   .animate-pulse-slow,
   .marquee-track { animation: none !important; }
   .glass { transition: none; }
@@ -1526,6 +1532,7 @@ html[data-theme='light'] .mmx-sheet {
   transition-delay: 0ms !important;
   scroll-behavior: auto !important;
 }
+:root[data-motion='reduced'] :is(.skeleton, .du-skeleton span)::after { animation: none !important; }
 :root[data-motion='reduced'] .skeleton::after { animation: none !important; }
 :root[data-motion='reduced'] :is(.skeleton, .animate-pulse-slow, .marquee-track, .pip-actor, .pip-lids i, .pip-pose-in, .mk-shake) { animation: none !important; }
 :root[data-motion='reduced'] :is(.pip-flyer, .pip-guide-flyer) { display: none; }

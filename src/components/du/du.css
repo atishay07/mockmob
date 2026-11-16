@@ -1292,17 +1292,10 @@
   gap: 1rem;
 }
 .du-skeleton span {
-  display: block;
+  /* Colours, sweep, speed and the still look under Reduce motion are the app's one shimmer: the shared rule with .skeleton in
+     globals.css. Only the block's size and corner are the DU page's own. */
   height: 8rem;
   border-radius: var(--r-3);
-  background: linear-gradient(90deg, rgb(var(--tint, 244 245 240) / 0.04), rgb(var(--tint, 244 245 240) / 0.09), rgb(var(--tint, 244 245 240) / 0.04));
-  background-size: 200% 100%;
-  animation: du-shimmer 1.6s ease-in-out 4; /* four sweeps, then still, as the app's skeleton (WA-03) */
-}
-@keyframes du-shimmer {
-  to {
-    background-position: -200% 0;
-  }
 }
 /* The cutoff calculator while its courses load (CutoffCalculator.jsx), on a wide window: the subjects panel on the left
    and the results' heading on the right, as .du-layout draws them from 1100 px, so the page under it (its notes) stays
@@ -1325,9 +1318,6 @@
 .du-skeleton--planner span:nth-child(6) { height: 2.75rem; width: min(90%, 30rem); border-radius: 8px; }
 .du-skeleton--planner span:nth-child(7) { height: 34rem; }
 @media (prefers-reduced-motion: reduce) {
-  .du-skeleton span {
-    animation: none;
-  }
   .du-card__chev {
     transition: none;
   }
