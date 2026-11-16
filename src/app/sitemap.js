@@ -4,6 +4,7 @@ import { duCutoffCatalog } from '@/lib/du/cutoffData.server';
 import { CUTOFFS_PATH, collegePath, coursePath } from '@/lib/du/cutoffPages.mjs';
 import { KEY_CARDS_PATH } from '@/lib/keycardsPublic.mjs';
 import { publicKeyCards } from '@/lib/server/keycardsPublic';
+import { loadCorrections } from '@/../data/corrections.mjs';
 
 export default async function sitemap() {
   const now = new Date();
@@ -61,5 +62,9 @@ export default async function sitemap() {
     keyCardRoutes = [];
   }
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...duRoutes, ...keyCardRoutes];
+  // The corrections log (src/app/corrections): it changes when an entry is added, so its date is the newest entry's.
+  const latestCorrection = loadCorrections().latest;
+  const corrections = { url: absoluteUrl('/corrections'), lastModified: latestCorrection ? new Date(`${latestCorrection}T00:00:00+05:30`) : now, changeFrequency: 'monthly', priority: 0.5 };
+
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, corrections, ...duRoutes, ...keyCardRoutes];
 }
