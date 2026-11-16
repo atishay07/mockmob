@@ -40,7 +40,7 @@ test('the code and the contract mirror it, and say the database row is the enfor
   assert.doesNotMatch(agents, /Rs 2\.50 for a free one/);
   assert.match(file('src/app/api/ai/rival/submit/route.js'), /Rs 5 paid, Rs 3\.50 free once 20261117090000 is run/);
   // The price block reasons from the new cap.
-  const prices = file('src/services/mobi/bringMistake.mjs');
+  const prices = file('src/services/mobi/mistakePrices.mjs');
   assert.match(prices, /Free Rs 3\.50 \/ 50 = Rs 0\.07 \(USD 0\.000795\)/);
   assert.doesNotMatch(prices, /Free Rs 2\.50 \/ 50/);
 });

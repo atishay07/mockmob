@@ -341,12 +341,13 @@ html[data-theme='light'] .ach-send:not(:disabled) { box-shadow: inset 0 0 0 1px 
 .ach-ai { margin: 0; }
 
 /* ---- The start of a chat (ChatEmpty) --------------------------------------------------------------------------------------- */
-.ace { display: grid; gap: 14px; min-width: 0; }
+.ace { display: grid; gap: 12px; min-width: 0; }
 .ace :is(button, a):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .ace-hello { display: flex; align-items: flex-end; gap: 12px; min-width: 0; }
 /* Mobi's wave: one row of six 372 x 480 cells, shown at rest on its first frame and played once (steps(6), 0.66 s) when the
-   start appears or he is tapped. The box is fixed, so nothing moves around it; reduced motion shows the still. */
-.ace .ace-hello__mobi { flex: none; display: block; width: 68px; height: 88px; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 12px; background: none; cursor: pointer; }
+   start appears or he is tapped. The box is fixed, so nothing moves around it; reduced motion shows the still. On a phone the
+   box is no taller than the two-line question beside it, so at 390 x 844 the four tiles end above the composer's fade. */
+.ace .ace-hello__mobi { flex: none; display: block; width: 64px; height: 82px; min-width: 0; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 12px; background: none; cursor: pointer; }
 .ace-wave { display: block; width: 100%; height: 100%; background: url('/brand/mascot/mobi-wave-6.webp') 0 0 / 600% 100% no-repeat; animation: ace-wave 660ms steps(6, jump-none) 250ms 1 both; }
 @keyframes ace-wave { from { background-position-x: 0%; } 99.9% { background-position-x: 100%; } to { background-position-x: 0%; } }
 @media (min-width: 768px) { .ace .ace-hello__mobi { width: 81px; height: 104px; } }

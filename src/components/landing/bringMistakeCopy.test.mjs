@@ -101,7 +101,7 @@ test('the counts are the app’s: 2 checks an answer, and the practice set its a
 });
 
 test('what the block states is what the code does: 1 credit, 50 free credits a month, the door in Ask Mobi', () => {
-  const credits = Number(read('src/services/mobi/bringMistake.mjs').match(/export const MISTAKE_CREDITS = (\d+);/)[1]);
+  const credits = Number(read('src/services/mobi/mistakePrices.mjs').match(/export const MISTAKE_CREDITS = (\d+);/)[1]);
   const free = Number(read('src/services/credits/aiCreditWallet.js').match(/export const AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]);
   assert.equal(credits, 1);
   assert.equal(free, 50);
@@ -130,11 +130,13 @@ test('the home page hands the block the app’s own switch and numbers', () => {
   const page = read('src/app/page.js');
   assert.match(page, /<BringMistakeBlock photo=\{MISTAKE_PHOTO_ON\} credits=\{MISTAKE_CREDITS\} photoCredits=\{MISTAKE_PHOTO_CREDITS\} \/>/);
   assert.match(page, /import \{ MISTAKE_PHOTO_ON \} from '@\/\.\.\/data\/mistake_photo\.mjs';/);
-  const photoCredits = Number(read('src/services/mobi/bringMistake.mjs').match(/export const MISTAKE_PHOTO_CREDITS = (\d+);/)[1]);
+  const photoCredits = Number(read('src/services/mobi/mistakePrices.mjs').match(/export const MISTAKE_PHOTO_CREDITS = (\d+);/)[1]);
   assert.equal(photoCredits, 2);
   assert.match(read('data/mistake_photo.mjs'), /export const MISTAKE_PHOTO_ON = (true|false);/);
   assert.equal(bringMistakeWords().price, bringMistakeWords({ free: Number(read('src/services/credits/aiCreditWallet.js').match(/export const AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]) }).price, 'the block’s default is the wallet’s grant');
   assert.doesNotMatch(page, /aiCreditWallet/, 'the home page does not load the server-only wallet for one number');
+  assert.match(page, /from '@\/services\/mobi\/mistakePrices\.mjs';/, 'the prices come from the prompt-free module');
+  assert.doesNotMatch(page, /services\/mobi\/bringMistake\.mjs/, 'the home page never carries the model prompt');
 });
 
 test('the four steps are the feature’s own, short enough for one row at 360 px, and every step but the last has its key', () => {

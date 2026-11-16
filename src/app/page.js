@@ -60,7 +60,7 @@ import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
 import BringMistakeBlock from '@/components/landing/BringMistakeBlock';
 import { MISTAKE_PHOTO_ON } from '@/../data/mistake_photo.mjs';
-import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/bringMistake.mjs';
+import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
 import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
 import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
