@@ -216,7 +216,7 @@ function InClass({ data, onGone }) {
         )}
         {data.week?.figures?.length ? <p className="cls-small cls-next">{nextFigureLine(data.next)}</p> : null}
         <ShareKeys name={cls.name} code={cls.code} url={cls.url} />
-        <div className="cls-row">
+        <div className="cls-row cls-row--end">
           <div className="cls-keys"><button type="button" className="cls-link" onClick={() => setSettings(true)}>{CLASS_COPY.settings}</button></div>
         </div>
       </div>

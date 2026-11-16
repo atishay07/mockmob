@@ -51,9 +51,12 @@ function PendingInvite({ code, onJoined }) {
 }
 
 export default function ClassTodayCard({ hold = false }) {
-  const league = useClassLeague(!hold);
+  // Read only when the card can have something to say: Sunday or Monday on this device's IST clock (the server's clock then
+  // decides), or a class code this tab kept through sign-up. Tuesday to Saturday Today asks for nothing.
+  const [dow] = useState(() => istDow(Date.now()));
   const [code, setCode] = useState(null);
   useEffect(() => { const t = setTimeout(() => setCode(pendingClassCode()), 0); return () => clearTimeout(t); }, []);
+  const league = useClassLeague(!hold && (dow === 0 || dow === 1 || Boolean(code)));
   if (hold || league.status !== 'ready') return null;
   const data = league.data;
   if (!data?.class) return code ? <PendingInvite code={code} onJoined={(d) => { setCode(null); league.accept(d); }} /> : null;
