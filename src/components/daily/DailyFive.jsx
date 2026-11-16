@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
 import { useAuth } from '@/components/AuthProvider';
 import { FIRST_SET_LABEL, firstSetHref } from '@/lib/firstSet.mjs';
+import { signupPathFor } from '@/lib/auth-redirect';
 import {
-  DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
+  DAILY_FIVE_PATH, DAILY_FIVE_SIZE, DAILY_FIVE_STORE, acceptDailyFive, adoptAccount, beginRun, clockWords, dailyFiveUrl, dayLabel, dropForeign, finishDay,
   formatClock, keepAnswer, keepCheck, nextOpen, readRecord, resultFor, runStats, scoreRun, shareText, shortDate, streakLine, streakOf,
   todayDaily, withChecks,
 } from '@/lib/dailyFive.mjs';
@@ -249,6 +250,32 @@ export default function DailyFive() {
     const t = window.setTimeout(() => readAccount(todayDate, userId), 0);
     return () => window.clearTimeout(t);
   }, [userId, todayDate, readAccount]);
+
+  // A five finished signed out on this device, then a sign-in (the result's own door to sign-up promises it, 16 Nov 2026):
+  // the device's picks go to the account once, question by question through the same check, so the account's record is built
+  // the only way it ever is. The first check of a question still stands: an account that already holds answers keeps its own.
+  const carried = useRef(null);
+  useEffect(() => {
+    if (!userId || !accountReady || accountRecord || !result || result.saved || !five) return undefined;
+    if (!Array.isArray(result.picks) || (result.by && result.by !== userId)) return undefined;
+    const key = `${userId}:${result.date}`;
+    if (carried.current === key) return undefined;
+    carried.current = key;
+    let alive = true;
+    (async () => {
+      for (let i = 0; i < DAILY_FIVE_SIZE; i += 1) {
+        const last = i === DAILY_FIVE_SIZE - 1 ? { ms: result.ms } : {};
+        const response = await fetch(DAILY_FIVE_CHECK_ROUTE, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: five[i].token, pick: ANSWER_LETTERS[result.picks[i]], ...last }),
+        }).catch(() => null);
+        if (!response?.ok) return; // it stays on this device, and the line under the run says so
+      }
+      if (alive) readAccount(result.date, userId);
+    })();
+    return () => { alive = false; };
+  }, [userId, accountReady, accountRecord, result, five, readAccount]);
 
   // The check: one answer to the server with its token. The pick is already kept on the device; the answer that comes back
   // is kept beside it (the server's pick stands: for a signed-in student, the first check of the question, perhaps from
@@ -553,7 +580,7 @@ export default function DailyFive() {
                 <div className="dly__on">
                   {status === 'loading' ? null : isAuthenticated
                     ? <Link href={firstSetHref()} className="mm-drill__replay">{FIRST_SET_LABEL}</Link>
-                    : <Link href="/signup" className="mm-drill__replay">Sign up free to keep your run on your account</Link>}
+                    : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">Sign up free to keep today’s five on your account</Link>}
                 </div>
               </div>
             </div>
