@@ -54,6 +54,5 @@ body .lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--
 .lp-college-pill:hover { background: var(--paper-raised-2); }
 .lp-college-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-/* The DU section's head is centred, with Mobi's seat directly above it (7 Nov 2026, owner feedback). */
-.mm.lp #du-eligibility .lp-head { justify-items: center; text-align: center; margin-inline: auto; }
-.mm.lp #du-eligibility .lp-head > .lp-sub { margin-inline: auto; }
+/* The DU section's head was centred with Mobi above it (7 Nov 2026). Since 17 Nov it starts on the page's left edge with Mobi
+   at its right (page.js, the .lp-guide-head form the Compass uses): the owner's 16 Nov phone rule, one left edge per block. */

@@ -100,9 +100,20 @@ export function poseDecision({ current, wanted, speed = 0, resting = false, now 
  * Should he be on screen? Only while the bottom bar is up for him to stand on (`docked`): he never stands over the page's own
  * content. Out for any other Mobi, a bar that carries one, the Ask sheet, the hero's first screen, the footer.
  */
-export function wantShown({ scrollY = 0, viewport = 0, otherMobi = false, barOn = false, askOpen = false, footer = false, navOpen = false, docked = true } = {}) {
+export function wantShown({ scrollY = 0, viewport = 0, otherMobi = false, barOn = false, askOpen = false, footer = false, navOpen = false, docked = true, aside = false } = {}) {
   if (!viewport || scrollY < viewport * COMPANION.heroShare) return false;
-  return docked && !otherMobi && !barOn && !askOpen && !footer && !navOpen;
+  return docked && !aside && !otherMobi && !barOn && !askOpen && !footer && !navOpen;
+}
+
+/**
+ * Where he rests (17 Nov 2026; the owner's rule: Mobi never covers words or controls). Read when the page comes to rest:
+ * `full` is whether any word or control is under his whole figure, `head` whether any is under the 26 px band his head takes
+ * when he tucks behind the bar's edge. Clear: he stands. Only his body over something: he shows his head. Both: he steps
+ * aside until the page rests somewhere clear (he does not come and go while the page moves).
+ */
+export function restSpot({ full = false, head = false } = {}) {
+  if (!full) return 'stand';
+  return head ? 'aside' : 'tuck';
 }
 
 /** Where his feet stand, in px above the screen's foot: on the dock's top edge when it is up, else his resting gap (CSS). */

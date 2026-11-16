@@ -33,9 +33,10 @@ test('the component keeps its hrefs; the landing page no longer draws the compac
   for (const c of ['b-com-hons', 'b-a-hons-economics', 'b-a-hons-english']) assert.ok(colleges.includes(`course: '${c}'`));
 });
 
-test('DU and pricing seats use the eyebrow and center classes', () => {
+test('the pricing seat uses the eyebrow and center classes; the DU seat stands at its head\'s right (17 Nov 2026)', () => {
   assert.doesNotMatch(page, /pip-seat--utility/);
-  assert.equal((page.match(/pip-seat--eyebrow pip-seat--center/g) || []).length >= 2, true);
+  assert.equal((page.match(/pip-seat--eyebrow pip-seat--center/g) || []).length >= 1, true);
+  assert.match(page, /<div className="lp-guide-head"><Reveal className="lp-head lp-head--left">\s*<h2 className="lp-h2">\{DU_HEAD\.h2\}<\/h2>[\s\S]*?<MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me\." \/><\/div>/);
 });
 
 test('ticked chips stay revealed until Show fewer (kept list)', () => {
@@ -49,9 +50,9 @@ test('named programmes are sorted by colleges and never include a group with non
   assert.match(teaser, /r\.group\.offerings > 0/);
 });
 
-test('the DU head is centred and no longer forced left on desktop', () => {
+test('the DU head starts on the page\'s one left edge (owner, 16 Nov 2026 phone rule; it was centred from 7 Nov)', () => {
   assert.doesNotMatch(read('src/app/home-sections.css'), /#du-eligibility \.lp-head/);
-  assert.match(read('src/app/home-refinements.css'), /#du-eligibility \.lp-head \{[^}]*text-align: center/);
+  assert.doesNotMatch(read('src/app/home-refinements.css'), /#du-eligibility \.lp-head \{[^}]*text-align: center/);
 });
 
 test('the dock no longer yields to a du-live bar', () => {

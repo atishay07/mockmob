@@ -11,7 +11,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Mascot } from '@/components/brand/Mascot';
 import * as scrollBus from '@/components/landing/scrollBus.mjs';
-import { COMPANION, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone } from './companionModel.mjs';
+import { COMPANION, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone, restSpot } from './companionModel.mjs';
 
 const HELLO = 'Ask me anything about CUET.';
 const ARRIVE_MS = 560;
@@ -24,15 +24,25 @@ function canDraw() {
   return !root.hasAttribute('data-pip-static') && Boolean(document.getElementById('mbp-idle'));
 }
 
-// What is directly under a point, past his own parts: a control a reader taps?
-function controlAt(x, y, self) {
+// What is directly under a point, past his own parts: a control a reader taps, or a word (17 Nov 2026: he never covers
+// either). A word is a line box of a non-blank text node of the element under the point, so the empty right end of a short
+// line, a card's padding or a picture does not count.
+function coveredAt(x, y, self) {
   const stack = document.elementsFromPoint(x, y);
   const under = stack.find((el) => !self.contains(el));
+  if (!under) return false;
   for (let el = under, depth = 0; el && el !== document.body && depth < 8; el = el.parentElement, depth += 1) {
     if (isTappable({ tag: el.tagName, role: el.getAttribute('role') || '' })) return true;
   }
+  for (const n of under.childNodes) {
+    if (n.nodeType !== 3 || !n.nodeValue.trim()) continue;
+    const range = document.createRange();
+    range.selectNodeContents(n);
+    for (const r of range.getClientRects()) if (x >= r.left - 2 && x <= r.right + 2 && y >= r.top - 2 && y <= r.bottom + 2) return true;
+  }
   return false;
 }
+const anyCovered = (xs, ys, self) => xs.some((x) => ys.some((y) => coveredAt(x, y, self)));
 
 export default function MobiCompanion() {
   const [on, setOn] = useState(false);
@@ -76,7 +86,7 @@ export default function MobiCompanion() {
     const s = {
       shown: false, others: new Set(), barOn: false, askOpen: root.dataset.askMobi === 'open', footer: false,
       y: first.y || window.scrollY, vh: first.vh || window.innerHeight, lastT: 0, speed: 0, resting: true,
-      section: '', pose: 'idle', poseAt: -Infinity, lift: 0, inset: 0, tuck: false, tuckPx: 0, deg: 0, stretch: 1, rest: true,
+      section: '', pose: 'idle', poseAt: -Infinity, lift: 0, inset: 0, tuck: false, tuckPx: 0, deg: 0, stretch: 1, rest: true, aside: false,
       bubble: 'never', bubbleAt: 0, bubbleY: 0,
     };
     const timers = { settle: 0, rest: 0, pose: 0, bubbleIn: 0, bubbleOut: 0, tuck: 0 };
@@ -102,19 +112,25 @@ export default function MobiCompanion() {
       return true;
     };
 
-    // ---- never over a control: when he settles, look under his (untucked) box; a control there tucks him down ----
+    // ---- never over a word or a control: when the page rests, look under his (untucked) box and under the band his head
+    // takes when tucked; he stands, shows his head, or steps aside until a clear rest (restSpot) ----
     const tuckCheck = () => {
       clearTimeout(timers.tuck); timers.tuck = 0;
-      if (!s.shown) return;
+      if (!wantShown({ ...wantArgs(), aside: false })) return;
       const right = window.innerWidth - COMPANION.insetPx - s.inset;
       const bottom = window.innerHeight - restBottom() - s.lift;
       const xs = [right - 42, right - 24, right - 6];
-      const ys = [bottom - COMPANION.heightPx + 8, bottom - 30, bottom - 6];
-      const hit = xs.some((x) => ys.some((y) => controlAt(x, y, node)));
-      if (hit === s.tuck) return;
-      s.tuck = hit;
-      if (hit) node.dataset.tuck = 'true'; else delete node.dataset.tuck;
-      place();
+      const full = anyCovered(xs, [bottom - COMPANION.heightPx + 8, bottom - 30, bottom - 6], node);
+      const head = full && anyCovered(xs, [bottom - COMPANION.headPx + 3, bottom - 13, bottom - 3], node);
+      const spot = restSpot({ full, head });
+      const tuck = spot === 'tuck';
+      const aside = spot === 'aside';
+      if (tuck !== s.tuck) {
+        s.tuck = tuck;
+        if (tuck) node.dataset.tuck = 'true'; else delete node.dataset.tuck;
+        place();
+      }
+      if (aside !== s.aside) { s.aside = aside; sync(); }
     };
 
     // ---- the hello, once a browser session ----
@@ -129,7 +145,12 @@ export default function MobiCompanion() {
       if (seen) { s.bubble = 'done'; return; }
       s.bubble = 'due';
       timers.bubbleIn = setTimeout(() => {
-        if (!s.shown) { s.bubble = 'never'; return; }
+        if (!s.shown || s.tuck) { s.bubble = 'never'; return; }
+        // The line stands over the page while it shows, so it only shows where it covers no word and no control; else he
+        // says it at a later rest.
+        const b = bubbleEl.getBoundingClientRect();
+        const xs = [0.06, 0.28, 0.5, 0.72, 0.94].map((f) => b.left + b.width * f);
+        if (!b.width || anyCovered(xs, [b.top + 4, b.top + b.height / 2, b.bottom - 4], node)) { s.bubble = 'never'; return; }
         s.bubble = 'on'; s.bubbleAt = performance.now(); s.bubbleY = s.y;
         bubbleEl.dataset.on = 'true';
         try { sessionStorage.setItem(COMPANION.bubbleKey, '1'); } catch { /* private mode: he may say it again next visit */ }
@@ -154,10 +175,11 @@ export default function MobiCompanion() {
     };
 
     // ---- in and out: out at once, back only after a 250 ms settle ----
-    const wanted = () => wantShown({
+    const wantArgs = () => ({
       scrollY: s.y, viewport: s.vh, otherMobi: s.others.size > 0, barOn: s.barOn, askOpen: s.askOpen, footer: s.footer,
-      navOpen: Boolean(document.getElementById('mm-nav-sheet')), docked: docked(),
+      navOpen: Boolean(document.getElementById('mm-nav-sheet')), docked: docked(), aside: s.aside,
     });
+    const wanted = () => wantShown(wantArgs());
     const stepIn = () => {
       s.shown = true;
       place();
@@ -196,6 +218,7 @@ export default function MobiCompanion() {
       writeLean(0, true);
       tryPose();
       tuckCheck();
+      if (s.shown) hello();
     };
     const offScroll = scrollBus.subscribe(({ y, dy, vh, t, resized }) => {
       const gap = s.lastT ? t - s.lastT : 16;

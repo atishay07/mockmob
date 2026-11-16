@@ -1409,9 +1409,8 @@ body .lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--
 .lp-college-pill:hover { background: var(--paper-raised-2); }
 .lp-college-pill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-/* The DU section's head is centred, with Mobi's seat directly above it (7 Nov 2026, owner feedback). */
-.mm.lp #du-eligibility .lp-head { justify-items: center; text-align: center; margin-inline: auto; }
-.mm.lp #du-eligibility .lp-head > .lp-sub { margin-inline: auto; }
+/* The DU section's head was centred with Mobi above it (7 Nov 2026). Since 17 Nov it starts on the page's left edge with Mobi
+   at its right (page.js, the .lp-guide-head form the Compass uses): the owner's 16 Nov phone rule, one left edge per block. */
 
 /* ==== src/app/mistake-lab.css ==== */
 /* ==========================================================================
@@ -5600,7 +5599,8 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
 }
 
 /* Round 11: the DU section's one quiet line to the Combo Planner, centred under the eligibility tool. The link is a 44 px target. */
-#du-eligibility .lp-combo-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 0.35rem; margin: 0.5rem 0 0; text-align: center; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; }
+/* 17 Nov 2026: on the page's left edge with the head above it (it was centred under a centred head). */
+#du-eligibility .lp-combo-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start; column-gap: 0.35rem; margin: 0.5rem 0 0; text-align: left; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; }
 #du-eligibility .lp-combo-line .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
 
 /* ==== src/app/r10-close.css ==== */

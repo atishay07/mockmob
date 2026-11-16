@@ -335,11 +335,12 @@ export default function LandingPage() {
         {/* ------------------------- FREE DU CALCULATOR --------------------- */}
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
-            <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--eyebrow pip-seat--center" />
-            <Reveal className="lp-head">
+            {/* 17 Nov 2026: the head starts on the page's one left edge with Mobi at its right, as the Compass's does (the
+                owner's 16 Nov phone rule: every word in a block starts on one edge); it was centred over a left-aligned tool. */}
+            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">{DU_HEAD.h2}</h2>
               <p className="lp-sub">{DU_HEAD.sub}</p>
-            </Reveal>
+            </Reveal><MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." /></div>
             {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
                 the section read as loading slowly). Its section is also drawn ahead while the page is idle (EligibilityTeaser). */}
             <EligibilityTeaser />

@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  COMPANION, SECTION_ASKS, SECTION_POSES, POSES, askForSection, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone,
+  COMPANION, SECTION_ASKS, SECTION_POSES, POSES, askForSection, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone, restSpot,
 } from './companionModel.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -94,6 +94,20 @@ test('the control check knows what a reader taps', () => {
   assert.ok(isTappable({ tag: 'div', role: 'button' }));
   assert.equal(isTappable({ tag: 'p' }), false);
   assert.equal(isTappable({ tag: 'section', role: 'region' }), false);
+});
+
+test('he never covers words or controls: he stands where clear, shows his head over a body-only hit, else steps aside (17 Nov 2026)', () => {
+  assert.equal(restSpot({ full: false, head: false }), 'stand');
+  assert.equal(restSpot({ full: true, head: false }), 'tuck');
+  assert.equal(restSpot({ full: true, head: true }), 'aside');
+  assert.equal(restSpot(), 'stand');
+  const base = { scrollY: 900, viewport: 844, docked: true };
+  assert.equal(wantShown({ ...base, aside: true }), false, 'aside: out until a clear rest');
+  assert.equal(wantShown({ ...base, aside: false }), true);
+  const SRC = read('MobiCompanion.jsx');
+  assert.match(SRC, /n\.nodeType !== 3/, 'words are text nodes under him, not only controls');
+  assert.match(SRC, /restSpot\(\{ full, head \}\)/);
+  assert.match(SRC, /bubbleEl\.getBoundingClientRect\(\)/, 'the hello checks its own box before it shows');
 });
 
 test('the hello leaves after 3 s or a 400 px scroll', () => {
