@@ -59,26 +59,35 @@ export const MISTAKE_PHOTO_MAX_TOKENS = 1600;
 export const MISTAKE_EFFORT = 'low';
 export const MISTAKE_TIMEOUT_MS = 35_000;
 export const MISTAKE_CREDITS = 1;
-// A photo ask: 2 credits (owner's brief, 16 Nov 2026). The arithmetic, from the guard's price row for gpt-6-luna (USD 0.10 in,
-// 0.50 out per million tokens, supabase/migrations/20261005090000_runtime_ai_price_gpt6_luna.sql), the token sizes above and
-// the per-student caps in runtime_ai_budget (Free USD 0.0284 = Rs 2.50, Pro USD 0.0568 = Rs 5, at the Rs 88 the cap rows
-// used; both plans include 50 AI credits a month):
-//   one credit is worth, at the cap: Free Rs 2.50 / 50 = Rs 0.05 (USD 0.000568); Pro Rs 5 / 50 = Rs 0.10 (USD 0.001136).
+// A photo ask: 2 credits (owner's brief, 16 Nov 2026). Prices against the caps, re-checked on 16 Nov 2026 at night when the owner
+// raised Free's monthly AI cap from Rs 2.50 to Rs 3.50 ("just fit everything within our budget and price things according to
+// it"). The guard's price row for gpt-6-luna is USD 0.10 in, 0.50 out per million tokens
+// (supabase/migrations/20261005090000_runtime_ai_price_gpt6_luna.sql). The per-student caps are rows of runtime_ai_budget, at
+// the Rs 88 to the dollar the cap rows use: Free USD 0.0398 = Rs 3.50 (supabase/migrations/20261117090000_free_ai_cap_350.sql,
+// run by the owner; the row holds USD 0.0284 = Rs 2.50 until then), Pro USD 0.0568 = Rs 5. Both plans include 50 AI credits a
+// month, so one credit is worth Free Rs 3.50 / 50 = Rs 0.07 (USD 0.000795) and Pro Rs 5 / 50 = Rs 0.10 (USD 0.001136).
+//   receipts (production runtime_ai_requests, read on 16 Nov 2026): written Ask Mobi answers average USD 0.00047 (4 since
+//     20 Oct, at most 0.000502); repairs USD 0.000305 (12, at most 0.000479); the first two real photo asks (two random photos,
+//     10:25 and 10:26 pm IST, both answered "not a test question") 2,362 prompt tokens each with the image, 13 and 32
+//     completion tokens, USD 0.000243 and 0.000252 actual against a reservation of USD 0.0020246 (about an eighth of it).
+//   so, per action, against a Free credit's Rs 0.07: a doubt with its follow-up about Rs 0.062, a repair about Rs 0.027, Study
+//     and question help about Rs 0.04, all at 1 credit; a photo ask about Rs 0.09 to 0.11 at 2 credits (Rs 0.14); a typed ask
+//     estimated at Rs 0.04 to 0.08 at 1 credit (none has run for real: about 990 input and 1,600 output tokens for a
+//     400-character paste is USD 0.00090); an ask Mobi read but cannot use about Rs 0.02 (the two photo receipts above) at
+//     MISTAKE_UNUSABLE_CREDITS (1). Every price fits, so none changes.
 //   worst case the guard can reserve (data/tests/bring_mistake_1116.test.mjs computes both with the real reserveRuntime):
 //     typed: input bound 11,407 (bytes as tokens: economics' chapter list, every character of the longest paste and both
 //            answers a quote, escaped twice) x 0.10 + 2,100 output x 0.50 = USD 0.00219 (Rs 0.19);
 //     photo: input bound 7,302 (a 300-character note) + 6,250 image tokens (1,600 x 1,600 px = 2,500 patches x 2.5) = 13,552
 //            x 0.10 + 2,600 output x 0.50 = USD 0.00266 (Rs 0.23); a photo ask's worst case is 1.21 typed asks'.
-//   expected (a 400-character paste; a 1,600 x 1,200 phone photo at the documented 1.2 multiplier; about 4 characters a token):
-//     typed: about 990 input tokens (3,110-character prompt, 840-character message) + about 1,600 output (the reply and its
-//            low-effort reasoning) = about USD 0.00090 (Rs 0.08);
-//     photo: about 1,080 text tokens + 1,900 patches x 1.2 = 2,280 image tokens, + about 1,900 output (the reply and "read")
-//            = about USD 0.00129 (Rs 0.11); a photo ask is about 1.43 typed asks.
-//   So a photo ask costs 1.2 to 1.45 typed asks: 2 credits is inside the 1.2 to 2.5 band, so it stays (1 would price a photo
-//   below a typed ask's share). At the cap's own worth an expected typed ask costs about 1.6 Free credits and a photo ask about
-//   2.3 (0.8 and 1.1 Pro credits): on the Free plan the monthly rupee cap, not the credits, is what ends a month's asks (about
-//   31 typed or 22 photo asks), for typed asks as much as photos.
+//   Each ask is let through only while this month's spend plus its own reservation fits under the cap, so the last asks of a
+//   month need that headroom: Rs 3.50 holds 18 worst-case typed or 14 worst-case photo reservations on their own.
 export const MISTAKE_PHOTO_CREDITS = 2;
+// An ask Mobi had to read but cannot use (owner, 16 Nov 2026, 10:25 pm: "if someone keeps spamming random photos ... It must
+// cost something"): the model's own "not a test question" (typed or photo) or "unreadable" (photo) takes this many credits,
+// once, through the one-step consume (src/services/mobi/mistakeAsk.js). Refusals before the model, the support reply and our
+// own failures stay free.
+export const MISTAKE_UNUSABLE_CREDITS = 1;
 /** The credits one ask costs: 2 with a photo, 1 typed. */
 export function mistakeCredits(value) {
   return value?.photo ? MISTAKE_PHOTO_CREDITS : MISTAKE_CREDITS;
@@ -116,8 +125,9 @@ export const MISTAKE_COPY = Object.freeze({
   photoKey: 'Add a photo of the question',
   photoChange: 'Change photo',
   photoRemove: 'Remove',
-  // Review, 16 Nov: 'not saved' is true of MockMob, not of the AI service, so the words say whose.
-  photoPrivacy: 'Your photo is sent to OpenAI to be read. MockMob does not save it. Leave your name and roll number out of the frame.',
+  // Review, 16 Nov: the words say whose promise it is (MockMob's). Owner, 16 Nov night: the product's screens do not name the
+  // company that reads the photo; the privacy page does (src/app/privacy/page.js).
+  photoPrivacy: 'MockMob does not keep your photo. Leave your name and roll number out of the frame.',
   photoPreparing: 'Getting the photo ready',
   photoSize: (kb) => `Your photo, ${kb} KB`,
   photoAlt: 'Your photo of the question',
@@ -171,7 +181,10 @@ export const MISTAKE_COPY = Object.freeze({
   offline: 'You are offline. This needs a connection, so nothing is sent and nothing is charged.',
   tooMany: 'Too many questions in a short time. Wait a minute and try again. Nothing was charged.',
   seeCredits: 'See your credits',
-  // Refusals (before any model call, or the model's own "not a study question"). Short and plain; nothing is charged.
+  // Refusals before any model call: short, plain and free. The model's own "not a test question" and "unreadable" use
+  // unusableLine below (1 credit once read; these words, ending "Nothing was charged.", when nothing was taken).
+  // Said before sending (the panel shows it beside the price): what an ask Mobi cannot use costs.
+  unusableRule: `If Mobi cannot find a test question in what you send, it still uses ${creditCount(MISTAKE_UNUSABLE_CREDITS)}.`,
   tooShort: 'That is too short to be a question. Paste the whole question with its options. Nothing was charged.',
   notStudy: 'That does not look like a question from a test, so Mobi has not answered it. Paste one question with its options. Nothing was charged.',
   instructions: 'Mobi reads only the question itself, not instructions to Mobi. Paste the question and its options. Nothing was charged.',
@@ -380,11 +393,25 @@ export function studyCheck({ question, photo = null } = {}) {
   return { ok: true };
 }
 
-/** The short plain refusal for a reason studyCheck (or the model) gave. */
+/** The short plain refusal for a reason studyCheck gave (before any model call: free). */
 export function refusalFor(reason) {
   if (reason === 'too_short') return MISTAKE_COPY.tooShort;
   if (reason === 'instructions') return MISTAKE_COPY.instructions;
   return MISTAKE_COPY.notStudy;
+}
+
+/**
+ * The words for an ask Mobi had to read but cannot use: the model's own verdict ('unreadable' for a photo, else 'not_study')
+ * and the credits that ask used (`charged`, 0 when nothing was taken). The one place these words are built: the server's first
+ * reply, the same ask sent again, and the panel all show what this returns.
+ */
+export function unusableLine(verdict, charged = 0) {
+  const unreadable = verdict === 'unreadable';
+  const used = Math.max(0, Math.trunc(Number(charged) || 0));
+  if (!used) return unreadable ? MISTAKE_COPY.unreadable : MISTAKE_COPY.notStudy;
+  return unreadable
+    ? `Mobi could not read a question in that photo. Try a sharper, closer photo, or type it. Reading it used ${creditCount(used)}.`
+    : `That does not look like a question from a test, so Mobi has not answered it. Reading it used ${creditCount(used)}.`;
 }
 
 // ---- The prompt --------------------------------------------------------------------------------------------------------------
@@ -634,16 +661,17 @@ export function nextStep(subject, chapter = null) {
 }
 
 /**
- * The price line before sending, in Ask Mobi's own words. `balance` is the wallet total when known. Typed: exactly as before
- * photos. With a photo chosen, both prices, so the student sees which one applies.
+ * The price line before sending, in Ask Mobi's own words. `balance` is the wallet total when known. With a photo chosen, both
+ * prices, so the student sees which one applies. Owner, 16 Nov night: no line says who writes the reply.
  */
 export function priceLine(balance = null, { photo = false } = {}) {
   const have = Number.isFinite(balance) ? ` You have ${Math.max(0, Math.trunc(balance)).toLocaleString('en-IN')}.` : '';
-  if (photo) return `An AI service writes it. A photo uses ${MISTAKE_PHOTO_CREDITS} credits. A typed question uses ${MISTAKE_CREDITS}.${have} A reply that fails uses none.`;
-  return `An AI service writes it. This uses ${MISTAKE_CREDITS} credit.${have} A reply that fails uses none.`;
+  if (photo) return `A photo uses ${MISTAKE_PHOTO_CREDITS} credits. A typed question uses ${MISTAKE_CREDITS}.${have} A reply that fails uses none.`;
+  return `This uses ${MISTAKE_CREDITS} credit.${have} A reply that fails uses none.`;
 }
 
-const SAYS_CHARGE = /nothing (?:extra |more )?(?:was|is|will be) charged|no credits? (?:was |were |is )?used|not charged|returns? automatically|credits? (?:have|has) not been used/i;
+// A line that already says what happened to the credits (unusableLine's "Reading it used 1 credit." among them) is shown as it is.
+const SAYS_CHARGE = /nothing (?:extra |more )?(?:was|is|will be) charged|no credits? (?:was |were |is )?used|not charged|returns? automatically|credits? (?:have|has) not been used|used \d+ credits?\b/i;
 const withCharge = (line, fallback) => {
   const t = typeof line === 'string' && line.trim() ? line.trim() : fallback;
   return SAYS_CHARGE.test(t) ? t : `${t.replace(/\s+$/, '')}${/[.?]$/.test(t) ? '' : '.'} Nothing was charged.`;
@@ -671,6 +699,9 @@ export function mistakeOutcome(outcome, { credits = MISTAKE_CREDITS } = {}) {
   }
   if (res?.ok) return { state: 'unknown', message: MISTAKE_COPY.lost };
   const error = typeof body?.error === 'string' ? body.error : '';
+  // The same request came back and the server could not read whether Mobi's first look at it used a credit: Try again sends
+  // the SAME request (never a second charge), as for an answer lost on the way.
+  if (body?.status === 'unconfirmed') return { state: 'unknown', message: MISTAKE_COPY.lost };
   // The photo was refused before anything was reserved: sending it again would be refused the same way, so no Try again. Off:
   // the panel drops the photo and its key ("photoOff").
   if (error === 'photo_off') return { state: 'refused', message: withCharge(body?.message, MISTAKE_COPY.photoOff), photoOff: true };

@@ -19,6 +19,9 @@ import { MISTAKE_COPY, readMistakeBody } from '@/services/mobi/bringMistake.mjs'
 // A photo of the question (lane web/1116-photo): 2 credits, same lifecycle. The body cap rises only by the photo's own base64
 // and only when a photo is in the body (readMistakeBody, mistakeBodyCheck). The photo is never stored and never logged:
 // nothing here logs the body, and the saved turn keeps Mobi's reading of the photo, not the photo.
+// An ask Mobi had to read but cannot use (its own "not a test question" or "unreadable", lane web/1116n-price): the reservation
+// is released and 1 credit is taken once through the one-step consume (mistakeDeps consume); the reply says so, and the wallet
+// below is read after it like after any charge.
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 

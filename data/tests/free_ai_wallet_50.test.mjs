@@ -16,7 +16,9 @@ test('the Free monthly allowance is 50, Pro still 50, and the Free spending cap 
   const src = file('src/services/credits/aiCreditWallet.js');
   assert.match(src, /export const AI_FREE_MONTHLY_CREDITS = 50;/);
   assert.match(src, /export const AI_PRO_INCLUDED_MONTHLY_CREDITS = 50;/);
-  assert.match(src, /export const AI_FREE_BUDGET_INR_CAP = 2\.5;/);
+  // The constant now mirrors 20261117090000_free_ai_cap_350.sql (Rs 3.50, owner 16 Nov 2026; data/tests/free_ai_cap_350.test.mjs).
+  // This file's own migration still says what it set on 18 Oct.
+  assert.match(src, /export const AI_FREE_BUDGET_INR_CAP = 3\.5;/);
   assert.ok(MIGRATION.includes("monthly_cap_usd = 0.0284 where id = 'student_user_free'"), 'Rs 2.50 at Rs 88 is USD 0.0284');
   assert.ok(UNDO.includes("monthly_cap_usd = 0.0114 where id = 'student_user_free'"), 'the undo restores the Rs 1 cap');
 });

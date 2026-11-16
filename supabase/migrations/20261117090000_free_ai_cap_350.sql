@@ -1,0 +1,23 @@
+-- Free monthly AI cap: Rs 2.50 -> Rs 3.50 (owner, 16 Nov 2026, about 10:30 pm IST: "we had capped it to no more than [Rs 2.50]
+-- in monthly API usage ... Increase it to Rs 3.5").
+-- Companion to src/services/credits/aiCreditWallet.js (AI_FREE_BUDGET_INR_CAP = 3.5) and the price block in
+-- src/services/mobi/bringMistake.mjs. NOT applied by this branch and NOT applied by a deploy: the owner runs it on production
+-- (Supabase SQL editor) when he chooses. Until then the row stays USD 0.0284 (Rs 2.50) and that is what the database enforces.
+--
+-- runtime_ai_budget 'student_user_free' is the per-student monthly spend cap reserve_runtime_ai checks for a Free student
+-- (latest body in 20261018210000_one_credits_balance.sql): USD 0.0284 (Rs 2.50, set by 20261018130000_free_ai_wallet_50.sql)
+-- -> USD 0.0398 (Rs 3.50 at the Rs 88 to the dollar the cap rows use; 3.50 / 88 = 0.03977).
+-- Evidence, production runtime_ai_requests read on 16 Nov 2026 (read-only):
+--   written Ask Mobi answers average USD 0.00047 (4 calls since 20 Oct, at most 0.000502); repairs average USD 0.000305 (12 calls,
+--   at most 0.000479); the first two real photo calls (two random photos at 10:25 and 10:26 pm IST) 2,362 prompt tokens each
+--   with the image, 13 and 32 completion tokens, USD 0.000243 and 0.000252 actual against a reservation of USD 0.0020246.
+-- At Rs 3.50 one of Free's 50 credits is worth Rs 0.07 (USD 0.000795). Every 1-credit action fits in that (a doubt with its
+-- follow-up about Rs 0.062, a repair Rs 0.027, Study and question help about Rs 0.04), a photo mistake at 2 credits fits (about
+-- Rs 0.09 to 0.11 a use), and a typed mistake at 1 credit is estimated at Rs 0.04 to 0.08 (none has run for real). So no price
+-- changes; only the cap.
+-- Pro's per-user row (student_user_paid, USD 0.0568 = Rs 5) and the global 'student_ai' row are NOT touched by this file.
+--
+-- Rollback: supabase/undo/20261117090000_free_ai_cap_350.undo.sql (puts the row back to USD 0.0284). Tested by
+-- data/tests/free_ai_cap_350.test.mjs.
+
+update public.runtime_ai_budget set monthly_cap_usd = 0.0398 where id = 'student_user_free';
