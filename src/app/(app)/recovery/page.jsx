@@ -31,6 +31,7 @@ export default function RecoveryJourney() {
   function beginCheck() {
     const subject = episode.subject || plan.supportedConcepts.find(c => c.id === episode.conceptId)?.subject;
     if (!subject) {setError('The pathway is currently unavailable. Your credits have not been used.');return;}
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- kept as it was before Next 16.3 added the rule: the test opens as a fresh page
     window.location.assign(`/test?${new URLSearchParams({subject,mode:'quick',count:'5',generationKey:crypto.randomUUID(),episodeId:episode.id})}`);
   }
   // Until a pathway is released the page sends the student to where the work is, with one action, and a real empty state for a

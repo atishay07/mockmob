@@ -44,6 +44,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
+        // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- kept as it was before Next 16.3 added the rule: sign-in opens as a fresh page
         window.location.href = `/login?callbackUrl=${encodeURIComponent('/pricing/ai-credits')}`;
         return;
       }
