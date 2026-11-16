@@ -74,9 +74,11 @@ test('NTA style: NTA\'s header, section bar, keys and palette, in NTA\'s words a
   try {
     assert.equal(h.one('.nta-runner').getAttribute('data-interface'), 'nta');
     const page = h.text(s.container);
-    for (const words of ['CUET (UG)', 'Question Paper', 'Subject Name', 'Accountancy', 'Remaining Time', 'Question 1:', 'Mark for Review & Next', 'Clear Response', 'Save & Next', 'Question Palette', 'Warnings 0/3']) {
+    for (const words of ['CUET (UG)', 'Question Paper', 'Subject Name', 'Accountancy', 'Remaining Time', 'Question 1:', 'Mark for Review & Next', 'Clear Response', 'Save & Next', 'Question Palette']) {
       assert.ok(page.includes(words), `"${words}" is on the NTA-style screen`);
     }
+    // LK195: the warnings counter is gone (it never moved); the rule is said on the instructions page and in the warning itself.
+    assert.ok(!page.includes('Warnings'), 'no warnings counter');
     // The sentence-case keys, the blue header with its progress bar and the four rounded counters are gone from NTA style.
     for (const old of ['Save & next', 'Mark for review & next', 'Clear response', 'Submit test', 'MockMob CUET Test Console']) assert.ok(!page.includes(old), `"${old}" is not NTA's`);
     assert.equal(h.find('.nta-test-header').length, 0);
@@ -96,45 +98,47 @@ test('NTA style: NTA\'s header, section bar, keys and palette, in NTA\'s words a
   } finally { await s.unmount(); }
 });
 
-test('NTA style: the chosen option clicked again clears it; Mark for Review & Next marks; Save & Next saves and takes the mark off; Clear Response clears', async () => {
+test('NTA style (exam-true saving): a choice is held until Save & Next or Mark for Review & Next; the chosen option again, or Clear Response, clears it', async () => {
   const s = await ntaStyle();
   try {
+    const pressed = () => h.find('.nta-option').map((o) => o.getAttribute('aria-pressed'));
     await h.advance(2000); await h.click(h.find('.nta-option')[1]);
-    assert.equal(h.find('.nta-option')[1].getAttribute('aria-pressed'), 'true');
-    assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Answered');
+    assert.deepEqual(pressed(), ['false', 'true', 'false', 'false'], 'the choice shows');
+    assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Not Answered', 'but it is not saved');
     await h.advance(1000); await h.click(h.find('.nta-option')[1]);
-    assert.equal(h.find('.nta-option')[1].getAttribute('aria-pressed'), 'false', 'clicking the chosen option again deselects it');
-    assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Not Answered');
+    assert.deepEqual(pressed(), ['false', 'false', 'false', 'false'], 'clicking the chosen option again deselects it');
     await h.advance(1000); await h.click(h.find('.nta-option')[0]);
     await h.advance(1000); await h.click(h.one('.nta-nav-button', 'Mark for Review & Next'));
-    assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Answered & Marked for Review');
+    assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Answered & Marked for Review', 'Mark for Review & Next saves and marks');
     assert.equal(heading(), 'Question 2:');
     assert.equal(chip(2).getAttribute('aria-current'), 'step');
-    // Back to question 1 by the palette, then Save & Next: saved as answered, the review mark taken off.
+    // Back to question 1 by the palette: its saved answer shows; Save & Next keeps it and takes the review mark off.
     await h.advance(1000); await h.click(chip(1));
     assert.equal(heading(), 'Question 1:');
+    assert.deepEqual(pressed(), ['true', 'false', 'false', 'false']);
     await h.advance(1000); await h.click(h.one('.nta-nav-button', 'Save & Next'));
     assert.equal(chip(1).getAttribute('aria-label'), 'Question 1, Answered');
     assert.equal(heading(), 'Question 2:');
-    // The keyboard still answers (1 to 4) and moves (arrows); Clear Response clears the question in focus.
+    // The keyboard chooses as a press does (held); Clear Response lets it go; an arrow moves on without saving.
     await h.advance(1000); await h.key('3');
-    assert.equal(chip(2).getAttribute('aria-label'), 'Question 2, Answered');
-    await h.advance(1000); await h.click(h.one('.nta-nav-button', 'Clear Response'));
+    assert.deepEqual(pressed(), ['false', 'false', 'true', 'false']);
     assert.equal(chip(2).getAttribute('aria-label'), 'Question 2, Not Answered');
+    await h.advance(1000); await h.click(h.one('.nta-nav-button', 'Clear Response'));
+    assert.deepEqual(pressed(), ['false', 'false', 'false', 'false']);
     await h.advance(1000); await h.key('ArrowRight');
     assert.equal(heading(), 'Question 3:');
     assert.deepEqual(legend(), ['3Not Visited', '2Not Answered', '1Answered', '0Marked for Review', '0Answered & Marked for Review (will be considered for evaluation)']);
-    // What is sent: the answer, and the record of every press (the mark on, then off).
+    // What is sent: the saved answer, and the record of every save and mark (a held choice is never recorded).
     await h.click(h.one('.nta-submit-button', 'Submit'));
-    await h.click(h.one('.nta-n-summary button', 'Submit'));
+    await h.click(h.one('.nta-n-summary button', 'Yes'));
     const [sent] = s.submitted();
     assert.deepEqual(sent.body.answers, { q1: 0 });
     assert.deepEqual(sent.body.events.filter((e) => e.type === 'mark').map((e) => [e.qid, e.marked]), [['q1', true], ['q1', false]]);
-    assert.deepEqual(sent.body.events.filter((e) => e.type === 'answer').map((e) => [e.qid, e.answer]), [['q1', 1], ['q1', null], ['q1', 0], ['q2', 2], ['q2', null]]);
+    assert.deepEqual(sent.body.events.filter((e) => e.type === 'answer').map((e) => [e.qid, e.answer]), [['q1', 0]]);
   } finally { await s.unmount(); }
 });
 
-test('NTA style: the > fold folds the palette; Submit opens the section summary, Keep answering sends nothing, its Submit sends once', async () => {
+test('NTA style: the > fold folds the palette; Submit opens NTA\'s Exam Summary, No sends nothing, Yes sends once', async () => {
   const s = await ntaStyle();
   try {
     const fold = () => h.one('.nta-n-fold');
@@ -152,17 +156,21 @@ test('NTA style: the > fold folds the palette; Submit opens the section summary,
     const summary = h.one('.nta-n-summary');
     assert.equal(summary.getAttribute('role'), 'dialog');
     assert.equal(summary.getAttribute('aria-modal'), 'true');
-    assert.match(h.text(summary), /^Submit the test\?Accountancy, 6 questions5Not Visited1Not Answered0Answered0Marked for Review0Answered & Marked for Review/);
+    // NTA's own summary (nta.ac.in/Quiz, 17 Nov 2026): the counts under their names in NTA's order, then the question, Yes and No.
+    assert.equal(h.text(h.one('.nta-n-summary h2')), 'Exam Summary');
+    assert.deepEqual(h.find('.nta-n-table--wide th').map((th) => h.text(th)), ['No. of Questions', 'Answered', 'Not Answered', 'Marked for Review', 'Answered & Marked for Review (will be considered for evaluation)', 'Not Visited']);
+    assert.deepEqual(h.find('.nta-n-table--wide td').map((td) => h.text(td)), ['6', '0', '1', '0', '0', '5']);
+    assert.match(h.text(summary), /Are you sure you want to submit for final marking\?No changes will be allowed after submission\.YesNo$/);
     assert.equal(s.submitted().length, 0);
-    await h.advance(2000); await h.click(h.one('.nta-n-summary button', 'Keep answering'));
+    await h.advance(2000); await h.click(h.one('.nta-n-summary button', 'No'));
     assert.equal(h.find('.nta-n-summary').length, 0);
-    assert.equal(s.submitted().length, 0, 'Keep answering sends nothing');
+    assert.equal(s.submitted().length, 0, 'No sends nothing');
     // Escape closes it too.
     await h.click(h.one('.nta-n-palette .nta-submit-button', 'Submit'));
     await h.key('Escape');
     assert.equal(h.find('.nta-n-summary').length, 0);
     await h.advance(1000); await h.click(h.one('.nta-n-palette .nta-submit-button', 'Submit'));
-    await h.click(h.one('.nta-n-summary button', 'Submit'));
+    await h.click(h.one('.nta-n-summary button', 'Yes'));
     assert.equal(s.submitted().length, 1);
     const types = s.submitted()[0].body.events.map((e) => e.type + (e.via ? `:${e.via}` : '') + (e.reason ? `:${e.reason}` : ''));
     assert.deepEqual(types, ['visit', 'visit:sheet', 'visit', 'visit:sheet', 'visit', 'visit:sheet', 'end:submit'], 'each look at the summary is the NTA submit check\'s sheet visit');

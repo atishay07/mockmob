@@ -25,7 +25,8 @@ import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
 import './practice-run.css';
 import MobiReact from '@/components/brand/MobiReact';
-import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
+import { useExamIntegrity, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
+import NtaInstructions from '@/components/arena/NtaInstructions';
 import { nextEvent, onScreenQid, endReason, captureMeta, usePresenceCapture } from '@/lib/runnerCapture';
 import { shownName } from '@/lib/displayName.mjs';
 import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, FileText, X } from 'lucide-react';
@@ -59,6 +60,9 @@ const NTA_LEGEND = [
   ['marked-answered', 'Answered & Marked for Review (will be considered for evaluation)'],
 ];
 const ntaStateName = (state) => (NTA_LEGEND.find(([key]) => key === state)?.[1] || state).replace(/ \(.*\)$/, '');
+// NTA's submit summary (its own mock at nta.ac.in/Quiz, seen 17 Nov 2026): the counts in this order, then "Are you sure".
+const NTA_SUMMARY = ['answered', 'visited', 'marked', 'marked-answered', 'notvisited'];
+const NTA_ASK = ['Are you sure you want to submit for final marking?', 'No changes will be allowed after submission.'];
 const two = (n) => String(n).padStart(2, '0');
 
 // A small modal (NTA style's Question Paper and its submit summary): focus moves in, Tab stays inside, Escape closes, and
@@ -227,8 +231,27 @@ function getQuestionBlock(questions, index) {
   };
 }
 
-function visitedForBlock(questions, index) {
-  const block = getQuestionBlock(questions, index);
+// NTA style shows one question at a time, as the exam does (a passage question keeps its passage beside it), so its "page" is
+// that one question: Previous, Save & Next and the record of what was on screen all go question by question there.
+function soloBlock(questions, index) {
+  const current = questions[index];
+  const key = passageKeyFor(current);
+  const passageText = passageTextFor(current);
+  const isPassage = !!(key && passageText);
+  return {
+    isPassage,
+    passageKey: isPassage ? key : '',
+    passageText: isPassage ? passageText : '',
+    passageTitle: isPassage ? passageTitleFor(current) : '',
+    startIdx: index,
+    endIdx: index,
+    entries: current ? [{ question: current, index }] : [],
+  };
+}
+const blockFor = (questions, index, solo) => (solo ? soloBlock(questions, index) : getQuestionBlock(questions, index));
+
+function visitedForBlock(questions, index, solo = false) {
+  const block = blockFor(questions, index, solo);
   return Object.fromEntries(block.entries.filter((entry) => entry.question?.id).map((entry) => [entry.question.id, true]));
 }
 
@@ -286,8 +309,22 @@ function TestRunner() {
   const count = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
   const isNtaMode = modeId === 'nta';
-  const [examInterface, setExamInterface] = useState(() => searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob');
+  // An NTA-mode paper opens in NTA style (owner LK297, 17 Nov 2026: the faithful twin); ?interface=mockmob keeps MockMob's
+  // screen for a student who chose it. Either can be switched inside the paper.
+  const [examInterface, setExamInterface] = useState(() => searchParams.get('interface') === 'mockmob' ? 'mockmob' : 'nta');
   const classicInterface = isNtaMode && examInterface === 'nta';
+  const classicRef = useRef(classicInterface);
+  useEffect(() => { classicRef.current = classicInterface; }, [classicInterface]);
+  // NTA style only (exam-true saving, LK297): a choice made but not yet saved by Save & Next or Mark for Review & Next. It lives
+  // in this page alone, never in the draft, the events or the submit, so a reload, a second tab, the offline queue and the
+  // clock running out all see saved answers only. One question is on screen at a time, so at most one choice is held.
+  const [heldChoice, setHeldChoice] = useState(null); // { qid, option }
+  const heldRef = useRef(null);
+  const dropHeld = useCallback(() => { if (!heldRef.current) return; heldRef.current = null; setHeldChoice(null); }, []);
+  // The instructions page comes before an NTA paper's clock (N1): the paper is asked for only after Start.
+  const [awaitingStart, setAwaitingStart] = useState(false);
+  const [startTick, setStartTick] = useState(0);
+  const startPressedRef = useRef(false);
 
   const [questions, setQuestions] = useState([]);
   const [idx, setIdx] = useState(0);
@@ -415,7 +452,7 @@ function TestRunner() {
   const recordPage = useCallback((list, index, via) => {
     const focus = list?.[index];
     if (!focus?.id) return;
-    for (const entry of getQuestionBlock(list, index).entries) {
+    for (const entry of blockFor(list, index, classicRef.current).entries) {
       if (entry.question?.id && entry.question.id !== focus.id) recordEvent(entry.question.id, 'visit', 'set');
     }
     recordEvent(focus.id, 'visit', via);
@@ -458,6 +495,7 @@ function TestRunner() {
       setMobShort(null);
       setSelectionMeta(null);
       setPendingSubmission(false);
+      setAwaitingStart(false);
       autoSubmitTried.current = false;
       submittedRef.current = false;
       sentRef.current = false;
@@ -530,6 +568,17 @@ function TestRunner() {
         }
       }
 
+      // NTA mode opens on its instructions page (N1): nothing is asked of the server, so no clock runs, until Start. A paper
+      // already running goes straight back to its clock: one with a saved draft (above), a session id, or the start receipt a
+      // reload keeps in the address.
+      const runningReceipt = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('startReceipt');
+      if (isNtaMode && !startPressedRef.current && !launch.get('sessionId') && !runningReceipt) {
+        if (!alive) return;
+        setAwaitingStart(true);
+        setLoading(false);
+        return;
+      }
+
       try {
         const qs = new URLSearchParams({ subject: subjectId, count: String(count), mode: modeId, includeMeta: '1' });
         if (chapters) qs.set('chapters', chapters);
@@ -592,13 +641,13 @@ function TestRunner() {
         const restoredVisited = {};
         for (const qid of restored.touched) {
           const at = loadedQuestions.findIndex((question) => question.id === qid);
-          if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at));
+          if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at, classicRef.current));
         }
         // The first question, reached by a resume when the server already holds events for this session.
         recordPage(loadedQuestions, 0, eventsRef.current.length ? 'resume' : undefined);
         setQuestions(loadedQuestions);
         setAnswers(restored.answers);
-        setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0) });
+        setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0, classicRef.current) });
         markedRef.current = restored.marked;
         setMarked(restored.marked);
         rememberStart(meta?.startReceipt);
@@ -672,7 +721,19 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, legacyKey, userId, practiceLink, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, legacyKey, userId, practiceLink, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey, startTick]);
+
+  // The instructions page's Start (N1). The press is the browser's permission for fullscreen, so the exam space opens now and
+  // the paper arrives in it (the guard then needs no second dialog); then the paper is asked for, and its clock starts.
+  const startNtaPaper = useCallback(() => {
+    if (startPressedRef.current) return;
+    startPressedRef.current = true;
+    const target = fullscreenTarget.current;
+    try {
+      if (target?.requestFullscreen && document.fullscreenEnabled !== false && !document.fullscreenElement) target.requestFullscreen().catch(() => {});
+    } catch { /* no fullscreen here: the guard's own dialog asks to stay in this window */ }
+    setStartTick((n) => n + 1);
+  }, []);
 
   // The saved draft is also kept here, so an away can be written at once: a tab being closed may never render again.
   const draftRef = useRef(null);
@@ -764,8 +825,12 @@ function TestRunner() {
   // via: how the question was reached (next, previous, palette, swipe); none for a question picked inside a passage.
   const gotoQuestion = useCallback((nextIdx, { from = 0, via } = {}) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
+    const solo = classicRef.current;
+    // NTA style: leaving a question by Previous, the palette or an arrow key does NOT save a choice made on it (NTA's own
+    // instructions, point 7a); the choice is let go and the question keeps what was saved.
+    if (solo) dropHeld();
     const newPage = questionsRef.current.length > 0
-      && getQuestionBlock(questionsRef.current, idxRef.current).startIdx !== getQuestionBlock(questionsRef.current, safe).startIdx;
+      && blockFor(questionsRef.current, idxRef.current, solo).startIdx !== blockFor(questionsRef.current, safe, solo).startIdx;
     if (practiceRun && questionsRef.current.length) {
       const leaving = getQuestionBlock(questionsRef.current, idxRef.current).startIdx;
       const arriving = getQuestionBlock(questionsRef.current, safe).startIdx;
@@ -782,18 +847,30 @@ function TestRunner() {
     // A new page records every question it shows; inside the same page only the question now in focus.
     if (newPage) recordPage(questionsRef.current, safe, via);
     else if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit', via);
-    const patch = visitedForBlock(questionsRef.current, safe);
+    const patch = visitedForBlock(questionsRef.current, safe, solo);
     setVisited((prev) => ({ ...prev, ...patch }));
-  }, [recordEvent, recordPage, practiceRun]);
+  }, [recordEvent, recordPage, practiceRun, dropHeld]);
 
+  // One clock, read from the deadline (owner N8, 17 Oct: "the timer is sometimes working and sometimes it's not"). The page ticks
+  // just after each whole second of the countdown, so every second shows for a full second: no 250 ms beat that made some
+  // seconds look short and others stall. Coming back to the tab (a background tab's timers are slowed) reads the clock at once
+  // and lines the ticks up again.
   useEffect(() => {
-    if (!endsAt) return;
+    if (!endsAt) return undefined;
+    let align = null;
+    let every = null;
     const tick = () => setNow(Date.now());
-    const h = setInterval(tick, 250);
-    const onVis = () => tick();
+    const start = () => {
+      clearTimeout(align); clearInterval(every);
+      tick();
+      const into = (((endsAt - Date.now()) % 1000) + 1000) % 1000;
+      align = setTimeout(() => { tick(); every = setInterval(tick, 1000); }, into + 1);
+    };
+    start();
+    const onVis = () => { if (!document.hidden) start(); };
     document.addEventListener('visibilitychange', onVis);
     return () => {
-      clearInterval(h);
+      clearTimeout(align); clearInterval(every);
       document.removeEventListener('visibilitychange', onVis);
     };
   }, [endsAt]);
@@ -812,7 +889,8 @@ function TestRunner() {
   usePresenceCapture(!loading && !!endsAt, recordPresence);
 
   useEffect(() => {
-    if (loading || submittedRef.current) return;
+    // Nothing runs on the instructions page yet, so leaving it asks nothing.
+    if (loading || awaitingStart || submittedRef.current) return;
     const onBeforeUnload = (e) => {
       e.preventDefault();
       e.returnValue = 'Your test is in progress. Leaving will save your spot but lose focus.';
@@ -820,7 +898,7 @@ function TestRunner() {
     };
     window.addEventListener('beforeunload', onBeforeUnload);
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
-  }, [loading]);
+  }, [loading, awaitingStart]);
 
   // The phone's Back during a running paper (15 Nov B2a). On the first tap or key inside the paper (a user gesture, so
   // Android Chrome keeps the entry) one guard entry is pushed on top of the paper's own; Back then lands on the paper's
@@ -950,6 +1028,38 @@ function TestRunner() {
     return true;
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting, practiceRun, restoreStrike]);
 
+  // NTA style: choosing an option only holds it (NTA: "To save your answer, you MUST click on the Save & Next button"). Nothing
+  // is recorded until a key saves it.
+  const holdChoice = useCallback((qid, option) => {
+    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
+    heldRef.current = { qid, option };
+    setHeldChoice({ qid, option });
+    return true;
+  }, [canAnswer, pendingSubmission, endsAt, submitting]);
+  // Save & Next and Mark for Review & Next: the held choice becomes the saved answer (one answer event, as a tap is elsewhere).
+  const saveHeld = useCallback((qid) => {
+    const held = heldRef.current;
+    if (!held || held.qid !== qid) return;
+    dropHeld();
+    if (answersRef.current[qid] !== held.option) chooseAnswer(qid, held.option);
+  }, [chooseAnswer, dropHeld]);
+  // Clear Response, or the chosen option pressed again: the choice and any saved answer go at once, so the screen never shows a
+  // blank question that still counts.
+  const clearChoice = useCallback((qid) => {
+    dropHeld();
+    if (answersRef.current[qid] !== undefined) chooseAnswer(qid, null);
+  }, [chooseAnswer, dropHeld]);
+  // A press on an option in NTA style (or its number key): the option shown as chosen, pressed again, clears it (NTA: "click on
+  // the button of the chosen option again"); any other is held.
+  const pickNta = useCallback((qid, option) => {
+    const held = heldRef.current;
+    const shown = held?.qid === qid ? held.option : answersRef.current[qid];
+    if (shown === option) clearChoice(qid);
+    else holdChoice(qid, option);
+  }, [clearChoice, holdChoice]);
+  // The switch between the two screens keeps saved answers and the clock; a choice not saved in NTA style is let go.
+  const switchInterface = useCallback((next) => { dropHeld(); setExamInterface(next); }, [dropHeld]);
+
   // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
   // server and comes back when the session is resumed on another device or after storage is cleared.
   const setMark = useCallback((qid, value) => {
@@ -1057,6 +1167,13 @@ function TestRunner() {
   }, [guardLive, armGuard, generationKey, isNtaMode]);
   // A notice in the paper's place (it cannot be sent from here, or it is open in another tab): the guard comes off.
   useEffect(() => { if (problem || elsewhere) releaseGuard(); }, [problem, elsewhere, releaseGuard]);
+  // An NTA paper that could not open after Start (which opened fullscreen) says why in the normal window, not in the exam space.
+  // Only before any question arrived: once a paper runs, its exam space is the integrity guard's to keep.
+  const opened = questions.length > 0;
+  useEffect(() => {
+    if (opened || !(problem || elsewhere || refusal || notFree || mobShort) || typeof document === 'undefined' || !document.fullscreenElement) return;
+    document.exitFullscreen?.().catch(() => {});
+  }, [opened, problem, elsewhere, refusal, notFree, mobShort]);
   const leavePaper = useCallback(async () => {
     const to = exitTo;
     setExitTo(null);
@@ -1086,7 +1203,7 @@ function TestRunner() {
       if (!canAnswer()) return;
       const tag = event.target?.tagName;
       if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || exitTo || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
-      const block = getQuestionBlock(questionsRef.current, idx);
+      const block = blockFor(questionsRef.current, idx, classicRef.current);
       if (reviewOpen) return;
       // Shift + 1 to 4 crosses an option out (practice only; shown from memory, recorded as a strike event).
       if (practiceRun && event.shiftKey && /^Digit[1-5]$/.test(event.code)) {
@@ -1104,12 +1221,13 @@ function TestRunner() {
       } else if (/^[1-4]$/.test(event.key)) {
         event.preventDefault();
         const active = questionsRef.current[idx];
-        if (active?.id) chooseAnswer(active.id, Number(event.key) - 1);
+        // NTA style: the key chooses as a press on the option does (held until a key saves it; the chosen one again clears).
+        if (active?.id) (classicRef.current ? pickNta : chooseAnswer)(active.id, Number(event.key) - 1);
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, practiceRun, reviewOpen, toggleStrike]);
+  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, pickNta, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, practiceRun, reviewOpen, toggleStrike]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -1153,7 +1271,7 @@ function TestRunner() {
   // A new question or passage set starts at its top, below the sticky header.
   const paperRef = useRef(null);
   const shownBlockRef = useRef(null);
-  const currentBlockStart = questions.length ? getQuestionBlock(questions, idx).startIdx : null;
+  const currentBlockStart = questions.length ? blockFor(questions, idx, classicInterface).startIdx : null;
   useEffect(() => {
     if (currentBlockStart == null) return;
     if (shownBlockRef.current != null && shownBlockRef.current !== currentBlockStart) {
@@ -1256,7 +1374,27 @@ function TestRunner() {
   );
 
   if (authStatus === 'loading') return <PageSpinner label="Loading test..." />;
-  if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Mobi stays outside while you answer.</ArenaCompanion>{isNtaMode ? <NtaValidationSpinner subjectId={subjectId} /> : <p role="status">Loading practice…</p>}</div>;
+  // NTA mode: the instructions page, then the paper being built, are drawn in the runner's own frame (the same element the
+  // paper is drawn in), so the fullscreen Start opened stays open while the questions arrive.
+  if (isNtaMode && awaitingStart && !loading) return (
+    <div ref={fullscreenTarget} className="nta-runner" data-interface="nta" data-phase="instructions">
+      <NtaInstructions
+        subject={displayLabel(subjectId)}
+        questions={mode.fixedCount}
+        minutes={Math.round(mode.fixedDurationSec / 60)}
+        marking={mode.marking}
+        screen={examInterface}
+        backHref={practiceLink}
+        onStart={startNtaPaper}
+      />
+    </div>
+  );
+  if (loading && isNtaMode) return (
+    <div ref={fullscreenTarget} className="nta-runner" data-interface={examInterface} data-phase="building">
+      <NtaValidationSpinner subjectId={subjectId} />
+    </div>
+  );
+  if (loading) return <div className="container-narrow px-4 pt-10"><ArenaCompanion pose="attentive" title="One question at a time.">Opening your session. Your timer appears when the questions are ready; Mobi stays outside while you answer.</ArenaCompanion><p role="status">Loading practice…</p></div>;
 
   if (refusal) return (
     <div className="container-narrow max-w-3xl px-4 pt-10">
@@ -1311,7 +1449,7 @@ function TestRunner() {
   if (!questions.length) return <PaperNotice notice={{ title: 'This paper did not open', message: 'No questions came back for it. Nothing was charged.', keys: [{ label: 'Back to Practice', href: practiceLink, primary: true }] }} />;
 
   const q = questions[idx];
-  const block = getQuestionBlock(questions, idx);
+  const block = blockFor(questions, idx, classicInterface);
   const mins = Math.floor(timeLeft / 60);
   const secs = timeLeft % 60;
   const progress = ((idx + 1) / questions.length) * 100;
@@ -1395,12 +1533,13 @@ function TestRunner() {
     else gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
   // NTA style: the key pressed decides the question's status (NTA's guidelines: Save & Next saves the answer, Mark for Review
-  // & Next marks it for review), so Save & Next leaves the question unmarked; it is the one way to take a mark off here. The
-  // answer itself is saved the moment it is chosen, as in every MockMob paper. On the last question the key submits, as Next does.
+  // & Next marks it for review), so Save & Next leaves the question unmarked; it is the one way to take a mark off here. It saves
+  // the choice on screen (exam-true saving: nothing else does) and opens the next question. On the last question it saves and
+  // stays, as NTA's own mock does (seen 17 Nov 2026); Submit is at the foot of the Question Palette.
   const saveAndNext = () => {
-    if (isLastBlock) { confirmAndSubmit(); return; }
+    saveHeld(q.id);
     setMark(q.id, false);
-    gotoQuestion(block.endIdx + 1, { via: 'next' });
+    if (!isLastBlock) gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
   // NTA's grey circle arrows: down to the end of the question area, up to its top.
   const scrollQuestion = (toEnd) => {
@@ -1460,7 +1599,10 @@ function TestRunner() {
 
 
 
+  // NTA style: saves the choice on screen too (NTA: "to save your answer for the current question, mark it for review"), so a
+  // question answered and marked is evaluated; one marked with no answer is not.
   const markAndNext = () => {
+    saveHeld(q.id);
     setMark(q.id, true);
     if (!isLastBlock) gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
@@ -1667,7 +1809,11 @@ function TestRunner() {
   // Palette on the right with the section summary above it and the > fold at its left. Phones keep the palette as a sheet.
   const ntaName = shownName(user?.name, user?.email);
   const ntaTime = `${two(Math.floor(timeLeft / 3600))}:${two(Math.floor(timeLeft / 60) % 60)}:${two(timeLeft % 60)}`;
-  const ntaKeyLabel = isLastBlock ? (submitting ? 'Submitting...' : NTA.submit) : NTA.save;
+  const ntaKeyLabel = submitting ? 'Submitting...' : NTA.save;
+  // What NTA style shows as chosen: a held choice on this question, else its saved answer.
+  const shownAnswer = (qid) => (heldChoice?.qid === qid ? heldChoice.option : answers[qid]);
+  // Clear Response on the question in focus.
+  const clearOnScreen = () => clearChoice(q.id);
   const renderNtaLegend = () => (
     <ul className="nta-n-legend" aria-label="Section summary">
       {NTA_LEGEND.map(([state, label]) => (
@@ -1679,21 +1825,17 @@ function TestRunner() {
     const texts = plainOptionTexts(question.options);
     return (
       <section key={question.id} className={`nta-question-block ${question.id === q.id ? 'is-active' : ''}`} aria-labelledby={`question-title-${question.id}`}>
-        {block.isPassage && <span className="nta-question-number">{NTA.question(questionIndex + 1)}</span>}
         <h2 id={`question-title-${question.id}`} className="nta-question-text">{question.question}</h2>
         <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
           {question.options.map((opt, optionIndex) => {
-            const selected = answers[question.id] === optionIndex;
+            // The choice on screen: held (not saved yet) or saved. Pressing it again clears it (pickNta).
+            const selected = shownAnswer(question.id) === optionIndex;
             return (
               <button
                 key={`${question.id}-${optionIndex}`}
                 type="button"
                 className={`nta-option ${selected ? 'is-selected' : ''}`}
-                onClick={() => {
-                  // NTA: clicking the chosen option again clears it.
-                  if (selected) clearAnswer(question.id); else chooseAnswer(question.id, optionIndex);
-                  if (questionIndex !== idx) gotoQuestion(questionIndex);
-                }}
+                onClick={() => pickNta(question.id, optionIndex)}
                 aria-pressed={selected}
                 disabled={pendingSubmission || timeLeft <= 0 || submitting}
               >
@@ -1727,14 +1869,13 @@ function TestRunner() {
     </header>
     <div className="nta-n-sections">
       <span className="nta-n-tab" aria-current="true">{subjectLabel}</span>
-      <span className="nta-integrity-status"><IntegrityPill strikes={integrity.strikes} /></span>
     </div>
     {hasNotices ? <div className="nta-n-notices">{notices}</div> : null}
 
     <div className="nta-n-body" data-palette={ntaPaletteOpen ? 'open' : 'closed'}>
       <div className="nta-paper nta-n-main" ref={paperRef}>
         <div className="nta-n-qhead">
-          <h1>{block.isPassage ? `Questions ${block.startIdx + 1} to ${block.endIdx + 1}:` : NTA.question(idx + 1)}</h1>
+          <h1>{NTA.question(idx + 1)}</h1>
           <button type="button" className="nta-n-arrow" onClick={() => scrollQuestion(true)} aria-label="Go to the end of the question"><ArrowDown aria-hidden="true" /></button>
         </div>
         <div className="nta-n-pane" ref={ntaPaneRef} data-passage={block.isPassage ? 'true' : undefined}>
@@ -1755,7 +1896,7 @@ function TestRunner() {
         </div>
         <div className="nta-navigation">
           <button type="button" className="nta-nav-button nta-classic-review" onClick={markAndNext}>{NTA.markNext}</button>
-          <button type="button" className="nta-nav-button" onClick={() => clearAnswer(q.id)}>{NTA.clearResponse}</button>
+          <button type="button" className="nta-nav-button" onClick={clearOnScreen}>{NTA.clearResponse}</button>
           <button type="button" className="nta-nav-button nta-n-prev" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>Previous</button>
           <button type="button" className="nta-nav-button nta-n-save" onClick={saveAndNext} disabled={submitting}>{ntaKeyLabel}</button>
         </div>
@@ -1775,7 +1916,7 @@ function TestRunner() {
 
     <div className="nta-mobile-actions">
       <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>Previous</button>
-      <button type="button" onClick={() => clearAnswer(q.id)} disabled={answers[q.id] === undefined}>{NTA.clearResponse}</button>
+      <button type="button" onClick={clearOnScreen} disabled={shownAnswer(q.id) === undefined}>{NTA.clearResponse}</button>
       <button ref={mobilePaletteTriggerRef} type="button" onClick={() => setMobilePaletteOpen(true)} aria-label={`Question palette, ${answered} of ${questions.length} answered`}>{NTA.paletteTitle}</button>
       <button type="button" className="nta-m-review" onClick={markAndNext}>{NTA.markNext}</button>
       <button type="button" className="is-primary nta-m-save" onClick={saveAndNext} disabled={submitting}>{ntaKeyLabel}</button>
@@ -1800,16 +1941,41 @@ function TestRunner() {
     )}
 
     {ntaSummaryOpen && !submitting && (
-      <div ref={ntaSummaryRef} className="nta-n-dialog nta-n-summary" role="dialog" aria-modal="true" aria-labelledby="nta-n-summary-title" aria-describedby="nta-n-summary-note">
+      // NTA's Exam Summary (its own mock, seen 17 Nov 2026): the counts in a table, then "Are you sure" with Yes and No. Phones get
+      // the same table turned on its side (one row a status), so nothing scrolls sideways.
+      <div ref={ntaSummaryRef} className="nta-n-dialog nta-n-summary" role="dialog" aria-modal="true" aria-labelledby="nta-n-summary-title" aria-describedby="nta-n-summary-ask">
         <div className="nta-n-dialog__backdrop" aria-hidden="true" />
         <div className="nta-n-dialog__panel">
-          <h2 id="nta-n-summary-title" className="nta-n-dialog__title">Submit the test?</h2>
-          <p className="nta-n-section">{subjectLabel}, {questions.length} questions</p>
-          {renderNtaLegend()}
-          <p id="nta-n-summary-note" className="nta-n-dialog__note">After you submit, your answers cannot be changed.</p>
+          <h2 id="nta-n-summary-title" className="nta-n-dialog__title">Exam Summary</h2>
+          <p className="nta-n-section">{subjectLabel}</p>
+          <table className="nta-n-table nta-n-table--wide">
+            <thead>
+              <tr>
+                <th scope="col">No. of Questions</th>
+                {NTA_SUMMARY.map((state) => <th key={state} scope="col"><span className={`nta-n-sym nta-n-sym--${state} nta-n-sym--tiny`} aria-hidden="true" />{NTA_LEGEND.find(([key]) => key === state)[1]}</th>)}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{questions.length}</td>
+                {NTA_SUMMARY.map((state) => <td key={state}>{legendCounts[state]}</td>)}
+              </tr>
+            </tbody>
+          </table>
+          <table className="nta-n-table nta-n-table--tall">
+            <tbody>
+              <tr><th scope="row">No. of Questions</th><td>{questions.length}</td></tr>
+              {NTA_SUMMARY.map((state) => (
+                <tr key={state}><th scope="row"><span className={`nta-n-sym nta-n-sym--${state} nta-n-sym--tiny`} aria-hidden="true" />{NTA_LEGEND.find(([key]) => key === state)[1]}</th><td>{legendCounts[state]}</td></tr>
+              ))}
+            </tbody>
+          </table>
+          {/* MockMob's one addition: a choice on screen that was never saved is named, so Yes never drops it unseen. */}
+          {heldChoice && heldChoice.qid === q.id ? <p className="nta-n-dialog__held" role="note">Your choice on Question {idx + 1} is not saved. Choose No, then Save &amp; Next to keep it.</p> : null}
+          <p id="nta-n-summary-ask" className="nta-n-dialog__ask">{NTA_ASK[0]}<br />{NTA_ASK[1]}</p>
           <div className="nta-n-dialog__keys">
-            <button type="button" className="nta-n-dialog__back" data-autofocus onClick={closeNtaSummary}>Keep answering</button>
-            <button type="button" className="nta-n-dialog__submit" onClick={() => { setNtaSummaryOpen(false); submitTest('submit'); }}>{NTA.submit}</button>
+            <button type="button" className="nta-n-dialog__submit" onClick={() => { setNtaSummaryOpen(false); submitTest('submit'); }}>Yes</button>
+            <button type="button" className="nta-n-dialog__back" data-autofocus onClick={closeNtaSummary}>No</button>
           </div>
         </div>
       </div>
@@ -1885,10 +2051,10 @@ function TestRunner() {
       {isNtaMode && <div className="nta-interface-toolbar">
         <span>Practice interface</span>
         <div role="group" aria-label="Test interface">
-          <button type="button" aria-pressed={!classicInterface} onClick={() => setExamInterface('mockmob')}>MockMob</button>
-          <button type="button" aria-pressed={classicInterface} onClick={() => setExamInterface('nta')}>NTA style</button>
+          <button type="button" aria-pressed={!classicInterface} onClick={() => switchInterface('mockmob')}>MockMob</button>
+          <button type="button" aria-pressed={classicInterface} onClick={() => switchInterface('nta')}>NTA style</button>
         </div>
-        <small>Switch anytime. Your answers and timer stay.</small>
+        <small>Switch anytime. Saved answers and the timer stay.</small>
       </div>}
       {classicInterface ? renderClassic() : <>
       <header className="nta-test-header">
@@ -1920,7 +2086,6 @@ function TestRunner() {
           <span>{mins}:{secs.toString().padStart(2, '0')}</span>
         </div>
       </header>
-      {isNtaMode ? <div className="nta-integrity-status"><IntegrityPill strikes={integrity.strikes} /></div> : null}
 
       <div className="nta-shell">
         {notices}

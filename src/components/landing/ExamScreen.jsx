@@ -55,7 +55,7 @@ const stillMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').
 
 export function ExamScreen() {
   const { user } = useAuth();
-  const [mode, setMode] = useState('mockmob');
+  const [mode, setModeRaw] = useState('mockmob');
   const [index, setIndex] = useState(EXAM.start.index);
   const [answers, setAnswers] = useState(EXAM.start.answers);
   const [marked, setMarked] = useState(EXAM.start.marked);
@@ -238,7 +238,14 @@ export function ExamScreen() {
   const counts = { answered, marked: count('marked', 'marked-answered'), pending: EXAM.total - answered, notvisited: count('notvisited') };
 
   const touch = () => { setStarted(true); setReadBack(false); };
-  const go = (i) => { touch(); setIndex(i); setVisited((v) => ({ ...v, [i]: true })); };
+  // NTA style holds a choice until its save key or its mark key saves it, as the runner's NTA style does (exam-true saving,
+  // LK297): the palette counts saved answers only, and leaving the question, or the screen, lets an unsaved choice go.
+  const [held, setHeld] = useState(null); // { index, option }
+  const shown = held ? { ...answers, [held.index]: held.option } : answers;
+  const hold = (option) => { touch(); setHeld({ index, option }); };
+  const saveHeld = () => { if (held && held.index === index) setAnswers((a) => ({ ...a, [index]: held.option })); setHeld(null); };
+  const go = (i) => { touch(); setHeld(null); setIndex(i); setVisited((v) => ({ ...v, [i]: true })); };
+  const setMode = (next) => { setHeld(null); setModeRaw(next); };
   const choose = (option) => {
     touch(); setNoteOn(false);
     setStruck((s) => (s[index]?.includes(option) ? { ...s, [index]: s[index].filter((o) => o !== option) } : s)); // picking a crossed-out option brings it back
@@ -246,13 +253,13 @@ export function ExamScreen() {
     pipReact('demo', 'nod');
   };
   const toggleStrike = (option) => { touch(); setNoteOn(false); setStruck((s) => { const now = s[index] || []; return { ...s, [index]: now.includes(option) ? now.filter((o) => o !== option) : [...now, option] }; }); };
-  const clearAnswer = () => { touch(); setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; }); };
+  const clearAnswer = () => { touch(); setHeld(null); setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; }); };
   const toggleMark = () => { touch(); setMarked((m) => ({ ...m, [index]: !m[index] })); };
   const next = () => { if (index < LIVE - 1) go(index + 1); };
   const prev = () => { if (index > 0) go(index - 1); };
-  const markAndNext = () => { touch(); setMarked((m) => ({ ...m, [index]: true })); next(); };
+  const markAndNext = () => { touch(); saveHeld(); setMarked((m) => ({ ...m, [index]: true })); next(); };
   // NTA style: the key pressed decides the status, so the save key leaves the question unmarked (as the runner's NTA style does).
-  const saveAndNext = () => { touch(); setMarked((m) => ({ ...m, [index]: false })); next(); };
+  const saveAndNext = () => { touch(); saveHeld(); setMarked((m) => ({ ...m, [index]: false })); next(); };
 
   const startPress = (event, option) => {
     pressStruck.current = false;
@@ -267,7 +274,7 @@ export function ExamScreen() {
   const optionClick = (option) => { if (suppressClick.current) { suppressClick.current = false; return; } choose(option); };
   const optionKey = (event, option) => { if (event.shiftKey && event.key >= '1' && event.key <= '4' && Number(event.key) - 1 === option) { event.preventDefault(); toggleStrike(option); } };
 
-  const reset = () => { setAnswers(EXAM.start.answers); setMarked(EXAM.start.marked); setVisited(Object.fromEntries(EXAM.start.visited.map((i) => [i, true]))); setStruck(EXAM.start.struck); setIndex(EXAM.start.index); setNoteOn(true); setStarted(false); setClock(EXAM.startSeconds); setReadBack(false); };
+  const reset = () => { setHeld(null); setAnswers(EXAM.start.answers); setMarked(EXAM.start.marked); setVisited(Object.fromEntries(EXAM.start.visited.map((i) => [i, true]))); setStruck(EXAM.start.struck); setIndex(EXAM.start.index); setNoteOn(true); setStarted(false); setClock(EXAM.startSeconds); setReadBack(false); };
 
   const chipWord = words.chip[states[index]];
   const isStruck = (option) => (struck[index] || []).includes(option);
@@ -344,9 +351,9 @@ export function ExamScreen() {
       </div>
 
       {nta ? (
-        <NtaScreen key="nta" index={index} question={question} answers={answers} states={states} clock={clock} started={started} onScreen={onScreen || full}
+        <NtaScreen key="nta" index={index} question={question} answers={shown} states={states} clock={clock} started={started} onScreen={onScreen || full}
           paletteOpen={paletteOpen} setPaletteOpen={setPaletteOpen} readBack={readBack} setReadBack={setReadBack}
-          choose={choose} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} chipGrid={chipGrid} />
+          choose={hold} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} chipGrid={chipGrid} />
       ) : (
         <div key="mockmob" className="xs-app">
           <p className="xs-saved" role="status">{EXAM.saved}</p>
@@ -383,8 +390,8 @@ export function ExamScreen() {
   const phone = (
     <div className="xs-frame xs-phone" data-interface={mode}>
       {nta ? (
-        <PhoneNta key="nta" index={index} question={question} answers={answers} states={states} answered={answered} clock={clock} started={started} onScreen={onScreen || full}
-          readBack={readBack} setReadBack={setReadBack} choose={choose} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} prev={prev}
+        <PhoneNta key="nta" index={index} question={question} answers={shown} states={states} answered={answered} clock={clock} started={started} onScreen={onScreen || full}
+          readBack={readBack} setReadBack={setReadBack} choose={hold} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} prev={prev}
           chipGrid={chipGrid} sheet={sheet} setSheet={setSheet} sheetBox={sheetBox} sheetOpener={sheetOpener} sheetClose={sheetClose} sheetScrim={sheetScrim} />
       ) : (
         <div key="mockmob" className="xs-app xs-ph">

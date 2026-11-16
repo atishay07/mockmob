@@ -25,11 +25,12 @@ export function quotePath({ subject, mode = FIRST_SET_MODE, count = FIRST_SET_CO
  * The runner's address for a session, before its key (Practice's launchHref): subject, count and mode, then the chapters (only
  * for a mode that takes them; the caller decides), a level (Pro only; the caller decides) and NTA's exam screen.
  */
+// ntaScreen: true or 'nta' for NTA style; 'mockmob' for MockMob's screen (an NTA paper opens in NTA style unless it says so).
 export function launchPath({ subject, count = FIRST_SET_COUNT, mode = FIRST_SET_MODE, chapters = [], difficulty = '', ntaScreen = false } = {}) {
   const list = Array.isArray(chapters) ? chapters.filter(Boolean) : [];
   const chapterParam = list.length > 0 ? `&chapters=${encodeURIComponent(list.join(','))}` : '';
   const difficultyParam = difficulty ? `&difficulty=${encodeURIComponent(difficulty)}` : '';
-  const interfaceParam = ntaScreen ? '&interface=nta' : '';
+  const interfaceParam = ntaScreen === 'mockmob' ? '&interface=mockmob' : ntaScreen ? '&interface=nta' : '';
   return `/test?subject=${subject}&count=${count}&mode=${encodeURIComponent(mode)}${chapterParam}${difficultyParam}${interfaceParam}`;
 }
 

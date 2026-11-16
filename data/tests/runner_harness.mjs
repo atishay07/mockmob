@@ -426,12 +426,26 @@ export function paper(count = 6, { subject = 'accountancy' } = {}) {
  * Mount the runner for one session. `server` held sessions sync events with PUT /api/sessions; device-held sessions
  * (the default) carry a session ticket and send everything with the submit. Every request lands in `requests`.
  */
-export async function mount({ mode = 'nta', questions = paper(), capture = 'on', storage = 'device', durationMs = 3600000, events = [], params = {}, user = { id: 'student-1', isPremium: true }, replies = null, startedAt: served = null } = {}) {
+/**
+ * An NTA-mode paper opens on its instructions page (N1, 17 Nov 2026) and asks for nothing until Start. mount() ticks the
+ * declaration and presses Start for the test (as a student would) unless `instructions: 'stay'`; startFromInstructions() does it
+ * later. An NTA paper opens in NTA style unless the address says otherwise, so the tests written for MockMob's screen in NTA mode
+ * keep `interface=mockmob` unless they name an interface.
+ */
+export async function startFromInstructions() {
+  const tick = find('.nta-ins__tick')[0]?.querySelectorAll('input')[0];
+  if (!tick || !find('.nta-ins__start').length) return false;
+  tick.checked = true;
+  await click(tick);
+  await click(one('.nta-ins__start'));
+  return true;
+}
+export async function mount({ mode = 'nta', questions = paper(), capture = 'on', storage = 'device', durationMs = 3600000, events = [], params = {}, user = { id: 'student-1', isPremium: true }, replies = null, startedAt: served = null, instructions = 'accept' } = {}) {
   const startedAt = served ?? clock.now;
   const requests = [];
   // push and replace both land in pushed (as before); replaced holds the replaces only.
   const router = { pushed: [], replaced: [], push(url) { this.pushed.push(url); }, replace(url) { this.pushed.push(url); this.replaced.push(url); } };
-  const search = new URLSearchParams({ subject: 'accountancy', mode, count: String(questions.length), generationKey: `generation-${capture}-${mode}-${startedAt}`, ...params });
+  const search = new URLSearchParams({ subject: 'accountancy', mode, count: String(questions.length), generationKey: `generation-${capture}-${mode}-${startedAt}`, ...(mode === 'nta' && !('interface' in params) ? { interface: 'mockmob' } : {}), ...params });
   for (const [name, value] of Object.entries(params)) if (value === null) search.delete(name);
   location.url = new URL(`https://mockmob.test/test?${search}`);
   historyStack.entries = [{ state: null, url: 'https://mockmob.test/dashboard' }, { state: null, url: location.url.href }];
@@ -466,6 +480,7 @@ export async function mount({ mode = 'nta', questions = paper(), capture = 'on',
   const root = createRoot(container);
   await act(async () => { root.render(React.createElement(TestPageClient)); });
   await settle();
+  if (mode === 'nta' && instructions !== 'stay') await startFromInstructions();
   return {
     container, requests, router, questions, startedAt, durationMs,
     html: () => serialize(container),
@@ -503,7 +518,7 @@ export const NTA_PATHS = {
     await advance(4000); await click(one('.nta-nav-button', 'Mark for Review & Next')); snap('mark and next');
     await advance(8000); await click(one('.nta-nav-button', 'Save & Next')); snap('save and next');
     await advance(2000); await click(one('.nta-submit-button', 'Submit')); snap('summary');
-    await click(one('.nta-n-summary button', 'Submit')); snap('submitted');
+    await click(one('.nta-n-summary button', 'Yes')); snap('submitted');
   },
   // One answer, then the hour runs out on question 2.
   async timeUp(s, snap) {
