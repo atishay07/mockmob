@@ -597,9 +597,9 @@ test('L-042 what he approved is still there: Mobi, the time section, the approve
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/, 'the logo opening');
 });
 
-test('L-043 the logo opening uses logo B and lasts at most 0.7 s per session (1.2 s on a first visit; owner, 16 Nov 2026: "smaller"), is skippable, and never holds a student', () => {
-  assert.ok(openingGate.OPENING_SHORT_MS >= 500 && openingGate.OPENING_SHORT_MS <= 700, `session opening ${openingGate.OPENING_SHORT_MS} ms`);
-  assert.ok(openingGate.OPENING_FIRST_MS >= 900 && openingGate.OPENING_FIRST_MS <= 1200, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms`);
+test('L-043 the logo opening uses logo B, is grand and still by 1.5 s on a first visit and 1.1 s every session (owner, 17 Nov 2026, LK299, replacing 16 Nov "smaller"), is skippable, and never holds a student', () => {
+  assert.ok(openingGate.OPENING_SHORT_MS + openingGate.OPENING_SETTLE_MS <= 1100, `session opening ${openingGate.OPENING_SHORT_MS} ms + settle`);
+  assert.ok(openingGate.OPENING_FIRST_MS + openingGate.OPENING_SETTLE_MS <= 1500, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms + settle`);
   assert.ok(openingGate.OPENING_FIRST_MS > openingGate.OPENING_SHORT_MS);
   for (const e of ['pointerdown', 'touchstart', 'wheel', 'keydown']) assert.ok(openingGate.OPENING_SKIP_EVENTS.includes(e), `${e} skips it`);
   const gate = openingGate.openingGate.toString();
@@ -608,7 +608,7 @@ test('L-043 the logo opening uses logo B and lasts at most 0.7 s per session (1.
   assert.match(gate, /sessionStorage/, 'once per session');
   assert.match(gate, /webdriver/, 'bots skip');
   const opening = read('src/components/landing/OpeningMo.jsx');
-  assert.match(opening, /LOGO_DOT/, 'logo B keeps its dot in the opening');
+  assert.match(opening, /LOGO_B_LETTERS/, 'the opening draws logo B (its dot drops in on the bar logo after the landing)');
   assert.match(code(read('src/app/opening.css')), /visibility:\s*hidden/, 'it ends hidden by itself, even if JS fails');
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/);
 });
