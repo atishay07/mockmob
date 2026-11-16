@@ -1,9 +1,10 @@
 'use client';
-// Round 14 (13 Nov 2026): Mobi as the phone scroll companion. One small Mobi stands on the right, on the top edge of
-// whatever bar is at the foot of the screen (the dock when it is up, else 14 px above the edge), travels the page with a
-// phone reader and is the way into Ask Mobi (the window event mm:ask-mobi, AskMobiSheet). He answers the scroll from the
-// page's one shared read (scrollBus.mjs): a lean of up to 5 degrees from his feet, a small stretch on a flick, and the
-// section across 55 % of the screen picks his pose (companionModel.mjs). He steps out whenever another Mobi is on screen
+// Round 14 (13 Nov 2026): Mobi as the phone scroll companion. One small Mobi stands on the right, on the top edge of the
+// bar at the foot of the screen, and only while that bar is up (16 Nov 2026: he used to stand 14 px above the screen's foot,
+// over the page's own content, wherever no bar was up). He travels the page with a phone reader and is the way into Ask
+// Mobi (the window event mm:ask-mobi, AskMobiSheet): a tap opens it with a question about the section the reader is on.
+// He stands still while the page moves (no lean, no stretch, no hop: 16 Nov 2026); the section across 55 % of the screen
+// picks his pose with a plain crossfade (companionModel.mjs). He steps out whenever another Mobi is on screen
 // (a seat, the desk's Mobi, a held story's bar), on the hero's first screen, over the footer and while the Ask sheet is
 // open, so only one Mobi is ever in view (W-074). Phones only; nothing renders on wider windows (the desktop guide).
 // Every per-frame write is a CSS variable on his own element; React renders only when his pose changes.
@@ -38,7 +39,6 @@ export default function MobiCompanion() {
   const [pose, setPose] = useState({ cur: 'idle', prev: null, n: 0 });
   const box = useRef(null);
   const leanRef = useRef(null);
-  const hopRef = useRef(null);
   const bubbleRef = useRef(null);
   const api = useRef({ tapped: () => {} });
 
@@ -64,9 +64,8 @@ export default function MobiCompanion() {
   useEffect(() => {
     const node = box.current;
     const leanEl = leanRef.current;
-    const hopEl = hopRef.current;
     const bubbleEl = bubbleRef.current;
-    if (!on || !node || !leanEl || !hopEl || !bubbleEl) return undefined;
+    if (!on || !node || !leanEl || !bubbleEl) return undefined;
     const root = document.documentElement;
     const page = node.closest('.mm.lp') || document.body;
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -77,11 +76,10 @@ export default function MobiCompanion() {
     const s = {
       shown: false, others: new Set(), barOn: false, askOpen: root.dataset.askMobi === 'open', footer: false,
       y: first.y || window.scrollY, vh: first.vh || window.innerHeight, lastT: 0, speed: 0, resting: true,
-      section: '', pose: 'idle', poseAt: -Infinity, lift: 0, inset: 0, tuck: false, tuckPx: 0, hopN: 0, deg: 0, stretch: 1, rest: true,
+      section: '', pose: 'idle', poseAt: -Infinity, lift: 0, inset: 0, tuck: false, tuckPx: 0, deg: 0, stretch: 1, rest: true,
       bubble: 'never', bubbleAt: 0, bubbleY: 0,
     };
     const timers = { settle: 0, rest: 0, pose: 0, bubbleIn: 0, bubbleOut: 0, tuck: 0 };
-    const hop = (kind) => { if (still()) return; s.hopN += 1; hopEl.dataset.hop = `${kind}-${s.hopN % 2}`; };
 
     // ---- where his feet stand: on the dock's top edge when it is up, else his own gap (CSS) ----
     const docked = () => Boolean(dock && gate.dataset.shown === 'true' && dock.dataset.hidden !== 'true'
@@ -153,19 +151,17 @@ export default function MobiCompanion() {
       if (!d.commit) return; // still fast: the rest timer asks again
       s.pose = wanted; s.poseAt = now;
       setPose((p) => ({ cur: wanted, prev: p.cur, n: p.n + 1 }));
-      hop('pose');
     };
 
     // ---- in and out: out at once, back only after a 250 ms settle ----
     const wanted = () => wantShown({
       scrollY: s.y, viewport: s.vh, otherMobi: s.others.size > 0, barOn: s.barOn, askOpen: s.askOpen, footer: s.footer,
-      navOpen: Boolean(document.getElementById('mm-nav-sheet')),
+      navOpen: Boolean(document.getElementById('mm-nav-sheet')), docked: docked(),
     });
     const stepIn = () => {
       s.shown = true;
       place();
       node.dataset.state = 'in';
-      hop('arrive');
       s.poseAt = performance.now();
       tuckCheck();
       hello();
@@ -259,7 +255,7 @@ export default function MobiCompanion() {
     const handle = api.current;
     handle.tapped = () => {
       hideBubble();
-      window.dispatchEvent(new CustomEvent('mm:ask-mobi', { detail: { source: 'companion' } }));
+      window.dispatchEvent(new CustomEvent('mm:ask-mobi', { detail: { source: 'companion', section: s.section } }));
     };
 
     readPage();
@@ -290,7 +286,7 @@ export default function MobiCompanion() {
         <button type="button" aria-label="Ask Mobi a question" className="mc__btn" onClick={() => api.current.tapped()}>
           <span ref={leanRef} className="mc__lean" data-rest="true">
             <span className="mc__press">
-              <span ref={hopRef} className="mc__hop">
+              <span className="mc__hop">
                 <span className="mc__breath">
                   {pose.prev ? <span key={`p${pose.n}`} className="mc__pose" data-leaving="true"><Mascot pose={pose.prev} facing={facing(pose.prev)} /></span> : null}
                   <span key={`c${pose.n}`} className="mc__pose" data-entering={pose.prev ? 'true' : undefined}><Mascot pose={pose.cur} facing={facing(pose.cur)} /></span>

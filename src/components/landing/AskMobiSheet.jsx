@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
 import { readSample } from './sampleCarry.mjs';
 import { ASK_FIRST, askPlan } from './askMobiSample.mjs';
+import { askForSection } from './companionModel.mjs';
 import './ask-sheet.css';
 
 // Round 14: Ask Mobi for guests. A bottom sheet (a 420 px panel from 900 px) that asks the real model through
@@ -89,6 +90,7 @@ export default function AskMobiSheet() {
   const [left, setLeft] = useState(FREE);
   const [spent, setSpent] = useState(false);
   const [sample, setSample] = useState(null);
+  const [lead, setLead] = useState(null); // the question for the section the companion was tapped in
   const [opens, setOpens] = useState(0);
   const sheetRef = useRef(null);
   const threadRef = useRef(null);
@@ -107,6 +109,7 @@ export default function AskMobiSheet() {
     let stored = null;
     try { stored = readSample(); } catch { stored = null; }
     setSample(guestSample(detail?.sample) || guestSample(stored));
+    setLead(askForSection(typeof detail?.section === 'string' ? detail.section : ''));
     const count = readLeft();
     setLeft(count);
     if (count <= 0) setSpent(true);
@@ -292,7 +295,7 @@ export default function AskMobiSheet() {
   }
 
   if (phase === 'closed') return null;
-  const chips = sample ? [ASK_FIRST, ...CHIPS] : CHIPS;
+  const chips = sample ? [ASK_FIRST, ...CHIPS] : lead && !CHIPS.includes(lead) ? [lead, ...CHIPS] : CHIPS;
   const firstMobi = messages.findIndex((m) => m.role === 'mobi');
 
   return (

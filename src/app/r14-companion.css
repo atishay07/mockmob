@@ -1,9 +1,8 @@
 /* Round 14 (13 Nov 2026): Mobi as the phone scroll companion (MobiCompanion.jsx).
-   One small Mobi on the right, his feet on the top edge of whatever bar is at the foot of the screen: the dock when it is
-   up (--mc-lift, its height less his own gap), else 14 px above the edge. He rides the bar (240 ms), leans from his feet
-   with the scroll (--mc-lean, up to 5 degrees, written by the shared scroll read), stretches a little on a flick
-   (--mc-stretch, up to 1.06, settling over 420 ms), hops in when he comes back (pip-arrive, brand-pip.css) and hops 6 px
-   when the section changes his pose (a 140 ms crossfade). At rest only his breath runs. Transform and opacity only.
+   One small Mobi on the right, his feet on the top edge of the bar at the foot of the screen (--mc-lift), and only while
+   that bar is up. 16 Nov 2026 (owner: his scrolling "needs to be ... fixed"): he stands still while the page moves. He no
+   longer leans with the scroll, stretches on a flick or hops when the section changes his pose (a 140 ms crossfade does
+   that), and he comes and goes with a 200 ms fade and an 8 px rise. At rest only his breath runs. Transform and opacity only.
    Layer: just above the dock (70), under the Ask Mobi sheet and every modal; the nav sheet hides him (as it hides the
    dock). Only the button takes a pointer. Phones only. */
 
@@ -79,13 +78,6 @@
   .mc__press { transition: scale 160ms cubic-bezier(0.23, 1, 0.32, 1); }
   .mc__btn:active .mc__press { scale: 0.96 0.92; transition-duration: 100ms; }
 
-  /* Back on screen: the seats' own arrival, quicker. A pose change: a 6 px hop. Two names each, so a repeat restarts. */
-  .mc__hop[data-hop^='arrive'] { animation: pip-arrive 560ms both; }
-  .mc__hop[data-hop='arrive-1'] { animation-name: mc-arrive-b; }
-  .mc__hop[data-hop='pose-0'] { animation: mc-hop-a 300ms var(--mc-arrive); }
-  .mc__hop[data-hop='pose-1'] { animation: mc-hop-b 300ms var(--mc-arrive); }
-  .mc[data-state='out'] .mc__hop { animation: none; }
-
   .mc__breath { animation: pip-breathe 4.6s ease-in-out infinite; }
   html[data-lit-in-view] .mc__breath { animation-play-state: paused; }
 
@@ -122,16 +114,6 @@
   .mc__bubble[data-on='true'] { opacity: 1; visibility: visible; translate: 0 0; transition-delay: 0s; }
 }
 
-@keyframes mc-arrive-b {
-  0% { opacity: 0; translate: 0 22%; scale: 0.7 0.55; animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  18% { opacity: 1; translate: 0 6%; scale: 1.12 0.84; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
-  46% { translate: 0 -15%; scale: 0.93 1.09; animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.4); }
-  66% { translate: 0 0; scale: 1.09 0.9; animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-  82% { scale: 0.975 1.03; }
-  100% { opacity: 1; translate: 0 0; scale: 1 1; }
-}
-@keyframes mc-hop-a { 0%, 100% { translate: 0 0; } 40% { translate: 0 -6px; } }
-@keyframes mc-hop-b { 0%, 100% { translate: 0 0; } 40% { translate: 0 -6px; } }
 @keyframes mc-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mc-out { from { opacity: 1; } to { opacity: 0; } }
 

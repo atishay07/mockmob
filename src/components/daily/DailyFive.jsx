@@ -451,11 +451,13 @@ export default function DailyFive() {
     }
   }
 
-  // The head: the name and the day's number; under it the page itself, the day on ink (CalendarDay) joined to the card.
+  // The head: the name, and in one line what the five are (16 Nov 2026, evening: the owner could not tell which subjects they
+  // come from, and the day's number, "No. 2", told him nothing; it is gone). Under it the page itself, the day on ink
+  // (CalendarDay) joined to the card.
   const head = (
     <div className="dly__head">
-      <h1 className="dly__title">Daily Five</h1>
-      <span className="dly__no">{today ? <><span className="sr-only">{dayLabel(today.date)}, </span>No. {today.day}</> : '\u00a0'}</span>
+      <h1 className="dly__title">Daily Five{today ? <span className="sr-only">, {dayLabel(today.date)}</span> : null}</h1>
+      <p className="dly__what">Five questions from English and the General Test. The same five for everyone, new at 12:00 am.</p>
     </div>
   );
   const band = (done) => (
@@ -686,7 +688,7 @@ export default function DailyFive() {
   return (
     <>
       <div className="dly__bar">
-        <h1 className="dly__bar-name">Daily Five<span>{dayLabel(today.date).split(',')[0]}<span aria-hidden="true"> · </span><span className="sr-only">, </span>No. {today.day}</span></h1>
+        <h1 className="dly__bar-name">Daily Five<span>{dayLabel(today.date)}</span></h1>
         <p className="dly__clock" role="timer" aria-label={`Time ${clockWords(shownMs)}`}>
           <Icon name="clock" className="dly__time-icon" />
           <span aria-hidden="true">{formatClock(shownMs)}</span>

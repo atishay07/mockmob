@@ -18,6 +18,8 @@ const SWEEP_HIGH = 960;
 const SWEEP_PERIOD_MS = 11000;
 const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
+const TOUCH_REST = 900;
+
 export default function CompassLadder({ data }) {
   const rootRef = useRef(null);
   const [programme, setProgramme] = useState(0);
@@ -34,6 +36,18 @@ export default function CompassLadder({ data }) {
     const sync = () => setReduced(query.matches);
     sync(); query.addEventListener('change', sync);
     return () => query.removeEventListener('change', sync);
+  }, []);
+  // On a touch screen the score does not run by itself (16 Nov 2026; the owner on his phone: "it's doing weird movements"):
+  // a slider and ten bars moving under a thumb that is scrolling read as the page misbehaving. It rests until the
+  // reader drags it, taps a score or taps Play, on a score that clears some colleges and misses others. A mouse keeps the
+  // self-running tour.
+  useEffect(() => {
+    let touch = false;
+    try { touch = window.matchMedia('(hover: none), (pointer: coarse)').matches; } catch { touch = false; }
+    if (!touch) return undefined;
+    // Right after the first paint, before the ladder has come on screen (the tour only starts once it has).
+    const t = window.setTimeout(() => { setSweeping(false); setScore(TOUCH_REST); }, 0);
+    return () => window.clearTimeout(t);
   }, []);
   useEffect(() => {
     const node = rootRef.current;

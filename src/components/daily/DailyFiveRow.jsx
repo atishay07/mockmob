@@ -4,21 +4,22 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import {
-  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
+  DAILY_FIVE_PATH, DAILY_FIVE_STORE, dayLabel, formatClock, leafOf, msUntilNextDay, readRecord, resultFor, streakOf, todayDaily, untilShort,
 } from '@/lib/dailyFive.mjs';
 import { DAILY_FIVE_ME_ROUTE, acceptAccount, runDays } from '@/lib/dailyFiveAccount.mjs';
-import { PAPER_COUNT, PAPER_MINUTES, sundayState, sundayWindow } from '@/lib/sundayMock.mjs';
-import { CalendarDay, DailyBoard, DailyClock, boardLabel, useDailyNow, useOnScreen } from './DailyParts';
+import { sundayState, sundayWindow } from '@/lib/sundayMock.mjs';
+import { useOnScreen } from './DailyParts';
+import { dailyRow, sundayRow } from './dailyStripCopy.mjs';
 import './daily-row.css';
 
 // The doors to the Daily Five.
-//   where="home"   the home page's block, under the sample card (16 Nov 2026; the owner: "It's not placed correctly as a
-//                  proper clock. How do other websites do it?"). A daily puzzle's own entry, as the daily games draw it: the
-//                  day on an ink page of a tear-off desk calendar (open or done, the date large, a real clock counting down to
-//                  12:00 am IST), then the name and number, the board of five tiles and one full-width key (owner, 16 Nov,
-//                  second note: bolder, its own identity, more room). The whole block is the link to /daily.
-//                  It reads this device's record only (localStorage, nothing sent): not played (the clock reads "Closes in"),
-//                  begun (the tiles answered so far, "Continue"), played (the day's tiles, the score, "Next five in").
+//   where="home"   the home page's strip (16 Nov 2026, evening; the owner, after seeing the two full calendar pages live on his
+//                  phone: "consuming too much vertical space", "it should not be at the top"). Two short rows low on the page,
+//                  under the exam screen: the day on a small ink leaf, the name, one sentence that says what it is, when it
+//                  closes or opens, and where the tap goes. The Daily Five's row reads this device's record only (localStorage,
+//                  nothing sent): not played, begun (the five small squares so far) or played (the score, the next five).
+//                  The Sunday Mock's row carries the coming Sunday's date. Each whole row is its link. No number of the day:
+//                  "No. 2" told a reader nothing (owner, same note).
 //   where="today"  on Today for a signed-in student, under the lead card's rows, drawn as Today's Ask Mobi row (today.css
 //                  .tmask). It reads the account (GET /api/daily/me): today's score and the run of days are the account's, so a
 //                  five played on another phone shows here too; while the account has not answered (or cannot), the device's
@@ -54,98 +55,70 @@ function Mark({ marks }) {
   );
 }
 
-function HomeBlock() {
+/** The clock, read once after the first paint and then twice a minute while the strip is near the screen. */
+function useMinuteNow(active) {
+  const [now, setNow] = useState(null);
+  useEffect(() => {
+    if (!active) return undefined;
+    const t = window.setTimeout(() => setNow(Date.now()), 0);
+    const id = window.setInterval(() => setNow(Date.now()), 30 * 1000);
+    const back = () => { if (document.visibilityState === 'visible') setNow(Date.now()); };
+    document.addEventListener('visibilitychange', back);
+    return () => { window.clearTimeout(t); window.clearInterval(id); document.removeEventListener('visibilitychange', back); };
+  }, [active]);
+  return now;
+}
+
+/** The day on a small ink leaf: the number, the month in volt, the weekday. Holds its size before the date is known. */
+function Leaf({ date }) {
+  const leaf = date ? leafOf(date) : null;
+  return (
+    <span className="dfs__leaf" aria-hidden="true">
+      <b>{leaf ? leaf.day : '\u00a0'}</b>
+      <em>{leaf ? leaf.month : '\u00a0'}</em>
+      <small>{leaf ? leaf.weekday : '\u00a0'}</small>
+    </span>
+  );
+}
+
+function HomeStrip() {
   const ref = useRef(null);
   const record = useDeviceRecord();
-  // Both pages tick from one clock, while either is near the screen.
-  const on = useOnScreen(ref, '700px 0px');
-  const now = useDailyNow(on);
+  const on = useOnScreen(ref, '400px 0px');
+  const now = useMinuteNow(on);
   const today = now === null ? null : todayDaily(now);
   const ready = Boolean(today && record);
   const result = ready ? resultFor(record, today.date, null) : null;
   const run = ready && !result && record.run && record.run.date === today.date ? record.run : null;
   const begun = Boolean(run && run.picks.some((p) => p !== null));
   const streak = ready ? streakOf(record.played, today.date).count : 0;
-  const marks = result ? result.marks : run ? run.checks.map((c) => (c ? c.right : null)) : null;
-  const state = result ? 'played' : begun ? 'begun' : 'open';
+  const marks = result ? result.marks : begun ? run.checks.map((c) => (c ? c.right : null)) : null;
+  const daily = dailyRow({ result: result ? { score: result.score, clock: formatClock(result.ms) } : null, begun, streak, waitMs: now === null ? null : msUntilNextDay(now) });
 
-  const line = result
-    ? `You scored ${result.score}/5 in ${formatClock(result.ms)}.${streak >= 2 ? ` Day ${streak} in a row.` : ''} A new five opens at 12:00 am.`
-    : begun
-      ? 'You’ve started today’s five. Your answers are kept; the clock is still running.'
-      : streak >= 1
-        ? `${streak === 1 ? 'You played yesterday.' : `You’re on a ${streak}-day run.`} Play today’s five to keep it going.`
-        : 'Five CUET questions, the same for everyone today. Free, no sign-up.';
-  const key = result ? 'See today’s result' : begun ? 'Continue today’s five' : 'Play today’s five';
-
-  return (
-    <>
-    <Link
-      href={DAILY_FIVE_PATH}
-      className="dfh"
-      data-state={state}
-      ref={ref}
-      aria-label={today ? `Daily Five, ${dayLabel(today.date)}, number ${today.day}. ${line} ${key}.` : 'Daily Five. Play today’s five.'}
-    >
-      <CalendarDay
-        on={!result}
-        status={result ? 'Done for today' : begun ? 'In progress' : 'Open now'}
-        date={today?.date}
-        clock={<DailyClock ms={now === null ? null : msUntilNextDay(now)} label={result ? 'Next five in' : 'Closes in'} size="l" />}
-      />
-      {/* The five: the name and number, what it is, the board, the one key. */}
-      <div className="dfh__body" aria-hidden="true">
-        <div className="dfh__head">
-          <p className="dfh__name">Daily Five</p>
-          <span className="dfh__no">{today ? `No. ${today.day}` : '\u00a0'}</span>
-        </div>
-        <p className="dfh__line">{line}</p>
-        <ul className="dfh__chips">
-          <li>A new five every day at 12:00 am</li>
-          <li>English and General Test</li>
-          <li>Every answer explained</li>
-        </ul>
-        <DailyBoard marks={marks} size="l" label={boardLabel(marks)} />
-        <span className="dfh__key" data-quiet={result ? 'true' : 'false'}>{key}</span>
-      </div>
-    </Link>
-    <SundayPage now={now} />
-    </>
-  );
-}
-
-/**
- * The week's other fixed date, as the second page: the Sunday Mock. The coming Sunday's date, a clock to 10:00 am IST (or,
- * on a Sunday while it is open, to 10:00 pm), what the paper is, and one quiet key to its page.
- */
-function SundayPage({ now }) {
   const state = now === null ? null : sundayState(now);
   const open = state?.phase === 'open';
-  const date = !state ? null : state.phase === 'closed' ? state.next : state.week;
-  const wait = !state ? null : open ? state.closesAt - now : sundayWindow(date).opensAt - now;
-  const line = 'One full CUET paper in each of your subjects, the same for everyone that Sunday.';
+  const sunDate = !state ? null : state.phase === 'closed' ? state.next : state.week;
+  const sunday = sundayRow({ open, waitMs: !state || open ? null : sundayWindow(sunDate).opensAt - now, known: Boolean(state) });
+
   return (
-    <Link href="/sunday-mock" className="dfh" data-page="sunday" aria-label={`Sunday Mock${date ? `, ${dayLabel(date)}` : ''}. ${line} See how the Sunday Mock works.`}>
-      <CalendarDay
-        on={open}
-        status={open ? 'Open now' : 'Next one'}
-        date={date}
-        clock={<DailyClock ms={wait} label={open ? 'Closes in' : 'Opens in'} size="l" days />}
-      />
-      <div className="dfh__body" aria-hidden="true">
-        <div className="dfh__head">
-          <p className="dfh__name">Sunday Mock</p>
-          <span className="dfh__no" data-quiet="true">Weekly</span>
-        </div>
-        <p className="dfh__line">{line}</p>
-        <ul className="dfh__chips">
-          <li>{PAPER_COUNT} questions, {PAPER_MINUTES} minutes</li>
-          <li>Every Sunday, 10:00 am to 10:00 pm</li>
-          <li>Free with an account</li>
-        </ul>
-        <span className="dfh__key" data-quiet="true">See how the Sunday Mock works</span>
-      </div>
-    </Link>
+    <div className="dfs" ref={ref}>
+      <Link href={DAILY_FIVE_PATH} className="dfs__row" data-state={daily.state} aria-label={`Daily Five${today ? `, ${dayLabel(today.date)}` : ''}. ${daily.line} ${daily.when}. ${daily.go}.`}>
+        <Leaf date={today?.date} />
+        <span className="dfs__body" aria-hidden="true">
+          <span className="dfs__top"><b className="dfs__name">Daily Five</b>{marks ? <Mark marks={marks} /> : null}</span>
+          <span className="dfs__line">{daily.line}</span>
+          <span className="dfs__foot"><span className="dfs__when">{daily.when || '\u00a0'}</span><span className="dfs__go">{daily.go}</span></span>
+        </span>
+      </Link>
+      <Link href="/sunday-mock" className="dfs__row" data-page="sunday" aria-label={`Sunday Mock${sunDate ? `, ${dayLabel(sunDate)}` : ''}. ${sunday.line} ${sunday.when}. ${sunday.go}.`}>
+        <Leaf date={sunDate} />
+        <span className="dfs__body" aria-hidden="true">
+          <span className="dfs__top"><b className="dfs__name">Sunday Mock</b></span>
+          <span className="dfs__line">{sunday.line}</span>
+          <span className="dfs__foot"><span className="dfs__when">{sunday.when || '\u00a0'}</span><span className="dfs__go">{sunday.go}</span></span>
+        </span>
+      </Link>
+    </div>
   );
 }
 
@@ -183,12 +156,12 @@ function TodayRow() {
   return (
     <Link href={DAILY_FIVE_PATH} className="tmask dfr dfr--today" data-played={result ? 'true' : 'false'}>
       <Mark marks={result?.marks} />
-      <span className="tmask__text"><b>Daily Five{today ? <span className="dfr__no"> · No. {today.day}</span> : null}</b><span>{line}</span></span>
+      <span className="tmask__text"><b>Daily Five</b><span>{line}</span></span>
       <ChevronRight className="tmask__go" size={18} strokeWidth={2} aria-hidden="true" />
     </Link>
   );
 }
 
 export default function DailyFiveRow({ where = 'home' }) {
-  return where === 'today' ? <TodayRow /> : <HomeBlock />;
+  return where === 'today' ? <TodayRow /> : <HomeStrip />;
 }

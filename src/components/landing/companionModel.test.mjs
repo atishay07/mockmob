@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  COMPANION, SECTION_POSES, POSES, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone,
+  COMPANION, SECTION_ASKS, SECTION_POSES, POSES, askForSection, sectionKey, poseForSection, velocity, lean, poseDecision, wantShown, floorLift, isTappable, bubbleGone,
 } from './companionModel.mjs';
 
 const read = (rel) => readFileSync(new URL(rel, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
@@ -35,19 +35,29 @@ test('a section is keyed by its id, else by the class that names it', () => {
   assert.equal(sectionKey({}), '');
 });
 
-test('speed is clamped to -1..1 and the lean stays within 5 degrees; only a flick stretches him, never past 1.06', () => {
+test('speed is clamped to -1..1; he stands still while the page moves: no lean and no stretch at any speed', () => {
   assert.equal(velocity(0, 16), 0);
   assert.equal(velocity(5000, 16), 1);
   assert.equal(velocity(-5000, 16), -1);
   assert.ok(velocity(10, 16) > 0 && velocity(10, 16) < 1);
   assert.equal(velocity(10, 0), velocity(10, 16), 'a zero frame gap reads as one frame');
-  assert.deepEqual(lean(0), { deg: 0, stretch: 0 });
-  assert.equal(lean(1).deg, 5);
-  assert.equal(lean(-1).deg, -5);
-  assert.equal(lean(3).deg, 5, 'clamped');
-  assert.equal(lean(0.5).stretch, 0, 'a steady scroll does not stretch');
-  assert.equal(lean(1).stretch, COMPANION.stretch);
-  assert.ok(lean(-1).stretch <= 0.06 && lean(0.8).stretch > 0);
+  for (const v of [0, 0.5, 1, -1, 3]) assert.deepEqual(lean(v), { deg: 0, stretch: 0 });
+  assert.equal(COMPANION.leanDeg, 0);
+  assert.equal(COMPANION.stretch, 0);
+});
+
+test('he stands only on the bottom bar: with no bar up he is out', () => {
+  const base = { scrollY: 600, viewport: 844 };
+  assert.equal(wantShown({ ...base, docked: true }), true);
+  assert.equal(wantShown({ ...base, docked: false }), false);
+});
+
+test('a tap asks about the section he is in, where Mobi has something to go on', () => {
+  assert.equal(askForSection('pricing'), 'What do I get on Free?');
+  assert.equal(askForSection('inside-the-lab'), 'What is the Mistake Lab?');
+  assert.equal(askForSection('wall-of-love'), null);
+  assert.equal(askForSection(''), null);
+  for (const q of Object.values(SECTION_ASKS)) { assert.ok(q.endsWith('?') && q.length <= 60, q); assert.doesNotMatch(q, /!/); }
 });
 
 test('a pose changes only when slow or resting, and at most once per 600 ms', () => {
@@ -100,7 +110,9 @@ test('the component keeps the page contract: one scroll read, a real button, the
   assert.doesNotMatch(SRC, /addEventListener\(\s*'scroll'/, 'no scroll listener of its own');
   assert.doesNotMatch(SRC, /requestAnimationFrame\(/, 'no frame loop of its own');
   assert.match(SRC, /<button[^>]*type="button"[^>]*aria-label="Ask Mobi a question"/);
-  assert.match(SRC, /new CustomEvent\('mm:ask-mobi', \{ detail: \{ source: 'companion' \} \}\)/);
+  assert.match(SRC, /new CustomEvent\('mm:ask-mobi', \{ detail: \{ source: 'companion', section: s\.section \} \}\)/);
+  assert.match(SRC, /docked: docked\(\)/, 'shown only on the bar');
+  assert.doesNotMatch(SRC, /hop\(/, 'no hops');
   assert.match(SRC, /matchMedia\('\(max-width: 899px\)'\)/);
   assert.match(SRC, /data-pip-static/);
   assert.match(SRC, /getElementById\('mbp-/, 'nothing when the sprite is missing');
@@ -110,6 +122,6 @@ test('the component keeps the page contract: one scroll read, a real button, the
   assert.match(CSS, /prefers-reduced-motion: reduce/);
   assert.match(CSS, /html\[data-motion='reduced'\]/);
   assert.match(CSS, /:focus-visible/);
-  assert.match(CSS, /pip-arrive/);
+  assert.doesNotMatch(CSS, /pip-arrive|mc-hop/, 'no hop on arrival or on a pose change');
   assert.doesNotMatch(CSS, /gradient\(|backdrop-filter|drop-shadow/, 'no gradients, glows or glass');
 });

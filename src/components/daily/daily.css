@@ -11,10 +11,10 @@
   :root:not([data-motion='reduced']) .mm.lp.dly-page { --pip-lane: 0px; }
 }
 
-/* The head: the date and the day's number, the name, one line of what it is. */
-.mm.lp .dly__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+/* The head: the name, then one line of what the five are. */
+.mm.lp .dly__head { display: grid; gap: 8px; }
 .mm.lp .dly__title { margin: 0; color: var(--ink); font: 800 2.5rem/1 var(--font-display); letter-spacing: -0.04em; }
-.mm.lp .dly__no { flex: none; min-width: 3.4em; padding: 6px 12px; border-radius: 999px; background: var(--volt); color: var(--volt-ink); font: 800 0.9375rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; text-align: center; }
+.mm.lp .dly__what { margin: 0; max-width: 34rem; color: var(--ink-2); font-size: 1rem; line-height: 1.45; text-wrap: pretty; }
 /* The page: the day on ink, joined to the card under it along the tear line. */
 .mm.lp .lp-try.dly .lp-desk[data-band] { overflow: hidden; border: 1px solid var(--line-strong); border-radius: 26px; box-shadow: var(--sh-2); }
 .mm.lp .dly .df-day { padding: 20px 22px 22px; }

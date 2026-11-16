@@ -7,9 +7,11 @@
 import { CalendarDay, DailyClock, useDailyNow } from '@/components/daily/DailyParts';
 import { sundayState, sundayWindow, timeLabel, windowLine } from '@/lib/sundayMock.mjs';
 
+// The site writes a time of day in lower case ("10:00 am"); the shared helpers print AM and PM for the app.
+const lower = (text) => text.replace(/(AM|PM)/g, (m) => m.toLowerCase());
 function lineAt(st) {
-  if (st.phase === 'open') return `Open now, until ${timeLabel(st.closesAt)} IST today.`;
-  return `Next: ${windowLine(st.phase === 'closed' ? st.next : st.week)} IST.`;
+  if (st.phase === 'open') return lower(`Open now, until ${timeLabel(st.closesAt)} IST today.`);
+  return lower(`Next: ${windowLine(st.phase === 'closed' ? st.next : st.week)} IST.`);
 }
 
 export default function SundayNext() {

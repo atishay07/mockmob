@@ -47,6 +47,8 @@ function Art({ art, className = 'kc-demo__art', sizes = '(max-width: 959px) 62vw
   );
 }
 
+const PHONE_SUBJECTS = 6;
+
 export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subjects = null }) {
   const total = cards.length;
   const [at, setAt] = useState(0);
@@ -213,7 +215,9 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           <div className="kc-open">
             <p className="kc-open__title">{W.openTitle}</p>
             <ul className="kc-open__list">
-              {subjects.map((s) => <li key={s.slug}><Link href={`${PUBLIC_DECKS_HREF}#${s.slug}`}>{s.name}</Link></li>)}
+              {/* Phones show the first six and one chip that counts the rest (r16-phone.css); wide screens show them all. */}
+              {subjects.map((s, i) => <li key={s.slug} data-extra={i >= PHONE_SUBJECTS ? 'true' : undefined}><Link href={`${PUBLIC_DECKS_HREF}#${s.slug}`}>{s.name}</Link></li>)}
+              {subjects.length > PHONE_SUBJECTS ? <li className="kc-open__more"><Link href={PUBLIC_DECKS_HREF}>{W.moreSubjects(subjects.length - PHONE_SUBJECTS)}</Link></li> : null}
             </ul>
           </div>
         ) : null}

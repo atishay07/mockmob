@@ -11,6 +11,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
+import { STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -226,10 +227,6 @@ export default function LandingPage() {
                     end state offers it after the fifth answer. */}
               </div>
             </div>
-            {/* The Daily Five's own block (16 Nov 2026, owner: "not placed correctly as a proper clock"): the day, the board of
-                five, a real clock to 12:00 am IST and one ink key, under the desk and as wide as it. It stands outside the desk's
-                grid so the room, which stays in view beside a growing card, can never slide over it. */}
-            <DailyFiveRow where="home" />
           </div>
         </section>
 
@@ -282,6 +279,20 @@ export default function LandingPage() {
 
         {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
         <ExamScreen />
+
+        {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
+        {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
+            space", "it should not be at the top. It can be somewhere else." Two short rows here, after the practice
+            features and before admissions (DailyFiveRow HomeStrip); each row is the link to its own page. */}
+        <section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left">
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
+              <p className="lp-sub">{STRIP_HEAD.sub}</p>
+            </Reveal>
+            <DailyFiveRow where="home" />
+          </div>
+        </section>
 
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (

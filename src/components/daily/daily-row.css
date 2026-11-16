@@ -1,6 +1,5 @@
 /* The Daily Five's doors (DailyFiveRow.jsx).
-   Home: the Daily Five's own block under the sample card (16 Nov 2026): the day, the board, the clock and one ink key, the
-   whole block the link. On the card's paper and hairline; full width of the desk on wide screens.
+   Home: the short strip of two rows (the Daily Five and the Sunday Mock), each row a link.
    Today: Today's Ask Mobi row as it is (today.css .tmask); this file only draws the five small squares in its face slot. */
 
 .dfr__mark { display: inline-flex; gap: 2px; min-width: 34px; justify-content: center; }
@@ -8,74 +7,55 @@
 .dfr__mark i[data-right='true'] { background: currentColor; opacity: 1; }
 .dfr[data-played='true'] .dfr__mark i { opacity: 1; }
 
-/* ---------- Home: the block ---------- */
-/* A page of a tear-off desk calendar: the day on ink (the opening's and the footer's ground, the same in Day and Night),
-   the five on paper under it. As wide as the desk above it at every size (hero-scene.css, r10-sample.css). */
-.mm.lp .dfh {
-  display: grid; margin: 28px -4px 0; overflow: hidden;
-  border: 1px solid var(--line-strong); border-radius: 26px; background: var(--paper-raised);
-  color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent; box-shadow: var(--sh-2);
+/* ---------- Home: the strip ---------- */
+/* Two short rows low on the home page (16 Nov 2026, evening): each a small page of the tear-off desk calendar lying on its
+   side. The day on ink (the opening's and the footer's ground, the same in Day and Night), a tear line, then on paper the
+   name, one sentence, when, and where the tap goes. About 140 px a row on a phone; side by side from 720 px. */
+.mm.lp .dfs { display: grid; gap: 12px; }
+.mm.lp .dfs__row {
+  display: grid; grid-template-columns: 84px minmax(0, 1fr); min-height: 136px; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 20px; background: var(--paper-raised);
+  color: var(--ink); text-decoration: none; -webkit-tap-highlight-color: transparent;
   transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-.mm.lp .dfh__body { display: grid; gap: 14px; padding: 22px 20px 22px; min-width: 0; }
-.mm.lp .dfh__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.mm.lp .dfh__name { margin: 0; color: var(--ink); font: 800 2.125rem/1 var(--font-display); letter-spacing: -0.035em; }
-.mm.lp .dfh__no { flex: none; padding: 5px 10px; border-radius: 999px; background: var(--volt); color: var(--volt-ink); font: 800 0.875rem/1.1 var(--font-display); font-variant-numeric: tabular-nums; min-width: 3.4em; text-align: center; }
-/* Two lines are held, so the line a played day writes never moves what is under it. */
-.mm.lp .dfh__line { margin: -4px 0 0; min-height: 2.9em; color: var(--ink-2); font-size: 1rem; line-height: 1.45; text-wrap: pretty; }
-.mm.lp .dfh[data-state='played'] .dfh__line { color: var(--ink); }
-.mm.lp .dfh__chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
-.mm.lp .dfh__chips li { padding: 5px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink); font: 650 0.8125rem/1.2 var(--font-body); }
-/* The key, drawn here as the system's primary key is (marketing.css .mm-btn--primary): this file also serves Today in the
-   app, which never loads the marketing sheet. Once the day is played it steps back to the secondary key. */
-.mm.lp .dfh__key {
-  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 58px; margin-top: 4px; padding: 0.75rem 1.25rem;
-  border-radius: var(--r-2); background: var(--volt); color: var(--volt-ink);
-  font: 800 1.0625rem/1.1 var(--font-display); letter-spacing: -0.01em; text-align: center;
-  box-shadow: var(--key-hairline, inset 0 0 0 0 transparent), 0 var(--btn-edge) 0 var(--volt-edge), var(--sh-2);
-  transform: translateY(calc(var(--btn-edge) * -1));
-}
-.mm.lp .dfh__key[data-quiet='true'] { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); transform: none; }
-/* The second page: the week's other fixed date, the Sunday Mock. Its tag is quiet and its key is the secondary key. */
-.mm.lp .dfh + .dfh { margin-top: 16px; }
-.mm.lp .dfh__no[data-quiet='true'] { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line-strong); }
-.mm.lp .dfh:active { transform: scale(0.992); }
-.mm.lp .dfh:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-/* From 720 px the page lies on its side: the day on the left, the five on the right. */
+.mm.lp .dfs__leaf { position: relative; display: grid; align-content: center; justify-items: center; gap: 3px; padding: 12px 6px; background: #12110e; color: #fffdf8; }
+.mm.lp .dfs__leaf::after { content: ''; position: absolute; right: -1px; top: 12px; bottom: 12px; width: 2px; background: repeating-linear-gradient(180deg, var(--paper-raised) 0 6px, transparent 6px 12px); }
+.mm.lp .dfs__leaf b { min-height: 0.9em; font: 800 2.625rem/0.9 var(--font-display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.mm.lp .dfs__leaf em { min-height: 1em; color: var(--volt); font: 800 1rem/1 var(--font-display); font-style: normal; letter-spacing: -0.01em; }
+.mm.lp .dfs__leaf small { min-height: 1.2em; color: rgb(255 253 248 / 0.72); font: 600 0.75rem/1.2 var(--font-body); }
+.mm.lp .dfs__body { display: grid; align-content: space-between; gap: 6px; min-width: 0; padding: 14px 16px; }
+.mm.lp .dfs__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.mm.lp .dfs__name { color: var(--ink); font: 800 1.25rem/1.1 var(--font-display); letter-spacing: -0.02em; }
+.mm.lp .dfs__top .dfr__mark { color: var(--ink); min-width: 0; gap: 3px; }
+.mm.lp .dfs__top .dfr__mark i { width: 8px; height: 8px; border-radius: 2px; }
+.mm.lp .dfs__line { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+.mm.lp .dfs__row[data-state='played'] .dfs__line { color: var(--ink); }
+/* Phones: when, then the tap, one under the other (both rows the same). Side by side from 720 px. */
+.mm.lp .dfs__foot { display: grid; gap: 3px; justify-items: start; }
+.mm.lp .dfs__when { color: var(--ink-2); font: 650 0.8125rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .dfs__go { color: var(--ink); font: 750 0.9375rem/1.3 var(--font-body); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.mm.lp .dfs__row:active { transform: scale(0.99); }
+.mm.lp .dfs__row:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (hover: hover) { .mm.lp .dfs__row:hover .dfs__go { text-decoration-thickness: 2.5px; } }
 @media (min-width: 720px) {
-  .mm.lp .dfh { grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.6fr); }
-  .mm.lp .dfh .df-day { grid-template-columns: minmax(0, 1fr); align-content: space-between; align-items: start; padding: 26px 26px 28px; }
-  .mm.lp .dfh .df-day::after { left: auto; right: -1px; top: 14px; bottom: 14px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--paper-raised) 0 7px, transparent 7px 14px); }
-  .mm.lp .dfh .df-day .df-clock { justify-items: start; text-align: left; }
-  .mm.lp .dfh__body { padding: 26px 28px 28px; }
-  .mm.lp .dfh__line { min-height: 1.45em; }
+  .mm.lp .dfs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .mm.lp .dfs__row { grid-template-columns: 112px minmax(0, 1fr); min-height: 152px; border-radius: 24px; }
+  .mm.lp .dfs__leaf b { font-size: 3.5rem; }
+  .mm.lp .dfs__leaf em { font-size: 1.25rem; }
+  .mm.lp .dfs__leaf small { font-size: 0.8125rem; }
+  .mm.lp .dfs__body { padding: 18px 22px; }
+  .mm.lp .dfs__foot { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .mm.lp .dfs__name { font-size: 1.5rem; }
+  .mm.lp .dfs__line { font-size: 1rem; }
 }
-@media (min-width: 960px) {
-  .mm.lp .dfh { max-width: 560px; margin-inline: auto; grid-template-columns: minmax(0, 1fr); }
-  .mm.lp .dfh .df-day { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
-  .mm.lp .dfh .df-day::after { left: 14px; right: 14px; top: auto; bottom: -1px; width: auto; height: 2px; background: repeating-linear-gradient(90deg, var(--paper-raised) 0 7px, transparent 7px 14px); }
-  .mm.lp .dfh .df-day .df-clock { justify-items: end; text-align: right; }
-}
-/* On wide screens the desk is the room and the card side by side (r10-sample.css): the page runs under both. */
-@media (min-width: 1024px) {
-  .mm.lp .dfh { grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.6fr); max-width: 1120px; margin-top: 32px; border-radius: 30px; }
-  .mm.lp .dfh .df-day { grid-template-columns: minmax(0, 1fr); align-content: space-between; align-items: start; padding: 32px 34px; }
-  .mm.lp .dfh .df-day::after { left: auto; right: -1px; top: 16px; bottom: 16px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--paper-raised) 0 7px, transparent 7px 14px); }
-  .mm.lp .dfh .df-day .df-clock { justify-items: start; text-align: left; }
-  .mm.lp .dfh .df-day .df-clock[data-size='l'] .df-clock__digits { font-size: 2.25rem; }
-  .mm.lp .dfh .df-day__date b { font-size: 7rem; }
-  .mm.lp .dfh .df-day__date em { font-size: 2rem; }
-  .mm.lp .dfh__body { gap: 16px; padding: 32px 36px 34px; }
-  .mm.lp .dfh__name { font-size: 2.75rem; }
-  .mm.lp .dfh__line { font-size: 1.0625rem; }
-  .mm.lp .dfh__key { min-height: 62px; }
-}
-html[data-motion='reduced'] .mm.lp .dfh { transition: none; }
-@media (prefers-reduced-motion: reduce) { .mm.lp .dfh { transition: none; } }
+/* The strip's own head: a small habit, said at a modest size and in one column at every width. */
+.mm.lp main > .lp-rhythm.lp-sec .lp-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; justify-items: start; margin-bottom: 1.25rem; }
+.mm.lp main > .lp-rhythm.lp-sec .lp-head .lp-h2 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); }
+.mm.lp main > .lp-rhythm.lp-sec .lp-head > * { margin-inline: 0; text-align: left; }
+.mm.lp .lp-rhythm .lp-kc__phrase { display: inline-block; }
+@media (min-width: 720px) { .mm.lp .lp-rhythm .dfs { max-width: 62rem; } }
+html[data-motion='reduced'] .mm.lp .dfs__row { transition: none; }
+@media (prefers-reduced-motion: reduce) { .mm.lp .dfs__row { transition: none; } }
 
 /* ---------- Today ---------- */
 .app-shell .dfr--today .dfr__mark { color: var(--a-ink); }
-.app-shell .dfr--today .dfr__no { font-weight: 600; font-variant-numeric: tabular-nums; opacity: 0.72; }
-
-/* The Sunday page's clock has days in it and sits on its own row: left, at every size. */
-.mm.lp .dfh .df-day .df-clock[data-days='true'] { justify-items: start; text-align: left; }

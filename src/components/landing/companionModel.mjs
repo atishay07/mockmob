@@ -1,4 +1,9 @@
 // companionModel: the pure rules behind the phone scroll companion (MobiCompanion.jsx, round 14, 13 Nov 2026).
+// 16 Nov 2026, evening (the owner, after watching him on his phone: "the scrolling of Mobi and its actions, what it is doing:
+// it needs to be interactive and overall fixed"). He was leaning with the scroll, stretching on a flick, hopping on every
+// pose, standing over the page's own content wherever no bar was up, and stepping in and out. Now he has one place (on the
+// bottom bar's top edge, only while that bar is up), he stands still while the page moves, and a tap opens Ask Mobi with a
+// question about the section the reader is on (SECTION_ASKS).
 // No DOM here, so node --test can pin every number the component reads.
 
 export const COMPANION = {
@@ -11,8 +16,8 @@ export const COMPANION = {
   restMs: 260, // the lean eases back this long after the scroll stops
   poseGapMs: 600, // at most one pose change in this window
   slowSpeed: 0.3, // a pose is committed only under this speed (or at rest)
-  leanDeg: 5, // the most he leans
-  stretch: 0.06, // the most a flick stretches him (scaleY 1.06)
+  leanDeg: 0, // he no longer leans with the scroll (16 Nov 2026): he stands still while the page moves
+  stretch: 0, // and a flick no longer stretches him
   flick: 0.6, // the speed where the stretch starts
   bubbleMs: 3000, // the hello stays this long (short: it stands over the page while it shows)
   bubbleScrollPx: 400, // or until the reader scrolls this far
@@ -33,6 +38,20 @@ export const SECTION_POSES = {
   faq: 'thinking',
 };
 export const DEFAULT_POSE = 'idle';
+
+// The first question Ask Mobi offers when he is tapped in a section. Each is one the visitor's Mobi can answer from what it
+// is given (src/lib/server/guestMobi.js buildFactSheet: the Mistake Lab, a full mock, Free, Pro, the DU tools) or from CUET
+// itself. A section with no entry gets the sheet's own two questions.
+export const SECTION_ASKS = Object.freeze({
+  'inside-the-lab': 'What is the Mistake Lab?',
+  'your-prep': 'How should I use mocks to prepare?',
+  'key-cards': 'How do I revise a chapter fast?',
+  'exam-experience': 'How is a CUET paper timed?',
+  compass: 'How do DU cutoffs work?',
+  'du-eligibility': 'Which subjects should I pick for B.Com?',
+  pricing: 'What do I get on Free?',
+});
+export const askForSection = (key) => SECTION_ASKS[key] || null;
 export const POSES = ['greeting', 'attentive', 'thinking', 'pointing', 'celebrating', 'encouraging', 'idle', 'reading'];
 
 export const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
@@ -77,10 +96,13 @@ export function poseDecision({ current, wanted, speed = 0, resting = false, now 
   return { commit: true, waitMs: 0 };
 }
 
-/** Should he be on screen? Out for any other Mobi, a bar that carries one, the Ask sheet, the hero's first screen, the footer. */
-export function wantShown({ scrollY = 0, viewport = 0, otherMobi = false, barOn = false, askOpen = false, footer = false, navOpen = false } = {}) {
+/**
+ * Should he be on screen? Only while the bottom bar is up for him to stand on (`docked`): he never stands over the page's own
+ * content. Out for any other Mobi, a bar that carries one, the Ask sheet, the hero's first screen, the footer.
+ */
+export function wantShown({ scrollY = 0, viewport = 0, otherMobi = false, barOn = false, askOpen = false, footer = false, navOpen = false, docked = true } = {}) {
   if (!viewport || scrollY < viewport * COMPANION.heroShare) return false;
-  return !otherMobi && !barOn && !askOpen && !footer && !navOpen;
+  return docked && !otherMobi && !barOn && !askOpen && !footer && !navOpen;
 }
 
 /** Where his feet stand, in px above the screen's foot: on the dock's top edge when it is up, else his resting gap (CSS). */

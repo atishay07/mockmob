@@ -1,0 +1,30 @@
+/* Round 16 (16 Nov 2026, evening): the phone pass after the owner's look at the live page on his phone ("looks good on the
+   desktop page but falls short on the mobile page ... not just walls of text, and that is also not properly lined").
+   Each block names what it changes and why. Phones only unless a block says otherwise. Loaded last (src/lib/homeCss.mjs). */
+
+@media (max-width: 719px) {
+  /* 1. DU Compass's head. Mobi stood on the leading side (brand-pip.css .lp-guide-head--lead), which pushed the stamp, the
+        heading and the line 114 px in from the page's left edge: the only section head on the page that did not start on
+        it. The words come first on the page's edge; he stands at the head's right, as he does beside the exam screen. */
+  .mm.lp main .lp-guide-head--lead { flex-direction: row; justify-content: space-between; align-items: start; gap: 12px; }
+  .mm.lp main .lp-guide-head--lead > .lp-head { text-align: left; }
+  .mm.lp main .lp-guide-head--lead > .pip-seat { flex: 0 0 72px; }
+
+  /* 2. Key cards: fourteen subject chips stood as a wall (about 340 px). The first six show (the four launch papers lead
+        the list); one more chip counts the rest and opens the page that holds every subject's cards. */
+  .mm.lp .kc-open__list li[data-extra='true'] { display: none; }
+}
+@media (min-width: 720px) {
+  .mm.lp .kc-open__list li.kc-open__more { display: none; }
+}
+
+/* 3. Sliders under a scrolling thumb (every touch screen). A range input takes its value from wherever a finger lands on
+      its track, so a thumb scrolling down the page across the Compass score or the pricing pace set it by accident: the
+      score jumped (once to 236) and ten bars moved, with nobody having asked. On a touch screen the track no longer takes
+      the finger, only the knob does, and a vertical drag that starts on the knob still scrolls the page. The Compass's
+      three score keys and the pricing's steps stay as the quick ways to set a value. */
+@media (hover: none), (pointer: coarse) {
+  body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range'] { pointer-events: none; touch-action: pan-y; }
+  body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range']::-webkit-slider-thumb { pointer-events: auto; }
+  body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range']::-moz-range-thumb { pointer-events: auto; }
+}
