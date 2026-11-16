@@ -10,9 +10,19 @@
 //   &mistake=none      no credits left (402)        &mistake=paused   written replies paused (503)
 //   &mistake=slow      the answer after 8 s, to see Sending
 //   &mistake=lost      the first send's answer is lost on the way; Try again sends the same request and gets it
-// A paid answer spends one credit from the preview wallet, once per request id, like the server's receipt.
+// A paid answer spends one credit from the preview wallet, once per request id, like the server's receipt (two for a photo).
+//
+// A photo of the question (lane web/1116-photo). The photo is checked by the same request rules (its bytes, its size), and the
+// answer carries "read" (an illustrative reading of a coaching-sheet question) and the chapter, held to the same contract.
+//   choose a photo with the form's key: the photo row at once, "Getting the photo ready" while the browser makes it ready
+//   &mistake=slow        "Mobi is reading your photo" for 8 s, then the answer
+//   &mistake=ok          answered from a photo (what Mobi read, the chapter's practice link); typed asks answer as before
+//   &mistake=unreadable  Mobi could not read a question in the photo (the credits released)
+//   &mistake=photooff    the server with the photo switch off (a photo refused with a 400; the panel drops its photo key)
+//   &photo=off           the form with the photo switch off (no photo key; set by ArenaPreviewClient)
 import { needsSupport, SUPPORT_REPLY } from '@/services/ai/supportCheck';
-import { MISTAKE_COPY, cleanText, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
+import { MISTAKE_COPY, cleanText, mistakeCredits, mistakeReplyText, readMistakeReply, readMistakeRequest, refusalFor, studyCheck } from '@/services/mobi/bringMistake.mjs';
+import { mistakeChapters } from '@/services/mobi/mistakeChapters.mjs';
 
 const opts = (right, texts) => texts.map((text, i) => ({ text, right: i === right }));
 
@@ -27,7 +37,10 @@ const SURE = {
     { question: 'X and Y share profits in the ratio 2:1. Z is admitted for 1/4th share, which X and Y give up in their old ratio. What is the new ratio of X, Y and Z?', options: opts(0, ['2:1:1', '2:1:3', '6:3:4', '8:4:3']), reason: 'X and Y keep 3/4 and split it 2:1, so X has 1/2, Y has 1/4 and Z has 1/4: 2:1:1.' },
     { question: 'P and Q share profits equally. R is admitted for 1/3rd share. What is P’s share of the profit in the new ratio?', options: opts(2, ['1/2', '1/6', '1/3', '2/3']), reason: 'P and Q keep 2/3 between them and split it equally, so P has 1/3.' },
   ],
+  chapter: 'admission of partner',
 };
+// What Mobi would read from a photo of the same coaching-sheet question (illustrative).
+const READ = 'Q.14 A and B share profits in the ratio 3:2. C is admitted for 1/5th share. The new profit-sharing ratio of A, B and C will be:\n(a) 12:8:5\n(b) 3:2:1\n(c) 2:2:1\n(d) 12:8:4';
 const UNSURE = {
   kind: 'answer',
   tests: 'Knowing the features a partnership must have under the Indian Partnership Act, 1932.',
@@ -50,28 +63,34 @@ export function previewMistake(url, method, init, fixture, json) {
   const later = (reply, status = 200, ms = 900) => new Promise((resolve) => setTimeout(() => resolve(json(reply, status)), ms));
   // The free steps, as the route runs them.
   if ([body.question, body.chosen, body.key].some((t) => typeof t === 'string' && (needsSupport(t) || needsSupport(cleanText(t))))) return later({ ok: true, kind: 'support', reply: SUPPORT_REPLY, charged: 0 }, 200, 300);
-  const read = readMistakeRequest(body, { subjects: SUBJECTS });
+  const kind = fixture.get('mistake') || 'ok';
+  const read = readMistakeRequest(body, { subjects: SUBJECTS, photoOn: kind !== 'photooff' });
   if (!read.ok) return later({ ok: false, error: read.error, message: read.message, charged: 0 }, read.http, 200);
-  const study = studyCheck(read.value);
+  const value = { ...read.value, chapters: mistakeChapters(read.value.subject?.id) };
+  const credits = mistakeCredits(value);
+  const study = studyCheck(value);
   if (!study.ok) return later({ ok: true, kind: 'refused', reply: refusalFor(study.reason), charged: 0 }, 200, 300);
 
-  const kind = fixture.get('mistake') || 'ok';
-  if (kind === 'none') return later({ ok: false, error: 'insufficient_ai_credits', status: 'blocked', balance: 0, message: 'This uses 1 credit. You have 0. Questions about your record are free.', charged: 0 }, 402);
+  if (kind === 'none') return later({ ok: false, error: 'insufficient_ai_credits', status: 'blocked', balance: 0, message: `This uses ${credits} ${credits === 1 ? 'credit' : 'credits'}. You have 0. Questions about your record are free.`, charged: 0 }, 402);
+  if (kind === 'unreadable' && value.photo) return later({ ok: true, kind: 'refused', reason: 'unreadable', reply: MISTAKE_COPY.unreadable, charged: 0 }, 200, 1600);
   if (kind === 'paused') return later({ ok: false, status: 'paused', message: 'AI features are paused for now. Your credits have not been used.', charged: 0 }, 503);
   if (kind === 'cap') return later({ ok: false, error: 'user_limit_reached', status: 'failed', message: 'You’ve reached this month’s AI limit. It resets on 1 December. No credits were used.', charged: 0 }, 429, 1200);
   if (kind === 'fail') return later({ ok: false, error: 'unusable_output', status: 'failed', message: `${MISTAKE_COPY.failed} No credits were used.`, charged: 0 }, 502, 1500);
   if (kind === 'refuse') return later({ ok: true, kind: 'refused', reply: MISTAKE_COPY.notStudy, charged: 0 }, 200, 1200);
 
-  const checked = readMistakeReply(JSON.stringify(kind === 'unsure' ? UNSURE : SURE), { request: read.value });
+  const modelReply = { ...(kind === 'unsure' ? UNSURE : SURE), ...(value.photo ? { read: READ } : {}) };
+  const checked = readMistakeReply(JSON.stringify(modelReply), { request: value });
   if (!checked.ok) return later({ ok: false, error: 'unusable_output', message: `${MISTAKE_COPY.failed} No credits were used.`, charged: 0 }, 502);
-  // One credit per request id, spent from the same preview wallet the chip and the price line read.
+  // One credit per request id (two for a photo), spent from the same preview wallet the chip and the price line read.
   const receipts = (window.__previewRepairIds ||= new Set());
   const id = `mistake:${body.requestId}`;
   const first = !receipts.has(id);
   receipts.add(id);
+  if (credits > 1) receipts.add(`${id}:2`);
   const reply = {
-    ok: true, kind: 'answer', origin: 'model', mistake: checked.mistake, reply: mistakeReplyText(checked.mistake), subject: read.value.subject,
-    charge: { kind: 'prepos_credit', creditUnits: 1, amount: first ? 1 : 0, reference: id }, replayed: !first, sessionId: 'preview-session',
+    ok: true, kind: 'answer', origin: 'model', mistake: checked.mistake, reply: mistakeReplyText(checked.mistake), subject: value.subject,
+    ...(value.photo ? { source: 'photo' } : {}),
+    charge: { kind: 'prepos_credit', creditUnits: credits, amount: first ? credits : 0, reference: id }, replayed: !first, sessionId: 'preview-session',
   };
   if (kind === 'lost' && !lost.has(body.requestId)) {
     lost.add(body.requestId);

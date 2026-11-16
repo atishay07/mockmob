@@ -4,6 +4,7 @@
 // No 'server-only' and no alias imports on purpose: src/services/ai/providers.js wires the real SDK clients and
 // the runtime guard in, and data/tests/provider_runtime.test.mjs wires fakes in, so every failure path (quota,
 // timeout, a rejected parameter, a fallback to another provider) is tested without a live provider or database.
+import { openaiImageInput } from './imageInput.js';
 
 // Owner rule (5 Oct 2026): GPT-6 Luna is the only OpenAI model MockMob calls. 'fast' = no reasoning, 'smart' = low.
 // Owner decision D2 (14 Oct 2026): Mistake Repair may fall back, once, to Anthropic claude-haiku-5-5 when Luna
@@ -289,38 +290,47 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
     }
   }
 
-  async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950, reasoningEffort = null, timeoutMs = null, userId = null, userTier = null }) {
+  // `image` (optional, 16 Nov 2026, "bring a mistake" photos): { mime: 'image/jpeg', data: base64 }. OpenAI only, as one
+  // Chat Completions image_url part after the text (src/services/ai/imageInput.js says which docs that shape was checked
+  // against). Any other provider, or an image that is not a readable JPEG, is refused with bad_request before a client is
+  // touched or anything is reserved. The guard reserves for the image's own input tokens (imageTokenBound), never its base64.
+  async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950, reasoningEffort = null, timeoutMs = null, userId = null, userTier = null, image = null }) {
     if (!isAllowedModel(provider, model)) {
       // No prompt text, no student data: the provider and model names only.
       try { log(JSON.stringify({ route: 'ai_guard', stage: 'model_allowlist', code: 'model_not_allowed', provider: String(provider), model: String(model) })); } catch { /* logging never blocks a refusal */ }
       return { ok: false, error: 'model_not_allowed', errorKind: 'model_not_allowed', provider, model };
+    }
+    let picture = null;
+    if (image !== null && image !== undefined) {
+      if (provider !== 'openai') return { ok: false, error: `${provider}:image_not_supported`, errorKind: 'bad_request', provider, model };
+      picture = openaiImageInput(image);
+      if (!picture) return { ok: false, error: `${provider}:image_invalid`, errorKind: 'bad_request', provider, model };
     }
     const client = getClient(provider);
     if (!client) {
       return { ok: false, error: `provider_unavailable:${provider}`, errorKind: 'provider_unavailable', provider, model };
     }
 
+    const userText = typeof context === 'object' && context !== null
+      ? `STUDENT_CONTEXT_JSON:\n${JSON.stringify(context)}\n\nUSER_MESSAGE:\n${userMessage}`
+      : userMessage;
     const messages = [
       { role: 'system', content: systemPrompt },
-      {
-        role: 'user',
-        content:
-          typeof context === 'object' && context !== null
-            ? `STUDENT_CONTEXT_JSON:\n${JSON.stringify(context)}\n\nUSER_MESSAGE:\n${userMessage}`
-            : userMessage,
-      },
+      { role: 'user', content: userText },
     ];
+    // What goes to the provider: the same two messages, the user's as a text part then the image part when there is one.
+    const sent = picture ? [messages[0], { role: 'user', content: [{ type: 'text', text: userText }, picture.part] }] : messages;
 
     let reservation;
     try {
-      reservation = await reserveRuntime({ requestKey, provider, model, messages, maxTokens: outputBound(model, maxTokens, reasoningEffort), ...(userId ? { userId, userTier } : {}) });
+      reservation = await reserveRuntime({ requestKey, provider, model, messages, maxTokens: outputBound(model, maxTokens, reasoningEffort), ...(picture ? { extraInputTokens: picture.tokens } : {}), ...(userId ? { userId, userTier } : {}) });
       if (!reservation.dispatch) return reservation.receipt?.response || { ok: false, error: 'runtime_request_pending', errorKind: 'pending' };
     } catch (err) {
       return { ok: false, error: 'runtime_ai_temporarily_unavailable', errorKind: err?.kind || 'guard_unavailable', provider, model };
     }
     const call = provider === 'anthropic' ? callAnthropic : callOpenAICompatible;
     // From here a request has gone to the provider (or failed on its way there): it counts against maxPhysicalCalls.
-    return { ...(await call({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reasoningEffort, timeoutMs, reservation })), dispatched: true };
+    return { ...(await call({ client, requestKey, provider, model, messages: sent, jsonMode, maxTokens, reasoningEffort, timeoutMs, reservation })), dispatched: true };
   }
 
   /**

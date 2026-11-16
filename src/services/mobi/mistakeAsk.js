@@ -18,15 +18,34 @@
 //   5. the reply   readMistakeReply holds it to the contract. Invalid -> the credit is released and the student sees an honest
 //                  error with Try again. The model's own "not a study question" or "support" -> the credit is released too,
 //                  and the student sees the refusal or the fixed support reply (never model-written words).
+//
+// A photo of the question (lane web/1116-photo, 16 Nov 2026; switch data/mistake_photo.mjs): the same steps, in the same order,
+// with MISTAKE_PHOTO_CREDITS (2) through the same one reserve, commit or release under the same one operation key. The photo
+// goes to the model as an image part (callOnce `image`, OpenAI only) and is never stored or logged. Its own verdicts: the
+// model's "unreadable" (blurred, cut off, no question) releases the credits with fixed words; and before anything is shown,
+// needsSupport runs on Mobi's reading of the photo ("read"): a match is the fixed support reply, the credits released.
 import { runModelReply, operationKeyFor } from '../prepos/modelReply.js';
 import { needsSupport, SUPPORT_REPLY } from '../ai/supportCheck.js';
 import { LUNA_MODEL } from '../ai/providerCore.js';
 import {
-  MISTAKE_COPY, MISTAKE_CREDITS, MISTAKE_EFFORT, MISTAKE_MAX_TOKENS, MISTAKE_TIMEOUT_MS, cleanText, mistakeReplyText, mistakeSystemPrompt,
-  mistakeUserMessage, readMistakeReply, readMistakeRequest, readStoredMistake, refusalFor, studyCheck,
+  MISTAKE_COPY, MISTAKE_EFFORT, MISTAKE_LIMITS, MISTAKE_MAX_TOKENS, MISTAKE_PHOTO_MAX_TOKENS, MISTAKE_PHOTO_ON, MISTAKE_TIMEOUT_MS, cleanText,
+  mistakeCredits, mistakeReplyText, mistakeSystemPrompt, mistakeUserMessage, readMistakeReply, readMistakeRequest, readStoredMistake,
+  refusalFor, studyCheck,
 } from './bringMistake.mjs';
+import { mistakeChapters } from './mistakeChapters.mjs';
+import { practiceKeeps } from './liveChapters.mjs';
 
 export const MISTAKE_MODE = 'mistake';
+// The live-chapter read happens after the credits are committed (it only decides whether the answer's practice link names a
+// chapter). The database client sets no timeout of its own, so it gets this long; past it the link is the subject's, and the
+// answer the student paid for is never held up (second review, 16 Nov 2026).
+export const CHAPTERS_WAIT_MS = 1500;
+/** `promise`, or null once `ms` has passed. The timer never keeps the process alive and is cleared when the promise settles. */
+export function within(promise, ms) {
+  let timer = null;
+  const late = new Promise((resolve) => { timer = setTimeout(() => resolve(null), ms); timer?.unref?.(); });
+  return Promise.race([Promise.resolve(promise), late]).finally(() => clearTimeout(timer));
+}
 const NO_CHARGE = Object.freeze({ kind: 'included', creditUnits: 0, amount: 0 });
 
 // ---- The saved turn and its replay: one pair ---------------------------------------------------------------------------------
@@ -37,18 +56,24 @@ const NO_CHARGE = Object.freeze({ kind: 'included', creditUnits: 0, amount: 0 })
 // `db` is a Supabase client (supabaseAdmin() in mistakeDeps and the route; a fake in the tests).
 export const REPLAY_FIELDS = Object.freeze({ kind: 'structured_payload->>kind', reference: 'structured_payload->charge->>reference' });
 
-/** Saves the turn. -> the session id, or null after logging why (a failed write is never silent; no student words logged). */
-export async function persistMistakeTurn({ db, userId, question, response, log = (line) => console.error(line) }) {
+/**
+ * Saves the turn. -> the session id, or null after logging why (a failed write is never silent; no student words logged).
+ * A photo ask (`photo: true`): `question` is Mobi's reading of the photo (or the fixed photoQuestion words), and the session
+ * and the answer are marked source 'photo'. The photo itself is never written: `response` is the reply body, which has no
+ * photo in it.
+ */
+export async function persistMistakeTurn({ db, userId, question, response, photo = false, log = (line) => console.error(line) }) {
   const failed = (stage, error) => {
     try { log(JSON.stringify({ route: 'mentor_mistake', outcome: 'persist_failed', stage, code: error?.code || null, message: String(error?.message || error || '').slice(0, 160) })); } catch { /* logging never breaks the reply */ }
     return null;
   };
+  const source = photo ? { source: 'photo' } : {};
   try {
-    const { data, error } = await db.from('mentor_sessions').insert({ user_id: userId, title: String(question || '').slice(0, 56), metadata: { mode: MISTAKE_MODE } }).select('id').single();
+    const { data, error } = await db.from('mentor_sessions').insert({ user_id: userId, title: String(question || '').slice(0, 56), metadata: { mode: MISTAKE_MODE, ...source } }).select('id').single();
     if (error || !data?.id) return failed('session', error || 'no_session_id');
     const { error: messagesError } = await db.from('mentor_messages').insert([
       { session_id: data.id, user_id: userId, role: 'user', content: question },
-      { session_id: data.id, user_id: userId, role: 'assistant', content: response?.reply || '', structured_payload: { ...response, mode: MISTAKE_MODE } },
+      { session_id: data.id, user_id: userId, role: 'assistant', content: response?.reply || '', structured_payload: { ...response, mode: MISTAKE_MODE, ...source } },
     ]);
     if (messagesError) return failed('messages', messagesError);
     return data.id;
@@ -69,16 +94,20 @@ export async function findMistakeReplay({ db, userId, operationKey }) {
 /**
  * The model step for runModelReply: ONE call through the guarded provider runtime (`callOnce`, src/services/ai/providerCore.js),
  * then the strict reply check. `spendUser` is { userId, userTier } (replyDeps spendUserFor), so the call counts against this
- * student's own monthly cap. `onVerdict` hears the model's "not_study" or "support" (both release the credit).
+ * student's own monthly cap. `onVerdict` hears the model's "not_study", "support" or "unreadable" (each releases the credit).
+ * With a photo (`value.photo`): the photo system prompt, the image beside the user message, the larger output cap, and the
+ * support check on Mobi's reading of the photo before the answer can stand.
  */
 export function mistakeGenerate({ value, callOnce, spendUser, timeoutMs = MISTAKE_TIMEOUT_MS, onVerdict = () => {} }) {
+  const photo = value?.photo || null;
   return async ({ requestKey }) => {
     let result;
     try {
       result = await callOnce({
         requestKey: `${requestKey}:mistake`.slice(0, 180), provider: 'openai', model: LUNA_MODEL, reasoningEffort: MISTAKE_EFFORT,
-        systemPrompt: mistakeSystemPrompt(), userMessage: mistakeUserMessage(value), context: null, jsonMode: true,
-        maxTokens: MISTAKE_MAX_TOKENS, timeoutMs, userId: spendUser?.userId ?? null, userTier: spendUser?.userTier ?? null,
+        systemPrompt: mistakeSystemPrompt({ photo: Boolean(photo) }), userMessage: mistakeUserMessage(value), context: null, jsonMode: true,
+        maxTokens: photo ? MISTAKE_PHOTO_MAX_TOKENS : MISTAKE_MAX_TOKENS, timeoutMs, userId: spendUser?.userId ?? null, userTier: spendUser?.userTier ?? null,
+        ...(photo ? { image: { mime: photo.mime, data: photo.data } } : {}),
       });
     } catch {
       result = { ok: false, errorKind: 'unknown' };
@@ -91,12 +120,21 @@ export function mistakeGenerate({ value, callOnce, spendUser, timeoutMs = MISTAK
       onVerdict({ kind: read.kind });
       return { ok: false, data: null, usage, failure: { kind: read.kind } };
     }
+    // What the photo shows is checked like typed words before anything is shown: distress in it is the fixed support reply.
+    const seen = read.mistake.read;
+    if (seen && (needsSupport(seen) || needsSupport(cleanText(seen)))) {
+      onVerdict({ kind: 'support' });
+      return { ok: false, data: null, usage, failure: { kind: 'support' } };
+    }
     return { ok: true, data: read.mistake, usage, schemaValid: true, fallbackUsed: false };
   };
 }
 
 const held = (message) => /returns automatically/i.test(String(message || ''));
-const creditWords = (message) => (held(message) ? 'Your credit is held briefly and returns automatically.' : 'No credits were used.');
+// A photo ask holds 2 credits: the words say so in the plural.
+const creditWords = (message, credits = 1) => (held(message)
+  ? (credits > 1 ? 'Your credits are held briefly and return automatically.' : 'Your credit is held briefly and returns automatically.')
+  : 'No credits were used.');
 const SUPPORT = (extra = {}) => ({ http: 200, kind: 'support', body: { ok: true, kind: 'support', reply: SUPPORT_REPLY, origin: 'safety', charge: NO_CHARGE, charged: 0, ...extra } });
 const REFUSED = (reason, extra = {}) => ({ http: 200, kind: 'refused', body: { ok: true, kind: 'refused', reply: refusalFor(reason), origin: 'status', charge: NO_CHARGE, charged: 0, ...extra } });
 
@@ -107,28 +145,41 @@ const REFUSED = (reason, extra = {}) => ({ http: 200, kind: 'refused', body: { o
  *   spendUser:  spendUserFor(user)
  *   findReplay: async (operationKey) -> the stored answer payload of an ask already charged, or null
  *   now:        () => ms
- * -> { http, kind, body, value? }   kind: 'support' | 'refused' | 'answer' | 'error'
+ *   liveChapters: async (subjectId) -> Set of the chapter names Practice keeps from a link (liveChapters.mjs); optional
+ * `photoOn` is the photo switch (data/mistake_photo.mjs); off, a photo field is refused with a 400 before anything else.
+ * -> { http, kind, body, value?, saved? }   kind: 'support' | 'refused' | 'answer' | 'error'
+ *    saved: { question, photo } on every support, refusal and answer: what the saved turn keeps (mistakeTurn below). It is
+ *    marked as from a photo only when a checked photo was actually sent and read; before that (distress caught first, the
+ *    switch off, a photo refused by its bytes, instructions in the note) it is the typed path: the words the student typed.
  */
-export async function runMistakeAsk({ user, body, gateOpen, deps }) {
+export async function runMistakeAsk({ user, body, gateOpen, deps, photoOn = MISTAKE_PHOTO_ON }) {
+  // The typed path's saved question, exactly as before photos: what came in the box, cut to the box's length.
+  const typed = { question: typeof body?.question === 'string' ? body.question.slice(0, MISTAKE_LIMITS.question) : '', photo: false };
+
   // 1. Distress first, on whatever words came, before the request is even checked (a long paste still reaches it). Both the
   //    words as sent and the words as the model would get them (cleanText), so an invisible character cannot split a phrase.
+  //    With a photo, `question` is the student's note; what the photo shows is checked once Mobi has read it (step 5).
   const words = body && typeof body === 'object' ? [body.question, body.chosen, body.key].filter((t) => typeof t === 'string') : [];
-  if (words.some((t) => needsSupport(t) || needsSupport(cleanText(t)))) return SUPPORT();
+  if (words.some((t) => needsSupport(t) || needsSupport(cleanText(t)))) return { ...SUPPORT(), saved: typed };
 
-  // 2. The request.
-  const read = readMistakeRequest(body, { subjects: user?.subjects });
+  // 2. The request (the photo checked by its bytes here).
+  const read = readMistakeRequest(body, { subjects: user?.subjects, photoOn });
   if (!read.ok) return { http: read.http, kind: 'error', body: { ok: false, error: read.error, message: read.message, charged: 0 } };
-  const value = read.value;
+  // MockMob's own chapter list for the subject: the model names the chapter only from it, and the reply is held to it.
+  const value = { ...read.value, chapters: mistakeChapters(read.value.subject?.id) };
+  const credits = mistakeCredits(value);
 
-  // 3. Not a study question: a short refusal, free.
+  // 3. Not a study question: a short refusal, free (the photo, if any, was not sent).
   const study = studyCheck(value);
-  if (!study.ok) return REFUSED(study.reason);
+  if (!study.ok) return { ...REFUSED(study.reason), saved: typed };
+  // From here a photo goes to the model: what is saved of a verdict is the fixed words for a photo, never what it showed.
+  const afterModel = value.photo ? { question: MISTAKE_COPY.photoQuestion, photo: true } : typed;
 
-  // 4. The ask, through the one credit lifecycle every written reply uses.
+  // 4. The ask, through the one credit lifecycle every written reply uses: 1 credit typed, 2 with a photo.
   let verdict = null;
   const generate = mistakeGenerate({ value, callOnce: deps.callOnce, spendUser: deps.spendUser, onVerdict: (v) => { verdict = v; } });
   const out = await runModelReply({
-    user, message: value.question, mode: MISTAKE_MODE, requestId: body?.requestId, creditCost: MISTAKE_CREDITS, tier: 'smart', gateOpen,
+    user, message: value.question || MISTAKE_COPY.photoQuestion, mode: MISTAKE_MODE, requestId: body?.requestId, creditCost: credits, tier: 'smart', gateOpen,
     context: null,
     deps: {
       ...deps.wallet, generate, now: deps.now,
@@ -138,21 +189,33 @@ export async function runMistakeAsk({ user, body, gateOpen, deps }) {
   });
 
   if (out.status === 'answered') {
+    let mistake = out.response.mistake;
+    // The chapter is promised only where Practice will keep it (review, 16 Nov): in the live chapter list Practice reads. Not
+    // in it, or the list not readable: no chapter, and the next step is the subject's link, as before.
+    if (mistake.chapter) {
+      let live = null;
+      try { live = deps.liveChapters ? await within(deps.liveChapters(value.subject?.id), CHAPTERS_WAIT_MS) : null; } catch { live = null; }
+      if (!practiceKeeps(live, mistake.chapter)) mistake = { ...mistake, chapter: null };
+    }
     return {
       http: 200, kind: 'answer', value,
+      saved: value.photo ? { question: mistake.read, photo: true } : { question: value.question, photo: false },
       body: {
-        ok: true, kind: 'answer', origin: 'model', mistake: out.response.mistake, reply: out.response.reply, subject: value.subject,
-        charge: { kind: 'prepos_credit', creditUnits: MISTAKE_CREDITS, amount: out.charged, reference: out.operationKey },
+        ok: true, kind: 'answer', origin: 'model', mistake, reply: out.response.reply, subject: value.subject,
+        ...(value.photo ? { source: 'photo' } : {}),
+        charge: { kind: 'prepos_credit', creditUnits: credits, amount: out.charged, reference: out.operationKey },
         usage: out.receipt, charged: out.charged,
       },
     };
   }
   // The model's own verdicts: the credit was released by runModelReply; the student sees fixed words.
-  if (verdict?.kind === 'support') return SUPPORT();
-  if (verdict?.kind === 'not_study') {
-    const refused = REFUSED('not_study');
-    if (held(out.message)) refused.body.reply = refused.body.reply.replace('Nothing was charged.', creditWords(out.message));
-    return refused;
+  if (verdict?.kind === 'support') return { ...SUPPORT(), saved: afterModel };
+  if (verdict?.kind === 'not_study' || verdict?.kind === 'unreadable') {
+    const refused = verdict.kind === 'unreadable'
+      ? { http: 200, kind: 'refused', body: { ok: true, kind: 'refused', reason: 'unreadable', reply: MISTAKE_COPY.unreadable, origin: 'status', charge: NO_CHARGE, charged: 0 } }
+      : REFUSED('not_study');
+    if (held(out.message)) refused.body.reply = refused.body.reply.replace('Nothing was charged.', creditWords(out.message, credits));
+    return { ...refused, saved: afterModel };
   }
   // The same ask sent again after its answer was lost: the credit was taken once, so the stored answer is shown again. Never
   // a second model call, never a second charge.
@@ -161,18 +224,28 @@ export async function runMistakeAsk({ user, body, gateOpen, deps }) {
     let saved = null;
     let readFailed = false;
     try { saved = key && deps.findReplay ? await deps.findReplay(key) : null; } catch { readFailed = true; }
-    const mistake = readStoredMistake(saved?.mistake);
+    const mistake = readStoredMistake(saved?.mistake, { chapters: value.chapters });
     if (mistake) {
-      return { http: 200, kind: 'answer', value, replayed: true, body: { ok: true, kind: 'answer', origin: 'model', replayed: true, mistake, reply: mistakeReplyText(mistake), subject: saved.subject || value.subject, charge: { ...NO_CHARGE }, charged: 0 } };
+      return { http: 200, kind: 'answer', value, replayed: true, body: { ok: true, kind: 'answer', origin: 'model', replayed: true, mistake, reply: mistakeReplyText(mistake), subject: saved.subject || value.subject, ...(value.photo ? { source: 'photo' } : {}), charge: { ...NO_CHARGE }, charged: 0 } };
     }
     // Review of 16 Nov: answered and charged once, but nothing to show again. Its own state, never a "Try again" (a new
     // request would take a second credit): where the answer may be, or that it was not saved and a new ask is a new credit.
-    return { http: 409, kind: 'error', body: { ok: false, error: 'duplicate', status: 'duplicate', message: readFailed ? MISTAKE_COPY.duplicateSaved : MISTAKE_COPY.duplicateLost, charged: 0 } };
+    return { http: 409, kind: 'error', body: { ok: false, error: 'duplicate', status: 'duplicate', message: readFailed ? MISTAKE_COPY.duplicateSaved(credits) : MISTAKE_COPY.duplicateLost(credits), charged: 0 } };
   }
   // Everything else is runModelReply's honest failure (paused, no credits, this month's AI limit, in progress, released), with
   // Mobi's words for an answer that could not be written.
   const message = out.error === 'unusable_output' || out.error === 'provider_error' || out.error === 'empty_reply'
-    ? `${MISTAKE_COPY.failed} ${creditWords(out.message)}`
+    ? `${MISTAKE_COPY.failed} ${creditWords(out.message, credits)}`
     : out.message;
   return { http: out.http, kind: 'error', body: { ok: false, error: out.error || out.status, status: out.status, message, required: out.required, balance: out.balance, charged: 0 } };
+}
+
+/**
+ * What the route saves for one ask's outcome (runMistakeAsk's return): { question, photo } for persistMistakeTurn, or null for
+ * an error, and for an answer shown again (it was saved the first time).
+ */
+export function mistakeTurn(out) {
+  if (!out || out.kind === 'error' || out.replayed) return null;
+  if (!out.saved || typeof out.saved.question !== 'string') return null;
+  return { question: out.saved.question, photo: out.saved.photo === true };
 }

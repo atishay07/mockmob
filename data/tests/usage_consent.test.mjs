@@ -467,7 +467,7 @@ test('privacy page: the optional usage data section tells the D183 rule, and no 
   assert.match(section, /We keep usage data for 180 days\./);
   assert.doesNotMatch(section, /!|→|->/, 'no exclamation marks or arrows');
   assert.doesNotMatch(section, /If you confirm you are 18 or older|off by default|have not said/);
-  assert.match(privacy, /Last updated: 15 November 2026/); // P11 (15 Nov 2026) added the cookies and processors sections
+  assert.match(privacy, /Last updated: 16 November 2026/); // P11 (15 Nov 2026) added the cookies and processors sections; 16 Nov 2026 the photo of a question in Ask Mobi
   const deletion = read('src/app/account-deletion/page.js');
   assert.match(deletion, /Any usage data we collected\./);
   assert.doesNotMatch(deletion, /if you had allowed it/);

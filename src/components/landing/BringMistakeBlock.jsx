@@ -21,11 +21,12 @@ import './bring-mistake.css';
 // The steps are tabs: the reader moves, never a timer. The card keeps one height, so nothing under it shifts. Nothing is sent
 // anywhere: the example and its key are in bringMistakeCopy.mjs (checked by its test), and the block says the example is
 // ours. One volt key: sign up and bring your own (a signed-in student goes to Ask Mobi).
-// `photo` is the app's own switch (data/mistake_photo.mjs): the words promise a photo only while Mobi reads photos.
+// `photo` is the app's own switch (data/mistake_photo.mjs): the words promise a photo only while Mobi reads photos. The
+// two prices are the app's too (page.js passes them), so the price line can never drift from what a student is charged.
 
 const LETTERS = ['A', 'B', 'C', 'D'];
 
-export default function BringMistakeBlock({ photo = false, photoCredits = 2 }) {
+export default function BringMistakeBlock({ photo = false, credits = 1, photoCredits = 2 }) {
   const { isAuthenticated } = useAuth();
   const id = useId();
   const tabs = useRef([]);
@@ -33,7 +34,7 @@ export default function BringMistakeBlock({ photo = false, photoCredits = 2 }) {
   const [pick, setPick] = useState(null);
   const answered = pick !== null;
   const right = pick === W.check.correct;
-  const words = bringMistakeWords({ photo, photoCredits });
+  const words = bringMistakeWords({ photo, credits, photoCredits });
 
   const go = (n) => setStep(Math.max(0, Math.min(W.steps.length - 1, n)));
   const onKey = (event) => {

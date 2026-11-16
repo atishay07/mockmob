@@ -62,6 +62,17 @@ test('what the block states is what the code does: 1 credit, 50 free credits a m
   assert.doesNotMatch(all, /!|→|->/, 'no exclamation marks or arrows');
 });
 
+test('the home page hands the block the app’s own switch and numbers', () => {
+  const page = read('src/app/page.js');
+  assert.match(page, /<BringMistakeBlock photo=\{MISTAKE_PHOTO_ON\} credits=\{MISTAKE_CREDITS\} photoCredits=\{MISTAKE_PHOTO_CREDITS\} \/>/);
+  assert.match(page, /import \{ MISTAKE_PHOTO_ON \} from '@\/\.\.\/data\/mistake_photo\.mjs';/);
+  const photoCredits = Number(read('src/services/mobi/bringMistake.mjs').match(/export const MISTAKE_PHOTO_CREDITS = (\d+);/)[1]);
+  assert.equal(photoCredits, 2);
+  assert.match(read('data/mistake_photo.mjs'), /export const MISTAKE_PHOTO_ON = (true|false);/);
+  assert.equal(bringMistakeWords().price, bringMistakeWords({ free: Number(read('src/services/credits/aiCreditWallet.js').match(/export const AI_FREE_MONTHLY_CREDITS = (\d+);/)[1]) }).price, 'the block’s default is the wallet’s grant');
+  assert.doesNotMatch(page, /aiCreditWallet/, 'the home page does not load the server-only wallet for one number');
+});
+
 test('the three steps are the feature’s own, and every step but the last has its key', () => {
   assert.deepEqual(W.steps, ['Your question', 'Mobi’s read', 'Check']);
   assert.equal(W.next.length, W.steps.length - 1);

@@ -59,6 +59,8 @@ import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
 import BringMistakeBlock from '@/components/landing/BringMistakeBlock';
+import { MISTAKE_PHOTO_ON } from '@/../data/mistake_photo.mjs';
+import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/bringMistake.mjs';
 import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
 import { KEY_CARDS_HEAD, headPhrases } from '@/components/landing/keyCardsCopy.mjs';
 import { BrandIcon } from '@/components/brand/BrandIcon';
@@ -279,8 +281,10 @@ export default function LandingPage() {
           </section>
         ) : null}
 
-        {/* Bring a mistake (16 Nov 2026): Ask Mobi reads a question pasted from any other test; live in the app, shown here. */}
-        <BringMistakeBlock />
+        {/* Bring a mistake (16 Nov 2026): Ask Mobi reads a question from any other test, typed or (while the app's photo switch
+            is on) photographed; live in the app, shown here. The two prices are the app's own constants; the 50 free credits a
+            month in the same line is held to the wallet's constant by bringMistakeCopy.test.mjs. */}
+        <BringMistakeBlock photo={MISTAKE_PHOTO_ON} credits={MISTAKE_CREDITS} photoCredits={MISTAKE_PHOTO_CREDITS} />
 
         {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
         <ExamScreen />

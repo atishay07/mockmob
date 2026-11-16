@@ -1,10 +1,13 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { classifyGuardMessage } from './providerCore';
-export async function reserveRuntime({ requestKey, provider, model, messages, maxTokens, userId = null, userTier = null }) {
+export async function reserveRuntime({ requestKey, provider, model, messages, maxTokens, userId = null, userTier = null, extraInputTokens = 0 }) {
   if (!/^[a-zA-Z0-9_:-]{12,180}$/.test(requestKey || '')) throw new Error('stable_request_key_required');
-  // UTF-8 bytes plus per-message overhead conservatively bound input tokenization.
-  const inputBound = Buffer.byteLength(JSON.stringify(messages),'utf8') + messages.length * 64;
+  // UTF-8 bytes plus per-message overhead conservatively bound input tokenization. An image (16 Nov 2026, "bring a mistake"
+  // photos) is not in `messages` (they are the text only): providerCore callOnce adds its own input tokens here, sized by
+  // imageInput.js imageTokenBound from the image as sent, never from its base64 bytes.
+  const imageTokens = Number.isFinite(extraInputTokens) && extraInputTokens > 0 ? Math.ceil(extraInputTokens) : 0;
+  const inputBound = Buffer.byteLength(JSON.stringify(messages),'utf8') + messages.length * 64 + imageTokens;
   const { data, error } = await supabaseAdmin().rpc('reserve_runtime_ai', { p_key:requestKey,p_provider:provider,p_model:model,p_input_bound:inputBound,p_output_bound:maxTokens, ...(userId ? { p_user_id:String(userId), p_user_tier:userTier === 'paid' ? 'paid' : 'free' } : {}) });
   if (error) {
     // The guard raises one exception per rule (monthly cap, paused or unfunded, no fresh price). Keep which one,
