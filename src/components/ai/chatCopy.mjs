@@ -248,8 +248,9 @@ export function refusalParts(message, charged = 0) {
   const sentences = text.match(/[^.?!]+[.?!]*\s*/g) || [];
   const kept = sentences.filter((s) => HELD.test(s) || !NOTHING_USED.test(s)).join('').trim();
   // The server's own words win where they already say what was used (bringMistake.mjs unusableLine: "Reading it used 1 credit."):
-  // the amount is then said once, by them.
-  if (amount(charged) > 0 && SAYS_USED.test(kept)) return { said: kept, used: null };
+  // the amount is then said once, by them. Also when this response took nothing: a refusal shown again after a resend says
+  // what the first send used, and "No credits used." beside it would contradict it (review, 17 Nov 2026).
+  if (SAYS_USED.test(kept)) return { said: kept, used: null };
   return { said: kept || text, used: usedWords(charged) };
 }
 

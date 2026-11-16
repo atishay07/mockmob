@@ -695,5 +695,9 @@ export function mistakeOutcome(outcome, { credits = MISTAKE_CREDITS } = {}) {
     const said = typeof body?.message === 'string' && body.message.trim() ? body.message.trim() : MISTAKE_COPY.duplicateLost(credits);
     return { state: 'duplicate', message: said };
   }
+  // A 5xx that is not the server's own words (every one of those says charged: 0): a gateway's 502 or 504 page, or a crash
+  // after the charge was written. Whether it was charged is unknown, so Try again sends the SAME request: the server then
+  // shows a charged answer again instead of charging twice (review of the app's port, 17 Nov 2026).
+  if (status >= 500 && body?.charged !== 0) return { state: 'unknown', message: MISTAKE_COPY.lost };
   return { state: 'failed', message: withCharge(body?.message, MISTAKE_COPY.failed) };
 }

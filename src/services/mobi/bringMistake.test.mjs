@@ -255,9 +255,10 @@ test('panel: every server answer maps to one designed state; every failure says 
   assert.equal(mistakeOutcome({ kind: 'response', res: res(402), body: { error: 'insufficient_ai_credits', message: 'This reply uses 1 credit. You have 0.' } }).state, 'blocked');
   assert.equal(mistakeOutcome({ kind: 'response', res: res(503), body: { status: 'paused', message: 'AI features are paused for now. Your credits have not been used.' } }).message, 'AI features are paused for now. Your credits have not been used.');
   assert.equal(mistakeOutcome({ kind: 'response', res: res(409), body: { status: 'in_progress', message: 'That reply is still being prepared. Nothing extra is charged.' } }).state, 'unknown');
-  const failed = mistakeOutcome({ kind: 'response', res: res(502), body: { error: 'unusable_output', message: 'Mobi could not write a reliable answer this time. No credits were used.' } });
+  const failed = mistakeOutcome({ kind: 'response', res: res(502), body: { error: 'unusable_output', message: 'Mobi could not write a reliable answer this time. No credits were used.', charged: 0 } });
   assert.deepEqual(failed, { state: 'failed', message: 'Mobi could not write a reliable answer this time. No credits were used.' });
-  assert.equal(mistakeOutcome({ kind: 'response', res: res(500), body: null }).message, 'Mobi could not write a reliable answer this time. Nothing was charged.');
+  // A 500 with no words of the server's own may have been charged after all: unknown, Try again the SAME request (review, 17 Nov).
+  assert.deepEqual(mistakeOutcome({ kind: 'response', res: res(500), body: null }), { state: 'unknown', message: MISTAKE_COPY.lost });
   // Review, 16 Nov: answered and charged once, nothing to show again. Its own state: no Try again (a new request would take a
   // second credit), and the words say where the answer may be or that a new ask is a new credit.
   for (const message of [MISTAKE_COPY.duplicateLost(1), MISTAKE_COPY.duplicateSaved(1), MISTAKE_COPY.duplicateLost(2)]) {
@@ -677,4 +678,17 @@ test('the panel shows a charged refusal as it is: never "Nothing was charged." a
 test('no line of the panel names the company that reads a photo or writes a reply (owner, 16 Nov night)', () => {
   const words = [...Object.values(MISTAKE_COPY).map((v) => (typeof v === 'function' ? v(2, 2) : v)), priceLine(38), priceLine(38, { photo: true }), unusableLine('not_study', 1), unusableLine('unreadable', 1)];
   for (const w of words) assert.doesNotMatch(w, /openai|anthropic|claude|\bgpt|gemini|AI service/i, w);
+});
+
+test('review 17 Nov: a 5xx that is not the server own words is unknown (Try again sends the SAME request), never "nothing was charged"', () => {
+  const res = (status) => ({ ok: false, status });
+  for (const status of [500, 502, 504]) {
+    for (const body of [null, {}, { error: 'x' }, { ok: false, message: 'Bad gateway' }]) {
+      const plan = mistakeOutcome({ kind: 'response', res: res(status), body });
+      assert.equal(plan.state, 'unknown', `${status} ${JSON.stringify(body)}`);
+      assert.doesNotMatch(plan.message, /nothing was charged/i);
+    }
+  }
+  // The server's own failures say charged: 0 and stay 'failed' (a new request is safe).
+  assert.equal(mistakeOutcome({ kind: 'response', res: res(500), body: { ok: false, error: 'failed', status: 'failed', message: 'It did not work.', charged: 0 } }).state, 'failed');
 });

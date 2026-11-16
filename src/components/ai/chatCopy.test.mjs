@@ -121,7 +121,7 @@ test('a refusal or a failure is a turn: what happened, what it used, and the way
   assert.match(refusalParts('The photo did not fit. Your credits are held briefly and return automatically.', 0).said, /held briefly and return automatically\.$/);
   assert.equal(refusalParts('', 0).said, '');
   for (const state of ['refused', 'failed', 'over', 'blocked', 'paused', 'duplicate']) {
-    const plan = mistakeOutcome({ kind: 'response', res: { ok: state === 'refused', status: state === 'refused' ? 200 : state === 'over' ? 429 : state === 'blocked' ? 402 : state === 'paused' ? 503 : state === 'duplicate' ? 409 : 502 }, body: state === 'refused' ? { ok: true, kind: 'refused', reply: MISTAKE_COPY.notStudy } : { ok: false, error: state === 'over' ? 'user_limit_reached' : state === 'duplicate' ? 'duplicate' : 'x', status: state === 'paused' ? 'paused' : 'failed', message: 'It did not work.' } });
+    const plan = mistakeOutcome({ kind: 'response', res: { ok: state === 'refused', status: state === 'refused' ? 200 : state === 'over' ? 429 : state === 'blocked' ? 402 : state === 'paused' ? 503 : state === 'duplicate' ? 409 : 502 }, body: state === 'refused' ? { ok: true, kind: 'refused', reply: MISTAKE_COPY.notStudy } : { ok: false, error: state === 'over' ? 'user_limit_reached' : state === 'duplicate' ? 'duplicate' : 'x', status: state === 'paused' ? 'paused' : 'failed', message: 'It did not work.', charged: 0 } });
     assert.equal(plan.state, state);
     assert.ok(refusalParts(plan.message, 0).said.length > 0, state);
   }
@@ -232,4 +232,11 @@ test('the chat sheet: two volts only, targets of 44 px, and motion that stops wh
   assert.match(css, /html\[data-motion='reduced'\] \.ach-wait__bar::after \{ animation: none;/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.doesNotMatch(css, /transition: all|backdrop-filter|text-shadow/);
+});
+
+test('review 17 Nov: a refusal shown again after a resend says what the first send used, once, never beside "No credits used."', () => {
+  const again = refusalParts('Mobi could not find a test question in this. Reading it used 1 credit.', 0);
+  assert.equal(again.used, null);
+  assert.match(again.said, /Reading it used 1 credit\./);
+  assert.doesNotMatch(again.said, /No credits used/);
 });
