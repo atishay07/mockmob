@@ -293,8 +293,9 @@ export default function LandingPage() {
         {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
             space", "it should not be at the top. It can be somewhere else." So they stay here, after the practice features and
             before admissions. 10:25 pm, of the two short rows that followed: "a very small subsection, not something
-            important". So the section heads like every other product on the page (a stamp over a full-size h2) and the
-            block is the week rail and two cards in about one phone screen (DailyFiveRow HomeBlock). */}
+            important". So the section heads like every other product on the page (a stamp over a full-size h2). 17 Nov 2026
+            (LK293, "something unique"): the Daily Five is an admit card with "Playing for" a DU college and today's college
+            board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
         <section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">

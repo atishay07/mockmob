@@ -1,44 +1,5 @@
-/* The Daily Five's parts (DailyParts.jsx): the calendar leaf, the board of five tiles, the clock and the week. Marketing
-   surface tokens only. Volt is used here only as DESIGN.md allows outside a key: the fill of a right answer. Nothing
-   here is a key, so a view keeps its one volt key. Every size is fixed before any data arrives, so nothing shifts. */
-
-/* ---------- The calendar leaf: the month on an ink band, the day's number under it ---------- */
-.mm .df-leaf {
-  display: inline-grid; grid-template-rows: auto 1fr; flex: none; width: 52px; height: 58px; overflow: hidden;
-  border: 1px solid var(--line-strong); border-radius: 12px; background: var(--paper-raised); text-align: center;
-}
-.mm .df-leaf__month { display: block; padding: 3px 0 2px; background: var(--ink); color: var(--paper-raised); font: 700 0.75rem/1.25 var(--font-body); letter-spacing: 0.01em; }
-.mm .df-leaf__day { display: grid; place-items: center; color: var(--ink); font: 800 1.5rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
-.mm .df-leaf[data-size='l'] { width: 64px; height: 72px; border-radius: 14px; }
-.mm .df-leaf[data-size='l'] .df-leaf__month { padding: 4px 0 3px; font-size: 0.8125rem; }
-.mm .df-leaf[data-size='l'] .df-leaf__day { font-size: 1.875rem; }
-
-/* ---------- The board: five tiles ---------- */
-.mm .df-board { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 0; }
-.mm .df-tile {
-  display: grid; place-items: center; height: 44px; border-radius: 10px;
-  border: 1.5px solid var(--line-strong); background: transparent; color: var(--ink-3);
-}
-.mm .df-tile__n { font: 700 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
-.mm .df-tile .df-tile__icon { width: 20px; height: 20px; stroke-width: 2.8; }
-.mm .df-tile[data-state='now'] { border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
-.mm .df-tile[data-state='right'] { border-color: var(--volt-edge); background: var(--volt); color: var(--volt-ink); }
-.mm .df-tile[data-state='miss'] { border-color: var(--ink-2); color: var(--ink-2); }
-.mm .df-board[data-size='l'] { gap: 10px; }
-.mm .df-board[data-size='l'] .df-tile { height: 56px; border-radius: 12px; }
-.mm .df-board[data-size='l'] .df-tile__n { font-size: 1.0625rem; }
-.mm .df-board[data-size='l'] .df-tile .df-tile__icon { width: 24px; height: 24px; }
-/* Small: a strip of marks beside a title (the playing bar). */
-.mm .df-board[data-size='s'] { grid-template-columns: repeat(5, 18px); gap: 4px; }
-.mm .df-board[data-size='s'] .df-tile { height: 18px; border-radius: 5px; border-width: 1.5px; }
-.mm .df-board[data-size='s'] .df-tile__n { display: none; }
-.mm .df-board[data-size='s'] .df-tile .df-tile__icon { width: 11px; height: 11px; stroke-width: 3.4; }
-
-/* The five arrive one after another when the day is finished: 280 ms each, 90 ms apart, ease-out. */
-@keyframes df-tile-in { from { opacity: 0; transform: scale(0.72); } to { opacity: 1; transform: none; } }
-.mm .df-board[data-reveal='true'] .df-tile { animation: df-tile-in 280ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: calc(var(--df-i, 0) * 90ms + 80ms); }
-html[data-motion='reduced'] .mm .df-board[data-reveal='true'] .df-tile { animation: none; }
-@media (prefers-reduced-motion: reduce) { .mm .df-board[data-reveal='true'] .df-tile { animation: none; } }
+/* The Daily Five's parts (DailyParts.jsx): the clock and the week. Marketing surface tokens only. Nothing here is a key, so a
+   view keeps its one volt key. Every size is fixed before any data arrives, so nothing shifts. */
 
 /* ---------- The clock: a label over HH:MM:SS in tabular digits ---------- */
 .mm .df-clock-live { display: block; min-width: 0; }
@@ -64,39 +25,3 @@ html[data-motion='reduced'] .mm .df-board[data-reveal='true'] .df-tile { animati
 .mm .df-week__day[data-today='true'] .df-week__letter { color: var(--ink); font-weight: 800; }
 .mm .df-week__day[data-today='true'][data-played='false'] .df-week__dot { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .mm .df-week__day[data-before='true'][data-played='false'] .df-week__dot { border-style: dashed; opacity: 0.55; }
-
-/* ---------- The day: the ink top of a tear-off desk calendar page (CalendarDay). The opening's and the footer's ground, the
-   same in Day and Night; the tear line under it is drawn in the paper's colour. ---------- */
-.mm .df-day {
-  --ink: #fffdf8; --ink-2: rgb(255 253 248 / 0.74); --ink-3: rgb(255 253 248 / 0.5);
-  position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 14px 16px;
-  padding: 20px 20px 22px; background: #12110e; color: #fffdf8;
-}
-/* The tear line: the page's perforation, in the paper's colour. */
-.mm .df-day::after {
-  content: ''; position: absolute; left: 14px; right: 14px; bottom: -1px; height: 2px;
-  background: repeating-linear-gradient(90deg, var(--paper-raised) 0 7px, transparent 7px 14px);
-}
-.mm .df-day__live { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: 8px; margin: 0; color: #fffdf8; font: 700 0.875rem/1.2 var(--font-body); }
-.mm .df-day__live i { width: 9px; height: 9px; border-radius: 50%; background: rgb(255 253 248 / 0.45); }
-.mm .df-day__live[data-on='true'] i { background: var(--volt); box-shadow: 0 0 0 4px rgb(210 240 0 / 0.2); }
-.mm .df-day__date { display: flex; flex: none; align-items: flex-end; gap: 12px; }
-.mm .df-day__date b { flex: none; }
-.mm .df-day__date b { min-width: 1ch; color: #fffdf8; font: 800 5.25rem/0.82 var(--font-display); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
-.mm .df-day__date span { display: grid; gap: 2px; padding-bottom: 2px; }
-.mm .df-day__date em { color: var(--volt); font: 800 1.625rem/1 var(--font-display); font-style: normal; letter-spacing: -0.02em; }
-.mm .df-day__date small { color: rgb(255 253 248 / 0.74); font: 600 0.9375rem/1.2 var(--font-body); }
-.mm .df-day .df-clock { justify-items: end; text-align: right; }
-.mm .df-day .df-clock[data-size='l'] .df-clock__digits { font-size: 1.75rem; }
-.mm .df-day .df-clock[data-size='l'] .df-clock__label { font-size: 0.8125rem; }
-
-.mm .df-day .df-clock[data-days='true'] .df-clock__pair small { color: rgb(255 253 248 / 0.6); }
-/* A clock with days in it is wide: it takes its own row under the date. */
-.mm .df-day .df-clock[data-days='true'] { grid-column: 1 / -1; }
-/* Under 380 px the date and the clock do not fit side by side: the clock goes under the date. */
-@media (max-width: 379.98px) {
-  .mm .df-day .df-clock, .mm.lp .dfh .df-day .df-clock { grid-column: 1 / -1; justify-items: start; text-align: left; }
-}
-/* The day by itself (the Sunday Mock's public page): its own corners, no tear line, never wider than a phone's column. */
-.mm .df-day[data-solo='true'] { max-width: 26rem; border-radius: 22px; }
-.mm .df-day[data-solo='true']::after { display: none; }

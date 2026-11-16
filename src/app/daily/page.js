@@ -16,7 +16,7 @@ import '@/app/r13-motion.css';
 export const metadata = seoMetadata({
   title: 'CUET Daily Five: 5 free questions a day | MockMob',
   description:
-    'Five CUET questions from English and the General Test, the same for everyone today. Free, no sign-up, each answer explained. Share your score and come back tomorrow.',
+    'Five CUET questions from English and the General Test, the same for everyone today. Free, no sign-up, each answer explained. Play for the DU college you aim for on the college board.',
   path: '/daily',
 });
 

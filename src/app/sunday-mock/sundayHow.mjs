@@ -3,6 +3,7 @@
 // lined." So the page shows the paper as three figures and the day as a timeline, and every number here is the rule's own
 // constant (src/lib/sundayMock.mjs), never typed: change the rule and the page follows. Pinned by sundayHow.test.mjs.
 import { ANSWERS_AFTER_MINUTES, CLOSE_HOUR, MARK_RIGHT, MARK_WRONG, OPEN_HOUR, PAPER_COUNT, PAPER_MINUTES, SHARE_FLOOR } from '../../lib/sundayMock.mjs';
+import { SUNDAY_BOARD_FLOOR } from '../../lib/daily/team.mjs';
 
 /** A time of day in IST as the site writes it: "10:00 am", "11:05 pm". Minutes past the hour may run over (65 is the next hour's :05). */
 export function clockWords(hour, minutes = 0) {
@@ -31,5 +32,7 @@ export const SUNDAY_STEPS = Object.freeze([
   Object.freeze({ when: 'When you send', title: 'Your marks, at once', line: 'One sitting in each subject. Your marks show the moment you send the paper.' }),
   Object.freeze({ when: LAST_START, title: 'Last start', line: `A paper started by ${LAST_START} keeps its full ${PAPER_MINUTES} minutes.` }),
   Object.freeze({ when: ANSWERS_AT, title: 'Answers and explanations open', line: `Every answer, explained. You also see how many sat the paper and, once ${SHARE_FLOOR} or more have, how many got each question right.` }),
+  // The college board (17 Nov 2026, src/lib/daily/team.mjs): the same moment, its own step.
+  Object.freeze({ when: 'Then', title: 'The college board', line: `Colleges by the average marks of the students playing for them, once ${SUNDAY_BOARD_FLOOR} of a college\u2019s students have sat it.` }),
   Object.freeze({ when: 'After', title: 'Talk it over with your Mob', line: 'In a Mob you see which friends sat it, and their marks if they share them.' }),
 ]);

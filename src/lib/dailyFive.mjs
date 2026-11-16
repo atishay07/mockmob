@@ -284,9 +284,24 @@ export function shareSquares(marks) {
   return (Array.isArray(marks) ? marks : []).map((right) => (right ? '■' : '□')).join('');
 }
 
-/** "MockMob Daily Five · 15 Nov · 4/5 · 1:42", the squares, the link. */
-export function shareText({ date, score, ms, marks }) {
-  return `MockMob Daily Five · ${shortDate(date)} · ${score}/${DAILY_FIVE_SIZE} · ${formatClock(ms)}\n${shareSquares(marks)}\n${DAILY_FIVE_URL}`;
+/** "Tuesday’s five, 17 Nov": each day's five by its own name, never a bare number (owner, 16 Nov 2026). */
+export function editionOf(key) {
+  const t = utcOf(key);
+  return Number.isFinite(t) ? `${WEEKDAYS[new Date(t).getUTCDay()]}\u2019s five, ${shortDate(key)}` : '';
+}
+
+/**
+ * The share (17 Nov 2026): the name, the edition with the score and the time, the college the student plays for (a name, or
+ * nothing), the squares, the link. Plain lines, no middle dots.
+ *   MockMob Daily Five
+ *   Tuesday’s five, 17 Nov: 4/5 in 1:42
+ *   Playing for Hansraj College
+ *   ■■□■■
+ *   https://www.mockmob.in/daily
+ */
+export function shareText({ date, score, ms, marks }, college = '') {
+  const team = typeof college === 'string' && college.trim() ? `Playing for ${college.trim()}\n` : '';
+  return `MockMob Daily Five\n${editionOf(date)}: ${score}/${DAILY_FIVE_SIZE} in ${formatClock(ms)}\n${team}${shareSquares(marks)}\n${DAILY_FIVE_URL}`;
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

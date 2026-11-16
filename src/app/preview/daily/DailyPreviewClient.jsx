@@ -11,10 +11,10 @@ import { DAILY_FIVE_STORE } from '@/lib/dailyFive.mjs';
 import { previewDaily } from '../arena/previewDaily';
 
 // /preview/daily (page.jsx has the parameters). The fetch stub answers only the Daily Five's routes, and only on this path;
-// &fresh=1 forgets this browser's Daily Five record first, so a capture starts from the state the parameters name.
+// &fresh=1 forgets this browser's Daily Five record (and its college) first, so a capture starts from the state the parameters name.
 
 if (typeof window !== 'undefined' && window.location.pathname.startsWith('/preview/daily') && new URLSearchParams(window.location.search).get('fresh') === '1') {
-  try { window.localStorage.removeItem(DAILY_FIVE_STORE); } catch { /* storage blocked */ }
+  try { for (const key of [DAILY_FIVE_STORE, 'mm:daily-team:v1', 'mm:daily-team-skip:v1']) window.localStorage.removeItem(key); } catch { /* storage blocked */ }
 }
 if (typeof window !== 'undefined' && !window.__dailyPreviewFetch) {
   const real = window.fetch.bind(window);

@@ -119,9 +119,13 @@ test('only the windows given, only the Daily Five subjects: never a question fro
   assert.equal(seen.size, 40);
 });
 
-test('the share line: date, score, time, squares and the link; no subject, chapter or question', () => {
+test('the share line: the edition by name, score, time, the college, squares and the link; no subject, chapter or question', () => {
   const text = shareText({ date: '2026-11-15', score: 4, ms: 102 * 1000, marks: [true, true, false, true, true] });
-  assert.equal(text, `MockMob Daily Five · 15 Nov · 4/5 · 1:42\n■■□■■\n${DAILY_FIVE_URL}`);
+  assert.equal(text, `MockMob Daily Five\nSunday’s five, 15 Nov: 4/5 in 1:42\n■■□■■\n${DAILY_FIVE_URL}`);
+  // Playing for a college (17 Nov 2026): one line with its name; never a seat or a bare number, no middle dots.
+  const team = shareText({ date: '2026-11-17', score: 5, ms: 61 * 1000, marks: [true, true, true, true, true] }, 'Hansraj College');
+  assert.equal(team, `MockMob Daily Five\nTuesday’s five, 17 Nov: 5/5 in 1:01\nPlaying for Hansraj College\n■■■■■\n${DAILY_FIVE_URL}`);
+  assert.doesNotMatch(team, /·|Seat|No\. ?\d|#\d/);
   assert.equal(DAILY_FIVE_URL, 'https://www.mockmob.in/daily');
   assert.equal(shareSquares([false, false, false, false, false]), '□□□□□');
   assert.doesNotMatch(text, /english|general|chapter|stem|[\u{1F300}-\u{1FAFF}]/iu, 'no spoilers and no emoji');

@@ -5,13 +5,16 @@
 // important ... the visual hierarchy is not here". So the block is now the week as seven calendar leaves (weekRail), then two
 // cards, each in three levels: the state and its time (largest), the name and one sentence, three figures, and one key.
 // Every number is the product's own constant, never typed.
-import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE, calendarWeekOf, dayLabel, untilShort } from '../../lib/dailyFive.mjs';
+// 17 Nov 2026 (owner LK293: the look was understood, but it read as Prepium's; "building something unique" around a team): the
+// head says the game in two beats, the week rail is gone from the block (the run of days is /daily's), and the Daily Five is
+// an admit card with "Playing for" a DU college and the five as answer bubbles (omrLabel), then today's college board.
+import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE, untilShort } from '../../lib/dailyFive.mjs';
 import { LAUNCH_WEEK, PAPER_COUNT, PAPER_MINUTES, dateLabel, sundayState, sundayWindow } from '../../lib/sundayMock.mjs';
 import { ANSWERS_AT, LAST_START, OPENS, PAPER_FIGURES } from '../../app/sunday-mock/sundayHow.mjs';
 
 export const STRIP_HEAD = Object.freeze({
-  h2: 'Five a day. One paper a Sunday.',
-  sub: 'Two fixed dates in your week, the same for every student. Both are free.',
+  h2: 'Five a day. Play for your college.',
+  sub: 'The same five English and General Test questions for everyone. Each five you play counts for the DU college you pick.',
 });
 
 // What the five are: the two papers nearly every CUET student sits, so one five can be the same for everyone. How many and
@@ -19,6 +22,8 @@ export const STRIP_HEAD = Object.freeze({
 export const DAILY_LINE = 'The same five for everyone today, from English and the General Test.';
 // The paper's size is in its figures; the sentence says what it is and that it needs an account (the five does not).
 export const SUNDAY_LINE = 'One full paper in each of your subjects, the same for everyone. Sign up to sit it.';
+/** The home card's shorter sentence (17 Nov 2026): the figures under it say the paper's size. */
+export const SUNDAY_LINE_SHORT = 'One full paper in each of your subjects. Sign up to sit it.';
 
 /** The Daily Five in three figures: { figure, unit }. A figure may be a word when the fact is not a number. */
 export const DAILY_FIGURES = Object.freeze([
@@ -105,21 +110,13 @@ export function sundayRow({ now = null } = {}) {
 }
 
 /**
- * The week rail: Monday to Sunday of today's IST week from this device's record (dailyFive.mjs calendarWeekOf, the same
- * model as /daily's week), each day with what it carries: five questions, or on a Sunday from the launch week, the Mock.
- * The tick is the five's, never the Mock's: a Sunday whose five this device has finished shows the tick by its 5, since a
- * tick by "Mock" would say the paper was sat.
+ * The five's answer bubbles in one sentence, for a screen reader (the bubbles themselves are a picture): this device's
+ * record of today. `marks` [true | false | null x5] or null; `current` the question being answered (0 to 4), or null.
  */
-export function weekRail(dates, today) {
-  return calendarWeekOf(dates, today).map((d) => ({ ...d, carries: d.name === 'Sunday' && d.date >= LAUNCH_WEEK && !d.played ? 'Mock' : String(DAILY_FIVE_SIZE) }));
-}
-
-/** The rail in one sentence, for a screen reader (the leaves themselves are a picture). */
-export function railLabel(days) {
-  if (!Array.isArray(days) || days.length !== 7) return 'This week';
-  const sunday = days[6];
-  const played = days.filter((d) => d.played).length;
-  const sundayWords = sunday.carries === 'Mock' ? ' and the Sunday Mock on Sunday' : '';
-  const playedWords = played ? `Played on this device: ${played} ${played === 1 ? 'day' : 'days'}.` : 'None played on this device yet.';
-  return `This week, ${dayLabel(days[0].date)} to ${dayLabel(sunday.date)}: a Daily Five every day${sundayWords}. ${playedWords}`;
+export function omrLabel(marks, current = null) {
+  if (Array.isArray(marks) && marks.length === DAILY_FIVE_SIZE && marks.every((m) => m === true || m === false)) {
+    return `Today on this device: ${marks.filter(Boolean).length} of ${DAILY_FIVE_SIZE} right.`;
+  }
+  if (Number.isInteger(current) && current >= 0 && current < DAILY_FIVE_SIZE) return `Today on this device: on question ${current + 1} of ${DAILY_FIVE_SIZE}.`;
+  return `Today\u2019s ${DAILY_FIVE_SIZE} questions, none answered on this device yet.`;
 }
