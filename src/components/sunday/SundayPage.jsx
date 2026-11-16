@@ -9,6 +9,7 @@ import {
   ANSWERS_LABEL, SUNDAY_COPY, dateLabel, marksLine, openUntilLine, opensLine, resultHref, satLine, stateOf, subjectRow, timeLabel, windowLine,
 } from '@/lib/sundayMock.mjs';
 import { useSunday } from './useSunday';
+import ClassBlock from '@/components/class/ClassBlock';
 import './sunday.css';
 
 const LEDE = 'One full paper in each of your subjects, the same paper for everyone, every Sunday from 10:00 AM to 10:00 PM. Free.';
@@ -76,6 +77,8 @@ export default function SundayPage() {
             </div>
           )}
         </section>
+        {/* Class leagues (16 Nov 2026): "Your class" rides on the Sunday Mock. Draws nothing while CLASS_LEAGUES_ENABLED is off. */}
+        <ClassBlock />
         {d.previous?.subjects?.length ? (
           <section className="sun-last" aria-labelledby="sun-last-h">
             <h2 id="sun-last-h">{`Last Sunday, ${dateLabel(d.previous.week).replace(/^Sunday /, '')}`}</h2>

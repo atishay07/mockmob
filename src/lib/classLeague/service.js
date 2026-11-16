@@ -111,7 +111,7 @@ export function createClassService(deps) {
     const user = await loadUser(userId);
     const subjects = mySubjects(user).map((s) => ({ id: s.publicId, name: s.name }));
     const mine = await myClass(userId);
-    if (!mine) return { class: null, subjects, next: nextFigure(t) };
+    if (!mine) return { class: null, subjects, serverNow: t, next: nextFigure(t) };
     const { league } = mine;
     const members = await guard(() => store.openCount(league.id));
     const week = figureWeek(t, league.createdAt);
@@ -122,6 +122,7 @@ export function createClassService(deps) {
       },
       subjects,
       week: week ? { week, figures: await weekFigures(userId, league, week) } : null,
+      serverNow: t,
       next: nextFigure(t),
     };
   }

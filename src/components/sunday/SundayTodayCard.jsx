@@ -10,11 +10,12 @@ import Link from 'next/link';
 import { CalendarClock, ChevronRight } from 'lucide-react';
 import { istDow, todayCard } from '@/lib/sundayMock.mjs';
 import { useSunday } from './useSunday';
+import ClassTodayCard from '@/components/class/ClassTodayCard';
 import './sunday.css';
 
 const Mark = () => <span className="sun-mark" aria-hidden="true"><CalendarClock size={24} strokeWidth={1.6} /></span>;
 
-export default function SundayTodayCard({ hold = false }) {
+function SundayCard({ hold = false }) {
   const sunday = useSunday(true);
   // The device's own IST weekday decides only whether to keep the card's place while the read is out; the words always come
   // from the server.
@@ -50,4 +51,10 @@ export default function SundayTodayCard({ hold = false }) {
       <ChevronRight className="tsun__go" size={18} strokeWidth={2} aria-hidden="true" />
     </Link>
   );
+}
+
+// Class leagues (16 Nov 2026): the class's card sits under this one (src/components/class/ClassTodayCard.jsx); it draws nothing
+// while CLASS_LEAGUES_ENABLED is off.
+export default function SundayTodayCard({ hold = false }) {
+  return <><SundayCard hold={hold} /><ClassTodayCard hold={hold} /></>;
 }

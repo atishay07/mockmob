@@ -254,6 +254,13 @@ export function figureOpensLine(next) {
   return `Your class's first figure comes on ${dateLabel(next.week)} at ${timeLabel(next.at)}, when the Sunday Mock's answers open.`;
 }
 
+/** "First figure: Sunday 22 Nov at 11:05 PM" (a class before its first closed Sunday). */
+export const firstFigureTitle = (next) => (next && isWeekKey(next.week) ? `First figure: ${dateLabel(next.week)} at ${timeLabel(next.at)}` : "Your class's first figure");
+export const FIRST_FIGURE_LINE = "That is when the Sunday Mock's answers open. Share the code now, so your class is in before Sunday.";
+
+/** "The next figure: Sunday 29 Nov at 11:05 PM." */
+export const nextFigureLine = (next) => (next && isWeekKey(next.week) ? `The next figure: ${dateLabel(next.week)} at ${timeLabel(next.at)}.` : '');
+
 /** The figure's heading: "Sunday 22 Nov". */
 export const figureHeading = (week) => dateLabel(week);
 
