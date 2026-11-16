@@ -432,3 +432,17 @@ html[data-pip-guide][data-lit-in-view] :is(.pip-rig__breath, .pip-actor[data-ali
 @media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .mm.lp.du-page { --pip-lane: 0px; }
 }
+
+/* ---- The wave as six real frames (17 Nov 2026; Mascot.jsx WaveCells): the sheet's first cell is the still, so the layer takes
+   over from the still with no change, plays the six cells once when his seat comes into view (and again on a tap: a fresh
+   layer), and rests on the first cell. Nothing loops; Reduce motion keeps the still. */
+.pip-wave { position: absolute; inset: 0; z-index: 1; display: none; background-repeat: no-repeat; background-position: 0 0; pointer-events: none; }
+.pip-wave[data-ready='true'] { display: block; }
+.pip-wave[data-ready='true'] ~ .pip-image { visibility: hidden; }
+.pip-seat[data-pip-enter] .pip-wave[data-ready='true'], .pip-seat:not([data-pip-station]) .pip-wave[data-ready='true'] { animation: pip-wave-cells 660ms steps(6, jump-none) 240ms 1 both; }
+@keyframes pip-wave-cells { from { background-position-x: 0%; } 99.9% { background-position-x: 100%; } to { background-position-x: 0%; } }
+@media (prefers-reduced-motion: reduce) { .pip-wave { display: none !important; } .pip-wave ~ .pip-image { visibility: visible !important; } }
+html[data-motion='reduced'] .pip-wave { display: none !important; }
+html[data-motion='reduced'] .pip-wave ~ .pip-image { visibility: visible !important; }
+/* The close's seat waves with its own frames now, so its rig no longer rocks on arrival. */
+[data-pip-guide='local'] .pip-seat[data-pip-station='close'][data-pip-pose='wave'][data-pip-enter] .pip-rig { animation: pip-arrive 880ms both; }

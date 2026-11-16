@@ -39,7 +39,6 @@ import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
 import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
-import { MobiPoseSprite } from '@/components/brand/MobiPoseSprite';
 import FeatureTour from '@/components/landing/FeatureTour';
 import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
@@ -407,7 +406,7 @@ export default function LandingPage() {
         <section className="lp-close">
           <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="celebrating" label={CLOSE.mobi} />
+            <MascotSeat station="close" pose="wave" label={CLOSE.mobi} />
             <h2 className="lp-h2 lp-h2--xl">{CLOSE.h2}</h2>
             <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions invites={INVITES_LIVE} />
@@ -420,7 +419,6 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
-      <MobiPoseSprite />
       <PipGuide />
       {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
           window event mm:ask-mobi). */}

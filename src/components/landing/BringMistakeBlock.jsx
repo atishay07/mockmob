@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icons';
 import { useAuth } from '@/components/AuthProvider';
 import { signupPathFor } from '@/lib/auth-redirect';
 import { BrandStamp } from './BrandStamp';
+import { MascotSeat } from '@/components/brand/Mascot';
 import { Reveal } from './Reveal';
 import { BRING_MISTAKE as W, BRING_MISTAKE_PATH, bringMistakeWords } from './bringMistakeCopy.mjs';
 import './bring-mistake.css';
@@ -68,11 +69,12 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
     <section className="lp-sec bmk" id="bring-a-mistake" aria-labelledby="bmk-title">
       <div className="mm-wrap bmk__grid">
         <div className="bmk__say">
-          <Reveal className="bmk__head">
+          {/* 17 Nov 2026: Mobi with the phone camera at the head's right (the photo is how most students will bring it). */}
+          <div className="lp-guide-head bmk__guide"><Reveal className="bmk__head">
             <BrandStamp {...W.stamp} />
             <h2 className="lp-h2" id="bmk-title">{W.h2}</h2>
             <p className="lp-sub">{words.sub}</p>
-          </Reveal>
+          </Reveal><MascotSeat station="photo" pose="camera" label="Show me the page." /></div>
           <div className="bmk__value">
             <p className="bmk__value-label" id={`${id}-value`}>{W.value.label}</p>
             <ul className="bmk__gets" aria-labelledby={`${id}-value`}>

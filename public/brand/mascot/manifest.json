@@ -60,5 +60,64 @@
     "width": 370,
     "height": 560,
     "bytes": 44614
+  },
+  "reading": {
+    "src": "/brand/mascot/mobi-reading.webp",
+    "width": 354,
+    "height": 560,
+    "bytes": 31976,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "magnifier": {
+    "src": "/brand/mascot/mobi-magnifier.webp",
+    "width": 372,
+    "height": 560,
+    "bytes": 33112,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "camera": {
+    "src": "/brand/mascot/mobi-camera.webp",
+    "width": 378,
+    "height": 560,
+    "bytes": 31950,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "calendar": {
+    "src": "/brand/mascot/mobi-calendar.webp",
+    "width": 421,
+    "height": 560,
+    "bytes": 39614,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "deskHello": {
+    "src": "/brand/mascot/mobi-desk-hello.webp",
+    "width": 683,
+    "height": 560,
+    "bytes": 46664,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "wave": {
+    "src": "/brand/mascot/mobi-wave-still.webp",
+    "width": 372,
+    "height": 480,
+    "bytes": 31196,
+    "alphaMin": 0,
+    "alphaMax": 255
+  },
+  "waveSheet": {
+    "src": "/brand/mascot/mobi-wave-6.webp",
+    "width": 2232,
+    "height": 480,
+    "bytes": 171516,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "cells": 6,
+    "cellWidth": 372,
+    "cellHeight": 480
   }
 }

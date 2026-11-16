@@ -18,10 +18,9 @@ const ARRIVE_MS = 560;
 const BUBBLE_DELAY_MS = 300;
 const CROSSFADE_MS = 160;
 
-// He only draws where the page's pose sprite is (Mascot's vector finish) and never under the static opt-out.
+// He draws the 3D art (Mascot.jsx, 17 Nov 2026) and never under the static opt-out.
 function canDraw() {
-  const root = document.documentElement;
-  return !root.hasAttribute('data-pip-static') && Boolean(document.getElementById('mbp-idle'));
+  return !document.documentElement.hasAttribute('data-pip-static');
 }
 
 // What is directly under a point, past his own parts: a control a reader taps, or a word (17 Nov 2026: he never covers
@@ -311,8 +310,8 @@ export default function MobiCompanion() {
             <span className="mc__press">
               <span className="mc__hop">
                 <span className="mc__breath">
-                  {pose.prev ? <span key={`p${pose.n}`} className="mc__pose" data-leaving="true"><Mascot pose={pose.prev} facing={facing(pose.prev)} /></span> : null}
-                  <span key={`c${pose.n}`} className="mc__pose" data-entering={pose.prev ? 'true' : undefined}><Mascot pose={pose.cur} facing={facing(pose.cur)} /></span>
+                  {pose.prev ? <span key={`p${pose.n}`} className="mc__pose" data-leaving="true"><Mascot pose={pose.prev} facing={facing(pose.prev)} sizes="56px" /></span> : null}
+                  <span key={`c${pose.n}`} className="mc__pose" data-entering={pose.prev ? 'true' : undefined}><Mascot pose={pose.cur} facing={facing(pose.cur)} sizes="56px" /></span>
                 </span>
               </span>
             </span>

@@ -545,7 +545,8 @@ test('L-039 Mobi is on the landing (hero, seats in the sections, the flying guid
   assert.match(PAGE_CODE, /<HeroMobi\b/);
   assert.ok((PAGE_CODE.match(/<MascotSeat\b/g) || []).length >= 4, 'seats in the sections');
   assert.match(PAGE_CODE, /<PipGuide\s*\/>/);
-  assert.match(PAGE_CODE, /<MobiPoseSprite\s*\/>/);
+  // 17 Nov 2026: the seats draw the 3D art (Mascot.jsx); the vector pose sprite has left the page.
+  assert.doesNotMatch(PAGE_CODE, /<MobiPoseSprite\b/);
   assert.match(code(read('src/components/landing/HeroMobi.jsx')), /MobiReact/, 'the rigged Mobi');
 });
 test.todo('L-039 Mobi\'s homepage motion is visibly better than the 15 October version (purposeful and smooth: an owner judgement on the live page)');

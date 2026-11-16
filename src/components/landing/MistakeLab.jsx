@@ -259,7 +259,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
       <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
           <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
-          <MascotSeat station="lab-inline" pose="thinking" label="Mobi follows the replay." className="pip-seat--lab-inline" />
+          <MascotSeat station="lab-inline" pose="magnifier" label="Mobi follows the replay." className="pip-seat--lab-inline" />
         </div>
 
         <div className="ml__panels">

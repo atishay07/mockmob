@@ -19,6 +19,8 @@ const REACTIONS = {
   encourage: { pose: 'encouraging', motion: 'tilt', ms: 1450 },
   eureka: { pose: 'celebrating', motion: 'jump', ms: 1900 },
   nod: { pose: null, motion: 'nod', ms: 800 },
+  // A tap on a seated Mobi (Mascot.jsx): one small bounce in his own pose; where he waves, the wave's six frames again.
+  tap: { pose: null, motion: 'tap', ms: 1250 },
 };
 // Celebrations setting: Quiet turns a celebration into a nod, Off plays nothing.
 function calmMood(kind) {
@@ -396,7 +398,10 @@ export default function PipGuide() {
       const heroSeen=new Set();
       const heroWatch=new IntersectionObserver((entries)=>{for(const e of entries){if(e.isIntersecting)heroSeen.add(e.target);else heroSeen.delete(e.target);}const seen=heroSeen.size>0;if(seen!==heroMobi){heroMobi=seen;wake();}});
       document.querySelectorAll('.lp-mobi, .lp-hero').forEach(el=>heroWatch.observe(el));
-      const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
+      const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;
+        // A tap only counts while he stands on that seat, at rest: it is never kept for later.
+        if(kind==='tap'&&(station!==activeId||!visible||mood||away))return;
+        pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
       root.dataset.pipGuide='on';setRunning(true);
       // The flyer's frame runs from the page's one shared scroll read (scrollBus.mjs) instead of a listener and a frame
