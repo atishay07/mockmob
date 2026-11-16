@@ -17,8 +17,8 @@ Never call a paid model outside its persistent budget guard; retries and failure
 Budgets: the USD 50 lifetime content-generation ceiling (4 Oct) was removed by the owner on 31 Oct 2026;
 there is no content ceiling now, but paid calls still go through scripts/pipeline/lib/budgetLedger.mjs
 (optional per-run stop CUET_CONTENT_LIMIT_USD). Student-facing AI is capped per user per IST month
-(Rs 5 for a paid student, Rs 3.50 for a free one: owner, 16 Nov 2026; the database row stays Rs 2.50
-until the owner runs supabase/migrations/20261117090000_free_ai_cap_350.sql), enforced in the database
+(Rs 5 for a paid student, Rs 3.50 for a free one: owner, 16 Nov 2026; he set the database row on 17 Nov with
+supabase/migrations/20261117090000_free_ai_cap_350.sql), enforced in the database
 (runtime_ai_budget); the global monthly ceiling was removed by the owner on 17 Oct 2026;
 only gpt-6-luna and claude-haiku-5-5 may run. Student AI is enabled
 (RELEASE_GATES.runtimeAi); it reaches students only once deployed with the AI_* env vars.

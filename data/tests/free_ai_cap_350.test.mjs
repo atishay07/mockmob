@@ -29,11 +29,12 @@ test('the migration is one statement on the Free row, and the undo is its mirror
   assert.match(MIGRATION, /Rollback: supabase\/undo\/20261117090000_free_ai_cap_350\.undo\.sql/);
 });
 
-test('the code and the contract mirror it, and say the database row is the enforcer until the owner runs it', () => {
+test('the code and the contract mirror it, and say the database row is the enforcer', () => {
   const wallet = file('src/services/credits/aiCreditWallet.js');
   assert.match(wallet, /export const AI_FREE_BUDGET_INR_CAP = 3\.5;/);
   assert.match(wallet, /USD 0\.0398 = Rs 3\.50/);
-  assert.match(wallet, /The database\n\/\/ row is the enforcer, per Free student per IST month, and it holds USD 0\.0284 \(Rs 2\.50\) until the owner runs\n\/\/ supabase\/migrations\/20261117090000_free_ai_cap_350\.sql\./);
+  assert.match(wallet, /row is the enforcer, per Free student per IST month/);
+  assert.match(wallet, /20261117090000_free_ai_cap_350\.sql/);
   const agents = file('AGENTS.md');
   assert.match(agents, /Rs 5 for a paid student, Rs 3\.50 for a free one/);
   assert.doesNotMatch(agents, /Rs 2\.50 for a free one/);

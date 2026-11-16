@@ -20,8 +20,8 @@ export const AI_FREE_MONTHLY_CREDITS = 50;
 export const AI_PRO_INCLUDED_MONTHLY_CREDITS = 50;
 export const AI_INCLUDED_MONTHLY_CREDITS = AI_PRO_INCLUDED_MONTHLY_CREDITS;
 // Mirrors runtime_ai_budget 'student_user_free': USD 0.0398 = Rs 3.50 at Rs 88 (owner, 16 Nov 2026; was Rs 2.50). The database
-// row is the enforcer, per Free student per IST month, and it holds USD 0.0284 (Rs 2.50) until the owner runs
-// supabase/migrations/20261117090000_free_ai_cap_350.sql.
+// row is the enforcer, per Free student per IST month; the owner set it on production on 17 Nov 2026 with
+// supabase/migrations/20261117090000_free_ai_cap_350.sql (read back: 0.0398).
 export const AI_FREE_BUDGET_INR_CAP = 3.5;
 export const AI_INTERNAL_USD_TO_INR = 85;
 
