@@ -5,6 +5,7 @@ import { CUTOFFS_PATH, collegePath, coursePath } from '@/lib/du/cutoffPages.mjs'
 import { KEY_CARDS_PATH } from '@/lib/keycardsPublic.mjs';
 import { publicKeyCards } from '@/lib/server/keycardsPublic';
 import { loadCorrections } from '@/../data/corrections.mjs';
+import { CORRECTIONS_LISTED } from '@/../data/corrections_listed.mjs';
 
 export default async function sitemap() {
   const now = new Date();
@@ -66,5 +67,5 @@ export default async function sitemap() {
   const latestCorrection = loadCorrections().latest;
   const corrections = { url: absoluteUrl('/corrections'), lastModified: latestCorrection ? new Date(`${latestCorrection}T00:00:00+05:30`) : now, changeFrequency: 'monthly', priority: 0.5 };
 
-  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, corrections, ...duRoutes, ...keyCardRoutes];
+  return [...staticRoutes, subjectIndex, ...subjectRoutes, daily, sundayMock, ...(CORRECTIONS_LISTED ? [corrections] : []), ...duRoutes, ...keyCardRoutes];
 }

@@ -1,4 +1,5 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
+import { CORRECTIONS_LISTED } from '@/../data/corrections_listed.mjs';
 import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
@@ -33,7 +34,7 @@ const SUBJECT_LINKS = [
 // Corrections (16 Nov 2026): the public log of what we found wrong in our questions (src/app/corrections).
 const COMPANY_LINKS = [
   ['About', '/about'],
-  ['Corrections', '/corrections'],
+  ...(CORRECTIONS_LISTED ? [['Corrections', '/corrections']] : []),
   ['Help', '/help'],
   ['Contact', '/contact'],
   ['Privacy', '/privacy'],

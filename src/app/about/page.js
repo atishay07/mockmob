@@ -1,4 +1,5 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
+import { CORRECTIONS_LISTED } from '@/../data/corrections_listed.mjs';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -28,7 +29,7 @@ const BELIEFS = [
     title: 'The question bank is engineered, not scraped',
     body: 'Every question passes schema, answer-key, duplicate and difficulty checks before it reaches you, and anything uncertain is held back. If a key looks wrong, report it from your result and we recheck it.',
     // 16 Nov 2026: every mistake we have found and what we did, dated (src/app/corrections).
-    link: { href: '/corrections', label: 'See every correction we have made' },
+    ...(CORRECTIONS_LISTED ? { link: { href: '/corrections', label: 'See every correction we have made' } } : {}),
   },
   {
     title: 'A score should tell you what to do next',

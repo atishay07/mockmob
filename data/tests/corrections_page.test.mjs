@@ -24,7 +24,15 @@ test('/corrections: the site frame, its metadata and breadcrumb, the real report
   assert.doesNotMatch(copy, /!|24 hours|within a day|guarantee/i, 'no promise the code cannot keep');
   const way = read('src/app/corrections/CorrectionsWayIn.jsx');
   assert.equal((way.match(/mm-btn--primary/g) || []).length, 1, 'one volt key');
-  assert.match(read('src/components/MarketingFooter.jsx'), /\['Corrections', '\/corrections'\]/);
+  assert.match(read('src/components/MarketingFooter.jsx'), /CORRECTIONS_LISTED \? \[\['Corrections', '\/corrections'\]\] : \[\]/);
   assert.match(read('src/app/about/page.js'), /href: '\/corrections'/);
   assert.match(read('src/app/sitemap.js'), /absoluteUrl\('\/corrections'\)/);
+});
+
+test('the log is unlisted until the owner says so: no footer, About or sitemap link, and not indexed; one switch lists it', () => {
+  const flag = read('data/corrections_listed.mjs');
+  assert.match(flag, /export const CORRECTIONS_LISTED = (true|false);/);
+  assert.match(read('src/app/about/page.js'), /CORRECTIONS_LISTED \? \{ link: \{ href: '\/corrections'/);
+  assert.match(read('src/app/sitemap.js'), /CORRECTIONS_LISTED \? \[corrections\] : \[\]/);
+  assert.match(read('src/app/corrections/page.js'), /CORRECTIONS_LISTED \? LOG_METADATA : \{ \.\.\.LOG_METADATA, robots: \{ index: false, follow: false \} \}/);
 });

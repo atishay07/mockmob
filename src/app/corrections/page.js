@@ -6,6 +6,7 @@ import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata, siteConfig } from '@/lib/seo';
 import { ACTIONS, dateParts, loadCorrections } from '@/../data/corrections.mjs';
+import { CORRECTIONS_LISTED } from '@/../data/corrections_listed.mjs';
 import { CORRECTIONS_PATH, HEAD, LEGEND, LOG, REPORT, daySummary } from './correctionsCopy.mjs';
 import CorrectionsWayIn from './CorrectionsWayIn';
 import './corrections.css';
@@ -13,12 +14,14 @@ import './corrections.css';
 // The public corrections log (16 Nov 2026): what MockMob found wrong in its questions, when, and what it did. Every entry
 // comes from data/corrections.json through data/corrections.mjs, which checks it and drops its private proof. The page is
 // static: a visit reads no database. A new entry ships with the next deploy, and an entry dated after today is never drawn.
-export const metadata = seoMetadata({
+const LOG_METADATA = seoMetadata({
   title: 'Corrections: what we got wrong in our CUET questions | MockMob',
   description:
     'Every mistake MockMob has found in its CUET questions, with the date, what was wrong and what we did: fixed it, took it out of practice, or held it for a re-check.',
   path: CORRECTIONS_PATH,
 });
+// Unlisted until the owner has read it (data/corrections_listed.mjs): reachable at its address, not indexed.
+export const metadata = CORRECTIONS_LISTED ? LOG_METADATA : { ...LOG_METADATA, robots: { index: false, follow: false } };
 
 /** The answer-sheet bubble that marks each outcome: filled for fixed, crossed for taken out, dashed for held. */
 function Bubble({ action }) {
