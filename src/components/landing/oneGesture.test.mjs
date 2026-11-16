@@ -150,7 +150,9 @@ test('FLOW in real Chrome at 390x844: free, settled, gentle, every step shown, a
   const bench = await openBench({ url: URL_UNDER_TEST, label: 'oneGesture.test flow' });
   try {
     const failures = [];
-    for (const name of (process.env.ONE_GESTURE_STORIES || 'ft-story,lc').split(',')) {
+    // The Lab only: the tour is free on a touch screen since 16 Nov 2026 night (no steering, no settle), so the steered
+    // matrix does not describe it; tourTaps.test.mjs pins its free scroll and tmp/lane-tools/tour.mjs walks it.
+    for (const name of (process.env.ONE_GESTURE_STORIES || 'lc').split(',')) {
       const rows = await runFlow(bench, name, { log: (line) => console.log(line) });
       for (const row of rows) if (!row.ok) failures.push(`${name} ${row.id}: step ${row.start}->${row.step}, y ${row.y}, off ${row.off}`);
       assert.ok(rows.length >= 15, `${name} ran ${rows.length} cells`);

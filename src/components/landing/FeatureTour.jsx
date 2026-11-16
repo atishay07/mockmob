@@ -6,15 +6,15 @@ import { ArrowLeft } from 'lucide-react';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
-import { TOUR_HOLD } from './tourTaps.mjs';
-import { undrawn } from './undrawn';
+import { FLOW_QUERY } from './storyGesture.mjs';
 
-// Phones show one sentence under each tool's title (wide screens show the paragraph and its points), so a phone never says
-// less than a laptop. The sentence is the slide's own `lede` (homeCopy.mjs).
-// The rail's icons are the lamp-lit desk objects (BrandIcon, LK73), 32 px so the object never turns to mush; Ask Mobi's is the
-// brass desk bell. The chevron stays a plain line icon: controls are the interface's verbs.
-// They load eagerly at low priority (R3-D5, LK105): lazy images inside a sideways scroller only start loading as the chip
-// row scrolls them in, so on a first visit an icon arrived 24-44 ms after its chip was on screen.
+// Wide screens show each tool's title, its paragraph and its points. A phone's held stage has one screen of height, so it
+// shows the title alone under the screen (16 Nov 2026 night: "the tool's name and one sentence ... no second paragraph");
+// the slide's own `lede` (homeCopy.mjs) stays in the page for screen readers (r16-tour-stack.css).
+// The rail's icons are the lamp-lit desk objects (BrandIcon, LK73), drawn from 32 px so the object never turns to mush; Ask
+// Mobi's is the brass desk bell. The chevron stays a plain line icon: controls are the interface's verbs.
+// They load eagerly at low priority (R3-D5, LK105): the tab row is on screen the moment the tour is, so no icon may arrive
+// after its tab.
 const RAIL_ICON = 32;
 function RailIcon({ name }) {
   if (typeof name !== 'string') return name; // a ready-made node (an older caller's line icon) is drawn as given
@@ -50,23 +50,33 @@ function TourVideo({ slide, playing }) {
 // perf: the old remount cost about 100 ms a step at 4x CPU). Memoised with its own context value, so a step re-renders
 // only the two screens whose state changed. `epoch` is the activation the screen on stage belongs to (ScrollStory's step
 // count, R3-D5): off stage every screen gets the same -1, so a step still re-renders only two. `sample` is the public
-// question a screen may open (the Mob's Fix it together, read on the server by page.js).
+// question a screen may open (the Mob's Fix it together, read on the server by page.js). A screen told `reduced` shows its
+// finished frame and plays nothing (reduced motion, and every screen of a resting tour: see `still` below).
 const TourScreen = memo(function TourScreen({ Screen, active, reduced, play, epoch, sample }) {
   const value = useMemo(() => ({ active, reduced, paused: false, epoch, held: true }), [active, reduced, epoch]);
   return <DemoPlaybackContext.Provider value={value}><Screen play={play} sample={sample} /></DemoPlaybackContext.Provider>;
 });
 
-// HELD (a mouse or a trackpad, TOUR_HOLD): the feature tour holds the screen while the reader's scroll moves through the
-// tools (ScrollStory): one tool per beat, its live demo playing while it is on stage, the chapter chips and the progress
-// following the scroll. Chips, arrows and Next jump the page to that tool's beat, so the scroll position and the tool on
-// stage never disagree. The screens answer taps here too (TourScreens.jsx).
-function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) {
+// THE TOUR: one stage, one tool on it at a time (ScrollStory holds the stage while the reader's scroll moves through the
+// tools). Every reader gets this one form (16 Nov 2026 night; owner on his phone about the stack of five screens that
+// replaced it for a few hours: "it's just a wastage of vertical space. I think the older one was better").
+//   A mouse or a trackpad: one gesture, one tool (storyController.mjs). The demo of the tool on stage plays once and rests.
+//   A finger (`flow`): the story is free (ScrollStory `free`): the page is the browser's own scroll, never landed,
+//     steered or settled, and the tool on stage is the one whose beat is under the window's middle. Nothing plays by
+//     itself: each screen is simply there in its finished frame, ready for a tap (TourScreens.jsx, tourTaps.mjs).
+//   Unheld (reduced motion on a touch screen, or no IntersectionObserver): the same stage in the page's flow, the tabs
+//     switching the tool in place.
+// The tab row is still: five fixed tabs (r16-tour-stack.css on phones, r10-lab-tour.css from 900 px), never scrolled or
+// moved by the page. A tab (and, from 900 px, Back and Up next) jumps the page to that tool's beat, so the scroll position
+// and the tool on stage never disagree.
+function TourStage({ slides, step, seq = 0, pinned, flow, reduced, goTo: storyGoTo, samples }) {
   const rootRef = useRef(null);
   const trackRef = useRef(null);
-  const navRef = useRef(null);
   const [onScreen, setOnScreen] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
   const active = Math.min(step, slides.length - 1);
+  // A finger, or a stage that is not held: the screens rest on their finished frames and wait for a tap.
+  const still = Boolean(flow) || !pinned;
 
   useEffect(() => {
     const sync = () => setPageVisible(document.visibilityState === 'visible');
@@ -75,72 +85,8 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
     return () => document.removeEventListener('visibilitychange', sync);
   }, []);
 
-  // Keep the current chapter chip centred without moving the document's vertical scroll (the row scrolls
-  // itself; instant under reduced motion). The row's edges fade only where more chips wait beyond them.
-  const [fade, setFade] = useState('none');
-  const chipsRef = useRef(null);
-  const chapterRef = useRef(active);
-  const railVisible = useRef(false);
-  const readFade = useCallback(() => {
-    const nav = navRef.current;
-    if (!nav || !chipsRef.current) return;
-    const { more } = chipsRef.current;
-    const start = nav.scrollLeft > 2;
-    const end = more > 2 && nav.scrollLeft < more - 2;
-    setFade(start && end ? 'both' : start ? 'start' : end ? 'end' : 'none');
-  }, []);
-  // Where each chip centres, measured when the row or a chip changes size (a ResizeObserver callback, where layout is
-  // already clean), never on a step: reading offsetLeft right after a step's commit forced a style and layout pass inside
-  // the step's frame (28-34 ms of a 54-73 ms frame at 4x CPU), and the row started moving 128-192 ms late (R3-D5, P2-5).
-  const measureChips = useCallback(() => {
-    const nav = navRef.current;
-    if (!nav || undrawn(nav)) { chipsRef.current = null; return null; }
-    const items = [...nav.querySelectorAll('[data-chapter]')];
-    chipsRef.current = { more: nav.scrollWidth - nav.clientWidth, at: items.map((item) => item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2) };
-  }, []);
-  const alignChapter = useCallback((index, smooth) => {
-    const nav = navRef.current;
-    const chips = chipsRef.current;
-    if (!railVisible.current || !nav || !chips || chips.more <= 2 || !Number.isFinite(chips.at[index])) return;
-    nav.scrollTo({ left: chips.at[index], behavior: smooth ? 'smooth' : 'instant' });
-  }, []);
-  // The step never measures the rail. The old cache-miss fallback forced the off-screen tour to lay out mid-swipe.
-  useLayoutEffect(() => {
-    chapterRef.current = active;
-    if (!railVisible.current) return undefined;
-    const frame = requestAnimationFrame(() => alignChapter(active, !reduced));
-    return () => cancelAnimationFrame(frame);
-  }, [active, reduced, alignChapter]);
-  useEffect(() => {
-    const nav = navRef.current;
-    if (!nav) return undefined;
-    const read = () => {
-      measureChips();
-      alignChapter(chapterRef.current, false);
-      readFade();
-    };
-    const view = typeof IntersectionObserver === 'function' ? new IntersectionObserver(([entry]) => {
-      railVisible.current = entry.isIntersecting;
-      if (entry.isIntersecting) alignChapter(chapterRef.current, false);
-    }) : null;
-    railVisible.current = !view;
-    view?.observe(nav);
-    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(read) : null;
-    observer?.observe(nav);
-    nav.querySelectorAll('[data-chapter]').forEach((item) => observer?.observe(item));
-    if (!observer) {
-      read();
-      window.addEventListener('resize', read);
-    }
-    return () => {
-      view?.disconnect();
-      observer?.disconnect();
-      if (!observer) window.removeEventListener('resize', read);
-    };
-  }, [readFade, measureChips, alignChapter]);
-
-  // Held, the tour never wraps (R8 SEC-05): a wrap threw the reader about 4,900 px back to the first tool, or on to the
-  // last. The first tool's Prev is disabled and the last tool's Next is a link to the next section (below).
+  // The tour never wraps (R8 SEC-05): a wrap threw the reader about 4,900 px back to the first tool, or on to the last.
+  // The first tool's Back is disabled and the last tool's Next is a link to the next section (below).
   const goTo = useCallback((index, { keyboard = false } = {}) => {
     if (index >= 0 && index < slides.length) storyGoTo(index, { instant: keyboard });
   }, [slides.length, storyGoTo]);
@@ -153,8 +99,8 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
     return () => observer.disconnect();
   }, [active]);
 
-  // Demos play while their tool is on stage; the scroll (not a timer) moves to the next tool.
-  const running = onScreen && pageVisible && !reduced;
+  // Demos play (held, for a mouse or a trackpad) while their tool is on stage; the scroll (not a timer) moves to the next tool.
+  const running = onScreen && pageVisible && !reduced && !still;
 
   // The section after the tour (the next section with an id, named by its stamp or heading): where the last tool's Next
   // goes, the same place the bottom bar's Skip goes.
@@ -202,17 +148,22 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
 
   return (
     <div className="ft" ref={rootRef} role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'}>
-      <ul className="ft__list" ref={navRef} aria-label="Feature chapters" data-fade={fade} onScroll={readFade}>
+      {/* The tabs: one per tool, its desk object over its name. A tool with a shorter tab name (the Mob) carries both
+          words; the sheets show one per width, so a phone reads "Mob" and a laptop "The Mob". */}
+      <ul className="ft__list" aria-label="Feature chapters" style={{ '--ft-n': slides.length }}>
         {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
-            <span className="ft__ico" aria-hidden="true" style={{ width: RAIL_ICON, height: RAIL_ICON }}><RailIcon name={slide.icon} /></span><span>{slide.label}</span>
+            <span className="ft__ico" aria-hidden="true" style={{ width: RAIL_ICON, height: RAIL_ICON }}><RailIcon name={slide.icon} /></span>
+            <span className="ft__word" data-long={slide.tab ? '' : undefined}>{slide.label}</span>
+            {slide.tab ? <span className="ft__word" data-short="">{slide.tab}</span> : null}
           </button>
         </li>)}
       </ul>
 
       <div className="ft__room">
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
-          {/* The demos play once per tool and rest, so there is nothing to pause: the name stands alone (R11). */}
+          {/* The demos play once per tool and rest, so there is nothing to pause: the name stands alone (R11). Phones show
+              the name in the tab row instead. */}
           <div className="ft__chrome">
             <div className="ft__chapter"><span className="lp-sr">{`Feature ${active + 1} of ${slides.length}`}</span><b>{slides[active]?.label}</b></div>
           </div>
@@ -227,15 +178,20 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
               <div key={slide.id} className="ft__slide" role="group" aria-roledescription="slide" aria-label={(i + 1) + ' of ' + slides.length + ': ' + slide.label} aria-hidden={!on} inert={!on} data-index={i} data-active={on ? 'true' : 'false'} data-past={i < active ? 'true' : undefined}>
                 <article className="ft__card">
                   <div className="ft__media">
+                    {/* On a phone the screen is the part that gives way when the window is short: .ft__fit scales to fit
+                        the shot's row (ScrollStory fitAll) and the words under it keep their size. From 900 px it never
+                        scales (r16-tour-stack.css --ss-fit-min) and the whole stage is fitted instead, as before. */}
                     <div className="ft__shot">
-                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen Screen={Screen} active={on} reduced={reduced} play={on && running} epoch={on ? seq : -1} sample={samples?.[slide.id] ?? null} /> : slide.screen}
+                      <div className="ft__fit" data-ss-fit="0.6">
+                        {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <TourScreen Screen={Screen} active={on} reduced={reduced || still} play={on && running} epoch={on ? seq : -1} sample={samples?.[slide.id] ?? null} /> : slide.screen}
+                      </div>
                     </div>
                   </div>
                   <div className="ft__copy">
                     <h3 className="ft__title"><Sentences text={slide.title} /></h3>
                     <p className="ft__body">{slide.body}</p>
                     <p className="ft__lede">{slide.lede || slide.line}</p>
-                    {/* The slide's one true line (its chip) is for screen readers now: phones read the title and the lede, never a third sentence (LK71). */}
+                    {/* The slide's one true line (its chip) is for screen readers now (LK71); on a phone the lede is too. */}
                     <p className="lp-sr">{slide.chip}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                     <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>
@@ -245,6 +201,7 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
             ); })}
           </div>
 
+          {/* Back and Up next (from 900 px; a phone has the tabs and no band under the card). */}
           <div className="ft__controls">
             <button type="button" className="ft__arrow" aria-disabled={atStart || undefined} onClick={event => { if (atStart) return; goTo(active - 1, { keyboard: event.detail === 0 }); }} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
             {atEnd
@@ -257,93 +214,9 @@ function HeldTour({ slides, step, seq = 0, reduced, goTo: storyGoTo, samples }) 
   );
 }
 
-// THE STACK (a finger, 16 Nov 2026; owner on his phone: from the second tool the held tour was "doing weird movements").
-// On a touch screen nothing holds: the page scrolls natively through the tools, one under the other. An index row of the
-// tools' desk objects jumps down the page to each one (a plain in-page link: the page's own smooth scroll, instant under
-// reduced motion, landing under the site bar by the tool's scroll margin, r16-tour-stack.css). Each tool is its name, its
-// dark screen at its natural height, its title, one sentence and its link: no card, no tinted well, no autoplay, no
-// controls. A screen plays its short demo once, when at least half of it is on screen, and rests on its finished state;
-// off screen it does nothing (one IntersectionObserver for every screen). Under reduced motion it is simply finished.
-const STACK_CONTEXT_BASE = { active: true, paused: false, epoch: 0, held: true };
-const toolId = (id) => `prep-${id}`;
-const StackScreen = memo(function StackScreen({ Screen, play, sample }) {
-  return <Screen play={play} sample={sample} />;
-});
-
-function TourStack({ slides, reduced, samples }) {
-  const rootRef = useRef(null);
-  // Per screen: seen (half of it has been on screen once) and on (any of it is on screen now).
-  const [view, setView] = useState(() => slides.map(() => ({ seen: false, on: false })));
-  const count = slides.length;
-  // The stack is drawn only in the browser (the server draws the held tour), so this is never read during a server render.
-  // Without an IntersectionObserver every screen simply plays at once.
-  const watching = typeof IntersectionObserver === 'function';
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || !watching) return undefined;
-    const io = new IntersectionObserver((entries) => {
-      setView((was) => {
-        let next = was;
-        for (const entry of entries) {
-          const i = Number(entry.target.dataset.stackScreen);
-          const cur = was[i];
-          if (!cur) continue;
-          const on = entry.isIntersecting;
-          const seen = cur.seen || (on && entry.intersectionRatio >= 0.5);
-          if (seen === cur.seen && on === cur.on) continue;
-          if (next === was) next = [...was];
-          next[i] = { seen, on };
-        }
-        return next;
-      });
-    }, { threshold: [0, 0.5] });
-    root.querySelectorAll('[data-stack-screen]').forEach((node) => io.observe(node));
-    return () => io.disconnect();
-  }, [count, watching]);
-  const context = useMemo(() => ({ ...STACK_CONTEXT_BASE, reduced }), [reduced]);
-
-  return (
-    <div className="fts" ref={rootRef}>
-      <nav className="fts__index" aria-label="The tools in this section">
-        <ul style={{ '--fts-n': count }}>
-          {slides.map((slide) => (
-            <li key={slide.id}>
-              <a className="fts__jump" href={`#${toolId(slide.id)}`}>
-                <span className="fts__ico" aria-hidden="true"><RailIcon name={slide.icon} /></span>
-                <span className="fts__label">{slide.label}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <DemoPlaybackContext.Provider value={context}>
-        {slides.map((slide, i) => {
-          const Screen = TOUR_SCREENS[slide.id];
-          const play = !watching || Boolean(view[i]?.seen && view[i]?.on);
-          return (
-            <article key={slide.id} className="fts__tool" id={toolId(slide.id)} aria-labelledby={`${toolId(slide.id)}-title`}>
-              <p className="fts__name"><span className="fts__ico" aria-hidden="true"><RailIcon name={slide.icon} /></span>{slide.label}</p>
-              <div className="fts__screen" data-stack-screen={i}>
-                {slide.video ? <TourVideo slide={slide} playing={play} /> : Screen ? <StackScreen Screen={Screen} play={play} sample={samples?.[slide.id] ?? null} /> : slide.screen}
-              </div>
-              <h3 className="fts__title" id={`${toolId(slide.id)}-title`}><Sentences text={slide.title} /></h3>
-              <p className="fts__lede">{slide.lede || slide.line}</p>
-              <p className="lp-sr">{slide.chip}</p>
-              <Link href={slide.href} className="lp-link fts__cta">{slide.cta}</Link>
-            </article>
-          );
-        })}
-      </DemoPlaybackContext.Provider>
-    </div>
-  );
-}
-
-// The story is held only for a mouse or a trackpad (TOUR_HOLD); unheld (a finger, or a browser without
-// IntersectionObserver) the tools stack. No reader gets a timed carousel.
-function TourStage(props) {
-  return props.pinned ? <HeldTour {...props} /> : <TourStack {...props} />;
-}
-
+// Held wherever IntersectionObserver exists. On a touch screen the story is free (no landing, steering or settle: the
+// page is the reader's scroll alone) and, under reduced motion, not held at all (holdCalm: the same stage, tabs switch the
+// tool in place). A mouse or a trackpad keeps one gesture, one tool, reduced motion or not.
 export default function FeatureTour({ slides = [], samples = null }) {
-  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" hold={TOUR_HOLD} Content={TourStage} slides={slides} samples={samples} />;
+  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" holdCalm={FLOW_QUERY} free Content={TourStage} slides={slides} samples={samples} />;
 }

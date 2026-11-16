@@ -44,8 +44,11 @@
 // steps stack.
 //
 // Props beyond the stage's: `hold` is a media query; the story is held only while it matches (the statement is a
-// phone story and a plain scrub on desktop). `holdCalm` skips the hold under reduced motion. `quiet` keeps the
-// phone dock up while the story is on (the dock is told by data-live).
+// phone story and a plain scrub on desktop). `holdCalm` skips the hold under reduced motion (true), or under reduced
+// motion only where a media query matches (a string: the tour skips it on touch screens alone). `quiet` keeps the
+// phone dock up while the story is on (the dock is told by data-live). `free`: on a touch screen the controller never
+// moves the page for this story (no landing, no steering, no settle; storyController.mjs): the step simply follows the
+// scroll, and a picked step (a tab) is the only thing that puts the page. The stage is told `flow` (a touch screen).
 import { startTransition, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import '@/app/scroll-story.css';
 import * as bus from './scrollBus.mjs';
@@ -145,7 +148,7 @@ function measureSlack(root, stage) {
   if (slack > 0) writeSlack(root, stage, `${slack}px`);
 }
 
-export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, land, ...rest }) {
+export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, hold, holdCalm = false, quiet = false, land, free = false, ...rest }) {
   const id = useId();
   const rootRef = useRef(null);
   const stageRef = useRef(null);
@@ -185,21 +188,25 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
     const heldQuery = hold ? window.matchMedia(hold) : null;
+    // holdCalm as a media query: the hold is skipped under reduced motion only where it matches (the tour: on touch screens).
+    const calmQuery = typeof holdCalm === 'string' ? window.matchMedia(holdCalm) : null;
     const sync = () => {
       const calmNow = reducedNow();
+      const calmLets = holdCalm === true || Boolean(calmQuery?.matches);
       setReduced(calmNow);
-      setPinned(typeof IntersectionObserver !== 'undefined' && (!heldQuery || heldQuery.matches) && !(holdCalm && calmNow));
+      setPinned(typeof IntersectionObserver !== 'undefined' && (!heldQuery || heldQuery.matches) && !(calmLets && calmNow));
       setFlow(flowNow());
     };
     sync();
     calm.addEventListener?.('change', sync);
     heldQuery?.addEventListener?.('change', sync);
+    calmQuery?.addEventListener?.('change', sync);
     let touchQuery = null;
     try { touchQuery = window.matchMedia(FLOW_QUERY); } catch { /* an old browser: the first answer stands */ }
     touchQuery?.addEventListener?.('change', sync);
     const watch = typeof MutationObserver !== 'undefined' ? new MutationObserver(sync) : null;
     watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); touchQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
+    return () => { calm.removeEventListener?.('change', sync); heldQuery?.removeEventListener?.('change', sync); calmQuery?.removeEventListener?.('change', sync); touchQuery?.removeEventListener?.('change', sync); watch?.disconnect(); };
   }, [hold, holdCalm]);
 
   // The controller's handle for this story: the gesture, clamp and settle rules live in storyController.mjs.
@@ -208,11 +215,11 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     const track = trackRef.current;
     const stage = stageRef.current;
     if (!pinned || !root || !track || !stage || steps < 2) return undefined;
-    const handle = { id, root, track, stage, steps, step: () => stepRef.current, show: applyStep, reduced: reducedNow, flow: flowNow, land: land ?? !quiet };
+    const handle = { id, root, track, stage, steps, step: () => stepRef.current, show: applyStep, reduced: reducedNow, flow: flowNow, land: land ?? !quiet, free: Boolean(free) };
     handleRef.current = handle;
     const off = controller.register(handle);
     return () => { off(); handleRef.current = null; bus.hold(id, false); };
-  }, [pinned, steps, applyStep, id, land, quiet]);
+  }, [pinned, steps, applyStep, id, land, quiet, free]);
 
   // The beat crossing the middle of the window owns the step for any scroll the controller does not own. With no
   // beat crossing, the side the reader comes from does: the beats cover the whole track, so the track then lies wholly
@@ -362,7 +369,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     if (Number.isFinite(i) && i !== stepRef.current) goTo(i);
   }, [goTo]);
 
-  const api = useMemo(() => ({ step, seq, pinned, reduced, live, goTo, steps }), [step, seq, pinned, reduced, live, goTo, steps]);
+  const api = useMemo(() => ({ step, seq, pinned, reduced, live, goTo, steps, flow }), [step, seq, pinned, reduced, live, goTo, steps, flow]);
 
   return (
     <div
@@ -372,6 +379,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       data-reduced={reduced ? 'true' : 'false'}
       data-live={live && !quiet ? 'true' : 'false'}
       data-flow={flow ? 'true' : undefined}
+      data-free={free ? 'true' : undefined}
       data-step={step}
       style={{ '--ss-steps': steps, ...(beat ? { '--ss-beat': beat } : null) }}
     >

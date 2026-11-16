@@ -1,68 +1,108 @@
-/* Round 16 (16 Nov 2026): the tour on a touch screen, and screens a reader can touch.
-   The owner, on www.mockmob.in on his phone: up to the Practice tool the page "is competent. After that, it's doing weird
-   movements". The held tour pinned the stage and swapped the tool under the finger. On a touch screen the tour is now a
-   plain stack (FeatureTour.jsx TourStack): the page scrolls natively through the tools, one under the other. Nothing pins,
-   nothing swaps, no sideways chip row, no bottom band, no timer. A mouse or a trackpad keeps the held tour as it was.
-   Every rule here is scoped to #your-prep or to the stack's own classes, so nothing else on the page moves. */
+/* Round 16 (16 Nov 2026): the tour on a phone, and screens a reader can touch. (The file keeps its first name: for a few
+   hours that evening the tour was a stack of five screens on touch; the owner, on his phone at 10:25 pm: "it's just a
+   wastage of vertical space. I think the older one was better".) The tour is ONE held stage again on every device
+   (FeatureTour.jsx): on a phone it holds one screen of height, a still row of five tabs over one card (the tool's screen,
+   its one-sentence title and its one key), and nothing in it moves unless the reader's finger does. The scroll through
+   it is the browser's own (ScrollStory `free`): no landing, no settle, no glide. Desktop keeps the held tour as it was.
+   Every rule here is scoped to #your-prep or to .ft-story, so nothing else on the page moves. */
 
-/* The section's sub: the held tour's for a mouse, the stack's for a finger (page.js renders both words). The same split as
-   the hold itself (tourTaps.mjs TOUR_HOLD): held only for (hover: hover) and (pointer: fine). */
+/* The section's sub: the held tour's for a mouse, the touch screen's for a finger (page.js renders both words). Touch is
+   every pointer that is not a fine one that hovers (tourTaps.mjs TOUR_HOLD), where the screens rest and wait for a tap. */
 #your-prep .ft-sub--touch { display: none; }
 @media not all and (hover: hover) and (pointer: fine) {
   #your-prep .ft-sub--hold { display: none; }
   #your-prep .ft-sub--touch { display: inline; }
 }
 
-/* ---------- The stack ---------- */
-.fts { display: grid; grid-template-columns: minmax(0, 1fr); --fts-air: 56px; }
+/* A tool with a shorter tab name (the Mob) carries both words; a laptop reads the label, a phone the tab name. */
+#your-prep .ft__word[data-short] { display: none; }
 
-/* The index: one column per tool, the desk object (32 px) over its name (12 px), each a link down to its tool. The columns
-   share the row equally, except that none is ever narrower than its own name: at 360 px "Benchmarks" (67 px) is a few px
-   wider than a fifth of the row, so it takes them and the other four stay equal. All five fit a 360 px phone with no
-   sideways scroll. The whole column is the target (64 px tall); a press darkens it. */
-.fts__index ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--fts-n, 5), minmax(min-content, 1fr)); gap: 2px; }
-.fts__index li { min-width: 0; }
-.fts__jump {
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-  min-height: 64px; padding: 6px 0 8px; border-radius: 12px;
-  color: var(--ink-2); text-decoration: none; text-align: center;
-  font: 650 12px/1.15 var(--font-body); letter-spacing: -0.005em;
-  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
-  transition: background-color 150ms ease-out, transform 120ms var(--mm-ease-out, cubic-bezier(.23, 1, .32, 1));
+/* From 900 px the screen never scales by itself (the whole stage is fitted, as before): its fit floor is 1. */
+@media (min-width: 900px) {
+  body #your-prep .ft__fit { --ss-fit-min: 1; }
 }
-.fts__jump:active { background: var(--paper-sunken); color: var(--ink); transform: scale(.97); }
-body .fts__jump:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
-.fts__label { display: block; max-width: 100%; white-space: nowrap; }
-.fts__ico { display: block; flex: none; width: 32px; height: 32px; }
-.fts__ico :is(img, svg) { display: block; width: 32px; height: auto; max-height: 32px; margin: 0 auto; }
 
-/* A tool: its name beside its desk object, its dark screen at full width and natural height, then its title, one sentence
-   and its link on the page under it, on the same left edge as the section's heading. No card, no tinted well: the screen
-   is the only object. 56 px of air before the next tool. An index link lands with the name 84 px from the window's top
-   (the page's 76 px scroll padding under the 61 px site bar, plus 8). */
-.fts__tool { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; margin-top: var(--fts-air); scroll-margin-top: 8px; }
-.fts__index + .fts__tool { margin-top: 36px; }
-.fts__name { display: flex; align-items: center; gap: 8px; min-height: 32px; margin: 0 0 12px; color: var(--ink-2); font: 650 .875rem/1.2 var(--font-body); }
-.fts__screen { justify-self: stretch; min-width: 0; }
-.fts__screen .ts { min-height: 0; }
-.fts__title { margin: 20px 0 0; color: var(--ink); font: 800 clamp(1.25rem, 5.6vw, 1.55rem)/1.14 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
-.fts__lede { margin: 8px 0 0; max-width: 34rem; color: var(--ink-2); font: 400 .9375rem/1.45 var(--font-body); text-wrap: pretty; }
-.fts__cta { margin-top: 4px; font-size: .9375rem; touch-action: manipulation; }
-body .fts__cta:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 2px; border-radius: 4px; }
+/* ---------- Not held (reduced motion on a touch screen, or no IntersectionObserver): the same stage in the page's flow.
+   One tool shows at a time in one grid cell (the tallest tool sets the height, so nothing below moves when a tab
+   switches the tool); no sideways track and no in-card progress row. */
+body .ft-story[data-pinned='false'] .ft__track { display: grid; overflow: visible; scroll-snap-type: none; touch-action: auto; }
+body .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1; visibility: hidden; }
+body .ft-story[data-pinned='false'] .ft__slide[data-active='true'] { visibility: visible; }
+body .ft-story[data-pinned='false'] .ft__progress { display: none; }
 
-/* A tablet held upright (768 px and up): the screen keeps a phone's width beside its words, so a dark screen never
-   stretches 700 px wide with small type in it. The name, title, sentence and link stand in the left column, level with the
-   screen's top; the index keeps its one row. */
-@media (min-width: 700px) {
-  .fts__tool { grid-template-columns: minmax(0, 1fr) minmax(0, 23rem); grid-template-rows: auto auto auto 1fr; column-gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
-  .fts__name { grid-column: 1; grid-row: 1; }
-  .fts__title { grid-column: 1; grid-row: 2; margin-top: 4px; font-size: 1.375rem; }
-  .fts__lede { grid-column: 1; grid-row: 3; }
-  .fts__cta { grid-column: 1; grid-row: 4; align-self: start; }
-  .fts__screen { grid-column: 2; grid-row: 1 / 5; }
-  .fts__index ul { max-width: 40rem; }
+/* ---------- Touch: how much scroll one tool takes. The page is the finger's own scroll here (no landing, no settle), so
+   the tool on stage changes where the page has gone, and one ordinary swipe should be one tool. Measured with real touch
+   drags in Chrome at 390 x 844 (tmp/lane-tools/tour.mjs, 16 Nov 2026 night): a calm thumb swipe (280 px in 250 ms) carries
+   the page 365 to 554 px, about 470 on average; a gentle one about 290, a brisk one 600 to 1,100. So one tool takes 470 px
+   of scroll (--ft-gap, the gap between two tools' resting places) on every touch screen, whatever its height: a thumb's
+   swipe is the same length on a tall phone and a short one. --ss-run is the gap times (tools - 1) / tools, so the gap is
+   470 px however many tools are live (scroll-story.css --ss-gap). With five, the hold from the first tool to the last is
+   four gaps, 1,880 px: four ordinary swipes. */
+@media (hover: none), (pointer: coarse) {
+  body .ft-story { --ft-gap: 500px; --ss-run: calc(var(--ft-gap) * (var(--ss-steps) - 1) / var(--ss-steps)); }
 }
-/* A wide touch screen (a tablet on its side): the words stay near their screen instead of across the window from it. */
-@media (min-width: 960px) {
-  .fts__tool { max-width: 54rem; }
+
+/* ---------- Touch: the change between tools is a plain fade (out 120 ms, in 200 ms), with no rise: on a touch screen
+   nothing on the stage moves that the finger did not move. */
+body .ft-story[data-flow='true'][data-pinned='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none; transition: none; }
+
+/* ---------- Phones and upright tablets (under 900 px wide, 521 px tall or more; a phone on its side keeps the older
+   two-column card of feature-tour.css).
+   Top to bottom, inside one screen of height between the site bar and the bottom bar: the tab row, then one card holding
+   the tool's screen, its title and its link. At 390 x 844 the screens keep (about) their own size; on a shorter window
+   only the screen gives way (ScrollStory fitAll on .ft__fit, down to 0.6), the words keep theirs. */
+@media (max-width: 899px) and (min-height: 521px) {
+  body #your-prep .ft { gap: 10px; }
+
+  /* The tabs: five fixed columns that share the row equally, none narrower than its own word ("Benchmarks", 67 px at
+     12 px, takes a few px more than a fifth at 360 and the other four stay equal), so all five fit 360 px with no
+     sideways scroll. Desk object (32 px) over the word; the whole column is the target, 60 px tall. The tool on stage
+     is an ink word on a raised tile with a brand-word rule under it; the others are ink-2 on the paper. Nothing in the
+     row moves by itself: no sideways scroll, no transition on the mark. */
+  body #your-prep .ft__list {
+    display: grid; grid-template-columns: repeat(var(--ft-n, 5), minmax(min-content, 1fr)); gap: 2px;
+    overflow: visible; padding: 0; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none;
+  }
+  body #your-prep .ft__list li { min-width: 0; }
+  body #your-prep .ft__row {
+    flex-direction: column; gap: 3px; width: 100%; min-height: 58px; padding: 3px 3px 8px;
+    border-radius: 12px; font: 650 12px/1.15 var(--font-body); letter-spacing: -0.005em; white-space: nowrap;
+    -webkit-tap-highlight-color: transparent; transition: none;
+  }
+  body #your-prep .ft__row::after { left: 28%; right: 28%; bottom: 3px; transition: none; }
+  body #your-prep .ft__word[data-long] { display: none; }
+  body #your-prep .ft__word[data-short] { display: inline; }
+
+  /* The card: no name strip (the tab says it), no Back and Up next under it (the tabs are the way to a tool, the page
+     scroll the way on). It never scales as a whole: held, it is never taller than its room (below). The screen's own fit
+     floor is set here, on it: --ss-fit-min is a plain custom property and would otherwise inherit a parent's. */
+  body #your-prep .ft__chrome, body #your-prep .ft__controls { display: none; }
+  body #your-prep .ft__stage { border-radius: 22px; }
+  body #your-prep .ft__fit { --ss-fit-min: 0.6; }
+  body #your-prep .ft__media { display: flex; flex-direction: column; min-height: 0; padding: 10px 10px 8px; }
+  body #your-prep .ft__shot { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; max-width: 28rem; margin-inline: auto; }
+  /* Centred in its row when it is shorter than the tallest tool, from the row's top when it fills it. */
+  body #your-prep .ft__fit { margin-block: auto; }
+  /* Under the screen: the tool's one sentence (its title) and its one key. No second paragraph: the lede stays for
+     screen readers only, so the screen keeps its full size on a 390 x 844 phone and gives way less on a short one. */
+  body #your-prep .ft__copy { gap: 4px; padding: 12px 16px 6px; }
+  body #your-prep .ft__title { font-size: clamp(1.25rem, 5.6vw, 1.45rem); line-height: 1.12; }
+  body #your-prep .ft__lede { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  body #your-prep .ft__cta { min-height: 44px; margin-top: 0; }
+
+  /* Held: the card takes the room left under the tabs and never more; when the window is short the screen's row gives
+     way and its screen scales into it (the words' row keeps its own height). */
+  body #your-prep .ft-story[data-pinned='true'] .ft__room { display: flex; flex-direction: column; min-height: 0; }
+  body #your-prep .ft-story[data-pinned='true'] .ft__stage { display: flex; flex-direction: column; flex: 0 1 auto; min-height: 0; max-height: 100%; }
+  body #your-prep .ft-story[data-pinned='true'] .ft__track { flex: 0 1 auto; min-height: 0; grid-template-rows: minmax(0, 1fr) auto; }
+  body #your-prep .ft-story[data-pinned='true'] .ft__media { padding: 10px 10px 8px; }
+
+  /* Not held: the screen at its own height over its words. The tools share two rows (subgrid, as the held stage does in
+     r10-lab-tour.css), so the words start on one line for every tool and the card keeps the tallest tool's height. */
+  body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-template-rows: auto auto; }
+  @supports (grid-template-rows: subgrid) {
+    body #your-prep .ft-story[data-pinned='false'] .ft__track { grid-template-rows: auto auto; }
+    body #your-prep .ft-story[data-pinned='false'] .ft__slide { grid-area: 1 / 1 / 3 / 2; grid-template-rows: subgrid; }
+    body #your-prep .ft-story[data-pinned='false'] .ft__card { grid-row: 1 / 3; grid-template-rows: subgrid; }
+  }
 }

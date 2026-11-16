@@ -147,17 +147,18 @@ test('ScrollStory carries a step count in the same transition as the step; the t
   assert.match(story, /const \[shown, setShown\] = useState\(\{ step: 0, seq: 0 \}\);/);
   assert.match(story, /seqRef\.current \+= 1;\s*const change = \{ step: next, seq: seqRef\.current \};/);
   assert.match(story, /startTransition\(\(\) => setShown\(change\)\);/);
-  assert.match(story, /const api = useMemo\(\(\) => \(\{ step, seq, pinned, reduced, live, goTo, steps \}\)/);
+  // 16 Nov 2026 night: the stage is also told `flow` (a touch screen), where its screens rest instead of playing.
+  assert.match(story, /const api = useMemo\(\(\) => \(\{ step, seq, pinned, reduced, live, goTo, steps, flow \}\)/);
   const tour = strip(read('./FeatureTour.jsx'));
-  // 16 Nov 2026: the timed carousel went (a touch screen gets the stack), so the held tour is the only one that steps, and
-  // its screen on stage takes the story's step count as its epoch. No key on a screen: they stay mounted (LK81).
-  assert.match(tour, /function HeldTour\(\{ slides, step, seq = 0, reduced, goTo: storyGoTo, samples \}\)/);
-  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced\} play=\{on && running\} epoch=\{on \? seq : -1\}/);
+  // The timed carousel and the touch stack are gone: one stage for every reader, and its screen on stage takes the
+  // story's step count as its epoch. No key on a screen: they stay mounted (LK81), so a tap survives leaving a tool.
+  assert.match(tour, /function TourStage\(\{ slides, step, seq = 0, pinned, flow, reduced, goTo: storyGoTo, samples \}\)/);
+  assert.match(tour, /<TourScreen Screen=\{Screen\} active=\{on\} reduced=\{reduced \|\| still\} play=\{on && running\} epoch=\{on \? seq : -1\}/);
   assert.match(tour, /\(\{ active, reduced, paused: false, epoch, held: true \}\)/);
   assert.doesNotMatch(tour, /<TourScreen key=/, 'screens stay mounted while held (LK81)');
 });
 
-test('the rail icons load eagerly at low priority; the chip row moves the next frame from cached places', () => {
+test('the tab icons load eagerly at low priority; the tab row is still: nothing measures or scrolls it on a step', () => {
   const tour = strip(read('./FeatureTour.jsx'));
   assert.match(tour, /<BrandIcon name=\{name\} size=\{RAIL_ICON\} loading="eager" fetchPriority="low" \/>/);
   assert.match(tour, /src="\/brand\/mascot\/ask-deskbell\.webp"[^>]*loading="eager" fetchPriority="low"/);
@@ -165,14 +166,11 @@ test('the rail icons load eagerly at low priority; the chip row moves the next f
   const icon = strip(read('../brand/BrandIcon.jsx'));
   assert.match(icon, /export function BrandIcon\(\{ name, size = 40, label, className = '', style, loading = 'lazy', fetchPriority \}\)/, 'lazy stays the default elsewhere');
   assert.match(icon, /loading=\{loading\} fetchPriority=\{fetchPriority\}/);
-  // No layout read on a step: the old effect read offsetLeft and scrollWidth right after the commit.
+  // 16 Nov 2026 night: the row is five fixed tabs on a phone (r16-tour-stack.css) and a grid from 900 px (r10-lab-tour.css),
+  // so it never scrolls: the code that centred the current chip (and read offsetLeft, scrollWidth) is gone with it.
   assert.doesNotMatch(tour, /querySelector\('\[data-chapter="' \+ active/);
-  const onStep = tour.slice(tour.indexOf('useLayoutEffect(() => {'), tour.indexOf('}, [active, reduced, alignChapter]);'));
-  assert.match(onStep, /if \(!railVisible\.current\) return undefined;/);
-  assert.match(onStep, /requestAnimationFrame\(\(\) => alignChapter\(active, !reduced\)\)/);
-  assert.doesNotMatch(onStep, /measureChips|scrollWidth|offsetLeft/);
-  assert.match(tour, /const chips = chipsRef\.current;\s*if \(!railVisible\.current \|\| !nav \|\| !chips/);
-  assert.match(tour, /new ResizeObserver\(read\) : null;\s*observer\?\.observe\(nav\);\s*nav\.querySelectorAll\('\[data-chapter\]'\)\.forEach\(\(item\) => observer\?\.observe\(item\)\);/);
+  assert.doesNotMatch(tour, /alignChapter|measureChips|chipsRef|railVisible|offsetLeft|scrollWidth|scrollTo\(/);
+  assert.match(tour, /<ul className="ft__list" aria-label="Feature chapters" style=\{\{ '--ft-n': slides\.length \}\}>/);
 });
 
 // ---------------------------------------------------------------- part 2: the real gate

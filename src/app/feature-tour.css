@@ -1,6 +1,6 @@
-/* A guided product story: chapter rail, one live demo, and the next chapter in view. Held only for a mouse or a trackpad
-   (16 Nov 2026): a touch screen gets the plain stack of r16-tour-stack.css, and the old timed carousel, its Pause key and
-   its autoplay status are gone. */
+/* A guided product story: chapter rail, one live demo, and the next chapter in view. Held on every device again since
+   16 Nov 2026 night (a phone's still tab row, card and free scroll are in r16-tour-stack.css); the old timed carousel, its
+   Pause key and its autoplay status are gone. */
 /* One column that may shrink (12 Nov 2026): an implicit `auto` column grew to its widest slide's own width, so the last
    tool (the Mob, with the longest "Up next") ran 43 px past a 390 px screen and its text was cut at the edge. */
 .ft { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }

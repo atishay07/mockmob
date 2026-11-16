@@ -50,8 +50,8 @@ export const TOUR_HEAD = Object.freeze({
   h2: 'More inside MockMob.',
   sub: 'The rest of your prep, one tool at a time.',
 });
-// On a touch screen the tour is a plain stack of its tools, and every screen answers a tap (16 Nov 2026), so its sub says
-// that, with the number of tools actually shown (Learn and the Mob are on the page only while they are live).
+// On a touch screen no tour screen plays by itself and every one answers a tap (16 Nov 2026), so its sub says that, with
+// the number of tools actually shown (Learn and the Mob are on the page only while they are live).
 const TOOL_COUNT = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven'];
 export function tourTouchSub(count) {
   const n = Math.max(0, Math.round(Number(count) || 0));
@@ -302,7 +302,8 @@ export function buildTour({ studyLive = false, studyLessons = 0, studySubjects =
       body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level.',
       lede: 'A short timed run against a fixed target for accuracy and pace.',
       points: ['The daily benchmark is free', 'Every mock earns points toward your standing'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See your standing' }),
-    ...(mobLive ? [slide('mob', { label: 'The Mob', line: 'Prep with your friends, on the same questions', title: 'Bring your friends. Race the same questions.',
+    // `tab`: the shorter name the phone's tab row uses where the label would not fit five abreast at 360 px.
+    ...(mobLive ? [slide('mob', { label: 'The Mob', tab: 'Mob', line: 'Prep with your friends, on the same questions', title: 'Bring your friends. Race the same questions.',
       body: 'Start a Mob and share its code. Friends race the same five questions for 24 hours, then fix the one that caught you together.',
       lede: 'Your friends get the same five questions for 24 hours, then you fix what caught you, together.',
       points: ['Play as a Fold and earn new ones', 'Turn sharing off and your marks stay private'], chip: 'Playing every game your Mob starts is free on every plan.', href: '/mob', cta: 'Open the Mob' })] : []),
