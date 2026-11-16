@@ -23,7 +23,8 @@ import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/c
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour, tourTouchSub } from '@/components/landing/homeCopy.mjs';
+import { publicSample } from '@/components/landing/sampleFive.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
@@ -63,7 +64,7 @@ import { BrandIcon } from '@/components/brand/BrandIcon';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 // Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
-// The home page's own 23 sheets (landing.css ... r14-companion.css), joined in their cascade order into one file, so a phone
+// The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
 // makes one render-blocking request for them instead of seven (paint pass, 15 Nov 2026). The list, its order and why are in
 // src/lib/homeCss.mjs. Edit those sheets, never home-sheets.css: node scripts/gen-home-css.mjs rewrites it (next dev does too).
 import './home-sheets.css';
@@ -120,6 +121,9 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // object, BrandIcon). Screens are labelled illustrations (TourScreens.jsx, keyed by id). Learn and the Mob appear only
 // while they are live, from the same switches their pages read.
 const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
+// The question the Mob's screen opens for Fix it together (16 Nov 2026): one of the home sample's own five, read here on the
+// server and handed down, so the tour can only ever show a question every signed-out visitor already plays on this page.
+const TOUR_SAMPLES = MOB_LIVE ? { mob: publicSample('Economics') } : null;
 
 // Key cards (R3-D10, LK112): five real cards from the app's decks, read once at build (keyCardsPicks.mjs), shown only while
 // Key cards are live for students (KEY_CARDS_ENABLED, the switch every Key cards route reads). No card readable, no section.
@@ -255,9 +259,10 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">{TOUR_HEAD.h2}</h2>
-              <p className="lp-sub">{TOUR_HEAD.sub}</p>
+              {/* A mouse gets the held tour and its sub; a finger gets the stack and its own (r16-tour-stack.css swaps them). */}
+              <p className="lp-sub"><span className="ft-sub ft-sub--hold">{TOUR_HEAD.sub}</span><span className="ft-sub ft-sub--touch">{tourTouchSub(TOUR.length)}</span></p>
             </Reveal>
-            <FeatureTour slides={TOUR} />
+            <FeatureTour slides={TOUR} samples={TOUR_SAMPLES} />
           </div>
         </section>
 

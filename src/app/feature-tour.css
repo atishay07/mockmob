@@ -1,4 +1,6 @@
-/* A guided product story: chapter rail, one live demo, and the next chapter in view. */
+/* A guided product story: chapter rail, one live demo, and the next chapter in view. Held only for a mouse or a trackpad
+   (16 Nov 2026): a touch screen gets the plain stack of r16-tour-stack.css, and the old timed carousel, its Pause key and
+   its autoplay status are gone. */
 /* One column that may shrink (12 Nov 2026): an implicit `auto` column grew to its widest slide's own width, so the last
    tool (the Mob, with the longest "Up next") ran 43 px past a 390 px screen and its text was cut at the edge. */
 .ft { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
@@ -24,11 +26,7 @@
 .ft__chapter { display: flex; align-items: center; gap: .65rem; min-width: 0; flex: 1; }
 .ft__chapter b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 .86rem/1.2 var(--font-body); color: var(--ink); }
 .ft__counter { flex-shrink: 0; color: var(--ink-3); font: 700 .75rem var(--font-display); font-variant-numeric: tabular-nums; }
-.ft__status { display: flex; align-items: center; gap: .35rem; color: var(--ink-2); font: 600 .68rem var(--font-body); }
-.ft__status i { display: none; } /* No status dot (W-076); the word and the play button say it. */
-.ft__play, .ft__arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 12px; background: var(--paper-sunken); color: var(--ink); cursor: pointer; }
-.ft__play { background: transparent; }
-.ft__play:disabled { opacity: .45; cursor: default; }
+.ft__arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 12px; background: var(--paper-sunken); color: var(--ink); cursor: pointer; }
 .ft__progress { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; padding: 0 1rem .75rem; }
 .ft__progress span { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 4px; background: var(--line); }
 /* Story progress is a brand mark (R3-D2): the done and running segments take the brand-word colour. */
@@ -60,21 +58,20 @@
 .ft__next svg { flex-shrink: 0; }
 .ft :is(button, a) { touch-action: manipulation; }
 .ft :is(button, a):focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
-.ft :is(.ft__play, .ft__arrow, .ft__next):active { transform: scale(.97); }
+.ft :is(.ft__arrow, .ft__next):active { transform: scale(.97); }
 /* Paused demos hold their flourishes. Only the elements that animate are named (5 Nov perf): a rule ending in `.ts *` made
    every data-playing or data-active change restyle the whole tour, about 950 elements and 80 ms at 4x CPU. */
-.ft[data-playing='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i),
-.ft__slide[data-active='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i) { animation-play-state: paused; }
+.ft[data-playing='false'] :is(.ts__tick, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i),
+.ft__slide[data-active='false'] :is(.ts__tick, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i) { animation-play-state: paused; }
 
 @media (max-width: 899px) {
   .ft__shot .ts__bar { height: 34px; }
   .ft__shot .ts__body { padding: .65rem; gap: .45rem; }
   .ft__shot .ts__steps { gap: .3rem; }
   .ft__shot .ts__steps li { padding: .35rem .45rem; }
-  .ft__shot .ts__opts li { padding-block: .4rem; }
+  .ft__shot .ts__choice { padding-block: .4rem; }
   .ft__shot .ts__chips li { padding: .35rem .5rem; }
 }
-@media (max-width: 599px) { .ft__status { font-size: 0; gap: 0; } }
 @media (min-width: 900px) {
   .ft { gap: 1rem; }
   .ft__list { justify-content: flex-start; }
@@ -82,10 +79,6 @@
   .ft__chrome { padding-inline: 1.5rem 1rem; }
   .ft__chapter b { font-size: .95rem; }
   .ft__progress { padding-inline: 1.5rem; }
-  .ft__track { display: block; overflow: hidden; }
-  .ft__slide { display: none; }
-  .ft__slide[data-active='true'] { display: grid; animation: ft-change 200ms var(--ease-out, cubic-bezier(.23, 1, .32, 1)) both; }
-  .ft[data-keyboard='true'] .ft__slide { animation: none; }
   .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 28rem; }
   .ft__copy { order: -1; justify-content: center; padding: 2.25rem 2.5rem; gap: .7rem; }
   .ft__title { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.08; }
@@ -102,10 +95,9 @@
   .ft__next { flex: 0 1 20rem; margin-left: auto; }
 }
 @media (hover: hover) and (pointer: fine) {
-  .ft__row:not([data-on='true']):hover, .ft__play:hover, .ft__arrow:hover { background: var(--paper-sunken); }
+  .ft__row:not([data-on='true']):hover, .ft__arrow:hover { background: var(--paper-sunken); }
   .ft__next:hover { background: var(--paper-sunken); }
 }
-@keyframes ft-change { from { opacity: .35; } to { opacity: 1; } }
 
 /* Retain the existing phone header/dock finish. The dock steps aside while any held story is on screen (scroll-story.css). */
 @media (max-width: 899px) {
@@ -123,7 +115,6 @@
 }
 @media (max-width: 700px) { .lp-cpro__list { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .ft__slide[data-active='true'] { animation: none; }
   body .mm.lp .mm-dock { transition: none; }
   /* 5 Nov 2026 (R3 cards fix): the phone head blur above is 0,3,0; Reveal never sets data-in under reduced motion, so the
      lift must match that weight or every section head stays blurred for good. */
@@ -198,11 +189,11 @@ body .ft-story { --ss-beat: 58svh; }
    inherit the scale (an explicit inherit), so a fit write still restyles a handful of elements, never the stage. On phones
    the padding around the controls grows by the same amount once the scale drops, so no hit area is clipped by the stage
    or overlaps its neighbour (about 4 px of extra room at 360 x 640, none at 390 x 844). */
-.ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__track, .ft__slide, .ft__card, .ft__copy, .ft__play, .ft__arrow, .ft__next, .ft__cta) { --ss-fit: inherit; }
-.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta) { position: relative; }
+.ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__track, .ft__slide, .ft__card, .ft__copy, .ft__arrow, .ft__next, .ft__cta) { --ss-fit: inherit; }
+.ft :is(.ft__arrow, .ft__next, .ft__cta) { position: relative; }
 /* The bars sit above the track, which is positioned and comes later, so their hit areas are not painted under it. */
 .ft :is(.ft__chrome, .ft__controls) { position: relative; z-index: 1; }
-.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta)::before {
+.ft :is(.ft__arrow, .ft__next, .ft__cta)::before {
   --ss-fit: inherit;
   content: ''; position: absolute; left: 50%; top: 50%;
   width: max(100%, calc(44px / var(--ss-fit, 1))); height: max(100%, calc(44px / var(--ss-fit, 1)));
@@ -215,8 +206,7 @@ body .ft-story { --ss-beat: 58svh; }
   .ft-story[data-pinned='true'] .ft__controls { gap: max(.65rem, var(--ft-hit-pad)); padding: max(.35rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)); }
 }
 /* R8 (SEC-06): held, the step is already shown by the chapter chip on stage and by the story's own progress (the phone
-   bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. Unheld (the timed carousel)
-   it stays: there it is the autoplay timer. */
+   bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. */
 .ft-story[data-pinned='true'] .ft__progress { visibility: hidden; }
 /* R8 (SEC-05): held, the first tool's Prev has nowhere to go and says so; the last tool's Next is a link to the next
    section, drawn as the same key.
@@ -226,5 +216,5 @@ body .ft-story { --ss-beat: 58svh; }
 /* The next section's heading takes focus from the tour's last key (FeatureTour.jsx); the page glide shows where it is. */
 .lp-sec h2[tabindex='-1']:focus { outline: none; }
 a.ft__next { text-decoration: none; }
-/* R11: held, the chrome row holds only the tool's name (no play key, no status), so it is a compact title strip, not a 44 px key row. */
+/* R11: held, the chrome row holds only the tool's name, so it is a compact title strip, not a 44 px key row. */
 .ft-story[data-pinned='true'] .ft__chrome { padding-block: .85rem .3rem; }

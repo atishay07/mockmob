@@ -5,7 +5,8 @@ import { readFileSync } from 'node:fs';
 import { SAMPLE_QUESTIONS, SAMPLE_VERSION, validateSampleImport, saveSampleImport } from '../../src/lib/server/sampleImport.js';
 
 const migration = readFileSync(new URL('../../supabase/migrations/20261013093000_sample_imports.sql', import.meta.url), 'utf8');
-const drill = readFileSync(new URL('../../src/components/landing/DemoDrill.jsx', import.meta.url), 'utf8');
+// The five moved from DemoDrill.jsx into sampleFive.mjs on 16 Nov 2026 (DemoDrill imports them; page.js reads one too).
+const drill = readFileSync(new URL('../../src/components/landing/sampleFive.mjs', import.meta.url), 'utf8');
 
 const KEY1 = 'import-key-aaaaaaaa';
 const KEY2 = 'import-key-bbbbbbbb';

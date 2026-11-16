@@ -5,7 +5,7 @@
 
 .ts { font-variant-numeric: tabular-nums; --ts-line: rgba(255,255,255,.09); --ts-ink: #f4f0e6; --ts-ink2: #aaa69d; --ts-volt: #d2f000; --ts-bar: #cfc8b9; --ts-bad: #ff7a66; --ts-ease: cubic-bezier(.23,1,.32,1);
   --ts-bezel: #0e0d0a;
-  margin: 0; display: grid; grid-template-rows: auto 1fr; min-height: 17.25rem; overflow: hidden; text-align: left; color: var(--ts-ink); font-family: var(--font-body);
+  position: relative; margin: 0; display: grid; grid-template-rows: auto 1fr auto; min-height: 17.25rem; overflow: hidden; text-align: left; color: var(--ts-ink); font-family: var(--font-body);
   /* A phone on the page (W7, 20 Oct): a charcoal screen, never black, in a 6px bezel one step darker than it, so in Night it
      separates from the sunken stage behind it. A hairline of light on the top edge and a wide soft neutral shadow below (no volt rim or
      under-glow, 4 Nov C3). Contrast of every ink on the screen is AA (ink2 on the darkest stop is about 7:1). */
@@ -21,7 +21,6 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
-.ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .66rem; }
 /* The tour's screens look like the app again (R3-D2, LK108): they are dark in both themes, so the app's own volt marks the
@@ -43,17 +42,27 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__q { margin: 0; font: 600 .9rem/1.32 var(--font-stem, var(--font-display)); letter-spacing: 0; }
 .ts__opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .ts__opts li { position: relative; display: flex; align-items: center; gap: .55rem; padding: .48rem .6rem; border-radius: 10px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.03); font: 600 .78rem var(--font-body);
-  transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .3s ease, background .3s ease; }
+  transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .2s ease-out, background .2s ease-out; }
+/* An option that is a button (16 Nov 2026): the button is the whole row, at least 44 px tall, and carries the row's padding. */
+.ts__opts li:has(> .ts__choice) { padding: 0; }
+.ts__choice { display: flex; align-items: center; gap: .55rem; width: 100%; min-height: 44px; padding: .48rem .6rem; border-radius: 9px; }
+.ts__choice > span { min-width: 0; }
 .ts__opts li b { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.08); font-size: .68rem; transition: background .3s ease, color .3s ease; }
 .ts__opts li[data-picked='true'] { border-color: rgba(210,240,0,.6); background: rgba(210,240,0,.1); }
 .ts__opts li[data-picked='true'] b { background: var(--ts-volt); color: #0b1000; }
-.ts__tick { margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
-.ts__tap { position: absolute; left: 58%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(244,240,230,.4); opacity: 0; pointer-events: none; }
-.ts__tap[data-on='true'] { animation: ts-tap .7s ease-out both; }
+.ts__tick { flex: none; margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
+/* A missed pick (Learn, the Mob's question): coral edge and letter, and a cross; the right option keeps the volt tick. */
+.ts__opts li[data-miss='true'] { border-color: rgba(255,122,102,.55); background: rgba(255,122,102,.08); }
+.ts__opts li[data-miss='true'] b { background: rgba(255,122,102,.2); color: var(--ts-bad); }
+.ts__cross-mark { flex: none; margin-left: auto; color: var(--ts-bad); }
 .ts__progress { height: 4px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
 .ts__progress i { display: block; height: 100%; width: 100%; transform: scaleX(var(--p)); transform-origin: left; border-radius: inherit; background: var(--ts-volt); transition: transform .6s var(--ts-ease); }
 .ts__saved { color: var(--ts-volt); transition: opacity .3s ease; }
 .ts__saved[data-on='false'] { opacity: 0; }
+.ts__saved[data-tone='plain'] { color: var(--ts-ink); }
+/* Learn's result line: room for two lines from the first frame ("The meaning here is B." and when the card comes back wrap
+   on a narrow phone), so a pick never moves the line under it. */
+.ts__result { flex-wrap: wrap; align-content: flex-start; min-height: 2.9em; row-gap: .15rem; }
 
 /* 2. Mistake Repair */
 .ts__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .42rem; }
@@ -142,14 +151,24 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts .ts__reading[data-in] { transition: opacity 200ms var(--ts-ease) 40ms, transform 280ms var(--ts-ease); }
 .ts .ts__reading[data-in='false'] { transform: translateY(4px); transition: opacity 120ms ease, transform 0s 120ms; }
 .ts__reading[data-in='true'] .ts__mobi i { animation: ts-read 560ms ease-in-out 120ms both; }
-/* Mobi, as small as he gets: the logo's volt face with two eyes that blink now and then. */
+/* Mobi, as small as he gets: the logo's volt face with two still eyes (they only run along the line while he reads). */
 .ts__mobi { display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex: 0 0 20px; width: 20px; height: 20px; border-radius: 7px; background: var(--ts-volt); }
-.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; animation: ts-eyes 4.2s ease-in-out 3; /* a few blinks, then still: nothing in the tour loops for ever (R11) */ }
+.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; } /* still: no blinking (16 Nov 2026) */
 /* The steps and the quick replies arrive on a shorter rise than the tour's default. */
 .ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
-.ts__replies span { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .65rem; border-radius: 99px; border: 1px solid var(--ts-line); font: 700 .68rem var(--font-body); color: var(--ts-ink); }
-.ts__replies span[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
+.ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
+.ts__replies .ts__reply-key[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
+/* The pill reads at 36 px; its hit area is 44 px tall (nothing that takes a tap sits within 4 px above or below it). */
+.ts__reply-key::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }
+/* The reply the reader asked for is marked: an ink ring inside the pill (the volt one keeps its fill). */
+.ts__replies .ts__reply-key[aria-pressed='true'] { border-color: var(--ts-ink); box-shadow: inset 0 0 0 1px var(--ts-ink); }
+.ts__replies .ts__reply-key[data-main='true'][aria-pressed='true'] { border-color: #0b1000; box-shadow: inset 0 0 0 1px #0b1000; }
+/* Mobi's answer to a quick reply: both answers share one cell, sized by the longer, so the screen never grows on a tap. */
+.ts__more { display: grid; }
+.ts__more > .ts__bubble { grid-area: 1 / 1; display: flex; align-items: flex-start; gap: .5rem; max-width: 100%; justify-self: start; transition: opacity 220ms var(--ts-ease), transform 260ms var(--ts-ease), visibility 0s linear 0s; }
+.ts__more > .ts__bubble p { margin: 0; }
+.ts__more > .ts__bubble[data-show='false'] { visibility: hidden; opacity: 0; transform: translateY(4px); transition: opacity 120ms ease-in, transform 0s linear 120ms, visibility 0s linear 120ms; }
 
 /* 6. Compass */
 .ts__compass { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
@@ -188,7 +207,7 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__lanes { display: grid; gap: .65rem; padding: .2rem 0; }
 .ts__lane { display: grid; grid-template-columns: 64px 1fr 36px; align-items: center; gap: .55rem; font-size: .74rem; }
 .ts__lane i { height: 11px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
-.ts__lane b { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-bar); transform-origin: left; transform: scaleX(1); transition: transform var(--t, 1.4s) cubic-bezier(.3,.7,.2,1); }
+.ts__lane b { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-bar); transform-origin: left; transform: scaleX(1); transition: transform var(--t, 1.4s) cubic-bezier(.3,.7,.2,1), width 280ms var(--ts-ease); }
 .ts__lane[data-target='true'] b { background: #a4a097; }
 .ts__lane[data-run='false'] b { transform: scaleX(0); }
 .ts__lane em { font: 700 .72rem var(--font-body); font-style: normal; text-align: right; }
@@ -207,12 +226,45 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__ladder li[data-mark='target'] { border-style: dashed; border-color: rgba(255,255,255,.18); }
 .ts__ladder li[data-mark='you'] { border-color: rgba(244,240,230,.4); background: rgba(244,240,230,.1); color: var(--ts-ink); font-weight: 700; }
 .ts__ladder li[data-mark='you'] b { color: var(--ts-volt); }
+/* A rung that is a button (Benchmarks' levels, the Mob's Fix it together): the button is the whole row, 44 px tall. */
+.ts__ladder li { min-height: 44px; }
+.ts__ladder li:has(> .ts__level) { padding: 0; }
+/* A level the reader can pick wears the screen's hairline, so it reads as a row to tap; the target keeps its dashed edge. */
+.ts__ladder li:not([data-mark]):has(> .ts__level) { border-color: var(--ts-line); }
+.ts__level { display: flex; align-items: center; gap: .5rem; width: 100%; min-height: 44px; padding: .25rem .6rem; border-radius: 8px; }
+.ts__ladder li[data-mark='target'] { border-color: rgba(255,255,255,.3); }
+.ts__fix-key { font-weight: 700; line-height: 1.35; }
 
-@keyframes ts-breathe { 50% { opacity: .3; } }
-@keyframes ts-eyes { 0%, 46%, 50%, 100% { transform: scaleY(1); } 48% { transform: scaleY(.15); } }
+/* The Mob: the sprint and the question share one cell (the taller sets the height); one shows at a time. */
+.ts__panes { display: grid; }
+.ts__pane { grid-area: 1 / 1; display: flex; flex-direction: column; gap: .6rem; min-width: 0; transition: opacity 200ms var(--ts-ease), visibility 0s linear 0s; }
+.ts__pane[data-show='false'] { visibility: hidden; opacity: 0; transition: opacity 120ms ease-in, visibility 0s linear 120ms; }
+.ts__fix .ts__q:focus { outline: none; }
+.ts__why { margin: 0; min-height: calc(1.4em * 3); font-size: .74rem; line-height: 1.4; color: var(--ts-ink2); }
+.ts__why b { color: var(--ts-ink); }
+.ts__why[data-tone='right'] b { color: var(--ts-volt); }
+.ts__why[data-tone='miss'] b { color: var(--ts-bad); }
+
+/* Every control on a screen is a real button: no browser chrome, the screen's own type, a visible focus ring in the volt
+   the screens already use (an ink ring would vanish on the dark screen), and a short press (120 ms, ease-out). */
+.ts .ts__key { appearance: none; margin: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; transition: transform 120ms var(--ts-ease), background-color 150ms ease-out; }
+.ts .ts__reply-key { font: 700 .72rem var(--font-body); border: 1px solid rgba(255,255,255,.18); }
+.ts .ts__reply-key[data-main='true'] { border-color: transparent; background: var(--ts-volt); }
+.ts .ts__key:focus-visible { outline: 2px solid var(--ts-volt); outline-offset: 2px; }
+.ts .ts__key:active:not([aria-disabled='true']) { transform: scale(.98); }
+.ts .ts__choice:active:not([aria-disabled='true']), .ts .ts__level:active { background: rgba(255,255,255,.06); }
+.ts .ts__key[aria-disabled='true'] { cursor: default; }
+.ts .ts__back { align-self: flex-start; min-height: 44px; padding: 0 .1rem; font: 700 .74rem var(--font-body); color: var(--ts-ink); text-decoration: underline; text-decoration-color: rgba(244,240,230,.4); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .ts .ts__choice:not([aria-disabled='true']):hover, .ts .ts__level:hover { background: rgba(255,255,255,.04); }
+  .ts .ts__reply-key:not([data-main='true']):hover { background: rgba(255,255,255,.06); }
+}
+
+/* The screen's foot: one quiet hint line in the screen's small type, under a hairline like the bar's. */
+.ts__foot { margin: 0; display: flex; align-items: center; min-height: 34px; padding: .35rem .85rem; border-top: 1px solid var(--ts-line); font: 600 .68rem/1.3 var(--font-body); color: var(--ts-ink2); }
+
 @keyframes ts-pop { 0% { transform: scale(.82); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes ts-flip { 0% { transform: rotateX(90deg); } 100% { transform: none; } }
-@keyframes ts-tap { 0% { opacity: .9; transform: scale(.35); } 100% { opacity: 0; transform: scale(1.7); } }
 /* Reading: his eyes run from the left of his face to the right and settle, twice, as if along a line of text. */
 @keyframes ts-read { 0%, 100% { transform: translateX(0); } 20%, 70% { transform: translateX(-1.5px); } 45%, 90% { transform: translateX(1.5px); } }
 

@@ -1321,17 +1321,28 @@ body:has(.mm.lp) {
    at 900 to 1300 px, a touch screen from 960 px at 1024 wide, 768 to 900. Before this the page was 160 px shorter at 390x844 once drawn. */
 @media (hover: none), (pointer: coarse) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(232px + 381.6svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(144px + 380svh); }
 }
 /* A tablet held upright (820x1180) is a touch screen under 960 px with a window far taller than a phone's: the pinned
    story's card stops growing with the window there, so it has its own pair, fitted at 900 to 1300 px of height. */
 @media (hover: none) and (min-width: 700px) and (max-width: 959px), (pointer: coarse) and (min-width: 700px) and (max-width: 959px) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(65px + 406svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(809px + 306svh); }
 }
 @media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px) {
   .lp main > #inside-the-lab { contain-intrinsic-size: auto calc(210px + 406svh); }
-  .lp main > #your-prep { contain-intrinsic-size: auto calc(537px + 348.2svh); }
+}
+/* The tour on a touch screen (16 Nov 2026) is a plain stack, not a held story: its height is its tools' and no longer
+   follows the window's. The split is the tour's own hold (tourTaps.mjs TOUR_HOLD). Measured drawn on 16 Nov at 360x740,
+   375x812, 390x844 and 412x915 (3656 to 3686 px of content), 768x1024 and 820x1180 (2697, 2701; the tools stand beside
+   their screens from 700 px) and 1024x768 (2769). */
+@media not all and (hover: hover) and (pointer: fine) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 3670px; }
+}
+/* Not held is no hover, or a coarse pointer, or none at all; each with the width it needs. */
+@media (hover: none) and (min-width: 700px), (pointer: coarse) and (min-width: 700px), (pointer: none) and (min-width: 700px) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 2700px; }
+}
+@media (hover: none) and (min-width: 960px), (pointer: coarse) and (min-width: 960px), (pointer: none) and (min-width: 960px) {
+  .lp main > #your-prep { contain-intrinsic-size: auto 2770px; }
 }
 /* Key cards on wide screens (R4-H1: the demo column is 31 rem from 1100 and 36 rem from 1440, the h2 about 72 px): measured 6 Nov
    at 1100x800, 1280x800, 1440x900, 1920x1080 (18 px root) and 2560x1440 (22 px root). */
@@ -2096,7 +2107,9 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 }
 
 /* ==== src/app/feature-tour.css ==== */
-/* A guided product story: chapter rail, one live demo, and the next chapter in view. */
+/* A guided product story: chapter rail, one live demo, and the next chapter in view. Held only for a mouse or a trackpad
+   (16 Nov 2026): a touch screen gets the plain stack of r16-tour-stack.css, and the old timed carousel, its Pause key and
+   its autoplay status are gone. */
 /* One column that may shrink (12 Nov 2026): an implicit `auto` column grew to its widest slide's own width, so the last
    tool (the Mob, with the longest "Up next") ran 43 px past a 390 px screen and its text was cut at the edge. */
 .ft { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
@@ -2122,11 +2135,7 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 .ft__chapter { display: flex; align-items: center; gap: .65rem; min-width: 0; flex: 1; }
 .ft__chapter b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 .86rem/1.2 var(--font-body); color: var(--ink); }
 .ft__counter { flex-shrink: 0; color: var(--ink-3); font: 700 .75rem var(--font-display); font-variant-numeric: tabular-nums; }
-.ft__status { display: flex; align-items: center; gap: .35rem; color: var(--ink-2); font: 600 .68rem var(--font-body); }
-.ft__status i { display: none; } /* No status dot (W-076); the word and the play button say it. */
-.ft__play, .ft__arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 12px; background: var(--paper-sunken); color: var(--ink); cursor: pointer; }
-.ft__play { background: transparent; }
-.ft__play:disabled { opacity: .45; cursor: default; }
+.ft__arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 12px; background: var(--paper-sunken); color: var(--ink); cursor: pointer; }
 .ft__progress { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; padding: 0 1rem .75rem; }
 .ft__progress span { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 4px; background: var(--line); }
 /* Story progress is a brand mark (R3-D2): the done and running segments take the brand-word colour. */
@@ -2158,21 +2167,20 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 .ft__next svg { flex-shrink: 0; }
 .ft :is(button, a) { touch-action: manipulation; }
 .ft :is(button, a):focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
-.ft :is(.ft__play, .ft__arrow, .ft__next):active { transform: scale(.97); }
+.ft :is(.ft__arrow, .ft__next):active { transform: scale(.97); }
 /* Paused demos hold their flourishes. Only the elements that animate are named (5 Nov perf): a rule ending in `.ts *` made
    every data-playing or data-active change restyle the whole tour, about 950 elements and 80 ms at 4x CPU. */
-.ft[data-playing='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i),
-.ft__slide[data-active='false'] :is(.ts__tick, .ts__tap, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i) { animation-play-state: paused; }
+.ft[data-playing='false'] :is(.ts__tick, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i),
+.ft__slide[data-active='false'] :is(.ts__tick, .ts__marks, .ts__opt, .ts__chips li, .ts__typing i, .ts__mobi i) { animation-play-state: paused; }
 
 @media (max-width: 899px) {
   .ft__shot .ts__bar { height: 34px; }
   .ft__shot .ts__body { padding: .65rem; gap: .45rem; }
   .ft__shot .ts__steps { gap: .3rem; }
   .ft__shot .ts__steps li { padding: .35rem .45rem; }
-  .ft__shot .ts__opts li { padding-block: .4rem; }
+  .ft__shot .ts__choice { padding-block: .4rem; }
   .ft__shot .ts__chips li { padding: .35rem .5rem; }
 }
-@media (max-width: 599px) { .ft__status { font-size: 0; gap: 0; } }
 @media (min-width: 900px) {
   .ft { gap: 1rem; }
   .ft__list { justify-content: flex-start; }
@@ -2180,10 +2188,6 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
   .ft__chrome { padding-inline: 1.5rem 1rem; }
   .ft__chapter b { font-size: .95rem; }
   .ft__progress { padding-inline: 1.5rem; }
-  .ft__track { display: block; overflow: hidden; }
-  .ft__slide { display: none; }
-  .ft__slide[data-active='true'] { display: grid; animation: ft-change 200ms var(--ease-out, cubic-bezier(.23, 1, .32, 1)) both; }
-  .ft[data-keyboard='true'] .ft__slide { animation: none; }
   .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 28rem; }
   .ft__copy { order: -1; justify-content: center; padding: 2.25rem 2.5rem; gap: .7rem; }
   .ft__title { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.08; }
@@ -2200,10 +2204,9 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
   .ft__next { flex: 0 1 20rem; margin-left: auto; }
 }
 @media (hover: hover) and (pointer: fine) {
-  .ft__row:not([data-on='true']):hover, .ft__play:hover, .ft__arrow:hover { background: var(--paper-sunken); }
+  .ft__row:not([data-on='true']):hover, .ft__arrow:hover { background: var(--paper-sunken); }
   .ft__next:hover { background: var(--paper-sunken); }
 }
-@keyframes ft-change { from { opacity: .35; } to { opacity: 1; } }
 
 /* Retain the existing phone header/dock finish. The dock steps aside while any held story is on screen (scroll-story.css). */
 @media (max-width: 899px) {
@@ -2221,7 +2224,6 @@ html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-rea
 }
 @media (max-width: 700px) { .lp-cpro__list { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .ft__slide[data-active='true'] { animation: none; }
   body .mm.lp .mm-dock { transition: none; }
   /* 5 Nov 2026 (R3 cards fix): the phone head blur above is 0,3,0; Reveal never sets data-in under reduced motion, so the
      lift must match that weight or every section head stays blurred for good. */
@@ -2296,11 +2298,11 @@ body .ft-story { --ss-beat: 58svh; }
    inherit the scale (an explicit inherit), so a fit write still restyles a handful of elements, never the stage. On phones
    the padding around the controls grows by the same amount once the scale drops, so no hit area is clipped by the stage
    or overlaps its neighbour (about 4 px of extra room at 360 x 640, none at 390 x 844). */
-.ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__track, .ft__slide, .ft__card, .ft__copy, .ft__play, .ft__arrow, .ft__next, .ft__cta) { --ss-fit: inherit; }
-.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta) { position: relative; }
+.ft-story[data-pinned='true'] :is(.ft__chrome, .ft__controls, .ft__track, .ft__slide, .ft__card, .ft__copy, .ft__arrow, .ft__next, .ft__cta) { --ss-fit: inherit; }
+.ft :is(.ft__arrow, .ft__next, .ft__cta) { position: relative; }
 /* The bars sit above the track, which is positioned and comes later, so their hit areas are not painted under it. */
 .ft :is(.ft__chrome, .ft__controls) { position: relative; z-index: 1; }
-.ft :is(.ft__play, .ft__arrow, .ft__next, .ft__cta)::before {
+.ft :is(.ft__arrow, .ft__next, .ft__cta)::before {
   --ss-fit: inherit;
   content: ''; position: absolute; left: 50%; top: 50%;
   width: max(100%, calc(44px / var(--ss-fit, 1))); height: max(100%, calc(44px / var(--ss-fit, 1)));
@@ -2313,8 +2315,7 @@ body .ft-story { --ss-beat: 58svh; }
   .ft-story[data-pinned='true'] .ft__controls { gap: max(.65rem, var(--ft-hit-pad)); padding: max(.35rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)) max(.7rem, var(--ft-hit-pad)); }
 }
 /* R8 (SEC-06): held, the step is already shown by the chapter chip on stage and by the story's own progress (the phone
-   bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. Unheld (the timed carousel)
-   it stays: there it is the autoplay timer. */
+   bottom bar's segments, the desktop band's rule), so the in-card segment row steps aside. */
 .ft-story[data-pinned='true'] .ft__progress { visibility: hidden; }
 /* R8 (SEC-05): held, the first tool's Prev has nowhere to go and says so; the last tool's Next is a link to the next
    section, drawn as the same key.
@@ -2324,7 +2325,7 @@ body .ft-story { --ss-beat: 58svh; }
 /* The next section's heading takes focus from the tour's last key (FeatureTour.jsx); the page glide shows where it is. */
 .lp-sec h2[tabindex='-1']:focus { outline: none; }
 a.ft__next { text-decoration: none; }
-/* R11: held, the chrome row holds only the tool's name (no play key, no status), so it is a compact title strip, not a 44 px key row. */
+/* R11: held, the chrome row holds only the tool's name, so it is a compact title strip, not a 44 px key row. */
 .ft-story[data-pinned='true'] .ft__chrome { padding-block: .85rem .3rem; }
 
 /* ==== src/app/tour-screens.css ==== */
@@ -2335,7 +2336,7 @@ a.ft__next { text-decoration: none; }
 
 .ts { font-variant-numeric: tabular-nums; --ts-line: rgba(255,255,255,.09); --ts-ink: #f4f0e6; --ts-ink2: #aaa69d; --ts-volt: #d2f000; --ts-bar: #cfc8b9; --ts-bad: #ff7a66; --ts-ease: cubic-bezier(.23,1,.32,1);
   --ts-bezel: #0e0d0a;
-  margin: 0; display: grid; grid-template-rows: auto 1fr; min-height: 17.25rem; overflow: hidden; text-align: left; color: var(--ts-ink); font-family: var(--font-body);
+  position: relative; margin: 0; display: grid; grid-template-rows: auto 1fr auto; min-height: 17.25rem; overflow: hidden; text-align: left; color: var(--ts-ink); font-family: var(--font-body);
   /* A phone on the page (W7, 20 Oct): a charcoal screen, never black, in a 6px bezel one step darker than it, so in Night it
      separates from the sunken stage behind it. A hairline of light on the top edge and a wide soft neutral shadow below (no volt rim or
      under-glow, 4 Nov C3). Contrast of every ink on the screen is AA (ink2 on the darkest stop is about 7:1). */
@@ -2351,7 +2352,6 @@ html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 
 body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[data-ts-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
-.ts__live { display: none; } /* No breathing dot before the screen's title (W-076: no dots, no constant motion). */
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .66rem; }
 /* The tour's screens look like the app again (R3-D2, LK108): they are dark in both themes, so the app's own volt marks the
@@ -2373,17 +2373,27 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__q { margin: 0; font: 600 .9rem/1.32 var(--font-stem, var(--font-display)); letter-spacing: 0; }
 .ts__opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .ts__opts li { position: relative; display: flex; align-items: center; gap: .55rem; padding: .48rem .6rem; border-radius: 10px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.03); font: 600 .78rem var(--font-body);
-  transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .3s ease, background .3s ease; }
+  transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .2s ease-out, background .2s ease-out; }
+/* An option that is a button (16 Nov 2026): the button is the whole row, at least 44 px tall, and carries the row's padding. */
+.ts__opts li:has(> .ts__choice) { padding: 0; }
+.ts__choice { display: flex; align-items: center; gap: .55rem; width: 100%; min-height: 44px; padding: .48rem .6rem; border-radius: 9px; }
+.ts__choice > span { min-width: 0; }
 .ts__opts li b { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.08); font-size: .68rem; transition: background .3s ease, color .3s ease; }
 .ts__opts li[data-picked='true'] { border-color: rgba(210,240,0,.6); background: rgba(210,240,0,.1); }
 .ts__opts li[data-picked='true'] b { background: var(--ts-volt); color: #0b1000; }
-.ts__tick { margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
-.ts__tap { position: absolute; left: 58%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(244,240,230,.4); opacity: 0; pointer-events: none; }
-.ts__tap[data-on='true'] { animation: ts-tap .7s ease-out both; }
+.ts__tick { flex: none; margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
+/* A missed pick (Learn, the Mob's question): coral edge and letter, and a cross; the right option keeps the volt tick. */
+.ts__opts li[data-miss='true'] { border-color: rgba(255,122,102,.55); background: rgba(255,122,102,.08); }
+.ts__opts li[data-miss='true'] b { background: rgba(255,122,102,.2); color: var(--ts-bad); }
+.ts__cross-mark { flex: none; margin-left: auto; color: var(--ts-bad); }
 .ts__progress { height: 4px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
 .ts__progress i { display: block; height: 100%; width: 100%; transform: scaleX(var(--p)); transform-origin: left; border-radius: inherit; background: var(--ts-volt); transition: transform .6s var(--ts-ease); }
 .ts__saved { color: var(--ts-volt); transition: opacity .3s ease; }
 .ts__saved[data-on='false'] { opacity: 0; }
+.ts__saved[data-tone='plain'] { color: var(--ts-ink); }
+/* Learn's result line: room for two lines from the first frame ("The meaning here is B." and when the card comes back wrap
+   on a narrow phone), so a pick never moves the line under it. */
+.ts__result { flex-wrap: wrap; align-content: flex-start; min-height: 2.9em; row-gap: .15rem; }
 
 /* 2. Mistake Repair */
 .ts__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .42rem; }
@@ -2472,14 +2482,24 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts .ts__reading[data-in] { transition: opacity 200ms var(--ts-ease) 40ms, transform 280ms var(--ts-ease); }
 .ts .ts__reading[data-in='false'] { transform: translateY(4px); transition: opacity 120ms ease, transform 0s 120ms; }
 .ts__reading[data-in='true'] .ts__mobi i { animation: ts-read 560ms ease-in-out 120ms both; }
-/* Mobi, as small as he gets: the logo's volt face with two eyes that blink now and then. */
+/* Mobi, as small as he gets: the logo's volt face with two still eyes (they only run along the line while he reads). */
 .ts__mobi { display: inline-flex; align-items: center; justify-content: center; gap: 3px; flex: 0 0 20px; width: 20px; height: 20px; border-radius: 7px; background: var(--ts-volt); }
-.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; animation: ts-eyes 4.2s ease-in-out 3; /* a few blinks, then still: nothing in the tour loops for ever (R11) */ }
+.ts__mobi i { width: 4px; height: 7px; border-radius: 2px; background: #0b1000; transform-origin: center; } /* still: no blinking (16 Nov 2026) */
 /* The steps and the quick replies arrive on a shorter rise than the tour's default. */
 .ts .ts__bubble--ai li[data-in='false'], .ts .ts__bubble--ai .ts__replies[data-in='false'] { transform: translateY(4px); }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
-.ts__replies span { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .65rem; border-radius: 99px; border: 1px solid var(--ts-line); font: 700 .68rem var(--font-body); color: var(--ts-ink); }
-.ts__replies span[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
+.ts__replies .ts__reply-key { position: relative; display: inline-flex; align-items: center; gap: .3rem; min-height: 36px; padding: .3rem .8rem; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); font: 700 .72rem var(--font-body); color: var(--ts-ink); }
+.ts__replies .ts__reply-key[data-main='true'] { background: var(--ts-volt); border-color: transparent; color: #0b1000; }
+/* The pill reads at 36 px; its hit area is 44 px tall (nothing that takes a tap sits within 4 px above or below it). */
+.ts__reply-key::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }
+/* The reply the reader asked for is marked: an ink ring inside the pill (the volt one keeps its fill). */
+.ts__replies .ts__reply-key[aria-pressed='true'] { border-color: var(--ts-ink); box-shadow: inset 0 0 0 1px var(--ts-ink); }
+.ts__replies .ts__reply-key[data-main='true'][aria-pressed='true'] { border-color: #0b1000; box-shadow: inset 0 0 0 1px #0b1000; }
+/* Mobi's answer to a quick reply: both answers share one cell, sized by the longer, so the screen never grows on a tap. */
+.ts__more { display: grid; }
+.ts__more > .ts__bubble { grid-area: 1 / 1; display: flex; align-items: flex-start; gap: .5rem; max-width: 100%; justify-self: start; transition: opacity 220ms var(--ts-ease), transform 260ms var(--ts-ease), visibility 0s linear 0s; }
+.ts__more > .ts__bubble p { margin: 0; }
+.ts__more > .ts__bubble[data-show='false'] { visibility: hidden; opacity: 0; transform: translateY(4px); transition: opacity 120ms ease-in, transform 0s linear 120ms, visibility 0s linear 120ms; }
 
 /* 6. Compass */
 .ts__compass { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
@@ -2518,7 +2538,7 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__lanes { display: grid; gap: .65rem; padding: .2rem 0; }
 .ts__lane { display: grid; grid-template-columns: 64px 1fr 36px; align-items: center; gap: .55rem; font-size: .74rem; }
 .ts__lane i { height: 11px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
-.ts__lane b { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-bar); transform-origin: left; transform: scaleX(1); transition: transform var(--t, 1.4s) cubic-bezier(.3,.7,.2,1); }
+.ts__lane b { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-bar); transform-origin: left; transform: scaleX(1); transition: transform var(--t, 1.4s) cubic-bezier(.3,.7,.2,1), width 280ms var(--ts-ease); }
 .ts__lane[data-target='true'] b { background: #a4a097; }
 .ts__lane[data-run='false'] b { transform: scaleX(0); }
 .ts__lane em { font: 700 .72rem var(--font-body); font-style: normal; text-align: right; }
@@ -2537,12 +2557,45 @@ body .ts[data-ts-step='0'] *, body .ts[data-ts-step='0'] *::before, body .ts[dat
 .ts__ladder li[data-mark='target'] { border-style: dashed; border-color: rgba(255,255,255,.18); }
 .ts__ladder li[data-mark='you'] { border-color: rgba(244,240,230,.4); background: rgba(244,240,230,.1); color: var(--ts-ink); font-weight: 700; }
 .ts__ladder li[data-mark='you'] b { color: var(--ts-volt); }
+/* A rung that is a button (Benchmarks' levels, the Mob's Fix it together): the button is the whole row, 44 px tall. */
+.ts__ladder li { min-height: 44px; }
+.ts__ladder li:has(> .ts__level) { padding: 0; }
+/* A level the reader can pick wears the screen's hairline, so it reads as a row to tap; the target keeps its dashed edge. */
+.ts__ladder li:not([data-mark]):has(> .ts__level) { border-color: var(--ts-line); }
+.ts__level { display: flex; align-items: center; gap: .5rem; width: 100%; min-height: 44px; padding: .25rem .6rem; border-radius: 8px; }
+.ts__ladder li[data-mark='target'] { border-color: rgba(255,255,255,.3); }
+.ts__fix-key { font-weight: 700; line-height: 1.35; }
 
-@keyframes ts-breathe { 50% { opacity: .3; } }
-@keyframes ts-eyes { 0%, 46%, 50%, 100% { transform: scaleY(1); } 48% { transform: scaleY(.15); } }
+/* The Mob: the sprint and the question share one cell (the taller sets the height); one shows at a time. */
+.ts__panes { display: grid; }
+.ts__pane { grid-area: 1 / 1; display: flex; flex-direction: column; gap: .6rem; min-width: 0; transition: opacity 200ms var(--ts-ease), visibility 0s linear 0s; }
+.ts__pane[data-show='false'] { visibility: hidden; opacity: 0; transition: opacity 120ms ease-in, visibility 0s linear 120ms; }
+.ts__fix .ts__q:focus { outline: none; }
+.ts__why { margin: 0; min-height: calc(1.4em * 3); font-size: .74rem; line-height: 1.4; color: var(--ts-ink2); }
+.ts__why b { color: var(--ts-ink); }
+.ts__why[data-tone='right'] b { color: var(--ts-volt); }
+.ts__why[data-tone='miss'] b { color: var(--ts-bad); }
+
+/* Every control on a screen is a real button: no browser chrome, the screen's own type, a visible focus ring in the volt
+   the screens already use (an ink ring would vanish on the dark screen), and a short press (120 ms, ease-out). */
+.ts .ts__key { appearance: none; margin: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; -webkit-user-select: none; user-select: none; transition: transform 120ms var(--ts-ease), background-color 150ms ease-out; }
+.ts .ts__reply-key { font: 700 .72rem var(--font-body); border: 1px solid rgba(255,255,255,.18); }
+.ts .ts__reply-key[data-main='true'] { border-color: transparent; background: var(--ts-volt); }
+.ts .ts__key:focus-visible { outline: 2px solid var(--ts-volt); outline-offset: 2px; }
+.ts .ts__key:active:not([aria-disabled='true']) { transform: scale(.98); }
+.ts .ts__choice:active:not([aria-disabled='true']), .ts .ts__level:active { background: rgba(255,255,255,.06); }
+.ts .ts__key[aria-disabled='true'] { cursor: default; }
+.ts .ts__back { align-self: flex-start; min-height: 44px; padding: 0 .1rem; font: 700 .74rem var(--font-body); color: var(--ts-ink); text-decoration: underline; text-decoration-color: rgba(244,240,230,.4); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .ts .ts__choice:not([aria-disabled='true']):hover, .ts .ts__level:hover { background: rgba(255,255,255,.04); }
+  .ts .ts__reply-key:not([data-main='true']):hover { background: rgba(255,255,255,.06); }
+}
+
+/* The screen's foot: one quiet hint line in the screen's small type, under a hairline like the bar's. */
+.ts__foot { margin: 0; display: flex; align-items: center; min-height: 34px; padding: .35rem .85rem; border-top: 1px solid var(--ts-line); font: 600 .68rem/1.3 var(--font-body); color: var(--ts-ink2); }
+
 @keyframes ts-pop { 0% { transform: scale(.82); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes ts-flip { 0% { transform: rotateX(90deg); } 100% { transform: none; } }
-@keyframes ts-tap { 0% { opacity: .9; transform: scale(.35); } 100% { opacity: 0; transform: scale(1.7); } }
 /* Reading: his eyes run from the left of his face to the right and settle, twice, as if along a line of text. */
 @keyframes ts-read { 0%, 100% { transform: translateX(0); } 20%, 70% { transform: translateX(-1.5px); } 45%, 90% { transform: translateX(1.5px); } }
 
@@ -4387,8 +4440,8 @@ html[data-motion='reduced'] .mm.lp :is(.rv, .rv.lp-head, .rv-item) { transform: 
    and two hovers that stuck on a touch screen.
    --------------------------------------------------------------------------------------------------------------------- */
 .mm.lp .ft__row:active { background: var(--paper-sunken); transition-duration: 60ms; }
-.mm.lp .ft :is(.ft__play, .ft__arrow, .ft__next) { transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease; }
-.mm.lp .ft :is(.ft__play, .ft__arrow, .ft__next):active { transition-duration: 100ms, 60ms; }
+.mm.lp .ft :is(.ft__arrow, .ft__next) { transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1), background-color 150ms ease; }
+.mm.lp .ft :is(.ft__arrow, .ft__next):active { transition-duration: 100ms, 60ms; }
 .mm.lp .lp-usual__step {
   transition: background-color 180ms cubic-bezier(0.23, 1, 0.32, 1), color 180ms cubic-bezier(0.23, 1, 0.32, 1), border-color 180ms cubic-bezier(0.23, 1, 0.32, 1), transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -6053,3 +6106,73 @@ html[data-motion='reduced'] .mc[data-state='out'] .mc__vis { translate: 0 0; }
 html[data-motion='reduced'] .mc__bubble { translate: 0 0; }
 
 @media print { .mc { display: none !important; } }
+
+/* ==== src/app/r16-tour-stack.css ==== */
+/* Round 16 (16 Nov 2026): the tour on a touch screen, and screens a reader can touch.
+   The owner, on www.mockmob.in on his phone: up to the Practice tool the page "is competent. After that, it's doing weird
+   movements". The held tour pinned the stage and swapped the tool under the finger. On a touch screen the tour is now a
+   plain stack (FeatureTour.jsx TourStack): the page scrolls natively through the tools, one under the other. Nothing pins,
+   nothing swaps, no sideways chip row, no bottom band, no timer. A mouse or a trackpad keeps the held tour as it was.
+   Every rule here is scoped to #your-prep or to the stack's own classes, so nothing else on the page moves. */
+
+/* The section's sub: the held tour's for a mouse, the stack's for a finger (page.js renders both words). The same split as
+   the hold itself (tourTaps.mjs TOUR_HOLD): held only for (hover: hover) and (pointer: fine). */
+#your-prep .ft-sub--touch { display: none; }
+@media not all and (hover: hover) and (pointer: fine) {
+  #your-prep .ft-sub--hold { display: none; }
+  #your-prep .ft-sub--touch { display: inline; }
+}
+
+/* ---------- The stack ---------- */
+.fts { display: grid; grid-template-columns: minmax(0, 1fr); --fts-air: 56px; }
+
+/* The index: one column per tool, the desk object (32 px) over its name (12 px), each a link down to its tool. The columns
+   share the row equally, except that none is ever narrower than its own name: at 360 px "Benchmarks" (67 px) is a few px
+   wider than a fifth of the row, so it takes them and the other four stay equal. All five fit a 360 px phone with no
+   sideways scroll. The whole column is the target (64 px tall); a press darkens it. */
+.fts__index ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--fts-n, 5), minmax(min-content, 1fr)); gap: 2px; }
+.fts__index li { min-width: 0; }
+.fts__jump {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  min-height: 64px; padding: 6px 0 8px; border-radius: 12px;
+  color: var(--ink-2); text-decoration: none; text-align: center;
+  font: 650 12px/1.15 var(--font-body); letter-spacing: -0.005em;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 150ms ease-out, transform 120ms var(--mm-ease-out, cubic-bezier(.23, 1, .32, 1));
+}
+.fts__jump:active { background: var(--paper-sunken); color: var(--ink); transform: scale(.97); }
+.fts__jump:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
+.fts__label { display: block; max-width: 100%; white-space: nowrap; }
+.fts__ico { display: block; flex: none; width: 32px; height: 32px; }
+.fts__ico :is(img, svg) { display: block; width: 32px; height: auto; max-height: 32px; margin: 0 auto; }
+
+/* A tool: its name beside its desk object, its dark screen at full width and natural height, then its title, one sentence
+   and its link on the page under it, on the same left edge as the section's heading. No card, no tinted well: the screen
+   is the only object. 56 px of air before the next tool. An index link lands with the name 84 px from the window's top
+   (the page's 76 px scroll padding under the 61 px site bar, plus 8). */
+.fts__tool { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; margin-top: var(--fts-air); scroll-margin-top: 8px; }
+.fts__index + .fts__tool { margin-top: 36px; }
+.fts__name { display: flex; align-items: center; gap: 8px; min-height: 32px; margin: 0 0 12px; color: var(--ink-2); font: 650 .875rem/1.2 var(--font-body); }
+.fts__screen { justify-self: stretch; min-width: 0; }
+.fts__screen .ts { min-height: 0; }
+.fts__title { margin: 20px 0 0; color: var(--ink); font: 800 clamp(1.25rem, 5.6vw, 1.55rem)/1.14 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
+.fts__lede { margin: 8px 0 0; max-width: 34rem; color: var(--ink-2); font: 400 .9375rem/1.45 var(--font-body); text-wrap: pretty; }
+.fts__cta { margin-top: 4px; font-size: .9375rem; touch-action: manipulation; }
+.fts__cta:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 2px; border-radius: 4px; }
+
+/* A tablet held upright (768 px and up): the screen keeps a phone's width beside its words, so a dark screen never
+   stretches 700 px wide with small type in it. The name, title, sentence and link stand in the left column, level with the
+   screen's top; the index keeps its one row. */
+@media (min-width: 700px) {
+  .fts__tool { grid-template-columns: minmax(0, 1fr) minmax(0, 23rem); grid-template-rows: auto auto auto 1fr; column-gap: clamp(1.5rem, 4vw, 3rem); align-items: start; }
+  .fts__name { grid-column: 1; grid-row: 1; }
+  .fts__title { grid-column: 1; grid-row: 2; margin-top: 4px; font-size: 1.375rem; }
+  .fts__lede { grid-column: 1; grid-row: 3; }
+  .fts__cta { grid-column: 1; grid-row: 4; align-self: start; }
+  .fts__screen { grid-column: 2; grid-row: 1 / 5; }
+  .fts__index ul { max-width: 40rem; }
+}
+/* A wide touch screen (a tablet on its side): the words stay near their screen instead of across the window from it. */
+@media (min-width: 960px) {
+  .fts__tool { max-width: 54rem; }
+}

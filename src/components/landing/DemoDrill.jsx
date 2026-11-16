@@ -12,6 +12,7 @@ import { deskEndState, deskStateAfter } from './heroTaps.mjs';
 import { ASK_BUTTON, ASK_FIRST } from './askMobiSample.mjs';
 import { stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
 import { saveSample } from './sampleCarry.mjs';
+import { DRILL as SAMPLE_FIVE } from './sampleFive.mjs';
 import './demo-subject.css';
 
 // Five original sample questions, playable with no signup. Not authenticated PYQs. This is the
@@ -31,54 +32,8 @@ import './demo-subject.css';
 // route's rules in src/lib/server/demoSample.js), with the same reveal, the same Mobi and the same end. The card still
 // opens on its own five below (English first, no network), and a subject that cannot load says so and keeps the card
 // as it was. Every set is five, so DRILL.length is the length of whichever set is playing.
-const DRILL = [
-  {
-    subject: 'English',
-    q: 'Choose the option nearest in meaning to CANDID:',
-    options: ['Hidden', 'Frank', 'Careful', 'Sweet'],
-    correct: 1,
-    why: 'Candid means frank or honest. Frank is the closest synonym among these options.',
-    chapter: 'Vocabulary: synonyms',
-  },
-  {
-    subject: 'Accountancy',
-    q: 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?',
-    options: ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000'],
-    correct: 1,
-    // No-break spaces round the operators (R8 HERO-15): the worked sum never parts at a line end.
-    why: 'Equity = assets − liabilities = ₹80,000 − ₹30,000 = ₹50,000.',
-    chapter: 'Accounting equation',
-  },
-  {
-    subject: 'Economics',
-    q: 'Which of these is NOT a function of the Reserve Bank of India?',
-    options: [
-      'Banker to the government',
-      'Issuing currency',
-      'Accepting public deposits',
-      'Controlling credit',
-    ],
-    correct: 2,
-    why: 'Commercial banks accept public deposits. The RBI does not.',
-    chapter: 'Money and banking',
-  },
-  {
-    subject: 'Accountancy',
-    q: 'Goodwill brought in by an incoming partner is shared by old partners in:',
-    options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'],
-    correct: 2,
-    why: 'Old partners are compensated for their sacrifice, so it is split in the sacrificing ratio.',
-    chapter: 'Partnership: admission of a partner',
-  },
-  {
-    subject: 'Business Studies',
-    q: 'Comparing actual performance with a planned standard is part of which management function?',
-    options: ['Staffing', 'Controlling', 'Organising', 'Directing'],
-    correct: 1,
-    why: 'Controlling compares actual performance with standards so deviations can be identified and corrected.',
-    chapter: 'Controlling',
-  },
-];
+// The card's own five (sampleFive.mjs, a plain module so the page can read them on the server too).
+const DRILL = SAMPLE_FIVE;
 
 const KEYS = ['A', 'B', 'C', 'D'];
 /** A live subject that has not answered in this long is called slow and can be tapped again (R8 HERO-02, patchy 4G). */
