@@ -8,9 +8,7 @@ import { readFileSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
 import { DELETION_STEPS, executeDeletion, planDeletion } from '../../src/lib/server/accountDeletion.js';
 
-const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8').replace(/
-/g, '
-'); // a Windows checkout has CRLF
+const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n'); // a Windows checkout has CRLF
 const PREFS = read('supabase/migrations/20261012121000_app_preferences_and_rhythm.sql');
 const PROCESSOR = read('supabase/migrations/20261013120000_deletion_processor.sql');
 const CLASSES = read('supabase/migrations/20261116150000_class_leagues.sql');
