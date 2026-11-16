@@ -117,12 +117,13 @@ export function DailyClock({ ms, label, size = 'm', units = false, days = false 
 
 /**
  * The day, as the ink top of a tear-off desk calendar page: whether it is open (a lit dot and two words), the date large (the
- * day's number, the month in volt, the weekday) and a clock. The home page's blocks and /daily wear the same page.
+ * day's number, the month in volt, the weekday) and a clock. The home page's blocks and /daily wear the same page; `solo`
+ * is the day standing by itself (the Sunday Mock's public page): its own four corners, no tear line.
  */
-export function CalendarDay({ on = false, status, date, clock }) {
+export function CalendarDay({ on = false, status, date, clock, solo = false }) {
   const leaf = date ? leafOf(date) : null;
   return (
-    <div className="df-day" aria-hidden="true">
+    <div className="df-day" data-solo={solo ? 'true' : undefined} aria-hidden="true">
       <p className="df-day__live" data-on={on ? 'true' : 'false'}><i />{status}</p>
       <div className="df-day__date">
         <b>{leaf ? leaf.day : '\u00a0'}</b>

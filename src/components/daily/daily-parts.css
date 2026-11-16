@@ -97,3 +97,6 @@ html[data-motion='reduced'] .mm .df-board[data-reveal='true'] .df-tile { animati
 @media (max-width: 379.98px) {
   .mm .df-day .df-clock, .mm.lp .dfh .df-day .df-clock { grid-column: 1 / -1; justify-items: start; text-align: left; }
 }
+/* The day by itself (the Sunday Mock's public page): its own corners, no tear line, never wider than a phone's column. */
+.mm .df-day[data-solo='true'] { max-width: 26rem; border-radius: 22px; }
+.mm .df-day[data-solo='true']::after { display: none; }

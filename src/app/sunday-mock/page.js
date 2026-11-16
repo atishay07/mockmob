@@ -71,7 +71,8 @@ export default function SundayMockPublicPage() {
       <MarketingFooter />
       <PublicDock />
       <style>{`${PUBLIC_HERO_CSS}
-        .sm-page .sm-next { min-height: 1.5em; margin: 1rem 0 0; font: 650 1rem/1.5 var(--font-display); color: var(--brand-word, var(--ink)); font-variant-numeric: tabular-nums; }
+        .sm-page .sm-when { margin-top: 1.25rem; }
+        .sm-page .sm-next { min-height: 1.5em; margin: 0.75rem 0 0; font: 650 1rem/1.5 var(--font-display); color: var(--brand-word, var(--ink)); font-variant-numeric: tabular-nums; }
       `}</style>
     </div>
   );
