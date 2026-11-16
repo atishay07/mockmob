@@ -1,66 +1,100 @@
-/* "Bring a mistake" on the home page (BringMistakeBlock.jsx), second build (16 Nov 2026, evening). One card the reader walks
-   through in three steps, beside (desktop) or under (phones) the words. The calendar pages' vocabulary: paper for the
-   question and the check, the ink ground of the opening and the footer for Mobi's read, volt for a right answer and for the
-   labels on ink. Every line of words starts on one left edge. Tokens only. */
+/* "Bring a mistake" on the home page (BringMistakeBlock.jsx), third build (16 Nov 2026, night). The head says what to bring,
+   "What you leave with" says what comes back, and one card walks through the feature's four steps beside (desktop) or under
+   (phones) the words. The calendar pages' vocabulary: paper for the question, the check and the practice set, the ink ground
+   of the opening and the footer for Mobi's read, volt for a right answer and for the labels on ink. Every line of words in
+   the card starts on one left edge, the tab labels included. No text under 14 px. Tokens only. */
 
-.mm.lp .bmk__grid { display: grid; gap: 1.5rem; grid-template-areas: "head" "demo" "foot"; }
+.mm.lp .bmk__grid { display: grid; gap: 1.25rem; grid-template-areas: "head" "value" "demo" "foot"; }
 .mm.lp .bmk__say { display: contents; }
 .mm.lp .bmk__head { grid-area: head; display: grid; gap: 0.875rem; justify-items: start; margin: 0; }
 .mm.lp .bmk__head > * { margin: 0; text-align: left; }
-.mm.lp .bmk__head .lp-sub { max-width: 36ch; }
+.mm.lp .bmk__head .lp-sub { max-width: 34rem; color: var(--ink-2); text-wrap: pretty; }
+.mm.lp .bmk__value { grid-area: value; display: grid; gap: 8px; max-width: 34rem; }
 .mm.lp .bmk__demo { grid-area: demo; display: grid; gap: 12px; width: 100%; max-width: 34rem; min-width: 0; }
 .mm.lp .bmk__foot { grid-area: foot; display: grid; gap: 12px; justify-items: start; max-width: 34rem; }
 @media (min-width: 960px) {
   .mm.lp .bmk__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 32rem); grid-template-areas: "say demo"; column-gap: clamp(3rem, 7vw, 7rem); align-items: center; }
-  .mm.lp .bmk__say { grid-area: say; display: grid; gap: 2rem; align-content: center; }
-  .mm.lp .bmk__head, .mm.lp .bmk__foot { grid-area: auto; }
+  .mm.lp .bmk__say { grid-area: say; display: grid; gap: 2.25rem; align-content: center; }
+  .mm.lp .bmk__head, .mm.lp .bmk__value, .mm.lp .bmk__foot { grid-area: auto; }
   .mm.lp .bmk__head .lp-h2 { font-size: clamp(2.5rem, 4.2vw, 3.75rem); text-wrap: balance; }
   .mm.lp .bmk__demo { justify-self: end; }
-  .mm.lp .bmk__card { min-height: 24rem; }
 }
 
-/* ---------- The steps: three tabs on one hairline ---------- */
-.mm.lp .bmk__steps { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 4px; border-bottom: 1px solid var(--line-strong); }
+/* ---------- What you leave with: four short items, two a row, one hairline above each ---------- */
+.mm.lp .bmk__value-label { margin: 0; color: var(--ink); font: 700 1rem/1.3 var(--font-body); }
+.mm.lp .bmk__gets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; margin: 0; padding: 0; list-style: none; }
+.mm.lp .bmk__gets li { display: grid; gap: 4px; align-content: start; min-width: 0; padding-top: 10px; border-top: 1px solid var(--line-strong); }
+.mm.lp .bmk__get-lead { color: var(--ink); font: 750 1.3125rem/1.1 var(--font-display); letter-spacing: -0.02em; }
+.mm.lp .bmk__fig { color: var(--brand-word); font-size: 1.15em; font-weight: 800; font-variant-numeric: tabular-nums; }
+.mm.lp .bmk__get-line { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: pretty; }
+
+/* ---------- The card: tabs on its head, four steps in one cell ---------- */
+.mm.lp .bmk__card {
+  display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 24px; background: var(--paper-raised);
+  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+}
+/* Mobi's read turns the whole card to ink, tabs and all. */
+.mm.lp .bmk__card[data-step='1'] { background: #12110e; }
+html[data-theme='light'] .mm.lp .bmk__card[data-step='1'] { border-color: #12110e; }
+
+.mm.lp .bmk__steps { display: flex; justify-content: space-between; gap: 8px; padding: 0 20px; border-bottom: 1px solid var(--line); }
 .mm.lp .bmk__step {
-  position: relative; display: inline-flex; align-items: center; gap: 7px; min-height: 48px; padding: 0 2px; border: 0; background: none;
-  color: var(--ink-2); font: 700 0.875rem/1.2 var(--font-body); white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  position: relative; display: inline-flex; align-items: center; min-width: 44px; min-height: 48px; padding: 0; border: 0; background: none;
+  color: var(--ink-2); font: 700 0.9375rem/1.2 var(--font-body); white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: color 160ms ease-out;
 }
-.mm.lp .bmk__step::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp .bmk__step::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; border-radius: 2px 2px 0 0; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
 .mm.lp .bmk__step[data-on='true'] { color: var(--ink); }
 .mm.lp .bmk__step[data-on='true']::after { transform: scaleX(1); }
-.mm.lp .bmk__n { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--line-strong); color: var(--ink-2); font: 750 0.75rem/1 var(--font-body); font-variant-numeric: tabular-nums; }
-.mm.lp .bmk__step[data-on='true'] .bmk__n { background: var(--volt); box-shadow: none; color: var(--volt-ink); }
-.mm.lp .bmk__step[data-done='true'] .bmk__n { background: var(--ink); box-shadow: none; color: var(--paper); }
 .mm.lp .bmk__step:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
 .mm.lp .bmk__step:active { color: var(--ink); }
+.mm.lp .bmk__card[data-step='1'] .bmk__steps { border-bottom-color: rgb(255 253 248 / 0.14); }
+.mm.lp .bmk__card[data-step='1'] .bmk__step { color: rgb(255 253 248 / 0.72); }
+.mm.lp .bmk__card[data-step='1'] .bmk__step[data-on='true'] { color: #fffdf8; }
+.mm.lp .bmk__card[data-step='1'] .bmk__step::after { background: var(--volt); }
+.mm.lp .bmk__card[data-step='1'] .bmk__step:focus-visible { outline-color: var(--volt); }
 
-/* ---------- The card: one height for all three steps ---------- */
-.mm.lp .bmk__card { display: grid; min-height: 27.5rem; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 24px; background: var(--paper-raised); }
-/* A column whose last part (the key to the next step, or what follows in the app) sits on the card's foot. */
-.mm.lp .bmk__pane { display: flex; flex-direction: column; gap: 14px; padding: 20px; min-width: 0; animation: bmk-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both; }
-.mm.lp .bmk__pane--ink { background: #12110e; color: #fffdf8; }
+/* All four steps share one cell: the card is as tall as the tallest at every width, and keeps that height. */
+.mm.lp .bmk__panes { display: grid; min-width: 0; }
+.mm.lp .bmk__pane { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 20px; min-width: 0; visibility: hidden; }
+.mm.lp .bmk__pane[data-on='true'] { visibility: visible; animation: bmk-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.mm.lp .bmk__pane--ink { color: #fffdf8; }
 .mm.lp .bmk__pane > :last-child { margin-top: auto; }
 @keyframes bmk-in { from { opacity: 0; transform: translateY(6px); } }
-.mm.lp .bmk__label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0; color: var(--ink-2); font: 650 0.8125rem/1.3 var(--font-body); }
+.mm.lp .bmk__label { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0; color: var(--ink-2); font: 600 0.875rem/1.3 var(--font-body); }
 .mm.lp .bmk__label span:first-child { color: var(--ink); font-weight: 750; }
 .mm.lp .bmk__q { margin: 0; color: var(--ink); font: 600 1.1875rem/1.36 var(--font-serif, 'Literata', Georgia, serif); letter-spacing: -0.005em; text-wrap: pretty; }
 .mm.lp .bmk__given { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-content: start; margin: 0; padding: 0; list-style: none; }
-.mm.lp .bmk__given li { position: relative; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink-2); font: 600 0.9375rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .bmk__given li { position: relative; display: flex; align-items: center; gap: 8px; min-height: 46px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink-2); font: 600 1rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; }
 .mm.lp .bmk__given li[data-chosen='true'] { border-color: var(--bad-text, #b0291f); color: var(--ink); box-shadow: inset 0 0 0 1px var(--bad-text, #b0291f); }
-.mm.lp .bmk__letter { display: grid; place-items: center; flex: none; width: 22px; height: 22px; border-radius: 6px; background: rgb(var(--tint, 27 25 20) / 0.08); color: var(--ink-2); font: 750 0.75rem/1 var(--font-body); }
-.mm.lp .bmk__chose { position: absolute; top: -9px; right: 8px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px 2px 4px; border-radius: 6px; background: var(--bad-text, #b0291f); color: #fffdf8; font: 750 0.6875rem/1.2 var(--font-body); white-space: nowrap; }
-.mm.lp .bmk .bmk__chose-icon { width: 11px; height: 11px; stroke-width: 3.4; color: inherit; }
+.mm.lp .bmk__letter { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 6px; background: rgb(var(--tint, 27 25 20) / 0.08); color: var(--ink-2); font: 750 0.875rem/1 var(--font-body); }
+.mm.lp .bmk__chose { position: absolute; top: -11px; right: 8px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px 2px 5px; border-radius: 6px; background: var(--bad-text, #b0291f); color: var(--paper); font: 750 0.875rem/1.2 var(--font-body); white-space: nowrap; }
+.mm.lp .bmk .bmk__chose-icon { width: 12px; height: 12px; stroke-width: 3.4; color: inherit; }
 
-/* Mobi's read, on ink. */
-.mm.lp .bmk__rows { display: grid; gap: 14px; align-content: start; margin: 0; }
+/* What Mobi needs: one aligned line under the slip, and the photo as a way in. */
+.mm.lp .bmk__needs { display: grid; gap: 8px; }
+.mm.lp .bmk__needs p { margin: 0; color: var(--ink-2); font-size: 1rem; line-height: 1.45; text-wrap: pretty; }
+.mm.lp .bmk__needs .bmk__needs-line { color: var(--ink); font-weight: 650; }
+.mm.lp .bmk__needs .bmk__photo { display: flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 600; }
+.mm.lp .bmk .bmk__camera { flex: none; color: var(--ink-2); }
+
+/* Mobi's read, on ink: the chapter first, then the app's three parts, the working lined up. */
+.mm.lp .bmk__pane--ink .bmk__label { color: rgb(255 253 248 / 0.72); }
+.mm.lp .bmk__pane--ink .bmk__label span:first-child { color: var(--volt); }
+.mm.lp .bmk__chapter { margin: -6px 0 2px; color: #fffdf8; font: 750 1.375rem/1.15 var(--font-display); letter-spacing: -0.02em; }
+.mm.lp .bmk__rows { display: grid; gap: 12px; align-content: start; margin: 0; }
 .mm.lp .bmk__rows > div { display: grid; gap: 3px; }
-.mm.lp .bmk__rows dt { color: var(--volt); font: 750 0.875rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
-.mm.lp .bmk__rows dd { margin: 0; color: rgb(255 253 248 / 0.92); font-size: 0.9688rem; line-height: 1.5; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.mm.lp .bmk__rows dt { color: var(--volt); font: 750 0.9375rem/1.3 var(--font-body); font-variant-numeric: tabular-nums; }
+.mm.lp .bmk__rows dd { margin: 0; color: rgb(255 253 248 / 0.94); font-size: 1rem; line-height: 1.5; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.mm.lp .bmk__work { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; column-gap: 14px; row-gap: 1px; margin-top: 2px; }
+.mm.lp .bmk__work-line { display: contents; }
+.mm.lp .bmk__work-who { font-weight: 750; color: #fffdf8; }
+.mm.lp .bmk__work-eq { color: rgb(255 253 248 / 0.72); }
+.mm.lp .bmk__work-share { justify-self: end; color: var(--volt); font-weight: 750; }
 
 /* The key that moves to the next step: ink on paper, paper on ink. Never volt (the section's one volt key is sign-up). */
 .mm.lp .bmk__next {
-  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 50px; padding: 0 1rem; border: 0; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; padding: 0 1rem; border: 0; border-radius: 14px;
   background: var(--ink); color: var(--paper); font: 750 1rem/1.1 var(--font-display); letter-spacing: -0.005em; cursor: pointer;
   -webkit-tap-highlight-color: transparent; transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -73,7 +107,7 @@
 .mm.lp .bmk__options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-content: start; }
 .mm.lp .bmk__option {
   display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 8px 10px; border: 1px solid var(--line-strong); border-radius: 12px;
-  background: var(--paper); color: var(--ink); font: 650 0.9688rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; text-align: left; cursor: pointer;
+  background: var(--paper); color: var(--ink); font: 650 1rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; text-align: left; cursor: pointer;
   -webkit-tap-highlight-color: transparent; transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), border-color 160ms ease-out, background-color 160ms ease-out;
 }
 .mm.lp .bmk__option:active:not(:disabled) { transform: scale(0.98); }
@@ -87,21 +121,43 @@
 @media (hover: hover) and (pointer: fine) {
   .mm.lp .bmk__option:not(:disabled):hover { border-color: var(--ink); }
   .mm.lp .bmk__step:hover { color: var(--ink); }
+  .mm.lp .bmk__card[data-step='1'] .bmk__step:hover { color: #fffdf8; }
 }
-.mm.lp .bmk__why { margin: 0; min-height: 2.9em; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; text-wrap: pretty; }
-.mm.lp .bmk__after { margin: 0; padding-top: 12px; border-top: 1px solid var(--line); color: var(--ink); font: 650 0.875rem/1.45 var(--font-body); text-wrap: pretty; }
+/* The verdict's room is the longest verdict's, held by a hidden copy in the same cell: answering never moves anything. */
+.mm.lp .bmk__why-box { display: grid; }
+.mm.lp .bmk__why-box > * { grid-area: 1 / 1; }
+.mm.lp .bmk__why { margin: 0; color: var(--ink-2); font-size: 1rem; line-height: 1.45; text-wrap: pretty; }
 .mm.lp .bmk__why strong { color: var(--ink); }
+.mm.lp .bmk__why--sizer { visibility: hidden; }
+.mm.lp .bmk__close { display: grid; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+.mm.lp .bmk__after { margin: 0; color: var(--ink); font: 650 1rem/1.45 var(--font-body); text-wrap: pretty; }
+
+/* ---------- Then practise: the set the app's answer ends on, drawn as a small stack of paper ---------- */
+.mm.lp .bmk__set {
+  display: grid; gap: 2px; justify-items: start; width: calc(100% - 12px); max-width: 22rem; margin: 2px 0 12px; padding: 18px 20px 20px; border: 1px solid var(--line-strong); border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 6px 6px 0 -1px var(--paper), 6px 6px 0 0 var(--line-strong), 12px 12px 0 -1px var(--paper), 12px 12px 0 0 var(--line);
+}
+.mm.lp .bmk__set-n { color: var(--brand-word); font: 800 4.25rem/0.95 var(--font-display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.mm.lp .bmk__set-what { margin-top: 6px; color: var(--ink); font: 750 1.25rem/1.2 var(--font-display); letter-spacing: -0.015em; }
+.mm.lp .bmk__set-from { color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-wrap: balance; }
+.mm.lp .bmk__bubbles { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.mm.lp .bmk__bubbles i { width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--ink-3); }
+/* Why these ten matter, on the card's foot where the other steps keep their key. */
+.mm.lp .bmk__set-why { padding-top: 14px; border-top: 1px solid var(--line); color: var(--ink); font: 650 1rem/1.45 var(--font-body); text-wrap: pretty; }
+.mm.lp .bmk__pane .bmk__set-why { margin: auto 0 0; }
 
 /* ---------- Under the card and under the words ---------- */
-.mm.lp .bmk__honest { margin: 0; color: var(--ink-3); font-size: 0.8125rem; line-height: 1.5; text-wrap: pretty; }
-.mm.lp .bmk .bmk__key { width: 100%; min-height: 58px; font-size: 1.0625rem; }
+.mm.lp .bmk__honest { margin: 0; color: var(--ink-3); font-size: 0.875rem; line-height: 1.5; text-wrap: pretty; }
+.mm.lp .bmk .bmk__key { width: 100%; min-height: 54px; font-size: 1.0625rem; }
 .mm.lp .bmk__price { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; font-variant-numeric: tabular-nums; text-wrap: pretty; }
 @media (min-width: 960px) { .mm.lp .bmk .bmk__key { width: auto; padding-inline: 28px; } }
 
-html[data-motion='reduced'] .mm.lp .bmk__option, html[data-motion='reduced'] .mm.lp .bmk__next, html[data-motion='reduced'] .mm.lp .bmk__step, html[data-motion='reduced'] .mm.lp .bmk__step::after { transition: none; }
-html[data-motion='reduced'] .mm.lp .bmk__pane { animation: none; }
+html[data-motion='reduced'] .mm.lp .bmk__option, html[data-motion='reduced'] .mm.lp .bmk__next, html[data-motion='reduced'] .mm.lp .bmk__step,
+html[data-motion='reduced'] .mm.lp .bmk__step::after, html[data-motion='reduced'] .mm.lp .bmk__card { transition: none; }
+html[data-motion='reduced'] .mm.lp .bmk__pane[data-on='true'] { animation: none; }
 @media (prefers-reduced-motion: reduce) {
-  .mm.lp .bmk__option, .mm.lp .bmk__next, .mm.lp .bmk__step, .mm.lp .bmk__step::after { transition: none; }
+  .mm.lp .bmk__option, .mm.lp .bmk__next, .mm.lp .bmk__step, .mm.lp .bmk__step::after, .mm.lp .bmk__card { transition: none; }
   .mm.lp .bmk__option:active:not(:disabled), .mm.lp .bmk__next:active { transform: none; }
-  .mm.lp .bmk__pane { animation: none; }
+  .mm.lp .bmk__pane[data-on='true'] { animation: none; }
 }
