@@ -182,7 +182,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
   window.__arenaPreviewFetch = true;
   window.__previewSubmissions = [];
   window.__previewChatRequests = [];
-  // "Bring a mistake" with the photo switch off (&photo=off): BringMistake reads this to leave its photo key out (previewMistake.js).
+  // "A question I got wrong" with the photo switch off (&photo=off): Ask Mobi's chat reads this to leave its Photo key out (previewMistake.js).
   window.__mmPreviewMistakePhotoOff = new URLSearchParams(window.location.search).get('photo') === 'off';
   const replyReceipts = new Map();
   // ARC-18: the paid repairs this tab made (one per request id, like the server's receipt), on the result and on Review. The credits

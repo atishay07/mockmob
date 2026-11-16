@@ -70,12 +70,13 @@ export default function MentorRecordPage() {
   const [recordSeen, setRecordSeen] = useState(tab === 'record');
   const [chatKey, setChatKey] = useState(0);
   const [saved, setSaved] = useState(null);
-  // null: not chosen yet (a wide screen with saved exchanges shows the column); true or false once the student has chosen.
+  // null: not chosen yet (a wide screen shows the column from the start, so nothing moves when the list arrives); true or false
+  // once the student has chosen.
   const [historyChoice, setHistoryChoice] = useState(null);
   const [busy, setBusy] = useState(false);
   const chat = useRef(null);
   const takeApi = useCallback((api) => { chat.current = api; }, []);
-  const historyOpen = historyChoice ?? (wide && view === 'chat' && Array.isArray(recent) && recent.length > 0);
+  const historyOpen = historyChoice ?? (wide && view === 'chat');
 
   useEffect(() => {
     if (tab === 'plan') { router.replace('/today'); return undefined; }
@@ -175,8 +176,10 @@ export default function MentorRecordPage() {
           <HistoryColumn rows={recent} current={saved?.id || null} onOpen={openSaved} onClose={() => setHistoryChoice(false)} />
         ) : null}
 
-        {recordSeen ? (
-          <section id="record" className="mrp-record" role="tabpanel" aria-labelledby="ach-tab-record" hidden={view !== 'record'}>
+        {/* Drawn the first time it is opened (its figures count up as they come into view), then kept. */}
+        <section id="record" className="mrp-record" role="tabpanel" aria-labelledby="ach-tab-record" hidden={view !== 'record'}>
+          {recordSeen ? (
+          <>
             <div className="mrp-record__head">
               <h2 id="mrp-record-title">{CHAT_COPY.recordTitle}</h2>
               {ready ? <p>{recordLine(insights.sessions)}</p> : null}
@@ -228,8 +231,9 @@ export default function MentorRecordPage() {
               </div>
             )}
             <p className="mrp-foot"><Link href="/wallet" className="ame ame--text">Your credits and how they work</Link></p>
-          </section>
-        ) : null}
+          </>
+          ) : null}
+        </section>
       </div>
 
       {historyOpen && !wide ? (
