@@ -56,7 +56,10 @@
 html[data-theme='light'] .rvs-option:is([data-state='key'], [data-state='mine']) .rvs-option__letter { color: #fff; }
 
 .rvs-status { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--a-ink-3, #93a08f); }
-.rvs-spin { animation: rvs-spin 900ms linear infinite; }
+/* As .mm-wait (components/ui/wait.css): 14 px beside text, 2 px line, one turn in 800 ms, still under Reduce motion. */
+.rvs-spin { flex: none; width: 14px; height: 14px; opacity: 0.7; animation: rvs-spin 800ms linear infinite; }
+.rvs-spin * { vector-effect: non-scaling-stroke; stroke-width: 2px; }
+@media (prefers-reduced-motion: reduce) { .rvs-spin { animation: none; } }
 .rvs-err { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; line-height: 1.5; color: var(--a-bad-text, #ff9d92); }
 .rvs-result { display: grid; gap: 8px; padding: 12px 14px; border-radius: 14px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); }
 .rvs-result__line { display: flex; align-items: flex-start; gap: 10px; font: 650 15.5px/1.45 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }

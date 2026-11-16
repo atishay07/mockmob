@@ -2089,10 +2089,15 @@ body:has(.mm) {
   box-shadow: none;
 }
 .mm-checkout__spin {
-  width: 18px;
-  height: 18px;
-  animation: mm-spin 0.9s linear infinite;
+  /* As .mm-wait (components/ui/wait.css): 16 px in a tall key, 2 px line, one turn in 800 ms, still under Reduce motion. */
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  animation: mm-spin 800ms linear infinite;
 }
+.mm-checkout__spin * { vector-effect: non-scaling-stroke; stroke-width: 2px; }
+@media (prefers-reduced-motion: reduce) { .mm-checkout__spin { animation: none; } }
+html[data-motion='reduced'] .mm-checkout__spin { animation: none; }
 @keyframes mm-spin {
   to {
     transform: rotate(360deg);

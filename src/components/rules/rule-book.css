@@ -134,7 +134,10 @@
 }
 
 /* ---------- Motion. Everything lands in its final state without it. ---------- */
-.rb-spin { animation: rb-spin 800ms linear infinite; }
+/* As .mm-wait (components/ui/wait.css): 14 px beside text, 2 px line, one turn in 800 ms, still under Reduce motion. */
+.rb-spin { flex: none; width: 14px; height: 14px; opacity: 0.7; animation: rb-spin 800ms linear infinite; }
+.rb-spin * { vector-effect: non-scaling-stroke; stroke-width: 2px; }
+html[data-motion='reduced'] .rb-spin { animation: none; }
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .rb-side, :root:not([data-motion='reduced']) .rb-section { animation: rb-rise 320ms var(--a-ease, ease-out) both; }
   :root:not([data-motion='reduced']) .rb-section:nth-child(1) { animation-delay: 45ms; }
@@ -147,7 +150,7 @@
   :root:not([data-motion='reduced']) .rb-band__range { animation: rb-band 420ms var(--a-ease, ease-out) 120ms both; }
   :root:not([data-motion='reduced']) .rb-band__dot { animation: rb-fade 200ms var(--a-ease, ease-out) 360ms both; }
 }
-@media (prefers-reduced-motion: reduce) { .rb-spin { animation-duration: 2s; } }
+@media (prefers-reduced-motion: reduce) { .rb-spin { animation: none; } }
 @keyframes rb-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @keyframes rb-pop { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: none; } }
 @keyframes rb-band { from { transform: scaleX(0); } to { transform: scaleX(1); } }
