@@ -87,7 +87,10 @@ function StateMark({ mark }) {
 function HomeBlock() {
   const ref = useRef(null);
   const record = useDeviceRecord();
-  const on = useOnScreen(ref, '400px 0px');
+  // 1,600 px ahead (about four swipes): the clock, the student's college and the board all settle before the block is seen, so
+  // the board's answer (often one short sentence where the still rows stood) never moves the Sunday card under a reader's eyes
+  // (a 0.125 layout shift was measured on production on 17 Nov when the answer came late).
+  const on = useOnScreen(ref, '1600px 0px');
   const now = useMinuteNow(on);
   const today = now === null ? null : todayDaily(now);
   const ready = Boolean(today && record);
