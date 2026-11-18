@@ -28,12 +28,9 @@ export function actionHref(action, links) {
 function Track({ progress }) {
   const pct = Math.round((progress.done / progress.of) * 1000) / 10;
   return (
-    <div className="lh-up__progress">
-      <span>{progress.done} of {progress.of} done</span>
-      <span className="lh-track lh-hero__track" aria-hidden="true">
-        <span className="lh-track__fill" style={{ '--p': `${pct}%` }} />
-      </span>
-    </div>
+    <span className="lh-track lh-hero__track" role="img" aria-label={`${progress.done} of ${progress.of} done`}>
+      <span className="lh-track__fill" style={{ '--p': `${pct}%` }} />
+    </span>
   );
 }
 
