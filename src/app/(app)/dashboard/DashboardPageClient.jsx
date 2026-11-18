@@ -735,11 +735,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </section>
           </div>
 
-          {/* The tail of the setup: Questions, Fine-tune, the session card and, on phones, the session bar. The bar is sticky
-              inside this block, so it arrives with Questions, rides above the tab bar while you finish the setup, lands as
-              the card's footer and leaves with it: it never sits on the subject shelf or the mode tiles on the first screen
-              (verifier W-008), and with no script it can never come back lower down (owner F12). From 1024 px this block
-              dissolves into the two-column grid (practice.css). */}
+          {/* The tail of the setup: Questions, Fine-tune and the session card. Since 19 Nov 2026 the phone's session bar is not in
+              this block: it is the page's last child, pinned above the dock from the first screen (see the end of the page). From
+              1024 px this block dissolves into the two-column grid (practice.css). */}
           <div className="pr-tail">
 
             <section className="pr-step" aria-labelledby="pr-s3">

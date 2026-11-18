@@ -537,6 +537,11 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
     display: block;
     margin-top: -8px;
   }
+  /* Review (19 Nov 2026): the bar rides over the whole page and stands 115 px tall with its Fine-tune line (165 px with a rule line),
+     more than the 88 px arena.css reserves, so a control reached by Tab could land wholly under it (the count's segment did, at
+     390 x 844). The page's scroll padding clears the dock, the 8 px gap and the bar. */
+  html:has(.app-shell .pr .pr-bar) { scroll-padding-bottom: calc(var(--dock-h, 84px) + 136px + env(safe-area-inset-bottom)); }
+  html:has(.app-shell .pr[data-rule] .pr-bar) { scroll-padding-bottom: calc(var(--dock-h, 84px) + 190px + env(safe-area-inset-bottom)); }
   .app-shell .pr .pr-bar__in {
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr) auto;

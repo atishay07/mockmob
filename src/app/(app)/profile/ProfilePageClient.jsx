@@ -45,7 +45,8 @@ import InstallPractice from '@/components/InstallPractice';
 import AccountMobIdentity from '@/components/profile/AccountMobIdentity';
 import YouStreak from './YouStreak';
 import { useCompassState } from './useCompassState';
-import { placeFigures } from './youModel.mjs';
+import { glanceKeepsStreak, placeFigures } from './youModel.mjs';
+import { useStreak } from '@/components/streak/useStreak';
 import { NAME_MAX, nameFieldValue } from '@/lib/nameAsk.mjs';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
@@ -270,6 +271,8 @@ export default function ProfilePageClient() {
   // The places' live figures (youModel.mjs): Colleges' count from the Compass rules, the same read the Colleges line used.
   const compass = useCompassState(user?.subjects);
   const figures = placeFigures({ compass });
+  // The one shared streak read (useStreak): with Hide my streak on, the card leaves the streak out and Your progress keeps its cell.
+  const streakRead = useStreak(user?.id);
 
   // While the Appearance card is on screen its Mobi is the one; this one steps aside and keeps his space.
   const sheetMobi = (
@@ -373,7 +376,7 @@ export default function ProfilePageClient() {
         <div className="acct-col">
           {/* "You" leads with your study days, badges and best work (W-053): first in this column on a wide screen, right
               under your sheet on a phone (account.css order); plan and billing sit lower. */}
-          <AccountGlance userId={user?.id} withStreak={false} />
+          <AccountGlance userId={user?.id} withStreak={glanceKeepsStreak(streakRead.data)} />
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Your goal</h2>
             <GoalControl />

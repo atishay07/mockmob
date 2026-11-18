@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { partProgress, partsInOrder, rowStarted, rowState, startedLine } from '../../src/components/learn2/home/homeModel.mjs';
-import { cardStreak, collegesFigure, placeFigures } from '../../src/app/(app)/profile/youModel.mjs';
+import { cardStreak, collegesFigure, glanceKeepsStreak, placeFigures } from '../../src/app/(app)/profile/youModel.mjs';
 import { STATE_LABELS } from '../chapter_state.js';
 
 const root = new URL('../../', import.meta.url);
@@ -46,15 +46,49 @@ test('each part says "<n> of <m> chapters started" for the chapters it shows; th
       { title: 'CAS', optionId: 'cas', chapters: [row('b1', 'none', { seen: 3 })] },
     ],
   };
-  assert.deepEqual(partProgress(part, null), { started: 3, total: 5 }, 'both options show until one is chosen');
-  assert.deepEqual(partProgress(part, 'afs'), { started: 2, total: 4 });
-  assert.deepEqual(partProgress(part, 'cas'), { started: 2, total: 3 });
+  assert.deepEqual(partProgress(part, null), { started: 3, total: 5, unknown: 0 }, 'both options show until one is chosen');
+  assert.deepEqual(partProgress(part, 'afs'), { started: 2, total: 4, unknown: 0 });
+  assert.deepEqual(partProgress(part, 'cas'), { started: 2, total: 3, unknown: 0 });
   assert.equal(startedLine({ started: 6, total: 7 }), '6 of 7 chapters started');
   assert.equal(startedLine({ started: 0, total: 1 }), '0 of 1 chapter started', 'zero is said as zero');
   const p1 = { id: 'p1', units: [{ chapters: [row('x1', 'none')] }] };
   assert.deepEqual(partsInOrder([p1, part], 'a2').map((p) => p.id), ['p2', 'p1']);
   assert.deepEqual(partsInOrder([p1, part], 'x1').map((p) => p.id), ['p1', 'p2']);
   assert.deepEqual(partsInOrder([p1, part], null).map((p) => p.id), ['p1', 'p2'], 'no position: book order');
+});
+
+test('review: a row the heading counts as started never says "Not started"; a part with an unread state states no count', () => {
+  // The server sends none for a chapter with no answers and no must-know card added, even when cards in it were seen.
+  const seenOnly = row('s', 'none', { of: 45, seen: 5, tried: 0 }, 'Not started');
+  assert.equal(rowStarted(seenOnly), true);
+  assert.equal(rowState(seenOnly).word, '', 'no "Not started" beside "5 of 45 cards seen"');
+  assert.equal(rowState(seenOnly).shape, 'none', 'the ring still says the server state');
+  assert.equal(rowState(row('t', 'none', { of: 45, seen: 0, tried: 3 })).word, '');
+  assert.equal(rowState(row('u', 'none', { of: 45, seen: 0, tried: 0 })).word, 'Not started', 'untouched: the server word');
+  const part = { id: 'p', units: [{ chapters: [seenOnly, row('a', 'thin'), row('b', 'none', { seen: 0 }), row('c', 'none', { seen: 0 })] }] };
+  const count = partProgress(part);
+  assert.deepEqual(count, { started: 2, total: 4, unknown: 0 });
+  // Every row counted as started shows a word other than "Not started" (or none); every "Not started" row is not counted.
+  for (const r of part.units[0].chapters) assert.equal(rowStarted(r), rowState(r).word !== 'Not started', r.key);
+  const unread = { id: 'q', units: [{ chapters: [row('x', 'unknown', null, 'Could not load'), row('y', 'unknown', { seen: 2 }, 'Could not load'), row('z', 'holding')] }] };
+  assert.deepEqual(partProgress(unread), { started: 2, total: 3, unknown: 1 }, 'an unread row with nothing seen leaves the count unknown');
+  const map = read('src/components/learn2/home/ChapterMap.jsx');
+  assert.match(map, /\{count\.unknown \? null : <span className="lh-part__count">\{startedLine\(count\)\}<\/span>\}/);
+  assert.match(map, /\{state\.word \? <span className="lh-row__state">\{state\.word\}<\/span> : null\}/);
+});
+
+test('review: You keeps the streak for a student who hid it, and draws no empty Mob card; Practice clears the bar for focus', () => {
+  assert.equal(glanceKeepsStreak({ hidden: true, days: 9 }), true, 'Hide my streak: the card leaves it out, Your progress keeps it (W-063)');
+  assert.equal(glanceKeepsStreak({ hidden: false, days: 9 }), false, 'said once: on the card');
+  assert.equal(glanceKeepsStreak(null), false, 'no read yet: the card holds its place');
+  assert.equal(cardStreak('ready', { hidden: true, days: 9 }), null);
+  const page = read('src/app/(app)/profile/ProfilePageClient.jsx');
+  assert.match(page, /const streakRead = useStreak\(user\?\.id\);/);
+  assert.match(page, /<AccountGlance userId=\{user\?\.id\} withStreak=\{glanceKeepsStreak\(streakRead\.data\)\} \/>/);
+  assert.match(read('src/app/(app)/profile/you-anchor.css'), /\.app-shell \.you-mob:empty \{ display: none; \}/, 'AccountMobIdentity draws nothing with the Mob off');
+  const css = read('src/app/(app)/dashboard/practice.css');
+  assert.match(css, /html:has\(\.app-shell \.pr \.pr-bar\) \{ scroll-padding-bottom: calc\(var\(--dock-h, 84px\) \+ 136px \+ env\(safe-area-inset-bottom\)\); \}/);
+  assert.match(css, /html:has\(\.app-shell \.pr\[data-rule\] \.pr-bar\) \{ scroll-padding-bottom: calc\(var\(--dock-h, 84px\) \+ 190px/);
 });
 
 test('You: the card\'s streak is the shared read, hidden when hidden, never a zero lead; Colleges carries the Compass count', () => {
@@ -111,7 +145,7 @@ test('You pins: no opening paragraph, the account card first with the streak, th
   const page = read('src/app/(app)/profile/ProfilePageClient.jsx');
   assert.match(page, /<ArenaHead title="Your account\." \/>/, 'the opening paragraph goes');
   assert.match(page, /mobi=\{<YouStreak userId=\{user\?\.id\} fallback=\{sheetMobi\} \/>\}/);
-  assert.match(page, /<AccountGlance userId=\{user\?\.id\} withStreak=\{false\} \/>/, 'the streak is said once on the page');
+  assert.match(page, /<AccountGlance userId=\{user\?\.id\} withStreak=\{glanceKeepsStreak\(streakRead\.data\)\} \/>/, 'the streak is said once on the page (twice never; kept below when hidden on the card)');
   assert.doesNotMatch(page, /<TodayCompass/, 'the Compass line is the Colleges row\'s figure now');
   assert.ok(page.indexOf('<SearchField') < page.indexOf('<YourSheet') && page.indexOf('<YourSheet') < page.indexOf('<YouPlaces figures={figures} />'));
   for (const piece of ['<AccountMobIdentity', '<AccountColleges', '<GoalControl />', '<StreakPauseOffer', '<PlanCredits', '<CreditsSection', '<SignOutControl />', '<DeleteAccountSection />']) assert.ok(page.includes(piece), piece);

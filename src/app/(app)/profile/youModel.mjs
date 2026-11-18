@@ -20,6 +20,13 @@ export function cardStreak(status, body) {
   return { days, lit, word: days === 1 ? 'day' : 'days', label: chipLabel(days, lit) };
 }
 
+/**
+ * Whether Your progress (AccountGlance) keeps its own streak cell. The card carries the streak, so normally it is said once; but a
+ * student who chose Hide my streak has it hidden on the card, and "Hide my streak" hides it from others and the chip, never from the
+ * student (W-063: Today and You still show it). So the cell stays exactly then (review, 19 Nov 2026).
+ */
+export const glanceKeepsStreak = (body) => Boolean(body?.hidden);
+
 /** "35 of 73 open": the DU courses the student's subjects open, from the Compass rules. Null unless the count is known. */
 export function collegesFigure(state) {
   if (state?.status !== 'ready') return null;

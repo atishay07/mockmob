@@ -436,10 +436,13 @@ const STATE_WORDS = Object.freeze({ none: 'Not started', thin: 'Too few answers'
  * A row's state as drawn: { key, shape, word }. The word is the server's own label ("Getting there, fading" stays as it is sent); the
  * shape is the ring Learn and Key cards draw for it. A row with no state reads "Not started"; an unknown state keeps its own word,
  * which is never "Not started" (unknown is not zero).
+ * Review (19 Nov 2026): the server's "Not started" means no answers and no must-know card added, so a chapter whose cards the student
+ * has seen (or whose questions they tried) can still be sent as none. Such a row says no state word, so it never reads "Not started"
+ * beside "5 of 45 cards seen", and the part heading, which counts it as started (rowStarted), agrees with every row.
  */
 export function rowState(row) {
   const key = row?.state?.key && STATE_WORDS[row.state.key] ? row.state.key : row?.state?.key ? 'unknown' : 'none';
-  const word = String(row?.state?.label || '').trim() || STATE_WORDS[key];
+  const word = key === 'none' && rowStarted(row) ? '' : String(row?.state?.label || '').trim() || STATE_WORDS[key];
   return { key, shape: stateShape(key), word };
 }
 
@@ -451,12 +454,16 @@ export function rowStarted(row) {
 
 /**
  * The chapters a part shows right now (its common units and the chosen option's, or both options while none is chosen) and how many
- * of them are started: { started, total }. `parts` are the playable ones, so every counted chapter has cards.
+ * of them are started: { started, total, unknown }. `parts` are the playable ones, so every counted chapter has cards. `unknown`
+ * counts the rows whose state could not be read and that show no card seen or question tried: while any is, the count is not known
+ * and the heading does not state one (unknown is not zero).
  */
 export function partProgress(part, choice = null) {
   const units = (part?.units || []).filter((u) => !u.optionId || !choice || u.optionId === choice);
   const rows = units.flatMap((u) => u.chapters || []);
-  return { started: rows.filter(rowStarted).length, total: rows.length };
+  const started = rows.filter(rowStarted).length;
+  const unknown = rows.filter((r) => !rowStarted(r) && rowState(r).key === 'unknown').length;
+  return { started, total: rows.length, unknown };
 }
 
 /** "3 of 12 chapters started" (the brief's words); "1 of 1 chapter started" for a one-chapter part. */

@@ -49,6 +49,8 @@
 
 /* How your Mob sees you: its own card now, the same rows. */
 .app-shell .you-mob .acct-mob { padding-top: 0; border-top: 0; }
+/* With the Mob off (or not open to this student) AccountMobIdentity draws nothing: no empty card is left in its place (review). */
+.app-shell .you-mob:empty { display: none; }
 @media (max-width: 1023px) { .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #mob-profile { order: 1; } }
 @media (prefers-reduced-motion: reduce) { .app-shell .you-streak { transition: none; } .app-shell .you-streak:active { transform: none; } }
 html[data-motion='reduced'] .app-shell .you-streak { transition: none; }

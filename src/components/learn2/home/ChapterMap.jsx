@@ -70,7 +70,7 @@ function Row({ row, href, here }) {
           <b className="lh-row__title">{displayTitle(row.title)}</b>
           {here ? <span className="lh-row__here">{here}</span> : null}
         </span>
-        <span className="lh-row__meta"><span className="lh-row__state">{state.word}</span>{line ? <span className="lh-row__line">{line}</span> : null}</span>
+        <span className="lh-row__meta">{state.word ? <span className="lh-row__state">{state.word}</span> : null}{line ? <span className="lh-row__line">{line}</span> : null}</span>
         {road.total > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
         <ChevronRight className="lh-row__chev" size={16} strokeWidth={2} aria-hidden="true" />
       </Link>
@@ -353,8 +353,9 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
                 <h3 className="lh-part__title">
                   <button type="button" className="lh-part__toggle" aria-expanded={!shut} aria-controls={bodyId} onClick={() => setClosed((c) => ({ ...c, [part.id]: !shut }))}>
                     <span className="lh-part__name">{part.title}</span>
-                    <span className="lh-part__count">{startedLine(count)}</span>
-                    <span className="lh-part__meter" aria-hidden="true"><span style={{ '--p': count.total ? count.started / count.total : 0 }} /></span>
+                    {/* A part with a chapter whose state could not be read states no count (review: unknown is not zero). */}
+                    {count.unknown ? null : <span className="lh-part__count">{startedLine(count)}</span>}
+                    {count.unknown ? null : <span className="lh-part__meter" aria-hidden="true"><span style={{ '--p': count.total ? count.started / count.total : 0 }} /></span>}
                     <ChevronDown className="lh-part__chev" size={18} strokeWidth={2.2} aria-hidden="true" />
                   </button>
                 </h3>
