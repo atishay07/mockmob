@@ -6,6 +6,7 @@
 //   (every question, one bubble, opens that answer), then the one next move with Repair's value and cost.
 // Mobi follows the server's recap tone (reaction.js, the app's table); never in NTA mode and never sleepy.
 import { AlertTriangle } from 'lucide-react';
+import { Marked } from '@/components/doodle/Doodle';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCallback, useRef } from 'react';
 import RollNumber from '@/lib/motion/RollNumber';
@@ -62,6 +63,7 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
     : finding?.line || (marks.wrong && marks.gapWrong >= marks.gapBlank
       ? `${marks.wrong} wrong answer${marks.wrong === 1 ? '' : 's'} cost ${marks.gapWrong} of the ${marks.gap} marks you missed.`
       : `${marks.blank} blank${marks.blank === 1 ? '' : 's'} left ${marks.gapBlank} marks unearned.`);
+  const markedChapter = marks.gap && finding?.chapter && finding.chapter.length <= 20 && String(verdict).startsWith(finding.chapter) ? finding.chapter : null;
   return (
     <header ref={sideRef} className="rp-hero rh" data-mobi={reaction ? undefined : 'none'} data-arrive={arrive || undefined}>
       {reaction ? <div className="rp-hero__pip rh-pip"><MobiReact act={heroAct(reaction.act)} size={96} label={reaction.alt} still={holdStill} /></div> : null}
@@ -71,7 +73,9 @@ export default function ResultHero({ receipt, marks, finding, reaction = null, h
           <Score value={Math.abs(marks.scored)} negative={marks.scored < 0} tone={tone} run={arrive && celebrations !== 'off'}
             ring={celebrations === 'full' && !nta && earnsRing(marks)} /><span>/ {marks.max} {unit}</span>
         </h1>
-        <p className="rh-verdict">{verdict}</p>
+        {/* The pen underlines the chapter the finding names (18 Nov 2026, owner LK308), once, when the line is reached. Only a
+            name short enough to stay on one line at 360 px is marked; a longer one is left as plain words. */}
+        <p className="rh-verdict">{markedChapter ? <Marked text={verdict} marks={[[markedChapter, { mark: 'underline', tone: 'pen', delay: 500 }]]} /> : verdict}</p>
         {finding?.detail && marks.gap ? <p className="rp-hero__line">{finding.detail}{reaction?.line ? ` ${reaction.line}` : ''}</p> : reaction?.line ? <p className="rp-hero__line">{reaction.line}</p> : null}
         {repairReceipt ? <p className="rh-receipt">{repairReceipt.lead} <b>{repairReceipt.strong}</b></p> : null}
         {lateLine ? <p className="rh-receipt" data-late="">{lateLine}</p> : null}
