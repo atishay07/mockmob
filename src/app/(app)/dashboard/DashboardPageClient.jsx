@@ -507,6 +507,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       : !quoteLaunchable ? 'Not available'
         : `Start ${sessionWords}${inSubject}`;
   const ntaOn = effectiveModeId === 'nta';
+  // The bar's key says the count itself ("Start 10 questions") for a set, so the line beside it does not say it again.
+  const countOnKey = effectiveModeId !== 'full' && effectiveModeId !== 'nta';
   const blocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
   const blockedLabel = shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote?.reasonCode === 'access_required' ? 'See Pro' : 'See options';
   // The bar's short price: the server quote once it is in, the mode's own price until then.
@@ -579,10 +581,10 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
       data-tour={tour || undefined} data-first-set={tour && firstSetFree ? 'free' : undefined}
       disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={isLaunching ? undefined : short ? `${barStartLabel}${inSubject}` : quoteLaunchable && quoteStatus !== 'loading' ? startLabel : undefined} onClick={launch}>
-      {/* The ticket says the subject, the count, the time and the cost line by line, so the key itself says Start (19 Nov 2026,
-          lane arena-b: nothing said twice). Its spoken name keeps the whole session ("Start 10 questions in Accountancy"); while
+      {/* The ticket says the subject, the count, the time and the cost line by line, but the key still names the set (owner G26; on a phone the dock's own Start sits
+          right under it and opens the Start sheet, so a bare "Start" would read as the same key). Its spoken name keeps the whole session ("Start 10 questions in Accountancy"); while
           the quote is checked or the set cannot start it says so, as before. */}
-      {short ? <>{examPair ? <ClockGlyph size={17} /> : <AppIcon name="practice" size={16} />}<span className="pr-bar__keytext">{isLaunching ? 'Starting…' : quoteStatus === 'loading' ? 'Checking…' : 'Start'}</span></> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{quoteLaunchable && !isLaunching && quoteStatus !== 'loading' ? 'Start' : startLabel}</span></>}
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : <AppIcon name="practice" size={16} />}<span className="pr-bar__keytext">{isLaunching ? 'Starting…' : quoteStatus === 'loading' ? 'Checking…' : barStartLabel}</span></> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{startLabel}</span></>}
     </Button>
   ));
 
@@ -959,7 +961,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </span>
             <span className="pr-bar__text" data-blocked={blocked || undefined}>
               <b className="pr-ink" key={selSubj}>{subjectLabel}</b>
-              <span><span className="sr-only">{mode.label}, </span><span className="pr-ink" key={`${effectiveModeId}:${quoteCount}`}>{quoteCount} Q</span><Sep /><span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min{barCost ? <Sep /> : null}</span><i className="pr-ink" key={barCost} data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
+              <span><span className="sr-only">{mode.label}, </span><span className="pr-bar__count" data-on-key={countOnKey || undefined}><span className="pr-ink" key={`${effectiveModeId}:${quoteCount}`}>{quoteCount} Q</span><Sep /></span><span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min{barCost ? <Sep /> : null}</span><i className="pr-ink" key={barCost} data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
             </span>
             {startKey('pr-bar__go', true, firstRun ? 'first-set' : null)}
           </div>

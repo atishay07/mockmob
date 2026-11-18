@@ -840,4 +840,19 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-bar__text .pr-ink { display: inline; }
   .app-shell .pr .pr-bar__go { min-width: 104px; min-height: 52px; font-size: 16px; }
   .app-shell .pr .pr-bar__keytext { display: inline; }
+  /* 18 Nov 2026: the key names the set again ("Start 10 questions", owner G26), which makes it 192 px wide. So that the
+     subject and the price beside it are never cut: the count is not said twice while the key says it (a blocked key says
+     something else, so the count stays), the key drops its glyph on phones, the object stands smaller under 400 px and
+     gives way under 380 px. Measured with tmp/1118/tools/barfit.mjs at 360, 390 and 412. */
+  .app-shell .pr .pr-bar__text:not([data-blocked]) .pr-bar__count[data-on-key] { display: none; }
+  @media (max-width: 429px) { .app-shell .pr .pr-bar__go > svg { display: none; } }
+  @media (max-width: 399px) {
+    .app-shell .pr .pr-bar__in { grid-template-columns: 40px minmax(0, 1fr) auto; }
+    .app-shell .pr .pr-bar__obj { width: 40px; }
+    .app-shell .pr .pr-bar__obj > .subj-obj { width: 48px; height: 48px; }
+  }
+  @media (max-width: 379px) {
+    .app-shell .pr .pr-bar__in { grid-template-columns: minmax(0, 1fr) auto; padding-left: 14px; }
+    .app-shell .pr .pr-bar__obj { display: none; }
+  }
 }

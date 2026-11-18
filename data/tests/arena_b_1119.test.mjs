@@ -157,3 +157,16 @@ test('You pins: no opening paragraph, the account card first with the streak, th
   assert.doesNotMatch(sheet, /AccountMobIdentity/);
   assert.match(sheet, /<SubjectObject id=\{subject\.id\} size=\{72\} life=\{false\}/);
 });
+
+// 18 Nov 2026 (after the review): the Start key names the set again (owner G26; on a phone the dock's own "Start" sits right
+// under it), and the bar beside it never repeats the count the key already says.
+test('Practice: the Start key names the set, and the bar does not say the count twice', async () => {
+  const { readFileSync } = await import('node:fs');
+  const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
+  const css = readFileSync(new URL('../../src/app/(app)/dashboard/practice.css', import.meta.url), 'utf8');
+  assert.match(page, /'Checking…' : barStartLabel\}<\/span>/, 'the bar key shows the set label');
+  assert.match(page, /<span className="pr-summary__words">\{startLabel\}<\/span>/, 'the desktop key shows the whole session');
+  assert.doesNotMatch(page, /'Checking…' : 'Start'\}/, 'no bare Start on the key');
+  assert.match(page, /className="pr-bar__count" data-on-key=\{countOnKey \|\| undefined\}/);
+  assert.match(css, /\.pr-bar__text:not\(\[data-blocked\]\) \.pr-bar__count\[data-on-key\] \{ display: none; \}/, 'a blocked key says something else, so the count stays');
+});
