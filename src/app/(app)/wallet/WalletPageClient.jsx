@@ -23,7 +23,7 @@ import { startWalletPurchase } from '@/lib/wallet/startWalletPurchase';
 import { announceWallet } from '@/components/useWalletSummary';
 import { observeSideHeight } from '@/lib/stickySide.mjs';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
-import { PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
+import { MOBI_JOB_CREDITS, PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
@@ -33,7 +33,9 @@ import './wallet.css';
 
 const EMPTY = { status: 'loading', data: null };
 const VISIBLE_HISTORY = 4;
-const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
+// Every price is the product's own constant (a written answer is one Mobi job, MOBI_JOB_CREDITS), never typed here: the
+// covers lines divide the balance by these.
+const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: MOBI_JOB_CREDITS, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
 
 function reducedMotion() {
   if (typeof window === 'undefined') return true;

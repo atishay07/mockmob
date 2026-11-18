@@ -15,7 +15,7 @@ import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { TEST_MODES } from '@/../data/test_modes';
 import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
-import { count, gapLine, heroFigures, ladderRows, ordinal } from './standingModel.mjs';
+import { count, gapLine, heroFigures, ladderRows, ordinal, placeAboveWords } from './standingModel.mjs';
 import './leaderboard.css';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -186,7 +186,7 @@ export default function LeaderboardPageClient() {
           </dl>
           {hero.next === 'first' ? <p className="lb-next">You hold first place. Every mock you sit adds to your points.</p> : null}
           {hero.next === 'gap' && gapLine(standing) ? (
-            <p className="lb-next"><b>{count(standing.toNext)} more {standing.toNext === 1 ? 'point' : 'points'}</b> and you share {ordinal(Math.max(1, standing.rank - 1))} place. Every mock you sit adds its points.</p>
+            <p className="lb-next"><b>{count(standing.toNext)} more {standing.toNext === 1 ? 'point' : 'points'}</b> and you share {placeAboveWords(standing)}. Every mock you sit adds its points.</p>
           ) : null}
           <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
           <HowItWorks />

@@ -9,25 +9,52 @@ export const ordinal = (n) => {
   return `${count(n)}${({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] || 'th'}`;
 };
 
-/** "14 points to 62nd": the points to share the place above (the page's existing figures). None at first place, or unknown. */
+/**
+ * The place above you, by number, only when the page can prove it: equal totals share a place (competition ranking), so
+ * the place above is not always rank minus 1 (two students level on the next total above you make it rank minus 2). It
+ * is the place of the ladder row whose total is yours plus toNext; at 2nd it can only be 1st. When that total is not on
+ * the ladder (you are far below the ten, or the board has no ladder), the number is unknown and null is returned.
+ */
+export function placeAbove(standing) {
+  const { rank, points, toNext, ladder } = standing || {};
+  if (!Number.isFinite(rank) || rank <= 1 || !Number.isFinite(toNext) || toNext <= 0) return null;
+  if (rank === 2) return 1;
+  if (!Number.isFinite(points)) return null;
+  const row = Array.isArray(ladder) ? ladder.find((r) => Number(r?.points) === points + toNext) : null;
+  const place = Number(row?.place);
+  return Number.isFinite(place) && place >= 1 && place < rank ? place : null;
+}
+
+/** "62nd place", or "the next place up" when the number cannot be proved (placeAbove). */
+export const placeAboveWords = (standing) => {
+  const place = placeAbove(standing);
+  return place ? `${ordinal(place)} place` : 'the next place up';
+};
+
+/**
+ * "14 points to 62nd": the points to share the place above (the page's existing figures), naming the place only when
+ * placeAbove proves it, else "14 points to the next place up". None at first place, or unknown.
+ */
 export function gapLine(standing) {
   const { rank, toNext } = standing || {};
   if (!Number.isFinite(rank) || rank <= 1 || !Number.isFinite(toNext) || toNext <= 0) return null;
-  return `${count(toNext)} ${toNext === 1 ? 'point' : 'points'} to ${ordinal(rank - 1)}`;
+  const place = placeAbove(standing);
+  return `${count(toNext)} ${toNext === 1 ? 'point' : 'points'} to ${place ? ordinal(place) : 'the next place up'}`;
 }
 
 /**
  * The ladder's rows: [{ kind: 'place', place, points, mocks, you, share, gap }] and, when you are below the ten,
  * { kind: 'gap', places, text } then your own row. `share` is points over the largest total shown (one scale, never
- * below 0.02 so a row always has a mark). Equal totals share a place: your row in the ten is the first with your place
- * and your total. A board without a ladder (fewer than 20 ranked) gives null.
+ * below 0.02 so a row always has a mark). Equal totals share a place: your row in the ten is the one with your place,
+ * your total and your mock count (a level student's row would print their mocks as yours). When none matches, you are
+ * level with the last of the ten but listed after them: your own row follows the ten. No ladder (fewer than 20 ranked): null.
  */
 export function ladderRows(standing) {
   const ladder = Array.isArray(standing?.ladder) ? standing.ladder : null;
   if (!ladder || !ladder.length) return null;
   const { rank, points, tests } = standing;
   const known = Number.isFinite(points);
-  const youAt = known ? ladder.findIndex((r) => r.place === rank && r.points === points) : -1;
+  const youAt = known ? ladder.findIndex((r) => r.place === rank && r.points === points && Number(r.mocks) === Number(tests)) : -1;
   const max = Math.max(1, ...ladder.map((r) => r.points), known ? points : 0);
   const share = (p) => Math.max(0.02, Math.min(1, p / max));
   const gap = gapLine(standing);

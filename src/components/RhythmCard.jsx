@@ -156,7 +156,19 @@ export function FinishedWeeks({ rhythm }) {
   // Newest right: a row longer than the screen opens at its newest end (a phone with many finished weeks).
   const rowRef = useRef(null);
   useEffect(() => { const el = rowRef.current; if (el) el.scrollLeft = el.scrollWidth; }, [marks.length]);
-  if (!rhythm) return null;
+  // While the week loads, the block holds its place (its heading, its row of marks and the rule under it), so the record
+  // below does not jump when the weeks arrive (19 Nov review: the weeks left the band's own skeleton).
+  if (!rhythm) {
+    return (
+      <section className="rc rc--more pw-weeks pw-weeks--wait" aria-label="Your finished weeks" aria-busy="true">
+        <div className="rc-block" aria-hidden="true">
+          <span className="rc__skeleton pw-weeks__sk-h" />
+          <span className="rc__skeleton pw-weeks__sk-row" />
+        </div>
+        <StudyDayRule />
+      </section>
+    );
+  }
   const streak = rhythm.weeksMetStreak;
   const shown = picked != null ? marks[picked] : null;
   return (
@@ -192,9 +204,13 @@ export function FinishedWeeks({ rhythm }) {
           </>
         ) : <p className="rc-chip">Finished weeks line up here, one mark a week.</p>}
       </div>
-      <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
+      <StudyDayRule />
     </section>
   );
+}
+
+function StudyDayRule() {
+  return <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>;
 }
 
 /**
@@ -301,7 +317,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
         <span className="pw__streak pw__streak--none" aria-hidden="true" />
         <div className="pw__week" aria-hidden="true">
           <span className="rc__skeleton pw__sk-goal" />
-          <span className="pw__days">{Array.from({ length: 7 }, (_, i) => <span key={i} className="pw__day"><DayMark look="none" /></span>)}</span>
+          <span className="pw__days">{Array.from({ length: 7 }, (_, i) => <span key={i} className="pw__day"><DayMark look="none" /><span className="pw__name">&nbsp;</span></span>)}</span>
           <span className="rc__skeleton pw__sk-line" />
         </div>
         {between ? <div className="pw__next">{between}</div> : null}

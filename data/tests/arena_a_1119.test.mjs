@@ -4,7 +4,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { finishedWeeks, recordFigures, weekGoal, weekMarks, MIN_ANSWERS_FOR_SHARE } from '../../src/components/recovery/progressWeek.mjs';
-import { gapLine, heroFigures, ladderRows, ordinal } from '../../src/app/(app)/leaderboard/standingModel.mjs';
+import { gapLine, heroFigures, ladderRows, ordinal, placeAbove, placeAboveWords } from '../../src/app/(app)/leaderboard/standingModel.mjs';
+import { standingFor } from '../../src/lib/server/standing.js';
 import { repairBar } from '../../src/components/review/repairBar.mjs';
 import { covers, coversLine, linePrice, COVER_THINGS } from '../../src/app/(app)/wallet/walletCovers.mjs';
 import { buildRibbon, buildWeek } from '../../src/lib/rhythmView.js';
@@ -89,20 +90,22 @@ test('the ladder: ten places, a gap row with the places between, then your row w
   assert.deepEqual(rows[10], { kind: 'gap', places: 52, text: '52 more places' });
   assert.equal(rows[11].you, true);
   assert.equal(rows[11].place, 63);
-  assert.equal(rows[11].gap, '14 points to 62nd');
+  // 19 Nov review: the total above you (758) is not on the ladder, so its place cannot be proved (equal totals share a
+  // place, so it is not always 62nd): the row says the gap without a place number.
+  assert.equal(rows[11].gap, '14 points to the next place up');
   assert.equal(rows[0].share, 1, 'one scale: the largest total shown is the full bar');
   assert.ok(Math.abs(rows[11].share - 744 / 1400) < 1e-9);
   assert.equal(rows.filter((r) => r.you).length, 1);
-  assert.equal(gapLine({ rank: 2, toNext: 1 }), '1 point to 1st');
+  assert.equal(gapLine({ rank: 2, toNext: 1 }), '1 point to 1st', 'at 2nd the place above can only be 1st');
   assert.equal(ordinal(112), '112th');
 });
 
 test('the ladder: rank inside the ten marks that row, with no gap row; rank 11 has no gap row either', () => {
-  const inside = ladderRows({ ...below, rank: 4, points: ten[3].points, toNext: 25 });
+  const inside = ladderRows({ ...below, rank: 4, points: ten[3].points, tests: ten[3].mocks, toNext: 25 });
   assert.equal(inside.length, 10);
   assert.equal(inside.findIndex((r) => r.you), 3);
   assert.equal(inside[3].gap, '25 points to 3rd');
-  const first = ladderRows({ ...below, rank: 1, points: ten[0].points, toNext: 0 });
+  const first = ladderRows({ ...below, rank: 1, points: ten[0].points, tests: ten[0].mocks, toNext: 0 });
   assert.equal(first[0].you, true);
   assert.equal(first[0].gap, null, 'first place has no place above');
   const eleventh = ladderRows({ ...below, rank: 11, points: 1100, toNext: 75 });
@@ -123,6 +126,73 @@ test('the ladder: a small board (one student, or under 20) has none, and the her
   assert.deepEqual(onLadder.figs.map((f) => f.key), ['average'], 'points and mocks are on your row, not said twice');
   assert.equal(onLadder.next, null, 'the gap is written on your row');
   assert.equal(ladderRows({ ...below, points: null }).some((r) => r.you), false, 'unknown points: no made-up row');
+});
+
+// 19 Nov 2026 review: equal totals share a place (competition ranking, src/lib/server/standing.js), so "rank minus 1" can
+// name a place nobody holds, and a level student's row in the ten can carry their mock count as yours.
+test('ties: the place above is named only when the ladder proves it, never as rank minus 1', () => {
+  // Totals 1400, 1375, 1375, 1350, ...: places 1, 2, 2, 4. You hold 4th; the next total up is shared by two at 2nd.
+  const tied = [{ place: 1, points: 1400, mocks: 16 }, { place: 2, points: 1375, mocks: 15 }, { place: 2, points: 1375, mocks: 14 },
+    ...Array.from({ length: 7 }, (_, i) => ({ place: i + 4, points: 1350 - i * 25, mocks: 13 }))];
+  const you4 = { rank: 4, of: 213, tests: 13, average: 104, points: 1350, toNext: 25, top: 2, ladder: tied };
+  assert.equal(placeAbove(you4), 2);
+  const rows = ladderRows(you4);
+  assert.equal(rows.find((r) => r.you).gap, '25 points to 2nd', 'not "to 3rd": nobody holds 3rd');
+  assert.equal(placeAboveWords(you4), '2nd place');
+  // Below the ten, the next total up is not on the ladder: no place number at all.
+  const far = { ...you4, rank: 63, points: 744, toNext: 14, tests: 12 };
+  assert.equal(placeAbove(far), null);
+  assert.equal(placeAboveWords(far), 'the next place up');
+  assert.equal(placeAboveWords({ rank: 3, points: 50, toNext: 50, ladder: null }), 'the next place up', 'a small board has no ladder to prove it');
+  assert.equal(placeAboveWords({ rank: 2, points: 50, toNext: 5, ladder: null }), '1st place');
+});
+
+test('ties in the ten: your row is the one with your total and your mocks; level with the 10th but listed after: your own row follows', () => {
+  const tied = [...ten.slice(0, 3), { place: 4, points: 1325, mocks: 9 }, { place: 4, points: 1325, mocks: 12 }, ...ten.slice(5)];
+  const mine = ladderRows({ ...below, ladder: tied, rank: 4, points: 1325, tests: 12, toNext: 25 });
+  assert.equal(mine.length, 10);
+  assert.equal(mine.findIndex((r) => r.you), 4, 'the row with your 12 mocks, not the level student with 9');
+  assert.equal(mine.find((r) => r.you).mocks, 12);
+  // Ten rows end with a 10th-place total of 1175; you have 1175 too but were listed 11th: your row follows, no gap row.
+  const level = ladderRows({ ...below, rank: 10, points: ten[9].points, tests: 3, toNext: 25 });
+  assert.equal(level.length, 11);
+  assert.equal(level.filter((r) => r.you).length, 1);
+  assert.deepEqual([level[10].place, level[10].mocks, level[10].you], [10, 3, true]);
+  assert.equal(level.some((r) => r.kind === 'gap'), false);
+});
+
+test('ties, end to end through the server reducer: every board names a true place or none, your row carries your own mocks', () => {
+  // Deterministic boards of 20 to 80 students with many level totals (totals are multiples of 50).
+  let seed = 7;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  for (let b = 0; b < 40; b += 1) {
+    const size = 20 + Math.floor(rnd() * 60);
+    const board = Array.from({ length: size }, (_, i) => ({ userId: `u${i}`, tests: 1 + Math.floor(rnd() * 20), totalScore: 50 * Math.floor(rnd() * 12) }));
+    for (const me of board) {
+      const body = standingFor(board, me.userId);
+      const s = { ...body.you, toNext: body.board.toNext, top: body.board.top, ladder: body.board.ladder };
+      const rows = ladderRows(s);
+      const you = rows.filter((r) => r.you);
+      assert.equal(you.length, 1);
+      assert.equal(you[0].mocks, me.tests, 'your row never prints a level student’s mocks');
+      assert.equal(you[0].points, me.totalScore);
+      if (s.rank > 1) {
+        const truePlace = 1 + board.filter((r) => r.totalScore > me.totalScore + s.toNext).length;
+        const named = placeAbove(s);
+        if (named !== null) assert.equal(named, truePlace, `board ${b}, ${me.userId}`);
+        const line = gapLine(s);
+        assert.ok(line.endsWith(named ? ordinal(truePlace) : 'the next place up'), line);
+      }
+      const gapRow = rows.find((r) => r.kind === 'gap');
+      if (gapRow) assert.equal(gapRow.places, s.rank - 1 - 10, 'the gap row counts the students between the ten and you');
+    }
+  }
+});
+
+test('the page says the place above through the model, never as rank minus 1', () => {
+  const lb = read('src/app/(app)/leaderboard/LeaderboardPageClient.jsx');
+  assert.match(lb, /and you share \{placeAboveWords\(standing\)\}\./);
+  assert.doesNotMatch(lb, /rank - 1/);
 });
 
 // ---------- Your papers ----------
@@ -158,6 +228,27 @@ test('what the balance covers: floor of balance over price; hidden for Included,
   assert.equal(linePrice('question', prices, true), null, 'Pro practice is Included: no count');
   assert.equal(linePrice('mock', prices, false), 50);
   assert.deepEqual(Object.keys(COVER_THINGS), ['reply', 'repair', 'question', 'mock']);
+});
+
+// 19 Nov 2026 review: practice questions are bought in sets of 5, 10, 15 or 20, so a balance of 37 covers 35 of them
+// (creditCopy quickQuestionsFor, as the credits modal says), never 37.
+test('what the balance covers in practice questions is whole sets, never a question the sets cannot sell', () => {
+  assert.equal(coversLine('question', 37, 1), 'covers 35 practice questions');
+  assert.equal(coversLine('question', 108, 1), 'covers 105 practice questions');
+  assert.equal(coversLine('question', 4, 1), 'covers 0 practice questions', 'under one set: a known 0, not hidden');
+  assert.equal(coversLine('question', 40, 1), 'covers 40 practice questions');
+  assert.equal(coversLine('question', null, 1), null);
+  assert.equal(coversLine('question', 37, null), null, 'Pro: Included, no count');
+  assert.equal(coversLine('reply', 37, 1), 'covers 37 written answers', 'one written answer is one credit: no sets');
+  const wl = read('src/app/(app)/wallet/WalletPageClient.jsx');
+  assert.match(wl, /reply: MOBI_JOB_CREDITS/, 'the written answer price is the product constant, not a typed 1');
+});
+
+// 19 Nov 2026 review: Progress draws the streak's Mobi and number, so the top bar chip steps aside there, as on Today and You.
+test('the streak number is said once on Progress: the top bar chip steps aside there', () => {
+  const chip = read('src/components/streak/StreakChip.jsx');
+  assert.match(chip, /PAGES_WITH_STREAK = \[[^\]]*'\/progress'[^\]]*\]/);
+  assert.match(read('src/components/RhythmCard.jsx'), /<StreakMobi lit=\{lit\}/);
 });
 
 // ---------- The pages use the models ----------

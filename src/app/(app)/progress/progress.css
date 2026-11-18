@@ -153,10 +153,11 @@ html[data-theme='light'] .app-shell .student-page--progress .pw .stk-bubble[data
 .app-shell .student-page--progress .pw__next { min-width: 0; }
 .app-shell .student-page--progress .pw__next > * { margin: 0; }
 .app-shell .student-page--progress .pw--wait .pw__sk-goal { width: 180px; height: 34px; border-radius: 10px; }
-.app-shell .student-page--progress .pw--wait .pw__sk-line { width: min(100%, 320px); height: 18px; border-radius: 8px; }
+.app-shell .student-page--progress .pw--wait .pw__sk-line { width: min(100%, 320px); height: 22px; border-radius: 8px; }
 .app-shell .student-page--progress .pw--wait .pw__days { display: grid; }
 .app-shell .student-page--progress .pw--wait .stk-bubble { animation: none; opacity: 0.6; }
-.app-shell .student-page--progress .pw--wait .pw__streak--none { width: 180px; height: 56px; border-radius: 16px; background: var(--a-sunken); }
+.app-shell .student-page--progress .pw--wait .pw__streak--none { width: 180px; height: 64px; border-radius: 16px; background: var(--a-sunken); }
+@media (min-width: 640px) { .app-shell .student-page--progress .pw--wait .pw__streak--none { width: 120px; height: 128px; } }
 @keyframes pw-land { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
 @media (max-width: 379px) {
   .app-shell .student-page--progress .pw .stk-bubble { width: 40px; height: 40px; }
@@ -190,6 +191,10 @@ html[data-theme='light'] .app-shell .student-page--progress .pw-mark[data-kind='
 @media (hover: hover) and (pointer: fine) { .app-shell .student-page--progress .pw-mark:not([data-kind='met']):hover { border-color: var(--a-ink-3); } }
 .app-shell .student-page--progress .pw-mark__date { font-size: 11.5px; font-weight: 600; line-height: 1; color: var(--a-ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .app-shell .student-page--progress .pw-weeks__said { min-height: 40px; }
+/* While the week loads: the heading, the row of marks with its dates and the line under it, at their real heights. */
+.app-shell .student-page--progress .pw-weeks--wait .rc-block { display: grid; gap: 14px; }
+.app-shell .student-page--progress .pw-weeks__sk-h { width: min(100%, 280px); height: 22px; border-radius: 8px; }
+.app-shell .student-page--progress .pw-weeks__sk-row { width: min(100%, 420px); height: 120px; border-radius: 14px; }
 .app-shell .student-page--progress .pw-weeks .rc__foot { margin-top: 2px; }
 
 /* Your record so far: a ledger of four figures, the label and what it is out of on the left, the numeral right-aligned. */
@@ -234,6 +239,8 @@ html[data-theme='light'] .app-shell .student-page--progress .pw-mark[data-kind='
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__streak .stk-mobi { width: 72px; height: 72px; }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count { flex-direction: column; gap: 4px; }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count b { font-size: 56px; }
+  /* While the week loads, the streak's place is as tall as Mobi over the number (19 Nov review: the band grew 48 px on arrival). */
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw--wait .pw__streak--none { width: 120px; height: 176px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .app-shell .student-page--progress .pw__day .stk-bubble { animation: pw-fade 120ms ease both; }

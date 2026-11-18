@@ -2,6 +2,7 @@
 // desk object (the ones the pricing tiles use), its price, and how many of it the current balance covers: the balance over
 // the listed price, rounded down. Pure. Hidden when the price is not a number of credits (Included on Pro) or is 0, or when
 // the balance is unknown. A known balance of 0 covers 0: zero is said, never hidden as unknown.
+import { quickQuestionsFor } from '../../../lib/creditCopy.mjs';
 
 /** The desk object and the plural noun for each priced line (walletModel priceRows keys). */
 export const COVER_THINGS = Object.freeze({
@@ -18,9 +19,13 @@ export function covers(balance, price) {
   return Math.floor(Number(balance) / Number(price));
 }
 
-/** "covers 108 written answers", or null. */
+/**
+ * "covers 108 written answers", or null. Practice questions come in sets of 5, 10, 15 or 20 (data/test_modes.js), so the
+ * balance covers whole sets: 37 credits cover 35 questions, never 37 (creditCopy quickQuestionsFor, as the credits modal says).
+ */
 export function coversLine(key, balance, price) {
-  const n = covers(balance, price);
+  let n = covers(balance, price);
+  if (n !== null && key === 'question') n = quickQuestionsFor(balance);
   const thing = COVER_THINGS[key];
   if (n === null || !thing) return null;
   return `covers ${n.toLocaleString('en-IN')} ${n === 1 ? thing.one : thing.noun}`;

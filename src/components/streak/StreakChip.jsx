@@ -11,8 +11,9 @@ import { openStreakSheet, useStreak } from './useStreak';
 import { StreakMobi } from './Streak';
 import './streak.css';
 
-/** Where the page shows the streak itself (the chip would repeat it). */
-export const PAGES_WITH_STREAK = ['/today', '/profile', '/mob'];
+/** Where the page shows the streak itself (the chip would repeat it). Progress leads with the streak's Mobi and number
+ *  beside this week's bubbles (19 Nov 2026, RhythmCard WeekStreak). */
+export const PAGES_WITH_STREAK = ['/today', '/profile', '/mob', '/progress'];
 export const chipHiddenOn = (path) => PAGES_WITH_STREAK.some((p) => path === p || String(path || '').startsWith(`${p}/`));
 
 /** The chip shows from this width up (17 Nov review): under it the bar keeps Ask Mobi whole and the streak lives on Today and You. */
