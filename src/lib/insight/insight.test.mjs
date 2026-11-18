@@ -9,6 +9,8 @@ import { isTopSubject } from '../../../data/canonical_syllabus.js';
 import { TEST_MODES } from '../../../data/test_modes.js';
 import { NEXT_MOVE_RULES } from '../../../data/result_next_move.mjs';
 import { buildTimeDecisions } from '../../../data/time_decisions.js';
+import { MARKS as SESSION_MARKS } from '../../../data/session_recovery.js';
+import { MARKS_PER_CORRECT, MARKS_PER_WRONG } from '../server/attemptSummary.js';
 import { buildChapters, chapterLosses } from './chapters.mjs';
 import { buildPace, paperMedian, PACE_ROWS } from './pace.mjs';
 import { changesOf, marksSplit } from './marks.mjs';
@@ -242,6 +244,37 @@ test('the marks split sums to every mark not earned: 5 x questions - (5 x right 
   assert.deepEqual([split.wrong.count, split.wrong.marks, split.blank.count, split.blank.marks], [8, 48, 3, 15]);
   assert.equal(marksSplit({ papers: 0, wrong: 0, blank: 0 }), null, 'fewer than one paper: no block');
   assert.deepEqual(marksSplit({ papers: 2, wrong: 0, blank: 0 }), { papers: 2, wrong: { count: 0, marks: 0 }, blank: { count: 0, marks: 0 }, total: 0 });
+});
+
+// Review (18 Nov 2026): the split's arithmetic is the product's scoring, for every kind of paper a student can sit. Every paper
+// is scored by the one server scorer (data/recovery.js scoreSession: Quick, Smart, Full, NTA, Mob papers and Sunday Mock go
+// through practice sessions, repairs through server_snapshot_v1), and the older browser-scored papers used the same +5 / -1.
+test('review: the split is the server scorer\'s marks not earned for every kind of paper, and agrees with Review and the scorer\'s constants', () => {
+  assert.equal(LOST.wrong, NEXT_MOVE_RULES.gapWrong, 'a wrong answer costs what Review charges it');
+  assert.equal(LOST.blank, NEXT_MOVE_RULES.gapBlank, 'a blank costs what Review charges it');
+  assert.equal(LOST.wrong, MARKS_PER_CORRECT + MARKS_PER_WRONG, 'the server summary\'s marking');
+  assert.equal(LOST.blank, MARKS_PER_CORRECT);
+  assert.deepEqual({ ...TEST_MODES.nta.marking }, { ...SESSION_MARKS }, 'the session scorer\'s marking');
+  const kinds = [
+    ['quick', 'server_practice_v1'], ['smart', 'server_practice_v1'], ['full', 'server_practice_v1'], ['nta', 'server_practice_v1'],
+    ['quick', 'server_snapshot_v1'],
+  ];
+  const papers = kinds.map(([mode, scoring], i) => paper(`m${i}`, 'accountancy', 5 - i, [...many('Goodwill Valuation', 'r', 3 + i), ...many('Goodwill Valuation', 'w', 2 + i), ...many('Goodwill Valuation', 'b', i)], { mode, scoring }));
+  // A Mob paper is a practice session with its tag.
+  papers.push({ ...papers[0], id: 'mob', selectionMeta: { ...papers[0].selectionMeta, mobPaper: { mobId: 'm', weekStart: '2026-11-16' } } });
+  for (const p of papers) assert.equal(p.wrong * LOST.wrong + p.unattempted * LOST.blank, p.total * MARKS_PER_CORRECT - p.rawScore, p.id);
+  const sum = (k) => papers.reduce((s, p) => s + p[k], 0);
+  const split = marksSplit({ papers: papers.length, wrong: sum('wrong'), blank: sum('unattempted') });
+  assert.equal(split.total, papers.reduce((s, p) => s + (p.total * MARKS_PER_CORRECT - p.rawScore), 0), 'sums exactly to the marks the papers did not earn');
+});
+
+test('review: a question with no marked answer on record is unknown, never charged as a blank', () => {
+  const p = paper('nd', 'accountancy', 1, [...many('Goodwill Valuation', 'w', 2), ...many('Admission of Partner', 'r', 2)]);
+  const lost = chapterLosses([{ ...p, details: p.details.slice(0, 1) }], resolveChapter);
+  const goodwill = lost.get(resolveChapter('accountancy', 'Goodwill Valuation').key);
+  assert.deepEqual([goodwill.wrong, goodwill.blank, goodwill.lost, goodwill.papers], [1, 0, LOST.wrong, 1]);
+  assert.equal(lost.get(resolveChapter('accountancy', 'Admission of Partner').key), undefined, 'no answer on record: the paper did not price it');
+  assert.equal(chapterLosses([{ ...p, details: [] }], resolveChapter).size, 0);
 });
 
 test('changed answers come only from papers with a matched device record, both directions counted', () => {

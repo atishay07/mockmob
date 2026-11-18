@@ -86,6 +86,10 @@ export default function AnalyticsPageClient() {
   const insight = data?.insight || { state: 'error' };
   const { timeline = [], subjects = [], totalAttempts = 0, totals = { correct: 0, wrong: 0, unattempted: 0 } } = data || {};
   const totalQ = totals.correct + totals.wrong + totals.unattempted;
+  // Your pace is Pro's (the server sends Free no pace rows). Free is told so once, by the record's own "Changed answers and
+  // pace" row (RecordView oneLock), so the block is not drawn for Free at all: no second Pro row, and no waiting shape that
+  // would vanish when the answer lands. The server's plan wins when it says Pro.
+  const showPace = pro || insight.plan === 'pro';
 
   const across = rules.state === 'ready' && rules.data?.acrossMocks ? (
     <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={<>
@@ -117,7 +121,7 @@ export default function AnalyticsPageClient() {
   const main = (
     <>
       <YourChapters status={status} map={insight.chapters} onRetry={retry} />
-      <YourPace status={status} pace={insight.pace} papers={totalAttempts} onRetry={retry} />
+      {showPace ? <YourPace status={status} pace={insight.pace} onRetry={retry} /> : null}
       <WhereMarksGo status={status} marks={insight.marks} onRetry={retry} />
       {status === 'loading' ? (
         <section className="rd-card" aria-labelledby="rd-subj" aria-busy="true">

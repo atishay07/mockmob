@@ -6,7 +6,8 @@
 //   ?data=sparse  one 10-question paper with a few answers
 //   ?data=empty   no paper: each block's quiet form
 //   ?data=error | loading   handled by the preview's account-read switch (every read fails or waits)
-// &plan=pro shows the pace rows and the changed-answer line; Free gets the Pro line, as the server answers Free.
+// &plan=pro shows the pace rows and the changed-answer line; Free gets neither (the server sends Free no pace rows and the
+// page leaves Your pace out, the record's own Pro row saying it once).
 import { previewAttempt } from './previewRecord';
 import { computePrepOSInsights, readout } from '@/../data/prepos_insights';
 import { buildInsight } from '@/lib/insight/build.mjs';

@@ -225,6 +225,20 @@ test('the account unread: the map is a failed read with its retry, never an empt
   assert.equal(body.timeline.length, 2);
 });
 
+// Review (18 Nov 2026): Free saw two Pro rows about pace (Your pace's own lock and the record's "Changed answers and pace").
+// The record's row stays; Your pace is drawn for Pro only, so Free never gets a second Pro row or a waiting shape that vanishes.
+test('review: Free is told pace is Pro once, by the record\'s own row; Your pace is drawn for Pro only', () => {
+  const page = read('src/app/(app)/analytics/AnalyticsPageClient.jsx');
+  assert.match(page, /const showPace = pro \|\| insight\.plan === 'pro';/);
+  assert.match(page, /\{showPace \? <YourPace\b/);
+  assert.match(page, /<RecordView[^>]*\boneLock\b/, 'the record keeps its one Pro row for changed answers and pace');
+  const pace = read('src/app/(app)/analytics/YourPace.jsx');
+  const code = pace.split('\n').filter((l) => !/^\s*(\/\/|\*|\/\*\*)/.test(l)).join('\n');
+  assert.doesNotMatch(code, /ProLock|part of Pro|locked:/, 'no second Pro row in Your pace');
+  assert.match(pace, /pace\?\.state === 'locked'\) return null;/);
+  assert.match(read('src/components/ai/RecordView.jsx'), /Changed answers and pace/);
+});
+
 test('source pins: the page renders the three new blocks from GET /api/analytics, in the phone order the brief sets', () => {
   const page = read('src/app/(app)/analytics/AnalyticsPageClient.jsx');
   for (const name of ['YourChapters', 'YourPace', 'WhereMarksGo']) assert.match(page, new RegExp(`<${name}\\b`), name);

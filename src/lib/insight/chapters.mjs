@@ -19,7 +19,9 @@ const isWrong = (d) => d?.isCorrect === false && Number.isInteger(d?.givenIndex)
 
 /**
  * Marks lost per chapter key across the papers: Map(key -> { lost, wrong, blank, papers }). A wrong answer is a pick that
- * was marked wrong (Review's rule, src/lib/server/review.js); anything else not right is a blank.
+ * was marked wrong (Review's rule, src/lib/server/review.js); anything else not right is a blank. A question with no
+ * marked answer on record at all (no detail row) is unknown, not a blank: it is left out, as the route's own chapter
+ * accuracy and the record (data/prepos_insights.js) leave it out, so no mark is charged for what the record cannot show.
  */
 export function chapterLosses(papers = [], resolveChapter) {
   const out = new Map();
@@ -28,12 +30,13 @@ export function chapterLosses(papers = [], resolveChapter) {
     const asked = new Set();
     for (const q of Array.isArray(a?.questionsSnapshot) ? a.questionsSnapshot : []) {
       if (!q || typeof q.id !== 'string' || typeof q.chapter !== 'string' || !q.chapter.trim()) continue;
+      const d = details.get(q.id);
+      if (!d) continue;
       const resolved = resolveChapter(a.subject, q.chapter.trim());
       if (!resolved || resolved.retired || !resolved.key) continue;
       const row = out.get(resolved.key) || { lost: 0, wrong: 0, blank: 0, papers: 0 };
       if (!asked.has(resolved.key)) { asked.add(resolved.key); row.papers += 1; }
-      const d = details.get(q.id);
-      if (d?.isCorrect !== true) {
+      if (d.isCorrect !== true) {
         if (isWrong(d)) { row.wrong += 1; row.lost += LOST.wrong; } else { row.blank += 1; row.lost += LOST.blank; }
       }
       out.set(resolved.key, row);

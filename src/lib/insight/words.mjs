@@ -115,8 +115,7 @@ export const PACE_COPY = Object.freeze({
   title: 'Your pace',
   sub: (paceSec = CUET_PACE_SEC) => `CUET gives you ${clock(paceSec)} a question.`,
   none: 'Sit one timed mock and your pace shows here.',
-  // RecordView's own Pro sentence for pace (Free keeps one way to it here).
-  locked: 'Pace detail from your replayed sessions is part of Pro.',
+  // No Pro sentence here: Free does not get this block; the record's own "Changed answers and pace" row says it is Pro's.
 });
 
 /** The scale the pace bars share: the larger of the slowest median and CUET's pace, with room past it, in whole 15 s. */

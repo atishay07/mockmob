@@ -65,8 +65,8 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
 
 // A Pro row on Radar and the Mentor record (D80): a plain link to /pricing that names the 'review' trigger, so for a Free
 // student the shell's ProNudgeHost opens the Upgrade sheet on full chapter review instead of leaving the page. Without the
-// host (signed out, or a new tab) it is still an ordinary link to /pricing. Marks trend's Your pace uses the same row.
-export function ProLock({ what }) {
+// host (signed out, or a new tab) it is still an ordinary link to /pricing.
+function ProLock({ what }) {
   return (
     <div className="pp-lock">
       <p>{what}</p>
