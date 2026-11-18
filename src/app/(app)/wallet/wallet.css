@@ -68,22 +68,32 @@
   .app-shell .wl-hero__num { font-size: 50px; }
 }
 
-/* ---- what credits buy: a price list, five cells across on a wide screen ------------------------------------------------- */
+/* ---- what credits buy, as things (19 Nov 2026, lane arena-a) -----------------------------------------------------------
+   Each priced thing is its desk object (the pricing tiles' own), its price set large, and how many of it the balance covers
+   (walletCovers.mjs). Two by two on a phone and in the desk's left column, four across on a tablet; hairlines, no boxes. */
 .app-shell .wl-costs { display: grid; gap: 12px; min-width: 0; }
-.app-shell .wl-costlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
-.app-shell .wl-cost { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; min-width: 0; }
-.app-shell .wl-cost + .wl-cost { border-top: 1px solid var(--a-line); }
-.app-shell .wl-cost__what { display: grid; gap: 2px; min-width: 0; }
-.app-shell .wl-cost__what b { font: 650 15px/1.35 var(--font-display); color: var(--a-ink); }
-.app-shell .wl-cost__what span { font-size: 13px; line-height: 1.4; color: var(--a-good-text); }
-.app-shell .wl-cost__num { flex: none; font: 800 16px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .wl-cost[data-included] .wl-cost__num { color: var(--a-good-text); }
+.app-shell .wl-buys { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--a-line); }
+.app-shell .wl-buy {
+  display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; justify-items: start; gap: 2px; min-width: 0;
+  padding: 16px 14px 18px 0; border-bottom: 1px solid var(--a-line);
+}
+.app-shell .wl-buy:nth-child(even) { padding: 16px 0 18px 14px; border-left: 1px solid var(--a-line); }
+.app-shell .wl-buy__obj { display: grid; place-items: center; width: 52px; height: 52px; margin: 0 0 10px -2px; }
+.app-shell .wl-buy__obj img { display: block; width: 52px; height: auto; max-height: 52px; object-fit: contain; }
+.app-shell .wl-buy__what { font: 650 14.5px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .wl-buy__price { margin-top: 6px; font: 800 24px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-buy[data-included] .wl-buy__price { color: var(--a-good-text); }
+.app-shell .wl-buy__covers { font-size: 13.5px; line-height: 1.35; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .wl-buy__note { margin-top: 4px; font-size: 12.5px; line-height: 1.35; color: var(--a-good-text); }
+@media (max-width: 379px) {
+  .app-shell .wl-buy { padding-right: 10px; }
+  .app-shell .wl-buy:nth-child(even) { padding-left: 10px; }
+  .app-shell .wl-buy__price { font-size: 21px; }
+}
 @media (min-width: 900px) {
-  .app-shell .wl-costlist { grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
-  .app-shell .wl-cost { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 16px 20px 18px; }
-  .app-shell .wl-cost:first-child { padding-left: 0; }
-  .app-shell .wl-cost + .wl-cost { border-top: 0; border-left: 1px solid var(--a-line); }
-  .app-shell .wl-cost__num { font-size: 22px; letter-spacing: -0.02em; }
+  .app-shell .wl-buys { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .app-shell .wl-buy, .app-shell .wl-buy:nth-child(even) { padding: 18px 18px 20px; border-left: 1px solid var(--a-line); }
+  .app-shell .wl-buy:first-child { padding-left: 0; border-left: 0; }
 }
 
 /* ---- the packs ---------------------------------------------------------------------------------------------------------- */
@@ -211,11 +221,10 @@
   :root:not([data-mobi-form='dock']) .app-shell .wl > .wl-main { display: grid; gap: 36px; min-width: 0; grid-column: 2; align-content: start; }
   :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-hero { padding: 24px 24px 22px; }
 
-  /* What credits buy, in the left column: the price list's rows (the phone's form), not four cells of 80 px. */
-  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-costlist { grid-template-columns: minmax(0, 1fr); border-block: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost + .wl-cost { border-left: 0; border-top: 1px solid var(--a-line); }
-  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-cost__num { font-size: 16px; letter-spacing: 0; }
+  /* What credits buy, in the left column: two by two, as on a phone. */
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-buys { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-buy { padding: 16px 14px 18px 0; border-left: 0; }
+  :root:not([data-mobi-form='dock']) .app-shell .wl-side .wl-buy:nth-child(even) { padding: 16px 0 18px 14px; border-left: 1px solid var(--a-line); }
 
   /* The packs, in the right column: one row each (the phone's form), so the three compare down one edge: the size and what it
      comes to on the left, the price on the right, the key under both when top-ups are open. */

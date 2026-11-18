@@ -260,8 +260,41 @@
 :root[data-motion='reduced'] .app-shell .rvw .rv8-pp[aria-current='true'] { animation: none; background: var(--a-volt-wash); }
 .app-shell .rv8-stats [data-zero] .rv8-stats__fig { color: var(--a-ink-3); }
 
-.app-shell .rv8-repair-queue { display: grid; gap: 8px; padding: 14px 16px; background: var(--a-raised); border: 1px solid var(--a-line-strong); border-radius: 14px; }
-.app-shell .rv8-repair-queue h2 { margin: 0; color: var(--a-ink); font: 750 18px/1.15 var(--font-display); }
-.app-shell .rv8-repair-queue p { margin: 0; color: var(--a-ink-2); font-size: 13px; font-variant-numeric: tabular-nums; }
-.app-shell .rv8-repair-track { height: 10px; border-radius: 3px; background: var(--a-sunken); box-shadow: 0 0 0 1px var(--a-line) inset; overflow: hidden; }
-.app-shell .rv8-repair-track i { display: block; height: 100%; width: calc(100% * var(--rv8-repaired)); background: var(--a-good-text); }
+/* ---------- 19 Nov 2026 (lane arena-a): one line of work left ----------
+   Papers sat and the latest marks stand as two figures; beside them (under them below 700 px) "To repair" and "Repaired" are
+   the two ends of ONE bar, with their figures on it (repairBar.mjs). No number is said twice. The open part is the mistake's
+   wash, the repaired part grows in from its own end once (320 ms ease-out); reduced motion shows it still. */
+.app-shell .rvw .rv8-sum {
+  display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 0 28px; align-items: start;
+  margin-top: 14px; padding-block: 20px; border-block: 1px solid var(--a-line);
+}
+.app-shell .rv8-sum .rv8-stats__row { grid-template-columns: repeat(2, minmax(0, 1fr)); border: 0; }
+.app-shell .rv8-sum .rv8-stats__row > div { padding: 0 12px 0 16px; border-top: 0; }
+.app-shell .rv8-sum .rv8-stats__row > div:first-child { padding-left: 0; }
+.app-shell .rv8-sum .rv8-stats__fig { font-size: 40px; letter-spacing: -0.035em; }
+.app-shell .rv8-line { display: grid; align-content: start; gap: 10px; min-width: 0; padding-left: 28px; border-left: 1px solid var(--a-line); }
+.app-shell .rv8-line__h { margin: 0; font: 600 12.5px/1.25 var(--font-body); color: var(--a-ink-3); }
+.app-shell .rv8-line__ends { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.app-shell .rv8-line__ends p { display: flex; align-items: baseline; gap: 7px; margin: 0; font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+.app-shell .rv8-line__n { font: 760 40px/1 var(--font-display); letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+.app-shell .rv8-line [data-k='open'] .rv8-line__n { color: var(--a-bad-text); }
+.app-shell .rv8-line [data-k='repaired'] .rv8-line__n { color: var(--a-good-text); }
+.app-shell .rv8-line [data-zero] .rv8-line__n { color: var(--a-ink-3); }
+.app-shell .rv8-line__track { position: relative; display: block; height: 16px; border-radius: 8px; background: var(--a-bad-wash); box-shadow: inset 0 0 0 1px var(--a-line); overflow: hidden; }
+.app-shell .rv8-line__track i {
+  position: absolute; inset: 0 0 0 auto; width: calc(100% * var(--rv8-repaired)); border-radius: inherit; background: var(--a-good-text);
+  transform-origin: 100% 50%; animation: rv8-line-in 320ms cubic-bezier(0.23, 1, 0.32, 1) 120ms both;
+}
+.app-shell .rv8-line__notes { display: flex; justify-content: space-between; gap: 16px; font: 500 13px/1.4 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.app-shell .rv8-line__notes span:last-child:not(:first-child) { text-align: right; }
+.app-shell .rv8-line__none { margin: 0; font: 600 15px/1.45 var(--font-body); color: var(--a-ink-2); }
+@keyframes rv8-line-in { from { transform: scaleX(0); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .rv8-line__track i { animation: none; } }
+:root[data-motion='reduced'] .app-shell .rv8-line__track i { animation: none; }
+@container rvw (max-width: 699px) {
+  .app-shell .rvw .rv8-sum { grid-template-columns: minmax(0, 1fr); gap: 18px 0; padding-block: 16px 18px; }
+  .app-shell .rv8-line { padding: 16px 0 0; border-left: 0; border-top: 1px solid var(--a-line); }
+}
+@container rvw (max-width: 379px) {
+  .app-shell .rv8-sum .rv8-stats__fig, .app-shell .rv8-line__n { font-size: 34px; }
+}

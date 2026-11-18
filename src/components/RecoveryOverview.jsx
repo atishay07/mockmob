@@ -12,7 +12,8 @@ import { ErrorState } from './ui/Skeleton';
 import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
 import { useWaitStage } from '@/lib/mobiHooks';
 import StudyProgress from './study/StudyProgress';
-import RhythmCard from './RhythmCard';
+import RhythmCard, { FinishedWeeks } from './RhythmCard';
+import { recordFigures } from './recovery/progressWeek.mjs';
 import ReviewPage from './review/ReviewPage';
 import StudyBadges from './StudyBadges';
 import { MobTodayCard } from './mob/MobTodayCard';
@@ -52,15 +53,15 @@ const when = (ts) => {
 // F17: a wrong answer that already holds a saved repair is done work, so it is not "to review" again.
 const openOf = (a) => Math.max(0, (a.mistakes || 0) - (a.repaired || 0));
 
-/** Four ruled figures. Every figure carries what it is out of, so none stands alone. They rise in order, 45 ms apart
- * (mk-stagger, owner G31): the lit build's stat strip entrance. */
+/** Your record as one row of four figures (19 Nov 2026, lane arena-a): each says what it is out of, numerals right-aligned and
+ * tabular, hairlines between, no boxes (progressWeek.mjs recordFigures). They rise in order, 45 ms apart (mk-stagger). */
 function Figures({ label, items }) {
   return (
-    <dl className="rv-figs mk-stagger" aria-label={label} data-n={items.length}>
+    <dl className="rv-figs pw-record mk-stagger" aria-label={label} data-n={items.length}>
       {items.map((item) => (
         <div key={item.label}>
           <dt>{item.label}</dt>
-          <dd>{item.value}<small>{item.note}</small>
+          <dd><b>{item.value}</b><small>{item.note}</small>
             {item.share != null ? <span className="rv-right-track" aria-hidden="true"><i style={{ '--rv-right-share': item.share }} /></span> : null}
           </dd>
         </div>
@@ -89,9 +90,6 @@ function ProgressOverview({ view }) {
   const toReview = review.reduce((s, a) => s + openOf(a), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
-  const rightFigure = answered
-    ? { value: `${Math.round((correct / answered) * 100)}%`, note: `${correct} of ${answered} answers`, share: Math.max(0, Math.min(1, correct / answered)) }
-    : { value: 'None yet', note: 'No answers recorded' };
   // "Your first session is on the record." is true only while there is one. With more saved, the same
   // line points at the newest instead, so it never argues with Mobi's count above it.
   const newest = review[0] || null;
@@ -124,22 +122,19 @@ function ProgressOverview({ view }) {
   return (
     <section className="pr ov rv rv--progress"><OneMobi>
       <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions and checks show." />
-      <div className="pr-side" ref={observeSideHeight}>
       {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
       {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
+      {/* The week you are in, first (19 Nov 2026, lane arena-a): across the page on a desk, at the top on a phone. */}
       {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} onLoad={setRhythm} between={<LearningNextAction compact onError={partFail} />} /> : null}
+      <div className="pr-side" ref={observeSideHeight}>
+      {!partFailed && !error ? <FinishedWeeks rhythm={rhythm} /> : null}
       {/* The Mob card moved here from Today (TODAY-1017 section 7); only while MOB_ENABLED is on and you are in a Mob. */}
       <ProgressMob />
       {status}
       {data ? (
         <section className="rv-sec" aria-labelledby="ov-record">
           <div className="rv-sec__head"><h2 id="ov-record">Your record so far</h2><span>From your saved sessions and results</span></div>
-          {review.length > 0 || data.progress.length > 0 || data.playbook.length > 0 ? <Figures label="Progress summary" items={[
-            { label: 'Practice sessions', value: review.length, note: `${answered} questions answered` },
-            { label: 'Answered right', ...rightFigure },
-            { label: 'Concept checks', value: data.progress.length, note: data.progress.length ? 'with delayed checks' : 'None completed yet' },
-            { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
-          ]} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
+          {review.length > 0 || data.progress.length > 0 || data.playbook.length > 0 ? <Figures label="Progress summary" items={recordFigures({ sessions: review.length, answered, correct, checks: data.progress.length, playbook: data.playbook.length })} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
           {review.length > 0 ? (
             <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Your papers` : 'Nothing left to look at in Your papers'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Your papers</Link></span></p>
           ) : null}

@@ -36,6 +36,7 @@ import { ChapterKeycardsLink } from '@/components/keycards/KeycardsLinks';
 import MobEntry from '@/components/mob/MobEntry';
 import { useAuth } from '@/components/AuthProvider';
 import { useRailCue } from '@/components/start/railCue';
+import { repairBar } from './repairBar.mjs';
 import { firstOpen, paperCountsOf, pendingIn, repairedClause, scopeOf, statsOf, subjectLabel, subjectsOf } from './reviewScope.mjs';
 import './review-1018.css';
 
@@ -368,10 +369,31 @@ function Roll({ value, from = value }) {
   return <>{shown}</>;
 }
 
+/** One line of work left (19 Nov 2026, lane arena-a): "To repair" and "Repaired" are the two ends of ONE bar, with their figures
+ *  on it (repairBar.mjs). Nothing found yet: no bar, the line that says why. */
+function RepairLine({ stats, from }) {
+  const bar = repairBar(stats);
+  return (
+    <div className="rv8-line" data-empty={bar.total ? undefined : ''} role="group" aria-labelledby="rv8-line-h">
+      <h2 className="rv8-line__h" id="rv8-line-h">Mistake repairs</h2>
+      {bar.total ? (
+        <>
+          <div className="rv8-line__ends">
+            <p data-k="open" data-zero={bar.open ? undefined : ''}><b className="rv8-line__n"><Roll value={bar.open} from={from('toRepair')} /></b> to repair</p>
+            <p data-k="repaired" data-zero={bar.repaired ? undefined : ''}><b className="rv8-line__n"><Roll value={bar.repaired} from={from('repaired')} /></b> repaired</p>
+          </div>
+          <span className="rv8-line__track" aria-hidden="true"><i style={{ '--rv8-repaired': bar.share }} /></span>
+          <div className="rv8-line__notes"><span>{bar.openNote}</span>{bar.repairedNote ? <span>{bar.repairedNote}</span> : null}</div>
+        </>
+      ) : <p className="rv8-line__none">{bar.openNote}</p>}
+    </div>
+  );
+}
+
 function StatsStrip({ stats, seen, scopeName }) {
   const from = (k) => (seen && Number.isFinite(seen[k]) ? seen[k] : undefined);
   return (
-    <section className="rv8-stats" aria-label={scopeName ? `Your record in ${scopeName}` : 'Your record'}>
+    <section className="rv8-stats rv8-sum" aria-label={scopeName ? `Your record in ${scopeName}` : 'Your record'}>
       {/* The figures rise in order, 45 ms apart (mk-stagger, owner G31): the lit build's stat strip entrance. */}
       <dl className="rv8-stats__row mk-stagger">
         <div data-k="papers">
@@ -386,15 +408,8 @@ function StatsStrip({ stats, seen, scopeName }) {
             {stats.trend ? <span className="rv8-stats__trend" data-dir={stats.trend.dir}>{stats.trend.text}</span> : null}
           </dd>
         </div>
-        <div data-k="open" data-zero={stats.toRepair ? undefined : ''}>
-          <dt>To repair</dt>
-          <dd><b className="rv8-stats__fig"><Roll value={stats.toRepair} from={from('toRepair')} /></b><span className="rv8-stats__note">{stats.toRepairNote}</span></dd>
-        </div>
-        <div data-k="repaired" data-zero={stats.repaired ? undefined : ''}>
-          <dt>Repaired</dt>
-          <dd><b className="rv8-stats__fig"><Roll value={stats.repaired} from={from('repaired')} /></b><span className="rv8-stats__note">{stats.repairedNote}</span></dd>
-        </div>
       </dl>
+      <RepairLine stats={stats} from={from} />
     </section>
   );
 }
@@ -510,15 +525,6 @@ export default function ReviewChapters({ body, onChanged }) {
   return (
     <>
       <h1 className="display-md rvw-title rv8-title">Your papers</h1>
-      {stats.toRepair + stats.repaired > 0 ? (
-        <section className="rv8-repair-queue" aria-labelledby="rv8-repair-queue-label">
-          <h2 id="rv8-repair-queue-label">Mistake repairs</h2>
-          <p>{stats.toRepair} open · {stats.repaired} repaired</p>
-          <span className="rv8-repair-track" aria-hidden="true">
-            <i style={{ '--rv8-repaired': stats.repaired / (stats.toRepair + stats.repaired) }} />
-          </span>
-        </section>
-      ) : null}
       <StatsStrip stats={stats} seen={subject === 'all' ? seen : null} scopeName={scopeName} />
       {subjects.length > 1 ? <SubjectFilter subjects={subjects} value={subject} total={scopeOf(body, 'all').total ?? (body.papers || []).length} onChange={pickSubject} /> : null}
       <div className="rv8-board">

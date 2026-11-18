@@ -14,6 +14,8 @@ import { ChevronDown } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import InviteFriendCard from '@/components/referrals/InviteFriendCard';
 import { CreditMark } from '@/components/ui/Glyph';
+import { BrandIcon } from '@/components/brand/BrandIcon';
+import { COVER_THINGS, coversLine, linePrice } from './walletCovers.mjs';
 import { useAuth } from '@/components/AuthProvider';
 import { apiGet } from '@/lib/fetcher';
 import { shownName } from '@/lib/displayName.mjs';
@@ -21,7 +23,7 @@ import { startWalletPurchase } from '@/lib/wallet/startWalletPurchase';
 import { announceWallet } from '@/components/useWalletSummary';
 import { observeSideHeight } from '@/lib/stickySide.mjs';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
-import { PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
+import { MOBI_JOB_CREDITS, PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
@@ -31,7 +33,9 @@ import './wallet.css';
 
 const EMPTY = { status: 'loading', data: null };
 const VISIBLE_HISTORY = 4;
-const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
+// Every price is the product's own constant (a written answer is one Mobi job, MOBI_JOB_CREDITS), never typed here: the
+// covers lines divide the balance by these.
+const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: MOBI_JOB_CREDITS, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
 
 function reducedMotion() {
   if (typeof window === 'undefined') return true;
@@ -61,6 +65,16 @@ function useCountTo(target) {
     return () => cancelAnimationFrame(raf);
   }, [target]);
   return target === null ? null : shown;
+}
+
+/** A priced thing's desk object, as the pricing tiles draw it (PricingValue TileIcon): Ask Mobi's brass desk bell, else a BrandIcon. */
+function BuyObject({ name }) {
+  if (!name) return null;
+  if (name === 'bell') {
+    // eslint-disable-next-line @next/next/no-img-element -- a 10 KB pre-sized webp, no optimizer round trip for a small mark
+    return <span className="wl-buy__obj" aria-hidden="true"><img src="/brand/mascot/ask-deskbell.webp" width={48} height={44} alt="" decoding="async" loading="lazy" draggable={false} /></span>;
+  }
+  return <BrandIcon name={name} size={48} className="wl-buy__obj" />;
 }
 
 function ActivityRows({ lines, start }) {
@@ -255,18 +269,24 @@ export default function WalletPageClient({ proOffer = null, previewCheckout = nu
             </div>
           </section>
 
+          {/* What the balance buys, as things (19 Nov 2026, lane arena-a): each priced thing is its desk object (the pricing
+              tiles' own), its price, and how many of it the balance covers (walletCovers.mjs: balance over price, rounded down;
+              left out when the price is Included or the balance unknown). */}
           <section className="wl-costs" aria-labelledby="wl-costs-h">
             <h2 className="wl-h" id="wl-costs-h">{WALLET_V13_COPY.buysTitle}</h2>
-            <ul className="wl-costlist">
-              {costs.map((row) => (
-                <li key={row.key} className="wl-cost" data-included={row.included || undefined}>
-                  <span className="wl-cost__what">
-                    <b>{row.what}</b>
-                    {row.note ? <span>{row.note}</span> : null}
-                  </span>
-                  <span className="wl-cost__num">{row.cost}</span>
-                </li>
-              ))}
+            <ul className="wl-buys">
+              {costs.map((row) => {
+                const cover = coversLine(row.key, split.total, linePrice(row.key, PRICES, isPro));
+                return (
+                  <li key={row.key} className="wl-buy" data-included={row.included || undefined}>
+                    <BuyObject name={COVER_THINGS[row.key]?.icon} />
+                    <b className="wl-buy__what">{row.what}</b>
+                    <span className="wl-buy__price">{row.cost}</span>
+                    {cover ? <span className="wl-buy__covers">{cover}</span> : null}
+                    {row.note ? <span className="wl-buy__note">{row.note}</span> : null}
+                  </li>
+                );
+              })}
             </ul>
             <p className="wl-note">{WALLET_V13_COPY.costShows}</p>
           </section>

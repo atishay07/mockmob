@@ -78,8 +78,105 @@
 @media (prefers-reduced-motion: reduce) { .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; } }
 html[data-motion='reduced'] .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; }
 
-.app-shell .lb-pace { display: grid; gap: 6px; width: 100%; max-width: 32rem; color: var(--a-ink-2); font-size: 13px; }
-.app-shell .lb-pace > div { display: flex; justify-content: space-between; gap: 8px; }
-.app-shell .lb-pace b { color: var(--a-ink); font-size: 15px; font-variant-numeric: tabular-nums; }
-.app-shell .lb-pace__track { height: 12px; border-radius: 4px; background: var(--a-sunken); box-shadow: 0 0 0 1px var(--a-line) inset; overflow: hidden; }
-.app-shell .lb-pace__track i { display: block; width: calc(100% * var(--lb-share)); height: 100%; background: var(--a-good-text); }
+/* ---------- 19 Nov 2026 (lane arena-a): a ladder with you on it ----------
+   The rank is the page's largest figure with "of n students" beside it; the top ten places and your own place are one list,
+   bars to one scale, your row ruled in ink with "You" and the points to the place above written on it. From 1100 px the
+   standing stays in view on the left and the ladder, the spread and your papers are the right column; below, one column.
+   The rest of the old paragraph is behind "How standing works", closed by default. */
+.app-shell .lb-desk { display: grid; gap: 28px; min-width: 0; }
+.app-shell .lb-board { display: grid; gap: 28px; min-width: 0; align-content: start; }
+.app-shell .lb-stand { gap: 16px; padding: 24px 0 26px; }
+.app-shell .lb-stand__place { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.app-shell .lb-stand__place b { display: inline; margin: 0; font: 800 clamp(72px, 16vw, 112px)/0.9 var(--font-display); letter-spacing: -0.045em; }
+.app-shell .lb-stand__place span { max-width: 15ch; font-size: 16px; line-height: 1.35; color: var(--a-ink-2); }
+.app-shell .lb-stand__band { display: block; font-size: 15px; color: var(--a-ink-2); }
+.app-shell .lb-stand__band b { display: inline; margin-right: 4px; font: 800 24px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .lb-stand--wait { min-height: 260px; align-content: start; }
+
+/* How standing works: a real disclosure, keyboard-reachable, closed by default. */
+.app-shell .lb-how { width: 100%; max-width: 60ch; border-top: 1px solid var(--a-line); }
+.app-shell .lb-how > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 4px 0;
+  list-style: none; cursor: pointer; font: 650 14.5px/1.3 var(--font-display); color: var(--a-ink); border-radius: 8px;
+}
+.app-shell .lb-how > summary::-webkit-details-marker { display: none; }
+.app-shell .lb-how > summary svg { flex: none; color: var(--a-ink-3); transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.app-shell .lb-how[open] > summary svg { transform: rotate(180deg); }
+.app-shell .lb-how > summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .lb-how > summary:active { opacity: 0.7; }
+@media (hover: hover) and (pointer: fine) { .app-shell .lb-how > summary:hover { color: var(--a-ink-2); } }
+.app-shell .lb-how__body { display: grid; gap: 8px; padding: 0 0 6px; }
+.app-shell .lb-how__body p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--a-ink-2); }
+
+/* The ladder: one line a place: the place, a bar to one scale, the total at its end, the mocks after it. */
+.app-shell .lb-sec { padding-bottom: 24px; }
+.app-shell .lb-sec--ladder { gap: 10px; }
+.app-shell .lb-ladder__row {
+  grid-template-columns: 48px minmax(0, 1fr) auto 64px; grid-template-areas: 'place bar pts mocks';
+  gap: 2px 12px; min-height: 44px; padding: 6px 0; animation-delay: calc(var(--i, 0) * 25ms);
+}
+.app-shell .lb-ladder__place { font: 750 16px/1 var(--font-display); letter-spacing: -0.01em; }
+.app-shell .lb-ladder__bar { height: 12px; border-radius: 6px; }
+.app-shell .lb-ladder__bar i { width: calc(100% * var(--w)); transform-origin: 0 50%; animation: lb-grow 320ms cubic-bezier(0.23, 1, 0.32, 1) calc(120ms + var(--i, 0) * 25ms) both; }
+.app-shell .lb-ladder__pts { font-size: 13px; text-align: right; color: var(--a-ink-3); }
+.app-shell .lb-ladder__pts b { font: 750 15.5px/1 var(--font-display); }
+.app-shell .lb-ladder__mocks { text-align: right; white-space: nowrap; }
+.app-shell .lb-ladder__gap {
+  display: grid; grid-template-columns: 48px minmax(0, 1fr); column-gap: 12px; align-items: center; min-height: 40px; padding: 0;
+  border-top: 1px dashed var(--a-line-strong); border-bottom: 1px dashed var(--a-line-strong);
+  font-size: 13.5px; font-weight: 600; color: var(--a-ink-2); font-variant-numeric: tabular-nums;
+}
+.app-shell .lb-ladder__gap span { grid-column: 2; }
+.app-shell .lb-ladder__gap + .lb-ladder__row { border-top: 0; }
+/* Your row: ruled in ink, "You" on it, and the points to the place above written under the bar. */
+.app-shell .lb-ladder__row[data-you] {
+  grid-template-areas: 'place bar pts mocks' 'place gapline gapline you';
+  row-gap: 8px; margin: 8px 0; padding: 12px 14px; border: 2px solid var(--a-ink); border-radius: 14px; background: var(--a-raised);
+}
+.app-shell .lb-ladder__row[data-you] + .lb-ladder__row { border-top: 0; }
+.app-shell .lb-ladder__row[data-you] .lb-ladder__place { text-decoration: none; font-size: 19px; }
+.app-shell .lb-ladder__row[data-you] .lb-ladder__bar i { background: var(--a-ink); }
+.app-shell .lb-ladder__you { justify-self: end; align-self: center; padding: 3px 9px; border-radius: 999px; background: var(--a-ink); color: var(--a-bg); font: 700 12.5px/1.2 var(--font-display); }
+.app-shell .lb-ladder__gapline { grid-area: gapline; align-self: center; font: 650 14.5px/1.35 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 420px) {
+  .app-shell .lb-ladder__row { grid-template-columns: 40px minmax(0, 1fr) auto 54px; column-gap: 8px; }
+  .app-shell .lb-ladder__gap { grid-template-columns: 40px minmax(0, 1fr); column-gap: 8px; }
+  .app-shell .lb-ladder__pts { font-size: 0; }
+  .app-shell .lb-ladder__pts b { font-size: 15px; }
+  .app-shell .lb-ladder__row[data-you] { margin-inline: -10px; padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .lb .lb-how > summary svg { transition: none; } }
+html[data-motion='reduced'] .app-shell .lb .lb-how > summary svg { transition: none; }
+
+/* Your row is boxed on its own, so its place may take the room it needs ("63rd", "8,123rd"). */
+.app-shell .lb-ladder__row[data-you] { grid-template-columns: minmax(40px, max-content) minmax(0, 1fr) auto 64px; }
+.app-shell .lb-ladder__row[data-you] .lb-ladder__place { white-space: nowrap; }
+
+/* Below 1100 px the ladder is the page's graphic: it comes straight after your place, and the key, the sentence about the
+   place above and How standing works follow it, then the spread and your papers. Same elements, reordered. */
+@media (max-width: 1099px) {
+  .app-shell .lb-desk { display: flex; flex-direction: column; gap: 18px; }
+  .app-shell .lb-desk > .lb-stand, .app-shell .lb-desk > .lb-board { display: contents; }
+  .app-shell .lb-desk > .lb-stand > * { order: 0; }
+  .app-shell .lb-desk .lb-sec--ladder { order: 1; padding-bottom: 6px; border-bottom: 0; }
+  .app-shell .lb-desk > .lb-stand > :is(.lb-next, .lb-go, .lb-how) { order: 2; }
+  .app-shell .lb-desk .lb-go { align-self: flex-start; margin-top: 0; }
+  .app-shell .lb-desk > .lb-board > .lb-sec:not(.lb-sec--ladder) { order: 3; }
+  .app-shell .lb-desk .lb-stand__place { padding-top: 18px; border-top: 1px solid var(--a-line-strong); }
+  .app-shell .lb-desk .lb-stand__figs { margin-top: -6px; }
+  .app-shell .lb-desk .lb-stand__band + .lb-stand__figs, .app-shell .lb-desk .lb-move + .lb-stand__figs { margin-top: -10px; }
+}
+@media (max-width: 1099px) and (max-width: 520px) {
+  .app-shell .lb-desk .lb-stand__place b { font-size: 76px; }
+  .app-shell .lb-desk .lb-stand__figs dd { font-size: 24px; }
+}
+
+@media (min-width: 1100px) {
+  :root:not([data-mobi-form='dock']) .app-shell .lb-desk { grid-template-columns: minmax(280px, 2fr) minmax(0, 3fr); column-gap: 48px; align-items: start; }
+  :root:not([data-mobi-form='dock']) .app-shell .lb-desk > .lb-stand {
+    position: sticky; top: calc(var(--arena-topbar-h, 63px) + 20px); align-self: start; max-width: none; padding-top: 4px; border-top: 0; border-bottom: 0;
+  }
+  :root:not([data-mobi-form='dock']) .app-shell .lb-desk > .lb-stand .lb-stand__place b { font-size: 112px; }
+  :root:not([data-mobi-form='dock']) .app-shell .lb-desk > .lb-stand .lb-stand__place span { max-width: 26ch; }
+  :root:not([data-mobi-form='dock']) .app-shell .lb-board > .lb-sec { max-width: none; }
+}

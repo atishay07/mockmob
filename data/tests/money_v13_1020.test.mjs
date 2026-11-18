@@ -88,7 +88,8 @@ test('what credits buy: the price list, with practice included on Pro', () => {
   assert.deepEqual(pro.map((r) => r.cost), ['1 credit', '1 credit', 'Included', 'Included']);
   // The wallet page reads its numbers from the one price list, never typed in.
   const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
-  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, reply: 1, repair: REPAIR_CREDIT_COST/);
+  // (19 Nov 2026 review: the written answer's price is MOBI_JOB_CREDITS too, since the covers lines divide by it.)
+  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, reply: MOBI_JOB_CREDITS, repair: REPAIR_CREDIT_COST/);
 });
 
 test('the packs speak to who buys them: more from Mobi for a Pro student, and no top-up invitation while selling is closed', () => {
