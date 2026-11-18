@@ -1,6 +1,7 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
 import { Fragment } from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import { recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
 import STUDY_RELEASE from '@/../data/study/release.json';
@@ -320,17 +321,18 @@ export default function LandingPage() {
                 <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
+              {/* R19 (18 Nov 2026): Compass Pro is one line under the card with its link; what it adds opens below it. */}
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
-                <div className="lp-cpro__copy">
+                <p className="lp-cpro__line">{COMPASS_PRO.title} <Link href="/pricing" className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link></p>
+                <details className="lp-cpro__more">
+                  <summary><span>What Compass Pro adds</span><ChevronDown aria-hidden="true" /></summary>
                   <p className="lp-cpro__badge">{COMPASS_PRO.badge}</p>
-                  <h3 className="lp-h3">{COMPASS_PRO.title}</h3>
-                  <p>{COMPASS_PRO.body}</p>
-                  <Link href="/pricing" className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link>
-                </div>
-                <ul className="lp-cpro__list">
-                  {COMPASS_PRO.items.map(([title, line]) => <li key={title}><b>{title}</b><span>{line}</span></li>)}
-                </ul>
-                <p className="lp-cpro__fine">{COMPASS_PRO.fine}</p>
+                  <p className="lp-cpro__body">{COMPASS_PRO.body}</p>
+                  <ul className="lp-cpro__list">
+                    {COMPASS_PRO.items.map(([title, line]) => <li key={title}><b>{title}</b><span>{line}</span></li>)}
+                  </ul>
+                  <p className="lp-cpro__fine">{COMPASS_PRO.fine}</p>
+                </details>
               </Reveal>
             </div>
           </section>

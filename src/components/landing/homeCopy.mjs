@@ -438,6 +438,8 @@ export const EXAM = Object.freeze({
   // The browser's address bar on the monitor: where this screen really lives. The runner reads `interface=nta` from the
   // address, so the NTA-style address is the one a Pro student opens.
   address: Object.freeze({ host: 'mockmob.in', mockmob: '/test?subject=accountancy&mode=quick', nta: '/test?subject=accountancy&mode=nta&interface=nta' }),
+  // R19 (18 Nov 2026): the gate and its key sit behind this disclosure, closed until the visitor opens it.
+  about: 'About NTA mode',
   gate: 'NTA mode uses the entire screen.',
   gateTitle: 'Enter your exam space',
   // The page's own one-line rule (R11: the old "Warnings 0/3" pill was not interactive). Not a runner string: it states what
