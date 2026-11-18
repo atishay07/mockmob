@@ -170,7 +170,7 @@ test('The Mob: Fix it together opens one of the home sample\'s own public questi
   const page = read('../../app/page.js');
   assert.match(page, /import \{ publicSample \} from '@\/components\/landing\/sampleFive\.mjs';/);
   assert.match(page, /const TOUR_SAMPLES = MOB_LIVE \? \{ mob: publicSample\('Economics'\) \} : null;/);
-  assert.match(page, /<FeatureTour slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/);
+  assert.match(page, /<TourDeck slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/); // the deck draws the tour since 18 Nov 2026
   assert.match(read('./DemoDrill.jsx'), /import \{ DRILL as SAMPLE_FIVE \} from '\.\/sampleFive\.mjs';/);
   // The screen draws only what it is given: none of the five's words are written in the tour's own source.
   const screens = read('./TourScreens.jsx');

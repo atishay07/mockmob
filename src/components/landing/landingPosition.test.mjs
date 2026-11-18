@@ -42,7 +42,8 @@ test('the names are the product\'s own words for each held story; the headings n
   assert.doesNotMatch(POSITION, /Score Recovery Lab/, 'R11: no Recovery story on the page');
   // 1104 P5 moved the headings into homeCopy.mjs and dropped the kickers above every h2: each held section still opens
   // with its own h2, and the tour's band name is that h2's words.
-  assert.match(PAGE, /<h2 className="lp-h2" id="inside-the-lab-title">\{LAB_HEAD\.h2\}<\/h2>/);
+  // 18 Nov 2026: the Lab's heading carries one pen mark (Marked); its words are still LAB_HEAD.h2.
+  assert.match(PAGE, /<h2 className="lp-h2" id="inside-the-lab-title"><Marked text=\{LAB_HEAD\.h2\} marks=/);
   assert.match(PAGE, /<h2 className="lp-h2">\{TOUR_HEAD\.h2\}<\/h2>/);
   assert.doesNotMatch(PAGE, /RECOVERY_HEAD/, 'R11: the Recovery section and its head are gone from the page');
   assert.match(read('./homeCopy.mjs'), /export const TOUR_HEAD = Object\.freeze\(\{\s*h2: 'More inside MockMob\.'/);
