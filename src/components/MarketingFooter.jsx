@@ -49,11 +49,11 @@ const HOME_TOOLS = [
   ['Subject combination planner', '/cuet-subject-combination'],
 ];
 
-// One group of links. On the home page (round 2 of 18 Nov 2026, lane home-b) a phone gets each group as a disclosure row,
-// closed by default and open from 720 px (Unfold; r19-home-b.css), so the footer costs about one screen instead of two; every
-// link stays. Every other page keeps the plain heading over its list.
-function FootGroup({ home, title, children }) {
-  if (!home) return <div><h3>{title}</h3>{children}</div>;
+// One group of links. On a phone each group is a disclosure row, closed by default and open from 720 px (Unfold), so the footer
+// costs about one screen instead of two; every link stays. The home page did this first (round 2 of 18 Nov 2026, lane home-b;
+// its styles are r19-home-b.css); every other public page folds the same way since 19 Nov 2026 (lane pub-c): its footer carries
+// `mm-foot--page`, and the fold's styles for it sit with the footer's own in marketing.css, so the home page is untouched.
+function FootGroup({ title, children }) {
   return (
     <div className="mm-foot__group">
       <Unfold from={720} className="lp-fold--foot" summary={<h3>{title}</h3>} head={<h3>{title}</h3>}>{children}</Unfold>
@@ -63,7 +63,7 @@ function FootGroup({ home, title, children }) {
 
 export function MarketingFooter({ home = false }) {
   return (
-    <footer className="mm-foot">
+    <footer className={home ? 'mm-foot' : 'mm-foot mm-foot--page'}>
       <div className="mm-wrap">
         {home ? (
           <nav className="mm-foot__tools" aria-label="Free CUET tools">
@@ -95,7 +95,7 @@ export function MarketingFooter({ home = false }) {
             </a>
           </div>
 
-          <FootGroup home={home} title="Product">
+          <FootGroup title="Product">
             <ul>
               {PRODUCT_LINKS.filter(([, href]) => !home || !HOME_TOOLS.some(([, toolHref]) => toolHref === href)).map(([label, href, commerce]) => (
                 <li key={href} data-commerce={commerce ? '' : undefined}>
@@ -105,7 +105,7 @@ export function MarketingFooter({ home = false }) {
             </ul>
           </FootGroup>
 
-          <FootGroup home={home} title="Subjects">
+          <FootGroup title="Subjects">
             <ul>
               {SUBJECT_LINKS.map(([label, href]) => (
                 <li key={href}>
@@ -115,7 +115,7 @@ export function MarketingFooter({ home = false }) {
             </ul>
           </FootGroup>
 
-          <FootGroup home={home} title="Company">
+          <FootGroup title="Company">
             <ul>
               {COMPANY_LINKS.map(([label, href]) => (
                 <li key={href}>
