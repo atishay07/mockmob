@@ -7,12 +7,16 @@ import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { keepTogether } from '@/lib/keepTogether.mjs';
+import { Marked } from '@/components/doodle/Doodle';
+import { GUIDE_MARKS } from '@/lib/publicMarks.mjs';
 
 // Read-mode surface inside a Persuade site: comprehension and wayfinding come
 // first, and the conversion rail sits at the end of the article rather than
 // interrupting it. `page.eyebrow` is deliberately not rendered. Every drawn string goes through keepTogether, so
 // "CUET 2027" or "CUET UG 2026" never parts at a line end (night 1105); the JSON-LD keeps plain spaces.
 export function SeoContentPage({ page }) {
+  // The pen on this guide (src/lib/publicMarks.mjs), by the page's slug.
+  const marks = GUIDE_MARKS[page.slug];
   return (
     <div className="mm">
       <JsonLd
@@ -42,7 +46,7 @@ export function SeoContentPage({ page }) {
                 <span aria-hidden="true">/</span>
                 <span>{keepTogether(page.breadcrumb)}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title">{keepTogether(page.h1)}</h1>
+              <h1 className="mm-h1 mm-article__title">{marks?.head ? <Marked text={keepTogether(page.h1)} marks={[marks.head]} /> : keepTogether(page.h1)}</h1>
               <p className="mm-article__intro">{keepTogether(page.intro)}</p>
               {/* The page's one action, before the essay, in the phone bar's words (R8 PUB-08: one label for sign-up on the page, "Sign up free"). */}
               <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Sign up free</Link></p>
@@ -94,7 +98,7 @@ export function SeoContentPage({ page }) {
 
           <aside className="mm-close">
             <div className="mm-wrap mm-wrap--tight">
-              <h2 className="mm-h2">Reading about it is not practice.</h2>
+              <h2 className="mm-h2">{marks?.close ? <Marked text="Reading about it is not practice." marks={[marks.close]} /> : 'Reading about it is not practice.'}</h2>
               <p className="mm-body">
                 Create a free account and sit a timed mock on this syllabus tonight. No card, and
                 the 5 sample questions on the home page need no sign-up at all.

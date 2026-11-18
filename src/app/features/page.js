@@ -5,6 +5,8 @@ import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 import { PublicHeroArt, PUBLIC_HERO_CSS } from '@/components/landing/PublicHeroArt';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // What MockMob does, one card per part of the product, each with what it is for and where it lives.
 // The names are the ones students meet signed in. No eyebrows, orbs, badges, numbered circles or sample
@@ -87,7 +89,7 @@ export default function FeaturesPage() {
             <div>
               <h1 className="mm-h1">What MockMob does</h1>
               <p className="mm-lead" style={{ marginTop: '1rem' }}>
-                CUET UG practice that shows where your marks went and what to do next, plus free tools for DU admissions.
+                <Marked text="CUET UG practice that shows where your marks went and what to do next, plus free tools for DU admissions." marks={[PUBLIC_MARKS.features.head]} />
               </p>
             </div>
             <PublicHeroArt kind="subjects" />

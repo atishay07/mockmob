@@ -12,6 +12,8 @@ import {
   FIRST_FULL_FREE, PAPER, STREAMS, bankLine, commonFaqs, fmt, freshLine, paperCode, primaryAction, syllabusChapterCount,
 } from '@/lib/subjectPages.mjs';
 import './subject-page.css';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // A public CUET subject page (/cuet/<slug>). Read-mode, like the other guides (SeoContentPage), but built around the
 // paper itself: the paper's facts first, then what CUET asks (the 2026 syllabus with the live bank's counts per unit),
@@ -86,7 +88,7 @@ export function SubjectLandingPage({ hub, units, bank, others, keyCards = null }
                 <span aria-hidden="true">/</span>
                 <span>{name}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title">{keepTogether(hub.h1)}</h1>
+              <h1 className="mm-h1 mm-article__title"><Marked text={keepTogether(hub.h1)} marks={[PUBLIC_MARKS.subject.head]} /></h1>
               <p className="mm-article__intro">{keepTogether(hub.intro)}</p>
               <div className="mm-article__go sj-go">
                 <Link href="/signup" className="mm-btn mm-btn--primary">{action}</Link>
@@ -151,7 +153,7 @@ export function SubjectLandingPage({ hub, units, bank, others, keyCards = null }
 
             {keyCards?.chapters ? (
               <section className="mm-article__section" aria-labelledby="key-cards-title">
-                <h2 className="mm-h2" id="key-cards-title">{name} Key cards, free to read</h2>
+                <h2 className="mm-h2" id="key-cards-title"><Marked text={`${name} Key cards, free to read`} marks={[PUBLIC_MARKS.subject.keyCards]} /></h2>
                 <p>
                   {`Short recall cards for ${keyCards.chapters} ${name} ${keyCards.chapters === 1 ? 'chapter' : 'chapters'}. Read the front, say the answer in your head, then turn the card over. The first Must-know cards of each chapter are free, with no account.`}
                 </p>
@@ -209,7 +211,7 @@ export function SubjectLandingPage({ hub, units, bank, others, keyCards = null }
 
           <aside className="mm-close">
             <div className="mm-wrap mm-wrap--tight">
-              <h2 className="mm-h2">{FIRST_FULL_FREE ? `Your first ${name} mock is free.` : 'Reading about it is not practice.'}</h2>
+              <h2 className="mm-h2">{FIRST_FULL_FREE ? `Your first ${name} mock is free.` : <Marked text="Reading about it is not practice." marks={[PUBLIC_MARKS.subject.close]} />}</h2>
               <p className="mm-body">
                 {FIRST_FULL_FREE
                   ? `${PAPER.questions} questions in ${PAPER.minutes} minutes, marked +${PAPER.right} and ${String(PAPER.wrong).replace('-', '−')} like the real paper, then the review of every miss. Sign up free; no card needed.`

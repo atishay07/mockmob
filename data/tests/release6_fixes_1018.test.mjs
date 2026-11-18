@@ -74,7 +74,8 @@ test('a URL that matches no route gets the themed not-found page, never the defa
   // The AppNotFound look: the same headline, an ArenaHead, the same primary action class.
   const inApp = read('src/app/(app)/not-found.js');
   const headline = inApp.match(/title="([^"]+)"/)[1];
-  assert.ok(page.includes(`title="${headline}"`), 'the same headline as the signed-in not-found');
+  // 18 Nov 2026 (lane marks): the same words, with the pen under "not here." (src/lib/publicMarks.mjs).
+  assert.ok(page.includes(`title={<Marked text="${headline}" marks={[PUBLIC_MARKS.notFound.head]} />}`), 'the same headline as the signed-in not-found');
   assert.match(page, /<ArenaHead/);
   assert.match(page, /ui-state__action ui-state__action--primary/);
   // A way home that works for a signed-in student and for a visitor: "/" (the front page sends a student on to Today).

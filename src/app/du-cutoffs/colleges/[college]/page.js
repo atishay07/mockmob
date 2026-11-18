@@ -12,6 +12,8 @@ import { CUTOFFS_PATH, PAIRS_COURSE, calculatorHref, collegeMeta, collegePath, c
 import { CutoffTable } from '../../_parts/CutoffTable';
 import { CutoffClose, CutoffSources, DOCK_NOTE, RoundNote, YearNote } from '../../_parts/CutoffParts';
 import '../../du-cutoffs.css';
+import Doodle from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // One college's 2026 DU cutoffs for every course it offers (67 pages, one per college in DU's lists). Static.
 export const dynamicParams = false;
@@ -65,7 +67,7 @@ export default async function DuCollegeCutoffPage({ params }) {
                 <span aria-hidden="true">/</span>
                 <span>{college.title}</span>
               </nav>
-              <h1 className="mm-h1 mm-article__title dc-title">{college.title} cutoffs 2026</h1>
+              <h1 className="mm-h1 mm-article__title dc-title">{college.title} cutoffs <Doodle {...PUBLIC_MARKS.duCollege.head[1]}>{PUBLIC_MARKS.duCollege.head[0]}</Doodle></h1>
               <p className="mm-article__intro">
                 {keepTogether(`The lowest CUET score that got a seat in each of ${college.title}’s ${plural(courses, 'DU course')}, in each of DU’s three 2026 rounds, for every category.`)}
                 {pairs ? ` B.A. (Programme) is listed by pair of subjects: ${plural(pairs, 'pair')} here.` : ''}

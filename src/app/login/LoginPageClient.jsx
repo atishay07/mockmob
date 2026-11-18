@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { SignupCard } from '@/components/ui/SignupCard';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 import GoogleOneTap from '@/components/auth/GoogleOneTap';
 import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
@@ -32,6 +33,7 @@ export default function LoginPageClient({ invite = false }) {
   return (
     <AuthShell
       title={invite ? 'Sign in to take your seat.' : 'Your next chapter is waiting.'}
+      titleMark={invite ? null : PUBLIC_MARKS.login.head}
       lead={invite ? 'Your friend saved you a seat in a Mob. Sign in, and you come straight back to the invite to pick your Fold.' : 'Open your recorded mocks, saved questions and next practice step.'}
       points={invite ? [
         'Joining a Mob is free',

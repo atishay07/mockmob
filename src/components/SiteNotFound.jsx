@@ -12,6 +12,8 @@ import { useAuth } from '@/components/AuthProvider';
 import '@/app/(app)/arena.css';
 import '@/app/(app)/student-pages.css';
 import './site-not-found.css';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 export default function SiteNotFound() {
   const { status } = useAuth();
@@ -22,7 +24,7 @@ export default function SiteNotFound() {
       <main id="app-main" className="snf__main" tabIndex={-1}>
         <div className="student-page">
           <ArenaHead
-            title="That page is not here."
+            title={<Marked text="That page is not here." marks={[PUBLIC_MARKS.notFound.head]} />}
             lede={signedIn
               ? 'The link may be old, or the page may have moved. Your practice, your record and the question bank are all where you left them.'
               : 'The link may be old, or the page may have moved. The rest of MockMob is where it always was.'}

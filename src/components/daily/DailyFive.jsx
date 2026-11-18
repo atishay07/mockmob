@@ -22,6 +22,8 @@ import { useMyColleges } from '@/components/colleges/useMyColleges';
 import { teamIdOfName, teamName } from '@/lib/daily/colleges.mjs';
 import { editionName, seatWords } from '@/lib/daily/team.mjs';
 import { omrLabel } from './dailyStripCopy.mjs';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 import '@/components/landing/demo-subject.css';
 import './daily.css';
 
@@ -512,7 +514,7 @@ export default function DailyFive() {
   // (17 Nov 2026) joined to the card.
   const head = (
     <div className="dly__head">
-      <h1 className="dly__title">Daily Five{today ? <span className="sr-only">, {dayLabel(today.date)}</span> : null}</h1>
+      <h1 className="dly__title"><Marked text="Daily Five" marks={[PUBLIC_MARKS.daily.head]} />{today ? <span className="sr-only">, {dayLabel(today.date)}</span> : null}</h1>
       <p className="dly__what">Five questions from English and the General Test. The same five for everyone, new at 12:00 am.</p>
     </div>
   );

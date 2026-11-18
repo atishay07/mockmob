@@ -36,6 +36,8 @@ import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_m
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { REFERRAL_COPY, referralsLive } from '@/lib/referrals/friendInvite.mjs';
 import './pro-page.css';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // The free first full mock (C-dec 1), listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
 const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON ? [FIRST_FULL_MOCK_COPY.planItem] : [];
@@ -327,7 +329,7 @@ export default async function PricingPage({ searchParams }) {
           <div className="pro-wrap pro-hero__grid">
             <ProHeroArt label={PRO_COPY.label} />
             <div className="pro-hero__copy">
-              <h1 className="pro-hero__title" id="pro-title">{PRO_COPY.title}</h1>
+              <h1 className="pro-hero__title" id="pro-title"><Marked text={PRO_COPY.title} marks={[PUBLIC_MARKS.pricing.head]} /></h1>
               <p className="pro-hero__lede">{PRO_COPY.lede}</p>
               {isCurrentUserPremium ? null : (
                 <p className="pro-hero__go" data-commerce="">
