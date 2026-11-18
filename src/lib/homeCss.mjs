@@ -59,6 +59,8 @@ export const HOME_SHEETS = Object.freeze([
   'src/app/r16-tour-stack.css',
   // Round 16 (16 Nov 2026): the phone pass after the owner's look at the live page.
   'src/app/r16-phone.css',
+  // Round 18 (18 Nov 2026): the tour as a deck the scroll deals.
+  'src/app/r18-tour-deck.css',
 ]);
 
 const HEADER = [

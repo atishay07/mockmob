@@ -1,0 +1,125 @@
+/* Round 18 (18 Nov 2026): "More inside MockMob" as a deck the scroll deals (TourDeck.jsx, deckMotion.mjs).
+   The owner, of the sideways row of cards a finger had: "these sliding cards ... are not good. They have no animation ...
+   no one will be able to understand that they have to touch it"; of the Mistake Lab above it: "animated cards and scroll
+   animation on them". So the tour is one held story on every pointer, like the Lab: five still tabs over a pile of cards.
+   The card on show lies on top, the tools already passed show their top edges under it, and the next one rises from the
+   pile's foot as the page scrolls. The script writes one transform and one opacity per card (never layout); this sheet is
+   the pile at rest. Every rule is scoped to .td-story or .td, so nothing else on the page moves. */
+
+/* One step of scroll per tool: a little under a screen for a mouse, 0.85 of that for a finger (scroll-story.css). */
+.td-story { --ss-beat: 70svh; }
+
+.td {
+  --td-peek: 12px;
+  --td-shade: #17150f;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px;
+  min-width: 0; height: 100%;
+}
+
+/* ---------- The tabs: every tool's desk object over its name, in equal columns, never scrolling sideways. The raised
+   tile under the tool on show is one element that slides with the scroll (the script moves it; at rest it sits under its
+   tab), so the row is also where the reader is in the pile. */
+.td__tabs {
+  position: relative; display: grid; grid-template-columns: repeat(var(--td-n, 5), minmax(0, 1fr)); gap: 0;
+  list-style: none; margin: 0; padding: 0;
+}
+.td__ink { position: absolute; inset-block: 0; left: 0; width: calc(100% / var(--td-n, 5)); pointer-events: none; will-change: transform; }
+.td__ink i { position: absolute; inset: 0 2px; border-radius: 14px; background: var(--paper-raised-2, var(--paper-raised)); box-shadow: 0 1px 2px rgba(32, 26, 14, 0.06), 0 6px 14px -8px rgba(32, 26, 14, 0.18); }
+.td__ink i::after { content: ''; position: absolute; left: 28%; right: 28%; bottom: 4px; height: 2px; border-radius: 2px; background: var(--brand-word); }
+.td__tab-cell { position: relative; min-width: 0; }
+.td__tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  width: 100%; min-height: 60px; padding: 4px 2px 9px; border: 0; border-radius: 14px; background: none; cursor: pointer;
+  color: var(--ink-2); font: 650 12px/1.15 var(--font-body); letter-spacing: -0.005em; white-space: nowrap;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: color 160ms ease;
+}
+.td__tab[data-on='true'] { color: var(--ink); }
+.td__tab:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
+.td__tab:active .td__ico { transform: scale(0.94); }
+.td__ico { display: flex; width: 32px; height: 32px; transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1); }
+.td__ico :is(img, svg) { width: 32px; height: 32px; object-fit: contain; }
+.td__bell { height: 29px !important; margin-top: 3px; }
+.td__word[data-long] { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .td__tab:hover { color: var(--ink); }
+}
+
+/* ---------- The pile. Cards share one box; the script lays them over each other. The clip lets the pile's shadows and
+   peeking edges out at the top and the sides and cuts a rising card off at the pile's foot, so it comes up out of the
+   foot instead of over the band under it. */
+.td__pile {
+  position: relative; min-height: 0;
+  perspective: 1400px; perspective-origin: 50% 10%;
+  clip-path: inset(-40px -24px 0 -24px);
+}
+.td__card {
+  position: absolute; inset: calc(var(--td-peek) * 2 + 4px) 0 16px;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 26px; background: var(--paper-raised);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 2px rgba(32, 26, 14, 0.06), 0 14px 30px -18px rgba(32, 26, 14, 0.3);
+  transform-origin: 50% 0; backface-visibility: hidden; will-change: transform;
+}
+html[data-theme='dark'] .td__card { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 30px -18px rgba(0, 0, 0, 0.6); }
+/* Before the script has placed them (and without it), only the first card shows: never five cards drawn over each other. */
+.td-story[data-pinned='true'] .td__card:not(:first-child):not([style]) { visibility: hidden; }
+.td-story[data-pinned='true'] .td__card[data-on='false'] { pointer-events: none; }
+/* A card with others on it darkens a little: the script sets this layer's opacity. */
+.td__shade { position: absolute; inset: 0; border-radius: inherit; background: var(--td-shade); opacity: 0; pointer-events: none; }
+
+.td__copy { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 18px 18px 4px; }
+.td__title { margin: 0; color: var(--ink); font: 800 clamp(1.375rem, 6.1vw, 1.625rem)/1.08 var(--font-display); letter-spacing: -0.028em; text-wrap: balance; }
+.td__sentence { display: inline-block; }
+.td__lede { margin: 0; color: var(--ink-2); font: 400 0.9375rem/1.45 var(--font-body); text-wrap: pretty; }
+.td__body, .td__points { display: none; }
+.td__cta { display: inline-flex; align-items: center; align-self: flex-start; min-height: 44px; font-size: 0.9375rem; }
+
+/* The tool's screen sits in a sunken well at the card's foot and gives way first when the window is short (ScrollStory
+   scales .td__fit into the well, never under 0.62). */
+.td__shot {
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  margin: 0 10px 10px; padding: 10px; border-radius: 18px; background: var(--paper-sunken);
+  box-shadow: inset 0 1px 2px rgba(32, 26, 14, 0.07);
+}
+.td__room { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; width: 100%; max-width: 27rem; margin-inline: auto; }
+.td__fit { --ss-fit-min: 0.62; margin-block: auto; }
+.td__shot .ts { min-height: 17.25rem; }
+
+@media (max-width: 899px) {
+  .td__shot .ts__bar { height: 34px; }
+  .td__shot .ts__body { padding: 0.65rem; gap: 0.45rem; }
+  .td__shot .ts__steps { gap: 0.3rem; }
+  .td__shot .ts__steps li { padding: 0.35rem 0.45rem; }
+  .td__shot .ts__choice { padding-block: 0.4rem; }
+  .td__shot .ts__chips li { padding: 0.35rem 0.5rem; }
+}
+
+/* ---------- Wide windows: one broad card, the words on the left edge and the screen in its well on the right. */
+@media (min-width: 900px) {
+  .td-story { --ss-beat: 78svh; }
+  .td { --td-peek: 16px; gap: 14px; height: min(100%, 43rem); }
+  .td__tabs { max-width: 46rem; }
+  .td__tab { min-height: 68px; font-size: 0.8125rem; gap: 5px; }
+  .td__word[data-long] { display: inline; }
+  .td__word[data-short] { display: none; }
+  .td__card { grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); border-radius: 30px; }
+  .td__copy { justify-content: center; gap: 14px; padding: 2.5rem 1rem 2.5rem 3rem; }
+  .td__title { font-size: clamp(1.9rem, 2.7vw, 2.6rem); line-height: 1.04; letter-spacing: -0.032em; }
+  .td__lede { display: none; }
+  .td__body { display: block; margin: 0; max-width: 34ch; color: var(--ink-2); font: 400 1.0625rem/1.5 var(--font-body); text-wrap: pretty; }
+  .td__points { display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; color: var(--ink-2); font: 500 0.9375rem/1.4 var(--font-body); }
+  .td__points li { position: relative; padding-left: 18px; }
+  .td__points li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 8px; height: 2px; border-radius: 2px; background: var(--brand-word); }
+  .td__cta { margin-top: 4px; font-size: 1rem; }
+  .td__shot { margin: 14px; padding: 22px; border-radius: 22px; justify-content: center; }
+}
+
+/* ---------- Not held (no script, or no IntersectionObserver): a plain list of the cards, one under the other. */
+.td-story[data-pinned='false'] .td { height: auto; }
+.td-story[data-pinned='false'] .td__ink { display: none; }
+.td-story[data-pinned='false'] .td__pile { display: grid; gap: 16px; perspective: none; clip-path: none; }
+.td-story[data-pinned='false'] .td__card { position: static; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+.td-story[data-pinned='false'] .td__shade { display: none; }
+
+@media (prefers-reduced-motion: reduce) { .td__tab, .td__ico { transition: none; } }
+html[data-motion='reduced'] :is(.td__tab, .td__ico) { transition: none; }

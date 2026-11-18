@@ -24,7 +24,7 @@ import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/c
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour, tourTouchSub } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { publicSample } from '@/components/landing/sampleFive.mjs';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
@@ -39,7 +39,7 @@ import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
 import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
-import FeatureTour from '@/components/landing/FeatureTour';
+import TourDeck from '@/components/landing/TourDeck';
 import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
@@ -257,10 +257,11 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">{TOUR_HEAD.h2}</h2>
-              {/* A mouse gets the held tour and its sub; a finger gets the stack and its own (r16-tour-stack.css swaps them). */}
-              <p className="lp-sub"><span className="ft-sub ft-sub--hold">{TOUR_HEAD.sub}</span><span className="ft-sub ft-sub--touch">{tourTouchSub(TOUR.length)}</span></p>
+              <p className="lp-sub">{TOUR_HEAD.sub}</p>
             </Reveal>
-            <FeatureTour slides={TOUR} samples={TOUR_SAMPLES} />
+            {/* 18 Nov 2026: one deck of cards the scroll deals, on every pointer (TourDeck.jsx; the owner of the sideways row a
+                finger had: "these sliding cards ... are not good"). */}
+            <TourDeck slides={TOUR} samples={TOUR_SAMPLES} />
           </div>
         </section>
 
