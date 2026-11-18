@@ -1,7 +1,8 @@
 "use client";
 
 // Your weekly study rhythm, from the real record (/api/me/rhythm) and nothing else.
-// Full form (Progress): the 12-week ribbon and the line that says what a study day is. The badges and the personal
+// Full form (Progress, 19 Nov 2026): this week as the streak's seven bubbles beside the streak's Mobi and the goal, with the
+// next step; the finished weeks are FinishedWeeks (one row of week marks) in the page's left column. The badges and the personal
 // bests are their own section of Progress now (StudyBadges, BADGES-REFINE-1018); the week read is handed up to the
 // page through `onLoad`, so the page reads it once.
 // Compact form (Today): the ring, the seven days and one line.
@@ -12,10 +13,9 @@
 // asleep (a tap wakes him), a welcome-back is a hello once a day, a week that can no longer reach
 // the goal gets encouragement, and an on-track week gets nobody. The compact card (Today) has no
 // Mobi: that screen already has one.
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
-import MobiReact from '@/components/brand/MobiReact';
 import { useCountUp } from '@/lib/motion/useCountUp';
 import { recallNumber } from '@/lib/motion/numberMemory';
 import { useInView } from '@/lib/motion/useInView';
@@ -23,6 +23,11 @@ import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { weekMobi } from '@/lib/mobiMoments';
 import { helloToday, speakOnce } from '@/lib/mobiRation';
 import { buildRibbon, buildWeek, dayKeyNow, shortDate, weekStatus } from '@/lib/rhythmView';
+import { Check } from 'lucide-react';
+import { useAuth } from '@/components/AuthProvider';
+import { DayMark, StreakMobi } from '@/components/streak/Streak';
+import { openStreakSheet, useStreak } from '@/components/streak/useStreak';
+import { finishedWeeks, weekGoal, weekMarks } from '@/components/recovery/progressWeek.mjs';
 
 const R = 46;
 const C = 60;
@@ -140,64 +145,55 @@ function DayCaption({ week, index }) {
   );
 }
 
-// Each week is a labelled column (its start date, or "This week"), so the row reads without a tap.
-// The heading carries the count over its denominator: finished weeks only, the open week is still running.
-function Ribbon({ ribbon, armed }) {
+// The finished weeks (19 Nov 2026, lane arena-a): one row of week marks, newest right, replacing the grey bars. Each mark is a
+// shape and a word, never colour alone: met is a tick, paused a bar, not met the days it had. Tapping, hovering or focusing a
+// week says it in words under the row, as before. This week is not here: it is the bubbles at the top of the page.
+export function FinishedWeeks({ rhythm }) {
+  const ribbon = useMemo(() => (rhythm ? buildRibbon(rhythm) : []), [rhythm]);
+  const { title, marks } = useMemo(() => finishedWeeks(ribbon), [ribbon]);
   const [picked, setPicked] = useState(null);
-  const shown = picked != null ? ribbon[picked] : null;
   const pick = useCallback((i) => setPicked(i), []);
-  const closed = ribbon.filter((w) => !w.current);
-  const metClosed = closed.filter((w) => w.met).length;
-  const title = closed.length === 0 ? 'Your first week'
-    : `Goal met in ${metClosed} of ${ribbon.length >= 12 ? `the last ${closed.length}` : `your ${closed.length}`} finished week${closed.length === 1 ? '' : 's'}`;
-  // The first week (10 Nov app pass): one empty week bar read as an unfinished box. Until a week has finished, the week is
-  // its goal in parts, one per study day, that fill as days are counted; the weeks' bars take over once one has finished.
-  const first = closed.length === 0 ? ribbon[ribbon.length - 1] : null;
-  if (first) {
-    const parts = Math.min(7, Math.max(1, first.goal || 1));
-    return (
-      <div className="rc-block">
-        <h3 className="rc-h">{title}</h3>
-        <div className="rc-first" role="img" aria-label={first.words}>
-          <ol className="rc-first__parts" aria-hidden="true">
-            {Array.from({ length: parts }, (_, i) => (
-              <li key={i} className="rc-first__part" data-on={i < first.days ? 'true' : 'false'} data-met={first.met ? 'true' : 'false'} data-armed={armed ? 'true' : 'false'} style={{ '--rc-i': i }} />
-            ))}
-          </ol>
-          <p className="rc-first__legend" aria-hidden="true"><span>This week</span><span><b>{first.days}</b> of {first.goal} days</span></p>
-        </div>
-        <p className="rc-chip">Each part fills on a study day. Finished weeks line up here, one bar a week.</p>
-      </div>
-    );
-  }
+  // Newest right: a row longer than the screen opens at its newest end (a phone with many finished weeks).
+  const rowRef = useRef(null);
+  useEffect(() => { const el = rowRef.current; if (el) el.scrollLeft = el.scrollWidth; }, [marks.length]);
+  if (!rhythm) return null;
+  const streak = rhythm.weeksMetStreak;
+  const shown = picked != null ? marks[picked] : null;
   return (
-    <div className="rc-block">
-      <h3 className="rc-h">{title}</h3>
-      <ol className="rc-ribbon" aria-label="Weeks, oldest first" data-many={ribbon.length > 8 ? 'true' : undefined} data-few={ribbon.length < 4 ? 'true' : undefined} style={{ '--rc-weeks': ribbon.length }}>
-        {ribbon.map((w, i) => (
-          <li key={w.key}>
-            <button
-              type="button"
-              className="rc-wk"
-              data-met={w.met ? 'true' : 'false'}
-              data-paused={w.paused ? 'true' : 'false'}
-              data-current={w.current ? 'true' : 'false'}
-              data-armed={armed ? 'true' : 'false'}
-              data-picked={picked === i ? 'true' : 'false'}
-              style={{ '--rc-i': i, '--rc-fill': w.fill }}
-              aria-label={w.words}
-              onClick={() => pick(i)}
-              onPointerEnter={(e) => { if (e.pointerType === 'mouse') pick(i); }}
-              onFocus={() => pick(i)}
-            >
-              <span className="rc-wk__fill" aria-hidden="true" />
-            </button>
-            <span className="rc-wk__label" aria-hidden="true" data-current={w.current ? 'true' : 'false'}>{w.current ? (ribbon.length < 4 ? `This week, ${w.days} of ${w.goal} days` : 'This week') : shortDate(w.key)}</span>
-          </li>
-        ))}
-      </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week for its days.'}</p>
-    </div>
+    <section className="rc rc--more pw-weeks" aria-labelledby="pw-weeks-h">
+      <div className="rc-block">
+        <h2 className="rc-h" id="pw-weeks-h">{title}</h2>
+        {streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
+        {marks.length ? (
+          <>
+            <ol ref={rowRef} className="pw-marks" aria-label="Finished weeks, oldest first" style={{ '--pw-n': marks.length }}>
+              {marks.map((w, i) => (
+                <li key={w.key}>
+                  <button
+                    type="button"
+                    className="pw-mark"
+                    data-kind={w.kind}
+                    data-picked={picked === i ? 'true' : undefined}
+                    aria-label={w.words}
+                    aria-pressed={picked === i}
+                    onClick={() => pick(i)}
+                    onPointerEnter={(e) => { if (e.pointerType === 'mouse') pick(i); }}
+                    onFocus={() => pick(i)}
+                  >
+                    <span className="pw-mark__shape" aria-hidden="true">
+                      {w.kind === 'met' ? <Check size={18} strokeWidth={3} /> : w.kind === 'paused' ? <i className="pw-mark__bar" /> : <b>{w.days}</b>}
+                    </span>
+                  </button>
+                  <span className="pw-mark__date" aria-hidden="true">{shortDate(w.key)}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="rc-chip pw-weeks__said" role="status" aria-live="polite">{shown ? shown.words : 'A tick is a week at your goal. Tap a week for its days.'}</p>
+          </>
+        ) : <p className="rc-chip">Finished weeks line up here, one mark a week.</p>}
+      </div>
+      <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
+    </section>
   );
 }
 
@@ -234,11 +230,15 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
 // `onLoad`: the page wants the week the card read (Progress gives it to the badges, which need the time zone and the goal).
 export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false, onError = null, onLoad = null }) {
   const { reduced } = useMobiPrefs();
-  const [wakeLine, setWakeLine] = useState('');
+  // Mobi's wake line belongs to the compact card's sleeping Mobi; the full form says Mobi's line as words.
+  const [wakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null, fresh: false });
   const [attempt, setAttempt] = useState(0);
   const [picked, setPicked] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.25 });
+  // Progress's week band reads the streak too: its rest-pass and pause days mark the bubbles (the same one read as the top bar).
+  const { user } = useAuth();
+  const { data: streakBody } = useStreak(compact ? null : user?.id);
 
   useEffect(() => {
     let alive = true;
@@ -268,16 +268,9 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   useEffect(() => { if (loaded && onLoad) onLoad(loaded); }, [loaded, onLoad]);
 
   const rhythm = state.rhythm;
-  const cheered = state.cheered;
-  const weekKey = rhythm?.weekStart;
-  const markCheered = useCallback(() => {
-    setState((prev) => ({ ...prev, cheered: true }));
-    try { if (weekKey) window.localStorage.setItem(`mm:rhythm-cheer:${weekKey}`, '1'); } catch { /* He just may cheer again next visit. */ }
-  }, [weekKey]);
 
   const today = useMemo(() => (rhythm ? dayKeyNow(rhythm.timeZone) : null), [rhythm]);
   const week = useMemo(() => (rhythm ? buildWeek(rhythm, today) : []), [rhythm, today]);
-  const ribbon = useMemo(() => (rhythm ? buildRibbon(rhythm) : []), [rhythm]);
 
   if (state.status === 'error') {
     if (compact || onError) return null;
@@ -300,7 +293,20 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
         {compact ? <span className="rc__skeleton" aria-hidden="true" /> : <><span className="rc__skeleton rc__skeleton--head" aria-hidden="true" /><span className="rc__skeleton rc__skeleton--weeks" aria-hidden="true" /></>}
       </section>
     );
-    return compact ? wait : <>{wait}{between}</>;
+    if (compact) return wait;
+    // Progress: the band's own anatomy while the week loads (the streak, seven bubbles, the line), the next step beside it.
+    return (
+      <section className="pw pw--wait" aria-label="Your study days" aria-busy="true">
+        <span className="pw__h">Your study days</span>
+        <span className="pw__streak pw__streak--none" aria-hidden="true" />
+        <div className="pw__week" aria-hidden="true">
+          <span className="rc__skeleton pw__sk-goal" />
+          <span className="pw__days">{Array.from({ length: 7 }, (_, i) => <span key={i} className="pw__day"><DayMark look="none" /></span>)}</span>
+          <span className="rc__skeleton pw__sk-line" />
+        </div>
+        {between ? <div className="pw__next">{between}</div> : null}
+      </section>
+    );
   }
 
   const armed = inView || reduced;
@@ -311,22 +317,17 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   // A returning week: Mobi's hello and the card's own sentence become one line, so "Welcome back" is said once.
   const hello = pick?.kind === 'hello' && pick.line;
   const status = hello ? `${pick.line} One counted study day starts your week.` : quietMet && met ? '' : !compact && rhythm.studyDays > 0 && !met && !rhythm.paused ? `${rhythm.studyDays} of ${rhythm.daysGoal} study days this week. ${weekStatus(rhythm)}` : weekStatus(rhythm);
-  const streak = rhythm.weeksMetStreak;
 
-  const card = (
-    <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your study days" data-met={met ? 'true' : 'false'}>
-      <header className="rc__head">
-        {/* Mobi stands at the start of the line he speaks to, not out in the right margin. */}
-        {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
-        <div>
-          <h2 className="rc__title">{compact ? 'This week' : 'Your study days'}</h2>
-          {status ? <p className="rc__status" role={hello ? 'status' : undefined}>{status}</p> : null}
-          {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line && !hello ? <p className="rc__status" role="status">{pick.line}</p> : null}
-        </div>
-        {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
-      </header>
-
-      {compact ? (
+  if (compact) {
+    return (
+      <section ref={ref} className="rc rc--compact" aria-label="Your study days" data-met={met ? 'true' : 'false'}>
+        <header className="rc__head">
+          <div>
+            <h2 className="rc__title">This week</h2>
+            {status ? <p className="rc__status" role={hello ? 'status' : undefined}>{status}</p> : null}
+            {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line && !hello ? <p className="rc__status" role="status">{pick.line}</p> : null}
+          </div>
+        </header>
         <div className="rc__top">
           <WeekRing rhythm={rhythm} armed={armed} size={92} />
           <div className="rc__week">
@@ -334,25 +335,50 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
             <DayCaption week={week} index={shownIndex} />
           </div>
         </div>
-      ) : (
-        // Progress does not repeat Today's ring and seven days: it leads with the weeks, this one the last column.
-        <>
-          {streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
-          <Ribbon ribbon={ribbon} armed={armed} />
-        </>
-      )}
-
-      {compact ? <Link className="rc__more" href="/progress">See your weeks and milestones</Link> : null}
+        <Link className="rc__more" href="/progress">See your weeks and milestones</Link>
+      </section>
+    );
+  }
+  // Progress (19 Nov 2026, lane arena-a): the week you are in, first. The streak's Mobi and number at its left (they open the
+  // streak sheet, as everywhere), this week's seven days as the streak's own bubbles, the goal in one line, and the next step
+  // (the page's one volt key) beside them on a wide screen, under them on a phone. Mobi's line for the week stays as words.
+  const goal = weekGoal(rhythm);
+  const said = hello ? `${pick.line} One counted study day starts your week.` : weekStatus(rhythm);
+  const mobiLine = pick?.kind === 'sleep' ? '' : pick?.line && !hello ? pick.line : '';
+  return (
+    <section ref={ref} className="pw" aria-labelledby="pw-h" data-met={met ? 'true' : 'false'}>
+      <h2 className="pw__h" id="pw-h">Your study days</h2>
+      <WeekStreak />
+      <div className="pw__week">
+        <p className="pw__goal"><b>{goal.figure}</b><span>{goal.words}</span></p>
+        <ol className="pw__days" aria-label="This week, day by day">
+          {weekMarks(week, streakBody).map((d, i) => (
+            <li key={d.key} className="pw__day" data-ahead={d.ahead || undefined} data-today={d.today || undefined} style={{ '--i': i }}>
+              <DayMark look={d.look} />
+              <span className="pw__name" aria-hidden="true">{d.name}</span>
+              <span className="sr-only">{d.said}</span>
+            </li>
+          ))}
+        </ol>
+        <p className="pw__said" role={hello || mobiLine ? 'status' : undefined}>{said}{mobiLine ? ` ${mobiLine}` : ''}</p>
+      </div>
+      {between ? <div className="pw__next">{between}</div> : null}
     </section>
   );
-  if (compact) return card;
+}
+
+/** The streak's Mobi and number, as Today's block draws them; the whole mark opens the streak sheet. Steps aside until read. */
+function WeekStreak() {
+  const { user } = useAuth();
+  const { data: body } = useStreak(user?.id);
+  if (!body) return <span className="pw__streak pw__streak--none" aria-hidden="true" />;
+  const lit = Boolean(body.today?.done);
   return (
-    <>
-      {card}
-      {between}
-      <section className="rc rc--more" aria-label="What counts as a study day">
-        <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
-      </section>
-    </>
+    <button type="button" className="pw__streak" onClick={() => openStreakSheet()} aria-label={body.days > 0 ? `${body.days} ${body.days === 1 ? 'day' : 'days'} in a row. Open your streak` : 'Your streak starts with one day. Open your streak'}>
+      <StreakMobi lit={lit} size={56} className="pw__mobi" />
+      {body.days > 0 ? (
+        <span className="pw__count" aria-hidden="true"><b>{body.days}</b><span>{body.days === 1 ? 'day in a row' : 'days in a row'}</span></span>
+      ) : <span className="pw__count pw__count--zero" aria-hidden="true"><span>Your streak starts with one day</span></span>}
+    </button>
   );
 }

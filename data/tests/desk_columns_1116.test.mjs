@@ -72,15 +72,19 @@ test('progress: the trend and the record on the left, the breakdown on the right
   const desk = css.slice(css.indexOf('@media (min-width: 1100px)'));
   assert.match(desk, /\.student-page--progress:has\(\.pr-main:not\(:empty\)\) \{\s*display: grid; grid-template-columns: minmax\(300px, 2fr\) minmax\(0, 3fr\);/);
   assert.match(desk, STICKY);
-  assert.match(desk, /:has\(\.pr-main:not\(:empty\)\) > \.rv-sec \{ grid-column: 2; grid-row: 3; \}/, 'Your standing closes the right column');
-  assert.match(desk, /\.pr-side \.rv-figs \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); \}/);
+  assert.match(desk, /:has\(\.pr-main:not\(:empty\)\) > \.rv-sec \{ grid-column: 2; grid-row: 4; \}/, 'Your standing closes the right column');
+  // Lane arena-a (19 Nov 2026): the week band runs across both columns above them; the record is a ledger in the left column.
+  assert.match(desk, /:has\(\.pr-main:not\(:empty\)\) > \.ov > :is\(\.pw, \.ui-state\) \{ grid-column: 1 \/ -1; grid-row: 2; \}/);
+  assert.match(desk, /\.pr-side \.pw-record \{ grid-template-columns: minmax\(0, 1fr\); \}/);
   assert.match(desk, /\.pr-main \.sb-paths \{ grid-template-columns: minmax\(0, 1fr\); \}/);
 
   const overview = read('src/components/RecoveryOverview.jsx');
   const side = overview.indexOf('<div className="pr-side" ref={observeSideHeight}>');
   const main = overview.indexOf('<div className="pr-main">');
   assert.ok(side > overview.indexOf('<ArenaHead title="Your study days and checks."'), 'the header spans both columns');
-  for (const piece of ['<RhythmCard key={retryCount}', '<ProgressMob />', 'aria-labelledby="ov-record"']) {
+  const band = overview.indexOf('<RhythmCard key={retryCount}');
+  assert.ok(band > overview.indexOf('<ArenaHead title="Your study days and checks."') && band < side, 'the week band spans the page, above the columns');
+  for (const piece of ['<FinishedWeeks rhythm={rhythm} />', '<ProgressMob />', 'aria-labelledby="ov-record"']) {
     const at = overview.indexOf(piece);
     assert.ok(at > side && at < main, `${piece} is in the left column`);
   }
@@ -96,7 +100,8 @@ test('wallet: what you hold on the left, how to get more and where it went on th
   assert.match(desk, /\.app-shell \.wl:has\(> \.wl-main\) \{ grid-template-columns: minmax\(300px, 2fr\) minmax\(0, 3fr\);/);
   assert.match(desk, STICKY);
   assert.match(desk, /\.wl-main \.wl-pack \{ grid-row: auto; grid-template-rows: none;/, 'the packs are rows, not three cramped cards');
-  assert.match(desk, /\.wl-side \.wl-costlist \{ grid-template-columns: minmax\(0, 1fr\);/);
+  // Lane arena-a (19 Nov 2026): what credits buy is four desk objects, two by two in the left column.
+  assert.match(desk, /\.wl-side \.wl-buys \{ grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); \}/);
 
   const page = read('src/app/(app)/wallet/WalletPageClient.jsx');
   const side = page.indexOf('<div className="wl-side" ref={observeSideHeight}>');

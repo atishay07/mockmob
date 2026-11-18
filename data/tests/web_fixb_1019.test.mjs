@@ -116,7 +116,7 @@ test('G31: the result score rolls on the countUp token and a token curve, after 
   assert.match(hook, /elapsed \+= settle \? Math\.min\(now - last, COUNT_UP_SETTLE\.smoothMs\) : now - last;/);
   // The stagger class is used: the stat strips rise in order, 45 ms apart, as the lit build's did.
   assert.match(read('src/components/review/ReviewChapters.jsx'), /<dl className="rv8-stats__row mk-stagger">/);
-  assert.match(read('src/components/RecoveryOverview.jsx'), /<dl className="rv-figs mk-stagger"/);
+  assert.match(read('src/components/RecoveryOverview.jsx'), /<dl className="rv-figs pw-record mk-stagger"/);
   assert.match(read('src/app/motion-kit.css'), /\.mk-stagger > \* \{ animation: mk-rise var\(--mm-dur-enter\)/);
 });
 

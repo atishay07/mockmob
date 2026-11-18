@@ -76,5 +76,8 @@ test('W-099: the top-chapter finding and the next-step key each have one home', 
     assert.doesNotMatch(read(rel), /findings\[0\]\.headline/, `${rel}: Ask Mobi links to the finding instead of repeating it`);
   }
   const rhythm = read('src/components/RhythmCard.jsx');
-  assert.match(rhythm, /compact \? \(\s*<div className="rc__top">/, 'only Today’s compact card draws the ring and seven days');
+  // Lane arena-a (19 Nov 2026): Progress leads with this week as the streak's bubbles (the brief's own idea); the ring stays the
+  // compact card's alone.
+  assert.match(rhythm, /if \(compact\) \{\s*return \(\s*<section ref=\{ref\} className="rc rc--compact"[\s\S]*?<WeekRing /, 'only the compact card draws the ring');
+  assert.equal((rhythm.match(/<WeekRing /g) || []).length, 1);
 });

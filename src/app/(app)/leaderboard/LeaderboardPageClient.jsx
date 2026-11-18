@@ -8,20 +8,16 @@
 // The movement line ("Up 3 places since 14 Oct") compares with the place this device last saw, and says so.
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 import { Skeleton, ErrorState } from '@/components/ui/Skeleton';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { TEST_MODES } from '@/../data/test_modes';
 import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
+import { count, gapLine, heroFigures, ladderRows, ordinal } from './standingModel.mjs';
 import './leaderboard.css';
 
-const count = (n) => Number(n).toLocaleString('en-IN');
-const ordinal = (n) => {
-  const rest = n % 100;
-  if (rest >= 11 && rest <= 13) return `${count(n)}th`;
-  return `${count(n)}${({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] || 'th'}`;
-};
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const shortDay = (ms) => { const d = new Date(ms); return `${d.getDate()} ${MONTHS[d.getMonth()]}`; };
 
@@ -72,33 +68,26 @@ function movementLine(moved) {
   return `${moved.by > 0 ? 'Up' : 'Down'} ${count(n)} ${n === 1 ? 'place' : 'places'} ${since}.`;
 }
 
-function Ladder({ standing }) {
-  const { ladder, rank, points, tests } = standing;
-  // Your row in the ten: the first place with your total (equal totals share a place).
-  const youAt = ladder.findIndex((r) => r.place === rank && r.points === points);
-  const inTop = youAt >= 0;
-  const max = Math.max(1, ...ladder.map((r) => r.points), points || 0);
-  const row = (r, you, key) => (
-    <li key={key} className="lb-ladder__row" data-you={you || undefined}>
-      <span className="lb-ladder__place">{ordinal(r.place)}</span>
-      <span className="lb-ladder__bar" aria-hidden="true"><i style={{ '--w': `${Math.max(2, Math.round((r.points / max) * 100))}%` }} /></span>
-      <span className="lb-ladder__pts"><b>{count(r.points)}</b> points</span>
-      <span className="lb-ladder__mocks">{count(r.mocks)} {r.mocks === 1 ? 'mock' : 'mocks'}</span>
-      {you ? <span className="lb-ladder__you">You</span> : null}
-    </li>
-  );
+// The ladder with you on it (19 Nov 2026, lane arena-a): the top ten places and your own place as ONE list, bars to one scale,
+// your row ruled in ink with "You" and the points to the place above written on it (standingModel.mjs ladderRows).
+function Ladder({ rows }) {
   return (
-    <section className="lb-sec" aria-labelledby="lb-ladder-h">
+    <section className="lb-sec lb-sec--ladder" aria-labelledby="lb-ladder-h">
       <h2 className="lb-h2" id="lb-ladder-h">The top 10 places</h2>
       <p className="lb-sub">Total points and mocks at each place. Nobody is named.</p>
       <ol className="lb-ladder">
-        {ladder.map((r, i) => row(r, i === youAt, `t${i}`))}
-        {!inTop ? (
-          <>
-            <li className="lb-ladder__gap" aria-hidden="true">{rank - 1 > ladder.length ? `${count(rank - 1 - ladder.length)} more places` : ''}</li>
-            {row({ place: rank, points: points ?? 0, mocks: tests }, true, 'you')}
-          </>
-        ) : null}
+        {rows.map((r, i) => (r.kind === 'gap' ? (
+          <li key={`g${i}`} className="lb-ladder__gap"><span>{r.text}</span></li>
+        ) : (
+          <li key={`p${i}`} className="lb-ladder__row" data-you={r.you || undefined} style={{ '--i': i }}>
+            <span className="lb-ladder__place">{ordinal(r.place)}</span>
+            <span className="lb-ladder__bar" aria-hidden="true"><i style={{ '--w': r.share }} /></span>
+            <span className="lb-ladder__pts"><b>{count(r.points)}</b> points</span>
+            <span className="lb-ladder__mocks">{count(r.mocks)} {r.mocks === 1 ? 'mock' : 'mocks'}</span>
+            {r.you ? <span className="lb-ladder__you">You</span> : null}
+            {r.gap ? <span className="lb-ladder__gapline">{r.gap}</span> : null}
+          </li>
+        )))}
       </ol>
     </section>
   );
@@ -112,7 +101,7 @@ function Spread({ standing }) {
   return (
     <section className="lb-sec" aria-labelledby="lb-spread-h">
       <h2 className="lb-h2" id="lb-spread-h">Where averages sit</h2>
-      <p className="lb-sub">Students by their average score per mock. Yours is {count(average)}, in the marked band.</p>
+      <p className="lb-sub">Students by their average score per mock. Yours is in the marked band.</p>
       <ul className="lb-spread" aria-label="Students by average score">
         {spread.map((b, i) => (
           <li key={b.from} className="lb-spread__band" data-you={i === yours || undefined} aria-label={`${label(b, i)}: ${count(b.students)} ${b.students === 1 ? 'student' : 'students'}${i === yours ? ', your band' : ''}`}>
@@ -155,9 +144,9 @@ function YourPapers() {
       <svg className="lb-trend" viewBox={`0 0 ${view.W} ${view.H}`} preserveAspectRatio="none" role="img" aria-label={`Your marks over your last ${view.n} papers, from ${view.first}% to ${view.last}%`}>
         <polyline points={view.pts} />
       </svg>
-      <dl className="lb-types">
+      {view.types.length > 1 ? <dl className="lb-types">
         {view.types.map(([t, n]) => <div key={t}><dt>{t}</dt><dd>{count(n)}</dd></div>)}
-      </dl>
+      </dl> : null}
     </section>
   );
 }
@@ -174,44 +163,40 @@ export default function LeaderboardPageClient() {
   const retry = () => { setState('loading'); load(); };
   const moved = useMovement(user?.id, state === 'ready' ? standing?.rank : null);
 
-  return <div className="student-page student-page--leaderboard ranks-page lb">
-    <ArenaHead
-      title="Your standing"
-      lede="Where your recorded mocks place you among MockMob students, and what moves you up. It is separate from your CUET exam rank."
-    />
-    {state === 'loading' && <div className="lb-stand" aria-busy="true" aria-label="Loading your standing"><Skeleton className="h-12 w-48" /><Skeleton className="h-4 w-full" /></div>}
+  const rows = state === 'ready' && standing ? ladderRows(standing) : null;
+  const hero = state === 'ready' && standing ? heroFigures(standing, rows) : null;
+
+  return <div className="student-page student-page--leaderboard ranks-page lb" data-ladder={rows ? 'true' : undefined}>
+    <ArenaHead title="Your standing" lede="Where your recorded mocks place you among MockMob students, and what moves you up." />
+    {state === 'loading' && (
+      <div className="lb-desk">
+        <div className="lb-stand lb-stand--wait" aria-busy="true" aria-label="Loading your standing"><Skeleton className="h-16 w-40" /><Skeleton className="h-4 w-56" /><Skeleton className="h-11 w-48" /></div>
+        <div className="lb-sec lb-sec--wait" aria-hidden="true">{Array.from({ length: 6 }, (_, i) => <Skeleton key={i} className="h-9 w-full" />)}</div>
+      </div>
+    )}
     {state === 'error' && <ErrorState scene="unreachable" title="Your standing did not load" message="Check your connection and try again." onRetry={retry} />}
     {state === 'ready' && standing && (
-      <>
+      <div className="lb-desk">
         <section className="lb-stand" aria-labelledby="lb-place">
-          <div className="lb-stand__top">
-            <p className="lb-stand__place" id="lb-place"><b>{ordinal(standing.rank)}</b> of {count(standing.of)} {standing.of === 1 ? 'student' : 'students'} who {standing.of === 1 ? 'has' : 'have'} sat a mock</p>
-            {standing.top != null ? <p className="lb-stand__band"><b>Top {standing.top}%</b><span>of ranked students</span></p> : null}
-          </div>
+          <p className="lb-stand__place" id="lb-place"><b>{ordinal(standing.rank)}</b><span>of {count(standing.of)} {standing.of === 1 ? 'student' : 'students'} who {standing.of === 1 ? 'has' : 'have'} sat a mock</span></p>
+          {standing.top != null ? <p className="lb-stand__band"><b>Top {standing.top}%</b> of ranked students</p> : null}
           {moved ? <p className="lb-move" data-dir={moved.by > 0 ? 'up' : moved.by < 0 ? 'down' : 'same'}>{movementLine(moved)}</p> : null}
           <dl className="lb-stand__figs">
-            <div><dt>Mocks</dt><dd>{count(standing.tests)}</dd></div>
-            <div><dt>Average score</dt><dd>{count(standing.average)}%</dd></div>
-            {standing.points != null ? <div><dt>Total points</dt><dd>{count(standing.points)}</dd></div> : null}
+            {hero.figs.map((f) => <div key={f.key}><dt>{f.label}</dt><dd>{f.value}</dd></div>)}
           </dl>
-          {standing.rank > 1 && standing.points != null && standing.points >= 0 && standing.toNext > 0 ? (
-            <div className="lb-pace">
-              <div><span>Your points</span><b>{count(standing.points)}</b></div>
-              <span className="lb-pace__track" aria-hidden="true"><i style={{ '--lb-share': standing.points / (standing.points + standing.toNext) }} /></span>
-              <div><span>To share {ordinal(standing.rank - 1)} place</span><b>{count(standing.points + standing.toNext)}</b></div>
-            </div>
-          ) : null}
-          {standing.toNext != null ? (
-            <p className="lb-next">{standing.rank === 1 ? 'You hold first place. Every mock you sit adds to your points.' : <>
-              <b>{count(standing.toNext)} more {standing.toNext === 1 ? 'point' : 'points'}</b> and you share {ordinal(Math.max(1, standing.rank - 1))} place. Every mock you sit adds its points.</>}</p>
+          {hero.next === 'first' ? <p className="lb-next">You hold first place. Every mock you sit adds to your points.</p> : null}
+          {hero.next === 'gap' && gapLine(standing) ? (
+            <p className="lb-next"><b>{count(standing.toNext)} more {standing.toNext === 1 ? 'point' : 'points'}</b> and you share {ordinal(Math.max(1, standing.rank - 1))} place. Every mock you sit adds its points.</p>
           ) : null}
           <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
+          <HowItWorks />
         </section>
-        {standing.ladder ? <Ladder standing={standing} /> : null}
-        {standing.spread ? <Spread standing={standing} /> : null}
-        <YourPapers />
-        <p className="lb-note">Ranked by total points across your recorded mocks, all time, so your place moves as you practise. Equal totals share a place. Nobody else is named here, and the top places and bands show only when at least 20 students are ranked.</p>
-      </>
+        <div className="lb-board">
+          {rows ? <Ladder rows={rows} /> : null}
+          {standing.spread ? <Spread standing={standing} /> : null}
+          <YourPapers />
+        </div>
+      </div>
     )}
     {state === 'ready' && !standing && (
       <section className="lb-stand" aria-labelledby="lb-empty">
@@ -219,7 +204,21 @@ export default function LeaderboardPageClient() {
         <p className="lb-note">Your place, the top 10 places and where averages sit appear here after your first recorded mock. Nobody else is named here.</p>
         {/* U2: the first step has one name and one door on every screen (src/lib/firstSet.mjs). */}
         <Link href={FIRST_SET_HREF} className="lb-go" data-page-primary="">{FIRST_SET_LABEL}</Link>
+        <HowItWorks />
       </section>
     )}
   </div>;
+}
+
+/** The rest of what the page used to say up front, behind one labelled disclosure, closed by default. */
+function HowItWorks() {
+  return (
+    <details className="lb-how">
+      <summary><span>How standing works</span><ChevronDown size={18} aria-hidden="true" /></summary>
+      <div className="lb-how__body">
+        <p>It is separate from your CUET exam rank.</p>
+        <p>Ranked by total points across your recorded mocks, all time, so your place moves as you practise. Equal totals share a place. Nobody else is named here, and the top places and bands show only when at least 20 students are ranked.</p>
+      </div>
+    </details>
+  );
 }

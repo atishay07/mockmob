@@ -76,30 +76,22 @@ html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-s
 .app-shell .student-page--progress .pr-main { display: contents; }
 @media (min-width: 1100px) {
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) {
-    display: grid; grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); grid-template-rows: auto auto 1fr;
+    display: grid; grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); grid-template-rows: auto auto auto 1fr;
     column-gap: 40px; row-gap: 28px; align-items: start;
   }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > .pr-head { grid-column: 1 / -1; grid-row: 1; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > :is(.pw, .ui-state) { grid-column: 1 / -1; grid-row: 2; }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-side {
-    display: grid; gap: 28px; min-width: 0; grid-column: 1; grid-row: 2 / span 2; align-self: start;
+    display: grid; gap: 28px; min-width: 0; grid-column: 1; grid-row: 3 / span 2; align-self: start;
     position: sticky; top: min(calc(var(--arena-topbar-h, 63px) + 20px), calc(100dvh - var(--side-h, 0px) - 20px));
   }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: grid; gap: 28px; min-width: 0; align-content: start; grid-column: 2; grid-row: 2; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .rv-sec { grid-column: 2; grid-row: 3; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: grid; gap: 28px; min-width: 0; align-content: start; grid-column: 2; grid-row: 3; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .rv-sec { grid-column: 2; grid-row: 4; }
 
-  /* The left column's narrow forms are the phone's: the weeks' dates in a smaller face (only the first and this week's
-     once there are more than eight), the next step's key across its panel, the four record figures two by two. */
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rc-ribbon { gap: 5px; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rc-wk { height: 64px; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rc-wk__label { font-size: 12px; letter-spacing: -0.01em; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rc-ribbon[data-many='true'] li:not(:first-child):not(:last-child) .rc-wk__label { visibility: hidden; }
+  /* The left column's narrow forms are the phone's: the next step's key across its panel, the record as a ledger. */
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .na--compact { grid-template-columns: minmax(0, 1fr); }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .na--compact .na__cta { justify-content: center; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rv-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rv-figs > div { padding: 16px 0; border-left: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rv-figs > div:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--a-line); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rv-figs > div:nth-child(n + 3) { border-top: 1px solid var(--a-line) !important; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .rv-figs dd { font-size: 30px; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .pw-record { grid-template-columns: minmax(0, 1fr); }
 
   /* The right column is about 470-550 px wide: the four badge paths read as one ruled column there, as they do on a tablet
      in portrait (study-badges.css, 760 px and below), instead of two columns of 200 px. */
@@ -115,3 +107,138 @@ html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-s
 .app-shell .student-page--progress .study-record .study-facts { padding-block: 14px 4px; }
 .app-shell .student-page--progress .study-record > p { margin: 8px 0 14px; max-width: 56ch; font-size: 14px; }
 @media (max-width: 639px) { .app-shell .student-page--progress .study-record h2 { font-size: 19px; } }
+
+/* ---------- 19 Nov 2026 (lane arena-a): the week you are in, as bubbles, first; the record as one ledger ----------
+   The band (RhythmCard, full form): the streak's Mobi and number (they open the streak sheet), this week's seven days as the
+   streak's own OMR bubbles (DayMark: counted, rest pass, paused, today, a plain day; days ahead faint), the goal as one figure,
+   the line under it, then the next step with the page's one volt key. A phone stacks them; from 1100 px the band runs across
+   the page on one raised surface, the next step flattened into it behind a hairline. Motion: the bubbles land once, 30 ms
+   apart (stk-mark, 220 ms ease-out), on the page's own arrival; reduced motion shows them still. */
+.app-shell .student-page--progress .pw {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; margin: 0;
+  --pw-volt: #d2f000; --pw-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.app-shell .student-page--progress .pw__h { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.app-shell .student-page--progress .pw__streak {
+  display: flex; align-items: center; justify-self: start; gap: 12px; min-height: 60px; margin: -4px 0 -4px -6px; padding: 4px 14px 4px 6px;
+  border: 0; border-radius: 18px; background: none; color: var(--a-ink); text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color 160ms var(--pw-out), transform 120ms var(--pw-out);
+}
+.app-shell .student-page--progress .pw__streak--none { min-height: 0; padding: 0; cursor: default; }
+.app-shell .student-page--progress .pw__streak:not(.pw__streak--none):active { transform: scale(0.98); }
+.app-shell .student-page--progress .pw__streak:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .student-page--progress .pw__streak:not(.pw__streak--none):hover { background: var(--a-hover); } }
+.app-shell .student-page--progress .pw__count { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.app-shell .student-page--progress .pw__count b { font: 750 46px/1 var(--font-display); letter-spacing: -0.045em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .student-page--progress .pw__count span { font-size: 14.5px; font-weight: 550; line-height: 1.25; color: var(--a-ink-2); }
+.app-shell .student-page--progress .pw__count--zero span { font: 650 16px/1.3 var(--font-display); color: var(--a-ink); max-width: 18ch; }
+
+.app-shell .student-page--progress .pw__week { display: grid; gap: 14px; min-width: 0; }
+.app-shell .student-page--progress .pw__goal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0; }
+.app-shell .student-page--progress .pw__goal b { font: 800 34px/1 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .student-page--progress .pw__goal span { font-size: 15px; font-weight: 600; color: var(--a-ink-2); }
+.app-shell .student-page--progress .pw[data-met='true'] .pw__goal b { color: var(--a-good-text); }
+.app-shell .student-page--progress .pw__days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.app-shell .student-page--progress .pw__day { display: grid; justify-items: center; gap: 7px; min-width: 0; }
+.app-shell .student-page--progress .pw .stk-bubble { width: 44px; height: 44px; --stk-volt: var(--pw-volt); --stk-volt-ink: #0b1000; }
+.app-shell .student-page--progress .pw .stk-bubble[data-look='done'] { background: var(--pw-volt); color: #0b1000; }
+html[data-theme='light'] .app-shell .student-page--progress .pw .stk-bubble[data-look='done'] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.45); }
+.app-shell .student-page--progress .pw .stk-bubble svg { width: 20px; height: 20px; }
+.app-shell .student-page--progress .pw .stk-bubble__bar { width: 16px; height: 3px; }
+.app-shell .student-page--progress .pw__day[data-ahead] .stk-bubble { opacity: 0.5; }
+.app-shell .student-page--progress .pw__day .stk-bubble { animation: pw-land 220ms var(--pw-out) both; animation-delay: calc(var(--i, 0) * 30ms + 60ms); }
+.app-shell .student-page--progress .pw__name { font-size: 12.5px; font-weight: 600; line-height: 1; color: var(--a-ink-3); }
+.app-shell .student-page--progress .pw__day[data-today] .pw__name { color: var(--a-ink); font-weight: 750; }
+.app-shell .student-page--progress .pw__said { margin: 0; max-width: 52ch; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
+.app-shell .student-page--progress .pw__next { min-width: 0; }
+.app-shell .student-page--progress .pw__next > * { margin: 0; }
+.app-shell .student-page--progress .pw--wait .pw__sk-goal { width: 180px; height: 34px; border-radius: 10px; }
+.app-shell .student-page--progress .pw--wait .pw__sk-line { width: min(100%, 320px); height: 18px; border-radius: 8px; }
+.app-shell .student-page--progress .pw--wait .pw__days { display: grid; }
+.app-shell .student-page--progress .pw--wait .stk-bubble { animation: none; opacity: 0.6; }
+.app-shell .student-page--progress .pw--wait .pw__streak--none { width: 180px; height: 56px; border-radius: 16px; background: var(--a-sunken); }
+@keyframes pw-land { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+@media (max-width: 379px) {
+  .app-shell .student-page--progress .pw .stk-bubble { width: 40px; height: 40px; }
+  .app-shell .student-page--progress .pw__count b { font-size: 40px; }
+  .app-shell .student-page--progress .pw__goal b { font-size: 30px; }
+}
+
+/* The finished weeks: one row of week marks, newest right; a shape and a word for each, never colour alone. */
+.app-shell .student-page--progress .pw-weeks > .rc-block { padding-top: 18px; }
+.app-shell .student-page--progress .pw-weeks .rc-h { font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .student-page--progress .pw-weeks .rc__streak { margin: -4px 0 12px; }
+.app-shell .student-page--progress .pw-marks {
+  display: grid; grid-template-columns: repeat(var(--pw-n, 7), minmax(44px, 52px)); gap: 6px; margin: 0; padding: 2px 2px 4px; list-style: none;
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; justify-content: start;
+}
+.app-shell .student-page--progress .pw-marks::-webkit-scrollbar { display: none; }
+.app-shell .student-page--progress .pw-marks li { display: grid; justify-items: center; gap: 6px; }
+.app-shell .student-page--progress .pw-mark {
+  display: grid; place-items: center; width: 100%; aspect-ratio: 1; min-height: 44px; padding: 0; border-radius: 14px;
+  border: 1.5px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink-2); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 120ms var(--pw-out, cubic-bezier(0.23, 1, 0.32, 1)), border-color 160ms ease-out;
+}
+.app-shell .student-page--progress .pw-mark b { font: 750 17px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.app-shell .student-page--progress .pw-mark[data-kind='met'] { border-color: transparent; background: #d2f000; color: #0b1000; }
+html[data-theme='light'] .app-shell .student-page--progress .pw-mark[data-kind='met'] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.45); }
+.app-shell .student-page--progress .pw-mark[data-kind='paused'] { border-style: dashed; background: none; }
+.app-shell .student-page--progress .pw-mark__bar { display: block; width: 16px; height: 3px; border-radius: 2px; background: var(--a-ink-3); }
+.app-shell .student-page--progress .pw-mark[data-picked='true'] { outline: 2px solid var(--a-ink); outline-offset: 3px; }
+.app-shell .student-page--progress .pw-mark:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
+.app-shell .student-page--progress .pw-mark:active { transform: scale(0.95); }
+@media (hover: hover) and (pointer: fine) { .app-shell .student-page--progress .pw-mark:not([data-kind='met']):hover { border-color: var(--a-ink-3); } }
+.app-shell .student-page--progress .pw-mark__date { font-size: 11.5px; font-weight: 600; line-height: 1; color: var(--a-ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.app-shell .student-page--progress .pw-weeks__said { min-height: 40px; }
+.app-shell .student-page--progress .pw-weeks .rc__foot { margin-top: 2px; }
+
+/* Your record so far: a ledger of four figures, the label and what it is out of on the left, the numeral right-aligned. */
+.app-shell .student-page--progress .pw-record { grid-template-columns: minmax(0, 1fr); border-block: 1px solid var(--a-line); }
+.app-shell .student-page--progress .pw-record > div,
+.app-shell .student-page--progress .pw-record > div:nth-child(even) {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'dt num' 'note num' 'track num';
+  column-gap: 16px; row-gap: 2px; align-items: center; padding: 12px 0; border-left: 0;
+}
+.app-shell .student-page--progress .pw-record > div + div { border-top: 1px solid var(--a-line) !important; }
+.app-shell .student-page--progress .pw-record dt { grid-area: dt; font: 650 14.5px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .student-page--progress .pw-record dd { display: contents; }
+.app-shell .student-page--progress .pw-record dd b { grid-area: num; justify-self: end; font: 800 30px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; text-align: right; }
+.app-shell .student-page--progress .pw-record dd small { grid-area: note; font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
+.app-shell .student-page--progress .pw-record .rv-right-track { grid-area: track; width: min(100%, 10rem); margin-top: 4px; }
+@media (min-width: 640px) and (max-width: 1099px) {
+  .app-shell .student-page--progress .pw-record { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .app-shell .student-page--progress .pw-record > div, .app-shell .student-page--progress .pw-record > div:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr); grid-template-areas: 'dt' 'num' 'note' 'track'; align-items: start; row-gap: 6px; padding: 16px 0 16px 20px; border-left: 1px solid var(--a-line);
+  }
+  .app-shell .student-page--progress .pw-record > div:first-child { padding-left: 0; border-left: 0; }
+  .app-shell .student-page--progress .pw-record > div + div { border-top: 0 !important; }
+  .app-shell .student-page--progress .pw-record dd b { justify-self: start; text-align: left; }
+}
+
+@media (min-width: 640px) {
+  .app-shell .student-page--progress .pw { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 28px; }
+  .app-shell .student-page--progress .pw__next { grid-column: 1 / -1; }
+  .app-shell .student-page--progress .pw .stk-bubble { width: 48px; height: 48px; }
+  .app-shell .student-page--progress .pw__days { grid-template-columns: repeat(7, 48px); gap: 12px; justify-content: start; }
+  .app-shell .student-page--progress .pw__streak { flex-direction: column; align-items: flex-start; gap: 8px; margin: 0; padding: 8px 14px 10px 8px; }
+}
+@media (min-width: 1100px) {
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw {
+    grid-template-columns: auto minmax(0, 1fr) minmax(260px, 320px); column-gap: 32px; padding: 24px 26px;
+    border: 1px solid var(--a-line); border-radius: 24px; background: var(--a-raised); box-shadow: var(--a-shadow-1);
+  }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next { grid-column: auto; align-self: stretch; display: grid; align-content: center; padding-left: 28px; border-left: 1px solid var(--a-line); }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next .na--compact { grid-template-columns: minmax(0, 1fr); padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next .na--compact .na__cta { justify-content: center; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__streak { padding-right: 18px; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__streak .stk-mobi { width: 72px; height: 72px; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count { flex-direction: column; gap: 4px; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count b { font-size: 56px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .student-page--progress .pw__day .stk-bubble { animation: pw-fade 120ms ease both; }
+  .app-shell .student-page--progress :is(.pw__streak, .pw-mark) { transition: none; }
+}
+html[data-motion='reduced'] .app-shell .student-page--progress .pw__day .stk-bubble { animation: pw-fade 120ms ease both; }
+html[data-motion='reduced'] .app-shell .student-page--progress :is(.pw__streak, .pw-mark) { transition: none; }
+@keyframes pw-fade { from { opacity: 0; } to { opacity: 1; } }
