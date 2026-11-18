@@ -62,9 +62,10 @@ test('G28: the lit build surfaces are back on Today, Colleges, the result and Fe
   const slots = strip(read('src/components/result/replay-slots.css'));
   assert.match(slots, /\.rs-q\[data-v='blank'\] \.rs-col i \{ background: repeating-linear-gradient\(135deg, var\(--rs-hatch\)/, 'a blank is hatched');
   assert.match(slots, /\.rs-q\[data-v='held'\] \.rs-col i \{ background: radial-gradient\(circle, var\(--rs-held-dot\)/, 'a held key is dotted');
-  const features = read('src/app/features/page.js');
-  assert.match(features, /className="ft-card" data-lead=/);
-  assert.match(features, /\.ft-card::after \{[^}]*radial-gradient\(var\(--ft-dot\) 1px, transparent 1\.25px\)/, 'the dot texture');
+  // 19 Nov 2026 (lane pub-c): Features is a catalogue of the product's own screens now, not of lit cards (pub_c_1119.test.mjs);
+  // the rule against orbs, glow and gradient text still holds for the page and its sheet.
+  const features = read('src/app/features/page.js') + strip(read('src/app/pub-pages.css'));
+  assert.match(features, /<FeatureScreen id=\{part\.screen\} \/>/);
   assert.doesNotMatch(code(features), /PrepOSOrb|DotPattern|glow|drop-shadow|background-clip: text/i, 'no orb, no glow, no gradient text (W-076)');
   // Kept out on purpose: the landing proof light, the Lab Cinema glow and the aurora are glows the owner rejected (L-019).
   assert.doesNotMatch(strip(read('src/app/hero-depth.css')), /\.lp-proof::before/);

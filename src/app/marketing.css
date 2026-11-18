@@ -2833,6 +2833,59 @@ html .mm .mm-nav__sheet .mm-nav__sheet-keys .mm-btn--secondary:active { backgrou
   .mm-foot__cols > :nth-child(-n + 2) { grid-column: 1 / -1; }
 }
 
+/* The footer's link groups fold on a phone on every public page (19 Nov 2026, lane pub-c; MarketingFooter FootGroup, Unfold).
+   The home page has folded since 18 Nov with its own rules (r19-home-b.css, `body .mm.lp`); this is the same fold for every
+   other page, keyed on the footer's `mm-foot--page` class, so the home page's footer is untouched. Below 720 px each group is a
+   56 px row with a chevron, closed until a tap or a key opens it; from 720 px it is open under its plain heading, as before.
+   Motion: only the row's own opening (260 ms ease-out height, ::details-content), only on a reader's toggle, none when reduced. */
+.mm-foot--page .lp-fold > .lp-fold__sum {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding-block: 0.5rem;
+  list-style: none; cursor: pointer; color: var(--chalk); -webkit-tap-highlight-color: transparent;
+}
+.mm-foot--page .lp-fold > .lp-fold__sum::-webkit-details-marker { display: none; }
+.mm-foot--page .mm-foot__cols .lp-fold__sum h3 { margin: 0; color: var(--chalk); font-size: 1rem; }
+.mm-foot--page .lp-fold > .lp-fold__sum::after {
+  content: ''; flex: none; width: 12px; height: 12px; margin-right: 4px; border-right: 2.25px solid var(--chalk-2); border-bottom: 2.25px solid var(--chalk-2);
+  transform: translateY(-3px) rotate(45deg); transition: transform 260ms cubic-bezier(0.23, 1, 0.32, 1), border-color 150ms ease-out;
+}
+.mm-foot--page .lp-fold[open] > .lp-fold__sum::after { transform: translateY(3px) rotate(-135deg); border-color: var(--chalk); }
+.mm-foot--page .lp-fold > .lp-fold__sum:active { color: var(--chalk-2); }
+.mm-foot--page .lp-fold > .lp-fold__sum:focus-visible { outline: 2px solid var(--chalk); outline-offset: 2px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { .mm-foot--page .lp-fold > .lp-fold__sum:hover::after { border-color: var(--chalk); } }
+.mm-foot--page .lp-fold__head { display: none; }
+@media (prefers-reduced-motion: reduce) { .mm-foot--page .lp-fold > .lp-fold__sum::after { transition: none; } }
+:root[data-motion='reduced'] .mm-foot--page .lp-fold > .lp-fold__sum::after { transition: none; }
+@media (max-width: 719px) {
+  .mm-foot--page .mm-foot__cols { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .mm-foot--page .mm-foot__cols > :nth-child(-n + 2) { grid-column: auto; }
+  .mm-foot--page .mm-foot__cols > :first-child { margin-bottom: 1.75rem; }
+  .mm-foot--page .mm-foot__group { border-top: 1px solid var(--slate-line); }
+  .mm-foot--page .lp-fold__body { padding-bottom: 0.75rem; }
+  .mm-foot--page .mm-foot__base { margin-top: 0; }
+  @supports selector(::details-content) {
+    @media (prefers-reduced-motion: no-preference) {
+      :root:not([data-motion='reduced']) .mm-foot--page .lp-fold { interpolate-size: allow-keywords; }
+      :root:not([data-motion='reduced']) .mm-foot--page .lp-fold::details-content {
+        height: 0; overflow: clip; transition: height 260ms cubic-bezier(0.23, 1, 0.32, 1), content-visibility 260ms allow-discrete;
+      }
+      :root:not([data-motion='reduced']) .mm-foot--page .lp-fold[open]::details-content { height: auto; }
+    }
+  }
+}
+/* From 720 px an open group shows its plain heading; a closed one keeps its row unless the browser can show the content while
+   closed (script off), as on the home page. */
+@media (min-width: 720px) {
+  .mm-foot--page .lp-fold[open] > .lp-fold__sum { display: none; }
+  .mm-foot--page .lp-fold[open] .lp-fold__head { display: block; }
+}
+@supports selector(::details-content) {
+  @media (min-width: 720px) {
+    .mm-foot--page .lp-fold::details-content { content-visibility: visible; }
+    .mm-foot--page .lp-fold > .lp-fold__sum { display: none; }
+    .mm-foot--page .lp-fold__head { display: block; }
+  }
+}
+
 /* ---------- R8 HERO-14: "Skip to content", the bar's first stop for a keyboard. Hidden until it has keyboard focus, then a
    44 px paper pill at the top left, over the bar. ---------- */
 .mm-skip {
