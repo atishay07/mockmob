@@ -113,14 +113,15 @@ html[data-motion='reduced'] .dd[data-reink][data-drawn='true'] .dd__fill { anima
     opacity: min(calc(var(--dd-scroll) * 30), calc((1 - var(--dd-scroll)) * 16));
   }
 }
-.dd__nib--marker { top: 52%; left: -4%; }
+/* The marker's box is the words' own width, so its ride is a transform (a share of that width), never a layout property. */
+.dd__nib--marker { top: 52%; left: 0; width: 100%; transform: translateX(-4%); }
 .dd[data-pen][data-drawn='true'] .dd__nib--marker {
   animation:
     dd-marker-run var(--dd-ms, 460ms) var(--dd-ease) var(--dd-delay, 0ms) both,
     dd-nib-show calc(var(--dd-ms, 460ms) + 280ms) linear var(--dd-delay, 0ms) both;
 }
 @keyframes dd-nib-run { from { offset-distance: 0%; } to { offset-distance: 100%; } }
-@keyframes dd-marker-run { from { left: -4%; } to { left: 104%; } }
+@keyframes dd-marker-run { from { transform: translateX(-4%); } to { transform: translateX(104%); } }
 @keyframes dd-nib-show {
   0% { opacity: 0; translate: 3px -6px; }
   7% { opacity: 1; translate: 0 0; }
