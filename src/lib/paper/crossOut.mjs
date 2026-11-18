@@ -23,10 +23,14 @@ const validId = (qid) => typeof qid === 'string' && qid.length > 0 && qid.length
 const validOption = (option, count) => Number.isInteger(option) && option >= 0 && option < Math.min(count, CROSS_OUT_LIMITS.options);
 const isState = (state) => !!state && typeof state === 'object' && !Array.isArray(state);
 
-/** The paper's own entry: one per paper, so a second paper never shows the first one's marks. Null without a paper key. */
-export function crossOutKey({ generationKey, sessionId } = {}) {
+/**
+ * The paper's own entry for this student: one per student and paper, so a second paper never shows the first one's marks, and
+ * neither does another student's paper with the same key in the same tab (a Sunday Mock's key is the same for everyone that
+ * week; review, 18 Nov). Null without a student or a paper key (the marks then stay in the page).
+ */
+export function crossOutKey({ userId, generationKey, sessionId } = {}) {
   const id = sessionId ? `s.${sessionId}` : generationKey ? `g.${generationKey}` : '';
-  return id ? `${CROSS_OUT_PREFIX}${id}` : null;
+  return userId && id ? `${CROSS_OUT_PREFIX}${userId}:${id}` : null;
 }
 
 /** The options crossed out on a question, ascending. */

@@ -3,7 +3,8 @@
 // returns, so every rule a key keeps is here and in runnerKeys.test.mjs.
 //
 // The rules: a key does nothing with Ctrl, Alt or Meta held, while typing in a field, while any dialog or sheet is open (the
-// submit sheet, the leave sheet, an integrity warning, the palette sheet: only Esc, which closes the palette), before the paper
+// submit sheet, the leave sheet, an integrity warning, the palette sheet: only Esc, which closes the palette; the keys list:
+// only ? and Esc, which hide it), before the paper
 // has started, while it is loading, submitting or held for a connection, and after it has ended. A held key does not repeat.
 // No action here submits the paper, ends it, leaves it or confirms a dialog: there is no such action name, and Next on the last
 // page is no action at all (the Next key there opens the submit sheet; a key never does). Enter and Space are never taken, so
@@ -69,6 +70,9 @@ export function keyAction(event, state) {
     if (state.paletteOpen) return act('close-palette');
     return null;
   }
+  // Review, 18 Nov: while the keys list is open it is being read, and a key tried from it ("what does A do?") would change the
+  // answer on screen unseen. Only ? (hide the list) and Esc answer then.
+  if (state.keysOpen) return key === '?' && state.keysUi ? act('keys') : null;
   if (state.paletteOpen) return null;
   const count = Number.isInteger(state.optionCount) ? state.optionCount : 0;
   // Shift with 1 to 5 (read from the key's place, as Shift turns 1 into !) crosses that option out.

@@ -114,17 +114,27 @@ test('reading back drops a broken entry, another paper\'s questions, options a q
   assert.deepEqual(parseCrossOut(raw, { questions, answers: { q1: 0 } }), { q2: [1, 2] });
 });
 
-test('one entry per paper: its generation key, or the session a resume link names', () => {
-  assert.equal(crossOutKey({ generationKey: 'abc-123456789' }), `${CROSS_OUT_PREFIX}g.abc-123456789`);
-  assert.equal(crossOutKey({ generationKey: 'abc-123456789', sessionId: 's-1' }), `${CROSS_OUT_PREFIX}s.s-1`);
+test('one entry per student and paper: its generation key, or the session a resume link names', () => {
+  assert.equal(crossOutKey({ userId: 'u1', generationKey: 'abc-123456789' }), `${CROSS_OUT_PREFIX}u1:g.abc-123456789`);
+  assert.equal(crossOutKey({ userId: 'u1', generationKey: 'abc-123456789', sessionId: 's-1' }), `${CROSS_OUT_PREFIX}u1:s.s-1`);
   assert.equal(crossOutKey({}), null);
   assert.equal(crossOutKey(), null);
-  assert.ok(!crossOutKey({ generationKey: 'k' }).startsWith('mm:test:'), 'never the draft\'s keys');
+  assert.ok(!crossOutKey({ userId: 'u1', generationKey: 'k' }).startsWith('mm:test:'), 'never the draft\'s keys');
+});
+
+test('review, 18 Nov: two students with the same paper key (a Sunday Mock\'s is the same for everyone) never share an entry', () => {
+  const sunday = { generationKey: 'sunday-2026-11-22-accountancy' };
+  const first = crossOutKey({ userId: 'student-a', ...sunday });
+  const second = crossOutKey({ userId: 'student-b', ...sunday });
+  assert.notEqual(first, second);
+  assert.equal(crossOutKey({ ...sunday }), null, 'no student known: nothing is stored, the marks stay in the page');
+  assert.equal(crossOutKey({ userId: '', ...sunday }), null);
+  assert.deepEqual(crossOutKeysToClear([first, second], { keep: second }), [first], 'the other student\'s entry goes when this paper opens');
 });
 
 test('cleared when another paper starts (every other paper\'s entry) and when the paper ends (all of them); nothing else is named', () => {
-  const mine = crossOutKey({ generationKey: 'paper-two-0001' });
-  const other = crossOutKey({ generationKey: 'paper-one-0001' });
+  const mine = crossOutKey({ userId: 'student-1', generationKey: 'paper-two-0001' });
+  const other = crossOutKey({ userId: 'student-1', generationKey: 'paper-one-0001' });
   const keys = [mine, other, 'mm:postTest', 'mm:nta:started:x', 'mm:test:student-1:paper:g.paper-two-0001', `${CROSS_OUT_PREFIX}s.old`, null, 7];
   assert.deepEqual(crossOutKeysToClear(keys, { keep: mine }), [other, `${CROSS_OUT_PREFIX}s.old`]);
   assert.deepEqual(crossOutKeysToClear(keys), [mine, other, `${CROSS_OUT_PREFIX}s.old`]);

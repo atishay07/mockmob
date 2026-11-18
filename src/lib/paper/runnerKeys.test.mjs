@@ -56,6 +56,18 @@ test('Esc closes the keys list or the palette sheet, and nothing else', () => {
   assert.equal(name('Escape', {}, { keysOpen: true, dialogOpen: true }), null, 'a dialog over the paper keeps its own Escape');
 });
 
+test('while the keys list is open only ? and Esc answer: a key tried from the list never changes the answer or the page', () => {
+  for (const k of ['a', 'B', '1', '4', 'n', 'ArrowRight', 'ArrowLeft', 'p', 'm', 'x', 'Enter', ' ']) {
+    assert.equal(run(k, {}, { keysOpen: true }), null, `${k} with the list open`);
+    assert.equal(run(k, {}, { keysOpen: true, crossTool: true }), null, `${k} with the list open and the tool on`);
+  }
+  assert.equal(run('#', { shiftKey: true, code: 'Digit3' }, { keysOpen: true }), null, 'no cross-out either');
+  assert.equal(name('?', { shiftKey: true, code: 'Slash' }, { keysOpen: true }), 'keys', '? hides it');
+  assert.equal(name('Escape', {}, { keysOpen: true }), 'close-keys');
+  // Closed again, the same keys work.
+  assert.deepEqual(run('a', {}, { keysOpen: false }), { name: 'choose', option: 0 });
+});
+
 test('while the tool is on, an option key crosses out instead of choosing; Shift with an option key crosses out too', () => {
   assert.deepEqual(run('b', {}, { crossTool: true }), { name: 'cross', option: 1 });
   assert.deepEqual(run('2', {}, { crossTool: true }), { name: 'cross', option: 1 });

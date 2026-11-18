@@ -14,7 +14,7 @@ const withKeyboard = (query) => ({ ...plainMedia(query), matches: /reduce|min-wi
 globalThis.matchMedia = withKeyboard;
 
 const KEY = 'generation-keys-000001';
-const CROSS = `mm:crossout:v1:g.${KEY}`;
+const CROSS = `mm:crossout:v1:student-1:g.${KEY}`;
 const quick = (over = {}) => ({ mode: 'quick', questions: h.paper(5), durationMs: 600000, params: { generationKey: KEY }, ...over });
 const option = (n) => h.find('.nta-option')[n];
 const pressed = () => h.find('.nta-option').map((o) => o.getAttribute('aria-pressed') === 'true');
@@ -112,10 +112,16 @@ test('the Keys key: its list by a click or ?, Escape closes it, and its one-time
   assert.equal(h.find('.rk-panel').length, 0);
   await h.key('?', { shiftKey: true });
   assert.equal(h.find('.rk-panel').length, 1);
-  await h.key('a'); // the list is not a modal: the keys still answer
-  assert.deepEqual(pressed(), [true, false, false, false]);
+  // Review, 18 Nov: a key tried while reading the list does nothing (it would change the answer on screen unseen).
+  for (const k of ['a', '2', 'n', 'm', 'x']) await h.key(k);
+  assert.deepEqual(pressed(), [false, false, false, false], 'no answer from a key tried with the list open');
+  assert.equal(heading(), 'Question 1');
+  assert.equal(h.one('.pr-cross').getAttribute('aria-pressed'), 'false');
+  assert.equal(h.find('.rk-panel').length, 1, 'the list stays open');
   await h.key('?', { shiftKey: true });
   assert.equal(h.find('.rk-panel').length, 0);
+  await h.key('a'); // closed, the keys answer
+  assert.deepEqual(pressed(), [true, false, false, false]);
   // A press outside closes it.
   await h.click(keys);
   await h.fire(h.document.body, 'pointerdown');
@@ -338,6 +344,43 @@ test('an NTA paper in MockMob style: under the integrity warning no key and no t
   await h.click(option(2));
   assert.deepEqual(struck(), [false, false, true, false]);
   assert.deepEqual(h.find('.nta-option').map((o) => o.getAttribute('aria-pressed')), ['false', 'true', 'false', 'false']);
+});
+
+test('review, 18 Nov: another student in the same tab, on a paper with the same key, sees none of the first student\'s marks', async (t) => {
+  // A Sunday Mock's key is the same for every student that week, and a shared computer's tab keeps its sessionStorage.
+  const first = await h.mount(quick());
+  let open = first;
+  t.after(() => open.unmount());
+  await h.click(h.one('.pr-cross'));
+  await h.click(option(1)); await h.click(option(2));
+  assert.deepEqual(struck(), [false, true, true, false]);
+  await first.unmount({ keepStorage: true });
+  const second = await h.mount(quick({ user: { id: 'student-2', isPremium: true } }));
+  open = second;
+  assert.deepEqual(struck(), [false, false, false, false], 'not this student\'s marks');
+  assert.equal(sessionStorage.getItem(CROSS), null, 'and the first student\'s entry is gone from the tab');
+  await h.advance(1000); await h.click(option(1));
+  assert.deepEqual(pressed(), [false, true, false, false]);
+  const theirs = JSON.parse(localStorage.getItem(`mm:test:student-2:paper:g.${KEY}`));
+  assert.deepEqual(types(theirs.events), ['visit', 'answer'], 'no strike recorded for a mark this student never made');
+});
+
+test('review, 18 Nov: a paper a notice has replaced (open in a newer tab) takes no key; nothing is answered or recorded unseen', async (t) => {
+  const s = await h.mount(quick({ storage: 'server' }));
+  t.after(() => s.unmount());
+  await h.advance(1000); await h.key('a');
+  const mine = draft();
+  await h.fire(h.document.body, 'storage', { bubbles: true, key: `mm:test:student-1:paper:g.${KEY}`, newValue: JSON.stringify({ ...mine, owner: 'other-tab', claimedAt: Date.now() + 1 }) });
+  assert.match(h.text(), /This paper is open in another tab/);
+  await h.advance(2000);
+  const before = s.synced().at(-1).body.events;
+  for (const k of ['b', '3', 'n', 'p', 'm', 'x', 'ArrowRight']) await h.key(k);
+  await h.key('#', { shiftKey: true, code: 'Digit3' });
+  await h.advance(3000);
+  const after = s.synced().at(-1).body.events;
+  assert.equal(after.length, before.length, 'no event added to a paper that is not on screen');
+  assert.deepEqual(after.filter((e) => e.type === 'answer').map((e) => e.answer), [0]);
+  assert.equal(s.submitted().length, 0);
 });
 
 // ---- source pins --------------------------------------------------------------------------------------------------------

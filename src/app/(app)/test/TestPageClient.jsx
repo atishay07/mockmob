@@ -400,9 +400,19 @@ function TestRunner() {
   // the same paper keeps them (src/lib/paper/crossOut.mjs); never in the draft, never sent, never part of what is scored. Each
   // cross-out and restore is also recorded as a strike event, read only after submit (the Mistake Lab's "You crossed out B, the
   // key, at 0:41"), as before.
-  const crossKey = useMemo(() => crossOutKey({ generationKey, sessionId: searchParams.get('sessionId') }), [generationKey, searchParams]);
+  // Keyed by the student too (review, 18 Nov): a Sunday Mock's key is the same for everyone, and a shared computer's tab may
+  // carry one student's marks to the next.
+  const crossUser = user?.id || null;
+  const crossKey = useMemo(() => crossOutKey({ userId: crossUser, generationKey, sessionId: searchParams.get('sessionId') }), [crossUser, generationKey, searchParams]);
   const [struck, setStruck] = useState(() => ({ key: crossKey, map: readCrossOuts(crossKey) }));
   const struckRef = useRef(struck);
+  // The student is known once sign-in answers, so the paper's key can arrive after the first render: its marks are read then.
+  useEffect(() => {
+    if (struckRef.current.key === crossKey) return;
+    const next = { key: crossKey, map: readCrossOuts(crossKey) };
+    struckRef.current = next;
+    setStruck(next);
+  }, [crossKey]);
   // The cross-out tool: on for one question at a time (the question's id), off on every new page, so a tap meant as an answer on
   // the next question is never taken as a cross-out.
   const [crossTool, setCrossTool] = useState(null);
@@ -1082,7 +1092,7 @@ function TestRunner() {
   useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
   // This paper's crossed-out options (a map kept for another paper is never this one's), and the one place they change: in this
   // page first, then this tab's own entry. Never the draft, never a request.
-  const crossMap = useCallback(() => (struckRef.current.key === crossKey ? struckRef.current.map : NO_CROSS_OUTS), [crossKey]);
+  const crossMap = useCallback(() => (struckRef.current.key === crossKey ? struckRef.current.map : readCrossOuts(crossKey)), [crossKey]);
   const keepCrossOuts = useCallback((map) => {
     const next = { key: crossKey, map };
     struckRef.current = next;
@@ -1323,7 +1333,9 @@ function TestRunner() {
   }, [loading, questions.length, crossKey]);
 
   useEffect(() => {
-    if (loading || !questions.length) return;
+    // Review, 18 Nov: a notice in the paper's place (it cannot be sent from here, or a newer tab has it) takes no key, so nothing
+    // is answered or recorded on a paper that is not on screen.
+    if (loading || !questions.length || problem || elsewhere) return;
     const onKeyDown = (event) => {
       // NTA style keeps exactly the keys it had (1 to 4 hold a choice as a press does; the arrows move without saving) and gets
       // none of MockMob's: it is the exam hall's twin.
@@ -1387,9 +1399,10 @@ function TestRunner() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, pickNta, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, reviewOpen, submitting, pendingSubmission, keysOpen, keysUi, crossTool, pressOption, focusOption, setMark, toggleCrossTool, toggleKeys]);
+  }, [loading, questions.length, problem, elsewhere, idx, gotoQuestion, pickNta, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, reviewOpen, submitting, pendingSubmission, keysOpen, keysUi, crossTool, pressOption, focusOption, setMark, toggleCrossTool, toggleKeys]);
 
-  // The keys list closes on a press anywhere outside the Keys key and the list (it is not a modal: nothing behind it is held).
+  // The keys list closes on a press anywhere outside the Keys key and the list (it is not a modal: focus is not held and a press
+  // behind it works; only the keys wait, except ? and Esc, until it closes).
   useEffect(() => {
     if (!keysOpen) return undefined;
     const onDown = (event) => { if (!keysAnchorRef.current?.contains(event.target)) setKeysOpen(false); };
