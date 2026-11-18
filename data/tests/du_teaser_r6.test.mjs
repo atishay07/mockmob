@@ -23,7 +23,8 @@ test('the teaser has one count: no du-live bar', () => {
 
 test('result lists up to six programme names then "and n more"', () => {
   assert.match(teaser, /MAX_NAMES = 6/);
-  assert.match(teaser, /and \$\{moreCount\} more/);
+  // 18 Nov 2026 (7eb3388bc): the line under the names says how many more the full calculator lists.
+  assert.match(teaser, /\{moreCount\} more in the full calculator/);
 });
 
 test('the component keeps its hrefs; the landing page no longer draws the compact row (R11: it repeated DU Compass)', () => {
