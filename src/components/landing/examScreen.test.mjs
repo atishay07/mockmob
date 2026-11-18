@@ -216,14 +216,16 @@ test('the section is short: a head of at most 20 words, the size budgets are sta
   // (R3-D6's phone was 1,031 px at 390) and adds the full-screen key under it.
   // R4-H1 widened the desktop column, so the monitor (unchanged in design) is larger at 1440: 799 px measured, under 839 px of
   // window below the site bar (801 px measured on 6 Nov).
-  assert.match(CSS, /at most:\s+780 px of section at 360 and 390, 810 px at 1440/);
+  // R19 (18 Nov 2026, owner: "make the actual portion size of the graphic ... larger"): the phone draws the screen itself, live,
+  // at phone scale (756 px tall), so the phone budget is 1200 px; the desktop budget is unchanged.
+  assert.match(CSS, /at most:\s+1200 px of section at 360 and 390 [^,]*, 810 px at\s+1440/);
   assert.doesNotMatch(JSX, /lp-exam/, 'the old NTA clone\'s classes are gone from the new component');
   assert.match(JSX, /id="exam-experience"/, 'the hero link and the dashboard\'s preview link still land here');
   assert.match(JSX, /<section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">/);
 });
 
 // Opt-in browser measure: EXAM_HEIGHT_URL=http://localhost:3592/ node --test src/components/landing/examScreen.test.mjs
-// Section height at most 780 px at 360 and 390 and 810 px at 1440, in both interfaces and both themes; switching never moves it.
+// Section height at most 1200 px at 360 and 390 (R19) and 810 px at 1440, in both interfaces and both themes; switching never moves it.
 // On a phone (360, 390) the full-screen key is at least 44 px tall and opens the view (R5): upright (its stage is the window,
 // never turned), the runner on a phone in real pixels (MockMob's stem 19 px and options 16 px, NTA style's 16 and 15.5 px),
 // every key in it at least 44 px; the palette key raises the sheet and Escape lowers the sheet alone; Escape then closes the
@@ -234,7 +236,7 @@ test('section height budgets and the full-screen view in a browser', { skip: !pr
   const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
   const browser = await chromium.launch(process.env.MM_CHROME ? { executablePath: process.env.MM_CHROME, headless: true } : { channel: 'chrome', headless: true });
   try {
-    for (const [width, height, max] of [[360, 640, 780], [390, 844, 780], [1440, 900, 810]]) {
+    for (const [width, height, max] of [[360, 640, 1200], [390, 844, 1200], [1440, 900, 810]]) {
       for (const theme of ['dark', 'light']) {
         const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
         // 'load' and a short settle: a dev server's open socket can keep 'networkidle' from ever arriving.

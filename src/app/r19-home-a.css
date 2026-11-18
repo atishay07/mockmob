@@ -1,0 +1,120 @@
+/* Round 19 (18 Nov 2026), lane home-a: DU Compass (#compass) and "Which DU courses are open to you?" (#du-eligibility).
+   The owner on his phone: "utilizing the vertical space ... make the actual portion size of the graphic and animation larger".
+   Each section's graphic is now the largest thing in it on a phone, close to the window's edges (12 px), with the words
+   giving way and the detail behind a labelled disclosure. The exam screen's own rules are in exam-screen.css (R19).
+   Every rule here starts at `body .mm.lp #<section>`, so it beats the older #compass and #du-eligibility rules
+   (r10-tools.css, r14-look.css, r16-phone.css) and du.css whatever order the sheets load in (src/lib/cssCascade.mjs). */
+
+/* ---------------------------------------------------------------- DU Compass: one card (CompassLadder.jsx, compass-ladder.css) */
+/* The older rules for the score box (hairlines), the dark ladder (its own margins and two-row colleges) are retired here. */
+body .mm.lp #compass .cl__score { padding: 0; border: 0; border-radius: 0; background: none; }
+body .mm.lp #compass .cl__stage { margin: 0; width: auto; border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; color: inherit; }
+body .mm.lp #compass .cl__list li { grid-template-columns: 22px minmax(0, 1fr) auto; grid-template-areas: none; align-items: center; column-gap: 10px; row-gap: 0; padding: 6px 0 9px; border-top: 0; }
+body .mm.lp #compass .cl__gap { min-width: 0; text-align: right; }
+body .mm.lp #compass .cl__track { height: 4px; }
+/* The slider's track and knob follow the card: on Day paper its unfilled part is the ink tint, not Night's light tint. */
+html[data-theme='light'] body .mm.lp #compass .cl__score input[type='range']::-webkit-slider-runnable-track { background: linear-gradient(to right, var(--brand-word) 0 var(--p, 50%), rgb(var(--tint, 23 21 15) / 0.12) var(--p, 50%) 100%); }
+html[data-theme='light'] body .mm.lp #compass .cl__score input[type='range']::-moz-range-track { background: rgb(var(--tint, 23 21 15) / 0.12); }
+/* Phones: the card runs to 12 px from the window's edges, the head keeps its pen mark and Mobi above it. */
+@media (max-width: 759px) {
+  body .mm.lp #compass .cl__card { margin-inline: calc(12px - var(--gutter, 20px)); padding-inline: 12px; }
+  body .mm.lp #compass .cl__courses { margin-inline: -12px; padding-inline: 12px; }
+  body .mm.lp #compass .lp-guide-head { margin-bottom: 14px; }
+}
+@media (max-width: 380px) {
+  body .mm.lp #compass .cl__seg button { min-width: 34px; padding-inline: 6px; font-size: 12px; }
+}
+
+/* Compass Pro: one line under the card with its link; what it adds opens under a labelled disclosure. */
+body .mm.lp #compass .lp-cpro { display: grid; gap: 2px; margin-top: 18px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+body .mm.lp #compass .lp-cpro__line { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.5; }
+body .mm.lp #compass .lp-cpro__line .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+body .mm.lp #compass .lp-cpro__more > summary,
+body .mm.lp #du-eligibility .du-teaser__pick > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; border-top: 1px solid var(--line); color: var(--ink); font-size: 0.9375rem; font-weight: 650; list-style: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+body .mm.lp #compass .lp-cpro__more > summary::-webkit-details-marker,
+body .mm.lp #du-eligibility .du-teaser__pick > summary::-webkit-details-marker { display: none; }
+body .mm.lp #compass .lp-cpro__more > summary svg,
+body .mm.lp #du-eligibility .du-teaser__pick > summary svg { flex: none; width: 18px; height: 18px; color: var(--ink-2); transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+body .mm.lp #compass .lp-cpro__more[open] > summary svg,
+body .mm.lp #du-eligibility .du-teaser__pick[open] > summary svg { transform: rotate(180deg); }
+body .mm.lp #compass .lp-cpro__more > summary:focus-visible,
+body .mm.lp #du-eligibility .du-teaser__pick > summary:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; border-radius: 6px; }
+@media (hover: hover) {
+  body .mm.lp #compass .lp-cpro__more > summary:hover svg,
+  body .mm.lp #du-eligibility .du-teaser__pick > summary:hover svg { color: var(--ink); }
+}
+body .mm.lp #compass .lp-cpro__more { display: grid; }
+body .mm.lp #compass .lp-cpro__more[open] { gap: 8px; padding-bottom: 4px; }
+body .mm.lp #compass .lp-cpro__more .lp-cpro__badge { margin: 4px 0 0; }
+body .mm.lp #compass .lp-cpro__body { margin: 0; max-width: 60ch; color: var(--ink-2); line-height: 1.6; }
+body .mm.lp #compass .lp-cpro__more .lp-cpro__list { grid-column: auto; grid-row: auto; }
+body .mm.lp #compass .lp-cpro__more .lp-cpro__fine { grid-column: auto; grid-row: auto; align-self: auto; }
+@media (min-width: 900px) {
+  body .mm.lp #compass .lp-cpro { grid-template-columns: none; grid-template-rows: none; max-width: 46rem; }
+}
+
+/* ---------------------------------------------------------------- Which DU courses are open to you? (EligibilityTeaser.jsx)
+   The answer first: the count very large with its line, the four quick starts as a two-by-two set of large keys, the key to
+   the full calculator, what the subjects open, then the subjects one by one behind a disclosure (open from 900 px, where it
+   stands in its own column). The card runs to 12 px from the window's edges on a phone. */
+body .mm.lp #du-eligibility .du-teaser { gap: 16px; padding: 18px 16px 6px; border-radius: 20px; overflow: visible; }
+body .mm.lp #du-eligibility .du-teaser__out { display: grid; gap: 6px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+body .mm.lp #du-eligibility .du-teaser__big { align-items: baseline; gap: 10px; }
+body .mm.lp #du-eligibility .du-teaser__big > span { font-size: clamp(4.5rem, 24vw, 6.5rem); line-height: 0.85; letter-spacing: -0.05em; }
+/* The count's own pen (Doodle) is a span inside it: it takes the count's size, not du.css's smaller span size. */
+body .mm.lp #du-eligibility .du-teaser__big > span .dd { min-width: 0; font: inherit; line-height: inherit; letter-spacing: inherit; }
+body .mm.lp #du-eligibility .du-teaser__big small { font: 650 1.125rem/1.2 var(--font-display); color: var(--ink); }
+body .mm.lp #du-eligibility .du-teaser__big[data-early] > span { font-size: 3rem; line-height: calc(clamp(4.5rem, 24vw, 6.5rem) * 0.85); }
+body .mm.lp #du-eligibility .du-teaser__lead { min-height: 3em; font-size: 0.9375rem; }
+body .mm.lp #du-eligibility .du-presets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+body .mm.lp #du-eligibility .du-presets > span { grid-column: 1 / -1; width: auto; color: var(--ink-3); font-size: 0.8125rem; font-weight: 650; }
+body .mm.lp #du-eligibility .du-preset { position: relative; display: flex; align-items: center; min-height: 60px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper); color: var(--ink); font: 700 1rem/1.2 var(--font-display); text-align: left; -webkit-tap-highlight-color: transparent; transition: background-color 160ms ease, border-color 160ms ease, transform 100ms ease; }
+body .mm.lp #du-eligibility .du-preset:active { transform: scale(.98); }
+body .mm.lp #du-eligibility .du-preset:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+@media (hover: hover) { body .mm.lp #du-eligibility .du-preset:not([aria-pressed='true']):hover { border-color: var(--ink-3); background: var(--state-wash, var(--paper)); } }
+/* The quick start in use: Night's volt with dark ink; Day's raised paper with the rim and the small volt tick (as the Compass's picks). */
+body .mm.lp #du-eligibility .du-preset[aria-pressed='true'] { border-color: transparent; background: var(--volt); color: var(--volt-ink); }
+html[data-theme='light'] body .mm.lp #du-eligibility .du-preset[aria-pressed='true'] { border-color: var(--sel-rim); box-shadow: inset 0 0 0 0.5px var(--sel-rim); background: var(--paper-raised); color: var(--ink); }
+html[data-theme='light'] body .mm.lp #du-eligibility .du-preset[aria-pressed='true']::after { content: ''; position: absolute; top: -4px; right: -4px; width: 17px; height: 17px; box-sizing: border-box; border-radius: 50%; border: 1px solid var(--tick-rim); background: var(--volt) var(--tick-check) center / 10px no-repeat; pointer-events: none; animation: var(--tick-anim, mm-tick-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both); }
+body .mm.lp #du-eligibility .du-teaser__go { display: grid; gap: 8px; }
+body .mm.lp #du-eligibility .du-teaser .mm-btn { margin-top: 0; }
+body .mm.lp #du-eligibility .du-teaser__detail { display: grid; gap: 14px; }
+body .mm.lp #du-eligibility .du-teaser__pick { display: grid; gap: 14px; min-width: 0; }
+body .mm.lp #du-eligibility .du-teaser__pick[open] { padding-bottom: 12px; }
+body .mm.lp #du-eligibility .du-teaser__pick .du-group + .du-group { margin-top: 6px; }
+@media (max-width: 899px) {
+  body .mm.lp #du-eligibility .du-teaser { margin-inline: calc(12px - var(--gutter, 20px)); }
+}
+/* Wide: the answer, the quick starts and the key on the left; the subjects one by one open on the right. */
+@media (min-width: 900px) {
+  body .mm.lp #du-eligibility .du-teaser { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); grid-auto-flow: row dense; column-gap: clamp(2rem, 4vw, 3.5rem); row-gap: 16px; padding: 26px 28px 16px; }
+  body .mm.lp #du-eligibility .du-teaser > :not(.du-teaser__pick) { grid-column: 1; }
+  body .mm.lp #du-eligibility .du-teaser__pick { grid-column: 2; grid-row: 1 / span 6; align-self: start; }
+  body .mm.lp #du-eligibility .du-teaser__big > span { font-size: clamp(5rem, 8vw, 7rem); }
+  body .mm.lp #du-eligibility .du-teaser__big[data-early] > span { line-height: calc(clamp(5rem, 8vw, 7rem) * 0.85); }
+}
+@media (prefers-reduced-motion: reduce) {
+  body .mm.lp :is(#compass .lp-cpro__more, #du-eligibility .du-teaser__pick) > summary svg, body .mm.lp #du-eligibility .du-preset { transition: none; }
+}
+:root[data-motion='reduced'] body .mm.lp :is(#compass .lp-cpro__more, #du-eligibility .du-teaser__pick) > summary svg,
+:root[data-motion='reduced'] body .mm.lp #du-eligibility .du-preset { transition: none; }
+
+/* ---------------------------------------------------------------- the three sections' reserved heights (landing.css's
+   content-visibility placeholders), re-measured 18 Nov 2026 after R19: 390x844, 360x740, 820x1180 and 1440x900. */
+body .lp main > #exam-experience { contain-intrinsic-size: auto 1155px; }
+body .lp main > #compass { contain-intrinsic-size: auto 1422px; }
+body .lp main > #du-eligibility { contain-intrinsic-size: auto 779px; }
+@media (max-width: 383px) {
+  body .lp main > #compass { contain-intrinsic-size: auto 1470px; }
+  body .lp main > #du-eligibility { contain-intrinsic-size: auto 866px; }
+}
+@media (min-width: 700px) and (max-width: 959px) {
+  body .lp main > #exam-experience { contain-intrinsic-size: auto 997px; }
+  body .lp main > #compass { contain-intrinsic-size: auto 1369px; }
+  body .lp main > #du-eligibility { contain-intrinsic-size: auto 871px; }
+}
+@media (min-width: 960px) {
+  body .lp main > #exam-experience { contain-intrinsic-size: auto 806px; }
+  body .lp main > #compass { contain-intrinsic-size: auto 1038px; }
+  body .lp main > #du-eligibility { contain-intrinsic-size: auto 896px; }
+}

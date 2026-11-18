@@ -8,9 +8,13 @@ import { evaluateAll } from '@/lib/du/eligibility';
 import { PRESETS, STREAM_ORDER, encodeSelection, loadRules } from '@/lib/du/client';
 import '@/components/du/du.css';
 import { predraw } from '@/components/landing/storyPredraw.mjs';
+import Doodle from '@/components/doodle/Doodle';
 
 // Landing-page version of the eligibility tool: a handful of the most common subjects,
 // a live count, and a hand-off to the full calculator with the selection pre-filled.
+// R19 (18 Nov 2026): the answer comes first and moves as you tap. The count leads, very large, with its one line; under it
+// the four quick starts as a two-by-two set of large keys (a tap changes the count at once, and the count re-inks), then the
+// key to the full calculator. Picking subjects one by one opens below, closed on phones and open from 900 px.
 // The rules file (62 KB) loads only when the section nears the viewport, so the hero
 // stays light on a slow phone.
 const LANGS = [
@@ -61,6 +65,9 @@ export function EligibilityTeaser() {
   // Chips revealed by a tick stay where they are until "Show fewer", so unticking never makes one vanish under a finger.
   const [kept, setKept] = useState([]);
   const [selection, setSelection] = useState({ languages: ['english'], domains: [], gat: false });
+  // "Choose subjects one by one": open by default from 900 px (two columns, room beside the answer), closed on phones.
+  const pickRef = useRef(null);
+  useEffect(() => { if (pickRef.current && window.matchMedia('(min-width: 900px)').matches) pickRef.current.open = true; }, []);
 
   // The section is drawn once ahead of the reader while the page is idle, like the held stories (storyPredraw.mjs,
   // LK93): its first style and layout no longer land inside the scroll that reaches it.
@@ -135,17 +142,79 @@ export function EligibilityTeaser() {
   // count one language and three subjects, or two languages and two subjects), so the zero is "so far" and the line names both routes.
   const early = counted && eligible.length === 0 && selection.domains.length < 3 && !selection.gat;
 
+  const sameAs = (p) => p.gat === selection.gat && p.languages.length === selection.languages.length && p.languages.every((l) => selection.languages.includes(l))
+    && p.domains.length === selection.domains.length && p.domains.every((d) => selection.domains.includes(d));
+  const shown = counted ? eligible.length : total;
+
   return (
     <div className="du-teaser" ref={hostRef}>
-      <div className="du-teaser__pick">
-        <div className="du-presets" role="group" aria-label="Quick start">
-          <span>Quick start</span>
-          {PRESETS.filter((p) => p.id !== 'commerce-maths').map((p) => (
-            <button key={p.id} type="button" className="du-preset" title={p.hint} onClick={() => { keep([...p.domains, ...(p.gat ? ['gat'] : [])]); setSelection({ languages: [...p.languages], domains: [...p.domains], gat: p.gat }); }}>
-              {p.label}
-            </button>
-          ))}
+      <div className="du-teaser__out" aria-live="polite">
+        {failed ? (
+          <p className="du-state du-state--error">The DU data could not load. Open the full calculator instead.</p>
+        ) : (
+          <>
+            <p className="du-teaser__big" data-early={early ? 'true' : undefined}>
+              <span className="mm-measure"><Doodle mark="highlight" inkKey={shown}>{String(shown)}</Doodle></span>
+              <small>{early ? `of ${total} DU courses so far` : counted ? `of ${total} DU courses` : 'DU courses.'}</small>
+            </p>
+            <p className="du-teaser__lead">
+              {early
+                ? 'Keep ticking: most DU courses count one language and three subjects, or two languages and two subjects.'
+                : counted
+                ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
+                : hasDomains
+                  ? 'Checking them against DU’s 2026 rules.'
+                  : selection.languages.length
+                    ? 'Tick your domain subjects to see which are open to you.'
+                    : 'Tick your subjects to see which are open to you.'}
+            </p>
+          </>
+        )}
+      </div>
+
+      <div className="du-presets" role="group" aria-label="Quick start">
+        <span>Quick start</span>
+        {PRESETS.filter((p) => p.id !== 'commerce-maths').map((p) => (
+          <button key={p.id} type="button" className="du-preset" title={p.hint} aria-pressed={sameAs(p)} onClick={() => { keep([...p.domains, ...(p.gat ? ['gat'] : [])]); setSelection({ languages: [...p.languages], domains: [...p.domains], gat: p.gat }); }}>
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="du-teaser__go">
+        <Link href={href} className="mm-btn mm-btn--primary">
+          See courses and past cutoffs
+        </Link>
+        <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
+      </div>
+
+      {!failed && counted && (names.length || byStream.length) ? (
+        <div className="du-teaser__detail">
+          {names.length ? (
+            <div className="du-teaser__names">
+              <p>Courses these subjects open</p>
+              <ul>
+                {names.map((name) => <li key={name}><Check size={14} aria-hidden="true" />{name}</li>)}
+              </ul>
+              {moreCount ? <p>{moreCount} more in the full calculator</p> : null}
+            </div>
+          ) : null}
+          {byStream.length > 0 ? (
+            <ul className="du-teaser__streams">
+              {byStream.map(([name, n]) => (
+                <li key={name}>
+                  <span>{name}</span>
+                  <i aria-hidden="true"><b style={{ transform: `scaleX(${n / max})` }} /></i>
+                  <em className="mm-measure">{n}</em>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
+      ) : null}
+
+      <details className="du-teaser__pick" ref={pickRef}>
+        <summary><span>Choose subjects one by one</span><ChevronDown size={18} aria-hidden="true" /></summary>
         <fieldset className="du-group">
           <legend>Language</legend>
           <div className="du-chips">
@@ -171,55 +240,7 @@ export function EligibilityTeaser() {
             <ChevronDown size={16} aria-hidden="true" />
           </button>
         </fieldset>
-      </div>
-
-      <div className="du-teaser__out" aria-live="polite">
-        {failed ? (
-          <p className="du-state du-state--error">The DU data could not load. Open the full calculator instead.</p>
-        ) : (
-          <>
-            <p className="du-teaser__big" data-early={early ? 'true' : undefined}>
-              <span className="mm-measure">{counted ? eligible.length : total}</span>
-              <small>{early ? `of ${total} DU courses so far` : counted ? `of ${total} DU courses` : 'DU courses.'}</small>
-            </p>
-            <p className="du-teaser__lead">
-              {early
-                ? 'Keep ticking: most DU courses count one language and three subjects, or two languages and two subjects.'
-                : counted
-                ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
-                : hasDomains
-                  ? 'Checking them against DU’s 2026 rules.'
-                  : selection.languages.length
-                    ? 'Tick your domain subjects to see which are open to you.'
-                    : 'Tick your subjects to see which are open to you.'}
-            </p>
-            {counted && names.length ? (
-              <div className="du-teaser__names">
-                <p>Courses these subjects open</p>
-                <ul>
-                  {names.map((name) => <li key={name}><Check size={14} aria-hidden="true" />{name}</li>)}
-                </ul>
-                {moreCount ? <p>{moreCount} more in the full calculator</p> : null}
-              </div>
-            ) : null}
-            {rules && hasDomains && byStream.length > 0 ? (
-              <ul className="du-teaser__streams">
-                {byStream.map(([name, n]) => (
-                  <li key={name}>
-                    <span>{name}</span>
-                    <i aria-hidden="true"><b style={{ transform: `scaleX(${n / max})` }} /></i>
-                    <em className="mm-measure">{n}</em>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </>
-        )}
-        <Link href={href} className="mm-btn mm-btn--primary">
-          See courses and past cutoffs
-        </Link>
-        <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
-      </div>
+      </details>
     </div>
   );
 }

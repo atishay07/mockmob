@@ -61,6 +61,8 @@ export const HOME_SHEETS = Object.freeze([
   'src/app/r16-phone.css',
   // Round 18 (18 Nov 2026): the tour as a deck the scroll deals.
   'src/app/r18-tour-deck.css',
+  // Round 19 (18 Nov 2026), lane home-a: DU Compass as one card and the DU count first (the exam screen's rules live in exam-screen.css).
+  'src/app/r19-home-a.css',
 ]);
 
 const HEADER = [
