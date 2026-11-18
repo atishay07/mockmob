@@ -665,6 +665,40 @@ test('the new pricing words follow the copy rules: no middle dots, no "!", no hy
   assert.ok(pricingHead(monthly()).sub.split(/\s+/).length <= 20);
 });
 
+// Review of lane home-b (18 Nov 2026): on a phone the card's detail folds behind two disclosures (Unfold). What a buyer must see
+// before paying stays outside them (the price, the term and renewal lines, the punch line with Pro's own price, Free); a wide
+// screen with script off keeps a way into the detail; and a turn of the screen never folds what the reader opened.
+test('pricing on a phone: the terms, the punch line and Free stay outside the disclosures; the detail is never unreachable', () => {
+  const value = stripComments(read('src/components/landing/PlanValue.jsx'));
+  assert.match(value, /<b>\{punch\.pro\}<\/b>\s*<\/p>/, 'Pro\'s own price in the punch line, in view');
+  assert.match(value, /<\/div>\s*\{free\}\s*<p className="lp-sr" aria-live="polite">/, 'Free, after the disclosures and outside them');
+  assert.match(value, /<Unfold from=\{900\} className="lp-fold--plan"[^\n]*\}>\s*\{everything\}\s*<\/Unfold>/, 'only the grouped lines fold, as the brief asks');
+  const card = read('src/components/pricing/PlanCard.jsx');
+  assert.match(card, /<p className="pro-plan__renew">\{terms\.renew\}<\/p>\s*\{terms\.soon \? <p className="pro-plan__soon">\{terms\.soon\}<\/p> : null\}\s*\{children\}/, 'the term lines draw before the card\'s body');
+
+  const unfold = stripComments(read('src/components/landing/Unfold.jsx'));
+  assert.match(unfold, /<details ref=\{ref\} className=\{`lp-fold/, 'a native disclosure: a real control, keyboard and find-in-page for free');
+  assert.match(unfold, /const widen = \(\) => \{ if \(!node\.open\) \{ node\.open = true; byWidth = true; \} \};/);
+  assert.match(unfold, /else if \(byWidth\) \{ node\.open = false; byWidth = false; \}/, 'a narrower screen folds only what the width opened');
+
+  // Outside @supports selector(::details-content) a closed disclosure keeps its summary row at every width.
+  const css = read('src/app/r19-home-b.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  const outside = (() => {
+    let out = css;
+    for (let at = out.indexOf('@supports selector(::details-content)'); at >= 0; at = out.indexOf('@supports selector(::details-content)')) {
+      let depth = 0; let i = out.indexOf('{', at);
+      for (; i < out.length; i += 1) { if (out[i] === '{') depth += 1; else if (out[i] === '}') { depth -= 1; if (depth === 0) break; } }
+      out = out.slice(0, at) + out.slice(i + 1);
+    }
+    return out;
+  })();
+  assert.doesNotMatch(outside, /\.lp-fold > \.lp-fold__sum \{ display: none; \}/, 'no closed row is hidden where the content cannot show while closed');
+  for (const scope of ['#pricing', '.mm-foot']) {
+    assert.ok(outside.includes(`${scope} .lp-fold[open] > .lp-fold__sum { display: none; }`), `${scope}: an open one steps its row aside`);
+    assert.ok(css.includes(`${scope} .lp-fold > .lp-fold__sum { display: none; }`), `${scope}: under @supports the row always steps aside`);
+  }
+});
+
 test('every home source that the pricing section reaches is on the landing\'s file walk (so the landing-wide rules check it)', () => {
   const landing = readdirSync(new URL('../../src/components/landing/', import.meta.url));
   for (const f of ['HomePricing.jsx', 'PlanCounts.jsx', 'PlanFree.jsx', 'PlanValue.jsx', 'useCountUp.js']) assert.ok(landing.includes(f), f);

@@ -7,7 +7,9 @@ import { useEffect, useRef } from 'react';
 // closed by default, reached and toggled by keyboard like any other. From `from` up it is simply open: the summary row steps
 // aside (r19-home-b.css hides it at that width) and `head`, the same words as a plain heading, stands over the content, so a wide
 // screen reads the detail as a section, not as a row to tap. The width rule lives in the sheet (::details-content is shown from
-// that width), and this effect opens the element too, for browsers without ::details-content. Nothing here animates; the
+// that width), and this effect opens the element too, for browsers without ::details-content. Without script in such a browser
+// the element stays closed, so the sheet keeps its summary row there until it is open (review, 18 Nov 2026: the detail was
+// otherwise unreachable on a wide screen with script off). Nothing here animates; the
 // sheet's height transition (the FAQ's own 260 ms ease-out) runs only when a reader toggles it on a phone.
 export function Unfold({ summary, head = null, from, className = '', children }) {
   const ref = useRef(null);
@@ -15,13 +17,15 @@ export function Unfold({ summary, head = null, from, className = '', children })
     const node = ref.current;
     if (!node || !from || typeof window.matchMedia !== 'function') return undefined;
     const wide = window.matchMedia(`(min-width: ${from}px)`);
-    let was = wide.matches;
-    if (was) node.open = true;
-    // Crossing the line: open on the way up; on the way down, fold again only what the width (not the reader) had opened.
+    // `byWidth`: this element was opened by the width, not by the reader.
+    let byWidth = false;
+    const widen = () => { if (!node.open) { node.open = true; byWidth = true; } };
+    if (wide.matches) widen();
+    // Crossing the line: open on the way up; on the way down, fold again only what the width (not the reader) had opened, so a
+    // phone or tablet reader who opened it before turning the screen finds it still open when the screen turns back.
     const onChange = () => {
-      if (wide.matches) node.open = true;
-      else if (was) node.open = false;
-      was = wide.matches;
+      if (wide.matches) widen();
+      else if (byWidth) { node.open = false; byWidth = false; }
     };
     wide.addEventListener?.('change', onChange);
     return () => wide.removeEventListener?.('change', onChange);

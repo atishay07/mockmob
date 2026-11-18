@@ -144,15 +144,22 @@ body .mm.lp #pricing .lp-plan__freekey:active { background: rgb(var(--tint) / 0.
   }
   body .mm.lp #pricing .lp-fold { border-top: 0; }
   body .mm.lp #pricing .lp-fold + .lp-fold { margin-top: 0.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
-  body .mm.lp #pricing .lp-fold > .lp-fold__sum { display: none; }
-  body .mm.lp #pricing .lp-fold__head { display: block; }
+  /* Open (Unfold opens it at this width): the row steps aside and the plain heading stands over the content. A closed one keeps
+     its row here, so with script off in a browser without ::details-content the detail can still be opened (below otherwise). */
+  body .mm.lp #pricing .lp-fold[open] > .lp-fold__sum { display: none; }
+  body .mm.lp #pricing .lp-fold[open] .lp-fold__head { display: block; }
   body .mm.lp #pricing .lp-fold__body { padding-bottom: 0.5rem; }
   body .mm.lp #pricing .lp-usual__punch { font-size: 1.75rem; }
   body .mm.lp #pricing .lp-usual__obj-sm { width: 4.5rem; }
   body .mm.lp main > #pricing.lp-sec { padding-block: 4.5rem 5rem; }
 }
 @supports selector(::details-content) {
-  @media (min-width: 900px) { body .mm.lp #pricing .lp-fold::details-content { content-visibility: visible; } }
+  /* Where the content can be shown while closed, it is, open or not (script off included): the row always steps aside. */
+  @media (min-width: 900px) {
+    body .mm.lp #pricing .lp-fold::details-content { content-visibility: visible; }
+    body .mm.lp #pricing .lp-fold > .lp-fold__sum { display: none; }
+    body .mm.lp #pricing .lp-fold__head { display: block; }
+  }
 }
 
 /* ==========================================================================================================================
@@ -236,12 +243,18 @@ body .mm.lp .mm-foot .lp-fold > .lp-fold__sum:focus-visible { outline-color: var
     }
   }
 }
+/* From 720 px, as the pricing card's from 900 px: an open group shows its plain heading; a closed one keeps its row unless the
+   browser can show the content while closed. */
 @media (min-width: 720px) {
-  body .mm.lp .mm-foot .lp-fold > .lp-fold__sum { display: none; }
-  body .mm.lp .mm-foot .lp-fold__head { display: block; }
+  body .mm.lp .mm-foot .lp-fold[open] > .lp-fold__sum { display: none; }
+  body .mm.lp .mm-foot .lp-fold[open] .lp-fold__head { display: block; }
 }
 @supports selector(::details-content) {
-  @media (min-width: 720px) { body .mm.lp .mm-foot .lp-fold::details-content { content-visibility: visible; } }
+  @media (min-width: 720px) {
+    body .mm.lp .mm-foot .lp-fold::details-content { content-visibility: visible; }
+    body .mm.lp .mm-foot .lp-fold > .lp-fold__sum { display: none; }
+    body .mm.lp .mm-foot .lp-fold__head { display: block; }
+  }
 }
 
 /* ---- The sections' content-visibility placeholders (landing.css), re-measured 18 Nov 2026 after this round, drawn, so the
@@ -254,11 +267,19 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
   body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 993px; }
   body .mm.lp main > #pricing { contain-intrinsic-size: auto 1285px; }
 }
-@media (min-width: 700px) and (max-width: 959px) {
+@media (min-width: 700px) and (max-width: 899px) {
   body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 961px; }
   body .mm.lp main > #pricing { contain-intrinsic-size: auto 1213px; }
   body .mm.lp main > #faq { contain-intrinsic-size: auto 491px; }
   body .mm.lp main > .lp-close { contain-intrinsic-size: auto 607px; }
+}
+/* 900 to 959 px (review, 18 Nov 2026, drawn at 920): the card is two columns and the closing card centred from 900 px, so the
+   band above, measured at 820, reserved 441 px too little for the card here. */
+@media (min-width: 900px) and (max-width: 959px) {
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 984px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1654px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 380px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 713px; }
 }
 @media (min-width: 960px) {
   body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1027px; }
