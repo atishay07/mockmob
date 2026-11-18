@@ -150,3 +150,22 @@ html[data-motion='reduced'] :is(.td__tab, .td__ico) { transition: none; }
   .td__shot .ts__q { font-size: 1rem; }
   .td__shot .ts__bar { font-size: 0.8125rem; }
 }
+
+@media (max-width: 719px) and (min-height: 710px) and (orientation: portrait) {
+  .td__shot .ts__body { justify-content: space-between; }
+}
+@media (max-width: 719px) and (min-height: 800px) and (orientation: portrait) {
+  .td__shot :is(.ts__choice, .ts__level) { min-height: 49px; }
+}
+@media (max-width: 719px) and (min-height: 710px) and (max-height: 779px) and (orientation: portrait) {
+  .td__shot .ts__body { gap: 0.32rem; }
+  .td__shot .ts__facts p { padding-block: 0.38rem; }
+}
+
+/* The Mob's alternate question shares the sprint's box. Its labelled controls already say what to tap. */
+@media (max-width: 719px) and (min-height: 710px) and (max-height: 779px) and (orientation: portrait) {
+  .td__shot .ts:has(.ts__panes) .ts__foot { display: none; }
+  .td__shot .ts__body:has(.ts__panes) { padding-block: 0.45rem; }
+  .td__shot .ts__pane { gap: 0.35rem; }
+  .td__shot .ts__fix .ts__opts { gap: 0.25rem; }
+}
