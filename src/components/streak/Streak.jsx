@@ -10,7 +10,39 @@ import {
   streakWeek, weekLegend, weekdayOf,
 } from '@/lib/streak/streakCopy.mjs';
 import { closeStreakSheet, sendPause, useStreak, useStreakSheet } from './useStreak';
+import { LOGO_B_MOBI } from '@/components/brand/logoB';
 import './streak.css';
+
+// The streak's own mark (18 Nov 2026, owner LK309): Mobi as he stands in the logo. He is asleep on the paper until today
+// counts (an outline, eyes shut) and lit once it does (volt, eyes open): a real state, never a pulse.
+const MOBI = LOGO_B_MOBI.small;
+const MOBI_BOX = '3392 -552 608 610';
+export function StreakMobi({ lit = false, size = 52, className = '' }) {
+  return (
+    <svg className={`stk-mobi ${className}`.trim()} data-lit={lit ? 'true' : 'false'} viewBox={MOBI_BOX} width={size} height={size} aria-hidden="true" focusable="false">
+      <path className="stk-mobi__body" d={MOBI.body} />
+      <path className="stk-mobi__visor" d={MOBI.visor} />
+      <path className="stk-mobi__eyes" d={MOBI.eyes} />
+    </svg>
+  );
+}
+
+/** The last 7 days as one quiet strip of bubbles for Today's block (spans only: it sits inside the block's button). */
+export function WeekStrip({ body }) {
+  const marks = streakWeek(body);
+  if (!marks.length) return null;
+  return (
+    <span className="stk-strip">
+      {marks.map((m, i) => (
+        <span key={m.day} className="stk-strip__day" data-today={m.today || undefined} style={{ '--i': i }}>
+          <DayMark look={m.look} />
+          <span className="stk-strip__name" aria-hidden="true">{m.today ? 'Today' : m.name.slice(0, 1)}</span>
+          <span className="sr-only">{m.label}. </span>
+        </span>
+      ))}
+    </span>
+  );
+}
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const INITIALS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];

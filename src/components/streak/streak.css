@@ -180,7 +180,7 @@ html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px r
 .app-shell .tsk__stamp { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--a-ink); color: var(--a-bg); font: 750 17px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .app-shell .tsk__moment p { display: grid; gap: 2px; margin: 0; font-size: 14.5px; line-height: 1.4; color: var(--a-ink-2); }
 .app-shell .tsk__moment b { font: 650 15.5px/1.25 var(--font-display); color: var(--a-ink); }
-.app-shell .tsk--wait .tsk__panel { min-height: 232px; align-content: start; }
+.app-shell .tsk--wait .tsk__panel { min-height: 318px; align-content: start; }
 .app-shell .tsk--wait .tsk__rule { min-height: 39px; }
 .app-shell .tsk__fail { margin: 0; font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
 .app-shell .tsk--wait span { display: block; height: 16px; width: 70%; border-radius: 6px; background: var(--a-raised-2); }
@@ -208,3 +208,48 @@ html[data-theme='light'] .stk-chip__n[data-done] { box-shadow: inset 0 0 0 1px r
 }
 html[data-motion='reduced'] :is(.stk-sheet[open], .stk-sheet::backdrop, .stk-week__day .stk-bubble, .app-shell .tsk, .app-shell .tsk__moment[data-play] .tsk__stamp) { animation: stk-fade 120ms ease both !important; }
 html[data-motion='reduced'] :is(.stk-icon, .stk-key--line, .stk-cal__day, .stk-chip) { transition-duration: 1ms; }
+
+/* ---------- 18 Nov 2026 (owner LK309): Today's block reads in one look. Mobi from the logo is the streak's own mark, asleep
+   as an outline until today counts and lit in volt once it does; the number stands beside him; the week's seven bubbles sit
+   under them; and a short bar shows today's questions. One small moment a day, when today first shows as counted: Mobi
+   wakes, the number rolls up one, today's bubble lands. Nothing else moves. ---------- */
+.stk-mobi { display: block; flex: none; overflow: visible; }
+.stk-mobi__body { fill: var(--a-raised-2); stroke: var(--a-line-strong); stroke-width: 15; transition: fill 260ms var(--stk-out), stroke 260ms var(--stk-out); }
+.stk-mobi__visor { fill: var(--a-ink-3); transition: fill 260ms var(--stk-out); }
+.stk-mobi__eyes { fill: var(--a-raised-2); transform-box: fill-box; transform-origin: 50% 50%; transform: scaleY(0.12); transition: transform 220ms var(--stk-out) 90ms, fill 220ms var(--stk-out); }
+.stk-mobi[data-lit='true'] .stk-mobi__body { fill: var(--stk-volt); stroke: transparent; }
+html[data-theme='light'] .stk-mobi[data-lit='true'] .stk-mobi__body { stroke: rgb(82 103 0 / 0.5); }
+.stk-mobi[data-lit='true'] .stk-mobi__visor { fill: #12110e; }
+.stk-mobi[data-lit='true'] .stk-mobi__eyes { fill: #f3efe4; transform: none; }
+
+.app-shell .tsk__top { display: flex; align-items: center; gap: 12px; min-height: 56px; }
+.app-shell .tsk__count { display: flex; align-items: baseline; gap: 8px; min-width: 0; color: var(--a-ink-2); font-size: 14.5px; line-height: 1.2; }
+.app-shell .tsk__n { display: inline-block; font: 750 46px/1 var(--font-display); letter-spacing: -0.045em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .tsk__unit { font-weight: 550; }
+
+.stk-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.stk-strip__day { display: grid; justify-items: center; gap: 6px; }
+.stk-strip__name { font-size: 12px; font-weight: 600; line-height: 1; color: var(--a-ink-3); }
+.stk-strip__day[data-today] .stk-strip__name { color: var(--a-ink); }
+
+.app-shell .tsk__bar { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 4px; margin-bottom: 4px; }
+.app-shell .tsk__bar i { display: block; height: 8px; border-radius: 4px; background: var(--a-raised-2); box-shadow: inset 0 0 0 1px var(--a-line); }
+.app-shell .tsk__bar i[data-on] { background: var(--stk-volt); box-shadow: none; }
+html[data-theme='light'] .app-shell .tsk__bar i[data-on] { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.45); }
+
+/* The day's moment. */
+.app-shell .tsk[data-fresh] .stk-mobi { animation: tsk-wake 420ms var(--stk-out) both; }
+.app-shell .tsk[data-fresh] .stk-mobi__eyes { animation: tsk-eyes 300ms var(--stk-out) 180ms both; }
+.app-shell .tsk__n[data-roll] { display: inline-grid; overflow: hidden; }
+.app-shell .tsk__n[data-roll] > span { grid-area: 1 / 1; }
+.app-shell .tsk__n[data-roll] > span:first-child { animation: tsk-roll-out 300ms var(--stk-out) 240ms both; }
+.app-shell .tsk__n[data-roll] > span:last-child { animation: tsk-roll-in 300ms var(--stk-out) 240ms both; }
+.app-shell .tsk[data-fresh] .stk-strip__day[data-today] .stk-bubble { animation: stk-mark 320ms var(--stk-out) 420ms both; }
+@keyframes tsk-wake { from { transform: scale(0.9); } to { transform: none; } }
+@keyframes tsk-eyes { from { transform: scaleY(0.12); } to { transform: none; } }
+@keyframes tsk-roll-out { from { transform: none; opacity: 1; } to { transform: translateY(-70%); opacity: 0; } }
+@keyframes tsk-roll-in { from { transform: translateY(70%); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .stk-mobi * { transition: none !important; } .app-shell .tsk[data-fresh] :is(.stk-mobi, .stk-mobi__eyes, .stk-bubble), .app-shell .tsk__n[data-roll] > span { animation: none !important; } .app-shell .tsk__n[data-roll] > span:first-child { display: none; } }
+html[data-motion='reduced'] .stk-mobi * { transition: none !important; }
+html[data-motion='reduced'] .app-shell .tsk[data-fresh] :is(.stk-mobi, .stk-mobi__eyes, .stk-bubble), html[data-motion='reduced'] .app-shell .tsk__n[data-roll] > span { animation: none !important; }
+html[data-motion='reduced'] .app-shell .tsk__n[data-roll] > span:first-child { display: none; }

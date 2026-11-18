@@ -107,6 +107,25 @@ export function statusLine(body) {
   return { text: answered > 0 ? `Answer ${more(left)} today to start your streak.` : `Answer ${qs(needed)} today to start your streak.`, tone: 'today' };
 }
 
+/**
+ * Today's work toward the day counting, as figures for a bar: { answered, needed }. Null when there is nothing to fill:
+ * today already counts, today is a pause day, or the server sent no rule. With a day still open (a make-up) the bar is the
+ * make-up's own (10 by default), the same figures makeUpLine says in words.
+ */
+export function todayProgress(body) {
+  if (!body || body.today?.done) return null;
+  if (body.makeUp?.day) {
+    const needed = Math.max(1, Math.round(body.makeUp.needed ?? 10));
+    return { answered: Math.max(0, Math.min(needed, Math.round(body.makeUp.answeredToday ?? 0))), needed };
+  }
+  if (body.today?.paused) return null;
+  const needed = Math.round(body.today?.needed ?? body.rule?.answers ?? 0);
+  if (!(needed > 0) || needed > 20) return null;
+  return { answered: Math.max(0, Math.min(needed, Math.round(body.today?.answered ?? 0))), needed };
+}
+/** When the student last saw today counted on this device (the block's one small moment is shown once a day). */
+export const countedKey = (day) => `mm:streak-counted:${day}:v1`;
+
 /** The next milestone (S6), or the one just reached with its real work: never marks. */
 export function milestoneLine(body) {
   if (!body) return null;
