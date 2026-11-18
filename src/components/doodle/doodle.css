@@ -22,7 +22,9 @@
 
 /* Tones. The pen follows the words' own ink unless told; the highlighter is volt, and its words take the ink that reads
    on volt in both themes. */
-.dd[data-tone='ink'] { --dd-ink: var(--ink); }
+/* The ink tone is the words' own colour: inside the signed-in shell --ink is not the page's text colour in Night, and a
+   mark in it vanished on the dark page (18 Nov, found by the public-pages lane on the 404). */
+.dd[data-tone='ink'] { --dd-ink: currentColor; }
 .dd[data-tone='brand'] { --dd-ink: var(--brand-word, var(--ink)); }
 .dd[data-tone='pen'] { --dd-ink: var(--flag, #b93225); }
 html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
