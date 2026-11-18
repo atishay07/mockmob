@@ -397,8 +397,9 @@ export default function LandingPage() {
               <Link href="#try-practice" className="lp-link">Try five questions</Link>
             </Reveal>
             <Reveal className="mm-faqs">
-              {faqs.map(({ question, answer }, index) => (
-                <details key={question} className="mm-faq" name="home-faq" open={index === 0}>
+              {/* Every answer starts closed (round 2 of 18 Nov 2026, lane home-b: an earlier change had left the first one open). */}
+              {faqs.map(({ question, answer }) => (
+                <details key={question} className="mm-faq" name="home-faq">
                   <summary>{question}</summary>
                   <div className="mm-faq__body">{answer}</div>
                 </details>

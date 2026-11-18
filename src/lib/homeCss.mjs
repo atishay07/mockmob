@@ -61,6 +61,8 @@ export const HOME_SHEETS = Object.freeze([
   'src/app/r16-phone.css',
   // Round 18 (18 Nov 2026): the tour as a deck the scroll deals.
   'src/app/r18-tour-deck.css',
+  // Round 2 of 18 Nov 2026, lane home-b: creators, pricing, the FAQ, the closing card and the footer, phone first.
+  'src/app/r19-home-b.css',
 ]);
 
 const HEADER = [

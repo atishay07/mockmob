@@ -7,6 +7,7 @@ import { FooterStart } from './FooterStart';
 import { FooterHelpLink } from './FooterHelpLink';
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 import { NewTag } from './NavBar';
+import { Unfold } from './landing/Unfold';
 import './new-tag.css';
 
 const PRODUCT_LINKS = [
@@ -48,6 +49,18 @@ const HOME_TOOLS = [
   ['Subject combination planner', '/cuet-subject-combination'],
 ];
 
+// One group of links. On the home page (round 2 of 18 Nov 2026, lane home-b) a phone gets each group as a disclosure row,
+// closed by default and open from 720 px (Unfold; r19-home-b.css), so the footer costs about one screen instead of two; every
+// link stays. Every other page keeps the plain heading over its list.
+function FootGroup({ home, title, children }) {
+  if (!home) return <div><h3>{title}</h3>{children}</div>;
+  return (
+    <div className="mm-foot__group">
+      <Unfold from={720} className="lp-fold--foot" summary={<h3>{title}</h3>} head={<h3>{title}</h3>}>{children}</Unfold>
+    </div>
+  );
+}
+
 export function MarketingFooter({ home = false }) {
   return (
     <footer className="mm-foot">
@@ -82,8 +95,7 @@ export function MarketingFooter({ home = false }) {
             </a>
           </div>
 
-          <div>
-            <h3>Product</h3>
+          <FootGroup home={home} title="Product">
             <ul>
               {PRODUCT_LINKS.filter(([, href]) => !home || !HOME_TOOLS.some(([, toolHref]) => toolHref === href)).map(([label, href, commerce]) => (
                 <li key={href} data-commerce={commerce ? '' : undefined}>
@@ -91,10 +103,9 @@ export function MarketingFooter({ home = false }) {
                 </li>
               ))}
             </ul>
-          </div>
+          </FootGroup>
 
-          <div>
-            <h3>Subjects</h3>
+          <FootGroup home={home} title="Subjects">
             <ul>
               {SUBJECT_LINKS.map(([label, href]) => (
                 <li key={href}>
@@ -102,10 +113,9 @@ export function MarketingFooter({ home = false }) {
                 </li>
               ))}
             </ul>
-          </div>
+          </FootGroup>
 
-          <div>
-            <h3>Company</h3>
+          <FootGroup home={home} title="Company">
             <ul>
               {COMPANY_LINKS.map(([label, href]) => (
                 <li key={href}>
@@ -113,7 +123,7 @@ export function MarketingFooter({ home = false }) {
                 </li>
               ))}
             </ul>
-          </div>
+          </FootGroup>
         </div>
 
         <div className="mm-foot__base">

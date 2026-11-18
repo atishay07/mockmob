@@ -141,6 +141,9 @@ export const PLAN_HOME = Object.freeze({
   pricingLink: 'See everything in Pro',
   free: 'Or start on Free: 50 credits a month, no card needed.',
   freeCta: 'Sign up free',
+  // Round 2 of 18 Nov 2026 (lane home-b): the card's two disclosures, closed on a phone and open from 900 px (PlanValue.jsx).
+  everything: 'Everything in Pro',
+  workedOut: 'How the usual price is worked out',
 });
 
 /**

@@ -1,0 +1,268 @@
+/* ==========================================================================================================================
+   Round 2 of 18 Nov 2026, lane home-b: creators, pricing, the FAQ, the closing card and the footer on the home page,
+   rebuilt phone first (owner, 18 Nov: "utilizing the vertical space ... we can utilize the screen more"; the round is judged
+   on a change a student sees within ten seconds on a 390 px phone). Loaded last of the home sheets (src/lib/homeCss.mjs).
+   Every rule is scoped to its section on the home page and carries `body`, so it wins over the older layers and over the
+   components' own sheets (home-pricing.css, plan-stage.css, social-proof.css, landing-close.css, marketing.css) by
+   specificity, never by load order (src/lib/cssCascade.mjs). /pricing and every other page are untouched.
+   Motion: only the disclosures' own opening (the FAQ's 260 ms ease-out height, ::details-content), only on a reader's tap,
+   none under reduced motion. No glow, gradient, glass or new colour: the card keeps the shared stage's glass.
+   ========================================================================================================================== */
+
+/* ---- The disclosure (Unfold.jsx): a 56 px row with the FAQ's chevron; open from a width each section sets below ---------- */
+body .mm.lp .lp-fold > .lp-fold__sum {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 56px; padding-block: 0.5rem;
+  list-style: none; cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.3; color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+body .mm.lp .lp-fold > .lp-fold__sum::-webkit-details-marker { display: none; }
+body .mm.lp .lp-fold > .lp-fold__sum::after {
+  content: ''; flex: none; width: 12px; height: 12px; margin-right: 4px; border-right: 2.25px solid var(--ink-3); border-bottom: 2.25px solid var(--ink-3);
+  transform: translateY(-3px) rotate(45deg); transition: transform 260ms cubic-bezier(0.23, 1, 0.32, 1), border-color 150ms ease-out;
+}
+body .mm.lp .lp-fold[open] > .lp-fold__sum::after { transform: translateY(3px) rotate(-135deg); border-color: var(--ink); }
+body .mm.lp .lp-fold > .lp-fold__sum:active { color: var(--ink-2); }
+body .mm.lp .lp-fold > .lp-fold__sum:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { body .mm.lp .lp-fold > .lp-fold__sum:hover::after { border-color: var(--ink); } }
+body .mm.lp .lp-fold__head { display: none; }
+body .mm.lp .lp-fold__title { margin: 0 0 0.75rem; font-family: var(--font-display); font-weight: 750; font-size: 1.125rem; line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { body .mm.lp .lp-fold > .lp-fold__sum::after { transition: none; } }
+:root[data-motion='reduced'] body .mm.lp .lp-fold > .lp-fold__sum::after { transition: none; }
+
+/* ==========================================================================================================================
+   Pricing (#pricing; HomePricing.jsx, PlanValue.jsx, PlanCounts.jsx, PlanFree.jsx). About 2,440 px on a 390 px phone before;
+   one card now: the plan's name and the price, the six things Pro covers as objects, the subject picker over the punch line,
+   Get Pro, two disclosures and Free as one line.
+   ========================================================================================================================== */
+
+/* The head on phones and tablets: the h2 and the rate at the left, Mobi's seat small at its right with his line under him. */
+@media (max-width: 899px) {
+  body .mm.lp #pricing .lp-price { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.5rem; align-items: start; }
+  body .mm.lp #pricing .lp-price > .pip-seat {
+    grid-column: 2; grid-row: 1; width: 4.75rem; margin: 0; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 2px; text-align: center;
+  }
+  body .mm.lp #pricing .lp-price > .pip-seat .pip-seat__art { width: 60px; height: 70px; }
+  body .mm.lp #pricing .lp-price > .pip-seat figcaption { max-width: 4.75rem; font-size: 12px; line-height: 1.3; text-align: center; text-wrap: balance; }
+  body .mm.lp #pricing .lp-price__head { grid-column: 1; grid-row: 1; justify-items: start; margin: 0 0 0.25rem; text-align: left; }
+  body .mm.lp #pricing .lp-price__head .lp-h2 { margin-inline: 0; font-size: clamp(1.625rem, 7.8vw, 2.5rem); }
+  /* The rate is the head's one sentence (no pill): the price in the display face, the day's figure in the one accent. */
+  body .mm.lp #pricing .lp-price__rate { padding: 0; border: 0; border-radius: 0; font-size: 1rem; text-wrap: pretty; }
+  body .mm.lp #pricing .lp-price__grid { grid-column: 1 / -1; }
+  /* The card runs close to the screen's edges: 12 px gutters on a phone (the page's are 20). */
+  body .mm.lp #pricing .lp-price__grid--one { grid-template-columns: minmax(0, 36rem); justify-content: start; }
+  body .mm.lp #pricing .lp-price__stage { max-width: 36rem; margin-inline: 0; }
+}
+@media (max-width: 599px) {
+  body .mm.lp #pricing .lp-price__stage { width: auto; margin-inline: calc(12px - var(--gutter, 20px)); }
+}
+body .mm.lp main > #pricing.lp-sec { padding-block: 2.5rem 2.5rem; }
+
+/* ---- The one card ---------------------------------------------------------------------------------------------------- */
+body .mm.lp #pricing .lp-plan.plan-glass { padding: 1rem 1rem 1.125rem; }
+/* The seal strip's art without its answer sheet: the foil seal in the card's top right, "MockMob Pro" as the card's first line. */
+body .mm.lp #pricing .lp-plan .pro-strip { position: relative; height: auto; margin: 0 0 0.375rem; }
+body .mm.lp #pricing .lp-plan .pro-strip__scene { position: absolute; inset: auto; top: -0.25rem; right: -0.25rem; width: 76px; height: 76px; }
+body .mm.lp #pricing .lp-plan .pro-strip__sheet { display: none; }
+body .mm.lp #pricing .lp-plan .pro-strip__seal { left: 0; top: 0; width: 76px; filter: drop-shadow(0 8px 10px rgba(0, 0, 0, 0.24)); }
+body .mm.lp #pricing .lp-plan .pro-chip { position: static; transform: none; display: inline-flex; vertical-align: top; }
+body .mm.lp #pricing .lp-plan .pro-plan__title { padding-right: 84px; }
+/* The price is the card's largest figure; its term lines follow exactly as the offer words them. */
+body .mm.lp #pricing .lp-plan .pro-plan__fig { font-size: clamp(3.75rem, 18vw, 4.75rem); letter-spacing: -0.045em; }
+body .mm.lp #pricing .lp-plan .pro-plan__renew { margin-top: 0.375rem; }
+
+/* What the one price holds: six desk objects with their names, three by two, no boxes (the card is the one surface). */
+body .mm.lp #pricing .lp-usual__all { margin: 1rem 0 0.5rem; font-size: 0.875rem; font-weight: 650; line-height: 1.3; color: var(--ink-3); }
+body .mm.lp #pricing .lp-usual__feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem 0.5rem; margin: 0; padding: 0; }
+body .mm.lp #pricing .lp-usual__feat {
+  display: grid; justify-items: start; align-content: start; gap: 0.3125rem; min-height: 0; padding: 0; border: 0; border-radius: 0;
+  font-size: 0.875rem; font-weight: 650; line-height: 1.25; color: var(--ink);
+}
+body .mm.lp #pricing .lp-usual__obj-sm { width: 4rem; margin-left: -0.25rem; }
+
+/* The comparison: the question, the five counts as one segmented row, and the punch line under it. */
+body .mm.lp #pricing .lp-plan__vs { margin-top: 1rem; padding-top: 0.875rem; border-top: 1px solid var(--line); }
+body .mm.lp #pricing .lp-usual__q { margin: 0 0 0.5rem; font-size: 0.875rem; }
+body .mm.lp #pricing .lp-usual__steps { gap: 0; border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; background: var(--paper); }
+body .mm.lp #pricing .lp-usual__step { min-height: 44px; border: 0; border-radius: 0; background: transparent; }
+body .mm.lp #pricing .lp-usual__step + .lp-usual__step { box-shadow: inset 1px 0 0 var(--line); }
+body .mm.lp #pricing .lp-usual__step[aria-pressed='true'] { background: var(--volt); color: var(--volt-ink); box-shadow: none; }
+html[data-theme='light'] body .mm.lp #pricing .lp-usual__step[aria-pressed='true'] { background: var(--paper-raised); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--sel-rim); }
+body .mm.lp #pricing .lp-usual__step:active { background: rgb(var(--tint) / 0.08); }
+body .mm.lp #pricing .lp-usual__step:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: -3px; border-radius: 12px; }
+body .mm.lp #pricing .lp-usual__punch { margin: 0.75rem 0 0; font-size: clamp(1.25rem, 5.6vw, 1.625rem); line-height: 1.2; }
+
+/* Get Pro and the way to everything on /pricing. */
+body .mm.lp #pricing .lp-plan__go { margin-top: 1rem; gap: 0; }
+
+/* The two disclosures: hairline rows under the key. Inside, the plan's groups and the receipt lose their own frames. */
+body .mm.lp #pricing .lp-plan__detail { margin-top: 0.5rem; border-bottom: 1px solid var(--line); }
+body .mm.lp #pricing .lp-fold { border-top: 1px solid var(--line); }
+body .mm.lp #pricing .lp-fold__body { padding-bottom: 1.125rem; }
+body .mm.lp #pricing .lp-fold .lp-plan__groups { margin-top: 0; padding-top: 0; border-top: 0; gap: 1.125rem; }
+body .mm.lp #pricing .lp-fold .lp-val__title { margin: 0 0 0.75rem; font-size: 1rem; line-height: 1.3; }
+body .mm.lp #pricing .lp-fold .lp-usual__way { padding: 0; border-radius: 0; background: none; }
+body .mm.lp #pricing .lp-fold .lp-usual__pro-head { margin: 0.875rem 0 0.75rem; }
+body .mm.lp #pricing .lp-fold .lp-usual__note { margin-top: 0.875rem; }
+
+/* Free, as one quiet line with its key at the line's end (no panel). */
+body .mm.lp #pricing .lp-plan__free {
+  display: block; margin: 0.875rem 0 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+  font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2);
+}
+body .mm.lp #pricing .lp-plan__free > span { display: inline; }
+body .mm.lp #pricing .lp-plan__freekey {
+  display: inline-flex; align-items: center; min-height: 44px; margin: -0.75rem 0 -0.75rem 0.25rem; padding: 0 0.125rem; vertical-align: baseline;
+  border-radius: 6px; box-shadow: none; background: none; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; white-space: nowrap;
+}
+body .mm.lp #pricing .lp-plan__freekey:active { background: rgb(var(--tint) / 0.08); }
+
+/* Phones and tablets: the disclosures fold and unfold with the FAQ's own motion (a reader's tap only). */
+@media (max-width: 899px) {
+  @supports selector(::details-content) {
+    @media (prefers-reduced-motion: no-preference) {
+      :root:not([data-motion='reduced']) body .mm.lp #pricing .lp-fold { interpolate-size: allow-keywords; }
+      :root:not([data-motion='reduced']) body .mm.lp #pricing .lp-fold::details-content {
+        height: 0; overflow: clip; transition: height 260ms cubic-bezier(0.23, 1, 0.32, 1), content-visibility 260ms allow-discrete;
+      }
+      :root:not([data-motion='reduced']) body .mm.lp #pricing .lp-fold[open]::details-content { height: auto; }
+    }
+  }
+}
+
+/* From 900 px: the head is the centred one again (Mobi the eyebrow over it), and the card is two columns: the price, the
+   objects, the picker, Get Pro and Free on the left; the two disclosures open on the right, each under its plain heading. */
+@media (min-width: 900px) {
+  body .mm.lp #pricing .lp-price__grid--one { grid-template-columns: minmax(0, 66rem); }
+  body .mm.lp #pricing .lp-price__stage { max-width: 66rem; }
+  body .mm.lp #pricing .lp-plan.plan-glass {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); grid-template-rows: repeat(7, auto) 1fr; column-gap: 0;
+    padding: 1.75rem 0 2rem 2.25rem;
+  }
+  body .mm.lp #pricing .lp-plan.plan-glass > * { grid-column: 1; }
+  body .mm.lp #pricing .lp-plan.plan-glass > .lp-plan__detail {
+    grid-column: 2; grid-row: 1 / -1; margin: 0 0 0 2.25rem; padding: 0.25rem 2.25rem 0 2.25rem; border-bottom: 0; border-left: 1px solid var(--line);
+  }
+  body .mm.lp #pricing .lp-fold { border-top: 0; }
+  body .mm.lp #pricing .lp-fold + .lp-fold { margin-top: 0.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  body .mm.lp #pricing .lp-fold > .lp-fold__sum { display: none; }
+  body .mm.lp #pricing .lp-fold__head { display: block; }
+  body .mm.lp #pricing .lp-fold__body { padding-bottom: 0.5rem; }
+  body .mm.lp #pricing .lp-usual__punch { font-size: 1.75rem; }
+  body .mm.lp #pricing .lp-usual__obj-sm { width: 4.5rem; }
+  body .mm.lp main > #pricing.lp-sec { padding-block: 4.5rem 5rem; }
+}
+@supports selector(::details-content) {
+  @media (min-width: 900px) { body .mm.lp #pricing .lp-fold::details-content { content-visibility: visible; } }
+}
+
+/* ==========================================================================================================================
+   Creators (#on-instagram; CreatorReels.jsx): the proof reads before any tap. The three counts lead as one row of large
+   figures; each reel card is nearly the phone's width with the next card's edge showing, and its middle carries the creator's
+   own figure set large with their line, so a card that has not loaded a preview is never a dark blank. Follow sits under.
+   ========================================================================================================================== */
+body .mm.lp #on-instagram .rl { gap: 1rem; }
+body .mm.lp #on-instagram .rl__summary {
+  grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible;
+}
+body .mm.lp #on-instagram .rl__summary > div { padding: 0.125rem 0.75rem 0; box-shadow: none; }
+body .mm.lp #on-instagram .rl__summary > div:first-child { padding-left: 0; }
+body .mm.lp #on-instagram .rl__summary > div + div { box-shadow: inset 1px 0 0 var(--line); }
+body .mm.lp #on-instagram .rl__summary dd { font-size: clamp(1.875rem, 8.6vw, 3.5rem); line-height: 0.95; letter-spacing: -0.04em; }
+body .mm.lp #on-instagram .rl__summary dt { font-size: 0.8125rem; font-weight: 600; color: var(--ink-2); }
+body .mm.lp #on-instagram .rl__summary + .rl__note { margin-top: -0.25rem; padding-inline: 0; }
+body .mm.lp #on-instagram .rl__track { margin-top: 0.5rem; }
+@media (max-width: 767px) {
+  body .mm.lp #on-instagram .rl__track { gap: 0.75rem; padding-inline: 1rem; margin-inline: calc(var(--gutter, 1.25rem) * -1); scroll-padding-inline: 1rem; }
+  body .mm.lp #on-instagram .rl__item { flex: 0 0 calc(100% - 1.75rem); }
+}
+/* The card's middle: the creator's figure, large, with their line; the top (kind, mark) and the foot (likes, name, play) as before. */
+body .mm.lp #on-instagram .rl__card { container-type: inline-size; }
+body .mm.lp #on-instagram .rl__mid { display: grid; gap: 0.75rem; margin-block: auto; }
+body .mm.lp #on-instagram .rl__card[data-kind='reel'] .rl__engage { margin-top: 0; }
+body .mm.lp #on-instagram .rl__reach { gap: 0.375rem; margin-top: 0; padding-right: 0; }
+body .mm.lp #on-instagram .rl__reach b { font-size: clamp(3rem, 27cqi, 6rem); line-height: 0.88; letter-spacing: -0.05em; }
+body .mm.lp #on-instagram .rl__reach > span { font-size: 0.875rem; }
+body .mm.lp #on-instagram .rl__about { font-size: clamp(0.875rem, 4.6cqi, 1rem); line-height: 1.45; -webkit-line-clamp: 5; }
+body .mm.lp #on-instagram .rl__cover-mark { top: 2.75rem; }
+/* MockMob's own posts carry no figure: their monogram stands large in the middle instead. */
+body .mm.lp #on-instagram .rl__card:not([data-kind='reel']) .rl__cover-mark { top: 42%; right: auto; left: 1rem; width: 44cqi; font-size: 2rem; transform: translateY(-50%); }
+body .mm.lp #on-instagram .rl__bar { margin-top: 0.25rem; }
+
+/* ==========================================================================================================================
+   The FAQ (#faq): 56 px rows, the question at 17 px; every answer closed until a student opens it (page.js).
+   ========================================================================================================================== */
+body .mm.lp #faq .mm-faq summary { min-height: 56px; padding-block: 0.625rem; font-size: 1.0625rem; }
+
+/* ==========================================================================================================================
+   The closing card (.lp-close) on phones and tablets: Mobi large (160 px) with his line beside him, then the question and the
+   two keys directly under him, on one left edge, so the card's first screen holds Mobi, the question and Sign up free.
+   ========================================================================================================================== */
+@media (max-width: 899px) {
+  body .mm.lp main > .lp-close { padding-block: 1.75rem 3rem; text-align: left; }
+  body .mm.lp .lp-close__inner { justify-items: start; gap: 0.875rem; }
+  body .mm.lp .lp-close .pip-seat { grid-template-columns: 160px minmax(0, max-content); width: auto; max-width: 100%; gap: 0.75rem; margin: 0; justify-self: start; }
+  body .mm.lp .lp-close .pip-seat__art { width: 160px; height: 196px; }
+  body .mm.lp .lp-close .pip-seat figcaption { max-width: 11rem; font-size: 15px; }
+  body .mm.lp .lp-close__inner .lp-h2, body .mm.lp .lp-close__inner .lp-sub { margin-inline: 0; text-align: left; }
+  body .mm.lp .lp-close__inner .lp-sub { margin-top: -0.25rem; }
+  body .mm.lp .lp-close__go { justify-items: start; width: 100%; max-width: 26rem; }
+  body .mm.lp .lp-close .lp-close__actions { width: 100%; justify-content: stretch; }
+  body .mm.lp .lp-close__invite { text-wrap: pretty; }
+}
+
+/* ==========================================================================================================================
+   The footer on the home page (MarketingFooter home): on phones the three link groups are disclosure rows, closed by default
+   and open from 720 px, so the footer costs about one screen. "Free CUET tools" stays open above them; every link stays.
+   ========================================================================================================================== */
+body .mm.lp .mm-foot .lp-fold > .lp-fold__sum { color: var(--chalk); }
+body .mm.lp .mm-foot .lp-fold > .lp-fold__sum h3 { margin: 0; color: var(--chalk); font-size: 1rem; }
+body .mm.lp .mm-foot .lp-fold > .lp-fold__sum::after { border-color: var(--chalk-2); }
+body .mm.lp .mm-foot .lp-fold[open] > .lp-fold__sum::after { border-color: var(--chalk); }
+body .mm.lp .mm-foot .lp-fold > .lp-fold__sum:focus-visible { outline-color: var(--chalk); }
+@media (max-width: 719px) {
+  body .mm.lp .mm-foot__cols { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  body .mm.lp .mm-foot__cols > :nth-child(-n + 2) { grid-column: auto; }
+  body .mm.lp .mm-foot__cols > :first-child { margin-bottom: 1.75rem; }
+  body .mm.lp .mm-foot__group { border-top: 1px solid var(--slate-line); }
+  body .mm.lp .mm-foot .lp-fold__body { padding-bottom: 0.75rem; }
+  body .mm.lp .mm-foot__base { margin-top: 0; }
+  @supports selector(::details-content) {
+    @media (prefers-reduced-motion: no-preference) {
+      :root:not([data-motion='reduced']) body .mm.lp .mm-foot .lp-fold { interpolate-size: allow-keywords; }
+      :root:not([data-motion='reduced']) body .mm.lp .mm-foot .lp-fold::details-content {
+        height: 0; overflow: clip; transition: height 260ms cubic-bezier(0.23, 1, 0.32, 1), content-visibility 260ms allow-discrete;
+      }
+      :root:not([data-motion='reduced']) body .mm.lp .mm-foot .lp-fold[open]::details-content { height: auto; }
+    }
+  }
+}
+@media (min-width: 720px) {
+  body .mm.lp .mm-foot .lp-fold > .lp-fold__sum { display: none; }
+  body .mm.lp .mm-foot .lp-fold__head { display: block; }
+}
+@supports selector(::details-content) {
+  @media (min-width: 720px) { body .mm.lp .mm-foot .lp-fold::details-content { content-visibility: visible; } }
+}
+
+/* ---- The sections' content-visibility placeholders (landing.css), re-measured 18 Nov 2026 after this round, drawn, so the
+   page's length does not jump as they come near: 390x844, 360x740, 820x1180 and 1440x900, the one-time offer. ---------------- */
+body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1049px; }
+body .mm.lp main > #pricing { contain-intrinsic-size: auto 1282px; }
+body .mm.lp main > #faq { contain-intrinsic-size: auto 439px; }
+body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
+@media (max-width: 383px) {
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 993px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1285px; }
+}
+@media (min-width: 700px) and (max-width: 959px) {
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 961px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1213px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 491px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 607px; }
+}
+@media (min-width: 960px) {
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1027px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1661px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 432px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 582px; }
+}

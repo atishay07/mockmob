@@ -277,7 +277,12 @@ test('final pass: what students usually pay, against Pro\'s own price a month, f
   const value = read('src/components/landing/PlanValue.jsx');
   assert.match(value, /aria-pressed=\{count === u\.subjects\}/, 'five large steps, native buttons');
   assert.match(value, /style=\{\{ '--w': u\.share \}\}/, 'Pro\'s bar at its true share');
-  assert.match(value, /<\/div>\s*<p className="lp-usual__punch"><span>\{punch\.usual\}<\/span> <b>\{punch\.pro\}<\/b><\/p>\s*<p className="lp-usual__note">/, 'the punch line right under the bars, then the footnote');
+  // Round 2 of 18 Nov 2026 (lane home-b): the punch line sits directly under the subject picker, its usual total re-inking on each
+  // change; the receipt, the bars and the footnote moved into the card's "How the usual price is worked out" disclosure.
+  assert.match(value, /<div className="lp-usual__steps"[\s\S]*?<\/div>\s*<p className="lp-usual__punch">/, 'the punch line right under the picker');
+  assert.match(value, /<Doodle mark="highlight" inkKey=\{subjects\}>\{rupeesOf\(total\)\}<\/Doodle>\{rest\}/, 'its figure re-inks on a change');
+  assert.match(value, /<span className="lp-sr">\{punch\.usual\}<\/span>/, 'a screen reader hears the sentence once, whole');
+  assert.match(value, /<\/div>\s*<p className="lp-usual__note">\{VALUE_COPY\.footnote\(\)\}<\/p>\s*<\/Unfold>/, 'the bars, then the footnote, closing the disclosure');
   assert.match(read('src/app/home-pricing.css'), /\.lp \.lp-usual__step \{\s*min-height: 44px;/);
   assert.match(stripComments(read('src/components/landing/HomePricing.jsx')), /const value = newOffer \? null : usualWay\(terms\);/);
 });
@@ -592,7 +597,8 @@ test('second take: the value card sits beside the plan card as its equal: level 
   assert.match(css, /@media \(min-width: 720px\) \{\s*\.lp \.lp-price__grid \{ --plan-word: 10rem; grid-template-columns: repeat\(2, minmax\(0, 1fr\)\); column-gap: 1\.5rem; align-items: start; \}/, 'two equal columns');
   assert.match(css, /\.lp \.lp-price__side \{ margin-top: calc\(var\(--plan-word\) \* 0\.64\); \}/, 'level with the card\'s top (the card starts at 64% of the word)');
   assert.match(css, /\.lp \.lp-price__side--full \{ align-self: stretch; display: flex; flex-direction: column; \}\s*\.lp \.lp-price__side--full \.lp-val \{ flex: 1 1 auto; \}/, 'with both questions, as tall as the card');
-  assert.match(read('src/components/landing/HomePricing.jsx'), /<div className="lp-price__side lp-price__side--full">/, 'the feature stack fills the card with or without Key cards');
+  // Round 2 of 18 Nov 2026 (lane home-b): the value card is no longer a second card; PlanValue draws inside the one plan card.
+  assert.match(read('src/components/landing/HomePricing.jsx'), /head=\{<ProSealStrip label=\{PLAN_COPY\.label\} \/>\}>\s*<PlanValue /, 'the value is the plan card\'s own body');
   // Owner, 7 Nov 2026: no empty bands when the card is stretched; the parts keep one steady gap and the footnote closes the card.
   assert.match(css, /\.lp \.lp-val \{\s*display: flex; flex-direction: column; gap: 1\.125rem;/, 'normal flow, one steady gap');
   assert.doesNotMatch(css.match(/\.lp \.lp-val \{[^}]*\}/)[0], /space-between|space-around|space-evenly/, 'the room never opens between the parts');

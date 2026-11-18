@@ -74,14 +74,19 @@ function Card({ item, active, onPlay }) {
             <span className="rl__kind"><IgGlyph size={14} />{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
             {item.partnership ? <span className="rl__partner">Paid partner</span> : null}
           </span>
-          {item.followers ? (
-            <span className="rl__reach">
-              <b className="mm-measure">{igCount(item.followers)}</b>
-              <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({igCount(item.also.followers)})</> : null}</span>
-            </span>
-          ) : null}
-          {item.about ? <span className="rl__about">{item.about}</span> : null}
-          {item.attribution ? <span className="rl__attribution">{item.attribution}</span> : null}
+          {/* Round 2 (18 Nov 2026, lane home-b): the card's middle is never a dark blank before a preview loads. The creator's own
+              figure (followers) is set large there with their line under it (r19-home-b.css); MockMob's own posts carry no
+              figure, so their monogram mark stands large in the middle instead. */}
+          <span className="rl__mid">
+            {item.followers ? (
+              <span className="rl__reach">
+                <b className="mm-measure">{igCount(item.followers)}</b>
+                <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({igCount(item.also.followers)})</> : null}</span>
+              </span>
+            ) : null}
+            {item.about ? <span className="rl__about">{item.about}</span> : null}
+            {item.attribution ? <span className="rl__attribution">{item.attribution}</span> : null}
+          </span>
           {item.views || item.likes || item.comments ? (
             <span className="rl__engage">
               {item.views ? <span><Eye size={13} aria-hidden="true" />{igCount(item.views)} views</span> : null}
@@ -144,14 +149,32 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
     const card = node.querySelector('.rl__item');
     const step = (card?.getBoundingClientRect().width || 240) + 16;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    node.scrollBy({ left: dir * step * 2, behavior: reduce ? 'auto' : 'smooth' });
+    // Two cards at a time where two fit; one on a phone, where each card is nearly the screen's width (round 2, 18 Nov 2026).
+    const per = node.clientWidth >= step * 2 ? 2 : 1;
+    node.scrollBy({ left: dir * step * per, behavior: reduce ? 'auto' : 'smooth' });
   };
 
   // Round 10 (10 Nov 2026): the date line belongs to the counts, so it sits right under the summary it dates (it was a lone line
   // under the reels, 500 px below the numbers on a desktop). With no summary it still closes the strip.
   const note = <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>;
+  // Round 2 (18 Nov 2026, lane home-b, "the proof reads before any tap"): the three counts lead, right under the section's
+  // head, as one row of large figures with their date line; then the strip of reels; then Follow and the arrows under it.
   return (
     <div className="rl">
+      {creators.length ? (
+        <dl className="rl__summary">
+          <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
+          {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
+          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
+        </dl>
+      ) : null}
+      {creators.length ? note : null}
+      {/* data-end: the strip is scrolled to its end; while it is not, more cards wait past the right edge (r10-close.css fades it). */}
+      <ul className="rl__track" ref={trackRef} onScroll={updateEnds} aria-label="Curated Instagram reels and posts" data-end={ends.end}>
+        {items.map((item) => (
+          <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
+        ))}
+      </ul>
       <div className="rl__bar">
         <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow"><IgGlyph size={17} />Follow @{handle}</a>
         {items.length > 1 ? (
@@ -162,20 +185,6 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           </div>
         ) : null}
       </div>
-      {/* data-end: the strip is scrolled to its end; while it is not, more cards wait past the right edge (r10-close.css fades it). */}
-      <ul className="rl__track" ref={trackRef} onScroll={updateEnds} aria-label="Curated Instagram reels and posts" data-end={ends.end}>
-        {items.map((item) => (
-          <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
-        ))}
-      </ul>
-      {creators.length ? (
-        <dl className="rl__summary">
-          <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
-          {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
-          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
-        </dl>
-      ) : null}
-      {creators.length ? note : null}
       {creators.length ? null : note}
     </div>
   );
