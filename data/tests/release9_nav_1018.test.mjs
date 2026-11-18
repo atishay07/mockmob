@@ -98,7 +98,8 @@ test('D6 and LK143: Ask Mobi leads the You page’s places and heads the rail un
   assert.match(layout, /data-tour="nav-mentor-top"/, 'the tour finds the top bar key on a phone');
   // The sidebar: Ask Mobi is Mobi’s own door right under Start, still the ordinary /mentor link.
   assert.match(read('src/lib/arenaNavigation.js'), /const ASK_MOBI = item\('mentor', 'Ask Mobi', 'prepos'\)/);
-  assert.match(layout, /<StartKey variant="sidebar" \/>\}[\s\S]{0,1200}?className="arena-mobi-door"[\s\S]{0,900}?<div className="arena-sidebar__places">/);
+  // Search's key (lane palette, 18 Nov 2026) sits between the door and the places, right above Today; the door still heads the rail.
+  assert.match(layout, /<StartKey variant="sidebar" \/>\}[\s\S]{0,1200}?className="arena-mobi-door"[\s\S]{0,1100}?<SearchKey \/>\}\s*<div className="arena-sidebar__places">/);
   assert.match(layout, /<Link href=\{mentorHref\} className="arena-mobi-door" data-tour="nav-mentor"/);
 });
 

@@ -26,6 +26,8 @@ import { balanceLine, dragOffset, dragOutcome, sheetTitle, springEasing, subject
 import { useSubjectRail } from './useSubjectRail';
 import { MORPH, bezier, contentKeyframes, discKeyframes, glassKeyframes, morphFrom, radiiOf, shapeKeyframes } from './morphPlan.mjs';
 import { InlineNudge, openUpgrade } from '@/components/pro';
+import { SearchField } from '@/components/search/SearchButtons';
+import { openSearch } from '@/components/search/searchStore';
 
 // Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
 // the rest run as rows.
@@ -186,6 +188,8 @@ function CostLine({ cost }) {
 export default function StartSheet({ open = false, onClose = () => {}, model, initialRow = null, returnFocus = null, linkFor = (href) => href }) {
   const dialog = useRef(null);
   const closing = useRef(false);
+  // Something to do once the sheet has gone (its Search field opens Search then, never over the sheet).
+  const afterClose = useRef(null);
   const titleId = useId();
   const subjectsId = useId();
   const { hero = null, rows = [], choose = null, section = null, subjects = [], subject = null, pro = false, balance = null, planState = 'loading', selectSubject = () => {}, retry = () => {} } = model || {};
@@ -199,6 +203,10 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
     const el = dialog.current;
     if (el?.open) { try { el.close(); } catch { el.removeAttribute('open'); } }
     onClose();
+    const next = afterClose.current;
+    afterClose.current = null;
+    // After the sheet's own clean-up has given focus back to the Start key, so the opener is that key.
+    if (next) window.setTimeout(next, 0);
   }, [onClose]);
 
   const requestClose = useCallback((fromDrag = null) => {
@@ -403,6 +411,9 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
       </div>
 
       <div className="st-body">
+        {/* Search at the top of the sheet on a phone and a tablet (lane palette, 18 Nov 2026): the sheet steps aside first, then
+            Search opens, and gives focus back to the Start key when it closes. */}
+        <SearchField className="st-search" onOpen={() => { afterClose.current = () => openSearch({ opener: opening.current.returnFocus?.() || null }); requestClose(); }} />
         {heroAbove ? heroNode : null}
 
         {subjects.length > 1 ? (
