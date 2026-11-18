@@ -41,8 +41,12 @@
   cursor: pointer;
   appearance: none;
 }
-/* 40 px as the brief sets it (the shell's 44 px floor for touch targets is for touch screens; the rail is a mouse place). */
+/* 40 px as the brief sets it for a mouse; a touch screen wide enough for the rail (a tablet held sideways) keeps the shell's
+   44 px floor, as the rail's own rows do (nav-places.css). */
 .app-shell .arena-sidebar .srch-key { min-height: 40px; }
+@media (pointer: coarse) {
+  .app-shell .arena-sidebar .srch-key { height: 44px; min-height: 44px; }
+}
 .app-shell .srch-key__icon { flex: none; color: var(--a-ink-3); }
 .app-shell .srch-key__word { flex: 1 1 auto; }
 .app-shell .srch-key__caps { display: inline-flex; flex: none; gap: 3px; }
@@ -269,6 +273,8 @@ html[data-theme='light'] .srch-row__title { font-weight: 500; }
   color: var(--a-ink-2);
   font: 400 15px/1.5 var(--font-body, system-ui), system-ui, sans-serif;
   text-align: left;
+  /* A pasted address or a long run of letters breaks inside the panel instead of running off its edge. */
+  overflow-wrap: anywhere;
 }
 
 .srch-foot {

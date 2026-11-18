@@ -89,6 +89,8 @@ export function emptyStartIds(userSubjects = []) {
  * (rank 0) and every other subject after (rank 1), each naming its subject. Enter practises 10 questions on it: Practice
  * opened on that subject and chapter through the link Practice already reads (?subject=&chapter=). `decks` is the set of
  * chapter keys with Key cards; such a chapter also offers Key cards and, with Learn v2, Learn.
+ * Practice offers only the student's own subjects (DashboardPageClient's mySubs): another subject's chapter opens Practice on
+ * its note that the subject is not theirs, with Edit subjects, so that row says Open, never "Practise 10".
  */
 export function chapterItems(chapters = [], { userSubjects = [], decks = new Set(), learn2 = false } = {}) {
   const own = new Set(startSubjects(userSubjects));
@@ -98,10 +100,11 @@ export function chapterItems(chapters = [], { userSubjects = [], decks = new Set
     if (!subject) continue;
     const name = subjectName(subject);
     const deck = decks.has(chapter.key);
+    const mine = own.has(subject);
     out.push({
       id: `chapter:${chapter.key}`, kind: 'chapter', key: chapter.key, title: chapter.title, hint: name, subject,
-      keywords: chapter.name !== chapter.title ? [chapter.name] : [], extra: name, rank: own.has(subject) ? 0 : 1,
-      href: practiceHref({ subject, mode: 'quick', count: SESSION.quickCount, chapter: chapter.name }), enter: `Practise ${SESSION.quickCount}`,
+      keywords: chapter.name !== chapter.title ? [chapter.name] : [], extra: name, rank: mine ? 0 : 1,
+      href: practiceHref({ subject, mode: 'quick', count: SESSION.quickCount, chapter: chapter.name }), enter: mine ? `Practise ${SESSION.quickCount}` : ENTER.open,
       cardsHref: deck ? (learn2 ? `/learn/c/${encodeURIComponent(chapter.key)}/cards` : `/cards/${encodeURIComponent(chapter.key)}`) : null,
       learnHref: deck && learn2 ? `/learn/c/${encodeURIComponent(chapter.key)}` : null,
     });
@@ -121,6 +124,21 @@ export function collegeItems(index = {}) {
     href: COLLEGE_HREF(c.slug), enter: ENTER.open, keywords: [],
   }));
   return [...courses, ...colleges];
+}
+
+/**
+ * What running a row does, against where the student is. `href`: the row's own address; `target`: the address drawn for it
+ * (previewHref); `path`: the route the shell draws now (the preview's too); `current`: the address in the bar.
+ *   'stay'    the target is this very address: nothing would change, so the panel only closes (focus back to its opener);
+ *   'reload'  a course while Colleges is already open: Colleges reads its ?course= only as it loads (CutoffCalculator), so a
+ *             soft navigation would change the address and nothing else; the page is loaded afresh on the course;
+ *   'push'    everything else (Practice reads its link whenever it changes).
+ */
+export function runMode({ kind = '', href = '', target = '', path = '', current = '' } = {}) {
+  const bare = (value) => String(value || '').split(/[?#]/)[0];
+  if (target && target === current) return 'stay';
+  if (kind === 'course' && bare(href) && bare(href) === bare(path)) return 'reload';
+  return 'push';
 }
 
 /**

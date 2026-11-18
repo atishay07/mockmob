@@ -24,7 +24,7 @@ import { AppIcon } from '@/components/ui/Glyph';
 import { BrandIcon, MobiMark } from '@/components/brand/BrandIcon';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { flatRows, moveActive, nothingLine, prepare, searchResults, titleParts } from '@/lib/search/searchModel.mjs';
-import { EMPTY_GOTO, chapterItems, collegeItems, emptyStartIds } from '@/lib/search/searchSources.mjs';
+import { EMPTY_GOTO, chapterItems, collegeItems, emptyStartIds, runMode } from '@/lib/search/searchSources.mjs';
 import './search.css';
 
 export const OPEN_MS = 160;
@@ -77,10 +77,10 @@ function Title({ row }) {
 
 /**
  * pages, actions: prepared-ready items (searchSources pageItems / startItems). userSubjects: the student's subjects (their
- * chapters lead). linkFor: the address drawn for where the student is (the preview keeps its fixtures). opener: () => the
- * element to give focus back to. onClosed: called once the panel has left.
+ * chapters lead). linkFor: the address drawn for where the student is (the preview keeps its fixtures). path: the route the
+ * shell draws now. opener: () => the element to give focus back to. onClosed: called once the panel has left.
  */
-export default function SearchPalette({ pages = [], actions = [], userSubjects = [], learn2 = false, linkFor = (h) => h, opener = () => null, onClosed = () => {} }) {
+export default function SearchPalette({ pages = [], actions = [], userSubjects = [], learn2 = false, path = '', linkFor = (h) => h, opener = () => null, onClosed = () => {} }) {
   const router = useRouter();
   const dialog = useRef(null);
   const input = useRef(null);
@@ -179,10 +179,16 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeIndex]);
 
-  const go = (href) => {
-    if (!href || closing.current) return;
-    router.push(linkFor(href));
+  // Runs a row (searchSources runMode): this very address only closes the panel, so focus goes back to its opener; a course
+  // while Colleges is open loads Colleges afresh (it reads ?course= only as it loads); everything else is a soft navigation.
+  const go = (row) => {
+    if (!row?.href || closing.current) return;
+    const target = linkFor(row.href);
+    const mode = runMode({ kind: row.kind, href: row.href, target, path, current: `${window.location.pathname}${window.location.search}` });
+    if (mode === 'stay') { requestClose(); return; }
     requestClose({ navigating: true });
+    if (mode === 'reload') window.location.assign(target);
+    else router.push(target);
   };
 
   const onKeyDown = (event) => {
@@ -210,7 +216,7 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
     if (event.key === 'Enter' && event.target === input.current) {
       if (event.isComposing) return;
       event.preventDefault();
-      if (activeRow) go(activeRow.href);
+      if (activeRow) go(activeRow);
     }
   };
 
@@ -266,7 +272,7 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
                     data-active={on || undefined}
                     data-kind={row.kind}
                     onPointerMove={() => { if (!on) setActive(i); }}
-                    onClick={() => go(row.href)}
+                    onClick={() => go(row)}
                   >
                     <span className="srch-row__icon" aria-hidden="true"><RowIcon row={row} /></span>
                     <span className="srch-row__text">

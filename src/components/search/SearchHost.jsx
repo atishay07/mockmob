@@ -46,6 +46,16 @@ export default function SearchHost({ path = '', groups = [], learn = true, learn
 
   // A route change closes it (the row's own navigation already did; this covers the browser's back key).
   useEffect(() => { if (searchState().open) closeSearch(); }, [pathname]);
+  // Back and Forward close it too when only the address's query changes (Practice on another subject, a preview view), where the
+  // route above stays the same.
+  useEffect(() => {
+    const onPop = () => { if (searchState().open) closeSearch(); };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  // So does the shell setting Search aside (the paper, a focus route, a session reload): the open state never outlives the host,
+  // so the panel cannot spring open, and take the focus, when the shell draws the host again.
+  useEffect(() => () => closeSearch(), []);
 
   // The shell draws its lists afresh on every render; the pages are rebuilt only when what they name changes.
   const groupsKey = groups.map((g) => `${g.label}:${(g.items || []).map((t) => `${t.id}=${t.label}`).join(',')}`).join('|');
@@ -59,5 +69,5 @@ export default function SearchHost({ path = '', groups = [], learn = true, learn
   const opener = useCallback(() => searchState().opener, []);
 
   if (!state.open) return null;
-  return <SearchPalette key={state.at} pages={pages} actions={actions} userSubjects={subjects} learn2={learn2} linkFor={linkFor} opener={opener} onClosed={closeSearch} />;
+  return <SearchPalette key={state.at} pages={pages} actions={actions} userSubjects={subjects} learn2={learn2} path={path} linkFor={linkFor} opener={opener} onClosed={closeSearch} />;
 }

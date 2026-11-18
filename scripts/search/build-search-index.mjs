@@ -9,6 +9,7 @@
 // Run: node scripts/search/build-search-index.mjs            (writes src/lib/search/searchIndex.json)
 //      node scripts/search/build-search-index.mjs --check    (exits 1 when the committed file is stale)
 // src/lib/search/searchModel.test.mjs runs buildSearchIndex() and fails when the committed file differs, so it cannot drift.
+import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -33,15 +34,29 @@ export function buildSearchIndex(root = ROOT) {
   const courses = index.groups.map((group) => ({ id: group.id, name: group.name, colleges: collegesOf.get(group.id) || 0 }));
   const colleges = catalog.colleges.map((college) => ({ slug: college.slug, name: college.title, courses: college.courseCount }));
 
-  const live = new Set(CHAPTERS.map((chapter) => chapter.key));
-  const manifest = readJson(join(root, 'data', 'keycards', 'manifest.json'));
+  const decks = deckChapters(join(root, 'data', 'keycards'), new Set(CHAPTERS.map((chapter) => chapter.key)));
+  return { courses, colleges, decks };
+}
+
+/**
+ * The live chapter keys with Key cards, by the server's own rule (src/lib/server/keycards.js loadDecks): a subject in the
+ * manifest whose deck file is there and matches the manifest's sha256 (otherwise the server switches that subject off), and
+ * only cards that name that subject. `live`: the syllabus's chapter keys. -> sorted keys.
+ */
+export function deckChapters(dir, live) {
+  let manifest = {};
+  try { manifest = readJson(join(dir, 'manifest.json')); } catch { return []; }
   const decks = new Set();
   for (const subject of Object.keys(manifest).sort()) {
-    const file = join(root, 'data', 'keycards', 'decks', `${subject}.json`);
+    const file = join(dir, 'decks', `${subject}.json`);
     if (!existsSync(file)) continue;
-    for (const card of readJson(file).cards || []) if (live.has(card.chapterKey)) decks.add(card.chapterKey);
+    const text = readFileSync(file, 'utf8');
+    if (createHash('sha256').update(text).digest('hex') !== manifest[subject]?.sha256) continue;
+    let deck;
+    try { deck = JSON.parse(text); } catch { continue; }
+    for (const card of deck.cards || []) if (card?.id && card.subject === subject && live.has(card.chapterKey)) decks.add(card.chapterKey);
   }
-  return { courses, colleges, decks: [...decks].sort() };
+  return [...decks].sort();
 }
 
 export const serialise = (value) => `${JSON.stringify(value)}\n`;

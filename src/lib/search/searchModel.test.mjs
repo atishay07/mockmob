@@ -9,10 +9,13 @@ import {
   searchKeyAction, searchResults, titleParts, typesText, typoCovers,
 } from './searchModel.mjs';
 import {
-  EMPTY_GOTO, PAGE_SYNONYMS, chapterItems, collegeItems, emptyStartIds, pageItems, previewHref, startItems,
+  EMPTY_GOTO, PAGE_SYNONYMS, chapterItems, collegeItems, emptyStartIds, pageItems, previewHref, runMode, startItems,
 } from './searchSources.mjs';
 import { CHAPTERS } from '../../../data/cuet_syllabus.js';
-import { buildSearchIndex, serialise, SEARCH_INDEX_FILE } from '../../../scripts/search/build-search-index.mjs';
+import { buildSearchIndex, deckChapters, serialise, SEARCH_INDEX_FILE } from '../../../scripts/search/build-search-index.mjs';
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { createHash } from 'node:crypto';
 import { collegePath } from '../du/cutoffPages.mjs';
 
 const ROOT = join(import.meta.dirname, '..', '..', '..');
@@ -168,6 +171,50 @@ test('chapters: the student\'s own subjects first, others after with their subje
   assert.equal(v1.learnHref, null, 'with Learn v2 off there is no chapter page to open');
 });
 
+test('chapters: "Practise 10" only for the student\'s own subjects; another subject\'s chapter says Open (review, 18 Nov)', () => {
+  const items = chapterItems(CHAPTERS, { userSubjects: ['economics'], decks: new Set(INDEX.decks), learn2: true });
+  const mine = items.find((c) => c.subject === 'economics');
+  const other = items.find((c) => c.subject === 'physics');
+  assert.equal(mine.enter, 'Practise 10');
+  assert.equal(other.enter, 'Open', 'Practice cannot set up a subject the student has not picked, so the row never promises a set');
+  assert.equal(new URL(other.href, 'http://x').searchParams.get('subject'), 'physics', 'it still opens Practice, whose note names the way: Edit subjects');
+  // Practice keeps a linked subject only when it is one of the student's (and otherwise says so): the reason for Open.
+  const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
+  assert.match(practice, /mySubs\.some\(subject => subject\.id === linkedSubject\) \? linkedSubject/);
+  assert.match(practice, /linkedSubjectUnavailable=status==='ready' && linkedSubject && !mySubs\.some/);
+});
+
+test('running a row: this very address only closes; a course while Colleges is open loads it afresh; the rest navigate', () => {
+  assert.equal(runMode({ kind: 'page', href: '/today', target: '/today', path: '/today', current: '/today' }), 'stay');
+  assert.equal(runMode({ kind: 'page', href: '/wallet', target: '/wallet', path: '/today', current: '/today' }), 'push');
+  assert.equal(runMode({ kind: 'course', href: '/admission-compass?course=b-com', target: '/admission-compass?course=b-com', path: '/admission-compass', current: '/admission-compass' }), 'reload');
+  assert.equal(runMode({ kind: 'course', href: '/admission-compass?course=b-com', target: '/admission-compass?course=b-com', path: '/today', current: '/today' }), 'push');
+  assert.equal(runMode({ kind: 'chapter', href: '/dashboard?subject=economics&chapter=Money', target: '/dashboard?subject=economics&chapter=Money', path: '/dashboard', current: '/dashboard' }), 'push', 'Practice reads its link whenever it changes');
+  // The preview: the route is the shell's own (previewRoute), the address the preview's.
+  assert.equal(runMode({ kind: 'course', href: '/admission-compass?course=b-com', target: '/preview/arena?view=compass&course=b-com', path: '/admission-compass', current: '/preview/arena?view=compass' }), 'reload');
+  // Why: Colleges reads ?course= once, as it loads.
+  assert.match(read('src/components/du/CutoffCalculator.jsx'), /\}, \[loadAttempt\]\);/);
+  const palette = read('src/components/search/SearchPalette.jsx');
+  assert.match(palette, /if \(mode === 'stay'\) \{ requestClose\(\); return; \}/, 'staying gives focus back to the opener');
+  assert.match(palette, /if \(mode === 'reload'\) window\.location\.assign\(target\);/);
+});
+
+test('Key cards links follow the server\'s own deck rule: manifest sha256 and the card\'s own subject', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'srch-decks-'));
+  try {
+    mkdirSync(join(dir, 'decks'));
+    const deck = (subject, cards) => JSON.stringify({ version: 1, cards });
+    const good = deck('economics', [{ id: 'e1', subject: 'economics', chapterKey: 'economics.money-and-banking' }, { id: 'e2', subject: 'accountancy', chapterKey: 'economics.production-and-costs' }, { id: 'e3', subject: 'economics', chapterKey: 'economics.not-a-chapter' }]);
+    const bad = deck('physics', [{ id: 'p1', subject: 'physics', chapterKey: 'physics.electric-charges-and-fields' }]);
+    writeFileSync(join(dir, 'decks', 'economics.json'), good);
+    writeFileSync(join(dir, 'decks', 'physics.json'), bad);
+    const sha = (text) => createHash('sha256').update(text).digest('hex');
+    writeFileSync(join(dir, 'manifest.json'), JSON.stringify({ economics: { sha256: sha(good) }, physics: { sha256: sha('something else') }, history: { sha256: 'x' } }));
+    const live = new Set(['economics.money-and-banking', 'economics.production-and-costs', 'physics.electric-charges-and-fields']);
+    assert.deepEqual(deckChapters(dir, live), ['economics.money-and-banking'], 'a deck the manifest does not sign is off, as on the server; a card of another subject does not count');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
 test('colleges and courses: "hindu" finds Hindu College with its course count; courses open Colleges on the course', () => {
   const r = run('hindu');
   const row = r.find((g) => g.id === 'colleges').rows[0];
@@ -276,4 +323,14 @@ test('source pins: the rail draws the Search key above Today; phones get it on Y
   // Nothing in the stylesheet transitions or loops; the active row's background moves with no transition.
   const css = read('src/components/search/search.css');
   assert.doesNotMatch(css.replace(/\/\*[\s\S]*?\*\//g, ''), /transition|animation|@keyframes|backdrop-filter/);
+});
+
+test('review pins (18 Nov): a long query wraps, the rail key keeps 44 px on touch, the open state dies with its host', () => {
+  const css = read('src/components/search/search.css').replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.match(css, /\.srch-none \{[^}]*overflow-wrap: anywhere;/, 'a pasted address never runs off the panel at 360 px');
+  assert.match(css, /@media \(pointer: coarse\) \{\s*\.app-shell \.arena-sidebar \.srch-key \{ height: 44px; min-height: 44px; \}/);
+  const host = read('src/components/search/SearchHost.jsx');
+  assert.match(host, /useEffect\(\(\) => \(\) => closeSearch\(\), \[\]\);/, 'the shell setting Search aside closes it');
+  assert.match(host, /window\.addEventListener\('popstate', onPop\);\s*return \(\) => window\.removeEventListener\('popstate', onPop\);/, 'Back closes it on any address');
+  assert.match(host, /window\.addEventListener\('keydown', onKey\);\s*return \(\) => window\.removeEventListener\('keydown', onKey\);/);
 });
