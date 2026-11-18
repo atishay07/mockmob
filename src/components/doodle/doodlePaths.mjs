@@ -176,6 +176,11 @@ export const MARKS = Object.freeze({ circle, underline, double, squiggle, strike
 /** How long each mark takes to draw, ms: a loop is slower than a line. */
 export const DRAW_MS = Object.freeze({ circle: 640, underline: 380, double: 560, squiggle: 620, strike: 300, spark: 300, tick: 320, cross: 360, highlight: 460 });
 
+/** A mark made with the pen in view is slower by this much: a hand's pace, so the reader sees it being made. */
+export const PEN_PACE = 1.5;
+/** One flick of an accent, ms. */
+export const SPARK_MS = 130;
+
 /**
  * The mark for a box.
  * @returns {{ strokes?: string[], fill?: string, pen: number }}

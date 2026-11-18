@@ -81,3 +81,28 @@ test('the mark is drawn once, from its start, when the words are reached; reduce
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /html\[data-motion='reduced'\]/);
 });
+
+// 18 Nov 2026 (owner LK314, "Some can be more animated"): the pen in view and the accent.
+test('a mark made with the pen in view is slower, and an accent is a quick flick', async () => {
+  const { PEN_PACE, SPARK_MS, DRAW_MS } = await import('./doodlePaths.mjs');
+  assert.ok(PEN_PACE > 1.2 && PEN_PACE <= 2, 'a hand, not a flash and not a wait');
+  assert.ok(Math.max(...Object.values(DRAW_MS)) * PEN_PACE <= 1000, 'no pen-made mark takes over a second');
+  assert.ok(SPARK_MS >= 80 && SPARK_MS <= 200);
+});
+
+test('the pen: only where motion paths exist, never under reduced motion, and one stroke at a time', async () => {
+  const { readFileSync } = await import('node:fs');
+  const jsx = readFileSync(new URL('./Doodle.jsx', import.meta.url), 'utf8');
+  const css = readFileSync(new URL('./doodle.css', import.meta.url), 'utf8');
+  assert.match(jsx, /data-pen=\{pen \|\| undefined\}/);
+  assert.match(jsx, /offsetPath: `path\("\$\{d\}"\)`/, 'the pencil rides the very stroke it makes');
+  assert.match(jsx, /className="dd__nib" aria-hidden="true"/, 'the pencil is decoration');
+  assert.match(jsx, /<svg className="dd__tool" width="1" height="1"/, 'a zero-sized svg is not painted at all');
+  assert.match(css, /@supports \(offset-path: path\('M0 0L1 1'\)\)/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.dd__nib \{ display: none; \} \}/);
+  assert.match(css, /html\[data-motion='reduced'\] \.dd__nib \{ display: none; \}/);
+  assert.doesNotMatch(css, /dd-nib-[a-z]+[^;]*infinite/, 'the pen never loops');
+  // Night: a highlighter's words turn where the swipe has reached.
+  assert.match(jsx, /className="dd__over" aria-hidden="true"/);
+  assert.match(css, /html\[data-theme='light'\] \.dd__over \{ display: none; \}/);
+});

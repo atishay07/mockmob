@@ -344,7 +344,7 @@ test('the desk keeps id="try-practice" and sits in section#try, right after the 
   assert.equal((PAGE.match(/id="try-practice"/g) || []).length, 1);
   const tryBlock = afterHero.slice(section, statement);
   // 18 Nov 2026: the heading carries one pen mark (Marked, under "five"); its words are still TRY_HEAD.h2.
-  assert.match(tryBlock, /<h2 className="lp-h2" id="try-title"><Marked text=\{TRY_HEAD\.h2\} marks=\{\[\['five', \{ mark: 'double' \}\]\]\} \/><\/h2>\s*<p className="lp-sub">\{TRY_HEAD\.sub\}<\/p>/);
+  assert.match(tryBlock, /<h2 className="lp-h2" id="try-title"><Marked text=\{TRY_HEAD\.h2\} marks=\{\[\['five', \{ mark: 'double', pen: true \}\]\]\} \/><\/h2>\s*<p className="lp-sub">\{TRY_HEAD\.sub\}<\/p>/);
   assert.match(tryBlock, /<div className="lp-desk__stage">\s*<HeroRoom \/>\s*<HeroMobi poster=\{<MobiPoster id="desk" \/>\} \/>\s*<\/div>\s*<div className="lp-desk__card">\s*<DemoDrill note=\{DESK_NOTE\} \/>/);
   // Round 10 (10 Nov 2026): the sub no longer repeats the card's own note word for word ("Free, no sign-up. Every answer
   // shows its reason." sits under the options); it says what the five give instead.
