@@ -79,7 +79,16 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, delay =
     return () => { off(); window.clearTimeout(timer); };
   }, [controlled, delay]);
 
-  const on = controlled ? when : drawn;
+  // A mark is drawn only once its undrawn state has been on screen for a frame: a mark told to draw as it mounts (a tick
+  // on the answer just chosen) still runs from its start instead of appearing whole.
+  const [primed, setPrimed] = useState(false);
+  useEffect(() => {
+    if (!shape) return undefined;
+    let b = 0;
+    const a = window.requestAnimationFrame(() => { b = window.requestAnimationFrame(() => setPrimed(true)); });
+    return () => { window.cancelAnimationFrame(a); window.cancelAnimationFrame(b); };
+  }, [shape]);
+  const on = (controlled ? when : drawn) && primed;
   const strokes = shape?.strokes || [];
   const ms = DRAW_MS[mark] || 400;
   // Several strokes share the mark's time, one after the other.

@@ -141,7 +141,7 @@ function spark(w, h, fs, rand) {
 function tick(w, h, fs, rand) {
   const s = Math.min(w, h);
   const j = () => (rand() - 0.5) * s * 0.04;
-  return { strokes: [through([[s * 0.14 + j(), h * 0.56 + j()], [s * 0.4 + j(), h * 0.8 + j()], [w - s * 0.08 + j(), h * 0.16 + j()]])] };
+  return { strokes: [through([[s * 0.14 + j(), h * 0.56 + j()], [s * 0.4 + j(), h * 0.8 + j()], [w - s * 0.08 + j(), h * 0.16 + j()]])], pen: Math.max(2.3, s * 0.115) };
 }
 
 /** A cross, made in the box: two strokes. */
@@ -151,7 +151,7 @@ function cross(w, h, fs, rand) {
   return { strokes: [
     through([[s * 0.16 + j(), h * 0.18 + j()], [w - s * 0.16 + j(), h * 0.84 + j()]]),
     through([[w - s * 0.14 + j(), h * 0.16 + j()], [s * 0.18 + j(), h * 0.86 + j()]]),
-  ] };
+  ], pen: Math.max(2.3, s * 0.115) };
 }
 
 /** The highlighter: one filled swipe behind the words, its ends cut on the slant, its long edges a little uneven. */
@@ -184,5 +184,5 @@ export function doodlePath(mark, { width, height, fontSize, seed = 1 }) {
   const make = MARKS[mark];
   if (!make || !(width > 0) || !(height > 0)) return { strokes: [], pen: 0 };
   const fs = fontSize > 0 ? fontSize : height / 1.2;
-  return { ...make(width, height, fs, seeded(seed)), pen: penWidth(fs) };
+  return { pen: penWidth(fs), ...make(width, height, fs, seeded(seed)) };
 }

@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
+import Doodle from '@/components/doodle/Doodle';
 import { pipReact } from '@/components/brand/pipEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
 import { DEMO_SUBJECTS, acceptDemoSet, demoSetUrl, demoSubject, pickDemoSet } from '@/lib/demoSample.mjs';
@@ -550,11 +551,13 @@ export function DemoDrill({ note = null }) {
                       {KEYS[optionIndex]}
                     </span>
                     <span className="mm-drill__label">{option}</span>
+                    {/* The verdict is made with the pen (18 Nov 2026, LK308): a tick on the key, a cross on a wrong pick, drawn
+                        as the answer lands and still from then on. */}
                     {answered && isCorrect ? (
-                      <Icon name="check" className="mm-drill__verdict-icon" aria-hidden="true" />
+                      <Doodle mark="tick" tone="current" when className="mm-drill__verdict-icon mm-drill__pen" aria-hidden="true" />
                     ) : null}
                     {answered && isPicked && !isCorrect ? (
-                      <Icon name="x" className="mm-drill__verdict-icon" aria-hidden="true" />
+                      <Doodle mark="cross" tone="pen" when className="mm-drill__verdict-icon mm-drill__pen" aria-hidden="true" />
                     ) : null}
                   </button>
                 );

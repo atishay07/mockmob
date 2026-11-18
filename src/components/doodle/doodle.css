@@ -34,3 +34,7 @@ html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }
   .dd[data-drawn='true'] .dd__stroke, .dd[data-drawn='true'] .dd__fill, .dd--highlight[data-drawn='true'] { transition: none; }
 }
 html[data-motion='reduced'] .dd[data-drawn='true'] :is(.dd__stroke, .dd__fill), html[data-motion='reduced'] .dd--highlight[data-drawn='true'] { transition: none; }
+
+/* A tick or a cross with no words of its own is a small square of its own (the sample card's verdicts). */
+.dd--tick:empty, .dd--cross:empty { width: 22px; height: 22px; flex: none; }
+.dd--tick > .dd__ink, .dd--cross > .dd__ink { z-index: 0; }
