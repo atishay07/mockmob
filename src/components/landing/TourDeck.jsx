@@ -172,7 +172,7 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
                 <p className="td__lede">{slide.lede || slide.line}</p>
                 <p className="lp-sr">{slide.chip}</p>
                 {slide.points?.length ? <ul className="td__points">{slide.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
-                <Link href={slide.href} className="lp-link td__cta">{slide.cta}</Link>
+                <Link href={slide.href} className="lp-link td__cta td__cta--wide">{slide.cta}</Link>
               </div>
               <div className="td__shot">
                 <div className="td__room">
@@ -181,6 +181,7 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
                   </div>
                 </div>
               </div>
+              <Link href={slide.href} className="lp-link td__cta td__cta--phone">{slide.cta}</Link>
               <i className="td__shade" aria-hidden="true" />
             </article>
           );

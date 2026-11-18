@@ -1,6 +1,9 @@
 /* Compass ladder (.cl): controls follow the page theme; the ladder is a product screen, so it stays dark. */
 .cl { display: grid; gap: 1.75rem; align-items: start; }
-@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); column-gap: clamp(2rem, 4.5vw, 4.5rem); row-gap: 1rem; grid-template-rows: auto 1fr; }
+  .cl .cl__stage { grid-column: 2; grid-row: 1 / span 2; }
+  .cl .cl__cta { grid-column: 1; }
+}
 .cl__controls { display: grid; gap: 1.1rem; min-width: 0; }
 .cl__group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
@@ -22,15 +25,15 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .cl__big { font: 800 clamp(2.2rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--brand-word); min-width: 3ch; text-align: right; }
 .cl__score input { grid-column: 1 / -1; width: 100%; height: 44px; accent-color: var(--volt); cursor: pointer; background: transparent; }
 .cl__score small { grid-column: 1 / -1; font-size: 0.78rem; color: var(--ink-3); }
-.cl__big span { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
+.cl__denominator { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
 .cl__try { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
 .cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
 .cl__demo:hover { color: var(--ink); background: var(--paper-raised-2); }
 /* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
 body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
 .cl__demo:active, .cl__group button:active { transform: translateY(1px); }
-.cl__summary { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
-.cl__summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.cl__summary { margin: 0; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 240, 230, 0.12); font-size: 0.9375rem; line-height: 1.45; color: #cfc8b9; }
+.cl__summary b { color: #f4f0e6; font-variant-numeric: tabular-nums; }
 .cl__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
 
 .cl__stage { margin: 0; min-width: 0; border-radius: 22px; background: #13110e; color: #f4f0e6; border: 1px solid rgba(244, 240, 230, 0.12); box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 240, 230, 0.08); overflow: hidden; }

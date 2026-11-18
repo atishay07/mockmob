@@ -42,10 +42,26 @@ const COMPANY_LINKS = [
   ['Refunds', '/refunds'],
 ];
 
-export function MarketingFooter() {
+const HOME_TOOLS = [
+  ['Free CUET mock test', '/cuet-mock-test-free'],
+  ['DU cutoff calculator', '/cuet-cutoff-calculator'],
+  ['Subject combination planner', '/cuet-subject-combination'],
+];
+
+export function MarketingFooter({ home = false }) {
   return (
     <footer className="mm-foot">
       <div className="mm-wrap">
+        {home ? (
+          <nav className="mm-foot__tools" aria-label="Free CUET tools">
+            <h2>Free CUET tools</h2>
+            <ul>
+              {HOME_TOOLS.map(([label, href]) => (
+                <li key={href}><Link href={href}>{label}</Link></li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
         <div className="mm-foot__cols">
           <div>
             <Logo />
@@ -69,7 +85,7 @@ export function MarketingFooter() {
           <div>
             <h3>Product</h3>
             <ul>
-              {PRODUCT_LINKS.map(([label, href, commerce]) => (
+              {PRODUCT_LINKS.filter(([, href]) => !home || !HOME_TOOLS.some(([, toolHref]) => toolHref === href)).map(([label, href, commerce]) => (
                 <li key={href} data-commerce={commerce ? '' : undefined}>
                   <Link href={href}>{label}{href === '/cuet-cutoff-calculator' ? <NewTag /> : null}</Link>
                 </li>

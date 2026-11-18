@@ -43,3 +43,28 @@ html[data-motion='reduced'] .dd[data-drawn='true'] :is(.dd__stroke, .dd__fill), 
 /* A tick or a cross with no words of its own is a small square of its own (the sample card's verdicts). */
 .dd--tick:empty, .dd--cross:empty { width: 22px; height: 22px; flex: none; }
 .dd--tick > .dd__ink, .dd--cross > .dd__ink { z-index: 0; }
+
+/* A reader draws the heading's line as it travels through the viewport. */
+.dd[data-scroll-ink] { --dd-scroll: 0; }
+.dd[data-scroll-ink] .dd__stroke {
+  stroke-dashoffset: calc(var(--dd-len, 0) * (1 - var(--dd-scroll)));
+}
+.dd[data-scroll-ink] .dd__fill {
+  clip-path: inset(-10% calc(100% - 104% * var(--dd-scroll)) -10% -4%);
+}
+
+/* The ink behind a changing figure is translucent, so the number reads throughout the swipe. */
+.dd--highlight[data-reink] { --dd-ink: color-mix(in srgb, var(--volt, #d2f000) 24%, transparent); }
+.dd--highlight[data-reink][data-drawn='true'] { color: inherit; transition: none; }
+.dd[data-reink][data-drawn='true'] .dd__fill { animation: dd-reink var(--dd-ms, 460ms) cubic-bezier(0.23, 1, 0.32, 1) both; }
+@keyframes dd-reink {
+  from { clip-path: inset(-10% 100% -10% -4%); }
+  to { clip-path: inset(-10% -4% -10% -4%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd[data-scroll-ink] { --dd-scroll: 1 !important; }
+  .dd[data-reink][data-drawn='true'] .dd__fill { animation: none; }
+}
+html[data-motion='reduced'] .dd[data-scroll-ink] { --dd-scroll: 1 !important; }
+html[data-motion='reduced'] .dd[data-reink][data-drawn='true'] .dd__fill { animation: none; }

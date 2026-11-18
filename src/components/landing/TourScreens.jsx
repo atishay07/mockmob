@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ShieldCheck, X } from 'lucide-react';
+import Doodle from '@/components/doodle/Doodle';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { labStory, signed } from './labStory.mjs';
@@ -181,7 +182,7 @@ export function LearnScreen({ play }) {
           );
         })}
       </ul>
-      <p className="ts__meta ts__meta--row ts__result"><span data-on={on(Boolean(view.lead))} data-tone={view.verdict === 'miss' ? 'plain' : undefined} className="ts__saved">{view.lead}</span><span>{view.next}</span></p>
+      <p className="ts__meta ts__meta--row ts__result"><span data-on={on(Boolean(view.lead))} data-tone={view.verdict === 'miss' ? 'plain' : undefined} className="ts__saved">{taken && view.verdict === 'right' ? <Doodle mark="underline" tone="volt-pen" when>{view.lead}</Doodle> : view.lead}</span><span>{view.next}</span></p>
       <p className="ts__cta" data-in={on(view.then)}>Then: practise Vocabulary questions</p>
     </Frame>
   );

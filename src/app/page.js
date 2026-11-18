@@ -247,7 +247,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <BrandStamp {...BRAND_STAMPS.lab} />
-              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
+              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand', followScroll: true }]]} /></h2>
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
@@ -391,11 +391,14 @@ export default function LandingPage() {
 
         {/* -------------------------------- FAQ ----------------------------- */}
         <section className="lp-sec lp-sec--band" id="faq">
-          <div className="mm-wrap mm-wrap--tight">
-            <Reveal><h2 className="lp-h2">{FAQ_HEAD.h2}</h2></Reveal>
+          <div className="mm-wrap lp-faq-desk">
+            <Reveal className="lp-faq-desk__head">
+              <h2 className="lp-h2">{FAQ_HEAD.h2}</h2>
+              <Link href="#try-practice" className="lp-link">Try five questions</Link>
+            </Reveal>
             <Reveal className="mm-faqs">
-              {faqs.map(({ question, answer }) => (
-                <details key={question} className="mm-faq">
+              {faqs.map(({ question, answer }, index) => (
+                <details key={question} className="mm-faq" name="home-faq" open={index === 0}>
                   <summary>{question}</summary>
                   <div className="mm-faq__body">{answer}</div>
                 </details>
@@ -422,7 +425,7 @@ export default function LandingPage() {
           <HashSettle />
         </section>
       </main>
-      <MarketingFooter />
+      <MarketingFooter home />
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <PipGuide />
       {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the

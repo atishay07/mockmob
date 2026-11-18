@@ -45,3 +45,8 @@
 @keyframes you-places-rise { from { opacity: 0; transform: translateY(6px); } }
 html[data-motion='reduced'] .app-shell .you-places__row { animation: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .you-places__row, .app-shell .you-places__ask { animation: none; transition: none; } }
+
+.app-shell .you-places__glyph { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 8px; background: var(--a-sunken); }
+.app-shell .you-places__glyph svg { color: var(--a-ink); width: 17px; height: 17px; }
+.app-shell .you-places__row[aria-current='page'] .you-places__glyph { background: var(--a-raised); }
+.app-shell .you-places__row { gap: 8px; }

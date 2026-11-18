@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import { SUBJECT_COUNT, usualWay } from '@/lib/payments/receipt.mjs';
+import Doodle from '@/components/doodle/Doodle';
 import { BrandIcon } from '@/components/brand/BrandIcon';
 import { VALUE_COPY } from './homeCopy.mjs';
 import { STRIP_OBJECT_BOX, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
@@ -92,6 +93,8 @@ export function PlanValue({ offer, keyCards = false }) {
         </div>
       </div>
 
+      <p className="lp-usual__punch"><span>{punch.usual}</span> <b>{punch.pro}</b></p>
+
       <div className="lp-usual__way">
         <p className="lp-usual__head">{VALUE_COPY.usualHead}</p>
         <ul className="lp-usual__lines">
@@ -103,7 +106,7 @@ export function PlanValue({ offer, keyCards = false }) {
             </li>
           ))}
         </ul>
-        <p className="lp-usual__total"><span>{VALUE_COPY.subjects(u.subjects)}</span><b><span aria-hidden="true">{rupeesOf(total)}</span><span className="lp-sr">{u.total}</span></b></p>
+        <p className="lp-usual__total"><span>{VALUE_COPY.subjects(u.subjects)}</span><b><Doodle mark="highlight" inkKey={subjects} aria-hidden="true">{rupeesOf(total)}</Doodle><span className="lp-sr">{u.total}</span></b></p>
       </div>
 
       <div className="lp-usual__pro">
@@ -120,7 +123,6 @@ export function PlanValue({ offer, keyCards = false }) {
         <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
         <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
       </div>
-      <p className="lp-usual__punch"><span>{punch.usual}</span> <b>{punch.pro}</b></p>
       <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
       <p className="lp-sr" aria-live="polite">{said}</p>
     </div>

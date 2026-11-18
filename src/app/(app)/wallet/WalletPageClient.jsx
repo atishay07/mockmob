@@ -213,6 +213,9 @@ export default function WalletPageClient({ proOffer = null, previewCheckout = nu
                     <div className="wl-part" data-part="free">
                       <dt><span className="wl-part__dot" aria-hidden="true" />{WALLET_V13_COPY.freePart}</dt>
                       <dd className="wl-part__num">{split.free.text}<span className="wl-part__of">{split.free.ofText}</span></dd>
+                      {split.free.of > 0 ? (
+                        <dd className="wl-part__meter" aria-hidden="true"><i style={{ '--share': Math.min(1, split.free.left / split.free.of) }} /></dd>
+                      ) : null}
                       <dd className="wl-part__note">{split.free.refill || split.free.note}</dd>
                     </div>
                   ) : null}

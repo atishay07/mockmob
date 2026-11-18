@@ -36,8 +36,8 @@ function readStanding(data) {
   const ladder = Array.isArray(b?.ladder) ? b.ladder.filter((r) => Number.isFinite(Number(r?.place)) && Number.isFinite(Number(r?.points))) : null;
   const spread = Array.isArray(b?.spread) && b.spread.length ? b.spread.map((r) => ({ from: Number(r.from) || 0, to: Number(r.to) || 0, students: Number(r.students) || 0 })) : null;
   return {
-    rank, of, tests, average, points: Number.isFinite(Number(you.points)) ? Number(you.points) : null,
-    toNext: Number.isFinite(Number(b?.toNext)) ? Number(b.toNext) : null,
+    rank, of, tests, average, points: you.points != null && Number.isFinite(Number(you.points)) ? Number(you.points) : null,
+    toNext: b?.toNext != null && Number.isFinite(Number(b.toNext)) ? Number(b.toNext) : null,
     top: Number.isFinite(Number(b?.top)) ? Number(b.top) : null,
     ladder: ladder && ladder.length ? ladder : null,
     spread,
@@ -194,6 +194,13 @@ export default function LeaderboardPageClient() {
             <div><dt>Average score</dt><dd>{count(standing.average)}%</dd></div>
             {standing.points != null ? <div><dt>Total points</dt><dd>{count(standing.points)}</dd></div> : null}
           </dl>
+          {standing.rank > 1 && standing.points != null && standing.points >= 0 && standing.toNext > 0 ? (
+            <div className="lb-pace">
+              <div><span>Your points</span><b>{count(standing.points)}</b></div>
+              <span className="lb-pace__track" aria-hidden="true"><i style={{ '--lb-share': standing.points / (standing.points + standing.toNext) }} /></span>
+              <div><span>To share {ordinal(standing.rank - 1)} place</span><b>{count(standing.points + standing.toNext)}</b></div>
+            </div>
+          ) : null}
           {standing.toNext != null ? (
             <p className="lb-next">{standing.rank === 1 ? 'You hold first place. Every mock you sit adds to your points.' : <>
               <b>{count(standing.toNext)} more {standing.toNext === 1 ? 'point' : 'points'}</b> and you share {ordinal(Math.max(1, standing.rank - 1))} place. Every mock you sit adds its points.</>}</p>

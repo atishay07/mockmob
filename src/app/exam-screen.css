@@ -451,3 +451,13 @@ html[data-theme='light'] .xs-ph-sheet::backdrop { background: rgba(27, 25, 20, .
   }
   .xs-tap:active { background: rgb(0 0 0 / 0.08); }
 }
+
+/* Treat the large preview and the full-screen entry as one unit on a phone. */
+@media (max-width: 639px) {
+  #exam-experience .xs-layout > .xs-full-open {
+    align-self: start; margin: -4px 0 0; border-radius: 12px; font-weight: 750;
+    background: var(--ink); border-color: var(--ink); color: var(--paper);
+  }
+  #exam-experience .xs-layout > .xs-switch { border-radius: 12px; background: var(--paper-sunken); }
+  #exam-experience .xs-layout > .xs-switch button { border-radius: 9px; }
+}

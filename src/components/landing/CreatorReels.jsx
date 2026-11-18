@@ -152,14 +152,6 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   const note = <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>;
   return (
     <div className="rl">
-      {creators.length ? (
-        <dl className="rl__summary">
-          <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
-          {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
-          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
-        </dl>
-      ) : null}
-      {creators.length ? note : null}
       <div className="rl__bar">
         <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow"><IgGlyph size={17} />Follow @{handle}</a>
         {items.length > 1 ? (
@@ -176,6 +168,14 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
         ))}
       </ul>
+      {creators.length ? (
+        <dl className="rl__summary">
+          <div><dt>Combined followers</dt><dd className="mm-measure">{followersFigure(creators)}</dd></div>
+          {views ? <div><dt>Reel views</dt><dd className="mm-measure">{views}</dd></div> : null}
+          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
+        </dl>
+      ) : null}
+      {creators.length ? note : null}
       {creators.length ? null : note}
     </div>
   );

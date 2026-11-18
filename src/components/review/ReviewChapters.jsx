@@ -510,6 +510,15 @@ export default function ReviewChapters({ body, onChanged }) {
   return (
     <>
       <h1 className="display-md rvw-title rv8-title">Your papers</h1>
+      {stats.toRepair + stats.repaired > 0 ? (
+        <section className="rv8-repair-queue" aria-labelledby="rv8-repair-queue-label">
+          <h2 id="rv8-repair-queue-label">Mistake repairs</h2>
+          <p>{stats.toRepair} open · {stats.repaired} repaired</p>
+          <span className="rv8-repair-track" aria-hidden="true">
+            <i style={{ '--rv8-repaired': stats.repaired / (stats.toRepair + stats.repaired) }} />
+          </span>
+        </section>
+      ) : null}
       <StatsStrip stats={stats} seen={subject === 'all' ? seen : null} scopeName={scopeName} />
       {subjects.length > 1 ? <SubjectFilter subjects={subjects} value={subject} total={scopeOf(body, 'all').total ?? (body.papers || []).length} onChange={pickSubject} /> : null}
       <div className="rv8-board">

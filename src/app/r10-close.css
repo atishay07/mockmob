@@ -154,3 +154,18 @@
    so "Product", "Subjects" and "Company" floated above their lists. The 44 px link rows already carry 12 px of air above their
    words: the heading's own 12 px margin goes, and each heading sits on its list. */
 .mm.lp .mm-foot .mm-foot__cols h3 { margin-bottom: 0.125rem; }
+
+/* Keep the answer list next to its way into the live sample. */
+.mm.lp .lp-faq-desk { display: grid; align-items: start; gap: clamp(1rem, 3vw, 2.5rem); }
+.mm.lp .lp-faq-desk .mm-faqs { margin-top: 0; }
+.mm.lp .lp-faq-desk__head .lp-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.35rem; }
+.mm.lp .lp-faq-desk .mm-faq[open] { background: var(--paper-raised); }
+@media (min-width: 900px) {
+  .mm.lp .lp-faq-desk { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); }
+}
+
+.mm.lp .mm-foot__tools { margin-bottom: 2rem; border-bottom: 1px solid var(--slate-line); padding-bottom: 1rem; }
+.mm.lp .mm-foot__tools h2 { margin: 0 0 0.35rem; font: 750 1.375rem/1.16 var(--font-display); color: var(--chalk); }
+.mm.lp .mm-foot__tools ul { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+.mm.lp .mm-foot__tools a { text-decoration: underline; text-underline-offset: 0.23em; }
+.mm.lp .mm-foot .mm-foot__cols h3 { color: var(--chalk); text-transform: none; font-size: 1rem; letter-spacing: 0; }

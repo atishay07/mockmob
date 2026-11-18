@@ -77,3 +77,9 @@
 @keyframes lb-rise { from { transform: scaleY(0); } to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; } }
 html[data-motion='reduced'] .app-shell .lb :is(.lb-ladder__row, .lb-ladder__bar i, .lb-spread__bar i) { animation: none; }
+
+.app-shell .lb-pace { display: grid; gap: 6px; width: 100%; max-width: 32rem; color: var(--a-ink-2); font-size: 13px; }
+.app-shell .lb-pace > div { display: flex; justify-content: space-between; gap: 8px; }
+.app-shell .lb-pace b { color: var(--a-ink); font-size: 15px; font-variant-numeric: tabular-nums; }
+.app-shell .lb-pace__track { height: 12px; border-radius: 4px; background: var(--a-sunken); box-shadow: 0 0 0 1px var(--a-line) inset; overflow: hidden; }
+.app-shell .lb-pace__track i { display: block; width: calc(100% * var(--lb-share)); height: 100%; background: var(--a-good-text); }

@@ -194,10 +194,13 @@ export function EligibilityTeaser() {
                     : 'Tick your subjects to see which are open to you.'}
             </p>
             {counted && names.length ? (
-              <p className="du-teaser__names">
-                {names.join(', ')}
-                {moreCount ? ` and ${moreCount} more` : ''}
-              </p>
+              <div className="du-teaser__names">
+                <p>Courses these subjects open</p>
+                <ul>
+                  {names.map((name) => <li key={name}><Check size={14} aria-hidden="true" />{name}</li>)}
+                </ul>
+                {moreCount ? <p>{moreCount} more in the full calculator</p> : null}
+              </div>
             ) : null}
             {rules && hasDomains && byStream.length > 0 ? (
               <ul className="du-teaser__streams">

@@ -60,7 +60,9 @@ function Figures({ label, items }) {
       {items.map((item) => (
         <div key={item.label}>
           <dt>{item.label}</dt>
-          <dd>{item.value}<small>{item.note}</small></dd>
+          <dd>{item.value}<small>{item.note}</small>
+            {item.share != null ? <span className="rv-right-track" aria-hidden="true"><i style={{ '--rv-right-share': item.share }} /></span> : null}
+          </dd>
         </div>
       ))}
     </dl>
@@ -88,7 +90,7 @@ function ProgressOverview({ view }) {
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
   const rightFigure = answered
-    ? { value: `${Math.round((correct / answered) * 100)}%`, note: `${correct} of ${answered} answers` }
+    ? { value: `${Math.round((correct / answered) * 100)}%`, note: `${correct} of ${answered} answers`, share: Math.max(0, Math.min(1, correct / answered)) }
     : { value: 'None yet', note: 'No answers recorded' };
   // "Your first session is on the record." is true only while there is one. With more saved, the same
   // line points at the newest instead, so it never argues with Mobi's count above it.

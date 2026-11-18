@@ -124,3 +124,29 @@ html[data-theme='dark'] .td__card { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05
 
 @media (prefers-reduced-motion: reduce) { .td__tab, .td__ico { transition: none; } }
 html[data-motion='reduced'] :is(.td__tab, .td__ico) { transition: none; }
+
+.td__cta--phone { display: none; }
+
+/* On a portrait phone the demo takes the room between the title and the action. */
+@media (max-width: 719px) and (orientation: portrait) {
+  .td { --td-peek: 7px; gap: 6px; }
+  .td__tab { min-height: 52px; }
+  .td__card { inset-block-end: 5px; grid-template-rows: auto minmax(0, 1fr) auto; border-radius: 20px; }
+  .td__copy { padding: 10px 12px 9px; }
+  .td__title { font-size: clamp(1.25rem, 5.5vw, 1.5rem); line-height: 1.12; text-wrap: pretty; }
+  .td__sentence { display: inline; }
+  .td__lede, .td__cta--wide { display: none; }
+  .td__cta--phone { display: flex; justify-self: start; margin-inline: 12px; }
+  .td__shot { margin: 0 4px; padding: 0; border-radius: 15px; background: #1f1d1a; }
+  .td__fit { margin-block: 0; }
+  .td__shot .ts { border-width: 3px; border-radius: 15px; }
+  .td__shot .ts__body { padding-inline: 0.75rem; }
+}
+@media (max-width: 719px) and (min-height: 710px) and (orientation: portrait) {
+  .td-story[data-pinned='true'] .td__room { container-type: size; }
+  .td-story[data-pinned='true'] .td__fit { --ss-fit-min: 0.9; }
+  .td-story[data-pinned='true'] .td__shot .ts { min-height: max(17.25rem, 100cqh); }
+  .td__shot .ts__choice { font-size: 0.875rem; }
+  .td__shot .ts__q { font-size: 1rem; }
+  .td__shot .ts__bar { font-size: 0.8125rem; }
+}

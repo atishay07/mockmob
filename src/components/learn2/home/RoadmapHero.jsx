@@ -8,7 +8,7 @@
 // R3 ruling R2 stays: the progress bar under the line, no row of ring dots. The pick lives in this tab only, never on the server.
 import { useCallback, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Repeat2 } from 'lucide-react';
+import { BookOpen, BrainCircuit, Repeat2 } from 'lucide-react';
 import { openUpgrade } from '@/components/pro';
 import { LengthControl, OwnSheet } from '../LengthPicker';
 import { otherMoves, upNextMoves } from './homeModel.mjs';
@@ -28,9 +28,12 @@ export function actionHref(action, links) {
 function Track({ progress }) {
   const pct = Math.round((progress.done / progress.of) * 1000) / 10;
   return (
-    <span className="lh-track lh-hero__track" role="img" aria-label={`${progress.done} of ${progress.of} done`}>
-      <span className="lh-track__fill" style={{ '--p': `${pct}%` }} />
-    </span>
+    <div className="lh-up__progress">
+      <span>{progress.done} of {progress.of} done</span>
+      <span className="lh-track lh-hero__track" aria-hidden="true">
+        <span className="lh-track__fill" style={{ '--p': `${pct}%` }} />
+      </span>
+    </div>
   );
 }
 
@@ -90,7 +93,10 @@ export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes 
   return (
     <section className="lh-hero lh-up" data-mode={mode} data-move={move.kind} data-picked={!isLead || undefined} aria-labelledby={titleId}>
       <div className="lh-up__move" key={move.id} aria-live="polite">
-        <h2 className="lh-hero__title" id={titleId}>{move.headline}</h2>
+        <div className="lh-up__title">
+          {move.kind === 'recall' ? <BrainCircuit size={22} aria-hidden="true" /> : <BookOpen size={22} aria-hidden="true" />}
+          <h2 className="lh-hero__title" id={titleId}>{move.headline}</h2>
+        </div>
         {move.why ? <p className="lh-hero__line">{move.why}</p> : null}
         {move.progress ? <Track progress={move.progress} /> : null}
         {move.sub ? <p className="lh-hero__sub">{move.sub}</p> : null}

@@ -461,3 +461,8 @@ html[data-theme='light'] .lh-up { border-color: transparent; box-shadow: var(--a
 /* The option line above the part's pills (R5): "Part 2 has two options. Pick the one your school teaches." One line of its own. */
 .lh-opt__label { flex-basis: 100%; }
 .lh-opt__coming { padding: 14px 0 6px; font: 500 14.5px/1.5 var(--font-body); color: var(--a-ink-2); }
+
+.lh .lh-up__title { display: flex; align-items: start; gap: 10px; }
+.lh .lh-up__title svg { flex: none; margin-top: 2px; color: var(--a-good-text); }
+.lh .lh-up__progress { display: grid; gap: 5px; margin-top: 10px; color: var(--a-ink-2); font-size: 13px; }
+.lh .lh-up__progress .lh-hero__track { width: min(100%, 360px); height: 10px; margin-top: 0; }

@@ -610,6 +610,13 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       </header>
       {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
       <ResumePaper />
+      {!firstRun && subjectLabel ? (
+        <nav className="pr-session-glance" aria-label="Your session setup">
+          <a href="#pr-s1"><span>Subject</span><b>{subjectLabel}</b></a>
+          <a href="#pr-s2"><span>Mode</span><b>{mode.label}</b></a>
+          <a href="#pr-s3"><span>Questions</span><b>{quoteCount}</b></a>
+        </nav>
+      ) : null}
 
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}

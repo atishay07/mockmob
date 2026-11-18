@@ -33,7 +33,7 @@ export default function YouPlaces() {
   let i = 0;
   const row = (tab) => (
     <Link key={tab.id} href={hrefOf(tab)} className="you-places__row" style={{ '--i': i++ }} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`you-${tab.id}`}>
-      <AppIcon name={tab.icon} />
+      <span className="you-places__glyph" aria-hidden="true"><AppIcon name={tab.icon} /></span>
       <span>{tab.label}</span>
     </Link>
   );
@@ -55,7 +55,7 @@ export default function YouPlaces() {
         <div className="you-places__rows">
           {row({ id: 'help', label: HELP_DOOR.label, icon: 'help' })}
           <button type="button" className="you-places__row" style={{ '--i': i++ }} onClick={onTour}>
-            <AppIcon name="guide" />
+            <span className="you-places__glyph" aria-hidden="true"><AppIcon name="guide" /></span>
             <span>{TOUR_LABEL}</span>
           </button>
         </div>

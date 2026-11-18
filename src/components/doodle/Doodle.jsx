@@ -16,6 +16,7 @@
 // where the words are about a mistake), volt (the highlighter).
 // Reduced motion: the mark is simply there. Without script the words stand unmarked (the mark is decoration).
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { subscribe } from '@/components/landing/scrollBus.mjs';
 import { DRAW_MS, doodlePath, seedOf } from './doodlePaths.mjs';
 import './doodle.css';
 
@@ -43,7 +44,7 @@ function watch(node, fn) {
   return () => { waiting.delete(node); seen.unobserve(node); };
 }
 
-export default function Doodle({ mark = 'underline', tone = 'ink', when, delay = 0, as: Tag = 'span', className = '', children, ...rest }) {
+export default function Doodle({ mark = 'underline', tone = 'ink', when, followScroll = false, inkKey, delay = 0, as: Tag = 'span', className = '', children, ...rest }) {
   const hostRef = useRef(null);
   const [shape, setShape] = useState(null);
   const [drawn, setDrawn] = useState(false);
@@ -60,7 +61,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, delay =
       const height = host.offsetHeight;
       if (!width || !height) return;
       const fontSize = parseFloat(getComputedStyle(host).fontSize) || 16;
-      setShape((was) => (was && was.width === width && was.height === height ? was : { width, height, ...doodlePath(mark, { width, height, fontSize, seed }) }));
+      setShape((was) => (was && was.width === width && was.height === height && was.seed === seed && was.fontSize === fontSize ? was : { width, height, seed, fontSize, ...doodlePath(mark, { width, height, fontSize, seed }) }));
     };
     measure();
     if (typeof ResizeObserver === 'undefined') return undefined;
@@ -71,13 +72,49 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, delay =
 
   // Drawn when the reader reaches the words (or when told).
   useEffect(() => {
-    if (controlled) return undefined;
+    if (controlled || followScroll) return undefined;
     const host = hostRef.current;
     if (!host) return undefined;
     let timer = 0;
     const off = watch(host, () => { timer = window.setTimeout(() => setDrawn(true), delay); });
     return () => { off(); window.clearTimeout(timer); };
-  }, [controlled, delay]);
+  }, [controlled, followScroll, delay]);
+
+  // The shared page scroll read lets a heading's pen advance with the reader, then retire when the line is complete.
+  useEffect(() => {
+    if (!followScroll || !hostRef.current) return undefined;
+    const host = hostRef.current;
+    let off = null;
+    let observer = null;
+    const paint = ({ vh = window.innerHeight } = {}) => {
+      const progress = Math.max(0, Math.min(1, (vh * 0.86 - host.getBoundingClientRect().top) / (vh * 0.30)));
+      host.style.setProperty('--dd-scroll', progress.toFixed(3));
+      if (progress === 1) {
+        off?.();
+        observer?.disconnect();
+      }
+      return progress;
+    };
+    const listen = () => { if (!off && paint() < 1) off = subscribe(paint); };
+    if (typeof IntersectionObserver === 'undefined') {
+      listen();
+    } else {
+      observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) listen();
+        else { off?.(); off = null; }
+      });
+      observer.observe(host);
+    }
+    return () => { off?.(); observer?.disconnect(); host.style.removeProperty('--dd-scroll'); };
+  }, [followScroll]);
+
+  // Let fast slider and keyboard changes settle before re-inking the new figure once.
+  const [inked, setInked] = useState(inkKey);
+  useEffect(() => {
+    if (inkKey == null || inked === inkKey) return undefined;
+    const timer = window.setTimeout(() => setInked(inkKey), 180);
+    return () => window.clearTimeout(timer);
+  }, [inkKey, inked]);
 
   // A mark is drawn only once its undrawn state has been on screen for a frame: a mark told to draw as it mounts (a tick
   // on the answer just chosen) still runs from its start instead of appearing whole.
@@ -95,11 +132,11 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, delay =
   const each = strokes.length ? ms / strokes.length : ms;
 
   return (
-    <Tag ref={hostRef} className={`dd dd--${mark} ${className}`.trim()} data-tone={tone} data-drawn={on ? 'true' : 'false'} {...rest}>
+    <Tag ref={hostRef} className={`dd dd--${mark} ${className}`.trim()} data-tone={tone} data-drawn={on ? 'true' : 'false'} data-scroll-ink={followScroll || undefined} data-reink={inkKey != null || undefined} {...rest}>
       {children}
       {shape ? (
         <svg className="dd__ink" aria-hidden="true" focusable="false" width={shape.width} height={shape.height} viewBox={`0 0 ${shape.width} ${shape.height}`} style={{ '--dd-ms': `${ms}ms`, '--dd-pen': `${shape.pen}px`, '--dd-delay': controlled ? `${delay}ms` : '0ms' }}>
-          {shape.fill ? <path className="dd__fill" d={shape.fill} /> : null}
+          {shape.fill ? <path key={inked} className="dd__fill" d={shape.fill} /> : null}
           {strokes.map((d, i) => <Stroke key={i} d={d} ms={each} delay={i * each} />)}
         </svg>
       ) : null}

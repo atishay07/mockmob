@@ -171,3 +171,6 @@
 /* Review head: the record finding and the paper trend, moved from Today (TODAY-1017 section 7). */
 .app-shell .rv-record { display: grid; gap: 16px; min-width: 0; }
 .app-shell .rv-record > :is(.rg, .pt) { margin: 0; }
+
+.app-shell .rv-right-track { display: block; width: min(100%, 12rem); height: 9px; margin-top: 4px; background: var(--a-sunken); box-shadow: 0 0 0 1px var(--a-line) inset; border-radius: 3px; overflow: hidden; }
+.app-shell .rv-right-track i { display: block; width: calc(100% * var(--rv-right-share)); height: 100%; background: var(--a-good-text); }

@@ -243,3 +243,6 @@
 :root[data-motion='reduced'] .app-shell .wl-spin { animation: none; }
 :root[data-motion='reduced'] .app-shell .wl-key, :root[data-motion='reduced'] .app-shell .wl-pack { transition: none !important; }
 :root[data-motion='reduced'] .app-shell .wl-hero, :root[data-motion='reduced'] .app-shell .wl-bar > span { animation: none !important; }
+
+.app-shell .wl-part__meter { width: 100%; height: 8px; margin: 3px 0; border-radius: 3px; border: 1px solid var(--a-line); background: var(--a-sunken); overflow: hidden; }
+.app-shell .wl-part__meter i { display: block; height: 100%; width: calc(100% * var(--share)); background: var(--a-good-text); }

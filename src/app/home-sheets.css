@@ -1622,7 +1622,10 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #2a2823, 0 0 0 5px r
 /* ==== src/app/compass-ladder.css ==== */
 /* Compass ladder (.cl): controls follow the page theme; the ladder is a product screen, so it stays dark. */
 .cl { display: grid; gap: 1.75rem; align-items: start; }
-@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); column-gap: clamp(2rem, 4.5vw, 4.5rem); row-gap: 1rem; grid-template-rows: auto 1fr; }
+  .cl .cl__stage { grid-column: 2; grid-row: 1 / span 2; }
+  .cl .cl__cta { grid-column: 1; }
+}
 .cl__controls { display: grid; gap: 1.1rem; min-width: 0; }
 .cl__group { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .cl__group button { min-height: 44px; padding: 0 0.9rem; border-radius: 999px; border: 1px solid var(--line-strong); background: transparent; color: var(--ink-2); font: 600 0.875rem var(--font-body); cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
@@ -1644,15 +1647,15 @@ html[data-theme='light'] .cl__group button[aria-pressed='true']::after { content
 .cl__big { font: 800 clamp(2.2rem, 5vw, 3rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--brand-word); min-width: 3ch; text-align: right; }
 .cl__score input { grid-column: 1 / -1; width: 100%; height: 44px; accent-color: var(--volt); cursor: pointer; background: transparent; }
 .cl__score small { grid-column: 1 / -1; font-size: 0.78rem; color: var(--ink-3); }
-.cl__big span { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
+.cl__denominator { font: 500 .8rem var(--font-body); letter-spacing: 0; color: var(--ink-3); }
 .cl__try { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .5rem; }
 .cl__demo { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; border: 0; border-radius: 8px; padding: .4rem .5rem; background: transparent; color: var(--ink-2); font: 600 .8rem var(--font-body); cursor: pointer; }
 .cl__demo:hover { color: var(--ink); background: var(--paper-raised-2); }
 /* `body` here and below: one type more than marketing.css's focus ring equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
 body .cl__demo:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
 .cl__demo:active, .cl__group button:active { transform: translateY(1px); }
-.cl__summary { margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink-2); max-width: 46ch; }
-.cl__summary b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.cl__summary { margin: 0; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 240, 230, 0.12); font-size: 0.9375rem; line-height: 1.45; color: #cfc8b9; }
+.cl__summary b { color: #f4f0e6; font-variant-numeric: tabular-nums; }
 .cl__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
 
 .cl__stage { margin: 0; min-width: 0; border-radius: 22px; background: #13110e; color: #f4f0e6; border: 1px solid rgba(244, 240, 230, 0.12); box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 240, 230, 0.08); overflow: hidden; }
@@ -5762,6 +5765,21 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
    words: the heading's own 12 px margin goes, and each heading sits on its list. */
 .mm.lp .mm-foot .mm-foot__cols h3 { margin-bottom: 0.125rem; }
 
+/* Keep the answer list next to its way into the live sample. */
+.mm.lp .lp-faq-desk { display: grid; align-items: start; gap: clamp(1rem, 3vw, 2.5rem); }
+.mm.lp .lp-faq-desk .mm-faqs { margin-top: 0; }
+.mm.lp .lp-faq-desk__head .lp-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.35rem; }
+.mm.lp .lp-faq-desk .mm-faq[open] { background: var(--paper-raised); }
+@media (min-width: 900px) {
+  .mm.lp .lp-faq-desk { grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); }
+}
+
+.mm.lp .mm-foot__tools { margin-bottom: 2rem; border-bottom: 1px solid var(--slate-line); padding-bottom: 1rem; }
+.mm.lp .mm-foot__tools h2 { margin: 0 0 0.35rem; font: 750 1.375rem/1.16 var(--font-display); color: var(--chalk); }
+.mm.lp .mm-foot__tools ul { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+.mm.lp .mm-foot__tools a { text-decoration: underline; text-underline-offset: 0.23em; }
+.mm.lp .mm-foot .mm-foot__cols h3 { color: var(--chalk); text-transform: none; font-size: 1rem; letter-spacing: 0; }
+
 /* ==== src/app/r14-look.css ==== */
 /* Round 14 (13 Nov 2026): the visual pass. Loaded after r13-motion.css. */
 
@@ -6241,6 +6259,32 @@ html[data-motion='reduced'] body .ft-story[data-pinned='false'] .ft__track[data-
   body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range']::-moz-range-thumb { pointer-events: auto; }
 }
 
+/* Give the live demonstrations the width usually spent on a paper margin. */
+@media (max-width: 639px) {
+  #key-cards .kc-demo, #compass .cl__stage, #exam-experience .xs-device {
+    margin-inline: -12px;
+    width: calc(100% + 24px);
+  }
+  #key-cards .kc-demo { max-width: none; }
+  #key-cards :is(.kc-demo__pips, .kc-demo__keys) { padding-inline-start: 12px; }
+  #key-cards :is(.kc-demo__top, .kc-demo__keys) { padding-inline-end: 12px; }
+  #key-cards .kc-demo__face:not(.kc-demo__face--end) { min-height: 22rem; }
+  #compass .cl__stage { border-radius: 16px; }
+  #compass .cl__list li { grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.6rem; }
+  #compass .cl__track { height: 10px; }
+  #compass .cl__gap { min-width: 0; }
+}
+@media (max-width: 639px) and (orientation: portrait) {
+  .mm.lp .lc[data-pinned='true'] .lc__grid { row-gap: 0.45rem; }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__title { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
+  .mm.lp .lc[data-pinned='true'] :is(.lcd, .lc-scene__screen) { margin-inline: -6px; }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
+}
+
 /* ==== src/app/r18-tour-deck.css ==== */
 /* Round 18 (18 Nov 2026): "More inside MockMob" as a deck the scroll deals (TourDeck.jsx, deckMotion.mjs).
    The owner, of the sideways row of cards a finger had: "these sliding cards ... are not good. They have no animation ...
@@ -6368,3 +6412,29 @@ html[data-theme='dark'] .td__card { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05
 
 @media (prefers-reduced-motion: reduce) { .td__tab, .td__ico { transition: none; } }
 html[data-motion='reduced'] :is(.td__tab, .td__ico) { transition: none; }
+
+.td__cta--phone { display: none; }
+
+/* On a portrait phone the demo takes the room between the title and the action. */
+@media (max-width: 719px) and (orientation: portrait) {
+  .td { --td-peek: 7px; gap: 6px; }
+  .td__tab { min-height: 52px; }
+  .td__card { inset-block-end: 5px; grid-template-rows: auto minmax(0, 1fr) auto; border-radius: 20px; }
+  .td__copy { padding: 10px 12px 9px; }
+  .td__title { font-size: clamp(1.25rem, 5.5vw, 1.5rem); line-height: 1.12; text-wrap: pretty; }
+  .td__sentence { display: inline; }
+  .td__lede, .td__cta--wide { display: none; }
+  .td__cta--phone { display: flex; justify-self: start; margin-inline: 12px; }
+  .td__shot { margin: 0 4px; padding: 0; border-radius: 15px; background: #1f1d1a; }
+  .td__fit { margin-block: 0; }
+  .td__shot .ts { border-width: 3px; border-radius: 15px; }
+  .td__shot .ts__body { padding-inline: 0.75rem; }
+}
+@media (max-width: 719px) and (min-height: 710px) and (orientation: portrait) {
+  .td-story[data-pinned='true'] .td__room { container-type: size; }
+  .td-story[data-pinned='true'] .td__fit { --ss-fit-min: 0.9; }
+  .td-story[data-pinned='true'] .td__shot .ts { min-height: max(17.25rem, 100cqh); }
+  .td__shot .ts__choice { font-size: 0.875rem; }
+  .td__shot .ts__q { font-size: 1rem; }
+  .td__shot .ts__bar { font-size: 0.8125rem; }
+}

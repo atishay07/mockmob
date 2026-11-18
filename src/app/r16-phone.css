@@ -38,3 +38,29 @@
   body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range']::-webkit-slider-thumb { pointer-events: auto; }
   body .mm.lp :is(#compass .cl__score, .lp-val__range) input[type='range']::-moz-range-thumb { pointer-events: auto; }
 }
+
+/* Give the live demonstrations the width usually spent on a paper margin. */
+@media (max-width: 639px) {
+  #key-cards .kc-demo, #compass .cl__stage, #exam-experience .xs-device {
+    margin-inline: -12px;
+    width: calc(100% + 24px);
+  }
+  #key-cards .kc-demo { max-width: none; }
+  #key-cards :is(.kc-demo__pips, .kc-demo__keys) { padding-inline-start: 12px; }
+  #key-cards :is(.kc-demo__top, .kc-demo__keys) { padding-inline-end: 12px; }
+  #key-cards .kc-demo__face:not(.kc-demo__face--end) { min-height: 22rem; }
+  #compass .cl__stage { border-radius: 16px; }
+  #compass .cl__list li { grid-template-columns: minmax(0, 1fr) auto; column-gap: 0.6rem; }
+  #compass .cl__track { height: 10px; }
+  #compass .cl__gap { min-width: 0; }
+}
+@media (max-width: 639px) and (orientation: portrait) {
+  .mm.lp .lc[data-pinned='true'] .lc__grid { row-gap: 0.45rem; }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__title { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__body:not(.lc-scene__body--short) {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__body--short { display: block; margin-top: 0.25rem; }
+  .mm.lp .lc[data-pinned='true'] :is(.lcd, .lc-scene__screen) { margin-inline: -6px; }
+  .mm.lp .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.3rem) 0.55rem 0.45rem; }
+}

@@ -6,6 +6,7 @@
 // no admission chance, no prediction, no conversion of practice marks into a CUET score.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import Doodle from '@/components/doodle/Doodle';
 import { Play, Pause } from 'lucide-react';
 
 const AXIS_MIN = 0;
@@ -118,7 +119,7 @@ export default function CompassLadder({ data }) {
             inputs before the page hydrates, and React then reports a hydration mismatch for it (10 Nov 2026). */}
         <div className="cl__score" style={{ '--p': `${pct(score)}%` }}>
           <label htmlFor="cl-score">If your score were</label>
-          <output htmlFor="cl-score" className="cl__big">{Math.round(score)}<span> / 1000</span></output>
+          <output htmlFor="cl-score" className="cl__big"><Doodle mark="highlight" when={!sweeping} inkKey={!sweeping ? score : null}>{String(Math.round(score))}</Doodle><span className="cl__denominator"> / 1000</span></output>
           <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
           <small id="cl-score-help">Drag the slider, or use the arrow keys.</small>
           <div className="cl__try">
@@ -129,6 +130,11 @@ export default function CompassLadder({ data }) {
           </div>
         </div>
 
+
+      </div>
+
+      <figure className="cl__stage" aria-label={`${current.label} ${ROUND_LABEL[round]} cutoffs for ${category}`}>
+        <div className="cl__top"><span>{current.label}</span><span className="cl__tag">{data.cycle}, {ROUND_LABEL[round]}, {category}</span></div>
         <p className="cl__summary" aria-live={sweeping ? 'off' : 'polite'}>
           {listed.length ? (
             <><b>{Math.round(score)}</b> clears <b>{cleared} of {listed.length === 1 ? 'the 1' : `these ${listed.length}`}</b> {ROUND_LABEL[round]} {category} {listed.length === 1 ? 'cutoff' : 'cutoffs'} <span className="cl__cycle">({data.cycle.replace(' UG ', ' ')}).</span></>
@@ -136,14 +142,6 @@ export default function CompassLadder({ data }) {
             <>No {ROUND_LABEL[round]} {category} cutoff was published for these colleges in <b>{data.cycle}</b>. Try another round or category.</>
           )}
         </p>
-        <div className="cl__cta">
-          <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects</Link>
-          <Link href="/admission-compass" className="lp-link">Open Compass</Link>
-        </div>
-      </div>
-
-      <figure className="cl__stage" aria-label={`${current.label} ${ROUND_LABEL[round]} cutoffs for ${category}`}>
-        <div className="cl__top"><span>{current.label}</span><span className="cl__tag">{data.cycle}, {ROUND_LABEL[round]}, {category}</span></div>
         <ul className="cl__list">
           {rows.map((r) => {
             const none = r.cutoff === null;
@@ -163,6 +161,10 @@ export default function CompassLadder({ data }) {
         </ul>
         <figcaption>Closing scores from DU’s published round lists. (W) marks a women’s college.</figcaption>
       </figure>
+      <div className="cl__cta">
+        <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects</Link>
+        <Link href="/admission-compass" className="lp-link">Open Compass</Link>
+      </div>
     </div>
   );
 }
