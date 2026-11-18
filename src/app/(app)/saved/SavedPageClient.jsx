@@ -24,7 +24,8 @@ import { useShrug } from '@/lib/mobiHooks';
 import { foldExit, useSwipeCommit } from '@/lib/motion';
 import { ChevronLeft } from 'lucide-react';
 import { useLearn2On } from '@/components/learn2/flag';
-import { groupByChapter, practiseHref, subjectName } from './savedModel.mjs';
+import { groupByChapter, practiseHref, subjectName, topGroup, topGroupLabel } from './savedModel.mjs';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import './saved.css';
 
 const FREE_LIMIT = 25;
@@ -286,6 +287,7 @@ export default function SavedPageClient() {
   }
 
   const showMeter = authStatus !== 'loading' && !user?.isPremium;
+  const top = topGroup(groupByChapter(questions));
   return (
     <div className="container-narrow view student-page student-page--saved">
       <div className="mb-6">
@@ -295,7 +297,15 @@ export default function SavedPageClient() {
           aside={learn2 ? null : <span className="saved-aside"><Link href="/explore" className="na__alt">Explore questions</Link><Link href="/dashboard" className="na__alt">Choose practice</Link></span>} />
       </div>
 
-      {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
+      {/* arena-c (19 Nov): a shelf you want to fill. The saved count is the figure of the page, the 25 slots one bar under it (Pro: no
+          slots, as today), and the one volt key practises the chapter with the most saved questions (its own key's link). */}
+      {questions.length ? (
+        <section className="sv-shelf" aria-label="Your saved questions">
+          <p className="sv-shelf__fig"><b>{count}</b><span>saved</span></p>
+          {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
+          {top ? <Link className="sv-shelf__go mk-press" data-page-primary="" href={top.href}>{topGroupLabel(top)}</Link> : null}
+        </section>
+      ) : showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
 
       {firstSave && questions.length ? (
         // After the moment the line fades but keeps its height, so the list below never jumps.
@@ -326,7 +336,11 @@ export default function SavedPageClient() {
             {groupByChapter(visible).map((group) => (
               <li key={group.key} className="sv-group">
                 <div className="sv-ghead">
-                  <h2 className="sv-ghead__t">{group.title}</h2>
+                  <span className="sv-ghead__obj" aria-hidden="true"><SubjectObject id={group.items[0]?.subject} size={48} framed={false} life={false} /></span>
+                  <div className="sv-ghead__words">
+                    <h2 className="sv-ghead__t">{group.title}</h2>
+                    <span className="sv-ghead__n">{group.items.length} saved</span>
+                  </div>
                   {group.href ? <Link className="sv-gkey mk-press" href={group.href}>{group.practise}</Link> : null}
                 </div>
                 <ul className="sv-rows">

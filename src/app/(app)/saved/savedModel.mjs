@@ -31,3 +31,22 @@ export function groupByChapter(questions) {
   }
   return groups;
 }
+
+/**
+ * The group with the most saved questions (arena-c, 19 Nov): the page's one volt key practises it, the same link its own
+ * key opens. A tie goes to the group that appears first. Only a group with a link qualifies; none, and there is no key. Pure.
+ */
+export function topGroup(groups) {
+  let best = null;
+  for (const group of Array.isArray(groups) ? groups : []) {
+    if (!group?.href || !Array.isArray(group.items) || group.items.length === 0) continue;
+    if (!best || group.items.length > best.items.length) best = group;
+  }
+  return best;
+}
+
+/** The label of the volt key: the group's own words, with the chapter (or subject) named in place of "this chapter". */
+export function topGroupLabel(group) {
+  if (!group) return '';
+  return group.practise === 'Practise this chapter' ? `Practise ${group.title}` : group.practise;
+}

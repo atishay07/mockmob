@@ -113,11 +113,12 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
       {revealed && <div ref={feedbackNode} className="ex-feedback" data-state={feedback.state} tabIndex={-1} role="status"><div className="ex-feedback__row"><b>{feedback.state === 'correct' ? 'Correct. Keep the reasoning.' : feedback.state === 'incorrect' ? `The answer is ${feedback.correctKey}. Here’s why.` : feedback.state === 'revealed' ? `Answer: ${feedback.correctKey}` : 'The answer is unavailable.'}</b>{react && mobiOwner === q.id ? <MobiReact act={react} size={44} facing="left" /> : null}</div><p>{q.explanation || 'An explanation is not available for this question.'}</p></div>}
       {recordError && <p className="ex-recorderror" role="status">Here’s the answer, but this attempt wasn’t saved.</p>}
       {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question’s answer is missing, so we can’t check it. Try the next one.</p>}
-      {savedList ? (
+      {/* Saved (arena-c, 19 Nov): the row's own keys (Remove) live inside the opened row, not beside the closed one. */}
+      {savedList ? (open ? (
         <footer className="ex-question__actions ex-question__actions--saved">
           {actions}
         </footer>
-      ) : <footer className="ex-question__actions">
+      ) : null) : <footer className="ex-question__actions">
         <VoteControls questionId={q.id} initialScore={q.score} initialUserVote={q.userVote} onError={() => toast.error('Your vote didn’t save. Try again when your connection is back.')} />
         <div className="ex-question__tools">{!open ? <button type="button" className="ex-action ex-action--open" aria-expanded="false" onClick={() => setOpen(true)}>Answer it</button> : null}<button type="button" className="ex-action" aria-pressed={saved} disabled={saving} onClick={save}><AppIcon name="saved" size={16} />{saving ? 'Saving…' : saved ? 'Saved' : 'Save'}</button>{open && !revealed && feedback.state !== 'unavailable' && <button type="button" className="ex-action" onClick={(event) => reveal(null, event.detail === 0)}>Show answer</button>}</div>
       </footer>}

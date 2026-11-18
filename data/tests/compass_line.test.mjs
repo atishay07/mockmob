@@ -109,9 +109,10 @@ test('Colleges folds the subjects pane on phones, keeps the whole pane, and View
   const page = read('src/app/(app)/admission-compass/AdmissionCompassPageClient.jsx');
   const calc = read('src/components/du/CutoffCalculator.jsx');
   const css = read('src/components/du/du.css');
-  assert.match(page, /<CutoffCalculator seedSubjects=\{seed\} foldSubjects \/>/);
-  assert.match(page, /every Delhi University course your CUET subjects open, with 2026 cutoffs at each college\. A score is optional\./);
-  assert.match(calc, /export function CutoffCalculator\(\{ seedSubjects = null, foldSubjects = false \} = \{\}\)/, 'the public calculator does not fold');
+  // arena-c (19 Nov): the signed-in page also passes arena (the count as its anchor); the lede is its first sentence.
+  assert.match(page, /<CutoffCalculator seedSubjects=\{seed\} foldSubjects arena anchorFoot=\{anchorFoot\} \/>/);
+  assert.match(page, /every Delhi University course your CUET subjects open, with 2026 cutoffs at each college\./);
+  assert.match(calc, /export function CutoffCalculator\(\{ seedSubjects = null, foldSubjects = false, arena = false, anchorFoot = null \} = \{\}\)/, 'the public calculator does not fold');
   assert.match(calc, /className="du-fold__key" aria-expanded=\{!isFolded\} aria-controls="du-side-body"/);
   assert.match(calc, /<div className="du-side__body" id="du-side-body">/, 'the whole pane is still in the page');
   assert.match(calc, /ref === resultsRef && filtersRef\.current \? filtersRef\.current : ref\.current/, 'View courses shows a course');

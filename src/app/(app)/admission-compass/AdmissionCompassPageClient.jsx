@@ -47,6 +47,18 @@ export default function AdmissionCompassPageClient() {
   const { user } = useAuth();
   const seed = (user?.subjects || []).map(toDuId);
   const pro = Boolean(user?.id && user?.isPremium);
+  const anchorFoot = (
+    <>
+      {user?.id ? <FirstTime id="compass">Open a course for its colleges and 2026 cutoffs, then Add to your colleges. The first shows on Today.</FirstTime> : null}
+      <nav className="cmp-tools" aria-label="CUET tools">
+        <ul>
+          {TOOLS.map((t) => (
+            <li key={t.href}><Link href={t.href} aria-label={`${t.title}. ${t.line}`}><b data-short={t.short}>{t.title}</b><span>{t.line}</span></Link></li>
+          ))}
+        </ul>
+      </nav>
+    </>
+  );
   return (
     <main className="cmp">
       <header className="cmp-head">
@@ -55,23 +67,14 @@ export default function AdmissionCompassPageClient() {
               itself is DU Compass, as the website stamps it, named once in the lede (R8 TOOLS-06). */}
           <h1 className="display-md">Colleges</h1>
           <p className="cmp-lede">
-            {/* What it is for first, in the student's words (10 Nov): which university, what they get, which year. */}
+            {/* What it is for first, in the student's words (10 Nov): which university, what they get, which year. 19 Nov (arena-c):
+                the paragraph is its first sentence; the count under it is the page's anchor. */}
             {seed.length > 0
-              ? 'DU Compass: every Delhi University course your CUET subjects open, with 2026 cutoffs at each college. A score is optional.'
-              : 'DU Compass: tick your CUET subjects to see every Delhi University course they open, with 2026 cutoffs at each college. A score is optional.'}
+              ? 'DU Compass: every Delhi University course your CUET subjects open, with 2026 cutoffs at each college.'
+              : 'DU Compass: tick your CUET subjects to see every Delhi University course they open, with 2026 cutoffs at each college.'}
           </p>
         </div>
       </header>
-
-      {user?.id ? <FirstTime id="compass">Open a course for its colleges and 2026 cutoffs, then Add to your colleges. The first shows on Today.</FirstTime> : null}
-
-      <nav className="cmp-tools" aria-label="CUET tools">
-        <ul>
-          {TOOLS.map((t) => (
-            <li key={t.href}><Link href={t.href} aria-label={`${t.title}. ${t.line}`}><b data-short={t.short}>{t.title}</b><span>{t.line}</span></Link></li>
-          ))}
-        </ul>
-      </nav>
 
       {/* The Pro page is long: one row of in-page jumps to its three parts. */}
       {pro ? (
@@ -87,7 +90,9 @@ export default function AdmissionCompassPageClient() {
 
       {/* foldSubjects: on a phone a student whose subjects are already ticked sees them as one summary with an Edit key,
           so the long subjects pane no longer stands between them and their courses. */}
-      <div id="cmp-courses" className="cmp-anchor"><CutoffCalculator seedSubjects={seed} foldSubjects /></div>
+      {/* arena: the count, the subjects and View courses are the page's anchor; the first-time hint and the three tools follow it,
+          the tools as one row of 44 px keys (19 Nov). */}
+      <div id="cmp-courses" className="cmp-anchor"><CutoffCalculator seedSubjects={seed} foldSubjects arena anchorFoot={anchorFoot} /></div>
 
       {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
       {user?.id && !user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
