@@ -41,6 +41,8 @@ import '@/components/du/du.css';
 import { duMatchRank, duSearch } from '@/lib/du/collegeSearch.mjs';
 import { DU_SEARCH_ATTR, useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import { AddToMyColleges } from '@/components/colleges/MyColleges';
+import { SubjectObject } from '@/components/brand/SubjectObject';
+import { barScaleMax, rangeOnScale, tickOnScale } from '@/lib/du/compassBar.mjs';
 import '@/components/du/du-flat.css';
 
 const PAGE_SIZE = 25;
@@ -226,7 +228,41 @@ function CutoffTable({ group, catIndex, category, score }) {
   );
 }
 
-function ProgrammeCard({ result, explain, category, catIndex, score, clears = null, open, onToggle }) {
+// arena (the signed-in Colleges page, 19 Nov): the row reads in one look. Line 1 the name and the chevron, line 2 the group and
+// the colleges, then the 2026 Round 1 range as a thin bar on the list's one scale with its two figures at the ends. The matched
+// option and the performance-test flag move inside the row's disclosure, first when it opens. The public calculator is unchanged.
+function RangeBar({ r1, category, scaleMax, score }) {
+  const span = rangeOnScale(r1[2], r1[3], scaleMax);
+  if (!span) return null;
+  const tick = tickOnScale(score, scaleMax);
+  return (
+    <span className="du-range" aria-hidden="true">
+      <span className="du-range__label">
+        <span>2026 Round 1 ({category})</span>
+        {tick != null ? <span className="du-range__you"><b />Target score {ownScore(score)}</span> : null}
+      </span>
+      <span className="du-range__row">
+        <span className="du-range__end mm-measure">{formatScore(r1[2])}</span>
+        <span className="du-range__track">
+          <i style={{ left: `${span.from * 100}%`, width: `${Math.max(0.6, (span.to - span.from) * 100)}%` }} />
+          {tick != null ? <b className="du-range__tick" style={{ left: `${tick * 100}%` }} /> : null}
+        </span>
+        <span className="du-range__end mm-measure">{formatScore(r1[3])}</span>
+      </span>
+    </span>
+  );
+}
+
+function MatchLine({ matched, secondary }) {
+  return (
+    <span className="du-card__match">
+      <b>{optionLabel(matched.label)}</b> {matched.text}
+      {secondary ? <em>Considered only if seats remain after Options 1 and 2</em> : null}
+    </span>
+  );
+}
+
+function ProgrammeCard({ result, explain, category, catIndex, score, clears = null, open, onToggle, arena = false, scaleMax = null }) {
   const { group, matched, secondary } = result;
   const r1 = group.summary?.['round-1']?.[category] || group.summary?.['round-1']?.UR;
   const hasCutoffs = group.offerings > 0 && r1;
@@ -244,19 +280,21 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
           <span className="du-card__meta">
             <span className="du-tag">{group.stream}</span>
             {group.offerings > 0 ? <span>{group.colleges} {group.colleges === 1 ? 'college' : 'colleges'}</span> : <span>No CUET cutoff list published</span>}
-            {hasCutoffs ? (
+            {hasCutoffs && !(arena && scaleMax) ? (
               <span className="mm-measure">
                 2026 Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
               </span>
             ) : null}
           </span>
-          {matched ? (
-            <span className="du-card__match">
-              <b>{optionLabel(matched.label)}</b> {matched.text}
-              {secondary ? <em>Considered only if seats remain after Options 1 and 2</em> : null}
-            </span>
+          {arena && hasCutoffs && scaleMax ? (
+            <>
+              <RangeBar r1={r1} category={category} scaleMax={scaleMax} score={score} />
+              {/* The bar is drawn for the eye; a screen reader hears the same words the row printed before. */}
+              <span className="du-sr">2026 Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}</span>
+            </>
           ) : null}
-          {group.eligibility.performanceTest ? <span className="du-card__flag">Merit also uses a separate performance or practical test</span> : null}
+          {matched && !arena ? <MatchLine matched={matched} secondary={secondary} /> : null}
+          {group.eligibility.performanceTest && !arena ? <span className="du-card__flag">Merit also uses a separate performance or practical test</span> : null}
         </span>
         <span className="du-card__side">
           {verdict ? <span className="du-verdict" data-tone={verdict.startsWith('Above') ? 'good' : verdict.startsWith('Within') ? 'mid' : 'low'}>{verdict}</span> : null}
@@ -265,6 +303,12 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
       </button>
       {open ? (
         <div id={panelId} className="du-card__panel">
+          {arena && (matched || group.eligibility.performanceTest) ? (
+            <div className="du-card__first">
+              {matched ? <MatchLine matched={matched} secondary={secondary} /> : null}
+              {group.eligibility.performanceTest ? <span className="du-card__flag">Merit also uses a separate performance or practical test</span> : null}
+            </div>
+          ) : null}
           <section className="du-sec">
             <h4>DU’s eligibility rules, checked against your subjects</h4>
             <RulesList rows={explain} />
@@ -296,7 +340,11 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
 
 // foldSubjects (the signed-in Colleges page, 10 Nov): in the one-column layout a student whose subjects are already ticked sees
 // them as one summary with an Edit key, and the courses come straight after. Nothing is removed: Edit opens the whole pane.
-export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } = {}) {
+// arena (the signed-in Colleges page only, 19 Nov): the count is said once, as the page's anchor (a large ring, the subjects as
+// their desk objects, View courses); the sticky strip repeats it only once that anchor has scrolled away.
+const objectId = (id) => (id === 'gat' ? 'general_test' : id);
+
+export function CutoffCalculator({ seedSubjects = null, foldSubjects = false, arena = false, anchorFoot = null } = {}) {
   useAboveKeyboard();
   const { isAuthenticated } = useAuth();
   const [data, setData] = useState(null);
@@ -325,6 +373,9 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
   // R8 TOOLS-15: while the subjects card fills the screen under the sticky bar, the bar's Edit key would scroll to where the
   // student already is. The bar marks it (data-editing) and steps that key aside; the live count and View courses stay.
   const [inSubjects, setInSubjects] = useState(false);
+  // arena: while the top anchor is on screen the sticky strip (the count's only repeat) waits.
+  const anchorRef = useRef(null);
+  const [anchorInView, setAnchorInView] = useState(true);
   // A course in the link (a cutoff page, the landing's college pills) and no subjects yet: the course is named over the subject
   // picker, which takes the focus, so the page never sits blank waiting for a tick (15 Nov).
   const [linkedCourse, setLinkedCourse] = useState(null);
@@ -499,6 +550,14 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
   }, [data, foldSubjects]);
 
   useEffect(() => {
+    const el = anchorRef.current;
+    if (!arena || !el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(([entry]) => setAnchorInView(entry.isIntersecting), { rootMargin: '-64px 0px 0px 0px', threshold: 0 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [data, arena]);
+
+  useEffect(() => {
     const el = ctaRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') return undefined;
     const io = new IntersectionObserver(([entry]) => setCtaInView(entry.isIntersecting), { threshold: 0.05 });
@@ -517,12 +576,15 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
     });
   };
 
-  if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setLoadAttempt((value) => value + 1); }}>Try again</button></div>;
+  if (error) return <>{anchorFoot}<div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setLoadAttempt((value) => value + 1); }}>Try again</button></div></>;
   if (!data) {
     return (
-      <div className="du-skeleton" aria-busy="true" aria-label="Loading the calculator">
-        <span /> <span /> <span />
-      </div>
+      <>
+        {anchorFoot}
+        <div className="du-skeleton" aria-busy="true" aria-label="Loading the calculator">
+          <span /> <span /> <span />
+        </div>
+      </>
     );
   }
 
@@ -537,11 +599,13 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
     ...(selection.gat ? [{ id: 'gat', kind: 'gat', label: 'General Aptitude Test', title: 'General Aptitude Test' }] : []),
   ];
   const isFolded = Boolean(foldSubjects && folded && hasSelection);
+  const scaleMax = arena ? barScaleMax(data.meta) : null;
+  const away = arena && anchorInView;
 
   return (
-    <div className="du-app" data-folded={isFolded ? '' : undefined}>
+    <div className="du-app" data-folded={isFolded ? '' : undefined} data-arena={arena ? '' : undefined}>
       {hasSelection ? (
-        <div className="du-sum" role="region" aria-label="Your selection" data-editing={inSubjects ? '' : undefined}>
+        <div className="du-sum" role="region" aria-label="Your selection" data-editing={inSubjects ? '' : undefined} data-away={away ? '' : undefined} aria-hidden={away ? true : undefined} inert={away ? true : undefined}>
           <p>
             <strong className="mm-measure"><RollingCount value={eligible.length} /></strong>
             <span>of {total} open</span>
@@ -552,6 +616,33 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
           </div>
         </div>
       ) : null}
+
+      {arena && hasSelection ? (
+        <section className="du-anchor" ref={anchorRef} aria-labelledby="du-anchor-title">
+          <div className="du-anchor__count">
+            <EligibleMeter eligible={eligible.length} total={total} />
+            <div>
+              <h2 id="du-anchor-title" className="du-h2" aria-live="polite">
+                <span className="du-sr">{eligible.length} </span>of {total} DU courses open to you
+              </h2>
+              <p className="du-anchor__meta">Category {category}{score != null ? `, target score ${ownScore(score)}` : ', no target score'}</p>
+              <button type="button" className="du-anchor__edit" onClick={() => goTo(sideRef)}>Edit<span className="du-sr"> your subjects, category and score</span></button>
+            </div>
+          </div>
+          <div className="du-anchor__subjects">
+            <ul aria-label="Your CUET subjects">
+              {selectedList.map((s) => (
+                <li key={`${s.kind}-${s.id}`} title={s.title}>
+                  <SubjectObject id={objectId(s.id)} size={48} framed={false} life={false} />
+                  <span>{s.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <button type="button" className="du-anchor__go" onClick={() => goTo(resultsRef)}>View courses</button>
+        </section>
+      ) : null}
+      {anchorFoot ? <div className="du-anchor__foot">{anchorFoot}</div> : null}
 
       <div className="du-layout">
         {/* --------------------------- Your subjects --------------------------- */}
@@ -626,10 +717,12 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
         <div className="du-main" ref={resultsRef} id="results">
           <div className="du-bar">
             <div className="du-bar__lead">
-              {hasSelection ? <EligibleMeter eligible={eligible.length} total={total} /> : null}
+              {hasSelection && !arena ? <EligibleMeter eligible={eligible.length} total={total} /> : null}
               <div>
-              <h2 className="du-h2" aria-live="polite">
-                {hasSelection ? (
+              <h2 className="du-h2" aria-live={arena && hasSelection ? undefined : 'polite'}>
+                {arena && hasSelection ? (
+                  'Courses and cutoffs'
+                ) : hasSelection ? (
                   <>
                     <span className="du-sr">{eligible.length} </span>of {total} DU courses open to you
                   </>
@@ -677,6 +770,7 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
                     {unlocks.map((u) => (
                       <li key={u.id}>
                         <button type="button" aria-describedby={`du-peek-${u.id}`} onClick={() => toggle(u.kind, u.id)}>
+                          {arena ? <SubjectObject id={objectId(u.id)} size={44} framed={false} life={false} /> : null}
                           <span>{u.kind === 'domain' ? subjectLabel(u.id) : u.name}</span>
                           <b className="mm-measure">+{u.unlocks}</b>
                         </button>
@@ -733,6 +827,8 @@ export function CutoffCalculator({ seedSubjects = null, foldSubjects = false } =
                     clears={score != null && r.group.offerings > 0 ? couldClear(r.group) : null}
                     open={openIds.has(r.group.id)}
                     onToggle={() => toggleOpen(r.group.id)}
+                    arena={arena}
+                    scaleMax={scaleMax}
                   />
                 ))}
               </div>
