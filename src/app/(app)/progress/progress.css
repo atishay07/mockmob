@@ -191,6 +191,13 @@ html[data-theme='light'] .app-shell .student-page--progress .pw-mark[data-kind='
 @media (hover: hover) and (pointer: fine) { .app-shell .student-page--progress .pw-mark:not([data-kind='met']):hover { border-color: var(--a-ink-3); } }
 .app-shell .student-page--progress .pw-mark__date { font-size: 11.5px; font-weight: 600; line-height: 1; color: var(--a-ink-3); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .app-shell .student-page--progress .pw-weeks__said { min-height: 40px; }
+/* 18 Nov 2026: at 360 px seven marks at 44 px ran 18 px past the row and the oldest week was cut in half. Under 380 px the
+   marks stand 40 px wide (still 44 px tall), so seven fit whole; a longer history still scrolls, newest at the right. */
+@media (max-width: 379px) {
+  .app-shell .student-page--progress .pw-marks { grid-template-columns: repeat(var(--pw-n, 7), minmax(40px, 1fr)); gap: 5px; }
+  .app-shell .student-page--progress .pw-mark { aspect-ratio: auto; height: 44px; border-radius: 12px; }
+  .app-shell .student-page--progress .pw-mark__date { font-size: 11px; letter-spacing: -0.01em; }
+}
 /* While the week loads: the heading, the row of marks with its dates and the line under it, at their real heights. */
 .app-shell .student-page--progress .pw-weeks--wait .rc-block { display: grid; gap: 14px; }
 .app-shell .student-page--progress .pw-weeks__sk-h { width: min(100%, 280px); height: 22px; border-radius: 8px; }
