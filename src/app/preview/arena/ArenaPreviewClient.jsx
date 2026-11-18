@@ -14,6 +14,7 @@ import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewAnalytics, previewCompass, previewInsights, previewRecordAttempt } from './previewRecord';
+import { previewRadarAnalytics, previewRadarRecord } from './previewInsight';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { standingFor } from '@/lib/server/standing';
 import { previewStudyRecord, previewBadgesBody, repairAt } from './previewStudy';
@@ -503,9 +504,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const page = new URLSearchParams(window.location.search);
       if (page.get('record') === 'empty' || state === 'empty') return json({ ok: true, insights: { state: 'empty', sessions: 0, questions: 0 }, findings: [] });
       if (page.get('record') === 'down') return json({ ok: false, error: 'insights_unavailable' }, 503);
+      // Marks trend (lane insight): the record from the same papers as its analytics (previewInsight.js); ?data=sparse is one paper.
+      if (page.get('view') === 'radar') return json(previewRadarRecord(state));
       return json(previewInsights(undefined, { wide: page.get('record') === 'wide' }));
     }
     if (url.pathname === '/api/analytics') {
+      // Marks trend (lane insight): the live route's shape with its `insight` part, built by the server's own builder.
+      if (fixture.get('view') === 'radar') return json(previewRadarAnalytics(state, { pro: fixture.get('plan') === 'pro' }));
       if (state === 'empty') return json({ totalAttempts: 0, totals: { correct: 0, wrong: 0, unattempted: 0 }, scoring: { device: 0 }, timeline: [], subjects: [], weakChapters: [] });
       return json(previewAnalytics());
     }

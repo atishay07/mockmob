@@ -5,6 +5,19 @@ import { SUBJECTS } from '@/../data/subjects';
 import { attemptScoring } from '@/../data/attempt_scoring';
 import { supabaseAdmin } from '@/lib/supabase';
 import { openAttemptsOnly, readHeldMobPapers } from '@/lib/server/answerHold';
+import { readAnsweredProgress } from '@/../data/practice_progress';
+import { getCanonicalSubject, isTopSubject } from '@/../data/canonical_syllabus';
+import { resolveChapter, unitsFor } from '@/../data/cuet_syllabus';
+import { buildInsight } from '@/lib/insight/build.mjs';
+
+// The student's saved part or section per subject (student_subject_options), as Key cards and Learn read it. No table yet,
+// or a failed read: no option, so every chapter of the subject is drawn.
+async function readOptions(db, userId) {
+  try {
+    const res = await db.from('student_subject_options').select('subject,option').eq('user_id', userId);
+    return res?.error ? new Map() : new Map((res?.data || []).map((r) => [r.subject, r.option]));
+  } catch { return new Map(); }
+}
 
 export async function GET(request) {
   try {
@@ -13,9 +26,14 @@ export async function GET(request) {
     const userId=session.user.id;
     // The owner's own history: server-scored practice plus earlier browser-scored attempts,
     // which are labelled as such. Recovery evidence is computed separately (/api/recovery).
-    const [attempts, held] = await Promise.all([
+    // Marks trend's chapter map (lane insight, 18 Nov 2026) also reads this student's own answered progress rows, their
+    // saved options and their plan and subjects; every read is by the signed-in id, never a query parameter.
+    const [attempts, held, me, progress, options] = await Promise.all([
       Database.getAttempts(userId, { slim: 'insights' }), // snapshot id and chapter, details and scoring version stay
       readHeldMobPapers(supabaseAdmin(), userId),
+      Promise.resolve().then(() => Database.getUserById(userId)).catch(() => null),
+      readAnsweredProgress(supabaseAdmin(), userId, { what: 'Marks trend chapters' }).catch(() => ({ rows: [], incomplete: true })),
+      readOptions(supabaseAdmin(), userId),
     ]);
     const deviceScored=attempts.filter(a=>attemptScoring(a)==='device').length;
     // L5 cross-lane (15 Nov 2026): a Mob paper still open for the Mob keeps its per-question right and wrong
@@ -152,7 +170,25 @@ export async function GET(request) {
       ],
     };
 
+    // Additive (lane insight): Your chapters, Your pace and Where your marks go, built by src/lib/insight/build.mjs from the
+    // reads above. Held Mob papers stay out of every per-question count. A failure here never fails the older fields.
+    let insight;
+    try {
+      insight = buildInsight({
+        attempts, openAttempts, heldQids: held.qids,
+        user: me && typeof me === 'object' ? { isPremium: me.isPremium === true, subjects: Array.isArray(me.subjects) ? me.subjects : [] } : null,
+        progress, optionOf: (subject) => options.get(subject) || null,
+        syllabus: { unitsFor, resolveChapter, isTop: isTopSubject },
+        nameOf: (id) => getCanonicalSubject(id)?.subject_name || SUBJECTS.find((s) => s.id === id)?.name || id,
+        totals: { wrong: totals.wrong, unattempted: totals.unattempted },
+      });
+    } catch (error) {
+      console.warn('[api/analytics] insight failed:', error?.message);
+      insight = { state: 'error' };
+    }
+
     return NextResponse.json({
+      insight,
       weakChapters: weakChaptersFallback,
       subjects,
       timeline,

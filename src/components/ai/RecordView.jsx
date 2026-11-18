@@ -13,6 +13,7 @@ import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
 import { MIN_CHAPTER_SAMPLE } from '../../../data/prepos_insights';
 import { FIRST_SET_HREF, FIRST_SET_LABEL } from '@/lib/firstSet.mjs';
+import { observeSideHeight } from '@/lib/stickySide.mjs';
 
 const sec = (s) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`);
 const signed = (n) => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
@@ -64,8 +65,8 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
 
 // A Pro row on Radar and the Mentor record (D80): a plain link to /pricing that names the 'review' trigger, so for a Free
 // student the shell's ProNudgeHost opens the Upgrade sheet on full chapter review instead of leaving the page. Without the
-// host (signed out, or a new tab) it is still an ordinary link to /pricing.
-function ProLock({ what }) {
+// host (signed out, or a new tab) it is still an ordinary link to /pricing. Marks trend's Your pace uses the same row.
+export function ProLock({ what }) {
   return (
     <div className="pp-lock">
       <p>{what}</p>
@@ -77,7 +78,12 @@ function ProLock({ what }) {
 // Radar passes `afterLedger` (its trend and subjects on narrow screens, right under the marks), `afterFindings`
 // (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `chaptersFirst` (the ranked chapters
 // straight under the next step). `emptyAction={false}` leaves the empty record's key out for a page that offers its own. The Mentor record tab passes none of them and is unchanged.
-export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false, chaptersInReview = false }) {
+// `desk` (Marks trend, lane insight 18 Nov 2026): { side, main, wait } lays the record out as two columns from 1100 px. The
+// left column (sticky, src/lib/stickySide.mjs) holds the range line, the marks and `side` (Score by session), then the row to
+// Your papers; the right column holds `main` (Your chapters, Your pace, Where your marks go, By subject) and then the rest of
+// the record. Below 1100 px both columns are `display: contents`, so a phone reads one column in that order. While the record
+// loads (`wait` in its place), is empty or failed, its panel takes the left column's head and the page's blocks still show.
+export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false, chaptersInReview = false, desk = null }) {
   const [showThin, setShowThin] = useState(false);
   // R8 PRICE-02 revision: Pro ranks every chapter, as /pricing says. The first eight show; the rest open with one key.
   const [allChapters, setAllChapters] = useState(false);
@@ -86,19 +92,30 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   useEffect(() => { if (allChapters) rankRef.current?.children[8]?.focus(); }, [allChapters]);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
+  // The two columns around a record that has nothing of its own to lay out yet (loading, failed, empty).
+  const deskFrame = (panel) => (
+    <div className="pp-record pp-record--desk">
+      <div className="pp-desk__side" ref={observeSideHeight}>{panel}{desk.side}</div>
+      <div className="pp-desk__main">{desk.main}{afterFindings}</div>
+    </div>
+  );
 
-  if (status === 'loading') return <p className="pp-note" role="status">Reading your sessions…</p>;
+  if (status === 'loading') {
+    const wait = <p className="pp-note" role="status">Reading your sessions…</p>;
+    return desk ? deskFrame(desk.wait ?? wait) : wait;
+  }
   if (status === 'unavailable') {
-    return (
+    const failed = (
       <div className="pp-empty" role="alert">
         <StatusIcon kind="warning" size={20} />
         <div><b>Your record could not be read just now.</b><p>Nothing was charged. Your attempts are safe, and Your papers still opens them.</p></div>
         <button type="button" className="btn-outline sm" onClick={() => onNavigate('/review')}>Open Your papers</button>
       </div>
     );
+    return desk ? deskFrame(failed) : failed;
   }
   if (status === 'empty') {
-    return (
+    const none = (
       <div className="pp-empty pp-empty--room">
         <SceneVignette scene="nothingYet" compact />
         <div><b>Nothing to analyse yet.</b><p>Finish one practice session. Your record will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
@@ -106,6 +123,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
         {emptyAction ? <button type="button" className="btn-volt sm mk-press" data-page-primary="" onClick={() => onNavigate(FIRST_SET_HREF)}>{FIRST_SET_LABEL}</button> : null}
       </div>
     );
+    return desk ? deskFrame(none) : none;
   }
 
   const { ledger, accuracy, chapters, changes, pace, week } = insights;
@@ -171,95 +189,139 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       </section>
   );
 
+  const note = <p className="pp-note">Based on {insights.sessions} session{insights.sessions === 1 ? '' : 's'} and {insights.questions} questions, {day(insights.window.first)} to {day(insights.window.last)}. Free to read, no credits used.</p>;
+  const ledgerBlock = <Ledger userId={state.userId} ledger={ledger} accuracy={accuracy} right={right} wrong={wrong} blank={blank} />;
+  const sheet = <AnswerSheet right={right} wrong={wrong} blank={blank} />;
+
+  const findingsBlock = shownFindings.length > 0 ? (
+    <section aria-labelledby="pp-f">
+      <h3 id="pp-f" className="pp-h">What stands out</h3>
+      <ol className="pp-findings">
+        {shownFindings.map((f) => (
+          <li key={f.id} data-kind={f.kind}>
+            <div>
+              <b>{f.headline}</b>
+              <p>{f.detail}</p>
+              <span className="pp-findings__foot"><i>Based on {f.n} questions</i>{f.action ? <button type="button" onClick={() => onNavigate(f.action.href)}>{f.action.label}</button> : null}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ) : null;
+
+  const changesBlock = oneLock && !pro ? null : (
+    <section aria-labelledby="pp-a">
+      <h3 id="pp-a" className="pp-h">Changed answers</h3>
+      {!pro ? (
+        <ProLock what="Changed-answer detail is part of Pro. The headline above already counts both gains and losses." />
+      ) : changes.count === 0 ? (
+        <p className="pp-note">No changed answers recorded{changes.sessionsWithTelemetry === 0 ? ' (no session has a usable replay yet)' : ''}.</p>
+      ) : (
+        <div className="pp-changes" ref={changesRef} data-in={changesSeen ? 'true' : 'false'}>
+          <div><span>Helped</span><i data-k="gain" style={{ width: `${(changes.marksGained / maxChange) * 100}%` }} /><b>{signed(changes.marksGained)}</b><small>{changes.gains} {changes.gains === 1 ? 'change' : 'changes'}</small></div>
+          <div><span>Hurt</span><i data-k="loss" style={{ width: `${(changes.marksLost / maxChange) * 100}%` }} /><b>{signed(-changes.marksLost)}</b><small>{changes.losses} {changes.losses === 1 ? 'change' : 'changes'}</small></div>
+          <p className="pp-note">Net {signed(changes.net)} marks across {changes.count} changes in {changes.sessionsWithTelemetry} replayed session{changes.sessionsWithTelemetry === 1 ? '' : 's'}. This shows what happened, not why you changed.</p>
+        </div>
+      )}
+    </section>
+  );
+
+  const paceBlock = oneLock && !pro ? null : (
+    <section aria-labelledby="pp-p">
+      <h3 id="pp-p" className="pp-h">Pace</h3>
+      {!pro ? (
+        <ProLock what="Pace detail from your replayed sessions is part of Pro." />
+      ) : !pace.usable ? (
+        <p className="pp-note">Pace needs at least 8 timed questions from a replayed session. {pace.questionsTimed} so far.</p>
+      ) : (
+        <>
+          <dl className="pp-pace">
+            <div><dt>Typical question</dt><dd>{sec(pace.medianSec)}</dd></div>
+            <div><dt>Slowest 10%</dt><dd>{sec(pace.p90Sec)}</dd></div>
+            {pace.medianRightSec && pace.medianWrongSec ? <div><dt>Right vs wrong</dt><dd>{sec(pace.medianRightSec)} / {sec(pace.medianWrongSec)}</dd></div> : null}
+            {pace.shareOnWrong !== null ? <div><dt>Time on wrong</dt><dd>{pace.shareOnWrong}%</dd></div> : null}
+          </dl>
+          {pace.slowest.length > 0 && <ul className="pp-thin">{pace.slowest.slice(0, 3).map((s) => <li key={`${s.attemptId}-${s.position}`}>Question {s.position}, {s.chapter}: {sec(s.seconds)} ({s.outcome === 'skip' ? 'blank' : s.outcome})</li>)}</ul>}
+          <p className="pp-note">Timing comes from device events across {pace.questionsTimed} questions in {pace.sessionsTimed} session{pace.sessionsTimed === 1 ? '' : 's'}.</p>
+        </>
+      )}
+    </section>
+  );
+
+  const weekBlock = (
+    <section aria-labelledby="pp-w">
+      <h3 id="pp-w" className="pp-h">This week and last</h3>
+      <div className="pp-week">
+        {[['Last 7 days', week.thisWeek], ['Week before', week.lastWeek]].map(([label, w]) => (
+          <div key={label}>
+            <span>{label}</span>
+            <b>{w.sessions ? signed(w.net) : 'None'}</b>
+            <small>{w.sessions ? `${w.sessions} session${w.sessions === 1 ? '' : 's'}, ${w.questions} questions${w.accuracy.pct !== null ? `, ${w.accuracy.pct}% accuracy` : ''}` : 'No sessions'}</small>
+          </div>
+        ))}
+      </div>
+      <p className="pp-note">Active on {week.activeDaysLast14} of the last 14 days.</p>
+    </section>
+  );
+
+  const proBlock = oneLock && !pro ? (
+    <section aria-labelledby="pp-pro" className="pp-pro">
+      <h3 id="pp-pro" className="pp-h">Changed answers and pace</h3>
+      <ProLock what="The detail from your replayed sessions is part of Pro. The marks above already count both gains and losses from changed answers." />
+    </section>
+  ) : null;
+
+  // Marks trend's two columns: the marks and the trend with the way to Your papers on the left; the analysis on the right.
+  if (desk) {
+    return (
+      <div className="pp-record pp-record--desk">
+        <div className="pp-desk__side" ref={observeSideHeight}>
+          {note}
+          {ledgerBlock}
+          {desk.side}
+          {chaptersSection}
+        </div>
+        <div className="pp-desk__main">
+          {desk.main}
+          {sheet}
+          {findingsBlock}
+          {afterFindings}
+          {changesBlock}
+          {paceBlock}
+          {weekBlock}
+          {proBlock}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pp-record">
-      <p className="pp-note">Based on {insights.sessions} session{insights.sessions === 1 ? '' : 's'} and {insights.questions} questions, {day(insights.window.first)} to {day(insights.window.last)}. Free to read, no credits used.</p>
+      {note}
 
       {/* Weak chapters answers its own question first: which chapters, ranked, then the marks behind them. */}
       {chaptersFirst ? chaptersSection : null}
 
-      <Ledger userId={state.userId} ledger={ledger} accuracy={accuracy} right={right} wrong={wrong} blank={blank} />
+      {ledgerBlock}
 
       {afterLedger}
 
-      <AnswerSheet right={right} wrong={wrong} blank={blank} />
+      {sheet}
 
-      {shownFindings.length > 0 && (
-        <section aria-labelledby="pp-f">
-          <h3 id="pp-f" className="pp-h">What stands out</h3>
-          <ol className="pp-findings">
-            {shownFindings.map((f) => (
-              <li key={f.id} data-kind={f.kind}>
-                <div>
-                  <b>{f.headline}</b>
-                  <p>{f.detail}</p>
-                  <span className="pp-findings__foot"><i>Based on {f.n} questions</i>{f.action ? <button type="button" onClick={() => onNavigate(f.action.href)}>{f.action.label}</button> : null}</span>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-      )}
+      {findingsBlock}
 
       {afterFindings}
 
       {chaptersFirst ? null : chaptersSection}
 
-      {oneLock && !pro ? null : <section aria-labelledby="pp-a">
-        <h3 id="pp-a" className="pp-h">Changed answers</h3>
-        {!pro ? (
-          <ProLock what="Changed-answer detail is part of Pro. The headline above already counts both gains and losses." />
-        ) : changes.count === 0 ? (
-          <p className="pp-note">No changed answers recorded{changes.sessionsWithTelemetry === 0 ? ' (no session has a usable replay yet)' : ''}.</p>
-        ) : (
-          <div className="pp-changes" ref={changesRef} data-in={changesSeen ? 'true' : 'false'}>
-            <div><span>Helped</span><i data-k="gain" style={{ width: `${(changes.marksGained / maxChange) * 100}%` }} /><b>{signed(changes.marksGained)}</b><small>{changes.gains} {changes.gains === 1 ? 'change' : 'changes'}</small></div>
-            <div><span>Hurt</span><i data-k="loss" style={{ width: `${(changes.marksLost / maxChange) * 100}%` }} /><b>{signed(-changes.marksLost)}</b><small>{changes.losses} {changes.losses === 1 ? 'change' : 'changes'}</small></div>
-            <p className="pp-note">Net {signed(changes.net)} marks across {changes.count} changes in {changes.sessionsWithTelemetry} replayed session{changes.sessionsWithTelemetry === 1 ? '' : 's'}. This shows what happened, not why you changed.</p>
-          </div>
-        )}
-      </section>}
+      {changesBlock}
 
-      {oneLock && !pro ? null : <section aria-labelledby="pp-p">
-        <h3 id="pp-p" className="pp-h">Pace</h3>
-        {!pro ? (
-          <ProLock what="Pace detail from your replayed sessions is part of Pro." />
-        ) : !pace.usable ? (
-          <p className="pp-note">Pace needs at least 8 timed questions from a replayed session. {pace.questionsTimed} so far.</p>
-        ) : (
-          <>
-            <dl className="pp-pace">
-              <div><dt>Typical question</dt><dd>{sec(pace.medianSec)}</dd></div>
-              <div><dt>Slowest 10%</dt><dd>{sec(pace.p90Sec)}</dd></div>
-              {pace.medianRightSec && pace.medianWrongSec ? <div><dt>Right vs wrong</dt><dd>{sec(pace.medianRightSec)} / {sec(pace.medianWrongSec)}</dd></div> : null}
-              {pace.shareOnWrong !== null ? <div><dt>Time on wrong</dt><dd>{pace.shareOnWrong}%</dd></div> : null}
-            </dl>
-            {pace.slowest.length > 0 && <ul className="pp-thin">{pace.slowest.slice(0, 3).map((s) => <li key={`${s.attemptId}-${s.position}`}>Question {s.position}, {s.chapter}: {sec(s.seconds)} ({s.outcome === 'skip' ? 'blank' : s.outcome})</li>)}</ul>}
-            <p className="pp-note">Timing comes from device events across {pace.questionsTimed} questions in {pace.sessionsTimed} session{pace.sessionsTimed === 1 ? '' : 's'}.</p>
-          </>
-        )}
-      </section>}
+      {paceBlock}
 
-      <section aria-labelledby="pp-w">
-        <h3 id="pp-w" className="pp-h">This week and last</h3>
-        <div className="pp-week">
-          {[['Last 7 days', week.thisWeek], ['Week before', week.lastWeek]].map(([label, w]) => (
-            <div key={label}>
-              <span>{label}</span>
-              <b>{w.sessions ? signed(w.net) : 'None'}</b>
-              <small>{w.sessions ? `${w.sessions} session${w.sessions === 1 ? '' : 's'}, ${w.questions} questions${w.accuracy.pct !== null ? `, ${w.accuracy.pct}% accuracy` : ''}` : 'No sessions'}</small>
-            </div>
-          ))}
-        </div>
-        <p className="pp-note">Active on {week.activeDaysLast14} of the last 14 days.</p>
-      </section>
+      {weekBlock}
 
-      {oneLock && !pro ? (
-        <section aria-labelledby="pp-pro" className="pp-pro">
-          <h3 id="pp-pro" className="pp-h">Changed answers and pace</h3>
-          <ProLock what="The detail from your replayed sessions is part of Pro. The marks above already count both gains and losses from changed answers." />
-        </section>
-      ) : null}
+      {proBlock}
     </div>
   );
 }

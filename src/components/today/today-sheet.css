@@ -1,0 +1,28 @@
+/* The arena's sheet (TodaySheet.jsx) carries its own frame, so any page that opens it draws it the same way: Marks trend's
+   chapter panel on a phone (lane insight, 18 Nov 2026) as well as Today. These are today.css's sheet rules, unchanged; Today
+   loads both files and they agree. A phone gets the bottom sheet rising in 280 ms; from 720 px a centred card pops in 220 ms. */
+.tsh { position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: 92dvh; margin: 0; padding: 0; border: 0; background: transparent; color: var(--a-ink); overflow: visible; }
+.tsh::backdrop { background: rgb(6 5 4 / 0.56); animation: tsh-fade 200ms ease both; }
+html[data-theme='light'] .tsh::backdrop { background: rgb(23 21 15 / 0.32); }
+.tsh__body {
+  display: grid; gap: 10px; max-height: 92dvh; overflow: auto; overscroll-behavior: contain; padding: 8px 20px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--a-line); border-radius: 28px 28px 0 0; background: var(--a-raised); box-shadow: var(--a-shadow-2);
+  animation: tsh-up 280ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+.tsh__handle { justify-self: center; width: 40px; height: 4px; margin: 2px 0 2px; border-radius: 2px; background: var(--a-line-strong); }
+.tsh__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.tsh__head h2 { margin: 0; font: 600 19px/1.2 var(--font-display); color: var(--a-ink); }
+.tsh__head h2:focus { outline: none; }
+.tsh__close { display: grid; place-items: center; width: 44px; height: 44px; margin-right: -10px; border: 0; border-radius: 22px; background: none; color: var(--a-ink-2); cursor: pointer; }
+.tsh__close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.tsh__lede { margin: -4px 0 4px; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+@media (min-width: 720px) {
+  .tsh { inset: 0; width: min(480px, calc(100vw - 48px)); height: fit-content; max-height: calc(100dvh - 64px); margin: auto; }
+  .tsh__body { max-height: calc(100dvh - 64px); border: 1px solid var(--a-line); border-radius: 28px; padding: 18px 28px 26px; animation: tsh-pop 220ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+  .tsh__handle { display: none; }
+}
+@keyframes tsh-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tsh-up { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes tsh-pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tsh__body { animation: tsh-fade 150ms ease both; transform: none; } }
+html[data-motion='reduced'] .tsh__body { animation: tsh-fade 150ms ease both; transform: none; }
