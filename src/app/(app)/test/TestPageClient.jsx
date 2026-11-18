@@ -29,9 +29,28 @@ import { useExamIntegrity, IntegrityOverlay } from '@/components/arena/ExamInteg
 import NtaInstructions from '@/components/arena/NtaInstructions';
 import { nextEvent, onScreenQid, endReason, captureMeta, usePresenceCapture } from '@/lib/runnerCapture';
 import { shownName } from '@/lib/displayName.mjs';
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, FileText, X } from 'lucide-react';
+import { CAP_NAMES, KEY_ROWS, keyAction } from '@/lib/paper/runnerKeys.mjs';
+import { CROSS_OUT_WORDS, NO_CROSS_OUTS, bringBack, crossOutKey, crossOutKeysToClear, isCrossedOut, parseCrossOut, serialiseCrossOut, toggleCrossOut } from '@/lib/paper/crossOut.mjs';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, FileText, Strikethrough, X } from 'lucide-react';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
+
+// Keys (18 Nov 2026, MockMob style only; src/lib/paper/runnerKeys.mjs decides what a key does). The Keys key and its list show
+// only where a hardware keyboard is likely; the one-time hint beside it goes for good once the list is opened or a paper ends.
+const KEYS_MEDIA = '(hover: hover) and (pointer: fine)';
+const KEYS_HINT_KEY = 'mm:keysHint:v1';
+const subscribeKeysMedia = (callback) => {
+  const query = typeof window !== 'undefined' ? window.matchMedia?.(KEYS_MEDIA) : null;
+  query?.addEventListener?.('change', callback);
+  return () => query?.removeEventListener?.('change', callback);
+};
+const keysMediaSnapshot = () => !!window.matchMedia?.(KEYS_MEDIA)?.matches;
+// The paper's crossed-out options as this tab kept them (their own sessionStorage entry, src/lib/paper/crossOut.mjs). Read once,
+// when the runner opens; storage that cannot be read gives none.
+function readCrossOuts(storageKey) {
+  if (!storageKey || typeof window === 'undefined') return NO_CROSS_OUTS;
+  try { return parseCrossOut(window.sessionStorage.getItem(storageKey)); } catch { return NO_CROSS_OUTS; }
+}
 
 // NTA style (5 Nov 2026, web-1105-runner): NTA's CBT screen as its own guidelines describe it (CUET (UG) 2025 Information
 // Bulletin, Appendix V), in NTA's words and capitals. The home page draws the same screen (src/components/landing/ExamScreen.jsx,
@@ -377,10 +396,38 @@ function TestRunner() {
   const liveRef = useRef(null);
   const swipeRef = useRef(null);
   const suppressClickRef = useRef(false);
-  // The crossed-out look lives only in memory and is never restored. Each cross-out and restore is also recorded as a
-  // strike event, read only after submit (the Mistake Lab's "You crossed out B, the key, at 0:41").
-  const [struck, setStruck] = useState({});
-  const struckRef = useRef({});
+  // Crossed-out options (MockMob style), { key, map } for this paper: kept in this tab's own sessionStorage entry, so a reload of
+  // the same paper keeps them (src/lib/paper/crossOut.mjs); never in the draft, never sent, never part of what is scored. Each
+  // cross-out and restore is also recorded as a strike event, read only after submit (the Mistake Lab's "You crossed out B, the
+  // key, at 0:41"), as before.
+  // Keyed by the student too (review, 18 Nov): a Sunday Mock's key is the same for everyone, and a shared computer's tab may
+  // carry one student's marks to the next.
+  const crossUser = user?.id || null;
+  const crossKey = useMemo(() => crossOutKey({ userId: crossUser, generationKey, sessionId: searchParams.get('sessionId') }), [crossUser, generationKey, searchParams]);
+  const [struck, setStruck] = useState(() => ({ key: crossKey, map: readCrossOuts(crossKey) }));
+  const struckRef = useRef(struck);
+  // The student is known once sign-in answers, so the paper's key can arrive after the first render: its marks are read then.
+  useEffect(() => {
+    if (struckRef.current.key === crossKey) return;
+    const next = { key: crossKey, map: readCrossOuts(crossKey) };
+    struckRef.current = next;
+    setStruck(next);
+  }, [crossKey]);
+  // The cross-out tool: on for one question at a time (the question's id), off on every new page, so a tap meant as an answer on
+  // the next question is never taken as a cross-out.
+  const [crossTool, setCrossTool] = useState(null);
+  // Crossing out the chosen answer was refused: { qid, n }. The line stays until the next cross-out or page.
+  const [crossNote, setCrossNote] = useState(null);
+  // The option just crossed out ('qid:option'): only its line draws; marks already there (a reload, a page come back to) do not.
+  const [freshStrike, setFreshStrike] = useState(null);
+  // The keys list (MockMob style, where a hardware keyboard is likely) and its one-time hint.
+  const keysUi = useSyncExternalStore(subscribeKeysMedia, keysMediaSnapshot, () => false);
+  const [keysOpen, setKeysOpen] = useState(false);
+  const [keysHint] = useState(() => { try { return typeof window !== 'undefined' && !window.localStorage.getItem(KEYS_HINT_KEY); } catch { return false; } });
+  const [keysHintGone, setKeysHintGone] = useState(false);
+  const keysAnchorRef = useRef(null);
+  // The paper's own box (the question area): a new page scrolls to its top, and an option pressed by its key is found in it.
+  const paperRef = useRef(null);
   const pressRef = useRef(null);
   const lastStrikeAt = useRef(0);
   const [strikeNote, setStrikeNote] = useState(() => {
@@ -850,6 +897,8 @@ function TestRunner() {
     if (solo && safe !== idxRef.current) dropHeld();
     const newPage = questionsRef.current.length > 0
       && blockFor(questionsRef.current, idxRef.current, solo).startIdx !== blockFor(questionsRef.current, safe, solo).startIdx;
+    // A new page starts with the cross-out tool off and no refusal line (MockMob style; nothing else changes).
+    if (newPage) { setCrossTool(null); setCrossNote(null); setFreshStrike(null); }
     if (practiceRun && questionsRef.current.length) {
       const leaving = getQuestionBlock(questionsRef.current, idxRef.current).startIdx;
       const arriving = getQuestionBlock(questionsRef.current, safe).startIdx;
@@ -1002,6 +1051,8 @@ function TestRunner() {
         if (legacyKey !== key) window.localStorage.removeItem(legacyKey);
       } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
+      // The paper is over: its crossed-out options go with it, and the keys hint has been seen on a whole paper.
+      try { if (crossKey) window.sessionStorage.removeItem(crossKey); window.localStorage.setItem(KEYS_HINT_KEY, '1'); } catch {}
       try { await refreshSession({ silent: true }); } catch {}
       // The Back guard comes off first, then the result takes the paper's place in history: Back from the result goes to
       // where the paper was started, never to the paper again.
@@ -1032,24 +1083,40 @@ function TestRunner() {
         if (said.link) setErrorLink(said.link);
       }
     }
-  }, [user, key, legacyKey, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent, generationKey, sessionIdParam, practiceLink, releaseGuard, dropHeld]);
+  }, [user, key, legacyKey, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent, generationKey, sessionIdParam, practiceLink, releaseGuard, dropHeld, crossKey]);
   const submitForStrikes = useCallback(() => submitTest('nta_strikes'), [submitTest]);
 
   // NTA mode only: leaving the tab is a strike; the third submits the session.
   const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: integrityKey, fullscreenTarget, onTerminate: submitForStrikes });
   const canAnswer = integrity.canAnswer;
   useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
+  // This paper's crossed-out options (a map kept for another paper is never this one's), and the one place they change: in this
+  // page first, then this tab's own entry. Never the draft, never a request.
+  const crossMap = useCallback(() => (struckRef.current.key === crossKey ? struckRef.current.map : readCrossOuts(crossKey)), [crossKey]);
+  const keepCrossOuts = useCallback((map) => {
+    const next = { key: crossKey, map };
+    struckRef.current = next;
+    setStruck(next);
+    if (!crossKey) return;
+    try {
+      const text = serialiseCrossOut(map);
+      if (text) window.sessionStorage.setItem(crossKey, text);
+      else window.sessionStorage.removeItem(crossKey);
+    } catch { /* storage blocked or full: the marks stay in this page */ }
+  }, [crossKey]);
   // Picking a crossed-out option brings it back (as the app does): the restore is recorded as a strike, on false, just
-  // before the answer. Strike-outs exist only outside NTA mode, so inside an NTA paper this never runs.
+  // before the answer. Only a MockMob-style screen crosses options out, so on NTA style's screen this finds nothing to restore.
   const restoreStrike = useCallback((qid, option) => {
-    if (!(struckRef.current[qid] || []).includes(option)) return;
-    struckRef.current = { ...struckRef.current, [qid]: struckRef.current[qid].filter((o) => o !== option) };
-    setStruck((prev) => ({ ...prev, [qid]: (prev[qid] || []).filter((o) => o !== option) }));
+    const before = crossMap();
+    const after = bringBack(before, qid, option);
+    if (after === before) return;
+    keepCrossOuts(after);
     if (paperLive()) recordEvent(qid, 'strike', { option, on: false });
-  }, [paperLive, recordEvent]);
+  }, [crossMap, keepCrossOuts, paperLive, recordEvent]);
   const chooseAnswer = useCallback((qid, answer) => {
     if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
-    if (practiceRun && answer !== null) restoreStrike(qid, answer);
+    // A cross-out is a pencil mark: a fault in it may never stop the answer, so it is let go.
+    if (answer !== null) { try { restoreStrike(qid, answer); } catch { /* the answer goes ahead */ } }
     recordEvent(qid, 'answer', answer);
     setLastAnswerSeq(eventsRef.current.at(-1)?.seq || 0);
     setAnswers(prev => {
@@ -1057,7 +1124,7 @@ function TestRunner() {
       answersRef.current = next; return next;
     });
     return true;
-  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting, practiceRun, restoreStrike]);
+  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting, restoreStrike]);
 
   // NTA style: choosing an option only holds it (NTA: "To save your answer, you MUST click on the Save & Next button"). Nothing
   // is recorded until a key saves it.
@@ -1089,7 +1156,8 @@ function TestRunner() {
     else holdChoice(qid, option);
   }, [clearChoice, holdChoice]);
   // The switch between the two screens keeps saved answers and the clock; a choice not saved in NTA style is let go.
-  const switchInterface = useCallback((next) => { dropHeld(); setExamInterface(next); }, [dropHeld]);
+  // MockMob style's keys list and cross-out tool close with it (crossed-out options stay for when MockMob style comes back).
+  const switchInterface = useCallback((next) => { dropHeld(); setKeysOpen(false); setCrossTool(null); setCrossNote(null); setExamInterface(next); }, [dropHeld]);
 
   // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
   // server and comes back when the session is resumed on another device or after storage is cleared.
@@ -1104,23 +1172,49 @@ function TestRunner() {
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   const toggleStrike = useCallback((qid, option) => {
-    // The chosen option is never crossed out (as in the app); picking a crossed-out one brings it back (chooseAnswer).
-    if (answersRef.current[qid] === option) return;
+    // Only while an answer could change too: never once the paper is sending, held, over, or locked by an NTA warning.
+    if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
+    const question = questionsRef.current.find((item) => item.id === qid);
+    // The chosen option is never crossed out (as in the app): the answer stays and the page says why. Picking a crossed-out
+    // one brings it back (chooseAnswer).
+    const { state, outcome } = toggleCrossOut(crossMap(), qid, option, { chosen: answersRef.current[qid], optionCount: question?.options?.length || 0 });
+    if (outcome === 'refused') { setCrossNote((prev) => ({ qid, n: (prev?.n || 0) + 1 })); return false; }
+    if (outcome !== 'crossed' && outcome !== 'restored') return false;
     lastStrikeAt.current = Date.now();
     setStrikeNote(false);
-    setStruck((prev) => {
-      const next = new Set(prev[qid] || []);
-      if (next.has(option)) next.delete(option); else next.add(option);
-      return { ...prev, [qid]: [...next] };
-    });
-    // The same toggle on a mirror, so the strike event knows at once whether this crossed out or restored.
-    const mirror = new Set(struckRef.current[qid] || []);
-    const on = !mirror.has(option);
-    if (on) mirror.add(option); else mirror.delete(option);
-    struckRef.current = { ...struckRef.current, [qid]: [...mirror] };
-    if (paperLive()) recordEvent(qid, 'strike', { option, on });
+    setCrossNote(null);
+    setFreshStrike(outcome === 'crossed' ? `${qid}:${option}` : null);
+    keepCrossOuts(state);
+    if (paperLive()) recordEvent(qid, 'strike', { option, on: outcome === 'crossed' });
     return true;
-  }, [paperLive, recordEvent]);
+  }, [canAnswer, submitting, pendingSubmission, endsAt, crossMap, keepCrossOuts, paperLive, recordEvent]);
+  // The tool row's Cross out key (and X): on for this question, or off.
+  const toggleCrossTool = useCallback((qid) => {
+    setCrossNote(null);
+    setFreshStrike(null);
+    setStrikeNote(false);
+    setCrossTool((current) => (current === qid ? null : qid));
+  }, []);
+  // A press on an option, by a tap, a click or its key: a cross-out while the tool is on (or with Shift), else the answer, by the
+  // one handler a tap always used. Inside a passage set the answered question becomes current, so Clear and Mark act on it.
+  const pressOption = useCallback((question, questionIndex, option, cross) => {
+    if (cross) return toggleStrike(question.id, option);
+    const chosen = chooseAnswer(question.id, option);
+    if (questionIndex !== idxRef.current) gotoQuestion(questionIndex);
+    return chosen;
+  }, [toggleStrike, chooseAnswer, gotoQuestion]);
+  // An option pressed by its key takes focus, so it shows the same chosen (or crossed-out) state a tap leaves, and a screen
+  // reader says it.
+  const focusOption = useCallback((qid, option) => {
+    const target = [...(paperRef.current?.querySelectorAll('.nta-option') || [])].find((el) => el.getAttribute('data-option') === `${qid}:${option}`);
+    target?.focus?.();
+  }, []);
+  // The keys list: opening it once retires the hint for good.
+  const retireKeysHint = useCallback(() => {
+    setKeysHintGone(true);
+    try { window.localStorage.setItem(KEYS_HINT_KEY, '1'); } catch { /* the hint may show once more */ }
+  }, []);
+  const toggleKeys = useCallback(() => { setKeysOpen((open) => !open); retireKeysHint(); }, [retireKeysHint]);
 
   // The submit sheet (and the NTA submit check) sits over the question in focus. Opening it is recorded as a visit with
   // via 'sheet', so the time spent deciding to submit is credited to no question (data/paper_trace.js rule 6); going
@@ -1228,37 +1322,93 @@ function TestRunner() {
     if (timeLeft <= 0 && !submittedRef.current && !loading && !autoSubmitTried.current){autoSubmitTried.current=true;submitTest('time_up');}
   }, [timeLeft, endsAt, loading, submitTest, elsewhere, problem]);
 
+  // Another paper opened in this tab: the crossed-out options kept for any other paper go (this paper's own stay).
   useEffect(() => {
-    if (loading || !questions.length) return;
+    if (loading || !questions.length || !crossKey || typeof window === 'undefined') return;
+    try {
+      const store = window.sessionStorage;
+      const keys = Array.from({ length: store.length }, (_, i) => store.key(i));
+      for (const gone of crossOutKeysToClear(keys, { keep: crossKey })) store.removeItem(gone);
+    } catch { /* storage blocked: nothing was kept to clear */ }
+  }, [loading, questions.length, crossKey]);
+
+  useEffect(() => {
+    // Review, 18 Nov: a notice in the paper's place (it cannot be sent from here, or a newer tab has it) takes no key, so nothing
+    // is answered or recorded on a paper that is not on screen.
+    if (loading || !questions.length || problem || elsewhere) return;
     const onKeyDown = (event) => {
-      if (!canAnswer()) return;
-      const tag = event.target?.tagName;
-      if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || exitTo || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
-      const block = blockFor(questionsRef.current, idx, classicRef.current);
-      if (reviewOpen) return;
-      // Shift + 1 to 4 crosses an option out (practice only; shown from memory, recorded as a strike event).
-      if (practiceRun && event.shiftKey && /^Digit[1-5]$/.test(event.code)) {
-        const active = questionsRef.current[idx];
-        const option = Number(event.code.slice(5)) - 1;
-        if (active?.id && option < (active.options?.length || 0)) { event.preventDefault(); toggleStrike(active.id, option); }
+      // NTA style keeps exactly the keys it had (1 to 4 hold a choice as a press does; the arrows move without saving) and gets
+      // none of MockMob's: it is the exam hall's twin.
+      if (classicRef.current) {
+        if (!canAnswer()) return;
+        const tag = event.target?.tagName;
+        if (mobilePaletteOpen || ntaSummaryOpen || paperViewOpen || exitTo || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
+        const block = blockFor(questionsRef.current, idx, true);
+        if (reviewOpen) return;
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          gotoQuestion(block.startIdx - 1, { via: 'previous' });
+        } else if (event.key === 'ArrowRight' && block.endIdx < questionsRef.current.length - 1) {
+          event.preventDefault();
+          gotoQuestion(block.endIdx + 1, { via: 'next' });
+        } else if (/^[1-4]$/.test(event.key)) {
+          event.preventDefault();
+          const active = questionsRef.current[idx];
+          // Only an option the question has: an answer index the server would refuse would stop the whole paper being sent.
+          if (active?.id && Number(event.key) <= (active.options?.length || 0)) pickNta(active.id, Number(event.key) - 1);
+        }
         return;
       }
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        gotoQuestion(block.startIdx - 1, { via: 'previous' });
-      } else if (event.key === 'ArrowRight' && block.endIdx < questionsRef.current.length - 1) {
-        event.preventDefault();
-        gotoQuestion(block.endIdx + 1, { via: 'next' });
-      } else if (/^[1-4]$/.test(event.key)) {
-        event.preventDefault();
-        const active = questionsRef.current[idx];
-        // NTA style: the key chooses as a press on the option does (held until a key saves it; the chosen one again clears).
-        if (active?.id) (classicRef.current ? pickNta : chooseAnswer)(active.id, Number(event.key) - 1);
-      }
+      // MockMob style: src/lib/paper/runnerKeys.mjs says what a key does; this only does it.
+      const active = questionsRef.current[idx];
+      const page = blockFor(questionsRef.current, idx, false);
+      const ends = endsAtRef.current;
+      const action = keyAction(event, {
+        style: 'mockmob',
+        started: !!startedRef.current && !!ends,
+        loading: false,
+        submitting: submitting || pendingSubmission,
+        ended: submittedRef.current || sentRef.current || (!!ends && Date.now() >= ends),
+        dialogOpen: !canAnswer() || reviewOpen || !!exitTo || ntaSummaryOpen || paperViewOpen,
+        paletteOpen: mobilePaletteOpen,
+        keysOpen: keysOpen && keysUi,
+        keysUi,
+        crossTool: !!active?.id && crossTool === active.id,
+        optionCount: active?.options?.length || 0,
+        canMark: true,
+        atFirst: page.startIdx === 0,
+        atLast: page.endIdx >= questionsRef.current.length - 1,
+      });
+      if (!action) return;
+      event.preventDefault();
+      // keys: dispatch. Each action runs the handler its own control runs. None sends, ends or leaves the paper or confirms a
+      // dialog: runnerKeys has no such action, and Next on the last page is no action at all.
+      const name = action.name;
+      if (name === 'choose' || name === 'cross') {
+        if (!active?.id) return;
+        pressOption(active, idx, action.option, name === 'cross');
+        focusOption(active.id, action.option);
+      } else if (name === 'next') gotoQuestion(page.endIdx + 1, { via: 'next' });
+      else if (name === 'previous') gotoQuestion(page.startIdx - 1, { via: 'previous' });
+      else if (name === 'mark') { if (active?.id) setMark(active.id, !markedRef.current[active.id]); }
+      else if (name === 'tool') { if (active?.id) toggleCrossTool(active.id); }
+      else if (name === 'keys') toggleKeys();
+      else if (name === 'close-keys') setKeysOpen(false);
+      else if (name === 'close-palette') setMobilePaletteOpen(false);
+      // keys: dispatch end
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [loading, questions.length, idx, gotoQuestion, chooseAnswer, pickNta, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, practiceRun, reviewOpen, toggleStrike]);
+  }, [loading, questions.length, problem, elsewhere, idx, gotoQuestion, pickNta, mobilePaletteOpen, ntaSummaryOpen, paperViewOpen, exitTo, canAnswer, reviewOpen, submitting, pendingSubmission, keysOpen, keysUi, crossTool, pressOption, focusOption, setMark, toggleCrossTool, toggleKeys]);
+
+  // The keys list closes on a press anywhere outside the Keys key and the list (it is not a modal: focus is not held and a press
+  // behind it works; only the keys wait, except ? and Esc, until it closes).
+  useEffect(() => {
+    if (!keysOpen) return undefined;
+    const onDown = (event) => { if (!keysAnchorRef.current?.contains(event.target)) setKeysOpen(false); };
+    document.addEventListener('pointerdown', onDown, true);
+    return () => document.removeEventListener('pointerdown', onDown, true);
+  }, [keysOpen]);
 
   useEffect(() => {
     if (!mobilePaletteOpen) return undefined;
@@ -1300,7 +1450,6 @@ function TestRunner() {
   }, [mobilePaletteOpen]);
 
   // A new question or passage set starts at its top, below the sticky header.
-  const paperRef = useRef(null);
   const shownBlockRef = useRef(null);
   const currentBlockStart = questions.length ? blockFor(questions, idx, classicInterface).startIdx : null;
   useEffect(() => {
@@ -1490,6 +1639,11 @@ function TestRunner() {
   const pendingCount = questions.length - answered;
   const lowTime = timeLeft < 60;
   const isLastBlock = block.endIdx >= questions.length - 1;
+  // This paper's crossed-out options (MockMob style), and whether the paper still takes a press (the keys list closes, and its
+  // key rests, once it is sending, held or over).
+  const crossMarks = struck.key === crossKey ? struck.map : NO_CROSS_OUTS;
+  const paperOver = submitting || pendingSubmission || timeLeft <= 0;
+  const keysShown = keysUi && keysOpen && !paperOver;
   // The submit banner's words: a paper held for a connection says what happens next (waitingCopy); any other failed send,
   // its sentence (submitProblem). Never a code.
   const submitNote = pendingSubmission
@@ -1638,7 +1792,12 @@ function TestRunner() {
     if (!isLastBlock) gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
 
-  const renderQuestion = (question, questionIndex) => (
+  const renderQuestion = (question, questionIndex) => {
+    // MockMob style's cross-out (18 Nov): the tool is on for this question, and the one line under its options (room kept for
+    // it, so nothing below moves when it appears): a refusal, the tool's line, or the one-time note.
+    const crossOn = crossTool === question.id;
+    const slot = crossNote?.qid === question.id ? 'refused' : crossOn ? 'on' : strikeNoteVisible && question.id === q.id ? 'note' : '';
+    return (
     <section
       key={question.id}
       className={`nta-question-block ${question.id === q.id ? 'is-active' : ''}`}
@@ -1654,6 +1813,18 @@ function TestRunner() {
         <div className="nta-question-actions">
           <button type="button" className="nta-text-button" onClick={() => toggleMarked(question.id)}>
             <Icon name="flag" /> {marked[question.id] ? 'Unmark' : 'Mark'}
+          </button>
+          {/* The cross-out tool: outlined at rest, filled ink while on (volt stays the primary key's). Both labels share one cell,
+              so the key keeps one width and nothing in the row moves when it turns on. */}
+          <button
+            type="button"
+            className="nta-text-button pr-cross"
+            aria-pressed={crossOn}
+            disabled={pendingSubmission || timeLeft <= 0 || submitting}
+            onClick={() => { toggleCrossTool(question.id); if (questionIndex !== idx) gotoQuestion(questionIndex); }}
+          >
+            <Strikethrough aria-hidden="true" focusable="false" />
+            <span className="pr-cross__label"><span>{crossOn ? 'Crossing out' : 'Cross out'}</span><span className="pr-cross__room" aria-hidden="true">Crossing out</span></span>
           </button>
           {/* R8 PRAC-06: after Clear, the same key reads "Undo clear" for four seconds, a drain line under its label, then goes
               back to Clear. Nothing floats over the options while the student picks again. */}
@@ -1696,7 +1867,11 @@ function TestRunner() {
       <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
         {question.options.map((opt, optionIndex) => {
           const selected = answers[question.id] === optionIndex;
-          const isStruck = practiceRun && (struck[question.id] || []).includes(optionIndex);
+          const letter = OPTION_LETTERS[optionIndex] || optionIndex + 1;
+          // The chosen answer never shows crossed out (choosing brings an option back).
+          const isStruck = !selected && isCrossedOut(crossMarks, question.id, optionIndex);
+          // Press and hold (or right-click) an option to cross it out, outside NTA mode (whose rules say right-click is off);
+          // Shift+click anywhere. Shortcuts only: the tool is the visible way.
           const pressProps = practiceRun ? {
             onPointerDown: (event) => startPress(event, question.id, optionIndex),
             onPointerMove: movePress,
@@ -1709,27 +1884,27 @@ function TestRunner() {
             <button
               key={`${question.id}-${optionIndex}`}
               type="button"
-              className={`nta-option ${selected ? 'is-selected' : ''} ${isStruck ? 'is-struck' : ''}`}
+              data-option={`${question.id}:${optionIndex}`}
+              className={`nta-option ${selected ? 'is-selected' : ''} ${isStruck ? 'is-struck' : ''}${isStruck && freshStrike === `${question.id}:${optionIndex}` ? ' is-striking' : ''}`}
               {...pressProps}
-              onClick={() => {
-                chooseAnswer(question.id, optionIndex);
-                // Inside a passage set, the answered question becomes current, so Clear Response
-                // and Mark for Review & Next act on it (NTA style).
-                if (questionIndex !== idx) gotoQuestion(questionIndex);
-              }}
+              onClick={(event) => pressOption(question, questionIndex, optionIndex, crossOn || event.shiftKey)}
               aria-pressed={selected}
               disabled={pendingSubmission || timeLeft <= 0 || submitting}
             >
-              <span className="nta-option-letter">{OPTION_LETTERS[optionIndex] || optionIndex + 1}</span>
+              {isStruck ? <span className="pr-sr">{`Option ${letter}, crossed out. `}</span> : null}
+              <span className="nta-option-letter" aria-hidden={isStruck || undefined}>{letter}{isStruck ? <X className="pr-cross-x" aria-hidden="true" focusable="false" /> : null}</span>
               <span className="nta-option-text">{plainOptionTexts(question.options)[optionIndex] ?? optionLabel(opt)}</span>
-              {isStruck && <><span className="pr-strike" aria-hidden="true" /><span className="pr-sr">, crossed out</span></>}
             </button>
           );
         })}
       </div>
-      {strikeNoteVisible && question.id === q.id && <p className="pr-note">Press and hold an option to cross it out.</p>}
+      <p className={`pr-slot${slot === 'note' ? ' pr-note' : ''}${slot === 'refused' ? ' is-refused' : ''}`} role="status">
+        {/* A refusal said again is a new line, so a screen reader says it again. */}
+        {slot === 'refused' ? <span key={`refused-${crossNote.n}`}>{CROSS_OUT_WORDS.refused}</span> : slot === 'on' ? CROSS_OUT_WORDS.on : slot === 'note' ? 'Press and hold an option to cross it out.' : ''}
+      </p>
     </section>
-  );
+    );
+  };
 
   // The block being left, drawn without controls so nothing in it can be focused or pressed.
   const renderGhost = () => {
@@ -2118,9 +2293,52 @@ function TestRunner() {
           <ProgressBar value={progress} />
         </div>
 
-        <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`Time remaining: ${mins} minutes ${secs} seconds`}>
-          <Icon name="clock" />
-          <span>{mins}:{secs.toString().padStart(2, '0')}</span>
+        {/* The timer group: the Keys key at its left on a device with a hardware keyboard (MockMob style only; NTA style draws its
+            own header), with its one-time hint, whose room stays for the rest of the paper so the timer never moves. */}
+        <div className="rk-group">
+          {keysUi ? (
+            <div ref={keysAnchorRef} className="rk-anchor">
+              {keysHint ? <span id="rk-hint" className="rk-hint" data-gone={keysHintGone || paperOver ? '' : undefined} aria-hidden={keysHintGone || paperOver || undefined}>Press ? for keys</span> : null}
+              <button
+                type="button"
+                className="rk-keys"
+                aria-expanded={keysShown}
+                aria-controls={keysShown ? 'rk-panel' : undefined}
+                aria-describedby={keysHint && !keysHintGone && !paperOver ? 'rk-hint' : undefined}
+                disabled={paperOver}
+                onClick={toggleKeys}
+              >
+                Keys
+              </button>
+              {keysShown ? (
+                <div id="rk-panel" className="rk-panel" role="region" aria-labelledby="rk-title">
+                  <h2 id="rk-title" className="rk-title">Keys for this paper</h2>
+                  <dl className="rk-list">
+                    {KEY_ROWS.map((row) => (
+                      <div key={row.words} className="rk-row">
+                        <dt>
+                          {/* One group of caps per line when they wrap: "A B C D", then "or 1 2 3 4". */}
+                          {row.caps.map((group, g) => (
+                            <span key={group.join('')} className="rk-caps">
+                              {g > 0 ? <span className="rk-or">or</span> : null}
+                              {group.map((cap) => (
+                                <kbd key={cap} className="rk-cap">{CAP_NAMES[cap] ? <><span aria-hidden="true">{cap}</span><span className="pr-sr">{CAP_NAMES[cap]}</span></> : cap}</kbd>
+                              ))}
+                            </span>
+                          ))}
+                        </dt>
+                        <dd>{row.words}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+          <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`Time remaining: ${mins} minutes ${secs} seconds`}>
+            <Icon name="clock" />
+            <span>{mins}:{secs.toString().padStart(2, '0')}</span>
+          </div>
         </div>
       </header>
 
