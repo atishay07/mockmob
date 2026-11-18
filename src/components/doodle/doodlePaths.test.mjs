@@ -103,6 +103,7 @@ test('the pen: only where motion paths exist, never under reduced motion, and on
   assert.match(css, /html\[data-motion='reduced'\] \.dd__nib \{ display: none; \}/);
   assert.doesNotMatch(css, /dd-nib-[a-z]+[^;]*infinite/, 'the pen never loops');
   // Night: a highlighter's words turn where the swipe has reached.
-  assert.match(jsx, /className="dd__over" aria-hidden="true"/);
+  assert.match(jsx, /className="dd__over" aria-hidden="true" data-text=\{text\} \/>/, 'generated content: the heading keeps one copy of its words');
+  assert.match(css, /\.dd__over::before \{ content: attr\(data-text\); \}/);
   assert.match(css, /html\[data-theme='light'\] \.dd__over \{ display: none; \}/);
 });

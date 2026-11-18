@@ -148,8 +148,9 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
     <Tag ref={hostRef} className={`dd dd--${mark} ${className}`.trim()} data-tone={tone} data-drawn={on ? 'true' : 'false'} data-scroll-ink={followScroll || undefined} data-reink={inkKey != null || undefined} data-pen={pen || undefined} style={{ ...vars, ...style }} {...rest}>
       {children}
       {/* Night: a highlighter's words turn to the ink that reads on volt exactly where the swipe has reached, not all at once
-          (a copy of the words, clipped with the swipe). */}
-      {shape?.fill && text && inkKey == null ? <span className="dd__over" aria-hidden="true">{text}</span> : null}
+          (a copy of the words, clipped with the swipe). The copy is generated content, not a second text node, so the
+          heading's own text is said once to a search engine, a copy and a reader. */}
+      {shape?.fill && text && inkKey == null ? <span className="dd__over" aria-hidden="true" data-text={text} /> : null}
       {shape ? (
         <svg className="dd__ink" aria-hidden="true" focusable="false" width={shape.width} height={shape.height} viewBox={`0 0 ${shape.width} ${shape.height}`}>
           {shape.fill ? <path key={inked} className="dd__fill" d={shape.fill} /> : null}

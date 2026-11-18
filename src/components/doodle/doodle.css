@@ -37,7 +37,8 @@ html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
    stood dark on the dark page for a moment); the words themselves follow once the swipe is done. */
 .dd--highlight[data-drawn='true'] { color: var(--volt-ink, #0b1000); transition: color 1ms linear calc(var(--dd-delay, 0ms) + var(--dd-ms, 460ms)); }
 html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }
-.dd__over { position: absolute; left: 0; top: 0; color: var(--volt-ink, #0b1000); clip-path: inset(-10% 100% -10% -4%); pointer-events: none; user-select: none; -webkit-user-select: none; }
+.dd__over::before { content: attr(data-text); }
+.dd__over { position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--volt-ink, #0b1000); clip-path: inset(-10% 100% -10% -4%); pointer-events: none; user-select: none; -webkit-user-select: none; }
 .dd[data-drawn='true'] .dd__over { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) var(--dd-ease, cubic-bezier(0.23, 1, 0.32, 1)) var(--dd-delay, 0ms); }
 .dd[data-scroll-ink] .dd__over { clip-path: inset(-10% calc(100% - 104% * var(--dd-scroll)) -10% -4%); }
 html[data-theme='light'] .dd__over { display: none; }
