@@ -27,7 +27,8 @@ function Ring({ done, goal }) {
   );
 }
 
-export default function AccountGlance({ userId }) {
+// withStreak: false on You, where the account card carries the streak (19 Nov 2026, lane arena-b: said once on a page).
+export default function AccountGlance({ userId, withStreak = true }) {
   const [state, setState] = useState({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
@@ -78,7 +79,7 @@ export default function AccountGlance({ userId }) {
         <Link className="acct-link" href="/progress">See all on Progress</Link>
       </header>
       {/* The daily streak first (17 Nov 2026, LK296): the same number as Today and the top bar; it opens the streak sheet. */}
-      <div className="acct-glance__streak"><StreakGlanceCell userId={userId} /></div>
+      {withStreak ? <div className="acct-glance__streak"><StreakGlanceCell userId={userId} /></div> : null}
       <div className="acct-glance__grid">
         <div className="acct-glance__cell">
           {r ? (

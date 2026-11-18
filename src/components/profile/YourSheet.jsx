@@ -12,7 +12,6 @@ import { Avatar } from '@/components/ui/Avatar';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useCountUp } from '@/lib/motion';
 import { EXAM_LABEL, SUBJECT_LIMIT, SUBJECTS_EDIT_HREF, sheetSubjects, subjectCountLine } from './accountModel.mjs';
-import AccountMobIdentity from './AccountMobIdentity';
 import './account.css';
 
 // The first view climbs from 0; after that the figure is remembered and only a real change rolls (WA-02).
@@ -24,7 +23,7 @@ function Roll({ id, value, suffix = '' }) {
 function SheetSubject({ subject, index }) {
   return (
     <li className="acct-object subj-obj-host" style={{ '--i': index }}>
-      <SubjectObject id={subject.id} size={40} className="acct-object__art" />
+      <SubjectObject id={subject.id} size={72} life={false} className="acct-object__art" />
       <span className="acct-object__name">{subject.name}</span>
     </li>
   );
@@ -40,15 +39,18 @@ function Stat({ label, children }) {
 }
 
 /**
- * user: the signed-in user. mobi: the greeting Mobi (or null). mocks: { status: 'loading' | 'ready' | 'error',
- * count, average }. onRetry: reloads the mocks after a failure.
+ * user: the signed-in user. mobi: the card's corner, the streak's Mobi with the days (YouStreak), or the greeting Mobi when the
+ * streak is not shown. mocks: { status: 'loading' | 'ready' | 'error', count, average }. onRetry: reloads the mocks after a failure.
+ * 19 Nov 2026 (lane arena-b): the card is You's anchor, first on the page: your initial and name, the exam and your plan, the
+ * streak in the corner, your credits (they open Wallet), your subjects as their desk objects in a row with Edit subjects, and
+ * your mocks. How your Mob sees you is its own card in the page below.
  */
 export default function YourSheet({ user, name, mobi = null, plan = 'Free', mocks, onRetry, credits = null }) {
   const subjects = sheetSubjects(user?.subjects);
   const room = subjects.length < SUBJECT_LIMIT;
 
   return (
-    <section className="glass acct-sheet" id="sheet" aria-labelledby="acct-sheet-h">
+    <section className="glass acct-sheet you-card" id="sheet" aria-labelledby="acct-sheet-h">
       <div className="acct-sheet__who">
         <div aria-hidden="true">
           {name ? <Avatar name={name} size="xl" className="acct-sheet__avatar" /> : <span className="avatar xl acct-sheet__avatar"><UserRound size={24} /></span>}
@@ -63,8 +65,6 @@ export default function YourSheet({ user, name, mobi = null, plan = 'Free', mock
         {mobi ? <span className="acct-sheet__mobi">{mobi}</span> : null}
       </div>
       {credits}
-
-      <AccountMobIdentity key={user?.id} userId={user?.id} />
 
       <div className="acct-sheet__subjects">
         <div className="acct-sheet__row">

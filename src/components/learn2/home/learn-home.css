@@ -466,3 +466,63 @@ html[data-theme='light'] .lh-up { border-color: transparent; box-shadow: var(--a
 .lh .lh-up__title svg { flex: none; margin-top: 2px; color: var(--a-good-text); }
 .lh .lh-up__progress { display: grid; gap: 5px; margin-top: 10px; color: var(--a-ink-2); font-size: 13px; }
 .lh .lh-up__progress .lh-hero__track { width: min(100%, 360px); height: 10px; margin-top: 0; }
+
+/* ==========================================================================
+   19 Nov 2026, lane arena-b: "the roadmap shows where every chapter stands".
+   Each row leads with its state's ring (the shape Key cards and Marks trend draw), says the state's word before its coverage line,
+   and draws its bar of cards seen out of cards, empty until the first is seen. Each part's heading is a disclosure that says how
+   many of its chapters are started, in words and as a thin bar of the same figure. The Pick up card shows the subject's desk object
+   large at its right. Shapes carry the state first; colour only repeats it.
+   ========================================================================== */
+.lh-row__link { grid-template-columns: 30px minmax(0, 1fr) 16px; grid-template-areas: 'glyph head chev' 'glyph meta chev' 'glyph bar chev'; column-gap: 12px; row-gap: 3px; min-height: 72px; padding: 12px 6px 12px 4px; }
+.lh-row__glyph { grid-area: glyph; align-self: start; display: grid; place-items: center; width: 30px; height: 30px; margin-top: -2px; border-radius: 50%; background: var(--a-sunken); color: var(--a-ink-3); }
+.lh-row__glyph .lh-ring { width: 18px; height: 18px; }
+.lh-row[data-state='needs_work'] .lh-row__glyph { color: var(--a-warn-text); }
+.lh-row[data-state='getting_there'] .lh-row__glyph { color: var(--a-ink-2); }
+.lh-row[data-state='holding'] .lh-row__glyph { color: var(--a-good-text); }
+.lh-row__title { font-size: 16.5px; }
+.lh-row__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.lh-row__state { font: 650 13.5px/1.4 var(--font-body); color: var(--a-ink); }
+.lh-row[data-state='needs_work'] .lh-row__state { color: var(--a-warn-text); }
+.lh-row__line { color: var(--a-ink-2); }
+.lh-row__bar { height: 4px; margin-top: 6px; max-width: none; }
+.lh-row__bar > span { background: var(--a-ink-3); }
+.lh-row[data-state='holding'] .lh-row__bar > span { background: var(--a-good-text); }
+
+.lh-part__title { padding: 0; }
+.lh-part__toggle {
+  display: grid; grid-template-columns: minmax(0, 1fr) 24px; grid-template-areas: 'name chev' 'count chev' 'meter meter'; align-items: center; column-gap: 12px;
+  width: 100%; min-height: 64px; padding: 10px 4px 14px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink); text-align: left; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: background-color 150ms var(--lh-ease), transform 100ms var(--lh-ease);
+}
+.lh-part__toggle:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lh-part__toggle:active { transform: scale(0.99); }
+@media (hover: hover) and (pointer: fine) { .lh-part__toggle:hover { background: var(--a-hover); } }
+.lh-part__name { grid-area: name; font: 750 19px/1.25 var(--font-display); letter-spacing: -0.015em; text-wrap: pretty; }
+.lh-part__count { grid-area: count; margin-top: 2px; font: 600 14px/1.35 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lh-part__meter { grid-area: meter; display: block; height: 6px; margin-top: 10px; border-radius: 3px; background: var(--a-line); overflow: hidden; }
+.lh-part__meter > span { display: block; height: 100%; border-radius: 3px; background: #b5d000; transform: scaleX(var(--p, 0)); transform-origin: left center; animation: lh-bar 600ms var(--lh-ease) 120ms both; }
+html[data-theme='light'] .lh-part__meter > span { background: #7d9200; }
+.lh-part__chev { grid-area: chev; justify-self: end; color: var(--a-ink-2); transition: transform 200ms var(--lh-ease); }
+.lh-part__toggle[aria-expanded='false'] .lh-part__chev { transform: rotate(-90deg); }
+.lh-part__body { display: grid; min-width: 0; }
+.lh-part__body[hidden] { display: none; }
+.lh-part + .lh-part { margin-top: 20px; }
+@container lh (min-width: 960px) { .lh-part, .lh-part + .lh-part { margin-top: 4px; } }
+
+/* The Pick up card's object: on a phone it stands at the card's top right beside the title; from a 760 px container it stands at the
+   right of the move, large, on the card's own lamp light. */
+.lh-up__obj { position: absolute; z-index: 0; top: 10px; right: 6px; width: 108px; height: 108px; pointer-events: none; }
+.lh-up__obj .subj-obj { width: 108px; height: 108px; animation: lh-fade 260ms var(--lh-ease) both; }
+.lh-up[data-obj] .lh-up__title { min-height: 92px; padding-right: 100px; }
+.lh-up > .lh-up__move, .lh-up > .lh-up__or { position: relative; z-index: 1; }
+@container lh (min-width: 760px) {
+  .lh-up__obj { top: 22px; right: calc(41.67% - 12px + 16px); width: 176px; height: 176px; }
+  .lh-up__obj .subj-obj { width: 176px; height: 176px; }
+  .lh-up[data-obj] .lh-up__title { min-height: 0; padding-right: 0; }
+  .lh-up[data-obj] > .lh-up__move { padding-right: 216px; }
+  .lh-up[data-obj]:not(:has(.lh-up__or)) .lh-up__obj { right: 28px; }
+}
+@media (prefers-reduced-motion: reduce) { .lh :is(.lh-part__meter > span, .lh-up__obj .subj-obj) { animation: none; } .lh-part__toggle, .lh-part__chev { transition: none; } }
+:root[data-motion='reduced'] .lh :is(.lh-part__meter > span, .lh-up__obj .subj-obj) { animation: none; }
+:root[data-motion='reduced'] .lh :is(.lh-part__toggle, .lh-part__chev) { transition: none; }

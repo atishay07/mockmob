@@ -20,7 +20,7 @@ import { refreshHome, saveOption } from '@/components/keycards/api';
 import { finePrint } from '@/components/keycards/optionChoice';
 import {
   OPTION_COMING, chosenOptionLine, displayTitle, effectiveChoice, freeEach, impliedOptionLine, metaLine, optionAtTail, optionChapterCount, optionLine, playableParts, plural, roadmapRow, shownOptionUnits, sortRows, sortsFor,
-  unitHeading, unitsSignature, flatRows,
+  unitHeading, unitsSignature, flatRows, partProgress, partsInOrder, rowState, startedLine,
 } from './homeModel.mjs';
 
 const OUT_MS = 160;
@@ -50,25 +50,28 @@ export function StateRing({ shape }) {
   );
 }
 
-// R7 W (LK59): a row says its state in one word ("Needs work"); where that comes from ("from your papers") is said once, under the
-// roadmap's head (and stays in the row's spoken name), so the list never repeats a recommendation on every weak row.
-const verdictWord = (text) => String(text || '').split(', ')[0];
+// R7 W (LK59): where "Needs work" comes from ("from your papers") is said once, under the roadmap's head (and stays in the row's
+// spoken name), so the list never repeats a recommendation on every weak row.
 
 function Row({ row, href, here }) {
   // The row never says "free" (the header says it once) and its card count is the chapter's real size on Free and Pro alike (R4
   // ui-correctness#1). Only chapters with cards reach here (playableParts), so there is no "Coming soon" row.
+  // 19 Nov 2026 (lane arena-b): every row says where the chapter stands, as a shape and a word (the server's chapter state, the words
+  // Marks trend and Key cards print), and draws its bar of cards seen out of its cards, empty until the first card is seen.
   const road = roadmapRow(row);
   const line = road.line || metaLine(row);
-  const spoken = [displayTitle(row.title), here, road.verdict, line].filter(Boolean).join('. ');
+  const state = rowState(row);
+  const spoken = [displayTitle(row.title), here, road.verdict || state.word, line].filter(Boolean).join('. ');
   return (
-    <li className="lh-row" data-here={here ? '' : undefined} data-chapter={row.key}>
+    <li className="lh-row" data-here={here ? '' : undefined} data-chapter={row.key} data-state={state.key}>
       <Link className="lh-row__link" href={href} aria-label={spoken}>
+        <span className="lh-row__glyph" aria-hidden="true"><StateRing shape={state.shape} /></span>
         <span className="lh-row__head">
           <b className="lh-row__title">{displayTitle(row.title)}</b>
-          {here ? <span className="lh-row__here">{here}</span> : road.verdict ? <span className="lh-row__verdict"><StateRing shape="weak" />{verdictWord(road.verdict)}</span> : null}
+          {here ? <span className="lh-row__here">{here}</span> : null}
         </span>
-        {line ? <span className="lh-row__meta">{line}</span> : null}
-        {road.seen > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
+        <span className="lh-row__meta"><span className="lh-row__state">{state.word}</span>{line ? <span className="lh-row__line">{line}</span> : null}</span>
+        {road.total > 0 ? <span className="lh-row__bar" aria-hidden="true"><span style={{ '--p': road.share }} /></span> : null}
         <ChevronRight className="lh-row__chev" size={16} strokeWidth={2} aria-hidden="true" />
       </Link>
     </li>
@@ -246,6 +249,8 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
   const [sort, setSort] = useState('book');
   const [local, setLocal] = useState({});
   const [status, setStatus] = useState({});
+  // The parts the student folded away (every part is open until then).
+  const [closed, setClosed] = useState({});
   const saving = useRef({});
   const headId = useId();
 
@@ -316,7 +321,8 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
         </ul>
       ) : (
         <div className="lh-map__parts" data-parts={parts.length}>
-          {parts.map((part, partAt) => {
+          {partsInOrder(parts, position).map((part) => {
+            const partAt = parts.indexOf(part);
             const firstOption = part.units.findIndex((u) => u.optionId);
             const choice = effectiveChoice(part, local);
             // The picked option has no chapter with cards at all: one line says so (R5). Both showing (nothing picked) never does.
@@ -337,11 +343,25 @@ export default function ChapterMap({ parts: allParts, subjectId, links, refresh,
               out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} here={here} />);
             });
             if (optionEmpty) out.push(<p key={`${part.id}-coming`} className="lh-opt__coming">{OPTION_COMING}</p>);
+            const shut = closed[part.id] === true;
+            const count = partProgress(part, choice);
+            const bodyId = `${headId}-${part.id}`;
+            // 19 Nov 2026 (lane arena-b): the part's heading is a real disclosure (open by default) that says how far the part is
+            // started, as words and as a thin bar of the same figure; the part the student is in comes first (partsInOrder).
             return (
-              <section className="lh-part" key={part.id} aria-label={part.title}>
-                <h3 className="lh-part__title">{part.title}</h3>
-                {atTail ? null : partSwitch}
-                <div className="lh-part__units">{out}</div>
+              <section className="lh-part" key={part.id} aria-label={part.title} data-shut={shut || undefined}>
+                <h3 className="lh-part__title">
+                  <button type="button" className="lh-part__toggle" aria-expanded={!shut} aria-controls={bodyId} onClick={() => setClosed((c) => ({ ...c, [part.id]: !shut }))}>
+                    <span className="lh-part__name">{part.title}</span>
+                    <span className="lh-part__count">{startedLine(count)}</span>
+                    <span className="lh-part__meter" aria-hidden="true"><span style={{ '--p': count.total ? count.started / count.total : 0 }} /></span>
+                    <ChevronDown className="lh-part__chev" size={18} strokeWidth={2.2} aria-hidden="true" />
+                  </button>
+                </h3>
+                <div className="lh-part__body" id={bodyId} hidden={shut}>
+                  {atTail ? null : partSwitch}
+                  <div className="lh-part__units">{out}</div>
+                </div>
               </section>
             );
           })}

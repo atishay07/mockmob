@@ -1,0 +1,61 @@
+/* You (19 Nov 2026, lane arena-b): "who you are, first, as one card". The account card is the page's anchor: a lamp-lit head with your
+   initial, your name, the exam and your plan, the streak's Mobi with the days in its corner; your credits (they open Wallet) on one
+   ruled line; your subjects as their desk objects standing in a row; your mocks. The places stand under it on a phone and beside it
+   from 1024 px. Tokens only, Day and Night. Motion: none of its own beyond the objects settling once and a press. */
+.app-shell .you-top { display: grid; gap: 20px; align-items: start; min-width: 0; }
+@media (min-width: 1024px) { .app-shell .you-top { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: 24px; } }
+
+.app-shell .you-card.acct-sheet { gap: 0; padding: 0; overflow: hidden; }
+.app-shell .you-card > * { padding-inline: clamp(16px, 3vw, 26px); }
+.app-shell .you-card .acct-sheet__who {
+  gap: 14px; padding-block: clamp(18px, 3vw, 24px) 16px;
+  background: radial-gradient(90% 140px at 18% 0%, var(--a-volt-wash), transparent 100%);
+}
+.app-shell .you-card .acct-sheet__avatar { width: 64px; height: 64px; font-size: 26px; }
+.app-shell .you-card .acct-sheet__id h2 { font-size: clamp(26px, 4vw, 34px); }
+.app-shell .you-card .acct-sheet__tags { font-size: 13px; }
+.app-shell .you-card .acct-sheet__mobi { width: auto; min-height: 0; align-self: start; }
+
+/* The streak in the card's corner: the streak's Mobi over the days, a 56 px target that opens the streak sheet. */
+.app-shell .you-streak {
+  display: grid; justify-items: center; gap: 0; min-width: 64px; min-height: 56px; padding: 6px 8px 6px; border: 1px solid var(--a-line); border-radius: 16px;
+  background: var(--a-raised); color: var(--a-ink); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: border-color 160ms ease, transform 120ms var(--a-ease, ease-out), background-color 160ms ease;
+}
+.app-shell .you-streak[data-lit] { border-color: var(--a-volt-line, var(--a-line-strong)); background: var(--a-volt-wash); }
+.app-shell .you-streak__text { display: flex; align-items: baseline; gap: 4px; }
+.app-shell .you-streak__text b { font: 800 22px/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.app-shell .you-streak__text span { font: 600 12.5px/1.2 var(--font-body); color: var(--a-ink-2); }
+.app-shell .you-streak__text--name span { max-width: 9ch; text-align: center; color: var(--a-ink); }
+.app-shell .you-streak:active { transform: scale(0.96); }
+.app-shell .you-streak:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .you-streak:hover { border-color: var(--a-line-hover, var(--a-line-strong)); } }
+.app-shell .you-streak--wait { display: block; width: 64px; height: 64px; border-radius: 16px; }
+
+/* Credits: one ruled line, the balance large, Wallet at its end. */
+.app-shell .you-card .acct-credits { padding-block: 4px; border-top: 1px solid var(--a-line); }
+.app-shell .you-card .acct-credits__item { min-height: 56px; gap: 8px; }
+.app-shell .you-card .acct-credits__item .credit-amount__value { font-size: 24px; }
+.app-shell .you-card .acct-credits__label { font-size: 14px; }
+
+/* Subjects: the desk objects stand in one row, each with its name under it. */
+.app-shell .you-card .acct-sheet__subjects { gap: 10px; padding-block: 14px 8px; }
+.app-shell .you-card .acct-objects { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px 6px; }
+.app-shell .you-card .acct-object { grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start; gap: 2px; min-height: 0; text-align: center; }
+.app-shell .you-card .acct-object:last-child:nth-child(odd) { grid-column: auto; }
+.app-shell .you-card .acct-object__art { width: 72px; height: 72px; }
+.app-shell .you-card .acct-object__name { font-size: 13px; text-wrap: balance; }
+.app-shell .you-card .acct-stats { padding-bottom: clamp(16px, 2.6vw, 22px); }
+
+/* How your Mob sees you: its own card now, the same rows. */
+.app-shell .you-mob .acct-mob { padding-top: 0; border-top: 0; }
+@media (max-width: 1023px) { .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #mob-profile { order: 1; } }
+@media (prefers-reduced-motion: reduce) { .app-shell .you-streak { transition: none; } .app-shell .you-streak:active { transform: none; } }
+html[data-motion='reduced'] .app-shell .you-streak { transition: none; }
+/* A narrow phone keeps the subjects in one row (up to five): equal columns, smaller objects, the names under them (a long one
+   breaks at a hyphen, never mid-letter). */
+@media (max-width: 419px) {
+  .app-shell .you-card .acct-objects { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px 4px; }
+  .app-shell .you-card .acct-object__art { width: 60px; height: 60px; }
+  .app-shell .you-card .acct-object__name { font-size: 12px; overflow-wrap: normal; hyphens: auto; -webkit-hyphens: auto; }
+}

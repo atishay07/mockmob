@@ -78,7 +78,7 @@ test('the /analytics nav item is "Marks trend" in the sidebar and the More sheet
   // The You page's rows (the old sheet's, LK141) are 48 px tall. R8 sweep AT-4: a label is never cut with an ellipsis, so on a 360 px phone
   // "Show me around" wraps to two lines inside the 48 px row instead of reading "Show me aro...".
   const placesCss = read('src/components/nav/you-places.css');
-  assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 48px/);
+  assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 56px/); // 56 px rows since 19 Nov 2026 (lane arena-b)
   assert.doesNotMatch(placesCss, /\.you-places__row span \{[^}]*(?:text-overflow: ellipsis|white-space: nowrap)/);
 });
 

@@ -42,10 +42,14 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import YouPlaces from '@/components/nav/YouPlaces';
 import { SearchField } from '@/components/search/SearchButtons';
 import InstallPractice from '@/components/InstallPractice';
-import TodayCompass from '@/components/du/TodayCompass';
+import AccountMobIdentity from '@/components/profile/AccountMobIdentity';
+import YouStreak from './YouStreak';
+import { useCompassState } from './useCompassState';
+import { placeFigures } from './youModel.mjs';
 import { NAME_MAX, nameFieldValue } from '@/lib/nameAsk.mjs';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
+import './you-anchor.css';
 
 const putJson = (path, data) => api(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); } catch { return ''; } };
@@ -263,6 +267,10 @@ export default function ProfilePageClient() {
     }
   }
 
+  // The places' live figures (youModel.mjs): Colleges' count from the Compass rules, the same read the Colleges line used.
+  const compass = useCompassState(user?.subjects);
+  const figures = placeFigures({ compass });
+
   // While the Appearance card is on screen its Mobi is the one; this one steps aside and keeps his space.
   const sheetMobi = (
     <span style={{ visibility: lookMobi ? 'hidden' : 'visible' }}>
@@ -275,31 +283,36 @@ export default function ProfilePageClient() {
       {/* Search, the first thing on You on a phone and a tablet (lane palette, 18 Nov 2026): the top bar has no room for it at
           360 px, and from 1024 px the rail carries it. */}
       <SearchField className="srch-field--you" />
-      <ArenaHead title="Your account." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
-      {/* The You place's pages, on a phone and a tablet (owner LK141: the dock's You opens this page): Ask Mobi, Progress, Marks trend,
-          Colleges, Wallet, Guide and Show me around, what the old You sheet listed. From 1024 px the sidebar lists them. */}
-      <YouPlaces />
+      {/* 19 Nov 2026 (lane arena-b): "who you are, first, as one card". The opening paragraph is gone; the account card leads the
+          page as its anchor (your initial and name, plan, credits that open Wallet, the streak's Mobi with the days, your subjects
+          as their desk objects with Edit subjects, your mocks), and the places sit under it as one list of 56 px rows, each with
+          its one live figure where the page has it. From 1024 px the two stand side by side. */}
+      <ArenaHead title="Your account." />
+      <div className="you-top">
+        <YourSheet
+          user={user}
+          name={shownOwn}
+          mobi={<YouStreak userId={user?.id} fallback={sheetMobi} />}
+          plan={user?.isPremium ? 'Pro' : 'Free'}
+          mocks={mocks}
+          onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
+          credits={<AccountCredits user={user} />}
+        />
+        {/* The You place's pages (owner LK141: the dock's You opens this page): Ask Mobi, Progress, Marks trend, Colleges, Wallet,
+            Guide and Show me around. The Colleges row carries the Compass count that used to be its own line lower down. */}
+        <YouPlaces figures={figures} />
+      </div>
 
       <div className="acct-grid">
         <div className="acct-col">
-          <YourSheet
-            user={user}
-            name={shownOwn}
-            mobi={sheetMobi}
-            plan={user?.isPremium ? 'Pro' : 'Free'}
-            mocks={mocks}
-            onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
-            credits={<AccountCredits user={user} />}
-          />
           {/* Who is signed in, with a plain Sign out, right under the student's own card (R8 TOOLS-14: the page leads with the student,
               not with leaving; release 11 walk: still near the top, never 7.6 screens down a phone). The same confirm as the Account
               actions row and the top bar. From 1024 px the top bar's labelled Sign out (G29) is on screen, so this line steps aside. */}
           <SignedInLine email={user?.email || ''} />
 
-          {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
-              the colleges it names (TODAY-1017 section 7). */}
-          {/* On a phone the column dissolves into an ordered list (account.css): the line sits with Your colleges (4). */}
-          <div className="acct-moved acct-moved--colleges"><TodayCompass withList /></div>
+          {/* How your Mob sees you, moved out of the account card into its own card (19 Nov 2026): the page keeps it, in its place. */}
+          <div className="glass acct-card you-mob" id="mob-profile"><AccountMobIdentity key={user?.id} userId={user?.id} /></div>
+          {/* The Compass line (the DU programmes your subjects open) is now the Colleges row's figure in the places above. */}
           <AccountColleges userId={user?.id} picker={<CollegePicker userId={user?.id} compact />} />
           {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser
               offers it, at the end of the list on a phone (8), never above the account sheet. */}
@@ -360,7 +373,7 @@ export default function ProfilePageClient() {
         <div className="acct-col">
           {/* "You" leads with your study days, badges and best work (W-053): first in this column on a wide screen, right
               under your sheet on a phone (account.css order); plan and billing sit lower. */}
-          <AccountGlance userId={user?.id} />
+          <AccountGlance userId={user?.id} withStreak={false} />
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Your goal</h2>
             <GoalControl />
