@@ -1,3 +1,12 @@
+## 18 Nov 2026, 3:44 pm IST — phone demos and student progress, local candidate
+
+- LK313: the tour puts its product screen between a short title and the action. At 390 × 844 the Practice preview grew from 308 × 358 to 340 × 498 CSS px, and at 360 × 740 from 278 × 250 to 310 × 407. The lowest fit across all five cards moved from .734 to .937 at 390 and from .62 to .90 at 360. The 360 Mob repair was checked through an answer and explanation. The same scroll-dealt motion remains in place. The Lab, Key cards, exam monitor and Compass use more of the phone width.
+- LK314: the Lab heading mark follows the scroll. The Learn sample answers a correct pick with ink. The Compass score and pricing comparison total re-ink after a visitor changes them.
+- LK302/LK309: the public sections lead with the sample exam, cutoff result, eligible courses, creators' reels, the pricing comparison, the first FAQ answer and free tools. The signed-in views add the current Practice setup, the repair queue, labelled Learn progress, free-credit allowance, You navigation marks, recorded accuracy and the gap to the next standing.
+- Evidence in `wt-1110-convert/tmp/1118/tools`: `lk313-deck-final.log` (baseline), `lk313-deck-confirmed.log` (final), `lk313-public-confirmed.log` and `lk313-public-auth.log`, `lk313-arena-final.log` and `lk313-arena-components.log`. Offline Chrome at 360, 390 and 1440 widths, Day and Night. Learn's roadmap card used a separate fixture. No full deployed pages, physical phones, Safari or signed-in production sessions were checked.
+- Release: 359 landing and doodle tests, 59 Learn-home tests and 34 targeted Wallet tests passed. The established Bash gate could not start under MSYS. Its native equivalent on `7eb3388bc` passed 23 of 24 suites and ESLint. Key cards could not spawn `pdftotext`, webpack failed creating a build directory with EPERM, and Turbopack stayed in compile for more than 10 minutes before the run ended. Logs: `wt-1116-next/tmp/lk313-gate-final.log`. No push to main. Latest confirmed live base: `747d26f3e`.
+- Owner decisions still open: the Free right-of-answered chapter count in Marks trend and the two Today week rows.
+
 ## 6 Nov 2026, about 1:00 pm IST — Round 4 release gate passed; pushed to main
 
 - Runtime unchanged from `06aed8557` (the webpack build of 03:14 am served on 127.0.0.1:3518). The only code change is the source assertion in `data/tests/one_gesture_source_1104.test.mjs`: outside touches are now checked as `native` in `onTouchStart`; the preventDefault and behaviour assertions are unchanged.

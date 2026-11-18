@@ -94,7 +94,7 @@ export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes 
     <section className="lh-hero lh-up" data-mode={mode} data-move={move.kind} data-picked={!isLead || undefined} aria-labelledby={titleId}>
       <div className="lh-up__move" key={move.id} aria-live="polite">
         <div className="lh-up__title">
-          {move.kind === 'recall' ? <BrainCircuit size={22} aria-hidden="true" /> : <BookOpen size={22} aria-hidden="true" />}
+          {move.kind === 'revise' ? <BrainCircuit size={22} aria-hidden="true" /> : <BookOpen size={22} aria-hidden="true" />}
           <h2 className="lh-hero__title" id={titleId}>{move.headline}</h2>
         </div>
         {move.why ? <p className="lh-hero__line">{move.why}</p> : null}
