@@ -16,6 +16,8 @@
 // where the words are about a mistake), volt (the highlighter).
 // Reduced motion: the mark is simply there. Without script the words stand unmarked (the mark is decoration).
 //
+// NOT IN USE (owner, 18 Nov 2026 about 10 pm, LK317: the pencils and markers looked "highly unprofessional ... revert back"):
+// no page passes `pen` or `accent` any more; the marks are plain again. Do not turn these on without his word.
 // More animated (18 Nov 2026, owner LK314: "Doodles look good. Some can be more animated"), for a page's few lead marks:
 //   pen     a small pencil (a red pen on a mistake's mark, a marker on a highlight) rides the stroke's head while it is
 //           made, at a hand's pace, then lifts away. With followScroll the reader's own scroll moves it.

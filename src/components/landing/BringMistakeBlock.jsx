@@ -73,7 +73,7 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
           {/* 17 Nov 2026: Mobi with the phone camera at the head's right (the photo is how most students will bring it). */}
           <div className="lp-guide-head bmk__guide"><Reveal className="bmk__head">
             <BrandStamp {...W.stamp} />
-            <h2 className="lp-h2" id="bmk-title"><Marked text={W.h2} marks={[['wrong', { mark: 'circle', tone: 'pen', pen: true }]]} /></h2>
+            <h2 className="lp-h2" id="bmk-title"><Marked text={W.h2} marks={[['wrong', { mark: 'circle', tone: 'pen' }]]} /></h2>
             <p className="lp-sub">{words.sub}</p>
           </Reveal><MascotSeat station="photo" pose="camera" label="Show me the page." /></div>
           <div className="bmk__value">

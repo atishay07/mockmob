@@ -107,3 +107,23 @@ test('the pen: only where motion paths exist, never under reduced motion, and on
   assert.match(css, /\.dd__over::before \{ content: attr\(data-text\); \}/);
   assert.match(css, /html\[data-theme='light'\] \.dd__over \{ display: none; \}/);
 });
+
+// Owner, 18 Nov 2026 about 10 pm (LK317): the pencils and markers are off everywhere; the marks are plain.
+test('no page turns the pen or the accent on', async () => {
+  const { readFileSync, readdirSync, statSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const root = fileURLToPath(new URL('../../', import.meta.url));
+  const offenders = [];
+  const walk = (dir) => {
+    for (const name of readdirSync(dir)) {
+      const p = join(dir, name);
+      if (statSync(p).isDirectory()) { if (name !== 'doodle') walk(p); continue; }
+      if (!/\.(jsx?|mjs)$/.test(name) || /\.test\./.test(name)) continue;
+      const s = readFileSync(p, 'utf8');
+      if (/\bpen: true\b|<Doodle[^>]*\spen[\s>]|accent="spark"|accent: 'spark'/.test(s)) offenders.push(p);
+    }
+  };
+  walk(root);
+  assert.deepEqual(offenders, []);
+});

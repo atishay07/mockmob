@@ -30,7 +30,7 @@ export default function HeroBeatStrip({ items, label, hook = null }) {
       {hook ? (
         <a href={hook.href} className="lp-strip__hook">
           <span className="lp-strip__hook-lead">{hook.lead}</span>{' '}
-          <b className="lp-strip__hook-fig"><Doodle mark="circle" tone="brand" accent="spark">{hook.figure}</Doodle></b>{' '}
+          <b className="lp-strip__hook-fig"><Doodle mark="circle" tone="brand">{hook.figure}</Doodle></b>{' '}
           <span className="lp-strip__hook-unit">{hook.unit}</span>{' '}
           {/* The pace never parts from the figure's line; it moves down whole only where the line is full (phones). */}
           <span className="lp-strip__hook-at">{hook.at}<span className="sr-only">.</span></span>{' '}

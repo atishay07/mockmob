@@ -16,5 +16,5 @@ export default function HeroMark({ mark = 'highlight', tone = 'volt', delay = 42
     window.addEventListener('mm:opening', onOpening);
     return () => { window.removeEventListener('mm:opening', onOpening); window.clearTimeout(timer); };
   }, [delay]);
-  return <Doodle mark={mark} tone={tone} when={on} pen>{children}</Doodle>;
+  return <Doodle mark={mark} tone={tone} when={on}>{children}</Doodle>;
 }

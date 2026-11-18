@@ -221,7 +221,7 @@ export default function LandingPage() {
         <section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
           <div className="mm-wrap lp-try__wrap">
             <div className="lp-head lp-try__head">
-              <h2 className="lp-h2" id="try-title"><Marked text={TRY_HEAD.h2} marks={[['five', { mark: 'double', pen: true }]]} /></h2>
+              <h2 className="lp-h2" id="try-title"><Marked text={TRY_HEAD.h2} marks={[['five', { mark: 'double' }]]} /></h2>
               <p className="lp-sub">{TRY_HEAD.sub}</p>
             </div>
             <div className="lp-desk" id="try-practice">
@@ -248,7 +248,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <BrandStamp {...BRAND_STAMPS.lab} />
-              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand', followScroll: true, pen: true }]]} /></h2>
+              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand', followScroll: true }]]} /></h2>
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
@@ -344,7 +344,7 @@ export default function LandingPage() {
             {/* 17 Nov 2026: the head starts on the page's one left edge with Mobi at its right, as the Compass's does (the
                 owner's 16 Nov phone rule: every word in a block starts on one edge); it was centred over a left-aligned tool. */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2"><Marked text={DU_HEAD.h2} marks={[['open to you?', { mark: 'circle', pen: true, accent: 'spark' }]]} /></h2>
+              <h2 className="lp-h2"><Marked text={DU_HEAD.h2} marks={[['open to you?', { mark: 'circle' }]]} /></h2>
               <p className="lp-sub">{DU_HEAD.sub}</p>
             </Reveal><MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." /></div>
             {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
@@ -418,7 +418,7 @@ export default function LandingPage() {
           <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="wave" label={CLOSE.mobi} />
-            <h2 className="lp-h2 lp-h2--xl"><Marked text={CLOSE.h2} marks={[['first mock?', { mark: 'squiggle', tone: 'brand', pen: true }]]} /></h2>
+            <h2 className="lp-h2 lp-h2--xl"><Marked text={CLOSE.h2} marks={[['first mock?', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
             <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions invites={INVITES_LIVE} />
           </Reveal>
