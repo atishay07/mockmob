@@ -12,6 +12,8 @@ import { KEY_CARDS_PATH, chapterDescription, chapterTitle, subjectAnchor } from 
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 import { publicKeyCards } from '@/lib/server/keycardsPublic';
 import '@/components/keycards/public/public-page.css';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // One chapter's free Key cards (src/lib/keycardsPublic.mjs: exactly a Free account's taste of the chapter, whole; the rest only
 // as kinds counted). Static: every chapter with a free card is built at deploy (generateStaticParams) and rebuilt at most hourly
@@ -69,7 +71,7 @@ export default async function KeyCardsChapterPage({ params }) {
                 <Link href={subjectAnchor(deck.subject.slug)}>{deck.subject.name}</Link>
               </nav>
               <h1 className="mm-h1 mm-article__title">{deck.title}</h1>
-              <p className="mm-article__intro">{keepTogether(freeLine(n, deck.total, deck.subject.name))}</p>
+              <p className="mm-article__intro"><Marked text={keepTogether(freeLine(n, deck.total, deck.subject.name))} marks={[PUBLIC_MARKS.keyCardsChapter.head]} /></p>
               <p className="kcp-cue">{DECK_WORDS.cue}</p>
             </header>
             <PublicDeck

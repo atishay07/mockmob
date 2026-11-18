@@ -7,6 +7,8 @@ import { PublicDock } from '@/components/PublicDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 import { PublicHeroArt, PUBLIC_HERO_CSS } from '@/components/landing/PublicHeroArt';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 export const metadata = seoMetadata({
   title: 'About MockMob — The CUET-First Mock Test Platform',
@@ -53,7 +55,7 @@ export default function AboutPage() {
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight pub-hero">
             <div>
-              <h1 className="mm-h1">Built for one exam: CUET.</h1>
+              <h1 className="mm-h1"><Marked text="Built for one exam: CUET." marks={[PUBLIC_MARKS.about.head]} /></h1>
               <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '52ch' }}>
                 CUET preparation brings subject practice, review, and university requirements into
                 one demanding season. We are a small independent team, founded by Atishay Jain,

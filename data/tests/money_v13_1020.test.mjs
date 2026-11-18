@@ -154,7 +154,8 @@ test('the Pro page: one checkout, the price headline as h1, dev-only preview swi
   const pricing = file('src/app/pricing/page.js');
   assert.equal((pricing.match(/<RazorpayPaymentButton/g) || []).length, 1, 'one checkout on the page');
   // v16: the h1 is the app's promise; the price headline sits beside the hero's Get Pro key (D185: never inside it).
-  assert.match(pricing, /<h1 className="pro-hero__title" id="pro-title">\{PRO_COPY\.title\}<\/h1>/);
+  // 18 Nov 2026 (lane marks): the same words, with the highlighter on "without limits" (src/lib/publicMarks.mjs).
+  assert.match(pricing, /<h1 className="pro-hero__title" id="pro-title"><Marked text=\{PRO_COPY\.title\} marks=\{\[PUBLIC_MARKS\.pricing\.head\]\} \/><\/h1>/);
   assert.match(pricing, /href="#plans">\{PRO_COPY\.key\}<\/a>\s+<span className="pro-hero__price">\{priceHeadline\(offer\)\}<\/span>/);
   // The plan's own words are shared with the home page's #pricing (R3-D8): the key still says Get Pro.
   assert.match(pricing, /key: PLAN_COPY\.key,/);

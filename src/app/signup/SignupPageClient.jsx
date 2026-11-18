@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthShell } from '@/components/auth/AuthShell';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { SignupCard } from '@/components/ui/SignupCard';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 import GoogleOneTap from '@/components/auth/GoogleOneTap';
 import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
@@ -60,6 +61,7 @@ export default function SignupPageClient({ invite = false, invitesLive = false, 
   return (
     <AuthShell
       title={invite ? 'Create your account, then take your seat.' : carried ? carried.title : 'Start your CUET 2027 practice.'}
+      titleMark={invite || carried ? null : PUBLIC_MARKS.signup.head}
       lead={invite ? 'Your friend saved you a seat in a Mob. Sign up with Google or an email code, and you come straight back to the invite to pick your Fold.'
         : friendInvited ? REFERRAL_COPY.invitedBanner() : carried ? carried.lead : 'Keep your recorded mocks, chapter mistakes and saved questions together.'}
       topNote={chromeHref ? (

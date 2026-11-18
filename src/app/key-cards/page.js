@@ -10,6 +10,8 @@ import { KEY_CARDS_PATH } from '@/lib/keycardsPublic.mjs';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 import { publicKeyCards } from '@/lib/server/keycardsPublic';
 import '@/components/keycards/public/public-page.css';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 
 // Every subject's chapters with free Key cards, as links (src/lib/keycardsPublic.mjs). Static, rebuilt at most hourly, like the
 // chapter pages; a visit never reads the database. Every number on it is counted from the decks the app serves.
@@ -48,8 +50,7 @@ export default async function KeyCardsIndexPage() {
               </nav>
               <h1 className="mm-h1 mm-article__title">Key cards, chapter by chapter</h1>
               <p className="mm-article__intro">
-                Short recall cards for CUET. Read the front, say the answer in your head, then turn the card over to check it. The
-                first Must-know cards of each chapter below are free to read, with no account.
+                <Marked text="Short recall cards for CUET. Read the front, say the answer in your head, then turn the card over to check it. The first Must-know cards of each chapter below are free to read, with no account." marks={[PUBLIC_MARKS.keyCards.head]} />
               </p>
               <p className="mm-article__intro kcp-facts">{indexFacts(model.totals)}</p>
               <ul className="kcp-jump" aria-label="Subjects">
@@ -81,7 +82,7 @@ export default async function KeyCardsIndexPage() {
 
           <aside className="mm-close">
             <div className="mm-wrap mm-wrap--tight">
-              <h2 className="mm-h2">Keep the cards you read.</h2>
+              <h2 className="mm-h2"><Marked text="Keep the cards you read." marks={[PUBLIC_MARKS.keyCards.close]} /></h2>
               <p className="mm-body">
                 With a free account you can add each chapter&apos;s free cards to Revise, and your rating sets when each card comes back.
                 Pro opens every card in every chapter.

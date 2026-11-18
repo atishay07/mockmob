@@ -8,6 +8,8 @@ import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { keepTogether } from '@/lib/keepTogether.mjs';
+import { Marked } from '@/components/doodle/Doodle';
+import { PUBLIC_MARKS } from '@/lib/publicMarks.mjs';
 import '@/app/landing.css';
 
 export const metadata = seoMetadata({
@@ -124,7 +126,7 @@ export default function CutoffCalculatorPage() {
         <section className="du-info du-info--band" aria-labelledby="du-sources">
           <div className="mm-wrap du-info__grid">
             <div>
-              <h2 id="du-sources" className="lp-h2">Built from DU’s own documents</h2>
+              <h2 id="du-sources" className="lp-h2"><Marked text="Built from DU’s own documents" marks={[PUBLIC_MARKS.calculator.sources]} /></h2>
               <p className="lp-sub">
                 We extracted the published tables, then checked every score against the source files. If DU corrects a list,
                 the source documents win.
