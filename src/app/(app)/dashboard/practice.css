@@ -819,6 +819,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr .pr-ticket__desk { display: block; width: 176px; height: 176px; margin-bottom: -10px; }
 .app-shell .pr .pr-ticket__desk > .subj-obj { animation: pr-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both; }
 .app-shell .pr .pr-ticket.pr-summary .pr-ticket__mode { font-size: 26px; text-align: center; text-wrap: balance; }
+.app-shell .pr .pr-ticket.pr-summary .pr-ticket__what { margin-top: 0; text-align: center; text-wrap: balance; }
 .app-shell .pr .pr-ticket__mobi { position: absolute; top: 14px; right: 14px; }
 .app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div { padding: 10px 0; font-size: 14.5px; }
 .app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div:first-child { border-top: 0; }

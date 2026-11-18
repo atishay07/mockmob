@@ -787,16 +787,18 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
 
           <aside className="pr-summary pr-ticket" aria-label="Your session">
             {/* The ticket (19 Nov 2026, lane arena-b): the page's anchor from 1024 px. The chosen subject's desk object stands
-                large at its top, its name under it, then the session line by line: Mode, Questions, Time, Marking, Cost. Every
+                large at its top, then the mode as the card's heading with what it is (owner G26: the card leads with the mode,
+                never with "N questions ... Subject"), then the session line by line: Subject, Questions, Time, Marking, Cost. Every
                 value is the one the page already holds (the quote's price and time once it is in), and a value that changes
                 re-inks (key), so a press visibly sets the session up. The Start key under it starts exactly this. */}
             <div className="pr-ticket__top">
               <span className="pr-ticket__desk" key={selSubj} aria-hidden="true"><SubjectObject id={selectedSubject?.internalId || selSubj} size={176} lit life={false} /></span>
               {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
-              <h2 className="pr-ticket__mode"><span className="pr-ink" key={selSubj}>{subjectLabel}</span></h2>
+              <h2 className="pr-ticket__mode">{mode.label}</h2>
+              <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
             </div>
             <dl className="pr-ticket__list">
-              <div data-wide=""><dt>Mode</dt><dd><span className="pr-ink" key={effectiveModeId}>{mode.label}</span></dd></div>
+              <div data-wide=""><dt>Subject</dt><dd><span className="pr-ink" key={selSubj}>{subjectLabel}</span></dd></div>
               <div><dt>Questions</dt><dd><span className="pr-ink" key={quoteCount}>{quoteCount}</span></dd></div>
               <div><dt>Time</dt><dd><span className="pr-ink" key={`${approximate}:${minutes}`}>{approximate ? 'About ' : ''}{minutes} min</span></dd></div>
               <div data-wide=""><dt>Marking</dt><dd>+5 / −1</dd></div>

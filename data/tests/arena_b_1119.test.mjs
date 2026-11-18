@@ -109,11 +109,12 @@ test('You: the card\'s streak is the shared read, hidden when hidden, never a ze
   assert.deepEqual(placeFigures({}), {}, 'Wallet has no figure: the card already says the credits');
 });
 
-test('Practice pins: the strip is gone, the ticket leads with the subject\'s object, the bar is pinned for the whole page, the key says Start', () => {
+test('Practice pins: the strip is gone, the ticket leads with the subject\'s object, the bar is pinned for the whole page, the key names the set', () => {
   const page = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   assert.doesNotMatch(page, /pr-session-glance/, 'the top summary strip is removed');
   assert.match(page, /<span className="pr-ticket__desk" key=\{selSubj\} aria-hidden="true"><SubjectObject id=\{selectedSubject\?\.internalId \|\| selSubj\} size=\{176\} lit life=\{false\} \/><\/span>/);
-  for (const label of ['Mode', 'Questions', 'Time', 'Marking', 'Cost']) assert.match(page, new RegExp(`<dt>${label}</dt>`), label);
+  // Owner G26: the card's heading is the mode; the subject is the object above it and the first line under it.
+  for (const label of ['Subject', 'Questions', 'Time', 'Marking', 'Cost']) assert.match(page, new RegExp(`<dt>${label}</dt>`), label);
   // Untouched: the start request, the quote, the credits and the gates.
   assert.match(page, /const address = quotePath\(\{ subject: selSubj, mode: effectiveModeId, count: quoteCount \}\);/);
   assert.match(page, /if \(isLaunching \|\| launchingKeyRef\.current \|\| !quoteLaunchable\) return;/);
