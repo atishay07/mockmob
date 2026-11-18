@@ -1,0 +1,333 @@
+/* Search (lane palette, 18 Nov 2026): the rail's Search key, the phone field, and the panel (SearchPalette.jsx).
+   Arena roles only (--a-*): raised paper, hairlines, the three inks, the sunken active row. One soft shadow, a dim scrim, no blur.
+   Motion is the panel's own (WAAPI in SearchPalette.jsx: 160 ms in with an 8 px rise, 120 ms fade out, cubic-bezier(0.23, 1,
+   0.32, 1)); nothing here transitions. */
+
+/* ---------------------------------------------------------------- the ways in */
+
+/* Key caps: the rail key's hint and the panel's foot. */
+.srch-key kbd,
+.srch-foot kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--a-line);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background: var(--a-raised-2);
+  color: var(--a-ink-2);
+  font: 600 11px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+/* The rail's key, right above Today: field-shaped, quiet, 40 px, the rail's row radius. */
+.app-shell .srch-key {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 40px;
+  padding: 0 8px 0 12px;
+  border: 1px solid var(--a-line);
+  border-radius: 12px;
+  background: var(--a-raised);
+  color: var(--a-ink-2);
+  font: 600 14px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+}
+/* 40 px as the brief sets it for a mouse; a touch screen wide enough for the rail (a tablet held sideways) keeps the shell's
+   44 px floor, as the rail's own rows do (nav-places.css). */
+.app-shell .arena-sidebar .srch-key { min-height: 40px; }
+@media (pointer: coarse) {
+  .app-shell .arena-sidebar .srch-key { height: 44px; min-height: 44px; }
+}
+.app-shell .srch-key__icon { flex: none; color: var(--a-ink-3); }
+.app-shell .srch-key__word { flex: 1 1 auto; }
+.app-shell .srch-key__caps { display: inline-flex; flex: none; gap: 3px; }
+.app-shell .srch-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .srch-key[aria-expanded='true'] { border-color: var(--a-line-strong); background: var(--a-hover); }
+.app-shell .srch-key:disabled { opacity: 0.5; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .srch-key:hover:not(:disabled) { border-color: var(--a-line-hover); color: var(--a-ink); }
+}
+
+/* The phone and tablet field (no rail below 1024 px): the You page's first thing and the Start sheet's top. */
+.app-shell .srch-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--a-line);
+  border-radius: 14px;
+  background: var(--a-raised);
+  color: var(--a-ink-2);
+  font: 600 15px/1.2 var(--font-body, system-ui), system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.app-shell .srch-field__icon { flex: none; color: var(--a-ink-3); }
+.app-shell .srch-field:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .srch-field:active:not(:disabled) { background: var(--a-sunken); }
+.app-shell .srch-field:disabled { opacity: 0.5; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .srch-field:hover:not(:disabled) { border-color: var(--a-line-hover); color: var(--a-ink); }
+}
+@media (min-width: 1024px) {
+  .app-shell .srch-field { display: none; }
+}
+/* On the You page it leads, above the page's title; in the Start sheet it heads the body. */
+.app-shell .srch-field--you { margin-bottom: 18px; }
+
+/* ---------------------------------------------------------------- the panel */
+
+/* The page under an open panel holds still and keeps its scrollbar's room (no shift), as under the Start sheet. */
+html:has(.srch[open]) { overflow: hidden; scrollbar-gutter: stable; }
+
+.srch {
+  --srch-scrim: rgba(8, 7, 5, 0.5);
+  --srch-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.6);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--a-ink);
+  overflow: hidden;
+}
+html[data-theme='light'] .srch {
+  --srch-scrim: rgba(23, 21, 15, 0.28);
+  --srch-shadow: 0 24px 60px -24px rgba(32, 26, 14, 0.35);
+}
+.srch::backdrop { background: transparent; }
+.srch-scrim { position: absolute; inset: 0; background: var(--srch-scrim); }
+.srch[data-state='closing'] { pointer-events: none; }
+
+.srch-panel {
+  position: absolute;
+  top: 14vh;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(640px, calc(100% - 32px));
+  max-height: 70vh;
+  margin-inline: auto;
+  border: 1px solid var(--a-line);
+  border-radius: 20px;
+  background: var(--a-raised);
+  box-shadow: var(--srch-shadow);
+  overflow: hidden;
+}
+
+/* The head: the panel is the field, so the input has no border and its focus is the caret. */
+.srch-head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--a-line);
+}
+.srch-head__icon { flex: none; color: var(--a-ink-3); }
+.srch-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--a-ink);
+  caret-color: var(--a-ink);
+  font: 400 17px/1.3 var(--font-body, system-ui), system-ui, sans-serif;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+}
+.srch-input::placeholder { color: var(--a-ink-3); opacity: 1; }
+.srch-input:focus, .srch-input:focus-visible { outline: none; box-shadow: none; }
+
+/* Close: phones only (desktop closes with Esc, the scrim, or a row). */
+.srch-close {
+  display: none;
+  flex: none;
+  align-items: center;
+  min-height: 44px;
+  margin-right: -10px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--a-ink);
+  font: 600 15px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  cursor: pointer;
+}
+.srch-close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.srch-close:active:not(:disabled) { background: var(--a-sunken); }
+.srch-close:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.srch-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 4px 8px 8px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.srch-group + .srch-group { margin-top: 4px; }
+.srch-group__label {
+  padding: 12px 12px 6px;
+  color: var(--a-ink-3);
+  font: 650 13px/1.3 var(--font-body, system-ui), system-ui, sans-serif;
+}
+
+/* A row: 48 px, the active one on sunken paper (no transition). Its end (the chapter's links, what Enter does) sits at the
+   right in room kept for it on every row of its kind, so a row never reflows when it becomes active. */
+.srch-row {
+  --end: 64px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 6px calc(var(--end) + 12px) 6px 12px;
+  border-radius: 12px;
+  color: var(--a-ink);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.srch-row[data-kind='chapter'] { --end: 196px; }
+.srch-row[data-active] { background: var(--a-sunken); }
+.srch-row:active { background: var(--a-sunken); }
+.srch-row__icon { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 20px; height: 20px; color: var(--a-ink-2); }
+.srch-row__icon > * { flex: none; }
+/* The title, then its quiet part right after it on the same line (wrapping under it when the title is long). */
+.srch-row__text { display: flex; flex: 1 1 auto; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; }
+.srch-row__title {
+  min-width: 0;
+  color: var(--a-ink);
+  font: 400 15px/1.35 var(--font-body, system-ui), system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+/* Light ink on dark paper reads a step heavier, so Day sets the title a step up to match; the matched letters stay 750 in both. */
+html[data-theme='light'] .srch-row__title { font-weight: 500; }
+.srch-row__title b { font-weight: 750; }
+.srch-row__hint {
+  color: var(--a-ink-3);
+  font: 400 13.5px/1.3 var(--font-body, system-ui), system-ui, sans-serif;
+  white-space: nowrap;
+}
+.srch-row__end {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  transform: translateY(-50%);
+}
+.srch-row__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 8px;
+  border-radius: 8px;
+  color: var(--a-ink-2);
+  font: 600 13px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  text-decoration: underline;
+  text-decoration-color: var(--a-line-strong);
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.srch-row__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+.srch-row__link:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) {
+  .srch-row__link:hover { color: var(--a-ink); text-decoration-color: currentColor; background: var(--a-hover); }
+}
+.srch-row__enter {
+  padding-left: 8px;
+  color: var(--a-ink-3);
+  font: 600 13px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  white-space: nowrap;
+}
+
+.srch-none {
+  margin: 0;
+  padding: 18px 12px 14px;
+  color: var(--a-ink-2);
+  font: 400 15px/1.5 var(--font-body, system-ui), system-ui, sans-serif;
+  text-align: left;
+  /* A pasted address or a long run of letters breaks inside the panel instead of running off its edge. */
+  overflow-wrap: anywhere;
+}
+
+.srch-foot {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--a-line);
+  color: var(--a-ink-3);
+  font: 400 12px/1.2 var(--font-body, system-ui), system-ui, sans-serif;
+}
+.srch-foot span { display: inline-flex; align-items: center; gap: 4px; }
+
+/* ---------------------------------------------------------------- phones and small tablets: a full-height sheet from the top */
+@media (max-width: 899px) {
+  .srch-scrim { display: none; }
+  .srch-panel {
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: none;
+    padding-top: env(safe-area-inset-top, 0px);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .srch-head { padding: 0 16px; }
+  .srch-close { display: inline-flex; }
+  .srch-list { padding: 4px 4px calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .srch-foot { display: none; }
+  /* Two lines: the title, then the quiet part with the chapter's links. What Enter does is left to the tap itself. */
+  .srch-row {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    grid-template-areas: 'icon title title' 'icon hint end';
+    column-gap: 12px;
+    row-gap: 1px;
+    align-items: center;
+    padding: 6px 12px;
+  }
+  .srch-row:has(.srch-row__hint), .srch-row:has(.srch-row__link) { min-height: 56px; }
+  .srch-row__icon { grid-area: icon; }
+  .srch-row__text { display: contents; }
+  .srch-row__title { grid-area: title; }
+  .srch-row__hint { grid-area: hint; min-width: 0; white-space: normal; }
+  .srch-row__end { position: static; grid-area: end; justify-self: end; transform: none; margin-right: -8px; }
+  .srch-row__enter { display: none; }
+  .srch-row__link { min-height: 44px; margin-block: -10px; }
+}
+/* A 360 px phone: the whole placeholder fits beside Close (the typed text keeps 17 px, so no phone zooms the field). */
+@media (max-width: 389px) {
+  .srch-head { gap: 8px; padding: 0 14px; }
+  .srch-input::placeholder { font-size: 15px; }
+}

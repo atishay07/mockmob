@@ -40,6 +40,7 @@ import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevice
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
 import YouPlaces from '@/components/nav/YouPlaces';
+import { SearchField } from '@/components/search/SearchButtons';
 import InstallPractice from '@/components/InstallPractice';
 import TodayCompass from '@/components/du/TodayCompass';
 import { NAME_MAX, nameFieldValue } from '@/lib/nameAsk.mjs';
@@ -271,6 +272,9 @@ export default function ProfilePageClient() {
 
   return (
     <div className="student-page student-page--profile acct view">
+      {/* Search, the first thing on You on a phone and a tablet (lane palette, 18 Nov 2026): the top bar has no room for it at
+          360 px, and from 1024 px the rail carries it. */}
+      <SearchField className="srch-field--you" />
       <ArenaHead title="Your account." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
       {/* The You place's pages, on a phone and a tablet (owner LK141: the dock's You opens this page): Ask Mobi, Progress, Marks trend,
           Colleges, Wallet, Guide and Show me around, what the old You sheet listed. From 1024 px the sidebar lists them. */}

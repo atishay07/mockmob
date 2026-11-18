@@ -50,6 +50,8 @@ import { TourStopsProvider } from '@/components/help/TourStops';
 import { captureInstallPrompt } from '@/lib/installPrompt';
 import StreakChip from '@/components/streak/StreakChip';
 import StreakSheet from '@/components/streak/Streak';
+import SearchHost from '@/components/search/SearchHost';
+import { SearchKey } from '@/components/search/SearchButtons';
 
 // React's <ViewTransition> (no Next flag since 16.3): the arena's page transitions. The type
 // of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
@@ -399,6 +401,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             (nav-places.css); where they still cannot (a touch screen keeps 44 px rows), only this list scrolls, so the logo, Start and
             Mobi's door stay in view. Night and Day left the rail: it is the top bar's switch, and the account pop-over's Appearance
             (Night, Daylight, Match device), one press away on every page. */}
+        {/* Search, right above Today (18 Nov 2026): every page, chapter, college and course. */}
+        {!isTestRoute && <SearchKey />}
         <div className="arena-sidebar__places">
         {navGroups.map((group) => (
           <nav key={group.id} className={group.place ? 'arena-nav-group arena-nav-group--place' : 'arena-nav-group'} aria-label={group.label}>
@@ -512,6 +516,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && <AskMobiHost />}
+      {/* Search's panel and its keys (Ctrl+K, Cmd+K, "/"): never on the paper. The shell's own lists name the pages. */}
+      {!isTestRoute && <SearchHost path={activePath} groups={[...navGroups, ...sheetGroups]} learn={showStudy} learn2={learn2} userSubjects={user?.subjects || []} mentorHref={mentorHref} previewLinks={previewLinks} />}
       {/* Pro nudges (D79 to D81): the Upgrade sheet for a Free student's Pro taps and the one first-session sheet. Nothing for Pro. */}
       {!isTestRoute && <ProNudgeHost offer={offer} previewLinks={previewLinks} />}
       {/* The guide ("Show me around"): a spotlight on each place and one card beside it (src/components/guide/AppGuide.jsx). */}
