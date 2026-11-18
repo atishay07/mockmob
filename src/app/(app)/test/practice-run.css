@@ -296,3 +296,5 @@
 /* The submit banner's sign-in key (15 Nov B6): drawn as its retry key is (globals.css .runner-submit-error button). */
 .runner-submit-error a { flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--a-line-strong, rgba(255,255,255,.18)); background: var(--a-raised-2, #18211b); color: var(--a-ink, #f2f4ec); font: 700 14px/1 var(--font-body); text-decoration: none; }
 .runner-submit-error a:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+/* The refusal line clears the fixed bottom bar when it is brought into view (18 Nov review, finding 5). */
+.pr-slot.is-refused, .pr-slot.is-refused > span { scroll-margin-block: 96px 132px; }

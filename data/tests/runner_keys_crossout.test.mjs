@@ -315,9 +315,12 @@ test('NTA style has neither: no Keys key, no cross-out tool or line, and MockMob
   assert.equal(h.find('.rk-panel').length, 0);
   assert.deepEqual(h.find('.nta-option').map((o) => o.getAttribute('aria-pressed')), ['false', 'false', 'false', 'false']);
   assert.equal(h.text(h.one('.nta-n-qhead h1')), 'Question 1:');
-  // The same NTA paper switched to MockMob style has both, and back in NTA style both are gone again.
+  // The same NTA paper switched to MockMob style has the cross-out tool, and back in NTA style it is gone again. It never has
+  // the Keys key or its list (18 Nov review, finding 4): an NTA-mode paper runs full screen, where Esc (the list's way to
+  // close) also leaves full screen and counts as a warning.
   await h.click(h.one('button', 'MockMob'));
-  assert.equal(h.find('.rk-keys').length, 1);
+  assert.equal(h.find('.rk-keys').length, 0);
+  assert.equal(h.find('.rk-hint').length, 0);
   assert.equal(h.find('.pr-cross').length, 1);
   await h.click(h.one('.pr-cross'));
   await h.click(h.one('button', 'NTA style'));

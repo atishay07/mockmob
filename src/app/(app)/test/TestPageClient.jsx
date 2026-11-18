@@ -418,10 +418,17 @@ function TestRunner() {
   const [crossTool, setCrossTool] = useState(null);
   // Crossing out the chosen answer was refused: { qid, n }. The line stays until the next cross-out or page.
   const [crossNote, setCrossNote] = useState(null);
+  // The refusal line is brought into view when it appears (18 Nov review, finding 5): on a phone it could sit under the fold
+  // or behind the bottom bar, and a tap then looked as if nothing had happened. No travel: the page is simply put there.
+  const revealRefusal = useCallback((node) => { try { node?.scrollIntoView?.({ block: 'nearest', behavior: 'instant' }); } catch { /* an old browser: the line is still in the page */ } }, []);
   // The option just crossed out ('qid:option'): only its line draws; marks already there (a reload, a page come back to) do not.
   const [freshStrike, setFreshStrike] = useState(null);
   // The keys list (MockMob style, where a hardware keyboard is likely) and its one-time hint.
-  const keysUi = useSyncExternalStore(subscribeKeysMedia, keysMediaSnapshot, () => false);
+  const keysMedia = useSyncExternalStore(subscribeKeysMedia, keysMediaSnapshot, () => false);
+  // The Keys key, its hint and its list are not offered on an NTA-mode paper (18 Nov review, finding 4): that paper runs full
+  // screen under the integrity guard, where Esc (the list's own way to close) also leaves full screen and counts as a warning.
+  // The keys themselves work there as before; only the list and the ? key that opens it are left out.
+  const keysUi = keysMedia && !isNtaMode;
   const [keysOpen, setKeysOpen] = useState(false);
   const [keysHint] = useState(() => { try { return typeof window !== 'undefined' && !window.localStorage.getItem(KEYS_HINT_KEY); } catch { return false; } });
   const [keysHintGone, setKeysHintGone] = useState(false);
@@ -1900,7 +1907,7 @@ function TestRunner() {
       </div>
       <p className={`pr-slot${slot === 'note' ? ' pr-note' : ''}${slot === 'refused' ? ' is-refused' : ''}`} role="status">
         {/* A refusal said again is a new line, so a screen reader says it again. */}
-        {slot === 'refused' ? <span key={`refused-${crossNote.n}`}>{CROSS_OUT_WORDS.refused}</span> : slot === 'on' ? CROSS_OUT_WORDS.on : slot === 'note' ? 'Press and hold an option to cross it out.' : ''}
+        {slot === 'refused' ? <span key={`refused-${crossNote.n}`} ref={revealRefusal}>{CROSS_OUT_WORDS.refused}</span> : slot === 'on' ? CROSS_OUT_WORDS.on : slot === 'note' ? 'Press and hold an option to cross it out.' : ''}
       </p>
     </section>
     );
