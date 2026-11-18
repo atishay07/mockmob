@@ -421,3 +421,59 @@ export function upNextMoves(roadmap, { subjectName = '' } = {}) {
 
 /** The footer's cells for the move on the card: every other move, in the server's order (the lead first, marked Suggested). */
 export const otherMoves = (moves, onCard) => (moves || []).filter((m) => m.id !== onCard);
+
+// ---------------------------------------------------------------- 19 Nov 2026, lane arena-b: the roadmap shows where every chapter stands
+// Each row carries its state as a shape and a word: the chapter state the server already sends (row.state, data/chapter_state.js
+// STATE_LABELS: the words Marks trend's tiles and Key cards print), never a band made up here. Each part's heading says how many of its
+// chapters are started, and the part the student is in comes first. Pure: the page and the tests read one rule.
+
+/** The states that mean the student has answered in a chapter (Too few answers counts: there are answers, too few to judge). */
+const ANSWERED_STATES = new Set(['thin', 'needs_work', 'getting_there', 'holding']);
+/** The words when an old body sends a key without its label (the server's STATE_LABELS, word for word). */
+const STATE_WORDS = Object.freeze({ none: 'Not started', thin: 'Too few answers', needs_work: 'Needs work', getting_there: 'Getting there', holding: 'Holding', unknown: 'Could not load' });
+
+/**
+ * A row's state as drawn: { key, shape, word }. The word is the server's own label ("Getting there, fading" stays as it is sent); the
+ * shape is the ring Learn and Key cards draw for it. A row with no state reads "Not started"; an unknown state keeps its own word,
+ * which is never "Not started" (unknown is not zero).
+ * Review (19 Nov 2026): the server's "Not started" means no answers and no must-know card added, so a chapter whose cards the student
+ * has seen (or whose questions they tried) can still be sent as none. Such a row says no state word, so it never reads "Not started"
+ * beside "5 of 45 cards seen", and the part heading, which counts it as started (rowStarted), agrees with every row.
+ */
+export function rowState(row) {
+  const key = row?.state?.key && STATE_WORDS[row.state.key] ? row.state.key : row?.state?.key ? 'unknown' : 'none';
+  const word = key === 'none' && rowStarted(row) ? '' : String(row?.state?.label || '').trim() || STATE_WORDS[key];
+  return { key, shape: stateShape(key), word };
+}
+
+/** A chapter is started once any card in it was seen, any of its questions tried, or any answer in it counted. */
+export function rowStarted(row) {
+  const p = row?.progress || {};
+  return Number(p.seen) > 0 || Number(p.tried) > 0 || ANSWERED_STATES.has(row?.state?.key);
+}
+
+/**
+ * The chapters a part shows right now (its common units and the chosen option's, or both options while none is chosen) and how many
+ * of them are started: { started, total, unknown }. `parts` are the playable ones, so every counted chapter has cards. `unknown`
+ * counts the rows whose state could not be read and that show no card seen or question tried: while any is, the count is not known
+ * and the heading does not state one (unknown is not zero).
+ */
+export function partProgress(part, choice = null) {
+  const units = (part?.units || []).filter((u) => !u.optionId || !choice || u.optionId === choice);
+  const rows = units.flatMap((u) => u.chapters || []);
+  const started = rows.filter(rowStarted).length;
+  const unknown = rows.filter((r) => !rowStarted(r) && rowState(r).key === 'unknown').length;
+  return { started, total: rows.length, unknown };
+}
+
+/** "3 of 12 chapters started" (the brief's words); "1 of 1 chapter started" for a one-chapter part. */
+export const startedLine = ({ started, total }) => `${started} of ${total} ${total === 1 ? 'chapter' : 'chapters'} started`;
+
+/** The parts with the one the student is in (holding the roadmap's position) first; the others keep book order. */
+export function partsInOrder(parts, positionKey) {
+  const list = [...(parts || [])];
+  if (!positionKey) return list;
+  const at = list.findIndex((p) => (p.units || []).some((u) => (u.chapters || []).some((c) => c.key === positionKey)));
+  if (at <= 0) return list;
+  return [list[at], ...list.slice(0, at), ...list.slice(at + 1)];
+}

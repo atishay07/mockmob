@@ -46,7 +46,7 @@ test('A3: the You page lists every page the old sheet did, and nothing is lost f
   assert.match(places, /className="you-places__ask"/, 'Ask Mobi');
   const rail = arenaNavigation(false, { mob: true, learn2: true }).flatMap((group) => group.items.map((item) => item.id));
   for (const id of ['today', 'dashboard', 'review', 'learn', 'explore', 'saved', 'mob', 'leaderboard', 'profile', 'progress', 'analytics', 'admission-compass', 'wallet', 'help']) assert.ok(rail.includes(id), id);
-  assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 48px/, '48 px rows');
+  assert.match(placesCss, /\.you-places__row \{[^}]*min-height: 56px/, '56 px rows (19 Nov 2026, lane arena-b)');
   assert.doesNotMatch(placesCss, /#[0-9a-f]{3,6}\b|rgba?\(/i, 'tokens only');
 });
 

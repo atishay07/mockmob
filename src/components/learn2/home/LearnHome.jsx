@@ -253,7 +253,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   // The student's choice shows at once; the key waits for the server's answer for that length (it starts only what it says).
   const chooseMinutes = useCallback((m) => { lengthStore.set(MINUTES_KEY, String(m)); setMinutes(m); }, []);
   const pendingLength = Boolean(data?.roadmap) && home.status === 'refreshing' && Number(data.roadmap.asked) !== (minutes || 10);
-  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} minutes={minutes || 10} onMinutes={chooseMinutes} pending={pendingLength} subjectName={subjectName} /> : failed ? null : <HeroSkeleton />) : null;
+  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} minutes={minutes || 10} onMinutes={chooseMinutes} pending={pendingLength} subjectName={subjectName} subjectId={data.subject?.id || active} /> : failed ? null : <HeroSkeleton />) : null;
   const hint = findHints(active)[0];
   const placeholder = hint ? `Find a topic, like ${hint}` : 'Find a chapter or topic';
 

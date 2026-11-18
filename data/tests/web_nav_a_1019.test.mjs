@@ -138,8 +138,10 @@ test('LK141: the You page’s places: Ask Mobi with his face, Your progress, You
   assert.match(layout, /<YouPlacesProvider value=\{youPlaces\}>\{children\}<\/YouPlacesProvider>/);
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
   // R8 TOOLS-14: the signed-in line moved under the student's own card; the places still lead the page.
-  assert.ok(profile.indexOf('<YouPlaces />') < profile.indexOf('<YourSheet') && profile.indexOf('<YourSheet') < profile.indexOf('<SignedInLine'), 'the places under the heading, above the account; the signed-in line under the first card');
-  assert.match(read('src/components/nav/you-places.css'), /@media \(min-width: 1024px\) \{ \.app-shell \.you-places \{ display: none; \} \}/, 'the sidebar lists them from 1024 px');
+  // 19 Nov 2026 (lane arena-b): the account card leads the page and the places follow it as one list, at every width (from 1024 px
+  // beside the card); the signed-in line still comes under the first card.
+  assert.ok(profile.indexOf('<YourSheet') < profile.indexOf('<YouPlaces figures={figures} />') && profile.indexOf('<YouPlaces') < profile.indexOf('<SignedInLine'), 'the account card first, the places under it; the signed-in line after');
+  assert.doesNotMatch(read('src/components/nav/you-places.css'), /\.you-places \{ display: none; \}/, 'the list is drawn at every width');
 });
 
 test('copy, read aloud (R6): full sentences, no telegram style', () => {

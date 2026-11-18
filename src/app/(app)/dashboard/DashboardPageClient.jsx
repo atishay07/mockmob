@@ -3,7 +3,7 @@
 import { averageMarksPercent } from './averageMarks.mjs';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, ChevronRight, Play, SlidersHorizontal, Target } from 'lucide-react';
+import { Check, ChevronRight, SlidersHorizontal, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
@@ -40,7 +40,7 @@ import { useRailCue, reducedMotion as railReduced } from '@/components/start/rai
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
 import { browserSession, loadRecord } from '@/components/pro/proNudgeStore';
 import { creditsModalAllowed, fullMocksIn } from '@/lib/proNudge.mjs';
-import { firstSetLine, launchPath, quotePath, startPath } from '@/lib/firstSet.mjs';
+import { launchPath, quotePath, startPath } from '@/lib/firstSet.mjs';
 import { clearSample, readSample, sampleChapters, sampleSubject } from '@/components/landing/sampleCarry.mjs';
 import { resolveChapter } from '@/../data/cuet_syllabus';
 import './practice.css';
@@ -562,7 +562,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const barStartLabel = effectiveModeId === 'full' ? 'Start full mock'
     : effectiveModeId === 'nta' ? 'Start NTA paper'
       : `Start ${quoteCount} ${quoteCount === 1 ? 'question' : 'questions'}`;
-  const keyNamesCount = !['full', 'nta'].includes(effectiveModeId) && !blocked && quoteStatus !== 'error';
   // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
   const examPair = effectiveModeId === 'full' || effectiveModeId === 'nta';
   // A student with no finished set (F2, 15 Nov 2026): the server says so (no saved paper), and it stays so until the first one is
@@ -579,10 +578,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
   ) : (
     <Button key={`key-${modeNudge}`} variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} data-phone-primary={short ? '' : undefined} data-nudge={modeNudge > 0 || undefined}
       data-tour={tour || undefined} data-first-set={tour && firstSetFree ? 'free' : undefined}
-      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={short && !isLaunching ? `${barStartLabel}${inSubject}` : undefined} onClick={launch}>
-      {/* Under 380 px the bar's key says "Start 10" (its name still says the whole label), so the mode's name beside it is
-          never cut to "Quick pr…" (W-068). The subject is the key's second line ("in Accountancy", owner G26). */}
-      {short ? <>{examPair ? <ClockGlyph size={17} /> : null}{isLaunching ? 'Starting…' : <span className="pr-bar__keytext"><span>{keyNamesCount ? <>Start {quoteCount}<span className="pr-bar__qword"> {quoteCount === 1 ? 'question' : 'questions'}</span></> : barStartLabel}</span>{subjectLabel && quoteLaunchable ? <small>in {subjectLabel}</small> : null}</span>}</> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{startLabel}</span></>}
+      disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} aria-label={isLaunching ? undefined : short ? `${barStartLabel}${inSubject}` : quoteLaunchable && quoteStatus !== 'loading' ? startLabel : undefined} onClick={launch}>
+      {/* The ticket says the subject, the count, the time and the cost line by line, so the key itself says Start (19 Nov 2026,
+          lane arena-b: nothing said twice). Its spoken name keeps the whole session ("Start 10 questions in Accountancy"); while
+          the quote is checked or the set cannot start it says so, as before. */}
+      {short ? <>{examPair ? <ClockGlyph size={17} /> : <AppIcon name="practice" size={16} />}<span className="pr-bar__keytext">{isLaunching ? 'Starting…' : quoteStatus === 'loading' ? 'Checking…' : 'Start'}</span></> : <>{examPair ? <ClockGlyph /> : <AppIcon name="practice" size={18} />}<span className="pr-summary__words">{quoteLaunchable && !isLaunching && quoteStatus !== 'loading' ? 'Start' : startLabel}</span></>}
     </Button>
   ));
 
@@ -610,14 +610,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       </header>
       {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
       <ResumePaper />
-      {!firstRun && subjectLabel ? (
-        <nav className="pr-session-glance" aria-label="Your session setup">
-          <a href="#pr-s1"><span>Subject</span><b>{subjectLabel}</b></a>
-          <a href="#pr-s2"><span>Mode</span><b>{mode.label}</b></a>
-          <a href="#pr-s3"><span>Questions</span><b>{quoteCount}</b></a>
-        </nav>
-      ) : null}
-
+      {/* 19 Nov 2026 (lane arena-b): the one-line summary strip is gone. The ticket says the session once: the sticky card on
+          the right from 1024 px, and on phones the bar pinned above the dock from the first screen. */}
 
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
 
@@ -636,19 +630,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </div>
       )}
 
-      {/* A student with no finished set (F2, 15 Nov 2026): the way to start, on the first screen of a phone. One line over the shelf
-          with the page's own Start key under it (the one volt key there; from 1024 px the session card's key is in view and this
-          one steps aside). It follows the set on the key, and it is gone for good once the first set is saved. */}
-      {firstRun && mySubs.length > 0 ? (
-        <section className="pr-first" aria-labelledby="pr-first-line">
-          <p id="pr-first-line" className="pr-first__line">{firstSetLine({
-            mode: effectiveModeId, count: quoteCount, subjectName: subjectLabel, minutes, chapters: sentChapters,
-            price: !(quoteStatus === 'ready' && quoteMatches && quote.launchable) || isPremium ? null
-              : quote.creditCost === 0 ? (quoteFirstFree ? 'first-full' : firstSetFree ? 'free' : null) : quote.creditCost,
-          })}</p>
-          {startKey('pr-first__go', false, 'first-set')}
-        </section>
-      ) : null}
+      {/* A student with no finished set (F2, 15 Nov 2026) used to get a line and a Start key here, so the way to start was on a
+          phone's first screen. The ticket bar is now pinned above the dock from the first screen on every visit, so its key carries
+          the guide's first-set stop instead (data-tour="first-set"), and the session is said once, on the ticket. */}
 
       {mySubs.length === 0 ? (
         <EmptyState
@@ -709,8 +693,11 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                       onClick={(event) => { answerPick(event); chooseMode(id); if (badge.tone === 'locked') openUpgrade({ trigger: id, opener: event.currentTarget }); }}>
                       {/* The chosen tile's rim draws round it (restored 19 Oct, owner G28/G31: the mk-rim draw of deploy/1016-batch). */}
                       <span className="pr-tile__rim" aria-hidden="true" />
-                      <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
+                      {/* 19 Nov 2026 (lane arena-b): each tile is its object, its name, one line and its cost, so the four fit one
+                          phone screen. The press shows as the radio ring in the corner filling to a tick (owner F5: a button that
+                          does something), with the rim and the lamp wash. */}
                       <span className="pr-tile__art" aria-hidden="true"><ModeArt id={id} subjectId={selectedSubject?.internalId || selSubj} on={on} /></span>
+                      <span className="pr-tile__mark" aria-hidden="true">{on ? <Check size={14} strokeWidth={3} /> : null}</span>
                       <span className="pr-tile__text">
                         {/* NTA mode is the button-card closest to exam day: its volt gradient and this line come back from
                             deploy/1015-night (owner G28, 19 Oct). */}
@@ -718,12 +705,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                         <span className="pr-tile__name">{m.label}</span>
                         <span className="pr-tile__spec">{MODE_TILE_SPECS[id]}</span>
                       </span>
-                      {/* The tile says what pressing it does (owner F5): "Set up" puts this mode in the session card and on
-                          its Start key; once chosen it reads "Chosen", with the tick. */}
-                      <span className="pr-tile__act" aria-hidden="true">
-                        {on ? <Check size={14} strokeWidth={3} /> : <Play size={12} strokeWidth={0} fill="currentColor" />}
-                        <span>{on ? 'Chosen' : 'Set up'}</span>
-                      </span>
+                      <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                     </button>
                   );
                 })}
@@ -753,11 +735,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </section>
           </div>
 
-          {/* The tail of the setup: Questions, Fine-tune, the session card and, on phones, the session bar. The bar is sticky
-              inside this block, so it arrives with Questions, rides above the tab bar while you finish the setup, lands as
-              the card's footer and leaves with it: it never sits on the subject shelf or the mode tiles on the first screen
-              (verifier W-008), and with no script it can never come back lower down (owner F12). From 1024 px this block
-              dissolves into the two-column grid (practice.css). */}
+          {/* The tail of the setup: Questions, Fine-tune and the session card. Since 19 Nov 2026 the phone's session bar is not in
+              this block: it is the page's last child, pinned above the dock from the first screen (see the end of the page). From
+              1024 px this block dissolves into the two-column grid (practice.css). */}
           <div className="pr-tail">
 
             <section className="pr-step" aria-labelledby="pr-s3">
@@ -804,19 +784,20 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             </section>
 
           <aside className="pr-summary pr-ticket" aria-label="Your session">
-            {/* The card leads with the mode (owner G26, 19 Oct): its picture, its name and what it is. The count and the subject
-                are said once, on the Start key, so picking a subject changes nothing at the top of the card. */}
+            {/* The ticket (19 Nov 2026, lane arena-b): the page's anchor from 1024 px. The chosen subject's desk object stands
+                large at its top, its name under it, then the session line by line: Mode, Questions, Time, Marking, Cost. Every
+                value is the one the page already holds (the quote's price and time once it is in), and a value that changes
+                re-inks (key), so a press visibly sets the session up. The Start key under it starts exactly this. */}
             <div className="pr-ticket__top">
-              <span className="pr-ticket__obj pr-ticket__art" key={effectiveModeId} aria-hidden="true"><ModeArt id={effectiveModeId} subjectId={selectedSubject?.internalId || selSubj} on /></span>
-              <div>
-                <h2 className="pr-ticket__mode">{mode.label}</h2>
-                <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
-              </div>
+              <span className="pr-ticket__desk" key={selSubj} aria-hidden="true"><SubjectObject id={selectedSubject?.internalId || selSubj} size={176} lit life={false} /></span>
               {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
+              <h2 className="pr-ticket__mode"><span className="pr-ink" key={selSubj}>{subjectLabel}</span></h2>
             </div>
-            <dl>
-              <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
-              <div><dt>Marking</dt><dd>+5 / −1</dd></div>
+            <dl className="pr-ticket__list">
+              <div data-wide=""><dt>Mode</dt><dd><span className="pr-ink" key={effectiveModeId}>{mode.label}</span></dd></div>
+              <div><dt>Questions</dt><dd><span className="pr-ink" key={quoteCount}>{quoteCount}</span></dd></div>
+              <div><dt>Time</dt><dd><span className="pr-ink" key={`${approximate}:${minutes}`}>{approximate ? 'About ' : ''}{minutes} min</span></dd></div>
+              <div data-wide=""><dt>Marking</dt><dd>+5 / −1</dd></div>
               {costLabel ? <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div> : null}
             </dl>
             {/* The bank behind every paper, said once and quietly (owner, 16 Oct; START-1017 D10): no fixed set of mocks,
@@ -854,33 +835,6 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
             <div className="pr-ticket__go-row">{startKey('pr-summary__cta', false, firstRun ? 'practice-start' : null)}</div>
           </aside>
 
-          {/* Phones and tablets: the session bar, sticky inside the setup (practice.css). It rides above the tab bar while
-              the setup is on screen, lands as the card's footer at its end and leaves with it: no scroll script, so it can
-              never come back lower down (owner F12). From 1024 px the card is a sticky side panel and there is no bar. */}
-          <div className="pr-bar" role="region" aria-label="Start this session">
-            <div className="pr-bar__in">
-              {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
-              {/* Fine-tune, one line right above Start, so nobody skips it (owner F8). */}
-              {scope.chapters || scope.difficulty ? (
-                <button type="button" className="pr-bar__fine" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>
-                  <SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" />
-                  <span className="pr-bar__fine-text"><b>Fine-tune</b> {scope.chapters ? `${sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `all ${chapterTotal}` : 'all'} chapters, ` : ''}{difficultyValue.toLowerCase()} level</span>
-                  <span className="pr-bar__fine-edit">Choose</span>
-                </button>
-              ) : (
-                <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'your weak topics, nothing to choose' : 'built the NTA way, nothing to choose'}</span></p>
-              )}
-              <span className="pr-bar__obj" key={selSubj}>
-                <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
-              </span>
-              <span className="pr-bar__text" data-blocked={blocked || undefined}>
-                <b>{mode.label}</b>
-                {/* The key already names the count ("Start 10 questions"), so the line does not repeat it; full and NTA papers keep it. */}
-                <span><span className="sr-only">{subjectLabel}, {keyNamesCount ? `${quoteCount} questions, ` : ''}</span>{keyNamesCount ? null : <>{quoteCount} Q<Sep /></>}<span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min{barCost ? <Sep /> : null}</span><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
-              </span>
-              {startKey('pr-bar__go', true)}
-            </div>
-          </div>
           </div>
         </div>
       )}
@@ -979,6 +933,38 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </section>}
         </div>
       </div>
+
+      {/* Phones and tablets: the ticket bar (19 Nov 2026, lane arena-b), the page's last child and sticky inside the whole page, so
+          it is pinned just above the dock from the first screen to the last (the ticket is always in view) and lands in its own
+          slot at the very end: nothing is ever left under it, and there is no scroll script (owner F12). It says the subject,
+          the count, the time and the cost, and holds the one volt Start. While its key is on screen the dock's own Start stays
+          quiet (data-phone-primary; pagePrimary.mjs). From 1024 px the ticket is the sticky card on the right and there is no bar. */}
+      {mySubs.length > 0 ? (
+        <div className="pr-bar" role="region" aria-label="Start this session">
+          <div className="pr-bar__in">
+            {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
+            {/* Fine-tune, one line right above Start, so nobody skips it (owner F8). It folds away while the Fine-tune block itself
+                is on screen (R8 PRAC-10, practice.css). */}
+            {scope.chapters || scope.difficulty ? (
+              <button type="button" className="pr-bar__fine" onClick={() => goToFine(scope.chapters ? 'chapters' : 'difficulty')}>
+                <SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" />
+                <span className="pr-bar__fine-text"><b>Fine-tune</b> {scope.chapters ? `${sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `all ${chapterTotal}` : 'all'} chapters, ` : ''}{difficultyValue.toLowerCase()} level</span>
+                <span className="pr-bar__fine-edit">Choose</span>
+              </button>
+            ) : (
+              <p className="pr-bar__fine" data-static=""><SlidersHorizontal size={14} strokeWidth={2} aria-hidden="true" /><span className="pr-bar__fine-text"><b>Fine-tune</b> {effectiveModeId === 'smart' ? 'your weak topics, nothing to choose' : 'built the NTA way, nothing to choose'}</span></p>
+            )}
+            <span className="pr-bar__obj" key={selSubj}>
+              <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
+            </span>
+            <span className="pr-bar__text" data-blocked={blocked || undefined}>
+              <b className="pr-ink" key={selSubj}>{subjectLabel}</b>
+              <span><span className="sr-only">{mode.label}, </span><span className="pr-ink" key={`${effectiveModeId}:${quoteCount}`}>{quoteCount} Q</span><Sep /><span className="pr-bar__min">{approximate ? 'about ' : ''}{minutes} min{barCost ? <Sep /> : null}</span><i className="pr-ink" key={barCost} data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
+            </span>
+            {startKey('pr-bar__go', true, firstRun ? 'first-set' : null)}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

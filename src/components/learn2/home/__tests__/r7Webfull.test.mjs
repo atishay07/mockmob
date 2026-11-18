@@ -63,13 +63,15 @@ test('Up next: the module is the page\'s one recommendation and starts nothing o
 
 test('roadmap rows say state, not advice: "Needs work" with its ring, why said once under the head, a quiet Up next tag', () => {
   const map = src('../ChapterMap.jsx');
-  assert.match(map, /verdictWord\(road\.verdict\)/);
+  // 19 Nov 2026 (lane arena-b): every row now says its state as a shape and a word (rowState), not only "Needs work".
+  assert.match(map, /<StateRing shape=\{state\.shape\} \/>/);
+  assert.match(map, /<span className="lh-row__state">\{state\.word\}<\/span>/);
   assert.match(map, /lh-map__why/);
   assert.match(map, /Needs work: from the mistakes in your papers\./);
-  assert.match(map, /spoken = \[displayTitle\(row\.title\), here, road\.verdict, line\]/, 'the row still says where it comes from to a screen reader');
+  assert.match(map, /spoken = \[displayTitle\(row\.title\), here, road\.verdict \|\| state\.word, line\]/, 'the row still says where it comes from to a screen reader');
   const css = src('../learn-home.css');
   assert.match(css, /\.lh-row__here \{[^}]*background: transparent/);
-  assert.match(css, /\.lh-row__verdict \{[^}]*color: var\(--a-ink-2\)/);
+  assert.match(css, /\.lh-row__state \{[^}]*color: var\(--a-ink\)/);
 });
 
 test('Find\'s sets are on Learn home under the field, each opening in place; none drawn when empty', () => {

@@ -10,6 +10,7 @@ import { useCallback, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, BrainCircuit, Repeat2 } from 'lucide-react';
 import { openUpgrade } from '@/components/pro';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { LengthControl, OwnSheet } from '../LengthPicker';
 import { otherMoves, upNextMoves } from './homeModel.mjs';
 
@@ -69,7 +70,7 @@ function OfferLength({ chosen, onChange, capped }) {
   );
 }
 
-export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes = null, pending: waiting = false, subjectName = '' }) {
+export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes = null, pending: waiting = false, subjectName = '', subjectId = null }) {
   const titleId = useId().replace(/:/g, '');
   const [onCard, setOnCard] = useState('lead');
   const [arrived, setArrived] = useState(null); // the cell that just came back to the footer crossfades in
@@ -88,7 +89,10 @@ export default function RoadmapHero({ roadmap, links, minutes = null, onMinutes 
   const pending = isLead && waiting; // only the offer's own key waits for the server's answer for the chosen length
   const pick = (id) => { setArrived(move.id); setOnCard(id); };
   return (
-    <section className="lh-hero lh-up" data-mode={mode} data-move={move.kind} data-picked={!isLead || undefined} aria-labelledby={titleId}>
+    <section className="lh-hero lh-up" data-obj={subjectId ? '' : undefined} data-mode={mode} data-move={move.kind} data-picked={!isLead || undefined} aria-labelledby={titleId}>
+      {/* 19 Nov 2026 (lane arena-b): the subject's desk object stands large at the card's right, so the page's one key reads as this
+          subject's next step at a glance. Still (no breath): only the student's own actions move things here. */}
+      {subjectId ? <span className="lh-up__obj" key={subjectId} aria-hidden="true"><SubjectObject id={subjectId} size={168} lit life={false} /></span> : null}
       <div className="lh-up__move" key={move.id} aria-live="polite">
         <div className="lh-up__title">
           {move.kind === 'revise' ? <BrainCircuit size={22} aria-hidden="true" /> : <BookOpen size={22} aria-hidden="true" />}
