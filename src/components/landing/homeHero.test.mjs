@@ -121,7 +121,7 @@ test('LK70: the h1 comes first and the lead says what MockMob is, in the server 
   assert.equal(`${HERO_LEAD.strong}${HERO_LEAD.rest}`, 'CUET UG mocks that trace every lost mark to its chapter.');
   assert.ok(`${HERO_LEAD.strong}${HERO_LEAD.rest}`.length <= 76);
   // The visual lines read the approved sentence: CUET 2027. in the brand volt (D2, LK82, 5 Nov: #D2F000 Night; Day #526700 since R3-D1, LK101), plain text.
-  assert.match(HERO, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}\s*<span className="lp-title__line">\{HERO_LINES\[1\]\}<\/span>\{' '\}/);
+  assert.match(HERO, /<span className="lp-title__line lp-title__brand">\{HERO_LINES\[0\]\}<\/span>\{' '\}\s*<span className="lp-title__line"><HeroMark>\{HERO_LINES\[1\]\}<\/HeroMark><\/span>\{' '\}/);
   assert.match(HERO, /<HeroTyped \/>/);
   assert.match(CSS, /html\[data-theme\] \.mm\.lp \.lp-hero \.lp-title__brand \{ color: #d2f000; font-variant-numeric: lining-nums tabular-nums; letter-spacing: -0\.022em; \}/);
   assert.match(CSS, /html\[data-theme='light'\] \.mm\.lp \.lp-hero \.lp-title__brand \{ color: #526700; \}/);

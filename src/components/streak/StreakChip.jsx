@@ -8,6 +8,7 @@
 import { useSyncExternalStore } from 'react';
 import { chipLabel } from '@/lib/streak/streakCopy.mjs';
 import { openStreakSheet, useStreak } from './useStreak';
+import { StreakMobi } from './Streak';
 import './streak.css';
 
 /** Where the page shows the streak itself (the chip would repeat it). */
@@ -33,8 +34,9 @@ export default function StreakChip({ userId, path }) {
   return (
     <>
       <button type="button" className="stk-chip arena-acct__streak" aria-label={chipLabel(body.days, done)} onClick={() => openStreakSheet()} data-tour="streak-chip">
-        {/* The OMR bubble holds the number: volt once today counts, an ink ring until then. */}
-        <b className="stk-chip__n" data-done={done || undefined} data-wide={body.days > 99 || undefined} aria-hidden="true">{body.days}</b>
+        {/* The streak's mark (18 Nov 2026): Mobi asleep until today counts, lit once it does; then the number. */}
+        <StreakMobi lit={done} size={24} className="stk-chip__mobi" />
+        <b className="stk-chip__days" aria-hidden="true">{body.days}</b>
         <span className="stk-chip__unit" aria-hidden="true">{body.days === 1 ? 'day' : 'days'}</span>
       </button>
       <span className="arena-acct__rule" aria-hidden="true" />

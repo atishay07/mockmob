@@ -623,7 +623,7 @@ test('R3-D9: the final card keeps Sign up free and Log in, and gives a guest one
   const page = stripComments(read('src/app/page.js'));
   assert.match(page, /const INVITES_LIVE = referralsLive\(\);/, 'the server switch /signup reads');
   assert.match(page, /<CloseActions invites=\{INVITES_LIVE\} \/>/);
-  assert.match(page, /<MascotSeat station="close" pose="celebrating"/, 'Mobi stays');
+  assert.match(page, /<MascotSeat station="close" pose="wave"/, 'Mobi stays');
   const close = stripComments(read('src/components/landing/CloseActions.jsx'));
   assert.match(close, /\{invites && !isAuthenticated \? \(/, 'a guest, while invites are on');
   assert.match(close, /<Link href=\{INVITE_FIELD_HREF\} prefetch=\{false\}>\{REFERRAL_COPY\.homeInviteLink\}<\/Link>/);

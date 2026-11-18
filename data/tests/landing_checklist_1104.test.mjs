@@ -87,7 +87,7 @@ const JSX_TEXT = SURFACE_CODE;
 const RENDERED = [...COPY, ...[...JSX_TEXT.matchAll(/>([^<>{}]{3,})</g)].map((m) => m[1]), ...[...JSX_TEXT.matchAll(/(?:aria-label|label|title|note|caption|alt)=["']([^"']{3,})["']/g)].map((m) => m[1]), ...[...JSX_TEXT.matchAll(/'([A-Z][^'\n]{12,})'/g)].map((m) => m[1])];
 
 test('the landing file set was found (guard for the tests below)', () => {
-  for (const f of ['src/app/page.js', 'src/components/landing/HeroTyped.jsx', 'src/components/landing/OpeningMo.jsx', 'src/components/landing/ScrollStory.jsx', 'src/components/landing/Statement.jsx', 'src/components/landing/LabCinema.jsx', 'src/components/landing/FeatureTour.jsx']) {
+  for (const f of ['src/app/page.js', 'src/components/landing/HeroTyped.jsx', 'src/components/landing/OpeningMo.jsx', 'src/components/landing/ScrollStory.jsx', 'src/components/landing/Statement.jsx', 'src/components/landing/LabCinema.jsx', 'src/components/landing/TourDeck.jsx']) {
     assert.ok(LANDING_REL.includes(f), `${f} must be reached from page.js`);
   }
   assert.ok(LANDING_CSS.length >= 8, `landing css found: ${LANDING_CSS.length}`);
@@ -111,7 +111,7 @@ test('L-004 the full feature showcase is still there: every section, the tour, t
   // R3-D7 (owner LK107, 5 Nov 2026) supersedes the numbers band here: its true counts are lines of the one plan in #pricing
   // (HomePricing, PlanCounts), so the plan is what must be rendered, with the counts inside it.
   // R11: MistakeLab (the Recovery Lab's replay) left with its section; LabCinema tells the Lab once, in five scenes.
-  for (const part of ['FeatureTour', 'LabCinema', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
+  for (const part of ['TourDeck', 'LabCinema', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
     assert.match(PAGE_CODE, new RegExp(`<${part}[\\s/>]`), `<${part} /> is rendered`);
   }
   assert.match(code(read('src/components/landing/HomePricing.jsx')), /<PlanCounts groups=/, 'the bank and subject counts live in the plan card');
@@ -124,7 +124,7 @@ test('L-005 the scroll stories, reveals, count-up and object life of the previou
   for (const f of ['src/components/landing/ScrollStory.jsx', 'src/components/landing/Reveal.jsx', 'src/components/landing/PlanCounts.jsx', 'src/components/landing/useCountUp.js', 'src/components/brand/ObjectLife.jsx', 'src/components/landing/SectionPosition.jsx', 'src/components/brand/PipGuide.jsx']) {
     assert.ok(LANDING_REL.includes(f) || existsSync(join(ROOT, f)), `${f} exists`);
   }
-  for (const story of ['FeatureTour', 'LabCinema', 'MistakeLab', 'Statement']) assert.match(read(`src/components/landing/${story}.jsx`), /ScrollStory|useScrollStory|storyController/, `${story} is a held scroll story`);
+  for (const story of ['TourDeck', 'LabCinema', 'MistakeLab', 'Statement']) assert.match(read(`src/components/landing/${story}.jsx`), /ScrollStory|useScrollStory|storyController/, `${story} is a held scroll story`);
   assert.match(PAGE_CODE, /<Reveal[\s>]/, 'reveal entrances are kept');
   assert.match(PAGE_CODE, /<PipGuide\s*\/>/, 'the flying guide is kept');
   assert.match(PAGE_CODE, /objectStage|ObjectLife|shelf|SHELF/i, 'the shelf objects are kept');
@@ -443,15 +443,13 @@ test('L-027 one gesture advances one slide: the gesture model commits at most on
   assert.match(ctrl, /goTo\(s,\s*(s\.\w+|[\w.]+)\s*[+-]\s*dir\)|step\s*\+\s*dir|\+ ?dir|dir \* 1/, 'a gesture moves the story by a direction, not by travelled distance');
 });
 
-test('L-028 "What\'s inside MockMob" is a held story for a mouse or a trackpad (one gesture, one slide, paced by the shared gesture lock); on a touch screen it is a deck the finger swipes', () => {
-  const tour = code(read('src/components/landing/FeatureTour.jsx'));
+test('L-028 "What\'s inside MockMob" is a held story on every pointer: a deck the scroll deals (one gesture, one card for a mouse; the finger\'s own scroll on a touch screen)', () => {
+  const tour = code(read('src/components/landing/TourDeck.jsx'));
   assert.match(tour, /ScrollStory/);
-  // 17 Nov 2026 (owner, on his phone, of the held stage a finger had: "the previous version ... was better than this"; of
-  // the stack before it: "a wastage of vertical space"): held only for a mouse or a trackpad (TOUR_HOLD); every other
-  // pointer gets the deck, a row of cards the browser scrolls sideways (FeatureTour.jsx, r16-tour-stack.css).
-  assert.match(tour, /hold=\{TOUR_HOLD\}/);
-  assert.doesNotMatch(tour, /holdCalm=|\sfree\s/);
-  assert.match(read('src/components/landing/tourTaps.mjs'), /export const TOUR_HOLD = '\(hover: hover\) and \(pointer: fine\)';/);
+  // 18 Nov 2026 (owner, of the sideways row of cards a finger had since 17 Nov: "these sliding cards ... are not good. They
+  // have no animation ... no one will be able to understand that they have to touch it"; the Mistake Lab's scroll is the
+  // model): one held story on every pointer, like the Lab. No media query lets a pointer out of the hold.
+  assert.doesNotMatch(tour, /hold=\{|holdCalm=|\sfree\s/);
   assert.ok(homeCopy.buildTour({ studyLive: true, studyLessons: 4, studySubjects: 2, mobLive: true }).length >= 5, 'its slides are all still there (R11: five tools; the rest have their own sections)');
   const g = readFileSync(join(ROOT, 'src/components/landing/storyGesture.mjs'), 'utf8');
   assert.match(g, /LOCK_MS\s*=\s*(4\d\d|[5-9]\d\d)/, 'a step swallows the next 400 ms or more of input');
@@ -459,7 +457,7 @@ test('L-028 "What\'s inside MockMob" is a held story for a mouse or a trackpad (
 test.todo('L-028 a readable dwell per slide on the tour ("much slower than before"): a felt-speed judgement in real Chrome (scroll/RESULTS.md has the bench)');
 
 test('L-029 the statement, the Mistake Lab and the tour hold the screen and step their content (on a touch screen the tour steps with the finger\'s own scroll, 16 Nov 2026 night)', () => {
-  for (const f of ['Statement', 'LabCinema', 'FeatureTour']) assert.match(code(read(`src/components/landing/${f}.jsx`)), /ScrollStory/, `${f} is a held story`);
+  for (const f of ['Statement', 'LabCinema', 'TourDeck']) assert.match(code(read(`src/components/landing/${f}.jsx`)), /ScrollStory/, `${f} is a held story`);
   assert.match(PAGE_CODE, /<Statement\b/);
   // R11: the Recovery Lab's held story (MistakeLab) left the page with its section; the Mistake Lab tells the feature once.
   assert.match(PAGE_CODE, /<LabCinema\b/);
@@ -471,7 +469,7 @@ test('L-030 the tour\'s name carries "MockMob" in the brand colour (green in Nig
   assert.match(PAGE_CODE, /name: <>More inside <em>MockMob<\/em><\/>/, 'the position band names it with MockMob emphasised');
   assert.match(cssAll, /\.lp-pos__name em\s*\{[^}]*color:\s*var\(--brand-word\)/);
   assert.match(homeCopy.TOUR_HEAD.h2, /^More inside MockMob\.?$/);
-  assert.match(PAGE_CODE, /id="your-prep"[\s\S]{0,400}<FeatureTour/, 'heading and tour are one section');
+  assert.match(PAGE_CODE, /id="your-prep"[\s\S]{0,700}<TourDeck/, 'heading and tour are one section');
 });
 
 // ================================================================================================ L-031 .. L-032 phone composition
@@ -624,7 +622,7 @@ test('L-044 no Higgsfield or video scene is live on the landing; the scroll scen
   // place (heroFilmConfig.mjs, part of the landing's surface through HeroFilm).
   assert.ok(SURFACE.includes('src/components/landing/heroFilmConfig.mjs'), 'the film config is on the landing surface');
   assert.equal((code(sources(SURFACE)).match(/\/video\/hero-v5-\d+\.mp4/g) || []).length, 3, 'three film files, named once');
-  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
+  assert.doesNotMatch(code(sources(SURFACE.filter((f) => !/FeatureTour|TourDeck|HeroFilm/.test(f)))), /<video\b/, 'no video element outside the tour\'s optional slot and the hero film');
   assert.match(PAGE_CODE.slice(PAGE_CODE.indexOf('className="lp-hero"'), PAGE_CODE.indexOf('<CollegeStrip')), /<HeroFilm \/>/, 'the film is in the hero');
   assert.equal((PAGE_CODE.match(/<HeroFilm\b/g) || []).length, 1);
 });

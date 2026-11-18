@@ -154,7 +154,8 @@ test('R3-D2: the brand stamps are product names only, each with a desk object, s
   const page = read('src/app/page.js');
   // R11 (owner, 10 Nov 2026): the Score Recovery Lab merged into the Mistake Lab, so its stamp (kept in BRAND_STAMPS) is not drawn.
   for (const [key, h2] of [['lab', 'LAB_HEAD'], ['compass', 'COMPASS_HEAD'], ['instagram', 'INSTAGRAM_HEAD'], ['wall', 'WALL_HEAD']]) {
-    assert.match(page, new RegExp(`<BrandStamp \\{\\.\\.\\.BRAND_STAMPS\\.${key}\\} />\\n\\s*<h2 className="lp-h2"[^>]*>\\{${h2}\\.h2\\}`), `${key}: the stamp sits right above its h2`);
+    // 18 Nov 2026: a heading may carry one pen mark (<Marked text={X.h2} ... />); its words are still the head's own.
+    assert.match(page, new RegExp(`<BrandStamp \\{\\.\\.\\.BRAND_STAMPS\\.${key}\\} />\\n\\s*<h2 className="lp-h2"[^>]*>(?:<Marked text=)?\\{${h2}\\.h2\\}`), `${key}: the stamp sits right above its h2`);
   }
   assert.doesNotMatch(page, /BRAND_STAMPS\.recovery/);
   // 16 Nov 2026 (lane rhythm): the Daily Five and Sunday Mock section stamps its head too (dailyStripCopy.test.mjs pins where).

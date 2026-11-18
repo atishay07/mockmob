@@ -19,6 +19,11 @@ import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { LAB_SCENES } from './homeCopy.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
+import Doodle from '@/components/doodle/Doodle';
+
+// The pen on the Lab's screens (18 Nov 2026, owner LK308): one mark a scene, drawn after the screen's own rows have come in,
+// on the figure the scene is about. The screens are dark in both themes, so the pen is the dark screen's red and its volt.
+const PEN_AFTER = 1100;
 
 const S = labStory();
 const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
@@ -49,7 +54,7 @@ const HISTORY = S.earlierLine ? S.swot.partnershipLost.map((lost, i, all) => {
 }) : [];
 const HISTORY_MAX = Math.max(1, ...HISTORY.map((h) => h.lost));
 
-function ChaptersPanel() {
+function ChaptersPanel({ on = true }) {
   const foot = S.earlierLine ? S.earlierLine.split(/(\d+)/) : null;
   const blanks = S.chapters.some((c) => c.misses.some((m) => m.verdict === 'blank'));
   return (
@@ -64,7 +69,7 @@ function ChaptersPanel() {
               <small>{c.right} of {c.of} right</small>
               {i === 0 && c.lost ? <em className="lcp-ch__flag">Fix first</em> : null}
             </span>
-            <b className="lcp-ch__lost" aria-hidden="true">{signed(-c.lost)}</b>
+            <b className="lcp-ch__lost" aria-hidden="true">{i === 0 && c.lost ? <Doodle mark="circle" tone="pen-dark" when={on} delay={PEN_AFTER}>{signed(-c.lost)}</Doodle> : signed(-c.lost)}</b>
             <span className="lcp-ch__track" aria-hidden="true">
               <span className="lcp-ch__bar">{c.misses.map((m) => <i key={m.n} data-verdict={m.verdict} style={{ flexGrow: m.marks }} />)}</span>
               <span className="lcp-ch__qs">{c.misses.map((m) => <small key={m.n} data-verdict={m.verdict} style={{ flexGrow: m.marks }}>Q{m.n}</small>)}</span>
@@ -161,7 +166,7 @@ function changeWords(c) {
   return `Question ${c.n}: picked ${c.from} at ${c.at}, ${c.fromVerdict}. Changed to ${c.to} at ${c.toAt}, ${c.gap} later, ${c.toVerdict}. ${effect}`;
 }
 
-function ChangesPanel() {
+function ChangesPanel({ on = true }) {
   const lostCount = S.lostQuestions.length;
   return (
     <div className="lcp lcp--changes">
@@ -188,7 +193,7 @@ function ChangesPanel() {
       <div className="lcc-sum">
         <p data-tone="good" style={{ '--j': 0 }}><b>{signed(S.gainedMarks)}</b>Gained by {plural(S.gainedCount, 'change')}</p>
         <p data-tone="bad" style={{ '--j': 1 }}><b>{signed(S.lostToChanges)}</b>Lost to {plural(lostCount, 'change')}</p>
-        <p data-tone={S.net < 0 ? 'bad' : 'good'} data-net="true" style={{ '--j': 2 }}><b>{signed(S.net)}</b>Net effect</p>
+        <p data-tone={S.net < 0 ? 'bad' : 'good'} data-net="true" style={{ '--j': 2 }}><b><Doodle mark="circle" tone={S.net < 0 ? 'pen-dark' : 'volt-pen'} when={on} delay={PEN_AFTER + 500}>{signed(S.net)}</Doodle></b>Net effect</p>
       </div>
       <NetStrip />
       <p className="lcp__fine">Clock times count from the start of the paper.</p>
@@ -278,7 +283,7 @@ function RepairPanel() {
 }
 
 // ---------- 4. SWOT: Do these next, then the four groups ----------
-function SwotPanel() {
+function SwotPanel({ on = true }) {
   return (
     <div className="lcp lcp--swot">
       <p className="lcp__h">After this mock</p>
@@ -288,7 +293,7 @@ function SwotPanel() {
           {S.swot.plan.map((p, i) => (
             <li key={p.label} className="lcp-plan" data-first={i === 0 ? 'true' : undefined} style={{ '--i': i }}>
               <span className="lcp-plan__n" aria-hidden="true">{i + 1}</span>
-              <div><p className="lcp-plan__label">{p.label}</p><p className="lcp-plan__why">{p.reason}</p></div>
+              <div><p className="lcp-plan__label">{i === 0 ? <Doodle mark="underline" tone="volt-pen" when={on} delay={PEN_AFTER}>{p.label}</Doodle> : p.label}</p><p className="lcp-plan__why">{p.reason}</p></div>
               <span className="lcp-plan__go" aria-hidden="true">Set up</span>
             </li>
           ))}
@@ -395,7 +400,7 @@ function Stage({ step, pinned, reduced, goTo }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>
             </figure>
           </article>
         );

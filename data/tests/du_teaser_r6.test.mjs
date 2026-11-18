@@ -36,7 +36,7 @@ test('the component keeps its hrefs; the landing page no longer draws the compac
 test('the pricing seat uses the eyebrow and center classes; the DU seat stands at its head\'s right (17 Nov 2026)', () => {
   assert.doesNotMatch(page, /pip-seat--utility/);
   assert.equal((page.match(/pip-seat--eyebrow pip-seat--center/g) || []).length >= 1, true);
-  assert.match(page, /<div className="lp-guide-head"><Reveal className="lp-head lp-head--left">\s*<h2 className="lp-h2">\{DU_HEAD\.h2\}<\/h2>[\s\S]*?<MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me\." \/><\/div>/);
+  assert.match(page, /<div className="lp-guide-head"><Reveal className="lp-head lp-head--left">\s*<h2 className="lp-h2"><Marked text=\{DU_HEAD\.h2\}[^\n]*<\/h2>[\s\S]*?<MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me\." \/><\/div>/);
 });
 
 test('ticked chips stay revealed until Show fewer (kept list)', () => {

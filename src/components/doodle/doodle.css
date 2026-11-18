@@ -26,6 +26,9 @@
 .dd[data-tone='brand'] { --dd-ink: var(--brand-word, var(--ink)); }
 .dd[data-tone='pen'] { --dd-ink: var(--flag, #b93225); }
 html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
+/* On a screen that is dark in both themes (the Lab's and the tour's product screens). */
+.dd[data-tone='pen-dark'] { --dd-ink: #ff7a66; }
+.dd[data-tone='volt-pen'] { --dd-ink: #d2f000; }
 .dd--highlight { --dd-ink: var(--volt, #d2f000); }
 .dd--highlight[data-drawn='true'] { color: var(--volt-ink, #0b1000); transition: color 200ms ease var(--dd-delay, 0ms); }
 html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }

@@ -253,3 +253,5 @@ html[data-theme='light'] .app-shell .tsk__bar i[data-on] { box-shadow: inset 0 0
 html[data-motion='reduced'] .stk-mobi * { transition: none !important; }
 html[data-motion='reduced'] .app-shell .tsk[data-fresh] :is(.stk-mobi, .stk-mobi__eyes, .stk-bubble), html[data-motion='reduced'] .app-shell .tsk__n[data-roll] > span { animation: none !important; }
 html[data-motion='reduced'] .app-shell .tsk__n[data-roll] > span:first-child { display: none; }
+.stk-chip__mobi { margin-right: -1px; }
+.stk-chip__days { font: 750 15px/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
