@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Marked } from '@/components/doodle/Doodle';
 import { PlanCard } from '@/components/pricing/PlanCard';
 import { PlanStage } from '@/components/pricing/PlanStage';
 import { PLAN_COPY } from '@/components/pricing/planOffer.mjs';
@@ -39,7 +40,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
     <div className="mm-wrap lp-price">
       {seat}
       <Reveal className="lp-head lp-price__head">
-        <h2 className="lp-h2">{head.h2}</h2>
+        <h2 className="lp-h2"><Marked text={head.h2} marks={[['unlimited mocks.', { mark: 'highlight', tone: 'volt' }]]} /></h2>
         <p className="lp-price__rate">
           <span className="lp-sr">{head.rateText}</span>
           <span aria-hidden="true">

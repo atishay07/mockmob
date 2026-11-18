@@ -9,6 +9,7 @@ import { signupPathFor } from '@/lib/auth-redirect';
 import { BrandStamp } from './BrandStamp';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { Reveal } from './Reveal';
+import { Marked } from '@/components/doodle/Doodle';
 import { BRING_MISTAKE as W, BRING_MISTAKE_PATH, bringMistakeWords } from './bringMistakeCopy.mjs';
 import './bring-mistake.css';
 
@@ -72,7 +73,7 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
           {/* 17 Nov 2026: Mobi with the phone camera at the head's right (the photo is how most students will bring it). */}
           <div className="lp-guide-head bmk__guide"><Reveal className="bmk__head">
             <BrandStamp {...W.stamp} />
-            <h2 className="lp-h2" id="bmk-title">{W.h2}</h2>
+            <h2 className="lp-h2" id="bmk-title"><Marked text={W.h2} marks={[['wrong', { mark: 'circle', tone: 'pen' }]]} /></h2>
             <p className="lp-sub">{words.sub}</p>
           </Reveal><MascotSeat station="photo" pose="camera" label="Show me the page." /></div>
           <div className="bmk__value">

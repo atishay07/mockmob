@@ -16,13 +16,18 @@ import { useMemo } from 'react';
 import ScrollStory from './ScrollStory';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { STATEMENT_HOLD, STATEMENT_STEPS, statementWords } from './statementSteps.mjs';
+import Doodle from '@/components/doodle/Doodle';
+
+// The pen marks the three words the sentence turns on (18 Nov 2026, owner LK308), each as its clause lights: held (a phone),
+// when its step comes on; scrubbed (a desktop), when the word has come up the window.
+const STATEMENT_MARKS = Object.freeze({ where: 'circle', tonight: 'underline', shortlist: 'double' });
 
 /** The note with its figures' phrases ("15 subjects", "19 of every 20 CUET papers") marked; any other note stays plain. */
 function noteParts(note) {
   return String(note).split(/(\d+ subjects|\d+ of every \d+ CUET papers)/).map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
 }
 
-function StatementStage({ text, shelf, note }) {
+function StatementStage({ text, shelf, note, step = 0, pinned = false }) {
   const words = useMemo(() => statementWords(text), [text]);
   return (
     <div className="mm-wrap lp-statement__grid">
@@ -32,7 +37,7 @@ function StatementStage({ text, shelf, note }) {
           const [, core, mark] = word.accent ? word.text.match(/^(.*?)([.,;:!?]*)$/) : [null, word.text, ''];
           return (
             <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-brand={word.brand || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
-              {core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}{i < words.length - 1 ? ' ' : ''}
+              {word.accent && STATEMENT_MARKS[core.toLowerCase()] ? <Doodle mark={STATEMENT_MARKS[core.toLowerCase()]} tone="brand" delay={180} when={pinned ? step >= word.clause : undefined}>{core}</Doodle> : core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}{i < words.length - 1 ? ' ' : ''}
             </span>
           );
         })}

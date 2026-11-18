@@ -40,6 +40,8 @@ import HeroTyped from '@/components/landing/HeroTyped';
 import { HomeFonts } from '@/components/landing/HomeFonts';
 import { Statement } from '@/components/landing/Statement';
 import TourDeck from '@/components/landing/TourDeck';
+import { Marked } from '@/components/doodle/Doodle';
+import HeroMark from '@/components/landing/HeroMark';
 import LabCinema from '@/components/landing/LabCinema';
 import { SectionPosition } from '@/components/landing/SectionPosition';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
@@ -179,7 +181,7 @@ export default function LandingPage() {
                 {/* Three block lines with a space between them, so a screen reader and a search engine read the sentence
                     "CUET 2027. One mock. Know what to fix." (HERO_SENTENCE); the h1 is the page's largest paint. */}
                 <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>{' '}
-                <span className="lp-title__line">{HERO_LINES[1]}</span>{' '}
+                <span className="lp-title__line"><HeroMark>{HERO_LINES[1]}</HeroMark></span>{' '}
                 {/* The third line types once and rests on HERO_LINES[2] (HeroTyped, P3); its server text is that line. */}
                 <HeroTyped />
                 </>}
@@ -218,7 +220,7 @@ export default function LandingPage() {
         <section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
           <div className="mm-wrap lp-try__wrap">
             <div className="lp-head lp-try__head">
-              <h2 className="lp-h2" id="try-title">{TRY_HEAD.h2}</h2>
+              <h2 className="lp-h2" id="try-title"><Marked text={TRY_HEAD.h2} marks={[['five', { mark: 'double' }]]} /></h2>
               <p className="lp-sub">{TRY_HEAD.sub}</p>
             </div>
             <div className="lp-desk" id="try-practice">
@@ -245,7 +247,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <BrandStamp {...BRAND_STAMPS.lab} />
-              <h2 className="lp-h2" id="inside-the-lab-title">{LAB_HEAD.h2}</h2>
+              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
@@ -273,7 +275,7 @@ export default function LandingPage() {
             <div className="mm-wrap lp-kc__grid">
               <Reveal className="lp-head lp-head--left lp-kc__head">
                 <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>
-                <h2 className="lp-h2" id="key-cards-title">{headPhrases(KEY_CARDS_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
+                <h2 className="lp-h2" id="key-cards-title">{headPhrases(KEY_CARDS_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['on time.', { mark: 'circle', tone: 'brand' }]]} /></span>)}</h2>
                 <p className="lp-sub">{KEY_CARDS_HEAD.sub}</p>
               </Reveal>
               <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} subjects={KEY_CARDS.subjects} />
@@ -301,7 +303,7 @@ export default function LandingPage() {
             {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.rhythm} />
-              <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase">{i < all.length - 1 ? `${phrase} ` : phrase}</span>)}</h2>
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['your college.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
               <p className="lp-sub">{STRIP_HEAD.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             <DailyFiveRow where="home" />
@@ -314,7 +316,7 @@ export default function LandingPage() {
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
                 <BrandStamp {...BRAND_STAMPS.compass} />
-                <h2 className="lp-h2">{COMPASS_HEAD.h2}</h2>
+                <h2 className="lp-h2"><Marked text={COMPASS_HEAD.h2} marks={[['real cutoffs.', { mark: 'double' }]]} /></h2>
                 <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
@@ -340,7 +342,7 @@ export default function LandingPage() {
             {/* 17 Nov 2026: the head starts on the page's one left edge with Mobi at its right, as the Compass's does (the
                 owner's 16 Nov phone rule: every word in a block starts on one edge); it was centred over a left-aligned tool. */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2">{DU_HEAD.h2}</h2>
+              <h2 className="lp-h2"><Marked text={DU_HEAD.h2} marks={[['open to you?', { mark: 'circle' }]]} /></h2>
               <p className="lp-sub">{DU_HEAD.sub}</p>
             </Reveal><MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." /></div>
             {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
@@ -410,7 +412,7 @@ export default function LandingPage() {
           <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="wave" label={CLOSE.mobi} />
-            <h2 className="lp-h2 lp-h2--xl">{CLOSE.h2}</h2>
+            <h2 className="lp-h2 lp-h2--xl"><Marked text={CLOSE.h2} marks={[['first mock?', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
             <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions invites={INVITES_LIVE} />
           </Reveal>

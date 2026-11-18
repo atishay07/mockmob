@@ -40,6 +40,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
 import { Reveal } from './Reveal';
+import { Marked } from '@/components/doodle/Doodle';
 import { ExamDevice } from './ExamDevice';
 import { EXAM, EXAM_HEAD } from './homeCopy.mjs';
 import '@/app/exam-screen.css';
@@ -429,7 +430,7 @@ export function ExamScreen() {
     <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="xs-layout">
-        <Reveal className="lp-head lp-head--left xs-head"><h2 className="lp-h2" id="exam-title">{EXAM_HEAD.h2}</h2></Reveal>
+        <Reveal className="lp-head lp-head--left xs-head"><h2 className="lp-h2" id="exam-title"><Marked text={EXAM_HEAD.h2} marks={[['exam day.', { mark: 'underline' }]]} /></h2></Reveal>
         <Reveal className="lp-head lp-head--left xs-sub"><p className="lp-sub">{EXAM_HEAD.sub}</p></Reveal>
         {/* He holds the answer sheet beside the heading and never inside the paper: no distractions in an exam. */}
         <MascotSeat station="demo" pose="reading" label="Try both screens." className="pip-seat--demo xs-seat" />

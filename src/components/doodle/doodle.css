@@ -1,0 +1,36 @@
+/* Doodle (18 Nov 2026, owner LK308): the pen and the highlighter on the paper. Doodle.jsx makes each mark for its words'
+   own box; this sheet is the ink. A stroke is its own length of dash, pulled in from its start; the highlighter is one
+   filled swipe uncovered from the left. Each is drawn once, on the page's own ease-out, and then never moves. */
+.dd { position: relative; display: inline-block; white-space: nowrap; isolation: isolate; }
+.dd__ink { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: -1; }
+/* A pen stroke lies over the words' own layer edge, a highlighter under the words. */
+.dd:not(.dd--highlight) > .dd__ink { z-index: 1; }
+
+.dd__stroke {
+  fill: none; stroke: var(--dd-ink, currentColor); stroke-width: var(--dd-pen, 2px); stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: var(--dd-len, 0); stroke-dashoffset: var(--dd-len, 0);
+  opacity: 0;
+}
+.dd__stroke[data-ready='true'] { opacity: 1; }
+.dd[data-drawn='true'] .dd__stroke {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--dd-stroke-ms, 400ms) cubic-bezier(0.23, 1, 0.32, 1) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms));
+}
+
+.dd__fill { fill: var(--dd-ink, var(--volt)); clip-path: inset(-10% 100% -10% -4%); }
+.dd[data-drawn='true'] .dd__fill { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) cubic-bezier(0.23, 1, 0.32, 1) var(--dd-delay, 0ms); }
+
+/* Tones. The pen follows the words' own ink unless told; the highlighter is volt, and its words take the ink that reads
+   on volt in both themes. */
+.dd[data-tone='ink'] { --dd-ink: var(--ink); }
+.dd[data-tone='brand'] { --dd-ink: var(--brand-word, var(--ink)); }
+.dd[data-tone='pen'] { --dd-ink: var(--flag, #b93225); }
+html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
+.dd--highlight { --dd-ink: var(--volt, #d2f000); }
+.dd--highlight[data-drawn='true'] { color: var(--volt-ink, #0b1000); transition: color 200ms ease var(--dd-delay, 0ms); }
+html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dd[data-drawn='true'] .dd__stroke, .dd[data-drawn='true'] .dd__fill, .dd--highlight[data-drawn='true'] { transition: none; }
+}
+html[data-motion='reduced'] .dd[data-drawn='true'] :is(.dd__stroke, .dd__fill), html[data-motion='reduced'] .dd--highlight[data-drawn='true'] { transition: none; }

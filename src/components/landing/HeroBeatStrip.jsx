@@ -1,4 +1,5 @@
 import { STRIP_OBJECT_BOX, STRIP_OBJECT_SIZES, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
+import Doodle from '@/components/doodle/Doodle';
 
 // The hero's features strip (round 4, owner LK124, 5 Nov 2026; supersedes R3-D3's number strip of 5 / 73 / 2 / 60, which the
 // owner called "very useless"): MockMob's main features (heroTaps.mjs heroFeatures), each one link to where it lives on this
@@ -29,7 +30,7 @@ export default function HeroBeatStrip({ items, label, hook = null }) {
       {hook ? (
         <a href={hook.href} className="lp-strip__hook">
           <span className="lp-strip__hook-lead">{hook.lead}</span>{' '}
-          <b className="lp-strip__hook-fig">{hook.figure}</b>{' '}
+          <b className="lp-strip__hook-fig"><Doodle mark="circle" tone="brand">{hook.figure}</Doodle></b>{' '}
           <span className="lp-strip__hook-unit">{hook.unit}</span>{' '}
           {/* The pace never parts from the figure's line; it moves down whole only where the line is full (phones). */}
           <span className="lp-strip__hook-at">{hook.at}<span className="sr-only">.</span></span>{' '}
