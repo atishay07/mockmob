@@ -3,11 +3,16 @@
 // Score by session, drawn as a line the student can scrub. The pointer (or a finger, or the arrow
 // keys) snaps to a real session, and the chip says what that session scored and how it compares
 // with the one before. Nothing between sessions is interpolated or implied: dots are sessions.
+// Lane insight (18 Nov 2026): ruled at the score's own round values (every 25), and each session's dot is a key of its own
+// (one tab stop for the chart; the arrow keys, Home and End move between dots), so a figure can be reached by focus as well
+// as by a tap or the pointer. The pointer and a finger still scrub the whole plot.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from '@/lib/motion';
 
 const PAD = { l: 38, r: 24, t: 14, b: 26 }; // r leaves the last point and its date clear of the edge
 const HEIGHT = 200;
+/** The horizontal rules: the score's round values, 0 to 100 in steps of 25. */
+export const TREND_TICKS = Object.freeze([0, 25, 50, 75, 100]);
 
 const dayLabel = (at) => {
   const date = new Date(at);
@@ -71,20 +76,26 @@ export default function TrendScrub({ timeline, colors }) {
     const i = nearest(event.clientX);
     if (i !== null) setActive(i);
   };
+  // The arrow keys move between the dots and take the focus with them, so the focused dot is always the session shown.
+  const go = (i) => {
+    const next = Math.max(0, Math.min(count - 1, i));
+    setPicked(next);
+    wrap.current?.querySelectorAll('.tr__pt')[next]?.focus();
+  };
   const onKey = (event) => {
     const step = event.key === 'ArrowRight' || event.key === 'ArrowUp' ? 1 : event.key === 'ArrowLeft' || event.key === 'ArrowDown' ? -1 : 0;
-    if (event.key === 'Home') { event.preventDefault(); setActive(0); return; }
-    if (event.key === 'End') { event.preventDefault(); setActive(count - 1); return; }
+    if (event.key === 'Home') { event.preventDefault(); go(0); return; }
+    if (event.key === 'End') { event.preventDefault(); go(count - 1); return; }
     if (!step) return;
     event.preventDefault();
-    setPicked(Math.max(0, Math.min(count - 1, active + step)));
+    go(active + step);
   };
 
   const path = geometry.points.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
   const label = trendLabel(timeline, active);
   const [ax, ay] = geometry.points[active] || [0, 0];
   const diff = active > 0 ? timeline[active].score - timeline[active - 1].score : null;
-  const ticks = [0, 50, 100];
+  const ticks = TREND_TICKS;
   const every = Math.max(1, Math.ceil(count / 6));
 
   return (
@@ -93,13 +104,8 @@ export default function TrendScrub({ timeline, colors }) {
         ref={wrap}
         className="tr__plot"
         style={{ height: HEIGHT }}
-        role="slider"
-        tabIndex={0}
+        role="group"
         aria-label="Score by session. Use the arrow keys to move between sessions."
-        aria-valuemin={1}
-        aria-valuemax={count}
-        aria-valuenow={active + 1}
-        aria-valuetext={label}
         onPointerDown={onPointer}
         onPointerMove={onPointer}
         onKeyDown={onKey}
@@ -121,6 +127,21 @@ export default function TrendScrub({ timeline, colors }) {
           ))}
           <circle className="tr__halo" key={`halo-${active}`} cx={ax} cy={ay} r="6" fill="none" stroke={colors.accent} strokeWidth="2" />
         </svg>
+        {/* One key per session over its dot: focus or a tap shows that session's figure. Only the shown one is in the tab
+            order; the pointer passes through to the plot's scrub. */}
+        {geometry.points.map(([x, y], i) => (
+          <button
+            key={i}
+            type="button"
+            className="tr__pt"
+            style={{ left: x, top: y }}
+            tabIndex={i === active ? 0 : -1}
+            aria-pressed={i === active}
+            aria-label={trendLabel(timeline, i)}
+            onFocus={() => setPicked(i)}
+            onClick={() => setPicked(i)}
+          />
+        ))}
       </div>
       <p className="tr__chip" data-tone={diff === null ? 'flat' : diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat'} key={active}>
         <b>{label}</b>

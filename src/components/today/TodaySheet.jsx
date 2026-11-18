@@ -4,6 +4,7 @@
 // wide screen it sits centred. Opening and closing are 240 ms and 160 ms ease-out; reduced motion fades only.
 import { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import './today-sheet.css';
 
 export default function TodaySheet({ open, onClose, title, lede = '', children, id }) {
   const ref = useRef(null);
