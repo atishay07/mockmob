@@ -2,8 +2,9 @@
 
 // The ways into Search (lane palette, 18 Nov 2026).
 //   <SearchKey />    the rail's quiet field-shaped key, right above Today: a search icon, "Search", and the key hint as two
-//                    caps (Ctrl Space on Windows and Linux since 19 Nov, ⌘ K on a Mac, read after mount; Ctrl Space until then,
-//                    so the server and the first render agree). aria-keyshortcuts lists every key that works (searchShortcut).
+//                    caps (Shift Shift on Windows, Linux and ChromeOS since 20 Nov: Shift tapped twice; ⌘ K on a Mac, read after
+//                    mount; Shift Shift until then, so the server and the first render agree). aria-keyshortcuts lists the chords
+//                    that work (searchShortcut); ARIA cannot express a double tap.
 //   <SearchField />  the phone and tablet field (no rail there): full width, 44 px, no key hint. On the You page and at the top
 //                    of the Start sheet. `onOpen` lets the Start sheet step aside first and hand Search the opener.
 import { useSyncExternalStore } from 'react';
@@ -38,7 +39,8 @@ export function SearchKey() {
     >
       <Search className="srch-key__icon" size={17} strokeWidth={2} aria-hidden="true" />
       <span className="srch-key__word">Search</span>
-      <span className="srch-key__caps" aria-hidden="true">{keys.caps.map((cap) => <kbd key={cap}>{cap}</kbd>)}</span>
+      {/* Two caps: Shift Shift on Windows, Linux and ChromeOS (Shift tapped twice), ⌘ K on a Mac. */}
+      <span className="srch-key__caps" aria-hidden="true">{keys.caps.map((cap, i) => <kbd key={`${i}-${cap}`}>{cap}</kbd>)}</span>
     </button>
   );
 }

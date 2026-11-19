@@ -2,7 +2,7 @@
 
 // The composer of Ask Mobi's chat (16 Nov 2026; the owner, that evening: "I don't see any way to upload a photo here"). One
 // calm container, always on screen: on the /mentor page it is pinned above the phone's dock and above the on-screen keyboard
-// (the visual viewport decides, so it is never under either); in the docked panel, overlay and sheet it is the panel's foot.
+// (the visual viewport decides, so it is never under either); in the floating window and the phone sheet it is the panel's foot.
 //
 //  * A textarea that grows from 1 line to about 6. Enter sends where there is a real keyboard and a doubt is being typed;
 //    Shift+Enter makes a line; on a phone Enter makes a line and the send key sends. Ctrl or Cmd + Enter sends everywhere.

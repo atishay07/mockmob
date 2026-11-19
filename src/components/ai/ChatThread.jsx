@@ -1,6 +1,6 @@
 "use client";
 
-// The thread of Ask Mobi's chat (16 Nov 2026), shared by the /mentor page and the docked panel, overlay and sheet: one set of
+// The thread of Ask Mobi's chat (16 Nov 2026), shared by the /mentor page, the floating window and the phone sheet: one set of
 // parts, two frames. The engine and its rules are in AskMobiPanel.jsx; the words in chatCopy.mjs; this file only draws.
 //
 //  * UserTurn: the student's words, right, on ink. A photo is a thumbnail in the bubble that opens to a full view.

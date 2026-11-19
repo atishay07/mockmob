@@ -189,12 +189,35 @@ test('T3: for a student with no saved session the Your colleges strip sits under
   const page = read('src/app/(app)/today/page.jsx');
   // R4 client-code#2: ONE strip is built, once the first-session fact is known, and placed in one slot.
   assert.equal((page.match(/<TodayCollegesStrip /g) || []).length, 1, 'one strip element in the page, never two copies');
-  assert.match(page, /const strip = everSessions !== null \? <TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/> : null;/, 'nothing is drawn while the first-session fact is unknown');
+  // 20 Nov 2026 (the owner's levels): from 1100 px the greeting stands alone, so the page's strip is built for phones and tablets
+  // only; the wide screen's Your colleges section carries the strip's line itself (TodayColleges withStrip).
+  assert.match(page, /const strip = everSessions !== null && !wideHead \? <TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/> : null;/, 'nothing is drawn while the first-session fact is unknown');
   assert.match(page, /const stripBelow = dayOne && !wideHead;/);
-  assert.match(page, /\{stripBelow \? null : dayOne \? <div className="today__colleges-head">\{strip\}<\/div> : strip\}/, 'the header strip is for everyone else, and for the new student from 1100 px');
+  assert.match(page, /\{dayOne \? null : strip\}/, 'the header strip is for everyone else on a phone or tablet');
   assert.match(page, /\{stripBelow \? <div className="today__colleges">\{strip\}<\/div> : null\}/);
-  assert.match(page, /<TodayColleges userId=\{userId\} subjects=\{user\?\.subjects \|\| \[\]\} hold=\{landing\} \/>/, 'the block at the end stays');
+  assert.match(page, /<TodayColleges userId=\{userId\} subjects=\{user\?\.subjects \|\| \[\]\} hold=\{landing\} withStrip=\{wideHead && everSessions !== null\} \/>/, 'the block at the end stays, and takes the strip from 1100 px');
   const sheet = read('src/components/today/today.css');
-  assert.match(sheet, /\.app-shell \.today-grid \.today__colleges \{ order: 2; \}\n\.app-shell \.today__colleges-head \{ display: none; \}/);
-  assert.match(sheet, /@media \(min-width: 1100px\) \{\n  \.app-shell \.today__colleges-head \{ display: block; \}\n  \.app-shell \.today-grid \.today__colleges \{ display: none; \}/);
+  assert.match(sheet, /\.app-shell \.today-grid \.today__colleges \{ order: 2; \}/);
+  assert.match(sheet, /@media \(min-width: 1100px\) \{\n  \.app-shell \.today-grid \.today__colleges \{ display: none; \}/);
+});
+
+test('Levels (20 Nov 2026): from 1100 px the greeting stands alone and every column opens with a heading of one kind', () => {
+  const page = read('src/app/(app)/today/page.jsx');
+  const head = page.slice(page.indexOf('<header className="today__head">'), page.indexOf('</header>'));
+  assert.doesNotMatch(head, /today__colleges-head/, 'nothing sits beside the greeting');
+  // "Up next" is the lead card's section heading, in the shared .tg__h style, first in the doing column.
+  assert.match(page, /<div className="today-grid__main">\s*<h2 className="tg__h today-lead__h">\{leadHead\}<\/h2>/);
+  assert.match(page, /const leadHead = phase === 'ready' && lead\?\.id === 'done' \? 'Today' : phase === 'ready' && picked \? 'Up next, your pick' : 'Up next';/);
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /<h3 id="tm-title" className="sr-only">\{heading\}<\/h3>/, 'the card is a sub-section of the page heading');
+  assert.match(move, /<span className="tm__lead">/, 'the card\'s own "Up next" words are marked so the wide screen can drop them');
+  const sheet = read('src/components/today/today.css');
+  assert.doesNotMatch(sheet, /today__head:has\(/, 'no :has() on the head, and no strip grid beside the greeting');
+  assert.match(sheet, /\.app-shell \.today-lead__h \{ position: absolute;/, 'phones read the heading out; the card keeps its overline');
+  assert.match(sheet, /\.app-shell \.tm__over\[data-lead\], \.app-shell \.tm__lead \{ display: none; \}/, 'from 1100 px the card does not say it again');
+  assert.match(sheet, /\.today-grid__side > \.trd \{ break-before: column; \}/, 'the third column opens with Road to CUET\'s heading');
+  // The strip inside Your colleges says only what the section does not: a different college, ready.
+  const strip = read('src/components/today/TodayCollegesStrip.jsx');
+  assert.match(strip, /if \(inSection && \(view\.kind !== 'ready' \|\| !view\.college \|\| view\.college === except\)\) return null;/);
+  assert.match(read('src/components/today/TodayColleges.jsx'), /\{withStrip \? <TodayCollegesStrip userId=\{userId\} inSection except=\{first\.college\} \/> : null\}/);
 });

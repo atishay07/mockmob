@@ -5,96 +5,104 @@ import { useEffect, useRef, useState } from 'react';
 import AskMobiPanel from './AskMobiPanel';
 import { drawerForm, normalizeContext } from './askMobi.mjs';
 import './ask-mobi.css';
+import './mobi-launch.css';
 
-// Ask Mobi's one panel in three forms (ASK-MOBI-1018, section 5; the launcher's rule 19 Nov 2026, drawerForm in askMobi.mjs):
-// - Docked at the right, 400 px, from under the top bar to the bottom: from 1680 px whoever opened it, and from 1280 px for an
-//   ask from inside a page. No scrim: the page stays visible and usable (the student keeps Q7 in view while asking about it), so
-//   it is a complementary region, not a modal. The shell's main area gives up the panel's width while it is open (data-mobi-dock
-//   and --mobi-dock-w on the shell; one change, caused by the student).
-// - Overlay: a panel at the right, 400 px, over a light scrim, from 768 px (and the launcher's open below 1680 px). Click outside
-//   or Esc closes it.
-// - Below 768 px: a bottom sheet as tall as its content, 92 px short of the top at most. The handle drags it; a flick
-//   down (faster than 0.11 px/ms) or a drag past 35 % of its height closes it.
-// Enter is slower than exit: the student is arriving; on close the system gets out of the way. Reduced motion: fades only.
+// Ask Mobi's one conversation in its frames (ASK-MOBI-1018; the chat box 20 Nov 2026, owner: "this entire chatbot could just be, on
+// the bottom, an opaque or glass-morphism kind of small chat box, which can then be expanded into a full page or window"):
+// - From 768 px, a floating window (form 'window'): 400 px wide and up to 640 px tall, its bottom right corner where the chat box
+//   rests (24 px from the right, 20 px from the bottom). It floats OVER the page with no scrim, so the page behind keeps its width,
+//   its layout and its scrolling (the 19 Nov dock narrowed it by 400 px and pushed Practice into its stacked form). It is a
+//   non-modal dialog: Esc closes it while focus is inside it.
+// - "Make larger" turns the same window into a centred one, min(960px, 92vw) by min(86vh, 900px), over a plain dim scrim, with a
+//   reading column of 720 px; "Make smaller" (or a press on the scrim) brings it back. The conversation goes on through both: the
+//   panel is never remounted by a size change. Larger, it is modal: focus stays inside it.
+// - Below 768 px: a phone's bottom sheet as tall as its content, 92 px short of the top at most, exactly as before. The handle drags
+//   it; a flick down (faster than 0.11 px/ms) or a drag past 35 % of its height closes it.
+// The window opens from the chat box's own place (scale and fade from its bottom right corner, 180 ms) and closes back into it
+// (140 ms). Enter is slower than exit. Reduced motion: fades only.
 const DRAWER = [0.32, 0.72, 0, 1];
 const OUT = [0.23, 1, 0.32, 1];
 const FLICK = 110; // px per second (0.11 px/ms)
 const CLOSE_SHARE = 0.35;
 
-export function formFor(width, { launcher = false } = {}) {
-  return drawerForm(width, { launcher });
+export function formFor(width) {
+  return drawerForm(width);
 }
 
-function useForm(launcher) {
-  const [form, setForm] = useState(() => (typeof window === 'undefined' ? 'dock' : formFor(window.innerWidth, { launcher })));
+function useForm() {
+  const [form, setForm] = useState(() => (typeof window === 'undefined' ? 'window' : formFor(window.innerWidth)));
   useEffect(() => {
-    const queries = ['(min-width: 1680px)', '(min-width: 1280px)', '(min-width: 768px)'].map((q) => window.matchMedia(q));
-    const update = () => setForm(formFor(window.innerWidth, { launcher }));
-    queries.forEach((q) => q.addEventListener('change', update));
-    return () => queries.forEach((q) => q.removeEventListener('change', update));
-  }, [launcher]);
+    const query = window.matchMedia('(min-width: 768px)');
+    const update = () => setForm(formFor(window.innerWidth));
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
   return form;
 }
 
 const PAGE = normalizeContext({ kind: 'page' });
+const FOCUSABLE = 'a[href],button:not(:disabled),textarea:not(:disabled),input:not(:disabled),[tabindex="0"]';
 
-export default function AssistantDrawer({ open, onClose, context = PAGE, onForm, launcher = false }) {
+export default function AssistantDrawer({ open, onClose, context = PAGE, onForm, launcher = false, pageHref = '/mentor' }) {
   const reduced = useReducedMotion();
-  const form = useForm(launcher);
+  const form = useForm();
+  const [size, setSize] = useState('small');
+  const large = form === 'window' && size === 'large';
+  const modal = form === 'sheet' || large;
   const panel = useRef(null);
   const drag = useDragControls();
   const close = useRef(onClose);
+  const formNow = useRef(form);
   useEffect(() => { close.current = onClose; }, [onClose]);
+  useEffect(() => { formNow.current = form; }, [form]);
   useEffect(() => { onForm?.(open ? form : null); }, [form, open, onForm]);
-  const modal = form !== 'dock';
 
+  // Focus goes in once as it opens (the composer on a wide screen, the panel itself on a phone, so no keyboard jumps up) and back
+  // to what opened it as it closes. A size change is not an open: focus stays where the student left it.
   useEffect(() => {
     if (!open) return undefined;
     const previous = document.activeElement;
-    // Focus lands inside the panel: the composer on a wide screen, the panel itself on a phone (no keyboard jump).
     const frame = requestAnimationFrame(() => {
-      const target = form === 'sheet' ? panel.current : panel.current?.querySelector('textarea:not(:disabled)') || panel.current;
+      const target = formNow.current === 'sheet' ? panel.current : panel.current?.querySelector('textarea:not(:disabled)') || panel.current;
       target?.focus({ preventScroll: true });
     });
+    return () => {
+      cancelAnimationFrame(frame);
+      if (previous?.isConnected && previous !== document.body) previous.focus({ preventScroll: true });
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return undefined;
     const onKey = (event) => {
+      const now = document.activeElement;
+      const inside = Boolean(now && panel.current?.contains(now));
       if (event.key === 'Escape') {
-        // Docked, the page stays usable: Esc closes only when focus is in the panel or on nothing in particular.
-        // The launcher that opened it counts as the panel's own (19 Nov): Esc on it closes the panel too.
-        const now = document.activeElement;
-        if (!modal && now && now !== document.body && !panel.current?.contains(now) && !now.closest?.('.mobi-launch')) return;
+        // The small window leaves the page usable: Esc closes it only when focus is inside it. Larger, or a phone's sheet, is modal.
+        if (!modal && !inside) return;
+        if (event.defaultPrevented) return;
         event.preventDefault(); close.current(); return;
       }
       if (!modal || event.key !== 'Tab') return;
-      const controls = [...(panel.current?.querySelectorAll('a[href],button:not(:disabled),textarea:not(:disabled),[tabindex="0"]') || [])].filter((node) => node.getClientRects().length);
+      const controls = [...(panel.current?.querySelectorAll(FOCUSABLE) || [])].filter((node) => node.getClientRects().length);
       const first = controls[0]; const last = controls.at(-1);
-      if (event.shiftKey && (document.activeElement === first || document.activeElement === panel.current)) { event.preventDefault(); last?.focus(); }
-      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      if (!inside) { event.preventDefault(); first?.focus(); return; }
+      if (event.shiftKey && (now === first || now === panel.current)) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && now === last) { event.preventDefault(); first?.focus(); }
     };
     document.addEventListener('keydown', onKey);
-    return () => {
-      cancelAnimationFrame(frame);
-      document.removeEventListener('keydown', onKey);
-      if (previous?.isConnected && previous !== document.body) previous.focus({ preventScroll: true });
-    };
-  }, [open, form, modal]);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, modal]);
 
-  // Docked, the panel starts under the top bar: its real lower edge, read on open and as the page scrolls (a strip above
-  // the bar, such as the development preview's note, moves it down until it scrolls away).
+  // A size change answers the student's press: the same window settles into its new frame (opacity and scale, 200 ms).
+  const sized = useRef(size);
   useEffect(() => {
-    if (!open || form !== 'dock') return undefined;
-    let frame = 0;
-    const place = () => {
-      frame = 0;
-      const bar = document.querySelector('.app-shell .arena-topbar');
-      const bottom = bar ? Math.max(0, Math.round(bar.getBoundingClientRect().bottom)) : null;
-      if (bottom !== null) panel.current?.style.setProperty('--amb-top', `${bottom}px`);
-    };
-    const onScroll = () => { if (!frame) frame = requestAnimationFrame(place); };
-    place();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); };
-  }, [open, form]);
+    if (sized.current === size) return;
+    sized.current = size;
+    const node = panel.current;
+    if (!node?.animate || reduced) return;
+    node.animate([{ opacity: 0.55, transform: 'scale(0.97)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+  }, [size, reduced]);
 
   const motionFor = () => {
     if (reduced) {
@@ -109,9 +117,9 @@ export default function AssistantDrawer({ open, onClose, context = PAGE, onForm,
       };
     }
     return {
-      initial: { x: 24, opacity: 0 },
-      animate: { x: 0, opacity: 1, transition: { duration: 0.24, ease: DRAWER } },
-      exit: { x: 24, opacity: 0, transition: { duration: 0.16, ease: OUT } },
+      initial: { opacity: 0, scale: 0.92, y: 8 },
+      animate: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.18, ease: OUT } },
+      exit: { opacity: 0, scale: 0.92, y: 8, transition: { duration: 0.14, ease: OUT } },
     };
   };
 
@@ -127,34 +135,45 @@ export default function AssistantDrawer({ open, onClose, context = PAGE, onForm,
   return (
     <AnimatePresence>
       {open ? (
-        <div className={`amb-layer amb-layer--${form}`} key="amb-layer">
+        <div className={`amb-layer amb-layer--${form}${large ? ' amb-layer--large' : ''}`} key="amb-layer">
           {modal ? (
             <motion.button
               type="button"
               className="amb-scrim"
-              onClick={onClose}
-              aria-label="Close Ask Mobi"
+              onClick={large ? () => setSize('small') : onClose}
+              aria-label={large ? 'Make smaller' : 'Close Ask Mobi'}
+              aria-hidden="true"
               tabIndex={-1}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: reduced ? 0.12 : 0.22 }}
+              transition={{ duration: reduced ? 0.12 : 0.18 }}
             />
           ) : null}
           <motion.section
             ref={panel}
             tabIndex={-1}
-            role={modal ? 'dialog' : 'complementary'}
+            role="dialog"
             aria-modal={modal ? 'true' : undefined}
             aria-labelledby="ask-mobi-title"
             className={`amb-panel amb-panel--${form}`}
+            data-size={form === 'window' ? size : undefined}
+            data-launcher={launcher || undefined}
             {...motionFor()}
             {...sheetProps}
           >
             {form === 'sheet' ? (
               <div className="amb-grab" onPointerDown={(event) => drag.start(event)} aria-hidden="true"><span /></div>
             ) : null}
-            <AskMobiPanel context={context} onClose={onClose} form={form} titleId="ask-mobi-title" />
+            <AskMobiPanel
+              context={context}
+              onClose={onClose}
+              form={form}
+              titleId="ask-mobi-title"
+              size={form === 'window' ? size : null}
+              onSize={form === 'window' ? setSize : null}
+              pageHref={pageHref}
+            />
           </motion.section>
         </div>
       ) : null}

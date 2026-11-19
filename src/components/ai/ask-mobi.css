@@ -1,9 +1,10 @@
 /* Ask Mobi, one panel (ASK-MOBI-1018). It takes the Arena's own Night and Day tokens (--a-raised, --a-line, --a-ink-*),
    so in Day it is a Day surface (the R4 panel stayed dark). Volt inside the panel is Mobi's mark alone: no volt fills,
-   underlines or hover tints, no glow, no glass (D7, D12). Night stays subtle. */
+   underlines or hover tints, no glow, no glass on the content (D7, D12). Night stays subtle. The floating window's own frame is
+   the owner's glass chat box (20 Nov 2026), kept apart in mobi-launch.css with its solid fallbacks. */
 
 .amb-layer { display: contents; }
-.amb-layer--overlay, .amb-layer--sheet { position: fixed; inset: 0; z-index: 95; display: block; }
+.amb-layer--sheet { position: fixed; inset: 0; z-index: 95; display: block; }
 
 .amb-scrim { position: absolute; inset: 0; border: 0; padding: 0; background: var(--a-scrim, rgba(5, 8, 6, 0.55)); cursor: default; }
 html[data-theme='light'] .amb-scrim { background: rgba(23, 21, 15, 0.28); }
@@ -14,14 +15,8 @@ html[data-theme='light'] .amb-scrim { background: rgba(23, 21, 15, 0.28); }
   font-variant-numeric: tabular-nums;
 }
 .amb-panel:focus { outline: none; }
-.amb-panel--dock {
-  position: fixed; top: var(--amb-top, var(--arena-topbar-h, 63px)); right: 0; bottom: 0; z-index: 35; width: 400px;
-  border-left: 1px solid var(--a-line, #253026);
-}
-.amb-panel--overlay {
-  position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100vw);
-  border-left: 1px solid var(--a-line, #253026); box-shadow: var(--a-shadow-2);
-}
+/* From 768 px the panel is a floating window over the page, 400 px wide (its frame, its glass and its larger size are
+   mobi-launch.css). It never docks beside the page: the page keeps its width and its layout while Ask Mobi is open. */
 .amb-panel--sheet {
   position: absolute; left: 0; right: 0; bottom: 0; max-height: calc(100dvh - 92px);
   border-top: 1px solid var(--a-line, #253026); border-radius: 20px 20px 0 0;
@@ -30,8 +25,6 @@ html[data-theme='light'] .amb-scrim { background: rgba(23, 21, 15, 0.28); }
 }
 html[data-theme='light'] .amb-panel--sheet { box-shadow: 0 -24px 56px -28px rgba(42, 32, 16, 0.22); }
 
-/* The docked form: the main column gives up the panel's width while the student has it open. Since 19 Nov this is the shell's
-   own data-mobi-dock and --mobi-dock-w (mobi-launch.css), one rule for every way the panel docks. */
 /* The navigation's Ask Mobi row reads as open while the panel is (no accent, the ordinary selected wash). */
 html[data-mobi-open] .app-shell .arena-sidebar .arena-nav-link[data-tour='nav-mentor'] { background: var(--a-hover); color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-line); }
 
@@ -157,23 +150,3 @@ html[data-motion='reduced'] .amb :is(.amb-rise, .amb-asks li, .amb-num), html[da
 /* The shell gives every control a 44 px floor; inside the chips the 44 px target is the chip. */
 .amb .amb-chip { min-height: 44px; }
 .amb .amb-chip > button { min-height: 0; min-width: 0; width: 44px; height: 44px; margin: 0 -4px 0 -10px; }
-
-/* The docked form narrows the page by the panel's width (the page's own media queries still read the whole window), so the
-   two pages whose wide layout needs more room fall back to their one-column layout while the panel is open: Practice (the
-   session card goes under Fine-tune, as it does at tablet width) and Account (its two columns stack). Every other page was
-   checked docked at 1440 and keeps its own layout. */
-@media (min-width: 1280px) {
-  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 { grid-template-columns: minmax(0, 1fr); }
-  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 > .pr-tail { display: grid; }
-  html[data-mobi-form='dock'] .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-ticket { grid-column: auto; grid-row: auto; position: static; }
-  html[data-mobi-form='dock'] .app-shell .acct-grid { grid-template-columns: minmax(0, 1fr); }
-}
-@media (min-width: 1280px) and (max-width: 1439px) {
-  /* Today's two columns are too tight beside the panel at 1280 to 1439 px: they stack, with the road under the move. */
-  html[data-mobi-form='dock'] .app-shell .today-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-}
-@media (min-width: 1280px) {
-  /* The Colleges planner's subjects pane and its results stack while the panel is open, so the results keep their width. */
-  html[data-mobi-form='dock'] .du-layout { grid-template-columns: minmax(0, 1fr); }
-  html[data-mobi-form='dock'] .du-side { position: static; max-height: none; overflow: visible; }
-}

@@ -58,6 +58,7 @@ import PipGuide from '@/components/brand/PipGuideLazy';
 import AskMobiSheet from '@/components/landing/AskMobiSheet';
 import MobiCompanion from '@/components/landing/MobiCompanion';
 import DesktopCursor from '@/components/landing/DesktopCursor';
+import AssetWarm from '@/components/landing/AssetWarm';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
@@ -424,6 +425,8 @@ export default function LandingPage() {
       <Later><MarketingFooter home /></Later>
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <Later><PipGuide /></Later>
+      {/* The pictures further down, fetched ahead in idle time so nothing arrives blank (AssetWarm.jsx, 20 Nov 2026). */}
+      <Later><AssetWarm /></Later>
       {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
           window event mm:ask-mobi). */}
       <Later><MobiCompanion /></Later>

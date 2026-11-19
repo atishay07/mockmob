@@ -41,12 +41,14 @@ test('first-timer#3: the coach line reads "Or start with one of these"', () => {
 test('client-code#2: one colleges strip, mounted only once the first-session fact is known, in one slot (no layout shift on load)', () => {
   const page = read('src/app/(app)/today/page.jsx');
   assert.equal((page.match(/<TodayCollegesStrip /g) || []).length, 1);
-  assert.match(page, /const strip = everSessions !== null \? /);
+  // 20 Nov 2026: the page's strip is built under 1100 px only; from 1100 px the Your colleges section mounts it instead, so one
+  // query decides and the two are never mounted together.
+  assert.match(page, /const strip = everSessions !== null && !wideHead \? /);
+  assert.match(page, /withStrip=\{wideHead && everSessions !== null\}/);
   assert.match(page, /useSyncExternalStore\(subscribeWide, wideNow, \(\) => false\)/, 'the slot follows the 1100 px query; the server snapshot is the phone slot');
   assert.match(page, /const WIDE_HEAD = '\(min-width: 1100px\)';/);
   const sheet = read('src/components/today/today.css');
-  assert.match(sheet, /\.app-shell \.today__colleges-head \{ display: none; \}/);
-  assert.match(sheet, /@media \(min-width: 1100px\) \{\n  \.app-shell \.today__colleges-head \{ display: block; \}/);
+  assert.match(sheet, /@media \(min-width: 1100px\) \{\n  \.app-shell \.today-grid \.today__colleges \{ display: none; \}/);
 });
 
 test('ui-correctness#8: a count of mistakes never says "missed" or "misses" on Today (W); Last paper says "questions you lost"', () => {

@@ -99,6 +99,12 @@ html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-s
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path,
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path:nth-child(even) { padding: 18px 0; border-left: 0; border-top: 1px solid var(--a-line); }
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path:first-child { padding-top: 4px; border-top: 0; }
+
+  /* Levels (owner, 20 Nov 2026: "some things are up and some are down"): the left column's first block, the finished weeks,
+     starts at the column's top like "Your study record" beside it (no hairline and 24 px above its heading there), and its
+     heading is the page's section heading (20 px, 700, the display face), 13 px above its row like the others. */
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side > .rc--more:first-child > .rc-block:first-child { padding-top: 0; border-top: 0; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .pw-weeks .rc-h { margin-bottom: 13px; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; }
 }
 
 /* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1360 px the page takes the

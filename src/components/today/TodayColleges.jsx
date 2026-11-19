@@ -11,6 +11,7 @@ import { decodeSelection, loadOfferings, loadRules, formatScore, readSaved } fro
 import { roundOneCutoff, startingList } from '@/lib/du/compassLine.mjs';
 import { evaluateGroup, gapSize } from '@/lib/du/eligibility';
 import { COLLEGES_EMPTY } from '@/lib/today/copy.mjs';
+import TodayCollegesStrip from './TodayCollegesStrip';
 
 // Does the student's subject list meet the programme's DU subject rules? The same engine and the same starting subjects
 // as the Compass page (a choice kept on this device, else the profile), so Today never disagrees with Compass.
@@ -54,8 +55,10 @@ function useCollegeRow(userId, subjects) {
   return { status: 'ready', first, more: mine.colleges.length - 1, cut: offer.cut, fit: offer.fit };
 }
 
-/** `hold`: the move is still on its way; the row waits with it so the page lands in one piece (W-042). */
-export default function TodayColleges({ userId, subjects = [], hold = false }) {
+/** `hold`: the move is still on its way; the row waits with it so the page lands in one piece (W-042).
+ *  `withStrip` (from 1100 px, 20 Nov 2026): the greeting stands alone, so the Your colleges strip moves in here, under this section's
+ *  first college, and only when it names a different one (the hardest on the list); otherwise this section says it already. */
+export default function TodayColleges({ userId, subjects = [], hold = false, withStrip = false }) {
   const row = useCollegeRow(userId, subjects);
   const head = <header className="tg__row"><h2 id="tc-h" className="tg__h">Your colleges</h2></header>;
   if (row.status === 'none') return null;
@@ -93,6 +96,7 @@ export default function TodayColleges({ userId, subjects = [], hold = false }) {
         {fit ? <p data-fit={row.fit?.kind}>{fit}</p> : <span />}
         <Link className="tm__pill" href={planHref}><Compass size={16} strokeWidth={1.75} aria-hidden="true" />Open in Colleges</Link>
       </div>
+      {withStrip ? <TodayCollegesStrip userId={userId} inSection except={first.college} /> : null}
     </section>
   );
 }

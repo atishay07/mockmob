@@ -172,6 +172,9 @@
    stood 36 px apart with nothing between them above This week and last. */
 .app-shell .rd .pp-desk__main > .am[data-surface='card'] { border-bottom: 0; padding-bottom: 0; }
 .app-shell .rd .pp-record > .am .am-head__title { font-size: 20px; letter-spacing: -0.02em; }
+/* 20 Nov 2026 (the levels): on the desk it sits in the main column, where the rule above missed it and its title stood at 17 px
+   among the page's 20 px section headings. */
+.app-shell .rd .pp-desk__main > .am .am-head__title { font-size: 20px; letter-spacing: -0.02em; }
 /* Marks ledger at phone width: net marks spans the row, then two columns ruled down the middle */
 @media (max-width: 639px) {
   .app-shell .rd .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 0; border-left: 0; }

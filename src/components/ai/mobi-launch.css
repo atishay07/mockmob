@@ -1,97 +1,139 @@
-/* Ask Mobi's desktop launcher and the wide dock (19 Nov 2026). AskMobiLauncher.jsx, AskMobiHost.jsx, askMobi.mjs.
-   Arena roles only: raised paper, one hairline, the shell's soft shadow. No badge, no glow, no loop. The only motion answers the
-   pointer (the words slide out, 180 ms) or the student's own press (the key steps beside the docked panel, 240 ms). */
+/* Ask Mobi's chat box (20 Nov 2026): the glass bar at rest (AskMobiLauncher.jsx) and the floating window it opens
+   (AssistantDrawer.jsx, form 'window', small and large). askMobi.mjs holds the rules.
+   The page under them is never resized, cropped or restacked: nothing here touches .app-main's width, and no attribute a page
+   lays itself out by is written. Glass is the owner's own request for this one small fixed surface ("glass-morphism"): translucent
+   raised paper over a blur, one line, the shell's soft shadow; solid under html[data-lite] and reduced transparency. The window
+   holds text, so it is nearly opaque (94 %) and reads like paper. No badge, no glow, no loop: motion only answers a press or the
+   pointer, transform and opacity only. */
 
-/* The shell's dock: one attribute and one variable. The shell (AppLayoutClient) sets data-mobi-dock="open" while the panel is
-   docked; its main area gives up the panel's width as a margin, so every page inside lays itself out in what is left and nothing
-   sits under the panel. The panel reads the same width. */
-.app-shell { --mobi-dock-w: 400px; }
-.app-shell[data-mobi-dock='open'] .app-main { margin-right: var(--mobi-dock-w); }
-.app-shell .amb-panel--dock { width: var(--mobi-dock-w); }
-
-/* The launcher: drawn only on a mouse window 1100 px or wider (askMobi.mjs LAUNCHER_MEDIA). */
+/* ---- The bar at rest: drawn only on a mouse window 1100 px or wider (askMobi.mjs LAUNCHER_MEDIA) ----------------------------- */
 .mobi-launch { display: none; }
 
 @media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
   .app-shell .mobi-launch {
-    --ml-size: 52px;
     position: fixed;
-    right: 24px;
-    bottom: 24px;
-    /* Over the page and its sticky bars, under the docked panel (35), the top bar, every sheet and dialog. */
+    /* 24 px from the edge, or to the left of a page's sticky right column (AskMobiLauncher.jsx writes the variable). */
+    right: var(--mobi-bar-right, 24px);
+    bottom: 20px;
+    /* Over the page and its sticky bars; under the top bar, the window, every sheet and dialog. */
     z-index: 30;
-    display: block;
-    width: var(--ml-size);
-    height: var(--ml-size);
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: none;
-    color: var(--a-ink);
-    cursor: pointer;
-    appearance: none;
-    transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .app-shell .mobi-launch[hidden] { display: none; }
-  /* The end of every page keeps the key's corner clear (the key, its 24 px from the edge and a 20 px gap), so at the bottom of a
-     page no link or row sits under it; mid-page the page passes under it as under any floating key. */
-  .app-shell:has(> .mobi-launch) .app-main { padding-bottom: 100px !important; }
-  .app-shell .mobi-launch__key {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    border: 1px solid var(--a-line);
-    border-radius: 50%;
-    background: var(--a-raised);
-    box-shadow: var(--a-shadow-1);
-    transition: border-color 150ms ease-out, transform 140ms var(--a-ease, ease-out);
-  }
-  .app-shell .mobi-launch__face { display: block; width: 26px; height: auto; margin-top: 4px; }
-  .app-shell .mobi-launch:active .mobi-launch__key { transform: scale(0.96); }
-  .app-shell .mobi-launch:focus-visible { outline: none; }
-  .app-shell .mobi-launch:focus-visible .mobi-launch__key { outline: 2px solid var(--a-focus); outline-offset: 3px; }
-  .app-shell .mobi-launch[aria-expanded='true'] .mobi-launch__key { border-color: var(--a-line-strong); background: var(--a-hover); }
-
-  /* "Ask Mobi" as a pill to the key's left, out on hover or keyboard focus. */
-  .app-shell .mobi-launch__words {
-    position: absolute;
-    top: 50%;
-    right: calc(100% + 8px);
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    height: 36px;
-    padding: 0 14px;
+    gap: 10px;
+    width: 300px;
+    height: 48px;
+    padding: 0 8px 0 12px;
     border: 1px solid var(--a-line);
     border-radius: 999px;
-    background: var(--a-raised);
+    background: color-mix(in srgb, var(--a-raised) 78%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    backdrop-filter: blur(22px) saturate(1.4);
     box-shadow: var(--a-shadow-1);
-    color: var(--a-ink);
-    font: 600 14px/1 var(--font-body, system-ui), system-ui, sans-serif;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate3d(8px, -50%, 0);
-    transition: opacity 180ms ease-out, transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    color: var(--a-ink-3);
+    font: 500 14.5px/1 var(--font-body, system-ui), system-ui, sans-serif;
+    text-align: left;
+    cursor: text;
+    appearance: none;
+    transform-origin: 100% 100%;
+    transition: border-color 150ms ease-out, background-color 150ms ease-out, transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+    animation: mobi-bar-in 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
-  .app-shell .mobi-launch:is(:hover, :focus-visible) .mobi-launch__words { opacity: 1; transform: translate3d(0, -50%, 0); }
-  .app-shell .mobi-launch:hover .mobi-launch__key { border-color: var(--a-line-hover); }
-  /* Docked, the panel is open: the words would only repeat its title. */
-  .app-shell .mobi-launch[aria-expanded='true'] .mobi-launch__words { display: none; }
-
-  /* Docked: the key steps beside the panel, as its close key. */
-  .app-shell[data-mobi-dock='open'] .mobi-launch { transform: translate3d(calc(-1 * var(--mobi-dock-w)), 0, 0); }
-
-  /* Never over another dialog or sheet: the Start sheet, Search, the account pop-over, the Pro sheet, the guide, a confirm. */
-  body:has(dialog[open], [aria-modal='true'], .amb-layer--overlay, .amb-layer--sheet) .app-shell .mobi-launch { display: none; }
+  /* The end of every page stays clear of the bar (its 48 px, its 20 px from the bottom and a 20 px gap), so the last row or link
+     of a page never sits under it; mid-page the page passes under it as under any floating control. */
+  .app-shell[data-mobi-bar] .app-main { padding-bottom: 88px; }
+  .app-shell .mobi-launch[hidden],
+  .app-shell[data-layer-open] .mobi-launch { display: none; }
+  .app-shell .mobi-launch__face { display: block; flex: none; width: 22px; height: auto; margin-top: 3px; }
+  .app-shell .mobi-launch__words { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .app-shell .mobi-launch__go {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--a-sunken);
+    color: var(--a-ink-2);
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .app-shell .mobi-launch:hover { border-color: var(--a-line-hover); background: color-mix(in srgb, var(--a-raised) 90%, transparent); }
+  .app-shell .mobi-launch:hover .mobi-launch__go { background: var(--a-ink); color: var(--a-raised); }
+  .app-shell .mobi-launch:active { transform: scale(0.98); }
+  .app-shell .mobi-launch:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 }
 
-html[data-motion='reduced'] .app-shell .mobi-launch,
-html[data-motion='reduced'] .app-shell .mobi-launch__words,
-html[data-motion='reduced'] .app-shell .mobi-launch__key { transition: none; }
+/* It comes back from the window's place as the window closes (and arrives once with the page). */
+@keyframes mobi-bar-in { from { opacity: 0; transform: scale(0.96); } }
+
+/* ---- The window: floating over the page, its bottom right corner where the bar rests -------------------------------------- */
+.amb-layer--window { display: contents; }
+.app-shell .amb-panel--window,
+.amb-panel--window {
+  position: fixed;
+  right: var(--mobi-bar-right, 24px);
+  bottom: 20px;
+  /* Over the page and the bar; under the top-level sheets and dialogs (they open at 80 and above). */
+  z-index: 60;
+  width: min(400px, calc(100vw - 32px));
+  height: min(640px, calc(100vh - 120px));
+  overflow: hidden;
+  border: 1px solid var(--a-line);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--a-raised) 94%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: var(--a-shadow-2), 0 28px 64px -32px rgba(0, 0, 0, 0.45);
+  transform-origin: 100% 100%;
+}
+html[data-theme='light'] .amb-panel--window { box-shadow: var(--a-shadow-2), 0 28px 64px -32px rgba(42, 32, 16, 0.28); }
+/* Inside the glass the composer's foot and the chips sit on the same paper, not on a second solid slab. */
+.amb-panel--window .ach .ach-foot { background: transparent; }
+
+/* Larger: the same window, centred, over a plain dim scrim (no blur on a page region). */
+.amb-layer--window.amb-layer--large { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; }
+.amb-layer--large .amb-scrim { background: rgba(5, 8, 6, 0.5); }
+html[data-theme='light'] .amb-layer--large .amb-scrim { background: rgba(23, 21, 15, 0.3); }
+.amb-layer--large .amb-panel--window {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  width: min(960px, 92vw);
+  height: min(86vh, 900px);
+  transform-origin: 50% 50%;
+}
+/* The thread and the composer keep a reading column of 720 px in the larger window. */
+.amb-panel--window[data-size='large'] .ach :is(.ach-thread, .ach-foot) { padding-inline: max(18px, calc((100% - 720px) / 2)); }
+.amb-panel--window[data-size='large'] .ach .amb-ctx { padding-inline: max(18px, calc((100% - 720px) / 2)); }
+
+/* The larger window's link to Ask Mobi's own page, and its one line on what happens there. */
+.amb-head .amb-away {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 12px;
+  color: var(--a-ink-2);
+  font: 650 14px/1 var(--font-body, inherit);
+  text-decoration: underline;
+  text-decoration-color: var(--a-line-strong);
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+.amb-head .amb-away:hover { color: var(--a-ink); text-decoration-color: currentColor; }
+.amb-head .amb-away:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.amb-away-note { margin: -6px 0 0; padding: 0 18px 10px 52px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); text-align: right; }
+
+/* ---- Weak machines and reduced transparency: solid paper, no blur -------------------------------------------------------- */
+html[data-lite] .app-shell .mobi-launch,
+html[data-lite] .amb-panel--window { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--a-raised); }
+@media (prefers-reduced-transparency: reduce) {
+  .app-shell .mobi-launch, .amb-panel--window { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--a-raised); }
+}
+
+/* ---- Reduced motion: no scale, the bar simply appears ---------------------------------------------------------------------- */
+html[data-motion='reduced'] .app-shell .mobi-launch { animation: none; transition: none; }
+html[data-motion='reduced'] .app-shell .mobi-launch__go { transition: none; }
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .mobi-launch, .app-shell .mobi-launch__key { transition: none; }
-  .app-shell .mobi-launch__words { transition: opacity 120ms ease-out; transform: translate3d(0, -50%, 0); }
-  .app-shell .mobi-launch:active .mobi-launch__key { transform: none; }
+  .app-shell .mobi-launch { animation: none; transition: border-color 150ms ease-out, background-color 150ms ease-out; }
+  .app-shell .mobi-launch:active { transform: none; }
 }

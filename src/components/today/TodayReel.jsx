@@ -80,7 +80,7 @@ export default function TodayReel({ paper, loadAttempt, subjectName = (id) => id
         <div className="tm__top">
           <div className="tm__head">
             <p className="tm__over">Your paper{paper.subject ? `, ${subjectName(paper.subject)}` : ''}</p>
-            <h2 id="tr-title" className="tm__title">{title}</h2>
+            <h3 id="tr-title" className="tm__title">{title}</h3>
           </div>
           {paper.subject ? <span className="tm__art" aria-hidden="true"><SubjectObject id={paper.subject} size={112} lit life framed={false} /></span> : null}
         </div>

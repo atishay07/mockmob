@@ -36,7 +36,8 @@ export const SEARCH_INTRO = Object.freeze({
   line: 'Find any page, chapter, DU college or course, or start practice from here.',
 });
 
-/** The empty query's Go to: the six most used pages, in this order (a page the student does not have is left out). */
+/** The empty query's Go to: the most used pages, in this order (a page the student does not have is left out; the empty query
+ * shows the first three: searchModel EMPTY_LIMIT). */
 export const EMPTY_GOTO = Object.freeze(['today', 'dashboard', 'review', 'learn', 'cards', 'analytics']);
 
 export const REVISE_HREF = '/review/revise';
@@ -88,7 +89,10 @@ export function startItems(userSubjects = [], { mentorHref = '/mentor' } = {}) {
   return out;
 }
 
-/** The empty query's Start: the first subject's 10 questions, a full mock, Revise, today's five, Ask Mobi. */
+/**
+ * The empty query's Start, most useful first: the first subject's 10 questions, a full mock, Revise, today's five, Ask Mobi
+ * (the desktop panel shows the first three: searchModel EMPTY_LIMIT).
+ */
 export function emptyStartIds(userSubjects = []) {
   const first = startSubjects(userSubjects)[0];
   return [...(first ? [`start-${first}`] : []), 'full', 'revise', 'daily', 'mobi'];

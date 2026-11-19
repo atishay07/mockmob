@@ -1,15 +1,15 @@
 "use client";
 
-// Mounts Search for the signed-in shell (lane palette, 18 Nov 2026) and listens for its keys: Ctrl+Space on Windows and Linux
-// (19 Nov, the shown key; the panel's own key handler closes it with the same press), Ctrl+K or Cmd+K anywhere, "/" when focus
-// is not in a field. Never on the paper, onboarding or a Mob game, and never over another open dialog or sheet
+// Mounts Search for the signed-in shell (lane palette, 18 Nov 2026) and listens for its keys: Shift tapped twice (20 Nov, the
+// shown key on Windows, Linux and ChromeOS; it closes Search too), Ctrl+Space on Windows and Linux (19 Nov; the panel's own key
+// handler closes it with the same press), Ctrl+K or Cmd+K anywhere, "/" when focus is not in a field. Never on the paper, onboarding or a Mob game, and never over another open dialog or sheet
 // (searchKeyAction in src/lib/search/searchModel.mjs). The shell passes its own navigation lists, so a page is found by the
 // name the sidebar gives it, and its preview links, so a walk through /preview/arena stays in the fixtures.
 import { useCallback, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
-import { searchKeyAction } from '@/lib/search/searchModel.mjs';
+import { searchKeyAction, shiftTapper, shiftTwiceAction } from '@/lib/search/searchModel.mjs';
 import { pageItems, previewHref, startItems } from '@/lib/search/searchSources.mjs';
-import { closeSearch, openSearch, searchState, useSearchState } from './searchStore';
+import { closeSearch, openSearch, requestCloseSearch, searchState, useSearchState } from './searchStore';
 import { macNow } from './SearchButtons';
 import SearchPalette from './SearchPalette';
 
@@ -30,6 +30,39 @@ function targetOf(event) {
 export default function SearchHost({ path = '', groups = [], learn = true, learn2 = false, userSubjects = [], mentorHref = '/mentor', previewLinks = null }) {
   const state = useSearchState();
   const pathname = usePathname();
+
+  // Shift, twice (20 Nov 2026): the shown key on Windows, Linux and ChromeOS, since a browser can keep a Ctrl or Alt chord for
+  // itself (Opera GX keeps Ctrl+Space) and none binds a lone Shift. Every key, pointer press and lost focus goes through the pure
+  // tapper (searchModel shiftTapper); its verdict follows Ctrl+K's rules (shiftTwiceAction), and while Search is open it closes
+  // it through the panel's own animated close. It works from inside a text field too.
+  useEffect(() => {
+    const tapper = shiftTapper();
+    const feed = (type, event) => tapper.feed({
+      type, key: event?.key, code: event?.code, ctrlKey: event?.ctrlKey, altKey: event?.altKey, metaKey: event?.metaKey,
+      repeat: event?.repeat, isComposing: event?.isComposing, time: event?.timeStamp || performance.now(),
+    });
+    const onDown = (event) => { feed('keydown', event); };
+    const onUp = (event) => {
+      if (feed('keyup', event) !== 'fire') return;
+      const verdict = shiftTwiceAction({ path, dialogOpen: otherDialogOpen(), open: searchState().open });
+      if (verdict === 'close') { requestCloseSearch(); return; }
+      if (verdict !== 'open') return;
+      const active = document.activeElement;
+      openSearch({ opener: active && active !== document.body ? active : null });
+    };
+    const onPointer = (event) => { feed('pointerdown', event); };
+    const onBlur = () => { tapper.reset(); };
+    window.addEventListener('keydown', onDown, true);
+    window.addEventListener('keyup', onUp, true);
+    window.addEventListener('pointerdown', onPointer, true);
+    window.addEventListener('blur', onBlur);
+    return () => {
+      window.removeEventListener('keydown', onDown, true);
+      window.removeEventListener('keyup', onUp, true);
+      window.removeEventListener('pointerdown', onPointer, true);
+      window.removeEventListener('blur', onBlur);
+    };
+  }, [path]);
 
   useEffect(() => {
     const onKey = (event) => {

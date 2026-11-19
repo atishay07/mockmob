@@ -172,7 +172,12 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   const css = read('src/components/ai/ask-mobi.css');
   assert.doesNotMatch(css, /box-shadow:[^;]*0 0 \d+px[^;]*(210, ?240|d2f000)|text-shadow|backdrop-filter|linear-gradient|#d2f000/i, 'no glow, glass or volt fill in the panel');
   assert.match(css, /prefers-reduced-motion/);
-  assert.match(css, /width: 400px/);
+  // The floating window's frame (20 Nov 2026) is the owner's glass chat box, kept apart in mobi-launch.css: 400 px wide, nearly
+  // opaque paper over a blur on that one small fixed surface, solid under html[data-lite] and reduced transparency.
+  const frame = read('src/components/ai/mobi-launch.css');
+  assert.match(frame, /width: min\(400px, calc\(100vw - 32px\)\);/);
+  assert.match(frame, /html\[data-lite\] \.amb-panel--window \{ -webkit-backdrop-filter: none; backdrop-filter: none; background: var\(--a-raised\); \}/);
+  assert.doesNotMatch(frame, /box-shadow:[^;]*0 0 \d+px[^;]*(210, ?240|d2f000)|text-shadow|#d2f000/i, 'no glow or volt in the frame');
   // The chat's own sheet (16 Nov 2026): volt is the send key alone (the view's one volt), never a glow or glass.
   const chat = read('src/components/ai/ask-chat.css');
   assert.doesNotMatch(chat, /box-shadow:[^;]*0 0 \d+px[^;]*(210, ?240|d2f000)|text-shadow|backdrop-filter/i, 'no glow or glass in the chat');
@@ -180,13 +185,13 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   assert.match(chat, /\.ach-send \{[^}]*background: var\(--volt, #d2f000\)/);
   assert.match(chat, /prefers-reduced-motion/);
   const drawer = read('src/components/ai/AssistantDrawer.jsx');
-  // An ask from inside a page still docks from 1280 px; since 19 Nov the rule lives in askMobi.mjs drawerForm, beside the
-  // launcher's (an overlay below 1680 px, docked from 1680 px).
-  assert.match(drawer, /return drawerForm\(width, \{ launcher \}\);/);
+  // An ask from inside a page opens the same floating window as the chat box (20 Nov 2026): the page under it is never narrowed,
+  // so nothing docks any more. The rule lives in askMobi.mjs drawerForm: a window from 768 px, a phone's sheet below.
+  assert.match(drawer, /return drawerForm\(width\);/);
   const ask = read('src/components/ai/askMobi.mjs');
-  assert.match(ask, /export const PAGE_DOCK_MIN_WIDTH = 1280;/);
-  assert.match(ask, /if \(w >= PAGE_DOCK_MIN_WIDTH && !launcher\) return 'dock';/);
-  assert.match(drawer, /role=\{modal \? 'dialog' : 'complementary'\}/, 'docked it is a region, not a modal');
+  assert.match(ask, /return w >= WINDOW_MIN_WIDTH \? 'window' : 'sheet';/);
+  assert.doesNotMatch(ask, /PAGE_DOCK_MIN_WIDTH|return 'dock'/);
+  assert.match(drawer, /role="dialog"\r?\n\s+aria-modal=\{modal \? 'true' : undefined\}/, 'the small window is a non-modal dialog; larger, or a phone sheet, is modal');
   assert.match(drawer, /const FLICK = 110;/);
   assert.match(drawer, /const CLOSE_SHARE = 0\.35;/);
   const host = read('src/components/ai/AskMobiHost.jsx');

@@ -24,7 +24,8 @@
 .app-shell .today-grid .tcue { order: 2; }
 .app-shell .today-grid .tmask { order: 2; }
 .app-shell .today-grid .today__colleges { order: 2; }
-.app-shell .today__colleges-head { display: none; }
+/* The lead card's section heading ("Up next"): read out on a phone (the card's overline says it there), seen from 1100 px. */
+.app-shell .today-lead__h { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .app-shell .today-grid .tw { order: 3; }
 .app-shell .today-grid .tmob { order: 4; }
 .app-shell .today-grid .trd { order: 5; }
@@ -739,20 +740,20 @@ html[data-motion='reduced'] .app-shell .tmask { animation: none; transition: non
    and the colleges, in the same order as before, read down each column. Nothing moves on a laptop or a phone. */
 @media (min-width: 1600px) {
   .app-shell .student-page--today { width: 100%; }
-  .app-shell .student-page--today > .ov, .app-shell .student-page--today .today-grid, .app-shell .student-page--today .today__head:has(.tcs) { max-width: none; }
+  .app-shell .student-page--today > .ov, .app-shell .student-page--today .today-grid { max-width: none; }
 }
 @media (min-width: 1800px) {
   :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today__head:has(.tcs) { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today__head:has(.tcs) > :is(.tcs, .today__colleges-head) { width: calc(50% - 20px); }
   :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side { display: block; columns: 2; column-gap: 40px; }
   :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > * { break-inside: avoid; margin-bottom: 44px; }
   :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > :last-child { margin-bottom: 0; }
+  /* The third column always opens with Road to CUET (a section heading), never with whatever row the balancing would carry over
+     (the Mob row has none), so the three first headings stand on one line (20 Nov 2026, the levels). */
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > .trd { break-before: column; }
 }
 
 /* ---------- Wide: two columns, the doing left and the glance right ---------- */
 @media (min-width: 1100px) {
-  .app-shell .today__colleges-head { display: block; }
   .app-shell .today-grid .today__colleges { display: none; }
   .app-shell .today__hello { font-size: 34px; }
   .app-shell .today__head { padding: 0 0 28px; }
@@ -770,6 +771,20 @@ html[data-motion='reduced'] .app-shell .tmask { animation: none; transition: non
   .app-shell .tm__art--mobi .mobi-react { --mobi-size: 116px !important; }
   .app-shell .tm__figure { margin-top: 26px; }
   .app-shell .tmask { margin-top: -20px; }
+}
+/* ---------- Wide: the levels (owner, 20 Nov 2026: "some things are up and some are down ... everything leveled properly") ----------
+   The greeting stands alone on its row (the colleges strip moved into Your colleges, page.jsx). Under it every column starts at the
+   same height with a section heading of the one kind (.tg__h: 19 px, 600, the display face, ink), 14 px above its block, and 44 px
+   between a block and the next heading. The lead card's "Up next" is that heading now, so the card does not say it again. A heading
+   row's extras (Road's Change plan, This week's figure) sit on the heading's line and add no height, so no heading drops. */
+@media (min-width: 1100px) {
+  .app-shell .today-lead__h { position: static; width: auto; height: auto; margin: 0 0 -30px; overflow: visible; clip-path: none; white-space: normal; }
+  .app-shell .tm__over[data-lead], .app-shell .tm__lead { display: none; }
+  .app-shell .today-grid .trd__head > .trd__change { margin-block: calc((1.2 * 19px - 44px) / 2); }
+  .app-shell .today-grid .tw .tg__fig { margin-top: -8px; }
+}
+@media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .app-shell .today-grid .trd__head > .trd__change { min-height: 36px; margin-block: calc((1.2 * 19px - 36px) / 2); }
 }
 
 /* ---------- Motion ---------- */
@@ -803,8 +818,8 @@ html[data-motion='reduced'] .app-shell :is(.tm__choice-t, .tm__choice::after) { 
 html[data-motion='reduced'] .app-shell .tm__body .tm__title { transform: none !important; transition: none; }
 
 /* ---------- Your colleges strip under the greeting (D126 B, owner H9) ----------
-   One glass row, one tap target to Colleges. Phones: under the greeting, full width. From 1100 px: beside the greeting,
-   in the glance column's width, so it lines up with This week below it. It rises with the head (the page's first stagger). */
+   One glass row, one tap target to Colleges. Phones and tablets: under the greeting, full width. From 1100 px (20 Nov 2026) the
+   greeting stands alone and the strip sits inside Your colleges, only when it names a college that section does not show. */
 .app-shell .tcs {
   display: flex; align-items: center; gap: 12px; min-height: 60px; margin-top: 16px; padding: 10px 12px 10px 10px;
   border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); color: inherit; text-decoration: none;
@@ -830,14 +845,8 @@ html[data-motion='reduced'] .app-shell .tm__body .tm__title { transform: none !i
 .app-shell .tcs--wait { pointer-events: none; }
 .app-shell .tcs--wait .tcs__ico { background: var(--a-line); }
 .app-shell .tcs__skl { display: block; width: 62%; height: 14px; border-radius: 7px; background: var(--a-line); }
-@media (min-width: 1100px) {
-  .app-shell .today__head:has(.tcs) { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: 40px; max-width: 1120px; align-items: end; }
-  .app-shell .today__head:has(.tcs) > :not(.tcs) { grid-column: 1; }
-  .app-shell .today__head .tcs { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; align-self: end; }
-  /* R3 T3: a new student's strip sits in a wrapper (phones draw it under the start card); from 1100 px the wrapper takes the strip's place. */
-  .app-shell .today__head:has(.tcs) > .today__colleges-head { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
-  .app-shell .today__colleges-head .tcs { margin-top: 0; }
-}
+/* Inside Your colleges (from 1100 px): under the first college's row, the section's 14 px apart. */
+.app-shell .tc .tcs { margin-top: 14px; }
 @media (prefers-reduced-motion: reduce) {
   .app-shell .tcs, .app-shell .tcs__chev { transition: none; }
   .app-shell .tcs:active { transform: none; }

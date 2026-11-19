@@ -160,7 +160,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
     return (
       <section className="tm tm--failed" aria-labelledby="tm-title">
         <div className="tm__top">
-          <div className="tm__head"><p className="tm__over">Up next</p><h2 id="tm-title" className="tm__title">{word} did not load</h2></div>
+          <div className="tm__head"><p className="tm__over" data-lead="">Up next</p><h3 id="tm-title" className="tm__title">{word} did not load</h3></div>
           <Art failed />
         </div>
         <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Every paper and mistake is safe, and Your papers still opens them.</p>
@@ -184,7 +184,9 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const over = m.id === 'done' ? 'Today' : picked ? 'Up next, your pick' : week ? `Day ${path.day} of your first week` : 'Up next';
   const caption = path?.day ? railCaption(path, week) : '';
   const isPlan = m.key?.action === 'plan';
-  const heading = `${over}${subject && !week ? `, ${subject}` : ''}: ${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
+  // The page's section heading above the card says "Up next" (or "Up next, your pick", or "Today" when done: 20 Nov 2026, the owner's
+  // levels), so this card's own heading is an h3 under it and does not say it again; a first-week day still names its day.
+  const heading = `${week ? `${over}: ` : subject ? `${subject}: ` : ''}${m.title}${m.number != null ? `, ${m.number} ${m.label}` : ''}`;
   // The reason line carries one link. With "Why this?" there, the move's own link ("See all 6 mistakes" on a returning card) moves to
   // the card's footer beside More ways to practise, so the two never read as one phrase ("See all 6 Why this?"); a link to the record
   // page is "Why this?" itself.
@@ -199,12 +201,16 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">
-      <h2 id="tm-title" className="sr-only">{heading}</h2>
+      <h3 id="tm-title" className="sr-only">{heading}</h3>
       {path?.day ? <p className="sr-only">{railLine(path)}{caption && !week ? ` ${caption}` : ''}</p> : null}
       <div className="tm__body" data-out={out || undefined} data-dir={swapDir} data-in={enter || undefined} data-lean={lean || undefined} aria-live="polite">
         <div className="tm__top" aria-hidden="true">
           <div className="tm__head">
-            <p className="tm__over">{picked ? <>Up next, <b>your pick</b></> : over}{subject && !week ? `, ${subject}` : ''}</p>
+            {/* From 1100 px the page's "Up next" heading stands above the card (today.css), so the card drops its own words for it
+                (tm__lead) and keeps only the subject; a first-week day keeps its day. Phones keep the whole overline. */}
+            <p className="tm__over" data-lead={!week && !subject ? '' : undefined}>
+              {week ? over : <><span className="tm__lead">{picked ? <>Up next, <b>your pick</b></> : over}{subject ? ', ' : ''}</span>{subject}</>}
+            </p>
             {path?.day ? (
               <>
                 {/* Release 10 (N1, #7): from 1024 px each mark is named (Start, Revise, Aim...); on a phone each mark is a tap target

@@ -56,7 +56,8 @@ test('Today: the strip sits under the greeting, opens Colleges, lands with the p
   const head = page.slice(page.indexOf('<header className="today__head">'), page.indexOf('</header>'));
   // R4 client-code#2: the one strip is built once (hold=landing) and the header places it (null until the first-session fact is known).
   assert.match(page, /<TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/>/);
-  assert.match(head, /\{strip\}/);
+  // 20 Nov 2026: under the greeting on a phone or tablet; from 1100 px the greeting stands alone and Your colleges carries it.
+  assert.match(head, /\{dayOne \? null : strip\}/);
   assert.match(page, /<TodayColleges userId=\{userId\}/, 'the Your colleges block lower on Today is kept');
   const strip = read('src/components/today/TodayCollegesStrip.jsx');
   assert.match(strip, /href="\/admission-compass"/);

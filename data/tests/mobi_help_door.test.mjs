@@ -25,7 +25,7 @@ test('openAskMobi reports whether a host took the request', () => {
   const host = new EventTarget();
   host.addEventListener(ASK_MOBI_EVENT, (event) => { heard.push(event.detail); event.preventDefault(); });
   assert.equal(openAskMobi({ tab: 'ask', questionRef: 'a1:q2' }, host), true);
-  // `launcher` (19 Nov 2026) is true only for the desktop launcher's own open; every other caller sends false.
+  // `launcher` (19 Nov 2026) is true only for the chat box's own open (the bar at rest, 20 Nov); every other caller sends false.
   assert.deepEqual(heard[0], { tab: 'ask', questionRef: 'a1:q2', origin: null, context: { kind: 'question', ref: 'a1:q2', label: null, number: null, chapter: null, lines: [], pickLabel: null, keyLabel: null }, launcher: false });
   assert.equal(openAskMobi({ tab: 'bogus', questionRef: '<script>' }, host), true);
   assert.deepEqual(heard[1], { tab: 'plan', questionRef: null, origin: null, context: { kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] }, launcher: false });
@@ -51,7 +51,7 @@ test('the floating orb is retired; Mobi lives in the shell and opens in place', 
   assert.equal(existsSync(new URL('../../src/components/ai/AssistantLauncher.jsx', import.meta.url)), false);
   assert.doesNotMatch(read('src/app/layout.js'), /AssistantLauncher/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
-  assert.match(shell, /<AskMobiHost \/>/);
+  assert.match(shell, /<AskMobiHost mentorHref=\{mentorHref\} \/>/);
   // D11 (18 Oct): the Help door and its menu are gone from the shell; the Guide is its own page, linked in the Account group.
   assert.doesNotMatch(shell, /<HelpMenu|arena-help-door/);
   assert.doesNotMatch(shell, /PrepOSOrb/, 'no orb under the theme switch');

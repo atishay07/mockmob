@@ -481,4 +481,4 @@ html:not([data-theme='light']) .lp-torch { width: 420px; height: 420px; margin: 
 @media (prefers-reduced-motion: reduce) { .lp-cursor, .lp-torch { display: none; } }
 html[data-motion='reduced'] :is(.lp-cursor, .lp-torch) { display: none; }
 /* A weak machine (html[data-lite], set before first paint: layout.js) keeps the ring and the snap and drops the wide light. */
-html[data-lite] .lp-torch { display: none; }
+html[data-lite] :is(.lp-torch, .lp-cursor) { display: none; }

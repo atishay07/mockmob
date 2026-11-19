@@ -10,10 +10,14 @@ import { AppIcon } from '@/components/ui/Glyph';
 import { useCollegeCutoffs } from '@/components/colleges/useCollegeCutoffs';
 import { stripView } from '@/lib/colleges/cutoffs.mjs';
 
-export default function TodayCollegesStrip({ userId, hold = false }) {
+// `inSection` (from 1100 px, 20 Nov 2026): the strip sits inside the Your colleges section instead of beside the greeting, and says
+// only what the section does not: the college on the list that needed the most, when that is not the section's own first college
+// (`except`). Loading, empty, failed or the same college: the section already says it, so nothing is drawn.
+export default function TodayCollegesStrip({ userId, hold = false, inSection = false, except = '' }) {
   const read = useCollegeCutoffs(userId);
   if (read.status === 'none') return null;
   const view = stripView({ state: hold ? 'loading' : read.status, rows: read.rows });
+  if (inSection && (view.kind !== 'ready' || !view.college || view.college === except)) return null;
   if (view.kind === 'loading') {
     return <div className="tcs tcs--wait" aria-busy="true" aria-label="Loading your colleges"><span className="tcs__ico" aria-hidden="true" /><span className="tcs__skl" /></div>;
   }

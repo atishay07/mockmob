@@ -13,7 +13,8 @@
 //   6. Last paper with its bar and biggest leak, and one receipt line of what the repairs made before it did on it (release 8)
 //   7. Repairs and Revise
 //   8. Your colleges and Compass
-// On a wide screen the doing (2, 5, 6) sits left and the glance (3, 4, 7, 8) right. The page lands in one piece (W-042).
+// On a wide screen the doing (2, 5, 6) sits left and the glance (3, 4, 7, 8) right, under the greeting, which stands alone; every
+// column opens with a section heading on one line ("Up next" is the lead card's), 20 Nov 2026. The page lands in one piece (W-042).
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
@@ -56,8 +57,9 @@ import '@/components/today/today.css';
 import ResumePaper from '@/components/practice/ResumePaper';
 
 const noSubscribe = () => () => {};
-// From 1100 px the greeting's header is two columns and the colleges strip sits in its right one (today.css); on a phone a brand-new student
-// finds it under the start card instead. One strip is mounted, in one slot, chosen by this query (R4 client-code#2: never two copies).
+// Under 1100 px the colleges strip sits under the greeting (a brand-new student finds it under the start card instead); from 1100 px the
+// greeting stands alone and the strip's line moves into Your colleges (20 Nov 2026). One strip is mounted, in one slot, chosen by this
+// query (R4 client-code#2: never two copies).
 const WIDE_HEAD = '(min-width: 1100px)';
 const subscribeWide = (notify) => {
   try { const q = window.matchMedia(WIDE_HEAD); q.addEventListener('change', notify); return () => q.removeEventListener('change', notify); } catch { return () => {}; }
@@ -320,9 +322,15 @@ export default function Today() {
   const wideHead = useSyncExternalStore(subscribeWide, wideNow, () => false);
   // With every read failed the session count is unknown, so no strip is drawn; the colleges block waits with the page (U11) and
   // reads again when it comes back.
-  const strip = everSessions !== null ? <TodayCollegesStrip userId={userId} hold={landing} /> : null;
+  // From 1100 px the greeting stands alone on its row (owner, 20 Nov 2026: "the front of it should be blank and everything should be
+  // below it"), so the page's strip is a phone and tablet thing; on a wide screen Your colleges is said once, in its own section
+  // (TodayColleges, which adds the strip's line only when it names a college the section does not already show).
+  const strip = everSessions !== null && !wideHead ? <TodayCollegesStrip userId={userId} hold={landing} /> : null;
   const stripBelow = dayOne && !wideHead;
   const word = hour != null && (hour >= 17 || hour < 4) ? 'Tonight’s move' : 'Today’s move';
+  // The lead card's section heading, in the page's one heading style (20 Nov 2026, the levels): the card no longer says it inside
+  // from 1100 px; on a phone it is read out only, and the card's own overline stays.
+  const leadHead = phase === 'ready' && lead?.id === 'done' ? 'Today' : phase === 'ready' && picked ? 'Up next, your pick' : 'Up next';
 
   return (
     <div className="student-page student-page--today">
@@ -330,14 +338,15 @@ export default function Today() {
         <header className="today__head">
           <p className="today__date">{day ? <time className="today__in">{day}</time> : ' '}</p>
           <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
-          {/* Your colleges, one tap from the first screen every day (D126 B, owner H9); the block at the end stays. */}
-          {/* R3 T3: a brand-new student's phone shows the start card and its key above the dock, so the strip sits just under the card for them (from 1100 px it stays under the greeting). */}
-          {stripBelow ? null : dayOne ? <div className="today__colleges-head">{strip}</div> : strip}
+          {/* Your colleges, one tap from the first screen every day on a phone (D126 B, owner H9); the block at the end stays. */}
+          {/* R3 T3: a brand-new student's phone shows the start card and its key above the dock, so the strip sits just under the card for them. */}
+          {dayOne ? null : strip}
         </header>
         {/* One quiet ask while the account has no name worth showing (the app's name card, I11): never the email's prefix. */}
         <NameAsk />
         <div className="today-grid">
           <div className="today-grid__main">
+            <h2 className="tg__h today-lead__h">{leadHead}</h2>
             {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. On day one
                 its key is the view's volt and the start card's key goes quiet (visual check F2): the paper is the next step. */}
             <ResumePaper primary={lead?.id === 'dayOne'} />
@@ -380,7 +389,7 @@ export default function Today() {
               lead={phase === 'ready' ? lead : null} onGoalSaved={data.retryWeek} planAsk={planAsk} onPlanSaved={() => setPlanSaved(true)}
             />
             <TodayQueue papers={data.papers} repaired={data.repaired} repairRows={data.repairRows} revise={data.revise} dayOne={dayOne} hold={landing} />
-            <TodayColleges userId={userId} subjects={user?.subjects || []} hold={landing} />
+            <TodayColleges userId={userId} subjects={user?.subjects || []} hold={landing} withStrip={wideHead && everSessions !== null} />
           </div>}
         </div>
       </section>

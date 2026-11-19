@@ -69,7 +69,9 @@ export default function DesktopCursor() {
     if (!node || !tag || !ring || !torch || typeof window === 'undefined') return undefined;
     let fine = null; let calm = null;
     try { fine = window.matchMedia(QUERY); calm = window.matchMedia('(prefers-reduced-motion: reduce)'); } catch { return undefined; }
-    const lite = document.documentElement.hasAttribute('data-lite');
+    // A weak machine gets none of this: every frame a moving mouse asks of the page is one it cannot spare.
+    if (document.documentElement.hasAttribute('data-lite')) return undefined;
+    const lite = false;
     let x = 0; let y = 0; let tx = 0; let ty = 0;         // the ring, and where the arrow is
     let lx = 0; let ly = 0;                               // the torch (slower)
     let frame = 0; let shown = false; let wave = 0;

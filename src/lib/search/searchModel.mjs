@@ -214,18 +214,39 @@ export function searchResults(query, sources = {}, { empty = null } = {}) {
   return out;
 }
 
+/** The desktop panel's empty query (20 Nov, Spotlight form): at most this many suggestions in all, half Go to and half Start. */
+export const EMPTY_LIMIT = 6;
+
+// The empty query: each group in its own preferred order (`empty` ids). With `empty.limit` (the desktop panel), the first half of
+// each, a group with fewer leaving its room to the other, never more than the limit in all; without it (the phone sheet, as
+// before), six pages and GROUP_LIMIT actions.
 function emptyResults(sources, empty) {
-  const pick = (id, ids, limit) => {
+  const pick = (id, ids) => {
     const list = sources[id] || [];
     const rows = ids ? ids.map((x) => list.find((item) => item.id === x)).filter(Boolean) : list;
-    return rows.slice(0, limit).map((item) => ({ ...item, ranges: [] }));
+    return rows.map((item) => ({ ...item, ranges: [] }));
   };
+  const go = pick('goto', empty?.goto || null);
+  const start = pick('start', empty?.start || null);
+  const limit = empty?.limit > 0 ? empty.limit : 0;
+  const half = Math.ceil(limit / 2);
+  const goCount = limit ? Math.min(go.length, Math.max(half, limit - start.length)) : Math.min(go.length, 6);
+  const startCount = limit ? Math.min(start.length, limit - goCount) : Math.min(start.length, GROUP_LIMIT);
   const out = [];
-  const go = pick('goto', empty?.goto || null, 6);
-  if (go.length) out.push({ id: 'goto', label: 'Go to', rows: go });
-  const start = pick('start', empty?.start || null, GROUP_LIMIT);
-  if (start.length) out.push({ id: 'start', label: 'Start', rows: start });
+  if (goCount) out.push({ id: 'goto', label: 'Go to', rows: go.slice(0, goCount) });
+  if (startCount) out.push({ id: 'start', label: 'Start', rows: start.slice(0, startCount) });
   return out;
+}
+
+/**
+ * The quiet rest of the top hit's name, shown after what was typed and taken with Tab (20 Nov): '' unless the title begins with
+ * the query exactly, letter for letter but blind to case, and is longer than it. A query with a space at either end gets none.
+ */
+export function completionFor(query, title) {
+  const q = String(query ?? '');
+  const t = String(title ?? '');
+  if (!q || q.trim() !== q || t.length <= q.length) return '';
+  return t.slice(0, q.length).toLowerCase() === q.toLowerCase() ? t.slice(q.length) : '';
 }
 
 /** Every row of the results in reading order (what the arrow keys walk). */
@@ -271,15 +292,71 @@ export function isCtrlSpace(key = {}) {
 }
 
 /**
- * The keys a device shows for Search and the ones that work there, as aria-keyshortcuts lists them.
- * Windows and Linux show Ctrl Space (one hand, the shape of a Mac's Spotlight key: Alt+Space is Windows' own window menu and
- * Win+Space its language switch, so neither can be taken); Ctrl+K and "/" keep working, unshown. A Mac shows ⌘K and never takes
- * Ctrl+Space (its input-source key).
+ * The keys a device shows for Search and the ones that work there, as aria-keyshortcuts lists them (ARIA has no way to say
+ * "Shift twice", so it lists the chords).
+ * Windows, Linux and ChromeOS show Shift Shift (20 Nov, owner: a browser can keep a Ctrl or Alt chord for itself, as Opera GX
+ * keeps Ctrl+Space; no browser binds a lone Shift). Ctrl+Space, Ctrl+K and "/" keep working, unshown. A Mac shows ⌘K (Shift
+ * twice works there too) and never takes Ctrl+Space (its input-source key). `line` is the first-use intro's sentence for it.
  */
 export function searchShortcut({ mac = false } = {}) {
   return mac
-    ? { caps: ['⌘', 'K'], words: '⌘K', aria: 'Meta+K Control+K /' }
-    : { caps: ['Ctrl', 'Space'], words: 'Ctrl Space', aria: 'Control+Space Control+K /' };
+    ? { caps: ['⌘', 'K'], words: '⌘K', aria: 'Meta+K Control+K /', line: '⌘K opens it any time.' }
+    : { caps: ['Shift', 'Shift'], words: 'Shift twice', aria: 'Control+Space Control+K /', line: 'Press Shift twice to open it any time.' };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Shift, twice (20 Nov 2026).
+
+/** The two taps of Shift must come this close: from the first tap's release to the second tap's press. */
+export const SHIFT_TAP_GAP_MS = 400;
+/** A press of Shift longer than this is a hold, not a tap. */
+export const SHIFT_TAP_HOLD_MS = 400;
+
+const isShift = (e) => e.key === 'Shift' || e.code === 'ShiftLeft' || e.code === 'ShiftRight';
+
+/**
+ * A small state machine that says when Shift has been tapped twice. Feed it every keydown, keyup and pointerdown (and 'blur'
+ * when the window loses focus) with its time in ms; it returns 'fire' on the second tap's release, null otherwise.
+ * A tap is Shift (either one) pressed and released alone: no other key pressed during it or between the two taps, no Ctrl, Alt
+ * or Meta held, not a key repeat, not held longer than SHIFT_TAP_HOLD_MS, not during composition (IME), no pointer press. So a
+ * capital letter (Shift down, letter, Shift up) is never a tap, and Shift+click is not either.
+ * event: { type: 'keydown' | 'keyup' | 'pointerdown' | 'blur', key, code, ctrlKey, altKey, metaKey, repeat, isComposing, time }
+ */
+export function shiftTapper({ gap = SHIFT_TAP_GAP_MS, hold = SHIFT_TAP_HOLD_MS } = {}) {
+  let press = null; // the Shift press under way: { at, clean }
+  let lastUp = null; // when the last clean tap was released
+  const reset = () => { press = null; lastUp = null; };
+  const feed = (e = {}) => {
+    const time = Number(e.time) || 0;
+    if (e.type === 'blur' || e.type === 'pointerdown' || e.isComposing) { reset(); return null; }
+    const chord = Boolean(e.ctrlKey || e.altKey || e.metaKey);
+    if (e.type === 'keydown') {
+      if (!isShift(e)) { reset(); return null; }
+      if (e.repeat || press) { if (press) press.clean = false; lastUp = null; return null; }
+      press = { at: time, clean: !chord };
+      if (chord) lastUp = null;
+      return null;
+    }
+    if (e.type === 'keyup') {
+      if (!isShift(e)) return null;
+      const p = press;
+      press = null;
+      const tap = Boolean(p && p.clean && !chord && time - p.at <= hold);
+      if (!tap) { lastUp = null; return null; }
+      if (lastUp !== null && p.at - lastUp <= gap) { lastUp = null; return 'fire'; }
+      lastUp = time;
+      return null;
+    }
+    return null;
+  };
+  return { feed, reset };
+}
+
+/** What Shift tapped twice does to Search, by Ctrl+K's rules: 'close' while it is open, 'open' where Ctrl+K may open it. */
+export function shiftTwiceAction({ path = '', dialogOpen = false, open = false } = {}) {
+  if (open) return 'close';
+  if (dialogOpen || searchBlockedOn(path)) return null;
+  return 'open';
 }
 
 /**

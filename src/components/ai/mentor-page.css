@@ -15,3 +15,18 @@
 .app-shell .mrp-full > p { margin-bottom: -4px; }
 .app-shell .mrp-asks .ace-list { max-width: 44rem; }
 .app-shell .mrp-foot { margin: 0; }
+
+/* Wide screens (20 Nov 2026, owner on a big screen: the Ask Mobi page read as a box pinned to the left with an empty half beside
+   it). From 1180 px the chat is a centred reading column of 760 px with its composer at the column's foot, and History, when
+   open, sits in the free space to its right; the column never moves when History opens or closes. Your record keeps its own
+   60rem column, centred. */
+@media (min-width: 1180px) {
+  .app-shell .mrp { max-width: none; }
+  .app-shell .mrp .ach { --ach-col: 760px; }
+  .app-shell .mrp .ach-page { grid-template-columns: minmax(0, 1fr) minmax(0, 760px) minmax(0, 1fr); }
+  .app-shell .mrp .ach-page[data-history] { grid-template-columns: minmax(0, 1fr) minmax(0, 760px) minmax(17rem, 1fr); }
+  .app-shell .mrp .ach-page > :is(.ach-head, .ach-main) { grid-column: 2; }
+  .app-shell .mrp .ach-page > .ahs--column { grid-column: 3; grid-row: 2; width: 17rem; }
+  .app-shell .mrp .ach-page[data-view='record'] { grid-template-columns: minmax(0, 60rem); justify-content: center; }
+  .app-shell .mrp .ach-page[data-view='record'] > .ach-head { grid-column: 1; }
+}

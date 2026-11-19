@@ -1,8 +1,8 @@
 "use client";
 
 // Ask Mobi, one conversation in two frames (ASK-MOBI-1018; a chat since 16 Nov 2026, the owner that evening: "It should feel
-// like a proper AI agent ... but even better than that"). The /mentor page (form 'page') and the panel that docks beside a
-// question, a mock, Today or Practice (forms 'dock', 'overlay', 'sheet') are this one engine and the same parts: the thread
+// like a proper AI agent ... but even better than that"). The /mentor page (form 'page') and the floating window over a
+// question, a mock, Today or Practice (form 'window', or a phone's 'sheet') are this one engine and the same parts: the thread
 // (ChatThread.jsx), the composer with its Photo key (ChatComposer.jsx) and the words (chatCopy.mjs). The page adds its own head
 // and its start (ChatEmpty.jsx); the panel adds its header, its context row and the opening for what it was opened about.
 //
@@ -48,6 +48,7 @@ import {
 } from './ChatThread';
 import { CHAT_COPY, canAfford, chargedOf, refusalParts, savedCost, usedWords, waysForward } from './chatCopy.mjs';
 import { clockStamp } from './askDoors.mjs';
+import { DRAFT_KEY } from './askMobi.mjs';
 import { JOB_COPY, chatFailure, followUpOpen, isTonightAsk, threadFromReply } from './mobiJobs.mjs';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
@@ -90,6 +91,13 @@ async function postMistake(payload) {
 const X = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none" /></svg>
 );
+// The window's size key: two corners pointing out (Make larger) or in (Make smaller).
+const Grow = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
+);
+const Shrink = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 14h6v6M20 10h-6V4M10 14l-7 7M14 10l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>
+);
 
 export default function AskMobiPanel(props) {
   const { user } = useAuth();
@@ -98,7 +106,9 @@ export default function AskMobiPanel(props) {
 }
 
 /**
- * `form`: 'page' (the /mentor chat) | 'dock' | 'overlay' | 'sheet'. `context`: what the panel was opened about.
+ * `form`: 'page' (the /mentor chat) | 'window' (the floating window over a page) | 'sheet' (a phone). `context`: what the panel
+ * was opened about. The window adds `size` ('small' | 'large'), `onSize` (its Make larger and Make smaller key) and `pageHref`
+ * (Ask Mobi's own page, linked from the larger window); `draft` is words carried to the page from the window, put in the composer.
  * The page hands over what it has already read and what only it can draw:
  *   `record`    its read of the record ({ status, insights }), so an ask never depends on a second read that can fail;
  *   `start`     what the start of a chat draws from (ChatEmpty's props: the record's asks, where the student stands), drawn
@@ -107,7 +117,7 @@ export default function AskMobiPanel(props) {
  *   `onExchange` is told when a new exchange has been answered (History reads again); `onBusy(bool)` while a reply is on its
  *   way (New chat waits for it); `onApi({ ask })` hands the page the way to run a question from Your record in this chat.
  */
-function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', record = null, onRecordRetry = null, start = null, saved = null, onLeaveSaved = null, onExchange = null, onBusy = null, onApi = null }) {
+function Panel({ context: opened, onClose, form = 'window', titleId = 'ask-mobi-title', record = null, onRecordRetry = null, start = null, saved = null, onLeaveSaved = null, onExchange = null, onBusy = null, onApi = null, size = null, onSize = null, pageHref = null, draft = '' }) {
   const router = useRouter();
   const { user } = useAuth();
   const userId = user?.id || null;
@@ -121,7 +131,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const [context, setContext] = useState(opened);
   const [recordTry, setRecordTry] = useState(0);
   // The page hands over the record it has already read, so a start's ask never depends on a second read that can fail. Without
-  // one (the docked panel), the panel reads the record itself.
+  // one (the window or the phone sheet), the panel reads the record itself.
   const handed = record || null;
   const fetched = useInsights(handed ? null : userId, recordTry);
   const insightsState = handed || fetched;
@@ -179,6 +189,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const [turns, setTurns] = useState([]);
   const [asked, setAsked] = useState([]);
   const [input, setInput] = useState('');
+  // Words carried from the window to Ask Mobi's page go into the composer once, never over what is already typed.
+  const [seenDraft, setSeenDraft] = useState('');
+  if (draft && draft !== seenDraft) { setSeenDraft(draft); if (!input) setInput(draft); }
   const [pending, setPending] = useState(null);
   const [retry, setRetry] = useState(null);
   const [sessionId, setSessionId] = useState(null);
@@ -533,10 +546,16 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const talking = turns.length > 0 || Boolean(pending) || Boolean(retry) || Boolean(failedStart) || Boolean(mistakeHold) || waitingStart;
   // The page's start (ChatEmpty) is drawn while nothing has been asked and the page is not about one question.
   const idle = onPage && !saved && !talking && !questionRef && Boolean(start);
-  // One volt key per view: the docked panel and the overlay sit outside the page (#app-main), beside the sidebar's lime Start
-  // key. While one is open its send key is the view's volt, so a marker in the page steps that Start key back (the shell's own
-  // data-owns-start contract, AppLayoutClient). The phone sheet covers the dock itself; the page's send key marks itself.
-  const [shellMain] = useState(() => (typeof document !== 'undefined' && (form === 'dock' || form === 'overlay') ? document.getElementById('app-main') : null));
+  // One volt key per view: the floating window sits outside the page (#app-main), beside the sidebar's lime Start key. While it
+  // is open its send key is the view's volt, so a marker in the page steps that Start key back (the shell's own data-owns-start
+  // contract, AppLayoutClient). The phone sheet covers the dock itself; the page's send key marks itself.
+  const [shellMain] = useState(() => (typeof document !== 'undefined' && form === 'window' ? document.getElementById('app-main') : null));
+  const large = size === 'large';
+  // "Open Ask Mobi's page" from the larger window: the page starts a new chat, so typed words go with the student (DRAFT_KEY).
+  const carryDraft = () => {
+    try { if (input.trim()) window.sessionStorage.setItem(DRAFT_KEY, input); } catch { /* The link still opens the page. */ }
+    leave();
+  };
 
   // The phone's keyboard. The sheet rests on the visible part of the screen (the visual viewport), and the page's composer is
   // pinned above the keyboard, so the send key is never under it and nothing jumps when it opens.
@@ -589,9 +608,22 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         <header className="amb-head">
           <MobiMark size={24} />
           <h2 id={titleId}>Ask Mobi</h2>
-          <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>
+          {large && pageHref ? (
+            <Link href={pageHref} className="amb-away" onClick={carryDraft} aria-describedby="amb-away-note">Open Ask Mobi&rsquo;s page</Link>
+          ) : null}
+          {onSize ? (
+            <button type="button" className="amb-icon" onClick={() => onSize(large ? 'small' : 'large')} aria-label={large ? 'Make smaller' : 'Make larger'} title={large ? 'Make smaller' : 'Make larger'}>
+              {large ? <Shrink /> : <Grow />}
+            </button>
+          ) : null}
+          <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi" title="Close"><X /></button>
         </header>
       )}
+      {large && pageHref ? (
+        <p className="amb-away-note" id="amb-away-note">
+          {input.trim() ? 'Ask Mobi’s page starts a new chat. What you have typed goes with you.' : 'Ask Mobi’s page starts a new chat.'}
+        </p>
+      ) : null}
 
       {!onPage || subjectChip ? (
         <div className="amb-ctx">

@@ -6,7 +6,7 @@
 //
 //  * Chat (default): the start of a chat (ChatEmpty: Mobi's greeting, one line from the student's own record, four starters,
 //    then doubts from their practice), the thread, and the composer pinned above the dock with its visible Photo key. It is the
-//    same engine and parts as the panel that docks beside a question or a mock (AskMobiPanel, form 'page').
+//    same engine and parts as the window that opens over a question or a mock (AskMobiPanel, form 'page').
 //  * Your record (?tab=record): everything the page showed about the record before it was a chat, nothing removed (R3): Where
 //    you stand, the questions the record answers (each runs in the chat), "Your record in full" (the marks ledger, what stands
 //    out, the chapters costing the most, changed answers, pace and the two weeks) and the credits link.
@@ -29,7 +29,7 @@ import { HistoryColumn, HistorySheet } from './ChatHistory';
 import { StandingCard } from './MobiJobParts';
 import { useInsights } from './useInsights';
 import { useLastPaper, useRecent, useStanding } from './useMentorData';
-import { normalizeContext } from './askMobi.mjs';
+import { DRAFT_KEY, normalizeContext } from './askMobi.mjs';
 import { answerFree } from './askSuggestions.mjs';
 import { standingView } from './mobiJobs.mjs';
 import { DOOR_COPY, lastPaper, priceWord, recordDoorAsks, recordLine } from './askDoors.mjs';
@@ -76,6 +76,14 @@ export default function MentorRecordPage() {
   const [busy, setBusy] = useState(false);
   const chat = useRef(null);
   const takeApi = useCallback((api) => { chat.current = api; }, []);
+  // Words typed in the Ask Mobi window before "Open Ask Mobi's page" come with the student into this page's composer, once.
+  const [draft, setDraft] = useState('');
+  useEffect(() => {
+    let carried = '';
+    try { carried = window.sessionStorage.getItem(DRAFT_KEY) || ''; window.sessionStorage.removeItem(DRAFT_KEY); } catch { carried = ''; }
+    // Read once and removed at once, so it is set after this effect (a development double run would find nothing the second time).
+    if (carried) Promise.resolve().then(() => setDraft(carried));
+  }, []);
   const historyOpen = historyChoice ?? (wide && view === 'chat');
 
   useEffect(() => {
@@ -164,6 +172,7 @@ export default function MentorRecordPage() {
               onExchange={() => setHistoryTick((n) => n + 1)}
               onBusy={setBusy}
               onApi={takeApi}
+              draft={chatKey === 0 ? draft : ''}
               start={{
                 standing: standing.read, asks, now: new Date(now), onRecord: () => show('record'),
                 adapt: (ask) => (freshAnswer && ask.free && !ask.answer && /losing marks/i.test(ask.text) ? { text: ask.text, answer: freshAnswer } : ask),

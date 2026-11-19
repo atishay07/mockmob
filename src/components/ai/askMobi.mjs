@@ -79,8 +79,8 @@ export function originOf(element) {
 
 /**
  * Asks the arena shell to open Ask Mobi. Returns true when a host took it (the caller then stays put), false when
- * none is mounted (the caller navigates as before). `launcher` marks an open from the desktop launcher (AskMobiLauncher.jsx),
- * whose panel overlays below DOCK_MIN_WIDTH instead of docking.
+ * none is mounted (the caller navigates as before). `launcher` marks an open from the chat box at rest (AskMobiLauncher.jsx), so
+ * focus goes back to it when the window closes.
  */
 export function openAskMobi({ context = null, tab = 'plan', questionRef = null, from = null, launcher = false } = {}, target = globalThis.window) {
   if (!target?.dispatchEvent || typeof CustomEvent !== 'function') return false;
@@ -101,7 +101,7 @@ export function openAskMobi({ context = null, tab = 'plan', questionRef = null, 
   return event.defaultPrevented;
 }
 
-/** Asks the host to close the panel (the launcher's second press). */
+/** Asks the host to close the panel (the chat box leaving for a route where it is never drawn). */
 export const ASK_MOBI_CLOSE_EVENT = 'mockmob:ask-mobi-close';
 export function closeAskMobi(target = globalThis.window) {
   if (!target?.dispatchEvent || typeof CustomEvent !== 'function') return;
@@ -109,30 +109,39 @@ export function closeAskMobi(target = globalThis.window) {
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
-// The desktop launcher and the wide dock (19 Nov 2026, owner: "On desktop, we have a lot of space, so even the Ask Mobi, we can set
-// as a quick-to-access chatbot on the right-hand side of the screen").
+// The chat box (20 Nov 2026, owner on a big screen: "this entire chatbot could just be, on the bottom, an opaque or glass-morphism
+// kind of small chat box, which can then be expanded into a full page or window"). It replaced the 19 Nov dock, which narrowed the
+// page by 400 px and dropped Practice into its stacked form: the page under Ask Mobi is never resized, cropped or restacked now.
 
-/** From this width the panel docks beside the page whoever opened it; the launcher's open overlays below it. */
-export const DOCK_MIN_WIDTH = 1680;
-/** The in-page asks (a repair, a result, Today, Practice) keep their own dock from here, as before 19 Nov. */
-export const PAGE_DOCK_MIN_WIDTH = 1280;
-/** The docked panel's width; the shell narrows its main area by it (--mobi-dock-w). */
-export const DOCK_WIDTH = 400;
-/** Where the launcher is drawn: a mouse window this wide (AskMobiLauncher's CSS repeats it). */
+/** Where the chat box at rest is drawn: a mouse window this wide (mobi-launch.css repeats it). */
 export const LAUNCHER_MEDIA = '(min-width: 1100px) and (hover: hover) and (pointer: fine)';
+/** From this width the conversation is a floating window over the page; below it, a phone's bottom sheet. */
+export const WINDOW_MIN_WIDTH = 768;
+/** The floating window's two sizes. */
+export const WINDOW_SIZES = Object.freeze(['small', 'large']);
 
 /**
- * The panel's form for a window width: 'dock' (beside the page, no scrim), 'overlay' (over the page with a scrim) or 'sheet' (a
- * phone's bottom sheet). From DOCK_MIN_WIDTH everything docks. Below it, the launcher's open overlays; an in-page ask keeps its
- * own rule (dock from PAGE_DOCK_MIN_WIDTH, overlay from 768 px, a sheet below).
+ * The panel's form for a window width: 'window' (a floating window over the page, no scrim; the student can make it larger) or
+ * 'sheet' (a phone's bottom sheet, as before). Nothing ever docks beside the page any more.
  */
-export function drawerForm(width, { launcher = false } = {}) {
+export function drawerForm(width) {
   const w = Number(width) || 0;
-  if (w >= DOCK_MIN_WIDTH) return 'dock';
-  if (w >= PAGE_DOCK_MIN_WIDTH && !launcher) return 'dock';
-  if (w >= 768) return 'overlay';
-  return 'sheet';
+  return w >= WINDOW_MIN_WIDTH ? 'window' : 'sheet';
 }
+
+/**
+ * Another dialog or sheet on screen (the Start sheet, Search, the account pop-over, the Pro sheet, the guide, a confirm): the chat
+ * box steps away under it. Ask Mobi's own window and what it opens are not counted.
+ */
+export const LAYER_SELECTOR = "dialog[open], [aria-modal='true']";
+export function isOtherLayer(node) {
+  if (!node || node.nodeType !== 1 || typeof node.matches !== 'function') return false;
+  if (!node.matches(LAYER_SELECTOR)) return false;
+  return !node.closest('.amb-layer, [hidden]');
+}
+
+/** The draft a student carries from the window to Ask Mobi's page (session storage, read once by the page). */
+export const DRAFT_KEY = 'mm:mobi-draft';
 
 /**
  * What the launcher asks about: the page the student is on when that page has a page-level ask of its own that needs no data the
@@ -145,7 +154,7 @@ export function launcherContext(path = '') {
   return normalizeContext({ kind: 'page' });
 }
 
-/** Routes where the launcher is never drawn: the paper, a Mob game, onboarding, and Ask Mobi's own page. */
+/** Routes where the chat box is never drawn: the paper, a Mob game, onboarding, and Ask Mobi's own page. */
 export function launcherBlockedOn(path = '') {
   return /^\/(test|onboarding|mob\/game|mentor)(\/|$|\?)/.test(String(path || ''));
 }

@@ -1,21 +1,27 @@
 "use client";
 
-// Search, the one place to jump anywhere in the signed-in website (lane palette, 18 Nov 2026).
+// Search, the one place to jump anywhere in the signed-in website (lane palette, 18 Nov 2026; Spotlight form, 20 Nov).
 //
-// A native modal <dialog> (the page behind is inert and holds still, html:has(.srch[open]) in search.css), holding one panel:
-// the input (a combobox: focus stays in it, aria-activedescendant names the active row), a hairline, the results grouped as
-// Go to, Start, Chapters and Colleges and courses (src/lib/search/searchModel.mjs ranks them), and on desktop a foot of key
-// hints. Desktop: a centred 640 px dialog 14vh from the top over a dim scrim. Below 900 px: a full-height sheet from the top
-// with a Close key at the input's right.
+// A native modal <dialog> (the page behind is inert and holds still: html[data-search-open] in search.css, set while the panel is
+// drawn), holding one panel: the input (a combobox: focus stays in it, aria-activedescendant names the active row), a hairline,
+// the results grouped as Go to, Start, Chapters and Colleges and courses (src/lib/search/searchModel.mjs ranks them), and on
+// desktop a foot of key hints.
+// Desktop (768 px and wider), after Apple's Spotlight (owner, 20 Nov): one large glass bar, min(640px, 92vw) wide, its top at about
+// 18% of the window, that grows as results arrive; the empty query offers six suggestions; the first result is the top hit (a
+// taller row with the Enter cap), and when its name begins with what was typed, the rest of the name shows in muted text after
+// the caret and Tab takes it. Below 768 px: today's full-height sheet from the top with a Close key at the input's right.
 //
-// Keys: the arrows move the active row (wrapping), Enter runs it, Escape closes, Tab goes through the active row's own links
-// (Key cards, Learn) and back to the input; focus returns to whatever opened Search. A pointer over a row makes it active, a
-// click runs it. Nothing is asked of the server while typing: the pages and actions come from the shell, the chapters from the
+// Keys: the arrows move the active row (wrapping) and keep it in view, Enter runs it, Escape closes, Tab takes the completion or
+// goes through the active row's own links (Key cards, Learn) and back to the input; focus returns to whatever opened Search. A
+// pointer that really moves over a row makes it active (a list that shifts under a resting pointer never takes the selection),
+// a click runs it. Nothing is asked of the server while typing: the pages and actions come from the shell, the chapters from the
 // syllabus module and the colleges from a small static index, both imported the first time the panel opens.
 //
-// Motion (exact, from the brief): the scrim fades in over 160 ms; the panel fades in over 160 ms while rising 8 px
-// (cubic-bezier(0.23, 1, 0.32, 1)); it leaves in 120 ms, a fade only. The active row's background moves with no transition.
-// Reduced motion: no rise, 1 ms fades.
+// Motion (WAAPI here; search.css has none). Desktop: the panel opens in 140 ms (opacity, and scale from 0.98) and closes in
+// 100 ms; the scrim fades with it; when the results change, the glass follows the new height in 160 ms (a scaleY on the glass
+// layer and a clip on the content, measured once per change by a ResizeObserver, never layout per frame). The phone sheet keeps
+// its own: 160 ms in while rising 8 px, a 120 ms fade out. One curve, cubic-bezier(0.23, 1, 0.32, 1). Reduced motion: no scale,
+// no rise, no resize motion, 1 ms fades.
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -23,17 +29,24 @@ import { Search } from 'lucide-react';
 import { AppIcon } from '@/components/ui/Glyph';
 import { BrandIcon, MobiMark } from '@/components/brand/BrandIcon';
 import { SubjectObject } from '@/components/brand/SubjectObject';
-import { flatRows, moveActive, nothingLine, prepare, searchKeyAction, searchResults, searchShortcut, titleParts } from '@/lib/search/searchModel.mjs';
+import { EMPTY_LIMIT, completionFor, flatRows, moveActive, nothingLine, prepare, searchKeyAction, searchResults, searchShortcut, titleParts } from '@/lib/search/searchModel.mjs';
 import { EMPTY_GOTO, SEARCH_INTRO, chapterItems, collegeItems, emptyStartIds, runMode } from '@/lib/search/searchSources.mjs';
 import { macNow } from './SearchButtons';
+import { setSearchCloser } from './searchStore';
 import './search.css';
 
+// The phone sheet's motion (unchanged since 18 Nov).
 export const OPEN_MS = 160;
 export const CLOSE_MS = 120;
 export const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const RISE_PX = 8;
+// The desktop panel's motion (20 Nov, Spotlight form).
+export const DESK_OPEN_MS = 140;
+export const DESK_CLOSE_MS = 100;
+export const DESK_SCALE = 0.98;
+export const RESIZE_MS = 160;
 
-// The first-use intro (19 Nov 2026): the first time Search opens on a device, one short note sits above the results, part of the
+// The first-use intro (19 Nov 2026): the first time Search opens on a device, one short note sits under the input, part of the
 // panel's own surface (no pop-up of its own, no scrim). It never takes focus from the input; it leaves on the first typed
 // character or on its Got it key (a 160 ms fade) and never returns: it is marked seen as it shows, in this device's storage
 // (a private window, where storage is refused, simply shows it again).
@@ -73,6 +86,16 @@ function loadExtra() {
 // Key cards and Learn links, not only the active one. Read after mount; the server and the first render draw the desktop rows.
 const noSubscription = () => () => {};
 const touchNow = () => { try { return !window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch { return false; } };
+// The desktop panel (768 px and wider), followed live, so a window resized across it redraws the right form.
+const DESK_QUERY = '(min-width: 768px)';
+const deskNow = () => { try { return window.matchMedia(DESK_QUERY).matches; } catch { return true; } };
+const deskSubscribe = (fn) => {
+  try {
+    const mq = window.matchMedia(DESK_QUERY);
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  } catch { return () => {}; }
+};
 
 function RowIcon({ row }) {
   if (row.subject) return <SubjectObject id={row.subject} size={20} framed={false} className="srch-row__obj" />;
@@ -99,16 +122,25 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
   const dialog = useRef(null);
   const input = useRef(null);
   const list = useRef(null);
+  const body = useRef(null);
+  const glass = useRef(null);
+  const ghost = useRef(null);
   const closing = useRef(false);
   const leaving = useRef(false);
   const byKeys = useRef(false);
+  const pointerAt = useRef(null);
   const ids = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const listId = `srch-list-${ids}`;
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const [data, setData] = useState(() => extra.value);
+  const [caretAtEnd, setCaretAtEnd] = useState(true);
+  const [composing, setComposing] = useState(false);
+  const [ghostFits, setGhostFits] = useState(true);
   const touch = useSyncExternalStore(noSubscription, touchNow, () => false);
   const mac = useSyncExternalStore(noSubscription, macNow, () => false);
+  const desk = useSyncExternalStore(deskSubscribe, deskNow, () => true);
+  const shortcut = searchShortcut({ mac });
   const introId = `srch-intro-${ids}`;
   const introRef = useRef(null);
   const [intro, setIntro] = useState(() => !introSeen());
@@ -134,7 +166,8 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
     chapters: data ? chapterItems(data.chapters, { userSubjects, decks: data.decks, learn2 }).map(prepare) : [],
     colleges: data ? collegeItems(data.index).map(prepare) : [],
   }), [pages, actions, data, userSubjects, learn2]);
-  const empty = useMemo(() => ({ goto: EMPTY_GOTO, start: emptyStartIds(userSubjects) }), [userSubjects]);
+  // The desktop panel suggests six for the empty query; the phone sheet keeps its fuller lists.
+  const empty = useMemo(() => ({ goto: EMPTY_GOTO, start: emptyStartIds(userSubjects), limit: desk ? EMPTY_LIMIT : 0 }), [userSubjects, desk]);
   const results = useMemo(() => searchResults(query, sources, { empty }), [query, sources, empty]);
   const rows = useMemo(() => flatRows(results), [results]);
   const activeIndex = rows.length ? Math.min(active, rows.length - 1) : -1;
@@ -143,6 +176,20 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
   const typed = query.trim().length > 0;
   // While the chapters and colleges are still arriving, an unmatched query says nothing yet, never a false "Nothing matches".
   const nothing = typed && rows.length === 0 && Boolean(data);
+  // The top hit (desktop): the first result of a typed query. Its completion shows only with the caret at the end of the field,
+  // outside composition, on a desktop with a fine pointer, and only while the whole name fits in the field.
+  const topHit = typed && rows.length ? rows[0] : null;
+  const completion = topHit && desk && !touch && !composing && caretAtEnd ? completionFor(query, topHit.title) : '';
+  const showGhost = Boolean(completion) && ghostFits;
+
+  // Measured once per change (never per frame): the typed text must not already scroll the field, and the ghost must fit.
+  useLayoutEffect(() => {
+    if (!completion) return;
+    const field = input.current;
+    const g = ghost.current;
+    const fits = Boolean(field && g) && field.scrollWidth <= field.clientWidth && g.scrollWidth <= g.clientWidth;
+    setGhostFits((was) => (was === fits ? was : fits));
+  }, [completion, query]);
 
   const requestClose = useCallback(({ navigating = false } = {}) => {
     const el = dialog.current;
@@ -155,35 +202,80 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
       onClosed();
     };
     if (typeof el.animate !== 'function') { finish(); return; }
-    const duration = reducedMotion() ? 1 : CLOSE_MS;
-    const parts = [el.querySelector('.srch-scrim'), el.querySelector('.srch-panel')].filter(Boolean);
-    Promise.all(parts.map((part) => part.animate([{ opacity: 1 }, { opacity: 0 }], { duration, easing: EASE, fill: 'forwards' }).finished))
-      .catch(() => {})
-      .finally(finish);
+    const reduced = reducedMotion();
+    const isDesk = deskNow();
+    const duration = reduced ? 1 : (isDesk ? DESK_CLOSE_MS : CLOSE_MS);
+    const scrim = el.querySelector('.srch-scrim');
+    const panel = el.querySelector('.srch-panel');
+    const parts = [
+      scrim?.animate([{ opacity: 1 }, { opacity: 0 }], { duration, easing: EASE, fill: 'forwards' }),
+      panel?.animate(isDesk && !reduced
+        ? [{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: `scale(${DESK_SCALE})` }]
+        : [{ opacity: 1 }, { opacity: 0 }], { duration, easing: EASE, fill: 'forwards' }),
+    ].filter(Boolean);
+    Promise.all(parts.map((a) => a.finished)).catch(() => {}).finally(finish);
   }, [onClosed]);
 
-  // Opens as a modal when mounted, with the caret in the input; focus goes back to the opener when it has left.
+  // A key the host hears (Shift tapped twice) closes the panel the way Escape does.
+  useEffect(() => setSearchCloser(() => requestClose()), [requestClose]);
+
+  // Opens as a modal when mounted, with the caret in the input; focus goes back to the opener when it has left. The page under
+  // it holds still (html[data-search-open], one attribute instead of a :has() over the whole document).
   useLayoutEffect(() => {
     const el = dialog.current;
     if (!el) return undefined;
     closing.current = false;
     el.dataset.state = 'open';
+    const root = document.documentElement;
+    root.setAttribute('data-search-open', '');
     if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
     input.current?.focus({ preventScroll: true });
     if (typeof el.animate === 'function') {
       const reduced = reducedMotion();
-      const duration = reduced ? 1 : OPEN_MS;
+      const isDesk = deskNow();
+      const duration = reduced ? 1 : (isDesk ? DESK_OPEN_MS : OPEN_MS);
       el.querySelector('.srch-scrim')?.animate([{ opacity: 0 }, { opacity: 1 }], { duration, easing: EASE });
-      el.querySelector('.srch-panel')?.animate(reduced
-        ? [{ opacity: 0 }, { opacity: 1 }]
-        : [{ opacity: 0, transform: `translate3d(0, ${RISE_PX}px, 0)` }, { opacity: 1, transform: 'translate3d(0, 0, 0)' }], { duration, easing: EASE });
+      let frames = [{ opacity: 0 }, { opacity: 1 }];
+      if (!reduced && isDesk) frames = [{ opacity: 0, transform: `scale(${DESK_SCALE})` }, { opacity: 1, transform: 'scale(1)' }];
+      else if (!reduced) frames = [{ opacity: 0, transform: `translate3d(0, ${RISE_PX}px, 0)` }, { opacity: 1, transform: 'translate3d(0, 0, 0)' }];
+      el.querySelector('.srch-panel')?.animate(frames, { duration, easing: EASE });
     }
     return () => {
+      root.removeAttribute('data-search-open');
       const back = opener();
       if (!leaving.current && back?.isConnected && back.getClientRects().length) back.focus({ preventScroll: true });
     };
   // Read once, as the panel opens.
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // The glass follows the panel's height as results change (desktop): a ResizeObserver hands over each new height once; the
+  // glass layer scales from the height it shows now to the new one, and the content is clipped to the glass while it grows.
+  // Transform and clip only, never a layout per frame. The first height (the open) and reduced motion get none.
+  useEffect(() => {
+    const content = body.current;
+    const layer = glass.current;
+    if (!content || !layer || typeof ResizeObserver !== 'function') return undefined;
+    let last = 0;
+    let anims = [];
+    const ro = new ResizeObserver((entries) => {
+      const box = entries[entries.length - 1];
+      const next = box.borderBoxSize?.[0]?.blockSize ?? box.contentRect.height;
+      const prev = last;
+      last = next;
+      if (!prev || Math.abs(next - prev) < 2 || !deskNow() || reducedMotion() || closing.current || typeof layer.animate !== 'function') return;
+      // From what shows now: mid-way through a change, the glass's current scale.
+      let shown = prev;
+      if (anims.some((a) => a.playState === 'running')) {
+        try { shown = prev * new DOMMatrixReadOnly(getComputedStyle(layer).transform).d; } catch { /* keep prev */ }
+      }
+      anims.forEach((a) => a.cancel());
+      const timing = { duration: RESIZE_MS, easing: EASE };
+      anims = [layer.animate([{ transform: `scaleY(${shown / next})` }, { transform: 'scaleY(1)' }], timing)];
+      if (next > shown) anims.push(content.animate([{ clipPath: `inset(0 0 ${next - shown}px 0)` }, { clipPath: 'inset(0 0 0 0)' }], timing));
+    });
+    ro.observe(content);
+    return () => { ro.disconnect(); anims.forEach((a) => a.cancel()); };
   }, []);
 
   // Escape (the dialog's cancel, animated) and a native close.
@@ -218,6 +310,11 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
     else router.push(target);
   };
 
+  const readCaret = (field) => {
+    const end = field.value.length;
+    setCaretAtEnd(field.selectionStart === end && field.selectionEnd === end);
+  };
+
   const onKeyDown = (event) => {
     const el = dialog.current;
     if (!el) return;
@@ -229,6 +326,13 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
     }
     if ((event.ctrlKey || event.metaKey) && String(event.key).toLowerCase() === 'k') { event.preventDefault(); return; }
     if (event.key === 'Tab') {
+      // Tab takes the completion: the field becomes the top hit's whole name.
+      if (!event.shiftKey && showGhost && event.target === input.current) {
+        event.preventDefault();
+        setQuery(topHit.title);
+        setActive(0);
+        return;
+      }
       const items = [...el.querySelectorAll(FOCUSABLE)].filter((n) => n.getClientRects().length > 0 && n.tabIndex >= 0);
       if (!items.length) return;
       const first = items[0];
@@ -261,110 +365,135 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
     <dialog ref={dialog} className="srch" aria-label="Search" onKeyDown={onKeyDown}>
       <div className="srch-scrim" aria-hidden="true" onClick={onScrimClick} />
       <div className="srch-panel">
-        <div className="srch-head">
-          <Search className="srch-head__icon" size={20} strokeWidth={2} aria-hidden="true" />
-          <input
-            ref={input}
-            className="srch-input"
-            type="text"
-            inputMode="search"
-            enterKeyHint="go"
-            role="combobox"
-            aria-label="Search pages, chapters and colleges"
-            aria-expanded={rows.length > 0}
-            aria-controls={listId}
-            aria-autocomplete="list"
-            aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
-            aria-describedby={intro ? introId : undefined}
-            placeholder="Search pages, chapters and colleges"
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            spellCheck={false}
-            value={query}
-            onChange={(event) => { setQuery(event.target.value); setActive(0); if (list.current) list.current.scrollTop = 0; if (intro && event.target.value) dismissIntro(); }}
-          />
-          <button type="button" className="srch-close mk-press" onClick={() => requestClose()}>Close</button>
-        </div>
-
-        {intro ? (
-          <div ref={introRef} className="srch-intro" id={introId}>
-            <div className="srch-intro__text">
-              <p className="srch-intro__title">{SEARCH_INTRO.title}</p>
-              <p className="srch-intro__line">{SEARCH_INTRO.line}</p>
-              {/* The shortcut for this device; a touch screen has none to give. */}
-              {touch ? null : (
-                <p className="srch-intro__keys">
-                  Open it any time with <span className="srch-intro__caps" aria-hidden="true">{searchShortcut({ mac }).caps.map((cap) => <kbd key={cap}>{cap}</kbd>)}</span><span className="sr-only">{searchShortcut({ mac }).words}</span>.
-                </p>
-              )}
+        <div ref={glass} className="srch-glass" aria-hidden="true" />
+        <div ref={body} className="srch-body">
+          <div className="srch-head">
+            <Search className="srch-head__icon" size={20} strokeWidth={2} aria-hidden="true" />
+            <div className="srch-entry">
+              <input
+                ref={input}
+                className="srch-input"
+                type="text"
+                inputMode="search"
+                enterKeyHint="go"
+                role="combobox"
+                aria-label="Search pages, chapters and colleges"
+                aria-expanded={rows.length > 0}
+                aria-controls={listId}
+                aria-autocomplete="list"
+                aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
+                aria-describedby={intro ? introId : undefined}
+                placeholder="Search pages, chapters and colleges"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                value={query}
+                onChange={(event) => { setQuery(event.target.value); setActive(0); readCaret(event.target); if (list.current) list.current.scrollTop = 0; if (intro && event.target.value) dismissIntro(); }}
+                onSelect={(event) => readCaret(event.currentTarget)}
+                onCompositionStart={() => setComposing(true)}
+                onCompositionEnd={() => setComposing(false)}
+              />
+              {/* The completion: decoration over the field (the typed part drawn invisibly so the rest lands after it). */}
+              {completion ? (
+                <span ref={ghost} className="srch-ghost" aria-hidden="true" data-fits={showGhost ? 'true' : 'false'}>
+                  <span className="srch-ghost__typed">{query}</span>{completion}
+                </span>
+              ) : null}
             </div>
-            <button
-              type="button"
-              className="srch-intro__ok mk-press"
-              onMouseDown={(event) => event.preventDefault()}
-              onClick={() => { dismissIntro(); input.current?.focus({ preventScroll: true }); }}
-            >
-              Got it
-            </button>
+            <button type="button" className="srch-esc" tabIndex={-1} aria-label="Close" onClick={() => requestClose()}><kbd>Esc</kbd></button>
+            <button type="button" className="srch-close mk-press" onClick={() => requestClose()}>Close</button>
           </div>
-        ) : null}
 
-        <div ref={list} className="srch-list" id={listId} role="listbox" aria-label="Results">
-          {results.map((group, g) => (
-            <div key={group.id} className="srch-group" role="group" aria-labelledby={`${listId}-${group.id}`}>
-              <div id={`${listId}-${group.id}`} className="srch-group__label" role="presentation">{group.label}</div>
-              {group.rows.map((row, j) => {
-                const i = starts[g] + j;
-                const on = i === activeIndex;
-                const links = row.kind === 'chapter' && (on || touch) ? [row.cardsHref && { label: 'Key cards', href: row.cardsHref }, row.learnHref && { label: 'Learn', href: row.learnHref }].filter(Boolean) : [];
-                return (
-                  <div
-                    key={row.id}
-                    id={optionId(i)}
-                    className="srch-row"
-                    role="option"
-                    aria-selected={on}
-                    aria-label={row.hint ? `${row.title}, ${row.hint}` : row.title}
-                    data-active={on || undefined}
-                    data-kind={row.kind}
-                    onPointerMove={() => { if (!on) setActive(i); }}
-                    onClick={() => go(row)}
-                  >
-                    <span className="srch-row__icon" aria-hidden="true"><RowIcon row={row} /></span>
-                    <span className="srch-row__text">
-                      <Title row={row} />
-                      {row.hint ? <span className="srch-row__hint">{row.hint}</span> : null}
-                    </span>
-                    {links.length || on ? (
-                      <span className="srch-row__end">
-                        {links.map((link) => (
-                          <Link
-                            key={link.label}
-                            className="srch-row__link"
-                            href={linkFor(link.href)}
-                            tabIndex={on ? 0 : -1}
-                            onClick={(event) => { event.stopPropagation(); requestClose({ navigating: true }); }}
-                          >
-                            {link.label}
-                          </Link>
-                        ))}
-                        {on ? <span className="srch-row__enter" aria-hidden="true">{row.enter}</span> : null}
-                      </span>
-                    ) : null}
-                  </div>
-                );
-              })}
+          {intro ? (
+            <div ref={introRef} className="srch-intro" id={introId}>
+              {touch ? (
+                <div className="srch-intro__text">
+                  <p className="srch-intro__title">{SEARCH_INTRO.title}</p>
+                  <p className="srch-intro__line">{SEARCH_INTRO.line}</p>
+                </div>
+              ) : (
+                // One quiet line on a desktop: what Search is, and its key in words for this device.
+                <p className="srch-intro__one"><b>{SEARCH_INTRO.title}</b> {shortcut.line}</p>
+              )}
+              <button
+                type="button"
+                className="srch-intro__ok mk-press"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => { dismissIntro(); input.current?.focus({ preventScroll: true }); }}
+              >
+                Got it
+              </button>
             </div>
-          ))}
-          {nothing ? <p className="srch-none">{nothingLine(query)}</p> : null}
-        </div>
-        <p className="sr-only" role="status" aria-live="polite">{typed ? (rows.length ? `${rows.length} ${rows.length === 1 ? 'result' : 'results'}` : nothing ? nothingLine(query) : '') : ''}</p>
+          ) : null}
 
-        <div className="srch-foot" aria-hidden="true">
-          <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
-          <span><kbd>Enter</kbd> to open</span>
-          <span><kbd>Esc</kbd> to close</span>
+          <div ref={list} className="srch-list" id={listId} role="listbox" aria-label="Results">
+            {results.map((group, g) => (
+              <div key={group.id} className="srch-group" role="group" aria-labelledby={`${listId}-${group.id}`}>
+                <div id={`${listId}-${group.id}`} className="srch-group__label" role="presentation">{group.label}</div>
+                {group.rows.map((row, j) => {
+                  const i = starts[g] + j;
+                  const on = i === activeIndex;
+                  const top = Boolean(topHit) && i === 0;
+                  const links = row.kind === 'chapter' && (on || touch) ? [row.cardsHref && { label: 'Key cards', href: row.cardsHref }, row.learnHref && { label: 'Learn', href: row.learnHref }].filter(Boolean) : [];
+                  return (
+                    <div
+                      key={row.id}
+                      id={optionId(i)}
+                      className="srch-row"
+                      role="option"
+                      aria-selected={on}
+                      aria-label={row.hint ? `${row.title}, ${row.hint}` : row.title}
+                      data-active={on || undefined}
+                      data-top={top || undefined}
+                      data-hint={row.hint ? '' : undefined}
+                      data-kind={row.kind}
+                      // Only a pointer that really moved: a list that shifts or scrolls under a resting pointer sends moves at the
+                      // same place (and the first move the panel hears is only remembered).
+                      onPointerMove={(event) => {
+                        const at = pointerAt.current;
+                        pointerAt.current = { x: event.clientX, y: event.clientY };
+                        if (on || !at || (at.x === event.clientX && at.y === event.clientY)) return;
+                        setActive(i);
+                      }}
+                      onClick={() => go(row)}
+                    >
+                      <span className="srch-row__icon" aria-hidden="true"><RowIcon row={row} /></span>
+                      <span className="srch-row__text">
+                        <Title row={row} />
+                        {row.hint ? <span className="srch-row__hint">{row.hint}</span> : null}
+                      </span>
+                      {links.length || on ? (
+                        <span className="srch-row__end">
+                          {links.map((link) => (
+                            <Link
+                              key={link.label}
+                              className="srch-row__link"
+                              href={linkFor(link.href)}
+                              tabIndex={on ? 0 : -1}
+                              onClick={(event) => { event.stopPropagation(); requestClose({ navigating: true }); }}
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                          {on ? <span className="srch-row__enter" aria-hidden="true">{row.enter}<kbd>Enter</kbd></span> : null}
+                        </span>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+            {nothing ? <p className="srch-none">{nothingLine(query)}</p> : null}
+          </div>
+          <p className="sr-only" role="status" aria-live="polite">{typed ? (rows.length ? `${rows.length} ${rows.length === 1 ? 'result' : 'results'}` : nothing ? nothingLine(query) : '') : ''}</p>
+
+          <div className="srch-foot" aria-hidden="true">
+            <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
+            <span><kbd>Enter</kbd> to open</span>
+            {showGhost ? <span><kbd>Tab</kbd> to complete</span> : null}
+            <span><kbd>Esc</kbd> to close</span>
+          </div>
         </div>
       </div>
     </dialog>

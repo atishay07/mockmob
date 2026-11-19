@@ -54,6 +54,9 @@ html[data-theme='light'] .app-shell .pr {
    into the grid: Subject and Mode, Questions and Fine-tune on the left, the card beside them on the right. */
 .app-shell .pr .pr-layout--1017 > .pr-tail { display: grid; gap: 30px; min-width: 0; }
 @media (min-width: 1024px) {
+  /* Levels (20 Nov 2026): Subject's heading stands at its column's top, level with the session card beside it; its Edit subjects
+     link (a 44 px target) sits on the heading's line and adds no height above it. */
+  .app-shell .pr .pr-layout--1017 .pr-step__head > .pr-link { margin-block: -7px; }
   .app-shell .pr .pr-layout--1017 > .pr-tail { display: contents; }
   .app-shell .pr .pr-layout--1017 > .pr-steps, .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-step { grid-column: 1; }
   .app-shell .pr .pr-layout--1017 > .pr-tail > .pr-ticket { grid-column: 2; grid-row: 1 / span 3; align-self: start; }

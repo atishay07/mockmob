@@ -1,8 +1,8 @@
 "use client";
 
-// Ask Mobi's panel as the shell sees it (19 Nov 2026): open or not, its form ('dock', 'overlay', 'sheet') and whether the desktop
-// launcher opened it. AskMobiHost writes it; the shell reads it for its dock attribute (data-mobi-dock) and the launcher for its
-// pressed state and its place. Never restored: a fresh load starts closed.
+// Ask Mobi's window as the shell sees it (20 Nov 2026): open or not, its form ('window' or a phone's 'sheet') and whether the chat
+// box at rest opened it. AskMobiHost writes it; the chat box (AskMobiLauncher.jsx) reads it to step away while the window is open
+// and to take focus back when it closes. Never restored: a fresh load starts closed. Nothing in it changes the page's width.
 import { useSyncExternalStore } from 'react';
 
 const closed = Object.freeze({ open: false, form: null, launcher: false });
@@ -28,10 +28,4 @@ function subscribe(fn) {
 /** { open, form, launcher }. The server render is always closed. */
 export function useAskMobiState() {
   return useSyncExternalStore(subscribe, askMobiState, () => closed);
-}
-
-/** True while the panel is open in its docked form: the shell narrows its main area by --mobi-dock-w. */
-export function useMobiDocked() {
-  const s = useAskMobiState();
-  return s.open && s.form === 'dock';
 }

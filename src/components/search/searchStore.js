@@ -21,6 +21,18 @@ export function closeSearch() {
   emit();
 }
 
+// The open panel's own animated close (SearchPalette registers it while mounted), so a key outside the panel's handler (Shift
+// tapped twice, heard by the host) closes it the way Escape does: focus back to the opener. With no panel drawn, a plain close.
+let closer = null;
+export function setSearchCloser(fn) {
+  closer = fn;
+  return () => { if (closer === fn) closer = null; };
+}
+export function requestCloseSearch() {
+  if (closer) closer();
+  else closeSearch();
+}
+
 export function searchState() {
   return state;
 }

@@ -91,8 +91,9 @@
 
 /* ---------------------------------------------------------------- the panel */
 
-/* The page under an open panel holds still and keeps its scrollbar's room (no shift), as under the Start sheet. */
-html:has(.srch[open]) { overflow: hidden; scrollbar-gutter: stable; }
+/* The page under an open panel holds still and keeps its scrollbar's room (no shift), as under the Start sheet. One attribute the
+   panel writes while it is drawn (20 Nov speed pass: no :has() over the whole document). */
+html[data-search-open] { overflow: hidden; scrollbar-gutter: stable; }
 
 .srch {
   --srch-scrim: rgba(8, 7, 5, 0.5);
@@ -134,6 +135,15 @@ html[data-theme='light'] .srch {
   box-shadow: var(--srch-shadow);
   overflow: hidden;
 }
+/* The glass layer is the desktop panel's surface (drawn below); the content sits in the body over it. */
+.srch-glass { display: none; }
+.srch-body {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
 
 /* The head: the panel is the field, so the input has no border and its focus is the caret. */
 .srch-head {
@@ -146,8 +156,10 @@ html[data-theme='light'] .srch {
   border-bottom: 1px solid var(--a-line);
 }
 .srch-head__icon { flex: none; color: var(--a-ink-3); }
+.srch-entry { position: relative; display: flex; flex: 1 1 auto; align-items: center; min-width: 0; }
 .srch-input {
   flex: 1 1 auto;
+  width: 100%;
   min-width: 0;
   height: 56px;
   padding: 0;
@@ -162,6 +174,8 @@ html[data-theme='light'] .srch {
 }
 .srch-input::placeholder { color: var(--a-ink-3); opacity: 1; }
 .srch-input:focus, .srch-input:focus-visible { outline: none; box-shadow: none; }
+/* The completion and the Esc key are the desktop panel's (drawn below). */
+.srch-ghost, .srch-esc { display: none; }
 
 /* Close: phones only (desktop closes with Esc, the scrim, or a row). */
 .srch-close {
@@ -331,8 +345,154 @@ html[data-theme='light'] .srch-row__title { font-weight: 500; }
 }
 .srch-foot span { display: inline-flex; align-items: center; gap: 4px; }
 
-/* ---------------------------------------------------------------- phones and small tablets: a full-height sheet from the top */
-@media (max-width: 899px) {
+/* ---------------------------------------------------------------- desktop (768 px and wider): after Apple's Spotlight
+   (owner, 20 Nov 2026). One large glass bar in the upper part of the window, its top at about 18% of the height, that grows as
+   results arrive. The glass (an 80% raised-paper fill over a blur, one hairline, one large soft shadow) is its own layer, so the
+   panel's height change can be shown with a scale on it (SearchPalette.jsx), never a layout per frame. Solid paper under
+   html[data-lite] and reduced transparency. The scrim is a plain dim, no blur. */
+@media (min-width: 768px) {
+  .srch { --srch-scrim: rgba(0, 0, 0, 0.4); --srch-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.25); }
+  html[data-theme='light'] .srch { --srch-scrim: rgba(0, 0, 0, 0.16); --srch-shadow: 0 32px 80px -20px rgba(40, 32, 16, 0.3), 0 2px 8px rgba(40, 32, 16, 0.08); }
+  .srch-panel {
+    --srch-top: max(96px, 18vh);
+    top: var(--srch-top);
+    width: min(640px, 92vw);
+    max-height: calc(100vh - var(--srch-top) - 32px);
+    border: 0;
+    border-radius: 20px;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+  .srch-glass {
+    position: absolute;
+    inset: 0;
+    display: block;
+    border: 1px solid var(--a-line);
+    border-radius: 20px;
+    background: var(--a-raised);
+    background: color-mix(in srgb, var(--a-raised) 80%, transparent);
+    -webkit-backdrop-filter: blur(28px) saturate(1.5);
+    backdrop-filter: blur(28px) saturate(1.5);
+    box-shadow: var(--srch-shadow);
+    transform-origin: 50% 0;
+    pointer-events: none;
+  }
+  .srch-body { border-radius: 20px; overflow: hidden; }
+
+  /* The bar: 60 px, 20 px text, the icon at the left and a small Esc key at the right. */
+  .srch-head { gap: 12px; min-height: 60px; padding: 0 14px 0 20px; }
+  .srch-input { height: 58px; font-size: 20px; line-height: 1.3; letter-spacing: -0.005em; }
+  .srch-esc {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    padding: 6px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    appearance: none;
+  }
+  .srch-esc kbd {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 7px;
+    border: 1px solid var(--a-line);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--a-ink-3);
+    font: 600 11px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  }
+  .srch-esc:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+
+  /* The completion: the rest of the top hit's name in muted ink right after the typed text, the typed part drawn invisibly in
+     the same type so the two line up to the pixel. Decoration only; hidden when it would not fit. */
+  .srch-ghost {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    color: var(--a-ink-3);
+    font: 400 20px/1.3 var(--font-body, system-ui), system-ui, sans-serif;
+    letter-spacing: -0.005em;
+    white-space: pre;
+    pointer-events: none;
+  }
+  .srch-ghost[data-fits='false'] { visibility: hidden; }
+  .srch-ghost__typed { color: transparent; }
+
+  /* The first-use line: one quiet line under the bar, lined up with the typed text, with its Got it. */
+  .srch-intro { align-items: center; gap: 14px; padding: 9px 14px 9px 52px; }
+  .srch-intro__one { flex: 1 1 auto; min-width: 0; color: var(--a-ink-2); font: 400 13.5px/1.4 var(--font-body, system-ui), system-ui, sans-serif; }
+  .srch-intro__one b { color: var(--a-ink); font-weight: 650; }
+  .srch-intro__ok { min-height: 30px; padding: 0 12px; border-radius: 8px; background: transparent; font-size: 13px; }
+
+  /* The list scrolls inside itself past 60% of the window. */
+  .srch-list { max-height: 60vh; padding: 2px 8px 8px; }
+  .srch-group + .srch-group { margin-top: 2px; }
+  .srch-group__label { padding: 10px 12px 4px; font: 600 12px/1.3 var(--font-body, system-ui), system-ui, sans-serif; }
+
+  /* Rows: 44 px; the top hit 56 px with stronger text. The active row's end says what Enter does, with its key. */
+  .srch-row { --end: 108px; min-height: 44px; padding-block: 4px; border-radius: 10px; }
+  .srch-row[data-kind='chapter'] { --end: 262px; }
+  .srch-row[data-active] { background: color-mix(in srgb, var(--a-ink) 8%, transparent); }
+  .srch-row[data-top] { min-height: 56px; }
+  .srch-row[data-top] .srch-row__title { font-size: 16.5px; font-weight: 600; }
+  /* A top hit with a quiet part reads as two lines: its whole name, then the quiet part with what Enter does at the right, so a
+     long chapter name keeps the full width. */
+  .srch-row[data-top][data-hint] {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    grid-template-areas: 'icon title title' 'icon hint end';
+    column-gap: 12px;
+    row-gap: 2px;
+    padding: 8px 12px;
+  }
+  .srch-row[data-top][data-hint] .srch-row__icon { grid-area: icon; }
+  .srch-row[data-top][data-hint] .srch-row__text { display: contents; }
+  .srch-row[data-top][data-hint] .srch-row__title { grid-area: title; }
+  .srch-row[data-top][data-hint] .srch-row__hint { grid-area: hint; min-width: 0; align-self: center; }
+  .srch-row[data-top][data-hint] .srch-row__end { position: static; grid-area: end; justify-self: end; height: 20px; transform: none; }
+  .srch-row[data-top][data-hint] .srch-row__link { min-height: 28px; margin-block: -4px; }
+  .srch-row__enter { display: inline-flex; align-items: center; gap: 8px; }
+  .srch-row__enter kbd {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 7px;
+    border: 1px solid var(--a-line-strong);
+    border-radius: 6px;
+    color: var(--a-ink-2);
+    font: 600 11px/1 var(--font-body, system-ui), system-ui, sans-serif;
+  }
+  .srch-none { padding: 16px 12px 12px; font-size: 14.5px; }
+
+  /* The key hints: smaller and quieter. */
+  .srch-foot { gap: 4px 16px; padding: 8px 20px; color: color-mix(in srgb, var(--a-ink-3) 85%, transparent); font-size: 11px; }
+  .srch-foot kbd { min-width: 18px; height: 18px; padding: 0 4px; border-bottom-width: 1px; background: transparent; color: var(--a-ink-3); font-size: 10px; }
+}
+/* A short window: the bar sits closer to the top. */
+@media (min-width: 768px) and (max-height: 620px) {
+  .srch-panel { --srch-top: max(24px, 8vh); }
+  .srch-list { max-height: none; }
+}
+/* A touch screen this wide (a tablet): the Close key it can reach, not the Esc key it cannot press. */
+@media (min-width: 768px) and (pointer: coarse) {
+  .srch-esc { display: none; }
+  .srch-close { display: inline-flex; }
+  .srch-intro__ok { min-height: 44px; }
+}
+/* Weak machines and reduced transparency: solid paper, no blur. */
+html[data-lite]:not([data-lite='false']) .srch-glass { background: var(--a-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (prefers-reduced-transparency: reduce) {
+  .srch-glass { background: var(--a-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* ---------------------------------------------------------------- phones: a full-height sheet from the top */
+@media (max-width: 767px) {
   .srch-scrim { display: none; }
   .srch-panel {
     top: 0;

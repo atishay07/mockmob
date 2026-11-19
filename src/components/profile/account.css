@@ -47,6 +47,9 @@
 }
 .app-shell .acct [id] { scroll-margin-top: 88px; }
 .app-shell .acct-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+/* How your Mob sees you is its own card now (19 Nov), so its title is a card heading like its neighbours' ("Progress", "Plan"),
+   not the 16 px row title it was inside the account card (20 Nov 2026, the levels). */
+.app-shell .you-mob .acct-mob h3 { font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
 
 /* ---------- Keys and links (sentence case, 44 px targets, every state) ---------- */
 .app-shell .acct-key {
@@ -299,6 +302,9 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 /* Your progress: one card, three ruled cells (week ring, badges, best). No nested cards. */
 .app-shell .acct-glance { display: grid; gap: 14px; }
 .app-shell .acct-glance__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+/* Levels (20 Nov 2026): on a desk "Your progress" stands at its card's top like the card beside it; the 44 px link sits on the
+   heading's line and adds no height above it. */
+@media (min-width: 1100px) { .app-shell .acct-glance__head > .acct-link { margin-block: -10px; } }
 .app-shell .acct-glance__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .app-shell .acct-glance__cell { min-width: 0; padding: 12px 0; border-top: 1px solid var(--a-line); }
 .app-shell .acct-glance__cell:first-child { border-top: 0; padding-top: 0; }
