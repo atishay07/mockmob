@@ -222,5 +222,6 @@ test('a marked word in the statement keeps its comma, and desktop marks clear th
   assert.match(read('src/components/landing/Statement.jsx'), /<span className="lp-statement__nb"><Doodle /);
   assert.match(read('src/app/hero-depth.css'), /\.lp-statement__nb \{ white-space: nowrap; \}/);
   assert.match(read('src/components/doodle/doodle.css'), /@media \(min-width: 960px\) \{ \.dd--circle \{ margin-inline: 0\.13em; \} \}/);
+  assert.match(read('src/components/doodle/doodle.css'), /\n\.dd--circle \{ margin-inline: 0\.1em; \}/, 'and on a phone');
   assert.match(read('src/components/doodle/doodlePaths.mjs'), /const x0 = -fs \* 0\.08; const x1 = w \+ fs \* 0\.1;/);
 });
