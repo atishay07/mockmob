@@ -38,10 +38,11 @@ test('LK81 pausing the tour restyles only the elements that animate, never the w
 });
 
 test('LK93 the DU eligibility section is there when the reader arrives: no reveal in front of the calculator, drawn while idle', () => {
+  // 19 Nov 2026 (owner LK323): the DU courses section left the home page; the calculator keeps its own page, and wherever the
+  // teaser is used it still draws while idle.
   const page = read('../../app/page.js');
-  const du = page.slice(page.indexOf('id="du-eligibility"'), page.indexOf('</section>', page.indexOf('id="du-eligibility"')));
-  assert.match(du, /<EligibilityTeaser \/>/);
-  assert.doesNotMatch(du, /<Reveal>\s*<EligibilityTeaser/, 'the calculator is not behind a reveal fade');
+  assert.doesNotMatch(page, /id="du-eligibility"/);
+  assert.doesNotMatch(page, /<Reveal>\s*<EligibilityTeaser/, 'the calculator is never behind a reveal fade');
   const teaser = read('../du/EligibilityTeaser.jsx');
   assert.match(teaser, /import \{ predraw \} from '@\/components\/landing\/storyPredraw\.mjs';/);
   assert.match(teaser, /const section = hostRef\.current\?\.closest\('main > \*'\);\s*if \(section\) predraw\(section\);/);

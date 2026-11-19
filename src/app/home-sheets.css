@@ -7046,6 +7046,23 @@ html:not([data-theme='light']) .lp-torch { background: radial-gradient(closest-s
 @media (hover: hover) and (pointer: fine) {
   .mm.lp [data-tilt] { transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
 }
+/* Every key answers a hovering mouse (19 Nov 2026, owner LK333; a census at 1440, tmp/1119-phone/hover.mjs, found these
+   gave nothing back): the keys inside the tour's product screens and the exam screen's keys. Small and quick: a pointer gets an answer, the layout never moves. */
+@media (hover: hover) and (pointer: fine) {
+  body .ts .ts__key { transition: filter 140ms ease, transform 120ms ease, background-color 140ms ease; }
+  body .ts .ts__key:hover:not([aria-disabled='true']) { filter: brightness(1.16); }
+  body .xs-btn, body .xs-submit, body .xs-exit, body button.xs-chip { transition: transform 100ms ease, background-color 140ms ease, border-color 140ms ease, filter 140ms ease; }
+  body .xs-btn:hover:not(:disabled), body .xs-exit:hover, body button.xs-chip:hover { border-color: var(--xs-ink); }
+  body .xs-submit:hover { filter: brightness(1.06); }
+}
+
+/* The picture stays with the reader (19 Nov 2026, owner LK335: "too much white space in between stuff" on desktop). In Key
+   cards and Ask Mobi the words' column is taller than the card beside it, so the card's column ended in 150 to 300 px of
+   blank paper. On a desktop window tall enough to hold it, the card now rides down its column beside the words. */
+@media (min-width: 1100px) and (min-height: 780px) {
+  .mm.lp .lp-kc__grid > .kc-demo, .mm.lp .bmk__grid > .bmk__demo { position: sticky; top: 104px; align-self: start; }
+}
+
 /* Depth on a desktop scroll (19 Nov 2026, owner LK333: desktop "scrolls" may carry more than a phone's): in the two-column
    sections the picture drifts a little against its words as the section crosses the window, so the page has a near and a
    far. The browser runs it from the scroll position itself (a view timeline): no script, nothing to fall behind the wheel.

@@ -294,7 +294,7 @@ test('section height budgets and the full-screen view in a browser', { skip: !pr
 // ---------------------------------------------------------------- R4-H6 (LK129, 6 Nov 2026): the monitor on phones again
 test('R4-H6: the monitor is the one device at every width; round 3\'s drawn phone and its phone-native screen are gone', () => {
   assert.match(DEVICE_JSX, /export function ExamDevice\(\{ children, ref \}\)/);
-  assert.match(DEVICE_JSX, /<div className="xs-device" ref=\{ref\}>\s*<div className="xs-monitor">\s*<div className="xs-bezel">\s*<div className="xs-glass">\{children\}<\/div>/);
+  assert.match(DEVICE_JSX, /<div className="xs-device" ref=\{ref\}>\s*<div className="xs-monitor" data-tilt="">\s*<div className="xs-bezel">\s*<div className="xs-glass">\{children\}<\/div>/);
   assert.doesNotMatch(DEVICE_JSX + DEVICE_CSS, /xs-phone/, 'no phone device');
   assert.doesNotMatch(JSX + CSS, /xs-frame--phone|xs-p-|xs-pn|setDrawer/, 'no R3-D6 phone screen and no drawer');
   // R5: a phone-native screen is drawn again, but only inside the full-screen view, never in the section (no drawn phone).

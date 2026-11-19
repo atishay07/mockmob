@@ -125,7 +125,7 @@ test('the bar follows the story\'s step, not the scroll: one MutationObserver on
   assert.match(BAR_CSS, /@media \(prefers-reduced-motion: reduce\) \{\s*\.mm\.lp :is\(\.lp-bar__row, \.lp-bar__blur, \.lp-veil\) \{ transition: none !important; transform: none !important; \}/);
   assert.match(BAR_CSS, /html\[data-motion='reduced'\] \.mm\.lp :is\(\.lp-bar__row, \.lp-bar__blur, \.lp-veil\) \{ transition: none !important;/);
   // The dock steps aside on the same signal (data-live), so the two never stack.
-  assert.match(STORY_CSS, /\.mm\.lp:has\(\.ss\[data-live='true'\]\) \.mm-dock:not\(:focus-within\) \{ opacity: 0;/);
+  assert.match(STORY_CSS, /\.mm\.lp\[data-story-live\] \.mm-dock:not\(:focus-within\) \{ opacity: 0;/, 'the page mirrors a live story as a plain attribute (19 Nov 2026: no :has() over the page)');
 });
 
 test('Skip goes to the next section with an id after the held one; the statement keeps its dock', () => {
