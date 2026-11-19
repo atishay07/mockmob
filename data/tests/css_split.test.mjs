@@ -155,9 +155,23 @@ test('the session context value never changes: the state is read from a store', 
   assert.match(value, /\(\) => \(\{\s+store,\s+actions: \{/);
   assert.match(provider, /const \{ user, status \} = useSyncExternalStore\(store\.subscribe, store\.get, firstState\);/);
   assert.doesNotMatch(provider, /useState\('loading'\)|setStatus\(|setUser\(/);
-  // Readers go through the hooks; nothing reads the bare context for state.
-  for (const rel of ['src/app/error.js', 'src/components/recovery/MistakeRepair.jsx']) {
-    assert.doesNotMatch(read(rel), /useContext\(AuthContext\)/, rel);
-    assert.match(read(rel), /useAuthMaybe\(\)/, rel);
+  // Readers go through the hooks; nothing reads the bare context for state. (A reader that did would see no user and no
+  // status, silently.) Only the provider itself and the development previews, which hand in a plain value, name the context.
+  const direct = [];
+  for (const file of scripts(join(root, 'src'))) {
+    const rel = relative(root, file).split(sep).join('/');
+    if (rel === 'src/components/AuthProvider.jsx' || rel.startsWith('src/app/preview/')) continue;
+    if (/\bAuthContext\b/.test(readFileSync(file, 'utf8'))) direct.push(rel);
   }
+  assert.deepEqual(direct, []);
+  assert.match(read('src/app/error.js'), /const auth = useAuthMaybe\(\);/);
 });
+
+function scripts(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) scripts(full, out);
+    else if (/\.(jsx?|mjs|tsx?)$/.test(name) && !/\.test\./.test(name)) out.push(full);
+  }
+  return out;
+}

@@ -9,7 +9,7 @@
 //   pick is on the card the recommended move waits in the footer, marked Suggested;
 //   "More ways to practise" opens every other way in (the R3 Something else sheet).
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
-import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { ChevronsUpDown, Plus, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers, ListChecks, MonitorCheck, Users, NotebookText, Brain, RefreshCw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -21,7 +21,7 @@ import { MorePanel } from '@/components/goal/DailyMinutes';
 import { isMinutes, isPreset, minutesChip } from '@/lib/goalMinutes.mjs';
 import { markLine, pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
-import { AuthContext } from '@/components/AuthProvider';
+import { useAuthMaybe } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import AskMobiLink from '@/components/ai/AskMobiLink';
@@ -39,7 +39,7 @@ function BigNumber({ value }) {
 
 // A repair move's price before the press: "Each repair uses 1 credit. You have 68." (unknown balance, no number).
 function RepairPrice({ each }) {
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   return <p className="tm__price">{usesLine({ what: 'Each repair', cost: each, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }

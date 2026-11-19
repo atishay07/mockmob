@@ -4,10 +4,9 @@
 // (the ask-context route and the chat route only know attempt:question), so the check question is never what Mobi is asked about.
 // Its price is shown here, before the student leaves, from the AI wallet; when written replies cannot be bought the link goes
 // and the line says so and that nothing is charged.
-import { useContext } from 'react';
 import Link from 'next/link';
 import { CHECK_COPY, askLabel, askSeesLine, askOffer, safeAskHref } from '@/../data/repair_check_client.mjs';
-import { AuthContext } from '@/components/AuthProvider';
+import { useAuthMaybe } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import { askRequestFromHref, isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
@@ -16,7 +15,7 @@ import './repair-check.css';
 // `balance`: the credits the repair's own response says are left after its charge. It is newer than the wallet read
 // (reused for five minutes), so the price line and the repair's "1 credit used. You have N." say the same N.
 export default function RepairAsk({ attemptId, questionId, number = null, askHref = null, askContext = null, balance = null, style }) {
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   const left = Number.isFinite(balance) ? balance : wallet.wallet?.known ? wallet.wallet.total : null;
   const price = usesLine({ what: CHECK_COPY.askCost, cost: 1, pool: 'ai', balance: left });

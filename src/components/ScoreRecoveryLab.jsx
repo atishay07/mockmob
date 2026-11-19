@@ -12,7 +12,7 @@
 // The old Repair step (what a repair is, its progress, the queue and its second volt key) became the result's next-move
 // panel and its mistakes list (src/components/result/NextMove.jsx, MistakeList.jsx). Facts come from the server-scored
 // attempt; device events are labelled as such.
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { apiGet } from '@/lib/fetcher';
@@ -29,7 +29,7 @@ import TrapsMeet from './result/TrapsMeet';
 import OlderPaper from './result/OlderPaper';
 import FirstTimedMock from './timed/FirstTimedMock';
 import { useFirstTimedMock } from './timed/useFirstTimedMock';
-import { AuthContext } from '@/components/AuthProvider';
+import { useAuthMaybe } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usesLine } from '@/lib/creditCopy.mjs';
 import { LAB_PRICE_LINE, labPracticeLink } from './result/labPractice.mjs';
@@ -47,7 +47,7 @@ export function waitingLine(waiting = []) {
 }
 
 export function RepairTotal({ remaining, waiting = [] }) {
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   if (!(remaining > 0)) return null;
   const what = remaining === 1 ? 'This repair' : `These ${remaining} repairs`;
