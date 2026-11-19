@@ -216,16 +216,14 @@ test('the section is short: a head of at most 20 words, the size budgets are sta
   // (R3-D6's phone was 1,031 px at 390) and adds the full-screen key under it.
   // R4-H1 widened the desktop column, so the monitor (unchanged in design) is larger at 1440: 799 px measured, under 839 px of
   // window below the site bar (801 px measured on 6 Nov).
-  // R19 (18 Nov 2026, owner: "make the actual portion size of the graphic ... larger"): the phone draws the screen itself, live,
-  // at phone scale (756 px tall), so the phone budget is 1200 px; the desktop budget is unchanged.
-  assert.match(CSS, /at most:\s+1200 px of section at 360 and 390 [^,]*, 810 px at\s+1440/);
+  assert.match(CSS, /at most:\s+780 px of section at 360 and 390, 810 px at 1440/);
   assert.doesNotMatch(JSX, /lp-exam/, 'the old NTA clone\'s classes are gone from the new component');
   assert.match(JSX, /id="exam-experience"/, 'the hero link and the dashboard\'s preview link still land here');
   assert.match(JSX, /<section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">/);
 });
 
 // Opt-in browser measure: EXAM_HEIGHT_URL=http://localhost:3592/ node --test src/components/landing/examScreen.test.mjs
-// Section height at most 1200 px at 360 and 390 (R19) and 810 px at 1440, in both interfaces and both themes; switching never moves it.
+// Section height at most 780 px at 360 and 390 and 810 px at 1440, in both interfaces and both themes; switching never moves it.
 // On a phone (360, 390) the full-screen key is at least 44 px tall and opens the view (R5): upright (its stage is the window,
 // never turned), the runner on a phone in real pixels (MockMob's stem 19 px and options 16 px, NTA style's 16 and 15.5 px),
 // every key in it at least 44 px; the palette key raises the sheet and Escape lowers the sheet alone; Escape then closes the
@@ -236,7 +234,7 @@ test('section height budgets and the full-screen view in a browser', { skip: !pr
   const { chromium } = require(process.env.PLAYWRIGHT_CORE || 'playwright-core');
   const browser = await chromium.launch(process.env.MM_CHROME ? { executablePath: process.env.MM_CHROME, headless: true } : { channel: 'chrome', headless: true });
   try {
-    for (const [width, height, max] of [[360, 640, 1200], [390, 844, 1200], [1440, 900, 810]]) {
+    for (const [width, height, max] of [[360, 640, 780], [390, 844, 780], [1440, 900, 810]]) {
       for (const theme of ['dark', 'light']) {
         const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
         // 'load' and a short settle: a dev server's open socket can keep 'networkidle' from ever arriving.
@@ -335,6 +333,32 @@ test('R4-H6, R5: the view is the same state and switch in a named modal; the foc
   assert.match(DIALOG, /<\/dialog>, document\.querySelector\('\.mm\.lp'\) \|\| document\.body\) : null\}/, 'on the page root, outside the contained section');
   assert.match(JSX, /data-running=\{started && \(onScreen \|\| full\)\}/, 'the clock runs while the view is open');
   for (const key of ['open', 'title', 'close']) assert.ok(EXAM.full[key], `EXAM.full.${key}`);
+});
+
+// ---------------------------------------------------------------- 19 Nov 2026 (owner, 18 Nov, about 10 pm): the monitor back on
+// phones. "That desktop UI was only better than this mobile approach ... This can be implemented when someone clicks on try full
+// screen." R19's phone-scale screen in the section is undone: the monitor of commit 219551a16 is drawn at every width, it is a
+// picture on a phone (inert, one tap target over it), and the upright runner lives only in the full-screen view.
+test('19 Nov: the monitor is drawn at every width; no phone-scale screen in the section', () => {
+  assert.doesNotMatch(CSS + DEVICE_CSS, /\.xs-(device|monitor|bezel)\s*\{[^}]*display:\s*none/, 'nothing hides the monitor');
+  assert.doesNotMatch(CSS, /R19|narrows to 260 px|1200 px of section/, 'R19\'s phone-scale layout and its desktop column are gone');
+  assert.doesNotMatch(JSX, /xs-about|EXAM\.about/, 'the NTA gate is the card under the monitor, not a disclosure');
+  assert.match(JSX, /<div className="xs-gate">/);
+  assert.match(CSS, /\.xs-layout \{[^}]*grid-template-columns: minmax\(230px, 270px\) minmax\(0, 1fr\);/, 'the desktop column is 219551a16\'s');
+});
+
+test('19 Nov: on a phone the monitor is an inert picture with one tap target that opens the full-screen view', () => {
+  assert.match(JSX, /const query = window\.matchMedia\('\(max-width: 760px\)'\);/);
+  assert.match(FRAME, /<div className="xs-frame" data-interface=\{mode\} inert=\{pictureOnly \|\| undefined\}>/, 'its tiny keys take no focus and no tap');
+  assert.match(JSX, /\{pictureOnly && !full \? <button type="button" className="xs-tap" tabIndex=\{-1\} aria-hidden="true" onClick=\{openFull\} \/> : null\}/,
+    'a tap on the picture opens the view; the keyboard and screen readers use the visible key');
+  assert.match(CSS, /\.xs-tap \{ display: none; \}\s*@media \(max-width: 760px\) \{\s*\.xs-tap \{\s*display: block; position: absolute; inset: 0;/);
+});
+
+test('19 Nov: the intro line says NTA style is the real NTA screen, and names the switch\'s own label', () => {
+  assert.equal(EXAM_HEAD.sub, 'NTA style is an exact copy of the real NTA exam screen. Switch views and keep your answers.');
+  assert.ok(EXAM_HEAD.sub.startsWith(EXAM.nta.interface), 'the line starts with the switch\'s NTA label, word for word');
+  assert.match(EXAM.address.nta, /interface=nta/, 'the monitor\'s address bar in NTA style');
 });
 
 // ---------------------------------------------------------------- R5 (owner, 6 Nov 2026): full screen on a phone stays upright

@@ -74,14 +74,14 @@ export const HERO_STRINGS = [
   ...heroFeatures({ compass: true, keyCards: true }).map((f) => ({ text: `${f.name}. ${f.line}`, source: {
     'Unlimited mocks': 'Pro: unlimited Quick and Full (homeCopy proPlan); every mock built fresh from one live bank (the FAQ)',
     'Mistake Lab': 'the Mistake Lab head (homeCopy LAB_HEAD)',
-    'Exam-day screen': 'the exam section\'s sub (homeCopy EXAM_HEAD): switch to NTA style to rehearse (round 11)',
+    'Exam-day screen': 'the exam section\'s sub (homeCopy EXAM_HEAD): NTA style is the real NTA screen, switch views (19 Nov 2026)',
     'DU Compass': 'the Compass head (homeCopy COMPASS_HEAD)',
     'Ask Mobi': 'Ask Mobi for guests (AskMobiSheet.jsx, round 14): three free questions, no sign-up, the count the route enforces (guestMobi.js GUEST_QUESTIONS)',
     'Key cards': 'the Key cards head (keyCardsCopy KEY_CARDS_HEAD)',
   }[f.name], holds: () => ({
     'Unlimited mocks': () => proPlan({}).some((item) => /^Unlimited Quick practice and Full mock/.test(item)) && /every mock is built fresh from one live question bank/.test(FAQ),
     'Mistake Lab': () => /traced/.test(LAB_HEAD.h2),
-    'Exam-day screen': () => /Switch to NTA style to rehearse/.test(EXAM_HEAD.sub),
+    'Exam-day screen': () => /^NTA style is an exact copy of the real NTA exam screen\. Switch views/.test(EXAM_HEAD.sub),
     'DU Compass': () => /shortlist/.test(COMPASS_HEAD.h2),
     'Ask Mobi': () => /3 free questions\. No sign-up\./.test(read('./AskMobiSheet.jsx')) && /export const GUEST_QUESTIONS = 3;/.test(read('../../lib/server/guestMobi.js')),
     'Key cards': () => /^Turn it\. Rate it\./.test(KEY_CARDS_HEAD.h2),

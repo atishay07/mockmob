@@ -1,8 +1,24 @@
 "use client";
 
-// The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov; R4-H6, LK129, R5 6 Nov; R19 18 Nov 2026): one exam screen,
-// with a MockMob / NTA style switch above it that keeps the answers and the timer.
-// - The monitor shows the desktop runner at every width. Tapping the phone preview opens the upright runner.
+// The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov; R4-H6, LK129, R5 6 Nov 2026): one exam screen on a desktop
+// monitor at every width, with a MockMob / NTA style switch beside it that keeps the answers and the timer.
+// - The monitor (ExamDevice.jsx) holds a browser window whose address bar shows where the screen really lives
+//   (mockmob.in/test, with interface=nta in NTA style, the address the runner reads). The screen is laid out at 880 x 550
+//   design pixels and scales with the monitor as a whole, so a phone sees the same desktop screen, smaller: the round-2
+//   picture the owner liked (LK129 reverted R3-D6's phone-native screen inside a drawn phone).
+// - Phones (below 761 px) get one more key under the monitor, "Try it full screen": the same state in a full-screen view.
+//   R5 (owner, 6 Nov 2026: "this full-screen mode on mobile: it should detect that it's mobile, and it should not make it
+//   horizontal"; it replaces R4-H6's monitor screen drawn sideways): the view is the runner as it really is on a phone,
+//   upright and in real pixels, never turned and never locked to landscape. MockMob is the runner below 1024 px
+//   (TestPageClient.jsx): the saved note, the header (the attempt and subject, the timer, Question n of m and the answered
+//   count under them), the chips, the question with Mark and Clear, the options, and its phone bar (Prev, Palette, Next),
+//   whose Palette key raises its palette sheet (the counts, the 15 chips, the legend, Submit test). NTA style is the runner's
+//   NTA style on a phone (nta-classic.css): the exam, the Question Paper icon and the Remaining Time on top, the section bar,
+//   the question with NTA's circle arrows and radios, its five keys and its Question Palette sheet (PhoneNta). A bar above
+//   the screen carries the close key and the same switch. Where the browser allows it (Android Chrome) the page also goes
+//   full screen, upright. Escape, the close key, the back gesture (the view keeps one history entry of its own) or leaving the
+//   browser's full screen closes it, and the focus goes back to the key. Turned sideways while open, the same screen uses the
+//   width (exam-screen.css); nothing asks the student to turn the phone.
 // - MockMob is our own screen, the runner's anatomy (src/app/(app)/test/TestPageClient.jsx): the saved note, the header
 //   with Question n of m, the answered count and the timer, the chapter and difficulty chips, the stem, four options with
 //   letter chips, Mark and Clear, the strike-out (press and hold an option), Previous and Next, and the review panel with
@@ -19,7 +35,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { ArrowDown, ArrowUp, ChevronDown, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, ShieldCheck, X } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Clock3, FileText, Flag, Lock, Maximize2, RotateCw, ShieldCheck, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -52,13 +68,13 @@ export function ExamScreen() {
   // The full-screen view (phones; R4-H6, R5): open or not, the key that opened it (the focus goes back to it), and what it took
   // from the browser: its own full screen (a coarse pointer, where allowed) and one history entry, so the back gesture closes it.
   const [full, setFull] = useState(false);
-  // Below 761 px the screen is drawn at phone scale and live (R19): its keys are full size, so it is no longer a picture
-  // (R8 SEC-11 made the scaled monitor inert there). NTA's palette fold is a desktop control; on a phone the palette row
-  // always shows.
-  const [narrow, setNarrow] = useState(false);
+  // R8 SEC-11: on a phone the monitor is a picture of the real screen (owner LK129), its keys 13-17 px. They are inert there
+  // and a tap anywhere on the picture opens the same state full screen, where every key is full size. The visible
+  // "Try it full screen" key below stays the way in for the keyboard and screen readers.
+  const [pictureOnly, setPictureOnly] = useState(false);
   useEffect(() => {
     const query = window.matchMedia('(max-width: 760px)');
-    const sync = () => setNarrow(query.matches);
+    const sync = () => setPictureOnly(query.matches);
     sync();
     query.addEventListener('change', sync);
     return () => query.removeEventListener('change', sync);
@@ -329,7 +345,7 @@ export function ExamScreen() {
   );
   // The monitor's screen: drawn in the monitor while the view is shut (never both: one timer, one set of live regions).
   const frame = (
-    <div className="xs-frame" data-interface={mode} inert={narrow || undefined}>
+    <div className="xs-frame" data-interface={mode} inert={pictureOnly || undefined}>
       <div className="xs-browser" aria-hidden="true">
         <span className="xs-browser__nav"><ChevronLeft /><ChevronRight /><RotateCw /></span>
         <span className="xs-url"><Lock /><span><b>{EXAM.address.host}</b>{address}</span></span>
@@ -424,21 +440,17 @@ export function ExamScreen() {
 
         <ExamDevice ref={deviceRef}>
           {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
-          {narrow && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
+          {pictureOnly && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
         </ExamDevice>
 
         {/* R10: NTA mode's own gate (ExamIntegrityGuard's words), set as a small card: a mark, the words (with the
-            warning rule in one plain sentence) and the way to it. R19: behind a disclosure labelled "About NTA mode", closed
-            until the visitor opens it. */}
-        <details className="xs-about">
-          <summary><span>{EXAM.about}</span><ChevronDown aria-hidden="true" /></summary>
-          <div className="xs-gate">
-            <span className="xs-gate__mark" aria-hidden="true"><ShieldCheck /></span>
-            <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate} {EXAM.warningRule}</p>
-            <p className="xs-gate__foot">
-              <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
-          </div>
-        </details>
+            warning rule in one plain sentence; R11 dropped the "Warnings 0/3" pill, which did nothing) and the way to it. */}
+        <div className="xs-gate">
+          <span className="xs-gate__mark" aria-hidden="true"><ShieldCheck /></span>
+          <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate} {EXAM.warningRule}</p>
+          <p className="xs-gate__foot">
+            <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
+        </div>
         {/* Phones only (exam-screen.css): the readable way into the same screen. */}
         <button ref={fullOpener} type="button" className="mm-btn mm-btn--secondary xs-full-open" aria-haspopup="dialog" aria-expanded={full} onClick={openFull}>
           <Maximize2 aria-hidden="true" />{EXAM.full.open}
