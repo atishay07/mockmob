@@ -314,9 +314,7 @@ test('G26 Practice ticket: the card leads with the mode; the count and the subje
   assert.ok(!/quoteCount\}[^<]*subjectLabel|subjectLabel[^<]*questions/.test(top), 'no "N Subject questions" line at the top of the card');
   assert.match(page, /const sessionWords = effectiveModeId === 'full' \? 'the full mock' : effectiveModeId === 'nta' \? 'the NTA paper' : `\$\{quoteCount\} \$\{quoteCount === 1 \? 'question' : 'questions'\}`;/);
   assert.match(page, /`Start \$\{sessionWords\}\$\{inSubject\}`/, 'the Start key says the session once: Start 10 questions in Accountancy');
-  // 18 Nov 2026: the phone bar now stands the subject (its object and name) beside the key, so the key says the set once.
-  assert.match(page, /<b className="pr-ink" key=\{selSubj\}>\{subjectLabel\}<\/b>/, 'the phone bar names the subject beside its key');
-  assert.match(page, /'Checking…' : barStartLabel\}<\/span>/, 'and its key says the set: Start 10 questions');
+  assert.match(page, /<small>in \{subjectLabel\}<\/small>/, 'the phone bar key carries the subject on its second line');
 });
 
 test('Learn a chapter is the one row Learn adds: between By chapter and Smart practice, free, opening Learn on the chosen subject', () => {

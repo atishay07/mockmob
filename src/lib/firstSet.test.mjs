@@ -110,8 +110,7 @@ test('the guide for a student with no finished set: the same stops, Start last, 
   assert.match(guide, /fetch\('\/api\/attempts\/summary\?limit=1'/);
   assert.match(guide, /if \(!order && !firstSetOrderOpen\(steps, next\)\) setOrder\(firstOrder \? 'first' : 'plain'\);/);
   assert.match(guide, /\[data-first-set="free"\]/, 'on Practice it presses the page’s own key, only when the set there is free');
-  // 19 Nov 2026 (lane arena-b): the ticket bar is pinned above the dock on every visit, so its key carries the first-set stop on a phone.
-  assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /startKey\('pr-bar__go', true, firstRun \? 'first-set' : null\)/);
+  assert.match(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /startKey\('pr-first__go', false, 'first-set'\)/);
 });
 
 test('the guide never opens over the first paper or its result: it starts on the Practice or Today visit after', () => {

@@ -77,7 +77,7 @@ test('review: a row the heading counts as started never says "Not started"; a pa
   assert.match(map, /\{state\.word \? <span className="lh-row__state">\{state\.word\}<\/span> : null\}/);
 });
 
-test('review: You keeps the streak for a student who hid it, and draws no empty Mob card; Practice clears the bar for focus', () => {
+test('review: You keeps the streak for a student who hid it, and draws no empty Mob card', () => {
   assert.equal(glanceKeepsStreak({ hidden: true, days: 9 }), true, 'Hide my streak: the card leaves it out, Your progress keeps it (W-063)');
   assert.equal(glanceKeepsStreak({ hidden: false, days: 9 }), false, 'said once: on the card');
   assert.equal(glanceKeepsStreak(null), false, 'no read yet: the card holds its place');
@@ -86,9 +86,6 @@ test('review: You keeps the streak for a student who hid it, and draws no empty 
   assert.match(page, /const streakRead = useStreak\(user\?\.id\);/);
   assert.match(page, /<AccountGlance userId=\{user\?\.id\} withStreak=\{glanceKeepsStreak\(streakRead\.data\)\} \/>/);
   assert.match(read('src/app/(app)/profile/you-anchor.css'), /\.app-shell \.you-mob:empty \{ display: none; \}/, 'AccountMobIdentity draws nothing with the Mob off');
-  const css = read('src/app/(app)/dashboard/practice.css');
-  assert.match(css, /html:has\(\.app-shell \.pr \.pr-bar\) \{ scroll-padding-bottom: calc\(var\(--dock-h, 84px\) \+ 136px \+ env\(safe-area-inset-bottom\)\); \}/);
-  assert.match(css, /html:has\(\.app-shell \.pr\[data-rule\] \.pr-bar\) \{ scroll-padding-bottom: calc\(var\(--dock-h, 84px\) \+ 190px/);
 });
 
 test('You: the card\'s streak is the shared read, hidden when hidden, never a zero lead; Colleges carries the Compass count', () => {
@@ -109,25 +106,19 @@ test('You: the card\'s streak is the shared read, hidden when hidden, never a ze
   assert.deepEqual(placeFigures({}), {}, 'Wallet has no figure: the card already says the credits');
 });
 
-test('Practice pins: the strip is gone, the ticket leads with the subject\'s object, the bar is pinned for the whole page, the key names the set', () => {
+// Owner, 18 Nov 2026 about 10 pm (LK328): the rebuilt Practice (a tall ticket led by the subject's object, radio tiles, a bar
+// pinned from the first screen) "is feeling like a regression"; "previous one looked better". On 19 Nov the page went back to
+// the version of c2f12abcd, whole. These pins keep the parts he preferred from being rebuilt away again without his word.
+test('Practice is the version the owner preferred (LK328): the summary strip, Chosen and Set up keys, the compact ticket', () => {
   const page = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
-  assert.doesNotMatch(page, /pr-session-glance/, 'the top summary strip is removed');
-  assert.match(page, /<span className="pr-ticket__desk" key=\{selSubj\} aria-hidden="true"><SubjectObject id=\{selectedSubject\?\.internalId \|\| selSubj\} size=\{176\} lit life=\{false\} \/><\/span>/);
-  // Owner G26: the card's heading is the mode; the subject is the object above it and the first line under it.
-  for (const label of ['Subject', 'Questions', 'Time', 'Marking', 'Cost']) assert.match(page, new RegExp(`<dt>${label}</dt>`), label);
-  // Untouched: the start request, the quote, the credits and the gates.
+  assert.match(page, /pr-session-glance/, 'the one-line summary strip (Subject, Mode, Questions) is back under the title');
+  assert.match(page, /Set up/, 'a mode that is not chosen offers Set up');
+  assert.match(page, /Chosen/, 'the chosen mode says Chosen');
+  assert.doesNotMatch(page, /pr-ticket__desk/, 'no tall desk object at the top of the ticket');
+  assert.match(page, /<h2 className="pr-ticket__mode">\{mode\.label\}<\/h2>/, 'owner G26: the ticket leads with the mode');
+  // Untouched by either version: the start request, the quote, the credits and the gates.
   assert.match(page, /const address = quotePath\(\{ subject: selSubj, mode: effectiveModeId, count: quoteCount \}\);/);
   assert.match(page, /if \(isLaunching \|\| launchingKeyRef\.current \|\| !quoteLaunchable\) return;/);
-  assert.match(page, /disabled=\{isLaunching \|\| !quoteLaunchable\}/);
-  assert.match(page, /blocked && quote\.upgradeHref \? \(/);
-  // The bar is the page's last child, so its sticky box is the whole page.
-  const bar = page.indexOf('<div className="pr-bar" role="region"');
-  assert.ok(bar > page.indexOf('<div className="pr-lower pr-lower--1020">'));
-  assert.match(page, /startKey\('pr-bar__go', true, firstRun \? 'first-set' : null\)/);
-  const css = read('src/app/(app)/dashboard/practice.css');
-  assert.doesNotMatch(css, /scroll-state/, 'no joined-card trick: the bar rides above the dock everywhere on the page');
-  assert.match(css, /\.pr-tile__mark \{/);
-  assert.match(css, /\.pr-tile__act \{ display: none; \}/);
 });
 
 test('Learn pins: every row a shape and a word with its bar, each part a disclosure that says how far it is started, the object on Pick up', () => {
@@ -157,17 +148,4 @@ test('You pins: no opening paragraph, the account card first with the streak, th
   const sheet = read('src/components/profile/YourSheet.jsx');
   assert.doesNotMatch(sheet, /AccountMobIdentity/);
   assert.match(sheet, /<SubjectObject id=\{subject\.id\} size=\{72\} life=\{false\}/);
-});
-
-// 18 Nov 2026 (after the review): the Start key names the set again (owner G26; on a phone the dock's own "Start" sits right
-// under it), and the bar beside it never repeats the count the key already says.
-test('Practice: the Start key names the set, and the bar does not say the count twice', async () => {
-  const { readFileSync } = await import('node:fs');
-  const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
-  const css = readFileSync(new URL('../../src/app/(app)/dashboard/practice.css', import.meta.url), 'utf8');
-  assert.match(page, /'Checking…' : barStartLabel\}<\/span>/, 'the bar key shows the set label');
-  assert.match(page, /<span className="pr-summary__words">\{startLabel\}<\/span>/, 'the desktop key shows the whole session');
-  assert.doesNotMatch(page, /'Checking…' : 'Start'\}/, 'no bare Start on the key');
-  assert.match(page, /className="pr-bar__count" data-on-key=\{countOnKey \|\| undefined\}/);
-  assert.match(css, /\.pr-bar__text:not\(\[data-blocked\]\) \.pr-bar__count\[data-on-key\] \{ display: none; \}/, 'a blocked key says something else, so the count stays');
 });

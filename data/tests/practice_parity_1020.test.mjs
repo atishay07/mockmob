@@ -83,15 +83,12 @@ test('Practice: Ways to practise straight after the subject; Your papers and Lea
   const at = (s) => { const i = page.indexOf(s); assert.ok(i > 0, `missing ${s}`); return i; };
   const subjects = at('pr-step--subjects');
   const modes = at('<h2 id="pr-s2">Ways to practise</h2>');
-  // 19 Nov 2026 (lane arena-b): the setup ends with the ticket; the phone's ticket bar is the page's last child (sticky against the
-  // whole page, pinned above the dock), so it comes after the figures.
-  const setupEnd = at('<aside className="pr-summary pr-ticket"');
+  const setupEnd = at('<div className="pr-bar" role="region"');
   const doors = at('<div className="pr-doors"');
   const papers = at('<h2 id="pr-recent">Your papers</h2>');
   const learn = at('{studyEnabled && !learn2 && <ConceptsPanel />}');
   const stats = at('<dl className="pr-stats"');
   assert.ok(subjects < modes && modes < setupEnd && setupEnd < doors && doors < papers && papers < learn && learn < stats, 'order');
-  assert.ok(at('<div className="pr-bar" role="region"') > stats, 'the ticket bar is the last child of the page');
   assert.ok(!page.slice(subjects, modes).includes('<PracticeRepairs'), 'nothing between the shelf and the ways to practise');
   // Kept (R3): the repairs line with Ask Mobi, the newest five papers with their scores, the way to all papers, the Pro panel.
   assert.match(page.slice(papers, learn), /<PracticeRepairs userId=/);

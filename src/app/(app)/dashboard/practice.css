@@ -523,25 +523,20 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 @media (min-width: 1024px) { .app-shell .pr .pr-ticket__marking { display: none; } }
 
 /* ---------- The session bar (phones and tablets): the F12 fix ----------
-   position: sticky against the whole page (since 19 Nov 2026 the bar is the page's last child). It rides above the tab bar
-   from the first screen and lands in its own slot at the page's end, so nothing is ever left under it. A sticky element
-   cannot leave its container, and there is no observer or scroll listener deciding when it shows. */
+   position: sticky inside the setup (the bar is the last child of .pr-layout, right after the card). While the setup is on
+   screen it rides above the tab bar; when the end of the setup comes into view it lands as the card's footer; past it, it
+   leaves with the setup. A sticky element cannot leave its container, so it can never come back lower down, and there is
+   no observer or scroll listener deciding when it shows. Where scroll-state queries work, the landed bar joins the card
+   (square top corners, no shadow) and the riding bar floats; elsewhere it is a rounded bar 8 px under the card. */
 .app-shell .pr .pr-bar { display: none; }
 @media (max-width: 1023px) {
-  /* 19 Nov 2026 (lane arena-b): the bar is the page's last child, so it is sticky against the whole page: pinned 8 px above the
-     dock from the first screen, and at the very end it lands in its own slot under everything, so nothing stays under it. */
   .app-shell .pr .pr-bar {
     position: sticky;
     bottom: calc(var(--dock-h, 84px) + env(safe-area-inset-bottom));
     z-index: 20;
     display: block;
-    margin-top: -8px;
+    margin-top: -22px;
   }
-  /* Review (19 Nov 2026): the bar rides over the whole page and stands 115 px tall with its Fine-tune line (165 px with a rule line),
-     more than the 88 px arena.css reserves, so a control reached by Tab could land wholly under it (the count's segment did, at
-     390 x 844). The page's scroll padding clears the dock, the 8 px gap and the bar. */
-  html:has(.app-shell .pr .pr-bar) { scroll-padding-bottom: calc(var(--dock-h, 84px) + 136px + env(safe-area-inset-bottom)); }
-  html:has(.app-shell .pr[data-rule] .pr-bar) { scroll-padding-bottom: calc(var(--dock-h, 84px) + 190px + env(safe-area-inset-bottom)); }
   .app-shell .pr .pr-bar__in {
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr) auto;
@@ -558,6 +553,14 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   }
   /* Opaque on purpose: the setup scrolls under the riding bar, and nothing behind it may read through. */
   html[data-theme='light'] .app-shell .pr .pr-bar__in { box-shadow: 0 16px 36px -18px rgb(42 32 16 / 0.38); }
+  @supports (container-type: scroll-state) {
+    .app-shell .pr .pr-bar { container-type: scroll-state; margin-top: -31px; }
+    .app-shell .pr .pr-ticket.pr-summary { border-radius: 22px 22px 0 0; }
+    .app-shell .pr .pr-bar__in { border-radius: 0 0 22px 22px; border-top-color: var(--a-line); box-shadow: none; }
+    @container scroll-state(stuck: bottom) {
+      .app-shell .pr .pr-bar__in { border-radius: 20px; border-top-color: var(--a-line-strong); box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.6); }
+    }
+  }
   /* The object: a lit stage, centred on the bar's height, whole and never cropped. A new subject settles in. */
   .app-shell .pr .pr-bar__obj { position: relative; display: block; width: 52px; height: 44px; }
   .app-shell .pr .pr-bar__obj > .subj-obj { position: absolute; left: -4px; bottom: -6px; animation: pr-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both; }
@@ -655,13 +658,13 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 .app-shell .pr-skel-row { display: flex; gap: 16px; overflow: hidden; }
 .app-shell .pr-skeleton .pr-skel--disc { flex: none; width: 88px; height: 112px; border-radius: 44px 44px 14px 14px; }
 .app-shell .pr-skel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.app-shell .pr-skeleton .pr-skel--tile { height: 160px; border-radius: 20px; }
+.app-shell .pr-skeleton .pr-skel--tile { height: 182px; border-radius: 20px; }
 .app-shell .pr-skeleton .pr-skel--seg { width: 240px; height: 50px; }
 .app-shell .pr-skeleton .pr-skel--fine { height: 200px; border-radius: 28px; }
-.app-shell .pr-skeleton .pr-skel--card { height: 620px; border-radius: 22px; }
+.app-shell .pr-skeleton .pr-skel--card { height: 460px; border-radius: 22px; }
 @media (min-width: 1024px) {
   .app-shell .pr-skeleton .pr-skel--disc { width: 116px; height: 140px; }
-  .app-shell .pr-skeleton .pr-skel--tile { height: 150px; }
+  .app-shell .pr-skeleton .pr-skel--tile { height: 132px; }
 }
 
 /* ---------- Reduced motion: state changes stay, movement goes ---------- */
@@ -765,107 +768,10 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   .app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr); }
 }
 
-.app-shell .pr :is(#pr-s1, #pr-s2, #pr-s3) { scroll-margin-top: 90px; }
-
-/* ==========================================================================
-   19 Nov 2026, lane arena-b: "the ticket is always in view".
-   The ways to practise: a 2 x 2 grid at every width, each tile its object, its name, one line and its cost; the radio ring in
-   the corner fills to a tick on the chosen one (with the rim and the lamp wash). The ticket: the chosen subject's desk object
-   large at the top of the sticky card, its name, then Mode, Questions, Time, Marking and Cost, ruled like a ticket; the key
-   under it says Start. On phones the bar under the page is that ticket, pinned above the dock (above).
-   ========================================================================== */
-.app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.app-shell .pr .pr-tile {
-  grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr auto; grid-template-areas: 'art mark' 'text text' 'price price';
-  gap: 8px 8px; min-height: 0; padding: 12px 12px 14px 14px;
-}
-.app-shell .pr .pr-tile__art { grid-area: art; height: 56px; }
-.app-shell .pr .pr-tile__art .subj-obj { width: 56px; height: 56px; }
-.app-shell .pr .pr-tile__text { grid-area: text; align-content: start; }
-.app-shell .pr .pr-tile__name { padding-right: 0; }
-.app-shell .pr .pr-tile__price { grid-area: price; position: static; align-self: end; min-height: 20px; font-size: 13.5px; }
-.app-shell .pr .pr-tile__price:empty { display: none; }
-.app-shell .pr .pr-tile__price[data-tone='cost'] { color: var(--a-accent-text); }
-.app-shell .pr .pr-tile__act { display: none; }
-/* The radio ring: hollow at rest, filled with the select colour and a tick once chosen (the press visibly does something). */
-.app-shell .pr .pr-tile__mark {
-  grid-area: mark; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
-  border: 1.5px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
-  transition: background-color 160ms var(--mm-ease-out, ease-out), border-color 160ms var(--mm-ease-out, ease-out);
-}
-.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__mark { border-color: transparent; background: var(--a-select); color: var(--a-on-select, #10140e); }
-.app-shell .pr .pr-tile[aria-checked='true'] .pr-tile__mark svg { animation: pr-tick-pop var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both; }
-.app-shell .pr .pr-tile:active .pr-tile__mark { scale: 0.92; }
-@media (hover: hover) and (pointer: fine) { .app-shell .pr .pr-tile:not([aria-checked='true']):hover .pr-tile__mark { border-color: var(--a-ink-3); } }
-/* One line under the name on a phone: the exam-day line is NTA's on a wide screen only, so the four tiles stay level. */
-@media (max-width: 1439px) { .app-shell .pr .pr-tile__kicker { display: none; } }
-@media (min-width: 1024px) and (max-width: 1439px) { .app-shell .pr .pr-tiles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-@media (min-width: 1440px) {
-  .app-shell .pr .pr-tile {
-    grid-template-columns: 76px minmax(0, 1fr) auto; grid-template-rows: auto 1fr auto; grid-template-areas: 'art text mark' 'art text mark' 'art price price';
-    column-gap: 16px; row-gap: 8px; min-height: 128px; padding: 16px 16px 16px 18px;
-  }
-  .app-shell .pr .pr-tile__art { height: auto; align-items: center; }
-  .app-shell .pr .pr-tile__art .subj-obj { width: 72px; height: 72px; }
-}
-@media (max-width: 359px) { .app-shell .pr .pr-tile { padding: 10px 10px 12px 12px; } .app-shell .pr .pr-tile__spec { font-size: 12.5px; } }
-
-/* A value that changes on the ticket re-inks: a short fade in, answering the press that changed it. */
-.app-shell .pr .pr-ink { display: inline-block; animation: pr-fade-in 220ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; }
-
-/* The ticket from 1024 px: the subject's object on a lamp-lit stage, its name, then the session ruled line by line. */
-.app-shell .pr .pr-ticket__top { grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: end; gap: 4px; margin: -16px -16px 0; padding: 12px 16px 14px;
-  border-radius: 22px 22px 0 0; background: radial-gradient(70% 120px at 50% 62%, var(--a-volt-wash), transparent 100%); border-bottom: 1.5px dashed var(--a-line-strong); }
-.app-shell .pr .pr-ticket__desk { display: block; width: 176px; height: 176px; margin-bottom: -10px; }
-.app-shell .pr .pr-ticket__desk > .subj-obj { animation: pr-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both; }
-.app-shell .pr .pr-ticket.pr-summary .pr-ticket__mode { font-size: 26px; text-align: center; text-wrap: balance; }
-.app-shell .pr .pr-ticket.pr-summary .pr-ticket__what { margin-top: 0; text-align: center; text-wrap: balance; }
-.app-shell .pr .pr-ticket__mobi { position: absolute; top: 14px; right: 14px; }
-.app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div { padding: 10px 0; font-size: 14.5px; }
-.app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div:first-child { border-top: 0; }
-.app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div[data-emph] dd { font-size: 16px; }
-@media (min-width: 1024px) and (max-height: 860px) {
-  .app-shell .pr .pr-ticket__top { margin: -14px -14px 0; padding: 8px 14px 10px; }
-  .app-shell .pr .pr-ticket__desk { width: 128px; height: 128px; }
-  .app-shell .pr .pr-ticket.pr-summary .pr-ticket__mode { font-size: 22px; }
-  .app-shell .pr .pr-ticket.pr-summary .pr-ticket__list > div { padding: 8px 0; }
-}
-@media (min-width: 1024px) and (max-height: 860px) { .app-shell .pr .pr-ticket__desk > .subj-obj { width: 128px; height: 128px; } }
-@media (prefers-reduced-motion: reduce) { .app-shell .pr :is(.pr-ink, .pr-ticket__desk > .subj-obj, .pr-tile__mark svg) { animation: none; } .app-shell .pr .pr-tile__mark { transition: none; } }
-:root[data-motion='reduced'] .app-shell .pr :is(.pr-ink, .pr-ticket__desk > .subj-obj, .pr-tile__mark svg) { animation: none; }
-
-/* The bar (phones and tablets): the subject's object, its name over "10 Q · 10 min · 10 credits", and Start. */
-@media (max-width: 1023px) {
-  .app-shell .pr .pr-bar__in { grid-template-columns: 52px minmax(0, 1fr) auto; }
-  .app-shell .pr .pr-bar__text b { font-size: 16px; }
-  .app-shell .pr .pr-bar__text .pr-ink { display: inline; }
-  .app-shell .pr .pr-bar__go { min-width: 104px; min-height: 52px; font-size: 16px; }
-  .app-shell .pr .pr-bar__keytext { display: inline; }
-  /* 18 Nov 2026: the key names the set again ("Start 10 questions", owner G26), which makes it 192 px wide. So that the
-     subject and the price beside it are never cut: the count is not said twice while the key says it (a blocked key says
-     something else, so the count stays), the key drops its glyph on phones, the object stands smaller under 400 px and
-     gives way under 380 px. Measured with tmp/1118/tools/barfit.mjs at 360, 390 and 412. */
-  .app-shell .pr .pr-bar__text:not([data-blocked]) .pr-bar__count[data-on-key] { display: none; }
-  @media (max-width: 429px) { .app-shell .pr .pr-bar__go > svg { display: none; } }
-  @media (max-width: 399px) {
-    .app-shell .pr .pr-bar__in { grid-template-columns: 40px minmax(0, 1fr) auto; }
-    .app-shell .pr .pr-bar__obj { width: 40px; }
-    .app-shell .pr .pr-bar__obj > .subj-obj { width: 48px; height: 48px; }
-  }
-  @media (max-width: 379px) {
-    .app-shell .pr .pr-bar__in { grid-template-columns: minmax(0, 1fr) auto; padding-left: 14px; }
-    .app-shell .pr .pr-bar__obj { display: none; }
-  }
-}
-
 .app-shell .pr-session-glance { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, .8fr); border-block: 1px solid var(--a-line); }
 .app-shell .pr-session-glance a { display: grid; align-content: start; gap: 4px; min-height: 48px; padding: 8px; color: var(--a-ink); text-decoration: none; }
 .app-shell .pr-session-glance a + a { border-inline-start: 1px solid var(--a-line); }
 .app-shell .pr-session-glance span { color: var(--a-ink-3); font-size: 12px; }
 .app-shell .pr-session-glance b { font-size: 14px; line-height: 1.25; overflow-wrap: anywhere; }
 .app-shell .pr-session-glance a:hover b, .app-shell .pr-session-glance a:focus-visible b { text-decoration: underline; text-underline-offset: 3px; }
-@media (min-width: 1024px) {
-  .app-shell .pr .pr-session-glance { display: none; }
-  .app-shell .pr .pr-ticket__top { grid-template-columns: 64px minmax(0, 1fr); align-items: center; justify-items: start; gap: 12px; text-align: left; }
-  .app-shell .pr .pr-ticket__art { width: 64px; height: 64px; }
-}
+.app-shell .pr :is(#pr-s1, #pr-s2, #pr-s3) { scroll-margin-top: 90px; }
