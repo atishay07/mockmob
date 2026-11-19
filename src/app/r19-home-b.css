@@ -466,9 +466,13 @@ html:not([data-theme='light']) .lp-torch { width: 420px; height: 420px; margin: 
 @media (min-width: 960px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
     html:not([data-motion='reduced']) .mm.lp :is(.kc-demo, .bmk__demo, .xs-device) { animation: lp-depth linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    /* The price's backdrop word lies furthest back, so it moves the least against the page: it drifts the other way, further,
+       behind the glass card (owner LK344, 19 Nov 2026: "some kind of scroll craft"). */
+    html:not([data-motion='reduced']) .mm.lp .plan-stage__word { animation: lp-depth-far linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
   }
 }
 @keyframes lp-depth { from { translate: 0 40px; } to { translate: 0 -40px; } }
+@keyframes lp-depth-far { from { translate: 0 -64px; } to { translate: 0 64px; } }
 @media not ((hover: hover) and (pointer: fine)) { .lp-cursor, .lp-torch, .lp-snap { display: none; } }
 @media (prefers-reduced-motion: reduce) { .lp-cursor, .lp-torch, .lp-snap { display: none; } }
 html[data-motion='reduced'] :is(.lp-cursor, .lp-torch, .lp-snap) { display: none; }

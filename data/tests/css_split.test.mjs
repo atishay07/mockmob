@@ -207,7 +207,8 @@ test('the desktop pointer layer is for a hovering fine pointer only, costs nothi
   // a held key is measured again at most four times a second; a scroll lets the key go at once.
   assert.equal((jsx.match(/getComputedStyle/g) || []).length, 1);
   assert.match(jsx, /export const SNAP_MAX = Object\.freeze\(\{ width: 460, height: 110 \}\);/);
-  assert.match(jsx, /export const SNAP_NEAR = 12;\nexport const SNAP_HOLD = 18;/);
+  assert.match(jsx, /export const SNAP_NEAR = 12;/);
+  assert.match(jsx, /export const SNAP_HOLD = 18;/);
   assert.ok(SNAP_HOLD_GT_NEAR(jsx), 'it lets go further out than it catches, so it never flickers at the edge');
   const loop = jsx.slice(jsx.indexOf('const step = () => {'), jsx.indexOf('const run = () =>'));
   assert.doesNotMatch(loop, /style\.(width|height|borderRadius)/, 'the frame loop writes transforms only');
