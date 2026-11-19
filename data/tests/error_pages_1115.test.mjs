@@ -43,7 +43,9 @@ test('each page says the right thing and offers one volt key and one quiet way o
   assert.match(root, /<Logo \/>/);
   assert.match(root, /href="\/"/);
   assert.match(root, /signedIn \? ERROR_COPY\.toToday : ERROR_COPY\.toHome/);
-  assert.match(root, /useContext\(AuthContext\)/, 'never useAuth(), which throws outside its provider');
+  // useAuthMaybe() since 19 Nov 2026: the context value carries no state now (css_split.test.mjs), and this hook never throws.
+  assert.match(root, /const auth = useAuthMaybe\(\);/, 'never useAuth(), which throws outside its provider');
+  assert.doesNotMatch(root, /useAuth\(\)/);
   const app = read('src/app/(app)/error.js');
   assert.match(app, /href="\/today"/);
   assert.match(app, /linkLabel=\{ERROR_COPY\.toToday\}/);
