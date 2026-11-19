@@ -63,7 +63,8 @@ test('in the desktop lane his line never sits under his feet (the close band at 
   assert.match(GUIDE, /const top=layoutTop\(s\.art\);/, 'the seat is read from layout, not from a box a Reveal still holds low');
   // 20 Nov 2026 (LK353): a seat in a section the browser has not drawn is never read (that laid the whole section out, one
   // 800 ms stall on a slow machine); it stands at a guess from the section's own box until it is drawn.
-  assert.match(GUIDE, /const live=stations\.map\(s=>!s\.section && !undrawn\(s\.art\)\);/);
+  assert.match(GUIDE, /const live=stations\.map\(s=>!s\.section && !farOff\(s\)\);/);
+  assert.match(GUIDE, /\}\)\)\.filter\(s=>s\.art\);/, 'no seat is asked anything at start');
   assert.match(GUIDE, /if\(!dirty\) for\(const j of \[index-1,index,index\+1\]\)/);
   assert.match(GUIDE, /const off=wide && current\.y-y>8;/);
   assert.match(CSS, /\[data-pip-guide='on'\] \.pip-seat\[data-pip-away='true'\] figcaption \{ opacity: 0; \}/);

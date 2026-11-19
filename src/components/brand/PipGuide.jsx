@@ -329,10 +329,10 @@ export default function PipGuide() {
       root.dataset.pipGuide='on';
       const stations = [...document.querySelectorAll('[data-pip-station]')].map(seat => ({
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
-        // A seat inside a section the browser has not drawn yet is kept without being read (20 Nov 2026, LK353): asking it
-        // for its height made the browser lay out every such section on the spot, one 800 ms stall about seven seconds
-        // after load on a slow machine. checkVisibility() alone still says no to a seat that is hidden outright.
-      })).filter(s=>s.art && (undrawn(s.art) ? (typeof s.art.checkVisibility!=='function' || s.art.checkVisibility()) : s.art.getBoundingClientRect().height > 0));
+        // No seat is asked anything here (20 Nov 2026, LK353). Asking a seat for its height, or even whether it is visible,
+        // made the browser lay out every section it had not drawn yet on the spot: one stall of about a second, seven
+        // seconds after load, on a slow machine. Whether a seat may be read is judged from its SECTION's own box (farOff).
+      })).filter(s=>s.art);
       for (const way of WAYPOINTS) {
         const section = document.getElementById(way.section);
         if (section && !stations.some(s => s.id === way.id)) stations.push({ seat: document.createElement('span'), id: way.id, pose: way.pose, art: null, section });
@@ -349,15 +349,18 @@ export default function PipGuide() {
       const layoutTop=(el)=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
       // The section a seat lives in: the child of <main> that the browser draws or holds back as one piece.
       const sectionOf=(el)=>{let n=el;while(n.parentElement && n.parentElement.tagName!=='MAIN')n=n.parentElement;return n.parentElement?n:drawnAncestor(el);};
+      // A seat whose section is more than a screen and a half away is not read: the browser has not drawn that section.
+      const farOff=(s)=>{const r=(s.home||(s.home=sectionOf(s.seat))).getBoundingClientRect();return r.bottom<-innerHeight*1.5||r.top>innerHeight*2.5;};
       // A transition on a seat in a section that is not drawn (content-visibility) cannot advance until the section is
       // drawn, and while it waits the page restyles every frame: measuring reads those seats, so it ends theirs at once.
-      const settleUndrawn=()=>{for(const s of stations){if(s.section||!undrawn(s.seat)||typeof s.seat.getAnimations!=='function')continue;for(const a of s.seat.getAnimations({subtree:true}))if(a.transitionProperty)a.finish();}};
+      // Asked of the document, not of each seat: asking a seat in an undrawn section for its animations lays that section out.
+      const settleUndrawn=()=>{if(typeof document.getAnimations!=='function')return;const far=stations.filter(s=>!s.section&&farOff(s)).map(s=>s.seat);if(!far.length)return;for(const a of document.getAnimations()){if(!a.transitionProperty)continue;const t=a.effect&&a.effect.target;if(t&&far.some(seat=>seat.contains(t)))a.finish();}};
       function measure() {
         const wide=innerWidth>=1100;
         // A seat is read only while its section is drawn. Until then it stands at a guess from the section's own box (the
         // section itself is laid out at its reserved height; only its contents wait), and once it has been read its place
         // inside the section is remembered, so a section that scrolls far away again is never laid out for him.
-        const live=stations.map(s=>!s.section && !undrawn(s.art));
+        const live=stations.map(s=>!s.section && !farOff(s));
         // Every write, then every read, then every write: one layout for all the drawn seats, not one per seat.
         stations.forEach((s,i)=>{if(live[i])s.seat.style.transform='none';});
         // The lane: near the right edge, but beside the page's column on a very wide window (at 2560 he stood 270 px
@@ -396,7 +399,7 @@ export default function PipGuide() {
         raf=0;
         if(disposed || document.hidden) return;
         // A seat near where he stands has been drawn since it was guessed: read it now (a style check, no layout).
-        if(!dirty) for(const j of [index-1,index,index+1]){const s=stations[j];if(s && !s.section && !s.exact && !undrawn(s.art)){dirty=true;break;}}
+        if(!dirty) for(const j of [index-1,index,index+1]){const s=stations[j];if(s && !s.section && !s.exact && !farOff(s)){dirty=true;break;}}
         if(dirty) measure();
         const wide=innerWidth>=1100;
         const next=stationIndex(geometry.map(g=>g.y+g.h/2),scrollY+innerHeight*.43,index);
