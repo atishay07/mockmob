@@ -119,6 +119,11 @@
 }
 .mm.lp .lp-film__seg[data-state='past'] .lp-film__fill { transform: scaleX(1); }
 .mm.lp .lp-film__seg[data-state='current'] .lp-film__fill { transform: scaleX(var(--p, 0)); }
+/* The fill is told where the film is about four times a second (HeroFilm.jsx paint, 20 Nov 2026) and glides between the
+   steps here, on the compositor: it follows the film, it never moves by itself (it stops with the film's time updates). */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion='reduced']) .mm.lp .lp-film__seg[data-state='current'] .lp-film__fill { transition: transform 260ms linear; }
+}
 .mm.lp .lp-film__seg:focus-visible { outline: none; }
 .mm.lp .lp-film__seg:focus-visible .lp-film__rail { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 3px; }
 .mm.lp .lp-film__seg:active .lp-film__rail { transform: scaleY(1.5); transition-duration: 100ms; }

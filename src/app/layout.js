@@ -90,6 +90,12 @@ export default function RootLayout({ children }) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced';try{var k=JSON.parse(localStorage.getItem('mm:den:shape:v1')||'null'),b=k&&k.blocks&&k.blocks[innerWidth>=640?'w':'n'];if(b)for(var i=0;i<b.length&&i<4;i++)d.style.setProperty('--den-skel-b'+i,Math.max(24,Math.min(900,Math.round(+b[i])||24))+'px');if(k&&k.switcher===true)d.dataset.denSwitch='1'}catch(e){}})()` }} />
+        {/* A weak machine (owner LK353, 20 Nov 2026: "it should easily work on even a cheap Rs 15,000 Chromebook"). Before the first
+            paint, from the machine's own figures (two processor threads or fewer; four or fewer with 4 GB or less; 2 GB or less;
+            or Data Saver), <html> gets data-lite. Pages then drop what costs a weak processor a frame and adds nothing a reader
+            needs: blur behind glass, the pointer's wide light, lean and tilt, scroll drift, Mobi's eye-follow. Nothing is removed
+            from the page. localStorage mm:lite:v1 = "1" or "0" forces it either way (tests, and a student's own switch later). */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,n=navigator,c=n.hardwareConcurrency||8,g=n.deviceMemory||8,s=false,f=null;try{s=!!(n.connection&&n.connection.saveData)}catch(e){}try{f=localStorage.getItem('mm:lite:v1')}catch(e){}if(f==='1'||(f!=='0'&&(c<=2||(c<=4&&g<=4)||g<=2||s)))d.dataset.lite='1'})()` }} />
         {/* App view (src/app/app-view.css): a page opened from the Android app (?from=app) hides its ways to buy, for this tab only
             (sessionStorage, never a cookie: Custom Tabs share Chrome's cookies). Runs before paint, like the theme script. */}
         <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,on=false;try{on=new URLSearchParams(location.search).get('from')==='app'}catch(e){}try{if(on)sessionStorage.setItem('mm:appView','1');else on=sessionStorage.getItem('mm:appView')==='1'}catch(e){}if(on)d.dataset.appView='1'})()` }} />

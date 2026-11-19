@@ -174,21 +174,27 @@ test('round 9 the chapter bar: one segment per chapter that seeks and plays, nam
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__fill \{[^}]*background: var\(--ink\);[^}]*transform: scaleX\(0\);/);
   assert.match(FILM_CSS, /\[data-state='past'\] \.lp-film__fill \{ transform: scaleX\(1\); \}/);
   assert.match(FILM_CSS, /\[data-state='current'\] \.lp-film__fill \{ transform: scaleX\(var\(--p, 0\)\); \}/);
-  assert.doesNotMatch(FILM_CSS, /\.lp-film__fill \{[^}]*transition/, 'the fill never animates by itself');
+  // The fill never animates by itself: it is told where the film is about four times a second and glides between the steps
+  // (20 Nov 2026, LK353: a write on every frame restyled the whole chapters bar sixty times a second with nothing touched).
+  assert.doesNotMatch(FILM_CSS, /\.mm\.lp \.lp-film__fill \{[^}]*transition/, 'the fill at rest has no transition');
+  assert.match(FILM_CSS, /html:not\(\[data-motion='reduced'\]\) \.mm\.lp \.lp-film__seg\[data-state='current'\] \.lp-film__fill \{ transition: transform 260ms linear; \}/);
   // The name never pushes the row: one line, cut with an ellipsis, under the segments' taps.
   assert.match(FILM_CSS, /\.mm\.lp \.lp-film__now \{[^}]*overflow: hidden;[^}]*white-space: nowrap;[^}]*text-overflow: ellipsis;[^}]*pointer-events: none;/);
 });
 
-test('round 9 progress runs only while the film plays and is on screen; Reduce motion steps with the film\'s time; paused, nothing runs', () => {
-  assert.match(FILM_CODE, /if \(!video\.paused && !video\.ended && inView\.current && !document\.hidden\) raf = requestAnimationFrame\(tick\);/);
-  assert.match(FILM_CODE, /const run = \(\) => \{ if \(!raf && !reducedMotion\(\)\) raf = requestAnimationFrame\(tick\); \};/);
+test('progress steps with the film\'s own time updates: no frame loop, one property on the current segment; paused, nothing runs', () => {
+  // 20 Nov 2026 (LK353): no requestAnimationFrame anywhere in the film. The film's time updates (about four a second, none
+  // while it is paused) are the clock.
+  assert.doesNotMatch(FILM_CODE, /requestAnimationFrame/, 'no frame loop');
+  assert.match(FILM_CODE, /const onTime = \(\) => paint\(\);/);
+  assert.match(FILM_CODE, /video\.addEventListener\('timeupdate', onTime\);/);
   assert.match(FILM_CODE, /video\.addEventListener\('playing', run\);/);
   assert.match(FILM_CODE, /video\.addEventListener\('pause', halt\);/);
-  assert.match(FILM_CODE, /const onTime = \(\) => \{ if \(reducedMotion\(\)\) paint\(\); \};/);
-  assert.match(FILM_CODE, /bar\.style\.setProperty\('--p', share\.toFixed\(4\)\);/, 'one custom property, no render per frame');
+  assert.match(FILM_CODE, /if \(seg\) seg\.style\.setProperty\('--p', share\.toFixed\(3\)\);/, 'one custom property on the one segment, no render per step');
+  assert.doesNotMatch(FILM_CODE, /bar\.style\.setProperty/, 'never on the whole chapters bar');
   assert.match(FILM_CODE, /if \(index !== chapterRef\.current\) \{\s*chapterRef\.current = index;\s*setChapter\(index\);/, 'a render only when the chapter changes');
   assert.doesNotMatch(FILM_CODE, /setInterval|setTimeout/, 'no timers');
-  assert.match(FILM_CODE, /if \(raf\) cancelAnimationFrame\(raf\);/, 'cleaned up on unmount');
+  assert.match(FILM_CODE, /video\.removeEventListener\('timeupdate', onTime\);/, 'cleaned up on unmount');
 });
 
 test('HeroFilm: three 44 px round keys, pause/play, sound and full screen, named, with a visible focus ring; sound is never on at the start', () => {

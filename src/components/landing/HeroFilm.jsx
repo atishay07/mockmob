@@ -122,13 +122,23 @@ export default function HeroFilm() {
     }
   }, []);
 
-  // Where the film is: the current chapter (a render only when it changes) and its fill (one custom property).
+  // Where the film is: the current chapter (a render only when it changes) and its fill (one custom property, on the
+  // current segment alone).
+  // 20 Nov 2026 (owner LK353: the site must run on a cheap Chromebook). This used to run on every animation frame while the
+  // film played and wrote the property on the whole chapters bar, so the browser restyled about sixty elements, rebuilt its
+  // layers and re-checked every observer sixty times a second for as long as the first screen sat there: a third of one
+  // processor core on a fast desktop with nothing touched, most of a frame on a slow one. Now it runs with the film's own
+  // time updates (about four a second), writes on the one segment, and the fill glides between the steps in CSS.
+  const filledRef = useRef(null);
   const paint = useCallback(() => {
     const video = videoRef.current;
     const bar = barRef.current;
     if (!video || !bar || pendingSeek.current !== null) return;
     const { index, share } = chapterAt(video.currentTime, video.duration, FILM.chapters);
-    bar.style.setProperty('--p', share.toFixed(4));
+    const seg = segRefs.current[index] || null;
+    if (filledRef.current && filledRef.current !== seg) filledRef.current.style.removeProperty('--p');
+    filledRef.current = seg;
+    if (seg) seg.style.setProperty('--p', share.toFixed(3));
     if (index !== chapterRef.current) {
       chapterRef.current = index;
       setChapter(index);
@@ -176,17 +186,10 @@ export default function HeroFilm() {
       setNeedsTap(true);
     };
 
-    // The fill: one frame at a time while it plays and is on screen; it stops itself when the film pauses or leaves.
-    let raf = 0;
-    const tick = () => {
-      raf = 0;
-      paint();
-      if (!video.paused && !video.ended && inView.current && !document.hidden) raf = requestAnimationFrame(tick);
-    };
-    const run = () => { if (!raf && !reducedMotion()) raf = requestAnimationFrame(tick); };
-    const halt = () => { if (raf) cancelAnimationFrame(raf); raf = 0; paint(); };
-    // Under Reduce motion the fill steps with the film's own time updates (they stop when it pauses).
-    const onTime = () => { if (reducedMotion()) paint(); };
+    // The fill follows the film's own time updates (about four a second; they stop when it pauses): no frame loop.
+    const run = () => paint();
+    const halt = () => paint();
+    const onTime = () => paint();
     const onMeta = () => {
       if (pendingSeek.current === null) return;
       const at = pendingSeek.current;
@@ -205,7 +208,6 @@ export default function HeroFilm() {
     if (!io) sync();
     return () => {
       io?.disconnect();
-      if (raf) cancelAnimationFrame(raf);
       motion.removeEventListener?.('change', onPrefs);
       window.removeEventListener('mm-prefs', onPrefs);
       document.removeEventListener('visibilitychange', sync);

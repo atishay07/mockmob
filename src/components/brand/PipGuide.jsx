@@ -8,7 +8,7 @@ import { guideFacing, guidePose } from './pipIntent';
 import { getMobiPrefs, initMobiPrefs } from '@/lib/mobiPrefs';
 import { FOLLOW } from '@/lib/mobiMoments';
 import * as scrollBus from '@/components/landing/scrollBus.mjs';
-import { undrawn } from '@/components/landing/undrawn';
+import { undrawn, drawnAncestor } from '@/components/landing/undrawn';
 // The same acts as the app's table (lib/mobiMoments.js), with the app's lengths: a right answer is
 // `correct` (a small hop), a wrong one is `encourage` (the warm pose and a head tilt, D38), a finished
 // drill is `cheer` or `celebrate` by how it went. Reduced motion turns the guide off entirely.
@@ -36,14 +36,23 @@ function calmMood(kind) {
 // shared scroll read (scrollBus.mjs), not a listener and a frame request of its own, and the gaze sleeps while a held
 // story is on screen, where the page moves a whole resting place at once and "scroll speed" means nothing (LK69).
 const LOOK_VARS = ['--pip-look-x', '--pip-look-y', '--pip-follow', '--pip-bob'];
+// 20 Nov 2026 (owner LK353: it must run on a cheap Chromebook). The look is written in steps of an eighth and only when a
+// step changes: the eyes glide between steps in CSS (240 ms), so a moving mouse restyles him a few times a second instead of
+// on every frame.
+const step8 = (n) => (Math.round(n * 8) / 8).toFixed(3);
+const lookOf = new WeakMap();
 function setLook(nodes, x, y, follow = 0, bob = 0) {
+  const next = `${step8(x)}|${step8(y)}|${step8(follow)}|${step8(bob)}`;
   for (const node of nodes) {
-    node.style.setProperty('--pip-look-x', x.toFixed(2));
-    node.style.setProperty('--pip-look-y', y.toFixed(2));
-    node.style.setProperty('--pip-follow', follow.toFixed(3));
-    node.style.setProperty('--pip-bob', bob.toFixed(2));
+    if (lookOf.get(node) === next) continue;
+    lookOf.set(node, next);
+    node.style.setProperty('--pip-look-x', step8(x));
+    node.style.setProperty('--pip-look-y', step8(y));
+    node.style.setProperty('--pip-follow', step8(follow));
+    node.style.setProperty('--pip-bob', step8(bob));
   }
 }
+const markLooking = (node) => { if (node.dataset.pipLooking !== 'true') node.dataset.pipLooking = 'true'; };
 // Stops with no seat of their own (19 Nov 2026, owner LK343: "you have removed the scroll animations and all that kind of
 // stuff from Mobie ... replaced with static images"). The Mistake Lab, the tour and Key cards lost their seats on a wide
 // window in the rebuilds of 17 to 19 Nov, so the guide stood in ONE pose (the camera of the next seat down) from the Lab
@@ -63,6 +72,7 @@ const COLUMN_MAX = 1680;
 function clearLook(nodes) {
   for (const node of nodes) {
     for (const name of LOOK_VARS) node.style.removeProperty(name);
+    lookOf.delete(node);
     delete node.dataset.pipLooking;
   }
 }
@@ -79,6 +89,7 @@ function useLook(targets, enabled) {
     let release = 0;
     let lastY = scrollY;
     let lastT = 0;
+    const boxOf = new WeakMap();
     const settle = (ms) => {
       clearTimeout(release);
       release = setTimeout(() => {
@@ -94,13 +105,19 @@ function useLook(targets, enabled) {
       const py = event.clientY;
       raf = requestAnimationFrame(() => {
         raf = 0;
+        const now = performance.now();
         for (const node of inViewNow()) {
-          const box = node.getBoundingClientRect();
+          // A Mobi nobody can see is not looked for (the flyer waits out of view under the hero), and his box is read at
+          // most three times a second, never on every frame of a moving mouse.
+          if (node.dataset.pipShown === 'false') continue;
+          let held = boxOf.get(node);
+          if (!held || now - held.at > 320) { const r = node.getBoundingClientRect(); held = { at: now, left: r.left, top: r.top, width: r.width, height: r.height }; boxOf.set(node, held); }
+          const box = held;
           if (!box.width) continue;
           const x = clamp((px - (box.left + box.width / 2)) / Math.max(240, innerWidth * 0.3), -1, 1);
           const y = clamp((py - (box.top + box.height * 0.4)) / Math.max(200, innerHeight * 0.35), -1, 1);
           setLook([node], x, y, clamp((px - innerWidth / 2) / (innerWidth * 0.35), -FOLLOW.clampX, FOLLOW.clampX));
-          node.dataset.pipLooking = 'true';
+          markLooking(node);
         }
         settle(FOLLOW.releaseAfterMs);
       });
@@ -120,7 +137,7 @@ function useLook(targets, enabled) {
       lastT = now;
       if (!nodes.length) return;
       setLook(nodes, 0, v * 0.9, 0, fine.matches ? -v : 0);
-      nodes.forEach((n) => { n.dataset.pipLooking = 'true'; });
+      nodes.forEach(markLooking);
       settle(260);
     };
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -221,7 +238,8 @@ export default function PipGuide() {
   // The Mobis in view: the flyer while it flies (desktop), else the seats on screen (phones).
   const inView = useRef(new Set());
   const targets = useRef(() => (flyer.current && flyer.current.classList.contains('pip-guide-flyer') ? [flyer.current] : [...inView.current]));
-  useLook(targets, running);
+  // A weak machine (html[data-lite]) keeps his stops and his acts; his eyes do not chase the mouse or the scroll.
+  useLook(targets, running && !(typeof document !== 'undefined' && document.documentElement.hasAttribute('data-lite')));
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const root0 = document.documentElement;
@@ -311,7 +329,10 @@ export default function PipGuide() {
       root.dataset.pipGuide='on';
       const stations = [...document.querySelectorAll('[data-pip-station]')].map(seat => ({
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
-      })).filter(s=>s.art && s.art.getBoundingClientRect().height > 0);
+        // A seat inside a section the browser has not drawn yet is kept without being read (20 Nov 2026, LK353): asking it
+        // for its height made the browser lay out every such section on the spot, one 800 ms stall about seven seconds
+        // after load on a slow machine. checkVisibility() alone still says no to a seat that is hidden outright.
+      })).filter(s=>s.art && (undrawn(s.art) ? (typeof s.art.checkVisibility!=='function' || s.art.checkVisibility()) : s.art.getBoundingClientRect().height > 0));
       for (const way of WAYPOINTS) {
         const section = document.getElementById(way.section);
         if (section && !stations.some(s => s.id === way.id)) stations.push({ seat: document.createElement('span'), id: way.id, pose: way.pose, art: null, section });
@@ -326,23 +347,40 @@ export default function PipGuide() {
       // Reveal (the close band's) is painted 1.5rem low until the band has risen in, and a transform ending fires
       // no resize, so the painted box left him standing that much low, his feet on his own line.
       const layoutTop=(el)=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
+      // The section a seat lives in: the child of <main> that the browser draws or holds back as one piece.
+      const sectionOf=(el)=>{let n=el;while(n.parentElement && n.parentElement.tagName!=='MAIN')n=n.parentElement;return n.parentElement?n:drawnAncestor(el);};
       // A transition on a seat in a section that is not drawn (content-visibility) cannot advance until the section is
       // drawn, and while it waits the page restyles every frame: measuring reads those seats, so it ends theirs at once.
       const settleUndrawn=()=>{for(const s of stations){if(s.section||!undrawn(s.seat)||typeof s.seat.getAnimations!=='function')continue;for(const a of s.seat.getAnimations({subtree:true}))if(a.transitionProperty)a.finish();}};
       function measure() {
         const wide=innerWidth>=1100;
-        // Every write, then every read, then every write: one layout for all the seats, not one per seat.
-        for (const s of stations) s.seat.style.transform='none';
+        // A seat is read only while its section is drawn. Until then it stands at a guess from the section's own box (the
+        // section itself is laid out at its reserved height; only its contents wait), and once it has been read its place
+        // inside the section is remembered, so a section that scrolls far away again is never laid out for him.
+        const live=stations.map(s=>!s.section && !undrawn(s.art));
+        // Every write, then every read, then every write: one layout for all the drawn seats, not one per seat.
+        stations.forEach((s,i)=>{if(live[i])s.seat.style.transform='none';});
         // The lane: near the right edge, but beside the page's column on a very wide window (at 2560 he stood 270 px
         // out in the margin, away from everything he was pointing at).
         const laneX=Math.min(innerWidth-LANE_FROM_EDGE,(innerWidth+Math.min(COLUMN_MAX,innerWidth-48))/2+LANE_FROM_COLUMN);
         if (wide) {
-          const lefts=stations.map(s=>s.section?0:s.seat.getBoundingClientRect().left);
-          stations.forEach((s,i)=>{if(!s.section)s.seat.style.transform=`translateX(${laneX-lefts[i]}px)`;});
+          const lefts=stations.map((s,i)=>live[i]?s.seat.getBoundingClientRect().left:0);
+          stations.forEach((s,i)=>{if(live[i])s.seat.style.transform=`translateX(${laneX-lefts[i]}px)`;});
         }
         geometry=stations.map(s=>{
           if(s.section) return {x:laneX,y:layoutTop(s.section)+s.section.offsetHeight/2-90,w:160,h:180};
-          const r=s.art.getBoundingClientRect();return {x:r.left,y:layoutTop(s.art),w:r.width,h:r.height};
+          return null;
+        }).map((g,i)=>{
+          if(g) return g;
+          const s=stations[i];
+          const home=s.home||(s.home=sectionOf(s.seat));
+          if(live[i]){
+            const r=s.art.getBoundingClientRect();const top=layoutTop(s.art);
+            s.exact=true;s.dy=top-layoutTop(home);s.gx=r.left;s.gw=r.width;s.gh=r.height;
+            return {x:r.left,y:top,w:r.width,h:r.height};
+          }
+          const guess=s.dy!==undefined?s.dy:Math.min(home.offsetHeight*0.3,360);
+          return {x:s.gx!==undefined?s.gx:laneX,y:layoutTop(home)+guess,w:s.gw||160,h:s.gh||180};
         });
         // Down the page in order, once (the waypoints were added after the seats).
         if(!ordered){ordered=true;const order=stations.map((_,i)=>i).sort((a,b)=>geometry[a].y-geometry[b].y);const st=order.map(i=>stations[i]);geometry=order.map(i=>geometry[i]);stations.splice(0,stations.length,...st);}
@@ -357,6 +395,8 @@ export default function PipGuide() {
       function frame(now) {
         raf=0;
         if(disposed || document.hidden) return;
+        // A seat near where he stands has been drawn since it was guessed: read it now (a style check, no layout).
+        if(!dirty) for(const j of [index-1,index,index+1]){const s=stations[j];if(s && !s.section && !s.exact && !undrawn(s.art)){dirty=true;break;}}
         if(dirty) measure();
         const wide=innerWidth>=1100;
         const next=stationIndex(geometry.map(g=>g.y+g.h/2),scrollY+innerHeight*.43,index);

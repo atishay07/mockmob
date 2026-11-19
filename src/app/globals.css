@@ -1538,3 +1538,10 @@ html[data-theme='light'] .mmx-sheet {
 :root[data-motion='reduced'] :is(.pip-flyer, .pip-guide-flyer) { display: none; }
 :root[data-motion='reduced'] .mk-press { will-change: auto; }
 :root[data-motion='reduced'] .mk-press:active:not(:disabled) { transform: none; }
+
+/* A weak machine (html[data-lite], set before first paint by the script in layout.js; owner LK353, 20 Nov 2026). Blur behind a
+   surface is the costliest thing a slow graphics chip is asked for while a page scrolls, so it goes, everywhere; a surface that
+   relied on it to be readable says its own solid colour beside this rule. Scroll drift goes too. Nothing is removed. */
+html[data-lite] *, html[data-lite] *::before, html[data-lite] *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html[data-lite] .mm.lp :is(.kc-demo, .bmk__demo, .xs-device, .plan-stage__word) { animation: none !important; }
+html[data-lite] .plan-stage .plan-glass.pro-plan__card { background: var(--paper-raised); }
