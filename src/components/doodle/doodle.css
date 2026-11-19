@@ -14,11 +14,11 @@
 .dd__stroke[data-ready='true'] { opacity: 1; }
 .dd[data-drawn='true'] .dd__stroke {
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset var(--dd-stroke-ms, 400ms) cubic-bezier(0.23, 1, 0.32, 1) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms));
+  transition: stroke-dashoffset var(--dd-stroke-ms, 400ms) cubic-bezier(0.32, 0.08, 0.22, 1) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms));
 }
 
 .dd__fill { fill: var(--dd-ink, var(--volt)); clip-path: inset(-10% 100% -10% -4%); }
-.dd[data-drawn='true'] .dd__fill { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) cubic-bezier(0.23, 1, 0.32, 1) var(--dd-delay, 0ms); }
+.dd[data-drawn='true'] .dd__fill { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) cubic-bezier(0.32, 0.08, 0.22, 1) var(--dd-delay, 0ms); }
 
 /* Tones. The pen follows the words' own ink unless told; the highlighter is volt, and its words take the ink that reads
    on volt in both themes. */
@@ -39,7 +39,7 @@ html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
 html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }
 .dd__over::before { content: attr(data-text); }
 .dd__over { position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--volt-ink, #0b1000); clip-path: inset(-10% 100% -10% -4%); pointer-events: none; user-select: none; -webkit-user-select: none; }
-.dd[data-drawn='true'] .dd__over { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) var(--dd-ease, cubic-bezier(0.23, 1, 0.32, 1)) var(--dd-delay, 0ms); }
+.dd[data-drawn='true'] .dd__over { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) var(--dd-ease, cubic-bezier(0.32, 0.08, 0.22, 1)) var(--dd-delay, 0ms); }
 .dd[data-scroll-ink] .dd__over { clip-path: inset(-10% calc(100% - 104% * var(--dd-scroll)) -10% -4%); }
 html[data-theme='light'] .dd__over { display: none; }
 
@@ -64,7 +64,7 @@ html[data-motion='reduced'] .dd[data-drawn='true'] :is(.dd__stroke, .dd__fill, .
 /* The ink behind a changing figure is translucent, so the number reads throughout the swipe. */
 .dd--highlight[data-reink] { --dd-ink: color-mix(in srgb, var(--volt, #d2f000) 24%, transparent); }
 .dd--highlight[data-reink][data-drawn='true'] { color: inherit; transition: none; }
-.dd[data-reink][data-drawn='true'] .dd__fill { animation: dd-reink var(--dd-ms, 460ms) cubic-bezier(0.23, 1, 0.32, 1) both; }
+.dd[data-reink][data-drawn='true'] .dd__fill { animation: dd-reink var(--dd-ms, 460ms) cubic-bezier(0.32, 0.08, 0.22, 1) both; }
 @keyframes dd-reink {
   from { clip-path: inset(-10% 100% -10% -4%); }
   to { clip-path: inset(-10% -4% -10% -4%); }
@@ -82,7 +82,7 @@ html[data-motion='reduced'] .dd[data-reink][data-drawn='true'] .dd__fill { anima
    hand's pace (so the stroke's ease is a hand's too, not the page's snap), then lifts away. A highlight is made by a marker
    riding the swipe's front. With scroll ink, the reader's scroll moves the pencil. Never without motion-path support, and
    never under reduced motion: there the mark is simply made. */
-.dd { --dd-ease: cubic-bezier(0.23, 1, 0.32, 1); }
+.dd { --dd-ease: cubic-bezier(0.32, 0.08, 0.22, 1); }
 .dd[data-pen] { --dd-ease: cubic-bezier(0.5, 0.05, 0.25, 1); }
 .dd[data-pen][data-drawn='true'] .dd__stroke:not(.dd__stroke--spark) { transition-timing-function: var(--dd-ease); }
 .dd[data-pen][data-drawn='true'] .dd__fill { transition-timing-function: var(--dd-ease); }
@@ -129,6 +129,6 @@ html[data-motion='reduced'] .dd[data-reink][data-drawn='true'] .dd__fill { anima
   100% { opacity: 0; translate: 7px -12px; }
 }
 /* An accent's flicks: quick, after the mark has landed. */
-.dd[data-drawn='true'] .dd__stroke--spark { transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+.dd[data-drawn='true'] .dd__stroke--spark { transition-timing-function: cubic-bezier(0.32, 0.08, 0.22, 1); }
 @media (prefers-reduced-motion: reduce) { .dd__nib { display: none; } }
 html[data-motion='reduced'] .dd__nib { display: none; }

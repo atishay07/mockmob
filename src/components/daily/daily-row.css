@@ -151,3 +151,11 @@ html[data-motion='reduced'] .mm.lp .dwk-key { transition: none; }
 
 /* ---------- Today ---------- */
 .app-shell .dfr--today .dfr__mark { color: var(--a-ink); }
+
+@media (min-width: 820px) {
+  .mm.lp .dwk-ticket[data-personal] { grid-template-columns: 1fr; }
+  .mm.lp .dwk-ticket[data-personal] .dwk-ticket__play { grid-template-columns: 1fr auto; gap: 12px 24px; align-items: center; }
+  .mm.lp .dwk-ticket[data-personal] .dwk-ticket__head { grid-column: 1; }
+  .mm.lp .dwk-ticket[data-personal] .dwk-figs { grid-column: 1; margin: 0; }
+  .mm.lp .dwk-ticket[data-personal] .dwk-key { grid-column: 2; grid-row: 1 / 3; margin: 0; }
+}

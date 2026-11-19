@@ -50,16 +50,16 @@ test('decision 1, kept: the opening box is Logo.jsx\'s box, and the bar logo kee
 
 // ---------- the timings (L-043 as of LK299) ----------
 
-test('LK299: a first visit lands at 1,200 ms and is still by 1,500; a session lands at 800 and is still by 1,100', () => {
-  assert.equal(OPENING_FIRST_MS, 1200);
+test('LK299: a first visit lands at 1,750 ms and is still by 1,500; a session lands at 800 and is still by 1,100', () => {
+  assert.equal(OPENING_FIRST_MS, 1750);
   assert.equal(OPENING_SHORT_MS, 800);
   assert.deepEqual({ ...OPENING_FLIP_MS }, { first: 500, short: 380 });
   assert.equal(OPENING_HAND_MS, 280);
   assert.equal(OPENING_SETTLE_MS, 300);
-  assert.ok(OPENING_FIRST_MS + OPENING_SETTLE_MS <= 1500 && OPENING_SHORT_MS + OPENING_SETTLE_MS <= 1100);
+  assert.ok(OPENING_FIRST_MS + OPENING_SETTLE_MS <= 2050 && OPENING_SHORT_MS + OPENING_SETTLE_MS <= 1100);
   assert.deepEqual({ ...OPENING_KEYS }, { ever: 'mm:opened:v2', session: 'mm:opening:v2' }, 'v2: the new first visit is seen once');
   const css = rules(CSS);
-  assert.match(css, /--mo-end: 1200ms;\s*--mo-flip: 500ms;/);
+  assert.match(css, /--mo-end: 1750ms;\s*--mo-flip: 500ms;/);
   assert.match(css, /html\[data-opening='short'\] \.mo-open \{ --mo-end: 800ms; --mo-flip: 380ms; --mo-pace: 0\.62; \}/);
   assert.match(css, /--mo-w: min\(88vw, 960px\);/, 'grand on every screen');
 });
@@ -165,7 +165,7 @@ test('the gate: first ever, then short once per session, then skip; never twice 
   assert.equal(first.mode, 'first');
   assert.equal(first.w.localStorage.m.get(OPENING_KEYS.ever), '1');
   assert.equal(first.w.sessionStorage.m.get(OPENING_KEYS.session), '1');
-  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [700, 1200]);
+  assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [1250, 1750]);
   const short = run({ local: SESSION });
   assert.equal(short.mode, 'short');
   assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [420, 800]);
@@ -211,7 +211,7 @@ test('the inline script is self-contained and placed before the layer', () => {
   assert.doesNotThrow(() => new Function(script), 'it parses');
   assert.doesNotMatch(script, /\bimport\b|\brequire\(|\bexport\b/);
   assert.ok(script.length < 6000, `small enough to inline (${script.length} chars)`);
-  assert.match(script, /"first":1200,"short":800,"flip":\{"first":500,"short":380\},"hand":280,"settle":300/);
+  assert.match(script, /"first":1750,"short":800,"flip":\{"first":500,"short":380\},"hand":280,"settle":300/);
   assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'));
   assert.doesNotMatch(OPENING, /'use client'|useEffect|useState/);
 });

@@ -12,7 +12,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import DailyFiveRow from '@/components/daily/DailyFiveRow';
-import { STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
+import { COLLEGE_DAILY, PERSONAL_HEAD, STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { LandingDock } from '@/components/landing/LandingDock';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -25,8 +25,9 @@ import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/c
 import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
 import { HeroProof } from '@/components/landing/HeroProof';
 import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
-import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, DU_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, COMBO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, TOUR_HEAD, COMPASS_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs, buildTour } from '@/components/landing/homeCopy.mjs';
 import { publicSample } from '@/components/landing/sampleFive.mjs';
+import { DesktopNote } from '@/components/landing/DesktopNote';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import HeroFilm from '@/components/landing/HeroFilm';
 import { CollegeStrip } from '@/components/landing/CollegeStrip';
@@ -34,7 +35,6 @@ import { HERO_LINES } from '@/components/landing/heroLines.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { HomePricing } from '@/components/landing/HomePricing';
 import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
-import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { ExamScreen } from '@/components/landing/ExamScreen';
 import OpeningMo from '@/components/landing/OpeningMo';
 import HeroTyped from '@/components/landing/HeroTyped';
@@ -78,6 +78,7 @@ import './home-sheets.css';
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
 
 const OFFER = publicOffer();
+const dailyHead = COLLEGE_DAILY ? STRIP_HEAD : PERSONAL_HEAD;
 // When this page was built: the months to CUET in the price comparison and the one-time offer's days start here (value.mjs).
 const BUILT = new Date();
 // The close band's invite line, only while friend invites are on (the same switch /signup reads); never a code on this page.
@@ -159,6 +160,7 @@ export default function LandingPage() {
       <NavBar />
       <SectionPosition sections={POSITION} />
       <main id="main-content">
+        <DesktopNote />
         {/* ------------------------------ HERO ------------------------------ */}
         {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), calmer in round 3 (R3-D3, LK99/LK100), and in round 4
             (owner LK117-LK124, LK133, 5 Nov; docs/design-decisions/web-r4-hero.md) made to fill a desktop screen: one
@@ -248,7 +250,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <BrandStamp {...BRAND_STAMPS.lab} />
-              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand', followScroll: true }]]} /></h2>
+              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{LAB_HEAD.sub}</p>
             </Reveal>
           </div>
@@ -304,8 +306,8 @@ export default function LandingPage() {
             {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.rhythm} />
-              <h2 className="lp-h2" id="rhythm-title">{headPhrases(STRIP_HEAD.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['your college.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
-              <p className="lp-sub">{STRIP_HEAD.sub}</p>
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['your college.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
+              <p className="lp-sub">{dailyHead.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             <DailyFiveRow where="home" />
           </div>
@@ -338,24 +340,14 @@ export default function LandingPage() {
           </section>
         ) : null}
 
-        {/* ------------------------- FREE DU CALCULATOR --------------------- */}
-        <section className="lp-sec" id="du-eligibility">
-          <div className="mm-wrap">
-            {/* 17 Nov 2026: the head starts on the page's one left edge with Mobi at its right, as the Compass's does (the
-                owner's 16 Nov phone rule: every word in a block starts on one edge); it was centred over a left-aligned tool. */}
-            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2"><Marked text={DU_HEAD.h2} marks={[['open to you?', { mark: 'circle' }]]} /></h2>
-              <p className="lp-sub">{DU_HEAD.sub}</p>
-            </Reveal><MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." /></div>
-            {/* The calculator is a tool, so it is simply there when the reader arrives: no reveal fade in front of it (LK93:
-                the section read as loading slowly). Its section is also drawn ahead while the page is idle (EligibilityTeaser). */}
-            <EligibilityTeaser />
-            <p className="lp-combo-line">{COMBO.ask} <Link href="/cuet-subject-combination" className="lp-link">{COMBO.cta}</Link></p>
-          </div>
+        {/* ------------------------------ PRICING --------------------------- */}
+        {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5
+            (owner, 6 Nov 2026), the receipt of everything it covers at your pace (HomePricing.jsx), counting the Key cards bank
+            only while Key cards are live. Every rupee figure is the offer's, worked out, never typed. */}
+        <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
+          <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
+            seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--eyebrow pip-seat--center" />} />
         </section>
-
-        {/* The numbers band (bank size, subjects, the price) went in R3-D7 (owner LK107): its true counts are lines of the one
-            plan in #pricing now, with their count-up (PlanCounts), and the price is the plan's own. */}
 
         {/* ------------------------------ INSTAGRAM ------------------------------ */}
         <section className="lp-sec" id="on-instagram">
@@ -382,14 +374,7 @@ export default function LandingPage() {
           </section>
         ) : null}
 
-        {/* ------------------------------ PRICING --------------------------- */}
-        {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5
-            (owner, 6 Nov 2026), the receipt of everything it covers at your pace (HomePricing.jsx), counting the Key cards bank
-            only while Key cards are live. Every rupee figure is the offer's, worked out, never typed. */}
-        <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
-          <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
-            seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--eyebrow pip-seat--center" />} />
-        </section>
+
 
         {/* -------------------------------- FAQ ----------------------------- */}
         <section className="lp-sec lp-sec--band" id="faq">

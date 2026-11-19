@@ -20,41 +20,41 @@ const SWEEP_HIGH = 960;
 const SWEEP_PERIOD_MS = 11000;
 const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-const TOUCH_REST = 900;
+const INITIAL_SCORE = 780;
 
 export default function CompassLadder({ data }) {
   const rootRef = useRef(null);
   const [programme, setProgramme] = useState(0);
   const [category, setCategory] = useState('UR');
   const [round, setRound] = useState('round-1');
-  const [score, setScore] = useState(780);
+  const [score, setScore] = useState(INITIAL_SCORE);
   const [sweeping, setSweeping] = useState(true);
-  const phaseRef = useRef(0);
+  const phaseRef = useRef(Math.acos(1 - 2 * (INITIAL_SCORE - SWEEP_LOW) / (SWEEP_HIGH - SWEEP_LOW)) / (2 * Math.PI));
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => setReduced(query.matches);
-    sync(); query.addEventListener('change', sync);
-    return () => query.removeEventListener('change', sync);
-  }, []);
-  // On a touch screen the score does not run by itself (16 Nov 2026; the owner on his phone: "it's doing weird movements"):
-  // a slider and ten bars moving under a thumb that is scrolling read as the page misbehaving. It rests until the
-  // reader drags it, taps a score or taps Play, on a score that clears some colleges and misses others. A mouse keeps the
-  // self-running tour.
-  useEffect(() => {
-    let touch = false;
-    try { touch = window.matchMedia('(hover: none), (pointer: coarse)').matches; } catch { touch = false; }
-    if (!touch) return undefined;
-    // Right after the first paint, before the ladder has come on screen (the tour only starts once it has).
-    const t = window.setTimeout(() => { setSweeping(false); setScore(TOUCH_REST); }, 0);
-    return () => window.clearTimeout(t);
+    const sync = () => {
+      const calm = query.matches || document.documentElement.dataset.motion === 'reduced';
+      setReduced(calm);
+      if (calm) setSweeping(false);
+    };
+    sync();
+    query.addEventListener('change', sync);
+    window.addEventListener('mm-prefs', sync);
+    return () => { query.removeEventListener('change', sync); window.removeEventListener('mm-prefs', sync); };
   }, []);
   useEffect(() => {
     const node = rootRef.current;
-    if (!node || typeof IntersectionObserver === 'undefined') { setInView(true); return undefined; }
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.3 });
+    if (!node || typeof IntersectionObserver === 'undefined') { setSweeping(false); return undefined; }
+    let entered = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      const visible = entry.isIntersecting && entry.intersectionRatio >= 0.22;
+      setInView(visible);
+      if (visible) entered = true;
+      else if (entered) setSweeping(false);
+    }, { threshold: [0, 0.22] });
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
@@ -65,6 +65,9 @@ export default function CompassLadder({ data }) {
   useEffect(() => {
     if (!sweeping || !inView || reduced) return undefined;
     let frame = 0;
+    const stop = window.setTimeout(() => setSweeping(false), 12000);
+    const hide = () => { if (document.hidden) setSweeping(false); };
+    document.addEventListener('visibilitychange', hide);
     let last = performance.now();
     let shown = null;
     const tick = (now) => {
@@ -80,7 +83,11 @@ export default function CompassLadder({ data }) {
       frame = window.requestAnimationFrame(tick);
     };
     frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.clearTimeout(stop);
+      window.cancelAnimationFrame(frame);
+      document.removeEventListener('visibilitychange', hide);
+    };
   }, [sweeping, inView, reduced]);
 
   // Resuming continues from the visitor's last score rather than jumping back to the start.

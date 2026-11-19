@@ -81,6 +81,7 @@ function Marked({ text, em }) {
 export function PlanValue({ offer, keyCards = false, compare = true, go = null, everything = null, free = null }) {
   const id = useId();
   const [subjects, setSubjects] = useState(SUBJECT_COUNT.start);
+  const [showMath, setShowMath] = useState(false);
   const [said, setSaid] = useState('');
   const u = compare ? usualWay(offer, subjects) : null;
   const total = useRoll(u ? u.totalPaise / 100 : 0);
@@ -116,20 +117,9 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
                     <span className="lp-sr">{punch.usual}</span>
                     <span aria-hidden="true"><Doodle mark="highlight" inkKey={subjects}>{rupeesOf(total)}</Doodle>{rest}</span>
                   </span>
-                )} <b>{punch.pro}</b>
+                )} <button type="button" className="lp-usual__math" aria-label="How the usual price adds up" aria-expanded={showMath} aria-controls={`${id}-math`} onClick={() => setShowMath(!showMath)}>?</button> <b>{punch.pro}</b>
               </p>
-            </div>
-          </>
-        ) : null}
-        {go}
-      </div>
-
-      <div className="lp-plan__detail">
-        <Unfold from={900} className="lp-fold--plan" summary={PLAN_HOME.everything} head={<h4 className="lp-fold__title">{PLAN_HOME.everything}</h4>}>
-          {everything}
-        </Unfold>
-        {u ? (
-          <Unfold from={900} className="lp-fold--usual" summary={PLAN_HOME.workedOut} head={<h4 className="lp-fold__title">{PLAN_HOME.workedOut}</h4>}>
+              <div id={`${id}-math`} hidden={!showMath} className="lp-usual__receipt">
             <p className="lp-val__title">{VALUE_COPY.title}</p>
             <div className="lp-usual__way">
               <p className="lp-usual__head">{VALUE_COPY.usualHead}</p>
@@ -150,8 +140,18 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
               <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
             </div>
             <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
-          </Unfold>
+              </div>
+            </div>
+          </>
         ) : null}
+        {go}
+      </div>
+
+      <div className="lp-plan__detail">
+        <Unfold from={900} className="lp-fold--plan" summary={PLAN_HOME.everything} head={<h4 className="lp-fold__title">{PLAN_HOME.everything}</h4>}>
+          {everything}
+        </Unfold>
+
       </div>
 
       {free}

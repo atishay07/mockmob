@@ -29,7 +29,7 @@
 // IntersectionObserver neither shows and the page reads as it did.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpToLine } from 'lucide-react';
-import { positionAt, stepCount, stepLabel } from './sectionPositionPhase.mjs';
+import { positionAt, positionProgress, stepCount, stepLabel } from './sectionPositionPhase.mjs';
 import { installPageJumps, toTop } from './pageJump.mjs';
 import * as bus from './scrollBus.mjs';
 import { LOGO_B_MOBI } from '@/components/brand/logoB';
@@ -96,6 +96,20 @@ export function SectionPosition({ sections }) {
     read();
     return () => watch.disconnect();
   }, [key]);
+
+  useEffect(() => {
+    if (!bar.on || !window.matchMedia(PHONE).matches) return undefined;
+    const track = document.getElementById(key.split('|')[bar.index])?.querySelector('.ss__track');
+    const steps = barRef.current?.querySelector('.lp-bar__steps');
+    if (!track || !steps) return undefined;
+    const paint = () => {
+      const { top, height } = track.getBoundingClientRect();
+      const progress = positionProgress({ top, height, vh: window.innerHeight, hasTrack: true });
+      steps.style.setProperty('--at', String(progress * (bar.steps - 1)));
+    };
+    paint();
+    return bus.subscribe(paint);
+  }, [bar.on, bar.index, bar.steps, key]);
 
   // ---- the band under the site bar (wide windows)
   useEffect(() => {
@@ -208,8 +222,8 @@ export function SectionPosition({ sections }) {
               {/* Round 13: the logo's Mobi stands on the step the story shows and hops to the next (r13-motion.css). The
                   drawing is keyed by the step, so each arrival plays its one hop. Decoration: the count says it in words. */}
               {bar.steps > 0 ? (
-                <b className="lp-bar__mobi" style={{ '--at': bar.step }}>
-                  <svg key={bar.step} className="lp-bar__mobi-art" viewBox={MOBI_BOX} focusable="false">
+                <b className="lp-bar__mobi" >
+                  <svg className="lp-bar__mobi-art" viewBox={MOBI_BOX} focusable="false">
                     <path fill="#D2F000" d={MOBI.body} />
                     <path fill="#12110E" d={MOBI.visor} />
                     <path fill="#F3EFE4" fillRule="evenodd" d={MOBI.eyes} />

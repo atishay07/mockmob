@@ -2,15 +2,7 @@
 
 // The home page's exam section (LK72 4 Nov; D6, LK91, LK92 5 Nov; R4-H6, LK129, R5 6 Nov; R19 18 Nov 2026): one exam screen,
 // with a MockMob / NTA style switch above it that keeps the answers and the timer.
-// - From 761 px the screen sits on a desktop monitor (ExamDevice.jsx) that holds a browser window whose address bar shows where
-//   the screen really lives (mockmob.in/test, with interface=nta in NTA style, the address the runner reads). The screen is
-//   laid out at 880 x 550 design pixels and scales with the monitor as a whole.
-// - R19 (18 Nov 2026, the owner: "utilizing the vertical space ... make the actual portion size of the graphic ... larger"):
-//   below 761 px the monitor's frame goes and the same screen is drawn at phone scale, edge to edge and live (exam-screen.css,
-//   "R19"): the top bar with the subject and the running clock, the question with its four options at full tap size, the
-//   question palette as one row of numbered bubbles, and the bottom keys. The switch sits directly above it and re-skins it
-//   in place. The review panel's counters, legend and Submit stay in the full-screen view's palette sheet.
-// - Phones (below 761 px) get one more key under the screen, "Try it full screen": the same state in a full-screen view.
+// - The monitor shows the desktop runner at every width. Tapping the phone preview opens the upright runner.
 // - MockMob is our own screen, the runner's anatomy (src/app/(app)/test/TestPageClient.jsx): the saved note, the header
 //   with Question n of m, the answered count and the timer, the chapter and difficulty chips, the stem, four options with
 //   letter chips, Mark and Clear, the strike-out (press and hold an option), Previous and Next, and the review panel with
@@ -337,7 +329,7 @@ export function ExamScreen() {
   );
   // The monitor's screen: drawn in the monitor while the view is shut (never both: one timer, one set of live regions).
   const frame = (
-    <div className="xs-frame" data-interface={mode}>
+    <div className="xs-frame" data-interface={mode} inert={narrow || undefined}>
       <div className="xs-browser" aria-hidden="true">
         <span className="xs-browser__nav"><ChevronLeft /><ChevronRight /><RotateCw /></span>
         <span className="xs-url"><Lock /><span><b>{EXAM.address.host}</b>{address}</span></span>
@@ -345,7 +337,7 @@ export function ExamScreen() {
 
       {nta ? (
         <NtaScreen key="nta" index={index} question={question} answers={shown} states={states} clock={clock} started={started} onScreen={onScreen || full}
-          paletteOpen={paletteOpen || narrow} setPaletteOpen={setPaletteOpen} readBack={readBack} setReadBack={setReadBack}
+          paletteOpen={paletteOpen} setPaletteOpen={setPaletteOpen} readBack={readBack} setReadBack={setReadBack}
           choose={hold} clearAnswer={clearAnswer} markAndNext={markAndNext} saveAndNext={saveAndNext} chipGrid={chipGrid} />
       ) : (
         <div key="mockmob" className="xs-app">
@@ -432,6 +424,7 @@ export function ExamScreen() {
 
         <ExamDevice ref={deviceRef}>
           {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
+          {narrow && !full ? <button type="button" className="xs-tap" tabIndex={-1} aria-hidden="true" onClick={openFull} /> : null}
         </ExamDevice>
 
         {/* R10: NTA mode's own gate (ExamIntegrityGuard's words), set as a small card: a mark, the words (with the

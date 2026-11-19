@@ -158,13 +158,13 @@ test('round 4 (owner LK124): the features strip names the main features, each a 
   // The USP, truthfully: unlimited is Pro's (L-041, owner memory 16 Oct).
   assert.match(all[0].line, /^On Pro/);
   // No Compass section: its link goes to the free DU calculator; no Key cards section: no Key cards cell.
-  assert.equal(heroFeatures({ compass: false }).find((f) => f.name === 'DU Compass').href, '#du-eligibility');
+  assert.equal(heroFeatures({ compass: false }).find((f) => f.name === 'DU Compass').href, '/cuet-cutoff-calculator');
   assert.ok(!heroFeatures({}).some((f) => f.name === 'Key cards'));
   assert.equal(HERO_FEATURES_LABEL, 'What MockMob gives you');
   const page = read('../../app/page.js');
   assert.match(page, /const FEATURES = heroFeatures\(\{ compass: SHOWCASE\.programmes\.length > 0, keyCards: Boolean\(KEY_CARDS\) \}\);/);
   // Every anchor it links to is drawn on the page (Compass and Key cards only when they are).
-  for (const id of ['inside-the-lab', 'your-prep', 'pricing', 'compass', 'du-eligibility', 'key-cards']) assert.match(page, new RegExp(`id="${id}"`), id);
+  for (const id of ['inside-the-lab', 'your-prep', 'pricing', 'compass', 'key-cards']) assert.match(page, new RegExp(`id="${id}"`), id);
   // The exam section is drawn by ExamScreen, which carries its own id.
   assert.match(page, /<ExamScreen \/>/);
   assert.match(read('./ExamScreen.jsx'), /id="exam-experience"/);

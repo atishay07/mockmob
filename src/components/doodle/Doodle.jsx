@@ -33,23 +33,37 @@ const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayout
 // One observer for every doodle on the page: a mark is drawn once its words are fully in view and above the lowest
 // fifth of the window. Each entry is told once and then forgotten.
 let seen = null;
+let screenHeight = 0;
 const waiting = new Map();
+function readingObserver() {
+  const height = window.innerHeight;
+  if (seen && screenHeight === height) return;
+  screenHeight = height;
+  seen?.disconnect();
+  seen = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting || entry.intersectionRatio < 0.9) continue;
+      const go = waiting.get(entry.target);
+      waiting.delete(entry.target);
+      seen.unobserve(entry.target);
+      go?.();
+    }
+    if (!waiting.size) window.removeEventListener('resize', readingObserver);
+  }, { rootMargin: `0px 0px -${Math.round(height * 0.25)}px 0px`, threshold: 0.9 });
+  for (const node of waiting.keys()) seen.observe(node);
+}
+
 function watch(node, fn) {
   if (typeof IntersectionObserver === 'undefined') { fn(); return () => {}; }
-  if (!seen) {
-    seen = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const go = waiting.get(entry.target);
-        waiting.delete(entry.target);
-        seen.unobserve(entry.target);
-        go?.();
-      }
-    }, { rootMargin: '0px 0px -20% 0px', threshold: 0.9 });
-  }
+  readingObserver();
+  window.addEventListener('resize', readingObserver);
   waiting.set(node, fn);
   seen.observe(node);
-  return () => { waiting.delete(node); seen.unobserve(node); };
+  return () => {
+    waiting.delete(node);
+    seen.unobserve(node);
+    if (!waiting.size) window.removeEventListener('resize', readingObserver);
+  };
 }
 
 export default function Doodle({ mark = 'underline', tone = 'ink', when, followScroll = false, inkKey, pen = false, accent, delay = 0, as: Tag = 'span', className = '', style, children, ...rest }) {
@@ -62,7 +76,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
   // The mark is made for the words' own box, again whenever that box changes (a font arriving, a narrower window).
   useIsoLayoutEffect(() => {
     const host = hostRef.current;
-    if (!host) return undefined;
+    if (!host || !(drawn || when || followScroll)) return undefined;
     const seed = seedOf(`${mark}:${text || host.textContent}`);
     const measure = () => {
       const width = host.offsetWidth;
@@ -79,7 +93,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
     const ro = new ResizeObserver(measure);
     ro.observe(host);
     return () => ro.disconnect();
-  }, [mark, text, accent]);
+  }, [mark, text, accent, drawn, when, followScroll]);
 
   // Drawn when the reader reaches the words (or when told).
   useEffect(() => {
@@ -139,7 +153,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
   const on = (controlled ? when : drawn) && primed;
   const strokes = shape?.strokes || [];
   // A mark made with the pen in view takes a hand's time, not a flash.
-  const ms = Math.round((DRAW_MS[mark] || 400) * (pen ? PEN_PACE : 1));
+  const ms = pen ? Math.round((DRAW_MS[mark] || 400) * PEN_PACE) : (controlled ? 740 : 1000);
   // Several strokes share the mark's time, one after the other; the flicks of an accent come after the mark has landed.
   const each = strokes.length ? ms / strokes.length : ms;
   const sparks = shape?.sparks || [];
@@ -173,14 +187,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
 
 // One stroke of the pen: its own length is its dash, so it draws from its start to its end.
 function Stroke({ d, ms, delay, spark = false }) {
-  const ref = useRef(null);
-  const [length, setLength] = useState(0);
-  useIsoLayoutEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-    try { setLength(Math.ceil(node.getTotalLength()) + 1); } catch { setLength(0); }
-  }, [d]);
-  return <path ref={ref} className={spark ? 'dd__stroke dd__stroke--spark' : 'dd__stroke'} d={d} data-ready={length ? 'true' : 'false'} style={{ '--dd-len': length, '--dd-stroke-ms': `${Math.round(ms)}ms`, '--dd-stroke-delay': `${Math.round(delay)}ms` }} />;
+  return <path pathLength="1" className={spark ? 'dd__stroke dd__stroke--spark' : 'dd__stroke'} d={d} data-ready="true" style={{ '--dd-len': 1, '--dd-stroke-ms': `${Math.round(ms)}ms`, '--dd-stroke-delay': `${Math.round(delay)}ms` }} />;
 }
 
 // The pencil that makes a mark: drawn with its point at the stroke's head, held the way a right hand holds it. Its lead is

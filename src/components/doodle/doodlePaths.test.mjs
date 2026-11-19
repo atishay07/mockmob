@@ -70,13 +70,14 @@ test('the highlighter is one closed swipe behind the words; the pen keeps a pen\
 
 test('the mark is drawn once, from its start, when the words are reached; reduced motion shows it still', () => {
   const jsx = read('./Doodle.jsx');
-  assert.match(jsx, /rootMargin: '0px 0px -20% 0px', threshold: 0\.9/, 'well clear of the screen\'s foot');
+  assert.match(jsx, /Math\.round\(height \* 0\.25\)/, 'trigger uses a quarter of the viewport height on portrait phones');
+  assert.match(jsx, /pathLength="1"/, 'strokes need no synchronous SVG length measurement');
   assert.match(jsx, /seen\.unobserve\(entry\.target\);/, 'once');
   assert.match(jsx, /const on = \(controlled \? when : drawn\) && primed;/, 'never before its undrawn state was on screen');
   assert.match(jsx, /aria-hidden="true" focusable="false"/, 'the mark is decoration: the words are the content');
   const css = read('./doodle.css');
   assert.match(css, /stroke-dashoffset: var\(--dd-len, 0\)/);
-  assert.match(css, /cubic-bezier\(0\.23, 1, 0\.32, 1\)/);
+  assert.match(css, /cubic-bezier\(0\.32, 0\.08, 0\.22, 1\)/);
   assert.doesNotMatch(css, /infinite|transition:\s*all/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /html\[data-motion='reduced'\]/);

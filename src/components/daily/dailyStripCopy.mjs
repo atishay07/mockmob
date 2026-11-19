@@ -12,6 +12,11 @@ import { DAILY_FIVE_PATH, DAILY_FIVE_SIZE, untilShort } from '../../lib/dailyFiv
 import { LAUNCH_WEEK, PAPER_COUNT, PAPER_MINUTES, dateLabel, sundayState, sundayWindow } from '../../lib/sundayMock.mjs';
 import { ANSWERS_AT, LAST_START, OPENS, PAPER_FIGURES } from '../../app/sunday-mock/sundayHow.mjs';
 
+export const COLLEGE_DAILY = process.env.NEXT_PUBLIC_DAILY_COLLEGE_BOARD === 'true';
+export const PERSONAL_HEAD = Object.freeze({
+  h2: 'Your daily five.',
+  sub: 'Try today’s five English and General Test questions. Come back tomorrow for a fresh set.',
+});
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',
   // Only a signed-in five counts on the college board (a guest's is kept on the device alone): the line says so.

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { preload } from 'react-dom';
 import { Maximize2, Minimize2, Pause, Play, Volume2, VolumeX } from 'lucide-react';
-import { FILM, chapterAt, pickSource, slowLink } from './heroFilmConfig.mjs';
+import { FILM, chapterAt, pickSource } from './heroFilmConfig.mjs';
 
 export { FILM };
 
@@ -43,20 +43,6 @@ const WIDE_MEDIA = '(min-width: 640px)';
 //     room for a fourth 44 px key beside nine 24 px chapters (hero-film.css), so there it sits in the picture's top corner.
 //   - The fill moves only while the film plays and is on screen (one animation frame at a time; under Reduce motion it
 //     steps with the film's own time updates). Paused, nothing runs.
-
-// No autoplay: Reduce motion (system or the site's switch), Data Saver, or a slow link (15 Nov 2026, audit P3: the film
-// is 3.6 to 6.4 MB, most of a phone visit's bytes; on a link the browser itself calls 2G or 3G the poster and its Play key
-// stand instead, and the film downloads only if the reader taps it).
-function stillOnly() {
-  try {
-    if (document.documentElement.getAttribute('data-motion') === 'reduced') return true;
-    if (navigator.connection?.saveData === true) return true;
-    if (slowLink(navigator.connection?.effectiveType)) return true;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch {
-    return true;
-  }
-}
 
 // Reduce motion alone (the fill steps instead of gliding).
 function reducedMotion() {
@@ -101,7 +87,7 @@ export default function HeroFilm() {
   const [playing, setPlaying] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   // The round Play key on the poster: autoplay is off here, or the browser refused to start the film.
-  const [needsTap, setNeedsTap] = useState(false);
+  const [needsTap, setNeedsTap] = useState(true);
   const [chapter, setChapter] = useState(0);
   // The film is narrated: until sound has come on once, a small "Sound on" key sits in the picture's corner.
   const heardOnce = useRef(false);
@@ -141,11 +127,6 @@ export default function HeroFilm() {
     if (!video || !frame) return undefined;
     video.muted = true;
     video.src = pickSource(frame.getBoundingClientRect().width, window.devicePixelRatio, navigator.connection?.saveData === true);
-    // Autoplay off here (Reduce motion or Data Saver): the round Play key shows on the poster whenever the film is paused.
-    let autoOff = stillOnly();
-    wantPlay.current = !autoOff;
-    // It first plays by itself only once the page has loaded, so its file never competes with the first paint; a reader's
-    // own Play works at once.
     let loaded = document.readyState === 'complete';
 
     const sync = () => {
@@ -161,7 +142,7 @@ export default function HeroFilm() {
       io = new IntersectionObserver((entries) => {
         const entry = entries[entries.length - 1];
         inView.current = entry.isIntersecting && entry.intersectionRatio >= FILM.visibleShare;
-        if (autoOff && video.paused) setNeedsTap(true);
+
         sync();
       }, { threshold: [0, FILM.visibleShare, 1] });
       io.observe(frame);
@@ -169,8 +150,7 @@ export default function HeroFilm() {
     // Reduce motion or Data Saver switched on while it plays by itself: it stops and waits for a tap.
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onPrefs = () => {
-      if (!stillOnly()) return;
-      autoOff = true;
+      if (!reducedMotion() && !navigator.connection?.saveData) return;
       wantPlay.current = false;
       if (!video.paused) video.pause();
       setNeedsTap(true);

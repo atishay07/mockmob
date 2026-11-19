@@ -4317,7 +4317,7 @@ html[data-theme] .mm.lp .lp-try .lp-desk .mm-drill__readout li.mm-drill__miss { 
       margin: -9px 0 0 -9px;
       pointer-events: none;
       transform: translate3d(calc((var(--at, 0) + 0.5) / var(--n, 4) * 100cqw), 0, 0);
-      transition: transform 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+
     }
     .mm.lp .lp-bar__mobi-art {
       display: block;
@@ -4326,18 +4326,10 @@ html[data-theme] .mm.lp .lp-try .lp-desk .mm-drill__readout li.mm-drill__miss { 
       overflow: visible;
       transform-origin: 50% 100%;
       filter: drop-shadow(0 1px 1.5px rgb(18 17 14 / 0.3));
-      animation: lp-bar-mobi-hop 380ms cubic-bezier(0.23, 1, 0.32, 1) both;
+
     }
   }
 }
-/* Anticipation, the hop, the landing's squash, rest: from his feet. */
-@keyframes lp-bar-mobi-hop {
-  0% { transform: translateY(0) scale(1.08, 0.88); }
-  42% { transform: translateY(-5px) scale(0.95, 1.07); }
-  76% { transform: translateY(0) scale(1.06, 0.92); }
-  100% { transform: none; }
-}
-
 /* ---------------------------------------------------------------------------------------------------------------------
    2. The desk's depth (section#try: HeroRoom's painting, HeroMobi, his bubble). Three planes on the stage's own view
    timeline: the painting starts 8 % large and settles back from the floor line (so the floor under his feet never slides),
@@ -6903,4 +6895,17 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
   body .mm.lp main > #pricing { contain-intrinsic-size: auto 1661px; }
   body .mm.lp main > #faq { contain-intrinsic-size: auto 432px; }
   body .mm.lp main > .lp-close { contain-intrinsic-size: auto 582px; }
+}
+
+body .mm.lp #pricing .lp-usual__math { min-width: 44px; min-height: 44px; display: inline-grid; place-items: center; vertical-align: middle; color: var(--ink-2); font-size: 16px; font-weight: 700; background: transparent; cursor: pointer; }
+body .mm.lp #pricing .lp-usual__math::before { content: ""; grid-area: 1 / 1; width: 22px; height: 22px; border: 1px solid var(--line-strong); border-radius: 50%; }
+body .mm.lp #pricing .lp-usual__math { position: relative; }
+body .mm.lp #pricing .lp-usual__math::before { position: absolute; }
+body .mm.lp #pricing .lp-usual__receipt:not([hidden]) { display: grid; gap: 12px; margin-top: 8px; padding-block: 16px; border-block: 1px dashed var(--line-strong); }
+
+.lp-desktop-note { display: none; }
+@media (max-width: 699px) {
+  .mm.lp .lp-desktop-note { display: flex; align-items: center; gap: 10px; padding-inline: var(--gutter, 20px) 8px; background: var(--paper-raised); color: var(--ink-2); border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.35; }
+  .lp-desktop-note > svg { flex: none; }
+  .lp-desktop-note button { display: grid; place-items: center; min-width: 44px; min-height: 44px; margin-left: auto; }
 }

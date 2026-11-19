@@ -612,6 +612,13 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       </header>
       {/* A paper left running on this device (15 Nov 2026, B2): one quiet row with Resume; nothing when there is none. */}
       <ResumePaper />
+      {!firstRun && subjectLabel ? (
+        <nav className="pr-session-glance" aria-label="Your session setup">
+          <a href="#pr-s1"><span>Subject</span><b>{subjectLabel}</b></a>
+          <a href="#pr-s2"><span>Mode</span><b>{mode.label}</b></a>
+          <a href="#pr-s3"><span>Questions</span><b>{quoteCount}</b></a>
+        </nav>
+      ) : null}
       {/* 19 Nov 2026 (lane arena-b): the one-line summary strip is gone. The ticket says the session once: the sticky card on
           the right from 1024 px, and on phones the bar pinned above the dock from the first screen. */}
 
@@ -792,10 +799,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 value is the one the page already holds (the quote's price and time once it is in), and a value that changes
                 re-inks (key), so a press visibly sets the session up. The Start key under it starts exactly this. */}
             <div className="pr-ticket__top">
-              <span className="pr-ticket__desk" key={selSubj} aria-hidden="true"><SubjectObject id={selectedSubject?.internalId || selSubj} size={176} lit life={false} /></span>
+              <span className="pr-ticket__art" aria-hidden="true"><ModeArt id={effectiveModeId} subjectId={selectedSubject?.internalId || selSubj} on /></span>
+              <div>
+                <h2 className="pr-ticket__mode">{mode.label}</h2>
+                <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
+              </div>
               {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
-              <h2 className="pr-ticket__mode">{mode.label}</h2>
-              <p className="pr-ticket__what">{MODE_TILE_SPECS[effectiveModeId]}</p>
             </div>
             <dl className="pr-ticket__list">
               <div data-wide=""><dt>Subject</dt><dd><span className="pr-ink" key={selSubj}>{subjectLabel}</span></dd></div>

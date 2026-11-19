@@ -71,7 +71,7 @@ export const DU_HEAD = Object.freeze({
 });
 export const EXAM_HEAD = Object.freeze({
   h2: 'Practise calm, then rehearse exam day.',
-  sub: 'This is the real exam screen. Switch to NTA style to rehearse; your answers stay.',
+  sub: 'NTA style is an exact copy of the real NTA exam screen. Switch views and keep your answers.',
 });
 export const INSTAGRAM_HEAD = Object.freeze({
   h2: 'Featured by CUET creators.',

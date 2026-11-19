@@ -857,3 +857,15 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
     .app-shell .pr .pr-bar__obj { display: none; }
   }
 }
+
+.app-shell .pr-session-glance { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, .8fr); border-block: 1px solid var(--a-line); }
+.app-shell .pr-session-glance a { display: grid; align-content: start; gap: 4px; min-height: 48px; padding: 8px; color: var(--a-ink); text-decoration: none; }
+.app-shell .pr-session-glance a + a { border-inline-start: 1px solid var(--a-line); }
+.app-shell .pr-session-glance span { color: var(--a-ink-3); font-size: 12px; }
+.app-shell .pr-session-glance b { font-size: 14px; line-height: 1.25; overflow-wrap: anywhere; }
+.app-shell .pr-session-glance a:hover b, .app-shell .pr-session-glance a:focus-visible b { text-decoration: underline; text-underline-offset: 3px; }
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-session-glance { display: none; }
+  .app-shell .pr .pr-ticket__top { grid-template-columns: 64px minmax(0, 1fr); align-items: center; justify-items: start; gap: 12px; text-align: left; }
+  .app-shell .pr .pr-ticket__art { width: 64px; height: 64px; }
+}

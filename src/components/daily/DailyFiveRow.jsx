@@ -13,7 +13,7 @@ import { Icon } from '@/components/ui/Icons';
 import { useAuth } from '@/components/AuthProvider';
 import { useOnScreen } from './DailyParts';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
-import { SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow } from './dailyStripCopy.mjs';
+import { COLLEGE_DAILY, SUNDAY_LINE_SHORT, dailyRow, omrLabel, sundayRow } from './dailyStripCopy.mjs';
 import './daily-row.css';
 
 // The doors to the Daily Five.
@@ -104,14 +104,14 @@ function HomeBlock() {
   });
   const sunday = sundayRow({ now });
   const team = useTeamChoice({ today: today?.date || null });
-  const board = useBoard(today?.date || null, on);
+  const board = useBoard(today?.date || null, on && COLLEGE_DAILY);
   const [sheet, setSheet] = useState(false);
   const marks = result ? result.marks : run ? run.checks.map((c) => (c ? c.right : null)) : null;
   const current = begun && !result ? nextIndex(run.picks) : null;
   // One volt key in the block: the Sunday Mock's while a paper can be started (12 hours a week), else the Daily Five's.
   return (
     <div className="dwk" ref={ref}>
-      <article className="dwk-ticket" data-state={daily.state} aria-labelledby="dwk-daily">
+      <article className="dwk-ticket" data-personal={!COLLEGE_DAILY || undefined} data-state={daily.state} aria-labelledby="dwk-daily">
         <div className="dwk-ticket__play">
           <div className="dwk-ticket__head">
             <h3 className="dwk-name" id="dwk-daily">Daily Five</h3>
@@ -122,7 +122,7 @@ function HomeBlock() {
               <span className="dwk-when">{daily.when}</span>
             </p>
           </div>
-          <PlayingFor team={team} onOpen={() => setSheet(true)} />
+          {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet(true)} /> : null}
           {/* The bubbles carry this device's state: shown once a question is answered (open, they would only repeat the 5). */}
           {marks ? <OmrFive marks={marks} current={current} label={omrLabel(marks, current)} /> : null}
           <ul className="dwk-figs">
@@ -130,7 +130,7 @@ function HomeBlock() {
           </ul>
           <Link href={daily.href} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
         </div>
-        <div className="dwk-ticket__board">
+        {COLLEGE_DAILY ? <div className="dwk-ticket__board">
           <CollegeBoard
             load={board}
             mine={team.college}
@@ -138,7 +138,7 @@ function HomeBlock() {
             title="College board"
             aside={<Link href={`${DAILY_FIVE_PATH}#board`} className="dwk-more" aria-label="See all of the college board">See all<ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link>}
           />
-        </div>
+        </div> : null}
       </article>
       <article className="dwk-card" data-kind="sunday" data-state={sunday.phase} aria-labelledby="dwk-sunday">
         <div className="dwk-card__head">
@@ -190,10 +190,10 @@ function TodayRow() {
     ? streakOf(runDays(account.played, today.date, Boolean(result)), today.date).count
     : streakOf(record.played, today.date).count;
   const wait = now === null ? '' : untilShort(msUntilNextDay(now));
-  const college = team.college ? teamName(team.college) : '';
+  const college = COLLEGE_DAILY && team.college ? teamName(team.college) : '';
   // A played five names the college it counted for: the account's for today (its rows say so), never this device's choice,
   // which may already be the next day's.
-  const counted = fromAccount && account.team && account.team.last === today.date ? teamName(account.team.college) : '';
+  const counted = COLLEGE_DAILY && fromAccount && account.team && account.team.last === today.date ? teamName(account.team.college) : '';
   const line = !ready ? ' ' : result
     ? `Played today: ${result.score}/5 in ${formatClock(result.ms)}${counted ? ` for ${counted}` : ''}.${streak >= 2 ? ` Day ${streak} in a row.` : ''} Next five in ${wait}.`
     : `${streak >= 2 ? `${streak} days in a row so far.` : streak === 1 ? 'You played yesterday.' : college ? `Playing for ${college}.` : 'Five questions, the same for everyone.'} Today’s five closes in ${wait}.`;

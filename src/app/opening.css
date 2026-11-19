@@ -11,14 +11,14 @@
 
 /* The beats, one set per mode (ms from the release, the first paint the gate waits for):
      first  a first-ever visit: the bubbles fall, one drops into Mobi's empty bubble eye and inks it (140 to 500 ms), the
-            sheet rises and the word flies onto the bar logo from 700 ms (500 ms), lands at 1,200; the logo settles to 1,500.
+            sheet rises and the word flies onto the bar logo from 1,250 ms (500 ms), lands at 1,200; the logo settles to 1,500.
      short  every new session: the same picture at the session pace (the eye already inked; Mobi blinks as the first bubble
             passes); the sheet rises from 420 ms (380 ms), lands at 800; settled by 1,100. */
 html[data-opening='first'] .mo-open,
 html[data-opening='short'] .mo-open {
-  --mo-end: 1200ms;
+  --mo-end: 1750ms;
   --mo-flip: 500ms;
-  --mo-pace: 1;
+  --mo-pace: 1.35;
   /* The composed word: grand on every screen, the bar logo's shape (OpeningMo sets --mo-ratio). */
   --mo-w: min(88vw, 960px);
   display: block;

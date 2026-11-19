@@ -17,6 +17,7 @@ import {
   runNote,
 } from '@/lib/dailyFiveAccount.mjs';
 import { DailyWeek, NextFiveClock } from './DailyParts';
+import { COLLEGE_DAILY } from './dailyStripCopy.mjs';
 import { CollegeBoard, CollegeSheet, OmrFive, PlayingFor, useBoard, useTeamChoice } from './DailyTeam';
 import { useMyColleges } from '@/components/colleges/useMyColleges';
 import { teamIdOfName, teamName } from '@/lib/daily/colleges.mjs';
@@ -160,13 +161,13 @@ export default function DailyFive() {
   // The college: the account's once read (its latest five's), else this device's choice (team.mjs mergeTeam).
   const team = useTeamChoice({ today: today?.date || null, account: accountReady ? account.team : null, userId });
   const teamRef = useRef(null);
-  useEffect(() => { teamRef.current = team.college; });
+  useEffect(() => { teamRef.current = COLLEGE_DAILY ? team.college : null; });
   const seat = accountReady ? seatWords(account.seat) : '';
   // The college today's five counted for (the account's rows say so), for the result and the share line; until the account
   // names one, this device's choice. A later change on this device is tomorrow's and never renames today's five.
   const countedToday = accountReady && account.team && account.team.last === today.date ? account.team.college : null;
-  const shareCollege = teamName(countedToday || team.college || '');
-  const mine = useMyColleges(userId);
+  const shareCollege = COLLEGE_DAILY ? teamName(countedToday || team.college || '') : '';
+  const mine = useMyColleges(COLLEGE_DAILY ? userId : null);
   const myFirst = useMemo(() => (mine.status === 'ready' ? mine.colleges.map((c) => teamIdOfName(c.college)).filter(Boolean) : []), [mine.status, mine.colleges]);
   const board = useBoard(today?.date || null, phase !== 'loading' || Boolean(today));
   // Arrived from the home page's "See all" (/daily#board): once the board is drawn, bring it into view (the card above it fills
@@ -427,7 +428,7 @@ export default function DailyFive() {
   }, [picked, index, checking]);
 
   function start(event) {
-    if (!team.college && team.ready && !skippedTeam()) { setSheet('start'); return; }
+    if (COLLEGE_DAILY && !team.college && team.ready && !skippedTeam()) { setSheet('start'); return; }
     begin(event);
   }
 
@@ -528,7 +529,7 @@ export default function DailyFive() {
         </div>
         {seat ? <p className="dly-admit__seat"><span>Seat</span><b>{seat}</b></p> : null}
       </div>
-      <PlayingFor team={team} onOpen={() => setSheet('pick')} />
+      {COLLEGE_DAILY ? <PlayingFor team={team} onOpen={() => setSheet('pick')} /> : null}
       <dl className="dly-admit__fields">
         <div><dt>{done ? 'Next five in' : 'Closes in'}</dt><dd><NextFiveClock date={today?.date} label={done ? 'Next five in' : 'Closes in'} size="m" onNewDay={newDay} /></dd></div>
         <div><dt>Today’s five</dt><dd className="dly-admit__mix">{five ? mixLine(five) : 'English and the General Test'}</dd></div>
@@ -538,9 +539,9 @@ export default function DailyFive() {
   // The college board under the card, and the sheet. The board reads once the day is known.
   const after = (
     <>
-      <section className="dly-board" id="board" aria-label="College board">
+      {COLLEGE_DAILY ? <section className="dly-board" id="board" aria-label="College board">
         <CollegeBoard load={board} mine={team.college} mode="full" title="College board" />
-      </section>
+      </section> : null}
       {board.board?.trap ? (
         <section className="dly-trap" aria-labelledby={`${leadId}-trap`}>
           <h2 className="dly-trap__title" id={`${leadId}-trap`}>Yesterday’s trap</h2>
@@ -571,7 +572,7 @@ export default function DailyFive() {
     const days = runOf(true);
     // Which college today's five counts for: the account's (its rows say so), else nothing is claimed. A guest's is not counted.
     const counted = countedToday;
-    const countedLine = !signedIn ? ''
+    const countedLine = !COLLEGE_DAILY || !signedIn ? ''
       : counted ? `Today’s five counts for ${teamName(counted)} on the college board.`
         : saveState === 'saved' && !team.college ? 'Today’s five counts for no college. Pick one for tomorrow’s.' : '';
     const missedAt = new Map(result.missed.map((m) => [m.n, m]));
@@ -681,7 +682,7 @@ export default function DailyFive() {
                 <div className="dly__on">
                   {status === 'loading' ? null : isAuthenticated
                     ? <Link href={firstSetHref()} className="mm-drill__replay">{FIRST_SET_LABEL}</Link>
-                    : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">{team.college ? `Sign up free to count for ${teamName(team.college)} and get your seat number` : 'Sign up free to keep today’s five and get your seat number'}</Link>}
+                    : <Link href={signupPathFor(DAILY_FIVE_PATH)} className="mm-drill__replay">{COLLEGE_DAILY && team.college ? `Sign up free to count for ${teamName(team.college)} and get your seat number` : 'Sign up free to keep today’s five and get your seat number'}</Link>}
                 </div>
               </div>
             </div>
@@ -757,7 +758,7 @@ export default function DailyFive() {
           <div className="lp-desk__card">
             <div className="lp-card mm-drill" role="group" aria-label="Today’s Daily Five" tabIndex={-1} ref={rootRef}>
               <div className="lp-card__head">
-                <span className="lp-card__sub"><b>Today’s five</b>{team.college ? <span>For {teamName(team.college)}</span> : null}</span>
+                <span className="lp-card__sub"><b>Today’s five</b>{COLLEGE_DAILY && team.college ? <span>For {teamName(team.college)}</span> : null}</span>
               </div>
               <div className="lp-card__body">
                 <OmrFive size="l" label={omrLabel(null)} />

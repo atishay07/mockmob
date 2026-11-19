@@ -131,7 +131,7 @@ export function heroFeatures({ compass = true, keyCards = false } = {}) {
     // Round 11 (10 Nov 2026): the Score Recovery section left the page; its place in the strip opens the exam section
     // (ExamScreen.jsx, id exam-experience), with the clipboard paper and a line in that section's own words (EXAM_HEAD.sub).
     { href: '#exam-experience', icon: 'papers', name: 'Exam-day screen', line: 'Rehearse it in NTA style' },
-    { href: compass ? '#compass' : '#du-eligibility', icon: 'compass', name: 'DU Compass', line: 'Check your DU shortlist' },
+    { href: compass ? '#compass' : '/cuet-cutoff-calculator', icon: 'compass', name: 'DU Compass', line: 'Check your DU shortlist' },
     // Round 14 (owner, 13 Nov 2026): a tap opens Ask Mobi for guests (AskMobiSheet.jsx, three real answers, no sign-up); `ask`
     // marks the row for the sheet. Without JavaScript the link still goes to the sample, where the result asks Mobi too.
     { href: '#your-prep', icon: 'mobi', name: 'Ask Mobi', line: 'Ask a question. No sign-up.', ask: 'strip' },
