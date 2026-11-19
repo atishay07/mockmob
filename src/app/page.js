@@ -57,6 +57,7 @@ import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import AskMobiSheet from '@/components/landing/AskMobiSheet';
 import MobiCompanion from '@/components/landing/MobiCompanion';
+import DesktopCursor from '@/components/landing/DesktopCursor';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { BrandStamp } from '@/components/landing/BrandStamp';
 import KeyCardsDemo from '@/components/landing/KeyCardsDemo';
@@ -426,6 +427,8 @@ export default function LandingPage() {
       {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
           window event mm:ask-mobi). */}
       <Later><MobiCompanion /></Later>
+      {/* Desktop only (a mouse or a trackpad): a ring that trails the arrow and answers a click (owner LK333). */}
+      <Later><DesktopCursor /></Later>
       <Later><AskMobiSheet /></Later>
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
