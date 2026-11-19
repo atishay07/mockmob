@@ -157,7 +157,7 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 @media (min-width: 1024px) { .app-shell .acct-col > .acct-who { display: none; } }
 .app-shell .acct-actions { gap: 6px; }
 .app-shell .acct-actions__list { display: grid; }
-.app-shell .acct-actions__list > * + * { border-top: 1px solid var(--a-line); }
+.app-shell .acct-actions__list > :where(:not(:first-child)) { border-top: 1px solid var(--a-line); }
 .app-shell .acct-act { display: grid; gap: 12px; padding: 18px 0; min-width: 0; }
 .app-shell .acct-actions__list > :last-child, .app-shell .acct-actions__list > :last-child .acct-act { padding-bottom: 2px; }
 .app-shell .acct-act__text { min-width: 0; }

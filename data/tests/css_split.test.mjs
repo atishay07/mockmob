@@ -121,3 +121,43 @@ test('the home page imports its own sheets as one joined file that matches them,
   // The dev server keeps it current; builds only read it.
   assert.match(read('next.config.mjs').replace(/\r\n/g, '\n'), /if \(process\.env\.NODE_ENV === 'development'\) \{\n\s*const \{ watchHomeCss \} = await import\('\.\/src\/lib\/homeCss\.mjs'\);/);
 });
+
+// 19 Nov 2026 (owner LK326, "the screen stutters in the first five"): two things that made the browser or React redo the WHOLE
+// page for one small change. Both were measured on the live home page (tmp/1119-phone/task.mjs and style.mjs).
+function cssFiles(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) cssFiles(full, out);
+    else if (name.endsWith('.css')) out.push(full);
+  }
+  return out;
+}
+
+test('no rule puts a bare * on the left of a sibling combinator (it restyles a whole subtree on every insert)', () => {
+  // `> * + *` and `* ~ .x` go into the browser's one page-wide sibling set: any element added or removed under a parent then
+  // restyles that parent's whole subtree, so one script appended to <body> restyled the entire home page. Write
+  // `> :where(:not(:first-child))` (same elements, same specificity).
+  const bare = /(?:^|[\s>,(])\*\s*[+~]/;
+  const found = [];
+  for (const file of cssFiles(join(root, 'src'))) {
+    for (const sel of selectors(readFileSync(file, 'utf8'))) if (bare.test(sel)) found.push(`${relative(root, file).split(sep).join('/')}: ${sel}`);
+  }
+  assert.deepEqual(found, []);
+});
+
+test('the session context value never changes: the state is read from a store', () => {
+  // The provider wraps every page. While user and status sat in its context value, their first change after a page loaded
+  // made React hydrate every not-yet-hydrated part of the page in one blocking task (about 0.6 s on a mid-range phone).
+  const provider = read('src/components/AuthProvider.jsx');
+  const value = provider.slice(provider.indexOf('const value = useMemo('), provider.indexOf('return <AuthContext.Provider value={value}>'));
+  assert.ok(value.length > 0);
+  assert.doesNotMatch(value, /\buser\b|\bstatus\b|needsOnboarding|isAuthenticated/, 'no state in the context value');
+  assert.match(value, /\(\) => \(\{\s+store,\s+actions: \{/);
+  assert.match(provider, /const \{ user, status \} = useSyncExternalStore\(store\.subscribe, store\.get, firstState\);/);
+  assert.doesNotMatch(provider, /useState\('loading'\)|setStatus\(|setUser\(/);
+  // Readers go through the hooks; nothing reads the bare context for state.
+  for (const rel of ['src/app/error.js', 'src/components/recovery/MistakeRepair.jsx']) {
+    assert.doesNotMatch(read(rel), /useContext\(AuthContext\)/, rel);
+    assert.match(read(rel), /useAuthMaybe\(\)/, rel);
+  }
+});

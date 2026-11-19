@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { claimPendingInvite, rememberInviteFromUrl } from '@/lib/referrals/claimPendingInvite';
 import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
@@ -10,6 +10,37 @@ import { forgetFirstRun } from '@/lib/auth-redirect';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
 export const AuthContext = createContext(null);
+
+// WHERE THE SESSION'S STATE LIVES (19 Nov 2026, owner LK326: "the screen stutters in the first five"). Not in the context
+// value. The provider wraps every page, and its first act after a page hydrates is to change status from 'loading' to
+// 'unauthenticated' or 'authenticated'. While that sat in the context value, React had to treat every part of the page it
+// had not hydrated yet as possibly reading it, and hydrated ALL of them in one blocking task: about 0.6 s of frozen page on
+// a mid-range phone, measured on the live home page (tmp/1119-phone/task.mjs), which is nineteen Suspense boundaries meant
+// to hydrate a slice at a time. So the context value is now one object that never changes (the store and the actions), and
+// useAuth() reads the state from the store: only the components that are on the page and read it draw again.
+// Do not move user, status or needsOnboarding back into the context value.
+const FIRST_STATE = Object.freeze({ user: null, status: 'loading', needsOnboarding: false });
+const firstState = () => FIRST_STATE;
+function createAuthStore() {
+  let state = FIRST_STATE;
+  const listeners = new Set();
+  return {
+    get: () => state,
+    // One call per change of state, so a reader never sees a half-applied one (a user with the old status).
+    set(patch) {
+      const next = { ...state, ...patch };
+      if (next.user === state.user && next.status === state.status && next.needsOnboarding === state.needsOnboarding) return;
+      state = next;
+      for (const listener of [...listeners]) listener();
+    },
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => { listeners.delete(listener); };
+    },
+  };
+}
+// A context value that is a plain object (the development previews hand one in) has no store to listen to.
+const NO_STORE = { get: () => null, subscribe: () => () => {} };
 
 // Statuses:
 //   loading          first check in progress
@@ -133,9 +164,8 @@ function signOutLocally(supabase) {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [status, setStatus] = useState('loading');
-  const [needsOnboarding, setNeedsOnboarding] = useState(false);
+  const [store] = useState(createAuthStore);
+  const { user, status } = useSyncExternalStore(store.subscribe, store.get, firstState);
   const mountedRef = useRef(false);
   const requestIdRef = useRef(0);
   const refreshPromiseRef = useRef(null);
@@ -165,10 +195,8 @@ export function AuthProvider({ children }) {
     clearCachedMe(deviceStorage());
     supabaseUserIdRef.current = null;
     userRef.current = null;
-    setUser(null);
-    setNeedsOnboarding(false);
-    setStatus('unauthenticated');
-  }, []);
+    store.set({ user: null, needsOnboarding: false, status: 'unauthenticated' });
+  }, [store]);
 
   const applyAuthenticated = useCallback((me, supabaseUserId, { keep = true } = {}) => {
     if (!mountedRef.current) return;
@@ -178,23 +206,21 @@ export function AuthProvider({ children }) {
     if (keep) commitPendingSignIn(deviceStorage());
     supabaseUserIdRef.current = supabaseUserId || supabaseUserIdRef.current || null;
     userRef.current = me.user;
-    setUser(me.user);
-    setNeedsOnboarding(Boolean(me.needsOnboarding));
-    setStatus('authenticated');
-  }, []);
+    store.set({ user: me.user, needsOnboarding: Boolean(me.needsOnboarding), status: 'authenticated' });
+  }, [store]);
 
   // Keeps a signed-in student signed in: an already-loaded profile stays on screen, and
   // a first check that cannot reach the server shows "unavailable", never the login page.
   const applyUnavailable = useCallback(() => {
     if (!mountedRef.current || userRef.current) return;
-    setStatus('unavailable');
-  }, []);
+    store.set({ status: 'unavailable' });
+  }, [store]);
 
   const refreshSession = useCallback(async ({ silent = true } = {}) => {
     // Never swap a loaded app for the loading screen: that unmounts the page (and a test
     // in progress). Only show it when nothing is loaded yet.
     if (!silent && mountedRef.current && !userRef.current) {
-      setStatus('loading');
+      store.set({ status: 'loading' });
     }
 
     // Reuse an in-flight check instead of multiplying /api/auth/me calls.
@@ -295,7 +321,7 @@ export function AuthProvider({ children }) {
         refreshPromiseRef.current = null;
       }
     }
-  }, [applyAuthenticated, applyUnauthenticated, applyUnavailable]);
+  }, [applyAuthenticated, applyUnauthenticated, applyUnavailable, store]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -449,30 +475,56 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  // Never changes after the first render: every function here is stable (see the note above the store).
   const value = useMemo(
     () => ({
-      user,
-      status,
-      needsOnboarding,
-      isAuthenticated: status === 'authenticated',
-      signInWithGoogle,
-      signInWithGoogleIdToken,
-      signInWithEmail,
-      verifyEmailOtp,
-      signOut,
-      signOutOtherDevices,
-      refreshSession,
+      store,
+      actions: {
+        signInWithGoogle,
+        signInWithGoogleIdToken,
+        signInWithEmail,
+        verifyEmailOtp,
+        signOut,
+        signOutOtherDevices,
+        refreshSession,
+      },
     }),
-    [user, status, needsOnboarding, signInWithGoogle, signInWithGoogleIdToken, signInWithEmail, verifyEmailOtp, signOut, signOutOtherDevices, refreshSession],
+    [store, signInWithGoogle, signInWithGoogleIdToken, signInWithEmail, verifyEmailOtp, signOut, signOutOtherDevices, refreshSession],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
-export function useAuth() {
+// What a reader gets: { user, status, needsOnboarding, isAuthenticated, ...actions }, the same object until the state
+// changes. On the server, and while a part of the page hydrates, the state is the first one ('loading'), as it was drawn.
+function useAuthValue() {
   const context = useContext(AuthContext);
-  if (!context) {
+  const live = Boolean(context?.store && context?.actions);
+  const store = live ? context.store : NO_STORE;
+  const state = useSyncExternalStore(store.subscribe, store.get, live ? firstState : store.get);
+  return useMemo(() => {
+    if (!context) return null;
+    if (!live) return context;
+    return {
+      user: state.user,
+      status: state.status,
+      needsOnboarding: state.needsOnboarding,
+      isAuthenticated: state.status === 'authenticated',
+      ...context.actions,
+    };
+  }, [context, live, state]);
+}
+
+export function useAuth() {
+  const value = useAuthValue();
+  if (!value) {
     throw new Error('useAuth must be used inside <AuthProvider>.');
   }
-  return context;
+  return value;
+}
+
+// The same, for the few places that must never throw (an error page, a component also drawn outside the provider): null
+// when there is no provider. Read this, not useContext(AuthContext): the context value carries no state.
+export function useAuthMaybe() {
+  return useAuthValue();
 }

@@ -116,7 +116,7 @@
 .gd .gd-body {
   padding-top: 2.5rem;
 }
-.gd .gd-body > * + * { margin-top: 3rem; }
+.gd .gd-body > :where(:not(:first-child)) { margin-top: 3rem; }
 .gd .gd-sec {
   padding-top: 1.5rem;
   border-top: 1px solid var(--line-strong);

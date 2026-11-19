@@ -335,7 +335,7 @@ span.st-counter { cursor: default; }
 .st-endx[role='alert'] { display: grid; gap: 20px; align-content: start; }
 .st-endx--skel { flex: none; }
 .st-endx__body { display: grid; gap: 0; align-content: start; margin-block: auto; padding-block: 8px 28px; }
-.st-endx__body > * + * { margin-top: 20px; }
+.st-endx__body > :where(:not(:first-child)) { margin-top: 20px; }
 .st-endx__ch { font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .st-endx__ch--wrap { white-space: normal; }
 .st-endx__body > .st-endx__head { margin-top: 6px; }

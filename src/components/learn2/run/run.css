@@ -146,7 +146,7 @@
 
 /* ---------- The session panel (A4 3.3.3): text on the page, no boxes, hairlines between groups ---------- */
 .lr-panel { flex-direction: column; gap: 0; min-width: 0; padding-top: 2px; }
-.lr-panel > * + * { margin-top: 18px; }
+.lr-panel > :where(:not(:first-child)) { margin-top: 18px; }
 .lr-panel__title { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere; }
 .lr-panel__ref { margin-top: 4px; font: 500 13px/1.4 var(--font-body); color: var(--a-ink-3); }
 .lr-panel__where { padding-bottom: 18px; border-bottom: 1px solid var(--a-line); }
@@ -424,7 +424,7 @@
 .lr-skel__title { height: 38px; width: 80%; }
 .lr-skel__pile { height: 140px; width: 200px; border-radius: 16px !important; }
 .lr-panel--skel { gap: 14px; }
-.lr-panel--skel > * + * { margin-top: 0; }
+.lr-panel--skel > :where(:not(:first-child)) { margin-top: 0; }
 @media (min-width: 768px) {
   .lr-skel__card { min-height: clamp(300px, 46dvh, 380px); }
   .lr-skel__key { width: 360px; }

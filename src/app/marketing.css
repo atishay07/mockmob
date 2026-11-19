@@ -128,13 +128,17 @@ body:has(> .mm) {
   padding-block: 0 var(--rhythm);
 }
 
-/* More space above a heading than below it. */
-.mm-section > * + .mm-h2,
-.mm-stack > * + .mm-h2 {
+/* More space above a heading than below it.
+   "Every child but the first" is written :where(:not(:first-child)), never `> * + *` (19 Nov 2026, owner LK326): a sibling
+   combinator with a bare * on its left goes into the browser's one page-wide sibling set, and then ANY element added or
+   removed under a parent restyles that parent's whole subtree. A script the framework appends to <body> restyled the whole
+   home page, four times in its first three seconds (tmp/1119-phone/style.mjs). :where() keeps the specificity it had. */
+.mm-section > .mm-h2:where(:not(:first-child)),
+.mm-stack > .mm-h2:where(:not(:first-child)) {
   margin-top: 2.5rem;
 }
 
-.mm-stack > * + * {
+.mm-stack > :where(:not(:first-child)) {
   margin-top: 1rem;
 }
 
@@ -886,7 +890,7 @@ body:has(> .mm) {
 .mm-feature:first-of-type {
   border-top: 0;
 }
-.mm-feature__copy > * + * {
+.mm-feature__copy > :where(:not(:first-child)) {
   margin-top: 0.75rem;
 }
 @media (min-width: 900px) {
@@ -1071,7 +1075,7 @@ body:has(> .mm) {
     align-items: center;
   }
 }
-.mm-hero__copy > * + * {
+.mm-hero__copy > :where(:not(:first-child)) {
   margin-top: 0.875rem;
 }
 .mm-hero__decode {
@@ -1213,7 +1217,7 @@ body:has(> .mm) {
     grid-column: 1 / -1;
   }
 }
-.mm-price__head > * + * {
+.mm-price__head > :where(:not(:first-child)) {
   margin-top: 0.625rem;
 }
 .mm-price__amount {
@@ -1272,7 +1276,7 @@ body:has(> .mm) {
   background: var(--paper-sunken);
   padding-block: var(--rhythm);
 }
-.mm-close > .mm-wrap > * + * {
+.mm-close > .mm-wrap > :where(:not(:first-child)) {
   margin-top: 1rem;
 }
 .mm-close .mm-actions {

@@ -409,7 +409,7 @@ a.den-quest:active { transform: scale(0.99); }
 .den-code-box[data-cursor] { border-color: var(--a-line-hover); }
 .den-j1__preview { display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 16px; border: 1px solid var(--a-line); background: var(--a-raised-2); }
 .den-j1__shapes { display: flex; align-items: flex-end; margin-left: -6px; }
-.den-j1__shapes > * + * { margin-left: -18px; }
+.den-j1__shapes > :where(:not(:first-child)) { margin-left: -18px; }
 .den-j1__seat { width: 30px; height: 40px; margin-left: -4px; border: 1.5px dashed var(--a-line-strong); border-radius: 50%; }
 .den-j1__what { display: grid; gap: 2px; min-width: 0; }
 .den-j1__what b { font: 800 17px/1.25 var(--font-display); color: var(--a-ink); }

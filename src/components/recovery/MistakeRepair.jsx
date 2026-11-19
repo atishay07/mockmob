@@ -6,7 +6,7 @@
 // answers. The price is said before the tap ("Fix it for good, 1 credit", every plan). When the server sends the job
 // (`mobi`, fixForGood.mjs), the fix reads: your option and the key, why it looked right with your own history of that
 // trap, why the key is right, one rule, check 1 then check 2, then held (the server's words). Older payloads render as before.
-import { useContext, useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Wrench, Check, Copy, KeyRound, ChevronRight } from 'lucide-react';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@/../data/repair_presentation.mjs';
 import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
 import { attemptedWhen } from '@/../data/repair_paper.mjs';
-import { AuthContext } from '@/components/AuthProvider';
+import { useAuthMaybe } from '@/components/AuthProvider';
 import { announceWallet, useWalletSummary } from '@/components/useWalletSummary';
 import { walletFromResponse } from '@/services/credits/aiWalletState';
 import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
@@ -38,14 +38,14 @@ const LONG_AFTER_MS = REPAIR_LOADING.longAfterMs;
 // What a repair costs and what the student has, in the one spend line: "This repair uses 1 credit. You have 9."
 // The balance is the one the top bar already read (reused for five minutes); unknown shows no number.
 function RepairCost() {
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
 // The paid start, or, with a known balance of 0 credits, the credits line and the free way forward instead.
 function RepairStart({ chosen, number = null, onStart }) {
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
   if (wallet.wallet?.known && wallet.wallet.total === 0) {
     return (
@@ -289,7 +289,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   practice   { href, label }: the chapter set offered beside Try again when the repair fails (ARC-07)
 export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null, onCheck = null, askContext = null, practice = null }) {
   const [state, setState] = useState({ status: 'idle' });
-  const auth = useContext(AuthContext);
+  const auth = useAuthMaybe();
   const userId = auth?.user?.id || null;
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
