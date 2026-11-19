@@ -6994,3 +6994,24 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
   body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 3378px; }
   body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3268px; }
 }
+/* Desktop white space (19 Nov 2026, owner LK335: "too much white space in between stuff ... on desktop"). Measured at 1440
+   (tmp/1119-phone/gaps.mjs): most sections stand 117 to 172 px of empty page apart; four stood 193 to 277 px apart because a
+   section's own slack was added to the shared padding. Those four are brought to the others' distance; nothing else moves. */
+@media (min-width: 960px) {
+  body .mm.lp main > #your-prep { padding-bottom: 0; }
+  body .mm.lp main > #key-cards { padding-top: 24px; }
+  body .mm.lp main > #daily-and-sunday { padding-bottom: 48px; }
+  body .mm.lp main > #pricing.lp-sec.lp-sec--price { padding-bottom: 40px; }
+  body .mm.lp main > #faq { padding-bottom: 0; }
+  body .mm.lp main > .lp-close { padding-top: 48px; }
+}
+@media (min-width: 960px) {
+  body .mm.lp main > #key-cards { contain-intrinsic-size: auto 1005px; }
+  body .mm.lp main > #daily-and-sunday { contain-intrinsic-size: auto 667px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1559px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 360px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 544px; }
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 960px) {
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3196px; }
+}
