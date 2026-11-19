@@ -265,6 +265,13 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #password { order: 8; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 9; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 10; }
+  /* Progress and help sits in the left column's source for a wide screen; a phone still reads it last, after the invite. */
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-links { order: 11; }
+}
+/* Docked (the page narrows to one column), Progress and help comes after the right column's cards, as on a phone. */
+@media (min-width: 1280px) {
+  html[data-mobi-form='dock'] .app-shell .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
+  html[data-mobi-form='dock'] .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-links { order: 1; }
 }
 
 /* The Wallet link reads as one balance. */

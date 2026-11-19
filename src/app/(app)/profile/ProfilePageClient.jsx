@@ -371,6 +371,9 @@ export default function ProfilePageClient() {
           <SetPasswordCard email={user?.email || ''} />
 
           <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
+          {/* Progress and help (19 Nov, lane arena-d): on a wide screen it fills the room the left column left empty beside
+              Credits and the invite (about 650 px at 1440); a phone and the docked page keep it after the invite (account.css). */}
+          <AccountLinks />
         </div>
 
         <div className="acct-col">
@@ -391,21 +394,21 @@ export default function ProfilePageClient() {
       </div>
 
       <div className="acct-grid acct-grid--even">
-        <AccountLinks />
         <UsageDataSection />
-      </div>
 
-      {/* Account actions (owner G29, 19 Oct): one group, Sign out first, then Sign out of other devices, then Delete
-          account. Each is a labelled row with its own key, at every width, so the plain sign out is never mistaken for the
-          other two. The top bar and the phone's More sheet carry the same labelled Sign out (AppLayoutClient.jsx). */}
-      <section className="glass acct-card acct-actions" id="account-actions" aria-labelledby="acct-actions-h">
-        <h2 className="acct-h2" id="acct-actions-h">Account actions</h2>
-        <div className="acct-actions__list">
-          <div id="sign-out" className="acct-anchor"><SignOutControl /></div>
-          <div id="sign-in" className="acct-anchor"><SignOutOtherDevicesSection /></div>
-          <DeleteAccountSection />
-        </div>
-      </section>
+        {/* Account actions (owner G29, 19 Oct): one group, Sign out first, then Sign out of other devices, then Delete
+            account. Each is a labelled row with its own key, at every width, so the plain sign out is never mistaken for the
+            other two. The top bar and the phone's More sheet carry the same labelled Sign out (AppLayoutClient.jsx).
+            From 1024 px it stands beside the usage data (19 Nov, lane arena-d), still last on the page. */}
+        <section className="glass acct-card acct-actions" id="account-actions" aria-labelledby="acct-actions-h">
+          <h2 className="acct-h2" id="acct-actions-h">Account actions</h2>
+          <div className="acct-actions__list">
+            <div id="sign-out" className="acct-anchor"><SignOutControl /></div>
+            <div id="sign-in" className="acct-anchor"><SignOutOtherDevicesSection /></div>
+            <DeleteAccountSection />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

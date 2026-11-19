@@ -130,6 +130,9 @@
 .app-shell .rd .pp-pro .pp-lock { padding: 0; }
 /* Across your mocks inside the record: one hairline above (the record's section rule), none below, and its title at the record's heading size */
 .app-shell .rd .pp-record > .am[data-surface='card'] { border-bottom: 0; padding-bottom: 0; }
+/* 19 Nov (lane arena-d): the desk moved Across your mocks into its main column, where the rule above missed it and two hairlines
+   stood 36 px apart with nothing between them above This week and last. */
+.app-shell .rd .pp-desk__main > .am[data-surface='card'] { border-bottom: 0; padding-bottom: 0; }
 .app-shell .rd .pp-record > .am .am-head__title { font-size: 20px; letter-spacing: -0.02em; }
 /* Marks ledger at phone width: net marks spans the row, then two columns ruled down the middle */
 @media (max-width: 639px) {
