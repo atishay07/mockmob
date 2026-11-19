@@ -9,7 +9,7 @@ import '@/app/exam-device.css';
 export function ExamDevice({ children, ref }) {
   return (
     <div className="xs-device" ref={ref}>
-      <div className="xs-monitor">
+      <div className="xs-monitor" data-tilt="">
         <div className="xs-bezel">
           <div className="xs-glass">{children}</div>
         </div>

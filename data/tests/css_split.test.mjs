@@ -175,3 +175,52 @@ function scripts(dir, out = []) {
   }
   return out;
 }
+
+test('the desktop pointer layer is for a hovering fine pointer only, costs nothing at rest and leaves no style behind (LK333)', () => {
+  const jsx = read('src/components/landing/DesktopCursor.jsx');
+  const css = read('src/app/r19-home-b.css');
+  // Who gets it: a mouse on a device that hovers, with motion allowed (the device's setting and the student's switch).
+  assert.match(jsx, /const QUERY = '\(hover: hover\) and \(pointer: fine\)';/);
+  assert.match(jsx, /fine\.matches && !calm\.matches && document\.documentElement\.getAttribute\('data-motion'\) !== 'reduced'/);
+  assert.match(jsx, /if \(event\.pointerType !== 'mouse' \|\| !allowed\(\)\) \{ hide\(\); return; \}/);
+  assert.match(css, /@media not \(\(hover: hover\) and \(pointer: fine\)\) \{ \.lp-cursor, \.lp-torch \{ display: none; \} \}/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.lp-cursor, \.lp-torch \{ display: none; \} \}/);
+  // Cost: passive listeners, one frame loop that stops, and layout is read only when the arrow enters a key or a picture
+  // (or the page has scrolled since), never on every move.
+  for (const name of ['pointermove', 'pointerdown', 'scroll']) assert.ok(jsx.split(`window.addEventListener('${name}', `)[1]?.split('\n')[0].includes('{ passive: true }'), name);
+  assert.equal((jsx.match(/getBoundingClientRect\(\)/g) || []).length, 2, 'two measuring functions, nothing else reads layout');
+  assert.match(jsx, /if \(moving\) frame = window\.requestAnimationFrame\(step\);/, 'the loop stops when everything has arrived');
+  assert.doesNotMatch(jsx, /setInterval|getComputedStyle|offsetWidth|offsetHeight|scrollHeight/);
+  // Bounded: a key leans a few pixels, a picture turns a few degrees.
+  assert.match(jsx, /export const TILT_MAX = 4\.5;/);
+  assert.match(jsx, /export const LEAN_MAX = 7;/);
+  // It lets go: what the arrow leaves returns to rest and loses our inline style; unmounting clears the rest.
+  assert.match(jsx, /hold\.el\.style\.translate = ''; leaving\.delete\(hold\);/);
+  assert.match(jsx, /hold\.el\.style\.removeProperty\('--tilt-x'\); hold\.el\.style\.removeProperty\('--tilt-y'\); leaving\.delete\(hold\);/);
+  // The tilt's angles belong to the one element (not inherited), and the tilt applies to a fine pointer only.
+  assert.match(css, /@property --tilt-x \{ syntax: '<angle>'; inherits: false; initial-value: 0deg; \}/);
+  assert.match(css, /@media \(hover: hover\) and \(pointer: fine\) \{\s*\.mm\.lp \[data-tilt\] \{ transform: perspective\(1100px\) rotateX\(var\(--tilt-x\)\) rotateY\(var\(--tilt-y\)\); \}/);
+  // The arrow stays: the page never hides the system cursor.
+  assert.doesNotMatch(css, /cursor:\s*none/);
+  // Named actions on the things that have one.
+  assert.match(read('src/components/landing/HeroFilm.jsx'), /data-tilt="" data-cursor=\{full \? undefined : playing \? 'Pause' : 'Play'\}/);
+  assert.match(read('src/components/landing/KeyCardsDemo.jsx'), /data-cursor="Turn"/);
+  assert.match(read('src/components/landing/CreatorReels.jsx'), /data-cursor="Watch"/);
+  assert.match(read('src/components/landing/CompassLadder.jsx'), /data-cursor="Drag"/);
+});
+
+test('desktop scroll depth runs from the scroll position itself, for a fine pointer on a wide window only (LK333)', () => {
+  const css = read('src/app/r19-home-b.css');
+  const at = css.indexOf('animation: lp-depth linear both; animation-timeline: view(); animation-range: cover 0% cover 100%;');
+  assert.ok(at > 0);
+  const before = css.slice(0, at);
+  assert.ok(before.lastIndexOf('@media (min-width: 960px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)') > before.lastIndexOf('@keyframes'), 'inside the desktop, fine pointer, motion-allowed query');
+  assert.match(css, /@keyframes lp-depth \{ from \{ translate: 0 40px; \} to \{ translate: 0 -40px; \} \}/, 'translate only: no layout, no clash with a transform');
+});
+
+test('a marked word in the statement keeps its comma, and desktop marks clear the words beside them (LK335)', () => {
+  assert.match(read('src/components/landing/Statement.jsx'), /<span className="lp-statement__nb"><Doodle /);
+  assert.match(read('src/app/hero-depth.css'), /\.lp-statement__nb \{ white-space: nowrap; \}/);
+  assert.match(read('src/components/doodle/doodle.css'), /@media \(min-width: 960px\) \{ \.dd--circle \{ margin-inline: 0\.13em; \} \}/);
+  assert.match(read('src/components/doodle/doodlePaths.mjs'), /const x0 = -fs \* 0\.08; const x1 = w \+ fs \* 0\.1;/);
+});

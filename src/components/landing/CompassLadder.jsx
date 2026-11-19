@@ -154,7 +154,7 @@ export default function CompassLadder({ data }) {
               {[650, 800, 950].map((value) => <button key={value} type="button" aria-pressed={score === value} onClick={take(() => setScore(value))}>{value}</button>)}
             </div>
           </div>
-          <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
+          <input id="cl-score" type="range" data-cursor="Drag" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
           <small id="cl-score-help">Drag the slider, or use the arrow keys.</small>
         </div>
 

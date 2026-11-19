@@ -29,6 +29,7 @@
 html[data-theme='light'] .mm.lp .lp-statement { --statement-accent: #526700; }
 .lp-statement__w[data-accent] { color: var(--statement-accent, var(--ink)); }
 .lp-statement__mark { color: var(--ink); }
+.lp-statement__nb { white-space: nowrap; }
 /* On the scrub, an accent word arrives dim in ink like the rest, and turns green once it is lit (the last third of its
    slice), so the colour lands as each clause completes, never ahead of it. */
 @supports (animation-timeline: view()) {

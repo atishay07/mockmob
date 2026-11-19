@@ -137,7 +137,7 @@ test('HeroFilm: plays only while half on screen, pauses when it leaves, never by
 test('round 9 nothing on the picture: a pointer tap on it pauses or plays; the keys sit in one row under the frame', () => {
   const frame = FILM_CODE.slice(FILM_CODE.indexOf('<div ref={frameRef}'), FILM_CODE.indexOf('<div className="lp-film__keys">'));
   // Round 12: in full screen the browser's own controls take taps on the film, so the frame leaves them alone.
-  assert.match(frame, /<div ref=\{frameRef\} className="lp-film__frame" onClick=\{full \? undefined : togglePlay\}>/, 'a tap or click on the picture');
+  assert.match(frame, /<div ref=\{frameRef\} className="lp-film__frame" data-tilt="" data-cursor=\{full \? undefined : playing \? 'Pause' : 'Play'\} onClick=\{full \? undefined : togglePlay\}>/, 'a tap or click on the picture');
   assert.doesNotMatch(frame, /lp-film__key\b|lp-film__chapters|lp-film__now/, 'no key, bar or name over the picture');
   // The only thing ever on the poster is the round Play key when the film does not play by itself; it keeps its tap.
   assert.match(frame, /onClick=\{\(event\) => \{ event\.stopPropagation\(\); play\(\); \}\}/);

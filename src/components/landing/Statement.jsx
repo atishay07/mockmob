@@ -37,7 +37,11 @@ function StatementStage({ text, shelf, note, step = 0, pinned = false }) {
           const [, core, mark] = word.accent ? word.text.match(/^(.*?)([.,;:!?]*)$/) : [null, word.text, ''];
           return (
             <span key={i} className="lp-statement__w" data-accent={word.accent || undefined} data-brand={word.brand || undefined} data-ph={word.clause} style={{ '--p': (i / Math.max(1, words.length - 1)).toFixed(3), '--wo': word.offset }}>
-              {word.accent && STATEMENT_MARKS[core.toLowerCase()] ? <Doodle mark={STATEMENT_MARKS[core.toLowerCase()]} tone="brand" delay={180} when={pinned ? step >= word.clause : undefined}>{core}</Doodle> : core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}{i < words.length - 1 ? ' ' : ''}
+              {word.accent && STATEMENT_MARKS[core.toLowerCase()]
+                // A marked word is a box of its own, and a line may break after a box: the word and its comma are held together,
+                // so the comma never starts the next line alone (19 Nov 2026, seen at 1440: "shows you where" / ", picks").
+                ? <span className="lp-statement__nb"><Doodle mark={STATEMENT_MARKS[core.toLowerCase()]} tone="brand" delay={180} when={pinned ? step >= word.clause : undefined}>{core}</Doodle>{mark ? <span className="lp-statement__mark">{mark}</span> : null}</span>
+                : <>{core}{mark ? <span className="lp-statement__mark">{mark}</span> : null}</>}{i < words.length - 1 ? ' ' : ''}
             </span>
           );
         })}
@@ -47,7 +51,7 @@ function StatementStage({ text, shelf, note, step = 0, pinned = false }) {
         <ul className="lp-shelf__row" aria-label="Subjects with full NTA-pattern mocks">
           {shelf.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
             <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
-              <Link href={href} className="lp-shelf__link">
+              <Link href={href} className="lp-shelf__link" data-cursor="Open">
                 <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                 <span className="lp-shelf__name">{name}</span>
               </Link>

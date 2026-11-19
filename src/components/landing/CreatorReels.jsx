@@ -61,7 +61,7 @@ function Card({ item, active, onPlay }) {
           </a>
         </div>
       ) : (
-        <button type="button" className="rl__card" data-kind={item.kind} onClick={onPlay} aria-label={`Load ${label} from Instagram`}>
+        <button type="button" className="rl__card" data-kind={item.kind} data-cursor="Watch" onClick={onPlay} aria-label={`Load ${label} from Instagram`}>
           <span className="rl__cover-mark" aria-hidden="true">
             <span className="rl__cover-orbit" />
             {item.photo ? (

@@ -347,7 +347,7 @@ export default function HeroFilm() {
     <figure className="lp-film" aria-label={FILM.label} data-playing={playing ? 'true' : 'false'}>
       {/* A tap or click on the picture pauses or plays (a pointer's shortcut; the keys under it do the same for keyboards).
           In full screen the browser's own controls take taps on the film, so the frame leaves them alone. */}
-      <div ref={frameRef} className="lp-film__frame" onClick={full ? undefined : togglePlay}>
+      <div ref={frameRef} className="lp-film__frame" data-tilt="" data-cursor={full ? undefined : playing ? 'Pause' : 'Play'} onClick={full ? undefined : togglePlay}>
         {/* The film's own first frame: 640 px on phones, 1280 px wider (PHONE_POSTER above). */}
         <picture>
           <source media={PHONE_MEDIA} srcSet={PHONE_POSTER} width={640} height={360} />

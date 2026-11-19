@@ -159,7 +159,9 @@ function cross(w, h, fs, rand) {
 /** The highlighter: one filled swipe behind the words, its ends cut on the slant, its long edges a little uneven. */
 function highlight(w, h, fs, rand) {
   const top = h * 0.14; const bottom = h * 0.9;
-  const x0 = -fs * 0.14; const x1 = w + fs * 0.16;
+  // The swipe overshoots its words by less than a word space (19 Nov 2026, owner LK335: at 0.14 and 0.16 it touched the
+  // letters of the words beside it on desktop's large headings).
+  const x0 = -fs * 0.08; const x1 = w + fs * 0.1;
   const slant = fs * 0.07;
   const n = 5;
   const upper = []; const lower = [];

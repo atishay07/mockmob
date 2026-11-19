@@ -414,5 +414,33 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
 .lp-cursor[data-wave] .lp-cursor__ring { transform: scale(0.82); }
 .lp-cursor[data-wave][data-on='key'] .lp-cursor__ring { transform: scale(1.45); }
 @keyframes lp-cursor-wave { from { opacity: 0.7; transform: scale(0.6); } to { opacity: 0; transform: scale(2.6); } }
-@media not ((hover: hover) and (pointer: fine)) { .lp-cursor { display: none; } }
-@media (prefers-reduced-motion: reduce) { .lp-cursor { display: none; } }
+/* The action's name beside the arrow (data-cursor on the thing): the ring closes to a volt dot and the word rides with it. */
+.lp-cursor__tag { position: absolute; left: 14px; top: 16px; padding: 6px 11px 7px; border-radius: 999px; background: var(--volt, #d2f000); color: var(--volt-ink, #0b1000); font-size: 11.5px; font-weight: 650; line-height: 1; letter-spacing: 0.01em; white-space: nowrap; box-shadow: 0 8px 18px -10px rgb(10 16 8 / 0.55); opacity: 0; transform: scale(0.5); transform-origin: 0 0; transition: opacity 140ms ease, transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1.15); }
+.lp-cursor[data-tag] .lp-cursor__tag { opacity: 1; transform: scale(1); }
+.lp-cursor[data-tag] .lp-cursor__ring { transform: scale(0.34); border-color: transparent; background: var(--volt, #d2f000); }
+.lp-cursor[data-tag][data-wave] .lp-cursor__tag { transform: scale(0.92); }
+/* The torch: a wide, faint light on the paper under the arrow. It lies under the page's cards and words (they are painted
+   over it), so only the open paper takes the light. */
+.lp-torch { position: fixed; left: 0; top: 0; z-index: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 500ms ease; will-change: transform; background: radial-gradient(closest-side, rgb(196 240 0 / 0.15), rgb(196 240 0 / 0.055) 52%, rgb(196 240 0 / 0)); }
+.lp-torch[data-on] { opacity: 1; }
+html:not([data-theme='light']) .lp-torch { background: radial-gradient(closest-side, rgb(210 240 0 / 0.1), rgb(210 240 0 / 0.035) 52%, rgb(210 240 0 / 0)); }
+/* A picture that turns to face the arrow. The two angles are the element's own (not inherited), so writing them restyles
+   that one element and nothing inside it. */
+@property --tilt-x { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@property --tilt-y { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp [data-tilt] { transform: perspective(1100px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); }
+}
+/* Depth on a desktop scroll (19 Nov 2026, owner LK333: desktop "scrolls" may carry more than a phone's): in the two-column
+   sections the picture drifts a little against its words as the section crosses the window, so the page has a near and a
+   far. The browser runs it from the scroll position itself (a view timeline): no script, nothing to fall behind the wheel.
+   `translate` is its own property, so the tilt and every other transform on these stay as they are. */
+@media (min-width: 960px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:not([data-motion='reduced']) .mm.lp :is(.kc-demo, .bmk__demo, .xs-device) { animation: lp-depth linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  }
+}
+@keyframes lp-depth { from { translate: 0 40px; } to { translate: 0 -40px; } }
+@media not ((hover: hover) and (pointer: fine)) { .lp-cursor, .lp-torch { display: none; } }
+@media (prefers-reduced-motion: reduce) { .lp-cursor, .lp-torch { display: none; } }
+html[data-motion='reduced'] :is(.lp-cursor, .lp-torch) { display: none; }

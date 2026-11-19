@@ -125,7 +125,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           </p>
         </div>
 
-        <div className="kc-demo__scene" data-leave={leaving || undefined}>
+        <div className="kc-demo__scene" data-cursor="Turn" data-leave={leaving || undefined}>
           {card ? (
             <div key={`${card.id}-${at}`} className="kc-demo__arrive">
               <div className="kc-demo__card" data-turned={turned || undefined} data-subject={card.subject}
