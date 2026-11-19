@@ -54,7 +54,9 @@ export const penWidth = (fs) => Math.max(1.75, Math.min(4.5, fs * 0.052));
 function circle(w, h, fs, rand) {
   const cx = w / 2 + (rand() - 0.5) * fs * 0.04;
   const cy = h / 2 + fs * 0.03;
-  const rx = w / 2 + fs * 0.3;
+  // The loop clears the word by about an eighth of the type size (19 Nov 2026, owner LK335: it was 0.3 and cut through the
+  // letters of the next word, most on desktop's large headings where a word space is only a quarter of the size).
+  const rx = w / 2 + fs * 0.13;
   const ry = h / 2 + fs * 0.1;
   const a0 = (-150 + (rand() - 0.5) * 16) * (Math.PI / 180);
   const turn = (1.13 + rand() * 0.05) * Math.PI * 2;
@@ -66,7 +68,7 @@ function circle(w, h, fs, rand) {
     const u = i / steps;
     const a = a0 + turn * u;
     // The hand drifts outward as it comes round, so the stroke's end passes outside its start instead of landing on it.
-    const k = 0.97 + 0.085 * u + 0.022 * Math.sin(2 * a + p1) + 0.014 * Math.sin(3 * a + p2);
+    const k = 0.98 + 0.05 * u + 0.016 * Math.sin(2 * a + p1) + 0.01 * Math.sin(3 * a + p2);
     const x = Math.cos(a) * rx * k;
     const y = Math.sin(a) * ry * k;
     pts.push([cx + x * Math.cos(tilt) - y * Math.sin(tilt), cy + x * Math.sin(tilt) + y * Math.cos(tilt)]);

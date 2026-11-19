@@ -6985,3 +6985,12 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
   body .mm.lp main > #faq { contain-intrinsic-size: auto 432px; }
   body .mm.lp main > .lp-close { contain-intrinsic-size: auto 582px; }
 }
+/* A mouse or a trackpad: the two held stories are shorter (scroll-story.css, 0.62 of a beat a step since 19 Nov 2026). */
+@media (hover: hover) and (pointer: fine) and (min-width: 700px) and (max-width: 959px) {
+  body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 4107px; }
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3939px; }
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 960px) {
+  body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 3378px; }
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3268px; }
+}

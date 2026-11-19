@@ -99,6 +99,7 @@ const frames = (n) => { for (let i = 0; i < n; i += 1) frame(); };
 // ---------------------------------------------------------------- the page
 const bus = await import('./scrollBus.mjs');
 const controller = await import('./storyController.mjs');
+controller.setWheelSteps(true); // these describe the one-step wheel, kept as an option (the wheel flows for readers since 19 Nov 2026)
 
 // A story whose track starts at 4000 px: 3000 px tall, a 844 px stage, so the hold is 2156 px and its four rests are
 // 4000, 4719, 5437 and 6156. The demo card sits in the hero, at 520 px; the nav is not simulated (DemoJump's gap is).

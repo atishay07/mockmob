@@ -433,8 +433,21 @@ function afterNativeTouch(done) {
 
 // ---------------------------------------------------------------- wheel and trackpad
 
+// THE WHEEL FLOWS (19 Nov 2026, owner LK334: on desktop "the scroll is even getting stuck or very jumpy and weird"). Measured
+// on the live page with a mouse wheel turned steadily (tmp/1119-phone/wheel.mjs): inside the Mistake Lab and the tour 24 of 40
+// notches did not move the page and four moved it 878 px at once, because one burst was one step. So a wheel or a trackpad
+// now scrolls a held story like any other part of the page: the stage stays pinned by the sheet, the step shown follows the
+// scroll (ScrollStory's observer), nothing is swallowed, nothing is put back, and the page does not snap when the wheel
+// rests. Keys and picked tabs still move one step. The one-step wheel below is kept for the tests that describe it
+// (setWheelSteps(true)); do not turn it on for readers without his word.
+let wheelSteps = false;
+let lastWheel = -1e9;
+export const setWheelSteps = (on) => { wheelSteps = !!on; };
+const wheelFlowed = () => !wheelSteps && now() - lastWheel < 1500;
+
 function onWheel(e) {
   if (e.ctrlKey || !e.deltaY || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+  if (!wheelSteps) { lastWheel = now(); wb = null; keepY = null; keepStory = null; return; }
   bus.clearJump();
   const t = e.timeStamp > 0 ? e.timeStamp : now();
   const dir = e.deltaY > 0 ? 1 : -1;
@@ -615,6 +628,8 @@ function settle() {
   let k = nearestStep(s.top, s.hold, s.steps, y);
   // FLOW v2: the step the gesture chose, not the rest its momentum happened to stop nearest to.
   if (want && want.s === s) k = want.dir > 0 ? Math.max(k, want.k) : want.dir < 0 ? Math.min(k, want.k) : want.k;
+  // A wheel that came to rest inside a story stays where the reader left it: the step nearest is shown, the page is not moved.
+  if (wheelFlowed()) { if (s.step() !== k) s.show(k); syncHeld(y); return; }
   const target = restOf(s, k);
   if (Math.abs(y - target) > 1) put(target);
   const from = s.step();

@@ -32,6 +32,9 @@
 }
 @media (min-width: 900px) { .ss { --ss-top: calc(72px + 1.25rem); --ss-bottom: 1.5rem; } }
 @media (hover: none), (pointer: coarse) { .ss { --ss-run: calc(var(--ss-beat) * 0.85); } }
+/* A mouse or a trackpad scrolls a story like the rest of the page since 19 Nov 2026 (storyController.mjs, THE WHEEL FLOWS),
+   so a step costs it real wheel travel: 0.62 of a beat, about six notches a step at 900 px (a full beat was nine). */
+@media (hover: hover) and (pointer: fine) { .ss { --ss-run: calc(var(--ss-beat) * 0.62); } }
 /* Phones: the held card stops above the bottom band (R3-D4, owner LK103, 5 Nov 2026: "Why does the card ... snap to
    the entire bottom of the phone? ... below, like 10-20%, ... some sort of a blur"). The band is 11% of the window,
    80 to 104 px (93 px on a 390 x 844 phone), 64 px on a window 700 px tall or less, plus the safe area; the bottom bar
