@@ -15,7 +15,7 @@
 import { isPlainClick, openAskMobi } from '@/components/ai/askMobi.mjs';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { RefreshCw } from 'lucide-react';
+import { ChevronRight, RefreshCw } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
@@ -143,6 +143,12 @@ export default function AnalyticsPageClient() {
                 <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'}, mean session score {s.avg}%</i></span>
                 <span className="rd-subjects__acc"><b>{s.accuracy}%</b><small>of answers right</small></span>
                 <SubjectBar pct={s.accuracy} delay={i * 80} />
+                {/* Wide lane (owner, 19 Nov 2026, "a bit more interactive"): with a mouse the whole row leads to practice in that
+                    subject, the route Colleges' "Practise <subject>" already uses (a quick set of that subject's questions, the
+                    Practice page's own price shown before it starts), with a small arrow on hover. Touch screens keep today's row. */}
+                <Link className="rd-subjects__go" href={`/dashboard?subject=${encodeURIComponent(s.id)}&mode=quick`} aria-label={`Practise ${s.name}`}>
+                  <ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" />
+                </Link>
               </li>
             ))}
           </ul>

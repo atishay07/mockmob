@@ -101,6 +101,21 @@ html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-s
   :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path:first-child { padding-top: 4px; border-top: 0; }
 }
 
+/* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1360 px the page takes the
+   desk the main column gives (student-pages.css, Wide desks) instead of a 960 px strip, and from 1800 px, when that desk is
+   1440 px or more, the breakdown on the right reads as two columns of whole blocks (the study record and the badges, then
+   the bests, the checks, the playbook and the standing, in the same order, down each column), so no column ends 1,400 px
+   above its neighbour. The left column keeps its sticky headline numbers. Docked Ask Mobi keeps the one-column page. */
+@media (min-width: 1360px) {
+  .app-shell .student-page--progress { width: 100%; }
+}
+@media (min-width: 1800px) {
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress:has(.pr-main:not(:empty)) { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: block; columns: 2; column-gap: 40px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress .pr-main .sb-wrap { display: contents; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress .pr-main :is(.pr-main > *, .sb-wrap > *) { break-inside: avoid; margin: 0 0 28px; }
+}
+
 /* Your study record (StudyProgress) reads as one of this page's open sections, not a boxed card among them. */
 .app-shell .student-page--progress .study-record { margin-block: 0; padding: 0; border: 0; border-radius: 0; background: none; }
 .app-shell .student-page--progress .study-record h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }

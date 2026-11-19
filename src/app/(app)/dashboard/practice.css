@@ -414,7 +414,19 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
   background: var(--pr-surface);
   box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge);
 }
-@media (min-width: 1024px) { .app-shell .pr .pr-ticket.pr-summary { position: sticky; top: 84px; } }
+/* The card's edge (owner, 19 Nov 2026: on the Quick practice and Full mock card on the right "there's a ... border but it's
+   not closing it properly"). The edge was the card's own inset shadow, and inset shadows paint under the card's children: the
+   Start key's row below (the sticky row with the card's ground, run out to the card's sides) covered the last 90 px of both
+   sides and the whole bottom edge, so the line stopped above the key and the lower corners were open. The same two lines now
+   sit on a layer above the children from 1024 px (where that row is sticky; a phone's card has no such row), so the edge closes all the way round at any width or zoom, and while the key's row rides
+   the window foot its sides keep the line. */
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-ticket.pr-summary { position: sticky; top: 84px; box-shadow: none; }
+  .app-shell .pr .pr-ticket.pr-summary::after {
+    content: ''; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--pr-cool-edge);
+  }
+}
 .app-shell .pr .pr-ticket.pr-summary > * { grid-row: auto; grid-column: auto; }
 /* The main job one tap and in sight (owner LK142, 5 Nov 2026). On a laptop the card's Start key sat under the fold on arrival (at
    1366 x 768 its foot was 76 px below the window) until the card had scrolled to its sticky top. Now the key rides the window's foot

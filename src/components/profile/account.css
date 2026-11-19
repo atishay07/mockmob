@@ -17,6 +17,19 @@
   .app-shell .acct-col { gap: 24px; }
   .app-shell .acct-grid--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1800 px, when the main
+   column gives the page 1440 px or more (student-pages.css, Wide desks), the cards are three columns at their phone width
+   instead of two long ones: every card of the two columns, in the same order (the left column's, then the right's), reads
+   down three columns of even height, so no column ends a screen above its neighbour. A card never stretches past its
+   reading width. Docked Ask Mobi keeps the two columns. */
+@media (min-width: 1800px) {
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page.acct { width: 100%; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) { display: block; columns: 3; column-gap: 24px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col > * { break-inside: avoid; margin: 0 0 24px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col > :empty { margin: 0; }
+}
 /* A phone keeps the order sheet, plan, credits, colleges, name, appearance, goal (money and cancel near the top) (the columns dissolve); a wide screen has two level
    columns: sheet, name and appearance on the left, plan, credits and goal on the right. */
 @media (max-width: 1023px) {

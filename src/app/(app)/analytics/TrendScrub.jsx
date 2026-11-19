@@ -6,6 +6,10 @@
 // Lane insight (18 Nov 2026): ruled at the score's own round values (every 25), and each session's dot is a key of its own
 // (one tab stop for the chart; the arrow keys, Home and End move between dots), so a figure can be reached by focus as well
 // as by a tap or the pointer. The pointer and a finger still scrub the whole plot.
+// Wide lane (owner, 19 Nov 2026: "the insight platform thing can be made a bit more interactive"): the session under the
+// pointer or the focus carries one small label at its dot (its score and its day), every dot is its own tab stop in order,
+// and when the mouse leaves the plot (or the focus leaves it) the latest session is shown again, as it is at rest. A finger
+// keeps today's behaviour: the session it last touched stays shown.
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from '@/lib/motion';
 
@@ -18,6 +22,13 @@ const dayLabel = (at) => {
   const date = new Date(at);
   return Number.isFinite(date.getTime()) ? date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : null;
 };
+
+/** The small label at a dot: its score and its day ("44%", "17 Nov"); a session with no day says its place. */
+export function trendTip(timeline, index) {
+  const row = timeline[index];
+  if (!row) return null;
+  return { score: `${row.score}%`, when: dayLabel(row.at) || `Session ${index + 1}` };
+}
 
 /** The sentence for one session. Exported so the wording is tested in one place. */
 export function trendLabel(timeline, index) {
@@ -71,6 +82,9 @@ export default function TrendScrub({ timeline, colors }) {
     return best;
   }, [geometry]);
 
+  // The mouse leaving the plot, or the focus leaving its dots, shows the latest session again (its rest state).
+  const onLeave = (event) => { if (event.pointerType === 'mouse') setPicked(null); };
+  const onBlur = (event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPicked(null); };
   const onPointer = (event) => {
     if (event.pointerType === 'mouse' && event.type === 'pointerdown' && event.button !== 0) return;
     const i = nearest(event.clientX);
@@ -93,6 +107,7 @@ export default function TrendScrub({ timeline, colors }) {
 
   const path = geometry.points.map(([x, y], i) => `${i ? 'L' : 'M'}${x.toFixed(1)} ${y.toFixed(1)}`).join(' ');
   const label = trendLabel(timeline, active);
+  const tip = seen ? trendTip(timeline, active) : null;
   const [ax, ay] = geometry.points[active] || [0, 0];
   const diff = active > 0 ? timeline[active].score - timeline[active - 1].score : null;
   const ticks = TREND_TICKS;
@@ -109,6 +124,8 @@ export default function TrendScrub({ timeline, colors }) {
         onPointerDown={onPointer}
         onPointerMove={onPointer}
         onKeyDown={onKey}
+        onPointerLeave={onLeave}
+        onBlur={onBlur}
       >
         <svg width={width} height={HEIGHT} viewBox={`0 0 ${width} ${HEIGHT}`} aria-hidden="true">
           {ticks.map((t) => (
@@ -135,13 +152,18 @@ export default function TrendScrub({ timeline, colors }) {
             type="button"
             className="tr__pt"
             style={{ left: x, top: y }}
-            tabIndex={i === active ? 0 : -1}
+            tabIndex={0}
             aria-pressed={i === active}
             aria-label={trendLabel(timeline, i)}
             onFocus={() => setPicked(i)}
             onClick={() => setPicked(i)}
           />
         ))}
+        {tip ? (
+          <span className="tr__tip" aria-hidden="true" data-side={ax > width - 72 ? 'end' : ax < 72 ? 'start' : undefined} data-below={ay < PAD.t + 44 ? '' : undefined} style={{ left: ax, top: ay }}>
+            <b>{tip.score}</b><span>{tip.when}</span>
+          </span>
+        ) : null}
       </div>
       <p className="tr__chip" data-tone={diff === null ? 'flat' : diff > 0 ? 'up' : diff < 0 ? 'down' : 'flat'} key={active}>
         <b>{label}</b>

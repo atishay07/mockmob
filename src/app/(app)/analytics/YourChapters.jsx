@@ -8,7 +8,7 @@
 // (src/lib/insight/chapters.mjs says which stored fields feed each figure). Tiles never animate in.
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { RefreshCw, X } from 'lucide-react';
+import { ChevronDown, RefreshCw, X } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import TodaySheet from '@/components/today/TodaySheet';
 import { useKeycardsHome } from '@/components/keycards/api';
@@ -160,6 +160,9 @@ function SubjectGroup({ subject, open, onOpen, tileRefs, wide, panelId, read, on
                 >
                   <span className="ych-tile__name">{c.name}</span>
                   <span className="ych-tile__state"><Glyph state={c.state} />{c.label}</span>
+                  {/* Wide lane (owner, 19 Nov 2026, "a bit more interactive"): a mouse or the focus on a tile shows the small arrow of
+                      what it does, opening the chapter's panel (its Practise key and Key cards) under its row. Touch: unchanged. */}
+                  <ChevronDown className="ych-tile__go" size={14} strokeWidth={2.2} aria-hidden="true" />
                 </button>
               );
               if (i !== after || !wide) return tile;

@@ -116,3 +116,14 @@ html[data-theme='light'] .ex-page--v2 .ex-question { border-color: transparent; 
   .ex-page--v2 .fxc { margin: 12px 0 28px; }
   .ex-more--quiet { width: 100%; }
 }
+
+/* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1600 px the single questions
+   are not one 760 px column at the left of a desk the chapter covers fill: they lay out as cards two (or three) to a row, each
+   card at its phone-to-tablet width, so a question's lines stay readable. The heading, filters and More questions keep their
+   width. Under 1600 px nothing changes. */
+@media (min-width: 1600px) {
+  .ex-page--v2 .ex-singles { max-width: none; }
+  .ex-page--v2 .ex-singles > :is(.ex-qhead, .ex-more, .ex-end, .ex-footnote) { max-width: 760px; }
+  .ex-page--v2 .ex-singles > [aria-busy] { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); column-gap: 16px; align-items: start; }
+  .ex-page--v2 .ex-singles > [aria-busy] > .ex-loading { grid-column: 1 / -1; }
+}

@@ -304,3 +304,43 @@ html[data-motion='reduced'] .app-shell .pt__plot svg, html[data-motion='reduced'
 
 /* The ring says "of 4 study days" under the numeral; the small ring wraps it onto two lines */
 .app-shell .rc-ring__count small { max-width: 72%; margin-inline: auto; line-height: 1.2; text-wrap: balance; }
+
+/* ---------- Wide desks (owner, 19 Nov 2026, on a 27 inch screen: "overall white space is still a lot ... it should be
+   able to resize to every scene") ----------
+   From 1100 px every page sits centred in the main area (it used to start at the main column's left and leave the blank on
+   its right). From 1600 px the main column's cap grows in steps with the window, so a 2560 screen reads as a full desk, not
+   a strip down the middle. Pages size with min(100%, cap) inside it, never with vw: the Ask Mobi dock narrows the main area
+   and a page simply fills what is left. Grow means more room or one more column, never longer lines. Phones and tablets
+   (under 1100 px) are untouched. */
+@media (min-width: 1100px) {
+  .app-shell .student-page { margin-inline: auto; }
+}
+@media (min-width: 1600px) { .app-shell:not(.app-shell--test) .app-main .container-std { max-width: 1280px; } }
+@media (min-width: 1800px) { .app-shell:not(.app-shell--test) .app-main .container-std { max-width: 1440px; } }
+@media (min-width: 2000px) { .app-shell:not(.app-shell--test) .app-main .container-std { max-width: 1560px; } }
+@media (min-width: 2240px) { .app-shell:not(.app-shell--test) .app-main .container-std { max-width: 1680px; } }
+@media (min-width: 2480px) { .app-shell:not(.app-shell--test) .app-main .container-std { max-width: 1800px; } }
+/* The pages that were a fixed strip get room in the same steps (owner, 19 Nov 2026). Each keeps its own columns and grows them
+   (rows wider, never a line past its reading width); the reading pages (Guide, Sunday Mock, Saved, the Mob) keep their width,
+   centred. Learn's own wrapper centres too: it was pinned to the left edge for the one left edge rule (R8 TOOLS-18), which the
+   centred desks replace. */
+@media (min-width: 1100px) { .app-shell .lh.lh { margin-inline: auto; } }
+@media (min-width: 1600px) {
+  .app-shell .lh.lh { width: min(100%, 1280px); }
+  .app-shell .student-page.student-page--review:has(.rvw) { width: min(100%, 1280px); }
+  .app-shell .student-page.wl { width: min(100%, 1280px); }
+  .app-shell .student-page.lb { width: min(100%, 1280px); }
+}
+@media (min-width: 2000px) {
+  .app-shell .lh.lh { width: min(100%, 1440px); }
+  .app-shell .student-page.lb { width: min(100%, 1440px); }
+}
+/* The two short reading pages hold their words in a 720 px column inside a 960 px page, so once the page is centred the words
+   still sat left of the middle. From 1100 px the page is the column itself, centred (Sunday Mock; the Recovery note). */
+@media (min-width: 1100px) {
+  .app-shell .student-page.sun-page { width: min(100%, 720px); }
+  .app-shell .recovery-lab.learning-journey { max-width: 720px; }
+}
+/* Colleges kept the shell's old 1180 px cap of its own (arena.css), so it stayed a strip on a wide desk. From 1800 px it takes
+   up to 1440 px: the course list and the subject column beside it grow, the lines in them keep their own caps. */
+@media (min-width: 1800px) { .app-shell .cmp.cmp { max-width: 1440px; } }

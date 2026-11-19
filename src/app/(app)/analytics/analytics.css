@@ -18,9 +18,27 @@
 /* The scrub rule shows only while the student is reading the chart, not as a stray line at the last point. */
 .tr__plot:not(:hover):not(:focus-within):not(:active) .tr__rule { opacity: 0; }
 /* Lane insight: each session's dot is a key. The pointer scrubs the plot under it; a keyboard ring shows on the dot. */
-.tr__pt { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; padding: 0; border: 0; border-radius: 50%; background: transparent; pointer-events: none; }
+/* Each dot's key is the page's 44 px target (the shell gives every button a 44 px floor), centred on its dot: it was drawn
+   24 px with a 12 px pull, so the floor pushed it 10 px off the dot and its focus ring sat low and to the right (19 Nov 2026).
+   The ring draws 12 px inside the key, round the dot. */
+.tr__pt { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; padding: 0; border: 0; border-radius: 50%; background: transparent; pointer-events: none; }
 .tr__pt:focus { outline: none; }
-.tr__pt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.tr__pt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -11px; }
+/* The shown session's small label at its dot (owner, 19 Nov 2026, "a bit more interactive"): its score over its day, above
+   the dot (below it when the dot is near the top), kept inside the plot at either end. It follows the pointer from dot to dot
+   with no motion of its own; the pointer passes through it. */
+.tr__tip {
+  position: absolute; z-index: 2; display: grid; justify-items: center; gap: 1px; padding: 5px 9px 6px; border-radius: 10px;
+  border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1); pointer-events: none;
+  white-space: nowrap; transform: translate(-50%, calc(-100% - 12px));
+}
+.tr__tip[data-side='end'] { justify-items: end; transform: translate(calc(-100% + 14px), calc(-100% - 12px)); }
+.tr__tip[data-side='start'] { justify-items: start; transform: translate(-8px, calc(-100% - 12px)); }
+.tr__tip[data-below] { transform: translate(-50%, 14px); }
+.tr__tip[data-below][data-side='end'] { transform: translate(calc(-100% + 14px), 14px); }
+.tr__tip[data-below][data-side='start'] { transform: translate(-8px, 14px); }
+.tr__tip b { font: 800 15px/1.1 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.tr__tip span { font-size: 12px; line-height: 1.2; color: var(--a-ink-3); }
 /* Room for the last point comes from the plot's own right margin (TrendScrub PAD.r). Padding here fed the width
    read back into the ResizeObserver and grew the chart by 10 px a frame, off the page. */
 
@@ -63,6 +81,26 @@
 .app-shell .rd-subjects__acc { display: grid; justify-items: end; gap: 0; font: inherit; }
 .app-shell .rd-subjects__acc b { font: 800 20px/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .app-shell .rd-subjects__acc small { font-size: 12px; color: var(--a-ink-3); }
+/* By subject: with a mouse each row is a way into practice in that subject (owner, 19 Nov 2026, "a bit more interactive"):
+   the row lights, its figure steps aside and a small arrow shows at its end. The link covers the row; the focus ring draws round
+   the whole row. Touch screens keep today's rows: no link there. */
+.app-shell .rd-subjects li { position: relative; isolation: isolate; }
+.app-shell .rd-subjects__go { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .rd-subjects__go {
+    position: absolute; inset: 0 -10px; z-index: 1; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px;
+    border-radius: 12px; color: var(--a-ink); text-decoration: none;
+  }
+  .app-shell .rd-subjects__go svg { opacity: 0; transform: translateX(-4px); transition: opacity 140ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .app-shell .rd-subjects__go:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+  .app-shell .rd-subjects li::before { content: ''; position: absolute; inset: 2px -10px; z-index: -1; border-radius: 12px; background: var(--a-hover); opacity: 0; transition: opacity 140ms ease-out; }
+  .app-shell .rd-subjects li:has(.rd-subjects__go:is(:hover, :focus-visible))::before { opacity: 1; }
+  .app-shell .rd-subjects li:has(.rd-subjects__go:is(:hover, :focus-visible)) .rd-subjects__go svg { opacity: 1; transform: none; }
+  .app-shell .rd-subjects__acc { transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1); }
+  .app-shell .rd-subjects li:has(.rd-subjects__go:is(:hover, :focus-visible)) .rd-subjects__acc { transform: translateX(-18px); }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .rd-subjects :is(.rd-subjects__go svg, .rd-subjects__acc, li::before) { transition: none; } }
+:root[data-motion='reduced'] .app-shell .rd-subjects :is(.rd-subjects__go svg, .rd-subjects__acc, li::before) { transition: none; }
 .app-shell .rd .rd-link { min-height: 44px; display: inline-flex; align-items: center; color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
 
 /* The record (RecordView, shared with the Mentor record tab; only this page is changed here) */
@@ -185,6 +223,17 @@
   :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
 }
 
+/* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1800 px, when the main column
+   gives this page 1440 px or more (student-pages.css, Wide desks), the marks and the trend keep a third, Your chapters runs
+   across the other two thirds, and the blocks under it read as two columns of whole blocks, in the same order down each
+   column, so the right side is not one long strip 2,600 px tall beside a short left one. */
+@media (min-width: 1800px) {
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-record--desk { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main { display: block; columns: 2; column-gap: 40px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main > * { break-inside: avoid; margin: 0 0 36px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main > .ych { column-span: all; }
+}
+
 /* Waiting, at the blocks' own sizes */
 .app-shell .rd .rd-ledger-wait { display: grid; gap: 22px; }
 .app-shell .rd .rd-ledger-wait__note { display: block; width: 72%; height: 16px; border-radius: 8px; }
@@ -243,6 +292,22 @@
 .app-shell .rd .ych-tile:active { transform: scale(0.97); }
 .app-shell .rd .ych-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .rd .ych-tile[aria-expanded='true'] { border-color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-ink); }
+/* What a tile does, said by the pointer (owner, 19 Nov 2026: "a bit more interactive"): a mouse over a tile, or the focus on
+   it, shows a small arrow in its top corner (it opens that chapter's panel with its Practise key under the row); an open
+   tile's arrow points back up. Touch screens keep today's tiles: no arrow. */
+.app-shell .rd .ych-tile { position: relative; }
+.app-shell .rd .ych-tile__go { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .rd .ych-tile__go {
+    display: block; position: absolute; top: 7px; right: 7px; width: 18px; height: 18px; padding: 2px; border-radius: 50%;
+    background: var(--a-raised); color: var(--a-ink); opacity: 0; transform: translateY(-2px);
+    transition: opacity 140ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .app-shell .rd .ych-tile:is(:hover, :focus-visible, [aria-expanded='true']) .ych-tile__go { opacity: 1; transform: none; }
+  .app-shell .rd .ych-tile[aria-expanded='true'] .ych-tile__go { transform: rotate(180deg); }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .rd .ych-tile__go { transition: none; transform: none; } }
+:root[data-motion='reduced'] .app-shell .rd .ych-tile__go { transition: none; transform: none; }
 .app-shell .rd .ych-count { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 
 /* The chapter's panel in the page, across the grid under the tile's row */
@@ -333,6 +398,33 @@
 .app-shell .rd .wmg-legend dd { display: flex; align-items: baseline; justify-content: flex-end; gap: 14px; margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 .app-shell .rd .wmg-legend dd span { font-size: 13px; color: var(--a-ink-3); }
 .app-shell .rd .wmg-legend dd b { min-width: 76px; font: 700 16px/1.2 var(--font-display); color: var(--a-ink); }
+/* Each part of the bar answers the pointer and the focus (owner, 19 Nov 2026, "a bit more interactive"): the other part
+   quietens, the shown part's marks show over the bar's end (clear of the total on its left, whatever the shares), with its
+   swatch, and its row in the legend lights. Touch screens: unchanged. */
+.app-shell .rd .wmg-barwrap { position: relative; }
+.app-shell .rd .wmg-bar i { transition: opacity 140ms ease-out; }
+.app-shell .rd .wmg-bar i:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .rd .wmg-bar:has(i:focus-visible) { overflow: visible; }
+.app-shell .rd .wmg-barwrap[data-hot='wrong'] .wmg-bar i:not([data-k='wrong']),
+.app-shell .rd .wmg-barwrap[data-hot='blank'] .wmg-bar i:not([data-k='blank']) { opacity: 0.35; }
+.app-shell .rd .wmg-tips { position: absolute; right: 0; bottom: calc(100% + 8px); pointer-events: none; }
+.app-shell .rd .wmg-tips span { position: absolute; right: 0; bottom: 0; }
+.app-shell .rd .wmg-tips b {
+  display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 9px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1);
+  font: 700 13.5px/1.2 var(--font-display); color: var(--a-ink); white-space: nowrap; font-variant-numeric: tabular-nums;
+  opacity: 0; transform: translateY(3px); transition: opacity 140ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.app-shell .rd .wmg-tips b::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 3px; }
+.app-shell .rd .wmg-tips [data-k='wrong'] b::before { background: var(--a-bad-text); }
+.app-shell .rd .wmg-tips [data-k='blank'] b::before { border: 1.5px dashed var(--a-ink-3); }
+.app-shell .rd .wmg-barwrap[data-hot='wrong'] .wmg-tips [data-k='wrong'] b,
+.app-shell .rd .wmg-barwrap[data-hot='blank'] .wmg-tips [data-k='blank'] b { opacity: 1; transform: none; }
+.app-shell .rd .wmg-legend > div { position: relative; isolation: isolate; }
+.app-shell .rd .wmg-legend > div::before { content: ''; position: absolute; inset: 3px -10px; z-index: -1; border-radius: 10px; background: var(--a-hover); opacity: 0; transition: opacity 140ms ease-out; }
+.app-shell .rd .wmg-legend > div[data-hot]::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .app-shell .rd :is(.wmg-bar i, .wmg-tips b, .wmg-legend > div::before) { transition: none; } .app-shell .rd .wmg-tips b { transform: none; } }
+:root[data-motion='reduced'] .app-shell .rd :is(.wmg-bar i, .wmg-tips b, .wmg-legend > div::before) { transition: none; }
+:root[data-motion='reduced'] .app-shell .rd .wmg-tips b { transform: none; }
 .app-shell .rd .wmg-rule { margin: 6px 0 0; font-size: 12.5px; color: var(--a-ink-3); }
 .app-shell .rd .wmg-change { margin: 10px 0 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .app-shell .rd .wmg-wait { display: grid; gap: 12px; }

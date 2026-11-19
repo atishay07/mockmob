@@ -733,6 +733,22 @@ html[data-motion='reduced'] .app-shell .tmask { animation: none; transition: non
    and its grid was drawn for 1120 px, but the page itself stopped at the 960 px reading column of the one-column pages, so
    at 1440 about 210 px stood empty on the right and the two columns were tight. The page takes the width its grid asks for. */
 @media (min-width: 1360px) { .app-shell .student-page--today { width: min(100%, 1120px); } }
+/* A 27 inch screen (owner, 19 Nov 2026: "overall white space is still a lot"): from 1600 px Today takes the whole desk the
+   main column now gives (student-pages.css, Wide desks), and from 1800 px, when that desk is 1440 px or more, the glance
+   column splits in two: the doing on the left, then the streak, this week and the Mob, then the road, Repairs and Revise
+   and the colleges, in the same order as before, read down each column. Nothing moves on a laptop or a phone. */
+@media (min-width: 1600px) {
+  .app-shell .student-page--today { width: 100%; }
+  .app-shell .student-page--today > .ov, .app-shell .student-page--today .today-grid, .app-shell .student-page--today .today__head:has(.tcs) { max-width: none; }
+}
+@media (min-width: 1800px) {
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today__head:has(.tcs) { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today__head:has(.tcs) > :is(.tcs, .today__colleges-head) { width: calc(50% - 20px); }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side { display: block; columns: 2; column-gap: 40px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > * { break-inside: avoid; margin-bottom: 44px; }
+  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > :last-child { margin-bottom: 0; }
+}
 
 /* ---------- Wide: two columns, the doing left and the glance right ---------- */
 @media (min-width: 1100px) {
