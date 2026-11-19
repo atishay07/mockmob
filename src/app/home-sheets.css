@@ -6927,3 +6927,61 @@ html[data-motion='reduced'] body .mm.lp #pricing .lp-usual__math > svg { transit
   body .mm.lp .lp-desk-note__x:active { color: var(--ink); }
   body .mm.lp .lp-desk-note__x:focus-visible { outline: 2px solid var(--ink); outline-offset: -6px; border-radius: 12px; }
 }
+
+/* ---------------------------------------------------------------- Every section's reserved height, measured again on 19 Nov 2026
+   (tmp/1119-phone/heights.mjs at 360, 390, 820 and 1440 px, after the day's changes: the exam section is the monitor again, the
+   DU courses section is gone, the Daily Five lost its board, the pricing card gained its bars). A reserve far from the real
+   height makes the page jump as a skipped section is drawn; several were hundreds of pixels out. These come last and win. */
+body .mm.lp main > #try { contain-intrinsic-size: auto 896px; }
+body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 3682px; }
+body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3500px; }
+body .mm.lp main > #key-cards { contain-intrinsic-size: auto 1160px; }
+body .mm.lp main > #bring-a-mistake { contain-intrinsic-size: auto 1159px; }
+body .mm.lp main > #exam-experience { contain-intrinsic-size: auto 826px; }
+body .mm.lp main > #daily-and-sunday { contain-intrinsic-size: auto 753px; }
+body .mm.lp main > #compass { contain-intrinsic-size: auto 1422px; }
+body .mm.lp main > #pricing { contain-intrinsic-size: auto 1316px; }
+body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1049px; }
+body .mm.lp main > #faq { contain-intrinsic-size: auto 439px; }
+body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
+@media (max-width: 383px) {
+  body .mm.lp main > #try { contain-intrinsic-size: auto 889px; }
+  body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 3277px; }
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 3087px; }
+  body .mm.lp main > #key-cards { contain-intrinsic-size: auto 1236px; }
+  body .mm.lp main > #bring-a-mistake { contain-intrinsic-size: auto 1204px; }
+  body .mm.lp main > #exam-experience { contain-intrinsic-size: auto 828px; }
+  body .mm.lp main > #daily-and-sunday { contain-intrinsic-size: auto 809px; }
+  body .mm.lp main > #compass { contain-intrinsic-size: auto 1480px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1319px; }
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 993px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 439px; }
+}
+@media (min-width: 700px) and (max-width: 959px) {
+  body .mm.lp main > #try { contain-intrinsic-size: auto 887px; }
+  body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 5811px; }
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 5509px; }
+  body .mm.lp main > #key-cards { contain-intrinsic-size: auto 1298px; }
+  body .mm.lp main > #bring-a-mistake { contain-intrinsic-size: auto 1170px; }
+  body .mm.lp main > #exam-experience { contain-intrinsic-size: auto 1059px; }
+  body .mm.lp main > #daily-and-sunday { contain-intrinsic-size: auto 714px; }
+  body .mm.lp main > #compass { contain-intrinsic-size: auto 1391px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1247px; }
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 961px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 491px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 607px; }
+}
+@media (min-width: 960px) {
+  body .mm.lp main > #try { contain-intrinsic-size: auto 813px; }
+  body .mm.lp main > #inside-the-lab { contain-intrinsic-size: auto 4712px; }
+  body .mm.lp main > #your-prep { contain-intrinsic-size: auto 4602px; }
+  body .mm.lp main > #key-cards { contain-intrinsic-size: auto 1053px; }
+  body .mm.lp main > #bring-a-mistake { contain-intrinsic-size: auto 764px; }
+  body .mm.lp main > #exam-experience { contain-intrinsic-size: auto 927px; }
+  body .mm.lp main > #daily-and-sunday { contain-intrinsic-size: auto 691px; }
+  body .mm.lp main > #compass { contain-intrinsic-size: auto 1083px; }
+  body .mm.lp main > #pricing { contain-intrinsic-size: auto 1599px; }
+  body .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1027px; }
+  body .mm.lp main > #faq { contain-intrinsic-size: auto 432px; }
+  body .mm.lp main > .lp-close { contain-intrinsic-size: auto 582px; }
+}
