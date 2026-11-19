@@ -190,6 +190,9 @@ test('the desktop pointer layer is for a hovering fine pointer only, costs nothi
   for (const name of ['pointermove', 'pointerdown', 'scroll']) assert.ok(jsx.split(`window.addEventListener('${name}', `)[1]?.split('\n')[0].includes('{ passive: true }'), name);
   assert.equal((jsx.match(/getBoundingClientRect\(\)/g) || []).length, 2, 'two measuring functions, nothing else reads layout');
   assert.match(jsx, /if \(moving\) frame = window\.requestAnimationFrame\(step\);/, 'the loop stops when everything has arrived');
+  // A scroll under a resting arrow: one hit test after the scroll settles, so the ring never keeps a state that has gone.
+  assert.match(jsx, /reaim = window\.setTimeout\(\(\) => \{ if \(shown\) \{ aim\(document\.elementFromPoint\(tx, ty\)\); run\(\); \} \}, 140\);/);
+  assert.equal((jsx.match(/elementFromPoint/g) || []).length, 1);
   assert.doesNotMatch(jsx, /setInterval|getComputedStyle|offsetWidth|offsetHeight|scrollHeight/);
   // Bounded: a key leans a few pixels, a picture turns a few degrees.
   assert.match(jsx, /export const TILT_MAX = 4\.5;/);
@@ -221,7 +224,7 @@ test('desktop scroll depth runs from the scroll position itself, for a fine poin
 test('a marked word in the statement keeps its comma, and desktop marks clear the words beside them (LK335)', () => {
   assert.match(read('src/components/landing/Statement.jsx'), /<span className="lp-statement__nb"><Doodle /);
   assert.match(read('src/app/hero-depth.css'), /\.lp-statement__nb \{ white-space: nowrap; \}/);
-  assert.match(read('src/components/doodle/doodle.css'), /@media \(min-width: 960px\) \{ \.dd--circle \{ margin-inline: 0\.13em; \} \}/);
-  assert.match(read('src/components/doodle/doodle.css'), /\n\.dd--circle \{ margin-inline: 0\.1em; \}/, 'and on a phone');
+  assert.match(read('src/components/doodle/doodle.css'), /@media \(min-width: 960px\) \{ \.dd--circle \{ margin-inline: 0\.16em; \} \}/);
+  assert.match(read('src/components/doodle/doodle.css'), /\n\.dd--circle \{ margin-inline: 0\.13em; \}/, 'and on a phone');
   assert.match(read('src/components/doodle/doodlePaths.mjs'), /const x0 = -fs \* 0\.08; const x1 = w \+ fs \* 0\.1;/);
 });

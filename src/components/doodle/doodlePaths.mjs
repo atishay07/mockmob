@@ -54,9 +54,11 @@ export const penWidth = (fs) => Math.max(1.75, Math.min(4.5, fs * 0.052));
 function circle(w, h, fs, rand) {
   const cx = w / 2 + (rand() - 0.5) * fs * 0.04;
   const cy = h / 2 + fs * 0.03;
-  // The loop clears the word by about an eighth of the type size (19 Nov 2026, owner LK335: it was 0.3 and cut through the
-  // letters of the next word, most on desktop's large headings where a word space is only a quarter of the size).
-  const rx = w / 2 + fs * 0.13;
+  // The loop clears its own word by about a sixth of the type size (19 Nov 2026, owner LK335: at 0.3 it cut through the letters
+  // of the next word, most on desktop's large headings where a word space is only a quarter of the size; at 0.13 it ran over
+  // the word's own last letter). The looped word stands apart from its neighbours (doodle.css), which is where the room
+  // for the loop comes from.
+  const rx = w / 2 + fs * 0.17;
   const ry = h / 2 + fs * 0.1;
   const a0 = (-150 + (rand() - 0.5) * 16) * (Math.PI / 180);
   const turn = (1.13 + rand() * 0.05) * Math.PI * 2;

@@ -10,8 +10,8 @@
 /* A looped word stands a little apart from the words beside it, so the loop passes between the words instead of through their
    letters (19 Nov 2026, owner LK335: the marks "overlapping a bit too much with the other letters"). A touch more room on a
    desktop's large headings, where a word space is only a quarter of the type size. */
-.dd--circle { margin-inline: 0.1em; }
-@media (min-width: 960px) { .dd--circle { margin-inline: 0.13em; } }
+.dd--circle { margin-inline: 0.13em; }
+@media (min-width: 960px) { .dd--circle { margin-inline: 0.16em; } }
 
 /* Undrawn, the dash sits a little before the stroke's start (1.06 of its length back, with a gap longer than the stroke),
    so a round cap never shows as a dot where the stroke will begin. */

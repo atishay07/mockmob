@@ -50,7 +50,7 @@ export default function DesktopCursor() {
     let x = 0; let y = 0; let tx = 0; let ty = 0;         // the ring, and where the arrow is
     let lx = 0; let ly = 0;                               // the torch (slower)
     let frame = 0; let shown = false; let wave = 0;
-    let stretch = 0; let lastY = window.scrollY; let way = 1;
+    let stretch = 0; let lastY = window.scrollY; let way = 1; let reaim = 0;
     let lean = null;                                       // { el, cx, cy, sy, mx, my }
     let tilt = null;                                       // { el, rect, sy, ax, ay }
     const leaving = new Set();                             // keys and pictures on their way back to rest
@@ -125,11 +125,8 @@ export default function DesktopCursor() {
       release(); run();
     };
 
-    const onMove = (event) => {
-      if (event.pointerType !== 'mouse' || !allowed()) { hide(); return; }
-      tx = event.clientX; ty = event.clientY;
-      if (!shown) { shown = true; x = tx; y = ty; lx = tx; ly = ty; torch.setAttribute('data-on', ''); }
-      const under = event.target instanceof Element ? event.target : null;
+    // What is under the arrow decides the ring's state, the name beside it, the torch, the leaning key and the tilting picture.
+    const aim = (under) => {
       const over = under && under.closest(PRESSABLE) ? 'key' : 'page';
       if (node.getAttribute('data-on') !== over) node.setAttribute('data-on', over);
       const named = under ? under.closest(TAGGED) : null;
@@ -149,6 +146,12 @@ export default function DesktopCursor() {
         if (tilt) { leaving.add({ kind: 'tilt', el: tilt.el, ax: tilt.ax, ay: tilt.ay }); tilt = null; }
         if (picture) { const was = take('tilt', picture); tilt = { el: picture, ax: was ? was.ax : 0, ay: was ? was.ay : 0, rect: null, sy: 0 }; measureTilt(tilt); }
       }
+    };
+    const onMove = (event) => {
+      if (event.pointerType !== 'mouse' || !allowed()) { hide(); return; }
+      tx = event.clientX; ty = event.clientY;
+      if (!shown) { shown = true; x = tx; y = ty; lx = tx; ly = ty; torch.setAttribute('data-on', ''); }
+      aim(event.target instanceof Element ? event.target : null);
       run();
     };
     const onDown = (event) => {
@@ -163,6 +166,10 @@ export default function DesktopCursor() {
       if (!shown || !moved) return;
       way = moved > 0 ? 1 : -1;
       stretch = Math.max(stretch, clamp(Math.abs(moved) / 90, 0, 1));
+      // The page has moved under a resting arrow: once it has been still for a moment, look again at what is under it (one
+      // hit test after the scroll, never one per scroll event), so the ring never keeps the state of a thing that has gone.
+      window.clearTimeout(reaim);
+      reaim = window.setTimeout(() => { if (shown) { aim(document.elementFromPoint(tx, ty)); run(); } }, 140);
       run();
     };
     const onLeave = () => hide();
@@ -179,6 +186,7 @@ export default function DesktopCursor() {
       window.removeEventListener('blur', onLeave);
       window.cancelAnimationFrame(frame);
       window.clearTimeout(wave);
+      window.clearTimeout(reaim);
       if (lean) lean.el.style.translate = '';
       if (tilt) { tilt.el.style.removeProperty('--tilt-x'); tilt.el.style.removeProperty('--tilt-y'); }
       for (const hold of leaving) { if (hold.kind === 'lean') hold.el.style.translate = ''; else { hold.el.style.removeProperty('--tilt-x'); hold.el.style.removeProperty('--tilt-y'); } }
