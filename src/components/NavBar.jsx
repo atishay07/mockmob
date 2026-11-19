@@ -71,13 +71,23 @@ export function NavBar() {
 
   // Hairline only appears once the page has actually moved, so the top of the
   // page reads as one uninterrupted sheet of paper.
+  // 19 Nov 2026 (owner LK326, smooth scrolling): told by an observer on a 4 px mark at the page's top, not by a scroll
+  // listener. Reading window.scrollY in a scroll handler made the browser recalculate styles before every frame of a
+  // scroll (541 forced recalculations in one pass down the home page).
   useEffect(() => {
-    function onScroll() {
-      setStuck(window.scrollY > 4);
+    if (typeof IntersectionObserver === 'undefined') {
+      const onScroll = () => setStuck(window.scrollY > 4);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      return () => window.removeEventListener('scroll', onScroll);
     }
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const mark = document.createElement('span');
+    mark.setAttribute('aria-hidden', 'true');
+    mark.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:4px;pointer-events:none;visibility:hidden';
+    document.body.appendChild(mark);
+    const io = new IntersectionObserver(([entry]) => setStuck(!entry.isIntersecting));
+    io.observe(mark);
+    return () => { io.disconnect(); mark.remove(); };
   }, []);
 
   useEffect(() => {

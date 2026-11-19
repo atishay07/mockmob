@@ -97,18 +97,31 @@ export function SectionPosition({ sections }) {
     return () => watch.disconnect();
   }, [key]);
 
+  // Owner LK318 (18 Nov 2026: the bar "is a bit jumpy ... it's not moving properly"): the marker used to stand on the whole
+  // step and hop to the next. It now rides the story's own scroll progress, continuously. The track's place on the page is
+  // measured when the story takes the bar and when the window changes, never per frame: each frame is arithmetic on the
+  // bus's one scroll read and one transform on the marker itself (no layout read, no variable on a parent).
   useEffect(() => {
-    if (!bar.on || !window.matchMedia(PHONE).matches) return undefined;
+    if (!bar.on || bar.steps < 2 || !window.matchMedia(PHONE).matches) return undefined;
     const track = document.getElementById(key.split('|')[bar.index])?.querySelector('.ss__track');
     const steps = barRef.current?.querySelector('.lp-bar__steps');
-    if (!track || !steps) return undefined;
-    const paint = () => {
-      const { top, height } = track.getBoundingClientRect();
-      const progress = positionProgress({ top, height, vh: window.innerHeight, hasTrack: true });
-      steps.style.setProperty('--at', String(progress * (bar.steps - 1)));
+    const mobi = steps?.querySelector('.lp-bar__mobi');
+    if (!track || !steps || !mobi) return undefined;
+    let geo = null;
+    const measure = () => {
+      const box = track.getBoundingClientRect();
+      geo = { top: box.top + window.scrollY, height: box.height, width: steps.clientWidth };
     };
-    paint();
-    return bus.subscribe(paint);
+    const paint = ({ y, vh, resized }) => {
+      if (!geo || resized) measure();
+      const progress = positionProgress({ top: geo.top - y, height: geo.height, vh, hasTrack: true });
+      const at = (progress * (bar.steps - 1) + 0.5) / bar.steps;
+      mobi.style.transform = `translate3d(${(at * geo.width).toFixed(1)}px, 0, 0)`;
+    };
+    const first = bus.read();
+    paint({ y: first.y, vh: first.vh, resized: true });
+    const off = bus.subscribe(paint);
+    return () => { off(); mobi.style.transform = ''; };
   }, [bar.on, bar.index, bar.steps, key]);
 
   // ---- the band under the site bar (wide windows)
@@ -219,10 +232,11 @@ export function SectionPosition({ sections }) {
             <p className="lp-bar__count">{stepLabel(bar.step, bar.steps)}</p>
             <span className="lp-bar__steps" aria-hidden="true" style={{ '--n': bar.steps || 1 }}>
               {segments.map((i) => <i key={i} data-on={i <= bar.step ? 'true' : 'false'} />)}
-              {/* Round 13: the logo's Mobi stands on the step the story shows and hops to the next (r13-motion.css). The
-                  drawing is keyed by the step, so each arrival plays its one hop. Decoration: the count says it in words. */}
+              {/* Round 13: the logo's Mobi marks where the story is. Since 19 Nov 2026 (owner LK318) he rides the story's
+                  scroll progress continuously (the effect above), with the whole step as his place before script runs
+                  (--at). Decoration: the count says it in words. */}
               {bar.steps > 0 ? (
-                <b className="lp-bar__mobi" >
+                <b className="lp-bar__mobi" style={{ '--at': bar.step }}>
                   <svg className="lp-bar__mobi-art" viewBox={MOBI_BOX} focusable="false">
                     <path fill="#D2F000" d={MOBI.body} />
                     <path fill="#12110E" d={MOBI.visor} />

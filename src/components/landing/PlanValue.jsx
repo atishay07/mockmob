@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { SUBJECT_COUNT, usualWay } from '@/lib/payments/receipt.mjs';
 import Doodle from '@/components/doodle/Doodle';
 import { BrandIcon } from '@/components/brand/BrandIcon';
@@ -91,6 +92,33 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
   // screen reader hears the sentence once, whole; the rolling copy is for the eye.
   const rest = punch && punch.usual.startsWith(u.total) ? punch.usual.slice(u.total.length) : null;
 
+  // How the usual price adds up: the itemised sum and the two bars. Shown under the figure on a phone (a key opens it) and
+  // beside the card from 900 px.
+  const receipt = () => (u ? (
+    <>
+            <p className="lp-val__title">{VALUE_COPY.title}</p>
+            <div className="lp-usual__way">
+              <p className="lp-usual__head">{VALUE_COPY.usualHead}</p>
+              <ul className="lp-usual__lines">
+                {u.lines.map((line) => (
+                  <li key={line.key} className="lp-usual__line">
+                    <BrandIcon name={VALUE_COPY.lines[line.key].icon} size={32} className="lp-usual__obj" />
+                    <span className="lp-usual__what"><b>{VALUE_COPY.lines[line.key].name}</b><span>{VALUE_COPY.each(line)}</span></span>
+                    <span className="lp-usual__sum">{rupeesOf(line.totalPaise / 100)}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="lp-usual__total"><span>{VALUE_COPY.subjects(u.subjects)}</span><b><span aria-hidden="true">{rupeesOf(total)}</span><span className="lp-sr">{u.total}</span></b></p>
+            </div>
+            <p className="lp-usual__pro-head"><b>{VALUE_COPY.proName}</b><span>{VALUE_COPY.proPrice(u)}</span></p>
+            <div className="lp-usual__bars" aria-hidden="true">
+              <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
+              <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
+            </div>
+            <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
+    </>
+  ) : null);
+
   return (
     <>
       <div className="lp-plan__main">
@@ -117,30 +145,15 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
                     <span className="lp-sr">{punch.usual}</span>
                     <span aria-hidden="true"><Doodle mark="highlight" inkKey={subjects}>{rupeesOf(total)}</Doodle>{rest}</span>
                   </span>
-                )} <button type="button" className="lp-usual__math" aria-label="How the usual price adds up" aria-expanded={showMath} aria-controls={`${id}-math`} onClick={() => setShowMath(!showMath)}>?</button> <b>{punch.pro}</b>
+                )} <b>{punch.pro}</b>
               </p>
-              <div id={`${id}-math`} hidden={!showMath} className="lp-usual__receipt">
-            <p className="lp-val__title">{VALUE_COPY.title}</p>
-            <div className="lp-usual__way">
-              <p className="lp-usual__head">{VALUE_COPY.usualHead}</p>
-              <ul className="lp-usual__lines">
-                {u.lines.map((line) => (
-                  <li key={line.key} className="lp-usual__line">
-                    <BrandIcon name={VALUE_COPY.lines[line.key].icon} size={32} className="lp-usual__obj" />
-                    <span className="lp-usual__what"><b>{VALUE_COPY.lines[line.key].name}</b><span>{VALUE_COPY.each(line)}</span></span>
-                    <span className="lp-usual__sum">{rupeesOf(line.totalPaise / 100)}</span>
-                  </li>
-                ))}
-              </ul>
-              <p className="lp-usual__total"><span>{VALUE_COPY.subjects(u.subjects)}</span><b><span aria-hidden="true">{rupeesOf(total)}</span><span className="lp-sr">{u.total}</span></b></p>
-            </div>
-            <p className="lp-usual__pro-head"><b>{VALUE_COPY.proName}</b><span>{VALUE_COPY.proPrice(u)}</span></p>
-            <div className="lp-usual__bars" aria-hidden="true">
-              <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
-              <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
-            </div>
-            <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
-              </div>
+              {/* Owner LK325 (18 Nov 2026): "you are just writing three thousand seven hundred fifty usual way ... that is hidden
+                  under a dropbox, so it will be confusion of how it adds up". On a phone the sum now opens right under the
+                  figure, from a key that names it; from 900 px it stands open beside the card, as before. */}
+              <button type="button" className="lp-usual__math" aria-expanded={showMath} aria-controls={`${id}-math`} onClick={() => setShowMath(!showMath)}>
+                <span>{VALUE_COPY.addsUp(u.total)}</span><ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" />
+              </button>
+              <div id={`${id}-math`} hidden={!showMath} className="lp-usual__receipt">{receipt()}</div>
             </div>
           </>
         ) : null}
@@ -151,7 +164,11 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
         <Unfold from={900} className="lp-fold--plan" summary={PLAN_HOME.everything} head={<h4 className="lp-fold__title">{PLAN_HOME.everything}</h4>}>
           {everything}
         </Unfold>
-
+        {u ? (
+          <Unfold from={900} className="lp-fold--usual" summary={PLAN_HOME.workedOut} head={<h4 className="lp-fold__title">{PLAN_HOME.workedOut}</h4>}>
+            {receipt()}
+          </Unfold>
+        ) : null}
       </div>
 
       {free}

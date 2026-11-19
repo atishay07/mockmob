@@ -1,5 +1,5 @@
 import '@/app/marketing.css'; // the .mm surface system (speed.md item 8): only where it is drawn
-import { Fragment } from 'react';
+import { Fragment, Suspense } from 'react';
 import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { recoveryReleased, newOfferReleased } from '@/../data/capabilities';
@@ -76,6 +76,13 @@ import './home-sheets.css';
 
 // The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
 // The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+
+// The page comes alive in pieces (19 Nov 2026, owner LK326: "the screen stutters in the first five [seconds]"). Measured that
+// day on a throttled phone profile: React woke the whole page in ONE task of about 1.2 seconds, 2.7 seconds after the load,
+// right as the opening handed over, and every animation on screen froze for it. Each block below the hero is its own
+// Suspense boundary: its HTML is already in the page (nothing here ever shows a fallback), and React wakes each boundary
+// in its own short piece of idle time, the hero first, a block the reader touches before the others.
+const Later = ({ children }) => <Suspense fallback={null}>{children}</Suspense>;
 
 const OFFER = publicOffer();
 const dailyHead = COLLEGE_DAILY ? STRIP_HEAD : PERSONAL_HEAD;
@@ -213,14 +220,14 @@ export default function LandingPage() {
         </section>
 
         {/* ---------------------- COLLEGES (round 7: the CUET colleges' own emblems, owner 7 Nov) ---------------------- */}
-        <CollegeStrip />
+        <Later><CollegeStrip /></Later>
 
         {/* ------------------------------ TRY FIVE QUESTIONS ------------------------------ */}
         {/* The desk moved out of the hero when the film took its place (round 7, 7 Nov 2026): Mobi in his lamp-lit room
             (HeroRoom, HeroMobi) offering the five CUET questions (DemoDrill, the card attached to the room's foot), under a
             short head, in one centred column. It keeps id="try-practice", so "Try 5 questions first" and every deep link
             (/#try-practice) still land on the card (DemoJump). */}
-        <section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
+        <Later><section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
           <div className="mm-wrap lp-try__wrap">
             <div className="lp-head lp-try__head">
               <h2 className="lp-h2" id="try-title"><Marked text={TRY_HEAD.h2} marks={[['five', { mark: 'double' }]]} /></h2>
@@ -238,13 +245,13 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
-        </section>
+        </section></Later>
 
         {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
-        <Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} />
+        <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
         {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
-        <section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+        <Later><section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
           <div className="mm-wrap">
@@ -255,10 +262,10 @@ export default function LandingPage() {
             </Reveal>
           </div>
           <LabCinema />
-        </section>
+        </section></Later>
 
         {/* --------------------------- FEATURE TOUR -------------------------- */}
-        <section className="lp-sec lp-sec--tour lp-pos-host" id="your-prep">
+        <Later><section className="lp-sec lp-sec--tour lp-pos-host" id="your-prep">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">{TOUR_HEAD.h2}</h2>
@@ -268,13 +275,13 @@ export default function LandingPage() {
                 finger had: "these sliding cards ... are not good"). */}
             <TourDeck slides={TOUR} samples={TOUR_SAMPLES} />
           </div>
-        </section>
+        </section></Later>
 
         {/* ------------------------------ KEY CARDS ------------------------------ */}
         {/* R3-D10 (owner LK112, 5 Nov 2026): a real card that turns over in 3D, glass over its subject object, rated with the
             app's keys; the bank's true numbers count up once (LoadingKit). The stamp is the product's name (R3-D2). */}
         {KEY_CARDS ? (
-          <section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title" data-section-name={KEY_CARDS_HEAD.stamp}>
+          <Later><section className="lp-sec lp-kc" id="key-cards" aria-labelledby="key-cards-title" data-section-name={KEY_CARDS_HEAD.stamp}>
             <div className="mm-wrap lp-kc__grid">
               <Reveal className="lp-head lp-head--left lp-kc__head">
                 <p className="lp-kc__stamp"><BrandIcon name="keycards" size={32} style={{ '--bi-size': '28px' }} />{KEY_CARDS_HEAD.stamp}</p>
@@ -283,16 +290,16 @@ export default function LandingPage() {
               </Reveal>
               <KeyCardsDemo cards={KEY_CARDS.cards} keys={KEY_CARDS.keys} bank={KEY_CARDS.bank} subjects={KEY_CARDS.subjects} />
             </div>
-          </section>
+          </section></Later>
         ) : null}
 
         {/* Bring a mistake (16 Nov 2026): Ask Mobi reads a question from any other test, typed or (while the app's photo switch
             is on) photographed; live in the app, shown here. The two prices are the app's own constants; the 50 free credits a
             month in the same line is held to the wallet's constant by bringMistakeCopy.test.mjs. */}
-        <BringMistakeBlock photo={MISTAKE_PHOTO_ON} credits={MISTAKE_CREDITS} photoCredits={MISTAKE_PHOTO_CREDITS} />
+        <Later><BringMistakeBlock photo={MISTAKE_PHOTO_ON} credits={MISTAKE_CREDITS} photoCredits={MISTAKE_PHOTO_CREDITS} /></Later>
 
         {/* Practice first, admissions second (R11): the exam screen sits before DU Compass and the DU tool. */}
-        <ExamScreen />
+        <Later><ExamScreen /></Later>
 
         {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
         {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
@@ -301,21 +308,21 @@ export default function LandingPage() {
             important". So the section heads like every other product on the page (a stamp over a full-size h2). 17 Nov 2026
             (LK293, "something unique"): the Daily Five is an admit card with "Playing for" a DU college and today's college
             board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
-        <section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
+        <Later><section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
           <div className="mm-wrap">
             {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.rhythm} />
-              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[['your college.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[COLLEGE_DAILY ? 'your college.' : 'your streak.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
               <p className="lp-sub">{dailyHead.sub}</p>
             </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
             <DailyFiveRow where="home" />
           </div>
-        </section>
+        </section></Later>
 
         {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
-          <section className="lp-sec" id="compass">
+          <Later><section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
                 <BrandStamp {...BRAND_STAMPS.compass} />
@@ -337,20 +344,20 @@ export default function LandingPage() {
                 </details>
               </Reveal>
             </div>
-          </section>
+          </section></Later>
         ) : null}
 
         {/* ------------------------------ PRICING --------------------------- */}
         {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5
             (owner, 6 Nov 2026), the receipt of everything it covers at your pace (HomePricing.jsx), counting the Key cards bank
             only while Key cards are live. Every rupee figure is the offer's, worked out, never typed. */}
-        <section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
+        <Later><section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
           <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
             seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--eyebrow pip-seat--center" />} />
-        </section>
+        </section></Later>
 
         {/* ------------------------------ INSTAGRAM ------------------------------ */}
-        <section className="lp-sec" id="on-instagram">
+        <Later><section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <BrandStamp {...BRAND_STAMPS.instagram} />
@@ -359,11 +366,11 @@ export default function LandingPage() {
             </Reveal>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
-        </section>
+        </section></Later>
 
         {/* ----------------------------- WALL OF LOVE ----------------------------- */}
         {WALL_VOICES.length > 0 ? (
-          <section className="lp-sec" id="wall-of-love">
+          <Later><section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
               <Reveal className="lp-head lp-head--left">
                 <BrandStamp {...BRAND_STAMPS.wall} />
@@ -371,13 +378,13 @@ export default function LandingPage() {
               </Reveal>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
             </div>
-          </section>
+          </section></Later>
         ) : null}
 
 
 
         {/* -------------------------------- FAQ ----------------------------- */}
-        <section className="lp-sec lp-sec--band" id="faq">
+        <Later><section className="lp-sec lp-sec--band" id="faq">
           <div className="mm-wrap lp-faq-desk">
             <Reveal className="lp-faq-desk__head">
               <h2 className="lp-h2">{FAQ_HEAD.h2}</h2>
@@ -393,13 +400,13 @@ export default function LandingPage() {
               ))}
             </Reveal>
           </div>
-        </section>
+        </section></Later>
 
         {/* ------------------------------- CLOSE ---------------------------- */}
         {/* The final card (R3-D9, owner LK110): Mobi on the paper's own grain (BrandTexture, the hero's texture; the answer-sheet
             bubbles were rejected, LK208, and removed 15 Nov 2026); Sign up free and Log in as before; while invites are on, one
             line on where a friend's invite code goes (never a code on this page). */}
-        <section className="lp-close">
+        <Later><section className="lp-close">
           <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="wave" label={CLOSE.mobi} />
@@ -411,15 +418,15 @@ export default function LandingPage() {
           <DemoJump />
           {/* The footer's Help sends guests to /#faq from any page: land on the questions once the page has settled. */}
           <HashSettle />
-        </section>
+        </section></Later>
       </main>
-      <MarketingFooter home />
+      <Later><MarketingFooter home /></Later>
       {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
-      <PipGuide />
+      <Later><PipGuide /></Later>
       {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
           window event mm:ask-mobi). */}
-      <MobiCompanion />
-      <AskMobiSheet />
+      <Later><MobiCompanion /></Later>
+      <Later><AskMobiSheet /></Later>
       {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>

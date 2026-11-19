@@ -8,130 +8,127 @@
 //
 // The words stay ordinary text (read, selected and searched as before); the mark is an SVG drawn for their exact box
 // (doodlePaths.mjs) and made the way a hand makes it: a stroke runs from its start to its end, a highlighter swipes left
-// to right. A mark is drawn ONCE, when its words have come up into the reader's view (well clear of the screen's foot,
-// so a reader scrolling sees the pen move), or when `when` turns true. It never loops and never moves again.
+// to right. A mark is drawn ONCE, when its words have come up to where a reader reads them (wholly in view and clear of
+// the lowest quarter of the screen), or when `when` turns true. It never loops and never moves again.
 //
-// Marks: circle, underline, double, squiggle, strike, spark, tick, cross (pen strokes) and highlight (a filled swipe
-// behind the words). Tones: ink (the page's ink), brand (the brand-word colour), pen (the red of a marked mistake: only
-// where the words are about a mistake), volt (the highlighter).
+// Marks: circle, underline, double, squiggle, strike, tick, cross (pen strokes) and highlight (a filled swipe behind the
+// words). Tones: ink (the page's ink), brand (the brand-word colour), pen (the red of a marked mistake: only where the
+// words are about a mistake), volt (the highlighter).
 // Reduced motion: the mark is simply there. Without script the words stand unmarked (the mark is decoration).
 //
-// NOT IN USE (owner, 18 Nov 2026 about 10 pm, LK317: the pencils and markers looked "highly unprofessional ... revert back"):
-// no page passes `pen` or `accent` any more; the marks are plain again. Do not turn these on without his word.
-// More animated (18 Nov 2026, owner LK314: "Doodles look good. Some can be more animated"), for a page's few lead marks:
-//   pen     a small pencil (a red pen on a mistake's mark, a marker on a highlight) rides the stroke's head while it is
-//           made, at a hand's pace, then lifts away. With followScroll the reader's own scroll moves it.
-//   accent  "spark": three short flicks off the words' corner once the mark has landed.
-// Still drawn once, never looping; reduced motion shows the finished mark and no pen.
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { subscribe } from '@/components/landing/scrollBus.mjs';
-import { DRAW_MS, PEN_PACE, SPARK_MS, doodlePath, seedOf } from './doodlePaths.mjs';
+// 19 Nov 2026 (owner LK317: the pencils and markers of the evening before looked "highly unprofessional"; the marks
+// themselves stay, "a bit slower, more refined and more accurate with when they are showing up in the scroll"; and LK326:
+// the page must not stutter):
+//  - No drawing tool, no flick, no flourish: a mark is the stroke alone. Do not add one without his word.
+//  - Each mark takes a hand's time for what it is (DRAW_MS: a loop about a second, a line about two thirds of one), on an
+//    ease that starts like a hand and settles.
+//  - It starts a beat after its words are in reading position, so a heading that is still arriving is never marked early.
+//  - It costs the page nothing while the reader scrolls: the words' size comes from one shared ResizeObserver and the
+//    moment from one shared IntersectionObserver (both report after the browser's own layout), so no mark ever asks the
+//    browser to lay the page out again; a stroke's length is normalised (pathLength), so nothing measures it.
+import { useEffect, useRef, useState } from 'react';
+import { DRAW_MS, doodlePath, seedOf } from './doodlePaths.mjs';
 import './doodle.css';
 
-const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+/** A beat between the words reaching reading position and the pen touching down, ms. */
+export const TOUCH_DOWN_MS = 180;
 
-// One observer for every doodle on the page: a mark is drawn once its words are fully in view and above the lowest
-// fifth of the window. Each entry is told once and then forgotten.
+// ---- where the reader reads: one observer for every mark on the page. A mark is told once and then forgotten.
 let seen = null;
-let screenHeight = 0;
-const waiting = new Map();
-function readingObserver() {
-  const height = window.innerHeight;
-  if (seen && screenHeight === height) return;
-  screenHeight = height;
-  seen?.disconnect();
-  seen = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (!entry.isIntersecting || entry.intersectionRatio < 0.9) continue;
-      const go = waiting.get(entry.target);
-      waiting.delete(entry.target);
-      seen.unobserve(entry.target);
-      go?.();
-    }
-    if (!waiting.size) window.removeEventListener('resize', readingObserver);
-  }, { rootMargin: `0px 0px -${Math.round(height * 0.25)}px 0px`, threshold: 0.9 });
-  for (const node of waiting.keys()) seen.observe(node);
-}
-
-function watch(node, fn) {
+const waiting = new WeakMap();
+function watchReading(node, fn) {
   if (typeof IntersectionObserver === 'undefined') { fn(); return () => {}; }
-  readingObserver();
-  window.addEventListener('resize', readingObserver);
+  if (!seen) {
+    seen = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        const go = waiting.get(entry.target);
+        waiting.delete(entry.target);
+        seen.unobserve(entry.target);
+        go?.();
+      }
+      // Wholly in view (0.9 of the box, for a phrase that kisses the edge) and above the lowest quarter of the window.
+    }, { rootMargin: '0px 0px -25% 0px', threshold: 0.9 });
+  }
   waiting.set(node, fn);
   seen.observe(node);
-  return () => {
-    waiting.delete(node);
-    seen.unobserve(node);
-    if (!waiting.size) window.removeEventListener('resize', readingObserver);
-  };
+  return () => { waiting.delete(node); seen.unobserve(node); };
 }
 
-export default function Doodle({ mark = 'underline', tone = 'ink', when, followScroll = false, inkKey, pen = false, accent, delay = 0, as: Tag = 'span', className = '', style, children, ...rest }) {
+// ---- the words' own box: one observer for every mark. Its reports arrive after layout, so reading them is free.
+let sized = null;
+const sizeOf = new WeakMap();
+function watchSize(node, fn) {
+  if (typeof ResizeObserver === 'undefined') {
+    const box = node.getBoundingClientRect();
+    fn(box.width, box.height);
+    return () => {};
+  }
+  if (!sized) {
+    sized = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const box = entry.borderBoxSize?.[0];
+        sizeOf.get(entry.target)?.(box ? box.inlineSize : entry.contentRect.width, box ? box.blockSize : entry.contentRect.height);
+      }
+    });
+  }
+  sizeOf.set(node, fn);
+  sized.observe(node);
+  return () => { sizeOf.delete(node); sized.unobserve(node); };
+}
+
+const half = (n) => Math.round(n * 2) / 2;
+
+export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey, delay = 0, as: Tag = 'span', className = '', style, children, ...rest }) {
   const hostRef = useRef(null);
+  const boxRef = useRef(null);       // { width, height, fontSize }: the words' box, as last reported
+  const [reached, setReached] = useState(false);
   const [shape, setShape] = useState(null);
-  const [drawn, setDrawn] = useState(false);
   const controlled = typeof when === 'boolean';
+  const wanted = controlled ? when : reached;
+  const wantedRef = useRef(wanted);
   const text = typeof children === 'string' ? children : '';
 
-  // The mark is made for the words' own box, again whenever that box changes (a font arriving, a narrower window).
-  useIsoLayoutEffect(() => {
+  // The mark's geometry from the box in hand; nothing here reads layout.
+  const buildRef = useRef(null);
+  buildRef.current = () => {
+    const box = boxRef.current;
     const host = hostRef.current;
-    if (!host || !(drawn || when || followScroll)) return undefined;
+    if (!box || !host || !(box.width > 0) || !(box.height > 0)) return;
     const seed = seedOf(`${mark}:${text || host.textContent}`);
-    const measure = () => {
-      const width = host.offsetWidth;
-      const height = host.offsetHeight;
-      if (!width || !height) return;
-      const fontSize = parseFloat(getComputedStyle(host).fontSize) || 16;
-      setShape((was) => (was && was.width === width && was.height === height && was.seed === seed && was.fontSize === fontSize ? was : {
-        width, height, seed, fontSize, ...doodlePath(mark, { width, height, fontSize, seed }),
-        sparks: accent === 'spark' ? doodlePath('spark', { width, height, fontSize, seed: seed + 7 }).strokes : [],
-      }));
-    };
-    measure();
-    if (typeof ResizeObserver === 'undefined') return undefined;
-    const ro = new ResizeObserver(measure);
-    ro.observe(host);
-    return () => ro.disconnect();
-  }, [mark, text, accent, drawn, when, followScroll]);
+    setShape((was) => (was && was.width === box.width && was.height === box.height && was.seed === seed && was.fontSize === box.fontSize
+      ? was
+      : { ...box, seed, ...doodlePath(mark, { width: box.width, height: box.height, fontSize: box.fontSize, seed }) }));
+  };
 
-  // Drawn when the reader reaches the words (or when told).
+  // The words' box, kept as it changes (a font arriving, a narrower window). The mark is only made once it is wanted, so a
+  // page of marks nobody has reached yet costs nothing.
   useEffect(() => {
-    if (controlled || followScroll) return undefined;
+    const host = hostRef.current;
+    if (!host) return undefined;
+    return watchSize(host, (width, height) => {
+      // Asked for inside the observer's own report: styles are settled, so this read recalculates nothing.
+      const fontSize = parseFloat(getComputedStyle(host).fontSize) || 16;
+      boxRef.current = { width: half(width), height: half(height), fontSize };
+      if (wantedRef.current) buildRef.current();
+    });
+  }, []);
+
+  // Made when wanted (and again if the words or the kind of mark change).
+  useEffect(() => {
+    wantedRef.current = wanted;
+    if (wanted) buildRef.current();
+  }, [wanted, mark, text]);
+
+  // An uncontrolled mark is wanted once the reader reaches the words, a beat later.
+  useEffect(() => {
+    if (controlled) return undefined;
     const host = hostRef.current;
     if (!host) return undefined;
     let timer = 0;
-    const off = watch(host, () => { timer = window.setTimeout(() => setDrawn(true), delay); });
+    const off = watchReading(host, () => { timer = window.setTimeout(() => setReached(true), TOUCH_DOWN_MS + delay); });
     return () => { off(); window.clearTimeout(timer); };
-  }, [controlled, followScroll, delay]);
-
-  // The shared page scroll read lets a heading's pen advance with the reader, then retire when the line is complete.
-  useEffect(() => {
-    if (!followScroll || !hostRef.current) return undefined;
-    const host = hostRef.current;
-    let off = null;
-    let observer = null;
-    const paint = ({ vh = window.innerHeight } = {}) => {
-      const progress = Math.max(0, Math.min(1, (vh * 0.86 - host.getBoundingClientRect().top) / (vh * 0.30)));
-      host.style.setProperty('--dd-scroll', progress.toFixed(3));
-      if (progress === 1) {
-        off?.();
-        observer?.disconnect();
-      }
-      return progress;
-    };
-    const listen = () => { if (!off && paint() < 1) off = subscribe(paint); };
-    if (typeof IntersectionObserver === 'undefined') {
-      listen();
-    } else {
-      observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) listen();
-        else { off?.(); off = null; }
-      });
-      observer.observe(host);
-    }
-    return () => { off?.(); observer?.disconnect(); host.style.removeProperty('--dd-scroll'); };
-  }, [followScroll]);
+  }, [controlled, delay]);
 
   // Let fast slider and keyboard changes settle before re-inking the new figure once.
   const [inked, setInked] = useState(inkKey);
@@ -150,18 +147,15 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
     const a = window.requestAnimationFrame(() => { b = window.requestAnimationFrame(() => setPrimed(true)); });
     return () => { window.cancelAnimationFrame(a); window.cancelAnimationFrame(b); };
   }, [shape]);
-  const on = (controlled ? when : drawn) && primed;
+  const on = wanted && primed;
   const strokes = shape?.strokes || [];
-  // A mark made with the pen in view takes a hand's time, not a flash.
-  const ms = pen ? Math.round((DRAW_MS[mark] || 400) * PEN_PACE) : (controlled ? 740 : 1000);
-  // Several strokes share the mark's time, one after the other; the flicks of an accent come after the mark has landed.
+  const ms = DRAW_MS[mark] || 600;
+  // Several strokes share the mark's time, one after the other.
   const each = strokes.length ? ms / strokes.length : ms;
-  const sparks = shape?.sparks || [];
   const vars = { '--dd-ms': `${ms}ms`, '--dd-pen': shape ? `${shape.pen}px` : undefined, '--dd-delay': controlled ? `${delay}ms` : '0ms' };
-  const penScale = shape ? Math.max(0.62, Math.min(1.1, shape.fontSize / 36)) : 1;
 
   return (
-    <Tag ref={hostRef} className={`dd dd--${mark} ${className}`.trim()} data-tone={tone} data-drawn={on ? 'true' : 'false'} data-scroll-ink={followScroll || undefined} data-reink={inkKey != null || undefined} data-pen={pen || undefined} style={{ ...vars, ...style }} {...rest}>
+    <Tag ref={hostRef} className={`dd dd--${mark} ${className}`.trim()} data-tone={tone} data-drawn={on ? 'true' : 'false'} data-reink={inkKey != null || undefined} style={{ ...vars, ...style }} {...rest}>
       {children}
       {/* Night: a highlighter's words turn to the ink that reads on volt exactly where the swipe has reached, not all at once
           (a copy of the words, clipped with the swipe). The copy is generated content, not a second text node, so the
@@ -170,54 +164,12 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, followS
       {shape ? (
         <svg className="dd__ink" aria-hidden="true" focusable="false" width={shape.width} height={shape.height} viewBox={`0 0 ${shape.width} ${shape.height}`}>
           {shape.fill ? <path key={inked} className="dd__fill" d={shape.fill} /> : null}
-          {strokes.map((d, i) => <Stroke key={i} d={d} ms={each} delay={i * each} />)}
-          {sparks.map((d, i) => <Stroke key={`s${i}`} d={d} ms={SPARK_MS} delay={ms + 60 + i * SPARK_MS * 0.6} spark />)}
+          {/* One stroke of the pen: its length is normalised to 1, so its dash draws it from its start to its end and
+              nothing has to measure it. */}
+          {strokes.map((d, i) => <path key={i} pathLength="1" className="dd__stroke" d={d} style={{ '--dd-stroke-ms': `${Math.round(each)}ms`, '--dd-stroke-delay': `${Math.round(i * each)}ms` }} />)}
         </svg>
       ) : null}
-      {pen && shape ? (shape.fill
-        ? <span className="dd__nib dd__nib--marker" aria-hidden="true"><Marker scale={penScale} /></span>
-        : strokes.map((d, i) => (
-          <span key={i} className="dd__nib" aria-hidden="true" style={{ offsetPath: `path("${d}")`, '--dd-stroke-ms': `${Math.round(each)}ms`, '--dd-stroke-delay': `${Math.round(i * each)}ms` }}>
-            <Pencil scale={penScale} red={tone === 'pen' || tone === 'pen-dark'} />
-          </span>
-        ))) : null}
     </Tag>
-  );
-}
-
-// One stroke of the pen: its own length is its dash, so it draws from its start to its end.
-function Stroke({ d, ms, delay, spark = false }) {
-  return <path pathLength="1" className={spark ? 'dd__stroke dd__stroke--spark' : 'dd__stroke'} d={d} data-ready="true" style={{ '--dd-len': 1, '--dd-stroke-ms': `${Math.round(ms)}ms`, '--dd-stroke-delay': `${Math.round(delay)}ms` }} />;
-}
-
-// The pencil that makes a mark: drawn with its point at the stroke's head, held the way a right hand holds it. Its lead is
-// the mark's own ink; a mistake's mark is made with a red pen.
-function Pencil({ scale, red }) {
-  return (
-    <svg className="dd__tool" width="1" height="1" focusable="false">
-      <g transform={`rotate(-52) scale(${scale.toFixed(2)})`}>
-        <path className="dd__tool-lead" d="M0 0L6 -2.6V2.6Z" />
-        <path className="dd__tool-wood" d="M6 -2.6L13 -5V5L6 2.6Z" />
-        <rect className={red ? 'dd__tool-body dd__tool-body--red' : 'dd__tool-body'} x="13" y="-5" width="22" height="10" />
-        <path className="dd__tool-line" d="M13 -1.7H35M13 1.7H35" />
-        <rect className="dd__tool-band" x="35" y="-5" width="4" height="10" />
-        <rect className={red ? 'dd__tool-cap dd__tool-cap--red' : 'dd__tool-cap'} x="39" y="-5" width="6" height="10" rx="2.6" />
-      </g>
-    </svg>
-  );
-}
-
-// The highlighter: a chisel tip in the swipe's own colour.
-function Marker({ scale }) {
-  return (
-    <svg className="dd__tool" width="1" height="1" focusable="false">
-      <g transform={`rotate(-62) scale(${scale.toFixed(2)})`}>
-        <path className="dd__tool-tip" d="M0 -4.5L7 -6V6L0 2.5Z" />
-        <path className="dd__tool-neck" d="M7 -6L12 -8V8L7 6Z" />
-        <rect className="dd__tool-barrel" x="12" y="-8" width="26" height="16" rx="3" />
-        <rect className="dd__tool-tip" x="17" y="-8" width="5" height="16" />
-      </g>
-    </svg>
   );
 }
 

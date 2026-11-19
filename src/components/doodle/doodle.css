@@ -1,24 +1,25 @@
-/* Doodle (18 Nov 2026, owner LK308): the pen and the highlighter on the paper. Doodle.jsx makes each mark for its words'
-   own box; this sheet is the ink. A stroke is its own length of dash, pulled in from its start; the highlighter is one
-   filled swipe uncovered from the left. Each is drawn once, on the page's own ease-out, and then never moves. */
-.dd { position: relative; display: inline-block; white-space: nowrap; isolation: isolate; }
+/* Doodle (18 Nov 2026, owner LK308; refined 19 Nov, LK317): the pen and the highlighter on the paper. Doodle.jsx makes each
+   mark for its words' own box; this sheet is the ink. A stroke's length is normalised to 1 (pathLength), so its dash is its
+   whole length and it is pulled in from its start; the highlighter is one filled swipe uncovered from the left. Each is
+   drawn once, at a hand's pace (it starts like a hand and settles), and then never moves. */
+.dd { position: relative; display: inline-block; white-space: nowrap; isolation: isolate; --dd-ease: cubic-bezier(0.32, 0.08, 0.22, 1); }
 .dd__ink { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; z-index: -1; }
 /* A pen stroke lies over the words' own layer edge, a highlighter under the words. */
 .dd:not(.dd--highlight) > .dd__ink { z-index: 1; }
 
+/* Undrawn, the dash sits a little before the stroke's start (1.06 of its length back, with a gap longer than the stroke),
+   so a round cap never shows as a dot where the stroke will begin. */
 .dd__stroke {
   fill: none; stroke: var(--dd-ink, currentColor); stroke-width: var(--dd-pen, 2px); stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: var(--dd-len, 0); stroke-dashoffset: var(--dd-len, 0);
-  opacity: 0;
+  stroke-dasharray: 1 1.2; stroke-dashoffset: 1.06;
 }
-.dd__stroke[data-ready='true'] { opacity: 1; }
 .dd[data-drawn='true'] .dd__stroke {
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset var(--dd-stroke-ms, 400ms) cubic-bezier(0.32, 0.08, 0.22, 1) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms));
+  transition: stroke-dashoffset var(--dd-stroke-ms, 600ms) var(--dd-ease) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms));
 }
 
 .dd__fill { fill: var(--dd-ink, var(--volt)); clip-path: inset(-10% 100% -10% -4%); }
-.dd[data-drawn='true'] .dd__fill { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) cubic-bezier(0.32, 0.08, 0.22, 1) var(--dd-delay, 0ms); }
+.dd[data-drawn='true'] .dd__fill { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 700ms) var(--dd-ease) var(--dd-delay, 0ms); }
 
 /* Tones. The pen follows the words' own ink unless told; the highlighter is volt, and its words take the ink that reads
    on volt in both themes. */
@@ -33,14 +34,13 @@ html:not([data-theme='light']) .dd[data-tone='pen'] { --dd-ink: #ff7a66; }
 .dd[data-tone='volt-pen'] { --dd-ink: #d2f000; }
 .dd--highlight { --dd-ink: var(--volt, #d2f000); }
 /* Night: the words under the swipe take the ink that reads on volt. A copy of the words, clipped with the swipe, turns them
-   exactly where the highlighter has reached (18 Nov 2026: turned all at once, the words ahead of a slower, pen-paced swipe
-   stood dark on the dark page for a moment); the words themselves follow once the swipe is done. */
-.dd--highlight[data-drawn='true'] { color: var(--volt-ink, #0b1000); transition: color 1ms linear calc(var(--dd-delay, 0ms) + var(--dd-ms, 460ms)); }
+   exactly where the highlighter has reached (18 Nov 2026: turned all at once, the words ahead of the swipe stood dark on the
+   dark page for a moment); the words themselves follow once the swipe is done. */
+.dd--highlight[data-drawn='true'] { color: var(--volt-ink, #0b1000); transition: color 1ms linear calc(var(--dd-delay, 0ms) + var(--dd-ms, 700ms)); }
 html[data-theme='light'] .dd--highlight[data-drawn='true'] { color: inherit; }
 .dd__over::before { content: attr(data-text); }
 .dd__over { position: absolute; left: 0; top: 0; white-space: nowrap; color: var(--volt-ink, #0b1000); clip-path: inset(-10% 100% -10% -4%); pointer-events: none; user-select: none; -webkit-user-select: none; }
-.dd[data-drawn='true'] .dd__over { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 460ms) var(--dd-ease, cubic-bezier(0.32, 0.08, 0.22, 1)) var(--dd-delay, 0ms); }
-.dd[data-scroll-ink] .dd__over { clip-path: inset(-10% calc(100% - 104% * var(--dd-scroll)) -10% -4%); }
+.dd[data-drawn='true'] .dd__over { clip-path: inset(-10% -4% -10% -4%); transition: clip-path var(--dd-ms, 700ms) var(--dd-ease) var(--dd-delay, 0ms); }
 html[data-theme='light'] .dd__over { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -52,83 +52,13 @@ html[data-motion='reduced'] .dd[data-drawn='true'] :is(.dd__stroke, .dd__fill, .
 .dd--tick:empty, .dd--cross:empty { width: 22px; height: 22px; flex: none; }
 .dd--tick > .dd__ink, .dd--cross > .dd__ink { z-index: 0; }
 
-/* A reader draws the heading's line as it travels through the viewport. */
-.dd[data-scroll-ink] { --dd-scroll: 0; }
-.dd[data-scroll-ink] .dd__stroke {
-  stroke-dashoffset: calc(var(--dd-len, 0) * (1 - var(--dd-scroll)));
-}
-.dd[data-scroll-ink] .dd__fill {
-  clip-path: inset(-10% calc(100% - 104% * var(--dd-scroll)) -10% -4%);
-}
-
 /* The ink behind a changing figure is translucent, so the number reads throughout the swipe. */
 .dd--highlight[data-reink] { --dd-ink: color-mix(in srgb, var(--volt, #d2f000) 24%, transparent); }
 .dd--highlight[data-reink][data-drawn='true'] { color: inherit; transition: none; }
-.dd[data-reink][data-drawn='true'] .dd__fill { animation: dd-reink var(--dd-ms, 460ms) cubic-bezier(0.32, 0.08, 0.22, 1) both; }
+.dd[data-reink][data-drawn='true'] .dd__fill { animation: dd-reink 460ms var(--dd-ease) both; }
 @keyframes dd-reink {
   from { clip-path: inset(-10% 100% -10% -4%); }
   to { clip-path: inset(-10% -4% -10% -4%); }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .dd[data-scroll-ink] { --dd-scroll: 1 !important; }
-  .dd[data-reink][data-drawn='true'] .dd__fill { animation: none; }
-}
-html[data-motion='reduced'] .dd[data-scroll-ink] { --dd-scroll: 1 !important; }
+@media (prefers-reduced-motion: reduce) { .dd[data-reink][data-drawn='true'] .dd__fill { animation: none; } }
 html[data-motion='reduced'] .dd[data-reink][data-drawn='true'] .dd__fill { animation: none; }
-
-/* ---------------------------------------------------------------- The pen in view (18 Nov 2026, owner LK314: "Some can be
-   more animated"). A page's few lead marks are made by a small pencil the reader can see: it rides the stroke's head at a
-   hand's pace (so the stroke's ease is a hand's too, not the page's snap), then lifts away. A highlight is made by a marker
-   riding the swipe's front. With scroll ink, the reader's scroll moves the pencil. Never without motion-path support, and
-   never under reduced motion: there the mark is simply made. */
-.dd { --dd-ease: cubic-bezier(0.32, 0.08, 0.22, 1); }
-.dd[data-pen] { --dd-ease: cubic-bezier(0.5, 0.05, 0.25, 1); }
-.dd[data-pen][data-drawn='true'] .dd__stroke:not(.dd__stroke--spark) { transition-timing-function: var(--dd-ease); }
-.dd[data-pen][data-drawn='true'] .dd__fill { transition-timing-function: var(--dd-ease); }
-.dd__nib { position: absolute; left: 0; top: 0; width: 0; height: 0; z-index: 2; opacity: 0; pointer-events: none; }
-.dd__tool { position: absolute; left: 0; top: 0; overflow: visible; filter: drop-shadow(0 2px 2px rgb(0 0 0 / 0.22)); }
-.dd__tool :is(path, rect) { stroke: #16170f; stroke-width: 1.1; stroke-linejoin: round; }
-.dd__tool-lead { fill: var(--dd-ink, currentColor); }
-.dd__tool-wood { fill: #ecd2a8; }
-.dd__tool-body { fill: #d2f000; }
-.dd__tool-body--red { fill: #e2553f; }
-.dd__tool .dd__tool-line { fill: none; stroke-width: 0.8; opacity: 0.35; }
-.dd__tool-band { fill: #c9c8bd; }
-.dd__tool-cap { fill: #ff9c8a; }
-.dd__tool-cap--red { fill: #16170f; }
-.dd__tool-tip { fill: var(--volt, #d2f000); }
-.dd__tool-neck { fill: #3a3b33; }
-.dd__tool-barrel { fill: #f6f3e8; }
-@supports (offset-path: path('M0 0L1 1')) {
-  .dd__nib:not(.dd__nib--marker) { offset-rotate: 0deg; offset-anchor: 0 0; offset-distance: 0%; }
-  .dd[data-pen][data-drawn='true']:not([data-scroll-ink]) .dd__nib:not(.dd__nib--marker) {
-    animation:
-      dd-nib-run var(--dd-stroke-ms, 400ms) var(--dd-ease) calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms)) both,
-      dd-nib-show calc(var(--dd-stroke-ms, 400ms) + 280ms) linear calc(var(--dd-delay, 0ms) + var(--dd-stroke-delay, 0ms)) both;
-  }
-  /* Scroll ink: the pencil is where the reader's scroll has brought the line, in view only while the line is being made. */
-  .dd[data-pen][data-scroll-ink] .dd__nib {
-    offset-distance: calc(var(--dd-scroll) * 100%);
-    opacity: min(calc(var(--dd-scroll) * 30), calc((1 - var(--dd-scroll)) * 16));
-  }
-}
-/* The marker's box is the words' own width, so its ride is a transform (a share of that width), never a layout property. */
-.dd__nib--marker { top: 52%; left: 0; width: 100%; transform: translateX(-4%); }
-.dd[data-pen][data-drawn='true'] .dd__nib--marker {
-  animation:
-    dd-marker-run var(--dd-ms, 460ms) var(--dd-ease) var(--dd-delay, 0ms) both,
-    dd-nib-show calc(var(--dd-ms, 460ms) + 280ms) linear var(--dd-delay, 0ms) both;
-}
-@keyframes dd-nib-run { from { offset-distance: 0%; } to { offset-distance: 100%; } }
-@keyframes dd-marker-run { from { transform: translateX(-4%); } to { transform: translateX(104%); } }
-@keyframes dd-nib-show {
-  0% { opacity: 0; translate: 3px -6px; }
-  7% { opacity: 1; translate: 0 0; }
-  76% { opacity: 1; translate: 0 0; }
-  100% { opacity: 0; translate: 7px -12px; }
-}
-/* An accent's flicks: quick, after the mark has landed. */
-.dd[data-drawn='true'] .dd__stroke--spark { transition-timing-function: cubic-bezier(0.32, 0.08, 0.22, 1); }
-@media (prefers-reduced-motion: reduce) { .dd__nib { display: none; } }
-html[data-motion='reduced'] .dd__nib { display: none; }

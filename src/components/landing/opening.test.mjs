@@ -50,17 +50,17 @@ test('decision 1, kept: the opening box is Logo.jsx\'s box, and the bar logo kee
 
 // ---------- the timings (L-043 as of LK299) ----------
 
-test('LK299: a first visit lands at 1,750 ms and is still by 1,500; a session lands at 800 and is still by 1,100', () => {
+test('LK299 as lengthened by LK326 (19 Nov 2026, "a bit too short"): a first visit lands at 1,750 ms and is still by 2,050; a session lands at 1,100 and is still by 1,400', () => {
   assert.equal(OPENING_FIRST_MS, 1750);
-  assert.equal(OPENING_SHORT_MS, 800);
+  assert.equal(OPENING_SHORT_MS, 1100);
   assert.deepEqual({ ...OPENING_FLIP_MS }, { first: 500, short: 380 });
   assert.equal(OPENING_HAND_MS, 280);
   assert.equal(OPENING_SETTLE_MS, 300);
-  assert.ok(OPENING_FIRST_MS + OPENING_SETTLE_MS <= 2050 && OPENING_SHORT_MS + OPENING_SETTLE_MS <= 1100);
+  assert.ok(OPENING_FIRST_MS + OPENING_SETTLE_MS <= 2050 && OPENING_SHORT_MS + OPENING_SETTLE_MS <= 1400);
   assert.deepEqual({ ...OPENING_KEYS }, { ever: 'mm:opened:v2', session: 'mm:opening:v2' }, 'v2: the new first visit is seen once');
   const css = rules(CSS);
   assert.match(css, /--mo-end: 1750ms;\s*--mo-flip: 500ms;/);
-  assert.match(css, /html\[data-opening='short'\] \.mo-open \{ --mo-end: 800ms; --mo-flip: 380ms; --mo-pace: 0\.62; \}/);
+  assert.match(css, /html\[data-opening='short'\] \.mo-open \{ --mo-end: 1100ms; --mo-flip: 380ms; --mo-pace: 0\.85; \}/);
   assert.match(css, /--mo-w: min\(88vw, 960px\);/, 'grand on every screen');
 });
 
@@ -168,8 +168,8 @@ test('the gate: first ever, then short once per session, then skip; never twice 
   assert.deepEqual([first.w.__mmOpening.hand, first.w.__mmOpening.end], [1250, 1750]);
   const short = run({ local: SESSION });
   assert.equal(short.mode, 'short');
-  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [420, 800]);
-  assert.ok(liveDelays(short).includes(420) && liveDelays(short).includes(840), `hand-off at 420, done just after 800 (${liveDelays(short)})`);
+  assert.deepEqual([short.w.__mmOpening.hand, short.w.__mmOpening.end], [720, 1100]);
+  assert.ok(liveDelays(short).includes(720) && liveDelays(short).includes(1140), `hand-off at 720, done just after 1,100 (${liveDelays(short)})`);
   assert.equal(run({ local: SESSION, session: { [OPENING_KEYS.session]: '1' } }).mode, 'skip', 'a reload in the same session');
   assert.equal(run({ storageThrows: true }).mode, 'skip');
 });
@@ -211,7 +211,7 @@ test('the inline script is self-contained and placed before the layer', () => {
   assert.doesNotThrow(() => new Function(script), 'it parses');
   assert.doesNotMatch(script, /\bimport\b|\brequire\(|\bexport\b/);
   assert.ok(script.length < 6000, `small enough to inline (${script.length} chars)`);
-  assert.match(script, /"first":1750,"short":800,"flip":\{"first":500,"short":380\},"hand":280,"settle":300/);
+  assert.match(script, /"first":1750,"short":1100,"flip":\{"first":500,"short":380\},"hand":280,"settle":300/);
   assert.ok(OPENING.indexOf('<script id="mm-opening-gate"') < OPENING.indexOf('<div className="mo-open"'));
   assert.doesNotMatch(OPENING, /'use client'|useEffect|useState/);
 });
@@ -224,7 +224,7 @@ test('LK87 the layer holds its first (whole) pose until the first paint, then pl
   r.paint(110);
   assert.ok(!('data-opening-hold' in r.attrs), 'released on the paint');
   assert.equal(r.w.__mmOpening.base, 120);
-  assert.ok(liveDelays(r).includes(420) && liveDelays(r).includes(840), `${liveDelays(r)}`);
+  assert.ok(liveDelays(r).includes(720) && liveDelays(r).includes(1140), `${liveDelays(r)}`);
   const css = rules(CSS);
   assert.match(css, /html\[data-opening-hold\] \.mo-open,\s*html\[data-opening-hold\] \.mo-open \* \{ animation-play-state: paused !important; \}/);
 });
@@ -234,7 +234,7 @@ test('LK87 late: a first visit released after 900 ms plays the session pace; aft
   slow.clock.now = 901;
   slow.paint(850);
   assert.equal(slow.attrs['data-opening'], 'short');
-  assert.ok(liveDelays(slow).includes(420));
+  assert.ok(liveDelays(slow).includes(720));
   const gone = run({ paintTiming: true });
   gone.clock.now = 1801;
   gone.paint(1700);

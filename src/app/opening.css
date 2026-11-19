@@ -11,9 +11,10 @@
 
 /* The beats, one set per mode (ms from the release, the first paint the gate waits for):
      first  a first-ever visit: the bubbles fall, one drops into Mobi's empty bubble eye and inks it (140 to 500 ms), the
-            sheet rises and the word flies onto the bar logo from 1,250 ms (500 ms), lands at 1,200; the logo settles to 1,500.
+            sheet rises and the word flies onto the bar logo from 1,250 ms (500 ms), lands at 1,750; the logo settles to 2,050.
      short  every new session: the same picture at the session pace (the eye already inked; Mobi blinks as the first bubble
-            passes); the sheet rises from 420 ms (380 ms), lands at 800; settled by 1,100. */
+            passes); the sheet rises from 720 ms (380 ms), lands at 1,100; settled by 1,400.
+   Owner LK326 (19 Nov 2026): "the first loading animation of the site is a bit too short" (they were 1,200 and 800). */
 html[data-opening='first'] .mo-open,
 html[data-opening='short'] .mo-open {
   --mo-end: 1750ms;
@@ -31,7 +32,7 @@ html[data-opening='short'] .mo-open {
   color: var(--ink, #f4f0e6);
   animation: mo-gone 1ms linear var(--mo-end) forwards;
 }
-html[data-opening='short'] .mo-open { --mo-end: 800ms; --mo-flip: 380ms; --mo-pace: 0.62; }
+html[data-opening='short'] .mo-open { --mo-end: 1100ms; --mo-flip: 380ms; --mo-pace: 0.85; }
 @keyframes mo-gone { to { visibility: hidden; } }
 @keyframes mo-gone-cut { to { visibility: hidden; } }
 

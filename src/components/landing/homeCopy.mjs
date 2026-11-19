@@ -197,6 +197,8 @@ export const VALUE_COPY = Object.freeze({
   ask: 'How many CUET subjects are you taking?',
   subjects: (count) => `${count} ${count === 1 ? 'subject' : 'subjects'}`,
   usualHead: 'The usual way',
+  // The key under the figure on a phone (owner LK325, 18 Nov 2026): it names the sum it opens. `total` is the worked figure.
+  addsUp: (total) => `See how ${total} adds up`,
   lines: Object.freeze({
     mocks: Object.freeze({ icon: 'questions', name: 'Mock test series' }),
     revision: Object.freeze({ icon: 'keycards', name: 'Revision cards or books' }),

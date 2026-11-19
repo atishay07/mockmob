@@ -13,9 +13,12 @@ import { LAUNCH_WEEK, PAPER_COUNT, PAPER_MINUTES, dateLabel, sundayState, sunday
 import { ANSWERS_AT, LAST_START, OPENS, PAPER_FIGURES } from '../../app/sunday-mock/sundayHow.mjs';
 
 export const COLLEGE_DAILY = process.env.NEXT_PUBLIC_DAILY_COLLEGE_BOARD === 'true';
+// Owner LK321 (18 Nov 2026), of "Play for your college": "I don't know if you should add like colleges names ... any issues
+// legally ... something more simpler can be done". The simpler game is the default: the same five for everyone, and your own
+// run of days. The college board stays in the code behind this switch (set at build time) until he decides.
 export const PERSONAL_HEAD = Object.freeze({
-  h2: 'Your daily five.',
-  sub: 'Try today’s five English and General Test questions. Come back tomorrow for a fresh set.',
+  h2: 'Five a day. Keep your streak.',
+  sub: 'The same five English and General Test questions for everyone, new every day. Play today’s, then come back tomorrow.',
 });
 export const STRIP_HEAD = Object.freeze({
   h2: 'Five a day. Play for your college.',

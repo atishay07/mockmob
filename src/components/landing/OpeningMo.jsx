@@ -17,7 +17,7 @@
 //   1200    the bar logo settles (opening.css, 300 ms): the last bubble drops in as its volt dot, Mobi blinks and hops
 //   1500    still.
 // Every new session after that, the same picture at a quicker pace: the eye is already inked and Mobi blinks as the
-// first bubble passes (120 ms); hand-off at 420, the word lands at 800, still by 1100. Later in the same session it
+// first bubble passes (120 ms); hand-off at 720, the word lands at 1,100, still by 1,400 (lengthened 19 Nov 2026, owner LK326). Later in the same session it
 // does not play. The beats are custom properties per mode in opening.css.
 //
 // When it plays at all is openingGate.mjs (first / short / skip). Placed by page.js as the first child of `.mm.lp`.

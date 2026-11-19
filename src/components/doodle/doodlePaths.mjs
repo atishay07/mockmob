@@ -173,13 +173,12 @@ function highlight(w, h, fs, rand) {
 
 export const MARKS = Object.freeze({ circle, underline, double, squiggle, strike, spark, tick, cross, highlight });
 
-/** How long each mark takes to draw, ms: a loop is slower than a line. */
-export const DRAW_MS = Object.freeze({ circle: 640, underline: 380, double: 560, squiggle: 620, strike: 300, spark: 300, tick: 320, cross: 360, highlight: 460 });
-
-/** A mark made with the pen in view is slower by this much: a hand's pace, so the reader sees it being made. */
-export const PEN_PACE = 1.5;
-/** One flick of an accent, ms. */
-export const SPARK_MS = 130;
+/**
+ * How long each mark takes to draw, ms (owner LK317, 19 Nov 2026: "a bit slower, more refined"). A hand's time for what the
+ * mark is: a loop round the words about a second, a line about two thirds of one, a tick on an answer just chosen quick
+ * enough to feel like the answer to the tap. Two-stroke marks (double, cross) share their time between the strokes.
+ */
+export const DRAW_MS = Object.freeze({ circle: 960, underline: 640, double: 900, squiggle: 880, strike: 440, spark: 360, tick: 380, cross: 460, highlight: 720 });
 
 /**
  * The mark for a box.

@@ -30,7 +30,7 @@ test('every mark is a real path for a real box, and nothing for an empty one', (
       assert.match(d, /^M-?\d/, `${mark} starts with a move`);
       for (const n of numbers(d)) assert.ok(Number.isFinite(n), `${mark} has only finite numbers`);
     }
-    assert.ok(DRAW_MS[mark] >= 280 && DRAW_MS[mark] <= 700, `${mark} is drawn in a pen's time`);
+    assert.ok(DRAW_MS[mark] >= 280 && DRAW_MS[mark] <= 1100, `${mark} is drawn in a hand's time (owner LK317: a bit slower)`);
   }
   assert.deepEqual(doodlePath('circle', { width: 0, height: 36, fontSize: 30 }), { strokes: [], pen: 0 });
   assert.deepEqual(doodlePath('nothing', BOX), { strokes: [], pen: 0 });
@@ -70,50 +70,59 @@ test('the highlighter is one closed swipe behind the words; the pen keeps a pen\
 
 test('the mark is drawn once, from its start, when the words are reached; reduced motion shows it still', () => {
   const jsx = read('./Doodle.jsx');
-  assert.match(jsx, /Math\.round\(height \* 0\.25\)/, 'trigger uses a quarter of the viewport height on portrait phones');
-  assert.match(jsx, /pathLength="1"/, 'strokes need no synchronous SVG length measurement');
+  assert.match(jsx, /rootMargin: '0px 0px -25% 0px', threshold: 0\.9/, 'wholly in view and clear of the lowest quarter of the window');
+  assert.match(jsx, /pathLength="1"/, 'a stroke is its own normalised length: nothing measures it');
   assert.match(jsx, /seen\.unobserve\(entry\.target\);/, 'once');
-  assert.match(jsx, /const on = \(controlled \? when : drawn\) && primed;/, 'never before its undrawn state was on screen');
+  assert.match(jsx, /const on = wanted && primed;/, 'never before its undrawn state was on screen');
   assert.match(jsx, /aria-hidden="true" focusable="false"/, 'the mark is decoration: the words are the content');
   const css = read('./doodle.css');
-  assert.match(css, /stroke-dashoffset: var\(--dd-len, 0\)/);
-  assert.match(css, /cubic-bezier\(0\.32, 0\.08, 0\.22, 1\)/);
+  assert.match(css, /stroke-dasharray: 1 1\.2; stroke-dashoffset: 1\.06;/, 'undrawn, the dash waits before the stroke starts: no dot from a round cap');
+  assert.match(css, /--dd-ease: cubic-bezier\(0\.32, 0\.08, 0\.22, 1\)/, 'starts like a hand and settles');
   assert.doesNotMatch(css, /infinite|transition:\s*all/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(css, /html\[data-motion='reduced'\]/);
 });
 
-// 18 Nov 2026 (owner LK314, "Some can be more animated"): the pen in view and the accent.
-test('a mark made with the pen in view is slower, and an accent is a quick flick', async () => {
-  const { PEN_PACE, SPARK_MS, DRAW_MS } = await import('./doodlePaths.mjs');
-  assert.ok(PEN_PACE > 1.2 && PEN_PACE <= 2, 'a hand, not a flash and not a wait');
-  assert.ok(Math.max(...Object.values(DRAW_MS)) * PEN_PACE <= 1000, 'no pen-made mark takes over a second');
-  assert.ok(SPARK_MS >= 80 && SPARK_MS <= 200);
+// Owner, 19 Nov 2026 (LK317: "a bit slower, more refined and more accurate with when they are showing up in the scroll").
+test('each mark takes a hand\'s time for what it is, and waits a beat for its words', async () => {
+  const { DRAW_MS } = await import('./doodlePaths.mjs');
+  assert.ok(DRAW_MS.circle >= 850 && DRAW_MS.circle <= 1100, 'a loop: about a second');
+  assert.ok(DRAW_MS.underline >= 540 && DRAW_MS.underline <= 760, 'a line: about two thirds of one');
+  assert.ok(DRAW_MS.highlight >= 600 && DRAW_MS.highlight <= 850);
+  assert.ok(DRAW_MS.tick <= 420 && DRAW_MS.cross <= 500, 'a verdict on an answer just chosen still answers the tap');
+  assert.ok(Math.max(...Object.values(DRAW_MS)) <= 1100, 'nothing drags');
+  const jsx = read('./Doodle.jsx');
+  assert.match(jsx, /export const TOUCH_DOWN_MS = 180;/);
+  assert.match(jsx, /window\.setTimeout\(\(\) => setReached\(true\), TOUCH_DOWN_MS \+ delay\)/, 'a heading still arriving is not marked early');
 });
 
-test('the pen: only where motion paths exist, never under reduced motion, and one stroke at a time', async () => {
-  const { readFileSync } = await import('node:fs');
-  const jsx = readFileSync(new URL('./Doodle.jsx', import.meta.url), 'utf8');
-  const css = readFileSync(new URL('./doodle.css', import.meta.url), 'utf8');
-  assert.match(jsx, /data-pen=\{pen \|\| undefined\}/);
-  assert.match(jsx, /offsetPath: `path\("\$\{d\}"\)`/, 'the pencil rides the very stroke it makes');
-  assert.match(jsx, /className="dd__nib" aria-hidden="true"/, 'the pencil is decoration');
-  assert.match(jsx, /<svg className="dd__tool" width="1" height="1"/, 'a zero-sized svg is not painted at all');
-  assert.match(css, /@supports \(offset-path: path\('M0 0L1 1'\)\)/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.dd__nib \{ display: none; \} \}/);
-  assert.match(css, /html\[data-motion='reduced'\] \.dd__nib \{ display: none; \}/);
-  assert.doesNotMatch(css, /dd-nib-[a-z]+[^;]*infinite/, 'the pen never loops');
-  // Night: a highlighter's words turn where the swipe has reached.
-  assert.match(jsx, /className="dd__over" aria-hidden="true" data-text=\{text\} \/>/, 'generated content: the heading keeps one copy of its words');
+// Owner, 19 Nov 2026 (LK326: the page stutters and scrolls at "40, 50 FPS"). Measured that day: every mark measured its words
+// in a layout effect (offsetWidth, getComputedStyle, getTotalLength), each a forced layout of a 20,000 px page.
+test('a mark never asks the browser to lay the page out: sizes and moments come from observers', () => {
+  const jsx = read('./Doodle.jsx');
+  const code = jsx.split('\n').filter((line) => !line.trim().startsWith('//')).join('\n');
+  assert.doesNotMatch(code, /offsetWidth|offsetHeight|getTotalLength|useLayoutEffect/, 'no synchronous measuring');
+  assert.equal((code.match(/getBoundingClientRect/g) || []).length, 1, 'only the fallback for a browser without ResizeObserver');
+  assert.match(code, /new ResizeObserver\(/, 'one shared size observer');
+  assert.match(code, /new IntersectionObserver\(/, 'one shared reading observer');
+  assert.match(code, /if \(wantedRef\.current\) buildRef\.current\(\);/, 'a mark nobody has reached is never built');
+  // Night: a highlighter's words turn where the swipe has reached, from generated content (one copy of the words in the page).
+  assert.match(jsx, /className="dd__over" aria-hidden="true" data-text=\{text\} \/>/);
+  const css = read('./doodle.css');
   assert.match(css, /\.dd__over::before \{ content: attr\(data-text\); \}/);
   assert.match(css, /html\[data-theme='light'\] \.dd__over \{ display: none; \}/);
 });
 
-// Owner, 18 Nov 2026 about 10 pm (LK317): the pencils and markers are off everywhere; the marks are plain.
-test('no page turns the pen or the accent on', async () => {
+// Owner, 18 Nov 2026 about 10 pm (LK317): the pencils and markers "looked highly unprofessional". They are gone from the
+// component itself, and no page asks for one.
+test('no drawing tool, flick or flourish: the mark is the stroke alone', async () => {
   const { readFileSync, readdirSync, statSync } = await import('node:fs');
   const { join } = await import('node:path');
   const { fileURLToPath } = await import('node:url');
+  const jsx = read('./Doodle.jsx');
+  const css = read('./doodle.css');
+  assert.doesNotMatch(jsx, /Pencil|Marker\b|offsetPath|dd__nib|accent/, 'the component draws no tool');
+  assert.doesNotMatch(css, /dd__nib|dd__tool|offset-path|spark/, 'the sheet styles no tool');
   const root = fileURLToPath(new URL('../../', import.meta.url));
   const offenders = [];
   const walk = (dir) => {
@@ -122,7 +131,7 @@ test('no page turns the pen or the accent on', async () => {
       if (statSync(p).isDirectory()) { if (name !== 'doodle') walk(p); continue; }
       if (!/\.(jsx?|mjs)$/.test(name) || /\.test\./.test(name)) continue;
       const s = readFileSync(p, 'utf8');
-      if (/\bpen: true\b|<Doodle[^>]*\spen[\s>]|accent="spark"|accent: 'spark'/.test(s)) offenders.push(p);
+      if (/\bpen: true\b|<Doodle[^>]*\spen[\s>]|accent="spark"|accent: 'spark'|followScroll/.test(s)) offenders.push(p);
     }
   };
   walk(root);

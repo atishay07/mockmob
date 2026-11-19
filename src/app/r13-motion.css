@@ -31,8 +31,10 @@
       height: 18px;
       margin: -9px 0 0 -9px;
       pointer-events: none;
+      /* The whole step, until the script takes over with the story's own scroll progress (SectionPosition.jsx; owner
+         LK318, 19 Nov 2026: no hop and no eased slide between steps: he is where the reader's scroll is). */
       transform: translate3d(calc((var(--at, 0) + 0.5) / var(--n, 4) * 100cqw), 0, 0);
-
+      will-change: transform;
     }
     .mm.lp .lp-bar__mobi-art {
       display: block;
@@ -41,7 +43,6 @@
       overflow: visible;
       transform-origin: 50% 100%;
       filter: drop-shadow(0 1px 1.5px rgb(18 17 14 / 0.3));
-
     }
   }
 }

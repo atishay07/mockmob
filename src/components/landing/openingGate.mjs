@@ -4,8 +4,9 @@
 //
 // Modes, written to <html data-opening>:
 //   'first'  the first visit ever on this device (localStorage has no mark): the word lands on the bar logo
-//            OPENING_FIRST_MS after the release (1,750 ms; the page is usable from 1,250 ms);
-//   'short'  the first load of a new browser session (sessionStorage has no mark): OPENING_SHORT_MS (800 ms; usable from
+//            OPENING_FIRST_MS after the release (1,750 ms; the page is usable from 1,250 ms). Owner LK326, 19 Nov 2026:
+//            "the first loading animation of the site is a bit too short" (it was 1,200 and 800);
+//   'short'  the first load of a new browser session (sessionStorage has no mark): OPENING_SHORT_MS (1,100 ms; usable from
 //            420 ms). The same grand picture at a quicker pace: this is the one a returning student sees;
 //   'skip'   everything else: a load later in the same session, reduced motion (the device setting or the site's own
 //            data-motion switch), a hash or deep entry (a #section link, a back/forward load, a page already scrolled,
@@ -37,7 +38,7 @@
 /** A first-ever visit: the word lands on the bar logo this long after the release (LK299, 17 Nov 2026). */
 export const OPENING_FIRST_MS = 1750;
 /** The first load of a new session: the same, at the session pace. */
-export const OPENING_SHORT_MS = 800;
+export const OPENING_SHORT_MS = 1100;
 /** The hand-off at the end of each: the sheet rises and the word FLIPs onto the bar logo. The page is usable from its start. */
 export const OPENING_FLIP_MS = Object.freeze({ first: 500, short: 380 });
 /** The same hand-off after a skip. */

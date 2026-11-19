@@ -93,7 +93,14 @@ export default function MobiCompanion() {
     // ---- where his feet stand: on the dock's top edge when it is up, else his own gap (CSS) ----
     const docked = () => Boolean(dock && gate.dataset.shown === 'true' && dock.dataset.hidden !== 'true'
       && page.dataset.closeIn !== 'true' && !page.querySelector('.ss[data-live="true"]') && !document.getElementById('mm-nav-sheet'));
-    const restBottom = () => parseFloat(getComputedStyle(node).bottom) || COMPANION.gapPx;
+    // His resting gap is the sheet's (it changes only with the window: --mc-lift and --mc-tuck move him by translate), so it
+    // is read once per window size. Read on every placement, it forced a style and layout pass each time while the page
+    // scrolled (traced 19 Nov 2026).
+    let restGap = null;
+    const restBottom = () => {
+      if (restGap === null) restGap = parseFloat(getComputedStyle(node).bottom) || COMPANION.gapPx;
+      return restGap;
+    };
     // The dock floats as a card (inset from the edges), so its edge is read from layout (offsetTop and offsetLeft of a
     // fixed box are relative to the window and ignore its rise transform): his feet on its top edge, 16 px in from its right end.
     const place = () => {
@@ -223,7 +230,7 @@ export default function MobiCompanion() {
       const gap = s.lastT ? t - s.lastT : 16;
       s.lastT = t;
       s.y = y; s.vh = vh;
-      if (resized) place();
+      if (resized) { restGap = null; place(); }
       // A held story moves the page a whole resting place at once and a declared jump is the page's own move: no lean.
       const v = scrollBus.held() || scrollBus.jumping() ? 0 : velocity(dy, gap > 100 ? 16 : gap);
       s.speed = v; s.resting = false;
