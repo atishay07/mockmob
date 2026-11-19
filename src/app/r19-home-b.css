@@ -419,10 +419,11 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
 .lp-cursor[data-tag] .lp-cursor__tag { opacity: 1; transform: scale(1); }
 .lp-cursor[data-tag] .lp-cursor__ring { transform: scale(0.34); border-color: transparent; background: var(--volt, #d2f000); }
 .lp-cursor[data-tag][data-wave] .lp-cursor__tag { transform: scale(0.92); }
-/* The torch: a wide, faint light on the paper under the arrow. It lies under the page's cards and words (they are painted
-   over it), so only the open paper takes the light. */
+/* The torch: a wide, faint light on the paper under the arrow. Over a film, a photograph or a screen it goes out (data-off),
+   so it never tints a picture. */
 .lp-torch { position: fixed; left: 0; top: 0; z-index: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 500ms ease; will-change: transform; background: radial-gradient(closest-side, rgb(196 240 0 / 0.15), rgb(196 240 0 / 0.055) 52%, rgb(196 240 0 / 0)); }
 .lp-torch[data-on] { opacity: 1; }
+.lp-torch[data-on][data-off] { opacity: 0; transition-duration: 220ms; }
 html:not([data-theme='light']) .lp-torch { background: radial-gradient(closest-side, rgb(210 240 0 / 0.1), rgb(210 240 0 / 0.035) 52%, rgb(210 240 0 / 0)); }
 /* A picture that turns to face the arrow. The two angles are the element's own (not inherited), so writing them restyles
    that one element and nothing inside it. */

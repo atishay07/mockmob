@@ -25,6 +25,8 @@ const PRESSABLE = 'a, button, [role="button"], summary, label, input, select, te
 const TAGGED = '[data-cursor]';
 const TILTED = '[data-tilt]';
 const MAGNET = '.mm-btn--primary, [data-magnet]';
+// The torch is a light on paper: over a film, a photograph or a screen it goes out, so it never tints a picture.
+const PICTURE = '[data-tilt], video, picture, img, canvas';
 const EASE = 0.22;
 /** The most a picture turns to face the arrow, degrees. */
 export const TILT_MAX = 4.5;
@@ -119,7 +121,7 @@ export default function DesktopCursor() {
       return null;
     };
     const hide = () => {
-      if (shown) { shown = false; node.removeAttribute('data-on'); node.removeAttribute('data-tag'); torch.removeAttribute('data-on'); }
+      if (shown) { shown = false; node.removeAttribute('data-on'); node.removeAttribute('data-tag'); torch.removeAttribute('data-on'); torch.removeAttribute('data-off'); }
       release(); run();
     };
 
@@ -133,6 +135,9 @@ export default function DesktopCursor() {
       const named = under ? under.closest(TAGGED) : null;
       const word = named ? named.getAttribute('data-cursor') : '';
       if (word) { if (tag.textContent !== word) tag.textContent = word; if (!node.hasAttribute('data-tag')) node.setAttribute('data-tag', ''); } else if (node.hasAttribute('data-tag')) node.removeAttribute('data-tag');
+
+      const dark = Boolean(under && under.closest(PICTURE));
+      if (dark !== torch.hasAttribute('data-off')) torch.toggleAttribute('data-off', dark);
 
       const key = under ? under.closest(MAGNET) : null;
       if (key !== (lean ? lean.el : null)) {
