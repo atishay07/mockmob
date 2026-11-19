@@ -72,6 +72,7 @@ import { ReelEntry } from '@/components/result/PaperReel';
 import { questionFromSearch } from '@/components/result/questionParam.mjs';
 import '@/components/result/result-parts.css';
 import AskMobiLink from '@/components/ai/AskMobiLink';
+import { StreakEarned } from '@/components/streak/StreakUseful';
 import { canAskAboutQuestion, mockContext, mockEntryLabel, mockLabel, questionContext, questionEntryLabel } from '@/components/ai/askContexts.mjs';
 import ReportSheet from '@/components/result/ReportSheet';
 import { REPORT_COPY, reportRequest } from '@/components/result/reportModel.mjs';
@@ -863,6 +864,10 @@ export default function ResultPageClient({ previewId = null }) {
       {/* A badge this scored set earned: one compact row, once, right after the summary and above the analysis (BADGES-REFINE-1018).
            Draws nothing otherwise. */}
       {lateLine ? null : <EarnedBadges attempt={attempt} />}
+
+      {/* 19 Nov 2026: a set that made today count says so where the work ends, once a day on this device ("Today counts.
+           13 days in a row." with the week's line). Draws nothing otherwise; scoring is untouched. */}
+      {lateLine ? null : <StreakEarned userId={user?.id} completedAt={attempt.completedAt} />}
 
       {/* D29: the paper played back, about 20 s, from the record (sheet, real moments, costliest chapter, the one next move).
            A quiet row under the front, never inside it. */}

@@ -27,6 +27,9 @@ import { Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { DayMark, StreakMobi } from '@/components/streak/Streak';
 import { openStreakSheet, useStreak } from '@/components/streak/useStreak';
+import StreakLine from '@/components/streak/StreakLine';
+import { MadeLines } from '@/components/streak/StreakUseful';
+import { streakDays, todayProgress } from '@/lib/streak/streakCopy.mjs';
 import { finishedWeeks, weekGoal, weekMarks } from '@/components/recovery/progressWeek.mjs';
 
 const R = 46;
@@ -314,7 +317,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
     return (
       <section className="pw pw--wait" aria-label="Your study days" aria-busy="true">
         <span className="pw__h">Your study days</span>
-        <span className="pw__streak pw__streak--none" aria-hidden="true" />
+        <span className="pw-stk pw-stk--wait" aria-hidden="true"><span className="pw-stk__mk" /><span className="pw-stk__sk" /></span>
         <div className="pw__week" aria-hidden="true">
           <span className="rc__skeleton pw__sk-goal" />
           <span className="pw__days">{Array.from({ length: 7 }, (_, i) => <span key={i} className="pw__day"><DayMark look="none" /><span className="pw__name">&nbsp;</span></span>)}</span>
@@ -383,18 +386,42 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   );
 }
 
-/** The streak's Mobi and number, as Today's block draws them; the whole mark opens the streak sheet. Steps aside until read. */
+/**
+ * The streak, as the band's first row (19 Nov 2026, one unbroken line to exam day): its Mobi and number (they open the streak
+ * sheet), then the line of the last 14 days (7 when the row is narrower than 14 day cells; measured from the row itself, never
+ * the window) and what the line has made. The weekly goal under it keeps its own ticked bubbles: a different count.
+ */
+const LONG_LINE_MIN = 14 * 40;
 function WeekStreak() {
   const { user } = useAuth();
-  const { data: body } = useStreak(user?.id);
-  if (!body) return <span className="pw__streak pw__streak--none" aria-hidden="true" />;
+  const { status, data: body, reload } = useStreak(user?.id);
+  const lineRef = useRef(null);
+  const [long, setLong] = useState(false);
+  const loaded = Boolean(body);
+  useEffect(() => {
+    const el = lineRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver((entries) => { const w = entries[0]?.contentRect?.width || 0; setLong(w >= LONG_LINE_MIN); });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [loaded]);
+  // A failed read says so in one short row with Try again (never a guessed number, never a skeleton left standing).
+  if (!body && status === 'error') return <p className="pw-stk pw-stk--failed" role="status">Your streak did not load. <button type="button" className="stk-inline" onClick={reload}>Try again</button></p>;
+  if (!body) return <span className="pw-stk pw-stk--wait" aria-hidden="true"><span className="pw-stk__mk" /><span className="pw-stk__sk" /></span>;
   const lit = Boolean(body.today?.done);
+  const days = streakDays(body, long ? 14 : 7);
   return (
-    <button type="button" className="pw__streak" onClick={() => openStreakSheet()} aria-label={body.days > 0 ? `${body.days} ${body.days === 1 ? 'day' : 'days'} in a row. Open your streak` : 'Your streak starts with one day. Open your streak'}>
-      <StreakMobi lit={lit} size={56} className="pw__mobi" />
-      {body.days > 0 ? (
-        <span className="pw__count" aria-hidden="true"><b>{body.days}</b><span>{body.days === 1 ? 'day in a row' : 'days in a row'}</span></span>
-      ) : <span className="pw__count pw__count--zero" aria-hidden="true"><span>Your streak starts with one day</span></span>}
-    </button>
+    <div className="pw-stk">
+      <button type="button" className="pw__streak" onClick={() => openStreakSheet()} aria-label={body.days > 0 ? `${body.days} ${body.days === 1 ? 'day' : 'days'} in a row. Open your streak` : 'Your streak starts with one day. Open your streak'}>
+        <StreakMobi lit={lit} size={56} className="pw__mobi" />
+        {body.days > 0 ? (
+          <span className="pw__count" aria-hidden="true"><b>{body.days}</b><span>{body.days === 1 ? 'day in a row' : 'days in a row'}</span></span>
+        ) : <span className="pw__count pw__count--zero" aria-hidden="true"><span>Your streak starts with one day</span></span>}
+      </button>
+      <div className="pw-stk__body" ref={lineRef}>
+        <StreakLine days={days} progress={todayProgress(body)} names={long ? 'initial' : 'short'} size="lg" label={`Your last ${days.length} days`} />
+        <MadeLines body={body} userId={user?.id} />
+      </div>
+    </div>
   );
 }

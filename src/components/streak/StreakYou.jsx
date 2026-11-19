@@ -2,8 +2,9 @@
 // The daily streak on You (17 Nov 2026, LK296 S1 and S8): its cell in Your progress (the number in a bubble, ringed volt once today
 // counts, and the best), opening the streak sheet; and in Your goal, the exam pause offered in words, opening the sheet at its
 // pause days. Both read the one shared streak (useStreak); a failed read leaves them out.
-import { PAUSE_TITLE, STREAK_NAME, daysWord, pauseLine, pauseSetLine, statusLine } from '@/lib/streak/streakCopy.mjs';
+import { PAUSE_TITLE, STREAK_NAME, daysWord, pauseLine, pauseSetLine, statusLine, streakWeek, todayProgress } from '@/lib/streak/streakCopy.mjs';
 import { openStreakSheet, useStreak } from './useStreak';
+import StreakLine from './StreakLine';
 import './streak.css';
 
 export function StreakGlanceCell({ userId }) {
@@ -22,12 +23,16 @@ export function StreakGlanceCell({ userId }) {
     );
   }
   const sub = body.best > body.days ? `Best: ${daysWord(body.best)}` : done ? 'Today counts' : body.days > 0 ? `Today: ${body.today?.answered ?? 0} of ${body.today?.needed ?? body.rule?.answers} answered` : 'Starts with one day';
+  // 19 Nov 2026: the number, then the streak's own line of the last 7 days (StreakLine), the same as Today's.
   return (
-    <button type="button" className="acct-streak" data-today={done || undefined} onClick={() => openStreakSheet()}
-      aria-label={`Daily streak, ${daysWord(body.days)}. ${sub}. Opens your streak.`}>
-      <b className="acct-streak__n" aria-hidden="true">{body.days}</b>
-      <span className="acct-glance__text" aria-hidden="true"><b>{body.days === 1 ? '1 day in a row' : `${body.days} days in a row`}</b><span>{sub}</span></span>
-    </button>
+    <div className="acct-streak-wrap">
+      <button type="button" className="acct-streak" data-today={done || undefined} onClick={() => openStreakSheet()}
+        aria-label={`Daily streak, ${daysWord(body.days)}. ${sub}. Opens your streak.`}>
+        <b className="acct-streak__n" aria-hidden="true">{body.days}</b>
+        <span className="acct-glance__text" aria-hidden="true"><b>{body.days === 1 ? '1 day in a row' : `${body.days} days in a row`}</b><span>{sub}</span></span>
+      </button>
+      <StreakLine days={streakWeek(body)} progress={todayProgress(body)} label="Your last 7 days" />
+    </div>
   );
 }
 

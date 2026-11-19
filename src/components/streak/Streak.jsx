@@ -7,11 +7,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, Moon, X } from 'lucide-react';
 import {
   PAUSE_TITLE, makeUpRule, passRule, STREAK_NAME, daysWord, milestoneLine, passLine, pauseDoneLine, pauseKey, pauseLine, pauseSetLine, ruleLine, statusLine,
-  streakWeek, weekLegend, weekdayOf,
+  streakMonth, streakWeek, todayProgress, weekLegend, weekdayOf,
 } from '@/lib/streak/streakCopy.mjs';
 import { closeStreakSheet, sendPause, useStreak, useStreakSheet } from './useStreak';
 import { LOGO_B_MOBI } from '@/components/brand/logoB';
+import StreakLine from './StreakLine';
+import { KeepKey, MadeLines } from './StreakUseful';
 import './streak.css';
+import './streak-line.css';
 
 // The streak's own mark (18 Nov 2026, owner LK309): Mobi as he stands in the logo. He is asleep on the paper until today
 // counts (an outline, eyes shut) and lit once it does (volt, eyes open): a real state, never a pulse.
@@ -27,27 +30,10 @@ export function StreakMobi({ lit = false, size = 52, className = '' }) {
   );
 }
 
-/** The last 7 days as one quiet strip of bubbles for Today's block (spans only: it sits inside the block's button). */
-export function WeekStrip({ body }) {
-  const marks = streakWeek(body);
-  if (!marks.length) return null;
-  return (
-    <span className="stk-strip">
-      {marks.map((m, i) => (
-        <span key={m.day} className="stk-strip__day" data-today={m.today || undefined} style={{ '--i': i }}>
-          <DayMark look={m.look} />
-          <span className="stk-strip__name" aria-hidden="true">{m.today ? 'Today' : m.name.slice(0, 1)}</span>
-          <span className="sr-only">{m.label}. </span>
-        </span>
-      ))}
-    </span>
-  );
-}
-
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const INITIALS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
-/** One OMR bubble for a day. */
+/** One OMR bubble for a day. The streak itself is drawn as a line now (StreakLine); the bubble stays for the weekly goal's days on Progress. */
 export function DayMark({ look, size = 'md' }) {
   return (
     <span className="stk-bubble" data-look={look} data-size={size} aria-hidden="true">
@@ -58,23 +44,30 @@ export function DayMark({ look, size = 'md' }) {
   );
 }
 
-/** The last 7 days (S5): done, rested, made up, paused, open, today, or a plain day. Never a cross. */
+/** The last 7 days (S5) as the streak's line: done, rested, made up, paused, open, today, or a plain day. Never a cross. */
 export function StreakWeek({ body }) {
   const marks = useMemo(() => streakWeek(body), [body]);
   const legend = weekLegend(marks);
   return (
     <div className="stk-week">
-      <ol className="stk-week__row" aria-label="Your last 7 days">
-        {marks.map((m, i) => (
-          <li key={m.day} className="stk-week__day" data-today={m.today || undefined} style={{ '--i': i }}>
-            <DayMark look={m.look} />
-            <span className="stk-week__name" aria-hidden="true">{m.name}</span>
-            <span className="sr-only">{m.label}</span>
-          </li>
-        ))}
-      </ol>
+      <StreakLine days={marks} progress={todayProgress(body)} size="lg" label="Your last 7 days" />
       {legend ? <p className="stk-hint">{legend}</p> : null}
     </div>
+  );
+}
+
+/** This month as the line, wrapping row by row under the weekday initials (19 Nov 2026). */
+function StreakMonth({ body }) {
+  const month = useMemo(() => streakMonth(body), [body]);
+  if (!month) return null;
+  return (
+    <section className="stk-sec" aria-labelledby="stk-month-h">
+      <h3 id="stk-month-h" className="stk-sec__h">{month.title}</h3>
+      <div className="stk-month">
+        <div className="stk-month__dow" aria-hidden="true">{INITIALS.map((d, i) => <span key={i}>{d}</span>)}</div>
+        <StreakLine days={month.days} lead={month.lead} cols={7} names="date" size="sm" progress={todayProgress(body)} label={`${month.title}, day by day`} />
+      </div>
+    </section>
   );
 }
 
@@ -225,8 +218,11 @@ export default function StreakSheet({ userId }) {
                   <span>{body.best > body.days ? `Your best is ${daysWord(body.best)}.` : body.days > 0 ? 'This is your best yet.' : 'Each day that counts adds one.'}</span>
                 </span>
               </div>
-              {status1 ? <p className="stk-line stk-line--status" data-tone={status1.tone}>{status1.text}{status1.sub ? <span className="stk-hint">{status1.sub}</span> : null}</p> : null}
               <StreakWeek body={body} />
+              <MadeLines body={body} userId={userId} />
+              {status1 ? <p className="stk-line stk-line--status" data-tone={status1.tone}>{status1.text}{status1.sub ? <span className="stk-hint">{status1.sub}</span> : null}</p> : null}
+              <KeepKey body={body} className="stk-sheet__keep" />
+              <StreakMonth body={body} />
               <section className="stk-sec" aria-labelledby="stk-pass-h">
                 <h3 id="stk-pass-h" className="stk-sec__h">Rest passes</h3>
                 <PassSlots passes={body.passes} />

@@ -26,6 +26,7 @@ export const WEEK_STATES = Object.freeze({
   open: 'still open',
   today: 'today',
   none: 'no practice',
+  ahead: 'still to come',
 });
 const LOOK = { practised: 'done', rested: 'rested', made_up: 'made_up', paused: 'paused', open: 'open', today: 'today' };
 
@@ -45,10 +46,11 @@ export function streakWeek(body) {
 /** The legend under the week: only the marks that are on it, in one line. */
 export function weekLegend(marks) {
   const parts = [];
-  if (marks.some((m) => m.look === 'rested')) parts.push('Moon: a rest pass kept the day.');
+  // 19 Nov 2026: the words follow the line's drawing (StreakLine), not the old bubbles.
+  if (marks.some((m) => m.look === 'rested')) parts.push('Moon and stripes: a rest pass kept the day.');
   if (marks.some((m) => m.look === 'made_up')) parts.push('Ring: a day you made up.');
-  if (marks.some((m) => m.look === 'paused')) parts.push('Bar: an exam pause day.');
-  if (marks.some((m) => m.look === 'open')) parts.push('Dashed: a day still open.');
+  if (marks.some((m) => m.look === 'paused')) parts.push('Dashed line: an exam pause day.');
+  if (marks.some((m) => m.look === 'open')) parts.push('Dashed ring: a day still open.');
   return parts.join(' ');
 }
 
@@ -155,6 +157,121 @@ export function pauseSetLine(pause, today) {
 export const pauseKey = (n) => (n === 1 ? 'Pause 1 day' : `Pause ${n} days`);
 /** After pause days are set or cleared. */
 export const pauseDoneLine = (n, set = true) => (set ? (n === 1 ? '1 day paused. Your streak holds on it.' : `${n} days paused. Your streak holds on them.`) : (n === 1 ? 'That day is no longer paused.' : 'Those days are no longer paused.'));
+
+// ---------- 19 Nov 2026 (owner: "streaks are only implemented if they are useful"): one unbroken line to exam day ----------
+// The streak is drawn as one volt highlighter band under every run of kept days (StreakLine), and it says what the line has
+// made and what it will make by CUET. Arithmetic about question counts only, never a promise about marks.
+
+const MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dayNum = (key) => Number(key.slice(8, 10));
+const fmt = (n) => Number(n).toLocaleString('en-IN');
+const qsN = (n) => (n === 1 ? '1 question' : `${fmt(n)} questions`);
+
+/**
+ * The last `n` days for the line, oldest first: [{ day, look, name, initial, num, label, today }]. Built from the server's
+ * calendar (two months) with today from the week, so 14 days carry the same looks as the 7 of streakWeek. Fewer days than
+ * asked when the calendar does not reach back that far.
+ */
+export function streakDays(body, n = 7) {
+  const week = streakWeek(body);
+  if (!week.length) return [];
+  if (n <= week.length) return week.slice(week.length - n).map(withShort);
+  const todayKey = week[week.length - 1].day;
+  const cal = new Map((Array.isArray(body?.calendar) ? body.calendar : []).map((d) => [d.day, d.state]));
+  const inWeek = new Map(week.map((m) => [m.day, m]));
+  const out = [];
+  for (let i = n - 1; i >= 0; i -= 1) {
+    const day = addDays(todayKey, -i);
+    if (inWeek.has(day)) { out.push(withShort(inWeek.get(day))); continue; }
+    if (!cal.has(day)) continue;
+    const look = LOOK[cal.get(day)] || 'none';
+    out.push(withShort({ day, look, name: weekdayOf(day).slice(0, 3), today: false, label: `${weekdayOf(day)} ${dayNum(day)} ${MONTH_SHORT[Number(day.slice(5, 7)) - 1]}: ${WEEK_STATES[look]}` }));
+  }
+  return out;
+}
+const withShort = (m) => ({ ...m, initial: m.today ? 'Today' : m.name.slice(0, 1), num: dayNum(m.day) });
+
+/**
+ * This month as the sheet's calendar: { title, lead, days } — `lead` blank cells before the 1st (weeks start on Monday), and
+ * each day with its look; days after today are 'ahead' (or 'paused' when a pause day is set on them).
+ */
+export function streakMonth(body) {
+  const week = streakWeek(body);
+  if (!week.length) return null;
+  const todayKey = week[week.length - 1].day;
+  const month = todayKey.slice(0, 7);
+  const days = [];
+  for (const d of Array.isArray(body?.calendar) ? body.calendar : []) {
+    if (!d?.day || d.day.slice(0, 7) !== month) continue;
+    let look;
+    if (d.day === todayKey) look = week[week.length - 1].look;
+    else if (d.day > todayKey) look = d.state === 'paused' ? 'paused' : 'ahead';
+    else look = LOOK[d.state] || 'none';
+    days.push({ day: d.day, look, today: d.day === todayKey, name: String(dayNum(d.day)), initial: String(dayNum(d.day)), num: dayNum(d.day), label: `${d.day === todayKey ? 'Today, ' : ''}${weekdayOf(d.day)} ${dayNum(d.day)}: ${WEEK_STATES[look]}` });
+  }
+  if (!days.length) return null;
+  const lead = (new Date(`${days[0].day}T00:00:00Z`).getUTCDay() + 6) % 7;
+  const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  return { title: `${MONTHS_LONG[Number(month.slice(5, 7)) - 1]} ${month.slice(0, 4)}`, lead, days };
+}
+
+/** What this streak has made: "142 questions answered in this streak." Only with a run and real answers in it. */
+export function runLine(body) {
+  const answered = Math.round(Number(body?.run?.answered) || 0);
+  if (!(body?.days >= 1) || answered <= 0) return null;
+  return `${qsN(answered)} answered in this streak.`;
+}
+
+/** 'Sat 1 May 2027' for a day key, its spaces unbreakable so the date never splits across lines. */
+export const examWords = (key) => [weekdayOf(key).slice(0, 3), dayNum(key), MONTH_SHORT[Number(key.slice(5, 7)) - 1], key.slice(0, 4)].join(' ');
+
+/**
+ * What the line makes by CUET at today's rule: "At 5 questions a day, that is 815 more before CUET (expected Sat 1 May 2027)."
+ * From 3 days in a row, only with an exam day still ahead (the same date Road to CUET shows: the student's own, else the
+ * expected window's first day). The days counted are today (unless it already counts) up to the day before the exam.
+ * Never zero or negative; null when any figure is missing.
+ */
+export function paceLine(body, { examDay = null, today = null, own = false } = {}) {
+  const todayKey = today || body?.week?.[body.week.length - 1]?.day || null;
+  const needed = Math.round(Number(body?.today?.needed ?? body?.rule?.answers) || 0);
+  if (!(body?.days >= 3) || !todayKey || !examDay || !(needed > 0)) return null;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(examDay) || examDay <= todayKey) return null;
+  const between = Math.round((Date.parse(`${examDay}T00:00:00Z`) - Date.parse(`${todayKey}T00:00:00Z`)) / DAY_MS);
+  const daysLeft = between - (body?.today?.done ? 1 : 0);
+  const total = daysLeft * needed;
+  if (!(total > 0)) return null;
+  return `At ${qsN(needed)} a day, that is ${fmt(total)} more before CUET (${own ? '' : 'expected '}${examWords(examDay)}).`;
+}
+
+/** The streak's daily set: today's included Quick set (src/lib/firstSet.mjs FIRST_SET_HREF), the quickest practice start. */
+export const KEEP_SET = 10;
+export const KEEP_PRACTICE_HREF = `/dashboard?mode=quick&count=${KEEP_SET}`;
+export const KEEP_DAILY_HREF = '/daily';
+
+/**
+ * The one tap that keeps the line, when today does not count yet: { kind, label, href } or null. Every start here counts by the
+ * server's rule (ruleLine): a whole Daily Five makes a day, and a finished practice set's answers count. `daily` is whether
+ * today's Daily Five is still to play on this account ('open' | 'begun' | 'played' | null for unknown). A day still open (a
+ * make-up) needs 10 answers, more than a Daily Five holds, so it always starts a practice set.
+ */
+export function keepAction(body, { daily = null } = {}) {
+  if (!body || body.today?.done) return null;
+  if (body.today?.paused && !body.makeUp?.day) return null;
+  if (body.makeUp?.day) {
+    const left = Math.max(1, (body.makeUp.needed ?? 10) - (body.makeUp.answeredToday ?? 0));
+    const set = Math.max(KEEP_SET, Math.ceil(left / 5) * 5);
+    return { kind: 'practice', label: `Answer ${left} more: start ${set} questions`, href: `/dashboard?mode=quick&count=${set}` };
+  }
+  if (daily === 'open') return { kind: 'daily', label: 'Do today’s Daily Five', href: KEEP_DAILY_HREF };
+  if (daily === 'begun') return { kind: 'daily', label: 'Finish today’s Daily Five', href: KEEP_DAILY_HREF };
+  return { kind: 'practice', label: `Start ${KEEP_SET} practice questions`, href: KEEP_PRACTICE_HREF };
+}
+
+/** The earning moment where the work ends (Daily Five's end, a practice result): "Today counts. 13 days in a row." */
+export function countedLine(body) {
+  if (!body?.today?.done || !(body.days > 0)) return null;
+  return `Today counts. ${body.days === 1 ? '1 day in a row' : `${body.days} days in a row`}.`;
+}
 
 /** The chip's words: the number in figures, the label for a screen reader. */
 export const chipLabel = (days, done) => `${STREAK_NAME}, ${daysWord(days)}${done ? ', today counted' : ''}. Opens your streak.`;

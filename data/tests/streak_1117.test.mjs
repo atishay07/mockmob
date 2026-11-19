@@ -141,7 +141,8 @@ test('the week marks: done, rested, made up, paused, open, today; a day without 
   assert.deepEqual(marks.map((m) => m.look), ['none', 'done', 'rested', 'made_up', 'paused', 'open', 'today']);
   assert.equal(marks[0].label, 'Wednesday: no practice');
   assert.equal(marks.at(-1).name, 'Today');
-  assert.equal(weekLegend(marks), 'Moon: a rest pass kept the day. Ring: a day you made up. Bar: an exam pause day. Dashed: a day still open.');
+  // 19 Nov 2026: the legend names the line's drawing (StreakLine): stripes for a rest pass, a dashed rule for a pause day.
+  assert.equal(weekLegend(marks), 'Moon and stripes: a rest pass kept the day. Ring: a day you made up. Dashed line: an exam pause day. Dashed ring: a day still open.');
 });
 
 // ---------- S6: milestones tied to real work ----------
@@ -275,7 +276,7 @@ test('review: "still open" only when a make-up can still keep a run', () => {
   assert.equal(c.makeUp, null);
   assert.equal(c.days, 2, 'today shows the number tomorrow will show');
   assert.equal(computeChain({ daily, pauses: [add(T, -3)], today: add(T, 1) }).days, 2);
-  assert.ok(!weekLegend(streakWeek(c)).includes('Dashed'));
+  assert.ok(!weekLegend(streakWeek(c)).includes('still open'), 'no open day is named');
   // a returning student (no run to keep) sees no open day
   const back = chain([...run(add(T, -40), 23), { day: add(T, -2), answered: 0 }], { storedBest: 23 });
   assert.ok(!back.week.some((d) => d.state === 'open'));

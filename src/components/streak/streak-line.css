@@ -1,0 +1,118 @@
+/* ---------- 19 Nov 2026 (owner: "streaks are only implemented if they are useful or integrated extremely well"): the line ----------
+   One unbroken line to exam day. StreakLine draws a row of day cells with ONE volt highlighter band behind every run of kept
+   days (the home headlines' own swipe, doodlePaths 'highlight'). Solid volt: a day that counted or was made up (made up also
+   rings its name). Light stripes and a moon: a rest pass carried the line. A thin dashed ink rule: an exam pause day (the streak
+   holds, nothing was done). A gap: a day without practice. Today, not yet counted: a ring, and the band's tip reaching into it
+   by today's answers at lower strength. Words over volt are dark in Day and Night; words over paper take the paper's ink.
+   Motion: only today's piece swiping in from the left, once, when today first shows as counted (520 ms ease-out). Nothing
+   loops or pulses. */
+.stk-band, .pw-stk, .stk-earned, .you-streak, .tsk { --stk-out: cubic-bezier(0.23, 1, 0.32, 1); --stk-volt: #d2f000; --stk-volt-ink: #0b1000; }
+.stk-band { --stk-cell-h: 40px; position: relative; display: grid; min-width: 0; }
+.stk-band[data-size='lg'] { --stk-cell-h: 46px; }
+.stk-band[data-size='sm'] { --stk-cell-h: 38px; }
+.stk-band__ink { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.stk-band__row { position: relative; display: grid; grid-template-columns: repeat(var(--stk-cols, 7), minmax(0, 1fr)); row-gap: 6px; margin: 0; padding: 0; list-style: none; }
+.stk-band__cell { position: relative; display: grid; place-items: center; min-width: 0; height: var(--stk-cell-h); }
+.stk-band__name {
+  position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 2px; padding: 3px;
+  font: 650 12.5px/1 var(--font-display); letter-spacing: -0.005em; color: var(--a-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.stk-band[data-names='date'] .stk-band__name { font-size: 13.5px; }
+.stk-band[data-size='lg'] .stk-band__name { font-size: 13.5px; }
+.stk-band__moon { flex: none; margin-right: 1px; }
+.stk-band__cell[data-look='none'] .stk-band__name { color: var(--a-ink-3); font-weight: 600; }
+.stk-band__cell[data-look='ahead'] .stk-band__name { color: var(--a-ink-3); font-weight: 550; opacity: 0.7; }
+.stk-band__cell[data-look='paused'] .stk-band__name { color: var(--a-ink-2); }
+.stk-band__cell[data-look='rested'] .stk-band__name { color: var(--a-ink); }
+.stk-band__cell:is([data-look='done'], [data-look='made_up']) .stk-band__name { color: var(--stk-volt-ink); font-weight: 750; }
+.stk-band__cell[data-look='made_up'] .stk-band__name { box-shadow: 0 0 0 1.5px currentColor; border-radius: 999px; padding: 3px 5px; }
+.stk-band__cell[data-today] .stk-band__name { font-weight: 750; }
+.stk-band__cell[data-look='today'] .stk-band__name { color: var(--a-ink); }
+/* Today, not yet counted: a ring the height of the band. A day still open: the same ring, dashed. */
+.stk-band__cell:is([data-look='today'], [data-look='open'])::after {
+  content: ''; position: absolute; inset: 12% 2px 8%; border-radius: 999px; pointer-events: none;
+  box-shadow: inset 0 0 0 2px var(--a-ink);
+}
+.stk-band__cell[data-look='open']::after { box-shadow: none; border: 1.5px dashed var(--a-ink-3); }
+.stk-band__fill[data-kind='solid'] { fill: var(--stk-volt); }
+.stk-band__fill[data-kind='tip'] { fill: var(--stk-volt); opacity: 0.5; }
+.stk-band__rest-wash { fill: var(--stk-volt); opacity: 0.22; }
+.stk-band__rest-stripe { fill: var(--stk-volt); opacity: 0.62; }
+html[data-theme='light'] .stk-band__rest-wash { opacity: 0.3; }
+html[data-theme='light'] .stk-band__rest-stripe { opacity: 0.85; }
+.stk-band__rule { stroke: var(--a-ink-3); stroke-width: 2; stroke-dasharray: 3.5 4; stroke-linecap: round; fill: none; }
+.stk-band__fill[data-swipe] { transform-box: fill-box; transform-origin: 0 50%; animation: stk-swipe 520ms cubic-bezier(0.33, 1, 0.68, 1) both; /* a plain ease-out, so the hand's swipe is seen */ }
+@keyframes stk-swipe { from { transform: scaleX(0); } to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .stk-band__fill[data-swipe] { animation: none; } }
+html[data-motion='reduced'] .stk-band__fill[data-swipe] { animation: none; }
+
+/* What the line has made, and what it makes by CUET: two short lines under it. */
+.stk-made { display: grid; gap: 3px; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; }
+.stk-made > span:first-child { color: var(--a-ink); font-weight: 600; }
+.stk-made > span + span { color: var(--a-ink-3); font-size: 13.5px; }
+
+/* The one tap that keeps the line (a Daily Five, or a practice set), in its own words. */
+.stk-keep { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 20px; text-decoration: none; text-align: center; }
+.stk-keep--wait { visibility: hidden; }
+
+/* The sheet's month: the weekday initials over the line, which wraps row by row. */
+.stk-month { display: grid; gap: 4px; }
+.stk-month__dow { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.stk-month__dow span { display: grid; place-items: center; height: 20px; font-size: 12px; font-weight: 650; color: var(--a-ink-3); }
+
+/* ---------- Today's block: Mobi and the number, the line, what it made, the status and the one key ---------- */
+.app-shell .tsk__head-btn {
+  display: flex; align-items: center; gap: 12px; width: calc(100% + 12px); min-height: 56px; margin: -4px -6px -2px; padding: 4px 6px;
+  border: 0; border-radius: 16px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+  -webkit-tap-highlight-color: transparent; transition: background-color 160ms var(--stk-out), transform 120ms var(--stk-out);
+}
+.app-shell .tsk__head-btn:active { transform: scale(0.99); background: var(--a-sunken); }
+.app-shell .tsk__head-btn:focus-visible, .app-shell .tsk__foot-btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .tsk__keep { display: grid; gap: 10px; }
+.app-shell .tsk__keep .stk-keep { width: 100%; }
+.app-shell .tsk__foot-btn { width: 100%; min-height: 44px; border-left: 0; border-right: 0; border-bottom: 0; background: none; text-align: left; cursor: pointer; }
+.app-shell .tsk__foot-btn:active { color: var(--a-ink); }
+/* The day's moment, on the swipe's clock: today's piece lands at about 470 ms, then Mobi wakes (his eyes open as he lights,
+   by the lit state's own transition) and the number rolls up one. */
+.app-shell .tsk[data-fresh] .stk-mobi { animation-delay: 460ms; }
+.app-shell .tsk[data-fresh] .stk-mobi__eyes { animation: none; }
+.app-shell .tsk__n[data-roll] > span:first-child, .app-shell .tsk__n[data-roll] > span:last-child { animation-delay: 560ms; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .tsk__head-btn:hover { background: var(--a-hover); }
+  .app-shell .tsk__foot-btn:hover { color: var(--a-ink); }
+  .app-shell .tsk__foot-btn:hover svg { transform: translateX(2px); }
+}
+
+/* ---------- The top of Progress: the streak as the band's first row ----------
+   Mobi and the number at the left, the last 14 days (7 when its own row is narrower) with what the line made at the right,
+   wrapping on purpose from its own width. The weekly goal (its own seven ticked bubbles: study days toward this week's goal,
+   a different thing) and the next step sit in the row below, under a hairline. */
+.app-shell .student-page--progress .pw > .pw-stk {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; min-width: 0;
+  padding-bottom: 18px; border-bottom: 1px solid var(--a-line);
+}
+.app-shell .student-page--progress .pw > .pw-stk > .pw__streak { flex: 0 0 auto; }
+.app-shell .student-page--progress .pw-stk__body { flex: 1 1 300px; display: grid; gap: 10px; min-width: 0; }
+/* On a wide screen the 14 cells stop at a hand's width (about 64 px a day), so the band never reads as a bar across the page. */
+.app-shell .student-page--progress .pw-stk__body > .stk-band { max-width: 900px; }
+.app-shell .student-page--progress .pw-stk--wait { min-height: 110px; }
+.app-shell .student-page--progress .pw-stk--wait .pw-stk__mk { display: block; flex: none; width: 180px; height: 64px; border-radius: 16px; background: var(--a-sunken); }
+.app-shell .student-page--progress .pw-stk--wait .pw-stk__sk { display: block; flex: 1 1 300px; height: 40px; border-radius: 12px; background: var(--a-sunken); }
+.app-shell .student-page--progress .pw > .pw-stk--failed { display: block; margin: 0; font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
+@media (min-width: 640px) {
+  .app-shell .student-page--progress .pw > .pw-stk ~ .pw__week { grid-column: 1 / -1; }
+  .app-shell .student-page--progress .pw-stk--wait .pw-stk__mk { width: 120px; height: 120px; }
+}
+@media (min-width: 1100px) {
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw > .pw-stk ~ .pw__week { grid-column: 1 / 3; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw > .pw-stk ~ .pw__next { grid-column: 3; }
+  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw-stk--wait .pw-stk__mk { height: 150px; }
+}
+
+/* ---------- Where the work ends (a practice result): "Today counts. 13 days in a row." with the week's line, once a day ---------- */
+.stk-earned { display: grid; gap: 8px; margin: 0; padding: 12px 16px 14px; border: 1px solid var(--a-line); border-radius: 18px; background: var(--a-raised); color: var(--a-ink); }
+.stk-earned__head { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 0; padding: 0; border: 0; background: none; color: inherit; font: 650 15.5px/1.3 var(--font-display); text-align: left; cursor: pointer; border-radius: 12px; }
+.stk-earned__head:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+
+/* You's glance cell (shown there when the account card leaves the streak out): the number, then the week's line. */
+.acct-streak-wrap { display: grid; gap: 12px; min-width: 0; }

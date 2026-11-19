@@ -30,8 +30,10 @@ test('a day still open shows the make-up\'s own figures, the ones its line says 
 test('the block draws Mobi, the number, the week and the bar from the server\'s body, and its moment plays once a day', () => {
   assert.equal(countedKey('2026-11-18'), 'mm:streak-counted:2026-11-18:v1');
   const block = read('../../components/streak/TodayStreak.jsx');
-  assert.match(block, /<StreakMobi lit=\{counted\} className="tsk__mobi" \/>/);
-  assert.match(block, /<WeekStrip body=\{body\} \/>/);
+  // 19 Nov 2026: Mobi lights as today's piece of the line lands (at once when there is no moment to play).
+  assert.match(block, /<StreakMobi lit=\{counted && landed\} className="tsk__mobi" \/>/);
+  // The week is the streak's line now; today's answers are the band's tip reaching into today (the bar's own figures).
+  assert.match(block, /<StreakLine days=\{streakWeek\(body\)\} progress=\{progress\} fresh=\{fresh\}/);
   assert.match(block, /const progress = todayProgress\(body\);/);
   assert.match(block, /if \(seen \|\| prefs\.celebrations === 'off' \|\| prefs\.reduced\) return undefined;/, 'no moment under Celebrations Off or Reduce motion');
   assert.match(block, /\{body\.days > 0 \? \(/, 'never a zero as the lead');
