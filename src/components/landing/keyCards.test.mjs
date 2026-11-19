@@ -68,7 +68,7 @@ test('a missing deck or pick drops the cards, and with none at all there is no s
   assert.match(PAGE, /const KEY_CARDS_LIVE = process\.env\.KEY_CARDS_ENABLED === 'true';/);
   assert.equal(keyCardsEnabled({ KEY_CARDS_ENABLED: 'true' }), true, 'the same switch every Key cards route reads');
   assert.match(PAGE, /const KEY_CARDS = KEY_CARDS_LIVE \? keyCardsDemo\(\) : null;/);
-  assert.match(PAGE, /\{KEY_CARDS \? \(\s*<section className="lp-sec lp-kc" id="key-cards"/);
+  assert.match(PAGE, /\{KEY_CARDS \? \(\s*<Later><section className="lp-sec lp-kc" id="key-cards"/);
 });
 
 // ------------------------------------------------------------------------------------------------ the keys and the numbers

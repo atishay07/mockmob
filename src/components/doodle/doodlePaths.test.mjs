@@ -105,7 +105,7 @@ test('a mark never asks the browser to lay the page out: sizes and moments come 
   assert.equal((code.match(/getBoundingClientRect/g) || []).length, 1, 'only the fallback for a browser without ResizeObserver');
   assert.match(code, /new ResizeObserver\(/, 'one shared size observer');
   assert.match(code, /new IntersectionObserver\(/, 'one shared reading observer');
-  assert.match(code, /if \(wantedRef\.current\) buildRef\.current\(\);/, 'a mark nobody has reached is never built');
+  assert.match(code, /if \(wantedRef\.current\) build\(\);/, 'a mark nobody has reached is never built');
   // Night: a highlighter's words turn where the swipe has reached, from generated content (one copy of the words in the page).
   assert.match(jsx, /className="dd__over" aria-hidden="true" data-text=\{text\} \/>/);
   const css = read('./doodle.css');

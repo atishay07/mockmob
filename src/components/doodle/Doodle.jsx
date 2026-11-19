@@ -26,7 +26,7 @@
 //  - It costs the page nothing while the reader scrolls: the words' size comes from one shared ResizeObserver and the
 //    moment from one shared IntersectionObserver (both report after the browser's own layout), so no mark ever asks the
 //    browser to lay the page out again; a stroke's length is normalised (pathLength), so nothing measures it.
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { DRAW_MS, doodlePath, seedOf } from './doodlePaths.mjs';
 import './doodle.css';
 
@@ -89,17 +89,19 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
   const wantedRef = useRef(wanted);
   const text = typeof children === 'string' ? children : '';
 
-  // The mark's geometry from the box in hand; nothing here reads layout.
-  const buildRef = useRef(null);
-  buildRef.current = () => {
+  // The mark's geometry from the box in hand; nothing here reads layout. One stable function: the kind of mark and the words
+  // reach it through a ref an effect keeps (no ref is written while rendering).
+  const askedRef = useRef({ mark, text });
+  const build = useCallback(() => {
     const box = boxRef.current;
     const host = hostRef.current;
     if (!box || !host || !(box.width > 0) || !(box.height > 0)) return;
-    const seed = seedOf(`${mark}:${text || host.textContent}`);
+    const asked = askedRef.current;
+    const seed = seedOf(`${asked.mark}:${asked.text || host.textContent}`);
     setShape((was) => (was && was.width === box.width && was.height === box.height && was.seed === seed && was.fontSize === box.fontSize
       ? was
-      : { ...box, seed, ...doodlePath(mark, { width: box.width, height: box.height, fontSize: box.fontSize, seed }) }));
-  };
+      : { ...box, seed, ...doodlePath(asked.mark, { width: box.width, height: box.height, fontSize: box.fontSize, seed }) }));
+  }, []);
 
   // The words' box, kept as it changes (a font arriving, a narrower window). The mark is only made once it is wanted, so a
   // page of marks nobody has reached yet costs nothing.
@@ -110,15 +112,16 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
       // Asked for inside the observer's own report: styles are settled, so this read recalculates nothing.
       const fontSize = parseFloat(getComputedStyle(host).fontSize) || 16;
       boxRef.current = { width: half(width), height: half(height), fontSize };
-      if (wantedRef.current) buildRef.current();
+      if (wantedRef.current) build();
     });
-  }, []);
+  }, [build]);
 
   // Made when wanted (and again if the words or the kind of mark change).
   useEffect(() => {
+    askedRef.current = { mark, text };
     wantedRef.current = wanted;
-    if (wanted) buildRef.current();
-  }, [wanted, mark, text]);
+    if (wanted) build();
+  }, [wanted, mark, text, build]);
 
   // An uncontrolled mark is wanted once the reader reaches the words, a beat later.
   useEffect(() => {

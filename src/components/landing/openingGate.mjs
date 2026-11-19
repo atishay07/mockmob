@@ -218,6 +218,6 @@ export function openingGate(w, d, cfg) {
 export function openingGateScript() {
   const cfg = { first: OPENING_FIRST_MS, short: OPENING_SHORT_MS, flip: { ...OPENING_FLIP_MS }, hand: OPENING_HAND_MS, settle: OPENING_SETTLE_MS, ever: OPENING_KEYS.ever, session: OPENING_KEYS.session, events: [...OPENING_SKIP_EVENTS], late: { ...OPENING_LATE }, wait: OPENING_WAIT_MS, out: OPENING_LATE_MS };
   // Every visitor downloads it in the HTML: whole-line comments and indentation stay in this file, not in the page.
-  const source = openingGate.toString().replace(/^[ \t]*\/\/.*\r?\n/gm, '').replace(/^[ \t]+/gm, '');
+  const source = openingGate.toString().replace(/\r\n/g, '\n').replace(/^[ \t]*\/\/.*\n/gm, '').replace(/^[ \t]+/gm, '');
   return `(${source})(window,document,${JSON.stringify(cfg)})`;
 }
