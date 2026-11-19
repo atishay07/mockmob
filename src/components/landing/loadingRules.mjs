@@ -41,10 +41,19 @@ export function countPlan({ value, ratio = 0, reduced = false, share = COUNT_UP.
 }
 
 /** "16,020" (Indian grouping by default), with a fixed number of decimals when asked ("3.30"). */
+// One formatter per (locale, decimals), kept: toLocaleString with a locale builds a new one on every call, and a count-up
+// calls this on every frame (profiled 19 Nov 2026: the second hottest function of ours while the home page woke).
+const formatters = new Map();
+function formatterFor(locale, decimals) {
+  const key = `${locale}|${decimals}`;
+  let made = formatters.get(key);
+  if (!made) { made = new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }); formatters.set(key, made); }
+  return made;
+}
 export function formatCount(value, { locale = 'en-IN', decimals = 0 } = {}) {
   const n = Number(value);
   if (!Number.isFinite(n)) return String(value ?? '');
-  return n.toLocaleString(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return formatterFor(locale, decimals).format(n);
 }
 
 /** The delay of row `i` in a staggered list. */

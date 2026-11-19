@@ -63,6 +63,16 @@ export function SectionPosition({ sections }) {
   const barRef = useRef(null);
   const key = sections.map((section) => section.id).join('|');
 
+  // The band's state on the page root as a plain attribute (19 Nov 2026, owner LK326): the nav's hairline and reading bar
+  // used to ask ".mm.lp:has(.lp-pos[data-on='true'])", and a :has() with an attribute inside makes the browser rescan the
+  // whole page on every DOM change anywhere.
+  useEffect(() => {
+    const page = dockRef.current?.closest('.mm.lp');
+    if (!page || !view.on) return undefined;
+    page.dataset.posOn = 'true';
+    return () => { delete page.dataset.posOn; };
+  }, [view.on]);
+
   // The logo (back to the top) and every shortcut link on the page (the bar's Skip, the nav's Pricing pill).
   useEffect(() => installPageJumps(), []);
 

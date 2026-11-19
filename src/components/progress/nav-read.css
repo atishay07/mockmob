@@ -35,7 +35,7 @@
 }
 
 /* A held story's band is showing (wide windows): the page line steps back, so the band's own rule reads as the story's. */
-.mm.lp:has(.lp-pos[data-on='true']) .mm-nav .mm-nav__read { opacity: 0.35; }
+.mm.lp[data-pos-on] .mm-nav .mm-nav__read { opacity: 0.35; }
 
 @media print {
   .mm-nav .mm-nav__read { display: none; }

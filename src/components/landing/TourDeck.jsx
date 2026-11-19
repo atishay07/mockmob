@@ -118,10 +118,17 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
       target = deckProgress(-track.getBoundingClientRect().top, hold, count, reduced);
       wake();
     };
-    measure();
-    read();
-    shown = target;
-    paint(shown);
+    // The deck is measured and posed the first time it comes near the screen, never as the page wakes (owner LK326, 19 Nov
+    // 2026). Its section is skipped by the browser until then (content-visibility), and asking a skipped section for a
+    // height makes the browser lay the whole of it out on the spot: profiled, that one read was the hottest function of
+    // ours at load, inside the single task that froze the page. The observer's report comes after the browser's own
+    // layout, so the read is free there; the first report also snaps the pile to where the page already is.
+    let posed = false;
+    const arrive = () => {
+      measure();
+      read();
+      if (!posed) { posed = true; shown = target; window.cancelAnimationFrame(frame); frame = 0; paint(shown); }
+    };
 
     let off = null;
     const listen = (on) => {
@@ -129,9 +136,9 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
       else if (!on && off) { off(); off = null; }
     };
     const near = typeof IntersectionObserver !== 'undefined'
-      ? new IntersectionObserver((entries) => { const on = entries[entries.length - 1].isIntersecting; listen(on); if (on) { measure(); read(); } }, { rootMargin: '100% 0px 100% 0px', threshold: 0 })
+      ? new IntersectionObserver((entries) => { const on = entries[entries.length - 1].isIntersecting; listen(on); if (on) arrive(); }, { rootMargin: '100% 0px 100% 0px', threshold: 0 })
       : null;
-    if (near) near.observe(track); else listen(true);
+    if (near) near.observe(track); else { arrive(); listen(true); }
     return () => {
       near?.disconnect();
       listen(false);

@@ -69,12 +69,14 @@
    rem in this system 6.7% small — body copy at 15px, under the 16px mobile
    floor. Restore a 16px root on marketing surfaces only; the authenticated
    app keeps the 15px it was drawn against. */
-html:has(.mm) {
+/* 19 Nov 2026 (owner LK326): child-only :has() on the root. The page root (.mm) is always the body's own child; asking for it
+   anywhere below (:has(.mm)) made the browser re-walk the page on every DOM change. */
+html:has(> :where(body) > .mm) {
   font-size: 16px;
 }
 
 /* Paint the overscroll area to match, so the old dark body never flashes. */
-body:has(.mm) {
+body:has(> .mm) {
   background: #f5f3f1;
 }
 
@@ -763,8 +765,9 @@ body:has(.mm) {
   }
   /* A figure whose live number could not be read hides itself (LiveStatsBand): the band then lays out only the figures
      it has, never an empty grey slab beside them (5 Nov 2026). */
-  .mm-figures:has(> :only-child) { grid-template-columns: minmax(0, 1fr); }
-  .mm-figures:has(> :nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* 19 Nov 2026: the band's children count themselves (one, two or three equal columns in one row), in place of two
+     :has() rules with structural pseudo-classes, which the browser rescans on every DOM change anywhere on the page. */
+  .mm-figures:not(:empty) { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
 }
 .mm-figure {
   background: var(--paper-raised);

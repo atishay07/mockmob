@@ -29,7 +29,7 @@
 @media (max-width: 760px) {
   .mm.lp main > .lp-sec:not(.xs) { padding-block: 1.75rem; }
   .mm.lp main > .lp-sec .lp-head { gap: 0.75rem; margin-bottom: 1.5rem; }
-  .mm.lp main > .lp-statement:not(:has(.ss[data-pinned='true'])) { padding-block: 1.75rem; }
+  .mm.lp main > .lp-statement:not([data-story-pinned]) { padding-block: 1.75rem; }
   .mm.lp main > .lp-close { padding-top: 2rem; }
 }
 

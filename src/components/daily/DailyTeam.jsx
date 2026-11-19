@@ -166,6 +166,14 @@ export function CollegeSheet({ open, onClose, onChoose, current = null, first = 
     if (!open && dialog.open) dialog.close();
     return undefined;
   }, [open, current, first]);
+  // The page does not scroll under the open sheet. Told on <html> as a plain attribute (daily-team.css): the sheet used to be
+  // found with html:has(.mm .dt-sheet[open]), and a :has() with an attribute inside is rescanned by the browser on every
+  // DOM change anywhere on the page (19 Nov 2026, owner LK326).
+  useEffect(() => {
+    if (!open) return undefined;
+    document.documentElement.setAttribute('data-dt-sheet', 'open');
+    return () => document.documentElement.removeAttribute('data-dt-sheet');
+  }, [open]);
   const list = useMemo(() => searchTeams(query, first), [query, first]);
   const mine = new Set(first);
   const choose = () => { if (sel) onChoose(sel); };

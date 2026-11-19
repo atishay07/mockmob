@@ -60,8 +60,12 @@ import { FLOW_PASS_DEBOUNCE_MS, FLOW_QUERY } from './storyGesture.mjs';
 // restyled elements per pass (55 ms at 4x CPU, three passes on the first flick past the hero), --ss-slack on a story's
 // root the whole story. Registered, a write restyles the node alone. Only the node reads --ss-fit
 // (scroll-story.css); --ss-slack is read by the root and by the stage's children, so it is written on both.
+// 19 Nov 2026: the registration itself moved into the sheet (scroll-story.css, two @property rules). Done from script as
+// this module loaded, it made the browser restyle the whole page once more while the page was waking (traced: about
+// 1,000 elements, 81 ms on a phone-class CPU). Script registers them only where the browser has no @property rule.
 function registerOwn() {
   if (typeof window === 'undefined' || typeof CSS === 'undefined' || typeof CSS.registerProperty !== 'function') return;
+  if (typeof CSSPropertyRule !== 'undefined') return;
   for (const [name, syntax, initialValue] of [['--ss-fit', '<number>', '1'], ['--ss-slack', '<length>', '0px']]) {
     try { CSS.registerProperty({ name, syntax, inherits: false, initialValue }); } catch { /* registered already (hot reload) */ }
   }
@@ -364,6 +368,28 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   }, [goTo]);
 
   const api = useMemo(() => ({ step, seq, pinned, reduced, live, goTo, steps, flow }), [step, seq, pinned, reduced, live, goTo, steps, flow]);
+
+  // The story's state, mirrored onto its ancestors as plain attributes (19 Nov 2026, owner LK326). The sheets used to ask
+  // ".mm.lp:has(.ss[data-live='true'])" and ".lp-statement:not(:has(.ss[data-pinned='true']))": a :has() with an attribute
+  // inside makes the browser rescan the whole page on every DOM change anywhere (measured: 3.2 ms a change with the page's
+  // rules of that kind, 0.003 ms without). The page root counts its live stories (data-story-live); the story's own section
+  // says whether it is pinned (data-story-pinned).
+  const liveNow = live && !quiet;
+  useEffect(() => {
+    const page = rootRef.current?.closest('.mm.lp');
+    if (!page || !liveNow) return undefined;
+    page.dataset.storyLive = String((Number(page.dataset.storyLive) || 0) + 1);
+    return () => {
+      const left = (Number(page.dataset.storyLive) || 1) - 1;
+      if (left > 0) page.dataset.storyLive = String(left); else delete page.dataset.storyLive;
+    };
+  }, [liveNow]);
+  useEffect(() => {
+    const section = rootRef.current?.closest('main > *');
+    if (!section || !pinned) return undefined;
+    section.dataset.storyPinned = 'true';
+    return () => { delete section.dataset.storyPinned; };
+  }, [pinned]);
 
   return (
     <div

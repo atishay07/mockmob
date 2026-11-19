@@ -49,7 +49,7 @@
   transition: opacity 200ms ease-out, transform 280ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s;
 }
 /* The site bar's soft blur tail (phones) would blur the band's words: it rests while the band is on. */
-.mm.lp:has(.lp-pos[data-on='true']) .mm-nav::after { opacity: 0; }
+.mm.lp[data-pos-on] .mm-nav::after { opacity: 0; }
 
 .mm.lp .lp-pos__row { display: flex; align-items: center; width: 100%; min-width: 0; }
 /* On a wide window the band's words keep the site bar's left edge, which is also the sections' (R8 SEC-16, 8 Nov 2026): the

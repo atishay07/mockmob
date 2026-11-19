@@ -18,7 +18,9 @@ const ROUND_LABEL = { 'round-1': 'Round 1', 'round-2': 'Round 2', 'round-3': 'Ro
 const SWEEP_LOW = 600;
 const SWEEP_HIGH = 960;
 const SWEEP_PERIOD_MS = 11000;
-const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+// One formatter, kept: the ladder formats every row on each step of the sweep.
+const ONE_DECIMAL = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const fmt = (n) => ONE_DECIMAL.format(n);
 
 const INITIAL_SCORE = 780;
 
@@ -59,13 +61,16 @@ export default function CompassLadder({ data }) {
     return () => observer.disconnect();
   }, []);
 
-  // Plays by itself: an eased, time-based sweep (cosine ping-pong, so it slows at each end
-  // instead of bouncing). It idles while offscreen or in a background tab, and stops only when
-  // the visitor takes the score themselves. Filters can change while it plays.
+  // Plays by itself: an eased, time-based sweep (cosine ping-pong, so it slows at each end instead of bouncing).
+  // Owner LK322 (18 Nov 2026): "it should autoplay ... and after [scrolling] out or playing for ten second or fifteen ... then
+  // it can pause". So it plays on every screen (touch too; the 16 Nov rest-on-touch rule is replaced), once through: one whole
+  // sweep (11 seconds), ending on the score it began with, where some colleges clear and others do not. It also stops the
+  // moment the card leaves the screen, the tab is hidden or the visitor takes the score; Play starts it again. Filters can
+  // change while it plays.
   useEffect(() => {
     if (!sweeping || !inView || reduced) return undefined;
     let frame = 0;
-    const stop = window.setTimeout(() => setSweeping(false), 12000);
+    const stop = window.setTimeout(() => setSweeping(false), SWEEP_PERIOD_MS + 80);
     const hide = () => { if (document.hidden) setSweeping(false); };
     document.addEventListener('visibilitychange', hide);
     let last = performance.now();

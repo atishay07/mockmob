@@ -56,6 +56,12 @@ export const OPENING_WAIT_MS = 3000;
 /** A release past OPENING_LATE.out: the held still dissolves this fast (opening.css html[data-opening-late]). */
 export const OPENING_LATE_MS = 160;
 
+// FLIP VARIABLES (19 Nov 2026, owner LK326: "the screen stutters in the first five [seconds]"). The hand-off's five values
+// (--mo-fx, --mo-fy, --mo-fs, --mo-flip-delay, --mo-land) go in a one-rule sheet (<style id="mm-opening-vars">) that names
+// the only two things that read them: the layer (its parts inherit) and the bar logo. Until then they were written on
+// <html>'s inline style, and because custom properties inherit, each write restyled every element of the page: traced at
+// 2,029 elements and 135 ms on a phone-class CPU, right at the hand-off. <html> stays the fallback where a sheet cannot
+// be added. The explanation lives here, outside the function, because the function is inlined whole and kept small.
 // Written in plain ES2017 with no outside references: OpeningMo.jsx inlines it as `(${openingGate})(window, document, cfg)`.
 export function openingGate(w, d, cfg) {
   var html = d.documentElement;
@@ -109,13 +115,15 @@ export function openingGate(w, d, cfg) {
     var a = word.getBoundingClientRect();
     var b = target.getBoundingClientRect();
     if (!a.width || !b.width) return false;
-    var s = html.style;
     delay = Math.max(0, Math.round(delay));
-    s.setProperty('--mo-fx', (b.left + b.width / 2 - (a.left + a.width / 2)).toFixed(2) + 'px');
-    s.setProperty('--mo-fy', (b.top + b.height / 2 - (a.top + a.height / 2)).toFixed(2) + 'px');
-    s.setProperty('--mo-fs', (b.width / a.width).toFixed(4));
-    s.setProperty('--mo-flip-delay', delay + 'ms');
-    s.setProperty('--mo-land', delay + ms + 'ms');
+    var t = '--mo-fx:' + (b.left + b.width / 2 - (a.left + a.width / 2)).toFixed(2) + 'px;--mo-fy:' + (b.top + b.height / 2 - (a.top + a.height / 2)).toFixed(2)
+      + 'px;--mo-fs:' + (b.width / a.width).toFixed(4) + ';--mo-flip-delay:' + delay + 'ms;--mo-land:' + (delay + ms) + 'ms';
+    // In a one-rule sheet for the layer and the bar logo, never on <html> (see FLIP VARIABLES above); <html> is the fallback.
+    try {
+      var sheet = d.getElementById('mm-opening-vars') || d.head.appendChild(d.createElement('style'));
+      sheet.id = 'mm-opening-vars';
+      sheet.textContent = '.mo-open,.mm-nav .logo-b{' + t + '}';
+    } catch (e) { html.style.cssText += ';' + t; }
     html.setAttribute('data-opening-flip', '');
     return true;
   };

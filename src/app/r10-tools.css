@@ -17,7 +17,6 @@
 #score-recovery-lab .ml__checks li::before { content: ''; position: absolute; left: calc(1.125rem - 1px); top: calc(50% + 1.125rem); width: 2px; height: calc(100% - 2.25rem); border-radius: 1px; background: rgba(244, 240, 230, 0.14); }
 /* After the last check the rail runs on, dashed, to the release state's node (not open yet). */
 #score-recovery-lab .ml__checks li:last-child::before { height: calc(50% + 0.5rem - 5px); background: repeating-linear-gradient(to bottom, rgba(244, 240, 230, 0.32) 0 4px, transparent 4px 8px); }
-#score-recovery-lab .ml__panel:has(.ml__status[data-state='available']) .ml__checks li:last-child::before { background: rgba(244, 240, 230, 0.14); }
 #score-recovery-lab .ml__checks b { font-size: 1.0625rem; letter-spacing: -0.01em; }
 #score-recovery-lab .ml__checks div span { font-size: 0.8125rem; color: #b2aea5; }
 #score-recovery-lab .ml__checks em { color: #a6a196; font-weight: 600; }
@@ -63,7 +62,9 @@
 #key-cards .kc-demo__pips li { width: 1.125rem; height: 4px; border-radius: 2px; transform: none; transition: background-color 200ms ease, width 240ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease; }
 #key-cards .kc-demo__pips li[data-state='done'] { background: var(--brand-word); opacity: 0.45; }
 #key-cards .kc-demo__pips li[data-state='now'] { width: 2rem; background: var(--brand-word); transform: none; }
-#key-cards .kc-demo:has(.kc-demo__card--end) .kc-demo__pips li { opacity: 1; }
+/* 19 Nov 2026: was .kc-demo:has(.kc-demo__card--end). Measured, that one rule was half of what the browser spent on every
+   DOM change anywhere on the page; the demo says it has ended on its own root instead (KeyCardsDemo data-ended). */
+#key-cards .kc-demo[data-ended] .kc-demo__pips li { opacity: 1; }
 html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now'] { background: var(--brand-word); }
 html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now']::after { content: none; }
 @media (prefers-reduced-motion: reduce) { #key-cards .kc-demo__pips li { transition: none; } }

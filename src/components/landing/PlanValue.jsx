@@ -111,10 +111,6 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
               <p className="lp-usual__total"><span>{VALUE_COPY.subjects(u.subjects)}</span><b><span aria-hidden="true">{rupeesOf(total)}</span><span className="lp-sr">{u.total}</span></b></p>
             </div>
             <p className="lp-usual__pro-head"><b>{VALUE_COPY.proName}</b><span>{VALUE_COPY.proPrice(u)}</span></p>
-            <div className="lp-usual__bars" aria-hidden="true">
-              <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
-              <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
-            </div>
             <p className="lp-usual__note">{VALUE_COPY.footnote()}</p>
     </>
   ) : null);
@@ -147,6 +143,12 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
                   </span>
                 )} <b>{punch.pro}</b>
               </p>
+              {/* The two prices as two bars, always in view under the figures (they were inside the folded sum): the comparison
+                  is seen before it is read. Decoration: the sentence above says both figures. */}
+              <div className="lp-usual__bars" aria-hidden="true">
+                <span className="lp-usual__bar"><i>{VALUE_COPY.barUsual}</i><span className="lp-usual__fill lp-usual__fill--usual" style={{ '--w': 1 }} /></span>
+                <span className="lp-usual__bar"><i>{VALUE_COPY.barPro}</i><span className="lp-usual__fill lp-usual__fill--pro" style={{ '--w': u.share }} /></span>
+              </div>
               {/* Owner LK325 (18 Nov 2026): "you are just writing three thousand seven hundred fifty usual way ... that is hidden
                   under a dropbox, so it will be confusion of how it adds up". On a phone the sum now opens right under the
                   figure, from a key that names it; from 900 px it stands open beside the card, as before. */}

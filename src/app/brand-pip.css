@@ -32,7 +32,9 @@
 .arena-fixture-note select { min-height: 44px; min-width: 140px; padding: 8px; background: var(--a-bg); color: var(--text-primary); border: 1px solid var(--a-line); border-radius: 8px; }
 @media (max-width: 1023px) {
   .arena-fixture-note { margin-left: 0; padding: 12px 16px; }
-  body:has(.app-shell) .mm-toast-stack { bottom: calc(92px + env(safe-area-inset-bottom)) !important; }
+  /* 19 Nov 2026: was body:has(.app-shell). On every page without the signed-in shell the browser scanned the whole page to
+     say no, on every DOM change. The shell and the toast stack are both the body's own children, the stack the later one. */
+  body > .app-shell ~ .mm-toast-stack { bottom: calc(92px + env(safe-area-inset-bottom)) !important; }
 }
 @media (max-width: 600px) {
   .lp-hero__greeting { gap: 10px; margin-bottom: 18px; }

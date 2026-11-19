@@ -93,28 +93,28 @@
 :where(.mm.lp) :where(p, li, dd, blockquote, .mm-faq__body) { text-wrap-style: pretty; }
 :where(.mm.lp) :where(h1, h2, h3, h4, summary, figcaption, .lp-sub, .lp-card__note, .lp-shelf__note, .lp-cpro__fine, .xs-saved, .lcp-block > p) { text-wrap-style: balance; }
 /* `body` here and below: one type more than marketing.css's and exam-screen.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
-html:has(body .lp) {
+html:has(> body > .lp) {
   font-size: 16px;
   color-scheme: dark;
   background: #12110e;
 }
-body:has(.mm.lp) {
+body:has(> .mm.lp) {
   background: #12110e;
 }
 /* The whole page scales with the display: rem-based type, spacing and
    container widths grow on large and ultrawide screens. */
 @media (min-width: 1920px) {
-  html:has(body .lp) {
+  html:has(> body > .lp) {
     font-size: 18px;
   }
 }
 @media (min-width: 2560px) {
-  html:has(body .lp) {
+  html:has(> body > .lp) {
     font-size: 22px;
   }
 }
 @media (min-width: 3400px) {
-  html:has(body .lp) {
+  html:has(> body > .lp) {
     font-size: 28px;
   }
 }
@@ -139,7 +139,10 @@ body:has(.mm.lp) {
 
 /* R8 sweep LH-02: keyboard focus and in-page scrolling stop below the sticky nav (61 px on phones, 69 px on desktop,
    plus a gap). Landing only: the du pages share .mm.lp but their step anchors already count the nav in scroll-margin. */
-html:has(.mm.lp:not(.du-page) .mm-nav) { scroll-padding-top: 76px; }
+/* 19 Nov 2026: was html:has(.mm.lp:not(.du-page) .mm-nav). A :has() with a pseudo-class inside is rescanned on every DOM
+   change; the page root is always the body's own child, and a child-only argument of plain classes costs nothing. */
+html:has(> body > .mm.lp) { scroll-padding-top: 76px; }
+html:has(> body > .du-page) { scroll-padding-top: auto; }
 /* The nav's own controls sit inside that padding by design (the bar is sticky), so they opt out of it: without this, a tap
    on the menu key at scrollY 1100 counted the key as hidden and the page jumped up about 430 px on each open and close. */
 .mm.lp:not(.du-page) .mm-nav, .mm.lp:not(.du-page) .mm-nav * { scroll-margin-top: -76px; }
@@ -1245,8 +1248,8 @@ body .lp-head {
    which silently disables position: sticky for everything inside (including the nav). On pages
    built on the marketing system, `clip` hides the same horizontal overflow without creating a
    scroll container, so sticky elements work against the viewport. */
-html:has(.mm.lp),
-body:has(.mm.lp) {
+html:has(> :where(body) > .mm.lp),
+body:has(> .mm.lp) {
   overflow-x: clip;
 }
 
@@ -2075,7 +2078,7 @@ html[data-motion='reduced'] .lp-statement .ss[data-pinned] .ss__beat { display: 
   }
   /* `body` here and below: one type more than landing-close.css's equal rules, so these win whatever order the sheets load in (src/lib/cssCascade.mjs). */
   html[data-theme] body .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
-  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) {
+  html[data-theme] .mm.lp[data-story-live] .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
     pointer-events: none;
@@ -3782,7 +3785,7 @@ html[data-theme='light'] .mm.lp .lp-hero .lp-title__brand { color: #526700; }
 .lp-desk__mobi .mobi-react { --mobi-size: var(--mobi-h) !important; }
 /* Press: a squash from his feet (100 ms in, 140 ms out), on top of whatever act he plays. */
 .lp-desk__figure .mobi-react { transform-origin: 50% 96%; transition: transform 140ms cubic-bezier(0.23, 1, 0.32, 1); }
-.lp-desk__figure:has(.mobi-react__hit:active) .mobi-react { transform: scale(0.97, 0.94); transition-duration: 100ms; }
+.lp-desk__figure .mobi-react[data-pressed] { transform: scale(0.97, 0.94); transition-duration: 100ms; }
 .lp-desk__mobi .mobi-react__hit { cursor: pointer; }
 .lp-desk__mobi .mobi-react__hit:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 4px; }
 
@@ -4569,7 +4572,7 @@ body > .pip-guide-flyer { transition: opacity 160ms var(--mm-ease-out, ease-out)
 @media (max-width: 760px) {
   .mm.lp main > .lp-sec:not(.xs) { padding-block: 1.75rem; }
   .mm.lp main > .lp-sec .lp-head { gap: 0.75rem; margin-bottom: 1.5rem; }
-  .mm.lp main > .lp-statement:not(:has(.ss[data-pinned='true'])) { padding-block: 1.75rem; }
+  .mm.lp main > .lp-statement:not([data-story-pinned]) { padding-block: 1.75rem; }
   .mm.lp main > .lp-close { padding-top: 2rem; }
 }
 
@@ -5473,7 +5476,6 @@ html[data-theme='dark'] .mm.lp .lp-colleges__seal { background: var(--ink); }
 #score-recovery-lab .ml__checks li::before { content: ''; position: absolute; left: calc(1.125rem - 1px); top: calc(50% + 1.125rem); width: 2px; height: calc(100% - 2.25rem); border-radius: 1px; background: rgba(244, 240, 230, 0.14); }
 /* After the last check the rail runs on, dashed, to the release state's node (not open yet). */
 #score-recovery-lab .ml__checks li:last-child::before { height: calc(50% + 0.5rem - 5px); background: repeating-linear-gradient(to bottom, rgba(244, 240, 230, 0.32) 0 4px, transparent 4px 8px); }
-#score-recovery-lab .ml__panel:has(.ml__status[data-state='available']) .ml__checks li:last-child::before { background: rgba(244, 240, 230, 0.14); }
 #score-recovery-lab .ml__checks b { font-size: 1.0625rem; letter-spacing: -0.01em; }
 #score-recovery-lab .ml__checks div span { font-size: 0.8125rem; color: #b2aea5; }
 #score-recovery-lab .ml__checks em { color: #a6a196; font-weight: 600; }
@@ -5519,7 +5521,9 @@ html[data-theme='dark'] .mm.lp .lp-colleges__seal { background: var(--ink); }
 #key-cards .kc-demo__pips li { width: 1.125rem; height: 4px; border-radius: 2px; transform: none; transition: background-color 200ms ease, width 240ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease; }
 #key-cards .kc-demo__pips li[data-state='done'] { background: var(--brand-word); opacity: 0.45; }
 #key-cards .kc-demo__pips li[data-state='now'] { width: 2rem; background: var(--brand-word); transform: none; }
-#key-cards .kc-demo:has(.kc-demo__card--end) .kc-demo__pips li { opacity: 1; }
+/* 19 Nov 2026: was .kc-demo:has(.kc-demo__card--end). Measured, that one rule was half of what the browser spent on every
+   DOM change anywhere on the page; the demo says it has ended on its own root instead (KeyCardsDemo data-ended). */
+#key-cards .kc-demo[data-ended] .kc-demo__pips li { opacity: 1; }
 html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now'] { background: var(--brand-word); }
 html[data-theme='light'] #key-cards .kc-demo__pips li[data-state='now']::after { content: none; }
 @media (prefers-reduced-motion: reduce) { #key-cards .kc-demo__pips li { transition: none; } }
@@ -6043,7 +6047,7 @@ html[data-theme='light'] #du-eligibility .du-teaser__streams i { background: rgb
     visibility: hidden;
     transition: opacity 160ms ease-in, translate 160ms ease-in, visibility 0s linear 160ms;
   }
-  body:has(#mm-nav-sheet) .mc .mc__vis { opacity: 0; visibility: hidden; transition: opacity 120ms ease-in, visibility 0s linear 120ms; }
+  html[data-nav-sheet='open'] .mc .mc__vis { opacity: 0; visibility: hidden; transition: opacity 120ms ease-in, visibility 0s linear 120ms; }
 
   /* The button is his whole figure: 48 x 56, a plain surface, a visible ring for the keyboard. */
   .mc__btn {

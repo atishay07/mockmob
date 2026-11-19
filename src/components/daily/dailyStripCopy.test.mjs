@@ -94,8 +94,9 @@ test('the block\'s college words are what the server counted; See all says its o
   // A link's spoken name holds the words on it (WCAG 2.5.3), so "See all" works by voice too.
   for (const m of jsx.matchAll(/aria-label="([^"]+)"[^>]*>([^<{]+)</g)) assert.ok(m[1].toLowerCase().includes(m[2].trim().toLowerCase()), `${m[1]} / ${m[2]}`);
   assert.match(jsx, /aria-label="See all of the college board">See all</);
-  // Today's row names the college today's five counted for (the account's), never a choice this phone made since.
-  assert.match(jsx, /const counted = fromAccount && account\.team && account\.team\.last === today\.date/);
+  // Today's row names the college today's five counted for (the account's), never a choice this phone made since; and only
+  // while the college board is switched on (owner LK321, 18 Nov 2026: the simpler game, with no college names, is the default).
+  assert.match(jsx, /const counted = COLLEGE_DAILY && fromAccount && account\.team && account\.team\.last === today\.date/);
   assert.match(jsx, /\$\{counted \? ` for \$\{counted\}` : ''\}/);
   // The choice is kept with its account on a shared phone: both doors that know the student pass who it is.
   assert.match(jsx, /useTeamChoice\(\{ today: date, account: account\?\.team \|\| null, userId: /);
@@ -155,4 +156,21 @@ test('the admit card is ours: no ink band, no date slab; the edition by name, Pl
   assert.match(page, /\.\.\.\(teamRef\.current \? \{ for: teamRef\.current \} : \{\}\)/, 'every check carries the college');
   const css = read('./daily-row.css') + read('./daily-team.css');
   assert.doesNotMatch(css, /animation:\s*[a-z-]+ [^;]*infinite|@keyframes [a-z-]*pulse/i, 'nothing pulses or loops');
+});
+
+// Owner LK321 (18 Nov 2026), of "Five a day. Play for your college.": "I don't know if you should add like colleges names ...
+// any issues legally ... something more simpler can be done."
+test('the simpler Daily Five is the default: no college names unless the switch is on, and the head says the personal game', async () => {
+  const { COLLEGE_DAILY, PERSONAL_HEAD } = await import('./dailyStripCopy.mjs');
+  assert.equal(COLLEGE_DAILY, false, 'off unless NEXT_PUBLIC_DAILY_COLLEGE_BOARD is set to true at build time');
+  assert.equal(PERSONAL_HEAD.h2, 'Five a day. Keep your streak.');
+  assert.doesNotMatch(`${PERSONAL_HEAD.h2} ${PERSONAL_HEAD.sub}`, /college/i);
+  const row = read('./DailyFiveRow.jsx');
+  assert.match(row, /\{COLLEGE_DAILY \? <PlayingFor team=\{team\} onOpen=\{\(\) => setSheet\(true\)\} \/> : null\}/);
+  assert.match(row, /\{COLLEGE_DAILY \? <div className="dwk-ticket__board">/);
+  assert.match(row, /useBoard\(today\?\.date \|\| null, on && COLLEGE_DAILY\)/, 'the home block does not even read the board');
+  const page = read('./DailyFive.jsx');
+  assert.match(page, /teamRef\.current = COLLEGE_DAILY \? team\.college : null;/, 'a five is not sent with a college');
+  assert.match(page, /\{COLLEGE_DAILY \? <section className="dly-board" id="board"/);
+  assert.match(read('../../app/page.js'), /const dailyHead = COLLEGE_DAILY \? STRIP_HEAD : PERSONAL_HEAD;/);
 });

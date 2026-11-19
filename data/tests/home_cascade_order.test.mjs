@@ -79,9 +79,11 @@ test('a tie is found where two classes share one element, and a body ancestor se
 
 test('"/" loads the component sheets the cascade check reads', () => {
   const sheets = componentSheets();
-  for (const f of ['src/app/globals.css', 'src/app/motion-kit.css', 'src/app/marketing.css', 'src/app/scroll-story.css', 'src/app/section-position.css', 'src/components/du/du.css']) {
+  for (const f of ['src/app/globals.css', 'src/app/motion-kit.css', 'src/app/marketing.css', 'src/app/scroll-story.css', 'src/app/section-position.css']) {
     assert.ok(sheets.includes(f), `${f} is one of the sheets "/" loads`);
   }
+  // Owner LK323 (18 Nov 2026): "Which DU courses are open to you?" left the home page, and the calculator's sheet with it.
+  assert.ok(!sheets.includes('src/components/du/du.css'), 'the DU calculator is not drawn on "/" any more, so its sheet is not loaded there');
   for (const f of HOME_SHEETS) assert.ok(!sheets.includes(f), `${f} is a home sheet, not a component sheet`);
 });
 

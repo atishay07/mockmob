@@ -117,7 +117,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
 
   return (
     <>
-      <div className="kc-demo" ref={root}>
+      <div className="kc-demo" ref={root} data-ended={done || undefined}>
         <div className="kc-demo__top">
           <p className="kc-demo__count" aria-live="polite">
             <span aria-hidden="true">{shown} / {total}</span>

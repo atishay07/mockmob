@@ -90,6 +90,15 @@ export function NavBar() {
     return () => { io.disconnect(); mark.remove(); };
   }, []);
 
+  // The open menu, said on <html> as a plain attribute (19 Nov 2026, owner LK326). The dock and the phone companion used to
+  // ask body:has(#mm-nav-sheet): a question whose answer is nearly always no, which the browser can only answer by scanning
+  // the whole page, and it asked again on every DOM change anywhere.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    document.documentElement.setAttribute('data-nav-sheet', 'open');
+    return () => document.documentElement.removeAttribute('data-nav-sheet');
+  }, [menuOpen]);
+
   useEffect(() => {
     if (!menuOpen) return undefined;
     function onKey(event) {

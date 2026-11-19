@@ -38,8 +38,13 @@ html[data-opening='short'] .mo-open { --mo-end: 1100ms; --mo-flip: 380ms; --mo-p
 
 /* ---- the hold (LK87): until the browser reports the first paint every part waits on its first pose, which is whole on
    its own (the word, Mobi, the bubbles in the air); the gate removes data-opening-hold and the clock starts. ---- */
-html[data-opening-hold] .mo-open,
-html[data-opening-hold] .mo-open * { animation-play-state: paused !important; }
+/* 19 Nov 2026 (owner LK326, "the screen stutters in the first five [seconds]"): the pause is a variable on the layer, read by
+   the layer and its parts. It used to be "html[data-opening-hold] .mo-open *": a selector ending in the universal *, so
+   taking the attribute off <html> at the first paint made the browser restyle every element of the page (traced: 1,957
+   elements, 148 ms on a phone-class CPU, exactly as the opening began). Now only the layer's own parts restyle. */
+.mo-open,
+.mo-open * { animation-play-state: var(--mo-hold, running) !important; }
+html[data-opening-hold] .mo-open { --mo-hold: paused; }
 
 /* ---- the ground: the page's own paper, rising like a curtain when the word flies (--mo-flip-delay, --mo-flip). ---- */
 .mo-open__ground {

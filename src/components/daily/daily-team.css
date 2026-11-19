@@ -55,7 +55,7 @@ html[data-motion='reduced'] .mm .dt-sheet[open] .dt-sheet__panel { animation: no
 @media (prefers-reduced-motion: reduce) { .mm .dt-sheet[open] .dt-sheet__panel { animation: none; } }
 /* The page under an open sheet holds still (one class more than the home page's own html:has(.mm.lp) rule, so it wins by
    specificity, never by load order). */
-html:has(.mm .dt-sheet[open]) { overflow: hidden; }
+html[data-dt-sheet='open'] { overflow: hidden; }
 .mm .dt-sheet__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; padding: 20px 20px 12px; }
 .mm .dt-sheet__title { margin: 0; color: var(--ink); font: 800 1.5rem/1.1 var(--font-display); letter-spacing: -0.025em; }
 .mm .dt-sheet__close {

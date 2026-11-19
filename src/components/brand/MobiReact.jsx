@@ -318,7 +318,15 @@ export default function MobiReact({
       <span className="mobi-react__look">
         <MobiFigure ref={figRef} initial={initial} px={px} lite={lite} />
       </span>
-      {interactive ? <button type="button" className="mobi-react__hit" aria-label={accessibleName} onClick={onTapHit} /> : null}
+      {/* While he is pressed his root says so (data-pressed), for the desk's squash: the sheet used to ask
+          ".lp-desk__figure:has(.mobi-react__hit:active)", and a :has() with a pseudo-class inside is rescanned by the
+          browser on every DOM change anywhere on the page (19 Nov 2026, owner LK326). */}
+      {interactive ? <button type="button" className="mobi-react__hit" aria-label={accessibleName} onClick={onTapHit}
+        onPointerDown={(e) => { e.currentTarget.parentElement?.setAttribute('data-pressed', 'true'); }}
+        onPointerUp={(e) => { e.currentTarget.parentElement?.removeAttribute('data-pressed'); }}
+        onPointerLeave={(e) => { e.currentTarget.parentElement?.removeAttribute('data-pressed'); }}
+        onPointerCancel={(e) => { e.currentTarget.parentElement?.removeAttribute('data-pressed'); }}
+        onBlur={(e) => { e.currentTarget.parentElement?.removeAttribute('data-pressed'); }} /> : null}
     </span>
   );
 }

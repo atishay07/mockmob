@@ -120,7 +120,8 @@ test('every seat has its pose and its job: magnifier, camera, reading, point, at
   assert.match(read('ExamScreen.jsx'), /<MascotSeat station="demo" pose="reading"/, 'the exam section reads the answer sheet');
   assert.doesNotMatch(PAGE_SRC, /<MascotSeat station="lab"/, 'no seat for a section that is gone');
   assert.match(PAGE_SRC, /<MascotSeat station="compass" pose="pointing"/, 'the Compass points');
-  assert.match(PAGE_SRC, /<MascotSeat station="eligibility" pose="pointing"/, 'the DU calculator points');
+  // Owner LK323 (18 Nov 2026): the DU courses section left the home page, and its seat with it.
+  assert.doesNotMatch(PAGE_SRC, /<MascotSeat station="eligibility"/, 'no seat for a section that is gone');
   assert.match(PAGE_SRC, /<MascotSeat station="close" pose="wave"/, 'the close band waves');
   assert.match(PAGE_SRC, /<MascotSeat station="pricing" pose="attentive"/, 'pricing listens');
 });

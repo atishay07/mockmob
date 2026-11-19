@@ -226,7 +226,11 @@ test('LK87 the layer holds its first (whole) pose until the first paint, then pl
   assert.equal(r.w.__mmOpening.base, 120);
   assert.ok(liveDelays(r).includes(720) && liveDelays(r).includes(1140), `${liveDelays(r)}`);
   const css = rules(CSS);
-  assert.match(css, /html\[data-opening-hold\] \.mo-open,\s*html\[data-opening-hold\] \.mo-open \* \{ animation-play-state: paused !important; \}/);
+  // The pause is a variable on the layer (19 Nov 2026): the old "html[data-opening-hold] .mo-open *" restyled the whole page
+  // when the attribute came off.
+  assert.match(css, /\.mo-open,\s*\.mo-open \* \{ animation-play-state: var\(--mo-hold, running\) !important; \}/);
+  assert.match(css, /html\[data-opening-hold\] \.mo-open \{ --mo-hold: paused; \}/);
+  assert.doesNotMatch(css, /\[data-opening-hold\][^{]*\*\s*\{/, 'no rule keyed on the hold ends in the universal selector');
 });
 
 test('LK87 late: a first visit released after 900 ms plays the session pace; after 1,800 ms the still dissolves in 160 ms', () => {

@@ -100,18 +100,24 @@ test.todo('L-002 a critic round scores the shipped build at 88 or more and a ver
 test.todo('L-003 at 390 px every section is composed for the phone first and is at least as impressive as at 1440 px (visual judgement in real Chrome)');
 
 // ================================================================================================ L-004 / L-005 nothing cut
-test('L-004 the full feature showcase is still there: every section, the tour, the Lab, the exam screen, the shelf, Compass, DU, pricing, FAQ', () => {
+test('L-004 the full feature showcase is still there: every section, the tour, the Lab, the exam screen, the shelf, Compass, pricing, FAQ', () => {
   // R11 (owner, 10 Nov 2026: "it's the same feature"): the Score Recovery Lab merged into the Mistake Lab (#inside-the-lab).
-  for (const id of ['try-practice', 'inside-the-lab', 'your-prep', 'compass', 'du-eligibility', 'pricing', 'faq', 'on-instagram']) {
+  for (const id of ['try-practice', 'inside-the-lab', 'your-prep', 'compass', 'pricing', 'faq', 'on-instagram']) {
     assert.match(PAGE_CODE, new RegExp(`id="${id}"`), `section #${id} is on the page`);
   }
+  // Owner LK323 (18 Nov 2026, of "Which DU courses are open to you?": "either remove it or make it" better; the presets
+  // were too generic): the section left the home page. The calculator itself stays one tap away, from the hero.
+  assert.doesNotMatch(PAGE_CODE, /id="du-eligibility"|<EligibilityTeaser/, 'the DU courses section is off the home page (LK323)');
+  assert.match(read('src/components/landing/HeroBeatStrip.jsx') + read('src/components/landing/heroTaps.mjs'), /\/cuet-cutoff-calculator/, 'the hero still links the calculator');
+  // Owner LK324 (18 Nov 2026): "this pricing should be moved above ... Instagram".
+  assert.ok(PAGE_CODE.indexOf('id="pricing"') < PAGE_CODE.indexOf('id="on-instagram"'), 'pricing comes before the Instagram creators');
   assert.doesNotMatch(PAGE_CODE, /id="score-recovery-lab"/, 'one Lab, not two');
   assert.match(PAGE_CODE, /<ExamScreen\s*\/>/, 'the exam-day screen section is rendered');
   assert.match(read('src/components/landing/ExamScreen.jsx'), /id="exam-experience"/, 'it keeps its anchor');
   // R3-D7 (owner LK107, 5 Nov 2026) supersedes the numbers band here: its true counts are lines of the one plan in #pricing
   // (HomePricing, PlanCounts), so the plan is what must be rendered, with the counts inside it.
   // R11: MistakeLab (the Recovery Lab's replay) left with its section; LabCinema tells the Lab once, in five scenes.
-  for (const part of ['TourDeck', 'LabCinema', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove', 'EligibilityTeaser']) {
+  for (const part of ['TourDeck', 'LabCinema', 'Statement', 'CompassLadder', 'CreatorReels', 'HomePricing', 'WallOfLove']) {
     assert.match(PAGE_CODE, new RegExp(`<${part}[\\s/>]`), `<${part} /> is rendered`);
   }
   assert.match(code(read('src/components/landing/HomePricing.jsx')), /<PlanCounts groups=/, 'the bank and subject counts live in the plan card');
@@ -596,9 +602,10 @@ test('L-042 what he approved is still there: Mobi, the time section, the approve
   assert.match(PAGE_CODE, /<OpeningMo\s*\/>/, 'the logo opening');
 });
 
-test('L-043 the logo opening uses logo B, is grand and still by 1.5 s on a first visit and 1.1 s every session (owner, 17 Nov 2026, LK299, replacing 16 Nov "smaller"), is skippable, and never holds a student', () => {
-  assert.ok(openingGate.OPENING_SHORT_MS + openingGate.OPENING_SETTLE_MS <= 1100, `session opening ${openingGate.OPENING_SHORT_MS} ms + settle`);
-  assert.ok(openingGate.OPENING_FIRST_MS + openingGate.OPENING_SETTLE_MS <= 1500, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms + settle`);
+test('L-043 the logo opening uses logo B, is grand and still by 2.05 s on a first visit and 1.4 s every session (owner LK299 of 17 Nov 2026, lengthened by LK326 of 18 Nov: "the first loading animation of the site is a bit too short"), is skippable, and never holds a student', () => {
+  assert.ok(openingGate.OPENING_SHORT_MS + openingGate.OPENING_SETTLE_MS <= 1400, `session opening ${openingGate.OPENING_SHORT_MS} ms + settle`);
+  assert.ok(openingGate.OPENING_FIRST_MS + openingGate.OPENING_SETTLE_MS <= 2050, `first-visit opening ${openingGate.OPENING_FIRST_MS} ms + settle`);
+  assert.ok(openingGate.OPENING_SHORT_MS >= 1000 && openingGate.OPENING_FIRST_MS >= 1600, 'not as short as it was (LK326)');
   assert.ok(openingGate.OPENING_FIRST_MS > openingGate.OPENING_SHORT_MS);
   for (const e of ['pointerdown', 'touchstart', 'wheel', 'keydown']) assert.ok(openingGate.OPENING_SKIP_EVENTS.includes(e), `${e} skips it`);
   const gate = openingGate.openingGate.toString();
