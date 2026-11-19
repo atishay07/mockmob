@@ -1,7 +1,8 @@
 "use client";
 
-// Mounts Search for the signed-in shell (lane palette, 18 Nov 2026) and listens for its keys: Ctrl+K or Cmd+K anywhere, "/"
-// when focus is not in a field. Never on the paper, onboarding or a Mob game, and never over another open dialog or sheet
+// Mounts Search for the signed-in shell (lane palette, 18 Nov 2026) and listens for its keys: Ctrl+Space on Windows and Linux
+// (19 Nov, the shown key; the panel's own key handler closes it with the same press), Ctrl+K or Cmd+K anywhere, "/" when focus
+// is not in a field. Never on the paper, onboarding or a Mob game, and never over another open dialog or sheet
 // (searchKeyAction in src/lib/search/searchModel.mjs). The shell passes its own navigation lists, so a page is found by the
 // name the sidebar gives it, and its preview links, so a walk through /preview/arena stays in the fixtures.
 import { useCallback, useEffect, useMemo } from 'react';
@@ -9,6 +10,7 @@ import { usePathname } from 'next/navigation';
 import { searchKeyAction } from '@/lib/search/searchModel.mjs';
 import { pageItems, previewHref, startItems } from '@/lib/search/searchSources.mjs';
 import { closeSearch, openSearch, searchState, useSearchState } from './searchStore';
+import { macNow } from './SearchButtons';
 import SearchPalette from './SearchPalette';
 
 // Another dialog or sheet on screen (the Start sheet, the account pop-over, the guide, the Pro sheet, a confirm): no key opens
@@ -32,8 +34,8 @@ export default function SearchHost({ path = '', groups = [], learn = true, learn
   useEffect(() => {
     const onKey = (event) => {
       const verdict = searchKeyAction(
-        { key: event.key, ctrlKey: event.ctrlKey, metaKey: event.metaKey, altKey: event.altKey, shiftKey: event.shiftKey, repeat: event.repeat, isComposing: event.isComposing, defaultPrevented: event.defaultPrevented },
-        { path, dialogOpen: otherDialogOpen(), open: searchState().open, target: targetOf(event) },
+        { key: event.key, code: event.code, ctrlKey: event.ctrlKey, metaKey: event.metaKey, altKey: event.altKey, shiftKey: event.shiftKey, repeat: event.repeat, isComposing: event.isComposing, defaultPrevented: event.defaultPrevented },
+        { path, dialogOpen: otherDialogOpen(), open: searchState().open, mac: macNow(), target: targetOf(event) },
       );
       if (verdict !== 'open') return;
       event.preventDefault();

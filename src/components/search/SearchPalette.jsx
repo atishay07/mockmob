@@ -23,14 +23,28 @@ import { Search } from 'lucide-react';
 import { AppIcon } from '@/components/ui/Glyph';
 import { BrandIcon, MobiMark } from '@/components/brand/BrandIcon';
 import { SubjectObject } from '@/components/brand/SubjectObject';
-import { flatRows, moveActive, nothingLine, prepare, searchResults, titleParts } from '@/lib/search/searchModel.mjs';
-import { EMPTY_GOTO, chapterItems, collegeItems, emptyStartIds, runMode } from '@/lib/search/searchSources.mjs';
+import { flatRows, moveActive, nothingLine, prepare, searchKeyAction, searchResults, searchShortcut, titleParts } from '@/lib/search/searchModel.mjs';
+import { EMPTY_GOTO, SEARCH_INTRO, chapterItems, collegeItems, emptyStartIds, runMode } from '@/lib/search/searchSources.mjs';
+import { macNow } from './SearchButtons';
 import './search.css';
 
 export const OPEN_MS = 160;
 export const CLOSE_MS = 120;
 export const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const RISE_PX = 8;
+
+// The first-use intro (19 Nov 2026): the first time Search opens on a device, one short note sits above the results, part of the
+// panel's own surface (no pop-up of its own, no scrim). It never takes focus from the input; it leaves on the first typed
+// character or on its Got it key (a 160 ms fade) and never returns: it is marked seen as it shows, in this device's storage
+// (a private window, where storage is refused, simply shows it again).
+export const INTRO_KEY = 'mm:search-intro:v1';
+export const INTRO_FADE_MS = 160;
+function introSeen() {
+  try { return window.localStorage.getItem(INTRO_KEY) === '1'; } catch { return false; }
+}
+function markIntroSeen() {
+  try { window.localStorage.setItem(INTRO_KEY, '1'); } catch { /* storage refused: it shows again next time */ }
+}
 
 const FOCUSABLE = 'input:not([disabled]), a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
@@ -94,6 +108,19 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
   const [active, setActive] = useState(0);
   const [data, setData] = useState(() => extra.value);
   const touch = useSyncExternalStore(noSubscription, touchNow, () => false);
+  const mac = useSyncExternalStore(noSubscription, macNow, () => false);
+  const introId = `srch-intro-${ids}`;
+  const introRef = useRef(null);
+  const [intro, setIntro] = useState(() => !introSeen());
+  useEffect(() => { if (intro) markIntroSeen(); }, [intro]);
+  const dismissIntro = useCallback(() => {
+    const el = introRef.current;
+    if (!el || el.dataset.leaving) return;
+    el.dataset.leaving = '1';
+    if (typeof el.animate !== 'function') { setIntro(false); return; }
+    el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reducedMotion() ? 1 : INTRO_FADE_MS, easing: EASE, fill: 'forwards' })
+      .finished.catch(() => {}).finally(() => setIntro(false));
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -194,6 +221,12 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
   const onKeyDown = (event) => {
     const el = dialog.current;
     if (!el) return;
+    // Ctrl+Space (Windows, Linux) closes it with the press that opened it; the host's window listener sees it handled.
+    if (searchKeyAction({ key: event.key, code: event.code, ctrlKey: event.ctrlKey, metaKey: event.metaKey, altKey: event.altKey, shiftKey: event.shiftKey, repeat: event.repeat, isComposing: event.nativeEvent?.isComposing }, { open: true, mac: macNow() }) === 'close') {
+      event.preventDefault();
+      requestClose();
+      return;
+    }
     if ((event.ctrlKey || event.metaKey) && String(event.key).toLowerCase() === 'k') { event.preventDefault(); return; }
     if (event.key === 'Tab') {
       const items = [...el.querySelectorAll(FOCUSABLE)].filter((n) => n.getClientRects().length > 0 && n.tabIndex >= 0);
@@ -242,16 +275,40 @@ export default function SearchPalette({ pages = [], actions = [], userSubjects =
             aria-controls={listId}
             aria-autocomplete="list"
             aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
+            aria-describedby={intro ? introId : undefined}
             placeholder="Search pages, chapters and colleges"
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck={false}
             value={query}
-            onChange={(event) => { setQuery(event.target.value); setActive(0); if (list.current) list.current.scrollTop = 0; }}
+            onChange={(event) => { setQuery(event.target.value); setActive(0); if (list.current) list.current.scrollTop = 0; if (intro && event.target.value) dismissIntro(); }}
           />
           <button type="button" className="srch-close mk-press" onClick={() => requestClose()}>Close</button>
         </div>
+
+        {intro ? (
+          <div ref={introRef} className="srch-intro" id={introId}>
+            <div className="srch-intro__text">
+              <p className="srch-intro__title">{SEARCH_INTRO.title}</p>
+              <p className="srch-intro__line">{SEARCH_INTRO.line}</p>
+              {/* The shortcut for this device; a touch screen has none to give. */}
+              {touch ? null : (
+                <p className="srch-intro__keys">
+                  Open it any time with <span className="srch-intro__caps" aria-hidden="true">{searchShortcut({ mac }).caps.map((cap) => <kbd key={cap}>{cap}</kbd>)}</span><span className="sr-only">{searchShortcut({ mac }).words}</span>.
+                </p>
+              )}
+            </div>
+            <button
+              type="button"
+              className="srch-intro__ok mk-press"
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => { dismissIntro(); input.current?.focus({ preventScroll: true }); }}
+            >
+              Got it
+            </button>
+          </div>
+        ) : null}
 
         <div ref={list} className="srch-list" id={listId} role="listbox" aria-label="Results">
           {results.map((group, g) => (

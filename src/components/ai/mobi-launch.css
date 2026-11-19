@@ -1,0 +1,97 @@
+/* Ask Mobi's desktop launcher and the wide dock (19 Nov 2026). AskMobiLauncher.jsx, AskMobiHost.jsx, askMobi.mjs.
+   Arena roles only: raised paper, one hairline, the shell's soft shadow. No badge, no glow, no loop. The only motion answers the
+   pointer (the words slide out, 180 ms) or the student's own press (the key steps beside the docked panel, 240 ms). */
+
+/* The shell's dock: one attribute and one variable. The shell (AppLayoutClient) sets data-mobi-dock="open" while the panel is
+   docked; its main area gives up the panel's width as a margin, so every page inside lays itself out in what is left and nothing
+   sits under the panel. The panel reads the same width. */
+.app-shell { --mobi-dock-w: 400px; }
+.app-shell[data-mobi-dock='open'] .app-main { margin-right: var(--mobi-dock-w); }
+.app-shell .amb-panel--dock { width: var(--mobi-dock-w); }
+
+/* The launcher: drawn only on a mouse window 1100 px or wider (askMobi.mjs LAUNCHER_MEDIA). */
+.mobi-launch { display: none; }
+
+@media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .app-shell .mobi-launch {
+    --ml-size: 52px;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    /* Over the page and its sticky bars, under the docked panel (35), the top bar, every sheet and dialog. */
+    z-index: 30;
+    display: block;
+    width: var(--ml-size);
+    height: var(--ml-size);
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--a-ink);
+    cursor: pointer;
+    appearance: none;
+    transition: transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .app-shell .mobi-launch[hidden] { display: none; }
+  /* The end of every page keeps the key's corner clear (the key, its 24 px from the edge and a 20 px gap), so at the bottom of a
+     page no link or row sits under it; mid-page the page passes under it as under any floating key. */
+  .app-shell:has(> .mobi-launch) .app-main { padding-bottom: 100px !important; }
+  .app-shell .mobi-launch__key {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid var(--a-line);
+    border-radius: 50%;
+    background: var(--a-raised);
+    box-shadow: var(--a-shadow-1);
+    transition: border-color 150ms ease-out, transform 140ms var(--a-ease, ease-out);
+  }
+  .app-shell .mobi-launch__face { display: block; width: 26px; height: auto; margin-top: 4px; }
+  .app-shell .mobi-launch:active .mobi-launch__key { transform: scale(0.96); }
+  .app-shell .mobi-launch:focus-visible { outline: none; }
+  .app-shell .mobi-launch:focus-visible .mobi-launch__key { outline: 2px solid var(--a-focus); outline-offset: 3px; }
+  .app-shell .mobi-launch[aria-expanded='true'] .mobi-launch__key { border-color: var(--a-line-strong); background: var(--a-hover); }
+
+  /* "Ask Mobi" as a pill to the key's left, out on hover or keyboard focus. */
+  .app-shell .mobi-launch__words {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 8px);
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--a-line);
+    border-radius: 999px;
+    background: var(--a-raised);
+    box-shadow: var(--a-shadow-1);
+    color: var(--a-ink);
+    font: 600 14px/1 var(--font-body, system-ui), system-ui, sans-serif;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(8px, -50%, 0);
+    transition: opacity 180ms ease-out, transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .app-shell .mobi-launch:is(:hover, :focus-visible) .mobi-launch__words { opacity: 1; transform: translate3d(0, -50%, 0); }
+  .app-shell .mobi-launch:hover .mobi-launch__key { border-color: var(--a-line-hover); }
+  /* Docked, the panel is open: the words would only repeat its title. */
+  .app-shell .mobi-launch[aria-expanded='true'] .mobi-launch__words { display: none; }
+
+  /* Docked: the key steps beside the panel, as its close key. */
+  .app-shell[data-mobi-dock='open'] .mobi-launch { transform: translate3d(calc(-1 * var(--mobi-dock-w)), 0, 0); }
+
+  /* Never over another dialog or sheet: the Start sheet, Search, the account pop-over, the Pro sheet, the guide, a confirm. */
+  body:has(dialog[open], [aria-modal='true'], .amb-layer--overlay, .amb-layer--sheet) .app-shell .mobi-launch { display: none; }
+}
+
+html[data-motion='reduced'] .app-shell .mobi-launch,
+html[data-motion='reduced'] .app-shell .mobi-launch__words,
+html[data-motion='reduced'] .app-shell .mobi-launch__key { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .mobi-launch, .app-shell .mobi-launch__key { transition: none; }
+  .app-shell .mobi-launch__words { transition: opacity 120ms ease-out; transform: translate3d(0, -50%, 0); }
+  .app-shell .mobi-launch:active .mobi-launch__key { transform: none; }
+}

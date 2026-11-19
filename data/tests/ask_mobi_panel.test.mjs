@@ -180,7 +180,12 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   assert.match(chat, /\.ach-send \{[^}]*background: var\(--volt, #d2f000\)/);
   assert.match(chat, /prefers-reduced-motion/);
   const drawer = read('src/components/ai/AssistantDrawer.jsx');
-  assert.match(drawer, /if \(width >= 1280\) return 'dock';/);
+  // An ask from inside a page still docks from 1280 px; since 19 Nov the rule lives in askMobi.mjs drawerForm, beside the
+  // launcher's (an overlay below 1680 px, docked from 1680 px).
+  assert.match(drawer, /return drawerForm\(width, \{ launcher \}\);/);
+  const ask = read('src/components/ai/askMobi.mjs');
+  assert.match(ask, /export const PAGE_DOCK_MIN_WIDTH = 1280;/);
+  assert.match(ask, /if \(w >= PAGE_DOCK_MIN_WIDTH && !launcher\) return 'dock';/);
   assert.match(drawer, /role=\{modal \? 'dialog' : 'complementary'\}/, 'docked it is a region, not a modal');
   assert.match(drawer, /const FLICK = 110;/);
   assert.match(drawer, /const CLOSE_SHARE = 0\.35;/);

@@ -20,6 +20,8 @@ import { StartKey, StartSheetHost } from '@/components/start';
 import { watchPagePrimary } from '@/components/start/pagePrimary.mjs';
 import { setStartQuiet } from '@/components/start/startQuietStore';
 import AskMobiHost from '@/components/ai/AskMobiHost';
+import AskMobiLauncher from '@/components/ai/AskMobiLauncher';
+import { useMobiDocked } from '@/components/ai/askMobiStore';
 import { ProNudgeHost } from '@/components/pro';
 import { loadRecord, upgradeState } from '@/components/pro/proNudgeStore';
 import { onboardedRecently } from '@/lib/proNudge.mjs';
@@ -93,6 +95,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const isFocusRoute = isFocusPath(activePath);
   const chromeless = isTestRoute || isFocusRoute;
   const wallet = useWalletSummary(user?.id);
+  // Ask Mobi docked beside the page (19 Nov): the shell narrows its main area by --mobi-dock-w (mobi-launch.css).
+  const mobiDocked = useMobiDocked();
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const studyOn = studyEnabled || previewRoute === '/learn';
   const TOUR_STEPS = useMemo(() => tourSteps({ mob: mobOn, study: studyOn }), [mobOn, studyOn]);
@@ -380,7 +384,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   }
 
   return (
-    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} data-mobi-dock={mobiDocked && !isTestRoute ? 'open' : undefined} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       {/* Keyboard users reach the page before the navigation's stops; hidden until it has focus. */}
       <a href="#app-main" className="arena-skip">Skip to content</a>
       <aside className="arena-sidebar" aria-label="Main navigation">
@@ -516,6 +520,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </div>}
       {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && <AskMobiHost />}
+      {/* Ask Mobi's desktop launcher (19 Nov): bottom right on a mouse window 1100 px or wider; never on /mentor or onboarding. */}
+      {!isTestRoute && <AskMobiLauncher path={activePath} />}
       {/* Search's panel and its keys (Ctrl+K, Cmd+K, "/"): never on the paper. The shell's own lists name the pages. */}
       {!isTestRoute && <SearchHost path={activePath} groups={[...navGroups, ...sheetGroups]} learn={showStudy} learn2={learn2} userSubjects={user?.subjects || []} mentorHref={mentorHref} previewLinks={previewLinks} />}
       {/* Pro nudges (D79 to D81): the Upgrade sheet for a Free student's Pro taps and the one first-session sheet. Nothing for Pro. */}

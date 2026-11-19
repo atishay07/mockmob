@@ -2,16 +2,19 @@
 
 // The ways into Search (lane palette, 18 Nov 2026).
 //   <SearchKey />    the rail's quiet field-shaped key, right above Today: a search icon, "Search", and the key hint as two
-//                    caps (Ctrl K, or ⌘ K on a Mac, read after mount; Ctrl until then, so the server and the first render agree).
+//                    caps (Ctrl Space on Windows and Linux since 19 Nov, ⌘ K on a Mac, read after mount; Ctrl Space until then,
+//                    so the server and the first render agree). aria-keyshortcuts lists every key that works (searchShortcut).
 //   <SearchField />  the phone and tablet field (no rail there): full width, 44 px, no key hint. On the You page and at the top
 //                    of the Start sheet. `onOpen` lets the Start sheet step aside first and hand Search the opener.
 import { useSyncExternalStore } from 'react';
 import { Search } from 'lucide-react';
+import { searchShortcut } from '@/lib/search/searchModel.mjs';
 import { openSearch, useSearchState } from './searchStore';
 import './search.css';
 
 const noSubscription = () => () => {};
-const macNow = () => {
+/** True on a Mac (read now; for event handlers). */
+export const macNow = () => {
   try { return /mac/i.test(navigator.userAgentData?.platform || navigator.platform || ''); } catch { return false; }
 };
 
@@ -21,7 +24,7 @@ export function useIsMac() {
 }
 
 export function SearchKey() {
-  const mac = useIsMac();
+  const keys = searchShortcut({ mac: useIsMac() });
   const { open } = useSearchState();
   return (
     <button
@@ -29,13 +32,13 @@ export function SearchKey() {
       className="srch-key mk-press"
       aria-haspopup="dialog"
       aria-expanded={open}
-      aria-keyshortcuts={mac ? 'Meta+K' : 'Control+K'}
+      aria-keyshortcuts={keys.aria}
       data-search-key=""
       onClick={(event) => openSearch({ opener: event.currentTarget })}
     >
       <Search className="srch-key__icon" size={17} strokeWidth={2} aria-hidden="true" />
       <span className="srch-key__word">Search</span>
-      <span className="srch-key__caps" aria-hidden="true"><kbd>{mac ? '⌘' : 'Ctrl'}</kbd><kbd>K</kbd></span>
+      <span className="srch-key__caps" aria-hidden="true">{keys.caps.map((cap) => <kbd key={cap}>{cap}</kbd>)}</span>
     </button>
   );
 }

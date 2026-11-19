@@ -42,6 +42,17 @@ const reduced = () => { try { return window.matchMedia('(prefers-reduced-motion:
 const readRecent = (subject) => { try { const all = JSON.parse(read(STORE_RECENT) || '{}'); return Array.isArray(all[subject]) ? all[subject].filter((q) => typeof q === 'string').slice(0, 5) : []; } catch { return []; } };
 const writeRecent = (subject, list) => { try { const all = JSON.parse(read(STORE_RECENT) || '{}'); all[subject] = list.slice(0, 5); write(STORE_RECENT, JSON.stringify(all)); } catch { /* it is only a convenience */ } };
 const isTyping = (el) => Boolean(el) && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
+/**
+ * Type-to-find may take a letter only from the page itself: never while a dialog or sheet is on screen (the Start sheet, Search,
+ * the subject picker, Ask Mobi's overlay), and never from inside a menu, a listbox, a radio group or Ask Mobi's docked panel,
+ * where a letter has its own meaning.
+ */
+function typeToFind(active) {
+  try {
+    if (active?.closest?.('[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [role="radiogroup"], [role="application"], dialog, .amb-panel')) return false;
+    return ![...document.querySelectorAll('dialog[open], [role="dialog"], [role="alertdialog"], [aria-modal="true"]')].some((node) => node.getClientRects().length > 0);
+  } catch { return false; }
+}
 
 /** True once the sentinel above the find band has scrolled under the top bar: the band is stuck, so it draws its one hairline. */
 function useStuck(sentinel, active) {
@@ -193,16 +204,31 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     return () => clearTimeout(t);
   }, [text, shelf, finding]);
 
-  // "/" focuses the search from anywhere on the page that is not a text field.
+  // "/" focuses the search from anywhere on the page that is not a text field (the web's own "jump to the search box" key, as on
+  // YouTube, GitHub and Gmail; it reaches here before the shell's Search, which then leaves it alone). Type-to-find (19 Nov 2026,
+  // owner): a plain letter a to z pressed while nothing editable and no dialog, sheet, menu or Ask Mobi has focus lands in the field,
+  // so a student who starts typing a topic finds it. No Ctrl, Alt or Meta (those are the browser's and Search's), no key repeat, not
+  // while composing, nothing already handled. Shift is allowed: a capital letter is still a letter.
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || isTyping(document.activeElement)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented || e.isComposing || isTyping(document.activeElement)) return;
+      if (e.key === '/') {
+        e.preventDefault();
+        field.current?.focus();
+        return;
+      }
+      if (e.repeat || !/^[a-z]$/i.test(e.key) || !field.current || !typeToFind(document.activeElement)) return;
       e.preventDefault();
-      field.current?.focus();
+      const el = field.current;
+      const next = `${el.value}${e.key}`.slice(0, 80);
+      el.focus();
+      setText(next);
+      if (shelf) setShelf(null);
+      requestAnimationFrame(() => { try { el.setSelectionRange(next.length, next.length); } catch { /* a search field may refuse */ } });
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [shelf]);
 
   // On a phone the field docks under the top bar when it takes focus, so the keyboard does not cover what follows.
   const dock = useCallback(() => {

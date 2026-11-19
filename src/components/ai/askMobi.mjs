@@ -79,9 +79,10 @@ export function originOf(element) {
 
 /**
  * Asks the arena shell to open Ask Mobi. Returns true when a host took it (the caller then stays put), false when
- * none is mounted (the caller navigates as before).
+ * none is mounted (the caller navigates as before). `launcher` marks an open from the desktop launcher (AskMobiLauncher.jsx),
+ * whose panel overlays below DOCK_MIN_WIDTH instead of docking.
  */
-export function openAskMobi({ context = null, tab = 'plan', questionRef = null, from = null } = {}, target = globalThis.window) {
+export function openAskMobi({ context = null, tab = 'plan', questionRef = null, from = null, launcher = false } = {}, target = globalThis.window) {
   if (!target?.dispatchEvent || typeof CustomEvent !== 'function') return false;
   const cleanTab = ASK_MOBI_TABS.includes(tab) ? tab : 'plan';
   const cleanRef = questionRef && QUESTION_REF.test(questionRef) ? questionRef : null;
@@ -93,10 +94,60 @@ export function openAskMobi({ context = null, tab = 'plan', questionRef = null, 
       questionRef: scoped.kind === 'question' ? scoped.ref : null,
       origin: originOf(from),
       context: scoped,
+      launcher: launcher === true,
     },
   });
   target.dispatchEvent(event);
   return event.defaultPrevented;
+}
+
+/** Asks the host to close the panel (the launcher's second press). */
+export const ASK_MOBI_CLOSE_EVENT = 'mockmob:ask-mobi-close';
+export function closeAskMobi(target = globalThis.window) {
+  if (!target?.dispatchEvent || typeof CustomEvent !== 'function') return;
+  target.dispatchEvent(new CustomEvent(ASK_MOBI_CLOSE_EVENT));
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// The desktop launcher and the wide dock (19 Nov 2026, owner: "On desktop, we have a lot of space, so even the Ask Mobi, we can set
+// as a quick-to-access chatbot on the right-hand side of the screen").
+
+/** From this width the panel docks beside the page whoever opened it; the launcher's open overlays below it. */
+export const DOCK_MIN_WIDTH = 1680;
+/** The in-page asks (a repair, a result, Today, Practice) keep their own dock from here, as before 19 Nov. */
+export const PAGE_DOCK_MIN_WIDTH = 1280;
+/** The docked panel's width; the shell narrows its main area by it (--mobi-dock-w). */
+export const DOCK_WIDTH = 400;
+/** Where the launcher is drawn: a mouse window this wide (AskMobiLauncher's CSS repeats it). */
+export const LAUNCHER_MEDIA = '(min-width: 1100px) and (hover: hover) and (pointer: fine)';
+
+/**
+ * The panel's form for a window width: 'dock' (beside the page, no scrim), 'overlay' (over the page with a scrim) or 'sheet' (a
+ * phone's bottom sheet). From DOCK_MIN_WIDTH everything docks. Below it, the launcher's open overlays; an in-page ask keeps its
+ * own rule (dock from PAGE_DOCK_MIN_WIDTH, overlay from 768 px, a sheet below).
+ */
+export function drawerForm(width, { launcher = false } = {}) {
+  const w = Number(width) || 0;
+  if (w >= DOCK_MIN_WIDTH) return 'dock';
+  if (w >= PAGE_DOCK_MIN_WIDTH && !launcher) return 'dock';
+  if (w >= 768) return 'overlay';
+  return 'sheet';
+}
+
+/**
+ * What the launcher asks about: the page the student is on when that page has a page-level ask of its own that needs no data the
+ * shell lacks (Practice: what to practise), else a general open, the way /mentor starts. Today's "Why this?" and a result's asks
+ * need their page's own figures, so their pages keep offering them in place.
+ */
+export function launcherContext(path = '') {
+  const p = String(path || '').split(/[?#]/)[0];
+  if (p === '/dashboard' || p.startsWith('/dashboard/')) return normalizeContext({ kind: 'practice' });
+  return normalizeContext({ kind: 'page' });
+}
+
+/** Routes where the launcher is never drawn: the paper, a Mob game, onboarding, and Ask Mobi's own page. */
+export function launcherBlockedOn(path = '') {
+  return /^\/(test|onboarding|mob\/game|mentor)(\/|$|\?)/.test(String(path || ''));
 }
 
 /** A plain click on a link (no new tab, no modifier) may be taken over; anything else keeps the browser's behaviour. */

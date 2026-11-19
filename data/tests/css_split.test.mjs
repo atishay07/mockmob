@@ -176,6 +176,8 @@ function scripts(dir, out = []) {
   return out;
 }
 
+const SNAP_HOLD_GT_NEAR = (jsx) => Number(jsx.match(/export const SNAP_HOLD = (\d+);/)[1]) > Number(jsx.match(/export const SNAP_NEAR = (\d+);/)[1]);
+
 test('the desktop pointer layer is for a hovering fine pointer only, costs nothing at rest and leaves no style behind (LK333)', () => {
   const jsx = read('src/components/landing/DesktopCursor.jsx');
   const css = read('src/app/r19-home-b.css');
@@ -183,17 +185,39 @@ test('the desktop pointer layer is for a hovering fine pointer only, costs nothi
   assert.match(jsx, /const QUERY = '\(hover: hover\) and \(pointer: fine\)';/);
   assert.match(jsx, /fine\.matches && !calm\.matches && document\.documentElement\.getAttribute\('data-motion'\) !== 'reduced'/);
   assert.match(jsx, /if \(event\.pointerType !== 'mouse' \|\| !allowed\(\)\) \{ hide\(\); return; \}/);
-  assert.match(css, /@media not \(\(hover: hover\) and \(pointer: fine\)\) \{ \.lp-cursor, \.lp-torch \{ display: none; \} \}/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.lp-cursor, \.lp-torch \{ display: none; \} \}/);
+  assert.match(css, /@media not \(\(hover: hover\) and \(pointer: fine\)\) \{ \.lp-cursor, \.lp-torch, \.lp-snap \{ display: none; \} \}/);
+  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.lp-cursor, \.lp-torch, \.lp-snap \{ display: none; \} \}/);
+  assert.match(css, /html\[data-motion='reduced'\] :is\(\.lp-cursor, \.lp-torch, \.lp-snap\) \{ display: none; \}/);
   // Cost: passive listeners, one frame loop that stops, and layout is read only when the arrow enters a key or a picture
   // (or the page has scrolled since), never on every move.
   for (const name of ['pointermove', 'pointerdown', 'scroll']) assert.ok(jsx.split(`window.addEventListener('${name}', `)[1]?.split('\n')[0].includes('{ passive: true }'), name);
-  assert.equal((jsx.match(/getBoundingClientRect\(\)/g) || []).length, 2, 'two measuring functions, nothing else reads layout');
+  assert.equal((jsx.match(/getBoundingClientRect\(\)/g) || []).length, 3, 'three measuring functions (a leaning key, a tilting picture, a snapped key), nothing else reads layout');
+  // However many move events a fast mouse sends, what is under the arrow is worked out once a frame.
+  assert.match(jsx, /pending = event\.target instanceof Element \? event\.target : null; asked = true;/);
+  assert.match(jsx, /if \(asked\) \{ asked = false; aim\(pending\); \}/);
   assert.match(jsx, /if \(moving\) frame = window\.requestAnimationFrame\(step\);/, 'the loop stops when everything has arrived');
   // A scroll under a resting arrow: one hit test after the scroll settles, so the ring never keeps a state that has gone.
-  assert.match(jsx, /reaim = window\.setTimeout\(\(\) => \{ if \(shown\) \{ aim\(document\.elementFromPoint\(tx, ty\)\); run\(\); \} \}, 140\);/);
-  assert.equal((jsx.match(/elementFromPoint/g) || []).length, 1);
-  assert.doesNotMatch(jsx, /setInterval|getComputedStyle|offsetWidth|offsetHeight|scrollHeight/);
+  assert.match(jsx, /reaim = window\.setTimeout\(\(\) => \{ if \(shown\) \{ asked = false; aim\(document\.elementFromPoint\(tx, ty\)\); run\(\); \} \}, 140\);/);
+  // Hit tests: that one, and the near-miss probe (four points a short reach away, only when the arrow has moved 4 px since).
+  assert.equal((jsx.match(/elementFromPoint/g) || []).length, 2);
+  assert.match(jsx, /if \(Math\.abs\(tx - px\) < 4 && Math\.abs\(ty - py\) < 4\) return null;/);
+  assert.doesNotMatch(jsx, /setInterval|offsetWidth|offsetHeight|scrollHeight/);
+  // The snap (owner LK339, 19 Nov 2026): the outline takes a key's own shape from near it and holds until the arrow is clearly
+  // away. One style read as a key is taken (its corner radius); the outline's size is written then, never in the frame loop;
+  // a held key is measured again at most four times a second; a scroll lets the key go at once.
+  assert.equal((jsx.match(/getComputedStyle/g) || []).length, 1);
+  assert.match(jsx, /export const SNAP_MAX = Object\.freeze\(\{ width: 460, height: 110 \}\);/);
+  assert.match(jsx, /export const SNAP_NEAR = 12;\nexport const SNAP_HOLD = 18;/);
+  assert.ok(SNAP_HOLD_GT_NEAR(jsx), 'it lets go further out than it catches, so it never flickers at the edge');
+  const loop = jsx.slice(jsx.indexOf('const step = () => {'), jsx.indexOf('const run = () =>'));
+  assert.doesNotMatch(loop, /style\.(width|height|borderRadius)/, 'the frame loop writes transforms only');
+  assert.match(jsx, /else if \(!snap \|\| snap\.el !== key \|\| performance\.now\(\) - snap\.at > 250\)/);
+  assert.match(jsx, /dropSnap\(\); px = -99;/);
+  assert.match(jsx, /if \(el\.getClientRects\(\)\.length !== 1\) return null;/, 'a line that wraps is not a key');
+  assert.match(css, /\.lp-snap \{[^}]*pointer-events: none;[^}]*\}/);
+  assert.match(css, /\.lp-cursor\[data-on='snap'\] \.lp-cursor__ring \{ transform: scale\(0\.3\); opacity: 0; \}/);
+  // Night's light is smaller and fainter than Day's (owner LK338: "a bit too large and excessive in dark mode").
+  assert.match(css, /html:not\(\[data-theme='light'\]\) \.lp-torch \{ width: 420px; height: 420px; margin: -210px 0 0 -210px; background: radial-gradient\(closest-side, rgb\(210 240 0 \/ 0\.055\)/);
   // Bounded: a key leans a few pixels, a picture turns a few degrees.
   assert.match(jsx, /export const TILT_MAX = 4\.5;/);
   assert.match(jsx, /export const LEAN_MAX = 7;/);

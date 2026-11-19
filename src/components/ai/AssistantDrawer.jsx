@@ -3,14 +3,16 @@
 import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import AskMobiPanel from './AskMobiPanel';
-import { normalizeContext } from './askMobi.mjs';
+import { drawerForm, normalizeContext } from './askMobi.mjs';
 import './ask-mobi.css';
 
-// Ask Mobi's one panel in three forms (ASK-MOBI-1018, section 5):
-// - 1280 px and up: docked at the right, 400 px, from under the top bar to the bottom. No scrim: the page stays visible
-//   and usable (the student keeps Q7 in view while asking about it), so it is a complementary region, not a modal.
-//   The main column gives up the panel's width while it is open (one change, caused by the student).
-// - 768 to 1279 px: an overlay panel at the right, 400 px, over a light scrim. Click outside or Esc closes it.
+// Ask Mobi's one panel in three forms (ASK-MOBI-1018, section 5; the launcher's rule 19 Nov 2026, drawerForm in askMobi.mjs):
+// - Docked at the right, 400 px, from under the top bar to the bottom: from 1680 px whoever opened it, and from 1280 px for an
+//   ask from inside a page. No scrim: the page stays visible and usable (the student keeps Q7 in view while asking about it), so
+//   it is a complementary region, not a modal. The shell's main area gives up the panel's width while it is open (data-mobi-dock
+//   and --mobi-dock-w on the shell; one change, caused by the student).
+// - Overlay: a panel at the right, 400 px, over a light scrim, from 768 px (and the launcher's open below 1680 px). Click outside
+//   or Esc closes it.
 // - Below 768 px: a bottom sheet as tall as its content, 92 px short of the top at most. The handle drags it; a flick
 //   down (faster than 0.11 px/ms) or a drag past 35 % of its height closes it.
 // Enter is slower than exit: the student is arriving; on close the system gets out of the way. Reduced motion: fades only.
@@ -19,30 +21,26 @@ const OUT = [0.23, 1, 0.32, 1];
 const FLICK = 110; // px per second (0.11 px/ms)
 const CLOSE_SHARE = 0.35;
 
-export function formFor(width) {
-  if (width >= 1280) return 'dock';
-  if (width >= 768) return 'overlay';
-  return 'sheet';
+export function formFor(width, { launcher = false } = {}) {
+  return drawerForm(width, { launcher });
 }
 
-function useForm() {
-  const [form, setForm] = useState(() => (typeof window === 'undefined' ? 'dock' : formFor(window.innerWidth)));
+function useForm(launcher) {
+  const [form, setForm] = useState(() => (typeof window === 'undefined' ? 'dock' : formFor(window.innerWidth, { launcher })));
   useEffect(() => {
-    const wide = window.matchMedia('(min-width: 1280px)');
-    const mid = window.matchMedia('(min-width: 768px)');
-    const update = () => setForm(formFor(window.innerWidth));
-    wide.addEventListener('change', update);
-    mid.addEventListener('change', update);
-    return () => { wide.removeEventListener('change', update); mid.removeEventListener('change', update); };
-  }, []);
+    const queries = ['(min-width: 1680px)', '(min-width: 1280px)', '(min-width: 768px)'].map((q) => window.matchMedia(q));
+    const update = () => setForm(formFor(window.innerWidth, { launcher }));
+    queries.forEach((q) => q.addEventListener('change', update));
+    return () => queries.forEach((q) => q.removeEventListener('change', update));
+  }, [launcher]);
   return form;
 }
 
 const PAGE = normalizeContext({ kind: 'page' });
 
-export default function AssistantDrawer({ open, onClose, context = PAGE, onForm }) {
+export default function AssistantDrawer({ open, onClose, context = PAGE, onForm, launcher = false }) {
   const reduced = useReducedMotion();
-  const form = useForm();
+  const form = useForm(launcher);
   const panel = useRef(null);
   const drag = useDragControls();
   const close = useRef(onClose);
@@ -61,7 +59,9 @@ export default function AssistantDrawer({ open, onClose, context = PAGE, onForm 
     const onKey = (event) => {
       if (event.key === 'Escape') {
         // Docked, the page stays usable: Esc closes only when focus is in the panel or on nothing in particular.
-        if (!modal && document.activeElement && document.activeElement !== document.body && !panel.current?.contains(document.activeElement)) return;
+        // The launcher that opened it counts as the panel's own (19 Nov): Esc on it closes the panel too.
+        const now = document.activeElement;
+        if (!modal && now && now !== document.body && !panel.current?.contains(now) && !now.closest?.('.mobi-launch')) return;
         event.preventDefault(); close.current(); return;
       }
       if (!modal || event.key !== 'Tab') return;

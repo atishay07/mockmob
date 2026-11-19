@@ -116,3 +116,14 @@ test('R4 home: an option with no cards swaps the faded rows out once its save se
   assert.match(map, /if \(!target\.length && saving\) return undefined;/);
   assert.match(map, /saving=\{status\[part\.id\] === 'saving'\}/);
 });
+
+test('Find keys (19 Nov, owner): "/" stays; a plain letter typed on the page lands in Find, never from a field, a dialog or with a modifier', () => {
+  const home = code(src('../LearnHome.jsx'));
+  assert.match(home, /aria-keyshortcuts="\/"/);
+  assert.match(home, /if \(e\.metaKey \|\| e\.ctrlKey \|\| e\.altKey \|\| e\.defaultPrevented \|\| e\.isComposing \|\| isTyping\(document\.activeElement\)\) return;/);
+  assert.match(home, /if \(e\.repeat \|\| !\/\^\[a-z\]\$\/i\.test\(e\.key\) \|\| !field\.current \|\| !typeToFind\(document\.activeElement\)\) return;/);
+  assert.match(home, /function typeToFind\(active\)/);
+  assert.match(home, /\[role="dialog"\], \[role="alertdialog"\], \[role="menu"\], \[role="listbox"\]/);
+  // Escape in the field keeps its own rule: clear and cancel, else leave the field for the panel.
+  assert.match(home, /if \(text \|\| shelf \|\| finding\) cancel\(\); else \{ field\.current\?\.blur\(\); toPanel\(\); \}/);
+});

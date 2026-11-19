@@ -30,10 +30,8 @@ html[data-theme='light'] .amb-scrim { background: rgba(23, 21, 15, 0.28); }
 }
 html[data-theme='light'] .amb-panel--sheet { box-shadow: 0 -24px 56px -28px rgba(42, 32, 16, 0.22); }
 
-/* The docked form: the main column gives up the panel's width while the student has it open. */
-@media (min-width: 1280px) {
-  html[data-mobi-form='dock'] .app-shell .app-main { padding-right: 420px !important; }
-}
+/* The docked form: the main column gives up the panel's width while the student has it open. Since 19 Nov this is the shell's
+   own data-mobi-dock and --mobi-dock-w (mobi-launch.css), one rule for every way the panel docks. */
 /* The navigation's Ask Mobi row reads as open while the panel is (no accent, the ordinary selected wash). */
 html[data-mobi-open] .app-shell .arena-sidebar .arena-nav-link[data-tour='nav-mentor'] { background: var(--a-hover); color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-line); }
 

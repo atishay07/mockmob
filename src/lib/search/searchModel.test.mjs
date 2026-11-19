@@ -6,10 +6,10 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   GROUP_LIMIT, TOTAL_LIMIT, flatRows, fold, matchItem, moveActive, nothingLine, prepare, queryWords, searchBlockedOn,
-  searchKeyAction, searchResults, titleParts, typesText, typoCovers,
+  isCtrlSpace, searchKeyAction, searchResults, searchShortcut, titleParts, typesText, typoCovers,
 } from './searchModel.mjs';
 import {
-  EMPTY_GOTO, PAGE_SYNONYMS, chapterItems, collegeItems, emptyStartIds, pageItems, previewHref, runMode, startItems,
+  EMPTY_GOTO, PAGE_SYNONYMS, SEARCH_INTRO, chapterItems, collegeItems, emptyStartIds, pageItems, previewHref, runMode, startItems,
 } from './searchSources.mjs';
 import { CHAPTERS } from '../../../data/cuet_syllabus.js';
 import { buildSearchIndex, deckChapters, serialise, SEARCH_INDEX_FILE } from '../../../scripts/search/build-search-index.mjs';
@@ -279,6 +279,56 @@ test('open rules: Ctrl+K or Cmd+K anywhere, "/" outside fields, never on the pap
   assert.equal(searchKeyAction({ key: '/', defaultPrevented: true }, ctx), null);
   assert.ok(searchBlockedOn('/test') && searchBlockedOn('/onboarding/step') && !searchBlockedOn('/testing-ground') && !searchBlockedOn('/today'));
   assert.ok(typesText({ tag: 'input' }) && !typesText({ tag: 'BUTTON' }));
+});
+
+test('Ctrl+Space (19 Nov, owner): opens and closes Search on Windows and Linux, by Ctrl+K\'s rules; never on a Mac', () => {
+  const ctx = { path: '/today', dialogOpen: false, open: false, mac: false, target: { tag: 'BODY' } };
+  const space = { key: ' ', code: 'Space', ctrlKey: true };
+  assert.equal(searchKeyAction(space, ctx), 'open');
+  assert.equal(searchKeyAction({ key: 'Spacebar', ctrlKey: true }, ctx), 'open', 'an older browser names the key Spacebar');
+  assert.equal(searchKeyAction(space, { ...ctx, target: { tag: 'INPUT', type: 'search' } }), 'open', 'from a field too, as Ctrl+K');
+  assert.equal(searchKeyAction(space, { ...ctx, open: true }), 'close');
+  assert.equal(searchKeyAction({ key: 'k', ctrlKey: true }, { ...ctx, open: true }), null, 'Ctrl+K still only opens');
+  assert.equal(searchKeyAction(space, { ...ctx, dialogOpen: true }), null, 'never over the Start sheet or another dialog');
+  for (const path of ['/test', '/onboarding', '/mob/game/abc']) assert.equal(searchKeyAction(space, { ...ctx, path }), null, path);
+  assert.equal(searchKeyAction({ ...space, repeat: true }, ctx), null);
+  assert.equal(searchKeyAction({ ...space, isComposing: true }, ctx), null);
+  assert.equal(searchKeyAction({ ...space, repeat: true }, { ...ctx, open: true }), null, 'a held key never flickers it shut');
+  assert.equal(searchKeyAction({ ...space, defaultPrevented: true }, ctx), null);
+  assert.equal(searchKeyAction({ ...space, shiftKey: true }, ctx), null);
+  assert.equal(searchKeyAction({ ...space, altKey: true }, ctx), null);
+  assert.equal(searchKeyAction({ key: ' ', code: 'Space' }, ctx), null, 'Space alone scrolls the page as ever');
+  assert.equal(searchKeyAction({ key: ' ', code: 'Space', altKey: true }, ctx), null, 'Alt+Space is Windows\' window menu');
+  // A Mac: Ctrl+Space is its input-source key, so Search leaves it alone; Cmd+K is shown and Ctrl+K and "/" still work.
+  const mac = { ...ctx, mac: true };
+  assert.equal(searchKeyAction(space, mac), null);
+  assert.equal(searchKeyAction(space, { ...mac, open: true }), null);
+  assert.equal(searchKeyAction({ key: 'k', metaKey: true }, mac), 'open');
+  assert.equal(searchKeyAction({ key: 'k', ctrlKey: true }, mac), 'open');
+  assert.equal(searchKeyAction({ key: '/' }, mac), 'open');
+  assert.ok(isCtrlSpace(space) && !isCtrlSpace({ ...space, metaKey: true }));
+  assert.deepEqual(searchShortcut({ mac: false }), { caps: ['Ctrl', 'Space'], words: 'Ctrl Space', aria: 'Control+Space Control+K /' });
+  assert.deepEqual(searchShortcut({ mac: true }), { caps: ['⌘', 'K'], words: '⌘K', aria: 'Meta+K Control+K /' });
+});
+
+test('first-use intro (19 Nov): in the palette, names only what Search really finds, once per device, never takes focus', () => {
+  const palette = read('src/components/search/SearchPalette.jsx');
+  assert.match(palette, /INTRO_KEY = 'mm:search-intro:v1'/);
+  assert.match(palette, /SEARCH_INTRO\.title/);
+  assert.match(palette, /SEARCH_INTRO\.line/);
+  assert.match(palette, /aria-describedby=\{intro \? introId : undefined\}/);
+  assert.equal(SEARCH_INTRO.title, 'One place to search everything.');
+  // What it names is what the sources hold: every group Search draws (pages, the Start group, chapters, DU colleges and courses).
+  assert.equal(SEARCH_INTRO.line, 'Find any page, chapter, DU college or course, or start practice from here.');
+  assert.ok(S.goto.length > 0 && S.start.some((s) => s.kind === 'action') && S.chapters.length > 100);
+  assert.ok(S.colleges.some((c) => c.kind === 'college') && S.colleges.some((c) => c.kind === 'course'));
+  assert.ok(S.colleges.filter((c) => c.kind === 'college').every((c) => c.href.startsWith('/du-cutoffs/colleges/')), 'the colleges are DU colleges');
+  assert.doesNotMatch(SEARCH_INTRO.line, /[!—]/);
+  // Storage inside try/catch; the "Got it" key keeps the caret in the input.
+  assert.match(palette, /try \{ return window\.localStorage\.getItem\(INTRO_KEY\)/);
+  assert.match(palette, /onMouseDown=\{\(event\) => event\.preventDefault\(\)\}/);
+  assert.match(palette, /reducedMotion\(\) \? 1 : INTRO_FADE_MS/);
+  assert.match(palette, /export const INTRO_FADE_MS = 160;/);
 });
 
 test('preview links: pages, a chapter for Practice, Learn v2 views and a course stay inside the fixtures', () => {

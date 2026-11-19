@@ -1,7 +1,7 @@
-/* The home page's reading line (NavReadLine.jsx): how far down the page the reader is, as a 2 px ink hairline on the site
+/* The home page's reading line (NavReadLine.jsx): how far down the page the reader is, as an ink hairline on the site
    bar's bottom edge (over its own hairline), filling from the left. It is the page's progress; a held story's own position
    is something else (the phone's bottom bar with Mobi on the step, the wide window's band and its rule under the bar:
-   section-position.css), so while that band is showing this line steps back. Only transform and opacity change. */
+   section-position.css). Only transform and opacity change. */
 
 .mm-nav .mm-nav__read {
   position: absolute;
@@ -9,10 +9,10 @@
   right: 0;
   bottom: -1px; /* on the bar's 1 px bottom hairline, not under it */
   height: 2px;
-  overflow: hidden;
   pointer-events: none;
   transition: opacity 200ms ease-out;
 }
+.mm-nav .mm-nav__read-clip { position: absolute; inset: 0; overflow: hidden; }
 .mm-nav .mm-nav__read-line {
   display: block;
   width: 100%;
@@ -21,21 +21,59 @@
   transform-origin: 0 50%;
   transform: scaleX(0);
 }
+/* The rider's carrier: as wide as the bar, drawn back by the part of the page still to read, so its right end is the head
+   of the line. Wide windows only (below). */
+.mm-nav .mm-nav__read-run { position: absolute; inset: 0; display: none; transform: translateX(-100%); opacity: 0; }
 
 /* Scroll-driven where the browser has it: the root scroller's whole range, 0 at the top, 1 at the end. The shorthand first,
    then the timeline (the shorthand resets it). The duration stays auto even under the site's reduced-motion rule (which
    shortens every timed animation): the line follows the finger, it does not animate by itself. */
 @keyframes mm-nav-read { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+/* He is not there at the very top (nothing read, nowhere to stand) and steps on within the first hundredth of the page. */
+@keyframes mm-nav-run { 0% { transform: translateX(-100%); opacity: 0; } 1.2% { opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
 @supports (animation-timeline: scroll()) {
   .mm-nav .mm-nav__read-line {
     animation: mm-nav-read linear both;
     animation-timeline: scroll(root block);
   }
-  .mm .mm-nav .mm-nav__read-line { animation-duration: auto !important; }
+  .mm-nav .mm-nav__read-run {
+    animation: mm-nav-run linear both;
+    animation-timeline: scroll(root block);
+  }
+  .mm .mm-nav .mm-nav__read-line, .mm .mm-nav .mm-nav__read-run { animation-duration: auto !important; }
 }
 
-/* A held story's band is showing (wide windows): the page line steps back, so the band's own rule reads as the story's. */
+/* A held story's band is showing: on a phone-width window the page line steps back, so the story's own marker reads. */
 .mm.lp[data-pos-on] .mm-nav .mm-nav__read { opacity: 0.35; }
+
+/* Wide windows (where the band and its rule are): the page's line is a 3 px ink line with Mobi riding its head, and it
+   keeps its full strength while a story's band is on, because the two are now different things to look at (owner LK340,
+   19 Nov 2026). He stands across the bar's edge, half on the bar and half below it, clear of the bar's words and of the
+   band's. */
+@media (min-width: 900px) {
+  .mm-nav .mm-nav__read { height: 3px; }
+  .mm.lp[data-pos-on] .mm-nav .mm-nav__read { opacity: 1; }
+  .mm-nav .mm-nav__read-run { display: block; }
+  .mm-nav .mm-nav__read-mobi {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    overflow: visible;
+    transform-origin: 50% 60%;
+    transition: rotate 240ms cubic-bezier(0.2, 0.9, 0.3, 1.25);
+  }
+  .mm-nav .mm-nav__read-body { fill: var(--volt, #d2f000); stroke: #14180f; stroke-width: 26; paint-order: stroke fill; }
+  .mm-nav .mm-nav__read-visor { fill: #14180f; }
+  .mm-nav .mm-nav__read-eyes { fill: #fbf3e4; }
+  .mm-nav .mm-nav__read[data-way='down'] .mm-nav__read-mobi { rotate: 13deg; }
+  .mm-nav .mm-nav__read[data-way='up'] .mm-nav__read-mobi { rotate: -13deg; }
+}
+@media (min-width: 900px) and (prefers-reduced-motion: reduce) {
+  .mm-nav .mm-nav__read-mobi { transition: none; }
+}
 
 @media print {
   .mm-nav .mm-nav__read { display: none; }

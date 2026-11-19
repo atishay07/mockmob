@@ -26,12 +26,52 @@
 //  - It costs the page nothing while the reader scrolls: the words' size comes from one shared ResizeObserver and the
 //    moment from one shared IntersectionObserver (both report after the browser's own layout), so no mark ever asks the
 //    browser to lay the page out again; a stroke's length is normalised (pathLength), so nothing measures it.
+//
+// 19 Nov 2026, evening (owner LK342, on a 27 inch screen with a mouse: the marks "are doing the animation before the
+// scrolling or very easily so that's why I scroll and most parts are not visible ... about ₹1 one: firstly, it could have
+// that circle and three dots, how it had previously"):
+//  - A mouse or a trackpad: a mark waits for the reader, not only for the words. The words must be up in the part of a
+//    tall window where eyes rest (READ_BAND.fine), AND the page must have stopped moving for a moment (SETTLE_MS); a mark
+//    never draws while its words are flying past. If the reader had already gone by when the page stopped, the mark waits
+//    for the words to come back. A touch screen keeps the timing it had this morning.
+//  - `accent="spark"`: three short flicks off the mark's corner once it has landed. Strokes only, no tool; by his word it
+//    is back on the hero's price figure, and nowhere else without his word.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DRAW_MS, doodlePath, seedOf } from './doodlePaths.mjs';
 import './doodle.css';
 
 /** A beat between the words reaching reading position and the pen touching down, ms. */
 export const TOUCH_DOWN_MS = 180;
+/** How much of the window's foot the words must have cleared before a mark is made: a finger, and a mouse on a tall window. */
+export const READ_BAND = Object.freeze({ touch: 25, fine: 38 });
+/** A mouse or trackpad: the page must have been still this long before a mark is made, ms. */
+export const SETTLE_MS = 130;
+/** One flick of an accent, and the gap between two, ms. */
+export const FLICK_MS = 190;
+const FLICK_GAP_MS = 110;
+
+const finePointer = () => {
+  try { return window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch { return false; }
+};
+
+// ---- the page at rest: one passive scroll listener, attached only while a mark is waiting for the page to stop.
+let lastScroll = 0;
+let waiters = 0;
+const stamp = () => { lastScroll = performance.now(); };
+/** Calls fn once the page has not scrolled for SETTLE_MS. Returns a cancel. */
+function whenStill(fn) {
+  let timer = 0;
+  let done = false;
+  if (!waiters) { lastScroll = performance.now() - SETTLE_MS; window.addEventListener('scroll', stamp, { passive: true }); }
+  waiters += 1;
+  const leave = () => { if (done) return; done = true; window.clearTimeout(timer); waiters -= 1; if (!waiters) window.removeEventListener('scroll', stamp); };
+  const check = () => {
+    const quiet = performance.now() - lastScroll;
+    if (quiet >= SETTLE_MS) { leave(); fn(); } else timer = window.setTimeout(check, Math.max(40, SETTLE_MS - quiet));
+  };
+  check();
+  return leave;
+}
 
 // ---- where the reader reads: one observer for every mark on the page. A mark is told once and then forgotten.
 let seen = null;
@@ -47,8 +87,9 @@ function watchReading(node, fn) {
         seen.unobserve(entry.target);
         go?.();
       }
-      // Wholly in view (0.9 of the box, for a phrase that kisses the edge) and above the lowest quarter of the window.
-    }, { rootMargin: '0px 0px -25% 0px', threshold: 0.9 });
+      // Wholly in view (0.9 of the box, for a phrase that kisses the edge) and above the foot of the window: its lowest
+      // quarter under a finger, more of it under a mouse on a tall window, where eyes rest higher (READ_BAND).
+    }, { rootMargin: `0px 0px -${finePointer() ? READ_BAND.fine : READ_BAND.touch}% 0px`, threshold: 0.9 });
   }
   waiting.set(node, fn);
   seen.observe(node);
@@ -79,7 +120,7 @@ function watchSize(node, fn) {
 
 const half = (n) => Math.round(n * 2) / 2;
 
-export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey, delay = 0, as: Tag = 'span', className = '', style, children, ...rest }) {
+export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey, accent, delay = 0, as: Tag = 'span', className = '', style, children, ...rest }) {
   const hostRef = useRef(null);
   const boxRef = useRef(null);       // { width, height, fontSize }: the words' box, as last reported
   const [reached, setReached] = useState(false);
@@ -91,7 +132,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
 
   // The mark's geometry from the box in hand; nothing here reads layout. One stable function: the kind of mark and the words
   // reach it through a ref an effect keeps (no ref is written while rendering).
-  const askedRef = useRef({ mark, text });
+  const askedRef = useRef({ mark, text, accent });
   const build = useCallback(() => {
     const box = boxRef.current;
     const host = hostRef.current;
@@ -100,7 +141,8 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
     const seed = seedOf(`${asked.mark}:${asked.text || host.textContent}`);
     setShape((was) => (was && was.width === box.width && was.height === box.height && was.seed === seed && was.fontSize === box.fontSize
       ? was
-      : { ...box, seed, ...doodlePath(asked.mark, { width: box.width, height: box.height, fontSize: box.fontSize, seed }) }));
+      : { ...box, seed, ...doodlePath(asked.mark, { width: box.width, height: box.height, fontSize: box.fontSize, seed }),
+        flicks: asked.accent === 'spark' ? doodlePath('spark', { width: box.width, height: box.height, fontSize: box.fontSize, seed: seed + 7 }).strokes : [] }));
   }, []);
 
   // The words' box, kept as it changes (a font arriving, a narrower window). The mark is only made once it is wanted, so a
@@ -118,10 +160,10 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
 
   // Made when wanted (and again if the words or the kind of mark change).
   useEffect(() => {
-    askedRef.current = { mark, text };
+    askedRef.current = { mark, text, accent };
     wantedRef.current = wanted;
     if (wanted) build();
-  }, [wanted, mark, text, build]);
+  }, [wanted, mark, text, accent, build]);
 
   // An uncontrolled mark is wanted once the reader reaches the words, a beat later.
   useEffect(() => {
@@ -129,7 +171,13 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
     const host = hostRef.current;
     if (!host) return undefined;
     let timer = 0;
-    const off = watchReading(host, () => { timer = window.setTimeout(() => setReached(true), TOUCH_DOWN_MS + delay); });
+    let off = () => {};
+    const touchDown = () => { timer = window.setTimeout(() => setReached(true), TOUCH_DOWN_MS + delay); };
+    if (!finePointer()) off = watchReading(host, touchDown);
+    else {
+      // A mouse: reached, then the page at rest, then reached still (a reader who flew past is waited for).
+      off = watchReading(host, () => { off = whenStill(() => { off = watchReading(host, touchDown); }); });
+    }
     return () => { off(); window.clearTimeout(timer); };
   }, [controlled, delay]);
 
@@ -152,6 +200,7 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
   }, [shape]);
   const on = wanted && primed;
   const strokes = shape?.strokes || [];
+  const flicks = shape?.flicks || [];
   const ms = DRAW_MS[mark] || 600;
   // Several strokes share the mark's time, one after the other.
   const each = strokes.length ? ms / strokes.length : ms;
@@ -170,6 +219,8 @@ export default function Doodle({ mark = 'underline', tone = 'ink', when, inkKey,
           {/* One stroke of the pen: its length is normalised to 1, so its dash draws it from its start to its end and
               nothing has to measure it. */}
           {strokes.map((d, i) => <path key={i} pathLength="1" className="dd__stroke" d={d} style={{ '--dd-stroke-ms': `${Math.round(each)}ms`, '--dd-stroke-delay': `${Math.round(i * each)}ms` }} />)}
+          {/* An accent's flicks come once the mark has landed, one after the other. */}
+          {flicks.map((d, i) => <path key={`f${i}`} pathLength="1" className="dd__stroke" d={d} style={{ '--dd-stroke-ms': `${FLICK_MS}ms`, '--dd-stroke-delay': `${Math.round(ms + 90 + i * FLICK_GAP_MS)}ms` }} />)}
         </svg>
       ) : null}
     </Tag>

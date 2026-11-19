@@ -181,7 +181,7 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
                 {slide.points?.length ? <ul className="td__points">{slide.points.map((point) => <li key={point}>{point}</li>)}</ul> : null}
                 <Link href={slide.href} className="lp-link td__cta td__cta--wide">{slide.cta}</Link>
               </div>
-              <div className="td__shot">
+              <div className="td__shot" data-cursor={on ? "Try it" : undefined}>
                 <div className="td__room">
                   <div className="td__fit" data-ss-fit="0.62">
                     {Screen ? <DeckScreen Screen={Screen} active={on} reduced={reduced || !pinned} play={on && running} epoch={on ? seq : -1} sample={samples?.[slide.id] ?? null} /> : null}

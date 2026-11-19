@@ -26,6 +26,16 @@ export const EXTRA_PAGES = Object.freeze([
   { id: 'review/revise', label: 'Revise', icon: 'brand:revise', href: '/review/revise', group: 'Practice' },
 ]);
 
+/**
+ * The first-use intro (19 Nov 2026, owner: "This is your one place to search everything"). Its line names only what the groups
+ * below really hold: the shell's pages, the Start group (practice, a mock, Revise, Mobi, today's five), every syllabus chapter, and
+ * the DU colleges and courses of searchIndex.json. The palette adds the shortcut for the device.
+ */
+export const SEARCH_INTRO = Object.freeze({
+  title: 'One place to search everything.',
+  line: 'Find any page, chapter, DU college or course, or start practice from here.',
+});
+
 /** The empty query's Go to: the six most used pages, in this order (a page the student does not have is left out). */
 export const EMPTY_GOTO = Object.freeze(['today', 'dashboard', 'review', 'learn', 'cards', 'analytics']);
 

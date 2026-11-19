@@ -70,7 +70,14 @@ test('the highlighter is one closed swipe behind the words; the pen keeps a pen\
 
 test('the mark is drawn once, from its start, when the words are reached; reduced motion shows it still', () => {
   const jsx = read('./Doodle.jsx');
-  assert.match(jsx, /rootMargin: '0px 0px -25% 0px', threshold: 0\.9/, 'wholly in view and clear of the lowest quarter of the window');
+  // Wholly in view and clear of the window's foot: its lowest quarter under a finger; under a mouse more of it, and only once
+  // the page has stopped (owner LK342, 19 Nov 2026: on a big screen the marks drew before he was looking).
+  assert.match(jsx, /export const READ_BAND = Object\.freeze\(\{ touch: 25, fine: 38 \}\);/);
+  assert.match(jsx, /rootMargin: `0px 0px -\$\{finePointer\(\) \? READ_BAND\.fine : READ_BAND\.touch\}% 0px`, threshold: 0\.9/);
+  assert.match(jsx, /if \(!finePointer\(\)\) off = watchReading\(host, touchDown\);/, 'a touch screen keeps its timing');
+  assert.match(jsx, /off = watchReading\(host, \(\) => \{ off = whenStill\(\(\) => \{ off = watchReading\(host, touchDown\); \}\); \}\);/, 'a mouse: reached, the page at rest, reached still');
+  assert.match(jsx, /window\.addEventListener\('scroll', stamp, \{ passive: true \}\)/);
+  assert.match(jsx, /if \(!waiters\) window\.removeEventListener\('scroll', stamp\);/, 'the scroll listener leaves with the last waiting mark');
   assert.match(jsx, /pathLength="1"/, 'a stroke is its own normalised length: nothing measures it');
   assert.match(jsx, /seen\.unobserve\(entry\.target\);/, 'once');
   assert.match(jsx, /const on = wanted && primed;/, 'never before its undrawn state was on screen');
@@ -121,19 +128,24 @@ test('no drawing tool, flick or flourish: the mark is the stroke alone', async (
   const { fileURLToPath } = await import('node:url');
   const jsx = read('./Doodle.jsx');
   const css = read('./doodle.css');
-  assert.doesNotMatch(jsx, /Pencil|Marker\b|offsetPath|dd__nib|accent/, 'the component draws no tool');
+  assert.doesNotMatch(jsx, /Pencil|Marker\b|offsetPath|dd__nib|followScroll|\bpen = /, 'the component draws no tool');
   assert.doesNotMatch(css, /dd__nib|dd__tool|offset-path|spark/, 'the sheet styles no tool');
   const root = fileURLToPath(new URL('../../', import.meta.url));
   const offenders = [];
+  const flicked = [];
   const walk = (dir) => {
     for (const name of readdirSync(dir)) {
       const p = join(dir, name);
       if (statSync(p).isDirectory()) { if (name !== 'doodle') walk(p); continue; }
       if (!/\.(jsx?|mjs)$/.test(name) || /\.test\./.test(name)) continue;
       const s = readFileSync(p, 'utf8');
-      if (/\bpen: true\b|<Doodle[^>]*\spen[\s>]|accent="spark"|accent: 'spark'|followScroll/.test(s)) offenders.push(p);
+      if (/\bpen: true\b|<Doodle[^>]*\spen[\s>]|followScroll/.test(s)) offenders.push(p);
+      if (/accent="spark"|accent: 'spark'/.test(s)) flicked.push(p.replace(/\\/g, '/').split('/src/')[1]);
     }
   };
   walk(root);
   assert.deepEqual(offenders, []);
+  // Owner, 19 Nov 2026 (LK342): the hero's price figure gets "that circle and three dots, how it had previously". The three
+  // flicks are strokes, not a tool, and that one figure is the only place that asks for them.
+  assert.deepEqual(flicked, ['components/landing/HeroBeatStrip.jsx']);
 });

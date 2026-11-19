@@ -35,14 +35,31 @@ function calmMood(kind) {
 // restyles. Off under Reduce motion, where the guide does not run at all. The scroll comes from the page's one
 // shared scroll read (scrollBus.mjs), not a listener and a frame request of its own, and the gaze sleeps while a held
 // story is on screen, where the page moves a whole resting place at once and "scroll speed" means nothing (LK69).
-const LOOK_VARS = ['--pip-look-x', '--pip-look-y', '--pip-follow'];
-function setLook(nodes, x, y, follow = 0) {
+const LOOK_VARS = ['--pip-look-x', '--pip-look-y', '--pip-follow', '--pip-bob'];
+function setLook(nodes, x, y, follow = 0, bob = 0) {
   for (const node of nodes) {
     node.style.setProperty('--pip-look-x', x.toFixed(2));
     node.style.setProperty('--pip-look-y', y.toFixed(2));
     node.style.setProperty('--pip-follow', follow.toFixed(3));
+    node.style.setProperty('--pip-bob', bob.toFixed(2));
   }
 }
+// Stops with no seat of their own (19 Nov 2026, owner LK343: "you have removed the scroll animations and all that kind of
+// stuff from Mobie ... replaced with static images"). The Mistake Lab, the tour and Key cards lost their seats on a wide
+// window in the rebuilds of 17 to 19 Nov, so the guide stood in ONE pose (the camera of the next seat down) from the Lab
+// to the Compass, half the page, and the Lab's own acts (he reads the replay, nods at the leak, jumps at the fix: station
+// "lab", MistakeLab.jsx) never played. A waypoint gives him a stop at the middle of a section without putting anything
+// in it: its place is the section's own box (never its contents, so a section the browser has not drawn yet is not laid
+// out for it), and he rides it through the lane as the section passes.
+export const WAYPOINTS = Object.freeze([
+  Object.freeze({ id: 'lab', pose: 'reading', section: 'inside-the-lab' }),
+  Object.freeze({ id: 'tour', pose: 'pointing', section: 'your-prep' }),
+  Object.freeze({ id: 'cards', pose: 'attentive', section: 'key-cards' }),
+]);
+/** His lane on a wide window stands this far from the right edge, and never further than this from the page's column. */
+const LANE_FROM_EDGE = 174;
+const LANE_FROM_COLUMN = 28;
+const COLUMN_MAX = 1680;
 function clearLook(nodes) {
   for (const node of nodes) {
     for (const name of LOOK_VARS) node.style.removeProperty(name);
@@ -90,15 +107,19 @@ function useLook(targets, enabled) {
     };
     const fine = matchMedia('(hover: hover) and (pointer: fine)');
     // Once per frame while the page moves, from the shared read; nothing runs for a fine pointer or a held story.
+    // A mouse that is moving owns his eyes; a mouse at rest (the wheel is turning) hands them to the scroll, as a finger
+    // does: his eyes run ahead the way the page goes and he lifts a little against it, then settles (19 Nov 2026, LK343:
+    // with a wheel the pointer rests, so on a desktop nothing about him answered the scroll). A touch screen still sleeps
+    // through a held story, where the page moves a resting place at a time.
     const onFrame = ({ y, t: now }) => {
-      if (fine.matches || scrollBus.held()) { lastY = y; lastT = 0; return; }
+      if (fine.matches ? performance.now() - pointer.at < 700 : scrollBus.held()) { lastY = y; lastT = 0; return; }
       const nodes = inViewNow();
       const dt = lastT ? Math.max(16, now - lastT) : 16;
       const v = clamp((y - lastY) / dt / 1.4, -1, 1);
       lastY = y;
       lastT = now;
       if (!nodes.length) return;
-      setLook(nodes, 0, v * 0.9, 0);
+      setLook(nodes, 0, v * 0.9, 0, fine.matches ? -v : 0);
       nodes.forEach((n) => { n.dataset.pipLooking = 'true'; });
       settle(260);
     };
@@ -291,7 +312,12 @@ export default function PipGuide() {
       const stations = [...document.querySelectorAll('[data-pip-station]')].map(seat => ({
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
       })).filter(s=>s.art && s.art.getBoundingClientRect().height > 0);
+      for (const way of WAYPOINTS) {
+        const section = document.getElementById(way.section);
+        if (section && !stations.some(s => s.id === way.id)) stations.push({ seat: document.createElement('span'), id: way.id, pose: way.pose, art: null, section });
+      }
       if (!stations.length) { delete root.dataset.pipGuide; return; }
+      let ordered = false;
       let raf=0,index=0,current=null,lastTime=0,disposed=false,arrivedAt=0;const greeted=new Set();
       let mood=null,reactionUntil=0,n=0;
       const pending=new Map();
@@ -302,16 +328,24 @@ export default function PipGuide() {
       const layoutTop=(el)=>{let y=0;for(let n=el;n;n=n.offsetParent)y+=n.offsetTop;return y;};
       // A transition on a seat in a section that is not drawn (content-visibility) cannot advance until the section is
       // drawn, and while it waits the page restyles every frame: measuring reads those seats, so it ends theirs at once.
-      const settleUndrawn=()=>{for(const s of stations){if(!undrawn(s.seat)||typeof s.seat.getAnimations!=='function')continue;for(const a of s.seat.getAnimations({subtree:true}))if(a.transitionProperty)a.finish();}};
+      const settleUndrawn=()=>{for(const s of stations){if(s.section||!undrawn(s.seat)||typeof s.seat.getAnimations!=='function')continue;for(const a of s.seat.getAnimations({subtree:true}))if(a.transitionProperty)a.finish();}};
       function measure() {
         const wide=innerWidth>=1100;
         // Every write, then every read, then every write: one layout for all the seats, not one per seat.
         for (const s of stations) s.seat.style.transform='none';
+        // The lane: near the right edge, but beside the page's column on a very wide window (at 2560 he stood 270 px
+        // out in the margin, away from everything he was pointing at).
+        const laneX=Math.min(innerWidth-LANE_FROM_EDGE,(innerWidth+Math.min(COLUMN_MAX,innerWidth-48))/2+LANE_FROM_COLUMN);
         if (wide) {
-          const lefts=stations.map(s=>s.seat.getBoundingClientRect().left);
-          stations.forEach((s,i)=>{s.seat.style.transform=`translateX(${innerWidth-174-lefts[i]}px)`;});
+          const lefts=stations.map(s=>s.section?0:s.seat.getBoundingClientRect().left);
+          stations.forEach((s,i)=>{if(!s.section)s.seat.style.transform=`translateX(${laneX-lefts[i]}px)`;});
         }
-        geometry=stations.map(s=>{const r=s.art.getBoundingClientRect();return {x:r.left,y:layoutTop(s.art),w:r.width,h:r.height};});
+        geometry=stations.map(s=>{
+          if(s.section) return {x:laneX,y:layoutTop(s.section)+s.section.offsetHeight/2-90,w:160,h:180};
+          const r=s.art.getBoundingClientRect();return {x:r.left,y:layoutTop(s.art),w:r.width,h:r.height};
+        });
+        // Down the page in order, once (the waypoints were added after the seats).
+        if(!ordered){ordered=true;const order=stations.map((_,i)=>i).sort((a,b)=>geometry[a].y-geometry[b].y);const st=order.map(i=>stations[i]);geometry=order.map(i=>geometry[i]);stations.splice(0,stations.length,...st);}
         // His lane on a wide window: where a lane seat's art stands (an eyebrow seat stays centred over its head).
         lane=wide?geometry.find((g,i)=>!stations[i].seat.classList.contains('pip-seat--eyebrow'))||null:null;
         mainEnd=(document.querySelector('main')?.getBoundingClientRect().bottom || innerHeight)+scrollY;

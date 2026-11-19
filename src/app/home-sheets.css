@@ -7039,7 +7039,17 @@ body .mm.lp main > .lp-close { contain-intrinsic-size: auto 668px; }
 .lp-torch { position: fixed; left: 0; top: 0; z-index: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity 500ms ease; will-change: transform; background: radial-gradient(closest-side, rgb(196 240 0 / 0.15), rgb(196 240 0 / 0.055) 52%, rgb(196 240 0 / 0)); }
 .lp-torch[data-on] { opacity: 1; }
 .lp-torch[data-on][data-off] { opacity: 0; transition-duration: 220ms; }
-html:not([data-theme='light']) .lp-torch { background: radial-gradient(closest-side, rgb(210 240 0 / 0.1), rgb(210 240 0 / 0.035) 52%, rgb(210 240 0 / 0)); }
+/* Night (owner LK338, 19 Nov 2026: "a bit too large and excessive in dark mode"): volt on a dark page carries much further
+   than on paper, so the light is two thirds the width and about half the strength. */
+html:not([data-theme='light']) .lp-torch { width: 420px; height: 420px; margin: -210px 0 0 -210px; background: radial-gradient(closest-side, rgb(210 240 0 / 0.055), rgb(210 240 0 / 0.018) 55%, rgb(210 240 0 / 0)); }
+/* The ring snaps onto a key (owner LK339, 19 Nov 2026: "it automatically snaps onto that button"). Over a key, or within a
+   few pixels of one, the round ring lets go and this outline takes the key's own shape, a little outside its edge. Its size
+   and radius are written once as it takes a key; after that only transform, scale and opacity change. */
+.lp-snap { position: fixed; left: 0; top: 0; z-index: 139; box-sizing: border-box; border: 1.5px solid rgb(var(--tint) / 0.5); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.32); border-radius: 14px; pointer-events: none; opacity: 0; scale: 0.9; transition: opacity 130ms ease, scale 240ms cubic-bezier(0.2, 1.3, 0.3, 1); will-change: transform; }
+.lp-snap[data-on] { opacity: 1; scale: 1; }
+.lp-snap[data-on][data-press] { scale: 0.965; transition-duration: 90ms; }
+.lp-cursor[data-on='snap'] .lp-cursor__ring { transform: scale(0.3); opacity: 0; }
+.lp-cursor__ring { transition: transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 200ms ease, border-color 200ms ease, opacity 140ms ease; }
 /* A picture that turns to face the arrow. The two angles are the element's own (not inherited), so writing them restyles
    that one element and nothing inside it. */
 @property --tilt-x { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
@@ -7074,6 +7084,6 @@ html:not([data-theme='light']) .lp-torch { background: radial-gradient(closest-s
   }
 }
 @keyframes lp-depth { from { translate: 0 40px; } to { translate: 0 -40px; } }
-@media not ((hover: hover) and (pointer: fine)) { .lp-cursor, .lp-torch { display: none; } }
-@media (prefers-reduced-motion: reduce) { .lp-cursor, .lp-torch { display: none; } }
-html[data-motion='reduced'] :is(.lp-cursor, .lp-torch) { display: none; }
+@media not ((hover: hover) and (pointer: fine)) { .lp-cursor, .lp-torch, .lp-snap { display: none; } }
+@media (prefers-reduced-motion: reduce) { .lp-cursor, .lp-torch, .lp-snap { display: none; } }
+html[data-motion='reduced'] :is(.lp-cursor, .lp-torch, .lp-snap) { display: none; }

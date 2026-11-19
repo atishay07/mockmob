@@ -25,9 +25,10 @@ test('openAskMobi reports whether a host took the request', () => {
   const host = new EventTarget();
   host.addEventListener(ASK_MOBI_EVENT, (event) => { heard.push(event.detail); event.preventDefault(); });
   assert.equal(openAskMobi({ tab: 'ask', questionRef: 'a1:q2' }, host), true);
-  assert.deepEqual(heard[0], { tab: 'ask', questionRef: 'a1:q2', origin: null, context: { kind: 'question', ref: 'a1:q2', label: null, number: null, chapter: null, lines: [], pickLabel: null, keyLabel: null } });
+  // `launcher` (19 Nov 2026) is true only for the desktop launcher's own open; every other caller sends false.
+  assert.deepEqual(heard[0], { tab: 'ask', questionRef: 'a1:q2', origin: null, context: { kind: 'question', ref: 'a1:q2', label: null, number: null, chapter: null, lines: [], pickLabel: null, keyLabel: null }, launcher: false });
   assert.equal(openAskMobi({ tab: 'bogus', questionRef: '<script>' }, host), true);
-  assert.deepEqual(heard[1], { tab: 'plan', questionRef: null, origin: null, context: { kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] } });
+  assert.deepEqual(heard[1], { tab: 'plan', questionRef: null, origin: null, context: { kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] }, launcher: false });
   // No host mounted (a public page, the timed runner): the caller keeps its plain link.
   assert.equal(openAskMobi({ tab: 'ask' }, new EventTarget()), false);
   assert.equal(isPlainClick({ button: 0 }), true);

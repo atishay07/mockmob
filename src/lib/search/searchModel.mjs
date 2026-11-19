@@ -263,18 +263,41 @@ export function typesText({ tag = '', editable = false, type = '' } = {}) {
   return false;
 }
 
+/** True for Ctrl+Space alone (no Alt, Shift or Meta): Search's shown key on Windows and Linux. */
+export function isCtrlSpace(key = {}) {
+  const k = String(key.key ?? '');
+  const space = k === ' ' || k === 'Spacebar' || key.code === 'Space';
+  return space && Boolean(key.ctrlKey) && !key.metaKey && !key.altKey && !key.shiftKey;
+}
+
 /**
- * What a key press does to Search: 'open' or null. Ctrl+K and Cmd+K open it from anywhere (an input too); "/" opens it only
- * when focus is not in something that takes typing. Never on a blocked route, never while another dialog or sheet is open,
- * never while Search is already open, never for a repeat, a press already handled, or one mid-composition (IME).
- * `key`: { key, ctrlKey, metaKey, altKey, shiftKey, repeat, isComposing, defaultPrevented }
- * `context`: { path, dialogOpen, open, target: { tag, editable, type } }
+ * The keys a device shows for Search and the ones that work there, as aria-keyshortcuts lists them.
+ * Windows and Linux show Ctrl Space (one hand, the shape of a Mac's Spotlight key: Alt+Space is Windows' own window menu and
+ * Win+Space its language switch, so neither can be taken); Ctrl+K and "/" keep working, unshown. A Mac shows ⌘K and never takes
+ * Ctrl+Space (its input-source key).
  */
-export function searchKeyAction(key = {}, { path = '', dialogOpen = false, open = false, target = {} } = {}) {
-  if (open || dialogOpen || searchBlockedOn(path)) return null;
+export function searchShortcut({ mac = false } = {}) {
+  return mac
+    ? { caps: ['⌘', 'K'], words: '⌘K', aria: 'Meta+K Control+K /' }
+    : { caps: ['Ctrl', 'Space'], words: 'Ctrl Space', aria: 'Control+Space Control+K /' };
+}
+
+/**
+ * What a key press does to Search: 'open', 'close' or null. Ctrl+K and Cmd+K open it from anywhere (an input too); so does
+ * Ctrl+Space on Windows and Linux (`mac` false), which also closes it again; "/" opens it only when focus is not in something that
+ * takes typing. Never on a blocked route, never while another dialog or sheet is open, never for a repeat, a press already handled,
+ * or one mid-composition (IME). While Search is open only Ctrl+Space does anything (it closes).
+ * `key`: { key, code, ctrlKey, metaKey, altKey, shiftKey, repeat, isComposing, defaultPrevented }
+ * `context`: { path, dialogOpen, open, mac, target: { tag, editable, type } }
+ */
+export function searchKeyAction(key = {}, { path = '', dialogOpen = false, open = false, mac = false, target = {} } = {}) {
   if (key.defaultPrevented || key.isComposing || key.repeat) return null;
+  const ctrlSpace = !mac && isCtrlSpace(key);
+  if (open) return ctrlSpace ? 'close' : null;
+  if (dialogOpen || searchBlockedOn(path)) return null;
   const k = String(key.key || '');
   if ((key.ctrlKey || key.metaKey) && !key.altKey && !key.shiftKey && k.toLowerCase() === 'k') return 'open';
+  if (ctrlSpace) return 'open';
   if (k === '/' && !key.ctrlKey && !key.metaKey && !key.altKey && !typesText(target)) return 'open';
   return null;
 }
