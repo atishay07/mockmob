@@ -20,9 +20,10 @@ import { ExamStage } from './ExamScreen';
 import KeyCardsDemo from './KeyCardsDemo';
 import { BringMistakeCard } from './BringMistakeBlock';
 import { STRIP_OBJECT_BOX, stripObjectSrc, stripObjectSrcSet } from './stripObjects.mjs';
-import { ONE_PLACE } from './onePlaceCopy.mjs';
+import { ONE_PLACE, bankLine } from './onePlaceCopy.mjs';
 import { EXAM } from './homeCopy.mjs';
-import { ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, autoplayRuns, keyStep, motionReduced, nextIndex, scriptMs } from './onePlaceModel.mjs';
+import Link from 'next/link';
+import { EXAM_CAMERA, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, scriptMs } from './onePlaceModel.mjs';
 import './one-place.css';
 
 function useOnePlace(count) {
@@ -36,8 +37,11 @@ function useOnePlace(count) {
   const [onScreen, setOnScreen] = useState(false);
   const [visible, setVisible] = useState(true);
   const [held, setHeld] = useState(false);
+  // After one full pass the frame rests on the last finished screen, until it comes back into the window or a row is chosen.
+  const [resting, setResting] = useState(false);
   const heldRef = useRef(false);
-  useEffect(() => { heldRef.current = held; }, [held]);
+  const restRef = useRef(false);
+  useEffect(() => { heldRef.current = held; restRef.current = resting; }, [held, resting]);
 
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -49,16 +53,22 @@ function useOnePlace(count) {
     return () => { window.clearTimeout(first); query?.removeEventListener?.('change', read); watch?.disconnect(); };
   }, []);
 
-  // "On screen" is the middle band of the window. Leaving it (or hiding the tab) cuts the run short: the stage is mounted
-  // fresh, so the next run starts from the beginning, never from a half-worked screen. A reader's own screen is kept.
+  // "On screen" is the middle band of the window. Leaving it cuts a run short: the stage is mounted fresh, so the next run
+  // starts from the beginning, never from a half-worked screen. A reader who took over is let go once the frame has left
+  // (their screen is no longer in front of them). Coming back after a finished pass starts the pass again from the top.
   useEffect(() => {
     const node = frameRef.current;
     if (!node || typeof IntersectionObserver === 'undefined') return undefined;
     let was = false;
     const io = new IntersectionObserver(([entry]) => {
-      setOnScreen(entry.isIntersecting);
-      if (was && !entry.isIntersecting && !heldRef.current) setCycle((c) => c + 1);
-      was = entry.isIntersecting;
+      const on = entry.isIntersecting;
+      setOnScreen(on);
+      if (was && !on) {
+        if (heldRef.current) { window.clearTimeout(holdTimer.current); setHeld(false); }
+        if (!restRef.current) setCycle((c) => c + 1);
+      }
+      if (!was && on && restRef.current) { setResting(false); setIndex(0); setCycle((c) => c + 1); }
+      was = on;
     }, { rootMargin: '-20% 0px -20% 0px' });
     io.observe(node);
     return () => io.disconnect();
@@ -68,7 +78,7 @@ function useOnePlace(count) {
     const read = () => {
       const shown = document.visibilityState !== 'hidden';
       setVisible(shown);
-      if (!shown && !heldRef.current) setCycle((c) => c + 1);
+      if (!shown && !heldRef.current && !restRef.current) setCycle((c) => c + 1);
     };
     document.addEventListener('visibilitychange', read);
     return () => document.removeEventListener('visibilitychange', read);
@@ -79,24 +89,30 @@ function useOnePlace(count) {
   const choose = useCallback((to) => {
     window.clearTimeout(holdTimer.current);
     setHeld(false);
+    setResting(false);
     setIndex(to);
     setCycle((c) => c + 1);
   }, []);
 
+  // A row's script has ended: the next row, or rest on this one after the last (no remount: its finished screen stays).
   const advance = useCallback(() => {
-    setIndex((i) => nextIndex(i, count));
+    const next = afterRow(index, count);
+    if (next === null) { setResting(true); return; }
+    setIndex(next);
     setCycle((c) => c + 1);
-  }, [count]);
+  }, [index, count]);
 
   const takeover = useCallback(() => {
     window.clearTimeout(holdTimer.current);
     setHeld(true);
   }, []);
 
-  // The hold ends once the pointer (or the focus) has been outside the frame for 8 s. Never while the exam screen's own
-  // full-screen view is open over the page (the reader is still using it; it lives outside the frame).
-  const armRelease = useCallback(() => {
+  // With a mouse (or the keyboard), the hold ends once the pointer (or the focus) has been outside the frame for 8 s. Never
+  // while the exam screen's own full-screen view is open over the page (it lives outside the frame). A finger lifting also
+  // fires pointerleave, so on touch nothing here runs: the frame leaving the window, or another row, lets the reader go.
+  const armRelease = useCallback((event) => {
     if (!heldRef.current) return;
+    if (event?.type === 'pointerleave' && !leaveStartsHold(event.pointerType)) return;
     window.clearTimeout(holdTimer.current);
     const end = () => {
       if (document.querySelector('dialog.xs-full[open]')) { holdTimer.current = window.setTimeout(end, TAKEOVER_HOLD_MS); return; }
@@ -107,9 +123,9 @@ function useOnePlace(count) {
   }, []);
   const stayHeld = useCallback(() => window.clearTimeout(holdTimer.current), []);
 
-  const playing = autoplayRuns({ ready, reduced, onScreen, visible, held });
+  const playing = autoplayRuns({ ready, reduced, onScreen, visible, held }) && !resting;
   const blurOut = useCallback((event) => { if (!event.currentTarget.contains(event.relatedTarget)) armRelease(); }, [armRelease]);
-  return { frameRef, index, cycle, reduced, held, playing, choose, advance, takeover, stayHeld, armRelease, blurOut };
+  return { frameRef, index, cycle, reduced, held, resting, playing, choose, advance, takeover, stayHeld, armRelease, blurOut };
 }
 
 function RowObject({ name }) {
@@ -126,19 +142,21 @@ function RowObject({ name }) {
 // the same arrows, address pill and scale: --u is 1/880 of the window, as on the monitor's glass) with the address the tool
 // really lives at. From 960 px it is a window as wide as the monitor's screen and as tall as the frame; on a phone only the
 // slim bar shows over the card (one-place.css). Decorative: the component inside is the thing.
-function AppWindow({ path, children }) {
+function AppWindow({ path, fill = false, children }) {
   return (
     <div className="op-win">
       <div className="xs-browser op-win__bar" aria-hidden="true">
         <span className="xs-browser__nav"><ChevronLeft /><ChevronRight /><RotateCw /></span>
         <span className="xs-url"><Lock /><span><b>{EXAM.address.host}</b>{path}</span></span>
       </div>
-      <div className="op-win__body">{children}</div>
+      <div className={fill ? 'op-win__body op-win__body--fill' : 'op-win__body'}>{children}</div>
     </div>
   );
 }
 
-export default function OnePlace({ keyCards = null, photo = false }) {
+// `price`: Bring a mistake's credit line, worked out on the server from the app's prices (onePlaceCopy.mjs mobiPrice).
+// `children`: what goes under the stage (the volt key and the other tools), in the stage's column from 960 px.
+export default function OnePlace({ keyCards = null, photo = false, price = null, children = null }) {
   const rows = useMemo(() => ONE_PLACE.rows.filter((row) => row.id !== 'cards' || keyCards), [keyCards]);
   const count = rows.length;
   const { frameRef, index, cycle, reduced, held, playing, choose, advance, takeover, stayHeld, armRelease, blurOut } = useOnePlace(count);
@@ -170,10 +188,18 @@ export default function OnePlace({ keyCards = null, photo = false }) {
   };
 
   // The exam keeps its monitor and stand; its NTA gate card shows on phones only (one-place.css), where it fills the stage.
+  // Each row's proof line under its stage: the live section's own words and numbers.
+  const bank = bankLine(keyCards?.bank);
+  const proof = (row) => {
+    if (row.id === 'practise') return <p className="op-proof">{ONE_PLACE.practiseProof}</p>;
+    if (row.id === 'cards') return <p className="op-proof">{bank ? <>{bank} </> : null}<Link href={ONE_PLACE.decksHref} prefetch={false} className="lp-link">{ONE_PLACE.decksLink}</Link></p>;
+    return price ? <p className="op-proof">{price}</p> : null;
+  };
+
   const stage = (row) => {
     if (row.id === 'practise') return <ExamStage />;
     if (row.id === 'cards') return <AppWindow path={row.path}><div className="op-kc"><KeyCardsDemo cards={keyCards.cards} keys={keyCards.keys} bank={keyCards.bank} subjects={keyCards.subjects} foot={false} /></div></AppWindow>;
-    return <AppWindow path={row.path}><div className="bmk op-bmk"><BringMistakeCard photo={photo} /></div></AppWindow>;
+    return <AppWindow path={row.path} fill><div className="bmk op-bmk"><BringMistakeCard photo={photo} /></div></AppWindow>;
   };
 
   return (
@@ -203,13 +229,16 @@ export default function OnePlace({ keyCards = null, photo = false }) {
           return (
             <div key={row.id} className="op-slot" data-tool={row.id} data-on={on || undefined} role="tabpanel" id={`op-panel-${row.id}`} aria-labelledby={`op-tab-${row.id}`}
               inert={!on || undefined} aria-hidden={on ? undefined : true}>
-              <CursorDemo key={on ? `on-${cycle}` : 'idle'} steps={SCRIPTS[row.id]} playing={on && playing} onDone={advance} onTakeover={takeover} className="op-stage">
+              <CursorDemo key={on ? `on-${cycle}` : 'idle'} steps={SCRIPTS[row.id]} playing={on && playing} onDone={advance} onTakeover={takeover}
+                zoom={row.id === 'practise' ? EXAM_CAMERA : null} className="op-stage">
                 {stage(row)}
               </CursorDemo>
+              {proof(row)}
             </div>
           );
         })}
       </div>
+      {children ? <div className="op-foot">{children}</div> : null}
     </div>
   );
 }

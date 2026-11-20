@@ -4,7 +4,8 @@
 //
 // SCRIPTS: what the demo cursor (demo/CursorDemo.jsx) does on each row's stage, the landing's own real component:
 //   practise  ExamStage (ExamScreen.jsx): pick an option in MockMob style, Next, switch to NTA style (answers kept), pick an
-//             option, NTA's Save & Next, pick again, NTA's Mark for Review & Next. The palette's counts change as it goes.
+//             option, NTA's Save & Next, pick on the new question, Save & Next again. The palette's counts change as it
+//             goes. On a phone the camera frames each step (EXAM_CAMERA, SHOT) and looks at each new question.
 //   cards     KeyCardsDemo.jsx: turn the card, rate it Got it (the app's key), the next card rises, turn it.
 //   mobi      BringMistakeCard (BringMistakeBlock.jsx): Question, then Read, then Check (the right option of the fresh
 //             question), then Practise.
@@ -15,10 +16,13 @@
 //   * It plays only while all of these hold: hydrated, motion not reduced (prefers-reduced-motion or html[data-motion]),
 //     the frame in the middle band of the window, the tab visible, and no reader holding it. Otherwise the rows are a plain
 //     tab list, the first tool shown, every screen usable by hand.
-//   * A row plays its script once, then the frame moves to the next row (after the last, the first). Each row starts from
-//     the component's start state (a fresh mount).
-//   * A tap or click on a row jumps there and plays that row. A press inside the stage is the reader taking over: autoplay
-//     holds until the pointer (or the focus) has been outside the frame for TAKEOVER_HOLD_MS, or another row is chosen.
+//   * A row plays its script once, then the frame moves to the next row. After one pass through the rows it rests on the
+//     last finished screen; the pass starts again only when the frame comes back into the window. Each row starts from the
+//     component's start state (a fresh mount).
+//   * A tap or click on a row jumps there and plays that row (and the rows after it, to the end of the pass). A press inside
+//     the stage is the reader taking over, and the stage is never remounted under them: with a mouse, autoplay holds until
+//     the pointer (or the focus) has been outside the frame for TAKEOVER_HOLD_MS; on touch (lifting a finger ends the
+//     pointer too), only until the frame leaves the window or another row is chosen.
 import { BRING_MISTAKE } from './bringMistakeCopy.mjs';
 
 export const TAKEOVER_HOLD_MS = 8000;
@@ -27,33 +31,62 @@ export const CURSOR_PRESS_MS = 130;
 export const CURSOR_ENTER_MS = 220;
 export const CURSOR_EXIT_MS = 260;
 
-const click = (target, move, dwell, at) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}) });
+const click = (target, move, dwell, at, zoom, frame) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}), ...(zoom ? { zoom } : {}), ...(frame ? { frame } : {}) });
+const look = (selector, move, dwell) => Object.freeze({ look: selector, move, dwell });
 
 // The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
 const RIGHT = BRING_MISTAKE.check.correct + 1;
 
+// The camera on the exam screen (21 Nov 2026): below 640 px the monitor's screen is drawn at about 40% of its design size, so
+// its stem came out at 7 px and its options at under 6. Each step on the screen zooms the screen (the frame inside the glass;
+// the monitor stays a monitor, LK319) about its target, at least ZOOM_AT and enough that the target's text is drawn at 12 px
+// or more. The switch beside the monitor eases back out. CursorDemo's `zoom` prop takes this.
+export const ZOOM_AT = 2.1;
+export const EXAM_CAMERA = Object.freeze({ el: '.xs-glass > .xs-frame', below: 640, minPx: 12, max: 3.2 });
+// The shots are composed, not centred on the key (21 Nov, the coordinator's look at the first camera: a key and blank boxes,
+// no question). A pick frames the stem and the four options. A key press frames the key with the palette beside it, whose
+// counts and chips change with the press: at the camera's least scale the chosen option (the screen's left) and the key (its
+// right) never fit one shot, and between the options and the key bar both screens are blank paper (measured: 60 to 95% of
+// the shot blank). So the key the script presses is the one next to the palette (Next; Save & Next), never NTA's Mark key at
+// the far left. After a press that brings a new question, a look beat pans to its stem and options and holds. Both screens'
+// parts are named, since only the one on show matches.
+export const SHOT = Object.freeze({
+  question: '.xs-stem, .xs-options, .xs-n-stem, .xs-n-options',
+  panel: '.xs-review, .xs-n-palette',
+});
+export const LOOK_MS = 700;
+
+// Every row runs 8 s or less (owner: each screen lasts about 5 s; the critic timed 9.7 and 10.4).
+export const ROW_MAX_MS = 8000;
+
 export const SCRIPTS = Object.freeze({
+  // MockMob: pick on Q3, Next (palette beside it), look at Q4. The switch: the one shot out at scale 1, about 600 ms (move in
+  // 380, press, a short dwell), then straight into the NTA question. NTA: pick, Save & Next, look at Q5, pick, Save & Next
+  // (Q5 is the paper's last live question, so it stays; the palette counts it answered). The look beats' time comes out of
+  // the dwells.
   practise: Object.freeze([
-    click('[data-demo="xs-option"]:nth-child(2)', 520, 600),
-    click('[data-demo="xs-next"]', 480, 650),
-    click('[data-demo="xs-nta"]', 560, 850),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 520, 500, [0.3, 0.5]),
-    click('[data-demo="xs-n-save"]', 460, 650),
-    click('[data-demo="xs-n-option"]:nth-child(1)', 480, 450, [0.3, 0.5]),
-    click('[data-demo="xs-n-mark"]', 460, 1400),
+    click('[data-demo="xs-option"]:nth-child(2)', 440, 250, [0.25, 0.5], ZOOM_AT, SHOT.question),
+    click('[data-demo="xs-next"]', 380, 150, null, ZOOM_AT, SHOT.panel),
+    look(SHOT.question, 400, LOOK_MS),
+    click('[data-demo="xs-nta"]', 380, 150),
+    click('[data-demo="xs-n-option"]:nth-child(3)', 440, 250, [0.3, 0.5], ZOOM_AT, SHOT.question),
+    click('[data-demo="xs-n-save"]', 380, 150, null, ZOOM_AT, SHOT.panel),
+    look(SHOT.question, 400, LOOK_MS),
+    click('[data-demo="xs-n-option"]:nth-child(2)', 400, 200, [0.3, 0.5], ZOOM_AT, SHOT.question),
+    click('[data-demo="xs-n-save"]', 380, 400, null, ZOOM_AT, SHOT.panel),
   ]),
   cards: Object.freeze([
-    Object.freeze({ wait: 700 }),
-    click('[data-demo="kc-turn"]', 560, 1700),
-    click('[data-demo="kc-rate"]:nth-child(2)', 520, 1000),
-    click('[data-demo="kc-turn"]', 560, 2000),
+    Object.freeze({ wait: 400 }),
+    click('[data-demo="kc-turn"]', 520, 1500),
+    click('[data-demo="kc-rate"]:nth-child(2)', 500, 900),
+    click('[data-demo="kc-turn"]', 520, 1600),
   ]),
   mobi: Object.freeze([
-    Object.freeze({ wait: 1300 }),
-    click('[data-demo="bmk-tab"]:nth-child(2)', 560, 1900),
-    click('[data-demo="bmk-tab"]:nth-child(3)', 440, 800),
-    click(`[data-demo="bmk-option"]:nth-child(${RIGHT})`, 520, 1700, [0.25, 0.5]),
-    click('[data-demo="bmk-tab"]:nth-child(4)', 560, 1600),
+    Object.freeze({ wait: 500 }),
+    click('[data-demo="bmk-tab"]:nth-child(2)', 420, 1200),
+    click('[data-demo="bmk-tab"]:nth-child(3)', 420, 1200),
+    click(`[data-demo="bmk-option"]:nth-child(${RIGHT})`, 420, 1200, [0.25, 0.5]),
+    click('[data-demo="bmk-tab"]:nth-child(4)', 420, 1200),
   ]),
 });
 
@@ -62,6 +95,7 @@ export function scriptMs(steps = []) {
   let ms = CURSOR_ENTER_MS + CURSOR_EXIT_MS;
   for (const step of steps) {
     if (step.wait) { ms += step.wait; continue; }
+    if (step.look) { ms += (step.move ?? 0) + (step.dwell ?? 0); continue; }
     ms += (step.move ?? 0) + (step.click ? CURSOR_PRESS_MS : 0) + (step.dwell ?? 0);
   }
   return ms;
@@ -79,6 +113,12 @@ export function autoplayRuns({ ready = false, reduced = true, onScreen = false, 
 
 /** The row after `index`, wrapping to the first. */
 export const nextIndex = (index, count) => (count > 0 ? (index + 1) % count : 0);
+
+/** After a row's script ends: the next row, or null to rest (the pass ends on the last row). */
+export const afterRow = (index, count) => (index < count - 1 ? index + 1 : null);
+
+/** Does a pointer leaving the frame start the takeover's hold timer? Only a mouse: lifting a finger also "leaves". */
+export const leaveStartsHold = (pointerType) => pointerType === 'mouse';
 
 /** Where a key moves the selection in a tab list of `count` rows, or null for any other key. */
 export function keyStep(key, index, count) {

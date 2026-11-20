@@ -1,6 +1,7 @@
 /* /home-next's one frame (OnePlace.jsx, owner LK363). Rows beside the stage from 960 px, three chips above it on a phone.
    Transform and opacity only for anything that moves; no blur, no glow; the row's line is one transform animation. */
-.op-frame { --op-ease: cubic-bezier(0.23, 1, 0.32, 1); --op-rim: rgba(23, 21, 15, 0.7); display: grid; gap: 12px; margin-top: 1.25rem; }
+/* --op-dev: the exam monitor's width, which the app windows match (and the key and chips centre under, from 960 px). */
+.op-frame { --op-ease: cubic-bezier(0.23, 1, 0.32, 1); --op-rim: rgba(23, 21, 15, 0.7); --op-dev: 760px; display: grid; gap: 12px; margin-top: 1.25rem; }
 html[data-theme='dark'] .op-frame { --op-rim: rgba(244, 240, 230, 0.5); }
 
 /* ---- the rows: chips on a phone ---- */
@@ -34,6 +35,9 @@ html[data-theme='dark'] .op-row[data-on] .op-row__track { background: var(--line
   .op-row:not([data-on]):hover { background: var(--surface-hover, var(--paper-raised)); color: var(--ink); }
 }
 .op-caption { margin: 2px 2px 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-align: center; }
+/* The rows' lines are one line at 390 px; on a narrower phone one may wrap, so the caption keeps two lines' room there and
+   the frame never changes height between rows. */
+@media (max-width: 379px) { .op-caption { min-height: 2.8em; } }
 
 /* ---- the stage: three slots in one grid cell, only the chosen one shown ---- */
 .op-stages { display: grid; min-width: 0; }
@@ -73,10 +77,8 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-slot[data-tool='practise'] .xs-layout > .xs-switch button { justify-content: center; }
 }
 @media (max-width: 639px) {
-  .op-slot[data-tool='practise'] .xs-layout > .xs-full-open {
-    align-self: start; margin: -4px 0 0; border-radius: 12px; font-weight: 750;
-    background: var(--ink); border-color: var(--ink); color: var(--paper);
-  }
+  /* The live section's phone key is ink; here it stays the secondary key, so the volt Sign up key is the one heavy key. */
+  .op-slot[data-tool='practise'] .xs-layout > .xs-full-open { align-self: start; margin: -4px 0 0; border-radius: 12px; }
   .op-slot[data-tool='practise'] .xs-layout > .xs-switch { border-radius: 12px; background: var(--paper-sunken); }
   .op-slot[data-tool='practise'] .xs-layout > .xs-switch button { border-radius: 9px; }
 }
@@ -86,18 +88,27 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
    the slim bar alone over the card, no window border. From 960 px: a window as wide as the monitor's screen (the glass is
    97.4% of the device, exam-device.css; the device is at most 760 px here), its glass's corner, as tall as the frame. */
 .op-win { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
-.op-win__bar { --u: calc(100cqw / 880); border: 0; border-radius: 8px; margin-bottom: 10px; }
+/* Below 960 px the bar's words would be drawn at 4 to 5 px: the cards show as they are, with no bar. */
+.op-win__bar { display: none; --u: calc(100cqw / 880); }
 .op-win__body { display: grid; align-content: start; min-width: 0; }
 @media (min-width: 960px) {
-  .op-slot:is([data-tool='cards'], [data-tool='mobi']) { align-content: stretch; }
+  .op-slot:is([data-tool='cards'], [data-tool='mobi']) { align-content: stretch; grid-template-rows: minmax(0, 1fr) auto; }
   .op-slot:is([data-tool='cards'], [data-tool='mobi']) .op-stage { align-self: stretch; display: grid; }
   .op-win {
-    width: calc(min(760px, 100%) * 0.974); margin-inline: auto; overflow: hidden;
-    border: 1px solid var(--line-strong); border-radius: calc(min(760px, 100%) * 0.004 + 2px);
-    background: var(--paper-raised); box-shadow: var(--sh-1);
+    width: calc(min(var(--op-dev), 100%) * 0.974); margin-inline: auto; overflow: hidden;
+    border: 1px solid var(--line-strong); border-radius: calc(min(var(--op-dev), 100%) * 0.004 + 2px);
+    background: var(--paper); box-shadow: var(--sh-1);
   }
-  .op-win__bar { margin: 0; border-radius: 0; border-bottom: 1px solid var(--line); }
-  .op-win__body { align-content: center; justify-items: center; padding: 20px; }
+  .op-win__bar { display: flex; margin: 0; border-bottom: 1px solid var(--line); }
+  .op-win__body { align-content: center; justify-items: center; padding: 24px; }
+  /* No card inside a blank window: the components lose their own outer edge and sit on the app's page. Key cards keeps its
+     card (it is the thing turned over) without the frame around it; Bring a mistake's card IS the page, edge to edge. */
+  .op-win .kc-demo__face { border-color: transparent; box-shadow: none; }
+  .op-win__body--fill { padding: 0; align-content: stretch; justify-items: stretch; }
+  .op-win .op-bmk { justify-items: stretch; }
+  .op-win .op-bmk .bmk__demo { max-width: none; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+  .op-win .op-bmk .bmk__card { border: 0; border-radius: 0; }
+  .op-win .op-bmk .bmk__honest { margin: 0; padding: 10px 24px 14px; }
 }
 
 /* Key cards: the demo alone, centred, with the live section's progress row (home-sheets.css, #key-cards). */
@@ -120,19 +131,34 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 .op-bmk { display: grid; justify-items: center; padding: 0; }
 .op-bmk .bmk__demo { width: 100%; max-width: 34rem; }
 
-/* ---- under the frame: the volt key and the quiet line ---- */
-.op-foot { display: grid; justify-items: center; gap: 0.75rem; margin-top: 1.5rem; text-align: center; }
+/* ---- each row's proof line under its stage (the live section's own words) ---- */
+.op-proof { margin: 12px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }
+.op-proof .lp-link { white-space: nowrap; }
+
+/* ---- under the frame: the volt key, then the other live tools as small linked chips ---- */
+.op-foot { display: grid; justify-items: center; gap: 1rem; margin-top: 1.5rem; text-align: center; }
 .op-foot .mm-actions { justify-content: center; }
-.op-also { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+.op-also { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; }
+.op-also__lead { color: var(--ink-2); font-size: 0.875rem; font-weight: 600; }
+.op-also__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.op-chip {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px 4px 6px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--paper-raised); color: var(--ink);
+  font-size: 0.9375rem; font-weight: 650; text-decoration: none; transition: background-color 150ms ease-out;
+}
+.op-chip .brand-icon { --bi-size: 30px; }
+.op-chip:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .op-chip:hover { background: var(--surface-hover, var(--paper-raised-2)); } }
 
 /* The section's place while the browser skips drawing it (content-visibility: auto on every home section): the live page's
    #your-prep held the tour deck's tall track (633 px + 378 svh on a phone), which would make the page jump here. Measured
-   21 Nov 2026 (after the app window) at 390x844, 360x740, 768x1024, 820x1180, 1024x768, 1366x768, 1440x900 and 1920x1080
-   (tmp/1121-oneplace/measure.mjs). */
-.lp main > #your-prep.op { contain-intrinsic-size: auto 975px; }
-@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1086px; } }
-@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1005px; } }
-@media (min-width: 1800px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1068px; } }
+   21 Nov 2026 (after the critic's round: proof lines, chips, the growing stage) at 390x844, 360x740, 820x1180, 1024x768,
+   1366x768, 1440x900 and 1920x1080 (tmp/1121-oneplace/measure.mjs). From 1280 px the stage follows the window's height, so
+   the reserve does too (about 0.8 of the monitor's width plus the head, the rows' margin and the foot). */
+.lp main > #your-prep.op { contain-intrinsic-size: auto 1125px; }
+@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1136px; } }
+@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 970px; } }
+@media (min-width: 1280px) { .lp main > #your-prep.op { contain-intrinsic-size: auto calc(max(760px, min(1200px, (100svh - 230px) * 1.3)) * 0.8 + 440px); } }
 
 /* ---- the section's head: the live page's #your-prep rules were written for the tour's one-line head ---- */
 @media (min-width: 1280px) {
@@ -143,7 +169,7 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 
 /* ---- 960 px and up: the rows stand beside the stage ---- */
 @media (min-width: 960px) {
-  .op-frame { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); grid-template-areas: 'rows stage'; align-items: center; column-gap: clamp(2rem, 4vw, 4rem); margin-top: 2rem; }
+  .op-frame { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); grid-template-areas: 'rows stage' '. foot'; align-items: center; column-gap: clamp(2rem, 4vw, 4rem); row-gap: 0; margin-top: 2rem; }
   .op-rows { grid-area: rows; grid-template-columns: minmax(0, 1fr); gap: 8px; align-self: center; }
   .op-row {
     display: grid; grid-template-columns: 48px minmax(0, 1fr); grid-template-areas: 'obj name' 'obj line';
@@ -157,6 +183,16 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   .op-caption { display: none; }
   .op-stages { grid-area: stage; }
   .op-slot { align-content: center; }
-  .op-slot[data-tool='practise'] .xs-layout { max-width: 760px; margin-inline: auto; }
-  .op-foot { margin-top: 2.25rem; }
+  .op-slot[data-tool='practise'] .xs-layout { max-width: var(--op-dev); width: 100%; margin-inline: auto; }
+  .op-slot .op-proof { width: calc(min(var(--op-dev), 100%) * 0.974); margin-inline: auto; }
+  .op-foot { grid-area: foot; width: min(var(--op-dev), 100%); justify-self: center; margin-top: 2rem; }
+}
+/* From 1280 px the stage grows with the window (no void between the rows and the stage on a wide screen), as large as the
+   monitor and its stand can be while the frame still fits the window's height, and it starts at the rows' side. The app
+   windows keep to the monitor's screen: the glass starts 1.3% in from the device's edge. */
+@media (min-width: 1280px) {
+  .op-frame { --op-dev: max(760px, min(1200px, calc((100svh - 230px) * 1.3))); }
+  .op-slot[data-tool='practise'] .xs-layout { margin-inline: 0; }
+  .op-win, .op-slot .op-proof { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; }
+  .op-foot { justify-self: start; }
 }

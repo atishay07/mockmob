@@ -90,16 +90,18 @@ export function SectionPosition({ sections }) {
     const hosts = key.split('|').map((id) => document.getElementById(id));
     if (hosts.some((host) => !host)) return undefined;
     const roots = hosts.map((host) => host.querySelector('.ss'));
-    const nexts = hosts.map(nextSection);
+    // Where Skip goes is found each time the bar is read, not once at mount (21 Nov 2026): the page streams its sections in
+    // one by one, so at mount the section after a held story may not be in the page yet, and Skip came and went.
     const read = () => {
       const index = roots.findIndex((root) => root && root.dataset.pinned === 'true' && root.dataset.live === 'true');
       if (index < 0) { setBar((current) => (current.on ? { ...current, on: false } : current)); return; }
       const root = roots[index];
       const steps = stepCount(root.style.getPropertyValue('--ss-steps'), root.querySelectorAll('.ss__beat').length);
       const step = Math.max(0, Math.min(steps - 1, Number(root.dataset.step) || 0));
-      setBar((current) => (current.on && current.index === index && current.step === step && current.steps === steps
+      const next = nextSection(hosts[index]);
+      setBar((current) => (current.on && current.index === index && current.step === step && current.steps === steps && current.next?.id === next?.id && current.next?.name === next?.name
         ? current
-        : { on: true, index, step, steps, next: nexts[index] }));
+        : { on: true, index, step, steps, next }));
     };
     const watch = new MutationObserver(read);
     roots.forEach((root) => root && watch.observe(root, { attributes: true, attributeFilter: ['data-live', 'data-step', 'data-pinned'] }));

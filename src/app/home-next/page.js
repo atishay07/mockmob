@@ -64,7 +64,9 @@ import { CloseActions, CreatorReels, DemoDrill, HeroDockGate, LabCinema } from '
 import ReadLineHere from '@/components/home2/ReadLineHere';
 import SampleHere from '@/components/home2/SampleHere';
 import OnePlace from '@/components/landing/OnePlace';
-import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq } from '@/components/landing/onePlaceCopy.mjs';
+import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq, mobiPrice } from '@/components/landing/onePlaceCopy.mjs';
+import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
+import { BrandIcon } from '@/components/brand/BrandIcon';
 // Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
 // The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
@@ -139,6 +141,9 @@ const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLE
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
 // The one frame's quiet line: the other tools, only those live (the same switches the feature tour reads).
 const ALSO = alsoInside({ studyLive: STUDY_LIVE, mobLive: MOB_LIVE });
+// Ask Mobi's proof line: Bring a mistake's own credit line, from the app's prices and the free monthly credits (a photo is
+// promised only while Mobi reads photos).
+const MOBI_PRICE = mobiPrice({ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS });
 // Key cards (R3-D10, LK112): five real cards from the app's decks, read once at build (keyCardsPicks.mjs), shown only while
 // Key cards are live for students (KEY_CARDS_ENABLED, the switch every Key cards route reads). No card readable, no section.
 const KEY_CARDS_LIVE = process.env.KEY_CARDS_ENABLED === 'true';
@@ -263,11 +268,19 @@ export default function HomeNextPage() {
               <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{ONE_PLACE.sub}</p>
             </Reveal>
-            <OnePlace keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} />
-            <div className="op-foot">
+            <OnePlace keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE}>
               <LandingActions mode="primary" />
-              {ALSO ? <p className="op-also">{ALSO.lead} <Link href={ONE_PLACE.alsoHref} className="lp-link">{ALSO.list}</Link>.</p> : null}
-            </div>
+              {ALSO.length ? (
+                <nav className="op-also" aria-label={`${ONE_PLACE.alsoLead} MockMob`}>
+                  <span className="op-also__lead">{ONE_PLACE.alsoLead}</span>
+                  <ul className="op-also__list">
+                    {ALSO.map((tool) => (
+                      <li key={tool.id}><Link href={tool.href} prefetch={false} className="op-chip"><BrandIcon name={tool.icon} size={32} />{tool.name}</Link></li>
+                    ))}
+                  </ul>
+                </nav>
+              ) : null}
+            </OnePlace>
           </div>
         </section></Later>
 
