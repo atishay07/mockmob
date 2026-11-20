@@ -150,7 +150,7 @@ export default function HeroFilm() {
     const frame = frameRef.current;
     if (!video || !frame) return undefined;
     video.muted = true;
-    video.src = pickSource(frame.getBoundingClientRect().width, window.devicePixelRatio, navigator.connection?.saveData === true);
+    video.src = pickSource(frame.getBoundingClientRect().width, window.devicePixelRatio, navigator.connection?.saveData === true, document.documentElement.dataset.lite === '1');
     // Autoplay off here (Reduce motion or Data Saver): the round Play key shows on the poster whenever the film is paused.
     let autoOff = stillOnly();
     wantPlay.current = !autoOff;

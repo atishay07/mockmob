@@ -29,9 +29,11 @@ export const FILM = Object.freeze({
 });
 
 // The file the frame needs: its rendered width in device pixels (the ratio capped at 2), up to 640 -> 480p, up to
-// 1100 -> 720p, else 1080p. Data Saver always takes 480p.
-export function pickSource(cssWidth, dpr, saveData) {
-  if (saveData) return FILM.sources[480];
+// 1100 -> 720p, else 1080p. Data Saver always takes 480p. So does a weak device (21 Nov 2026, owner LK353: the yardstick is
+// a Rs 15,000 Chromebook or phone): the site's own lite flag (html[data-lite], set in layout.js for 4 GB of memory or less,
+// or few cores) took the 720p file (6.4 MB) on a 390 px phone at 2x, against 3.6 MB for 480p.
+export function pickSource(cssWidth, dpr, saveData, lite = false) {
+  if (saveData || lite) return FILM.sources[480];
   const px = (Number(cssWidth) || 0) * Math.min(Number(dpr) || 1, 2);
   if (px <= 640) return FILM.sources[480];
   if (px <= 1100) return FILM.sources[720];

@@ -74,7 +74,10 @@ test('round 9 sources by need: the frame\'s rendered width x min(devicePixelRati
   ];
   for (const [w, dpr, save, res] of cases) assert.equal(pickSource(w, dpr, save), `/video/hero-v5-${res}.mp4`, `${w} css px at ${dpr}x${save ? ', Data Saver' : ''}`);
   // Picked once on mount from the frame's own width.
-  assert.match(FILM_CODE, /video\.src = pickSource\(frame\.getBoundingClientRect\(\)\.width, window\.devicePixelRatio, navigator\.connection\?\.saveData === true\);/);
+  assert.match(FILM_CODE, /video\.src = pickSource\(frame\.getBoundingClientRect\(\)\.width, window\.devicePixelRatio, navigator\.connection\?\.saveData === true, document\.documentElement\.dataset\.lite === '1'\);/);
+  // 21 Nov 2026 (LK353): a weak device (the site's lite flag) takes 480p whatever its width and pixel ratio.
+  for (const [w, dpr] of [[350, 2], [350, 3], [880, 2], [1101, 1]]) assert.equal(pickSource(w, dpr, false, true), '/video/hero-v5-480.mp4', `${w} css px at ${dpr}x, lite`);
+  assert.equal(pickSource(350, 2, false, false), '/video/hero-v5-720.mp4');
 });
 
 test('round 9 chapterAt: the chapter at a time and the share of it played', async () => {
