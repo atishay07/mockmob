@@ -11,12 +11,12 @@ import NavReadLine from '@/components/progress/NavReadLine';
 export default function ReadLineHere() {
   const [bar, setBar] = useState(null);
   useEffect(() => {
-    // A frame later, so the bar is found after the first paint and no state is set inside the effect's own pass.
-    const frame = window.requestAnimationFrame(() => {
+    // A tick later, so the bar is found after the first paint and no state is set inside the effect's own pass.
+    const tick = window.setTimeout(() => {
       const nav = document.querySelector('.mm-nav');
       if (nav && !nav.querySelector('.mm-nav__read')) setBar(nav);
-    });
-    return () => window.cancelAnimationFrame(frame);
+    }, 0);
+    return () => window.clearTimeout(tick);
   }, []);
   return bar ? createPortal(<NavReadLine />, bar) : null;
 }
