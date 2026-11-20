@@ -321,13 +321,34 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
 /* ---------- SWOT: the groups' own heading ---------- */
 .lc__grid[data-look='next'] .lnx--swot .lnx-swot-h { margin-bottom: -4px; }
 
-/* Small phones (380 px and under, a 360 x 740 device): the screens are trimmed rather than shrunk, so the screen keeps its full
-   size and every line stays at 12 px or more. The trims hold from the first frame (never only once something opens), so the
-   cursor's tap moves nothing: the part's name steps aside; Chapters shows the costliest chapter and the across line; Time
-   shows the four slowest; Changes shows the first change and the totals; Repair's row keeps its question, not the chapter or
-   the cost (and, once written, not the picks either); the SWOT plan keeps its label. */
+/* Small phones (380 px wide and under): the narrow column is set tighter. The question takes the mistake row's full width (its
+   number, chapter and cost step aside; the repair names the picks), the repair's and the SWOT groups' sentences are set at 13 px, and a change's
+   two picks stack, first over final, with the arrow turned down. */
 @media (max-width: 380px) {
-  /* The finished screens' heights at 360 px (tmp/1121-lab/measure2.mjs), all inside the 321 px a 360 x 740 device gives. */
+  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { grid-template-columns: minmax(0, 1fr); padding: 2px 0 6px; border-top: 0; }
+  .lc__grid[data-look='next'] .lnx-mistake :is(.rx-row__n, .rx-row__ch, .rx-row__cost) { display: none; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label, .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 13px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 13px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 6px 10px; }
+  .lc__grid[data-look='next'] .lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.38; }
+  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx--swot .sw-plan__row { padding: 4px 0 6px; }
+  .lc__grid[data-look='next'] .lnx-quad { padding: 8px 10px 2px; }
+  .lc__grid[data-look='next'] .lnx-quad .sw-item__title { font-size: 13px; }
+  .lc__grid[data-look='next'] .lnx-quads .sw-item__detail { padding: 0 10px 8px; font-size: 12.5px; line-height: 1.4; }
+  .lc__grid[data-look='next'] .lnx-picks { padding-left: 50px; }
+  .lc__grid[data-look='next'] .lnx-picks__row { flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: 2px; }
+  .lc__grid[data-look='next'] .lnx-picks__arrow { transform: rotate(90deg); margin-left: 7px; }
+}
+
+/* Small and short (a 360 x 740 device, 321 px of room): the screens are trimmed rather than shrunk, so the screen keeps its full
+   size and every line stays at 12 px or more. The trims hold from the first frame (never only once something opens), so the
+   cursor's tap moves nothing: the part's name steps aside; Chapters shows the costliest chapter and the across line; Time shows
+   the four slowest; Changes shows the first change and the totals; the repair leaves out its answer-key line; the SWOT plan keeps its label. A taller small phone (360 x 800) keeps it all. */
+@media (max-width: 380px) and (max-height: 760px) {
+  /* The finished screens' heights at 360 x 740 (tmp/1121-lab/probe6.mjs), all inside the 321 px of room. */
   .lc__grid[data-look='next'] { --lnx-h-chapters: 318px; --lnx-h-time: 290px; --lnx-h-changes: 216px; --lnx-h-repair: 320px; --lnx-h-swot: 318px; }
   .lc__grid[data-look='next'] .lnx { gap: 8px; }
   .lc__grid[data-look='next'] .lnx-across { padding-top: 6px; }
@@ -336,28 +357,21 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
   .lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:not(:first-child) { display: none; }
   .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 5) { display: none; }
   .lc__grid[data-look='next'] .lnx--changes .td-changes > li:not(:first-child) { display: none; }
-  .lc__grid[data-look='next'] .lnx-mistake :is(.rx-row__ch, .rx-row__cost) { display: none; }
   .lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { display: none; }
   .lc__grid[data-look='next'] .lnx--repair .mr-check { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 6px; }
-  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
-  /* Repair: the question takes the row's full width (its number steps aside; the repair names the picks), and the repair's
-     sentences are set at 13 px. */
-  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr); }
-  .lc__grid[data-look='next'] .lnx-mistake .rx-row__n { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label, .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 6px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.38; }
-  .lc__grid[data-look='next'] .lnx-mistake { padding: 2px 0 6px; border-top: 0; }
-  /* SWOT: the plan row and the groups sit closer, and the groups' words are set at 13 px. */
-  .lc__grid[data-look='next'] .lnx--swot .sw-plan__row { padding: 4px 0 6px; }
-  .lc__grid[data-look='next'] .lnx-quad { padding: 8px 10px 2px; }
-  .lc__grid[data-look='next'] .lnx-quad .sw-item__title { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx-quads .sw-item__detail { padding: 0 10px 8px; font-size: 12.5px; line-height: 1.4; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { line-height: 1.4; }
+}
+
+/* Small and taller (a 360 x 800 device, 375 px of room): the part names stay; Chapters' across line drops its title; Time shows
+   the five slowest; Changes the first two changes. Each held from the first frame. */
+@media (max-width: 380px) and (min-height: 761px) {
+  /* The finished screens' heights at 360 x 800 (tmp/1121-lab/measure2.mjs), all inside the 375 px of room. */
+  .lc__grid[data-look='next'] { --lnx-h-chapters: 372px; --lnx-h-time: 352px; --lnx-h-changes: 368px; --lnx-h-repair: 370px; --lnx-h-swot: 368px; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { padding-block: 7px; }
+  .lc__grid[data-look='next'] .lnx { gap: 8px; }
+  .lc__grid[data-look='next'] .lnx-across { padding-top: 6px; }
+  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
+  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
+  .lc__grid[data-look='next'] .lnx--changes .td-changes > li:nth-child(n + 3) { display: none; }
 }
 
 /* Phones: Chapters' headline names the part itself, so its name line steps aside and the ledger sits a little closer. */

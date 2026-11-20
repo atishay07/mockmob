@@ -141,6 +141,11 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   assert.doesNotMatch(sheet, /rx-row__stem[^}]*(display: none|text-overflow|nowrap)/, 'the question is never cut or hidden');
   assert.match(sheet, /\.ml-chip \{ min-height: 44px; \}/);
   assert.match(sheet, /\.ml-seg \{ height: 44px;/);
+  // 360 px phones: the content trims are for a short window only (360 x 740); a 360 x 800 phone keeps the part names, five time
+  // rows and two changes; a change's picks stack with the arrow turned down on any 380 px phone.
+  assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-h \{ display: none; \}/);
+  assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)[^@]*li:nth-child\(n \+ 3\)/);
+  assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}\s*\.lc__grid\[data-look='next'\] \.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
   // The Time scene's take names the slowest question, worked out from labStory.
