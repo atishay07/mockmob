@@ -133,6 +133,11 @@ export default function MobiReact({
   useEffect(() => { pxRef.current = px; }, [px]);
 
   const paint = useCallback((rig) => { figRef.current?.paint(rig, { px: pxRef.current }); }, []);
+  // Off screen he holds still (below): only the on-screen effect may start his frame loop then. Measured 21 Nov 2026 on a
+  // throttled phone: the desk's Mobi, sent off screen part way through his wave, was woken again by the act's own settle and
+  // repainted his SVG (about 15 path and transform writes a frame) for seconds while the reader was a dozen screens below.
+  const liveRef = useRef(live);
+  useEffect(() => { liveRef.current = live; }, [live]);
   const loopRef = useRef(null);
   useEffect(() => {
     const draw = (rig) => figRef.current?.paint(rig, { px: pxRef.current });
@@ -140,7 +145,7 @@ export default function MobiReact({
     loopRef.current = loop;
     return () => { loop.stop(); loopRef.current = null; };
   }, [cssIdle]);
-  const wake = useCallback(() => loopRef.current?.wake(), []);
+  const wake = useCallback(() => { if (liveRef.current) loopRef.current?.wake(); }, []);
   const stop = useCallback(() => loopRef.current?.stop(), []);
 
   // Reduce motion, `still`, Quiet's held acts: no sim runs; he is drawn once in his still pose.

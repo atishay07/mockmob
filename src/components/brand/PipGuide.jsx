@@ -197,9 +197,12 @@ function oneMobi(seats, { entered }) {
     shown.sort((a, b) => b.area - a.area);
     const held = shown.find((f) => f.node === primary);
     if (!held || (shown[0].node !== primary && shown[0].area > held.area * 1.15)) primary = shown[0]?.node || null;
+    // Written only when it changes: this runs every scroll frame, and an attribute set to the value it already has still
+    // makes the browser check the styles that name it.
     for (const f of all) {
-      if (f.node !== primary && shown.some((x) => x.node === f.node)) f.node.dataset.pipYield = 'true';
-      else delete f.node.dataset.pipYield;
+      const yields = f.node !== primary && shown.some((x) => x.node === f.node);
+      if (yields) { if (f.node.dataset.pipYield !== 'true') f.node.dataset.pipYield = 'true'; }
+      else if (f.node.dataset.pipYield !== undefined) delete f.node.dataset.pipYield;
     }
   };
   // A change (a seat arriving, the drill answered, the page resized): measure again on the next frame.

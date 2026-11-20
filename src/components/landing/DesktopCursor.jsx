@@ -24,6 +24,7 @@
 // radius, the one style read here) and again at most four times a second while it is held; the outline's size is written
 // then, never per frame.
 import { useEffect, useRef } from 'react';
+import * as scrollBus from './scrollBus.mjs';
 
 const QUERY = '(hover: hover) and (pointer: fine)';
 const PRESSABLE = 'a, button, [role="button"], summary, label, input, select, textarea, [data-press]';
@@ -66,7 +67,7 @@ export default function DesktopCursor() {
     let x = 0; let y = 0; let tx = 0; let ty = 0;         // the ring, and where the arrow is
     let lx = 0; let ly = 0;                               // the torch (slower)
     let frame = 0; let shown = false; let wave = 0;
-    let stretch = 0; let lastY = window.scrollY; let way = 1; let reaim = 0;
+    let stretch = 0; let way = 1; let reaim = 0;
     let lean = null;                                       // { el, cx, cy, sy, mx, my }
     let tilt = null;                                       // { el, rect, sy, ax, ay }
     const leaving = new Set();                             // keys and pictures on their way back to rest
@@ -237,29 +238,33 @@ export default function DesktopCursor() {
       window.requestAnimationFrame(() => { node.setAttribute('data-wave', ''); wave = window.setTimeout(() => node.removeAttribute('data-wave'), 520); });
       if (snap) { box.setAttribute('data-press', ''); window.clearTimeout(press); press = window.setTimeout(() => box.removeAttribute('data-press'), 170); }
     };
-    const onScroll = () => {
-      const now = window.scrollY; const moved = now - lastY; lastY = now;
-      if (!shown || !moved) return;
-      way = moved > 0 ? 1 : -1;
-      stretch = Math.max(stretch, clamp(Math.abs(moved) / 90, 0, 1));
+    // How far the page went comes from the page's one shared scroll read (scrollBus.mjs), once a frame, and nothing is read
+    // here (21 Nov 2026 speed pass): this used to be a scroll listener of its own that asked window.scrollY on every scroll
+    // event, and that question makes the browser finish its style and layout on the spot. Traced on a throttled phone, where the
+    // ring is never shown, it was the costliest script of the whole scroll (3 s of forced layout in one pass down the page).
+    const onScroll = ({ dy }) => {
+      if (!shown || !dy) return;
+      way = dy > 0 ? 1 : -1;
+      stretch = Math.max(stretch, clamp(Math.abs(dy) / 90, 0, 1));
       // The page is moving under the arrow: the outline lets its key go at once, and takes what is there when it stops.
       dropSnap(); px = -99;
       // The page has moved under a resting arrow: once it has been still for a moment, look again at what is under it (one
       // hit test after the scroll, never one per scroll event), so the ring never keeps the state of a thing that has gone.
       window.clearTimeout(reaim);
       reaim = window.setTimeout(() => { if (shown) { asked = false; aim(document.elementFromPoint(tx, ty)); run(); } }, 140);
-      run();
+      // The bus calls this inside its own frame: draw in this frame when nothing is queued, as the scroll event did.
+      if (!frame) step(); else run();
     };
     const onLeave = () => hide();
     window.addEventListener('pointermove', onMove, { passive: true });
     window.addEventListener('pointerdown', onDown, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const offScroll = scrollBus.subscribe(onScroll);
     document.documentElement.addEventListener('pointerleave', onLeave);
     window.addEventListener('blur', onLeave);
     return () => {
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerdown', onDown);
-      window.removeEventListener('scroll', onScroll);
+      offScroll();
       document.documentElement.removeEventListener('pointerleave', onLeave);
       window.removeEventListener('blur', onLeave);
       window.cancelAnimationFrame(frame);

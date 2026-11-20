@@ -9,7 +9,10 @@
 // To add one: put its transparent emblem (192 px tall WebP, the master) in public/art/colleges/, make the copy the page loads,
 // <file>@96.webp (96 px tall: twice the largest 48 px seal, for sharp screens; sharp: resize to height 96 with lanczos3, WebP
 // quality 90, alpha quality 100), and add a row with the copy's pixel size.
-// A server component; the motion is CSS only (college-strip.css).
+// A server component; the motion is CSS only (college-strip.css). The one client piece is the rows' box, which marks itself
+// off screen so the sheet can pause the marquees there (PauseOffscreen, 21 Nov 2026 speed pass).
+import { PauseOffscreen } from './PauseOffscreen';
+
 export const COLLEGE_HEAD = 'Get into the college you want.';
 export const COLLEGE_NOTE = 'College names and logos belong to their owners. MockMob is not affiliated with them.';
 
@@ -70,7 +73,9 @@ export function CollegeStrip({ rows = COLLEGE_ROWS }) {
         <h2 className="lp-colleges__title" id="colleges-title">{COLLEGE_HEAD}</h2>
         {/* Two marquees (owner, 7 Nov 2026: like klayprep.com): the universities moving left, the colleges moving right;
             paused on hover and keyboard focus; still, wrapped lists under reduced motion (college-strip.css). */}
-        <div className="lp-colleges__rows">
+        {/* The marquees stop while the strip is off screen (PauseOffscreen, college-strip.css): a slow phone scrolling the
+            rest of the page no longer pays for two loops nobody can see. */}
+        <PauseOffscreen className="lp-colleges__rows">
           {rows.map((row) => (
             <div key={row.key} className={`lp-colleges__marquee lp-colleges__marquee--${row.key}`}>
               <div className="lp-colleges__track">
@@ -82,7 +87,7 @@ export function CollegeStrip({ rows = COLLEGE_ROWS }) {
               </div>
             </div>
           ))}
-        </div>
+        </PauseOffscreen>
         <p className="lp-colleges__note">{COLLEGE_NOTE}</p>
       </div>
     </section>

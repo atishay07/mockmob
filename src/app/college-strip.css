@@ -36,6 +36,9 @@
 .mm.lp .lp-colleges__marquee--colleges .lp-colleges__track { animation-direction: reverse; }
 .mm.lp .lp-colleges__rows:hover .lp-colleges__track,
 .mm.lp .lp-colleges__rows:focus-within .lp-colleges__track { animation-play-state: paused; }
+/* Off screen the marquees stop (PauseOffscreen marks the rows; 21 Nov 2026 speed pass): two loops running for the whole visit
+   kept a slow phone restyling and re-layering the page on every frame of its scroll. Nobody sees a loop off screen. */
+.mm.lp .lp-colleges__rows[data-offscreen] .lp-colleges__track { animation-play-state: paused; }
 @keyframes lp-colleges-roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .mm.lp .lp-colleges__list { display: flex; gap: 8px; margin: 0; padding: 2px 8px 4px 0; list-style: none; }
 .mm.lp .lp-colleges__chip {

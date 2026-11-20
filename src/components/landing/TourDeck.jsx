@@ -88,16 +88,25 @@ function Deck({ slides, step, seq = 0, pinned, reduced, live, flow, goTo, sample
     let last = 0;
     const tau = reduced ? 0 : flow ? DECK_TAU.touch : DECK_TAU.mouse;
 
+    // Each card's last written pose (21 Nov 2026 speed pass): only a card whose pose changed is written, so a frame restyles
+    // the one or two cards moving under the reader's thumb, not all of them (the cards well past or well ahead hold still).
+    const wrote = cards.map(() => ({ transform: '', opacity: '', visibility: '', shade: '' }));
+    let inkWrote = '';
     const paint = (p) => {
       for (let i = 0; i < cards.length; i += 1) {
         const pose = deckPose(p - i, { peek, reduced });
         const card = cards[i];
-        card.style.transform = pose.transform;
-        card.style.opacity = pose.opacity;
-        card.style.visibility = pose.hidden ? 'hidden' : 'visible';
-        if (shades[i]) shades[i].style.opacity = pose.shade;
+        const was = wrote[i];
+        const opacity = String(pose.opacity);
+        const visibility = pose.hidden ? 'hidden' : 'visible';
+        const shade = String(pose.shade);
+        if (was.transform !== pose.transform) { was.transform = pose.transform; card.style.transform = pose.transform; }
+        if (was.opacity !== opacity) { was.opacity = opacity; card.style.opacity = opacity; }
+        if (was.visibility !== visibility) { was.visibility = visibility; card.style.visibility = visibility; }
+        if (shades[i] && was.shade !== shade) { was.shade = shade; shades[i].style.opacity = shade; }
       }
-      if (ink) ink.style.transform = `translate3d(${(p * 100).toFixed(2)}%, 0, 0)`;
+      const inkAt = `translate3d(${(p * 100).toFixed(2)}%, 0, 0)`;
+      if (ink && inkAt !== inkWrote) { inkWrote = inkAt; ink.style.transform = inkAt; }
     };
     const tick = (now) => {
       frame = 0;

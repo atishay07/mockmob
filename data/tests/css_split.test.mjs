@@ -192,7 +192,12 @@ test('the desktop pointer layer is for a hovering fine pointer only, costs nothi
   assert.match(css, /html\[data-motion='reduced'\] :is\(\.lp-cursor, \.lp-torch, \.lp-snap\) \{ display: none; \}/);
   // Cost: passive listeners, one frame loop that stops, and layout is read only when the arrow enters a key or a picture
   // (or the page has scrolled since), never on every move.
-  for (const name of ['pointermove', 'pointerdown', 'scroll']) assert.ok(jsx.split(`window.addEventListener('${name}', `)[1]?.split('\n')[0].includes('{ passive: true }'), name);
+  for (const name of ['pointermove', 'pointerdown']) assert.ok(jsx.split(`window.addEventListener('${name}', `)[1]?.split('\n')[0].includes('{ passive: true }'), name);
+  // The scroll comes from the page's one shared read (21 Nov 2026 speed pass): no scroll listener of its own, and nothing in
+  // it asks the window where the page is (a scrollY read in a scroll event forced a style and layout pass every time).
+  assert.doesNotMatch(jsx, /addEventListener\('scroll'/);
+  assert.match(jsx, /const offScroll = scrollBus\.subscribe\(onScroll\);/);
+  assert.match(jsx, /const onScroll = \(\{ dy \}\) => \{\s*if \(!shown \|\| !dy\) return;/);
   assert.equal((jsx.match(/getBoundingClientRect\(\)/g) || []).length, 3, 'three measuring functions (a leaning key, a tilting picture, a snapped key), nothing else reads layout');
   // However many move events a fast mouse sends, what is under the arrow is worked out once a frame.
   assert.match(jsx, /pending = event\.target instanceof Element \? event\.target : null; asked = true;/);

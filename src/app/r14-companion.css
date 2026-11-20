@@ -80,6 +80,9 @@
 
   .mc__breath { animation: pip-breathe 4.6s ease-in-out infinite; }
   html[data-lit-in-view] .mc__breath { animation-play-state: paused; }
+  /* Stepped out (hidden), he does not breathe (21 Nov 2026 speed pass): a loop nobody can see still restyled a slow phone's
+     page on every frame of its scroll. He breathes again as he steps in. */
+  .mc[data-state='out'] .mc__breath { animation-play-state: paused; }
 
   .mc__pose { position: absolute; inset: 0; display: block; }
   .mc__pose .pip-image { width: 100%; height: 100%; }

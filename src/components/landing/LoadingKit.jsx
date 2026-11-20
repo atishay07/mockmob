@@ -24,8 +24,11 @@ export function CountUp({ value, decimals = 0, locale = 'en-IN', ms = COUNT_UP.m
     const target = Number(value);
     let raf = 0;
     let armed = false;
-    const write = (n) => { out.textContent = formatCount(n, { locale, decimals }); };
-    const settle = () => { delete node.dataset.lk; out.textContent = ''; };
+    // Written only when the shown figure changes: a small number (5 subjects) holds each value for many frames of its roll,
+    // and every text write is a style and layout pass for the line (21 Nov 2026 speed pass).
+    let shown = null;
+    const write = (n) => { const text = formatCount(n, { locale, decimals }); if (text !== shown) { shown = text; out.textContent = text; } };
+    const settle = () => { delete node.dataset.lk; out.textContent = ''; shown = null; };
     const roll = () => {
       node.dataset.lk = 'rolling';
       let start = 0;
