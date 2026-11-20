@@ -116,3 +116,9 @@ html[data-motion='reduced'] .stk-band__fill[data-swipe] { animation: none; }
 
 /* You's glance cell (shown there when the account card leaves the streak out): the number, then the week's line. */
 .acct-streak-wrap { display: grid; gap: 12px; min-width: 0; }
+
+/* A phone's seven cells are about 44 px wide: "Today" at 13.5 px weight 750 touched its own ring (20 Nov 2026, the phone look
+   after owner LK359). It steps down a little there so the ring closes clear of the word. */
+@media (max-width: 480px) {
+  .stk-band__cell[data-look='today'] .stk-band__name, .stk-band__cell[data-today] .stk-band__name { font-size: 12px; letter-spacing: -0.01em; }
+}
