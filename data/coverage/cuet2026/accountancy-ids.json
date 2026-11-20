@@ -1,0 +1,954 @@
+{
+ "paper": "cuet2026-accountancy",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 21 Nov 2026 with the owner's approval; ids read by OCR (RapidOCR) and matched to NTA's 2026 final key",
+ "shifts": {
+  "20-05-2026 (First)": 45
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895784814",
+   "page": 3,
+   "optionIds": {
+    "2268953043349": 1,
+    "2268953043350": 2,
+    "2268953043351": 3,
+    "2268953043352": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043352"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895784815",
+   "page": 3,
+   "optionIds": {
+    "2268953043353": 1,
+    "2268953043354": 2,
+    "2268953043355": 3,
+    "2268953043356": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043354"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895784816",
+   "page": 4,
+   "optionIds": {
+    "2268953043357": 1,
+    "2268953043358": 2,
+    "2268953043359": 3,
+    "2268953043360": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043359"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895784817",
+   "page": 5,
+   "optionIds": {
+    "2268953043361": 1,
+    "2268953043362": 2,
+    "2268953043363": 3,
+    "2268953043364": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043363"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895784818",
+   "page": 6,
+   "optionIds": {
+    "2268953043365": 1,
+    "2268953043366": 2,
+    "2268953043367": 3,
+    "2268953043368": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043368"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 242,
+   "questionId": "226895784820",
+   "page": 7,
+   "optionIds": {
+    "2268953043373": 1,
+    "2268953043374": 2,
+    "2268953043375": 3,
+    "2268953043376": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043374"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 245,
+   "questionId": "226895784823",
+   "page": 9,
+   "optionIds": {
+    "2268953043385": 1,
+    "2268953043386": 2,
+    "2268953043387": 3,
+    "2268953043388": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043387"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 248,
+   "questionId": "226895784826",
+   "page": 12,
+   "optionIds": {
+    "2268953043397": 1,
+    "2268953043398": 2,
+    "2268953043399": 3,
+    "2268953043400": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043398"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 249,
+   "questionId": "226895784827",
+   "page": 13,
+   "optionIds": {
+    "2268953043401": 1,
+    "2268953043402": 2,
+    "2268953043403": 3,
+    "2268953043404": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043402"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 250,
+   "questionId": "226895784828",
+   "page": 14,
+   "optionIds": {
+    "2268953043405": 1,
+    "2268953043406": 2,
+    "2268953043407": 3,
+    "2268953043408": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043405"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 251,
+   "questionId": "226895784829",
+   "page": 15,
+   "optionIds": {
+    "2268953043409": 1,
+    "2268953043410": 2,
+    "2268953043411": 3,
+    "2268953043412": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043410"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 252,
+   "questionId": "226895784830",
+   "page": 15,
+   "optionIds": {
+    "2268953043413": 1,
+    "2268953043414": 2,
+    "2268953043415": 3,
+    "2268953043416": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043415"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 254,
+   "questionId": "226895784832",
+   "page": 18,
+   "optionIds": {
+    "2268953043421": 1,
+    "2268953043422": 2,
+    "2268953043423": 3,
+    "2268953043424": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043422"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 255,
+   "questionId": "226895784833",
+   "page": 20,
+   "optionIds": {
+    "2268953043425": 1,
+    "2268953043426": 2,
+    "2268953043427": 3,
+    "2268953043428": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043426"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 256,
+   "questionId": "226895784834",
+   "page": 21,
+   "optionIds": {
+    "2268953043429": 1,
+    "2268953043430": 2,
+    "2268953043431": 3,
+    "2268953043432": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043430"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 257,
+   "questionId": "226895784835",
+   "page": 23,
+   "optionIds": {
+    "2268953043433": 1,
+    "2268953043434": 2,
+    "2268953043435": 3,
+    "2268953043436": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043433"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 258,
+   "questionId": "226895784836",
+   "page": 25,
+   "optionIds": {
+    "2268953043437": 1,
+    "2268953043438": 2,
+    "2268953043439": 3,
+    "2268953043440": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043440"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 259,
+   "questionId": "226895784837",
+   "page": 25,
+   "optionIds": {
+    "2268953043441": 1,
+    "2268953043442": 2,
+    "2268953043443": 3,
+    "2268953043444": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043442"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 260,
+   "questionId": "226895784838",
+   "page": 26,
+   "optionIds": {
+    "2268953043445": 1,
+    "2268953043446": 2,
+    "2268953043447": 3,
+    "2268953043448": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043447"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 261,
+   "questionId": "226895784839",
+   "page": 27,
+   "optionIds": {
+    "2268953043449": 1,
+    "2268953043450": 2,
+    "2268953043451": 3,
+    "2268953043452": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043452"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 262,
+   "questionId": "226895784840",
+   "page": 28,
+   "optionIds": {
+    "2268953043453": 1,
+    "2268953043454": 2,
+    "2268953043455": 3,
+    "2268953043456": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043453"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 263,
+   "questionId": "226895784841",
+   "page": 28,
+   "optionIds": {
+    "2268953043457": 1,
+    "2268953043458": 2,
+    "2268953043459": 3,
+    "2268953043460": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043459"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 264,
+   "questionId": "226895784842",
+   "page": 29,
+   "optionIds": {
+    "2268953043461": 1,
+    "2268953043462": 2,
+    "2268953043463": 3,
+    "2268953043464": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043464"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 265,
+   "questionId": "226895784843",
+   "page": 30,
+   "optionIds": {
+    "2268953043465": 1,
+    "2268953043466": 2,
+    "2268953043467": 3,
+    "2268953043468": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043465"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 266,
+   "questionId": "226895784844",
+   "page": 30,
+   "optionIds": {
+    "2268953043469": 1,
+    "2268953043470": 2,
+    "2268953043471": 3,
+    "2268953043472": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043471"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 267,
+   "questionId": "226895784845",
+   "page": 31,
+   "optionIds": {
+    "2268953043473": 1,
+    "2268953043474": 2,
+    "2268953043475": 3,
+    "2268953043476": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043475"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 268,
+   "questionId": "226895784846",
+   "page": 33,
+   "optionIds": {
+    "2268953043477": 1,
+    "2268953043478": 2,
+    "2268953043479": 3,
+    "2268953043480": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043477"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 269,
+   "questionId": "226895784847",
+   "page": 34,
+   "optionIds": {
+    "2268953043481": 1,
+    "2268953043482": 2,
+    "2268953043483": 3,
+    "2268953043484": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043483"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 270,
+   "questionId": "226895784848",
+   "page": 34,
+   "optionIds": {
+    "2268953043485": 1,
+    "2268953043486": 2,
+    "2268953043487": 3,
+    "2268953043488": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043487"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 271,
+   "questionId": "226895784849",
+   "page": 35,
+   "optionIds": {
+    "2268953043489": 1,
+    "2268953043490": 2,
+    "2268953043491": 3,
+    "2268953043492": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043490"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 273,
+   "questionId": "226895784851",
+   "page": 40,
+   "optionIds": {
+    "2268953043497": 1,
+    "2268953043498": 2,
+    "2268953043499": 3,
+    "2268953043500": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043499"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 274,
+   "questionId": "226895784852",
+   "page": 41,
+   "optionIds": {
+    "2268953043501": 1,
+    "2268953043502": 2,
+    "2268953043503": 3,
+    "2268953043504": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043503"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 275,
+   "questionId": "226895784853",
+   "page": 41,
+   "optionIds": {
+    "2268953043505": 1,
+    "2268953043506": 2,
+    "2268953043507": 3,
+    "2268953043508": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043508"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 276,
+   "questionId": "226895784854",
+   "page": 42,
+   "optionIds": {
+    "2268953043509": 1,
+    "2268953043510": 2,
+    "2268953043511": 3,
+    "2268953043512": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043509"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 278,
+   "questionId": "226895784856",
+   "page": 44,
+   "optionIds": {
+    "2268953043517": 1,
+    "2268953043518": 2,
+    "2268953043519": 3,
+    "2268953043520": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043519"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 279,
+   "questionId": "226895784857",
+   "page": 44,
+   "optionIds": {
+    "2268953043521": 1,
+    "2268953043522": 2,
+    "2268953043523": 3,
+    "2268953043524": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043522"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 280,
+   "questionId": "226895784858",
+   "page": 46,
+   "optionIds": {
+    "2268953043525": 1,
+    "2268953043526": 2,
+    "2268953043527": 3,
+    "2268953043528": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043527"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 281,
+   "questionId": "226895784859",
+   "page": 48,
+   "optionIds": {
+    "2268953043529": 1,
+    "2268953043530": 2,
+    "2268953043531": 3,
+    "2268953043532": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043531"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 282,
+   "questionId": "226895784860",
+   "page": 49,
+   "optionIds": {
+    "2268953043533": 1,
+    "2268953043534": 2,
+    "2268953043535": 3,
+    "2268953043536": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043536"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 284,
+   "questionId": "226895784862",
+   "page": 50,
+   "optionIds": {
+    "2268953043541": 1,
+    "2268953043542": 2,
+    "2268953043543": 3,
+    "2268953043544": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043541"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 285,
+   "questionId": "226895784863",
+   "page": 50,
+   "optionIds": {
+    "2268953043545": 1,
+    "2268953043546": 2,
+    "2268953043547": 3,
+    "2268953043548": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043547"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 287,
+   "questionId": "226895784865",
+   "page": 52,
+   "optionIds": {
+    "2268953043553": 1,
+    "2268953043554": 2,
+    "2268953043555": 3,
+    "2268953043556": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043554"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 288,
+   "questionId": "226895784866",
+   "page": 53,
+   "optionIds": {
+    "2268953043557": 1,
+    "2268953043558": 2,
+    "2268953043559": 3,
+    "2268953043560": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043557"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 289,
+   "questionId": "226895784867",
+   "page": 54,
+   "optionIds": {
+    "2268953043561": 1,
+    "2268953043562": 2,
+    "2268953043563": 3,
+    "2268953043564": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043563"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 290,
+   "questionId": "226895784868",
+   "page": 55,
+   "optionIds": {
+    "2268953043565": 1,
+    "2268953043566": 2,
+    "2268953043567": 3,
+    "2268953043568": 4
+   },
+   "inKey": true,
+   "keySubject": "accountancy",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043565"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  }
+ ]
+}

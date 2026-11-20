@@ -1,0 +1,1663 @@
+{
+ "paper": "cuet2026-economics",
+ "subject": "economics",
+ "subjectName": "Economics / Business Economics",
+ "examDate": "2026-05-24",
+ "shift": "First",
+ "paperFile": "tmp/1121-2026-papers/cuet2026-economics-paper.json",
+ "keySource": "NTA CUET (UG) 2026 final key rows matched by question id (ids/cuet2026-economics-keyrows.json); 50 of 50 authenticated",
+ "snapshotDate": "2026-11-20",
+ "bankRead": "saved read-only snapshot of 20 Nov 2026 (scratchpad econB/bank_economics.json 410 visible rows, served_economics.json 238 served ids, suspended.json empty); no database or network access",
+ "deck": "data/keycards/decks/economics.json v7 (1200 cards), 0 suspended",
+ "syllabus": "data/cuet_syllabus.js economics units via data/canonical_syllabus.js; all 50 questions on the 2026 syllabus",
+ "checker": "B",
+ "method": "tmp/1120-speed/coverage/METHOD.md (strict rule; passage-readable answers are skill; numericals need a served bank item with the same formula and steps)",
+ "factListsWrittenFirst": "tmp/1121-2026-papers/coverage/econ26_B_facts.txt",
+ "aCitationCheck": "All 104 ids cited by A re-read in B's snapshot: every bank id is served, every card is in the published deck and not suspended, and each states what A says it teaches; no citation removed.",
+ "counts": {
+  "covered": 32,
+  "not_covered": 13,
+  "skill": 5,
+  "off_syllabus": 0,
+  "dropped": 0
+ },
+ "final": {
+  "rule": "covered only if both A and B say covered; B's skill, off-syllabus and dropped labels win",
+  "covered": 32,
+  "counted": 45,
+  "percent": 71.1,
+  "notCovered": 13,
+  "skill": 5,
+  "offSyllabus": 0,
+  "dropped": 0
+ },
+ "disagreements": [
+  {
+   "n": 44,
+   "a": "covered",
+   "b": "skill",
+   "why": "A: covered (passage names the category, not the example). B: the answer is readable off the passage (non-monetary exchanges = the unaccounted activity), so skill per METHOD; B's skill label wins."
+  },
+  {
+   "n": 49,
+   "a": "covered",
+   "b": "skill",
+   "why": "A: covered (passage only uses the word). B: the passage links diversification to allied activities and new crops, so the stem's definition is readable; skill per METHOD; B's skill label wins."
+  }
+ ],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895789759",
+   "ntaKey": 3,
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "all combinations producible from given resources and technology = production possibility set"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-pps",
+     "teaches": "production possibility set, verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-ppf",
+     "teaches": "frontier is a different term"
+    }
+   ],
+   "best": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-pps",
+   "reason": "Key card gives the question's definition word for word and names it the production possibility set.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895789760",
+   "ntaKey": 2,
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "optimum where the budget line touches the highest affordable indifference curve",
+    "a point on the budget line on a lower curve (D) is affordable but gives less satisfaction",
+    "B and C lie beyond the budget line (unaffordable); higher curves preferred (monotonic)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-optimum-tangent",
+     "teaches": "optimum at tangency"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-rational-highest-ic",
+     "teaches": "move to the highest possible indifference curve given the budget set"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-budget-set",
+     "teaches": "bundles the consumer can buy"
+    },
+    {
+     "kind": "bank",
+     "id": "9f9d13d2-fbf4-43f4-a00f-ddc4c50480a6",
+     "teaches": "interior optimum where MRS = price ratio"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-monotonic-preferences",
+     "teaches": "more is preferred: higher curve = better"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-optimum-on-budget-line",
+     "teaches": "optimum lies on the budget line"
+    }
+   ],
+   "best": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-rational-highest-ic",
+   "reason": "Cards teach the tangency optimum on the highest affordable curve and the budget set, so D (affordable, lower curve) is the inferior point. Diagram checked on p04.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895789761",
+   "ntaKey": 1,
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": null,
+   "facts": [
+    "eD = %change in Q / %change in P = (10/20) / (5/10) = 1 (absolute)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-ped-measure",
+     "teaches": "definition only (card, does not cover a numerical)"
+    },
+    {
+     "kind": "bank",
+     "id": "b4d92fda-d004-4fb3-bd87-afb871100ba4",
+     "teaches": "meaning of elastic demand, no computation"
+    }
+   ],
+   "best": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-ped-measure",
+   "reason": "No served bank question computes a price elasticity from two prices and two quantities; cards give definitions only, which never cover a numerical.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895789762",
+   "ntaKey": 4,
+   "chapter": "Production & Costs",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "q = f(x1, x2) is the production function",
+    "f(tx) = t.f(x): CRS",
+    "f(tx) > t.f(x): IRS",
+    "f(tx) < t.f(x): DRS"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.production-and-costs.frm-pf-q-f-lk",
+     "teaches": "A: q = f(L, K) production function"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.production-and-costs.frm-crs-formula",
+     "teaches": "B: CRS formula"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.production-and-costs.frm-irs-drs-formula",
+     "teaches": "C and D: IRS and DRS formulas"
+    }
+   ],
+   "best": "kc.economics.production-and-costs.frm-irs-drs-formula",
+   "reason": "All four pairs are Key cards in the same notation.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895789763",
+   "ntaKey": 2,
+   "chapter": "Production & Costs",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "isoquant = input combinations giving the same maximum output, labelled with that output",
+    "isoquants slope downward, so \"positively sloped\" is not a characteristic"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "B searched bank and deck for isoquant, equal-product and iso-: no served item or card mentions isoquants.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895789764",
+   "ntaKey": 3,
+   "chapter": "Production & Costs",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "one input varied, others fixed (B first)",
+    "TP rises at an increasing rate",
+    "then at a diminishing rate",
+    "after its maximum TP falls"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.production-and-costs.def-total-product",
+     "teaches": "B: vary one input, keep others constant"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.production-and-costs.def-law-variable-proportions",
+     "teaches": "MP first rises then falls (not the TP stages)"
+    },
+    {
+     "kind": "bank",
+     "id": "a3959bd4-a9be-4eb1-9586-496de3583b9d",
+     "teaches": "MP of the variable input eventually declines"
+    }
+   ],
+   "best": "kc.economics.production-and-costs.def-law-variable-proportions",
+   "reason": "Cards teach that MP first rises then falls and that TP is the sum of MPs, but the three TP stages (and TP falling after its maximum) are stated nowhere; strict rule needs every part.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895789765",
+   "ntaKey": 4,
+   "chapter": "Theory of Firms under Perfect Competition",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "short-run profit max at positive output: p = SMC, SMC non-decreasing, p >= AVC",
+    "p < SAC is not a condition"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.theory-of-firms-under-perfect-competition.list-summary-sr-conditions",
+     "teaches": "the three conditions, verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-sr-continue-p-avc",
+     "teaches": "p > AVC to continue"
+    }
+   ],
+   "best": "kc.economics.theory-of-firms-under-perfect-competition.list-summary-sr-conditions",
+   "reason": "Key card lists exactly the three keyed conditions, which excludes statement A.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895789766",
+   "ntaKey": 1,
+   "chapter": "Theory of Firms under Perfect Competition",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "a rise in an input price (wage) raises MC: the MC curve shifts upward (leftward)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-input-prices",
+     "teaches": "leftward (or upward) shift of the MC curve"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.theory-of-firms-under-perfect-competition.ex-input-price-supply",
+     "teaches": "input price rise increases MC"
+    },
+    {
+     "kind": "bank",
+     "id": "bce0793e-faaf-41d8-b420-2d90607d6a55",
+     "teaches": "MC = wage / MP, so MC moves with the wage"
+    }
+   ],
+   "best": "kc.economics.theory-of-firms-under-perfect-competition.fact-input-prices",
+   "reason": "Key card says a rise in an input price shifts the MC curve upward (leftward).",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895789767",
+   "ntaKey": 3,
+   "chapter": "Market Equilibrium & Simple Applications",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "in perfect competition the Invisible Hand changes price when the market is out of balance"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.market-equilibrium-and-simple-applications.fact-invisible-hand-smith",
+     "teaches": "verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.market-equilibrium-and-simple-applications.fact-invisible-hand-role",
+     "teaches": "raises price in excess demand, lowers in excess supply"
+    }
+   ],
+   "best": "kc.economics.market-equilibrium-and-simple-applications.fact-invisible-hand-smith",
+   "reason": "Key card states it word for word.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895789768",
+   "ntaKey": 2,
+   "chapter": "Market Equilibrium & Simple Applications",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "a price ceiling is set below the equilibrium price",
+    "it creates excess demand",
+    "rationing through fair price shops can lead to a black market"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.market-equilibrium-and-simple-applications.fact-summary-ceiling-excess-demand",
+     "teaches": "ceiling below equilibrium leads to excess demand"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.market-equilibrium-and-simple-applications.list-ceiling-adverse-consequences",
+     "teaches": "queues, unsatisfied consumers, black market"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.market-equilibrium-and-simple-applications.fact-price-ceiling-items",
+     "teaches": "kerosene named as a ceiling item"
+    },
+    {
+     "kind": "bank",
+     "id": "399177ef-1df7-459f-907e-310340ef5100",
+     "teaches": "ceiling below equilibrium causes a shortage"
+    }
+   ],
+   "best": "kc.economics.market-equilibrium-and-simple-applications.fact-summary-ceiling-excess-demand",
+   "reason": "Cards and a served bank item teach that the ceiling sits below equilibrium (so \"above\" is the false statement) and the other three statements.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895789769",
+   "ntaKey": 4,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "Keynes's General Theory published 1936"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.fact-keynes-fiscal-policy",
+     "teaches": "names The General Theory, no year"
+    }
+   ],
+   "best": "kc.economics.income-determination.fact-keynes-fiscal-policy",
+   "reason": "The book is named on a card but its 1936 publication year is stated by no served item or card (searched 1936, General Theory, Keynes).",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895789770",
+   "ntaKey": 1,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "transactions of the domestic economy with the rest of the world = the external sector"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.def-bop",
+     "teaches": "BoP records transactions with the rest of the world (not the sector name)"
+    }
+   ],
+   "best": "kc.economics.balance-of-payments.def-bop",
+   "reason": "The term \"external sector\" (one of the four macro sectors) is taught nowhere; BoP cards describe the transactions but never name the sector.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895789771",
+   "ntaKey": 2,
+   "chapter": "Money & Banking",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "the RBI is the authority that regulates (controls) money supply",
+    "sterilisation is an RBI operation (word not taught)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.key-summary-rbi-regulates",
+     "teaches": "RBI regulates money supply"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.list-central-bank-functions",
+     "teaches": "central bank controls money supply"
+    },
+    {
+     "kind": "bank",
+     "id": "ce44adb0-9547-4c98-a8d0-abcab549f017",
+     "teaches": "RBI uses CRR to regulate money supply"
+    }
+   ],
+   "best": "kc.economics.money-and-banking.key-summary-rbi-regulates",
+   "reason": "Settled covered: the item asks which authority; served cards state the RBI regulates money supply, which fixes the key against commercial banks, government and public. The word sterilisation is taught nowhere (searched sterili-), so a one-line card would make it complete.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895789772",
+   "ntaKey": 1,
+   "chapter": "Money & Banking",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "M1 = CU + DD",
+    "M2 = M1 + post office savings deposits",
+    "M3 = M1 + net time deposits of commercial banks",
+    "M4 = M3 + total post office deposits excl. NSC"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.formula-m1",
+     "teaches": "A"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.formula-m2",
+     "teaches": "B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.formula-m3",
+     "teaches": "C"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.formula-m4",
+     "teaches": "D"
+    },
+    {
+     "kind": "bank",
+     "id": "757b1265-a61e-4cf4-8869-e6773661df72",
+     "teaches": "M1 and M2 definitions"
+    }
+   ],
+   "best": "kc.economics.money-and-banking.formula-m4",
+   "reason": "Each of the four definitions is a Key card in the same words.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895789773",
+   "ntaKey": 3,
+   "chapter": "Money & Banking",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": null,
+   "facts": [
+    "money multiplier = 1 / reserve ratio = 1 / 0.5 = 2"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "02ffc58b-7ac4-41f7-8664-045d11c943fd",
+     "teaches": "simple money multiplier = 1/CRR = 1/0.10 = 10"
+    }
+   ],
+   "best": "02ffc58b-7ac4-41f7-8664-045d11c943fd",
+   "reason": "A served bank question computes the simple multiplier as 1/CRR: same formula, steps and unknown.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895789774",
+   "ntaKey": 3,
+   "chapter": "Money & Banking",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "central bank buying and selling government securities = open market operations"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.def-open-market-operations",
+     "teaches": "definition"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.money-and-banking.diff-omo-buy-vs-sell",
+     "teaches": "buying raises, selling cuts money supply"
+    }
+   ],
+   "best": "kc.economics.money-and-banking.def-open-market-operations",
+   "reason": "Key cards define OMO and its effect on money supply.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895789775",
+   "ntaKey": 1,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "rate of increase in ex ante consumption per unit increment in income = MPC"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.term-summary-mpc",
+     "teaches": "verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.formula-mpc-eq",
+     "teaches": "MPC = change in C / change in Y"
+    }
+   ],
+   "best": "kc.economics.income-determination.term-summary-mpc",
+   "reason": "Key card is the question's sentence word for word.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895789776",
+   "ntaKey": 2,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "(A) ex ante = planned: true",
+    "(B) ex post = actual: true",
+    "(D) consumption function relates C to Y: true",
+    "(C) keyed false by NTA, but NCERT's C = C-bar + cY has a constant MPC, so (C) reads true"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-ex-ante",
+     "teaches": "A"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-ex-post",
+     "teaches": "B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-consumption-function",
+     "teaches": "D"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.formula-consumption-function-eq",
+     "teaches": "C = C-bar + cY (a constant c, which reads as making C true)"
+    }
+   ],
+   "best": "kc.economics.income-determination.def-consumption-function",
+   "reason": "Settled not covered (ambiguous key): A, B and D are taught, but nothing can teach why C is false; the served C = C-bar + cY card (constant c) would lead a student to option 3, not the key.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895789777",
+   "ntaKey": 1,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": null,
+   "facts": [
+    "Y = (C-bar + I) / (1 - c) = (40 + 20) / 0.2 = 300 (old Y 250, change 50 is the trap)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.ex-imagenia",
+     "teaches": "reads C-bar and c from C = 100 + 0.8Y (card, does not cover a numerical)"
+    },
+    {
+     "kind": "bank",
+     "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+     "teaches": "multiplier on a change, not the equilibrium level"
+    }
+   ],
+   "best": "kc.economics.income-determination.ex-imagenia",
+   "reason": "No served bank question solves for the equilibrium income level from a consumption function and investment; the one multiplier sum gives only the change in Y.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895789778",
+   "ntaKey": 4,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "a change in autonomous spending changes output by a larger amount through the multiplier"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.fact-summary-multiplier",
+     "teaches": "verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-investment-multiplier",
+     "teaches": "definition"
+    }
+   ],
+   "best": "kc.economics.income-determination.fact-summary-multiplier",
+   "reason": "Key card is the question's sentence with the multiplier named.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895789779",
+   "ntaKey": 1,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "equilibrium output below full-employment output = deficient demand"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-deficient-demand",
+     "teaches": "verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.def-excess-demand",
+     "teaches": "excess demand is the opposite case"
+    }
+   ],
+   "best": "kc.economics.income-determination.def-deficient-demand",
+   "reason": "Key card names this situation deficient demand.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895789780",
+   "ntaKey": 4,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "investment multiplier = 1 / (1 - MPC)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+     "teaches": "Multiplier = 1/(1 - MPC)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.fact-multiplier-depends-on-c",
+     "teaches": "larger mpc, larger multiplier"
+    }
+   ],
+   "best": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+   "reason": "A served bank explanation states the multiplier as 1/(1 - MPC).",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895789781",
+   "ntaKey": 2,
+   "chapter": "Government Budget & the Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "budget functions are allocation, redistribution and stabilisation; consumption is not one"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.list-three-functions",
+     "teaches": "the three functions"
+    },
+    {
+     "kind": "bank",
+     "id": "99f172f2-1ac0-4ac8-9415-bb5297282c6c",
+     "teaches": "redistribution through the budget"
+    }
+   ],
+   "best": "kc.economics.government-budget-and-the-economy.list-three-functions",
+   "reason": "Key card lists the three functions, which leaves out consumption.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895789782",
+   "ntaKey": 3,
+   "chapter": "Government Budget & the Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "(A) collectively consumed: benefits available to all",
+    "(B) may be produced by government or the private sector",
+    "(C) non-rivalrous",
+    "(D) non-excludable"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.diff-public-private-benefits",
+     "teaches": "A: benefits available to all, not restricted to one consumer"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.diff-provision-vs-production",
+     "teaches": "B: may be produced by the government or the private sector, verbatim"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.list-public-goods-features",
+     "teaches": "C and D"
+    }
+   ],
+   "best": "kc.economics.government-budget-and-the-economy.list-public-goods-features",
+   "reason": "Settled covered: all four statements are on Key cards; B is word for word on the provision-versus-production card.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895789783",
+   "ntaKey": 2,
+   "chapter": "Income Determination",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": null,
+   "facts": [
+    "change in Y = change in G x 1/(1 - c) = 100 x 5 = 500"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+     "teaches": "MPC 0.6, G rises by 100: multiplier 2.5, change in Y = 250"
+    }
+   ],
+   "best": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae",
+   "reason": "A served bank question computes the change in income from a rise in G of 100 with the simple multiplier: same formula, same unknown, same steps.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895789784",
+   "ntaKey": 3,
+   "chapter": "Government Budget & the Economy",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "automatic stabiliser: (proportional) income tax",
+    "revenue payment: neither creates an asset nor reduces a liability",
+    "capital receipt: creates a liability or reduces an asset",
+    "total expenditure: plan and non-plan"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.income-determination.fact-proportional-tax-automatic-stabiliser",
+     "teaches": "A: proportional income tax is an automatic stabiliser"
+    },
+    {
+     "kind": "bank",
+     "id": "a86a127a-9aae-452d-bae0-29dba8787936",
+     "teaches": "B: revenue expenditure neither creates assets nor reduces liabilities"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.def-capital-receipts",
+     "teaches": "C"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.def-plan-revenue-expenditure",
+     "teaches": "D: expenditure classified as plan"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.list-non-plan-items",
+     "teaches": "D: non-plan expenditure"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.government-budget-and-the-economy.diff-plan-vs-non-plan-capital",
+     "teaches": "D: plan and non-plan capital expenditure"
+    }
+   ],
+   "best": "kc.economics.income-determination.fact-proportional-tax-automatic-stabiliser",
+   "reason": "Settled covered: A, B and C are stated outright; cards split both revenue and capital expenditure into plan and non-plan, which gives D (and only option 3 has A-II anyway).",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895789785",
+   "ntaKey": 2,
+   "chapter": "Balance of Payments",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "more imports: demand for foreign goods rises",
+    "demand curve for foreign exchange shifts right",
+    "price of foreign exchange (exchange rate) rises",
+    "that rise is called depreciation of the domestic currency"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.key-income-imports-depreciation",
+     "teaches": "imports up: demand curve shifts right, depreciation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.def-depreciation",
+     "teaches": "rise in price of foreign currency = depreciation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.fact-forex-price-rise-demand",
+     "teaches": "price of foreign exchange as the variable on the curve"
+    }
+   ],
+   "best": "kc.economics.balance-of-payments.key-income-imports-depreciation",
+   "reason": "Cards give imports up, rightward shift, and depreciation as the name of the rise in the price of foreign currency, which orders D before C.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895789786",
+   "ntaKey": 1,
+   "chapter": "Balance of Payments",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "market-determined rate with occasional central bank intervention = managed floating"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.fact-managed-dirty-floating",
+     "teaches": "central banks intervene to moderate movements"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.def-managed-floating",
+     "teaches": "mix of flexible and fixed"
+    }
+   ],
+   "best": "kc.economics.balance-of-payments.fact-managed-dirty-floating",
+   "reason": "Key cards describe managed (dirty) floating in these terms.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895789787",
+   "ntaKey": 3,
+   "chapter": "Balance of Payments",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "imports are a leakage, exports an injection"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.fact-imports-leakage",
+     "teaches": "imports a leakage"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.fact-exports-injection",
+     "teaches": "exports an injection"
+    },
+    {
+     "kind": "bank",
+     "id": "63896ef6-0ce3-463d-ac31-13961db73b30",
+     "teaches": "imports are a leakage (served bank match item)"
+    }
+   ],
+   "best": "kc.economics.balance-of-payments.fact-imports-leakage",
+   "reason": "Two Key cards state both halves.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895789788",
+   "ntaKey": 3,
+   "chapter": "Balance of Payments",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "current account deficit: receipts < payments"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.key-ca-balance-condition",
+     "teaches": "balance when receipts = payments only"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.key-bop-surplus-autonomous",
+     "teaches": "BoP (not current account) deficit when autonomous receipts < payments"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.diff-trade-surplus-deficit",
+     "teaches": "trade (goods) deficit when imports exceed exports"
+    },
+    {
+     "kind": "bank",
+     "id": "b603ac5f-7b53-4192-9e29-761cde6da8f4",
+     "teaches": "BoP (not current account) deficit = autonomous receipts < payments"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.balance-of-payments.key-ca-deficit-ka-surplus",
+     "teaches": "CA deficit financed by capital inflow (no definition)"
+    }
+   ],
+   "best": "kc.economics.balance-of-payments.key-ca-balance-condition",
+   "reason": "Settled not covered (near miss): material gives the current-account balance condition, the BoP deficit and the trade deficit, but never states when the current account itself is in deficit; under the strict rule an inference is not a statement.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895789789",
+   "ntaKey": 2,
+   "chapter": "Indian Economy on the Eve of Independence",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "first census of British India: 1881"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-first-census-1881",
+     "teaches": "verbatim"
+    }
+   ],
+   "best": "kc.economics.indian-economy-on-the-eve-of-independence.fact-first-census-1881",
+   "reason": "Key card gives 1881.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895789790",
+   "ntaKey": 4,
+   "chapter": "Indian Economic Development 1950–1990",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "Planning Commission 1950",
+    "Second Five Year Plan 1956 (after the first plan 1951-56; IPR 1956 its basis)",
+    "Green Revolution mid-1960s",
+    "New Economic Policy 1991"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.indian-economic-development-1950-1990.fact-planning-commission-1950",
+     "teaches": "C: 1950"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.development-experiences-of-india.fact-first-five-year-plans",
+     "teaches": "B: first plan 1951-56"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.indian-economic-development-1950-1990.kl-ipr-1956-basis",
+     "teaches": "B: IPR 1956 the basis of the Second Plan"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.indian-economic-development-1950-1990.fact-gr-phase-1",
+     "teaches": "D: mid-1960s"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.indian-economic-development-1950-1990.fact-new-economic-policy-1991",
+     "teaches": "A: 1991"
+    }
+   ],
+   "best": "kc.economics.indian-economic-development-1950-1990.fact-planning-commission-1950",
+   "reason": "Cards date all four events, which fixes the order C, B, D, A.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895789791",
+   "ntaKey": 2,
+   "chapter": "Economic Reforms Since 1991",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "(A) industrial licensing abolished for all but a few products",
+    "(B) private sector allowed in many industries",
+    "(C) many small-scale goods dereserved",
+    "(D) price controls were removed, so D is false"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.list-licensing-retained",
+     "teaches": "A: licensing kept only for a short list"
+    },
+    {
+     "kind": "bank",
+     "id": "1b2966cc-12f5-4317-bf54-fe85ae932a18",
+     "teaches": "A: licensing deregulated for most industries"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.fact-public-sector-reserved",
+     "teaches": "B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.list-industrial-regulations",
+     "teaches": "D: price controls listed as a pre-1991 regulation"
+    }
+   ],
+   "best": "kc.economics.economic-reforms-since-1991.list-industrial-regulations",
+   "reason": "A, B and D are taught; the dereservation of small-scale goods (C) is stated by no served item or card (cards only teach the pre-1991 reservation).",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895789792",
+   "ntaKey": 1,
+   "chapter": "Economic Reforms Since 1991",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "outsourcing: hiring regular service from external sources",
+    "stabilisation: correct BoP weaknesses and inflation",
+    "structural: efficiency and competitiveness",
+    "globalisation: integration with the world economy"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.def-outsourcing",
+     "teaches": "A"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.def-stabilisation-measures",
+     "teaches": "B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.def-structural-reform",
+     "teaches": "C"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.economic-reforms-since-1991.def-globalisation",
+     "teaches": "D"
+    },
+    {
+     "kind": "bank",
+     "id": "d95cf49a-71c2-41a8-ac3f-7e4b0ba42303",
+     "teaches": "D: globalisation = integration with world economy"
+    }
+   ],
+   "best": "kc.economics.economic-reforms-since-1991.def-outsourcing",
+   "reason": "All four pairs are Key card definitions.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895789793",
+   "ntaKey": 3,
+   "chapter": "Human Capital Formation",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "Kothari Education Commission 1964-66",
+    "Tapas Majumdar Committee 1998-99",
+    "RTE Act 2009",
+    "National Education Policy 2020"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.human-capital-formation.fact-directive-principles-14",
+     "teaches": "only the Directive Principles (none of the four)"
+    }
+   ],
+   "best": null,
+   "reason": "None of the four education milestones or their years is taught (searched Kothari, Majumdar, education commission, RTE, education policy).",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895789794",
+   "ntaKey": 4,
+   "chapter": "Environment & Sustainable Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "environment supplies renewable and non-renewable resources, assimilates waste, sustains life (genetic and biodiversity), gives aesthetic services"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.environment-and-sustainable-development.list-four-functions",
+     "teaches": "all four functions"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.environment-and-sustainable-development.def-renewable",
+     "teaches": "renewable resources"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.environment-and-sustainable-development.def-non-renewable",
+     "teaches": "non-renewable resources"
+    }
+   ],
+   "best": "kc.economics.environment-and-sustainable-development.list-four-functions",
+   "reason": "Key card lists the four functions in the question's words.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895789795",
+   "ntaKey": 2,
+   "chapter": "Employment",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "Union Ministry of Labour: formal sector employment data",
+    "construction workers: casual wage labourers",
+    "MGNREGA: rural employment",
+    "TANWA: women workers"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.employment.list-informal-sector-includes",
+     "teaches": "B: construction workers as casual wage labourers"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.employment.fact-mgnrega",
+     "teaches": "C: guaranteed rural wage employment"
+    }
+   ],
+   "best": "kc.economics.employment.fact-mgnrega",
+   "reason": "Two of four pairs taught; the Labour Ministry's data role and TANWA appear in no served item or card (searched ministry, labour, Tamil Nadu, TANWA, women).",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895789796",
+   "ntaKey": 2,
+   "chapter": "Development Experiences of India",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "China followed the classical pattern: agriculture to manufacturing to services"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.development-experiences-of-india.fact-sector-shift-pattern",
+     "teaches": "verbatim"
+    }
+   ],
+   "best": "kc.economics.development-experiences-of-india.fact-sector-shift-pattern",
+   "reason": "Key card names China and the classical pattern.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895789797",
+   "ntaKey": 3,
+   "chapter": "Development Experiences of India",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "Pakistan announced its first five year plan in 1956"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.development-experiences-of-india.fact-first-five-year-plans",
+     "teaches": "Pakistan 1956"
+    }
+   ],
+   "best": "kc.economics.development-experiences-of-india.fact-first-five-year-plans",
+   "reason": "Key card gives 1956 for Pakistan.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895789798",
+   "ntaKey": 1,
+   "chapter": "Development Experiences of India",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": null,
+   "facts": [
+    "HDI rank China above India above Pakistan; USA first in every option"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.development-experiences-of-india.diff-table-8-5-hdi-rank",
+     "teaches": "ranks 130, 78, 168"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.development-experiences-of-india.diff-table-8-5-hdi-value",
+     "teaches": "values 0.685, 0.797, 0.544"
+    }
+   ],
+   "best": "kc.economics.development-experiences-of-india.diff-table-8-5-hdi-rank",
+   "reason": "Settled covered: the Table 8.5 rank card (India 130, China 78, Pakistan 168) gives the order; every option puts USA first, so that part is not tested.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895789800",
+   "ntaKey": 3,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": "P1-226895789799",
+   "facts": [
+    "three methods: product (value added), income, expenditure (not in the passage)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.types-three-methods-national-income",
+     "teaches": "income, product, expenditure"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.fact-three-methods-give-same-estimate",
+     "teaches": "three methods give the same estimate"
+    }
+   ],
+   "best": "kc.economics.national-income-and-related-aggregates.types-three-methods-national-income",
+   "reason": "Passage does not name the methods, so judged normally: Key card names all three.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895789801",
+   "ntaKey": 2,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": "P1-226895789799",
+   "facts": [
+    "real GDP 2021 at 2020 prices = 310 x 20 = 6200 (method not in the passage)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.def-real-gdp",
+     "teaches": "definition only (card)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.def-base-year",
+     "teaches": "base year (card)"
+    }
+   ],
+   "best": "kc.economics.national-income-and-related-aggregates.def-real-gdp",
+   "reason": "Judged normally (method not printed): no served bank question computes real GDP at base-year prices.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895789802",
+   "ntaKey": 1,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "numerical",
+   "passage": "P1-226895789799",
+   "facts": [
+    "nominal 2021 = 310 x 30 = 9300; deflator = 9300 / 6200 = 1.5 = 150%"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.formula-gdp-deflator",
+     "teaches": "formula only (card, does not cover a numerical)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.def-gdp-deflator",
+     "teaches": "ratio of nominal to real GDP (card, not a numerical)"
+    }
+   ],
+   "best": "kc.economics.national-income-and-related-aggregates.formula-gdp-deflator",
+   "reason": "Judged normally: the passage gives the nominal/real ratio but the real GDP needs the Q42 method; no served bank question computes a GDP deflator.",
+   "aVerdict": "not_covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895789803",
+   "ntaKey": 4,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "passage",
+   "passage": "P1-226895789799",
+   "facts": [
+    "read from passage: non-monetary exchanges are the activity \"not accounted\" in GDP; unpaid housework = non-monetary"
+   ],
+   "verdict": "skill",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.national-income-and-related-aggregates.fact-welfare-non-monetary-exchanges",
+     "teaches": "this exact example under non-monetary exchanges"
+    }
+   ],
+   "best": null,
+   "reason": "Passage item, re-labelled skill: the passage names non-monetary exchanges as the activity not accounted as economic activity; the stem's \"unregistered\" domestic services map to it by plain meaning, so no stored fact is needed (the Key card that teaches the example is noted).",
+   "aVerdict": "covered",
+   "agreesWithA": false,
+   "whyDiffers": "A: covered (passage names the category, not the example). B: the answer is readable off the passage (non-monetary exchanges = the unaccounted activity), so skill per METHOD; B's skill label wins.",
+   "note": "Matches kept for information only; skill items are not counted."
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895789804",
+   "ntaKey": 2,
+   "chapter": "National Income & Related Aggregates",
+   "offSyllabus": false,
+   "type": "passage",
+   "passage": "P1-226895789799",
+   "facts": [
+    "read from passage: CPI and WPI are the other ways to measure price change"
+   ],
+   "verdict": "skill",
+   "matches": [],
+   "best": null,
+   "reason": "The keyed sentence is printed in the GDP and Welfare passage; it tests reading (METHOD decision).",
+   "aVerdict": "skill",
+   "agreesWithA": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895789806",
+   "ntaKey": 2,
+   "chapter": "Rural Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": "P2-226895789805",
+   "facts": [
+    "rural development = action for the development of rural (village) areas lagging behind in socio-economic development (not in the passage)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.rural-development.def-rural-development",
+     "teaches": "action for areas lagging behind in the development of the village economy"
+    }
+   ],
+   "best": "kc.economics.rural-development.def-rural-development",
+   "reason": "Not in the passage, judged normally: Key card defines it as action for areas lagging behind in the village economy, which picks the rural-areas option.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895789807",
+   "ntaKey": 1,
+   "chapter": "Rural Development",
+   "offSyllabus": false,
+   "type": "passage",
+   "passage": "P2-226895789805",
+   "facts": [
+    "read from passage: organic farming is the eco-friendly technology"
+   ],
+   "verdict": "skill",
+   "matches": [],
+   "best": null,
+   "reason": "The answer is printed in the Rural Development passage; it tests reading (METHOD decision).",
+   "aVerdict": "skill",
+   "agreesWithA": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895789808",
+   "ntaKey": 2,
+   "chapter": "Rural Development",
+   "offSyllabus": false,
+   "type": "passage",
+   "passage": "P2-226895789805",
+   "facts": [
+    "read from passage: savings channelled through micro credit which functions like mini banks"
+   ],
+   "verdict": "skill",
+   "matches": [],
+   "best": null,
+   "reason": "The answer is printed in the Rural Development passage; it tests reading (METHOD decision).",
+   "aVerdict": "skill",
+   "agreesWithA": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895789809",
+   "ntaKey": 2,
+   "chapter": "Rural Development",
+   "offSyllabus": false,
+   "type": "passage",
+   "passage": "P2-226895789805",
+   "facts": [
+    "read from passage: \"diversification into dairying, poultry, fisheries, vegetables and fruits\" = crop change + shift to allied activities"
+   ],
+   "verdict": "skill",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.rural-development.types-two-aspects-diversification",
+     "teaches": "verbatim"
+    }
+   ],
+   "best": null,
+   "reason": "Passage item, re-labelled skill: the passage ties diversification to dairying, poultry, fisheries (allied activities) and vegetables and fruits (cropping pattern), so the stem's definition can be matched to \"Diversification\" by reading (the Key card that teaches the two aspects is noted).",
+   "aVerdict": "covered",
+   "agreesWithA": false,
+   "whyDiffers": "A: covered (passage only uses the word). B: the passage links diversification to allied activities and new crops, so the stem's definition is readable; skill per METHOD; B's skill label wins.",
+   "note": "Matches kept for information only; skill items are not counted."
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895789810",
+   "ntaKey": 4,
+   "chapter": "Rural Development",
+   "offSyllabus": false,
+   "type": "theory",
+   "passage": "P2-226895789805",
+   "facts": [
+    "marketing policy instruments: MSP, buffer stocks, PDS; private trade is not one (not in the passage)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.economics.rural-development.list-policy-instruments",
+     "teaches": "MSP, buffer stocks, PDS"
+    }
+   ],
+   "best": "kc.economics.rural-development.list-policy-instruments",
+   "reason": "Not in the passage, judged normally: Key card lists the three instruments, leaving out private trade.",
+   "aVerdict": "covered",
+   "agreesWithA": true
+  }
+ ]
+}

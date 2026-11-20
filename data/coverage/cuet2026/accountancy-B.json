@@ -1,0 +1,1857 @@
+{
+ "paper": "cuet2026-accountancy",
+ "subject": "accountancy",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "301",
+  "date": "2026-05-20",
+  "shift": "First",
+  "source": "AglaSem Docs copy of the NTA master question paper (owner-approved download, 21 Nov 2026); text in tmp/1121-2026-papers/cuet2026-accountancy-paper.json",
+  "keySource": "NTA CUET (UG) 2026 final answer key, option ids (ids/cuet2026-accountancy-keyrows.json); all 55 questions authenticated by question id and option id"
+ },
+ "snapshotDate": "2026-11-20",
+ "bankRead": "Saved read-only snapshot of 20 Nov 2026 (scratchpad accB: bank_accountancy.json 1,515 rows, served_accountancy.json 1,179 served ids, suspended.json empty). No database or network access. Searches: scratchpad accB26/s.mjs (served rows only + published cards).",
+ "keyCardDeck": "data/keycards/decks/accountancy.json (1,127 cards; suspended list in snapshot is empty)",
+ "syllabusSource": "CUET 2026 Accountancy syllabus text (data/source_registry.json, cuet2026-accountancy-syllabus): units I-V plus the optional CAS unit; every question is on it",
+ "checker": "B",
+ "method": "tmp/1120-speed/coverage/METHOD.md, strict rule. Fact lists written before opening A: coverage/acc26_B_facts.txt (with B's own first verdicts appended before A was opened).",
+ "auditOfA": {
+  "citationsChecked": 74,
+  "citationsFailingServedOrDeck": 0,
+  "citationsRemovedForContent": 0,
+  "note": "Every bank id A cited is in the served list; every card id is in the published deck and none is suspended. Each was read in full; each states the fact A attached to it (4357abd1 on n33 teaches statement A only, which A did not claim more for)."
+ },
+ "ownSearchBeforeA": {
+  "covered": 39,
+  "not_covered": 16,
+  "differedFromAOn": [
+   13,
+   22,
+   32
+  ],
+  "note": "All three settled to A's verdict on re-check, reasons per question (initialBVerdictBeforeReadingA / settled)."
+ },
+ "counts": {
+  "covered": 38,
+  "not_covered": 17,
+  "skill": 0,
+  "off_syllabus": 0,
+  "dropped": 0,
+  "countable": 55
+ },
+ "countsBySection": {
+  "core": {
+   "covered": 30,
+   "not_covered": 15,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 45
+  },
+  "analysisOfFinancialStatements": {
+   "covered": 4,
+   "not_covered": 1,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 5
+  },
+  "computerizedAccounting": {
+   "covered": 4,
+   "not_covered": 1,
+   "skill": 0,
+   "off_syllabus": 0,
+   "dropped": 0,
+   "countable": 5
+  }
+ },
+ "final": {
+  "covered": 38,
+  "counted": 55,
+  "skill": 0,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "percent": 69.1,
+  "rule": "Covered only if both A and B say covered; B's skill, off-syllabus and dropped labels win (none apply).",
+  "bySection": {
+   "core": {
+    "covered": 30,
+    "counted": 45,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0
+   },
+   "analysisOfFinancialStatements": {
+    "covered": 4,
+    "counted": 5,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0
+   },
+   "computerizedAccounting": {
+    "covered": 4,
+    "counted": 5,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0
+   }
+  },
+  "candidate50": {
+   "coreWithAFS": {
+    "covered": 34,
+    "counted": 50,
+    "percent": 68
+   },
+   "coreWithCAS": {
+    "covered": 34,
+    "counted": 50,
+    "percent": 68
+   }
+  },
+  "byType": {
+   "theory": {
+    "covered": 38,
+    "counted": 42,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0
+   },
+   "numerical": {
+    "covered": 0,
+    "counted": 13,
+    "skill": 0,
+    "offSyllabus": 0,
+    "dropped": 0
+   }
+  },
+  "byChapter": {
+   "Partnership Fundamentals": {
+    "covered": 3,
+    "not_covered": 0
+   },
+   "Profit & Loss Appropriation Account": {
+    "covered": 0,
+    "not_covered": 2
+   },
+   "Admission of Partner": {
+    "covered": 4,
+    "not_covered": 1
+   },
+   "Retirement & Death of Partner": {
+    "covered": 6,
+    "not_covered": 4
+   },
+   "Goodwill Valuation": {
+    "covered": 2,
+    "not_covered": 3
+   },
+   "Share Capital": {
+    "covered": 7,
+    "not_covered": 2
+   },
+   "Debentures": {
+    "covered": 4,
+    "not_covered": 2
+   },
+   "Dissolution of Partnership Firm": {
+    "covered": 4,
+    "not_covered": 1
+   },
+   "Cash Flow Statement": {
+    "covered": 1,
+    "not_covered": 0
+   },
+   "Financial Statements of Company": {
+    "covered": 1,
+    "not_covered": 0
+   },
+   "Accounting Ratios": {
+    "covered": 1,
+    "not_covered": 1
+   },
+   "Comparative & Common Size Statements": {
+    "covered": 1,
+    "not_covered": 0
+   },
+   "Computerized Accounting System": {
+    "covered": 4,
+    "not_covered": 1
+   }
+  },
+  "disagreementsWithA": []
+ },
+ "openCallsSettled": {
+  "Q254 (n19)": "Covered. Card admission-of-partner.entry-e-goodwill-not-brought gives Incoming Partner's CURRENT A/c Dr To Sacrificing Partners' Capital A/c, the keyed option; the 9,000/6,000 split is the old ratio 3:2 (fact-nothing-specified-old-ratio). The Capital A/c option is a distractor our material does not teach.",
+  "Q267 (n32)": "Covered, the weakest covered call. Three pairs are exact cards; the cash-issue pair is taught by def-over-subscription (debentures offered to the public, applied for) and the application-money entry card; only the word \"prospectus\" is missing for debentures.",
+  "Q281 (n46)": "Covered. Royalties operating, interest/dividends received investing, share issue financing are exact cards; \"current investment = cash and cash equivalents\" is the pairing our card fact-purchase-equivalents-not-considered teaches (short-term investment constituting cash equivalents). The paper's pairing is loose, but our material agrees with the key.",
+  "Q259 (n24)": "Covered. NTA keys Gaining Partners' Capital A/c Dr To P&L Suspense A/c; card entry-death-close-suspense states exactly that. No served item teaches the older year-end close to P&L A/c, so a student is not misled.",
+  "Q262 (n27)": "On syllabus (\"Features and type of companies\" in the 2026 syllabus) and covered: card share-capital.fact-opc-limits states the Rs 2 crore turnover limit the key uses (the rule was amended in 2021, but NTA keyed Rs 2 crore as NCERT prints it).",
+  "Q264 (n29)": "Covered: served bank ed41d458 asks the 90% directly and card fact-min-sub-90 quotes the SEBI DIP 2000 wording."
+ },
+ "gapsToAuthor": {
+  "numericalTemplatesMissing": [
+   {
+    "n": 3,
+    "chapter": "Profit & Loss Appropriation Account",
+    "template": "Interest on capital with mid-year additional capital and a withdrawal (time-weighted months)"
+   },
+   {
+    "n": 4,
+    "chapter": "Profit & Loss Appropriation Account",
+    "template": "Interest on capital when profit is less than total interest: share profit in the ratio of interest"
+   },
+   {
+    "n": 16,
+    "chapter": "Goodwill Valuation",
+    "template": "Reverse super profit: from goodwill, years' purchase, average profit and capital, find the normal rate of return"
+   },
+   {
+    "n": 23,
+    "chapter": "Goodwill Valuation",
+    "template": "Super profit with partners' salary deducted from past profits; compare two averaging bases, take the lower"
+   },
+   {
+    "n": 17,
+    "chapter": "Retirement & Death of Partner",
+    "template": "Profit to date of death on the sales (turnover) basis"
+   },
+   {
+    "n": 18,
+    "chapter": "Retirement & Death of Partner",
+    "template": "Net revaluation profit/loss from several asset increases and decreases"
+   },
+   {
+    "n": 22,
+    "chapter": "Admission of Partner",
+    "template": "Sacrificing ratio when old partners agree a new mutual ratio on admission (result differs from the old ratio)"
+   },
+   {
+    "n": 35,
+    "chapter": "Share Capital",
+    "template": "Number of shares issued to a vendor at a premium (price less cash paid, over issue price)"
+   },
+   {
+    "n": 40,
+    "chapter": "Share Capital",
+    "template": "Forfeiture where allotment money including premium is unpaid; back out the paid amount; reissue at discount; capital reserve"
+   },
+   {
+    "n": 36,
+    "chapter": "Debentures",
+    "template": "Debentures issued to a vendor at a discount: number of debentures and the entry"
+   },
+   {
+    "n": 37,
+    "chapter": "Debentures",
+    "template": "Debentures issued at a premium payable in instalments: application, allotment (with premium) and call amounts"
+   },
+   {
+    "n": 45,
+    "chapter": "Dissolution of Partnership Firm",
+    "template": "Cash realised when a partner takes over part of an asset and the rest is sold at a gain/loss"
+   },
+   {
+    "n": 49,
+    "chapter": "Accounting Ratios",
+    "template": "Interest coverage ratio from profit after tax, tax rate and debt interest rate"
+   }
+  ],
+  "theoryFactsMissing": [
+   {
+    "n": 13,
+    "chapter": "Retirement & Death of Partner",
+    "fact": "At retirement (fixed capitals) current account balances are transferred to capital accounts before settlement; order Revaluation, Current, Capital, Balance Sheet"
+   },
+   {
+    "n": 15,
+    "chapter": "Goodwill Valuation",
+    "fact": "AS 26 is the Accounting Standard on intangible assets (definition)"
+   },
+   {
+    "n": 21,
+    "chapter": "Goodwill Valuation",
+    "fact": "Intangible assets are written off over estimated life not exceeding 10 years (AS 26); plus AS 26 deals with intangibles"
+   },
+   {
+    "n": 53,
+    "chapter": "Computerized Accounting System",
+    "fact": "Freezing a formula: select, Copy, Paste Special, Values, OK"
+   }
+  ]
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895784814",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Partnership Fundamentals",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "No deed: no interest on capital is allowed (Act default rules)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.list-summary-act-rules",
+     "teaches": "deed silent: no interest on capital is allowed"
+    }
+   ],
+   "best": "kc.accountancy.partnership-fundamentals.list-summary-act-rules",
+   "reason": "Key card states the default rule outright.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895784815",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Partnership Fundamentals",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Fixed capitals: salary, interest, drawings go to the partner's current account"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+     "teaches": "fixed capital: salary, interest etc. posted to current accounts"
+    }
+   ],
+   "best": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+   "reason": "Key card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895784816",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Profit & Loss Appropriation Account",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Interest on capital time-weighted: opening capital 12 months + addition for months held - withdrawal for months after it (16,000 + 3,000 - 1,200)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Served interest-on-capital rows are one full-year template on a single capital (e.g. 00e30f6f); none time-weights an addition and a withdrawal.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895784817",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Profit & Loss Appropriation Account",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Profit (14,000) below total interest on capital (56,000): profit shared in the ratio of interest on capital (24:32), so 6,000"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Card profit-and-loss-appropriation-account.fact-ioc-profit-less-ratio states the rule, but a card does not cover a numerical and no served bank row has insufficient profit.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895784818",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Partnership Fundamentals",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Agreement is essential",
+    "Sharing of profits is essential",
+    "Mutual agency is essential",
+    "Co-ownership of property is not partnership"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+     "teaches": "agreement, sharing of profit, mutual agency are essential features"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.fact-co-ownership-not-partnership",
+     "teaches": "co-ownership is not partnership"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.kl-mutual-agency-principal-agent",
+     "teaches": "principal and agent for all other partners"
+    }
+   ],
+   "best": "kc.accountancy.partnership-fundamentals.list-features-six",
+   "reason": "Every statement taught on cards.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "questionId": "226895784819",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Admission of Partner",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nothing specified: new partner takes his share from old partners in their old ratio"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+     "teaches": "exact rule"
+    },
+    {
+     "kind": "bank",
+     "id": "20fa6daa-c601-4672-a976-365c7f4296c9",
+     "teaches": "sacrifice ratio equals old ratio when nothing specified"
+    }
+   ],
+   "best": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+   "reason": "Card carries the exact sentence.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "questionId": "226895784820",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Admission of Partner",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Admission needs consent of all existing partners (Act 1932)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.kl-consent-act-1932",
+     "teaches": "consent of all existing partners"
+    }
+   ],
+   "best": "kc.accountancy.admission-of-partner.kl-consent-act-1932",
+   "reason": "Card carries the exact rule.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "questionId": "226895784821",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "No information: remaining partners acquire the outgoing share in their old ratio"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.fact-assumed-old-ratio",
+     "teaches": "assumed old profit sharing ratio"
+    }
+   ],
+   "best": "kc.accountancy.retirement-and-death-of-partner.fact-assumed-old-ratio",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "questionId": "226895784822",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Ratio in which continuing partners acquire the deceased partner's share = gaining ratio"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+     "teaches": "definition with retiring/deceased wording"
+    },
+    {
+     "kind": "bank",
+     "id": "87ae7e88-60ab-4f3e-97f9-7340dfed518c",
+     "teaches": "statement II: gaining ratio = ratio continuing partners acquire retiring share"
+    }
+   ],
+   "best": "kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio",
+   "reason": "Card definition is word for word.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "questionId": "226895784823",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Accumulated profits/losses at retirement belong to all partners"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-belong-all",
+     "teaches": "belong to all the partners, old ratio"
+    }
+   ],
+   "best": "kc.accountancy.retirement-and-death-of-partner.fact-accumulated-belong-all",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "questionId": "226895784824",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Gaining/new ratio first",
+    "Revaluation account, result to all capital accounts incl. deceased",
+    "Deceased partner's capital account",
+    "Balance transferred to executor's account last"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+     "teaches": "ratio first, revaluation before settlement"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.fact-revaluation-purpose",
+     "teaches": "revaluation result goes to capital accounts incl. deceased"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.fact-executor-account",
+     "teaches": "amount credited to deceased is transferred to executor's account"
+    }
+   ],
+   "best": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+   "reason": "Each link of the order is stated on a card.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "questionId": "226895784825",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Debit balance of current a/c deducted",
+    "Goodwill written off deducted",
+    "Accumulated losses deducted",
+    "Revaluation loss deducted"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+     "teaches": "lists all four deductions"
+    }
+   ],
+   "best": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+   "reason": "One card lists all four.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "questionId": "226895784826",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Revaluation first",
+    "Partners' current accounts before capital accounts",
+    "Capital accounts",
+    "Balance sheet last"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+     "teaches": "revaluation precedes settlement (partial)"
+    }
+   ],
+   "best": null,
+   "reason": "Revaluation first is taught, but nothing served states that current accounts are closed into capital accounts before the capital accounts are settled; list-dues-credits-1 only sums both balances without an order.",
+   "agreesWithA": true,
+   "initialBVerdictBeforeReadingA": "covered",
+   "settled": "B first read list-dues-credits-1 as implying the order; on re-check it lists both balances in the dues without ordering them, so doubtful = not covered (agrees with A).",
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "questionId": "226895784827",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Goodwill Valuation",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Gaining = New - Old",
+    "Sacrificing = Old - New",
+    "Goodwill (capitalisation of super profit) = SP x 100 / NRR",
+    "Capitalised value of average profit = AP x 100 / NRR"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+     "teaches": "New share - Old share"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.formula-sacrifice-formula",
+     "teaches": "Old share - New share"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
+     "teaches": "SP x 100 / NRR"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.goodwill-valuation.formula-capitalised-value-formula",
+     "teaches": "AP x 100 / NRR"
+    },
+    {
+     "kind": "bank",
+     "id": "625c82bf-6bfb-4d51-a369-2751bfbbdf62",
+     "teaches": "statements I-II: sacrificing = old - new, gaining = new - old"
+    }
+   ],
+   "best": "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+   "reason": "All four formulas on cards; the ratio pair also in a served bank row.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "questionId": "226895784828",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Goodwill Valuation",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "AS 26 is the standard that defines/deals with intangible assets"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "AS 26 appears only on goodwill-valuation.fact-internal-goodwill-not-recognised (internally generated goodwill), which never says AS 26 is the standard on intangible assets; AS 27-29 cannot be ruled out from served material.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "questionId": "226895784829",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Goodwill Valuation",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Reverse super profit: SP = goodwill / years (10,000); normal profit = average - SP (50,000); NRR = normal profit / capital (10%)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Served goodwill numericals (80a94a54, 9660cdbd) go forward to goodwill; none solves for the normal rate of return.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "questionId": "226895784830",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Profit to date of death on sales basis: last year's profit/sales (12.5%) x sales to date of death (75,000) = 9,375"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Only time-basis apportionment is served (212dadfc); card types-death-profit-bases names the sales basis but cards do not cover numericals.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "questionId": "226895784831",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Net revaluation = increases - decreases: -3,000 - 2,000 + 5,000 = nil"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served row nets several asset revaluations; c4c9ea99 only splits a given loss.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "questionId": "226895784832",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Admission of Partner",
+   "offSyllabus": false,
+   "type": "theory, journal entry",
+   "facts": [
+    "Goodwill not brought, none in books: New partner's CURRENT A/c Dr",
+    "To sacrificing partners' capital in sacrificing (= old 3:2) ratio"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+     "teaches": "Incoming partner's Current A/c Dr To Sacrificing Partners' Capital A/c"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+     "teaches": "sacrifice in old ratio when nothing specified"
+    }
+   ],
+   "best": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+   "reason": "Card gives the keyed entry with Current A/c (the Capital A/c option is the distractor, not taught as correct).",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "questionId": "226895784833",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Goodwill Valuation",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Self-generated goodwill is not recorded as an asset"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.goodwill-valuation.fact-internal-goodwill-not-recognised",
+     "teaches": "internally generated goodwill not recognised as an asset"
+    }
+   ],
+   "best": "kc.accountancy.goodwill-valuation.fact-internal-goodwill-not-recognised",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "questionId": "226895784834",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Intangibles written off within estimated life not exceeding 10 years",
+    "AS 26 deals with intangibles",
+    "Section 37: retiring partner's 6% interest or share of profit option",
+    "Section 4 defines partnership"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.fact-section-37",
+     "teaches": "Section 37 option"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+     "teaches": "Section 4 definition"
+    }
+   ],
+   "best": null,
+   "reason": "Two of four pairs taught; the 10-year write-off and \"AS 26 deals with intangibles\" are not stated anywhere served (searched AS 26, 10 years, ten years, useful life, amortis).",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "questionId": "226895784835",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Admission of Partner",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Remaining share 3/4 split in given new ratio 2:1 -> X 1/2, Y 1/4; sacrifice = old - new (1/10, 3/20) -> 2:3"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Same formula as 20fa6daa (old - new), but every served admission case keeps the old ratio so the sacrifice ratio equals the old ratio, which is the trap option here; 7dc80b59 has a given new ratio but no incoming partner. Doubtful, so not covered.",
+   "agreesWithA": true,
+   "initialBVerdictBeforeReadingA": "covered",
+   "settled": "B first accepted 20fa6daa as the same steps; on re-check the given-new-ratio split step is never exercised in an admission row and the served answer pattern produces the wrong option, so doubtful = not covered (agrees with A).",
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "questionId": "226895784836",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Goodwill Valuation",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Profits less partners' salary 12,000; normal profit 15,000; super profits 3,000/9,000/15,000; 2 x avg(3 yrs) = 18,000 vs 3 x avg(last 2) = 36,000; lower = 18,000"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Only plain forward super profit is served (9660cdbd, 80a94a54); no salary deduction, no two-basis comparison.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "questionId": "226895784837",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Retirement & Death of Partner",
+   "offSyllabus": false,
+   "type": "theory, journal entry",
+   "facts": [
+    "P&L Suspense closed: Gaining Partners' Capital A/c Dr To P&L Suspense A/c (NTA key)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.entry-death-close-suspense",
+     "teaches": "Gaining Partners Capital A/c Dr To P&L Suspense A/c (death)"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.retirement-and-death-of-partner.entry-close-pl-suspense",
+     "teaches": "same entry"
+    }
+   ],
+   "best": "kc.accountancy.retirement-and-death-of-partner.entry-death-close-suspense",
+   "reason": "Card gives the keyed entry exactly; nothing served teaches the alternative close to P&L A/c.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "questionId": "226895784838",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Admission of Partner",
+   "offSyllabus": false,
+   "type": "theory, journal entry",
+   "facts": [
+    "P&L debit balance at admission: Old Partners' Capital A/c Dr To P&L A/c"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.entry-e-pl-debit-balance",
+     "teaches": "entry"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.admission-of-partner.fact-accumulated-losses",
+     "teaches": "transferred to old partners' capital accounts"
+    }
+   ],
+   "best": "kc.accountancy.admission-of-partner.entry-e-pl-debit-balance",
+   "reason": "Cards give rule and entry.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "questionId": "226895784839",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Perpetual succession"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.term-perpetual-succession",
+     "teaches": "continues irrespective of changes in membership"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.term-perpetual-succession",
+   "reason": "Card defines it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "questionId": "226895784840",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "OPC average annual turnover of three years not above Rs 2 crore"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.fact-opc-limits",
+     "teaches": "turnover not above Rs 2 crore"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.fact-opc-limits",
+   "reason": "Card states the keyed limit.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "questionId": "226895784841",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Equity shareholders share distributable profits after preference dividend"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.key-equity-profits",
+     "teaches": "exact sentence"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.key-equity-profits",
+   "reason": "Card carries the exact sentence.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "questionId": "226895784842",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Minimum subscription not less than 90% of issued amount (SEBI DIP 2000)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "ed41d458-614b-4e23-8c9c-931b0cf5c2a6",
+     "teaches": "asks the 90% directly"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.fact-min-sub-90",
+     "teaches": "exact sentence with SEBI DIP 2000"
+    }
+   ],
+   "best": "ed41d458-614b-4e23-8c9c-931b0cf5c2a6",
+   "reason": "Served bank row and card.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "questionId": "226895784843",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Debenture = written instrument acknowledging a debt under common seal"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.def-debenture",
+     "teaches": "word for word"
+    }
+   ],
+   "best": "kc.accountancy.debentures.def-debenture",
+   "reason": "Card definition word for word.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "questionId": "226895784844",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Bearer debenture interest paid to whoever produces the interest coupon"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.kl-bearer-interest-coupon",
+     "teaches": "exact sentence"
+    }
+   ],
+   "best": "kc.accountancy.debentures.kl-bearer-interest-coupon",
+   "reason": "Card carries the sentence.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "questionId": "226895784845",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Other than cash = vendor paid in debentures",
+    "Collateral = own debentures to lenders besides pledged assets",
+    "For cash = public invited to apply",
+    "At discount = price below face value"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.def-other-than-cash",
+     "teaches": "issued to vendors without cash"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.def-debentures-as-collateral",
+     "teaches": "own debentures to lenders in addition to assets pledged"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.def-over-subscription",
+     "teaches": "debentures offered to the public and applied for"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.entry-par-two-instalments-application",
+     "teaches": "cash issue: Bank Dr To Debenture Application"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.def-issued-at-discount",
+     "teaches": "issued at a price below nominal value"
+    }
+   ],
+   "best": "kc.accountancy.debentures.def-other-than-cash",
+   "reason": "A, B and D are exact cards; C (cash issue by public application) is taught by the over-subscription and application-money cards, though no card says \"prospectus\" for debentures. Weakest covered call.",
+   "agreesWithA": true,
+   "initialBVerdictBeforeReadingA": "not_covered",
+   "settled": "B first held part C doubtful for want of the word prospectus; on re-check the served cards do state that a cash issue of debentures is offered to the public and applied for with cash, which is the fact the pairing tests (agrees with A).",
+   "aCitationsChecked": 5,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "questionId": "226895784846",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Premium may write off preliminary expenses",
+    "may pay premium on redemption",
+    "may write off issue expenses/commission/discount",
+    "may NOT pay the issue price of debentures"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.list-premium-uses",
+     "teaches": "the only permitted purposes; D absent"
+    },
+    {
+     "kind": "bank",
+     "id": "4357abd1-fe84-4468-bab6-468aca6e0a9c",
+     "teaches": "statement A only"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.list-premium-uses",
+   "reason": "Card lists the closed set of uses.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "questionId": "226895784847",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Calls in arrears -> forfeiture -> reissue -> transfer to capital reserve"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.fact-forfeit-when",
+     "teaches": "unpaid instalments lead to forfeiture"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.entry-reissue",
+     "teaches": "reissue of forfeited shares"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.key-reissue-capital-reserve",
+     "teaches": "balance on reissued shares to capital reserve"
+    },
+    {
+     "kind": "bank",
+     "id": "40151d2f-2507-47d9-94ce-0c6f98fb6402",
+     "teaches": "profit on reissue to capital reserve"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.fact-forfeit-when",
+   "reason": "Each step stated.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "questionId": "226895784848",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Shares to vendor at premium: (1,90,000 - 10,000) / 120 = 1,500"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served row issues shares to a vendor (searched vendor, purchase of asset, consideration other than cash, how many shares).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "questionId": "226895784849",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Debentures to vendor at 10% discount: 99,000 / 90 = 1,100; Vendor Dr 99,000 + Discount Dr 11,000 To Debentures 1,10,000"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Served debenture numericals are one template (issue at a discount, credit at face value, e.g. 00c334d1); none to a vendor. Card entry-vendor-at-discount has the entry only.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "questionId": "226895784850",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Debentures at premium in instalments: application 1,25,000; allotment 2,25,000 = 1,75,000 + 50,000 premium; call 2,00,000; D (2,20,000) wrong"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served bank row on debenture application/allotment/call amounts (0 served hits for allotment in Debentures).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "questionId": "226895784851",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Debentures",
+   "offSyllabus": false,
+   "type": "theory, journal entry",
+   "facts": [
+    "Cancel collateral debentures: Debentures A/c Dr To Debenture Suspense A/c"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.debentures.entry-collateral-cancel",
+     "teaches": "reverse entry on repayment"
+    }
+   ],
+   "best": "kc.accountancy.debentures.entry-collateral-cancel",
+   "reason": "Card gives the entry.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "questionId": "226895784852",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nominal = authorised = maximum capital the company may issue"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.share-capital.def-authorised",
+     "teaches": "also called nominal or registered capital"
+    }
+   ],
+   "best": "kc.accountancy.share-capital.def-authorised",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "questionId": "226895784853",
+   "section": "core",
+   "ntaKey": 4,
+   "chapter": "Share Capital",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Premium unpaid on allotment: forfeit only application money 30 x 200 = 6,000; reissue discount 30 x 200 = 6,000; capital reserve nil"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Served forfeiture-reissue rows (13586296, 86fce471) are at par with the paid amount given; none derives the paid amount or excludes unpaid premium.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "questionId": "226895784854",
+   "section": "core",
+   "ntaKey": 1,
+   "chapter": "Dissolution of Partnership Firm",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Completion of venture = dissolution on the happening of certain contingencies"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+     "teaches": "completion of venture"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.types-ways-firm-dissolved",
+     "teaches": "names the category"
+    }
+   ],
+   "best": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+   "reason": "Cards state it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "questionId": "226895784855",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Dissolution of Partnership Firm",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Court: persistent breach",
+    "Court: transfer of whole interest",
+    "Court: business only at a loss",
+    "Death is a contingency, not court"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.list-by-court-grounds",
+     "teaches": "grounds d, e, f"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.list-contingencies",
+     "teaches": "death is a contingency"
+    }
+   ],
+   "best": "kc.accountancy.dissolution-of-partnership-firm.list-by-court-grounds",
+   "reason": "All parts stated.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "questionId": "226895784856",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Dissolution of Partnership Firm",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Creditors -> partner's loan -> capitals -> surplus"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.steps-application-of-assets",
+     "teaches": "full Section 48 order"
+    },
+    {
+     "kind": "bank",
+     "id": "2497603d-a7e5-4453-9066-84e4bfb7283d",
+     "teaches": "outside liabilities, then partners' loans, then capitals"
+    }
+   ],
+   "best": "kc.accountancy.dissolution-of-partnership-firm.steps-application-of-assets",
+   "reason": "Card and bank row give the order.",
+   "agreesWithA": true,
+   "aCitationsChecked": 2,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "questionId": "226895784857",
+   "section": "core",
+   "ntaKey": 2,
+   "chapter": "Dissolution of Partnership Firm",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Firm pays: Realisation Dr To Bank",
+    "Partner pays for firm: Realisation Dr To Capital",
+    "Partner bears, firm pays: Capital Dr To Bank",
+    "Partner bears and pays: no entry"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-firm",
+     "teaches": "case A"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-partner",
+     "teaches": "case B"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-partner-bears-firm-pays",
+     "teaches": "case C"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-partner-bears-partner-pays",
+     "teaches": "case D"
+    }
+   ],
+   "best": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-firm",
+   "reason": "One card per case.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "questionId": "226895784858",
+   "section": "core",
+   "ntaKey": 3,
+   "chapter": "Dissolution of Partnership Firm",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "Half of stock taken over by partner (not cash); other half 17,500 sold at 15% gain = 20,125 cash"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Served dissolution rows have no cash-realised computation for a part-takeover/part-sale (bb96a884 is realisation-account effect only).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "questionId": "226895784859",
+   "section": "analysisOfFinancialStatements",
+   "ntaKey": 3,
+   "chapter": "Cash Flow Statement",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Royalties/fees/commission receipts = operating",
+    "Interest and dividends received = investing (non-financial)",
+    "Issue of shares = financing",
+    "Current (short-term) investment = cash equivalent"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.cash-flow-statement.list-operating-inflows",
+     "teaches": "royalties, fees, commissions"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.cash-flow-statement.fact-interest-dividend-nonfinancial",
+     "teaches": "receipts of interest/dividends investing"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.cash-flow-statement.list-financing-inflows",
+     "teaches": "issue of equity/preference shares"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.cash-flow-statement.fact-purchase-equivalents-not-considered",
+     "teaches": "short-term investment constituting cash equivalents"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.cash-flow-statement.fact-marketable-securities-equivalents",
+     "teaches": "short-term marketable securities are cash equivalents"
+    }
+   ],
+   "best": "kc.accountancy.cash-flow-statement.list-operating-inflows",
+   "reason": "All four pairs taught; the D-III pairing is loose in the paper but our cards teach the same pairing.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "questionId": "226895784860",
+   "section": "analysisOfFinancialStatements",
+   "ntaKey": 4,
+   "chapter": "Financial Statements of Company",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Revenue from operations (I) -> cost of materials consumed (expenses IV) -> profit before extraordinary items and tax (VII) -> profit before tax (IX)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.financial-statements-of-company.formula-pl-total-revenue",
+     "teaches": "I revenue from operations"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.financial-statements-of-company.list-pl-expenses",
+     "teaches": "cost of materials consumed under expenses"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.financial-statements-of-company.formula-pl-profit-before-tax",
+     "teaches": "VII then IX"
+    }
+   ],
+   "best": "kc.accountancy.financial-statements-of-company.formula-pl-total-revenue",
+   "reason": "Cards give the Schedule III order.",
+   "agreesWithA": true,
+   "aCitationsChecked": 3,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "questionId": "226895784861",
+   "section": "analysisOfFinancialStatements",
+   "ntaKey": 2,
+   "chapter": "Accounting Ratios",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "CR 2:1, credit purchase raises CA and CL equally -> ratio falls"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.accounting-ratios.ex-current-ratio-is-2-1-effect-of-purchasing-go",
+     "teaches": "works this exact case: reduced"
+    }
+   ],
+   "best": "kc.accountancy.accounting-ratios.ex-current-ratio-is-2-1-effect-of-purchasing-go",
+   "reason": "Card works the exact case; direction only, no computation asked.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "questionId": "226895784862",
+   "section": "analysisOfFinancialStatements",
+   "ntaKey": 1,
+   "chapter": "Accounting Ratios",
+   "offSyllabus": false,
+   "type": "numerical",
+   "facts": [
+    "PBT = 1,20,000 / 0.6 = 2,00,000; interest 15% x 20,00,000 = 3,00,000; PBIT 5,00,000; ICR = 1.67"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served bank row on interest coverage ratio (130 served ratio rows are one current/quick-ratio template); card fml-interest-coverage-ratio is a formula only.",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "questionId": "226895784863",
+   "section": "analysisOfFinancialStatements",
+   "ntaKey": 3,
+   "chapter": "Comparative & Common Size Statements",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Comparative statements = horizontal analysis"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+     "teaches": "exact"
+    }
+   ],
+   "best": "kc.accountancy.comparative-and-common-size-statements.fact-horizontal-analysis",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 51,
+   "paperNumber": 286,
+   "questionId": "226895784864",
+   "section": "computerizedAccounting",
+   "ntaKey": 4,
+   "chapter": "Computerized Accounting System",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "CAS advantages: timely reports, efficient records, effective control, ECONOMY in processing"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.list-ch1-advantages",
+     "teaches": "all advantages in the same words"
+    }
+   ],
+   "best": "kc.accountancy.computerized-accounting-system.list-ch1-advantages",
+   "reason": "Card lists the advantages; \"economy minimised\" is the distortion.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 52,
+   "paperNumber": 287,
+   "questionId": "226895784865",
+   "section": "computerizedAccounting",
+   "ntaKey": 2,
+   "chapter": "Computerized Accounting System",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Range = start to end cell references",
+    "Mixed holds row or column",
+    "Absolute stays fixed",
+    "Default relative changes on copy"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.kl-ch2-range-colon",
+     "teaches": "range from start to end cell"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.def-ch2-mixed-reference",
+     "teaches": "mixed"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.def-ch2-absolute-reference",
+     "teaches": "absolute"
+    },
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.def-ch2-relative-reference",
+     "teaches": "default relative"
+    }
+   ],
+   "best": "kc.accountancy.computerized-accounting-system.kl-ch2-range-colon",
+   "reason": "All four pairs on cards.",
+   "agreesWithA": true,
+   "aCitationsChecked": 4,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 53,
+   "paperNumber": 288,
+   "questionId": "226895784866",
+   "section": "computerizedAccounting",
+   "ntaKey": 1,
+   "chapter": "Computerized Accounting System",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Select cells -> Copy -> Paste Special -> Values, OK"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Nothing served teaches Paste Special or freezing formulas (searched paste, special, copy, freeze).",
+   "agreesWithA": true,
+   "aCitationsChecked": 0,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 54,
+   "paperNumber": 289,
+   "questionId": "226895784867",
+   "section": "computerizedAccounting",
+   "ntaKey": 3,
+   "chapter": "Computerized Accounting System",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Nper = total number of payments"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.list-ch3-pmt-parameters",
+     "teaches": "Nper: total number of payments"
+    }
+   ],
+   "best": "kc.accountancy.computerized-accounting-system.list-ch3-pmt-parameters",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  },
+  {
+   "n": 55,
+   "paperNumber": 290,
+   "questionId": "226895784868",
+   "section": "computerizedAccounting",
+   "ntaKey": 1,
+   "chapter": "Computerized Accounting System",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A graph has at least two axes"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.accountancy.computerized-accounting-system.fact-ch4-graph-axes",
+     "teaches": "exact"
+    }
+   ],
+   "best": "kc.accountancy.computerized-accounting-system.fact-ch4-graph-axes",
+   "reason": "Card states it.",
+   "agreesWithA": true,
+   "aCitationsChecked": 1,
+   "aCitationsRemoved": []
+  }
+ ]
+}

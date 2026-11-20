@@ -1,0 +1,1059 @@
+{
+ "paper": "cuet2026-economics",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 21 Nov 2026 with the owner's approval; ids read by OCR (RapidOCR) and matched to NTA's 2026 final key",
+ "shifts": {
+  "24-05-2026 (First)": 50
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895789759",
+   "page": 3,
+   "optionIds": {
+    "2268953062649": 1,
+    "2268953062650": 2,
+    "2268953062651": 3,
+    "2268953062652": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062651"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895789760",
+   "page": 3,
+   "optionIds": {
+    "2268953062653": 1,
+    "2268953062654": 2,
+    "2268953062655": 3,
+    "2268953062656": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062654"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895789761",
+   "page": 5,
+   "optionIds": {
+    "2268953062657": 1,
+    "2268953062658": 2,
+    "2268953062659": 3,
+    "2268953062660": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062657"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895789762",
+   "page": 5,
+   "optionIds": {
+    "2268953062661": 1,
+    "2268953062662": 2,
+    "2268953062663": 3,
+    "2268953062664": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062664"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895789763",
+   "page": 6,
+   "optionIds": {
+    "2268953062665": 1,
+    "2268953062666": 2,
+    "2268953062667": 3,
+    "2268953062668": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062666"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895789764",
+   "page": 7,
+   "optionIds": {
+    "2268953062669": 1,
+    "2268953062670": 2,
+    "2268953062671": 3,
+    "2268953062672": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062671"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895789765",
+   "page": 7,
+   "optionIds": {
+    "2268953062673": 1,
+    "2268953062674": 2,
+    "2268953062675": 3,
+    "2268953062676": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062676"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895789766",
+   "page": 8,
+   "optionIds": {
+    "2268953062677": 1,
+    "2268953062678": 2,
+    "2268953062679": 3,
+    "2268953062680": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062677"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895789767",
+   "page": 9,
+   "optionIds": {
+    "2268953062681": 1,
+    "2268953062682": 2,
+    "2268953062683": 3,
+    "2268953062684": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062683"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895789768",
+   "page": 10,
+   "optionIds": {
+    "2268953062685": 1,
+    "2268953062686": 2,
+    "2268953062687": 3,
+    "2268953062688": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062686"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895789769",
+   "page": 10,
+   "optionIds": {
+    "2268953062689": 1,
+    "2268953062690": 2,
+    "2268953062691": 3,
+    "2268953062692": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062692"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895789770",
+   "page": 11,
+   "optionIds": {
+    "2268953062693": 1,
+    "2268953062694": 2,
+    "2268953062695": 3,
+    "2268953062696": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062693"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895789771",
+   "page": 11,
+   "optionIds": {
+    "2268953062697": 1,
+    "2268953062698": 2,
+    "2268953062699": 3,
+    "2268953062700": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062698"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895789772",
+   "page": 13,
+   "optionIds": {
+    "2268953062701": 1,
+    "2268953062702": 2,
+    "2268953062703": 3,
+    "2268953062704": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062701"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895789773",
+   "page": 13,
+   "optionIds": {
+    "2268953062705": 1,
+    "2268953062706": 2,
+    "2268953062707": 3,
+    "2268953062708": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062707"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895789774",
+   "page": 14,
+   "optionIds": {
+    "2268953062709": 1,
+    "2268953062710": 2,
+    "2268953062711": 3,
+    "2268953062712": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062711"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895789775",
+   "page": 15,
+   "optionIds": {
+    "2268953062713": 1,
+    "2268953062714": 2,
+    "2268953062715": 3,
+    "2268953062716": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062713"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895789776",
+   "page": 15,
+   "optionIds": {
+    "2268953062717": 1,
+    "2268953062718": 2,
+    "2268953062719": 3,
+    "2268953062720": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062718"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895789777",
+   "page": 16,
+   "optionIds": {
+    "2268953062721": 1,
+    "2268953062722": 2,
+    "2268953062723": 3,
+    "2268953062724": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062721"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895789778",
+   "page": 17,
+   "optionIds": {
+    "2268953062725": 1,
+    "2268953062726": 2,
+    "2268953062727": 3,
+    "2268953062728": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062728"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895789779",
+   "page": 18,
+   "optionIds": {
+    "2268953062729": 1,
+    "2268953062730": 2,
+    "2268953062731": 3,
+    "2268953062732": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062729"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895789780",
+   "page": 18,
+   "optionIds": {
+    "2268953062733": 1,
+    "2268953062734": 2,
+    "2268953062735": 3,
+    "2268953062736": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062736"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895789781",
+   "page": 19,
+   "optionIds": {
+    "2268953062737": 1,
+    "2268953062738": 2,
+    "2268953062739": 3,
+    "2268953062740": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062738"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895789782",
+   "page": 19,
+   "optionIds": {
+    "2268953062741": 1,
+    "2268953062742": 2,
+    "2268953062743": 3,
+    "2268953062744": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062743"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895789783",
+   "page": 20,
+   "optionIds": {
+    "2268953062745": 1,
+    "2268953062746": 2,
+    "2268953062747": 3,
+    "2268953062748": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062746"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895789784",
+   "page": 21,
+   "optionIds": {
+    "2268953062749": 1,
+    "2268953062750": 2,
+    "2268953062751": 3,
+    "2268953062752": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062751"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895789785",
+   "page": 21,
+   "optionIds": {
+    "2268953062753": 1,
+    "2268953062754": 2,
+    "2268953062755": 3,
+    "2268953062756": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062754"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895789786",
+   "page": 22,
+   "optionIds": {
+    "2268953062757": 1,
+    "2268953062758": 2,
+    "2268953062759": 3,
+    "2268953062760": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062757"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895789787",
+   "page": 23,
+   "optionIds": {
+    "2268953062761": 1,
+    "2268953062762": 2,
+    "2268953062763": 3,
+    "2268953062764": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062763"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895789788",
+   "page": 24,
+   "optionIds": {
+    "2268953062765": 1,
+    "2268953062766": 2,
+    "2268953062767": 3,
+    "2268953062768": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062767"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895789789",
+   "page": 24,
+   "optionIds": {
+    "2268953062769": 1,
+    "2268953062770": 2,
+    "2268953062771": 3,
+    "2268953062772": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062770"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895789790",
+   "page": 25,
+   "optionIds": {
+    "2268953062773": 1,
+    "2268953062774": 2,
+    "2268953062775": 3,
+    "2268953062776": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062776"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895789791",
+   "page": 26,
+   "optionIds": {
+    "2268953062777": 1,
+    "2268953062778": 2,
+    "2268953062779": 3,
+    "2268953062780": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062778"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895789792",
+   "page": 26,
+   "optionIds": {
+    "2268953062781": 1,
+    "2268953062782": 2,
+    "2268953062783": 3,
+    "2268953062784": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062781"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895789793",
+   "page": 27,
+   "optionIds": {
+    "2268953062785": 1,
+    "2268953062786": 2,
+    "2268953062787": 3,
+    "2268953062788": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062787"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895789794",
+   "page": 28,
+   "optionIds": {
+    "2268953062789": 1,
+    "2268953062790": 2,
+    "2268953062791": 3,
+    "2268953062792": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062792"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895789795",
+   "page": 29,
+   "optionIds": {
+    "2268953062793": 1,
+    "2268953062794": 2,
+    "2268953062795": 3,
+    "2268953062796": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062794"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895789796",
+   "page": 30,
+   "optionIds": {
+    "2268953062797": 1,
+    "2268953062798": 2,
+    "2268953062799": 3,
+    "2268953062800": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062798"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895789797",
+   "page": 31,
+   "optionIds": {
+    "2268953062801": 1,
+    "2268953062802": 2,
+    "2268953062803": 3,
+    "2268953062804": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062803"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895789798",
+   "page": 32,
+   "optionIds": {
+    "2268953062805": 1,
+    "2268953062806": 2,
+    "2268953062807": 3,
+    "2268953062808": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062805"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895789800",
+   "page": 33,
+   "optionIds": {
+    "2268953062809": 1,
+    "2268953062810": 2,
+    "2268953062811": 3,
+    "2268953062812": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062811"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895789801",
+   "page": 33,
+   "optionIds": {
+    "2268953062813": 1,
+    "2268953062814": 2,
+    "2268953062815": 3,
+    "2268953062816": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062814"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895789802",
+   "page": 33,
+   "optionIds": {
+    "2268953062817": 1,
+    "2268953062818": 2,
+    "2268953062819": 3,
+    "2268953062820": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062817"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895789803",
+   "page": 34,
+   "optionIds": {
+    "2268953062821": 1,
+    "2268953062822": 2,
+    "2268953062823": 3,
+    "2268953062824": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062824"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895789804",
+   "page": 34,
+   "optionIds": {
+    "2268953062825": 1,
+    "2268953062826": 2,
+    "2268953062827": 3,
+    "2268953062828": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062826"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895789806",
+   "page": 37,
+   "optionIds": {
+    "2268953062829": 1,
+    "2268953062830": 2,
+    "2268953062831": 3,
+    "2268953062832": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062830"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895789807",
+   "page": 37,
+   "optionIds": {
+    "2268953062833": 1,
+    "2268953062834": 2,
+    "2268953062835": 3,
+    "2268953062836": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062833"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895789808",
+   "page": 37,
+   "optionIds": {
+    "2268953062837": 1,
+    "2268953062838": 2,
+    "2268953062839": 3,
+    "2268953062840": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062838"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895789809",
+   "page": 38,
+   "optionIds": {
+    "2268953062841": 1,
+    "2268953062842": 2,
+    "2268953062843": 3,
+    "2268953062844": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062842"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895789810",
+   "page": 38,
+   "optionIds": {
+    "2268953062845": 1,
+    "2268953062846": 2,
+    "2268953062847": 3,
+    "2268953062848": 4
+   },
+   "inKey": true,
+   "keySubject": "economics",
+   "shift": "24-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953062848"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  }
+ ]
+}

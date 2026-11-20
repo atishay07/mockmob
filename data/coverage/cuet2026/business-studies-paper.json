@@ -1,0 +1,1397 @@
+{
+ "paper": "cuet2026-business-studies-2026-05-20-shift1",
+ "subject": "business_studies",
+ "subjectCode": "305",
+ "examDate": "2026-05-20",
+ "shift": "First",
+ "source": "NTA master question paper (computer-based test export with Question IDs and Option IDs), AglaSem Docs copy https://docs.aglasem.com/view/68202c1c-c701-11f1-a561-0aa932765c8b (47 pp), downloaded 21 Nov 2026 with the owner's approval. Answers: NTA CUET (UG) 2026 final key, matched by Question ID and Option ID (ids/cuet2026-business-studies-keyrows.json). English text transcribed from the page images (pages/cuet2026-business-studies/pNN.png), OCR used only as a draft.",
+ "transcribedBy": "Checker A agent, 21 Nov 2026",
+ "notes": [
+  "Each question is printed in English, then Hindi; only the English is transcribed. Spelling, punctuation and spacing kept as printed (e.g. Q293 \"may be get published\", Q323 the unbalanced quote).",
+  "Page = the page image where the English text of the question is printed.",
+  "Match tables are written as rows \"List-I item | List-II item\".",
+  "Q311 (226895784889): the final key accepts two option ids, 2268953043649 (position 1, Right to be Heard) and 2268953043651 (position 3, Right to be Informed).",
+  "Five ids were missed by OCR and read by eye: 226895784870, 226895784880, 226895784889, 226895784911, 226895784919.",
+  "No question of this shift is marked dropped in the key."
+ ],
+ "passages": {
+  "P2": {
+   "comprehensionId": "226895784915",
+   "questionNumbers": "336 to 340",
+   "page": 43,
+   "text": "Reading Comprehension\nThree friends, Rajat, Raman, and Ansh, after completing their studies from a reputed business school in Delhi, were discussing the organisation they should be joining. Rajat was very clear about his future. He would like to take a job in the government sector as it gives him stability in his future income and the kind of work which will help him to work with greater zeal. It will also provide him with many post retirement benefits when he retires from his service. Raman wants to work with a company which has an appropriate and clear development plan for its employees and helps the employees to grow to higher levels in the organisation. In addition to this, the company should also provide facilities like free housing, free medical aid etc. Ansh said that he would prefer to work with an organisation, which has a culture of individual autonomy that is considered by employees and provides employees with the opportunity for personal growth and meaningful work experience.\nAll of them have different set of expectations and needs of joining an organisation."
+  },
+  "P1": {
+   "comprehensionId": "226895784909",
+   "questionNumbers": "331 to 335",
+   "page": 38,
+   "text": "Read the following text and answer the following questions on the basis of the same.\nCharvi, after acquiring a degree in Hotel Management and Business Administration took over her family food processing company of manufacturing pickles, jams and squashes. The business was established by her great grandmother and was doing reasonably well. However, the fixed operating costs of the business were high and the cash flow position was weak. She wanted to undertake modernization of the existing business to introduce the latest manufacturing processes and diversify into the market of chocolates and candies. She was very enthusiastic and approached a Financial Consultant, who told her that approximately Rs. 50 lakhs would be required for undertaking the modernization and expansion programme. The Financial Consultant advised her about the judicious mix of equity (40%) and Debt (60%). He also suggested her to take loan from Financial Institution as the cost of raising funds from Financial Institutions is low. Though this will increase the financial risk, but will also raise the return to equity shareholders. He also apprised her that issue of debt will not dilute the control of equity shareholders. At the same time, the interest on loan is a tax deductible expense for computation of tax liability. After due deliberations with the Financial Consultant, Charvi decided to raise funds from a Financial Institution."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 291,
+   "questionId": "226895784869",
+   "page": 3,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following statements best describe the features of Business Environment?\n(A) Business environment is largely uncertain.\n(B) Business environment is a complex phenomenon that is relatively easier to understand in parts but difficult to grasp in its totality.\n(C) Business environment includes only general forces.\n(D) Business environment is a relative concept.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(B) and (C) only",
+    "(C) and (D) only",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043569",
+    "2268953043570",
+    "2268953043571",
+    "2268953043572"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043569"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 292,
+   "questionId": "226895784870",
+   "page": 4,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "The________ leads to the creation of an organisational structure which includes the designing of roles to be filled by suitably skilled people and defining the inter-relationship between these roles.",
+   "options": [
+    "Organising Function",
+    "Staffing Function",
+    "Directing Function",
+    "Controlling Function"
+   ],
+   "optionIds": [
+    "2268953043573",
+    "2268953043574",
+    "2268953043575",
+    "2268953043576"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043573"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "eye, from the page image (OCR missed the id)",
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 293,
+   "questionId": "226895784871",
+   "page": 5,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Arrange the process of staffing in correct order:\n(A) Evaluating an employee's current and/or past performance as against certain predetermined standards.\n(B) While designing an organization structure, an analysis of the decisions and the decision-making levels, is required thereby creating various job positions. Understanding is important to know the need and type of persons required.\n(C) The advertisement for job may be displayed on the factory/office gate or else it may be get published in print media or flashed in electronic media.\n(D) Introducing the selected employee to other employees and familiarising him with the rules and policies of the organisation.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (D), (C), (A)",
+    "(B), (A), (D), (C)",
+    "(B), (C), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953043577",
+    "2268953043578",
+    "2268953043579",
+    "2268953043580"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043580"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 294,
+   "questionId": "226895784872",
+   "page": 6,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "A consumer should keep in mind the following responsibilities while purchasing, using and consuming goods and services. Which of the following is true about consumer responsibilities.\n(A) Learn about the risks associated with products and services, follow manufacturer's instructions and use the products safely.\n(B) File a complaint in an appropriate consumer forum in case of a shortcoming in the quality of goods purchased or services availed. Do not fail to take an action even when the amount involved is small.\n(C) Respect the environment. Avoid waste, littering and contributing to pollution.\n(D) Publishing periodicals and other publications to impart knowledge about consumer problems, legal reporting, reliefs available and other matters of interest.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D).",
+    "(B), (C) and (D) only",
+    "(A), (B), and (C) only."
+   ],
+   "optionIds": [
+    "2268953043581",
+    "2268953043582",
+    "2268953043583",
+    "2268953043584"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043584"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 295,
+   "questionId": "226895784873",
+   "page": 7,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which among the following is not an advantage of effective delegation in an organisation?",
+   "options": [
+    "The managers are able to function more efficiently as they get more time to concentrate on important matters.",
+    "It helps in the expansion of an organisation by providing a ready workforce to take up leading positions in new ventures.",
+    "It establishes superior-subordinate relationships, which are the basis of hierarchy of management.",
+    "It promotes flexibility and initiative because each division functions as an autonomous unit which leads to faster decision making."
+   ],
+   "optionIds": [
+    "2268953043585",
+    "2268953043586",
+    "2268953043587",
+    "2268953043588"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043588"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 296,
+   "questionId": "226895784874",
+   "page": 8,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following is not a test in the selection process?",
+   "options": [
+    "Personality Test",
+    "Contribution Test",
+    "Intelligence Test",
+    "Aptitude Test"
+   ],
+   "optionIds": [
+    "2268953043589",
+    "2268953043590",
+    "2268953043591",
+    "2268953043592"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043590"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 297,
+   "questionId": "226895784875",
+   "page": 9,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"With the increase in the supply of the products, customers started looking for products which were superior in quality, performance and features. The focus of business activity changed to bringing continuous improvement in the quality, incorporating new features, etc\".\nIdentify the marketing philosophy highlighted in the above lines.",
+   "options": [
+    "Production Concept",
+    "Product Concept",
+    "Selling Concept",
+    "Marketing Concept"
+   ],
+   "optionIds": [
+    "2268953043593",
+    "2268953043594",
+    "2268953043595",
+    "2268953043596"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043594"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 298,
+   "questionId": "226895784876",
+   "page": 9,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Staffing is the most fundamental and critical drive of organisational performance because :",
+   "options": [
+    "Staffing does not recognise the importance of every single person employed by an organisation as it is the individual worker, who is the ultimate performer.",
+    "Staffing is not a continuous process because new jobs may be created and some of the existing employees may leave the organisation.",
+    "Human resources are the foundation of any business because the right people can help you take your business to the top and the wrong people can break your business.",
+    "It enhances employee productivity both in terms of quantity and quality, leading to lesser profits."
+   ],
+   "optionIds": [
+    "2268953043597",
+    "2268953043598",
+    "2268953043599",
+    "2268953043600"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043599"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 299,
+   "questionId": "226895784877",
+   "page": 10,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Mr Shantanu is a Chief Manager of a reputed company that manufactures garments. He called the Production Manager and instructed him to keep a constant and continuous check on all the activities related to his department so that everything goes as per the set plan. He keeps a careful check on the changes taking place in the organisation and in the environment and helps to review and revise the standards in light of such changes. Identify the importance of Controlling highlighted in the above situation.",
+   "options": [
+    "Controlling helps in accomplishing organisational goals",
+    "Controlling helps in judging accuracy of standards",
+    "Controlling improves employees motivation",
+    "Controlling ensures order and discipline"
+   ],
+   "optionIds": [
+    "2268953043601",
+    "2268953043602",
+    "2268953043603",
+    "2268953043604"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043602"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 300,
+   "questionId": "226895784878",
+   "page": 11,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "The production department at Karishma Ltd., a firm manufacturing readymade garments for men has an objective to increase production by 10% but the Sales department does not approve of the increase in production, till changes are brought about in the product to incorporate latest fashion. These kinds of conflicts bring to light which point of importance of the coordination that can help to accomplish the linking of activities of various departments:",
+   "options": [
+    "Growth in Size",
+    "Functional Differentiation",
+    "Specialization",
+    "Efficiency"
+   ],
+   "optionIds": [
+    "2268953043605",
+    "2268953043606",
+    "2268953043607",
+    "2268953043608"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043606"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 301,
+   "questionId": "226895784879",
+   "page": 12,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Marketing management generally is related to creation of demand. However, in certain situations, the manager has to restrict the demand. The job of Marketing Managers, in these situations would be to find ways to reduce the demand temporarily by  reducing the expenditure on promotion or increasing the prices. This concept of demand being more than what the company can or want to handle is called ______",
+   "options": [
+    "Overfull Demand",
+    "Irregular Demand",
+    "Seasonal Demand",
+    "Negative Demand"
+   ],
+   "optionIds": [
+    "2268953043609",
+    "2268953043610",
+    "2268953043611",
+    "2268953043612"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043609"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 302,
+   "questionId": "226895784880",
+   "page": 12,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "A standing plan is usually developed once but is modified from time to time to meet business needs as required.\nWhich of the following is a standing plan?",
+   "options": [
+    "Project",
+    "Budget",
+    "Strategy",
+    "Policy"
+   ],
+   "optionIds": [
+    "2268953043613",
+    "2268953043614",
+    "2268953043615",
+    "2268953043616"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043616"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "eye, from the page image (OCR missed the id)",
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 303,
+   "questionId": "226895784881",
+   "page": 13,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"Yuvaan Ltd.\", a reputed industrial machines manufacturer, needs twenty crores as additional capital to expand the business. Mr. Karan Rastogi, the Chief Executive Officer (CEO) of the company wants to raise funds through equity. The Finance Manager, Mr. Lokesh Nayyar, suggested that the shares may be sold to investing public through intermediaries, as the same will be less expensive. Name the method through which the company decided to raise additional capital.",
+   "options": [
+    "Offer for Sale",
+    "Private Placement",
+    "Initial Public Offer",
+    "Rights Issue"
+   ],
+   "optionIds": [
+    "2268953043617",
+    "2268953043618",
+    "2268953043619",
+    "2268953043620"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043617"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 304,
+   "questionId": "226895784882",
+   "page": 14,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "A company is doing EBIT-EPS analysis as it is planning to use debt in its capital structure.\nArrange the following items in correct sequence for calculation of EPS\n(A) Earnings Before Tax\n(B) Earnings Before Interest and Taxes\n(C) Earnings After Taxes\n(D) Interest on Debt\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (B), (A)",
+    "(B), (C), (D), (A)",
+    "(B), (D), (A), (C)"
+   ],
+   "optionIds": [
+    "2268953043621",
+    "2268953043622",
+    "2268953043623",
+    "2268953043624"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043624"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 305,
+   "questionId": "226895784883",
+   "page": 15,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Identify which of the following is not a benefit derived by the customer on purchase of a product or a service.",
+   "options": [
+    "Psychological benefits",
+    "Functional benefits",
+    "Social benefits",
+    "Marketing benefits"
+   ],
+   "optionIds": [
+    "2268953043625",
+    "2268953043626",
+    "2268953043627",
+    "2268953043628"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043628"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 306,
+   "questionId": "226895784884",
+   "page": 16,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "An investor wanted to invest Rs. 20,000 in Treasury Bills for a period of 91 days. When he approached the Reserve Bank of India for this purpose, he came to know it was not possible.\nIdentify the reason why the investor could not invest in the Treasury Bill.",
+   "options": [
+    "Treasury Bills can be issued for a minimum amount of Rs. 25,000 and in multiples thereof.",
+    "Treasury Bills can be issued to Financial Institutions only.",
+    "Treasury Bills are Zero Coupon Bonds issued by the State Government on behalf of Reserve Bank of India.",
+    "Treasury Bills are an instrument of short-term borrowing by the Government of India maturing after one year."
+   ],
+   "optionIds": [
+    "2268953043629",
+    "2268953043630",
+    "2268953043631",
+    "2268953043632"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043629"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 307,
+   "questionId": "226895784885",
+   "page": 17,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "The following points summarise the nature of principles of management:\n(A) The principles of management are formed by experience and collective wisdom of managers as well as experimentation.\n(B) The principles of management are intended to apply to all types of organisations.\n(C) The principles of management are rigid prescriptions, which have to be followed absolutely.\n(D) The principles of management are intended to establish relationship between cause and effect.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043633",
+    "2268953043634",
+    "2268953043635",
+    "2268953043636"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043633"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 308,
+   "questionId": "226895784886",
+   "page": 18,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following is not a function of Stock Exchange?",
+   "options": [
+    "To put a complete stop on activities of speculation.",
+    "To provide liquidity and marketability to existing securities.",
+    "To ensure that the investing public gets a safe and fair deal in the market.",
+    "To contribute to economic growth."
+   ],
+   "optionIds": [
+    "2268953043637",
+    "2268953043638",
+    "2268953043639",
+    "2268953043640"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043637"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 309,
+   "questionId": "226895784887",
+   "page": 18,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Arrange the following steps of Planning process in order:\n(A) Planning is concerned with the future which is uncertain and every planner is using conjecture about what might happen in future.\n(B) An innovative course may be adopted by involving more people and sharing their ideas. If the project is important, then more alternatives should be generated and thoroughly discussed amongst the members of the organisation.\n(C) Monitoring the plans is equally important to ensure that objectives are achieved.\n(D) Every organization must have certain objectives. Objectives may be set for the entire organisation and each department or unit within the organisation.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(D), (B), (C), (A)",
+    "(D), (A), (B), (C)",
+    "(A), (D), (B), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953043641",
+    "2268953043642",
+    "2268953043643",
+    "2268953043644"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043642"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 310,
+   "questionId": "226895784888",
+   "page": 19,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following is an Off the Job Training method?",
+   "options": [
+    "Apprenticeship Programmes",
+    "Coaching",
+    "Programmed Instruction",
+    "Internship Training"
+   ],
+   "optionIds": [
+    "2268953043645",
+    "2268953043646",
+    "2268953043647",
+    "2268953043648"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043647"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 311,
+   "questionId": "226895784889",
+   "page": 20,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Mrs. Mathur sent her servant to the Chemist for purchasing medicine which she found was expired. On approaching the chemist, he accepted that medicine has expired.\nWhich right has been exercised by Mrs. Mathur?",
+   "options": [
+    "Right to be Heard",
+    "Right to Seek Redressal",
+    "Right to be Informed",
+    "Right to Consumer Education"
+   ],
+   "optionIds": [
+    "2268953043649",
+    "2268953043650",
+    "2268953043651",
+    "2268953043652"
+   ],
+   "answerPositions": [
+    1,
+    3
+   ],
+   "keyOptionIds": [
+    "2268953043649",
+    "2268953043651"
+   ],
+   "keyStatus": "multiple",
+   "idsReadBy": "eye, from the page image (OCR missed the id)",
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 312,
+   "questionId": "226895784890",
+   "page": 21,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Arrange the following in the correct order of the working of the Demat System.\n(A) An account opening form and documentation (PAN card details, photograph, power of attorney) may be completed.\n(B) If shares are applied in a public offer, simple details of DP and demat account are to be given and the shares on allotment would automatically be credited to the demat account.\n(C) The physical certificate is to be given to the DP along with a dematerialization request form.\n(D) A Depository Participant (DP), either a bank, broker, or financial services company, may be identified.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(D), (C), (A), (B)",
+    "(B), (A), (D), (C)",
+    "(D), (A), (C), (B)"
+   ],
+   "optionIds": [
+    "2268953043653",
+    "2268953043654",
+    "2268953043655",
+    "2268953043656"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043656"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 313,
+   "questionId": "226895784891",
+   "page": 22,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Packaging has acquired great significance in the marketing of goods and services, because of following reasons:\n(A) Because of the increasing standards of living in the country.\n(B) Because the self-service retail outlets are becoming very popular.\n(C) Because it helps in creating product differentiation.\n(D) Because it describes the product and specifies its contents.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(B), (C) and (D) only",
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043657",
+    "2268953043658",
+    "2268953043659",
+    "2268953043660"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043659"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 314,
+   "questionId": "226895784892",
+   "page": 23,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Decentralization should be applied with caution as ____________.",
+   "options": [
+    "It can lead to organisational disintegration if the departments start to operate on their own guidelines which may be contrary to the interest of the organisation.",
+    "Employees resist it",
+    "It puts burden on top management",
+    "It reduces autonomy"
+   ],
+   "optionIds": [
+    "2268953043661",
+    "2268953043662",
+    "2268953043663",
+    "2268953043664"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043661"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 315,
+   "questionId": "226895784893",
+   "page": 23,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"In Japanese companies, paternalistic style of management is in practice. If at all workers go to strike they wear a black badge but work more than normal working hours to gain the sympathy of the management.\"\nIdentify the principle of Taylor highlighted in the above lines.",
+   "options": [
+    "Science not Rule of Thumb",
+    "Harmony, Not Discord",
+    "Cooperation, Not Individualism",
+    "Development of Each and Every Person to His or Her Greatest Efficiency and Prosperity"
+   ],
+   "optionIds": [
+    "2268953043665",
+    "2268953043666",
+    "2268953043667",
+    "2268953043668"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043666"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 316,
+   "questionId": "226895784894",
+   "page": 24,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following is not a component of economic environment?",
+   "options": [
+    "Existing structure of the economy in terms of relative role of private and public sectors.",
+    "Agricultural and industrial production trends",
+    "Attitudes towards product innovations, lifestyles, occupational distribution and consumer preferences",
+    "Expansion of transportation and communication facilities"
+   ],
+   "optionIds": [
+    "2268953043669",
+    "2268953043670",
+    "2268953043671",
+    "2268953043672"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043671"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 317,
+   "questionId": "226895784895",
+   "page": 25,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Match List-I with List-II\nList-I: Steps in selection process | List-II: Description of Steps\n(A) Reference Checks | (I) Elimination of  unqualified or unfit job seekers based on the information supplied in the application forms.\n(B)Contract of Employment | (II) Generally contains a date by which the appointee must report on duty.\n(C) Preliminary Screening | (III) For verifying information and gaining additional information of an applicant.\n(D) Job Offer | (IV) It includes job title, duties, responsibilities, rates of pay, allowances, hours of work, leave rules, sickness, etc.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043673",
+    "2268953043674",
+    "2268953043675",
+    "2268953043676"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043676"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 318,
+   "questionId": "226895784896",
+   "page": 26,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "In today's scenario, organizations look for individuals with specific qualifications and experience to manage them. What does the above statement imply?",
+   "options": [
+    "Management as a Science",
+    "Management as an Art",
+    "Management as a Profession",
+    "Management is both Art and Science."
+   ],
+   "optionIds": [
+    "2268953043677",
+    "2268953043678",
+    "2268953043679",
+    "2268953043680"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043679"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 319,
+   "questionId": "226895784897",
+   "page": 27,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Match List-I with List-II\nList-I: Techniques of Scientific Management | List-II: Description\n(A) Method Study | (I) Standard time taken to perform a well-defined job.\n(B) Motion Study | (II) Study of movements like lifting, putting objects, sitting and changing positions, etc.,\n(C) Fatigue Study | (III) Minimise the cost of production and maximise the quality and satisfaction of the customer.\n(D) Time Study | (IV) Determines the amount and frequency of rest intervals in completing a task.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953043681",
+    "2268953043682",
+    "2268953043683",
+    "2268953043684"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043682"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 320,
+   "questionId": "226895784898",
+   "page": 28,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Arrange the following as per Maslow's hierarchy of needs:\n(A) It refers to the drive to become what one is capable of becoming.\n(B) Hunger, thirst, shelter, and sleep are some examples of these needs.\n(C) Job security, stability of income, Pension plans etc.\n(D) These include factors such as self-respect, autonomy status, recognition and attention.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (C), (B), (D)",
+    "(B), (C), (D), (A)",
+    "(B), (D), (C), (A)"
+   ],
+   "optionIds": [
+    "2268953043685",
+    "2268953043686",
+    "2268953043687",
+    "2268953043688"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043687"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 321,
+   "questionId": "226895784899",
+   "page": 29,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Though advertising is one of the most frequently used medium of promotion of goods and services, it attracts lot of criticism. Identify various criticisms of Advertising:\n(A) Undermines Social Values\n(B) Encourages Sale of Inferior Products\n(C) Confuses the Buyers\n(D) Flexible Tool\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043689",
+    "2268953043690",
+    "2268953043691",
+    "2268953043692"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043689"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 322,
+   "questionId": "226895784900",
+   "page": 30,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"In an organisation, a well-defined plan is drawn up with specific goals to be achieved within a specific time frame. These plans then decide the future course of action and managers may not be in a position to change it. Following a pre-decided plan, when circumstances have changed, it may not turn out to be in the organisations interest\".\nThe above statement reflects which limitation of planning?",
+   "options": [
+    "Planning is a time-consuming process.",
+    "Planning leads to rigidity.",
+    "Planning may not work in a dynamic environment.",
+    "Planning reduces creativity."
+   ],
+   "optionIds": [
+    "2268953043693",
+    "2268953043694",
+    "2268953043695",
+    "2268953043696"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043694"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 323,
+   "questionId": "226895784901",
+   "page": 31,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Which of the following statement is true?",
+   "options": [
+    "If the pricing objective of a firm is 'attaining product quality leadership', normally lower prices are charged.",
+    "Companies use Public Regulation tools specifically designed to promote to customers only, e.g. free samples, discounts, and contests.",
+    "If a firm decides to maximize profits in the long run, it would tend to charge maximum price for its products.",
+    "If the pricing objective of a firm is \"obtaining market share leadership, it will keep the price of its products at lower levels."
+   ],
+   "optionIds": [
+    "2268953043697",
+    "2268953043698",
+    "2268953043699",
+    "2268953043700"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043700"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 324,
+   "questionId": "226895784902",
+   "page": 32,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"The aim of a manager is to reduce costs and increase productivity through better planning, organising, directing, staffing and controlling the activities of the organization\". The statement highlights which point of importance of management?",
+   "options": [
+    "Management increases efficiency",
+    "Management helps in achieving personal objectives",
+    "Management creates a dynamic organisation",
+    "Management helps in achieving group goals"
+   ],
+   "optionIds": [
+    "2268953043701",
+    "2268953043702",
+    "2268953043703",
+    "2268953043704"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043701"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 325,
+   "questionId": "226895784903",
+   "page": 32,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "\"It refers to the number of subordinates that can be effectively managed by a superior. This determines the levels of management in the structure.\"\nIdentify the concept of organization structure discussed in the above lines.",
+   "options": [
+    "Span of Management",
+    "Functional Structure",
+    "Divisional Structure",
+    "Departmentalisation"
+   ],
+   "optionIds": [
+    "2268953043705",
+    "2268953043706",
+    "2268953043707",
+    "2268953043708"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043705"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 326,
+   "questionId": "226895784904",
+   "page": 33,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "It has been made compulsory to settle all trades within 2 days of the trade, i.e. on a T+2 basis, since 2003. Prior to the reforms, the securities were traded and all positions in the stock market were settled on a ________ settlement cycle whether it was delivery of securities or payment of cash.",
+   "options": [
+    "Weekly / fortnightly",
+    "Daily",
+    "T+4 days",
+    "T+3 days"
+   ],
+   "optionIds": [
+    "2268953043709",
+    "2268953043710",
+    "2268953043711",
+    "2268953043712"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043709"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 327,
+   "questionId": "226895784905",
+   "page": 34,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Match List-I with List-II\nList-I: (Concepts) | List-II: (Meaning)\n(A) Responsibility | (I) Granting of authority to subordinates to operate within prescribed limits.\n(B) Accountability | (II) Being answerable for the final outcome.\n(C) Delegation | (III) The obligation of a subordinate to properly perform the assigned duty.\n(D) Centralisation | (IV) Decision-making authority is retained by higher management levels.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+    "(A) - (III), (B) - (II), (C) - (I), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043713",
+    "2268953043714",
+    "2268953043715",
+    "2268953043716"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043714"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 328,
+   "questionId": "226895784906",
+   "page": 35,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Match List-I with List-II\nList-I: (Standards to gauge performance) | List-II: (Functional areas of Business)\n(A) Sales volume, sales expense, advertising expenditure, individual sales performance, etc. | (I) Production\n(B) Labour turnover, labour relations, labor absenteeism, etc. | (II) Finance and Accounting\n(C)  Quantity, quality, cost, individual job performance, etc. | (III) Human Resource Management\n(D) Flow of capital, capital expenditure, inventories, liquidity, etc. | (IV) Marketing\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (I), (D) - (IV)",
+    "(A) - (IV), (B) - (III), (C) - (I), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043717",
+    "2268953043718",
+    "2268953043719",
+    "2268953043720"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043719"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 329,
+   "questionId": "226895784907",
+   "page": 36,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "FSSAI (Food Safety and Standards authority of India) has made a proposal for hotels and other food outlets to declare the kind of oil/fat used in cooking each of the food items on their menus. The Consumer Right being reinforced by this proposal is _________.",
+   "options": [
+    "Right to be Informed",
+    "Right to Consumer Education",
+    "Right to Seek Redressal",
+    "Right to be Heard"
+   ],
+   "optionIds": [
+    "2268953043721",
+    "2268953043722",
+    "2268953043723",
+    "2268953043724"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043721"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 330,
+   "questionId": "226895784908",
+   "page": 37,
+   "section": "Business Studies, sub-section 1 (stand-alone MCQs)",
+   "stem": "Match List-I with List-II\nList-I: (What can be marketed) | List-II: (Category)\n(A) Events | (I) Family Planning\n(B) Services | (II) Udaipur – ‘The City of Lakes’\n(C) Ideas | (III) Fashion Show\n(D) Place | (IV) Online Trading\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (IV), (C) - (III), (D) - (II)",
+    "(A) - (I), (B) - (III), (C) - (IV), (D) - (II)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043725",
+    "2268953043726",
+    "2268953043727",
+    "2268953043728"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043728"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 331,
+   "questionId": "226895784910",
+   "page": 39,
+   "section": "Business Studies, sub-section 2 (comprehension 226895784909, Q331-335)",
+   "stem": "\"She was very enthusiastic and approached a Financial Consultant, who told her that approximately Rs. 50 lakhs would be required for undertaking the modernization and expansion programme.\"\nIdentify the concept of Financial Management which helped in deciding the quantum of finance required.",
+   "options": [
+    "Financial Leverage",
+    "Trading on Equity",
+    "Capital Structure",
+    "Financial Planning"
+   ],
+   "optionIds": [
+    "2268953043729",
+    "2268953043730",
+    "2268953043731",
+    "2268953043732"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043732"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P1"
+  },
+  {
+   "n": 42,
+   "paperNumber": 332,
+   "questionId": "226895784911",
+   "page": 39,
+   "section": "Business Studies, sub-section 2 (comprehension 226895784909, Q331-335)",
+   "stem": "\"The Financial Consultant advised her about the judicious mix of equity (40%) and Debt (60%).\" Identify the concept of Financial Management as reflected in the above situation.",
+   "options": [
+    "Investing decision",
+    "Capital Structure",
+    "Dividend decision",
+    "Finance outlay"
+   ],
+   "optionIds": [
+    "2268953043733",
+    "2268953043734",
+    "2268953043735",
+    "2268953043736"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043734"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "eye, from the page image (OCR missed the id)",
+   "authenticated": true,
+   "passage": "P1"
+  },
+  {
+   "n": 43,
+   "paperNumber": 333,
+   "questionId": "226895784912",
+   "page": 39,
+   "section": "Business Studies, sub-section 2 (comprehension 226895784909, Q331-335)",
+   "stem": "State the reason why Charvi should choose equity as the source of finance?",
+   "options": [
+    "If stock markets are bullish, shareholders will earn less.",
+    "Fixed operating cost will increase the business risk.",
+    "Dividend is tax deductible",
+    "Due to weak cash flow position, the firm may not be able to honor fixed cash payment obligations."
+   ],
+   "optionIds": [
+    "2268953043737",
+    "2268953043738",
+    "2268953043739",
+    "2268953043740"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043740"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P1"
+  },
+  {
+   "n": 44,
+   "paperNumber": 334,
+   "questionId": "226895784913",
+   "page": 40,
+   "section": "Business Studies, sub-section 2 (comprehension 226895784909, Q331-335)",
+   "stem": "\"He also suggested her to take loan from Financial Institution as the cost of raising funds from Financial Institutions is low\". Identify the factor reflected in the statement.",
+   "options": [
+    "Floatation Costs",
+    "Control considerations",
+    "Risk considerations",
+    "Fixed operating costs"
+   ],
+   "optionIds": [
+    "2268953043741",
+    "2268953043742",
+    "2268953043743",
+    "2268953043744"
+   ],
+   "answerPosition": 1,
+   "keyOptionIds": [
+    "2268953043741"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P1"
+  },
+  {
+   "n": 45,
+   "paperNumber": 335,
+   "questionId": "226895784914",
+   "page": 40,
+   "section": "Business Studies, sub-section 2 (comprehension 226895784909, Q331-335)",
+   "stem": "\"Debt is considered to be the cheapest of all the sources\".  Identify the factor which supports this source of finance.",
+   "options": [
+    "Inflation",
+    "Tax Rate",
+    "Growth Prospects",
+    "Financing Alternatives"
+   ],
+   "optionIds": [
+    "2268953043745",
+    "2268953043746",
+    "2268953043747",
+    "2268953043748"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043746"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P1"
+  },
+  {
+   "n": 46,
+   "paperNumber": 336,
+   "questionId": "226895784916",
+   "page": 43,
+   "section": "Business Studies, sub-section 3 (comprehension 226895784915, Q336-340)",
+   "stem": "Identify the element of the function of management as discussed in the above case.",
+   "options": [
+    "Supervision",
+    "Motivation",
+    "Leadership",
+    "Communication"
+   ],
+   "optionIds": [
+    "2268953043749",
+    "2268953043750",
+    "2268953043751",
+    "2268953043752"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043750"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P2"
+  },
+  {
+   "n": 47,
+   "paperNumber": 337,
+   "questionId": "226895784917",
+   "page": 43,
+   "section": "Business Studies, sub-section 3 (comprehension 226895784915, Q336-340)",
+   "stem": "\"Raman wants to work with a company which has an appropriate and clear development plan for its employees and helps the employees to grow to higher levels in the organisation. In addition to this, the company should also provide facilities like free housing, free medical aid etc.\"\nWhich of the following incentive is being prioritised by Raman for taking up the job?",
+   "options": [
+    "Organisational Climate",
+    "Job enrichment",
+    "Employee Participation",
+    "Career advancement opportunity"
+   ],
+   "optionIds": [
+    "2268953043753",
+    "2268953043754",
+    "2268953043755",
+    "2268953043756"
+   ],
+   "answerPosition": 4,
+   "keyOptionIds": [
+    "2268953043756"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P2"
+  },
+  {
+   "n": 48,
+   "paperNumber": 338,
+   "questionId": "226895784918",
+   "page": 44,
+   "section": "Business Studies, sub-section 3 (comprehension 226895784915, Q336-340)",
+   "stem": "Which of the following non-financial incentive is not discussed in the above case?",
+   "options": [
+    "Job Security",
+    "Status",
+    "Employee recognition programmes",
+    "Organisational Climate"
+   ],
+   "optionIds": [
+    "2268953043757",
+    "2268953043758",
+    "2268953043759",
+    "2268953043760"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043759"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P2"
+  },
+  {
+   "n": 49,
+   "paperNumber": 339,
+   "questionId": "226895784919",
+   "page": 44,
+   "section": "Business Studies, sub-section 3 (comprehension 226895784915, Q336-340)",
+   "stem": "\"Ansh said that he would prefer to work with an organisation, which has a culture of individual autonomy that is considered by employees and provides employees with the opportunity for personal growth and meaningful work experience.\"\nWhich of the incentives is being referred to in the context of Ansh's preference for job in an organisation?",
+   "options": [
+    "Growth benefits",
+    "Job enrichment",
+    "Job Security",
+    "Bonus"
+   ],
+   "optionIds": [
+    "2268953043761",
+    "2268953043762",
+    "2268953043763",
+    "2268953043764"
+   ],
+   "answerPosition": 2,
+   "keyOptionIds": [
+    "2268953043762"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "eye, from the page image (OCR missed the id)",
+   "authenticated": true,
+   "passage": "P2"
+  },
+  {
+   "n": 50,
+   "paperNumber": 340,
+   "questionId": "226895784920",
+   "page": 44,
+   "section": "Business Studies, sub-section 3 (comprehension 226895784915, Q336-340)",
+   "stem": "\"Rajat was very clear about his future. He would like to take a job in the government sector as it gives him stability in his future income and the kind of work which will help him to work with greater zeal. It will also provide him with many post retirement benefits when he retires from his service.\"\nRajat puts stability in job on a high priority. Stability of job belongs to which level of needs of Maslow's needs hierarchy theory?",
+   "options": [
+    "Esteem Needs",
+    "Affiliation Needs",
+    "Safety Needs",
+    "Self-actualization Needs"
+   ],
+   "optionIds": [
+    "2268953043765",
+    "2268953043766",
+    "2268953043767",
+    "2268953043768"
+   ],
+   "answerPosition": 3,
+   "keyOptionIds": [
+    "2268953043767"
+   ],
+   "keyStatus": "single",
+   "idsReadBy": "OCR, checked against the page image",
+   "authenticated": true,
+   "passage": "P2"
+  }
+ ]
+}

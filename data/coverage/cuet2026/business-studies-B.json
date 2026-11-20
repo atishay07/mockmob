@@ -1,0 +1,1780 @@
+{
+ "paper": "cuet2026-business-studies-2026-05-20-shift1",
+ "subject": "business_studies",
+ "snapshotDate": "2026-11-20",
+ "checker": "B",
+ "provenance": {
+  "year": 2026,
+  "subjectCode": "305",
+  "examDate": "2026-05-20",
+  "shift": "First",
+  "source": "NTA master question paper (CBT export with Question IDs and Option IDs), AglaSem Docs copy, downloaded 21 Nov 2026 with the owner's approval",
+  "paperFile": "tmp/1121-2026-papers/cuet2026-business-studies-paper.json",
+  "key": "NTA CUET (UG) 2026 final key, matched by Question ID and Option ID; 50 of 50 questions authenticated (5 ids read by eye from the page images)"
+ },
+ "bankRead": "saved READ-ONLY snapshot of 20 Nov 2026 (scratchpad bstB): 394 visible business_studies rows, 209 served (served.json); suspended.json empty. No database or network access in this run.",
+ "cards": "data/keycards/decks/business_studies.json v7, 902 cards (no Financial Markets cards); none suspended",
+ "syllabus": "CUET (UG) 2026 Business Studies (305); no question of this paper is off the syllabus (Q301 overfull demand is NCERT text, a card quotes it)",
+ "rule": "strict; Key cards count (answer side); doubtful = not_covered; match, sequence, multi-statement and NOT items need every part; answer readable off the printed case = skill (shown, not counted)",
+ "independence": "Fact lists written from the paper before opening A (coverage/bst26_B_facts.txt). All 103 ids A cited checked against served.json, the published deck and suspended.json: every bank id served, every card published and not suspended; each read in full for the fact.",
+ "pageSpotCheck": "p40 (Q334, Q335 and the 331-335 case in Hindi) checked against the transcription: matches. Q311 two accepted option ids confirmed in the paper file.",
+ "counts": {
+  "covered": 30,
+  "not_covered": 19,
+  "skill": 1,
+  "off_syllabus": 0,
+  "dropped": 0
+ },
+ "final": {
+  "covered": 30,
+  "counted": 49,
+  "skill": 1,
+  "offSyllabus": 0,
+  "dropped": 0,
+  "percent": 61.2,
+  "coveredQuestions": [
+   291,
+   292,
+   293,
+   294,
+   296,
+   297,
+   298,
+   299,
+   301,
+   302,
+   305,
+   307,
+   309,
+   310,
+   311,
+   313,
+   316,
+   318,
+   321,
+   322,
+   324,
+   325,
+   327,
+   329,
+   331,
+   332,
+   333,
+   334,
+   336,
+   340
+  ],
+  "skillQuestions": [
+   335
+  ]
+ },
+ "disagreementsWithA": [
+  {
+   "q": 295,
+   "A": "covered",
+   "B": "not_covered",
+   "why": "A called it covered leniently. Option 3 (delegation is the basis of the management hierarchy) is an NCERT advantage of delegation, but no served row or card teaches it: the delegation card names only five points, and \"initiative\" also sits on the decentralisation card. In a \"which is NOT\" item every option must be judged, so a student cannot rule out option 3. Doubtful = not covered."
+  },
+  {
+   "q": 335,
+   "A": "covered",
+   "B": "skill",
+   "why": "A called it covered. The printed case (331 to 335) says \"the interest on loan is a tax deductible expense\" and the key is \"Tax Rate\"; none of the other three options is supported by the case, so the key is read off the passage by the word \"tax\" (the same rule as 2024 Q43). Skill, shown and not counted."
+  },
+  {
+   "q": 292,
+   "A": "chapter Staffing",
+   "B": "chapter Organising",
+   "why": "Chapter: B puts this in Organising. The sentence is quoted from the NCERT Staffing introduction, but the fact the answer rests on (organising creates the structure of roles and relationships) is taught in the Organising chapter, and METHOD tags by where NCERT teaches the fact. Counts unchanged."
+  }
+ ],
+ "openCallsSettled": {
+  "295": "not covered: A called it covered leniently. Option 3 (delegation is the basis of the management hierarchy) is an NCERT advantage of delegation, but no served row or card teaches it: the delegation card names only five points, and \"initiative\" also sits on the decentralisation card. In a \"which is NOT\" item every option must be judged, so a student cannot rule out option 3. Doubtful = not covered.",
+  "298": "covered: Covered: card says human resources are the most important asset (the keyed idea, NTA words it as \"foundation\"); a staffing card says the right person on the right job gives higher performance; cards refute options 2 (staffing is continuous) and 4 (productivity leads to higher profits). Option 1 is a self-negating \"does not recognise\" line.",
+  "311": "covered: Covered: NTA accepts both Right to be Heard and Right to be Informed; both definitions are on cards and a served bank row ties a missing expiry date to the right to be informed, so a student reaches an accepted key.",
+  "313": "covered: Covered: cards give all four parts; the packaging card point (i) \"Rising standards of health and sanitation\" is the same NCERT point NTA paraphrases as rising standards of living, and the label card places (D) with labelling, which leaves only option 3.",
+  "318": "covered: Covered: card states that entry to a profession is restricted through an examination or an educational degree; looking for specific qualifications is that feature, so the item is management as a profession.",
+  "317": "not covered: Partial, agree with A: only preliminary screening is taught as worded; reference checks only by who acts as referee; job offer and contract contents are not taught, and the contract card puts the joining date in the contract, against the key pair (D)-(II).",
+  "319": "not covered: Partial, agree with A: three pairs word for word; method study is taught only as \"one best way\", never with the cost and customer-satisfaction aim. Elimination reaches the key, but the strict rule needs every pair.",
+  "320": "not covered: Partial, agree with A: physiological, safety and esteem descriptions are on cards word for word; self-actualisation is only \"the highest level\", its meaning (statement A) is taught nowhere.",
+  "338": "not covered: Partial, agree with A: job security, status and recognition are taught; organisational climate is defined without individual autonomy, so the case link for Ansh is not taught.",
+  "292chapter": "Chapter: B puts this in Organising. The sentence is quoted from the NCERT Staffing introduction, but the fact the answer rests on (organising creates the structure of roles and relationships) is taught in the Organising chapter, and METHOD tags by where NCERT teaches the fact. Counts unchanged."
+ },
+ "byChapterFinal": {
+  "Business Environment": {
+   "questions": 2,
+   "finalCovered": 2,
+   "notCovered": 0,
+   "skill": 0
+  },
+  "Organising": {
+   "questions": 5,
+   "finalCovered": 3,
+   "notCovered": 2,
+   "skill": 0
+  },
+  "Staffing": {
+   "questions": 5,
+   "finalCovered": 4,
+   "notCovered": 1,
+   "skill": 0
+  },
+  "Consumer Protection": {
+   "questions": 3,
+   "finalCovered": 3,
+   "notCovered": 0,
+   "skill": 0
+  },
+  "Marketing Management": {
+   "questions": 7,
+   "finalCovered": 5,
+   "notCovered": 2,
+   "skill": 0
+  },
+  "Controlling": {
+   "questions": 2,
+   "finalCovered": 1,
+   "notCovered": 1,
+   "skill": 0
+  },
+  "Nature & Significance of Management": {
+   "questions": 3,
+   "finalCovered": 2,
+   "notCovered": 1,
+   "skill": 0
+  },
+  "Planning": {
+   "questions": 3,
+   "finalCovered": 3,
+   "notCovered": 0,
+   "skill": 0
+  },
+  "Financial Markets": {
+   "questions": 5,
+   "finalCovered": 0,
+   "notCovered": 5,
+   "skill": 0
+  },
+  "Financial Management": {
+   "questions": 6,
+   "finalCovered": 4,
+   "notCovered": 1,
+   "skill": 1
+  },
+  "Principles of Management": {
+   "questions": 3,
+   "finalCovered": 1,
+   "notCovered": 2,
+   "skill": 0
+  },
+  "Directing": {
+   "questions": 6,
+   "finalCovered": 2,
+   "notCovered": 4,
+   "skill": 0
+  }
+ },
+ "gapsByChapter": {
+  "Organising": [
+   295,
+   314
+  ],
+  "Nature & Significance of Management": [
+   300
+  ],
+  "Financial Markets": [
+   303,
+   306,
+   308,
+   312,
+   326
+  ],
+  "Financial Management": [
+   304
+  ],
+  "Principles of Management": [
+   315,
+   319
+  ],
+  "Staffing": [
+   317
+  ],
+  "Directing": [
+   320,
+   337,
+   338,
+   339
+  ],
+  "Marketing Management": [
+   323,
+   330
+  ],
+  "Controlling": [
+   328
+  ]
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 291,
+   "questionId": "226895784869",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Business Environment",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "BE is uncertain (A true)",
+    "BE is complex: easier to understand in parts, hard in totality (B true)",
+    "BE is relative (varies by country/region) (D true)",
+    "BE includes BOTH specific and general forces, so \"only general forces\" is false (C false)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.key-uncertainty",
+     "teaches": "largely uncertain"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.key-complexity",
+     "teaches": "complex phenomenon, easier to understand in parts"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.key-relativity",
+     "teaches": "relative concept"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.list-features",
+     "teaches": "features include specific and general forces"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.diff-specific-vs-general",
+     "teaches": "specific and general forces both part of the environment"
+    }
+   ],
+   "best": "kc.business_studies.business-environment.list-features",
+   "reason": "Cards state all three true features in the paper's own words and list specific and general forces, which rules out (C).",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 2,
+   "paperNumber": 292,
+   "questionId": "226895784870",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Organising",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "The organising function creates the organisation structure: designing roles/positions and the relationships among them"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.fact-structure-outcome",
+     "teaches": "organisation structure is the outcome of the organising process"
+    },
+    {
+     "kind": "bank",
+     "id": "15e99e3f-f57c-433d-9dde-72c6f168a545",
+     "teaches": "organising creates the structural framework within which people work"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.def-staffing-managerial-function",
+     "teaches": "staffing fills the positions in the structure (rules out staffing)"
+    }
+   ],
+   "best": "kc.business_studies.organising.fact-structure-outcome",
+   "reason": "Card says the organisation structure is the outcome of the organising process; bank row says organising builds the framework people work in; staffing card rules out staffing.",
+   "agreesWithA": true,
+   "note": "Chapter: B puts this in Organising. The sentence is quoted from the NCERT Staffing introduction, but the fact the answer rests on (organising creates the structure of roles and relationships) is taught in the Organising chapter, and METHOD tags by where NCERT teaches the fact. Counts unchanged."
+  },
+  {
+   "n": 3,
+   "paperNumber": 293,
+   "questionId": "226895784871",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Staffing",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "B = estimating manpower requirements (workload analysis from the structure); first step",
+    "C = recruitment (advertising a vacancy, an external source)",
+    "D = placement and orientation (introducing to colleagues, rules and policies)",
+    "A = performance appraisal (against set standards)",
+    "Order of the staffing process: manpower estimation, recruitment, selection, placement and orientation, training and development, performance appraisal"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.steps-staffing-process-first-five",
+     "teaches": "first five steps in order"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.steps-staffing-process-last-three",
+     "teaches": "performance appraisal follows training"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.diff-workload-vs-workforce-analysis",
+     "teaches": "workload analysis assesses number and types of people needed"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.list-external-sources-list",
+     "teaches": "advertisements are a recruitment source"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.def-orientation",
+     "teaches": "(D) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.def-performance-appraisal",
+     "teaches": "(A) word for word"
+    }
+   ],
+   "best": "kc.business_studies.staffing.steps-staffing-process-first-five",
+   "reason": "Cards give the order and the meaning of every statement; two statements are card definitions word for word.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 4,
+   "paperNumber": 294,
+   "questionId": "226895784872",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Consumer Protection",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Consumer responsibility: learn risks, follow manufacturer's instructions, use safely (A)",
+    "Consumer responsibility: file a complaint even when the amount is small (B)",
+    "Consumer responsibility: respect the environment, avoid waste and pollution (C)",
+    "Publishing periodicals on consumer problems/legal reporting is a function of consumer organisations/NGOs, not a consumer responsibility (D)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.consumer-protection.list-responsibilities-list",
+     "teaches": "items (iii), (viii) and (x): risks, file a complaint, respect the environment"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.consumer-protection.list-ngo-functions",
+     "teaches": "(ii) publishing periodicals and other publications"
+    }
+   ],
+   "best": "kc.business_studies.consumer-protection.list-responsibilities-list",
+   "reason": "The responsibilities card has (A), (B) and (C); the NGO-functions card places (D) with consumer organisations.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 5,
+   "paperNumber": 295,
+   "questionId": "226895784873",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Organising",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Delegation advantage: effective management, managers get time for important matters (1)",
+    "Delegation advantage: facilitates growth, ready workforce for new ventures (2)",
+    "Delegation advantage: basis of management hierarchy / superior-subordinate relationships (3)",
+    "\"Each division is an autonomous unit, flexibility, initiative, faster decisions\" is an advantage of the divisional structure, not of delegation (4)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.list-divisional-advantages",
+     "teaches": "flexibility and more initiative are divisional-structure advantages"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.list-delegation-importance",
+     "teaches": "effective management and growth are delegation benefits (options 1 and 2)"
+    }
+   ],
+   "best": "kc.business_studies.organising.list-divisional-advantages",
+   "reason": "Not covered: options 1 and 2 match delegation-card names and option 4 sits on the divisional card, but option 3 (basis of management hierarchy) is taught nowhere, so the \"not an advantage\" choice cannot be made from served material.",
+   "agreesWithA": false,
+   "whyDiffers": "A called it covered leniently. Option 3 (delegation is the basis of the management hierarchy) is an NCERT advantage of delegation, but no served row or card teaches it: the delegation card names only five points, and \"initiative\" also sits on the decentralisation card. In a \"which is NOT\" item every option must be judged, so a student cannot rule out option 3. Doubtful = not covered.",
+   "note": ""
+  },
+  {
+   "n": 6,
+   "paperNumber": 296,
+   "questionId": "226895784874",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Staffing",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Selection tests: intelligence, aptitude, personality, trade, interest; there is no \"contribution test\""
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.types-selection-tests-types",
+     "teaches": "the five selection tests"
+    }
+   ],
+   "best": "kc.business_studies.staffing.types-selection-tests-types",
+   "reason": "Card lists the five tests; contribution test is not one.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 7,
+   "paperNumber": 297,
+   "questionId": "226895784875",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Product concept: focus on quality, performance and features, continuous improvement of the product"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "f290d5be-ab46-414b-a19b-2068243c7a67",
+     "teaches": "quality, performance and innovative features = product concept"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.fact-product-concept-key",
+     "teaches": "product improvement is the key under the product concept"
+    }
+   ],
+   "best": "f290d5be-ab46-414b-a19b-2068243c7a67",
+   "reason": "Served bank question asks the same idea directly.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 8,
+   "paperNumber": 298,
+   "questionId": "226895784876",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Staffing",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Human resources are the foundation of a business: right people take it to the top, wrong people break it (importance of staffing)",
+    "Staffing recognises the importance of every person; the individual worker is the ultimate performer (1 negated)",
+    "Staffing is a continuous process (2 negated)",
+    "Staffing improves productivity, leading to higher (not lesser) returns (4 negated)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.key-human-resources-asset",
+     "teaches": "human resources are the most important asset of an organisation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.key-existing-enterprise-continuous",
+     "teaches": "staffing is a continuous process"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.list-benefits-to-organisation",
+     "teaches": "productivity in quantity and quality leading to higher profits"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.list-importance-benefits",
+     "teaches": "proper staffing makes for higher performance by putting the right person on the right job (found by B)"
+    }
+   ],
+   "best": "kc.business_studies.staffing.key-human-resources-asset",
+   "reason": "Covered: card says human resources are the most important asset (the keyed idea, NTA words it as \"foundation\"); a staffing card says the right person on the right job gives higher performance; cards refute options 2 (staffing is continuous) and 4 (productivity leads to higher profits). Option 1 is a self-negating \"does not recognise\" line.",
+   "agreesWithA": true,
+   "note": ""
+  },
+  {
+   "n": 9,
+   "paperNumber": 299,
+   "questionId": "226895784877",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Controlling",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Controlling helps judge the accuracy of standards: checks changes in the organisation and environment and helps review and revise standards"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.controlling.kl-imp-standards",
+     "teaches": "judging accuracy of standards: verify whether standards are accurate and objective"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.controlling.list-importance-six",
+     "teaches": "judging accuracy of standards listed as an importance"
+    }
+   ],
+   "best": "kc.business_studies.controlling.kl-imp-standards",
+   "reason": "Card names and explains this importance of controlling.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 10,
+   "paperNumber": 300,
+   "questionId": "226895784878",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Nature & Significance of Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Importance of coordination: functional differentiation - departments pursue their own objectives, causing conflict (e.g. production vs sales)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Coordination is taught widely, but none of growth in size, functional differentiation or specialisation is taught as its importance (not in the NCERT 2026-27 deck).",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 11,
+   "paperNumber": 301,
+   "questionId": "226895784879",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Overfull demand: demand exceeds what the firm can or wants to handle; demarketing reduces it temporarily (less promotion, higher prices)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.fact-overfull-demand",
+     "teaches": "overfull demand: reduce demand temporarily by cutting promotion or raising prices"
+    }
+   ],
+   "best": "kc.business_studies.marketing-management.fact-overfull-demand",
+   "reason": "Card ties the paper's exact wording to overfull demand; no served bank question asks it.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 12,
+   "paperNumber": 302,
+   "questionId": "226895784880",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Planning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Policy is a standing plan",
+    "Project and budget are single-use plans; strategy is not a standing plan"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.planning.list-standing-includes",
+     "teaches": "standing plans: policies, procedures, methods, rules"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.planning.list-single-use-includes",
+     "teaches": "single-use: budgets, programmes, projects"
+    }
+   ],
+   "best": "kc.business_studies.planning.list-standing-includes",
+   "reason": "Card lists policies among standing plans and budgets and projects among single-use plans.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 13,
+   "paperNumber": 303,
+   "questionId": "226895784881",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Financial Markets",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Offer for sale: securities are not issued directly but offered to the public through intermediaries (issuing houses/brokers)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "Four served Financial Markets rows, none on methods of floatation; the deck has no Financial Markets cards.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 14,
+   "paperNumber": 304,
+   "questionId": "226895784882",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "EBIT minus interest = EBT; EBT minus tax = EAT; EPS = EAT / number of equity shares; so B, D, A, C"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.fact-ebit-eps-meaning",
+     "teaches": "EBIT-EPS names only"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-debt-tax-deductible",
+     "teaches": "interest deductible before tax"
+    }
+   ],
+   "best": "kc.business_studies.financial-management.fact-ebit-eps-meaning",
+   "reason": "Cards name EBIT-EPS analysis and say interest is tax deductible, but no served material lays out the EBIT, interest, EBT, EAT order.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 15,
+   "paperNumber": 305,
+   "questionId": "226895784883",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "A product gives the customer functional, psychological and social benefits; \"marketing benefits\" is not one"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.types-product-benefits",
+     "teaches": "functional, psychological, social benefits"
+    }
+   ],
+   "best": "kc.business_studies.marketing-management.types-product-benefits",
+   "reason": "Card lists exactly the three benefits.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 16,
+   "paperNumber": 306,
+   "questionId": "226895784884",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Financial Markets",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Treasury bills are issued for a minimum of Rs 25,000 and in multiples thereof",
+    "(distractor checks) T-bills are issued by RBI on behalf of the Government of India (not state govt), maturity less than one year, open to the public too"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served bank row or card states the T-bill minimum; the one T-bill mention (cbf7f067) is a wrong option about commercial paper.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 17,
+   "paperNumber": 307,
+   "questionId": "226895784885",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Principles of Management",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Principles are formed by experience/collective wisdom/experimentation (A true)",
+    "Universal applicability (B true)",
+    "Principles are flexible, not rigid prescriptions (C false)",
+    "Principles establish cause-and-effect relationships (D true)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.key-nature-formed-by-practice",
+     "teaches": "(A) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.key-nature-universal",
+     "teaches": "(B) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.fact-principles-flexible-not-rigid",
+     "teaches": "not rigid prescriptions"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.key-nature-cause-effect",
+     "teaches": "(D) word for word"
+    },
+    {
+     "kind": "bank",
+     "id": "f4931d12-ea47-4ee2-8c3a-2823a1ba3c87",
+     "teaches": "principles are flexible general guidelines, not rigid rules"
+    }
+   ],
+   "best": "kc.business_studies.principles-of-management.fact-principles-flexible-not-rigid",
+   "reason": "Each statement is a card sentence; the bank teaches flexibility too.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 18,
+   "paperNumber": 308,
+   "questionId": "226895784886",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Financial Markets",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Stock exchange functions: liquidity and marketability, safety of transactions, contribution to economic growth, spreading equity cult, pricing of securities, providing scope for (healthy) speculation; so \"complete stop on speculation\" is not a function"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served material teaches the functions of a stock exchange.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 19,
+   "paperNumber": 309,
+   "questionId": "226895784887",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Planning",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Steps: setting objectives (D), developing premises = assumptions about an uncertain future (A), identifying/evaluating alternatives (B), ..., follow-up/monitoring (C)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.planning.steps-process-seven",
+     "teaches": "seven steps in order ending in follow-up action"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.planning.fact-premises-called",
+     "teaches": "assumptions about the future are premises"
+    },
+    {
+     "kind": "bank",
+     "id": "a815cb92-0959-42fc-a266-e32c4e8b1801",
+     "teaches": "meaning of setting objectives, premises, identifying alternatives"
+    }
+   ],
+   "best": "kc.business_studies.planning.steps-process-seven",
+   "reason": "Card gives the order; card and bank give what each step means.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 20,
+   "paperNumber": 310,
+   "questionId": "226895784888",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Staffing",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Programmed instruction is an off-the-job method; apprenticeship, coaching, internship are on-the-job"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.types-off-the-job-methods",
+     "teaches": "programmed instruction listed off-the-job"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.types-on-the-job-methods",
+     "teaches": "apprenticeship, coaching, internship listed on-the-job"
+    }
+   ],
+   "best": "kc.business_studies.staffing.types-off-the-job-methods",
+   "reason": "Two cards sort all four options.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 21,
+   "paperNumber": 311,
+   "questionId": "226895784889",
+   "ntaKey": "1 or 3",
+   "keyStatus": "multiple",
+   "chapter": "Consumer Protection",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Right to be informed: complete information on the product including date of manufacture/expiry; OR",
+    "Right to be heard: to file a complaint and be heard"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "204e5691-057d-4b2a-b119-3cc545aec418",
+     "teaches": "missing expiry date on a pack = right to be informed"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.consumer-protection.def-right-informed",
+     "teaches": "information incl. date of manufacture"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.consumer-protection.def-right-heard",
+     "teaches": "right to file a complaint and be heard"
+    }
+   ],
+   "best": "204e5691-057d-4b2a-b119-3cc545aec418",
+   "reason": "Covered: NTA accepts both Right to be Heard and Right to be Informed; both definitions are on cards and a served bank row ties a missing expiry date to the right to be informed, so a student reaches an accepted key.",
+   "agreesWithA": true,
+   "note": ""
+  },
+  {
+   "n": 22,
+   "paperNumber": 312,
+   "questionId": "226895784890",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Financial Markets",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Demat process: identify a DP (D), open account with documentation (A), give physical certificates with a dematerialisation request form (C), public-offer shares credited to the demat account (B)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "The one served demat row (ccf6b28b) is about fraud and the registry, not the steps.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 23,
+   "paperNumber": 313,
+   "questionId": "226895784891",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Importance of packaging: rising standards of health/sanitation (living) (A)",
+    "Self-service outlets (B)",
+    "Product differentiation (C)",
+    "\"Describes the product and specifies its contents\" is a function of LABELLING, not a reason for packaging's importance (D)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.list-packaging-importance",
+     "teaches": "rising standards, self-service outlets, product differentiation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.list-label-functions",
+     "teaches": "describe the product and specify its contents is a label function"
+    }
+   ],
+   "best": "kc.business_studies.marketing-management.list-packaging-importance",
+   "reason": "Covered: cards give all four parts; the packaging card point (i) \"Rising standards of health and sanitation\" is the same NCERT point NTA paraphrases as rising standards of living, and the label card places (D) with labelling, which leaves only option 3.",
+   "agreesWithA": true,
+   "note": ""
+  },
+  {
+   "n": 24,
+   "paperNumber": 314,
+   "questionId": "226895784892",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Organising",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Decentralisation used without caution can lead to organisational disintegration"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.list-decentralisation-importance",
+     "teaches": "importance only (reducing burden, initiative ...)"
+    }
+   ],
+   "best": null,
+   "reason": "Decentralisation is defined and its importance listed, but the caution about disintegration is taught nowhere.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 25,
+   "paperNumber": 315,
+   "questionId": "226895784893",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Principles of Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Harmony, not discord: the Japanese example (black badge, working extra hours during a strike)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.list-taylor-principles",
+     "teaches": "names Harmony not discord"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.def-mental-revolution",
+     "teaches": "mental revolution: competition to cooperation"
+    }
+   ],
+   "best": null,
+   "reason": "The principle is only named; what it means and the Japanese example are taught nowhere, while two bank rows teach the trap answer, Cooperation not individualism.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 26,
+   "paperNumber": 316,
+   "questionId": "226895784894",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Business Environment",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Attitudes, lifestyles, occupational distribution and consumer preferences are SOCIAL environment",
+    "(supporting) Structure of the economy, production trends, infrastructure are economic environment"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.list-social-elements",
+     "teaches": "option 3 word for word under social environment"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.business-environment.list-economic-components",
+     "teaches": "options 1, 2 and 4 listed as economic"
+    }
+   ],
+   "best": "kc.business_studies.business-environment.list-social-elements",
+   "reason": "Cards place option 3 under social and the other three under economic.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 27,
+   "paperNumber": 317,
+   "questionId": "226895784895",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Staffing",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Reference checks = verify information and gain additional information (A-III)",
+    "Contract of employment = job title, duties, pay, hours, leave rules (B-IV)",
+    "Preliminary screening = eliminate unqualified applicants from the application forms (C-I)",
+    "Job offer = contains the date by which the appointee must report (D-II)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.fact-preliminary-screening",
+     "teaches": "(C)-(I) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.staffing.def-employment-contract",
+     "teaches": "contract: offer, terms and conditions and date of joining"
+    }
+   ],
+   "best": "kc.business_studies.staffing.fact-preliminary-screening",
+   "reason": "Partial: screening taught, reference checks only by who acts as referee; the deck's contract card even puts the joining date in the contract, against the key pair (D)-(II).",
+   "agreesWithA": true,
+   "note": "Partial, agree with A: only preliminary screening is taught as worded; reference checks only by who acts as referee; job offer and contract contents are not taught, and the contract card puts the joining date in the contract, against the key pair (D)-(II). B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 28,
+   "paperNumber": 318,
+   "questionId": "226895784896",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Nature & Significance of Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Management as a profession: restricted entry by qualification; organisations prefer qualified (e.g. MBA) managers"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.nature-and-significance-of-management.ex-profession-restricted-entry-ca",
+     "teaches": "entry to a profession restricted through an exam or educational degree"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.nature-and-significance-of-management.list-features-of-profession",
+     "teaches": "features of a profession"
+    }
+   ],
+   "best": "kc.business_studies.nature-and-significance-of-management.ex-profession-restricted-entry-ca",
+   "reason": "Covered: card states that entry to a profession is restricted through an examination or an educational degree; looking for specific qualifications is that feature, so the item is management as a profession.",
+   "agreesWithA": true,
+   "note": ""
+  },
+  {
+   "n": 29,
+   "paperNumber": 319,
+   "questionId": "226895784897",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Principles of Management",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Method study = find the best way, minimise cost, maximise quality and customer satisfaction (A-III)",
+    "Motion study = study of movements like lifting, putting objects, sitting (B-II)",
+    "Fatigue study = amount and frequency of rest intervals (C-IV)",
+    "Time study = standard time for a well-defined job (D-I)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.def-motion-study",
+     "teaches": "(B)-(II) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.def-fatigue-study",
+     "teaches": "(C)-(IV) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.def-time-study",
+     "teaches": "(D)-(I) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.principles-of-management.key-method-study-objective",
+     "teaches": "method study finds one best way (not the cost/quality aim)"
+    }
+   ],
+   "best": "kc.business_studies.principles-of-management.def-motion-study",
+   "reason": "Partial: three pairs taught word for word; method study is taught only as \"one best way\", never with the cost and customer-satisfaction aim in (III).",
+   "agreesWithA": true,
+   "note": "Partial, agree with A: three pairs word for word; method study is taught only as \"one best way\", never with the cost and customer-satisfaction aim. Elimination reaches the key, but the strict rule needs every pair. B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 30,
+   "paperNumber": 320,
+   "questionId": "226895784898",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, sequence",
+   "facts": [
+    "Physiological = hunger, thirst, shelter, sleep (B)",
+    "Safety = job security, stability of income, pension (C)",
+    "Esteem = self-respect, autonomy, status, recognition, attention (D)",
+    "Self-actualisation = becoming what one is capable of becoming (A)",
+    "Hierarchy order: physiological, safety, affiliation, esteem, self-actualisation"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.types-maslow-needs",
+     "teaches": "order and esteem description"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.key-maslow-physiological-salary",
+     "teaches": "hunger, thirst, shelter, sleep"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.ex-maslow-safety-example",
+     "teaches": "job security, stability of income, pension"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.term-maslow-self-actualisation",
+     "teaches": "self-actualisation is the highest need (no meaning)"
+    }
+   ],
+   "best": "kc.business_studies.directing.types-maslow-needs",
+   "reason": "Partial: three descriptions are on cards word for word, but what self-actualisation means (statement A) is taught nowhere.",
+   "agreesWithA": true,
+   "note": "Partial, agree with A: physiological, safety and esteem descriptions are on cards word for word; self-actualisation is only \"the highest level\", its meaning (statement A) is taught nowhere. B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 31,
+   "paperNumber": 321,
+   "questionId": "226895784899",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory, multi-statement",
+   "facts": [
+    "Criticisms: undermines social values, encourages sale of inferior products, confuses buyers",
+    "\"Flexibility\" is a merit of advertising, not a criticism"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.list-advertising-objections",
+     "teaches": "the four objections"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.fact-objection-values",
+     "teaches": "undermines social values"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.fact-objection-inferior",
+     "teaches": "inferior products"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.fact-objection-confuses",
+     "teaches": "confuses buyers"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.list-ps-business-1",
+     "teaches": "flexible tool is a personal-selling point"
+    }
+   ],
+   "best": "kc.business_studies.marketing-management.list-advertising-objections",
+   "reason": "Cards teach all three objections and place \"flexible tool\" under personal selling.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 32,
+   "paperNumber": 322,
+   "questionId": "226895784900",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Planning",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Limitation: planning leads to rigidity (pre-decided plan cannot be changed when circumstances change)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "dc2ba09e-2d61-4697-9de3-b4dc1e11a813",
+     "teaches": "planning leads to rigidity as managers stick to a plan when conditions change"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.planning.list-limitations",
+     "teaches": "leads to rigidity listed first"
+    }
+   ],
+   "best": "dc2ba09e-2d61-4697-9de3-b4dc1e11a813",
+   "reason": "Served bank question teaches the same limitation with the same reasoning.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 33,
+   "paperNumber": 323,
+   "questionId": "226895784901",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Market share leadership -> lower prices (4 true)",
+    "Product quality leadership -> higher prices (1 false)",
+    "Free samples, discounts, contests = sales promotion, not \"public regulation\" (2 false)",
+    "Profit maximisation in the long run -> not the maximum price (charge optimum/lower) (3 false)"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.marketing-management.list-pricing-objectives",
+     "teaches": "names the objectives only"
+    }
+   ],
+   "best": null,
+   "reason": "Pricing objectives are only named; no served material links any objective to a price level.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 34,
+   "paperNumber": 324,
+   "questionId": "226895784902",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Nature & Significance of Management",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Importance: management increases efficiency - reduce costs, increase productivity through planning, organising, etc."
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.nature-and-significance-of-management.list-importance",
+     "teaches": "increases efficiency listed as an importance"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.nature-and-significance-of-management.def-efficiency",
+     "teaches": "efficiency = doing the task correctly at minimum cost"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.nature-and-significance-of-management.kl-efficiency-increased",
+     "teaches": "less input, more output = higher efficiency"
+    }
+   ],
+   "best": "kc.business_studies.nature-and-significance-of-management.list-importance",
+   "reason": "Cards name the importance and say efficiency means lower cost for the output.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 35,
+   "paperNumber": 325,
+   "questionId": "226895784903",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Organising",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Span of management = number of subordinates a superior can effectively manage; it determines the levels of management"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.def-span-of-management",
+     "teaches": "same definition word for word"
+    }
+   ],
+   "best": "kc.business_studies.organising.def-span-of-management",
+   "reason": "Card states the definition exactly.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 36,
+   "paperNumber": 326,
+   "questionId": "226895784904",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Financial Markets",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Before the reforms, trades were settled on a weekly/fortnightly settlement cycle; T+2 rolling settlement since 2003 (or later)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served material covers trading and settlement on stock exchanges.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 37,
+   "paperNumber": 327,
+   "questionId": "226895784905",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Organising",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Responsibility = obligation to perform the assigned duty (A-III)",
+    "Accountability = answerability for the final outcome (B-II)",
+    "Delegation = granting authority to subordinates within limits (C-I)",
+    "Centralisation = decision-making authority retained at higher levels (D-IV)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.def-responsibility",
+     "teaches": "(A)-(III) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.def-accountability",
+     "teaches": "(B)-(II) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.def-delegation-theo-haimman",
+     "teaches": "(C)-(I) word for word"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.organising.fact-centralised-organisations",
+     "teaches": "authority with top management = centralised"
+    }
+   ],
+   "best": "kc.business_studies.organising.def-responsibility",
+   "reason": "All four pairs are card definitions.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 38,
+   "paperNumber": 328,
+   "questionId": "226895784906",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Controlling",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Marketing standards: sales volume, sales expense, advertising expenditure (A-IV)",
+    "HRM standards: labour turnover, labour relations, absenteeism (B-III)",
+    "Production standards: quantity, quality, cost, job performance (C-I)",
+    "Finance and accounting standards: capital flow, capital expenditure, inventories, liquidity (D-II)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served bank row or card sets performance standards by functional area.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 39,
+   "paperNumber": 329,
+   "questionId": "226895784907",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Consumer Protection",
+   "offSyllabus": false,
+   "type": "theory",
+   "facts": [
+    "Right to be informed: information about quality, ingredients, contents, etc. (oil/fat used)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.consumer-protection.def-right-informed",
+     "teaches": "information including ingredients"
+    },
+    {
+     "kind": "bank",
+     "id": "1595dce7-a7e3-4082-9ae2-3cf8efb05a90",
+     "teaches": "right to be informed about product quality"
+    }
+   ],
+   "best": "kc.business_studies.consumer-protection.def-right-informed",
+   "reason": "Card names ingredients under the right to be informed; declaring the cooking oil is that information.",
+   "agreesWithA": true,
+   "note": "Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 40,
+   "paperNumber": 330,
+   "questionId": "226895784908",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Marketing Management",
+   "offSyllabus": false,
+   "type": "theory, match",
+   "facts": [
+    "Events = fashion show (A-III); Services = online trading (B-IV); Ideas = family planning (C-I); Places = Udaipur (D-II)"
+   ],
+   "verdict": "not_covered",
+   "matches": [],
+   "best": null,
+   "reason": "No served material teaches what can be marketed beyond goods and services.",
+   "agreesWithA": true,
+   "note": "B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 41,
+   "paperNumber": 331,
+   "questionId": "226895784910",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Financial planning = estimating the quantum of funds required (and their timing)"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-fp-objective",
+     "teaches": "ensure enough funds are available at the right time"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.diff-fm-vs-fp",
+     "teaches": "financial planning focuses on fund requirements"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.list-fp-twin-objectives",
+     "teaches": "availability of funds, no unnecessary raising"
+    }
+   ],
+   "best": "kc.business_studies.financial-management.diff-fm-vs-fp",
+   "reason": "Cards tie fund requirements to financial planning; the passage gives the Rs 50 lakh, the concept is stored.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 42,
+   "paperNumber": 332,
+   "questionId": "226895784911",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Capital structure = mix of debt and equity"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "bank",
+     "id": "a6a8ecdb-6da5-4a05-8b2b-a4777e716ae5",
+     "teaches": "capital structure = mix of long-term debt and equity"
+    }
+   ],
+   "best": "a6a8ecdb-6da5-4a05-8b2b-a4777e716ae5",
+   "reason": "Served bank question asks the definition directly.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 43,
+   "paperNumber": 333,
+   "questionId": "226895784912",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Capital structure factor, cash flow position: weak cash flow means the firm may not meet fixed cash payment obligations, so less debt",
+    "(distractors) dividend is not tax deductible; high fixed operating cost means less debt"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-cs-cash-flow",
+     "teaches": "cash flows must cover fixed cash payment obligations with a buffer"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-fin-cash-flow",
+     "teaches": "strong cash flow makes debt more viable than equity"
+    }
+   ],
+   "best": "kc.business_studies.financial-management.kl-cs-cash-flow",
+   "reason": "Cards teach the cash-flow factor and its direction.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 44,
+   "paperNumber": 334,
+   "questionId": "226895784913",
+   "ntaKey": "1",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Floatation cost = cost of raising funds; a factor of capital structure"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.term-floatation-cost",
+     "teaches": "cost of the fund-raising exercise = floatation cost"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-fin-floatation",
+     "teaches": "higher floatation cost, less attractive source"
+    }
+   ],
+   "best": "kc.business_studies.financial-management.term-floatation-cost",
+   "reason": "Card defines floatation cost as the cost of raising funds.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 45,
+   "paperNumber": 335,
+   "questionId": "226895784914",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Financial Management",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "(if judged) Tax rate: interest is deductible so debt is cheaper"
+   ],
+   "verdict": "skill",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-debt-cheapest",
+     "teaches": "debt the cheapest source, tax deductibility makes it cheaper"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.financial-management.kl-cs-higher-tax",
+     "teaches": "higher tax rate makes debt cheaper"
+    }
+   ],
+   "best": "kc.business_studies.financial-management.kl-cs-higher-tax",
+   "reason": "Skill: the key \"Tax Rate\" is read off the printed case line on tax-deductible interest. Material does teach it (two cards), but the item is not counted.",
+   "agreesWithA": false,
+   "whyDiffers": "A called it covered. The printed case (331 to 335) says \"the interest on loan is a tax deductible expense\" and the key is \"Tax Rate\"; none of the other three options is supported by the case, so the key is read off the passage by the word \"tax\" (the same rule as 2024 Q43). Skill, shown and not counted.",
+   "note": ""
+  },
+  {
+   "n": 46,
+   "paperNumber": 336,
+   "questionId": "226895784916",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Needs and incentives belong to motivation, an element of directing"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.list-elements-of-direction",
+     "teaches": "supervision, motivation, leadership, communication"
+    },
+    {
+     "kind": "bank",
+     "id": "a5ed637f-209e-4a06-aa1c-f081ec422384",
+     "teaches": "incentives to encourage performance = motivation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.list-non-financial-incentives-list",
+     "teaches": "incentives taught under motivation"
+    }
+   ],
+   "best": "a5ed637f-209e-4a06-aa1c-f081ec422384",
+   "reason": "Bank teaches incentives as motivation; card lists it as an element of directing.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  },
+  {
+   "n": 47,
+   "paperNumber": 337,
+   "questionId": "226895784917",
+   "ntaKey": "4",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Career advancement opportunity (non-financial incentive): skill development and promotion to higher levels"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.list-non-financial-incentives-list",
+     "teaches": "names career advancement opportunity only"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.key-perquisites",
+     "teaches": "housing and medical aid are perquisites"
+    }
+   ],
+   "best": null,
+   "reason": "Career advancement appears only as a name in a list; its meaning is taught nowhere.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 48,
+   "paperNumber": 338,
+   "questionId": "226895784918",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Job security (Rajat) is discussed; organisational climate (Ansh: individual autonomy) is discussed; status is a non-financial incentive (rank/position); employee recognition programmes are not in the case",
+    "Non-financial incentives: status, organisational climate, career advancement, job enrichment, employee recognition, job security, employee participation, employee empowerment"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.term-recognition",
+     "teaches": "recognition = acknowledgment with appreciation"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.term-status",
+     "teaches": "status = ranking of positions"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.ex-maslow-safety-example",
+     "teaches": "job security, stability of income"
+    },
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.term-organisational-climate",
+     "teaches": "climate = characteristics describing an organisation (no autonomy)"
+    }
+   ],
+   "best": "kc.business_studies.directing.term-recognition",
+   "reason": "Partial: recognition, status and job security are taught, but no served material says individual autonomy is part of organisational climate.",
+   "agreesWithA": true,
+   "note": "Partial, agree with A: job security, status and recognition are taught; organisational climate is defined without individual autonomy, so the case link for Ansh is not taught. Skill rule checked: the key is not printed in the case; the item needs a stored concept. B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 49,
+   "paperNumber": 339,
+   "questionId": "226895784919",
+   "ntaKey": "2",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Job enrichment = designing jobs with greater variety, autonomy, opportunity for personal growth and meaningful work experience"
+   ],
+   "verdict": "not_covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.term-job-enrichment",
+     "teaches": "first half only: variety of work content, higher knowledge and skill"
+    }
+   ],
+   "best": null,
+   "reason": "The card stops before autonomy, personal growth and meaningful work experience, the exact words the item tests.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. B searched served rows and published cards with its own keywords and found nothing that teaches the missing fact."
+  },
+  {
+   "n": 50,
+   "paperNumber": 340,
+   "questionId": "226895784920",
+   "ntaKey": "3",
+   "keyStatus": "single",
+   "chapter": "Directing",
+   "offSyllabus": false,
+   "type": "theory, case",
+   "facts": [
+    "Job security / stability of income = safety (security) needs in Maslow's hierarchy"
+   ],
+   "verdict": "covered",
+   "matches": [
+    {
+     "kind": "card",
+     "id": "kc.business_studies.directing.ex-maslow-safety-example",
+     "teaches": "job security, stability of income, pension = safety needs"
+    }
+   ],
+   "best": "kc.business_studies.directing.ex-maslow-safety-example",
+   "reason": "Card states the example word for word.",
+   "agreesWithA": true,
+   "note": "Skill rule checked: the key is not printed in the case; the item needs a stored concept. Every id A cited checked: served or published, not suspended, and it states the fact."
+  }
+ ]
+}

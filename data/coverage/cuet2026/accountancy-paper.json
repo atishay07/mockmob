@@ -1,0 +1,1393 @@
+{
+ "paper": "cuet2026-accountancy",
+ "subject": "accountancy",
+ "subjectCode": "301",
+ "examDate": "2026-05-20",
+ "shift": "First",
+ "source": "AglaSem Docs copy of the NTA master question paper (CUET UG 2026 Question Paper Accountancy, 54 numbered pages plus a cover), downloaded 21 Nov 2026 with the owner's approval. English text transcribed from the page images (OCR used only as a draft). Answers from NTA's CUET (UG) 2026 final answer key (option ids).",
+ "structure": "Section 1 Accountancy Core: 45 questions, all to be attempted (225 marks). Then a choice of ONE optional Part: Section 2 Analysis of Financial Statements (5 questions) or Section 3 Computerized Accounting Systems (5 questions), 25 marks each. A candidate answers 50 of the 55.",
+ "authentication": "A question is authenticated when its printed NTA question id is in the 20-05-2026 (First) final key and the key option id is one of its four printed option ids. Printed option ids are consecutive per question.",
+ "counts": {
+  "transcribed": 55,
+  "authenticated": 55,
+  "keyRows": 55
+ },
+ "problems": [],
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 236,
+   "questionId": "226895784814",
+   "page": 3,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "In case there is no partnership deed between the partners, then at what rate interest on capital will be provided?",
+   "options": [
+    "8% p.a",
+    "6% p.a",
+    "12% p.a",
+    "No interest on capital will be provided."
+   ],
+   "optionIds": [
+    "2268953043349",
+    "2268953043350",
+    "2268953043351",
+    "2268953043352"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043352",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 2,
+   "paperNumber": 237,
+   "questionId": "226895784815",
+   "page": 3,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "If the capital of partners is fixed, then the salary provided to the partner is posted in which of the following account?",
+   "options": [
+    "Capital Account",
+    "Current Account",
+    "Profit and Loss Account",
+    "Executor's Account"
+   ],
+   "optionIds": [
+    "2268953043353",
+    "2268953043354",
+    "2268953043355",
+    "2268953043356"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043354",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 3,
+   "paperNumber": 238,
+   "questionId": "226895784816",
+   "page": 4,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Radha and Rani are partners in a firm. Their capital accounts as on April 01, 2024 showed a balance of Rs. 2,00,000 and Rs. 3,00,000 respectively. On July 01, 2024, Radha introduced additional capital of Rs. 50,000. On October 01, Radha withdrew Rs. 30,000, from her capital. Interest is allowed @ 8% p.a. Calculate the interest payable to Radha on her capital during the financial year 2024-2025.",
+   "options": [
+    "Rs 16,000",
+    "Rs 24,000",
+    "Rs 17,800",
+    "Rs 25,800"
+   ],
+   "optionIds": [
+    "2268953043357",
+    "2268953043358",
+    "2268953043359",
+    "2268953043360"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043359",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 4,
+   "paperNumber": 239,
+   "questionId": "226895784817",
+   "page": 5,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Ansh and Abhi are partners sharing profits and losses in the ratio of 3:2. Their capital accounts showed balances of Rs. 3,00,000 and Rs. 4,00,000 respectively on April 01, 2024. Calculate interest on Ansh's Capital for the year ending March 31, 2025, if the partnership deed provides for interest on capital @ 8% p.a. and the firm earned a profit of Rs. 14000 during the year.",
+   "options": [
+    "Rs. 24,000",
+    "Rs. 16,000",
+    "Rs. 6,000",
+    "Rs. 3,000"
+   ],
+   "optionIds": [
+    "2268953043361",
+    "2268953043362",
+    "2268953043363",
+    "2268953043364"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043363",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 5,
+   "paperNumber": 240,
+   "questionId": "226895784818",
+   "page": 6,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Select the essential features of partnership from the following:\n(A) Partnership is the result of an agreement between partners.\n(B) Co-ownership of a property between people amounts to partnership.\n(C) Sharing of profits and losses of a business.\n(D) Each partner carrying on the business is the principal as well as the agent for all the other partners.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043365",
+    "2268953043366",
+    "2268953043367",
+    "2268953043368"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043368",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 6,
+   "paperNumber": 241,
+   "questionId": "226895784819",
+   "page": 7,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "If nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them:",
+   "options": [
+    "In their profit sharing ratio",
+    "In their gaining ratio",
+    "In their capital contribution ratio",
+    "In equal ratio"
+   ],
+   "optionIds": [
+    "2268953043369",
+    "2268953043370",
+    "2268953043371",
+    "2268953043372"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043369",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 7,
+   "paperNumber": 242,
+   "questionId": "226895784820",
+   "page": 7,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "According to the Partnership Act 1932, a new partner can be admitted into the firm only with the consent of ................, unless otherwise agreed upon.",
+   "options": [
+    "Majority of the existing partners",
+    "All existing partners",
+    "The existing partner contributed maximum capital",
+    "The existing partner with the largest share"
+   ],
+   "optionIds": [
+    "2268953043373",
+    "2268953043374",
+    "2268953043375",
+    "2268953043376"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043374",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 8,
+   "paperNumber": 243,
+   "questionId": "226895784821",
+   "page": 8,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "In the absence of any information regarding the acquisition of share in profit of the retiring partner by the remaining partners, it is assumed that they will acquire his/her share in ....................",
+   "options": [
+    "Old Profit Sharing Ratio",
+    "New Profit Sharing Ratio",
+    "Equal Ratio",
+    "Any Ratio which is profitable to them"
+   ],
+   "optionIds": [
+    "2268953043377",
+    "2268953043378",
+    "2268953043379",
+    "2268953043380"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043377",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 9,
+   "paperNumber": 244,
+   "questionId": "226895784822",
+   "page": 9,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "The ratio in which the continuing partners have acquired the share from the deceased partner is known as .......",
+   "options": [
+    "New Ratio",
+    "Old Ratio",
+    "Sacrificing Ratio",
+    "Gaining Ratio"
+   ],
+   "optionIds": [
+    "2268953043381",
+    "2268953043382",
+    "2268953043383",
+    "2268953043384"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043384",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 10,
+   "paperNumber": 245,
+   "questionId": "226895784823",
+   "page": 9,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "At the time of retirement of a partner, accumulated Profits or Losses are available. To whom these accumulated profits or losses belong to ?",
+   "options": [
+    "The retiring partner",
+    "The remaining partners",
+    "All the partners",
+    "The partner who may be admitted in future"
+   ],
+   "optionIds": [
+    "2268953043385",
+    "2268953043386",
+    "2268953043387",
+    "2268953043388"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043387",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 11,
+   "paperNumber": 246,
+   "questionId": "226895784824",
+   "page": 10,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Select the correct sequence of accounts prepared in case of death of a partner.\n(A) Prepare the deceased partner's executor's account.\n(B) Determine the gaining ratio and new profit sharing ratio among the remaining partners.\n(C) Prepare the deceased partner's capital account.\n(D) Prepare the Revaluation account, if required.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (C), (D), (A)",
+    "(B), (D), (C), (A)"
+   ],
+   "optionIds": [
+    "2268953043389",
+    "2268953043390",
+    "2268953043391",
+    "2268953043392"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043392",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 12,
+   "paperNumber": 247,
+   "questionId": "226895784825",
+   "page": 11,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "From the following options, select the deductions to be made from the share of a partner at the time of his/her retirement.\n(A) Debit balance of his current account\n(B) Share of goodwill to be written off\n(C) Share of accumulated losses\n(D) Share of loss on revaluation of assets and liabilities\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043393",
+    "2268953043394",
+    "2268953043395",
+    "2268953043396"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043395",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 13,
+   "paperNumber": 248,
+   "questionId": "226895784826",
+   "page": 12,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "At the time of retirement of a partner, arrange the following accounts in the correct sequence.\n(A) Partners' Current A/c\n(B) Revaluation A/c\n(C) Balance Sheet\n(D) Partners' Capital A/c\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (A), (D)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953043397",
+    "2268953043398",
+    "2268953043399",
+    "2268953043400"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043398",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 14,
+   "paperNumber": 249,
+   "questionId": "226895784827",
+   "page": 13,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Gaining Ratio | (I) Average Profit X 100/Normal rate of return\n(B) Value of Goodwill | (II) Old Ratio - New Ratio\n(C) Sacrificing Ratio | (III) Super Profit X 100/Normal rate of return\n(D) Capitalised Value of average profit | (IV) New Ratio - Old Ratio\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (IV), (B) - (III), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043401",
+    "2268953043402",
+    "2268953043403",
+    "2268953043404"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043402",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 15,
+   "paperNumber": 250,
+   "questionId": "226895784828",
+   "page": 14,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Which Accounting Standard (AS) defines an intangible asset, as an identifiable, non-monetary, without physical existence and held for use in the production or supply of goods or services for rental to others or for administrative purposes?",
+   "options": [
+    "AS 26",
+    "AS 27",
+    "AS 28",
+    "AS 29"
+   ],
+   "optionIds": [
+    "2268953043405",
+    "2268953043406",
+    "2268953043407",
+    "2268953043408"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043405",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 16,
+   "paperNumber": 251,
+   "questionId": "226895784829",
+   "page": 15,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "The Goodwill of a firm is Rs 30,000, when it is valued at three years purchase of the super profits of the business. Find the normal rate of return, if the firm's capital employed is Rs 5,00,000 and average profits of last five years were Rs 60,000.",
+   "options": [
+    "5%",
+    "10%",
+    "15%",
+    "20%"
+   ],
+   "optionIds": [
+    "2268953043409",
+    "2268953043410",
+    "2268953043411",
+    "2268953043412"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043410",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 17,
+   "paperNumber": 252,
+   "questionId": "226895784830",
+   "page": 16,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "A, B and C were partners in a firm sharing profits and losses in the ratio of 5:4:1. B died on June 30, 2025. The profit for the previous three years were Rs 68,000 (For 2022-23), Rs 77,000 (For 2023-24), Rs 50,000 (2024-25) while the sales during the year 2024-25 were Rs. 4,00,000 and the sales from April 1, 2025 to June 30, 2025 were Rs. 75,000. Find the profits that the firm must have earned from the date of closing of last year's balance sheet till the date of death of B.",
+   "options": [
+    "Rs 65,000",
+    "Rs 18,750",
+    "Rs 9,375",
+    "Rs 3,750"
+   ],
+   "optionIds": [
+    "2268953043413",
+    "2268953043414",
+    "2268953043415",
+    "2268953043416"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043415",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 18,
+   "paperNumber": 253,
+   "questionId": "226895784831",
+   "page": 17,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Balance Sheet of A, B & C as on 31st March, 2025\nLiabilities | Amount | Assets | Amount\nCreditors | 11,000 | Buildings | 20,000\nReserve Fund | 6,000 | Machinery | 30,000\nA Capital 30,000; B Capital 25,000; C Capital 15,000 | 70,000 | Stock | 10,000\n | | Patents | 11,000\n | | Debtors | 8,000\n | | Cash | 8,000\nTotal | 87,000 | Total | 87,000\nC retires and following revaluations took place.\nPatents be valued at Rs.8,000; Machinery at Rs.28,000; and Buildings at Rs.25,000.\nFind Revaluation Profit/Loss",
+   "options": [
+    "Revaluation profit Rs 10,000",
+    "Revaluation Loss Rs 10,000",
+    "Revaluation profit Rs 4,000",
+    "No Profit, No Loss on Revaluation"
+   ],
+   "optionIds": [
+    "2268953043417",
+    "2268953043418",
+    "2268953043419",
+    "2268953043420"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043420",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 19,
+   "paperNumber": 254,
+   "questionId": "226895784832",
+   "page": 19,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Harish and Munish are partners in a firm sharing profits and losses in the ratio of 3:2. Rakesh is admitted into partnership for 1/3 share in profits. He brings in Rs. 50,000 as capital, but not in a position to bring any amount for his share of goodwill which has been valued at Rs. 15,000. Give necessary journal entry for recording goodwill, when there is no goodwill appearing in the books of the firm.",
+   "options": [
+    "Rakesh's Capital A/c Dr. 15,000 / To Harish's Capital A/c 9,000 / To Munish's Capital A/c 6,000",
+    "Rakesh's Current A/c Dr. 15,000 / To Harish's Capital A/c 9,000 / To Munish's Capital A/c 6,000",
+    "Bank A/c Dr. 65,000 / To Rakesh's Capital A/c 50,000 / To Premium for Goodwill A/c 15,000",
+    "Bank A/c Dr. 50,000 / Rakesh's Current A/c Dr. 15,000 / To Rakesh's Capital A/c 65,000"
+   ],
+   "optionIds": [
+    "2268953043421",
+    "2268953043422",
+    "2268953043423",
+    "2268953043424"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043422",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 20,
+   "paperNumber": 255,
+   "questionId": "226895784833",
+   "page": 21,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Which of the following is not accounted for in the books and shown as an asset?",
+   "options": [
+    "Purchased Goodwill",
+    "Self generated Goodwill",
+    "Purchased Assets",
+    "Borrowed Assets"
+   ],
+   "optionIds": [
+    "2268953043425",
+    "2268953043426",
+    "2268953043427",
+    "2268953043428"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043426",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 21,
+   "paperNumber": 256,
+   "questionId": "226895784834",
+   "page": 22,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Intangible assets should be written off as early as possible but not exceeding its estimated life in ......... years | (I) 4\n(B) AS .....deals with intangible assets | (II) 10\n(C) In the absence of any agreement, Section ...... of the Indian Partnership Act, 1932 is applicable, which states that the retiring partner has an option to receive either interest @ 6% p.a. till the date of payment or such share of profits which has been earned with his/her money (i.e., based on capital ratio). | (III) 26\n(D) Section ...... of the Indian Partnership Act 1932 defines partnership. | (IV) 37\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)"
+   ],
+   "optionIds": [
+    "2268953043429",
+    "2268953043430",
+    "2268953043431",
+    "2268953043432"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043430",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 22,
+   "paperNumber": 257,
+   "questionId": "226895784835",
+   "page": 23,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "X and Y are partners in a firm sharing profits in the ratio of 3:2. They admitted Z as a new partner for 1/4 share. The new profit sharing ratio between X and Y will be 2:1. Calculate their sacrificing ratio.",
+   "options": [
+    "2: 3",
+    "3: 2",
+    "1: 2",
+    "2: 1"
+   ],
+   "optionIds": [
+    "2268953043433",
+    "2268953043434",
+    "2268953043435",
+    "2268953043436"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043433",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 23,
+   "paperNumber": 258,
+   "questionId": "226895784836",
+   "page": 24,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "The capital of the firm of M and N is Rs. 1,00,000 and the market rate of interest is 15%. The annual salary to partners is Rs. 6,000 each. The profits for the last 3 years were Rs. 30,000 (for 2022); Rs. 36,000 (for 2023) and Rs. 42,000 (for 2024). Goodwill is to be valued at 2 years' purchase of the last 3 years' average super profits or 3 years' purchase of the last 2 years' average super profits, whichever is less. Calculate the goodwill of the firm.",
+   "options": [
+    "Rs. 36,000",
+    "Rs. 30,000",
+    "Rs. 24,000",
+    "Rs. 18,000"
+   ],
+   "optionIds": [
+    "2268953043437",
+    "2268953043438",
+    "2268953043439",
+    "2268953043440"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043440",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 24,
+   "paperNumber": 259,
+   "questionId": "226895784837",
+   "page": 25,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "In case of death of a partner, for deceased partner's share of profits for the intervening period (from the closing of last year account till the date of death) in the books of accounts, the following journal entry is recorded:\nProfit and Loss Supense A/c Dr.\n    To Deceased Partner's Capital A/c\nWhich of the following entry is to be made later to close the Profit and Loss Suspense Account?",
+   "options": [
+    "Profit and Loss Suspense A/c Dr. / To Gaining Partners Capital A/c",
+    "Gaining Partners Capital A/c Dr. / To Profit and Loss Suspense A/c",
+    "Deceased Partner's Capital A/c Dr. / To Profit and Loss Supense A/c",
+    "Profit and Loss Supense A/c Dr. / To Deceased Partner's Capital A/c"
+   ],
+   "optionIds": [
+    "2268953043441",
+    "2268953043442",
+    "2268953043443",
+    "2268953043444"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043442",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 25,
+   "paperNumber": 260,
+   "questionId": "226895784838",
+   "page": 26,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "At the time of admission of a new partner, if Profit and Loss Account debit balance exist in the books, then which of the following entry will be done in order to distribute it?",
+   "options": [
+    "Profits and Loss A/c Dr. / To Old Partners' Capital A/c",
+    "Profit and Loss A/c Dr. / To All Partners' Capital A/c (including new)",
+    "Old Partners' Capital A/c Dr. / To Profit and Loss A/c",
+    "All Partners' Capital A/c (including new) Dr. / To Profit and Loss A/c"
+   ],
+   "optionIds": [
+    "2268953043445",
+    "2268953043446",
+    "2268953043447",
+    "2268953043448"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043447",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 26,
+   "paperNumber": 261,
+   "questionId": "226895784839",
+   "page": 27,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "\"Members may come and go, but the company continues. Even an atom bomb can't end a company\".\nWhich feature of a company is highlighted in the above statement?",
+   "options": [
+    "Body Corporate",
+    "Separate Legal Entity",
+    "Transferability of Shares",
+    "Perpetual Succession"
+   ],
+   "optionIds": [
+    "2268953043449",
+    "2268953043450",
+    "2268953043451",
+    "2268953043452"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043452",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 27,
+   "paperNumber": 262,
+   "questionId": "226895784840",
+   "page": 28,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "For one person company, Rule 3 of the Companies (Incorporation) Rules, 2014 provides that its average annual turnover of three years does not exceed ...........",
+   "options": [
+    "Rs. 2 Crores",
+    "Rs. 3 Crores",
+    "Rs. 4 Crores",
+    "Rs. 5 Crores"
+   ],
+   "optionIds": [
+    "2268953043453",
+    "2268953043454",
+    "2268953043455",
+    "2268953043456"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043453",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 28,
+   "paperNumber": 263,
+   "questionId": "226895784841",
+   "page": 29,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Who are entitled to share the distributable profits of the company after satisfying the dividend rights of the preference shareholders?",
+   "options": [
+    "Debenture holders",
+    "Bond holders",
+    "Equity shareholders",
+    "Any policy holders"
+   ],
+   "optionIds": [
+    "2268953043457",
+    "2268953043458",
+    "2268953043459",
+    "2268953043460"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043459",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 29,
+   "paperNumber": 264,
+   "questionId": "226895784842",
+   "page": 29,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Minimum subscription of capital cannot be less than ........ amount according to SEBI (Disclosure and Investor Protection) Guidelines, 2000.",
+   "options": [
+    "60% of the issued",
+    "70% of the issued",
+    "80% of the issued",
+    "90% of the issued"
+   ],
+   "optionIds": [
+    "2268953043461",
+    "2268953043462",
+    "2268953043463",
+    "2268953043464"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043464",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 30,
+   "paperNumber": 265,
+   "questionId": "226895784843",
+   "page": 30,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Which of the following is a written instrument acknowledging a debt under the common seal of the company?",
+   "options": [
+    "Debenture",
+    "Equity Share",
+    "Preference share",
+    "Bank Draft"
+   ],
+   "optionIds": [
+    "2268953043465",
+    "2268953043466",
+    "2268953043467",
+    "2268953043468"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043465",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 31,
+   "paperNumber": 266,
+   "questionId": "226895784844",
+   "page": 31,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "On Bearer debentures, Interest is paid to a person who produces the ........ attached to such debentures?",
+   "options": [
+    "Registered Deed",
+    "Ownership Papers",
+    "Interest Coupon",
+    "Interest Certificate"
+   ],
+   "optionIds": [
+    "2268953043469",
+    "2268953043470",
+    "2268953043471",
+    "2268953043472"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043471",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 32,
+   "paperNumber": 267,
+   "questionId": "226895784845",
+   "page": 32,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Debentures issued for consideration other than cash | (I) A company issues debentures at a price lower than their face value.\n(B) Debentures issued as Collateral Security | (II) A company purchases assets from vendors and make payment by debentures\n(C) Debentures issued for cash | (III) The company may issue its own debentures to the lenders in addition to some other assets already pledged\n(D) Debentures issued at discount | (IV) A company invite the public to apply for debentures by issue of prospectus\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (II), (C) - (III), (D) - (I)",
+    "(A) - (II), (B) - (III), (C) - (IV), (D) - (I)",
+    "(A) - (III), (B) - (IV), (C) - (II), (D) - (I)"
+   ],
+   "optionIds": [
+    "2268953043473",
+    "2268953043474",
+    "2268953043475",
+    "2268953043476"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043475",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 33,
+   "paperNumber": 268,
+   "questionId": "226895784846",
+   "page": 33,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "In addition to the purchase of own shares by a company and to issue fully paid bonus shares, for which of the following purposes security premium account balance could be used?\n(A) To write-off preliminary expenses of the company.\n(B) To pay premium on the redemption of preference shares or debentures of the company.\n(C) To write-off the expenses of, or commission paid, or discount allowed on any securities of the company\n(D) To pay the issue price of debentures.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043477",
+    "2268953043478",
+    "2268953043479",
+    "2268953043480"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043477",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 34,
+   "paperNumber": 269,
+   "questionId": "226895784847",
+   "page": 34,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Arrange the following in a sequence related to the issue and redemption of shares\n(A) Forfeiture of shares\n(B) Reissue of shares\n(C) Calls in arrears\n(D) Transfer of share forfeited account balance to capital reserve A/c\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(C), (A), (B), (D)",
+    "(D), (B), (C), (A)"
+   ],
+   "optionIds": [
+    "2268953043481",
+    "2268953043482",
+    "2268953043483",
+    "2268953043484"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043483",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 35,
+   "paperNumber": 270,
+   "questionId": "226895784848",
+   "page": 35,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Raj Ltd. purchased a machine from Anuj Tech Ltd. for Rs.1,90,000. As per purchase agreement, Rs. 10,000 were paid in cash and balance by issue of shares of Rs.100 each. Find the number of shares issued to Anuj Tech Ltd., if the shares issued at 20% premium.",
+   "options": [
+    "3,000",
+    "2,000",
+    "1,500",
+    "1,000"
+   ],
+   "optionIds": [
+    "2268953043485",
+    "2268953043486",
+    "2268953043487",
+    "2268953043488"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043487",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 36,
+   "paperNumber": 271,
+   "questionId": "226895784849",
+   "page": 36,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "H Ltd. purchased machinery worth Rs. 99,000 from P Ltd. The payment was made by issue of 12% debentures of Rs. 100 each. Pass the necessary journal entries for the issue of debentures when debentures are issued at 10% discount in the books of H Ltd.",
+   "options": [
+    "P Ltd. Dr. 1,10,000 / To 12% Debentures A/c 1,10,000",
+    "P Ltd. Dr. 99,000 / Discount on Issue of Debentures A/c Dr. 11,000 / To 12% Debentures A/c 1,10,000",
+    "12% Debentures A/c Dr. 1,10,000 / To P Ltd. 99,000 / To Discount on Issue of Debentures A/c 11,000",
+    "12% Debentures A/c Dr. 1,10,000 / To P Ltd. 1,10,000"
+   ],
+   "optionIds": [
+    "2268953043489",
+    "2268953043490",
+    "2268953043491",
+    "2268953043492"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043490",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 37,
+   "paperNumber": 272,
+   "questionId": "226895784850",
+   "page": 38,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "A Limited issued 5000, 10% debentures of Rs. 100 each, at a premium of Rs. 10 per debenture payable as follows:\nOn application Rs. 25, On allotment Rs. 45 (including premium), On first and final call Rs. 40.\nThe debentures were fully subscribed and all money was duly received.\nSelect the correct journal entries related to the above case from the following.\n(A) 10% Debenture Allotment A/c Dr. 2,25,000 / To 10% Debentures A/c 1,75,000 / To Securities Premium Reserve A/c 50,000\n(B) Bank A/c Dr. 1,25,000 / To 10% Debenture Application A/c 1,25,000\n(C) Bank A/c Dr. 2,00,000 / To 10% Debenture First & Final Call A/c 2,00,000\n(D) Bank A/c Dr. 2,20,000 / To 10% Debenture Allotment A/c 2,20,000\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043493",
+    "2268953043494",
+    "2268953043495",
+    "2268953043496"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043493",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 38,
+   "paperNumber": 273,
+   "questionId": "226895784851",
+   "page": 40,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "In case debentures were issued as collateral security for taking loan from ABC Bank. Choose the correct journal entry for cancellation of debentures as collateral security on repayment of bank loan.",
+   "options": [
+    "% Debentures A/c Dr. / To Bank A/c",
+    "Debenture Suspense A/c Dr. / To % Debentures A/c",
+    "% Debentures A/c Dr. / To Debenture Suspense A/c",
+    "Bank A/c Dr. / To % Debentures A/c"
+   ],
+   "optionIds": [
+    "2268953043497",
+    "2268953043498",
+    "2268953043499",
+    "2268953043500"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043499",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 39,
+   "paperNumber": 274,
+   "questionId": "226895784852",
+   "page": 41,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Nominal share capital is ?",
+   "options": [
+    "That part of the authorised capital which is actually issued to the public by the company.",
+    "The amount of capital which is actually applied for by the prospective shareholders.",
+    "The maximum amount of share capital which a company is authorised to issue.",
+    "The amount actually paid by the shareholders."
+   ],
+   "optionIds": [
+    "2268953043501",
+    "2268953043502",
+    "2268953043503",
+    "2268953043504"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043503",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 40,
+   "paperNumber": 275,
+   "questionId": "226895784853",
+   "page": 41,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "200 shares of Rs.100 each issued at a premium of Rs.10 were forfeited for the non-payment of allotment money of Rs.60 per share including premium. The first and final call of Rs.20 per share on these shares were not made. The forfeited shares were reissued at Rs.70 per share as fully paid-up. Find the amount of capital reserve.",
+   "options": [
+    "Rs 4000",
+    "Rs 6000",
+    "Rs 14000",
+    "Nil"
+   ],
+   "optionIds": [
+    "2268953043505",
+    "2268953043506",
+    "2268953043507",
+    "2268953043508"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043508",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 41,
+   "paperNumber": 276,
+   "questionId": "226895784854",
+   "page": 42,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "A, B and C constituted a partnership to carry out a venture to build offices for Zakash Office Sites Ltd. On the completion of venture under which way the dissolution of a firm will takes place?",
+   "options": [
+    "On the happening of certain contingencies",
+    "Dissolution by Court",
+    "Dissolution by Notice",
+    "Compulsory Dissolution"
+   ],
+   "optionIds": [
+    "2268953043509",
+    "2268953043510",
+    "2268953043511",
+    "2268953043512"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043509",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 42,
+   "paperNumber": 277,
+   "questionId": "226895784855",
+   "page": 43,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Under which of the following cases, the Court can order the dissolution of a partnership firm?\n(A) When a partner persistently commits breach of partnership agreement.\n(B) When a partner has transferred the whole of his interest in the firm to a third party.\n(C) By the death of a partner.\n(D) When the business of the firm cannot be carried on except at a loss.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(A), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953043513",
+    "2268953043514",
+    "2268953043515",
+    "2268953043516"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043514",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 43,
+   "paperNumber": 278,
+   "questionId": "226895784856",
+   "page": 44,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "At the time of the dissolution of a partnership firm in which X, Y and Z were partners sharing profit in 2:2:1 ratio, the following information was made available. Arrange them in the sequence in which they will be paid.\n(A) A's Loan to the firm Rs 50,000\n(B) Creditors Rs 2,00,000\n(C) A's Capital Rs 2,50,000, B's Capital Rs 2,00,000 and C's Capital Rs 1,00,000\n(D) Balance available after settlement of all the stakeholders\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (C), (D)",
+    "(B), (C), (A), (D)"
+   ],
+   "optionIds": [
+    "2268953043517",
+    "2268953043518",
+    "2268953043519",
+    "2268953043520"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043519",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 44,
+   "paperNumber": 279,
+   "questionId": "226895784857",
+   "page": 45,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "Match List-I with List-II\nList-I (Cases for payment of realization expenses) | List-II (Journal entry)\n(A) When realisation expenses are incurred and paid by the firm | (I) Realisation A/c Dr. To Partner's Capital A/c\n(B) When realisation expenses are paid by a partner on behalf of the firm: | (II) No entry is required\n(C) When a partner has agreed to bear the realisation expenses and the realisation expenses are paid by the firm | (III) Realisation A/c Dr. To Bank A/c\n(D) When a partner has agreed to bear the realisation expenses and the partner himself pays the realisation expenses. | (IV) Partner's Capital A/C Dr. To Bank A/c\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (I), (C) - (IV), (D) - (II)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043521",
+    "2268953043522",
+    "2268953043523",
+    "2268953043524"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043522",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 45,
+   "paperNumber": 280,
+   "questionId": "226895784858",
+   "page": 46,
+   "section": "Accountancy Core (Section 1, mandatory, 45 of 45)",
+   "stem": "At the time of dissolution of a partnership firm, the stock appeared in the books was Rs 35,000. One of the partner took over 50% of the stock at 10% less than its book value, and the remaining stock was sold at a gain of 15%. Find the total amount realized from the stock in cash.",
+   "options": [
+    "Rs 15,750",
+    "Rs 17,500",
+    "Rs 20,125",
+    "Rs 35,875"
+   ],
+   "optionIds": [
+    "2268953043525",
+    "2268953043526",
+    "2268953043527",
+    "2268953043528"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043527",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 46,
+   "paperNumber": 281,
+   "questionId": "226895784859",
+   "page": 47,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Receipt from royalties, fees, commission and other revenue | (I) Investing Activity\n(B) Receipt from Interest and dividends | (II) Operating Activity\n(C) Proceeds from issue of preference or equity shares | (III) Cash and Cash equivalent\n(D) Current Investment | (IV) Financing Activity\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043529",
+    "2268953043530",
+    "2268953043531",
+    "2268953043532"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043531",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 47,
+   "paperNumber": 282,
+   "questionId": "226895784860",
+   "page": 48,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "stem": "Arrange the following items related to the Statement of Profit and Loss in a sequence:\n(A) Profit before extraordinary items and tax\n(B) Profit before tax\n(C) Cost of materials consumed\n(D) Revenue from operations\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(C), (D), (A), (B)",
+    "(D), (C), (A), (B)"
+   ],
+   "optionIds": [
+    "2268953043533",
+    "2268953043534",
+    "2268953043535",
+    "2268953043536"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043536",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 48,
+   "paperNumber": 283,
+   "questionId": "226895784861",
+   "page": 49,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "stem": "The current ratio of a firm is 2 : 1. If the firm purchased goods on credit, then how will it affect its current ratio?",
+   "options": [
+    "Improve",
+    "Reduce",
+    "No change",
+    "The ratio will increase for some time and reach its highest point."
+   ],
+   "optionIds": [
+    "2268953043537",
+    "2268953043538",
+    "2268953043539",
+    "2268953043540"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043538",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 49,
+   "paperNumber": 284,
+   "questionId": "226895784862",
+   "page": 50,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "stem": "From the following details, calculate interest coverage ratio: Net Profit after tax Rs. 1,20,000; 15% Long-term debt 20,00,000; and Tax rate 40%.",
+   "options": [
+    "1.67 times",
+    "1.75 times",
+    "1.89 times",
+    "1.95 times"
+   ],
+   "optionIds": [
+    "2268953043541",
+    "2268953043542",
+    "2268953043543",
+    "2268953043544"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043541",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 50,
+   "paperNumber": 285,
+   "questionId": "226895784863",
+   "page": 50,
+   "section": "Analysis of Financial Statements (Section 2, optional, 5 of 5)",
+   "stem": "Which financial analysis is also known as 'horizontal analysis'?",
+   "options": [
+    "Cash Flow Analysis",
+    "Ratio Analysis",
+    "Comparative Statements",
+    "Common Size Statements"
+   ],
+   "optionIds": [
+    "2268953043545",
+    "2268953043546",
+    "2268953043547",
+    "2268953043548"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043547",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 51,
+   "paperNumber": 286,
+   "questionId": "226895784864",
+   "page": 51,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "stem": "Which of the following is not the advantage of Computerised Accounting System (CAS)?",
+   "options": [
+    "Timely generation of reports and information in desired format.",
+    "Efficient record keeping.",
+    "Ensures effective control over the system.",
+    "Economy in the processing of accounting data is minimised."
+   ],
+   "optionIds": [
+    "2268953043549",
+    "2268953043550",
+    "2268953043551",
+    "2268953043552"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953043552",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "read from the page image by the checker (OCR missed the question id line)"
+  },
+  {
+   "n": 52,
+   "paperNumber": 287,
+   "questionId": "226895784865",
+   "page": 52,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Ranges | (I) Holds either row or column constant when the formula or function is copied to another location\n(B) Mixed reference | (II) Used when we want a cell reference to stay fixed on specific cell\n(C) Absolute reference | (III) As a formula or function is copied and pasted to other cells, the cell references in the formula or function change to reflect the new location\n(D) Default reference | (IV) Identified by cell references of the cells from the upper left to lower right\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (IV), (B) - (I), (C) - (II), (D) - (III)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953043553",
+    "2268953043554",
+    "2268953043555",
+    "2268953043556"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953043554",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 53,
+   "paperNumber": 288,
+   "questionId": "226895784866",
+   "page": 53,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "stem": "Arrange the following steps related to freezing the formula using paste special command in logical sequence\n(A) Click on Home Tab and select Copy symbol\n(B) In the Paste Special box, under paste select the radio button next to Values and click OK\n(C) Select the cell(s) that contains the formula\n(D) Click on Paste tab and select Paste Special\nChoose the correct sequence from the options given below:",
+   "options": [
+    "(C), (A), (D), (B)",
+    "(B), (A), (C), (D)",
+    "(A), (D), (C), (B)",
+    "(D), (B), (C), (A)"
+   ],
+   "optionIds": [
+    "2268953043557",
+    "2268953043558",
+    "2268953043559",
+    "2268953043560"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043557",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 54,
+   "paperNumber": 289,
+   "questionId": "226895784867",
+   "page": 54,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "stem": "Which of the following arguments in a financial function represents the total number of payments?",
+   "options": [
+    "FV",
+    "PV",
+    "Nper",
+    "Rate"
+   ],
+   "optionIds": [
+    "2268953043561",
+    "2268953043562",
+    "2268953043563",
+    "2268953043564"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953043563",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  },
+  {
+   "n": 55,
+   "paperNumber": 290,
+   "questionId": "226895784868",
+   "page": 55,
+   "section": "Computerized Accounting Systems (Section 3, optional, 5 of 5)",
+   "stem": "A graph has at least how many axes",
+   "options": [
+    "Two axes",
+    "Three axes",
+    "One axes",
+    "Four axes"
+   ],
+   "optionIds": [
+    "2268953043565",
+    "2268953043566",
+    "2268953043567",
+    "2268953043568"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953043565",
+   "keyStatus": "single",
+   "authenticated": true,
+   "idSource": "OCR, matched to key"
+  }
+ ]
+}

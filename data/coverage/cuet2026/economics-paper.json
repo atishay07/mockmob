@@ -1,0 +1,1249 @@
+{
+ "paper": "cuet2026-economics",
+ "subject": "economics",
+ "subjectName": "Economics / Business Economics",
+ "examDate": "2026-05-24",
+ "shift": "First",
+ "source": "NTA master question paper (Group 8, Economics and Business Economics, paper question numbers 391-440), AglaSem Docs copy downloaded 21 Nov 2026 with the owner's approval; English text transcribed from pages/cuet2026-economics/pNN.png (machine OCR as a draft, corrected against the images); key from NTA's 2026 final key rows (ids/cuet2026-economics-keyrows.json)",
+ "transcribedBy": "Checker A agent, 21 Nov 2026",
+ "notes": [
+  "Text is kept as printed, including the paper's own typos (Q7 \"avegare\", Q40 \"higest\", Q49 \"the other relates\", Q48 passage \"whcih\").",
+  "Page numbers are the image file numbers (pNN.png); the printed footer is one lower.",
+  "Q2 is a diagram question; the stem holds a plain description of the diagram in square brackets.",
+  "Q43 refers to \"question number 42\", which is n 42 (paper number 432).",
+  "Authenticated = the question id is in the key and the key option id is one of the four printed option ids."
+ ],
+ "counts": {
+  "questions": 50,
+  "transcribed": 50,
+  "authenticated": 50
+ },
+ "passages": {
+  "P1-226895789799": {
+   "questionId": "226895789799",
+   "questionNumbers": "431 to 435",
+   "title": "GDP and Welfare",
+   "page": 33,
+   "text": "GDP is the sum total of the value of goods and services created within the geographical boundary of a country in a particular year. In order to compare the GDP figures and other macroeconomic variables of different countries or to compare the GDP figures of the same country at different points of time, we take the help of real GDP instead of relying on current market prices. The ratio of nominal GDP to real GDP gives us an idea of how prices have moved from the base year to the current year.  The Consumer Price Index (CPI) and Wholesale Price Index (WPI) are the other important ways to measure change of prices in an economy.\n\nGDP gets distributed among the people as incomes and may treat higher level of GDP of a country as an index of greater well-being of the people of that country. But it may be incorrect to treat GDP as an index of the welfare of the country based on three reasons. Firstly, the distribution of GDP is not uniform, secondly, non-monetary exchanges are not accounted as part of economic activity and lastly, GDP does not take into account externalities."
+  },
+  "P2-226895789805": {
+   "questionId": "226895789805",
+   "questionNumbers": "436 to 440",
+   "title": "Rural Development",
+   "page": 37,
+   "text": "There is a greater need today to make rural areas more vibrant through diversification into dairying, poultry, fisheries, vegetables and fruits and linking up the rural production centres with the urban and foreign markets to realise higher returns on the investments in the products. Moreover, infrastructure elements like credit and marketing, farmer-friendly agricultural policies and a constant appraisal and dialogue between farmers' groups and state agricultural departments are essential to realise the full potential of the sector.\n\nToday we cannot look at the environment and rural development as two distinct subjects. There is need to invent or procure alternate sets of eco-friendly technologies that lead to sustainable development in different circumstances such as organic farming. From these, each rural community can choose whatever will suit its purpose. We need to learn from, and also try out when found relevant, practices from the available set of 'best practice' illustrations to speed up this process of 'learning by doing'. A good example of such practice is creating a group and channelising their savings through micro credit whcih functions like mini banks for the development of agriculture."
+  }
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 391,
+   "questionId": "226895789759",
+   "page": 3,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "In the economy, the collection of all possible combinations of goods and services that can be produced from a given amount of resources and a given stock of technological knowledge is called?",
+   "options": [
+    "Production Possibilities.",
+    "Production Function.",
+    "Production Possibility Set.",
+    "Isoquant."
+   ],
+   "optionIds": [
+    "2268953062649",
+    "2268953062650",
+    "2268953062651",
+    "2268953062652"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062651",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 392,
+   "questionId": "226895789760",
+   "page": 3,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "[Diagram: Mangoes on the vertical axis, Bananas on the horizontal axis, origin O; a downward-sloping budget line and three indifference curves; point A where the budget line touches the middle indifference curve; point D on the budget line on the lowest indifference curve, near the vertical axis; points B and C above the budget line on higher indifference curves.]\nFrom the above diagram, identify the point which is inferior for a consumer with respect to the indifference curve and budget line.",
+   "options": [
+    "Point A",
+    "Point D",
+    "Point B",
+    "Point C"
+   ],
+   "optionIds": [
+    "2268953062653",
+    "2268953062654",
+    "2268953062655",
+    "2268953062656"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062654",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 393,
+   "questionId": "226895789761",
+   "page": 5,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Find the price elasticity of demand for chocolate pastries, when the price of a pastry increases from Rs. 10 per pastry to Rs. 15 per pastry and demand reduces from 20 pastries to 10 pastries.",
+   "options": [
+    "1",
+    "0.5",
+    "0.33",
+    "0.25"
+   ],
+   "optionIds": [
+    "2268953062657",
+    "2268953062658",
+    "2268953062659",
+    "2268953062660"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062657",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 394,
+   "questionId": "226895789762",
+   "page": 5,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) q = f (y1, y2) | (I) Increasing Returns to Scale\n(B) f (ty1, ty2) = t.f (y1, y2) | (II) Decreasing Returns to Scale\n(C) f (ty1, ty2) > t.f (y1, y2) | (III) Production Function\n(D) f (ty1, ty2) < t.f (y1, y2) | (IV) Constant Returns to Scale\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062661",
+    "2268953062662",
+    "2268953062663",
+    "2268953062664"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062664",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 395,
+   "questionId": "226895789763",
+   "page": 6,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Isoquant is just an alternative way of representing the production function.  Which one of the following is NOT a characteristic of an isoquant.",
+   "options": [
+    "The set of all possible combinations of the two inputs that yield the same maximum possible level of output.",
+    "Isoquants are positively sloped.",
+    "Isoquants are negatively sloped.",
+    "Each isoquant represents a particular level of output and is labelled with that amount of output."
+   ],
+   "optionIds": [
+    "2268953062665",
+    "2268953062666",
+    "2268953062667",
+    "2268953062668"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062666",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 396,
+   "questionId": "226895789764",
+   "page": 7,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Arrange the following statements in correct sequence with respect to the law of variable proportions\n(A) Initially total production increase at increasing rate\n(B) When one input(variable) increases ,keeping other inputs constant\n(C) After reaching to its maximum level total products starts declining\n(D) With the increase in variable input total product starts increasing at diminishing rate\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953062669",
+    "2268953062670",
+    "2268953062671",
+    "2268953062672"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062671",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 397,
+   "questionId": "226895789765",
+   "page": 7,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "In the short-run, if there is a positive level of output at which a firm's profit is maximised. Which of the following conditions must hold at that output level?\n(A) The price must be less than the short-run avegare cost.\n(B) The price must be equal to the short-run marginal cost.\n(C) Price must be greater than equal to the short-run average variable cost.\n(D) Short-run marginal costs must be non-decreasing.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062673",
+    "2268953062674",
+    "2268953062675",
+    "2268953062676"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062676",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 398,
+   "questionId": "226895789766",
+   "page": 8,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "As a determinant of firm's supply curve, if the wage rate of labour increases the firm's marginal cost curve will shift?",
+   "options": [
+    "Upward",
+    "Downward",
+    "Rightward",
+    "Constant"
+   ],
+   "optionIds": [
+    "2268953062677",
+    "2268953062678",
+    "2268953062679",
+    "2268953062680"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062677",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 399,
+   "questionId": "226895789767",
+   "page": 9,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "In a perfectly competitive market, whenever there is imbalance in the market, the prices are adjusted by the ___________.",
+   "options": [
+    "Equilibrium Price",
+    "Equilibrium Quantity",
+    "Invisible Hand",
+    "Market Equilibrium"
+   ],
+   "optionIds": [
+    "2268953062681",
+    "2268953062682",
+    "2268953062683",
+    "2268953062684"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062683",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 400,
+   "questionId": "226895789768",
+   "page": 10,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Which one of the following statements is NOT true in the context of the imposition of a price ceiling by the government on the market for kerosene.",
+   "options": [
+    "The imposition of price is below the equilibrium price of kerosene.",
+    "The imposition of price is above the equilibrium price of kerosene.",
+    "It may result in the creation of a black market due to non-satisfactory quantity in a fair-price shop for kerosene.",
+    "It could end up creating excess demand of kerosene."
+   ],
+   "optionIds": [
+    "2268953062685",
+    "2268953062686",
+    "2268953062687",
+    "2268953062688"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062686",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 401,
+   "questionId": "226895789769",
+   "page": 10,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "The most influential economics book, the \"General Theory of Employment, Interest and Money\" of the twentieth century written by John Maynard Keynes, was published in the year _________.",
+   "options": [
+    "1883",
+    "1919",
+    "1929",
+    "1936"
+   ],
+   "optionIds": [
+    "2268953062689",
+    "2268953062690",
+    "2268953062691",
+    "2268953062692"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062692",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 402,
+   "questionId": "226895789770",
+   "page": 11,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "The economic transactions of the domestic country with the rest of the world considered as an important sector in an economy, is called",
+   "options": [
+    "External Sector.",
+    "Government Sector.",
+    "Private Sector.",
+    "Household Sector."
+   ],
+   "optionIds": [
+    "2268953062693",
+    "2268953062694",
+    "2268953062695",
+    "2268953062696"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062693",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 403,
+   "questionId": "226895789771",
+   "page": 11,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "In India, which authority regulates and sterilises the money supply in the economy?",
+   "options": [
+    "Commercial Banks.",
+    "Reserve Bank of India.",
+    "Central Government.",
+    "Public."
+   ],
+   "optionIds": [
+    "2268953062697",
+    "2268953062698",
+    "2268953062699",
+    "2268953062700"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062698",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 404,
+   "questionId": "226895789772",
+   "page": 13,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) M1 | (I) CU + DD\n(B) M2 | (II) M1 + Savings deposits with Post Office savings banks\n(C) M3 | (III) M1 + Net time deposits of commercial banks\n(D) M4 | (IV) M3 + Total deposits with Post Office savings organisations (excluding National Savings Certificates)\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062701",
+    "2268953062702",
+    "2268953062703",
+    "2268953062704"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062701",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 405,
+   "questionId": "226895789773",
+   "page": 13,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "If the bank is only expected to keep 50 percent of its deposits as reserves. What is the value of a money multiplier?",
+   "options": [
+    "0.5",
+    "5",
+    "2",
+    "50"
+   ],
+   "optionIds": [
+    "2268953062705",
+    "2268953062706",
+    "2268953062707",
+    "2268953062708"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062707",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 406,
+   "questionId": "226895789774",
+   "page": 14,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "The purchase or sale of government securities by the central bank to increase or decrease the money supply in the economy is called?",
+   "options": [
+    "Repurchase Agreement",
+    "Net Worth",
+    "Open Market Operations",
+    "Assets"
+   ],
+   "optionIds": [
+    "2268953062709",
+    "2268953062710",
+    "2268953062711",
+    "2268953062712"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062711",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 407,
+   "questionId": "226895789775",
+   "page": 15,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "The rate of increase in ex-ante consumption due to a unit increment in income is called?",
+   "options": [
+    "Marginal Propensity to Consume.",
+    "Average Propensity to Consume.",
+    "Autonomous Consumption",
+    "Aggregate Consumption."
+   ],
+   "optionIds": [
+    "2268953062713",
+    "2268953062714",
+    "2268953062715",
+    "2268953062716"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062713",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 408,
+   "questionId": "226895789776",
+   "page": 15,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Select the correct statement in the context of consumption as a component of the aggregate demand.\n(A) Ex ante is the planned value of a variable as opposed to its actual value.\n(B) Ex post is the actual or realised value of a variable as opposed to its planned value.\n(C) Consumption changes at a constant rate the changes in income.\n(D) A consumption function describes the relation between consumption and income.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (C) only",
+    "(A), (B) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062717",
+    "2268953062718",
+    "2268953062719",
+    "2268953062720"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062718",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 409,
+   "questionId": "226895789777",
+   "page": 16,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "What is the new equilibrium income when the investment rises from 10 to 20 at a given consumption function:\nC = 40 + 0.8Y",
+   "options": [
+    "300",
+    "250",
+    "320",
+    "50"
+   ],
+   "optionIds": [
+    "2268953062721",
+    "2268953062722",
+    "2268953062723",
+    "2268953062724"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062721",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 410,
+   "questionId": "226895789778",
+   "page": 17,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount due to _________ .",
+   "options": [
+    "Ex ante consumption.",
+    "Ex ante investment.",
+    "Marginal efficiency of investment.",
+    "Multiplier."
+   ],
+   "optionIds": [
+    "2268953062725",
+    "2268953062726",
+    "2268953062727",
+    "2268953062728"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062728",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 411,
+   "questionId": "226895789779",
+   "page": 18,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "If the equilibrium level of output is less than the full employment of output, this situation is called the situation of ________ .",
+   "options": [
+    "Deficient Demand.",
+    "Aggregate Demand.",
+    "Excess Demand.",
+    "Effective Demand."
+   ],
+   "optionIds": [
+    "2268953062729",
+    "2268953062730",
+    "2268953062731",
+    "2268953062732"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062729",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 412,
+   "questionId": "226895789780",
+   "page": 18,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "The function of the investment multiplier of the economy is denoted as:",
+   "options": [
+    "1-MPS",
+    "1/1-MPS",
+    "MPC",
+    "1/1-MPC"
+   ],
+   "optionIds": [
+    "2268953062733",
+    "2268953062734",
+    "2268953062735",
+    "2268953062736"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062736",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 413,
+   "questionId": "226895789781",
+   "page": 19,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Which one of the following functions is NOT the objective of government budget.",
+   "options": [
+    "Allocation.",
+    "Consumption",
+    "Redistribution.",
+    "Stabilisation."
+   ],
+   "optionIds": [
+    "2268953062737",
+    "2268953062738",
+    "2268953062739",
+    "2268953062740"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062738",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 414,
+   "questionId": "226895789782",
+   "page": 19,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Select the correct statements in the context of public goods.\n(A) Collectively consumed.\n(B) may be produced by government or private sector\n(C) Non-rivalrous.\n(D) Non-excludable.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062741",
+    "2268953062742",
+    "2268953062743",
+    "2268953062744"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062743",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 415,
+   "questionId": "226895789783",
+   "page": 20,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Calculate the change in the value of equilibrium income when the government increases spending by 100 at a given marginal propensity to consume 0.8.",
+   "options": [
+    "800",
+    "500",
+    "80",
+    "5"
+   ],
+   "optionIds": [
+    "2268953062745",
+    "2268953062746",
+    "2268953062747",
+    "2268953062748"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062746",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 416,
+   "questionId": "226895789784",
+   "page": 21,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Automatic Stabilizer | (I) It neither create an asset nor decrease the liability of the government\n(B) Revenue payment | (II) Income Tax\n(C) Capital Receipt | (III) Plan and Non-plan Expenditure\n(D) Total Expenditure | (IV) It either create a liability or decrease the asset of the government\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062749",
+    "2268953062750",
+    "2268953062751",
+    "2268953062752"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062751",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 417,
+   "questionId": "226895789785",
+   "page": 21,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Arrange the following statements depicting the impact of an increase in demand for imports on the foreign exchange market.\n(A) Demand for foreign goods and services increases.\n(B) Shift in demand curve towards right.\n(C) Depreciation of domestic currency in terms of foreign currency.\n(D) Increase in exchange rate.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953062753",
+    "2268953062754",
+    "2268953062755",
+    "2268953062756"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062754",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 418,
+   "questionId": "226895789786",
+   "page": 22,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "A system in which the central bank allows the exchange rate to be determined by market forces but intervene at times to influence the rate.",
+   "options": [
+    "Managed Floating",
+    "Devaluation",
+    "Flexible Exchange Rate",
+    "Official Reserve Transactions"
+   ],
+   "optionIds": [
+    "2268953062757",
+    "2268953062758",
+    "2268953062759",
+    "2268953062760"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062757",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 419,
+   "questionId": "226895789787",
+   "page": 23,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Foreign trade influences the economy's aggregate demand in which of the two ways?",
+   "options": [
+    "Expenditure, Revenue",
+    "Input, Output",
+    "Leakage, Injection",
+    "Employment, Productivity"
+   ],
+   "optionIds": [
+    "2268953062761",
+    "2268953062762",
+    "2268953062763",
+    "2268953062764"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062763",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 420,
+   "questionId": "226895789788",
+   "page": 24,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "A current account of any economy is in deficit when?",
+   "options": [
+    "Receipts > Payments",
+    "Receipts = Payments",
+    "Receipts < Payments",
+    "Receipts = Zero"
+   ],
+   "optionIds": [
+    "2268953062765",
+    "2268953062766",
+    "2268953062767",
+    "2268953062768"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062767",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 421,
+   "questionId": "226895789789",
+   "page": 24,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "When was India's first official census operation undertaken?",
+   "options": [
+    "1869",
+    "1881",
+    "1907",
+    "1921"
+   ],
+   "optionIds": [
+    "2268953062769",
+    "2268953062770",
+    "2268953062771",
+    "2268953062772"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062770",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 422,
+   "questionId": "226895789790",
+   "page": 25,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Arrange the following events in chronological order.\n(A) New Economic Policy.\n(B) Second Five Year Plan.\n(C) Planning Commission.\n(D) Green Revolution.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953062773",
+    "2268953062774",
+    "2268953062775",
+    "2268953062776"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062776",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 423,
+   "questionId": "226895789791",
+   "page": 26,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Select the correct statements in the context of reform policies in the industrial sector under New Economic Policy.\n(A) Industrial licensing was abolished.\n(B) The private sector was allowed in many industries.\n(C) Many goods produced by small-scale industries have now been dereserved.\n(D) Controls on price fixation and distribution of all industrial products by the government.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (B) and (C) only",
+    "(A), (B), (C) and (D)",
+    "(B), (C) and (D) only"
+   ],
+   "optionIds": [
+    "2268953062777",
+    "2268953062778",
+    "2268953062779",
+    "2268953062780"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062778",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 424,
+   "questionId": "226895789792",
+   "page": 26,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Outsourcing | (I) Hiring regular service from external sources.\n(B) Stabilisation Measures | (II) Control fluctuations in the balance of payments and high rate of inflation.\n(C) Structural Measures | (III) Integration of the economy of the country with the world economy.\n(D) Globalisation | (IV) Improve the efficiency and competitiveness of the economy.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062781",
+    "2268953062782",
+    "2268953062783",
+    "2268953062784"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062781",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 425,
+   "questionId": "226895789793",
+   "page": 27,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Arrange the following in chronological order (oldest to latest).\n(A) The Tapas Majumdar Committee.\n(B) The (Kothari) Education Commission.\n(C) The latest National Education Policy.\n(D) The Right of Children to Free and Compulsory Education Act.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(B), (A), (D), (C)",
+    "(C), (B), (D), (A)"
+   ],
+   "optionIds": [
+    "2268953062785",
+    "2268953062786",
+    "2268953062787",
+    "2268953062788"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062787",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 426,
+   "questionId": "226895789794",
+   "page": 28,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "What are the functions of the environment?\n(A) Supplies both renewable and non-renewable resources.\n(B) Assimilates waste.\n(C) Sustains life by providing genetic and bio diversity.\n(D) Provides aesthetic services like scenery etc.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B) and (D) only",
+    "(A), (C) and (D) only",
+    "(B), (C) and (D) only",
+    "(A), (B), (C) and (D)"
+   ],
+   "optionIds": [
+    "2268953062789",
+    "2268953062790",
+    "2268953062791",
+    "2268953062792"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062792",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 427,
+   "questionId": "226895789795",
+   "page": 29,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Match List-I with List-II\nList-I | List-II\n(A) Union Ministry of Labour | (I) Casual wage labourers\n(B) Construction workers | (II) Collection of formal sector employment data.\n(C) MNREGA | (III) Rural employment\n(D) Association of TANWA | (IV) Women workers.\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+    "(A) - (II), (B) - (I), (C) - (III), (D) - (IV)",
+    "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+    "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+   ],
+   "optionIds": [
+    "2268953062793",
+    "2268953062794",
+    "2268953062795",
+    "2268953062796"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062794",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 428,
+   "questionId": "226895789796",
+   "page": 30,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Which country has followed the classical development pattern of gradual shift from agriculture to manufacturing and then to services?",
+   "options": [
+    "India",
+    "China",
+    "Pakistan",
+    "Bangladesh"
+   ],
+   "optionIds": [
+    "2268953062797",
+    "2268953062798",
+    "2268953062799",
+    "2268953062800"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062798",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 429,
+   "questionId": "226895789797",
+   "page": 31,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Pakistan announced its first five year plan in year",
+   "options": [
+    "1947",
+    "1951",
+    "1956",
+    "1960"
+   ],
+   "optionIds": [
+    "2268953062801",
+    "2268953062802",
+    "2268953062803",
+    "2268953062804"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062803",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 430,
+   "questionId": "226895789798",
+   "page": 32,
+   "section": "Sub-section 1 (Q391-430)",
+   "stem": "Arrange the following country in higest to lowest rank in human development index, 2017-2019.\n(A) USA\n(B) China\n(C) India\n(D) Pakistan\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(A), (B), (D), (C)",
+    "(A), (D), (C), (B)",
+    "(A), (C), (B), (D)"
+   ],
+   "optionIds": [
+    "2268953062805",
+    "2268953062806",
+    "2268953062807",
+    "2268953062808"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062805",
+   "keyStatus": "single",
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 431,
+   "questionId": "226895789800",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "stem": "The aggregate value of goods and services produced in an economy can be calculated by three methods.",
+   "options": [
+    "Product, Investment, Value Added",
+    "Product, Expenditure, Value Added",
+    "Product, Income, Expenditure",
+    "Product, Expenditure, Disposable Income"
+   ],
+   "optionIds": [
+    "2268953062809",
+    "2268953062810",
+    "2268953062811",
+    "2268953062812"
+   ],
+   "answerPosition": 3,
+   "keyOptionId": "2268953062811",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895789799"
+  },
+  {
+   "n": 42,
+   "paperNumber": 432,
+   "questionId": "226895789801",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "stem": "Suppose India only produces wheat. In the year 2020, India produced 200 kg of wheat at a price of Rs 20 per kg of wheat and in the year 2021, it produced 310 kg of wheat at a price of Rs 30 per kg of wheat. Calculate India's real GDP of year 2021 taking 2020 as base year.",
+   "options": [
+    "Rs. 9300",
+    "Rs. 6200",
+    "Rs. 4000",
+    "Rs. 6000"
+   ],
+   "optionIds": [
+    "2268953062813",
+    "2268953062814",
+    "2268953062815",
+    "2268953062816"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062814",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895789799"
+  },
+  {
+   "n": 43,
+   "paperNumber": 433,
+   "questionId": "226895789802",
+   "page": 33,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "stem": "Calculate GDP Deflator(in percentage terms) based on the information given in the question number 42.",
+   "options": [
+    "150 Percent",
+    "1.5 Percent",
+    "0.67 Percent",
+    "67 Percent"
+   ],
+   "optionIds": [
+    "2268953062817",
+    "2268953062818",
+    "2268953062819",
+    "2268953062820"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062817",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895789799"
+  },
+  {
+   "n": 44,
+   "paperNumber": 434,
+   "questionId": "226895789803",
+   "page": 34,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "stem": "The unregistered activity i.e., the domestic services women perform at home is example of which of the following?",
+   "options": [
+    "GDP",
+    "Positive Externalities.",
+    "Negative Externalities.",
+    "Non-monetary Exchanges."
+   ],
+   "optionIds": [
+    "2268953062821",
+    "2268953062822",
+    "2268953062823",
+    "2268953062824"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062824",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895789799"
+  },
+  {
+   "n": 45,
+   "paperNumber": 435,
+   "questionId": "226895789804",
+   "page": 34,
+   "section": "Sub-section 2, comprehension (Q431-435)",
+   "stem": "Choose the correct statement as per the given passage :",
+   "options": [
+    "For comparing a country at different point of times, we use current market prices instead of real GDP",
+    "CPI and WPI are the other important ways to measure change of prices in an economy.",
+    "The ratio of real GDP to nominal GDP represents how prices have moved from the base year to the current year.",
+    "Non-monetary exchanges are accounted as part of economic activity"
+   ],
+   "optionIds": [
+    "2268953062825",
+    "2268953062826",
+    "2268953062827",
+    "2268953062828"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062826",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P1-226895789799"
+  },
+  {
+   "n": 46,
+   "paperNumber": 436,
+   "questionId": "226895789806",
+   "page": 37,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "stem": "What is rural development?",
+   "options": [
+    "A plan of action for the development of agricultural areas which are lagging behind in socio-economic development.",
+    "A plan of action for the development of rural areas which are lagging behind in socio-economic development.",
+    "A plan of action for the development of marginalised regions which are lagging behind in socio-economic and sustainable development indicators.",
+    "A plan of action for the development of urban which are lagging behind in socio-economic development"
+   ],
+   "optionIds": [
+    "2268953062829",
+    "2268953062830",
+    "2268953062831",
+    "2268953062832"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062830",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895789805"
+  },
+  {
+   "n": 47,
+   "paperNumber": 437,
+   "questionId": "226895789807",
+   "page": 37,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "stem": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is defined as.",
+   "options": [
+    "Organic Farming.",
+    "Sustain Farming.",
+    "Mixed crop-livestock Farming.",
+    "Green Farming."
+   ],
+   "optionIds": [
+    "2268953062833",
+    "2268953062834",
+    "2268953062835",
+    "2268953062836"
+   ],
+   "answerPosition": 1,
+   "keyOptionId": "2268953062833",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895789805"
+  },
+  {
+   "n": 48,
+   "paperNumber": 438,
+   "questionId": "226895789808",
+   "page": 37,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "stem": "Farm Women's Groups (FWG) under Tamil Nadu Women in Agriculture (TANWA) project, are creating savings in their group by functioning like mini banks through a system called____",
+   "options": [
+    "Rural Banking.",
+    "Micro Credit.",
+    "Community Investment Support Fund.",
+    "Regional Rural  Bank's"
+   ],
+   "optionIds": [
+    "2268953062837",
+    "2268953062838",
+    "2268953062839",
+    "2268953062840"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062838",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895789805"
+  },
+  {
+   "n": 49,
+   "paperNumber": 439,
+   "questionId": "226895789809",
+   "page": 38,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "stem": "The change in cropping pattern and the other relates to a shift of workforce from agriculture to other allied activities and a non-agricultural sector is called?",
+   "options": [
+    "Agro-processing Industries.",
+    "Diversification.",
+    "Subsistence Farming",
+    "Organic Farming."
+   ],
+   "optionIds": [
+    "2268953062841",
+    "2268953062842",
+    "2268953062843",
+    "2268953062844"
+   ],
+   "answerPosition": 2,
+   "keyOptionId": "2268953062842",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895789805"
+  },
+  {
+   "n": 50,
+   "paperNumber": 440,
+   "questionId": "226895789810",
+   "page": 38,
+   "section": "Sub-section 3, comprehension (Q436-440)",
+   "stem": "Agricultural marketing policy instruments are aimed at protecting the income of the farmers and providing foodgrains at a subsidised rate to the poor. Which is NOT an instrument of the agricultural market system.",
+   "options": [
+    "Minimum Support Prices.",
+    "Public Distribution Support.",
+    "Buffer Stock.",
+    "Private Trade."
+   ],
+   "optionIds": [
+    "2268953062845",
+    "2268953062846",
+    "2268953062847",
+    "2268953062848"
+   ],
+   "answerPosition": 4,
+   "keyOptionId": "2268953062848",
+   "keyStatus": "single",
+   "authenticated": true,
+   "passage": "P2-226895789805"
+  }
+ ]
+}

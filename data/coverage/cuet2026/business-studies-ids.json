@@ -1,0 +1,954 @@
+{
+ "paper": "cuet2026-business-studies",
+ "source": "AglaSem Docs copy of the NTA master question paper, downloaded 21 Nov 2026 with the owner's approval; ids read by OCR (RapidOCR) and matched to NTA's 2026 final key",
+ "shifts": {
+  "20-05-2026 (First)": 45
+ },
+ "questions": [
+  {
+   "n": 1,
+   "paperNumber": 291,
+   "questionId": "226895784869",
+   "page": 3,
+   "optionIds": {
+    "2268953043569": 1,
+    "2268953043570": 2,
+    "2268953043571": 3,
+    "2268953043572": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043569"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 2,
+   "paperNumber": 293,
+   "questionId": "226895784871",
+   "page": 5,
+   "optionIds": {
+    "2268953043577": 1,
+    "2268953043578": 2,
+    "2268953043579": 3,
+    "2268953043580": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043580"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 3,
+   "paperNumber": 294,
+   "questionId": "226895784872",
+   "page": 6,
+   "optionIds": {
+    "2268953043581": 1,
+    "2268953043582": 2,
+    "2268953043583": 3,
+    "2268953043584": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043584"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 4,
+   "paperNumber": 295,
+   "questionId": "226895784873",
+   "page": 7,
+   "optionIds": {
+    "2268953043585": 1,
+    "2268953043586": 2,
+    "2268953043587": 3,
+    "2268953043588": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043588"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 5,
+   "paperNumber": 296,
+   "questionId": "226895784874",
+   "page": 8,
+   "optionIds": {
+    "2268953043589": 1,
+    "2268953043590": 2,
+    "2268953043591": 3,
+    "2268953043592": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043590"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 6,
+   "paperNumber": 297,
+   "questionId": "226895784875",
+   "page": 8,
+   "optionIds": {
+    "2268953043593": 1,
+    "2268953043594": 2,
+    "2268953043595": 3,
+    "2268953043596": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043594"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 7,
+   "paperNumber": 298,
+   "questionId": "226895784876",
+   "page": 9,
+   "optionIds": {
+    "2268953043597": 1,
+    "2268953043598": 2,
+    "2268953043599": 3,
+    "2268953043600": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043599"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 8,
+   "paperNumber": 299,
+   "questionId": "226895784877",
+   "page": 10,
+   "optionIds": {
+    "2268953043601": 1,
+    "2268953043602": 2,
+    "2268953043603": 3,
+    "2268953043604": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043602"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 9,
+   "paperNumber": 300,
+   "questionId": "226895784878",
+   "page": 11,
+   "optionIds": {
+    "2268953043605": 1,
+    "2268953043606": 2,
+    "2268953043607": 3,
+    "2268953043608": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043606"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 10,
+   "paperNumber": 301,
+   "questionId": "226895784879",
+   "page": 12,
+   "optionIds": {
+    "2268953043609": 1,
+    "2268953043610": 2,
+    "2268953043611": 3,
+    "2268953043612": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043609"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 11,
+   "paperNumber": 303,
+   "questionId": "226895784881",
+   "page": 13,
+   "optionIds": {
+    "2268953043617": 1,
+    "2268953043618": 2,
+    "2268953043619": 3,
+    "2268953043620": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043617"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 12,
+   "paperNumber": 304,
+   "questionId": "226895784882",
+   "page": 14,
+   "optionIds": {
+    "2268953043621": 1,
+    "2268953043622": 2,
+    "2268953043623": 3,
+    "2268953043624": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043624"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 13,
+   "paperNumber": 305,
+   "questionId": "226895784883",
+   "page": 15,
+   "optionIds": {
+    "2268953043625": 1,
+    "2268953043626": 2,
+    "2268953043627": 3,
+    "2268953043628": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043628"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 14,
+   "paperNumber": 306,
+   "questionId": "226895784884",
+   "page": 16,
+   "optionIds": {
+    "2268953043629": 1,
+    "2268953043630": 2,
+    "2268953043631": 3,
+    "2268953043632": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043629"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 15,
+   "paperNumber": 307,
+   "questionId": "226895784885",
+   "page": 16,
+   "optionIds": {
+    "2268953043633": 1,
+    "2268953043634": 2,
+    "2268953043635": 3,
+    "2268953043636": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043633"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 16,
+   "paperNumber": 308,
+   "questionId": "226895784886",
+   "page": 17,
+   "optionIds": {
+    "2268953043637": 1,
+    "2268953043638": 2,
+    "2268953043639": 3,
+    "2268953043640": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043637"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 17,
+   "paperNumber": 309,
+   "questionId": "226895784887",
+   "page": 18,
+   "optionIds": {
+    "2268953043641": 1,
+    "2268953043642": 2,
+    "2268953043643": 3,
+    "2268953043644": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043642"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 18,
+   "paperNumber": 310,
+   "questionId": "226895784888",
+   "page": 19,
+   "optionIds": {
+    "2268953043645": 1,
+    "2268953043646": 2,
+    "2268953043647": 3,
+    "2268953043648": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043647"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 19,
+   "paperNumber": 312,
+   "questionId": "226895784890",
+   "page": 21,
+   "optionIds": {
+    "2268953043653": 1,
+    "2268953043654": 2,
+    "2268953043655": 3,
+    "2268953043656": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043656"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 20,
+   "paperNumber": 313,
+   "questionId": "226895784891",
+   "page": 22,
+   "optionIds": {
+    "2268953043657": 1,
+    "2268953043658": 2,
+    "2268953043659": 3,
+    "2268953043660": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043659"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 21,
+   "paperNumber": 314,
+   "questionId": "226895784892",
+   "page": 22,
+   "optionIds": {
+    "2268953043661": 1,
+    "2268953043662": 2,
+    "2268953043663": 3,
+    "2268953043664": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043661"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 22,
+   "paperNumber": 315,
+   "questionId": "226895784893",
+   "page": 23,
+   "optionIds": {
+    "2268953043665": 1,
+    "2268953043666": 2,
+    "2268953043667": 3,
+    "2268953043668": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043666"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 23,
+   "paperNumber": 316,
+   "questionId": "226895784894",
+   "page": 24,
+   "optionIds": {
+    "2268953043669": 1,
+    "2268953043670": 2,
+    "2268953043671": 3,
+    "2268953043672": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043671"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 24,
+   "paperNumber": 317,
+   "questionId": "226895784895",
+   "page": 25,
+   "optionIds": {
+    "2268953043673": 1,
+    "2268953043674": 2,
+    "2268953043675": 3,
+    "2268953043676": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043676"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 25,
+   "paperNumber": 318,
+   "questionId": "226895784896",
+   "page": 26,
+   "optionIds": {
+    "2268953043677": 1,
+    "2268953043678": 2,
+    "2268953043679": 3,
+    "2268953043680": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043679"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 26,
+   "paperNumber": 319,
+   "questionId": "226895784897",
+   "page": 27,
+   "optionIds": {
+    "2268953043681": 1,
+    "2268953043682": 2,
+    "2268953043683": 3,
+    "2268953043684": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043682"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 27,
+   "paperNumber": 320,
+   "questionId": "226895784898",
+   "page": 28,
+   "optionIds": {
+    "2268953043685": 1,
+    "2268953043686": 2,
+    "2268953043687": 3,
+    "2268953043688": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043687"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 28,
+   "paperNumber": 321,
+   "questionId": "226895784899",
+   "page": 29,
+   "optionIds": {
+    "2268953043689": 1,
+    "2268953043690": 2,
+    "2268953043691": 3,
+    "2268953043692": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043689"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 29,
+   "paperNumber": 322,
+   "questionId": "226895784900",
+   "page": 30,
+   "optionIds": {
+    "2268953043693": 1,
+    "2268953043694": 2,
+    "2268953043695": 3,
+    "2268953043696": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043694"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 30,
+   "paperNumber": 323,
+   "questionId": "226895784901",
+   "page": 31,
+   "optionIds": {
+    "2268953043697": 1,
+    "2268953043698": 2,
+    "2268953043699": 3,
+    "2268953043700": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043700"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 31,
+   "paperNumber": 324,
+   "questionId": "226895784902",
+   "page": 32,
+   "optionIds": {
+    "2268953043701": 1,
+    "2268953043702": 2,
+    "2268953043703": 3,
+    "2268953043704": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043701"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 32,
+   "paperNumber": 325,
+   "questionId": "226895784903",
+   "page": 32,
+   "optionIds": {
+    "2268953043705": 1,
+    "2268953043706": 2,
+    "2268953043707": 3,
+    "2268953043708": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043705"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 33,
+   "paperNumber": 326,
+   "questionId": "226895784904",
+   "page": 33,
+   "optionIds": {
+    "2268953043709": 1,
+    "2268953043710": 2,
+    "2268953043711": 3,
+    "2268953043712": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043709"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 34,
+   "paperNumber": 327,
+   "questionId": "226895784905",
+   "page": 34,
+   "optionIds": {
+    "2268953043713": 1,
+    "2268953043714": 2,
+    "2268953043715": 3,
+    "2268953043716": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043714"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 35,
+   "paperNumber": 328,
+   "questionId": "226895784906",
+   "page": 35,
+   "optionIds": {
+    "2268953043717": 1,
+    "2268953043718": 2,
+    "2268953043719": 3,
+    "2268953043720": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043719"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 36,
+   "paperNumber": 329,
+   "questionId": "226895784907",
+   "page": 36,
+   "optionIds": {
+    "2268953043721": 1,
+    "2268953043722": 2,
+    "2268953043723": 3,
+    "2268953043724": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043721"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 37,
+   "paperNumber": 330,
+   "questionId": "226895784908",
+   "page": 37,
+   "optionIds": {
+    "2268953043725": 1,
+    "2268953043726": 2,
+    "2268953043727": 3,
+    "2268953043728": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043728"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 38,
+   "paperNumber": 331,
+   "questionId": "226895784910",
+   "page": 38,
+   "optionIds": {
+    "2268953043729": 1,
+    "2268953043730": 2,
+    "2268953043731": 3,
+    "2268953043732": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043732"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 39,
+   "paperNumber": 333,
+   "questionId": "226895784912",
+   "page": 41,
+   "optionIds": {
+    "2268953043737": 1,
+    "2268953043738": 2,
+    "2268953043739": 3,
+    "2268953043740": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043740"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 40,
+   "paperNumber": 334,
+   "questionId": "226895784913",
+   "page": 42,
+   "optionIds": {
+    "2268953043741": 1,
+    "2268953043742": 2,
+    "2268953043743": 3,
+    "2268953043744": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043741"
+   ],
+   "correctPosition": 1,
+   "authenticated": true
+  },
+  {
+   "n": 41,
+   "paperNumber": 335,
+   "questionId": "226895784914",
+   "page": 42,
+   "optionIds": {
+    "2268953043745": 1,
+    "2268953043746": 2,
+    "2268953043747": 3,
+    "2268953043748": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043746"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 42,
+   "paperNumber": 336,
+   "questionId": "226895784916",
+   "page": 43,
+   "optionIds": {
+    "2268953043749": 1,
+    "2268953043750": 2,
+    "2268953043751": 3,
+    "2268953043752": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043750"
+   ],
+   "correctPosition": 2,
+   "authenticated": true
+  },
+  {
+   "n": 43,
+   "paperNumber": 337,
+   "questionId": "226895784917",
+   "page": 43,
+   "optionIds": {
+    "2268953043753": 1,
+    "2268953043754": 2,
+    "2268953043755": 3,
+    "2268953043756": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043756"
+   ],
+   "correctPosition": 4,
+   "authenticated": true
+  },
+  {
+   "n": 44,
+   "paperNumber": 338,
+   "questionId": "226895784918",
+   "page": 43,
+   "optionIds": {
+    "2268953043757": 1,
+    "2268953043758": 2,
+    "2268953043759": 3,
+    "2268953043760": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043759"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  },
+  {
+   "n": 45,
+   "paperNumber": 340,
+   "questionId": "226895784920",
+   "page": 44,
+   "optionIds": {
+    "2268953043765": 1,
+    "2268953043766": 2,
+    "2268953043767": 3,
+    "2268953043768": 4
+   },
+   "inKey": true,
+   "keySubject": "business_studies",
+   "shift": "20-05-2026 (First)",
+   "keyStatus": "single",
+   "keyValues": [
+    "2268953043767"
+   ],
+   "correctPosition": 3,
+   "authenticated": true
+  }
+ ]
+}
