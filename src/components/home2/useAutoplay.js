@@ -26,12 +26,12 @@ export function useAutoplay(count) {
   useEffect(() => {
     const query = window.matchMedia?.('(prefers-reduced-motion: reduce)');
     const read = () => setReduced(motionReduced(window));
-    // Read a frame later (no state is set inside the effect's own pass); "ready" follows in the same frame.
-    const first = window.requestAnimationFrame(() => { read(); setReady(true); });
+    // Read a tick later (no state is set inside the effect's own pass); "ready" follows in the same tick.
+    const first = window.setTimeout(() => { read(); setReady(true); }, 0);
     query?.addEventListener?.('change', read);
     const watch = typeof MutationObserver === 'undefined' ? null : new MutationObserver(read);
     watch?.observe(document.documentElement, { attributes: true, attributeFilter: ['data-motion'] });
-    return () => { window.cancelAnimationFrame(first); query?.removeEventListener?.('change', read); watch?.disconnect(); };
+    return () => { window.clearTimeout(first); query?.removeEventListener?.('change', read); watch?.disconnect(); };
   }, []);
 
   useEffect(() => {
