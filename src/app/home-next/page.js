@@ -4,119 +4,201 @@ import Link from 'next/link';
 import { ChevronDown } from 'lucide-react';
 import { recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
+import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
-import { HERO_LEAD, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs } from '@/components/landing/homeCopy.mjs';
+import DailyFiveRow from '@/components/daily/DailyFiveRow';
+import { COLLEGE_DAILY, PERSONAL_HEAD, STRIP_HEAD } from '@/components/daily/dailyStripCopy.mjs';
+import { LandingDock } from '@/components/landing/LandingDock';
+import { DemoJump } from '@/components/landing/DemoJump';
+import { HashSettle } from '@/components/landing/HashSettle';
+import { FunnelBeacon } from '@/components/landing/FunnelBeacon';
+import { HeroRoom } from '@/components/landing/HeroRoom';
+import HeroMobi from '@/components/landing/HeroMobi';
+import { MobiPoster } from '@/components/landing/MobiPoster';
 import { DESK_NOTE, HERO_FEATURES_LABEL, heroFeatures, heroPriceHook } from '@/components/landing/heroTaps.mjs';
+import HeroBeatStrip from '@/components/landing/HeroBeatStrip';
+import { HeroProof } from '@/components/landing/HeroProof';
+import { BrandTexture, PageGrid } from '@/components/landing/BrandTexture';
+import { HERO_LEAD, STATEMENT, TRY_HEAD, LAB_HEAD, COMPASS_HEAD, INSTAGRAM_HEAD, WALL_HEAD, BRAND_STAMPS, FAQ_HEAD, CLOSE, COMPASS_PRO, buildFaqs } from '@/components/landing/homeCopy.mjs';
+import { DesktopNote } from '@/components/landing/DesktopNote';
+import HeroFilm from '@/components/landing/HeroFilm';
+import { CollegeStrip } from '@/components/landing/CollegeStrip';
 import { HERO_LINES } from '@/components/landing/heroLines.mjs';
+import { Reveal } from '@/components/landing/Reveal';
+import { HomePricing } from '@/components/landing/HomePricing';
+import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
+import OpeningMo from '@/components/landing/OpeningMo';
+import HeroTyped from '@/components/landing/HeroTyped';
+import { HomeFonts } from '@/components/landing/HomeFonts';
+import { Statement } from '@/components/landing/Statement';
 import { Marked } from '@/components/doodle/Doodle';
+import HeroMark from '@/components/landing/HeroMark';
+import { SectionPosition } from '@/components/landing/SectionPosition';
+import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
+import { subjectArt } from '@/../data/subject_art.mjs';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
 import { buildCompassShowcase } from '@/lib/du/showcase';
-import { referralsLive } from '@/lib/referrals/friendInvite.mjs';
-import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
-import { publicInventory } from '@/lib/server/inventory';
+import CompassLadder from '@/components/landing/CompassLadder';
 import { MascotSeat } from '@/components/brand/Mascot';
+import PipGuide from '@/components/brand/PipGuideLazy';
+import AskMobiSheet from '@/components/landing/AskMobiSheet';
+import MobiCompanion from '@/components/landing/MobiCompanion';
+import DesktopCursor from '@/components/landing/DesktopCursor';
+import AssetWarm from '@/components/landing/AssetWarm';
+import WallOfLove from '@/components/landing/WallOfLove';
+import { BrandStamp } from '@/components/landing/BrandStamp';
 import { MISTAKE_PHOTO_ON } from '@/../data/mistake_photo.mjs';
-import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
+import { keyCardsDemo } from '@/components/landing/keyCardsPicks.mjs';
+import { headPhrases } from '@/components/landing/keyCardsCopy.mjs';
+import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import { AI_FREE_MONTHLY_CREDITS } from '@/services/credits/aiCreditWallet';
 import { DAILY_FIVE_SIZE } from '@/lib/dailyFive.mjs';
-// The live home's own parts, imported as they are; this page edits none of them. The sections the home sheet draws are
-// re-exported from src/components/home2/landingParts.js by relative path (data/tests/css_split.test.mjs guards the '@/' form
-// of some of these imports for pages that would draw them without home-sheets.css; this page imports that sheet below, after
-// marketing.css, and data/tests/home_next_1120.test.mjs holds that).
-import {
-  BrandTexture, CloseActions, CollegeStrip, CompassLadder, CreatorReels, DemoDrill, DemoJump, DesktopCursor, DesktopNote,
-  HashSettle, HeroBeatStrip, HeroDockGate, HeroFilm, HeroMark, HeroMobi, HeroProof, HeroRoom, HeroTyped, HomeFonts,
-  HomePricing, LandingDock, MobiCompanion, MobiPoster, OpeningMo, PageGrid, PipGuide, AskMobiSheet, Reveal,
-} from '@/components/home2/landingParts';
-import PrepFrame from '@/components/home2/PrepFrame';
-import LabBeats from '@/components/home2/LabBeats';
-import Coverage from '@/components/home2/Coverage';
-import RhythmRow from '@/components/home2/RhythmRow';
-import SampleHere from '@/components/home2/SampleHere';
+// The home sections that draw only with the home sheet come through landingParts.js by relative path (css_split.test.mjs
+// guards the '@/' form of these imports; this page imports the home sheet below, after marketing.css, as "/" does).
+import { CloseActions, CreatorReels, DemoDrill, HeroDockGate, LabCinema } from '@/components/home2/landingParts';
 import ReadLineHere from '@/components/home2/ReadLineHere';
-import { coverageModel } from '@/components/home2/coverageModel.mjs';
-import { COMPASS_NEXT, COVER_HEAD, LAB_NEXT, PREP_HEAD, SOCIAL_NEXT, TRY_NEXT, coverFine, coverLead, fixPrice, freeFaq } from '@/components/home2/homeNextCopy.mjs';
-// The same sheets as "/", in the same order (css_split.test.mjs), then this page's one sheet.
+import SampleHere from '@/components/home2/SampleHere';
+import OnePlace from '@/components/landing/OnePlace';
+import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq } from '@/components/landing/onePlaceCopy.mjs';
+// Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
+// The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
+// makes one render-blocking request for them instead of seven (paint pass, 15 Nov 2026). The list, its order and why are in
+// src/lib/homeCss.mjs. Edit those sheets, never home-sheets.css: node scripts/gen-home-css.mjs rewrites it (next dev does too).
 import '../home-sheets.css';
-import '@/components/home2/home-next.css';
 
-// /home-next: the clarity-first home (spec: mockmob-brain/docs/HOME-NEXT-SPEC-2026-11-20.md and its Revision 2; owner LK360,
-// LK361), built beside the live home for the owner to judge on his phone. Phone first. Never indexed, linked from nowhere and
-// not in the sitemap; the live home (src/app/page.js) is not changed by it.
-//
-// Its one server read is the stored daily question counts (publicInventory: one small row, never a count of the bank), the
-// same read and the same hour of caching as the /cuet subject pages, for the coverage section's figures.
-export const revalidate = 3600;
-
+// /home-next (21 Nov 2026, owner LK363): the live home (src/app/page.js) as it is, with ONE change: the tour deck, the Key cards
+// section, Bring a mistake and the exam screen section are one frame, "Your whole CUET prep, in one place." (OnePlace.jsx),
+// right after the five sample questions. Its stages are those sections' own components, worked by a demo cursor. Built
+// beside the live home for the owner to judge on his phone: never indexed, linked from nowhere, not in the sitemap; "/" is
+// not changed by it. From the first /home-next it keeps the creators' sign-up line, the FAQ's "What do I get free?", the
+// site bar's reading line (NavBar draws it on "/" only: ReadLineHere) and the sample's own address (SampleHere).
 export const metadata = {
   title: 'MockMob: the next home page (preview)',
   robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
 };
 
+// The page's words live in homeCopy.mjs (1104 P5, LK71: budgets tested in landingCopy.test.mjs); page.js renders them.
+// The free first full mock (C-dec 1) is said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+
+// The page comes alive in pieces (19 Nov 2026, owner LK326: "the screen stutters in the first five [seconds]"). Measured that
+// day on a throttled phone profile: React woke the whole page in ONE task of about 1.2 seconds, 2.7 seconds after the load,
+// right as the opening handed over, and every animation on screen froze for it. Each block below the hero is its own
+// Suspense boundary: its HTML is already in the page (nothing here ever shows a fallback), and React wakes each boundary
+// in its own short piece of idle time, the hero first, a block the reader touches before the others.
 const Later = ({ children }) => <Suspense fallback={null}>{children}</Suspense>;
 
 const OFFER = publicOffer();
+const dailyHead = COLLEGE_DAILY ? STRIP_HEAD : PERSONAL_HEAD;
+// When this page was built: the months to CUET in the price comparison and the one-time offer's days start here (value.mjs).
 const BUILT = new Date();
+// The close band's invite line, only while friend invites are on (the same switch /signup reads); never a code on this page.
 const INVITES_LIVE = referralsLive();
 const SHOWCASE = buildCompassShowcase();
+const WALL_VOICES = publishedVoices();
+// The held stories, as the position band under the site bar names them while one runs (SectionPosition). Each name is
+// the words of its section's own heading: the Mistake Lab's kicker, the tour's title. Round 11 (owner, 10 Nov 2026): the
+// Score Recovery Lab told the Mistake Lab's feature a second time, so it is one Lab now (#inside-the-lab).
+// On this page the Lab is the one held story (the tour deck that shared the band with it is gone).
+const POSITION = [
+  { id: 'inside-the-lab', name: 'Inside the Mistake Lab' },
+];
+
+// The statement (homeCopy.mjs STATEMENT) scrubs word by word with the scroll (on phones it holds the screen while it
+// does). Words marked with * carry the accent.
+// The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
+// statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
+// object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
+const shelfBase = (id) => {
+  const stage = objectStage(subjectArt(id));
+  return stage ? ((stage.contact.cy + stage.contact.ry) / 100).toFixed(3) : '0.9';
+};
+// The picture's drawn width for the srcset: the shelf box (--shelf-obj, home.css and hero-depth.css: at most 42vw
+// on phones, 11.5rem on desktop, up to 15rem (270 px) from 1440 px, home-sections.css) times the share of the box the object
+// fills. Without it a phone fetched the 512 px file for a 130 px object.
+const shelfSizes = (id) => {
+  const share = (objectStage(subjectArt(id))?.box.width ?? 100) / 100;
+  return `(max-width: 959px) ${Math.ceil(42 * share)}vw, (min-width: 1440px) ${Math.ceil(270 * share)}px, ${Math.ceil(184 * share)}px`;
+};
+const SHELF = [
+  { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },
+  { id: 'accountancy', name: 'Accountancy', href: '/cuet/accountancy', depth: 120, tilt: 3 },
+  { id: 'business_studies', name: 'Business Studies', href: '/cuet/business-studies', depth: 45, tilt: -2 },
+  { id: 'economics', name: 'Economics', href: '/cuet/economics', depth: 95, tilt: 4 },
+].map((item) => ({ ...item, base: shelfBase(item.id), sizes: shelfSizes(item.id) }));
+
+// The Mob is marketed only while it is live for students: MOB_ENABLED opens /mob and MOB_V3_ENABLED its sprints,
+// quests, chains and Fix it together (the same switches the Mob's own route and API read).
 const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLED === 'true';
-const KEY_CARDS = process.env.KEY_CARDS_ENABLED === 'true' ? keyCardsDemo() : null;
-// The FAQ as on "/", with "What do I get free?" after its first question, answered from the code's constants (Revision 2).
-const FAQS = (() => {
+// Learn is marketed only while study content is switched on; counts come from the release proof.
+const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
+// The one frame's quiet line: the other tools, only those live (the same switches the feature tour reads).
+const ALSO = alsoInside({ studyLive: STUDY_LIVE, mobLive: MOB_LIVE });
+// Key cards (R3-D10, LK112): five real cards from the app's decks, read once at build (keyCardsPicks.mjs), shown only while
+// Key cards are live for students (KEY_CARDS_ENABLED, the switch every Key cards route reads). No card readable, no section.
+const KEY_CARDS_LIVE = process.env.KEY_CARDS_ENABLED === 'true';
+const KEY_CARDS = KEY_CARDS_LIVE ? keyCardsDemo() : null;
+// The FAQ as on "/", with "What do I get free?" after its first question, answered from the code's constants.
+const faqs = (() => {
   const all = buildFaqs({ offer: OFFER, mobLive: MOB_LIVE });
   return [all[0], freeFaq({ freeCredits: AI_FREE_MONTHLY_CREDITS, dailySize: DAILY_FIVE_SIZE }), ...all.slice(1)];
 })();
-// The hero keeps only Ask Mobi from its features strip (Revision 2: the one frame shows the features once, LK198; Ask Mobi
-// stays reachable without signing up, LK239), and the price hook from the live offer with its circle and three flicks (LK342).
-const ASK_MOBI = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCards: Boolean(KEY_CARDS) }).filter((item) => item.ask);
+// The hero's features strip and its price hook (round 4, owner LK124; docs/design-decisions/web-r4-hero.md): the main
+// features, each a link to its own section on this page (Compass falls back to the DU calculator, Key cards only while
+// their section is drawn), and "As low as ₹X a mock" worked out from the live offer at the pricing slider's top pace.
+const FEATURES = heroFeatures({ compass: SHOWCASE.programmes.length > 0, keyCards: Boolean(KEY_CARDS) });
 const PRICE_HOOK = heroPriceHook(OFFER, { from: BUILT });
-// What a brought mistake costs, from the app's own numbers (the price line the live home's Bring a mistake block shows).
-const FIX_PRICE = fixPrice({ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS });
 
-// The Aim screen of the one frame: DU's own 2026 Round 1 cutoffs for B.Com. (Hons.), general category, five colleges spread
-// from the highest cutoff to the lowest of the showcase, against one example score (said as an example on the screen).
-const AIM_SCORE = 860;
-function aimData(showcase) {
-  const programme = showcase.programmes[0];
-  if (!programme) return null;
-  const rows = programme.rows
-    .map((r) => ({ college: r.college, cutoff: r.cutoffs['round-1']?.UR }))
-    .filter((r) => typeof r.cutoff === 'number')
-    .sort((a, b) => b.cutoff - a.cutoff);
-  if (rows.length < 5) return null;
-  const pick = [0, 2, 5, 7, rows.length - 1].map((i) => rows[Math.min(i, rows.length - 1)]);
-  return { programme: programme.label, category: 'General', round: 'Round 1', cycle: '2026', score: AIM_SCORE, max: 1000, rows: pick };
-}
-const AIM = aimData(SHOWCASE);
-
-export default async function HomeNextPage() {
-  const inventory = await publicInventory().catch(() => null);
-  const cover = coverageModel(inventory);
-  const lead = coverLead(cover?.totals.questions);
+export default function HomeNextPage() {
   return (
-    <div className="mm lp hn">
+    <div className="mm lp">
+      {/* The opening (OpeningMo, P3): the app's "mo" opening, first child of the page; its gate decides first / short / skip. */}
       <OpeningMo />
+      {/* The page's hairline grid, behind everything (10 Nov 2026; brand-texture.css). */}
       <PageGrid />
       <HomeFonts />
+      {/* The landing's steps of the aggregate funnel (FunnelBeacon): step names only, counted while FUNNEL_ENABLED is on. */}
+      <FunnelBeacon />
+      <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
+      <JsonLd id="home-faq-json-ld" data={faqJsonLd(faqs)} />
       <noscript>
         <style>{'.rv,.rv-item,.lp-hero [data-hero]{opacity:1!important;transform:none!important}.lp-room__file{opacity:1!important}.lp-film__keys{display:none}'}</style>
       </noscript>
       <NavBar />
       <ReadLineHere />
+      <SectionPosition sections={POSITION} />
       <main id="main-content">
         <DesktopNote />
-        {/* ------------------------------ 1. HERO (as on "/", without the six-item strip) ------------------------------ */}
+        {/* ------------------------------ HERO ------------------------------ */}
+        {/* Desk Light (4 Nov 2026, SPEC-HOME-1104 P2; LK67, LK70), calmer in round 3 (R3-D3, LK99/LK100), and in round 4
+            (owner LK117-LK124, LK133, 5 Nov; docs/design-decisions/web-r4-hero.md) made to fill a desktop screen: one
+            hero idea at every width. The words first: the headline with "CUET 2027." a step larger in the brand colour, the
+            sentence that says what MockMob is, the volt "Sign up free" key with "Try 5 questions first" under it and one
+            "Have an account? Log in" line (LK83/LK88; the fact line went, LK121). Then the desk: Mobi in his lamp-lit room
+            (HeroRoom, HeroMobi) offering a CUET question (DemoDrill, the card attached to the room's foot). Then the
+            features strip (HeroBeatStrip: the main features, each a link, and the honest price hook, LK124) and the two
+            hero links. Phones stack it; from 960 px the desk is the right column and the strip and links sit under the
+            keys (hero-scene.css, desktop-scale.css). Behind it, the paper's own grain (BrandTexture, LK117; round 5 replaced
+            the answer-sheet bubbles the owner found "very weird").
+            Round 7 (owner, 7 Nov 2026, after klayprep.com): the launch film (HeroFilm, hero-film.css) is the hero's picture in
+            the desk's place: the right column from 960 px, under the keys on phones. The desk moved to section#try under the
+            college strip (CollegeStrip), keeping id="try-practice". */}
         <section className="lp-hero">
           <BrandTexture variant="hero" />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span>{' '}<span className="lp-title__line">behind the marks.</span></> : <>
+                {/* Three block lines with a space between them, so a screen reader and a search engine read the sentence
+                    "CUET 2027. One mock. Know what to fix." (HERO_SENTENCE); the h1 is the page's largest paint. */}
                 <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>{' '}
                 <span className="lp-title__line"><HeroMark>{HERO_LINES[1]}</HeroMark></span>{' '}
+                {/* The third line types once and rests on HERO_LINES[2] (HeroTyped, P3); its server text is that line. */}
                 <HeroTyped />
                 </>}
               </h1>
@@ -126,35 +208,36 @@ export default async function HomeNextPage() {
               <div className="lp-cta">
                 <LandingActions />
               </div>
+              {/* Round 11 (10 Nov 2026): one quiet proof link under the ways in, to the creators section (HeroProof). */}
               <HeroProof />
             </div>
+
+            {/* The film (round 7, owner 7 Nov 2026): the launch teaser plays muted as the hero's picture (HeroFilm). */}
             <HeroFilm />
-            <HeroBeatStrip items={ASK_MOBI} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
-            {/* The DU calculator's link left the hero (Revision 2 lists what the hero keeps); it stays one tap away in DU
-                Compass ("Check my subjects") and in the footer's free tools. */}
+
+            {/* The features strip (LK124): the main features, each a link, then "As low as ₹X a mock" from the live offer. */}
+            <HeroBeatStrip items={FEATURES} label={HERO_FEATURES_LABEL} hook={PRICE_HOOK} />
+
+            {/* Round 11: the exam-day screen moved into the strip, so the tray holds the DU calculator alone. */}
+            <div className="lp-hero__links">
+              <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
+            </div>
           </div>
         </section>
 
-        {/* ------------------------------ 2. COLLEGES ------------------------------ */}
+        {/* ---------------------- COLLEGES (round 7: the CUET colleges' own emblems, owner 7 Nov) ---------------------- */}
         <Later><CollegeStrip /></Later>
 
-        {/* ------------------------------ 3. THE ONE FRAME: four parts ------------------------------ */}
-        {/* id "your-prep": the guide's waypoint for this part of the page (PipGuide.jsx WAYPOINTS), and Ask Mobi's no-script link. */}
-        <Later><section className="lp-sec hn-sec hn-sec--prep" id="your-prep" aria-labelledby="prep-title">
-          <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left hn-head">
-              <h2 className="lp-h2" id="prep-title"><Marked text={PREP_HEAD.h2} marks={[[PREP_HEAD.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
-            </Reveal>
-            <PrepFrame aim={AIM} price={FIX_PRICE} />
-          </div>
-        </section></Later>
-
-        {/* ------------------------------ 4. TRY FIVE QUESTIONS (the working sample, as on "/") ------------------------------ */}
+        {/* ------------------------------ TRY FIVE QUESTIONS ------------------------------ */}
+        {/* The desk moved out of the hero when the film took its place (round 7, 7 Nov 2026): Mobi in his lamp-lit room
+            (HeroRoom, HeroMobi) offering the five CUET questions (DemoDrill, the card attached to the room's foot), under a
+            short head, in one centred column. It keeps id="try-practice", so "Try 5 questions first" and every deep link
+            (/#try-practice) still land on the card (DemoJump). */}
         <Later><section className="lp-sec lp-try" id="try" aria-labelledby="try-title">
           <div className="mm-wrap lp-try__wrap">
             <div className="lp-head lp-try__head">
-              <h2 className="lp-h2" id="try-title"><Marked text={TRY_NEXT.h2} marks={[['five', { mark: 'double' }]]} /></h2>
-              <p className="lp-sub">{TRY_NEXT.sub}</p>
+              <h2 className="lp-h2" id="try-title"><Marked text={TRY_HEAD.h2} marks={[['five', { mark: 'double' }]]} /></h2>
+              <p className="lp-sub">{TRY_HEAD.sub}</p>
             </div>
             <div className="lp-desk" id="try-practice">
               <div className="lp-desk__stage">
@@ -163,51 +246,78 @@ export default async function HomeNextPage() {
               </div>
               <div className="lp-desk__card">
                 <DemoDrill note={DESK_NOTE} />
+                {/* The note is one even line with no link (LK83/LK84): sign-up is the hero's volt key, and the card's own
+                    end state offers it after the fifth answer. */}
               </div>
             </div>
           </div>
         </section></Later>
 
-        {/* ------------------------------ 5. THE MISTAKE LAB, four beats ------------------------------ */}
-        {/* id "inside-the-lab": the guide's Lab waypoint, and the live home's own address for the Lab. */}
-        <Later><section className="lp-sec hn-sec hn-sec--lab" id="inside-the-lab" aria-labelledby="lab-title">
+        {/* ----------------------- YOUR WHOLE CUET PREP, IN ONE PLACE (the one frame) ----------------------- */}
+        {/* id "your-prep": the guide's waypoint (PipGuide.jsx WAYPOINTS) and Ask Mobi's no-script link. Three rows, one stage:
+            the exam screen, Key cards and Bring a mistake's card, each the landing's own component, worked by a demo cursor
+            (OnePlace.jsx). Under it the one volt key and the other tools, by name. */}
+        <Later><section className="lp-sec op" id="your-prep" aria-labelledby="op-title">
           <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left hn-head">
-              <h2 className="lp-h2" id="lab-title"><Marked text={LAB_NEXT.h2} marks={[[LAB_NEXT.mark, { mark: 'squiggle', tone: 'brand' }]]} /></h2>
+            <Reveal className="lp-head lp-head--left">
+              <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
+              <p className="lp-sub">{ONE_PLACE.sub}</p>
             </Reveal>
-            <LabBeats />
+            <OnePlace keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} />
+            <div className="op-foot">
+              <LandingActions mode="primary" />
+              {ALSO ? <p className="op-also">{ALSO.lead} <Link href={ONE_PLACE.alsoHref} className="lp-link">{ALSO.list}</Link>.</p> : null}
+            </div>
           </div>
         </section></Later>
 
-        {/* ------------------------------ 6. COVERAGE (only while the stored counts can back it) ------------------------------ */}
-        {cover ? (
-          <Later><section className="lp-sec hn-sec hn-sec--cover" id="coverage" aria-labelledby="cover-title">
-            <div className="mm-wrap">
-              <div className="lp-guide-head hn-cover__headrow">
-                <Reveal className="lp-head lp-head--left hn-head">
-                  <h2 className="lp-h2" id="cover-title">{COVER_HEAD.h2}</h2>
-                  <p className="lp-sub hn-cover__sum">{lead.claim}{lead.count ? <>, with <b className="hn-cover__figure">{lead.count}</b> questions in the live bank.</> : '.'}</p>
-                </Reveal>
-                <MascotSeat station="coverage" pose="magnifier" label="Tap a chapter to see its count." />
-              </div>
-              <Coverage model={cover} />
-              <p className="hn-cover__fine">{coverFine({ covered: cover.totals.covered, chapters: cover.totals.chapters, countedOn: cover.countedOn })}</p>
-            </div>
-          </section></Later>
-        ) : null}
+        {/* ----------------------- STATEMENT (a 4-step held story on phones, a scrub on desktop) -------------------- */}
+        <Later><Statement text={STATEMENT} shelf={SHELF} note={`${SUBJECT_CLAIM.long}.`} /></Later>
 
-        {/* ------------------------------ Daily Five and Sunday Mock, one slim row ------------------------------ */}
-        <Later><RhythmRow /></Later>
+        {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
+        <Later><section className="lp-sec lp-sec--cinema lp-pos-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+          {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
+          <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left lp-cinema-head">
+              <BrandStamp {...BRAND_STAMPS.lab} />
+              <h2 className="lp-h2" id="inside-the-lab-title"><Marked text={LAB_HEAD.h2} marks={[['a moment.', { mark: 'squiggle', tone: 'brand' }]]} /></h2>
+              <p className="lp-sub">{LAB_HEAD.sub}</p>
+            </Reveal>
+          </div>
+          <LabCinema look="next" />
+        </section></Later>
 
-        {/* ------------------------------ 7. DU COMPASS (as on "/") ------------------------------ */}
+        {/* ------------------- THE WEEK'S TWO FIXED DATES: Daily Five and Sunday Mock ------------------- */}
+        {/* 16 Nov 2026, evening (owner, after seeing them live on his phone under the sample): "consuming too much vertical
+            space", "it should not be at the top. It can be somewhere else." So they stay here, after the practice features and
+            before admissions. 10:25 pm, of the two short rows that followed: "a very small subsection, not something
+            important". So the section heads like every other product on the page (a stamp over a full-size h2). 17 Nov 2026
+            (LK293, "something unique"): the Daily Five is an admit card with "Playing for" a DU college and today's college
+            board past its perforation, then the Sunday Mock's card (DailyFiveRow HomeBlock). */}
+        <Later><section className="lp-sec lp-rhythm" id="daily-and-sunday" aria-labelledby="rhythm-title">
+          <div className="mm-wrap">
+            {/* 17 Nov 2026: Mobi holds up today's page of the calendar at the head's right (the new 3D art, LK294). */}
+            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
+              <BrandStamp {...BRAND_STAMPS.rhythm} />
+              <h2 className="lp-h2" id="rhythm-title">{headPhrases(dailyHead.h2).map((phrase, i, all) => <span key={phrase} className="lp-kc__phrase"><Marked text={i < all.length - 1 ? `${phrase} ` : phrase} marks={[[COLLEGE_DAILY ? 'your college.' : 'your streak.', { mark: 'highlight', tone: 'volt' }]]} /></span>)}</h2>
+              <p className="lp-sub">{dailyHead.sub}</p>
+            </Reveal><MascotSeat station="daily" pose="calendar" label="A new five every day." /></div>
+            <DailyFiveRow where="home" />
+          </div>
+        </section></Later>
+
+        {/* ---------------------------- COMPASS LADDER ---------------------------- */}
         {SHOWCASE.programmes.length > 0 ? (
           <Later><section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
-                <h2 className="lp-h2"><Marked text={COMPASS_NEXT.h2} marks={[['real cutoffs.', { mark: 'double' }]]} /></h2>
-                <p className="lp-sub">{COMPASS_NEXT.sub}</p>
+                <BrandStamp {...BRAND_STAMPS.compass} />
+                <h2 className="lp-h2"><Marked text={COMPASS_HEAD.h2} marks={[['real cutoffs.', { mark: 'double' }]]} /></h2>
+                <p className="lp-sub">{COMPASS_HEAD.sub}</p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
+              {/* R19 (18 Nov 2026): Compass Pro is one line under the card with its link; what it adds opens below it. */}
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
                 <p className="lp-cpro__line">{COMPASS_PRO.title} <Link href="/pricing" className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link></p>
                 <details className="lp-cpro__more">
@@ -224,24 +334,43 @@ export default async function HomeNextPage() {
           </section></Later>
         ) : null}
 
-        {/* ------------------------------ 8. PRICING (as on "/"; no free-first-mock line, Revision 2) ------------------------------ */}
+        {/* ------------------------------ PRICING --------------------------- */}
+        {/* R3-D8 (owner LK109-LK111), R4-H7 (LK130-LK132): the /pricing page's one plan as a glass card under "Pro" and, round 5
+            (owner, 6 Nov 2026), the receipt of everything it covers at your pace (HomePricing.jsx), counting the Key cards bank
+            only while Key cards are live. Every rupee figure is the offer's, worked out, never typed. */}
         <Later><section className="lp-sec lp-sec--price" id="pricing" data-commerce="">
-          <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
+          <HomePricing offer={OFFER} newOffer={newOfferReleased()} firstFullMock={FIRST_FULL_MOCK_ON ? FIRST_FULL_MOCK_COPY.plan : null} from={BUILT} keyCards={KEY_CARDS ? KEY_CARDS.bank : null}
             seat={<MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--eyebrow pip-seat--center" />} />
         </section></Later>
 
-        {/* ------------------------------ 9. PROOF, then FAQ, then the close ------------------------------ */}
-        {/* The creators (no consented student quote exists: Revision 2). Its id is theirs, so the hero's proof link lands here. */}
-        <Later><section className="lp-sec" id="on-instagram" aria-labelledby="proof-title">
+        {/* ------------------------------ INSTAGRAM ------------------------------ */}
+        <Later><section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2" id="proof-title">{SOCIAL_NEXT.h2}</h2>
-              <p className="lp-sub">{SOCIAL_NEXT.sub}</p>
+              <BrandStamp {...BRAND_STAMPS.instagram} />
+              <h2 className="lp-h2">{INSTAGRAM_HEAD.h2}</h2>
+              <p className="lp-sub">{CREATORS_SUB}</p>
             </Reveal>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
         </section></Later>
 
+        {/* ----------------------------- WALL OF LOVE ----------------------------- */}
+        {WALL_VOICES.length > 0 ? (
+          <Later><section className="lp-sec" id="wall-of-love">
+            <div className="mm-wrap">
+              <Reveal className="lp-head lp-head--left">
+                <BrandStamp {...BRAND_STAMPS.wall} />
+                <h2 className="lp-h2">{WALL_HEAD.h2}</h2>
+              </Reveal>
+              <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
+            </div>
+          </section></Later>
+        ) : null}
+
+
+
+        {/* -------------------------------- FAQ ----------------------------- */}
         <Later><section className="lp-sec lp-sec--band" id="faq">
           <div className="mm-wrap lp-faq-desk">
             <Reveal className="lp-faq-desk__head">
@@ -249,7 +378,8 @@ export default async function HomeNextPage() {
               <Link href="#try-practice" className="lp-link">Try five questions</Link>
             </Reveal>
             <Reveal className="mm-faqs">
-              {FAQS.map(({ question, answer }) => (
+              {/* Every answer starts closed (round 2 of 18 Nov 2026, lane home-b: an earlier change had left the first one open). */}
+              {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq" name="home-faq">
                   <summary>{question}</summary>
                   <div className="mm-faq__body">{answer}</div>
@@ -259,6 +389,10 @@ export default async function HomeNextPage() {
           </div>
         </section></Later>
 
+        {/* ------------------------------- CLOSE ---------------------------- */}
+        {/* The final card (R3-D9, owner LK110): Mobi on the paper's own grain (BrandTexture, the hero's texture; the answer-sheet
+            bubbles were rejected, LK208, and removed 15 Nov 2026); Sign up free and Log in as before; while invites are on, one
+            line on where a friend's invite code goes (never a code on this page). */}
         <Later><section className="lp-close">
           <BrandTexture variant="close" />
           <Reveal className="mm-wrap lp-close__inner">
@@ -267,16 +401,26 @@ export default async function HomeNextPage() {
             <p className="lp-sub">{CLOSE.sub}</p>
             <CloseActions invites={INVITES_LIVE} />
           </Reveal>
+          {/* Every same-page link to the sample ("Try 5 questions first") lands on the live sample question, every time. */}
           <DemoJump />
+          {/* The footer's Help sends guests to /#faq from any page: land on the questions once the page has settled. */}
           <HashSettle />
         </section></Later>
       </main>
       <Later><MarketingFooter home /></Later>
+      {/* Every Mobi seat on the page is a <use> of these generated poses (one finish, one copy). */}
       <Later><PipGuide /></Later>
+      {/* The pictures further down, fetched ahead in idle time so nothing arrives blank (AssetWarm.jsx, 20 Nov 2026). */}
+      <Later><AssetWarm /></Later>
+      {/* Round 14: Mobi travels the page with a phone reader (MobiCompanion) and answers guests (AskMobiSheet, opened by the
+          window event mm:ask-mobi). */}
       <Later><MobiCompanion /></Later>
+      {/* Desktop only (a mouse or a trackpad): a ring that trails the arrow and answers a click (owner LK333). */}
       <Later><DesktopCursor /></Later>
       <Later><AskMobiSheet /></Later>
+      {/* The shared ways in link the sample as "/#try-practice": here they are pointed at this page's own sample. */}
       <SampleHere />
+      {/* The phone bar (a guest: "Log in" and "Sign up free" with "No card needed" inside it, demoSignal.mjs DOCK_GO) waits until the hero's buttons have gone and steps aside while the demo, the DU teaser or the close band's actions hold the screen. It carries no Mobi: he lives in the sections' own seats, so one Mobi is ever in view (W-074). */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
         <LandingDock />

@@ -1,0 +1,162 @@
+/* /home-next's one frame (OnePlace.jsx, owner LK363). Rows beside the stage from 960 px, three chips above it on a phone.
+   Transform and opacity only for anything that moves; no blur, no glow; the row's line is one transform animation. */
+.op-frame { --op-ease: cubic-bezier(0.23, 1, 0.32, 1); --op-rim: rgba(23, 21, 15, 0.7); display: grid; gap: 12px; margin-top: 1.25rem; }
+html[data-theme='dark'] .op-frame { --op-rim: rgba(244, 240, 230, 0.5); }
+
+/* ---- the rows: chips on a phone ---- */
+.op-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.op-row {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 64px; margin: 0; padding: 6px 4px 12px;
+  border: 0; border-radius: 16px; background: transparent; color: var(--ink-2);
+  font: 700 14px/1.15 var(--font-display); letter-spacing: -0.01em; text-align: center;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+.op-row[data-on] { background: var(--paper-raised); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--op-rim), var(--sh-1); }
+.op-row:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+.op-row__obj { display: block; width: 36px; height: 33px; object-fit: contain; }
+.op-row__line { display: none; }
+.op-row__track { position: absolute; left: 14px; right: 14px; bottom: 6px; height: 3px; border-radius: 2px; overflow: hidden; }
+.op-row[data-on] .op-row__track { background: var(--line); }
+html[data-theme='dark'] .op-row[data-on] .op-row__track { background: var(--line-strong); }
+.op-row__fill {
+  display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--brand-word);
+  transform: scaleX(0); transform-origin: left center;
+  animation: op-fill var(--op-ms, 8000ms) linear forwards; animation-play-state: paused;
+}
+.op-frame[data-play='on'] .op-row__fill { animation-play-state: running; }
+.op-frame[data-held] .op-row__fill { opacity: 0; }
+/* Still (reduced motion, or before the page wakes): no track, so nothing suggests a clock. */
+.op-frame[data-reduced] .op-row__track { visibility: hidden; }
+@keyframes op-fill { to { transform: scaleX(1); } }
+@media (hover: hover) and (pointer: fine) {
+  .op-row:not([data-on]):hover { background: var(--surface-hover, var(--paper-raised)); color: var(--ink); }
+}
+.op-caption { margin: 2px 2px 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.4; text-align: center; }
+
+/* ---- the stage: three slots in one grid cell, only the chosen one shown ---- */
+.op-stages { display: grid; min-width: 0; }
+.op-slot { grid-area: 1 / 1; min-width: 0; display: grid; align-content: start; }
+/* Every stage starts right under the row line; any spare height falls below it, before the Sign up key. */
+.op-stage { align-self: start; }
+/* Opacity as well as visibility: a component may set visibility: visible on a part of its own (Bring a mistake's chosen
+   step does), which would show through a hidden parent. */
+.op-slot:not([data-on]) { visibility: hidden; opacity: 0; pointer-events: none; }
+.op-stage { min-width: 0; }
+.op-slot[data-on] .op-stage { animation: op-in 260ms var(--op-ease) both; }
+@keyframes op-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } }
+@media (prefers-reduced-motion: reduce) { .op-slot[data-on] .op-stage { animation: none; } .op-row__fill { animation: none; } }
+html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduced'] .op-row__fill { animation: none; }
+
+/* Practise: the exam screen's device and switch alone (ExamStage), the switch above the monitor at every width. The live
+   section's own phone rules (home-sheets.css, #exam-experience) are repeated here for the stage. */
+.op-slot[data-tool='practise'] .xs-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'switch' 'device' 'full' 'gate'; grid-template-rows: auto; align-items: start; gap: 0.75rem; }
+/* NTA mode's gate (the exam section's own words and its way to Pro): on phones it fills the stage under the monitor, set as
+   on "/" (a shield, the words and the link on the paper under a hairline). From 960 px the monitor alone, as before. */
+.op-slot[data-tool='practise'] .xs-gate { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); grid-template-areas: 'mark text' 'mark foot'; column-gap: 0.75rem; row-gap: 0.25rem; margin: 0; padding: 0.875rem 0 0.125rem; border-top: 1px solid var(--line); }
+.op-slot[data-tool='practise'] .xs-gate__mark { grid-area: mark; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border-radius: 10px; background: var(--paper-raised-2); color: var(--ink); }
+.op-slot[data-tool='practise'] .xs-gate__mark svg { width: 18px; height: 18px; }
+.op-slot[data-tool='practise'] .xs-gate__text { grid-area: text; margin: 0; }
+.op-slot[data-tool='practise'] .xs-gate__foot { grid-area: foot; display: flex; flex-wrap: wrap; align-items: center; gap: 0 0.75rem; margin: 0; }
+.op-slot[data-tool='practise'] .xs-gate .lp-link { display: inline-flex; align-items: center; min-height: 44px; padding-block: 0; }
+/* Tablets: the monitor as wide as the two cards, so no row leaves a tall gap under it. */
+@media (min-width: 640px) and (max-width: 959px) { .op-slot[data-tool='practise'] .xs-layout { max-width: 34rem; width: 100%; margin-inline: auto; } }
+@media (min-width: 960px) {
+  .op-slot[data-tool='practise'] .xs-gate { display: none; }
+  /* No empty rows (and their gaps) for the phone-only key and gate. */
+  .op-slot[data-tool='practise'] .xs-layout { grid-template-areas: 'switch' 'device'; }
+}
+.op-slot[data-tool='practise'] .xs-layout > .xs-device { margin-top: 0; }
+@media (max-width: 760px) {
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch { justify-self: stretch; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch button { justify-content: center; }
+}
+@media (max-width: 639px) {
+  .op-slot[data-tool='practise'] .xs-layout > .xs-full-open {
+    align-self: start; margin: -4px 0 0; border-radius: 12px; font-weight: 750;
+    background: var(--ink); border-color: var(--ink); color: var(--paper);
+  }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch { border-radius: 12px; background: var(--paper-sunken); }
+  .op-slot[data-tool='practise'] .xs-layout > .xs-switch button { border-radius: 9px; }
+}
+
+/* ---- the app's window around Key cards and Ask Mobi (OnePlace.jsx AppWindow) ----
+   The bar is the exam monitor's own (.xs-browser, laid out in --u = 1/880 of the window, as on the monitor's glass). Phones:
+   the slim bar alone over the card, no window border. From 960 px: a window as wide as the monitor's screen (the glass is
+   97.4% of the device, exam-device.css; the device is at most 760 px here), its glass's corner, as tall as the frame. */
+.op-win { container-type: inline-size; display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.op-win__bar { --u: calc(100cqw / 880); border: 0; border-radius: 8px; margin-bottom: 10px; }
+.op-win__body { display: grid; align-content: start; min-width: 0; }
+@media (min-width: 960px) {
+  .op-slot:is([data-tool='cards'], [data-tool='mobi']) { align-content: stretch; }
+  .op-slot:is([data-tool='cards'], [data-tool='mobi']) .op-stage { align-self: stretch; display: grid; }
+  .op-win {
+    width: calc(min(760px, 100%) * 0.974); margin-inline: auto; overflow: hidden;
+    border: 1px solid var(--line-strong); border-radius: calc(min(760px, 100%) * 0.004 + 2px);
+    background: var(--paper-raised); box-shadow: var(--sh-1);
+  }
+  .op-win__bar { margin: 0; border-radius: 0; border-bottom: 1px solid var(--line); }
+  .op-win__body { align-content: center; justify-items: center; padding: 20px; }
+}
+
+/* Key cards: the demo alone, centred, with the live section's progress row (home-sheets.css, #key-cards). */
+.op-kc { display: grid; justify-items: center; }
+.op-kc .kc-demo { width: 100%; max-width: 30rem; display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'scene scene' 'pips count' 'keys keys'; align-items: center; }
+.op-kc .kc-demo__scene { grid-area: scene; }
+.op-kc .kc-demo__top { grid-area: count; margin: 0; }
+.op-kc .kc-demo__count { min-width: 0; font-size: 0.875rem; color: var(--ink-2); }
+.op-kc .kc-demo__keys { grid-area: keys; }
+.op-kc .kc-demo__pips { grid-area: pips; justify-content: flex-start; gap: 0.375rem; margin: 0.875rem 0; }
+.op-kc .kc-demo__pips li { width: 1.125rem; height: 4px; border-radius: 2px; transform: none; transition: background-color 200ms ease, width 240ms var(--op-ease), opacity 200ms ease; }
+.op-kc .kc-demo__pips li[data-state='done'] { background: var(--brand-word); opacity: 0.45; }
+.op-kc .kc-demo__pips li[data-state='now'] { width: 2rem; background: var(--brand-word); transform: none; }
+.op-kc .kc-demo__pips li[data-state='now']::after { content: none; }
+.op-kc .kc-demo[data-ended] .kc-demo__pips li { opacity: 1; }
+/* Phones and tablets: the card's face at the live section's own phone height (home-sheets.css, #key-cards, below 640 px). */
+@media (max-width: 959px) { .op-kc .kc-demo__face:not(.kc-demo__face--end) { min-height: 22rem; } }
+
+/* Ask Mobi: Bring a mistake's card alone (the .bmk wrapper carries the block's own scoped rules). */
+.op-bmk { display: grid; justify-items: center; padding: 0; }
+.op-bmk .bmk__demo { width: 100%; max-width: 34rem; }
+
+/* ---- under the frame: the volt key and the quiet line ---- */
+.op-foot { display: grid; justify-items: center; gap: 0.75rem; margin-top: 1.5rem; text-align: center; }
+.op-foot .mm-actions { justify-content: center; }
+.op-also { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.45; }
+
+/* The section's place while the browser skips drawing it (content-visibility: auto on every home section): the live page's
+   #your-prep held the tour deck's tall track (633 px + 378 svh on a phone), which would make the page jump here. Measured
+   21 Nov 2026 (after the app window) at 390x844, 360x740, 768x1024, 820x1180, 1024x768, 1366x768, 1440x900 and 1920x1080
+   (tmp/1121-oneplace/measure.mjs). */
+.lp main > #your-prep.op { contain-intrinsic-size: auto 975px; }
+@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1086px; } }
+@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1005px; } }
+@media (min-width: 1800px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1068px; } }
+
+/* ---- the section's head: the live page's #your-prep rules were written for the tour's one-line head ---- */
+@media (min-width: 1280px) {
+  #your-prep.op .lp-head--left { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2rem, 5vw, 6rem); }
+  #your-prep.op .lp-head--left .lp-h2 { max-width: 17ch; white-space: normal; }
+  #your-prep.op .lp-head--left > .lp-sub { max-width: 30rem; align-self: end; }
+}
+
+/* ---- 960 px and up: the rows stand beside the stage ---- */
+@media (min-width: 960px) {
+  .op-frame { grid-template-columns: minmax(240px, 300px) minmax(0, 1fr); grid-template-areas: 'rows stage'; align-items: center; column-gap: clamp(2rem, 4vw, 4rem); margin-top: 2rem; }
+  .op-rows { grid-area: rows; grid-template-columns: minmax(0, 1fr); gap: 8px; align-self: center; }
+  .op-row {
+    display: grid; grid-template-columns: 48px minmax(0, 1fr); grid-template-areas: 'obj name' 'obj line';
+    align-items: center; justify-items: start; column-gap: 14px; row-gap: 2px;
+    min-height: 0; padding: 14px 16px 18px; border-radius: 18px; text-align: left; font-size: 17px;
+  }
+  .op-row__obj { grid-area: obj; width: 48px; height: 44px; }
+  .op-row__name { grid-area: name; }
+  .op-row__line { grid-area: line; display: block; color: var(--ink-2); font: 500 14px/1.35 var(--font-body, inherit); letter-spacing: 0; }
+  .op-row__track { left: 16px; right: 16px; bottom: 8px; }
+  .op-caption { display: none; }
+  .op-stages { grid-area: stage; }
+  .op-slot { align-content: center; }
+  .op-slot[data-tool='practise'] .xs-layout { max-width: 760px; margin-inline: auto; }
+  .op-foot { margin-top: 2.25rem; }
+}

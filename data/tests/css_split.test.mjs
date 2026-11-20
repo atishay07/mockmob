@@ -78,6 +78,8 @@ test('every file that draws the .mm system imports marketing.css (home sections 
   for (const file of sourceFiles(join(root, 'src'))) {
     const rel = relative(root, file).split(sep).join('/');
     if (rel.startsWith('src/components/landing/') || rel === 'src/app/page.js') continue;
+    // A page that loads the home sheet itself may draw a home section (src/app/preview/lab-next, 21 Nov 2026).
+    if (/^import '@\/app\/home-sheets\.css';$/m.test(readFileSync(file, 'utf8'))) continue;
     assert.doesNotMatch(readFileSync(file, 'utf8'), /from '@\/components\/landing\/(CloseActions|CreatorReels|DemoDrill|HeroBackdrop|HeroDockGate|LabCinema|LiveStatsBand)'/, `${rel} draws a home section without the sheet`);
   }
 });

@@ -347,7 +347,13 @@ export const LAB_SCENES = Object.freeze([
   { key: 'time', tab: 'Time', title: 'Find the minutes that cost you.',
     body: `Every question against CUET’s pace of ${S.pace}. Overruns light up, and so does what they bought you.`,
     short: `Every question against CUET’s ${S.pace} pace, and what each overrun bought.`,
-    take: S.time.wrongAllOver && S.time.underAllRight ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.` : `${S.time.overCount} questions ran over pace.` },
+    take: S.time.wrongAllOver && S.time.underAllRight ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.` : `${S.time.overCount} questions ran over pace.`,
+    // look="next" (LabNextScreens.jsx): its Time screen lists the slowest questions, not every one, so it says that.
+    next: Object.freeze({
+      body: `Your slowest questions against CUET’s pace of ${S.pace} a question, and whether the extra minutes paid off.`,
+      short: `Your slowest questions against CUET’s ${S.pace} pace, and whether they paid off.`,
+      take: `Your slowest, Q${S.longest[0].n}, took ${S.longest[0].time}${S.longest[0].verdict === 'wrong' ? ' and was still wrong' : ''}.`,
+    }) },
   { key: 'changes', tab: 'Changes', title: 'Every second thought, on the clock.',
     body: 'Your first pick, what you switched to and when, and what each switch won or cost.',
     short: 'Every switch on the clock, and the marks it won or cost.',

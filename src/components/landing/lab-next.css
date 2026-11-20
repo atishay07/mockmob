@@ -1,0 +1,284 @@
+/* ==========================================================================
+   MISTAKE LAB, look="next" (LabCinema look="next", LabNextScreens.jsx). Everything here is scoped under
+   .lc__grid[data-look='next'], so the default Lab on the live home is untouched (and this sheet only loads with that look).
+   The five screens are the result page's own UI (MarksLedger, the time rows, the repair, After this mock) with their own
+   sheets; this sheet gives them the Arena roles they read (--a-*, the values of src/app/(app)/arena.css, as
+   keycards/public/public-deck.css does), lets the device follow Day and Night like the result page, fits them to the
+   device, and keeps each screen's height steady while the cursor opens things (the fit is measured once per resize).
+   Only transform and opacity move. No blur, no glow; nothing here differs under html[data-lite].
+   ========================================================================== */
+
+/* ---------- Roles: Night (the result page's Night) ---------- */
+body .lc__grid[data-look='next'] {
+  --a-bg: #12110e; --a-raised: #1b1a16; --a-raised-2: #25231e; --a-sunken: #0d0c0a;
+  --a-line: #312e27; --a-line-strong: #4a453b; --a-line-hover: rgba(244, 240, 230, 0.32);
+  --a-ink: #f4f0e6; --a-ink-2: #bdb6a6; --a-ink-3: #a09989; --a-ink-4: #938c7d;
+  --a-volt-line: rgba(210, 240, 0, 0.28); --a-volt-wash: rgba(210, 240, 0, 0.07);
+  --a-accent-text: #d2f000; --a-select: #d2f000; --a-focus: #d2f000; --a-hover: rgba(244, 240, 230, 0.04);
+  --a-bad-text: #ffa396; --a-warn-text: #edb75a; --a-good-text: #c6e86e; --a-purple-text: #c4b5fd;
+  --a-radius: 18px; --a-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --a-shadow-1: none;
+  /* The device's own surface, from the same roles. */
+  --s-bg: #161410;
+  --lnx-pick-bad: #ffa396;
+  --lnx-pick-good: #c6e86e;
+}
+/* ---------- Roles: Day (the result page's Day, so the device is a Day screen on a Day page) ---------- */
+html[data-theme='light'] body .lc__grid[data-look='next'] {
+  --a-bg: #f3efe6; --a-raised: #fffdf8; --a-raised-2: #f9f5ec; --a-sunken: #eae5da;
+  --a-line: #d8d1c2; --a-line-strong: #bdb4a2; --a-line-hover: #9a917f;
+  --a-ink: #17150f; --a-ink-2: #454036; --a-ink-3: #655f53; --a-ink-4: #6b6558;
+  --a-volt-line: rgba(111, 135, 0, 0.38); --a-volt-wash: rgba(124, 150, 20, 0.08);
+  --a-accent-text: #526700; --a-select: #6f8700; --a-focus: #526700; --a-hover: rgba(23, 21, 15, 0.05);
+  --a-bad-text: #b0291f; --a-warn-text: #845400; --a-good-text: #3d6600; --a-purple-text: #5b3a9a;
+  /* The device chrome (lab-cinema.css --s-*) in Day. */
+  --s-bg: #fffdf8; --s-raised: #f9f5ec; --s-sunken: #eae5da;
+  --s-ink: #17150f; --s-ink-2: #454036; --s-ink-3: #655f53;
+  --s-line: rgba(23, 21, 15, 0.1); --s-line-2: rgba(23, 21, 15, 0.18);
+  --s-accent: #526700; --s-accent-ink: #f4f0e6; --s-wash: rgba(23, 21, 15, 0.05);
+  --lcd-bezel: #e2dccf; --lcd-bezel-edge: rgba(32, 26, 14, 0.2);
+  --lnx-pick-bad: #b0291f;
+  --lnx-pick-good: #3d6600;
+}
+html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tab-ink { background: #17150f; }
+html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='true'] { color: #f4f0e6; }
+
+/* ---------- The active screen takes taps (the held story keeps every scene pointer-less) ---------- */
+.lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
+.lc__grid[data-look='next'] .lnx-stage { min-width: 0; }
+
+/* ---------- Every screen: its part's name, one headline line, then the rows ---------- */
+.lc__grid[data-look='next'] .lnx { display: grid; gap: 12px; align-content: start; min-width: 0; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx :is(p, h3, h4) { margin: 0; }
+.lc__grid[data-look='next'] .lnx-h { font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3); letter-spacing: 0.01em; }
+.lc__grid[data-look='next'] .lnx button { font: inherit; }
+
+/* ---------- 0. Chapters (MarksLedger): one fill a chapter ---------- */
+/* The home sheets have their own .ml (the old landing explainer, two columns from 960 px): the ledger keeps its one column. */
+.lc__grid[data-look='next'] .lnx--chapters .ml { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 12px; height: auto; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-headline { font: 650 17px/1.4 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx--chapters .ml-headline .ml-num { font-weight: 800; }
+.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-partnership'] { --c: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-cash-flow'] { --c: var(--ml-blank); }
+.lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-ratios'] { --c: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 12px; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel { padding-left: 38px; gap: 8px; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-chip { min-height: 40px; }
+/* The panel opens in place: its words and chips rise in (the cursor's click is what moves). */
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > * { animation: lnx-rise 240ms var(--a-ease) both; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > .ml-chips { animation-delay: 70ms; }
+
+/* ---------- The time and change rows: src/components/result/time-decisions.css, copied here and scoped. That sheet's root
+   class (.td) is also the home tour deck's (r18-tour-deck.css), so it is never loaded beside the home's sheets. ---------- */
+.lc__grid[data-look='next'] .lnx .td-lead { font-size: 15px; line-height: 1.45; font-weight: 600; color: var(--a-ink); max-width: 68ch; font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
+.lc__grid[data-look='next'] .lnx .td-long__row {
+  width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) 64px; grid-template-areas: 'q track time' 'q meta meta';
+  gap: 4px 12px; align-items: center; min-height: 52px; padding: 8px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0;
+  background: transparent; color: inherit; text-align: left; cursor: pointer;
+}
+.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) > li:first-child > :is(.td-long__row, .td-changes__row) { border-top: 0; }
+.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):hover { background: color-mix(in srgb, var(--a-ink) 4%, transparent); }
+.lc__grid[data-look='next'] .lnx :is(.td-long__q, .td-changes__q) { grid-area: q; align-self: start; padding-top: 1px; font: 700 14px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx .td-long__track { grid-area: track; position: relative; height: 8px; border-radius: 999px; background: var(--a-line); }
+.lc__grid[data-look='next'] .lnx .td-long__fill { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--a-ink-3); transform-origin: left; }
+.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='correct'] { background: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='wrong'] { background: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='skipped'] { background: var(--a-line-strong); }
+.lc__grid[data-look='next'] .lnx .td-long__pace { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx .td-long__time { grid-area: time; text-align: right; font: 700 14px/1.2 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx .td-long__meta { grid-area: meta; display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; line-height: 1.5; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx .td-long__meta [data-verdict='correct'] { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx .td-long__meta [data-verdict='wrong'] { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx .td-changes__row {
+  width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: 'q text net'; gap: 12px; align-items: start;
+  min-height: 48px; padding: 10px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: transparent;
+  color: inherit; text-align: left; cursor: pointer;
+}
+.lc__grid[data-look='next'] .lnx .td-changes__text { grid-area: text; min-width: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx .td-changes__net { grid-area: net; font: 700 15px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='good'] { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='bad'] { color: var(--a-bad-text); }
+@media (max-width: 640px) {
+  .lc__grid[data-look='next'] .lnx .td-long__row { grid-template-columns: 40px minmax(0, 1fr) 60px; gap: 4px 10px; }
+  .lc__grid[data-look='next'] .lnx .td-changes__row { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row) { transition: transform 160ms var(--a-ease, ease); }
+  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):active { transform: scale(.98); }
+}
+
+/* ---------- 1. Time: the slowest rows; a tapped row shows its verdict and pace line ---------- */
+.lc__grid[data-look='next'] .lnx--time .td-long__row { min-height: 50px; }
+.lc__grid[data-look='next'] .lnx--time .td-long__meta { font-size: 13px; opacity: 0; transform: translate3d(0, -3px, 0); transition: opacity 200ms ease, transform 240ms var(--a-ease); }
+.lc__grid[data-look='next'] .lnx--time .td-long__row[data-open] .td-long__meta { opacity: 1; transform: none; }
+.lc__grid[data-look='next'] .lnx--time .td-long__row[data-open] { background: var(--a-hover); }
+.lc__grid[data-look='next'] .lnx--time .td-long__pace { background: var(--a-accent-text); }
+
+/* ---------- 2. Changes: a tapped change opens its two picks ---------- */
+.lc__grid[data-look='next'] .lnx--changes .td-changes__text { font-size: 13.5px; }
+.lc__grid[data-look='next'] .lnx--changes li[data-open] > .td-changes__row { background: var(--a-hover); }
+.lc__grid[data-look='next'] .lnx-picks { display: grid; gap: 8px; padding: 2px 4px 12px 54px; animation: lnx-rise 240ms var(--a-ease) both; }
+.lc__grid[data-look='next'] .lnx-picks__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lc__grid[data-look='next'] .lnx-picks__arrow { color: var(--a-ink-3); flex: none; }
+.lc__grid[data-look='next'] .lnx-pick { display: inline-flex; align-items: center; gap: 8px; }
+.lc__grid[data-look='next'] .lnx-pick > i {
+  position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid currentColor; font: 700 13px/1 var(--font-display, inherit); font-style: normal;
+}
+.lc__grid[data-look='next'] .lnx-pick > i svg { position: absolute; right: -5px; top: -5px; width: 15px; height: 15px; padding: 2px; border-radius: 50%; background: currentColor; }
+.lc__grid[data-look='next'] .lnx-pick[data-verdict='right'] > i { color: var(--lnx-pick-good); }
+.lc__grid[data-look='next'] .lnx-pick[data-verdict='wrong'] > i { color: var(--lnx-pick-bad); }
+.lc__grid[data-look='next'] .lnx-pick > i svg path, .lc__grid[data-look='next'] .lnx-pick > i svg polyline { stroke: var(--s-bg); }
+.lc__grid[data-look='next'] .lnx-pick > span { display: grid; font: 650 13px/1.25 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-pick > span small { font: 500 12px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-picks__effect { font-size: 14px; line-height: 1.4; font-weight: 650; }
+.lc__grid[data-look='next'] .lnx-picks__effect[data-tone='bad'] { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-picks__effect[data-tone='good'] { color: var(--a-good-text); }
+
+/* ---------- 3. Repair: the mistake's row (result-1017.css .rx-row, as the result draws it), then the repair ---------- */
+.lc__grid[data-look='next'] .lnx-mistake {
+  display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start;
+  padding: 12px 2px; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line);
+}
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__n {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); font: 700 13px/1 var(--font-display, inherit);
+}
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__main { display: grid; gap: 4px; min-width: 0; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__ch { font: 650 15px/1.35 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__stem { font-size: 13px; line-height: 1.45; color: var(--a-ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__facts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 2px; font-size: 12.5px; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick { display: inline-flex; align-items: center; gap: 5px; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font: 700 11px/1 var(--font-display, inherit); font-style: normal; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='key'] i { border: 1.5px solid var(--a-good-text); color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__cost { font: 700 15px/1.2 var(--font-display, inherit); color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx--repair .mr { margin-top: 0; }
+.lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 12px; padding: 14px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-title { font: 700 17px/1.25 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 14px; line-height: 1.5; }
+.lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 12px 14px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 15px; line-height: 1.45; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start { min-height: 0; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start__icon { color: #10140e; }
+
+/* ---------- 4. After this mock (swot.css): the plan's first set, then the four groups two by two ---------- */
+.lc__grid[data-look='next'] .lnx--swot.sw { padding: 0; border: 0; background: transparent; box-shadow: none; gap: 12px; }
+.lc__grid[data-look='next'] .lnx--swot .sw-block { gap: 6px; }
+.lc__grid[data-look='next'] .lnx--swot .sw-h3 { font-size: 14px; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); padding: 10px 0; }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__row[data-first] .sw-plan__n { color: var(--a-accent-text); font-weight: 750; }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__label { font: 700 16px/1.35 var(--font-display, inherit); }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { font-size: 13.5px; line-height: 1.45; }
+.lc__grid[data-look='next'] .lnx-quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.lc__grid[data-look='next'] .lnx-quads .sw-q { display: grid; gap: 6px; align-content: start; padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-sunken); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-open] { border-color: var(--a-line-strong); }
+.lc__grid[data-look='next'] .lnx-quad {
+  display: grid; gap: 4px; width: 100%; min-height: 44px; padding: 10px 12px 2px; border: 0; border-radius: 11px;
+  background: transparent; color: inherit; text-align: left; cursor: pointer;
+}
+.lc__grid[data-look='next'] .lnx-quad:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lc__grid[data-look='next'] .lnx-quad .sw-q__h { font: 650 12.5px/1.3 var(--font-display, inherit); color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='weakness'] .sw-q__h { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='threat'] .sw-q__h { color: var(--a-warn-text); }
+.lc__grid[data-look='next'] .lnx-quad .sw-item__title { font: 650 14px/1.35 var(--font-body, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-quads .sw-item__detail { padding: 0 12px 12px; font-size: 13px; line-height: 1.45; animation: lnx-rise 240ms var(--a-ease) both; }
+.lc__grid[data-look='next'] .lnx-quads .sw-q:not([data-open]) .lnx-quad { padding-bottom: 10px; }
+
+/* ---------- Steady height: each screen holds the room its opened state needs, so the device's one fit per resize holds
+   while the cursor opens a row (phones first, then the wide device). ---------- */
+.lc__grid[data-look='next'] .lnx--chapters { min-height: var(--lnx-h-chapters, 0px); }
+.lc__grid[data-look='next'] .lnx--changes { min-height: var(--lnx-h-changes, 0px); }
+.lc__grid[data-look='next'] .lnx--repair { min-height: var(--lnx-h-repair, 0px); }
+.lc__grid[data-look='next'] .lnx--swot { min-height: var(--lnx-h-swot, 0px); }
+
+/* Under reduced motion the finished state is simply there. */
+@keyframes lnx-rise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-picks, .sw-item__detail, .mr--done > *) { animation: none !important; }
+  .lc__grid[data-look='next'] .td-long__meta { transition: none; }
+}
+html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-picks, .sw-item__detail, .mr--done > *) { animation: none !important; }
+
+/* Phones: the repair runs each block's label into its sentence (as the default look's phone screen does), so the finished
+   repair fits the device at a readable size. */
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc__grid[data-look='next'] .lnx--repair .mr-block { display: block; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label { display: inline; margin-right: 0.35em; color: var(--a-ink); font-size: 14px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { display: inline; color: var(--a-ink-2); }
+  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 10px; padding: 12px 14px; }
+  .lc__grid[data-look='next'] .lnx-mistake { padding: 10px 2px; }
+}
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc__grid[data-look='next'] .lnx-mistake .rx-row__stem { display: none; }
+}
+/* The opened heights measured on 360 to 430 px phones (tmp/1121-lab/measure.mjs), with a few pixels to spare. The wide
+   device has room to spare for every opened screen, so it needs none. */
+@media (max-width: 959px) {
+  .lc__grid[data-look='next'] { --lnx-h-chapters: 402px; --lnx-h-changes: 346px; --lnx-h-repair: 404px; --lnx-h-swot: 352px; }
+}
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule { display: block; padding: 10px 12px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule__head { display: inline; margin-right: 0.35em; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { display: inline; font-size: 14px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { line-height: 1.45; }
+}
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc__grid[data-look='next'] .lnx--repair { gap: 10px; }
+}
+
+/* The wide device is a big screen: the result page's own sizes would sit small in it, so the screen is drawn larger (zoom
+   scales the layout, so the rows still wrap and fit; nothing animates it). The steps keep the finished screen inside the
+   room the device gives at each window height (tmp/1121-lab/measure.mjs). */
+@media (min-width: 960px) and (min-height: 600px) { .lc__grid[data-look='next'] .lnx { zoom: 1.1; } }
+@media (min-width: 960px) and (min-height: 760px) { .lc__grid[data-look='next'] .lnx { zoom: 1.18; } }
+@media (min-width: 960px) and (min-height: 880px) { .lc__grid[data-look='next'] .lnx { zoom: 1.28; } }
+@media (min-width: 1600px) and (min-height: 1000px) { .lc__grid[data-look='next'] .lnx { zoom: 1.4; } }
+@media (min-width: 2200px) and (min-height: 1300px) { .lc__grid[data-look='next'] .lnx { zoom: 1.6; } }
+
+/* ---------- Chapters: "Across your mocks", folded, as the result page draws it (lab-loop.css .am-head, copied and scoped;
+   that sheet is not loaded beside the home's): its title and its first line, with no need to open it. ---------- */
+.lc__grid[data-look='next'] .lnx-across { display: grid; gap: 3px; padding: 12px 0 0; border-top: 1px solid var(--a-line); }
+.lc__grid[data-look='next'] .lnx-across .am-head__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.012em; color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx-across .ml-num { font-weight: 700; color: var(--a-ink); }
+
+/* ---------- Changes: the re-mark line (MarksLedger .ml-remark__scores), on the wide device only ---------- */
+.lc__grid[data-look='next'] .lnx-first { display: none; }
+@media (min-width: 960px) {
+  .lc__grid[data-look='next'] .lnx-first {
+    display: block; margin-top: 2px; padding: 12px 14px; border-radius: 14px; background: var(--a-sunken);
+    font-size: 14px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums;
+  }
+  .lc__grid[data-look='next'] .lnx-first .ml-num { font-weight: 700; color: var(--a-ink); }
+}
+
+/* Phones: a little less air, so the finished Chapters (with Across your mocks) and the finished Repair fit a 390 x 844 device
+   at full size. */
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc__grid[data-look='next'] .lnx { gap: 10px; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml { gap: 10px; }
+  .lc__grid[data-look='next'] .lnx-across { padding-top: 10px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 8px; padding: 10px 12px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 8px 12px; }
+  .lc__grid[data-look='next'] .lnx-mistake { padding: 6px 2px; }
+}
+
+/* Small phones (380 px and under, a 360 x 740 device): the finished states are trimmed rather than shrunk, so the screen keeps
+   its full size and every line stays at 12 px or more. The part's name steps aside on every screen (the rail and the words
+   above name it); Chapters keeps Across your mocks' line without its title and, once a chapter is open, that chapter alone;
+   Changes, once a change is open, that change alone; Repair, once written, the repair alone; the SWOT, once a group is open,
+   the plan and that group alone, full width. Before the cursor's tap every screen is whole. */
+@media (max-width: 380px) {
+  /* The taller of each screen's first and finished state at 360 px (tmp/1121-lab/measure2.mjs). */
+  .lc__grid[data-look='next'] { --lnx-h-chapters: 292px; --lnx-h-changes: 240px; --lnx-h-repair: 316px; --lnx-h-swot: 312px; }
+  .lc__grid[data-look='next'] .lnx-h { display: none; }
+  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-rows:has(> .ml-row[data-open]) > .ml-row:not([data-open]) { display: none; }
+  .lc__grid[data-look='next'] .lnx--changes .td-changes:has(> li[data-open]) > li:not([data-open]) { display: none; }
+  .lc__grid[data-look='next'] .lnx--repair:has(> .mr--done) > .lnx-mistake { display: none; }
+  .lc__grid[data-look='next'] .lnx-quads:has(> .sw-q[data-open]) { grid-template-columns: minmax(0, 1fr); }
+  .lc__grid[data-look='next'] .lnx-quads:has(> .sw-q[data-open]) > .sw-q:not([data-open]) { display: none; }
+}

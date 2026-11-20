@@ -1,30 +1,31 @@
-// /home-next, the clarity-first home (spec: mockmob-brain/docs/HOME-NEXT-SPEC-2026-11-20.md with Revision 2; owner LK360,
-// LK361). What these hold: the words (headings of at most seven words, at most one sentence under each, no em dash, no "!"),
-// the autoplay rules (never under reduced motion, each row 6 to 8 seconds, a tap holds), the Mistake Lab's four beats from
-// labStory.mjs only, the coverage figures computed from the inventory and the syllabus (never typed), and the page's place:
-// noindex, in no sitemap, linked from nowhere, the home sheet loaded after the marketing sheet, nothing the code cannot source.
+// /home-next, 21 Nov 2026 (owner LK363): the live home as it is, with ONE frame in place of the tour deck, the Key cards
+// section, Bring a mistake and the exam screen section: "Your whole CUET prep, in one place." Three rows, one stage; each
+// stage is the landing's own real component, worked by a demo cursor (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx).
+// What these hold: the page's place (noindex, in no sitemap, linked from nowhere; "/" untouched with its four sections), the
+// order of the sections, the stages being the real components, every script aiming at a hook the component really carries,
+// the autoplay rules, no frame loop or interval in the frame's files, and the words (seven-word heading, one sentence, no
+// em dash, no "!", only live tools named).
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq } from '../../src/components/landing/onePlaceCopy.mjs';
 import {
-  COMPASS_NEXT, COVER_HEAD, COVER_MIN, FIX, HEADING_MAX_WORDS, LAB_EXAMPLE, LAB_NEXT, PARTS, PRACTICE, PREP_HEAD, RHYTHM,
-  SOCIAL_NEXT, TRY_NEXT, chapterLine, coverFine, coverLead, fixPrice, freeFaq, sentences, words,
-} from '../../src/components/home2/homeNextCopy.mjs';
-import { HOLD_MS, TOUCH_HOLD_MS, autoplayRuns, holdFor, holdKind, keyStep, nextIndex } from '../../src/components/home2/autoplay.mjs';
-import { coverageModel, subjectChapters, COVER_MIN as MODEL_MIN } from '../../src/components/home2/coverageModel.mjs';
-import { labStory } from '../../src/components/landing/labStory.mjs';
-import { EXAM, EXAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
-import { SUBJECT_PAGES, subjectBank, syllabusUnits } from '../../src/lib/subjectPages.mjs';
-import { publicStatsView } from '../../src/lib/server/publicStats.js';
-import { FIRST_SET_COUNT } from '../../src/lib/firstSet.mjs';
-import { PAPER_SHARE, PUBLIC_SUBJECT_COUNT } from '../../data/subject_claim.js';
+  ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, autoplayRuns, keyStep, motionReduced, nextIndex, scriptHooks, scriptMs,
+} from '../../src/components/landing/onePlaceModel.mjs';
+import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = (rel) => readFileSync(join(root, rel), 'utf8');
 const PAGE = read('src/app/home-next/page.js');
-const S = labStory();
+const LIVE = read('src/app/page.js');
+const FRAME = read('src/components/landing/OnePlace.jsx');
+const EXAM_SRC = read('src/components/landing/ExamScreen.jsx');
+const CARDS_SRC = read('src/components/landing/KeyCardsDemo.jsx');
+const BMK_SRC = read('src/components/landing/BringMistakeBlock.jsx');
+const words = (text) => String(text).trim().split(/\s+/).filter(Boolean).length;
+const sentences = (text) => (String(text).replace(/(\d)\.(\d)/g, '$1,$2').match(/[^.?]+[.?]/g) || []).length;
 
 function sourceFiles(dir) {
   const out = [];
@@ -35,189 +36,8 @@ function sourceFiles(dir) {
   }
   return out;
 }
-const HOME2 = sourceFiles(join(root, 'src/components/home2')).map((p) => ({ rel: relative(root, p).split(sep).join('/'), text: readFileSync(p, 'utf8') }));
 
-// ------------------------------------------------------------------ words
-const totals = { covered: 174, chapters: 199, subjects: 15, questions: 5117 }; // a fixture only: the page reads the inventory
-const HEADS = [
-  [PREP_HEAD.h2, null],
-  [TRY_NEXT.h2, TRY_NEXT.sub],
-  [LAB_NEXT.h2, null],
-  [COVER_HEAD.h2, coverLead(totals.questions).text],
-  [RHYTHM.h2, null],
-  [COMPASS_NEXT.h2, COMPASS_NEXT.sub],
-  [SOCIAL_NEXT.h2, SOCIAL_NEXT.sub],
-];
-
-test('every new heading is at most seven words, with at most one sentence under it', () => {
-  for (const [h2, sub] of HEADS) {
-    assert.ok(words(h2) <= HEADING_MAX_WORDS, `"${h2}" is ${words(h2)} words`);
-    if (sub) assert.equal(sentences(sub), 1, `one sentence under "${h2}": "${sub}"`);
-  }
-});
-
-test('the rows are three or four words and one short line; each beat is one short line', () => {
-  for (const part of PARTS) {
-    assert.ok(words(part.title) >= 3 && words(part.title) <= 4, part.title);
-    assert.ok(words(part.line) <= 12, part.line);
-    assert.equal(part.title.split(' ')[0], part.verb, 'the phone chip is the row title’s first word');
-  }
-  // Revision 2 gives the beats' words (the third is its two short sentences, pinned in the Lab test below).
-  for (const beat of LAB_NEXT.beats) assert.ok(words(beat.line) <= 12 && sentences(beat.line) <= 2, beat.line);
-});
-
-test('no em dash, no exclamation mark and sentence case in the new words', () => {
-  const lines = [
-    ...HEADS.flat().filter(Boolean), ...PARTS.flatMap((p) => [p.title, p.line]), ...LAB_NEXT.beats.flatMap((b) => [b.title, b.line, b.unit]),
-    LAB_NEXT.after, PRACTICE.nta, FIX.slip, coverFine({ ...totals, countedOn: '20 Nov' }), freeFaq({ freeCredits: 50, dailySize: 5 }).answer,
-  ];
-  for (const line of lines) {
-    assert.doesNotMatch(line, /[—!]/, line);
-    assert.doesNotMatch(line, /\b[A-Z]{2,}\b(?<!CUET|NTA|DU|UG|GT|SWOT)/, `no shouting: ${line}`);
-  }
-});
-
-test('Practise says Unlimited on Pro, the NTA line is the exam section’s own, and the key is the exam view’s', () => {
-  assert.match(PARTS[0].line, /Unlimited on Pro\./);
-  assert.equal(PRACTICE.nta, 'NTA style is an exact copy of the real NTA exam screen.');
-  assert.ok(EXAM_HEAD.sub.startsWith(PRACTICE.nta));
-  assert.equal(PRACTICE.full, EXAM.full.open);
-  assert.deepEqual(PRACTICE.question, EXAM.questions[EXAM.start.index]);
-});
-
-test('Fix says what a brought mistake gives and its price from the app’s own numbers', () => {
-  assert.equal(FIX.leave.items.length, 4);
-  const price = fixPrice({ photo: true, credits: 1, photoCredits: 2, free: 50 });
-  assert.equal(price, 'A typed question uses 1 credit, a photo 2 credits. Free gives you 50 credits a month.');
-  // The page builds it from the constants, never from typed figures.
-  assert.match(PAGE, /fixPrice\(\{ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS \}\)/);
-});
-
-// ------------------------------------------------------------------ the autoplay
-test('the frames never advance under reduced motion, off screen, in a hidden tab, held, or before the page wakes', () => {
-  const base = { ready: true, reduced: false, onScreen: true, visible: true, held: false };
-  assert.equal(autoplayRuns(base), true);
-  for (const key of ['ready', 'onScreen', 'visible']) assert.equal(autoplayRuns({ ...base, [key]: false }), false, key);
-  assert.equal(autoplayRuns({ ...base, held: true }), false);
-  // Reduced motion wins over every other state, in every combination.
-  for (const ready of [true, false]) for (const onScreen of [true, false]) for (const visible of [true, false]) for (const held of [true, false]) {
-    assert.equal(autoplayRuns({ ready, reduced: true, onScreen, visible, held }), false);
-  }
-  assert.equal(autoplayRuns(), false, 'no facts: no autoplay');
-});
-
-test('each row holds 6 to 8 seconds for its own demo, a tap holds 8 seconds, and the keys walk the tab list', () => {
-  assert.deepEqual([HOLD_MS.min, HOLD_MS.max], [6000, 8000]);
-  for (const item of [...PARTS, ...LAB_NEXT.beats]) {
-    assert.ok(holdFor(item) >= 6000 && holdFor(item) <= 8000, item.id);
-    assert.equal(holdFor(item), item.ms, `${item.id} keeps its own hold`);
-  }
-  assert.equal(holdFor({ ms: 2000 }), 6000);
-  assert.equal(holdFor({ ms: 20000 }), 8000);
-  assert.equal(TOUCH_HOLD_MS, 8000);
-  assert.equal(nextIndex(3, 4), 0);
-  assert.equal(keyStep('ArrowRight', 3, 4), 0);
-  assert.equal(keyStep('ArrowLeft', 0, 4), 3);
-  assert.equal(keyStep('ArrowDown', 1, 4), 2);
-  assert.equal(keyStep('Home', 2, 4), 0);
-  assert.equal(keyStep('End', 0, 4), 3);
-  assert.equal(keyStep('Enter', 0, 4), null);
-  assert.equal(holdKind(0, 'mouse'), 'keyboard');
-  assert.equal(holdKind(1, 'mouse'), 'mouse');
-  assert.equal(holdKind(1, 'touch'), 'touch');
-});
-
-test('the line is the clock: a transform animation paused by data-play, gone under reduced motion, no frame loop', () => {
-  const css = read('src/components/home2/home-next.css').replace(/\/\*[\s\S]*?\*\//g, '');
-  assert.match(css, /@keyframes hn-fill \{ to \{ transform: scaleX\(1\); \} \}/);
-  assert.match(css, /\.hn \.hn-auto\[data-play='false'\] \.hn-tab__fill \{ animation-play-state: paused; \}/);
-  assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{[^}]*\}\s*\.hn \.hn-tab__fill \{ display: none; \}/);
-  assert.match(css, /html\[data-motion='reduced'\] \.hn \.hn-tab__fill \{ display: none; \}/);
-  assert.equal(/:has\(/.test(css), false, 'no :has() anywhere in the sheet');
-  assert.equal(/backdrop-filter/.test(css), false, 'no blur');
-  const code = HOME2.filter((f) => /\.(jsx?|mjs)$/.test(f.rel)).map((f) => f.text).join('\n');
-  assert.doesNotMatch(code, /requestAnimationFrame|setInterval/, 'no frame loop, no interval');
-  const hook = read('src/components/home2/useAutoplay.js');
-  assert.match(hook, /motionReduced\(window\)/);
-  assert.match(hook, /attributeFilter: \['data-motion'\]/);
-  const frame = read('src/components/home2/AutoFrame.jsx');
-  assert.match(frame, /\{on && !still \? <i key=\{cycle\} className="hn-tab__fill"/, 'no line at all while still');
-  assert.match(frame, /role="tablist"/);
-  assert.match(frame, /role="tabpanel"/);
-});
-
-// ------------------------------------------------------------------ the Mistake Lab's four beats (labStory.mjs only)
-test('the Lab is four beats from labStory: 22 of 50, 18 of 28 in Partnership, 3 changes net minus 6, practise 10', () => {
-  const [score, where, changes, next] = LAB_NEXT.beats;
-  assert.deepEqual(LAB_NEXT.beats.map((b) => b.id), ['score', 'where', 'changes', 'next']);
-  assert.equal(score.line, `You scored ${S.facts.marks} of ${S.facts.outOf}.`);
-  assert.equal(where.line, `${S.chapters[0].lost} of your ${S.lostMarks} lost marks are in one chapter: ${S.chapters[0].chapter}.`);
-  assert.equal(changes.line, `You changed ${S.changes.length} answers. It cost you ${-S.net} marks.`);
-  assert.equal(next.line, `Next: ${S.swot.plan[0].label.charAt(0).toLowerCase()}${S.swot.plan[0].label.slice(1)}.`);
-  // The figures Revision 2 names, as the sample stands today (a change to labStory must be seen here).
-  assert.deepEqual([score.line, where.line, changes.line, next.line], [
-    'You scored 22 of 50.', '18 of your 28 lost marks are in one chapter: Partnership.', 'You changed 3 answers. It cost you 6 marks.', 'Next: practise 10 on Partnership.',
-  ]);
-  assert.equal(LAB_EXAMPLE.changes.reduce((sum, c) => sum + c.net, 0), S.net);
-  assert.equal(LAB_NEXT.example, 'Example');
-  assert.match(read('src/components/home2/LabBeats.jsx'), /tag=\{LAB_NEXT\.example\}/, '"Example" stays on the frame');
-});
-
-// ------------------------------------------------------------------ coverage: computed, never typed
-function fixture() {
-  // Two subjects with chapter counts, one without (left out), one with none at all.
-  const acc = syllabusUnits('accountancy');
-  const eco = syllabusUnits('economics');
-  const counts = (units, pick) => Object.fromEntries(units.flatMap((u) => u.sources).map((name, i) => [name, pick(i)]));
-  return {
-    state: 'available', checkedAt: '2026-11-20T10:00:00Z',
-    subjectCounts: { accountancy: 700, economics: 90, english: 40, physics: 12, legal_studies: 999 },
-    chapterCounts: { accountancy: counts(acc, (i) => (i % 3 === 0 ? 4 : 25)), economics: counts(eco, (i) => (i % 2 ? 0 : 11)) },
-  };
-}
-
-test('coverage counts a chapter only at a set’s worth, and agrees with the subject pages’ own sums', () => {
-  assert.equal(COVER_MIN, FIRST_SET_COUNT);
-  assert.equal(MODEL_MIN, FIRST_SET_COUNT);
-  const inv = fixture();
-  const model = coverageModel(inv);
-  assert.deepEqual(model.subjects.map((s) => s.id), ['accountancy', 'economics'], 'subjects without chapter counts are left out');
-  for (const s of model.subjects) {
-    const units = syllabusUnits(s.id);
-    const bank = subjectBank(inv, s.id, units);
-    assert.equal(s.withAny, bank.chaptersCovered, `${s.id}: chapters with any question = the subject page's count`);
-    assert.equal(s.questions, bank.questions);
-    assert.equal(s.covered, s.chapters.filter((c) => c.count >= COVER_MIN).length);
-    assert.deepEqual(s.chapters, subjectChapters(inv.chapterCounts[s.id], units));
-    assert.ok(s.chapters.every((c, i) => c.n === i + 1));
-  }
-  assert.equal(model.totals.questions, publicStatsView(inv).bankSize, 'the bank total is /api/stats’s own figure');
-  assert.equal(model.totals.covered, model.subjects.reduce((n, s) => n + s.covered, 0));
-  assert.equal(model.countedOn, '20 Nov');
-  assert.equal(coverageModel({ state: 'unavailable' }), null);
-  assert.equal(coverageModel({ ...inv, chapterCounts: undefined }), null);
-  assert.equal(chapterLine({ count: 9 }), '9 questions so far, under a set of 10');
-  assert.equal(chapterLine({ count: 0 }), 'No questions in the bank yet');
-  assert.equal(chapterLine({ count: 1179 }), '1,179 questions in the bank');
-});
-
-test('the coverage lead is the sourced subject claim and the live count, worked out, never typed', () => {
-  const lead = coverLead(4321);
-  assert.equal(lead.text, `The ${PUBLIC_SUBJECT_COUNT} subjects behind ${PAPER_SHARE.covered} of every ${PAPER_SHARE.outOf} CUET papers, with 4,321 questions in the live bank.`);
-  assert.equal(coverLead(null).count, null, 'no count: no number');
-  // No bank figure, chapter count or past-paper percentage is written into the page or its parts.
-  const typed = /\b5,?117\b|\b1,?179\b|\b19[34] of 199\b|\b174 of 199\b|%\s*of\s*CUET/;
-  assert.doesNotMatch(PAGE, typed);
-  for (const f of HOME2) assert.doesNotMatch(f.text, typed, f.rel);
-  for (const rel of ['src/components/home2/Coverage.jsx', 'src/components/home2/coverageModel.mjs']) {
-    const code = read(rel).replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
-    assert.doesNotMatch(code, /\b\d{3,}\b/, `${rel}: no typed figure`);
-  }
-  assert.match(PAGE, /const inventory = await publicInventory\(\)/);
-  assert.match(PAGE, /coverageModel\(inventory\)/);
-});
-
-// ------------------------------------------------------------------ the page's place and its promises
+// ------------------------------------------------------------------ the page's place
 test('/home-next is noindex, in no sitemap and linked from nowhere', () => {
   assert.match(PAGE, /robots: \{ index: false, follow: false, googleBot: \{ index: false, follow: false \} \}/);
   assert.doesNotMatch(read('src/app/sitemap.js'), /home-next/);
@@ -231,25 +51,166 @@ test('/home-next is noindex, in no sitemap and linked from nowhere', () => {
   assert.deepEqual(linkers, []);
 });
 
-test('the page draws the home sections with the home sheet, loaded after the marketing sheet, as "/" does', () => {
-  const css = [...PAGE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1]);
-  assert.deepEqual(css, ['@/app/marketing.css', '@/components/brand/mobi-figure.css', '../home-sheets.css', '@/components/home2/home-next.css']);
-  assert.match(read('src/components/home2/landingParts.js'), /from '\.\.\/landing\/DemoDrill'/);
-  // The live home is not touched by this page.
-  assert.doesNotMatch(read('src/app/page.js'), /home2|home-next/);
+test('"/" is untouched: it still draws the tour deck, Key cards, Bring a mistake and the exam screen, and none of this page', () => {
+  assert.match(LIVE, /<TourDeck slides=\{TOUR\} samples=\{TOUR_SAMPLES\} \/>/);
+  assert.match(LIVE, /id="your-prep"/);
+  assert.match(LIVE, /id="key-cards"/);
+  assert.match(LIVE, /<KeyCardsDemo cards=\{KEY_CARDS\.cards\} keys=\{KEY_CARDS\.keys\} bank=\{KEY_CARDS\.bank\} subjects=\{KEY_CARDS\.subjects\} \/>/);
+  assert.match(LIVE, /<BringMistakeBlock photo=\{MISTAKE_PHOTO_ON\} credits=\{MISTAKE_CREDITS\} photoCredits=\{MISTAKE_PHOTO_CREDITS\} \/>/);
+  assert.match(LIVE, /<Later><ExamScreen \/><\/Later>/);
+  assert.match(LIVE, /<LabCinema \/>/);
+  assert.doesNotMatch(LIVE, /home2|home-next|OnePlace|onePlace/);
 });
 
-test('nothing the code cannot source: no free first mock, no Students heading, prices from the offer', () => {
-  assert.match(PAGE, /firstFullMock=\{null\}/);
-  assert.doesNotMatch(PAGE, /FIRST_FULL_MOCK/);
-  assert.doesNotMatch(SOCIAL_NEXT.h2, /Student/);
-  assert.match(PAGE, /const OFFER = publicOffer\(\);/);
-  assert.match(PAGE, /heroPriceHook\(OFFER/);
-  const all = [PAGE, ...HOME2.map((f) => f.text)].join('\n');
-  assert.doesNotMatch(all, /₹\s?\d/, 'no rupee figure typed anywhere');
-  assert.doesNotMatch(all, /free (first )?(full )?mock\b/i);
+test('the shared components keep the live markup by default (their new props are optional and off on "/")', () => {
+  // ExamScreen is the section with its head, drawn through ExamStage; the gate card stays on by default.
+  assert.match(EXAM_SRC, /export function ExamScreen\(\) \{\n  return \(\n    <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">\n      <div className="mm-wrap">\n        <ExamStage head=\{<>/);
+  assert.match(EXAM_SRC, /export function ExamStage\(\{ head = null, gate = true \}\)/);
+  assert.match(EXAM_SRC, /<div className="xs-layout">\n        \{head\}/);
+  // Key cards draws its foot unless asked not to; Bring a mistake's block passes its own id to the card.
+  assert.match(CARDS_SRC, /export default function KeyCardsDemo\(\{ cards = \[\], keys = \[\], bank = null, subjects = null, foot = true \}\)/);
+  assert.match(CARDS_SRC, /\{foot \? <div className="kc-foot">/);
+  assert.match(BMK_SRC, /<BringMistakeCard id=\{id\} photo=\{photo\} \/>/);
+  assert.match(BMK_SRC, /export function BringMistakeCard\(\{ id: given, photo = false \}\)/);
+  assert.match(BMK_SRC, /const id = given \|\| own;/);
+});
+
+test('/home-next draws the new section and none of the four it replaces, in the live order around it', () => {
+  for (const gone of [/<TourDeck/, /id="key-cards"/, /<KeyCardsDemo/, /<BringMistakeBlock/, /<ExamScreen/, /TOUR_HEAD/]) assert.doesNotMatch(PAGE, gone);
+  assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
+  assert.match(PAGE, /<OnePlace keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} \/>/);
+  assert.match(PAGE, /<LandingActions mode="primary" \/>/);
+  assert.match(PAGE, /<LabCinema look="next" \/>/);
+  const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="your-prep"', '<Statement', 'id="inside-the-lab"', 'id="daily-and-sunday"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
+  const at = order.map((mark) => PAGE.indexOf(mark));
+  assert.ok(at.every((i) => i > 0), `every section is drawn: ${order.filter((_, i) => at[i] < 0)}`);
+  assert.deepEqual([...at].sort((a, b) => a - b), at, 'hero, colleges, Try five, the new section, Statement, Lab, then as on "/"');
+  // The guide's waypoint for this part of the page is still the section's id; the Lab is the one held story in the band.
+  assert.match(read('src/components/brand/PipGuide.jsx'), /section: 'your-prep'/);
+  assert.match(PAGE, /const POSITION = \[\n  \{ id: 'inside-the-lab', name: 'Inside the Mistake Lab' \},\n\];/);
+});
+
+test('the page draws the home sections with the home sheet, loaded after the marketing sheet, as "/" does', () => {
+  const css = [...PAGE.matchAll(/^import '([^']+\.css)';/gm)].map((m) => m[1]);
+  assert.deepEqual(css, ['@/app/marketing.css', '@/components/brand/mobi-figure.css', '../home-sheets.css']);
+  assert.match(read('src/components/home2/landingParts.js'), /from '\.\.\/landing\/LabCinema'/);
+});
+
+// ------------------------------------------------------------------ the stages are the real components
+test('each stage is the landing\'s own component, not a drawn stand-in', () => {
+  assert.match(FRAME, /import \{ ExamStage \} from '\.\/ExamScreen';/);
+  assert.match(FRAME, /import KeyCardsDemo from '\.\/KeyCardsDemo';/);
+  assert.match(FRAME, /import \{ BringMistakeCard \} from '\.\/BringMistakeBlock';/);
+  assert.match(FRAME, /import CursorDemo from '\.\/demo\/CursorDemo';/);
+  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage \/>;/);
+  assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} foot=\{false\} \/>/);
+  assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/>/);
+  // Key cards and Ask Mobi sit in the exam monitor's own browser bar, at the addresses they really live at in the app.
+  assert.match(FRAME, /<div className="xs-browser op-win__bar" aria-hidden="true">/);
+  assert.match(FRAME, /<AppWindow path=\{row\.path\}><div className="op-kc"><KeyCardsDemo/);
+  assert.match(FRAME, /<AppWindow path=\{row\.path\}><div className="bmk op-bmk"><BringMistakeCard/);
+  assert.deepEqual(ONE_PLACE.rows.map((r) => r.path), [undefined, '/cards', '/mentor']);
+  assert.match(read('src/components/landing/bringMistakeCopy.mjs'), /export const BRING_MISTAKE_PATH = '\/mentor';/);
+  assert.ok(sourceFiles(join(root, 'src/app/(app)/cards')).length > 0, 'Key cards live at /cards');
+  // Every stage starts fresh: the shown one is keyed by the run, the others idle.
+  assert.match(FRAME, /key=\{on \? `on-\$\{cycle\}` : 'idle'\}/);
+});
+
+test('every script aims at a data-demo hook its component really carries', () => {
+  const sourceOf = { practise: EXAM_SRC, cards: CARDS_SRC, mobi: BMK_SRC };
+  assert.deepEqual(Object.keys(SCRIPTS).sort(), ['cards', 'mobi', 'practise']);
+  for (const [tool, steps] of Object.entries(SCRIPTS)) {
+    const hooks = scriptHooks(steps);
+    assert.ok(hooks.length >= 2, `${tool} has targets`);
+    for (const hook of hooks) assert.ok(sourceOf[tool].includes(`data-demo="${hook}"`), `${tool}: data-demo="${hook}" is in the component`);
+    for (const step of steps) if (step.target) assert.match(step.target, /^\[data-demo="[\w-]+"\](:nth-child\(\d\))?$/, `${tool}: ${step.target}`);
+  }
+  // Practise switches to NTA style in the middle and ends on NTA's own keys; Ask Mobi picks the fresh question's right option.
+  const p = SCRIPTS.practise.map((s) => s.target);
+  assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-next"]'));
+  assert.equal(p.at(-1), '[data-demo="xs-n-mark"]');
+  assert.ok(p.includes('[data-demo="xs-n-save"]'));
+  assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="bmk-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
+  assert.equal(SCRIPTS.cards.filter((s) => s.target === '[data-demo="kc-turn"]').length, 2, 'turn, rate, turn the next');
+});
+
+test('each row runs for its own script, about 8 seconds, and its line fills over exactly that', () => {
+  for (const [tool, steps] of Object.entries(SCRIPTS)) {
+    const ms = scriptMs(steps);
+    assert.ok(ms >= 6000 && ms <= 11000, `${tool}: ${ms} ms`);
+    for (const step of steps) if (step.target) assert.ok(Number.isFinite(step.move) && Number.isFinite(step.dwell), `${tool}: every step names its move and dwell`);
+  }
+  assert.equal(scriptMs([{ wait: 500 }, { target: 'x', move: 400, dwell: 600, click: true }]), 220 + 260 + 500 + 400 + 130 + 600);
+  assert.match(FRAME, /'--op-ms': `\$\{scriptMs\(SCRIPTS\[row\.id\]\)\}ms`/);
+});
+
+test('the frame never plays under reduced motion, off screen, in a hidden tab, held, or before the page wakes', () => {
+  assert.equal(autoplayRuns({ ready: true, reduced: false, onScreen: true, visible: true, held: false }), true);
+  for (const off of [{ ready: false }, { reduced: true }, { onScreen: false }, { visible: false }, { held: true }]) {
+    assert.equal(autoplayRuns({ ready: true, reduced: false, onScreen: true, visible: true, held: false, ...off }), false, JSON.stringify(off));
+  }
+  assert.equal(autoplayRuns(), false);
+  assert.equal(motionReduced(undefined), true);
+  assert.equal(motionReduced({ matchMedia: () => ({ matches: false }), document: { documentElement: { dataset: { motion: 'reduced' } } } }), true);
+  assert.equal(motionReduced({ matchMedia: () => ({ matches: false }), document: { documentElement: { dataset: {} } } }), false);
+  assert.equal(nextIndex(2, 3), 0);
+  assert.equal(nextIndex(0, 3), 1);
+  assert.equal(keyStep('ArrowDown', 2, 3), 0);
+  assert.equal(keyStep('ArrowLeft', 0, 3), 2);
+  assert.equal(keyStep('End', 0, 3), 2);
+  assert.equal(keyStep('a', 0, 3), null);
+  assert.equal(TAKEOVER_HOLD_MS, 8000);
+  assert.deepEqual(ROW_OF_HASH, { '#exam-experience': 'practise', '#key-cards': 'cards', '#bring-a-mistake': 'mobi' });
+});
+
+test('no frame loop and no interval in the new section\'s files; transform and opacity only, no blur', () => {
+  const files = ['src/components/landing/OnePlace.jsx', 'src/components/landing/onePlaceModel.mjs', 'src/components/landing/onePlaceCopy.mjs', 'src/components/landing/demo/CursorDemo.jsx'];
+  for (const f of files) assert.doesNotMatch(read(f), /requestAnimationFrame|setInterval/, f);
+  for (const f of ['src/components/landing/one-place.css', 'src/components/landing/demo/cursor-demo.css']) {
+    const css = read(f);
+    assert.doesNotMatch(css, /backdrop-filter|filter:\s*blur|:has\(/, f);
+    for (const block of css.matchAll(/@keyframes [\w-]+ \{([^@]*?)\}\s*\}/g)) assert.doesNotMatch(block[1], /\b(width|height|top|left|margin|padding)\s*:/, `${f}: keyframes animate transform and opacity only`);
+  }
+});
+
+// ------------------------------------------------------------------ words
+test('the heading is at most seven words with one sentence under it; each row is a name and one short line', () => {
+  assert.ok(words(ONE_PLACE.h2) <= 7, ONE_PLACE.h2);
+  assert.equal(sentences(ONE_PLACE.sub), 1);
+  assert.ok(ONE_PLACE.h2.endsWith(ONE_PLACE.mark));
+  assert.deepEqual(ONE_PLACE.rows.map((r) => r.id), ['practise', 'cards', 'mobi']);
+  for (const row of ONE_PLACE.rows) {
+    assert.ok(words(row.name) <= 2, row.name);
+    assert.equal(sentences(row.line), 1, row.line);
+    assert.ok(words(row.line) <= 10, row.line);
+  }
+  const all = [ONE_PLACE.h2, ONE_PLACE.sub, ...ONE_PLACE.rows.flatMap((r) => [r.name, r.line]), CREATORS_SUB, alsoInside({ studyLive: true, mobLive: true }).text];
+  for (const line of all) {
+    assert.doesNotMatch(line, /[—!]/, line);
+    assert.match(line, /^[A-Z0-9]/, line);
+  }
+});
+
+test('"Also inside" names only the tools that are live, from the tour\'s own switches', () => {
+  assert.equal(alsoInside({ studyLive: true, mobLive: true }).text, 'Also inside: Learn, Benchmarks and the Mob.');
+  assert.equal(alsoInside({ studyLive: false, mobLive: true }).text, 'Also inside: Benchmarks and the Mob.');
+  assert.equal(alsoInside({ studyLive: true, mobLive: false }).text, 'Also inside: Learn and Benchmarks.');
+  assert.equal(alsoInside({}).text, 'Also inside: Benchmarks.');
+  assert.match(PAGE, /const ALSO = alsoInside\(\{ studyLive: STUDY_LIVE, mobLive: MOB_LIVE \}\);/);
+  assert.match(PAGE, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);
+  assert.match(PAGE, /const STUDY_LIVE = process\.env\.STUDY_CONTENT_ENABLED === 'true' && process\.env\.STUDY_RECALL_ENABLED === 'true';/);
+  assert.ok(sourceFiles(join(root, 'src/app/features')).length > 0, 'the line links the features page');
+  assert.equal(ONE_PLACE.alsoHref, '/features');
+});
+
+test('carried over from the first /home-next: the creators\' sign-up floor and "What do I get free?" from the constants', () => {
+  assert.match(CREATORS_SUB, /^1,500\+ students have signed up/);
+  assert.match(PAGE, /<p className="lp-sub">\{CREATORS_SUB\}<\/p>/);
   const faq = freeFaq({ freeCredits: 50, dailySize: 5 });
+  assert.equal(faq.question, 'What do I get free?');
   assert.ok(faq.answer.split(/\s+/).length <= 45, 'the FAQ answer budget (homeCopy COPY_BUDGET.faq)');
   assert.match(read('src/services/credits/aiCreditWallet.js'), /export const AI_FREE_MONTHLY_CREDITS = 50;/, 'the free credits the FAQ reads');
   assert.match(PAGE, /freeFaq\(\{ freeCredits: AI_FREE_MONTHLY_CREDITS, dailySize: DAILY_FIVE_SIZE \}\)/);
+  assert.match(PAGE, /<ReadLineHere \/>/);
+  assert.match(PAGE, /<SampleHere \/>/);
 });

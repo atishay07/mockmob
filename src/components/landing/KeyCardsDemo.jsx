@@ -49,7 +49,9 @@ function Art({ art, className = 'kc-demo__art', sizes = '(max-width: 959px) 62vw
 
 const PHONE_SUBJECTS = 6;
 
-export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subjects = null }) {
+// `foot` (default on) draws the bank line, the key and the subjects under the demo; /home-next's one frame shows the demo alone
+// (OnePlace.jsx). The data-demo attributes are inert hooks for its demo cursor (onePlaceScripts.mjs).
+export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subjects = null, foot = true }) {
   const total = cards.length;
   const [at, setAt] = useState(0);
   const [turned, setTurned] = useState(false);
@@ -181,14 +183,14 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           {done ? null : turned ? (
             <div className="kc-demo__rates" role="group" aria-label={W.ratingsLabel}>
               {keys.map((key) => (
-                <button key={key.rating} type="button" className="kc-demo__rate" data-rating={key.rating} disabled={leaving} onClick={() => rate(key.rating)}>
+                <button key={key.rating} type="button" className="kc-demo__rate" data-demo="kc-rate" data-rating={key.rating} disabled={leaving} onClick={() => rate(key.rating)}>
                   <span className="kc-demo__rate-name">{key.label}</span>
                   <span className="kc-demo__rate-when">{key.when}</span>
                 </button>
               ))}
             </div>
           ) : (
-            <button type="button" ref={turnKey} className="mm-btn mm-btn--primary kc-demo__turn" onClick={turn} aria-describedby={promptId}>
+            <button type="button" ref={turnKey} className="mm-btn mm-btn--primary kc-demo__turn" data-demo="kc-turn" onClick={turn} aria-describedby={promptId}>
               {W.turnOver}
             </button>
           )}
@@ -199,7 +201,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
         </span>
       </div>
 
-      <div className="kc-foot">
+      {foot ? <div className="kc-foot">
         {bank ? (
           <>
             <p className="kc-foot__bank">
@@ -222,7 +224,7 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
           </div>
         ) : null}
         <Link href={PUBLIC_DECKS_HREF} className="mm-link">{W.seeChapter}</Link>
-      </div>
+      </div> : null}
     </>
   );
 }

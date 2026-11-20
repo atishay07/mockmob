@@ -55,6 +55,25 @@ const hhmmss = (s) => `${two(Math.floor(s / 3600))}:${two(Math.floor(s / 60) % 6
 const stillMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced';
 
 export function ExamScreen() {
+  return (
+    <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">
+      <div className="mm-wrap">
+        <ExamStage head={<>
+          <Reveal className="lp-head lp-head--left xs-head"><h2 className="lp-h2" id="exam-title"><Marked text={EXAM_HEAD.h2} marks={[['exam day.', { mark: 'underline' }]]} /></h2></Reveal>
+          <Reveal className="lp-head lp-head--left xs-sub"><p className="lp-sub">{EXAM_HEAD.sub}</p></Reveal>
+          {/* He holds the answer sheet beside the heading and never inside the paper: no distractions in an exam. */}
+          <MascotSeat station="demo" pose="reading" label="Try both screens." className="pip-seat--demo xs-seat" />
+        </>} />
+      </div>
+    </section>
+  );
+}
+
+// The device and its switch without the section's head (20 Nov 2026, /home-next's one frame: the same screen, worked by a
+// cursor, src/components/landing/OnePlace.jsx). ExamScreen above draws the live home's section with it, so "/" is unchanged.
+// `head` is drawn first inside the layout grid (the section's heading, sub and Mobi); `gate` keeps NTA mode's gate card.
+// The data-demo attributes are inert hooks for the demo cursor's scripts (onePlaceScripts.mjs).
+export function ExamStage({ head = null, gate = true }) {
   const { user } = useAuth();
   const [mode, setModeRaw] = useState('mockmob');
   const [index, setIndex] = useState(EXAM.start.index);
@@ -295,7 +314,7 @@ export function ExamScreen() {
   const optionButtons = question.options.map((text, option) => {
     const selected = answers[index] === option;
     return (
-      <button key={`${index}-${option}`} type="button" className="xs-option" aria-pressed={selected} data-struck={isStruck(option) || undefined}
+      <button key={`${index}-${option}`} type="button" className="xs-option" data-demo="xs-option" aria-pressed={selected} data-struck={isStruck(option) || undefined}
         onPointerDown={(event) => startPress(event, option)} onPointerMove={movePress} onPointerUp={cancelPress} onPointerCancel={cancelPress} onPointerLeave={cancelPress}
         onContextMenu={(event) => strikeFromMenu(event, option)} onKeyDown={(event) => optionKey(event, option)} onClick={() => optionClick(option)}>
         <span className="xs-letter" aria-hidden="true">{LETTERS[option]}</span>
@@ -372,7 +391,7 @@ export function ExamScreen() {
               {paper}
               <div className="xs-nav">
                 <button type="button" className="xs-btn" disabled={index === 0} onClick={prev}>{words.previous}</button>
-                <button type="button" className="xs-btn xs-btn--next" disabled={index === LIVE - 1} onClick={next}>{words.next}</button>
+                <button type="button" className="xs-btn xs-btn--next" data-demo="xs-next" disabled={index === LIVE - 1} onClick={next}>{words.next}</button>
               </div>
             </div>
 
@@ -421,19 +440,15 @@ export function ExamScreen() {
   );
   const switchKeys = (
     <>
-      <button type="button" aria-pressed={!nta} onClick={() => setMode('mockmob')}>{words.interface}</button>
-      <button type="button" aria-pressed={nta} onClick={() => setMode('nta')}>{EXAM.nta.interface}<small>Pro</small></button>
+      <button type="button" data-demo="xs-mockmob" aria-pressed={!nta} onClick={() => setMode('mockmob')}>{words.interface}</button>
+      <button type="button" data-demo="xs-nta" aria-pressed={nta} onClick={() => setMode('nta')}>{EXAM.nta.interface}<small>Pro</small></button>
     </>
   );
 
   return (
-    <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">
-      <div className="mm-wrap">
+    <>
         <div className="xs-layout">
-        <Reveal className="lp-head lp-head--left xs-head"><h2 className="lp-h2" id="exam-title"><Marked text={EXAM_HEAD.h2} marks={[['exam day.', { mark: 'underline' }]]} /></h2></Reveal>
-        <Reveal className="lp-head lp-head--left xs-sub"><p className="lp-sub">{EXAM_HEAD.sub}</p></Reveal>
-        {/* He holds the answer sheet beside the heading and never inside the paper: no distractions in an exam. */}
-        <MascotSeat station="demo" pose="reading" label="Try both screens." className="pip-seat--demo xs-seat" />
+        {head}
 
         {/* The switch is the visitor's, not the exam's: it sits beside the monitor at full size at every width. */}
         <div className="xs-switch" role="group" aria-label={words.switchLabel}>{switchKeys}</div>
@@ -445,18 +460,17 @@ export function ExamScreen() {
 
         {/* R10: NTA mode's own gate (ExamIntegrityGuard's words), set as a small card: a mark, the words (with the
             warning rule in one plain sentence; R11 dropped the "Warnings 0/3" pill, which did nothing) and the way to it. */}
-        <div className="xs-gate">
+        {gate ? <div className="xs-gate">
           <span className="xs-gate__mark" aria-hidden="true"><ShieldCheck /></span>
           <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate} {EXAM.warningRule}</p>
           <p className="xs-gate__foot">
             <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
-        </div>
+        </div> : null}
         {/* Phones only (exam-screen.css): the readable way into the same screen. */}
         <button ref={fullOpener} type="button" className="mm-btn mm-btn--secondary xs-full-open" aria-haspopup="dialog" aria-expanded={full} onClick={openFull}>
           <Maximize2 aria-hidden="true" />{EXAM.full.open}
         </button>
         </div>
-      </div>
       {/* Only ever open after a tap, so the document is there to host it. React bubbles a nested dialog's cancel (the palette
           sheet's Escape) up to this one's onCancel, so only the view's own closes the view. */}
       {full ? createPortal(
@@ -469,7 +483,7 @@ export function ExamScreen() {
             {phone}
           </div>
         </dialog>, document.querySelector('.mm.lp') || document.body) : null}
-    </section>
+    </>
   );
 }
 
@@ -506,7 +520,7 @@ function NtaScreen({ index, question, answers, states, clock, started, onScreen,
             <p className="xs-n-stem" aria-live="polite">{question.text}</p>
             <div className="xs-n-options" role="group" aria-label={`Options for question ${index + 1}`}>
               {question.options.map((text, option) => (
-                <button key={`${index}-${option}`} type="button" className="xs-n-option" aria-pressed={answers[index] === option} onClick={() => pick(option)}>
+                <button key={`${index}-${option}`} type="button" className="xs-n-option" data-demo="xs-n-option" aria-pressed={answers[index] === option} onClick={() => pick(option)}>
                   <span className="xs-n-radio" aria-hidden="true" />
                   <span className="xs-n-num">{option + 1}.</span>
                   <span>{text}</span>
@@ -515,9 +529,9 @@ function NtaScreen({ index, question, answers, states, clock, started, onScreen,
             </div>
           </div>
           <div className="xs-n-keys">
-            <button type="button" className="xs-n-key" onClick={markAndNext}>{t.markNext}</button>
+            <button type="button" className="xs-n-key" data-demo="xs-n-mark" onClick={markAndNext}>{t.markNext}</button>
             <button type="button" className="xs-n-key" onClick={clearAnswer}>{t.clearResponse}</button>
-            <button type="button" className="xs-n-key xs-n-key--save" onClick={saveAndNext}>{t.save}</button>
+            <button type="button" className="xs-n-key xs-n-key--save" data-demo="xs-n-save" onClick={saveAndNext}>{t.save}</button>
           </div>
         </div>
 

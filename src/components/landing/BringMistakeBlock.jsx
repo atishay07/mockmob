@@ -47,24 +47,7 @@ function Step({ id, i, step, children, ink = false, ...rest }) {
 export default function BringMistakeBlock({ photo = false, credits = 1, photoCredits = 2 }) {
   const { isAuthenticated } = useAuth();
   const id = useId();
-  const tabs = useRef([]);
-  const [step, setStep] = useState(0);
-  const [pick, setPick] = useState(null);
-  const answered = pick !== null;
-  const right = pick === W.check.correct;
   const words = bringMistakeWords({ photo, credits, photoCredits });
-  const last = W.steps.length - 1;
-
-  const go = (n) => setStep(Math.max(0, Math.min(last, n)));
-  const onKey = (event) => {
-    const move = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
-    const jump = event.key === 'Home' ? 0 : event.key === 'End' ? last : null;
-    if (!move && jump === null) return;
-    event.preventDefault();
-    const next = jump ?? (step + move + W.steps.length) % W.steps.length;
-    go(next);
-    tabs.current[next]?.focus();
-  };
 
   return (
     <section className="lp-sec bmk" id="bring-a-mistake" aria-labelledby="bmk-title">
@@ -95,106 +78,136 @@ export default function BringMistakeBlock({ photo = false, credits = 1, photoCre
           </div>
         </div>
 
-        <div className="bmk__demo">
-          <div className="bmk__card" data-step={step}>
-            <div className="bmk__steps" role="tablist" aria-label="How it works, on an example" onKeyDown={onKey}>
-              {W.steps.map((name, i) => (
-                <button key={name} type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={step === i} tabIndex={step === i ? 0 : -1}
-                  className="bmk__step" data-on={step === i ? 'true' : 'false'} ref={(node) => { tabs.current[i] = node; }} onClick={() => go(i)}>
-                  {name}
-                </button>
-              ))}
-            </div>
-
-            <div className="bmk__panes">
-              <Step id={id} i={0} step={step}>
-                <p className="bmk__label"><span>{W.slip.label}</span><span>{W.slip.subject}</span></p>
-                <p className="bmk__q">{keep(W.slip.q)}</p>
-                <ol className="bmk__given">
-                  {W.slip.options.map((option, i) => (
-                    <li key={option} data-chosen={i === W.slip.chosen ? 'true' : undefined}>
-                      <span className="bmk__letter" aria-hidden="true">{LETTERS[i]}</span>
-                      <span>{option}</span>
-                      {i === W.slip.chosen ? <span className="bmk__chose"><Icon name="x" className="bmk__chose-icon" />{W.slip.chosenLabel} {LETTERS[i]}</span> : null}
-                    </li>
-                  ))}
-                </ol>
-                <div className="bmk__needs">
-                  <p className="bmk__needs-line">{W.slip.needs}</p>
-                  {photo ? <p className="bmk__photo"><Camera aria-hidden="true" className="bmk__camera" size={18} strokeWidth={2.2} />{W.slip.photo}</p> : null}
-                </div>
-                <button type="button" className="bmk__next" onClick={() => go(1)}>{W.next[0]}</button>
-              </Step>
-
-              <Step id={id} i={1} step={step} ink>
-                <p className="bmk__label"><span>{W.read.chapterLabel}</span><span>{W.slip.subject}</span></p>
-                <p className="bmk__chapter">{W.read.chapter}</p>
-                <dl className="bmk__rows">
-                  <div><dt>{W.read.tests[0]}</dt><dd>{keep(W.read.tests[1])}</dd></div>
-                  <div>
-                    <dt>{keep(W.read.why.label)}</dt>
-                    <dd>
-                      <span className="bmk__work">
-                        {W.read.why.lines.map(([who, working, share]) => (
-                          <span className="bmk__work-line" key={who}>
-                            <span className="bmk__work-who">{who}</span>
-                            <span>{working}</span>
-                            <span className="bmk__work-eq" aria-hidden="true">=</span>
-                            <span className="bmk__work-share"><span className="sr-only">equals </span>{share}</span>
-                          </span>
-                        ))}
-                      </span>
-                    </dd>
-                  </div>
-                  <div><dt>{W.read.slip[0]}</dt><dd>{keep(W.read.slip[1])}</dd></div>
-                </dl>
-                <button type="button" className="bmk__next" onClick={() => go(2)}>{W.next[1]}</button>
-              </Step>
-
-              <Step id={id} i={2} step={step} data-answered={answered ? 'true' : 'false'}>
-                <p className="bmk__label"><span>{W.check.title}</span><span>{W.slip.subject}</span></p>
-                <p className="bmk__q">{keep(W.check.q)}</p>
-                <div className="bmk__options" role="group" aria-label="Answer options">
-                  {W.check.options.map((option, i) => {
-                    const state = !answered ? 'idle' : i === W.check.correct ? 'correct' : i === pick ? 'wrong' : 'muted';
-                    return (
-                      <button key={option} type="button" className="bmk__option" data-state={state} disabled={answered} aria-pressed={pick === i || undefined} onClick={() => setPick(i)}>
-                        <span className="bmk__letter" aria-hidden="true">{LETTERS[i]}</span>
-                        <span>{option}</span>
-                        {answered && i === W.check.correct ? <Icon name="check" className="bmk__mark" /> : null}
-                        {answered && i === pick && !right ? <Icon name="x" className="bmk__mark" /> : null}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className="bmk__why-box">
-                  <p className="bmk__why" aria-live="polite">
-                    {answered ? <><strong>{right ? W.check.right : W.check.wrong}</strong> {keep(W.check.why)}</> : W.check.hint}
-                  </p>
-                  <p className="bmk__why bmk__why--sizer" aria-hidden="true"><strong>{W.check.wrong}</strong> {keep(W.check.why)}</p>
-                </div>
-                <div className="bmk__close">
-                  <p className="bmk__after">{keep(W.check.after)}</p>
-                  <button type="button" className="bmk__next" onClick={() => go(3)}>{W.next[2]}</button>
-                </div>
-              </Step>
-
-              <Step id={id} i={3} step={step}>
-                <p className="bmk__label"><span>{W.practice.title}</span><span>{W.slip.subject}</span></p>
-                <div className="bmk__set">
-                  <span className="bmk__set-n">{W.practice.count}</span>
-                  <span className="bmk__set-what">{W.practice.what}</span>
-                  <span className="bmk__set-from">{W.practice.from}</span>
-                  {/* The set's answer row, one bubble a question, none filled: the brand's own answer sheet. */}
-                  <span className="bmk__bubbles" aria-hidden="true">{Array.from({ length: W.practice.count }, (_, i) => <i key={i} />)}</span>
-                </div>
-                <p className="bmk__set-why">{keep(W.practice.why)}</p>
-              </Step>
-            </div>
-          </div>
-          <p className="bmk__honest">{W.honest}</p>
-        </div>
+        <BringMistakeCard id={id} photo={photo} />
       </div>
     </section>
+  );
+}
+
+// The card alone, the feature's four steps as tabs (16 Nov 2026), with the honest line under it. BringMistakeBlock above draws
+// it beside its words on the live home; /home-next's one frame draws it on its own stage, worked by a demo cursor
+// (OnePlace.jsx). `id` is the block's own useId when it draws the card, so the live home's ids are as before. The data-demo
+// attributes are inert hooks for the cursor's scripts (onePlaceScripts.mjs).
+export function BringMistakeCard({ id: given, photo = false }) {
+  const own = useId();
+  const id = given || own;
+  const tabs = useRef([]);
+  const [step, setStep] = useState(0);
+  const [pick, setPick] = useState(null);
+  const answered = pick !== null;
+  const right = pick === W.check.correct;
+  const last = W.steps.length - 1;
+
+  const go = (n) => setStep(Math.max(0, Math.min(last, n)));
+  const onKey = (event) => {
+    const move = event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0;
+    const jump = event.key === 'Home' ? 0 : event.key === 'End' ? last : null;
+    if (!move && jump === null) return;
+    event.preventDefault();
+    const next = jump ?? (step + move + W.steps.length) % W.steps.length;
+    go(next);
+    tabs.current[next]?.focus();
+  };
+
+  return (
+    <div className="bmk__demo">
+      <div className="bmk__card" data-step={step}>
+        <div className="bmk__steps" role="tablist" aria-label="How it works, on an example" onKeyDown={onKey}>
+          {W.steps.map((name, i) => (
+            <button key={name} type="button" role="tab" id={`${id}-tab-${i}`} aria-controls={`${id}-panel-${i}`} aria-selected={step === i} tabIndex={step === i ? 0 : -1}
+              className="bmk__step" data-demo="bmk-tab" data-on={step === i ? 'true' : 'false'} ref={(node) => { tabs.current[i] = node; }} onClick={() => go(i)}>
+              {name}
+            </button>
+          ))}
+        </div>
+
+        <div className="bmk__panes">
+          <Step id={id} i={0} step={step}>
+            <p className="bmk__label"><span>{W.slip.label}</span><span>{W.slip.subject}</span></p>
+            <p className="bmk__q">{keep(W.slip.q)}</p>
+            <ol className="bmk__given">
+              {W.slip.options.map((option, i) => (
+                <li key={option} data-chosen={i === W.slip.chosen ? 'true' : undefined}>
+                  <span className="bmk__letter" aria-hidden="true">{LETTERS[i]}</span>
+                  <span>{option}</span>
+                  {i === W.slip.chosen ? <span className="bmk__chose"><Icon name="x" className="bmk__chose-icon" />{W.slip.chosenLabel} {LETTERS[i]}</span> : null}
+                </li>
+              ))}
+            </ol>
+            <div className="bmk__needs">
+              <p className="bmk__needs-line">{W.slip.needs}</p>
+              {photo ? <p className="bmk__photo"><Camera aria-hidden="true" className="bmk__camera" size={18} strokeWidth={2.2} />{W.slip.photo}</p> : null}
+            </div>
+            <button type="button" className="bmk__next" onClick={() => go(1)}>{W.next[0]}</button>
+          </Step>
+
+          <Step id={id} i={1} step={step} ink>
+            <p className="bmk__label"><span>{W.read.chapterLabel}</span><span>{W.slip.subject}</span></p>
+            <p className="bmk__chapter">{W.read.chapter}</p>
+            <dl className="bmk__rows">
+              <div><dt>{W.read.tests[0]}</dt><dd>{keep(W.read.tests[1])}</dd></div>
+              <div>
+                <dt>{keep(W.read.why.label)}</dt>
+                <dd>
+                  <span className="bmk__work">
+                    {W.read.why.lines.map(([who, working, share]) => (
+                      <span className="bmk__work-line" key={who}>
+                        <span className="bmk__work-who">{who}</span>
+                        <span>{working}</span>
+                        <span className="bmk__work-eq" aria-hidden="true">=</span>
+                        <span className="bmk__work-share"><span className="sr-only">equals </span>{share}</span>
+                      </span>
+                    ))}
+                  </span>
+                </dd>
+              </div>
+              <div><dt>{W.read.slip[0]}</dt><dd>{keep(W.read.slip[1])}</dd></div>
+            </dl>
+            <button type="button" className="bmk__next" onClick={() => go(2)}>{W.next[1]}</button>
+          </Step>
+
+          <Step id={id} i={2} step={step} data-answered={answered ? 'true' : 'false'}>
+            <p className="bmk__label"><span>{W.check.title}</span><span>{W.slip.subject}</span></p>
+            <p className="bmk__q">{keep(W.check.q)}</p>
+            <div className="bmk__options" role="group" aria-label="Answer options">
+              {W.check.options.map((option, i) => {
+                const state = !answered ? 'idle' : i === W.check.correct ? 'correct' : i === pick ? 'wrong' : 'muted';
+                return (
+                  <button key={option} type="button" className="bmk__option" data-demo="bmk-option" data-state={state} disabled={answered} aria-pressed={pick === i || undefined} onClick={() => setPick(i)}>
+                    <span className="bmk__letter" aria-hidden="true">{LETTERS[i]}</span>
+                    <span>{option}</span>
+                    {answered && i === W.check.correct ? <Icon name="check" className="bmk__mark" /> : null}
+                    {answered && i === pick && !right ? <Icon name="x" className="bmk__mark" /> : null}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="bmk__why-box">
+              <p className="bmk__why" aria-live="polite">
+                {answered ? <><strong>{right ? W.check.right : W.check.wrong}</strong> {keep(W.check.why)}</> : W.check.hint}
+              </p>
+              <p className="bmk__why bmk__why--sizer" aria-hidden="true"><strong>{W.check.wrong}</strong> {keep(W.check.why)}</p>
+            </div>
+            <div className="bmk__close">
+              <p className="bmk__after">{keep(W.check.after)}</p>
+              <button type="button" className="bmk__next" onClick={() => go(3)}>{W.next[2]}</button>
+            </div>
+          </Step>
+
+          <Step id={id} i={3} step={step}>
+            <p className="bmk__label"><span>{W.practice.title}</span><span>{W.slip.subject}</span></p>
+            <div className="bmk__set">
+              <span className="bmk__set-n">{W.practice.count}</span>
+              <span className="bmk__set-what">{W.practice.what}</span>
+              <span className="bmk__set-from">{W.practice.from}</span>
+              {/* The set's answer row, one bubble a question, none filled: the brand's own answer sheet. */}
+              <span className="bmk__bubbles" aria-hidden="true">{Array.from({ length: W.practice.count }, (_, i) => <i key={i} />)}</span>
+            </div>
+            <p className="bmk__set-why">{keep(W.practice.why)}</p>
+          </Step>
+        </div>
+      </div>
+      <p className="bmk__honest">{W.honest}</p>
+    </div>
   );
 }

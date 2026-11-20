@@ -14,6 +14,7 @@
 // the replay further down the page. Words on the screens are the product's own.
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { ArrowLeftRight, BookOpen, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { LAB_SCENES } from './homeCopy.mjs';
@@ -24,6 +25,11 @@ import Doodle from '@/components/doodle/Doodle';
 // The pen on the Lab's screens (18 Nov 2026, owner LK308): one mark a scene, drawn after the screen's own rows have come in,
 // on the figure the scene is about. The screens are dark in both themes, so the pen is the dark screen's red and its volt.
 const PEN_AFTER = 1100;
+
+// look="next" (21 Nov 2026): the same story, words and figures, with each screen redone as the result page's own UI worked by
+// a cursor (LabNextScreens.jsx, its styles in lab-next.css under [data-look='next']). Loaded only when that look is asked
+// for, so the default look's page carries none of its code or styles.
+const LabNextScreen = dynamic(() => import('./LabNextScreens'));
 
 const S = labStory();
 const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
@@ -332,8 +338,9 @@ function ScreenBar({ label }) {
   );
 }
 
-function Stage({ step, pinned, reduced, goTo }) {
+function Stage({ step, pinned, reduced, goTo, look }) {
   const ready = pinned && !reduced;
+  const next = look === 'next';
   // The first scene opens on step one, so its screen was already "on" while the lab was still far below
   // the reader and its story played unseen: the first screen (Time until round 11, Chapters now) met the
   // reader finished and still. It waits in its first frame (data-armed) while the lab is out of the window
@@ -354,7 +361,7 @@ function Stage({ step, pinned, reduced, goTo }) {
     return () => io.disconnect();
   }, []);
   return (
-    <div className="mm-wrap lc__grid" ref={gridRef} data-ready={ready ? 'true' : 'false'}>
+    <div className="mm-wrap lc__grid" ref={gridRef} data-ready={ready ? 'true' : 'false'} data-look={next ? 'next' : undefined}>
       <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
         {SCENES.map(({ key, tab, Icon }, i) => {
           const state = i < step ? 'done' : i === step ? 'on' : 'off';
@@ -383,7 +390,9 @@ function Stage({ step, pinned, reduced, goTo }) {
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
-      {SCENES.map(({ key, tab, title, body, short, take, link }, i) => {
+      {SCENES.map((scene, i) => {
+        // The next look may say what its screen shows in its own words (LAB_SCENES `next`); the default look never reads them.
+        const { key, tab, title, body, short, take, link } = next && scene.next ? { ...scene, ...scene.next } : scene;
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
@@ -400,7 +409,7 @@ function Stage({ step, pinned, reduced, goTo }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62">{next ? <LabNextScreen scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} /> : <Panel on={on && (i !== 0 || armed)} />}</div>
             </figure>
           </article>
         );
@@ -409,8 +418,8 @@ function Stage({ step, pinned, reduced, goTo }) {
   );
 }
 
-export default function LabCinema() {
+export default function LabCinema({ look } = {}) {
   return (
-    <ScrollStory steps={SCENES.length} className="lc" label="Mistake Lab, five scenes" Content={Stage} />
+    <ScrollStory steps={SCENES.length} className="lc" label="Mistake Lab, five scenes" Content={Stage} look={look === 'next' ? 'next' : undefined} />
   );
 }

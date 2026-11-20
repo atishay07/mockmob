@@ -1,0 +1,34 @@
+/* The demo cursor (CursorDemo.jsx, owner LK363). It sits over a real product screen and works it. Transform and opacity
+   only; no filter (the arrow's shadow is drawn in the SVG), so it costs nothing under html[data-lite] either. */
+.cd-stage { position: relative; isolation: isolate; }
+.cd-cursor {
+  position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none;
+  opacity: 0; transform: translate3d(0, 0, 0);
+  transition-property: transform, opacity;
+  transition-duration: 620ms, 200ms;
+  transition-timing-function: cubic-bezier(.3, .7, .2, 1), ease-out;
+  will-change: transform;
+}
+.cd-cursor[data-shown='true'] { opacity: 1; }
+.cd-cursor > svg { display: block; transform-origin: 2px 2px; transition: transform 120ms ease-out; }
+.cd-cursor.is-press > svg { transform: scale(.86); }
+/* A fingertip on a touch screen: a soft disc centred on the point it touches. */
+.cd-cursor__tip {
+  position: absolute; left: -17px; top: -17px; width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255, 255, 255, .42); box-shadow: 0 0 0 1.5px rgba(12, 13, 10, .55), 0 6px 16px rgba(12, 13, 10, .22);
+  transition: transform 120ms ease-out;
+}
+.cd-cursor.is-press .cd-cursor__tip { transform: scale(.8); }
+/* The press: one ring in the brand's volt that opens and fades where the click landed. */
+.cd-ring {
+  position: absolute; left: 0; top: 0; z-index: 29; pointer-events: none; width: 0; height: 0;
+}
+.cd-ring::after {
+  content: ''; position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--volt, #d2f000); box-shadow: 0 0 0 1px rgba(12, 13, 10, .35);
+  opacity: 0; transform: scale(.4);
+}
+.cd-ring.is-on::after { animation: cd-ring 420ms cubic-bezier(.2, .7, .2, 1) both; }
+@keyframes cd-ring { from { opacity: .95; transform: scale(.4); } to { opacity: 0; transform: scale(1.45); } }
+@media (prefers-reduced-motion: reduce) { .cd-cursor, .cd-ring { display: none; } }
+html[data-motion='reduced'] :is(.cd-cursor, .cd-ring) { display: none; }

@@ -107,6 +107,11 @@ test('a Lab or Recovery step is at most 45 words, with its numbers inside the mo
   for (const scene of LAB_SCENES) {
     const words = wordCount(`${scene.title} ${scene.body} ${scene.take}`);
     assert.ok(words <= COPY_BUDGET.step, `${scene.key}: ${words} words`);
+    // LabCinema look="next" may say its screen in its own words; they keep the same budget.
+    if (scene.next) {
+      const next = { ...scene, ...scene.next };
+      assert.ok(wordCount(`${next.title} ${next.body} ${next.take}`) <= COPY_BUDGET.step, `${scene.key} (next): too many words`);
+    }
   }
   for (const step of RECOVERY_STEPS) assert.ok(wordCount(`${step.title} ${step.body}`) <= COPY_BUDGET.step, step.key);
   // R11 (owner, 10 Nov 2026): one Lab of five scenes; the Recovery steps stay in the module, no longer drawn on the page.
