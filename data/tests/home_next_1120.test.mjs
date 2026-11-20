@@ -17,7 +17,8 @@ import {
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
-const read = (rel) => readFileSync(join(root, rel), 'utf8');
+// Line ends normalised: the release gate's checkout writes CRLF, and the patterns below are written with \n.
+const read = (rel) => readFileSync(join(root, rel), 'utf8').replace(/\r\n/g, '\n');
 const PAGE = read('src/app/home-next/page.js');
 const LIVE = read('src/app/page.js');
 const FRAME = read('src/components/landing/OnePlace.jsx');
