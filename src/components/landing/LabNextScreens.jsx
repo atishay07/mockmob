@@ -27,7 +27,7 @@ import { SWOT_UI_COPY } from '@/components/result/SwotPanel';
 import { TIME_COPY, signedMarks } from '@/../data/time_decisions';
 import { REPAIR_COPY, checkChip } from '@/../data/repair_presentation.mjs';
 import { FIX_COPY } from '@/components/recovery/fixForGood.mjs';
-import { labStory, GAP, REPAIR } from './labStory.mjs';
+import { labStory, longestQuestions, GAP, REPAIR } from './labStory.mjs';
 import '@/components/recovery/mistake-repair.css';
 import './lab-next.css';
 
@@ -81,8 +81,11 @@ function ChaptersScreen({ still }) {
 
 // ---------- 1. Time: the slowest questions against the paper's pace ----------
 // TimeDecisions' "Where your time went" rows: the bar in the verdict's colour, the paper's pace as the mark on it, the time.
-// A tapped row shows what the result page prints under it: the verdict and how many times the paper's pace it took.
-const SLOWEST = S.longest.slice(0, 4);
+// A tapped row shows what the result page prints under it: the verdict and how many times the paper's pace it took. Every
+// answered question, slowest first (labStory longestQuestions); the device shows as many as fit at full size (lab-next.css:
+// 4 on a small phone, 6 on a phone, all 8 on the wide device). The pace mark is labelled, and one line says what the bar
+// colours mean in the result page's words.
+const SLOWEST = longestQuestions(undefined, 8);
 const SLOW_MAX = S.rows.reduce((m, r) => Math.max(m, r.sec), 1);
 function TimeScreen({ still }) {
   const [open, setOpen] = useState(still ? SLOWEST[0].n : null);
@@ -90,6 +93,7 @@ function TimeScreen({ still }) {
     <div className="lnx lnx--time">
       <p className="lnx-h">{TIME_COPY.longestTitle}</p>
       <p className="td-lead">The paper gives {S.pace} a question. Your median was {S.median}.</p>
+      <div className="lnx-pace" aria-hidden="true"><span className="lnx-pace__track"><b style={{ left: `${S.paceShare * 100}%` }}>Pace {S.pace}</b></span></div>
       <ol className="td-long">
         {SLOWEST.map((l, i) => {
           const sec = S.rows.find((r) => r.n === l.n).sec;
@@ -113,6 +117,7 @@ function TimeScreen({ still }) {
           );
         })}
       </ol>
+      <p className="lnx-key"><span><i data-verdict="correct" />{TIME_COPY.verdict.correct}</span><span><i data-verdict="wrong" />{TIME_COPY.verdict.wrong}</span></p>
     </div>
   );
 }
@@ -138,6 +143,13 @@ function ChangesScreen({ still }) {
     <div className="lnx lnx--changes">
       <p className="lnx-h">{TIME_COPY.changesTitle}</p>
       <p className="td-lead">{TIME_COPY.changesLead(S.changes.length, S.changes.length, S.net)}</p>
+      {/* The totals, as the result page sums the changes (TimeDecisions' parts: TIME_COPY.changesGained / changesCost), with
+          the net beside them. */}
+      <div className="lnx-sum">
+        <p data-tone="good"><b>{signedMarks(S.gainedMarks)}</b>{TIME_COPY.changesGained(S.gainedCount, S.gainedMarks)}</p>
+        <p data-tone="bad"><b>{signedMarks(S.lostToChanges)}</b>{TIME_COPY.changesCost(S.lostQuestions.length, -S.lostToChanges)}</p>
+        <p data-tone={S.net < 0 ? 'bad' : 'good'} data-net=""><b>= {signedMarks(S.net)}</b>Net effect on your marks</p>
+      </div>
       <ol className="td-changes">
         {S.changes.map((c, i) => {
           const on = open === c.n;
@@ -148,8 +160,10 @@ function ChangesScreen({ still }) {
                 <span className="td-changes__text">{TIME_COPY.first(c.from, c.at)} {TIME_COPY.changed(c.to, c.toAt, c.gap)}</span>
                 <b className="td-changes__net" data-tone={c.net > 0 ? 'good' : c.net < 0 ? 'bad' : 'neutral'}>{signedMarks(c.net)}</b>
               </button>
-              {on ? (
-                <div className="lnx-picks">
+              {/* The first change's picks keep their room even while closed (the cursor opens that one), so opening it moves
+                  nothing; another change opens only on a reader's own tap. */}
+              {on || i === 0 ? (
+                <div className="lnx-picks" data-shown={on || undefined} aria-hidden={on ? undefined : true}>
                   <span className="lnx-picks__row">
                     <PickChip letter={c.from} verdict={c.fromVerdict} label={`First pick, ${c.at}`} />
                     <ArrowRight className="lnx-picks__arrow" size={16} strokeWidth={2.4} aria-hidden="true" />
@@ -240,6 +254,7 @@ function SwotScreen({ still }) {
           </li>
         </ol>
       </div>
+      <p className="sw-h3 lnx-swot-h">{SWOT_UI_COPY.swot}</p>
       <div className="lnx-quads">
         {QUADS.map((q) => {
           const on = open === q.id;

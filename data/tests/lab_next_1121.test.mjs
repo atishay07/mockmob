@@ -126,6 +126,21 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   const scores = COPY.remark.scores.replace(/\{first\}/, S.firstAnswers).replace(/\{final\}/, S.facts.marks).replace(/\{max\}/g, S.facts.outOf).replace('{held}', '');
   assert.equal(scores, 'First picks: 28 of 50. Final answers: 22 of 50.');
   assert.ok(textOf(scenesOf(next)[2]).includes(scores));
+  // The critic's pass (21 Nov): Time labels its pace mark and keys its colours in the result page's words; Changes sums the
+  // changes as the result page does (TIME_COPY.changesGained / changesCost) with the net; Repair prints the whole question; the
+  // SWOT groups carry the result page's own heading.
+  const scene = (i) => textOf(scenesOf(next)[i]);
+  assert.ok(scene(1).includes(`Pace ${S.pace}`) && scene(1).includes('Right Wrong'));
+  assert.equal(scenesOf(next)[1].match(/class="td-long__row"/g).length, 8, 'every answered question, slowest first');
+  assert.ok(scene(2).includes(`+${S.gainedMarks}1 change gained ${S.gainedMarks} marks`), 'the gain and its line');
+  assert.ok(scene(2).includes(`2 changes cost ${-S.lostToChanges} marks`) && scene(2).includes('Net effect on your marks'));
+  assert.ok(scene(2).includes('= −6'));
+  assert.ok(scene(3).includes(REPAIR.stem));
+  assert.ok(scene(4).includes('Strengths, gaps and risks'));
+  const sheet = read('src/components/landing/lab-next.css');
+  assert.doesNotMatch(sheet, /rx-row__stem[^}]*(display: none|text-overflow|nowrap)/, 'the question is never cut or hidden');
+  assert.match(sheet, /\.ml-chip \{ min-height: 44px; \}/);
+  assert.match(sheet, /\.ml-seg \{ height: 44px;/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
   // The Time scene's take names the slowest question, worked out from labStory.
