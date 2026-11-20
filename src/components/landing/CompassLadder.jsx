@@ -188,8 +188,8 @@ export default function CompassLadder({ data }) {
         </figure>
       </div>
       <div className="cl__cta">
-        <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects</Link>
-        <Link href="/admission-compass" className="lp-link">Open Compass</Link>
+        <Link href="/cuet-cutoff-calculator" prefetch={false} className="mm-btn mm-btn--primary">Check my subjects</Link>
+        <Link href="/admission-compass" prefetch={false} className="lp-link">Open Compass</Link>
       </div>
     </div>
   );

@@ -144,11 +144,13 @@ export function NavBar() {
     if (target.getBoundingClientRect().top < 0) target.scrollIntoView({ block: 'start', behavior: 'instant' });
   };
 
+  const homeLike = pathname === '/' || pathname === '/home-next';
   return (
     <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
       <a href="#main-content" className="mm-skip" onClick={skipToContent}>Skip to content</a>
       <div className="mm-wrap mm-nav__row">
-        <Logo prefetch={pathname === '/' ? false : undefined} />
+        {/* The home page and its preview prefetch only their main keys (21 Nov 2026 speed pass: fewer watched links on a phone). */}
+        <Logo prefetch={homeLike ? false : undefined} />
 
         <div ref={linksRef} className="mm-nav__links" onPointerOver={aim} onFocus={aim} onPointerLeave={rest} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) rest(); }}>
           <span className="mm-nav__pill" aria-hidden="true" />
@@ -157,6 +159,7 @@ export function NavBar() {
               key={link.href}
               href={link.href}
               className="mm-nav__link"
+              prefetch={homeLike ? false : undefined}
               aria-current={pathname === link.href ? 'page' : undefined}
               data-commerce={link.commerce ? '' : undefined}
             >
@@ -190,7 +193,7 @@ export function NavBar() {
             </Link>
           ) : (
             <>
-              <Link href="/login" className="mm-nav__link mm-nav__login">
+              <Link href="/login" prefetch={homeLike ? false : undefined} className="mm-nav__link mm-nav__login">
                 Log in
               </Link>
               {/* The home page's words (owner LK83/LK88, 5 Nov): one name for the way in, on every page. */}

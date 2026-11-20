@@ -128,7 +128,7 @@ function HomeBlock() {
           <ul className="dwk-figs">
             {daily.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
           </ul>
-          <Link href={daily.href} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
+          <Link href={daily.href} prefetch={false} className="dwk-key" data-lead={!sunday.open ? 'true' : 'false'}>{daily.go}</Link>
         </div>
         {COLLEGE_DAILY ? <div className="dwk-ticket__board">
           <CollegeBoard
@@ -136,7 +136,7 @@ function HomeBlock() {
             mine={team.college}
             mode="preview"
             title="College board"
-            aside={<Link href={`${DAILY_FIVE_PATH}#board`} className="dwk-more" aria-label="See all of the college board">See all<ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link>}
+            aside={<Link href={`${DAILY_FIVE_PATH}#board`} prefetch={false} className="dwk-more" aria-label="See all of the college board">See all<ChevronRight size={16} strokeWidth={2.2} aria-hidden="true" /></Link>}
           />
         </div> : null}
       </article>
@@ -153,7 +153,7 @@ function HomeBlock() {
         <ul className="dwk-figs">
           {sunday.figures.map((f) => <li key={f.figure + f.unit}><b>{f.figure}</b>{f.unit ? <span>{f.unit}</span> : null}</li>)}
         </ul>
-        <Link href={sunday.href} className="dwk-key" data-lead={sunday.open ? 'true' : 'false'}>{sunday.go}</Link>
+        <Link href={sunday.href} prefetch={false} className="dwk-key" data-lead={sunday.open ? 'true' : 'false'}>{sunday.go}</Link>
       </article>
       <CollegeSheet open={sheet} onClose={() => setSheet(false)} onChoose={(id) => { team.pick(id); setSheet(false); }} current={team.college} />
     </div>

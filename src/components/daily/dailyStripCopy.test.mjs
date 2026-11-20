@@ -132,8 +132,9 @@ test('the block stands low on the home page, after the exam screen, and heads li
 
 test('the block carries one volt key: the Sunday Mock\'s while its paper is open, else the Daily Five\'s', () => {
   const jsx = read('./DailyFiveRow.jsx');
-  assert.match(jsx, /<Link href=\{daily\.href\} className="dwk-key" data-lead=\{!sunday\.open \? 'true' : 'false'\}>/);
-  assert.match(jsx, /<Link href=\{sunday\.href\} className="dwk-key" data-lead=\{sunday\.open \? 'true' : 'false'\}>/);
+  // 21 Nov 2026 (speed): the home block's keys are not prefetched while the page scrolls; the keys themselves are unchanged.
+  assert.match(jsx, /<Link href=\{daily\.href\} prefetch=\{false\} className="dwk-key" data-lead=\{!sunday\.open \? 'true' : 'false'\}>/);
+  assert.match(jsx, /<Link href=\{sunday\.href\} prefetch=\{false\} className="dwk-key" data-lead=\{sunday\.open \? 'true' : 'false'\}>/);
   assert.equal((jsx.match(/className="dwk-key"/g) || []).length, 2);
   // Nothing in the block pulses, flashes or plays by itself.
   assert.doesNotMatch(read('./daily-row.css').split('---------- Today')[0], /@keyframes|animation:/);

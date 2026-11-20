@@ -225,7 +225,7 @@ export default function HomeNextPage() {
 
             {/* Round 11: the exam-day screen moved into the strip, so the tray holds the DU calculator alone. */}
             <div className="lp-hero__links">
-              <Link href="/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
+              <Link href="/cuet-cutoff-calculator" prefetch={false} className="lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
             </div>
           </div>
         </section>
@@ -332,7 +332,7 @@ export default function HomeNextPage() {
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
               {/* R19 (18 Nov 2026): Compass Pro is one line under the card with its link; what it adds opens below it. */}
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
-                <p className="lp-cpro__line">{COMPASS_PRO.title} <Link href="/pricing" className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link></p>
+                <p className="lp-cpro__line">{COMPASS_PRO.title} <Link href="/pricing" prefetch={false} className="lp-link" data-commerce="">{COMPASS_PRO.cta}</Link></p>
                 <details className="lp-cpro__more">
                   <summary><span>What Compass Pro adds</span><ChevronDown aria-hidden="true" /></summary>
                   <p className="lp-cpro__badge">{COMPASS_PRO.badge}</p>
@@ -388,7 +388,7 @@ export default function HomeNextPage() {
           <div className="mm-wrap lp-faq-desk">
             <Reveal className="lp-faq-desk__head">
               <h2 className="lp-h2">{FAQ_HEAD.h2}</h2>
-              <Link href="#try-practice" className="lp-link">Try five questions</Link>
+              <Link href="#try-practice" prefetch={false} className="lp-link">Try five questions</Link>
             </Reveal>
             <Reveal className="mm-faqs">
               {/* Every answer starts closed (round 2 of 18 Nov 2026, lane home-b: an earlier change had left the first one open). */}

@@ -8,9 +8,9 @@ import { useAuth } from '@/components/AuthProvider';
 export const GUEST_HELP_HREF = '/#faq';
 export const STUDENT_HELP_HREF = '/help';
 
-export function FooterHelpLink({ children = 'Help' }) {
+export function FooterHelpLink({ children = 'Help', prefetch }) {
   const { isAuthenticated } = useAuth();
-  return <Link href={isAuthenticated ? STUDENT_HELP_HREF : GUEST_HELP_HREF}>{children}</Link>;
+  return <Link href={isAuthenticated ? STUDENT_HELP_HREF : GUEST_HELP_HREF} prefetch={prefetch}>{children}</Link>;
 }
 
 export default FooterHelpLink;

@@ -178,7 +178,8 @@ test('L-008 the bottom bar (LK83/LK88; round 4 LK135; R8 SEC-15): a guest gets t
   assert.match(demo.wayIn({ signedIn: true }).dock.primary.label, /^(Go to (Practice|the Arena)|Find my first gap)$/, 'signed in: the key goes back in');
   const mobile = code(read('src/components/MobileDock.jsx'));
   assert.match(mobile, /href=\{resolvedHref\}/, 'the volt key\'s label and target come from one resolved state');
-  assert.match(mobile, /<Link href=\{secondary\.href\} className="mm-btn mm-dock__ghost">/, 'the ghost key is a real link key');
+  // 21 Nov 2026 (speed): still a real link key, only not prefetched (prefetch={false}).
+  assert.match(mobile, /<Link href=\{secondary\.href\} prefetch=\{false\} className="mm-btn mm-dock__ghost">/, 'the ghost key is a real link key');
   assert.match(mobile, /resolvedNote \? <p className="mm-dock__note">/, 'no empty note line');
 });
 

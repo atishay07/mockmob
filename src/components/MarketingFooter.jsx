@@ -62,6 +62,9 @@ function FootGroup({ title, children }) {
 }
 
 export function MarketingFooter({ home = false }) {
+  // The home pages' footer is the end of a long scroll: its links are not watched by Next's prefetch observer on the way
+  // down (a cheap phone's main thread and data, 21 Nov 2026). A tap still opens the page at once.
+  const prefetch = home ? false : undefined;
   return (
     <footer className={home ? 'mm-foot' : 'mm-foot mm-foot--page'}>
       <div className="mm-wrap">
@@ -70,20 +73,20 @@ export function MarketingFooter({ home = false }) {
             <h2>Free CUET tools</h2>
             <ul>
               {HOME_TOOLS.map(([label, href]) => (
-                <li key={href}><Link href={href}>{label}</Link></li>
+                <li key={href}><Link href={href} prefetch={prefetch}>{label}</Link></li>
               ))}
             </ul>
           </nav>
         ) : null}
         <div className="mm-foot__cols">
           <div>
-            <Logo />
+            <Logo prefetch={prefetch} />
             <p className="mm-foot__blurb">
               Timed CUET practice, a clear read of every mistake, and one next step for tonight.
               {' '}
               {SUBJECT_CLAIM.short}.
             </p>
-            <FooterStart />
+            <FooterStart prefetch={prefetch} />
             <a
               className="mm-foot__social"
               href="https://www.instagram.com/mockmob.in/"
@@ -99,7 +102,7 @@ export function MarketingFooter({ home = false }) {
             <ul>
               {PRODUCT_LINKS.filter(([, href]) => !home || !HOME_TOOLS.some(([, toolHref]) => toolHref === href)).map(([label, href, commerce]) => (
                 <li key={href} data-commerce={commerce ? '' : undefined}>
-                  <Link href={href}>{label}{href === '/cuet-cutoff-calculator' ? <NewTag /> : null}</Link>
+                  <Link href={href} prefetch={prefetch}>{label}{href === '/cuet-cutoff-calculator' ? <NewTag /> : null}</Link>
                 </li>
               ))}
             </ul>
@@ -109,7 +112,7 @@ export function MarketingFooter({ home = false }) {
             <ul>
               {SUBJECT_LINKS.map(([label, href]) => (
                 <li key={href}>
-                  <Link href={href}>{label}</Link>
+                  <Link href={href} prefetch={prefetch}>{label}</Link>
                 </li>
               ))}
             </ul>
@@ -119,7 +122,7 @@ export function MarketingFooter({ home = false }) {
             <ul>
               {COMPANY_LINKS.map(([label, href]) => (
                 <li key={href}>
-                  {href === '/help' ? <FooterHelpLink>{label}</FooterHelpLink> : <Link href={href}>{label}</Link>}
+                  {href === '/help' ? <FooterHelpLink prefetch={prefetch}>{label}</FooterHelpLink> : <Link href={href} prefetch={prefetch}>{label}</Link>}
                 </li>
               ))}
             </ul>

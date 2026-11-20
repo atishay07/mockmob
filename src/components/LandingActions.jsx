@@ -47,7 +47,7 @@ export function LandingActions({ mode = 'hero' }) {
         </Link>
       </div>
       <p className="lp-cta__login">
-        Have an account? <Link href={way.login.href}>{way.login.label}</Link>
+        Have an account? <Link href={way.login.href} prefetch={false}>{way.login.label}</Link>
       </p>
     </>
   );

@@ -44,7 +44,7 @@ export function CloseActions({ invites = false }) {
         <Link href={isAuthenticated ? homeHref : signupHref} className="mm-btn mm-btn--primary">
           {isAuthenticated ? way.home.label : way.signup.label}
         </Link>
-        {isAuthenticated ? null : <Link href={way.login.href} className="mm-btn mm-btn--secondary">{way.login.label}</Link>}
+        {isAuthenticated ? null : <Link href={way.login.href} prefetch={false} className="mm-btn mm-btn--secondary">{way.login.label}</Link>}
       </div>
       <p className="lp-close__free"><Check size={16} aria-hidden="true" />Free to start. No card needed.</p>
       {invites && !isAuthenticated ? (

@@ -3,9 +3,9 @@
 // (data/tests/home_next_1120.test.mjs); OnePlace.jsx plays it in the browser.
 //
 // SCRIPTS: what the demo cursor (demo/CursorDemo.jsx) does on each row's stage, the landing's own real component:
-//   practise  ExamStage (ExamScreen.jsx): pick an option in MockMob style, Next, switch to NTA style (answers kept), pick an
-//             option, NTA's Save & Next, pick on the new question, Save & Next again. The palette's counts change as it
-//             goes. On a phone the camera frames each step (EXAM_CAMERA, SHOT) and looks at each new question.
+//   practise  ExamStage (ExamScreen.jsx): look at the question, pick an option in MockMob style, chip 4, look, switch to NTA
+//             style (answers kept), pick an option, NTA's Save & Next, look at the new question. The palette's counts change
+//             as it goes. On a phone the camera frames each step (EXAM_CAMERA, SHOT) and looks at each new question.
 //   cards     KeyCardsDemo.jsx: turn the card, rate it Got it (the app's key), the next card rises, turn it.
 //   mobi      BringMistakeCard (BringMistakeBlock.jsx): Question, then Read, then Check (the right option of the fresh
 //             question), then Practise.
@@ -31,8 +31,7 @@ export const CURSOR_PRESS_MS = 130;
 export const CURSOR_ENTER_MS = 220;
 export const CURSOR_EXIT_MS = 260;
 
-const click = (target, move, dwell, at, zoom, frame) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}), ...(zoom ? { zoom } : {}), ...(frame ? { frame } : {}) });
-const look = (selector, move, dwell) => Object.freeze({ look: selector, move, dwell });
+const click = (target, move, dwell, at, zoom, frame, more = {}) => Object.freeze({ target, move, dwell, click: true, ...(at ? { at } : {}), ...(zoom ? { zoom } : {}), ...(frame ? { frame } : {}), ...more });
 
 // The fresh question's right option in Bring a mistake's Check step (bringMistakeCopy.mjs, held there by its own test).
 const RIGHT = BRING_MISTAKE.check.correct + 1;
@@ -54,26 +53,42 @@ export const SHOT = Object.freeze({
   question: '.xs-stem, .xs-options, .xs-n-stem, .xs-n-options',
   panel: '.xs-review, .xs-n-palette',
 });
+// A question shot's least scale comes from its text (21 Nov, the critic's second round: options came out at 11.4 px on a
+// 360 px phone): every option's words at 12 px, the stem at 11 px (the stem may go a point under, so more of it fits). The
+// option's letter chip (one bold capital) is not held to 12: it would force the scale from 2.2 to 2.5 and cut more stem. The screen is the real one, so its lines cannot rewrap: when the stem and the four options still do not fit, the
+// look beat opens on the stem's start and pans to its end and the last option during the hold.
+export const QUESTION_TEXT = Object.freeze([
+  Object.freeze(['.xs-opt-text, .xs-n-option > span:last-child', 12]),
+  Object.freeze(['.xs-stem, .xs-n-stem', 11]),
+]);
+// Where a look beat pans when the question cannot fit: along the stem's line, to its end (and down to the last option).
+export const STEM = '.xs-stem, .xs-n-stem';
 export const LOOK_MS = 700;
+const look = (move, dwell) => Object.freeze({ look: SHOT.question, text: QUESTION_TEXT, pan: STEM, move, dwell });
+const pick = (target, move, dwell, at) => click(target, move, dwell, at, ZOOM_AT, SHOT.question, { text: QUESTION_TEXT });
+// A key press: the key and the palette right of it, the shot starting at the key's left edge and below the options.
+const key = (target, move, dwell) => click(target, move, dwell, null, ZOOM_AT, SHOT.panel, { anchor: 'key', clear: '.xs-options, .xs-n-options' });
+// A palette chip: the shot is the palette (its counts and chips) alone.
+const chip = (target, move, dwell) => click(target, move, dwell, null, ZOOM_AT, SHOT.panel, { anchor: 'region' });
 
 // Every row runs 8 s or less (owner: each screen lasts about 5 s; the critic timed 9.7 and 10.4).
 export const ROW_MAX_MS = 8000;
 
 export const SCRIPTS = Object.freeze({
-  // MockMob: pick on Q3, Next (palette beside it), look at Q4. The switch: the one shot out at scale 1, about 600 ms (move in
-  // 380, press, a short dwell), then straight into the NTA question. NTA: pick, Save & Next, look at Q5, pick, Save & Next
-  // (Q5 is the paper's last live question, so it stays; the palette counts it answered). The look beats' time comes out of
-  // the dwells.
+  // A look at Q3 opens the row (the camera comes in on the question), then: MockMob pick, chip 4 in the review panel, look
+  // at Q4. The switch: the one shot out at scale 1, about 600 ms (move in 380, press, a short dwell), then straight into the
+  // NTA question: pick, Save & Next (the palette counts it), look at Q5. Each look pans when the question cannot fit whole.
   practise: Object.freeze([
-    click('[data-demo="xs-option"]:nth-child(2)', 440, 250, [0.25, 0.5], ZOOM_AT, SHOT.question),
-    click('[data-demo="xs-next"]', 380, 150, null, ZOOM_AT, SHOT.panel),
-    look(SHOT.question, 400, LOOK_MS),
+    look(400, LOOK_MS),
+    pick('[data-demo="xs-option"]:nth-child(2)', 440, 250, [0.25, 0.5]),
+    // MockMob's Next sits under the options' right ends, which no shot at a readable scale can leave out (the critic's
+    // "empty option boxes"), so the move to Q4 is the review panel's own chip 4: the same real control a student uses.
+    chip('[data-demo="xs-chip"]:nth-child(4)', 380, 150),
+    look(400, LOOK_MS),
     click('[data-demo="xs-nta"]', 380, 150),
-    click('[data-demo="xs-n-option"]:nth-child(3)', 440, 250, [0.3, 0.5], ZOOM_AT, SHOT.question),
-    click('[data-demo="xs-n-save"]', 380, 150, null, ZOOM_AT, SHOT.panel),
-    look(SHOT.question, 400, LOOK_MS),
-    click('[data-demo="xs-n-option"]:nth-child(2)', 400, 200, [0.3, 0.5], ZOOM_AT, SHOT.question),
-    click('[data-demo="xs-n-save"]', 380, 400, null, ZOOM_AT, SHOT.panel),
+    pick('[data-demo="xs-n-option"]:nth-child(3)', 440, 250, [0.3, 0.5]),
+    key('[data-demo="xs-n-save"]', 380, 300),
+    look(400, LOOK_MS),
   ]),
   cards: Object.freeze([
     Object.freeze({ wait: 400 }),

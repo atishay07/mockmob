@@ -218,12 +218,12 @@ export default function KeyCardsDemo({ cards = [], keys = [], bank = null, subje
             <p className="kc-open__title">{W.openTitle}</p>
             <ul className="kc-open__list">
               {/* Phones show the first six and one chip that counts the rest (r16-phone.css); wide screens show them all. */}
-              {subjects.map((s, i) => <li key={s.slug} data-extra={i >= PHONE_SUBJECTS ? 'true' : undefined}><Link href={`${PUBLIC_DECKS_HREF}#${s.slug}`}>{s.name}</Link></li>)}
-              {subjects.length > PHONE_SUBJECTS ? <li className="kc-open__more"><Link href={PUBLIC_DECKS_HREF}>{W.moreSubjects.replace('{n}', String(subjects.length - PHONE_SUBJECTS))}</Link></li> : null}
+              {subjects.map((s, i) => <li key={s.slug} data-extra={i >= PHONE_SUBJECTS ? 'true' : undefined}><Link href={`${PUBLIC_DECKS_HREF}#${s.slug}`} prefetch={false}>{s.name}</Link></li>)}
+              {subjects.length > PHONE_SUBJECTS ? <li className="kc-open__more"><Link href={PUBLIC_DECKS_HREF} prefetch={false}>{W.moreSubjects.replace('{n}', String(subjects.length - PHONE_SUBJECTS))}</Link></li> : null}
             </ul>
           </div>
         ) : null}
-        <Link href={PUBLIC_DECKS_HREF} className="mm-link">{W.seeChapter}</Link>
+        <Link href={PUBLIC_DECKS_HREF} prefetch={false} className="mm-link">{W.seeChapter}</Link>
       </div> : null}
     </>
   );

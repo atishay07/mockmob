@@ -294,7 +294,8 @@ test('round 5 (owner, 6 Nov 2026, LK159): "CUET 2027." is the headline\'s anchor
 });
 
 test('decision 3: the hero link stays, as an ink underlined text link (round 11: the exam-day screen moved into the strip)', () => {
-  assert.match(HERO, /<Link href="\/cuet-cutoff-calculator" className="lp-hero__tool">Free DU eligibility and cutoff calculator<\/Link>/);
+  // 21 Nov 2026 (speed): not watched by Next's prefetch observer; the link and its look are unchanged.
+  assert.match(HERO, /<Link href="\/cuet-cutoff-calculator" prefetch=\{false\} className="lp-hero__tool">Free DU eligibility and cutoff calculator<\/Link>/);
   // Round 11 (10 Nov 2026): the strip's third item opens the exam section, so the tray holds the DU calculator alone.
   const tray = HERO.slice(HERO.indexOf('<div className="lp-hero__links">'), HERO.indexOf('</section>'));
   assert.equal((tray.match(/<(?:Link|a) /g) || []).length, 1, 'one link in the tray');

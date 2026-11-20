@@ -38,7 +38,7 @@ export function HomePricing({ offer, newOffer = false, firstFullMock = null, fro
   const go = (
     <div className="lp-plan__go">
       <Link href="/pricing#plans" className="mm-btn mm-btn--primary">{PLAN_COPY.key}</Link>
-      <Link href="/pricing" className="lp-plan__more">{PLAN_HOME.pricingLink}</Link>
+      <Link href="/pricing" prefetch={false} className="lp-plan__more">{PLAN_HOME.pricingLink}</Link>
     </div>
   );
   return (

@@ -187,17 +187,18 @@ export default function OnePlace({ keyCards = null, photo = false, price = null,
     tabs.current[to]?.focus();
   };
 
-  // The exam keeps its monitor and stand; its NTA gate card shows on phones only (one-place.css), where it fills the stage.
+  // The exam keeps its monitor and stand. Its NTA line sits right under the switch it describes; its gate card shows on phones
+  // only (one-place.css), cut to its title and first sentence.
   // Each row's proof line under its stage: the live section's own words and numbers.
   const bank = bankLine(keyCards?.bank);
   const proof = (row) => {
-    if (row.id === 'practise') return <p className="op-proof">{ONE_PLACE.practiseProof}</p>;
+    if (row.id === 'practise') return null; // its NTA line sits under the switch (ExamStage note)
     if (row.id === 'cards') return <p className="op-proof">{bank ? <>{bank} </> : null}<Link href={ONE_PLACE.decksHref} prefetch={false} className="lp-link">{ONE_PLACE.decksLink}</Link></p>;
     return price ? <p className="op-proof">{price}</p> : null;
   };
 
   const stage = (row) => {
-    if (row.id === 'practise') return <ExamStage />;
+    if (row.id === 'practise') return <ExamStage gate="short" note={<p className="op-proof op-proof--switch">{ONE_PLACE.practiseProof}</p>} />;
     if (row.id === 'cards') return <AppWindow path={row.path}><div className="op-kc"><KeyCardsDemo cards={keyCards.cards} keys={keyCards.keys} bank={keyCards.bank} subjects={keyCards.subjects} foot={false} /></div></AppWindow>;
     return <AppWindow path={row.path} fill><div className="bmk op-bmk"><BringMistakeCard photo={photo} /></div></AppWindow>;
   };

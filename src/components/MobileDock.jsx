@@ -15,6 +15,7 @@ import '@/app/dock.css';
 // one is confirming, after money may have moved, or once Pro is active.
 // hideAtFooter: the bar slides away as the page footer comes into view (96px early, its own height), so it never sits over the footer links.
 // secondary ({ href, label }): a quiet ghost key before the volt one (the landing's guest "Log in", LK83). note={null}: no note line.
+// The ghost key is never prefetched (21 Nov 2026 speed pass): only the volt way in is watched by Next's prefetch observer.
 // sub: a short true line set inside the volt key under its label (round 4, owner LK135: "the CTA is a bit weak"), as the
 // guest docks' "Sign up free" / "No card needed" (dock.css). Never shown on the signed-in, active or checkout keys.
 export function MobileDock({ note = 'Free to start. No card.', label, href, secondary = null, sub = null, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
@@ -51,7 +52,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, seco
       <div className="mm-dock" data-motion-dock="true" data-commerce={checkoutAware ? '' : undefined} data-keys={showSecondary ? '2' : undefined} data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
         {resolvedNote ? <p className="mm-dock__note">{resolvedNote}</p> : null}
         {showSecondary ? (
-          <Link href={secondary.href} className="mm-btn mm-dock__ghost">
+          <Link href={secondary.href} prefetch={false} className="mm-btn mm-dock__ghost">
             {secondary.label}
           </Link>
         ) : null}

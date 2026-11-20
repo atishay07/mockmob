@@ -18,8 +18,15 @@
 //       (between the floor above and `zoom.max`); a region too big for the floor keeps the target in view and as much of the
 //       region as fits from its top left (the question's side). A later step without `zoom` keeps the scale; a step whose
 //       target is outside the screen (a switch beside it) eases back out to 1.
-//   { look: 'selector, selector', move: 450, dwell: 700 }
-//       a look beat: no press; the camera pans to frame what matches (the new question's stem and options) and holds.
+//   `text: [[selector, px], ...]` sets the camera's least scale from text sizes instead (every match drawn at that size).
+//   `anchor: 'key'` starts the shot at the target's left edge (a key press framed with what lies right of it), `'region'`
+//       at the framed region's left edge (a palette chip framed with its palette alone); both zoom in as far as `zoom.max`
+//       allows so the screen's edge does not pull the shot back left; `clear:
+//       'selector'` starts it below those elements when the target still fits (the options above a key).
+//   { look: 'selector, selector', text, move: 450, dwell: 700 }
+//       a look beat: no press; the camera pans to frame what matches (the new question's stem and options) and holds. If
+//       that cannot fit at the text's floor, it opens on the region's top left and, during the hold, pans along `pan` (the
+//       stem's line) to its end and down to the region's foot.
 //       Without the camera it is a pause of the same length.
 //   { wait: 600 }                         pause
 //   { run: (stage) => {} }                anything else the screen needs (rare; prefer a real click)
@@ -124,12 +131,18 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
     };
     // The camera's shot for a region of the screen. `box` is the screen's parent (its own size), `k` the stage's outside
     // scale, `region` and `keep` are { l, t, r, b } in the screen's own px, `floor` the least scale. Returns the transform.
-    const compose = (box, k, region, keep, floor) => {
+    // `anchor`: 'key' starts the shot at the target's left edge (less 8 px on screen), so a key press frames the key and what
+    // lies right of it (the palette), never the cut-off ends of the options to its left.
+    const compose = (box, k, region, keep, floor, anchor, below = null) => {
       const w = box.width / k;
       const h = box.height / k;
       const rw = Math.max(1, region.r - region.l);
       const rh = Math.max(1, region.b - region.t);
-      const s = Math.min(zoom.max ?? 3.2, Math.max(floor, Math.min(w / rw, h / rh) * 0.94));
+      // A key near the screen's right edge: zoom in until the shot can start at the key (the screen's edge would otherwise
+      // pull it left, over the cut-off ends of the options).
+      const anchorX = anchor === 'key' ? keep.l : anchor === 'region' ? region.l : null;
+      const keyFit = anchorX != null && w - anchorX > 1 ? (w - 8) / (w - anchorX) : 0;
+      const s = Math.min(zoom.max ?? 3.2, Math.max(floor, keyFit, Math.min(w / rw, h / rh) * 0.94));
       const vw = w / s;
       const vh = h / s;
       const axis = (lo, hi, keepLo, keepHi, size, full) => {
@@ -139,14 +152,18 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
         if (keepLo < start) start = keepLo - size * 0.04;
         return Math.min(Math.max(0, start), Math.max(0, full - size));
       };
-      const left = axis(region.l, region.r, keep.l, keep.r, vw, w);
-      const top = axis(region.t, region.b, keep.t, keep.b, vh, h);
+      const left = anchorX != null
+        ? Math.min(Math.max(0, anchorX - 8 / s), Math.max(0, w - vw))
+        : axis(region.l, region.r, keep.l, keep.r, vw, w);
+      let top = axis(region.t, region.b, keep.t, keep.b, vh, h);
+      // `below`: the shot starts under that line when the target still fits (a key press clear of the options above it).
+      if (below != null && below + 4 / s > top && keep.b <= below + 4 / s + vh) top = Math.min(below + 4 / s, Math.max(0, h - vh));
       return { s, x: -left * s, y: -top * s };
     };
-    const shoot = (next, ms) => {
+    const shoot = (next, ms, ease = 'cubic-bezier(.3, .7, .2, 1)') => {
       view = next;
       cam.style.transformOrigin = '0 0';
-      cam.style.transition = `transform ${ms}ms cubic-bezier(.3, .7, .2, 1)`;
+      cam.style.transition = `transform ${ms}ms ${ease}`;
       cam.style.transform = next.s === 1 ? '' : `translate3d(${next.x.toFixed(1)}px, ${next.y.toFixed(1)}px, 0) scale(${next.s.toFixed(3)})`;
     };
     // A box on screen, in the screen's own px (undoing the zoom it is drawn with now).
@@ -155,6 +172,19 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       r: ((r.right - box.left) / k - view.x) / view.s, b: ((r.bottom - box.top) / k - view.y) / view.s,
     });
     const union = (boxes) => boxes.reduce((u, b) => ({ l: Math.min(u.l, b.l), t: Math.min(u.t, b.t), r: Math.max(u.r, b.r), b: Math.max(u.b, b.b) }));
+    // `text: [[selector, px], ...]`: the least scale at which every matching element's text is drawn at that size or more
+    // (the options at 12 px, the stem at 11 px). Style reads only, with the boxes, before anything is written.
+    const textFloor = (pairs) => {
+      let f = 0;
+      for (const [sel, px] of pairs) {
+        for (const n of cam.querySelectorAll(sel)) {
+          if (n.offsetWidth < 2) continue; // screen-reader-only words are never drawn
+          const size = parseFloat(getComputedStyle(n).fontSize);
+          if (size) f = Math.max(f, px / size);
+        }
+      }
+      return f;
+    };
 
     // Where the cursor goes for this step (stage px), and, with the camera, the shot that frames it. One read: every box and
     // the font size are read before anything is written.
@@ -176,22 +206,40 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       const extra = step.frame ? [...cam.querySelectorAll(step.frame)].map((n) => local(n.getBoundingClientRect(), box, k)) : [];
       const lx = ((px - box.left) / k - view.x) / view.s;
       const ly = ((py - box.top) / k - view.y) / view.s;
-      const floor = step.zoom ? Math.max(step.zoom, font ? (zoom.minPx ?? 12) / font : 0) : view.s;
-      const next = step.zoom || step.frame ? compose(box, k, union([target, ...extra]), target, floor) : { ...view };
+      const floor = step.text ? textFloor(step.text) : step.zoom ? Math.max(step.zoom, font ? (zoom.minPx ?? 12) / font : 0) : view.s;
+      const clear = step.clear ? [...cam.querySelectorAll(step.clear)].map((n) => local(n.getBoundingClientRect(), box, k)) : [];
+      const below = clear.length ? Math.max(...clear.map((c) => c.b)) : null;
+      const next = step.zoom || step.frame ? compose(box, k, union([target, ...extra]), target, floor, step.anchor, below) : { ...view };
       shoot(next, ms);
       return [(box.left - sr.left) / k + next.x + next.s * lx, (box.top - sr.top) / k + next.y + next.s * ly];
     };
-    // A look beat: frame what matches, at the current scale or more (never below the floor the script set).
-    const look = (selector, ms) => {
-      if (!cam) return;
-      const els = [...cam.querySelectorAll(selector)];
-      if (!els.length) return;
+    // A look beat: frame what matches, at its text floor (or the scale now). When the region cannot fit at that scale (the
+    // screen is the real one: its lines cannot rewrap), the shot opens on its top left (the stem's start) and the hold pans
+    // along the stem to its end, then back left and down to the last option. Returns those pans (none when it all fits).
+    const look = (step, ms) => {
+      if (!cam) return [];
+      const els = [...cam.querySelectorAll(step.look)];
+      if (!els.length) return [];
       const box = cam.parentElement.getBoundingClientRect();
       const sr = stage.getBoundingClientRect();
       const k = (stage.offsetWidth ? sr.width / stage.offsetWidth : 1) || 1;
       const boxes = els.map((n) => local(n.getBoundingClientRect(), box, k));
       const region = union(boxes);
-      shoot(compose(box, k, region, boxes[0], Math.max(view.s, 1)), ms);
+      const floor = Math.max(step.text ? textFloor(step.text) : view.s, 1);
+      // The pan's end: the right end of `step.pan` (the stem's line), with the stem's top kept in view and as much of the
+      // region's foot (the last option) as fits under it.
+      const line = step.pan ? cam.querySelector(step.pan) : null;
+      const stem = line ? local(line.getBoundingClientRect(), box, k) : region;
+      // Then, as a reader's eye goes, back to the left and down to the region's foot (the last option).
+      const first = compose(box, k, region, { l: region.l, t: region.t, r: region.l + 1, b: region.t + 1 }, floor);
+      const along = compose(box, k, region, { l: stem.r - 1, t: stem.t, r: stem.r, b: stem.b }, floor);
+      const down = compose(box, k, region, { l: region.l, t: region.b - 1, r: region.l + 1, b: region.b }, floor);
+      shoot(first, ms);
+      const moved = (a, b) => Math.abs(a.x - b.x) > 2 || Math.abs(a.y - b.y) > 2;
+      const pans = [];
+      if (moved(along, first)) pans.push(along);
+      if (moved(down, pans.at(-1) || first)) pans.push(down);
+      return pans;
     };
     const fire = (el, pointer) => {
       const x = window.scrollX;
@@ -235,14 +283,33 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
         if (stopped) return;
         if (step.wait) { await sleep(step.wait); continue; }
         if (step.run) { step.run(stage); await sleep(step.dwell ?? 0); continue; }
-        if (step.look) { look(step.look, step.move ?? MOVE_MS); await sleep((step.move ?? MOVE_MS) + (step.dwell ?? DWELL_MS)); continue; }
+        if (step.look) {
+          const pans = look(step, step.move ?? MOVE_MS);
+          await sleep(step.move ?? MOVE_MS);
+          if (stopped) return;
+          stage.dataset.demoPhase = 'look';
+          // A beat on the stem's start, then the pans, sharing what is left of the hold.
+          const hold = step.dwell ?? DWELL_MS;
+          const rest = pans.length ? Math.min(150, hold / 4) : hold;
+          await sleep(rest);
+          for (const [i, shot] of pans.entries()) {
+            if (stopped) return;
+            const part = (hold - rest) / pans.length;
+            stage.dataset.demoPhase = `pan${i + 1}`;
+            shoot(shot, Math.max(0, part - 40), 'cubic-bezier(.45, 0, .55, 1)');
+            await sleep(part);
+          }
+          continue;
+        }
         const el = step.target ? stage.querySelector(step.target) : null;
         if (!el) continue;
+        stage.dataset.demoPhase = 'move';
         const [x, y] = pointOf(el, step.at, step, step.move ?? MOVE_MS);
         place(x, y, step.move ?? MOVE_MS);
         await sleep(step.move ?? MOVE_MS);
         if (stopped) return;
         if (step.click) {
+          stage.dataset.demoPhase = 'press';
           press(x, y);
           await sleep(PRESS_MS);
           if (stopped) return;
@@ -264,6 +331,7 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       cursor.classList.remove('is-press');
       delete cursor.dataset.shown;
       if (view.s !== 1) unzoom(0); // a run cut short; a finished run is already easing out
+      delete stage.dataset.demoPhase;
     };
   }, [playing, taken, steps, zoom]);
 

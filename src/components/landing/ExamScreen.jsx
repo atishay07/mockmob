@@ -73,7 +73,9 @@ export function ExamScreen() {
 // cursor, src/components/landing/OnePlace.jsx). ExamScreen above draws the live home's section with it, so "/" is unchanged.
 // `head` is drawn first inside the layout grid (the section's heading, sub and Mobi); `gate` keeps NTA mode's gate card.
 // The data-demo attributes are inert hooks for the demo cursor's scripts (onePlaceScripts.mjs).
-export function ExamStage({ head = null, gate = true }) {
+// `note` (optional) is drawn right under the switch; `gate: 'short'` keeps the gate card to its title and first sentence (the
+// one frame on /home-next, phones). The defaults draw the live section exactly as before.
+export function ExamStage({ head = null, gate = true, note = null }) {
   const { user } = useAuth();
   const [mode, setModeRaw] = useState('mockmob');
   const [index, setIndex] = useState(EXAM.start.index);
@@ -305,7 +307,7 @@ export function ExamStage({ head = null, gate = true }) {
   const chipGrid = (names) => (
     <div className="xs-grid" role="group" aria-label={nta ? names.paletteTitle : words.paletteTitle}>
       {states.map((state, i) => (i < LIVE
-        ? <button key={i} type="button" className="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => { go(i); setSheet(false); }}>{i + 1}</button>
+        ? <button key={i} type="button" className="xs-chip" data-demo="xs-chip" data-state={state} aria-current={index === i ? 'step' : undefined} aria-label={`Question ${i + 1}, ${names.stateName(state)}`} onClick={() => { go(i); setSheet(false); }}>{i + 1}</button>
         : <span key={i} className="xs-chip" data-state={state} aria-hidden="true">{i + 1}</span>))}
     </div>
   );
@@ -452,6 +454,7 @@ export function ExamStage({ head = null, gate = true }) {
 
         {/* The switch is the visitor's, not the exam's: it sits beside the monitor at full size at every width. */}
         <div className="xs-switch" role="group" aria-label={words.switchLabel}>{switchKeys}</div>
+        {note}
 
         <ExamDevice ref={deviceRef}>
           {full ? <div className="xs-frame xs-frame--away" aria-hidden="true" /> : frame}
@@ -462,9 +465,9 @@ export function ExamStage({ head = null, gate = true }) {
             warning rule in one plain sentence; R11 dropped the "Warnings 0/3" pill, which did nothing) and the way to it. */}
         {gate ? <div className="xs-gate">
           <span className="xs-gate__mark" aria-hidden="true"><ShieldCheck /></span>
-          <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate} {EXAM.warningRule}</p>
+          <p className="xs-gate__text"><b>{EXAM.gateTitle}.</b> {EXAM.gate}{gate === 'short' ? null : <> {EXAM.warningRule}</>}</p>
           <p className="xs-gate__foot">
-            <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
+            <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} prefetch={false} className="lp-link">{user?.isPremium ? EXAM.ctaPro : EXAM.ctaFree}</Link></p>
         </div> : null}
         {/* Phones only (exam-screen.css): the readable way into the same screen. */}
         <button ref={fullOpener} type="button" className="mm-btn mm-btn--secondary xs-full-open" aria-haspopup="dialog" aria-expanded={full} onClick={openFull}>

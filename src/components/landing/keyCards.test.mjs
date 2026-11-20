@@ -212,10 +212,11 @@ test('one key under the demo: guest "Sign up free to keep going" (secondary, vol
   // 16 Nov 2026, evening: on a phone fourteen chips stood as a wall, so the row shows six there and one chip that counts
   // the rest and opens the same public decks (r16-phone.css hides the others below 720 px; wide screens show them all).
   assert.equal((DEMO.match(/href=/g) || []).length, 4, 'the key, the subjects row, its chip for the rest, and the one quiet link to the public decks');
-  assert.match(DEMO, /subjects\.map\(\(s, i\) => <li key=\{s\.slug\} data-extra=\{i >= PHONE_SUBJECTS \? 'true' : undefined\}><Link href=\{`\$\{PUBLIC_DECKS_HREF\}#\$\{s\.slug\}`\}>\{s\.name\}<\/Link><\/li>\)/);
-  assert.match(DEMO, /<li className="kc-open__more"><Link href=\{PUBLIC_DECKS_HREF\}>/, 'the rest are one tap away, never dropped');
+  // 21 Nov 2026 (speed): the subject links are not prefetched while the page scrolls; same links, same targets.
+  assert.match(DEMO, /subjects\.map\(\(s, i\) => <li key=\{s\.slug\} data-extra=\{i >= PHONE_SUBJECTS \? 'true' : undefined\}><Link href=\{`\$\{PUBLIC_DECKS_HREF\}#\$\{s\.slug\}`\} prefetch=\{false\}>\{s\.name\}<\/Link><\/li>\)/);
+  assert.match(DEMO, /<li className="kc-open__more"><Link href=\{PUBLIC_DECKS_HREF\} prefetch=\{false\}>/, 'the rest are one tap away, never dropped');
   assert.match(DEMO, /const PHONE_SUBJECTS = 6;/);
-  assert.match(DEMO, /<Link href=\{PUBLIC_DECKS_HREF\} className="mm-link">\{W\.seeChapter\}<\/Link>/, 'a text link, never a second key');
+  assert.match(DEMO, /<Link href=\{PUBLIC_DECKS_HREF\} prefetch=\{false\} className="mm-link">\{W\.seeChapter\}<\/Link>/, 'a text link, never a second key');
   assert.match(DEMO, /const PUBLIC_DECKS_HREF = '\/key-cards';/);
 });
 

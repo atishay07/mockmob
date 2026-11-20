@@ -55,7 +55,9 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 
 /* Practise: the exam screen's device and switch alone (ExamStage), the switch above the monitor at every width. The live
    section's own phone rules (home-sheets.css, #exam-experience) are repeated here for the stage. */
-.op-slot[data-tool='practise'] .xs-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'switch' 'device' 'full' 'gate'; grid-template-rows: auto; align-items: start; gap: 0.75rem; }
+.op-slot[data-tool='practise'] .xs-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'switch' 'note' 'device' 'full' 'gate'; grid-template-rows: auto; align-items: start; gap: 0.75rem; }
+/* The NTA line right under the switch it is about (ExamStage `note`). */
+.op-slot[data-tool='practise'] .xs-layout > .op-proof--switch { grid-area: note; margin: -2px 0 0; }
 /* NTA mode's gate (the exam section's own words and its way to Pro): on phones it fills the stage under the monitor, set as
    on "/" (a shield, the words and the link on the paper under a hairline). From 960 px the monitor alone, as before. */
 .op-slot[data-tool='practise'] .xs-gate { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); grid-template-areas: 'mark text' 'mark foot'; column-gap: 0.75rem; row-gap: 0.25rem; margin: 0; padding: 0.875rem 0 0.125rem; border-top: 1px solid var(--line); }
@@ -69,7 +71,7 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 @media (min-width: 960px) {
   .op-slot[data-tool='practise'] .xs-gate { display: none; }
   /* No empty rows (and their gaps) for the phone-only key and gate. */
-  .op-slot[data-tool='practise'] .xs-layout { grid-template-areas: 'switch' 'device'; }
+  .op-slot[data-tool='practise'] .xs-layout { grid-template-areas: 'switch' 'note' 'device'; }
 }
 .op-slot[data-tool='practise'] .xs-layout > .xs-device { margin-top: 0; }
 @media (max-width: 760px) {
@@ -104,11 +106,15 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
   /* No card inside a blank window: the components lose their own outer edge and sit on the app's page. Key cards keeps its
      card (it is the thing turned over) without the frame around it; Bring a mistake's card IS the page, edge to edge. */
   .op-win .kc-demo__face { border-color: transparent; box-shadow: none; }
-  .op-win__body--fill { padding: 0; align-content: stretch; justify-items: stretch; }
-  .op-win .op-bmk { justify-items: stretch; }
-  .op-win .op-bmk .bmk__demo { max-width: none; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+  /* Ask Mobi: the card from the window's top edge at its content's height, on the card's own paper (so the space under it is
+     the same page, not a band); each step's content packs to the top (the live card spreads it to its tallest step's
+     height, which left a gap above "See Mobi's read"); the honest line sits at the window's foot. */
+  .op-win__body--fill { padding: 0; align-content: stretch; justify-items: stretch; background: var(--paper-raised); }
+  .op-win .op-bmk { justify-items: stretch; padding: 0; }
+  .mm.lp .op-win .op-bmk .bmk__demo { max-width: none; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 0; }
   .op-win .op-bmk .bmk__card { border: 0; border-radius: 0; }
-  .op-win .op-bmk .bmk__honest { margin: 0; padding: 10px 24px 14px; }
+  .op-win .op-bmk .bmk__pane > :last-child, .op-win .op-bmk .bmk__pane .bmk__set-why { margin-top: 0; }
+  .op-win .op-bmk .bmk__honest { align-self: end; margin: 0; padding: 10px 24px 14px; }
 }
 
 /* Key cards: the demo alone, centred, with the live section's progress row (home-sheets.css, #key-cards). */
@@ -129,7 +135,13 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 
 /* Ask Mobi: Bring a mistake's card alone (the .bmk wrapper carries the block's own scoped rules). */
 .op-bmk { display: grid; justify-items: center; padding: 0; }
-.op-bmk .bmk__demo { width: 100%; max-width: 34rem; }
+/* The block places its card with grid-area: demo, an area this wrapper has not got: the grid then made an empty implicit row
+   above the card (the band above the tabs). Here the card is the wrapper's only item. */
+.mm.lp .op-bmk .bmk__demo { grid-area: auto; width: 100%; max-width: 34rem; }
+
+/* The live page's desktop depth drift (home-sheets.css lp-depth: these parts slide 40 px against their section as it scrolls)
+   is off inside the frame: here they sit in a window or a fixed stage, and the drift showed as a band above the card. */
+.mm.lp .op-frame .op-stages :is(.kc-demo, .bmk__demo, .xs-device) { animation: none; translate: none; }
 
 /* ---- each row's proof line under its stage (the live section's own words) ---- */
 .op-proof { margin: 12px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }

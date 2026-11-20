@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { CREATORS_SUB, ONE_PLACE, alsoInside, bankLine, freeFaq, mobiPrice } from '../../src/components/landing/onePlaceCopy.mjs';
 import { EXAM_HEAD, INSTAGRAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
 import {
-  EXAM_CAMERA, LOOK_MS, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, SHOT, TAKEOVER_HOLD_MS, ZOOM_AT, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
+  EXAM_CAMERA, LOOK_MS, QUESTION_TEXT, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, SHOT, TAKEOVER_HOLD_MS, ZOOM_AT, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
   scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
@@ -70,7 +70,9 @@ test('"/" is untouched: it still draws the tour deck, Key cards, Bring a mistake
 test('the shared components keep the live markup by default (their new props are optional and off on "/")', () => {
   // ExamScreen is the section with its head, drawn through ExamStage; the gate card stays on by default.
   assert.match(EXAM_SRC, /export function ExamScreen\(\) \{\n  return \(\n    <section className="lp-sec xs" id="exam-experience" aria-labelledby="exam-title">\n      <div className="mm-wrap">\n        <ExamStage head=\{<>/);
-  assert.match(EXAM_SRC, /export function ExamStage\(\{ head = null, gate = true \}\)/);
+  assert.match(EXAM_SRC, /export function ExamStage\(\{ head = null, gate = true, note = null \}\)/);
+  // The gate's short form drops only the warning rule; by default it is drawn as before.
+  assert.match(EXAM_SRC, /<b>\{EXAM\.gateTitle\}\.<\/b> \{EXAM\.gate\}\{gate === 'short' \? null : <> \{EXAM\.warningRule\}<\/>\}/);
   assert.match(EXAM_SRC, /<div className="xs-layout">\n        \{head\}/);
   // Key cards draws its foot unless asked not to; Bring a mistake's block passes its own id to the card.
   assert.match(CARDS_SRC, /export default function KeyCardsDemo\(\{ cards = \[\], keys = \[\], bank = null, subjects = null, foot = true \}\)/);
@@ -106,7 +108,7 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
   assert.match(FRAME, /import KeyCardsDemo from '\.\/KeyCardsDemo';/);
   assert.match(FRAME, /import \{ BringMistakeCard \} from '\.\/BringMistakeBlock';/);
   assert.match(FRAME, /import CursorDemo from '\.\/demo\/CursorDemo';/);
-  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage \/>;/);
+  assert.match(FRAME, /if \(row\.id === 'practise'\) return <ExamStage gate="short" note=\{<p className="op-proof op-proof--switch">\{ONE_PLACE\.practiseProof\}<\/p>\} \/>;/);
   assert.match(FRAME, /<KeyCardsDemo cards=\{keyCards\.cards\} keys=\{keyCards\.keys\} bank=\{keyCards\.bank\} subjects=\{keyCards\.subjects\} foot=\{false\} \/>/);
   assert.match(FRAME, /<BringMistakeCard photo=\{photo\} \/>/);
   // Key cards and Ask Mobi sit in the exam monitor's own browser bar, at the addresses they really live at in the app.
@@ -132,9 +134,9 @@ test('every script aims at a data-demo hook its component really carries', () =>
   // Practise switches to NTA style in the middle and ends on NTA's Save & Next (the key beside the palette); Ask Mobi picks
   // the fresh question's right option.
   const p = SCRIPTS.practise.filter((s) => s.target).map((s) => s.target);
-  assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-next"]'));
+  assert.ok(p.indexOf('[data-demo="xs-nta"]') > p.indexOf('[data-demo="xs-chip"]:nth-child(4)'));
   assert.equal(p.at(-1), '[data-demo="xs-n-save"]');
-  assert.equal(p.filter((t) => t === '[data-demo="xs-n-save"]').length, 2);
+  assert.equal(p.filter((t) => t === '[data-demo="xs-n-save"]').length, 1);
   assert.ok(SCRIPTS.mobi.some((s) => s.target === `[data-demo="bmk-option"]:nth-child(${BRING_MISTAKE.check.correct + 1})`));
   assert.equal(SCRIPTS.cards.filter((s) => s.target === '[data-demo="kc-turn"]').length, 2, 'turn, rate, turn the next');
 });
@@ -195,7 +197,7 @@ test('below 640 px the exam screen\'s camera composes each shot, looks at each n
   }
   // Every press that brings a new question (Next, the first Save & Next) is followed by a look beat at that question.
   steps.forEach((step, i) => {
-    if (step.target === '[data-demo="xs-next"]' || (step.target === '[data-demo="xs-n-save"]' && i < steps.length - 1)) assert.ok(steps[i + 1]?.look, `a look after ${step.target}`);
+    if (/xs-chip|xs-n-save/.test(step.target || '')) assert.ok(steps[i + 1]?.look, `a look after ${step.target}`);
   });
   assert.equal(LOOK_MS, 700);
   assert.match(FRAME, /zoom=\{row\.id === 'practise' \? EXAM_CAMERA : null\}/);
@@ -203,7 +205,13 @@ test('below 640 px the exam screen\'s camera composes each shot, looks at each n
   assert.match(cursor, /zoom = null/);
   assert.match(cursor, /Math\.max\(step\.zoom, font \? \(zoom\.minPx \?\? 12\) \/ font : 0\)/, 'big enough that the target\'s text is drawn at minPx');
   assert.match(cursor, /cam\.style\.transform = next\.s === 1 \? '' : `translate3d\(/, 'one transform on the screen');
-  assert.match(cursor, /if \(step\.look\) \{ look\(step\.look, step\.move \?\? MOVE_MS\); await sleep/);
+  assert.match(cursor, /const pans = look\(step, step\.move \?\? MOVE_MS\);/, 'a look beat pans when the question cannot fit');
+  // The question shot's floor comes from its text: option words at 12 px, the stem at 11 px; a key shot starts at the key.
+  assert.deepEqual(QUESTION_TEXT.map(([, px]) => px), [12, 11]);
+  assert.match(cursor, /const textFloor = \(pairs\) =>/);
+  assert.match(cursor, /const anchorX = anchor === 'key' \? keep\.l : anchor === 'region' \? region\.l : null;/);
+  for (const step of steps) if (step.look || step.frame === SHOT.question) assert.equal(step.text, QUESTION_TEXT);
+  for (const step of steps) if (step.frame === SHOT.panel) assert.ok(step.anchor === 'key' || step.anchor === 'region', step.target);
   assert.match(EXAM_SRC, /className="xs-frame" data-interface=\{mode\}/, 'the screen inside the glass the camera moves');
 });
 
@@ -243,7 +251,11 @@ test('"Also inside" is three linked chips with their icons, only the tools that 
   assert.deepEqual(names({ studyLive: false, mobLive: true }), ['Benchmarks', 'The Mob']);
   assert.deepEqual(names({ studyLive: true, mobLive: false }), ['Learn', 'Benchmarks']);
   assert.deepEqual(names({}), ['Benchmarks']);
-  assert.deepEqual(alsoInside({ studyLive: true, mobLive: true }).map((t) => [t.href, t.icon]), [['/learn', 'lesson'], ['/leaderboard', 'you'], ['/mob', 'mob']]);
+  // Never a signed-in route (a guest lands on Log in): Benchmarks opens the features page's Practise group ("Your standing"
+  // is there); Learn and the Mob have no public page, so Sign up, keeping the tool as where to land.
+  assert.deepEqual(alsoInside({ studyLive: true, mobLive: true }).map((t) => [t.href, t.icon]), [['/signup?next=%2Flearn', 'lesson'], ['/features#fx-practise', 'you'], ['/signup?next=%2Fmob', 'mob']]);
+  assert.match(read('src/app/features/page.js'), /const slug = \(text\) => `fx-\$\{text\.replace\(\/\\W\+\/g, '-'\)\.toLowerCase\(\)\}`;/);
+  assert.match(read('src/app/features/page.js'), /\{ title: 'Practise', parts: \['Practice', 'NTA mode', 'Saved questions', 'Your standing'\] \}/);
   assert.match(PAGE, /const ALSO = alsoInside\(\{ studyLive: STUDY_LIVE, mobLive: MOB_LIVE \}\);/);
   assert.match(PAGE, /<Link href=\{tool\.href\} prefetch=\{false\} className="op-chip"><BrandIcon name=\{tool\.icon\} size=\{32\} \/>\{tool\.name\}<\/Link>/);
   assert.match(PAGE, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);

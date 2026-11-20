@@ -9,6 +9,7 @@
 import { EXAM_HEAD, INSTAGRAM_HEAD, TOUR_ICON, freePlan } from './homeCopy.mjs';
 import { BANK_WORDS, KEY_CARDS_WORDS } from './keyCardsCopy.mjs';
 import { bringMistakeWords } from './bringMistakeCopy.mjs';
+import { signupPathFor } from '../../lib/auth-redirect.js';
 
 const firstSentence = (text) => `${String(text).split(/(?<=\.) /)[0]}`;
 const lastSentence = (text) => `${String(text).split(/(?<=\.) /).at(-1)}`;
@@ -44,12 +45,17 @@ export function bankLine(bank) {
 /** Bring a mistake's credit line, as the live block prints it (photos promised only while Mobi reads them). */
 export const mobiPrice = ({ photo, credits, photoCredits, free }) => bringMistakeWords({ photo, credits, photoCredits, free }).price;
 
-/** The other live tools, as chips: [{ id, name, href, icon }], from the live switches. */
+/**
+ * The other live tools, as chips: [{ id, name, href, icon }], from the live switches. A chip never opens a signed-in route
+ * (a guest would land on Log in): Benchmarks opens the features page's Practise group, where "Your standing" is shown; Learn
+ * and the Mob have no public page, so theirs is Sign up, which keeps the tool as the place to land (signupPathFor).
+ */
+export const FEATURES_PRACTISE = '/features#fx-practise';
 export function alsoInside({ studyLive = false, mobLive = false } = {}) {
   return [
-    ...(studyLive ? [{ id: 'learn', name: 'Learn', href: '/learn', icon: TOUR_ICON.learn }] : []),
-    { id: 'rival', name: 'Benchmarks', href: '/leaderboard', icon: TOUR_ICON.rival },
-    ...(mobLive ? [{ id: 'mob', name: 'The Mob', href: '/mob', icon: TOUR_ICON.mob }] : []),
+    ...(studyLive ? [{ id: 'learn', name: 'Learn', href: signupPathFor('/learn'), icon: TOUR_ICON.learn }] : []),
+    { id: 'rival', name: 'Benchmarks', href: FEATURES_PRACTISE, icon: TOUR_ICON.rival },
+    ...(mobLive ? [{ id: 'mob', name: 'The Mob', href: signupPathFor('/mob'), icon: TOUR_ICON.mob }] : []),
   ];
 }
 

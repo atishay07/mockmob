@@ -51,7 +51,7 @@ function StatementStage({ text, shelf, note, step = 0, pinned = false }) {
         <ul className="lp-shelf__row" aria-label="Subjects with full NTA-pattern mocks">
           {shelf.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
             <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
-              <Link href={href} className="lp-shelf__link" data-cursor="Open">
+              <Link href={href} prefetch={false} className="lp-shelf__link" data-cursor="Open">
                 <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                 <span className="lp-shelf__name">{name}</span>
               </Link>

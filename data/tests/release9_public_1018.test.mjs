@@ -248,7 +248,8 @@ test('footer Help: a guest goes to the landing’s public questions, a signed-in
   assert.match(link, /export const GUEST_HELP_HREF = '\/#faq';/);
   assert.match(link, /export const STUDENT_HELP_HREF = '\/help';/);
   assert.match(link, /href=\{isAuthenticated \? STUDENT_HELP_HREF : GUEST_HELP_HREF\}/);
-  assert.match(read('src/components/MarketingFooter.jsx'), /href === '\/help' \? <FooterHelpLink>\{label\}<\/FooterHelpLink>/);
+  // 21 Nov 2026 (speed): the home pages' footer passes prefetch={false} down; the Help link's target is unchanged.
+  assert.match(read('src/components/MarketingFooter.jsx'), /href === '\/help' \? <FooterHelpLink prefetch=\{prefetch\}>\{label\}<\/FooterHelpLink>/);
   assert.match(read('src/app/page.js'), /<section className="lp-sec lp-sec--band" id="faq">/, 'the public questions have the anchor');
   // Arriving from another page (/pricing -> /#faq), the landing settles on the questions after its sections grow,
   // and the heading lands clear of the sticky nav. The student's own scroll stops the settle.
