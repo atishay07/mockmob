@@ -313,8 +313,9 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
 /* Phones: the totals carry the lead's numbers, so the lead steps aside and the rows keep their full size. */
 @media (max-width: 759px) and (orientation: portrait) { .lc__grid[data-look='next'] .lnx--changes .td-lead { display: none; } }
 
-/* ---------- Repair: once written, the row keeps its question and lets the picks go (the repair names them) ---------- */
-@media (max-width: 759px) and (orientation: portrait) {
+/* ---------- Repair: the row keeps "D yours / B answer" beside the written repair, so "Why D looked right" reads as the reader's
+   own pick. Only the small, short window (360 x 740) lets the picks go once the repair is written. ---------- */
+@media (max-width: 380px) and (max-height: 760px) {
   .lc__grid[data-look='next'] .lnx--repair:has(> .mr--done) .rx-row__facts { display: none; }
 }
 
@@ -372,6 +373,12 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
   .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
   .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
   .lc__grid[data-look='next'] .lnx--changes .td-changes > li:nth-child(n + 3) { display: none; }
+  /* Repair keeps "D yours / B answer" beside the written repair, so the row and the repair sit a little closer. */
+  .lc__grid[data-look='next'] .lnx--repair { gap: 4px; }
+  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { padding: 0 0 4px; }
+  .lc__grid[data-look='next'] .lnx--repair .rx-row__facts { margin-top: 0; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 15px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { padding-block: 6px; }
 }
 
 /* Phones: Chapters' headline names the part itself, so its name line steps aside and the ledger sits a little closer. */

@@ -19,8 +19,8 @@ const load = (rel) => import(pathToFileURL(resolve(root, rel)).href);
 
 const ROOT_URL = pathToFileURL(`${root}/`).href;
 const reactUrl = pathToFileURL(createRequire(resolve(root, 'package.json')).resolve('react')).href;
-// next/dynamic: the loader runs at once and the test waits for it (globalThis.__labDyn) before rendering, so the server render
-// draws the loaded component as Next's own server render does.
+// next/dynamic: the loader runs at once and the test waits for it (globalThis.__labDyn), and for the module's own server import
+// (LabNextGate's SERVER_READY), before rendering, so the server render draws the loaded component as Next's own server render does.
 const HOOKS = `
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -30,7 +30,7 @@ const ROOT = ${JSON.stringify(ROOT_URL)};
 const REACT = ${JSON.stringify(reactUrl)};
 const STUBS = {
   'next/link': "import React from '" + REACT + "'; export default function Link({ href, children, prefetch, ...rest }) { return React.createElement('a', { href, ...rest }, children); }",
-  'next/dynamic': "import React from '" + REACT + "'; export default function dynamic(loader) { let C = null; (globalThis.__labDyn ||= []).push(loader().then((m) => { C = m.default; })); return function Dynamic(props) { return C ? React.createElement(C, props) : null; }; }",
+  'next/dynamic': "import React from '" + REACT + "'; export default function dynamic(loader) { let C = null; (globalThis.__labDyn ||= []).push(loader().then(async (m) => { await m.SERVER_READY; C = m.default; })); return function Dynamic(props) { return C ? React.createElement(C, props) : null; }; }",
   '@/components/brand/SubjectObject': 'export function SubjectObject() { return null; }',
   '@/components/doodle/Doodle': 'export default function Doodle({ children }) { return children; } export function Marked({ text }) { return text; }',
 };
@@ -145,6 +145,9 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   // rows and two changes; a change's picks stack with the arrow turned down on any 380 px phone.
   assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-h \{ display: none; \}/);
   assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)[^@]*li:nth-child\(n \+ 3\)/);
+  // The repair's row keeps "D yours / B answer" beside the written repair everywhere but the small, short window (360 x 740).
+  const factsHidden = [...sheet.matchAll(/@media ([^{]+)\{[^@]*rx-row__facts \{ display: none; \}/g)].map((m) => m[1].trim());
+  assert.deepEqual(factsHidden, ['(max-width: 380px) and (max-height: 760px)']);
   assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}\s*\.lc__grid\[data-look='next'\] \.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
@@ -157,7 +160,13 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
 test('the next look loads only with it, and its styles are scoped to it', () => {
   const cinema = read('src/components/landing/LabCinema.jsx');
   assert.doesNotMatch(cinema, /^import .*LabNextScreens/m, 'never a static import: the default page carries none of it');
-  assert.match(cinema, /dynamic\(\(\) => import\('\.\/LabNextScreens'\)\)/);
+  assert.match(cinema, /dynamic\(\(\) => import\('\.\/LabNextGate'\)\)/);
+  // 21 Nov 2026 (load weight): the gate keeps the server's drawing and loads the screens' code only as the Lab nears the window.
+  const gate = read('src/components/landing/LabNextGate.jsx');
+  assert.doesNotMatch(gate, /^import .*LabNextScreens/m, 'the gate never imports the screens statically');
+  assert.match(gate, /export const SERVER_READY = typeof window === 'undefined' \? import\('\.\/LabNextScreens'\)/);
+  assert.match(gate, /export const LAB_NEAR = '150% 0px 150% 0px';/);
+  assert.match(gate, /^import '\.\/lab-next\.css';$/m, 'the next look sheet comes with the gate, so the drawn screens are styled');
   assert.doesNotMatch(cinema, /^import .*lab-next\.css/m);
   const css = read('src/components/landing/lab-next.css').replace(/\/\*[\s\S]*?\*\//g, '');
   const selectors = [...css.matchAll(/(^|})\s*([^@{}][^{}]*)\{/g)].map((m) => m[2].trim()).filter((s) => !/^(@|from|to|\d+%)/.test(s));
