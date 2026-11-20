@@ -1,0 +1,2579 @@
+{
+ "exam": "CUET (UG) 2024",
+ "year": 2024,
+ "source": "data/source_registry.json",
+ "method": "tmp/1120-speed/coverage/METHOD.md",
+ "generatedBy": "scripts/coverage/merge-2024.mjs",
+ "rule": "Covered only when both independent checkers say covered; a doubtful match counts as not covered. Checker B's skill, off_syllabus and dropped labels win and are shown, not counted. Key cards count as teaching material and are labelled. A numerical counts only with a practice question that uses the same formula and steps.",
+ "snapshotDate": "2026-11-20",
+ "leftOut": [
+  {
+   "id": "english",
+   "name": "English",
+   "why": "Most English questions test reading and skill on a passage, so too few can be checked against stored material for a fair figure."
+  }
+ ],
+ "totals": {
+  "subjects": 3,
+  "counted": 130,
+  "covered": 86
+ },
+ "subjects": [
+  {
+   "id": "accountancy",
+   "name": "Accountancy",
+   "paper": {
+    "registryId": "cuet2024-accountancy-bookA-paper",
+    "code": "301",
+    "date": "2024-05-17",
+    "booklet": "A",
+    "questions": 50
+   },
+   "snapshotDate": "2026-11-20",
+   "checkers": [
+    "A",
+    "B"
+   ],
+   "checked": 50,
+   "counts": {
+    "questions": 50,
+    "counted": 45,
+    "covered": 26,
+    "not_covered": 19,
+    "skill": 0,
+    "off_syllabus": 5,
+    "dropped": 0
+   },
+   "questions": [
+    {
+     "n": 1,
+     "chapter": null,
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "Not-for-profit organisations are absent from the CUET 2026 Accountancy syllabus text and the canonical syllabus.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 2,
+     "chapter": null,
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "Not-for-profit organisations are absent from the CUET 2026 Accountancy syllabus.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 3,
+     "chapter": "Financial Statements of Company",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.share-capital.def-reserve-capital"
+     },
+     "reason": "Two of four pairs taught; nothing served mentions a sinking fund or 'subscribed but not fully paid'.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 4,
+     "chapter": "Admission of Partner",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.admission-of-partner.fact-reval-account-credit-debit"
+     },
+     "reason": "Card and bank both state that asset value changes go to the Revaluation Account.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 5,
+     "chapter": "Partnership Fundamentals",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "71acc38f-d502-46a7-95f5-21fcb96d0622"
+     },
+     "reason": "The one Class 12 fact, Appropriation after P&L, is asked directly in two served rows.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 6,
+     "chapter": "Analysis of Financial Statements",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.analysis-of-financial-statements.list-analyst-must-be-conscious"
+     },
+     "reason": "The term appears only as a list item; its meaning is taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 7,
+     "chapter": "Profit & Loss Appropriation Account",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items"
+     },
+     "reason": "Interest on a partner's loan as a P&L debit (a charge) is taught nowhere; only its 6% rate.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 8,
+     "chapter": "Admission of Partner",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.admission-of-partner.fact-reval-account-credit-debit"
+     },
+     "reason": "All three revaluation items stated on cards; drawings are not a value change.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 9,
+     "chapter": "Cash Flow Statement",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "b792854b-f92d-45ea-bcc9-5e2396d1aec3"
+     },
+     "reason": "All four pairs stated; bank keys checked correct.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 10,
+     "chapter": "Comparative & Common Size Statements",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "069340e6-f050-4079-978e-44aadbcbf8ce"
+     },
+     "reason": "Both bases in the bank; vertical and horizontal on cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 11,
+     "chapter": "Cash Flow Statement",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "2991c27f-bec6-4f08-8af5-dc06bd9ae41a"
+     },
+     "reason": "Same step: machinery purchase as an investing outflow.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 12,
+     "chapter": "Cash Flow Statement",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.cash-flow-statement.fact-indirect-starting-point"
+     },
+     "reason": "Starting point is stated, and only one option starts with it; the three heads are listed in order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 13,
+     "chapter": "Goodwill Valuation",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row or card teaches adjusting past profits for a stock error.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 14,
+     "chapter": "Share Capital",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "dff361e2-89a3-4a66-989e-a4779310f1a2"
+     },
+     "reason": "Same definition asked directly.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 15,
+     "chapter": "Share Capital",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "13586296-0b2d-4f6c-becb-fb9c11309fb8"
+     },
+     "reason": "Same unknown and same steps.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 16,
+     "chapter": "Debentures",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.debentures.entry-issue-par-redeem-premium"
+     },
+     "reason": "Each part of the entry is stated by a served row or card.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 17,
+     "chapter": "Share Capital",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.share-capital.fact-forfeit-capital-credited"
+     },
+     "reason": "All four treatments stated.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 18,
+     "chapter": "Debentures",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "CUET 2026 lists only 'issue of debentures with terms of redemption'; redemption and DRR are not listed.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 19,
+     "chapter": "Share Capital",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.share-capital.fact-min-sub-delay"
+     },
+     "reason": "Card states 8 days and 15% exactly; no bank row.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 20,
+     "chapter": "Share Capital",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.share-capital.fact-sum-interest-articles"
+     },
+     "reason": "The only card is about interest; 'in accordance with Articles' is a side clause, never a statement of who authorises acceptance.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 21,
+     "chapter": "Retirement & Death of Partner",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.profit-and-loss-appropriation-account.entry-profit-share"
+     },
+     "reason": "The distribution entry (Appropriation debited) and the deceased's right to profit are both stated.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 22,
+     "chapter": "Admission of Partner",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row computes a true value from 'undervalued by x%'.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 23,
+     "chapter": "Cash Flow Statement",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.cash-flow-statement.fact-interest-dividend-nonfinancial"
+     },
+     "reason": "Two cards state it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 24,
+     "chapter": "Partnership Fundamentals",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-prescribed-50"
+     },
+     "reason": "Card states the keyed fact verbatim; on syllabus under 'Nature of Partnership Firm'.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 25,
+     "chapter": "Computerized Accounting System",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.computerized-accounting-system.def-ch1-sequential-code"
+     },
+     "reason": "All three code types on cards; SJ/HQ verbatim.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 26,
+     "chapter": "Admission of Partner",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.admission-of-partner.fact-accumulated-profits-distributed"
+     },
+     "reason": "Workmen Compensation Reserve is named nowhere in the bank or cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 27,
+     "chapter": "Change in Profit Sharing Ratio",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "404761d3-32d9-418a-934d-a97dcec09cb8"
+     },
+     "reason": "Served rows compute old minus new share per partner and the gain direction; same unknown and steps.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 28,
+     "chapter": "Profit & Loss Appropriation Account",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-iod-quarterly-beginning"
+     },
+     "reason": "The half-yearly case (3 months) is taught nowhere; no served row computes interest on drawings by period.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 29,
+     "chapter": "Profit & Loss Appropriation Account",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-guarantee-deficiency-borne"
+     },
+     "reason": "No served row computes a guarantee deficiency; a card rule cannot cover a numerical.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 30,
+     "chapter": "Admission of Partner",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "bank",
+      "id": "7c532466-cde4-491c-b950-a421a6325e02"
+     },
+     "reason": "No served row derives a new ratio from given surrenders by each old partner.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 31,
+     "chapter": "Admission of Partner",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice"
+     },
+     "reason": "The distribution entry debiting Premium for Goodwill, and an old partner gaining at admission, are taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 32,
+     "chapter": "Cash Flow Statement",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.cash-flow-statement.list-investing-outflows"
+     },
+     "reason": "Both facts are stated, one on a card, one in a served row.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 33,
+     "chapter": "Computerized Accounting System",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.computerized-accounting-system.list-ch1-components"
+     },
+     "reason": "Card lists exactly the five.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 34,
+     "chapter": "Computerized Accounting System",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.computerized-accounting-system.fact-ch1-ais-sales-receivable"
+     },
+     "reason": "Card states the keyed wording.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 35,
+     "chapter": "Computerized Accounting System",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "The CUET 2026 CAS list has spreadsheets, AIS and codification but no database/DBMS topic.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 36,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.dissolution-of-partnership-firm.fact-transferred-to-realisation"
+     },
+     "reason": "Bank overdraft is named nowhere in the bank or cards (only once, in a debentures card).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 37,
+     "chapter": null,
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "CUET 2026 Unit IV lists only 'features and type of companies'; company formation stages are not listed.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 38,
+     "chapter": "Share Capital",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "d023e322-2cbb-4af8-942a-0c161033ae45"
+     },
+     "reason": "Bank row gives the first four; paid-up on a card.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 39,
+     "chapter": "Retirement & Death of Partner",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1"
+     },
+     "reason": "All five items placed by cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 40,
+     "chapter": "Cash Flow Statement",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "bank",
+      "id": "00af6a8e-5893-4f49-8e92-5ab1215d3843"
+     },
+     "reason": "'Cash generated from operations', a step the item names, is taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 41,
+     "chapter": "Accounting Ratios",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.accounting-ratios.fml-trade-receivables-turnover-ratio"
+     },
+     "reason": "None of the 274 served ratio rows computes a receivables turnover.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 42,
+     "chapter": "Accounting Ratios",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "bank",
+      "id": "19b0126a-73f2-4cb1-bd77-ca11014cc741"
+     },
+     "reason": "Near miss: the bank row hands over receivables ready-made and never builds them from debtors plus bills receivable.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 43,
+     "chapter": "Accounting Ratios",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.accounting-ratios.fml-trade-payables-turnover-ratio-numerator-and"
+     },
+     "reason": "No served row computes a payables turnover.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 44,
+     "chapter": "Accounting Ratios",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.accounting-ratios.fml-average-payment-period"
+     },
+     "reason": "No served row computes an average payment period.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 45,
+     "chapter": "Accounting Ratios",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.accounting-ratios.types-name-the-important-activity-ratios"
+     },
+     "reason": "Card lists both under activity ratios.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 46,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.dissolution-of-partnership-firm.list-by-agreement"
+     },
+     "reason": "Card defines dissolution by agreement as consent of all partners.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 47,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row derives a P&L debit balance as a balancing figure.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 48,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "bank",
+      "id": "6367f1d5-1276-4ebb-827b-29e117f28611"
+     },
+     "reason": "All 24 served dissolution rows checked: none adds an unrecorded liability paid and expenses into one realisation figure.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 49,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.accountancy.dissolution-of-partnership-firm.entry-expenses-paid-by-partner"
+     },
+     "reason": "Card gives the keyed entry.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 50,
+     "chapter": "Dissolution of Partnership Firm",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "c0e90905-e6bc-4ffb-a4d5-59fa73e244a2"
+     },
+     "reason": "Bank row for profits, card for losses; both in the profit-sharing ratio.",
+     "reasonFrom": "B"
+    }
+   ]
+  },
+  {
+   "id": "economics",
+   "name": "Economics",
+   "paper": {
+    "registryId": "cuet2024-economics-bookA-paper",
+    "code": "309",
+    "date": "2024-05-16",
+    "booklet": "A",
+    "questions": 50
+   },
+   "snapshotDate": "2026-11-20",
+   "checkers": [
+    "A",
+    "B"
+   ],
+   "checked": 50,
+   "counts": {
+    "questions": 50,
+    "counted": 39,
+    "covered": 25,
+    "not_covered": 14,
+    "skill": 10,
+    "off_syllabus": 1,
+    "dropped": 0
+   },
+   "questions": [
+    {
+     "n": 1,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.key-exante-expost-simple"
+     },
+     "reason": "Key card says ex-post depicts what has actually happened.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 2,
+     "chapter": "Income Determination",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "bank",
+      "id": "9072f8c9-4f32-4419-bbb5-a01a27ad71ae"
+     },
+     "reason": "The one served multiplier sum solves for the change in income, not for the change in investment.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 3,
+     "chapter": "Money & Banking",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.money-and-banking.types-tools-types"
+     },
+     "reason": "All five statements are settled by Key cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 4,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.def-paradox-of-thrift"
+     },
+     "reason": "Key card states the paradox as the keyed option does.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 5,
+     "chapter": "Money & Banking",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.money-and-banking.def-repo"
+     },
+     "reason": "Marginal standing facility is taught nowhere (no card or served row), so the match is incomplete.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 6,
+     "chapter": "Money & Banking",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.money-and-banking.list-central-bank-functions"
+     },
+     "reason": "Card lists the central bank functions; a served row assigns deposits and loans to commercial banks.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 7,
+     "chapter": "Government Budget & the Economy",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.government-budget-and-the-economy.fact-article-112-statement"
+     },
+     "reason": "Key cards tie Article 112 to the annual budget statement.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 8,
+     "chapter": "Government Budget & the Economy",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.government-budget-and-the-economy.def-capital-receipts"
+     },
+     "reason": "Key card gives the definition the stem paraphrases.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 9,
+     "chapter": "Balance of Payments",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "Gold standard, Bretton Woods and the Smithsonian Agreement are taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 10,
+     "chapter": "Balance of Payments",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.balance-of-payments.def-appreciation"
+     },
+     "reason": "Key card states the appreciation definition in the stem words.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 11,
+     "chapter": "Balance of Payments",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.balance-of-payments.fact-managed-dirty-floating"
+     },
+     "reason": "Two of four pairs taught; pegged = fixed and Bretton Woods = IMF and World Bank are not.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 12,
+     "chapter": "Employment",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.employment.def-casualisation"
+     },
+     "reason": "Key card states it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 13,
+     "chapter": "Indian Economic Development 1950–1990",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.rural-development.fact-nabard-1982"
+     },
+     "reason": "Only the NABARD year is taught.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 14,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.environment-and-sustainable-development.fact-carrying-capacity-implies"
+     },
+     "reason": "Key card ties this wording to carrying capacity.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 15,
+     "chapter": "Human Capital Formation",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.human-capital-formation.fact-directive-principles-14"
+     },
+     "reason": "Only the Directive Principles \"up to 14\" is taught; the 2009 Act and the 6 to 14 band are not.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 16,
+     "chapter": "Infrastructure",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "Infrastructure is not a chapter of the 2026 canonical syllabus.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 17,
+     "chapter": "Economic Reforms Since 1991",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "None of the four Acts is taught.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 18,
+     "chapter": "Development Experiences of India",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.development-experiences-of-india.def-glf"
+     },
+     "reason": "Key card states 1958.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 19,
+     "chapter": "Development Experiences of India",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.development-experiences-of-india.def-glf"
+     },
+     "reason": "All four pairs are on Key cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 20,
+     "chapter": "Indian Economic Development 1950–1990",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-gr-phase-2"
+     },
+     "reason": "Key card gives the period.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 21,
+     "chapter": "Development Experiences of India",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.development-experiences-of-india.fact-pak-slowdown-poverty-reason"
+     },
+     "reason": "Key card states it and rules out option 1 by name.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 22,
+     "chapter": "National Income & Related Aggregates",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.national-income-and-related-aggregates.fact-unplanned-accumulation-of-inventories"
+     },
+     "reason": "Only the fall-in-sales case is stated; the rise-to-decumulation direction is left to inference.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 23,
+     "chapter": "Money & Banking",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "Currency deposit ratio is taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 24,
+     "chapter": "Balance of Payments",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "EMU is taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 25,
+     "chapter": "National Income & Related Aggregates",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.national-income-and-related-aggregates.fact-circular-flow-through-market"
+     },
+     "reason": "Cards teach the circular flow the keyed statement rests on and exclude the distractors.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 26,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.key-exante-expost-simple"
+     },
+     "reason": "Key card settles A and C true, B and D false.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 27,
+     "chapter": "Government Budget & the Economy",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.government-budget-and-the-economy.fact-main-budget-document"
+     },
+     "reason": "All four pairs are on Key cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 28,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": null,
+     "reason": "Passage item: the keyed answer is printed in the biocomposting passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 29,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.environment-and-sustainable-development.fact-earthworms-compost"
+     },
+     "reason": "Passage item: the keyed answer is printed in the biocomposting passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 30,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": null,
+     "reason": "Passage item: the keyed answer is printed in the biocomposting passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 31,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": null,
+     "reason": "Passage item: the keyed answer is printed in the biocomposting passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 32,
+     "chapter": "Environment & Sustainable Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.environment-and-sustainable-development.fact-earthworms-compost"
+     },
+     "reason": "Passage item: the keyed answer is printed in the biocomposting passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 33,
+     "chapter": "Indian Economy on the Eve of Independence",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.key-handicraft-fame"
+     },
+     "reason": "Passage item: the keyed answer is printed in the eve-of-independence passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 34,
+     "chapter": "Indian Economy on the Eve of Independence",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-colonial-policies-concern"
+     },
+     "reason": "Passage item: the keyed answer is printed in the eve-of-independence passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 35,
+     "chapter": "Indian Economy on the Eve of Independence",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.list-estimators-national-income"
+     },
+     "reason": "Passage item: the keyed answer is printed in the eve-of-independence passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 36,
+     "chapter": "Indian Economy on the Eve of Independence",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-growth-first-half-twentieth-century"
+     },
+     "reason": "Passage item: the keyed answer is printed in the eve-of-independence passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 37,
+     "chapter": "Indian Economy on the Eve of Independence",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": null,
+     "reason": "Passage item: the keyed answer is printed in the eve-of-independence passage, so it tests reading, not stored material (METHOD decision).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 38,
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-market"
+     },
+     "reason": "Cards give the stem wording and the market-economy term.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 39,
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.def-marginal-utility"
+     },
+     "reason": "All five statements are settled on Key cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 40,
+     "chapter": "Market Equilibrium & Simple Applications",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.market-equilibrium-and-simple-applications.def-equilibrium"
+     },
+     "reason": "All four pairs taught.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 41,
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-rectangular-hyperbola-unitary"
+     },
+     "reason": "Key card names it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 42,
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.frm-budget-constraint-formula"
+     },
+     "reason": "Key card names the inequality.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 43,
+     "chapter": "National Income & Related Aggregates",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.fact-keynes-model"
+     },
+     "reason": "Adam Smith as father of modern economics is taught nowhere; the only Smith card is the invisible hand.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 44,
+     "chapter": "Indian Economic Development 1950–1990",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "None of the four dates is taught.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 45,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.formula-ad-two-sector"
+     },
+     "reason": "Cards teach that without government and trade only C and I remain.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 46,
+     "chapter": "National Income & Related Aggregates",
+     "type": "numerical",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.national-income-and-related-aggregates.formula-gdp-deflator"
+     },
+     "reason": "No served bank question computes a GDP deflator.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 47,
+     "chapter": "National Income & Related Aggregates",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.national-income-and-related-aggregates.def-flows"
+     },
+     "reason": "Stock and flow definitions and the factor-cost to market-price step are taught.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 48,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.def-effective-demand"
+     },
+     "reason": "Key card names it in the stem words.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 49,
+     "chapter": "Money & Banking",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "Nominal vs real interest is taught nowhere.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 50,
+     "chapter": "Income Determination",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.economics.income-determination.fact-multiplier-depends-on-c"
+     },
+     "reason": "Cards and a served row give k = 1/(1 - c) and s = 1 - c, so a higher MPS shrinks k.",
+     "reasonFrom": "B"
+    }
+   ]
+  },
+  {
+   "id": "business_studies",
+   "name": "Business Studies",
+   "paper": {
+    "registryId": "cuet2024-business_studies-bookA-paper",
+    "code": "305",
+    "date": "2024-05-17",
+    "booklet": "A",
+    "questions": 50
+   },
+   "snapshotDate": "2026-11-20",
+   "checkers": [
+    "A",
+    "B"
+   ],
+   "checked": 50,
+   "counts": {
+    "questions": 50,
+    "counted": 46,
+    "covered": 35,
+    "not_covered": 11,
+    "skill": 2,
+    "off_syllabus": 1,
+    "dropped": 1
+   },
+   "questions": [
+    {
+     "n": 1,
+     "chapter": "Principles of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.principles-of-management.fact-scientific-method-work-study"
+     },
+     "reason": "Card ties the scientific method of investigation to Science, not rule of thumb.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 2,
+     "chapter": "Principles of Management",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "2be5b1c1-bdd8-4f0b-b5d1-07ac79336655"
+     },
+     "reason": "All four pairs are stated by served bank rows; cards repeat them.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 3,
+     "chapter": "Principles of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.principles-of-management.list-objectives-of-standardisation"
+     },
+     "reason": "Card states this objective of standardisation word for word.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 4,
+     "chapter": "Principles of Management",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.principles-of-management.def-fayol-equity"
+     },
+     "reason": "Partial: the turnover line (key-fayol-stability) never names Stability of personnel on the card face; nothing else ties the two.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 5,
+     "chapter": "Business Environment",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "dropped",
+      "B": "dropped"
+     },
+     "verdict": "dropped",
+     "best": null,
+     "reason": "NTA final key: question dropped.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 6,
+     "chapter": "Business Environment",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.business-environment.list-economic-components"
+     },
+     "reason": "Card lists money supply under the economic environment.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 7,
+     "chapter": "Business Environment",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.business-environment.def-legal-environment"
+     },
+     "reason": "Card defines legal environment as legislation; the three other options are each listed under another dimension.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 8,
+     "chapter": "Business Environment",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.business-environment.list-features"
+     },
+     "reason": "Card lists the seven features; market orientation is not among them.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 9,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.planning.steps-process-seven"
+     },
+     "reason": "Card gives the steps in order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 10,
+     "chapter": "Staffing",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.staffing.steps-selection-iii-to-viii"
+     },
+     "reason": "Two cards give the selection steps in order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 11,
+     "chapter": "Staffing",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.staffing.def-internship-training"
+     },
+     "reason": "Card states the definition word for word.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 12,
+     "chapter": "Staffing",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "640f4b0c-6f17-41cc-b1c9-31cb7bc83a1a"
+     },
+     "reason": "Served match item teaches all four; cards give NCERT wording.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 13,
+     "chapter": "Directing",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.directing.def-motivation"
+     },
+     "reason": "Card states the definition.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 14,
+     "chapter": "Directing",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.directing.types-maslow-needs"
+     },
+     "reason": "Card gives the hierarchy in order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 15,
+     "chapter": "Directing",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.directing.def-leadership"
+     },
+     "reason": "Card states the definition.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 16,
+     "chapter": "Controlling",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "dcd5e60a-ba6f-48f2-b9e2-2b99226076e7"
+     },
+     "reason": "The keyed option is taught as an importance; the three limitations are not 2026 syllabus facts.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 17,
+     "chapter": "Controlling",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.controlling.steps-five-steps"
+     },
+     "reason": "Card gives the full order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 18,
+     "chapter": "Controlling",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.controlling.kl-critical-point-kra"
+     },
+     "reason": "Cards teach control focused on critical areas; only that option fits a small-but-key cost mattering more.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 19,
+     "chapter": "Financial Markets",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row or card states the liquidity function; the deck has no Financial Markets cards.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 20,
+     "chapter": "Consumer Protection",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.consumer-protection.fact-district-appeal"
+     },
+     "reason": "Card states the rule word for word.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 21,
+     "chapter": "Consumer Protection",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.consumer-protection.kl-social-responsibility"
+     },
+     "reason": "Card gives the line that heads this NCERT paragraph; interest groups = stakeholders.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 22,
+     "chapter": "Consumer Protection",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.consumer-protection.def-right-assured"
+     },
+     "reason": "Card defines the right to be assured in the same words.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 23,
+     "chapter": "Financial Markets",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "Methods of floatation are taught nowhere in served material.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 24,
+     "chapter": "Organising",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.organising.def-authority"
+     },
+     "reason": "Partial: delegation as the basis of management hierarchy is stated nowhere (importance card omits it).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 25,
+     "chapter": "Organising",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.organising.steps-process-of-organising"
+     },
+     "reason": "Card gives the four steps in order.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 26,
+     "chapter": "Organising",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.organising.list-formal-features"
+     },
+     "reason": "Cards state every statement and place C under informal.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 27,
+     "chapter": "Organising",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.organising.list-informal-advantages"
+     },
+     "reason": "Cards list the three benefits and put unity of command under formal.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 28,
+     "chapter": "Financial Markets",
+     "type": "theory",
+     "form": "sequence",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row or card teaches the trading procedure.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 29,
+     "chapter": "Financial Markets",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "Secondary market is defined nowhere in served material.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 30,
+     "chapter": "Entrepreneurship Development",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "off_syllabus",
+      "B": "off_syllabus"
+     },
+     "verdict": "off_syllabus",
+     "best": null,
+     "reason": "Entrepreneurship Development is retired from the CUET 2026 Business Studies syllabus.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 31,
+     "chapter": "Financial Markets",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": null,
+     "reason": "No served row or card teaches SEBI functions.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 32,
+     "chapter": "Business Finance",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "f0a4acdb-dd1b-4e64-b914-440e416559d4"
+     },
+     "reason": "Bank and cards teach wealth maximisation.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 33,
+     "chapter": "Business Finance",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.financial-management.diff-fm-vs-fp"
+     },
+     "reason": "Card states it in NCERT words.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 34,
+     "chapter": "Business Finance",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "f1cf6842-6573-47f3-a815-328bf7391bd8"
+     },
+     "reason": "Bank key and card both state it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 35,
+     "chapter": "Nature and Significance of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-integrates-group-efforts"
+     },
+     "reason": "Card carries the quoted line and \"group effort\"; each distractor heads its own card.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 36,
+     "chapter": "Nature and Significance of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.nature-and-significance-of-management.def-social-objectives"
+     },
+     "reason": "Card defines social objectives as benefit to society; no other option fits recycling and jobs.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 37,
+     "chapter": "Nature and Significance of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "d71c5830-8a15-43d3-8d49-506b555e1af0"
+     },
+     "reason": "Bank and card teach the feature.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 38,
+     "chapter": "Nature and Significance of Management",
+     "type": "theory",
+     "form": null,
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.nature-and-significance-of-management.def-top-management"
+     },
+     "reason": "Managing Director is named nowhere; functional managers are never placed at middle level.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 39,
+     "chapter": "Staffing",
+     "type": "theory",
+     "form": "match",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.staffing.def-trade-test"
+     },
+     "reason": "Partial: three tests taught; intelligence test as learning ability and judgement stated nowhere (pilot rule: elimination is not enough).",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 40,
+     "chapter": "Organising",
+     "type": "theory",
+     "form": "multi-statement",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.organising.list-functional-advantages"
+     },
+     "reason": "Partial: coordination within a department and operational efficiency are not stated; only bare labels.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 41,
+     "chapter": "Marketing",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.marketing-management.def-place-element"
+     },
+     "reason": "Card defines place / physical distribution as making products available.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 42,
+     "chapter": "Marketing",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.marketing-management.def-market-offering"
+     },
+     "reason": "Card names quality and taste as product features; packaging card ties wrapper to product.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 43,
+     "chapter": "Marketing",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.marketing-management.def-price-element"
+     },
+     "reason": "Passage rule: the printed statement says \"charge higher price\" and the key is \"Price mix\"; readable off the paper.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 44,
+     "chapter": "Marketing",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.marketing-management.list-sp-activities-list"
+     },
+     "reason": "Cards list the offers as sales promotion and sales promotion as a promotion-mix tool.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 45,
+     "chapter": "Marketing",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.marketing-management.list-sp-activities-list"
+     },
+     "reason": "Cards name these offers as sales promotion.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 46,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "skill"
+     },
+     "verdict": "skill",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.planning.list-importance-six"
+     },
+     "reason": "Passage rule: the printed case says \"It plans to...\" and \"The company plans to invest...\"; the key \"Planning\" is readable off it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 47,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.planning.kl-imp-direction"
+     },
+     "reason": "Card ties knowing in advance what to do to providing direction.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 48,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "bank",
+      "id": "310e14fe-9de2-489e-be4a-8caf095a9c92"
+     },
+     "reason": "Served rows state planning reduces uncertainty by anticipating, without eliminating it.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 49,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "not_covered",
+      "B": "not_covered"
+     },
+     "verdict": "not_covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.planning.kl-imp-coordinating"
+     },
+     "reason": "The coordination line is never tied to \"reduces overlapping and wasteful activities\" on any card or row.",
+     "reasonFrom": "B"
+    },
+    {
+     "n": 50,
+     "chapter": "Planning",
+     "type": "theory",
+     "form": "case",
+     "checks": {
+      "A": "covered",
+      "B": "covered"
+     },
+     "verdict": "covered",
+     "best": {
+      "kind": "card",
+      "id": "kc.business_studies.planning.kl-choice-alternatives"
+     },
+     "reason": "Cards say choosing among alternatives is decision-making and list it as an importance.",
+     "reasonFrom": "B"
+    }
+   ]
+  }
+ ]
+}
