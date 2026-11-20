@@ -144,7 +144,8 @@ test('the links in: the sitemap, each subject page, the home page\'s Key cards s
   assert.match(read('src/components/subject/SubjectLandingPage.jsx'), /<Link href=\{keyCards\.href\} className="mm-link">See the \{name\} Key cards<\/Link>/);
   const demo = read('src/components/landing/KeyCardsDemo.jsx');
   assert.match(demo, /const PUBLIC_DECKS_HREF = '\/key-cards';/);
-  assert.match(demo, /<Link href=\{PUBLIC_DECKS_HREF\} className="mm-link">\{W\.seeChapter\}<\/Link>/);
+  // prefetch={false} (21 Nov 2026 speed pass): the home page prefetches only its main keys.
+  assert.match(demo, /<Link href=\{PUBLIC_DECKS_HREF\}(?: prefetch=\{false\})? className="mm-link">\{W\.seeChapter\}<\/Link>/);
 });
 
 // ---------------------------------------------------------------- the card's look: the app's values, copied once and pinned
