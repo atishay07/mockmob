@@ -140,7 +140,11 @@ export const RHYTHM = Object.freeze({ h2: 'Five a day. One paper a Sunday.' });
 export const TRY_NEXT = Object.freeze({ h2: TRY_HEAD.h2, sub: 'Get your score, with every miss explained.' });
 export const COMPASS_NEXT = Object.freeze({ h2: COMPASS_HEAD.h2, sub: 'Slide a score to see which colleges it would have cleared in 2026.' });
 // 9. One proof section: the creators (no consented student quote exists, so no "Students" heading; Revision 2).
-export const SOCIAL_NEXT = Object.freeze({ h2: 'CUET creators on MockMob.', sub: `${INSTAGRAM_HEAD.sub.split('. ')[0]}.` });
+// Sign-ups (owner LK362, 20 Nov 2026: "You can write 1,500+"). True as a floor: 1,493 students signed up last season and 61
+// more since June 2026 (a production read recorded in the ledger at LK188), 1,554 in all. A floor, never a live count; raise
+// it only from a new production read.
+export const SIGNUPS_FLOOR = '1,500+';
+export const SOCIAL_NEXT = Object.freeze({ h2: 'CUET creators on MockMob.', sub: `${SIGNUPS_FLOOR} students have signed up, and CUET creators show MockMob to their followers.` });
 
 /** The FAQ's new question (Revision 2), answered from the code's constants: the wallet's free credits and the free plan. */
 export function freeFaq({ freeCredits, dailySize }) {
