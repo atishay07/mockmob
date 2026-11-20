@@ -75,51 +75,51 @@ html[data-theme='light'] .app-shell .student-page--progress .na--compact { box-s
 .app-shell .student-page--progress .pr-side,
 .app-shell .student-page--progress .pr-main { display: contents; }
 @media (min-width: 1100px) {
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) {
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) {
     display: grid; grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); grid-template-rows: auto auto auto 1fr;
     column-gap: 40px; row-gap: 28px; align-items: start;
   }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > .pr-head { grid-column: 1 / -1; grid-row: 1; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > :is(.pw, .ui-state) { grid-column: 1 / -1; grid-row: 2; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-side {
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > .pr-head { grid-column: 1 / -1; grid-row: 1; }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .ov > :is(.pw, .ui-state) { grid-column: 1 / -1; grid-row: 2; }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-side {
     display: grid; gap: 28px; min-width: 0; grid-column: 1; grid-row: 3 / span 2; align-self: start;
     position: sticky; top: min(calc(var(--arena-topbar-h, 63px) + 20px), calc(100dvh - var(--side-h, 0px) - 20px));
   }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: grid; gap: 28px; min-width: 0; align-content: start; grid-column: 2; grid-row: 3; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .rv-sec { grid-column: 2; grid-row: 4; }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: grid; gap: 28px; min-width: 0; align-content: start; grid-column: 2; grid-row: 3; }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) > .rv-sec { grid-column: 2; grid-row: 4; }
 
   /* The left column's narrow forms are the phone's: the next step's key across its panel, the record as a ledger. */
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .na--compact { grid-template-columns: minmax(0, 1fr); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .na--compact .na__cta { justify-content: center; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .pw-record { grid-template-columns: minmax(0, 1fr); }
+  :root .app-shell .student-page--progress .pr-side .na--compact { grid-template-columns: minmax(0, 1fr); }
+  :root .app-shell .student-page--progress .pr-side .na--compact .na__cta { justify-content: center; }
+  :root .app-shell .student-page--progress .pr-side .pw-record { grid-template-columns: minmax(0, 1fr); }
 
   /* The right column is about 470-550 px wide: the four badge paths read as one ruled column there, as they do on a tablet
      in portrait (study-badges.css, 760 px and below), instead of two columns of 200 px. */
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-paths { grid-template-columns: minmax(0, 1fr); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path,
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path:nth-child(even) { padding: 18px 0; border-left: 0; border-top: 1px solid var(--a-line); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-main .sb-path:first-child { padding-top: 4px; border-top: 0; }
+  :root .app-shell .student-page--progress .pr-main .sb-paths { grid-template-columns: minmax(0, 1fr); }
+  :root .app-shell .student-page--progress .pr-main .sb-path,
+  :root .app-shell .student-page--progress .pr-main .sb-path:nth-child(even) { padding: 18px 0; border-left: 0; border-top: 1px solid var(--a-line); }
+  :root .app-shell .student-page--progress .pr-main .sb-path:first-child { padding-top: 4px; border-top: 0; }
 
   /* Levels (owner, 20 Nov 2026: "some things are up and some are down"): the left column's first block, the finished weeks,
      starts at the column's top like "Your study record" beside it (no hairline and 24 px above its heading there), and its
      heading is the page's section heading (20 px, 700, the display face), 13 px above its row like the others. */
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side > .rc--more:first-child > .rc-block:first-child { padding-top: 0; border-top: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pr-side .pw-weeks .rc-h { margin-bottom: 13px; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; }
+  :root .app-shell .student-page--progress .pr-side > .rc--more:first-child > .rc-block:first-child { padding-top: 0; border-top: 0; }
+  :root .app-shell .student-page--progress .pr-side .pw-weeks .rc-h { margin-bottom: 13px; font-size: 20px; line-height: 1.2; letter-spacing: -0.02em; }
 }
 
 /* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1360 px the page takes the
    desk the main column gives (student-pages.css, Wide desks) instead of a 960 px strip, and from 1800 px, when that desk is
    1440 px or more, the breakdown on the right reads as two columns of whole blocks (the study record and the badges, then
    the bests, the checks, the playbook and the standing, in the same order, down each column), so no column ends 1,400 px
-   above its neighbour. The left column keeps its sticky headline numbers. Docked Ask Mobi keeps the one-column page. */
+   above its neighbour. The left column keeps its sticky headline numbers. */
 @media (min-width: 1360px) {
   .app-shell .student-page--progress { width: 100%; }
 }
 @media (min-width: 1800px) {
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress:has(.pr-main:not(:empty)) { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: block; columns: 2; column-gap: 40px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress .pr-main .sb-wrap { display: contents; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page--progress .pr-main :is(.pr-main > *, .sb-wrap > *) { break-inside: avoid; margin: 0 0 28px; }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
+  :root .app-shell .student-page--progress:has(.pr-main:not(:empty)) .pr-main { display: block; columns: 2; column-gap: 40px; }
+  :root .app-shell .student-page--progress .pr-main .sb-wrap { display: contents; }
+  :root .app-shell .student-page--progress .pr-main :is(.pr-main > *, .sb-wrap > *) { break-inside: avoid; margin: 0 0 28px; }
 }
 
 /* Your study record (StudyProgress) reads as one of this page's open sections, not a boxed card among them. */
@@ -256,19 +256,19 @@ html[data-theme='light'] .app-shell .student-page--progress .pw-mark[data-kind='
   .app-shell .student-page--progress .pw__streak { flex-direction: column; align-items: flex-start; gap: 8px; margin: 0; padding: 8px 14px 10px 8px; }
 }
 @media (min-width: 1100px) {
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw {
+  :root .app-shell .student-page--progress .pw {
     grid-template-columns: auto minmax(0, 1fr) minmax(260px, 320px); column-gap: 32px; padding: 24px 26px;
     border: 1px solid var(--a-line); border-radius: 24px; background: var(--a-raised); box-shadow: var(--a-shadow-1);
   }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next { grid-column: auto; align-self: stretch; display: grid; align-content: center; padding-left: 28px; border-left: 1px solid var(--a-line); }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next .na--compact { grid-template-columns: minmax(0, 1fr); padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__next .na--compact .na__cta { justify-content: center; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__streak { padding-right: 18px; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__streak .stk-mobi { width: 72px; height: 72px; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count { flex-direction: column; gap: 4px; }
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw__count b { font-size: 56px; }
+  :root .app-shell .student-page--progress .pw__next { grid-column: auto; align-self: stretch; display: grid; align-content: center; padding-left: 28px; border-left: 1px solid var(--a-line); }
+  :root .app-shell .student-page--progress .pw__next .na--compact { grid-template-columns: minmax(0, 1fr); padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+  :root .app-shell .student-page--progress .pw__next .na--compact .na__cta { justify-content: center; }
+  :root .app-shell .student-page--progress .pw__streak { padding-right: 18px; }
+  :root .app-shell .student-page--progress .pw__streak .stk-mobi { width: 72px; height: 72px; }
+  :root .app-shell .student-page--progress .pw__count { flex-direction: column; gap: 4px; }
+  :root .app-shell .student-page--progress .pw__count b { font-size: 56px; }
   /* While the week loads, the streak's place is as tall as Mobi over the number (19 Nov review: the band grew 48 px on arrival). */
-  :root:not([data-mobi-form='dock']) .app-shell .student-page--progress .pw--wait .pw__streak--none { width: 120px; height: 176px; }
+  :root .app-shell .student-page--progress .pw--wait .pw__streak--none { width: 120px; height: 176px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .app-shell .student-page--progress .pw__day .stk-bubble { animation: pw-fade 120ms ease both; }

@@ -520,6 +520,9 @@ html[data-lite]:not([data-lite='false']) .srch-glass { background: var(--a-raise
     align-items: center;
     padding: 6px 12px;
   }
+  /* A row with no quiet part is one line: its empty second track took the height's spare share and set the title 4 px above
+     the icon's centre (phone pass, 21 Nov 2026). */
+  .srch-row:not([data-hint]) { grid-template-areas: 'icon title end'; }
   .srch-row:has(.srch-row__hint), .srch-row:has(.srch-row__link) { min-height: 56px; }
   .srch-row__icon { grid-area: icon; }
   .srch-row__text { display: contents; }

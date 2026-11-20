@@ -743,13 +743,13 @@ html[data-motion='reduced'] .app-shell .tmask { animation: none; transition: non
   .app-shell .student-page--today > .ov, .app-shell .student-page--today .today-grid { max-width: none; }
 }
 @media (min-width: 1800px) {
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side { display: block; columns: 2; column-gap: 40px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > * { break-inside: avoid; margin-bottom: 44px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > :last-child { margin-bottom: 0; }
+  :root .app-shell .today-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); }
+  :root .app-shell .today-grid__side { display: block; columns: 2; column-gap: 40px; }
+  :root .app-shell .today-grid__side > * { break-inside: avoid; margin-bottom: 44px; }
+  :root .app-shell .today-grid__side > :last-child { margin-bottom: 0; }
   /* The third column always opens with Road to CUET (a section heading), never with whatever row the balancing would carry over
      (the Mob row has none), so the three first headings stand on one line (20 Nov 2026, the levels). */
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .today-grid__side > .trd { break-before: column; }
+  :root .app-shell .today-grid__side > .trd { break-before: column; }
 }
 
 /* ---------- Wide: two columns, the doing left and the glance right ---------- */

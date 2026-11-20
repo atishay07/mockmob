@@ -198,7 +198,7 @@
 /* ---------- Lane insight (18 Nov 2026): the analysis desk ----------
    RecordView `desk`: below 1100 px both columns are `display: contents`, so the record's grid (gap 36) reads one column in the
    brief's order: the marks, Score by session, the row to Your papers, Your chapters, Your pace, Where your marks go, By
-   subject, then the answer sheet and the rest. From 1100 px (one column while Ask Mobi is docked, as Progress) the left column
+   subject, then the answer sheet and the rest. From 1100 px the left column
    keeps the marks, the trend and the row in view (src/lib/stickySide.mjs: it scrolls with the page only when taller than the
    window) and the right one scrolls through the blocks. Motion: only the chapter panel moves (180 ms fade, 8 px rise). */
 .app-shell .rd .pp-desk__side, .app-shell .rd .pp-desk__main { display: contents; }
@@ -210,20 +210,20 @@
 .app-shell .rd .pp-desk__side .pp-inreview__row { border-bottom: 0; }
 
 @media (min-width: 1100px) {
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-record--desk { grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); column-gap: 40px; align-items: start; }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side {
+  :root .app-shell .rd .pp-record--desk { grid-template-columns: minmax(300px, 2fr) minmax(0, 3fr); column-gap: 40px; align-items: start; }
+  :root .app-shell .rd .pp-desk__side {
     display: grid; gap: 28px; min-width: 0; grid-column: 1; align-content: start;
     position: sticky; top: min(calc(var(--arena-topbar-h, 63px) + 20px), calc(100dvh - var(--side-h, 0px) - 20px));
   }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__main { display: grid; gap: 36px; min-width: 0; grid-column: 2; align-content: start; }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__main > :first-child { padding-top: 0; border-top: 0; }
+  :root .app-shell .rd .pp-desk__main { display: grid; gap: 36px; min-width: 0; grid-column: 2; align-content: start; }
+  :root .app-shell .rd .pp-desk__main > :first-child { padding-top: 0; border-top: 0; }
   /* The marks in the left column keep their phone form: net marks across the top, then two figures a row, ruled down the middle. */
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div { padding: 14px 0 14px 14px; border-bottom: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div[data-emph] { grid-column: 1 / -1; padding-left: 0; border-left: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(n + 2) { border-top: 1px solid var(--a-line); }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 0; border-left: 0; }
-  :root:not([data-mobi-form='dock']) .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
+  :root .app-shell .rd .pp-desk__side .pp-ledger { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root .app-shell .rd .pp-desk__side .pp-ledger > div { padding: 14px 0 14px 14px; border-bottom: 0; }
+  :root .app-shell .rd .pp-desk__side .pp-ledger > div[data-emph] { grid-column: 1 / -1; padding-left: 0; border-left: 0; }
+  :root .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(n + 2) { border-top: 1px solid var(--a-line); }
+  :root .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 0; border-left: 0; }
+  :root .app-shell .rd .pp-desk__side .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
 }
 
 /* A wide desk (owner, 19 Nov 2026, a 27 inch screen: "overall white space is still a lot"): from 1800 px, when the main column
@@ -231,10 +231,10 @@
    across the other two thirds, and the blocks under it read as two columns of whole blocks, in the same order down each
    column, so the right side is not one long strip 2,600 px tall beside a short left one. */
 @media (min-width: 1800px) {
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-record--desk { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main { display: block; columns: 2; column-gap: 40px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main > * { break-inside: avoid; margin: 0 0 36px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .rd .pp-desk__main > .ych { column-span: all; }
+  :root .app-shell .rd .pp-record--desk { grid-template-columns: minmax(340px, 1fr) minmax(0, 2fr); }
+  :root .app-shell .rd .pp-desk__main { display: block; columns: 2; column-gap: 40px; }
+  :root .app-shell .rd .pp-desk__main > * { break-inside: avoid; margin: 0 0 36px; }
+  :root .app-shell .rd .pp-desk__main > .ych { column-span: all; }
 }
 
 /* Waiting, at the blocks' own sizes */
@@ -242,7 +242,7 @@
 .app-shell .rd .rd-ledger-wait__note { display: block; width: 72%; height: 16px; border-radius: 8px; }
 .app-shell .rd .rd-ledger-wait__marks { display: block; height: 252px; border-radius: 16px; }
 @media (min-width: 640px) { .app-shell .rd .rd-ledger-wait__marks { height: 104px; } }
-@media (min-width: 1100px) { :root:not([data-mobi-form='dock']) .app-shell .rd .rd-ledger-wait__marks { height: 252px; } }
+@media (min-width: 1100px) { :root .app-shell .rd .rd-ledger-wait__marks { height: 252px; } }
 .app-shell .rd .rd-trend__wait { height: 236px; border-radius: 14px; }
 .app-shell .rd .rd-subj__wait { height: 132px; border-radius: 14px; }
 

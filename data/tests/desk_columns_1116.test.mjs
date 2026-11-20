@@ -112,13 +112,22 @@ test('wallet: what you hold on the left, how to get more and where it went on th
   assert.equal((page.match(/startWalletPurchase\(/g) || []).length, 1, 'one purchase call, as before');
 });
 
-test('with Ask Mobi docked (its panel takes 420 px from the page at 1280 px and up) the three pages keep their one column', () => {
+// The docked Ask Mobi panel is gone (20 Nov 2026: a floating window that never narrows the page, askMobiLauncher.test.mjs), so
+// no desk rule waits on a dock attribute nothing writes. The rules keep a leading :root, the weight the old guard gave them, so
+// they still win over the card's phone and desktop rules whatever order the sheets load in (proven on 21 Nov 2026 by a
+// computed-style diff of every element at 1440, 1920 and 2560 on eight pages: 0 changed).
+test('the desk columns no longer wait on the removed Ask Mobi dock, and keep their weight', () => {
   for (const file of ['src/components/result/result-desk.css', 'src/app/(app)/progress/progress.css', 'src/app/(app)/wallet/wallet.css']) {
     const css = read(file);
+    assert.doesNotMatch(css, /data-mobi-form='dock'|data-mobi-dock/, file);
     const block = css.slice(css.indexOf('@media (min-width: 1100px)'));
     const desk = block.slice(0, block.indexOf('\n}\n'));
     const rules = desk.split('\n').filter((line) => /^\s{2}[.:]/.test(line));
     assert.ok(rules.length > 8, file);
-    for (const line of rules) assert.match(line, /^\s{2}:root:not\(\[data-mobi-form='dock'\]\) /, `${file}: ${line.trim().slice(0, 60)}`);
+    for (const line of rules) assert.match(line, /^\s{2}:root /, `${file}: ${line.trim().slice(0, 60)}`);
+  }
+  for (const file of ['src/components/today/today.css', 'src/components/profile/account.css', 'src/app/(app)/analytics/analytics.css',
+    'src/components/streak/streak-line.css', 'src/app/(app)/leaderboard/leaderboard.css', 'src/app/(app)/admission-compass/compass.css']) {
+    assert.doesNotMatch(read(file), /data-mobi-form='dock'|data-mobi-dock/, file);
   }
 });

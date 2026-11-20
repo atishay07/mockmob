@@ -208,7 +208,9 @@ html[data-motion='reduced'] .ml-seg[data-lift] { transform: none; }
 /* The signed-in shell gives every button a 44 px minimum (arena-support.css): a segment stays the bar's own 14 px, its
    hit area is the pseudo-element below (visual check, 15 Nov 2026: the segments grew to 44 px and covered the legend). */
 .app-shell .ml-seg { min-height: 0; min-width: 0; }
-.ml-seg::before { content: ''; position: absolute; inset: -10px 0; }
+/* Phone pass, 21 Nov 2026: 44 px, not 32. The reach runs 18 px up, over the headline's last few pixels (words, not a control),
+   and 14 px down to the rows' top edge, so it still covers no other control. */
+.ml-seg::before { content: ''; position: absolute; inset: -18px 0 -14px; }
 .ml-seg:focus { outline: none; }
 .ml-seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; z-index: 1; }
 .ml-row { scroll-margin-top: 96px; }

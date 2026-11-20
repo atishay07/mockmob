@@ -148,7 +148,9 @@
 .app-shell .sv-shelf__fig span { font: 700 18px/1.2 var(--font-display); color: var(--a-ink-2); }
 .app-shell .sv-shelf .sv-meter { margin: 0; gap: 8px; }
 .app-shell .sv-shelf .sv-meter__pips i { height: 12px; }
-.app-shell .sv-shelf__go { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 12px; background: var(--volt); color: var(--volt-ink); font: 700 15px/1.25 var(--font-body); text-align: center; text-decoration: none; transition: background-color 150ms ease, transform 150ms cubic-bezier(0.23, 1, 0.32, 1); }
+/* --volt-ink is a marketing token (unset in the shell outside the Compass), so the key inherited the page's ink: light words on
+   volt in Night, contrast 1.1 (phone pass, 21 Nov 2026). The fallback is the shell's own ink on volt (.btn-volt). */
+.app-shell .sv-shelf__go { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 12px; background: var(--volt); color: var(--volt-ink, #0b1000); font: 700 15px/1.25 var(--font-body); text-align: center; text-decoration: none; transition: background-color 150ms ease, transform 150ms cubic-bezier(0.23, 1, 0.32, 1); }
 .app-shell .sv-shelf__go:active { transform: scale(0.97); }
 .app-shell .sv-shelf__go:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .sv-shelf__go:hover { background: color-mix(in srgb, var(--volt) 88%, var(--a-ink)); } }

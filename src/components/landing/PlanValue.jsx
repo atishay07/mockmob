@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from 'react';
+import { Fragment, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { SUBJECT_COUNT, usualWay } from '@/lib/payments/receipt.mjs';
 import Doodle from '@/components/doodle/Doodle';
@@ -159,7 +159,7 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
             </div>
           </>
         ) : null}
-        {go}
+        <Fragment key="go">{go}</Fragment>
       </div>
 
       <div className="lp-plan__detail">
@@ -173,7 +173,7 @@ export function PlanValue({ offer, keyCards = false, compare = true, go = null, 
         ) : null}
       </div>
 
-      {free}
+      <Fragment key="free">{free}</Fragment>
       <p className="lp-sr" aria-live="polite">{said}</p>
     </>
   );

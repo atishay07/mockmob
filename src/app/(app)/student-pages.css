@@ -309,8 +309,8 @@ html[data-motion='reduced'] .app-shell .pt__plot svg, html[data-motion='reduced'
    able to resize to every scene") ----------
    From 1100 px every page sits centred in the main area (it used to start at the main column's left and leave the blank on
    its right). From 1600 px the main column's cap grows in steps with the window, so a 2560 screen reads as a full desk, not
-   a strip down the middle. Pages size with min(100%, cap) inside it, never with vw: the Ask Mobi dock narrows the main area
-   and a page simply fills what is left. Grow means more room or one more column, never longer lines. Phones and tablets
+   a strip down the middle. Pages size with min(100%, cap) inside it, never with vw, so a page fills the main area it
+   is given. Grow means more room or one more column, never longer lines. Phones and tablets
    (under 1100 px) are untouched. */
 @media (min-width: 1100px) {
   .app-shell .student-page { margin-inline: auto; }

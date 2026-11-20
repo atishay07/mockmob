@@ -23,9 +23,11 @@ import './mobi-launch.css';
 const FACE = mascot.greeting;
 // The pages' sticky right-hand columns that carry keys down to the bottom of the screen (found by the corner sweep, 20 Nov 2026).
 const STICKY_SIDES = '.pr-ticket, .rv8-side';
-const BAR_WIDTH = 300;
 const BAR_EDGE = 24;
-const BAR_BAND = 88; // the bar's 48 px, its 20 px from the bottom and a 20 px gap
+// The window the bar opens (mobi-launch.css .amb-panel--window): 400 px wide, min(640 px, 100vh - 120 px) tall, 20 px from the
+// bottom. The bar and the window share one place, so the column is kept clear of the window, the larger of the two.
+const WINDOW_WIDTH = 400;
+const windowBand = () => Math.min(640, window.innerHeight - 120) + 20 + 16;
 const anyLayer = () => [...document.querySelectorAll(LAYER_SELECTOR)].some(isOtherLayer);
 const holdsLayer = (node) => node.nodeType === 1 && (isOtherLayer(node) || [...(node.querySelectorAll?.(LAYER_SELECTOR) || [])].some(isOtherLayer));
 
@@ -60,10 +62,11 @@ export default function AskMobiLauncher({ path = '' }) {
     return () => { observer.disconnect(); shell.removeAttribute('data-layer-open'); };
   }, [blocked]);
 
-  // Its place. A page with a sticky column at the right whose keys reach the bottom of the screen (Practice's session card and its
-  // Start key, Review's side column) keeps them clear: the bar, and the window it opens, sit to that column's left. Read once per
-  // layout change (a ResizeObserver on the page and the window), never per scroll; written as one variable on the shell, with the
-  // shell's data-mobi-bar, which keeps the end of every page clear of the bar (mobi-launch.css).
+  // Its place. A page with a sticky column at the right that reaches down into the window's band (Practice's session card and its
+  // Start key, Review's side column) keeps it clear: the bar, and the window it opens, sit to that column's left. The band is the
+  // window's, not the bar's: on a tall screen the card ends above the bar but the 640 px window still covered it (21 Nov 2026, at
+  // 2560 x 1440). Read once per layout change (a ResizeObserver on the page and the window), never per scroll; written as one
+  // variable on the shell, with the shell's data-mobi-bar, which keeps the end of every page clear of the bar (mobi-launch.css).
   useEffect(() => {
     const shell = self.current?.closest('.app-shell');
     const main = shell?.querySelector('.app-main');
@@ -75,10 +78,10 @@ export default function AskMobiLauncher({ path = '' }) {
       const vw = document.documentElement.clientWidth;
       const column = [...main.querySelectorAll(STICKY_SIDES)].find((el) => el.getClientRects().length);
       const r = column?.getBoundingClientRect();
-      // Its keys reach the bar's band at the foot of the screen, where it rests in the page or where it sticks.
+      // It reaches the window's band at the foot of the screen, where it rests in the page or where it sticks.
       const stuck = r ? (parseFloat(getComputedStyle(column).top) || 0) + r.height : 0;
-      const low = r && Math.max(r.bottom, stuck) > window.innerHeight - BAR_BAND;
-      const right = low && r.right > vw - BAR_EDGE - BAR_WIDTH && r.left > BAR_WIDTH + 2 * BAR_EDGE ? Math.round(vw - r.left + 16) : null;
+      const low = r && Math.max(r.bottom, stuck) > window.innerHeight - windowBand();
+      const right = low && r.right > vw - BAR_EDGE - WINDOW_WIDTH && r.left > WINDOW_WIDTH + 2 * BAR_EDGE ? Math.round(vw - r.left + 16) : null;
       if (right === null) shell.style.removeProperty('--mobi-bar-right'); else shell.style.setProperty('--mobi-bar-right', `${right}px`);
     };
     place();

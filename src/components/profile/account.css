@@ -21,14 +21,14 @@
    column gives the page 1440 px or more (student-pages.css, Wide desks), the cards are three columns at their phone width
    instead of two long ones: every card of the two columns, in the same order (the left column's, then the right's), reads
    down three columns of even height, so no column ends a screen above its neighbour. A card never stretches past its
-   reading width. Docked Ask Mobi keeps the two columns. */
+   reading width. */
 @media (min-width: 1800px) {
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .student-page.acct { width: 100%; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) { display: block; columns: 3; column-gap: 24px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col > * { break-inside: avoid; margin: 0 0 24px; }
-  :root:not([data-mobi-form='dock']) .app-shell:not([data-mobi-dock='open']) .acct-grid:not(.acct-grid--even) > .acct-col > :empty { margin: 0; }
+  :root .app-shell .student-page.acct { width: 100%; }
+  :root .app-shell .acct-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+  :root .app-shell .acct-grid:not(.acct-grid--even) { display: block; columns: 3; column-gap: 24px; }
+  :root .app-shell .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
+  :root .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > * { break-inside: avoid; margin: 0 0 24px; }
+  :root .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > :empty { margin: 0; }
 }
 /* A phone keeps the order sheet, plan, credits, colleges, name, appearance, goal (money and cancel near the top) (the columns dissolve); a wide screen has two level
    columns: sheet, name and appearance on the left, plan, credits and goal on the right. */
@@ -284,12 +284,6 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   /* Progress and help sits in the left column's source for a wide screen; a phone still reads it last, after the invite. */
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-links { order: 11; }
 }
-/* Docked (the page narrows to one column), Progress and help comes after the right column's cards, as on a phone. */
-@media (min-width: 1280px) {
-  html[data-mobi-form='dock'] .app-shell .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
-  html[data-mobi-form='dock'] .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-links { order: 1; }
-}
-
 /* The Wallet link reads as one balance. */
 .app-shell .acct-credits__item { display: flex; align-items: center; gap: 6px; min-height: 44px; color: var(--a-ink); text-decoration: none; border-radius: 8px; }
 .app-shell .acct-credits__item .credit-amount__value { font-size: 20px; }
