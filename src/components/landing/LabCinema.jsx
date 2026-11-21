@@ -20,6 +20,7 @@ import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { LAB_SCENES } from './homeCopy.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
+import { useLabAutoplay } from './useLabAutoplay';
 import Doodle from '@/components/doodle/Doodle';
 
 // The pen on the Lab's screens (18 Nov 2026, owner LK308): one mark a scene, drawn after the screen's own rows have come in,
@@ -340,9 +341,12 @@ function ScreenBar({ label }) {
   );
 }
 
-function Stage({ step, pinned, reduced, goTo, look }) {
+function Stage({ step, pinned, reduced, live, goTo, look }) {
   const ready = pinned && !reduced;
   const next = look === 'next';
+  // The next look plays itself (useLabAutoplay.js, owner LK364): each scene's cursor, a held moment, then the next scene,
+  // until the reader takes over. The default look never starts it.
+  const auto = useLabAutoplay({ enabled: next && pinned && !reduced, live, step, steps: SCENES.length, goTo });
   // The first scene opens on step one, so its screen was already "on" while the lab was still far below
   // the reader and its story played unseen: the first screen (Time until round 11, Chapters now) met the
   // reader finished and still. It waits in its first frame (data-armed) while the lab is out of the window
@@ -369,7 +373,7 @@ function Stage({ step, pinned, reduced, goTo, look }) {
           const state = i < step ? 'done' : i === step ? 'on' : 'off';
           return (
             <li key={key}>
-              <button type="button" data-on={step === i ? 'true' : 'false'} aria-current={step === i ? 'step' : undefined} onClick={(event) => goTo(i, { instant: event.detail === 0 })}>
+              <button type="button" data-on={step === i ? 'true' : 'false'} aria-current={step === i ? 'step' : undefined} onClick={(event) => { if (next) auto.pick(); goTo(i, { instant: event.detail === 0 }); }}>
                 <span className="lc__rail-ico" aria-hidden="true"><Icon size={16} /></span>
                 <span className="lc__rail-tab">{tab}</span>
                 <i className="lc__rail-meter" aria-hidden="true"><i className="ss-fill" data-state={state} style={{ '--ss-i': i }} /></i>
@@ -411,7 +415,7 @@ function Stage({ step, pinned, reduced, goTo, look }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              {next ? <LabNextScreen fit="0.62" scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
+              {next ? <LabNextScreen fit="0.62" scene={key} live={pinned && on && (i !== 0 || armed)} still={reduced || !pinned} onDone={() => auto.done(i)} onTakeover={auto.take} /> : <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on && (i !== 0 || armed)} /></div>}
             </figure>
           </article>
         );

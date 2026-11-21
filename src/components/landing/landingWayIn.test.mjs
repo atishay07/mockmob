@@ -58,7 +58,8 @@ test('D1 hero: a guest gets "Sign up free", then "Try 5 questions first", then "
   assert.match(actions, /const primary = isAuthenticated \? way\.home : way\.signup;/, 'L-006: never "Sign up free" for a signed-in student');
   assert.match(actions, /if \(mode === 'primary' \|\| isAuthenticated\) \{/, 'signed in: one key, no secondary, no log-in line');
   const guest = actions.slice(actions.indexOf('return (\n    <>'));
-  const order = ['{primary.label}', '{SAMPLE.label}', 'Have an account? <Link href={way.login.href}>{way.login.label}</Link>'];
+  // prefetch={false} on the Log in link (21 Nov 2026 speed pass: the home prefetches only its main keys).
+  const order = ['{primary.label}', '{SAMPLE.label}', 'Have an account? <Link href={way.login.href} prefetch={false}>{way.login.label}</Link>'];
   let at = -1;
   for (const mark of order) { const i = guest.indexOf(mark); assert.ok(i > at, `${mark} in order`); at = i; }
   assert.match(guest, /<Link href=\{SAMPLE\.href\} prefetch=\{false\} className="mm-btn mm-btn--secondary">/, 'the sample is the secondary key');
@@ -68,7 +69,7 @@ test('D1 hero: a guest gets "Sign up free", then "Try 5 questions first", then "
 test('D1 close band: a guest gets "Sign up free" and "Log in", never the sample; signed in, one key', () => {
   const close = code(read('./CloseActions.jsx'));
   assert.match(close, /isAuthenticated \? homeHref : signupHref/);
-  assert.match(close, /\{isAuthenticated \? null : <Link href=\{way\.login\.href\} className="mm-btn mm-btn--secondary">\{way\.login\.label\}<\/Link>\}/);
+  assert.match(close, /\{isAuthenticated \? null : <Link href=\{way\.login\.href\}(?: prefetch=\{false\})? className="mm-btn mm-btn--secondary">\{way\.login\.label\}<\/Link>\}/);
   assert.doesNotMatch(close, /try-practice|Try a CUET question/);
 });
 

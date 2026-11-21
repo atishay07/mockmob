@@ -147,20 +147,9 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 .op-proof { margin: 12px 0 0; color: var(--ink-2); font-size: 0.875rem; line-height: 1.45; text-wrap: pretty; }
 .op-proof .lp-link { white-space: nowrap; }
 
-/* ---- under the frame: the volt key, then the other live tools as small linked chips ---- */
+/* ---- under the frame: the volt key ---- */
 .op-foot { display: grid; justify-items: center; gap: 1rem; margin-top: 1.5rem; text-align: center; }
 .op-foot .mm-actions { justify-content: center; }
-.op-also { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; }
-.op-also__lead { color: var(--ink-2); font-size: 0.875rem; font-weight: 600; }
-.op-also__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.op-chip {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 4px 14px 4px 6px;
-  border: 1px solid var(--line); border-radius: 999px; background: var(--paper-raised); color: var(--ink);
-  font-size: 0.9375rem; font-weight: 650; text-decoration: none; transition: background-color 150ms ease-out;
-}
-.op-chip .brand-icon { --bi-size: 30px; }
-.op-chip:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
-@media (hover: hover) and (pointer: fine) { .op-chip:hover { background: var(--surface-hover, var(--paper-raised-2)); } }
 
 /* The section's place while the browser skips drawing it (content-visibility: auto on every home section): the live page's
    #your-prep held the tour deck's tall track (633 px + 378 svh on a phone), which would make the page jump here. Measured
@@ -213,9 +202,8 @@ html[data-motion='reduced'] .op-slot[data-on] .op-stage, html[data-motion='reduc
 }
 
 /* ---- lane one-place, round 3 (21 Nov 2026) ----
-   The line under the chips, on its own line. Desktop Ask Mobi: the card and its honest line centred in the window (the window
-   keeps the frame's height, so changing rows never moves the frame), on the card's own paper, so no band shows. */
-.op-also__note { flex-basis: 100%; margin: 0; color: var(--ink-2); font-size: 0.8125rem; line-height: 1.4; }
+   Desktop Ask Mobi: the card and its honest line centred in the window (the window keeps the frame's height, so changing rows
+   never moves the frame), on the card's own paper, so no band shows. */
 @media (min-width: 960px) {
   .op-win__body--fill { align-content: center; }
   .mm.lp .op-win .op-bmk { align-content: center; }
@@ -318,3 +306,102 @@ html[data-theme='dark'] .op-slot[data-tool='practise'] .xs-layout > .xs-inline {
   .mm.lp .op-bmk .bmk__gets li { padding-top: 8px; }
   .mm.lp .op-bmk .bmk__get-lead { font-size: 1rem; line-height: 1.15; }
 }
+
+/* ---- lane one-place, round 7 (21 Nov 2026, owner LK364) ----
+   Six rows: Learn, Benchmarks and the Mob join as rows 4 to 6, each on the old tour deck's raised paper card with its dark
+   screen in a sunken well (r18-tour-deck.css .td__card, .td__shot; the screens are TourScreens.jsx, unchanged). Every row
+   change is dealt as the deck dealt its cards: the next row's card slides up into place over the one on show, which steps
+   back and fades (transform and opacity only, 460 ms, onePlaceModel DEAL_MS). Phones: the frame reaches 10 px from the
+   window's edges (stage at least 94% of the window at 360 and 390 px), and the six chips are one row that scrolls sideways
+   with larger names, the shown row's chip kept in view (OnePlace.jsx). */
+.op-td {
+  display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; overflow: hidden;
+  border: 1px solid var(--line-strong); border-radius: 22px; background: var(--paper-raised);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 2px rgba(32, 26, 14, 0.06), 0 14px 30px -18px rgba(32, 26, 14, 0.3);
+}
+html[data-theme='dark'] .op-td { box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 30px -18px rgba(0, 0, 0, 0.6); }
+.op-td__copy { display: grid; gap: 6px; min-width: 0; padding: 16px 16px 12px; }
+.op-td__title { margin: 0; color: var(--ink); font: 800 clamp(1.3125rem, 5.8vw, 1.5rem)/1.1 var(--font-display); letter-spacing: -0.028em; text-wrap: balance; }
+.op-td__lede { margin: 0; color: var(--ink-2); font: 400 0.9375rem/1.45 var(--font-body); text-wrap: pretty; }
+.op-td__shot { display: flex; flex-direction: column; min-width: 0; min-height: 0; margin: 0 6px 6px; padding: 0; border-radius: 17px; background: #1f1d1a; }
+.op-td__shot > .ts { flex: 1 1 auto; min-height: 19rem; border-width: 4px; border-radius: 17px; }
+.op-td__shot .ts__q { font-size: 1rem; }
+.op-td__shot .ts__choice { font-size: 0.9375rem; }
+.op-td__shot :is(.ts__choice, .ts__level) { min-height: 48px; }
+/* The card fills the stage's shared height, so changing rows never changes the frame's height. */
+.op-slot:is([data-tool='learn'], [data-tool='rival'], [data-tool='mob']) { align-content: stretch; grid-template-rows: minmax(0, 1fr) auto; }
+.op-slot:is([data-tool='learn'], [data-tool='rival'], [data-tool='mob']) .op-stage { align-self: stretch; display: grid; }
+@media (min-width: 960px) {
+  .op-td {
+    width: calc(min(var(--op-dev), 100%) * 0.974); margin-inline: auto;
+    grid-template-rows: minmax(0, 1fr); grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); border-radius: 28px;
+  }
+  .op-td__copy { align-content: center; gap: 14px; padding: 2rem 1rem 2rem 2.5rem; }
+  .op-td__title { font-size: clamp(1.75rem, 2.4vw, 2.4rem); line-height: 1.05; letter-spacing: -0.032em; }
+  .op-td__lede { font-size: 1.0625rem; line-height: 1.5; max-width: 34ch; }
+  .op-td__shot { justify-content: center; margin: 14px; padding: 22px; border-radius: 22px; background: var(--paper-sunken); box-shadow: inset 0 1px 2px rgba(32, 26, 14, 0.07); }
+  .op-td__shot > .ts { flex: 0 0 auto; width: 100%; max-width: 27rem; margin-inline: auto; border-width: 6px; border-radius: 24px; }
+}
+@media (min-width: 1280px) { .op-td { margin-inline: calc(min(var(--op-dev), 100%) * 0.013) 0; } }
+
+/* The deal. The row shown slides up from below and settles; the row it replaces stays drawn under it for the slide, stepping
+   back. Replaces the 8 px fade-in. Reduced motion: the row simply changes. */
+.op-slot[data-on] .op-stage { animation: none; }
+.op-slot[data-on] { position: relative; z-index: 1; animation: op-deal 460ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.op-slot[data-leaving] { visibility: visible; z-index: 0; pointer-events: none; animation: op-dealt 460ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+/* Between rows of different kinds (the exam, Key cards, Ask Mobi have no card of their own) the one on show is gone before
+   the next shows (out by 30%, in from 25%), so two screens never read through each other; the slide carries the deal. */
+@keyframes op-deal { from { opacity: 0; transform: translate3d(0, 64px, 0); } 25% { opacity: 0; } 55% { opacity: 1; } to { opacity: 1; transform: none; } }
+@keyframes op-dealt { from { opacity: 1; transform: none; } 30% { opacity: 0; } to { opacity: 0; transform: translate3d(0, -14px, 0) scale(0.965); } }
+/* Card on card (Learn, Benchmarks, the Mob, in their order): the next card is solid from the start and slides up over the
+   one on show, which stays drawn and steps back under it, as the deck dealt them; only the proof lines cross-fade. OnePlace
+   sets data-deal='card' on the frame while one card is dealt over another. */
+@keyframes op-deal-card { from { transform: translate3d(0, 72px, 0); } to { transform: none; } }
+@keyframes op-dealt-card { from { transform: none; } 85% { opacity: 1; } to { opacity: 0; transform: scale(0.97); } }
+@keyframes op-proof-in { from, 40% { opacity: 0; } to { opacity: 1; } }
+@keyframes op-proof-out { to { opacity: 0; } }
+.op-frame[data-deal='card'] .op-slot[data-on] { animation-name: op-deal-card; }
+.op-frame[data-deal='card'] .op-slot[data-on] > .op-proof { animation: op-proof-in 460ms ease-out both; }
+.op-frame[data-deal='card'] .op-slot[data-leaving] { animation-name: op-dealt-card; transform-origin: 50% 0; }
+.op-frame[data-deal='card'] .op-slot[data-leaving] > .op-proof { animation: op-proof-out 140ms ease-out both; }
+@media (prefers-reduced-motion: reduce) { .op-slot[data-on], .op-slot[data-leaving] { animation: none; } .op-slot[data-leaving] { visibility: hidden; opacity: 0; } }
+html[data-motion='reduced'] :is(.op-slot[data-on], .op-slot[data-leaving]) { animation: none; }
+html[data-motion='reduced'] .op-slot[data-leaving] { visibility: hidden; opacity: 0; }
+
+@media (max-width: 639px) {
+  /* 10 px from the window's edges (the page's gutter is 20 px). */
+  .op-frame { margin-inline: -10px; }
+  /* Six chips: one row that scrolls sideways, larger names, the next chip's edge showing. */
+  .op-rows {
+    display: flex; gap: 6px; overflow-x: auto; overscroll-behavior-x: contain; scroll-padding-inline: 10px; scrollbar-width: none;
+    touch-action: pan-x pan-y; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(to right, #000 calc(100% - 28px), transparent);
+  }
+  .op-rows::-webkit-scrollbar { display: none; }
+  .op-row { flex: 0 0 auto; min-width: 104px; min-height: 64px; padding: 5px 14px 11px; font-size: 16px; }
+  .op-row:last-child { margin-right: 22px; }
+  .op-row__obj { width: 31px; height: 28px; }
+  .op-row .brand-icon { --bi-size: 28px !important; }
+}
+/* A short phone (up to 760 px tall): the deck's card as the deck drew it on a phone (no lede; its screen's foot line goes
+   when the screen has panes), a little tighter, so every press on it is on screen while the chips sit under the site bar
+   (tmp/1121-oneplace/widths.mjs at 360x676). The screen's content keeps to its top, so a stretched card moves no press. */
+@media (max-width: 639px) and (max-height: 760px) {
+  .op-td__copy { padding: 12px 14px 8px; }
+  .op-td__title { font-size: 1.25rem; }
+  .op-td__lede { display: none; }
+  .op-td__shot .ts__bar { height: 34px; }
+  .op-td__shot .ts__body { padding: 0.6rem 0.7rem; gap: 0.4rem; }
+  .op-td__shot .ts__foot { display: none; }
+  .op-td__shot :is(.ts__choice, .ts__level) { min-height: 44px; padding-block: 0.35rem; }
+  .op-td__shot .ts__q { font-size: 0.9375rem; }
+  .op-td__shot .ts__fix .ts__opts { gap: 0.25rem; }
+}
+
+/* The section's reserve while undrawn, re-measured with six rows (21 Nov 2026, round 7; tmp/1121-oneplace/measure.mjs):
+   1025 px at 390x844, 1021 at 360x740, 1148 at 820x1180, 1014 at 1024x768, 974 at 1366x768, 1065 at 1440x900, 1292 at
+   1920x1080 (from 1280 px it follows the stage: 0.92 of the monitor's width plus 275 px). */
+.lp main > #your-prep.op { contain-intrinsic-size: auto 1025px; }
+@media (min-width: 700px) and (max-width: 959px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1148px; } }
+@media (min-width: 960px) { .lp main > #your-prep.op { contain-intrinsic-size: auto 1014px; } }
+@media (min-width: 1280px) { .lp main > #your-prep.op { contain-intrinsic-size: auto calc(max(760px, min(1200px, (100svh - 230px) * 1.3)) * 0.92 + 275px); } }

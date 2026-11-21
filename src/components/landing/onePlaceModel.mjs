@@ -78,6 +78,25 @@ export const SCRIPTS = Object.freeze({
     click(`[data-demo="bmk-option"]:nth-child(${RIGHT})`, 420, 1200, [0.25, 0.5]),
     click('[data-demo="bmk-tab"]:nth-child(4)', 420, 1200),
   ]),
+  // The old tour deck's screens (TourScreens.jsx), which answer taps: their own short demo plays first, then the cursor
+  // works them. Learn: a miss (C), the meaning shown, then the right one (B). Benchmarks: aim for College level, then DU
+  // level (the target lane and the points short follow). The Mob: open Fix it together, answer it, back to the sprint.
+  learn: Object.freeze([
+    Object.freeze({ wait: 1100 }),
+    click('.ts__opts li:nth-child(3) .ts__choice', 480, 1800, [0.3, 0.5]),
+    click('.ts__opts li:nth-child(2) .ts__choice', 440, 2300, [0.3, 0.5]),
+  ]),
+  rival: Object.freeze([
+    Object.freeze({ wait: 1100 }),
+    click('.ts__ladder li:nth-child(2) .ts__level', 480, 1900),
+    click('.ts__ladder li:nth-child(1) .ts__level', 440, 2300),
+  ]),
+  mob: Object.freeze([
+    Object.freeze({ wait: 1000 }),
+    click('.ts__fix-key', 480, 1100),
+    click('.ts__fix .ts__opts li:nth-child(2) .ts__choice', 440, 1900, [0.3, 0.5]),
+    click('.ts__back', 420, 900),
+  ]),
 });
 
 /** A script's length in ms, as CursorDemo plays it: the entry, each wait, each move, press and dwell, then the fade. */
@@ -102,6 +121,33 @@ export function autoplayRuns({ ready = false, reduced = true, onScreen = false, 
 
 /** The row after `index`, wrapping to the first. */
 export const nextIndex = (index, count) => (count > 0 ? (index + 1) % count : 0);
+
+// ------------------------------------------------------------------ when the run starts and stops (owner LK364, 21 Nov 2026)
+// "It should detect when a person is scrolling through and when he reaches the 'Your whole CUET prep in one place' sentence
+// on top of the screen. Then the autoplay should start automatically and should not stop until all the slides are
+// finished." The run starts when the section's heading crosses TRIGGER_LINE (a share of the window's height, from its top)
+// on the way up the screen, or on the way down if no run has started yet; when the frame's code arrives with the heading
+// already above the line; or when the frame comes into the window with it there (a flick that jumped past the heading).
+// Once running it plays every row to the end; only the hidden tab, the frame wholly out of the window and a reader's own tap
+// in a stage pause it (and the paused row plays again from its start). After the last row it rests; a new run needs the
+// reader to go back above the heading (the heading comes down past the line) and come down to it again.
+export const TRIGGER_LINE = 0.15;
+/** How long the next row's card takes to slide up over the one on show (one-place.css op-deal), ms. */
+export const DEAL_MS = 460;
+/** The run's next state: `run` = { phase: 'idle' | 'running' | 'rested', armed }, `event` = 'up' (the heading went above
+ *  the line), 'down' (it came back below), 'arrive' (the frame is here with the heading above), 'end' (the last row is done).
+ *  `start` says a new run begins from the first row. */
+export function runStep(run, event) {
+  const { phase = 'idle', armed = true } = run || {};
+  if (event === 'end') return { phase: 'rested', armed: false, start: false };
+  if (event === 'up') return phase !== 'running' && (armed || phase === 'idle') ? { phase: 'running', armed: false, start: true } : { phase, armed, start: false };
+  if (event === 'down') {
+    if (phase === 'idle') return { phase: 'running', armed: false, start: true };
+    return { phase, armed: phase === 'rested' ? true : armed, start: false };
+  }
+  if (event === 'arrive') return phase === 'idle' ? { phase: 'running', armed: false, start: true } : { phase, armed, start: false };
+  return { phase, armed, start: false };
+}
 
 /** After a row's script ends: the next row, or null to rest (the pass ends on the last row). */
 export const afterRow = (index, count) => (index < count - 1 ? index + 1 : null);

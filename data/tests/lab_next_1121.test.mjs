@@ -139,15 +139,15 @@ test('the next screens print labStory\'s figures in the result page\'s own sente
   assert.ok(scene(4).includes('Strengths, gaps and risks'));
   const sheet = read('src/components/landing/lab-next.css');
   assert.doesNotMatch(sheet, /rx-row__stem[^}]*(display: none|text-overflow|nowrap)/, 'the question is never cut or hidden');
-  assert.match(sheet, /\.ml-chip \{ min-height: 44px; \}/);
+  assert.match(sheet, /\.ml-chip \{ min-height: 44px;/);
   assert.match(sheet, /\.ml-seg \{ height: 44px;/);
   // 360 px phones: the content trims are for a short window only (360 x 740); a 360 x 800 phone keeps the part names, five time
   // rows and two changes; a change's picks stack with the arrow turned down on any 380 px phone.
   assert.match(sheet, /@media \(max-width: 380px\) and \(max-height: 760px\) \{[^@]*\.lnx-h \{ display: none; \}/);
-  assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)[^@]*li:nth-child\(n \+ 3\)/);
+  assert.match(sheet, /@media \(max-width: 380px\) and \(min-height: 761px\) \{[^@]*li:nth-child\(n \+ 6\)/);
   // The repair's row keeps "D yours / B answer" beside the written repair at every size (360 x 676 included): no rule hides them.
   assert.doesNotMatch(sheet, /rx-row__facts[^{]*\{[^}]*display: none/);
-  assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}\s*\.lc__grid\[data-look='next'\] \.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
+  assert.match(sheet, /\.lnx-picks__row \{ flex-direction: column;[^}]*\}[^@]*\.lnx-picks__arrow \{ transform: rotate\(90deg\)/);
   const css = read('src/components/landing/lab-next.css');
   assert.match(css, /\.lnx-first \{ display: none; \}[\s\S]*@media \(min-width: 960px\) \{\s*\.lc__grid\[data-look='next'\] \.lnx-first \{\s*display: block;/, 'the re-mark line shows on the wide device only');
   // The Time scene's take names the slowest question, worked out from labStory.
@@ -179,5 +179,48 @@ test('the next look loads only with it, and its styles are scoped to it', () => 
   const hasSubjects = [...css.matchAll(/([.\w-]+):has\(/g)].map((m) => m[1]);
   for (const subject of hasSubjects) assert.ok(['.ml-rows', '.td-changes', '.lnx--repair', '.lnx-quads'].includes(subject), `:has() on ${subject}`);
   const screens = read('src/components/landing/LabNextScreens.jsx');
-  assert.doesNotMatch(screens, /getBoundingClientRect|offsetWidth|offsetHeight|getComputedStyle|requestAnimationFrame/);
+  assert.doesNotMatch(screens, /getBoundingClientRect|offsetWidth|offsetHeight|getComputedStyle/);
+  // One bounded frame loop only: the Changes totals' count-up, 420 ms, once as the scene comes on.
+  assert.equal((screens.match(/requestAnimationFrame\(tick\)/g) || []).length, 2);
+  assert.match(screens, /const t = Math\.min\(1, \(now - start\) \/ 420\);/);
+});
+
+// LK364 (21 Nov 2026): the next look plays itself, its taps show their answer in a slot that holds its room, and on a phone the
+// words above the device are the title and one short line.
+test('the next look plays itself until the reader takes over, and only the next look does', () => {
+  const cinema = read('src/components/landing/LabCinema.jsx');
+  assert.match(cinema, /useLabAutoplay\(\{ enabled: next && pinned && !reduced, live, step, steps: SCENES\.length, goTo \}\)/);
+  assert.match(cinema, /onDone=\{\(\) => auto\.done\(i\)\} onTakeover=\{auto\.take\}/);
+  assert.match(cinema, /if \(next\) auto\.pick\(\); goTo\(i, \{ instant: event\.detail === 0 \}\)/);
+  const hook = read('src/components/landing/useLabAutoplay.js');
+  assert.match(hook, /const HOLD_MS = 1200;/);
+  assert.match(hook, /if \(!event\.isTrusted\) return;/);
+  assert.match(hook, /\['touchstart', 'wheel', 'keydown', 'pointerdown'\]/);
+  assert.match(hook, /document\.hidden/);
+  assert.match(hook, /i >= steps - 1\) return;/, 'it stops after the last scene');
+  assert.doesNotMatch(hook, /scrollTo|scrollBy|requestAnimationFrame|getBoundingClientRect/, 'it moves only through the story\'s own goTo');
+  assert.doesNotMatch(read('src/components/landing/ScrollStory.jsx'), /autoplay|useLabAutoplay/i, 'ScrollStory is unchanged for every story');
+});
+
+test('a tap shows its answer in a slot that holds its room; each scene has two taps; phones get one short line', async () => {
+  const { next } = await lab();
+  const scenes = scenesOf(next);
+  for (const i of [0, 1, 2, 4]) assert.match(scenes[i], /class="lnx-slot[ "]/, `scene ${i}: the slot`);
+  assert.ok(textOf(scenes[0]).includes('Q4: wrong after 3:18. You changed B to D.'));
+  const screens = read('src/components/landing/LabNextScreens.jsx');
+  const scripts = screens.slice(screens.indexOf('const SCRIPTS'), screens.indexOf('const SCREENS'));
+  for (const key of ['chapters', 'time', 'changes', 'swot']) {
+    const body = scripts.slice(scripts.indexOf(`${key}:`), scripts.indexOf(']),', scripts.indexOf(`${key}:`)));
+    assert.equal((body.match(/click: true/g) || []).length, 2, `${key}: two taps`);
+  }
+  for (const scene of LAB_SCENES) {
+    assert.ok(scene.next?.short, `${scene.key}: a short line for phones`);
+    assert.ok(scene.next.short.length <= 52, `${scene.key}: one short line`);
+  }
+  const sheet = read('src/components/landing/lab-next.css');
+  assert.match(sheet, /\.lnx-slot__item \{ grid-area: 1 \/ 1;[^}]*visibility: hidden; \}/);
+  assert.match(sheet, /\.lc\[data-pinned='true'\] \.lc__grid\[data-look='next'\] \{ padding-inline: 11px;/, 'the device takes 94 % of a phone');
+  // Text in the screens is 13 px or more.
+  const sizes = [...sheet.matchAll(/font(?:-size)?:[^;]*?(\d+(?:\.\d+)?)px/g)].map((m) => Number(m[1])).filter((n) => n < 40);
+  assert.ok(sizes.every((n) => n >= 13), `font sizes ${[...new Set(sizes)].sort().join(', ')}`);
 });

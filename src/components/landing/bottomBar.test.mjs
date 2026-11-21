@@ -116,7 +116,8 @@ test('the bar follows the story\'s step, not the scroll: one MutationObserver on
   assert.match(BAR, /attributeFilter: \['data-live', 'data-step', 'data-pinned'\]/);
   assert.match(BAR, /root\.dataset\.pinned === 'true' && root\.dataset\.live === 'true'/);
   // State only when something on the bar changes.
-  assert.match(BAR, /current\.on && current\.index === index && current\.step === step && current\.steps === steps\s*\? current/);
+  // 21 Nov 2026: the next section is read each time the bar is (the Skip key's target streams in late), so it joins the check.
+  assert.match(BAR, /current\.on && current\.index === index && current\.step === step && current\.steps === steps(?: && current\.next\?\.id === next\?\.id && current\.next\?\.name === next\?\.name)?\s*\? current/);
   // The band's per-frame read never runs on a phone.
   assert.match(BAR, /const PHONE = '\(max-width: 899px\)';/);
   assert.match(BAR, /listen\(near\.size > 0 && !phone\.matches\)/);
@@ -171,7 +172,8 @@ test('the veil is the page\'s paper under the site bar: 120 ms in, 240 ms out', 
 
 test('the phone nav carries a small Pricing pill on the home page only, hidden with the other prices in the app', () => {
   // Round 4 (owner LK133, 5 Nov 2026): the pill opens the /pricing page, not the home page's #pricing (supersedes R3-D4's jump).
-  assert.match(NAV, /\{pathname === '\/' \? \(\s*<Link href="\/pricing" className="mm-nav__price" data-commerce="">\s*<span>Pricing<\/span>\s*<\/Link>\s*\) : null\}/);
+  // The home page's preview (/home-next, never linked) draws the same pill, so a phone sees the same bar there.
+  assert.match(NAV, /\{pathname === '\/'(?: \|\| pathname === '\/home-next')? \? \(\s*<Link href="\/pricing" className="mm-nav__price" data-commerce="">\s*<span>Pricing<\/span>\s*<\/Link>\s*\) : null\}/);
   assert.doesNotMatch(NAV, /href="#pricing"/, 'no bar link jumps to the plan on the home page');
   assert.match(BAR_CSS, /\.mm \.mm-nav__price \{ display: none; \}/);
   assert.match(BAR_CSS, /@media \(min-width: 375px\) and \(max-width: 899px\) \{\s*\.mm \.mm-nav__price \{[^}]*min-height: 44px;/, 'a 44 px target on phones from 375 px');

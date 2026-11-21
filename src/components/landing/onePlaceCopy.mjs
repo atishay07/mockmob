@@ -9,7 +9,6 @@
 import { EXAM_HEAD, INSTAGRAM_HEAD, TOUR_ICON, freePlan } from './homeCopy.mjs';
 import { BANK_WORDS, KEY_CARDS_WORDS } from './keyCardsCopy.mjs';
 import { bringMistakeWords } from './bringMistakeCopy.mjs';
-import { signupPathFor } from '../../lib/auth-redirect.js';
 
 const firstSentence = (text) => `${String(text).split(/(?<=\.) /)[0]}`;
 const lastSentence = (text) => `${String(text).split(/(?<=\.) /).at(-1)}`;
@@ -27,16 +26,16 @@ export const ONE_PLACE = Object.freeze({
     Object.freeze({ id: 'cards', icon: 'keycards', name: 'Key cards', line: 'Turn a card, rate it, it comes back on time.', path: '/cards' }),
     Object.freeze({ id: 'mobi', icon: 'mobi', name: 'Ask Mobi', line: 'Bring any question you got wrong.', path: '/mentor' }),
   ]),
+  // Rows 4 to 6 (owner LK364, 21 Nov 2026: "some features are not depicted, like mob ... add those back, somewhat
+  // incorporating that older theme"): the tools the old tour deck showed, each with its deck screen (TourScreens.jsx) on the
+  // deck's card. Their name and line are the tour's own (homeCopy.mjs buildTour: label, line); a row is drawn only while its
+  // tool is live, so OnePlace takes them from the tour the server built with the live switches (tourRows below).
+  tourIds: Object.freeze(['learn', 'rival', 'mob']),
   // The exam section's own first sentence (homeCopy.mjs EXAM_HEAD.sub).
   practiseProof: firstSentence(EXAM_HEAD.sub),
   // The Key cards section's way to the public decks (KeyCardsDemo.jsx: /key-cards, "See a chapter's cards").
   decksHref: '/key-cards',
   decksLink: KEY_CARDS_WORDS.seeChapter,
-  alsoLead: 'Also inside',
-  // Each chip opens Sign up with the tool as where to land, so the line says so. True of all three on Free: lessons and
-  // recall need no credits, the daily benchmark is free, and playing every game a Mob starts is free on every plan
-  // (homeCopy.mjs buildTour, each tool's own points).
-  alsoNote: 'Free to open once you sign up.',
 });
 
 const n = (value) => Number(value).toLocaleString('en-IN');
@@ -48,19 +47,6 @@ export function bankLine(bank) {
 
 /** Bring a mistake's credit line, as the live block prints it (photos promised only while Mobi reads them). */
 export const mobiPrice = ({ photo, credits, photoCredits, free }) => bringMistakeWords({ photo, credits, photoCredits, free }).price;
-
-/**
- * The other live tools, as chips: [{ id, name, href, icon }], from the live switches. A chip never opens a signed-in route
- * (a guest would land on Log in) and no public page shows these three, so each opens Sign up with the tool as where to land
- * (signupPathFor), and the line under the chips (ONE_PLACE.alsoNote) says so.
- */
-export function alsoInside({ studyLive = false, mobLive = false } = {}) {
-  return [
-    ...(studyLive ? [{ id: 'learn', name: 'Learn', href: signupPathFor('/learn'), icon: TOUR_ICON.learn }] : []),
-    { id: 'rival', name: 'Benchmarks', href: signupPathFor('/leaderboard'), icon: TOUR_ICON.rival },
-    ...(mobLive ? [{ id: 'mob', name: 'The Mob', href: signupPathFor('/mob'), icon: TOUR_ICON.mob }] : []),
-  ];
-}
 
 // Sign-ups (owner LK362, 20 Nov 2026: "You can write 1,500+"). True as a floor: 1,493 students signed up last season and 61
 // more since June 2026 (a production read recorded in the ledger at LK188), 1,554 in all. A floor, never a live count; raise
@@ -82,4 +68,14 @@ export function freeFaq({ freeCredits, dailySize }) {
     question: 'What do I get free?',
     answer: `${freeCredits} credits a month, with no card needed. Free covers ${list}. The Daily Five, ${dailySize} questions a day, is free with no sign-up.`,
   });
+}
+
+/**
+ * The tour's tools as the frame's rows 4 to 6, from the tour the server built (buildTour: only live tools are in it), in the
+ * tour's order: { id, icon, name, line, title, lede, href, cta }. The icon is the tour's own desk object (TOUR_ICON).
+ */
+export function tourRows(tour = []) {
+  return tour.filter((slide) => ONE_PLACE.tourIds.includes(slide.id)).map((slide) => Object.freeze({
+    id: slide.id, icon: TOUR_ICON[slide.id], name: slide.tab || slide.label, line: `${slide.line}.`, title: slide.title, lede: slide.lede, chip: slide.chip, href: slide.href, cta: slide.cta, tour: true,
+  }));
 }

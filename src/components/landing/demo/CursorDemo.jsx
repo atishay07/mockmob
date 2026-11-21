@@ -23,7 +23,7 @@
 //
 // Rules (the 20 Nov speed rules, AGENT-COMMON.md): no frame loop. One layout read per step (the target's box and the stage's,
 // while the stage is on screen). The cursor moves by a CSS transition on transform only. Reduced motion: no cursor and no
-// script; the screen is still there to use by hand. A real press or key inside the stage (isTrusted) is the reader taking
+// script; the screen is still there to use by hand. A real click or key inside the stage (isTrusted) is the reader taking
 // over: the script stops at once, the cursor goes, and onTakeover() is called. A step that would move the page (a control
 // that focuses something) is undone, unless the reader moved the page themselves in the last half second.
 // `data-demo-phase` on the stage ('move', 'press') says where the script is: inert, for the checks that photograph it.
@@ -74,14 +74,16 @@ export default function CursorDemo({ steps, playing = false, onDone, onTakeover,
       setTaken(true);
       takeRef.current?.();
     };
-    stage?.addEventListener('pointerdown', take);
+    // A real click (or a key), not a press: a finger that only swipes the page across a stage sends pointerdown but never a
+    // click, and must not stop the run (owner LK364, 21 Nov 2026: "sometimes it never starts").
+    stage?.addEventListener('click', take);
     stage?.addEventListener('keydown', take);
     return () => {
       window.removeEventListener('wheel', mark, opts);
       window.removeEventListener('touchmove', mark, opts);
       window.removeEventListener('keydown', mark, opts);
       window.removeEventListener('pointerdown', mark, opts);
-      stage?.removeEventListener('pointerdown', take);
+      stage?.removeEventListener('click', take);
       stage?.removeEventListener('keydown', take);
     };
   }, []);

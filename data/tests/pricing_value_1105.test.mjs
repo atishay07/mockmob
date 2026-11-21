@@ -671,7 +671,8 @@ test('the new pricing words follow the copy rules: no middle dots, no "!", no hy
 test('pricing on a phone: the terms, the punch line and Free stay outside the disclosures; the detail is never unreachable', () => {
   const value = stripComments(read('src/components/landing/PlanValue.jsx'));
   assert.match(value, /<b>\{punch\.pro\}<\/b>\s*<\/p>/, 'Pro\'s own price in the punch line, in view');
-  assert.match(value, /<\/div>\s*\{free\}\s*<p className="lp-sr" aria-live="polite">/, 'Free, after the disclosures and outside them');
+  // 21 Nov 2026: the server-built part is keyed (<Fragment key="free">), which silences React's key warning.
+  assert.match(value, /<\/div>\s*(?:<Fragment key="free">\{free\}<\/Fragment>|\{free\})\s*<p className="lp-sr" aria-live="polite">/, 'Free, after the disclosures and outside them');
   assert.match(value, /<Unfold from=\{900\} className="lp-fold--plan"[^\n]*\}>\s*\{everything\}\s*<\/Unfold>/, 'only the grouped lines fold, as the brief asks');
   const card = read('src/components/pricing/PlanCard.jsx');
   assert.match(card, /<p className="pro-plan__renew">\{terms\.renew\}<\/p>\s*\{terms\.soon \? <p className="pro-plan__soon">\{terms\.soon\}<\/p> : null\}\s*\{children\}/, 'the term lines draw before the card\'s body');

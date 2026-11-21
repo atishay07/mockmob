@@ -64,9 +64,11 @@ import { CloseActions, CreatorReels, DemoDrill, HeroDockGate, LabCinema } from '
 import ReadLineHere from '@/components/home2/ReadLineHere';
 import SampleHere from '@/components/home2/SampleHere';
 import OnePlaceGate from '@/components/landing/OnePlaceGate';
-import { CREATORS_SUB, ONE_PLACE, alsoInside, freeFaq, mobiPrice } from '@/components/landing/onePlaceCopy.mjs';
+import { CREATORS_SUB, ONE_PLACE, freeFaq, mobiPrice } from '@/components/landing/onePlaceCopy.mjs';
+import { buildTour } from '@/components/landing/homeCopy.mjs';
+import { publicSample } from '@/components/landing/sampleFive.mjs';
+import STUDY_RELEASE from '@/../data/study/release.json';
 import { MISTAKE_CREDITS, MISTAKE_PHOTO_CREDITS } from '@/services/mobi/mistakePrices.mjs';
-import { BrandIcon } from '@/components/brand/BrandIcon';
 // Shared with app pages: MobiFigure.jsx already loads it before this point, so this line only keeps it ahead of the sheets below.
 import '@/components/brand/mobi-figure.css';
 // The home page's own 24 sheets (landing.css ... r16-tour-stack.css), joined in their cascade order into one file, so a phone
@@ -139,8 +141,12 @@ const SHELF = [
 const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLED === 'true';
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
-// The one frame's quiet line: the other tools, only those live (the same switches the feature tour reads).
-const ALSO = alsoInside({ studyLive: STUDY_LIVE, mobLive: MOB_LIVE });
+// The one frame's rows 4 to 6 (owner LK364): Learn, Benchmarks and the Mob as the live home's tour builds them, from the same
+// switches ("/" page.js TOUR), so a tool is shown only while it is live; the Mob's screen opens one of the sample's questions.
+const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
+const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => id.split('-')[0])).size;
+const TOUR = buildTour({ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE });
+const TOUR_SAMPLES = MOB_LIVE ? { mob: publicSample('Economics') } : null;
 // Ask Mobi's proof line: Bring a mistake's own credit line, from the app's prices and the free monthly credits (a photo is
 // promised only while Mobi reads photos).
 const MOBI_PRICE = mobiPrice({ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS });
@@ -260,28 +266,17 @@ export default function HomeNextPage() {
         </section></Later>
 
         {/* ----------------------- YOUR WHOLE CUET PREP, IN ONE PLACE (the one frame) ----------------------- */}
-        {/* id "your-prep": the guide's waypoint (PipGuide.jsx WAYPOINTS) and Ask Mobi's no-script link. Three rows, one stage:
-            the exam screen, Key cards and Bring a mistake's card, each the landing's own component, worked by a demo cursor
-            (OnePlace.jsx). Under it the one volt key and the other tools, by name. */}
+        {/* id "your-prep": the guide's waypoint (PipGuide.jsx WAYPOINTS) and Ask Mobi's no-script link. Six rows, one stage:
+            the exam screen, Key cards, Bring a mistake's card, then Learn, Benchmarks and the Mob on the old tour deck's card,
+            each worked by a demo cursor (OnePlace.jsx). Under it the one volt key. */}
         <Later><section className="lp-sec op" id="your-prep" aria-labelledby="op-title">
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2" id="op-title"><Marked text={ONE_PLACE.h2} marks={[[ONE_PLACE.mark, { mark: 'underline', tone: 'brand' }]]} /></h2>
               <p className="lp-sub">{ONE_PLACE.sub}</p>
             </Reveal>
-            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE}>
+            <OnePlaceGate keyCards={KEY_CARDS} photo={MISTAKE_PHOTO_ON} price={MOBI_PRICE} tour={TOUR} samples={TOUR_SAMPLES}>
               <LandingActions mode="primary" />
-              {ALSO.length ? (
-                <nav className="op-also" aria-label={`${ONE_PLACE.alsoLead} MockMob`}>
-                  <span className="op-also__lead">{ONE_PLACE.alsoLead}</span>
-                  <ul className="op-also__list">
-                    {ALSO.map((tool) => (
-                      <li key={tool.id}><Link href={tool.href} prefetch={false} className="op-chip"><BrandIcon name={tool.icon} size={32} />{tool.name}</Link></li>
-                    ))}
-                  </ul>
-                  <p className="op-also__note">{ONE_PLACE.alsoNote}</p>
-                </nav>
-              ) : null}
             </OnePlaceGate>
           </div>
         </section></Later>

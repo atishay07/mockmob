@@ -1,6 +1,7 @@
 // /home-next, 21 Nov 2026 (owner LK363): the live home as it is, with ONE frame in place of the tour deck, the Key cards
 // section, Bring a mistake and the exam screen section: "Your whole CUET prep, in one place." Three rows, one stage; each
-// stage is the landing's own real component, worked by a demo cursor (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx).
+// stage is the landing's own real component, worked by a demo cursor; rows 4 to 6 (owner LK364) are the tour deck's Learn,
+// Benchmarks and Mob screens on the deck's card (OnePlace.jsx, onePlaceModel.mjs, demo/CursorDemo.jsx).
 // What these hold: the page's place (noindex, in no sitemap, linked from nowhere; "/" untouched with its four sections), the
 // order of the sections, the stages being the real components, every script aiming at a hook the component really carries,
 // the autoplay rules, no frame loop or interval in the frame's files, and the words (seven-word heading, one sentence, no
@@ -10,11 +11,11 @@ import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CREATORS_SUB, ONE_PLACE, alsoInside, bankLine, freeFaq, mobiPrice } from '../../src/components/landing/onePlaceCopy.mjs';
-import { EXAM_HEAD, INSTAGRAM_HEAD } from '../../src/components/landing/homeCopy.mjs';
+import { CREATORS_SUB, ONE_PLACE, bankLine, freeFaq, mobiPrice, tourRows } from '../../src/components/landing/onePlaceCopy.mjs';
+import { EXAM_HEAD, INSTAGRAM_HEAD, TOUR_ICON, buildTour } from '../../src/components/landing/homeCopy.mjs';
 import {
-  PHONE_PANE, PHONE_ROWS, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, afterRow, autoplayRuns, keyStep, leaveStartsHold, motionReduced, nextIndex,
-  scriptHooks, scriptMs,
+  DEAL_MS, PHONE_PANE, PHONE_ROWS, ROW_MAX_MS, ROW_OF_HASH, SCRIPTS, TAKEOVER_HOLD_MS, TRIGGER_LINE, afterRow, autoplayRuns, keyStep, leaveStartsHold,
+  motionReduced, nextIndex, runStep, scriptHooks, scriptMs,
 } from '../../src/components/landing/onePlaceModel.mjs';
 import { BRING_MISTAKE } from '../../src/components/landing/bringMistakeCopy.mjs';
 
@@ -29,6 +30,8 @@ const { OPENING_FAST, openingGateScript } = await import('../../src/components/l
 const EXAM_SRC = read('src/components/landing/ExamScreen.jsx');
 const CARDS_SRC = read('src/components/landing/KeyCardsDemo.jsx');
 const BMK_SRC = read('src/components/landing/BringMistakeBlock.jsx');
+const TOUR_SRC = read('src/components/landing/TourScreens.jsx');
+const CSS = read('src/components/landing/one-place.css');
 const words = (text) => String(text).trim().split(/\s+/).filter(Boolean).length;
 const sentences = (text) => (String(text).replace(/(\d)\.(\d)/g, '$1,$2').match(/[^.?]+[.?]/g) || []).length;
 
@@ -94,7 +97,7 @@ test('the shared components keep the live markup by default (their new props are
 test('/home-next draws the new section and none of the four it replaces, in the live order around it', () => {
   for (const gone of [/<TourDeck/, /id="key-cards"/, /<KeyCardsDemo/, /<BringMistakeBlock/, /<ExamScreen/, /TOUR_HEAD/]) assert.doesNotMatch(PAGE, gone);
   assert.match(PAGE, /<section className="lp-sec op" id="your-prep" aria-labelledby="op-title">/);
-  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>\n\s*<LandingActions mode="primary" \/>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>\n\s*<LandingActions mode="primary" \/>\n\s*<\/OnePlaceGate>/);
   assert.match(PAGE, /<LabCinema look="next" \/>/);
   const order = ['className="lp-hero"', '<CollegeStrip', 'id="try"', 'id="your-prep"', '<Statement', 'id="inside-the-lab"', 'id="daily-and-sunday"', 'id="compass"', 'id="pricing"', 'id="on-instagram"', 'id="wall-of-love"', 'id="faq"', 'className="lp-close"'];
   const at = order.map((mark) => PAGE.indexOf(mark));
@@ -164,8 +167,14 @@ test('each stage is the landing\'s own component, not a drawn stand-in', () => {
 
 test('every script aims at a data-demo hook its component really carries', () => {
   const sourceOf = { practise: EXAM_SRC, cards: CARDS_SRC, mobi: BMK_SRC };
-  assert.deepEqual(Object.keys(SCRIPTS).sort(), ['cards', 'mobi', 'practise']);
-  for (const [tool, steps] of Object.entries(SCRIPTS)) {
+  assert.deepEqual(Object.keys(SCRIPTS), ['practise', 'cards', 'mobi', 'learn', 'rival', 'mob']);
+  // Rows 4 to 6 work the old tour deck's own screens: every class a script aims at is drawn by TourScreens.jsx.
+  for (const tool of ONE_PLACE.tourIds) {
+    const targets = SCRIPTS[tool].filter((s) => s.target).map((s) => s.target);
+    assert.ok(targets.length >= 2, `${tool} has targets`);
+    for (const target of targets) for (const cls of target.match(/\.ts__[\w-]+/g)) assert.match(TOUR_SRC, new RegExp(`className="[^"]*\\b${cls.slice(1)}\\b`), `${tool}: ${cls}`);
+  }
+  for (const [tool, steps] of Object.entries(SCRIPTS).filter(([id]) => !ONE_PLACE.tourIds.includes(id))) {
     const hooks = scriptHooks(steps);
     assert.ok(hooks.length >= 2, `${tool} has targets`);
     for (const hook of hooks) assert.ok(sourceOf[tool].includes(`data-demo="${hook}"`), `${tool}: data-demo="${hook}" is in the component`);
@@ -212,8 +221,7 @@ test('the frame never plays under reduced motion, off screen, in a hidden tab, h
   assert.equal(afterRow(0, 3), 1);
   assert.equal(afterRow(1, 3), 2);
   assert.equal(afterRow(2, 3), null);
-  assert.match(FRAME, /autoplayRuns\(\{ ready, reduced, onScreen, visible, held \}\) && !resting/);
-  assert.match(FRAME, /if \(!was && on && restRef\.current\) \{ setResting\(false\); start\(0\); \}/);
+  assert.match(FRAME, /const playing = phase === 'running' && autoplayRuns\(\{ ready, reduced, onScreen: inView, visible, held \}\);/);
   // A finger lifting ends the pointer too: only a mouse leaving starts the 8 s hold, and the stage is never remounted under
   // a reader who took over (the frame leaving the window, or another row, lets them go).
   assert.equal(leaveStartsHold('mouse'), true);
@@ -221,6 +229,74 @@ test('the frame never plays under reduced motion, off screen, in a hidden tab, h
   assert.equal(leaveStartsHold('pen'), false);
   assert.match(FRAME, /if \(event\?\.type === 'pointerleave' && !leaveStartsHold\(event\.pointerType\)\) return;/);
   assert.deepEqual(ROW_OF_HASH, { '#exam-experience': 'practise', '#key-cards': 'cards', '#bring-a-mistake': 'mobi' });
+});
+
+test('the run starts when the heading reaches the top of the window and plays every row to the end (owner LK364)', () => {
+  assert.equal(TRIGGER_LINE, 0.15);
+  // The heading crossing the line upwards, the code arriving with it already above, a frame back with it above: one start.
+  assert.deepEqual(runStep({ phase: 'idle', armed: true }, 'up'), { phase: 'running', armed: false, start: true });
+  assert.deepEqual(runStep({ phase: 'idle', armed: true }, 'arrive'), { phase: 'running', armed: false, start: true });
+  assert.deepEqual(runStep({ phase: 'idle', armed: true }, 'down'), { phase: 'running', armed: false, start: true }, 'scrolling up into it starts it too');
+  // Running: nothing the reader's scrolling does restarts or stops it.
+  for (const event of ['up', 'down', 'arrive']) assert.deepEqual(runStep({ phase: 'running', armed: false }, event), { phase: 'running', armed: false, start: false }, event);
+  // After the last row it rests; it plays again from row 1 only after the reader went back above the heading and returned.
+  assert.deepEqual(runStep({ phase: 'running', armed: false }, 'end'), { phase: 'rested', armed: false, start: false });
+  assert.deepEqual(runStep({ phase: 'rested', armed: false }, 'up'), { phase: 'rested', armed: false, start: false });
+  assert.deepEqual(runStep({ phase: 'rested', armed: false }, 'arrive'), { phase: 'rested', armed: false, start: false });
+  const above = runStep({ phase: 'rested', armed: false }, 'down');
+  assert.deepEqual(above, { phase: 'rested', armed: true, start: false });
+  assert.deepEqual(runStep(above, 'up'), { phase: 'running', armed: false, start: true });
+  // The heading watch: one IntersectionObserver with the window's top 15% cut off; the frame watch only pauses and resumes.
+  assert.match(FRAME, /\{ rootMargin: `-\$\{Math\.round\(TRIGGER_LINE \* 100\)\}% 0px 0px 0px`, threshold: \[0, 1\] \}/);
+  assert.match(FRAME, /const now = entry\.boundingClientRect\.top < line;/, 'the top of the heading, not the whole heading');
+  assert.match(FRAME, /if \(above === null\) \{ if \(now\) runEvent\('arrive'\); \} else if \(now && !above\) runEvent\('up'\); else if \(!now && above\) runEvent\('down'\);/);
+  assert.match(FRAME, /if \(heading && heading\.getBoundingClientRect\(\)\.top < window\.innerHeight \* TRIGGER_LINE\) runEvent\('arrive'\);/);
+  assert.match(FRAME, /if \(next === null\) \{ runEvent\('end'\); return; \}/);
+  assert.doesNotMatch(FRAME, /-20% 0px -20% 0px/, 'no middle band: a tall frame on a short window never sat in it');
+  // A finger swiping the page across a stage is not a takeover: only a real click or key is (it was pointerdown).
+  const cd = read('src/components/landing/demo/CursorDemo.jsx');
+  assert.match(cd, /stage\?\.addEventListener\('click', take\);\n\s*stage\?\.addEventListener\('keydown', take\);/);
+  assert.doesNotMatch(cd, /stage\?\.addEventListener\('pointerdown', take\)/);
+  // The frame says where the run is (the proof scripts read it): idle, running or rested.
+  assert.match(FRAME, /data-run=\{phase\}/);
+});
+
+test('rows 4 to 6 are Learn, Benchmarks and the Mob on the old deck\'s card, only while live, dealt in like the deck\'s cards', () => {
+  const ids = (o) => tourRows(buildTour(o)).map((r) => r.id);
+  assert.deepEqual(ids({ studyLive: true, studyLessons: 10, studySubjects: 3, mobLive: true }), ['learn', 'rival', 'mob']);
+  assert.deepEqual(ids({ studyLive: false, mobLive: true }), ['rival', 'mob']);
+  assert.deepEqual(ids({ studyLive: true, studyLessons: 10, studySubjects: 3, mobLive: false }), ['learn', 'rival']);
+  assert.deepEqual(ids({}), ['rival']);
+  const rows = tourRows(buildTour({ studyLive: true, studyLessons: 10, studySubjects: 3, mobLive: true }));
+  assert.deepEqual(rows.map((r) => r.icon), [TOUR_ICON.learn, TOUR_ICON.rival, TOUR_ICON.mob]);
+  for (const row of rows) {
+    assert.ok(words(row.name) <= 2, row.name);
+    assert.equal(sentences(row.line), 1, row.line);
+    assert.ok(row.title && row.lede && row.chip, row.id);
+    for (const line of [row.name, row.line, row.title, row.lede, row.chip]) assert.doesNotMatch(line, /[—!]/, line);
+  }
+  // The page builds them as "/" builds its tour, from the same switches, and the Mob's screen opens a sample question.
+  assert.match(PAGE, /const TOUR = buildTour\(\{ studyLive: STUDY_LIVE, studyLessons: STUDY_LESSONS, studySubjects: STUDY_SUBJECTS, mobLive: MOB_LIVE \}\);/);
+  assert.match(PAGE, /const TOUR_SAMPLES = MOB_LIVE \? \{ mob: publicSample\('Economics'\) \} : null;/);
+  assert.match(PAGE, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);
+  assert.match(PAGE, /const STUDY_LIVE = process\.env\.STUDY_CONTENT_ENABLED === 'true' && process\.env\.STUDY_RECALL_ENABLED === 'true';/);
+  // "Also inside" is gone: the tools are rows now.
+  assert.doesNotMatch(PAGE, /op-also|alsoInside|op-chip/);
+  assert.doesNotMatch(CSS, /op-also|\.op-chip/);
+  // The deck's own screens, unchanged, told they are on stage through the deck's own context.
+  assert.match(FRAME, /import \{ DemoPlaybackContext, TOUR_SCREENS \} from '\.\/TourScreens';/);
+  assert.match(FRAME, /<DemoPlaybackContext\.Provider value=\{value\}><Screen play=\{play\} sample=\{sample\} \/><\/DemoPlaybackContext\.Provider>/);
+  assert.match(FRAME, /<div className="op-td">\n\s*<div className="op-td__copy"><h3 className="op-td__title">\{row\.title\}<\/h3><p className="op-td__lede">\{row\.lede\}<\/p><\/div>/);
+  // The deal: transform and opacity, 460 ms; card on card while one deck card replaces another; nothing under reduced motion.
+  assert.equal(DEAL_MS, 460);
+  assert.match(CSS, /\.op-slot\[data-on\] \{ position: relative; z-index: 1; animation: op-deal 460ms cubic-bezier\(0\.22, 1, 0\.36, 1\) both; \}/);
+  assert.match(CSS, /\.op-frame\[data-deal='card'\] \.op-slot\[data-on\] \{ animation-name: op-deal-card; \}/);
+  assert.match(CSS, /@media \(prefers-reduced-motion: reduce\) \{ \.op-slot\[data-on\], \.op-slot\[data-leaving\] \{ animation: none; \}/);
+  assert.match(FRAME, /'data-leaving': i === leaving && !on \? '' : undefined/);
+  // Phones: the frame 10 px from the window's edges, six chips in one sideways row with the shown one kept in view.
+  assert.match(CSS, /  \.op-frame \{ margin-inline: -10px; \}/);
+  assert.match(CSS, /display: flex; gap: 6px; overflow-x: auto;/);
+  assert.match(FRAME, /list\.scrollTo\(\{ left, behavior: motionReduced\(window\) \? 'auto' : 'smooth' \}\)/);
 });
 
 test('below 640 px the Practise row plays the exam as a phone shows it: one script, no camera', () => {
@@ -287,33 +363,11 @@ test('the heading is at most seven words with one sentence under it; each row is
   }
   // "Unlimited" is the hero strip's word, on Pro: the Practise row says what the screen is.
   assert.doesNotMatch(ONE_PLACE.rows[0].line, /unlimited/i);
-  const all = [ONE_PLACE.h2, ONE_PLACE.sub, ...ONE_PLACE.rows.flatMap((r) => [r.name, r.line]), CREATORS_SUB, ONE_PLACE.practiseProof, ...alsoInside({ studyLive: true, mobLive: true }).map((t) => t.name)];
+  const all = [ONE_PLACE.h2, ONE_PLACE.sub, ...ONE_PLACE.rows.flatMap((r) => [r.name, r.line]), CREATORS_SUB, ONE_PLACE.practiseProof];
   for (const line of all) {
     assert.doesNotMatch(line, /[—!]/, line);
     assert.match(line, /^[A-Z0-9]/, line);
   }
-});
-
-test('"Also inside" is three linked chips with their icons, only the tools that are live, from the tour\'s own switches', () => {
-  const names = (o) => alsoInside(o).map((t) => t.name);
-  assert.deepEqual(names({ studyLive: true, mobLive: true }), ['Learn', 'Benchmarks', 'The Mob']);
-  assert.deepEqual(names({ studyLive: false, mobLive: true }), ['Benchmarks', 'The Mob']);
-  assert.deepEqual(names({ studyLive: true, mobLive: false }), ['Learn', 'Benchmarks']);
-  assert.deepEqual(names({}), ['Benchmarks']);
-  // Never a signed-in route (a guest lands on Log in): Benchmarks opens the features page's Practise group ("Your standing"
-  // is there); Learn and the Mob have no public page, so Sign up, keeping the tool as where to land.
-  assert.deepEqual(alsoInside({ studyLive: true, mobLive: true }).map((t) => [t.href, t.icon]), [['/signup?next=%2Flearn', 'lesson'], ['/signup?next=%2Fleaderboard', 'you'], ['/signup?next=%2Fmob', 'mob']]);
-  // The chips open Sign up, so the line under them says so (true of all three on Free: buildTour's own points).
-  assert.equal(ONE_PLACE.alsoNote, 'Free to open once you sign up.');
-  assert.match(PAGE, /<p className="op-also__note">\{ONE_PLACE\.alsoNote\}<\/p>/);
-  assert.match(read('src/components/landing/homeCopy.mjs'), /Lessons and recall are free, no credits/);
-  assert.match(read('src/components/landing/homeCopy.mjs'), /The daily benchmark is free/);
-  assert.match(read('src/components/landing/homeCopy.mjs'), /Playing every game your Mob starts is free on every plan\./);
-  assert.match(PAGE, /const ALSO = alsoInside\(\{ studyLive: STUDY_LIVE, mobLive: MOB_LIVE \}\);/);
-  assert.match(PAGE, /<Link href=\{tool\.href\} prefetch=\{false\} className="op-chip"><BrandIcon name=\{tool\.icon\} size=\{32\} \/>\{tool\.name\}<\/Link>/);
-  assert.match(PAGE, /const MOB_LIVE = process\.env\.MOB_ENABLED === 'true' && process\.env\.MOB_V3_ENABLED === 'true';/);
-  assert.match(PAGE, /const STUDY_LIVE = process\.env\.STUDY_CONTENT_ENABLED === 'true' && process\.env\.STUDY_RECALL_ENABLED === 'true';/);
-  assert.doesNotMatch(FRAME, /TourScreens/, 'real screens only');
 });
 
 test('each row carries its live section\'s proof line, in that section\'s words and from its constants', () => {
@@ -326,7 +380,7 @@ test('each row carries its live section\'s proof line, in that section\'s words 
   assert.equal(mobiPrice({ photo: true, credits: 1, photoCredits: 2, free: 50 }), 'A typed question uses 1 credit, a photo 2 credits. Free gives you 50 credits a month.');
   assert.doesNotMatch(mobiPrice({ photo: false, credits: 1, photoCredits: 2, free: 50 }), /photo/, 'a photo only while Mobi reads photos');
   assert.match(PAGE, /mobiPrice\(\{ photo: MISTAKE_PHOTO_ON, credits: MISTAKE_CREDITS, photoCredits: MISTAKE_PHOTO_CREDITS, free: AI_FREE_MONTHLY_CREDITS \}\)/);
-  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\}>/);
+  assert.match(PAGE, /<OnePlaceGate keyCards=\{KEY_CARDS\} photo=\{MISTAKE_PHOTO_ON\} price=\{MOBI_PRICE\} tour=\{TOUR\} samples=\{TOUR_SAMPLES\}>/);
 });
 
 test('the phone nav draws the Pricing pill here too, and the Lab\'s Skip finds the next section when the bar is read', () => {

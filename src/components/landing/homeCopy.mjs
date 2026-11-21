@@ -343,7 +343,9 @@ export const LAB_SCENES = Object.freeze([
   { key: 'chapters', tab: 'Chapters', title: 'Know the chapter to fix first.',
     body: 'A score is just a number. The Lab traces every lost mark to its chapter, so tonight has one clear target.',
     short: 'Every lost mark traced to its chapter, so tonight has one target.',
-    take: `${S.chapters[0].lost} of your ${S.lostMarks} lost marks sat in one chapter: ${S.chapters[0].chapter}.` },
+    take: `${S.chapters[0].lost} of your ${S.lostMarks} lost marks sat in one chapter: ${S.chapters[0].chapter}.`,
+    // look="next" on a phone (LK364: the screen takes the room): the title and this one short line.
+    next: Object.freeze({ short: 'Every lost mark, traced to its chapter.' }) },
   { key: 'time', tab: 'Time', title: 'Find the minutes that cost you.',
     body: `Every question against CUET’s pace of ${S.pace}. Overruns light up, and so does what they bought you.`,
     short: `Every question against CUET’s ${S.pace} pace, and what each overrun bought.`,
@@ -351,23 +353,26 @@ export const LAB_SCENES = Object.freeze([
     // look="next" (LabNextScreens.jsx): its Time screen lists the slowest questions, not every one, so it says that.
     next: Object.freeze({
       body: `Your slowest questions against CUET’s pace of ${S.pace} a question, and whether the extra minutes paid off.`,
-      short: `Your slowest questions against CUET’s ${S.pace} pace, and whether they paid off.`,
+      short: `Your slowest questions against the ${S.pace} pace.`,
       take: `Your slowest, Q${S.longest[0].n}, took ${S.longest[0].time}${S.longest[0].verdict === 'wrong' ? ' and was still wrong' : ''}.`,
     }) },
   { key: 'changes', tab: 'Changes', title: 'Every second thought, on the clock.',
     body: 'Your first pick, what you switched to and when, and what each switch won or cost.',
     short: 'Every switch on the clock, and the marks it won or cost.',
-    take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
+    take: `${S.changes.length} changes. Net ${signed(S.net)} marks.`,
+    next: Object.freeze({ short: 'Every switch, and what it won or cost.' }) },
   { key: 'repair', tab: 'Repair', title: 'Fix why you missed it.',
     // R8 SEC-10: the body names only reasons every screen shows (phones leave out "Where it breaks"; the key's reason says it).
     body: 'Why your pick was tempting, why the key is right, and the rule to keep. From the official key, or not at all.',
     short: 'Why your pick tempted you and the rule to keep, from the official key only.',
-    take: 'If the AI can’t match the key, the question waits. You never pay for a guess.' },
+    take: 'If the AI can’t match the key, the question waits. You never pay for a guess.',
+    next: Object.freeze({ short: 'Why your pick tempted you, and the rule to keep.' }) },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
     short: 'A SWOT after every mock, with the exact sets to do next. Free. No credits.',
     // The plan's first set, in the plan's own words (labStory swotRead), then the check the next mock gives.
     take: `${S.swot.plan[0].label} first. Your next mock shows whether it held.`,
+    next: Object.freeze({ short: 'A plan after every mock. Free, no credits.' }),
     // The one quiet way in, under the take in this scene only (LabCinema.jsx).
     link: Object.freeze({ href: '/signup', label: 'Sign up free and open yours' }) },
 ]);

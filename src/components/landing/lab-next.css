@@ -4,8 +4,11 @@
    The five screens are the result page's own UI (MarksLedger, the time rows, the repair, After this mock) with their own
    sheets; this sheet gives them the Arena roles they read (--a-*, the values of src/app/(app)/arena.css, as
    keycards/public/public-deck.css does), lets the device follow Day and Night like the result page, fits them to the
-   device, and keeps each screen's height steady while the cursor opens things (the fit is measured once per resize).
-   Only transform and opacity move. No blur, no glow; nothing here differs under html[data-lite].
+   device at full size, and keeps every screen's height steady while the cursor works it: what a tap shows appears in a slot
+   that holds its room from the first frame (LabNextScreens Slot), so nothing moves (no layout shift).
+   LK364 (21 Nov 2026): on a phone the device takes the room (a 11 px gutter, the title and one short line above it), text in
+   it is 13 px or more; controls look like controls; a tap's answer rises in, bars fill as a scene comes on.
+   Only transform and opacity move, 150 to 350 ms, ease-out. No blur, no glow; nothing here differs under html[data-lite].
    ========================================================================== */
 
 /* ---------- Roles: Night (the result page's Night) ---------- */
@@ -18,6 +21,7 @@ body .lc__grid[data-look='next'] {
   --a-bad-text: #ffa396; --a-warn-text: #edb75a; --a-good-text: #c6e86e; --a-purple-text: #c4b5fd;
   --a-radius: 18px; --a-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --a-shadow-1: none;
+  --a-chosen: rgba(244, 240, 230, 0.07);
   /* The device's own surface, from the same roles. */
   --s-bg: #161410;
   --lnx-pick-bad: #ffa396;
@@ -31,6 +35,7 @@ html[data-theme='light'] body .lc__grid[data-look='next'] {
   --a-volt-line: rgba(111, 135, 0, 0.38); --a-volt-wash: rgba(124, 150, 20, 0.08);
   --a-accent-text: #526700; --a-select: #6f8700; --a-focus: #526700; --a-hover: rgba(23, 21, 15, 0.05);
   --a-bad-text: #b0291f; --a-warn-text: #845400; --a-good-text: #3d6600; --a-purple-text: #5b3a9a;
+  --a-chosen: rgba(23, 21, 15, 0.07);
   /* The device chrome (lab-cinema.css --s-*) in Day. */
   --s-bg: #fffdf8; --s-raised: #f9f5ec; --s-sunken: #eae5da;
   --s-ink: #17150f; --s-ink-2: #454036; --s-ink-3: #655f53;
@@ -47,80 +52,138 @@ html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='tr
 .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
 .lc__grid[data-look='next'] .lnx-stage { min-width: 0; }
 
+/* ---------- Phones: the device takes the room (LK364: "consuming too little of the area of the mobile screen") ---------- */
+/* A 11 px gutter (the device is 94 % of a 390 px window or more), the scene's title on one line where it fits and one short
+   line under it (LAB_SCENES next.short; the long body stays in the page for readers and search, out of view), and the
+   screen's own inset trimmed, so the device grows into the height the held stage leaves. */
+@media (max-width: 759px) and (orientation: portrait) {
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] { padding-inline: 11px; row-gap: 0.55rem; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc__rail { margin-inline: -2px; }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__copy { padding-inline: 5px; }
+  .lc__grid[data-look='next'] .lc-scene__title { max-width: none; font-size: clamp(1.3rem, 5.9vw, 1.6rem); }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__body:not(.lc-scene__body--short) {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__body--short {
+    display: block; margin-top: 0.3rem; font-size: 0.9375rem; line-height: 1.4; -webkit-line-clamp: none; line-clamp: none;
+  }
+  .lc[data-pinned='true'] .lc__grid[data-look='next'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 0.35rem) 12px 10px; }
+}
+
 /* ---------- Every screen: its part's name, one headline line, then the rows ---------- */
 .lc__grid[data-look='next'] .lnx { display: grid; gap: 12px; align-content: start; min-width: 0; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .lc__grid[data-look='next'] .lnx :is(p, h3, h4) { margin: 0; }
 .lc__grid[data-look='next'] .lnx-h { font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3); letter-spacing: 0.01em; }
 .lc__grid[data-look='next'] .lnx button { font: inherit; }
+/* A control looks like one: a chevron where a tap shows more, the chosen one marked, a press that gives a little. */
+.lc__grid[data-look='next'] .lnx-chev { flex: none; color: var(--a-ink-3); transition: transform 200ms var(--a-ease), color 200ms ease; }
+.lc__grid[data-look='next'] :is([aria-pressed='true'], [data-open]) > .lnx-chev,
+.lc__grid[data-look='next'] [aria-pressed='true'] .lnx-chev { color: var(--a-ink); transform: translate3d(2px, 0, 0); }
+@media (prefers-reduced-motion: no-preference) {
+  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row, .lnx-quad, .mr-start, .ml-row__btn, .ml-chip) { transition: transform 160ms var(--a-ease), background-color 160ms ease, border-color 160ms ease; }
+  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row, .lnx-quad, .mr-start, .ml-row__btn, .ml-chip):active { transform: scale(0.98); }
+}
+
+/* ---------- The slot: what a tap shows, one answer at a time, in a room held from the first frame ---------- */
+.lc__grid[data-look='next'] .lnx-slot { display: grid; min-width: 0; }
+.lc__grid[data-look='next'] .lnx-slot__item { grid-area: 1 / 1; min-width: 0; visibility: hidden; }
+.lc__grid[data-look='next'] .lnx-slot__item[data-shown] { visibility: visible; animation: lnx-rise 260ms var(--a-ease) both; }
+.lc__grid[data-look='next'] .lnx-detail { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-detail b { color: var(--a-ink); font-weight: 750; }
+.lc__grid[data-look='next'] .lnx-detail [data-verdict='correct'] { color: var(--a-good-text); font-weight: 650; }
+.lc__grid[data-look='next'] .lnx-detail [data-verdict='wrong'] { color: var(--a-bad-text); font-weight: 650; }
+.lc__grid[data-look='next'] .lnx-slot--line .lnx-detail { padding: 8px 10px; border-radius: 10px; background: var(--a-sunken); }
 
 /* ---------- 0. Chapters (MarksLedger): one fill a chapter ---------- */
 /* The home sheets have their own .ml (the old landing explainer, two columns from 960 px): the ledger keeps its one column. */
-.lc__grid[data-look='next'] .lnx--chapters .ml { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 12px; height: auto; }
+.lc__grid[data-look='next'] .lnx--chapters .ml { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; gap: 10px; height: auto; }
 .lc__grid[data-look='next'] .lnx--chapters .ml-headline { font: 650 17px/1.4 var(--font-display, inherit); color: var(--a-ink); }
 .lc__grid[data-look='next'] .lnx--chapters .ml-headline .ml-num { font-weight: 800; }
 .lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-partnership'] { --c: var(--a-bad-text); }
 .lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-cash-flow'] { --c: var(--ml-blank); }
 .lc__grid[data-look='next'] .lnx--chapters .ml [data-g='ch-ratios'] { --c: var(--a-good-text); }
 .lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 12px; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { min-height: 48px; padding-block: 8px; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__line { font-size: 13px; }
 .lc__grid[data-look='next'] .lnx--chapters .ml-row__panel { padding-left: 38px; gap: 8px; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-chip { min-height: 44px; }
-/* The panel opens in place: its words and chips rise in (the cursor's click is what moves). */
+.lc__grid[data-look='next'] .lnx--chapters .ml-do { font-size: 14px; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-chip { min-height: 44px; font-size: 14px; }
 .lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > * { animation: lnx-rise 240ms var(--a-ease) both; }
-.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > .ml-chips { animation-delay: 70ms; }
+.lc__grid[data-look='next'] .lnx--chapters .ml-row__panel:not([hidden]) > .ml-chips { animation-delay: 60ms; }
+/* The costliest chapter's panel (the cursor opens that one) keeps its room while closed, as space under its row (the panel
+   itself is [hidden], which the base layer's !important keeps out of layout): its line and its 44 px chips, 86 px. */
+.lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:first-child:not([data-open]) { margin-bottom: 86px; }
+/* Taps of 44 px on touch: the bar's segments keep their 12 px strip, drawn on a 44 px button. */
+@media (pointer: coarse) {
+  .lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 44px; padding: 0; margin-block: -10px; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { height: 44px; background: none; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 16px; height: 12px; border-radius: inherit; pointer-events: none;
+    background-color: var(--c); background-image: var(--pat);
+  }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::after, .lc__grid[data-look='next'] .lnx--chapters .ml-seg__ticks { top: 16px; bottom: 16px; }
+}
+/* "Across your mocks", folded, as the result page draws it (lab-loop.css .am-head, copied and scoped; that sheet is not loaded
+   beside the home's): its title and its first line, with no need to open it. */
+.lc__grid[data-look='next'] .lnx-across { display: grid; gap: 3px; padding: 10px 0 0; border-top: 1px solid var(--a-line); }
+.lc__grid[data-look='next'] .lnx-across .am-head__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.012em; color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx-across .ml-num { font-weight: 700; color: var(--a-ink); }
 
 /* ---------- The time and change rows: src/components/result/time-decisions.css, copied here and scoped. That sheet's root
    class (.td) is also the home tour deck's (r18-tour-deck.css), so it is never loaded beside the home's sheets. ---------- */
 .lc__grid[data-look='next'] .lnx .td-lead { font-size: 15px; line-height: 1.45; font-weight: 600; color: var(--a-ink); max-width: 68ch; font-variant-numeric: tabular-nums; }
 .lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) { display: grid; gap: 0; list-style: none; margin: 0; padding: 0; }
 .lc__grid[data-look='next'] .lnx .td-long__row {
-  width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) 64px; grid-template-areas: 'q track time' 'q meta meta';
-  gap: 4px 12px; align-items: center; min-height: 52px; padding: 8px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0;
+  width: 100%; display: grid; grid-template-columns: 40px minmax(0, 1fr) 52px 16px; grid-template-areas: 'q track time chev';
+  gap: 10px; align-items: center; min-height: 46px; padding: 6px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0;
   background: transparent; color: inherit; text-align: left; cursor: pointer;
 }
 .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .lc__grid[data-look='next'] .lnx :is(.td-long, .td-changes) > li:first-child > :is(.td-long__row, .td-changes__row) { border-top: 0; }
-.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):hover { background: color-mix(in srgb, var(--a-ink) 4%, transparent); }
-.lc__grid[data-look='next'] .lnx :is(.td-long__q, .td-changes__q) { grid-area: q; align-self: start; padding-top: 1px; font: 700 14px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); }
+@media (hover: hover) and (pointer: fine) { .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):hover { background: color-mix(in srgb, var(--a-ink) 4%, transparent); } }
+.lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row)[aria-pressed='true'] { background: var(--a-chosen); }
+.lc__grid[data-look='next'] .lnx :is(.td-long__q, .td-changes__q) { grid-area: q; font: 700 14px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx .td-changes__q { align-self: start; padding-top: 1px; }
 .lc__grid[data-look='next'] .lnx .td-long__track { grid-area: track; position: relative; height: 8px; border-radius: 999px; background: var(--a-line); }
 .lc__grid[data-look='next'] .lnx .td-long__fill { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--a-ink-3); transform-origin: left; }
 .lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='correct'] { background: var(--a-good-text); }
 .lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='wrong'] { background: var(--a-bad-text); }
 .lc__grid[data-look='next'] .lnx .td-long__fill[data-verdict='skipped'] { background: var(--a-line-strong); }
-.lc__grid[data-look='next'] .lnx .td-long__pace { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx .td-long__pace { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--a-accent-text); }
 .lc__grid[data-look='next'] .lnx .td-long__time { grid-area: time; text-align: right; font: 700 14px/1.2 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink); white-space: nowrap; }
-.lc__grid[data-look='next'] .lnx .td-long__meta { grid-area: meta; display: flex; flex-wrap: wrap; gap: 2px 12px; font-size: 12px; line-height: 1.5; color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx .td-long__meta [data-verdict='correct'] { color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx .td-long__meta [data-verdict='wrong'] { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx .td-long__row > .lnx-chev { grid-area: chev; }
 .lc__grid[data-look='next'] .lnx .td-changes__row {
-  width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; grid-template-areas: 'q text net'; gap: 12px; align-items: start;
-  min-height: 48px; padding: 10px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: transparent;
+  width: 100%; display: grid; grid-template-columns: 38px minmax(0, 1fr) auto 16px; grid-template-areas: 'q text net chev'; gap: 10px; align-items: start;
+  min-height: 48px; padding: 9px 4px; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: transparent;
   color: inherit; text-align: left; cursor: pointer;
 }
-.lc__grid[data-look='next'] .lnx .td-changes__text { grid-area: text; min-width: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx .td-changes__text { grid-area: text; min-width: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .lc__grid[data-look='next'] .lnx .td-changes__net { grid-area: net; font: 700 15px/1.4 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-3); }
 .lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='good'] { color: var(--a-good-text); }
 .lc__grid[data-look='next'] .lnx .td-changes__net[data-tone='bad'] { color: var(--a-bad-text); }
-@media (max-width: 640px) {
-  .lc__grid[data-look='next'] .lnx .td-long__row { grid-template-columns: 40px minmax(0, 1fr) 60px; gap: 4px 10px; }
-  .lc__grid[data-look='next'] .lnx .td-changes__row { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row) { transition: transform 160ms var(--a-ease, ease); }
-  .lc__grid[data-look='next'] .lnx :is(.td-long__row, .td-changes__row):active { transform: scale(.98); }
-}
+.lc__grid[data-look='next'] .lnx .td-changes__row > .lnx-chev { grid-area: chev; align-self: center; }
 
-/* ---------- 1. Time: the slowest rows; a tapped row shows its verdict and pace line ---------- */
-.lc__grid[data-look='next'] .lnx--time .td-long__row { min-height: 50px; }
-.lc__grid[data-look='next'] .lnx--time .td-long__meta { font-size: 13px; opacity: 0; transform: translate3d(0, -3px, 0); transition: opacity 200ms ease, transform 240ms var(--a-ease); }
-.lc__grid[data-look='next'] .lnx--time .td-long__row[data-open] .td-long__meta { opacity: 1; transform: none; }
-.lc__grid[data-look='next'] .lnx--time .td-long__row[data-open] { background: var(--a-hover); }
-.lc__grid[data-look='next'] .lnx--time .td-long__pace { background: var(--a-accent-text); }
+/* ---------- 1. Time: the pace mark's label, the rows, the slot and the one-line key ---------- */
+.lc__grid[data-look='next'] .lnx-pace { display: grid; grid-template-columns: 40px minmax(0, 1fr) 52px 16px; column-gap: 10px; padding: 0 4px; margin-bottom: -8px; }
+.lc__grid[data-look='next'] .lnx-pace__track { grid-column: 2; position: relative; height: 18px; }
+.lc__grid[data-look='next'] .lnx-pace__track b { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font: 700 13px/18px var(--font-display, inherit); color: var(--a-accent-text); }
+.lc__grid[data-look='next'] .lnx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-key span { display: inline-flex; align-items: center; gap: 6px; }
+.lc__grid[data-look='next'] .lnx-key i { width: 14px; height: 8px; border-radius: 999px; background: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-key i[data-verdict='correct'] { background: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-key i[data-verdict='wrong'] { background: var(--a-bad-text); }
 
-/* ---------- 2. Changes: a tapped change opens its two picks ---------- */
-.lc__grid[data-look='next'] .lnx--changes .td-changes__text { font-size: 13.5px; }
-.lc__grid[data-look='next'] .lnx--changes li[data-open] > .td-changes__row { background: var(--a-hover); }
-.lc__grid[data-look='next'] .lnx-picks { display: grid; gap: 8px; padding: 2px 4px 12px 54px; animation: lnx-rise 240ms var(--a-ease) both; }
+/* ---------- 2. Changes: the totals, the rows, the picks of the chosen one ---------- */
+.lc__grid[data-look='next'] .lnx-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.lc__grid[data-look='next'] .lnx-sum p { display: grid; align-content: start; gap: 2px; padding: 8px 10px; border-radius: 12px; background: var(--a-sunken); font-size: 13px; line-height: 1.3; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx-sum b { font: 750 19px/1.15 var(--font-display, inherit); font-variant-numeric: tabular-nums; }
+.lc__grid[data-look='next'] .lnx-sum p[data-tone='good'] b { color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-sum p[data-tone='bad'] b { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-sum p[data-net] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-picks { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: var(--a-sunken); }
 .lc__grid[data-look='next'] .lnx-picks__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.lc__grid[data-look='next'] .lnx-picks__q { font: 700 14px/1 var(--font-display, inherit); color: var(--a-ink); margin-right: 2px; }
 .lc__grid[data-look='next'] .lnx-picks__arrow { color: var(--a-ink-3); flex: none; }
 .lc__grid[data-look='next'] .lnx-pick { display: inline-flex; align-items: center; gap: 8px; }
 .lc__grid[data-look='next'] .lnx-pick > i {
@@ -132,119 +195,11 @@ html[data-theme='light'] .lc__grid[data-look='next'] .lcd__tabs span[data-on='tr
 .lc__grid[data-look='next'] .lnx-pick[data-verdict='wrong'] > i { color: var(--lnx-pick-bad); }
 .lc__grid[data-look='next'] .lnx-pick > i svg path, .lc__grid[data-look='next'] .lnx-pick > i svg polyline { stroke: var(--s-bg); }
 .lc__grid[data-look='next'] .lnx-pick > span { display: grid; font: 650 13px/1.25 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-pick > span small { font: 500 12px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-pick > span small { font: 500 13px/1.3 var(--font-body, inherit); color: var(--a-ink-3); }
 .lc__grid[data-look='next'] .lnx-picks__effect { font-size: 14px; line-height: 1.4; font-weight: 650; }
 .lc__grid[data-look='next'] .lnx-picks__effect[data-tone='bad'] { color: var(--a-bad-text); }
 .lc__grid[data-look='next'] .lnx-picks__effect[data-tone='good'] { color: var(--a-good-text); }
-
-/* ---------- 3. Repair: the mistake's row (result-1017.css .rx-row, as the result draws it), then the repair ---------- */
-.lc__grid[data-look='next'] .lnx-mistake {
-  display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start;
-  padding: 12px 2px; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line);
-}
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__n {
-  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
-  border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); font: 700 13px/1 var(--font-display, inherit);
-}
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__main { display: grid; gap: 4px; min-width: 0; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__ch { font: 650 15px/1.35 var(--font-display, inherit); color: var(--a-ink); }
-/* The whole question, wrapped (the result page cuts it to one line until the row opens; here the row is the open one). */
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__stem { font-size: 13px; line-height: 1.45; color: var(--a-ink); overflow-wrap: anywhere; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__facts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 2px; font-size: 12.5px; color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick { display: inline-flex; align-items: center; gap: 5px; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font: 700 11px/1 var(--font-display, inherit); font-style: normal; }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='key'] i { border: 1.5px solid var(--a-good-text); color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-mistake .rx-row__cost { font: 700 15px/1.2 var(--font-display, inherit); color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx--repair .mr { margin-top: 0; }
-.lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 12px; padding: 14px; }
-.lc__grid[data-look='next'] .lnx--repair .mr-title { font: 700 17px/1.25 var(--font-display, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 14px; line-height: 1.5; }
-.lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 12px 14px; }
-.lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 15px; line-height: 1.45; }
-.lc__grid[data-look='next'] .lnx--repair .mr-start { min-height: 0; }
-.lc__grid[data-look='next'] .lnx--repair .mr-start__icon { color: #10140e; }
-
-/* ---------- 4. After this mock (swot.css): the plan's first set, then the four groups two by two ---------- */
-.lc__grid[data-look='next'] .lnx--swot.sw { padding: 0; border: 0; background: transparent; box-shadow: none; gap: 12px; }
-.lc__grid[data-look='next'] .lnx--swot .sw-block { gap: 6px; }
-.lc__grid[data-look='next'] .lnx--swot .sw-h3 { font-size: 14px; color: var(--a-ink-2); }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); padding: 10px 0; }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__row[data-first] .sw-plan__n { color: var(--a-accent-text); font-weight: 750; }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__label { font: 700 16px/1.35 var(--font-display, inherit); }
-.lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { font-size: 13.5px; line-height: 1.45; }
-.lc__grid[data-look='next'] .lnx-quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-.lc__grid[data-look='next'] .lnx-quads .sw-q { display: grid; gap: 6px; align-content: start; padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-sunken); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-open] { border-color: var(--a-line-strong); }
-.lc__grid[data-look='next'] .lnx-quad {
-  display: grid; gap: 4px; width: 100%; min-height: 44px; padding: 10px 12px 2px; border: 0; border-radius: 11px;
-  background: transparent; color: inherit; text-align: left; cursor: pointer;
-}
-.lc__grid[data-look='next'] .lnx-quad:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.lc__grid[data-look='next'] .lnx-quad .sw-q__h { font: 650 12.5px/1.3 var(--font-display, inherit); color: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='weakness'] .sw-q__h { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='threat'] .sw-q__h { color: var(--a-warn-text); }
-.lc__grid[data-look='next'] .lnx-quad .sw-item__title { font: 650 14px/1.35 var(--font-body, inherit); color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-quads .sw-item__detail { padding: 0 12px 12px; font-size: 13px; line-height: 1.45; animation: lnx-rise 240ms var(--a-ease) both; }
-.lc__grid[data-look='next'] .lnx-quads .sw-q:not([data-open]) .lnx-quad { padding-bottom: 10px; }
-
-/* ---------- Steady height: each screen holds the room its opened state needs, so the device's one fit per resize holds
-   while the cursor opens a row (phones first, then the wide device). ---------- */
-.lc__grid[data-look='next'] .lnx--chapters { min-height: var(--lnx-h-chapters, 0px); }
-.lc__grid[data-look='next'] .lnx--changes { min-height: var(--lnx-h-changes, 0px); }
-.lc__grid[data-look='next'] .lnx--repair { min-height: var(--lnx-h-repair, 0px); }
-.lc__grid[data-look='next'] .lnx--swot { min-height: var(--lnx-h-swot, 0px); }
-.lc__grid[data-look='next'] .lnx--time { min-height: var(--lnx-h-time, 0px); }
-
-/* Under reduced motion the finished state is simply there. */
-@keyframes lnx-rise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) {
-  .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-picks, .sw-item__detail, .mr--done > *) { animation: none !important; }
-  .lc__grid[data-look='next'] .td-long__meta { transition: none; }
-}
-html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-picks, .sw-item__detail, .mr--done > *) { animation: none !important; }
-
-/* Phones: the repair runs each block's label into its sentence (as the default look's phone screen does), so the finished
-   repair fits the device at a readable size. */
-@media (max-width: 759px) and (orientation: portrait) {
-  .lc__grid[data-look='next'] .lnx--repair .mr-block { display: block; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label { display: inline; margin-right: 0.35em; color: var(--a-ink); font-size: 14px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { display: inline; color: var(--a-ink-2); }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 10px; padding: 12px 14px; }
-  .lc__grid[data-look='next'] .lnx-mistake { padding: 10px 2px; }
-}
-/* The opened heights measured on 360 to 430 px phones (tmp/1121-lab/measure.mjs), with a few pixels to spare. The wide
-   device has room to spare for every opened screen, so it needs none. */
-@media (max-width: 959px) {
-  .lc__grid[data-look='next'] { --lnx-h-chapters: 404px; --lnx-h-time: 404px; --lnx-h-changes: 366px; --lnx-h-repair: 398px; --lnx-h-swot: 378px; }
-}
-@media (max-width: 759px) and (orientation: portrait) {
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { display: block; padding: 10px 12px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule__head { display: inline; margin-right: 0.35em; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { display: inline; font-size: 14px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { line-height: 1.45; }
-}
-@media (max-width: 759px) and (orientation: portrait) {
-  .lc__grid[data-look='next'] .lnx--repair { gap: 10px; }
-}
-
-/* The wide device is a big screen: the result page's own sizes would sit small in it, so the screen is drawn larger (zoom
-   scales the layout, so the rows still wrap and fit; nothing animates it). The steps keep the finished screen inside the
-   room the device gives at each window height (tmp/1121-lab/measure.mjs). */
-@media (min-width: 960px) and (min-height: 600px) { .lc__grid[data-look='next'] .lnx { zoom: 1.1; } }
-@media (min-width: 960px) and (min-height: 760px) { .lc__grid[data-look='next'] .lnx { zoom: 1.18; } }
-@media (min-width: 960px) and (min-height: 880px) { .lc__grid[data-look='next'] .lnx { zoom: 1.28; } }
-@media (min-width: 1600px) and (min-height: 1000px) { .lc__grid[data-look='next'] .lnx { zoom: 1.4; } }
-@media (min-width: 2200px) and (min-height: 1300px) { .lc__grid[data-look='next'] .lnx { zoom: 1.6; } }
-
-/* ---------- Chapters: "Across your mocks", folded, as the result page draws it (lab-loop.css .am-head, copied and scoped;
-   that sheet is not loaded beside the home's): its title and its first line, with no need to open it. ---------- */
-.lc__grid[data-look='next'] .lnx-across { display: grid; gap: 3px; padding: 12px 0 0; border-top: 1px solid var(--a-line); }
-.lc__grid[data-look='next'] .lnx-across .am-head__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.012em; color: var(--a-ink); }
-.lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx-across .ml-num { font-weight: 700; color: var(--a-ink); }
-
-/* ---------- Changes: the re-mark line (MarksLedger .ml-remark__scores), on the wide device only ---------- */
+/* The re-mark line (MarksLedger .ml-remark__scores), on the wide device only. */
 .lc__grid[data-look='next'] .lnx-first { display: none; }
 @media (min-width: 960px) {
   .lc__grid[data-look='next'] .lnx-first {
@@ -254,173 +209,169 @@ html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, 
   .lc__grid[data-look='next'] .lnx-first .ml-num { font-weight: 700; color: var(--a-ink); }
 }
 
-/* Phones: a little less air, so the finished Chapters (with Across your mocks) and the finished Repair fit a 390 x 844 device
-   at full size. */
+/* ---------- 3. Repair: the mistake's row (result-1017.css .rx-row, as the result draws it), then the repair ---------- */
+.lc__grid[data-look='next'] .lnx-mistake {
+  display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 4px 12px; align-items: start;
+  padding: 10px 2px; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line);
+}
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__n {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); font: 700 13px/1 var(--font-display, inherit);
+}
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__main { display: grid; gap: 4px; min-width: 0; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__ch { font: 650 15px/1.35 var(--font-display, inherit); color: var(--a-ink); }
+/* The whole question, wrapped (the result page cuts it to one line until the row opens; here the row is the open one). */
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__stem { font-size: 13.5px; line-height: 1.45; color: var(--a-ink); overflow-wrap: anywhere; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__facts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 2px; font-size: 13px; color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick { display: inline-flex; align-items: center; gap: 5px; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 700 13px/1 var(--font-display, inherit); font-style: normal; }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='mine'] i { border: 1.5px solid var(--a-bad-text); color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-pick[data-kind='key'] i { border: 1.5px solid var(--a-good-text); color: var(--a-good-text); }
+.lc__grid[data-look='next'] .lnx-mistake .rx-row__cost { font: 700 15px/1.2 var(--font-display, inherit); color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx--repair .mr { margin-top: 0; }
+.lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 10px; padding: 12px 14px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-title { font: 700 17px/1.25 var(--font-display, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 14px; line-height: 1.5; }
+.lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 10px 14px; }
+.lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 15px; line-height: 1.45; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start { min-height: 0; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start__icon { color: #10140e; }
+.lc__grid[data-look='next'] .lnx--repair .mr-start__text small { font-size: 13px; }
+
+/* ---------- 4. After this mock (swot.css): the plan's first set, then the four groups two by two, then the slot ---------- */
+.lc__grid[data-look='next'] .lnx--swot.sw { padding: 0; border: 0; background: transparent; box-shadow: none; gap: 10px; }
+.lc__grid[data-look='next'] .lnx--swot .sw-block { gap: 4px; }
+.lc__grid[data-look='next'] .lnx--swot .sw-h3 { font-size: 14px; color: var(--a-ink-2); }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); padding: 8px 0; }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__row[data-first] .sw-plan__n { color: var(--a-accent-text); font-weight: 750; }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__label { font: 700 16px/1.35 var(--font-display, inherit); }
+.lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { font-size: 13.5px; line-height: 1.45; }
+.lc__grid[data-look='next'] .lnx--swot .lnx-swot-h { margin-bottom: -2px; }
+.lc__grid[data-look='next'] .lnx-quads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.lc__grid[data-look='next'] .lnx-quads .sw-q { display: grid; padding: 0; border: 1px solid var(--a-line); border-radius: 12px; background: var(--a-sunken); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-open] { border-color: var(--a-line-strong); background: var(--a-chosen); }
+.lc__grid[data-look='next'] .lnx-quad {
+  display: grid; align-content: start; gap: 3px; width: 100%; min-height: 44px; padding: 9px 11px; border: 0; border-radius: 11px;
+  background: transparent; color: inherit; text-align: left; cursor: pointer;
+}
+.lc__grid[data-look='next'] .lnx-quad:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.lc__grid[data-look='next'] .lnx-quad .sw-q__h { display: flex; align-items: center; justify-content: space-between; gap: 6px; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='weakness'] .sw-q__h { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-quads .sw-q[data-q='threat'] .sw-q__h { color: var(--a-warn-text); }
+.lc__grid[data-look='next'] .lnx-quad .sw-item__title { font: 650 14px/1.35 var(--font-body, inherit); color: var(--a-ink); }
+.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail { padding: 8px 10px; border-radius: 10px; background: var(--a-sunken); font-size: 13.5px; }
+.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail[data-q='weakness'] b { color: var(--a-bad-text); }
+.lc__grid[data-look='next'] .lnx-slot--swot .lnx-detail[data-q='threat'] b { color: var(--a-warn-text); }
+
+/* ---------- Motion: what comes on stage, what a tap changes ---------- */
+@keyframes lnx-rise { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+@keyframes lnx-fill { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes lnx-settle { 0% { opacity: 0; transform: scale(0.82); } 70% { opacity: 1; transform: scale(1.04); } 100% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  /* A screen comes on (it remounts each time its scene does): the bars fill, one after another. */
+  .lc__grid[data-look='next'] .lnx--time .td-long__fill { animation: lnx-fill 340ms var(--a-ease) both; animation-delay: calc(120ms + var(--i, 0) * 40ms); }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { transform-origin: left center; animation: lnx-fill 320ms var(--a-ease) both; animation-delay: calc(120ms + var(--d, 0) * 60ms); }
+  /* The chosen change: its final pick settles in after its first. */
+  .lc__grid[data-look='next'] .lnx-slot__item[data-shown] .lnx-pick[data-end='to'] > i { animation: lnx-settle 320ms var(--a-ease) 140ms both; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-slot__item, .mr--done > *) { animation: none !important; }
+}
+html[data-motion='reduced'] .lc__grid[data-look='next'] :is(.ml-row__panel > *, .lnx-slot__item, .mr--done > *, .td-long__fill, .ml-seg, .lnx-pick > i) { animation: none !important; }
+
+/* ---------- Phones: the repair runs each block's label into its sentence, the question takes the row's full width ---------- */
 @media (max-width: 759px) and (orientation: portrait) {
   .lc__grid[data-look='next'] .lnx { gap: 10px; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml { gap: 10px; }
-  .lc__grid[data-look='next'] .lnx-across { padding-top: 10px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 8px; padding: 10px 12px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 8px 12px; }
-  .lc__grid[data-look='next'] .lnx-mistake { padding: 6px 2px; }
+  .lc__grid[data-look='next'] .lnx--chapters > .lnx-h { display: none; }
+  .lc__grid[data-look='next'] .lnx--changes .td-lead { display: none; }
+  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr) auto; padding: 2px 0 8px; border-top: 0; }
+  .lc__grid[data-look='next'] .lnx-mistake .rx-row__n { display: none; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block { display: block; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label { display: inline; margin-right: 0.35em; color: var(--a-ink); font-size: 14px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { display: inline; color: var(--a-ink-2); line-height: 1.42; }
+  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 6px; padding: 10px 12px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule { display: block; padding: 8px 12px; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule__head { display: inline; margin-right: 0.35em; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { display: inline; font-size: 14px; line-height: 1.42; }
+  /* As many time rows as fit at full size: six on a phone. */
+  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 7) { display: none; }
 }
 
-/* ---------- Taps of 44 px: the ledger's bar segments keep their 12 px strip, drawn on a 44 px button on touch screens ---------- */
-@media (pointer: coarse) {
-  .lc__grid[data-look='next'] .lnx--chapters .ml-bar { height: 44px; padding: 0; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg { height: 44px; background: none; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::before {
-    content: ''; position: absolute; left: 0; right: 0; top: 16px; height: 12px; border-radius: inherit; pointer-events: none;
-    background-color: var(--c); background-image: var(--pat);
-  }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-seg::after, .lc__grid[data-look='next'] .lnx--chapters .ml-seg__ticks { top: 16px; bottom: 16px; }
-}
+/* ---------- The wide device ---------- */
+/* A big screen: the result page's own sizes would sit small in it, so the screen is drawn larger (zoom scales the layout, so
+   the rows still wrap and fit; nothing animates it). */
+@media (min-width: 960px) and (min-height: 600px) { .lc__grid[data-look='next'] .lnx { zoom: 1.1; } }
+@media (min-width: 960px) and (min-height: 760px) { .lc__grid[data-look='next'] .lnx { zoom: 1.18; } }
+@media (min-width: 960px) and (min-height: 880px) { .lc__grid[data-look='next'] .lnx { zoom: 1.28; } }
+@media (min-width: 1600px) and (min-height: 1000px) { .lc__grid[data-look='next'] .lnx { zoom: 1.4; } }
+@media (min-width: 2200px) and (min-height: 1300px) { .lc__grid[data-look='next'] .lnx { zoom: 1.6; } }
+/* A short wide window shows seven time rows. */
+@media (min-width: 960px) and (max-height: 879px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 8) { display: none; } }
 
-/* ---------- Nothing moves when the cursor opens a thing: the opening it makes has its room from the start ---------- */
-/* Chapters: the costliest chapter's panel (the cursor opens that one) keeps its room while closed, as space under its row
-   (the panel itself is [hidden], which the base layer's !important keeps out of layout): 86 px at every width
-   (tmp/1121-lab/probe5.mjs: its line and its 44 px chips). */
-.lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:first-child:not([data-open]) { margin-bottom: 86px; }
-/* Changes: the first change's picks (rendered closed, aria-hidden) keep their room; they show when it opens. */
-.lc__grid[data-look='next'] .lnx-picks:not([data-shown]) { visibility: hidden; animation: none; }
-/* Time: the slowest row's line keeps its room; the others' lines take room only once a reader opens them. */
-.lc__grid[data-look='next'] .lnx--time .td-long > li:not(:first-child) > .td-long__row:not([data-open]) > .td-long__meta { display: none; }
+/* ---------- The written repair is the one screen that grows after its tap (the start key gives way to the repair): its
+   finished height is held from the first frame, so the device's one fit per resize already allows for it. ---------- */
+.lc__grid[data-look='next'] .lnx--repair { min-height: var(--lnx-h-repair, 0px); }
 
-/* ---------- Time: the pace mark's label and the one-line key ---------- */
-.lc__grid[data-look='next'] .lnx-pace { display: grid; grid-template-columns: 44px minmax(0, 1fr) 64px; column-gap: 12px; padding: 0 4px; margin-bottom: -6px; }
-.lc__grid[data-look='next'] .lnx-pace__track { grid-column: 2; position: relative; height: 18px; }
-.lc__grid[data-look='next'] .lnx-pace__track b { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font: 700 12px/18px var(--font-display, inherit); color: var(--a-accent-text); }
-.lc__grid[data-look='next'] .lnx-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-2); }
-.lc__grid[data-look='next'] .lnx-key span { display: inline-flex; align-items: center; gap: 6px; }
-.lc__grid[data-look='next'] .lnx-key i { width: 14px; height: 8px; border-radius: 999px; background: var(--a-ink-3); }
-.lc__grid[data-look='next'] .lnx-key i[data-verdict='correct'] { background: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-key i[data-verdict='wrong'] { background: var(--a-bad-text); }
-/* As many rows as fit at full size: all eight on the wide device, six on a phone. */
-@media (max-width: 959px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 7) { display: none; } }
-@media (max-width: 959px) {
-  .lc__grid[data-look='next'] .lnx--time .td-long__row { min-height: 44px; padding-block: 6px; }
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:first-child > .td-long__row { min-height: 52px; }
-}
-@media (max-width: 640px) { .lc__grid[data-look='next'] .lnx-pace { grid-template-columns: 40px minmax(0, 1fr) 60px; column-gap: 10px; } }
-
-/* ---------- Changes: the totals, gained, cost and net ---------- */
-.lc__grid[data-look='next'] .lnx-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-.lc__grid[data-look='next'] .lnx-sum p { display: grid; align-content: start; gap: 2px; padding: 8px 10px; border-radius: 12px; background: var(--a-sunken); font-size: 12px; line-height: 1.3; color: var(--a-ink-2); }
-.lc__grid[data-look='next'] .lnx-sum b { font: 750 18px/1.15 var(--font-display, inherit); font-variant-numeric: tabular-nums; }
-.lc__grid[data-look='next'] .lnx-sum p[data-tone='good'] b { color: var(--a-good-text); }
-.lc__grid[data-look='next'] .lnx-sum p[data-tone='bad'] b { color: var(--a-bad-text); }
-.lc__grid[data-look='next'] .lnx-sum p[data-net] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-line-strong); color: var(--a-ink); }
-/* Phones: the totals carry the lead's numbers, so the lead steps aside and the rows keep their full size. */
-@media (max-width: 759px) and (orientation: portrait) { .lc__grid[data-look='next'] .lnx--changes .td-lead { display: none; } }
-
-/* ---------- Repair: the row keeps "D yours / B answer" beside the written repair at every size, so "Why D looked right" reads
-   as the reader's own pick (the small windows set the repair tighter to make the room). ---------- */
-
-/* ---------- SWOT: the groups' own heading ---------- */
-.lc__grid[data-look='next'] .lnx--swot .lnx-swot-h { margin-bottom: -4px; }
-
-/* Small phones (380 px wide and under): the narrow column is set tighter. The question takes the mistake row's full width (its
-   number, chapter and cost step aside; the repair names the picks), the repair's and the SWOT groups' sentences are set at 13 px, and a change's
+/* ---------- Small phones (380 px wide and under): the narrow column is set tighter ---------- */
+/* The question takes the mistake row's full width (the chapter and cost step aside; the repair names the picks), and a change's
    two picks stack, first over final, with the arrow turned down. */
 @media (max-width: 380px) {
-  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { grid-template-columns: minmax(0, 1fr); padding: 2px 0 6px; border-top: 0; }
-  .lc__grid[data-look='next'] .lnx-mistake :is(.rx-row__n, .rx-row__ch, .rx-row__cost) { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-block > .mr-label, .lc__grid[data-look='next'] .lnx--repair .mr-block > p:not(.mr-label) { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule > p { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 6px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.38; }
-  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
-  .lc__grid[data-look='next'] .lnx--swot .sw-plan__row { padding: 4px 0 6px; }
-  .lc__grid[data-look='next'] .lnx-quad { padding: 8px 10px 2px; }
-  .lc__grid[data-look='next'] .lnx-quad .sw-item__title { font-size: 13px; }
-  .lc__grid[data-look='next'] .lnx-quads .sw-item__detail { padding: 0 10px 8px; font-size: 12.5px; line-height: 1.4; }
-  .lc__grid[data-look='next'] .lnx-picks { padding-left: 50px; }
+  .lc__grid[data-look='next'] .lnx-mistake :is(.rx-row__ch, .rx-row__cost) { display: none; }
+  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr); }
   .lc__grid[data-look='next'] .lnx-picks__row { flex-direction: column; align-items: flex-start; flex-wrap: nowrap; gap: 2px; }
+  .lc__grid[data-look='next'] .lnx-picks__q { display: none; }
   .lc__grid[data-look='next'] .lnx-picks__arrow { transform: rotate(90deg); margin-left: 7px; }
+  .lc__grid[data-look='next'] .lnx-quads { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx-quad { padding: 8px 10px; }
+  .lc__grid[data-look='next'] .lnx-quad .sw-item__title { font-size: 13.5px; }
 }
 
-/* Small and short (a 360 x 740 device, 321 px of room): the screens are trimmed rather than shrunk, so the screen keeps its full
-   size and every line stays at 12 px or more. The trims hold from the first frame (never only once something opens), so the
-   cursor's tap moves nothing: the part's name steps aside; Chapters shows the costliest chapter and the across line; Time shows
-   the four slowest; Changes shows the first change and the totals; the repair leaves out its answer-key line; the SWOT plan keeps its label. A taller small phone (360 x 800) keeps it all. */
+/* ---------- Small and short phones (360 x 740 and 360 x 676): trimmed, never shrunk ---------- */
+/* The trims hold from the first frame (never only once something opens), so the cursor's tap moves nothing and every screen
+   keeps its full size: the part's name steps aside (the rail and the words above name it); Chapters shows the costliest
+   chapter and the across line; Time the five slowest; Changes the first two changes; the written repair leaves out its
+   answer-key line and is set at 13 px. */
 @media (max-width: 380px) and (max-height: 760px) {
-  /* The finished screens' heights at 360 x 740 (tmp/1121-lab/probe6.mjs), all inside the 321 px of room. */
-  .lc__grid[data-look='next'] { --lnx-h-chapters: 318px; --lnx-h-time: 290px; --lnx-h-changes: 216px; --lnx-h-repair: 320px; --lnx-h-swot: 318px; }
   .lc__grid[data-look='next'] .lnx { gap: 8px; }
-  .lc__grid[data-look='next'] .lnx-across { padding-top: 6px; }
   .lc__grid[data-look='next'] .lnx-h { display: none; }
   .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
   .lc__grid[data-look='next'] .lnx--chapters .ml-rows > .ml-row:not(:first-child) { display: none; }
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 5) { display: none; }
-  .lc__grid[data-look='next'] .lnx--changes .td-changes > li:not(:first-child) { display: none; }
-  .lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-check { display: none; }
-  /* The repair is set a little tighter, so its row keeps "D yours / B answer" beside it at full size. */
-  .lc__grid[data-look='next'] .lnx.lnx--repair { gap: 4px; }
-  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { padding: 0 0 4px; }
-  .lc__grid[data-look='next'] .lnx--repair .rx-row__facts { margin-top: 0; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 15px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { padding-block: 6px; gap: 3px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.32; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-rule { padding: 4px 10px; }
-}
-
-/* Smallest and shortest (a 360 x 676 device, 290 px of room): on top of the 360 x 740 trims, Chapters lets its bar go (the
-   chapter rows carry the same split), the repair is set at 12.5 px with its row's picks kept, and the SWOT plan row sits closer,
-   so every screen keeps its full size. */
-@media (max-width: 380px) and (max-height: 700px) {
-  /* The finished screens' heights at 360 x 676 (tmp/1121-lab/measure2.mjs), all inside the 290 px of room. */
-  .lc__grid[data-look='next'] { --lnx-h-chapters: 262px; --lnx-h-time: 282px; --lnx-h-changes: 280px; --lnx-h-repair: 290px; --lnx-h-swot: 288px; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-bar { display: none; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > .mr-label, .mr-block > p, .mr-rule > p) { font-size: 12.5px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 14.5px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { gap: 2px; padding-block: 5px; }
-  .lc__grid[data-look='next'] .lnx--swot .sw-plan__row { padding: 2px 0 4px; }
-  .lc__grid[data-look='next'] .lnx-quads .sw-item__detail { line-height: 1.32; padding-bottom: 6px; }
-}
-
-/* Small and taller (a 360 x 800 device, 375 px of room): the part names stay; Chapters' across line drops its title; Time shows
-   the five slowest; Changes the first two changes. Each held from the first frame. */
-@media (max-width: 380px) and (min-height: 761px) {
-  /* The finished screens' heights at 360 x 800 (tmp/1121-lab/measure2.mjs), all inside the 375 px of room. */
-  .lc__grid[data-look='next'] { --lnx-h-chapters: 372px; --lnx-h-time: 352px; --lnx-h-changes: 368px; --lnx-h-repair: 370px; --lnx-h-swot: 368px; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { padding-block: 7px; }
-  .lc__grid[data-look='next'] .lnx { gap: 8px; }
-  .lc__grid[data-look='next'] .lnx-across { padding-top: 6px; }
-  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
   .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
   .lc__grid[data-look='next'] .lnx--changes .td-changes > li:nth-child(n + 3) { display: none; }
-  /* Repair keeps "D yours / B answer" beside the written repair, so the row and the repair sit a little closer. */
-  .lc__grid[data-look='next'] .lnx--repair { gap: 4px; }
-  .lc__grid[data-look='next'] .lnx--repair .lnx-mistake { padding: 0 0 4px; }
-  .lc__grid[data-look='next'] .lnx--repair .rx-row__facts { margin-top: 0; }
+  .lc__grid[data-look='next'] .lnx--repair .mr-check { display: none; }
   .lc__grid[data-look='next'] .lnx.lnx--repair .mr-title { font-size: 15px; }
-  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { padding-block: 6px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair :is(.mr-block > .mr-label, .mr-block > p, .mr-rule > p) { font-size: 13px; line-height: 1.38; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
+  .lc__grid[data-look='next'] .lnx.lnx--repair .mr-rule { padding: 6px 10px; }
+  .lc__grid[data-look='next'] .lnx-mistake { padding-bottom: 6px; }
+  .lc__grid[data-look='next'] .lnx--repair { gap: 6px; }
+  .lc__grid[data-look='next'] .lnx--chapters .ml-row__btn { min-height: 44px; padding-block: 6px; }
+  .lc__grid[data-look='next'] .lnx-across .am-head__teaser { font-size: 13.5px; line-height: 1.4; }
+  .lc__grid[data-look='next'] .lnx-slot--line .lnx-detail { padding: 6px 10px; }
+  .lc__grid[data-look='next'] .lnx .td-long__row { min-height: 44px; padding-block: 4px; }
+  .lc__grid[data-look='next'] .lnx .td-lead { line-height: 1.35; }
+  .lc__grid[data-look='next'] .lnx-pace { margin-bottom: -10px; }
+  .lc__grid[data-look='next'] .lnx .td-changes__row { padding-block: 7px; }
+  .lc__grid[data-look='next'] .lnx-sum p { padding: 6px 9px; }
 }
-
-/* Phones: Chapters' headline names the part itself, so its name line steps aside and the ledger sits a little closer. */
-@media (max-width: 759px) and (orientation: portrait) {
-  .lc__grid[data-look='next'] .lnx--chapters > .lnx-h { display: none; }
-  .lc__grid[data-look='next'] .lnx--chapters .ml { gap: 8px; }
+/* 360 x 676 (the owner's Galaxy M06): Time the four slowest, the SWOT plan without its reason. */
+@media (max-width: 380px) and (max-height: 700px) {
+  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 5) { display: none; }
+  .lc__grid[data-look='next'] .lnx--swot .sw-plan__reason { display: none; }
 }
-/* The wide device: all eight time rows, a little tighter, so they fit at full size; a short wide window shows seven. */
-@media (min-width: 960px) {
-  .lc__grid[data-look='next'] .lnx--time .td-long__row { min-height: 46px; padding-block: 6px; }
-  .lc__grid[data-look='next'] .lnx--time .td-long > li:first-child > .td-long__row { min-height: 54px; }
+/* 360 x 800: the part names stay; Time the five slowest; Chapters' across line drops its title; the change rows sit closer. */
+@media (max-width: 380px) and (min-height: 761px) {
+  .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 6) { display: none; }
+  .lc__grid[data-look='next'] .lnx-across .am-head__title { display: none; }
+  .lc__grid[data-look='next'] .lnx .td-changes__row { padding-block: 7px; }
 }
-@media (min-width: 960px) and (max-height: 879px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 8) { display: none; } }
-/* Phones: the whole question and the whole repair share the device, so the repair is set tighter and the question takes the
-   row's full width (its number steps aside; the repair names the picks). */
-@media (max-width: 759px) and (orientation: portrait) {
-  .lc__grid[data-look='next'] .lnx-mistake { grid-template-columns: minmax(0, 1fr) auto; padding: 2px 0 6px; border-top: 0; }
-  .lc__grid[data-look='next'] .lnx-mistake .rx-row__n { display: none; }
-  .lc__grid[data-look='next'] .lnx--repair .mr--done { gap: 4px; padding: 8px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-rule { padding: 6px 10px; }
-  .lc__grid[data-look='next'] .lnx--repair :is(.mr-block > p, .mr-rule > p) { line-height: 1.38; }
-  .lc__grid[data-look='next'] .lnx--repair .mr-title { font-size: 16px; }
-}
-/* The wide device: the written repair (with its whole question) is the one screen that grows past the room its first state
-   takes, so its finished height is reserved and the device's one fit per resize already allows for it. */
-@media (min-width: 960px) { .lc__grid[data-look='next'] { --lnx-h-repair: 500px; } }
+/* The written repair's held height (measured, tmp/1121-lab/measure2.mjs): phones 414 px; small and short phones 318 px; the
+   wide device 500 px (before its zoom). */
+@media (max-width: 959px) { .lc__grid[data-look='next'] { --lnx-h-repair: 414px; } }
+@media (max-width: 380px) and (max-height: 760px) { .lc__grid[data-look='next'] { --lnx-h-repair: 318px; } }
+@media (min-width: 960px) { .lc__grid[data-look='next'] { --lnx-h-repair: 445px; } }
+/* A tablet held upright (760 to 959 px wide): seven time rows. */
+@media (min-width: 760px) and (max-width: 959px) { .lc__grid[data-look='next'] .lnx--time .td-long > li:nth-child(n + 8) { display: none; } }
+/* The wide device: the eight time rows sit closer, so they fit at full size. */
+@media (min-width: 960px) { .lc__grid[data-look='next'] .lnx .td-long__row { min-height: 40px; padding-block: 3px; } }
