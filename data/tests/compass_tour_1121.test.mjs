@@ -8,7 +8,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
-const jsx = readFileSync(new URL('../../src/components/landing/CompassLadder.jsx', import.meta.url), 'utf8');
+const jsx = readFileSync(new URL('../../src/components/landing/CompassLadder.jsx', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const code = jsx.replace(/\/\/[^\n]*|\{\/\*[\s\S]*?\*\/\}|\/\*[\s\S]*?\*\//g, '');
 const css = readFileSync(new URL('../../src/app/compass-ladder.css', import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
 
